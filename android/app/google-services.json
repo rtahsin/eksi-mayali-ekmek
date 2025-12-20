@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "984417239539",
+    "project_id": "eksimayaliekmekweb",
+    "storage_bucket": "eksimayaliekmekweb.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:984417239539:android:70c82a8f88e58a366a1286",
+        "android_client_info": {
+          "package_name": "com.example.eksi_mayali_ekmek_web"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "984417239539-2iebd3bd3hfr4sg0fao31fn44thrl3ln.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.eksi_mayali_ekmek_web",
+            "certificate_hash": "ba2b0311e4d227a4ccc3a5037755ceb82d7bcdc1"
+          }
+        },
+        {
+          "client_id": "984417239539-nm31aqtidm3khk2kgr7tq290q73bp3cr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD0_savKCBIQcJLiu_UndSk1K5s18IAoMo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "984417239539-nm31aqtidm3khk2kgr7tq290q73bp3cr.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "984417239539-kg9esgie34vigrihqc2biihtkndo7nrm.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.eksiMayaliEkmekWeb"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

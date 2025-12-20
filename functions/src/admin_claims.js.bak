@@ -1,0 +1,349 @@
+const functions = require('firebase-functions');
+const admin = require('firebase-admin');
+
+// Admin SDK başlatma kontrolü
+if (!admin.apps.length) {
+  admin.initializeApp();
+}
+
+const db = admin.firestore();
+const auth = admin.auth();
+
+/**
+ * Admin Custom Claims Yönetimi
+ * 
+ * Bu fonksiyon sadece mevcut superadmin'ler tarafından çağrılabilir.
+ * Kullanıcılara admin yetkisi verir veya kaldırır.
+ * 
+ * Request body:
+ * {
+ *   "userId": "user_id_to_modify",
+ *   "action": "grant" | "revoke",
+ *   "role": "admin" | "superadmin" | "moderator",
+ *   "permissions": ["read:products", "write:products", ...]  // optional
+ * }
+ */
+exports.manageAdminClaims = functions.https.onCall(async (data, context) => {
+  // 1. Kimlik doğrulama kontrolü
+  if (!context.auth) {
+    throw new functions.https.HttpsError(
+      'unauthenticated',
+      'Bu işlem için giriş yapmalısınız.'
+    );
+  }
+
+  // 2. Yetkili kullanıcı kontrolü (sadece superadmin)
+  const callerUid = context.auth.uid;
+  const callerToken = context.auth.token;
+  
+  if (callerToken.role !== 'superadmin') {
+    throw new functions.https.HttpsError(
+      'permission-denied',
+      'Bu işlem için superadmin yetkisi gereklidir.'
+    );
+  }
+
+  // 3. Request validasyonu
+  const { userId, action, role, permissions } = data;
+
+  if (!userId || !action) {
+    throw new functions.https.HttpsError(
+      'invalid-argument',
+      'userId ve action parametreleri zorunludur.'
+    );
+  }
+
+  if (!['grant', 'revoke'].includes(action)) {
+    throw new functions.https.HttpsError(
+      'invalid-argument',
+      'action değeri "grant" veya "revoke" olmalıdır.'
+    );
+  }
+
+  if (action === 'grant' && !role) {
+    throw new functions.https.HttpsError(
+      'invalid-argument',
+      'grant işlemi için role parametresi gereklidir.'
+    );
+  }
+
+  try {
+    // 4. Kullanıcıyı kontrol et
+    const userRecord = await auth.getUser(userId);
+
+    if (action === 'grant') {
+      // Admin yetkisi ver
+      const customClaims = {
+        admin: true,
+        role: role || 'admin',
+        grantedBy: callerUid,
+        grantedAt: Date.now()
+      };
+
+      if (permissions && Array.isArray(permissions)) {
+        customClaims.permissions = permissions;
+      }
+
+      // Custom claims ayarla
+      await auth.setCustomUserClaims(userId, customClaims);
+
+      // Firestore'da admin kaydı oluştur
+      await db.collection('adminler').doc(userId).set({
+        email: userRecord.email,
+        role: role || 'admin',
+        isActive: true,
+        grantedBy: callerUid,
+        grantedAt: admin.firestore.FieldValue.serverTimestamp(),
+        updatedAt: admin.firestore.FieldValue.serverTimestamp()
+      }, { merge: true });
+
+      // Audit log
+      await db.collection('audit_logs').add({
+        action: 'admin_granted',
+        performedBy: callerUid,
+        targetUser: userId,
+        role: role || 'admin',
+        timestamp: admin.firestore.FieldValue.serverTimestamp(),
+        details: {
+          email: userRecord.email,
+          permissions: permissions || []
+        }
+      });
+
+      return {
+        success: true,
+        message: `${userRecord.email} kullanıcısına ${role || 'admin'} yetkisi verildi.`,
+        userId: userId,
+        role: role || 'admin'
+      };
+
+    } else if (action === 'revoke') {
+      // Admin yetkisini kaldır
+      await auth.setCustomUserClaims(userId, {
+        admin: false,
+        role: 'user'
+      });
+
+      // Firestore'da admin kaydını pasif yap
+      await db.collection('adminler').doc(userId).update({
+        isActive: false,
+        revokedBy: callerUid,
+        revokedAt: admin.firestore.FieldValue.serverTimestamp(),
+        updatedAt: admin.firestore.FieldValue.serverTimestamp()
+      });
+
+      // Audit log
+      await db.collection('audit_logs').add({
+        action: 'admin_revoked',
+        performedBy: callerUid,
+        targetUser: userId,
+        timestamp: admin.firestore.FieldValue.serverTimestamp(),
+        details: {
+          email: userRecord.email
+        }
+      });
+
+      return {
+        success: true,
+        message: `${userRecord.email} kullanıcısının admin yetkisi kaldırıldı.`,
+        userId: userId
+      };
+    }
+
+  } catch (error) {
+    console.error('Admin claims yönetimi hatası:', error);
+    throw new functions.https.HttpsError(
+      'internal',
+      'Admin yetkisi güncellenirken bir hata oluştu: ' + error.message
+    );
+  }
+});
+
+/**
+ * Kullanıcının admin claim'lerini kontrol eder
+ * 
+ * Bu fonksiyon herhangi bir kullanıcı tarafından çağrılabilir
+ * ancak sadece kendi bilgilerini görebilir.
+ */
+exports.checkAdminStatus = functions.https.onCall(async (data, context) => {
+  if (!context.auth) {
+    throw new functions.https.HttpsError(
+      'unauthenticated',
+      'Bu işlem için giriş yapmalısınız.'
+    );
+  }
+
+  try {
+    const userId = context.auth.uid;
+    const userRecord = await auth.getUser(userId);
+    const customClaims = userRecord.customClaims || {};
+
+    // Firestore'dan da kontrol et
+    const adminDoc = await db.collection('adminler').doc(userId).get();
+    const isActiveInFirestore = adminDoc.exists && adminDoc.data().isActive === true;
+
+    return {
+      userId: userId,
+      email: userRecord.email,
+      isAdmin: customClaims.admin === true,
+      role: customClaims.role || 'user',
+      permissions: customClaims.permissions || [],
+      isActiveInFirestore: isActiveInFirestore,
+      claims: customClaims
+    };
+  } catch (error) {
+    console.error('Admin status kontrolü hatası:', error);
+    throw new functions.https.HttpsError(
+      'internal',
+      'Admin durumu kontrol edilirken bir hata oluştu: ' + error.message
+    );
+  }
+});
+
+/**
+ * Tüm admin'leri listeler (sadece superadmin)
+ */
+exports.listAdmins = functions.https.onCall(async (data, context) => {
+  if (!context.auth) {
+    throw new functions.https.HttpsError(
+      'unauthenticated',
+      'Bu işlem için giriş yapmalısınız.'
+    );
+  }
+
+  // Sadece superadmin görebilir
+  const callerToken = context.auth.token;
+  if (callerToken.role !== 'superadmin') {
+    throw new functions.https.HttpsError(
+      'permission-denied',
+      'Bu işlem için superadmin yetkisi gereklidir.'
+    );
+  }
+
+  try {
+    const adminsSnapshot = await db.collection('adminler')
+      .where('isActive', '==', true)
+      .get();
+
+    const admins = [];
+    for (const doc of adminsSnapshot.docs) {
+      const data = doc.data();
+      try {
+        const userRecord = await auth.getUser(doc.id);
+        admins.push({
+          userId: doc.id,
+          email: data.email,
+          role: data.role,
+          grantedAt: data.grantedAt?.toDate(),
+          claims: userRecord.customClaims || {}
+        });
+      } catch (error) {
+        console.error(`Kullanıcı ${doc.id} bulunamadı:`, error);
+      }
+    }
+
+    return {
+      success: true,
+      admins: admins,
+      count: admins.length
+    };
+  } catch (error) {
+    console.error('Admin listesi alınırken hata:', error);
+    throw new functions.https.HttpsError(
+      'internal',
+      'Admin listesi alınırken bir hata oluştu: ' + error.message
+    );
+  }
+});
+
+/**
+ * İlk superadmin'i oluşturur (sadece bir kere çalışır)
+ * 
+ * UYARI: Bu fonksiyon sadece setup için kullanılmalıdır.
+ * Production'da bu fonksiyon kaldırılmalı veya devre dışı bırakılmalıdır.
+ */
+exports.createFirstSuperAdmin = functions.https.onCall(async (data, context) => {
+  // Güvenlik: Bu fonksiyon sadece emulator'de veya özel koşullarda çalışmalı
+  if (functions.config().env?.type === 'production') {
+    throw new functions.https.HttpsError(
+      'permission-denied',
+      'Bu fonksiyon production ortamında kullanılamaz.'
+    );
+  }
+
+  if (!context.auth) {
+    throw new functions.https.HttpsError(
+      'unauthenticated',
+      'Bu işlem için giriş yapmalısınız.'
+    );
+  }
+
+  const { email } = data;
+  if (!email) {
+    throw new functions.https.HttpsError(
+      'invalid-argument',
+      'Email adresi gereklidir.'
+    );
+  }
+
+  try {
+    // Email'e göre kullanıcıyı bul
+    const userRecord = await auth.getUserByEmail(email);
+
+    // Zaten superadmin var mı kontrol et
+    const existingSuperAdmins = await db.collection('adminler')
+      .where('role', '==', 'superadmin')
+      .where('isActive', '==', true)
+      .get();
+
+    if (!existingSuperAdmins.empty) {
+      throw new functions.https.HttpsError(
+        'already-exists',
+        'Zaten aktif bir superadmin mevcut.'
+      );
+    }
+
+    // Superadmin claims ayarla
+    await auth.setCustomUserClaims(userRecord.uid, {
+      admin: true,
+      role: 'superadmin',
+      permissions: Object.values({
+        readProducts: 'read:products',
+        writeProducts: 'write:products',
+        deleteProducts: 'delete:products',
+        readOrders: 'read:orders',
+        writeOrders: 'write:orders',
+        deleteOrders: 'delete:orders',
+        readUsers: 'read:users',
+        writeUsers: 'write:users',
+        deleteUsers: 'delete:users',
+        manageAdmins: 'manage:admins',
+        viewAnalytics: 'view:analytics',
+        manageSettings: 'manage:settings'
+      }),
+      createdAt: Date.now()
+    });
+
+    // Firestore'a kaydet
+    await db.collection('adminler').doc(userRecord.uid).set({
+      email: userRecord.email,
+      role: 'superadmin',
+      isActive: true,
+      createdAt: admin.firestore.FieldValue.serverTimestamp(),
+      updatedAt: admin.firestore.FieldValue.serverTimestamp(),
+      note: 'İlk superadmin - setup sırasında oluşturuldu'
+    });
+
+    return {
+      success: true,
+      message: `${email} başarıyla superadmin olarak ayarlandı.`,
+      userId: userRecord.uid
+    };
+  } catch (error) {
+    console.error('İlk superadmin oluşturma hatası:', error);
+    throw new functions.https.HttpsError(
+      'internal',
+      'Superadmin oluşturulurken hata: ' + error.message
+    );
+  }
+});

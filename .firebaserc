@@ -1,0 +1,18 @@
+{
+  "projects": {
+    "default": "eksimayaliekmekweb"
+  },
+  "targets": {
+    "eksimayaliekmekweb": {
+      "hosting": {
+        "eksimayaliekmekweb2": [
+          "eksimayaliekmekweb2"
+        ],
+        "eksimayaliekmekweb": [
+          "eksimayaliekmekweb"
+        ]
+      }
+    }
+  },
+  "etags": {}
+}

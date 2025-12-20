@@ -1,0 +1,166 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Kullanıcı kimlik doğrulaması yapmış mı?
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+    
+    // Kullanıcı kendi verilerine mi erişiyor?
+    function isOwner(userId) {
+      return isAuthenticated() && request.auth.uid == userId;
+    }
+    
+    // Kullanıcı admin mi?
+    function isAdmin() {
+      return isAuthenticated() && exists(/databases/$(database)/documents/adminler/$(request.auth.uid)) &&
+             get(/databases/$(database)/documents/adminler/$(request.auth.uid)).data.isActive == true;
+    }
+
+    // İçerik yöneticisi (blog vb.) admin, editor veya superadmin olabilir
+    function isContentManager() {
+      return isAuthenticated() && exists(/databases/$(database)/documents/adminler/$(request.auth.uid)) &&
+             (
+               get(/databases/$(database)/documents/adminler/$(request.auth.uid)).data.role in ['superadmin', 'admin', 'editor'] &&
+               get(/databases/$(database)/documents/adminler/$(request.auth.uid)).data.isActive == true
+             );
+    }
+
+    // Destek ekibi (sipariş, müşteri destek işlemleri) admin, support veya superadmin
+    function isSupportStaff() {
+      return isAuthenticated() && exists(/databases/$(database)/documents/adminler/$(request.auth.uid)) &&
+             (
+               get(/databases/$(database)/documents/adminler/$(request.auth.uid)).data.role in ['superadmin', 'admin', 'support'] &&
+               get(/databases/$(database)/documents/adminler/$(request.auth.uid)).data.isActive == true
+             );
+    }
+    
+    // Kullanıcılar koleksiyonu
+    match /kullanicilar/{userId} {
+      // Kullanıcılar kendi verilerini okuyabilir ve güncelleyebilir
+      // Adminler tüm kullanıcı verilerini okuyabilir
+      allow read: if isOwner(userId) || isAdmin();
+      allow create: if isAuthenticated();
+      allow update: if isOwner(userId) || isAdmin();
+      allow delete: if isAdmin();
+    }
+
+    // Yeni kullanıcılar koleksiyonu (birleştirilmiş): users
+    match /users/{userId} {
+      // Kullanıcılar kendi verilerini okuyabilir ve güncelleyebilir
+      // Adminler tüm kullanıcı verilerini okuyabilir
+      allow read: if isOwner(userId) || isAdmin();
+      allow create: if isAuthenticated();
+      allow update: if isOwner(userId) || isAdmin();
+      allow delete: if isAdmin();
+    }
+    
+    // Ürünler koleksiyonu
+    match /urunler/{productId} {
+      // Herkes ürünleri okuyabilir, sadece adminler ürün ekleyebilir, güncelleyebilir ve silebilir
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+    
+    // Siparişler koleksiyonu (eski adı)
+    match /siparisler/{orderId} {
+      // Kullanıcılar sadece kendi siparişlerini okuyabilir/oluşturabilir
+      // Adminler tüm siparişleri okuyup yazabilir
+      allow read: if isAdmin() || isSupportStaff() || (isAuthenticated() && resource.data.userId == request.auth.uid);
+      allow create: if isAuthenticated() && request.resource.data.userId == request.auth.uid;
+      allow update: if isAdmin() || isSupportStaff() || (isAuthenticated() && resource.data.userId == request.auth.uid);
+      allow delete: if isAdmin();
+    }
+    
+    // Siparişler koleksiyonu (yeni adı - FirestoreCollections.orders değerine denk geliyor)
+    match /orders/{orderId} {
+      // Kullanıcılar sadece kendi siparişlerini okuyabilir/oluşturabilir
+      // Adminler tüm siparişleri okuyup yazabilir
+      allow read: if isAdmin() || isSupportStaff() || (isAuthenticated() && resource.data.userId == request.auth.uid);
+      allow create: if isAuthenticated() && request.resource.data.userId == request.auth.uid;
+      allow update: if isAdmin() || isSupportStaff() || (isAuthenticated() && resource.data.userId == request.auth.uid);
+      allow delete: if isAdmin();
+    }
+    
+    // E-posta kuyruğu koleksiyonu
+    match /mail_queue/{docId} {
+      // Oturum açan tüm kullanıcılar e-posta kuyruğuna yazabilir ve okuyabilir
+      allow create: if isAuthenticated();
+      allow read, update, delete: if isAuthenticated();
+    }
+    
+    // Kategoriler koleksiyonu
+    match /kategoriler/{categoryId} {
+      // Herkes kategorileri okuyabilir, sadece adminler kategori ekleyebilir, güncelleyebilir ve silebilir
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+    
+    // Admin kullanıcıları koleksiyonu
+    match /adminler/{adminId} {
+      // Sadece adminler admin listesini okuyabilir ve güncelleyebilir
+      allow read: if isAdmin();
+      allow write: if isAdmin();
+    }
+    
+    // Ayarlar koleksiyonu - arka plan görselleri için
+    match /settings/{settingId} {
+      // Herkes okuyabilir (carousel için)
+      allow read: if true;
+      // Sadece adminler yazabilir
+      allow write: if isAdmin();
+    }
+
+    // Admin log koleksiyonu - sadece adminler erişebilir
+    match /admin_logs/{logId} {
+      allow read, write: if isAdmin();
+    }
+    
+    // Blog yazıları koleksiyonu
+    match /bloglar/{blogId} {
+      // Herkes blog yazılarını okuyabilir, sadece adminler blog yazısı ekleyebilir, güncelleyebilir ve silebilir
+      allow read: if true;
+      allow write: if isContentManager();
+    }
+    
+    // Yorumlar koleksiyonu
+    match /yorumlar/{commentId} {
+      // Herkes yorumları okuyabilir
+      // Kullanıcılar kendi yorumlarını ekleyebilir ve güncelleyebilir
+      // Adminler tüm yorumları silebilir
+      allow read: if true;
+      allow create: if isAuthenticated();
+      allow update: if isAuthenticated() && resource.data.userId == request.auth.uid;
+      allow delete: if isAdmin() || (isAuthenticated() && resource.data.userId == request.auth.uid);
+    }
+    
+    // Ödeme işlemleri koleksiyonu (eski adı)
+    match /odeme_islemleri/{docId} {
+      allow read: if isAuthenticated();
+      allow create, update, delete: if isAuthenticated();
+    }
+    
+    // Ödeme işlemleri koleksiyonu (yeni adı - payment_transactions)
+    match /payment_transactions/{docId} {
+      allow read: if isAuthenticated();
+      allow create, update, delete: if isAuthenticated();
+    }
+    
+    // Ödeme yöntemleri koleksiyonu (eski adı)
+    match /odeme_yontemleri/{docId} {
+      allow read: if true;
+      allow write: if isAuthenticated();
+    }
+    
+    // Ödeme yöntemleri koleksiyonu (yeni adı - payment_methods)
+    match /payment_methods/{docId} {
+      allow read: if isAuthenticated();
+      allow create, update, delete: if isAuthenticated();
+    }
+    
+    // Herhangi bir belge
+    match /{document=**} {
+      allow read, write: if isAdmin();
+    }
+  }
+} 

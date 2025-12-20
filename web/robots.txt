@@ -1,0 +1,18 @@
+User-agent: *
+Allow: /
+Disallow: /admin/
+Disallow: /clear-cache.html
+
+# Sitemap (tüm domain'ler)
+Sitemap: https://eksimayaliekmekweb.web.app/sitemap.xml
+Sitemap: https://ekmeklab.com/sitemap.xml
+Sitemap: https://ekmeklab.com.tr/sitemap.xml
+Sitemap: https://ekmeklab.tr/sitemap.xml
+
+# Crawl delay
+Crawl-delay: 1
+
+# Image crawling optimization
+User-agent: Googlebot-Image
+Allow: /assets/
+Allow: /icons/ 

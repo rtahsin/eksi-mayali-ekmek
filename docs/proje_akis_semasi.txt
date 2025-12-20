@@ -1,0 +1,100 @@
+# EKŞİ MAYALI EKMEK - UYGULAMA AKIŞ ŞEMASI
+
+## 1. UYGULAMA MİMARİSİ
+
+```
+Kullanıcı Arayüzü ←→ İş Mantığı ←→ Veri Katmanı ←→ Firebase/Harici Servisler
+  (Screens)       (Services)    (Repositories)     (Authentication, Firestore, Storage)
+```
+
+## 2. UYGULAMA BAŞLATMA AKIŞI
+
+1. `main.dart` - Uygulama başlangıç noktası
+   ↓
+2. Firebase ve Service Locator (GetIt) başlatılır
+   ↓
+3. SharedPreferences başlatılır (kullanıcı ayarları için)
+   ↓
+4. NotificationService başlatılır
+   ↓
+5. Provider'lar tanımlanır ve MyApp sınıfı oluşturulur
+   ↓
+6. MaterialApp yapılandırılır
+   ↓
+7. Ana sayfa veya Splash ekranı gösterilir
+
+## 3. KULLANICI AKIŞI
+
+### A. Kimlik Doğrulama Akışı
+```
+[Giriş Yapmamış Kullanıcı] → [Kayıt Ol/Giriş Yap Ekranı] → [Kullanıcı Bilgileri] → [AuthService] → [Firebase Auth] → [Kullanıcı Oturumu]
+```
+
+### B. Alışveriş Akışı
+```
+[Ana Sayfa] → [Ürün Listeleme] → [Ürün Detay] → [Sepete Ekle] → [Sepet] → [Ödeme] → [Sipariş Tamamlama] → [Sipariş Takip]
+```
+
+### C. Profil Yönetimi
+```
+[Profil Ekranı] → [Kişisel Bilgiler] → [Adres Yönetimi] → [Sipariş Geçmişi] → [Favoriler] → [Bildirimler]
+```
+
+## 4. VERİ AKIŞI
+
+### A. Ürün Verileri
+```
+[ProductService] ↔ [Firestore/Products Collection] → [UI Gösterimi]
+```
+
+### B. Kullanıcı Verileri
+```
+[AuthService] ↔ [Firebase Auth] ↔ [Firestore/Users Collection] → [UI Gösterimi]
+```
+
+### C. Sipariş Verileri
+```
+[OrderService] ↔ [Firestore/Orders Collection] → [UI Gösterimi]
+```
+
+### D. Bildirim Verileri
+```
+[NotificationService] ↔ [Firestore/Notifications Collection] → [UI Gösterimi]
+```
+
+## 5. SERVIS BAĞIMLILIKLARI
+
+```
+AuthService ← UserRepository
+ProductService ← ProductRepository
+OrderService ← OrderRepository, PaymentService, DeliveryService
+NotificationService ← AuthService
+ImageService ← Firebase Storage
+```
+
+## 6. TEMA VE GÖRÜNÜM
+
+Theme Provider → AppTheme → MaterialApp temalarını belirler (Light/Dark)
+
+## 7. ADMİN PANELİ AKIŞI
+
+```
+[Admin Giriş] → [Doğrulama] → [Admin Dashboard] → [Modül Yönetimi (Ürünler, Siparişler, Kullanıcılar, İçerik)]
+```
+
+## 8. ÇEVRIMDIŞI ÇALIŞMA VE SENKRONİZASYON
+
+```
+[Çevrimdışı Veri Erişimi] ← [SyncService] → [Çevrimiçi durumda senkronizasyon] → [ConnectionService]
+```
+
+## 9. UYGULAMA MODÜL YAPISI
+
+- **Ana Sayfa**: Vitrin ürünleri, kategoriler, blog içerikleri
+- **Ürün Listelemesi**: Filtreleme, sıralama, kategoriye göre görüntüleme
+- **Ürün Detayları**: Ürün bilgileri, seçenekler, sepete ekleme
+- **Sepet ve Ödeme**: Ürün listeleme, adres seçimi, ödeme yöntemi seçimi, sipariş oluşturma
+- **Kullanıcı Hesabı**: Profil, adresler, siparişler, favoriler
+- **Bildirimler**: Sipariş durumu, promosyonlar, genel duyurular
+- **Tema ve Görünüm**: Aydınlık/karanlık tema, renk şemaları
+- **Admin Paneli**: Sipariş yönetimi, ürün yönetimi, stok takibi, içerik yönetimi 

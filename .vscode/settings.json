@@ -1,0 +1,116 @@
+{
+  "files.exclude": {
+    "**/.git": true,
+    "**/.dart_tool": true,
+    "**/.idea": true,
+    "**/.vscode": true,
+    "**/.flutter-plugins": true,
+    "**/.flutter-plugins-dependencies": true,
+    "**/build": true,
+    "**/ios/Pods": true,
+    "**/*.g.dart": true,
+    "**/*.freezed.dart": true,
+    "**/generated": true
+  },
+  "dart.maxLogLineLength": 2000,
+  "dart.debugExternalPackageLibraries": false,
+  "dart.debugSdkLibraries": false,
+  "dart.analysisExcludedFolders": [
+    "build",
+    ".dart_tool",
+    ".idea",
+    "ios/Pods",
+    "lib/generated"
+  ],
+  "editor.maxTokenizationLineLength": 10000,
+  "editor.cursorBlinking": "smooth",
+  "editor.cursorSmoothCaretAnimation": "on",
+  "editor.cursorStyle": "line",
+  "editor.cursorWidth": 2,
+  "editor.multiCursorModifier": "alt",
+  "editor.wordWrap": "on",
+  "editor.bracketPairColorization.enabled": true,
+  "editor.guides.bracketPairs": true,
+  "editor.formatOnSave": true,
+  "editor.formatOnType": true,
+  "editor.suggestSelection": "first",
+  "editor.tabSize": 2,
+  "editor.detectIndentation": false,
+  "editor.renderWhitespace": "boundary",
+  "editor.rulers": [
+    80,
+    100
+  ],
+  "editor.minimap.enabled": false,
+  "editor.scrollBeyondLastLine": false,
+  "editor.quickSuggestions": {
+    "strings": true
+  },
+  "editor.codeActionsOnSave": {
+    "source.fixAll": "explicit",
+    "source.organizeImports": "explicit"
+  },
+  "files.watcherExclude": {
+    "**/.dart_tool/**": true,
+    "**/.git/objects/**": true,
+    "**/.git/subtree-cache/**": true,
+    "**/node_modules/**": true,
+    "**/build/**": true,
+    "**/*.g.dart": true,
+    "**/*.freezed.dart": true,
+    "**/generated/**": true
+  },
+  "search.exclude": {
+    "**/.dart_tool": true,
+    "**/build": true,
+    "**/.flutter-plugins": true,
+    "**/.flutter-plugins-dependencies": true,
+    "**/*.g.dart": true,
+    "**/*.freezed.dart": true,
+    "**/generated": true
+  },
+  "workbench.editor.limit.enabled": true,
+  "workbench.editor.limit.value": 10,
+  "files.autoSave": "afterDelay",
+  "files.autoSaveDelay": 1000,
+  "dart.previewLsp": true,
+  "dart.completeFunctionCalls": true,
+  "dart.showInlineErrors": true,
+  "dart.showTodos": true,
+  "dart.enableSdkFormatter": true,
+  "dart.lineLength": 100,
+  "dart.updateImportsOnRename": true,
+  "window.zoomLevel": 0,
+  "window.autoDetectColorScheme": true,
+  "editor.fontSize": 14,
+  "editor.fontFamily": "Consolas, 'Courier New', monospace",
+  "editor.fontLigatures": true,
+  "files.associations": {
+    "*.dart": "dart"
+  },
+  "terminal.integrated.defaultProfile.windows": "PowerShell",
+  "terminal.integrated.gpuAcceleration": "on",
+  "terminal.integrated.scrollback": 10000,
+  "debug.inlineValues": "on",
+  "debug.toolBarLocation": "docked",
+  "workbench.colorTheme": "Default Dark+",
+  "workbench.tree.indent": 16,
+  "workbench.editor.enablePreview": false,
+  "dart.checkForSdkUpdates": false,
+  "java.configuration.updateBuildConfiguration": "automatic",
+  // GitHub Copilot Settings
+  "github.copilot.enable": {
+    "*": true,
+    "dart": true,
+    "markdown": true,
+    "yaml": true
+  },
+  "github.copilot.editor.enableAutoCompletions": true,
+  "editor.inlineSuggest.enabled": true,
+  "editor.suggest.localityBonus": true,
+  "editor.quickSuggestions": {
+    "other": "on",
+    "comments": "on",
+    "strings": "on"
+  }
+}

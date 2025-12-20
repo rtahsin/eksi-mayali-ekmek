@@ -1,0 +1,214 @@
+# EKŞİ MAYALI EKMEK - KOD YAPISI VE AÇIKLAMASI
+
+## 1. KLASÖR YAPISI VE AÇIKLAMALAR
+
+### lib/admin/
+Bu dizin admin paneli ile ilgili tüm kod ve bileşenleri içerir:
+- **admin_app.dart**: Admin paneli ana uygulama yapısı
+- **admin_router.dart**: Admin paneli rota yönetimi
+- **auth/**: Admin girişi ile ilgili dosyalar
+- **dashboard/**: Yönetim paneli ekranları
+- **products/**: Ürün yönetimi
+- **orders/**: Sipariş yönetimi
+
+### lib/backend/
+Backend konfigürasyonu ve bağlantıları:
+- **firebase_config.dart**: Firebase yapılandırması
+
+### lib/core/
+Temel yapılandırmalar ve bağımlılık enjeksiyonu:
+- **di/service_locator.dart**: GetIt ile bağımlılık enjeksiyonu tanımları
+
+### lib/data/
+Veri kaynakları ve örnek veriler:
+- **blog_data.dart**: Blog yazıları için örnek veriler
+- **repositories/**: Veri erişim katmanı sınıfları
+
+### lib/models/
+Veri modelleri:
+- **user.dart**: Kullanıcı modeli (User, UserPreferences)
+- **product.dart**: Ürün modeli ve varyasyonlar
+- **order.dart**: Sipariş modeli ve durumlar
+- **notification.dart**: Bildirim modeli
+- **cart_model.dart**: Sepet modeli
+- **address.dart**: Teslimat adresi modeli
+- **blog_post.dart**: Blog yazı modeli
+- **category.dart**: Ürün kategorisi modeli
+- **order_status.dart**: Sipariş durumları enum'u
+- **payment_method.dart**: Ödeme yöntemi modeli
+- **payment_transaction.dart**: Ödeme işlemi modeli
+
+### lib/providers/
+State yönetimi için Provider'lar:
+- **theme_provider.dart**: Tema değişikliği yönetimi (aydınlık/karanlık)
+- **cart_provider.dart**: Sepet durumu yönetimi
+- **notification_position_provider.dart**: Bildirim konumu yönetimi
+
+### lib/screens/
+Kullanıcı arayüzü ekranları:
+- **home_screen.dart**: Ana sayfa
+- **cart_screen.dart**: Sepet ekranı
+- **checkout_screen.dart**: Ödeme ekranı
+- **login_screen.dart**: Giriş ekranı
+- **profile_screen.dart**: Profil ekranı
+- **notification_screen.dart**: Bildirimler ekranı
+- **order_history_screen.dart**: Sipariş geçmişi
+- **favorites_screen.dart**: Favoriler ekranı
+- **address_management_screen.dart**: Adres yönetimi
+- **blog_list_screen.dart**: Blog yazıları listesi
+- **blog_detail_screen.dart**: Blog yazı detayı
+
+### lib/services/
+İş mantığı servisleri:
+- **auth_service.dart**: Kimlik doğrulama ve yetkilendirme
+- **product_service.dart**: Ürün işlemleri
+- **order_service.dart**: Sipariş işlemleri
+- **notification_service.dart**: Bildirim yönetimi
+- **payment_service.dart**: Ödeme işlemleri
+- **delivery_service.dart**: Teslimat işlemleri
+- **image_service.dart**: Görsel yükleme/indirme
+- **api_service.dart**: API iletişimi
+- **analytics_service.dart**: Analitik verileri toplama
+- **ai_service.dart**: Yapay zeka asistanı
+- **recommendation_service.dart**: Kişiselleştirilmiş öneriler
+- **sync_service.dart**: Çevrimdışı veri senkronizasyonu
+- **connection_service.dart**: Bağlantı durumu takibi
+- **youtube_service.dart**: Canlı yayın entegrasyonu
+
+### lib/theme/
+UI tema tanımlamaları:
+- **app_theme.dart**: Renkler, stiller, tema yapılandırması
+
+### lib/utils/
+Yardımcı sınıflar ve fonksiyonlar:
+- **constants.dart**: Sabit değerler
+- **logger.dart**: Loglama yapısı
+- **page_transitions.dart**: Sayfa geçiş animasyonları
+- **translations.dart**: Çeviri yönetimi (sadece Türkçe destekleniyor)
+
+### lib/widgets/
+Yeniden kullanılabilir UI bileşenleri:
+- **product_card.dart**: Ürün kartı
+- **notification_icon.dart**: Bildirim ikonu
+- **featured_products.dart**: Öne çıkan ürünler widget'ı
+
+### lib/ (Ana dizin)
+Kök dizindeki ana dosyalar:
+- **main.dart**: Uygulama giriş noktası ve yapılandırması
+- **routes.dart**: Rota tanımlamaları
+- **firebase_options.dart**: Firebase yapılandırma ayarları
+- **web_config.dart/mobile_config.dart**: Platform özel yapılandırmalar
+
+## 2. TEMEL SINIFLARIN İŞLEVLERİ
+
+### AuthService
+- Kullanıcı kaydı, girişi, çıkışı
+- Oturum durumu yönetimi
+- Kullanıcı bilgileri erişimi ve güncelleme
+- Şifre yenileme işlemleri
+
+### ProductService
+- Ürün listeleme ve arama
+- Ürün detayları getirme
+- Kategori işlemleri
+- Ürün varyasyonları yönetimi
+
+### OrderService
+- Sipariş oluşturma
+- Sipariş durumu güncelleme ve takip
+- Geçmiş siparişleri listeleme
+- Sipariş detayları erişimi
+
+### CartProvider
+- Sepete ürün ekleme/çıkarma
+- Sepet içeriğini görüntüleme
+- Sepet toplamlarını hesaplama
+- Yerel depolama ile sepet kalıcılığı
+
+### NotificationService
+- Bildirimleri gönderme/alma
+- Okunmamış bildirim sayısını takip etme
+- Bildirim tiplerini (sipariş, promosyon, genel) yönetme
+- Bildirim okuma/silme işlemleri
+
+### AppTheme
+- Tema renkleri tanımlama (aydınlık/karanlık)
+- Uygulama genelinde tutarlı stil sağlama
+- Tema değişikliklerini uygulama
+
+## 3. UYGULAMA AKIŞI
+
+### Uygulama Başlatma (main.dart)
+1. Firebase başlatılır
+2. Bağımlılık enjeksiyonu (GetIt) kurulur
+3. Temel servisler başlatılır
+4. Provider'lar tanımlanır
+5. MaterialApp yapılandırılır
+6. Rotalar kaydedilir
+
+### Kimlik Doğrulama
+1. Kullanıcı login/register ekranını görür
+2. Bilgileri girer
+3. AuthService Firebase ile iletişim kurar
+4. Başarılı ise kullanıcı oturumu açılır
+5. Ana ekrana yönlendirilir
+
+### Alışveriş Süreci
+1. Kullanıcı ürünleri görüntüler
+2. Ürün detaylarını inceler
+3. Ürün sepete eklenir (CartProvider)
+4. Sepet ekranında miktar/ürün ayarları yapılır
+5. Ödeme ekranına geçilir
+6. Teslimat adresi ve ödeme yöntemi seçilir
+7. Sipariş oluşturulur (OrderService)
+8. Sipariş onayı ve takip bilgileri gösterilir
+
+### Bildirim Akışı
+1. NotificationService bildirimleri dinler
+2. Yeni bildirim geldiğinde kullanıcıya gösterilir
+3. Kullanıcı bildirime tıkladığında ilgili ekrana yönlendirilir
+4. Bildirim "okundu" olarak işaretlenir
+
+## 4. ÖNEMLİ YAPI VE DESENLERI
+
+### Provider Yapısı
+Uygulama, durumları (state) yönetmek için Provider desenini kullanır. Ana provider'lar:
+- ThemeProvider: Tema durumu
+- CartProvider: Sepet içeriği
+- AuthService: Oturum durumu
+
+### Bağımlılık Enjeksiyonu
+GetIt kütüphanesi ile servisler merkezi olarak kaydedilir ve erişilir:
+```dart
+// Örnek kayıt
+getIt.registerLazySingleton<AuthService>(() => AuthService());
+
+// Örnek erişim
+final authService = GetIt.I<AuthService>();
+```
+
+### Responsive Tasarım
+Uygulama, farklı ekran boyutlarına uyarlanabilir şekilde tasarlanmıştır:
+- LayoutBuilder ile dinamik UI
+- MediaQuery ile ekran boyutu kontrolü
+- Responsive widget'lar
+
+### Firebase Entegrasyonu
+- Authentication: Kullanıcı yönetimi
+- Firestore: Veri depolama
+- Storage: Görsel ve dosya depolama
+
+## 5. KULLANIMI VE GELİŞTİRME
+
+### Yeni Ekran Ekleme
+1. `lib/screens/` dizinine yeni ekran sınıfı ekleyin
+2. `lib/routes.dart` dosyasına rota tanımını ekleyin
+
+### Yeni Servis Ekleme
+1. `lib/services/` dizinine yeni servis sınıfı ekleyin
+2. `lib/core/di/service_locator.dart` dosyasına servisi kaydedin
+3. Gerekirse ilgili provider'ı oluşturun
+
+### Tema Değişiklikleri
+1. `lib/theme/app_theme.dart` dosyasında renk/stil tanımlarını güncelleyin
+2. Değişikliklerin hem aydınlık hem de karanlık temayı etkilediğinden emin olun 
