@@ -4,6 +4,8 @@ const nodemailer = require('nodemailer');
 const crypto = require('crypto');
 // CORS allowlist: prod domain + localhost for local testing
 const ALLOWED_ORIGINS = [
+  'https://ekmeklab.com',
+  'https://www.ekmeklab.com',
   'https://ekmeklab.tr',
   'https://www.ekmeklab.tr',
   'https://eksimayaliekmekweb.web.app',
@@ -545,28 +547,28 @@ exports.sendOrderStatusEmail = functions.firestore
           statusTitle = 'Siparişiniz Hazırlanıyor';
           statusDescription = 'Siparişiniz şu anda fırınımızda özenle hazırlanıyor. Taze ekmeğiniz yakında hazır olacak!';
           buttonText = 'Siparişi Görüntüle';
-          buttonUrl = `https://eksimayaliekmekweb.web.app/orders/${orderId}`;
+          buttonUrl = `https://ekmeklab.com/orders/${orderId}`;
           statusColor = '#FF9800'; // Turuncu
           break;
         case 'ready':
           statusTitle = 'Siparişiniz Hazır - Alınabilir!';
           statusDescription = 'Taze ekmeğiniz hazır! Belirlediğimiz adresten teslim alabilirsiniz.';
           buttonText = 'Teslim Alma Bilgileri';
-          buttonUrl = `https://eksimayaliekmekweb.web.app/orders/${orderId}`;
+          buttonUrl = `https://ekmeklab.com/orders/${orderId}`;
           statusColor = '#9C27B0'; // Mor
           break;
         case 'delivered':
           statusTitle = 'Siparişiniz Teslim Edildi';
           statusDescription = 'Siparişiniz başarıyla teslim edildi. Afiyet olsun! Deneyiminizi değerlendirmeyi unutmayın.';
           buttonText = 'Siparişi Değerlendir';
-          buttonUrl = `https://eksimayaliekmekweb.web.app/orders/${orderId}/review`;
+          buttonUrl = `https://ekmeklab.com/orders/${orderId}/review`;
           statusColor = '#4CAF50'; // Yeşil
           break;
         case 'cancelled':
           statusTitle = 'Siparişiniz İptal Edildi';
           statusDescription = 'Siparişiniz iptal edildi. Detaylı bilgi için müşteri hizmetlerimizle iletişime geçebilirsiniz.';
           buttonText = 'Müşteri Hizmetleri';
-          buttonUrl = 'https://eksimayaliekmekweb.web.app/contact';
+          buttonUrl = 'https://ekmeklab.com/contact';
           statusColor = '#F44336'; // Kırmızı
           break;
         default:

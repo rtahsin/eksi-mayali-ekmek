@@ -443,7 +443,7 @@ firebase deploy --only firestore:indexes
 ```
 
 ### Environment
-- **Production URL**: https://eksimayaliekmekweb.web.app
+- **Production URL**: https://ekmeklab.com
 - **Firebase Project**: eksimayaliekmekweb
 - **Firebase Region**: europe-west1
 
