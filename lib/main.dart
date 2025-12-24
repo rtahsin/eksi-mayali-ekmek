@@ -32,51 +32,48 @@ import 'package:intl/date_symbol_data_local.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-// Deferred (Lazy) imports - İhtiyaç duyulduğunda yüklenecek
-import 'admin/admin_app.dart' deferred as admin_app; // Admin panel
-import 'admin/admin_router.dart' deferred as admin_router;
-import 'admin/auth/admin_login.dart' deferred as admin_login;
-// Uygulama modülleri - Kritik imports
-import 'backend/firebase_config.dart'; // Firebase konfigürasyonunu import et
-import 'core/di/service_locator.dart'; // Service locator'ı import et
-import 'data/blog_data.dart'; // Blog verilerini import et
-import 'firebase_options.dart'; // Otomatik oluşturulan Firebase options
+// Uygulama modülleri
+import 'admin/admin_app.dart';
+import 'admin/admin_router.dart';
+import 'admin/auth/admin_login.dart';
+import 'backend/firebase_config.dart';
+import 'core/di/service_locator.dart';
+import 'data/blog_data.dart';
+import 'firebase_options.dart';
 import 'models/blog_post.dart';
 import 'models/order.dart';
 import 'models/product.dart';
 import 'providers/cart_provider.dart';
-import 'providers/notification_position_provider.dart'; // Bildirim konumu provider'ı
-import 'providers/theme_provider.dart'; // Tema provider'ı
-import 'routes.dart'; // Rota tanımlamaları için routes.dart import et
-import 'screens/address_management_screen.dart' deferred as address_management;
-import 'screens/admin/admin_dashboard.dart' deferred as admin_dashboard;
-import 'screens/admin/live_stream_management_screen.dart' deferred as admin_live_stream;
-import 'screens/ai_assistant_screen.dart' deferred as ai_assistant; // AI Asistan
-import 'screens/analytics_screen.dart' deferred as analytics_screen; // Analitik
+import 'providers/notification_position_provider.dart';
+import 'providers/theme_provider.dart';
+import 'routes.dart';
+import 'screens/address_management_screen.dart';
+import 'screens/admin/admin_dashboard.dart';
+import 'screens/admin/live_stream_management_screen.dart';
+import 'screens/ai_assistant_screen.dart';
+import 'screens/analytics_screen.dart';
 import 'screens/blog_detail_screen.dart';
-import 'screens/blog_list_screen.dart' deferred as blog_list;
-// Kritik ekranlar - Hemen yüklenmeli
-import 'screens/cart_screen.dart'; // Sepet ekranını import et
-import 'screens/checkout_screen.dart' deferred as checkout;
+import 'screens/blog_list_screen.dart';
+import 'screens/cart_screen.dart';
+import 'screens/checkout_screen.dart';
 import 'screens/delivery_tracking_screen.dart' deferred as delivery_tracking;
-import 'screens/favorites_screen.dart' deferred as favorites;
+import 'screens/favorites_screen.dart';
 import 'screens/home_screen.dart';
-import 'screens/live_stream_screen.dart' deferred as live_stream; // Canlı Yayın
+import 'screens/live_stream_screen.dart';
 import 'screens/login_screen.dart';
-import 'screens/order_history_screen.dart' deferred as order_history;
-import 'screens/order_screen.dart' deferred as order_screen;
-import 'screens/preferences_screen.dart' deferred as preferences;
+import 'screens/order_history_screen.dart';
+import 'screens/order_screen.dart';
+import 'screens/preferences_screen.dart';
 import 'screens/privacy_policy_screen.dart';
 import 'screens/product_detail_screen.dart';
 import 'screens/profile_screen.dart';
 import 'screens/register_screen.dart';
-import 'screens/simple_checkout_screen.dart'; // Basit sipariş ekranı
+import 'screens/simple_checkout_screen.dart';
 import 'screens/splash_screen.dart';
-import 'services/ai_service.dart' deferred as ai_service;
-import 'services/analytics_service.dart' deferred as analytics_service;
-// Kritik servisler - Hemen yüklenmeli
+import 'services/ai_service.dart';
+import 'services/analytics_service.dart';
 import 'services/auth_service.dart';
-import 'services/connection_service.dart' deferred as connection_service;
+import 'services/connection_service.dart';
 import 'services/delivery_service.dart';
 import 'services/live_chat_service.dart';
 import 'services/notification_service.dart';
@@ -84,11 +81,10 @@ import 'services/order_service.dart';
 import 'services/payment_service.dart';
 import 'services/privacy_service.dart';
 import 'services/product_service.dart';
-import 'services/recommendation_service.dart' deferred as recommendation_service;
-import 'services/sync_service.dart' deferred as sync_service;
-import 'services/web_one_tap.dart'
-    if (dart.library.io) 'services/web_one_tap_stub.dart'; // Web One Tap entegrasyonu
-import 'services/youtube_service.dart' deferred as youtube_service;
+import 'services/recommendation_service.dart';
+import 'services/sync_service.dart';
+import 'services/web_one_tap.dart' if (dart.library.io) 'services/web_one_tap_stub.dart';
+import 'services/youtube_service.dart';
 import 'theme/app_theme.dart';
 import 'utils/constants.dart';
 import 'utils/logger.dart'; // Logger sınıfını import ediyoruz
@@ -175,12 +171,14 @@ Future<void> main() async {
       providers: [
         ChangeNotifierProvider(create: (context) => ThemeProvider(prefs)),
         ChangeNotifierProvider(create: (context) => NotificationPositionProvider(prefs)),
-        ChangeNotifierProvider(create: (context) => GetIt.instance<CartProvider>()),
+        ChangeNotifierProvider(create: (context) => CartProvider()),
         ChangeNotifierProvider(create: (context) => GetIt.instance<AuthService>()),
         ChangeNotifierProvider(create: (context) => GetIt.instance<ProductService>()),
         ChangeNotifierProvider(create: (context) => GetIt.instance<OrderService>()),
         ChangeNotifierProvider(create: (context) => GetIt.instance<DeliveryService>()),
         ChangeNotifierProvider(create: (context) => GetIt.instance<PaymentService>()),
+        ChangeNotifierProvider(create: (context) => GetIt.instance<YouTubeService>()),
+        ChangeNotifierProvider(create: (context) => GetIt.instance<ConnectionService>()),
         ChangeNotifierProvider(create: (context) => LiveChatService()),
       ],
       child: MyApp(prefs: prefs),

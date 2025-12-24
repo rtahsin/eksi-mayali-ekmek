@@ -29,8 +29,20 @@
   <link rel="dns-prefetch" href="https://firestore.googleapis.com">
   <link rel="preconnect" href="https://firebasestorage.googleapis.com">
 
-  <!-- Content Security Policy - Flutter Web için unsafe-eval gerekli -->
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self' https:; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.gstatic.com https://accounts.google.com https://apis.google.com https://*.firebaseio.com https://*.googleapis.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https: blob:; connect-src 'self' https://*.googleapis.com https://*.firebaseio.com https://firestore.googleapis.com wss://*.firebaseio.com; upgrade-insecure-requests;">
+  <!-- Content Security Policy - Flutter Web + Firebase + Google Services + Social Media -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self' https: blob: data: wss:; 
+    script-src 'self' 'unsafe-inline' 'unsafe-eval' 'wasm-unsafe-eval' https://*.gstatic.com https://*.google.com https://*.googleapis.com https://*.firebaseio.com https://*.googletagmanager.com https://*.doubleclick.net blob: data:; 
+    worker-src 'self' blob: data:; 
+    style-src 'self' 'unsafe-inline' https://*.googleapis.com https://*.gstatic.com; 
+    font-src 'self' https://*.gstatic.com data: blob:; 
+    img-src 'self' data: https: http: blob:; 
+    connect-src 'self' https://*.gstatic.com https://*.googleapis.com https://*.firebaseio.com https://*.google.com https://*.doubleclick.net https://*.google-analytics.com wss://*.firebaseio.com blob: data:; 
+    frame-src 'self' https://*.google.com https://*.firebaseapp.com; 
+    frame-ancestors 'self' https://*.instagram.com https://*.facebook.com https://*.twitter.com https://*.linkedin.com; 
+    object-src 'none'; 
+    base-uri 'self';">
+
+  <!-- Note: 'unsafe-eval' added for Flutter Web WASM runtime, frame-ancestors allows social media previews -->
 
   <!-- Cache Control -->
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
@@ -48,24 +60,42 @@
   <meta http-equiv="Access-Control-Allow-Origin" content="*">
   <meta http-equiv="Access-Control-Allow-Methods" content="GET, POST, PUT, DELETE, OPTIONS">
   <meta http-equiv="Access-Control-Allow-Headers" content="Content-Type, Authorization">
-  <meta property="og:title" content="EkmekLab - Doğal ve Sağlıklı Ekmekler">
-  <meta property="og:description"
-    content="EkmekLab - Doğal ve sağlıklı ekmekler, taze fırın ürünleri ve organik gıdalar">
-  <meta property="og:image" content="/icons/Icon-512.png">
-  <meta property="og:url" content="/">
+  <!-- Open Graph / Facebook / Instagram / WhatsApp -->
   <meta property="og:type" content="website">
+  <meta property="og:url" content="https://eksimayaliekmekweb.web.app">
+  <meta property="og:title" content="EkmekLab - Ekşi Mayalı Ekmek ve Organik Ürünler">
+  <meta property="og:description"
+    content="Geleneksel yöntemlerle hazırlanan, organik ekşi mayalı ekmekler. Beylikdüzü'nde üretim ve teslimat. Doğal, sağlıklı ve lezzetli fırın ürünleri.">
+  <meta property="og:image" content="https://eksimayaliekmekweb.web.app/icons/Icon-512.png">
+  <meta property="og:image:secure_url" content="https://eksimayaliekmekweb.web.app/icons/Icon-512.png">
+  <meta property="og:image:type" content="image/png">
+  <meta property="og:image:width" content="512">
+  <meta property="og:image:height" content="512">
+  <meta property="og:locale" content="tr_TR">
+  <meta property="og:site_name" content="EkmekLab">
+
+  <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="EkmekLab - Doğal ve Sağlıklı Ekmekler">
+  <meta name="twitter:url" content="https://eksimayaliekmekweb.web.app">
+  <meta name="twitter:title" content="EkmekLab - Ekşi Mayalı Ekmek ve Organik Ürünler">
   <meta name="twitter:description"
-    content="EkmekLab - Doğal ve sağlıklı ekmekler, taze fırın ürünleri ve organik gıdalar">
-  <meta name="twitter:image" content="/icons/Icon-512.png">
-  <link rel="canonical" href="/">
+    content="Geleneksel yöntemlerle hazırlanan, organik ekşi mayalı ekmekler. Beylikdüzü'nde üretim ve teslimat.">
+  <meta name="twitter:image" content="https://eksimayaliekmekweb.web.app/icons/Icon-512.png">
+
+  <!-- WhatsApp Specific -->
+  <meta property="og:image:alt" content="EkmekLab - Ekşi Mayalı Ekmek">
+
+  <!-- Canonical URL -->
+  <link rel="canonical" href="https://eksimayaliekmekweb.web.app">
 
   <!-- iOS meta tags & icons -->
   <meta name="mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="EkmekLab">
   <link rel="apple-touch-icon" href="icons/Icon-192.png">
+  <link rel="apple-touch-icon" sizes="192x192" href="icons/Icon-192.png">
+  <link rel="apple-touch-icon" sizes="512x512" href="icons/Icon-512.png">
 
   <!-- Favicon -->
   <link rel="icon" type="image/png" href="favicon.png" />
@@ -126,81 +156,21 @@
     }
 
     // Service Worker version management
-    var serviceWorkerVersion = null;
+    var serviceWorkerVersion = '{{flutter_service_worker_version}}';
     var APP_VERSION = '1.0.1'; // App version - UPDATED
 
-    // Aggressive cache clear function
-    function clearAllCaches() {
+    // Check for cache clear request (gizli sekme sorunu için)
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get('clearCache') === 'true') {
+      console.log('[App] Clearing caches...');
       if ('caches' in window) {
         caches.keys().then(function (names) {
           names.forEach(function (name) {
-            console.log('[Cache] Clearing cache:', name);
             caches.delete(name);
           });
         });
       }
-    }
-
-    // Check for cache clear request (gizli sekme sorunu için)
-    const urlParams = new URLSearchParams(window.location.search);
-    if (urlParams.get('clearCache') === 'true' || sessionStorage.getItem('forceClearCache')) {
-      console.log('[App] Force clearing all caches...');
-      clearAllCaches();
-      sessionStorage.removeItem('forceClearCache');
-      // URL'den parametreyi temizle
-      if (urlParams.get('clearCache')) {
-        window.history.replaceState({}, document.title, window.location.pathname);
-      }
-    }
-
-    // Service Worker kaydı ve güncelleme
-    if ('serviceWorker' in navigator) {
-      window.addEventListener('load', function () {
-        // Service worker'ı kaydet
-        navigator.serviceWorker.register('/service-worker.js?v=' + APP_VERSION)
-          .then(function (registration) {
-            console.log('[App] Service Worker registered:', registration);
-
-            // Sayfa yüklendiğinde güncellemeleri kontrol et
-            registration.update();
-
-            // Güncelleme kontrolü
-            registration.addEventListener('updatefound', function () {
-              const newWorker = registration.installing;
-              console.log('[App] New Service Worker found, installing...');
-
-              newWorker.addEventListener('statechange', function () {
-                if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
-                  // Yeni SW yüklendi, cache'leri temizle ve aktif et
-                  console.log('[App] New content available, clearing caches...');
-                  clearAllCaches();
-                  newWorker.postMessage({ type: 'SKIP_WAITING' });
-                  // Kullanıcıya bildir (opsiyonel)
-                  sessionStorage.setItem('newVersionAvailable', 'true');
-                }
-              });
-            });
-          })
-          .catch(function (error) {
-            console.error('[App] Service Worker registration failed:', error);
-          });
-
-        // Controller değiştiğinde sayfayı yenile
-        let refreshing = false;
-        navigator.serviceWorker.addEventListener('controllerchange', function () {
-          if (refreshing) return;
-          refreshing = true;
-          console.log('[App] New Service Worker activated, reloading...');
-          window.location.reload();
-        });
-      });
-    }
-
-    // Debug: Cache durumunu konsola yaz
-    if ('caches' in window && window.location.search.includes('debug=true')) {
-      caches.keys().then(function (names) {
-        console.log('[Debug] Active caches:', names);
-      });
+      window.history.replaceState({}, document.title, window.location.pathname);
     }
   </script>
 
@@ -219,6 +189,35 @@
 
   <!-- This script adds the flutter initialization JS code -->
   <script src="flutter.js" defer></script>
+
+  <!-- Configure and initialize Flutter -->
+  <script>
+    // BuildConfig must be set before calling loader
+    window._flutter = window._flutter || {};
+    window._flutter.buildConfig = window._flutter.buildConfig || {
+      engineRevision: serviceWorkerVersion
+    };
+
+    // Wait for flutter.js to load, then initialize
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initFlutter);
+    } else {
+      initFlutter();
+    }
+
+    function initFlutter() {
+      // Disable service worker - it causes timeout issues
+      _flutter.loader.loadEntrypoint({
+        serviceWorkerSettings: {
+          serviceWorkerVersion: null, // Disable service worker
+        },
+        onEntrypointLoaded: async function (engineInitializer) {
+          let appRunner = await engineInitializer.initializeEngine();
+          await appRunner.runApp();
+        }
+      });
+    }
+  </script>
 
   <!-- KVKK ve Çerez Yönetimi için JS -->
   <script>
@@ -444,26 +443,6 @@
         window.location.href = '/privacy';
       }
     }
-  </script>
-
-  <script>
-    window.addEventListener('load', function (ev) {
-      // Download main.dart.js
-      _flutter.loader.loadEntrypoint({
-        serviceWorker: {
-          serviceWorkerVersion: serviceWorkerVersion,
-        },
-        onEntrypointLoaded: async function (engineInitializer) {
-          // HTML renderer kullan - CanvasKit'ten 40-50% daha hızlı
-          let appRunner = await engineInitializer.initializeEngine({
-            renderer: "html",
-            // Ek optimizasyonlar
-            hostElement: document.querySelector("#flutter-target")
-          });
-          await appRunner.runApp();
-        }
-      });
-    });
   </script>
 </body>
 

@@ -11,6 +11,7 @@ import '../../domain/repositories/i_product_repository.dart';
 import '../../domain/repositories/i_user_repository.dart';
 import '../../services/address_service.dart';
 import '../../services/auth_service.dart';
+import '../../services/connection_service.dart';
 import '../../services/delivery_service.dart';
 import '../../services/feedback_service.dart';
 import '../../services/notification_service.dart';
@@ -19,6 +20,7 @@ import '../../services/payment_service.dart';
 import '../../services/privacy_service.dart';
 import '../../services/product_service.dart';
 import '../../services/settings_service.dart';
+import '../../services/youtube_service.dart';
 import '../../utils/logger.dart';
 
 /// GetIt singleton instance - Bağımlılık enjeksiyon kontrolcüsü
@@ -77,6 +79,12 @@ class ServiceLocator {
 
     // Ödeme işlemleri servisi
     getIt.registerLazySingleton<PaymentService>(() => PaymentService(getIt<IPaymentRepository>()));
+
+    // YouTube servisi
+    getIt.registerLazySingleton<YouTubeService>(() => YouTubeService());
+
+    // Connection servisi
+    getIt.registerLazySingleton<ConnectionService>(() => ConnectionService());
 
     // NOT: Aşağıdaki servisler artık lazy loading ile yükleniyor
     // Başlangıç hızını artırmak için sadece ihtiyaç duyulduğunda initialize edilecekler

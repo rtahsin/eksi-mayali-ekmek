@@ -639,7 +639,7 @@ class _AdminProductsState extends State<AdminProducts> {
                           isPopular = selected;
                         });
                       },
-                      selectedColor: AppTheme.primaryColor.withOpacity(0.2),
+                      selectedColor: AppTheme.primaryColor.withValues(alpha: 0.2),
                       checkmarkColor: AppTheme.primaryColor,
                     ),
                     FilterChip(
@@ -650,7 +650,7 @@ class _AdminProductsState extends State<AdminProducts> {
                           isNew = selected;
                         });
                       },
-                      selectedColor: AppTheme.primaryColor.withOpacity(0.2),
+                      selectedColor: AppTheme.primaryColor.withValues(alpha: 0.2),
                       checkmarkColor: AppTheme.primaryColor,
                     ),
                     FilterChip(
@@ -661,7 +661,7 @@ class _AdminProductsState extends State<AdminProducts> {
                           isActive = selected;
                         });
                       },
-                      selectedColor: AppTheme.primaryColor.withOpacity(0.2),
+                      selectedColor: AppTheme.primaryColor.withValues(alpha: 0.2),
                       checkmarkColor: AppTheme.primaryColor,
                     ),
                     FilterChip(
@@ -672,7 +672,7 @@ class _AdminProductsState extends State<AdminProducts> {
                           isFeatured = selected;
                         });
                       },
-                      selectedColor: AppTheme.primaryColor.withOpacity(0.2),
+                      selectedColor: AppTheme.primaryColor.withValues(alpha: 0.2),
                       checkmarkColor: AppTheme.primaryColor,
                     ),
                   ],

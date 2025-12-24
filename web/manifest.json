@@ -1,14 +1,21 @@
 {
-  "name": "EkmekLab",
+  "name": "EkmekLab - Ekşi Mayalı Ekmek",
   "short_name": "EkmekLab",
-  "start_url": "/",
+  "start_url": ".",
   "scope": "/",
   "display": "standalone",
   "background_color": "#FFFFFF",
-  "theme_color": "#E65100",
-  "description": "Doğal ve sağlıklı ekmekler, taze fırın ürünleri ve organik gıdalar",
-  "orientation": "any",
+  "theme_color": "#8B4513",
+  "description": "Geleneksel yöntemlerle hazırlanan organik ekşi mayalı ekmekler. Beylikdüzü'nde üretim ve teslimat. Doğal, sağlıklı ve lezzetli fırın ürünleri.",
+  "orientation": "portrait-primary",
   "prefer_related_applications": false,
+  "categories": [
+    "food",
+    "shopping",
+    "lifestyle"
+  ],
+  "lang": "tr",
+  "dir": "ltr",
   "screenshots": [
     {
       "src": "screenshots/home.png",
