@@ -1073,15 +1073,23 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                         labelText: 'Ad Soyad',
                         prefixIcon: Icon(Icons.person),
                         border: OutlineInputBorder(),
+                        hintText: 'Ahmet Yılmaz',
                       ),
                       validator: (value) {
-                        if (value == null || value.isEmpty) {
+                        if (value == null || value.trim().isEmpty) {
                           return 'Lütfen adınızı ve soyadınızı girin';
+                        }
+                        if (value.trim().length < 3) {
+                          return 'Ad soyad en az 3 karakter olmalıdır';
+                        }
+                        // En az bir boşluk olmalı (ad ve soyad)
+                        if (!value.trim().contains(' ')) {
+                          return 'Lütfen ad ve soyadınızı girin';
                         }
                         return null;
                       },
                       onSaved: (newValue) {
-                        _fullName = newValue ?? '';
+                        _fullName = newValue?.trim() ?? '';
                       },
                     ),
                     SizedBox(height: 12),
@@ -1102,11 +1110,15 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                 ),
                                 keyboardType: TextInputType.emailAddress,
                                 validator: (value) {
-                                  if (value == null || value.isEmpty) {
+                                  if (value == null || value.trim().isEmpty) {
                                     return 'Lütfen email adresinizi girin';
                                   }
-                                  if (!value.contains('@')) {
-                                    return 'Geçerli bir email adresi girin';
+                                  // Email regex pattern
+                                  final emailRegex = RegExp(
+                                    r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$',
+                                  );
+                                  if (!emailRegex.hasMatch(value.trim())) {
+                                    return 'Geçerli bir email adresi girin (örn: ornek@mail.com)';
                                   }
                                   return null;
                                 },
@@ -1126,16 +1138,26 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                         labelText: 'Telefon Numarası',
                         prefixIcon: Icon(Icons.phone),
                         border: OutlineInputBorder(),
+                        hintText: '05XX XXX XX XX',
                       ),
                       keyboardType: TextInputType.phone,
                       validator: (value) {
-                        if (value == null || value.isEmpty) {
+                        if (value == null || value.trim().isEmpty) {
                           return 'Lütfen telefon numaranızı girin';
+                        }
+                        // Boşlukları ve tire işaretlerini temizle
+                        final cleanPhone = value.replaceAll(RegExp(r'[\s-]'), '');
+                        
+                        // Türkiye cep telefonu formatı: 05XX XXX XX XX
+                        final phoneRegex = RegExp(r'^05\d{9}$');
+                        if (!phoneRegex.hasMatch(cleanPhone)) {
+                          return 'Geçerli bir telefon numarası girin (05XX XXX XX XX)';
                         }
                         return null;
                       },
                       onSaved: (newValue) {
-                        _phoneNumber = newValue ?? '';
+                        // Telefonu temiz formatda kaydet
+                        _phoneNumber = newValue?.replaceAll(RegExp(r'[\s-]'), '') ?? '';
                       },
                     ),
                     SizedBox(height: 16),
@@ -1209,15 +1231,19 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                         labelText: 'Sokak ve Cadde',
                         prefixIcon: Icon(Icons.home),
                         border: OutlineInputBorder(),
+                        hintText: 'örn: Cumhuriyet Caddesi No:15',
                       ),
                       validator: (value) {
-                        if (value == null || value.isEmpty) {
+                        if (value == null || value.trim().isEmpty) {
                           return 'Lütfen cadde ve sokak bilgilerinizi girin';
+                        }
+                        if (value.trim().length < 5) {
+                          return 'Adres en az 5 karakter olmalıdır';
                         }
                         return null;
                       },
                       onSaved: (newValue) {
-                        _addressLine1 = newValue ?? '';
+                        _addressLine1 = newValue?.trim() ?? '';
                       },
                     ),
                     SizedBox(height: 12),
@@ -1243,10 +1269,21 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                         labelText: 'Posta Kodu',
                         prefixIcon: Icon(Icons.markunread_mailbox),
                         border: OutlineInputBorder(),
+                        hintText: '34520',
                       ),
                       keyboardType: TextInputType.number,
+                      validator: (value) {
+                        if (value != null && value.trim().isNotEmpty) {
+                          // Posta kodu girilmişse 5 haneli olmalı
+                          final postalRegex = RegExp(r'^\d{5}$');
+                          if (!postalRegex.hasMatch(value.trim())) {
+                            return 'Posta kodu 5 haneli olmalıdır';
+                          }
+                        }
+                        return null;
+                      },
                       onSaved: (newValue) {
-                        _postalCode = newValue ?? '';
+                        _postalCode = newValue?.trim() ?? '';
                       },
                     ),
                     SizedBox(height: 16),

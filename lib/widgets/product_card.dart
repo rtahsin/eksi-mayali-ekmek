@@ -216,28 +216,71 @@ class _ProductCardState extends State<ProductCard> with SingleTickerProviderStat
                           Consumer<CartProvider>(
                             builder: (ctx, cartProvider, _) {
                               final isInCart = cartProvider.isInCart(widget.product.id);
-                              return ElevatedButton.icon(
-                                onPressed: () {
-                                  cartProvider.addItem(widget.product);
-                                  Navigator.of(context).pop();
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(
-                                      content: Text('${widget.product.name} sepete eklendi'),
+                              return Column(
+                                crossAxisAlignment: CrossAxisAlignment.stretch,
+                                children: [
+                                  // Stok durumu uyarısı
+                                  if (widget.product.stock < 5 && widget.product.stock > 0)
+                                    Container(
+                                      padding: EdgeInsets.symmetric(vertical: 6, horizontal: 10),
+                                      margin: EdgeInsets.only(bottom: 8),
+                                      decoration: BoxDecoration(
+                                        color: Colors.orange.shade50,
+                                        borderRadius: BorderRadius.circular(6),
+                                        border: Border.all(color: Colors.orange.shade200),
+                                      ),
+                                      child: Row(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          Icon(Icons.info_outline, color: Colors.orange, size: 16),
+                                          SizedBox(width: 6),
+                                          Text(
+                                            'Son ${widget.product.stock} adet!',
+                                            style: TextStyle(
+                                              color: Colors.orange.shade900,
+                                              fontSize: 12,
+                                              fontWeight: FontWeight.w500,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
                                     ),
-                                  );
-                                },
-                                icon:
-                                    Icon(isInCart ? Icons.shopping_cart : Icons.add_shopping_cart),
-                                label: Text(
-                                  isInCart
-                                      ? 'Sepete Ekle (${cartProvider.getQuantity(widget.product.id)})'
-                                      : 'Sepete Ekle',
-                                ),
-                                style: ElevatedButton.styleFrom(
-                                  backgroundColor: AppTheme.primaryColor,
-                                  foregroundColor: Colors.white,
-                                  minimumSize: const Size(double.infinity, 40),
-                                ),
+                                  ElevatedButton.icon(
+                                    onPressed: widget.product.stock > 0 && widget.product.isAvailable
+                                        ? () {
+                                            cartProvider.addItem(widget.product);
+                                            Navigator.of(context).pop();
+                                            ScaffoldMessenger.of(context).showSnackBar(
+                                              SnackBar(
+                                                content:
+                                                    Text('${widget.product.name} sepete eklendi'),
+                                              ),
+                                            );
+                                          }
+                                        : null,
+                                    icon: Icon(
+                                      widget.product.stock > 0
+                                          ? (isInCart ? Icons.shopping_cart : Icons.add_shopping_cart)
+                                          : Icons.remove_shopping_cart,
+                                    ),
+                                    label: Text(
+                                      widget.product.stock > 0
+                                          ? (isInCart
+                                              ? 'Sepete Ekle (${cartProvider.getQuantity(widget.product.id)})'
+                                              : 'Sepete Ekle')
+                                          : 'Stokta Yok',
+                                    ),
+                                    style: ElevatedButton.styleFrom(
+                                      backgroundColor: widget.product.stock > 0
+                                          ? AppTheme.primaryColor
+                                          : Colors.grey,
+                                      foregroundColor: Colors.white,
+                                      minimumSize: const Size(double.infinity, 40),
+                                      disabledBackgroundColor: Colors.grey.shade300,
+                                      disabledForegroundColor: Colors.grey.shade600,
+                                    ),
+                                  ),
+                                ],
                               );
                             },
                           ),
@@ -521,31 +564,38 @@ class _ProductCardState extends State<ProductCard> with SingleTickerProviderStat
                               // Sepete ekle butonu - sadece bir ikon olarak
                               if (widget.showAddToCart)
                                 InkWell(
-                                  onTap: () {
-                                    cartProvider.addItem(widget.product); // Ürünü sepete ekle
-                                    if (widget.onAddToCart != null) {
-                                      widget.onAddToCart!(); // Callback fonksiyonu çağır
-                                    }
-                                  },
+                                  onTap: widget.product.stock > 0 && widget.product.isAvailable
+                                      ? () {
+                                          cartProvider.addItem(widget.product); // Ürünü sepete ekle
+                                          if (widget.onAddToCart != null) {
+                                            widget.onAddToCart!(); // Callback fonksiyonu çağır
+                                          }
+                                        }
+                                      : null,
                                   child: Container(
                                     height: cardWidth * 0.12, // Dinamik buton yüksekliği
                                     width: cardWidth * 0.12, // Dinamik buton genişliği
                                     decoration: BoxDecoration(
-                                      color: AppTheme.primaryColor, // Arka plan rengi
+                                      color: widget.product.stock > 0
+                                          ? AppTheme.primaryColor
+                                          : Colors.grey.shade400, // Stokta yoksa gri
                                       borderRadius: BorderRadius.circular(6), // Köşe yuvarlatma
-                                      boxShadow: [
-                                        BoxShadow(
-                                          color: Colors.black.withValues(alpha: 0.2),
-                                          blurRadius: 2,
-                                          offset: const Offset(0, 1),
-                                        ),
-                                      ],
+                                      boxShadow: widget.product.stock > 0
+                                          ? [
+                                              BoxShadow(
+                                                color: Colors.black.withValues(alpha: 0.2),
+                                                blurRadius: 2,
+                                                offset: const Offset(0, 1),
+                                              ),
+                                            ]
+                                          : null,
                                     ),
                                     child: Icon(
-                                      isInCart && quantity > 0
-                                          ? Icons.shopping_cart // Ürün sepetteyse dolu sepet ikonu
-                                          : Icons
-                                              .add_shopping_cart, // Ürün sepette değilse ekleme ikonu
+                                      widget.product.stock > 0
+                                          ? (isInCart && quantity > 0
+                                              ? Icons.shopping_cart // Ürün sepetteyse dolu sepet ikonu
+                                              : Icons.add_shopping_cart) // Ürün sepette değilse ekleme ikonu
+                                          : Icons.remove_shopping_cart, // Stokta yoksa çarpı ikonu
                                       color: Colors.white,
                                       size: cardWidth * 0.07, // Dinamik ikon boyutu
                                     ),

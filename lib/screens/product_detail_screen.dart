@@ -472,29 +472,73 @@ class _ProductDetailScreenState extends State<ProductDetailScreen>
                       ],
                     )
                   else
-                    ElevatedButton.icon(
-                      icon: Icon(isInCart ? Icons.shopping_cart : Icons.add_shopping_cart),
-                      label: Text(isInCart ? 'Sepete Ekle ($_quantity)' : 'Sepete Ekle'),
-                      onPressed: () {
-                        cartProvider.addItem(widget.product);
-                        setState(() {
-                          _showCartOptions = true;
-                        });
-                        Helpers.showSnackBar(
-                          '${widget.product.name} sepete eklendi',
-                          context: context,
-                          isError: false,
-                        );
-                      },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: AppTheme.primaryColor,
-                        foregroundColor: Colors.white,
-                        padding: EdgeInsets.symmetric(vertical: 16),
-                        minimumSize: Size(double.infinity, 50),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        // Stok durumu uyarısı
+                        if (widget.product.stock < 5 && widget.product.stock > 0)
+                          Container(
+                            padding: EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+                            margin: EdgeInsets.only(bottom: 12),
+                            decoration: BoxDecoration(
+                              color: Colors.orange.shade50,
+                              borderRadius: BorderRadius.circular(8),
+                              border: Border.all(color: Colors.orange.shade200),
+                            ),
+                            child: Row(
+                              children: [
+                                Icon(Icons.info_outline, color: Colors.orange, size: 20),
+                                SizedBox(width: 8),
+                                Expanded(
+                                  child: Text(
+                                    'Son ${widget.product.stock} adet kaldı!',
+                                    style: TextStyle(
+                                      color: Colors.orange.shade900,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ElevatedButton.icon(
+                          icon: Icon(
+                            widget.product.stock > 0
+                                ? (isInCart ? Icons.shopping_cart : Icons.add_shopping_cart)
+                                : Icons.remove_shopping_cart,
+                          ),
+                          label: Text(
+                            widget.product.stock > 0
+                                ? (isInCart ? 'Sepete Ekle ($_quantity)' : 'Sepete Ekle')
+                                : 'Stokta Yok',
+                          ),
+                          onPressed: widget.product.stock > 0 && widget.product.isAvailable
+                              ? () {
+                                  cartProvider.addItem(widget.product);
+                                  setState(() {
+                                    _showCartOptions = true;
+                                  });
+                                  Helpers.showSnackBar(
+                                    '${widget.product.name} sepete eklendi',
+                                    context: context,
+                                    isError: false,
+                                  );
+                                }
+                              : null,
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor:
+                                widget.product.stock > 0 ? AppTheme.primaryColor : Colors.grey,
+                            foregroundColor: Colors.white,
+                            padding: EdgeInsets.symmetric(vertical: 16),
+                            minimumSize: Size(double.infinity, 50),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            disabledBackgroundColor: Colors.grey.shade300,
+                            disabledForegroundColor: Colors.grey.shade600,
+                          ),
                         ),
-                      ),
+                      ],
                     ),
                 ],
               ),
