@@ -1,10 +1,12 @@
 // ignore_for_file: use_super_parameters, prefer_const_constructors, unused_field, unused_element, unused_local_variable
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../services/auth_service.dart';
 import '../../theme/app_theme.dart';
+import '../../utils/logger.dart';
 
 class AdminDrawer extends StatefulWidget {
   final int currentIndex;
@@ -21,6 +23,50 @@ class AdminDrawer extends StatefulWidget {
 class _AdminDrawerState extends State<AdminDrawer> {
   bool _isInventoryExpanded = true;
   bool _isOtherExpanded = false;
+  int _pendingOrderCount = 0;
+  int _lowStockCount = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadBadgeCounts();
+  }
+
+  /// Badge sayılarını yükle (Firestore'dan)
+  Future<void> _loadBadgeCounts() async {
+    try {
+      final firestore = FirebaseFirestore.instance;
+
+      // Bekleyen siparişler
+      final pendingOrders = await firestore
+          .collection('siparisler')
+          .where('orderStatus', whereIn: ['pending', 'processing'])
+          .count()
+          .get();
+
+      // Düşük stok ürünler (< 10)
+      final products = await firestore.collection('urunler').get();
+      int lowStock = 0;
+      for (var doc in products.docs) {
+        final stock = (doc.data()['stock'] ?? 0) as int;
+        if (stock < 10 && stock > 0) {
+          lowStock++;
+        }
+      }
+
+      if (mounted) {
+        setState(() {
+          _pendingOrderCount = pendingOrders.count ?? 0;
+          _lowStockCount = lowStock;
+        });
+      }
+    } catch (e) {
+      Logger.error('Badge sayıları yüklenirken hata: $e');
+    }
+  }
+
+  int? _getPendingOrderCount() => _pendingOrderCount > 0 ? _pendingOrderCount : null;
+  int? _getLowStockCount() => _lowStockCount > 0 ? _lowStockCount : null;
 
   @override
   Widget build(BuildContext context) {
@@ -136,6 +182,7 @@ class _AdminDrawerState extends State<AdminDrawer> {
               title: "Siparişler",
               isSelected: widget.currentIndex == 3,
               isSmallScreen: isSmallScreen,
+              badge: _getPendingOrderCount(),
               onTap: () {
                 Navigator.pop(context);
                 Navigator.pushReplacementNamed(context, '/admin/orders');
@@ -170,6 +217,8 @@ class _AdminDrawerState extends State<AdminDrawer> {
                 isSelected: widget.currentIndex == 7,
                 isSmallScreen: isSmallScreen,
                 indent: true,
+                badge: _getLowStockCount(),
+                badgeColor: Colors.red,
                 onTap: () {
                   Navigator.pop(context);
                   Navigator.pushReplacementNamed(context, '/admin/stocks');
@@ -389,6 +438,8 @@ class _AdminDrawerState extends State<AdminDrawer> {
     required VoidCallback onTap,
     bool indent = false,
     Color? color,
+    int? badge,
+    Color? badgeColor,
   }) {
     final tileColor = color ?? (isSelected ? AppTheme.primaryColor : Colors.grey[700]!);
     
@@ -434,6 +485,25 @@ class _AdminDrawerState extends State<AdminDrawer> {
                     ),
                   ),
                 ),
+                if (badge != null && badge > 0)
+                  Container(
+                    padding: EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                    margin: EdgeInsets.only(right: 4),
+                    decoration: BoxDecoration(
+                      color: badgeColor ?? Colors.red,
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    constraints: BoxConstraints(minWidth: 18),
+                    child: Text(
+                      badge > 99 ? '99+' : badge.toString(),
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 10,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
                 if (isSelected)
                   Container(
                     width: 6,

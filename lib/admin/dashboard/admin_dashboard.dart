@@ -21,6 +21,9 @@ class DashboardStats {
   final int todayReady;
   final int todayCompleted;
   final double todayRevenue;
+  // Uyarılar
+  final int lowStockCount; // Stok < 10
+  final int pendingOrderCount; // Bekleyen siparişler
 
   DashboardStats({
     this.productCount = 0,
@@ -32,6 +35,8 @@ class DashboardStats {
     this.todayReady = 0,
     this.todayCompleted = 0,
     this.todayRevenue = 0.0,
+    this.lowStockCount = 0,
+    this.pendingOrderCount = 0,
   });
 
   DashboardStats copyWith({
@@ -44,6 +49,8 @@ class DashboardStats {
     int? todayReady,
     int? todayCompleted,
     double? todayRevenue,
+    int? lowStockCount,
+    int? pendingOrderCount,
   }) {
     return DashboardStats(
       productCount: productCount ?? this.productCount,
@@ -55,6 +62,8 @@ class DashboardStats {
       todayReady: todayReady ?? this.todayReady,
       todayCompleted: todayCompleted ?? this.todayCompleted,
       todayRevenue: todayRevenue ?? this.todayRevenue,
+      lowStockCount: lowStockCount ?? this.lowStockCount,
+      pendingOrderCount: pendingOrderCount ?? this.pendingOrderCount,
     );
   }
 }
@@ -139,6 +148,24 @@ class _AdminDashboardPageState extends State<AdminDashboardPage> {
         }
       }
 
+      // Düşük stok ürünleri say (stok < 10)
+      final productsSnapshot = await firestore.collection('urunler').get();
+      int lowStockCount = 0;
+      for (var doc in productsSnapshot.docs) {
+        final data = doc.data();
+        final stock = (data['stock'] ?? 0) as int;
+        if (stock < 10 && stock > 0) {
+          lowStockCount++;
+        }
+      }
+
+      // Bekleyen siparişler (pending + processing)
+      final pendingOrdersSnapshot = await firestore
+          .collection('siparisler')
+          .where('orderStatus', whereIn: ['pending', 'processing'])
+          .get();
+      int pendingOrderCount = pendingOrdersSnapshot.docs.length;
+
       setState(() {
         _stats = DashboardStats(
           productCount: productCount,
@@ -150,6 +177,8 @@ class _AdminDashboardPageState extends State<AdminDashboardPage> {
           todayReady: todayReady,
           todayCompleted: todayCompleted,
           todayRevenue: todayRevenue,
+          lowStockCount: lowStockCount,
+          pendingOrderCount: pendingOrderCount,
         );
         _isLoading = false;
       });
