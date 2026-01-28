@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors, use_build_context_synchronously
+// ignore_for_file: prefer_const_constructors, use_build_context_synchronously, avoid_web_libraries_in_flutter, deprecated_member_use
 
 /*
  * Saved Addresses Bottom Sheet
@@ -17,6 +17,7 @@
 
 import 'dart:js' as js;
 
+import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -24,10 +25,8 @@ import 'package:flutter_animate/flutter_animate.dart';
 
 import '../models/saved_address.dart';
 import '../services/address_service.dart';
-import '../services/auth_service.dart';
 import '../theme/app_theme.dart';
 import '../utils/logger.dart';
-import '../widgets/empty_state.dart';
 import 'map_location_picker.dart';
 
 /// Kayıtlı adresler bottom sheet
@@ -93,7 +92,8 @@ class _SavedAddressesBottomSheetState
     setState(() => _isLoading = true);
 
     try {
-      _userId = AuthService.currentUser?.uid;
+      final currentUser = firebase_auth.FirebaseAuth.instance.currentUser;
+      _userId = currentUser?.uid;
       if (_userId == null) {
         throw Exception('Kullanıcı oturumu bulunamadı');
       }
@@ -167,32 +167,6 @@ class _SavedAddressesBottomSheetState
             ),
           );
         }
-      }
-    }
-  }
-
-  Future<void> _setDefaultAddress(SavedAddress address) async {
-    try {
-      await _addressService.setDefaultAddress(address.id, _userId!);
-      await _loadAddresses();
-      
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('${address.title} varsayılan adres olarak ayarlandı'),
-            backgroundColor: Colors.green,
-          ),
-        );
-      }
-    } catch (e) {
-      Logger.error('Default adres ayarlama hatası: $e');
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('Hata: ${e.toString()}'),
-            backgroundColor: Colors.red,
-          ),
-        );
       }
     }
   }
@@ -629,12 +603,42 @@ ${address.title}
             )
           else if (_addresses.isEmpty)
             Expanded(
-              child: EmptyState(
-                icon: Icons.location_off,
-                title: 'Kayıtlı Adres Yok',
-                message: 'Henüz kayıtlı adresiniz bulunmuyor.\nİlk adresinizi ekleyin!',
-                actionLabel: 'Yeni Adres Ekle',
-                onAction: _addNewAddress,
+              child: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(Icons.location_off, size: 64, color: Colors.grey[400]),
+                    SizedBox(height: 16),
+                    Text(
+                      'Kayıtlı Adres Yok',
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.grey[800],
+                      ),
+                    ),
+                    SizedBox(height: 8),
+                    Text(
+                      'Henüz kayıtlı adresiniz bulunmuyor.\nİlk adresinizi ekleyin!',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 14,
+                        color: Colors.grey[600],
+                      ),
+                    ),
+                    SizedBox(height: 24),
+                    ElevatedButton.icon(
+                      onPressed: _addNewAddress,
+                      icon: Icon(Icons.add),
+                      label: Text('Yeni Adres Ekle'),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: AppTheme.primaryColor,
+                        foregroundColor: Colors.white,
+                        padding: EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             )
           else
