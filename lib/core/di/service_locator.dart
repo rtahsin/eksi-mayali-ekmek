@@ -12,6 +12,7 @@ import '../../domain/repositories/i_user_repository.dart';
 import '../../services/address_service.dart';
 import '../../services/auth_service.dart';
 import '../../services/connection_service.dart';
+import '../../services/delivery_schedule_service.dart';
 import '../../services/delivery_service.dart';
 import '../../services/feedback_service.dart';
 import '../../services/notification_service.dart';
@@ -138,6 +139,11 @@ class ServiceLocator {
     // Address service
     getIt.registerLazySingleton<AddressService>(
       () => AddressService(),
+    );
+
+    // Delivery schedule service
+    getIt.registerLazySingleton<DeliveryScheduleService>(
+      () => DeliveryScheduleService(),
     );
 
     Logger.debug('Servis sınıfları kaydedildi');

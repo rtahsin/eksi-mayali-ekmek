@@ -38,6 +38,7 @@ import '../models/order_item.dart';
 import '../models/user.dart';
 import '../services/notification_service.dart';
 import '../utils/constants.dart'; // FirestoreCollections için
+import '../utils/input_sanitizer.dart';
 import '../utils/logger.dart';
 import 'audit_log_service.dart';
 import 'auth_service.dart';
@@ -66,6 +67,67 @@ class OrderService with ChangeNotifier {
 
   List<Order> get orders => [..._orders];
   bool get isLoading => _isLoading;
+
+  // Pagination için son document referansı
+  DocumentSnapshot? _lastOrderDocument;
+  bool _hasMoreOrders = true;
+
+  bool get hasMoreOrders => _hasMoreOrders;
+
+  /// Paginated siparişler getir (Admin için)
+  ///
+  /// [limit] - Sayfa başına sipariş sayısı (varsayılan: 20)
+  /// [loadMore] - Sonraki sayfa yükle (true) veya ilk sayfa (false)
+  Future<List<Order>> getOrdersPaginated({
+    int limit = 20,
+    bool loadMore = false,
+  }) async {
+    try {
+      Logger.info('Paginated orders loading: limit=$limit, loadMore=$loadMore');
+
+      Query query =
+          _firestore.collection('siparisler').orderBy('orderDate', descending: true).limit(limit);
+
+      // Load more için son document'tan başla
+      if (loadMore && _lastOrderDocument != null) {
+        query = query.startAfterDocument(_lastOrderDocument!);
+      } else if (!loadMore) {
+        // İlk sayfa - reset
+        _lastOrderDocument = null;
+        _hasMoreOrders = true;
+      }
+
+      final snapshot = await query.get();
+
+      if (snapshot.docs.isEmpty) {
+        _hasMoreOrders = false;
+        Logger.info('No more orders to load');
+        return [];
+      }
+
+      // Son document'ı kaydet
+      if (snapshot.docs.isNotEmpty) {
+        _lastOrderDocument = snapshot.docs.last;
+      }
+
+      // Has more check
+      _hasMoreOrders = snapshot.docs.length == limit;
+
+      final orders = snapshot.docs.map((doc) {
+        return Order.fromJson({
+          'id': doc.id,
+          ...doc.data() as Map<String, dynamic>,
+        });
+      }).toList();
+
+      Logger.info('Loaded ${orders.length} orders, hasMore: $_hasMoreOrders');
+      return orders;
+    } catch (e) {
+      Logger.error('Paginated orders error: $e');
+      _hasMoreOrders = false;
+      rethrow;
+    }
+  }
 
   // Tüm siparişleri getir - Admin için
   Future<List<Order>> getAllOrders() async {
@@ -310,25 +372,66 @@ class OrderService with ChangeNotifier {
     required String paymentMethod,
     required String userId,
     String? notes,
+    double? latitude,
+    double? longitude,
+    String? locationUrl,
+    String? deliveryDate,
   }) async {
     try {
+      // 🔒 INPUT SANITIZATION (XSS Protection)
+      final sanitizer = InputSanitizer.instance;
+
+      // Validate and sanitize inputs
+      final sanitizedName = sanitizer.sanitizeText(customerName, maxLength: 100);
+      final sanitizedEmail = sanitizer.sanitizeEmail(customerEmail);
+      final sanitizedPhone = sanitizer.sanitizePhone(customerPhone);
+      final sanitizedAddress = sanitizer.sanitizeText(shippingAddress, maxLength: 500);
+      final sanitizedNotes =
+          notes != null ? sanitizer.sanitizeDescription(notes, maxLength: 1000) : '';
+
+      // Validate required fields
+      if (sanitizedName.isEmpty) {
+        throw Exception('Müşteri adı geçersiz');
+      }
+      if (sanitizedEmail == null || sanitizedEmail.isEmpty) {
+        throw Exception('Email adresi geçersiz');
+      }
+      if (sanitizedPhone == null || sanitizedPhone.isEmpty) {
+        throw Exception('Telefon numarası geçersiz');
+      }
+      if (sanitizedAddress.isEmpty) {
+        throw Exception('Teslimat adresi geçersiz');
+      }
+      if (amount <= 0 || amount > 100000) {
+        throw Exception('Sipariş tutarı geçersiz');
+      }
+      if (items.isEmpty || items.length > 50) {
+        throw Exception('Sipariş ürün sayısı geçersiz');
+      }
+
+      Logger.info('✅ Input validation passed for order creation');
+
       final orderId = const Uuid().v4();
       final order = Order(
         id: orderId,
         userId: userId,
         items: items,
         amount: amount,
-        customerName: customerName,
-        customerEmail: customerEmail,
-        customerPhone: customerPhone,
-        shippingAddress: shippingAddress,
+        customerName: sanitizedName,
+        customerEmail: sanitizedEmail,
+        customerPhone: sanitizedPhone,
+        shippingAddress: sanitizedAddress,
         orderStatus: OrderStatus.pending,
         dateTime: DateTime.now(),
         paymentMethod: paymentMethod,
-        notes: notes ?? '',
+        notes: sanitizedNotes,
+        latitude: latitude,
+        longitude: longitude,
+        locationUrl: locationUrl,
+        deliveryDate: deliveryDate,
       );
 
-      await _firestore.collection('orders').doc(orderId).set(order.toJson());
+      await _firestore.collection('siparisler').doc(orderId).set(order.toJson());
 
       // Bildirim gönder
       final notificationService = ServiceLocator.getIt<NotificationService>();
@@ -341,8 +444,8 @@ class OrderService with ChangeNotifier {
 
       // Sipariş onay e-postası gönder
       await sendOrderConfirmationEmail(
-        email: customerEmail,
-        customerName: customerName,
+        email: sanitizedEmail,
+        customerName: sanitizedName,
         orderId: orderId,
         amount: amount,
         items: items,
@@ -457,15 +560,10 @@ class OrderService with ChangeNotifier {
         throw Exception('Yetkisiz işlem: sipariş durumu güncelleme izni yok');
       }
 
-      // Mevcut siparişi al (önce orders sonra siparisler)
+      // Mevcut siparişi al
       DocumentSnapshot? existingDoc;
-      String targetCollection = 'orders';
       try {
-        existingDoc = await _firestore.collection('orders').doc(orderId).get();
-        if (!existingDoc.exists) {
-          existingDoc = await _firestore.collection('siparisler').doc(orderId).get();
-          if (existingDoc.exists) targetCollection = 'siparisler';
-        }
+        existingDoc = await _firestore.collection('siparisler').doc(orderId).get();
       } catch (_) {}
 
       final nowIso = DateTime.now().toIso8601String();
@@ -495,7 +593,7 @@ class OrderService with ChangeNotifier {
         });
       }
 
-      await _firestore.collection(targetCollection).doc(orderId).set({
+      await _firestore.collection('siparisler').doc(orderId).set({
         'status': newStatus.toString().split('.').last,
         'updatedAt': nowIso,
         'statusHistory': history,
@@ -507,7 +605,7 @@ class OrderService with ChangeNotifier {
         'newStatus': newStatus.toString().split('.').last,
         'actorRole': _authService.currentRole,
         'actorId': _authService.currentUser?.id,
-        'collection': targetCollection,
+        'collection': 'siparisler',
       });
 
       // Bildirim gönder

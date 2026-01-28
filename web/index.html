@@ -107,7 +107,16 @@
   <title>EkmekLab | Doğal Mayalı Lezzetler</title>
 
   <!-- PWA Manifest -->
-  <link rel="manifest" href="manifest.json">
+  <link rel="manifest" id="app-manifest" href="manifest.json">
+
+  <!-- Admin Panel için Ayrı PWA Manifest -->
+  <script>
+    // URL /admin ile başlıyorsa admin manifest'i yükle
+    if (window.location.pathname.startsWith('/admin')) {
+      document.getElementById('app-manifest').setAttribute('href', 'admin_manifest.json');
+      document.title = 'EkmekLab Admin Panel';
+    }
+  </script>
 
   <!-- Google Identity Services (One Tap) - DISABLED -->
   <!-- <script src="https://accounts.google.com/gsi/client" async defer></script> -->

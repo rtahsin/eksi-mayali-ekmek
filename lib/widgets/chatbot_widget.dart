@@ -31,6 +31,7 @@ class _ChatBotWidgetState extends State<ChatBotWidget> with SingleTickerProvider
   final ChatBotService _chatBotService = ChatBotService();
   final OllamaService _ollamaService = OllamaService();
   late AnimationController _animationController;
+  // ignore: unused_field
   late Animation<double> _scaleAnimation;
   late Animation<Offset> _slideAnimation;
 

@@ -1,5 +1,3 @@
-// ignore_for_file: use_super_parameters, prefer_const_constructors, prefer_const_literals_to_create_immutables
-
 import 'dart:convert';
 
 import 'package:cloud_firestore/cloud_firestore.dart';

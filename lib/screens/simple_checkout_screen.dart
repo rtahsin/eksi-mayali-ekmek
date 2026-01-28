@@ -114,24 +114,23 @@ class _SimpleCheckoutScreenState extends State<SimpleCheckoutScreen> {
 
   // Konum paylaşımı - GPS ile mevcut konumu al
   Future<void> _getCurrentLocation() async {
-    try {
-      // Loading dialog ile konum al
-      final Position? position = await showDialog<Position?>(
-        context: context,
-        barrierDismissible: false,
-        builder: (ctx) => LocationLoadingDialog(showRationale: true),
-      );
+    // Loading dialog ile konum al
+    final Position? position = await showDialog<Position?>(
+      context: context,
+      barrierDismissible: false,
+      builder: (ctx) => LocationLoadingDialog(showRationale: true),
+    );
 
-      if (position != null && mounted) {
-        // Google Maps linki oluştur
-        final String mapsUrl =
-            'https://www.google.com/maps/dir/?api=1&destination=${position.latitude},${position.longitude}';
+    if (position != null && mounted) {
+      // Google Maps linki oluştur
+      final String mapsUrl =
+          'https://www.google.com/maps/dir/?api=1&destination=${position.latitude},${position.longitude}';
 
-        setState(() {
-          _selectedLatitude = position.latitude;
-          _selectedLongitude = position.longitude;
-          _locationUrl = mapsUrl;
-        });
+      setState(() {
+        _selectedLatitude = position.latitude;
+        _selectedLongitude = position.longitude;
+        _locationUrl = mapsUrl;
+      });
 
       Logger.info('Konum paylaşıldı: ${position.latitude}, ${position.longitude}');
 
@@ -144,10 +143,6 @@ class _SimpleCheckoutScreenState extends State<SimpleCheckoutScreen> {
           ),
         );
       }
-    } catch (e) {
-      Logger.error('Konum alınırken hata: $e');
-      // Hata durumunda LocationLoadingDialog zaten mesaj gösteriyor
-      // Ek snackbar göstermeye gerek yok
     }
   }
 

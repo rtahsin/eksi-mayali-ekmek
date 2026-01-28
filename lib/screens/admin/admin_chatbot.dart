@@ -49,6 +49,7 @@ class _AdminChatBotScreenState extends State<AdminChatBotScreen>
   List<ChatBotMessage> _messages = [];
   ChatBotSettings? _settings;
   bool _isLoading = true;
+  // ignore: unused_field
   String _errorMessage = '';
 
   // Form controllers
@@ -224,6 +225,7 @@ class _AdminChatBotScreenState extends State<AdminChatBotScreen>
     }
   }
 
+  // ignore: unused_element
   Future<void> _saveSettings() async {
     if (_settings == null) return;
 

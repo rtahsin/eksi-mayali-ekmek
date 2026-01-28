@@ -6,6 +6,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 import '../services/auth_service.dart';
+import '../services/notification_service.dart';
 import '../theme/app_theme.dart';
 import '../utils/logger.dart';
 import 'email_verification_screen.dart';
@@ -607,6 +608,19 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                             Provider.of<AuthService>(context, listen: false);
                                         final success = await authService.signInWithGoogle();
                                         if (success && mounted) {
+                                          // FCM Token'ı kaydet (push notification için)
+                                          if (authService.currentUser?.id != null) {
+                                            try {
+                                              final notificationService = NotificationService();
+                                              await notificationService.getFcmToken(
+                                                userId: authService.currentUser!.id,
+                                              );
+                                              Logger.info('FCM Token (Google Register) kaydedildi');
+                                            } catch (e) {
+                                              Logger.error('FCM Token kaydedilirken hata: $e');
+                                            }
+                                          }
+
                                           Navigator.of(context)
                                               .pushNamedAndRemoveUntil('/', (route) => false);
                                         }

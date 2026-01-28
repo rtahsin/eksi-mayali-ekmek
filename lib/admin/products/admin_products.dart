@@ -1,25 +1,32 @@
-// ignore_for_file: use_super_parameters, prefer_const_constructors, prefer_const_literals_to_create_immutables, unused_field, unused_element
+// ignore_for_file: avoid_web_libraries_in_flutter, deprecated_member_use
 
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 import '../../models/product.dart';
 import '../../services/product_service.dart';
 import '../../theme/app_theme.dart';
+import '../../utils/excel_export_helper.dart';
 import '../../utils/logger.dart';
+import '../../utils/toast_helper.dart';
 import '../widgets/admin_app_bar.dart';
 import '../widgets/admin_drawer.dart';
+// Web platformu için conditional import
+import 'admin_products_web.dart' if (dart.library.io) 'admin_products_mobile.dart' as platform;
 import 'product_form.dart';
 
 class AdminProductsPage extends StatefulWidget {
   final String? productId;
-  const AdminProductsPage({Key? key, this.productId}) : super(key: key);
+  const AdminProductsPage({super.key, this.productId});
 
   @override
   State<AdminProductsPage> createState() => _AdminProductsPageState();
 }
 
 class _AdminProductsPageState extends State<AdminProductsPage> {
+  // ignore: unused_field
   bool _isLoading = false;
   List<Product> _products = [];
   String _searchQuery = '';
@@ -34,6 +41,11 @@ class _AdminProductsPageState extends State<AdminProductsPage> {
   int? _minStock;
   int? _maxStock;
   bool _onlyLowStock = false; // < 10
+
+  // Pagination
+  int _currentPage = 1;
+  int _itemsPerPage = 20;
+  int _totalItems = 0;
 
   @override
   void initState() {
@@ -68,7 +80,7 @@ class _AdminProductsPageState extends State<AdminProductsPage> {
   }
 
   List<Product> _filterProducts(List<Product> products) {
-    return products.where((product) {
+    final filtered = products.where((product) {
       // Silinen ürünleri gizle (showDeleted ileride true olursa gösterebiliriz)
       if (!_showDeleted && product.isDeleted) {
         return false;
@@ -94,6 +106,22 @@ class _AdminProductsPageState extends State<AdminProductsPage> {
 
       return true;
     }).toList();
+
+    // Toplam item sayısını güncelle
+    _totalItems = filtered.length;
+
+    // Pagination uygula
+    final startIndex = (_currentPage - 1) * _itemsPerPage;
+    final endIndex = startIndex + _itemsPerPage;
+
+    if (startIndex >= filtered.length) {
+      return [];
+    }
+
+    return filtered.sublist(
+      startIndex,
+      endIndex > filtered.length ? filtered.length : endIndex,
+    );
   }
 
   Future<void> _deleteProduct(Product product) async {
@@ -127,21 +155,98 @@ class _AdminProductsPageState extends State<AdminProductsPage> {
         final productService = Provider.of<ProductService>(context, listen: false);
         await productService.deleteProduct(product.id);
 
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('${product.name} ürünü başarıyla silindi.'),
-            backgroundColor: Colors.green,
-          ),
-        );
+        ToastHelper.showSuccessToast(context, '${product.name} ürünü başarıyla silindi');
 
         _loadInitialCategories();
       } catch (e) {
         setState(() {
           _isLoading = false;
         });
+        ToastHelper.showErrorToast(context, 'Ürün silinirken bir hata oluştu: $e');
+      }
+    }
+  }
+
+  /// Excel'e aktarma işlemi
+  ///
+  /// Tüm ürünleri Excel dosyasına dönüştürür ve indirir
+  Future<void> _exportToExcel() async {
+    try {
+      Logger.info('Ürünler Excel export başlatılıyor');
+
+      // Show loading dialog
+      showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (context) => Center(
+          child: Card(
+            child: Padding(
+              padding: EdgeInsets.all(20),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  CircularProgressIndicator(),
+                  SizedBox(height: 16),
+                  Text('Excel dosyası hazırlanıyor...'),
+                ],
+              ),
+            ),
+          ),
+        ),
+      );
+
+      // Get all products (not filtered)
+      final excelBytes = await ExcelExportHelper.instance.exportProductsToExcel(_products);
+
+      // Close loading dialog
+      if (mounted) {
+        Navigator.of(context).pop();
+      }
+
+      if (excelBytes != null) {
+        // Download file
+        final filename = 'urunler_${DateFormat('yyyyMMdd_HHmmss').format(DateTime.now())}.xlsx';
+
+        if (kIsWeb) {
+          // Web platform - trigger browser download
+          platform.downloadFile(excelBytes, filename);
+
+          Logger.info('Excel dosyası indirildi: $filename');
+
+          if (mounted) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text('Excel dosyası indirildi: $filename'),
+                backgroundColor: Colors.green,
+              ),
+            );
+          }
+        } else {
+          // Mobile/Desktop
+          if (mounted) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text('Excel dosyası kaydedildi: $filename'),
+                backgroundColor: Colors.green,
+              ),
+            );
+          }
+        }
+      } else {
+        throw Exception('Excel dosyası oluşturulamadı');
+      }
+    } catch (e) {
+      Logger.error('Excel export hatası: $e');
+
+      // Close loading dialog if still open
+      if (mounted && Navigator.of(context).canPop()) {
+        Navigator.of(context).pop();
+      }
+
+      if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('Ürün silinirken bir hata oluştu: $e'),
+            content: Text('Excel dosyası oluşturulurken hata: $e'),
             backgroundColor: Colors.red,
           ),
         );
@@ -149,6 +254,7 @@ class _AdminProductsPageState extends State<AdminProductsPage> {
     }
   }
 
+  // ignore: unused_element
   void _showProductForm({Product? product}) {
     showDialog(
       context: context,
@@ -203,8 +309,6 @@ class _AdminProductsPageState extends State<AdminProductsPage> {
   @override
   Widget build(BuildContext context) {
     final isDesktop = MediaQuery.of(context).size.width > 900;
-    final isTablet =
-        MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width <= 900;
     final isMobile = MediaQuery.of(context).size.width <= 600;
 
     return Scaffold(
@@ -247,6 +351,16 @@ class _AdminProductsPageState extends State<AdminProductsPage> {
                   ),
                   Row(
                     children: [
+                      // Excel export butonu
+                      OutlinedButton.icon(
+                        onPressed: () => _exportToExcel(),
+                        icon: Icon(Icons.download),
+                        label: Text('Excel\'e Aktar'),
+                        style: OutlinedButton.styleFrom(
+                          foregroundColor: Colors.green,
+                        ),
+                      ),
+                      SizedBox(width: 8),
                       // Örnek ürünleri ekle butonu
                       OutlinedButton.icon(
                         onPressed: () => _addSampleProducts(),
@@ -699,25 +813,111 @@ class _AdminProductsPageState extends State<AdminProductsPage> {
 
                   // Filtreleme uygula
                   final filteredProducts = _filterProducts(_products);
+                  final totalPages = (_totalItems / _itemsPerPage).ceil();
 
-                  return ListView.builder(
-                    itemCount: filteredProducts.length,
-                    itemBuilder: (ctx, index) {
-                      final product = filteredProducts[index];
-                      return Card(
-                        margin: EdgeInsets.only(bottom: isMobile ? 8 : 16),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(isMobile ? 8 : 12),
+                  return Column(
+                    children: [
+                      // Ürün listesi
+                      Expanded(
+                        child: filteredProducts.isEmpty
+                            ? Center(
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Icon(Icons.inventory_2_outlined, size: 64, color: Colors.grey),
+                                    SizedBox(height: 16),
+                                    Text(
+                                      'Ürün bulunamadı',
+                                      style: TextStyle(fontSize: 18, color: Colors.grey),
+                                    ),
+                                  ],
+                                ),
+                              )
+                            : ListView.builder(
+                                itemCount: filteredProducts.length,
+                                itemBuilder: (ctx, index) {
+                                  final product = filteredProducts[index];
+                                  return Card(
+                                    margin: EdgeInsets.only(bottom: isMobile ? 8 : 16),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(isMobile ? 8 : 12),
+                                    ),
+                                    elevation: 2,
+                                    child: Padding(
+                                      padding: EdgeInsets.all(isMobile ? 8.0 : 16.0),
+                                      child: isMobile
+                                          ? _buildMobileProductCard(product)
+                                          : _buildDesktopProductCard(product),
+                                    ),
+                                  );
+                                },
+                              ),
+                      ),
+
+                      // Pagination kontrolleri
+                      if (_totalItems > _itemsPerPage)
+                        Container(
+                          padding: EdgeInsets.symmetric(vertical: 16, horizontal: 24),
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            border: Border(top: BorderSide(color: Colors.grey.shade300)),
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              // Sayfa bilgisi
+                              Text(
+                                'Toplam $_totalItems ürün - Sayfa $_currentPage / $totalPages',
+                                style: TextStyle(color: Colors.grey[700]),
+                              ),
+
+                              // Sayfa butonları
+                              Row(
+                                children: [
+                                  IconButton(
+                                    icon: Icon(Icons.first_page),
+                                    onPressed: _currentPage > 1
+                                        ? () => setState(() => _currentPage = 1)
+                                        : null,
+                                  ),
+                                  IconButton(
+                                    icon: Icon(Icons.chevron_left),
+                                    onPressed: _currentPage > 1
+                                        ? () => setState(() => _currentPage--)
+                                        : null,
+                                  ),
+                                  Container(
+                                    padding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                                    decoration: BoxDecoration(
+                                      color: AppTheme.primaryColor.withValues(alpha: 0.1),
+                                      borderRadius: BorderRadius.circular(8),
+                                    ),
+                                    child: Text(
+                                      '$_currentPage',
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        color: AppTheme.primaryColor,
+                                      ),
+                                    ),
+                                  ),
+                                  IconButton(
+                                    icon: Icon(Icons.chevron_right),
+                                    onPressed: _currentPage < totalPages
+                                        ? () => setState(() => _currentPage++)
+                                        : null,
+                                  ),
+                                  IconButton(
+                                    icon: Icon(Icons.last_page),
+                                    onPressed: _currentPage < totalPages
+                                        ? () => setState(() => _currentPage = totalPages)
+                                        : null,
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
                         ),
-                        elevation: 2,
-                        child: Padding(
-                          padding: EdgeInsets.all(isMobile ? 8.0 : 16.0),
-                          child: isMobile
-                              ? _buildMobileProductCard(product)
-                              : _buildDesktopProductCard(product),
-                        ),
-                      );
-                    },
+                    ],
                   );
                 },
               ),
@@ -1333,6 +1533,7 @@ class _AdminProductsPageState extends State<AdminProductsPage> {
     }
   }
 
+  // ignore: unused_element
   Future<num?> _showNumberInputDialog(String title, String hint, {required bool isDouble}) async {
     final controller = TextEditingController();
     return showDialog<num>(

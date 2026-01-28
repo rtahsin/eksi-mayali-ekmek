@@ -257,6 +257,7 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
   Future<void> _logout() async {
     final authService = Provider.of<AuthService>(context, listen: false);
     await authService.logout();
+    if (!mounted) return;
     Navigator.of(context).pushReplacementNamed(LoginScreen.routeName);
   }
 

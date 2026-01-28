@@ -27,7 +27,7 @@ class AdminExpensesScreen extends StatefulWidget {
 
 class _AdminExpensesScreenState extends State<AdminExpensesScreen> {
   final InventoryService _inventoryService = InventoryService();
-  
+
   List<Expense> _expenses = [];
   bool _isLoading = true;
   DateTime _filterStartDate = DateTime.now().subtract(Duration(days: 30));
@@ -53,13 +53,13 @@ class _AdminExpensesScreenState extends State<AdminExpensesScreen> {
 
   Future<void> _loadData() async {
     setState(() => _isLoading = true);
-    
+
     try {
       final expenses = await _inventoryService.getAllExpenses(
         startDate: _filterStartDate,
         endDate: _filterEndDate,
       );
-      
+
       if (mounted) {
         setState(() {
           _expenses = expenses;
@@ -241,6 +241,7 @@ class _AdminExpensesScreenState extends State<AdminExpensesScreen> {
 
                 try {
                   await _inventoryService.addExpense(expense);
+                  if (!context.mounted) return;
                   Navigator.pop(context);
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(content: Text('✅ Gider kaydı eklendi')),
@@ -373,7 +374,8 @@ class _AdminExpensesScreenState extends State<AdminExpensesScreen> {
                             child: ListTile(
                               leading: CircleAvatar(
                                 backgroundColor: Colors.red,
-                                child: Text(_getCategoryIcon(expense.category), style: TextStyle(fontSize: 20)),
+                                child: Text(_getCategoryIcon(expense.category),
+                                    style: TextStyle(fontSize: 20)),
                               ),
                               title: Text(
                                 expense.name,
@@ -391,11 +393,11 @@ class _AdminExpensesScreenState extends State<AdminExpensesScreen> {
                                     ),
                                   ),
                                   Text('📁 ${expense.category}'),
-                                  if (expense.supplier != null)
-                                    Text('🏢 ${expense.supplier}'),
+                                  if (expense.supplier != null) Text('🏢 ${expense.supplier}'),
                                   if (expense.invoiceNumber != null)
                                     Text('📄 Fatura: ${expense.invoiceNumber}'),
-                                  Text('📅 ${DateFormat('dd/MM/yyyy').format(expense.expenseDate)}'),
+                                  Text(
+                                      '📅 ${DateFormat('dd/MM/yyyy').format(expense.expenseDate)}'),
                                 ],
                               ),
                               trailing: IconButton(

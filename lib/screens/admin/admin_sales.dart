@@ -31,7 +31,7 @@ class AdminSalesScreen extends StatefulWidget {
 class _AdminSalesScreenState extends State<AdminSalesScreen> {
   final InventoryService _inventoryService = InventoryService();
   final ProductService _productService = GetIt.I<ProductService>();
-  
+
   List<Sale> _sales = [];
   List<Product> _products = [];
   bool _isLoading = true;
@@ -46,16 +46,16 @@ class _AdminSalesScreenState extends State<AdminSalesScreen> {
 
   Future<void> _loadData() async {
     setState(() => _isLoading = true);
-    
+
     try {
       final sales = await _inventoryService.getAllSales(
         startDate: _filterStartDate,
         endDate: _filterEndDate,
       );
-      
+
       // ProductService zaten yüklü, products listesini al
       final products = _productService.products;
-      
+
       if (mounted) {
         setState(() {
           _sales = sales;
@@ -242,7 +242,9 @@ class _AdminSalesScreenState extends State<AdminSalesScreen> {
             ),
             ElevatedButton(
               onPressed: () async {
-                if (selectedProductId == null || quantityController.text.isEmpty || unitPriceController.text.isEmpty) {
+                if (selectedProductId == null ||
+                    quantityController.text.isEmpty ||
+                    unitPriceController.text.isEmpty) {
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(content: Text('Lütfen zorunlu alanları doldurun')),
                   );
@@ -267,8 +269,10 @@ class _AdminSalesScreenState extends State<AdminSalesScreen> {
                   unitPrice: unitPrice,
                   totalPrice: quantity * unitPrice,
                   paymentMethod: paymentMethod,
-                  customerName: customerNameController.text.isEmpty ? null : customerNameController.text,
-                  customerPhone: customerPhoneController.text.isEmpty ? null : customerPhoneController.text,
+                  customerName:
+                      customerNameController.text.isEmpty ? null : customerNameController.text,
+                  customerPhone:
+                      customerPhoneController.text.isEmpty ? null : customerPhoneController.text,
                   saleDate: selectedDate,
                   notes: notesController.text.isEmpty ? null : notesController.text,
                   createdAt: DateTime.now(),
@@ -276,6 +280,7 @@ class _AdminSalesScreenState extends State<AdminSalesScreen> {
 
                 try {
                   await _inventoryService.addSale(sale);
+                  if (!context.mounted) return;
                   Navigator.pop(context);
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(content: Text('✅ Satış kaydı eklendi ve stok güncellendi')),
@@ -298,7 +303,7 @@ class _AdminSalesScreenState extends State<AdminSalesScreen> {
   @override
   Widget build(BuildContext context) {
     final isSmallScreen = MediaQuery.of(context).size.width < 600;
-    
+
     return Scaffold(
       appBar: AppBar(
         title: Text('Satış Kayıtları'),
@@ -427,12 +432,15 @@ class _AdminSalesScreenState extends State<AdminSalesScreen> {
                               ),
                               title: Text(
                                 sale.productName,
-                                style: TextStyle(fontWeight: FontWeight.bold, fontSize: isSmallScreen ? 14 : 16),
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold, fontSize: isSmallScreen ? 14 : 16),
                               ),
                               subtitle: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text('📦 ${sale.quantity} adet x ₺${sale.unitPrice.toStringAsFixed(2)}', style: TextStyle(fontSize: isSmallScreen ? 12 : 14)),
+                                  Text(
+                                      '📦 ${sale.quantity} adet x ₺${sale.unitPrice.toStringAsFixed(2)}',
+                                      style: TextStyle(fontSize: isSmallScreen ? 12 : 14)),
                                   Text(
                                     '💰 ${sale.totalPrice.toStringAsFixed(2)} TL',
                                     style: TextStyle(
@@ -441,10 +449,14 @@ class _AdminSalesScreenState extends State<AdminSalesScreen> {
                                       fontSize: isSmallScreen ? 13 : 15,
                                     ),
                                   ),
-                                  Text('💳 ${_getPaymentMethodIcon(sale.paymentMethod)} ${sale.paymentMethod}', style: TextStyle(fontSize: isSmallScreen ? 12 : 13)),
+                                  Text(
+                                      '💳 ${_getPaymentMethodIcon(sale.paymentMethod)} ${sale.paymentMethod}',
+                                      style: TextStyle(fontSize: isSmallScreen ? 12 : 13)),
                                   if (sale.customerName != null)
-                                    Text('👤 ${sale.customerName}', style: TextStyle(fontSize: isSmallScreen ? 11 : 12)),
-                                  Text('📅 ${DateFormat('dd/MM/yyyy HH:mm').format(sale.saleDate)}', style: TextStyle(fontSize: isSmallScreen ? 11 : 12)),
+                                    Text('👤 ${sale.customerName}',
+                                        style: TextStyle(fontSize: isSmallScreen ? 11 : 12)),
+                                  Text('📅 ${DateFormat('dd/MM/yyyy HH:mm').format(sale.saleDate)}',
+                                      style: TextStyle(fontSize: isSmallScreen ? 11 : 12)),
                                 ],
                               ),
                               trailing: IconButton(
@@ -454,7 +466,8 @@ class _AdminSalesScreenState extends State<AdminSalesScreen> {
                                     context: context,
                                     builder: (context) => AlertDialog(
                                       title: Text('Sil?'),
-                                      content: Text('Bu satış kaydı silinecek ve stok geri alınacak.'),
+                                      content:
+                                          Text('Bu satış kaydı silinecek ve stok geri alınacak.'),
                                       actions: [
                                         TextButton(
                                           onPressed: () => Navigator.pop(context, false),
@@ -462,7 +475,8 @@ class _AdminSalesScreenState extends State<AdminSalesScreen> {
                                         ),
                                         ElevatedButton(
                                           onPressed: () => Navigator.pop(context, true),
-                                          style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
+                                          style:
+                                              ElevatedButton.styleFrom(backgroundColor: Colors.red),
                                           child: Text('Sil'),
                                         ),
                                       ],
@@ -510,7 +524,8 @@ class _AdminSalesScreenState extends State<AdminSalesScreen> {
     );
   }
 
-  Widget _buildModernStatCard(String title, String value, IconData icon, bool isSmall, {Color? color}) {
+  Widget _buildModernStatCard(String title, String value, IconData icon, bool isSmall,
+      {Color? color}) {
     final cardColor = color ?? AppTheme.primaryColor;
     return Container(
       padding: EdgeInsets.all(isSmall ? 12 : 16),

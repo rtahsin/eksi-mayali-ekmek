@@ -660,6 +660,147 @@ exports.sendOrderStatusEmail = functions.firestore
   });
 
 /**
+ * Sipariş durumu değiştiğinde push notification gönder
+ * Trigger: onUpdate -> siparisler/{orderId}
+ */
+exports.sendOrderStatusNotification = functions.firestore
+  .document('siparisler/{orderId}')
+  .onUpdate(async (change, context) => {
+    try {
+      const before = change.before.data();
+      const after = change.after.data();
+
+      // Durum değişmemişse işlem yapma
+      if (before.orderStatus === after.orderStatus) {
+        console.log('Sipariş durumu değişmedi, notification gönderilmiyor');
+        return null;
+      }
+
+      const orderId = context.params.orderId;
+      const customerId = after.userId;
+
+      if (!customerId) {
+        console.log('Müşteri ID bulunamadı, notification gönderilmiyor');
+        return null;
+      }
+
+      // Durum mesajlarını oluştur
+      const statusMessages = {
+        'pending': {
+          title: '📦 Siparişiniz Alındı',
+          body: `Sipariş numaranız: ${after.orderNumber}. Siparişiniz hazırlanmaya başlanacak.`
+        },
+        'processing': {
+          title: '👨‍🍳 Siparişiniz Hazırlanıyor',
+          body: `${after.orderNumber} numaralı siparişiniz hazırlanıyor. Taze ekmekleriniz fırından çıkıyor!`
+        },
+        'ready': {
+          title: '✅ Siparişiniz Hazır',
+          body: `${after.orderNumber} numaralı siparişiniz hazır! Kargoya verilmek üzere bekleniyor.`
+        },
+        'shipped': {
+          title: '🚚 Siparişiniz Kargoda',
+          body: `${after.orderNumber} numaralı siparişiniz yola çıktı! Yakında kapınızda olacak.`
+        },
+        'delivered': {
+          title: '🎉 Siparişiniz Teslim Edildi',
+          body: `${after.orderNumber} numaralı siparişiniz teslim edildi. Afiyet olsun!`
+        },
+        'cancelled': {
+          title: '❌ Sipariş İptal Edildi',
+          body: `${after.orderNumber} numaralı siparişiniz iptal edildi. Sorularınız için bize ulaşabilirsiniz.`
+        }
+      };
+
+      const statusMessage = statusMessages[after.orderStatus] || {
+        title: '📬 Sipariş Durumu Güncellendi',
+        body: `${after.orderNumber} numaralı siparişinizde güncelleme var.`
+      };
+
+      // Kullanıcının cihaz tokenlerini al
+      const devicesSnapshot = await admin.firestore()
+        .collection('users')
+        .doc(customerId)
+        .collection('devices')
+        .where('active', '==', true)
+        .get();
+
+      if (devicesSnapshot.empty) {
+        console.log('Kullanıcının aktif cihazı yok');
+        return null;
+      }
+
+      // FCM mesajlarını hazırla
+      const messages = devicesSnapshot.docs.map(doc => {
+        const deviceData = doc.data();
+        return {
+          token: deviceData.token,
+          notification: {
+            title: statusMessage.title,
+            body: statusMessage.body,
+          },
+          data: {
+            orderId: orderId,
+            orderNumber: after.orderNumber,
+            orderStatus: after.orderStatus,
+            type: 'order_update',
+            click_action: 'FLUTTER_NOTIFICATION_CLICK',
+          },
+          android: {
+            priority: 'high',
+            notification: {
+              channelId: 'high_importance_channel',
+              sound: 'default',
+              color: '#8B4513',
+              icon: 'ic_notification',
+            }
+          },
+          apns: {
+            payload: {
+              aps: {
+                sound: 'default',
+                badge: 1,
+              }
+            }
+          }
+        };
+      });
+
+      // FCM ile bildirimleri gönder
+      const responses = await admin.messaging().sendAll(messages);
+      console.log(`${responses.successCount} bildirim başarıyla gönderildi`);
+      console.log(`${responses.failureCount} bildirim gönderilemedi`);
+
+      // Firestore'a bildirim kaydı ekle
+      const notificationData = {
+        title: statusMessage.title,
+        body: statusMessage.body,
+        type: 'order',
+        timestamp: admin.firestore.FieldValue.serverTimestamp(),
+        isRead: false,
+        data: {
+          orderId: orderId,
+          orderNumber: after.orderNumber,
+          orderStatus: after.orderStatus,
+        }
+      };
+
+      await admin.firestore()
+        .collection('users')
+        .doc(customerId)
+        .collection('notifications')
+        .add(notificationData);
+
+      console.log('Bildirim Firestore\'a kaydedildi');
+
+      return null;
+    } catch (error) {
+      console.error('Sipariş bildirimi gönderilirken hata:', error);
+      return null;
+    }
+  });
+
+/**
  * Admin claim senkronizasyonu
  * İstek: Authorization: Bearer <idToken>
  * Akış: Token doğrulanır -> adminler/{uid} isActive kontrol edilir -> customClaims.isAdmin = true/false set edilir
@@ -700,4 +841,196 @@ exports.ensureAdminClaim = functions.https.onRequest((req, res) => {
       return res.status(500).send({ error: e.message });
     }
   });
+});
+
+/**
+ * Manuel Push Notification Gönderimi
+ * 
+ * Admin panelden manuel bildirim gönderir.
+ * Hedef: Tüm kullanıcılar, belirli kullanıcı veya sipariş bazlı
+ */
+exports.sendManualNotification = functions.https.onCall(async (data, context) => {
+  try {
+    // Admin kontrolü
+    if (!context.auth || !context.auth.token.isAdmin) {
+      throw new functions.https.HttpsError(
+        'permission-denied',
+        'Bu işlem için admin yetkisi gereklidir'
+      );
+    }
+
+    const {
+      title,
+      body,
+      template,
+      targetType,
+      targetUserId,
+      targetOrderId,
+      data: additionalData,
+    } = data;
+
+    // Validasyon
+    if (!title || !body) {
+      throw new functions.https.HttpsError(
+        'invalid-argument',
+        'Başlık ve mesaj gereklidir'
+      );
+    }
+
+    if (!['all', 'user', 'order'].includes(targetType)) {
+      throw new functions.https.HttpsError(
+        'invalid-argument',
+        'Geçersiz hedef tipi'
+      );
+    }
+
+    // FCM token'larını topla
+    let tokens = [];
+    let targetUserIds = [];
+
+    if (targetType === 'all') {
+      // Tüm kullanıcıların token'larını al
+      const usersSnapshot = await admin.firestore().collection('users').get();
+      usersSnapshot.forEach((doc) => {
+        const userData = doc.data();
+        if (userData.fcmToken) {
+          tokens.push(userData.fcmToken);
+          targetUserIds.push(doc.id);
+        }
+      });
+    } else if (targetType === 'user' && targetUserId) {
+      // Belirli kullanıcının token'ını al
+      const userDoc = await admin.firestore().collection('users').doc(targetUserId).get();
+      if (userDoc.exists && userDoc.data().fcmToken) {
+        tokens.push(userDoc.data().fcmToken);
+        targetUserIds.push(targetUserId);
+      }
+    } else if (targetType === 'order' && targetOrderId) {
+      // Sipariş sahibinin token'ını al
+      const orderDoc = await admin.firestore().collection('siparisler').doc(targetOrderId).get();
+      if (orderDoc.exists) {
+        const orderData = orderDoc.data();
+        const userId = orderData.userId;
+
+        if (userId) {
+          const userDoc = await admin.firestore().collection('users').doc(userId).get();
+          if (userDoc.exists && userDoc.data().fcmToken) {
+            tokens.push(userDoc.data().fcmToken);
+            targetUserIds.push(userId);
+          }
+        }
+      }
+    }
+
+    if (tokens.length === 0) {
+      throw new functions.https.HttpsError(
+        'not-found',
+        'Bildirim gönderilebilecek kullanıcı bulunamadı'
+      );
+    }
+
+    // FCM mesajı oluştur
+    const message = {
+      notification: {
+        title: title,
+        body: body,
+      },
+      data: {
+        template: template || 'custom',
+        ...(additionalData || {}),
+      },
+      android: {
+        notification: {
+          sound: 'default',
+          channelId: 'high_importance_channel',
+        },
+      },
+      apns: {
+        payload: {
+          aps: {
+            sound: 'default',
+            badge: 1,
+          },
+        },
+      },
+    };
+
+    // Batch gönderim (500'er token)
+    let sentCount = 0;
+    let failedCount = 0;
+    const batchSize = 500;
+
+    for (let i = 0; i < tokens.length; i += batchSize) {
+      const batchTokens = tokens.slice(i, i + batchSize);
+
+      try {
+        const response = await admin.messaging().sendMulticast({
+          tokens: batchTokens,
+          ...message,
+        });
+
+        sentCount += response.successCount;
+        failedCount += response.failureCount;
+
+        // Başarısız token'ları temizle
+        if (response.failureCount > 0) {
+          const failedTokens = [];
+          response.responses.forEach((resp, idx) => {
+            if (!resp.success) {
+              failedTokens.push(batchTokens[idx]);
+            }
+          });
+
+          // Geçersiz token'ları user dokümanlarından kaldır
+          for (const failedToken of failedTokens) {
+            const tokenIndex = tokens.indexOf(failedToken);
+            if (tokenIndex !== -1) {
+              const userId = targetUserIds[tokenIndex];
+              await admin.firestore().collection('users').doc(userId).update({
+                fcmToken: admin.firestore.FieldValue.delete(),
+              });
+            }
+          }
+        }
+      } catch (error) {
+        console.error(`Batch gönderim hatası (${i}-${i + batchSize}):`, error);
+        failedCount += batchTokens.length;
+      }
+    }
+
+    // Bildirim kaydı oluştur (istatistik için)
+    await admin.firestore().collection('notification_logs').add({
+      title,
+      body,
+      template,
+      targetType,
+      targetUserId: targetUserId || null,
+      targetOrderId: targetOrderId || null,
+      sentCount,
+      failedCount,
+      totalTargets: tokens.length,
+      sentBy: context.auth.uid,
+      sentAt: admin.firestore.FieldValue.serverTimestamp(),
+    });
+
+    console.log(`✅ Manuel bildirim gönderildi: ${sentCount}/${tokens.length} başarılı`);
+
+    return {
+      success: true,
+      sentCount,
+      failedCount,
+      totalTargets: tokens.length,
+    };
+  } catch (error) {
+    console.error('sendManualNotification error:', error);
+
+    if (error instanceof functions.https.HttpsError) {
+      throw error;
+    }
+
+    throw new functions.https.HttpsError(
+      'internal',
+      'Bildirim gönderimi sırasında hata oluştu: ' + error.message
+    );
+  }
 });

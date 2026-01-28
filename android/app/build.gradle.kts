@@ -9,7 +9,7 @@ plugins {
 }
 
 android {
-    namespace = "com.eksimayaliekmek.eksi_mayali_ekmek_web"
+    namespace = "com.example.eksi_mayali_ekmek_web"
     compileSdk = flutter.compileSdkVersion
     ndkVersion = "27.0.12077973"
 
@@ -49,6 +49,7 @@ dependencies {
     implementation("com.google.firebase:firebase-auth")
     implementation("com.google.firebase:firebase-firestore")
     implementation("com.google.firebase:firebase-storage")
+    implementation("com.google.firebase:firebase-messaging")
     
     // Java 8 desugaring
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.1.4")

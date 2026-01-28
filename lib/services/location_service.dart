@@ -16,8 +16,10 @@
  * LAST UPDATED: 28 Ocak 2026
  */
 
+import 'dart:async';
+
 import 'package:flutter/material.dart';
-import 'package:geolocator/geolocator.dart';
+import 'package:geolocator/geolocator.dart' hide LocationServiceDisabledException;
 import 'package:geocoding/geocoding.dart';
 
 import '../utils/logger.dart';
@@ -74,7 +76,7 @@ class LocationService {
       final serviceEnabled = await Geolocator.isLocationServiceEnabled();
       if (!serviceEnabled) {
         Logger.warning('GPS kapalı');
-        throw LocationServiceDisabledException(
+        throw GpsDisabledException(
           'GPS kapalı. Lütfen GPS\'i açın.',
         );
       }
@@ -91,10 +93,10 @@ class LocationService {
       );
 
       return position;
-    } on TimeoutException {
-      Logger.error('Konum alma zaman aşımı');
+    } on TimeoutException catch (e) {
+      Logger.error('Konum alma zaman aşımı: $e');
       throw Exception('Konum alınamadı. Zaman aşımı.');
-    } on LocationServiceDisabledException catch (e) {
+    } on GpsDisabledException catch (e) {
       Logger.error('GPS kapalı: ${e.message}');
       rethrow;
     } catch (e) {
@@ -205,9 +207,9 @@ class LocationService {
 }
 
 /// GPS kapalı exception
-class LocationServiceDisabledException implements Exception {
+class GpsDisabledException implements Exception {
   final String message;
-  LocationServiceDisabledException(this.message);
+  GpsDisabledException(this.message);
 
   @override
   String toString() => message;

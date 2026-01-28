@@ -246,7 +246,8 @@ class _ProductCardState extends State<ProductCard> with SingleTickerProviderStat
                                       ),
                                     ),
                                   ElevatedButton.icon(
-                                    onPressed: widget.product.stock > 0 && widget.product.isAvailable
+                                    onPressed: widget.product.stock > 0 &&
+                                            widget.product.isAvailable
                                         ? () {
                                             cartProvider.addItem(widget.product);
                                             Navigator.of(context).pop();
@@ -260,7 +261,9 @@ class _ProductCardState extends State<ProductCard> with SingleTickerProviderStat
                                         : null,
                                     icon: Icon(
                                       widget.product.stock > 0
-                                          ? (isInCart ? Icons.shopping_cart : Icons.add_shopping_cart)
+                                          ? (isInCart
+                                              ? Icons.shopping_cart
+                                              : Icons.add_shopping_cart)
                                           : Icons.remove_shopping_cart,
                                     ),
                                     label: Text(
@@ -499,6 +502,32 @@ class _ProductCardState extends State<ProductCard> with SingleTickerProviderStat
                                 ),
                               ),
                             ),
+                          // Video varsa play ikonu göster
+                          if (widget.product.videoUrl != null &&
+                              widget.product.videoUrl!.isNotEmpty)
+                            Positioned(
+                              bottom: 8,
+                              right: 8,
+                              child: Container(
+                                padding: const EdgeInsets.all(6),
+                                decoration: BoxDecoration(
+                                  color: Colors.red.withValues(alpha: 0.9),
+                                  shape: BoxShape.circle,
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.black.withValues(alpha: 0.3),
+                                      blurRadius: 4,
+                                      offset: const Offset(0, 2),
+                                    ),
+                                  ],
+                                ),
+                                child: const Icon(
+                                  Icons.play_arrow,
+                                  color: Colors.white,
+                                  size: 20,
+                                ),
+                              ),
+                            ),
                         ],
                       ),
                     ),
@@ -593,8 +622,10 @@ class _ProductCardState extends State<ProductCard> with SingleTickerProviderStat
                                     child: Icon(
                                       widget.product.stock > 0
                                           ? (isInCart && quantity > 0
-                                              ? Icons.shopping_cart // Ürün sepetteyse dolu sepet ikonu
-                                              : Icons.add_shopping_cart) // Ürün sepette değilse ekleme ikonu
+                                              ? Icons
+                                                  .shopping_cart // Ürün sepetteyse dolu sepet ikonu
+                                              : Icons
+                                                  .add_shopping_cart) // Ürün sepette değilse ekleme ikonu
                                           : Icons.remove_shopping_cart, // Stokta yoksa çarpı ikonu
                                       color: Colors.white,
                                       size: cardWidth * 0.07, // Dinamik ikon boyutu

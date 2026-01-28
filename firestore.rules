@@ -57,27 +57,38 @@ service cloud.firestore {
     
     // Ürünler koleksiyonu
     match /urunler/{productId} {
+      // Input validation for products
+      function validProductData() {
+        return request.resource.data.keys().hasAll(['name', 'price', 'category', 'description']) &&
+               request.resource.data.name.size() > 0 && request.resource.data.name.size() < 200 &&
+               request.resource.data.price >= 0 && request.resource.data.price < 100000 &&
+               request.resource.data.category.size() > 0 && request.resource.data.category.size() < 100 &&
+               request.resource.data.description.size() < 5000;
+      }
+      
       // Herkes ürünleri okuyabilir, sadece adminler ürün ekleyebilir, güncelleyebilir ve silebilir
       allow read: if true;
-      allow write: if isAdmin();
-    }
-    
-    // Siparişler koleksiyonu (eski adı)
-    match /siparisler/{orderId} {
-      // Kullanıcılar sadece kendi siparişlerini okuyabilir/oluşturabilir
-      // Adminler tüm siparişleri okuyup yazabilir
-      allow read: if isAdmin() || isSupportStaff() || (isAuthenticated() && resource.data.userId == request.auth.uid);
-      allow create: if isAuthenticated() && request.resource.data.userId == request.auth.uid;
-      allow update: if isAdmin() || isSupportStaff() || (isAuthenticated() && resource.data.userId == request.auth.uid);
+      allow create: if isAdmin() && validProductData();
+      allow update: if isAdmin() && validProductData();
       allow delete: if isAdmin();
     }
     
-    // Siparişler koleksiyonu (yeni adı - FirestoreCollections.orders değerine denk geliyor)
-    match /orders/{orderId} {
+    // Siparişler koleksiyonu (STANDARDIZED - only 'siparisler' used)
+    match /siparisler/{orderId} {
+      // Input validation functions
+      function validOrderData() {
+        return request.resource.data.keys().hasAll(['userId', 'customerName', 'customerEmail', 'customerPhone', 'items', 'amount']) &&
+               request.resource.data.customerName.size() > 0 && request.resource.data.customerName.size() < 100 &&
+               request.resource.data.customerEmail.matches('^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$') &&
+               request.resource.data.customerPhone.size() > 9 && request.resource.data.customerPhone.size() < 20 &&
+               request.resource.data.items.size() > 0 && request.resource.data.items.size() < 50 &&
+               request.resource.data.amount >= 0 && request.resource.data.amount < 100000;
+      }
+      
       // Kullanıcılar sadece kendi siparişlerini okuyabilir/oluşturabilir
       // Adminler tüm siparişleri okuyup yazabilir
       allow read: if isAdmin() || isSupportStaff() || (isAuthenticated() && resource.data.userId == request.auth.uid);
-      allow create: if isAuthenticated() && request.resource.data.userId == request.auth.uid;
+      allow create: if isAuthenticated() && request.resource.data.userId == request.auth.uid && validOrderData();
       allow update: if isAdmin() || isSupportStaff() || (isAuthenticated() && resource.data.userId == request.auth.uid);
       allow delete: if isAdmin();
     }
@@ -118,9 +129,19 @@ service cloud.firestore {
     
     // Blog yazıları koleksiyonu
     match /bloglar/{blogId} {
+      // Input validation for blogs
+      function validBlogData() {
+        return request.resource.data.keys().hasAll(['title', 'content', 'author']) &&
+               request.resource.data.title.size() > 0 && request.resource.data.title.size() < 300 &&
+               request.resource.data.content.size() > 0 && request.resource.data.content.size() < 50000 &&
+               request.resource.data.author.size() > 0 && request.resource.data.author.size() < 100;
+      }
+      
       // Herkes blog yazılarını okuyabilir, sadece adminler blog yazısı ekleyebilir, güncelleyebilir ve silebilir
       allow read: if true;
-      allow write: if isContentManager();
+      allow create: if isContentManager() && validBlogData();
+      allow update: if isContentManager() && validBlogData();
+      allow delete: if isContentManager();
     }
     
     // Yorumlar koleksiyonu

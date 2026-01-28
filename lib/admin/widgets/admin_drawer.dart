@@ -1,5 +1,3 @@
-// ignore_for_file: use_super_parameters, prefer_const_constructors, unused_field, unused_element, unused_local_variable
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -12,9 +10,9 @@ class AdminDrawer extends StatefulWidget {
   final int currentIndex;
 
   const AdminDrawer({
-    Key? key,
+    super.key,
     required this.currentIndex,
-  }) : super(key: key);
+  });
 
   @override
   State<AdminDrawer> createState() => _AdminDrawerState();
@@ -261,6 +259,59 @@ class _AdminDrawerState extends State<AdminDrawer> {
                   Navigator.pushReplacementNamed(context, '/admin/financial-report');
                 },
               ),
+              // Teslimat Yönetimi
+              _buildModernTile(
+                context: context,
+                icon: Icons.local_shipping_rounded,
+                title: "Teslimat Takvimi",
+                isSelected: widget.currentIndex == 14,
+                isSmallScreen: isSmallScreen,
+                indent: true,
+                color: Colors.blue[700],
+                onTap: () {
+                  Navigator.pop(context);
+                  Navigator.pushReplacementNamed(context, '/admin/delivery-schedule');
+                },
+              ),
+              _buildModernTile(
+                context: context,
+                icon: Icons.play_circle_rounded,
+                title: "Üretimi Başlat",
+                isSelected: widget.currentIndex == 15,
+                isSmallScreen: isSmallScreen,
+                indent: true,
+                color: Colors.orange[700],
+                onTap: () {
+                  Navigator.pop(context);
+                  Navigator.pushReplacementNamed(context, '/admin/start-production');
+                },
+              ),
+              _buildModernTile(
+                context: context,
+                icon: Icons.route_rounded,
+                title: "Teslimat Rotası",
+                isSelected: widget.currentIndex == 16,
+                isSmallScreen: isSmallScreen,
+                indent: true,
+                color: Colors.green[700],
+                onTap: () {
+                  Navigator.pop(context);
+                  Navigator.pushReplacementNamed(context, '/admin/delivery-route');
+                },
+              ),
+              _buildModernTile(
+                context: context,
+                icon: Icons.notifications_active_rounded,
+                title: "Manuel Bildirim",
+                isSelected: widget.currentIndex == 17,
+                isSmallScreen: isSmallScreen,
+                indent: true,
+                color: Colors.purple[700],
+                onTap: () {
+                  Navigator.pop(context);
+                  Navigator.pushReplacementNamed(context, '/admin/manual-notification');
+                },
+              ),
             ],
 
             Divider(height: 1),
@@ -307,7 +358,7 @@ class _AdminDrawerState extends State<AdminDrawer> {
                 indent: true,
                 onTap: () {
                   Navigator.pop(context);
-                  Navigator.pushReplacementNamed(context, '/admin/users');
+                  Navigator.pushReplacementNamed(context, '/admin/customers');
                 },
               ),
               _buildModernTile(
@@ -345,7 +396,8 @@ class _AdminDrawerState extends State<AdminDrawer> {
                             Text('Çıkış Yap'),
                           ],
                         ),
-                        content: Text('Yönetici panelinden çıkış yapmak istediğinize emin misiniz?'),
+                        content:
+                            Text('Yönetici panelinden çıkış yapmak istediğinize emin misiniz?'),
                         actions: [
                           TextButton(
                             onPressed: () => Navigator.pop(context, false),
@@ -365,6 +417,7 @@ class _AdminDrawerState extends State<AdminDrawer> {
 
                     if (shouldLogout == true) {
                       await authService.logout();
+                      if (!context.mounted) return;
                       Navigator.of(context).pushReplacementNamed('/admin/login');
                     }
                   },
@@ -442,7 +495,7 @@ class _AdminDrawerState extends State<AdminDrawer> {
     Color? badgeColor,
   }) {
     final tileColor = color ?? (isSelected ? AppTheme.primaryColor : Colors.grey[700]!);
-    
+
     return Padding(
       padding: EdgeInsets.only(
         left: indent ? 16 : 8,

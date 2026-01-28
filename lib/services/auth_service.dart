@@ -76,8 +76,46 @@ class AuthService with ChangeNotifier {
   // Constructor - kullanıcı repository'si enjekte edilir ve persistence ayarla
   AuthService(this._userRepository) {
     _initializePersistence();
+    _listenToAuthStateChanges();
   }
   String? _latestPhoneVerificationId;
+
+  // Firebase Auth state değişikliklerini dinle
+  void _listenToAuthStateChanges() {
+    _auth.authStateChanges().listen((firebase_auth.User? firebaseUser) async {
+      if (firebaseUser != null && _currentUser == null) {
+        // Firebase oturum var ama AuthService bilmiyor - oturumu yükle
+        Logger.info('Firebase Auth state değişti - oturum yükleniyor: ${firebaseUser.email}');
+        await _loadUserFromFirebase(firebaseUser);
+      } else if (firebaseUser == null && _currentUser != null) {
+        // Firebase oturum yok ama AuthService hala kullanıcı tutuyor - temizle
+        Logger.info('Firebase Auth state değişti - oturum sonlandırılıyor');
+        _currentUser = null;
+        _token = null;
+        notifyListeners();
+      }
+    });
+  }
+
+  // Firebase'den kullanıcı bilgilerini yükle
+  Future<void> _loadUserFromFirebase(firebase_auth.User firebaseUser) async {
+    try {
+      _token = await firebaseUser.getIdToken();
+      final userDoc =
+          await _firestore.collection(FirestoreCollections.users).doc(firebaseUser.uid).get();
+
+      if (userDoc.exists) {
+        final userData = userDoc.data() as Map<String, dynamic>;
+        final isUserAdmin = await _checkIfUserIsAdmin(firebaseUser.uid, firebaseUser.email ?? '');
+        _currentUser = app_models.User.fromJson({...userData, 'isAdmin': isUserAdmin});
+        await _saveUserToPrefs();
+        notifyListeners();
+        Logger.info('Kullanıcı Firebase\'den yüklendi: ${_currentUser!.email}');
+      }
+    } catch (e) {
+      Logger.error('Firebase\'den kullanıcı yükleme hatası: $e');
+    }
+  }
 
   // Firebase Auth persistence'ı ayarla
   Future<void> _initializePersistence() async {
@@ -1684,8 +1722,8 @@ class AuthService with ChangeNotifier {
       if (firebaseUser != null) {
         Logger.info('Firebase Auth oturumu bulundu: ${firebaseUser.email}');
 
-        // Token al
-        _token = await firebaseUser.getIdToken();
+        // Token al (force refresh ile yenile)
+        _token = await firebaseUser.getIdToken(true);
 
         // Firestore'dan kullanıcı bilgilerini al
         final userDoc =
@@ -1710,6 +1748,25 @@ class AuthService with ChangeNotifier {
         final prefs = await SharedPreferences.getInstance();
         final userData = prefs.getString(PreferenceKeys.userData);
         final token = prefs.getString(PreferenceKeys.token);
+        final sessionTimestamp = prefs.getInt(PreferenceKeys.sessionTimestamp);
+
+        // 30 günlük oturum süresi kontrolü
+        if (sessionTimestamp != null) {
+          final sessionDate = DateTime.fromMillisecondsSinceEpoch(sessionTimestamp);
+          final daysSinceSession = DateTime.now().difference(sessionDate).inDays;
+
+          if (daysSinceSession > 30) {
+            Logger.info('Oturum süresi dolmuş ($daysSinceSession gün) - temizleniyor');
+            await prefs.remove(PreferenceKeys.userData);
+            await prefs.remove(PreferenceKeys.token);
+            await prefs.remove(PreferenceKeys.sessionTimestamp);
+            _currentUser = null;
+            _token = null;
+            _isLoading = false;
+            notifyListeners();
+            return;
+          }
+        }
 
         if (userData != null && token != null) {
           try {
@@ -1746,6 +1803,7 @@ class AuthService with ChangeNotifier {
             // Hata durumunda kullanıcı verisini sil
             await prefs.remove(PreferenceKeys.userData);
             await prefs.remove(PreferenceKeys.token);
+            await prefs.remove(PreferenceKeys.sessionTimestamp);
             _currentUser = null;
             _token = null;
           }
@@ -1776,6 +1834,8 @@ class AuthService with ChangeNotifier {
       final prefs = await SharedPreferences.getInstance();
       if (_currentUser != null) {
         await prefs.setString(PreferenceKeys.userData, json.encode(_currentUser!.toJson()));
+        // Oturum kayıt zamanını sakla (30 gün kontrol için)
+        await prefs.setInt(PreferenceKeys.sessionTimestamp, DateTime.now().millisecondsSinceEpoch);
       }
       if (_token != null) {
         await prefs.setString(PreferenceKeys.token, _token!);
@@ -1783,6 +1843,20 @@ class AuthService with ChangeNotifier {
       Logger.info('Kullanıcı bilgileri locale kaydedildi');
     } catch (e) {
       Logger.error('Kullanıcı bilgileri locale kaydedilirken hata: $e');
+    }
+  }
+
+  // Token'ı yenile (1 saatte bir otomatik yenilenir ama manuel de yapılabilir)
+  Future<void> refreshToken() async {
+    try {
+      final firebaseUser = _auth.currentUser;
+      if (firebaseUser != null) {
+        _token = await firebaseUser.getIdToken(true); // Force refresh
+        await _saveUserToPrefs();
+        Logger.info('Token yenilendi');
+      }
+    } catch (e) {
+      Logger.error('Token yenileme hatası: $e');
     }
   }
 

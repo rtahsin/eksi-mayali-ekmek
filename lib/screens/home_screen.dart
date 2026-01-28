@@ -85,6 +85,7 @@ import '../widgets/personalized_recommendations.dart';
 import '../widgets/product_card.dart';
 import '../widgets/product_grid.dart';
 import '../widgets/quick_view_dialog.dart'; // Hızlı görüntüleme dialog widget'ı
+import '../widgets/skeleton_loader.dart'; // Modern loading skeleton
 import 'about_screen.dart';
 import 'ai_assistant_screen.dart';
 import 'analytics_screen.dart';
@@ -1595,15 +1596,11 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
 
   // Yükleniyor göster
   Widget _buildLoading() {
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          CircularProgressIndicator(),
-          SizedBox(height: 16),
-          Text('Ürünler yükleniyor...'),
-        ],
-      ),
+    // Modern skeleton loading ekranı
+    return SkeletonGrid(
+      itemCount: 6,
+      crossAxisCount: MediaQuery.of(context).size.width > 900 ? 4 : 2,
+      childAspectRatio: 0.75,
     );
   }
 

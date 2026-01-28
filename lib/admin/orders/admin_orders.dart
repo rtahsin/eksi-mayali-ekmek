@@ -1,13 +1,20 @@
-// ignore_for_file: use_super_parameters, prefer_const_constructors, prefer_const_literals_to_create_immutables, library_private_types_in_public_api
+// ignore_for_file: avoid_web_libraries_in_flutter, deprecated_member_use
 
 import 'package:eksi_mayali_ekmek_web/models/order.dart';
-import 'package:eksi_mayali_ekmek_web/services/auth_service.dart';
 import 'package:eksi_mayali_ekmek_web/services/order_service.dart';
 import 'package:eksi_mayali_ekmek_web/theme/app_theme.dart';
+import 'package:eksi_mayali_ekmek_web/utils/excel_export_helper.dart';
 import 'package:eksi_mayali_ekmek_web/utils/logger.dart';
+import 'package:eksi_mayali_ekmek_web/utils/whatsapp_helper.dart';
+import 'package:eksi_mayali_ekmek_web/widgets/skeleton_loader.dart'; // Modern loading
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
+
+// Web platformu için conditional import
+import 'admin_orders_web.dart' if (dart.library.io) 'admin_orders_mobile.dart' as platform;
 
 /// Admin panelinde sipariş yönetimini sağlayan sayfa
 ///
@@ -30,11 +37,15 @@ class AdminOrdersPage extends StatefulWidget {
 class _AdminOrdersPageState extends State<AdminOrdersPage> {
   // Durum değişkenleri
   bool _isLoading = true; // Yükleniyor durumu
+  bool _isLoadingMore = false; // Daha fazla yükleniyor
   List<Order> _orders = []; // Tüm siparişler
   List<Order> _filteredOrders = []; // Filtrelenmiş siparişler
   String _searchQuery = ''; // Arama sorgusu
   String _sortBy = 'date'; // Sıralama kriteri (date, customer, total)
   bool _sortAscending = false; // Sıralama yönü (false = azalan)
+  // Pagination - Server-side
+  bool _hasMoreOrders = true;
+  static const int _pageSize = 20;
 
   @override
   void initState() {
@@ -43,54 +54,44 @@ class _AdminOrdersPageState extends State<AdminOrdersPage> {
     _loadOrders();
   }
 
-  /// Tüm siparişleri veritabanından yükler
-  ///
-  /// Bu metod OrderService kullanarak Firebase'den tüm siparişleri çeker,
-  /// sonuçları state'e kaydeder ve UI'ı günceller.
-  /// Hata durumunda kullanıcıya bilgi verir.
-  Future<void> _loadOrders() async {
-    setState(() {
-      _isLoading = true;
-    });
+  /// İlk siparişleri yükle (paginated)
+  Future<void> _loadOrders({bool loadMore = false}) async {
+    if (loadMore) {
+      setState(() => _isLoadingMore = true);
+    } else {
+      setState(() => _isLoading = true);
+    }
 
     try {
       final orderService = Provider.of<OrderService>(context, listen: false);
 
-      Logger.info('Admin paneli: Siparişler yükleniyor...');
+      Logger.info('Admin paneli: Siparişler yükleniyor (loadMore: $loadMore)');
 
-      // Siparişleri getir
-      final orders = await orderService.getAllOrders();
+      // Paginated query
+      final orders = await orderService.getOrdersPaginated(
+        limit: _pageSize,
+        loadMore: loadMore,
+      );
 
       Logger.info('Admin paneli: ${orders.length} sipariş yüklendi');
 
-      // Sipariş yoksa hata ayıklama için detaylı bilgiler görüntüle
-      if (orders.isEmpty) {
-        Logger.warning('Admin paneli: Hiç sipariş bulunamadı!');
-
-        // Auth durumunu kontrol et
-        final authService = Provider.of<AuthService>(context, listen: false);
-        if (authService.currentUser != null) {
-          Logger.info('Admin paneli: Giriş yapan kullanıcı: ${authService.currentUser!.email}');
-        } else {
-          Logger.error('Admin paneli: Kimlik doğrulaması yapılmamış!');
-        }
-      } else {
-        // Bazı sipariş bilgilerini log'a yazdır
-        Logger.info('Admin paneli: İlk sipariş ID: ${orders.first.id}');
-        Logger.info('Admin paneli: Son sipariş tarihi: ${orders.last.orderDate}');
-      }
-
       setState(() {
-        _orders = orders;
-        _filteredOrders = orders; // Filtrelenmemiş listeyi başlangıçta tam liste olarak ayarla
-        _applyFilters(); // Sonra filtreleri uygula
+        if (loadMore) {
+          _orders.addAll(orders);
+        } else {
+          _orders = orders;
+        }
+        _filteredOrders = _orders;
+        _hasMoreOrders = orderService.hasMoreOrders;
+        _applyFilters();
         _isLoading = false;
+        _isLoadingMore = false;
       });
     } catch (error) {
       Logger.error('Admin paneli: Siparişler yüklenirken hata: $error');
       setState(() {
         _isLoading = false;
-        _orders = [];
+        _isLoadingMore = false;
         _filteredOrders = [];
       });
 
@@ -105,10 +106,10 @@ class _AdminOrdersPageState extends State<AdminOrdersPage> {
     }
   }
 
-  /// Arama ve sıralama filtrelerini siparişlere uygular
+  /// Arama ve sıralama filtrelerini siparişlere uygular (client-side)
   ///
-  /// Bu metod _searchQuery ve _sortBy değişkenlerine göre
-  /// siparişleri filtreler ve sıralar, sonra _filteredOrders listesini günceller.
+  /// Server-side pagination kullanıldığı için burada sadece
+  /// arama ve sıralama yapılır, sayfalama sunucu tarafında
   void _applyFilters() {
     List<Order> filteredList = List.from(_orders);
 
@@ -147,6 +148,93 @@ class _AdminOrdersPageState extends State<AdminOrdersPage> {
     });
   }
 
+  /// Excel'e aktarma işlemi
+  ///
+  /// Filtrelenmiş siparişleri Excel dosyasına dönüştürür ve indirir
+  Future<void> _exportToExcel() async {
+    try {
+      Logger.info('Excel export başlatılıyor: ${_orders.length} sipariş');
+
+      // Show loading dialog
+      showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (context) => Center(
+          child: Card(
+            child: Padding(
+              padding: EdgeInsets.all(20),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  CircularProgressIndicator(),
+                  SizedBox(height: 16),
+                  Text('Excel dosyası hazırlanıyor...'),
+                ],
+              ),
+            ),
+          ),
+        ),
+      );
+
+      // Export to Excel (use ALL orders, not filtered - kullanıcı tüm verileri isteyebilir)
+      final excelBytes = await ExcelExportHelper.instance.exportOrdersToExcel(_orders);
+
+      // Close loading dialog
+      if (mounted) {
+        Navigator.of(context).pop();
+      }
+
+      if (excelBytes != null) {
+        // Download file
+        final filename = 'siparisler_${DateFormat('yyyyMMdd_HHmmss').format(DateTime.now())}.xlsx';
+
+        if (kIsWeb) {
+          // Web platform - trigger browser download
+          platform.downloadFile(excelBytes, filename);
+
+          Logger.info('Excel dosyası indirildi: $filename');
+
+          if (mounted) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text('Excel dosyası indirildi: $filename'),
+                backgroundColor: Colors.green,
+              ),
+            );
+          }
+        } else {
+          // Mobile/Desktop - show success message
+          if (mounted) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text('Excel dosyası kaydedildi: $filename'),
+                backgroundColor: Colors.green,
+              ),
+            );
+          }
+        }
+      } else {
+        throw Exception('Excel dosyası oluşturulamadı');
+      }
+    } catch (e) {
+      Logger.error('Excel export hatası: $e');
+
+      // Close loading dialog if still open
+      if (mounted && Navigator.of(context).canPop()) {
+        Navigator.of(context).pop();
+      }
+
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Excel dosyası oluşturulurken hata: $e'),
+            backgroundColor: Colors.red,
+          ),
+        );
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -178,6 +266,11 @@ class _AdminOrdersPageState extends State<AdminOrdersPage> {
                       ),
                     ],
                   ),
+                ),
+                IconButton(
+                  icon: Icon(Icons.download),
+                  onPressed: _exportToExcel,
+                  tooltip: 'Excel\'e Aktar',
                 ),
                 IconButton(
                   icon: Icon(Icons.refresh),
@@ -274,7 +367,11 @@ class _AdminOrdersPageState extends State<AdminOrdersPage> {
           // Siparişler listesi
           Expanded(
             child: _isLoading
-                ? Center(child: CircularProgressIndicator())
+                ? SkeletonList(
+                    itemCount: 8,
+                    showAvatar: true,
+                    showTrailing: true,
+                  )
                 : _filteredOrders.isEmpty
                     ? Center(
                         child: Text(
@@ -284,13 +381,50 @@ class _AdminOrdersPageState extends State<AdminOrdersPage> {
                           style: TextStyle(fontSize: 16),
                         ),
                       )
-                    : ListView.builder(
-                        itemCount: _filteredOrders.length,
-                        padding: EdgeInsets.symmetric(horizontal: 16),
-                        itemBuilder: (context, index) {
-                          final order = _filteredOrders[index];
-                          return _buildOrderCard(order);
-                        },
+                    : Column(
+                        children: [
+                          Expanded(
+                            child: ListView.builder(
+                              itemCount: _filteredOrders.length,
+                              padding: EdgeInsets.symmetric(horizontal: 16),
+                              itemBuilder: (context, index) {
+                                final order = _filteredOrders[index];
+                                return _buildOrderCard(order);
+                              },
+                            ),
+                          ),
+
+                          // Load More butonu (server-side pagination)
+                          if (_hasMoreOrders && !_isLoadingMore)
+                            Container(
+                              padding: EdgeInsets.symmetric(vertical: 16, horizontal: 24),
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                border: Border(top: BorderSide(color: Colors.grey.shade300)),
+                              ),
+                              child: Center(
+                                child: ElevatedButton.icon(
+                                  onPressed: () => _loadOrders(loadMore: true),
+                                  icon: Icon(Icons.expand_more),
+                                  label: Text('Daha Fazla Yükle (${_filteredOrders.length} / ?)'),
+                                  style: ElevatedButton.styleFrom(
+                                    foregroundColor: Colors.white,
+                                    backgroundColor: AppTheme.primaryColor,
+                                    padding: EdgeInsets.symmetric(horizontal: 32, vertical: 16),
+                                  ),
+                                ),
+                              ),
+                            ),
+
+                          // Loading indicator
+                          if (_isLoadingMore)
+                            Container(
+                              padding: EdgeInsets.all(16),
+                              child: Center(
+                                child: CircularProgressIndicator(),
+                              ),
+                            ),
+                        ],
                       ),
           ),
         ],
@@ -415,6 +549,35 @@ class _AdminOrdersPageState extends State<AdminOrdersPage> {
                     // Aksiyon butonları
                     Row(
                       children: [
+                        // WhatsApp butonu (telefon varsa)
+                        if (order.customerPhone.isNotEmpty &&
+                            WhatsAppHelper.isValidTurkishPhone(order.customerPhone))
+                          Padding(
+                            padding: const EdgeInsets.only(right: 8.0),
+                            child: IconButton(
+                              onPressed: () async {
+                                try {
+                                  final message = WhatsAppHelper.createOrderInfoMessage(order);
+                                  await WhatsAppHelper.openWhatsApp(
+                                    phoneNumber: order.customerPhone,
+                                    message: message,
+                                  );
+                                } catch (e) {
+                                  Logger.error('WhatsApp açılırken hata: $e');
+                                  if (mounted) {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                        content: Text('WhatsApp açılamadı'),
+                                        backgroundColor: Colors.red,
+                                      ),
+                                    );
+                                  }
+                                }
+                              },
+                              icon: Icon(Icons.chat, color: Colors.green),
+                              tooltip: 'WhatsApp ile bildir',
+                            ),
+                          ),
                         // Durum güncelle butonu
                         OutlinedButton.icon(
                           onPressed: () => _showUpdateStatusDialog(order),
@@ -528,6 +691,63 @@ class _AdminOrdersPageState extends State<AdminOrdersPage> {
                 _buildDetailItem('Durum', _getOrderStatusText(order.orderStatus.value)),
                 _buildDetailItem('Toplam Tutar', '${(order.amount ?? 0).toStringAsFixed(2)} ₺'),
 
+                // Konum bilgisi varsa göster
+                if (order.latitude != null && order.longitude != null) ...[
+                  Divider(height: 32),
+                  Row(
+                    children: [
+                      Icon(Icons.location_on, color: Colors.red, size: 20),
+                      SizedBox(width: 8),
+                      Text(
+                        'Teslimat Konumu',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16,
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 12),
+                  Container(
+                    padding: EdgeInsets.all(12),
+                    decoration: BoxDecoration(
+                      color: Colors.blue.withValues(alpha: 0.1),
+                      borderRadius: BorderRadius.circular(8),
+                      border: Border.all(color: Colors.blue.withValues(alpha: 0.3)),
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Enlem: ${order.latitude!.toStringAsFixed(6)}',
+                          style: TextStyle(fontSize: 13),
+                        ),
+                        SizedBox(height: 4),
+                        Text(
+                          'Boylam: ${order.longitude!.toStringAsFixed(6)}',
+                          style: TextStyle(fontSize: 13),
+                        ),
+                        SizedBox(height: 12),
+                        ElevatedButton.icon(
+                          onPressed: () async {
+                            final url = Uri.parse(
+                                'https://www.google.com/maps/dir/?api=1&destination=${order.latitude},${order.longitude}');
+                            if (await canLaunchUrl(url)) {
+                              await launchUrl(url, mode: LaunchMode.externalApplication);
+                            }
+                          },
+                          icon: Icon(Icons.directions),
+                          label: Text('Yol Tarifi Al'),
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.blue,
+                            foregroundColor: Colors.white,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+
                 Divider(height: 32),
                 Text(
                   'Ürünler',
@@ -561,6 +781,35 @@ class _AdminOrdersPageState extends State<AdminOrdersPage> {
           ),
         ),
         actions: [
+          // WhatsApp butonu (telefon varsa göster)
+          if (order.customerPhone.isNotEmpty &&
+              WhatsAppHelper.isValidTurkishPhone(order.customerPhone))
+            TextButton.icon(
+              onPressed: () async {
+                try {
+                  final message = WhatsAppHelper.createOrderInfoMessage(order);
+                  await WhatsAppHelper.openWhatsApp(
+                    phoneNumber: order.customerPhone,
+                    message: message,
+                  );
+                } catch (e) {
+                  Logger.error('WhatsApp açılırken hata: $e');
+                  if (mounted) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text('WhatsApp açılamadı: ${e.toString()}'),
+                        backgroundColor: Colors.red,
+                      ),
+                    );
+                  }
+                }
+              },
+              icon: Icon(Icons.chat, color: Colors.green),
+              label: Text(
+                'WhatsApp',
+                style: TextStyle(color: Colors.green),
+              ),
+            ),
           TextButton(
             onPressed: () => Navigator.pop(context),
             child: Text('Kapat'),
@@ -608,133 +857,229 @@ class _AdminOrdersPageState extends State<AdminOrdersPage> {
 
   void _showUpdateStatusDialog(Order order) {
     String selectedStatus = order.orderStatus.value;
+    bool sendWhatsAppNotification = false; // WhatsApp gönder checkbox
     // Mevcut history gösterimi hazırlığı
     final history = order.statusHistory;
 
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text('Sipariş Durumunu Güncelle'),
-          content: SingleChildScrollView(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text('Yeni sipariş durumunu seçin:'),
-                SizedBox(height: 12),
-                DropdownButtonFormField<String>(
-                  value: selectedStatus,
-                  onChanged: (String? newValue) {
-                    if (newValue != null) {
-                      selectedStatus = newValue;
-                    }
-                  },
-                  items: ['pending', 'processing', 'ready', 'delivered', 'cancelled']
-                      .map<DropdownMenuItem<String>>((String status) {
-                    return DropdownMenuItem<String>(
-                      value: status,
-                      child: Text(_getOrderStatusText(status)),
+        return StatefulBuilder(
+          builder: (context, setState) {
+            return AlertDialog(
+              title: Text('Sipariş Durumunu Güncelle'),
+              content: SingleChildScrollView(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text('Yeni sipariş durumunu seçin:'),
+                    SizedBox(height: 12),
+                    DropdownButtonFormField<String>(
+                      value: selectedStatus,
+                      onChanged: (String? newValue) {
+                        if (newValue != null) {
+                          setState(() {
+                            selectedStatus = newValue;
+                          });
+                        }
+                      },
+                      items: ['pending', 'processing', 'ready', 'delivered', 'cancelled']
+                          .map<DropdownMenuItem<String>>((String status) {
+                        return DropdownMenuItem<String>(
+                          value: status,
+                          child: Text(_getOrderStatusText(status)),
+                        );
+                      }).toList(),
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(),
+                        contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                      ),
+                    ),
+
+                    // WhatsApp bildirim checkbox (telefon varsa)
+                    if (order.customerPhone.isNotEmpty &&
+                        WhatsAppHelper.isValidTurkishPhone(order.customerPhone)) ...[
+                      SizedBox(height: 16),
+                      Container(
+                        padding: EdgeInsets.all(12),
+                        decoration: BoxDecoration(
+                          color: Colors.green.withValues(alpha: 0.1),
+                          borderRadius: BorderRadius.circular(8),
+                          border: Border.all(color: Colors.green.withValues(alpha: 0.3)),
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              children: [
+                                Icon(Icons.chat, color: Colors.green, size: 20),
+                                SizedBox(width: 8),
+                                Text(
+                                  'WhatsApp Bildirimi',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.green[800],
+                                  ),
+                                ),
+                              ],
+                            ),
+                            SizedBox(height: 8),
+                            CheckboxListTile(
+                              value: sendWhatsAppNotification,
+                              onChanged: (bool? value) {
+                                setState(() {
+                                  sendWhatsAppNotification = value ?? false;
+                                });
+                              },
+                              title: Text(
+                                'Müşteriye WhatsApp ile bildir',
+                                style: TextStyle(fontSize: 14),
+                              ),
+                              subtitle: Text(
+                                WhatsAppHelper.formatPhoneForDisplay(order.customerPhone),
+                                style: TextStyle(fontSize: 12, color: Colors.grey[600]),
+                              ),
+                              controlAffinity: ListTileControlAffinity.leading,
+                              contentPadding: EdgeInsets.zero,
+                              dense: true,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+
+                    SizedBox(height: 20),
+                    if (history.isNotEmpty) ...[
+                      Text(
+                        'Durum Geçmişi',
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      SizedBox(height: 8),
+                      Container(
+                        constraints: BoxConstraints(maxHeight: 200),
+                        child: ListView.builder(
+                          shrinkWrap: true,
+                          itemCount: history.length,
+                          itemBuilder: (context, index) {
+                            final h = history[index];
+                            final status = h['status']?.toString() ?? '';
+                            final changedAt = h['changedAt']?.toString();
+                            final role = h['changedByRole']?.toString() ?? '';
+                            return Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 4.0),
+                              child: Row(
+                                children: [
+                                  _buildStatusBadge(status),
+                                  SizedBox(width: 8),
+                                  Expanded(
+                                    child: Text(
+                                      '${changedAt != null ? changedAt.substring(0, 19) : ''} • $role',
+                                      style: TextStyle(fontSize: 12, color: Colors.grey[700]),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            );
+                          },
+                        ),
+                      ),
+                    ],
+                  ],
+                ),
+              ),
+              actions: [
+                TextButton(
+                  onPressed: () => Navigator.of(context).pop(),
+                  child: Text('İptal'),
+                ),
+                ElevatedButton(
+                  onPressed: () async {
+                    Navigator.of(context).pop();
+                    await _updateOrderStatus(
+                      order,
+                      selectedStatus,
+                      sendWhatsAppNotification: sendWhatsAppNotification,
                     );
-                  }).toList(),
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(),
-                    contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                  },
+                  child: Text('Güncelle'),
+                  style: ElevatedButton.styleFrom(
+                    foregroundColor: Colors.white,
+                    backgroundColor: AppTheme.primaryColor,
                   ),
                 ),
-                SizedBox(height: 20),
-                if (history.isNotEmpty) ...[
-                  Text(
-                    'Durum Geçmişi',
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                  SizedBox(height: 8),
-                  Container(
-                    constraints: BoxConstraints(maxHeight: 200),
-                    child: ListView.builder(
-                      shrinkWrap: true,
-                      itemCount: history.length,
-                      itemBuilder: (context, index) {
-                        final h = history[index];
-                        final status = h['status']?.toString() ?? '';
-                        final changedAt = h['changedAt']?.toString();
-                        final role = h['changedByRole']?.toString() ?? '';
-                        return Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 4.0),
-                          child: Row(
-                            children: [
-                              _buildStatusBadge(status),
-                              SizedBox(width: 8),
-                              Expanded(
-                                child: Text(
-                                  '${changedAt != null ? changedAt.substring(0, 19) : ''} • $role',
-                                  style: TextStyle(fontSize: 12, color: Colors.grey[700]),
-                                ),
-                              ),
-                            ],
-                          ),
-                        );
-                      },
-                    ),
-                  ),
-                ],
               ],
-            ),
-          ),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.of(context).pop(),
-              child: Text('İptal'),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                _updateOrderStatus(order, selectedStatus);
-                Navigator.of(context).pop();
-              },
-              child: Text('Güncelle'),
-              style: ElevatedButton.styleFrom(
-                foregroundColor: Colors.white,
-                backgroundColor: AppTheme.primaryColor,
-              ),
-            ),
-          ],
+            );
+          },
         );
       },
     );
   }
 
-  void _updateOrderStatus(Order order, String newStatus) {
+  Future<void> _updateOrderStatus(Order order, String newStatus,
+      {bool sendWhatsAppNotification = false}) async {
     try {
       final orderService = Provider.of<OrderService>(context, listen: false);
       // String'i OrderStatus'e dönüştürme
       OrderStatus orderStatus = OrderStatus.values
           .firstWhere((status) => status.value == newStatus, orElse: () => OrderStatus.pending);
 
-      orderService.updateOrderStatus(order.id, orderStatus).then((_) {
+      await orderService.updateOrderStatus(order.id, orderStatus);
+
+      if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text('Sipariş durumu güncellendi'),
             backgroundColor: Colors.green,
           ),
         );
-        _loadOrders(); // Siparişleri yeniden yükle
-      }).catchError((error) {
-        Logger.error('Sipariş durumu güncellenirken hata: $error');
+      }
+
+      // WhatsApp bildirimi gönder (seçiliyse)
+      if (sendWhatsAppNotification &&
+          order.customerPhone.isNotEmpty &&
+          WhatsAppHelper.isValidTurkishPhone(order.customerPhone)) {
+        try {
+          // Güncellenmiş sipariş bilgisi ile mesaj oluştur
+          final updatedOrder = order.copyWith(
+            orderStatus: orderStatus,
+          );
+
+          final message = WhatsAppHelper.createOrderStatusMessage(
+            order: updatedOrder,
+            status: orderStatus,
+          );
+
+          await WhatsAppHelper.openWhatsApp(
+            phoneNumber: order.customerPhone,
+            message: message,
+          );
+
+          Logger.info('WhatsApp bildirimi gönderildi: ${order.id}');
+        } catch (e) {
+          Logger.error('WhatsApp bildirimi gönderilemedi: $e');
+          if (mounted) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text('Durum güncellendi ama WhatsApp açılamadı'),
+                backgroundColor: Colors.orange,
+              ),
+            );
+          }
+        }
+      }
+
+      _loadOrders(); // Siparişleri yeniden yükle
+    } catch (error) {
+      Logger.error('Sipariş durumu güncellenirken hata: $error');
+      if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text('Sipariş durumu güncellenemedi: $error'),
             backgroundColor: Colors.red,
           ),
         );
-      });
-    } catch (e) {
-      Logger.error('Sipariş durumu güncellenirken hata: $e');
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('Sipariş durumu güncellenemedi: $e'),
-          backgroundColor: Colors.red,
-        ),
-      );
+      }
     }
   }
 

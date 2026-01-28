@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 
 import '../providers/cart_provider.dart';
 import '../services/auth_service.dart';
+import '../services/notification_service.dart';
 import '../services/rate_limiter_service.dart';
 import '../theme/app_theme.dart';
 import '../utils/logger.dart';
@@ -99,6 +100,20 @@ class _LoginScreenState extends State<LoginScreen> {
         // Login başarılı - CartProvider'a user ID bildir
         final cartProvider = Provider.of<CartProvider>(context, listen: false);
         cartProvider.setUserId(authService.currentUser?.id);
+
+        // FCM Token'ı kaydet (push notification için)
+        if (authService.currentUser?.id != null) {
+          try {
+            final notificationService = NotificationService();
+            await notificationService.getFcmToken(
+              userId: authService.currentUser!.id,
+            );
+            Logger.info('FCM Token kullanıcıya kaydedildi');
+          } catch (e) {
+            Logger.error('FCM Token kaydedilirken hata: $e');
+            // Token kaydı hatası giriş işlemini engellemez
+          }
+        }
 
         // Giriş başarılı, ana sayfaya yönlendir
         if (!mounted) return;
@@ -581,6 +596,19 @@ class _LoginScreenState extends State<LoginScreen> {
                                             final cartProvider =
                                                 Provider.of<CartProvider>(context, listen: false);
                                             cartProvider.setUserId(authService.currentUser?.id);
+
+                                            // FCM Token'ı kaydet (push notification için)
+                                            if (authService.currentUser?.id != null) {
+                                              try {
+                                                final notificationService = NotificationService();
+                                                await notificationService.getFcmToken(
+                                                  userId: authService.currentUser!.id,
+                                                );
+                                                Logger.info('FCM Token (Google Sign-In) kaydedildi');
+                                              } catch (e) {
+                                                Logger.error('FCM Token kaydedilirken hata: $e');
+                                              }
+                                            }
 
                                             Navigator.of(context)
                                                 .pushNamedAndRemoveUntil('/', (route) => false);

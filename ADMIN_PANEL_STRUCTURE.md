@@ -5,6 +5,7 @@
 ### ✅ AKTİF MODÜLLER
 
 #### `lib/admin/` - Yeni Modüler Yapı
+
 Temel CRUD işlemleri için kullanılan ana yapı:
 
 - **admin_router.dart** - Ana routing logic + yetki kontrolü
@@ -19,6 +20,7 @@ Temel CRUD işlemleri için kullanılan ana yapı:
 - **widgets/** - Shared components (drawer, app bar)
 
 #### `lib/screens/admin/` - İşlevsel Modüller
+
 Envanter, finans ve içerik yönetimi modülleri:
 
 - **admin_blogs.dart** - Blog yönetimi
@@ -37,6 +39,7 @@ Envanter, finans ve içerik yönetimi modülleri:
 ### ❌ KULLANILMAYAN DOSYALAR (Legacy/Duplicate)
 
 Bu dosyalar eski versiyonlar ve KULLANILMIYOR:
+
 - `lib/screens/admin/admin_dashboard.dart` (31KB) - lib/admin/dashboard/admin_dashboard.dart AKTIF
 - `lib/screens/admin/admin_products.dart` (43KB) - lib/admin/products/admin_products.dart AKTIF
 - `lib/screens/admin/admin_orders.dart` (29KB) - lib/admin/orders/admin_orders.dart AKTIF
@@ -69,16 +72,19 @@ Bu dosyalar eski versiyonlar ve KULLANILMIYOR:
 ## İyileştirme Önerileri
 
 ### ✅ Tamamlanan
+
 - [x] Dashboard'a notification badge sistemi
 - [x] Drawer'a real-time bildirimler
 - [x] Low stock ve pending order sayaçları
 
 ### 🔄 Devam Eden
+
 - [ ] Duplicate dosyaları temizleme (production sonrası)
 - [ ] Linter uyarılarını düzeltme
 - [ ] Pagination sistemi
 
 ### ⏳ Planlanan
+
 - [ ] Chart/grafik entegrasyonu (fl_chart)
 - [ ] Export özellikleri (Excel/PDF)
 - [ ] Advanced filtering
@@ -90,11 +96,13 @@ Bu dosyalar eski versiyonlar ve KULLANILMIYOR:
 ## Güvenlik Notları
 
 ### Yetkilendirme
-- **Super Admin**: tahsinreyhan@gmail.com (hardcoded)
+
+- **Super Admin**: <tahsinreyhan@gmail.com> (hardcoded)
 - **Admin Collection**: Firestore `adminler` koleksiyonu
 - **Role System**: superadmin, admin, editor, support, user
 
 ### Güvenlik Açıkları (TODO)
+
 - [ ] Client-side admin kontrolü → Cloud Function'a taşınmalı
 - [ ] Token validation eksik
 - [ ] JWT refresh mechanism yok

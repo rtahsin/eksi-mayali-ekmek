@@ -1,10 +1,12 @@
 // ignore_for_file: prefer_const_constructors, use_super_parameters, unused_local_variable, deprecated_member_use, unnecessary_to_list_in_spreads, unused_field, unused_element
 
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:chewie/chewie.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:provider/provider.dart';
+import 'package:video_player/video_player.dart';
 
 import '../models/product.dart';
 import '../providers/cart_provider.dart';
@@ -70,6 +72,77 @@ class _ProductDetailScreenState extends State<ProductDetailScreen>
     }
   }
 
+  // Video oynatma dialog'unu aç
+  void _playVideo() {
+    final videoUrl = widget.product.videoUrl;
+    if (videoUrl == null || videoUrl.isEmpty) return;
+
+    // Video player controller oluştur
+    final videoPlayerController = VideoPlayerController.networkUrl(Uri.parse(videoUrl));
+    final chewieController = ChewieController(
+      videoPlayerController: videoPlayerController,
+      autoPlay: true,
+      looping: false,
+      aspectRatio: 16 / 9,
+      autoInitialize: true,
+      errorBuilder: (context, errorMessage) {
+        return Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Icon(Icons.error, color: Colors.red, size: 60),
+              const SizedBox(height: 16),
+              Text(
+                'Video yüklenemedi',
+                style: const TextStyle(color: Colors.white),
+              ),
+              const SizedBox(height: 8),
+              Text(
+                errorMessage,
+                style: const TextStyle(color: Colors.white70, fontSize: 12),
+                textAlign: TextAlign.center,
+              ),
+            ],
+          ),
+        );
+      },
+    );
+
+    // Dialog ile video göster
+    showDialog(
+      context: context,
+      builder: (context) => Dialog(
+        backgroundColor: Colors.black,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            // Close button
+            Align(
+              alignment: Alignment.topRight,
+              child: IconButton(
+                icon: const Icon(Icons.close, color: Colors.white),
+                onPressed: () {
+                  chewieController.dispose();
+                  videoPlayerController.dispose();
+                  Navigator.of(context).pop();
+                },
+              ),
+            ),
+            // Video player
+            AspectRatio(
+              aspectRatio: 16 / 9,
+              child: Chewie(controller: chewieController),
+            ),
+          ],
+        ),
+      ),
+    ).then((_) {
+      // Dialog kapandığında controller'ları temizle
+      chewieController.dispose();
+      videoPlayerController.dispose();
+    });
+  }
+
   @override
   void dispose() {
     _tabController.dispose();
@@ -102,56 +175,88 @@ class _ProductDetailScreenState extends State<ProductDetailScreen>
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Ürün görseli - tıklama özelliği kaldırıldı
+            // Ürün görseli - Video varsa play butonu ile
             Stack(
               children: [
-                AspectRatio(
-                  aspectRatio: 1.0,
-                  child: CachedNetworkImage(
-                    imageUrl: widget.product.imageUrl,
-                    fit: BoxFit.cover,
-                    placeholder: (context, url) => Container(
-                      color: isDark ? Colors.grey[800] : Colors.grey[200],
-                      child: Center(
-                        child: CircularProgressIndicator(
-                          valueColor: AlwaysStoppedAnimation<Color>(
-                            isDark ? AppTheme.darkPrimaryColor : AppTheme.primaryColor,
+                GestureDetector(
+                  onTap: widget.product.videoUrl != null ? _playVideo : null,
+                  child: AspectRatio(
+                    aspectRatio: 1.0,
+                    child: CachedNetworkImage(
+                      imageUrl: widget.product.imageUrl,
+                      fit: BoxFit.cover,
+                      placeholder: (context, url) => Container(
+                        color: isDark ? Colors.grey[800] : Colors.grey[200],
+                        child: Center(
+                          child: CircularProgressIndicator(
+                            valueColor: AlwaysStoppedAnimation<Color>(
+                              isDark ? AppTheme.darkPrimaryColor : AppTheme.primaryColor,
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                    errorWidget: (context, url, error) => Container(
-                      color: isDark ? Colors.grey[800] : Colors.grey[200],
-                      child: Center(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Icon(
-                              Icons.image_not_supported,
-                              color: isDark ? Colors.grey[600] : Colors.grey[400],
-                              size: 50,
-                            ),
-                            SizedBox(height: 16),
-                            Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 24),
-                              child: Text(
-                                widget.product.name,
-                                style: TextStyle(
-                                  color: isDark ? Colors.grey[400] : Colors.grey[600],
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                                textAlign: TextAlign.center,
+                      errorWidget: (context, url, error) => Container(
+                        color: isDark ? Colors.grey[800] : Colors.grey[200],
+                        child: Center(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(
+                                Icons.image_not_supported,
+                                color: isDark ? Colors.grey[600] : Colors.grey[400],
+                                size: 50,
                               ),
-                            ),
-                          ],
+                              SizedBox(height: 16),
+                              Padding(
+                                padding: const EdgeInsets.symmetric(horizontal: 24),
+                                child: Text(
+                                  widget.product.name,
+                                  style: TextStyle(
+                                    color: isDark ? Colors.grey[400] : Colors.grey[600],
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                  textAlign: TextAlign.center,
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ),
                   ),
                 ),
 
-                // Büyütme butonu kaldırıldı
+                // Video varsa ortada play butonu göster
+                if (widget.product.videoUrl != null)
+                  Positioned.fill(
+                    child: Container(
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter,
+                          colors: [
+                            Colors.black.withOpacity(0),
+                            Colors.black.withOpacity(0.3),
+                          ],
+                        ),
+                      ),
+                      child: Center(
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: Colors.black.withOpacity(0.7),
+                            shape: BoxShape.circle,
+                          ),
+                          padding: const EdgeInsets.all(20),
+                          child: Icon(
+                            Icons.play_arrow_rounded,
+                            color: Colors.white,
+                            size: 60,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
               ],
             ),
             Padding(

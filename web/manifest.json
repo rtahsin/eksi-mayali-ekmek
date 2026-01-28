@@ -57,6 +57,18 @@
           "sizes": "96x96"
         }
       ]
+    },
+    {
+      "name": "Admin Panel",
+      "short_name": "Admin",
+      "description": "Yönetim Paneli - Stok ve Siparişler",
+      "url": "/admin",
+      "icons": [
+        {
+          "src": "icons/Icon-192.png",
+          "sizes": "192x192"
+        }
+      ]
     }
   ],
   "icons": [

@@ -1,5 +1,3 @@
-// ignore_for_file: use_super_parameters, prefer_const_constructors
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -13,12 +11,12 @@ class AdminAppBar extends StatelessWidget implements PreferredSizeWidget {
   final Function(String)? onSearch;
 
   const AdminAppBar({
-    Key? key,
+    super.key,
     required this.title,
     this.actions,
     this.showSearchBar = false,
     this.onSearch,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -102,6 +100,7 @@ class AdminAppBar extends StatelessWidget implements PreferredSizeWidget {
                     Navigator.pushNamed(context, '/admin/settings');
                   } else if (value == 'logout') {
                     await authService.logout();
+                    if (!context.mounted) return;
                     Navigator.pushReplacementNamed(context, '/login');
                   }
                 },
@@ -131,8 +130,7 @@ class AdminAppBar extends StatelessWidget implements PreferredSizeWidget {
                     value: 'logout',
                     child: Row(
                       children: [
-                        Icon(Icons.exit_to_app,
-                            color: Colors.red[400], size: 20),
+                        Icon(Icons.exit_to_app, color: Colors.red[400], size: 20),
                         SizedBox(width: 8),
                         Text(
                           'Çıkış Yap',
@@ -198,8 +196,7 @@ class AdminAppBar extends StatelessWidget implements PreferredSizeWidget {
               hintStyle: TextStyle(color: Colors.grey[400]),
               prefixIcon: Icon(Icons.search, color: Colors.grey[400]),
               border: InputBorder.none,
-              contentPadding:
-                  EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+              contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 10),
             ),
             onChanged: onSearch,
           ),
@@ -209,6 +206,5 @@ class AdminAppBar extends StatelessWidget implements PreferredSizeWidget {
   }
 
   @override
-  Size get preferredSize =>
-      Size.fromHeight(showSearchBar ? kToolbarHeight + 60 : kToolbarHeight);
+  Size get preferredSize => Size.fromHeight(showSearchBar ? kToolbarHeight + 60 : kToolbarHeight);
 }

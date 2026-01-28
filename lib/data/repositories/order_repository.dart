@@ -15,7 +15,7 @@ class OrderRepository implements IOrderRepository {
   Future<Map<String, dynamic>> getOrders(String userId) async {
     try {
       final snapshot = await _firestore
-          .collection('orders')
+          .collection('siparisler')
           .where('userId', isEqualTo: userId)
           .orderBy('createdAt', descending: true)
           .get();
@@ -34,7 +34,7 @@ class OrderRepository implements IOrderRepository {
   @override
   Future<Map<String, dynamic>> getOrderDetails(String orderId) async {
     try {
-      final doc = await _firestore.collection('orders').doc(orderId).get();
+      final doc = await _firestore.collection('siparisler').doc(orderId).get();
       if (!doc.exists) {
         throw Exception('Sipariş bulunamadı');
       }
@@ -48,7 +48,7 @@ class OrderRepository implements IOrderRepository {
   @override
   Future<bool> createOrder(Map<String, dynamic> orderData) async {
     try {
-      await _firestore.collection('orders').add(orderData);
+      await _firestore.collection('siparisler').add(orderData);
       return true;
     } catch (e) {
       throw Exception('Sipariş oluşturulurken hata oluştu: $e');
@@ -58,7 +58,7 @@ class OrderRepository implements IOrderRepository {
   @override
   Future<bool> updateOrderStatus(String orderId, String status) async {
     try {
-      await _firestore.collection('orders').doc(orderId).update({
+      await _firestore.collection('siparisler').doc(orderId).update({
         'status': status,
         'updatedAt': DateTime.now(),
       });
@@ -71,7 +71,7 @@ class OrderRepository implements IOrderRepository {
   @override
   Future<bool> cancelOrder(String orderId) async {
     try {
-      await _firestore.collection('orders').doc(orderId).update({
+      await _firestore.collection('siparisler').doc(orderId).update({
         'status': 'cancelled',
         'cancelledAt': DateTime.now(),
       });
@@ -83,6 +83,6 @@ class OrderRepository implements IOrderRepository {
 
   @override
   Stream<DocumentSnapshot> getOrderStream(String orderId) {
-    return _firestore.collection('orders').doc(orderId).snapshots();
+    return _firestore.collection('siparisler').doc(orderId).snapshots();
   }
 }

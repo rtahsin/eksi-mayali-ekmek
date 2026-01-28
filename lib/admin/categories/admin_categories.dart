@@ -1,5 +1,3 @@
-// ignore_for_file: unused_field, unused_element
-
 import 'dart:typed_data';
 
 import 'package:file_picker/file_picker.dart';
@@ -85,7 +83,6 @@ class AdminCategoriesPage extends StatefulWidget {
 }
 
 class _AdminCategoriesPageState extends State<AdminCategoriesPage> {
-  final int _selectedIndex = 3;
   bool _isLoading = false;
   bool _isCreating = false;
   bool _isEditing = false;

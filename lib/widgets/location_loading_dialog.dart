@@ -16,6 +16,8 @@
  * LAST UPDATED: 28 Ocak 2026
  */
 
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:geolocator/geolocator.dart';
@@ -103,7 +105,7 @@ class _LocationLoadingDialogState extends State<LocationLoadingDialog> {
           _errorMessage = 'Konum izni olmadan teslimat yapamayız';
         });
       }
-    } on LocationServiceDisabledException catch (e) {
+    } on GpsDisabledException catch (e) {
       if (!mounted) return;
       setState(() {
         _hasError = true;
@@ -111,8 +113,9 @@ class _LocationLoadingDialogState extends State<LocationLoadingDialog> {
         _status = 'GPS Kapalı';
         _errorMessage = e.message;
       });
-    } on TimeoutException {
+    } on TimeoutException catch (e) {
       if (!mounted) return;
+      Logger.error('Timeout: $e');
       setState(() {
         _hasError = true;
         _errorType = 'timeout';
@@ -140,8 +143,8 @@ class _LocationLoadingDialogState extends State<LocationLoadingDialog> {
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () async => _hasError, // Sadece hata varsa geri çıkılabilir
+    return PopScope(
+      canPop: _hasError, // Sadece hata varsa geri çıkılabilir
       child: AlertDialog(
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(16),

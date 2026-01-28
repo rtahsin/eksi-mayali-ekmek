@@ -10,6 +10,7 @@ import '../theme/app_theme.dart';
 import '../utils/helpers.dart';
 import '../utils/translations.dart';
 import '../widgets/custom_app_bar.dart';
+import '../widgets/empty_state.dart'; // Modern empty state
 
 /// Sepet ekranı widget'ı.
 /// Kullanıcının sepetindeki ürünleri görüntülemesini, miktarını değiştirmesini
@@ -278,64 +279,11 @@ class CartScreen extends StatelessWidget {
 
   /// Boş sepet durumunda gösterilecek widget
   Widget _buildEmptyCart(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Image.asset(
-            'assets/images/empty_cart.png',
-            width: 200,
-            height: 200,
-            errorBuilder: (context, error, stackTrace) {
-              return Icon(
-                Icons.shopping_cart_outlined,
-                size: 100,
-                color: isDark
-                    ? AppTheme.darkTextSecondaryColor
-                    : Colors.grey.shade300,
-              );
-            },
-          ),
-          const SizedBox(height: 24),
-          Text(
-            AppTranslations.getTranslation(context, 'cartEmpty'),
-            style: TextStyle(
-              fontSize: 24,
-              fontWeight: FontWeight.bold,
-              color: isDark ? AppTheme.darkTextColor : Colors.grey.shade800,
-            ),
-          ),
-          const SizedBox(height: 12),
-          Text(
-            AppTranslations.getTranslation(context, 'cartEmpty'),
-            style: TextStyle(
-              fontSize: 16,
-              color: isDark
-                  ? AppTheme.darkTextSecondaryColor
-                  : Colors.grey.shade600,
-            ),
-          ),
-          const SizedBox(height: 32),
-          ElevatedButton.icon(
-            onPressed: () {
-              Navigator.of(context).pushReplacementNamed('/');
-            },
-            icon: Icon(Icons.shopping_bag_outlined),
-            label: Text(
-                AppTranslations.getTranslation(context, 'continueShopping')),
-            style: ElevatedButton.styleFrom(
-              backgroundColor: AppTheme.primaryColor,
-              foregroundColor: Colors.white,
-              padding: EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(30),
-              ),
-            ),
-          ),
-        ],
-      ),
+    // Modern animasyonlu empty state
+    return EmptyCart(
+      onShoppingPressed: () {
+        Navigator.of(context).pushReplacementNamed('/');
+      },
     );
   }
 

@@ -298,7 +298,7 @@ class FirebaseService {
         };
 
         // Siparişi Firestore'a kaydet
-        final docRef = await _firestore.collection('orders').add(newOrderData);
+        final docRef = await _firestore.collection('siparisler').add(newOrderData);
 
         // Sipariş ID'sini ekleyerek veriyi güncelle
         await docRef.update({'id': docRef.id});
@@ -325,7 +325,7 @@ class FirebaseService {
 
       if (currentUser != null) {
         final querySnapshot = await _firestore
-            .collection('orders')
+            .collection('siparisler')
             .where('userId', isEqualTo: currentUser.uid)
             .orderBy('dateTime', descending: true)
             .get();
@@ -350,7 +350,7 @@ class FirebaseService {
       final currentUser = _auth.currentUser;
 
       if (currentUser != null) {
-        final docSnapshot = await _firestore.collection('orders').doc(orderId).get();
+        final docSnapshot = await _firestore.collection('siparisler').doc(orderId).get();
 
         if (docSnapshot.exists) {
           // Kullanıcının kendi siparişi mi kontrol et
@@ -379,7 +379,7 @@ class FirebaseService {
       final currentUser = _auth.currentUser;
 
       if (currentUser != null) {
-        final docSnapshot = await _firestore.collection('orders').doc(orderId).get();
+        final docSnapshot = await _firestore.collection('siparisler').doc(orderId).get();
 
         if (docSnapshot.exists) {
           // Kullanıcının kendi siparişi mi kontrol et
@@ -388,7 +388,7 @@ class FirebaseService {
             final status = docSnapshot.data()?['status'];
 
             if (status == 'pending' || status == 'processing') {
-              await _firestore.collection('orders').doc(orderId).update({
+              await _firestore.collection('siparisler').doc(orderId).update({
                 'status': 'cancelled',
               });
             } else {
@@ -422,7 +422,7 @@ class FirebaseService {
 
         if (isAdmin) {
           final querySnapshot =
-              await _firestore.collection('orders').orderBy('dateTime', descending: true).get();
+              await _firestore.collection('siparisler').orderBy('dateTime', descending: true).get();
 
           return querySnapshot.docs.map((doc) {
             return Order.fromJson({
@@ -452,7 +452,7 @@ class FirebaseService {
         final isAdmin = userDoc.data()?['isAdmin'] ?? false;
 
         if (isAdmin) {
-          await _firestore.collection('orders').doc(orderId).update({
+          await _firestore.collection('siparisler').doc(orderId).update({
             'status': status,
           });
         } else {
@@ -610,11 +610,11 @@ class FirebaseService {
           final totalProducts = productsSnapshot.count;
 
           // Toplam sipariş sayısı
-          final ordersSnapshot = await _firestore.collection('orders').count().get();
+          final ordersSnapshot = await _firestore.collection('siparisler').count().get();
           final totalOrders = ordersSnapshot.count;
 
           // Toplam gelir
-          final ordersQuerySnapshot = await _firestore.collection('orders').get();
+          final ordersQuerySnapshot = await _firestore.collection('siparisler').get();
           double totalRevenue = 0;
 
           for (var doc in ordersQuerySnapshot.docs) {
@@ -623,7 +623,7 @@ class FirebaseService {
 
           // Son siparişler
           final recentOrdersSnapshot = await _firestore
-              .collection('orders')
+              .collection('siparisler')
               .orderBy('dateTime', descending: true)
               .limit(5)
               .get();

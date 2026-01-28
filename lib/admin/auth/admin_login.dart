@@ -1,5 +1,3 @@
-// ignore_for_file: use_super_parameters, prefer_const_constructors, prefer_const_literals_to_create_immutables, avoid_print
-
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:get_it/get_it.dart';
@@ -51,20 +49,39 @@ class _AdminLoginPageState extends State<AdminLoginPage> {
         });
       }
     } catch (e) {
-      print("Kaydedilmiş bilgileri yüklerken hata: $e");
+      Logger.error("Kaydedilmiş bilgileri yüklerken hata: $e");
     }
   }
 
-  // Otomatik girişi dene - Şu an devre dışı
+  // Otomatik girişi dene - Firebase session varsa yönlendir
   Future<void> _tryAutoLogin() async {
-    // Otomatik giriş özelliği devre dışı bırakıldı
-    return;
+    try {
+      final authService = Provider.of<AuthService>(context, listen: false);
+
+      // Firebase session kontrolü
+      await Future.delayed(const Duration(milliseconds: 300));
+
+      if (authService.isLoggedIn && authService.currentUser?.isAdmin == true) {
+        Logger.info("Admin session mevcut, yönlendiriliyor: ${authService.currentUser?.email}");
+
+        // Login sayfasından geliyorsak admin panele yönlendir
+        if (mounted) {
+          Future.microtask(() {
+            Navigator.of(context).pushReplacementNamed('/admin');
+          });
+        }
+      } else {
+        Logger.info("Admin session yok, login gerekiyor");
+      }
+    } catch (e) {
+      Logger.error("Otomatik giriş kontrolü hatası: $e");
+    }
   }
 
   // Mevcut giriş yapmış kullanıcıyı kontrol et
   Future<void> _checkCurrentUser() async {
     // Admin paneli için ayrı bir giriş kullanacağız, normal kullanıcı girişi ile bağlantısı olmayacak
-    print("Admin giriş sayfası yüklenme");
+    Logger.info("Admin giriş sayfası yüklenme");
   }
 
   @override

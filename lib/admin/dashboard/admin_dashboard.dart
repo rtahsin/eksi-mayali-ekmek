@@ -1,10 +1,16 @@
 // ignore_for_file: use_super_parameters, prefer_const_constructors, prefer_const_literals_to_create_immutables, avoid_print, unused_field, unused_local_variable, unused_import
 
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cloud_firestore/cloud_firestore.dart' hide Order;
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
+import '../../models/order.dart';
+import '../../models/product.dart';
+import '../../services/order_service.dart';
+import '../../services/product_service.dart';
 import '../../theme/app_theme.dart';
 import '../../utils/logger.dart';
+import '../widgets/dashboard_charts.dart';
 
 /// AdminDashboardPage, yönetici panelinin ana ekranını oluşturan sınıftır.
 /// Bu sınıf yöneticiye hızlı erişim seçenekleri ve genel istatistikler sunar.
@@ -79,11 +85,35 @@ class _AdminDashboardPageState extends State<AdminDashboardPage> {
   final int _selectedIndex = 0; // Ana sayfa seçili durumda
   bool _isLoading = true;
   DashboardStats _stats = DashboardStats();
+  List<Order> _orders = [];
+  List<Product> _products = [];
 
   @override
   void initState() {
     super.initState();
     _loadStats();
+    _loadChartsData();
+  }
+
+  // Charts için veri yükle
+  Future<void> _loadChartsData() async {
+    try {
+      final orderService = Provider.of<OrderService>(context, listen: false);
+      final productService = Provider.of<ProductService>(context, listen: false);
+
+      final orders = await orderService.getAllOrders();
+      final products = await productService.getProducts();
+
+      setState(() {
+        _orders = orders.cast<Order>(); // Type cast
+        _products = products.cast<Product>(); // Type cast
+      });
+
+      Logger.info(
+          'Dashboard charts data loaded: ${orders.length} orders, ${products.length} products');
+    } catch (e) {
+      Logger.error('Dashboard charts data load error: $e');
+    }
   }
 
   // İstatistikleri yükle
@@ -162,8 +192,7 @@ class _AdminDashboardPageState extends State<AdminDashboardPage> {
       // Bekleyen siparişler (pending + processing)
       final pendingOrdersSnapshot = await firestore
           .collection('siparisler')
-          .where('orderStatus', whereIn: ['pending', 'processing'])
-          .get();
+          .where('orderStatus', whereIn: ['pending', 'processing']).get();
       int pendingOrderCount = pendingOrdersSnapshot.docs.length;
 
       setState(() {
@@ -419,6 +448,24 @@ class _AdminDashboardPageState extends State<AdminDashboardPage> {
               ),
             ),
             SizedBox(height: isSmallScreen ? 16 : 24),
+
+            // 📊 DASHBOARD CHARTS
+            if (_orders.isNotEmpty && _products.isNotEmpty) ...[
+              Text(
+                '📊 İstatistikler ve Analizler',
+                style: TextStyle(
+                  fontSize: isSmallScreen ? 16 : 20,
+                  fontWeight: FontWeight.bold,
+                  color: AppTheme.primaryColor,
+                ),
+              ),
+              SizedBox(height: 12),
+              DashboardCharts(
+                orders: _orders,
+                products: _products,
+              ),
+              SizedBox(height: isSmallScreen ? 16 : 24),
+            ],
 
             // Hızlı erişim bölümü
             Text(

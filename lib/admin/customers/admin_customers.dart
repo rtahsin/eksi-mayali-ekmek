@@ -1,5 +1,3 @@
-// ignore_for_file: use_super_parameters, prefer_const_constructors, prefer_const_literals_to_create_immutables
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
@@ -43,8 +41,7 @@ class _AdminCustomersPageState extends State<AdminCustomersPage> {
 
     try {
       final firestore = FirebaseFirestore.instance;
-      final querySnapshot =
-          await firestore.collection(FirestoreCollections.users).get();
+      final querySnapshot = await firestore.collection(FirestoreCollections.users).get();
 
       if (querySnapshot.docs.isEmpty) {
         Logger.warning('Hiç kullanıcı bulunamadı');
@@ -65,8 +62,7 @@ class _AdminCustomersPageState extends State<AdminCustomersPage> {
                 fullName: data['fullName'] ?? '',
                 phoneNumber: data['phoneNumber'] ?? '',
                 address: data['address'] ?? '',
-                favoriteProductIds:
-                    List<String>.from(data['favoriteProductIds'] ?? []),
+                favoriteProductIds: List<String>.from(data['favoriteProductIds'] ?? []),
                 createdAt: data['createdAt'] != null
                     ? (data['createdAt'] is Timestamp
                         ? (data['createdAt'] as Timestamp).toDate()
@@ -113,10 +109,7 @@ class _AdminCustomersPageState extends State<AdminCustomersPage> {
 
     try {
       final firestore = FirebaseFirestore.instance;
-      await firestore
-          .collection(FirestoreCollections.users)
-          .doc(user.id)
-          .update({
+      await firestore.collection(FirestoreCollections.users).doc(user.id).update({
         'fullName': user.fullName,
         'phoneNumber': user.phoneNumber,
         'address': user.address,
@@ -163,7 +156,7 @@ class _AdminCustomersPageState extends State<AdminCustomersPage> {
 
     return Scaffold(
       appBar: AdminAppBar(title: 'Müşteri Yönetimi'),
-      drawer: AdminDrawer(currentIndex: 5),
+      drawer: AdminDrawer(currentIndex: 11),
       body: Padding(
         padding: EdgeInsets.all(isSmallScreen ? 8.0 : 16.0),
         child: Column(
@@ -309,8 +302,7 @@ class _AdminCustomersPageState extends State<AdminCustomersPage> {
     final isVerySmallScreen = MediaQuery.of(context).size.width < 360;
 
     return Card(
-      margin:
-          EdgeInsets.symmetric(vertical: 8, horizontal: isSmallScreen ? 0 : 8),
+      margin: EdgeInsets.symmetric(vertical: 8, horizontal: isSmallScreen ? 0 : 8),
       elevation: 2,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12),
@@ -373,12 +365,9 @@ class _AdminCustomersPageState extends State<AdminCustomersPage> {
             // Kullanıcı durumu
             Container(
               padding: EdgeInsets.symmetric(
-                  horizontal: isVerySmallScreen ? 6 : 8,
-                  vertical: isVerySmallScreen ? 2 : 4),
+                  horizontal: isVerySmallScreen ? 6 : 8, vertical: isVerySmallScreen ? 2 : 4),
               decoration: BoxDecoration(
-                color: user.isAdmin
-                    ? Colors.purple.withAlpha(26)
-                    : Colors.green.withAlpha(26),
+                color: user.isAdmin ? Colors.purple.withAlpha(26) : Colors.green.withAlpha(26),
                 borderRadius: BorderRadius.circular(12),
               ),
               child: Text(
@@ -404,12 +393,10 @@ class _AdminCustomersPageState extends State<AdminCustomersPage> {
                 _showUserDetails(user);
               },
               icon: Icon(Icons.info, size: isVerySmallScreen ? 14 : 16),
-              label: Text('Detaylar',
-                  style: TextStyle(fontSize: isVerySmallScreen ? 10 : 12)),
+              label: Text('Detaylar', style: TextStyle(fontSize: isVerySmallScreen ? 10 : 12)),
               style: TextButton.styleFrom(
                 foregroundColor: Colors.blue,
-                padding:
-                    EdgeInsets.symmetric(horizontal: isVerySmallScreen ? 6 : 8),
+                padding: EdgeInsets.symmetric(horizontal: isVerySmallScreen ? 6 : 8),
               ),
             ),
             TextButton.icon(
@@ -417,12 +404,10 @@ class _AdminCustomersPageState extends State<AdminCustomersPage> {
                 _showEditUserDialog(user);
               },
               icon: Icon(Icons.edit, size: isVerySmallScreen ? 14 : 16),
-              label: Text('Düzenle',
-                  style: TextStyle(fontSize: isVerySmallScreen ? 10 : 12)),
+              label: Text('Düzenle', style: TextStyle(fontSize: isVerySmallScreen ? 10 : 12)),
               style: TextButton.styleFrom(
                 foregroundColor: Colors.orange,
-                padding:
-                    EdgeInsets.symmetric(horizontal: isVerySmallScreen ? 6 : 8),
+                padding: EdgeInsets.symmetric(horizontal: isVerySmallScreen ? 6 : 8),
               ),
             ),
           ],
@@ -480,9 +465,7 @@ class _AdminCustomersPageState extends State<AdminCustomersPage> {
                   ),
                   const SizedBox(width: 4),
                   Text(
-                    user.phoneNumber.isNotEmpty
-                        ? user.phoneNumber
-                        : 'Telefon yok',
+                    user.phoneNumber.isNotEmpty ? user.phoneNumber : 'Telefon yok',
                     style: TextStyle(
                       color: Colors.grey.shade600,
                       fontSize: 12,
@@ -501,9 +484,7 @@ class _AdminCustomersPageState extends State<AdminCustomersPage> {
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
               decoration: BoxDecoration(
-                color: user.isAdmin
-                    ? Colors.purple.withAlpha(26)
-                    : Colors.green.withAlpha(26),
+                color: user.isAdmin ? Colors.purple.withAlpha(26) : Colors.green.withAlpha(26),
                 borderRadius: BorderRadius.circular(20),
               ),
               child: Text(
@@ -577,10 +558,8 @@ class _AdminCustomersPageState extends State<AdminCustomersPage> {
               Text('ID: ${user.id}'),
               Text('E-posta: ${user.email}'),
               Text('Ad Soyad: ${user.fullName}'),
-              Text(
-                  'Telefon: ${user.phoneNumber.isNotEmpty ? user.phoneNumber : "Belirtilmemiş"}'),
-              Text(
-                  'Adres: ${user.address.isNotEmpty ? user.address : "Belirtilmemiş"}'),
+              Text('Telefon: ${user.phoneNumber.isNotEmpty ? user.phoneNumber : "Belirtilmemiş"}'),
+              Text('Adres: ${user.address.isNotEmpty ? user.address : "Belirtilmemiş"}'),
               Text(
                   'Kayıt Tarihi: ${user.createdAt.day}/${user.createdAt.month}/${user.createdAt.year}'),
               Text('Yetki: ${user.isAdmin ? "Yönetici" : "Müşteri"}'),

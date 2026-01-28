@@ -8,6 +8,8 @@ import 'package:uuid/uuid.dart';
 import '../../models/product.dart';
 import '../../services/product_service.dart';
 import '../../theme/app_theme.dart';
+import '../../utils/error_handler.dart';
+import '../../utils/toast_helper.dart';
 import '../../widgets/image_crop_dialog.dart';
 import '../widgets/admin_app_bar.dart';
 
@@ -34,6 +36,7 @@ class _ProductFormState extends State<ProductForm> {
   late TextEditingController _priceController;
   late TextEditingController _discountController;
   late TextEditingController _imageUrlController;
+  late TextEditingController _videoUrlController;
   late TextEditingController _stockController;
   late String _selectedCategory;
   late List<String> _ingredients;
@@ -45,6 +48,7 @@ class _ProductFormState extends State<ProductForm> {
   bool _isLoading = false;
   String? _category;
   bool _uploadingImage = false;
+  bool _uploadingVideo = false;
   bool _uploadingExtras = false;
 
   @override
@@ -59,6 +63,7 @@ class _ProductFormState extends State<ProductForm> {
       _priceController = TextEditingController(text: product.price.toString());
       _discountController = TextEditingController(text: product.discountPercentage.toString());
       _imageUrlController = TextEditingController(text: product.imageUrl);
+      _videoUrlController = TextEditingController(text: product.videoUrl ?? '');
       _stockController = TextEditingController(text: product.stock.toString());
       _selectedCategory = product.category;
       _ingredients = List<String>.from(product.ingredients);
@@ -73,6 +78,7 @@ class _ProductFormState extends State<ProductForm> {
       _priceController = TextEditingController();
       _discountController = TextEditingController(text: "0");
       _imageUrlController = TextEditingController();
+      _videoUrlController = TextEditingController();
       _stockController = TextEditingController(text: "0");
       _selectedCategory = "";
       _ingredients = [];
@@ -90,6 +96,7 @@ class _ProductFormState extends State<ProductForm> {
     _priceController.dispose();
     _discountController.dispose();
     _imageUrlController.dispose();
+    _videoUrlController.dispose();
     _stockController.dispose();
     super.dispose();
   }
@@ -112,9 +119,7 @@ class _ProductFormState extends State<ProductForm> {
       final file = result.files.single;
       var bytes = file.bytes;
       if (bytes == null) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Dosya okunamadı')),
-        );
+        ToastHelper.showErrorToast(context, 'Dosya okunamadı');
         setState(() => _uploadingImage = false);
         return;
       }
@@ -146,18 +151,79 @@ class _ProductFormState extends State<ProductForm> {
       setState(() {
         _imageUrlController.text = url;
       });
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Görsel yüklendi')),
-      );
+      ToastHelper.showSuccessToast(context, 'Görsel yüklendi');
     } catch (e) {
       if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Yükleme hatası: $e')),
+      ErrorHandler.handleError(
+        e,
+        context: context,
+        customMessage: 'Görsel yüklenirken bir hata oluştu',
       );
     } finally {
       if (mounted) {
         setState(() {
           _uploadingImage = false;
+        });
+      }
+    }
+  }
+
+  Future<void> _pickAndUploadVideo() async {
+    if (_uploadingVideo) return;
+    try {
+      setState(() {
+        _uploadingVideo = true;
+      });
+      
+      final result = await FilePicker.platform.pickFiles(
+        type: FileType.video,
+        allowMultiple: false,
+        withData: true,
+      );
+      
+      if (result == null || result.files.isEmpty) {
+        setState(() => _uploadingVideo = false);
+        return;
+      }
+      
+      final file = result.files.single;
+      final bytes = file.bytes;
+      
+      if (bytes == null) {
+        ToastHelper.showErrorToast(context, 'Video dosyası okunamadı');
+        setState(() => _uploadingVideo = false);
+        return;
+      }
+      
+      // Dosya boyutu kontrolü (max 50MB)
+      if (bytes.length > 50 * 1024 * 1024) {
+        ToastHelper.showErrorToast(context, 'Video boyutu 50MB\'dan küçük olmalı');
+        setState(() => _uploadingVideo = false);
+        return;
+      }
+      
+      final productService = Provider.of<ProductService>(context, listen: false);
+      final productId = widget.product?.id ?? 'new';
+      
+      final url = await productService.uploadProductVideoToStorage(
+        productId,
+        bytes,
+        originalName: file.name,
+      );
+      
+      if (!mounted) return;
+      setState(() {
+        _videoUrlController.text = url;
+      });
+      
+      ToastHelper.showSuccessToast(context, 'Video yüklendi');
+    } catch (e) {
+      if (!mounted) return;
+      ToastHelper.showErrorToast(context, 'Video yükleme hatası: $e');
+    } finally {
+      if (mounted) {
+        setState(() {
+          _uploadingVideo = false;
         });
       }
     }
@@ -214,14 +280,10 @@ class _ProductFormState extends State<ProductForm> {
         } catch (_) {}
       }
       if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('$success görsel eklendi')),
-      );
+      ToastHelper.showSuccessToast(context, '$success görsel eklendi');
     } catch (e) {
       if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Yükleme hatası: $e')),
-      );
+      ToastHelper.showErrorToast(context, 'Yükleme hatası: $e');
     } finally {
       if (mounted) {
         setState(() {
@@ -258,9 +320,7 @@ class _ProductFormState extends State<ProductForm> {
       );
     } catch (e) {
       if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Yükleme hatası: $e')),
-      );
+      ToastHelper.showErrorToast(context, 'Yükleme hatası: $e');
     }
   }
 
@@ -268,9 +328,7 @@ class _ProductFormState extends State<ProductForm> {
     setState(() {
       _imageUrlController.text = url;
     });
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Kapak görseli ayarlandı')),
-    );
+    ToastHelper.showInfoToast(context, 'Kapak görseli ayarlandı');
   }
 
   // İçerik ekleme fonksiyonu
@@ -310,6 +368,7 @@ class _ProductFormState extends State<ProductForm> {
       final price = double.tryParse(_priceController.text) ?? 0;
       final discount = double.tryParse(_discountController.text) ?? 0;
       final imageUrl = _imageUrlController.text.trim();
+      final videoUrl = _videoUrlController.text.trim();
       final stock = int.tryParse(_stockController.text) ?? 0;
 
       // Ana görsel boşsa, ek görsellerden ilkini kullan
@@ -323,6 +382,7 @@ class _ProductFormState extends State<ProductForm> {
           price: price,
           discountPercentage: discount,
           imageUrl: mainImage,
+          videoUrl: videoUrl.isEmpty ? null : videoUrl,
           category: _selectedCategory,
           ingredients: _ingredients,
           stock: stock,
@@ -335,9 +395,7 @@ class _ProductFormState extends State<ProductForm> {
 
         await productService.updateProduct(updatedProduct);
         if (mounted) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Ürün başarıyla güncellendi')),
-          );
+          ToastHelper.showSuccessToast(context, 'Ürün başarıyla güncellendi');
           Navigator.pop(context, true); // Başarı durumunu döndür
         }
       } else {
@@ -350,6 +408,7 @@ class _ProductFormState extends State<ProductForm> {
           price: price,
           discountPercentage: discount,
           imageUrl: mainImage,
+          videoUrl: videoUrl.isEmpty ? null : videoUrl,
           category: _selectedCategory,
           ingredients: _ingredients,
           stock: stock,
@@ -362,16 +421,12 @@ class _ProductFormState extends State<ProductForm> {
 
         await productService.addProduct(newProduct);
         if (mounted) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Ürün başarıyla eklendi')),
-          );
+          ToastHelper.showSuccessToast(context, 'Ürün başarıyla eklendi');
           Navigator.pop(context, true); // Başarı durumunu döndür
         }
       }
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Hata: ${e.toString()}')),
-      );
+      ToastHelper.showErrorToast(context, 'Hata: ${e.toString()}');
     } finally {
       if (mounted) {
         setState(() {
@@ -908,6 +963,105 @@ class _ProductFormState extends State<ProductForm> {
                                   },
                                 ),
                               ),
+                          ],
+                        ),
+                      ),
+                    ),
+
+                    const SizedBox(height: 16),
+
+                    // Video URL
+                    Card(
+                      child: Padding(
+                        padding: const EdgeInsets.all(16),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              children: [
+                                const Icon(Icons.play_circle_outline, color: Colors.red),
+                                const SizedBox(width: 8),
+                                const Text(
+                                  'Ürün Tanıtım Videosu',
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(height: 12),
+                            Row(
+                              children: [
+                                Expanded(
+                                  child: TextFormField(
+                                    controller: _videoUrlController,
+                                    decoration: const InputDecoration(
+                                      labelText: 'Video URL',
+                                      hintText: 'Firebase Storage URL otomatik oluşacak',
+                                      border: OutlineInputBorder(),
+                                      prefixIcon: Icon(Icons.videocam),
+                                    ),
+                                    enabled: false,
+                                    maxLines: 2,
+                                  ),
+                                ),
+                                const SizedBox(width: 12),
+                                Column(
+                                  children: [
+                                    ElevatedButton.icon(
+                                      onPressed: _uploadingVideo ? null : _pickAndUploadVideo,
+                                      icon: _uploadingVideo 
+                                        ? const SizedBox(
+                                            width: 16,
+                                            height: 16,
+                                            child: CircularProgressIndicator(strokeWidth: 2),
+                                          )
+                                        : const Icon(Icons.upload_file),
+                                      label: Text(_uploadingVideo ? 'Yükleniyor...' : 'Video Yükle'),
+                                      style: ElevatedButton.styleFrom(
+                                        backgroundColor: Colors.red.shade600,
+                                        foregroundColor: Colors.white,
+                                      ),
+                                    ),
+                                    if (_videoUrlController.text.isNotEmpty)
+                                      TextButton.icon(
+                                        onPressed: () {
+                                          setState(() {
+                                            _videoUrlController.clear();
+                                          });
+                                        },
+                                        icon: const Icon(Icons.delete, size: 16),
+                                        label: const Text('Sil', style: TextStyle(fontSize: 12)),
+                                      ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                            const SizedBox(height: 8),
+                            Container(
+                              padding: const EdgeInsets.all(12),
+                              decoration: BoxDecoration(
+                                color: Colors.blue.shade50,
+                                borderRadius: BorderRadius.circular(8),
+                                border: Border.all(color: Colors.blue.shade200),
+                              ),
+                              child: Row(
+                                children: [
+                                  Icon(Icons.info_outline, color: Colors.blue.shade700, size: 20),
+                                  const SizedBox(width: 8),
+                                  Expanded(
+                                    child: Text(
+                                      '📹 Kısa video yükleyin (max 50MB). MP4, WebM, MOV formatları desteklenir. Müşteriler ürün görsellerine tıklayınca videoyu izleyebilecek!',
+                                      style: TextStyle(
+                                        fontSize: 13,
+                                        color: Colors.blue.shade900,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
                           ],
                         ),
                       ),

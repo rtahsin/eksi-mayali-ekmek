@@ -32,7 +32,7 @@ class AdminProductionsScreen extends StatefulWidget {
 class _AdminProductionsScreenState extends State<AdminProductionsScreen> {
   final InventoryService _inventoryService = InventoryService();
   final ProductService _productService = GetIt.I<ProductService>();
-  
+
   List<Production> _productions = [];
   List<Product> _products = [];
   bool _isLoading = true;
@@ -47,16 +47,16 @@ class _AdminProductionsScreenState extends State<AdminProductionsScreen> {
 
   Future<void> _loadData() async {
     setState(() => _isLoading = true);
-    
+
     try {
       final productions = await _inventoryService.getAllProductions(
         startDate: _filterStartDate,
         endDate: _filterEndDate,
       );
-      
+
       // ProductService zaten yüklü, products listesini al
       final products = _productService.products;
-      
+
       if (mounted) {
         setState(() {
           _productions = productions;
@@ -188,6 +188,7 @@ class _AdminProductionsScreenState extends State<AdminProductionsScreen> {
 
                 try {
                   await _inventoryService.addProduction(production);
+                  if (!context.mounted) return;
                   Navigator.pop(context);
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(content: Text('✅ Üretim kaydı eklendi ve stok güncellendi')),
@@ -210,7 +211,7 @@ class _AdminProductionsScreenState extends State<AdminProductionsScreen> {
   @override
   Widget build(BuildContext context) {
     final isSmallScreen = MediaQuery.of(context).size.width < 600;
-    
+
     return Scaffold(
       appBar: AppBar(
         title: Text(isSmallScreen ? 'Üretim' : 'Üretim Kayıtları'),
@@ -282,7 +283,11 @@ class _AdminProductionsScreenState extends State<AdminProductionsScreen> {
                                   children: [
                                     _buildStatCard(
                                       'Ürün Çeşidi',
-                                      _productions.map((p) => p.productName).toSet().length.toString(),
+                                      _productions
+                                          .map((p) => p.productName)
+                                          .toSet()
+                                          .length
+                                          .toString(),
                                       Icons.category,
                                     ),
                                     _buildStatCard(
@@ -340,9 +345,11 @@ class _AdminProductionsScreenState extends State<AdminProductionsScreen> {
                                     '📦 ${production.quantity} adet',
                                     style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                                   ),
-                                  Text('📅 ${DateFormat('dd/MM/yyyy').format(production.productionDate)}'),
+                                  Text(
+                                      '📅 ${DateFormat('dd/MM/yyyy').format(production.productionDate)}'),
                                   if (production.notes != null)
-                                    Text('📝 ${production.notes}', style: TextStyle(fontSize: 12, color: Colors.grey[600])),
+                                    Text('📝 ${production.notes}',
+                                        style: TextStyle(fontSize: 12, color: Colors.grey[600])),
                                 ],
                               ),
                               trailing: IconButton(
@@ -352,7 +359,8 @@ class _AdminProductionsScreenState extends State<AdminProductionsScreen> {
                                     context: context,
                                     builder: (context) => AlertDialog(
                                       title: Text('Sil?'),
-                                      content: Text('Bu üretim kaydı silinecek ve stok güncellenecek.'),
+                                      content:
+                                          Text('Bu üretim kaydı silinecek ve stok güncellenecek.'),
                                       actions: [
                                         TextButton(
                                           onPressed: () => Navigator.pop(context, false),

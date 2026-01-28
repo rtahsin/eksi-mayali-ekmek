@@ -44,9 +44,23 @@ class Helpers {
       ScaffoldMessenger.of(context).hideCurrentSnackBar();
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text(message),
+          content: Row(
+            children: [
+              Icon(
+                isError ? Icons.error_outline : Icons.check_circle_outline,
+                color: Colors.white,
+                size: 22,
+              ),
+              SizedBox(width: 12),
+              Expanded(child: Text(message)),
+            ],
+          ),
           backgroundColor: isError ? AppTheme.errorColor : AppTheme.successColor,
+          behavior: SnackBarBehavior.floating,
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+          margin: EdgeInsets.all(16),
           action: action,
+          duration: Duration(seconds: 3),
         ),
       );
       return;
@@ -56,9 +70,23 @@ class Helpers {
     rootScaffoldMessengerKey.currentState?.hideCurrentSnackBar();
     rootScaffoldMessengerKey.currentState?.showSnackBar(
       SnackBar(
-        content: Text(message),
+        content: Row(
+          children: [
+            Icon(
+              isError ? Icons.error_outline : Icons.check_circle_outline,
+              color: Colors.white,
+              size: 22,
+            ),
+            SizedBox(width: 12),
+            Expanded(child: Text(message)),
+          ],
+        ),
         backgroundColor: isError ? AppTheme.errorColor : AppTheme.successColor,
+        behavior: SnackBarBehavior.floating,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+        margin: EdgeInsets.all(16),
         action: action,
+        duration: Duration(seconds: 3),
       ),
     );
   }
@@ -75,8 +103,18 @@ class Helpers {
     rootScaffoldMessengerKey.currentState?.hideCurrentSnackBar();
     rootScaffoldMessengerKey.currentState?.showSnackBar(
       SnackBar(
-        content: Text(message),
+        content: Row(
+          children: [
+            Icon(Icons.warning_amber_rounded, color: Colors.white, size: 22),
+            SizedBox(width: 12),
+            Expanded(child: Text(message)),
+          ],
+        ),
         backgroundColor: AppTheme.warningColor,
+        behavior: SnackBarBehavior.floating,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+        margin: EdgeInsets.all(16),
+        duration: Duration(seconds: 3),
       ),
     );
   }
@@ -85,8 +123,18 @@ class Helpers {
     rootScaffoldMessengerKey.currentState?.hideCurrentSnackBar();
     rootScaffoldMessengerKey.currentState?.showSnackBar(
       SnackBar(
-        content: Text(message),
+        content: Row(
+          children: [
+            Icon(Icons.info_outline, color: Colors.white, size: 22),
+            SizedBox(width: 12),
+            Expanded(child: Text(message)),
+          ],
+        ),
         backgroundColor: AppTheme.infoColor,
+        behavior: SnackBarBehavior.floating,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+        margin: EdgeInsets.all(16),
+        duration: Duration(seconds: 3),
       ),
     );
   }

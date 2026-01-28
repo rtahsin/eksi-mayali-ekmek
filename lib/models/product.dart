@@ -11,6 +11,7 @@ class Product {
   final double price;
   final double discountPercentage;
   final String imageUrl;
+  final String? videoUrl; // Ürün tanıtım videosu (YouTube, Vimeo vb.)
   final String category;
   final List<String> ingredients;
   final bool isPopular;
@@ -58,6 +59,7 @@ class Product {
     required this.price,
     this.discountPercentage = 0,
     required this.imageUrl,
+    this.videoUrl,
     required this.category,
     this.ingredients = const [],
     this.isPopular = false,
@@ -113,6 +115,88 @@ class Product {
     return difference <= 30;
   }
 
+  // Model validation metodu
+  List<String> validate() {
+    final errors = <String>[];
+
+    // Name kontrolü
+    if (name.trim().isEmpty) {
+      errors.add('Ürün adı boş olamaz');
+    } else if (name.trim().length < 3) {
+      errors.add('Ürün adı en az 3 karakter olmalı');
+    } else if (name.trim().length > 100) {
+      errors.add('Ürün adı en fazla 100 karakter olabilir');
+    }
+
+    // Description kontrolü
+    if (description.trim().isEmpty) {
+      errors.add('Ürün açıklaması boş olamaz');
+    } else if (description.trim().length < 10) {
+      errors.add('Ürün açıklaması en az 10 karakter olmalı');
+    }
+
+    // Price kontrolü
+    if (price < 0) {
+      errors.add('Fiyat negatif olamaz');
+    } else if (price == 0) {
+      errors.add('Fiyat sıfır olamaz');
+    } else if (price > 999999) {
+      errors.add('Fiyat çok yüksek (maksimum 999,999)');
+    }
+
+    // Discount percentage kontrolü
+    if (discountPercentage < 0) {
+      errors.add('İndirim yüzdesi negatif olamaz');
+    } else if (discountPercentage > 100) {
+      errors.add('İndirim yüzdesi 100\'den büyük olamaz');
+    }
+
+    // Stock kontrolü
+    if (stock < 0) {
+      errors.add('Stok negatif olamaz');
+    }
+
+    // Category kontrolü
+    if (category.trim().isEmpty) {
+      errors.add('Kategori seçilmeli');
+    }
+
+    // Image URL kontrolü
+    if (imageUrl.trim().isEmpty) {
+      errors.add('Ürün görseli eklenme li');
+    }
+
+    // Weight kontrolü (eğer belirtilmişse)
+    if (weight < 0) {
+      errors.add('Ağırlık negatif olamaz');
+    }
+
+    // Preparation time kontrolü
+    if (preparationTime < 0) {
+      errors.add('Hazırlama süresi negatif olamaz');
+    }
+
+    // Cooking time kontrolü
+    if (cookingTime < 0) {
+      errors.add('Pişirme süresi negatif olamaz');
+    }
+
+    // Serving size kontrolü
+    if (servingSize <= 0) {
+      errors.add('Porsiyon miktarı 0\'dan büyük olmalı');
+    }
+
+    // Expiry date kontrolü (eğer varsa geçmişte olmamalı)
+    if (expiryDate != null && expiryDate!.isBefore(DateTime.now())) {
+      errors.add('Son kullanma tarihi geçmiş olamaz');
+    }
+
+    return errors;
+  }
+
+  // Hızlı validation (bool döndürür)
+  bool get isValid => validate().isEmpty;
+
   // Güncelleme yapmak için kopyalama
   Product copyWith({
     String? id,
@@ -121,6 +205,7 @@ class Product {
     double? price,
     double? discountPercentage,
     String? imageUrl,
+    String? videoUrl,
     String? category,
     List<String>? ingredients,
     bool? isPopular,
@@ -161,6 +246,7 @@ class Product {
       price: price ?? this.price,
       discountPercentage: discountPercentage ?? this.discountPercentage,
       imageUrl: imageUrl ?? this.imageUrl,
+      videoUrl: videoUrl ?? this.videoUrl,
       category: category ?? this.category,
       ingredients: ingredients ?? this.ingredients,
       isPopular: isPopular ?? this.isPopular,
@@ -267,6 +353,7 @@ class Product {
       price: (json['price'] as num?)?.toDouble() ?? 0.0,
       discountPercentage: (json['discountPercentage'] as num?)?.toDouble() ?? 0.0,
       imageUrl: imageUrl,
+      videoUrl: json['videoUrl'],
       category: json['category'] ?? '',
       ingredients: List<String>.from(json['ingredients'] ?? []),
       isPopular: json['isPopular'] ?? false,
@@ -316,6 +403,7 @@ class Product {
       'discountPercentage': discountPercentage,
       'category': category,
       'imageUrl': imageUrl,
+      'videoUrl': videoUrl,
       'ingredients': ingredients,
       'isPopular': isPopular,
       'isNew': isNew,

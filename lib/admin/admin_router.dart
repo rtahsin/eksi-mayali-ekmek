@@ -1,5 +1,3 @@
-// ignore_for_file: use_super_parameters, prefer_const_constructors, prefer_const_literals_to_create_immutables, avoid_print, use_build_context_synchronously
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -21,9 +19,15 @@ import 'auth/admin_login.dart';
 import 'categories/admin_categories.dart';
 import 'customers/admin_customers.dart';
 import 'dashboard/admin_dashboard.dart';
+import 'delivery/delivery_route_screen.dart';
+import 'delivery/delivery_schedule_screen.dart';
+import 'notifications/manual_notification_screen.dart';
 import 'orders/admin_orders.dart';
+import 'production/start_production_screen.dart';
 import 'products/admin_products.dart';
 import 'widgets/admin_drawer.dart';
+
+export 'mobile/admin_mobile_landing.dart';
 
 /// AdminRouter sınıfı, yönetici panelinin ana yönlendirme bileşenidir.
 /// Bu sınıf, kullanıcının admin yetkisini kontrol eder ve
@@ -296,6 +300,18 @@ class _AdminRouterState extends State<AdminRouter> {
       } else if (currentPath.contains('/admin/audit')) {
         Logger.info('AdminRouter: Denetim Kayıtları sayfası gösteriliyor');
         pageToShow = const AdminAuditLogsPage();
+      } else if (currentPath.contains('/admin/delivery-schedule')) {
+        Logger.info('AdminRouter: Teslimat Takvimi sayfası gösteriliyor');
+        pageToShow = const DeliveryScheduleScreen();
+      } else if (currentPath.contains('/admin/start-production')) {
+        Logger.info('AdminRouter: Üretim Başlatma sayfası gösteriliyor');
+        pageToShow = const StartProductionScreen();
+      } else if (currentPath.contains('/admin/delivery-route')) {
+        Logger.info('AdminRouter: Teslimat Rotası sayfası gösteriliyor');
+        pageToShow = const DeliveryRouteScreen();
+      } else if (currentPath.contains('/admin/manual-notification')) {
+        Logger.info('AdminRouter: Manuel Bildirim sayfası gösteriliyor');
+        pageToShow = const ManualNotificationScreen();
       }
     }
 
@@ -328,6 +344,14 @@ class _AdminRouterState extends State<AdminRouter> {
         selectedIndex = 12;
       } else if (currentPath.contains('/admin/audit')) {
         selectedIndex = 13;
+      } else if (currentPath.contains('/admin/delivery-schedule')) {
+        selectedIndex = 14;
+      } else if (currentPath.contains('/admin/start-production')) {
+        selectedIndex = 15;
+      } else if (currentPath.contains('/admin/delivery-route')) {
+        selectedIndex = 16;
+      } else if (currentPath.contains('/admin/manual-notification')) {
+        selectedIndex = 17;
       }
     }
 
@@ -359,6 +383,7 @@ class _AdminRouterState extends State<AdminRouter> {
             icon: Icon(Icons.logout),
             onPressed: () async {
               await authService.logout();
+              if (!context.mounted) return;
               Navigator.pushReplacementNamed(context, '/admin/login');
             },
           ),

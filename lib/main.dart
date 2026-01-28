@@ -55,7 +55,6 @@ import 'screens/analytics_screen.dart';
 import 'screens/blog_detail_screen.dart';
 import 'screens/blog_list_screen.dart';
 import 'screens/cart_screen.dart';
-import 'screens/checkout_screen.dart';
 import 'screens/delivery_tracking_screen.dart' deferred as delivery_tracking;
 import 'screens/favorites_screen.dart';
 import 'screens/home_screen.dart';
@@ -74,6 +73,7 @@ import 'services/ai_service.dart';
 import 'services/analytics_service.dart';
 import 'services/auth_service.dart';
 import 'services/connection_service.dart';
+import 'services/delivery_schedule_service.dart';
 import 'services/delivery_service.dart';
 import 'services/live_chat_service.dart';
 import 'services/notification_service.dart';
@@ -179,6 +179,7 @@ Future<void> main() async {
         ChangeNotifierProvider(create: (context) => GetIt.instance<PaymentService>()),
         ChangeNotifierProvider(create: (context) => GetIt.instance<YouTubeService>()),
         ChangeNotifierProvider(create: (context) => GetIt.instance<ConnectionService>()),
+        ChangeNotifierProvider(create: (context) => GetIt.instance<DeliveryScheduleService>()),
         ChangeNotifierProvider(create: (context) => LiveChatService()),
       ],
       child: MyApp(prefs: prefs),
@@ -203,6 +204,16 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Web'de URL'den initial route'u al
+    String initialRoute = '/';
+    if (kIsWeb) {
+      final uri = Uri.base;
+      if (uri.path.isNotEmpty && uri.path != '/') {
+        initialRoute = uri.path;
+        Logger.info('Web URL path: ${uri.path} -> initialRoute: $initialRoute');
+      }
+    }
+
     // One Tap entegrasyonunu (web) initialize et - tekrar kayıt olmasın
     if (kIsWeb) {
       WebOneTap.init((idToken) async {
@@ -304,8 +315,8 @@ class MyApp extends StatelessWidget {
             return null;
           },
 
-          // Başlangıç sayfası
-          initialRoute: '/',
+          // Başlangıç sayfası - Web'de URL'den alınır
+          initialRoute: initialRoute,
 
           // Uygulama içi sayfalar ve rotalar
           // Merkezi rota sistemi kullanılıyor

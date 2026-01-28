@@ -159,6 +159,8 @@ class FirestoreCollections {
 class PreferenceKeys {
   static const String userData = 'userData';
   static const String token = 'token';
+  static const String sessionTimestamp =
+      'sessionTimestamp'; // Oturum başlangıç zamanı (30 gün kontrolü için)
   static const String theme = 'theme';
   static const String locale = 'locale';
   static const String cart = 'cart';

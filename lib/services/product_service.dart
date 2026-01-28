@@ -14,6 +14,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../domain/repositories/i_product_repository.dart';
 import '../models/product.dart';
+import '../utils/input_sanitizer.dart';
 import '../utils/logger.dart';
 import 'audit_log_service.dart';
 import 'connection_service.dart';
@@ -37,6 +38,12 @@ class ProductService with ChangeNotifier {
   DateTime? _lastFetchTime;
   bool _useCache = true;
   bool _notificationPending = false;
+
+  // Pagination
+  DocumentSnapshot? _lastProductDocument;
+  bool _hasMoreProducts = true;
+
+  bool get hasMoreProducts => _hasMoreProducts;
 
   // Verilerin ne kadar süre önbelleğe alınacağı (dakika)
   static const int _cacheDurationMinutes = 15;
@@ -254,6 +261,93 @@ class ProductService with ChangeNotifier {
     });
   }
 
+  /// Paginated ürünler getir (Admin için)
+  ///
+  /// [limit] - Sayfa başına ürün sayısı (varsayılan: 20)
+  /// [loadMore] - Sonraki sayfa yükle (true) veya ilk sayfa (false)
+  /// [includeDeleted] - Silinmiş ürünleri dahil et
+  Future<List<Product>> getProductsPaginated({
+    int limit = 20,
+    bool loadMore = false,
+    bool includeDeleted = false,
+  }) async {
+    try {
+      Logger.info('Paginated products loading: limit=$limit, loadMore=$loadMore');
+
+      Query query =
+          _firestore.collection(_collection).orderBy('createdAt', descending: true).limit(limit);
+
+      // Load more için son document'tan başla
+      if (loadMore && _lastProductDocument != null) {
+        query = query.startAfterDocument(_lastProductDocument!);
+      } else if (!loadMore) {
+        // İlk sayfa - reset
+        _lastProductDocument = null;
+        _hasMoreProducts = true;
+      }
+
+      final snapshot = await query.get();
+
+      if (snapshot.docs.isEmpty) {
+        _hasMoreProducts = false;
+        Logger.info('No more products to load');
+        return [];
+      }
+
+      // Son document'ı kaydet
+      if (snapshot.docs.isNotEmpty) {
+        _lastProductDocument = snapshot.docs.last;
+      }
+
+      // Has more check
+      _hasMoreProducts = snapshot.docs.length == limit;
+
+      final products = snapshot.docs
+          .map((doc) {
+            final data = doc.data() as Map<String, dynamic>?;
+            if (data == null) {
+              Logger.warning('Product document ${doc.id} has null data');
+              return null;
+            }
+            return Product(
+              id: doc.id,
+              name: data['name'] ?? '',
+              description: data['description'] ?? '',
+              price: (data['price'] as num?)?.toDouble() ?? 0.0,
+              imageUrl: ImageService.sanitizeImageUrl(data['imageUrl'], data['name'] ?? ''),
+              category: data['category'] ?? '',
+              stock: data['stock'] ?? 0,
+              isActive: data['isActive'] ?? true,
+              isFeatured: data['isFeatured'] ?? false,
+              createdAt: (data['createdAt'] as Timestamp?)?.toDate() ?? DateTime.now(),
+              updatedAt: (data['updatedAt'] as Timestamp?)?.toDate(),
+              sales: data['sales'] ?? 0,
+              ingredients:
+                  data['ingredients'] != null ? List<String>.from(data['ingredients']) : [],
+              discountPercentage: (data['discountPercentage'] as num?)?.toDouble() ?? 0.0,
+              isNew: data['isNew'] ?? false,
+              isPopular: data['isPopular'] ?? false,
+              tags: data['tags'] != null ? List<String>.from(data['tags']) : [],
+              imageUrls: data['imageUrls'] != null ? List<String>.from(data['imageUrls']) : [],
+              isDeleted: data['isDeleted'] ?? false,
+              deletedAt:
+                  data['deletedAt'] is Timestamp ? (data['deletedAt'] as Timestamp).toDate() : null,
+              deletedBy: data['deletedBy'],
+            );
+          })
+          .whereType<Product>()
+          .where((p) => includeDeleted ? true : !p.isDeleted)
+          .toList();
+
+      Logger.info('Loaded ${products.length} products, hasMore: $_hasMoreProducts');
+      return products;
+    } catch (e) {
+      Logger.error('Paginated products error: $e');
+      _hasMoreProducts = false;
+      rethrow;
+    }
+  }
+
   // Tüm ürünleri getir
   Future<List<Product>> getProducts({bool includeDeleted = false}) async {
     try {
@@ -330,6 +424,28 @@ class ProductService with ChangeNotifier {
       _error = null;
       _notifySafely();
 
+      // 🔒 INPUT SANITIZATION (XSS Protection)
+      final sanitizer = InputSanitizer.instance;
+
+      // Validate and sanitize inputs
+      final sanitizedName = sanitizer.sanitizeText(product.name, maxLength: 200);
+      final sanitizedDescription =
+          sanitizer.sanitizeDescription(product.description, maxLength: 5000);
+      final sanitizedCategory = sanitizer.sanitizeText(product.category, maxLength: 100);
+
+      // Validate required fields
+      if (sanitizedName.isEmpty) {
+        throw Exception('Ürün adı geçersiz');
+      }
+      if (sanitizedCategory.isEmpty) {
+        throw Exception('Kategori geçersiz');
+      }
+      if (product.price < 0 || product.price > 100000) {
+        throw Exception('Fiyat geçersiz (0-100000 arası olmalı)');
+      }
+
+      Logger.info('✅ Product input validation passed: $sanitizedName');
+
       // Eğer imageUrl boşsa veya geçerli bir URL değilse, varsayılan görsel kullan
       String imageUrl = product.imageUrl;
       if (imageUrl.isEmpty || !imageUrl.startsWith('http')) {
@@ -337,22 +453,23 @@ class ProductService with ChangeNotifier {
       }
 
       final productData = {
-        'name': product.name,
-        'description': product.description,
+        'name': sanitizedName,
+        'description': sanitizedDescription,
         'price': product.price,
         'imageUrl': imageUrl,
-        'category': product.category,
+        'category': sanitizedCategory,
         'stock': product.stock,
         'isActive': product.isActive,
         'isFeatured': product.isFeatured,
         'createdAt': FieldValue.serverTimestamp(),
         'updatedAt': FieldValue.serverTimestamp(),
         'sales': product.sales,
-        'ingredients': product.ingredients,
+        'ingredients':
+            product.ingredients.map((i) => sanitizer.sanitizeText(i, maxLength: 100)).toList(),
         'discountPercentage': product.discountPercentage,
         'isNew': product.isNew,
         'isPopular': product.isPopular,
-        'tags': product.tags,
+        'tags': product.tags.map((t) => sanitizer.sanitizeText(t, maxLength: 50)).toList(),
         'imageUrls': product.imageUrls,
         'isDeleted': false,
         'deletedAt': null,
@@ -935,6 +1052,55 @@ class ProductService with ChangeNotifier {
       return url;
     } catch (e) {
       Logger.error('Firebase Storage ürün görseli yükleme hatası: $e');
+      rethrow;
+    }
+  }
+
+  /// Ürün videosu Firebase Storage'a yükler ve URL döndürür
+  /// [productId] ürün ID'si
+  /// [bytes] video dosyası içeriği
+  /// [originalName] video dosya adı
+  Future<String> uploadProductVideoToStorage(String productId, Uint8List bytes,
+      {String? originalName}) async {
+    try {
+      final storage = FirebaseStorage.instance;
+      final safeName = (originalName ?? 'video')
+          .toLowerCase()
+          .replaceAll(RegExp(r'[^a-z0-9._-]'), '_')
+          .replaceAll(RegExp(r'_+'), '_');
+      final ts = DateTime.now().millisecondsSinceEpoch;
+
+      // Video uzantısını koru
+      String extension = 'mp4';
+      if (safeName.contains('.')) {
+        extension = safeName.split('.').last;
+      }
+
+      final path = 'product-videos/$productId/${ts}_video.$extension';
+      final ref = storage.ref().child(path);
+
+      // Video content type belirle
+      String contentType = 'video/mp4';
+      if (extension == 'webm') contentType = 'video/webm';
+      if (extension == 'mov') contentType = 'video/quicktime';
+
+      final uploadTask = ref.putData(
+        bytes,
+        SettableMetadata(contentType: contentType),
+      );
+
+      final snap = await uploadTask;
+      final url = await snap.ref.getDownloadURL();
+
+      await AuditLogService.instance.log('product_video_upload', data: {
+        'productId': productId,
+        'path': path,
+        'size': bytes.length,
+      });
+
+      return url;
+    } catch (e) {
+      Logger.error('Firebase Storage ürün videosu yükleme hatası: $e');
       rethrow;
     }
   }

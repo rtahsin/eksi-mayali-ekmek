@@ -90,6 +90,18 @@ class Order {
   final Map<String, dynamic>? metadata;
   final List<Map<String, dynamic>> statusHistory; // [{status, changedAt, changedByRole, changedBy}]
 
+  // Konum bilgileri (teslimat için)
+  final double? latitude;
+  final double? longitude;
+  final String? locationUrl; // Google Maps link
+
+  // 🆕 Haftalık teslimat sistemi için yeni alanlar
+  final String? deliveryDate; // "2026-01-24" (YYYY-MM-DD format)
+  final String? estimatedArrivalTime; // "14:00-16:00"
+  final int? deliverySequence; // Rota sırası: 1, 2, 3...
+  final DateTime? productionStartedAt; // Üretim başlangıç zamanı
+  final DateTime? deliveredAt; // Teslim edilme zamanı
+
   Order({
     required this.id,
     required this.userId,
@@ -107,6 +119,14 @@ class Order {
     this.review,
     this.metadata,
     this.statusHistory = const [],
+    this.latitude,
+    this.longitude,
+    this.locationUrl,
+    this.deliveryDate,
+    this.estimatedArrivalTime,
+    this.deliverySequence,
+    this.productionStartedAt,
+    this.deliveredAt,
   }) : orderDate = orderDate ?? dateTime;
 
   factory Order.fromJson(Map<String, dynamic> json) {
@@ -138,6 +158,16 @@ class Order {
               .map((e) => Map<String, dynamic>.from(e))
               .toList()
           : const [],
+      latitude: (json['latitude'] as num?)?.toDouble(),
+      longitude: (json['longitude'] as num?)?.toDouble(),
+      locationUrl: json['locationUrl'] as String?,
+      deliveryDate: json['deliveryDate'] as String?,
+      estimatedArrivalTime: json['estimatedArrivalTime'] as String?,
+      deliverySequence: json['deliverySequence'] as int?,
+      productionStartedAt: json['productionStartedAt'] != null
+          ? (json['productionStartedAt'] as Timestamp).toDate()
+          : null,
+      deliveredAt: json['deliveredAt'] != null ? (json['deliveredAt'] as Timestamp).toDate() : null,
     );
   }
 
@@ -159,6 +189,15 @@ class Order {
       if (review != null) 'review': review!.toJson(),
       if (metadata != null) 'metadata': metadata,
       if (statusHistory.isNotEmpty) 'statusHistory': statusHistory,
+      if (latitude != null) 'latitude': latitude,
+      if (longitude != null) 'longitude': longitude,
+      if (locationUrl != null) 'locationUrl': locationUrl,
+      if (deliveryDate != null) 'deliveryDate': deliveryDate,
+      if (estimatedArrivalTime != null) 'estimatedArrivalTime': estimatedArrivalTime,
+      if (deliverySequence != null) 'deliverySequence': deliverySequence,
+      if (productionStartedAt != null)
+        'productionStartedAt': Timestamp.fromDate(productionStartedAt!),
+      if (deliveredAt != null) 'deliveredAt': Timestamp.fromDate(deliveredAt!),
     };
   }
 
@@ -179,6 +218,14 @@ class Order {
     OrderReview? review,
     Map<String, dynamic>? metadata,
     List<Map<String, dynamic>>? statusHistory,
+    double? latitude,
+    double? longitude,
+    String? locationUrl,
+    String? deliveryDate,
+    String? estimatedArrivalTime,
+    int? deliverySequence,
+    DateTime? productionStartedAt,
+    DateTime? deliveredAt,
   }) {
     return Order(
       id: id ?? this.id,
@@ -197,8 +244,74 @@ class Order {
       review: review ?? this.review,
       metadata: metadata ?? this.metadata,
       statusHistory: statusHistory ?? this.statusHistory,
+      latitude: latitude ?? this.latitude,
+      longitude: longitude ?? this.longitude,
+      locationUrl: locationUrl ?? this.locationUrl,
+      deliveryDate: deliveryDate ?? this.deliveryDate,
+      estimatedArrivalTime: estimatedArrivalTime ?? this.estimatedArrivalTime,
+      deliverySequence: deliverySequence ?? this.deliverySequence,
+      productionStartedAt: productionStartedAt ?? this.productionStartedAt,
+      deliveredAt: deliveredAt ?? this.deliveredAt,
     );
   }
+
+  // Model validation metodu
+  List<String> validate() {
+    final errors = <String>[];
+
+    // Customer name kontrolü
+    if (customerName.trim().isEmpty) {
+      errors.add('Müşteri adı boş olamaz');
+    } else if (customerName.trim().length < 2) {
+      errors.add('Müşteri adı en az 2 karakter olmalı');
+    }
+
+    // Customer email kontrolü
+    if (customerEmail.trim().isNotEmpty) {
+      final emailRegex = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
+      if (!emailRegex.hasMatch(customerEmail.trim())) {
+        errors.add('Geçerli bir e-posta adresi giriniz');
+      }
+    }
+
+    // Customer phone kontrolü
+    if (customerPhone.trim().isEmpty) {
+      errors.add('Telefon numarası boş olamaz');
+    } else {
+      final phoneRegex = RegExp(r'^\d{10,11}$'); // 10-11 rakam
+      final cleanPhone = customerPhone.replaceAll(RegExp(r'[\s\-\(\)]'), '');
+      if (!phoneRegex.hasMatch(cleanPhone)) {
+        errors.add('Geçerli bir telefon numarası giriniz (10-11 rakam)');
+      }
+    }
+
+    // Shipping address kontrolü
+    if (shippingAddress.trim().isEmpty) {
+      errors.add('Teslimat adresi boş olamaz');
+    } else if (shippingAddress.trim().length < 10) {
+      errors.add('Teslimat adresi en az 10 karakter olmalı');
+    }
+
+    // Items kontrolü
+    if (items.isEmpty) {
+      errors.add('Sipariş en az 1 ürün içermeli');
+    }
+
+    // Amount kontrolü
+    if (amount != null && amount! < 0) {
+      errors.add('Sipariş tutarı negatif olamaz');
+    }
+
+    // Payment method kontrolü
+    if (paymentMethod.trim().isEmpty) {
+      errors.add('Ödeme yöntemi seçilmeli');
+    }
+
+    return errors;
+  }
+
+  // Hızlı validation (bool döndürür)
+  bool get isValid => validate().isEmpty;
 
   // Toplam hesaplama
   double get total {

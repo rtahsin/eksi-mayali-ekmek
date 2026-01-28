@@ -149,6 +149,10 @@ class Routes {
             await admin_router.loadLibrary();
             return admin_router.AdminRouter();
           }),
+      '/admin-mobile': (context) => _loadDeferred(() async {
+            await admin_router.loadLibrary();
+            return admin_router.AdminMobileLanding();
+          }),
       '/admin/login': (context) => _loadDeferred(() async {
             await admin_login.loadLibrary();
             return admin_login.AdminLoginPage();
