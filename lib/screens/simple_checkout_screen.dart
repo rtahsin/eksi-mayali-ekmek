@@ -20,6 +20,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 import '../models/delivery_day.dart';
 import '../models/order_item.dart';
+import '../models/saved_address.dart';
 import '../providers/cart_provider.dart';
 import '../services/auth_service.dart';
 import '../services/delivery_schedule_service.dart';
@@ -30,6 +31,7 @@ import '../utils/logger.dart';
 import '../widgets/custom_app_bar.dart';
 import '../widgets/location_loading_dialog.dart';
 import '../widgets/map_location_picker.dart';
+import '../widgets/saved_addresses_bottom_sheet.dart';
 
 class SimpleCheckoutScreen extends StatefulWidget {
   const SimpleCheckoutScreen({Key? key}) : super(key: key);
@@ -222,6 +224,35 @@ class _SimpleCheckoutScreenState extends State<SimpleCheckoutScreen> {
         );
       }
     }
+  }
+
+  // Kayıtlı adreslerden seç
+  Future<void> _showSavedAddresses() async {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (ctx) => SavedAddressesBottomSheet(
+        onAddressSelected: (SavedAddress address) {
+          setState(() {
+            _selectedLatitude = address.latitude;
+            _selectedLongitude = address.longitude;
+            _locationUrl =
+                'https://www.google.com/maps/dir/?api=1&destination=${address.latitude},${address.longitude}';
+          });
+
+          Logger.info('Kayıtlı adres seçildi: ${address.title}');
+
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text('✅ ${address.title} seçildi'),
+              backgroundColor: Colors.green,
+              duration: Duration(seconds: 2),
+            ),
+          );
+        },
+      ),
+    );
   }
 
   // Sipariş oluştur
@@ -866,6 +897,7 @@ class _SimpleCheckoutScreenState extends State<SimpleCheckoutScreen> {
                 ),
               ),
               SizedBox(height: 12),
+              // GPS ve Harita butonları
               Row(
                 children: [
                   Expanded(
@@ -922,6 +954,18 @@ class _SimpleCheckoutScreenState extends State<SimpleCheckoutScreen> {
                     ),
                   ],
                 ],
+              ),
+              
+              // Kayıtlı Adresler butonu
+              SizedBox(height: 12),
+              TextButton.icon(
+                onPressed: _showSavedAddresses,
+                icon: Icon(Icons.bookmark_outline, size: 20),
+                label: Text('Kayıtlı Adreslerimden Seç'),
+                style: TextButton.styleFrom(
+                  foregroundColor: AppTheme.primaryColor,
+                  padding: EdgeInsets.symmetric(vertical: 12),
+                ),
               ),
             ],
           ),
