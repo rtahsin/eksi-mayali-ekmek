@@ -29,6 +29,7 @@ import '../utils/helpers.dart';
 import '../utils/logger.dart';
 import '../widgets/custom_app_bar.dart';
 import '../widgets/location_loading_dialog.dart';
+import '../widgets/map_location_picker.dart';
 
 class SimpleCheckoutScreen extends StatefulWidget {
   const SimpleCheckoutScreen({Key? key}) : super(key: key);
@@ -163,6 +164,59 @@ class _SimpleCheckoutScreenState extends State<SimpleCheckoutScreen> {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
             content: Text('Harita açılamadı'),
+            backgroundColor: Colors.red,
+          ),
+        );
+      }
+    }
+  }
+
+  // Haritadan konum seç
+  Future<void> _selectLocationFromMap() async {
+    try {
+      final result = await Navigator.push<Map<String, dynamic>>(
+        context,
+        MaterialPageRoute(
+          builder: (ctx) => MapLocationPicker(
+            initialLatitude: _selectedLatitude,
+            initialLongitude: _selectedLongitude,
+          ),
+        ),
+      );
+
+      if (result != null && mounted) {
+        final latitude = result['latitude'] as double;
+        final longitude = result['longitude'] as double;
+        final address = result['address'] as String?;
+
+        // Google Maps linki oluştur
+        final String mapsUrl =
+            'https://www.google.com/maps/dir/?api=1&destination=$latitude,$longitude';
+
+        setState(() {
+          _selectedLatitude = latitude;
+          _selectedLongitude = longitude;
+          _locationUrl = mapsUrl;
+        });
+
+        Logger.info('Haritadan konum seçildi: $latitude, $longitude');
+
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text('✅ Konum seçildi: ${address ?? "Koordinatlar kaydedildi"}'),
+              backgroundColor: Colors.green,
+              duration: Duration(seconds: 2),
+            ),
+          );
+        }
+      }
+    } catch (e) {
+      Logger.error('Harita açma hatası: $e');
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Harita açılamadı: ${e.toString()}'),
             backgroundColor: Colors.red,
           ),
         );
@@ -826,15 +880,32 @@ class _SimpleCheckoutScreenState extends State<SimpleCheckoutScreen> {
                                 strokeWidth: 2,
                               ),
                             )
-                          : Icon(Icons.my_location, size: 24),
+                          : Icon(Icons.my_location, size: 20),
                       label: Text(
-                        _isLoadingLocation ? 'Konum alınıyor...' : 'Konumumu Paylaş',
-                        style: TextStyle(fontSize: 15, fontWeight: FontWeight.w600),
+                        _isLoadingLocation ? 'Alınıyor...' : 'GPS',
+                        style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
                       ),
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.green,
                         foregroundColor: Colors.white,
-                        padding: EdgeInsets.symmetric(vertical: 16),
+                        padding: EdgeInsets.symmetric(vertical: 14),
+                        elevation: 3,
+                      ),
+                    ),
+                  ),
+                  SizedBox(width: 8),
+                  Expanded(
+                    child: ElevatedButton.icon(
+                      onPressed: _selectLocationFromMap,
+                      icon: Icon(Icons.map, size: 20),
+                      label: Text(
+                        'Harita',
+                        style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
+                      ),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.blue,
+                        foregroundColor: Colors.white,
+                        padding: EdgeInsets.symmetric(vertical: 14),
                         elevation: 3,
                       ),
                     ),
@@ -843,7 +914,7 @@ class _SimpleCheckoutScreenState extends State<SimpleCheckoutScreen> {
                     SizedBox(width: 8),
                     IconButton(
                       onPressed: _openLocationInMaps,
-                      icon: Icon(Icons.map, color: Colors.green, size: 28),
+                      icon: Icon(Icons.open_in_new, color: Colors.green, size: 24),
                       tooltip: 'Haritada Göster',
                       style: IconButton.styleFrom(
                         backgroundColor: Colors.green.withValues(alpha: 0.2),

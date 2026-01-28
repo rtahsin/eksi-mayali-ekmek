@@ -90,6 +90,8 @@ dependencies:
   uuid: ^4.3.3
   geolocator: ^11.0.0
   geocoding: ^3.0.0
+  google_maps_flutter: ^2.5.0
+  google_maps_flutter_web: ^0.5.4+2
   timeago: ^3.6.1
   logger: ^2.0.2+1
   connectivity_plus: ^5.0.2
