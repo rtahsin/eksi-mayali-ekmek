@@ -71,7 +71,8 @@ dependencies:
   font_awesome_flutter: ^10.8.0
   flutter_svg: ^2.0.9
   image_picker: ^1.0.7
-  youtube_player_iframe: ^4.0.4
+  video_player: ^2.8.1
+  chewie: ^1.7.5
   file_picker: ^8.0.7
   crop_image: ^1.0.13
   image: ^4.1.7
@@ -88,6 +89,7 @@ dependencies:
   intl: ^0.19.0
   uuid: ^4.3.3
   geolocator: ^11.0.0
+  geocoding: ^3.0.0
   timeago: ^3.6.1
   logger: ^2.0.2+1
   connectivity_plus: ^5.0.2
@@ -100,6 +102,7 @@ dependencies:
   # Diğer
   cupertino_icons: ^1.0.6
   webview_flutter: ^4.0.5
+  excel: ^4.0.6
 
 dev_dependencies:
   flutter_test:
