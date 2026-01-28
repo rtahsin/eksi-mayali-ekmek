@@ -24,6 +24,10 @@ class SavedAddress {
   final double latitude;
   final double longitude;
   final bool isDefault;
+  final String? category; // 'home', 'work', 'family', 'friend', 'other'
+  final String? icon; // Emoji: '🏠', '🏢', '❤️', '👥', '📍'
+  final String? color; // Hex color: '#4CAF50', '#2196F3', etc.
+  final DateTime? lastUsed; // Son kullanım tarihi
   final DateTime createdAt;
   final DateTime? updatedAt;
 
@@ -35,6 +39,10 @@ class SavedAddress {
     required this.latitude,
     required this.longitude,
     this.isDefault = false,
+    this.category,
+    this.icon,
+    this.color,
+    this.lastUsed,
     required this.createdAt,
     this.updatedAt,
   });
@@ -49,6 +57,10 @@ class SavedAddress {
       latitude: (json['latitude'] as num?)?.toDouble() ?? 0.0,
       longitude: (json['longitude'] as num?)?.toDouble() ?? 0.0,
       isDefault: json['isDefault'] as bool? ?? false,
+      category: json['category'] as String?,
+      icon: json['icon'] as String?,
+      color: json['color'] as String?,
+      lastUsed: (json['lastUsed'] as Timestamp?)?.toDate(),
       createdAt: (json['createdAt'] as Timestamp?)?.toDate() ?? DateTime.now(),
       updatedAt: (json['updatedAt'] as Timestamp?)?.toDate(),
     );
@@ -63,6 +75,10 @@ class SavedAddress {
       'latitude': latitude,
       'longitude': longitude,
       'isDefault': isDefault,
+      'category': category,
+      'icon': icon,
+      'color': color,
+      'lastUsed': lastUsed != null ? Timestamp.fromDate(lastUsed!) : null,
       'createdAt': Timestamp.fromDate(createdAt),
       'updatedAt': updatedAt != null ? Timestamp.fromDate(updatedAt!) : null,
     };
@@ -77,6 +93,10 @@ class SavedAddress {
     double? latitude,
     double? longitude,
     bool? isDefault,
+    String? category,
+    String? icon,
+    String? color,
+    DateTime? lastUsed,
     DateTime? createdAt,
     DateTime? updatedAt,
   }) {
@@ -88,6 +108,10 @@ class SavedAddress {
       latitude: latitude ?? this.latitude,
       longitude: longitude ?? this.longitude,
       isDefault: isDefault ?? this.isDefault,
+      category: category ?? this.category,
+      icon: icon ?? this.icon,
+      color: color ?? this.color,
+      lastUsed: lastUsed ?? this.lastUsed,
       createdAt: createdAt ?? this.createdAt,
       updatedAt: updatedAt ?? this.updatedAt,
     );
