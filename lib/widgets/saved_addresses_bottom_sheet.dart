@@ -39,12 +39,10 @@ class SavedAddressesBottomSheet extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<SavedAddressesBottomSheet> createState() =>
-      _SavedAddressesBottomSheetState();
+  State<SavedAddressesBottomSheet> createState() => _SavedAddressesBottomSheetState();
 }
 
-class _SavedAddressesBottomSheetState
-    extends State<SavedAddressesBottomSheet> {
+class _SavedAddressesBottomSheetState extends State<SavedAddressesBottomSheet> {
   final AddressService _addressService = AddressService();
   final TextEditingController _searchController = TextEditingController();
   List<SavedAddress> _addresses = [];
@@ -99,7 +97,7 @@ class _SavedAddressesBottomSheetState
       }
 
       final addresses = await _addressService.getUserSavedAddresses(_userId!);
-      
+
       if (mounted) {
         setState(() {
           _addresses = addresses;
@@ -148,7 +146,7 @@ class _SavedAddressesBottomSheetState
       try {
         await _addressService.deleteSavedAddress(address.id);
         await _loadAddresses();
-        
+
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
@@ -173,13 +171,11 @@ class _SavedAddressesBottomSheetState
 
   Widget _buildRecentAddressesSection() {
     // Get last 3 used addresses
-    final recentAddresses = _addresses
-        .where((a) => a.lastUsed != null)
-        .toList()
+    final recentAddresses = _addresses.where((a) => a.lastUsed != null).toList()
       ..sort((a, b) => b.lastUsed!.compareTo(a.lastUsed!));
-    
+
     final displayAddresses = recentAddresses.take(3).toList();
-    
+
     if (displayAddresses.isEmpty) {
       return SizedBox.shrink();
     }
@@ -212,9 +208,7 @@ class _SavedAddressesBottomSheetState
             itemCount: displayAddresses.length,
             itemBuilder: (ctx, idx) {
               final address = displayAddresses[idx];
-              final categoryData = address.category != null
-                  ? _categories[address.category]
-                  : null;
+              final categoryData = address.category != null ? _categories[address.category] : null;
               final iconText = address.icon ?? categoryData?['icon'] ?? '📍';
               final colorHex = address.color ?? categoryData?['color'] ?? '#9E9E9E';
               final cardColor = Color(int.parse(colorHex.replaceFirst('#', '0xFF')));
@@ -228,7 +222,7 @@ class _SavedAddressesBottomSheetState
                   } catch (e) {
                     Logger.error('lastUsed güncelleme hatası: $e');
                   }
-                  
+
                   widget.onAddressSelected(address);
                   Navigator.pop(context);
                 },
@@ -315,12 +309,14 @@ ${address.title}
 📍 ${address.fullAddress}
 
 🗺️ Harita: https://www.google.com/maps/search/?api=1&query=${address.latitude},${address.longitude}
-    '''.trim();
+    '''
+        .trim();
 
     // Web için basit çözüm - share API kullan
     if (kIsWeb) {
       // Web Share API (destekliyorsa)
-      js.context.callMethod('eval', ['''
+      js.context.callMethod('eval', [
+        '''
         if (navigator.share) {
           navigator.share({
             title: "${address.title}",
@@ -332,11 +328,12 @@ ${address.title}
             alert('Adres panoya kopyalandı!');
           });
         }
-      ''']);
+      '''
+      ]);
     } else {
       // Mobil için Share paketi kullanılabilir (şimdilik clipboard)
       Clipboard.setData(ClipboardData(text: shareText));
-      
+
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text('Adres panoya kopyalandı!'),
@@ -368,7 +365,7 @@ ${address.title}
       // Kategori ve başlık seç
       String? selectedCategory;
       final titleController = TextEditingController();
-      
+
       final confirmed = await showDialog<bool>(
         context: context,
         builder: (ctx) => StatefulBuilder(
@@ -469,9 +466,7 @@ ${address.title}
 
       if (confirmed == true && mounted) {
         try {
-          final categoryData = selectedCategory != null
-              ? _categories[selectedCategory]
-              : null;
+          final categoryData = selectedCategory != null ? _categories[selectedCategory] : null;
 
           final newAddress = SavedAddress(
             id: '', // Firestore otomatik oluşturacak
@@ -696,10 +691,8 @@ ${address.title}
 
   Widget _buildAddressCard(SavedAddress address) {
     // Category data
-    final categoryData = address.category != null
-        ? _categories[address.category]
-        : null;
-    
+    final categoryData = address.category != null ? _categories[address.category] : null;
+
     final iconText = address.icon ?? categoryData?['icon'] ?? '📍';
     final colorHex = address.color ?? categoryData?['color'] ?? '#9E9E9E';
     final cardColor = Color(int.parse(colorHex.replaceFirst('#', '0xFF')));
@@ -717,7 +710,7 @@ ${address.title}
           } catch (e) {
             Logger.error('lastUsed güncelleme hatası: $e');
           }
-          
+
           widget.onAddressSelected(address);
           Navigator.pop(context);
         },

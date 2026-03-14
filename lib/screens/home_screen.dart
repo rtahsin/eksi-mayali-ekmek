@@ -1630,11 +1630,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
 
     if (_selectedCategory != null && _selectedCategory!.isNotEmpty) {
       _filteredProducts = products.where((p) => p.category == _selectedCategory).toList();
-
-      // Eğer filtrelenmiş ürün yoksa, tüm ürünleri göster
-      if (_filteredProducts.isEmpty) {
-        _filteredProducts = products;
-      }
     } else {
       _filteredProducts = products;
     }

@@ -4,11 +4,12 @@ import 'dart:typed_data';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:http/http.dart' as http;
 
+import '../utils/env_config.dart';
 import '../utils/logger.dart';
 import 'audit_log_service.dart';
 
 class ImageService {
-  static const String apiKey = '9c88c7e566ca072177321b033376e409';
+  static String get apiKey => EnvConfig.imgbbApiKey;
 
   /// Görsel URL'sini ImgBB'ye yükler
   static Future<String?> uploadImageFromUrl(String imageUrl, {String? name}) async {

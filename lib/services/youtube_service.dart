@@ -5,15 +5,15 @@ import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../utils/env_config.dart';
 import '../utils/logger.dart';
 
 /// YouTube canlı yayınları ve videoları yöneten servis
 class YouTubeService with ChangeNotifier {
   static const String _baseUrl = 'https://www.googleapis.com/youtube/v3';
 
-  // API anahtarı ve kanal ID'si artık doğru değerlerle ayarlanmış durumda
-  static const String _apiKey = 'AIzaSyB9nCY16fBjLO6jMZ_j60rpUQcKJiIRqQ4';
-  static const String _channelId = 'UCp7-2_1QdIOX2CyeS4ea8Og';
+  static String get _apiKey => EnvConfig.youtubeApiKey;
+  static String get _channelId => EnvConfig.youtubeChannelId;
 
   bool _isLoading = false;
   List<Map<String, dynamic>> _liveStreams = [];

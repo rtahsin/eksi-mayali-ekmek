@@ -22,7 +22,7 @@ import 'package:flutter_animate/flutter_animate.dart';
 import '../theme/app_theme.dart';
 
 /// Konum izni rationale dialog'u
-/// 
+///
 /// Kullanıcıya konum izninin neden gerekli olduğunu açıklar.
 /// Permission request dialog'undan önce gösterilir.
 class LocationPermissionDialog extends StatelessWidget {
@@ -59,9 +59,7 @@ class LocationPermissionDialog extends StatelessWidget {
                       color: Colors.white,
                       size: 32,
                     ),
-                  )
-                      .animate()
-                      .scale(duration: 400.ms, curve: Curves.elasticOut),
+                  ).animate().scale(duration: 400.ms, curve: Curves.elasticOut),
                   SizedBox(width: 16),
                   Expanded(
                     child: Column(
@@ -89,7 +87,7 @@ class LocationPermissionDialog extends StatelessWidget {
                 ],
               ),
             ),
-            
+
             // Content
             Padding(
               padding: EdgeInsets.all(20),
@@ -105,7 +103,7 @@ class LocationPermissionDialog extends StatelessWidget {
                     ),
                   ),
                   SizedBox(height: 16),
-                  
+
                   // Benefit 1
                   _buildBenefit(
                     icon: Icons.delivery_dining,
@@ -114,9 +112,9 @@ class LocationPermissionDialog extends StatelessWidget {
                     description: 'Adresinizi otomatik olarak buluruz',
                     delay: 100,
                   ),
-                  
+
                   SizedBox(height: 12),
-                  
+
                   // Benefit 2
                   _buildBenefit(
                     icon: Icons.route,
@@ -125,9 +123,9 @@ class LocationPermissionDialog extends StatelessWidget {
                     description: 'En yakın teslimat noktasından servis',
                     delay: 200,
                   ),
-                  
+
                   SizedBox(height: 12),
-                  
+
                   // Benefit 3
                   _buildBenefit(
                     icon: Icons.timer,
@@ -136,9 +134,9 @@ class LocationPermissionDialog extends StatelessWidget {
                     description: 'Ekmeğiniz ne zaman gelecek bilirsiniz',
                     delay: 300,
                   ),
-                  
+
                   SizedBox(height: 20),
-                  
+
                   // Güvenlik mesajı
                   Container(
                     padding: EdgeInsets.all(14),
@@ -182,10 +180,7 @@ class LocationPermissionDialog extends StatelessWidget {
                         ),
                       ],
                     ),
-                  )
-                      .animate(delay: 400.ms)
-                      .fadeIn()
-                      .slideY(begin: 0.1, end: 0),
+                  ).animate(delay: 400.ms).fadeIn().slideY(begin: 0.1, end: 0),
                 ],
               ),
             ),
@@ -266,9 +261,6 @@ class LocationPermissionDialog extends StatelessWidget {
           ),
         ),
       ],
-    )
-        .animate(delay: delay.ms)
-        .fadeIn(duration: 400.ms)
-        .slideX(begin: -0.1, end: 0);
+    ).animate(delay: delay.ms).fadeIn(duration: 400.ms).slideX(begin: -0.1, end: 0);
   }
 }

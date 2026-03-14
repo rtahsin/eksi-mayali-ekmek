@@ -174,48 +174,48 @@ class _ProductFormState extends State<ProductForm> {
       setState(() {
         _uploadingVideo = true;
       });
-      
+
       final result = await FilePicker.platform.pickFiles(
         type: FileType.video,
         allowMultiple: false,
         withData: true,
       );
-      
+
       if (result == null || result.files.isEmpty) {
         setState(() => _uploadingVideo = false);
         return;
       }
-      
+
       final file = result.files.single;
       final bytes = file.bytes;
-      
+
       if (bytes == null) {
         ToastHelper.showErrorToast(context, 'Video dosyası okunamadı');
         setState(() => _uploadingVideo = false);
         return;
       }
-      
+
       // Dosya boyutu kontrolü (max 50MB)
       if (bytes.length > 50 * 1024 * 1024) {
         ToastHelper.showErrorToast(context, 'Video boyutu 50MB\'dan küçük olmalı');
         setState(() => _uploadingVideo = false);
         return;
       }
-      
+
       final productService = Provider.of<ProductService>(context, listen: false);
       final productId = widget.product?.id ?? 'new';
-      
+
       final url = await productService.uploadProductVideoToStorage(
         productId,
         bytes,
         originalName: file.name,
       );
-      
+
       if (!mounted) return;
       setState(() {
         _videoUrlController.text = url;
       });
-      
+
       ToastHelper.showSuccessToast(context, 'Video yüklendi');
     } catch (e) {
       if (!mounted) return;
@@ -1011,14 +1011,15 @@ class _ProductFormState extends State<ProductForm> {
                                   children: [
                                     ElevatedButton.icon(
                                       onPressed: _uploadingVideo ? null : _pickAndUploadVideo,
-                                      icon: _uploadingVideo 
-                                        ? const SizedBox(
-                                            width: 16,
-                                            height: 16,
-                                            child: CircularProgressIndicator(strokeWidth: 2),
-                                          )
-                                        : const Icon(Icons.upload_file),
-                                      label: Text(_uploadingVideo ? 'Yükleniyor...' : 'Video Yükle'),
+                                      icon: _uploadingVideo
+                                          ? const SizedBox(
+                                              width: 16,
+                                              height: 16,
+                                              child: CircularProgressIndicator(strokeWidth: 2),
+                                            )
+                                          : const Icon(Icons.upload_file),
+                                      label:
+                                          Text(_uploadingVideo ? 'Yükleniyor...' : 'Video Yükle'),
                                       style: ElevatedButton.styleFrom(
                                         backgroundColor: Colors.red.shade600,
                                         foregroundColor: Colors.white,

@@ -27,7 +27,7 @@ import '../theme/app_theme.dart';
 import '../utils/logger.dart';
 
 /// Konum alırken gösterilen loading dialog
-/// 
+///
 /// GPS kontrolü, loading state ve hata yönetimi içerir
 class LocationLoadingDialog extends StatefulWidget {
   final bool showRationale;
@@ -213,7 +213,7 @@ class _LocationLoadingDialogState extends State<LocationLoadingDialog> {
                 textAlign: TextAlign.center,
               ),
               SizedBox(height: 20),
-              
+
               // Action buttons
               if (_errorType == 'gps_disabled') ...[
                 SizedBox(
@@ -290,9 +290,9 @@ class _LocationLoadingDialogState extends State<LocationLoadingDialog> {
                   ),
                 ),
               ],
-              
+
               SizedBox(height: 12),
-              
+
               TextButton(
                 onPressed: () => Navigator.pop(context),
                 child: Text('İptal'),

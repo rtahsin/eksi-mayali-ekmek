@@ -31,8 +31,7 @@ class AddressService {
   // Seçilen mahalleye ait sokakları getiren metod
   Future<List<String>> getStreets(String neighborhood) async {
     try {
-      final doc =
-          await _firestore.collection('neighborhoods').doc(neighborhood).get();
+      final doc = await _firestore.collection('neighborhoods').doc(neighborhood).get();
       if (doc.exists && doc.data()!.containsKey('streets')) {
         return List<String>.from(doc.data()!['streets']);
       }
@@ -47,28 +46,10 @@ class AddressService {
   // Mahallelere göre varsayılan sokaklar
   List<String> _getDefaultStreets(String neighborhood) {
     final streets = {
-      'Adnan Kahveci Mah.': [
-        'Anadolu Caddesi',
-        '1. Sokak',
-        '2. Sokak',
-        'Gardenya Sokak'
-      ],
-      'Barış Mah.': [
-        'Barış Caddesi',
-        'Huzur Sokak',
-        'Dostluk Sokak',
-        'Egemenlik Sokak'
-      ],
-      'Büyükşehir Mah.': [
-        'Büyükşehir Bulvarı',
-        'Metropol Sokak',
-        'Şehir Caddesi'
-      ],
-      'Cumhuriyet Mah.': [
-        'Atatürk Caddesi',
-        'İnönü Sokak',
-        'Cumhuriyet Bulvarı'
-      ],
+      'Adnan Kahveci Mah.': ['Anadolu Caddesi', '1. Sokak', '2. Sokak', 'Gardenya Sokak'],
+      'Barış Mah.': ['Barış Caddesi', 'Huzur Sokak', 'Dostluk Sokak', 'Egemenlik Sokak'],
+      'Büyükşehir Mah.': ['Büyükşehir Bulvarı', 'Metropol Sokak', 'Şehir Caddesi'],
+      'Cumhuriyet Mah.': ['Atatürk Caddesi', 'İnönü Sokak', 'Cumhuriyet Bulvarı'],
       'Dereağzı Mah.': ['Dereağzı Caddesi', 'Marmara Sokak', 'Deniz Sokak'],
       'Gürpınar Mah.': ['Gürpınar Caddesi', 'Sahil Yolu', 'Balıkçı Sokak'],
       'Yakuplu Mah.': ['Yakuplu Caddesi', 'Hürriyet Sokak', 'Vatan Caddesi'],
@@ -82,28 +63,10 @@ class AddressService {
   Future<void> addSampleAddressData() async {
     try {
       final neighborhoods = {
-        'Adnan Kahveci Mah.': [
-          'Anadolu Caddesi',
-          '1. Sokak',
-          '2. Sokak',
-          'Gardenya Sokak'
-        ],
-        'Barış Mah.': [
-          'Barış Caddesi',
-          'Huzur Sokak',
-          'Dostluk Sokak',
-          'Egemenlik Sokak'
-        ],
-        'Büyükşehir Mah.': [
-          'Büyükşehir Bulvarı',
-          'Metropol Sokak',
-          'Şehir Caddesi'
-        ],
-        'Cumhuriyet Mah.': [
-          'Atatürk Caddesi',
-          'İnönü Sokak',
-          'Cumhuriyet Bulvarı'
-        ],
+        'Adnan Kahveci Mah.': ['Anadolu Caddesi', '1. Sokak', '2. Sokak', 'Gardenya Sokak'],
+        'Barış Mah.': ['Barış Caddesi', 'Huzur Sokak', 'Dostluk Sokak', 'Egemenlik Sokak'],
+        'Büyükşehir Mah.': ['Büyükşehir Bulvarı', 'Metropol Sokak', 'Şehir Caddesi'],
+        'Cumhuriyet Mah.': ['Atatürk Caddesi', 'İnönü Sokak', 'Cumhuriyet Bulvarı'],
         'Dereağzı Mah.': ['Dereağzı Caddesi', 'Marmara Sokak', 'Deniz Sokak'],
         'Gürpınar Mah.': ['Gürpınar Caddesi', 'Sahil Yolu', 'Balıkçı Sokak'],
         'Yakuplu Mah.': ['Yakuplu Caddesi', 'Hürriyet Sokak', 'Vatan Caddesi'],
@@ -138,9 +101,8 @@ class AddressService {
           .get();
 
       // Client-side sorting (default önce, sonra en yeni)
-      final addresses = snapshot.docs
-          .map((doc) => SavedAddress.fromJson(doc.data(), doc.id))
-          .toList();
+      final addresses =
+          snapshot.docs.map((doc) => SavedAddress.fromJson(doc.data(), doc.id)).toList();
 
       addresses.sort((a, b) {
         if (a.isDefault != b.isDefault) {
@@ -167,9 +129,7 @@ class AddressService {
         await _clearDefaultAddress(address.userId);
       }
 
-      final docRef = await _firestore
-          .collection(_savedAddressesCollection)
-          .add(address.toJson());
+      final docRef = await _firestore.collection(_savedAddressesCollection).add(address.toJson());
 
       Logger.info('Adres eklendi: ${docRef.id}');
       return docRef.id;
@@ -189,10 +149,7 @@ class AddressService {
         await _clearDefaultAddress(address.userId);
       }
 
-      await _firestore
-          .collection(_savedAddressesCollection)
-          .doc(address.id)
-          .update({
+      await _firestore.collection(_savedAddressesCollection).doc(address.id).update({
         ...address.toJson(),
         'updatedAt': FieldValue.serverTimestamp(),
       });
@@ -209,10 +166,7 @@ class AddressService {
     try {
       Logger.info('Adres siliniyor: $addressId');
 
-      await _firestore
-          .collection(_savedAddressesCollection)
-          .doc(addressId)
-          .delete();
+      await _firestore.collection(_savedAddressesCollection).doc(addressId).delete();
 
       Logger.info('Adres silindi: $addressId');
     } catch (e) {
@@ -230,10 +184,7 @@ class AddressService {
       await _clearDefaultAddress(userId);
 
       // Seçilen adresi default yap
-      await _firestore
-          .collection(_savedAddressesCollection)
-          .doc(addressId)
-          .update({
+      await _firestore.collection(_savedAddressesCollection).doc(addressId).update({
         'isDefault': true,
         'updatedAt': FieldValue.serverTimestamp(),
       });
@@ -302,4 +253,3 @@ class AddressService {
     }
   }
 }
-

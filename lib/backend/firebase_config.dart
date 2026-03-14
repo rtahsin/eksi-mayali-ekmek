@@ -1,10 +1,11 @@
-// ignore_for_file: depend_on_referenced_packages, avoid_print
+// ignore_for_file: depend_on_referenced_packages
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 
+import '../firebase_options.dart';
 import '../utils/logger.dart';
 
 class FirebaseConfig {
@@ -12,14 +13,7 @@ class FirebaseConfig {
   static Future<void> initializeFirebase() async {
     try {
       await Firebase.initializeApp(
-        options: const FirebaseOptions(
-          apiKey: "AIzaSyDC_r1CdLMa3JqtxiqFdsDAF8zAaOE7bH8", // Ekran görüntüsünden tahmini API key
-          authDomain: "eksimayaliekmekweb.firebaseapp.com",
-          projectId: "eksimayaliekmekweb",
-          storageBucket: "eksimayaliekmekweb.firebasestorage.app",
-          messagingSenderId: "984417239539",
-          appId: "1:984417239539:web:544b34c57488722f6a1286",
-        ),
+        options: DefaultFirebaseOptions.currentPlatform,
       );
       if (kDebugMode) {
         Logger.error('Firebase başarıyla başlatıldı');
@@ -81,7 +75,10 @@ class FirebaseConfig {
       final bool hasAdminRole = userData['role'] == 'admin';
       final bool isAdminUser = userData['user'] == 'admin';
 
-      print('isUserAdmin: isAdmin=$isAdmin, hasAdminRole=$hasAdminRole, isAdminUser=$isAdminUser');
+      if (kDebugMode) {
+        Logger.info(
+        'isUserAdmin: isAdmin=$isAdmin, hasAdminRole=$hasAdminRole, isAdminUser=$isAdminUser');
+      }
 
       // Herhangi biri true ise admin olarak kabul et
       return isAdmin || hasAdminRole || isAdminUser;

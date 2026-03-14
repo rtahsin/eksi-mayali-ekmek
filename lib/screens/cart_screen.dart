@@ -99,8 +99,7 @@ class CartScreen extends StatelessWidget {
     return Container(
       width: double.infinity,
       margin: EdgeInsets.symmetric(
-          horizontal: isSmallScreen ? 16 : 20,
-          vertical: isSmallScreen ? 12 : 16),
+          horizontal: isSmallScreen ? 16 : 20, vertical: isSmallScreen ? 12 : 16),
       decoration: BoxDecoration(
         color: isDark ? AppTheme.darkCardColor : Colors.white,
         borderRadius: BorderRadius.circular(12),
@@ -131,9 +130,7 @@ class CartScreen extends StatelessWidget {
                   style: TextStyle(
                     fontSize: isSmallScreen ? 16 : 18,
                     fontWeight: FontWeight.bold,
-                    color: isDark
-                        ? AppTheme.darkTextColor
-                        : AppTheme.textDarkColor,
+                    color: isDark ? AppTheme.darkTextColor : AppTheme.textDarkColor,
                   ),
                 ),
               ],
@@ -159,9 +156,7 @@ class CartScreen extends StatelessWidget {
                       '$itemCount ${AppTranslations.getTranslation(context, 'products')}',
                       style: TextStyle(
                         fontSize: isSmallScreen ? 13 : 14,
-                        color: isDark
-                            ? AppTheme.darkTextSecondaryColor
-                            : Colors.grey[600],
+                        color: isDark ? AppTheme.darkTextSecondaryColor : Colors.grey[600],
                       ),
                     ),
                     Text(
@@ -169,9 +164,7 @@ class CartScreen extends StatelessWidget {
                       style: TextStyle(
                         fontSize: isSmallScreen ? 13 : 14,
                         fontWeight: FontWeight.w500,
-                        color: isDark
-                            ? AppTheme.darkTextColor
-                            : AppTheme.textDarkColor,
+                        color: isDark ? AppTheme.darkTextColor : AppTheme.textDarkColor,
                       ),
                     ),
                   ],
@@ -187,23 +180,17 @@ class CartScreen extends StatelessWidget {
                       AppTranslations.getTranslation(context, 'delivery'),
                       style: TextStyle(
                         fontSize: isSmallScreen ? 13 : 14,
-                        color: isDark
-                            ? AppTheme.darkTextSecondaryColor
-                            : Colors.grey[600],
+                        color: isDark ? AppTheme.darkTextSecondaryColor : Colors.grey[600],
                       ),
                     ),
                     Text(
-                      total >= 300
-                          ? AppTranslations.getTranslation(context, 'free')
-                          : '50.00 ₺',
+                      total >= 300 ? AppTranslations.getTranslation(context, 'free') : '50.00 ₺',
                       style: TextStyle(
                         fontSize: isSmallScreen ? 13 : 14,
                         fontWeight: FontWeight.w500,
                         color: total >= 300
                             ? Colors.green
-                            : (isDark
-                                ? AppTheme.darkTextColor
-                                : AppTheme.textDarkColor),
+                            : (isDark ? AppTheme.darkTextColor : AppTheme.textDarkColor),
                       ),
                     ),
                   ],
@@ -256,9 +243,7 @@ class CartScreen extends StatelessWidget {
                   style: TextStyle(
                     fontSize: isSmallScreen ? 15 : 16,
                     fontWeight: FontWeight.bold,
-                    color: isDark
-                        ? AppTheme.darkTextColor
-                        : AppTheme.textDarkColor,
+                    color: isDark ? AppTheme.darkTextColor : AppTheme.textDarkColor,
                   ),
                 ),
                 Text(
@@ -366,9 +351,7 @@ class CartScreen extends StatelessWidget {
                       // Miktar kontrolü
                       Container(
                         decoration: BoxDecoration(
-                          color: isDark
-                              ? AppTheme.darkSurfaceColor
-                              : Colors.grey.shade100,
+                          color: isDark ? AppTheme.darkSurfaceColor : Colors.grey.shade100,
                           borderRadius: BorderRadius.circular(30),
                         ),
                         child: Row(
@@ -376,8 +359,7 @@ class CartScreen extends StatelessWidget {
                             // Azalt butonu
                             InkWell(
                               onTap: () {
-                                final cartProvider =
-                                    context.read<CartProvider>();
+                                final cartProvider = context.read<CartProvider>();
                                 if (item.quantity > 1) {
                                   cartProvider.removeItem(item.product.id);
                                 } else {
@@ -393,9 +375,7 @@ class CartScreen extends StatelessWidget {
                                 child: Icon(
                                   Icons.remove,
                                   size: 16,
-                                  color: isDark
-                                      ? AppTheme.darkTextColor
-                                      : Colors.grey[700],
+                                  color: isDark ? AppTheme.darkTextColor : Colors.grey[700],
                                 ),
                               ),
                             ),
@@ -408,9 +388,7 @@ class CartScreen extends StatelessWidget {
                                 style: TextStyle(
                                   fontSize: 16,
                                   fontWeight: FontWeight.bold,
-                                  color: isDark
-                                      ? AppTheme.darkTextColor
-                                      : AppTheme.textDarkColor,
+                                  color: isDark ? AppTheme.darkTextColor : AppTheme.textDarkColor,
                                 ),
                               ),
                             ),
@@ -418,8 +396,7 @@ class CartScreen extends StatelessWidget {
                             // Artır butonu
                             InkWell(
                               onTap: () {
-                                final cartProvider =
-                                    context.read<CartProvider>();
+                                final cartProvider = context.read<CartProvider>();
                                 cartProvider.addItem(item.product);
                               },
                               borderRadius: BorderRadius.circular(30),
@@ -486,10 +463,7 @@ class CartScreen extends StatelessWidget {
           ],
         ),
       ),
-    )
-        .animate()
-        .fadeIn(duration: 400.ms, delay: (index * 100).ms)
-        .slideY(begin: 0.1, end: 0);
+    ).animate().fadeIn(duration: 400.ms, delay: (index * 100).ms).slideY(begin: 0.1, end: 0);
   }
 
   /// Sepet alt kısmında gösterilecek widget
@@ -549,8 +523,7 @@ class CartScreen extends StatelessWidget {
                 style: TextStyle(fontSize: isMobile ? 13 : 14),
               ),
               style: TextButton.styleFrom(
-                foregroundColor:
-                    isDark ? AppTheme.darkTextColor : Colors.grey[700],
+                foregroundColor: isDark ? AppTheme.darkTextColor : Colors.grey[700],
                 padding: EdgeInsets.zero,
               ),
             ),
@@ -599,9 +572,8 @@ class CartScreen extends StatelessWidget {
       context: context,
       builder: (ctx) => AlertDialog(
         title: Text(AppTranslations.getTranslation(context, 'delete')),
-        content: Text(
-            AppTranslations.getTranslation(context, 'removeItemConfirmation')
-                .replaceAll('{name}', item.product.name)),
+        content: Text(AppTranslations.getTranslation(context, 'removeItemConfirmation')
+            .replaceAll('{name}', item.product.name)),
         actions: [
           TextButton(
             onPressed: () {
@@ -645,8 +617,7 @@ class CartScreen extends StatelessWidget {
       context: context,
       builder: (ctx) => AlertDialog(
         title: Text(AppTranslations.getTranslation(context, 'clearCart')),
-        content: Text(
-            AppTranslations.getTranslation(context, 'clearCartConfirmation')),
+        content: Text(AppTranslations.getTranslation(context, 'clearCartConfirmation')),
         actions: [
           TextButton(
             onPressed: () {
@@ -669,8 +640,7 @@ class CartScreen extends StatelessWidget {
                   label: AppTranslations.getTranslation(context, 'undo'),
                   onPressed: () {
                     for (var item in oldItems.values) {
-                      cartProvider.addItem(item.product,
-                          quantity: item.quantity);
+                      cartProvider.addItem(item.product, quantity: item.quantity);
                     }
                   },
                 ),

@@ -6,7 +6,7 @@ import 'package:flutter_animate/flutter_animate.dart';
 import '../theme/app_theme.dart';
 
 /// Veri olmadığında gösterilecek boş durum widget'ı (Geliştirilmiş versiyon)
-/// 
+///
 /// flutter_animate ile animasyonlu, modern empty state component
 class EmptyState extends StatelessWidget {
   final IconData icon;
@@ -41,18 +41,15 @@ class EmptyState extends StatelessWidget {
               icon,
               size: iconSize,
               color: iconColor ?? theme.colorScheme.primary.withValues(alpha: 0.5),
-            )
-                .animate()
-                .fadeIn(duration: 400.ms, curve: Curves.easeOut)
-                .scale(
+            ).animate().fadeIn(duration: 400.ms, curve: Curves.easeOut).scale(
                   begin: Offset(0.8, 0.8),
                   end: Offset(1.0, 1.0),
                   duration: 400.ms,
                   curve: Curves.elasticOut,
                 ),
-            
+
             const SizedBox(height: 24),
-            
+
             // Başlık
             Text(
               title,
@@ -64,9 +61,9 @@ class EmptyState extends StatelessWidget {
                 .animate(delay: 200.ms)
                 .fadeIn(duration: 400.ms)
                 .slideY(begin: 0.2, end: 0, curve: Curves.easeOut),
-            
+
             const SizedBox(height: 12),
-            
+
             // Mesaj
             Text(
               message,
@@ -79,14 +76,11 @@ class EmptyState extends StatelessWidget {
                 .animate(delay: 300.ms)
                 .fadeIn(duration: 400.ms)
                 .slideY(begin: 0.2, end: 0, curve: Curves.easeOut),
-            
+
             // Action Button
             if (action != null) ...[
               const SizedBox(height: 32),
-              action!
-                  .animate(delay: 400.ms)
-                  .fadeIn(duration: 400.ms)
-                  .scale(
+              action!.animate(delay: 400.ms).fadeIn(duration: 400.ms).scale(
                     begin: Offset(0.9, 0.9),
                     end: Offset(1.0, 1.0),
                     curve: Curves.easeOut,
@@ -98,6 +92,7 @@ class EmptyState extends StatelessWidget {
     );
   }
 }
+
 /// Empty Cart Widget - Boş sepet için özelleştirilmiş
 class EmptyCart extends StatelessWidget {
   final VoidCallback? onShoppingPressed;

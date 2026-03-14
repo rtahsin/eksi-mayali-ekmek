@@ -604,7 +604,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                                 await notificationService.getFcmToken(
                                                   userId: authService.currentUser!.id,
                                                 );
-                                                Logger.info('FCM Token (Google Sign-In) kaydedildi');
+                                                Logger.info(
+                                                    'FCM Token (Google Sign-In) kaydedildi');
                                               } catch (e) {
                                                 Logger.error('FCM Token kaydedilirken hata: $e');
                                               }

@@ -19,18 +19,18 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:geolocator/geolocator.dart' hide LocationServiceDisabledException;
 import 'package:geocoding/geocoding.dart';
+import 'package:geolocator/geolocator.dart' hide LocationServiceDisabledException;
 
 import '../utils/logger.dart';
 import '../widgets/location_permission_dialog.dart';
 
 /// Konum servisi
-/// 
+///
 /// Kullanıcı konumu alma, adres dönüştürme ve permission yönetimi
 class LocationService {
   /// Mevcut konumu al
-  /// 
+  ///
   /// [context] verilirse permission rationale dialog gösterilir
   /// [showRationale] false yapılırsa dialog gösterilmez
   static Future<Position?> getCurrentLocation({
@@ -153,8 +153,7 @@ class LocationService {
         addressParts.add(place.locality!);
       }
 
-      if (place.administrativeArea != null &&
-          place.administrativeArea!.isNotEmpty) {
+      if (place.administrativeArea != null && place.administrativeArea!.isNotEmpty) {
         addressParts.add(place.administrativeArea!);
       }
 
@@ -169,7 +168,7 @@ class LocationService {
   }
 
   /// Konum accuracy kontrolü
-  /// 
+  ///
   /// Dönen değerler:
   /// - 'high': < 50m
   /// - 'medium': 50m - 100m

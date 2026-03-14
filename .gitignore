@@ -34,6 +34,7 @@ migrate_working_dir/
 /build/
 **/node_modules/
 .firebase/
+build_log.txt
 
 # Symbolication related
 app.*.symbols

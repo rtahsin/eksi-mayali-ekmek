@@ -20,7 +20,6 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import '../services/location_service.dart';
@@ -28,7 +27,7 @@ import '../theme/app_theme.dart';
 import '../utils/logger.dart';
 
 /// Google Maps ile konum seçici
-/// 
+///
 /// Kullanıcı haritada istediği yere tıklayarak konum seçebilir
 class MapLocationPicker extends StatefulWidget {
   /// Başlangıç konumu (varsa)
@@ -55,6 +54,22 @@ class _MapLocationPickerState extends State<MapLocationPicker> {
 
   // Default: İstanbul (eğer başlangıç konumu yoksa)
   static const LatLng _defaultLocation = LatLng(41.0082, 28.9784);
+  static const String _darkMapStyle = '''
+        [
+          {
+            "elementType": "geometry",
+            "stylers": [{"color": "#242f3e"}]
+          },
+          {
+            "elementType": "labels.text.stroke",
+            "stylers": [{"color": "#242f3e"}]
+          },
+          {
+            "elementType": "labels.text.fill",
+            "stylers": [{"color": "#746855"}]
+          }
+        ]
+      ''';
 
   @override
   void initState() {
@@ -81,26 +96,6 @@ class _MapLocationPickerState extends State<MapLocationPicker> {
   /// Harita hazır olduğunda çağrılır
   void _onMapCreated(GoogleMapController controller) {
     _mapController = controller;
-    
-    // Dark mode support
-    if (Theme.of(context).brightness == Brightness.dark) {
-      _mapController?.setMapStyle('''
-        [
-          {
-            "elementType": "geometry",
-            "stylers": [{"color": "#242f3e"}]
-          },
-          {
-            "elementType": "labels.text.stroke",
-            "stylers": [{"color": "#242f3e"}]
-          },
-          {
-            "elementType": "labels.text.fill",
-            "stylers": [{"color": "#746855"}]
-          }
-        ]
-      ''');
-    }
 
     // Başlangıç konumuna zoom yap
     if (_selectedLocation != null) {
@@ -113,7 +108,7 @@ class _MapLocationPickerState extends State<MapLocationPicker> {
   /// Haritada tıklanan yere marker ekle
   Future<void> _onMapTap(LatLng position) async {
     Logger.info('Haritada seçilen konum: ${position.latitude}, ${position.longitude}');
-    
+
     setState(() {
       _selectedLocation = position;
       _selectedAddress = null; // Adres yüklenene kadar null
@@ -187,7 +182,7 @@ class _MapLocationPickerState extends State<MapLocationPicker> {
 
       if (position != null && mounted) {
         final location = LatLng(position.latitude, position.longitude);
-        
+
         setState(() {
           _selectedLocation = location;
           _isLoadingCurrentLocation = false;
@@ -307,6 +302,7 @@ class _MapLocationPickerState extends State<MapLocationPicker> {
           // Google Maps
           GoogleMap(
             onMapCreated: _onMapCreated,
+            style: Theme.of(context).brightness == Brightness.dark ? _darkMapStyle : null,
             initialCameraPosition: CameraPosition(
               target: widget.initialLatitude != null && widget.initialLongitude != null
                   ? LatLng(widget.initialLatitude!, widget.initialLongitude!)
@@ -472,12 +468,14 @@ class _MapLocationPickerState extends State<MapLocationPicker> {
         ),
         elevation: 6,
       ),
-    ).animate(
-      onPlay: (controller) => controller.repeat(),
-    ).shimmer(
-      duration: 2000.ms,
-      color: Colors.white.withValues(alpha: 0.3),
-    );
+    )
+        .animate(
+          onPlay: (controller) => controller.repeat(),
+        )
+        .shimmer(
+          duration: 2000.ms,
+          color: Colors.white.withValues(alpha: 0.3),
+        );
   }
 
   /// Yardım item'ı
