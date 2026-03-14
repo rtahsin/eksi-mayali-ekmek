@@ -1,0 +1,81 @@
+name: CI
+
+on:
+  push:
+    branches: [ main, 'feature/**' ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  analyze_and_test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Secret guard check
+        run: |
+          set -e
+          echo "Running lightweight secret pattern checks..."
+
+          # Block if committed .env for functions appears in index
+          if git ls-files --error-unmatch functions/.env >/dev/null 2>&1; then
+            echo "ERROR: functions/.env is tracked by git. Remove it from index immediately."
+            exit 1
+          fi
+
+          # High-risk patterns (private keys, common secret assignment shapes)
+          if git grep -niE "(-----BEGIN (RSA|EC|OPENSSH) PRIVATE KEY-----|smtp_pass|api[_-]?secret|client_secret|token[[:space:]]*=[[:space:]]*['\"][^'\"]+['\"])" -- . ":(exclude)REMEDIATION/**" ":(exclude)**/*.md"; then
+            echo "ERROR: Potential secret-like content detected in tracked files."
+            exit 1
+          fi
+
+          echo "Secret guard passed."
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: 'stable'
+      - name: Install dependencies
+        run: flutter pub get
+      - name: Analyze
+        run: flutter analyze
+      - name: Run tests
+        run: flutter test --coverage
+      - name: Upload coverage (optional)
+        if: success()
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage
+          path: coverage
+
+  build_and_deploy:
+    needs: analyze_and_test
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Setup Firebase CLI
+        run: npm install -g firebase-tools
+      - name: Authenticate to Firebase
+        env:
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+        run: |
+          echo "$FIREBASE_TOKEN" | firebase login:ci --no-localhost || true
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: 'stable'
+      - name: Build web
+        run: flutter build web --release
+      - name: Deploy to Firebase Hosting and Functions
+        env:
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+        run: |
+          firebase deploy --only hosting,functions --token "$FIREBASE_TOKEN"
+
+# Notes:
+# - Add FIREBASE_TOKEN as a repository secret. Create the token from a CI service account or `firebase login:ci` for personal flows.
+# - For functions secrets, set them via `firebase functions:config:set` manually or add a secure step that runs before deploy using repository secrets.
+# - This workflow assumes builds are safe to run on GitHub Actions; adapt for monorepos or custom steps.
