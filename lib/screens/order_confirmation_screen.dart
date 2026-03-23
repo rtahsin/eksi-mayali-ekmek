@@ -5,6 +5,7 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter/services.dart';
 
 import '../models/order.dart';
 import '../services/order_service.dart';
@@ -223,6 +224,60 @@ class _OrderConfirmationScreenState extends State<OrderConfirmationScreen>
                   title: 'Sipariş Numarası',
                   content: '#${_order!.id.substring(0, 8).toUpperCase()}',
                   iconColor: AppTheme.primaryColor,
+                ),
+                const SizedBox(height: AppTheme.spaceSm),
+                Container(
+                  width: double.infinity,
+                  padding: const EdgeInsets.all(AppTheme.spaceMd),
+                  decoration: BoxDecoration(
+                    color: isDark ? AppTheme.darkSurfaceColor : Colors.white,
+                    borderRadius: BorderRadius.circular(AppTheme.radiusMd),
+                    border: Border.all(
+                      color: isDark ? Colors.grey[800]! : Colors.grey[200]!,
+                    ),
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Sipariş Kanıtı (Tam ID)',
+                        style: TextStyle(
+                          fontSize: 12,
+                          color: isDark ? Colors.grey[400] : Colors.grey[600],
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                      const SizedBox(height: AppTheme.spaceXxs),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: SelectableText(
+                              _order!.id,
+                              style: TextStyle(
+                                fontSize: 13,
+                                fontWeight: FontWeight.w600,
+                                color: isDark ? Colors.white : AppTheme.textColor,
+                              ),
+                            ),
+                          ),
+                          IconButton(
+                            tooltip: 'Kopyala',
+                            icon: const Icon(Icons.copy, size: 18),
+                            onPressed: () async {
+                              await Clipboard.setData(ClipboardData(text: _order!.id));
+                              if (!mounted) return;
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  content: Text('Sipariş ID kopyalandı'),
+                                  duration: Duration(seconds: 2),
+                                ),
+                              );
+                            },
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
                 const SizedBox(height: AppTheme.spaceLg),
 

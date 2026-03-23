@@ -694,6 +694,9 @@ class _AdminOrdersPageState extends State<AdminOrdersPage> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 _buildDetailItem('Sipariş ID', order.id),
+                _buildDetailItem('Kayıt Zamanı',
+                  order.createdAt != null ? DateFormat('dd.MM.yyyy HH:mm').format(order.createdAt!) : '-'),
+                _buildDetailItem('Oluşturan UID', order.createdByUid ?? order.userId),
                 _buildDetailItem('Tarih', DateFormat('dd.MM.yyyy HH:mm').format(order.orderDate)),
                 _buildDetailItem('Müşteri', order.customerName),
                 _buildDetailItem('Telefon', order.customerPhone),

@@ -335,9 +335,9 @@ class _SimpleCheckoutScreenState extends State<SimpleCheckoutScreen> {
       if (mounted) {
         Helpers.showSuccessSnackBar('✅ Siparişiniz alındı!');
 
-        // Sipariş geçmişine yönlendir
+        // Sipariş onay ekranına yönlendir (kanıt ekranı)
         Navigator.of(context).pushReplacementNamed(
-          '/orders',
+          '/order-confirmation',
           arguments: orderId,
         );
       }

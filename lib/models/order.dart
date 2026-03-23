@@ -89,6 +89,8 @@ class Order {
   final OrderReview? review;
   final Map<String, dynamic>? metadata;
   final List<Map<String, dynamic>> statusHistory; // [{status, changedAt, changedByRole, changedBy}]
+  final String? createdByUid;
+  final DateTime? createdAt;
 
   // Konum bilgileri (teslimat için)
   final double? latitude;
@@ -119,6 +121,8 @@ class Order {
     this.review,
     this.metadata,
     this.statusHistory = const [],
+    this.createdByUid,
+    this.createdAt,
     this.latitude,
     this.longitude,
     this.locationUrl,
@@ -158,6 +162,9 @@ class Order {
               .map((e) => Map<String, dynamic>.from(e))
               .toList()
           : const [],
+        createdByUid: json['createdByUid'] as String?,
+        createdAt:
+          json['createdAt'] != null ? (json['createdAt'] as Timestamp).toDate() : null,
       latitude: (json['latitude'] as num?)?.toDouble(),
       longitude: (json['longitude'] as num?)?.toDouble(),
       locationUrl: json['locationUrl'] as String?,
@@ -189,6 +196,8 @@ class Order {
       if (review != null) 'review': review!.toJson(),
       if (metadata != null) 'metadata': metadata,
       if (statusHistory.isNotEmpty) 'statusHistory': statusHistory,
+      if (createdByUid != null) 'createdByUid': createdByUid,
+      if (createdAt != null) 'createdAt': Timestamp.fromDate(createdAt!),
       if (latitude != null) 'latitude': latitude,
       if (longitude != null) 'longitude': longitude,
       if (locationUrl != null) 'locationUrl': locationUrl,
@@ -218,6 +227,8 @@ class Order {
     OrderReview? review,
     Map<String, dynamic>? metadata,
     List<Map<String, dynamic>>? statusHistory,
+    String? createdByUid,
+    DateTime? createdAt,
     double? latitude,
     double? longitude,
     String? locationUrl,
@@ -244,6 +255,8 @@ class Order {
       review: review ?? this.review,
       metadata: metadata ?? this.metadata,
       statusHistory: statusHistory ?? this.statusHistory,
+      createdByUid: createdByUid ?? this.createdByUid,
+      createdAt: createdAt ?? this.createdAt,
       latitude: latitude ?? this.latitude,
       longitude: longitude ?? this.longitude,
       locationUrl: locationUrl ?? this.locationUrl,
@@ -412,6 +425,9 @@ class Order {
               .map((e) => Map<String, dynamic>.from(e))
               .toList()
           : const [],
+        createdByUid: data['createdByUid'] as String?,
+        createdAt:
+          data['createdAt'] != null ? (data['createdAt'] as Timestamp).toDate() : null,
     );
   }
 }

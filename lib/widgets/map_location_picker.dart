@@ -18,9 +18,11 @@
 
 import 'dart:async';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../services/location_service.dart';
 import '../theme/app_theme.dart';
@@ -46,10 +48,13 @@ class MapLocationPicker extends StatefulWidget {
 
 class _MapLocationPickerState extends State<MapLocationPicker> {
   GoogleMapController? _mapController;
+  Timer? _mapLoadTimeoutTimer;
   LatLng? _selectedLocation;
   String? _selectedAddress;
   bool _isLoadingAddress = false;
   bool _isLoadingCurrentLocation = false;
+  bool _isMapReady = false;
+  bool _isMapLoadFailed = false;
   Set<Marker> _markers = {};
 
   // Default: İstanbul (eğer başlangıç konumu yoksa)
@@ -75,12 +80,27 @@ class _MapLocationPickerState extends State<MapLocationPicker> {
   void initState() {
     super.initState();
     _initializeLocation();
+    _startMapLoadTimeout();
   }
 
   @override
   void dispose() {
+    _mapLoadTimeoutTimer?.cancel();
     _mapController?.dispose();
     super.dispose();
+  }
+
+  void _startMapLoadTimeout() {
+    _mapLoadTimeoutTimer?.cancel();
+    _mapLoadTimeoutTimer = Timer(const Duration(seconds: 8), () {
+      if (!mounted || _isMapReady) return;
+
+      setState(() {
+        _isMapLoadFailed = true;
+      });
+
+      Logger.warning('Google Maps yüklenemedi, fallback moduna geçildi');
+    });
   }
 
   /// Başlangıç konumunu ayarla
@@ -96,11 +116,38 @@ class _MapLocationPickerState extends State<MapLocationPicker> {
   /// Harita hazır olduğunda çağrılır
   void _onMapCreated(GoogleMapController controller) {
     _mapController = controller;
+    _mapLoadTimeoutTimer?.cancel();
+
+    setState(() {
+      _isMapReady = true;
+      _isMapLoadFailed = false;
+    });
 
     // Başlangıç konumuna zoom yap
     if (_selectedLocation != null) {
       _mapController?.animateCamera(
         CameraUpdate.newLatLngZoom(_selectedLocation!, 15),
+      );
+    }
+  }
+
+  Future<void> _openExternalMap() async {
+    try {
+      final lat = _selectedLocation?.latitude ?? _defaultLocation.latitude;
+      final lng = _selectedLocation?.longitude ?? _defaultLocation.longitude;
+      final url = Uri.parse('https://www.google.com/maps?q=$lat,$lng');
+
+      if (!await launchUrl(url, mode: LaunchMode.externalApplication)) {
+        throw Exception('Harita bağlantısı açılamadı');
+      }
+    } catch (e) {
+      Logger.error('Harici harita açma hatası: $e');
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Harita bağlantısı açılamadı'),
+          backgroundColor: Colors.red,
+        ),
       );
     }
   }
@@ -297,70 +344,153 @@ class _MapLocationPickerState extends State<MapLocationPicker> {
           ),
         ],
       ),
-      body: Stack(
-        children: [
-          // Google Maps
-          GoogleMap(
-            onMapCreated: _onMapCreated,
-            style: Theme.of(context).brightness == Brightness.dark ? _darkMapStyle : null,
-            initialCameraPosition: CameraPosition(
-              target: widget.initialLatitude != null && widget.initialLongitude != null
-                  ? LatLng(widget.initialLatitude!, widget.initialLongitude!)
-                  : _defaultLocation,
-              zoom: 12,
-            ),
-            onTap: _onMapTap,
-            markers: _markers,
-            myLocationEnabled: true,
-            myLocationButtonEnabled: false, // Kendi butonumuzu kullanacağız
-            zoomControlsEnabled: true,
-            mapToolbarEnabled: false,
-            compassEnabled: true,
-            mapType: MapType.normal,
+      body: _isMapLoadFailed ? _buildMapFallbackBody() : _buildMapBody(),
+    );
+  }
+
+  Widget _buildMapBody() {
+    return Stack(
+      children: [
+        // Google Maps
+        GoogleMap(
+          onMapCreated: _onMapCreated,
+          style: Theme.of(context).brightness == Brightness.dark ? _darkMapStyle : null,
+          initialCameraPosition: CameraPosition(
+            target: widget.initialLatitude != null && widget.initialLongitude != null
+                ? LatLng(widget.initialLatitude!, widget.initialLongitude!)
+                : _defaultLocation,
+            zoom: 12,
           ),
+          onTap: _onMapTap,
+          markers: _markers,
+          myLocationEnabled: true,
+          myLocationButtonEnabled: false, // Kendi butonumuzu kullanacağız
+          zoomControlsEnabled: true,
+          mapToolbarEnabled: false,
+          compassEnabled: true,
+          mapType: MapType.normal,
+        ),
 
-          // Adres önizleme kartı (üstte)
-          if (_selectedLocation != null)
-            Positioned(
-              top: 16,
-              left: 16,
-              right: 16,
-              child: _buildAddressPreview(),
-            ),
-
-          // Mevcut konum butonu (sağ altta)
+        // Adres önizleme kartı (üstte)
+        if (_selectedLocation != null)
           Positioned(
-            bottom: 100,
-            right: 16,
-            child: FloatingActionButton(
-              heroTag: 'current_location',
-              onPressed: _isLoadingCurrentLocation ? null : _getCurrentLocation,
-              backgroundColor: Colors.white,
-              child: _isLoadingCurrentLocation
-                  ? SizedBox(
-                      width: 24,
-                      height: 24,
-                      child: CircularProgressIndicator(
-                        strokeWidth: 2,
-                        valueColor: AlwaysStoppedAnimation(AppTheme.primaryColor),
-                      ),
-                    )
-                  : Icon(
-                      Icons.my_location,
-                      color: AppTheme.primaryColor,
-                    ),
-              tooltip: 'Mevcut Konumum',
-            ),
-          ),
-
-          // Onay butonu (altta)
-          Positioned(
-            bottom: 16,
+            top: 16,
             left: 16,
             right: 16,
-            child: _buildConfirmButton(),
+            child: _buildAddressPreview(),
           ),
-        ],
+
+        // Mevcut konum butonu (sağ altta)
+        Positioned(
+          bottom: 100,
+          right: 16,
+          child: FloatingActionButton(
+            heroTag: 'current_location',
+            onPressed: _isLoadingCurrentLocation ? null : _getCurrentLocation,
+            backgroundColor: Colors.white,
+            child: _isLoadingCurrentLocation
+                ? SizedBox(
+                    width: 24,
+                    height: 24,
+                    child: CircularProgressIndicator(
+                      strokeWidth: 2,
+                      valueColor: AlwaysStoppedAnimation(AppTheme.primaryColor),
+                    ),
+                  )
+                : Icon(
+                    Icons.my_location,
+                    color: AppTheme.primaryColor,
+                  ),
+            tooltip: 'Mevcut Konumum',
+          ),
+        ),
+
+        // Onay butonu (altta)
+        Positioned(
+          bottom: 16,
+          left: 16,
+          right: 16,
+          child: _buildConfirmButton(),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildMapFallbackBody() {
+    final isWebPlatform = kIsWeb;
+
+    return SafeArea(
+      child: Padding(
+        padding: EdgeInsets.all(AppTheme.spaceLg),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Container(
+              padding: EdgeInsets.all(AppTheme.spaceLg),
+              decoration: BoxDecoration(
+                color: Colors.orange[50],
+                borderRadius: BorderRadius.circular(AppTheme.radiusMd),
+                border: Border.all(color: Colors.orange[200]!),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      Icon(Icons.map_outlined, color: Colors.orange[800]),
+                      SizedBox(width: 8),
+                      Expanded(
+                        child: Text(
+                          'Harita önizlemesi şu anda yüklenemedi',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: Colors.orange[900],
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 8),
+                  Text(
+                    isWebPlatform
+                        ? 'Web ortamında Google Maps anahtar kısıtları nedeniyle bu ekran açılmayabilir. GPS ile konum alıp devam edebilirsiniz.'
+                        : 'Ağ veya API kısıtları nedeniyle harita yüklenemedi. GPS ile konum alıp devam edebilirsiniz.',
+                    style: TextStyle(color: Colors.orange[800]),
+                  ),
+                ],
+              ),
+            ),
+            SizedBox(height: AppTheme.spaceLg),
+            ElevatedButton.icon(
+              onPressed: _isLoadingCurrentLocation ? null : _getCurrentLocation,
+              icon: _isLoadingCurrentLocation
+                  ? SizedBox(
+                      width: 18,
+                      height: 18,
+                      child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white),
+                    )
+                  : Icon(Icons.my_location),
+              label: Text('Mevcut Konumumu Kullan (GPS)'),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: AppTheme.primaryColor,
+                foregroundColor: Colors.white,
+                padding: EdgeInsets.symmetric(vertical: AppTheme.spaceMd),
+              ),
+            ),
+            SizedBox(height: AppTheme.spaceSm),
+            OutlinedButton.icon(
+              onPressed: _openExternalMap,
+              icon: Icon(Icons.open_in_new),
+              label: Text('Google Maps Aç'),
+            ),
+            if (_selectedLocation != null) ...[
+              SizedBox(height: AppTheme.spaceLg),
+              _buildAddressPreview(),
+            ],
+            Spacer(),
+            _buildConfirmButton(),
+          ],
+        ),
       ),
     );
   }

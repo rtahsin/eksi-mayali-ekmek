@@ -431,7 +431,11 @@ class OrderService with ChangeNotifier {
         deliveryDate: deliveryDate,
       );
 
-      await _firestore.collection('siparisler').doc(orderId).set(order.toJson());
+      await _firestore.collection('siparisler').doc(orderId).set({
+        ...order.toJson(),
+        'createdByUid': userId,
+        'createdAt': FieldValue.serverTimestamp(),
+      });
 
       // Bildirim gönder
       final notificationService = ServiceLocator.getIt<NotificationService>();
