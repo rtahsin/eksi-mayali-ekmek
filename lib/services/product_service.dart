@@ -431,14 +431,17 @@ class ProductService with ChangeNotifier {
       final sanitizedName = sanitizer.sanitizeText(product.name, maxLength: 200);
       final sanitizedDescription =
           sanitizer.sanitizeDescription(product.description, maxLength: 5000);
-      final sanitizedCategory = sanitizer.sanitizeText(product.category, maxLength: 100);
+        final sanitizedCategoryRaw = sanitizer.sanitizeText(product.category, maxLength: 100);
+        final sanitizedCategory = sanitizedCategoryRaw.trim().isEmpty
+          ? 'Genel'
+          : sanitizedCategoryRaw.trim();
 
       // Validate required fields
       if (sanitizedName.isEmpty) {
         throw Exception('Ürün adı geçersiz');
       }
-      if (sanitizedCategory.isEmpty) {
-        throw Exception('Kategori geçersiz');
+      if (sanitizedCategoryRaw.trim().isEmpty) {
+        Logger.warning('Kategori boş geldi, varsayılan "Genel" kullanıldı');
       }
       if (product.price < 0 || product.price > 100000) {
         throw Exception('Fiyat geçersiz (0-100000 arası olmalı)');

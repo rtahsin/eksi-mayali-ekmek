@@ -104,7 +104,16 @@ class _ProductFormState extends State<ProductForm> {
 
     try {
       final categories = await Provider.of<ProductService>(context, listen: false).fetchCategories();
-      final activeCategories = categories.where((cat) => cat['isActive'] == true).toList();
+      final activeCategories = categories.where((cat) {
+        final isActive = cat['isActive'] == true;
+        final name = (cat['name'] ?? '').toString().trim();
+        return isActive && name.isNotEmpty;
+      }).map((cat) {
+        return {
+          ...cat,
+          'name': (cat['name'] ?? '').toString().trim(),
+        };
+      }).toList();
 
       activeCategories.sort((a, b) {
         final aOrder = (a['order'] as num?)?.toInt() ?? 0;
@@ -112,17 +121,17 @@ class _ProductFormState extends State<ProductForm> {
         return aOrder.compareTo(bOrder);
       });
 
-      if (_selectedCategory.isEmpty && activeCategories.isNotEmpty) {
-        _selectedCategory = (activeCategories.first['name'] ?? '').toString();
+      if (_selectedCategory.trim().isEmpty && activeCategories.isNotEmpty) {
+        _selectedCategory = (activeCategories.first['name'] ?? '').toString().trim();
       }
 
-      final hasSelectedCategory =
-          activeCategories.any((cat) => (cat['name'] ?? '').toString() == _selectedCategory);
+      final hasSelectedCategory = activeCategories
+          .any((cat) => (cat['name'] ?? '').toString().trim() == _selectedCategory.trim());
 
-      if (_selectedCategory.isNotEmpty && !hasSelectedCategory) {
+      if (_selectedCategory.trim().isNotEmpty && !hasSelectedCategory) {
         activeCategories.add({
           'id': 'special',
-          'name': _selectedCategory,
+          'name': _selectedCategory.trim(),
           'isActive': true,
           'order': 999999,
         });
@@ -416,7 +425,8 @@ class _ProductFormState extends State<ProductForm> {
     });
 
     // Kategori yüklenmemiş veya boşsa kaydetmeyi engelle
-    if (!_hasCategoryOptions || _selectedCategory.isEmpty) {
+    final selectedCategory = _selectedCategory.trim();
+    if (!_hasCategoryOptions || selectedCategory.isEmpty) {
       if (mounted) {
         ToastHelper.showErrorToast(
           context,
@@ -451,7 +461,7 @@ class _ProductFormState extends State<ProductForm> {
           discountPercentage: discount,
           imageUrl: mainImage,
           videoUrl: videoUrl.isEmpty ? null : videoUrl,
-          category: _selectedCategory,
+          category: selectedCategory,
           ingredients: _ingredients,
           stock: stock,
           isPopular: _isPopular,
@@ -477,7 +487,7 @@ class _ProductFormState extends State<ProductForm> {
           discountPercentage: discount,
           imageUrl: mainImage,
           videoUrl: videoUrl.isEmpty ? null : videoUrl,
-          category: _selectedCategory,
+          category: selectedCategory,
           ingredients: _ingredients,
           stock: stock,
           isPopular: _isPopular,
