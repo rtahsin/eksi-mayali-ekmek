@@ -15,7 +15,6 @@ import 'package:flutter_animate/flutter_animate.dart';
 
 import '../models/chatbot_message.dart';
 import '../services/chatbot_service.dart';
-import '../services/ollama_service.dart';
 import '../theme/app_theme.dart';
 import '../utils/helpers.dart';
 import '../utils/logger.dart';
@@ -29,7 +28,6 @@ class ChatBotWidget extends StatefulWidget {
 
 class _ChatBotWidgetState extends State<ChatBotWidget> with SingleTickerProviderStateMixin {
   final ChatBotService _chatBotService = ChatBotService();
-  final OllamaService _ollamaService = OllamaService();
   late AnimationController _animationController;
   // ignore: unused_field
   late Animation<double> _scaleAnimation;
@@ -37,9 +35,6 @@ class _ChatBotWidgetState extends State<ChatBotWidget> with SingleTickerProvider
 
   bool _isExpanded = false;
   bool _isLoading = true;
-  bool _isAIMode = false; // AI Mode toggle
-  bool _isAITyping = false; // AI yanıt yazıyor mu?
-  final TextEditingController _messageController = TextEditingController();
   ChatBotSettings? _settings;
   List<_ChatMessage> _chatHistory = [];
   ChatBotMessage? _currentMessage;
@@ -91,14 +86,12 @@ class _ChatBotWidgetState extends State<ChatBotWidget> with SingleTickerProvider
         if (mounted) {
           setState(() {
             _settings = settings;
-            _currentMessage = greetingMessage;
-            _chatHistory.add(_ChatMessage(
-              message: greetingMessage.message,
-              isBot: true,
-              timestamp: DateTime.now(),
-            ));
             _isLoading = false;
           });
+          _setBotMessage(
+            greetingMessage.message,
+            [...greetingMessage.options, ..._buildBackToMainOptions()],
+          );
         }
       } else {
         Logger.warning('⚠️ Firestore verisi yok, demo mode aktif');
@@ -171,103 +164,108 @@ class _ChatBotWidgetState extends State<ChatBotWidget> with SingleTickerProvider
         case 'whatsapp':
           await Helpers.launchURL('https://wa.me/$value');
           break;
+
+        case 'show_categories':
+          final categories = await _chatBotService.getProductCategories();
+          if (categories.isEmpty) {
+            _setBotMessage(
+              'Ürün kategorileri bulunamadı. Lütfen daha sonra tekrar deneyin.',
+              _buildBackToMainOptions(),
+            );
+            return;
+          }
+
+          _setBotMessage(
+            'Hangi kategori ile ilgileniyorsunuz? Seçiniz:',
+            [
+              ...categories.map((cat) => ChatBotOption(
+                    id: 'category_$cat',
+                    text: cat,
+                    nextMessageId: '',
+                    action: 'show_products_by_category',
+                    actionValue: cat,
+                  )),
+              ..._buildBackToMainOptions(),
+            ],
+          );
+          break;
+
+        case 'show_products_by_category':
+          final response = await _chatBotService.getProductsByCategory(value);
+          _setBotMessage(response, _buildBackToMainOptions());
+          break;
+
+        case 'show_products':
+          final response = await _chatBotService.getProductCatalogText();
+          _setBotMessage(response, _buildBackToMainOptions());
+          break;
+
+        case 'order_steps':
+          _setBotMessage(
+            'Sipariş süreci:\n1) Ürünleri seçin\n2) Sepete ekleyin\n3) Adres bilgilerini girin\n4) Ödeme yapın\n\nDetaylı bilgi için lütfen iletişime geçin.',
+            _buildBackToMainOptions(),
+          );
+          break;
+
+        case 'contact_info':
+          _setBotMessage(
+            '📞 WhatsApp: https://wa.me/905010126653\n☎️ Telefon: 0312 345 6789\n✉️ Email: ekmeklab@gmail.com',
+            _buildBackToMainOptions(),
+          );
+          break;
+
+        case 'go_home':
+          _restartChat();
+          break;
+
+        default:
+          Logger.warning('Bilinmeyen action: $action');
+          break;
       }
     } catch (e) {
       Logger.error('ChatBot aksiyonu işlenirken hata: $e');
     }
   }
 
+  List<ChatBotOption> _buildBackToMainOptions() {
+    return [
+      ChatBotOption(
+        id: 'opt_back_home',
+        text: '🏠 Ana Menüye Dön',
+        nextMessageId: '',
+        action: 'go_home',
+      ),
+    ];
+  }
+
+  void _setBotMessage(String message, List<ChatBotOption> options) {
+    setState(() {
+      _chatHistory.add(_ChatMessage(
+        message: message,
+        isBot: true,
+        timestamp: DateTime.now(),
+      ));
+
+      _currentMessage = ChatBotMessage(
+        id: 'dynamic_${DateTime.now().millisecondsSinceEpoch}',
+        message: message,
+        options: options,
+        category: 'dynamic',
+        isActive: true,
+        order: 0,
+        createdAt: DateTime.now(),
+        updatedAt: DateTime.now(),
+      );
+    });
+  }
+
   void _restartChat() {
     setState(() {
       _chatHistory.clear();
-      _isAIMode = false;
-      _messageController.clear();
       _loadChatBot();
     });
   }
 
-  Future<void> _sendAIMessage() async {
-    final message = _messageController.text.trim();
-    if (message.isEmpty || _isAITyping) return;
-
-    // Kullanıcı mesajını ekle
-    setState(() {
-      _chatHistory.add(_ChatMessage(
-        message: message,
-        isBot: false,
-        timestamp: DateTime.now(),
-      ));
-      _messageController.clear();
-      _isAITyping = true;
-    });
-
-    try {
-      // Önceki sohbet geçmişini context olarak hazırla
-      final context = _chatHistory
-          .take(_chatHistory.length - 1) // Son mesajı (yeni eklenen) hariç tut
-          .map((msg) => '${msg.isBot ? "Bot" : "Kullanıcı"}: ${msg.message}')
-          .join('\n');
-
-      Logger.info('🤖 AI\'ya gönderiliyor: $message');
-      Logger.info('📝 Context: $context');
-
-      // Ollama'dan yanıt al (model: qwen3:8b)
-      final response = await _ollamaService.chat(
-        message: message,
-        context: context.isNotEmpty ? context : null,
-        model: 'qwen3:8b',
-      );
-
-      Logger.info('✅ AI yanıtı alındı: $response');
-
-      if (mounted && response != null && response.isNotEmpty) {
-        setState(() {
-          _chatHistory.add(_ChatMessage(
-            message: response,
-            isBot: true,
-            timestamp: DateTime.now(),
-          ));
-          _isAITyping = false;
-        });
-      } else if (mounted) {
-        setState(() {
-          _chatHistory.add(_ChatMessage(
-            message: 'Üzgünüm, yanıt alınamadı. Lütfen tekrar deneyin.',
-            isBot: true,
-            timestamp: DateTime.now(),
-          ));
-          _isAITyping = false;
-        });
-      }
-    } catch (e) {
-      Logger.error('❌ AI yanıtı alınamadı: $e');
-
-      if (mounted) {
-        setState(() {
-          _chatHistory.add(_ChatMessage(
-            message:
-                'Üzgünüm, şu anda yanıt veremiyorum. Lütfen daha sonra tekrar deneyin veya menü moduna geçerek devam edin. 🙏',
-            isBot: true,
-            timestamp: DateTime.now(),
-          ));
-          _isAITyping = false;
-        });
-
-        // Hata mesajını kullanıcıya göster
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('AI bağlantısı kurulamadı. Backend server çalışıyor mu?'),
-            backgroundColor: Colors.orange,
-            action: SnackBarAction(
-              label: 'Tamam',
-              textColor: Colors.white,
-              onPressed: () {},
-            ),
-          ),
-        );
-      }
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -339,13 +337,13 @@ class _ChatBotWidgetState extends State<ChatBotWidget> with SingleTickerProvider
               position: _slideAnimation,
               child: Material(
                 elevation: 8,
-                borderRadius: BorderRadius.circular(16),
+                borderRadius: BorderRadius.circular(AppTheme.radiusXl),
                 child: Container(
                   width: isSmallScreen ? MediaQuery.of(context).size.width - 40 : 380,
                   height: isSmallScreen ? 500 : 600,
                   decoration: BoxDecoration(
                     color: Colors.white,
-                    borderRadius: BorderRadius.circular(16),
+                    borderRadius: BorderRadius.circular(AppTheme.radiusXl),
                   ),
                   child: Column(
                     children: [
@@ -400,20 +398,19 @@ class _ChatBotWidgetState extends State<ChatBotWidget> with SingleTickerProvider
 
   Widget _buildChatHeader() {
     return Container(
-      padding: EdgeInsets.all(16),
+      padding: EdgeInsets.all(AppTheme.spaceLg),
       decoration: BoxDecoration(
         color: AppTheme.primaryColor,
         borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(16),
-          topRight: Radius.circular(16),
+          topLeft: Radius.circular(AppTheme.radiusXl),
+          topRight: Radius.circular(AppTheme.radiusXl),
         ),
       ),
       child: Row(
         children: [
           CircleAvatar(
             backgroundColor: Colors.white,
-            child: Icon(_isAIMode ? Icons.psychology : Icons.support_agent,
-                color: AppTheme.primaryColor),
+            child: Icon(Icons.support_agent, color: AppTheme.primaryColor),
           ),
           SizedBox(width: 12),
           Expanded(
@@ -429,7 +426,7 @@ class _ChatBotWidgetState extends State<ChatBotWidget> with SingleTickerProvider
                   ),
                 ),
                 Text(
-                  _isAIMode ? 'AI Mode 🤖' : 'Online',
+                  'Online',
                   style: TextStyle(
                     color: Colors.white70,
                     fontSize: 12,
@@ -437,22 +434,6 @@ class _ChatBotWidgetState extends State<ChatBotWidget> with SingleTickerProvider
                 ),
               ],
             ),
-          ),
-          // AI Mode Toggle Button
-          IconButton(
-            icon: Icon(
-              _isAIMode ? Icons.psychology : Icons.smart_toy,
-              color: Colors.white,
-            ),
-            tooltip: _isAIMode ? 'Menü Moduna Geç' : 'AI Moduna Geç',
-            onPressed: () {
-              setState(() {
-                _isAIMode = !_isAIMode;
-                if (!_isAIMode) {
-                  _messageController.clear();
-                }
-              });
-            },
           ),
           IconButton(
             icon: Icon(Icons.refresh, color: Colors.white),
@@ -467,7 +448,7 @@ class _ChatBotWidgetState extends State<ChatBotWidget> with SingleTickerProvider
     return Container(
       color: Colors.grey[100],
       child: ListView.builder(
-        padding: EdgeInsets.all(16),
+        padding: EdgeInsets.all(AppTheme.spaceLg),
         itemCount: _chatHistory.length,
         itemBuilder: (context, index) {
           return _buildMessageBubble(_chatHistory[index]);
@@ -482,12 +463,12 @@ class _ChatBotWidgetState extends State<ChatBotWidget> with SingleTickerProvider
     return Align(
       alignment: isBot ? Alignment.centerLeft : Alignment.centerRight,
       child: Container(
-        margin: EdgeInsets.only(bottom: 8),
-        padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+        margin: EdgeInsets.only(bottom: AppTheme.spaceXs),
+        padding: EdgeInsets.symmetric(horizontal: AppTheme.spaceLg, vertical: AppTheme.spaceMd),
         constraints: BoxConstraints(maxWidth: 280),
         decoration: BoxDecoration(
           color: isBot ? Colors.white : AppTheme.primaryColor,
-          borderRadius: BorderRadius.circular(16),
+          borderRadius: BorderRadius.circular(AppTheme.radiusXl),
           boxShadow: [
             BoxShadow(
               color: Colors.black12,
@@ -508,65 +489,8 @@ class _ChatBotWidgetState extends State<ChatBotWidget> with SingleTickerProvider
   }
 
   Widget _buildOptionsPanel() {
-    // AI Mode: Text input göster
-    if (_isAIMode) {
-      return Container(
-        padding: EdgeInsets.all(16),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          border: Border(top: BorderSide(color: Colors.grey[300]!)),
-        ),
-        child: Row(
-          children: [
-            Expanded(
-              child: TextField(
-                controller: _messageController,
-                enabled: !_isAITyping,
-                decoration: InputDecoration(
-                  hintText: _isAITyping ? 'AI yazıyor...' : 'Mesajınızı yazın...',
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(24),
-                    borderSide: BorderSide(color: Colors.grey[300]!),
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(24),
-                    borderSide: BorderSide(color: Colors.grey[300]!),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(24),
-                    borderSide: BorderSide(color: AppTheme.primaryColor, width: 2),
-                  ),
-                  contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                  filled: true,
-                  fillColor: Colors.grey[50],
-                ),
-                maxLines: null,
-                textInputAction: TextInputAction.send,
-                onSubmitted: (_) => _sendAIMessage(),
-              ),
-            ),
-            SizedBox(width: 8),
-            Container(
-              decoration: BoxDecoration(
-                color: AppTheme.primaryColor,
-                shape: BoxShape.circle,
-              ),
-              child: IconButton(
-                icon: Icon(
-                  _isAITyping ? Icons.hourglass_empty : Icons.send,
-                  color: Colors.white,
-                ),
-                onPressed: _isAITyping ? null : _sendAIMessage,
-              ),
-            ),
-          ],
-        ),
-      );
-    }
-
-    // Menu Mode: Options göster
     return Container(
-      padding: EdgeInsets.all(16),
+      padding: EdgeInsets.all(AppTheme.spaceLg),
       decoration: BoxDecoration(
         color: Colors.white,
         border: Border(top: BorderSide(color: Colors.grey[300]!)),
@@ -575,14 +499,14 @@ class _ChatBotWidgetState extends State<ChatBotWidget> with SingleTickerProvider
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: _currentMessage!.options.map((option) {
           return Padding(
-            padding: EdgeInsets.only(bottom: 8),
+            padding: EdgeInsets.only(bottom: AppTheme.spaceXs),
             child: OutlinedButton(
               onPressed: () => _handleOptionTap(option),
               style: OutlinedButton.styleFrom(
-                padding: EdgeInsets.symmetric(vertical: 12),
+                padding: EdgeInsets.symmetric(vertical: AppTheme.spaceMd),
                 side: BorderSide(color: AppTheme.primaryColor),
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8),
+                  borderRadius: BorderRadius.circular(AppTheme.radiusSm),
                 ),
               ),
               child: Text(

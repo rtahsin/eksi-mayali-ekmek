@@ -238,11 +238,26 @@ class _AdminBlogsState extends State<AdminBlogs> with SingleTickerProviderStateM
             style: TextButton.styleFrom(foregroundColor: Colors.red),
           ),
         ],
-        contentPadding: EdgeInsets.fromLTRB(24, 20, 24, 0),
-        titlePadding: EdgeInsets.fromLTRB(24, 24, 24, 0),
-        actionsPadding: EdgeInsets.fromLTRB(8, 8, 16, 16),
+        contentPadding: const EdgeInsets.fromLTRB(
+          AppTheme.space2xl,
+          AppTheme.spaceXl,
+          AppTheme.space2xl,
+          AppTheme.spaceZero,
+        ),
+        titlePadding: const EdgeInsets.fromLTRB(
+          AppTheme.space2xl,
+          AppTheme.space2xl,
+          AppTheme.space2xl,
+          AppTheme.spaceZero,
+        ),
+        actionsPadding: const EdgeInsets.fromLTRB(
+          AppTheme.spaceSm,
+          AppTheme.spaceSm,
+          AppTheme.spaceLg,
+          AppTheme.spaceLg,
+        ),
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(AppTheme.radiusLg),
         ),
       ),
     );
@@ -261,9 +276,15 @@ class _AdminBlogsState extends State<AdminBlogs> with SingleTickerProviderStateM
           content: Text('Blog yazısı silindi.'),
           behavior: SnackBarBehavior.floating,
           width: isSmallScreen ? null : 400,
-          margin: isSmallScreen ? null : EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+          margin: isSmallScreen
+              ? null
+              : const EdgeInsets.symmetric(
+                  horizontal: AppTheme.spaceXl,
+                  vertical: AppTheme.spaceXl,
+                ),
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(isSmallScreen ? 0 : 8),
+            borderRadius:
+                BorderRadius.circular(isSmallScreen ? 0 : AppTheme.radiusMd),
           ),
         ),
       );
@@ -277,9 +298,15 @@ class _AdminBlogsState extends State<AdminBlogs> with SingleTickerProviderStateM
           backgroundColor: Colors.red,
           behavior: SnackBarBehavior.floating,
           width: isSmallScreen ? null : 400,
-          margin: isSmallScreen ? null : EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+          margin: isSmallScreen
+              ? null
+              : const EdgeInsets.symmetric(
+                  horizontal: AppTheme.spaceXl,
+                  vertical: AppTheme.spaceXl,
+                ),
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(isSmallScreen ? 0 : 8),
+            borderRadius:
+                BorderRadius.circular(isSmallScreen ? 0 : AppTheme.radiusMd),
           ),
         ),
       );
@@ -383,19 +410,19 @@ class _AdminBlogsState extends State<AdminBlogs> with SingleTickerProviderStateM
     }
 
     return ListView.builder(
-      padding: EdgeInsets.all(16),
+      padding: const EdgeInsets.all(AppTheme.spaceLg),
       itemCount: _blogs.length,
       itemBuilder: (context, index) {
         final blog = _blogs[index];
         return Card(
           elevation: 2,
-          margin: EdgeInsets.only(bottom: 16),
+          margin: const EdgeInsets.only(bottom: AppTheme.spaceLg),
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(12),
+            borderRadius: BorderRadius.circular(AppTheme.radiusLg),
           ),
           child: InkWell(
             onTap: () => _editBlog(blog),
-            borderRadius: BorderRadius.circular(12),
+            borderRadius: BorderRadius.circular(AppTheme.radiusLg),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -426,7 +453,7 @@ class _AdminBlogsState extends State<AdminBlogs> with SingleTickerProviderStateM
                   ),
 
                 Padding(
-                  padding: EdgeInsets.all(16),
+                  padding: const EdgeInsets.all(AppTheme.spaceLg),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -489,10 +516,13 @@ class _AdminBlogsState extends State<AdminBlogs> with SingleTickerProviderStateM
                           runSpacing: 8,
                           children: blog.tags.map((tag) {
                             return Container(
-                              padding: EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: AppTheme.spaceMd,
+                                vertical: AppTheme.spaceXxs,
+                              ),
                               decoration: BoxDecoration(
                                 color: AppTheme.primaryColor.withValues(alpha: 0.1),
-                                borderRadius: BorderRadius.circular(16),
+                                borderRadius: BorderRadius.circular(AppTheme.radiusXl),
                               ),
                               child: Text(
                                 tag,
@@ -551,7 +581,7 @@ class _AdminBlogsState extends State<AdminBlogs> with SingleTickerProviderStateM
     return Form(
       key: _formKey,
       child: SingleChildScrollView(
-        padding: EdgeInsets.all(16),
+        padding: const EdgeInsets.all(AppTheme.spaceLg),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -637,7 +667,7 @@ class _AdminBlogsState extends State<AdminBlogs> with SingleTickerProviderStateM
                     },
                   ),
                 ),
-                const SizedBox(width: 12),
+                const SizedBox(width: AppTheme.spaceMd),
                 ElevatedButton.icon(
                   onPressed: _uploadingImage ? null : _pickAndUploadBlogImage,
                   icon: const Icon(Icons.upload_file),
@@ -753,7 +783,7 @@ class _AdminBlogsState extends State<AdminBlogs> with SingleTickerProviderStateM
                           style: ElevatedButton.styleFrom(
                             backgroundColor: AppTheme.primaryColor,
                             foregroundColor: Colors.white,
-                            padding: EdgeInsets.symmetric(vertical: 16),
+                            padding: const EdgeInsets.symmetric(vertical: AppTheme.spaceLg),
                           ),
                         ),
                       ),
@@ -772,7 +802,7 @@ class _AdminBlogsState extends State<AdminBlogs> with SingleTickerProviderStateM
                           style: OutlinedButton.styleFrom(
                             foregroundColor: Colors.grey,
                             side: BorderSide(color: Colors.grey),
-                            padding: EdgeInsets.symmetric(vertical: 16),
+                            padding: const EdgeInsets.symmetric(vertical: AppTheme.spaceLg),
                           ),
                         ),
                       ),
@@ -788,7 +818,7 @@ class _AdminBlogsState extends State<AdminBlogs> with SingleTickerProviderStateM
                           style: ElevatedButton.styleFrom(
                             backgroundColor: AppTheme.primaryColor,
                             foregroundColor: Colors.white,
-                            padding: EdgeInsets.symmetric(vertical: 16),
+                            padding: const EdgeInsets.symmetric(vertical: AppTheme.spaceLg),
                           ),
                         ),
                       ),
@@ -806,7 +836,7 @@ class _AdminBlogsState extends State<AdminBlogs> with SingleTickerProviderStateM
                           style: OutlinedButton.styleFrom(
                             foregroundColor: Colors.grey,
                             side: BorderSide(color: Colors.grey),
-                            padding: EdgeInsets.symmetric(vertical: 16),
+                            padding: const EdgeInsets.symmetric(vertical: AppTheme.spaceLg),
                           ),
                         ),
                       ),

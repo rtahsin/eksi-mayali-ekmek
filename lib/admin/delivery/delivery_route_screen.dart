@@ -279,7 +279,7 @@ class _DeliveryRouteScreenState extends State<DeliveryRouteScreen> {
       // Teslim zamanını kaydet - Firestore direct update
       final firestore = FirebaseFirestore.instance;
       await firestore.collection('siparisler').doc(order.id).update({
-        'deliveredAt': DateTime.now().toIso8601String(),
+        'deliveredAt': FieldValue.serverTimestamp(),
       });
 
       Logger.info('✅ Sipariş teslim edildi: ${order.id}');
@@ -376,7 +376,7 @@ class _DeliveryRouteScreenState extends State<DeliveryRouteScreen> {
     return RefreshIndicator(
       onRefresh: _loadData,
       child: ListView.builder(
-        padding: EdgeInsets.all(16),
+        padding: EdgeInsets.all(AppTheme.spaceLg),
         itemCount: _optimizedOrders.length + 1, // +1 for header
         itemBuilder: (context, index) {
           if (index == 0) {
@@ -394,15 +394,15 @@ class _DeliveryRouteScreenState extends State<DeliveryRouteScreen> {
     final totalOrders = _optimizedOrders.length;
 
     return Container(
-      margin: EdgeInsets.only(bottom: 16),
-      padding: EdgeInsets.all(20),
+      margin: EdgeInsets.only(bottom: AppTheme.spaceLg),
+      padding: EdgeInsets.all(AppTheme.spaceXl),
       decoration: BoxDecoration(
         gradient: LinearGradient(
           colors: [Colors.blue[700]!, Colors.blue[500]!],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(AppTheme.radiusXl),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -459,17 +459,17 @@ class _DeliveryRouteScreenState extends State<DeliveryRouteScreen> {
     final isDelivered = order.orderStatus == OrderStatus.delivered;
 
     return Card(
-      margin: EdgeInsets.only(bottom: 12),
+      margin: EdgeInsets.only(bottom: AppTheme.spaceMd),
       elevation: isDelivered ? 1 : 3,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(AppTheme.radiusLg),
         side: isDelivered ? BorderSide(color: Colors.green, width: 2) : BorderSide.none,
       ),
       child: InkWell(
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(AppTheme.radiusLg),
         onTap: isDelivered ? null : () => _openInMaps(order),
         child: Padding(
-          padding: EdgeInsets.all(16),
+          padding: EdgeInsets.all(AppTheme.spaceLg),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -544,10 +544,10 @@ class _DeliveryRouteScreenState extends State<DeliveryRouteScreen> {
               if (order.notes != null && order.notes.isNotEmpty) ...[
                 SizedBox(height: 8),
                 Container(
-                  padding: EdgeInsets.all(8),
+                  padding: EdgeInsets.all(AppTheme.spaceSm),
                   decoration: BoxDecoration(
                     color: Colors.grey[100],
-                    borderRadius: BorderRadius.circular(8),
+                    borderRadius: BorderRadius.circular(AppTheme.radiusMd),
                   ),
                   child: Row(
                     children: [
@@ -575,7 +575,7 @@ class _DeliveryRouteScreenState extends State<DeliveryRouteScreen> {
                     backgroundColor: Colors.blue[700],
                     minimumSize: Size(double.infinity, 40),
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8),
+                      borderRadius: BorderRadius.circular(AppTheme.radiusMd),
                     ),
                   ),
                 ),

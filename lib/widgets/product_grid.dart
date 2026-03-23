@@ -56,12 +56,12 @@ class ProductGrid extends StatelessWidget {
           ? GridView.builder(
               shrinkWrap: true,
               physics: gridPhysics ?? const NeverScrollableScrollPhysics(),
-              padding: EdgeInsets.symmetric(vertical: 5),
+              padding: const EdgeInsets.symmetric(vertical: AppTheme.spaceXs),
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: crossAxisCount,
                 childAspectRatio: 0.85, // Ürün kartı oranını düzelttik
-                crossAxisSpacing: isMobile ? 4 : 8, // Mobil için daha az boşluk
-                mainAxisSpacing: isMobile ? 4 : 8, // Mobil için daha az boşluk
+                crossAxisSpacing: isMobile ? AppTheme.spaceXxs : AppTheme.spaceXs,
+                mainAxisSpacing: isMobile ? AppTheme.spaceXxs : AppTheme.spaceXs,
               ),
               itemCount: products.length,
               itemBuilder: (context, index) {
@@ -75,13 +75,13 @@ class ProductGrid extends StatelessWidget {
           : GridView.builder(
               shrinkWrap: true,
               physics: gridPhysics ?? const NeverScrollableScrollPhysics(),
-              padding: EdgeInsets.symmetric(vertical: 5),
+              padding: const EdgeInsets.symmetric(vertical: AppTheme.spaceXs),
               gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
                 maxCrossAxisExtent:
                     maxCrossAxisExtent ?? 200.0, // Varsayılan 200px genişlik
                 childAspectRatio: 0.85, // Ürün kartı oranını düzelttik
-                crossAxisSpacing: isMobile ? 4 : 8, // Mobil için daha az boşluk
-                mainAxisSpacing: isMobile ? 4 : 8, // Mobil için daha az boşluk
+                crossAxisSpacing: isMobile ? AppTheme.spaceXxs : AppTheme.spaceXs,
+                mainAxisSpacing: isMobile ? AppTheme.spaceXxs : AppTheme.spaceXs,
               ),
               itemCount: products.length,
               itemBuilder: (context, index) {

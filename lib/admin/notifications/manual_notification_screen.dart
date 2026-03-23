@@ -285,7 +285,7 @@ class _ManualNotificationScreenState extends State<ManualNotificationScreen> {
               ),
             )
           : SingleChildScrollView(
-              padding: EdgeInsets.all(16),
+              padding: EdgeInsets.all(AppTheme.spaceLg),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -308,14 +308,14 @@ class _ManualNotificationScreenState extends State<ManualNotificationScreen> {
 
   Widget _buildHeader() {
     return Container(
-      padding: EdgeInsets.all(20),
+      padding: EdgeInsets.all(AppTheme.spaceXl),
       decoration: BoxDecoration(
         gradient: LinearGradient(
           colors: [Colors.purple[700]!, Colors.purple[500]!],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(AppTheme.radiusXl),
       ),
       child: Row(
         children: [
@@ -424,10 +424,10 @@ class _ManualNotificationScreenState extends State<ManualNotificationScreen> {
 
     if (_recentOrders.isEmpty) {
       return Container(
-        padding: EdgeInsets.all(16),
+        padding: EdgeInsets.all(AppTheme.spaceLg),
         decoration: BoxDecoration(
           color: Colors.grey[100],
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(AppTheme.radiusMd),
         ),
         child: Text(
           'Aktif sipariş bulunamadı',
@@ -448,7 +448,7 @@ class _ManualNotificationScreenState extends State<ManualNotificationScreen> {
           constraints: BoxConstraints(maxHeight: 200),
           decoration: BoxDecoration(
             border: Border.all(color: Colors.grey[300]!),
-            borderRadius: BorderRadius.circular(12),
+            borderRadius: BorderRadius.circular(AppTheme.radiusMd),
           ),
           child: ListView.separated(
             shrinkWrap: true,
@@ -505,7 +505,7 @@ class _ManualNotificationScreenState extends State<ManualNotificationScreen> {
           decoration: InputDecoration(
             labelText: 'Başlık',
             hintText: 'Bildirim başlığı',
-            border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+            border: OutlineInputBorder(borderRadius: BorderRadius.circular(AppTheme.radiusMd)),
             prefixIcon: Icon(Icons.title),
           ),
           maxLength: 50,
@@ -518,7 +518,7 @@ class _ManualNotificationScreenState extends State<ManualNotificationScreen> {
           decoration: InputDecoration(
             labelText: 'Mesaj',
             hintText: 'Bildirim mesajı',
-            border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+            border: OutlineInputBorder(borderRadius: BorderRadius.circular(AppTheme.radiusMd)),
             prefixIcon: Icon(Icons.message),
             alignLabelWithHint: true,
           ),
@@ -539,10 +539,10 @@ class _ManualNotificationScreenState extends State<ManualNotificationScreen> {
         ),
         SizedBox(height: 12),
         Container(
-          padding: EdgeInsets.all(16),
+          padding: EdgeInsets.all(AppTheme.spaceLg),
           decoration: BoxDecoration(
             color: Colors.grey[900],
-            borderRadius: BorderRadius.circular(12),
+            borderRadius: BorderRadius.circular(AppTheme.radiusMd),
             boxShadow: [
               BoxShadow(
                 color: Colors.black26,
@@ -620,7 +620,7 @@ class _ManualNotificationScreenState extends State<ManualNotificationScreen> {
           backgroundColor: Colors.green,
           disabledBackgroundColor: Colors.grey[400],
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(12),
+            borderRadius: BorderRadius.circular(AppTheme.radiusMd),
           ),
         ),
       ),

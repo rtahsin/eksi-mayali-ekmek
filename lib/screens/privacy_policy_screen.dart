@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../theme/app_theme.dart';
+
 class PrivacyPolicyScreen extends StatelessWidget {
   static const routeName = '/gizlilik-politikasi';
 
@@ -12,7 +14,7 @@ class PrivacyPolicyScreen extends StatelessWidget {
         title: const Text('Gizlilik Politikası'),
       ),
       body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.all(AppTheme.spaceMd),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -20,7 +22,7 @@ class PrivacyPolicyScreen extends StatelessWidget {
               'KVKK Aydınlatma Metni',
               style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: AppTheme.spaceMd),
             const Text(
               'Ekşi Mayalı Ekmek olarak kişisel verilerinizin güvenliği hakkında '
               'bilgilendirmek isteriz. Bu nedenle işbu Gizlilik Politikasını '
@@ -54,19 +56,19 @@ class PrivacyPolicyScreen extends StatelessWidget {
                 'Eksik veya yanlış işlenen kişisel verilerinizin düzeltilmesini isteme'),
             _buildBulletPoint(
                 'Kişisel verilerinizin silinmesini veya yok edilmesini isteme'),
-            const SizedBox(height: 32),
+            const SizedBox(height: AppTheme.spaceXl),
             _buildSectionTitle('İletişim'),
             const Text(
               'Kişisel verilerinizle ilgili talepleriniz için aşağıdaki adres '
               'üzerinden bize ulaşabilirsiniz:',
               style: TextStyle(fontSize: 14),
             ),
-            const SizedBox(height: 8),
+            const SizedBox(height: AppTheme.spaceSm),
             const Text(
               'E-posta: kvkk@eksimayaliekmek.com',
               style: TextStyle(fontWeight: FontWeight.bold),
             ),
-            const SizedBox(height: 32),
+            const SizedBox(height: AppTheme.spaceXl),
             ElevatedButton(
               onPressed: () {
                 // Veri talep formu veya izin yönetimi sayfasına gitme
@@ -85,7 +87,7 @@ class PrivacyPolicyScreen extends StatelessWidget {
 
   Widget _buildSectionTitle(String title) {
     return Padding(
-      padding: const EdgeInsets.only(top: 24, bottom: 8),
+      padding: const EdgeInsets.only(top: AppTheme.spaceLg, bottom: AppTheme.spaceSm),
       child: Text(
         title,
         style: const TextStyle(
@@ -98,7 +100,7 @@ class PrivacyPolicyScreen extends StatelessWidget {
 
   Widget _buildBulletPoint(String text) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 4),
+      padding: const EdgeInsets.symmetric(vertical: AppTheme.spaceXs),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

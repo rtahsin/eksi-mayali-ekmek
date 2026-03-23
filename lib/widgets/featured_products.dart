@@ -42,12 +42,14 @@ class FeaturedProducts extends StatelessWidget {
     final crossAxisCount = isDesktop ? 4 : (isTablet ? 3 : 2);
 
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 24.0),
+      padding: const EdgeInsets.symmetric(vertical: AppTheme.space2xl),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
-            padding: EdgeInsets.symmetric(horizontal: isMobile ? 8.0 : 16.0),
+            padding: EdgeInsets.symmetric(
+              horizontal: isMobile ? AppTheme.spaceXs : AppTheme.spaceLg,
+            ),
             child: Text(
               AppTranslations.getTranslation(context, 'featuredProducts'),
               style: theme.textTheme.titleLarge?.copyWith(
@@ -58,15 +60,17 @@ class FeaturedProducts extends StatelessWidget {
           ),
           const SizedBox(height: 16),
           Padding(
-            padding: EdgeInsets.symmetric(horizontal: isMobile ? 4.0 : 12.0),
+            padding: EdgeInsets.symmetric(
+              horizontal: isMobile ? AppTheme.spaceXxs : AppTheme.spaceMd,
+            ),
             child: GridView.builder(
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: crossAxisCount,
                 childAspectRatio: 0.75,
-                crossAxisSpacing: isMobile ? 8 : 16,
-                mainAxisSpacing: isMobile ? 8 : 16,
+                crossAxisSpacing: isMobile ? AppTheme.spaceXs : AppTheme.spaceLg,
+                mainAxisSpacing: isMobile ? AppTheme.spaceXs : AppTheme.spaceLg,
               ),
               itemCount: products.length,
               itemBuilder: (context, index) {
@@ -89,7 +93,7 @@ class FeaturedProducts extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(AppTheme.radiusXl),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withValues(alpha: 0.05),
@@ -108,7 +112,7 @@ class FeaturedProducts extends StatelessWidget {
                 Hero(
                   tag: 'featured_product_${product.id}',
                   child: ClipRRect(
-                    borderRadius: BorderRadius.circular(8),
+                    borderRadius: BorderRadius.circular(AppTheme.radiusSm),
                     child: CachedNetworkImage(
                       imageUrl: product.imageUrl,
                       width: 120,
@@ -151,10 +155,10 @@ class FeaturedProducts extends StatelessWidget {
                     left: 12,
                     child: Container(
                       padding: const EdgeInsets.symmetric(
-                          horizontal: 8, vertical: 4),
+                          horizontal: AppTheme.spaceXs, vertical: AppTheme.spaceXxs),
                       decoration: BoxDecoration(
                         color: AppTheme.accentColor,
-                        borderRadius: BorderRadius.circular(8),
+                        borderRadius: BorderRadius.circular(AppTheme.radiusSm),
                       ),
                       child: Text(
                         '%${product.discountPercentage.toInt()} İndirim',
@@ -172,10 +176,10 @@ class FeaturedProducts extends StatelessWidget {
                     right: 12,
                     child: Container(
                       padding: const EdgeInsets.symmetric(
-                          horizontal: 8, vertical: 4),
+                          horizontal: AppTheme.spaceXs, vertical: AppTheme.spaceXxs),
                       decoration: BoxDecoration(
                         color: AppTheme.successColor,
-                        borderRadius: BorderRadius.circular(8),
+                        borderRadius: BorderRadius.circular(AppTheme.radiusSm),
                       ),
                       child: const Text(
                         'Yeni',
@@ -246,7 +250,7 @@ class FeaturedProducts extends StatelessWidget {
                               ),
                             );
                           },
-                          padding: const EdgeInsets.all(8),
+                          padding: const EdgeInsets.all(AppTheme.spaceXs),
                           constraints: const BoxConstraints(),
                         );
                       },
@@ -257,7 +261,7 @@ class FeaturedProducts extends StatelessWidget {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.all(16),
+            padding: const EdgeInsets.all(AppTheme.spaceLg),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -274,10 +278,11 @@ class FeaturedProducts extends StatelessWidget {
                 const SizedBox(height: 8),
                 Container(
                   padding:
-                      const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                      const EdgeInsets.symmetric(
+                          horizontal: AppTheme.spaceXs, vertical: AppTheme.spaceXxs),
                   decoration: BoxDecoration(
                     color: Colors.grey[200],
-                    borderRadius: BorderRadius.circular(4),
+                    borderRadius: BorderRadius.circular(AppTheme.spaceXxs),
                   ),
                   child: Text(
                     product.category,
@@ -329,7 +334,7 @@ class FeaturedProducts extends StatelessWidget {
                     Container(
                       decoration: BoxDecoration(
                         color: AppTheme.primaryColor,
-                        borderRadius: BorderRadius.circular(12),
+                        borderRadius: BorderRadius.circular(AppTheme.radiusMd),
                       ),
                       child: IconButton(
                         onPressed: () => onProductTap(product),

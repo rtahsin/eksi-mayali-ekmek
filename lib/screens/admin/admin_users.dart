@@ -164,7 +164,7 @@ class _AdminUsersState extends State<AdminUsers> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
-            padding: EdgeInsets.all(isSmallScreen ? 12 : 16),
+            padding: EdgeInsets.all(isSmallScreen ? AppTheme.spaceMd : AppTheme.spaceLg),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -196,8 +196,8 @@ class _AdminUsersState extends State<AdminUsers> {
                       style: ElevatedButton.styleFrom(
                         backgroundColor: AppTheme.primaryColor,
                         padding: EdgeInsets.symmetric(
-                          horizontal: isSmallScreen ? 12 : 16,
-                          vertical: isSmallScreen ? 8 : 12,
+                          horizontal: isSmallScreen ? AppTheme.spaceMd : AppTheme.spaceLg,
+                          vertical: isSmallScreen ? AppTheme.spaceXs : AppTheme.spaceMd,
                         ),
                       ),
                     ),
@@ -213,9 +213,9 @@ class _AdminUsersState extends State<AdminUsers> {
                     hintText: 'Müşteri ara...',
                     prefixIcon: const Icon(Icons.search),
                     border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8),
+                      borderRadius: BorderRadius.circular(AppTheme.radiusSm),
                     ),
-                    contentPadding: const EdgeInsets.symmetric(vertical: 12),
+                    contentPadding: const EdgeInsets.symmetric(vertical: AppTheme.spaceMd),
                   ),
                   onChanged: (value) {
                     setState(() {});
@@ -282,13 +282,13 @@ class _AdminUsersState extends State<AdminUsers> {
     final isSmallScreen = MediaQuery.of(context).size.width < 600;
 
     return Card(
-      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      margin: const EdgeInsets.symmetric(horizontal: AppTheme.spaceLg, vertical: AppTheme.spaceXs),
       elevation: 2,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(AppTheme.radiusMd),
       ),
       child: Padding(
-        padding: EdgeInsets.all(isSmallScreen ? 12 : 16),
+        padding: EdgeInsets.all(isSmallScreen ? AppTheme.spaceMd : AppTheme.spaceLg),
         child: isSmallScreen
             ? _buildMobileUserItem(user)
             : _buildDesktopUserItem(user),
@@ -344,12 +344,12 @@ class _AdminUsersState extends State<AdminUsers> {
 
             // Kullanıcı durumu
             Container(
-              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+              padding: const EdgeInsets.symmetric(horizontal: AppTheme.spaceXs, vertical: AppTheme.spaceXxs),
               decoration: BoxDecoration(
                 color: user.isAdmin
                     ? Colors.purple.withAlpha(26)
                     : Colors.green.withAlpha(26),
-                borderRadius: BorderRadius.circular(12),
+                borderRadius: BorderRadius.circular(AppTheme.radiusMd),
               ),
               child: Text(
                 user.isAdmin ? 'Admin' : 'Müşteri',
@@ -377,7 +377,7 @@ class _AdminUsersState extends State<AdminUsers> {
               label: const Text('Detaylar', style: TextStyle(fontSize: 12)),
               style: TextButton.styleFrom(
                 foregroundColor: Colors.blue,
-                padding: const EdgeInsets.symmetric(horizontal: 8),
+                padding: const EdgeInsets.symmetric(horizontal: AppTheme.spaceXs),
               ),
             ),
             TextButton.icon(
@@ -388,7 +388,7 @@ class _AdminUsersState extends State<AdminUsers> {
               label: const Text('Düzenle', style: TextStyle(fontSize: 12)),
               style: TextButton.styleFrom(
                 foregroundColor: Colors.orange,
-                padding: const EdgeInsets.symmetric(horizontal: 8),
+                padding: const EdgeInsets.symmetric(horizontal: AppTheme.spaceXs),
               ),
             ),
           ],
@@ -465,12 +465,15 @@ class _AdminUsersState extends State<AdminUsers> {
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
             Container(
-              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+              padding: const EdgeInsets.symmetric(
+                horizontal: AppTheme.spaceMd,
+                vertical: AppTheme.spaceXxs + 2,
+              ),
               decoration: BoxDecoration(
                 color: user.isAdmin
                     ? Colors.purple.withAlpha(26)
                     : Colors.green.withAlpha(26),
-                borderRadius: BorderRadius.circular(20),
+                borderRadius: BorderRadius.circular(AppTheme.radius2xl),
               ),
               child: Text(
                 user.isAdmin ? 'Admin' : 'Müşteri',
@@ -519,8 +522,8 @@ class _AdminUsersState extends State<AdminUsers> {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        titlePadding: EdgeInsets.fromLTRB(24, 24, 24, 0),
-        contentPadding: EdgeInsets.fromLTRB(24, 20, 24, 0),
+        titlePadding: const EdgeInsets.fromLTRB(AppTheme.space2xl, AppTheme.space2xl, AppTheme.space2xl, AppTheme.spaceZero),
+        contentPadding: const EdgeInsets.fromLTRB(AppTheme.space2xl, AppTheme.spaceXl, AppTheme.space2xl, AppTheme.spaceZero),
         title: Text(
           '${user.fullName} Detayları',
           style: TextStyle(
@@ -579,7 +582,7 @@ class _AdminUsersState extends State<AdminUsers> {
           ),
         ],
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(AppTheme.radiusMd),
         ),
       ),
     );
@@ -596,8 +599,8 @@ class _AdminUsersState extends State<AdminUsers> {
       context: context,
       builder: (context) => StatefulBuilder(
         builder: (context, setState) => AlertDialog(
-          titlePadding: EdgeInsets.fromLTRB(24, 24, 24, 0),
-          contentPadding: EdgeInsets.fromLTRB(24, 20, 24, 0),
+          titlePadding: const EdgeInsets.fromLTRB(AppTheme.space2xl, AppTheme.space2xl, AppTheme.space2xl, AppTheme.spaceZero),
+          contentPadding: const EdgeInsets.fromLTRB(AppTheme.space2xl, AppTheme.spaceXl, AppTheme.space2xl, AppTheme.spaceZero),
           title: Text(
             '${user.fullName} Düzenle',
             style: TextStyle(
@@ -669,7 +672,7 @@ class _AdminUsersState extends State<AdminUsers> {
             ),
           ],
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(12),
+            borderRadius: BorderRadius.circular(AppTheme.radiusMd),
           ),
         ),
       ),

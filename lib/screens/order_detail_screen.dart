@@ -141,7 +141,7 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
 
   Widget _buildSectionTitle(String title) {
     return Padding(
-      padding: const EdgeInsets.only(bottom: 12),
+      padding: const EdgeInsets.only(bottom: AppTheme.spaceMd),
       child: Text(
         title,
         style: TextStyle(
@@ -155,7 +155,7 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
 
   Widget _buildInfoRow(String label, String value) {
     return Padding(
-      padding: const EdgeInsets.only(bottom: 8),
+      padding: const EdgeInsets.only(bottom: AppTheme.spaceXs),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -184,7 +184,7 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
 
   Widget _buildOrderItem(OrderItem item) {
     return Padding(
-      padding: const EdgeInsets.only(bottom: 16),
+      padding: const EdgeInsets.only(bottom: AppTheme.spaceLg),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -192,7 +192,7 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
             width: 60,
             height: 60,
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(8),
+              borderRadius: BorderRadius.circular(AppTheme.radiusSm),
               image: DecorationImage(
                 image: NetworkImage(item.imageUrl),
                 fit: BoxFit.cover,
@@ -200,7 +200,7 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
               ),
             ),
           ),
-          SizedBox(width: 12),
+          const SizedBox(width: AppTheme.spaceMd),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -211,7 +211,7 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                SizedBox(height: 4),
+                const SizedBox(height: AppTheme.spaceXxs),
                 Text(
                   '${item.quantity} adet x ${item.price.toStringAsFixed(2)} ₺',
                   style: TextStyle(
@@ -236,7 +236,7 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
   Widget _buildPriceSummary(String label, double amount,
       {bool isDiscount = false, bool isTotal = false}) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 4),
+      padding: const EdgeInsets.symmetric(vertical: AppTheme.spaceXxs),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -297,11 +297,11 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
     return Card(
       elevation: 2,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(AppTheme.radiusMd),
       ),
       color: color.withAlpha(26),
       child: Padding(
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.all(AppTheme.spaceLg),
         child: Column(
           children: [
             Row(
@@ -311,7 +311,7 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                   color: color,
                   size: 24,
                 ),
-                const SizedBox(width: 12),
+                const SizedBox(width: AppTheme.spaceMd),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -323,7 +323,7 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                           color: Colors.grey[700],
                         ),
                       ),
-                      const SizedBox(height: 4),
+                      const SizedBox(height: AppTheme.spaceXxs),
                       Text(
                         text,
                         style: TextStyle(
@@ -357,7 +357,7 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
             ),
             if (status == OrderStatus.delivered && _order?.review == null && !_showReviewForm)
               Padding(
-                padding: const EdgeInsets.only(top: 16),
+                padding: const EdgeInsets.only(top: AppTheme.spaceLg),
                 child: OutlinedButton.icon(
                   onPressed: () {
                     setState(() {
@@ -429,15 +429,15 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
     return Card(
       elevation: 2,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(AppTheme.radiusMd),
       ),
       child: Padding(
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.all(AppTheme.spaceLg),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             _buildSectionTitle('Sipariş Durumu'),
-            const SizedBox(height: 16),
+            const SizedBox(height: AppTheme.spaceLg),
             ListView.builder(
               shrinkWrap: true,
               physics: NeverScrollableScrollPhysics(),
@@ -474,7 +474,7 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                         : Colors.grey.shade300,
                   ),
                   endChild: Padding(
-                    padding: const EdgeInsets.all(16.0),
+                    padding: const EdgeInsets.all(AppTheme.spaceLg),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -486,7 +486,7 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                           ),
                         ),
                         if (event['time'] != null) ...[
-                          const SizedBox(height: 4),
+                          const SizedBox(height: AppTheme.spaceXxs),
                           Text(
                             DateFormat('dd.MM.yyyy HH:mm').format(event['time']),
                             style: TextStyle(
@@ -495,7 +495,7 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                             ),
                           ),
                         ],
-                        const SizedBox(height: 4),
+                        const SizedBox(height: AppTheme.spaceXxs),
                         Text(
                           event['description'],
                           style: TextStyle(
@@ -507,7 +507,8 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                     ),
                   ),
                   startChild: Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: AppTheme.spaceLg, vertical: AppTheme.spaceXs),
                     alignment: Alignment.centerRight,
                     child: event['isCompleted']
                         ? Icon(
@@ -530,15 +531,15 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
     return Card(
       elevation: 2,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(AppTheme.radiusMd),
       ),
       child: Padding(
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.all(AppTheme.spaceLg),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             _buildSectionTitle('Siparişi Değerlendir'),
-            const SizedBox(height: 16),
+            const SizedBox(height: AppTheme.spaceLg),
             Text(
               'Puanınız',
               style: TextStyle(
@@ -546,7 +547,7 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                 color: Colors.grey[700],
               ),
             ),
-            const SizedBox(height: 8),
+            const SizedBox(height: AppTheme.spaceXs),
             Row(
               mainAxisSize: MainAxisSize.min,
               children: List.generate(5, (index) {
@@ -564,7 +565,7 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                 );
               }),
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: AppTheme.spaceLg),
             Text(
               'Yorumunuz',
               style: TextStyle(
@@ -572,7 +573,7 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                 color: Colors.grey[700],
               ),
             ),
-            const SizedBox(height: 8),
+            const SizedBox(height: AppTheme.spaceXs),
             TextField(
               controller: _reviewController,
               maxLines: 3,
@@ -583,7 +584,7 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                 fillColor: Colors.grey.shade50,
               ),
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: AppTheme.spaceLg),
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
@@ -597,7 +598,7 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                   },
                   child: Text('İptal'),
                 ),
-                const SizedBox(width: 8),
+                const SizedBox(width: AppTheme.spaceXs),
                 ElevatedButton(
                   onPressed: _submitReview,
                   style: ElevatedButton.styleFrom(
@@ -619,15 +620,15 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
     return Card(
       elevation: 2,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(AppTheme.radiusMd),
       ),
       child: Padding(
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.all(AppTheme.spaceLg),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             _buildSectionTitle('Değerlendirmeniz'),
-            const SizedBox(height: 16),
+            const SizedBox(height: AppTheme.spaceLg),
             Row(
               children: [
                 Text(
@@ -648,7 +649,7 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                 ),
               ],
             ),
-            const SizedBox(height: 8),
+            const SizedBox(height: AppTheme.spaceXs),
             Text(
               'Yorumunuz:',
               style: TextStyle(
@@ -656,14 +657,14 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                 color: Colors.grey[700],
               ),
             ),
-            const SizedBox(height: 4),
+            const SizedBox(height: AppTheme.spaceXxs),
             Text(
               _order!.review!.comment,
               style: TextStyle(
                 color: Colors.grey[800],
               ),
             ),
-            const SizedBox(height: 8),
+            const SizedBox(height: AppTheme.spaceXs),
             Text(
               'Tarih: ${DateFormat('dd.MM.yyyy').format(_order!.review!.date)}',
               style: TextStyle(
@@ -700,26 +701,26 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
           : _order == null
               ? Center(child: Text('Sipariş bulunamadı'))
               : SingleChildScrollView(
-                  padding: const EdgeInsets.all(16),
+                  padding: const EdgeInsets.all(AppTheme.spaceLg),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       // Sipariş durumu
                       _buildStatusCard(_order!.orderStatus),
-                      const SizedBox(height: 24),
+                      const SizedBox(height: AppTheme.space2xl),
 
                       // Sipariş zaman çizelgesi
                       _buildOrderTimeline(),
-                      const SizedBox(height: 24),
+                      const SizedBox(height: AppTheme.space2xl),
 
                       // Sipariş bilgileri
                       Card(
                         elevation: 2,
                         shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12),
+                          borderRadius: BorderRadius.circular(AppTheme.radiusMd),
                         ),
                         child: Padding(
-                          padding: const EdgeInsets.all(16),
+                          padding: const EdgeInsets.all(AppTheme.spaceLg),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -735,16 +736,16 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                           ),
                         ),
                       ),
-                      const SizedBox(height: 24),
+                      const SizedBox(height: AppTheme.space2xl),
 
                       // Teslimat bilgileri
                       Card(
                         elevation: 2,
                         shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12),
+                          borderRadius: BorderRadius.circular(AppTheme.radiusMd),
                         ),
                         child: Padding(
-                          padding: const EdgeInsets.all(16),
+                          padding: const EdgeInsets.all(AppTheme.spaceLg),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -757,24 +758,24 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                           ),
                         ),
                       ),
-                      const SizedBox(height: 24),
+                      const SizedBox(height: AppTheme.space2xl),
 
                       // Sipariş öğeleri
                       Card(
                         elevation: 2,
                         shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12),
+                          borderRadius: BorderRadius.circular(AppTheme.radiusMd),
                         ),
                         child: Padding(
-                          padding: const EdgeInsets.all(16),
+                          padding: const EdgeInsets.all(AppTheme.spaceLg),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               _buildSectionTitle('Sipariş Öğeleri'),
-                              const SizedBox(height: 16),
+                              const SizedBox(height: AppTheme.spaceLg),
                               ..._order!.items.map((item) => _buildOrderItem(item)).toList(),
                               const Divider(),
-                              const SizedBox(height: 8),
+                              const SizedBox(height: AppTheme.spaceXs),
                               _buildPriceSummary('Ara Toplam', _getSubtotal()),
 
                               // Teslimat ücreti gösterimi
@@ -799,13 +800,13 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                                 ],
                               ),
 
-                              const SizedBox(height: 8),
+                              const SizedBox(height: AppTheme.spaceXs),
                               _buildPriceSummary('Toplam', _order!.amount ?? 0.0, isTotal: true),
                             ],
                           ),
                         ),
                       ),
-                      const SizedBox(height: 24),
+                      const SizedBox(height: AppTheme.space2xl),
 
                       // Değerlendirme formu
                       if (_showReviewForm) _buildReviewForm(),

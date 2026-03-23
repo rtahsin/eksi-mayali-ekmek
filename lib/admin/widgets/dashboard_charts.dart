@@ -1,5 +1,3 @@
-// ignore_for_file: prefer_const_constructors
-
 /*
  * Dashboard Charts Widget
  * 
@@ -85,7 +83,7 @@ class DashboardCharts extends StatelessWidget {
     return Card(
       elevation: 2,
       child: Padding(
-        padding: EdgeInsets.all(16),
+        padding: EdgeInsets.all(AppTheme.spaceLg),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -127,7 +125,7 @@ class DashboardCharts extends StatelessWidget {
                                 final date =
                                     DateTime.now().subtract(Duration(days: 6 - value.toInt()));
                                 return Padding(
-                                  padding: EdgeInsets.only(top: 8),
+                                  padding: EdgeInsets.only(top: AppTheme.spaceXs),
                                   child: Text(
                                     DateFormat('dd/MM').format(date),
                                     style: TextStyle(fontSize: 10),
@@ -170,7 +168,7 @@ class DashboardCharts extends StatelessWidget {
     return Card(
       elevation: 2,
       child: Padding(
-        padding: EdgeInsets.all(16),
+        padding: EdgeInsets.all(AppTheme.spaceLg),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -222,7 +220,7 @@ class DashboardCharts extends StatelessWidget {
     return Card(
       elevation: 2,
       child: Padding(
-        padding: EdgeInsets.all(16),
+        padding: EdgeInsets.all(AppTheme.spaceLg),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -262,7 +260,7 @@ class DashboardCharts extends StatelessWidget {
                                 final productNames = _getTopProductNames();
                                 if (value.toInt() >= 0 && value.toInt() < productNames.length) {
                                   return Padding(
-                                    padding: EdgeInsets.only(top: 8),
+                                    padding: EdgeInsets.only(top: AppTheme.spaceXs),
                                     child: Text(
                                       productNames[value.toInt()],
                                       style: TextStyle(fontSize: 9),
@@ -296,7 +294,7 @@ class DashboardCharts extends StatelessWidget {
     return Card(
       elevation: 2,
       child: Padding(
-        padding: EdgeInsets.all(16),
+        padding: EdgeInsets.all(AppTheme.spaceLg),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -433,7 +431,7 @@ class DashboardCharts extends StatelessWidget {
               toY: top5[index].value.toDouble(),
               color: Colors.blue,
               width: 16,
-              borderRadius: BorderRadius.circular(4),
+              borderRadius: BorderRadius.circular(AppTheme.spaceXxs),
             ),
           ],
         );
@@ -529,7 +527,7 @@ class DashboardCharts extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: statuses.entries.map((entry) {
         return Padding(
-          padding: EdgeInsets.symmetric(vertical: 4),
+          padding: EdgeInsets.symmetric(vertical: AppTheme.spaceXxs),
           child: Row(
             children: [
               Container(
@@ -581,7 +579,7 @@ class DashboardCharts extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: top5.take(5).toList().asMap().entries.map((entry) {
           return Padding(
-            padding: EdgeInsets.symmetric(vertical: 4),
+            padding: EdgeInsets.symmetric(vertical: AppTheme.spaceXxs),
             child: Row(
               children: [
                 Container(

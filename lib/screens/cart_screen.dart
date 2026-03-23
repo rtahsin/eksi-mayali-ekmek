@@ -27,7 +27,9 @@ class CartScreen extends StatelessWidget {
     final isTablet = deviceType == DeviceType.tablet;
 
     // Ekran genişliğine göre padding değerini ayarla
-    final horizontalPadding = isDesktop ? 80.0 : (isTablet ? 40.0 : 16.0);
+    final horizontalPadding = isDesktop
+      ? AppTheme.pagePaddingDesktop
+      : (isTablet ? 40.0 : AppTheme.spaceLg);
 
     return Scaffold(
       appBar: CustomAppBar(
@@ -71,7 +73,7 @@ class CartScreen extends StatelessWidget {
                 child: Padding(
                   padding: EdgeInsets.symmetric(horizontal: horizontalPadding),
                   child: ListView.builder(
-                    padding: const EdgeInsets.only(top: 16, bottom: 100),
+                    padding: const EdgeInsets.only(top: AppTheme.spaceLg, bottom: AppTheme.space8xl),
                     itemCount: cartItems.length,
                     itemBuilder: (context, index) {
                       final item = cartItems[index];
@@ -99,10 +101,11 @@ class CartScreen extends StatelessWidget {
     return Container(
       width: double.infinity,
       margin: EdgeInsets.symmetric(
-          horizontal: isSmallScreen ? 16 : 20, vertical: isSmallScreen ? 12 : 16),
+          horizontal: isSmallScreen ? AppTheme.spaceLg : AppTheme.spaceXl,
+          vertical: isSmallScreen ? AppTheme.spaceMd : AppTheme.spaceLg),
       decoration: BoxDecoration(
         color: isDark ? AppTheme.darkCardColor : Colors.white,
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(AppTheme.radiusMd),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withValues(alpha: 0.05),
@@ -116,7 +119,8 @@ class CartScreen extends StatelessWidget {
         children: [
           // Başlık
           Padding(
-            padding: EdgeInsets.fromLTRB(16, 16, 16, 8),
+            padding: const EdgeInsets.fromLTRB(
+              AppTheme.spaceLg, AppTheme.spaceLg, AppTheme.spaceLg, AppTheme.spaceXs),
             child: Row(
               children: [
                 Icon(
@@ -124,7 +128,7 @@ class CartScreen extends StatelessWidget {
                   color: AppTheme.primaryColor,
                   size: isSmallScreen ? 18 : 20,
                 ),
-                SizedBox(width: 8),
+                const SizedBox(width: AppTheme.spaceXs),
                 Text(
                   AppTranslations.getTranslation(context, 'orderSummary'),
                   style: TextStyle(
@@ -145,7 +149,7 @@ class CartScreen extends StatelessWidget {
 
           // Sipariş detayları
           Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+            padding: const EdgeInsets.symmetric(horizontal: AppTheme.spaceLg, vertical: AppTheme.spaceXs),
             child: Column(
               children: [
                 // Ürün sayısı satırı
@@ -199,7 +203,7 @@ class CartScreen extends StatelessWidget {
                 // 150 TL üzeri kargo bedava bilgisi
                 if (total < 300)
                   Padding(
-                    padding: EdgeInsets.only(top: 6),
+                    padding: const EdgeInsets.only(top: AppTheme.spaceSm),
                     child: Row(
                       children: [
                         Icon(
@@ -207,7 +211,7 @@ class CartScreen extends StatelessWidget {
                           size: isSmallScreen ? 14 : 16,
                           color: AppTheme.primaryColor,
                         ),
-                        SizedBox(width: 4),
+                        const SizedBox(width: AppTheme.spaceXxs),
                         Expanded(
                           child: Text(
                             '300 ₺ üzeri siparişlerde teslimat bedava! ${(300 - total).toStringAsFixed(2)} ₺ ekleyin',
@@ -234,7 +238,8 @@ class CartScreen extends StatelessWidget {
 
           // Toplam
           Padding(
-            padding: EdgeInsets.fromLTRB(16, 8, 16, 16),
+            padding: const EdgeInsets.fromLTRB(
+              AppTheme.spaceLg, AppTheme.spaceXs, AppTheme.spaceLg, AppTheme.spaceLg),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -277,19 +282,19 @@ class CartScreen extends StatelessWidget {
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
     return Card(
-      margin: const EdgeInsets.only(bottom: 16),
+      margin: const EdgeInsets.only(bottom: AppTheme.spaceLg),
       elevation: 2,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(AppTheme.radiusMd),
       ),
       child: Padding(
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.all(AppTheme.spaceLg),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // Ürün görseli
             ClipRRect(
-              borderRadius: BorderRadius.circular(8),
+              borderRadius: BorderRadius.circular(AppTheme.radiusSm),
               child: Image.network(
                 item.product.imageUrl,
                 width: 100,
@@ -305,7 +310,7 @@ class CartScreen extends StatelessWidget {
                 },
               ),
             ),
-            const SizedBox(width: 16),
+            const SizedBox(width: AppTheme.spaceLg),
 
             // Ürün bilgileri
             Expanded(
@@ -320,7 +325,7 @@ class CartScreen extends StatelessWidget {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  const SizedBox(height: 4),
+                  const SizedBox(height: AppTheme.spaceXxs),
 
                   // Ürün açıklaması
                   Text(
@@ -332,7 +337,7 @@ class CartScreen extends StatelessWidget {
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                   ),
-                  const SizedBox(height: 8),
+                  const SizedBox(height: AppTheme.spaceXs),
 
                   // Fiyat ve miktar
                   Row(
@@ -352,7 +357,7 @@ class CartScreen extends StatelessWidget {
                       Container(
                         decoration: BoxDecoration(
                           color: isDark ? AppTheme.darkSurfaceColor : Colors.grey.shade100,
-                          borderRadius: BorderRadius.circular(30),
+                          borderRadius: BorderRadius.circular(AppTheme.radiusPill),
                         ),
                         child: Row(
                           children: [
@@ -366,9 +371,9 @@ class CartScreen extends StatelessWidget {
                                   _showRemoveItemDialog(context, item);
                                 }
                               },
-                              borderRadius: BorderRadius.circular(30),
+                              borderRadius: BorderRadius.circular(AppTheme.radiusPill),
                               child: Container(
-                                padding: EdgeInsets.all(8),
+                                padding: const EdgeInsets.all(AppTheme.spaceXs),
                                 decoration: BoxDecoration(
                                   shape: BoxShape.circle,
                                 ),
@@ -382,7 +387,7 @@ class CartScreen extends StatelessWidget {
 
                             // Miktar
                             Container(
-                              padding: EdgeInsets.symmetric(horizontal: 8),
+                              padding: const EdgeInsets.symmetric(horizontal: AppTheme.spaceXs),
                               child: Text(
                                 item.quantity.toString(),
                                 style: TextStyle(
@@ -399,9 +404,9 @@ class CartScreen extends StatelessWidget {
                                 final cartProvider = context.read<CartProvider>();
                                 cartProvider.addItem(item.product);
                               },
-                              borderRadius: BorderRadius.circular(30),
+                              borderRadius: BorderRadius.circular(AppTheme.radiusPill),
                               child: Container(
-                                padding: EdgeInsets.all(8),
+                                padding: const EdgeInsets.all(AppTheme.spaceXs),
                                 decoration: BoxDecoration(
                                   shape: BoxShape.circle,
                                 ),
@@ -418,7 +423,7 @@ class CartScreen extends StatelessWidget {
                     ],
                   ),
 
-                  const SizedBox(height: 8),
+                  const SizedBox(height: AppTheme.spaceXs),
 
                   // Toplam fiyat ve silme butonu
                   Row(
@@ -451,7 +456,7 @@ class CartScreen extends StatelessWidget {
                           ),
                         ),
                         style: TextButton.styleFrom(
-                          padding: EdgeInsets.symmetric(horizontal: 8),
+                          padding: const EdgeInsets.symmetric(horizontal: AppTheme.spaceXs),
                           minimumSize: Size(0, 0),
                         ),
                       ),
@@ -473,7 +478,7 @@ class CartScreen extends StatelessWidget {
     final isMobile = deviceType == DeviceType.mobile;
 
     return Container(
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.all(AppTheme.spaceLg),
       decoration: BoxDecoration(
         color: isDark ? AppTheme.darkCardColor : Colors.white,
         boxShadow: [
@@ -497,9 +502,9 @@ class CartScreen extends StatelessWidget {
                 style: ElevatedButton.styleFrom(
                   backgroundColor: AppTheme.primaryColor,
                   foregroundColor: Colors.white,
-                  padding: EdgeInsets.symmetric(vertical: isMobile ? 14 : 16),
+                  padding: EdgeInsets.symmetric(vertical: isMobile ? AppTheme.spaceMd : AppTheme.spaceLg),
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
+                    borderRadius: BorderRadius.circular(AppTheme.radiusMd),
                   ),
                   elevation: 2,
                 ),
@@ -512,7 +517,7 @@ class CartScreen extends StatelessWidget {
                 ),
               ),
             ),
-            const SizedBox(height: 8),
+            const SizedBox(height: AppTheme.spaceXs),
             TextButton.icon(
               onPressed: () {
                 Navigator.of(context).pushReplacementNamed('/');
@@ -527,15 +532,15 @@ class CartScreen extends StatelessWidget {
                 padding: EdgeInsets.zero,
               ),
             ),
-            const SizedBox(height: 8),
+            const SizedBox(height: AppTheme.spaceXs),
             // Beylikdüzü teslimat uyarısı
             Container(
               width: double.infinity,
-              padding: EdgeInsets.all(10),
-              margin: EdgeInsets.only(bottom: 10),
+              padding: const EdgeInsets.all(AppTheme.spaceSm),
+              margin: const EdgeInsets.only(bottom: AppTheme.spaceSm),
               decoration: BoxDecoration(
                 color: Colors.amber.withValues(alpha: 0.2),
-                borderRadius: BorderRadius.circular(8),
+                borderRadius: BorderRadius.circular(AppTheme.radiusSm),
                 border: Border.all(color: Colors.amber, width: 1),
               ),
               child: Row(
@@ -545,7 +550,7 @@ class CartScreen extends StatelessWidget {
                     color: Colors.amber[800],
                     size: isMobile ? 18 : 20,
                   ),
-                  SizedBox(width: 8),
+                  const SizedBox(width: AppTheme.spaceXs),
                   Expanded(
                     child: Text(
                       'Şu an sadece Beylikdüzü ilçesine teslimat yapabiliyoruz.',

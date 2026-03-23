@@ -185,9 +185,9 @@ class _BlogListScreenState extends State<BlogListScreen> {
                         icon: Icon(Icons.refresh),
                         label: Text('Tekrar Dene'),
                         style: ElevatedButton.styleFrom(
-                          padding: EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                          padding: const EdgeInsets.symmetric(horizontal: AppTheme.space2xl, vertical: AppTheme.spaceMd),
                           shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(30),
+                            borderRadius: BorderRadius.circular(AppTheme.radiusPill),
                           ),
                         ),
                       ),
@@ -199,27 +199,27 @@ class _BlogListScreenState extends State<BlogListScreen> {
                     // Arama çubuğu - sadece arama modunda göster
                     if (_isSearching)
                       Padding(
-                        padding: EdgeInsets.symmetric(horizontal: horizontalPadding, vertical: 8),
+                        padding: EdgeInsets.symmetric(horizontal: horizontalPadding, vertical: AppTheme.spaceXs),
                         child: TextField(
                           controller: _searchController,
                           decoration: InputDecoration(
                             hintText: 'Blog yazılarında ara...',
                             prefixIcon: Icon(Icons.search),
                             border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(30),
+                              borderRadius: BorderRadius.circular(AppTheme.radiusPill),
                               borderSide: BorderSide(color: Colors.grey.shade300),
                             ),
                             enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(30),
+                              borderRadius: BorderRadius.circular(AppTheme.radiusPill),
                               borderSide: BorderSide(color: Colors.grey.shade300),
                             ),
                             focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(30),
+                              borderRadius: BorderRadius.circular(AppTheme.radiusPill),
                               borderSide: BorderSide(color: AppTheme.primaryColor),
                             ),
                             filled: true,
                             fillColor: Colors.grey.shade50,
-                            contentPadding: EdgeInsets.symmetric(vertical: 0),
+                            contentPadding: EdgeInsets.symmetric(vertical: AppTheme.spaceZero),
                           ),
                           onChanged: (value) {
                             setState(() {
@@ -249,7 +249,7 @@ class _BlogListScreenState extends State<BlogListScreen> {
                                 // Sonuç sayısı
                                 if (_searchQuery.isNotEmpty)
                                   Padding(
-                                    padding: const EdgeInsets.only(bottom: 16),
+                                    padding: const EdgeInsets.only(bottom: AppTheme.spaceLg),
                                     child: Text(
                                       '"$_searchQuery" için ${filteredBlogPosts.length} sonuç bulundu',
                                       style: TextStyle(
@@ -321,19 +321,19 @@ class _BlogListScreenState extends State<BlogListScreen> {
               _selectedCategory == category || (category == 'Tümü' && _selectedCategory == '');
 
           return Padding(
-            padding: const EdgeInsets.only(right: 12),
+            padding: const EdgeInsets.only(right: AppTheme.spaceMd),
             child: InkWell(
               onTap: () {
                 setState(() {
                   _selectedCategory = category == 'Tümü' ? '' : category;
                 });
               },
-              borderRadius: BorderRadius.circular(30),
+              borderRadius: BorderRadius.circular(AppTheme.radiusPill),
               child: Container(
-                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                padding: const EdgeInsets.symmetric(horizontal: AppTheme.spaceXl, vertical: AppTheme.spaceSm),
                 decoration: BoxDecoration(
                   color: isSelected ? AppTheme.primaryColor : Colors.grey.shade100,
-                  borderRadius: BorderRadius.circular(30),
+                  borderRadius: BorderRadius.circular(AppTheme.radiusPill),
                   boxShadow: isSelected
                       ? [
                           BoxShadow(
@@ -363,7 +363,7 @@ class _BlogListScreenState extends State<BlogListScreen> {
   Widget _buildEmptyState() {
     return Center(
       child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 60),
+        padding: const EdgeInsets.symmetric(vertical: AppTheme.space6xl),
         child: Column(
           children: [
             Icon(
@@ -446,7 +446,7 @@ class _BlogListScreenState extends State<BlogListScreen> {
         elevation: 0,
         margin: EdgeInsets.zero,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: BorderRadius.circular(AppTheme.radius2xl),
           side: BorderSide(color: Colors.grey.shade200, width: 1),
         ),
         child: InkWell(
@@ -469,7 +469,7 @@ class _BlogListScreenState extends State<BlogListScreen> {
               ),
             );
           },
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: BorderRadius.circular(AppTheme.radius2xl),
           child: SizedBox(
             height: cardHeight,
             child: Column(
@@ -477,7 +477,7 @@ class _BlogListScreenState extends State<BlogListScreen> {
               children: [
                 // Header - Yazar bilgisi
                 Padding(
-                  padding: const EdgeInsets.all(16),
+                  padding: const EdgeInsets.all(AppTheme.spaceLg),
                   child: Row(
                     children: [
                       CircleAvatar(
@@ -523,12 +523,12 @@ class _BlogListScreenState extends State<BlogListScreen> {
                       ),
                       Container(
                         padding: const EdgeInsets.symmetric(
-                          horizontal: 12,
-                          vertical: 6,
+                          horizontal: AppTheme.spaceMd,
+                          vertical: AppTheme.space2xs,
                         ),
                         decoration: BoxDecoration(
                           color: AppTheme.primaryColor.withValues(alpha: 0.1),
-                          borderRadius: BorderRadius.circular(16),
+                          borderRadius: BorderRadius.circular(AppTheme.radiusXl),
                         ),
                         child: Text(
                           post.category,
@@ -576,7 +576,7 @@ class _BlogListScreenState extends State<BlogListScreen> {
                 // İçerik
                 Expanded(
                   child: Padding(
-                    padding: const EdgeInsets.all(16),
+                    padding: const EdgeInsets.all(AppTheme.spaceLg),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -613,7 +613,7 @@ class _BlogListScreenState extends State<BlogListScreen> {
 
                 // Footer - Etiketler ve devamını oku
                 Padding(
-                  padding: const EdgeInsets.only(left: 16, right: 16, bottom: 16),
+                  padding: const EdgeInsets.only(left: AppTheme.spaceLg, right: AppTheme.spaceLg, bottom: AppTheme.spaceLg),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -624,12 +624,12 @@ class _BlogListScreenState extends State<BlogListScreen> {
                           children: post.tags.take(3).map((tag) {
                             return Container(
                               padding: const EdgeInsets.symmetric(
-                                horizontal: 10,
-                                vertical: 4,
+                                horizontal: AppTheme.spaceSm,
+                                vertical: AppTheme.spaceXxs,
                               ),
                               decoration: BoxDecoration(
                                 color: Colors.grey.shade100,
-                                borderRadius: BorderRadius.circular(12),
+                                borderRadius: BorderRadius.circular(AppTheme.radiusMd),
                               ),
                               child: Text(
                                 '#$tag',
@@ -648,12 +648,12 @@ class _BlogListScreenState extends State<BlogListScreen> {
                         children: [
                           Container(
                             padding: const EdgeInsets.symmetric(
-                              horizontal: 16,
-                              vertical: 8,
+                              horizontal: AppTheme.spaceLg,
+                              vertical: AppTheme.spaceXs,
                             ),
                             decoration: BoxDecoration(
                               color: AppTheme.primaryColor,
-                              borderRadius: BorderRadius.circular(20),
+                              borderRadius: BorderRadius.circular(AppTheme.radius2xl),
                               boxShadow: [
                                 BoxShadow(
                                   color: AppTheme.primaryColor.withValues(alpha: 0.3),

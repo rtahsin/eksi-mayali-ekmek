@@ -122,7 +122,7 @@ class _DeliveryTrackingScreenState extends State<DeliveryTrackingScreen> {
       ),
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.all(16.0),
+          padding: const EdgeInsets.all(AppTheme.spaceLg),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -130,7 +130,7 @@ class _DeliveryTrackingScreenState extends State<DeliveryTrackingScreen> {
               Card(
                 elevation: 2,
                 child: Padding(
-                  padding: const EdgeInsets.all(16.0),
+                  padding: const EdgeInsets.all(AppTheme.spaceLg),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -156,7 +156,7 @@ class _DeliveryTrackingScreenState extends State<DeliveryTrackingScreen> {
                         child: ElevatedButton(
                           onPressed: _handleTrackOrder,
                           style: ElevatedButton.styleFrom(
-                            padding: const EdgeInsets.symmetric(vertical: 12),
+                            padding: const EdgeInsets.symmetric(vertical: AppTheme.spaceMd),
                           ),
                           child: const Text('Siparişi Takip Et'),
                         ),
@@ -213,7 +213,7 @@ class _DeliveryTrackingScreenState extends State<DeliveryTrackingScreen> {
         Card(
           elevation: 3,
           child: Padding(
-            padding: const EdgeInsets.all(16.0),
+            padding: const EdgeInsets.all(AppTheme.spaceLg),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -310,7 +310,7 @@ class _DeliveryTrackingScreenState extends State<DeliveryTrackingScreen> {
         Card(
           elevation: 2,
           child: Padding(
-            padding: const EdgeInsets.all(16.0),
+            padding: const EdgeInsets.all(AppTheme.spaceLg),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -338,7 +338,7 @@ class _DeliveryTrackingScreenState extends State<DeliveryTrackingScreen> {
           Card(
             elevation: 2,
             child: Padding(
-              padding: const EdgeInsets.all(16.0),
+              padding: const EdgeInsets.all(AppTheme.spaceLg),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [

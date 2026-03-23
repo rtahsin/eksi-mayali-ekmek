@@ -29,13 +29,18 @@ class LiveChatFloatingButton extends StatelessWidget {
       builder: (context) => Dialog(
         backgroundColor: Colors.transparent,
         alignment: Alignment.bottomRight,
-        insetPadding: EdgeInsets.only(right: 20, bottom: 20, left: 20, top: 100),
+        insetPadding: EdgeInsets.only(
+          right: AppTheme.spaceXl,
+          bottom: AppTheme.spaceXl,
+          left: AppTheme.spaceXl,
+          top: AppTheme.space8xl,
+        ),
         child: Container(
           width: 400,
           height: 600,
           decoration: BoxDecoration(
             color: Colors.white,
-            borderRadius: BorderRadius.circular(20),
+            borderRadius: BorderRadius.circular(AppTheme.radius2xl),
             boxShadow: [
               BoxShadow(
                 color: Colors.black.withValues(alpha: 0.2),
@@ -45,7 +50,7 @@ class LiveChatFloatingButton extends StatelessWidget {
             ],
           ),
           child: ClipRRect(
-            borderRadius: BorderRadius.circular(20),
+            borderRadius: BorderRadius.circular(AppTheme.radius2xl),
             child: LiveChatDialogContent(),
           ),
         ),
@@ -60,17 +65,17 @@ class LiveChatFloatingButton extends StatelessWidget {
       bottom: 16,
       child: Material(
         elevation: 8,
-        borderRadius: BorderRadius.circular(30),
+        borderRadius: BorderRadius.circular(AppTheme.radiusPill),
         color: AppTheme.primaryColor,
         child: InkWell(
-          borderRadius: BorderRadius.circular(30),
+          borderRadius: BorderRadius.circular(AppTheme.radiusPill),
           onTap: () {
             _showChatDialog(context);
           },
           child: Container(
-            padding: EdgeInsets.symmetric(horizontal: 20, vertical: 14),
+            padding: EdgeInsets.symmetric(horizontal: AppTheme.spaceXl, vertical: AppTheme.spaceMd),
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(30),
+              borderRadius: BorderRadius.circular(AppTheme.radiusPill),
               gradient: LinearGradient(
                 colors: [
                   AppTheme.primaryColor,

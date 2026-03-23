@@ -415,12 +415,12 @@ class _SimpleCheckoutScreenState extends State<SimpleCheckoutScreen> {
         ),
         body: Center(
           child: Container(
-            padding: EdgeInsets.all(32),
-            margin: EdgeInsets.all(16),
+            padding: EdgeInsets.all(AppTheme.space3xl),
+            margin: EdgeInsets.all(AppTheme.spaceLg),
             constraints: BoxConstraints(maxWidth: 500),
             decoration: BoxDecoration(
               color: Colors.white,
-              borderRadius: BorderRadius.circular(16),
+              borderRadius: BorderRadius.circular(AppTheme.radiusXl),
               boxShadow: [
                 BoxShadow(
                   color: Colors.black12,
@@ -462,7 +462,7 @@ class _SimpleCheckoutScreenState extends State<SimpleCheckoutScreen> {
                     backgroundColor: AppTheme.primaryColor,
                     minimumSize: Size(double.infinity, 48),
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
+                      borderRadius: BorderRadius.circular(AppTheme.radiusMd),
                     ),
                   ),
                 ),
@@ -478,7 +478,7 @@ class _SimpleCheckoutScreenState extends State<SimpleCheckoutScreen> {
                   style: OutlinedButton.styleFrom(
                     minimumSize: Size(double.infinity, 48),
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
+                      borderRadius: BorderRadius.circular(AppTheme.radiusMd),
                     ),
                     side: BorderSide(color: AppTheme.primaryColor, width: 2),
                   ),
@@ -487,10 +487,10 @@ class _SimpleCheckoutScreenState extends State<SimpleCheckoutScreen> {
 
                 // Bilgilendirme
                 Container(
-                  padding: EdgeInsets.all(12),
+                  padding: EdgeInsets.all(AppTheme.spaceMd),
                   decoration: BoxDecoration(
                     color: Colors.blue[50],
-                    borderRadius: BorderRadius.circular(8),
+                    borderRadius: BorderRadius.circular(AppTheme.radiusSm),
                   ),
                   child: Row(
                     children: [
@@ -529,7 +529,7 @@ class _SimpleCheckoutScreenState extends State<SimpleCheckoutScreen> {
               ),
             )
           : SingleChildScrollView(
-              padding: EdgeInsets.all(isDesktop ? 32 : 16),
+              padding: EdgeInsets.all(isDesktop ? AppTheme.space3xl : AppTheme.spaceLg),
               child: Center(
                 child: Container(
                   constraints: BoxConstraints(maxWidth: 600),
@@ -597,10 +597,10 @@ class _SimpleCheckoutScreenState extends State<SimpleCheckoutScreen> {
   Widget _buildDeliveryDayCard() {
     if (_isLoadingDeliveryDay) {
       return Container(
-        padding: EdgeInsets.all(16),
+        padding: EdgeInsets.all(AppTheme.spaceLg),
         decoration: BoxDecoration(
           color: Colors.grey[100],
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(AppTheme.radiusMd),
           border: Border.all(color: Colors.grey[300]!),
         ),
         child: Row(
@@ -619,10 +619,10 @@ class _SimpleCheckoutScreenState extends State<SimpleCheckoutScreen> {
 
     if (_availableDeliveryDay == null) {
       return Container(
-        padding: EdgeInsets.all(16),
+        padding: EdgeInsets.all(AppTheme.spaceLg),
         decoration: BoxDecoration(
           color: Colors.orange[50],
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(AppTheme.radiusMd),
           border: Border.all(color: Colors.orange[200]!),
         ),
         child: Row(
@@ -663,10 +663,10 @@ class _SimpleCheckoutScreenState extends State<SimpleCheckoutScreen> {
     final canOrder = deliveryDay.isOpen;
 
     return Container(
-      padding: EdgeInsets.all(16),
+      padding: EdgeInsets.all(AppTheme.spaceLg),
       decoration: BoxDecoration(
         color: canOrder ? Colors.green[50] : Colors.red[50],
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(AppTheme.radiusMd),
         border: Border.all(
           color: canOrder ? Colors.green[200]! : Colors.red[200]!,
         ),
@@ -710,10 +710,10 @@ class _SimpleCheckoutScreenState extends State<SimpleCheckoutScreen> {
           ),
           SizedBox(height: 12),
           Container(
-            padding: EdgeInsets.all(10),
+            padding: EdgeInsets.all(AppTheme.spaceSm),
             decoration: BoxDecoration(
               color: Colors.white,
-              borderRadius: BorderRadius.circular(8),
+              borderRadius: BorderRadius.circular(AppTheme.radiusSm),
             ),
             child: Column(
               children: [
@@ -769,10 +769,10 @@ class _SimpleCheckoutScreenState extends State<SimpleCheckoutScreen> {
 
   Widget _buildInfoCard() {
     return Container(
-      padding: EdgeInsets.all(16),
+      padding: EdgeInsets.all(AppTheme.spaceLg),
       decoration: BoxDecoration(
         color: Colors.blue[50],
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(AppTheme.radiusMd),
         border: Border.all(color: Colors.blue[200]!),
       ),
       child: Row(
@@ -804,14 +804,14 @@ class _SimpleCheckoutScreenState extends State<SimpleCheckoutScreen> {
             labelText: 'İsim Soyisim *',
             prefixIcon: Icon(Icons.person_outline, color: AppTheme.primaryColor),
             border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.circular(AppTheme.radiusMd),
             ),
             enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.circular(AppTheme.radiusMd),
               borderSide: BorderSide(color: Colors.grey[300]!),
             ),
             focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.circular(AppTheme.radiusMd),
               borderSide: BorderSide(color: AppTheme.primaryColor, width: 2),
             ),
           ),
@@ -832,14 +832,14 @@ class _SimpleCheckoutScreenState extends State<SimpleCheckoutScreen> {
             labelText: 'Telefon *',
             prefixIcon: Icon(Icons.phone_outlined, color: AppTheme.primaryColor),
             border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.circular(AppTheme.radiusMd),
             ),
             enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.circular(AppTheme.radiusMd),
               borderSide: BorderSide(color: Colors.grey[300]!),
             ),
             focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.circular(AppTheme.radiusMd),
               borderSide: BorderSide(color: AppTheme.primaryColor, width: 2),
             ),
             hintText: '05XX XXX XX XX',
@@ -858,10 +858,10 @@ class _SimpleCheckoutScreenState extends State<SimpleCheckoutScreen> {
 
         // Konum Paylaşımı (İsteğe Bağlı) - Tüm platformlarda
         Container(
-          padding: EdgeInsets.all(16),
+          padding: EdgeInsets.all(AppTheme.spaceLg),
           decoration: BoxDecoration(
             color: Colors.green.withValues(alpha: 0.1),
-            borderRadius: BorderRadius.circular(12),
+            borderRadius: BorderRadius.circular(AppTheme.radiusMd),
             border: Border.all(
               color: Colors.green.withValues(alpha: 0.4),
               width: 2,
@@ -920,7 +920,7 @@ class _SimpleCheckoutScreenState extends State<SimpleCheckoutScreen> {
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.green,
                         foregroundColor: Colors.white,
-                        padding: EdgeInsets.symmetric(vertical: 14),
+                        padding: EdgeInsets.symmetric(vertical: AppTheme.spaceBase),
                         elevation: 3,
                       ),
                     ),
@@ -937,7 +937,7 @@ class _SimpleCheckoutScreenState extends State<SimpleCheckoutScreen> {
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.blue,
                         foregroundColor: Colors.white,
-                        padding: EdgeInsets.symmetric(vertical: 14),
+                        padding: EdgeInsets.symmetric(vertical: AppTheme.spaceBase),
                         elevation: 3,
                       ),
                     ),
@@ -964,7 +964,7 @@ class _SimpleCheckoutScreenState extends State<SimpleCheckoutScreen> {
                 label: Text('Kayıtlı Adreslerimden Seç'),
                 style: TextButton.styleFrom(
                   foregroundColor: AppTheme.primaryColor,
-                  padding: EdgeInsets.symmetric(vertical: 12),
+                  padding: EdgeInsets.symmetric(vertical: AppTheme.spaceMd),
                 ),
               ),
             ],
@@ -979,18 +979,18 @@ class _SimpleCheckoutScreenState extends State<SimpleCheckoutScreen> {
           decoration: InputDecoration(
             labelText: 'Sipariş Notu (Opsiyonel)',
             prefixIcon: Padding(
-              padding: EdgeInsets.only(bottom: 48),
+              padding: EdgeInsets.only(bottom: AppTheme.space5xl),
               child: Icon(Icons.note_outlined, color: AppTheme.primaryColor),
             ),
             border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.circular(AppTheme.radiusMd),
             ),
             enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.circular(AppTheme.radiusMd),
               borderSide: BorderSide(color: Colors.grey[300]!),
             ),
             focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.circular(AppTheme.radiusMd),
               borderSide: BorderSide(color: AppTheme.primaryColor, width: 2),
             ),
             hintText: 'Özel talepleriniz varsa buraya yazabilirsiniz',
@@ -1041,16 +1041,16 @@ class _SimpleCheckoutScreenState extends State<SimpleCheckoutScreen> {
 
     return InkWell(
       onTap: () => setState(() => _paymentMethod = value),
-      borderRadius: BorderRadius.circular(12),
+      borderRadius: BorderRadius.circular(AppTheme.radiusMd),
       child: Container(
-        padding: EdgeInsets.all(16),
+        padding: EdgeInsets.all(AppTheme.spaceLg),
         decoration: BoxDecoration(
           color: isSelected ? AppTheme.primaryColor.withValues(alpha: 0.1) : Colors.white,
           border: Border.all(
             color: isSelected ? AppTheme.primaryColor : Colors.grey[300]!,
             width: isSelected ? 2 : 1,
           ),
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(AppTheme.radiusMd),
         ),
         child: Column(
           children: [
@@ -1075,10 +1075,10 @@ class _SimpleCheckoutScreenState extends State<SimpleCheckoutScreen> {
 
   Widget _buildOrderSummary(CartProvider cartProvider) {
     return Container(
-      padding: EdgeInsets.all(20),
+      padding: EdgeInsets.all(AppTheme.spaceXl),
       decoration: BoxDecoration(
         color: Colors.grey[50],
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(AppTheme.radiusMd),
         border: Border.all(color: Colors.grey[200]!),
       ),
       child: Column(
@@ -1136,10 +1136,10 @@ class _SimpleCheckoutScreenState extends State<SimpleCheckoutScreen> {
 
           // Bilgi notu
           Container(
-            padding: EdgeInsets.all(12),
+            padding: EdgeInsets.all(AppTheme.spaceMd),
             decoration: BoxDecoration(
               color: Colors.green[50],
-              borderRadius: BorderRadius.circular(8),
+              borderRadius: BorderRadius.circular(AppTheme.radiusSm),
             ),
             child: Row(
               children: [
@@ -1168,9 +1168,9 @@ class _SimpleCheckoutScreenState extends State<SimpleCheckoutScreen> {
       style: ElevatedButton.styleFrom(
         backgroundColor: AppTheme.primaryColor,
         foregroundColor: Colors.white,
-        padding: EdgeInsets.symmetric(vertical: 18),
+        padding: EdgeInsets.symmetric(vertical: AppTheme.space18),
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(AppTheme.radiusMd),
         ),
         elevation: 2,
       ),

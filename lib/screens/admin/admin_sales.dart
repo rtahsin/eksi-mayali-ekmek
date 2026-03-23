@@ -147,10 +147,10 @@ class _AdminSalesScreenState extends State<AdminSalesScreen> {
                 // Toplam tutar göster
                 if (quantityController.text.isNotEmpty && unitPriceController.text.isNotEmpty)
                   Container(
-                    padding: EdgeInsets.all(12),
+                    padding: const EdgeInsets.all(AppTheme.spaceMd),
                     decoration: BoxDecoration(
                       color: Colors.green[50],
-                      borderRadius: BorderRadius.circular(8),
+                      borderRadius: BorderRadius.circular(AppTheme.radiusMd),
                     ),
                     child: Text(
                       'TOPLAM: ${((int.tryParse(quantityController.text) ?? 0) * (double.tryParse(unitPriceController.text) ?? 0)).toStringAsFixed(2)} TL',
@@ -358,7 +358,9 @@ class _AdminSalesScreenState extends State<AdminSalesScreen> {
                   children: [
                     // Modern İstatistikler - Responsive
                     Container(
-                      padding: EdgeInsets.all(isSmallScreen ? 12 : 16),
+                      padding: EdgeInsets.all(
+                        isSmallScreen ? AppTheme.spaceMd : AppTheme.spaceLg,
+                      ),
                       decoration: BoxDecoration(
                         gradient: LinearGradient(
                           colors: [Colors.green[50]!, Colors.green[100]!],
@@ -419,12 +421,16 @@ class _AdminSalesScreenState extends State<AdminSalesScreen> {
                     // Liste
                     Expanded(
                       child: ListView.builder(
-                        padding: EdgeInsets.all(isSmallScreen ? 8 : 16),
+                        padding: EdgeInsets.all(
+                          isSmallScreen ? AppTheme.spaceMd : AppTheme.spaceLg,
+                        ),
                         itemCount: _sales.length,
                         itemBuilder: (context, index) {
                           final sale = _sales[index];
                           return Card(
-                            margin: EdgeInsets.only(bottom: isSmallScreen ? 8 : 12),
+                            margin: EdgeInsets.only(
+                              bottom: isSmallScreen ? AppTheme.spaceMd : AppTheme.spaceLg,
+                            ),
                             child: ListTile(
                               leading: CircleAvatar(
                                 backgroundColor: Colors.green,
@@ -528,10 +534,10 @@ class _AdminSalesScreenState extends State<AdminSalesScreen> {
       {Color? color}) {
     final cardColor = color ?? AppTheme.primaryColor;
     return Container(
-      padding: EdgeInsets.all(isSmall ? 12 : 16),
+      padding: EdgeInsets.all(isSmall ? AppTheme.spaceMd : AppTheme.spaceLg),
       decoration: BoxDecoration(
         color: cardColor.withValues(alpha: 0.1),
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(AppTheme.radiusLg),
         border: Border.all(color: cardColor.withValues(alpha: 0.3), width: 1.5),
       ),
       child: Row(

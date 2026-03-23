@@ -24,6 +24,7 @@
 */
 
 import 'package:flutter/material.dart';
+import 'app_theme.dart';
 
 /// Uygulama temasını yöneten merkezi sınıf
 ///
@@ -45,6 +46,41 @@ import 'package:flutter/material.dart';
 /// ThemeData darkTheme = AppTheme.darkTheme();
 /// ```
 class AppTheme {
+  // Design tokens - spacing
+  static const double spaceXxs = 4.0;
+  static const double space5 = 5.0;
+  static const double space2xs = 6.0;
+  static const double spaceXs = 8.0;
+  static const double spaceSm = 10.0;
+  static const double spaceMd = 12.0;
+  static const double spaceBase = 14.0;
+  static const double spaceLg = 16.0;
+  static const double space18 = 18.0;
+  static const double spaceXl = 20.0;
+  static const double space2xl = 24.0;
+  static const double space3xl = 32.0;
+  static const double space4xl = 40.0;
+  static const double space5xl = 48.0;
+  static const double space6xl = 60.0;
+  static const double space7xl = 70.0;
+  static const double space8xl = 100.0;
+  static const double spaceZero = 0.0;
+  static const double pagePaddingDesktop = 80.0;
+  static const double pagePaddingMobile = 24.0;
+
+  // Design tokens - radius
+  static const double radiusXxs = 4.0;
+  static const double radiusXs = 5.0;
+  static const double radiusSmSoft = 6.0;
+  static const double radiusSm = 8.0;
+  static const double radiusMdSoft = 10.0;
+  static const double radiusMd = 12.0;
+  static const double radiusLg = 14.0;
+  static const double radiusXl = 16.0;
+  static const double radius2xl = 20.0;
+  static const double radius3xl = 24.0;
+  static const double radiusPill = 30.0;
+
   // Ana renkler
   /// Ekmek kabuğu kahverengisi - Ana renk
   static const Color primaryColor = Color(0xFF8B4513);
@@ -135,7 +171,7 @@ class AppTheme {
         elevation: 2,
         shadowColor: Colors.black.withValues(alpha: 0.05),
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(AppTheme.radiusMd),
         ),
       ),
       textTheme: const TextTheme(
@@ -183,7 +219,7 @@ class AppTheme {
         elevation: 2,
         shadowColor: Colors.black.withValues(alpha: 0.2),
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(AppTheme.radiusMd),
         ),
       ),
       textTheme: const TextTheme(
@@ -272,16 +308,16 @@ class AppTheme {
         color: adminCardColor,
         elevation: 2,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(8),
+          borderRadius: BorderRadius.circular(AppTheme.radiusSm),
         ),
       ),
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
           backgroundColor: adminPrimaryColor,
           foregroundColor: Colors.white,
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+          padding: const EdgeInsets.symmetric(horizontal: AppTheme.spaceLg, vertical: AppTheme.spaceMd),
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(AppTheme.radiusSm),
           ),
         ),
       ),
@@ -289,9 +325,9 @@ class AppTheme {
         style: OutlinedButton.styleFrom(
           foregroundColor: adminPrimaryColor,
           side: const BorderSide(color: adminPrimaryColor),
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+          padding: const EdgeInsets.symmetric(horizontal: AppTheme.spaceLg, vertical: AppTheme.spaceMd),
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(AppTheme.radiusSm),
           ),
         ),
       ),

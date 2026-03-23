@@ -90,7 +90,7 @@ class _LiveChatDialogContentState extends State<LiveChatDialogContent> {
       children: [
         // Header
         Container(
-          padding: EdgeInsets.all(16),
+          padding: EdgeInsets.all(AppTheme.spaceLg),
           decoration: BoxDecoration(
             gradient: LinearGradient(
               colors: [AppTheme.primaryColor, AppTheme.secondaryColor],
@@ -144,7 +144,7 @@ class _LiveChatDialogContentState extends State<LiveChatDialogContent> {
 
                 return ListView.builder(
                   controller: _scrollController,
-                  padding: EdgeInsets.all(16),
+                  padding: EdgeInsets.all(AppTheme.spaceLg),
                   itemCount: chatService.messages.length + (chatService.isTyping ? 1 : 0),
                   itemBuilder: (context, index) {
                     if (index == chatService.messages.length) {
@@ -162,7 +162,7 @@ class _LiveChatDialogContentState extends State<LiveChatDialogContent> {
 
         // Input
         Container(
-          padding: EdgeInsets.all(12),
+          padding: EdgeInsets.all(AppTheme.spaceMd),
           decoration: BoxDecoration(
             color: Colors.white,
             boxShadow: [
@@ -185,18 +185,18 @@ class _LiveChatDialogContentState extends State<LiveChatDialogContent> {
                       hintText: 'Mesaj\u0131n\u0131z\u0131 yaz\u0131n...',
                       hintStyle: TextStyle(color: Colors.grey[600]),
                       border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(24),
+                        borderRadius: BorderRadius.circular(AppTheme.radius3xl),
                         borderSide: BorderSide(color: Colors.grey[300]!),
                       ),
                       enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(24),
+                        borderRadius: BorderRadius.circular(AppTheme.radius3xl),
                         borderSide: BorderSide(color: Colors.grey[300]!),
                       ),
                       focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(24),
+                        borderRadius: BorderRadius.circular(AppTheme.radius3xl),
                         borderSide: BorderSide(color: AppTheme.primaryColor, width: 2),
                       ),
-                      contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                      contentPadding: EdgeInsets.symmetric(horizontal: AppTheme.spaceLg, vertical: AppTheme.spaceSm),
                       filled: true,
                       fillColor: Colors.white,
                     ),
@@ -210,12 +210,12 @@ class _LiveChatDialogContentState extends State<LiveChatDialogContent> {
                   builder: (context, chatService, child) {
                     return Material(
                       color: chatService.isTyping ? Colors.grey[300] : AppTheme.primaryColor,
-                      borderRadius: BorderRadius.circular(24),
+                      borderRadius: BorderRadius.circular(AppTheme.radius3xl),
                       child: InkWell(
-                        borderRadius: BorderRadius.circular(24),
+                        borderRadius: BorderRadius.circular(AppTheme.radius3xl),
                         onTap: chatService.isTyping ? null : _sendMessage,
                         child: Container(
-                          padding: EdgeInsets.all(12),
+                          padding: EdgeInsets.all(AppTheme.spaceMd),
                           child: Icon(
                             Icons.send,
                             color: Colors.white,
@@ -242,13 +242,13 @@ class _LiveChatDialogContentState extends State<LiveChatDialogContent> {
     return Align(
       alignment: isUser ? Alignment.centerRight : Alignment.centerLeft,
       child: Container(
-        margin: EdgeInsets.only(bottom: 12),
+        margin: EdgeInsets.only(bottom: AppTheme.spaceMd),
         constraints: BoxConstraints(maxWidth: 300),
         child: Column(
           crossAxisAlignment: isUser ? CrossAxisAlignment.end : CrossAxisAlignment.start,
           children: [
             Container(
-              padding: EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+              padding: EdgeInsets.symmetric(horizontal: AppTheme.spaceBase, vertical: AppTheme.spaceSm),
               decoration: BoxDecoration(
                 color: isUser ? AppTheme.primaryColor : Colors.white,
                 borderRadius: BorderRadius.only(
@@ -298,7 +298,7 @@ class _LiveChatDialogContentState extends State<LiveChatDialogContent> {
             ),
             SizedBox(height: 2),
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 8),
+              padding: EdgeInsets.symmetric(horizontal: AppTheme.spaceXs),
               child: Text(
                 formattedTime,
                 style: TextStyle(
@@ -317,8 +317,8 @@ class _LiveChatDialogContentState extends State<LiveChatDialogContent> {
     return Align(
       alignment: Alignment.centerLeft,
       child: Container(
-        margin: EdgeInsets.only(bottom: 12),
-        padding: EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+        margin: EdgeInsets.only(bottom: AppTheme.spaceMd),
+        padding: EdgeInsets.symmetric(horizontal: AppTheme.spaceBase, vertical: AppTheme.spaceSm),
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.only(
@@ -421,7 +421,7 @@ class _LiveChatScreenState extends State<LiveChatScreen> {
         title: Row(
           children: [
             Container(
-              padding: EdgeInsets.all(8),
+              padding: EdgeInsets.all(AppTheme.spaceXs),
               decoration: BoxDecoration(
                 color: Colors.white.withValues(alpha: 0.2),
                 shape: BoxShape.circle,
@@ -459,7 +459,7 @@ class _LiveChatScreenState extends State<LiveChatScreen> {
         children: [
           // Bilgi banner
           Container(
-            padding: EdgeInsets.all(12),
+            padding: EdgeInsets.all(AppTheme.spaceMd),
             color: Colors.blue[50],
             child: Row(
               children: [
@@ -488,7 +488,7 @@ class _LiveChatScreenState extends State<LiveChatScreen> {
 
                 return ListView.builder(
                   controller: _scrollController,
-                  padding: EdgeInsets.all(16),
+                  padding: EdgeInsets.all(AppTheme.spaceLg),
                   itemCount: chatService.messages.length + (chatService.isTyping ? 1 : 0),
                   itemBuilder: (context, index) {
                     // Typing indicator
@@ -506,7 +506,7 @@ class _LiveChatScreenState extends State<LiveChatScreen> {
 
           // Mesaj input alanı
           Container(
-            padding: EdgeInsets.all(12),
+            padding: EdgeInsets.all(AppTheme.spaceMd),
             decoration: BoxDecoration(
               color: Colors.white,
               boxShadow: [
@@ -526,18 +526,18 @@ class _LiveChatScreenState extends State<LiveChatScreen> {
                       decoration: InputDecoration(
                         hintText: 'Mesajınızı yazın...',
                         border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(24),
+                          borderRadius: BorderRadius.circular(AppTheme.radius3xl),
                           borderSide: BorderSide(color: Colors.grey[300]!),
                         ),
                         enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(24),
+                          borderRadius: BorderRadius.circular(AppTheme.radius3xl),
                           borderSide: BorderSide(color: Colors.grey[300]!),
                         ),
                         focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(24),
+                          borderRadius: BorderRadius.circular(AppTheme.radius3xl),
                           borderSide: BorderSide(color: AppTheme.primaryColor, width: 2),
                         ),
-                        contentPadding: EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                        contentPadding: EdgeInsets.symmetric(horizontal: AppTheme.spaceXl, vertical: AppTheme.spaceMd),
                         filled: true,
                         fillColor: Colors.grey[50],
                       ),
@@ -551,12 +551,12 @@ class _LiveChatScreenState extends State<LiveChatScreen> {
                     builder: (context, chatService, child) {
                       return Material(
                         color: chatService.isTyping ? Colors.grey[300] : AppTheme.primaryColor,
-                        borderRadius: BorderRadius.circular(24),
+                        borderRadius: BorderRadius.circular(AppTheme.radius3xl),
                         child: InkWell(
-                          borderRadius: BorderRadius.circular(24),
+                          borderRadius: BorderRadius.circular(AppTheme.radius3xl),
                           onTap: chatService.isTyping ? null : _sendMessage,
                           child: Container(
-                            padding: EdgeInsets.all(12),
+                            padding: EdgeInsets.all(AppTheme.spaceMd),
                             child: Icon(
                               Icons.send,
                               color: Colors.white,
@@ -585,15 +585,15 @@ class _LiveChatScreenState extends State<LiveChatScreen> {
       alignment: isUser ? Alignment.centerRight : Alignment.centerLeft,
       child: Container(
         margin: EdgeInsets.only(
-          bottom: 12,
-          left: isUser ? 60 : 0,
-          right: isUser ? 0 : 60,
+          bottom: AppTheme.spaceMd,
+          left: isUser ? AppTheme.space6xl : AppTheme.spaceZero,
+          right: isUser ? AppTheme.spaceZero : AppTheme.space6xl,
         ),
         child: Column(
           crossAxisAlignment: isUser ? CrossAxisAlignment.end : CrossAxisAlignment.start,
           children: [
             Container(
-              padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+              padding: EdgeInsets.symmetric(horizontal: AppTheme.spaceLg, vertical: AppTheme.spaceMd),
               decoration: BoxDecoration(
                 color: isUser ? AppTheme.primaryColor : Colors.grey[200],
                 borderRadius: BorderRadius.only(
@@ -642,7 +642,7 @@ class _LiveChatScreenState extends State<LiveChatScreen> {
             ),
             SizedBox(height: 4),
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 8),
+              padding: EdgeInsets.symmetric(horizontal: AppTheme.spaceXs),
               child: Text(
                 formattedTime,
                 style: TextStyle(
@@ -661,8 +661,8 @@ class _LiveChatScreenState extends State<LiveChatScreen> {
     return Align(
       alignment: Alignment.centerLeft,
       child: Container(
-        margin: EdgeInsets.only(bottom: 12, right: 60),
-        padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+        margin: EdgeInsets.only(bottom: AppTheme.spaceMd, right: AppTheme.space6xl),
+        padding: EdgeInsets.symmetric(horizontal: AppTheme.spaceLg, vertical: AppTheme.spaceMd),
         decoration: BoxDecoration(
           color: Colors.grey[200],
           borderRadius: BorderRadius.only(

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../models/settings/store_settings.dart';
 import '../../services/settings_service.dart';
+import '../../theme/app_theme.dart';
 import '../../utils/logger.dart';
 import '../../widgets/admin_app_bar.dart';
 import '../../widgets/snackbar_helper.dart';
@@ -166,7 +167,7 @@ class _AdminSettingsScreenState extends State<AdminSettingsScreen> {
 
   Widget _buildSettingsForm() {
     return SingleChildScrollView(
-      padding: const EdgeInsets.all(16.0),
+      padding: const EdgeInsets.all(AppTheme.spaceLg),
       child: Form(
         key: _formKey,
         child: Column(
@@ -174,9 +175,9 @@ class _AdminSettingsScreenState extends State<AdminSettingsScreen> {
           children: [
             // Genel Ayarlar Bölümü
             Card(
-              margin: const EdgeInsets.only(bottom: 16.0),
+              margin: const EdgeInsets.only(bottom: AppTheme.spaceLg),
               child: Padding(
-                padding: const EdgeInsets.all(16.0),
+                padding: const EdgeInsets.all(AppTheme.spaceLg),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -270,9 +271,9 @@ class _AdminSettingsScreenState extends State<AdminSettingsScreen> {
 
             // Sosyal Medya Bağlantıları Bölümü
             Card(
-              margin: const EdgeInsets.only(bottom: 16.0),
+              margin: const EdgeInsets.only(bottom: AppTheme.spaceLg),
               child: Padding(
-                padding: const EdgeInsets.all(16.0),
+                padding: const EdgeInsets.all(AppTheme.spaceLg),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [

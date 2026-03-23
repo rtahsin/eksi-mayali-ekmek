@@ -1,5 +1,3 @@
-// ignore_for_file: avoid_web_libraries_in_flutter, deprecated_member_use
-
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -61,18 +59,31 @@ class _AdminProductsPageState extends State<AdminProductsPage> {
     try {
       final productService = Provider.of<ProductService>(context, listen: false);
       final products = await productService.getProducts(includeDeleted: true);
+      final categoriesData = await productService.fetchCategories();
 
-      // Kategorileri çıkar
+      // Kategorileri çıkar (master kategori + ürünlerden gelen kategori birleşimi)
       final categories = <String>{'Tümü'};
+
+      for (final category in categoriesData) {
+        final isActive = category['isActive'] == true;
+        final name = (category['name'] ?? '').toString().trim();
+        if (isActive && name.isNotEmpty) {
+          categories.add(name);
+        }
+      }
+
       for (final product in products) {
-        if (product.category != null && product.category.isNotEmpty) {
+        if (product.category.isNotEmpty) {
           categories.add(product.category);
         }
       }
 
+      final sortedCategories = categories.where((c) => c != 'Tümü').toList()..sort();
+      final finalCategories = <String>['Tümü', ...sortedCategories];
+
       setState(() {
         _products = products;
-        _categories = categories.toList();
+        _categories = finalCategories;
       });
     } catch (e) {
       Logger.error("Kategorileri yüklerken hata: $e");
@@ -101,7 +112,7 @@ class _AdminProductsPageState extends State<AdminProductsPage> {
       if (_searchQuery.isNotEmpty) {
         final query = _searchQuery.toLowerCase();
         return product.name.toLowerCase().contains(query) ||
-            (product.description ?? '').toLowerCase().contains(query);
+          product.description.toLowerCase().contains(query);
       }
 
       return true;
@@ -181,7 +192,7 @@ class _AdminProductsPageState extends State<AdminProductsPage> {
         builder: (context) => Center(
           child: Card(
             child: Padding(
-              padding: EdgeInsets.all(20),
+              padding: EdgeInsets.all(AppTheme.spaceXl),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
@@ -333,7 +344,7 @@ class _AdminProductsPageState extends State<AdminProductsPage> {
         backgroundColor: AppTheme.primaryColor,
       ),
       body: Padding(
-        padding: EdgeInsets.all(isMobile ? 8.0 : 16.0),
+        padding: EdgeInsets.all(isMobile ? AppTheme.spaceXs : AppTheme.spaceLg),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -388,7 +399,7 @@ class _AdminProductsPageState extends State<AdminProductsPage> {
             ],
             // Üst kısım - Arama ve filtreler (Responsive)
             Container(
-              padding: EdgeInsets.all(isMobile ? 8 : 16),
+              padding: EdgeInsets.all(isMobile ? AppTheme.spaceXs : AppTheme.spaceLg),
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(isMobile ? 8 : 16),
@@ -409,8 +420,8 @@ class _AdminProductsPageState extends State<AdminProductsPage> {
                             hintText: 'Ürün ara...',
                             hintStyle: TextStyle(fontSize: 14),
                             prefixIcon: Icon(Icons.search, color: AppTheme.primaryColor, size: 20),
-                            border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
-                            contentPadding: EdgeInsets.symmetric(vertical: 8),
+                            border: OutlineInputBorder(borderRadius: BorderRadius.circular(AppTheme.radiusSm)),
+                            contentPadding: EdgeInsets.symmetric(vertical: AppTheme.spaceXs),
                             isDense: true,
                           ),
                           onChanged: (value) {
@@ -422,10 +433,10 @@ class _AdminProductsPageState extends State<AdminProductsPage> {
                         SizedBox(height: 8),
                         // Kategori dropdown (Mobil)
                         Container(
-                          padding: EdgeInsets.symmetric(horizontal: 8),
+                          padding: EdgeInsets.symmetric(horizontal: AppTheme.spaceXs),
                           decoration: BoxDecoration(
                             border: Border.all(color: Colors.grey[300]!),
-                            borderRadius: BorderRadius.circular(8),
+                            borderRadius: BorderRadius.circular(AppTheme.radiusSm),
                           ),
                           child: DropdownButtonHideUnderline(
                             child: DropdownButton<String>(
@@ -459,7 +470,7 @@ class _AdminProductsPageState extends State<AdminProductsPage> {
                             decoration: InputDecoration(
                               hintText: 'Ürün ara...',
                               prefixIcon: Icon(Icons.search, color: AppTheme.primaryColor),
-                              border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+                              border: OutlineInputBorder(borderRadius: BorderRadius.circular(AppTheme.radiusMd)),
                             ),
                             onChanged: (value) {
                               setState(() {
@@ -474,7 +485,7 @@ class _AdminProductsPageState extends State<AdminProductsPage> {
                           child: DropdownButtonFormField<String>(
                             value: _selectedCategory,
                             decoration: InputDecoration(
-                              border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+                              border: OutlineInputBorder(borderRadius: BorderRadius.circular(AppTheme.radiusMd)),
                             ),
                             items: _categories.map((category) {
                               return DropdownMenuItem<String>(
@@ -521,10 +532,10 @@ class _AdminProductsPageState extends State<AdminProductsPage> {
             // Kullanım ipuçları - Sadece Desktop
             if (isDesktop) ...[
               Container(
-                padding: EdgeInsets.all(16),
+                padding: EdgeInsets.all(AppTheme.spaceLg),
                 decoration: BoxDecoration(
                   color: Colors.blue[50],
-                  borderRadius: BorderRadius.circular(16),
+                  borderRadius: BorderRadius.circular(AppTheme.radiusXl),
                   border: Border.all(color: Colors.blue[200]!),
                 ),
                 child: Row(
@@ -551,9 +562,9 @@ class _AdminProductsPageState extends State<AdminProductsPage> {
                     child: Card(
                       elevation: 2,
                       child: Container(
-                        padding: const EdgeInsets.all(16.0),
+                        padding: const EdgeInsets.all(AppTheme.spaceLg),
                         decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(12),
+                          borderRadius: BorderRadius.circular(AppTheme.radiusMd),
                           gradient: LinearGradient(
                             colors: [
                               AppTheme.primaryColor.withValues(alpha: 0.8),
@@ -590,9 +601,9 @@ class _AdminProductsPageState extends State<AdminProductsPage> {
                     child: Card(
                       elevation: 2,
                       child: Container(
-                        padding: const EdgeInsets.all(16.0),
+                        padding: const EdgeInsets.all(AppTheme.spaceLg),
                         decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(12),
+                          borderRadius: BorderRadius.circular(AppTheme.radiusMd),
                           gradient: LinearGradient(
                             colors: [
                               Colors.red.withValues(alpha: 0.8),
@@ -630,9 +641,9 @@ class _AdminProductsPageState extends State<AdminProductsPage> {
                       child: Card(
                         elevation: 2,
                         child: Container(
-                          padding: const EdgeInsets.all(16.0),
+                          padding: const EdgeInsets.all(AppTheme.spaceLg),
                           decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(12),
+                            borderRadius: BorderRadius.circular(AppTheme.radiusMd),
                             gradient: LinearGradient(
                               colors: [
                                 Colors.green.withValues(alpha: 0.8),
@@ -725,7 +736,7 @@ class _AdminProductsPageState extends State<AdminProductsPage> {
                         style: OutlinedButton.styleFrom(
                           foregroundColor: AppTheme.primaryColor,
                           side: BorderSide(color: AppTheme.primaryColor),
-                          padding: EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+                          padding: EdgeInsets.symmetric(horizontal: AppTheme.spaceMd, vertical: AppTheme.spaceSm),
                         ),
                       ),
                       SizedBox(width: 12),
@@ -748,9 +759,9 @@ class _AdminProductsPageState extends State<AdminProductsPage> {
                         style: ElevatedButton.styleFrom(
                           backgroundColor: AppTheme.primaryColor,
                           foregroundColor: Colors.white,
-                          padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                          padding: EdgeInsets.symmetric(horizontal: AppTheme.spaceLg, vertical: AppTheme.spaceMd),
                           shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8),
+                            borderRadius: BorderRadius.circular(AppTheme.radiusSm),
                           ),
                         ),
                       ),
@@ -838,13 +849,13 @@ class _AdminProductsPageState extends State<AdminProductsPage> {
                                 itemBuilder: (ctx, index) {
                                   final product = filteredProducts[index];
                                   return Card(
-                                    margin: EdgeInsets.only(bottom: isMobile ? 8 : 16),
+                                    margin: EdgeInsets.only(bottom: isMobile ? AppTheme.spaceXs : AppTheme.spaceLg),
                                     shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(isMobile ? 8 : 12),
                                     ),
                                     elevation: 2,
                                     child: Padding(
-                                      padding: EdgeInsets.all(isMobile ? 8.0 : 16.0),
+                                      padding: EdgeInsets.all(isMobile ? AppTheme.spaceXs : AppTheme.spaceLg),
                                       child: isMobile
                                           ? _buildMobileProductCard(product)
                                           : _buildDesktopProductCard(product),
@@ -857,7 +868,7 @@ class _AdminProductsPageState extends State<AdminProductsPage> {
                       // Pagination kontrolleri
                       if (_totalItems > _itemsPerPage)
                         Container(
-                          padding: EdgeInsets.symmetric(vertical: 16, horizontal: 24),
+                          padding: EdgeInsets.symmetric(vertical: AppTheme.spaceLg, horizontal: AppTheme.space2xl),
                           decoration: BoxDecoration(
                             color: Colors.white,
                             border: Border(top: BorderSide(color: Colors.grey.shade300)),
@@ -887,10 +898,10 @@ class _AdminProductsPageState extends State<AdminProductsPage> {
                                         : null,
                                   ),
                                   Container(
-                                    padding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                                    padding: EdgeInsets.symmetric(horizontal: AppTheme.spaceMd, vertical: AppTheme.spaceXs),
                                     decoration: BoxDecoration(
                                       color: AppTheme.primaryColor.withValues(alpha: 0.1),
-                                      borderRadius: BorderRadius.circular(8),
+                                      borderRadius: BorderRadius.circular(AppTheme.radiusSm),
                                     ),
                                     child: Text(
                                       '$_currentPage',
@@ -938,7 +949,7 @@ class _AdminProductsPageState extends State<AdminProductsPage> {
           children: [
             // Ürün resmi (küçük)
             ClipRRect(
-              borderRadius: BorderRadius.circular(8),
+              borderRadius: BorderRadius.circular(AppTheme.radiusSm),
               child: product.imageUrl.isNotEmpty
                   ? Image.network(
                       product.imageUrl,
@@ -997,7 +1008,7 @@ class _AdminProductsPageState extends State<AdminProductsPage> {
                 IconButton(
                   icon: Icon(Icons.edit, size: 20),
                   color: Colors.blue,
-                  padding: EdgeInsets.all(4),
+                  padding: EdgeInsets.all(AppTheme.spaceXxs),
                   constraints: BoxConstraints(),
                   onPressed: () {
                     Navigator.of(context).push(
@@ -1013,7 +1024,7 @@ class _AdminProductsPageState extends State<AdminProductsPage> {
                 IconButton(
                   icon: Icon(Icons.delete, size: 20),
                   color: Colors.red,
-                  padding: EdgeInsets.all(4),
+                  padding: EdgeInsets.all(AppTheme.spaceXxs),
                   constraints: BoxConstraints(),
                   onPressed: () => _deleteProduct(product),
                 ),
@@ -1029,12 +1040,12 @@ class _AdminProductsPageState extends State<AdminProductsPage> {
           runSpacing: 4,
           children: [
             Container(
-              padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+              padding: EdgeInsets.symmetric(horizontal: AppTheme.spaceXs, vertical: AppTheme.spaceXxs),
               decoration: BoxDecoration(
                 color: product.isActive
                     ? Colors.green.withValues(alpha: 0.1)
                     : Colors.red.withValues(alpha: 0.1),
-                borderRadius: BorderRadius.circular(12),
+                borderRadius: BorderRadius.circular(AppTheme.radiusMd),
               ),
               child: Text(
                 product.isActive ? 'Aktif' : 'Pasif',
@@ -1046,12 +1057,12 @@ class _AdminProductsPageState extends State<AdminProductsPage> {
               ),
             ),
             Container(
-              padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+              padding: EdgeInsets.symmetric(horizontal: AppTheme.spaceXs, vertical: AppTheme.spaceXxs),
               decoration: BoxDecoration(
                 color: product.stock > 0
                     ? Colors.blue.withValues(alpha: 0.1)
                     : Colors.orange.withValues(alpha: 0.1),
-                borderRadius: BorderRadius.circular(12),
+                borderRadius: BorderRadius.circular(AppTheme.radiusMd),
               ),
               child: Text(
                 product.stock > 0 ? 'Stok: ${product.stock}' : 'Stok Yok',
@@ -1063,10 +1074,10 @@ class _AdminProductsPageState extends State<AdminProductsPage> {
               ),
             ),
             Container(
-              padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+              padding: EdgeInsets.symmetric(horizontal: AppTheme.spaceXs, vertical: AppTheme.spaceXxs),
               decoration: BoxDecoration(
                 color: Colors.grey.withValues(alpha: 0.1),
-                borderRadius: BorderRadius.circular(12),
+                borderRadius: BorderRadius.circular(AppTheme.radiusMd),
               ),
               child: Text(
                 product.category,
@@ -1101,7 +1112,7 @@ class _AdminProductsPageState extends State<AdminProductsPage> {
         ),
         // Ürün resmi
         ClipRRect(
-          borderRadius: BorderRadius.circular(8),
+          borderRadius: BorderRadius.circular(AppTheme.radiusSm),
           child: product.imageUrl.isNotEmpty
               ? Image.network(
                   product.imageUrl,
@@ -1133,12 +1144,12 @@ class _AdminProductsPageState extends State<AdminProductsPage> {
                 children: [
                   // Ürün durumu
                   Container(
-                    padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                    padding: EdgeInsets.symmetric(horizontal: AppTheme.spaceXs, vertical: AppTheme.spaceXxs),
                     decoration: BoxDecoration(
                       color: product.isActive
                           ? Colors.green.withValues(alpha: 0.1)
                           : Colors.red.withValues(alpha: 0.1),
-                      borderRadius: BorderRadius.circular(20),
+                      borderRadius: BorderRadius.circular(AppTheme.radius2xl),
                     ),
                     child: Text(
                       product.isActive ? 'Aktif' : 'Pasif',
@@ -1153,12 +1164,12 @@ class _AdminProductsPageState extends State<AdminProductsPage> {
 
                   // Stok durumu
                   Container(
-                    padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                    padding: EdgeInsets.symmetric(horizontal: AppTheme.spaceXs, vertical: AppTheme.spaceXxs),
                     decoration: BoxDecoration(
                       color: product.stock > 0
                           ? Colors.blue.withValues(alpha: 0.1)
                           : Colors.orange.withValues(alpha: 0.1),
-                      borderRadius: BorderRadius.circular(20),
+                      borderRadius: BorderRadius.circular(AppTheme.radius2xl),
                     ),
                     child: Text(
                       product.stock > 0 ? 'Stokta: ${product.stock}' : 'Stok Yok',
@@ -1247,7 +1258,7 @@ class _AdminProductsPageState extends State<AdminProductsPage> {
             ),
             if (product.isDeleted)
               Padding(
-                padding: const EdgeInsets.only(top: 4.0),
+                padding: const EdgeInsets.only(top: AppTheme.spaceXxs),
                 child: Icon(Icons.delete_forever, color: Colors.redAccent, size: 20),
               ),
           ],
@@ -1641,12 +1652,12 @@ class _ProductFormDialogState extends State<ProductFormDialog> {
   Widget build(BuildContext context) {
     return Dialog(
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(AppTheme.radiusXl),
       ),
       elevation: 8,
       child: Container(
         width: 500,
-        padding: const EdgeInsets.all(24),
+        padding: const EdgeInsets.all(AppTheme.space2xl),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -1655,10 +1666,10 @@ class _ProductFormDialogState extends State<ProductFormDialog> {
             Row(
               children: [
                 Container(
-                  padding: const EdgeInsets.all(8),
+                  padding: const EdgeInsets.all(AppTheme.spaceXs),
                   decoration: BoxDecoration(
                     color: AppTheme.primaryColor.withValues(alpha: 0.1),
-                    borderRadius: BorderRadius.circular(8),
+                    borderRadius: BorderRadius.circular(AppTheme.radiusSm),
                   ),
                   child: Icon(
                     widget.product == null ? Icons.add_circle : Icons.edit,
@@ -1711,7 +1722,7 @@ class _ProductFormDialogState extends State<ProductFormDialog> {
                         decoration: InputDecoration(
                           hintText: 'Ürün adını girin',
                           border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(8),
+                            borderRadius: BorderRadius.circular(AppTheme.radiusSm),
                           ),
                           prefixIcon: const Icon(Icons.shopping_bag_outlined),
                           filled: true,
@@ -1740,7 +1751,7 @@ class _ProductFormDialogState extends State<ProductFormDialog> {
                         decoration: InputDecoration(
                           hintText: 'Ürün açıklamasını girin',
                           border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(8),
+                            borderRadius: BorderRadius.circular(AppTheme.radiusSm),
                           ),
                           filled: true,
                           fillColor: Colors.grey[50],
@@ -1769,7 +1780,7 @@ class _ProductFormDialogState extends State<ProductFormDialog> {
                                   decoration: InputDecoration(
                                     hintText: '0.00',
                                     border: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(8),
+                                      borderRadius: BorderRadius.circular(AppTheme.radiusSm),
                                     ),
                                     prefixIcon: const Icon(Icons.attach_money),
                                     filled: true,
@@ -1807,7 +1818,7 @@ class _ProductFormDialogState extends State<ProductFormDialog> {
                                   decoration: InputDecoration(
                                     hintText: '0',
                                     border: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(8),
+                                      borderRadius: BorderRadius.circular(AppTheme.radiusSm),
                                     ),
                                     prefixIcon: const Icon(Icons.inventory_2_outlined),
                                     filled: true,
@@ -1845,7 +1856,7 @@ class _ProductFormDialogState extends State<ProductFormDialog> {
                         decoration: InputDecoration(
                           hintText: 'Kategori girin',
                           border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(8),
+                            borderRadius: BorderRadius.circular(AppTheme.radiusSm),
                           ),
                           prefixIcon: const Icon(Icons.category_outlined),
                           filled: true,
@@ -1868,7 +1879,7 @@ class _ProductFormDialogState extends State<ProductFormDialog> {
                         decoration: InputDecoration(
                           hintText: 'Ürün resmi için URL girin',
                           border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(8),
+                            borderRadius: BorderRadius.circular(AppTheme.radiusSm),
                           ),
                           prefixIcon: const Icon(Icons.image_outlined),
                           filled: true,
@@ -1892,7 +1903,7 @@ class _ProductFormDialogState extends State<ProductFormDialog> {
                   icon: const Icon(Icons.cancel),
                   label: const Text('İptal'),
                   style: OutlinedButton.styleFrom(
-                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                    padding: const EdgeInsets.symmetric(horizontal: AppTheme.spaceLg, vertical: AppTheme.spaceMd),
                     side: BorderSide(color: Colors.grey[400]!),
                   ),
                 ),
@@ -1904,7 +1915,7 @@ class _ProductFormDialogState extends State<ProductFormDialog> {
                   style: ElevatedButton.styleFrom(
                     backgroundColor: AppTheme.primaryColor,
                     foregroundColor: Colors.white,
-                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                    padding: const EdgeInsets.symmetric(horizontal: AppTheme.spaceLg, vertical: AppTheme.spaceMd),
                   ),
                 ),
               ],

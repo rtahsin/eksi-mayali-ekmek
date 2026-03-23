@@ -147,9 +147,9 @@ class _LocationLoadingDialogState extends State<LocationLoadingDialog> {
       canPop: _hasError, // Sadece hata varsa geri çıkılabilir
       child: AlertDialog(
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(16),
+          borderRadius: BorderRadius.circular(AppTheme.radiusXl),
         ),
-        contentPadding: EdgeInsets.all(24),
+        contentPadding: EdgeInsets.all(AppTheme.space2xl),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -181,7 +181,7 @@ class _LocationLoadingDialogState extends State<LocationLoadingDialog> {
             ] else ...[
               // Error state
               Container(
-                padding: EdgeInsets.all(16),
+                padding: EdgeInsets.all(AppTheme.spaceLg),
                 decoration: BoxDecoration(
                   color: _getErrorColor().withValues(alpha: 0.1),
                   shape: BoxShape.circle,
@@ -230,9 +230,9 @@ class _LocationLoadingDialogState extends State<LocationLoadingDialog> {
                     style: ElevatedButton.styleFrom(
                       backgroundColor: AppTheme.primaryColor,
                       foregroundColor: Colors.white,
-                      padding: EdgeInsets.symmetric(vertical: 14),
+                      padding: EdgeInsets.symmetric(vertical: AppTheme.radiusLg),
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
+                        borderRadius: BorderRadius.circular(AppTheme.spaceSm),
                       ),
                     ),
                   ),
@@ -256,9 +256,9 @@ class _LocationLoadingDialogState extends State<LocationLoadingDialog> {
                     style: ElevatedButton.styleFrom(
                       backgroundColor: AppTheme.primaryColor,
                       foregroundColor: Colors.white,
-                      padding: EdgeInsets.symmetric(vertical: 14),
+                      padding: EdgeInsets.symmetric(vertical: AppTheme.radiusLg),
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
+                        borderRadius: BorderRadius.circular(AppTheme.spaceSm),
                       ),
                     ),
                   ),
@@ -282,9 +282,9 @@ class _LocationLoadingDialogState extends State<LocationLoadingDialog> {
                     style: ElevatedButton.styleFrom(
                       backgroundColor: AppTheme.primaryColor,
                       foregroundColor: Colors.white,
-                      padding: EdgeInsets.symmetric(vertical: 14),
+                      padding: EdgeInsets.symmetric(vertical: AppTheme.radiusLg),
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
+                        borderRadius: BorderRadius.circular(AppTheme.spaceSm),
                       ),
                     ),
                   ),

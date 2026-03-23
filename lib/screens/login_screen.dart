@@ -305,7 +305,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   Widget _buildDialogSection(String title) {
     return Padding(
-      padding: EdgeInsets.only(top: 16, bottom: 8),
+      padding: const EdgeInsets.only(top: AppTheme.spaceLg, bottom: AppTheme.spaceXs),
       child: Text(
         title,
         style: TextStyle(
@@ -319,7 +319,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   Widget _buildDialogText(String text) {
     return Padding(
-      padding: EdgeInsets.only(bottom: 8),
+      padding: const EdgeInsets.only(bottom: AppTheme.spaceXs),
       child: Text(
         text,
         style: TextStyle(fontSize: 14, height: 1.5),
@@ -365,7 +365,7 @@ class _LoginScreenState extends State<LoginScreen> {
         child: Center(
           child: SingleChildScrollView(
             child: Padding(
-              padding: const EdgeInsets.all(24.0),
+              padding: const EdgeInsets.all(AppTheme.space2xl),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -402,12 +402,12 @@ class _LoginScreenState extends State<LoginScreen> {
                   // Giriş Formu
                   Container(
                     width: screenSize.width > 600 ? 400 : screenSize.width * 0.85,
-                    padding: EdgeInsets.all(24),
+                    padding: const EdgeInsets.all(AppTheme.space2xl),
                     decoration: BoxDecoration(
                       color: isDarkMode
                           ? Colors.grey[900]!.withValues(alpha: 0.9)
                           : Colors.white.withValues(alpha: 0.9),
-                      borderRadius: BorderRadius.circular(16),
+                      borderRadius: BorderRadius.circular(AppTheme.radiusXl),
                       boxShadow: [
                         BoxShadow(
                           color: Colors.black.withValues(alpha: 0.2),
@@ -422,11 +422,11 @@ class _LoginScreenState extends State<LoginScreen> {
                         // Hata Mesajı
                         if (_errorMessage != null)
                           Container(
-                            padding: EdgeInsets.all(12),
-                            margin: EdgeInsets.only(bottom: 16),
+                            padding: const EdgeInsets.all(AppTheme.spaceMd),
+                            margin: const EdgeInsets.only(bottom: AppTheme.spaceLg),
                             decoration: BoxDecoration(
                               color: Colors.red[50],
-                              borderRadius: BorderRadius.circular(8),
+                              borderRadius: BorderRadius.circular(AppTheme.radiusSm),
                               border: Border.all(color: Colors.red[200]!),
                             ),
                             child: Text(
@@ -448,7 +448,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   labelText: 'E-posta',
                                   prefixIcon: Icon(Icons.email),
                                   border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(12),
+                                    borderRadius: BorderRadius.circular(AppTheme.radiusMd),
                                   ),
                                   filled: true,
                                   fillColor: isDarkMode ? Colors.grey[800] : Colors.grey[100],
@@ -481,7 +481,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                     },
                                   ),
                                   border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(12),
+                                    borderRadius: BorderRadius.circular(AppTheme.radiusMd),
                                   ),
                                   filled: true,
                                   fillColor: isDarkMode ? Colors.grey[800] : Colors.grey[100],
@@ -541,9 +541,9 @@ class _LoginScreenState extends State<LoginScreen> {
                                   style: ElevatedButton.styleFrom(
                                     backgroundColor: AppTheme.primaryColor,
                                     foregroundColor: Colors.white,
-                                    padding: EdgeInsets.symmetric(vertical: 16),
+                                    padding: const EdgeInsets.symmetric(vertical: AppTheme.spaceLg),
                                     shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(12),
+                                      borderRadius: BorderRadius.circular(AppTheme.radiusMd),
                                     ),
                                     elevation: 2,
                                   ),
@@ -573,7 +573,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 children: [
                                   Expanded(child: Divider(thickness: 1)),
                                   Padding(
-                                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                                    padding: const EdgeInsets.symmetric(horizontal: AppTheme.spaceXs),
                                     child: Text('veya', style: TextStyle(color: Colors.grey[600])),
                                   ),
                                   Expanded(child: Divider(thickness: 1)),
@@ -642,11 +642,11 @@ class _LoginScreenState extends State<LoginScreen> {
                                   style: TextStyle(fontWeight: FontWeight.w600),
                                 ),
                                 style: OutlinedButton.styleFrom(
-                                  padding: EdgeInsets.symmetric(vertical: 14),
+                                  padding: const EdgeInsets.symmetric(vertical: AppTheme.spaceMd),
                                   side: BorderSide(color: Colors.redAccent),
                                   foregroundColor: Colors.redAccent,
                                   shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(12),
+                                    borderRadius: BorderRadius.circular(AppTheme.radiusMd),
                                   ),
                                 ),
                               ),

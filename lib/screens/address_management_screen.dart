@@ -249,7 +249,7 @@ class _AddressManagementScreenState extends State<AddressManagementScreen> {
             style: ElevatedButton.styleFrom(
               backgroundColor: AppTheme.primaryColor,
               foregroundColor: Colors.white,
-              padding: EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+              padding: const EdgeInsets.symmetric(horizontal: AppTheme.spaceLg, vertical: AppTheme.spaceSm),
             ),
           ),
         ],
@@ -259,21 +259,21 @@ class _AddressManagementScreenState extends State<AddressManagementScreen> {
 
   Widget _buildAddressList() {
     return ListView.builder(
-      padding: EdgeInsets.all(16),
+      padding: const EdgeInsets.all(AppTheme.spaceLg),
       itemCount: _addresses.length,
       itemBuilder: (ctx, index) {
         final address = _addresses[index];
         return Card(
-          margin: EdgeInsets.only(bottom: 16),
+          margin: const EdgeInsets.only(bottom: AppTheme.spaceLg),
           elevation: 2,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(12),
+            borderRadius: BorderRadius.circular(AppTheme.radiusMd),
             side: address.isDefault
                 ? BorderSide(color: AppTheme.primaryColor, width: 2)
                 : BorderSide.none,
           ),
           child: Padding(
-            padding: EdgeInsets.all(16),
+            padding: const EdgeInsets.all(AppTheme.spaceLg),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [

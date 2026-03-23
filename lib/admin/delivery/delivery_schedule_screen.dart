@@ -70,10 +70,10 @@ class _DeliveryScheduleScreenState extends State<DeliveryScheduleScreen> {
             Text('Toplam Sipariş: ${activeDay.orderCount} adet'),
             SizedBox(height: 16),
             Container(
-              padding: EdgeInsets.all(12),
+              padding: EdgeInsets.all(AppTheme.spaceMd),
               decoration: BoxDecoration(
                 color: Colors.orange.withValues(alpha: 0.1),
-                borderRadius: BorderRadius.circular(8),
+                borderRadius: BorderRadius.circular(AppTheme.radiusMd),
                 border: Border.all(color: Colors.orange),
               ),
               child: Column(
@@ -229,7 +229,7 @@ class _DeliveryScheduleScreenState extends State<DeliveryScheduleScreen> {
     return Card(
       elevation: 4,
       child: Padding(
-        padding: EdgeInsets.all(16),
+        padding: EdgeInsets.all(AppTheme.spaceLg),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -272,12 +272,12 @@ class _DeliveryScheduleScreenState extends State<DeliveryScheduleScreen> {
             SizedBox(height: 16),
             // Sipariş durumu
             Container(
-              padding: EdgeInsets.all(12),
+              padding: EdgeInsets.all(AppTheme.spaceMd),
               decoration: BoxDecoration(
                 color: activeDay.ordersClosed
                     ? Colors.red.withValues(alpha: 0.1)
                     : Colors.green.withValues(alpha: 0.1),
-                borderRadius: BorderRadius.circular(8),
+                borderRadius: BorderRadius.circular(AppTheme.radiusMd),
                 border: Border.all(
                   color: activeDay.ordersClosed ? Colors.red : Colors.green,
                 ),
@@ -370,7 +370,7 @@ class _DeliveryScheduleScreenState extends State<DeliveryScheduleScreen> {
                   style: ElevatedButton.styleFrom(
                     backgroundColor: AppTheme.primaryColor,
                     foregroundColor: Colors.white,
-                    padding: EdgeInsets.symmetric(vertical: 16),
+                    padding: EdgeInsets.symmetric(vertical: AppTheme.spaceLg),
                   ),
                 ),
               ),
@@ -388,10 +388,10 @@ class _DeliveryScheduleScreenState extends State<DeliveryScheduleScreen> {
     required Color color,
   }) {
     return Container(
-      padding: EdgeInsets.all(12),
+      padding: EdgeInsets.all(AppTheme.spaceMd),
       decoration: BoxDecoration(
         color: color.withValues(alpha: 0.1),
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: BorderRadius.circular(AppTheme.radiusMd),
       ),
       child: Column(
         children: [
@@ -417,7 +417,7 @@ class _DeliveryScheduleScreenState extends State<DeliveryScheduleScreen> {
   Widget _buildUpcomingDeliveriesSection(List<DeliveryDay> upcomingDeliveries) {
     return Card(
       child: Padding(
-        padding: EdgeInsets.all(16),
+        padding: EdgeInsets.all(AppTheme.spaceLg),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -438,7 +438,7 @@ class _DeliveryScheduleScreenState extends State<DeliveryScheduleScreen> {
             if (upcomingDeliveries.isEmpty)
               Center(
                 child: Padding(
-                  padding: EdgeInsets.all(20),
+                  padding: EdgeInsets.all(AppTheme.spaceXl),
                   child: Text(
                     'Gelecek teslimat yok',
                     style: TextStyle(color: Colors.grey[600]),
@@ -544,7 +544,7 @@ class _DeliveryScheduleScreenState extends State<DeliveryScheduleScreen> {
                 return RefreshIndicator(
                   onRefresh: _loadData,
                   child: ListView(
-                    padding: EdgeInsets.all(16),
+                    padding: EdgeInsets.all(AppTheme.spaceLg),
                     children: [
                       _buildActiveDeliveryCard(activeDay),
                       SizedBox(height: 16),

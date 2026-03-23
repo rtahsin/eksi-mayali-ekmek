@@ -132,7 +132,7 @@ class _AIAssistantScreenState extends State<AIAssistantScreen>
     }
 
     return ListView.builder(
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.all(AppTheme.spaceLg),
       itemCount: _shoppingSuggestions.length,
       itemBuilder: (ctx, index) {
         final suggestion = _shoppingSuggestions[index];
@@ -142,9 +142,9 @@ class _AIAssistantScreenState extends State<AIAssistantScreen>
 
         return Card(
           elevation: 3,
-          margin: const EdgeInsets.only(bottom: 16),
+          margin: const EdgeInsets.only(bottom: AppTheme.spaceLg),
           child: Padding(
-            padding: const EdgeInsets.all(16),
+            padding: const EdgeInsets.all(AppTheme.spaceLg),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -152,7 +152,7 @@ class _AIAssistantScreenState extends State<AIAssistantScreen>
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     ClipRRect(
-                      borderRadius: BorderRadius.circular(8),
+                      borderRadius: BorderRadius.circular(AppTheme.radiusSm),
                       child: Image.network(
                         product.imageUrl,
                         width: 80,
@@ -235,7 +235,7 @@ class _AIAssistantScreenState extends State<AIAssistantScreen>
     }
 
     return ListView.builder(
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.all(AppTheme.spaceLg),
       itemCount: _autoOrderSuggestions.length,
       itemBuilder: (ctx, index) {
         final suggestion = _autoOrderSuggestions[index];
@@ -248,9 +248,9 @@ class _AIAssistantScreenState extends State<AIAssistantScreen>
 
         return Card(
           elevation: 3,
-          margin: const EdgeInsets.only(bottom: 16),
+          margin: const EdgeInsets.only(bottom: AppTheme.spaceLg),
           child: Padding(
-            padding: const EdgeInsets.all(16),
+            padding: const EdgeInsets.all(AppTheme.spaceLg),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -258,7 +258,7 @@ class _AIAssistantScreenState extends State<AIAssistantScreen>
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     ClipRRect(
-                      borderRadius: BorderRadius.circular(8),
+                      borderRadius: BorderRadius.circular(AppTheme.radiusSm),
                       child: Image.network(
                         product.imageUrl,
                         width: 80,

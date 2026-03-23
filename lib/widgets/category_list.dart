@@ -78,7 +78,7 @@ class _CategoryListState extends State<CategoryList> {
     if (_categories.isEmpty && !_isLoading) {
       return Center(
         child: Padding(
-          padding: const EdgeInsets.all(16.0),
+          padding: const EdgeInsets.all(AppTheme.spaceLg),
           child: Text(
             'Henüz kategori bulunmuyor',
             style: TextStyle(color: Colors.grey[600]),
@@ -89,7 +89,9 @@ class _CategoryListState extends State<CategoryList> {
 
     return Container(
       height: isMobile ? 130 : 180,
-      padding: EdgeInsets.symmetric(vertical: isMobile ? 8 : 12),
+      padding: EdgeInsets.symmetric(
+        vertical: isMobile ? AppTheme.spaceXs : AppTheme.spaceMd,
+      ),
       child: Center(
         child: _isLoading
             ? CircularProgressIndicator(color: AppTheme.primaryColor)
@@ -103,7 +105,9 @@ class _CategoryListState extends State<CategoryList> {
                   final isSelected = categoryName == _selectedCategory;
 
                   return Padding(
-                    padding: EdgeInsets.symmetric(horizontal: isMobile ? 8.0 : 16.0),
+                    padding: EdgeInsets.symmetric(
+                      horizontal: isMobile ? AppTheme.spaceXs : AppTheme.spaceLg,
+                    ),
                     child: _buildCategoryCard(category, isSelected, cardSize),
                   );
                 },
@@ -120,7 +124,7 @@ class _CategoryListState extends State<CategoryList> {
     if (_categories.isEmpty && !_isLoading) {
       return Center(
         child: Padding(
-          padding: const EdgeInsets.all(16.0),
+          padding: const EdgeInsets.all(AppTheme.spaceLg),
           child: Text(
             'Henüz kategori bulunmuyor',
             style: TextStyle(color: Colors.grey[600]),
@@ -130,7 +134,10 @@ class _CategoryListState extends State<CategoryList> {
     }
 
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: isMobile ? 8 : 16, vertical: isMobile ? 4 : 8),
+      padding: EdgeInsets.symmetric(
+        horizontal: isMobile ? AppTheme.spaceXs : AppTheme.spaceLg,
+        vertical: isMobile ? AppTheme.spaceXxs : AppTheme.spaceXs,
+      ),
       child: _isLoading
           ? Center(child: CircularProgressIndicator(color: AppTheme.primaryColor))
           : Wrap(

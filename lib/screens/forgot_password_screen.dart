@@ -81,7 +81,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
       ),
       body: Center(
         child: SingleChildScrollView(
-          padding: const EdgeInsets.all(24.0),
+          padding: const EdgeInsets.all(AppTheme.space2xl),
           child: Container(
             constraints: const BoxConstraints(maxWidth: 450),
             child: _emailSent ? _buildSuccessView(isDark) : _buildFormView(isDark),
@@ -100,7 +100,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
         children: [
           // Logo veya İkon
           Container(
-            padding: const EdgeInsets.all(20),
+            padding: const EdgeInsets.all(AppTheme.spaceXl),
             decoration: BoxDecoration(
               color: AppTheme.primaryColor.withValues(alpha: 0.1),
               shape: BoxShape.circle,
@@ -145,7 +145,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
               hintText: 'ornek@email.com',
               prefixIcon: const Icon(Icons.email_outlined),
               border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(12),
+                borderRadius: BorderRadius.circular(AppTheme.radiusMd),
               ),
               filled: true,
               fillColor: isDark ? AppTheme.darkSurfaceColor : Colors.grey[50],
@@ -170,9 +170,9 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
               style: ElevatedButton.styleFrom(
                 backgroundColor: AppTheme.primaryColor,
                 foregroundColor: Colors.white,
-                padding: const EdgeInsets.symmetric(vertical: 16),
+                padding: const EdgeInsets.symmetric(vertical: AppTheme.spaceLg),
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
+                  borderRadius: BorderRadius.circular(AppTheme.radiusMd),
                 ),
                 elevation: 2,
               ),
@@ -218,7 +218,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
       children: [
         // Başarı İkonu
         Container(
-          padding: const EdgeInsets.all(20),
+          padding: const EdgeInsets.all(AppTheme.spaceXl),
           decoration: BoxDecoration(
             color: Colors.green.withValues(alpha: 0.1),
             shape: BoxShape.circle,
@@ -265,10 +265,10 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
 
         // Bilgi Kutusu
         Container(
-          padding: const EdgeInsets.all(16),
+          padding: const EdgeInsets.all(AppTheme.spaceLg),
           decoration: BoxDecoration(
             color: Colors.blue.withValues(alpha: 0.1),
-            borderRadius: BorderRadius.circular(12),
+            borderRadius: BorderRadius.circular(AppTheme.radiusMd),
             border: Border.all(
               color: Colors.blue.withValues(alpha: 0.3),
             ),
@@ -305,10 +305,10 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                   });
                 },
           style: OutlinedButton.styleFrom(
-            padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 12),
+            padding: const EdgeInsets.symmetric(horizontal: AppTheme.space3xl, vertical: AppTheme.spaceMd),
             side: BorderSide(color: AppTheme.primaryColor),
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.circular(AppTheme.radiusMd),
             ),
           ),
           child: Text(

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../core/di/service_locator.dart';
 import '../services/address_service.dart';
+import '../theme/app_theme.dart';
 import '../utils/logger.dart';
 
 class AddressSelectionWidget extends StatefulWidget {
@@ -121,7 +122,7 @@ class _AddressSelectionWidgetState extends State<AddressSelectionWidget> {
       children: [
         // Sabit il ve ilçe bilgileri
         const Padding(
-          padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 4.0),
+          padding: EdgeInsets.symmetric(vertical: AppTheme.spaceXs, horizontal: AppTheme.spaceXxs),
           child: Text(
             'İl: İstanbul',
             style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
@@ -129,7 +130,7 @@ class _AddressSelectionWidgetState extends State<AddressSelectionWidget> {
         ),
         const SizedBox(height: 4),
         const Padding(
-          padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 4.0),
+          padding: EdgeInsets.symmetric(vertical: AppTheme.spaceXs, horizontal: AppTheme.spaceXxs),
           child: Text(
             'İlçe: Beylikdüzü',
             style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
@@ -143,7 +144,7 @@ class _AddressSelectionWidgetState extends State<AddressSelectionWidget> {
           decoration: const InputDecoration(
             labelText: 'Mahalle',
             border: OutlineInputBorder(),
-            contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+            contentPadding: EdgeInsets.symmetric(horizontal: AppTheme.spaceLg, vertical: AppTheme.spaceLg),
           ),
           isExpanded: true,
           hint: const Text('Mahalle seçiniz'),
@@ -175,7 +176,7 @@ class _AddressSelectionWidgetState extends State<AddressSelectionWidget> {
           decoration: const InputDecoration(
             labelText: 'Sokak',
             border: OutlineInputBorder(),
-            contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+            contentPadding: EdgeInsets.symmetric(horizontal: AppTheme.spaceLg, vertical: AppTheme.spaceLg),
           ),
           isExpanded: true,
           hint: const Text('Sokak seçiniz'),

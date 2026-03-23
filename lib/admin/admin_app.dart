@@ -29,24 +29,30 @@ class AdminApp extends StatelessWidget {
         style: ElevatedButton.styleFrom(
           foregroundColor: Colors.white,
           backgroundColor: AppTheme.primaryColor,
-          padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+          padding: const EdgeInsets.symmetric(
+            horizontal: AppTheme.spaceLg,
+            vertical: AppTheme.spaceMd,
+          ),
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(AppTheme.radiusSm),
           ),
         ),
       ),
       inputDecorationTheme: InputDecorationTheme(
         border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(8),
+          borderRadius: BorderRadius.circular(AppTheme.radiusSm),
         ),
         focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(8),
+          borderRadius: BorderRadius.circular(AppTheme.radiusSm),
           borderSide: BorderSide(
             color: AppTheme.primaryColor,
             width: 2,
           ),
         ),
-        contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+        contentPadding: const EdgeInsets.symmetric(
+          horizontal: AppTheme.spaceLg,
+          vertical: AppTheme.spaceLg,
+        ),
       ),
     );
 

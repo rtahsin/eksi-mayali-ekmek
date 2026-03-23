@@ -11,6 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 import '../../services/audit_log_service.dart';
+import '../../theme/app_theme.dart';
 import '../../utils/logger.dart';
 import '../../widgets/image_crop_dialog.dart';
 
@@ -103,17 +104,21 @@ class _BackgroundImagesScreenState extends State<BackgroundImagesScreen> {
       final selectedPage = await showDialog<String>(
         context: context,
         builder: (context) => Dialog(
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(AppTheme.radiusXl),
+          ),
           child: Container(
             constraints: const BoxConstraints(maxWidth: 500),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
                 Container(
-                  padding: const EdgeInsets.all(20),
+                  padding: const EdgeInsets.all(AppTheme.spaceXl),
                   decoration: BoxDecoration(
                     color: Colors.blue.shade700,
-                    borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
+                    borderRadius: const BorderRadius.vertical(
+                      top: Radius.circular(AppTheme.radiusXl),
+                    ),
                   ),
                   child: Row(
                     children: const [
@@ -133,7 +138,7 @@ class _BackgroundImagesScreenState extends State<BackgroundImagesScreen> {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.all(16),
+                  padding: const EdgeInsets.all(AppTheme.spaceLg),
                   child: Column(
                     children: [
                       _buildPageOption(
@@ -423,10 +428,13 @@ class _BackgroundImagesScreenState extends State<BackgroundImagesScreen> {
 
   Widget _buildStatChip(IconData icon, String label, int count, Color color) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+      padding: const EdgeInsets.symmetric(
+        horizontal: AppTheme.spaceMd,
+        vertical: AppTheme.spaceXxs + 2,
+      ),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(AppTheme.radius2xl),
         border: Border.all(color: color.withValues(alpha: 0.3)),
       ),
       child: Row(
@@ -457,20 +465,20 @@ class _BackgroundImagesScreenState extends State<BackgroundImagesScreen> {
   }) {
     return InkWell(
       onTap: onTap,
-      borderRadius: BorderRadius.circular(12),
+      borderRadius: BorderRadius.circular(AppTheme.radiusMd),
       child: Container(
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.all(AppTheme.spaceLg),
         decoration: BoxDecoration(
           border: Border.all(color: Colors.grey.shade300),
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(AppTheme.radiusMd),
         ),
         child: Row(
           children: [
             Container(
-              padding: const EdgeInsets.all(12),
+              padding: const EdgeInsets.all(AppTheme.spaceMd),
               decoration: BoxDecoration(
                 color: color.withValues(alpha: 0.1),
-                borderRadius: BorderRadius.circular(10),
+                borderRadius: BorderRadius.circular(AppTheme.radiusLg),
               ),
               child: Icon(icon, color: color, size: 28),
             ),
@@ -547,7 +555,7 @@ class _BackgroundImagesScreenState extends State<BackgroundImagesScreen> {
             children: [
               // Header
               Container(
-                padding: const EdgeInsets.all(16),
+                padding: const EdgeInsets.all(AppTheme.spaceLg),
                 color: Colors.blue.shade700,
                 child: Row(
                   children: [
@@ -595,7 +603,7 @@ class _BackgroundImagesScreenState extends State<BackgroundImagesScreen> {
                                   ],
                                 ),
                               ),
-                              padding: const EdgeInsets.all(32),
+                              padding: const EdgeInsets.all(AppTheme.space3xl),
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -629,8 +637,8 @@ class _BackgroundImagesScreenState extends State<BackgroundImagesScreen> {
                                       style: ElevatedButton.styleFrom(
                                         backgroundColor: Colors.orange,
                                         padding: const EdgeInsets.symmetric(
-                                          horizontal: 24,
-                                          vertical: 12,
+                                          horizontal: AppTheme.space2xl,
+                                          vertical: AppTheme.spaceMd,
                                         ),
                                         disabledBackgroundColor: Colors.orange,
                                       ),
@@ -652,7 +660,7 @@ class _BackgroundImagesScreenState extends State<BackgroundImagesScreen> {
                     Expanded(
                       flex: 2,
                       child: SingleChildScrollView(
-                        padding: const EdgeInsets.all(20),
+                        padding: const EdgeInsets.all(AppTheme.spaceXl),
                         child: StatefulBuilder(
                           builder: (context, setDialogState) => Column(
                             crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -731,7 +739,7 @@ class _BackgroundImagesScreenState extends State<BackgroundImagesScreen> {
               ),
               // Info + Actions
               Container(
-                padding: const EdgeInsets.all(16),
+                padding: const EdgeInsets.all(AppTheme.spaceLg),
                 decoration: BoxDecoration(
                   color: Colors.grey.shade100,
                   border: Border(top: BorderSide(color: Colors.grey.shade300)),
@@ -761,8 +769,8 @@ class _BackgroundImagesScreenState extends State<BackgroundImagesScreen> {
                           label: const Text('İptal'),
                           style: OutlinedButton.styleFrom(
                             padding: const EdgeInsets.symmetric(
-                              horizontal: 24,
-                              vertical: 12,
+                              horizontal: AppTheme.space2xl,
+                              vertical: AppTheme.spaceMd,
                             ),
                           ),
                         ),
@@ -784,8 +792,8 @@ class _BackgroundImagesScreenState extends State<BackgroundImagesScreen> {
                             backgroundColor: Colors.green,
                             foregroundColor: Colors.white,
                             padding: const EdgeInsets.symmetric(
-                              horizontal: 32,
-                              vertical: 12,
+                              horizontal: AppTheme.space3xl,
+                              vertical: AppTheme.spaceMd,
                             ),
                           ),
                         ),
@@ -835,7 +843,10 @@ class _BackgroundImagesScreenState extends State<BackgroundImagesScreen> {
             style: ElevatedButton.styleFrom(
               backgroundColor: Colors.green,
               foregroundColor: Colors.white,
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+              padding: const EdgeInsets.symmetric(
+                horizontal: AppTheme.spaceLg,
+                vertical: AppTheme.spaceMd,
+              ),
             ),
           ),
           const SizedBox(width: 16),
@@ -871,7 +882,10 @@ class _BackgroundImagesScreenState extends State<BackgroundImagesScreen> {
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.green,
                           foregroundColor: Colors.white,
-                          padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: AppTheme.space3xl,
+                            vertical: AppTheme.spaceLg,
+                          ),
                           textStyle: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
                         ),
                       ),
@@ -881,7 +895,7 @@ class _BackgroundImagesScreenState extends State<BackgroundImagesScreen> {
               : Column(
                   children: [
                     Container(
-                      padding: const EdgeInsets.all(20),
+                      padding: const EdgeInsets.all(AppTheme.spaceXl),
                       decoration: BoxDecoration(
                         gradient: LinearGradient(
                           colors: [Colors.blue.shade50, Colors.blue.shade100],
@@ -893,10 +907,10 @@ class _BackgroundImagesScreenState extends State<BackgroundImagesScreen> {
                           Row(
                             children: [
                               Container(
-                                padding: const EdgeInsets.all(10),
+                                padding: const EdgeInsets.all(AppTheme.spaceSm),
                                 decoration: BoxDecoration(
                                   color: Colors.blue.shade700,
-                                  borderRadius: BorderRadius.circular(10),
+                                  borderRadius: BorderRadius.circular(AppTheme.radiusLg),
                                 ),
                                 child:
                                     const Icon(Icons.photo_library, color: Colors.white, size: 24),
@@ -954,16 +968,24 @@ class _BackgroundImagesScreenState extends State<BackgroundImagesScreen> {
                     ),
                     Expanded(
                       child: ListView.builder(
-                        padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+                        padding: const EdgeInsets.fromLTRB(
+                          AppTheme.spaceLg,
+                          AppTheme.spaceZero,
+                          AppTheme.spaceLg,
+                          AppTheme.spaceLg,
+                        ),
                         itemCount: _backgroundImages.length,
                         itemBuilder: (context, index) {
                           final image = _backgroundImages[index];
                           return Card(
-                            margin: const EdgeInsets.symmetric(horizontal: 0, vertical: 12),
+                            margin: const EdgeInsets.symmetric(
+                              horizontal: AppTheme.spaceZero,
+                              vertical: AppTheme.spaceMd,
+                            ),
                             elevation: 4,
                             shadowColor: Colors.black26,
                             shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(16),
+                              borderRadius: BorderRadius.circular(AppTheme.radiusXl),
                               side: BorderSide(color: Colors.grey.shade200, width: 1),
                             ),
                             child: Column(
@@ -972,8 +994,9 @@ class _BackgroundImagesScreenState extends State<BackgroundImagesScreen> {
                                 Stack(
                                   children: [
                                     ClipRRect(
-                                      borderRadius:
-                                          const BorderRadius.vertical(top: Radius.circular(16)),
+                                      borderRadius: const BorderRadius.vertical(
+                                        top: Radius.circular(AppTheme.radiusXl),
+                                      ),
                                       child: AspectRatio(
                                         aspectRatio: 16 / 9,
                                         child: Image.network(
@@ -993,13 +1016,16 @@ class _BackgroundImagesScreenState extends State<BackgroundImagesScreen> {
                                       top: 8,
                                       child: Container(
                                         padding:
-                                            const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                                            const EdgeInsets.symmetric(
+                                                horizontal: AppTheme.spaceXs,
+                                                vertical: AppTheme.spaceXxs),
                                         decoration: BoxDecoration(
                                           color: (image['isActive'] == true
                                                   ? Colors.green
                                                   : Colors.red)
                                               .withValues(alpha: 0.85),
-                                          borderRadius: BorderRadius.circular(6),
+                                          borderRadius:
+                                              BorderRadius.circular(AppTheme.spaceXxs + 2),
                                         ),
                                         child: Text(
                                           image['isActive'] == true ? 'Aktif' : 'Pasif',
@@ -1010,7 +1036,7 @@ class _BackgroundImagesScreenState extends State<BackgroundImagesScreen> {
                                   ],
                                 ),
                                 Padding(
-                                  padding: const EdgeInsets.all(16),
+                                  padding: const EdgeInsets.all(AppTheme.spaceLg),
                                   child: Column(
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
@@ -1033,10 +1059,12 @@ class _BackgroundImagesScreenState extends State<BackgroundImagesScreen> {
                                         children: [
                                           Container(
                                             padding: const EdgeInsets.symmetric(
-                                                horizontal: 8, vertical: 4),
+                                                horizontal: AppTheme.spaceXs,
+                                                vertical: AppTheme.spaceXxs),
                                             decoration: BoxDecoration(
                                               color: Colors.blue.shade50,
-                                              borderRadius: BorderRadius.circular(4),
+                                              borderRadius:
+                                                  BorderRadius.circular(AppTheme.spaceXxs),
                                               border: Border.all(color: Colors.blue.shade200),
                                             ),
                                             child: Text(
@@ -1076,7 +1104,9 @@ class _BackgroundImagesScreenState extends State<BackgroundImagesScreen> {
                                               style: ElevatedButton.styleFrom(
                                                 backgroundColor: Colors.blue,
                                                 foregroundColor: Colors.white,
-                                                padding: const EdgeInsets.symmetric(vertical: 14),
+                                                padding: const EdgeInsets.symmetric(
+                                                  vertical: AppTheme.spaceMd + 2,
+                                                ),
                                                 textStyle: const TextStyle(
                                                   fontSize: 15,
                                                   fontWeight: FontWeight.w600,
@@ -1099,7 +1129,9 @@ class _BackgroundImagesScreenState extends State<BackgroundImagesScreen> {
                                               ),
                                               style: OutlinedButton.styleFrom(
                                                 side: const BorderSide(color: Colors.red, width: 2),
-                                                padding: const EdgeInsets.symmetric(vertical: 14),
+                                                padding: const EdgeInsets.symmetric(
+                                                  vertical: AppTheme.spaceMd + 2,
+                                                ),
                                                 textStyle: const TextStyle(fontSize: 15),
                                               ),
                                             ),

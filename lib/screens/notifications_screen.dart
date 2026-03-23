@@ -246,7 +246,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                             background: Container(
                               color: Colors.red,
                               alignment: Alignment.centerRight,
-                              padding: EdgeInsets.only(right: 16),
+                              padding: const EdgeInsets.only(right: AppTheme.spaceLg),
                               child: Icon(Icons.delete, color: Colors.white),
                             ),
                             onDismissed: (direction) {

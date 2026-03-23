@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 
 import '../services/feedback_service.dart';
+import '../theme/app_theme.dart';
 
 class FeedbackChatOverlay extends StatefulWidget {
   const FeedbackChatOverlay({super.key, required this.child});
@@ -72,8 +73,8 @@ class _FeedbackChatOverlayState extends State<FeedbackChatOverlay>
       children: [
         widget.child,
         PositionedDirectional(
-          bottom: 24,
-          end: 24,
+          bottom: AppTheme.space2xl,
+          end: AppTheme.space2xl,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
@@ -132,13 +133,13 @@ class _ChatCard extends StatelessWidget {
 
     return Material(
       elevation: 12,
-      borderRadius: BorderRadius.circular(20),
+      borderRadius: BorderRadius.circular(AppTheme.radius2xl),
       clipBehavior: Clip.antiAlias,
       child: ConstrainedBox(
         constraints: BoxConstraints(maxWidth: maxWidth),
         child: Container(
           color: theme.colorScheme.surface,
-          padding: const EdgeInsets.all(16),
+          padding: const EdgeInsets.all(AppTheme.spaceLg),
           child: Form(
             key: formKey,
             child: Column(
@@ -252,7 +253,7 @@ class _FeedbackToggleButton extends StatelessWidget {
       label: Text(isOpen ? 'Kapat' : 'Geri Bildirim'),
       style: ElevatedButton.styleFrom(
         shape: const StadiumBorder(),
-        padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 12),
+        padding: const EdgeInsets.symmetric(horizontal: AppTheme.spaceLg + 2, vertical: AppTheme.spaceMd),
         elevation: 4,
       ),
     );

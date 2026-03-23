@@ -11,6 +11,8 @@
 
 import 'package:flutter/material.dart';
 
+import '../theme/app_theme.dart';
+
 class ModernStatCard extends StatelessWidget {
   final String title;
   final String value;
@@ -35,9 +37,9 @@ class ModernStatCard extends StatelessWidget {
       color: Colors.transparent,
       child: InkWell(
         onTap: onTap,
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(AppTheme.radiusXl),
         child: Container(
-          padding: EdgeInsets.all(isSmallScreen ? 12 : 16),
+          padding: EdgeInsets.all(isSmallScreen ? AppTheme.spaceMd : AppTheme.spaceLg),
           decoration: BoxDecoration(
             gradient: LinearGradient(
               colors: [
@@ -47,7 +49,7 @@ class ModernStatCard extends StatelessWidget {
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
             ),
-            borderRadius: BorderRadius.circular(16),
+            borderRadius: BorderRadius.circular(AppTheme.radiusXl),
             boxShadow: [
               BoxShadow(
                 color: color.withValues(alpha: 0.3),
@@ -128,10 +130,10 @@ class ModernInfoCard extends StatelessWidget {
     final isSmallScreen = MediaQuery.of(context).size.width < 600;
 
     return Container(
-      padding: EdgeInsets.all(isSmallScreen ? 14 : 18),
+      padding: EdgeInsets.all(isSmallScreen ? AppTheme.spaceMd + 2 : AppTheme.spaceLg + 2),
       decoration: BoxDecoration(
         color: color.withValues(alpha: 0.1),
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(AppTheme.radiusMd),
         border: Border.all(
           color: color.withValues(alpha: 0.3),
           width: 1.5,
@@ -143,10 +145,10 @@ class ModernInfoCard extends StatelessWidget {
           Row(
             children: [
               Container(
-                padding: EdgeInsets.all(8),
+                padding: EdgeInsets.all(AppTheme.spaceXs),
                 decoration: BoxDecoration(
                   color: color.withValues(alpha: 0.2),
-                  borderRadius: BorderRadius.circular(8),
+                  borderRadius: BorderRadius.circular(AppTheme.radiusSm),
                 ),
                 child: Icon(
                   icon,

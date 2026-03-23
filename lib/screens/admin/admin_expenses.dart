@@ -338,7 +338,7 @@ class _AdminExpensesScreenState extends State<AdminExpensesScreen> {
                   children: [
                     // İstatistikler
                     Container(
-                      padding: EdgeInsets.all(16),
+                      padding: const EdgeInsets.all(AppTheme.spaceLg),
                       color: Colors.red[50],
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -366,7 +366,7 @@ class _AdminExpensesScreenState extends State<AdminExpensesScreen> {
                     // Liste
                     Expanded(
                       child: ListView.builder(
-                        padding: EdgeInsets.all(16),
+                        padding: const EdgeInsets.all(AppTheme.spaceLg),
                         itemCount: _expenses.length,
                         itemBuilder: (context, index) {
                           final expense = _expenses[index];

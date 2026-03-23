@@ -102,7 +102,7 @@ class _AdminFinancialReportScreenState extends State<AdminFinancialReportScreen>
                     final isMobile = constraints.maxWidth < 600;
 
                     return SingleChildScrollView(
-                      padding: EdgeInsets.all(isMobile ? 12 : 16),
+                      padding: EdgeInsets.all(isMobile ? AppTheme.spaceMd : AppTheme.spaceLg),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
@@ -110,7 +110,8 @@ class _AdminFinancialReportScreenState extends State<AdminFinancialReportScreen>
                           Card(
                             color: AppTheme.primaryColor.withValues(alpha: 0.1),
                             child: Padding(
-                              padding: EdgeInsets.all(isMobile ? 12 : 16),
+                              padding:
+                                  EdgeInsets.all(isMobile ? AppTheme.spaceMd : AppTheme.spaceLg),
                               child: isMobile
                                   ? Column(
                                       children: [
@@ -152,7 +153,8 @@ class _AdminFinancialReportScreenState extends State<AdminFinancialReportScreen>
                             elevation: 8,
                             color: isProfit ? Colors.green[50] : Colors.red[50],
                             child: Padding(
-                              padding: EdgeInsets.all(isMobile ? 16 : 24),
+                              padding:
+                                  EdgeInsets.all(isMobile ? AppTheme.spaceLg : AppTheme.spaceXl),
                               child: Column(
                                 children: [
                                   Icon(
@@ -196,7 +198,8 @@ class _AdminFinancialReportScreenState extends State<AdminFinancialReportScreen>
                           Card(
                             color: Colors.green[50],
                             child: Padding(
-                              padding: EdgeInsets.all(isMobile ? 12 : 16),
+                              padding:
+                                  EdgeInsets.all(isMobile ? AppTheme.spaceMd : AppTheme.spaceLg),
                               child: Column(
                                 children: [
                                   Row(
@@ -255,7 +258,8 @@ class _AdminFinancialReportScreenState extends State<AdminFinancialReportScreen>
                           Card(
                             color: Colors.red[50],
                             child: Padding(
-                              padding: EdgeInsets.all(isMobile ? 12 : 16),
+                              padding:
+                                  EdgeInsets.all(isMobile ? AppTheme.spaceMd : AppTheme.spaceLg),
                               child: Column(
                                 children: [
                                   Row(
@@ -317,7 +321,8 @@ class _AdminFinancialReportScreenState extends State<AdminFinancialReportScreen>
                           Card(
                             color: Colors.blue[50],
                             child: Padding(
-                              padding: EdgeInsets.all(isMobile ? 12 : 16),
+                              padding:
+                                  EdgeInsets.all(isMobile ? AppTheme.spaceMd : AppTheme.spaceLg),
                               child: Column(
                                 children: [
                                   Row(
@@ -370,7 +375,7 @@ class _AdminFinancialReportScreenState extends State<AdminFinancialReportScreen>
                           Card(
                             color: Colors.blue[50],
                             child: Padding(
-                              padding: EdgeInsets.all(16),
+                              padding: const EdgeInsets.all(AppTheme.spaceLg),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [

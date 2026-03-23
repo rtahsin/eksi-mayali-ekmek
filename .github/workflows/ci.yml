@@ -35,6 +35,10 @@ jobs:
           flutter-version: 'stable'
       - name: Install dependencies
         run: flutter pub get
+      - name: Design token audit (informational)
+        run: dart run scripts/check_design_tokens.dart
+      - name: Design token audit (strict)
+        run: dart run scripts/check_design_tokens.dart --strict
       - name: Analyze
         run: flutter analyze
       - name: Run tests

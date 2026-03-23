@@ -158,7 +158,7 @@ class _AdminCustomersPageState extends State<AdminCustomersPage> {
       appBar: AdminAppBar(title: 'Müşteri Yönetimi'),
       drawer: AdminDrawer(currentIndex: 11),
       body: Padding(
-        padding: EdgeInsets.all(isSmallScreen ? 8.0 : 16.0),
+        padding: EdgeInsets.all(isSmallScreen ? AppTheme.spaceXs : AppTheme.spaceLg),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -189,8 +189,8 @@ class _AdminCustomersPageState extends State<AdminCustomersPage> {
                   style: ElevatedButton.styleFrom(
                     backgroundColor: AppTheme.primaryColor,
                     padding: EdgeInsets.symmetric(
-                      horizontal: isSmallScreen ? 8 : 16,
-                      vertical: isSmallScreen ? 6 : 12,
+                      horizontal: isSmallScreen ? AppTheme.spaceXs : AppTheme.spaceLg,
+                      vertical: isSmallScreen ? AppTheme.space2xs : AppTheme.spaceMd,
                     ),
                   ),
                 ),
@@ -206,11 +206,11 @@ class _AdminCustomersPageState extends State<AdminCustomersPage> {
                 hintText: 'Müşteri ara...',
                 prefixIcon: const Icon(Icons.search),
                 border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8),
+                  borderRadius: BorderRadius.circular(AppTheme.radiusSm),
                 ),
                 contentPadding: EdgeInsets.symmetric(
-                  vertical: isSmallScreen ? 10 : 12,
-                  horizontal: isSmallScreen ? 10 : 12,
+                  vertical: isSmallScreen ? AppTheme.spaceSm : AppTheme.spaceMd,
+                  horizontal: isSmallScreen ? AppTheme.spaceSm : AppTheme.spaceMd,
                 ),
               ),
               onChanged: (value) {
@@ -224,7 +224,7 @@ class _AdminCustomersPageState extends State<AdminCustomersPage> {
             _isLoading
                 ? SizedBox()
                 : Padding(
-                    padding: const EdgeInsets.only(bottom: 8.0),
+                    padding: const EdgeInsets.only(bottom: AppTheme.spaceXs),
                     child: Text(
                       'Toplam ${_searchController.text.isEmpty ? _allUsers.length : _filteredUsers().length} müşteri',
                       style: TextStyle(
@@ -302,13 +302,13 @@ class _AdminCustomersPageState extends State<AdminCustomersPage> {
     final isVerySmallScreen = MediaQuery.of(context).size.width < 360;
 
     return Card(
-      margin: EdgeInsets.symmetric(vertical: 8, horizontal: isSmallScreen ? 0 : 8),
+      margin: EdgeInsets.symmetric(vertical: AppTheme.spaceXs, horizontal: isSmallScreen ? AppTheme.spaceZero : AppTheme.spaceXs),
       elevation: 2,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(AppTheme.radiusMd),
       ),
       child: Padding(
-        padding: EdgeInsets.all(isSmallScreen ? 12 : 16),
+        padding: EdgeInsets.all(isSmallScreen ? AppTheme.spaceMd : AppTheme.spaceLg),
         child: isSmallScreen
             ? _buildMobileUserItem(user, isVerySmallScreen)
             : _buildDesktopUserItem(user),
@@ -365,10 +365,10 @@ class _AdminCustomersPageState extends State<AdminCustomersPage> {
             // Kullanıcı durumu
             Container(
               padding: EdgeInsets.symmetric(
-                  horizontal: isVerySmallScreen ? 6 : 8, vertical: isVerySmallScreen ? 2 : 4),
+                  horizontal: isVerySmallScreen ? AppTheme.space2xs : AppTheme.spaceXs, vertical: isVerySmallScreen ? 2 : AppTheme.spaceXxs),
               decoration: BoxDecoration(
                 color: user.isAdmin ? Colors.purple.withAlpha(26) : Colors.green.withAlpha(26),
-                borderRadius: BorderRadius.circular(12),
+                borderRadius: BorderRadius.circular(AppTheme.radiusMd),
               ),
               child: Text(
                 user.isAdmin ? 'Admin' : 'Müşteri',
@@ -396,7 +396,7 @@ class _AdminCustomersPageState extends State<AdminCustomersPage> {
               label: Text('Detaylar', style: TextStyle(fontSize: isVerySmallScreen ? 10 : 12)),
               style: TextButton.styleFrom(
                 foregroundColor: Colors.blue,
-                padding: EdgeInsets.symmetric(horizontal: isVerySmallScreen ? 6 : 8),
+                padding: EdgeInsets.symmetric(horizontal: isVerySmallScreen ? AppTheme.space2xs : AppTheme.spaceXs),
               ),
             ),
             TextButton.icon(
@@ -407,7 +407,7 @@ class _AdminCustomersPageState extends State<AdminCustomersPage> {
               label: Text('Düzenle', style: TextStyle(fontSize: isVerySmallScreen ? 10 : 12)),
               style: TextButton.styleFrom(
                 foregroundColor: Colors.orange,
-                padding: EdgeInsets.symmetric(horizontal: isVerySmallScreen ? 6 : 8),
+                padding: EdgeInsets.symmetric(horizontal: isVerySmallScreen ? AppTheme.space2xs : AppTheme.spaceXs),
               ),
             ),
           ],
@@ -482,10 +482,10 @@ class _AdminCustomersPageState extends State<AdminCustomersPage> {
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
             Container(
-              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+              padding: const EdgeInsets.symmetric(horizontal: AppTheme.spaceMd, vertical: AppTheme.space2xs),
               decoration: BoxDecoration(
                 color: user.isAdmin ? Colors.purple.withAlpha(26) : Colors.green.withAlpha(26),
-                borderRadius: BorderRadius.circular(20),
+                borderRadius: BorderRadius.circular(AppTheme.radius2xl),
               ),
               child: Text(
                 user.isAdmin ? 'Admin' : 'Müşteri',
@@ -534,8 +534,8 @@ class _AdminCustomersPageState extends State<AdminCustomersPage> {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        titlePadding: EdgeInsets.fromLTRB(24, 24, 24, 0),
-        contentPadding: EdgeInsets.fromLTRB(24, 20, 24, 0),
+        titlePadding: EdgeInsets.fromLTRB(AppTheme.space2xl, AppTheme.space2xl, AppTheme.space2xl, AppTheme.spaceZero),
+        contentPadding: EdgeInsets.fromLTRB(AppTheme.space2xl, AppTheme.spaceXl, AppTheme.space2xl, AppTheme.spaceZero),
         title: Text(
           '${user.fullName} Detayları',
           style: TextStyle(
@@ -592,7 +592,7 @@ class _AdminCustomersPageState extends State<AdminCustomersPage> {
           ),
         ],
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(AppTheme.radiusMd),
         ),
       ),
     );
@@ -609,8 +609,8 @@ class _AdminCustomersPageState extends State<AdminCustomersPage> {
       context: context,
       builder: (context) => StatefulBuilder(
         builder: (context, setState) => AlertDialog(
-          titlePadding: EdgeInsets.fromLTRB(24, 24, 24, 0),
-          contentPadding: EdgeInsets.fromLTRB(24, 20, 24, 0),
+          titlePadding: EdgeInsets.fromLTRB(AppTheme.space2xl, AppTheme.space2xl, AppTheme.space2xl, AppTheme.spaceZero),
+          contentPadding: EdgeInsets.fromLTRB(AppTheme.space2xl, AppTheme.spaceXl, AppTheme.space2xl, AppTheme.spaceZero),
           title: Text(
             '${user.fullName} Düzenle',
             style: TextStyle(
@@ -682,7 +682,7 @@ class _AdminCustomersPageState extends State<AdminCustomersPage> {
             ),
           ],
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(12),
+            borderRadius: BorderRadius.circular(AppTheme.radiusMd),
           ),
         ),
       ),

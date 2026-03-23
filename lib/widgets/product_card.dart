@@ -122,7 +122,7 @@ class _ProductCardState extends State<ProductCard> with SingleTickerProviderStat
                   maxWidth: 450, maxHeight: MediaQuery.of(context).size.height * 0.8),
               decoration: BoxDecoration(
                 color: Theme.of(context).cardColor,
-                borderRadius: BorderRadius.circular(12),
+                borderRadius: BorderRadius.circular(AppTheme.radiusMd),
               ),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
@@ -164,7 +164,7 @@ class _ProductCardState extends State<ProductCard> with SingleTickerProviderStat
                   // Ürün detayları - diyalogun alt kısmında yer alan bilgiler
                   Expanded(
                     child: SingleChildScrollView(
-                      padding: EdgeInsets.all(16),
+                      padding: const EdgeInsets.all(AppTheme.spaceLg),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -222,11 +222,11 @@ class _ProductCardState extends State<ProductCard> with SingleTickerProviderStat
                                   // Stok durumu uyarısı
                                   if (widget.product.stock < 5 && widget.product.stock > 0)
                                     Container(
-                                      padding: EdgeInsets.symmetric(vertical: 6, horizontal: 10),
-                                      margin: EdgeInsets.only(bottom: 8),
+                                      padding: EdgeInsets.symmetric(vertical: AppTheme.space2xs, horizontal: AppTheme.spaceSm),
+                                      margin: EdgeInsets.only(bottom: AppTheme.spaceXs),
                                       decoration: BoxDecoration(
                                         color: Colors.orange.shade50,
-                                        borderRadius: BorderRadius.circular(6),
+                                        borderRadius: BorderRadius.circular(AppTheme.radiusSmSoft),
                                         border: Border.all(color: Colors.orange.shade200),
                                       ),
                                       child: Row(
@@ -357,7 +357,7 @@ class _ProductCardState extends State<ProductCard> with SingleTickerProviderStat
           clipBehavior: Clip.antiAlias, // Taşan içeriği kırp
           margin: const EdgeInsets.all(2), // Dış kenar boşluğu
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(8), // Köşe yuvarlatma
+            borderRadius: BorderRadius.circular(AppTheme.radiusSm), // Köşe yuvarlatma
           ),
           elevation: 2, // Gölge seviyesi
           color: isDark ? AppTheme.darkSurfaceColor : Colors.white, // Arka plan rengi
@@ -485,12 +485,12 @@ class _ProductCardState extends State<ProductCard> with SingleTickerProviderStat
                               right: 8,
                               child: Container(
                                 padding: const EdgeInsets.symmetric(
-                                  horizontal: 8,
-                                  vertical: 4,
+                                  horizontal: AppTheme.spaceXs,
+                                  vertical: AppTheme.spaceXxs,
                                 ),
                                 decoration: BoxDecoration(
                                   color: AppTheme.accentColor,
-                                  borderRadius: BorderRadius.circular(12),
+                                  borderRadius: BorderRadius.circular(AppTheme.radiusMd),
                                 ),
                                 child: const Text(
                                   'Yeni',
@@ -509,7 +509,7 @@ class _ProductCardState extends State<ProductCard> with SingleTickerProviderStat
                               bottom: 8,
                               right: 8,
                               child: Container(
-                                padding: const EdgeInsets.all(6),
+                                padding: const EdgeInsets.all(AppTheme.space2xs),
                                 decoration: BoxDecoration(
                                   color: Colors.red.withValues(alpha: 0.9),
                                   shape: BoxShape.circle,
@@ -537,7 +537,7 @@ class _ProductCardState extends State<ProductCard> with SingleTickerProviderStat
                   Expanded(
                     child: Padding(
                       padding: const EdgeInsets.symmetric(
-                          horizontal: 6, vertical: 4), // İç kenar boşluğu
+                          horizontal: AppTheme.space2xs, vertical: AppTheme.spaceXxs), // İç kenar boşluğu
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.center, // Metinleri ortala
                         mainAxisAlignment:
@@ -566,10 +566,12 @@ class _ProductCardState extends State<ProductCard> with SingleTickerProviderStat
                               // Fiyat etiketi
                               Container(
                                 padding:
-                                    EdgeInsets.symmetric(horizontal: 8, vertical: 4), // İç boşluk
+                                  const EdgeInsets.symmetric(
+                                    horizontal: AppTheme.spaceXs,
+                                    vertical: AppTheme.spaceXxs), // İç boşluk
                                 decoration: BoxDecoration(
                                   color: AppTheme.primaryColor, // Arka plan rengi
-                                  borderRadius: BorderRadius.circular(6), // Köşe yuvarlatma
+                                  borderRadius: BorderRadius.circular(AppTheme.radiusSmSoft), // Köşe yuvarlatma
                                   boxShadow: [
                                     BoxShadow(
                                       color: Colors.black.withValues(alpha: 0.2),
@@ -588,7 +590,7 @@ class _ProductCardState extends State<ProductCard> with SingleTickerProviderStat
                                 ),
                               ),
 
-                              SizedBox(width: 10), // Boşluk
+                              const SizedBox(width: AppTheme.spaceSm), // Boşluk
 
                               // Sepete ekle butonu - sadece bir ikon olarak
                               if (widget.showAddToCart)
@@ -608,7 +610,7 @@ class _ProductCardState extends State<ProductCard> with SingleTickerProviderStat
                                       color: widget.product.stock > 0
                                           ? AppTheme.primaryColor
                                           : Colors.grey.shade400, // Stokta yoksa gri
-                                      borderRadius: BorderRadius.circular(6), // Köşe yuvarlatma
+                                      borderRadius: BorderRadius.circular(AppTheme.radiusSmSoft), // Köşe yuvarlatma
                                       boxShadow: widget.product.stock > 0
                                           ? [
                                               BoxShadow(
@@ -638,7 +640,7 @@ class _ProductCardState extends State<ProductCard> with SingleTickerProviderStat
                           // Miktar kontrolleri - eğer sepete eklenmişse gösterilir
                           if (widget.showAddToCart && isInCart && quantity > 0)
                             Padding(
-                              padding: const EdgeInsets.only(top: 4), // Üst boşluk
+                              padding: const EdgeInsets.only(top: AppTheme.spaceXxs), // Üst boşluk
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.center, // İçeriği ortala
                                 children: [
@@ -654,7 +656,7 @@ class _ProductCardState extends State<ProductCard> with SingleTickerProviderStat
                                           color: AppTheme.primaryColor, // Çerçeve rengi
                                           width: 1.5, // Çerçeve kalınlığı
                                         ),
-                                        borderRadius: BorderRadius.circular(6), // Köşe yuvarlatma
+                                        borderRadius: BorderRadius.circular(AppTheme.radiusSmSoft), // Köşe yuvarlatma
                                       ),
                                       alignment: Alignment.center, // İkonu ortala
                                       child: Icon(
@@ -690,7 +692,7 @@ class _ProductCardState extends State<ProductCard> with SingleTickerProviderStat
                                           color: AppTheme.primaryColor, // Çerçeve rengi
                                           width: 1.5, // Çerçeve kalınlığı
                                         ),
-                                        borderRadius: BorderRadius.circular(6), // Köşe yuvarlatma
+                                        borderRadius: BorderRadius.circular(AppTheme.radiusSmSoft), // Köşe yuvarlatma
                                       ),
                                       alignment: Alignment.center, // İkonu ortala
                                       child: Icon(

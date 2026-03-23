@@ -1,5 +1,3 @@
-// ignore_for_file: avoid_web_libraries_in_flutter, deprecated_member_use
-
 import 'package:eksi_mayali_ekmek_web/models/order.dart';
 import 'package:eksi_mayali_ekmek_web/services/order_service.dart';
 import 'package:eksi_mayali_ekmek_web/theme/app_theme.dart';
@@ -28,7 +26,7 @@ import 'admin_orders_web.dart' if (dart.library.io) 'admin_orders_mobile.dart' a
 /// - Sipariş durumunu güncelleme (hazırlanıyor, yolda, teslim edildi, iptal)
 /// - Sipariş detaylarını görüntüleme
 class AdminOrdersPage extends StatefulWidget {
-  const AdminOrdersPage({Key? key}) : super(key: key);
+  const AdminOrdersPage({super.key});
 
   @override
   _AdminOrdersPageState createState() => _AdminOrdersPageState();
@@ -162,12 +160,12 @@ class _AdminOrdersPageState extends State<AdminOrdersPage> {
         builder: (context) => Center(
           child: Card(
             child: Padding(
-              padding: EdgeInsets.all(20),
+              padding: EdgeInsets.all(AppTheme.spaceXl),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   CircularProgressIndicator(),
-                  SizedBox(height: 16),
+                  SizedBox(height: AppTheme.spaceLg),
                   Text('Excel dosyası hazırlanıyor...'),
                 ],
               ),
@@ -243,7 +241,7 @@ class _AdminOrdersPageState extends State<AdminOrdersPage> {
         children: [
           // Başlık ve arama alanı
           Padding(
-            padding: const EdgeInsets.all(16.0),
+            padding: const EdgeInsets.all(AppTheme.spaceLg),
             child: Row(
               children: [
                 Expanded(
@@ -257,7 +255,7 @@ class _AdminOrdersPageState extends State<AdminOrdersPage> {
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      SizedBox(height: 4),
+                      SizedBox(height: AppTheme.spaceXxs),
                       Text(
                         'Tüm siparişleri görüntüleyip yönetebilirsiniz',
                         style: TextStyle(
@@ -283,7 +281,7 @@ class _AdminOrdersPageState extends State<AdminOrdersPage> {
 
           // Filtre ve arama bölümü
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            padding: const EdgeInsets.symmetric(horizontal: AppTheme.spaceLg),
             child: Column(
               children: [
                 // Arama kutusu
@@ -292,7 +290,7 @@ class _AdminOrdersPageState extends State<AdminOrdersPage> {
                     hintText: 'Müşteri adı, sipariş ID veya telefon ile ara',
                     prefixIcon: Icon(Icons.search),
                     border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8),
+                      borderRadius: BorderRadius.circular(AppTheme.radiusSm),
                     ),
                   ),
                   onChanged: (value) {
@@ -314,9 +312,12 @@ class _AdminOrdersPageState extends State<AdminOrdersPage> {
                         decoration: InputDecoration(
                           labelText: 'Sıralama',
                           border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(8),
+                            borderRadius: BorderRadius.circular(AppTheme.radiusSm),
                           ),
-                          contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                          contentPadding: EdgeInsets.symmetric(
+                            horizontal: AppTheme.spaceMd,
+                            vertical: AppTheme.spaceXs,
+                          ),
                         ),
                         value: _sortBy,
                         items: [
@@ -343,7 +344,7 @@ class _AdminOrdersPageState extends State<AdminOrdersPage> {
                         },
                       ),
                     ),
-                    SizedBox(width: 8),
+                    SizedBox(width: AppTheme.spaceXs),
 
                     // Sıralama yönü
                     IconButton(
@@ -362,7 +363,7 @@ class _AdminOrdersPageState extends State<AdminOrdersPage> {
             ),
           ),
 
-          SizedBox(height: 16),
+          SizedBox(height: AppTheme.spaceLg),
 
           // Siparişler listesi
           Expanded(
@@ -386,7 +387,7 @@ class _AdminOrdersPageState extends State<AdminOrdersPage> {
                           Expanded(
                             child: ListView.builder(
                               itemCount: _filteredOrders.length,
-                              padding: EdgeInsets.symmetric(horizontal: 16),
+                              padding: EdgeInsets.symmetric(horizontal: AppTheme.spaceLg),
                               itemBuilder: (context, index) {
                                 final order = _filteredOrders[index];
                                 return _buildOrderCard(order);
@@ -397,7 +398,10 @@ class _AdminOrdersPageState extends State<AdminOrdersPage> {
                           // Load More butonu (server-side pagination)
                           if (_hasMoreOrders && !_isLoadingMore)
                             Container(
-                              padding: EdgeInsets.symmetric(vertical: 16, horizontal: 24),
+                              padding: EdgeInsets.symmetric(
+                                vertical: AppTheme.spaceLg,
+                                horizontal: AppTheme.space2xl,
+                              ),
                               decoration: BoxDecoration(
                                 color: Colors.white,
                                 border: Border(top: BorderSide(color: Colors.grey.shade300)),
@@ -410,7 +414,10 @@ class _AdminOrdersPageState extends State<AdminOrdersPage> {
                                   style: ElevatedButton.styleFrom(
                                     foregroundColor: Colors.white,
                                     backgroundColor: AppTheme.primaryColor,
-                                    padding: EdgeInsets.symmetric(horizontal: 32, vertical: 16),
+                                    padding: EdgeInsets.symmetric(
+                                      horizontal: AppTheme.space3xl,
+                                      vertical: AppTheme.spaceLg,
+                                    ),
                                   ),
                                 ),
                               ),
@@ -419,7 +426,7 @@ class _AdminOrdersPageState extends State<AdminOrdersPage> {
                           // Loading indicator
                           if (_isLoadingMore)
                             Container(
-                              padding: EdgeInsets.all(16),
+                              padding: EdgeInsets.all(AppTheme.spaceLg),
                               child: Center(
                                 child: CircularProgressIndicator(),
                               ),
@@ -439,14 +446,16 @@ class _AdminOrdersPageState extends State<AdminOrdersPage> {
       String shortId = orderId.length > 8 ? orderId.substring(0, 8) : orderId;
 
       return Card(
-        margin: EdgeInsets.only(bottom: 16),
+        margin: EdgeInsets.only(bottom: AppTheme.spaceLg),
         elevation: 2,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(AppTheme.radiusMd),
+        ),
         child: InkWell(
           onTap: () => _showOrderDetails(order),
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(AppTheme.radiusMd),
           child: Padding(
-            padding: const EdgeInsets.all(16.0),
+            padding: const EdgeInsets.all(AppTheme.spaceLg),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -472,9 +481,9 @@ class _AdminOrdersPageState extends State<AdminOrdersPage> {
                     ),
                   ],
                 ),
-                SizedBox(height: 8),
+                SizedBox(height: AppTheme.spaceXs),
                 Divider(),
-                SizedBox(height: 8),
+                SizedBox(height: AppTheme.spaceXs),
 
                 // Orta kısım: Müşteri bilgileri
                 Row(
@@ -492,14 +501,14 @@ class _AdminOrdersPageState extends State<AdminOrdersPage> {
                               fontWeight: FontWeight.bold,
                             ),
                           ),
-                          SizedBox(height: 4),
+                          SizedBox(height: AppTheme.spaceXxs),
                           Text(
                             order.customerPhone,
                             style: TextStyle(
                               color: Colors.grey[700],
                             ),
                           ),
-                          SizedBox(height: 4),
+                          SizedBox(height: AppTheme.spaceXxs),
                           Text(
                             order.customerEmail,
                             style: TextStyle(
@@ -525,14 +534,14 @@ class _AdminOrdersPageState extends State<AdminOrdersPage> {
                               color: AppTheme.primaryColor,
                             ),
                           ),
-                          SizedBox(height: 8),
+                          SizedBox(height: AppTheme.spaceXs),
                           _buildStatusBadge(order.orderStatus.value),
                         ],
                       ),
                     ),
                   ],
                 ),
-                SizedBox(height: 16),
+                SizedBox(height: AppTheme.spaceLg),
 
                 // Alt kısım: Sipariş özeti ve aksiyonlar
                 Row(
@@ -553,7 +562,7 @@ class _AdminOrdersPageState extends State<AdminOrdersPage> {
                         if (order.customerPhone.isNotEmpty &&
                             WhatsAppHelper.isValidTurkishPhone(order.customerPhone))
                           Padding(
-                            padding: const EdgeInsets.only(right: 8.0),
+                            padding: const EdgeInsets.only(right: AppTheme.spaceXs),
                             child: IconButton(
                               onPressed: () async {
                                 try {
@@ -587,7 +596,7 @@ class _AdminOrdersPageState extends State<AdminOrdersPage> {
                             foregroundColor: AppTheme.primaryColor,
                           ),
                         ),
-                        SizedBox(width: 8),
+                        SizedBox(width: AppTheme.spaceXs),
                         // Detay butonu
                         ElevatedButton.icon(
                           onPressed: () => _showOrderDetails(order),
@@ -610,9 +619,9 @@ class _AdminOrdersPageState extends State<AdminOrdersPage> {
     } catch (e) {
       Logger.error('Sipariş kartı oluşturulurken hata: $e');
       return Card(
-        margin: EdgeInsets.only(bottom: 16),
+        margin: EdgeInsets.only(bottom: AppTheme.spaceLg),
         child: Padding(
-          padding: const EdgeInsets.all(16.0),
+          padding: const EdgeInsets.all(AppTheme.spaceLg),
           child: Text('Sipariş verisi görüntülenirken hata oluştu: ${order.id}'),
         ),
       );
@@ -651,10 +660,13 @@ class _AdminOrdersPageState extends State<AdminOrdersPage> {
     }
 
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+      padding: EdgeInsets.symmetric(
+        horizontal: AppTheme.spaceMd,
+        vertical: AppTheme.spaceXxs + 2,
+      ),
       decoration: BoxDecoration(
         color: backgroundColor,
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(AppTheme.radius2xl),
         border: Border.all(color: backgroundColor),
       ),
       child: Text(
@@ -697,7 +709,7 @@ class _AdminOrdersPageState extends State<AdminOrdersPage> {
                   Row(
                     children: [
                       Icon(Icons.location_on, color: Colors.red, size: 20),
-                      SizedBox(width: 8),
+                      SizedBox(width: AppTheme.spaceXs),
                       Text(
                         'Teslimat Konumu',
                         style: TextStyle(
@@ -707,12 +719,12 @@ class _AdminOrdersPageState extends State<AdminOrdersPage> {
                       ),
                     ],
                   ),
-                  SizedBox(height: 12),
+                  SizedBox(height: AppTheme.spaceMd),
                   Container(
-                    padding: EdgeInsets.all(12),
+                    padding: EdgeInsets.all(AppTheme.spaceMd),
                     decoration: BoxDecoration(
                       color: Colors.blue.withValues(alpha: 0.1),
-                      borderRadius: BorderRadius.circular(8),
+                      borderRadius: BorderRadius.circular(AppTheme.radiusSm),
                       border: Border.all(color: Colors.blue.withValues(alpha: 0.3)),
                     ),
                     child: Column(
@@ -722,12 +734,12 @@ class _AdminOrdersPageState extends State<AdminOrdersPage> {
                           'Enlem: ${order.latitude!.toStringAsFixed(6)}',
                           style: TextStyle(fontSize: 13),
                         ),
-                        SizedBox(height: 4),
+                        SizedBox(height: AppTheme.spaceXxs),
                         Text(
                           'Boylam: ${order.longitude!.toStringAsFixed(6)}',
                           style: TextStyle(fontSize: 13),
                         ),
-                        SizedBox(height: 12),
+                        SizedBox(height: AppTheme.spaceMd),
                         ElevatedButton.icon(
                           onPressed: () async {
                             final url = Uri.parse(
@@ -756,11 +768,11 @@ class _AdminOrdersPageState extends State<AdminOrdersPage> {
                     fontSize: 16,
                   ),
                 ),
-                SizedBox(height: 8),
+                SizedBox(height: AppTheme.spaceXs),
 
                 // Ürün listesi
                 ...order.items.map((item) => Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 4.0),
+                      padding: const EdgeInsets.symmetric(vertical: AppTheme.spaceXxs),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -831,7 +843,7 @@ class _AdminOrdersPageState extends State<AdminOrdersPage> {
 
   Widget _buildDetailItem(String label, String value) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 4.0),
+      padding: const EdgeInsets.symmetric(vertical: AppTheme.spaceXxs),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -845,7 +857,7 @@ class _AdminOrdersPageState extends State<AdminOrdersPage> {
               ),
             ),
           ),
-          SizedBox(width: 8),
+          SizedBox(width: AppTheme.spaceXs),
           Expanded(
             flex: 2,
             child: Text(value),
@@ -874,7 +886,7 @@ class _AdminOrdersPageState extends State<AdminOrdersPage> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text('Yeni sipariş durumunu seçin:'),
-                    SizedBox(height: 12),
+                    SizedBox(height: AppTheme.spaceMd),
                     DropdownButtonFormField<String>(
                       value: selectedStatus,
                       onChanged: (String? newValue) {
@@ -893,19 +905,22 @@ class _AdminOrdersPageState extends State<AdminOrdersPage> {
                       }).toList(),
                       decoration: InputDecoration(
                         border: OutlineInputBorder(),
-                        contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                        contentPadding: EdgeInsets.symmetric(
+                          horizontal: AppTheme.spaceMd,
+                          vertical: AppTheme.spaceXs,
+                        ),
                       ),
                     ),
 
                     // WhatsApp bildirim checkbox (telefon varsa)
                     if (order.customerPhone.isNotEmpty &&
                         WhatsAppHelper.isValidTurkishPhone(order.customerPhone)) ...[
-                      SizedBox(height: 16),
+                        SizedBox(height: AppTheme.spaceLg),
                       Container(
-                        padding: EdgeInsets.all(12),
+                        padding: EdgeInsets.all(AppTheme.spaceMd),
                         decoration: BoxDecoration(
                           color: Colors.green.withValues(alpha: 0.1),
-                          borderRadius: BorderRadius.circular(8),
+                          borderRadius: BorderRadius.circular(AppTheme.radiusSm),
                           border: Border.all(color: Colors.green.withValues(alpha: 0.3)),
                         ),
                         child: Column(
@@ -924,7 +939,7 @@ class _AdminOrdersPageState extends State<AdminOrdersPage> {
                                 ),
                               ],
                             ),
-                            SizedBox(height: 8),
+                            SizedBox(height: AppTheme.spaceXs),
                             CheckboxListTile(
                               value: sendWhatsAppNotification,
                               onChanged: (bool? value) {
@@ -955,7 +970,7 @@ class _AdminOrdersPageState extends State<AdminOrdersPage> {
                         'Durum Geçmişi',
                         style: TextStyle(fontWeight: FontWeight.bold),
                       ),
-                      SizedBox(height: 8),
+                              SizedBox(height: AppTheme.spaceXs),
                       Container(
                         constraints: BoxConstraints(maxHeight: 200),
                         child: ListView.builder(
@@ -967,7 +982,7 @@ class _AdminOrdersPageState extends State<AdminOrdersPage> {
                             final changedAt = h['changedAt']?.toString();
                             final role = h['changedByRole']?.toString() ?? '';
                             return Padding(
-                              padding: const EdgeInsets.symmetric(vertical: 4.0),
+                              padding: const EdgeInsets.symmetric(vertical: AppTheme.spaceXxs),
                               child: Row(
                                 children: [
                                   _buildStatusBadge(status),

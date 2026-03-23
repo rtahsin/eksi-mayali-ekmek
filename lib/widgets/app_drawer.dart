@@ -60,7 +60,10 @@ class AppDrawer extends StatelessWidget {
         children: [
           // Drawer Header
           Container(
-            padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 16),
+            padding: const EdgeInsets.symmetric(
+              vertical: AppTheme.space2xl,
+              horizontal: AppTheme.spaceLg,
+            ),
             decoration: BoxDecoration(
               color: isDark ? AppTheme.darkPrimaryColor : AppTheme.primaryColor,
               boxShadow: [
@@ -79,7 +82,7 @@ class AppDrawer extends StatelessWidget {
                   Row(
                     children: [
                       ClipRRect(
-                        borderRadius: BorderRadius.circular(8),
+                        borderRadius: BorderRadius.circular(AppTheme.radiusSm),
                         child: Image.asset(
                           'assets/logo/logo.png',
                           width: 56,
@@ -87,7 +90,7 @@ class AppDrawer extends StatelessWidget {
                           fit: BoxFit.cover,
                           errorBuilder: (context, error, stackTrace) {
                             return Container(
-                              padding: const EdgeInsets.all(8),
+                              padding: const EdgeInsets.all(AppTheme.spaceXs),
                               decoration: BoxDecoration(
                                 color: Colors.white.withValues(alpha: 0.2),
                                 shape: BoxShape.circle,
@@ -280,7 +283,7 @@ class AppDrawer extends StatelessWidget {
 
           // Footer
           Padding(
-            padding: const EdgeInsets.all(16.0),
+            padding: const EdgeInsets.all(AppTheme.spaceLg),
             child: Text(
               '© ${DateTime.now().year} EkmekLab',
               style: TextStyle(
@@ -315,7 +318,7 @@ class AppDrawer extends StatelessWidget {
       ),
       trailing: badge != null
           ? Container(
-              padding: const EdgeInsets.all(6),
+              padding: const EdgeInsets.all(AppTheme.spaceXxs + 2),
               decoration: BoxDecoration(
                 color: isDark ? AppTheme.darkPrimaryColor : AppTheme.primaryColor,
                 shape: BoxShape.circle,

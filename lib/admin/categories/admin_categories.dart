@@ -446,7 +446,7 @@ class _AdminCategoriesPageState extends State<AdminCategoriesPage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   CircularProgressIndicator(color: AppTheme.primaryColor),
-                  SizedBox(height: 16),
+                  SizedBox(height: AppTheme.spaceLg),
                   Text(
                     'Kategoriler yükleniyor...',
                     style: TextStyle(color: Colors.grey[600]),
@@ -464,13 +464,13 @@ class _AdminCategoriesPageState extends State<AdminCategoriesPage> {
                       flex: 3,
                       child: Card(
                         elevation: 2,
-                        margin: EdgeInsets.all(16),
+                        margin: EdgeInsets.all(AppTheme.spaceLg),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             // Başlık ve Ekle Butonu
                             Padding(
-                              padding: EdgeInsets.all(16),
+                              padding: EdgeInsets.all(AppTheme.spaceLg),
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
@@ -552,11 +552,14 @@ class _AdminCategoriesPageState extends State<AdminCategoriesPage> {
                                           final category = _filteredCategories[index];
                                           return Card(
                                             key: ValueKey(category.id),
-                                            margin:
-                                                EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                                            margin: EdgeInsets.symmetric(
+                                              horizontal: AppTheme.spaceXs,
+                                              vertical: AppTheme.spaceXxs,
+                                            ),
                                             elevation: 1,
                                             shape: RoundedRectangleBorder(
-                                              borderRadius: BorderRadius.circular(8),
+                                                borderRadius:
+                                                  BorderRadius.circular(AppTheme.radiusSm),
                                               side: _editingCategory?.id == category.id
                                                   ? BorderSide(
                                                       color: AppTheme.primaryColor, width: 2)
@@ -564,7 +567,10 @@ class _AdminCategoriesPageState extends State<AdminCategoriesPage> {
                                             ),
                                             child: ListTile(
                                               contentPadding:
-                                                  EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                                                  EdgeInsets.symmetric(
+                                                horizontal: AppTheme.spaceLg,
+                                                vertical: AppTheme.spaceXs,
+                                              ),
                                               leading: category.imageUrl != null &&
                                                       category.imageUrl!.isNotEmpty
                                                   ? CircleAvatar(
@@ -597,7 +603,7 @@ class _AdminCategoriesPageState extends State<AdminCategoriesPage> {
                                                     maxLines: 1,
                                                     overflow: TextOverflow.ellipsis,
                                                   ),
-                                                  SizedBox(height: 4),
+                                                  SizedBox(height: AppTheme.spaceXxs),
                                                   Text(
                                                     'Ürün Sayısı: ${category.productCount}',
                                                     style: TextStyle(
@@ -613,14 +619,16 @@ class _AdminCategoriesPageState extends State<AdminCategoriesPage> {
                                                   // Durum göstergesi
                                                   Container(
                                                     padding: EdgeInsets.symmetric(
-                                                      horizontal: 8,
-                                                      vertical: 4,
+                                                      horizontal: AppTheme.spaceXs,
+                                                      vertical: AppTheme.spaceXxs,
                                                     ),
                                                     decoration: BoxDecoration(
                                                       color: category.isActive
                                                           ? Colors.green[100]
                                                           : Colors.grey[300],
-                                                      borderRadius: BorderRadius.circular(10),
+                                                      borderRadius: BorderRadius.circular(
+                                                        AppTheme.radiusSm + 2,
+                                                      ),
                                                     ),
                                                     child: Text(
                                                       category.isActive ? 'Aktif' : 'Pasif',
@@ -632,7 +640,7 @@ class _AdminCategoriesPageState extends State<AdminCategoriesPage> {
                                                       ),
                                                     ),
                                                   ),
-                                                  SizedBox(width: 8),
+                                                  SizedBox(width: AppTheme.spaceXs),
                                                   // Düzenle butonu
                                                   IconButton(
                                                     onPressed: () {
@@ -760,7 +768,10 @@ class _AdminCategoriesPageState extends State<AdminCategoriesPage> {
               style: ElevatedButton.styleFrom(
                 backgroundColor: AppTheme.primaryColor,
                 foregroundColor: Colors.white,
-                padding: EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+                padding: EdgeInsets.symmetric(
+                  horizontal: AppTheme.space2xl,
+                  vertical: AppTheme.spaceLg,
+                ),
                 textStyle: TextStyle(fontSize: 16),
               ),
             ),
@@ -780,7 +791,7 @@ class _AdminCategoriesPageState extends State<AdminCategoriesPage> {
       children: [
         // Header
         Container(
-          padding: EdgeInsets.all(16),
+          padding: EdgeInsets.all(AppTheme.spaceLg),
           color: Colors.grey[50],
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -812,12 +823,15 @@ class _AdminCategoriesPageState extends State<AdminCategoriesPage> {
           child: _filteredCategories.isEmpty
               ? _buildEmptyState()
               : ListView.builder(
-                  padding: EdgeInsets.all(8),
+                  padding: EdgeInsets.all(AppTheme.spaceXs),
                   itemCount: _filteredCategories.length,
                   itemBuilder: (context, index) {
                     final category = _filteredCategories[index];
                     return Card(
-                      margin: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                      margin: EdgeInsets.symmetric(
+                        horizontal: AppTheme.spaceXs,
+                        vertical: AppTheme.spaceXxs,
+                      ),
                       child: ListTile(
                         leading: category.imageUrl != null && category.imageUrl!.isNotEmpty
                             ? CircleAvatar(
@@ -843,10 +857,13 @@ class _AdminCategoriesPageState extends State<AdminCategoriesPage> {
                           mainAxisSize: MainAxisSize.min,
                           children: [
                             Container(
-                              padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                              padding: EdgeInsets.symmetric(
+                                horizontal: AppTheme.spaceXs,
+                                vertical: AppTheme.spaceXxs,
+                              ),
                               decoration: BoxDecoration(
                                 color: category.isActive ? Colors.green[100] : Colors.grey[300],
-                                borderRadius: BorderRadius.circular(12),
+                                borderRadius: BorderRadius.circular(AppTheme.radiusMd),
                               ),
                               child: Text(
                                 category.isActive ? 'Aktif' : 'Pasif',
@@ -876,10 +893,10 @@ class _AdminCategoriesPageState extends State<AdminCategoriesPage> {
   Widget _buildFormCard() {
     return Card(
       elevation: 2,
-      margin: EdgeInsets.all(16),
+      margin: EdgeInsets.all(AppTheme.spaceLg),
       child: SingleChildScrollView(
         child: Padding(
-          padding: EdgeInsets.all(16),
+          padding: EdgeInsets.all(AppTheme.spaceLg),
           child: Form(
             key: _formKey,
             child: Column(
@@ -904,7 +921,7 @@ class _AdminCategoriesPageState extends State<AdminCategoriesPage> {
                   ],
                 ),
                 Divider(),
-                SizedBox(height: 16),
+                SizedBox(height: AppTheme.spaceLg),
 
                 // Görsel önizleme (eğer varsa)
                 if (_imageUrlController.text.isNotEmpty) ...[
@@ -913,7 +930,7 @@ class _AdminCategoriesPageState extends State<AdminCategoriesPage> {
                       width: 200,
                       height: 120,
                       decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(12),
+                        borderRadius: BorderRadius.circular(AppTheme.radiusMd),
                         image: DecorationImage(
                           image: NetworkImage(_imageUrlController.text),
                           fit: BoxFit.cover,
@@ -922,7 +939,7 @@ class _AdminCategoriesPageState extends State<AdminCategoriesPage> {
                       ),
                     ),
                   ),
-                  SizedBox(height: 16),
+                  SizedBox(height: AppTheme.spaceLg),
                 ],
 
                 // Form alanları - mevcut form içeriği buraya gelecek
@@ -963,7 +980,7 @@ class _AdminCategoriesPageState extends State<AdminCategoriesPage> {
             return null;
           },
         ),
-        SizedBox(height: 16),
+        SizedBox(height: AppTheme.spaceLg),
 
         // Açıklama
         TextFormField(
@@ -990,7 +1007,7 @@ class _AdminCategoriesPageState extends State<AdminCategoriesPage> {
             return null;
           },
         ),
-        SizedBox(height: 16),
+        SizedBox(height: AppTheme.spaceLg),
 
         // Resim (URL + Yükle)
         Row(
@@ -1006,7 +1023,7 @@ class _AdminCategoriesPageState extends State<AdminCategoriesPage> {
                 ),
               ),
             ),
-            const SizedBox(width: 12),
+            const SizedBox(width: AppTheme.spaceMd),
             ElevatedButton.icon(
               onPressed: _uploadingImage ? null : _pickAndUploadCategoryImage,
               icon: _uploadingImage
@@ -1020,7 +1037,7 @@ class _AdminCategoriesPageState extends State<AdminCategoriesPage> {
             ),
           ],
         ),
-        SizedBox(height: 16),
+        SizedBox(height: AppTheme.spaceLg),
 
         // Icon adı
         TextFormField(
@@ -1035,7 +1052,7 @@ class _AdminCategoriesPageState extends State<AdminCategoriesPage> {
             helperMaxLines: 2,
           ),
         ),
-        SizedBox(height: 16),
+        SizedBox(height: AppTheme.spaceLg),
 
         // Sıralama
         TextFormField(
@@ -1062,7 +1079,7 @@ class _AdminCategoriesPageState extends State<AdminCategoriesPage> {
             return null;
           },
         ),
-        SizedBox(height: 16),
+        SizedBox(height: AppTheme.spaceLg),
 
         // Durum
         SwitchListTile(
@@ -1076,7 +1093,7 @@ class _AdminCategoriesPageState extends State<AdminCategoriesPage> {
             });
           },
         ),
-        SizedBox(height: 24),
+        SizedBox(height: AppTheme.space2xl),
 
         // Butonlar
         Row(
@@ -1088,12 +1105,12 @@ class _AdminCategoriesPageState extends State<AdminCategoriesPage> {
               child: Text('İptal'),
               style: OutlinedButton.styleFrom(
                 padding: EdgeInsets.symmetric(
-                  horizontal: 24,
-                  vertical: 16,
+                  horizontal: AppTheme.space2xl,
+                  vertical: AppTheme.spaceLg,
                 ),
               ),
             ),
-            SizedBox(width: 16),
+            SizedBox(width: AppTheme.spaceLg),
 
             // Kaydet butonu
             ElevatedButton(
@@ -1112,8 +1129,8 @@ class _AdminCategoriesPageState extends State<AdminCategoriesPage> {
                 backgroundColor: AppTheme.primaryColor,
                 foregroundColor: Colors.white,
                 padding: EdgeInsets.symmetric(
-                  horizontal: 24,
-                  vertical: 16,
+                  horizontal: AppTheme.space2xl,
+                  vertical: AppTheme.spaceLg,
                 ),
               ),
             ),

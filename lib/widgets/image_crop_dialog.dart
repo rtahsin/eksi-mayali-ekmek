@@ -7,6 +7,8 @@ import 'package:crop_image/crop_image.dart';
 import 'package:flutter/material.dart';
 import 'package:image/image.dart' as img;
 
+import '../theme/app_theme.dart';
+
 /// Modern görsel kırpma dialog widget'ı
 /// Aspect ratio seçenekleri, zoom, döndürme ve önizleme ile
 class ImageCropDialog extends StatefulWidget {
@@ -127,7 +129,7 @@ class _ImageCropDialogState extends State<ImageCropDialog> {
 
     return Dialog(
       backgroundColor: Colors.black87,
-      insetPadding: EdgeInsets.all(isMobile ? 16 : 64),
+      insetPadding: EdgeInsets.all(isMobile ? AppTheme.spaceLg : AppTheme.spaceLg * AppTheme.spaceXxs),
       child: Container(
         constraints: BoxConstraints(
           maxWidth: isMobile ? size.width * 0.9 : 800,
@@ -137,7 +139,7 @@ class _ImageCropDialogState extends State<ImageCropDialog> {
           children: [
             // Header
             Container(
-              padding: const EdgeInsets.all(16),
+              padding: const EdgeInsets.all(AppTheme.spaceLg),
               decoration: BoxDecoration(
                 color: Colors.grey.shade900,
                 borderRadius: const BorderRadius.vertical(
@@ -171,7 +173,7 @@ class _ImageCropDialogState extends State<ImageCropDialog> {
                 color: Colors.black,
                 child: Center(
                   child: Padding(
-                    padding: const EdgeInsets.all(24),
+                    padding: const EdgeInsets.all(AppTheme.space2xl),
                     child: CropImage(
                       controller: _cropController,
                       image: Image.memory(widget.imageBytes),
@@ -190,7 +192,7 @@ class _ImageCropDialogState extends State<ImageCropDialog> {
 
             // Controls
             Container(
-              padding: const EdgeInsets.all(16),
+              padding: const EdgeInsets.all(AppTheme.spaceLg),
               decoration: BoxDecoration(
                 color: Colors.grey.shade900,
               ),
@@ -206,15 +208,15 @@ class _ImageCropDialogState extends State<ImageCropDialog> {
                         final isSelected = ratio == _selectedRatio;
                         return InkWell(
                           onTap: () => _changeAspectRatio(ratio),
-                          borderRadius: BorderRadius.circular(20),
+                          borderRadius: BorderRadius.circular(AppTheme.radius2xl),
                           child: Container(
                             padding: const EdgeInsets.symmetric(
-                              horizontal: 16,
-                              vertical: 8,
+                              horizontal: AppTheme.spaceLg,
+                              vertical: AppTheme.spaceXs,
                             ),
                             decoration: BoxDecoration(
                               color: isSelected ? Colors.blue : Colors.grey.shade800,
-                              borderRadius: BorderRadius.circular(20),
+                              borderRadius: BorderRadius.circular(AppTheme.radius2xl),
                               border: Border.all(
                                 color: isSelected ? Colors.blue.shade300 : Colors.transparent,
                               ),
@@ -274,8 +276,8 @@ class _ImageCropDialogState extends State<ImageCropDialog> {
                           foregroundColor: Colors.white70,
                           side: const BorderSide(color: Colors.white38),
                           padding: const EdgeInsets.symmetric(
-                            horizontal: 24,
-                            vertical: 12,
+                            horizontal: AppTheme.space2xl,
+                            vertical: AppTheme.spaceMd,
                           ),
                         ),
                       ),
@@ -306,8 +308,8 @@ class _ImageCropDialogState extends State<ImageCropDialog> {
                           backgroundColor: Colors.blue,
                           foregroundColor: Colors.white,
                           padding: const EdgeInsets.symmetric(
-                            horizontal: 32,
-                            vertical: 12,
+                            horizontal: AppTheme.space3xl,
+                            vertical: AppTheme.spaceMd,
                           ),
                         ),
                       ),

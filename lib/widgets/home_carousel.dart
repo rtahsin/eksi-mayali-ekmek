@@ -215,7 +215,7 @@ class _HomeCarouselState extends State<HomeCarousel> {
                   style: IconButton.styleFrom(
                     backgroundColor: AppTheme.primaryColor.withValues(alpha: 0.7),
                     shape: const CircleBorder(),
-                    padding: const EdgeInsets.all(12),
+                    padding: const EdgeInsets.all(AppTheme.spaceMd),
                   ),
                 ),
               ),
@@ -238,7 +238,7 @@ class _HomeCarouselState extends State<HomeCarousel> {
                   style: IconButton.styleFrom(
                     backgroundColor: AppTheme.primaryColor.withValues(alpha: 0.7),
                     shape: const CircleBorder(),
-                    padding: const EdgeInsets.all(12),
+                    padding: const EdgeInsets.all(AppTheme.spaceMd),
                   ),
                 ),
               ),
@@ -319,7 +319,7 @@ class _HomeCarouselState extends State<HomeCarousel> {
         // İçerik
         Padding(
           padding: EdgeInsets.symmetric(
-            horizontal: isDesktop ? 80 : (isTablet ? 40 : 20),
+            horizontal: isDesktop ? 80 : (isTablet ? AppTheme.space4xl : AppTheme.spaceXl),
           ),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -369,9 +369,12 @@ class _HomeCarouselState extends State<HomeCarousel> {
                 style: ElevatedButton.styleFrom(
                   backgroundColor: AppTheme.primaryColor,
                   foregroundColor: Colors.white,
-                  padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: AppTheme.space2xl,
+                    vertical: AppTheme.spaceLg,
+                  ),
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(30),
+                    borderRadius: BorderRadius.circular(AppTheme.radiusPill),
                   ),
                 ),
                 child: Text(

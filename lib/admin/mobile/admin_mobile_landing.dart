@@ -98,7 +98,7 @@ class _AdminMobileLandingState extends State<AdminMobileLanding> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               const CircularProgressIndicator(color: Colors.white),
-              const SizedBox(height: 24),
+              const SizedBox(height: AppTheme.space2xl),
               Text(
                 'Oturum kontrol ediliyor...',
                 style: TextStyle(
@@ -145,11 +145,11 @@ class _AdminMobileLandingState extends State<AdminMobileLanding> {
       ),
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.all(20.0),
+          padding: const EdgeInsets.all(AppTheme.spaceXl),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              const SizedBox(height: 20),
+              const SizedBox(height: AppTheme.spaceXl),
 
               // Hoş geldin mesajı
               Text(
@@ -160,7 +160,7 @@ class _AdminMobileLandingState extends State<AdminMobileLanding> {
                   color: Colors.grey[800],
                 ),
               ),
-              const SizedBox(height: 8),
+              const SizedBox(height: AppTheme.spaceXs),
               Text(
                 'Hızlı erişim için aşağıdaki butonları kullanın',
                 style: TextStyle(
@@ -169,14 +169,14 @@ class _AdminMobileLandingState extends State<AdminMobileLanding> {
                 ),
               ),
 
-              const SizedBox(height: 40),
+              const SizedBox(height: AppTheme.space3xl + AppTheme.spaceXs),
 
               // Hızlı erişim butonları
               Expanded(
                 child: GridView.count(
                   crossAxisCount: 2,
-                  mainAxisSpacing: 16,
-                  crossAxisSpacing: 16,
+                  mainAxisSpacing: AppTheme.spaceLg,
+                  crossAxisSpacing: AppTheme.spaceLg,
                   childAspectRatio: 1.1,
                   children: [
                     _buildQuickAccessCard(
@@ -221,20 +221,20 @@ class _AdminMobileLandingState extends State<AdminMobileLanding> {
                 ),
               ),
 
-              const SizedBox(height: 20),
+              const SizedBox(height: AppTheme.spaceXl),
 
               // Bilgi kartı
               Container(
-                padding: const EdgeInsets.all(16),
+                padding: const EdgeInsets.all(AppTheme.spaceLg),
                 decoration: BoxDecoration(
                   color: Colors.blue[50],
-                  borderRadius: BorderRadius.circular(12),
+                  borderRadius: BorderRadius.circular(AppTheme.radiusMd),
                   border: Border.all(color: Colors.blue[200]!),
                 ),
                 child: Row(
                   children: [
                     Icon(Icons.info_outline, color: Colors.blue[700], size: 24),
-                    const SizedBox(width: 12),
+                    const SizedBox(width: AppTheme.spaceMd),
                     Expanded(
                       child: Text(
                         'Bu sayfayı "Ana Ekrana Ekle" ile daha hızlı erişebilirsiniz',
@@ -264,15 +264,15 @@ class _AdminMobileLandingState extends State<AdminMobileLanding> {
     return Card(
       elevation: 2,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(AppTheme.radiusXl),
       ),
       child: InkWell(
         onTap: onTap,
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(AppTheme.radiusXl),
         child: Container(
-          padding: const EdgeInsets.all(20),
+          padding: const EdgeInsets.all(AppTheme.spaceXl),
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(16),
+            borderRadius: BorderRadius.circular(AppTheme.radiusXl),
             gradient: LinearGradient(
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
@@ -286,10 +286,10 @@ class _AdminMobileLandingState extends State<AdminMobileLanding> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Container(
-                padding: const EdgeInsets.all(16),
+                padding: const EdgeInsets.all(AppTheme.spaceLg),
                 decoration: BoxDecoration(
                   color: color.withValues(alpha: 0.15),
-                  borderRadius: BorderRadius.circular(16),
+                  borderRadius: BorderRadius.circular(AppTheme.radiusXl),
                 ),
                 child: Icon(
                   icon,
@@ -297,7 +297,7 @@ class _AdminMobileLandingState extends State<AdminMobileLanding> {
                   color: color,
                 ),
               ),
-              const SizedBox(height: 16),
+              const SizedBox(height: AppTheme.spaceLg),
               Text(
                 title,
                 textAlign: TextAlign.center,

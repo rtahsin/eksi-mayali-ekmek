@@ -54,7 +54,7 @@ class HomeHeader extends StatelessWidget {
           // Content
           Center(
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 24),
+              padding: const EdgeInsets.symmetric(horizontal: AppTheme.space2xl),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -111,8 +111,8 @@ class HomeHeader extends StatelessWidget {
                           backgroundColor: AppTheme.primaryColor,
                           foregroundColor: Colors.white,
                           padding: EdgeInsets.symmetric(
-                            horizontal: isDesktop ? 32 : 24,
-                            vertical: isDesktop ? 16 : 12,
+                            horizontal: isDesktop ? AppTheme.space3xl : AppTheme.space2xl,
+                            vertical: isDesktop ? AppTheme.spaceLg : AppTheme.spaceMd,
                           ),
                           textStyle: GoogleFonts.poppins(
                             fontSize: isDesktop ? 18 : 16,
@@ -139,8 +139,8 @@ class HomeHeader extends StatelessWidget {
                           side: const BorderSide(color: Colors.white, width: 2),
                           foregroundColor: Colors.white,
                           padding: EdgeInsets.symmetric(
-                            horizontal: isDesktop ? 32 : 24,
-                            vertical: isDesktop ? 16 : 12,
+                            horizontal: isDesktop ? AppTheme.space3xl : AppTheme.space2xl,
+                            vertical: isDesktop ? AppTheme.spaceLg : AppTheme.spaceMd,
                           ),
                           textStyle: GoogleFonts.poppins(
                             fontSize: isDesktop ? 18 : 16,

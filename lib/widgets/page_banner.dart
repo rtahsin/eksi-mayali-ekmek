@@ -4,6 +4,7 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
+import '../theme/app_theme.dart';
 import '../utils/logger.dart';
 
 /// Sayfa bazlı dinamik banner widget'ı
@@ -222,9 +223,11 @@ class _PageBannerState extends State<PageBanner> {
         final titleFontSize = isMobile ? 32.0 : 48.0;
         final subtitleFontSize = isMobile ? 16.0 : 20.0;
         final buttonPadding = isMobile
-            ? const EdgeInsets.symmetric(horizontal: 24, vertical: 14)
-            : const EdgeInsets.symmetric(horizontal: 40, vertical: 20);
-        final containerPadding = isMobile ? const EdgeInsets.all(16) : const EdgeInsets.all(32);
+          ? const EdgeInsets.symmetric(horizontal: AppTheme.space2xl, vertical: AppTheme.spaceMd)
+          : const EdgeInsets.symmetric(horizontal: AppTheme.space4xl, vertical: AppTheme.spaceXl);
+        final containerPadding = isMobile
+          ? const EdgeInsets.all(AppTheme.spaceLg)
+          : const EdgeInsets.all(AppTheme.space3xl);
 
         return Container(
           decoration: BoxDecoration(
@@ -289,7 +292,7 @@ class _PageBannerState extends State<PageBanner> {
                         foregroundColor: Colors.black87,
                         padding: buttonPadding,
                         shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(30),
+                          borderRadius: BorderRadius.circular(AppTheme.radiusPill),
                         ),
                         elevation: 8,
                       ),

@@ -62,11 +62,11 @@ class LoadingIndicator extends StatelessWidget {
           child: Card(
             elevation: 4,
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(16),
+              borderRadius: BorderRadius.circular(AppTheme.radiusXl),
             ),
             color: isDark ? AppTheme.darkCardColor : Colors.white,
             child: Padding(
-              padding: const EdgeInsets.all(24.0),
+              padding: const EdgeInsets.all(AppTheme.space2xl),
               child: loadingWidget,
             ),
           ),

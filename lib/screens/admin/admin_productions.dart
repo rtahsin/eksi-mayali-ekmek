@@ -267,7 +267,7 @@ class _AdminProductionsScreenState extends State<AdminProductionsScreen> {
                   children: [
                     // İstatistikler
                     Container(
-                      padding: EdgeInsets.all(isSmallScreen ? 12 : 16),
+                      padding: EdgeInsets.all(isSmallScreen ? AppTheme.spaceMd : AppTheme.spaceLg),
                       color: AppTheme.primaryColor.withValues(alpha: 0.1),
                       child: isSmallScreen
                           ? Column(
@@ -324,7 +324,7 @@ class _AdminProductionsScreenState extends State<AdminProductionsScreen> {
                     // Liste
                     Expanded(
                       child: ListView.builder(
-                        padding: EdgeInsets.all(16),
+                        padding: const EdgeInsets.all(AppTheme.spaceLg),
                         itemCount: _productions.length,
                         itemBuilder: (context, index) {
                           final production = _productions[index];

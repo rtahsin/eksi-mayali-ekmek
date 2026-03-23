@@ -264,10 +264,10 @@ class _MapLocationPickerState extends State<MapLocationPicker> {
                       _buildHelpItem('4️⃣', '"Bu Konumu Kullan" ile onaylayın'),
                       SizedBox(height: 12),
                       Container(
-                        padding: EdgeInsets.all(8),
+                        padding: EdgeInsets.all(AppTheme.spaceXs),
                         decoration: BoxDecoration(
                           color: Colors.blue[50],
-                          borderRadius: BorderRadius.circular(8),
+                          borderRadius: BorderRadius.circular(AppTheme.radiusSm),
                         ),
                         child: Row(
                           children: [
@@ -368,10 +368,10 @@ class _MapLocationPickerState extends State<MapLocationPicker> {
   /// Adres önizleme kartı
   Widget _buildAddressPreview() {
     return Container(
-      padding: EdgeInsets.all(16),
+      padding: EdgeInsets.all(AppTheme.spaceLg),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(AppTheme.radiusMd),
         boxShadow: [
           BoxShadow(
             color: Colors.black26,
@@ -462,9 +462,9 @@ class _MapLocationPickerState extends State<MapLocationPicker> {
         foregroundColor: Colors.white,
         disabledBackgroundColor: Colors.grey[300],
         disabledForegroundColor: Colors.grey[500],
-        padding: EdgeInsets.symmetric(vertical: 16),
+        padding: EdgeInsets.symmetric(vertical: AppTheme.spaceLg),
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(AppTheme.radiusMd),
         ),
         elevation: 6,
       ),
@@ -481,7 +481,7 @@ class _MapLocationPickerState extends State<MapLocationPicker> {
   /// Yardım item'ı
   Widget _buildHelpItem(String emoji, String text) {
     return Padding(
-      padding: EdgeInsets.only(bottom: 8),
+      padding: EdgeInsets.only(bottom: AppTheme.spaceXs),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

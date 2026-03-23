@@ -108,10 +108,11 @@ class _AdminRouterState extends State<AdminRouter> {
             }, SetOptions(merge: true));
 
             // Kullanıcı belgesini admin olarak işaretle
-            await firestore.collection('users').doc(currentUser.id).update({
+            // update() yerine set(merge:true) kullanarak belge yoksa da güvenli yaz.
+            await firestore.collection('users').doc(currentUser.id).set({
               'isAdmin': true,
               'updatedAt': DateTime.now().toIso8601String(),
-            });
+            }, SetOptions(merge: true));
 
             Logger.info('AdminRouter: Admin yetkisi veritabanında güncellendi');
 
@@ -195,11 +196,26 @@ class _AdminRouterState extends State<AdminRouter> {
             child: Text('Tamam'),
           ),
         ],
-        contentPadding: EdgeInsets.fromLTRB(24, 20, 24, 0),
-        titlePadding: EdgeInsets.fromLTRB(24, 24, 24, 0),
-        actionsPadding: EdgeInsets.fromLTRB(8, 8, 16, 16),
+        contentPadding: const EdgeInsets.fromLTRB(
+          AppTheme.space2xl,
+          AppTheme.spaceXl,
+          AppTheme.space2xl,
+          AppTheme.spaceZero,
+        ),
+        titlePadding: const EdgeInsets.fromLTRB(
+          AppTheme.space2xl,
+          AppTheme.space2xl,
+          AppTheme.space2xl,
+          AppTheme.spaceZero,
+        ),
+        actionsPadding: const EdgeInsets.fromLTRB(
+          AppTheme.spaceXs,
+          AppTheme.spaceXs,
+          AppTheme.spaceLg,
+          AppTheme.spaceLg,
+        ),
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(AppTheme.radiusMd),
         ),
       ),
     );

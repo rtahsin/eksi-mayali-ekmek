@@ -125,7 +125,7 @@ class _AnalyticsScreenState extends State<AnalyticsScreen>
     final formatter = NumberFormat.currency(locale: 'tr_TR', symbol: '₺');
 
     return SingleChildScrollView(
-      padding: const EdgeInsets.all(16.0),
+      padding: const EdgeInsets.all(AppTheme.spaceLg),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -157,7 +157,7 @@ class _AnalyticsScreenState extends State<AnalyticsScreen>
           const SizedBox(height: 8),
           Container(
             height: 200,
-            padding: const EdgeInsets.all(8),
+            padding: const EdgeInsets.all(AppTheme.spaceXs),
             child: _buildDailySalesChart(),
           ),
           const SizedBox(height: 24),
@@ -212,7 +212,7 @@ class _AnalyticsScreenState extends State<AnalyticsScreen>
                 if (value.toInt() >= 0 && value.toInt() < last7Days.length) {
                   final day = last7Days[value.toInt()];
                   return Padding(
-                    padding: const EdgeInsets.only(top: 8.0),
+                    padding: const EdgeInsets.only(top: AppTheme.spaceXs),
                     child: Text(
                       day.split('-').sublist(1).join('/'),
                       style: const TextStyle(fontSize: 10),
@@ -229,7 +229,7 @@ class _AnalyticsScreenState extends State<AnalyticsScreen>
               showTitles: true,
               getTitlesWidget: (value, meta) {
                 return Padding(
-                  padding: const EdgeInsets.only(right: 8.0),
+                  padding: const EdgeInsets.only(right: AppTheme.spaceXs),
                   child: Text(
                     '₺${value.toInt()}',
                     style: const TextStyle(fontSize: 10),
@@ -340,7 +340,7 @@ class _AnalyticsScreenState extends State<AnalyticsScreen>
     }
 
     return SingleChildScrollView(
-      padding: const EdgeInsets.all(16.0),
+      padding: const EdgeInsets.all(AppTheme.spaceLg),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -460,7 +460,7 @@ class _AnalyticsScreenState extends State<AnalyticsScreen>
     }
 
     return SingleChildScrollView(
-      padding: const EdgeInsets.all(16.0),
+      padding: const EdgeInsets.all(AppTheme.spaceLg),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -516,7 +516,7 @@ class _AnalyticsScreenState extends State<AnalyticsScreen>
           leading: product['imageUrl'] != null &&
                   product['imageUrl'].toString().isNotEmpty
               ? ClipRRect(
-                  borderRadius: BorderRadius.circular(4),
+                  borderRadius: BorderRadius.circular(AppTheme.radiusXxs),
                   child: Image.network(
                     product['imageUrl'],
                     width: 50,
@@ -568,7 +568,7 @@ class _AnalyticsScreenState extends State<AnalyticsScreen>
           leading: product['imageUrl'] != null &&
                   product['imageUrl'].toString().isNotEmpty
               ? ClipRRect(
-                  borderRadius: BorderRadius.circular(4),
+                  borderRadius: BorderRadius.circular(AppTheme.radiusXxs),
                   child: Image.network(
                     product['imageUrl'],
                     width: 50,
@@ -605,7 +605,7 @@ class _AnalyticsScreenState extends State<AnalyticsScreen>
     }
 
     return SingleChildScrollView(
-      padding: const EdgeInsets.all(16.0),
+      padding: const EdgeInsets.all(AppTheme.spaceLg),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -623,9 +623,9 @@ class _AnalyticsScreenState extends State<AnalyticsScreen>
 
               return Card(
                 elevation: 2,
-                margin: const EdgeInsets.only(bottom: 16),
+                margin: const EdgeInsets.only(bottom: AppTheme.spaceLg),
                 child: Padding(
-                  padding: const EdgeInsets.all(16.0),
+                  padding: const EdgeInsets.all(AppTheme.spaceLg),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -670,7 +670,7 @@ class _AnalyticsScreenState extends State<AnalyticsScreen>
                             ...(recommendation['actionItems'] as List)
                                 .map((action) {
                               return Padding(
-                                padding: const EdgeInsets.only(bottom: 4),
+                                padding: const EdgeInsets.only(bottom: AppTheme.spaceXxs),
                                 child: Row(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
@@ -726,14 +726,14 @@ class _AnalyticsScreenState extends State<AnalyticsScreen>
     return Card(
       elevation: 2,
       child: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(AppTheme.spaceLg),
         child: Row(
           children: [
             Container(
-              padding: const EdgeInsets.all(12),
+              padding: const EdgeInsets.all(AppTheme.spaceMd),
               decoration: BoxDecoration(
                 color: color.withValues(alpha: 0.1),
-                borderRadius: BorderRadius.circular(8),
+                borderRadius: BorderRadius.circular(AppTheme.radiusSm),
               ),
               child: Icon(
                 icon,

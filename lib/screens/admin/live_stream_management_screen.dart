@@ -302,12 +302,12 @@ class _LiveStreamManagementScreenState extends State<LiveStreamManagementScreen>
         return RefreshIndicator(
           onRefresh: () => youtubeService.fetchLiveStreams(),
           child: ListView.builder(
-            padding: const EdgeInsets.all(16),
+            padding: const EdgeInsets.all(AppTheme.spaceLg),
             itemCount: liveStreams.length,
             itemBuilder: (context, index) {
               final stream = liveStreams[index];
               return Card(
-                margin: const EdgeInsets.only(bottom: 16),
+                margin: const EdgeInsets.only(bottom: AppTheme.spaceLg),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -326,10 +326,10 @@ class _LiveStreamManagementScreenState extends State<LiveStreamManagementScreen>
                             left: 8,
                             child: Container(
                               padding: const EdgeInsets.symmetric(
-                                  horizontal: 8, vertical: 4),
+                                  horizontal: AppTheme.spaceXs, vertical: AppTheme.spaceXxs),
                               decoration: BoxDecoration(
                                 color: Colors.red,
-                                borderRadius: BorderRadius.circular(4),
+                                borderRadius: BorderRadius.circular(AppTheme.radiusXxs),
                               ),
                               child: const Text(
                                 'CANLI',
@@ -345,7 +345,7 @@ class _LiveStreamManagementScreenState extends State<LiveStreamManagementScreen>
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.all(12),
+                      padding: const EdgeInsets.all(AppTheme.spaceMd),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -444,7 +444,7 @@ class _LiveStreamManagementScreenState extends State<LiveStreamManagementScreen>
 
   Widget _buildNewStreamTab() {
     return SingleChildScrollView(
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.all(AppTheme.spaceLg),
       child: Form(
         key: _formKey,
         child: Column(
@@ -499,7 +499,7 @@ class _LiveStreamManagementScreenState extends State<LiveStreamManagementScreen>
             const SizedBox(height: 16),
             Card(
               child: Padding(
-                padding: const EdgeInsets.all(16),
+                padding: const EdgeInsets.all(AppTheme.spaceLg),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -671,7 +671,7 @@ class _LiveStreamManagementScreenState extends State<LiveStreamManagementScreen>
         }
 
         return ListView.builder(
-          padding: const EdgeInsets.all(16),
+          padding: const EdgeInsets.all(AppTheme.spaceLg),
           itemCount: scheduledStreams.length,
           itemBuilder: (context, index) {
             final stream = scheduledStreams[index];
@@ -679,7 +679,7 @@ class _LiveStreamManagementScreenState extends State<LiveStreamManagementScreen>
                 DateTime.parse(stream['scheduledStartTime'] as String);
 
             return Card(
-              margin: const EdgeInsets.only(bottom: 16),
+              margin: const EdgeInsets.only(bottom: AppTheme.spaceLg),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -698,10 +698,10 @@ class _LiveStreamManagementScreenState extends State<LiveStreamManagementScreen>
                           left: 8,
                           child: Container(
                             padding: const EdgeInsets.symmetric(
-                                horizontal: 8, vertical: 4),
+                                horizontal: AppTheme.spaceXs, vertical: AppTheme.spaceXxs),
                             decoration: BoxDecoration(
                               color: AppTheme.primaryColor,
-                              borderRadius: BorderRadius.circular(4),
+                              borderRadius: BorderRadius.circular(AppTheme.radiusXxs),
                             ),
                             child: const Text(
                               'PROGRAMLI',
@@ -717,7 +717,7 @@ class _LiveStreamManagementScreenState extends State<LiveStreamManagementScreen>
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.all(12),
+                    padding: const EdgeInsets.all(AppTheme.spaceMd),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [

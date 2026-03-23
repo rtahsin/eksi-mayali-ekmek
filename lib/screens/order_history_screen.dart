@@ -243,10 +243,10 @@ class _OrderHistoryScreenState extends State<OrderHistoryScreen> {
     }
 
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+      padding: const EdgeInsets.symmetric(horizontal: AppTheme.spaceMd, vertical: AppTheme.space2xs),
       decoration: BoxDecoration(
         color: color.withAlpha(26), // 0.1 opaklık değeri
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(AppTheme.radius2xl),
       ),
       child: Text(
         status.displayName,
@@ -324,25 +324,25 @@ class _OrderHistoryScreenState extends State<OrderHistoryScreen> {
                         size: 100,
                         color: theme.disabledColor,
                       ),
-                      const SizedBox(height: 20),
+                      const SizedBox(height: AppTheme.spaceXl),
                       Text(
                         'Henüz siparişiniz bulunmuyor',
                         style: theme.textTheme.titleLarge,
                       ),
-                      const SizedBox(height: 10),
+                      const SizedBox(height: AppTheme.spaceSm),
                       Text(
                         'Alışverişe başlayarak siparişlerinizi burada görebilirsiniz',
                         style: theme.textTheme.bodyMedium,
                         textAlign: TextAlign.center,
                       ),
-                      const SizedBox(height: 20),
+                      const SizedBox(height: AppTheme.spaceXl),
                       ElevatedButton(
                         onPressed: () {
                           Navigator.of(context).pushReplacementNamed('/');
                         },
                         child: const Text('Alışverişe Başla'),
                       ),
-                      const SizedBox(height: 20),
+                      const SizedBox(height: AppTheme.spaceXl),
                       OutlinedButton.icon(
                         onPressed: _fetchOrders,
                         icon: const Icon(Icons.refresh),
@@ -357,7 +357,7 @@ class _OrderHistoryScreenState extends State<OrderHistoryScreen> {
                     children: [
                       // Filtre ve arama başlığı
                       Padding(
-                        padding: const EdgeInsets.all(16.0),
+                        padding: const EdgeInsets.all(AppTheme.spaceLg),
                         child: Row(
                           children: [
                             Expanded(
@@ -387,7 +387,7 @@ class _OrderHistoryScreenState extends State<OrderHistoryScreen> {
   /// Arama ve filtreleme çubuğu
   Widget _buildSearchAndFilterBar() {
     return Container(
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.all(AppTheme.spaceLg),
       decoration: BoxDecoration(
         color: Colors.white,
         boxShadow: [
@@ -407,12 +407,12 @@ class _OrderHistoryScreenState extends State<OrderHistoryScreen> {
               hintText: 'Sipariş ara...',
               prefixIcon: const Icon(Icons.search),
               border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(12),
+                borderRadius: BorderRadius.circular(AppTheme.radiusMd),
                 borderSide: BorderSide.none,
               ),
               filled: true,
               fillColor: Colors.grey.shade100,
-              contentPadding: const EdgeInsets.symmetric(vertical: 0),
+              contentPadding: const EdgeInsets.symmetric(vertical: AppTheme.spaceZero),
             ),
             onChanged: (value) {
               setState(() {
@@ -422,7 +422,7 @@ class _OrderHistoryScreenState extends State<OrderHistoryScreen> {
             },
           ),
 
-          const SizedBox(height: 16),
+          const SizedBox(height: AppTheme.spaceLg),
 
           // Durum filtreleri
           SingleChildScrollView(
@@ -430,15 +430,15 @@ class _OrderHistoryScreenState extends State<OrderHistoryScreen> {
             child: Row(
               children: [
                 const Text('Filtrele: ', style: TextStyle(fontWeight: FontWeight.bold)),
-                const SizedBox(width: 8),
+                const SizedBox(width: AppTheme.spaceXs),
                 Wrap(
-                  spacing: 8,
+                  spacing: AppTheme.spaceXs,
                   children: OrderStatus.values.map((status) {
                     return _buildStatusFilterChip(status);
                   }).toList(),
                 ),
                 if (_selectedStatus != null) ...[
-                  const SizedBox(width: 8),
+                  const SizedBox(width: AppTheme.spaceXs),
                   ActionChip(
                     avatar: const Icon(Icons.clear, size: 16),
                     label: const Text('Filtreyi Temizle'),
@@ -464,13 +464,13 @@ class _OrderHistoryScreenState extends State<OrderHistoryScreen> {
         ? _buildNoSearchResultsWidget()
         : ListView.builder(
             controller: _scrollController,
-            padding: const EdgeInsets.all(16),
+            padding: const EdgeInsets.all(AppTheme.spaceLg),
             itemCount: _filteredOrders.length + (_isLoadingMore ? 1 : 0),
             itemBuilder: (context, index) {
               if (index == _filteredOrders.length) {
                 return const Center(
                   child: Padding(
-                    padding: EdgeInsets.all(16.0),
+                    padding: EdgeInsets.all(AppTheme.spaceLg),
                     child: CircularProgressIndicator(),
                   ),
                 );
@@ -480,10 +480,10 @@ class _OrderHistoryScreenState extends State<OrderHistoryScreen> {
               final formattedDate = DateFormat('dd.MM.yyyy HH:mm').format(order.dateTime);
 
               return Card(
-                margin: const EdgeInsets.only(bottom: 16),
+                margin: const EdgeInsets.only(bottom: AppTheme.spaceLg),
                 elevation: 2,
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
+                  borderRadius: BorderRadius.circular(AppTheme.radiusMd),
                 ),
                 child: InkWell(
                   onTap: () {
@@ -492,9 +492,9 @@ class _OrderHistoryScreenState extends State<OrderHistoryScreen> {
                       arguments: order.id,
                     );
                   },
-                  borderRadius: BorderRadius.circular(12),
+                  borderRadius: BorderRadius.circular(AppTheme.radiusMd),
                   child: Padding(
-                    padding: const EdgeInsets.all(16),
+                    padding: const EdgeInsets.all(AppTheme.spaceLg),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -511,7 +511,7 @@ class _OrderHistoryScreenState extends State<OrderHistoryScreen> {
                             _buildStatusChip(order.orderStatus),
                           ],
                         ),
-                        const SizedBox(height: 12),
+                        const SizedBox(height: AppTheme.spaceMd),
                         Text(
                           'Tarih: $formattedDate',
                           style: TextStyle(
@@ -519,7 +519,7 @@ class _OrderHistoryScreenState extends State<OrderHistoryScreen> {
                             fontSize: 14,
                           ),
                         ),
-                        const SizedBox(height: 8),
+                        const SizedBox(height: AppTheme.spaceXs),
                         Text(
                           'Adres: ${order.shippingAddress}',
                           style: TextStyle(
@@ -529,7 +529,7 @@ class _OrderHistoryScreenState extends State<OrderHistoryScreen> {
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                         ),
-                        const SizedBox(height: 16),
+                        const SizedBox(height: AppTheme.spaceLg),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
@@ -575,7 +575,7 @@ class _OrderHistoryScreenState extends State<OrderHistoryScreen> {
             size: 80,
             color: Colors.grey,
           ),
-          const SizedBox(height: 16),
+          const SizedBox(height: AppTheme.spaceLg),
           Text(
             'Arama sonucu bulunamadı',
             style: TextStyle(
@@ -584,7 +584,7 @@ class _OrderHistoryScreenState extends State<OrderHistoryScreen> {
               color: Colors.grey[800],
             ),
           ),
-          const SizedBox(height: 8),
+          const SizedBox(height: AppTheme.spaceXs),
           Text(
             '"$_searchQuery" için sonuç bulunamadı',
             style: TextStyle(
@@ -592,7 +592,7 @@ class _OrderHistoryScreenState extends State<OrderHistoryScreen> {
               color: Colors.grey[600],
             ),
           ),
-          const SizedBox(height: 24),
+          const SizedBox(height: AppTheme.space2xl),
           ElevatedButton.icon(
             onPressed: () {
               setState(() {

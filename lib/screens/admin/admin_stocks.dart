@@ -65,7 +65,7 @@ class _AdminStocksScreenState extends State<AdminStocksScreen> {
         actions: [
           if (lowStocks.isNotEmpty)
             Padding(
-              padding: EdgeInsets.only(right: 8),
+              padding: const EdgeInsets.only(right: AppTheme.spaceXs),
               child: Chip(
                 avatar: Icon(Icons.warning, color: Colors.white, size: 16),
                 label: Text('${lowStocks.length} Düşük'),
@@ -108,7 +108,7 @@ class _AdminStocksScreenState extends State<AdminStocksScreen> {
                     if (lowStocks.isNotEmpty)
                       Container(
                         width: double.infinity,
-                        padding: EdgeInsets.all(isSmallScreen ? 12 : 16),
+                        padding: EdgeInsets.all(isSmallScreen ? AppTheme.spaceMd : AppTheme.spaceLg),
                         decoration: BoxDecoration(
                           gradient: LinearGradient(
                             colors: [Colors.red[100]!, Colors.red[200]!],
@@ -147,32 +147,32 @@ class _AdminStocksScreenState extends State<AdminStocksScreen> {
                     // Liste
                     Expanded(
                       child: ListView.builder(
-                        padding: EdgeInsets.all(isSmallScreen ? 8 : 16),
+                        padding: EdgeInsets.all(isSmallScreen ? AppTheme.spaceXs : AppTheme.spaceLg),
                         itemCount: _stocks.length,
                         itemBuilder: (context, index) {
                           final stock = _stocks[index];
                           final isLowStock = stock.isLowStock;
                           
                           return Card(
-                            margin: EdgeInsets.only(bottom: isSmallScreen ? 8 : 12),
+                            margin: EdgeInsets.only(bottom: isSmallScreen ? AppTheme.spaceXs : AppTheme.spaceMd),
                             elevation: isLowStock ? 4 : 1,
                             color: isLowStock ? Colors.red[50] : null,
                             shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(12),
+                              borderRadius: BorderRadius.circular(AppTheme.radiusMd),
                               side: isLowStock
                                   ? BorderSide(color: Colors.red[300]!, width: 2)
                                   : BorderSide.none,
                             ),
                             child: ListTile(
                               contentPadding: EdgeInsets.symmetric(
-                                horizontal: isSmallScreen ? 12 : 16,
-                                vertical: isSmallScreen ? 8 : 12,
+                                horizontal: isSmallScreen ? AppTheme.spaceMd : AppTheme.spaceLg,
+                                vertical: isSmallScreen ? AppTheme.spaceXs : AppTheme.spaceMd,
                               ),
                               leading: Container(
-                                padding: EdgeInsets.all(isSmallScreen ? 8 : 10),
+                                padding: EdgeInsets.all(isSmallScreen ? AppTheme.spaceXs : AppTheme.spaceSm),
                                 decoration: BoxDecoration(
                                   color: isLowStock ? Colors.red : AppTheme.primaryColor,
-                                  borderRadius: BorderRadius.circular(10),
+                                  borderRadius: BorderRadius.circular(AppTheme.radiusLg),
                                 ),
                                 child: Icon(
                                   isLowStock ? Icons.warning_rounded : Icons.inventory_2_rounded,
@@ -205,7 +205,7 @@ class _AdminStocksScreenState extends State<AdminStocksScreen> {
                                   ),
                                   if (isLowStock)
                                     Padding(
-                                      padding: EdgeInsets.only(top: 4),
+                                      padding: const EdgeInsets.only(top: AppTheme.spaceXxs),
                                       child: Text(
                                         '🔔 Stok tamamlanmalı!',
                                         style: TextStyle(
@@ -219,10 +219,10 @@ class _AdminStocksScreenState extends State<AdminStocksScreen> {
                               ),
                               trailing: isLowStock
                                   ? Container(
-                                      padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                                      padding: const EdgeInsets.symmetric(horizontal: AppTheme.spaceXs, vertical: AppTheme.spaceXxs),
                                       decoration: BoxDecoration(
                                         color: Colors.red,
-                                        borderRadius: BorderRadius.circular(8),
+                                        borderRadius: BorderRadius.circular(AppTheme.radiusSm),
                                       ),
                                       child: Text(
                                         'DÜŞÜK',

@@ -1,5 +1,3 @@
-// ignore_for_file: use_super_parameters, prefer_const_constructors, prefer_const_literals_to_create_immutables, avoid_print, unused_field, unused_local_variable, unused_import
-
 import 'package:cloud_firestore/cloud_firestore.dart' hide Order;
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -75,14 +73,13 @@ class DashboardStats {
 }
 
 class AdminDashboardPage extends StatefulWidget {
-  const AdminDashboardPage({Key? key}) : super(key: key);
+  const AdminDashboardPage({super.key});
 
   @override
   State<AdminDashboardPage> createState() => _AdminDashboardPageState();
 }
 
 class _AdminDashboardPageState extends State<AdminDashboardPage> {
-  final int _selectedIndex = 0; // Ana sayfa seçili durumda
   bool _isLoading = true;
   DashboardStats _stats = DashboardStats();
   List<Order> _orders = [];
@@ -160,7 +157,7 @@ class _AdminDashboardPageState extends State<AdminDashboardPage> {
 
       for (var doc in todayOrdersSnapshot.docs) {
         final data = doc.data();
-        final status = data['orderStatus'] ?? '';
+        final status = (data['status'] ?? data['orderStatus'] ?? '').toString();
         final amount = (data['amount'] ?? 0.0) as num;
 
         switch (status) {
@@ -183,17 +180,23 @@ class _AdminDashboardPageState extends State<AdminDashboardPage> {
       int lowStockCount = 0;
       for (var doc in productsSnapshot.docs) {
         final data = doc.data();
-        final stock = (data['stock'] ?? 0) as int;
+        final stock = (data['stock'] as num?)?.toInt() ?? 0;
         if (stock < 10 && stock > 0) {
           lowStockCount++;
         }
       }
 
       // Bekleyen siparişler (pending + processing)
-      final pendingOrdersSnapshot = await firestore
-          .collection('siparisler')
-          .where('orderStatus', whereIn: ['pending', 'processing']).get();
-      int pendingOrderCount = pendingOrdersSnapshot.docs.length;
+      // Legacy uyumluluğu için hem status hem orderStatus alanlarını destekler.
+      final pendingOrdersSnapshot = await firestore.collection('siparisler').get();
+      int pendingOrderCount = 0;
+      for (final doc in pendingOrdersSnapshot.docs) {
+        final data = doc.data();
+        final status = (data['status'] ?? data['orderStatus'] ?? '').toString();
+        if (status == 'pending' || status == 'processing') {
+          pendingOrderCount++;
+        }
+      }
 
       setState(() {
         _stats = DashboardStats(
@@ -228,14 +231,14 @@ class _AdminDashboardPageState extends State<AdminDashboardPage> {
     return RefreshIndicator(
       onRefresh: _loadStats,
       child: SingleChildScrollView(
-        padding: EdgeInsets.all(isSmallScreen ? 12 : 16),
+        padding: EdgeInsets.all(isSmallScreen ? AppTheme.spaceMd : AppTheme.spaceLg),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // Modern hoş geldiniz kartı
             Container(
               width: double.infinity,
-              padding: EdgeInsets.all(isSmallScreen ? 16 : 24),
+              padding: EdgeInsets.all(isSmallScreen ? AppTheme.spaceLg : AppTheme.space2xl),
               decoration: BoxDecoration(
                 gradient: LinearGradient(
                   colors: [
@@ -245,7 +248,7 @@ class _AdminDashboardPageState extends State<AdminDashboardPage> {
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                 ),
-                borderRadius: BorderRadius.circular(20),
+                borderRadius: BorderRadius.circular(AppTheme.radius2xl),
                 boxShadow: [
                   BoxShadow(
                     color: AppTheme.primaryColor.withValues(alpha: 0.4),
@@ -260,10 +263,10 @@ class _AdminDashboardPageState extends State<AdminDashboardPage> {
                   Row(
                     children: [
                       Container(
-                        padding: EdgeInsets.all(isSmallScreen ? 10 : 12),
+                        padding: EdgeInsets.all(isSmallScreen ? AppTheme.spaceSm : AppTheme.spaceMd),
                         decoration: BoxDecoration(
                           color: Colors.white.withValues(alpha: 0.2),
-                          borderRadius: BorderRadius.circular(12),
+                          borderRadius: BorderRadius.circular(AppTheme.radiusMd),
                         ),
                         child: Icon(
                           Icons.bakery_dining_rounded,
@@ -306,7 +309,7 @@ class _AdminDashboardPageState extends State<AdminDashboardPage> {
             _isLoading
                 ? Center(
                     child: Padding(
-                      padding: EdgeInsets.all(40),
+                      padding: EdgeInsets.all(AppTheme.space4xl),
                       child: CircularProgressIndicator(
                         color: AppTheme.primaryColor,
                       ),
@@ -354,14 +357,14 @@ class _AdminDashboardPageState extends State<AdminDashboardPage> {
 
             // Bugünkü siparişler bölümü
             Container(
-              padding: EdgeInsets.all(16),
+              padding: EdgeInsets.all(AppTheme.spaceLg),
               decoration: BoxDecoration(
                 gradient: LinearGradient(
                   colors: [Colors.orange[50]!, Colors.orange[100]!],
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                 ),
-                borderRadius: BorderRadius.circular(16),
+                borderRadius: BorderRadius.circular(AppTheme.radiusXl),
                 border: Border.all(color: Colors.orange[200]!),
               ),
               child: Column(
@@ -418,10 +421,10 @@ class _AdminDashboardPageState extends State<AdminDashboardPage> {
                   ),
                   SizedBox(height: 12),
                   Container(
-                    padding: EdgeInsets.all(12),
+                    padding: EdgeInsets.all(AppTheme.spaceMd),
                     decoration: BoxDecoration(
                       color: Colors.white,
-                      borderRadius: BorderRadius.circular(8),
+                      borderRadius: BorderRadius.circular(AppTheme.radiusSm),
                     ),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -543,7 +546,7 @@ class _AdminDashboardPageState extends State<AdminDashboardPage> {
       color: Colors.transparent,
       child: InkWell(
         onTap: onTap,
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(AppTheme.radiusXl),
         child: Container(
           decoration: BoxDecoration(
             gradient: LinearGradient(
@@ -551,7 +554,7 @@ class _AdminDashboardPageState extends State<AdminDashboardPage> {
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
             ),
-            borderRadius: BorderRadius.circular(16),
+            borderRadius: BorderRadius.circular(AppTheme.radiusXl),
             boxShadow: [
               BoxShadow(
                 color: gradient[1].withValues(alpha: 0.3),
@@ -572,7 +575,7 @@ class _AdminDashboardPageState extends State<AdminDashboardPage> {
                 ),
               ),
               Padding(
-                padding: EdgeInsets.all(isSmallScreen ? 12 : 16),
+                padding: EdgeInsets.all(isSmallScreen ? AppTheme.spaceMd : AppTheme.spaceLg),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -626,11 +629,11 @@ class _AdminDashboardPageState extends State<AdminDashboardPage> {
       color: Colors.transparent,
       child: InkWell(
         onTap: onTap,
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(AppTheme.radiusMd),
         child: Container(
           decoration: BoxDecoration(
             color: color.withValues(alpha: 0.1),
-            borderRadius: BorderRadius.circular(12),
+            borderRadius: BorderRadius.circular(AppTheme.radiusMd),
             border: Border.all(
               color: color.withValues(alpha: 0.3),
               width: 1.5,
@@ -671,10 +674,10 @@ class _AdminDashboardPageState extends State<AdminDashboardPage> {
     required Color color,
   }) {
     return Container(
-      padding: EdgeInsets.all(12),
+      padding: EdgeInsets.all(AppTheme.spaceMd),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(AppTheme.radiusMd),
         border: Border.all(color: color.withValues(alpha: 0.3), width: 2),
       ),
       child: Column(

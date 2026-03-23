@@ -105,7 +105,7 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
                     textAlign: TextAlign.center,
                     style: TextStyle(fontSize: 18),
                   ),
-                  const SizedBox(height: 20),
+                  const SizedBox(height: AppTheme.spaceLg),
                   ElevatedButton(
                     onPressed: () {
                       Navigator.of(context).pushReplacementNamed(LoginScreen.routeName);
@@ -154,13 +154,13 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
             size: 80,
             color: Colors.grey[400],
           ),
-          const SizedBox(height: 16),
+          const SizedBox(height: AppTheme.spaceMd),
           Text(
             'Henüz favori ürününüz yok',
             style: Theme.of(context).textTheme.titleLarge,
             textAlign: TextAlign.center,
           ),
-          const SizedBox(height: 8),
+          const SizedBox(height: AppTheme.spaceSm),
           Text(
             'Beğendiğiniz ürünleri favorilere ekleyerek\ndaha sonra kolayca bulabilirsiniz',
             style: Theme.of(context).textTheme.titleMedium?.copyWith(
@@ -168,7 +168,7 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
                 ),
             textAlign: TextAlign.center,
           ),
-          const SizedBox(height: 24),
+          const SizedBox(height: AppTheme.spaceXl),
           ElevatedButton(
             onPressed: () {
               Navigator.of(context).pushReplacementNamed('/');
@@ -182,14 +182,14 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
 
   Widget _buildFavoritesList(BuildContext context, List<Product> favoriteProducts) {
     return ListView.builder(
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.all(AppTheme.spaceMd),
       itemCount: favoriteProducts.length,
       itemBuilder: (ctx, index) {
         final product = favoriteProducts[index];
 
         return Card(
           elevation: 2,
-          margin: const EdgeInsets.only(bottom: 16),
+          margin: const EdgeInsets.only(bottom: AppTheme.spaceMd),
           child: InkWell(
             onTap: () {
               Navigator.of(context).push(
@@ -199,12 +199,12 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
               );
             },
             child: Padding(
-              padding: const EdgeInsets.all(12),
+              padding: const EdgeInsets.all(AppTheme.spaceMd),
               child: Row(
                 children: [
                   // Ürün resmi
                   ClipRRect(
-                    borderRadius: BorderRadius.circular(8),
+                    borderRadius: BorderRadius.circular(AppTheme.radiusSm),
                     child: Image.network(
                       product.imageUrl,
                       width: 100,
@@ -220,7 +220,7 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
                       },
                     ),
                   ),
-                  const SizedBox(width: 16),
+                  const SizedBox(width: AppTheme.spaceMd),
                   // Ürün bilgileri
                   Expanded(
                     child: Column(
@@ -233,7 +233,7 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                        const SizedBox(height: 4),
+                        const SizedBox(height: AppTheme.spaceXs),
                         Text(
                           product.description,
                           maxLines: 2,
@@ -242,7 +242,7 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
                             color: Colors.grey[600],
                           ),
                         ),
-                        const SizedBox(height: 8),
+                        const SizedBox(height: AppTheme.spaceSm),
                         Text(
                           '${product.price.toStringAsFixed(2)} ₺',
                           style: const TextStyle(

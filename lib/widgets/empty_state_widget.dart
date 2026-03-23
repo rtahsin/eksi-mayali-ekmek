@@ -15,6 +15,8 @@
 
 import 'package:flutter/material.dart';
 
+import '../theme/app_theme.dart';
+
 class EmptyStateWidget extends StatelessWidget {
   final IconData icon;
   final String title;
@@ -165,7 +167,7 @@ class EmptyStateWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: Padding(
-        padding: const EdgeInsets.all(32.0),
+        padding: const EdgeInsets.all(AppTheme.space3xl),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           mainAxisSize: MainAxisSize.min,
@@ -208,11 +210,11 @@ class EmptyStateWidget extends StatelessWidget {
                 label: Text(actionButtonText!),
                 style: ElevatedButton.styleFrom(
                   padding: const EdgeInsets.symmetric(
-                    horizontal: 32,
-                    vertical: 16,
+                    horizontal: AppTheme.space3xl,
+                    vertical: AppTheme.spaceLg,
                   ),
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
+                    borderRadius: BorderRadius.circular(AppTheme.radiusMd),
                   ),
                 ),
               ),

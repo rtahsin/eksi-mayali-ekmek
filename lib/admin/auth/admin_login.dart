@@ -183,7 +183,7 @@ class _AdminLoginPageState extends State<AdminLoginPage> {
         child: Center(
           child: SingleChildScrollView(
             child: Padding(
-              padding: const EdgeInsets.all(24.0),
+              padding: const EdgeInsets.all(AppTheme.space2xl),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -191,11 +191,11 @@ class _AdminLoginPageState extends State<AdminLoginPage> {
                   Card(
                     elevation: 8,
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(16),
+                      borderRadius: BorderRadius.circular(AppTheme.radiusXl),
                     ),
                     child: Container(
                       width: 450,
-                      padding: EdgeInsets.all(32),
+                      padding: EdgeInsets.all(AppTheme.space3xl),
                       child: Column(
                         children: [
                           // Logo
@@ -242,10 +242,10 @@ class _AdminLoginPageState extends State<AdminLoginPage> {
                           // Hata mesajı
                           if (_errorMessage != null)
                             Container(
-                              padding: EdgeInsets.all(12),
+                              padding: EdgeInsets.all(AppTheme.spaceMd),
                               decoration: BoxDecoration(
                                 color: Colors.red[50],
-                                borderRadius: BorderRadius.circular(8),
+                                borderRadius: BorderRadius.circular(AppTheme.radiusSm),
                                 border: Border.all(
                                   color: Colors.red[200]!,
                                 ),
@@ -359,13 +359,13 @@ class _AdminLoginPageState extends State<AdminLoginPage> {
                                 ElevatedButton(
                                   onPressed: _isLoading ? null : _login,
                                   style: ElevatedButton.styleFrom(
-                                    padding: EdgeInsets.symmetric(vertical: 16),
+                                    padding: EdgeInsets.symmetric(vertical: AppTheme.spaceLg),
                                     backgroundColor: AppTheme.primaryColor,
                                     foregroundColor: Colors.white,
                                     disabledBackgroundColor:
                                         AppTheme.primaryColor.withValues(alpha: 0.5),
                                     shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(8),
+                                      borderRadius: BorderRadius.circular(AppTheme.radiusSm),
                                     ),
                                   ),
                                   child: _isLoading

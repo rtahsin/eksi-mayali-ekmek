@@ -31,14 +31,14 @@ class OrderScreen extends StatelessWidget {
         showBackButton: true,
       ),
       body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.all(AppTheme.spaceLg),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // Sipariş bilgileri
             Card(
               child: Padding(
-                padding: const EdgeInsets.all(16),
+                padding: const EdgeInsets.all(AppTheme.spaceLg),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -49,7 +49,7 @@ class OrderScreen extends StatelessWidget {
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    const SizedBox(height: 16),
+                    const SizedBox(height: AppTheme.spaceLg),
                     _buildInfoRow('Sipariş No', order.id),
                     _buildInfoRow('Tarih', order.dateTime.toString()),
                     _buildInfoRow('Durum', order.orderStatus.displayName),
@@ -59,11 +59,11 @@ class OrderScreen extends StatelessWidget {
                 ),
               ),
             ),
-            const SizedBox(height: 24),
+            const SizedBox(height: AppTheme.space2xl),
             // Müşteri bilgileri
             Card(
               child: Padding(
-                padding: const EdgeInsets.all(16),
+                padding: const EdgeInsets.all(AppTheme.spaceLg),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -74,7 +74,7 @@ class OrderScreen extends StatelessWidget {
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    const SizedBox(height: 16),
+                    const SizedBox(height: AppTheme.spaceLg),
                     _buildInfoRow('Ad Soyad', order.customerName),
                     _buildInfoRow('E-posta', order.customerEmail),
                     _buildInfoRow('Telefon', order.customerPhone),
@@ -85,11 +85,11 @@ class OrderScreen extends StatelessWidget {
                 ),
               ),
             ),
-            const SizedBox(height: 24),
+            const SizedBox(height: AppTheme.space2xl),
             // Sipariş ürünleri
             Card(
               child: Padding(
-                padding: const EdgeInsets.all(16),
+                padding: const EdgeInsets.all(AppTheme.spaceLg),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -100,9 +100,9 @@ class OrderScreen extends StatelessWidget {
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    const SizedBox(height: 16),
+                      const SizedBox(height: AppTheme.spaceLg),
                     ...order.items.map((item) => Padding(
-                          padding: const EdgeInsets.only(bottom: 8),
+                        padding: const EdgeInsets.only(bottom: AppTheme.spaceXs),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
@@ -149,7 +149,7 @@ class OrderScreen extends StatelessWidget {
 
   Widget _buildInfoRow(String label, String value) {
     return Padding(
-      padding: const EdgeInsets.only(bottom: 8),
+      padding: const EdgeInsets.only(bottom: AppTheme.spaceXs),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

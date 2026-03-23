@@ -184,7 +184,7 @@ class _SavedAddressesBottomSheetState extends State<SavedAddressesBottomSheet> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
-          padding: EdgeInsets.fromLTRB(16, 0, 16, 8),
+          padding: EdgeInsets.fromLTRB(AppTheme.spaceLg, AppTheme.spaceZero, AppTheme.spaceLg, AppTheme.spaceXs),
           child: Row(
             children: [
               Icon(Icons.history, size: 18, color: Colors.grey[600]),
@@ -204,7 +204,7 @@ class _SavedAddressesBottomSheetState extends State<SavedAddressesBottomSheet> {
           height: 90,
           child: ListView.builder(
             scrollDirection: Axis.horizontal,
-            padding: EdgeInsets.symmetric(horizontal: 12),
+            padding: EdgeInsets.symmetric(horizontal: AppTheme.spaceMd),
             itemCount: displayAddresses.length,
             itemBuilder: (ctx, idx) {
               final address = displayAddresses[idx];
@@ -228,11 +228,11 @@ class _SavedAddressesBottomSheetState extends State<SavedAddressesBottomSheet> {
                 },
                 child: Container(
                   width: 140,
-                  margin: EdgeInsets.symmetric(horizontal: 4),
-                  padding: EdgeInsets.all(12),
+                  margin: EdgeInsets.symmetric(horizontal: AppTheme.spaceXxs),
+                  padding: EdgeInsets.all(AppTheme.spaceMd),
                   decoration: BoxDecoration(
                     color: cardColor.withValues(alpha: 0.15),
-                    borderRadius: BorderRadius.circular(12),
+                    borderRadius: BorderRadius.circular(AppTheme.radiusMd),
                     border: Border.all(color: cardColor.withValues(alpha: 0.3)),
                   ),
                   child: Column(
@@ -514,16 +514,16 @@ ${address.title}
       height: MediaQuery.of(context).size.height * 0.75,
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+        borderRadius: BorderRadius.vertical(top: Radius.circular(AppTheme.radius2xl)),
       ),
       child: Column(
         children: [
           // Header
           Container(
-            padding: EdgeInsets.all(16),
+            padding: EdgeInsets.all(AppTheme.spaceLg),
             decoration: BoxDecoration(
               color: AppTheme.primaryColor,
-              borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+              borderRadius: BorderRadius.vertical(top: Radius.circular(AppTheme.radius2xl)),
             ),
             child: Row(
               children: [
@@ -550,7 +550,7 @@ ${address.title}
           // Search bar
           if (!_isLoading && _addresses.isNotEmpty)
             Padding(
-              padding: EdgeInsets.all(16),
+              padding: EdgeInsets.all(AppTheme.spaceLg),
               child: TextField(
                 controller: _searchController,
                 decoration: InputDecoration(
@@ -565,20 +565,20 @@ ${address.title}
                         )
                       : null,
                   border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
+                    borderRadius: BorderRadius.circular(AppTheme.radiusMd),
                     borderSide: BorderSide(color: Colors.grey[300]!),
                   ),
                   enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
+                    borderRadius: BorderRadius.circular(AppTheme.radiusMd),
                     borderSide: BorderSide(color: Colors.grey[300]!),
                   ),
                   focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
+                    borderRadius: BorderRadius.circular(AppTheme.radiusMd),
                     borderSide: BorderSide(color: AppTheme.primaryColor, width: 2),
                   ),
                   filled: true,
                   fillColor: Colors.grey[50],
-                  contentPadding: EdgeInsets.symmetric(vertical: 12),
+                  contentPadding: EdgeInsets.symmetric(vertical: AppTheme.spaceMd),
                 ),
               ),
             ),
@@ -629,7 +629,7 @@ ${address.title}
                       style: ElevatedButton.styleFrom(
                         backgroundColor: AppTheme.primaryColor,
                         foregroundColor: Colors.white,
-                        padding: EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                        padding: EdgeInsets.symmetric(horizontal: AppTheme.space2xl, vertical: AppTheme.spaceMd),
                       ),
                     ),
                   ],
@@ -656,7 +656,7 @@ ${address.title}
                       ),
                     )
                   : ListView.separated(
-                      padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                      padding: EdgeInsets.symmetric(horizontal: AppTheme.spaceLg, vertical: AppTheme.spaceXs),
                       itemCount: _filteredAddresses.length,
                       separatorBuilder: (ctx, idx) => SizedBox(height: 12),
                       itemBuilder: (ctx, idx) {
@@ -669,7 +669,7 @@ ${address.title}
           // Add button (eğer adres varsa)
           if (!_isLoading && _addresses.isNotEmpty)
             Padding(
-              padding: EdgeInsets.all(16),
+              padding: EdgeInsets.all(AppTheme.spaceLg),
               child: ElevatedButton.icon(
                 onPressed: _addNewAddress,
                 icon: Icon(Icons.add_location),
@@ -679,7 +679,7 @@ ${address.title}
                   foregroundColor: Colors.white,
                   minimumSize: Size(double.infinity, 50),
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
+                    borderRadius: BorderRadius.circular(AppTheme.radiusMd),
                   ),
                 ),
               ),
@@ -699,7 +699,7 @@ ${address.title}
 
     return Card(
       elevation: 4,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(AppTheme.radiusMd)),
       child: InkWell(
         onTap: () async {
           // Update lastUsed before selection
@@ -714,19 +714,19 @@ ${address.title}
           widget.onAddressSelected(address);
           Navigator.pop(context);
         },
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(AppTheme.radiusMd),
         child: Padding(
-          padding: EdgeInsets.all(16),
+          padding: EdgeInsets.all(AppTheme.spaceLg),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Row(
                 children: [
                   Container(
-                    padding: EdgeInsets.all(8),
+                    padding: EdgeInsets.all(AppTheme.spaceXs),
                     decoration: BoxDecoration(
                       color: cardColor.withValues(alpha: 0.2),
-                      borderRadius: BorderRadius.circular(8),
+                      borderRadius: BorderRadius.circular(AppTheme.radiusSm),
                     ),
                     child: Text(
                       iconText,
@@ -751,12 +751,12 @@ ${address.title}
                               SizedBox(width: 8),
                               Container(
                                 padding: EdgeInsets.symmetric(
-                                  horizontal: 8,
+                                  horizontal: AppTheme.spaceXs,
                                   vertical: 2,
                                 ),
                                 decoration: BoxDecoration(
                                   color: Colors.green,
-                                  borderRadius: BorderRadius.circular(4),
+                                  borderRadius: BorderRadius.circular(AppTheme.spaceXxs),
                                 ),
                                 child: Text(
                                   'Varsayılan',

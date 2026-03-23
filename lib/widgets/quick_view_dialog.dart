@@ -29,7 +29,7 @@ class QuickViewDialog extends StatelessWidget {
 
     return Dialog(
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(AppTheme.radiusXl),
       ),
       backgroundColor: isDark ? AppTheme.darkCardColor : Colors.white,
       child: Container(
@@ -44,7 +44,7 @@ class QuickViewDialog extends StatelessWidget {
           children: [
             // Başlık ve Kapat butonu
             Padding(
-              padding: const EdgeInsets.all(16.0),
+              padding: const EdgeInsets.all(AppTheme.spaceLg),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -67,7 +67,7 @@ class QuickViewDialog extends StatelessWidget {
             Expanded(
               child: SingleChildScrollView(
                 child: Padding(
-                  padding: const EdgeInsets.all(16.0),
+                  padding: const EdgeInsets.all(AppTheme.spaceLg),
                   child: isSmallScreen
                       ? _buildMobileLayout(context)
                       : _buildDesktopLayout(context),
@@ -76,7 +76,7 @@ class QuickViewDialog extends StatelessWidget {
             ),
             // Alt butonlar
             Padding(
-              padding: const EdgeInsets.all(16.0),
+              padding: const EdgeInsets.all(AppTheme.spaceLg),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -95,7 +95,7 @@ class QuickViewDialog extends StatelessWidget {
                       foregroundColor: AppTheme.primaryColor,
                       side: BorderSide(color: AppTheme.primaryColor),
                       padding:
-                          EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                          EdgeInsets.symmetric(horizontal: AppTheme.spaceLg, vertical: AppTheme.spaceMd),
                     ),
                   ),
                   ElevatedButton.icon(
@@ -109,7 +109,7 @@ class QuickViewDialog extends StatelessWidget {
                       backgroundColor: AppTheme.primaryColor,
                       foregroundColor: Colors.white,
                       padding:
-                          EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                          EdgeInsets.symmetric(horizontal: AppTheme.spaceLg, vertical: AppTheme.spaceMd),
                     ),
                   ),
                 ],
@@ -127,7 +127,7 @@ class QuickViewDialog extends StatelessWidget {
       children: [
         // Ürün görseli
         ClipRRect(
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(AppTheme.radiusMd),
           child: CachedNetworkImage(
             imageUrl: product.imageUrl,
             height: 200,
@@ -150,15 +150,15 @@ class QuickViewDialog extends StatelessWidget {
             ),
           ),
         ),
-        SizedBox(height: 16),
+        SizedBox(height: AppTheme.spaceLg),
         // Fiyat
         Row(
           children: [
             Container(
-              padding: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+              padding: EdgeInsets.symmetric(horizontal: AppTheme.spaceMd, vertical: AppTheme.spaceXs),
               decoration: BoxDecoration(
                 color: AppTheme.primaryColor,
-                borderRadius: BorderRadius.circular(20),
+                borderRadius: BorderRadius.circular(AppTheme.radius2xl),
               ),
               child: Text(
                 '${product.price.toStringAsFixed(2)} ₺',
@@ -169,13 +169,13 @@ class QuickViewDialog extends StatelessWidget {
                 ),
               ),
             ),
-            SizedBox(width: 8),
+            SizedBox(width: AppTheme.spaceXs),
             if (product.discountPercentage > 0)
               Container(
-                padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                padding: EdgeInsets.symmetric(horizontal: AppTheme.spaceXs, vertical: AppTheme.spaceXxs),
                 decoration: BoxDecoration(
                   color: Colors.red,
-                  borderRadius: BorderRadius.circular(12),
+                  borderRadius: BorderRadius.circular(AppTheme.radiusMd),
                 ),
                 child: Text(
                   '%${product.discountPercentage.toInt()} ${StaticTexts.discount}',
@@ -188,13 +188,13 @@ class QuickViewDialog extends StatelessWidget {
               ),
           ],
         ),
-        SizedBox(height: 16),
+        SizedBox(height: AppTheme.spaceLg),
         // Kategori
         Container(
-          padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+          padding: EdgeInsets.symmetric(horizontal: AppTheme.spaceSm, vertical: AppTheme.space5),
           decoration: BoxDecoration(
             color: Theme.of(context).cardColor,
-            borderRadius: BorderRadius.circular(12),
+            borderRadius: BorderRadius.circular(AppTheme.radiusMd),
             border: Border.all(
               color: AppTheme.primaryColor.withValues(alpha: 0.3),
               width: 1,
@@ -209,7 +209,7 @@ class QuickViewDialog extends StatelessWidget {
             ),
           ),
         ),
-        SizedBox(height: 16),
+        SizedBox(height: AppTheme.spaceLg),
         // Açıklama
         Text(
           product.description,
@@ -230,7 +230,7 @@ class QuickViewDialog extends StatelessWidget {
         Expanded(
           flex: 4,
           child: ClipRRect(
-            borderRadius: BorderRadius.circular(12),
+            borderRadius: BorderRadius.circular(AppTheme.radiusMd),
             child: CachedNetworkImage(
               imageUrl: product.imageUrl,
               height: 300,
@@ -253,7 +253,7 @@ class QuickViewDialog extends StatelessWidget {
             ),
           ),
         ),
-        SizedBox(width: 24),
+        SizedBox(width: AppTheme.space2xl),
         // Ürün bilgileri
         Expanded(
           flex: 6,
@@ -264,10 +264,10 @@ class QuickViewDialog extends StatelessWidget {
               Row(
                 children: [
                   Container(
-                    padding: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                    padding: EdgeInsets.symmetric(horizontal: AppTheme.spaceMd, vertical: AppTheme.spaceXs),
                     decoration: BoxDecoration(
                       color: AppTheme.primaryColor,
-                      borderRadius: BorderRadius.circular(20),
+                      borderRadius: BorderRadius.circular(AppTheme.radius2xl),
                     ),
                     child: Text(
                       '${product.price.toStringAsFixed(2)} ₺',
@@ -278,13 +278,13 @@ class QuickViewDialog extends StatelessWidget {
                       ),
                     ),
                   ),
-                  SizedBox(width: 12),
+                  SizedBox(width: AppTheme.spaceMd),
                   if (product.discountPercentage > 0)
                     Container(
-                      padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                      padding: EdgeInsets.symmetric(horizontal: AppTheme.spaceXs, vertical: AppTheme.spaceXxs),
                       decoration: BoxDecoration(
                         color: Colors.red,
-                        borderRadius: BorderRadius.circular(12),
+                        borderRadius: BorderRadius.circular(AppTheme.radiusMd),
                       ),
                       child: Text(
                         '%${product.discountPercentage.toInt()} ${StaticTexts.discount}',
@@ -297,13 +297,13 @@ class QuickViewDialog extends StatelessWidget {
                     ),
                 ],
               ),
-              SizedBox(height: 16),
+              SizedBox(height: AppTheme.spaceLg),
               // Kategori
               Container(
-                padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                padding: EdgeInsets.symmetric(horizontal: AppTheme.spaceSm, vertical: AppTheme.space5),
                 decoration: BoxDecoration(
                   color: Theme.of(context).cardColor,
-                  borderRadius: BorderRadius.circular(12),
+                  borderRadius: BorderRadius.circular(AppTheme.radiusMd),
                   border: Border.all(
                     color: AppTheme.primaryColor.withValues(alpha: 0.3),
                     width: 1,
@@ -318,7 +318,7 @@ class QuickViewDialog extends StatelessWidget {
                   ),
                 ),
               ),
-              SizedBox(height: 24),
+              SizedBox(height: AppTheme.space2xl),
               // Açıklama
               Text(
                 product.description,

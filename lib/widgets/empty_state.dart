@@ -32,7 +32,7 @@ class EmptyState extends StatelessWidget {
 
     return Center(
       child: Padding(
-        padding: const EdgeInsets.all(32.0),
+        padding: const EdgeInsets.all(AppTheme.space3xl),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -48,7 +48,7 @@ class EmptyState extends StatelessWidget {
                   curve: Curves.elasticOut,
                 ),
 
-            const SizedBox(height: 24),
+            const SizedBox(height: AppTheme.space2xl),
 
             // Başlık
             Text(
@@ -62,7 +62,7 @@ class EmptyState extends StatelessWidget {
                 .fadeIn(duration: 400.ms)
                 .slideY(begin: 0.2, end: 0, curve: Curves.easeOut),
 
-            const SizedBox(height: 12),
+            const SizedBox(height: AppTheme.spaceMd),
 
             // Mesaj
             Text(
@@ -80,6 +80,7 @@ class EmptyState extends StatelessWidget {
             // Action Button
             if (action != null) ...[
               const SizedBox(height: 32),
+              
               action!.animate(delay: 400.ms).fadeIn(duration: 400.ms).scale(
                     begin: Offset(0.9, 0.9),
                     end: Offset(1.0, 1.0),
@@ -112,7 +113,7 @@ class EmptyCart extends StatelessWidget {
         label: Text('Alışverişe Başla'),
         style: ElevatedButton.styleFrom(
           backgroundColor: AppTheme.primaryColor,
-          padding: EdgeInsets.symmetric(horizontal: 32, vertical: 16),
+          padding: EdgeInsets.symmetric(horizontal: AppTheme.space3xl, vertical: AppTheme.spaceLg),
         ),
       ),
     );
@@ -137,7 +138,7 @@ class EmptyOrders extends StatelessWidget {
         child: Text('Sipariş Ver'),
         style: ElevatedButton.styleFrom(
           backgroundColor: AppTheme.primaryColor,
-          padding: EdgeInsets.symmetric(horizontal: 32, vertical: 16),
+          padding: EdgeInsets.symmetric(horizontal: AppTheme.space3xl, vertical: AppTheme.spaceLg),
         ),
       ),
     );
@@ -162,7 +163,7 @@ class EmptyFavorites extends StatelessWidget {
         child: Text('Ürünleri Keşfet'),
         style: ElevatedButton.styleFrom(
           backgroundColor: AppTheme.primaryColor,
-          padding: EdgeInsets.symmetric(horizontal: 32, vertical: 16),
+          padding: EdgeInsets.symmetric(horizontal: AppTheme.space3xl, vertical: AppTheme.spaceLg),
         ),
       ),
     );

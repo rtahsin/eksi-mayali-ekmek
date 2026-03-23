@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../core/di/service_locator.dart';
 import '../services/auth_service.dart';
 import '../services/notification_service.dart';
+import '../theme/app_theme.dart';
 
 /// Bildirim ikonu pozisyonu için enum
 enum NotificationIconPosition {
@@ -74,7 +75,7 @@ class _NotificationIconState extends State<NotificationIcon> {
             size: widget.iconSize,
             color: widget.iconColor ?? theme.iconTheme.color,
           ),
-          padding: widget.padding ?? const EdgeInsets.all(8.0),
+          padding: widget.padding ?? const EdgeInsets.all(AppTheme.spaceXs),
           onPressed: widget.onTap,
         ),
         if (_unreadCount > 0)
@@ -85,7 +86,7 @@ class _NotificationIconState extends State<NotificationIcon> {
               padding: const EdgeInsets.all(2),
               decoration: BoxDecoration(
                 color: widget.badgeColor ?? Colors.red,
-                borderRadius: BorderRadius.circular(10),
+                borderRadius: BorderRadius.circular(AppTheme.spaceSm),
               ),
               constraints: const BoxConstraints(
                 minWidth: 16,

@@ -128,10 +128,13 @@ class _PersonalizedRecommendationsState extends State<PersonalizedRecommendation
     final isTablet = deviceType == DeviceType.tablet;
     final isMobile = deviceType == DeviceType.mobile;
 
-    final horizontalPadding = isMobile ? 8.0 : 16.0;
+    final horizontalPadding = isMobile ? AppTheme.spaceXs : AppTheme.spaceLg;
 
     return Container(
-      padding: EdgeInsets.symmetric(vertical: 24, horizontal: horizontalPadding),
+      padding: EdgeInsets.symmetric(
+        vertical: AppTheme.space2xl,
+        horizontal: horizontalPadding,
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -238,7 +241,7 @@ class _PersonalizedRecommendationsState extends State<PersonalizedRecommendation
     return Container(
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(AppTheme.radiusXl),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withValues(alpha: 0.05),
@@ -257,7 +260,7 @@ class _PersonalizedRecommendationsState extends State<PersonalizedRecommendation
               children: [
                 // Ürün resmi
                 ClipRRect(
-                  borderRadius: BorderRadius.circular(8),
+                  borderRadius: BorderRadius.circular(AppTheme.radiusSm),
                   child: CachedNetworkImage(
                     imageUrl: product.imageUrl,
                     width: 120,
@@ -286,10 +289,13 @@ class _PersonalizedRecommendationsState extends State<PersonalizedRecommendation
                     top: 8,
                     left: 8,
                     child: Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: AppTheme.spaceXs,
+                        vertical: AppTheme.spaceXxs,
+                      ),
                       decoration: BoxDecoration(
                         color: AppTheme.accentColor,
-                        borderRadius: BorderRadius.circular(8),
+                        borderRadius: BorderRadius.circular(AppTheme.radiusSm),
                       ),
                       child: Text(
                         '%${product.discountPercentage.toInt()} İndirim',
@@ -308,10 +314,13 @@ class _PersonalizedRecommendationsState extends State<PersonalizedRecommendation
                     top: 8,
                     right: 8,
                     child: Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: AppTheme.spaceXs,
+                        vertical: AppTheme.spaceXxs,
+                      ),
                       decoration: BoxDecoration(
                         color: Colors.green,
-                        borderRadius: BorderRadius.circular(8),
+                        borderRadius: BorderRadius.circular(AppTheme.radiusSm),
                       ),
                       child: const Text(
                         'Organik',
@@ -384,7 +393,7 @@ class _PersonalizedRecommendationsState extends State<PersonalizedRecommendation
                               ),
                             );
                           },
-                          padding: const EdgeInsets.all(8),
+                          padding: const EdgeInsets.all(AppTheme.spaceXs),
                           constraints: const BoxConstraints(),
                         );
                       },
@@ -397,7 +406,7 @@ class _PersonalizedRecommendationsState extends State<PersonalizedRecommendation
 
           // Ürün bilgileri
           Padding(
-            padding: const EdgeInsets.all(12),
+            padding: const EdgeInsets.all(AppTheme.spaceMd),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [

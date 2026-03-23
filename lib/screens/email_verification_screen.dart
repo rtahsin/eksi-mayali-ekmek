@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../services/auth_service.dart';
+import '../theme/app_theme.dart';
 
 class EmailVerificationScreen extends StatefulWidget {
   static const routeName = '/verify-email';
@@ -166,7 +167,7 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
     return Scaffold(
       appBar: AppBar(title: const Text('E-posta Doğrulama')),
       body: Padding(
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.all(AppTheme.spaceLg),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [

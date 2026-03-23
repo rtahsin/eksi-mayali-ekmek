@@ -412,7 +412,7 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
 
   Widget _buildProfileTab(User user) {
     return SingleChildScrollView(
-      padding: EdgeInsets.all(16),
+      padding: EdgeInsets.all(AppTheme.spaceLg),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -421,10 +421,10 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
             Card(
               elevation: 4,
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(16),
+                borderRadius: BorderRadius.circular(AppTheme.radiusXl),
               ),
               child: Padding(
-                padding: EdgeInsets.all(16),
+                padding: EdgeInsets.all(AppTheme.spaceLg),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -523,11 +523,11 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                           backgroundColor: AppTheme.primaryColor,
                           foregroundColor: Colors.white,
                           shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12),
+                            borderRadius: BorderRadius.circular(AppTheme.radiusMd),
                           ),
                         ),
                         child: Padding(
-                          padding: EdgeInsets.symmetric(vertical: 12),
+                          padding: EdgeInsets.symmetric(vertical: AppTheme.spaceMd),
                           child: Text(
                             'Profili Düzenle',
                             style: TextStyle(
@@ -563,7 +563,7 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                       labelText: 'Ad Soyad',
                       prefixIcon: Icon(Icons.person),
                       border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
+                        borderRadius: BorderRadius.circular(AppTheme.radiusMd),
                       ),
                     ),
                     validator: (value) {
@@ -582,7 +582,7 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                       labelText: 'Telefon',
                       prefixIcon: Icon(Icons.phone),
                       border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
+                        borderRadius: BorderRadius.circular(AppTheme.radiusMd),
                       ),
                     ),
                     keyboardType: TextInputType.phone,
@@ -603,7 +603,7 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                         labelText: 'Doğum Tarihi',
                         prefixIcon: Icon(Icons.cake),
                         border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(12),
+                          borderRadius: BorderRadius.circular(AppTheme.radiusMd),
                         ),
                       ),
                       child: Row(
@@ -628,7 +628,7 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                       labelText: 'Adres',
                       prefixIcon: Icon(Icons.home),
                       border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
+                        borderRadius: BorderRadius.circular(AppTheme.radiusMd),
                       ),
                     ),
                     maxLines: 3,
@@ -648,7 +648,7 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                       labelText: 'Hakkımda',
                       prefixIcon: Icon(Icons.info_outline),
                       border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
+                        borderRadius: BorderRadius.circular(AppTheme.radiusMd),
                       ),
                     ),
                     maxLines: 3,
@@ -669,9 +669,9 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                           style: OutlinedButton.styleFrom(
                             foregroundColor: Colors.grey,
                             side: BorderSide(color: Colors.grey),
-                            padding: EdgeInsets.symmetric(vertical: 16),
+                            padding: EdgeInsets.symmetric(vertical: AppTheme.spaceLg),
                             shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(12),
+                              borderRadius: BorderRadius.circular(AppTheme.radiusMd),
                             ),
                           ),
                           child: Text('İptal'),
@@ -684,9 +684,9 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                           style: ElevatedButton.styleFrom(
                             backgroundColor: AppTheme.primaryColor,
                             foregroundColor: Colors.white,
-                            padding: EdgeInsets.symmetric(vertical: 16),
+                            padding: EdgeInsets.symmetric(vertical: AppTheme.spaceLg),
                             shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(12),
+                              borderRadius: BorderRadius.circular(AppTheme.radiusMd),
                             ),
                           ),
                           child: _isLoading
@@ -720,7 +720,7 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
     final addresses = authService.getUserAddresses(); // AuthService'den adresleri al
 
     return SingleChildScrollView(
-      padding: EdgeInsets.all(16),
+      padding: EdgeInsets.all(AppTheme.spaceLg),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -793,16 +793,16 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
               itemBuilder: (context, index) {
                 final address = addresses[index];
                 return Card(
-                  margin: EdgeInsets.only(bottom: 12),
+                  margin: EdgeInsets.only(bottom: AppTheme.spaceMd),
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
+                    borderRadius: BorderRadius.circular(AppTheme.radiusMd),
                     side: BorderSide(
                       color: address.isDefault ? AppTheme.primaryColor : Colors.transparent,
                       width: address.isDefault ? 2 : 0,
                     ),
                   ),
                   child: Padding(
-                    padding: EdgeInsets.all(16),
+                    padding: EdgeInsets.all(AppTheme.spaceLg),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -824,10 +824,10 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                             ),
                             if (address.isDefault)
                               Container(
-                                padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                                padding: EdgeInsets.symmetric(horizontal: AppTheme.spaceXs, vertical: AppTheme.spaceXxs),
                                 decoration: BoxDecoration(
                                   color: AppTheme.primaryColor.withValues(alpha: 0.1),
-                                  borderRadius: BorderRadius.circular(12),
+                                  borderRadius: BorderRadius.circular(AppTheme.radiusMd),
                                 ),
                                 child: Text(
                                   'Varsayılan',
@@ -1410,9 +1410,9 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
               style: ElevatedButton.styleFrom(
                 backgroundColor: AppTheme.primaryColor,
                 foregroundColor: Colors.white,
-                padding: EdgeInsets.symmetric(horizontal: 32, vertical: 12),
+                padding: EdgeInsets.symmetric(horizontal: AppTheme.space3xl, vertical: AppTheme.spaceMd),
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
+                  borderRadius: BorderRadius.circular(AppTheme.radiusMd),
                 ),
               ),
               child: Text('Alışverişe Başla'),
@@ -1425,7 +1425,7 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
     return RefreshIndicator(
       onRefresh: _loadOrders,
       child: ListView.builder(
-        padding: EdgeInsets.all(16),
+        padding: EdgeInsets.all(AppTheme.spaceLg),
         itemCount: orders.length,
         itemBuilder: (context, index) {
           final order = orders[index];
@@ -1466,10 +1466,10 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
     }
 
     return Card(
-      margin: EdgeInsets.only(bottom: 16),
+      margin: EdgeInsets.only(bottom: AppTheme.spaceLg),
       elevation: 2,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(AppTheme.radiusMd),
       ),
       child: InkWell(
         onTap: () {
@@ -1483,9 +1483,9 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
             ),
           );
         },
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(AppTheme.radiusMd),
         child: Padding(
-          padding: EdgeInsets.all(16),
+          padding: EdgeInsets.all(AppTheme.spaceLg),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -1541,7 +1541,7 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
               if (order.items.isNotEmpty) ...[
                 SizedBox(height: 8),
                 ...order.items.take(2).map((item) => Padding(
-                      padding: EdgeInsets.only(bottom: 4),
+                      padding: EdgeInsets.only(bottom: AppTheme.spaceXxs),
                       child: Row(
                         children: [
                           Text(
@@ -1631,7 +1631,7 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
   // Profil ayarları sekmesi
   Widget _buildSettingsTab(bool isAdmin) {
     return ListView(
-      padding: EdgeInsets.symmetric(vertical: 16, horizontal: 16),
+      padding: EdgeInsets.symmetric(vertical: AppTheme.spaceLg, horizontal: AppTheme.spaceLg),
       children: [
         // Hesap Ayarları
         _buildSectionTitle('Hesap Ayarları'),
@@ -1793,10 +1793,10 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
               if (isGoogleUser) ...[
                 SizedBox(height: 12),
                 Container(
-                  padding: EdgeInsets.all(12),
+                  padding: EdgeInsets.all(AppTheme.spaceMd),
                   decoration: BoxDecoration(
                     color: Colors.blue[50],
-                    borderRadius: BorderRadius.circular(8),
+                    borderRadius: BorderRadius.circular(AppTheme.radiusSm),
                     border: Border.all(color: Colors.blue[200]!),
                   ),
                   child: Row(
@@ -1969,10 +1969,10 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                 ),
               ] else ...[
                 Container(
-                  padding: EdgeInsets.all(12),
+                  padding: EdgeInsets.all(AppTheme.spaceMd),
                   decoration: BoxDecoration(
                     color: Colors.orange[50],
-                    borderRadius: BorderRadius.circular(8),
+                    borderRadius: BorderRadius.circular(AppTheme.radiusSm),
                     border: Border.all(color: Colors.orange[200]!),
                   ),
                   child: Row(
@@ -2089,9 +2089,9 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
       leading: Icon(icon, color: color ?? AppTheme.secondaryColor),
       trailing: Icon(Icons.chevron_right, color: Colors.grey),
       onTap: onTap,
-      contentPadding: EdgeInsets.symmetric(vertical: 4, horizontal: 16),
+      contentPadding: EdgeInsets.symmetric(vertical: AppTheme.spaceXxs, horizontal: AppTheme.spaceLg),
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: BorderRadius.circular(AppTheme.radiusSm),
       ),
     );
   }
@@ -2099,7 +2099,7 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
   // Ayarlar sekmesinde bölüm başlığı
   Widget _buildSectionTitle(String title) {
     return Padding(
-      padding: const EdgeInsets.only(top: 16, bottom: 8, left: 8),
+      padding: const EdgeInsets.only(top: AppTheme.spaceLg, bottom: AppTheme.spaceXs, left: AppTheme.spaceXs),
       child: Text(
         title,
         style: TextStyle(

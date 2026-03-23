@@ -45,7 +45,7 @@ class SkeletonLoader extends StatelessWidget {
         width: width,
         decoration: BoxDecoration(
           color: Colors.white,
-          borderRadius: borderRadius ?? BorderRadius.circular(8),
+          borderRadius: borderRadius ?? BorderRadius.circular(AppTheme.radiusSm),
         ),
       ),
     );
@@ -62,7 +62,7 @@ class ProductCardSkeleton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       elevation: 2,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(AppTheme.radiusMd)),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -73,7 +73,7 @@ class ProductCardSkeleton extends StatelessWidget {
             borderRadius: BorderRadius.vertical(top: Radius.circular(12)),
           ),
           Padding(
-            padding: EdgeInsets.all(12),
+            padding: EdgeInsets.all(AppTheme.spaceMd),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -81,21 +81,21 @@ class ProductCardSkeleton extends StatelessWidget {
                 SkeletonLoader(
                   height: 20,
                   width: 150,
-                  borderRadius: BorderRadius.circular(4),
+                  borderRadius: BorderRadius.circular(AppTheme.radiusXxs),
                 ),
                 SizedBox(height: 8),
                 // Fiyat
                 SkeletonLoader(
                   height: 16,
                   width: 100,
-                  borderRadius: BorderRadius.circular(4),
+                  borderRadius: BorderRadius.circular(AppTheme.radiusXxs),
                 ),
                 SizedBox(height: 12),
                 // Buton
                 SkeletonLoader(
                   height: 36,
                   width: double.infinity,
-                  borderRadius: BorderRadius.circular(8),
+                  borderRadius: BorderRadius.circular(AppTheme.radiusSm),
                 ),
               ],
             ),
@@ -122,7 +122,7 @@ class ListItemSkeleton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      padding: EdgeInsets.symmetric(horizontal: AppTheme.spaceLg, vertical: AppTheme.spaceXs),
       child: Row(
         children: [
           // Avatar/Icon
@@ -130,7 +130,7 @@ class ListItemSkeleton extends StatelessWidget {
             SkeletonLoader(
               height: 48,
               width: 48,
-              borderRadius: BorderRadius.circular(24),
+              borderRadius: BorderRadius.circular(AppTheme.space2xl),
             ),
             SizedBox(width: 12),
           ],
@@ -142,13 +142,13 @@ class ListItemSkeleton extends StatelessWidget {
                 SkeletonLoader(
                   height: 16,
                   width: double.infinity,
-                  borderRadius: BorderRadius.circular(4),
+                  borderRadius: BorderRadius.circular(AppTheme.radiusXxs),
                 ),
                 SizedBox(height: 8),
                 SkeletonLoader(
                   height: 14,
                   width: 200,
-                  borderRadius: BorderRadius.circular(4),
+                  borderRadius: BorderRadius.circular(AppTheme.radiusXxs),
                 ),
               ],
             ),
@@ -159,7 +159,7 @@ class ListItemSkeleton extends StatelessWidget {
             SkeletonLoader(
               height: 32,
               width: 60,
-              borderRadius: BorderRadius.circular(16),
+              borderRadius: BorderRadius.circular(AppTheme.radiusXl),
             ),
           ],
         ],
@@ -186,7 +186,7 @@ class SkeletonGrid extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GridView.builder(
-      padding: EdgeInsets.all(16),
+      padding: EdgeInsets.all(AppTheme.spaceLg),
       shrinkWrap: true,
       physics: NeverScrollableScrollPhysics(),
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -238,7 +238,7 @@ class BlogCardSkeleton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       elevation: 2,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(AppTheme.radiusMd)),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -249,7 +249,7 @@ class BlogCardSkeleton extends StatelessWidget {
             borderRadius: BorderRadius.vertical(top: Radius.circular(12)),
           ),
           Padding(
-            padding: EdgeInsets.all(16),
+            padding: EdgeInsets.all(AppTheme.spaceLg),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -266,7 +266,7 @@ class BlogCardSkeleton extends StatelessWidget {
                 Row(
                   children: [
                     SkeletonLoader(height: 12, width: 80),
-                    SizedBox(width: 16),
+                    SizedBox(width: AppTheme.spaceLg),
                     SkeletonLoader(height: 12, width: 100),
                   ],
                 ),
@@ -293,17 +293,17 @@ class TableRowSkeleton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+      padding: EdgeInsets.symmetric(vertical: AppTheme.spaceMd, horizontal: AppTheme.spaceLg),
       child: Row(
         children: List.generate(
           columnCount,
           (index) => Expanded(
             child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 8),
+              padding: EdgeInsets.symmetric(horizontal: AppTheme.spaceXs),
               child: SkeletonLoader(
                 height: 16,
                 width: double.infinity,
-                borderRadius: BorderRadius.circular(4),
+                borderRadius: BorderRadius.circular(AppTheme.radiusXxs),
               ),
             ),
           ),

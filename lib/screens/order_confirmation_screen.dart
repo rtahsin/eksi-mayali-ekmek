@@ -94,7 +94,7 @@ class _OrderConfirmationScreenState extends State<OrderConfirmationScreen>
   Widget _buildErrorState(bool isDark) {
     return Center(
       child: Padding(
-        padding: const EdgeInsets.all(24.0),
+        padding: const EdgeInsets.all(AppTheme.space2xl),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -103,7 +103,7 @@ class _OrderConfirmationScreenState extends State<OrderConfirmationScreen>
               size: 100,
               color: Colors.red.shade400,
             ),
-            const SizedBox(height: 24),
+            const SizedBox(height: AppTheme.space2xl),
             Text(
               'Sipariş Bulunamadı',
               style: GoogleFonts.poppins(
@@ -112,7 +112,7 @@ class _OrderConfirmationScreenState extends State<OrderConfirmationScreen>
                 color: isDark ? Colors.white : AppTheme.textColor,
               ),
             ),
-            const SizedBox(height: 12),
+            const SizedBox(height: AppTheme.spaceMd),
             Text(
               'Sipariş bilgileriniz yüklenirken bir hata oluştu.',
               textAlign: TextAlign.center,
@@ -121,7 +121,7 @@ class _OrderConfirmationScreenState extends State<OrderConfirmationScreen>
                 color: isDark ? Colors.grey[400] : Colors.grey[600],
               ),
             ),
-            const SizedBox(height: 32),
+            const SizedBox(height: AppTheme.space3xl),
             ElevatedButton.icon(
               onPressed: () {
                 Navigator.of(context).pushReplacementNamed('/');
@@ -129,7 +129,8 @@ class _OrderConfirmationScreenState extends State<OrderConfirmationScreen>
               icon: const Icon(Icons.home),
               label: const Text('Ana Sayfaya Dön'),
               style: ElevatedButton.styleFrom(
-                padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: AppTheme.space3xl, vertical: AppTheme.spaceLg),
                 backgroundColor: AppTheme.primaryColor,
                 foregroundColor: Colors.white,
               ),
@@ -149,7 +150,7 @@ class _OrderConfirmationScreenState extends State<OrderConfirmationScreen>
           // Success Animation
           Container(
             width: double.infinity,
-            padding: const EdgeInsets.symmetric(vertical: 32),
+            padding: const EdgeInsets.symmetric(vertical: AppTheme.space3xl),
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 begin: Alignment.topCenter,
@@ -189,7 +190,7 @@ class _OrderConfirmationScreenState extends State<OrderConfirmationScreen>
                     ),
                   ),
                 ),
-                const SizedBox(height: 24),
+                const SizedBox(height: AppTheme.space2xl),
                 Text(
                   'Siparişiniz Alındı!',
                   style: GoogleFonts.poppins(
@@ -198,7 +199,7 @@ class _OrderConfirmationScreenState extends State<OrderConfirmationScreen>
                     color: isDark ? Colors.white : AppTheme.textColor,
                   ),
                 ).animate().fadeIn(duration: 600.ms).slideY(begin: 0.3, end: 0),
-                const SizedBox(height: 8),
+                const SizedBox(height: AppTheme.spaceXs),
                 Text(
                   'Siparişiniz başarıyla oluşturuldu',
                   style: TextStyle(
@@ -212,7 +213,7 @@ class _OrderConfirmationScreenState extends State<OrderConfirmationScreen>
 
           // Order Details Card
           Padding(
-            padding: const EdgeInsets.all(16.0),
+            padding: const EdgeInsets.all(AppTheme.spaceLg),
             child: Column(
               children: [
                 // Order Number Card
@@ -223,7 +224,7 @@ class _OrderConfirmationScreenState extends State<OrderConfirmationScreen>
                   content: '#${_order!.id.substring(0, 8).toUpperCase()}',
                   iconColor: AppTheme.primaryColor,
                 ),
-                const SizedBox(height: 16),
+                const SizedBox(height: AppTheme.spaceLg),
 
                 // Order Date Card
                 _buildInfoCard(
@@ -233,7 +234,7 @@ class _OrderConfirmationScreenState extends State<OrderConfirmationScreen>
                   content: DateFormat('dd MMMM yyyy, HH:mm', 'tr_TR').format(_order!.orderDate),
                   iconColor: Colors.blue,
                 ),
-                const SizedBox(height: 16),
+                const SizedBox(height: AppTheme.spaceLg),
 
                 // Delivery Address Card
                 _buildInfoCard(
@@ -243,14 +244,14 @@ class _OrderConfirmationScreenState extends State<OrderConfirmationScreen>
                   content: _order!.shippingAddress ?? 'Belirtilmemiş',
                   iconColor: Colors.orange,
                 ),
-                const SizedBox(height: 16),
+                const SizedBox(height: AppTheme.spaceLg),
 
                 // Order Summary Card
                 Container(
-                  padding: const EdgeInsets.all(20),
+                  padding: const EdgeInsets.all(AppTheme.spaceXl),
                   decoration: BoxDecoration(
                     color: isDark ? AppTheme.darkSurfaceColor : Colors.white,
-                    borderRadius: BorderRadius.circular(16),
+                    borderRadius: BorderRadius.circular(AppTheme.radiusXl),
                     border: Border.all(
                       color: isDark ? Colors.grey[800]! : Colors.grey[200]!,
                     ),
@@ -268,10 +269,10 @@ class _OrderConfirmationScreenState extends State<OrderConfirmationScreen>
                       Row(
                         children: [
                           Container(
-                            padding: const EdgeInsets.all(10),
+                            padding: const EdgeInsets.all(AppTheme.spaceSm),
                             decoration: BoxDecoration(
                               color: Colors.purple.withValues(alpha: 0.1),
-                              borderRadius: BorderRadius.circular(12),
+                              borderRadius: BorderRadius.circular(AppTheme.radiusMd),
                             ),
                             child: const Icon(
                               Icons.shopping_bag,
@@ -279,7 +280,7 @@ class _OrderConfirmationScreenState extends State<OrderConfirmationScreen>
                               size: 24,
                             ),
                           ),
-                          const SizedBox(width: 16),
+                          const SizedBox(width: AppTheme.spaceLg),
                           Text(
                             'Sipariş Özeti',
                             style: GoogleFonts.poppins(
@@ -290,13 +291,13 @@ class _OrderConfirmationScreenState extends State<OrderConfirmationScreen>
                           ),
                         ],
                       ),
-                      const SizedBox(height: 16),
+                      const SizedBox(height: AppTheme.spaceLg),
                       const Divider(),
-                      const SizedBox(height: 8),
+                      const SizedBox(height: AppTheme.spaceXs),
 
                       // Order Items
                       ...(_order!.items ?? []).map((item) => Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 8.0),
+                            padding: const EdgeInsets.symmetric(vertical: AppTheme.spaceXs),
                             child: Row(
                               children: [
                                 Text(
@@ -307,7 +308,7 @@ class _OrderConfirmationScreenState extends State<OrderConfirmationScreen>
                                     color: isDark ? Colors.grey[400] : Colors.grey[600],
                                   ),
                                 ),
-                                const SizedBox(width: 12),
+                                const SizedBox(width: AppTheme.spaceMd),
                                 Expanded(
                                   child: Text(
                                     item.name,
@@ -329,9 +330,9 @@ class _OrderConfirmationScreenState extends State<OrderConfirmationScreen>
                             ),
                           )),
 
-                      const SizedBox(height: 16),
+                      const SizedBox(height: AppTheme.spaceLg),
                       const Divider(),
-                      const SizedBox(height: 8),
+                      const SizedBox(height: AppTheme.spaceXs),
 
                       // Total
                       Row(
@@ -359,14 +360,14 @@ class _OrderConfirmationScreenState extends State<OrderConfirmationScreen>
                   ),
                 ).animate().fadeIn(delay: 400.ms, duration: 600.ms).slideY(begin: 0.2, end: 0),
 
-                const SizedBox(height: 24),
+                const SizedBox(height: AppTheme.space2xl),
 
                 // Status Card
                 Container(
-                  padding: const EdgeInsets.all(20),
+                  padding: const EdgeInsets.all(AppTheme.spaceXl),
                   decoration: BoxDecoration(
                     color: isDark ? AppTheme.darkSurfaceColor : Colors.blue.shade50,
-                    borderRadius: BorderRadius.circular(16),
+                    borderRadius: BorderRadius.circular(AppTheme.radiusXl),
                     border: Border.all(
                       color: Colors.blue.shade200,
                     ),
@@ -378,7 +379,7 @@ class _OrderConfirmationScreenState extends State<OrderConfirmationScreen>
                         color: Colors.blue.shade700,
                         size: 24,
                       ),
-                      const SizedBox(width: 16),
+                      const SizedBox(width: AppTheme.spaceLg),
                       Expanded(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -391,7 +392,7 @@ class _OrderConfirmationScreenState extends State<OrderConfirmationScreen>
                                 color: Colors.blue.shade900,
                               ),
                             ),
-                            const SizedBox(height: 4),
+                            const SizedBox(height: AppTheme.spaceXxs),
                             Text(
                               _order!.orderStatus.displayName,
                               style: TextStyle(
@@ -407,7 +408,7 @@ class _OrderConfirmationScreenState extends State<OrderConfirmationScreen>
                   ),
                 ).animate().fadeIn(delay: 600.ms, duration: 600.ms),
 
-                const SizedBox(height: 32),
+                const SizedBox(height: AppTheme.space3xl),
 
                 // Action Buttons
                 Column(
@@ -425,16 +426,16 @@ class _OrderConfirmationScreenState extends State<OrderConfirmationScreen>
                         icon: const Icon(Icons.visibility),
                         label: const Text('Sipariş Detaylarını Görüntüle'),
                         style: ElevatedButton.styleFrom(
-                          padding: const EdgeInsets.symmetric(vertical: 16),
+                          padding: const EdgeInsets.symmetric(vertical: AppTheme.spaceLg),
                           backgroundColor: AppTheme.primaryColor,
                           foregroundColor: Colors.white,
                           shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12),
+                            borderRadius: BorderRadius.circular(AppTheme.radiusMd),
                           ),
                         ),
                       ),
                     ),
-                    const SizedBox(height: 12),
+                    const SizedBox(height: AppTheme.spaceMd),
 
                     // View All Orders Button
                     SizedBox(
@@ -446,16 +447,16 @@ class _OrderConfirmationScreenState extends State<OrderConfirmationScreen>
                         icon: const Icon(Icons.history),
                         label: const Text('Siparişlerim'),
                         style: OutlinedButton.styleFrom(
-                          padding: const EdgeInsets.symmetric(vertical: 16),
+                          padding: const EdgeInsets.symmetric(vertical: AppTheme.spaceLg),
                           foregroundColor: AppTheme.primaryColor,
                           side: const BorderSide(color: AppTheme.primaryColor),
                           shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12),
+                            borderRadius: BorderRadius.circular(AppTheme.radiusMd),
                           ),
                         ),
                       ),
                     ),
-                    const SizedBox(height: 12),
+                    const SizedBox(height: AppTheme.spaceMd),
 
                     // Back to Home Button
                     SizedBox(
@@ -467,7 +468,7 @@ class _OrderConfirmationScreenState extends State<OrderConfirmationScreen>
                         icon: const Icon(Icons.home),
                         label: const Text('Ana Sayfaya Dön'),
                         style: TextButton.styleFrom(
-                          padding: const EdgeInsets.symmetric(vertical: 16),
+                          padding: const EdgeInsets.symmetric(vertical: AppTheme.spaceLg),
                           foregroundColor: isDark ? Colors.grey[400] : Colors.grey[600],
                         ),
                       ),
@@ -490,10 +491,10 @@ class _OrderConfirmationScreenState extends State<OrderConfirmationScreen>
     required Color iconColor,
   }) {
     return Container(
-      padding: const EdgeInsets.all(20),
+      padding: const EdgeInsets.all(AppTheme.spaceXl),
       decoration: BoxDecoration(
         color: isDark ? AppTheme.darkSurfaceColor : Colors.white,
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(AppTheme.radiusXl),
         border: Border.all(
           color: isDark ? Colors.grey[800]! : Colors.grey[200]!,
         ),
@@ -508,10 +509,10 @@ class _OrderConfirmationScreenState extends State<OrderConfirmationScreen>
       child: Row(
         children: [
           Container(
-            padding: const EdgeInsets.all(10),
+            padding: const EdgeInsets.all(AppTheme.spaceSm),
             decoration: BoxDecoration(
               color: iconColor.withValues(alpha: 0.1),
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.circular(AppTheme.radiusMd),
             ),
             child: Icon(
               icon,
@@ -519,7 +520,7 @@ class _OrderConfirmationScreenState extends State<OrderConfirmationScreen>
               size: 24,
             ),
           ),
-          const SizedBox(width: 16),
+          const SizedBox(width: AppTheme.spaceLg),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -532,7 +533,7 @@ class _OrderConfirmationScreenState extends State<OrderConfirmationScreen>
                     fontWeight: FontWeight.w500,
                   ),
                 ),
-                const SizedBox(height: 4),
+                const SizedBox(height: AppTheme.spaceXxs),
                 Text(
                   content,
                   style: TextStyle(

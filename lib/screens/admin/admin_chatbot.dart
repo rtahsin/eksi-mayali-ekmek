@@ -363,12 +363,12 @@ class _AdminChatBotScreenState extends State<AdminChatBotScreen>
     }
 
     return ListView.builder(
-      padding: EdgeInsets.all(16),
+      padding: const EdgeInsets.all(AppTheme.spaceLg),
       itemCount: _messages.length,
       itemBuilder: (context, index) {
         final message = _messages[index];
         return Card(
-          margin: EdgeInsets.only(bottom: 12),
+          margin: const EdgeInsets.only(bottom: AppTheme.spaceMd),
           child: ListTile(
             title: Text(
               message.message,
@@ -404,7 +404,7 @@ class _AdminChatBotScreenState extends State<AdminChatBotScreen>
 
   Widget _buildFormTab(bool isSmallScreen) {
     return SingleChildScrollView(
-      padding: EdgeInsets.all(16),
+      padding: const EdgeInsets.all(AppTheme.spaceLg),
       child: Form(
         key: _formKey,
         child: Column(
@@ -479,7 +479,7 @@ class _AdminChatBotScreenState extends State<AdminChatBotScreen>
                     style: ElevatedButton.styleFrom(
                       backgroundColor: AppTheme.primaryColor,
                       foregroundColor: Colors.white,
-                      padding: EdgeInsets.symmetric(vertical: 16),
+                      padding: const EdgeInsets.symmetric(vertical: AppTheme.spaceLg),
                     ),
                     child: Text(_selectedMessage != null ? 'Güncelle' : 'Kaydet'),
                   ),
@@ -489,7 +489,7 @@ class _AdminChatBotScreenState extends State<AdminChatBotScreen>
                   ElevatedButton(
                     onPressed: _resetForm,
                     style: ElevatedButton.styleFrom(
-                      padding: EdgeInsets.symmetric(vertical: 16, horizontal: 24),
+                      padding: const EdgeInsets.symmetric(vertical: AppTheme.spaceLg, horizontal: AppTheme.space2xl),
                     ),
                     child: Text('İptal'),
                   ),

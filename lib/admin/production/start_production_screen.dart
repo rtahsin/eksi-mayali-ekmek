@@ -148,10 +148,10 @@ class _StartProductionScreenState extends State<StartProductionScreen> {
             ),
             SizedBox(height: 16),
             Container(
-              padding: EdgeInsets.all(12),
+              padding: EdgeInsets.all(AppTheme.spaceMd),
               decoration: BoxDecoration(
                 color: Colors.red[50],
-                borderRadius: BorderRadius.circular(8),
+                borderRadius: BorderRadius.circular(AppTheme.radiusMd),
                 border: Border.all(color: Colors.red[200]!),
               ),
               child: Row(
@@ -303,7 +303,7 @@ class _StartProductionScreenState extends State<StartProductionScreen> {
       onRefresh: _loadData,
       child: SingleChildScrollView(
         physics: AlwaysScrollableScrollPhysics(),
-        padding: EdgeInsets.all(16),
+        padding: EdgeInsets.all(AppTheme.spaceLg),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
@@ -331,9 +331,9 @@ class _StartProductionScreenState extends State<StartProductionScreen> {
     return Card(
       elevation: 4,
       child: Container(
-        padding: EdgeInsets.all(16),
+        padding: EdgeInsets.all(AppTheme.spaceLg),
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(AppTheme.radiusLg),
           gradient: LinearGradient(
             colors: isProductionStarted
                 ? [Colors.red[50]!, Colors.red[100]!]
@@ -427,7 +427,7 @@ class _StartProductionScreenState extends State<StartProductionScreen> {
     return Card(
       elevation: 2,
       child: Padding(
-        padding: EdgeInsets.all(16),
+        padding: EdgeInsets.all(AppTheme.spaceLg),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -470,10 +470,10 @@ class _StartProductionScreenState extends State<StartProductionScreen> {
     required Color color,
   }) {
     return Container(
-      padding: EdgeInsets.all(12),
+      padding: EdgeInsets.all(AppTheme.spaceMd),
       decoration: BoxDecoration(
         color: color.withValues(alpha: 0.1),
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: BorderRadius.circular(AppTheme.radiusMd),
       ),
       child: Column(
         children: [
@@ -502,7 +502,7 @@ class _StartProductionScreenState extends State<StartProductionScreen> {
     if (_pendingOrders.isEmpty) {
       return Card(
         child: Padding(
-          padding: EdgeInsets.all(32),
+          padding: EdgeInsets.all(AppTheme.space3xl),
           child: Column(
             children: [
               Icon(Icons.inbox, size: 64, color: Colors.grey[400]),
@@ -522,7 +522,7 @@ class _StartProductionScreenState extends State<StartProductionScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
-            padding: EdgeInsets.all(16),
+            padding: EdgeInsets.all(AppTheme.spaceLg),
             child: Text(
               'Bekleyen Siparişler (${_pendingOrders.length})',
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
@@ -591,9 +591,9 @@ class _StartProductionScreenState extends State<StartProductionScreen> {
       onPressed: _isProcessing ? null : _startProduction,
       style: ElevatedButton.styleFrom(
         backgroundColor: AppTheme.primaryColor,
-        padding: EdgeInsets.symmetric(vertical: 16),
+        padding: EdgeInsets.symmetric(vertical: AppTheme.spaceLg),
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(AppTheme.radiusLg),
         ),
       ),
       child: _isProcessing

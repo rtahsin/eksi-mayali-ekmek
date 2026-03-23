@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+import '../../theme/app_theme.dart';
 import '../widgets/admin_app_bar.dart';
 import '../widgets/admin_drawer.dart';
 
@@ -87,7 +88,7 @@ class _AdminAuditLogsPageState extends State<AdminAuditLogsPage> {
       appBar: AdminAppBar(title: 'Denetim Kayıtları'),
       drawer: AdminDrawer(currentIndex: 7),
       body: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(AppTheme.spaceLg),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -194,7 +195,7 @@ class _AdminAuditLogsPageState extends State<AdminAuditLogsPage> {
                         children: [
                           Container(
                             width: double.infinity,
-                            padding: const EdgeInsets.all(12),
+                            padding: const EdgeInsets.all(AppTheme.spaceMd),
                             color: Colors.grey.shade50,
                             child: SelectableText(
                               jsonStr,

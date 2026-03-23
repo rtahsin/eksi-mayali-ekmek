@@ -16,6 +16,7 @@
  */
 
 import 'package:flutter/material.dart';
+import '../theme/app_theme.dart';
 
 class ToastHelper {
   // Başarılı işlemler için yeşil toast
@@ -100,10 +101,10 @@ class ToastHelper {
         behavior: SnackBarBehavior.floating,
         duration: duration,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(AppTheme.radiusMd),
         ),
-        margin: const EdgeInsets.all(16),
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+        margin: const EdgeInsets.all(AppTheme.spaceLg),
+        padding: const EdgeInsets.symmetric(horizontal: AppTheme.spaceLg, vertical: AppTheme.spaceBase),
         elevation: 6,
       ),
     );
@@ -142,10 +143,10 @@ class ToastHelper {
         behavior: SnackBarBehavior.floating,
         duration: const Duration(days: 1), // Uzun süre (manuel kapatılacak)
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(AppTheme.radiusMd),
         ),
-        margin: const EdgeInsets.all(16),
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+        margin: const EdgeInsets.all(AppTheme.spaceLg),
+        padding: const EdgeInsets.symmetric(horizontal: AppTheme.spaceLg, vertical: AppTheme.spaceBase),
       ),
     );
   }

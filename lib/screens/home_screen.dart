@@ -73,6 +73,8 @@ import '../theme/app_theme.dart';
 import '../utils/helpers.dart';
 import '../utils/logger.dart';
 import '../utils/translations.dart'; // Çeviri dosyasını import ediyoruz
+import '../utils/url_state_helper_stub.dart'
+  if (dart.library.html) '../utils/url_state_helper.dart' as url_state;
 import '../widgets/app_drawer.dart';
 import '../widgets/category_list.dart';
 import '../widgets/chatbot_widget.dart';
@@ -109,6 +111,8 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
+  static const Set<String> _supportedPages = {'home', 'about', 'blog', 'orders'};
+
   String? _selectedCategory;
   final GlobalKey _productsKey = GlobalKey();
   bool _isInitialized = false;
@@ -132,6 +136,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
+    _applyInitialUrlState();
     _scrollController.addListener(_scrollListener);
     _loadProducts();
     _loadCategories();
@@ -153,6 +158,44 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     _animationController.forward();
 
     _setupNotificationNavigation();
+  }
+
+  void _applyInitialUrlState() {
+    final queryParams = url_state.getCurrentQueryParams();
+
+    final page = queryParams['page'];
+    if (page != null && _supportedPages.contains(page)) {
+      _currentPage = page;
+    }
+
+    final category = queryParams['category'];
+    if (category != null && category.trim().isNotEmpty) {
+      _selectedCategory = category.trim();
+    }
+  }
+
+  void _syncUrlState() {
+    final queryParams = <String, String>{};
+
+    if (_currentPage != 'home') {
+      queryParams['page'] = _currentPage;
+    }
+
+    if (_selectedCategory != null && _selectedCategory!.isNotEmpty) {
+      queryParams['category'] = _selectedCategory!;
+    }
+
+    url_state.replaceQueryParams(queryParams);
+  }
+
+  void _setCurrentPage(String page) {
+    if (!_supportedPages.contains(page)) return;
+
+    setState(() {
+      _currentPage = page;
+    });
+
+    _syncUrlState();
   }
 
   void _setupNotificationNavigation() {
@@ -265,6 +308,13 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       body: Stack(
         children: [
           _buildPageContent(context, authService, cartProvider, isDesktop),
+          if (!isDesktop && _currentPage == 'home' && cartProvider.itemCount > 0)
+            Positioned(
+              left: AppTheme.spaceLg,
+              right: AppTheme.spaceLg,
+              bottom: AppTheme.spaceLg,
+              child: _buildMobileStickyCartCta(context, cartProvider),
+            ),
           // ChatBot Widget - Doğrudan Stack child'ı
           ChatBotWidget(),
           // Live Chat Floating Button - Canlı destek
@@ -315,8 +365,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
           // Ana içerik bölümü
           Padding(
             padding: EdgeInsets.symmetric(
-              horizontal: isDesktop ? 80.0 : 24.0,
-              vertical: 16.0,
+              horizontal: isDesktop ? AppTheme.pagePaddingDesktop : AppTheme.pagePaddingMobile,
+              vertical: AppTheme.spaceLg,
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -326,7 +376,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                   child: Container(
                     decoration: BoxDecoration(
                       color: Theme.of(context).cardColor,
-                      borderRadius: BorderRadius.circular(16),
+                      borderRadius: BorderRadius.circular(AppTheme.radiusXl),
                       boxShadow: [
                         BoxShadow(
                           color: Colors.black.withValues(alpha: 0.05),
@@ -348,7 +398,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                   key: _productsKey,
                   duration: Duration(milliseconds: 500),
                   curve: Curves.easeInOut,
-                  margin: EdgeInsets.only(top: 8),
+                  margin: const EdgeInsets.only(top: AppTheme.spaceXs),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -375,21 +425,47 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                       _selectedCategory = null;
                                     });
                                     _filterProducts();
+                                    _syncUrlState();
                                   },
                                   icon: const Icon(Icons.filter_alt_off),
-                                  label: const Text('Filtreyi Temizle'),
+                                  label: Text(
+                                    AppTranslations.getTranslation(context, 'clearFilters'),
+                                  ),
                                 ),
                             ],
                           ),
                         ],
                       ),
+                      if (_selectedCategory != null && _selectedCategory!.isNotEmpty) ...[
+                        const SizedBox(height: 10),
+                        Wrap(
+                          spacing: 8,
+                          runSpacing: AppTheme.spaceXs,
+                          children: [
+                            InputChip(
+                              avatar: const Icon(Icons.filter_alt, size: 18),
+                              label: Text(
+                                _selectedCategory!,
+                                style: const TextStyle(fontWeight: FontWeight.w600),
+                              ),
+                              onDeleted: () {
+                                setState(() {
+                                  _selectedCategory = null;
+                                });
+                                _filterProducts();
+                                _syncUrlState();
+                              },
+                            ),
+                          ],
+                        ),
+                      ],
                       const SizedBox(height: 16),
                       _buildProductList(context),
                     ],
                   ),
                 ),
 
-                const SizedBox(height: 32),
+                const SizedBox(height: AppTheme.space3xl),
 
                 // Bağlantı hatası göster
                 if (_showConnectionError) _buildConnectionError(),
@@ -399,10 +475,59 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
 
                 // Yükleniyor göster
                 if (_isLoading) _buildLoading(),
+
+                if (!isDesktop && cartProvider.itemCount > 0) const SizedBox(height: 96),
               ],
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  Widget _buildMobileStickyCartCta(BuildContext context, CartProvider cartProvider) {
+    return Material(
+      elevation: 8,
+      borderRadius: BorderRadius.circular(AppTheme.radiusLg),
+      color: Theme.of(context).cardColor,
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: AppTheme.spaceMd, vertical: AppTheme.spaceSm),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(AppTheme.radiusLg),
+          border: Border.all(color: AppTheme.primaryColor.withValues(alpha: 0.2)),
+        ),
+        child: Row(
+          children: [
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    '${cartProvider.itemCount} ${AppTranslations.getTranslation(context, 'products')}',
+                    style: const TextStyle(fontWeight: FontWeight.w600),
+                  ),
+                  Text(
+                    '${cartProvider.totalAmount.toStringAsFixed(2)} ₺',
+                    style: const TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(width: AppTheme.spaceXs),
+            ElevatedButton.icon(
+              onPressed: () {
+                Navigator.of(context).push(_createRoute(CartScreen()));
+              },
+              icon: const Icon(Icons.shopping_cart_checkout),
+              label: Text(AppTranslations.getTranslation(context, 'goToCart')),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: AppTheme.primaryColor,
+                foregroundColor: Colors.white,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -418,7 +543,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
 
           // Hikayemiz
           Padding(
-            padding: EdgeInsets.all(isDesktop ? 80.0 : 24.0),
+            padding: EdgeInsets.all(isDesktop ? AppTheme.pagePaddingDesktop : AppTheme.pagePaddingMobile),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -442,7 +567,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
           // Misyonumuz
           Container(
             color: Colors.grey[100],
-            padding: EdgeInsets.all(isDesktop ? 80.0 : 24.0),
+            padding: EdgeInsets.all(isDesktop ? AppTheme.pagePaddingDesktop : AppTheme.pagePaddingMobile),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -465,7 +590,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
 
           // Vizyonumuz
           Padding(
-            padding: EdgeInsets.all(isDesktop ? 80.0 : 24.0),
+            padding: EdgeInsets.all(isDesktop ? AppTheme.pagePaddingDesktop : AppTheme.pagePaddingMobile),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -499,7 +624,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   Widget _buildOrdersPage(BuildContext context, bool isDesktop) {
     return Center(
       child: Padding(
-        padding: EdgeInsets.all(isDesktop ? 80.0 : 24.0),
+        padding: EdgeInsets.all(isDesktop ? AppTheme.pagePaddingDesktop : AppTheme.pagePaddingMobile),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -536,7 +661,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
         children: [
           // Drawer Header
           Container(
-            padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 16),
+            padding: const EdgeInsets.symmetric(vertical: AppTheme.space2xl, horizontal: AppTheme.spaceLg),
             decoration: BoxDecoration(
               color: isDark ? AppTheme.darkPrimaryColor : AppTheme.primaryColor,
               boxShadow: [
@@ -555,7 +680,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                   Row(
                     children: [
                       Container(
-                        padding: const EdgeInsets.all(8),
+                        padding: const EdgeInsets.all(AppTheme.spaceXs),
                         decoration: BoxDecoration(
                           color: Colors.white.withValues(alpha: 0.2),
                           shape: BoxShape.circle,
@@ -642,7 +767,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                   title: 'Ana Sayfa',
                   onTap: () {
                     Navigator.pop(context);
-                    setState(() => _currentPage = 'home');
+                    _setCurrentPage('home');
                   },
                   isDark: isDark,
                   isActive: _currentPage == 'home',
@@ -653,7 +778,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                   title: 'Hakkımızda',
                   onTap: () {
                     Navigator.pop(context);
-                    setState(() => _currentPage = 'about');
+                    _setCurrentPage('about');
                   },
                   isDark: isDark,
                   isActive: _currentPage == 'about',
@@ -664,7 +789,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                   title: 'Blog',
                   onTap: () {
                     Navigator.pop(context);
-                    setState(() => _currentPage = 'blog');
+                    _setCurrentPage('blog');
                   },
                   isDark: isDark,
                   isActive: _currentPage == 'blog',
@@ -676,7 +801,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                     title: 'Siparişlerim',
                     onTap: () {
                       Navigator.pop(context);
-                      setState(() => _currentPage = 'orders');
+                      _setCurrentPage('orders');
                     },
                     isDark: isDark,
                     isActive: _currentPage == 'orders',
@@ -738,10 +863,10 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       ),
       trailing: badge != null
           ? Container(
-              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+              padding: const EdgeInsets.symmetric(horizontal: AppTheme.spaceXs, vertical: AppTheme.spaceXxs),
               decoration: BoxDecoration(
                 color: AppTheme.primaryColor,
-                borderRadius: BorderRadius.circular(12),
+                borderRadius: BorderRadius.circular(AppTheme.radiusMd),
               ),
               child: Text(
                 badge,
@@ -783,7 +908,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
         // Bildirim simgesi end veya custom konumunda ise actions içinde gösterilir
         if (notificationPosition != NotificationIconPosition.start)
           Padding(
-            padding: const EdgeInsets.only(right: 4.0),
+            padding: const EdgeInsets.only(right: AppTheme.spaceXxs),
             child: NotificationIcon(
               position: notificationPosition,
               iconColor: Theme.of(context).iconTheme.color,
@@ -812,7 +937,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                         padding: const EdgeInsets.all(2),
                         decoration: BoxDecoration(
                           color: Colors.red,
-                          borderRadius: BorderRadius.circular(10),
+                          borderRadius: BorderRadius.circular(AppTheme.radiusLg),
                         ),
                         constraints: const BoxConstraints(
                           minWidth: 16,
@@ -840,7 +965,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                   Navigator.of(context).pushNamed(ProfileScreen.routeName);
                 },
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                  padding: const EdgeInsets.symmetric(horizontal: AppTheme.spaceXs),
                   child: Row(
                     children: [
                       CircleAvatar(
@@ -949,7 +1074,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
 
         // Dil seçici
         const Padding(
-          padding: EdgeInsets.symmetric(horizontal: 8.0),
+          padding: EdgeInsets.symmetric(horizontal: AppTheme.spaceXs),
           child: SizedBox.shrink(), // Dil seçici kaldırıldı
         ),
       ],
@@ -968,7 +1093,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
           context,
           AppTranslations.getTranslation(context, 'home'),
           Icons.home,
-          () => setState(() => _currentPage = 'home'),
+          () => _setCurrentPage('home'),
           isActive: _currentPage == 'home',
         ),
 
@@ -977,7 +1102,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
           context,
           AppTranslations.getTranslation(context, 'about'),
           Icons.info_outline,
-          () => setState(() => _currentPage = 'about'),
+          () => _setCurrentPage('about'),
           isActive: _currentPage == 'about',
         ),
 
@@ -986,7 +1111,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
           context,
           AppTranslations.getTranslation(context, 'blog'),
           Icons.article,
-          () => setState(() => _currentPage = 'blog'),
+          () => _setCurrentPage('blog'),
           isActive: _currentPage == 'blog',
         ),
 
@@ -996,7 +1121,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
             context,
             AppTranslations.getTranslation(context, 'myOrders'),
             Icons.shopping_bag,
-            () => setState(() => _currentPage = 'orders'),
+            () => _setCurrentPage('orders'),
             isActive: _currentPage == 'orders',
           ),
       ],
@@ -1013,15 +1138,15 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     bool isActive = false,
   }) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+      padding: const EdgeInsets.symmetric(horizontal: AppTheme.spaceXs),
       child: InkWell(
         onTap: onTap,
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: BorderRadius.circular(AppTheme.radiusSm),
         child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
+          padding: const EdgeInsets.symmetric(horizontal: AppTheme.spaceXs, vertical: AppTheme.spaceXxs),
           decoration: BoxDecoration(
             color: isActive ? AppTheme.primaryColor.withValues(alpha: 0.1) : Colors.transparent,
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(AppTheme.radiusSm),
           ),
           child: Row(
             children: [
@@ -1143,7 +1268,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
               style: ElevatedButton.styleFrom(
                 backgroundColor: AppTheme.primaryColor,
                 foregroundColor: Colors.white,
-                padding: EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                padding: const EdgeInsets.symmetric(horizontal: AppTheme.space2xl, vertical: AppTheme.spaceMd),
               ),
               child: Text(AppTranslations.getTranslation(context, 'browseProducts')),
             ),
@@ -1172,15 +1297,32 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
           if (_filteredProducts.isEmpty)
             Center(
               child: Padding(
-                padding: const EdgeInsets.all(20.0),
+                padding: const EdgeInsets.all(AppTheme.spaceXl),
                 child: Column(
                   children: [
                     Icon(Icons.search_off, size: 48, color: Colors.grey),
                     SizedBox(height: 16),
                     Text(
-                      AppTranslations.getTranslation(context, 'noProductsFound'),
+                      _selectedCategory != null && _selectedCategory!.isNotEmpty
+                          ? AppTranslations.getTranslation(context, 'noProductsForFilter')
+                          : AppTranslations.getTranslation(context, 'noProductsFound'),
                       style: TextStyle(fontSize: 16, color: Colors.grey[600]),
+                      textAlign: TextAlign.center,
                     ),
+                    if (_selectedCategory != null && _selectedCategory!.isNotEmpty) ...[
+                      const SizedBox(height: 12),
+                      ElevatedButton.icon(
+                        onPressed: () {
+                          setState(() {
+                            _selectedCategory = null;
+                          });
+                          _filterProducts();
+                          _syncUrlState();
+                        },
+                        icon: const Icon(Icons.restart_alt),
+                        label: Text(AppTranslations.getTranslation(context, 'clearFilters')),
+                      ),
+                    ],
                   ],
                 ),
               ),
@@ -1190,7 +1332,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
               height: 380, // Yüksekliği artırdım
               decoration: BoxDecoration(
                 color: Theme.of(context).scaffoldBackgroundColor,
-                borderRadius: BorderRadius.circular(16),
+                borderRadius: BorderRadius.circular(AppTheme.radiusXl),
                 boxShadow: [
                   BoxShadow(
                     color: Colors.black.withValues(alpha: 0.05),
@@ -1199,7 +1341,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                   ),
                 ],
               ),
-              padding: EdgeInsets.symmetric(horizontal: horizontalPadding, vertical: 10),
+              padding: EdgeInsets.symmetric(horizontal: horizontalPadding, vertical: AppTheme.spaceSm),
               child: ListView.builder(
                 scrollDirection: Axis.horizontal,
                 itemCount: _filteredProducts.length,
@@ -1215,7 +1357,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       return Container(
         decoration: BoxDecoration(
           color: Theme.of(context).scaffoldBackgroundColor,
-          borderRadius: BorderRadius.circular(16),
+          borderRadius: BorderRadius.circular(AppTheme.radiusXl),
           boxShadow: [
             BoxShadow(
               color: Colors.black.withValues(alpha: 0.05),
@@ -1224,19 +1366,36 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
             ),
           ],
         ),
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.all(AppTheme.spaceLg),
         child: _filteredProducts.isEmpty
             ? Center(
                 child: Padding(
-                  padding: const EdgeInsets.all(40.0),
+                  padding: const EdgeInsets.all(AppTheme.space4xl),
                   child: Column(
                     children: [
                       Icon(Icons.search_off, size: 64, color: Colors.grey),
                       SizedBox(height: 16),
                       Text(
-                        AppTranslations.getTranslation(context, 'noProductsFound'),
+                        _selectedCategory != null && _selectedCategory!.isNotEmpty
+                            ? AppTranslations.getTranslation(context, 'noProductsForFilter')
+                            : AppTranslations.getTranslation(context, 'noProductsFound'),
                         style: TextStyle(fontSize: 18, color: Colors.grey[600]),
+                        textAlign: TextAlign.center,
                       ),
+                      if (_selectedCategory != null && _selectedCategory!.isNotEmpty) ...[
+                        const SizedBox(height: 12),
+                        ElevatedButton.icon(
+                          onPressed: () {
+                            setState(() {
+                              _selectedCategory = null;
+                            });
+                            _filterProducts();
+                            _syncUrlState();
+                          },
+                          icon: const Icon(Icons.restart_alt),
+                          label: Text(AppTranslations.getTranslation(context, 'clearFilters')),
+                        ),
+                      ],
                     ],
                   ),
                 ),
@@ -1281,7 +1440,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
 
     return Container(
       width: isMobile ? 220 : null,
-      margin: isMobile ? EdgeInsets.only(right: 16) : null,
+      margin: isMobile ? const EdgeInsets.only(right: AppTheme.spaceLg) : null,
       child: ProductCard(
         product: product,
         isDarkMode: isDarkMode,
@@ -1297,6 +1456,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
 
     // Ürünleri filtreleme işlemini çağır
     _filterProducts();
+    _syncUrlState();
 
     // Ürünler bölümüne kaydır
     WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -1318,7 +1478,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
 
     return Container(
       width: double.infinity,
-      padding: EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+      padding: const EdgeInsets.symmetric(horizontal: AppTheme.spaceXl, vertical: AppTheme.spaceMd),
       decoration: BoxDecoration(
         color: isDark ? AppTheme.darkSurfaceColor : Colors.grey.shade50,
         boxShadow: [
@@ -1366,9 +1526,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                 style: ElevatedButton.styleFrom(
                   backgroundColor: AppTheme.primaryColor,
                   foregroundColor: Colors.white,
-                  padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                  padding: const EdgeInsets.symmetric(horizontal: AppTheme.spaceLg, vertical: AppTheme.spaceXs),
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8),
+                    borderRadius: BorderRadius.circular(AppTheme.radiusSm),
                   ),
                 ),
                 child: Text(AppTranslations.getTranslation(context, 'goToCart')),
@@ -1530,11 +1690,11 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   // Bağlantı hatası göster
   Widget _buildConnectionError() {
     return Container(
-      padding: EdgeInsets.all(16),
-      margin: EdgeInsets.all(16),
+      padding: const EdgeInsets.all(AppTheme.spaceLg),
+      margin: const EdgeInsets.all(AppTheme.spaceLg),
       decoration: BoxDecoration(
         color: Colors.orange.withValues(alpha: 0.2),
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: BorderRadius.circular(AppTheme.radiusSm),
         border: Border.all(color: Colors.orange),
       ),
       child: Row(
@@ -1566,11 +1726,11 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   // Hata göster
   Widget _buildError() {
     return Container(
-      padding: EdgeInsets.all(16),
-      margin: EdgeInsets.all(16),
+      padding: const EdgeInsets.all(AppTheme.spaceLg),
+      margin: const EdgeInsets.all(AppTheme.spaceLg),
       decoration: BoxDecoration(
         color: Colors.red.withValues(alpha: 0.2),
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: BorderRadius.circular(AppTheme.radiusSm),
         border: Border.all(color: Colors.red),
       ),
       child: Row(
@@ -1735,11 +1895,11 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       context: context,
       builder: (ctx) => Dialog(
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(16),
+          borderRadius: BorderRadius.circular(AppTheme.radiusXl),
         ),
         child: Container(
           width: 320,
-          padding: EdgeInsets.all(16),
+          padding: const EdgeInsets.all(AppTheme.spaceLg),
           child: StatefulBuilder(
             builder: (context, setState) {
               return Column(
@@ -1766,7 +1926,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                   Divider(),
                   if (cartProvider.items.isEmpty)
                     Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 20),
+                      padding: const EdgeInsets.symmetric(vertical: AppTheme.spaceXl),
                       child: Center(
                         child: Column(
                           children: [
@@ -1799,8 +1959,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                             background: Container(
                               color: Colors.red,
                               alignment: Alignment.centerRight,
-                              padding: EdgeInsets.only(right: 20),
-                              margin: EdgeInsets.symmetric(vertical: 4),
+                              padding: const EdgeInsets.only(right: AppTheme.spaceXl),
+                              margin: EdgeInsets.symmetric(vertical: AppTheme.spaceXxs),
                               child: Icon(
                                 Icons.delete,
                                 color: Colors.white,
@@ -1835,11 +1995,11 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                               setState(() {}); // Dialog'u yeniden oluştur
                             },
                             child: Padding(
-                              padding: const EdgeInsets.symmetric(vertical: 8),
+                              padding: const EdgeInsets.symmetric(vertical: AppTheme.spaceXs),
                               child: Row(
                                 children: [
                                   ClipRRect(
-                                    borderRadius: BorderRadius.circular(8),
+                                    borderRadius: BorderRadius.circular(AppTheme.radiusSm),
                                     child: Image.network(
                                       product.imageUrl,
                                       width: 50,
@@ -1867,7 +2027,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                               height: 24,
                                               decoration: BoxDecoration(
                                                 border: Border.all(color: Colors.grey.shade300),
-                                                borderRadius: BorderRadius.circular(4),
+                                                borderRadius: BorderRadius.circular(AppTheme.spaceXxs),
                                               ),
                                               child: Row(
                                                 mainAxisSize: MainAxisSize.min,
@@ -1966,7 +2126,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                     ),
                   if (cartProvider.items.length > 5)
                     Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 8),
+                      padding: const EdgeInsets.symmetric(vertical: AppTheme.spaceXs),
                       child: Center(
                         child: Text(
                           '... ve ${cartProvider.items.length - 5} ürün daha',
@@ -2012,9 +2172,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                             style: ElevatedButton.styleFrom(
                               backgroundColor: Colors.grey[200],
                               foregroundColor: AppTheme.textDarkColor,
-                              padding: EdgeInsets.symmetric(vertical: 12),
+                              padding: const EdgeInsets.symmetric(vertical: AppTheme.spaceMd),
                               shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(8),
+                                borderRadius: BorderRadius.circular(AppTheme.radiusSm),
                               ),
                             ),
                             child: Text(
@@ -2035,9 +2195,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                             },
                             style: ElevatedButton.styleFrom(
                               backgroundColor: AppTheme.primaryColor,
-                              padding: EdgeInsets.symmetric(vertical: 12),
+                              padding: const EdgeInsets.symmetric(vertical: AppTheme.spaceMd),
                               shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(8),
+                                borderRadius: BorderRadius.circular(AppTheme.radiusSm),
                               ),
                             ),
                             child: Text(
@@ -2068,11 +2228,11 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       context: context,
       builder: (ctx) => Dialog(
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(16),
+          borderRadius: BorderRadius.circular(AppTheme.radiusXl),
         ),
         child: Container(
           width: 320,
-          padding: EdgeInsets.all(16),
+          padding: const EdgeInsets.all(AppTheme.spaceLg),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -2095,7 +2255,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
               ).animate().fadeIn(duration: 300.ms),
               Divider(),
               Padding(
-                padding: const EdgeInsets.symmetric(vertical: 16),
+                padding: const EdgeInsets.symmetric(vertical: AppTheme.spaceLg),
                 child: Text(
                   'Siparişinizle ilgili yeni bir güncelleme var!',
                   textAlign: TextAlign.center,
@@ -2165,8 +2325,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
         ).animate().fadeIn(duration: 300.ms).slideX(begin: -0.1, end: 0),
         backgroundColor: isSuccess ? AppTheme.primaryColor : Colors.redAccent,
         behavior: SnackBarBehavior.floating,
-        margin: EdgeInsets.all(10),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+        margin: const EdgeInsets.all(AppTheme.spaceSm),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(AppTheme.radiusSm)),
       ),
     );
   }

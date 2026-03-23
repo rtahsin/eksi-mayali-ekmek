@@ -124,6 +124,8 @@ class AppTranslations {
     'sampleProductsAdded': 'Örnek ürünler eklendi',
     'sampleProductsError': 'Örnek ürünler eklenirken hata oluştu',
     'noProductsFound': 'Ürün bulunamadı',
+    'noProductsForFilter': 'Seçili filtreye uygun ürün bulunamadı',
+    'clearFilters': 'Filtreleri Temizle',
 
     // Yeni eklenen özellikler
     'quickView': 'Hızlı Görüntüle',

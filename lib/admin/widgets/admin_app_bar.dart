@@ -47,10 +47,10 @@ class AdminAppBar extends StatelessWidget implements PreferredSizeWidget {
                     right: 0,
                     top: 0,
                     child: Container(
-                      padding: EdgeInsets.all(2),
+                      padding: EdgeInsets.all(AppTheme.spaceXxs),
                       decoration: BoxDecoration(
                         color: Colors.red,
-                        borderRadius: BorderRadius.circular(6),
+                        borderRadius: BorderRadius.circular(AppTheme.spaceXxs + 2),
                       ),
                       constraints: BoxConstraints(
                         minWidth: 12,
@@ -78,7 +78,7 @@ class AdminAppBar extends StatelessWidget implements PreferredSizeWidget {
               },
             ),
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 8),
+              padding: const EdgeInsets.symmetric(horizontal: AppTheme.spaceXs),
               child: PopupMenuButton<String>(
                 offset: Offset(0, 45),
                 icon: CircleAvatar(
@@ -110,7 +110,7 @@ class AdminAppBar extends StatelessWidget implements PreferredSizeWidget {
                     child: Row(
                       children: [
                         Icon(Icons.person, color: Colors.grey[700], size: 20),
-                        SizedBox(width: 8),
+                        const SizedBox(width: AppTheme.spaceXs),
                         Text('Profil'),
                       ],
                     ),
@@ -120,7 +120,7 @@ class AdminAppBar extends StatelessWidget implements PreferredSizeWidget {
                     child: Row(
                       children: [
                         Icon(Icons.settings, color: Colors.grey[700], size: 20),
-                        SizedBox(width: 8),
+                        const SizedBox(width: AppTheme.spaceXs),
                         Text('Ayarlar'),
                       ],
                     ),
@@ -131,7 +131,7 @@ class AdminAppBar extends StatelessWidget implements PreferredSizeWidget {
                     child: Row(
                       children: [
                         Icon(Icons.exit_to_app, color: Colors.red[400], size: 20),
-                        SizedBox(width: 8),
+                        const SizedBox(width: AppTheme.spaceXs),
                         Text(
                           'Çıkış Yap',
                           style: TextStyle(color: Colors.red[400]),
@@ -142,7 +142,7 @@ class AdminAppBar extends StatelessWidget implements PreferredSizeWidget {
                 ],
               ),
             ),
-            SizedBox(width: 8),
+            const SizedBox(width: AppTheme.spaceXs),
           ],
       bottom: showSearchBar ? _buildSearchBarBottom(context) : null,
     );
@@ -152,10 +152,10 @@ class AdminAppBar extends StatelessWidget implements PreferredSizeWidget {
     return Container(
       width: 300,
       height: 40,
-      margin: EdgeInsets.symmetric(vertical: 8),
+      margin: const EdgeInsets.symmetric(vertical: AppTheme.spaceXs),
       decoration: BoxDecoration(
         color: Colors.white.withValues(alpha: 0.2),
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(AppTheme.radius2xl),
       ),
       child: TextField(
         style: TextStyle(color: Colors.white),
@@ -164,7 +164,10 @@ class AdminAppBar extends StatelessWidget implements PreferredSizeWidget {
           hintStyle: TextStyle(color: Colors.white.withValues(alpha: 0.7)),
           prefixIcon: Icon(Icons.search, color: Colors.white),
           border: InputBorder.none,
-          contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+          contentPadding: const EdgeInsets.symmetric(
+            horizontal: AppTheme.spaceLg,
+            vertical: AppTheme.spaceSm,
+          ),
         ),
         onChanged: onSearch,
       ),
@@ -175,13 +178,16 @@ class AdminAppBar extends StatelessWidget implements PreferredSizeWidget {
     return PreferredSize(
       preferredSize: Size.fromHeight(60),
       child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        padding: const EdgeInsets.symmetric(
+          horizontal: AppTheme.spaceLg,
+          vertical: AppTheme.spaceXs,
+        ),
         color: AppTheme.primaryColor,
         child: Container(
           height: 44,
           decoration: BoxDecoration(
             color: Colors.white,
-            borderRadius: BorderRadius.circular(22),
+            borderRadius: BorderRadius.circular(AppTheme.radius2xl + 2),
             boxShadow: [
               BoxShadow(
                 color: Colors.black.withValues(alpha: 0.1),
@@ -196,7 +202,10 @@ class AdminAppBar extends StatelessWidget implements PreferredSizeWidget {
               hintStyle: TextStyle(color: Colors.grey[400]),
               prefixIcon: Icon(Icons.search, color: Colors.grey[400]),
               border: InputBorder.none,
-              contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+              contentPadding: const EdgeInsets.symmetric(
+                horizontal: AppTheme.spaceLg,
+                vertical: AppTheme.spaceSm,
+              ),
             ),
             onChanged: onSearch,
           ),

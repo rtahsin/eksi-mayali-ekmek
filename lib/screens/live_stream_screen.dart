@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../services/youtube_service.dart';
+import '../theme/app_theme.dart';
 import '../widgets/custom_app_bar.dart';
 import '../widgets/loading_indicator.dart';
 
@@ -161,7 +162,7 @@ class _LiveStreamScreenState extends State<LiveStreamScreen>
 
           // Video detayları
           Padding(
-            padding: const EdgeInsets.all(16.0),
+            padding: const EdgeInsets.all(AppTheme.spaceLg),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -235,9 +236,9 @@ class _LiveStreamScreenState extends State<LiveStreamScreen>
                       backgroundColor: Colors.red,
                       foregroundColor: Colors.white,
                       padding: const EdgeInsets.symmetric(
-                          horizontal: 24, vertical: 12),
+                          horizontal: AppTheme.space2xl, vertical: AppTheme.spaceMd),
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8),
+                        borderRadius: BorderRadius.circular(AppTheme.radiusSm),
                       ),
                     ),
                   ),
@@ -314,7 +315,7 @@ class _LiveStreamScreenState extends State<LiveStreamScreen>
             left: 0,
             right: 0,
             child: Container(
-              padding: EdgeInsets.all(16),
+              padding: const EdgeInsets.all(AppTheme.spaceLg),
               color: Colors.black.withValues(alpha: 0.7),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -360,7 +361,7 @@ class _LiveStreamScreenState extends State<LiveStreamScreen>
   Widget _buildErrorWidget() {
     return Center(
       child: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(AppTheme.spaceLg),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -421,7 +422,7 @@ class _LiveStreamScreenState extends State<LiveStreamScreen>
             style: ElevatedButton.styleFrom(
               backgroundColor: Colors.red,
               foregroundColor: Colors.white,
-              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+              padding: const EdgeInsets.symmetric(horizontal: AppTheme.spaceXl, vertical: AppTheme.spaceMd),
             ),
           ),
         ],

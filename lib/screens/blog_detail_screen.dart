@@ -162,10 +162,10 @@ class _BlogDetailScreenState extends State<BlogDetailScreen> {
                     Row(
                       children: [
                         Container(
-                          padding: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                          padding: const EdgeInsets.symmetric(horizontal: AppTheme.spaceMd, vertical: AppTheme.space2xs),
                           decoration: BoxDecoration(
                             color: AppTheme.primaryColor.withValues(alpha: 0.1),
-                            borderRadius: BorderRadius.circular(30),
+                            borderRadius: BorderRadius.circular(AppTheme.radiusPill),
                           ),
                           child: Text(
                             widget.post.category,
@@ -278,10 +278,10 @@ class _BlogDetailScreenState extends State<BlogDetailScreen> {
                       runSpacing: 8,
                       children: widget.post.tags.map((tag) {
                         return Container(
-                          padding: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                          padding: const EdgeInsets.symmetric(horizontal: AppTheme.spaceMd, vertical: AppTheme.space2xs),
                           decoration: BoxDecoration(
                             color: Colors.grey[200],
-                            borderRadius: BorderRadius.circular(30),
+                            borderRadius: BorderRadius.circular(AppTheme.radiusPill),
                           ),
                           child: Text(
                             '#$tag',
@@ -308,10 +308,10 @@ class _BlogDetailScreenState extends State<BlogDetailScreen> {
                     Card(
                       elevation: 2,
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(16),
+                        borderRadius: BorderRadius.circular(AppTheme.radiusXl),
                       ),
                       child: Padding(
-                        padding: const EdgeInsets.all(16.0),
+                        padding: const EdgeInsets.all(AppTheme.spaceLg),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -328,9 +328,9 @@ class _BlogDetailScreenState extends State<BlogDetailScreen> {
                               decoration: InputDecoration(
                                 hintText: 'Düşüncelerinizi paylaşın...',
                                 border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(8),
+                                  borderRadius: BorderRadius.circular(AppTheme.radiusSm),
                                 ),
-                                contentPadding: EdgeInsets.all(12),
+                                contentPadding: const EdgeInsets.all(AppTheme.spaceMd),
                               ),
                               maxLines: 3,
                             ),
@@ -342,9 +342,9 @@ class _BlogDetailScreenState extends State<BlogDetailScreen> {
                                 style: ElevatedButton.styleFrom(
                                   foregroundColor: Colors.white,
                                   backgroundColor: AppTheme.primaryColor,
-                                  padding: EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                                  padding: const EdgeInsets.symmetric(horizontal: AppTheme.space2xl, vertical: AppTheme.spaceMd),
                                   shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(30),
+                                    borderRadius: BorderRadius.circular(AppTheme.radiusPill),
                                   ),
                                 ),
                                 child: _isPostingComment
@@ -371,7 +371,7 @@ class _BlogDetailScreenState extends State<BlogDetailScreen> {
                         : _comments.isEmpty
                             ? Center(
                                 child: Padding(
-                                  padding: const EdgeInsets.symmetric(vertical: 24),
+                                  padding: const EdgeInsets.symmetric(vertical: AppTheme.space2xl),
                                   child: Column(
                                     children: [
                                       Icon(
@@ -407,7 +407,7 @@ class _BlogDetailScreenState extends State<BlogDetailScreen> {
                                 itemBuilder: (context, index) {
                                   final comment = _comments[index];
                                   return Padding(
-                                    padding: const EdgeInsets.symmetric(vertical: 8.0),
+                                    padding: const EdgeInsets.symmetric(vertical: AppTheme.spaceXs),
                                     child: Row(
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [

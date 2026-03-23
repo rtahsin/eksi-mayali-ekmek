@@ -206,9 +206,9 @@ class _ProductDetailScreenState extends State<ProductDetailScreen>
                                 color: isDark ? Colors.grey[600] : Colors.grey[400],
                                 size: 50,
                               ),
-                              SizedBox(height: 16),
+                              const SizedBox(height: AppTheme.spaceLg),
                               Padding(
-                                padding: const EdgeInsets.symmetric(horizontal: 24),
+                                padding: const EdgeInsets.symmetric(horizontal: AppTheme.space2xl),
                                 child: Text(
                                   widget.product.name,
                                   style: TextStyle(
@@ -247,7 +247,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen>
                             color: Colors.black.withOpacity(0.7),
                             shape: BoxShape.circle,
                           ),
-                          padding: const EdgeInsets.all(20),
+                          padding: const EdgeInsets.all(AppTheme.spaceXl),
                           child: Icon(
                             Icons.play_arrow_rounded,
                             color: Colors.white,
@@ -260,7 +260,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen>
               ],
             ),
             Padding(
-              padding: const EdgeInsets.all(16),
+              padding: const EdgeInsets.all(AppTheme.spaceLg),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -296,7 +296,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen>
                       height: 1.5,
                     ),
                   ),
-                  const SizedBox(height: 24),
+                  const SizedBox(height: AppTheme.space2xl),
                   // Miktar seçimi
                   Row(
                     children: [
@@ -307,7 +307,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen>
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      const SizedBox(width: 16),
+                      const SizedBox(width: AppTheme.spaceLg),
                       IconButton(
                         icon: const Icon(Icons.remove_circle_outline),
                         onPressed: () {
@@ -335,12 +335,12 @@ class _ProductDetailScreenState extends State<ProductDetailScreen>
                       ),
                     ],
                   ),
-                  const SizedBox(height: 24),
+                  const SizedBox(height: AppTheme.space2xl),
                   // Tab bar
                   Container(
                     decoration: BoxDecoration(
                       color: Colors.grey.shade100,
-                      borderRadius: BorderRadius.circular(12),
+                      borderRadius: BorderRadius.circular(AppTheme.radiusMd),
                     ),
                     child: TabBar(
                       controller: _tabController,
@@ -357,7 +357,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen>
                     ),
                   ).animate().fadeIn(duration: 400.ms, delay: 400.ms),
 
-                  const SizedBox(height: 24),
+                  const SizedBox(height: AppTheme.space2xl),
 
                   // Tab içerikleri - kaydırılabilir
                   SizedBox(
@@ -378,7 +378,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen>
                                   color: AppTheme.textDarkColor,
                                 ),
                               ),
-                              const SizedBox(height: 16),
+                              const SizedBox(height: AppTheme.spaceLg),
                               Text(
                                 'Ekşi mayalı ekmeklerimiz, geleneksel yöntemlerle hazırlanır ve uzun fermentasyon süreci sayesinde daha kolay sindirilebilir ve lezzetli olur. Doğal malzemeler ve sabır ile üretilen ekmeklerimiz, endüstriyel ekmeklere göre daha sağlıklı bir alternatiftir.',
                                 style: const TextStyle(
@@ -399,12 +399,12 @@ class _ProductDetailScreenState extends State<ProductDetailScreen>
                               if (widget.product.ingredients.isNotEmpty)
                                 ...widget.product.ingredients.map((ingredient) {
                                   return Padding(
-                                    padding: const EdgeInsets.only(bottom: 12),
+                                    padding: const EdgeInsets.only(bottom: AppTheme.spaceMd),
                                     child: Row(
                                       children: [
                                         Icon(Icons.check_circle,
                                             color: AppTheme.successColor, size: 20),
-                                        const SizedBox(width: 12),
+                                        const SizedBox(width: AppTheme.spaceMd),
                                         Text(
                                           ingredient,
                                           style: const TextStyle(
@@ -426,18 +426,18 @@ class _ProductDetailScreenState extends State<ProductDetailScreen>
                                     color: AppTheme.textDarkColor,
                                   ),
                                 ),
-                              const SizedBox(height: 16),
+                              const SizedBox(height: AppTheme.spaceLg),
                               Container(
-                                padding: EdgeInsets.all(16),
+                                padding: const EdgeInsets.all(AppTheme.spaceLg),
                                 decoration: BoxDecoration(
                                   color: Colors.grey.shade100,
-                                  borderRadius: BorderRadius.circular(12),
+                                  borderRadius: BorderRadius.circular(AppTheme.radiusMd),
                                   border: Border.all(color: Colors.grey.shade300),
                                 ),
                                 child: Row(
                                   children: [
                                     Icon(Icons.info_outline, color: AppTheme.secondaryColor),
-                                    const SizedBox(width: 12),
+                                    const SizedBox(width: AppTheme.spaceMd),
                                     Expanded(
                                       child: Text(
                                         'Tüm ürünlerimiz gluten içerir. Çapraz bulaşma riski nedeniyle fındık, badem gibi alerjenler içerebilir.',
@@ -499,12 +499,12 @@ class _ProductDetailScreenState extends State<ProductDetailScreen>
                               _buildNutritionItem('Yağ', '1.5g', '100g için'),
                               _buildNutritionItem('Lif', '3.5g', '100g için'),
                               _buildNutritionItem('Sodyum', '560mg', '100g için'),
-                              const SizedBox(height: 16),
+                              const SizedBox(height: AppTheme.spaceLg),
                               Container(
-                                padding: EdgeInsets.all(16),
+                                padding: const EdgeInsets.all(AppTheme.spaceLg),
                                 decoration: BoxDecoration(
                                   color: Colors.grey.shade100,
-                                  borderRadius: BorderRadius.circular(12),
+                                  borderRadius: BorderRadius.circular(AppTheme.radiusMd),
                                   border: Border.all(color: Colors.grey.shade300),
                                 ),
                                 child: Column(
@@ -518,7 +518,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen>
                                         color: AppTheme.secondaryColor,
                                       ),
                                     ),
-                                    const SizedBox(height: 8),
+                                    const SizedBox(height: AppTheme.spaceXs),
                                     _buildBenefitItem('Daha kolay sindirilebilir'),
                                     _buildBenefitItem('Düşük glisemik indeks'),
                                     _buildBenefitItem('Prebiyotik özellikler'),
@@ -549,14 +549,14 @@ class _ProductDetailScreenState extends State<ProductDetailScreen>
                             style: ElevatedButton.styleFrom(
                               backgroundColor: AppTheme.primaryColor,
                               foregroundColor: Colors.white,
-                              padding: EdgeInsets.symmetric(vertical: 16),
+                              padding: const EdgeInsets.symmetric(vertical: AppTheme.spaceLg),
                               shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(8),
+                                borderRadius: BorderRadius.circular(AppTheme.radiusSm),
                               ),
                             ),
                           ),
                         ),
-                        SizedBox(width: 12),
+                        const SizedBox(width: AppTheme.spaceMd),
                         Expanded(
                           child: OutlinedButton.icon(
                             icon: Icon(Icons.shopping_bag_outlined),
@@ -567,9 +567,9 @@ class _ProductDetailScreenState extends State<ProductDetailScreen>
                             style: OutlinedButton.styleFrom(
                               foregroundColor: AppTheme.primaryColor,
                               side: BorderSide(color: AppTheme.primaryColor),
-                              padding: EdgeInsets.symmetric(vertical: 16),
+                              padding: const EdgeInsets.symmetric(vertical: AppTheme.spaceLg),
                               shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(8),
+                                borderRadius: BorderRadius.circular(AppTheme.radiusSm),
                               ),
                             ),
                           ),
@@ -583,17 +583,18 @@ class _ProductDetailScreenState extends State<ProductDetailScreen>
                         // Stok durumu uyarısı
                         if (widget.product.stock < 5 && widget.product.stock > 0)
                           Container(
-                            padding: EdgeInsets.symmetric(vertical: 8, horizontal: 12),
-                            margin: EdgeInsets.only(bottom: 12),
+                            padding: const EdgeInsets.symmetric(
+                                vertical: AppTheme.spaceXs, horizontal: AppTheme.spaceMd),
+                            margin: const EdgeInsets.only(bottom: AppTheme.spaceMd),
                             decoration: BoxDecoration(
                               color: Colors.orange.shade50,
-                              borderRadius: BorderRadius.circular(8),
+                              borderRadius: BorderRadius.circular(AppTheme.radiusSm),
                               border: Border.all(color: Colors.orange.shade200),
                             ),
                             child: Row(
                               children: [
                                 Icon(Icons.info_outline, color: Colors.orange, size: 20),
-                                SizedBox(width: 8),
+                                const SizedBox(width: AppTheme.spaceXs),
                                 Expanded(
                                   child: Text(
                                     'Son ${widget.product.stock} adet kaldı!',
@@ -634,10 +635,10 @@ class _ProductDetailScreenState extends State<ProductDetailScreen>
                             backgroundColor:
                                 widget.product.stock > 0 ? AppTheme.primaryColor : Colors.grey,
                             foregroundColor: Colors.white,
-                            padding: EdgeInsets.symmetric(vertical: 16),
-                            minimumSize: Size(double.infinity, 50),
+                            padding: const EdgeInsets.symmetric(vertical: AppTheme.spaceLg),
+                            minimumSize: const Size(double.infinity, 50),
                             shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(8),
+                              borderRadius: BorderRadius.circular(AppTheme.radiusSm),
                             ),
                             disabledBackgroundColor: Colors.grey.shade300,
                             disabledForegroundColor: Colors.grey.shade600,
@@ -658,7 +659,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen>
 
   Widget _buildProductionStep(int step, String title, String description, IconData icon) {
     return Padding(
-      padding: const EdgeInsets.only(bottom: 20),
+      padding: const EdgeInsets.only(bottom: AppTheme.spaceXl),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -679,7 +680,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen>
               ),
             ),
           ),
-          const SizedBox(width: 16),
+          const SizedBox(width: AppTheme.spaceLg),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -687,7 +688,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen>
                 Row(
                   children: [
                     Icon(icon, color: AppTheme.secondaryColor, size: 20),
-                    const SizedBox(width: 8),
+                    const SizedBox(width: AppTheme.spaceXs),
                     Text(
                       title,
                       style: TextStyle(
@@ -697,7 +698,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen>
                     ),
                   ],
                 ),
-                const SizedBox(height: 8),
+                const SizedBox(height: AppTheme.spaceXs),
                 Text(
                   description,
                   style: TextStyle(
@@ -716,7 +717,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen>
 
   Widget _buildNutritionItem(String name, String value, String unit) {
     return Padding(
-      padding: const EdgeInsets.only(bottom: 16),
+      padding: const EdgeInsets.only(bottom: AppTheme.spaceLg),
       child: Row(
         children: [
           Expanded(
@@ -756,11 +757,11 @@ class _ProductDetailScreenState extends State<ProductDetailScreen>
 
   Widget _buildBenefitItem(String text) {
     return Padding(
-      padding: const EdgeInsets.only(bottom: 8),
+      padding: const EdgeInsets.only(bottom: AppTheme.spaceXs),
       child: Row(
         children: [
           Icon(Icons.check, color: AppTheme.successColor, size: 18),
-          const SizedBox(width: 8),
+          const SizedBox(width: AppTheme.spaceXs),
           Text(
             text,
             style: TextStyle(

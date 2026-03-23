@@ -4,6 +4,7 @@ import '../../core/di/service_locator.dart';
 import '../../models/user.dart';
 import '../../services/auth_service.dart';
 import '../../services/notification_service.dart';
+import '../../theme/app_theme.dart';
 import '../../utils/logger.dart';
 import '../../widgets/admin_app_bar.dart';
 import '../../widgets/snackbar_helper.dart';
@@ -161,7 +162,7 @@ class _NotificationManagementScreenState
       body: _isLoading && _allUsers.isEmpty
           ? const Center(child: CircularProgressIndicator())
           : SingleChildScrollView(
-              padding: const EdgeInsets.all(16.0),
+              padding: const EdgeInsets.all(AppTheme.spaceLg),
               child: Form(
                 key: _formKey,
                 child: Column(
@@ -191,7 +192,7 @@ class _NotificationManagementScreenState
   Widget _buildNotificationForm() {
     return Card(
       child: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(AppTheme.spaceLg),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -281,7 +282,7 @@ class _NotificationManagementScreenState
   Widget _buildRecipientSelection() {
     return Card(
       child: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(AppTheme.spaceLg),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -324,7 +325,7 @@ class _NotificationManagementScreenState
     if (_allUsers.isEmpty) {
       return const Card(
         child: Padding(
-          padding: EdgeInsets.all(16.0),
+          padding: EdgeInsets.all(AppTheme.spaceLg),
           child: Center(
             child: Text('Kullanıcı bulunamadı'),
           ),
@@ -334,7 +335,7 @@ class _NotificationManagementScreenState
 
     return Card(
       child: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(AppTheme.spaceLg),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -388,7 +389,7 @@ class _NotificationManagementScreenState
               ),
             if (_selectedUserIds.isNotEmpty)
               Padding(
-                padding: const EdgeInsets.only(top: 8.0),
+                padding: const EdgeInsets.only(top: AppTheme.spaceXs),
                 child: Text(
                   '${_selectedUserIds.length} kullanıcı seçildi',
                   style: TextStyle(

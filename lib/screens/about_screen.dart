@@ -25,7 +25,7 @@ class AboutScreen extends StatelessWidget {
 
             // Hikayemiz
             Padding(
-              padding: const EdgeInsets.all(24.0),
+              padding: const EdgeInsets.all(AppTheme.space2xl),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -49,7 +49,7 @@ class AboutScreen extends StatelessWidget {
             // Misyonumuz
             Container(
               color: Colors.grey[100],
-              padding: const EdgeInsets.all(24.0),
+              padding: const EdgeInsets.all(AppTheme.space2xl),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -72,7 +72,7 @@ class AboutScreen extends StatelessWidget {
 
             // Vizyonumuz
             Padding(
-              padding: const EdgeInsets.all(24.0),
+              padding: const EdgeInsets.all(AppTheme.space2xl),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -96,7 +96,7 @@ class AboutScreen extends StatelessWidget {
             // Değerlerimiz
             Container(
               color: Colors.grey[100],
-              padding: const EdgeInsets.all(24.0),
+              padding: const EdgeInsets.all(AppTheme.space2xl),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -149,7 +149,7 @@ class AboutScreen extends StatelessWidget {
 
             // İletişim
             Padding(
-              padding: const EdgeInsets.all(24.0),
+              padding: const EdgeInsets.all(AppTheme.space2xl),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -190,7 +190,7 @@ class AboutScreen extends StatelessWidget {
     return Card(
       elevation: 4,
       child: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(AppTheme.spaceLg),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [

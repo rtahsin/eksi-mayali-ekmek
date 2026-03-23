@@ -58,7 +58,7 @@ class _SplashScreenState extends State<SplashScreen> {
               children: [
                 // Logo
                 Container(
-                  padding: const EdgeInsets.all(20),
+                  padding: const EdgeInsets.all(AppTheme.spaceXl),
                   decoration: BoxDecoration(
                     color: Colors.white,
                     shape: BoxShape.circle,

@@ -148,7 +148,7 @@ class _PreferencesScreenState extends State<PreferencesScreen> {
       body: _isLoading
           ? const Center(child: CircularProgressIndicator())
           : SingleChildScrollView(
-              padding: const EdgeInsets.all(16),
+              padding: const EdgeInsets.all(AppTheme.spaceLg),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -311,9 +311,9 @@ class _PreferencesScreenState extends State<PreferencesScreen> {
         onPressed: _savePreferences,
         style: ElevatedButton.styleFrom(
           backgroundColor: AppTheme.primaryColor,
-          padding: const EdgeInsets.symmetric(vertical: 16),
+          padding: const EdgeInsets.symmetric(vertical: AppTheme.spaceLg),
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(12),
+            borderRadius: BorderRadius.circular(AppTheme.radiusMd),
           ),
         ),
         child: _isLoading
@@ -449,7 +449,7 @@ class _PreferencesScreenState extends State<PreferencesScreen> {
       elevation: 0,
       color: Colors.grey.shade100,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(AppTheme.radiusMd),
       ),
       child: SwitchListTile(
         title: Text(
@@ -472,10 +472,10 @@ class _PreferencesScreenState extends State<PreferencesScreen> {
       elevation: 0,
       color: Colors.grey.shade100,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(AppTheme.radiusMd),
       ),
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        padding: const EdgeInsets.symmetric(horizontal: AppTheme.spaceLg, vertical: AppTheme.spaceXs),
         child: DropdownButtonFormField<String>(
           decoration: const InputDecoration(
             labelText: 'Dil',
@@ -506,10 +506,10 @@ class _PreferencesScreenState extends State<PreferencesScreen> {
       elevation: 0,
       color: Colors.grey.shade100,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(AppTheme.radiusMd),
       ),
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        padding: const EdgeInsets.symmetric(horizontal: AppTheme.spaceLg, vertical: AppTheme.spaceXs),
         child: DropdownButtonFormField<String>(
           decoration: const InputDecoration(
             labelText: 'Para Birimi',

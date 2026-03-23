@@ -45,7 +45,7 @@ class _AdminOrdersState extends State<AdminOrders> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Padding(
-              padding: const EdgeInsets.all(16),
+              padding: const EdgeInsets.all(AppTheme.spaceLg),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -62,7 +62,7 @@ class _AdminOrdersState extends State<AdminOrders> {
                         duration: 600.ms,
                       ),
 
-                  const SizedBox(height: 16),
+                  const SizedBox(height: AppTheme.spaceLg),
 
                   // Filtre ve arama - Mobil responsive
                   LayoutBuilder(
@@ -78,23 +78,23 @@ class _AdminOrdersState extends State<AdminOrders> {
                                 hintText: 'Sipariş ara...',
                                 prefixIcon: const Icon(Icons.search),
                                 border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(8),
+                                  borderRadius: BorderRadius.circular(AppTheme.radiusSm),
                                 ),
-                                contentPadding: const EdgeInsets.symmetric(vertical: 12),
+                                contentPadding: const EdgeInsets.symmetric(vertical: AppTheme.spaceMd),
                                 filled: true,
                                 fillColor: Colors.white,
                               ),
                             ),
-                            const SizedBox(height: 12),
+                            const SizedBox(height: AppTheme.spaceMd),
                             Row(
                               children: [
                                 Expanded(
                                   child: Container(
                                     padding:
-                                        const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                                        const EdgeInsets.symmetric(horizontal: AppTheme.spaceMd, vertical: AppTheme.spaceXxs),
                                     decoration: BoxDecoration(
                                       color: Colors.white,
-                                      borderRadius: BorderRadius.circular(8),
+                                      borderRadius: BorderRadius.circular(AppTheme.radiusSm),
                                       border: Border.all(color: Colors.grey.shade300),
                                     ),
                                     child: DropdownButton<String>(
@@ -120,7 +120,7 @@ class _AdminOrdersState extends State<AdminOrders> {
                                     ),
                                   ),
                                 ),
-                                const SizedBox(width: 12),
+                                const SizedBox(width: AppTheme.spaceMd),
                                 ElevatedButton(
                                   onPressed: () {
                                     setState(() {});
@@ -128,9 +128,9 @@ class _AdminOrdersState extends State<AdminOrders> {
                                   style: ElevatedButton.styleFrom(
                                     backgroundColor: AppTheme.primaryColor,
                                     foregroundColor: Colors.white,
-                                    padding: const EdgeInsets.all(12),
+                                    padding: const EdgeInsets.all(AppTheme.spaceMd),
                                     shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(8),
+                                      borderRadius: BorderRadius.circular(AppTheme.radiusSm),
                                     ),
                                   ),
                                   child: const Icon(Icons.refresh),
@@ -150,20 +150,20 @@ class _AdminOrdersState extends State<AdminOrders> {
                                 hintText: 'Sipariş ara...',
                                 prefixIcon: const Icon(Icons.search),
                                 border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(8),
+                                  borderRadius: BorderRadius.circular(AppTheme.radiusSm),
                                 ),
-                                contentPadding: const EdgeInsets.symmetric(vertical: 12),
+                                contentPadding: const EdgeInsets.symmetric(vertical: AppTheme.spaceMd),
                                 filled: true,
                                 fillColor: Colors.white,
                               ),
                             ),
                           ),
-                          const SizedBox(width: 16),
+                          const SizedBox(width: AppTheme.spaceLg),
                           Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                            padding: const EdgeInsets.symmetric(horizontal: AppTheme.spaceMd, vertical: AppTheme.spaceXxs),
                             decoration: BoxDecoration(
                               color: Colors.white,
-                              borderRadius: BorderRadius.circular(8),
+                              borderRadius: BorderRadius.circular(AppTheme.radiusSm),
                               border: Border.all(color: Colors.grey.shade300),
                             ),
                             child: DropdownButton<String>(
@@ -196,7 +196,7 @@ class _AdminOrdersState extends State<AdminOrders> {
                             style: ElevatedButton.styleFrom(
                               backgroundColor: AppTheme.primaryColor,
                               foregroundColor: Colors.white,
-                              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                              padding: const EdgeInsets.symmetric(horizontal: AppTheme.spaceLg, vertical: AppTheme.spaceMd),
                             ),
                           ),
                         ],
@@ -274,11 +274,11 @@ class _AdminOrdersState extends State<AdminOrders> {
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
 
     return Card(
-      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      margin: const EdgeInsets.symmetric(horizontal: AppTheme.spaceLg, vertical: AppTheme.spaceXs),
       elevation: 4,
       shadowColor: statusColor.withValues(alpha: 0.2),
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(AppTheme.radiusXl),
         side: BorderSide(
           color: statusColor.withValues(alpha: 0.1),
           width: 1,
@@ -286,7 +286,7 @@ class _AdminOrdersState extends State<AdminOrders> {
       ),
       child: Container(
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(16),
+          borderRadius: BorderRadius.circular(AppTheme.radiusXl),
           gradient: LinearGradient(
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
@@ -297,7 +297,7 @@ class _AdminOrdersState extends State<AdminOrders> {
           ),
         ),
         child: Padding(
-          padding: const EdgeInsets.all(16),
+          padding: const EdgeInsets.all(AppTheme.spaceLg),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -307,7 +307,7 @@ class _AdminOrdersState extends State<AdminOrders> {
                   Row(
                     children: [
                       Container(
-                        padding: const EdgeInsets.all(8),
+                        padding: const EdgeInsets.all(AppTheme.spaceXs),
                         decoration: BoxDecoration(
                           color: statusColor.withValues(alpha: 0.1),
                           shape: BoxShape.circle,
@@ -318,7 +318,7 @@ class _AdminOrdersState extends State<AdminOrders> {
                           size: 16,
                         ),
                       ),
-                      const SizedBox(width: 12),
+                      const SizedBox(width: AppTheme.spaceMd),
                       Text(
                         'Sipariş #${order.id.substring(0, 8)}',
                         style: const TextStyle(
@@ -329,10 +329,13 @@ class _AdminOrdersState extends State<AdminOrders> {
                     ],
                   ),
                   Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: AppTheme.spaceMd,
+                      vertical: AppTheme.spaceXxs + 2,
+                    ),
                     decoration: BoxDecoration(
                       color: statusColor.withAlpha(26),
-                      borderRadius: BorderRadius.circular(20),
+                      borderRadius: BorderRadius.circular(AppTheme.radius2xl),
                       border: Border.all(
                         color: statusColor.withValues(alpha: 0.3),
                         width: 1,
@@ -397,10 +400,10 @@ class _AdminOrdersState extends State<AdminOrders> {
                         const SizedBox(height: 12),
                         Container(
                           width: double.infinity,
-                          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                          padding: const EdgeInsets.symmetric(horizontal: AppTheme.spaceMd, vertical: AppTheme.spaceXs),
                           decoration: BoxDecoration(
                             color: AppTheme.primaryColor.withValues(alpha: 0.1),
-                            borderRadius: BorderRadius.circular(8),
+                            borderRadius: BorderRadius.circular(AppTheme.radiusSm),
                           ),
                           child: Text(
                             '${order.amount != null ? order.amount!.toStringAsFixed(2) : "0.00"} TL',
@@ -467,10 +470,13 @@ class _AdminOrdersState extends State<AdminOrders> {
                             ),
                             const SizedBox(height: 8),
                             Container(
-                              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: AppTheme.spaceMd,
+                                vertical: AppTheme.spaceXxs + 2,
+                              ),
                               decoration: BoxDecoration(
                                 color: AppTheme.primaryColor.withValues(alpha: 0.1),
-                                borderRadius: BorderRadius.circular(8),
+                                borderRadius: BorderRadius.circular(AppTheme.radiusSm),
                               ),
                               child: Text(
                                 '${order.amount != null ? order.amount!.toStringAsFixed(2) : "0.00"} TL',
@@ -488,7 +494,7 @@ class _AdminOrdersState extends State<AdminOrders> {
                   );
                 },
               ),
-              const SizedBox(height: 16),
+              const SizedBox(height: AppTheme.spaceLg),
               LayoutBuilder(
                 builder: (context, constraints) {
                   final isMobile = constraints.maxWidth < 400;
@@ -507,14 +513,14 @@ class _AdminOrdersState extends State<AdminOrders> {
                               foregroundColor: statusColor,
                               side: BorderSide(color: statusColor),
                               shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(8),
+                                borderRadius: BorderRadius.circular(AppTheme.radiusSm),
                               ),
-                              padding: const EdgeInsets.symmetric(vertical: 12),
+                              padding: const EdgeInsets.symmetric(vertical: AppTheme.spaceMd),
                             ),
                             child: const Text('Detaylar'),
                           ),
                         ),
-                        const SizedBox(height: 8),
+                        const SizedBox(height: AppTheme.spaceXs),
                         SizedBox(
                           width: double.infinity,
                           child: ElevatedButton(
@@ -526,9 +532,9 @@ class _AdminOrdersState extends State<AdminOrders> {
                               foregroundColor: Colors.white,
                               elevation: 0,
                               shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(8),
+                                borderRadius: BorderRadius.circular(AppTheme.radiusSm),
                               ),
-                              padding: const EdgeInsets.symmetric(vertical: 12),
+                              padding: const EdgeInsets.symmetric(vertical: AppTheme.spaceMd),
                             ),
                             child: const Text('Durumu Güncelle'),
                           ),
@@ -549,12 +555,12 @@ class _AdminOrdersState extends State<AdminOrders> {
                           foregroundColor: statusColor,
                           side: BorderSide(color: statusColor),
                           shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8),
+                            borderRadius: BorderRadius.circular(AppTheme.radiusSm),
                           ),
                         ),
                         child: const Text('Detaylar'),
                       ),
-                      const SizedBox(width: 8),
+                      const SizedBox(width: AppTheme.spaceXs),
                       ElevatedButton(
                         onPressed: () {
                           _showUpdateStatusDialog(order);
@@ -564,7 +570,7 @@ class _AdminOrdersState extends State<AdminOrders> {
                           foregroundColor: Colors.white,
                           elevation: 0,
                           shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8),
+                            borderRadius: BorderRadius.circular(AppTheme.radiusSm),
                           ),
                         ),
                         child: const Text('Durumu Güncelle'),
@@ -629,7 +635,7 @@ class _AdminOrdersState extends State<AdminOrders> {
               ),
               const SizedBox(height: 8),
               ...order.items.map((item) => Padding(
-                    padding: const EdgeInsets.only(bottom: 8),
+                  padding: const EdgeInsets.only(bottom: AppTheme.spaceXs),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [

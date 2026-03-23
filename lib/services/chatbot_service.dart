@@ -27,6 +27,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '../models/chatbot_message.dart';
+import '../models/product.dart';
 import '../utils/logger.dart';
 
 class ChatBotService {
@@ -196,6 +197,99 @@ class ChatBotService {
     }
   }
 
+  /// Canlı ürün kategorilerini getirir
+  Future<List<String>> getProductCategories() async {
+    try {
+      final snapshot = await _firestore
+          .collection('urunler')
+          .where('deleted', isEqualTo: false)
+          .where('isActive', isEqualTo: true)
+          .where('inStock', isEqualTo: true)
+          .get();
+
+      final categories = snapshot.docs
+          .map((doc) => (doc.data()['category'] ?? '').toString().trim())
+          .where((c) => c.isNotEmpty)
+          .toSet()
+          .toList();
+
+      categories.sort();
+      return categories;
+    } catch (e) {
+      Logger.error('Ürün kategorileri yüklenirken hata: $e');
+      return [];
+    }
+  }
+
+  /// Belirtilen kategoriye ait ürünleri listeler (fiyat + stok)
+  Future<String> getProductsByCategory(String category, {int limit = 20}) async {
+    try {
+      final snapshot = await _firestore
+          .collection('urunler')
+          .where('deleted', isEqualTo: false)
+          .where('isActive', isEqualTo: true)
+          .where('inStock', isEqualTo: true)
+          .where('category', isEqualTo: category)
+          .orderBy('name')
+          .limit(limit)
+          .get();
+
+      if (snapshot.docs.isEmpty) {
+        return 'Bu kategori için aktif ürün bulunamadı.';
+      }
+
+      final products = snapshot.docs.map((doc) {
+        final data = doc.data();
+        return Product.fromJson({...data, 'id': doc.id});
+      }).toList();
+
+      final lines = products.map((p) {
+        final price = p.discountedPrice.toStringAsFixed(0);
+        final stockLabel = p.stock > 0 ? '${p.stock} adet' : 'Tükendi';
+        return '• ${p.name}: $price₺ (Stok: $stockLabel)';
+      }).join('\n');
+
+      return '📦 $category kategorisindeki ürünler:\n\n$lines\n\nAna menüye dönmek için seçeneklerden birini seçebilirsin.';
+    } catch (e) {
+      Logger.error('Kategori ürünleri yüklenirken hata: $e');
+      return 'Ürünler yüklenirken bir hata oluştu. Lütfen daha sonra tekrar deneyin.';
+    }
+  }
+
+  /// Canlı ürün kataloğu (tüm kategoriler)
+  Future<String> getProductCatalogText({int limit = 10}) async {
+    try {
+      final snapshot = await _firestore
+          .collection('urunler')
+          .where('deleted', isEqualTo: false)
+          .where('isActive', isEqualTo: true)
+          .where('inStock', isEqualTo: true)
+          .orderBy('name')
+          .limit(limit)
+          .get();
+
+      if (snapshot.docs.isEmpty) {
+        return 'Şu anda aktif ürün bulunmuyor. Lütfen daha sonra tekrar deneyin.';
+      }
+
+      final products = snapshot.docs.map((doc) {
+        final data = doc.data();
+        return Product.fromJson({...data, 'id': doc.id});
+      }).toList();
+
+      final lines = products.map((p) {
+        final price = p.discountedPrice.toStringAsFixed(0);
+        final stockLabel = p.stock > 0 ? '${p.stock} adet' : 'Tükendi';
+        return '• ${p.name}: $price₺ (Stok: $stockLabel)';
+      }).join('\n');
+
+      return '📦 Ürünlerimiz (güncel):\n\n$lines\n\nAna menüye dönmek için seçeneklerden birini seçebilirsin.';
+    } catch (e) {
+      Logger.error('Ürün listesi alınırken hata: $e');
+      return 'Ürün listesi alınırken hata oluştu. Lütfen daha sonra tekrar deneyin.';
+    }
+  }
+
   /// Demo verileri oluştur (İlk kurulum için)
   Future<void> createDemoData() async {
     try {
@@ -223,23 +317,21 @@ class ChatBotService {
         options: [
           ChatBotOption(
             id: 'opt_1',
-            text: '🍞 Ürünler hakkında bilgi',
-            nextMessageId: 'product_info',
+            text: '🍞 Ürünleri Görüntüle',
+            nextMessageId: '',
+            action: 'show_categories',
           ),
           ChatBotOption(
             id: 'opt_2',
-            text: '📦 Sipariş takibi',
-            nextMessageId: 'order_tracking',
+            text: '🚚 Teslimat bilgisi',
+            nextMessageId: '',
+            action: 'order_steps',
           ),
           ChatBotOption(
             id: 'opt_3',
-            text: '🚚 Teslimat bilgileri',
-            nextMessageId: 'delivery_info',
-          ),
-          ChatBotOption(
-            id: 'opt_4',
             text: '📞 İletişim',
-            nextMessageId: 'contact_info',
+            nextMessageId: '',
+            action: 'contact_info',
           ),
         ],
       );

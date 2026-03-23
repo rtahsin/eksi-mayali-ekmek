@@ -231,7 +231,7 @@ class _AdminSettingsState extends State<AdminSettings> {
                       Card(
                         elevation: cardElevation,
                         shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12),
+                          borderRadius: BorderRadius.circular(AppTheme.radiusMd),
                         ),
                         child: Padding(
                           padding: EdgeInsets.all(contentPadding),
@@ -243,8 +243,8 @@ class _AdminSettingsState extends State<AdminSettings> {
                                   labelText: 'Mağaza Adı',
                                   border: OutlineInputBorder(),
                                   contentPadding: EdgeInsets.symmetric(
-                                    horizontal: 12,
-                                    vertical: isSmallScreen ? 10 : 16,
+                                    horizontal: AppTheme.spaceMd,
+                                    vertical: isSmallScreen ? AppTheme.spaceSm : AppTheme.spaceLg,
                                   ),
                                 ),
                               ),
@@ -255,8 +255,8 @@ class _AdminSettingsState extends State<AdminSettings> {
                                   labelText: 'Adres',
                                   border: OutlineInputBorder(),
                                   contentPadding: EdgeInsets.symmetric(
-                                    horizontal: 12,
-                                    vertical: isSmallScreen ? 10 : 16,
+                                    horizontal: AppTheme.spaceMd,
+                                    vertical: isSmallScreen ? AppTheme.spaceSm : AppTheme.spaceLg,
                                   ),
                                 ),
                                 maxLines: 2,
@@ -272,8 +272,8 @@ class _AdminSettingsState extends State<AdminSettings> {
                                             labelText: 'Telefon',
                                             border: OutlineInputBorder(),
                                             contentPadding: EdgeInsets.symmetric(
-                                              horizontal: 12,
-                                              vertical: 10,
+                                              horizontal: AppTheme.spaceMd,
+                                              vertical: AppTheme.spaceSm,
                                             ),
                                           ),
                                         ),
@@ -284,8 +284,8 @@ class _AdminSettingsState extends State<AdminSettings> {
                                             labelText: 'E-posta',
                                             border: OutlineInputBorder(),
                                             contentPadding: EdgeInsets.symmetric(
-                                              horizontal: 12,
-                                              vertical: 10,
+                                              horizontal: AppTheme.spaceMd,
+                                              vertical: AppTheme.spaceSm,
                                             ),
                                           ),
                                         ),
@@ -300,8 +300,8 @@ class _AdminSettingsState extends State<AdminSettings> {
                                               labelText: 'Telefon',
                                               border: OutlineInputBorder(),
                                               contentPadding: EdgeInsets.symmetric(
-                                                horizontal: 12,
-                                                vertical: 16,
+                                                horizontal: AppTheme.spaceMd,
+                                                vertical: AppTheme.spaceLg,
                                               ),
                                             ),
                                           ),
@@ -314,8 +314,8 @@ class _AdminSettingsState extends State<AdminSettings> {
                                               labelText: 'E-posta',
                                               border: OutlineInputBorder(),
                                               contentPadding: EdgeInsets.symmetric(
-                                                horizontal: 12,
-                                                vertical: 16,
+                                                horizontal: AppTheme.spaceMd,
+                                                vertical: AppTheme.spaceLg,
                                               ),
                                             ),
                                           ),
@@ -338,7 +338,7 @@ class _AdminSettingsState extends State<AdminSettings> {
                       Card(
                         elevation: cardElevation,
                         shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12),
+                          borderRadius: BorderRadius.circular(AppTheme.radiusMd),
                         ),
                         child: Padding(
                           padding: EdgeInsets.all(contentPadding),
@@ -346,7 +346,8 @@ class _AdminSettingsState extends State<AdminSettings> {
                             children: [
                               ..._workingHoursControllers.map((controller) {
                                 return Padding(
-                                  padding: EdgeInsets.only(bottom: isSmallScreen ? 6.0 : 8.0),
+                                  padding: EdgeInsets.only(
+                                      bottom: isSmallScreen ? AppTheme.space2xs : AppTheme.spaceXs),
                                   child: TextFormField(
                                     controller: controller,
                                     decoration: InputDecoration(
@@ -354,8 +355,8 @@ class _AdminSettingsState extends State<AdminSettings> {
                                       hintText: 'Örn: Pazartesi - Cuma: 09:00 - 18:00',
                                       border: OutlineInputBorder(),
                                       contentPadding: EdgeInsets.symmetric(
-                                        horizontal: 12,
-                                        vertical: isSmallScreen ? 10 : 16,
+                                        horizontal: AppTheme.spaceMd,
+                                        vertical: isSmallScreen ? AppTheme.spaceSm : AppTheme.spaceLg,
                                       ),
                                     ),
                                   ),
@@ -375,8 +376,8 @@ class _AdminSettingsState extends State<AdminSettings> {
                                   style: ElevatedButton.styleFrom(
                                     backgroundColor: AppTheme.primaryColor,
                                     padding: EdgeInsets.symmetric(
-                                        horizontal: isSmallScreen ? 12 : 16,
-                                        vertical: isSmallScreen ? 8 : 12),
+                                        horizontal: isSmallScreen ? AppTheme.spaceMd : AppTheme.spaceLg,
+                                        vertical: isSmallScreen ? AppTheme.spaceXs : AppTheme.spaceMd),
                                   ),
                                 ),
                               ),
@@ -396,7 +397,7 @@ class _AdminSettingsState extends State<AdminSettings> {
                       Card(
                         elevation: cardElevation,
                         shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12),
+                          borderRadius: BorderRadius.circular(AppTheme.radiusMd),
                         ),
                         child: Padding(
                           padding: EdgeInsets.all(contentPadding),
@@ -408,8 +409,8 @@ class _AdminSettingsState extends State<AdminSettings> {
                                   labelText: 'SEO Başlık',
                                   border: OutlineInputBorder(),
                                   contentPadding: EdgeInsets.symmetric(
-                                    horizontal: 12,
-                                    vertical: isSmallScreen ? 10 : 16,
+                                    horizontal: AppTheme.spaceMd,
+                                    vertical: isSmallScreen ? AppTheme.spaceSm : AppTheme.spaceLg,
                                   ),
                                 ),
                               ),
@@ -420,8 +421,8 @@ class _AdminSettingsState extends State<AdminSettings> {
                                   labelText: 'SEO Açıklama',
                                   border: OutlineInputBorder(),
                                   contentPadding: EdgeInsets.symmetric(
-                                    horizontal: 12,
-                                    vertical: isSmallScreen ? 10 : 16,
+                                    horizontal: AppTheme.spaceMd,
+                                    vertical: isSmallScreen ? AppTheme.spaceSm : AppTheme.spaceLg,
                                   ),
                                 ),
                                 maxLines: isSmallScreen ? 2 : 3,
@@ -434,8 +435,8 @@ class _AdminSettingsState extends State<AdminSettings> {
                                   hintText: 'Virgülle ayırın',
                                   border: OutlineInputBorder(),
                                   contentPadding: EdgeInsets.symmetric(
-                                    horizontal: 12,
-                                    vertical: isSmallScreen ? 10 : 16,
+                                    horizontal: AppTheme.spaceMd,
+                                    vertical: isSmallScreen ? AppTheme.spaceSm : AppTheme.spaceLg,
                                   ),
                                 ),
                               ),
@@ -455,7 +456,7 @@ class _AdminSettingsState extends State<AdminSettings> {
                       Card(
                         elevation: cardElevation,
                         shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12),
+                          borderRadius: BorderRadius.circular(AppTheme.radiusMd),
                         ),
                         child: Padding(
                           padding: EdgeInsets.all(contentPadding),
@@ -530,8 +531,8 @@ class _AdminSettingsState extends State<AdminSettings> {
                             style: ElevatedButton.styleFrom(
                               backgroundColor: AppTheme.primaryColor,
                               padding: EdgeInsets.symmetric(
-                                  horizontal: isSmallScreen ? 16 : 32,
-                                  vertical: isSmallScreen ? 12 : 16),
+                                  horizontal: isSmallScreen ? AppTheme.spaceLg : AppTheme.space3xl,
+                                  vertical: isSmallScreen ? AppTheme.spaceMd : AppTheme.spaceLg),
                               textStyle: TextStyle(
                                 fontSize: isSmallScreen ? 14 : 16,
                                 fontWeight: FontWeight.bold,
@@ -600,7 +601,8 @@ class _AdminSettingsState extends State<AdminSettings> {
           ),
           SizedBox(height: isSmallScreen ? 6 : 8),
           Padding(
-            padding: EdgeInsets.symmetric(horizontal: isSmallScreen ? 24 : 32),
+            padding: EdgeInsets.symmetric(
+                horizontal: isSmallScreen ? AppTheme.space2xl : AppTheme.space3xl),
             child: Text(
               _errorMessage ?? 'Bilinmeyen bir hata oluştu',
               textAlign: TextAlign.center,
@@ -618,7 +620,7 @@ class _AdminSettingsState extends State<AdminSettings> {
             style: ElevatedButton.styleFrom(
               backgroundColor: AppTheme.primaryColor,
               padding: EdgeInsets.symmetric(
-                  horizontal: isSmallScreen ? 16 : 20, vertical: isSmallScreen ? 8 : 10),
+                  horizontal: isSmallScreen ? AppTheme.spaceLg : AppTheme.spaceXl, vertical: isSmallScreen ? AppTheme.spaceXs : AppTheme.spaceSm),
             ),
           ),
         ],
@@ -629,7 +631,7 @@ class _AdminSettingsState extends State<AdminSettings> {
   // Responsive section title
   Widget _buildSectionTitle(String title, bool isSmallScreen) {
     return Padding(
-      padding: EdgeInsets.only(bottom: isSmallScreen ? 8 : 12),
+      padding: EdgeInsets.only(bottom: isSmallScreen ? AppTheme.spaceXs : AppTheme.spaceMd),
       child: Text(
         title,
         style: TextStyle(
@@ -652,7 +654,7 @@ class _AdminSettingsState extends State<AdminSettings> {
     return Row(
       children: [
         Container(
-          padding: EdgeInsets.all(isSmallScreen ? 6 : 8),
+          padding: EdgeInsets.all(isSmallScreen ? AppTheme.spaceXxs + 2 : AppTheme.spaceXs),
           decoration: BoxDecoration(
             color: AppTheme.primaryColor.withAlpha(26),
             shape: BoxShape.circle,
@@ -727,11 +729,26 @@ class _AdminSettingsState extends State<AdminSettings> {
             fontSize: isSmallScreen ? 14 : 16,
           ),
         ),
-        contentPadding: EdgeInsets.fromLTRB(24, 20, 24, 0),
-        titlePadding: EdgeInsets.fromLTRB(24, 24, 24, 0),
-        actionsPadding: EdgeInsets.fromLTRB(8, 8, 16, 16),
+        contentPadding: const EdgeInsets.fromLTRB(
+          AppTheme.space2xl,
+          AppTheme.spaceXl,
+          AppTheme.space2xl,
+          AppTheme.spaceZero,
+        ),
+        titlePadding: const EdgeInsets.fromLTRB(
+          AppTheme.space2xl,
+          AppTheme.space2xl,
+          AppTheme.space2xl,
+          AppTheme.spaceZero,
+        ),
+        actionsPadding: const EdgeInsets.fromLTRB(
+          AppTheme.spaceXs,
+          AppTheme.spaceXs,
+          AppTheme.spaceLg,
+          AppTheme.spaceLg,
+        ),
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(AppTheme.radiusMd),
         ),
         actions: [
           TextButton(
@@ -784,7 +801,7 @@ class _AdminSettingsState extends State<AdminSettings> {
             style: ElevatedButton.styleFrom(
               backgroundColor: value ? Colors.orange : AppTheme.primaryColor,
               padding: EdgeInsets.symmetric(
-                  horizontal: isSmallScreen ? 12 : 16, vertical: isSmallScreen ? 6 : 8),
+                  horizontal: isSmallScreen ? AppTheme.spaceMd : AppTheme.spaceLg, vertical: isSmallScreen ? AppTheme.space2xs : AppTheme.spaceXs),
             ),
             child: Text(
               value ? 'Etkinleştir' : 'Devre Dışı Bırak',

@@ -36,17 +36,22 @@ class _AdminDrawerState extends State<AdminDrawer> {
       final firestore = FirebaseFirestore.instance;
 
       // Bekleyen siparişler
-      final pendingOrders = await firestore
-          .collection('siparisler')
-          .where('orderStatus', whereIn: ['pending', 'processing'])
-          .count()
-          .get();
+      // Legacy uyumluluğu için hem status hem orderStatus alanlarını destekler.
+      final ordersSnapshot = await firestore.collection('siparisler').get();
+      int pendingOrdersCount = 0;
+      for (final doc in ordersSnapshot.docs) {
+        final data = doc.data();
+        final status = (data['status'] ?? data['orderStatus'] ?? '').toString();
+        if (status == 'pending' || status == 'processing') {
+          pendingOrdersCount++;
+        }
+      }
 
       // Düşük stok ürünler (< 10)
       final products = await firestore.collection('urunler').get();
       int lowStock = 0;
       for (var doc in products.docs) {
-        final stock = (doc.data()['stock'] ?? 0) as int;
+        final stock = (doc.data()['stock'] as num?)?.toInt() ?? 0;
         if (stock < 10 && stock > 0) {
           lowStock++;
         }
@@ -54,7 +59,7 @@ class _AdminDrawerState extends State<AdminDrawer> {
 
       if (mounted) {
         setState(() {
-          _pendingOrderCount = pendingOrders.count ?? 0;
+          _pendingOrderCount = pendingOrdersCount;
           _lowStockCount = lowStock;
         });
       }
@@ -88,7 +93,7 @@ class _AdminDrawerState extends State<AdminDrawer> {
               ),
               child: SafeArea(
                 child: Padding(
-                  padding: EdgeInsets.all(16),
+                  padding: const EdgeInsets.all(AppTheme.spaceLg),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -96,10 +101,10 @@ class _AdminDrawerState extends State<AdminDrawer> {
                       Row(
                         children: [
                           Container(
-                            padding: EdgeInsets.all(8),
+                            padding: const EdgeInsets.all(AppTheme.spaceXs),
                             decoration: BoxDecoration(
                               color: Colors.white.withValues(alpha: 0.2),
-                              borderRadius: BorderRadius.circular(12),
+                              borderRadius: BorderRadius.circular(AppTheme.radiusMd),
                             ),
                             child: Icon(
                               Icons.bakery_dining_rounded,
@@ -379,12 +384,12 @@ class _AdminDrawerState extends State<AdminDrawer> {
 
             // Çıkış
             Padding(
-              padding: EdgeInsets.all(8),
+              padding: const EdgeInsets.all(AppTheme.spaceXs),
               child: Material(
                 color: Colors.red[50],
-                borderRadius: BorderRadius.circular(8),
+                borderRadius: BorderRadius.circular(AppTheme.radiusSm),
                 child: InkWell(
-                  borderRadius: BorderRadius.circular(8),
+                  borderRadius: BorderRadius.circular(AppTheme.radiusSm),
                   onTap: () async {
                     final shouldLogout = await showDialog<bool>(
                       context: context,
@@ -422,7 +427,10 @@ class _AdminDrawerState extends State<AdminDrawer> {
                     }
                   },
                   child: Padding(
-                    padding: EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+                    padding: const EdgeInsets.symmetric(
+                      vertical: AppTheme.spaceMd,
+                      horizontal: AppTheme.spaceLg,
+                    ),
                     child: Row(
                       children: [
                         Icon(Icons.logout_rounded, color: Colors.red, size: 20),
@@ -457,7 +465,10 @@ class _AdminDrawerState extends State<AdminDrawer> {
     return InkWell(
       onTap: onTap,
       child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+        padding: const EdgeInsets.symmetric(
+          horizontal: AppTheme.spaceLg,
+          vertical: AppTheme.spaceMd,
+        ),
         color: Colors.grey[100],
         child: Row(
           children: [
@@ -498,24 +509,24 @@ class _AdminDrawerState extends State<AdminDrawer> {
 
     return Padding(
       padding: EdgeInsets.only(
-        left: indent ? 16 : 8,
-        right: 8,
-        top: 4,
-        bottom: 4,
+        left: indent ? AppTheme.spaceLg : AppTheme.spaceXs,
+        right: AppTheme.spaceXs,
+        top: AppTheme.spaceXxs,
+        bottom: AppTheme.spaceXxs,
       ),
       child: Material(
         color: isSelected ? AppTheme.primaryColor.withValues(alpha: 0.1) : Colors.transparent,
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: BorderRadius.circular(AppTheme.radiusSm),
         child: InkWell(
           onTap: onTap,
-          borderRadius: BorderRadius.circular(8),
+          borderRadius: BorderRadius.circular(AppTheme.radiusSm),
           child: Container(
             padding: EdgeInsets.symmetric(
-              horizontal: 12,
-              vertical: isSmallScreen ? 10 : 12,
+              horizontal: AppTheme.spaceMd,
+              vertical: isSmallScreen ? AppTheme.spaceSm : AppTheme.spaceMd,
             ),
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(8),
+              borderRadius: BorderRadius.circular(AppTheme.radiusSm),
               border: isSelected
                   ? Border.all(color: AppTheme.primaryColor.withValues(alpha: 0.3), width: 1.5)
                   : null,
@@ -540,11 +551,14 @@ class _AdminDrawerState extends State<AdminDrawer> {
                 ),
                 if (badge != null && badge > 0)
                   Container(
-                    padding: EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-                    margin: EdgeInsets.only(right: 4),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: AppTheme.spaceXxs + 2,
+                      vertical: 2,
+                    ),
+                    margin: EdgeInsets.only(right: AppTheme.spaceXxs),
                     decoration: BoxDecoration(
                       color: badgeColor ?? Colors.red,
-                      borderRadius: BorderRadius.circular(10),
+                      borderRadius: BorderRadius.circular(AppTheme.radiusLg),
                     ),
                     constraints: BoxConstraints(minWidth: 18),
                     child: Text(

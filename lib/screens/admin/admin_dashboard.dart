@@ -8,6 +8,7 @@ import 'package:provider/provider.dart';
 import '../../services/auth_service.dart';
 import '../../services/product_service.dart';
 import '../../theme/app_theme.dart';
+import '../../utils/constants.dart';
 import 'admin_blogs.dart';
 import 'admin_orders.dart';
 import 'admin_products.dart';
@@ -84,8 +85,8 @@ class _AdminDashboardState extends State<AdminDashboard> {
                   backgroundColor: AppTheme.primaryColor,
                   foregroundColor: Colors.white,
                   padding: const EdgeInsets.symmetric(
-                    horizontal: 20,
-                    vertical: 12,
+                    horizontal: AppTheme.spaceXl,
+                    vertical: AppTheme.spaceMd,
                   ),
                 ),
               ),
@@ -282,7 +283,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
       children: [
         if (_showQuickActions)
           Padding(
-            padding: const EdgeInsets.only(bottom: 70.0, right: 8.0),
+            padding: const EdgeInsets.only(bottom: AppTheme.space7xl, right: AppTheme.spaceXs),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.end,
@@ -486,10 +487,9 @@ class _AdminDashboardState extends State<AdminDashboard> {
           TextButton(onPressed: () => Navigator.pop(ctx), child: const Text('İptal')),
           ElevatedButton(
             onPressed: () async {
-              final productService = Provider.of<ProductService>(context, listen: false);
               try {
                 final firestore = FirebaseFirestore.instance;
-                await firestore.collection('blogs').add({
+                await firestore.collection(FirestoreCollections.blogs).add({
                   'title': titleController.text.trim(),
                   'summary': summaryController.text.trim(),
                   'content': '',
@@ -523,13 +523,14 @@ class _QuickActionButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Material(
       elevation: 4,
-      borderRadius: BorderRadius.circular(24),
+      borderRadius: BorderRadius.circular(AppTheme.radius2xl + 4),
       color: color,
       child: InkWell(
         onTap: onTap,
-        borderRadius: BorderRadius.circular(24),
+        borderRadius: BorderRadius.circular(AppTheme.radius2xl + 4),
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+          padding:
+              const EdgeInsets.symmetric(horizontal: AppTheme.spaceLg, vertical: AppTheme.spaceSm),
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -561,7 +562,7 @@ class AdminDashboardHome extends StatelessWidget {
         ),
       ),
       child: SingleChildScrollView(
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.all(AppTheme.spaceLg),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -653,7 +654,7 @@ class AdminDashboardHome extends StatelessWidget {
             Card(
               elevation: 2,
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12),
+                borderRadius: BorderRadius.circular(AppTheme.radiusMd),
               ),
               child: ListView.separated(
                 shrinkWrap: true,
@@ -702,10 +703,10 @@ class AdminDashboardHome extends StatelessWidget {
             Card(
               elevation: 2,
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12),
+                borderRadius: BorderRadius.circular(AppTheme.radiusMd),
               ),
               child: Padding(
-                padding: const EdgeInsets.all(16),
+                padding: const EdgeInsets.all(AppTheme.spaceLg),
                 child: Column(
                   children: [
                     _buildStockItem(
@@ -758,7 +759,7 @@ class AdminDashboardHome extends StatelessWidget {
       elevation: 4,
       shadowColor: color.withValues(alpha: 0.3),
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(AppTheme.radiusXl),
         side: BorderSide(
           color: color.withValues(alpha: 0.2),
           width: 1,
@@ -766,7 +767,7 @@ class AdminDashboardHome extends StatelessWidget {
       ),
       child: Container(
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(16),
+          borderRadius: BorderRadius.circular(AppTheme.radiusXl),
           gradient: LinearGradient(
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
@@ -776,17 +777,17 @@ class AdminDashboardHome extends StatelessWidget {
             ],
           ),
         ),
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.all(AppTheme.spaceLg),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Row(
               children: [
                 Container(
-                  padding: const EdgeInsets.all(10),
+                  padding: const EdgeInsets.all(AppTheme.spaceSm),
                   decoration: BoxDecoration(
                     color: color.withValues(alpha: 0.2),
-                    borderRadius: BorderRadius.circular(12),
+                    borderRadius: BorderRadius.circular(AppTheme.radiusMd),
                   ),
                   child: Icon(
                     icon,
@@ -796,10 +797,10 @@ class AdminDashboardHome extends StatelessWidget {
                 ),
                 const Spacer(),
                 Container(
-                  padding: const EdgeInsets.all(8),
+                  padding: const EdgeInsets.all(AppTheme.spaceXs),
                   decoration: BoxDecoration(
                     color: color.withValues(alpha: 0.1),
-                    borderRadius: BorderRadius.circular(8),
+                    borderRadius: BorderRadius.circular(AppTheme.radiusSm),
                   ),
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
@@ -857,10 +858,11 @@ class AdminDashboardHome extends StatelessWidget {
     final statusData = statuses[status];
 
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+        padding:
+          const EdgeInsets.symmetric(horizontal: AppTheme.spaceMd, vertical: AppTheme.spaceXxs + 2),
       decoration: BoxDecoration(
         color: statusData['color'].withAlpha(26),
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(AppTheme.radius2xl),
         border: Border.all(
           color: statusData['color'].withValues(alpha: 0.5),
           width: 1,
@@ -901,10 +903,11 @@ class AdminDashboardHome extends StatelessWidget {
               ),
             ),
             Container(
-              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+              padding:
+                  const EdgeInsets.symmetric(horizontal: AppTheme.spaceXs, vertical: AppTheme.spaceXxs),
               decoration: BoxDecoration(
                 color: color.withValues(alpha: 0.1),
-                borderRadius: BorderRadius.circular(8),
+                borderRadius: BorderRadius.circular(AppTheme.radiusSm),
                 border: Border.all(
                   color: color.withValues(alpha: 0.3),
                   width: 1,
@@ -929,7 +932,7 @@ class AdminDashboardHome extends StatelessWidget {
               width: double.infinity,
               decoration: BoxDecoration(
                 color: Colors.grey.withAlpha(26),
-                borderRadius: BorderRadius.circular(5),
+                borderRadius: BorderRadius.circular(AppTheme.radiusXs),
               ),
             ),
             Container(
@@ -937,7 +940,7 @@ class AdminDashboardHome extends StatelessWidget {
               width: percentage * double.infinity,
               decoration: BoxDecoration(
                 color: color,
-                borderRadius: BorderRadius.circular(5),
+                borderRadius: BorderRadius.circular(AppTheme.radiusXs),
                 boxShadow: [
                   BoxShadow(
                     color: color.withValues(alpha: 0.3),

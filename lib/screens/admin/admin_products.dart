@@ -44,7 +44,7 @@ class _AdminProductsState extends State<AdminProducts> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Padding(
-              padding: const EdgeInsets.all(16),
+              padding: const EdgeInsets.all(AppTheme.spaceLg),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -69,7 +69,7 @@ class _AdminProductsState extends State<AdminProducts> {
                           foregroundColor: Colors.white,
                           elevation: 2,
                           shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8),
+                            borderRadius: BorderRadius.circular(AppTheme.radiusSm),
                           ),
                         ),
                       ),
@@ -93,9 +93,9 @@ class _AdminProductsState extends State<AdminProducts> {
                             hintText: 'Ürün ara...',
                             prefixIcon: const Icon(Icons.search),
                             border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(8),
+                              borderRadius: BorderRadius.circular(AppTheme.radiusSm),
                             ),
-                            contentPadding: const EdgeInsets.symmetric(vertical: 12),
+                            contentPadding: const EdgeInsets.symmetric(vertical: AppTheme.spaceMd),
                             filled: true,
                             fillColor: Colors.white,
                           ),
@@ -106,10 +106,13 @@ class _AdminProductsState extends State<AdminProducts> {
                       ),
                       const SizedBox(width: 16),
                       Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: AppTheme.spaceMd,
+                          vertical: AppTheme.spaceXxs,
+                        ),
                         decoration: BoxDecoration(
                           color: Colors.white,
-                          borderRadius: BorderRadius.circular(8),
+                          borderRadius: BorderRadius.circular(AppTheme.radiusSm),
                           border: Border.all(color: Colors.grey.shade300),
                         ),
                         child: DropdownButton<String>(
@@ -207,7 +210,7 @@ class _AdminProductsState extends State<AdminProducts> {
                       }
 
                       return GridView.builder(
-                        padding: const EdgeInsets.all(16),
+                        padding: const EdgeInsets.all(AppTheme.spaceLg),
                         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                           crossAxisCount: crossAxisCount,
                           childAspectRatio: childAspectRatio,
@@ -238,19 +241,19 @@ class _AdminProductsState extends State<AdminProducts> {
       elevation: 4,
       shadowColor: Colors.black.withValues(alpha: 0.1),
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(AppTheme.radiusXl),
       ),
       child: InkWell(
         onTap: () {
           _showEditProductDialog(product);
         },
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(AppTheme.radiusXl),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // Ürün resmi
             ClipRRect(
-              borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
+              borderRadius: const BorderRadius.vertical(top: Radius.circular(AppTheme.radiusXl)),
               child: Stack(
                 children: [
                   Container(
@@ -290,10 +293,13 @@ class _AdminProductsState extends State<AdminProducts> {
                       top: 8,
                       right: 8,
                       child: Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: AppTheme.spaceXs,
+                          vertical: AppTheme.spaceXxs,
+                        ),
                         decoration: BoxDecoration(
                           color: Colors.red,
-                          borderRadius: BorderRadius.circular(12),
+                          borderRadius: BorderRadius.circular(AppTheme.radiusMd),
                           boxShadow: [
                             BoxShadow(
                               color: Colors.red.withValues(alpha: 0.3),
@@ -317,7 +323,10 @@ class _AdminProductsState extends State<AdminProducts> {
                     left: 0,
                     right: 0,
                     child: Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: AppTheme.spaceXs,
+                        vertical: AppTheme.spaceXxs,
+                      ),
                       decoration: BoxDecoration(
                         gradient: LinearGradient(
                           begin: Alignment.topCenter,
@@ -344,7 +353,7 @@ class _AdminProductsState extends State<AdminProducts> {
 
             // Ürün bilgileri
             Padding(
-              padding: const EdgeInsets.all(12),
+              padding: const EdgeInsets.all(AppTheme.spaceMd),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -362,10 +371,13 @@ class _AdminProductsState extends State<AdminProducts> {
                   Row(
                     children: [
                       Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: AppTheme.spaceXs,
+                          vertical: AppTheme.spaceXxs,
+                        ),
                         decoration: BoxDecoration(
                           color: AppTheme.primaryColor.withValues(alpha: 0.1),
-                          borderRadius: BorderRadius.circular(8),
+                          borderRadius: BorderRadius.circular(AppTheme.radiusSm),
                         ),
                         child: Text(
                           '${product.price.toStringAsFixed(2)} ₺',
@@ -378,7 +390,7 @@ class _AdminProductsState extends State<AdminProducts> {
                       ),
                       const Spacer(),
                       Container(
-                        padding: const EdgeInsets.all(4),
+                        padding: const EdgeInsets.all(AppTheme.spaceXxs),
                         decoration: BoxDecoration(
                           color: Colors.grey.shade200,
                           shape: BoxShape.circle,
@@ -429,18 +441,18 @@ class _AdminProductsState extends State<AdminProducts> {
           style: TextStyle(fontSize: isMobile ? 16 : 20, fontWeight: FontWeight.bold),
         ),
         titlePadding: EdgeInsets.only(
-          left: isMobile ? 16 : 24,
-          right: isMobile ? 16 : 24,
-          top: isMobile ? 12 : 16,
-          bottom: isMobile ? 8 : 12,
+          left: isMobile ? AppTheme.spaceLg : AppTheme.space2xl,
+          right: isMobile ? AppTheme.spaceLg : AppTheme.space2xl,
+          top: isMobile ? AppTheme.spaceMd : AppTheme.spaceLg,
+          bottom: isMobile ? AppTheme.spaceXs : AppTheme.spaceMd,
         ),
         contentPadding: EdgeInsets.symmetric(
-          horizontal: isMobile ? 16 : 24,
-          vertical: 0,
+          horizontal: isMobile ? AppTheme.spaceLg : AppTheme.space2xl,
+          vertical: AppTheme.spaceZero,
         ),
         insetPadding: EdgeInsets.symmetric(
-          horizontal: isMobile ? 16 : 40,
-          vertical: isMobile ? 24 : 60,
+          horizontal: isMobile ? AppTheme.spaceLg : AppTheme.space4xl,
+          vertical: isMobile ? AppTheme.space2xl : AppTheme.space6xl,
         ),
         content: SizedBox(
           width: isMobile ? double.maxFinite : 500,
@@ -458,10 +470,12 @@ class _AdminProductsState extends State<AdminProducts> {
                     labelStyle: TextStyle(fontSize: isMobile ? 13 : 16),
                     isDense: true,
                     contentPadding: EdgeInsets.symmetric(
-                      horizontal: 12,
-                      vertical: isMobile ? 10 : 14,
+                      horizontal: AppTheme.spaceMd,
+                      vertical: isMobile ? AppTheme.spaceSm : AppTheme.spaceBase,
                     ),
-                    border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(AppTheme.radiusSm),
+                    ),
                   ),
                 ),
                 SizedBox(height: isMobile ? 10 : 16),
@@ -472,10 +486,12 @@ class _AdminProductsState extends State<AdminProducts> {
                     labelStyle: TextStyle(fontSize: isMobile ? 13 : 16),
                     isDense: true,
                     contentPadding: EdgeInsets.symmetric(
-                      horizontal: 12,
-                      vertical: isMobile ? 10 : 14,
+                      horizontal: AppTheme.spaceMd,
+                      vertical: isMobile ? AppTheme.spaceSm : AppTheme.spaceBase,
                     ),
-                    border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(AppTheme.radiusSm),
+                    ),
                   ),
                   maxLines: isMobile ? 2 : 3,
                 ),
@@ -491,10 +507,12 @@ class _AdminProductsState extends State<AdminProducts> {
                           labelStyle: TextStyle(fontSize: isMobile ? 13 : 16),
                           isDense: true,
                           contentPadding: EdgeInsets.symmetric(
-                            horizontal: 12,
-                            vertical: isMobile ? 10 : 14,
+                            horizontal: AppTheme.spaceMd,
+                            vertical: isMobile ? AppTheme.spaceSm : AppTheme.spaceBase,
                           ),
-                          border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(AppTheme.radiusSm),
+                          ),
                         ),
                         keyboardType: TextInputType.number,
                       ),
@@ -508,10 +526,12 @@ class _AdminProductsState extends State<AdminProducts> {
                           labelStyle: TextStyle(fontSize: isMobile ? 13 : 16),
                           isDense: true,
                           contentPadding: EdgeInsets.symmetric(
-                            horizontal: 12,
-                            vertical: isMobile ? 10 : 14,
+                            horizontal: AppTheme.spaceMd,
+                            vertical: isMobile ? AppTheme.spaceSm : AppTheme.spaceBase,
                           ),
-                          border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(AppTheme.radiusSm),
+                          ),
                         ),
                         keyboardType: TextInputType.number,
                       ),
@@ -530,10 +550,12 @@ class _AdminProductsState extends State<AdminProducts> {
                           labelStyle: TextStyle(fontSize: isMobile ? 13 : 16),
                           isDense: true,
                           contentPadding: EdgeInsets.symmetric(
-                            horizontal: 12,
-                            vertical: isMobile ? 10 : 14,
+                            horizontal: AppTheme.spaceMd,
+                            vertical: isMobile ? AppTheme.spaceSm : AppTheme.spaceBase,
                           ),
-                          border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(AppTheme.radiusSm),
+                          ),
                         ),
                         keyboardType: TextInputType.number,
                       ),
@@ -552,10 +574,12 @@ class _AdminProductsState extends State<AdminProducts> {
                     labelStyle: TextStyle(fontSize: isMobile ? 13 : 16),
                     isDense: true,
                     contentPadding: EdgeInsets.symmetric(
-                      horizontal: 12,
-                      vertical: isMobile ? 10 : 14,
+                      horizontal: AppTheme.spaceMd,
+                      vertical: isMobile ? AppTheme.spaceSm : AppTheme.spaceBase,
                     ),
-                    border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(AppTheme.radiusSm),
+                    ),
                   ),
                 ),
                 SizedBox(height: isMobile ? 10 : 16),
@@ -566,10 +590,12 @@ class _AdminProductsState extends State<AdminProducts> {
                     labelStyle: TextStyle(fontSize: isMobile ? 13 : 16),
                     isDense: true,
                     contentPadding: EdgeInsets.symmetric(
-                      horizontal: 12,
-                      vertical: isMobile ? 10 : 14,
+                      horizontal: AppTheme.spaceMd,
+                      vertical: isMobile ? AppTheme.spaceSm : AppTheme.spaceBase,
                     ),
-                    border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(AppTheme.radiusSm),
+                    ),
                   ),
                   items: _categories.where((c) => c != 'Tümü').map((String category) {
                     return DropdownMenuItem<String>(
@@ -591,7 +617,10 @@ class _AdminProductsState extends State<AdminProducts> {
                     decoration: const InputDecoration(
                       labelText: 'Ek Görseller (virgülle ayırın)',
                       isDense: true,
-                      contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+                      contentPadding: EdgeInsets.symmetric(
+                        horizontal: AppTheme.spaceMd,
+                        vertical: AppTheme.spaceMd,
+                      ),
                       border: OutlineInputBorder(),
                     ),
                   ),
@@ -601,7 +630,10 @@ class _AdminProductsState extends State<AdminProducts> {
                     decoration: const InputDecoration(
                       labelText: 'İçindekiler (virgülle ayırın)',
                       isDense: true,
-                      contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+                      contentPadding: EdgeInsets.symmetric(
+                        horizontal: AppTheme.spaceMd,
+                        vertical: AppTheme.spaceMd,
+                      ),
                       border: OutlineInputBorder(),
                     ),
                   ),
@@ -611,7 +643,10 @@ class _AdminProductsState extends State<AdminProducts> {
                     decoration: const InputDecoration(
                       labelText: 'Etiketler (virgülle ayırın)',
                       isDense: true,
-                      contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+                      contentPadding: EdgeInsets.symmetric(
+                        horizontal: AppTheme.spaceMd,
+                        vertical: AppTheme.spaceMd,
+                      ),
                       border: OutlineInputBorder(),
                     ),
                   ),
@@ -782,18 +817,18 @@ class _AdminProductsState extends State<AdminProducts> {
           overflow: TextOverflow.ellipsis,
         ),
         titlePadding: EdgeInsets.only(
-          left: isMobile ? 16 : 24,
-          right: isMobile ? 16 : 24,
-          top: isMobile ? 12 : 16,
-          bottom: isMobile ? 8 : 12,
+          left: isMobile ? AppTheme.spaceLg : AppTheme.space2xl,
+          right: isMobile ? AppTheme.spaceLg : AppTheme.space2xl,
+          top: isMobile ? AppTheme.spaceMd : AppTheme.spaceLg,
+          bottom: isMobile ? AppTheme.spaceXs : AppTheme.spaceMd,
         ),
         contentPadding: EdgeInsets.symmetric(
-          horizontal: isMobile ? 16 : 24,
-          vertical: 0,
+          horizontal: isMobile ? AppTheme.spaceLg : AppTheme.space2xl,
+          vertical: AppTheme.spaceZero,
         ),
         insetPadding: EdgeInsets.symmetric(
-          horizontal: isMobile ? 16 : 40,
-          vertical: isMobile ? 24 : 60,
+          horizontal: isMobile ? AppTheme.spaceLg : AppTheme.space4xl,
+          vertical: isMobile ? AppTheme.space2xl : AppTheme.space6xl,
         ),
         content: SizedBox(
           width: isMobile ? double.maxFinite : 500,
@@ -812,10 +847,12 @@ class _AdminProductsState extends State<AdminProducts> {
                     labelStyle: TextStyle(fontSize: isMobile ? 13 : 16),
                     isDense: true,
                     contentPadding: EdgeInsets.symmetric(
-                      horizontal: 12,
-                      vertical: isMobile ? 10 : 14,
+                      horizontal: AppTheme.spaceMd,
+                      vertical: isMobile ? AppTheme.spaceSm : AppTheme.spaceBase,
                     ),
-                    border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(AppTheme.radiusSm),
+                    ),
                   ),
                 ),
                 SizedBox(height: isMobile ? 10 : 16),
@@ -826,10 +863,12 @@ class _AdminProductsState extends State<AdminProducts> {
                     labelStyle: TextStyle(fontSize: isMobile ? 13 : 16),
                     isDense: true,
                     contentPadding: EdgeInsets.symmetric(
-                      horizontal: 12,
-                      vertical: isMobile ? 10 : 14,
+                      horizontal: AppTheme.spaceMd,
+                      vertical: isMobile ? AppTheme.spaceSm : AppTheme.spaceBase,
                     ),
-                    border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(AppTheme.radiusSm),
+                    ),
                   ),
                   maxLines: isMobile ? 2 : 3,
                 ),

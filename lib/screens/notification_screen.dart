@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 import '../core/di/service_locator.dart';
 import '../services/notification_service.dart';
+import '../theme/app_theme.dart';
 import '../utils/date_formatter.dart';
 import '../widgets/app_scaffold.dart';
 import '../widgets/empty_state.dart';
@@ -91,7 +92,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
     return RefreshIndicator(
       onRefresh: _refreshNotifications,
       child: ListView.separated(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(AppTheme.spaceMd),
         itemCount: _notifications.length,
         separatorBuilder: (context, index) => const Divider(),
         itemBuilder: (context, index) {
@@ -130,7 +131,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
       background: Container(
         color: Colors.red,
         alignment: Alignment.centerRight,
-        padding: const EdgeInsets.only(right: 16.0),
+        padding: const EdgeInsets.only(right: AppTheme.spaceMd),
         child: const Icon(
           Icons.delete_outline,
           color: Colors.white,
@@ -164,7 +165,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
       },
       child: ListTile(
         contentPadding:
-            const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+            const EdgeInsets.symmetric(vertical: AppTheme.spaceSm, horizontal: AppTheme.spaceMd),
         leading: CircleAvatar(
           backgroundColor: iconColor.withValues(alpha: 0.1),
           child: Icon(icon, color: iconColor),
@@ -179,14 +180,14 @@ class _NotificationScreenState extends State<NotificationScreen> {
         subtitle: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const SizedBox(height: 4.0),
+            const SizedBox(height: AppTheme.spaceXs),
             Text(
               notification.body,
               style: theme.textTheme.bodyMedium,
               maxLines: 2,
               overflow: TextOverflow.ellipsis,
             ),
-            const SizedBox(height: 4.0),
+            const SizedBox(height: AppTheme.spaceXs),
             Text(
               DateFormatter.formatRelativeTime(notification.timestamp),
               style: theme.textTheme.bodySmall?.copyWith(

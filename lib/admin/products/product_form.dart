@@ -46,10 +46,15 @@ class _ProductFormState extends State<ProductForm> {
   late bool _isNew;
 
   bool _isLoading = false;
-  String? _category;
   bool _uploadingImage = false;
   bool _uploadingVideo = false;
   bool _uploadingExtras = false;
+
+  // Category loading state (for enabling/disabling save)
+  bool _hasCategoryOptions = false;
+  bool _isCategoryLoading = true;
+  String? _categoryLoadErrorMessage;
+  List<Map<String, dynamic>> _activeCategories = [];
 
   @override
   void initState() {
@@ -86,6 +91,57 @@ class _ProductFormState extends State<ProductForm> {
       _imageUrls = [];
       _isPopular = false;
       _isNew = true;
+    }
+
+    _loadCategories();
+  }
+
+  Future<void> _loadCategories() async {
+    setState(() {
+      _isCategoryLoading = true;
+      _categoryLoadErrorMessage = null;
+    });
+
+    try {
+      final categories = await Provider.of<ProductService>(context, listen: false).fetchCategories();
+      final activeCategories = categories.where((cat) => cat['isActive'] == true).toList();
+
+      activeCategories.sort((a, b) {
+        final aOrder = (a['order'] as num?)?.toInt() ?? 0;
+        final bOrder = (b['order'] as num?)?.toInt() ?? 0;
+        return aOrder.compareTo(bOrder);
+      });
+
+      if (_selectedCategory.isEmpty && activeCategories.isNotEmpty) {
+        _selectedCategory = (activeCategories.first['name'] ?? '').toString();
+      }
+
+      final hasSelectedCategory =
+          activeCategories.any((cat) => (cat['name'] ?? '').toString() == _selectedCategory);
+
+      if (_selectedCategory.isNotEmpty && !hasSelectedCategory) {
+        activeCategories.add({
+          'id': 'special',
+          'name': _selectedCategory,
+          'isActive': true,
+          'order': 999999,
+        });
+      }
+
+      if (!mounted) return;
+      setState(() {
+        _activeCategories = activeCategories;
+        _hasCategoryOptions = activeCategories.isNotEmpty;
+        _isCategoryLoading = false;
+      });
+    } catch (e) {
+      if (!mounted) return;
+      setState(() {
+        _activeCategories = [];
+        _hasCategoryOptions = false;
+        _isCategoryLoading = false;
+        _categoryLoadErrorMessage = 'Kategoriler yüklenirken hata: $e';
+      });
     }
   }
 
@@ -359,6 +415,18 @@ class _ProductFormState extends State<ProductForm> {
       _isLoading = true;
     });
 
+    // Kategori yüklenmemiş veya boşsa kaydetmeyi engelle
+    if (!_hasCategoryOptions || _selectedCategory.isEmpty) {
+      if (mounted) {
+        ToastHelper.showErrorToast(
+          context,
+          'Lütfen önce aktif bir kategori seçin veya yeni kategori ekleyin.',
+        );
+        setState(() => _isLoading = false);
+      }
+      return;
+    }
+
     try {
       final productService = Provider.of<ProductService>(context, listen: false);
 
@@ -437,122 +505,100 @@ class _ProductFormState extends State<ProductForm> {
   }
 
   Widget _buildCategoryField() {
-    return FutureBuilder<List<Map<String, dynamic>>>(
-      future: Provider.of<ProductService>(context, listen: false).fetchCategories(),
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return DropdownButtonFormField<String>(
-            decoration: InputDecoration(
-              labelText: 'Kategori *',
-              border: OutlineInputBorder(),
-              filled: true,
-            ),
-            value: _category,
-            items: [
-              DropdownMenuItem(
-                value: "",
-                child: Text('Yükleniyor...'),
-              ),
-            ],
-            onChanged: null,
-          );
-        }
-
-        if (snapshot.hasError) {
-          return Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              DropdownButtonFormField<String>(
-                decoration: InputDecoration(
-                  labelText: 'Kategori *',
-                  border: OutlineInputBorder(),
-                  filled: true,
-                ),
-                value: _category,
-                items: [
-                  DropdownMenuItem(
-                    value: "Genel",
-                    child: Text('Genel'),
-                  ),
-                ],
-                onChanged: (value) {
-                  setState(() {
-                    _category = value!;
-                  });
-                },
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Lütfen bir kategori seçin';
-                  }
-                  return null;
-                },
-              ),
-              SizedBox(height: 4),
-              Text('Kategoriler yüklenirken hata: ${snapshot.error}',
-                  style: TextStyle(color: Colors.red, fontSize: 12)),
-            ],
-          );
-        }
-
-        // Kategorileri al ve aktif olanları filtrele
-        final categories = snapshot.data ?? [];
-        final activeCategories = categories.where((cat) => cat['isActive'] == true).toList();
-
-        // Sıralama düzenine göre sırala
-        activeCategories.sort((a, b) => (a['order'] as int).compareTo(b['order'] as int));
-
-        // Eğer seçili kategori yoksa ve kategoriler varsa ilk kategoriyi seç
-        if ((_category == null || _category!.isEmpty) && activeCategories.isNotEmpty) {
-          _category = activeCategories.first['name'];
-        }
-
-        // Eğer düzenlenen ürünün kategorisi artık aktif değilse, özel kategori olarak ekle
-        bool hasSelectedCategory = activeCategories.any((cat) => cat['name'] == _category);
-        if (_category != null && _category!.isNotEmpty && !hasSelectedCategory) {
-          activeCategories.add({
-            'id': 'special',
-            'name': _category!,
-            'isActive': true,
-          });
-        }
-
-        return DropdownButtonFormField<String>(
-          decoration: InputDecoration(
-            labelText: 'Kategori *',
-            border: OutlineInputBorder(),
-            filled: true,
-            helperText: 'Ürünün hangi kategoride listelendiği',
-            suffixIcon: IconButton(
-              icon: Icon(Icons.refresh),
-              onPressed: () {
-                setState(() {
-                  // Kategorileri yeniden yüklemek için state'i güncelle
-                });
-              },
-              tooltip: 'Kategorileri yenile',
-            ),
+    if (_isCategoryLoading) {
+      return DropdownButtonFormField<String>(
+        decoration: InputDecoration(
+          labelText: 'Kategori *',
+          border: OutlineInputBorder(),
+          filled: true,
+        ),
+        value: _selectedCategory.isEmpty ? null : _selectedCategory,
+        items: const [
+          DropdownMenuItem(
+            value: '',
+            child: Text('Yükleniyor...'),
           ),
-          value: _category,
-          items: [
-            ...activeCategories.map((category) {
-              return DropdownMenuItem<String>(
-                value: category['name'] as String,
-                child: Text(category['name'] as String),
-              );
-            }).toList(),
-          ],
-          onChanged: (value) {
-            setState(() {
-              _category = value!;
-            });
-          },
-          validator: (value) {
-            if (value == null || value.isEmpty) {
-              return 'Lütfen bir kategori seçin';
-            }
-            return null;
-          },
+        ],
+        onChanged: null,
+      );
+    }
+
+    if (_categoryLoadErrorMessage != null) {
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            _categoryLoadErrorMessage!,
+            style: TextStyle(color: Colors.red, fontSize: 12),
+          ),
+          const SizedBox(height: 8),
+          OutlinedButton.icon(
+            onPressed: _loadCategories,
+            icon: const Icon(Icons.refresh),
+            label: const Text('Tekrar Dene'),
+          ),
+        ],
+      );
+    }
+
+    if (_activeCategories.isEmpty) {
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'Henüz aktif kategori bulunamadı. Lütfen önce kategori ekleyin.',
+            style: TextStyle(color: Colors.red.shade700),
+          ),
+          const SizedBox(height: 8),
+          Row(
+            children: [
+              OutlinedButton.icon(
+                onPressed: _loadCategories,
+                icon: const Icon(Icons.refresh),
+                label: const Text('Yenile'),
+              ),
+              const SizedBox(width: 8),
+              ElevatedButton(
+                onPressed: () => Navigator.of(context).pop(),
+                child: const Text('Kategori Yönetimine Git'),
+              ),
+            ],
+          ),
+        ],
+      );
+    }
+
+    return DropdownButtonFormField<String>(
+      decoration: InputDecoration(
+        labelText: 'Kategori *',
+        border: OutlineInputBorder(),
+        filled: true,
+        helperText: 'Ürünün hangi kategoride listelendiği',
+        suffixIcon: IconButton(
+          icon: const Icon(Icons.refresh),
+          onPressed: _loadCategories,
+          tooltip: 'Kategorileri yenile',
+        ),
+      ),
+      value: _selectedCategory.isEmpty ? null : _selectedCategory,
+      items: _activeCategories.map((category) {
+        final name = (category['name'] ?? '').toString();
+        return DropdownMenuItem<String>(
+          value: name,
+          child: Text(name),
         );
+      }).toList(),
+      onChanged: (value) {
+        if (value == null) return;
+        setState(() {
+          _selectedCategory = value;
+        });
+      },
+      validator: (value) {
+        if (value == null || value.isEmpty) {
+          return 'Lütfen bir kategori seçin';
+        }
+        return null;
       },
     );
   }
@@ -569,15 +615,15 @@ class _ProductFormState extends State<ProductForm> {
         actions: [
           IconButton(
             icon: const Icon(Icons.save),
-            onPressed: _isLoading ? null : _saveProduct,
-            tooltip: 'Kaydet',
+            onPressed: (_isLoading || !_hasCategoryOptions) ? null : _saveProduct,
+            tooltip: _hasCategoryOptions ? 'Kaydet' : 'Kategori yok',
           ),
         ],
       ),
       body: _isLoading
           ? Center(child: CircularProgressIndicator())
           : SingleChildScrollView(
-              padding: const EdgeInsets.all(16),
+              padding: const EdgeInsets.all(AppTheme.spaceLg),
               child: Form(
                 key: _formKey,
                 child: Column(
@@ -586,7 +632,7 @@ class _ProductFormState extends State<ProductForm> {
                     // Temel Bilgiler
                     Card(
                       child: Padding(
-                        padding: const EdgeInsets.all(16),
+                        padding: const EdgeInsets.all(AppTheme.spaceLg),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -641,7 +687,7 @@ class _ProductFormState extends State<ProductForm> {
                     // Fiyat Bilgileri
                     Card(
                       child: Padding(
-                        padding: const EdgeInsets.all(16),
+                        padding: const EdgeInsets.all(AppTheme.spaceLg),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -758,7 +804,7 @@ class _ProductFormState extends State<ProductForm> {
                     // Görseller
                     Card(
                       child: Padding(
-                        padding: const EdgeInsets.all(16),
+                        padding: const EdgeInsets.all(AppTheme.spaceLg),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -846,7 +892,7 @@ class _ProductFormState extends State<ProductForm> {
                             // Ek Görseller Listesi (Sürükle-Bırak)
                             if (_imageUrls.isNotEmpty)
                               Container(
-                                margin: const EdgeInsets.only(top: 8),
+                                margin: const EdgeInsets.only(top: AppTheme.spaceXs),
                                 height: 120,
                                 child: ReorderableListView.builder(
                                   scrollDirection: Axis.horizontal,
@@ -868,7 +914,7 @@ class _ProductFormState extends State<ProductForm> {
                                       child: Stack(
                                         children: [
                                           Container(
-                                            margin: const EdgeInsets.only(right: 8),
+                                            margin: const EdgeInsets.only(right: AppTheme.spaceXs),
                                             width: 120,
                                             height: 120,
                                             decoration: BoxDecoration(
@@ -876,10 +922,10 @@ class _ProductFormState extends State<ProductForm> {
                                                 color: isCover ? Colors.orange : Colors.grey,
                                                 width: isCover ? 2 : 1,
                                               ),
-                                              borderRadius: BorderRadius.circular(8),
+                                              borderRadius: BorderRadius.circular(AppTheme.radiusSm),
                                             ),
                                             child: ClipRRect(
-                                              borderRadius: BorderRadius.circular(8),
+                                              borderRadius: BorderRadius.circular(AppTheme.radiusSm),
                                               child: Image.network(
                                                 url,
                                                 fit: BoxFit.cover,
@@ -904,7 +950,7 @@ class _ProductFormState extends State<ProductForm> {
                                                     color: Colors.blue.shade600,
                                                     shape: BoxShape.circle,
                                                   ),
-                                                  padding: const EdgeInsets.all(6),
+                                                  padding: const EdgeInsets.all(AppTheme.space2xs),
                                                   child: const Icon(Icons.upload,
                                                       color: Colors.white, size: 16),
                                                 ),
@@ -926,7 +972,7 @@ class _ProductFormState extends State<ProductForm> {
                                                         : Colors.black.withValues(alpha: 0.5),
                                                     shape: BoxShape.circle,
                                                   ),
-                                                  padding: const EdgeInsets.all(6),
+                                                  padding: const EdgeInsets.all(AppTheme.space2xs),
                                                   child: Icon(
                                                     isCover ? Icons.star : Icons.star_border,
                                                     color: Colors.white,
@@ -947,7 +993,7 @@ class _ProductFormState extends State<ProductForm> {
                                                   shape: BoxShape.circle,
                                                 ),
                                                 child: const Padding(
-                                                  padding: EdgeInsets.all(4),
+                                                  padding: EdgeInsets.all(AppTheme.spaceXxs),
                                                   child: Icon(
                                                     Icons.close,
                                                     color: Colors.white,
@@ -973,7 +1019,7 @@ class _ProductFormState extends State<ProductForm> {
                     // Video URL
                     Card(
                       child: Padding(
-                        padding: const EdgeInsets.all(16),
+                        padding: const EdgeInsets.all(AppTheme.spaceLg),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -1041,10 +1087,10 @@ class _ProductFormState extends State<ProductForm> {
                             ),
                             const SizedBox(height: 8),
                             Container(
-                              padding: const EdgeInsets.all(12),
+                              padding: const EdgeInsets.all(AppTheme.spaceMd),
                               decoration: BoxDecoration(
                                 color: Colors.blue.shade50,
-                                borderRadius: BorderRadius.circular(8),
+                                borderRadius: BorderRadius.circular(AppTheme.radiusSm),
                                 border: Border.all(color: Colors.blue.shade200),
                               ),
                               child: Row(
@@ -1073,7 +1119,7 @@ class _ProductFormState extends State<ProductForm> {
                     // İçerikler ve Etiketler
                     Card(
                       child: Padding(
-                        padding: const EdgeInsets.all(16),
+                        padding: const EdgeInsets.all(AppTheme.spaceLg),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -1182,7 +1228,7 @@ class _ProductFormState extends State<ProductForm> {
                     // Ek Seçenekler
                     Card(
                       child: Padding(
-                        padding: const EdgeInsets.all(16),
+                        padding: const EdgeInsets.all(AppTheme.spaceLg),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [

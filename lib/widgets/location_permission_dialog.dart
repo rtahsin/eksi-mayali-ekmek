@@ -32,7 +32,7 @@ class LocationPermissionDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     return AlertDialog(
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(AppTheme.radiusXl),
       ),
       contentPadding: EdgeInsets.zero,
       content: SingleChildScrollView(
@@ -41,7 +41,7 @@ class LocationPermissionDialog extends StatelessWidget {
           children: [
             // Header
             Container(
-              padding: EdgeInsets.all(20),
+              padding: EdgeInsets.all(AppTheme.spaceXl),
               decoration: BoxDecoration(
                 color: AppTheme.primaryColor.withValues(alpha: 0.1),
                 borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
@@ -49,10 +49,10 @@ class LocationPermissionDialog extends StatelessWidget {
               child: Row(
                 children: [
                   Container(
-                    padding: EdgeInsets.all(12),
+                    padding: EdgeInsets.all(AppTheme.spaceMd),
                     decoration: BoxDecoration(
                       color: AppTheme.primaryColor,
-                      borderRadius: BorderRadius.circular(12),
+                      borderRadius: BorderRadius.circular(AppTheme.radiusMd),
                     ),
                     child: Icon(
                       Icons.location_on,
@@ -90,7 +90,7 @@ class LocationPermissionDialog extends StatelessWidget {
 
             // Content
             Padding(
-              padding: EdgeInsets.all(20),
+              padding: EdgeInsets.all(AppTheme.spaceXl),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -139,10 +139,10 @@ class LocationPermissionDialog extends StatelessWidget {
 
                   // Güvenlik mesajı
                   Container(
-                    padding: EdgeInsets.all(14),
+                    padding: EdgeInsets.all(AppTheme.radiusLg),
                     decoration: BoxDecoration(
                       color: Colors.blue.shade50,
-                      borderRadius: BorderRadius.circular(12),
+                      borderRadius: BorderRadius.circular(AppTheme.radiusMd),
                       border: Border.all(color: Colors.blue.shade200),
                     ),
                     child: Row(
@@ -202,9 +202,9 @@ class LocationPermissionDialog extends StatelessWidget {
           style: ElevatedButton.styleFrom(
             backgroundColor: AppTheme.primaryColor,
             foregroundColor: Colors.white,
-            padding: EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+            padding: EdgeInsets.symmetric(horizontal: AppTheme.spaceXl, vertical: AppTheme.spaceMd),
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10),
+              borderRadius: BorderRadius.circular(AppTheme.spaceSm),
             ),
             elevation: 2,
           ),
@@ -224,10 +224,10 @@ class LocationPermissionDialog extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Container(
-          padding: EdgeInsets.all(8),
+          padding: EdgeInsets.all(AppTheme.spaceXs),
           decoration: BoxDecoration(
             color: iconColor.withValues(alpha: 0.1),
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(AppTheme.radiusSm),
           ),
           child: Icon(
             icon,
