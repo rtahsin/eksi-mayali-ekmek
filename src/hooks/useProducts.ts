@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { collection, getDocs, query } from "firebase/firestore";
 import { db } from "@/lib/firebase/client";
+import { createClient } from "@/lib/supabase/client";
 import { Product } from "@/types";
 
 export interface MasterclassDetail {
@@ -445,6 +446,51 @@ export function useProducts(category?: string) {
     async function fetchProducts() {
       setLoading(true);
       try {
+        // 1. Try fetching from Supabase PostgreSQL first
+        const supabase = createClient();
+        if (supabase) {
+          try {
+            const { data: supaProducts, error: supaErr } = await supabase
+              .from("products")
+              .select("*")
+              .eq("is_active", true)
+              .order("is_popular", { ascending: false });
+
+            if (supaProducts && supaProducts.length > 0 && !supaErr) {
+              const mapped: ExtendedProduct[] = supaProducts.map((p: any) => ({
+                id: p.id,
+                name: p.name,
+                description: p.description || "",
+                price: Number(p.price),
+                imageUrl:
+                  p.image_url ||
+                  "https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=900&q=85",
+                category: normalizeCategory(p.category),
+                stock: Number(p.stock) || 25,
+                weight: Number(p.weight) || 800,
+                weightUnit: p.weight_unit || "g",
+                madeToOrder: Boolean(p.made_to_order),
+                isPopular: Boolean(p.is_popular),
+                isNew: Boolean(p.is_new),
+                isAvailable: p.is_available !== false,
+                isActive: true,
+                ingredients: Array.isArray(p.ingredients) ? p.ingredients : [],
+                flourTypes: Array.isArray(p.flour_types) ? p.flour_types : [],
+                hydration: p.hydration ? Number(p.hydration) : undefined,
+                atelierPlacement: p.atelier_placement || undefined,
+                masterclass: p.masterclass || undefined,
+              }));
+
+              setProducts(mapped);
+              setLoading(false);
+              return;
+            }
+          } catch (e) {
+            console.warn("Supabase fetch notice, falling back to Firestore:", e);
+          }
+        }
+
+        // 2. Fallback to Firestore 'urunler'
         const productsRef = collection(db, "urunler");
         const querySnapshot = await getDocs(query(productsRef));
 

@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { z } from "zod";
 import { adminDb } from "@/lib/firebase/admin";
 import { FieldValue } from "firebase-admin/firestore";
+import { createAdminClient } from "@/lib/supabase/admin";
 import { INITIAL_PRODUCTS } from "@/hooks/useProducts";
 import { Order, OrderItem } from "@/types";
 import { checkRateLimit, sanitizeInput } from "@/lib/security/rateLimiter";
@@ -30,6 +31,7 @@ const CreateOrderRequestSchema = z.object({
   deliveryMethod: z.enum(["courier", "pickup"]),
   paymentMethod: z.enum(["whatsapp", "cash_on_delivery", "pos_at_door"]),
   idempotencyKey: z.string().max(100).optional(),
+  userId: z.string().max(100).optional(),
 });
 
 export async function POST(req: Request) {
@@ -67,7 +69,7 @@ export async function POST(req: Request) {
       );
     }
 
-    const { items, customerInfo, deliveryMethod, paymentMethod, idempotencyKey } = validationResult.data;
+    const { items, customerInfo, deliveryMethod, paymentMethod, idempotencyKey, userId } = validationResult.data;
 
     // Rate Limiting Check by Phone Number
     const cleanPhone = customerInfo.phone.replace(/\D/g, "");
@@ -178,8 +180,58 @@ export async function POST(req: Request) {
       updatedAt: FieldValue.serverTimestamp(),
     };
 
-    // 4. Save to Firestore 'siparisler' (Flutter Admin compatible) and 'orders'
-    await adminDb.collection("siparisler").doc(orderId).set(orderPayload);
+    // 4. Save to Supabase (PostgreSQL) if configured
+    try {
+      const supabaseAdmin = createAdminClient();
+      if (supabaseAdmin) {
+        const adminAny = supabaseAdmin as any;
+        const { error: supaOrderErr } = await adminAny.from("orders").insert({
+          id: orderId,
+          user_id: userId || null,
+          customer_name: sanitizedName,
+          phone: cleanPhone,
+          delivery_method: deliveryMethod,
+          delivery_address: fullAddress,
+          district: sanitizedDistrict,
+          neighborhood: sanitizedNeighborhood,
+          address_detail: sanitizedAddressDetail,
+          delivery_date: deliveryDateFormatted,
+          status: "bekliyor",
+          payment_method: paymentMethod,
+          subtotal: serverSubtotal,
+          shipping_fee: shippingFee,
+          total_amount: totalAmount,
+          order_notes: sanitizedNote || null,
+          idempotency_key: idempotencyKey || null,
+        });
+
+        if (!supaOrderErr) {
+          const itemInserts = verifiedOrderItems.map((it) => ({
+            order_id: orderId,
+            product_id: it.productId,
+            product_name: it.productName,
+            quantity: it.quantity,
+            unit_price: it.unitPrice,
+            total_price: it.totalPrice,
+            image_url: it.imageUrl || null,
+            weight: it.weight || null,
+            made_to_order: Boolean(it.madeToOrder),
+          }));
+          await adminAny.from("order_items").insert(itemInserts);
+        } else {
+          console.warn("Supabase order insert warning:", supaOrderErr.message);
+        }
+      }
+    } catch (supaErr: any) {
+      console.warn("Supabase order creation skipped/error:", supaErr?.message);
+    }
+
+    // 5. Save to Firestore 'siparisler' (Firebase fallback)
+    try {
+      await adminDb.collection("siparisler").doc(orderId).set(orderPayload);
+    } catch (fbErr: any) {
+      console.warn("Firestore save warning:", fbErr?.message);
+    }
 
     const completedOrder: Order = {
       id: orderId,

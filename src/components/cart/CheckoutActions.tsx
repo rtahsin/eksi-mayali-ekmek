@@ -5,8 +5,10 @@ import { useCartStore} from "@/lib/store/useCartStore";
 import { createOrderInFirestore, generateWhatsAppOrderUrl} from "@/lib/order/createOrder";
 import { MessageSquare, CreditCard, Banknote, Loader2, AlertCircle, ArrowRight} from "lucide-react";
 import { PaymentMethod} from "@/types";
+import { useAuth } from "@/components/auth/AuthProvider";
 
 export function CheckoutActions() {
+ const { user } = useAuth();
  const {
  items,
  customerInfo,
@@ -74,6 +76,7 @@ export function CheckoutActions() {
  subtotal,
  shippingFee,
  totalAmount,
+ userId: user?.id,
 });
 
  clearCart();

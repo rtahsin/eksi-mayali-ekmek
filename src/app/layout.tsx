@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Fraunces, Lora, Caveat, JetBrains_Mono } from "next/font/google";
+import { AuthProvider } from "@/components/auth/AuthProvider";
 import "./globals.css";
 
 const fraunces = Fraunces({
@@ -66,7 +67,7 @@ export default function RootLayout({
       <body
         className={`${fraunces.variable} ${lora.variable} ${caveat.variable} ${jetbrainsMono.variable} min-h-screen bg-background text-foreground antialiased font-sans noise-bg selection:bg-artisan-terracotta/20 selection:text-artisan-wood`}
       >
-        {children}
+        <AuthProvider>{children}</AuthProvider>
       </body>
     </html>
   );
