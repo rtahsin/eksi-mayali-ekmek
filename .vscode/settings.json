@@ -93,7 +93,7 @@
   "terminal.integrated.scrollback": 10000,
   "debug.inlineValues": "on",
   "debug.toolBarLocation": "docked",
-  "workbench.colorTheme": "Default Dark+",
+  "workbench.colorTheme": "Dark+",
   "workbench.tree.indent": 16,
   "workbench.editor.enablePreview": false,
   "dart.checkForSdkUpdates": false,

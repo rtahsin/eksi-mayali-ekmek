@@ -1,7 +1,11 @@
 [
   {
     "origin": [
-      "*"
+      "https://ekmeklab.com",
+      "https://www.ekmeklab.com",
+      "https://eksimayaliekmekweb.web.app",
+      "https://eksimayaliekmekweb.firebaseapp.com",
+      "http://localhost:3000"
     ],
     "method": [
       "GET",

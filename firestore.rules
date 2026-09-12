@@ -11,28 +11,42 @@ service cloud.firestore {
       return isAuthenticated() && request.auth.uid == userId;
     }
     
-    // Kullanıcı admin mi?
-    function isAdmin() {
-      return isAuthenticated() && exists(/databases/$(database)/documents/adminler/$(request.auth.uid)) &&
+    // Aktif adminler/{uid} belgesi var mı?
+    function hasActiveAdminDoc() {
+      return isAuthenticated() &&
+             exists(/databases/$(database)/documents/adminler/$(request.auth.uid)) &&
              get(/databases/$(database)/documents/adminler/$(request.auth.uid)).data.isActive == true;
+    }
+
+    function adminRole() {
+      return get(/databases/$(database)/documents/adminler/$(request.auth.uid)).data.role;
+    }
+
+    // Gerçek admin yazma yetkisi: yalnızca superadmin/admin (editor/support dahil değil)
+    function isAdmin() {
+      return hasActiveAdminDoc() && adminRole() in ['superadmin', 'admin'];
     }
 
     // İçerik yöneticisi (blog vb.) admin, editor veya superadmin olabilir
     function isContentManager() {
-      return isAuthenticated() && exists(/databases/$(database)/documents/adminler/$(request.auth.uid)) &&
-             (
-               get(/databases/$(database)/documents/adminler/$(request.auth.uid)).data.role in ['superadmin', 'admin', 'editor'] &&
-               get(/databases/$(database)/documents/adminler/$(request.auth.uid)).data.isActive == true
-             );
+      return hasActiveAdminDoc() && adminRole() in ['superadmin', 'admin', 'editor'];
     }
 
     // Destek ekibi (sipariş, müşteri destek işlemleri) admin, support veya superadmin
     function isSupportStaff() {
-      return isAuthenticated() && exists(/databases/$(database)/documents/adminler/$(request.auth.uid)) &&
-             (
-               get(/databases/$(database)/documents/adminler/$(request.auth.uid)).data.role in ['superadmin', 'admin', 'support'] &&
-               get(/databases/$(database)/documents/adminler/$(request.auth.uid)).data.isActive == true
-             );
+      return hasActiveAdminDoc() && adminRole() in ['superadmin', 'admin', 'support'];
+    }
+
+    // Herhangi bir staff rolü (adminler kendi kaydını okuyabilsin)
+    function isAnyStaff() {
+      return hasActiveAdminDoc() &&
+             adminRole() in ['superadmin', 'admin', 'editor', 'support'];
+    }
+
+    // Kullanıcı kendi profilini güncellerken isAdmin/role alanlarını değiştiremez
+    function ownerSelfUpdateAllowed(userId) {
+      return isOwner(userId) &&
+        !request.resource.data.diff(resource.data).affectedKeys().hasAny(['isAdmin', 'role']);
     }
     
     // Kullanıcılar koleksiyonu
@@ -40,8 +54,8 @@ service cloud.firestore {
       // Kullanıcılar kendi verilerini okuyabilir ve güncelleyebilir
       // Adminler tüm kullanıcı verilerini okuyabilir
       allow read: if isOwner(userId) || isAdmin();
-      allow create: if isAuthenticated();
-      allow update: if isOwner(userId) || isAdmin();
+      allow create: if isOwner(userId) || isAdmin();
+      allow update: if ownerSelfUpdateAllowed(userId) || isAdmin();
       allow delete: if isAdmin();
     }
 
@@ -50,43 +64,173 @@ service cloud.firestore {
       // Kullanıcılar kendi verilerini okuyabilir ve güncelleyebilir
       // Adminler tüm kullanıcı verilerini okuyabilir
       allow read: if isOwner(userId) || isAdmin();
-      allow create: if isAuthenticated();
-      allow update: if isOwner(userId) || isAdmin();
+      allow create: if isOwner(userId) || isAdmin();
+      allow update: if ownerSelfUpdateAllowed(userId) || isAdmin();
       allow delete: if isAdmin();
+
+      // FCM cihaz token'ları (notification_service.dart)
+      match /devices/{deviceId} {
+        allow read: if isOwner(userId) || isAdmin();
+        allow create, update: if isOwner(userId) || isAdmin();
+        allow delete: if isOwner(userId) || isAdmin();
+      }
+
+      // Kullanıcı bildirimleri (notification_service.dart)
+      match /notifications/{notificationId} {
+        allow read: if isOwner(userId) || isAdmin();
+        allow create, update: if isOwner(userId) || isAdmin();
+        allow delete: if isOwner(userId) || isAdmin();
+      }
     }
-    
-    // Ürünler koleksiyonu
-    match /urunler/{productId} {
-      // Herkes ürünleri okuyabilir, sadece adminler ürün ekleyebilir, güncelleyebilir ve silebilir
+
+    // Kayıtlı adresler (checkout adres seçiminde kullanılır)
+    match /saved_addresses/{addressId} {
+      allow read: if isAdmin() || (isAuthenticated() && resource.data.userId == request.auth.uid);
+      allow create: if isAuthenticated() && request.resource.data.userId == request.auth.uid;
+      allow update: if isAdmin() || (
+        isAuthenticated() &&
+        resource.data.userId == request.auth.uid &&
+        request.resource.data.userId == request.auth.uid
+      );
+      allow delete: if isAdmin() || (isAuthenticated() && resource.data.userId == request.auth.uid);
+    }
+
+    // Mahalle/sokak referans verileri
+    match /neighborhoods/{neighborhoodId} {
       allow read: if true;
       allow write: if isAdmin();
     }
     
-    // Siparişler koleksiyonu (eski adı)
+    // Ürünler koleksiyonu
+    match /urunler/{productId} {
+      // Input validation for products
+      function validProductData() {
+        return request.resource.data.keys().hasAll(['name', 'price', 'category', 'description']) &&
+               request.resource.data.name.size() > 0 && request.resource.data.name.size() < 200 &&
+               request.resource.data.price >= 0 && request.resource.data.price < 100000 &&
+               request.resource.data.category.size() > 0 && request.resource.data.category.size() < 100 &&
+               request.resource.data.description.size() < 5000;
+      }
+      
+      // Herkes ürünleri okuyabilir, sadece adminler ürün ekleyebilir, güncelleyebilir ve silebilir
+      allow read: if true;
+      allow create: if isAdmin() && validProductData();
+      allow update: if isAdmin() && validProductData();
+      allow delete: if isAdmin();
+    }
+    
+    // Siparişler koleksiyonu (STANDARDIZED - only 'siparisler' used)
     match /siparisler/{orderId} {
+      // Input validation functions
+      function validOrderData() {
+        return request.resource.data.keys().hasAll(['userId', 'customerName', 'customerEmail', 'customerPhone', 'items', 'amount']) &&
+               request.resource.data.customerName.size() > 0 && request.resource.data.customerName.size() < 100 &&
+               request.resource.data.customerEmail.matches('^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$') &&
+               request.resource.data.customerPhone.size() > 9 && request.resource.data.customerPhone.size() < 20 &&
+               request.resource.data.items.size() > 0 && request.resource.data.items.size() < 50 &&
+               request.resource.data.amount >= 0 && request.resource.data.amount < 100000;
+      }
+
+      // Müşteri sadece sınırlı alanları güncelleyebilir (field-level least privilege)
+      function ownerAllowedOrderFieldsChanged() {
+        return request.resource.data.diff(resource.data).affectedKeys().hasOnly([
+          'shippingAddress',
+          'structuredAddress',
+          'addressDescription',
+          'customerPhone',
+          'notes',
+          'updatedAt'
+        ]);
+      }
+
+      // Teslim edilmiş siparişe sınırlı değerlendirme
+      function ownerCanSubmitReview() {
+        return isAuthenticated() &&
+               resource.data.userId == request.auth.uid &&
+               resource.data.orderStatus == 'delivered' &&
+               resource.data.status == 'delivered' &&
+               (!resource.data.keys().hasAny(['review'])) &&
+               request.resource.data.diff(resource.data).affectedKeys().hasOnly([
+                 'review',
+                 'updatedAt'
+               ]) &&
+               request.resource.data.review.keys().hasAll(['rating', 'comment', 'date']) &&
+               request.resource.data.review.rating is number &&
+               request.resource.data.review.rating >= 1 &&
+               request.resource.data.review.rating <= 5 &&
+               request.resource.data.review.comment is string &&
+               request.resource.data.review.comment.size() > 0 &&
+               request.resource.data.review.comment.size() < 2000 &&
+               request.resource.data.review.date is string;
+      }
+
+      // Kritik alanlar müşteri tarafından değiştirilemez
+      function ownerKeepsProtectedFieldsUnchanged() {
+        return request.resource.data.userId == resource.data.userId &&
+               request.resource.data.items == resource.data.items &&
+               request.resource.data.amount == resource.data.amount &&
+               request.resource.data.orderStatus == resource.data.orderStatus &&
+               request.resource.data.status == resource.data.status &&
+               request.resource.data.statusUpdatedAt == resource.data.statusUpdatedAt &&
+               request.resource.data.updatedBy == resource.data.updatedBy &&
+               request.resource.data.deliveryEta == resource.data.deliveryEta &&
+               request.resource.data.actualDeliveryTime == resource.data.actualDeliveryTime &&
+               request.resource.data.cancelReason == resource.data.cancelReason &&
+               request.resource.data.history == resource.data.history;
+      }
+
+      function ownerCanUpdateOrder() {
+        return isAuthenticated() &&
+               resource.data.userId == request.auth.uid &&
+               ownerAllowedOrderFieldsChanged() &&
+               ownerKeepsProtectedFieldsUnchanged();
+      }
+
+      // Müşteri pending/processing siparişi iptal edebilir (ETA yoksa)
+      function ownerCanCancelOrder() {
+        return isAuthenticated() &&
+               resource.data.userId == request.auth.uid &&
+               resource.data.orderStatus in ['pending', 'processing'] &&
+               resource.data.status in ['pending', 'processing'] &&
+               request.resource.data.orderStatus == 'cancelled' &&
+               request.resource.data.status == 'cancelled' &&
+               request.resource.data.userId == resource.data.userId &&
+               request.resource.data.items == resource.data.items &&
+               request.resource.data.amount == resource.data.amount &&
+               resource.data.get('estimatedArrivalTime', '') == '' &&
+               request.resource.data.diff(resource.data).affectedKeys().hasOnly([
+                 'orderStatus',
+                 'status',
+                 'cancelReason',
+                 'updatedAt'
+               ]);
+      }
+      
       // Kullanıcılar sadece kendi siparişlerini okuyabilir/oluşturabilir
       // Adminler tüm siparişleri okuyup yazabilir
       allow read: if isAdmin() || isSupportStaff() || (isAuthenticated() && resource.data.userId == request.auth.uid);
-      allow create: if isAuthenticated() && request.resource.data.userId == request.auth.uid;
-      allow update: if isAdmin() || isSupportStaff() || (isAuthenticated() && resource.data.userId == request.auth.uid);
+      // Sipariş oluşturma sadece backend (Admin SDK) üzerinden yapılır.
+      allow create: if false;
+      allow update: if isAdmin() || isSupportStaff() || ownerCanUpdateOrder() || ownerCanCancelOrder() || ownerCanSubmitReview();
       allow delete: if isAdmin();
     }
-    
-    // Siparişler koleksiyonu (yeni adı - FirestoreCollections.orders değerine denk geliyor)
-    match /orders/{orderId} {
-      // Kullanıcılar sadece kendi siparişlerini okuyabilir/oluşturabilir
-      // Adminler tüm siparişleri okuyup yazabilir
-      allow read: if isAdmin() || isSupportStaff() || (isAuthenticated() && resource.data.userId == request.auth.uid);
-      allow create: if isAuthenticated() && request.resource.data.userId == request.auth.uid;
-      allow update: if isAdmin() || isSupportStaff() || (isAuthenticated() && resource.data.userId == request.auth.uid);
-      allow delete: if isAdmin();
+
+    // Teslimat takip belgeleri — müşteri yalnızca kendi siparişine bağlı kaydı okuyabilir
+    match /deliveries/{orderId} {
+      function ownsLinkedOrder() {
+        return isAuthenticated() &&
+               exists(/databases/$(database)/documents/siparisler/$(orderId)) &&
+               get(/databases/$(database)/documents/siparisler/$(orderId)).data.userId == request.auth.uid;
+      }
+
+      allow read: if isAdmin() || isSupportStaff() || ownsLinkedOrder();
+      allow write: if isAdmin() || isSupportStaff();
     }
     
-    // E-posta kuyruğu koleksiyonu
+    // E-posta kuyruğu — yalnızca Admin SDK / Cloud Functions yazar
     match /mail_queue/{docId} {
-      // Oturum açan tüm kullanıcılar e-posta kuyruğuna yazabilir ve okuyabilir
-      allow create: if isAuthenticated();
-      allow read, update, delete: if isAuthenticated();
+      allow create: if false;
+      allow read, update, delete: if isAdmin();
     }
     
     // Kategoriler koleksiyonu
@@ -98,9 +242,27 @@ service cloud.firestore {
     
     // Admin kullanıcıları koleksiyonu
     match /adminler/{adminId} {
-      // Sadece adminler admin listesini okuyabilir ve güncelleyebilir
-      allow read: if isAdmin();
-      allow write: if isAdmin();
+      // Staff kendi kaydını okuyabilir; tam yazma yalnızca superadmin/admin
+      allow read: if isOwner(adminId) || isAdmin() || isAnyStaff();
+
+      allow create: if isAdmin();
+      allow delete: if isAdmin();
+
+      // Own lastLogin/role heal: isActive değiştirilemez; role yoksa yalnızca 'admin' set
+      allow update: if isAdmin() || (
+        isOwner(adminId) &&
+        resource.data.isActive == true &&
+        request.resource.data.isActive == resource.data.isActive &&
+        request.resource.data.diff(resource.data).affectedKeys()
+          .hasOnly(['email', 'lastLogin', 'updatedAt', 'role']) &&
+        (
+          request.resource.data.role == resource.data.role ||
+          (
+            (!('role' in resource.data) || resource.data.role == null || resource.data.role == '') &&
+            request.resource.data.role == 'admin'
+          )
+        )
+      );
     }
     
     // Ayarlar koleksiyonu - arka plan görselleri için
@@ -118,49 +280,182 @@ service cloud.firestore {
     
     // Blog yazıları koleksiyonu
     match /bloglar/{blogId} {
+      // Input validation for blogs
+      function validBlogData() {
+        return request.resource.data.keys().hasAll(['title', 'content', 'author']) &&
+               request.resource.data.title.size() > 0 && request.resource.data.title.size() < 300 &&
+               request.resource.data.content.size() > 0 && request.resource.data.content.size() < 50000 &&
+               request.resource.data.author.size() > 0 && request.resource.data.author.size() < 100;
+      }
+      
       // Herkes blog yazılarını okuyabilir, sadece adminler blog yazısı ekleyebilir, güncelleyebilir ve silebilir
       allow read: if true;
-      allow write: if isContentManager();
+      allow create: if isContentManager() && validBlogData();
+      allow update: if isContentManager() && validBlogData();
+      allow delete: if isContentManager();
     }
     
     // Yorumlar koleksiyonu
     match /yorumlar/{commentId} {
+      function validYorumPayload() {
+        return (!('rating' in request.resource.data) ||
+                 (request.resource.data.rating is number &&
+                  request.resource.data.rating >= 1 &&
+                  request.resource.data.rating <= 5)) &&
+               (!('comment' in request.resource.data) ||
+                 (request.resource.data.comment is string &&
+                  request.resource.data.comment.size() <= 2000)) &&
+               (!('text' in request.resource.data) ||
+                 (request.resource.data.text is string &&
+                  request.resource.data.text.size() <= 2000));
+      }
+
+      function validYorumCreate() {
+        return request.resource.data.userId == request.auth.uid && validYorumPayload();
+      }
+
+      function validYorumUpdate() {
+        return resource.data.userId == request.auth.uid &&
+               request.resource.data.userId == resource.data.userId &&
+               validYorumPayload();
+      }
+
       // Herkes yorumları okuyabilir
-      // Kullanıcılar kendi yorumlarını ekleyebilir ve güncelleyebilir
-      // Adminler tüm yorumları silebilir
+      // Oluşturma/güncelleme: sahiplik + rating/comment limitleri; userId değiştirilemez
       allow read: if true;
-      allow create: if isAuthenticated();
-      allow update: if isAuthenticated() && resource.data.userId == request.auth.uid;
+      allow create: if isAuthenticated() && validYorumCreate();
+      allow update: if isAuthenticated() && validYorumUpdate();
       allow delete: if isAdmin() || (isAuthenticated() && resource.data.userId == request.auth.uid);
+    }
+
+    // Admin panel broadcast kuyruğu (kök notifications)
+    match /notifications/{notificationId} {
+      allow read, write: if isAdmin();
     }
     
     // Ödeme işlemleri koleksiyonu (eski adı)
     match /odeme_islemleri/{docId} {
-      allow read: if isAuthenticated();
-      allow create, update, delete: if isAuthenticated();
+      // Kullanıcılar sadece kendi ödeme işlemlerini görebilir, adminler tümünü
+      allow read: if isAdmin() || (isAuthenticated() && resource.data.userId == request.auth.uid);
+      allow create: if isAuthenticated() && request.resource.data.userId == request.auth.uid;
+      allow update: if isAdmin();
+      allow delete: if isAdmin();
     }
-    
+
     // Ödeme işlemleri koleksiyonu (yeni adı - payment_transactions)
     match /payment_transactions/{docId} {
-      allow read: if isAuthenticated();
-      allow create, update, delete: if isAuthenticated();
+      allow read: if isAdmin() || (isAuthenticated() && resource.data.userId == request.auth.uid);
+      allow create: if isAuthenticated() && request.resource.data.userId == request.auth.uid;
+      allow update: if isAdmin();
+      allow delete: if isAdmin();
     }
-    
-    // Ödeme yöntemleri koleksiyonu (eski adı)
+
+    // Ödeme yöntemleri koleksiyonu - herkes okuyabilir, sadece admin yazabilir
     match /odeme_yontemleri/{docId} {
       allow read: if true;
-      allow write: if isAuthenticated();
+      allow write: if isAdmin();
     }
-    
+
     // Ödeme yöntemleri koleksiyonu (yeni adı - payment_methods)
     match /payment_methods/{docId} {
-      allow read: if isAuthenticated();
-      allow create, update, delete: if isAuthenticated();
+      allow read: if true;
+      allow write: if isAdmin();
     }
     
-    // Herhangi bir belge
+    // Sipariş rate limit (yalnızca Cloud Functions Admin SDK yazar)
+    match /phone_order_rate_limits/{phoneId} {
+      allow read, write: if false;
+    }
+
+    match /order_rate_limits/{uid} {
+      allow read, write: if false;
+    }
+
+    match /order_idempotency/{docId} {
+      allow read, write: if false;
+    }
+
+    // OTP IP rate limit (yalnızca Cloud Functions Admin SDK yazar)
+    // ==========================================
+    // NEXT.JS VİTRİN KOLEKSİYONLARI (FAZ 6)
+    // ==========================================
+
+    // Ürün Kataloğu: Herkes okuyabilir, yalnızca Admin yazabilir
+    match /products/{productId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    // Proses & Fermantasyon Şablonları: Herkes okuyabilir, yalnızca Admin yazabilir
+    match /process_templates/{templateId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    // Üretim & Canlı Parti Telemetrisi: Herkes okuyabilir, yalnızca Admin yazabilir
+    match /production/{batchId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    // Siparişler (Next.js /orders): Yalnızca Admin SDK / Server API oluşturur ve yönetir
+    match /orders/{orderId} {
+      allow read: if isAdmin() || isSupportStaff();
+      allow write: if false; // İstemciden doğrudan belge oluşturulamaz / değiştirilemez
+    }
+
+    // ==========================================
+    // EKMEKLAB FIRIN ERP & GÜVENLİK KOLEKSİYONLARI
+    // ==========================================
+
+    // Güvenli Cihaz Beyaz Listesi (Trusted Devices)
+    match /guvenli_cihazlar/{deviceId} {
+      // Cihaz kendi durumunu sorgulayabilir (get); toplu listeleme (list) sadece adminlere açıktır
+      allow get: if true;
+      allow list: if isAdmin();
+      // Yeni cihaz sadece onay bekleyen (approved == false) başvuru açabilir
+      allow create: if request.resource.data.approved == false || isAdmin();
+      // Cihazı onaylama (approved == true) veya silme yalnızca Admin yetkisindedir
+      allow update, delete: if isAdmin();
+    }
+
+    // Kurumsal Cariler (B2B Toptan Müşteriler) & Hareketleri
+    match /cariler/{cariId} {
+      allow read, write: if isAdmin();
+    }
+    match /cari_hareketler/{hareketId} {
+      allow read, write: if isAdmin();
+    }
+
+    // Tedarikçiler (Değirmenler, Mandıralar) & Hammadde Hareketleri
+    match /tedarikciler/{tedarikciId} {
+      allow read, write: if isAdmin();
+    }
+    match /tedarikci_hareketler/{hareketId} {
+      allow read, write: if isAdmin();
+    }
+
+    // Fırın İşletme Giderleri (Kasa, Kira, Yakıt, Ambalaj, Net Kâr)
+    match /giderler/{giderId} {
+      allow read, write: if isAdmin();
+    }
+
+    // Üretim & Mayalama Partileri (İmalat Reçeteleri ve Telemetri)
+    match /uretim_partileri/{partiId} {
+      allow read, write: if isAdmin();
+    }
+
+    // Zanaat Kütüphanesi Araştırma Makaleleri
+    match /journal_articles/{articleId} {
+      allow read: if true;
+      allow write: if isAdmin() || isContentManager();
+    }
+
+    // Catch-all: yalnızca superadmin/admin (isAdmin role allowlist ile hizalı).
+    // Editor/support tanımsız koleksiyonlara yazamaz.
     match /{document=**} {
       allow read, write: if isAdmin();
     }
   }
-} 
+}
+ 

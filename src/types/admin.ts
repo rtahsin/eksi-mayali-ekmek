@@ -1,0 +1,141 @@
+import { OrderItem } from "./index";
+export type { OrderItem };
+
+export type AdminRole = "superadmin" | "admin" | "editor" | "support";
+
+export interface AdminUser {
+  uid: string;
+  email: string;
+  displayName?: string;
+  role: AdminRole;
+  isActive: boolean;
+}
+
+export interface TrustedDevice {
+  id: string;
+  deviceId: string;
+  deviceName: string;
+  approved: boolean;
+  approvedAt?: string;
+  approvedBy?: string;
+  lastUsedAt: string;
+  userAgent?: string;
+}
+
+export type AdminOrderStatus =
+  | "bekliyor"        // Yeni sipariş, teyit bekliyor
+  | "hazirlaniyor"     // Hamur / paket hazırlanıyor
+  | "firinda"          // Fırında pişiyor
+  | "kuryede"          // Kurye teslimata çıktı
+  | "teslim_edildi"    // Başarıyla teslim edildi
+  | "iptal";           // İptal edildi
+
+export type AdminPaymentMethod =
+  | "cash_on_delivery" // Kapıda Nakit
+  | "pos_at_door"      // Kapıda Kredi Kartı (Mobil POS)
+  | "online"           // Online Kredi Kartı
+  | "transfer"         // Havale / EFT
+  | "cari";            // Kurumsal Cari Hesaba Yaz
+
+export type OrderSource = "web" | "whatsapp" | "phone" | "in_store";
+
+export interface AdminOrder {
+  id: string;
+  orderNumber?: string;
+  customerName: string;
+  phone: string;
+  deliveryAddress: string;
+  neighborhood?: string; // Beylikdüzü Mahallesi
+  deliveryMethod: "courier" | "pickup";
+  deliveryDate: string; // YYYY-MM-DD
+  deliveryTimeWindow?: string;
+  items: OrderItem[];
+  subtotal: number;
+  shippingFee: number;
+  totalAmount: number;
+  status: AdminOrderStatus;
+  paymentMethod: AdminPaymentMethod;
+  paymentStatus: "paid" | "pending" | "on_delivery";
+  source: OrderSource;
+  cariId?: string;
+  orderNotes?: string;
+  courierNotes?: string;
+  createdAt: any;
+  updatedAt?: any;
+}
+
+export interface CariAccount {
+  id: string;
+  businessName: string; // Restoran / Kafe / Firma Adı
+  contactPerson: string;
+  phone: string;
+  address: string;
+  neighborhood: string;
+  taxNumber?: string;
+  taxOffice?: string;
+  customPrices?: Record<string, number>; // productId -> ikili anlaşma toptan fiyatı (₺)
+  balance: number; // Müşterinin bize olan borcu (Pozitif = alacağımız var)
+  notes?: string;
+  createdAt: string;
+  updatedAt?: string;
+}
+
+export interface CariTransaction {
+  id: string;
+  cariId: string;
+  date: string; // YYYY-MM-DD
+  type: "satis" | "tahsilat"; // satis: sipariş verildi (borç yazıldı), tahsilat: ödeme alındı (alacak düştü)
+  amount: number;
+  description: string;
+  paymentMethod?: "nakit" | "banka_havale" | "kredi_karti" | "diger";
+  orderId?: string;
+  createdAt: any;
+}
+
+export interface Supplier {
+  id: string;
+  companyName: string;
+  materialType: string; // Un, Süt, Maya, Koli vb.
+  phone: string;
+  contactPerson?: string;
+  balance: number; // Bizim borcumuz (Pozitif = tedarikçiye borcumuz var)
+  notes?: string;
+  createdAt: string;
+}
+
+export interface SupplierTransaction {
+  id: string;
+  supplierId: string;
+  date: string; // YYYY-MM-DD
+  type: "alis" | "odeme"; // alis: hammadde aldık (borcumuz arttı), odeme: para ödedik (borcumuz azaldı)
+  amount: number;
+  description: string;
+  paymentMethod?: "nakit" | "banka_havale" | "kredi_karti" | "diger";
+  createdAt: any;
+}
+
+export interface ExpenseRecord {
+  id: string;
+  category: "hammadde" | "yakit_kurye" | "ambalaj" | "fatura_kira" | "diger";
+  title: string;
+  amount: number;
+  date: string;
+  supplierId?: string;
+  paymentMethod: "nakit" | "kredi_karti" | "banka_havale" | "cari_borc";
+  notes?: string;
+  createdAt: string;
+}
+
+export const BEYLIKDUZU_NEIGHBORHOODS = [
+  "Adnan Kahveci",
+  "Barış",
+  "Büyükşehir",
+  "Cumhuriyet",
+  "Dereağzı",
+  "Gürpınar",
+  "Kavaklı",
+  "Marmara",
+  "Sahil",
+  "Yakuplu",
+  "Beykent",
+] as const;

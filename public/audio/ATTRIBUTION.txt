@@ -1,0 +1,8 @@
+# Atelier ambient audio
+
+- File: atelier_ambient.mp3 (primary; web-compatible)
+- Source WAV: atelier_ambient.wav (reference / archive)
+- Origin: procedurally generated soft oven/room hum loop, created for EkmekLab; encoded to 128 kbps MP3 (lame) for browser playback
+- License: original work — royalty-free for this project; no third-party sample
+- Duration: ~8s, designed for seamless loop via audioplayers ReleaseMode.loop
+- Playback volume (app): ~0.42
