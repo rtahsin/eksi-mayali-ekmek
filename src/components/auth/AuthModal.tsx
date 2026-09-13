@@ -76,7 +76,18 @@ export function AuthModal({ isOpen, onClose, defaultTab = "login" }: AuthModalPr
     setErrorMsg(null);
     setSubmitting(true);
     try {
-      await signInWithGoogle();
+      const res = await signInWithGoogle();
+      if (res?.error) {
+        const msg = (res.error as any).message || String(res.error);
+        if (msg.includes("provider is not enabled") || msg.includes("Unsupported provider")) {
+          setErrorMsg(
+            "Google ile giriş henüz Supabase panelinde açılmamış. Lütfen aşağıdaki formdan e-posta ve şifrenizle kayıt olunuz veya giriş yapınız."
+          );
+        } else {
+          setErrorMsg(msg || "Google ile giriş başlatılamadı.");
+        }
+        setSubmitting(false);
+      }
     } catch (err: any) {
       setErrorMsg(err.message || "Google ile giriş başlatılamadı.");
       setSubmitting(false);
