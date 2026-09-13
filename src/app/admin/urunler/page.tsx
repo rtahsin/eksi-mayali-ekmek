@@ -19,6 +19,7 @@ import {
   Flame,
   Clock,
   Droplet,
+  Trash2,
 } from "lucide-react";
 import { useProducts, ExtendedProduct, normalizeCategory } from "@/hooks/useProducts";
 
@@ -41,6 +42,27 @@ export default function AdminProductsPage() {
   const [modalOpen, setModalOpen] = useState(false);
   const [editingProduct, setEditingProduct] = useState<Partial<ExtendedProduct> | null>(null);
   const [isNewProduct, setIsNewProduct] = useState(false);
+  const [deletingId, setDeletingId] = useState<string | null>(null);
+
+  // Delete product with confirmation
+  const handleDeleteProduct = async (id: string, name: string) => {
+    const isConfirmed = window.confirm(
+      `"${name}" ürününü katalogdan ve menüden kalıcı olarak silmek istediğinize emin misiniz?`
+    );
+    if (!isConfirmed) return;
+
+    setDeletingId(id);
+    const res = await deleteProduct(id);
+    setDeletingId(null);
+
+    if (modalOpen && editingProduct?.id === id) {
+      setModalOpen(false);
+    }
+
+    if (!res.success) {
+      alert("Ürün silinirken bir hata oluştu: " + (res.error || "Bilinmeyen hata"));
+    }
+  };
 
   // Quick inline price update
   const handlePriceChange = async (id: string, newPrice: number) => {
@@ -371,13 +393,25 @@ export default function AdminProductsPage() {
 
                       {/* Actions */}
                       <td className="py-3.5 px-4 text-right">
-                        <button
-                          onClick={() => openEditModal(prod)}
-                          className="p-2 rounded-xl bg-stone-800 hover:bg-stone-700 text-stone-300 hover:text-white transition-colors"
-                          title="Düzenle & Fermantasyon DNA"
-                        >
-                          <Edit3 className="w-4 h-4" />
-                        </button>
+                        <div className="flex items-center justify-end gap-1.5">
+                          <button
+                            onClick={() => openEditModal(prod)}
+                            className="p-2 rounded-xl bg-stone-800 hover:bg-stone-700 text-stone-300 hover:text-white transition-colors"
+                            title="Düzenle & Fermantasyon DNA"
+                          >
+                            <Edit3 className="w-4 h-4" />
+                          </button>
+
+                          <button
+                            type="button"
+                            disabled={deletingId === prod.id}
+                            onClick={() => handleDeleteProduct(prod.id, prod.name)}
+                            className="p-2 rounded-xl bg-stone-800 hover:bg-red-500/20 text-stone-400 hover:text-red-400 transition-colors border border-transparent hover:border-red-500/30 disabled:opacity-50"
+                            title="Ürünü Katalogdan Sil"
+                          >
+                            <Trash2 className="w-4 h-4" />
+                          </button>
+                        </div>
                       </td>
                     </tr>
                   );
@@ -560,21 +594,37 @@ export default function AdminProductsPage() {
               </div>
 
               {/* Action Buttons */}
-              <div className="flex items-center justify-end gap-3 pt-4 border-t border-stone-800">
-                <button
-                  type="button"
-                  onClick={() => setModalOpen(false)}
-                  className="px-4 py-2 bg-stone-800 hover:bg-stone-700 text-stone-300 rounded-xl text-xs font-semibold transition-colors"
-                >
-                  Vazgeç
-                </button>
-                <button
-                  type="submit"
-                  className="flex items-center gap-2 px-5 py-2 bg-amber-500 hover:bg-amber-400 text-stone-950 font-bold rounded-xl text-xs transition-all shadow-lg shadow-amber-500/20"
-                >
-                  <Save className="w-4 h-4" />
-                  <span>{isNewProduct ? "Ürünü Ekle" : "Değişiklikleri Kaydet"}</span>
-                </button>
+              <div className="flex items-center justify-between gap-3 pt-4 border-t border-stone-800">
+                {!isNewProduct && editingProduct?.id ? (
+                  <button
+                    type="button"
+                    disabled={deletingId === editingProduct.id}
+                    onClick={() => handleDeleteProduct(editingProduct.id!, editingProduct.name || "Ürün")}
+                    className="flex items-center gap-1.5 px-3.5 py-2 bg-red-500/10 hover:bg-red-500/20 text-red-400 rounded-xl text-xs font-semibold border border-red-500/30 transition-all active:scale-95 disabled:opacity-50"
+                  >
+                    <Trash2 className="w-3.5 h-3.5" />
+                    <span>{deletingId === editingProduct.id ? "Siliniyor..." : "Bu Ürünü Sil"}</span>
+                  </button>
+                ) : (
+                  <div />
+                )}
+
+                <div className="flex items-center gap-2">
+                  <button
+                    type="button"
+                    onClick={() => setModalOpen(false)}
+                    className="px-4 py-2 bg-stone-800 hover:bg-stone-700 text-stone-300 rounded-xl text-xs font-semibold transition-colors"
+                  >
+                    Vazgeç
+                  </button>
+                  <button
+                    type="submit"
+                    className="flex items-center gap-2 px-5 py-2 bg-amber-500 hover:bg-amber-400 text-stone-950 font-bold rounded-xl text-xs transition-all shadow-lg shadow-amber-500/20"
+                  >
+                    <Save className="w-4 h-4" />
+                    <span>{isNewProduct ? "Ürünü Ekle" : "Değişiklikleri Kaydet"}</span>
+                  </button>
+                </div>
               </div>
             </form>
           </div>

@@ -435,6 +435,35 @@ export const INITIAL_PRODUCTS: ExtendedProduct[] = [
   },
 ];
 
+const getDeletedIds = (): string[] => {
+  if (typeof window === "undefined") return [];
+  try {
+    const raw = localStorage.getItem("ekmeklab_deleted_products");
+    return raw ? JSON.parse(raw) : [];
+  } catch {
+    return [];
+  }
+};
+
+const markIdAsDeletedLocally = (id: string) => {
+  if (typeof window === "undefined") return;
+  try {
+    const arr = getDeletedIds();
+    if (!arr.includes(id)) {
+      arr.push(id);
+      localStorage.setItem("ekmeklab_deleted_products", JSON.stringify(arr));
+    }
+  } catch {}
+};
+
+const unmarkIdAsDeletedLocally = (id: string) => {
+  if (typeof window === "undefined") return;
+  try {
+    const arr = getDeletedIds().filter((d) => d !== id);
+    localStorage.setItem("ekmeklab_deleted_products", JSON.stringify(arr));
+  } catch {}
+};
+
 export function useProducts(category?: string) {
   const [products, setProducts] = useState<ExtendedProduct[]>(INITIAL_PRODUCTS);
   const [loading, setLoading] = useState<boolean>(false);
@@ -443,6 +472,8 @@ export function useProducts(category?: string) {
   useEffect(() => {
     async function fetchProducts() {
       setLoading(true);
+      const deletedIds = getDeletedIds();
+
       try {
         // 1. Try fetching from Supabase PostgreSQL first
         const supabase = createClient();
@@ -454,30 +485,32 @@ export function useProducts(category?: string) {
               .eq("is_active", true)
               .order("is_popular", { ascending: false });
 
-            if (supaProducts && supaProducts.length > 0 && !supaErr) {
-              const mapped: ExtendedProduct[] = supaProducts.map((p: any) => ({
-                id: p.id,
-                name: p.name,
-                description: p.description || "",
-                price: Number(p.price),
-                imageUrl:
-                  p.image_url ||
-                  "https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=900&q=85",
-                category: normalizeCategory(p.category),
-                stock: Number(p.stock) || 25,
-                weight: Number(p.weight) || 800,
-                weightUnit: p.weight_unit || "g",
-                madeToOrder: Boolean(p.made_to_order),
-                isPopular: Boolean(p.is_popular),
-                isNew: Boolean(p.is_new),
-                isAvailable: p.is_available !== false,
-                isActive: true,
-                ingredients: Array.isArray(p.ingredients) ? p.ingredients : [],
-                flourTypes: Array.isArray(p.flour_types) ? p.flour_types : [],
-                hydration: p.hydration ? Number(p.hydration) : undefined,
-                atelierPlacement: p.atelier_placement || undefined,
-                masterclass: p.masterclass || undefined,
-              }));
+            if (supaProducts && !supaErr && supaProducts.length > 0) {
+              const mapped: ExtendedProduct[] = supaProducts
+                .map((p: any) => ({
+                  id: p.id,
+                  name: p.name,
+                  description: p.description || "",
+                  price: Number(p.price),
+                  imageUrl:
+                    p.image_url ||
+                    "https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=900&q=85",
+                  category: normalizeCategory(p.category),
+                  stock: Number(p.stock) || 25,
+                  weight: Number(p.weight) || 800,
+                  weightUnit: p.weight_unit || "g",
+                  madeToOrder: Boolean(p.made_to_order),
+                  isPopular: Boolean(p.is_popular),
+                  isNew: Boolean(p.is_new),
+                  isAvailable: p.is_available !== false,
+                  isActive: true,
+                  ingredients: Array.isArray(p.ingredients) ? p.ingredients : [],
+                  flourTypes: Array.isArray(p.flour_types) ? p.flour_types : [],
+                  hydration: p.hydration ? Number(p.hydration) : undefined,
+                  atelierPlacement: p.atelier_placement || undefined,
+                  masterclass: p.masterclass || undefined,
+                }))
+                .filter((p: ExtendedProduct) => !deletedIds.includes(p.id));
 
               setProducts(mapped);
               setLoading(false);
@@ -489,10 +522,10 @@ export function useProducts(category?: string) {
         }
 
         // 2. Fallback to rich initial artisan catalog
-        setProducts(INITIAL_PRODUCTS);
+        setProducts(INITIAL_PRODUCTS.filter((p) => !deletedIds.includes(p.id)));
       } catch (err: any) {
         console.warn("Could not fetch products, using initial catalog:", err);
-        setProducts(INITIAL_PRODUCTS);
+        setProducts(INITIAL_PRODUCTS.filter((p) => !deletedIds.includes(p.id)));
       } finally {
         setLoading(false);
       }
@@ -512,6 +545,7 @@ export function useProducts(category?: string) {
   });
 
   const reloadProducts = async () => {
+    const deletedIds = getDeletedIds();
     const supabase = createClient();
     if (!supabase) return;
     try {
@@ -521,30 +555,33 @@ export function useProducts(category?: string) {
         .eq("is_active", true)
         .order("is_popular", { ascending: false });
 
-      if (supaProducts && supaProducts.length > 0) {
-        const mapped: ExtendedProduct[] = supaProducts.map((p: any) => ({
-          id: p.id,
-          name: p.name,
-          description: p.description || "",
-          price: Number(p.price),
-          imageUrl:
-            p.image_url ||
-            "https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=900&q=85",
-          category: normalizeCategory(p.category),
-          stock: Number(p.stock) || 25,
-          weight: Number(p.weight) || 800,
-          weightUnit: p.weight_unit || "g",
-          madeToOrder: Boolean(p.made_to_order),
-          isPopular: Boolean(p.is_popular),
-          isNew: Boolean(p.is_new),
-          isAvailable: p.is_available !== false,
-          isActive: true,
-          ingredients: Array.isArray(p.ingredients) ? p.ingredients : [],
-          flourTypes: Array.isArray(p.flour_types) ? p.flour_types : [],
-          hydration: p.hydration ? Number(p.hydration) : undefined,
-          atelierPlacement: p.atelier_placement || undefined,
-          masterclass: p.masterclass || undefined,
-        }));
+      if (supaProducts) {
+        const mapped: ExtendedProduct[] = supaProducts
+          .map((p: any) => ({
+            id: p.id,
+            name: p.name,
+            description: p.description || "",
+            price: Number(p.price),
+            imageUrl:
+              p.image_url ||
+              "https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=900&q=85",
+            category: normalizeCategory(p.category),
+            stock: Number(p.stock) || 25,
+            weight: Number(p.weight) || 800,
+            weightUnit: p.weight_unit || "g",
+            madeToOrder: Boolean(p.made_to_order),
+            isPopular: Boolean(p.is_popular),
+            isNew: Boolean(p.is_new),
+            isAvailable: p.is_available !== false,
+            isActive: true,
+            ingredients: Array.isArray(p.ingredients) ? p.ingredients : [],
+            flourTypes: Array.isArray(p.flour_types) ? p.flour_types : [],
+            hydration: p.hydration ? Number(p.hydration) : undefined,
+            atelierPlacement: p.atelier_placement || undefined,
+            masterclass: p.masterclass || undefined,
+          }))
+          .filter((p: ExtendedProduct) => !deletedIds.includes(p.id));
+
         setProducts(mapped);
       }
     } catch (e) {
@@ -603,10 +640,27 @@ export function useProducts(category?: string) {
   };
 
   const saveProduct = async (productData: Partial<ExtendedProduct>) => {
+    const id = productData.id || `prod_${Date.now().toString(36)}`;
+    unmarkIdAsDeletedLocally(id);
+
+    // Try server API first for guaranteed permissions
+    try {
+      const apiRes = await fetch("/api/admin/products", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ...productData, id }),
+      });
+      if (apiRes.ok) {
+        await reloadProducts();
+        return { success: true, id };
+      }
+    } catch (e) {
+      console.warn("API save product notice, falling back to direct client:", e);
+    }
+
     const supabase = createClient();
     if (!supabase) return { success: false, error: "Supabase bağlantısı kurulamadı" };
 
-    const id = productData.id || `prod_${Date.now().toString(36)}`;
     const payload: any = {
       id,
       name: productData.name,
@@ -642,17 +696,39 @@ export function useProducts(category?: string) {
   };
 
   const deleteProduct = async (id: string) => {
-    // Soft delete: is_active = false
+    // 1. Mark as deleted locally so it never resurfaces
+    markIdAsDeletedLocally(id);
+
+    // 2. Instant optimistic removal from UI
     setProducts((prev) => prev.filter((p) => p.id !== id));
 
+    // 3. Call server API route with service role
+    try {
+      const res = await fetch(`/api/admin/products?id=${encodeURIComponent(id)}`, {
+        method: "DELETE",
+      });
+      if (res.ok) {
+        return { success: true };
+      }
+    } catch (apiErr) {
+      console.warn("Server API delete product warning:", apiErr);
+    }
+
+    // 4. Direct Supabase client fallback
     const supabase = createClient();
     if (supabase) {
       try {
-        const { error } = await supabase
+        const { error: delErr } = await (supabase as any)
           .from("products")
-          .update({ is_active: false, updated_at: new Date().toISOString() })
+          .delete()
           .eq("id", id);
-        if (error) throw error;
+
+        if (delErr) {
+          await (supabase as any)
+            .from("products")
+            .update({ is_active: false, updated_at: new Date().toISOString() })
+            .eq("id", id);
+        }
         return { success: true };
       } catch (e: any) {
         console.error("Supabase delete product error:", e);
