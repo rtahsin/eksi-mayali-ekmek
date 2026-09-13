@@ -18,6 +18,7 @@ import {
   Store,
   Navigation,
   ExternalLink,
+  Compass,
 } from "lucide-react";
 import { useAdminOrders } from "@/hooks/useAdminOrders";
 import { OrderSlipModal } from "@/components/admin/OrderSlipModal";
@@ -103,8 +104,17 @@ export default function SingleOrderDetailPage() {
     window.open(`https://wa.me/${formatted}?text=${encodeURIComponent(text)}`, "_blank");
   };
 
-  const mapQuery = encodeURIComponent(`${order.deliveryAddress}, Beylikdüzü, İstanbul`);
-  const mapsUrl = `https://www.google.com/maps/search/?api=1&query=${mapQuery}`;
+  const gpsMatch = order.deliveryAddress?.match(/(?:GPS|Konum):\s*([0-9.]+),\s*([0-9.]+)/i);
+  const cleanAddress = order.deliveryAddress?.replace(/\[📍\s*(?:GPS|Konum):[^\]]+\]/g, "").trim();
+  const mapQuery = encodeURIComponent(`${cleanAddress}, Beylikdüzü, İstanbul`);
+
+  const mapsUrl = gpsMatch
+    ? `https://www.google.com/maps/dir/?api=1&destination=${gpsMatch[1]},${gpsMatch[2]}`
+    : `https://www.google.com/maps/search/?api=1&query=${mapQuery}`;
+
+  const yandexUrl = gpsMatch
+    ? `https://yandex.com.tr/harita/?rtext=~${gpsMatch[1]}%2C${gpsMatch[2]}&rtt=auto`
+    : `https://yandex.com.tr/harita/?text=${mapQuery}`;
 
   const statusSteps: { key: AdminOrderStatus; label: string; icon: string }[] = [
     { key: "bekliyor", label: "Bekliyor", icon: "🟡" },
@@ -138,15 +148,29 @@ export default function SingleOrderDetailPage() {
           )}
 
           {order.deliveryAddress && order.deliveryMethod === "courier" && (
-            <a
-              href={mapsUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center gap-1.5 px-3 py-2 bg-stone-800 hover:bg-stone-700 text-stone-200 rounded-xl text-xs font-semibold border border-stone-700 transition-colors"
-            >
-              <Navigation className="w-3.5 h-3.5 text-sky-400" />
-              <span>Harita</span>
-            </a>
+            <>
+              <a
+                href={mapsUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-1.5 px-3 py-2 bg-stone-800 hover:bg-stone-700 text-stone-200 rounded-xl text-xs font-semibold border border-stone-700 transition-colors"
+                title="Google Haritalar'da Yol Tarifi Al"
+              >
+                <Navigation className="w-3.5 h-3.5 text-amber-400" />
+                <span>Harita</span>
+              </a>
+
+              <a
+                href={yandexUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-1 px-2.5 py-2 bg-stone-800/80 hover:bg-stone-700 text-stone-300 rounded-xl text-xs font-semibold border border-stone-700 transition-colors"
+                title="Yandex Navigasyon ile Aç"
+              >
+                <Compass className="w-3.5 h-3.5 text-red-400" />
+                <span className="hidden sm:inline">Yandex</span>
+              </a>
+            </>
           )}
 
           <button

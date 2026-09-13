@@ -161,17 +161,25 @@ export function OrderCard({ order, onUpdateStatus }: OrderCardProps) {
           <div className="flex items-start gap-1.5 text-foreground/75 leading-relaxed bg-[#14100D] p-2.5 rounded-xl border border-[#241B15]">
             <MapPin className="w-3.5 h-3.5 text-artisan-gold shrink-0 mt-0.5" />
             <span className="flex-1 select-all">{order.deliveryAddress}</span>
-            <a
-              href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
-                `${order.deliveryAddress}, Beylikdüzü, İstanbul`
-              )}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="p-1 rounded-lg bg-[#201812] hover:bg-[#2B2018] text-artisan-gold transition-colors shrink-0"
-              title="Google Haritalar'da Aç"
-            >
-              <Navigation className="w-3.5 h-3.5" />
-            </a>
+            {(() => {
+              const match = order.deliveryAddress?.match(/(?:GPS|Konum):\s*([0-9.]+),\s*([0-9.]+)/i);
+              const mapLink = match
+                ? `https://www.google.com/maps/dir/?api=1&destination=${match[1]},${match[2]}`
+                : `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
+                    `${order.deliveryAddress}, Beylikdüzü, İstanbul`
+                  )}`;
+              return (
+                <a
+                  href={mapLink}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="p-1.5 rounded-lg bg-[#201812] hover:bg-[#2B2018] text-artisan-gold transition-colors shrink-0"
+                  title="Haritada Yol Tarifi Al"
+                >
+                  <Navigation className="w-3.5 h-3.5" />
+                </a>
+              );
+            })()}
           </div>
 
           {order.orderNotes && (

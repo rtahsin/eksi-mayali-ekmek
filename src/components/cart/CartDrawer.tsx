@@ -18,6 +18,8 @@ import {
   MapPin,
   Clock,
   Sparkles,
+  Navigation,
+  Loader2,
 } from "lucide-react";
 
 import { useAuth } from "@/components/auth/AuthProvider";
@@ -45,6 +47,7 @@ export function CartDrawer() {
     addItem,
     updateQuantity,
     removeItem,
+    clearCart,
     setDeliveryMethod,
     setCustomerInfo,
     getItemCount,
@@ -52,6 +55,92 @@ export function CartDrawer() {
     getShippingFee,
     getTotalAmount,
   } = useCartStore();
+
+  const [locating, setLocating] = useState(false);
+  const [locateError, setLocateError] = useState<string | null>(null);
+
+  const handleGetLocation = () => {
+    if (typeof window === "undefined" || !navigator.geolocation) {
+      alert("Tarayıcınız konum özelliğini desteklemiyor.");
+      return;
+    }
+
+    setLocating(true);
+    setLocateError(null);
+
+    navigator.geolocation.getCurrentPosition(
+      async (position) => {
+        try {
+          const lat = position.coords.latitude;
+          const lon = position.coords.longitude;
+
+          // Reverse geocode via OpenStreetMap Nominatim
+          const res = await fetch(
+            `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}&zoom=18&addressdetails=1`
+          );
+
+          if (res.ok) {
+            const data = await res.json();
+            const addr = data.address || {};
+
+            // Match neighborhood
+            const detectedSub = (
+              addr.suburb ||
+              addr.neighbourhood ||
+              addr.quarter ||
+              ""
+            ).toLowerCase();
+            let matchedNeighborhood = "";
+
+            for (const nh of BEYLIKDUZU_NEIGHBORHOODS) {
+              const rootName = nh.replace(" Mah.", "").toLowerCase();
+              if (detectedSub.includes(rootName)) {
+                matchedNeighborhood = nh;
+                break;
+              }
+            }
+
+            // Road & house number
+            const road = addr.road || "";
+            const house = addr.house_number ? ` No: ${addr.house_number}` : "";
+            const streetLine = road ? `${road}${house}` : "";
+
+            const currentDetail = customerInfo.addressDetail
+              ? customerInfo.addressDetail.trim()
+              : "";
+            const coordsTag = `[📍 GPS: ${lat.toFixed(5)}, ${lon.toFixed(5)}]`;
+
+            const newDetail = streetLine
+              ? currentDetail
+                ? `${currentDetail}, ${streetLine}`
+                : `${streetLine} ${coordsTag}`
+              : currentDetail
+              ? `${currentDetail} ${coordsTag}`
+              : `Beylikdüzü ${coordsTag}`;
+
+            setCustomerInfo({
+              ...(matchedNeighborhood ? { neighborhood: matchedNeighborhood } : {}),
+              addressDetail: newDetail,
+            });
+          }
+        } catch (err) {
+          console.warn("Location reverse geocode error:", err);
+        } finally {
+          setLocating(false);
+        }
+      },
+      (error) => {
+        setLocating(false);
+        if (error.code === error.PERMISSION_DENIED) {
+          setLocateError("Konum izni verilmedi. Lütfen adresinizi yazarak giriniz.");
+        } else {
+          setLocateError("Konum belirlenemedi. Lütfen adresinizi yazarak giriniz.");
+        }
+        setTimeout(() => setLocateError(null), 4000);
+      },
+      { timeout: 10000, enableHighAccuracy: true }
+    );
+  };
 
   const { user, profile, addresses, isLoggedIn, openAuthModal } = useAuth();
 
@@ -488,9 +577,30 @@ export function CartDrawer() {
  {deliveryMethod === "courier" && (
  <>
  <div>
- <label className="block text-[10px] font-sans text-artisan-cream/70 mb-1">
- Beylikdüzü Mahallesi *
- </label>
+  <div className="flex items-center justify-between mb-1">
+    <label className="text-[10px] font-sans text-artisan-cream/70">
+      Beylikdüzü Mahallesi *
+    </label>
+    <button
+      type="button"
+      disabled={locating}
+      onClick={handleGetLocation}
+      className="text-[10px] font-semibold text-artisan-gold hover:text-amber-300 flex items-center gap-1 transition-colors disabled:opacity-50"
+      title="Telefon/Tarayıcı Konumunuzu Kullanarak Mahalleni ve Adresini Otomatik Bul"
+    >
+      {locating ? (
+        <Loader2 className="w-3 h-3 text-amber-400 animate-spin" />
+      ) : (
+        <Navigation className="w-3 h-3 text-amber-400" />
+      )}
+      <span>{locating ? "Konum Alınıyor..." : "📍 Konumumu Otomatik Al"}</span>
+    </button>
+  </div>
+  {locateError && (
+    <div className="text-[10px] text-amber-400/90 bg-amber-500/10 border border-amber-500/20 px-2 py-1 rounded-lg mb-1.5 font-sans">
+      {locateError}
+    </div>
+  )}
  <select
  value={customerInfo.neighborhood}
  onChange={(e) => setCustomerInfo({ neighborhood: e.target.value})}
