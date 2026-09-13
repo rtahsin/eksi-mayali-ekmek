@@ -16,15 +16,7 @@ import {
   X,
   PlusCircle,
 } from "lucide-react";
-import {
-  doc,
-  collection,
-  query,
-  where,
-  orderBy,
-  onSnapshot,
-} from "firebase/firestore";
-import { db } from "@/lib/firebase/client";
+import { createClient } from "@/lib/supabase/client";
 import { useSuppliers } from "@/hooks/useSuppliers";
 import { Supplier, SupplierTransaction } from "@/types/admin";
 
@@ -50,37 +42,73 @@ export default function SupplierDetailPage() {
   useEffect(() => {
     if (!supplierId) return;
 
-    const supRef = doc(db, "tedarikciler", supplierId);
-    const unsubSup = onSnapshot(supRef, (snap) => {
-      if (snap.exists()) {
-        setSupplier({ id: snap.id, ...snap.data() } as Supplier);
-      }
-      setLoading(false);
-    });
+    const supabase = createClient();
+    if (!supabase) return;
 
-    const txQuery = query(
-      collection(db, "tedarikci_hareketler"),
-      where("supplierId", "==", supplierId),
-      orderBy("date", "desc")
-    );
+    const fetchSupplierData = async () => {
+      try {
+        // 1. Fetch Supplier
+        const { data: sup } = await (supabase as any)
+          .from("suppliers")
+          .select("*")
+          .eq("id", supplierId)
+          .single();
 
-    const unsubTx = onSnapshot(
-      txQuery,
-      (snap) => {
-        const list: SupplierTransaction[] = [];
-        snap.forEach((d) => {
-          list.push({ id: d.id, ...d.data() } as SupplierTransaction);
-        });
-        setTransactions(list);
-      },
-      (err) => {
-        console.warn("Supplier transactions fetch error fallback:", err);
+        if (sup) {
+          setSupplier({
+            id: sup.id,
+            companyName: sup.name || "Tedarikçi",
+            materialType: sup.category || "Hammadde",
+            phone: sup.phone || "",
+            contactPerson: sup.contact_person || "",
+            balance: Number(sup.balance) || 0,
+            notes: sup.address || "",
+            createdAt: sup.created_at,
+          });
+        }
+
+        // 2. Fetch Transactions
+        const { data: txs } = await (supabase as any)
+          .from("supplier_transactions")
+          .select("*")
+          .eq("supplier_id", supplierId)
+          .order("date", { ascending: false });
+
+        if (txs) {
+          const mapped: SupplierTransaction[] = txs.map((t: any) => ({
+            id: t.id,
+            supplierId: t.supplier_id,
+            date: t.date ? new Date(t.date).toISOString().split("T")[0] : new Date().toISOString().split("T")[0],
+            type: t.type === "purchase" ? "alis" : "odeme",
+            amount: Number(t.amount) || 0,
+            description: t.description || "",
+            paymentMethod: "banka_havale",
+            createdAt: t.created_at,
+          }));
+          setTransactions(mapped);
+        }
+      } catch (err) {
+        console.warn("Supplier fetch notice:", err);
+      } finally {
+        setLoading(false);
       }
-    );
+    };
+
+    fetchSupplierData();
+
+    const channel = supabase
+      .channel(`supplier-detail-${supplierId}`)
+      .on(
+        "postgres_changes",
+        { event: "*", schema: "public", table: "supplier_transactions", filter: `supplier_id=eq.${supplierId}` },
+        () => {
+          fetchSupplierData();
+        }
+      )
+      .subscribe();
 
     return () => {
-      unsubSup();
-      unsubTx();
+      supabase.removeChannel(channel);
     };
   }, [supplierId]);
 

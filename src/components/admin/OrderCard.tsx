@@ -19,6 +19,7 @@ import {
   Smartphone,
   Printer,
 } from "lucide-react";
+import Link from "next/link";
 import { OrderSlipModal } from "./OrderSlipModal";
 
 interface OrderCardProps {
@@ -82,9 +83,13 @@ export function OrderCard({ order, onUpdateStatus }: OrderCardProps) {
         <div className="flex items-start justify-between gap-3 pb-3 border-b border-[#261D17]">
           <div className="space-y-1">
             <div className="flex items-center gap-2">
-              <span className="font-mono text-xs font-bold text-artisan-gold">
+              <Link
+                href={`/admin/siparisler/${order.id}`}
+                className="font-mono text-xs font-bold text-artisan-gold hover:underline"
+                title="Sipariş Detayına Git"
+              >
                 #{order.orderNumber || order.id.substring(0, 6).toUpperCase()}
-              </span>
+              </Link>
               <OrderStatusBadge status={order.status} />
               {order.source === "whatsapp" && (
                 <span className="px-2 py-0.5 rounded-md bg-emerald-950/60 border border-emerald-500/30 text-emerald-400 text-[10px] font-sans flex items-center gap-1">

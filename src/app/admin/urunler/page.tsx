@@ -20,13 +20,19 @@ import {
   Clock,
   Droplet,
 } from "lucide-react";
-import { collection, getDocs, doc, setDoc, updateDoc, deleteDoc } from "firebase/firestore";
-import { db } from "@/lib/firebase/client";
-import { INITIAL_PRODUCTS, ExtendedProduct, normalizeCategory } from "@/hooks/useProducts";
+import { useProducts, ExtendedProduct, normalizeCategory } from "@/hooks/useProducts";
 
 export default function AdminProductsPage() {
-  const [products, setProducts] = useState<ExtendedProduct[]>([]);
-  const [loading, setLoading] = useState(true);
+  const {
+    products,
+    loading,
+    updateProductPrice,
+    toggleProductStock,
+    saveProduct,
+    deleteProduct,
+    reloadProducts,
+  } = useProducts();
+
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState<string>("all");
   const [savingId, setSavingId] = useState<string | null>(null);
@@ -36,78 +42,19 @@ export default function AdminProductsPage() {
   const [editingProduct, setEditingProduct] = useState<Partial<ExtendedProduct> | null>(null);
   const [isNewProduct, setIsNewProduct] = useState(false);
 
-  // Load products from Firestore or fallback
-  const fetchProducts = async () => {
-    setLoading(true);
-    try {
-      const snap = await getDocs(collection(db, "urunler"));
-      if (!snap.empty) {
-        const list: ExtendedProduct[] = [];
-        snap.forEach((d) => {
-          list.push({ id: d.id, ...d.data() } as ExtendedProduct);
-        });
-        setProducts(list);
-      } else {
-        // Fallback to initial catalogue
-        setProducts(INITIAL_PRODUCTS);
-      }
-    } catch (err) {
-      console.warn("Firestore urunler fetch failed, using defaults:", err);
-      setProducts(INITIAL_PRODUCTS);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    fetchProducts();
-  }, []);
-
   // Quick inline price update
   const handlePriceChange = async (id: string, newPrice: number) => {
     if (isNaN(newPrice) || newPrice < 0) return;
     setSavingId(id);
-    try {
-      const productRef = doc(db, "urunler", id);
-      await updateDoc(productRef, { price: newPrice });
-      setProducts((prev) =>
-        prev.map((p) => (p.id === id ? { ...p, price: newPrice } : p))
-      );
-    } catch {
-      // If doc doesn't exist yet, seed it
-      const current = products.find((p) => p.id === id);
-      if (current) {
-        await setDoc(doc(db, "urunler", id), { ...current, price: newPrice });
-        setProducts((prev) =>
-          prev.map((p) => (p.id === id ? { ...p, price: newPrice } : p))
-        );
-      }
-    } finally {
-      setTimeout(() => setSavingId(null), 400);
-    }
+    await updateProductPrice(id, newPrice);
+    setTimeout(() => setSavingId(null), 300);
   };
 
   // Quick inline stock toggle
   const handleStockToggle = async (id: string, currentStatus?: boolean) => {
-    const nextStatus = currentStatus === false ? true : false;
     setSavingId(id);
-    try {
-      const productRef = doc(db, "urunler", id);
-      await updateDoc(productRef, { isAvailable: nextStatus });
-      setProducts((prev) =>
-        prev.map((p) => (p.id === id ? { ...p, isAvailable: nextStatus } : p))
-      );
-    } catch {
-      const current = products.find((p) => p.id === id);
-      if (current) {
-        await setDoc(doc(db, "urunler", id), { ...current, isAvailable: nextStatus });
-        setProducts((prev) =>
-          prev.map((p) => (p.id === id ? { ...p, isAvailable: nextStatus } : p))
-        );
-      }
-    } finally {
-      setTimeout(() => setSavingId(null), 400);
-    }
+    await toggleProductStock(id, currentStatus);
+    setTimeout(() => setSavingId(null), 300);
   };
 
   // Open Edit Modal
@@ -120,7 +67,7 @@ export default function AdminProductsPage() {
   // Open New Product Modal
   const openNewModal = () => {
     setIsNewProduct(true);
-    const newId = `ekmek-${Date.now().toString(36)}`;
+    const newId = `prod_${Date.now().toString(36)}`;
     setEditingProduct({
       id: newId,
       name: "",
@@ -130,7 +77,7 @@ export default function AdminProductsPage() {
       stock: 50,
       weight: 800,
       weightUnit: "g",
-      imageUrl: "/images/bread-hero.jpg",
+      imageUrl: "https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=900&q=85",
       isAvailable: true,
       isActive: true,
       masterclass: {
@@ -148,26 +95,29 @@ export default function AdminProductsPage() {
     e.preventDefault();
     if (!editingProduct || !editingProduct.name) return;
 
-    const prodId = editingProduct.id || `ekmek-${Date.now().toString(36)}`;
-    const finalProduct = {
+    const prodId = editingProduct.id || `prod_${Date.now().toString(36)}`;
+    const finalProduct: Partial<ExtendedProduct> = {
       ...editingProduct,
       id: prodId,
       price: Number(editingProduct.price) || 0,
-      weight: Number(editingProduct.weight) || 0,
-      stock: Number(editingProduct.stock) || 0,
-    } as ExtendedProduct;
+      weight: Number(editingProduct.weight) || 800,
+      stock: Number(editingProduct.stock) || 25,
+      isAvailable: editingProduct.isAvailable !== false,
+      isActive: true,
+    };
 
-    try {
-      await setDoc(doc(db, "urunler", prodId), finalProduct, { merge: true });
-      if (isNewProduct) {
-        setProducts((prev) => [finalProduct, ...prev]);
-      } else {
-        setProducts((prev) => prev.map((p) => (p.id === prodId ? finalProduct : p)));
-      }
+    const res = await saveProduct(finalProduct);
+    if (res.success) {
       setModalOpen(false);
       setEditingProduct(null);
-    } catch (err: any) {
-      alert("Ürün kaydedilirken hata oluştu: " + err.message);
+    } else {
+      alert("Ürün kaydedilirken hata oluştu: " + res.error);
+    }
+  };
+
+  const handleDelete = async (id: string) => {
+    if (confirm("Bu ürünü listeden kaldırmak istediğinize emin misiniz?")) {
+      await deleteProduct(id);
     }
   };
 
@@ -213,7 +163,7 @@ export default function AdminProductsPage() {
 
         <div className="flex items-center gap-3">
           <button
-            onClick={fetchProducts}
+            onClick={reloadProducts}
             className="p-2.5 rounded-xl bg-stone-800 hover:bg-stone-700 text-stone-300 transition-colors border border-stone-700"
             title="Kataloğu Yenile"
           >

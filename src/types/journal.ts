@@ -56,4 +56,10 @@ export interface JournalArticle {
     title: string;
     categoryLabel: string;
   };
+  excerpt?: string;
+  content?: string;
+  readTime?: string;
+  author?: string;
+  imageUrl?: string;
+  published?: boolean;
 }

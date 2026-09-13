@@ -20,16 +20,7 @@ import {
   X,
   FileSpreadsheet,
 } from "lucide-react";
-import {
-  doc,
-  getDoc,
-  collection,
-  query,
-  where,
-  orderBy,
-  onSnapshot,
-} from "firebase/firestore";
-import { db } from "@/lib/firebase/client";
+import { createClient } from "@/lib/supabase/client";
 import { useCariler } from "@/hooks/useCariler";
 import { INITIAL_PRODUCTS } from "@/hooks/useProducts";
 import { CariAccount, CariTransaction } from "@/types/admin";
@@ -57,42 +48,80 @@ export default function CariDetailPage() {
   // Active Tab
   const [activeTab, setActiveTab] = useState<"ekstre" | "fiyatlar">("ekstre");
 
-  // Fetch Cari details
+  // Fetch Cari details from Supabase
   useEffect(() => {
     if (!cariId) return;
 
-    const cariRef = doc(db, "cariler", cariId);
-    const unsubCari = onSnapshot(cariRef, (snap) => {
-      if (snap.exists()) {
-        setCari({ id: snap.id, ...snap.data() } as CariAccount);
-      }
-      setLoading(false);
-    });
+    const supabase = createClient();
+    if (!supabase) return;
 
-    // Listen to transactions
-    const txQuery = query(
-      collection(db, "cari_hareketler"),
-      where("cariId", "==", cariId),
-      orderBy("date", "desc")
-    );
+    const fetchCariData = async () => {
+      try {
+        // 1. Fetch Account
+        const { data: acc } = await (supabase as any)
+          .from("current_accounts")
+          .select("*")
+          .eq("id", cariId)
+          .single();
 
-    const unsubTx = onSnapshot(
-      txQuery,
-      (snap) => {
-        const list: CariTransaction[] = [];
-        snap.forEach((d) => {
-          list.push({ id: d.id, ...d.data() } as CariTransaction);
-        });
-        setTransactions(list);
-      },
-      (err) => {
-        console.warn("Transactions index error fallback:", err);
+        if (acc) {
+          setCari({
+            id: acc.id,
+            businessName: acc.name || "Cari Hesap",
+            contactPerson: acc.type || "",
+            phone: acc.phone || "",
+            address: acc.address || "",
+            neighborhood: "",
+            taxNumber: acc.tax_id || "",
+            balance: Number(acc.balance) || 0,
+            notes: acc.status || "",
+            createdAt: acc.created_at,
+            updatedAt: acc.updated_at,
+          });
+        }
+
+        // 2. Fetch Transactions
+        const { data: txs } = await (supabase as any)
+          .from("account_transactions")
+          .select("*")
+          .eq("account_id", cariId)
+          .order("date", { ascending: false });
+
+        if (txs) {
+          const mapped: CariTransaction[] = txs.map((t: any) => ({
+            id: t.id,
+            cariId: t.account_id,
+            date: t.date ? new Date(t.date).toISOString().split("T")[0] : new Date().toISOString().split("T")[0],
+            type: t.type === "debt" ? "satis" : "tahsilat",
+            amount: Number(t.amount) || 0,
+            description: t.description || "",
+            paymentMethod: "banka_havale",
+            createdAt: t.created_at,
+          }));
+          setTransactions(mapped);
+        }
+      } catch (err) {
+        console.warn("Cari fetch notice:", err);
+      } finally {
+        setLoading(false);
       }
-    );
+    };
+
+    fetchCariData();
+
+    const channel = supabase
+      .channel(`cari-detail-${cariId}`)
+      .on(
+        "postgres_changes",
+        { event: "*", schema: "public", table: "account_transactions", filter: `account_id=eq.${cariId}` },
+        () => {
+          fetchCariData();
+        }
+      )
+      .subscribe();
 
     return () => {
-      unsubCari();
-      unsubTx();
+      supabase.removeChannel(channel);
     };
   }, [cariId]);
 

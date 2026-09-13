@@ -10,8 +10,7 @@ import {
   removeJournalArticle,
   resetJournalArticlesToDefaults,
 } from "@/lib/journal/journalStorage";
-import { collection, getDocs } from "firebase/firestore";
-import { db } from "@/lib/firebase";
+import { createClient, isSupabaseConfigured } from "@/lib/supabase/client";
 
 export function useJournal() {
   const [articles, setArticles] = useState<JournalArticle[]>(() => {
@@ -22,37 +21,47 @@ export function useJournal() {
   });
   const [loading, setLoading] = useState<boolean>(true);
 
-  // Load articles from localStorage and optionally Firestore
+  const supabase = createClient();
+
+  // Load articles from Supabase or localStorage
   useEffect(() => {
-    // 1. Initial read from localStorage
     const local = getStoredJournalArticles();
     setArticles(local);
     setLoading(false);
 
-    // 2. Try to sync from Firestore if available
-    async function syncFirestore() {
+    async function syncSupabase() {
+      if (!supabase || !isSupabaseConfigured()) return;
       try {
-        if (!db) return;
-        const snapshot = await getDocs(collection(db, "journal_articles"));
-        if (!snapshot.empty) {
-          const remoteArticles: JournalArticle[] = [];
-          snapshot.forEach((doc) => {
-            const data = doc.data() as JournalArticle;
-            remoteArticles.push({ ...data, id: doc.id });
-          });
-          if (remoteArticles.length > 0) {
-            setArticles(remoteArticles);
-            saveStoredJournalArticles(remoteArticles);
-          }
+        const { data, error } = await (supabase as any)
+          .from("journal_articles")
+          .select("*")
+          .order("created_at", { ascending: false });
+
+        if (!error && data && data.length > 0) {
+          const mapped: JournalArticle[] = data.map((d: any) => ({
+            id: d.id,
+            title: d.title,
+            slug: d.slug,
+            excerpt: d.excerpt || "",
+            content: d.content || "",
+            category: d.category || "fermentation",
+            readTime: d.read_time || "5 dk",
+            author: d.author || "Tahsin Usta",
+            imageUrl: d.image_url,
+            published: d.published !== false,
+            createdAt: d.created_at,
+            updatedAt: d.updated_at,
+          }));
+          setArticles(mapped);
+          saveStoredJournalArticles(mapped);
         }
       } catch {
-        // Firestore may be in local dev or permissions restricted, fallback silently to local
+        // Fallback silently to local storage
       }
     }
 
-    syncFirestore();
+    syncSupabase();
 
-    // 3. Listen for internal and cross-tab storage events
     const handleCustomUpdate = (e: Event) => {
       const customEvent = e as CustomEvent<JournalArticle[]>;
       if (customEvent.detail) {
@@ -75,21 +84,61 @@ export function useJournal() {
       window.removeEventListener("ekmeklab-journal-updated", handleCustomUpdate);
       window.removeEventListener("storage", handleStorageEvent);
     };
-  }, []);
+  }, [supabase]);
 
-  const saveArticle = useCallback((article: JournalArticle) => {
-    const updated = upsertJournalArticle(article);
-    setArticles(updated);
-  }, []);
+  const saveArticle = useCallback(
+    async (article: JournalArticle) => {
+      const updated = upsertJournalArticle(article);
+      setArticles(updated);
 
-  const deleteArticle = useCallback((identifier: string) => {
-    const updated = removeJournalArticle(identifier);
-    setArticles(updated);
-  }, []);
+      if (supabase) {
+        try {
+          await (supabase as any).from("journal_articles").upsert({
+            id: article.id,
+            title: article.title,
+            slug: article.slug,
+            excerpt: article.excerpt || "",
+            content: article.content,
+            category: article.category || "fermentation",
+            read_time: article.readTime || "5 dk",
+            author: article.author || "Tahsin Usta",
+            image_url: article.imageUrl || null,
+            published: article.published !== false,
+            updated_at: new Date().toISOString(),
+          });
+        } catch (e) {
+          console.warn("Supabase save article notice:", e);
+        }
+      }
+    },
+    [supabase]
+  );
+
+  const deleteArticle = useCallback(
+    async (identifier: string) => {
+      const updated = removeJournalArticle(identifier);
+      setArticles(updated);
+
+      if (supabase) {
+        try {
+          await (supabase as any)
+            .from("journal_articles")
+            .delete()
+            .or(`id.eq.${identifier},slug.eq.${identifier}`);
+        } catch (e) {
+          console.warn("Supabase delete article notice:", e);
+        }
+      }
+    },
+    [supabase]
+  );
 
   const getArticleBySlug = useCallback(
     (slug: string) => {
-      return articles.find((a) => a.slug === slug) || JOURNAL_ARTICLES.find((a) => a.slug === slug);
+      return (
+        articles.find((a) => a.slug === slug) ||
+        JOURNAL_ARTICLES.find((a) => a.slug === slug)
+      );
     },
     [articles]
   );

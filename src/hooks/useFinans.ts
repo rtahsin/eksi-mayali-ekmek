@@ -1,19 +1,8 @@
 "use client";
 
-import { useState, useEffect, useMemo } from "react";
-import {
-  collection,
-  query,
-  orderBy,
-  onSnapshot,
-  doc,
-  setDoc,
-  deleteDoc,
-  addDoc,
-  serverTimestamp,
-} from "firebase/firestore";
-import { db } from "@/lib/firebase/client";
-import { ExpenseRecord, AdminOrder, CariAccount, Supplier } from "@/types/admin";
+import { useState, useEffect, useMemo, useCallback } from "react";
+import { createClient, isSupabaseConfigured } from "@/lib/supabase/client";
+import { ExpenseRecord } from "@/types/admin";
 import { useAdminOrders } from "./useAdminOrders";
 import { useCariler } from "./useCariler";
 import { useSuppliers } from "./useSuppliers";
@@ -27,46 +16,94 @@ export function useFinans() {
   const { totalReceivable, loading: loadingCariler } = useCariler();
   const { totalDebt, loading: loadingSuppliers } = useSuppliers();
 
-  // Listen to expenses
-  useEffect(() => {
-    try {
-      const q = query(collection(db, "giderler"), orderBy("date", "desc"));
-      const unsubscribe = onSnapshot(
-        q,
-        (snapshot) => {
-          const list: ExpenseRecord[] = [];
-          snapshot.forEach((d) => {
-            list.push({ id: d.id, ...d.data() } as ExpenseRecord);
-          });
-          setExpenses(list);
-          setLoadingExpenses(false);
-        },
-        (err) => {
-          console.error("Expenses listener error:", err);
-          setError("Giderler yüklenirken bir hata oluştu.");
-          setLoadingExpenses(false);
-        }
-      );
+  const supabase = createClient();
 
-      return () => unsubscribe();
+  const fetchExpenses = useCallback(async () => {
+    if (!supabase || !isSupabaseConfigured()) {
+      setLoadingExpenses(false);
+      return;
+    }
+
+    try {
+      const { data, error: supaErr } = await (supabase as any)
+        .from("financial_records")
+        .select("*")
+        .order("date", { ascending: false });
+
+      if (supaErr) throw supaErr;
+
+      if (data) {
+        const mapped: ExpenseRecord[] = data.map((d: any) => ({
+          id: d.id,
+          category: (d.category || "diger") as any,
+          title: d.description || "Gider",
+          amount: Number(d.amount) || 0,
+          date: d.date ? new Date(d.date).toISOString().split("T")[0] : new Date().toISOString().split("T")[0],
+          paymentMethod: (d.payment_method || "nakit") as any,
+          createdAt: d.created_at,
+        }));
+        setExpenses(mapped);
+      }
     } catch (err: any) {
-      setError(err.message);
+      console.error("Expenses fetch error:", err);
+      setError("Giderler yüklenirken hata oluştu.");
+    } finally {
       setLoadingExpenses(false);
     }
-  }, []);
+  }, [supabase]);
+
+  useEffect(() => {
+    fetchExpenses();
+
+    if (supabase && isSupabaseConfigured()) {
+      const channel = supabase
+        .channel("admin-finans-realtime")
+        .on(
+          "postgres_changes",
+          { event: "*", schema: "public", table: "financial_records" },
+          () => {
+            fetchExpenses();
+          }
+        )
+        .subscribe();
+
+      return () => {
+        supabase.removeChannel(channel);
+      };
+    }
+  }, [supabase, fetchExpenses]);
 
   // Add Expense
   const addExpense = async (data: Omit<ExpenseRecord, "id" | "createdAt">) => {
     try {
-      const newExpense = {
+      const amount = Number(data.amount);
+      const tempId = `exp_${Date.now().toString(36)}`;
+
+      // Optimistic update
+      const newExp: ExpenseRecord = {
         ...data,
-        amount: Number(data.amount),
+        id: tempId,
+        amount,
         createdAt: new Date().toISOString(),
       };
-      const docRef = await addDoc(collection(db, "giderler"), newExpense);
-      return { success: true, id: docRef.id };
+      setExpenses((prev) => [newExp, ...prev]);
+
+      if (supabase) {
+        const { error: insErr } = await (supabase as any).from("financial_records").insert({
+          type: "expense",
+          category: data.category,
+          amount: amount,
+          description: data.title || "",
+          payment_method: data.paymentMethod || "nakit",
+          date: data.date || new Date().toISOString(),
+        });
+        if (insErr) throw insErr;
+      }
+
+      return { success: true, id: tempId };
     } catch (err: any) {
       console.error("Add expense error:", err);
+      fetchExpenses();
       return { success: false, error: err.message };
     }
   };
@@ -74,10 +111,20 @@ export function useFinans() {
   // Delete Expense
   const deleteExpense = async (id: string) => {
     try {
-      await deleteDoc(doc(db, "giderler", id));
+      setExpenses((prev) => prev.filter((e) => e.id !== id));
+
+      if (supabase) {
+        const { error: delErr } = await (supabase as any)
+          .from("financial_records")
+          .delete()
+          .eq("id", id);
+        if (delErr) throw delErr;
+      }
+
       return { success: true };
     } catch (err: any) {
       console.error("Delete expense error:", err);
+      fetchExpenses();
       return { success: false, error: err.message };
     }
   };
@@ -132,5 +179,6 @@ export function useFinans() {
     metrics,
     addExpense,
     deleteExpense,
+    refreshExpenses: fetchExpenses,
   };
 }

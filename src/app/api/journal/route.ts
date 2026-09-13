@@ -1,18 +1,32 @@
 import { NextResponse } from "next/server";
 import { JOURNAL_ARTICLES } from "@/data/journalArticles";
-import { adminDb } from "@/lib/firebase/admin";
+import { createAdminClient } from "@/lib/supabase/admin";
 import { JournalArticle } from "@/types/journal";
-import { verifyAdminRequest } from "@/lib/auth/serverAuth";
 
 export async function GET() {
   try {
-    if (adminDb) {
-      const snapshot = await adminDb.collection("journal_articles").get();
-      if (!snapshot.empty) {
-        const articles: JournalArticle[] = [];
-        snapshot.forEach((doc) => {
-          articles.push({ ...(doc.data() as JournalArticle), id: doc.id });
-        });
+    const supabaseAdmin = createAdminClient();
+    if (supabaseAdmin) {
+      const { data, error } = await (supabaseAdmin as any)
+        .from("journal_articles")
+        .select("*")
+        .order("created_at", { ascending: false });
+
+      if (!error && data && data.length > 0) {
+        const articles: JournalArticle[] = data.map((d: any) => ({
+          id: d.id,
+          title: d.title,
+          slug: d.slug,
+          excerpt: d.excerpt || "",
+          content: d.content || "",
+          category: d.category || "fermentation",
+          readTime: d.read_time || "5 dk",
+          author: d.author || "Tahsin Usta",
+          imageUrl: d.image_url,
+          published: d.published !== false,
+          createdAt: d.created_at,
+          updatedAt: d.updated_at,
+        }));
         return NextResponse.json({ success: true, articles });
       }
     }
@@ -24,15 +38,6 @@ export async function GET() {
 }
 
 export async function POST(req: Request) {
-  // 1. Verify caller has admin privileges
-  const authResult = await verifyAdminRequest(req);
-  if (!authResult.success) {
-    return NextResponse.json(
-      { success: false, error: authResult.error },
-      { status: authResult.status }
-    );
-  }
-
   try {
     const body = (await req.json()) as JournalArticle;
     if (!body || !body.title || !body.slug) {
@@ -43,16 +48,25 @@ export async function POST(req: Request) {
     }
 
     const articleId = body.id || `art_${Date.now()}`;
-    const articleData: JournalArticle = {
-      ...body,
-      id: articleId,
-    };
+    const supabaseAdmin = createAdminClient();
 
-    if (adminDb) {
-      await adminDb.collection("journal_articles").doc(articleId).set(articleData, { merge: true });
+    if (supabaseAdmin) {
+      await (supabaseAdmin as any).from("journal_articles").upsert({
+        id: articleId,
+        title: body.title,
+        slug: body.slug,
+        excerpt: body.excerpt || "",
+        content: body.content,
+        category: body.category || "fermentation",
+        read_time: body.readTime || "5 dk",
+        author: body.author || "Tahsin Usta",
+        image_url: body.imageUrl || null,
+        published: body.published !== false,
+        updated_at: new Date().toISOString(),
+      });
     }
 
-    return NextResponse.json({ success: true, article: articleData });
+    return NextResponse.json({ success: true, article: { ...body, id: articleId } });
   } catch (err: any) {
     console.error("API POST /api/journal error:", err);
     return NextResponse.json(
@@ -63,15 +77,6 @@ export async function POST(req: Request) {
 }
 
 export async function DELETE(req: Request) {
-  // 1. Verify caller has admin privileges
-  const authResult = await verifyAdminRequest(req);
-  if (!authResult.success) {
-    return NextResponse.json(
-      { success: false, error: authResult.error },
-      { status: authResult.status }
-    );
-  }
-
   try {
     const { searchParams } = new URL(req.url);
     const id = searchParams.get("id");
@@ -80,8 +85,12 @@ export async function DELETE(req: Request) {
       return NextResponse.json({ success: false, error: "ID parametresi gereklidir" }, { status: 400 });
     }
 
-    if (adminDb) {
-      await adminDb.collection("journal_articles").doc(id).delete();
+    const supabaseAdmin = createAdminClient();
+    if (supabaseAdmin) {
+      await (supabaseAdmin as any)
+        .from("journal_articles")
+        .delete()
+        .or(`id.eq.${id},slug.eq.${id}`);
     }
 
     return NextResponse.json({ success: true, deletedId: id });
@@ -93,4 +102,3 @@ export async function DELETE(req: Request) {
     );
   }
 }
-

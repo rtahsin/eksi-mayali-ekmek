@@ -1,19 +1,7 @@
 "use client";
 
-import { useState, useEffect, useMemo } from "react";
-import {
-  collection,
-  query,
-  orderBy,
-  onSnapshot,
-  doc,
-  setDoc,
-  updateDoc,
-  deleteDoc,
-  addDoc,
-  serverTimestamp,
-} from "firebase/firestore";
-import { db } from "@/lib/firebase/client";
+import { useState, useEffect, useMemo, useCallback } from "react";
+import { createClient, isSupabaseConfigured } from "@/lib/supabase/client";
 import { useAdminOrders } from "./useAdminOrders";
 import { useProducts } from "./useProducts";
 
@@ -35,7 +23,7 @@ export interface ProductionBatch {
     targetCount: number;
     flourType?: string;
   }[];
-  counterSurplus: number; // Dükkan tezgahı için ekstra pişirim adedi
+  counterSurplus: number;
   totalLoaves: number;
   notes?: string;
   createdAt: any;
@@ -67,34 +55,72 @@ export function useProduction(selectedDate?: string) {
   }, []);
 
   const activeDate = selectedDate || tomorrowStr;
+  const supabase = createClient();
 
-  // Real-time listener for batches
-  useEffect(() => {
+  const fetchBatches = useCallback(async () => {
+    if (!supabase || !isSupabaseConfigured()) {
+      setLoading(false);
+      return;
+    }
+
     try {
-      const q = query(collection(db, "uretim_partileri"), orderBy("createdAt", "desc"));
-      const unsubscribe = onSnapshot(
-        q,
-        (snapshot) => {
-          const list: ProductionBatch[] = [];
-          snapshot.forEach((d) => {
-            list.push({ id: d.id, ...d.data() } as ProductionBatch);
-          });
-          setBatches(list);
-          setLoading(false);
-        },
-        (err) => {
-          console.error("Production batches listener error:", err);
-          setError("Üretim partileri yüklenirken bir hata oluştu.");
-          setLoading(false);
-        }
-      );
+      const { data, error: supaErr } = await (supabase as any)
+        .from("production_batches")
+        .select("*")
+        .order("created_at", { ascending: false });
 
-      return () => unsubscribe();
+      if (supaErr) throw supaErr;
+
+      if (data) {
+        const mapped: ProductionBatch[] = data.map((d: any) => ({
+          id: d.id,
+          batchNumber: d.batch_number || `PARTI-${d.id.slice(-4)}`,
+          targetDate: d.bake_time ? new Date(d.bake_time).toISOString().split("T")[0] : activeDate,
+          status: (d.status || "otoliz_yogurma") as ProductionStage,
+          items: [
+            {
+              productId: d.product_id || "",
+              productName: d.product_name || "Taş Fırın Ekmeği",
+              targetCount: Number(d.planned_quantity) || 0,
+              flourType: d.flour_type || undefined,
+            },
+          ],
+          counterSurplus: Math.max(0, (Number(d.planned_quantity) || 0) - (Number(d.baked_quantity) || 0)),
+          totalLoaves: Number(d.planned_quantity) || 0,
+          notes: d.notes || "",
+          createdAt: d.created_at,
+          updatedAt: d.updated_at,
+        }));
+        setBatches(mapped);
+      }
     } catch (err: any) {
-      setError(err.message);
+      console.error("Production batches fetch error:", err);
+      setError("Üretim partileri yüklenirken hata oluştu.");
+    } finally {
       setLoading(false);
     }
-  }, []);
+  }, [supabase, activeDate]);
+
+  useEffect(() => {
+    fetchBatches();
+
+    if (supabase && isSupabaseConfigured()) {
+      const channel = supabase
+        .channel("admin-batches-realtime")
+        .on(
+          "postgres_changes",
+          { event: "*", schema: "public", table: "production_batches" },
+          () => {
+            fetchBatches();
+          }
+        )
+        .subscribe();
+
+      return () => {
+        supabase.removeChannel(channel);
+      };
+    }
+  }, [supabase, fetchBatches]);
 
   // Calculate needed bread quantities for target date from confirmed orders
   const neededBreads = useMemo(() => {
@@ -106,7 +132,6 @@ export function useProduction(selectedDate?: string) {
 
     dateOrders.forEach((o) => {
       o.items.forEach((item) => {
-        // Find product
         const prod = products.find((p) => p.id === item.productId) || {
           id: item.productId,
           name: item.productName,
@@ -114,7 +139,6 @@ export function useProduction(selectedDate?: string) {
           weight: 800,
         };
 
-        // Only count bread products for bakery production batches
         if (!counts[item.productId]) {
           counts[item.productId] = { product: prod, count: 0 };
         }
@@ -135,11 +159,6 @@ export function useProduction(selectedDate?: string) {
       totalLoaves += b.count;
     });
 
-    // Standard artisan loaf assumptions:
-    // ~500g flour per loaf
-    // 75% hydration = ~375g water
-    // 20% sourdough levain = ~100g active starter
-    // 2% salt = ~10g Çankırı rock salt
     const flourPerLoafKg = 0.5;
     const waterPerLoafL = 0.375;
     const levainPerLoafKg = 0.1;
@@ -187,13 +206,18 @@ export function useProduction(selectedDate?: string) {
     notes?: string;
   }) => {
     try {
+      const batchId = `batch_${Date.now().toString(36)}`;
       const batchNumber = `PARTI-${batchData.targetDate.replace(/-/g, "")}-${Math.floor(
         10 + Math.random() * 90
       )}`;
       const totalLoaves =
         batchData.items.reduce((s, it) => s + it.targetCount, 0) + (batchData.counterSurplus || 0);
 
-      const newBatch: Omit<ProductionBatch, "id"> = {
+      const firstItem = batchData.items[0];
+
+      // Optimistic update
+      const newBatch: ProductionBatch = {
+        id: batchId,
         batchNumber,
         targetDate: batchData.targetDate,
         status: "otoliz_yogurma",
@@ -201,14 +225,32 @@ export function useProduction(selectedDate?: string) {
         counterSurplus: batchData.counterSurplus || 0,
         totalLoaves,
         notes: batchData.notes || "",
-        createdAt: serverTimestamp(),
-        updatedAt: serverTimestamp(),
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
       };
+      setBatches((prev) => [newBatch, ...prev]);
 
-      const docRef = await addDoc(collection(db, "uretim_partileri"), newBatch);
-      return { success: true, id: docRef.id };
+      if (supabase) {
+        const { error: insErr } = await (supabase as any).from("production_batches").insert({
+          id: batchId,
+          batch_number: batchNumber,
+          product_id: firstItem?.productId || null,
+          product_name: firstItem?.productName || "Taş Fırın Ekmeği",
+          flour_type: firstItem?.flourType || "Atalık Buğday",
+          planned_quantity: totalLoaves,
+          baked_quantity: 0,
+          available_stock: totalLoaves,
+          status: "otoliz_yogurma",
+          bake_time: `${batchData.targetDate}T06:00:00Z`,
+          notes: batchData.notes || "",
+        });
+        if (insErr) throw insErr;
+      }
+
+      return { success: true, id: batchId };
     } catch (err: any) {
       console.error("Create batch error:", err);
+      fetchBatches();
       return { success: false, error: err.message };
     }
   };
@@ -216,14 +258,22 @@ export function useProduction(selectedDate?: string) {
   // Update Batch Stage
   const updateBatchStatus = async (batchId: string, newStatus: ProductionStage) => {
     try {
-      const batchRef = doc(db, "uretim_partileri", batchId);
-      await updateDoc(batchRef, {
-        status: newStatus,
-        updatedAt: serverTimestamp(),
-      });
+      setBatches((prev) =>
+        prev.map((b) => (b.id === batchId ? { ...b, status: newStatus } : b))
+      );
+
+      if (supabase) {
+        const { error: updErr } = await (supabase as any)
+          .from("production_batches")
+          .update({ status: newStatus, updated_at: new Date().toISOString() })
+          .eq("id", batchId);
+        if (updErr) throw updErr;
+      }
+
       return { success: true };
     } catch (err: any) {
       console.error("Update batch stage error:", err);
+      fetchBatches();
       return { success: false, error: err.message };
     }
   };
@@ -231,10 +281,20 @@ export function useProduction(selectedDate?: string) {
   // Delete Batch
   const deleteBatch = async (batchId: string) => {
     try {
-      await deleteDoc(doc(db, "uretim_partileri", batchId));
+      setBatches((prev) => prev.filter((b) => b.id !== batchId));
+
+      if (supabase) {
+        const { error: delErr } = await (supabase as any)
+          .from("production_batches")
+          .delete()
+          .eq("id", batchId);
+        if (delErr) throw delErr;
+      }
+
       return { success: true };
     } catch (err: any) {
       console.error("Delete batch error:", err);
+      fetchBatches();
       return { success: false, error: err.message };
     }
   };
@@ -251,5 +311,6 @@ export function useProduction(selectedDate?: string) {
     createBatch,
     updateBatchStatus,
     deleteBatch,
+    refreshBatches: fetchBatches,
   };
 }

@@ -511,5 +511,166 @@ export function useProducts(category?: string) {
     return product.category === category;
   });
 
-  return { products: filteredProducts, allProducts: products, loading, error };
+  const reloadProducts = async () => {
+    const supabase = createClient();
+    if (!supabase) return;
+    try {
+      const { data: supaProducts } = await supabase
+        .from("products")
+        .select("*")
+        .eq("is_active", true)
+        .order("is_popular", { ascending: false });
+
+      if (supaProducts && supaProducts.length > 0) {
+        const mapped: ExtendedProduct[] = supaProducts.map((p: any) => ({
+          id: p.id,
+          name: p.name,
+          description: p.description || "",
+          price: Number(p.price),
+          imageUrl:
+            p.image_url ||
+            "https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=900&q=85",
+          category: normalizeCategory(p.category),
+          stock: Number(p.stock) || 25,
+          weight: Number(p.weight) || 800,
+          weightUnit: p.weight_unit || "g",
+          madeToOrder: Boolean(p.made_to_order),
+          isPopular: Boolean(p.is_popular),
+          isNew: Boolean(p.is_new),
+          isAvailable: p.is_available !== false,
+          isActive: true,
+          ingredients: Array.isArray(p.ingredients) ? p.ingredients : [],
+          flourTypes: Array.isArray(p.flour_types) ? p.flour_types : [],
+          hydration: p.hydration ? Number(p.hydration) : undefined,
+          atelierPlacement: p.atelier_placement || undefined,
+          masterclass: p.masterclass || undefined,
+        }));
+        setProducts(mapped);
+      }
+    } catch (e) {
+      console.warn("Reload products error:", e);
+    }
+  };
+
+  const updateProductPrice = async (id: string, newPrice: number) => {
+    // 1. Optimistic local update
+    setProducts((prev) =>
+      prev.map((p) => (p.id === id ? { ...p, price: newPrice } : p))
+    );
+
+    // 2. Supabase update
+    const supabase = createClient();
+    if (supabase) {
+      try {
+        const { error } = await supabase
+          .from("products")
+          .update({ price: newPrice, updated_at: new Date().toISOString() })
+          .eq("id", id);
+        if (error) throw error;
+        return { success: true };
+      } catch (e: any) {
+        console.error("Supabase price update error:", e);
+        return { success: false, error: e.message };
+      }
+    }
+    return { success: true };
+  };
+
+  const toggleProductStock = async (id: string, currentStatus?: boolean) => {
+    const nextStatus = currentStatus === false ? true : false;
+
+    // 1. Optimistic local update
+    setProducts((prev) =>
+      prev.map((p) => (p.id === id ? { ...p, isAvailable: nextStatus } : p))
+    );
+
+    // 2. Supabase update
+    const supabase = createClient();
+    if (supabase) {
+      try {
+        const { error } = await supabase
+          .from("products")
+          .update({ is_available: nextStatus, updated_at: new Date().toISOString() })
+          .eq("id", id);
+        if (error) throw error;
+        return { success: true, isAvailable: nextStatus };
+      } catch (e: any) {
+        console.error("Supabase stock update error:", e);
+        return { success: false, error: e.message };
+      }
+    }
+    return { success: true, isAvailable: nextStatus };
+  };
+
+  const saveProduct = async (productData: Partial<ExtendedProduct>) => {
+    const supabase = createClient();
+    if (!supabase) return { success: false, error: "Supabase bağlantısı kurulamadı" };
+
+    const id = productData.id || `prod_${Date.now().toString(36)}`;
+    const payload: any = {
+      id,
+      name: productData.name,
+      description: productData.description || "",
+      price: Number(productData.price) || 0,
+      image_url: productData.imageUrl || null,
+      category: productData.category || "bread",
+      stock: Number(productData.stock) || 25,
+      weight: Number(productData.weight) || 800,
+      weight_unit: productData.weightUnit || "g",
+      made_to_order: Boolean(productData.madeToOrder),
+      is_popular: Boolean(productData.isPopular),
+      is_new: Boolean(productData.isNew),
+      is_available: productData.isAvailable !== false,
+      is_active: true,
+      ingredients: productData.ingredients || [],
+      flour_types: productData.flourTypes || [],
+      hydration: productData.hydration || null,
+      atelier_placement: productData.atelierPlacement || null,
+      masterclass: productData.masterclass || null,
+      updated_at: new Date().toISOString(),
+    };
+
+    try {
+      const { error } = await supabase.from("products").upsert(payload);
+      if (error) throw error;
+      await reloadProducts();
+      return { success: true, id };
+    } catch (e: any) {
+      console.error("Supabase save product error:", e);
+      return { success: false, error: e.message };
+    }
+  };
+
+  const deleteProduct = async (id: string) => {
+    // Soft delete: is_active = false
+    setProducts((prev) => prev.filter((p) => p.id !== id));
+
+    const supabase = createClient();
+    if (supabase) {
+      try {
+        const { error } = await supabase
+          .from("products")
+          .update({ is_active: false, updated_at: new Date().toISOString() })
+          .eq("id", id);
+        if (error) throw error;
+        return { success: true };
+      } catch (e: any) {
+        console.error("Supabase delete product error:", e);
+        return { success: false, error: e.message };
+      }
+    }
+    return { success: true };
+  };
+
+  return {
+    products: filteredProducts,
+    allProducts: products,
+    loading,
+    error,
+    reloadProducts,
+    updateProductPrice,
+    toggleProductStock,
+    saveProduct,
+    deleteProduct,
+  };
 }

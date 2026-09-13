@@ -80,6 +80,14 @@ function ManualOrderForm() {
     }
   }, [selectedCari]);
 
+  // When phone query param is provided, autofill customer
+  useEffect(() => {
+    const qPhone = searchParams.get("phone");
+    if (qPhone && !selectedCariId) {
+      handlePhoneChange(qPhone);
+    }
+  }, [searchParams, allOrders, selectedCariId]);
+
   // Auto-fill from past orders when phone matches (if not cari)
   const handlePhoneChange = (val: string) => {
     setPhone(val);
