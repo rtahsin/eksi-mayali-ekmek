@@ -1,17 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import {
-  onAuthStateChanged,
-  signInWithEmailAndPassword,
-  signInWithPopup,
-  GoogleAuthProvider,
-  sendPasswordResetEmail,
-  signOut,
-  User as FirebaseUser,
-} from "firebase/auth";
-import { doc, getDoc } from "firebase/firestore";
-import { auth, db } from "@/lib/firebase/client";
+import { createClient, isSupabaseConfigured } from "@/lib/supabase/client";
 import { AdminRole, AdminUser } from "@/types/admin";
 
 const SUPER_ADMIN_EMAILS = [
@@ -20,64 +10,83 @@ const SUPER_ADMIN_EMAILS = [
 ];
 
 export function useAdminAuth() {
-  const [firebaseUser, setFirebaseUser] = useState<FirebaseUser | null>(null);
   const [adminUser, setAdminUser] = useState<AdminUser | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [authError, setAuthError] = useState<string | null>(null);
 
+  const supabase = createClient();
+
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, async (user) => {
-      setFirebaseUser(user);
+    if (!supabase || !isSupabaseConfigured()) {
+      setLoading(false);
+      return;
+    }
+
+    const checkSession = async () => {
+      try {
+        const { data } = await supabase.auth.getSession();
+        const user = data?.session?.user;
+        if (user && user.email) {
+          const emailLower = user.email.toLowerCase().trim();
+          const isSuper = SUPER_ADMIN_EMAILS.includes(emailLower);
+
+          const { data: profile } = await (supabase as any)
+            .from("profiles")
+            .select("*")
+            .eq("id", user.id)
+            .single();
+
+          const role = (profile?.role as AdminRole) || (isSuper ? "superadmin" : "customer");
+
+          if (isSuper || role === "superadmin" || role === "admin") {
+            setAdminUser({
+              uid: user.id,
+              email: user.email,
+              displayName: profile?.full_name || user.email.split("@")[0],
+              role: isSuper ? "superadmin" : role,
+              isActive: true,
+            });
+          } else {
+            setAdminUser(null);
+          }
+        } else {
+          setAdminUser(null);
+        }
+      } catch (err) {
+        console.warn("Admin session check warning:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    checkSession();
+
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange(async (_event: any, session: any) => {
+      const user = session?.user;
       if (user && user.email) {
         const emailLower = user.email.toLowerCase().trim();
         const isSuper = SUPER_ADMIN_EMAILS.includes(emailLower);
 
-        try {
-          // Check adminler/{uid} document
-          const adminDocRef = doc(db, "adminler", user.uid);
-          const adminDocSnap = await getDoc(adminDocRef);
+        const { data: profile } = await (supabase as any)
+          .from("profiles")
+          .select("*")
+          .eq("id", user.id)
+          .single();
 
-          if (isSuper) {
-            setAdminUser({
-              uid: user.uid,
-              email: user.email,
-              displayName: user.displayName || "Fırın Yöneticisi",
-              role: "superadmin",
-              isActive: true,
-            });
-          } else if (adminDocSnap.exists()) {
-            const data = adminDocSnap.data();
-            const isActive = data.isActive !== false;
-            const role = (data.role as AdminRole) || "admin";
+        const role = (profile?.role as AdminRole) || (isSuper ? "superadmin" : "customer");
 
-            if (isActive) {
-              setAdminUser({
-                uid: user.uid,
-                email: user.email,
-                displayName: user.displayName || user.email.split("@")[0],
-                role,
-                isActive,
-              });
-            } else {
-              setAdminUser(null);
-            }
-          } else {
-            // User is authenticated but NOT an administrator
-            setAdminUser(null);
-          }
-        } catch {
-          // Fallback if superadmin
-          if (isSuper) {
-            setAdminUser({
-              uid: user.uid,
-              email: user.email,
-              displayName: "Fırın Yöneticisi",
-              role: "superadmin",
-              isActive: true,
-            });
-          } else {
-            setAdminUser(null);
-          }
+        if (isSuper || role === "superadmin" || role === "admin") {
+          setAdminUser({
+            uid: user.id,
+            email: user.email,
+            displayName: profile?.full_name || user.email.split("@")[0],
+            role: isSuper ? "superadmin" : role,
+            isActive: true,
+          });
+        } else {
+          setAdminUser(null);
         }
       } else {
         setAdminUser(null);
@@ -85,24 +94,63 @@ export function useAdminAuth() {
       setLoading(false);
     });
 
-    return () => unsubscribe();
-  }, []);
+    return () => {
+      subscription.unsubscribe();
+    };
+  }, [supabase]);
 
   const login = async (email: string, pass: string) => {
     setLoading(true);
     setAuthError(null);
     try {
-      const cred = await signInWithEmailAndPassword(auth, email.trim(), pass);
-      return { success: true, user: cred.user };
-    } catch (err: any) {
-      let msg = "Giriş yapılamadı. Lütfen bilgilerinizi kontrol edin.";
-      if (err.code === "auth/invalid-credential" || err.code === "auth/wrong-password") {
-        msg = "E-posta adresi veya şifre hatalı.";
-      } else if (err.code === "auth/user-not-found") {
-        msg = "Bu e-posta adresine kayıtlı yönetici bulunamadı.";
-      } else if (err.code === "auth/too-many-requests") {
-        msg = "Çok fazla başarısız deneme yapıldı. Lütfen biraz bekleyin.";
+      if (!supabase) throw new Error("Supabase bağlantısı kurulamadı.");
+
+      const cleanEmail = email.trim().toLowerCase();
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email: cleanEmail,
+        password: pass,
+      });
+
+      if (error) {
+        let msg = "Giriş yapılamadı. Lütfen bilgilerinizi kontrol edin.";
+        if (error.message.includes("Invalid login credentials")) {
+          msg = "E-posta adresi veya şifre hatalı.";
+        }
+        setAuthError(msg);
+        return { success: false, error: msg };
       }
+
+      const user = data.user;
+      const isSuper = SUPER_ADMIN_EMAILS.includes(cleanEmail);
+
+      const { data: profile } = await (supabase as any)
+        .from("profiles")
+        .select("*")
+        .eq("id", user.id)
+        .single();
+
+      const role = (profile?.role as AdminRole) || (isSuper ? "superadmin" : "customer");
+
+      if (!isSuper && role !== "superadmin" && role !== "admin") {
+        await supabase.auth.signOut();
+        setAdminUser(null);
+        const deniedMsg = "Bu alana yalnızca yetkili fırın yöneticileri erişebilir.";
+        setAuthError(deniedMsg);
+        return { success: false, error: deniedMsg };
+      }
+
+      const adminObj: AdminUser = {
+        uid: user.id,
+        email: user.email || cleanEmail,
+        displayName: profile?.full_name || cleanEmail.split("@")[0],
+        role: isSuper ? "superadmin" : role,
+        isActive: true,
+      };
+
+      setAdminUser(adminObj);
+      return { success: true, user };
+    } catch (err: any) {
+      const msg = err.message || "Giriş sırasında beklenmedik bir hata oluştu.";
       setAuthError(msg);
       return { success: false, error: msg };
     } finally {
@@ -114,13 +162,17 @@ export function useAdminAuth() {
     setLoading(true);
     setAuthError(null);
     try {
-      const provider = new GoogleAuthProvider();
-      const cred = await signInWithPopup(auth, provider);
-      return { success: true, user: cred.user };
+      if (!supabase) throw new Error("Supabase bağlantısı kurulamadı.");
+      const { error } = await supabase.auth.signInWithOAuth({
+        provider: "google",
+        options: {
+          redirectTo: typeof window !== "undefined" ? `${window.location.origin}/admin` : undefined,
+        },
+      });
+      if (error) throw error;
+      return { success: true };
     } catch (err: any) {
-      const msg = err.code === "auth/popup-closed-by-user"
-        ? "Giriş penceresi kapatıldı."
-        : "Google ile giriş başarısız oldu: " + err.message;
+      const msg = "Google ile giriş başarısız oldu: " + err.message;
       setAuthError(msg);
       return { success: false, error: msg };
     } finally {
@@ -130,29 +182,30 @@ export function useAdminAuth() {
 
   const resetPassword = async (email: string) => {
     try {
-      await sendPasswordResetEmail(auth, email.trim());
+      if (!supabase) throw new Error("Supabase bağlantısı kurulamadı.");
+      const { error } = await supabase.auth.resetPasswordForEmail(email.trim().toLowerCase(), {
+        redirectTo: typeof window !== "undefined" ? `${window.location.origin}/auth/reset-password` : undefined,
+      });
+      if (error) throw error;
       return { success: true };
     } catch (err: any) {
-      let msg = "Şifre sıfırlama bağlantısı gönderilemedi.";
-      if (err.code === "auth/user-not-found") {
-        msg = "Bu e-posta adresiyle kayıtlı kullanıcı bulunamadı.";
-      }
-      return { success: false, error: msg };
+      return { success: false, error: err.message || "Şifre sıfırlama e-postası gönderilemedi." };
     }
   };
 
   const logout = async () => {
     try {
-      await signOut(auth);
+      if (supabase) {
+        await supabase.auth.signOut();
+      }
       setAdminUser(null);
-      setFirebaseUser(null);
     } catch (e) {
       console.error("Logout error:", e);
     }
   };
 
   return {
-    firebaseUser,
+    firebaseUser: adminUser ? ({ uid: adminUser.uid, email: adminUser.email } as any) : null,
     adminUser,
     isAuthenticated: Boolean(adminUser && adminUser.isActive),
     isSuperAdmin: adminUser?.role === "superadmin",

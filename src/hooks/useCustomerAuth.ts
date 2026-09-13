@@ -3,13 +3,6 @@
 import { useState, useEffect, useCallback } from "react";
 import { User } from "@supabase/supabase-js";
 import { createClient, isSupabaseConfigured } from "@/lib/supabase/client";
-import {
-  GoogleAuthProvider,
-  signInWithPopup,
-  signOut as firebaseSignOut,
-  onAuthStateChanged,
-} from "firebase/auth";
-import { auth as firebaseAuth } from "@/lib/firebase/client";
 
 export interface UserProfile {
   id: string;
@@ -41,65 +34,69 @@ export function useCustomerAuth() {
 
   const supabase = createClient();
 
-  const fetchProfileAndAddresses = useCallback(async (userId: string, email: string) => {
-    if (!supabase) return;
+  const fetchProfileAndAddresses = useCallback(
+    async (userId: string, email: string) => {
+      if (!supabase) return;
 
-    try {
-      // Fetch profile
-      const supa = supabase as any;
-      const { data: profileData } = await supa
-        .from("profiles")
-        .select("*")
-        .eq("id", userId)
-        .single();
+      try {
+        const supa = supabase as any;
 
-      if (profileData) {
-        setProfile({
-          id: profileData.id,
-          email: profileData.email,
-          fullName: profileData.full_name || "",
-          phone: profileData.phone || "",
-          role: profileData.role || "customer",
-          avatarUrl: profileData.avatar_url,
-        });
-      } else {
-        setProfile({
-          id: userId,
-          email: email,
-          fullName: email.split("@")[0],
-          phone: "",
-          role: "customer",
-        });
+        // 1. Fetch profile
+        const { data: profileData } = await supa
+          .from("profiles")
+          .select("*")
+          .eq("id", userId)
+          .single();
+
+        if (profileData) {
+          setProfile({
+            id: profileData.id,
+            email: profileData.email,
+            fullName: profileData.full_name || email.split("@")[0],
+            phone: profileData.phone || "",
+            role: profileData.role || "customer",
+            avatarUrl: profileData.avatar_url,
+          });
+        } else {
+          setProfile({
+            id: userId,
+            email: email,
+            fullName: email.split("@")[0],
+            phone: "",
+            role: "customer",
+          });
+        }
+
+        // 2. Fetch saved addresses
+        const { data: addressData } = await supa
+          .from("saved_addresses")
+          .select("*")
+          .eq("user_id", userId)
+          .order("is_default", { ascending: false });
+
+        if (addressData) {
+          setAddresses(
+            addressData.map((addr: any) => ({
+              id: addr.id,
+              userId: addr.user_id,
+              title: addr.title || "Ev",
+              district: addr.district || "Beylikdüzü",
+              neighborhood: addr.neighborhood || "",
+              addressDetail: addr.address_detail || "",
+              directions: addr.directions || "",
+              isDefault: Boolean(addr.is_default),
+            }))
+          );
+        }
+      } catch (err) {
+        console.warn("Error fetching profile/addresses:", err);
       }
-
-      // Fetch saved addresses
-      const { data: addressData } = await supa
-        .from("saved_addresses")
-        .select("*")
-        .eq("user_id", userId)
-        .order("is_default", { ascending: false });
-
-      if (addressData) {
-        setAddresses(
-          addressData.map((addr: any) => ({
-            id: addr.id,
-            userId: addr.user_id,
-            title: addr.title || "Ev",
-            district: addr.district || "Beylikdüzü",
-            neighborhood: addr.neighborhood || "",
-            addressDetail: addr.address_detail || "",
-            directions: addr.directions || "",
-            isDefault: Boolean(addr.is_default),
-          }))
-        );
-      }
-    } catch (err) {
-      console.warn("Error fetching user profile/addresses:", err);
-    }
-  }, [supabase]);
+    },
+    [supabase]
+  );
 
   useEffect(() => {
-    // 1. Check saved session in localStorage
+    // 1. Check local session cache for instant UI rendering
     if (typeof window !== "undefined") {
       try {
         const saved = localStorage.getItem("ekmeklab_auth_session");
@@ -108,36 +105,12 @@ export function useCustomerAuth() {
           if (parsed?.user && parsed?.profile) {
             setUser(parsed.user);
             setProfile(parsed.profile);
-            if (parsed.user.id && parsed.user.email) {
-              fetchProfileAndAddresses(parsed.user.id, parsed.user.email);
-            }
           }
         }
       } catch (e) {}
     }
 
-    // 2. Firebase Auth state listener (handles Google popup auth seamlessly)
-    const unsubFirebase = onAuthStateChanged(firebaseAuth, async (fbUser) => {
-      if (fbUser && fbUser.email) {
-        const userId = fbUser.uid;
-        const newProfile: UserProfile = {
-          id: userId,
-          email: fbUser.email,
-          fullName: fbUser.displayName || fbUser.email.split("@")[0],
-          phone: fbUser.phoneNumber || "",
-          role:
-            fbUser.email === "tahsinreyhan@gmail.com" || fbUser.email === "ekmeklab@gmail.com"
-              ? "superadmin"
-              : "customer",
-          avatarUrl: fbUser.photoURL || undefined,
-        };
-        setUser({ id: userId, email: fbUser.email } as any);
-        setProfile(newProfile);
-        fetchProfileAndAddresses(userId, fbUser.email);
-      }
-    });
-
-    // 3. Supabase Auth state listener
+    // 2. Supabase Auth Session Listener
     if (supabase && isSupabaseConfigured()) {
       supabase.auth.getSession().then((res: any) => {
         const session = res?.data?.session;
@@ -146,6 +119,7 @@ export function useCustomerAuth() {
           setUser(currentUser);
           fetchProfileAndAddresses(currentUser.id, currentUser.email);
         }
+        setLoading(false);
       });
 
       const {
@@ -155,115 +129,135 @@ export function useCustomerAuth() {
         if (currentUser && currentUser.email) {
           setUser(currentUser);
           await fetchProfileAndAddresses(currentUser.id, currentUser.email);
+        } else {
+          setUser(null);
+          setProfile(null);
+          setAddresses([]);
+          if (typeof window !== "undefined") {
+            localStorage.removeItem("ekmeklab_auth_session");
+          }
         }
+        setLoading(false);
       });
 
       return () => {
-        unsubFirebase();
         subscription.unsubscribe();
       };
     }
 
     setLoading(false);
-    return () => {
-      unsubFirebase();
-    };
   }, [supabase, fetchProfileAndAddresses]);
+
+  // Update localStorage when user/profile changes
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      if (user && profile) {
+        localStorage.setItem(
+          "ekmeklab_auth_session",
+          JSON.stringify({ user, profile })
+        );
+      }
+    }
+  }, [user, profile]);
 
   // Actions
   const signInWithGoogle = async () => {
+    if (!supabase) {
+      return { success: false, error: "Supabase bağlantısı kurulamadı." };
+    }
+
     try {
-      const provider = new GoogleAuthProvider();
-      provider.setCustomParameters({ prompt: "select_account" });
-      const cred = await signInWithPopup(firebaseAuth, provider);
+      const { data, error } = await supabase.auth.signInWithOAuth({
+        provider: "google",
+        options: {
+          redirectTo: typeof window !== "undefined" ? `${window.location.origin}/` : undefined,
+        },
+      });
 
-      if (cred?.user && cred.user.email) {
-        let supaUserId = cred.user.uid;
-
-        // Sync with Supabase backend
-        try {
-          const syncRes = await fetch("/api/auth/google-sync", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              email: cred.user.email,
-              fullName: cred.user.displayName || cred.user.email.split("@")[0],
-              avatarUrl: cred.user.photoURL || null,
-              phone: cred.user.phoneNumber || "",
-            }),
-          });
-          const syncData = await syncRes.json();
-          if (syncData?.supabaseUserId) {
-            supaUserId = syncData.supabaseUserId;
-          }
-        } catch (syncErr) {
-          console.warn("Google sync endpoint notice:", syncErr);
+      if (error) {
+        if (
+          error.message?.includes("not enabled") ||
+          error.message?.includes("Unsupported provider")
+        ) {
+          return {
+            success: false,
+            error:
+              "Supabase panelinde Google ile giriş henüz aktif edilmemiş. Lütfen e-posta & şifre ile giriş yapın veya Supabase Dashboard > Authentication > Providers > Google anahtarını açın.",
+          };
         }
-
-        const newProfile: UserProfile = {
-          id: supaUserId,
-          email: cred.user.email,
-          fullName: cred.user.displayName || cred.user.email.split("@")[0],
-          phone: cred.user.phoneNumber || "",
-          role:
-            cred.user.email === "tahsinreyhan@gmail.com" || cred.user.email === "ekmeklab@gmail.com"
-              ? "superadmin"
-              : "customer",
-          avatarUrl: cred.user.photoURL || undefined,
-        };
-
-        setProfile(newProfile);
-        setUser({ id: supaUserId, email: cred.user.email } as any);
-
-        if (typeof window !== "undefined") {
-          localStorage.setItem(
-            "ekmeklab_auth_session",
-            JSON.stringify({
-              user: { id: supaUserId, email: cred.user.email },
-              profile: newProfile,
-            })
-          );
-        }
-
-        return { success: true };
+        return { success: false, error: error.message };
       }
-      return { success: false, error: "Google ile giriş tamamlanamadı." };
+
+      return { success: true, data };
     } catch (err: any) {
-      if (err.code === "auth/popup-closed-by-user") {
-        return { success: false, error: "Giriş penceresi kapatıldı." };
-      }
-      return { success: false, error: err.message || "Google ile giriş yapılamadı." };
+      return { success: false, error: err?.message || "Google ile giriş başlatılamadı." };
     }
   };
 
   const signInWithEmail = async (email: string, pass: string) => {
     if (!supabase) return { error: { message: "Supabase henüz yapılandırılmamış." } };
+
+    const cleanEmail = email.trim().toLowerCase();
     const { data, error } = await supabase.auth.signInWithPassword({
-      email: email.trim(),
+      email: cleanEmail,
       password: pass,
     });
+
+    if (!error && data?.user) {
+      setUser(data.user);
+      await fetchProfileAndAddresses(data.user.id, cleanEmail);
+    }
+
     return { data, error };
   };
 
-  const signUpWithEmail = async (email: string, pass: string, fullName: string, phone: string) => {
-    if (!supabase) return { error: { message: "Supabase henüz yapılandırılmamış." } };
-    const { data, error } = await supabase.auth.signUp({
-      email: email.trim(),
-      password: pass,
-      options: {
-        data: {
-          full_name: fullName.trim(),
+  const signUpWithEmail = async (
+    email: string,
+    pass: string,
+    fullName: string,
+    phone: string
+  ) => {
+    try {
+      // Call server endpoint to create user with auto-confirmation
+      const res = await fetch("/api/auth/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email: email.trim().toLowerCase(),
+          password: pass,
+          fullName: fullName.trim(),
           phone: phone.trim(),
-        },
-      },
-    });
-    return { data, error };
+        }),
+      });
+
+      const json = await res.json();
+      if (!res.ok || !json.success) {
+        return { error: { message: json.error || "Kayıt başarısız oldu." } };
+      }
+
+      // Automatically sign in the user
+      if (supabase) {
+        const loginRes = await supabase.auth.signInWithPassword({
+          email: email.trim().toLowerCase(),
+          password: pass,
+        });
+        if (loginRes.data?.user) {
+          setUser(loginRes.data.user);
+          await fetchProfileAndAddresses(loginRes.data.user.id, email.trim().toLowerCase());
+        }
+        return loginRes;
+      }
+
+      return { data: json, error: null };
+    } catch (err: any) {
+      return { error: { message: err?.message || "Kayıt sırasında bağlantı hatası oluştu." } };
+    }
   };
 
   const resetPassword = async (email: string) => {
     if (!supabase) return { error: { message: "Supabase henüz yapılandırılmamış." } };
     const origin = typeof window !== "undefined" ? window.location.origin : "";
-    const { error } = await supabase.auth.resetPasswordForEmail(email.trim(), {
+    const { error } = await supabase.auth.resetPasswordForEmail(email.trim().toLowerCase(), {
       redirectTo: `${origin}/auth/reset-password`,
     });
     return { error };
@@ -275,9 +269,6 @@ export function useCustomerAuth() {
         await supabase.auth.signOut();
       } catch (e) {}
     }
-    try {
-      await firebaseSignOut(firebaseAuth);
-    } catch (e) {}
     if (typeof window !== "undefined") {
       localStorage.removeItem("ekmeklab_auth_session");
     }

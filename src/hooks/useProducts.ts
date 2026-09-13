@@ -1,8 +1,6 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { collection, getDocs, query } from "firebase/firestore";
-import { db } from "@/lib/firebase/client";
 import { createClient } from "@/lib/supabase/client";
 import { Product } from "@/types";
 
@@ -486,88 +484,14 @@ export function useProducts(category?: string) {
               return;
             }
           } catch (e) {
-            console.warn("Supabase fetch notice, falling back to Firestore:", e);
+            console.warn("Supabase fetch notice, using initial products:", e);
           }
         }
 
-        // 2. Fallback to Firestore 'urunler'
-        const productsRef = collection(db, "urunler");
-        const querySnapshot = await getDocs(query(productsRef));
-
-        if (!querySnapshot.empty) {
-          // Build a lookup of initial products for enriching masterclass and fallbacks
-          const initialMap = new Map<string, ExtendedProduct>();
-          INITIAL_PRODUCTS.forEach((p) => {
-            initialMap.set(p.id, p);
-          });
-
-          const liveProducts: ExtendedProduct[] = [];
-          const processedIds = new Set<string>();
-
-          querySnapshot.forEach((docSnap) => {
-            const data = docSnap.data();
-
-            // STRICT FILTER: Exclude deleted products, inactive products, test items, and 'asda'
-            const isSoftDeleted = Boolean(data.isDeleted || data.deletedAt);
-            const isExplicitlyInactive = data.isActive === false;
-            const nameLower = String(data.name || "").trim().toLowerCase();
-            const isTest =
-              docSnap.id === "0rNFxsUBFf1ADeJaJVSr" ||
-              nameLower === "asda" ||
-              nameLower.includes("test");
-
-            if (isSoftDeleted || isExplicitlyInactive || isTest) {
-              return; // Skip this document
-            }
-
-            const initialMatch = initialMap.get(docSnap.id);
-            const normalizedCat = normalizeCategory(data.category);
-
-            liveProducts.push({
-              id: docSnap.id,
-              name: data.name || initialMatch?.name || "İsimsiz Ürün",
-              description: data.description || initialMatch?.description || "",
-              price: Number(data.price) || initialMatch?.price || 0,
-              imageUrl:
-                data.imageUrl ||
-                (Array.isArray(data.imageUrls) && data.imageUrls[0]) ||
-                initialMatch?.imageUrl ||
-                "https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=900&q=85",
-              category: normalizedCat,
-              stock: Number(data.stock) || initialMatch?.stock || 25,
-              weight: Number(data.weight) || initialMatch?.weight || 800,
-              weightUnit: data.weightUnit || initialMatch?.weightUnit || "g",
-              madeToOrder: Boolean(data.madeToOrder ?? initialMatch?.madeToOrder),
-              isPopular: Boolean(data.isPopular ?? initialMatch?.isPopular),
-              isNew: Boolean(data.isNew ?? initialMatch?.isNew),
-              isAvailable: data.isAvailable !== false,
-              isActive: true,
-              ingredients:
-                Array.isArray(data.ingredients) && data.ingredients.length > 0
-                  ? data.ingredients
-                  : initialMatch?.ingredients || [],
-              flourTypes:
-                Array.isArray(data.flourTypes) && data.flourTypes.length > 0
-                  ? data.flourTypes
-                  : initialMatch?.flourTypes || [],
-              hydration: Number(data.hydration) || initialMatch?.hydration,
-              atelierPlacement: data.atelierPlacement || initialMatch?.atelierPlacement,
-              masterclass: data.masterclass || initialMatch?.masterclass,
-            });
-
-            processedIds.add(docSnap.id);
-          });
-
-          // Include any foundational staple products from INITIAL_PRODUCTS that aren't yet in Firestore
-          const remainingStaples = INITIAL_PRODUCTS.filter((p) => !processedIds.has(p.id));
-          const combined = [...liveProducts, ...remainingStaples];
-
-          setProducts(combined);
-        } else {
-          setProducts(INITIAL_PRODUCTS);
-        }
+        // 2. Fallback to rich initial artisan catalog
+        setProducts(INITIAL_PRODUCTS);
       } catch (err: any) {
-        console.warn("Could not fetch products from Firestore, using initial products:", err);
+        console.warn("Could not fetch products, using initial catalog:", err);
         setProducts(INITIAL_PRODUCTS);
       } finally {
         setLoading(false);

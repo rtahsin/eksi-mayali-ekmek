@@ -46,7 +46,7 @@ CREATE TABLE IF NOT EXISTS public.profiles (
 CREATE OR REPLACE FUNCTION public.handle_new_user()
 RETURNS TRIGGER AS $$
 DECLARE
-    user_role user_role_type := 'customer';
+    user_role public.user_role_type := 'customer';
 BEGIN
     IF NEW.email IN ('tahsinreyhan@gmail.com', 'ekmeklab@gmail.com') THEN
         user_role := 'superadmin';
@@ -68,8 +68,11 @@ BEGIN
         updated_at = NOW();
 
     RETURN NEW;
+EXCEPTION
+    WHEN OTHERS THEN
+        RETURN NEW;
 END;
-$$ LANGUAGE plpgsql SECURITY DEFINER;
+$$ LANGUAGE plpgsql SECURITY DEFINER SET search_path = public, auth;
 
 DROP TRIGGER IF EXISTS on_auth_user_created ON auth.users;
 CREATE TRIGGER on_auth_user_created

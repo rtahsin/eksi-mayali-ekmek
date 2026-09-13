@@ -1,7 +1,5 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
-import { adminDb } from "@/lib/firebase/admin";
-import { FieldValue } from "firebase-admin/firestore";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { INITIAL_PRODUCTS } from "@/hooks/useProducts";
 import { Order, OrderItem } from "@/types";
@@ -10,7 +8,11 @@ import { checkRateLimit, sanitizeInput } from "@/lib/security/rateLimiter";
 // 1. Zod Schema for Request Validation
 const OrderItemSchema = z.object({
   productId: z.string().min(1, "Ürün ID gereklidir"),
-  quantity: z.number().int().positive("Miktar 1 veya daha fazla olmalıdır").max(100, "Maksimum 100 adet sipariş edilebilir"),
+  quantity: z
+    .number()
+    .int()
+    .positive("Miktar 1 veya daha fazla olmalıdır")
+    .max(100, "Maksimum 100 adet sipariş edilebilir"),
   batchId: z.string().optional(),
 });
 
@@ -26,7 +28,10 @@ const CustomerInfoSchema = z.object({
 });
 
 const CreateOrderRequestSchema = z.object({
-  items: z.array(OrderItemSchema).min(1, "Sepetinizde en az 1 ürün olmalıdır").max(30, "Sepette en fazla 30 kalem ürün olabilir"),
+  items: z
+    .array(OrderItemSchema)
+    .min(1, "Sepetinizde en az 1 ürün olmalıdır")
+    .max(30, "Sepette en fazla 30 kalem ürün olabilir"),
   customerInfo: CustomerInfoSchema,
   deliveryMethod: z.enum(["courier", "pickup"]),
   paymentMethod: z.enum(["whatsapp", "cash_on_delivery", "pos_at_door"]),
@@ -69,12 +74,13 @@ export async function POST(req: Request) {
       );
     }
 
-    const { items, customerInfo, deliveryMethod, paymentMethod, idempotencyKey, userId } = validationResult.data;
+    const { items, customerInfo, deliveryMethod, paymentMethod, idempotencyKey, userId } =
+      validationResult.data;
 
     // Rate Limiting Check by Phone Number
     const cleanPhone = customerInfo.phone.replace(/\D/g, "");
     if (cleanPhone.length >= 10) {
-      const phoneLimit = checkRateLimit(`order_phone_${cleanPhone}`, 4, 600000); // Max 4 orders per 10 mins per phone
+      const phoneLimit = checkRateLimit(`order_phone_${cleanPhone}`, 4, 600000); // Max 4 orders per 10 mins
       if (!phoneLimit.allowed) {
         return NextResponse.json(
           {
@@ -91,13 +97,14 @@ export async function POST(req: Request) {
       }
     }
 
-    // Sanitize user inputs against XSS & injection
+    // Sanitize user inputs
     const sanitizedName = sanitizeInput(customerInfo.name, 80);
     const sanitizedAddressDetail = sanitizeInput(customerInfo.addressDetail, 250);
     const sanitizedNeighborhood = sanitizeInput(customerInfo.neighborhood, 100);
     const sanitizedDistrict = sanitizeInput(customerInfo.district, 50) || "Beylikdüzü";
     const sanitizedNote = sanitizeInput(customerInfo.note || "", 300);
 
+    const supabaseAdmin = createAdminClient();
 
     // 2. Server-side product price & inventory resolution
     const verifiedOrderItems: OrderItem[] = [];
@@ -106,16 +113,21 @@ export async function POST(req: Request) {
     for (const item of items) {
       let productData: any = null;
 
-      try {
-        // Try looking up in 'urunler' collection (Flutter backend) first
-        const prodDoc = await adminDb.collection("urunler").doc(item.productId).get();
-        if (prodDoc.exists) {
-          productData = prodDoc.data();
-        }
-      } catch {
-        // Fallback
+      // Check Supabase products first
+      if (supabaseAdmin) {
+        try {
+          const { data: supaProd } = await (supabaseAdmin as any)
+            .from("products")
+            .select("*")
+            .eq("id", item.productId)
+            .single();
+          if (supaProd) {
+            productData = supaProd;
+          }
+        } catch {}
       }
 
+      // Fallback to static catalog
       if (!productData) {
         productData = INITIAL_PRODUCTS.find((p) => p.id === item.productId);
       }
@@ -137,9 +149,9 @@ export async function POST(req: Request) {
         quantity: item.quantity,
         unitPrice,
         totalPrice: lineTotal,
-        imageUrl: productData.imageUrl,
+        imageUrl: productData.imageUrl || productData.image_url,
         weight: productData.weight,
-        madeToOrder: productData.madeToOrder,
+        madeToOrder: productData.madeToOrder ?? productData.made_to_order,
       });
     }
 
@@ -155,35 +167,9 @@ export async function POST(req: Request) {
 
     const deliveryDateFormatted = customerInfo.deliveryDate || "today";
 
-    const orderPayload = {
-      id: orderId,
-      customerName: sanitizedName,
-      phone: cleanPhone,
-      deliveryAddress: fullAddress,
-      structuredAddress: {
-        district: sanitizedDistrict,
-        neighborhood: sanitizedNeighborhood,
-        street: sanitizedAddressDetail,
-        buildingNo: "",
-        directions: sanitizedNote,
-      },
-      items: verifiedOrderItems,
-      subtotal: serverSubtotal,
-      shippingFee,
-      totalAmount,
-      status: "pending",
-      paymentMethod,
-      deliveryDate: deliveryDateFormatted,
-      idempotencyKey: idempotencyKey || null,
-      orderNotes: sanitizedNote,
-      createdAt: FieldValue.serverTimestamp(),
-      updatedAt: FieldValue.serverTimestamp(),
-    };
-
-    // 4. Save to Supabase (PostgreSQL) if configured
-    try {
-      const supabaseAdmin = createAdminClient();
-      if (supabaseAdmin) {
+    // 4. Save to Supabase (PostgreSQL)
+    if (supabaseAdmin) {
+      try {
         const adminAny = supabaseAdmin as any;
         const { error: supaOrderErr } = await adminAny.from("orders").insert({
           id: orderId,
@@ -219,18 +205,11 @@ export async function POST(req: Request) {
           }));
           await adminAny.from("order_items").insert(itemInserts);
         } else {
-          console.warn("Supabase order insert warning:", supaOrderErr.message);
+          console.error("Supabase order insert error:", supaOrderErr);
         }
+      } catch (supaErr: any) {
+        console.error("Supabase order creation error:", supaErr);
       }
-    } catch (supaErr: any) {
-      console.warn("Supabase order creation skipped/error:", supaErr?.message);
-    }
-
-    // 5. Save to Firestore 'siparisler' (Firebase fallback)
-    try {
-      await adminDb.collection("siparisler").doc(orderId).set(orderPayload);
-    } catch (fbErr: any) {
-      console.warn("Firestore save warning:", fbErr?.message);
     }
 
     const completedOrder: Order = {

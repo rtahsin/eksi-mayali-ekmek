@@ -1,17 +1,6 @@
 "use client";
 
-import { useState, useEffect, useMemo } from "react";
-import {
-  collection,
-  query,
-  orderBy,
-  onSnapshot,
-  doc,
-  updateDoc,
-  addDoc,
-  serverTimestamp,
-} from "firebase/firestore";
-import { db } from "@/lib/firebase/client";
+import { useState, useEffect, useMemo, useCallback } from "react";
 import { createClient, isSupabaseConfigured } from "@/lib/supabase/client";
 import { AdminOrder, AdminOrderStatus, AdminPaymentMethod, OrderSource } from "@/types/admin";
 
@@ -47,69 +36,79 @@ export function useAdminOrders() {
   const [dateFilter, setDateFilter] = useState<"bugun" | "yarin" | "hepsi">("bugun");
   const [searchQuery, setSearchQuery] = useState<string>("");
 
+  const supabase = createClient();
+
+  const fetchSupabaseOrders = useCallback(async () => {
+    if (!supabase || !isSupabaseConfigured()) {
+      setLoading(false);
+      return;
+    }
+
+    try {
+      const { data, error } = await supabase
+        .from("orders")
+        .select("*, order_items(*)")
+        .order("created_at", { ascending: false });
+
+      if (error) {
+        console.error("Supabase orders error:", error);
+        setError("Siparişler yüklenirken hata oluştu.");
+      } else if (data) {
+        const list: AdminOrder[] = data.map((o: any) => {
+          const items = (o.order_items || []).map((it: any) => ({
+            productId: it.product_id || "",
+            productName: it.product_name || "Ürün",
+            quantity: Number(it.quantity) || 1,
+            unitPrice: Number(it.unit_price) || 0,
+            totalPrice: Number(it.total_price) || 0,
+            imageUrl: it.image_url,
+            weight: it.weight,
+          }));
+
+          const d =
+            o.delivery_date ||
+            (o.created_at
+              ? new Date(o.created_at).toISOString().split("T")[0]
+              : new Date().toISOString().split("T")[0]);
+
+          return {
+            id: o.id,
+            orderNumber: o.id.replace("ORD-", "").toUpperCase(),
+            customerName: o.customer_name || "İsimsiz Müşteri",
+            phone: o.phone || "",
+            deliveryAddress: o.delivery_address || "",
+            neighborhood: o.neighborhood || extractNeighborhood(o.delivery_address || ""),
+            deliveryMethod: o.delivery_method === "pickup" ? "pickup" : "courier",
+            deliveryDate: d,
+            deliveryTimeWindow: "14:00 - 18:00",
+            items,
+            subtotal: Number(o.subtotal) || 0,
+            shippingFee: Number(o.shipping_fee) || 0,
+            totalAmount: Number(o.total_amount) || 0,
+            status: normalizeOrderStatus(o.status),
+            paymentMethod: normalizePaymentMethod(o.payment_method),
+            paymentStatus: o.status === "teslim_edildi" ? "paid" : "pending",
+            source: "web" as OrderSource,
+            orderNotes: o.order_notes || "",
+            courierNotes: "",
+            createdAt: o.created_at,
+            updatedAt: o.updated_at,
+          };
+        });
+        setOrders(list);
+      }
+    } catch (e: any) {
+      console.warn("Supabase orders exception:", e);
+      setError(e.message);
+    } finally {
+      setLoading(false);
+    }
+  }, [supabase]);
+
   useEffect(() => {
-    // 1. If Supabase is configured, use Supabase Realtime
-    const supabase = createClient();
+    fetchSupabaseOrders();
+
     if (supabase && isSupabaseConfigured()) {
-      const fetchSupabaseOrders = async () => {
-        try {
-          const { data, error } = await supabase
-            .from("orders")
-            .select("*, order_items(*)")
-            .order("created_at", { ascending: false });
-
-          if (data && !error) {
-            const list: AdminOrder[] = data.map((o: any) => {
-              const items = (o.order_items || []).map((it: any) => ({
-                productId: it.product_id || "",
-                productName: it.product_name || "Ürün",
-                quantity: Number(it.quantity) || 1,
-                unitPrice: Number(it.unit_price) || 0,
-                totalPrice: Number(it.total_price) || 0,
-                imageUrl: it.image_url,
-                weight: it.weight,
-              }));
-
-              const d =
-                o.delivery_date ||
-                (o.created_at
-                  ? new Date(o.created_at).toISOString().split("T")[0]
-                  : new Date().toISOString().split("T")[0]);
-
-              return {
-                id: o.id,
-                orderNumber: o.id.replace("ORD-", "").toUpperCase(),
-                customerName: o.customer_name || "İsimsiz Müşteri",
-                phone: o.phone || "",
-                deliveryAddress: o.delivery_address || "",
-                neighborhood: o.neighborhood || extractNeighborhood(o.delivery_address || ""),
-                deliveryMethod: o.delivery_method === "pickup" ? "pickup" : "courier",
-                deliveryDate: d,
-                deliveryTimeWindow: "14:00 - 18:00",
-                items,
-                subtotal: Number(o.subtotal) || 0,
-                shippingFee: Number(o.shipping_fee) || 0,
-                totalAmount: Number(o.total_amount) || 0,
-                status: normalizeOrderStatus(o.status),
-                paymentMethod: normalizePaymentMethod(o.payment_method),
-                paymentStatus: o.status === "teslim_edildi" ? "paid" : "pending",
-                source: "web",
-                orderNotes: o.order_notes || "",
-                courierNotes: "",
-                createdAt: o.created_at,
-                updatedAt: o.updated_at,
-              };
-            });
-            setOrders(list);
-            setLoading(false);
-          }
-        } catch (e) {
-          console.warn("Supabase orders error:", e);
-        }
-      };
-
-      fetchSupabaseOrders();
-
       const channel = supabase
         .channel("admin-orders-realtime")
         .on(
@@ -125,118 +124,21 @@ export function useAdminOrders() {
         supabase.removeChannel(channel);
       };
     }
-
-    // 2. Fallback to Firestore 'siparisler'
-    try {
-      const ordersRef = collection(db, "siparisler");
-      const q = query(ordersRef, orderBy("createdAt", "desc"));
-
-      const unsubscribe = onSnapshot(
-        q,
-        (snapshot) => {
-          const list: AdminOrder[] = [];
-          snapshot.forEach((docSnap) => {
-            const data = docSnap.data();
-
-            // Extract items
-            const rawItems = Array.isArray(data.items) ? data.items : [];
-            const items = rawItems.map((it: any) => ({
-              productId: it.productId || it.id || "",
-              productName: it.productName || it.name || "Ürün",
-              quantity: Number(it.quantity) || 1,
-              unitPrice: Number(it.unitPrice || it.price) || 0,
-              totalPrice: Number(it.totalPrice || (it.quantity * it.price)) || 0,
-              imageUrl: it.imageUrl,
-              weight: it.weight,
-            }));
-
-            // Calculate date string (YYYY-MM-DD)
-            let deliveryDate = data.deliveryDate;
-            if (!deliveryDate && data.createdAt) {
-              try {
-                const d = data.createdAt.toDate ? data.createdAt.toDate() : new Date(data.createdAt);
-                deliveryDate = d.toISOString().split("T")[0];
-              } catch {
-                deliveryDate = new Date().toISOString().split("T")[0];
-              }
-            }
-            if (!deliveryDate) {
-              deliveryDate = new Date().toISOString().split("T")[0];
-            }
-
-            list.push({
-              id: docSnap.id,
-              orderNumber: data.orderNumber || docSnap.id.substring(0, 6).toUpperCase(),
-              customerName: data.customerName || data.name || "İsimsiz Müşteri",
-              phone: data.phone || data.customerPhone || "",
-              deliveryAddress: data.deliveryAddress || data.address || "",
-              neighborhood: data.neighborhood || extractNeighborhood(data.deliveryAddress || data.address || ""),
-              deliveryMethod: data.deliveryMethod === "pickup" ? "pickup" : "courier",
-              deliveryDate,
-              deliveryTimeWindow: data.deliveryTimeWindow || "14:00 - 18:00",
-              items,
-              subtotal: Number(data.subtotal) || Number(data.amount) || 0,
-              shippingFee: Number(data.shippingFee) || 0,
-              totalAmount: Number(data.totalAmount || data.amount) || 0,
-              status: normalizeOrderStatus(data.status),
-              paymentMethod: normalizePaymentMethod(data.paymentMethod),
-              paymentStatus: data.paymentStatus || (data.status === "completed" ? "paid" : "pending"),
-              source: (data.source as OrderSource) || "web",
-              cariId: data.cariId,
-              orderNotes: data.orderNotes || data.notes || "",
-              courierNotes: data.courierNotes || "",
-              createdAt: data.createdAt,
-              updatedAt: data.updatedAt,
-            });
-          });
-
-          setOrders(list);
-          setLoading(false);
-        },
-        (err) => {
-          console.error("Orders listener error:", err);
-          setError("Siparişler yüklenirken bir hata oluştu.");
-          setLoading(false);
-        }
-      );
-
-      return () => unsubscribe();
-    } catch (err: any) {
-      setError(err.message);
-      setLoading(false);
-    }
-  }, []);
+  }, [supabase, fetchSupabaseOrders]);
 
   // Update order status
-  const updateOrderStatus = async (orderId: string, newStatus: AdminOrderStatus, courierNotes?: string) => {
+  const updateOrderStatus = async (
+    orderId: string,
+    newStatus: AdminOrderStatus,
+    _courierNotes?: string
+  ) => {
     try {
-      const supabase = createClient();
       if (supabase && isSupabaseConfigured()) {
-        try {
-          await supabase
-            .from("orders")
-            .update({ status: newStatus, updated_at: new Date().toISOString() })
-            .eq("id", orderId);
-        } catch (e) {
-          console.warn("Supabase status update error:", e);
-        }
+        await supabase
+          .from("orders")
+          .update({ status: newStatus, updated_at: new Date().toISOString() })
+          .eq("id", orderId);
       }
-
-      try {
-        const orderRef = doc(db, "siparisler", orderId);
-        const updateData: any = {
-          status: newStatus,
-          updatedAt: serverTimestamp(),
-        };
-        if (courierNotes !== undefined) {
-          updateData.courierNotes = courierNotes;
-        }
-        if (newStatus === "teslim_edildi") {
-          updateData.paymentStatus = "paid";
-          updateData.deliveredAt = serverTimestamp();
-        }
-        await updateDoc(orderRef, updateData);
-      } catch (e) {}
 
       setOrders((prev) =>
         prev.map((o) => (o.id === orderId ? { ...o, status: newStatus } : o))
@@ -251,37 +153,47 @@ export function useAdminOrders() {
   // Create manual/WhatsApp order
   const createManualOrder = async (orderData: Partial<AdminOrder>) => {
     try {
-      const ordersRef = collection(db, "siparisler");
+      if (!supabase) return { success: false, error: "Supabase bağlantısı yok" };
+
       const subtotal = (orderData.items || []).reduce((sum, it) => sum + it.totalPrice, 0);
       const shippingFee = orderData.deliveryMethod === "pickup" ? 0 : subtotal >= 1000 ? 0 : 150;
       const totalAmount = subtotal + shippingFee;
+      const orderId = `ORD-${Date.now().toString().slice(-6)}`;
 
-      const newOrder = {
-        orderNumber: `EK-${Math.floor(1000 + Math.random() * 9000)}`,
-        customerName: orderData.customerName || "Müşteri",
+      const { error: insErr } = await (supabase as any).from("orders").insert({
+        id: orderId,
+        customer_name: orderData.customerName || "Müşteri",
         phone: orderData.phone || "",
-        deliveryAddress: orderData.deliveryAddress || "Atölye Teslim",
+        delivery_address: orderData.deliveryAddress || "Atölye Teslim",
         neighborhood: orderData.neighborhood || "",
-        deliveryMethod: orderData.deliveryMethod || "courier",
-        deliveryDate: orderData.deliveryDate || new Date().toISOString().split("T")[0],
-        deliveryTimeWindow: orderData.deliveryTimeWindow || "14:00 - 18:00",
-        items: orderData.items || [],
-        subtotal,
-        shippingFee,
-        totalAmount,
+        delivery_method: orderData.deliveryMethod || "courier",
+        delivery_date: orderData.deliveryDate || new Date().toISOString().split("T")[0],
         status: orderData.status || "bekliyor",
-        paymentMethod: orderData.paymentMethod || "cash_on_delivery",
-        paymentStatus: orderData.paymentStatus || "pending",
-        source: orderData.source || "whatsapp",
-        cariId: orderData.cariId || null,
-        orderNotes: orderData.orderNotes || "",
-        courierNotes: orderData.courierNotes || "",
-        createdAt: serverTimestamp(),
-        updatedAt: serverTimestamp(),
-      };
+        payment_method: orderData.paymentMethod || "cash_on_delivery",
+        subtotal,
+        shipping_fee: shippingFee,
+        total_amount: totalAmount,
+        order_notes: orderData.orderNotes || "",
+      });
 
-      const docRef = await addDoc(ordersRef, newOrder);
-      return { success: true, id: docRef.id };
+      if (insErr) throw insErr;
+
+      if (orderData.items && orderData.items.length > 0) {
+        const itemInserts = orderData.items.map((it) => ({
+          order_id: orderId,
+          product_id: it.productId,
+          product_name: it.productName,
+          quantity: it.quantity,
+          unit_price: it.unitPrice,
+          total_price: it.totalPrice,
+          image_url: it.imageUrl || null,
+          weight: it.weight || null,
+        }));
+        await (supabase as any).from("order_items").insert(itemInserts);
+      }
+
+      fetchSupabaseOrders();
+      return { success: true, id: orderId };
     } catch (err: any) {
       console.error("Create manual order error:", err);
       return { success: false, error: err.message };
