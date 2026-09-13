@@ -11,7 +11,7 @@ interface AdminAuthGateProps {
 }
 
 export function AdminAuthGate({ children }: AdminAuthGateProps) {
-  const { adminUser, isAuthenticated, loading: authLoading, logout } = useAdminAuth();
+  const { adminUser, isAuthenticated, isSuperAdmin, loading: authLoading, logout } = useAdminAuth();
   const { deviceId, deviceName, isApproved, loading: deviceLoading, requestApproval } = useTrustedDevice();
   const router = useRouter();
   const pathname = usePathname();
@@ -25,7 +25,7 @@ export function AdminAuthGate({ children }: AdminAuthGateProps) {
   }
 
   // 1. Loading State
-  if (authLoading || deviceLoading) {
+  if (authLoading || (!isSuperAdmin && deviceLoading)) {
     return (
       <div className="min-h-screen bg-[#120E0B] flex flex-col items-center justify-center text-foreground font-sans p-4">
         <div className="flex flex-col items-center gap-4 bg-[#1A1410] p-8 rounded-3xl border border-[#2F241D] shadow-2xl">
@@ -34,7 +34,7 @@ export function AdminAuthGate({ children }: AdminAuthGateProps) {
             <div className="font-serif text-lg font-bold text-foreground">
               Ekmek<span className="text-artisan-gold italic">Lab</span> Operasyon
             </div>
-            <p className="text-xs text-foreground/60">Güvenlik ve cihaz doğrulaması yapılıyor...</p>
+            <p className="text-xs text-foreground/60">Güvenlik ve yetki doğrulaması yapılıyor...</p>
           </div>
         </div>
       </div>
@@ -49,7 +49,12 @@ export function AdminAuthGate({ children }: AdminAuthGateProps) {
     return null;
   }
 
-  // 3. Authenticated BUT Untrusted Device
+  // 3. Super Admin bypasses device restriction completely
+  if (isSuperAdmin) {
+    return <>{children}</>;
+  }
+
+  // 4. Authenticated Staff BUT Untrusted Device
   if (isApproved === false) {
     return (
       <div className="min-h-screen bg-[#120E0B] flex items-center justify-center p-4 text-foreground font-sans">

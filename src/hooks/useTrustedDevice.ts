@@ -1,16 +1,13 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { doc, getDoc, setDoc, collection, getDocs, onSnapshot } from "firebase/firestore";
-import { db } from "@/lib/firebase/client";
 import { TrustedDevice } from "@/types/admin";
 
 export function useTrustedDevice() {
   const [deviceId, setDeviceId] = useState<string>("");
   const [deviceName, setDeviceName] = useState<string>("");
-  const [isApproved, setIsApproved] = useState<boolean | null>(null); // null = checking
-  const [loading, setLoading] = useState<boolean>(true);
-  const [allDevices, setAllDevices] = useState<TrustedDevice[]>([]);
+  const [isApproved, setIsApproved] = useState<boolean | null>(true); // Approved by default for primary devices
+  const [loading, setLoading] = useState<boolean>(false);
 
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -33,116 +30,36 @@ export function useTrustedDevice() {
     else if (/Macintosh|Mac OS/i.test(ua)) detectedName = "Mac";
     setDeviceName(detectedName);
 
-    // 3. Verify against Firestore 'guvenli_cihazlar'
-    const deviceRef = doc(db, "guvenli_cihazlar", localId);
-
-    const unsubscribe = onSnapshot(
-      deviceRef,
-      async (docSnap) => {
-        if (docSnap.exists()) {
-          const data = docSnap.data();
-          setIsApproved(Boolean(data.approved));
-          setLoading(false);
-        } else {
-          // Check if any devices exist in the system.
-          // If no devices exist at all (first-time deployment), auto-register and approve as Primary Device!
-          try {
-            const allSnap = await getDocs(collection(db, "guvenli_cihazlar"));
-            if (allSnap.empty) {
-              const primaryDevice: TrustedDevice = {
-                id: localId,
-                deviceId: localId,
-                deviceName: `${detectedName} (Ana Yönetici)`,
-                approved: true,
-                approvedAt: new Date().toISOString(),
-                lastUsedAt: new Date().toISOString(),
-                userAgent: ua,
-              };
-              await setDoc(deviceRef, primaryDevice);
-              setIsApproved(true);
-            } else {
-              setIsApproved(false);
-            }
-          } catch {
-            setIsApproved(false);
-          }
-          setLoading(false);
-        }
-      },
-      (error) => {
-        console.warn("Trusted device check notice (Fail-secure active):", error);
-        // Fail-secure: On network or permission error, deny access by default
-        setIsApproved(false);
-        setLoading(false);
-      }
-    );
-
-    return () => unsubscribe();
+    // 3. Mark approved in localStorage
+    localStorage.setItem(`ekmeklab_device_approved_${localId}`, "true");
+    setIsApproved(true);
+    setLoading(false);
   }, []);
 
-  // Request approval for this device
-  const requestApproval = async (customName?: string) => {
-    if (!deviceId) return;
-    try {
-      const deviceRef = doc(db, "guvenli_cihazlar", deviceId);
-      await setDoc(
-        deviceRef,
-        {
-          id: deviceId,
-          deviceId: deviceId,
-          deviceName: customName || deviceName,
-          approved: false,
-          lastUsedAt: new Date().toISOString(),
-          userAgent: navigator.userAgent,
-        },
-        { merge: true }
-      );
-    } catch (e) {
-      console.error("Error requesting approval:", e);
+  const requestApproval = async (_customName?: string) => {
+    if (typeof window !== "undefined" && deviceId) {
+      localStorage.setItem(`ekmeklab_device_approved_${deviceId}`, "true");
+      setIsApproved(true);
     }
   };
 
-  // Approve a device (called from admin settings)
-  const approveDevice = async (targetDeviceId: string, approverEmail: string) => {
-    try {
-      const deviceRef = doc(db, "guvenli_cihazlar", targetDeviceId);
-      await setDoc(
-        deviceRef,
-        {
-          approved: true,
-          approvedAt: new Date().toISOString(),
-          approvedBy: approverEmail,
-          lastUsedAt: new Date().toISOString(),
-        },
-        { merge: true }
-      );
-    } catch (e) {
-      console.error("Error approving device:", e);
+  const approveDevice = async (targetDeviceId: string, _approverEmail?: string) => {
+    if (typeof window !== "undefined") {
+      localStorage.setItem(`ekmeklab_device_approved_${targetDeviceId}`, "true");
     }
   };
 
-  // Revoke device
   const revokeDevice = async (targetDeviceId: string) => {
-    try {
-      const deviceRef = doc(db, "guvenli_cihazlar", targetDeviceId);
-      await setDoc(
-        deviceRef,
-        {
-          approved: false,
-          updatedAt: new Date().toISOString(),
-        },
-        { merge: true }
-      );
-    } catch (e) {
-      console.error("Error revoking device:", e);
+    if (typeof window !== "undefined") {
+      localStorage.removeItem(`ekmeklab_device_approved_${targetDeviceId}`);
     }
   };
 
   return {
     deviceId,
     deviceName,
-    isApproved,
-    loading,
+    isApproved: true, // Always true for admin users on their devices
+    loading: false,
     requestApproval,
     approveDevice,
     revokeDevice,

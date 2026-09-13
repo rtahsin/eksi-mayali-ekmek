@@ -6,8 +6,7 @@ import { AdminSidebar } from "@/components/admin/AdminSidebar";
 import { AdminHeader } from "@/components/admin/AdminHeader";
 import { QuickPinLock } from "@/components/admin/QuickPinLock";
 import { useBakeryAudio } from "@/hooks/useBakeryAudio";
-import { collection, query, where, onSnapshot } from "firebase/firestore";
-import { db } from "@/lib/firebase/client";
+import { createClient, isSupabaseConfigured } from "@/lib/supabase/client";
 import { usePathname } from "next/navigation";
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
@@ -22,32 +21,48 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   // If on login page, don't show admin shell
   const isLoginPage = pathname === "/admin/login";
 
-  // Real-time listener for pending/active orders
+  // Real-time listener for pending/active orders via Supabase
   useEffect(() => {
     if (isLoginPage) return;
 
-    try {
-      const ordersRef = collection(db, "siparisler");
-      const q = query(ordersRef, where("status", "in", ["bekliyor", "pending", "hazirlaniyor", "processing"]));
-      const unsubscribe = onSnapshot(
-        q,
-        (snap) => {
-          const newCount = snap.size;
-          // Play oven chime if new order arrived while in admin panel
-          if (prevCountRef.current !== null && newCount > prevCountRef.current) {
+    const supabase = createClient();
+    if (!supabase || !isSupabaseConfigured()) return;
+
+    const fetchPending = async () => {
+      try {
+        const { count, error } = await supabase
+          .from("orders")
+          .select("*", { count: "exact", head: true })
+          .in("status", ["bekliyor", "pending", "hazirlaniyor", "processing"]);
+
+        if (!error && count !== null) {
+          if (prevCountRef.current !== null && count > prevCountRef.current) {
             playOrderChime();
           }
-          prevCountRef.current = newCount;
-          setPendingCount(newCount);
-        },
-        (err) => {
-          console.warn("Notice: Live orders count listener:", err);
+          prevCountRef.current = count;
+          setPendingCount(count);
         }
-      );
-      return () => unsubscribe();
-    } catch {
-      // Fallback
-    }
+      } catch (err) {
+        console.warn("Notice: Supabase pending orders count:", err);
+      }
+    };
+
+    fetchPending();
+
+    const channel = supabase
+      .channel("admin-pending-count")
+      .on(
+        "postgres_changes",
+        { event: "*", schema: "public", table: "orders" },
+        () => {
+          fetchPending();
+        }
+      )
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
   }, [isLoginPage, playOrderChime]);
 
   if (isLoginPage) {
