@@ -19,6 +19,8 @@ import {
   TrendingUp,
   AlertCircle,
   Sparkles,
+  ExternalLink,
+  Link2,
 } from "lucide-react";
 
 interface OrderSlipModalProps {
@@ -121,11 +123,30 @@ export function OrderSlipModal({ order, isOpen, onClose, cari: propCari }: Order
       lines.push(`💰 *GÜNCEL KALAN BAKİYE: ${finalBalance.toLocaleString("tr-TR")} ₺*`);
     }
 
+    const publicUrl = typeof window !== "undefined" ? `${window.location.origin}/fis/${order.id}` : `https://ekmeklab.tr/fis/${order.id}`;
+    lines.push(``);
+    lines.push(`🔗 *DİJİTAL FİŞ & CANLI BAKİYE LİNKİNİZ:*`);
+    lines.push(publicUrl);
     lines.push(``);
     lines.push(`Afiyet olsun! EkmekLab Zanaatkar Fırın`);
     lines.push(`İletişim: 0530 638 97 73 • ekmeklab.tr`);
 
     return lines.join("\n");
+  };
+
+  // Copy Link State
+  const [linkCopied, setLinkCopied] = useState(false);
+
+  // Copy customer public link
+  const handleCopyLink = async () => {
+    const publicUrl = `${window.location.origin}/fis/${order.id}`;
+    try {
+      await navigator.clipboard.writeText(publicUrl);
+      setLinkCopied(true);
+      setTimeout(() => setLinkCopied(false), 2500);
+    } catch (err) {
+      console.error("Clipboard error:", err);
+    }
   };
 
   // WhatsApp sender
@@ -399,13 +420,33 @@ export function OrderSlipModal({ order, isOpen, onClose, cari: propCari }: Order
         {/* Bottom Actions Bar */}
         <div className="p-4 sm:p-5 border-t border-stone-800 bg-stone-950 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3">
           
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 flex-wrap sm:flex-nowrap">
+            <button
+              onClick={handleCopyLink}
+              className="flex items-center justify-center gap-1.5 px-3 py-2.5 bg-stone-800 hover:bg-stone-700 text-amber-400 rounded-xl text-xs font-semibold border border-stone-700 transition-all active:scale-95"
+              title="Müşteriye gönderilecek canlı dijital fiş linkini kopyala"
+            >
+              {linkCopied ? <Check className="w-4 h-4 text-emerald-400" /> : <Link2 className="w-4 h-4" />}
+              <span>{linkCopied ? "Link Kopyalandı!" : "Fiş Linkini Kopyala"}</span>
+            </button>
+
+            <a
+              href={`/fis/${order.id}`}
+              target="_blank"
+              rel="noreferrer"
+              className="p-2.5 bg-stone-800/80 hover:bg-stone-800 text-stone-300 hover:text-white rounded-xl text-xs border border-stone-700 transition-colors flex items-center justify-center"
+              title="Müşteri Görünümünü Yeni Sekmede Aç"
+            >
+              <ExternalLink className="w-4 h-4 text-stone-400 hover:text-amber-400" />
+            </a>
+
             <button
               onClick={handleCopy}
-              className="flex-1 sm:flex-none flex items-center justify-center gap-1.5 px-3.5 py-2.5 bg-stone-800 hover:bg-stone-700 text-stone-200 rounded-xl text-xs font-semibold border border-stone-700 transition-all active:scale-95"
+              className="flex items-center justify-center gap-1.5 px-3 py-2.5 bg-stone-800 hover:bg-stone-700 text-stone-200 rounded-xl text-xs font-semibold border border-stone-700 transition-all active:scale-95"
+              title="Metin olarak kopyala"
             >
               {copied ? <Check className="w-4 h-4 text-emerald-400" /> : <Copy className="w-4 h-4 text-stone-400" />}
-              <span>{copied ? "Fiş Kopyalandı!" : "Metni Kopyala"}</span>
+              <span>{copied ? "Kopyalandı" : "Metin"}</span>
             </button>
 
             <button
