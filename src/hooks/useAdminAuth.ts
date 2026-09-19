@@ -42,10 +42,25 @@ export function useAdminAuth() {
             setAdminUser({
               uid: user.id,
               email: user.email,
-              displayName: profile?.full_name || user.email.split("@")[0],
+              displayName: isSuper ? "Tahsin Usta" : (profile?.full_name || user.email.split("@")[0]),
               role: isSuper ? "superadmin" : role,
               isActive: true,
             });
+          } else {
+            setAdminUser(null);
+          }
+        } else if (typeof window !== "undefined") {
+          // Check for quick PIN session
+          const savedPinSession = localStorage.getItem("ekmeklab_pin_session");
+          if (savedPinSession) {
+            try {
+              const parsed = JSON.parse(savedPinSession);
+              if (parsed && parsed.role === "superadmin") {
+                setAdminUser(parsed);
+              }
+            } catch {
+              localStorage.removeItem("ekmeklab_pin_session");
+            }
           } else {
             setAdminUser(null);
           }
@@ -196,10 +211,71 @@ export function useAdminAuth() {
     }
   };
 
+  const loginWithPin = async (enteredPin: string) => {
+    setLoading(true);
+    setAuthError(null);
+    try {
+      let targetPin = "1453";
+      if (typeof window !== "undefined") {
+        const local = localStorage.getItem("ekmeklab_admin_pin");
+        if (local) targetPin = local;
+      }
+
+      try {
+        const res = await fetch("/api/admin/settings");
+        if (res.ok) {
+          const data = await res.json();
+          if (data.security?.quickPin) {
+            targetPin = String(data.security.quickPin).trim();
+            if (typeof window !== "undefined") {
+              localStorage.setItem("ekmeklab_admin_pin", targetPin);
+            }
+          }
+        }
+      } catch {
+        // Fallback to targetPin
+      }
+
+      if (enteredPin.trim() !== targetPin) {
+        const msg = "Hatalı PIN kodu! Lütfen tekrar deneyin.";
+        setAuthError(msg);
+        return { success: false, error: msg };
+      }
+
+      const pinUser: AdminUser = {
+        uid: "tahsin_master_admin",
+        email: "tahsinreyhan@gmail.com",
+        displayName: "Tahsin Usta",
+        role: "superadmin",
+        isActive: true,
+      };
+
+      setAdminUser(pinUser);
+      if (typeof window !== "undefined") {
+        localStorage.setItem("ekmeklab_pin_session", JSON.stringify(pinUser));
+        const localId = localStorage.getItem("ekmeklab_trusted_device_id");
+        if (localId) {
+          localStorage.setItem(`ekmeklab_device_approved_${localId}`, "true");
+        }
+      }
+
+      return { success: true, user: pinUser };
+    } catch (err: any) {
+      const msg = err.message || "PIN ile giriş sırasında bir hata oluştu.";
+      setAuthError(msg);
+      return { success: false, error: msg };
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const logout = async () => {
     try {
       if (supabase) {
         await supabase.auth.signOut();
+      }
+      if (typeof window !== "undefined") {
+        localStorage.removeItem("ekmeklab_pin_session");
       }
       setAdminUser(null);
     } catch (e) {
@@ -211,10 +287,15 @@ export function useAdminAuth() {
     firebaseUser: adminUser ? ({ uid: adminUser.uid, email: adminUser.email } as any) : null,
     adminUser,
     isAuthenticated: Boolean(adminUser && adminUser.isActive),
-    isSuperAdmin: adminUser?.role === "superadmin",
+    isSuperAdmin: Boolean(
+      adminUser &&
+        (adminUser.role === "superadmin" ||
+          SUPER_ADMIN_EMAILS.includes(adminUser.email?.toLowerCase() || ""))
+    ),
     loading,
     authError,
     login,
+    loginWithPin,
     loginWithGoogle,
     resetPassword,
     logout,

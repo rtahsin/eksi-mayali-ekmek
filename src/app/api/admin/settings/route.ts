@@ -33,10 +33,12 @@ export async function GET(request: Request) {
     };
 
     const devices = settingsMap["trusted_devices"] || [];
+    const security = settingsMap["security_settings"] || { quickPin: "1453" };
 
     return NextResponse.json({
       operational,
       devices,
+      security,
     });
   } catch (err: any) {
     console.error("Settings GET handler error:", err);
@@ -84,6 +86,22 @@ export async function POST(request: Request) {
 
       if (error) throw error;
       return NextResponse.json({ success: true, message: "Cihazlar güncellendi" });
+    }
+
+    if (action === "save_security") {
+      const { error } = await (supabase as any)
+        .from("bakery_settings")
+        .upsert(
+          {
+            key: "security_settings",
+            value,
+            updated_at: new Date().toISOString(),
+          },
+          { onConflict: "key" }
+        );
+
+      if (error) throw error;
+      return NextResponse.json({ success: true, message: "Güvenlik ayarları güncellendi" });
     }
 
     if (action === "authorize_device") {

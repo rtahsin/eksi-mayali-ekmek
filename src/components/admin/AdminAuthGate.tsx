@@ -91,33 +91,82 @@ export function AdminAuthGate({ children }: AdminAuthGateProps) {
             </div>
           </div>
 
-          {!requested ? (
-            <div className="space-y-3">
-              <input
-                type="text"
-                value={customDeviceName}
-                onChange={(e) => setCustomDeviceName(e.target.value)}
-                placeholder={`Örn: ${deviceName}`}
-                className="w-full px-4 py-2.5 rounded-xl bg-[#14100D] border border-[#2F241D] text-xs text-foreground placeholder:text-foreground/40 focus:outline-none focus:border-artisan-gold"
-              />
-              <button
-                type="button"
-                onClick={async () => {
-                  await requestApproval(customDeviceName);
-                  setRequested(true);
-                }}
-                className="w-full py-3 rounded-xl bg-artisan-terracotta hover:bg-artisan-terracotta/90 text-foreground text-xs font-serif font-bold transition-all shadow-lg shadow-artisan-terracotta/20 flex items-center justify-center gap-2"
-              >
+          {/* Instant PIN Unlock or Request Approval */}
+          <div className="space-y-4">
+            <div className="p-3.5 rounded-2xl bg-amber-500/10 border border-amber-500/30 space-y-2.5">
+              <div className="flex items-center gap-2 text-xs font-bold text-amber-400 font-serif">
                 <KeyRound className="w-4 h-4" />
-                <span>Bu Cihaz İçin Onay Talep Et</span>
-              </button>
+                <span>Tahsin Usta PIN Kodu ile Hemen Yetkilendir</span>
+              </div>
+              <p className="text-[11px] text-stone-300">
+                Fırın yöneticisiyseniz 4 haneli PIN kodunuzu girerek bu cihazı tek saniyede yetkilendirebilirsiniz.
+              </p>
+              <div className="flex gap-2">
+                <input
+                  type="password"
+                  maxLength={4}
+                  placeholder="PIN (Örn: 1453)"
+                  id="gate_instant_pin"
+                  className="flex-1 px-3 py-2 rounded-xl bg-stone-900 border border-stone-700 text-stone-100 text-xs text-center font-mono tracking-widest focus:outline-none focus:border-amber-500"
+                />
+                <button
+                  type="button"
+                  onClick={async () => {
+                    const input = document.getElementById("gate_instant_pin") as HTMLInputElement;
+                    const val = input?.value?.trim() || "";
+                    let targetPin = "1453";
+                    try {
+                      const res = await fetch("/api/admin/settings");
+                      if (res.ok) {
+                        const d = await res.json();
+                        if (d.security?.quickPin) targetPin = String(d.security.quickPin).trim();
+                      }
+                    } catch {}
+
+                    if (val === targetPin) {
+                      await requestApproval(customDeviceName || deviceName);
+                      window.location.reload();
+                    } else {
+                      alert("Hatalı PIN kodu! Lütfen tekrar deneyin.");
+                    }
+                  }}
+                  className="px-4 py-2 rounded-xl bg-amber-500 hover:bg-amber-600 text-stone-950 text-xs font-bold font-serif transition-colors shadow"
+                >
+                  Onayla
+                </button>
+              </div>
             </div>
-          ) : (
-            <div className="p-4 rounded-xl bg-emerald-950/40 border border-emerald-500/40 text-xs text-emerald-300 flex items-center gap-2">
-              <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
-              <span>Onay talebi oluşturuldu. Lütfen ana bilgisayarınızdan veya telefonunuzdan bu cihazı onaylayın.</span>
-            </div>
-          )}
+
+            {!requested ? (
+              <div className="space-y-2 pt-1 border-t border-stone-800">
+                <p className="text-[11px] text-stone-400">Veya cihaz adını belirterek uzaktan onay talep edin:</p>
+                <div className="flex gap-2">
+                  <input
+                    type="text"
+                    value={customDeviceName}
+                    onChange={(e) => setCustomDeviceName(e.target.value)}
+                    placeholder={`Örn: ${deviceName}`}
+                    className="flex-1 px-3 py-2 rounded-xl bg-[#14100D] border border-[#2F241D] text-xs text-foreground placeholder:text-foreground/40 focus:outline-none focus:border-artisan-gold"
+                  />
+                  <button
+                    type="button"
+                    onClick={async () => {
+                      await requestApproval(customDeviceName);
+                      setRequested(true);
+                    }}
+                    className="px-3.5 py-2 rounded-xl bg-stone-800 hover:bg-stone-700 text-stone-200 text-xs font-serif font-bold transition-all"
+                  >
+                    Talep Et
+                  </button>
+                </div>
+              </div>
+            ) : (
+              <div className="p-3 rounded-xl bg-emerald-950/40 border border-emerald-500/40 text-xs text-emerald-300 flex items-center gap-2">
+                <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
+                <span>Onay talebi oluşturuldu. Ana cihazınızdan onaylayabilirsiniz.</span>
+              </div>
+            )}
+          </div>
 
           <div className="pt-2 border-t border-[#2F241D] flex items-center justify-between text-xs">
             <button

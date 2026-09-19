@@ -46,6 +46,12 @@ export default function AdminSettingsPage() {
   const [orderAcceptanceOpen, setOrderAcceptanceOpen] = useState<boolean>(true);
   const [announcementText, setAnnouncementText] = useState<string>("");
 
+  // Security / PIN state
+  const [quickPin, setQuickPin] = useState<string>("1453");
+  const [showPin, setShowPin] = useState<boolean>(false);
+  const [savingPin, setSavingPin] = useState<boolean>(false);
+  const [pinSavedSuccess, setPinSavedSuccess] = useState<boolean>(false);
+
   const [savingSettings, setSavingSettings] = useState(false);
   const [settingsSavedSuccess, setSettingsSavedSuccess] = useState(false);
   const [audioTesting, setAudioTesting] = useState(false);
@@ -75,6 +81,12 @@ export default function AdminSettingsPage() {
           }
           if (data.operational.announcementText !== undefined) {
             setAnnouncementText(data.operational.announcementText);
+          }
+        }
+        if (data.security?.quickPin) {
+          setQuickPin(String(data.security.quickPin));
+          if (typeof window !== "undefined") {
+            localStorage.setItem("ekmeklab_admin_pin", String(data.security.quickPin));
           }
         }
         if (Array.isArray(data.devices)) {
@@ -232,6 +244,40 @@ export default function AdminSettingsPage() {
       loadSettings();
     } catch (err) {
       console.error(err);
+    }
+  };
+
+  const handleSavePin = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!quickPin || quickPin.trim().length !== 4) {
+      alert("PIN kodu tam olarak 4 haneli olmalıdır.");
+      return;
+    }
+    setSavingPin(true);
+    setPinSavedSuccess(false);
+    try {
+      const res = await fetch("/api/admin/settings", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          action: "save_security",
+          value: { quickPin: quickPin.trim() },
+        }),
+      });
+      if (res.ok) {
+        if (typeof window !== "undefined") {
+          localStorage.setItem("ekmeklab_admin_pin", quickPin.trim());
+        }
+        setPinSavedSuccess(true);
+        setTimeout(() => setPinSavedSuccess(false), 3000);
+      } else {
+        alert("PIN güncellenemedi.");
+      }
+    } catch (err) {
+      console.error(err);
+      alert("PIN güncellenirken hata oluştu.");
+    } finally {
+      setSavingPin(false);
     }
   };
 
@@ -484,6 +530,61 @@ export default function AdminSettingsPage() {
             </p>
           </div>
         </div>
+
+        {/* Fırıncı Hızlı PIN Kodu Ayarı */}
+        <form
+          onSubmit={handleSavePin}
+          className="bg-amber-500/10 border border-amber-500/30 p-4 sm:p-5 rounded-2xl space-y-3"
+        >
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+            <div>
+              <div className="flex items-center gap-2">
+                <Lock className="w-4 h-4 text-amber-400" />
+                <h3 className="text-sm font-bold text-stone-100 font-serif">
+                  Fırıncı 4 Haneli Hızlı PIN Kodu
+                </h3>
+              </div>
+              <p className="text-xs text-stone-300 mt-0.5">
+                Fırın tezgahında veya telefonunuzda uzun şifre yazmadan tek dokunuşla panele anında girmek için kullanılır.
+              </p>
+            </div>
+
+            <div className="flex items-center gap-2">
+              <div className="relative">
+                <input
+                  type={showPin ? "text" : "password"}
+                  maxLength={4}
+                  value={quickPin}
+                  onChange={(e) => setQuickPin(e.target.value.replace(/\D/g, ""))}
+                  placeholder="1453"
+                  className="w-28 text-center text-base font-mono font-bold tracking-widest bg-stone-900 border border-stone-700 rounded-xl px-3 py-2 text-amber-400 focus:outline-none focus:border-amber-500"
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPin(!showPin)}
+                  className="text-[10px] text-stone-400 hover:text-stone-200 mt-1 block text-center w-full"
+                >
+                  {showPin ? "Gizle" : "Göster"}
+                </button>
+              </div>
+
+              <button
+                type="submit"
+                disabled={savingPin}
+                className="px-4 py-2 bg-amber-500 hover:bg-amber-400 text-stone-950 font-bold rounded-xl text-xs transition-all shadow-lg shadow-amber-500/20 active:scale-95 disabled:opacity-50"
+              >
+                {savingPin ? "Kaydediliyor..." : "PIN'i Güncelle"}
+              </button>
+            </div>
+          </div>
+
+          {pinSavedSuccess && (
+            <div className="p-2.5 rounded-xl bg-emerald-950/60 border border-emerald-500/40 text-xs text-emerald-300 flex items-center gap-2">
+              <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
+              <span>Fırıncı PIN kodunuz başarıyla güncellendi ve tüm cihazlarınızla senkronize edildi.</span>
+            </div>
+          )}
+        </form>
 
         {/* Manual Device Authorization Form */}
         <form
