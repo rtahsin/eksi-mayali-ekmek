@@ -19,11 +19,16 @@ import {
   AlertCircle,
   X,
   FileSpreadsheet,
+  PlusCircle,
+  Minus,
+  Check,
+  Share2,
 } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 import { useCariler } from "@/hooks/useCariler";
-import { INITIAL_PRODUCTS } from "@/hooks/useProducts";
-import { CariAccount, CariTransaction } from "@/types/admin";
+import { useProducts, INITIAL_PRODUCTS } from "@/hooks/useProducts";
+import { CariAccount, CariTransaction, AdminOrder, OrderItem } from "@/types/admin";
+import { OrderSlipModal } from "@/components/admin/OrderSlipModal";
 
 export default function CariDetailPage() {
   const params = useParams();
@@ -31,6 +36,7 @@ export default function CariDetailPage() {
   const cariId = params?.id as string;
 
   const { addTransaction } = useCariler();
+  const { products } = useProducts("all");
 
   const [cari, setCari] = useState<CariAccount | null>(null);
   const [transactions, setTransactions] = useState<CariTransaction[]>([]);
@@ -44,6 +50,19 @@ export default function CariDetailPage() {
   const [txDate, setTxDate] = useState<string>(new Date().toISOString().split("T")[0]);
   const [txMethod, setTxMethod] = useState<"banka_havale" | "nakit" | "kredi_karti">("banka_havale");
   const [submitting, setSubmitting] = useState(false);
+
+  // Quick Digital Fiş Modal State
+  const [quickSlipModalOpen, setQuickSlipModalOpen] = useState(false);
+  const [slipQuantities, setSlipQuantities] = useState<Record<string, number>>({});
+  const [slipDate, setSlipDate] = useState<string>(new Date().toISOString().split("T")[0]);
+  const [slipPaymentCollected, setSlipPaymentCollected] = useState<number>(0);
+  const [slipPaymentMethod, setSlipPaymentMethod] = useState<"nakit" | "banka_havale" | "kredi_karti">("nakit");
+  const [slipNotes, setSlipNotes] = useState<string>("");
+  const [slipSubmitting, setSlipSubmitting] = useState(false);
+
+  // Digital Slip Preview Modal (OrderSlipModal)
+  const [activeSlipOrder, setActiveSlipOrder] = useState<AdminOrder | null>(null);
+  const [slipModalOpen, setSlipModalOpen] = useState(false);
 
   // Active Tab
   const [activeTab, setActiveTab] = useState<"ekstre" | "fiyatlar">("ekstre");
@@ -96,6 +115,7 @@ export default function CariDetailPage() {
             amount: Number(t.amount) || 0,
             description: t.description || "",
             paymentMethod: "banka_havale",
+            orderId: t.order_id,
             createdAt: t.created_at,
           }));
           setTransactions(mapped);
@@ -125,7 +145,170 @@ export default function CariDetailPage() {
     };
   }, [cariId]);
 
-  // Open Transaction Modal
+  // Open Quick Digital Fiş Modal
+  const handleOpenQuickSlipModal = () => {
+    setSlipQuantities({});
+    setSlipDate(new Date().toISOString().split("T")[0]);
+    setSlipPaymentCollected(0);
+    setSlipNotes("");
+    setQuickSlipModalOpen(true);
+  };
+
+  // Update item quantity in Quick Fiş
+  const updateSlipQuantity = (productId: string, delta: number) => {
+    setSlipQuantities((prev) => {
+      const current = prev[productId] || 0;
+      const next = Math.max(0, current + delta);
+      if (next === 0) {
+        const copy = { ...prev };
+        delete copy[productId];
+        return copy;
+      }
+      return { ...prev, [productId]: next };
+    });
+  };
+
+  // Calculate items for Quick Fiş using agreed prices
+  const activeProducts = products.length > 0 ? products : INITIAL_PRODUCTS;
+
+  const quickSlipItems: OrderItem[] = useMemo(() => {
+    return Object.entries(slipQuantities)
+      .map(([pId, qty]) => {
+        const prod = activeProducts.find((p) => p.id === pId);
+        if (!prod || qty <= 0) return null;
+
+        const customPrice = cari?.customPrices?.[pId];
+        const unitPrice = customPrice !== undefined ? customPrice : prod.price;
+
+        return {
+          productId: prod.id,
+          productName: prod.name,
+          quantity: qty,
+          unitPrice,
+          totalPrice: unitPrice * qty,
+          weight: prod.weight,
+        };
+      })
+      .filter(Boolean) as OrderItem[];
+  }, [slipQuantities, activeProducts, cari]);
+
+  const quickSlipTotal = quickSlipItems.reduce((sum, it) => sum + it.totalPrice, 0);
+
+  // Submit Quick Fiş
+  const handleSaveQuickSlip = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!cari || quickSlipItems.length === 0) return;
+
+    setSlipSubmitting(true);
+    try {
+      const itemsSummary = quickSlipItems
+        .map((it) => `${it.quantity}x ${it.productName} (${it.unitPrice}₺)`)
+        .join(", ");
+
+      const generatedOrderId = `ord_${Date.now().toString(36)}`;
+
+      // 1. Record Sale (Borç) Transaction
+      const res = await addTransaction(cari.id, {
+        type: "satis",
+        amount: quickSlipTotal,
+        description: `Fiş: ${itemsSummary}`,
+        date: slipDate,
+        orderId: generatedOrderId,
+      });
+
+      // 2. If payment was collected at delivery, record collection transaction
+      if (slipPaymentCollected > 0) {
+        await addTransaction(cari.id, {
+          type: "tahsilat",
+          amount: Number(slipPaymentCollected),
+          description: `Teslimatta Tahsilat (${slipPaymentMethod === "nakit" ? "Nakit" : slipPaymentMethod === "banka_havale" ? "Havale" : "POS"})`,
+          date: slipDate,
+          paymentMethod: slipPaymentMethod,
+          orderId: generatedOrderId,
+        });
+      }
+
+      if (res.success) {
+        setQuickSlipModalOpen(false);
+
+        // Build AdminOrder representation to show in OrderSlipModal
+        const slipOrder: AdminOrder = {
+          id: generatedOrderId,
+          orderNumber: generatedOrderId.substring(4, 10).toUpperCase(),
+          customerName: cari.businessName,
+          phone: cari.phone,
+          deliveryAddress: cari.address || "Belirtilmemiş",
+          neighborhood: cari.neighborhood || "Beylikdüzü",
+          deliveryMethod: "courier",
+          deliveryDate: slipDate,
+          deliveryTimeWindow: "14:00 - 18:00",
+          items: quickSlipItems,
+          subtotal: quickSlipTotal,
+          shippingFee: 0,
+          totalAmount: quickSlipTotal,
+          status: "teslim_edildi",
+          paymentMethod: "cari",
+          paymentStatus: "paid",
+          source: "whatsapp",
+          cariId: cari.id,
+          orderNotes: slipNotes,
+          createdAt: new Date().toISOString(),
+        };
+
+        // Pop up the digital fiş modal immediately
+        setActiveSlipOrder(slipOrder);
+        setSlipModalOpen(true);
+      } else {
+        alert("Fiş kaydedilirken hata: " + res.error);
+      }
+    } finally {
+      setSlipSubmitting(false);
+    }
+  };
+
+  // Open existing transaction as Digital Fiş
+  const handleViewTransactionSlip = (tx: CariTransaction) => {
+    if (!cari) return;
+
+    // Parse items if available in description
+    const desc = tx.description || "";
+    const items: OrderItem[] = [];
+
+    // Synthetic single item if not parsed
+    items.push({
+      productId: "custom",
+      productName: desc.replace(/^Fiş:\s*/i, "") || "Toptan Ekmek Teslimatı",
+      quantity: 1,
+      unitPrice: tx.amount,
+      totalPrice: tx.amount,
+    });
+
+    const slipOrder: AdminOrder = {
+      id: tx.id || `tx_${Date.now()}`,
+      orderNumber: (tx.id || "").substring(0, 6).toUpperCase() || "CARİ",
+      customerName: cari.businessName,
+      phone: cari.phone,
+      deliveryAddress: cari.address || "",
+      neighborhood: cari.neighborhood || "Beylikdüzü",
+      deliveryMethod: "courier",
+      deliveryDate: tx.date,
+      items: items,
+      subtotal: tx.amount,
+      shippingFee: 0,
+      totalAmount: tx.amount,
+      status: "teslim_edildi",
+      paymentMethod: "cari",
+      paymentStatus: "paid",
+      source: "whatsapp",
+      cariId: cari.id,
+      createdAt: tx.createdAt || new Date().toISOString(),
+    };
+
+    setActiveSlipOrder(slipOrder);
+    setSlipModalOpen(true);
+  };
+
+  // Open Simple Transaction Modal (Satış / Tahsilat)
   const openModal = (type: "satis" | "tahsilat") => {
     setTxType(type);
     setTxAmount(0);
@@ -136,7 +319,7 @@ export default function CariDetailPage() {
     setTxModalOpen(true);
   };
 
-  // Submit Transaction
+  // Submit Simple Transaction
   const handleSaveTransaction = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!cari || txAmount <= 0) return;
@@ -191,7 +374,7 @@ export default function CariDetailPage() {
 
   return (
     <div className="space-y-6 max-w-6xl mx-auto pb-16">
-      {/* Top Action Bar (Hidden on print) */}
+      {/* Top Action Bar */}
       <div className="print:hidden flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <Link
           href="/admin/cariler"
@@ -201,27 +384,30 @@ export default function CariDetailPage() {
           <span>Tüm Carilere Dön</span>
         </Link>
 
-        <div className="flex items-center gap-2.5">
+        <div className="flex flex-wrap items-center gap-2.5">
+          {/* Main Action: + Hızlı Fiş Kes */}
           <button
-            onClick={handlePrint}
-            className="flex items-center gap-2 px-4 py-2 bg-stone-800 hover:bg-stone-700 text-stone-200 rounded-xl text-xs font-semibold border border-stone-700 transition-colors"
+            onClick={handleOpenQuickSlipModal}
+            className="flex items-center gap-2 px-4 py-2 bg-artisan-terracotta hover:bg-artisan-terracotta/90 text-foreground font-bold rounded-xl text-xs shadow-lg shadow-artisan-terracotta/20 transition-all active:scale-95 border border-artisan-gold/30"
           >
-            <Printer className="w-4 h-4 text-amber-400" />
-            <span>Ekstre Yazdır / PDF</span>
+            <Plus className="w-4 h-4" />
+            <span>+ Hızlı Fiş Kes (Ürün Seç)</span>
           </button>
-          <button
-            onClick={() => openModal("satis")}
-            className="flex items-center gap-1.5 px-3.5 py-2 bg-amber-500/10 hover:bg-amber-500/20 text-amber-400 font-bold rounded-xl text-xs border border-amber-500/20 transition-all"
-          >
-            <Plus className="w-3.5 h-3.5" />
-            <span>+ Satış Yaz</span>
-          </button>
+
           <button
             onClick={() => openModal("tahsilat")}
-            className="flex items-center gap-1.5 px-3.5 py-2 bg-emerald-500 hover:bg-emerald-400 text-stone-950 font-bold rounded-xl text-xs shadow-lg shadow-emerald-500/20 transition-all"
+            className="flex items-center gap-1.5 px-3.5 py-2 bg-emerald-500 hover:bg-emerald-400 text-stone-950 font-bold rounded-xl text-xs shadow-lg shadow-emerald-500/20 transition-all active:scale-95"
           >
             <DollarSign className="w-3.5 h-3.5" />
             <span>+ Tahsilat Al</span>
+          </button>
+
+          <button
+            onClick={handlePrint}
+            className="flex items-center gap-2 px-3.5 py-2 bg-stone-800 hover:bg-stone-700 text-stone-300 rounded-xl text-xs font-semibold border border-stone-700 transition-colors"
+          >
+            <Printer className="w-3.5 h-3.5 text-amber-400" />
+            <span>Ekstre</span>
           </button>
         </div>
       </div>
@@ -257,6 +443,7 @@ export default function CariDetailPage() {
                   target="_blank"
                   rel="noreferrer"
                   className="p-1 rounded-md bg-emerald-500/10 text-emerald-400 hover:bg-emerald-500/20"
+                  title="WhatsApp'tan Aç"
                 >
                   <MessageCircle className="w-3.5 h-3.5" />
                 </a>
@@ -265,9 +452,9 @@ export default function CariDetailPage() {
           </div>
 
           {/* Current Balance Card */}
-          <div className="bg-stone-950/70 border border-stone-800 p-4 rounded-xl min-w-[200px] text-right">
+          <div className="bg-stone-950/70 border border-stone-800 p-4 rounded-xl min-w-[220px] text-right">
             <div className="text-xs font-semibold text-stone-400 uppercase tracking-wider">
-              Güncel Bakiye
+              Güncel Cari Bakiye
             </div>
             <div
               className={`text-2xl font-bold font-serif mt-1 ${
@@ -309,7 +496,7 @@ export default function CariDetailPage() {
         </div>
       </div>
 
-      {/* Tabs (Hidden on print) */}
+      {/* Tabs */}
       <div className="print:hidden flex items-center gap-2 border-b border-stone-800 pb-2">
         <button
           onClick={() => setActiveTab("ekstre")}
@@ -320,7 +507,7 @@ export default function CariDetailPage() {
           }`}
         >
           <Receipt className="w-4 h-4" />
-          <span>Hesap Hareketleri & Ekstre ({transactions.length})</span>
+          <span>Hesap Hareketleri & Fişler ({transactions.length})</span>
         </button>
         <button
           onClick={() => setActiveTab("fiyatlar")}
@@ -335,12 +522,21 @@ export default function CariDetailPage() {
         </button>
       </div>
 
-      {/* TAB 1: Ekstre / Hareketler */}
+      {/* TAB 1: Ekstre / Hareketler & Fişler */}
       {activeTab === "ekstre" && (
         <div className="bg-stone-900/70 border border-stone-800 rounded-2xl overflow-hidden shadow-xl">
           {transactions.length === 0 ? (
             <div className="p-12 text-center text-stone-400 text-xs">
               Bu cari hesaba ait henüz işlem hareketi (satış veya tahsilat) bulunmuyor.
+              <div className="mt-4">
+                <button
+                  onClick={handleOpenQuickSlipModal}
+                  className="px-4 py-2 bg-amber-500 text-stone-950 font-bold rounded-xl text-xs inline-flex items-center gap-2"
+                >
+                  <Plus className="w-4 h-4" />
+                  İlk Fişi Kesin
+                </button>
+              </div>
             </div>
           ) : (
             <div className="overflow-x-auto">
@@ -349,10 +545,10 @@ export default function CariDetailPage() {
                   <tr className="border-b border-stone-800 text-[11px] font-semibold text-stone-400 uppercase tracking-wider bg-stone-950/40">
                     <th className="py-3 px-4">Tarih</th>
                     <th className="py-3 px-4">İşlem Türü</th>
-                    <th className="py-3 px-4">Açıklama</th>
-                    <th className="py-3 px-4">Ödeme Yolu</th>
+                    <th className="py-3 px-4">Açıklama / Ürünler</th>
                     <th className="py-3 px-4 text-right">Borç (Satış ₺)</th>
                     <th className="py-3 px-4 text-right">Alacak (Tahsilat ₺)</th>
+                    <th className="py-3 px-4 text-center">İşlem</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-stone-800/70 text-xs">
@@ -375,20 +571,26 @@ export default function CariDetailPage() {
                             </span>
                           )}
                         </td>
-                        <td className="py-3 px-4 font-medium text-stone-200">
+                        <td className="py-3 px-4 font-medium text-stone-200 max-w-xs truncate">
                           {tx.description}
-                        </td>
-                        <td className="py-3 px-4 text-stone-400">
-                          {tx.paymentMethod === "banka_havale" && "Banka Havalesi"}
-                          {tx.paymentMethod === "nakit" && "Elden Nakit"}
-                          {tx.paymentMethod === "kredi_karti" && "Kredi Kartı / POS"}
-                          {!tx.paymentMethod && "—"}
                         </td>
                         <td className="py-3 px-4 text-right font-mono font-bold text-amber-400">
                           {isSale ? `${tx.amount.toLocaleString("tr-TR")} ₺` : "—"}
                         </td>
                         <td className="py-3 px-4 text-right font-mono font-bold text-emerald-400">
                           {!isSale ? `${tx.amount.toLocaleString("tr-TR")} ₺` : "—"}
+                        </td>
+                        <td className="py-3 px-4 text-center">
+                          {isSale && (
+                            <button
+                              onClick={() => handleViewTransactionSlip(tx)}
+                              className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-amber-500/10 hover:bg-amber-500/20 text-amber-400 text-xs font-semibold border border-amber-500/20 transition-colors"
+                              title="Dijital Fişi Gör & WhatsApp'tan Gönder"
+                            >
+                              <Receipt className="w-3.5 h-3.5" />
+                              <span>Fişi Aç</span>
+                            </button>
+                          )}
                         </td>
                       </tr>
                     );
@@ -409,19 +611,19 @@ export default function CariDetailPage() {
                 {cari.businessName} Özel Fiyat Tarifesi
               </h3>
               <p className="text-xs text-stone-400 mt-0.5">
-                Bu müşteriye özel sipariş oluşturulduğunda otomatik olarak uygulanacak toptan birim fiyatlar.
+                Bu müşteriye özel fiş kesildiğinde otomatik olarak uygulanan toptan birim fiyatlar.
               </p>
             </div>
           </div>
 
           {customPricesList.length === 0 ? (
             <div className="p-8 text-center text-stone-400 text-xs bg-stone-950/40 rounded-xl border border-stone-800">
-              Bu firmaya tanımlanmış özel toptan fiyat bulunmuyor. Siparişlerde standart vitrin fiyatları uygulanır.
+              Bu firmaya tanımlanmış özel toptan fiyat bulunmuyor. Fişlerde standart vitrin fiyatları uygulanır.
             </div>
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               {customPricesList.map(([prodId, customPrice]) => {
-                const product = INITIAL_PRODUCTS.find((p) => p.id === prodId);
+                const product = activeProducts.find((p) => p.id === prodId);
                 const retailPrice = product ? product.price : 0;
                 const diff = retailPrice - customPrice;
 
@@ -457,15 +659,217 @@ export default function CariDetailPage() {
         </div>
       )}
 
-      {/* MODAL: Yeni Satış / Tahsilat Ekle */}
+      {/* MODAL 1: HIZLI FİŞ KES (ÜRÜN SEÇİMLİ & DİJİTAL FİŞ) */}
+      {quickSlipModalOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/80 backdrop-blur-sm overflow-y-auto">
+          <div className="bg-stone-900 border border-stone-800 w-full max-w-2xl rounded-2xl sm:rounded-3xl shadow-2xl overflow-hidden my-6">
+            <div className="flex items-center justify-between p-5 border-b border-stone-800 bg-stone-950/80">
+              <div className="flex items-center gap-2.5">
+                <div className="w-8 h-8 rounded-xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-amber-500">
+                  <Receipt className="w-4 h-4" />
+                </div>
+                <div>
+                  <h3 className="font-serif font-bold text-stone-100 text-base">
+                    {cari.businessName} - Hızlı Fiş Kes
+                  </h3>
+                  <p className="text-[11px] text-stone-400">
+                    Mevcut Bakiye: <strong className="text-amber-400">{cari.balance.toLocaleString("tr-TR")} ₺</strong>
+                  </p>
+                </div>
+              </div>
+
+              <button
+                onClick={() => setQuickSlipModalOpen(false)}
+                className="p-1.5 rounded-xl text-stone-400 hover:text-white hover:bg-stone-800"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            <form onSubmit={handleSaveQuickSlip} className="p-5 sm:p-6 space-y-5 max-h-[75vh] overflow-y-auto">
+              {/* Date Input */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div className="space-y-1">
+                  <label className="text-xs font-semibold text-stone-300">Teslimat Tarihi</label>
+                  <input
+                    type="date"
+                    required
+                    value={slipDate}
+                    onChange={(e) => setSlipDate(e.target.value)}
+                    className="w-full bg-stone-950 border border-stone-800 rounded-xl px-3 py-2 text-xs text-stone-100 focus:outline-none focus:border-amber-500"
+                  />
+                </div>
+
+                <div className="space-y-1">
+                  <label className="text-xs font-semibold text-stone-300">Fiş / Teslimat Notu (İsteğe Bağlı)</label>
+                  <input
+                    type="text"
+                    placeholder="Sabah servisi, şefe elden teslim vb..."
+                    value={slipNotes}
+                    onChange={(e) => setSlipNotes(e.target.value)}
+                    className="w-full bg-stone-950 border border-stone-800 rounded-xl px-3 py-2 text-xs text-stone-100 focus:outline-none focus:border-amber-500"
+                  />
+                </div>
+              </div>
+
+              {/* Product Selection List */}
+              <div className="space-y-2">
+                <div className="flex items-center justify-between text-xs">
+                  <span className="font-bold text-stone-300 uppercase tracking-wider">
+                    Ekmek & Ürün Seçimi
+                  </span>
+                  <span className="text-[11px] text-amber-400 font-medium">
+                    Anlaşmalı Toptan Fiyatlar Uygulanır
+                  </span>
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 max-h-64 overflow-y-auto pr-1">
+                  {activeProducts.map((prod) => {
+                    const qty = slipQuantities[prod.id] || 0;
+                    const customPrice = cari?.customPrices?.[prod.id];
+                    const activePrice = customPrice !== undefined ? customPrice : prod.price;
+
+                    return (
+                      <div
+                        key={prod.id}
+                        className={`p-3 rounded-xl border flex items-center justify-between gap-2 transition-colors ${
+                          qty > 0
+                            ? "bg-amber-500/10 border-amber-500/40"
+                            : "bg-stone-950/60 border-stone-800 hover:border-stone-700"
+                        }`}
+                      >
+                        <div className="space-y-0.5">
+                          <div className="text-xs font-bold text-stone-200 line-clamp-1">
+                            {prod.name}
+                          </div>
+                          <div className="text-[11px] flex items-center gap-1.5 font-mono">
+                            <span className="text-amber-400 font-bold">{activePrice} ₺</span>
+                            {customPrice !== undefined && (
+                              <span className="text-[10px] text-stone-500 line-through">
+                                {prod.price} ₺
+                              </span>
+                            )}
+                          </div>
+                        </div>
+
+                        <div className="flex items-center gap-1.5 shrink-0">
+                          <button
+                            type="button"
+                            onClick={() => updateSlipQuantity(prod.id, -1)}
+                            disabled={qty === 0}
+                            className="w-7 h-7 rounded-lg bg-stone-800 hover:bg-stone-700 text-stone-300 flex items-center justify-center disabled:opacity-20"
+                          >
+                            <Minus className="w-3 h-3" />
+                          </button>
+                          <span className="w-6 text-center font-bold text-xs font-mono text-stone-100">
+                            {qty}
+                          </span>
+                          <button
+                            type="button"
+                            onClick={() => updateSlipQuantity(prod.id, 1)}
+                            className="w-7 h-7 rounded-lg bg-amber-500 hover:bg-amber-400 text-stone-950 font-bold flex items-center justify-center shadow"
+                          >
+                            <Plus className="w-3 h-3" />
+                          </button>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+
+              {/* Balance Summary & Collection Input */}
+              <div className="p-4 bg-stone-950/90 border border-stone-800 rounded-2xl space-y-3">
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-center text-xs">
+                  <div className="p-2 rounded-xl bg-stone-900 border border-stone-800">
+                    <div className="text-[10px] text-stone-400">Önceki Bakiye</div>
+                    <div className="font-bold font-mono text-stone-200 mt-0.5">
+                      {cari.balance.toLocaleString("tr-TR")} ₺
+                    </div>
+                  </div>
+
+                  <div className="p-2 rounded-xl bg-amber-500/10 border border-amber-500/20">
+                    <div className="text-[10px] text-amber-400">(+) Bu Fiş</div>
+                    <div className="font-bold font-mono text-amber-400 mt-0.5">
+                      +{quickSlipTotal.toLocaleString("tr-TR")} ₺
+                    </div>
+                  </div>
+
+                  <div className="p-2 rounded-xl bg-emerald-500/10 border border-emerald-500/20">
+                    <div className="text-[10px] text-emerald-400">(-) Tahsilat</div>
+                    <div className="font-bold font-mono text-emerald-400 mt-0.5">
+                      -{slipPaymentCollected || 0} ₺
+                    </div>
+                  </div>
+
+                  <div className="p-2 rounded-xl bg-stone-900 border border-amber-500/30">
+                    <div className="text-[10px] text-stone-300">(=) Yeni Bakiye</div>
+                    <div className="font-bold font-mono text-amber-400 mt-0.5">
+                      {(cari.balance + quickSlipTotal - (slipPaymentCollected || 0)).toLocaleString("tr-TR")} ₺
+                    </div>
+                  </div>
+                </div>
+
+                {/* Optional instant collection input */}
+                <div className="pt-2 border-t border-stone-800 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-2">
+                  <div className="text-xs text-stone-300 font-medium">
+                    Teslimat anında tahsilat alındı mı?
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <input
+                      type="number"
+                      min={0}
+                      placeholder="0 ₺"
+                      value={slipPaymentCollected || ""}
+                      onChange={(e) => setSlipPaymentCollected(Number(e.target.value))}
+                      className="w-24 bg-stone-900 border border-stone-700 rounded-lg px-2 py-1 text-xs font-bold font-mono text-emerald-400 text-right focus:outline-none"
+                    />
+                    <select
+                      value={slipPaymentMethod}
+                      onChange={(e) => setSlipPaymentMethod(e.target.value as any)}
+                      className="bg-stone-900 border border-stone-700 rounded-lg px-2 py-1 text-xs text-stone-300 focus:outline-none"
+                    >
+                      <option value="nakit">Nakit</option>
+                      <option value="banka_havale">Havale</option>
+                      <option value="kredi_karti">POS</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+              {/* Submit Buttons */}
+              <div className="flex items-center justify-end gap-3 pt-2">
+                <button
+                  type="button"
+                  onClick={() => setQuickSlipModalOpen(false)}
+                  className="px-4 py-2 bg-stone-800 hover:bg-stone-700 text-stone-300 rounded-xl text-xs font-semibold"
+                >
+                  Vazgeç
+                </button>
+
+                <button
+                  type="submit"
+                  disabled={slipSubmitting || quickSlipItems.length === 0}
+                  className="flex items-center gap-2 px-5 py-2.5 bg-artisan-terracotta hover:bg-artisan-terracotta/90 text-foreground font-bold rounded-xl text-xs transition-all shadow-lg shadow-artisan-terracotta/20 disabled:opacity-50 border border-artisan-gold/30"
+                >
+                  <Check className="w-4 h-4" />
+                  <span>{slipSubmitting ? "Kaydediliyor..." : "Fişi Kaydet & Dijital Gör"}</span>
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* MODAL 2: BASİT TAHSİLAT MODAL */}
       {txModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
           <div className="bg-stone-900 border border-stone-800 w-full max-w-md rounded-2xl shadow-2xl overflow-hidden">
             <div className="flex items-center justify-between p-5 border-b border-stone-800 bg-stone-950/60">
               <div className="flex items-center gap-2">
-                <Receipt className="w-5 h-5 text-amber-500" />
+                <DollarSign className="w-5 h-5 text-emerald-400" />
                 <h3 className="font-bold text-stone-100 font-serif text-lg">
-                  {txType === "satis" ? "Hesaba Satış (Borç) Ekle" : "Tahsilat (Ödeme) Kaydet"}
+                  {txType === "tahsilat" ? "Tahsilat Al" : "Satış Yaz"}
                 </h3>
               </div>
               <button
@@ -497,7 +901,7 @@ export default function CariDetailPage() {
                   value={txAmount || ""}
                   onChange={(e) => setTxAmount(Number(e.target.value))}
                   placeholder="0"
-                  className="w-full bg-stone-950 border border-stone-800 rounded-xl px-3 py-2 text-base font-bold text-stone-100 focus:outline-none focus:border-amber-500"
+                  className="w-full bg-stone-950 border border-stone-800 rounded-xl px-3 py-2 text-base font-bold text-emerald-400 focus:outline-none focus:border-emerald-500"
                 />
               </div>
 
@@ -521,7 +925,7 @@ export default function CariDetailPage() {
                   required
                   value={txDescription}
                   onChange={(e) => setTxDescription(e.target.value)}
-                  placeholder="Örn: 20x Atalık Köy Ekmeği teslimatı"
+                  placeholder="Örn: Cari ödeme"
                   className="w-full bg-stone-950 border border-stone-800 rounded-xl px-3 py-2 text-xs text-stone-100 focus:outline-none focus:border-amber-500"
                 />
               </div>
@@ -537,15 +941,28 @@ export default function CariDetailPage() {
                 <button
                   type="submit"
                   disabled={submitting || txAmount <= 0}
-                  className="flex items-center gap-2 px-5 py-2 bg-amber-500 hover:bg-amber-400 text-stone-950 font-bold rounded-xl text-xs transition-all shadow-lg shadow-amber-500/20 disabled:opacity-50"
+                  className="flex items-center gap-2 px-5 py-2 bg-emerald-500 hover:bg-emerald-400 text-stone-950 font-bold rounded-xl text-xs transition-all shadow-lg shadow-emerald-500/20 disabled:opacity-50"
                 >
                   <CheckCircle2 className="w-4 h-4" />
-                  <span>{submitting ? "Kaydediliyor..." : "Hareketi Kaydet"}</span>
+                  <span>{submitting ? "Kaydediliyor..." : "Kaydet"}</span>
                 </button>
               </div>
             </form>
           </div>
         </div>
+      )}
+
+      {/* MODAL 3: DİJİTAL FİŞ GÖRÜNÜMÜ & WHATSAPP GÖNDERİMİ (OrderSlipModal) */}
+      {activeSlipOrder && (
+        <OrderSlipModal
+          order={activeSlipOrder}
+          isOpen={slipModalOpen}
+          onClose={() => {
+            setSlipModalOpen(false);
+            setActiveSlipOrder(null);
+          }}
+          cari={cari}
+        />
       )}
     </div>
   );
