@@ -32,6 +32,7 @@ import {
 } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 import { useCariler } from "@/hooks/useCariler";
+import { useFinans } from "@/hooks/useFinans";
 import { useProducts, INITIAL_PRODUCTS } from "@/hooks/useProducts";
 import { CariAccount, CariTransaction, AdminOrder, OrderItem } from "@/types/admin";
 import { OrderSlipModal } from "@/components/admin/OrderSlipModal";
@@ -42,6 +43,7 @@ export default function CariDetailPage() {
   const cariId = params?.id as string;
 
   const { addTransaction, setManualBalance, deleteTransaction } = useCariler();
+  const { addIncome, addExpense } = useFinans();
   const { products } = useProducts("all");
 
   const [cari, setCari] = useState<CariAccount | null>(null);
@@ -266,6 +268,14 @@ export default function CariDetailPage() {
     );
 
     if (res.success) {
+      // Also remove matching record from financial_records if any
+      const supabase = createClient();
+      if (supabase) {
+        await (supabase as any)
+          .from("financial_records")
+          .delete()
+          .ilike("description", `%${tx.description || tx.id}%`);
+      }
       // Re-fetch to get complete, exact state from database
       await fetchCariData();
     } else {
@@ -382,6 +392,15 @@ export default function CariDetailPage() {
           date: slipDate,
           paymentMethod: slipPaymentMethod,
           orderId: generatedOrderId,
+        });
+
+        // Sync to Kasa & Banka
+        await addIncome({
+          category: "cari_tahsilat",
+          title: `[Cari Tahsilat] ${cari.businessName} - ${generatedSlipNumber}`,
+          amount: Number(slipPaymentCollected),
+          paymentMethod: (slipPaymentMethod === "kredi_karti" ? "pos" : slipPaymentMethod) as any,
+          date: slipDate,
         });
       }
 
@@ -527,7 +546,27 @@ export default function CariDetailPage() {
     });
 
     if (res.success) {
+      // Sync to Kasa & Banka
+      if (txType === "tahsilat") {
+        await addIncome({
+          category: "cari_tahsilat",
+          title: `[Cari Tahsilat] ${cari.businessName} - ${txDescription || "Tahsilat"}`,
+          amount: Number(txAmount),
+          paymentMethod: (txMethod === "kredi_karti" ? "pos" : txMethod) as any,
+          date: txDate,
+        });
+      } else if (txType === "odeme") {
+        await addExpense({
+          category: "diger",
+          title: `[Cari Ödeme] ${cari.businessName} - ${txDescription || "Ödeme"}`,
+          amount: Number(txAmount),
+          paymentMethod: (txMethod === "kredi_karti" ? "pos" : txMethod) as any,
+          date: txDate,
+        });
+      }
+
       setTxModalOpen(false);
+      fetchCariData();
     } else {
       alert("Hareket kaydedilirken hata: " + res.error);
     }

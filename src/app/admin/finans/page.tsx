@@ -354,6 +354,15 @@ export default function AdminFinansPage() {
           paymentMethod: slipPaymentMethod,
           orderId: generatedOrderId,
         });
+
+        // Sync to Kasa & Banka
+        await addIncome({
+          category: "cari_tahsilat",
+          title: `[Cari Tahsilat] ${selectedCariForSlip.businessName} - ${generatedSlipNumber}`,
+          amount: Number(slipPaymentCollected),
+          paymentMethod: (slipPaymentMethod === "kredi_karti" ? "pos" : slipPaymentMethod) as any,
+          date: slipDate,
+        });
       }
 
       if (res.success) {
@@ -423,6 +432,25 @@ export default function AdminFinansPage() {
     });
 
     if (res.success) {
+      // Sync to Kasa & Banka
+      if (payType === "tahsilat") {
+        await addIncome({
+          category: "cari_tahsilat",
+          title: `[Cari Tahsilat] ${selectedCariForPay.businessName} - ${payDescription || "Tahsilat"}`,
+          amount: Number(payAmount),
+          paymentMethod: (payMethod === "kredi_karti" ? "pos" : payMethod) as any,
+          date: payDate,
+        });
+      } else {
+        await addExpense({
+          category: "diger",
+          title: `[Cari Ödeme] ${selectedCariForPay.businessName} - ${payDescription || "Ödeme"}`,
+          amount: Number(payAmount),
+          paymentMethod: (payMethod === "kredi_karti" ? "pos" : payMethod) as any,
+          date: payDate,
+        });
+      }
+
       setPayModalOpen(false);
       setSelectedCariForPay(null);
       setPayAmount(0);
