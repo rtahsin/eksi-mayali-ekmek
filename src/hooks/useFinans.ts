@@ -56,8 +56,9 @@ export function useFinans() {
     fetchExpenses();
 
     if (supabase && isSupabaseConfigured()) {
+      const channelId = `admin-finans-${Date.now()}-${Math.random().toString(36).substring(2, 7)}`;
       const channel = supabase
-        .channel("admin-finans-realtime")
+        .channel(channelId)
         .on(
           "postgres_changes",
           { event: "*", schema: "public", table: "financial_records" },

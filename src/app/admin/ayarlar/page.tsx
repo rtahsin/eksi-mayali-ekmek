@@ -107,8 +107,9 @@ export default function AdminSettingsPage() {
     const supabase = createClient();
     if (!supabase) return;
 
+    const channelId = `bakery_settings_admin-${Date.now()}-${Math.random().toString(36).substring(2, 7)}`;
     const channel = supabase
-      .channel("bakery_settings_admin")
+      .channel(channelId)
       .on(
         "postgres_changes",
         { event: "*", schema: "public", table: "bakery_settings" },

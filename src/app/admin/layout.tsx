@@ -50,8 +50,9 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
 
     fetchPending();
 
+    const channelId = `admin-pending-count-${Date.now()}-${Math.random().toString(36).substring(2, 7)}`;
     const channel = supabase
-      .channel("admin-pending-count")
+      .channel(channelId)
       .on(
         "postgres_changes",
         { event: "*", schema: "public", table: "orders" },

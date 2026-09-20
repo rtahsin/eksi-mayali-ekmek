@@ -105,8 +105,9 @@ export function useProduction(selectedDate?: string) {
     fetchBatches();
 
     if (supabase && isSupabaseConfigured()) {
+      const channelId = `admin-batches-${Date.now()}-${Math.random().toString(36).substring(2, 7)}`;
       const channel = supabase
-        .channel("admin-batches-realtime")
+        .channel(channelId)
         .on(
           "postgres_changes",
           { event: "*", schema: "public", table: "production_batches" },

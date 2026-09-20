@@ -109,8 +109,9 @@ export function useAdminOrders() {
     fetchSupabaseOrders();
 
     if (supabase && isSupabaseConfigured()) {
+      const channelId = `admin-orders-${Date.now()}-${Math.random().toString(36).substring(2, 7)}`;
       const channel = supabase
-        .channel("admin-orders-realtime")
+        .channel(channelId)
         .on(
           "postgres_changes",
           { event: "*", schema: "public", table: "orders" },

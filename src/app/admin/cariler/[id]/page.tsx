@@ -129,8 +129,9 @@ export default function CariDetailPage() {
 
     fetchCariData();
 
+    const channelId = `cari-detail-${cariId}-${Date.now()}-${Math.random().toString(36).substring(2, 7)}`;
     const channel = supabase
-      .channel(`cari-detail-${cariId}`)
+      .channel(channelId)
       .on(
         "postgres_changes",
         { event: "*", schema: "public", table: "account_transactions", filter: `account_id=eq.${cariId}` },

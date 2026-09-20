@@ -96,8 +96,9 @@ export default function SupplierDetailPage() {
 
     fetchSupplierData();
 
+    const channelId = `supplier-detail-${supplierId}-${Date.now()}-${Math.random().toString(36).substring(2, 7)}`;
     const channel = supabase
-      .channel(`supplier-detail-${supplierId}`)
+      .channel(channelId)
       .on(
         "postgres_changes",
         { event: "*", schema: "public", table: "supplier_transactions", filter: `supplier_id=eq.${supplierId}` },

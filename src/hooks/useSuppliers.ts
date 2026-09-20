@@ -50,8 +50,9 @@ export function useSuppliers() {
     fetchSuppliers();
 
     if (supabase && isSupabaseConfigured()) {
+      const channelId = `admin-suppliers-${Date.now()}-${Math.random().toString(36).substring(2, 7)}`;
       const channel = supabase
-        .channel("admin-suppliers-realtime")
+        .channel(channelId)
         .on(
           "postgres_changes",
           { event: "*", schema: "public", table: "suppliers" },
