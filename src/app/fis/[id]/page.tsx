@@ -50,6 +50,13 @@ interface SlipData {
   paidAmount?: number;
   newBalance?: number;
   status?: string;
+  history?: {
+    id: string;
+    date: string;
+    type: "debt" | "credit";
+    description: string;
+    amount: number;
+  }[];
 }
 
 export default function PublicReceiptPage() {
@@ -84,8 +91,9 @@ export default function PublicReceiptPage() {
           let newBal = 0;
           let taxNo = "";
           let busName = orderData.customer_name || "Değerli Müşterimiz";
+          let historyItems: any[] = [];
 
-          // If linked to a Cari, fetch Cari balance
+          // If linked to a Cari, fetch Cari balance and history
           if (orderData.cari_id) {
             const { data: cariData } = await (supabase as any)
               .from("current_accounts")
@@ -98,6 +106,23 @@ export default function PublicReceiptPage() {
               taxNo = cariData.tax_id || "";
               newBal = Number(cariData.balance) || 0;
               prevBal = newBal - Number(orderData.total_amount || 0);
+            }
+
+            const { data: hist } = await (supabase as any)
+              .from("account_transactions")
+              .select("*")
+              .eq("account_id", orderData.cari_id)
+              .order("date", { ascending: false })
+              .limit(10);
+
+            if (hist) {
+              historyItems = hist.map((h: any) => ({
+                id: h.id,
+                date: h.date ? new Date(h.date).toISOString().split("T")[0] : "",
+                type: h.type,
+                description: h.description || "İşlem",
+                amount: Number(h.amount) || 0,
+              }));
             }
           }
 
@@ -127,6 +152,7 @@ export default function PublicReceiptPage() {
             paidAmount: 0,
             newBalance: newBal > 0 ? newBal : Number(orderData.total_amount) || 0,
             status: orderData.status,
+            history: historyItems,
           });
           setLoading(false);
           return;
@@ -400,6 +426,38 @@ export default function PublicReceiptPage() {
               Bu fiş EkmekLab Taş Fırın atölye kayıtlarıyla anlık senkronizedir.
             </div>
           </div>
+
+          {/* Past Deliveries & Payments History */}
+          {slip.history && slip.history.length > 0 && (
+            <div className="p-4 rounded-2xl bg-stone-950/70 border border-stone-800 space-y-3">
+              <div className="flex items-center justify-between border-b border-stone-800/80 pb-2">
+                <div className="flex items-center gap-2">
+                  <Clock className="w-4 h-4 text-amber-500" />
+                  <span className="text-xs font-bold text-stone-200 uppercase tracking-wider">
+                    Önceki Teslimatlar & Ödemeler
+                  </span>
+                </div>
+                <span className="text-[10px] text-stone-500 font-medium">Son {slip.history.length} Hareket</span>
+              </div>
+
+              <div className="divide-y divide-stone-800/60 text-xs space-y-2">
+                {slip.history.map((h) => {
+                  const isDelivery = h.type === "debt";
+                  return (
+                    <div key={h.id} className="pt-2 first:pt-0 flex items-center justify-between">
+                      <div className="space-y-0.5 pr-2">
+                        <div className="text-stone-300 font-medium line-clamp-1">{h.description}</div>
+                        <div className="text-[10px] text-stone-500 font-mono">{h.date}</div>
+                      </div>
+                      <div className={`font-mono font-bold shrink-0 ${isDelivery ? "text-amber-400" : "text-emerald-400"}`}>
+                        {isDelivery ? `+${h.amount.toLocaleString("tr-TR")} ₺` : `-${h.amount.toLocaleString("tr-TR")} ₺`}
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          )}
 
           {/* Bakery Contact & Quick Actions */}
           <div className="pt-2 flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5">
