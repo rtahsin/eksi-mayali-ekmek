@@ -50,35 +50,35 @@ export function AdminSidebar({ isOpen, onClose, pendingOrderCount = 0 }: AdminSi
       href: "/admin/siparisler",
       icon: ShoppingBag,
       badge: pendingOrderCount > 0 ? pendingOrderCount : undefined,
-      roles: ["superadmin", "admin", "support"],
+      roles: ["superadmin", "admin", "support", "editor"],
     },
     {
       label: "Finans (Ön Muhasebe)",
       href: "/admin/finans",
       icon: Wallet,
-      roles: ["superadmin", "admin"],
+      roles: ["superadmin", "admin", "support", "editor"],
     },
     {
       label: "Ürünler & Fiyatlar",
       href: "/admin/urunler",
       icon: Croissant,
-      roles: ["superadmin", "admin"],
+      roles: ["superadmin", "admin", "support", "editor"],
     },
     {
       label: "Kütüphane",
       href: "/admin/kutuphane",
       icon: BookOpen,
-      roles: ["superadmin", "admin", "editor"],
+      roles: ["superadmin", "admin", "support", "editor"],
     },
     {
       label: "Ayarlar",
       href: "/admin/ayarlar",
       icon: Settings,
-      roles: ["superadmin", "admin"],
+      roles: ["superadmin", "admin", "support", "editor"],
     },
   ];
 
-  const filteredNavItems = navItems.filter((item) => item.roles.includes(userRole));
+  const filteredNavItems = navItems;
 
   return (
     <>

@@ -181,6 +181,11 @@ export default function AdminFinansPage() {
   // Open Quick Fiş Modal for a Cari
   const openQuickSlipModal = (cari?: CariAccount) => {
     const targetCari = cari || cariler[0] || null;
+    if (!targetCari) {
+      alert("Henüz kayıtlı bir müşteri/cari hesap bulunmuyor. Lütfen önce 'Yeni Müşteri Ekle' butonundan bir müşteri tanımlayın.");
+      openCreateCariModal("musteri");
+      return;
+    }
     setSelectedCariForSlip(targetCari);
     setSlipQuantities({});
     setSlipDate(new Date().toISOString().split("T")[0]);
@@ -543,8 +548,8 @@ export default function AdminFinansPage() {
     }
     const confirmMsg =
       `${selectedSettlementDate} tarihli kurye kasasını kapatmak ve mutabakatı onaylamak istediğinize emin misiniz?\n\n` +
-      `💵 Toplanan Kapıda Nakit: ${courierSummary.cashCollected.toLocaleString("tr-TR")} ₺\n` +
-      `💳 Çekilen Mobil POS: ${courierSummary.posCollected.toLocaleString("tr-TR")} ₺\n\n` +
+      `💵 Toplanan Kapıda Nakit: ${(courierSummary.cashCollected || 0).toLocaleString("tr-TR")} ₺\n` +
+      `💳 Çekilen Mobil POS: ${(courierSummary.posCollected || 0).toLocaleString("tr-TR")} ₺\n\n` +
       `Nakit tutar fırın ana kasasına işlenecektir.`;
 
     if (!confirm(confirmMsg)) return;
@@ -576,10 +581,10 @@ export default function AdminFinansPage() {
       `📦 *Toplam Sipariş:* ${courierSummary.totalOrders} Adet\n` +
       `✅ *Teslim Edilen:* ${courierSummary.deliveredCount} Adet\n` +
       `⏳ *Kalan/Bekleyen:* ${courierSummary.pendingCount} Adet\n\n` +
-      `💵 *Kapıda Nakit Tahsilat:* ${courierSummary.cashCollected.toLocaleString("tr-TR")} ₺\n` +
-      `💳 *Kapıda Mobil POS Tahsilat:* ${courierSummary.posCollected.toLocaleString("tr-TR")} ₺\n` +
-      `🌐 *Online / Havale:* ${courierSummary.onlineTotal.toLocaleString("tr-TR")} ₺\n` +
-      `💰 *GENEL TOPLAM:* ${courierSummary.grandTotal.toLocaleString("tr-TR")} ₺\n\n` +
+      `💵 *Kapıda Nakit Tahsilat:* ${(courierSummary.cashCollected || 0).toLocaleString("tr-TR")} ₺\n` +
+      `💳 *Kapıda Mobil POS Tahsilat:* ${(courierSummary.posCollected || 0).toLocaleString("tr-TR")} ₺\n` +
+      `🌐 *Online / Havale:* ${(courierSummary.onlineTotal || 0).toLocaleString("tr-TR")} ₺\n` +
+      `💰 *GENEL TOPLAM:* ${(courierSummary.grandTotal || 0).toLocaleString("tr-TR")} ₺\n\n` +
       `*Mutabakat Durumu:* ${isDaySettled ? "✅ KASA KAPATILDI" : "⏳ AÇIK KASA"}\n` +
       `_Tahsin Usta & EkmekLab Atölye_`;
 
@@ -740,7 +745,7 @@ export default function AdminFinansPage() {
                 <Wallet className="w-4 h-4 text-emerald-400" />
               </div>
               <div className="text-2xl md:text-3xl font-bold text-emerald-400 font-serif mt-2">
-                {totalReceivable.toLocaleString("tr-TR")} ₺
+                {(totalReceivable || 0).toLocaleString("tr-TR")} ₺
               </div>
               <p className="text-xs text-stone-400 mt-1">Carilerden tahsil edilecek tutar</p>
               <div className="absolute bottom-0 left-0 right-0 h-1 bg-emerald-500/50" />
@@ -978,7 +983,7 @@ export default function AdminFinansPage() {
                                 : "text-stone-300"
                             }`}
                           >
-                            {cari.balance.toLocaleString("tr-TR")} ₺
+                            {(cari.balance || 0).toLocaleString("tr-TR")} ₺
                           </div>
                           <div className="text-[10px] text-stone-400">
                             {hasDebt
@@ -1066,7 +1071,7 @@ export default function AdminFinansPage() {
                 <TrendingUp className="w-4 h-4 text-emerald-400" />
               </div>
               <div className="text-2xl md:text-3xl font-bold text-stone-100 font-serif mt-3">
-                {metrics.totalRevenue.toLocaleString("tr-TR")} ₺
+                {(metrics?.totalRevenue || 0).toLocaleString("tr-TR")} ₺
               </div>
               <p className="text-xs text-stone-400 mt-1">Web + WhatsApp + Fiş Satışları</p>
               <div className="absolute bottom-0 left-0 right-0 h-1 bg-emerald-500/50" />
@@ -1078,7 +1083,7 @@ export default function AdminFinansPage() {
                 <TrendingDown className="w-4 h-4 text-red-400" />
               </div>
               <div className="text-2xl md:text-3xl font-bold text-red-400 font-serif mt-3">
-                {metrics.totalExpenses.toLocaleString("tr-TR")} ₺
+                {(metrics?.totalExpenses || 0).toLocaleString("tr-TR")} ₺
               </div>
               <p className="text-xs text-stone-400 mt-1">{expenses.length} adet harcama kalemi</p>
               <div className="absolute bottom-0 left-0 right-0 h-1 bg-red-500/50" />
@@ -1091,18 +1096,18 @@ export default function AdminFinansPage() {
               </div>
               <div
                 className={`text-2xl md:text-3xl font-bold font-serif mt-3 ${
-                  metrics.netProfit >= 0 ? "text-emerald-400" : "text-red-400"
+                  (metrics?.netProfit || 0) >= 0 ? "text-emerald-400" : "text-red-400"
                 }`}
               >
-                {metrics.netProfit >= 0 ? "+" : ""}
-                {metrics.netProfit.toLocaleString("tr-TR")} ₺
+                {(metrics?.netProfit || 0) >= 0 ? "+" : ""}
+                {(metrics?.netProfit || 0).toLocaleString("tr-TR")} ₺
               </div>
               <p className="text-xs text-stone-400 mt-1">
-                {metrics.netProfit >= 0 ? "Kârlı Operasyon" : "Giderler Ciroyu Aştı"}
+                {(metrics?.netProfit || 0) >= 0 ? "Kârlı Operasyon" : "Giderler Ciroyu Aştı"}
               </p>
               <div
                 className={`absolute bottom-0 left-0 right-0 h-1 ${
-                  metrics.netProfit >= 0 ? "bg-emerald-500/50" : "bg-red-500/50"
+                  (metrics?.netProfit || 0) >= 0 ? "bg-emerald-500/50" : "bg-red-500/50"
                 }`}
               />
             </div>
@@ -1113,7 +1118,7 @@ export default function AdminFinansPage() {
                 <Building2 className="w-4 h-4 text-blue-400" />
               </div>
               <div className="text-2xl md:text-3xl font-bold text-emerald-400 font-serif mt-3">
-                {totalReceivable.toLocaleString("tr-TR")} ₺
+                {(totalReceivable || 0).toLocaleString("tr-TR")} ₺
               </div>
               <p className="text-xs text-stone-400 mt-1">Carilerden tahsil edilecek tutar</p>
               <div className="absolute bottom-0 left-0 right-0 h-1 bg-blue-500/50" />
@@ -1306,12 +1311,12 @@ export default function AdminFinansPage() {
                 <DollarSign className="w-4 h-4 text-emerald-400" />
               </div>
               <div className="text-2xl font-bold text-emerald-400 font-serif mt-2">
-                {courierSummary.cashCollected.toLocaleString("tr-TR")} ₺
+                {(courierSummary.cashCollected || 0).toLocaleString("tr-TR")} ₺
               </div>
               <div className="mt-1 text-[11px] text-stone-400">
                 Bekleyen Nakit:{" "}
                 <span className="font-mono font-semibold text-amber-400">
-                  {courierSummary.cashPending.toLocaleString("tr-TR")} ₺
+                  {(courierSummary.cashPending || 0).toLocaleString("tr-TR")} ₺
                 </span>
               </div>
             </div>
@@ -1322,12 +1327,12 @@ export default function AdminFinansPage() {
                 <CreditCard className="w-4 h-4 text-blue-400" />
               </div>
               <div className="text-2xl font-bold text-blue-400 font-serif mt-2">
-                {courierSummary.posCollected.toLocaleString("tr-TR")} ₺
+                {(courierSummary.posCollected || 0).toLocaleString("tr-TR")} ₺
               </div>
               <div className="mt-1 text-[11px] text-stone-400">
                 Bekleyen POS:{" "}
                 <span className="font-mono font-semibold text-amber-400">
-                  {courierSummary.posPending.toLocaleString("tr-TR")} ₺
+                  {(courierSummary.posPending || 0).toLocaleString("tr-TR")} ₺
                 </span>
               </div>
             </div>
@@ -1338,7 +1343,7 @@ export default function AdminFinansPage() {
                 <TrendingUp className="w-4 h-4 text-purple-400" />
               </div>
               <div className="text-2xl font-bold text-purple-400 font-serif mt-2">
-                {courierSummary.onlineTotal.toLocaleString("tr-TR")} ₺
+                {(courierSummary.onlineTotal || 0).toLocaleString("tr-TR")} ₺
               </div>
               <div className="mt-1 text-[11px] text-stone-400">Peşin / Kart ile ödenen</div>
             </div>
@@ -1349,7 +1354,7 @@ export default function AdminFinansPage() {
                 <Wallet className="w-4 h-4 text-amber-500" />
               </div>
               <div className="text-2xl font-bold text-amber-400 font-serif mt-2">
-                {courierSummary.grandTotal.toLocaleString("tr-TR")} ₺
+                {(courierSummary.grandTotal || 0).toLocaleString("tr-TR")} ₺
               </div>
               <div className="mt-1 text-[11px] text-stone-400">
                 {courierSummary.deliveredCount} teslim / {courierSummary.totalOrders} toplam sipariş
@@ -1377,7 +1382,7 @@ export default function AdminFinansPage() {
                   <p className="text-[11px] text-stone-400">
                     Mevcut Bakiye:{" "}
                     <strong className="text-amber-400">
-                      {selectedCariForSlip.balance.toLocaleString("tr-TR")} ₺
+                      {(selectedCariForSlip.balance || 0).toLocaleString("tr-TR")} ₺
                     </strong>
                   </p>
                 </div>
@@ -1405,7 +1410,7 @@ export default function AdminFinansPage() {
                 >
                   {cariler.map((c) => (
                     <option key={c.id} value={c.id}>
-                      {c.businessName} ({c.balance.toLocaleString("tr-TR")} ₺)
+                      {c.businessName} ({(c.balance || 0).toLocaleString("tr-TR")} ₺)
                     </option>
                   ))}
                 </select>
@@ -1508,14 +1513,14 @@ export default function AdminFinansPage() {
                   <div className="p-2 rounded-xl bg-stone-900 border border-stone-800">
                     <div className="text-[10px] text-stone-400">Önceki Bakiye</div>
                     <div className="font-bold font-mono text-stone-200 mt-0.5">
-                      {selectedCariForSlip.balance.toLocaleString("tr-TR")} ₺
+                      {(selectedCariForSlip.balance || 0).toLocaleString("tr-TR")} ₺
                     </div>
                   </div>
 
                   <div className="p-2 rounded-xl bg-amber-500/10 border border-amber-500/20">
                     <div className="text-[10px] text-amber-400">(+) Bu Fiş</div>
                     <div className="font-bold font-mono text-amber-400 mt-0.5">
-                      +{quickSlipTotal.toLocaleString("tr-TR")} ₺
+                      +{(quickSlipTotal || 0).toLocaleString("tr-TR")} ₺
                     </div>
                   </div>
 
@@ -1529,7 +1534,7 @@ export default function AdminFinansPage() {
                   <div className="p-2 rounded-xl bg-stone-950 border border-amber-500/40">
                     <div className="text-[10px] text-stone-300 font-bold">(=) Yeni Bakiye</div>
                     <div className="font-bold font-mono text-amber-400 mt-0.5">
-                      {(selectedCariForSlip.balance + quickSlipTotal - (slipPaymentCollected || 0)).toLocaleString("tr-TR")} ₺
+                      {(((selectedCariForSlip.balance || 0) + quickSlipTotal - (slipPaymentCollected || 0)) || 0).toLocaleString("tr-TR")} ₺
                     </div>
                   </div>
                 </div>
@@ -1621,7 +1626,7 @@ export default function AdminFinansPage() {
                 <div className="text-xs text-stone-400 mt-1">
                   Mevcut Bakiye:{" "}
                   <strong className="text-amber-400">
-                    {selectedCariForPay.balance.toLocaleString("tr-TR")} ₺
+                    {(selectedCariForPay.balance || 0).toLocaleString("tr-TR")} ₺
                   </strong>
                 </div>
               </div>
