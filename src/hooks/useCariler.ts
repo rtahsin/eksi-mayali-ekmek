@@ -76,7 +76,7 @@ export function useCariler() {
     }
   }, [supabase, fetchCariler]);
 
-  // Create new Cari
+  // Create new Cari with optional initial opening balance
   const addCari = async (
     data: Omit<CariAccount, "id" | "createdAt" | "balance"> & { initialBalance?: number }
   ) => {
@@ -108,6 +108,17 @@ export function useCariler() {
           status: "active",
         });
         if (insErr) throw insErr;
+
+        // If there is an opening balance, record the opening transaction
+        if (balance !== 0) {
+          await (supabase as any).from("account_transactions").insert({
+            account_id: newId,
+            type: balance > 0 ? "debt" : "credit",
+            amount: Math.abs(balance),
+            description: "Açılış / Devir Bakiyesi",
+            date: new Date().toISOString().split("T")[0],
+          });
+        }
       }
 
       return { success: true, id: newId };
@@ -118,11 +129,30 @@ export function useCariler() {
     }
   };
 
-  // Update existing Cari
-  const updateCari = async (id: string, data: Partial<CariAccount>) => {
+  // Update existing Cari (supports updating balance directly)
+  const updateCari = async (
+    id: string,
+    data: Partial<CariAccount> & { newBalance?: number }
+  ) => {
     try {
+      const targetCari = cariler.find((c) => c.id === id);
+      const balanceToSet =
+        data.newBalance !== undefined
+          ? Number(data.newBalance)
+          : data.balance !== undefined
+          ? Number(data.balance)
+          : undefined;
+
       setCariler((prev) =>
-        prev.map((c) => (c.id === id ? { ...c, ...data } : c))
+        prev.map((c) =>
+          c.id === id
+            ? {
+                ...c,
+                ...data,
+                ...(balanceToSet !== undefined ? { balance: balanceToSet } : {}),
+              }
+            : c
+        )
       );
 
       if (supabase) {
@@ -132,13 +162,25 @@ export function useCariler() {
         if (data.phone !== undefined) updatePayload.phone = data.phone;
         if (data.address !== undefined) updatePayload.address = data.address;
         if (data.taxNumber !== undefined) updatePayload.tax_id = data.taxNumber;
-        if (data.balance !== undefined) updatePayload.balance = data.balance;
+        if (balanceToSet !== undefined) updatePayload.balance = balanceToSet;
 
         const { error: updErr } = await (supabase as any)
           .from("current_accounts")
           .update(updatePayload)
           .eq("id", id);
         if (updErr) throw updErr;
+
+        // If balance changed directly, log an adjustment transaction
+        if (targetCari && balanceToSet !== undefined && balanceToSet !== targetCari.balance) {
+          const diff = balanceToSet - targetCari.balance;
+          await (supabase as any).from("account_transactions").insert({
+            account_id: id,
+            type: diff > 0 ? "debt" : "credit",
+            amount: Math.abs(diff),
+            description: `Bakiye Düzeltme (Eski: ${targetCari.balance} ₺ ➔ Yeni: ${balanceToSet} ₺)`,
+            date: new Date().toISOString().split("T")[0],
+          });
+        }
       }
 
       return { success: true };
@@ -170,6 +212,48 @@ export function useCariler() {
     }
   };
 
+  // Directly set/adjust balance (ETA / Logo style Bakiye Düzeltme / Devir)
+  const setManualBalance = async (
+    cariId: string,
+    newBalance: number,
+    description: string = "Açılış / Bakiye Düzeltme Devri"
+  ) => {
+    try {
+      const targetCari = cariler.find((c) => c.id === cariId);
+      const currentBal = targetCari ? Number(targetCari.balance || 0) : 0;
+      const targetBal = Number(newBalance || 0);
+      const diff = targetBal - currentBal;
+
+      // Optimistic update
+      setCariler((prev) =>
+        prev.map((c) => (c.id === cariId ? { ...c, balance: targetBal } : c))
+      );
+
+      if (supabase) {
+        if (diff !== 0) {
+          await (supabase as any).from("account_transactions").insert({
+            account_id: cariId,
+            type: diff > 0 ? "debt" : "credit",
+            amount: Math.abs(diff),
+            description: `${description} (Eski: ${currentBal} ₺ ➔ Yeni: ${targetBal} ₺)`,
+            date: new Date().toISOString().split("T")[0],
+          });
+        }
+
+        await (supabase as any)
+          .from("current_accounts")
+          .update({ balance: targetBal, updated_at: new Date().toISOString() })
+          .eq("id", cariId);
+      }
+
+      return { success: true };
+    } catch (err: any) {
+      console.error("Set manual balance error:", err);
+      fetchCariler();
+      return { success: false, error: err.message };
+    }
+  };
+
   // Add Cari Transaction (Satış, Tahsilat veya Ödeme)
   const addTransaction = async (
     cariId: string,
@@ -184,7 +268,23 @@ export function useCariler() {
   ) => {
     try {
       const amount = Number(tx.amount);
-      const balanceDelta = tx.type === "satis" ? amount : -amount;
+      const targetCari = cariler.find((c) => c.id === cariId);
+      const isExpenseAccount = targetCari?.accountType === "gider";
+
+      // Bakiye Değişimi:
+      // satis (Satış / Mal Çıkışı): Müşteri borçlanır -> +amount
+      // tahsilat (Müşteriden Para Girişi): Müşteri borcunu öder -> -amount
+      // odeme (Kasadan Para Çıkışı):
+      //   - Müşteri için: Müşteriye para iadesi / ödeme -> Müşteri borçlanır -> +amount
+      //   - Gider hesabı için: Gidere/Tedarikçiye ödeme yaptık -> borç azalır -> -amount
+      let balanceDelta = 0;
+      if (tx.type === "satis") {
+        balanceDelta = amount;
+      } else if (tx.type === "tahsilat") {
+        balanceDelta = -amount;
+      } else if (tx.type === "odeme") {
+        balanceDelta = isExpenseAccount ? -amount : amount;
+      }
 
       // Optimistic balance update
       setCariler((prev) =>
@@ -236,6 +336,7 @@ export function useCariler() {
     addCari,
     updateCari,
     deleteCari,
+    setManualBalance,
     addTransaction,
     refreshCariler: fetchCariler,
   };

@@ -35,7 +35,7 @@ export default function CariDetailPage() {
   const router = useRouter();
   const cariId = params?.id as string;
 
-  const { addTransaction } = useCariler();
+  const { addTransaction, setManualBalance } = useCariler();
   const { products } = useProducts("all");
 
   const [cari, setCari] = useState<CariAccount | null>(null);
@@ -63,6 +63,37 @@ export default function CariDetailPage() {
   // Digital Slip Preview Modal (OrderSlipModal)
   const [activeSlipOrder, setActiveSlipOrder] = useState<AdminOrder | null>(null);
   const [slipModalOpen, setSlipModalOpen] = useState(false);
+
+  // Quick Balance Adjustment Modal
+  const [balanceAdjustModalOpen, setBalanceAdjustModalOpen] = useState(false);
+  const [newBalanceInput, setNewBalanceInput] = useState<number>(0);
+  const [balanceAdjustReason, setBalanceAdjustReason] = useState<string>("");
+  const [balanceAdjustSubmitting, setBalanceAdjustSubmitting] = useState(false);
+
+  const openBalanceAdjustModal = () => {
+    if (!cari) return;
+    setNewBalanceInput(cari.balance || 0);
+    setBalanceAdjustReason("Açılış / Bakiye Düzeltme Devri");
+    setBalanceAdjustModalOpen(true);
+  };
+
+  const handleSaveBalanceAdjust = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!cari) return;
+    setBalanceAdjustSubmitting(true);
+    const res = await setManualBalance(
+      cari.id,
+      Number(newBalanceInput || 0),
+      balanceAdjustReason || "Bakiye Düzeltme"
+    );
+    if (res.success) {
+      setCari((prev) => (prev ? { ...prev, balance: Number(newBalanceInput || 0) } : null));
+      setBalanceAdjustModalOpen(false);
+    } else {
+      alert("Bakiye güncellenirken hata: " + res.error);
+    }
+    setBalanceAdjustSubmitting(false);
+  };
 
   // Active Tab
   const [activeTab, setActiveTab] = useState<"ekstre" | "fiyatlar">("ekstre");
@@ -457,27 +488,37 @@ export default function CariDetailPage() {
           </div>
 
           {/* Current Balance Card */}
-          <div className="bg-stone-950/70 border border-stone-800 p-4 rounded-xl min-w-[220px] text-right">
-            <div className="text-xs font-semibold text-stone-400 uppercase tracking-wider">
-              Güncel Cari Bakiye
+          <div className="bg-stone-950/70 border border-stone-800 p-4 rounded-xl min-w-[220px] text-right space-y-1">
+            <div className="flex items-center justify-between text-xs font-semibold text-stone-400 uppercase tracking-wider">
+              <button
+                type="button"
+                onClick={openBalanceAdjustModal}
+                className="text-[11px] text-amber-400 hover:text-amber-300 underline font-bold"
+                title="Bakiyeyi doğrudan değiştir veya devir gir"
+              >
+                ⚙️ Bakiye Ayarla
+              </button>
+              <span>Güncel Cari Bakiye</span>
             </div>
             <div
-              className={`text-2xl font-bold font-serif mt-1 ${
+              onClick={openBalanceAdjustModal}
+              className={`text-2xl font-bold font-serif cursor-pointer hover:underline ${
                 cari.balance > 0
                   ? "text-amber-400"
                   : cari.balance < 0
                   ? "text-emerald-400"
                   : "text-stone-300"
               }`}
+              title="Bakiyeyi doğrudan düzenlemek için tıklayın"
             >
-              {cari.balance.toLocaleString("tr-TR")} ₺
+              {(cari.balance || 0).toLocaleString("tr-TR")} ₺
             </div>
-            <div className="text-[11px] text-stone-500 mt-0.5">
+            <div className="text-[11px] text-stone-400">
               {cari.balance > 0
-                ? "Alacağımız Var (Borçlu)"
+                ? "Alacağımız Var"
                 : cari.balance < 0
                 ? "Avans / Fazla Ödeme"
-                : "Hesap Tamamen Kapalı"}
+                : "Hesap Dengede"}
             </div>
           </div>
         </div>
@@ -761,7 +802,7 @@ export default function CariDetailPage() {
                           </div>
                         </div>
 
-                        <div className="flex items-center gap-1.5 shrink-0">
+                        <div className="flex items-center gap-1 shrink-0">
                           <button
                             type="button"
                             onClick={() => updateSlipQuantity(prod.id, -1)}
@@ -770,15 +811,50 @@ export default function CariDetailPage() {
                           >
                             <Minus className="w-3 h-3" />
                           </button>
-                          <span className="w-6 text-center font-bold text-xs font-mono text-stone-100">
-                            {qty}
-                          </span>
+
+                          <input
+                            type="number"
+                            min="0"
+                            value={qty || ""}
+                            placeholder="0"
+                            onChange={(e) => {
+                              const val = Math.max(0, parseInt(e.target.value) || 0);
+                              setSlipQuantities((prev) => {
+                                if (val === 0) {
+                                  const copy = { ...prev };
+                                  delete copy[prod.id];
+                                  return copy;
+                                }
+                                return { ...prev, [prod.id]: val };
+                              });
+                            }}
+                            className="w-12 h-7 bg-stone-900 border border-stone-700 focus:border-amber-500 rounded-lg text-center font-mono font-bold text-xs text-stone-100 focus:outline-none"
+                          />
+
                           <button
                             type="button"
                             onClick={() => updateSlipQuantity(prod.id, 1)}
                             className="w-7 h-7 rounded-lg bg-amber-500 hover:bg-amber-400 text-stone-950 font-bold flex items-center justify-center shadow"
                           >
                             <Plus className="w-3 h-3" />
+                          </button>
+
+                          {/* Quick Chips +5, +10 */}
+                          <button
+                            type="button"
+                            onClick={() => updateSlipQuantity(prod.id, 5)}
+                            className="px-1.5 h-7 rounded-lg bg-stone-800 hover:bg-stone-700 text-amber-400 text-[10px] font-mono font-bold border border-stone-700"
+                            title="+5 Adet Ekle"
+                          >
+                            +5
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => updateSlipQuantity(prod.id, 10)}
+                            className="px-1.5 h-7 rounded-lg bg-stone-800 hover:bg-stone-700 text-amber-400 text-[10px] font-mono font-bold border border-stone-700"
+                            title="+10 Adet Ekle"
+                          >
+                            +10
                           </button>
                         </div>
                       </div>
@@ -972,6 +1048,98 @@ export default function CariDetailPage() {
           }}
           cari={cari}
         />
+      )}
+
+      {/* MODAL 4: QUICK BALANCE ADJUSTMENT MODAL */}
+      {balanceAdjustModalOpen && cari && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
+          <div className="bg-stone-900 border border-stone-800 w-full max-w-md rounded-2xl shadow-2xl overflow-hidden">
+            <div className="flex items-center justify-between p-5 border-b border-stone-800 bg-stone-950/60">
+              <div className="flex items-center gap-2">
+                <Wallet className="w-5 h-5 text-amber-500" />
+                <h3 className="font-bold text-stone-100 font-serif text-base">
+                  Cari Bakiye Ayarla / Devir Girişi
+                </h3>
+              </div>
+              <button
+                onClick={() => setBalanceAdjustModalOpen(false)}
+                className="p-1 rounded-lg text-stone-400 hover:text-white hover:bg-stone-800"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            <form onSubmit={handleSaveBalanceAdjust} className="p-6 space-y-4">
+              <div className="p-3.5 rounded-xl bg-stone-950 border border-stone-800 space-y-1">
+                <div className="text-xs text-stone-400">Firma / Cari:</div>
+                <div className="font-bold text-stone-100 text-sm">
+                  {cari.businessName}
+                </div>
+                <div className="text-xs text-stone-400 mt-1">
+                  Sistemdeki Mevcut Bakiye:{" "}
+                  <strong className="text-amber-400">
+                    {(cari.balance || 0).toLocaleString("tr-TR")} ₺
+                  </strong>
+                </div>
+              </div>
+
+              <div className="space-y-1">
+                <label className="text-xs font-semibold text-stone-300">
+                  Yeni Güncel Bakiye (₺)
+                </label>
+                <div className="relative">
+                  <input
+                    type="number"
+                    required
+                    value={newBalanceInput !== undefined ? newBalanceInput : ""}
+                    onChange={(e) =>
+                      setNewBalanceInput(e.target.value === "" ? 0 : Number(e.target.value))
+                    }
+                    placeholder="0"
+                    className="w-full bg-stone-950 border border-amber-500/60 rounded-xl px-3 py-2.5 text-lg font-bold font-mono text-amber-400 focus:outline-none focus:border-amber-400 pr-8"
+                  />
+                  <span className="absolute right-3 top-1/2 -translate-y-1/2 text-sm font-bold text-amber-500">
+                    ₺
+                  </span>
+                </div>
+                <p className="text-[11px] text-stone-400 mt-1">
+                  Müşterinin borcunu doğrudan sıfırlamak veya net bakiyesini yazmak için yeni rakamı girin.
+                </p>
+              </div>
+
+              <div className="space-y-1">
+                <label className="text-xs font-semibold text-stone-300">
+                  Düzeltme Nedeni / Açıklama (İsteğe Bağlı)
+                </label>
+                <input
+                  type="text"
+                  value={balanceAdjustReason}
+                  onChange={(e) => setBalanceAdjustReason(e.target.value)}
+                  placeholder="Örn: Açılış devri, mutabakat düzeltmesi vb."
+                  className="w-full bg-stone-950 border border-stone-800 rounded-xl px-3 py-2 text-xs text-stone-100 focus:outline-none focus:border-amber-500"
+                />
+              </div>
+
+              <div className="flex items-center justify-end gap-3 pt-3 border-t border-stone-800">
+                <button
+                  type="button"
+                  onClick={() => setBalanceAdjustModalOpen(false)}
+                  className="px-4 py-2 bg-stone-800 hover:bg-stone-700 text-stone-300 rounded-xl text-xs font-semibold"
+                >
+                  Vazgeç
+                </button>
+                <button
+                  type="submit"
+                  disabled={balanceAdjustSubmitting}
+                  className="flex items-center gap-2 px-5 py-2 bg-amber-500 hover:bg-amber-400 text-stone-950 font-bold rounded-xl text-xs transition-all shadow-lg shadow-amber-500/20 disabled:opacity-50"
+                >
+                  <CheckCircle2 className="w-4 h-4" />
+                  <span>{balanceAdjustSubmitting ? "Güncelleniyor..." : "Bakiyeyi Güncelle"}</span>
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
       )}
     </div>
   );
