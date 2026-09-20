@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useMemo } from "react";
+import Link from "next/link";
 import {
   Wallet,
   TrendingUp,
@@ -28,41 +29,449 @@ import {
   Check,
   Clock,
   Lock,
-  RefreshCw,
-  FileText,
+  Receipt,
+  Tag,
+  ArrowRight,
+  Phone,
+  MapPin,
+  Edit3,
+  ExternalLink,
+  Minus,
+  Link2,
 } from "lucide-react";
+import { useCariler } from "@/hooks/useCariler";
 import { useFinans } from "@/hooks/useFinans";
 import { useAdminOrders } from "@/hooks/useAdminOrders";
-import { ExpenseRecord, AdminOrder } from "@/types/admin";
+import { useProducts, INITIAL_PRODUCTS } from "@/hooks/useProducts";
+import {
+  CariAccount,
+  CariTransaction,
+  ExpenseRecord,
+  AdminOrder,
+  OrderItem,
+  BEYLIKDUZU_NEIGHBORHOODS,
+} from "@/types/admin";
 import { CourierSettlementModal } from "@/components/admin/CourierSettlementModal";
 import { OrderSlipModal } from "@/components/admin/OrderSlipModal";
 
 export default function AdminFinansPage() {
-  const { expenses, loading, metrics, addExpense, deleteExpense } = useFinans();
-  const { allOrders, updateOrderStatus } = useAdminOrders();
+  // Hooks
+  const {
+    cariler,
+    loading: carilerLoading,
+    totalReceivable,
+    addCari,
+    updateCari,
+    deleteCari,
+    addTransaction,
+  } = useCariler();
 
-  const [activeTab, setActiveTab] = useState<"overview" | "courier_settlement">("overview");
+  const { expenses, loading: expensesLoading, metrics, addExpense, deleteExpense } = useFinans();
+  const { allOrders } = useAdminOrders();
+  const { products } = useProducts("all");
+  const activeProducts = products.length > 0 ? products : INITIAL_PRODUCTS;
 
-  // Filtered Expenses Search & Category
+  // Active Main Tab
+  const [activeTab, setActiveTab] = useState<"cariler" | "expenses" | "courier_settlement">("cariler");
+
+  // ==========================================
+  // TAB 1: CARILER & MÜŞTERİLER (ÖN MUHASEBE)
+  // ==========================================
   const [searchQuery, setSearchQuery] = useState("");
-  const [categoryFilter, setCategoryFilter] = useState<string>("all");
+  const [balanceFilter, setBalanceFilter] = useState<"all" | "debtor" | "balanced" | "gider">("all");
 
-  // Modal State for New Expense
-  const [modalOpen, setModalOpen] = useState(false);
-  const [category, setCategory] = useState<ExpenseRecord["category"]>("hammadde");
-  const [title, setTitle] = useState("");
-  const [amount, setAmount] = useState<number>(0);
-  const [date, setDate] = useState<string>(new Date().toISOString().split("T")[0]);
-  const [paymentMethod, setPaymentMethod] = useState<ExpenseRecord["paymentMethod"]>("banka_havale");
-  const [notes, setNotes] = useState("");
-  const [submitting, setSubmitting] = useState(false);
+  // Create / Edit Cari Modal
+  const [cariModalOpen, setCariModalOpen] = useState(false);
+  const [editingCari, setEditingCari] = useState<Partial<CariAccount> | null>(null);
+  const [isNewCari, setIsNewCari] = useState(false);
 
-  // Courier Settlement State
+  // Quick Payment / Collection Modal
+  const [payModalOpen, setPayModalOpen] = useState(false);
+  const [selectedCariForPay, setSelectedCariForPay] = useState<CariAccount | null>(null);
+  const [payType, setPayType] = useState<"tahsilat" | "odeme">("tahsilat");
+  const [payAmount, setPayAmount] = useState<number>(0);
+  const [payMethod, setPayMethod] = useState<"nakit" | "banka_havale" | "kredi_karti">("banka_havale");
+  const [payDescription, setPayDescription] = useState<string>("");
+  const [payDate, setPayDate] = useState<string>(new Date().toISOString().split("T")[0]);
+  const [paySubmitting, setPaySubmitting] = useState(false);
+
+  // Quick Fiş Kes (Satış) Modal
+  const [quickSlipModalOpen, setQuickSlipModalOpen] = useState(false);
+  const [selectedCariForSlip, setSelectedCariForSlip] = useState<CariAccount | null>(null);
+  const [slipQuantities, setSlipQuantities] = useState<Record<string, number>>({});
+  const [slipDate, setSlipDate] = useState<string>(new Date().toISOString().split("T")[0]);
+  const [slipPaymentCollected, setSlipPaymentCollected] = useState<number>(0);
+  const [slipPaymentMethod, setSlipPaymentMethod] = useState<"nakit" | "banka_havale" | "kredi_karti">("nakit");
+  const [slipNotes, setSlipNotes] = useState<string>("");
+  const [slipSubmitting, setSlipSubmitting] = useState(false);
+
+  // Active Slip for Preview Modal (OrderSlipModal)
+  const [activeSlipOrder, setActiveSlipOrder] = useState<AdminOrder | null>(null);
+  const [slipModalOpen, setSlipModalOpen] = useState(false);
+
+  // Filtered Cariler
+  const filteredCariler = useMemo(() => {
+    return cariler.filter((c) => {
+      // Filter by type or balance
+      if (balanceFilter === "debtor" && c.balance <= 0) return false;
+      if (balanceFilter === "balanced" && c.balance !== 0) return false;
+      if (balanceFilter === "gider" && c.accountType !== "gider") return false;
+
+      // Search
+      if (searchQuery.trim()) {
+        const q = searchQuery.toLowerCase();
+        const matchName = c.businessName.toLowerCase().includes(q);
+        const matchContact = (c.contactPerson || "").toLowerCase().includes(q);
+        const matchPhone = (c.phone || "").includes(q);
+        const matchNeighborhood = (c.neighborhood || "").toLowerCase().includes(q);
+        if (!matchName && !matchContact && !matchPhone && !matchNeighborhood) return false;
+      }
+
+      return true;
+    });
+  }, [cariler, balanceFilter, searchQuery]);
+
+  // Open Create Cari Modal
+  const openCreateCariModal = (defaultType: "musteri" | "gider" = "musteri") => {
+    setIsNewCari(true);
+    setEditingCari({
+      businessName: defaultType === "gider" ? "Dükkan Giderleri" : "",
+      accountType: defaultType,
+      contactPerson: defaultType === "gider" ? "Fırın Masrafı" : "",
+      phone: "",
+      address: "",
+      neighborhood: "Adnan Kahveci",
+      customPrices: {},
+      notes: "",
+    });
+    setCariModalOpen(true);
+  };
+
+  // Open Edit Cari Modal
+  const openEditCariModal = (cari: CariAccount) => {
+    setIsNewCari(false);
+    setEditingCari({ ...cari, customPrices: { ...(cari.customPrices || {}) } });
+    setCariModalOpen(true);
+  };
+
+  // Save Cari
+  const handleSaveCari = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!editingCari || !editingCari.businessName) return;
+
+    if (isNewCari) {
+      const res = await addCari(editingCari as any);
+      if (res.success) {
+        setCariModalOpen(false);
+        setEditingCari(null);
+      } else {
+        alert("Cari hesap eklenirken hata: " + res.error);
+      }
+    } else if (editingCari.id) {
+      const res = await updateCari(editingCari.id, editingCari);
+      if (res.success) {
+        setCariModalOpen(false);
+        setEditingCari(null);
+      } else {
+        alert("Cari hesap güncellenirken hata: " + res.error);
+      }
+    }
+  };
+
+  // Open Quick Fiş Modal for a Cari
+  const openQuickSlipModal = (cari?: CariAccount) => {
+    const targetCari = cari || cariler[0] || null;
+    setSelectedCariForSlip(targetCari);
+    setSlipQuantities({});
+    setSlipDate(new Date().toISOString().split("T")[0]);
+    setSlipPaymentCollected(0);
+    setSlipNotes("");
+    setQuickSlipModalOpen(true);
+  };
+
+  // Update item quantity in Quick Fiş
+  const updateSlipQuantity = (productId: string, delta: number) => {
+    setSlipQuantities((prev) => {
+      const current = prev[productId] || 0;
+      const next = Math.max(0, current + delta);
+      if (next === 0) {
+        const copy = { ...prev };
+        delete copy[productId];
+        return copy;
+      }
+      return { ...prev, [productId]: next };
+    });
+  };
+
+  // Calculate items for Quick Fiş using agreed prices
+  const quickSlipItems: OrderItem[] = useMemo(() => {
+    return Object.entries(slipQuantities)
+      .map(([pId, qty]) => {
+        const prod = activeProducts.find((p) => p.id === pId);
+        if (!prod || qty <= 0) return null;
+
+        const customPrice = selectedCariForSlip?.customPrices?.[pId];
+        const unitPrice = customPrice !== undefined ? customPrice : prod.price;
+
+        return {
+          productId: prod.id,
+          productName: prod.name,
+          quantity: qty,
+          unitPrice,
+          totalPrice: unitPrice * qty,
+          weight: prod.weight,
+        };
+      })
+      .filter(Boolean) as OrderItem[];
+  }, [slipQuantities, activeProducts, selectedCariForSlip]);
+
+  const quickSlipTotal = quickSlipItems.reduce((sum, it) => sum + it.totalPrice, 0);
+
+  // Submit Quick Fiş
+  const handleSaveQuickSlip = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!selectedCariForSlip || quickSlipItems.length === 0) return;
+
+    setSlipSubmitting(true);
+    try {
+      const itemsSummary = quickSlipItems
+        .map((it) => `${it.quantity}x ${it.productName} (${it.unitPrice}₺)`)
+        .join(", ");
+
+      const generatedOrderId = `ord_${Date.now().toString(36)}`;
+
+      // 1. Record Sale (Borç) Transaction
+      const res = await addTransaction(selectedCariForSlip.id, {
+        type: "satis",
+        amount: quickSlipTotal,
+        description: `Fiş: ${itemsSummary}`,
+        date: slipDate,
+        orderId: generatedOrderId,
+      });
+
+      // 2. If payment was collected at delivery, record collection transaction
+      if (slipPaymentCollected > 0) {
+        await addTransaction(selectedCariForSlip.id, {
+          type: "tahsilat",
+          amount: Number(slipPaymentCollected),
+          description: `Teslimatta Tahsilat (${slipPaymentMethod === "nakit" ? "Nakit" : slipPaymentMethod === "banka_havale" ? "Havale" : "POS"})`,
+          date: slipDate,
+          paymentMethod: slipPaymentMethod,
+          orderId: generatedOrderId,
+        });
+      }
+
+      if (res.success) {
+        setQuickSlipModalOpen(false);
+
+        // Build AdminOrder representation to show in OrderSlipModal
+        const slipOrder: AdminOrder = {
+          id: generatedOrderId,
+          orderNumber: generatedOrderId.substring(4, 10).toUpperCase(),
+          customerName: selectedCariForSlip.businessName,
+          phone: selectedCariForSlip.phone,
+          deliveryAddress: selectedCariForSlip.address || "Belirtilmemiş",
+          neighborhood: selectedCariForSlip.neighborhood || "Beylikdüzü",
+          deliveryMethod: "courier",
+          deliveryDate: slipDate,
+          deliveryTimeWindow: "14:00 - 18:00",
+          items: quickSlipItems,
+          subtotal: quickSlipTotal,
+          shippingFee: 0,
+          totalAmount: quickSlipTotal,
+          status: "teslim_edildi",
+          paymentMethod: "cari",
+          paymentStatus: "paid",
+          source: "whatsapp",
+          cariId: selectedCariForSlip.id,
+          orderNotes: slipNotes,
+          createdAt: new Date().toISOString(),
+        };
+
+        // Pop up the digital fiş modal immediately
+        setActiveSlipOrder(slipOrder);
+        setSlipModalOpen(true);
+      } else {
+        alert("Fiş kaydedilirken hata: " + res.error);
+      }
+    } finally {
+      setSlipSubmitting(false);
+    }
+  };
+
+  // Open Quick Payment / Collection Modal
+  const openPaymentModal = (cari: CariAccount, defaultType: "tahsilat" | "odeme" = "tahsilat") => {
+    setSelectedCariForPay(cari);
+    setPayType(defaultType);
+    setPayAmount(cari.balance > 0 ? cari.balance : 0);
+    setPayDate(new Date().toISOString().split("T")[0]);
+    setPayDescription(
+      defaultType === "tahsilat"
+        ? `${cari.businessName} - Cari Tahsilat`
+        : `${cari.businessName} - Ödeme / Masraf`
+    );
+    setPayModalOpen(true);
+  };
+
+  // Submit Payment / Collection
+  const handleSubmitPayment = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!selectedCariForPay || payAmount <= 0) return;
+
+    setPaySubmitting(true);
+    const res = await addTransaction(selectedCariForPay.id, {
+      type: payType,
+      amount: Number(payAmount),
+      description: payDescription || (payType === "tahsilat" ? "Cari Tahsilat" : "Cari Ödeme"),
+      paymentMethod: payMethod,
+      date: payDate,
+    });
+
+    if (res.success) {
+      setPayModalOpen(false);
+      setSelectedCariForPay(null);
+      setPayAmount(0);
+    } else {
+      alert("İşlem kaydedilirken hata: " + res.error);
+    }
+    setPaySubmitting(false);
+  };
+
+  // Export Cariler CSV
+  const handleExportCarilerCSV = () => {
+    if (filteredCariler.length === 0) {
+      alert("Dışa aktarılacak cari bulunamadı.");
+      return;
+    }
+
+    const headers = ["Firma Adı", "Hesap Türü", "Yetkili", "Telefon", "Mahalle", "Adres", "Güncel Bakiye"];
+    const rows = filteredCariler.map((c) => [
+      `"${c.businessName}"`,
+      `"${c.accountType === "gider" ? "Gider Hesabı" : "Müşteri"}"`,
+      `"${c.contactPerson || ""}"`,
+      `"${c.phone}"`,
+      `"${c.neighborhood}"`,
+      `"${(c.address || "").replace(/"/g, '""')}"`,
+      c.balance.toString(),
+    ]);
+
+    const csvContent = [headers.join(","), ...rows.map((r) => r.join(","))].join("\n");
+    const blob = new Blob(["\uFEFF" + csvContent], { type: "text/csv;charset=utf-8;" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.setAttribute("href", url);
+    link.setAttribute("download", `Cariler_Raporu_${new Date().toISOString().split("T")[0]}.csv`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
+  // ==========================================
+  // TAB 2: GİDERLER & MASRAFLAR STATE
+  // ==========================================
+  const [expenseSearchQuery, setExpenseSearchQuery] = useState("");
+  const [expenseCategoryFilter, setExpenseCategoryFilter] = useState<string>("all");
+  const [expenseModalOpen, setExpenseModalOpen] = useState(false);
+  const [expenseCategory, setExpenseCategory] = useState<ExpenseRecord["category"]>("hammadde");
+  const [expenseTitle, setExpenseTitle] = useState("");
+  const [expenseAmount, setExpenseAmount] = useState<number>(0);
+  const [expenseDate, setExpenseDate] = useState<string>(new Date().toISOString().split("T")[0]);
+  const [expensePayMethod, setExpensePayMethod] = useState<ExpenseRecord["paymentMethod"]>("banka_havale");
+  const [expenseNotes, setExpenseNotes] = useState("");
+  const [expenseSubmitting, setExpenseSubmitting] = useState(false);
+
+  // Filtered Expenses
+  const filteredExpenses = useMemo(() => {
+    return expenses.filter((e) => {
+      if (expenseCategoryFilter !== "all" && e.category !== expenseCategoryFilter) return false;
+
+      if (expenseSearchQuery.trim()) {
+        const q = expenseSearchQuery.toLowerCase();
+        const matchTitle = e.title.toLowerCase().includes(q);
+        const matchNotes = (e.notes || "").toLowerCase().includes(q);
+        if (!matchTitle && !matchNotes) return false;
+      }
+
+      return true;
+    });
+  }, [expenses, expenseCategoryFilter, expenseSearchQuery]);
+
+  // Handle Save Expense
+  const handleSaveExpense = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!expenseTitle.trim() || expenseAmount <= 0) return;
+
+    setExpenseSubmitting(true);
+    const res = await addExpense({
+      category: expenseCategory,
+      title: expenseTitle.trim(),
+      amount: Number(expenseAmount),
+      date: expenseDate,
+      paymentMethod: expensePayMethod,
+      notes: expenseNotes.trim(),
+    });
+
+    if (res.success) {
+      setExpenseModalOpen(false);
+      setExpenseTitle("");
+      setExpenseAmount(0);
+      setExpenseNotes("");
+    } else {
+      alert("Gider kaydedilirken hata: " + res.error);
+    }
+    setExpenseSubmitting(false);
+  };
+
+  const getCategoryLabel = (cat: string) => {
+    switch (cat) {
+      case "hammadde":
+        return { label: "Hammadde (Un vb.)", color: "bg-amber-500/10 text-amber-400 border-amber-500/20" };
+      case "yakit_kurye":
+        return { label: "Yakıt & Kurye", color: "bg-blue-500/10 text-blue-400 border-blue-500/20" };
+      case "ambalaj":
+        return { label: "Ambalaj & Koli", color: "bg-purple-500/10 text-purple-400 border-purple-500/20" };
+      case "fatura_kira":
+        return { label: "Fatura & Enerji", color: "bg-orange-500/10 text-orange-400 border-orange-500/20" };
+      default:
+        return { label: "Diğer Gider", color: "bg-stone-800 text-stone-300 border-stone-700" };
+    }
+  };
+
+  // Export Expenses CSV
+  const handleExportExpensesCSV = () => {
+    if (filteredExpenses.length === 0) {
+      alert("Dışa aktarılacak gider kaydı bulunamadı.");
+      return;
+    }
+
+    const headers = ["Tarih", "Kategori", "Açıklama", "Tutar", "Ödeme Yöntemi", "Notlar"];
+    const rows = filteredExpenses.map((e) => [
+      `"${e.date}"`,
+      `"${getCategoryLabel(e.category).label}"`,
+      `"${e.title}"`,
+      e.amount.toString(),
+      `"${e.paymentMethod}"`,
+      `"${(e.notes || "").replace(/"/g, '""')}"`,
+    ]);
+
+    const csvContent = [headers.join(","), ...rows.map((r) => r.join(","))].join("\n");
+    const blob = new Blob(["\uFEFF" + csvContent], { type: "text/csv;charset=utf-8;" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.setAttribute("href", url);
+    link.setAttribute("download", `Giderler_Raporu_${new Date().toISOString().split("T")[0]}.csv`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
+  // ==========================================
+  // TAB 3: KURYE MUTABAKAT STATE
+  // ==========================================
   const [selectedSettlementDate, setSelectedSettlementDate] = useState<string>(() => {
     return new Date().toISOString().split("T")[0];
   });
   const [courierSettlementModalOpen, setCourierSettlementModalOpen] = useState(false);
-  const [selectedOrderForSlip, setSelectedOrderForSlip] = useState<AdminOrder | null>(null);
   const [settledDates, setSettledDates] = useState<string[]>(() => {
     if (typeof window !== "undefined") {
       try {
@@ -74,23 +483,6 @@ export default function AdminFinansPage() {
     return [];
   });
 
-  // Filtered Expenses
-  const filteredExpenses = useMemo(() => {
-    return expenses.filter((e) => {
-      if (categoryFilter !== "all" && e.category !== categoryFilter) return false;
-
-      if (searchQuery.trim()) {
-        const q = searchQuery.toLowerCase();
-        const matchTitle = e.title.toLowerCase().includes(q);
-        const matchNotes = e.notes?.toLowerCase().includes(q);
-        if (!matchTitle && !matchNotes) return false;
-      }
-
-      return true;
-    });
-  }, [expenses, categoryFilter, searchQuery]);
-
-  // Calculate day orders for selected date
   const dayOrders = useMemo(() => {
     return allOrders.filter((o) => {
       if (o.status === "iptal") return false;
@@ -99,7 +491,6 @@ export default function AdminFinansPage() {
     });
   }, [allOrders, selectedSettlementDate]);
 
-  // Courier Summary for selected date
   const courierSummary = useMemo(() => {
     let cashCollected = 0;
     let cashPending = 0;
@@ -120,17 +511,11 @@ export default function AdminFinansPage() {
       }
 
       if (o.paymentMethod === "cash_on_delivery") {
-        if (isDelivered) {
-          cashCollected += o.totalAmount;
-        } else {
-          cashPending += o.totalAmount;
-        }
+        if (isDelivered) cashCollected += o.totalAmount;
+        else cashPending += o.totalAmount;
       } else if (o.paymentMethod === "pos_at_door") {
-        if (isDelivered) {
-          posCollected += o.totalAmount;
-        } else {
-          posPending += o.totalAmount;
-        }
+        if (isDelivered) posCollected += o.totalAmount;
+        else posPending += o.totalAmount;
       } else {
         onlineTotal += o.totalAmount;
       }
@@ -156,7 +541,8 @@ export default function AdminFinansPage() {
       alert("Bu tarihte teslimat siparişi bulunmuyor.");
       return;
     }
-    const confirmMsg = `${selectedSettlementDate} tarihli kurye kasasını kapatmak ve mutabakatı onaylamak istediğinize emin misiniz?\n\n` +
+    const confirmMsg =
+      `${selectedSettlementDate} tarihli kurye kasasını kapatmak ve mutabakatı onaylamak istediğinize emin misiniz?\n\n` +
       `💵 Toplanan Kapıda Nakit: ${courierSummary.cashCollected.toLocaleString("tr-TR")} ₺\n` +
       `💳 Çekilen Mobil POS: ${courierSummary.posCollected.toLocaleString("tr-TR")} ₺\n\n` +
       `Nakit tutar fırın ana kasasına işlenecektir.`;
@@ -184,7 +570,8 @@ export default function AdminFinansPage() {
   };
 
   const handleShareCourierWhatsApp = () => {
-    const text = `🥖 *EKMEKLAB TAŞ FIRIN - KURYE GÜN SONU KASA MUTABAKATI*\n` +
+    const text =
+      `🥖 *EKMEKLAB TAŞ FIRIN - KURYE GÜN SONU KASA MUTABAKATI*\n` +
       `📅 *Tarih:* ${selectedSettlementDate}\n` +
       `📦 *Toplam Sipariş:* ${courierSummary.totalOrders} Adet\n` +
       `✅ *Teslim Edilen:* ${courierSummary.deliveredCount} Adet\n` +
@@ -200,76 +587,6 @@ export default function AdminFinansPage() {
     window.open(`https://wa.me/?text=${encoded}`, "_blank");
   };
 
-  // Handle Add Expense
-  const handleSaveExpense = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!title.trim() || amount <= 0) return;
-
-    setSubmitting(true);
-    const res = await addExpense({
-      category,
-      title: title.trim(),
-      amount: Number(amount),
-      date,
-      paymentMethod,
-      notes: notes.trim(),
-    });
-
-    if (res.success) {
-      setModalOpen(false);
-      setTitle("");
-      setAmount(0);
-      setNotes("");
-    } else {
-      alert("Gider kaydedilirken hata: " + res.error);
-    }
-    setSubmitting(false);
-  };
-
-  // Helper for category label
-  const getCategoryLabel = (cat: string) => {
-    switch (cat) {
-      case "hammadde":
-        return { label: "Hammadde", color: "bg-amber-500/10 text-amber-400 border-amber-500/20" };
-      case "yakit_kurye":
-        return { label: "Yakıt & Kurye", color: "bg-blue-500/10 text-blue-400 border-blue-500/20" };
-      case "ambalaj":
-        return { label: "Ambalaj & Koli", color: "bg-purple-500/10 text-purple-400 border-purple-500/20" };
-      case "fatura_kira":
-        return { label: "Fatura & Enerji", color: "bg-orange-500/10 text-orange-400 border-orange-500/20" };
-      default:
-        return { label: "Diğer Gider", color: "bg-stone-800 text-stone-300 border-stone-700" };
-    }
-  };
-
-  // Export CSV
-  const handleExportCSV = () => {
-    if (filteredExpenses.length === 0) {
-      alert("Dışa aktarılacak gider/gelir kaydı bulunamadı.");
-      return;
-    }
-
-    const headers = ["Tarih", "Kategori", "Açıklama", "Tutar", "Ödeme Yöntemi", "Notlar"];
-    const rows = filteredExpenses.map((e) => [
-      `"${e.date}"`,
-      `"${getCategoryLabel(e.category).label}"`,
-      `"${e.title}"`,
-      e.amount.toString(),
-      `"${e.paymentMethod}"`,
-      `"${(e.notes || "").replace(/"/g, '""')}"`,
-    ]);
-
-    const csvContent = [headers.join(","), ...rows.map((r) => r.join(","))].join("\n");
-    const blob = new Blob(["\uFEFF" + csvContent], { type: "text/csv;charset=utf-8;" });
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement("a");
-    link.setAttribute("href", url);
-    link.setAttribute("download", `Finans_Raporu_${new Date().toISOString().split("T")[0]}.csv`);
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-  };
-
   return (
     <div className="space-y-8 max-w-7xl mx-auto pb-16">
       {/* Top Banner / Header */}
@@ -277,31 +594,60 @@ export default function AdminFinansPage() {
         <div>
           <div className="flex items-center gap-2 text-xs font-semibold text-amber-500 uppercase tracking-widest mb-1">
             <Wallet className="w-3.5 h-3.5" />
-            <span>Kasa, Gider & Kurye Mutabakatı</span>
+            <span>Fırın Ön Muhasebe & Kasa Komutası</span>
           </div>
           <h1 className="text-2xl md:text-3xl font-bold text-stone-100 font-serif">
-            Finans & Kasa Komuta Masası
+            Finans & Müşteri Masası
           </h1>
           <p className="text-stone-400 text-xs mt-1">
-            Taş fırın satış gelirleri, kurye kapıda nakit/POS tahsilatları ve işletme bilançosu.
+            Şarküteri ve kafelere toptan satış fişi kesme, tahsilat alma, dükkan giderleri ve bakiye takibi.
           </p>
         </div>
 
-        <div className="flex items-center gap-3">
-          {activeTab === "overview" && (
+        {/* Global Quick Action Buttons */}
+        <div className="flex items-center gap-2.5 flex-wrap sm:flex-nowrap">
+          {activeTab === "cariler" && (
             <>
               <button
-                onClick={handleExportCSV}
-                className="flex items-center gap-2 px-4 py-2.5 bg-[#221A14] hover:bg-[#2C211A] text-amber-500 font-medium border border-amber-500/30 rounded-xl transition-all shadow-lg active:scale-95 text-sm"
-                title="Görünür listeyi Excel (CSV) olarak indir"
+                onClick={handleExportCarilerCSV}
+                className="flex items-center gap-1.5 px-3 py-2 bg-[#221A14] hover:bg-[#2C211A] text-amber-400 font-medium border border-amber-500/30 rounded-xl transition-all text-xs"
+                title="Cari listesini Excel (CSV) olarak indir"
               >
-                <Download className="w-4 h-4" />
+                <Download className="w-3.5 h-3.5" />
                 <span className="hidden sm:inline">CSV İndir</span>
               </button>
 
               <button
-                onClick={() => setModalOpen(true)}
-                className="flex items-center gap-2 px-4 py-2.5 bg-amber-500 hover:bg-amber-400 text-stone-950 font-bold rounded-xl transition-all shadow-lg shadow-amber-500/20 active:scale-95 text-sm"
+                onClick={() => openQuickSlipModal()}
+                className="flex items-center gap-1.5 px-3.5 py-2 bg-artisan-terracotta hover:bg-artisan-terracotta/90 text-foreground font-bold rounded-xl transition-all shadow-lg shadow-artisan-terracotta/20 border border-artisan-gold/30 text-xs active:scale-95"
+              >
+                <Receipt className="w-4 h-4" />
+                <span>+ Hızlı Fiş Kes (Satış)</span>
+              </button>
+
+              <button
+                onClick={() => openCreateCariModal("musteri")}
+                className="flex items-center gap-1.5 px-3.5 py-2 bg-amber-500 hover:bg-amber-400 text-stone-950 font-bold rounded-xl transition-all shadow-lg shadow-amber-500/20 text-xs active:scale-95"
+              >
+                <Plus className="w-4 h-4" />
+                <span>+ Yeni Müşteri / Cari Ekle</span>
+              </button>
+            </>
+          )}
+
+          {activeTab === "expenses" && (
+            <>
+              <button
+                onClick={handleExportExpensesCSV}
+                className="flex items-center gap-1.5 px-3 py-2 bg-[#221A14] hover:bg-[#2C211A] text-amber-400 font-medium border border-amber-500/30 rounded-xl transition-all text-xs"
+              >
+                <Download className="w-3.5 h-3.5" />
+                <span className="hidden sm:inline">CSV İndir</span>
+              </button>
+
+              <button
+                onClick={() => setExpenseModalOpen(true)}
+                className="flex items-center gap-1.5 px-4 py-2 bg-amber-500 hover:bg-amber-400 text-stone-950 font-bold rounded-xl transition-all shadow-lg shadow-amber-500/20 text-xs active:scale-95"
               >
                 <Plus className="w-4 h-4" />
                 <span>+ Yeni Gider Kaydet</span>
@@ -313,16 +659,15 @@ export default function AdminFinansPage() {
             <>
               <button
                 onClick={() => setCourierSettlementModalOpen(true)}
-                className="flex items-center gap-2 px-4 py-2.5 bg-stone-800 hover:bg-stone-700 text-stone-200 font-medium border border-stone-700 rounded-xl transition-all shadow active:scale-95 text-sm"
-                title="Termal Kurye Z Raporu Fişi Yazdır"
+                className="flex items-center gap-1.5 px-3.5 py-2 bg-stone-800 hover:bg-stone-700 text-stone-200 font-medium border border-stone-700 rounded-xl transition-all text-xs active:scale-95"
               >
-                <Printer className="w-4 h-4 text-amber-400" />
+                <Printer className="w-3.5 h-3.5 text-amber-400" />
                 <span>Z Fişi Yazdır</span>
               </button>
 
               <button
                 onClick={handleShareCourierWhatsApp}
-                className="flex items-center gap-2 px-4 py-2.5 bg-emerald-950 hover:bg-emerald-900 text-emerald-400 font-medium border border-emerald-500/30 rounded-xl transition-all shadow active:scale-95 text-sm"
+                className="flex items-center gap-1.5 px-4 py-2 bg-emerald-950 hover:bg-emerald-900 text-emerald-400 font-medium border border-emerald-500/30 rounded-xl transition-all text-xs active:scale-95"
               >
                 <MessageCircle className="w-4 h-4" />
                 <span>WhatsApp Paylaş</span>
@@ -332,19 +677,35 @@ export default function AdminFinansPage() {
         </div>
       </div>
 
-      {/* Tab Navigation */}
+      {/* Main Tab Bar */}
       <div className="flex items-center gap-2 border-b border-stone-800 pb-2">
         <button
           type="button"
-          onClick={() => setActiveTab("overview")}
+          onClick={() => setActiveTab("cariler")}
           className={`flex items-center gap-2 px-4 py-2.5 rounded-xl font-serif text-xs font-bold transition-all ${
-            activeTab === "overview"
+            activeTab === "cariler"
+              ? "bg-amber-500 text-stone-950 shadow-lg shadow-amber-500/20"
+              : "bg-stone-900/60 text-stone-400 hover:text-stone-200 border border-stone-800"
+          }`}
+        >
+          <Building2 className="w-4 h-4" />
+          <span>Müşteriler & Cariler (Ön Muhasebe)</span>
+          <span className="ml-1 px-1.5 py-0.5 rounded-full bg-stone-950/60 text-[10px] font-mono">
+            {cariler.length}
+          </span>
+        </button>
+
+        <button
+          type="button"
+          onClick={() => setActiveTab("expenses")}
+          className={`flex items-center gap-2 px-4 py-2.5 rounded-xl font-serif text-xs font-bold transition-all ${
+            activeTab === "expenses"
               ? "bg-amber-500 text-stone-950 shadow-lg shadow-amber-500/20"
               : "bg-stone-900/60 text-stone-400 hover:text-stone-200 border border-stone-800"
           }`}
         >
           <Wallet className="w-4 h-4" />
-          <span>Genel Finans & Kârlılık</span>
+          <span>Kasa & Dükkan Giderleri</span>
         </button>
 
         <button
@@ -357,7 +718,7 @@ export default function AdminFinansPage() {
           }`}
         >
           <Truck className="w-4 h-4" />
-          <span>Kurye Kasası & Gün Sonu Mutabakatı</span>
+          <span>Kurye Kasası & Mutabakat</span>
           {courierSummary.pendingCount > 0 && (
             <span className="ml-1 px-1.5 py-0.5 rounded-full bg-amber-950 text-amber-300 text-[10px] font-mono font-bold border border-amber-500/30">
               {courierSummary.pendingCount} Bekleyen
@@ -367,46 +728,365 @@ export default function AdminFinansPage() {
       </div>
 
       {/* ========================================================================= */}
-      {/* TAB 1: OVERVIEW (GENEL FINANS & KARLILIK) */}
+      {/* TAB 1: MÜŞTERİLER & CARİLER (ÖN MUHASEBE) */}
       {/* ========================================================================= */}
-      {activeTab === "overview" && (
-        <div className="space-y-8">
-          {/* KPI Cards: 4 Big Metric Cards */}
+      {activeTab === "cariler" && (
+        <div className="space-y-6">
+          {/* Top KPI Cards */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            {/* Total Revenue */}
             <div className="bg-stone-900/80 border border-stone-800 p-5 rounded-2xl relative overflow-hidden backdrop-blur-sm">
               <div className="flex items-center justify-between text-xs text-stone-400 font-semibold uppercase tracking-wider">
-                <span>Toplam Gelir (Ciro)</span>
+                <span>Toplam Cari Alacağımız</span>
+                <Wallet className="w-4 h-4 text-emerald-400" />
+              </div>
+              <div className="text-2xl md:text-3xl font-bold text-emerald-400 font-serif mt-2">
+                {totalReceivable.toLocaleString("tr-TR")} ₺
+              </div>
+              <p className="text-xs text-stone-400 mt-1">Carilerden tahsil edilecek tutar</p>
+              <div className="absolute bottom-0 left-0 right-0 h-1 bg-emerald-500/50" />
+            </div>
+
+            <div className="bg-stone-900/80 border border-stone-800 p-5 rounded-2xl relative overflow-hidden backdrop-blur-sm">
+              <div className="flex items-center justify-between text-xs text-stone-400 font-semibold uppercase tracking-wider">
+                <span>Borçlu Firma Sayısı</span>
+                <AlertCircle className="w-4 h-4 text-amber-400" />
+              </div>
+              <div className="text-2xl md:text-3xl font-bold text-amber-400 font-serif mt-2">
+                {cariler.filter((c) => c.balance > 0).length}{" "}
+                <span className="text-sm font-normal text-stone-400">firma</span>
+              </div>
+              <p className="text-xs text-stone-400 mt-1">Aktif bakiyesi olan cariler</p>
+              <div className="absolute bottom-0 left-0 right-0 h-1 bg-amber-500/50" />
+            </div>
+
+            <div className="bg-stone-900/80 border border-stone-800 p-5 rounded-2xl relative overflow-hidden backdrop-blur-sm">
+              <div className="flex items-center justify-between text-xs text-stone-400 font-semibold uppercase tracking-wider">
+                <span>Kayıtlı Müşteri & Gider</span>
+                <Building2 className="w-4 h-4 text-blue-400" />
+              </div>
+              <div className="text-2xl md:text-3xl font-bold text-stone-100 font-serif mt-2">
+                {cariler.length} <span className="text-sm font-normal text-stone-400">hesap</span>
+              </div>
+              <p className="text-xs text-stone-400 mt-1">Şarküteri, kafe ve gider hesapları</p>
+              <div className="absolute bottom-0 left-0 right-0 h-1 bg-blue-500/50" />
+            </div>
+
+            <div className="bg-stone-900/80 border border-stone-800 p-5 rounded-2xl relative overflow-hidden backdrop-blur-sm">
+              <div className="flex items-center justify-between text-xs text-stone-400 font-semibold uppercase tracking-wider">
+                <span>Hızlı İşlem Masası</span>
+                <Receipt className="w-4 h-4 text-amber-500" />
+              </div>
+              <div className="mt-3 flex items-center gap-2">
+                <button
+                  onClick={() => openQuickSlipModal()}
+                  className="w-full py-2 bg-artisan-terracotta hover:bg-artisan-terracotta/90 text-foreground font-bold rounded-xl text-xs transition-all shadow border border-artisan-gold/30 text-center"
+                >
+                  🧾 Fiş Kes
+                </button>
+                <button
+                  onClick={() => openCreateCariModal("gider")}
+                  className="w-full py-2 bg-stone-800 hover:bg-stone-700 text-amber-400 font-bold rounded-xl text-xs transition-all border border-stone-700 text-center"
+                >
+                  + Gider Hesabı
+                </button>
+              </div>
+              <div className="absolute bottom-0 left-0 right-0 h-1 bg-artisan-gold/50" />
+            </div>
+          </div>
+
+          {/* Search & Filter Bar */}
+          <div className="bg-stone-900/60 border border-stone-800 p-4 rounded-2xl flex flex-col md:flex-row gap-4 justify-between items-center">
+            <div className="relative w-full md:w-80">
+              <Search className="w-4 h-4 text-stone-500 absolute left-3.5 top-1/2 -translate-y-1/2" />
+              <input
+                type="text"
+                placeholder="Firma adı, yetkili, tel veya mahalle..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="w-full bg-stone-950 border border-stone-800 rounded-xl pl-10 pr-4 py-2 text-xs text-stone-200 placeholder-stone-500 focus:outline-none focus:border-amber-500/60"
+              />
+            </div>
+
+            <div className="flex items-center gap-2 overflow-x-auto w-full md:w-auto">
+              <button
+                onClick={() => setBalanceFilter("all")}
+                className={`px-3 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap transition-all ${
+                  balanceFilter === "all"
+                    ? "bg-amber-500 text-stone-950"
+                    : "bg-stone-800 text-stone-400 hover:text-stone-200"
+                }`}
+              >
+                Tümü ({cariler.length})
+              </button>
+              <button
+                onClick={() => setBalanceFilter("debtor")}
+                className={`px-3 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap transition-all ${
+                  balanceFilter === "debtor"
+                    ? "bg-amber-500 text-stone-950"
+                    : "bg-stone-800 text-stone-400 hover:text-stone-200"
+                }`}
+              >
+                Alacaklı Olduklarımız ({cariler.filter((c) => c.balance > 0).length})
+              </button>
+              <button
+                onClick={() => setBalanceFilter("balanced")}
+                className={`px-3 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap transition-all ${
+                  balanceFilter === "balanced"
+                    ? "bg-amber-500 text-stone-950"
+                    : "bg-stone-800 text-stone-400 hover:text-stone-200"
+                }`}
+              >
+                Bakiyesi Sıfır ({cariler.filter((c) => c.balance === 0).length})
+              </button>
+              <button
+                onClick={() => setBalanceFilter("gider")}
+                className={`px-3 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap transition-all ${
+                  balanceFilter === "gider"
+                    ? "bg-amber-500 text-stone-950"
+                    : "bg-stone-800 text-stone-400 hover:text-stone-200"
+                }`}
+              >
+                Gider Hesapları ({cariler.filter((c) => c.accountType === "gider").length})
+              </button>
+            </div>
+          </div>
+
+          {/* Cariler Grid */}
+          {carilerLoading ? (
+            <div className="p-16 text-center text-stone-400 bg-stone-900 border border-stone-800 rounded-2xl">
+              <div className="w-8 h-8 border-2 border-amber-500 border-t-transparent rounded-full animate-spin mx-auto mb-3" />
+              Müşteri carileri yükleniyor...
+            </div>
+          ) : filteredCariler.length === 0 ? (
+            <div className="p-16 text-center text-stone-400 bg-stone-900 border border-stone-800 rounded-2xl">
+              Kayıtlı cari hesap bulunamadı.
+              <div className="mt-4 flex items-center justify-center gap-3">
+                <button
+                  onClick={() => openCreateCariModal("musteri")}
+                  className="inline-flex items-center gap-2 px-4 py-2 bg-amber-500 text-stone-950 font-bold rounded-xl text-xs"
+                >
+                  <Plus className="w-4 h-4" />
+                  İlk Müşteriyi Ekle
+                </button>
+                <button
+                  onClick={() => openCreateCariModal("gider")}
+                  className="inline-flex items-center gap-2 px-4 py-2 bg-stone-800 text-amber-400 font-bold rounded-xl text-xs border border-stone-700"
+                >
+                  <Plus className="w-4 h-4" />
+                  Gider Hesabı Oluştur
+                </button>
+              </div>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+              {filteredCariler.map((cari) => {
+                const isExpense = cari.accountType === "gider";
+                const customPriceCount = Object.keys(cari.customPrices || {}).length;
+                const hasDebt = cari.balance > 0;
+
+                return (
+                  <div
+                    key={cari.id}
+                    className="bg-stone-900/80 border border-stone-800 hover:border-stone-750 p-5 rounded-2xl shadow-xl flex flex-col justify-between space-y-4 group transition-all"
+                  >
+                    <div className="space-y-3">
+                      {/* Title & Type Badge */}
+                      <div className="flex items-start justify-between gap-2">
+                        <div>
+                          <div className="flex items-center gap-2">
+                            <h3 className="text-base font-bold text-stone-100 font-serif group-hover:text-amber-400 transition-colors">
+                              {cari.businessName}
+                            </h3>
+                          </div>
+                          <p className="text-xs text-stone-400 mt-0.5">
+                            {cari.contactPerson || (isExpense ? "Gider Hesabı" : "Yetkili Belirtilmedi")}
+                          </p>
+                        </div>
+
+                        <span
+                          className={`text-[10px] font-bold px-2 py-0.5 rounded-md border shrink-0 ${
+                            isExpense
+                              ? "bg-red-500/10 text-red-400 border-red-500/20"
+                              : "bg-blue-500/10 text-blue-400 border-blue-500/20"
+                          }`}
+                        >
+                          {isExpense ? "Gider Hesabı" : "Müşteri"}
+                        </span>
+                      </div>
+
+                      {/* Phone & WhatsApp */}
+                      {cari.phone && (
+                        <div className="flex items-center gap-3 text-xs">
+                          <a
+                            href={`tel:${cari.phone}`}
+                            className="flex items-center gap-1.5 text-stone-300 hover:text-amber-400 font-mono transition-colors"
+                          >
+                            <Phone className="w-3.5 h-3.5 text-amber-500" />
+                            <span>{cari.phone}</span>
+                          </a>
+                          <a
+                            href={`https://wa.me/90${cari.phone.replace(/\D/g, "")}`}
+                            target="_blank"
+                            rel="noreferrer"
+                            className="p-1 rounded-md bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-400 transition-colors"
+                            title="WhatsApp Mesajı Aç"
+                          >
+                            <MessageCircle className="w-3.5 h-3.5" />
+                          </a>
+                        </div>
+                      )}
+
+                      {/* Address & Neighborhood */}
+                      {cari.address && (
+                        <div className="flex items-start gap-1.5 text-xs text-stone-400 line-clamp-1">
+                          <MapPin className="w-3.5 h-3.5 text-stone-500 shrink-0 mt-0.5" />
+                          <span>
+                            {cari.neighborhood ? `${cari.neighborhood} Mah., ` : ""}
+                            {cari.address}
+                          </span>
+                        </div>
+                      )}
+
+                      {/* Custom Prices Info */}
+                      {!isExpense && (
+                        <div className="pt-1 flex items-center gap-1.5 text-xs">
+                          <Tag className="w-3.5 h-3.5 text-amber-400 shrink-0" />
+                          <span className="text-stone-400">
+                            {customPriceCount > 0 ? (
+                              <span className="text-amber-400 font-semibold">
+                                {customPriceCount} üründe özel toptan fiyat
+                              </span>
+                            ) : (
+                              <span>Standart vitrin fiyatı</span>
+                            )}
+                          </span>
+                        </div>
+                      )}
+                    </div>
+
+                    {/* Bottom Balance & Actions */}
+                    <div className="pt-4 border-t border-stone-800/80 space-y-3">
+                      <div className="flex items-center justify-between">
+                        <span className="text-xs text-stone-400 font-medium">Güncel Bakiye:</span>
+                        <div className="text-right">
+                          <div
+                            className={`text-lg font-bold font-serif ${
+                              hasDebt
+                                ? "text-amber-400"
+                                : cari.balance < 0
+                                ? "text-emerald-400"
+                                : "text-stone-300"
+                            }`}
+                          >
+                            {cari.balance.toLocaleString("tr-TR")} ₺
+                          </div>
+                          <div className="text-[10px] text-stone-400">
+                            {hasDebt
+                              ? "Alacağımız Var"
+                              : cari.balance < 0
+                              ? "Avans / Fazla Ödeme"
+                              : "Hesap Dengede"}
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Button Action Bar */}
+                      <div className="grid grid-cols-3 gap-2">
+                        {/* 1. Main Action: Fiş Kes for Customer, or Ödeme for Gider */}
+                        {!isExpense ? (
+                          <button
+                            onClick={() => openQuickSlipModal(cari)}
+                            className="flex items-center justify-center gap-1 py-2 px-2 rounded-xl bg-artisan-terracotta hover:bg-artisan-terracotta/90 text-foreground text-xs font-bold transition-all border border-artisan-gold/30 shadow active:scale-95"
+                            title="Bu müşteriye ekmek seçip fiş kes"
+                          >
+                            <Receipt className="w-3.5 h-3.5" />
+                            <span>Fiş Kes</span>
+                          </button>
+                        ) : (
+                          <button
+                            onClick={() => openPaymentModal(cari, "odeme")}
+                            className="flex items-center justify-center gap-1 py-2 px-2 rounded-xl bg-red-500/15 hover:bg-red-500/25 text-red-400 text-xs font-bold transition-all border border-red-500/30"
+                            title="Bu gider hesabına ödeme kaydet"
+                          >
+                            <DollarSign className="w-3.5 h-3.5" />
+                            <span>Ödeme Yap</span>
+                          </button>
+                        )}
+
+                        {/* 2. Tahsilat Al (or Ödeme Yap) */}
+                        <button
+                          onClick={() => openPaymentModal(cari, isExpense ? "odeme" : "tahsilat")}
+                          className="flex items-center justify-center gap-1 py-2 px-2 rounded-xl bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-400 text-xs font-semibold transition-colors border border-emerald-500/20"
+                          title={isExpense ? "Ödeme Kaydet" : "Tahsilat Al"}
+                        >
+                          <DollarSign className="w-3.5 h-3.5" />
+                          <span>{isExpense ? "Ödeme" : "Tahsilat"}</span>
+                        </button>
+
+                        {/* 3. Ekstre & Fişler */}
+                        <Link
+                          href={`/admin/cariler/${cari.id}`}
+                          className="flex items-center justify-center gap-1 py-2 px-2 rounded-xl bg-stone-800 hover:bg-stone-700 text-stone-200 text-xs font-semibold transition-colors border border-stone-700"
+                          title="Hesap Ekstresi & Tüm Hareketler"
+                        >
+                          <span>Ekstre</span>
+                          <ArrowRight className="w-3 h-3 text-stone-400" />
+                        </Link>
+                      </div>
+
+                      {/* Secondary Row: Edit */}
+                      <div className="flex items-center justify-end pt-1 text-xs">
+                        <button
+                          onClick={() => openEditCariModal(cari)}
+                          className="text-stone-400 hover:text-white flex items-center gap-1 text-[11px]"
+                        >
+                          <Edit3 className="w-3 h-3" />
+                          <span>Bilgileri & Özel Fiyatları Düzenle</span>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* ========================================================================= */}
+      {/* TAB 2: KASA & DÜKKAN GİDERLERİ */}
+      {/* ========================================================================= */}
+      {activeTab === "expenses" && (
+        <div className="space-y-8">
+          {/* KPI Metrics */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            <div className="bg-stone-900/80 border border-stone-800 p-5 rounded-2xl relative overflow-hidden backdrop-blur-sm">
+              <div className="flex items-center justify-between text-xs text-stone-400 font-semibold uppercase tracking-wider">
+                <span>Toplam Ciro (Gelir)</span>
                 <TrendingUp className="w-4 h-4 text-emerald-400" />
               </div>
               <div className="text-2xl md:text-3xl font-bold text-stone-100 font-serif mt-3">
                 {metrics.totalRevenue.toLocaleString("tr-TR")} ₺
               </div>
-              <p className="text-xs text-stone-400 mt-1">
-                {metrics.orderCount} sipariş (Web + WhatsApp + B2B)
-              </p>
+              <p className="text-xs text-stone-400 mt-1">Web + WhatsApp + Fiş Satışları</p>
               <div className="absolute bottom-0 left-0 right-0 h-1 bg-emerald-500/50" />
             </div>
 
-            {/* Total Expenses */}
             <div className="bg-stone-900/80 border border-stone-800 p-5 rounded-2xl relative overflow-hidden backdrop-blur-sm">
               <div className="flex items-center justify-between text-xs text-stone-400 font-semibold uppercase tracking-wider">
-                <span>Toplam Gider</span>
+                <span>Toplam Dükkan Gideri</span>
                 <TrendingDown className="w-4 h-4 text-red-400" />
               </div>
               <div className="text-2xl md:text-3xl font-bold text-red-400 font-serif mt-3">
                 {metrics.totalExpenses.toLocaleString("tr-TR")} ₺
               </div>
-              <p className="text-xs text-stone-400 mt-1">
-                {expenses.length} adet operasyonel masraf
-              </p>
+              <p className="text-xs text-stone-400 mt-1">{expenses.length} adet harcama kalemi</p>
               <div className="absolute bottom-0 left-0 right-0 h-1 bg-red-500/50" />
             </div>
 
-            {/* Net Profit */}
             <div className="bg-stone-900/80 border border-stone-800 p-5 rounded-2xl relative overflow-hidden backdrop-blur-sm">
               <div className="flex items-center justify-between text-xs text-stone-400 font-semibold uppercase tracking-wider">
-                <span>Net Kâr / Bakiye</span>
+                <span>Net Bakiye / Kâr</span>
                 <DollarSign className="w-4 h-4 text-amber-500" />
               </div>
               <div
@@ -427,179 +1107,26 @@ export default function AdminFinansPage() {
               />
             </div>
 
-            {/* Balances: Receivable vs Debt */}
             <div className="bg-stone-900/80 border border-stone-800 p-5 rounded-2xl relative overflow-hidden backdrop-blur-sm">
               <div className="flex items-center justify-between text-xs text-stone-400 font-semibold uppercase tracking-wider">
-                <span>Alacak & Borç Durumu</span>
+                <span>Cari Alacağımız</span>
                 <Building2 className="w-4 h-4 text-blue-400" />
               </div>
-              <div className="mt-3 space-y-1">
-                <div className="flex justify-between items-baseline text-xs">
-                  <span className="text-stone-400">Cari Alacağımız:</span>
-                  <span className="font-bold text-emerald-400 font-mono">
-                    {metrics.totalReceivable.toLocaleString("tr-TR")} ₺
-                  </span>
-                </div>
-                <div className="flex justify-between items-baseline text-xs">
-                  <span className="text-stone-400">Tedarikçi Borcumuz:</span>
-                  <span className="font-bold text-red-400 font-mono">
-                    {metrics.totalDebt.toLocaleString("tr-TR")} ₺
-                  </span>
-                </div>
+              <div className="text-2xl md:text-3xl font-bold text-emerald-400 font-serif mt-3">
+                {totalReceivable.toLocaleString("tr-TR")} ₺
               </div>
+              <p className="text-xs text-stone-400 mt-1">Carilerden tahsil edilecek tutar</p>
               <div className="absolute bottom-0 left-0 right-0 h-1 bg-blue-500/50" />
             </div>
           </div>
 
-          {/* Expense Category Breakdown Section */}
-          <div className="bg-stone-900/70 border border-stone-800 p-6 rounded-2xl shadow-xl space-y-4">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2">
-                <Layers className="w-4 h-4 text-amber-500" />
-                <h2 className="text-base font-bold text-stone-100 font-serif">
-                  Gider Kategorileri Dağılımı
-                </h2>
-              </div>
-              <span className="text-xs text-stone-400">
-                Toplam: {metrics.totalExpenses.toLocaleString("tr-TR")} ₺
-              </span>
-            </div>
-
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3">
-              {/* Hammadde */}
-              <div className="p-4 rounded-xl bg-stone-950/60 border border-stone-800 space-y-2">
-                <div className="flex items-center justify-between text-xs">
-                  <span className="text-stone-300 font-medium flex items-center gap-1.5">
-                    <Wheat className="w-3.5 h-3.5 text-amber-500" />
-                    <span>Hammadde</span>
-                  </span>
-                  <span className="font-bold font-mono text-amber-400">
-                    {metrics.breakdown.hammadde.toLocaleString("tr-TR")} ₺
-                  </span>
-                </div>
-                <div className="w-full h-1.5 bg-stone-800 rounded-full overflow-hidden">
-                  <div
-                    className="h-full bg-amber-500 rounded-full"
-                    style={{
-                      width: `${
-                        metrics.totalExpenses > 0
-                          ? Math.round((metrics.breakdown.hammadde / metrics.totalExpenses) * 100)
-                          : 0
-                      }%`,
-                    }}
-                  />
-                </div>
-              </div>
-
-              {/* Yakıt & Kurye */}
-              <div className="p-4 rounded-xl bg-stone-950/60 border border-stone-800 space-y-2">
-                <div className="flex items-center justify-between text-xs">
-                  <span className="text-stone-300 font-medium flex items-center gap-1.5">
-                    <Truck className="w-3.5 h-3.5 text-blue-400" />
-                    <span>Yakıt & Kurye</span>
-                  </span>
-                  <span className="font-bold font-mono text-blue-400">
-                    {metrics.breakdown.yakit_kurye.toLocaleString("tr-TR")} ₺
-                  </span>
-                </div>
-                <div className="w-full h-1.5 bg-stone-800 rounded-full overflow-hidden">
-                  <div
-                    className="h-full bg-blue-500 rounded-full"
-                    style={{
-                      width: `${
-                        metrics.totalExpenses > 0
-                          ? Math.round((metrics.breakdown.yakit_kurye / metrics.totalExpenses) * 100)
-                          : 0
-                      }%`,
-                    }}
-                  />
-                </div>
-              </div>
-
-              {/* Ambalaj */}
-              <div className="p-4 rounded-xl bg-stone-950/60 border border-stone-800 space-y-2">
-                <div className="flex items-center justify-between text-xs">
-                  <span className="text-stone-300 font-medium flex items-center gap-1.5">
-                    <Package className="w-3.5 h-3.5 text-purple-400" />
-                    <span>Ambalaj & Koli</span>
-                  </span>
-                  <span className="font-bold font-mono text-purple-400">
-                    {metrics.breakdown.ambalaj.toLocaleString("tr-TR")} ₺
-                  </span>
-                </div>
-                <div className="w-full h-1.5 bg-stone-800 rounded-full overflow-hidden">
-                  <div
-                    className="h-full bg-purple-500 rounded-full"
-                    style={{
-                      width: `${
-                        metrics.totalExpenses > 0
-                          ? Math.round((metrics.breakdown.ambalaj / metrics.totalExpenses) * 100)
-                          : 0
-                      }%`,
-                    }}
-                  />
-                </div>
-              </div>
-
-              {/* Fatura & Kira */}
-              <div className="p-4 rounded-xl bg-stone-950/60 border border-stone-800 space-y-2">
-                <div className="flex items-center justify-between text-xs">
-                  <span className="text-stone-300 font-medium flex items-center gap-1.5">
-                    <Zap className="w-3.5 h-3.5 text-orange-400" />
-                    <span>Fatura & Kira</span>
-                  </span>
-                  <span className="font-bold font-mono text-orange-400">
-                    {metrics.breakdown.fatura_kira.toLocaleString("tr-TR")} ₺
-                  </span>
-                </div>
-                <div className="w-full h-1.5 bg-stone-800 rounded-full overflow-hidden">
-                  <div
-                    className="h-full bg-orange-500 rounded-full"
-                    style={{
-                      width: `${
-                        metrics.totalExpenses > 0
-                          ? Math.round((metrics.breakdown.fatura_kira / metrics.totalExpenses) * 100)
-                          : 0
-                      }%`,
-                    }}
-                  />
-                </div>
-              </div>
-
-              {/* Diğer */}
-              <div className="p-4 rounded-xl bg-stone-950/60 border border-stone-800 space-y-2">
-                <div className="flex items-center justify-between text-xs">
-                  <span className="text-stone-300 font-medium flex items-center gap-1.5">
-                    <DollarSign className="w-3.5 h-3.5 text-stone-400" />
-                    <span>Diğer Giderler</span>
-                  </span>
-                  <span className="font-bold font-mono text-stone-300">
-                    {metrics.breakdown.diger.toLocaleString("tr-TR")} ₺
-                  </span>
-                </div>
-                <div className="w-full h-1.5 bg-stone-800 rounded-full overflow-hidden">
-                  <div
-                    className="h-full bg-stone-500 rounded-full"
-                    style={{
-                      width: `${
-                        metrics.totalExpenses > 0
-                          ? Math.round((metrics.breakdown.diger / metrics.totalExpenses) * 100)
-                          : 0
-                      }%`,
-                    }}
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Expenses Table Section */}
+          {/* Expenses Table */}
           <div className="bg-stone-900/70 border border-stone-800 rounded-2xl p-6 shadow-xl space-y-4">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
               <div className="flex items-center gap-2">
                 <Wallet className="w-4 h-4 text-amber-500" />
                 <h2 className="text-base font-bold text-stone-100 font-serif">
-                  Operasyonel Gider Kayıtları
+                  Operasyonel Masraf Kayıtları
                 </h2>
                 <span className="text-xs text-stone-500">({filteredExpenses.length} kayıt)</span>
               </div>
@@ -611,31 +1138,27 @@ export default function AdminFinansPage() {
                   <input
                     type="text"
                     placeholder="Gider ara..."
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
+                    value={expenseSearchQuery}
+                    onChange={(e) => setExpenseSearchQuery(e.target.value)}
                     className="pl-8 pr-3 py-1.5 bg-stone-950 border border-stone-800 rounded-xl text-xs text-stone-200 placeholder-stone-500 focus:outline-none focus:border-amber-500"
                   />
                 </div>
 
-                <div className="flex items-center gap-1.5">
-                  <Filter className="w-3.5 h-3.5 text-stone-500" />
-                  <select
-                    value={categoryFilter}
-                    onChange={(e) => setCategoryFilter(e.target.value)}
-                    className="bg-stone-950 border border-stone-800 rounded-xl px-2.5 py-1.5 text-xs text-stone-300 focus:outline-none focus:border-amber-500"
-                  >
-                    <option value="all">Tüm Kategoriler</option>
-                    <option value="hammadde">Hammadde</option>
-                    <option value="yakit_kurye">Yakıt & Kurye</option>
-                    <option value="ambalaj">Ambalaj & Koli</option>
-                    <option value="fatura_kira">Fatura & Kira</option>
-                    <option value="diger">Diğer</option>
-                  </select>
-                </div>
+                <select
+                  value={expenseCategoryFilter}
+                  onChange={(e) => setExpenseCategoryFilter(e.target.value)}
+                  className="bg-stone-950 border border-stone-800 rounded-xl px-2.5 py-1.5 text-xs text-stone-300 focus:outline-none focus:border-amber-500"
+                >
+                  <option value="all">Tüm Kategoriler</option>
+                  <option value="hammadde">Hammadde (Un vb.)</option>
+                  <option value="yakit_kurye">Yakıt & Kurye</option>
+                  <option value="ambalaj">Ambalaj & Koli</option>
+                  <option value="fatura_kira">Fatura & Kira</option>
+                  <option value="diger">Diğer</option>
+                </select>
               </div>
             </div>
 
-            {/* Table */}
             {filteredExpenses.length === 0 ? (
               <div className="text-center py-12 text-stone-500 text-xs bg-stone-950/40 rounded-xl border border-stone-800/60">
                 Kayıtlı gider bulunamadı.
@@ -711,13 +1234,11 @@ export default function AdminFinansPage() {
       )}
 
       {/* ========================================================================= */}
-      {/* TAB 2: COURIER SETTLEMENT (KURYE KASASI & GÜN SONU MUTABAKATI) */}
+      {/* TAB 3: KURYE KASASI & MUTABAKAT */}
       {/* ========================================================================= */}
       {activeTab === "courier_settlement" && (
         <div className="space-y-6">
-          {/* Settlement Control Bar */}
           <div className="bg-stone-900/80 border border-stone-800 p-4 sm:p-5 rounded-2xl flex flex-col md:flex-row md:items-center justify-between gap-4 shadow-xl">
-            {/* Date Picker & Presets */}
             <div className="flex flex-wrap items-center gap-2.5">
               <div className="flex items-center gap-2">
                 <Calendar className="w-4 h-4 text-amber-500" />
@@ -752,7 +1273,6 @@ export default function AdminFinansPage() {
                 </button>
               </div>
 
-              {/* Settlement Status Badge */}
               <div className="ml-2">
                 {isDaySettled ? (
                   <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-xl bg-emerald-950/70 border border-emerald-500/40 text-emerald-400 text-xs font-bold">
@@ -768,24 +1288,19 @@ export default function AdminFinansPage() {
               </div>
             </div>
 
-            {/* Actions: Close Register Button */}
-            <div>
-              <button
-                type="button"
-                onClick={handleCloseCashier}
-                disabled={isDaySettled || dayOrders.length === 0}
-                className="w-full sm:w-auto flex items-center justify-center gap-2 px-5 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-stone-950 font-bold font-serif rounded-xl text-xs transition-all shadow-lg shadow-emerald-600/20 active:scale-95 disabled:opacity-50"
-              >
-                <Lock className="w-4 h-4" />
-                <span>{isDaySettled ? "Mutabakat Tamamlandı" : "Kasayı Kapat & Mutabakatı Onayla"}</span>
-              </button>
-            </div>
+            <button
+              type="button"
+              onClick={handleCloseCashier}
+              disabled={isDaySettled || dayOrders.length === 0}
+              className="w-full sm:w-auto flex items-center justify-center gap-2 px-5 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-stone-950 font-bold font-serif rounded-xl text-xs transition-all shadow-lg shadow-emerald-600/20 active:scale-95 disabled:opacity-50"
+            >
+              <Lock className="w-4 h-4" />
+              <span>{isDaySettled ? "Mutabakat Tamamlandı" : "Kasayı Kapat & Mutabakatı Onayla"}</span>
+            </button>
           </div>
 
-          {/* 4 Courier Cashier Metric Cards */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            {/* Cash Collected */}
-            <div className="bg-stone-900/80 border border-stone-800 p-5 rounded-2xl relative overflow-hidden backdrop-blur-sm">
+            <div className="bg-stone-900/80 border border-stone-800 p-5 rounded-2xl">
               <div className="flex items-center justify-between text-xs text-stone-400 font-semibold uppercase tracking-wider">
                 <span>Kapıda Nakit Tahsilat</span>
                 <DollarSign className="w-4 h-4 text-emerald-400" />
@@ -793,206 +1308,674 @@ export default function AdminFinansPage() {
               <div className="text-2xl font-bold text-emerald-400 font-serif mt-2">
                 {courierSummary.cashCollected.toLocaleString("tr-TR")} ₺
               </div>
-              <div className="mt-1 flex items-center justify-between text-[11px] text-stone-400">
-                <span>Bekleyen Nakit:</span>
+              <div className="mt-1 text-[11px] text-stone-400">
+                Bekleyen Nakit:{" "}
                 <span className="font-mono font-semibold text-amber-400">
                   {courierSummary.cashPending.toLocaleString("tr-TR")} ₺
                 </span>
               </div>
-              <div className="absolute bottom-0 left-0 right-0 h-1 bg-emerald-500/50" />
             </div>
 
-            {/* POS Collected */}
-            <div className="bg-stone-900/80 border border-stone-800 p-5 rounded-2xl relative overflow-hidden backdrop-blur-sm">
+            <div className="bg-stone-900/80 border border-stone-800 p-5 rounded-2xl">
               <div className="flex items-center justify-between text-xs text-stone-400 font-semibold uppercase tracking-wider">
-                <span>Kapıda Mobil POS (Kart)</span>
+                <span>Mobil POS Tahsilat</span>
                 <CreditCard className="w-4 h-4 text-blue-400" />
               </div>
               <div className="text-2xl font-bold text-blue-400 font-serif mt-2">
                 {courierSummary.posCollected.toLocaleString("tr-TR")} ₺
               </div>
-              <div className="mt-1 flex items-center justify-between text-[11px] text-stone-400">
-                <span>Bekleyen POS:</span>
+              <div className="mt-1 text-[11px] text-stone-400">
+                Bekleyen POS:{" "}
                 <span className="font-mono font-semibold text-amber-400">
                   {courierSummary.posPending.toLocaleString("tr-TR")} ₺
                 </span>
               </div>
-              <div className="absolute bottom-0 left-0 right-0 h-1 bg-blue-500/50" />
             </div>
 
-            {/* Online / Transfer */}
-            <div className="bg-stone-900/80 border border-stone-800 p-5 rounded-2xl relative overflow-hidden backdrop-blur-sm">
+            <div className="bg-stone-900/80 border border-stone-800 p-5 rounded-2xl">
               <div className="flex items-center justify-between text-xs text-stone-400 font-semibold uppercase tracking-wider">
-                <span>Online / Havale Gelir</span>
-                <Wallet className="w-4 h-4 text-amber-400" />
+                <span>Online / Havale</span>
+                <TrendingUp className="w-4 h-4 text-purple-400" />
               </div>
-              <div className="text-2xl font-bold text-stone-100 font-serif mt-2">
+              <div className="text-2xl font-bold text-purple-400 font-serif mt-2">
                 {courierSummary.onlineTotal.toLocaleString("tr-TR")} ₺
               </div>
-              <div className="mt-1 text-[11px] text-stone-400">
-                Önceden fırın hesabına geçenler
-              </div>
-              <div className="absolute bottom-0 left-0 right-0 h-1 bg-amber-500/50" />
+              <div className="mt-1 text-[11px] text-stone-400">Peşin / Kart ile ödenen</div>
             </div>
 
-            {/* Delivery Progress */}
-            <div className="bg-stone-900/80 border border-stone-800 p-5 rounded-2xl relative overflow-hidden backdrop-blur-sm">
+            <div className="bg-stone-900/80 border border-stone-800 p-5 rounded-2xl">
               <div className="flex items-center justify-between text-xs text-stone-400 font-semibold uppercase tracking-wider">
-                <span>Dağıtım İlerlemesi</span>
-                <Truck className="w-4 h-4 text-purple-400" />
+                <span>Günün Toplam Cirosu</span>
+                <Wallet className="w-4 h-4 text-amber-500" />
               </div>
-              <div className="text-2xl font-bold text-stone-100 font-serif mt-2">
-                {courierSummary.deliveredCount} / {courierSummary.totalOrders}
+              <div className="text-2xl font-bold text-amber-400 font-serif mt-2">
+                {courierSummary.grandTotal.toLocaleString("tr-TR")} ₺
               </div>
               <div className="mt-1 text-[11px] text-stone-400">
-                {courierSummary.pendingCount > 0 ? (
-                  <span className="text-amber-400 font-medium">
-                    {courierSummary.pendingCount} sipariş yolda / teslim bekliyor
-                  </span>
-                ) : (
-                  <span className="text-emerald-400 font-medium">
-                    Tüm siparişler teslim edildi!
-                  </span>
-                )}
-              </div>
-              <div className="absolute bottom-0 left-0 right-0 h-1 bg-purple-500/50" />
-            </div>
-          </div>
-
-          {/* Courier Orders Settlement Table */}
-          <div className="bg-stone-900/70 border border-stone-800 rounded-2xl p-6 shadow-xl space-y-4">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2">
-                <FileText className="w-4 h-4 text-amber-500" />
-                <h2 className="text-base font-bold text-stone-100 font-serif">
-                  {selectedSettlementDate} Tarihli Kurye Dağıtım & Tahsilat Listesi
-                </h2>
-                <span className="text-xs text-stone-500">({dayOrders.length} sipariş)</span>
+                {courierSummary.deliveredCount} teslim / {courierSummary.totalOrders} toplam sipariş
               </div>
             </div>
-
-            {dayOrders.length === 0 ? (
-              <div className="text-center py-12 text-stone-500 text-xs bg-stone-950/40 rounded-xl border border-stone-800/60">
-                Bu tarihe ait teslimat siparişi bulunmuyor.
-              </div>
-            ) : (
-              <div className="overflow-x-auto rounded-xl border border-stone-800">
-                <table className="w-full text-left text-xs">
-                  <thead className="bg-stone-950/80 text-stone-400 font-semibold border-b border-stone-800">
-                    <tr>
-                      <th className="py-3 px-4">Sipariş</th>
-                      <th className="py-3 px-4">Müşteri</th>
-                      <th className="py-3 px-4">Mahalle / Adres</th>
-                      <th className="py-3 px-4">Ödeme Yöntemi</th>
-                      <th className="py-3 px-4 text-right">Tutar</th>
-                      <th className="py-3 px-4 text-center">Durum</th>
-                      <th className="py-3 px-4 text-right">Aksiyon</th>
-                    </tr>
-                  </thead>
-                  <tbody className="divide-y divide-stone-800/60">
-                    {dayOrders.map((o) => {
-                      const isDelivered = o.status === "teslim_edildi";
-                      const isCash = o.paymentMethod === "cash_on_delivery";
-                      const isPos = o.paymentMethod === "pos_at_door";
-
-                      return (
-                        <tr key={o.id} className="hover:bg-stone-800/30 transition-colors">
-                          <td className="py-3 px-4 font-mono font-bold text-amber-400">
-                            #{o.orderNumber || o.id.substring(0, 6)}
-                          </td>
-                          <td className="py-3 px-4">
-                            <div className="font-bold text-stone-200">{o.customerName}</div>
-                            <div className="text-[11px] text-stone-400">{o.phone}</div>
-                          </td>
-                          <td className="py-3 px-4">
-                            <div className="font-semibold text-stone-300">
-                              {o.neighborhood || "Beylikdüzü"}
-                            </div>
-                            <div className="text-[10px] text-stone-500 line-clamp-1">
-                              {o.deliveryAddress}
-                            </div>
-                          </td>
-                          <td className="py-3 px-4">
-                            {isCash && (
-                              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-lg bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 text-[10px] font-bold">
-                                💵 Kapıda Nakit
-                              </span>
-                            )}
-                            {isPos && (
-                              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-lg bg-blue-500/10 text-blue-400 border border-blue-500/20 text-[10px] font-bold">
-                                💳 Mobil POS
-                              </span>
-                            )}
-                            {!isCash && !isPos && (
-                              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-lg bg-stone-800 text-stone-300 border border-stone-700 text-[10px]">
-                                🌐 {o.paymentMethod === "online" ? "Online Kredi Kartı" : "Havale / EFT"}
-                              </span>
-                            )}
-                          </td>
-                          <td className="py-3 px-4 text-right font-mono font-bold text-stone-100 text-sm">
-                            {o.totalAmount.toLocaleString("tr-TR")} ₺
-                          </td>
-                          <td className="py-3 px-4 text-center">
-                            {isDelivered ? (
-                              <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-lg bg-emerald-950/80 text-emerald-300 border border-emerald-500/30 text-[10px] font-bold">
-                                <Check className="w-3 h-3 text-emerald-400" />
-                                <span>Teslim Edildi & Tahsil</span>
-                              </span>
-                            ) : (
-                              <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-lg bg-amber-950/80 text-amber-300 border border-amber-500/30 text-[10px] font-bold">
-                                <Clock className="w-3 h-3 text-amber-400" />
-                                <span>{o.status === "kuryede" ? "Kuryede (Yolda)" : "Hazırlanıyor"}</span>
-                              </span>
-                            )}
-                          </td>
-                          <td className="py-3 px-4 text-right">
-                            <div className="flex items-center justify-end gap-1.5">
-                              {!isDelivered && (
-                                <button
-                                  type="button"
-                                  onClick={() => updateOrderStatus(o.id, "teslim_edildi", "paid")}
-                                  className="px-2.5 py-1 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-stone-950 text-[11px] font-bold transition-all shadow"
-                                  title="Teslim Edildi ve Tahsil Edildi Olarak İşaretle"
-                                >
-                                  ✓ Tahsil Et
-                                </button>
-                              )}
-                              <button
-                                type="button"
-                                onClick={() => setSelectedOrderForSlip(o)}
-                                className="p-1.5 rounded-lg bg-stone-800 hover:bg-stone-700 text-stone-300 transition-colors"
-                                title="Sipariş Fişi Yazdır"
-                              >
-                                <Printer className="w-3.5 h-3.5" />
-                              </button>
-                            </div>
-                          </td>
-                        </tr>
-                      );
-                    })}
-                  </tbody>
-                </table>
-              </div>
-            )}
           </div>
         </div>
       )}
 
       {/* ========================================================================= */}
-      {/* MODALS */}
+      {/* MODAL 1: HIZLI FİŞ KES (ÜRÜN SEÇİMLİ & DİJİTAL FİŞ) */}
       {/* ========================================================================= */}
+      {quickSlipModalOpen && selectedCariForSlip && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/80 backdrop-blur-sm overflow-y-auto">
+          <div className="bg-stone-900 border border-stone-800 w-full max-w-2xl rounded-2xl sm:rounded-3xl shadow-2xl overflow-hidden my-6">
+            <div className="flex items-center justify-between p-5 border-b border-stone-800 bg-stone-950/80">
+              <div className="flex items-center gap-2.5">
+                <div className="w-8 h-8 rounded-xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-amber-500">
+                  <Receipt className="w-4 h-4" />
+                </div>
+                <div>
+                  <h3 className="font-serif font-bold text-stone-100 text-base">
+                    {selectedCariForSlip.businessName} - Hızlı Fiş Kes
+                  </h3>
+                  <p className="text-[11px] text-stone-400">
+                    Mevcut Bakiye:{" "}
+                    <strong className="text-amber-400">
+                      {selectedCariForSlip.balance.toLocaleString("tr-TR")} ₺
+                    </strong>
+                  </p>
+                </div>
+              </div>
 
-      {/* MODAL: YENİ GİDER KAYDET */}
-      {modalOpen && (
+              <button
+                onClick={() => setQuickSlipModalOpen(false)}
+                className="p-1.5 rounded-xl text-stone-400 hover:text-white hover:bg-stone-800"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            <form onSubmit={handleSaveQuickSlip} className="p-5 sm:p-6 space-y-5 max-h-[75vh] overflow-y-auto">
+              {/* Target Cari Selector (if user wants to switch) */}
+              <div className="space-y-1">
+                <label className="text-xs font-semibold text-stone-300">Firma / Cari Seçimi</label>
+                <select
+                  value={selectedCariForSlip.id}
+                  onChange={(e) => {
+                    const found = cariler.find((c) => c.id === e.target.value);
+                    if (found) setSelectedCariForSlip(found);
+                  }}
+                  className="w-full bg-stone-950 border border-stone-800 rounded-xl px-3 py-2 text-xs text-stone-100 font-bold focus:outline-none focus:border-amber-500"
+                >
+                  {cariler.map((c) => (
+                    <option key={c.id} value={c.id}>
+                      {c.businessName} ({c.balance.toLocaleString("tr-TR")} ₺)
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              {/* Date & Note Inputs */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div className="space-y-1">
+                  <label className="text-xs font-semibold text-stone-300">Teslimat Tarihi</label>
+                  <input
+                    type="date"
+                    required
+                    value={slipDate}
+                    onChange={(e) => setSlipDate(e.target.value)}
+                    className="w-full bg-stone-950 border border-stone-800 rounded-xl px-3 py-2 text-xs text-stone-100 focus:outline-none focus:border-amber-500"
+                  />
+                </div>
+
+                <div className="space-y-1">
+                  <label className="text-xs font-semibold text-stone-300">Fiş / Teslimat Notu (İsteğe Bağlı)</label>
+                  <input
+                    type="text"
+                    placeholder="Sabah servisi, şefe teslim vb..."
+                    value={slipNotes}
+                    onChange={(e) => setSlipNotes(e.target.value)}
+                    className="w-full bg-stone-950 border border-stone-800 rounded-xl px-3 py-2 text-xs text-stone-100 focus:outline-none focus:border-amber-500"
+                  />
+                </div>
+              </div>
+
+              {/* Bread & Product Selection */}
+              <div className="space-y-2">
+                <div className="flex items-center justify-between text-xs">
+                  <span className="font-bold text-stone-300 uppercase tracking-wider">
+                    Ekmek & Ürün Seçimi
+                  </span>
+                  <span className="text-[11px] text-amber-400 font-medium">
+                    Anlaşmalı Toptan Fiyatlar Uygulanır
+                  </span>
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 max-h-60 overflow-y-auto pr-1">
+                  {activeProducts.map((prod) => {
+                    const qty = slipQuantities[prod.id] || 0;
+                    const customPrice = selectedCariForSlip.customPrices?.[prod.id];
+                    const activePrice = customPrice !== undefined ? customPrice : prod.price;
+
+                    return (
+                      <div
+                        key={prod.id}
+                        className={`p-3 rounded-xl border flex items-center justify-between gap-2 transition-colors ${
+                          qty > 0
+                            ? "bg-amber-500/10 border-amber-500/40"
+                            : "bg-stone-950/60 border-stone-800 hover:border-stone-700"
+                        }`}
+                      >
+                        <div className="space-y-0.5">
+                          <div className="text-xs font-bold text-stone-200 line-clamp-1">
+                            {prod.name}
+                          </div>
+                          <div className="text-[11px] flex items-center gap-1.5 font-mono">
+                            <span className="text-amber-400 font-bold">{activePrice} ₺</span>
+                            {customPrice !== undefined && (
+                              <span className="text-[10px] text-stone-500 line-through">
+                                {prod.price} ₺
+                              </span>
+                            )}
+                          </div>
+                        </div>
+
+                        <div className="flex items-center gap-1.5 shrink-0">
+                          <button
+                            type="button"
+                            onClick={() => updateSlipQuantity(prod.id, -1)}
+                            disabled={qty === 0}
+                            className="w-7 h-7 rounded-lg bg-stone-800 hover:bg-stone-700 text-stone-300 flex items-center justify-center disabled:opacity-20"
+                          >
+                            <Minus className="w-3 h-3" />
+                          </button>
+                          <span className="w-6 text-center font-bold text-xs font-mono text-stone-100">
+                            {qty}
+                          </span>
+                          <button
+                            type="button"
+                            onClick={() => updateSlipQuantity(prod.id, 1)}
+                            className="w-7 h-7 rounded-lg bg-amber-500 hover:bg-amber-400 text-stone-950 font-bold flex items-center justify-center shadow"
+                          >
+                            <Plus className="w-3 h-3" />
+                          </button>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+
+              {/* Balance Summary & Collection Input */}
+              <div className="p-4 bg-stone-950/90 border border-stone-800 rounded-2xl space-y-3">
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-center text-xs">
+                  <div className="p-2 rounded-xl bg-stone-900 border border-stone-800">
+                    <div className="text-[10px] text-stone-400">Önceki Bakiye</div>
+                    <div className="font-bold font-mono text-stone-200 mt-0.5">
+                      {selectedCariForSlip.balance.toLocaleString("tr-TR")} ₺
+                    </div>
+                  </div>
+
+                  <div className="p-2 rounded-xl bg-amber-500/10 border border-amber-500/20">
+                    <div className="text-[10px] text-amber-400">(+) Bu Fiş</div>
+                    <div className="font-bold font-mono text-amber-400 mt-0.5">
+                      +{quickSlipTotal.toLocaleString("tr-TR")} ₺
+                    </div>
+                  </div>
+
+                  <div className="p-2 rounded-xl bg-emerald-500/10 border border-emerald-500/20">
+                    <div className="text-[10px] text-emerald-400">(-) Tahsilat</div>
+                    <div className="font-bold font-mono text-emerald-400 mt-0.5">
+                      -{slipPaymentCollected || 0} ₺
+                    </div>
+                  </div>
+
+                  <div className="p-2 rounded-xl bg-stone-950 border border-amber-500/40">
+                    <div className="text-[10px] text-stone-300 font-bold">(=) Yeni Bakiye</div>
+                    <div className="font-bold font-mono text-amber-400 mt-0.5">
+                      {(selectedCariForSlip.balance + quickSlipTotal - (slipPaymentCollected || 0)).toLocaleString("tr-TR")} ₺
+                    </div>
+                  </div>
+                </div>
+
+                {/* Inline Collection */}
+                <div className="p-3 bg-stone-900/80 rounded-xl border border-stone-800 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3">
+                  <div className="space-y-0.5">
+                    <div className="text-xs font-semibold text-stone-200">
+                      Teslimatta Tahsilat Alındı mı?
+                    </div>
+                    <div className="text-[11px] text-stone-400">
+                      Nakit veya havale alındıysa girin (isteğe bağlı):
+                    </div>
+                  </div>
+
+                  <div className="flex items-center gap-2">
+                    <input
+                      type="number"
+                      min={0}
+                      placeholder="0 ₺"
+                      value={slipPaymentCollected || ""}
+                      onChange={(e) => setSlipPaymentCollected(Number(e.target.value))}
+                      className="w-28 bg-stone-950 border border-stone-700 rounded-lg px-2.5 py-1.5 text-sm font-bold font-mono text-emerald-400 focus:outline-none focus:border-emerald-500 text-right"
+                    />
+
+                    <select
+                      value={slipPaymentMethod}
+                      onChange={(e) => setSlipPaymentMethod(e.target.value as any)}
+                      className="bg-stone-950 border border-stone-700 rounded-lg px-2 py-1.5 text-xs text-stone-300 focus:outline-none"
+                    >
+                      <option value="nakit">Nakit</option>
+                      <option value="banka_havale">Havale</option>
+                      <option value="kredi_karti">POS/Kart</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+              {/* Submit Button */}
+              <div className="flex items-center justify-end gap-3 pt-2">
+                <button
+                  type="button"
+                  onClick={() => setQuickSlipModalOpen(false)}
+                  className="px-4 py-2 bg-stone-800 hover:bg-stone-700 text-stone-300 rounded-xl text-xs font-semibold"
+                >
+                  Vazgeç
+                </button>
+                <button
+                  type="submit"
+                  disabled={slipSubmitting || quickSlipItems.length === 0}
+                  className="flex items-center gap-2 px-6 py-2.5 bg-artisan-terracotta hover:bg-artisan-terracotta/90 text-foreground font-bold rounded-xl text-xs transition-all shadow-lg shadow-artisan-terracotta/20 border border-artisan-gold/30 disabled:opacity-50 active:scale-95"
+                >
+                  <Receipt className="w-4 h-4" />
+                  <span>{slipSubmitting ? "Kaydediliyor..." : "Fişi Kes & Fişi Aç"}</span>
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* ========================================================================= */}
+      {/* MODAL 2: QUICK TAHSİLAT / ÖDEME MODAL */}
+      {/* ========================================================================= */}
+      {payModalOpen && selectedCariForPay && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
+          <div className="bg-stone-900 border border-stone-800 w-full max-w-md rounded-2xl shadow-2xl overflow-hidden">
+            <div className="flex items-center justify-between p-5 border-b border-stone-800 bg-stone-950/60">
+              <div className="flex items-center gap-2">
+                <DollarSign
+                  className={`w-5 h-5 ${payType === "tahsilat" ? "text-emerald-400" : "text-red-400"}`}
+                />
+                <h3 className="font-bold text-stone-100 font-serif text-base">
+                  {payType === "tahsilat" ? "Cari Tahsilat Al" : "Ödeme / Masraf Kaydet"}
+                </h3>
+              </div>
+              <button
+                onClick={() => setPayModalOpen(false)}
+                className="p-1 rounded-lg text-stone-400 hover:text-white hover:bg-stone-800"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            <form onSubmit={handleSubmitPayment} className="p-6 space-y-4">
+              <div className="p-3.5 rounded-xl bg-stone-950 border border-stone-800 space-y-1">
+                <div className="text-xs text-stone-400">Hesap / Firma:</div>
+                <div className="font-bold text-stone-100">{selectedCariForPay.businessName}</div>
+                <div className="text-xs text-stone-400 mt-1">
+                  Mevcut Bakiye:{" "}
+                  <strong className="text-amber-400">
+                    {selectedCariForPay.balance.toLocaleString("tr-TR")} ₺
+                  </strong>
+                </div>
+              </div>
+
+              {/* Type Switcher */}
+              <div className="flex items-center gap-2 p-1 bg-stone-950 border border-stone-800 rounded-xl">
+                <button
+                  type="button"
+                  onClick={() => setPayType("tahsilat")}
+                  className={`flex-1 py-1.5 rounded-lg text-xs font-bold transition-all ${
+                    payType === "tahsilat"
+                      ? "bg-emerald-500 text-stone-950 shadow"
+                      : "text-stone-400 hover:text-white"
+                  }`}
+                >
+                  Tahsilat (Para Girişi)
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setPayType("odeme")}
+                  className={`flex-1 py-1.5 rounded-lg text-xs font-bold transition-all ${
+                    payType === "odeme"
+                      ? "bg-red-500 text-stone-950 shadow"
+                      : "text-stone-400 hover:text-white"
+                  }`}
+                >
+                  Ödeme (Para Çıkışı)
+                </button>
+              </div>
+
+              <div className="space-y-1">
+                <label className="text-xs font-semibold text-stone-300">Tutar (₺)</label>
+                <input
+                  type="number"
+                  min={1}
+                  required
+                  value={payAmount || ""}
+                  onChange={(e) => setPayAmount(Number(e.target.value))}
+                  placeholder="0"
+                  className={`w-full bg-stone-950 border border-stone-800 rounded-xl px-3 py-2.5 text-base font-bold font-mono focus:outline-none ${
+                    payType === "tahsilat"
+                      ? "text-emerald-400 focus:border-emerald-500"
+                      : "text-red-400 focus:border-red-500"
+                  }`}
+                />
+              </div>
+
+              <div className="grid grid-cols-2 gap-3">
+                <div className="space-y-1">
+                  <label className="text-xs font-semibold text-stone-300">Ödeme Yöntemi</label>
+                  <select
+                    value={payMethod}
+                    onChange={(e) => setPayMethod(e.target.value as any)}
+                    className="w-full bg-stone-950 border border-stone-800 rounded-xl px-3 py-2 text-xs text-stone-100 focus:outline-none focus:border-amber-500"
+                  >
+                    <option value="banka_havale">Banka Havalesi / EFT</option>
+                    <option value="nakit">Elden Nakit</option>
+                    <option value="kredi_karti">Kredi Kartı / POS</option>
+                  </select>
+                </div>
+
+                <div className="space-y-1">
+                  <label className="text-xs font-semibold text-stone-300">Tarih</label>
+                  <input
+                    type="date"
+                    required
+                    value={payDate}
+                    onChange={(e) => setPayDate(e.target.value)}
+                    className="w-full bg-stone-950 border border-stone-800 rounded-xl px-3 py-2 text-xs text-stone-100 focus:outline-none focus:border-amber-500"
+                  />
+                </div>
+              </div>
+
+              <div className="space-y-1">
+                <label className="text-xs font-semibold text-stone-300">Açıklama / Not</label>
+                <input
+                  type="text"
+                  value={payDescription}
+                  onChange={(e) => setPayDescription(e.target.value)}
+                  placeholder={payType === "tahsilat" ? "Örn: Eylül ayı ekmek tahsilatı" : "Örn: Odun ödemesi"}
+                  className="w-full bg-stone-950 border border-stone-800 rounded-xl px-3 py-2 text-xs text-stone-100 focus:outline-none focus:border-amber-500"
+                />
+              </div>
+
+              <div className="flex items-center justify-end gap-3 pt-3 border-t border-stone-800">
+                <button
+                  type="button"
+                  onClick={() => setPayModalOpen(false)}
+                  className="px-4 py-2 bg-stone-800 hover:bg-stone-700 text-stone-300 rounded-xl text-xs font-semibold"
+                >
+                  Vazgeç
+                </button>
+                <button
+                  type="submit"
+                  disabled={paySubmitting || payAmount <= 0}
+                  className={`flex items-center gap-2 px-5 py-2 font-bold rounded-xl text-xs transition-all shadow-lg disabled:opacity-50 ${
+                    payType === "tahsilat"
+                      ? "bg-emerald-500 hover:bg-emerald-400 text-stone-950 shadow-emerald-500/20"
+                      : "bg-red-500 hover:bg-red-400 text-stone-950 shadow-red-500/20"
+                  }`}
+                >
+                  <CheckCircle2 className="w-4 h-4" />
+                  <span>{paySubmitting ? "Kaydediliyor..." : payType === "tahsilat" ? "Tahsilatı Onayla" : "Ödemeyi Onayla"}</span>
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* ========================================================================= */}
+      {/* MODAL 3: CREATE / EDIT CARI MODAL */}
+      {/* ========================================================================= */}
+      {cariModalOpen && editingCari && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm overflow-y-auto">
+          <div className="bg-stone-900 border border-stone-800 w-full max-w-3xl rounded-2xl shadow-2xl overflow-hidden my-8">
+            <div className="flex items-center justify-between p-5 border-b border-stone-800 bg-stone-950/60">
+              <div className="flex items-center gap-2">
+                <Building2 className="w-5 h-5 text-amber-500" />
+                <h3 className="font-bold text-stone-100 font-serif text-lg">
+                  {isNewCari ? "Yeni Cari / Hesap Tanımla" : "Cariyi & Özel Fiyatları Düzenle"}
+                </h3>
+              </div>
+              <button
+                onClick={() => setCariModalOpen(false)}
+                className="p-1 rounded-lg text-stone-400 hover:text-white hover:bg-stone-800"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            <form onSubmit={handleSaveCari} className="p-6 space-y-6 max-h-[80vh] overflow-y-auto">
+              {/* Account Type Selector */}
+              <div className="flex items-center gap-2 p-1.5 bg-stone-950 border border-stone-800 rounded-xl">
+                <button
+                  type="button"
+                  onClick={() =>
+                    setEditingCari({ ...editingCari, accountType: "musteri" })
+                  }
+                  className={`flex-1 py-2 rounded-lg text-xs font-bold transition-all ${
+                    editingCari.accountType !== "gider"
+                      ? "bg-amber-500 text-stone-950 shadow"
+                      : "text-stone-400 hover:text-white"
+                  }`}
+                >
+                  Kurumsal Müşteri (Şarküteri, Kafe, Restoran)
+                </button>
+                <button
+                  type="button"
+                  onClick={() =>
+                    setEditingCari({ ...editingCari, accountType: "gider" })
+                  }
+                  className={`flex-1 py-2 rounded-lg text-xs font-bold transition-all ${
+                    editingCari.accountType === "gider"
+                      ? "bg-red-500 text-stone-950 shadow"
+                      : "text-stone-400 hover:text-white"
+                  }`}
+                >
+                  Gider / Tedarikçi Hesabı (Dükkan Masrafları, Un, Odun vb.)
+                </button>
+              </div>
+
+              {/* Basic Fields */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div className="sm:col-span-2 space-y-1">
+                  <label className="text-xs font-semibold text-stone-300">
+                    {editingCari.accountType === "gider"
+                      ? "Gider / Hesap Adı"
+                      : "Firma / Kafe / Şarküteri Adı"}
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    placeholder={
+                      editingCari.accountType === "gider"
+                        ? "Örn: Dükkan Giderleri, Oduncu, Uncu Mehmet"
+                        : "Örn: EspressoLab Marina Şubesi"
+                    }
+                    value={editingCari.businessName || ""}
+                    onChange={(e) =>
+                      setEditingCari({ ...editingCari, businessName: e.target.value })
+                    }
+                    className="w-full bg-stone-950 border border-stone-800 rounded-xl px-3 py-2 text-sm text-stone-100 focus:outline-none focus:border-amber-500"
+                  />
+                </div>
+
+                <div className="space-y-1">
+                  <label className="text-xs font-semibold text-stone-300">Yetkili Kişi</label>
+                  <input
+                    type="text"
+                    placeholder="Örn: Burak Bey (Mutfak Şefi)"
+                    value={editingCari.contactPerson || ""}
+                    onChange={(e) =>
+                      setEditingCari({ ...editingCari, contactPerson: e.target.value })
+                    }
+                    className="w-full bg-stone-950 border border-stone-800 rounded-xl px-3 py-2 text-sm text-stone-100 focus:outline-none focus:border-amber-500"
+                  />
+                </div>
+
+                <div className="space-y-1">
+                  <label className="text-xs font-semibold text-stone-300">Telefon Numarası</label>
+                  <input
+                    type="tel"
+                    placeholder="0532..."
+                    value={editingCari.phone || ""}
+                    onChange={(e) => setEditingCari({ ...editingCari, phone: e.target.value })}
+                    className="w-full bg-stone-950 border border-stone-800 rounded-xl px-3 py-2 text-sm text-stone-100 focus:outline-none focus:border-amber-500"
+                  />
+                </div>
+
+                <div className="space-y-1">
+                  <label className="text-xs font-semibold text-stone-300">Beylikdüzü Mahallesi</label>
+                  <select
+                    value={editingCari.neighborhood || "Adnan Kahveci"}
+                    onChange={(e) =>
+                      setEditingCari({ ...editingCari, neighborhood: e.target.value })
+                    }
+                    className="w-full bg-stone-950 border border-stone-800 rounded-xl px-3 py-2 text-sm text-stone-100 focus:outline-none focus:border-amber-500"
+                  >
+                    {BEYLIKDUZU_NEIGHBORHOODS.map((n) => (
+                      <option key={n} value={n}>
+                        {n} Mahallesi
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
+                <div className="space-y-1">
+                  <label className="text-xs font-semibold text-stone-300">
+                    Vergi No / T.C. (İsteğe Bağlı)
+                  </label>
+                  <input
+                    type="text"
+                    placeholder="Vergi no veya T.C."
+                    value={editingCari.taxNumber || ""}
+                    onChange={(e) => setEditingCari({ ...editingCari, taxNumber: e.target.value })}
+                    className="w-full bg-stone-950 border border-stone-800 rounded-xl px-3 py-2 text-sm text-stone-100 focus:outline-none focus:border-amber-500"
+                  />
+                </div>
+
+                <div className="sm:col-span-2 space-y-1">
+                  <label className="text-xs font-semibold text-stone-300">Açık Adres</label>
+                  <textarea
+                    rows={2}
+                    placeholder="Sokak, bina no, kat/daire..."
+                    value={editingCari.address || ""}
+                    onChange={(e) => setEditingCari({ ...editingCari, address: e.target.value })}
+                    className="w-full bg-stone-950 border border-stone-800 rounded-xl px-3 py-2 text-sm text-stone-100 focus:outline-none focus:border-amber-500"
+                  />
+                </div>
+              </div>
+
+              {/* Custom Prices Section (For Customers) */}
+              {editingCari.accountType !== "gider" && (
+                <div className="pt-4 border-t border-stone-800 space-y-3">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                      <Tag className="w-4 h-4 text-amber-500" />
+                      <h4 className="text-xs font-bold text-amber-400 uppercase tracking-wider">
+                        İkili Anlaşmalı Toptan Fiyat Listesi
+                      </h4>
+                    </div>
+                    <span className="text-[11px] text-stone-400">
+                      Boş bırakılan ürünlerde normal vitrin fiyatı geçerlidir.
+                    </span>
+                  </div>
+
+                  <div className="border border-stone-800 rounded-xl overflow-hidden divide-y divide-stone-800 max-h-56 overflow-y-auto">
+                    {activeProducts.map((prod) => {
+                      const currentCustom = editingCari.customPrices?.[prod.id];
+
+                      return (
+                        <div
+                          key={prod.id}
+                          className="p-3 bg-stone-950/40 flex items-center justify-between gap-4 hover:bg-stone-900 transition-colors"
+                        >
+                          <div className="space-y-0.5">
+                            <div className="text-xs font-bold text-stone-200">{prod.name}</div>
+                            <div className="text-[11px] text-stone-500">
+                              Normal Perakende:{" "}
+                              <span className="text-stone-300 font-semibold">{prod.price} ₺</span>
+                            </div>
+                          </div>
+
+                          <div className="flex items-center gap-2 shrink-0">
+                            <span className="text-xs text-stone-400 font-medium">Anlaşma Fiyatı:</span>
+                            <div className="relative">
+                              <input
+                                type="number"
+                                min={0}
+                                placeholder={`${prod.price}`}
+                                value={currentCustom !== undefined ? currentCustom : ""}
+                                onChange={(e) => {
+                                  const val = e.target.value;
+                                  const updatedPrices = { ...(editingCari.customPrices || {}) };
+                                  if (val === "") {
+                                    delete updatedPrices[prod.id];
+                                  } else {
+                                    updatedPrices[prod.id] = Number(val);
+                                  }
+                                  setEditingCari({
+                                    ...editingCari,
+                                    customPrices: updatedPrices,
+                                  });
+                                }}
+                                className="w-24 bg-stone-900 border border-stone-700 rounded-lg px-2.5 py-1 text-xs font-bold text-amber-400 focus:outline-none focus:border-amber-500 text-right pr-6"
+                              />
+                              <span className="absolute right-2 top-1/2 -translate-y-1/2 text-xs text-stone-400 font-bold">
+                                ₺
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+              )}
+
+              {/* Action Buttons */}
+              <div className="flex items-center justify-end gap-3 pt-4 border-t border-stone-800">
+                <button
+                  type="button"
+                  onClick={() => setCariModalOpen(false)}
+                  className="px-4 py-2 bg-stone-800 hover:bg-stone-700 text-stone-300 rounded-xl text-xs font-semibold"
+                >
+                  Vazgeç
+                </button>
+                <button
+                  type="submit"
+                  className="flex items-center gap-2 px-5 py-2 bg-amber-500 hover:bg-amber-400 text-stone-950 font-bold rounded-xl text-xs transition-all shadow-lg shadow-amber-500/20"
+                >
+                  <Save className="w-4 h-4" />
+                  <span>{isNewCari ? "Cariyi Kaydet" : "Değişiklikleri Kaydet"}</span>
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* ========================================================================= */}
+      {/* MODAL 4: NEW EXPENSE MODAL */}
+      {/* ========================================================================= */}
+      {expenseModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
           <div className="bg-stone-900 border border-stone-800 w-full max-w-md rounded-2xl shadow-2xl overflow-hidden">
             <div className="flex items-center justify-between p-5 border-b border-stone-800 bg-stone-950/60">
               <div className="flex items-center gap-2">
                 <Wallet className="w-5 h-5 text-amber-500" />
-                <h3 className="font-bold text-stone-100 font-serif text-lg">Yeni Gider Kaydet</h3>
+                <h3 className="font-bold text-stone-100 font-serif text-base">Yeni Gider Kaydet</h3>
               </div>
               <button
-                onClick={() => setModalOpen(false)}
+                onClick={() => setExpenseModalOpen(false)}
                 className="p-1 rounded-lg text-stone-400 hover:text-white hover:bg-stone-800"
               >
                 <X className="w-5 h-5" />
@@ -1001,28 +1984,13 @@ export default function AdminFinansPage() {
 
             <form onSubmit={handleSaveExpense} className="p-6 space-y-4">
               <div className="space-y-1">
-                <label className="text-xs font-semibold text-stone-300">Gider Kategorisi</label>
-                <select
-                  value={category}
-                  onChange={(e) => setCategory(e.target.value as any)}
-                  className="w-full bg-stone-950 border border-stone-800 rounded-xl px-3 py-2 text-xs text-stone-100 focus:outline-none focus:border-amber-500"
-                >
-                  <option value="hammadde">🌾 Hammadde (Un, Süt, Maya vb.)</option>
-                  <option value="yakit_kurye">🛵 Yakıt & Kurye Dağıtım Masrafı</option>
-                  <option value="ambalaj">📦 Ambalaj, Kese Kağıdı & Koli</option>
-                  <option value="fatura_kira">⚡ Doğalgaz, Elektrik, Fırın Kirası</option>
-                  <option value="diger">🏷️ Diğer İşletme Giderleri</option>
-                </select>
-              </div>
-
-              <div className="space-y-1">
                 <label className="text-xs font-semibold text-stone-300">Gider Başlığı</label>
                 <input
                   type="text"
                   required
-                  placeholder="Örn: Kurye motor yakıtı (Beylikdüzü dağıtım)"
-                  value={title}
-                  onChange={(e) => setTitle(e.target.value)}
+                  placeholder="Örn: 10 Çuval Taş Değirmen Unu"
+                  value={expenseTitle}
+                  onChange={(e) => setExpenseTitle(e.target.value)}
                   className="w-full bg-stone-950 border border-stone-800 rounded-xl px-3 py-2 text-xs text-stone-100 focus:outline-none focus:border-amber-500"
                 />
               </div>
@@ -1034,10 +2002,10 @@ export default function AdminFinansPage() {
                     type="number"
                     min={1}
                     required
+                    value={expenseAmount || ""}
+                    onChange={(e) => setExpenseAmount(Number(e.target.value))}
                     placeholder="0"
-                    value={amount || ""}
-                    onChange={(e) => setAmount(Number(e.target.value))}
-                    className="w-full bg-stone-950 border border-stone-800 rounded-xl px-3 py-2 text-base font-bold text-red-400 focus:outline-none focus:border-amber-500"
+                    className="w-full bg-stone-950 border border-stone-800 rounded-xl px-3 py-2 text-xs font-bold text-red-400 focus:outline-none focus:border-red-500"
                   />
                 </div>
 
@@ -1046,53 +2014,70 @@ export default function AdminFinansPage() {
                   <input
                     type="date"
                     required
-                    value={date}
-                    onChange={(e) => setDate(e.target.value)}
+                    value={expenseDate}
+                    onChange={(e) => setExpenseDate(e.target.value)}
                     className="w-full bg-stone-950 border border-stone-800 rounded-xl px-3 py-2 text-xs text-stone-100 focus:outline-none focus:border-amber-500"
                   />
                 </div>
               </div>
 
-              <div className="space-y-1">
-                <label className="text-xs font-semibold text-stone-300">Ödeme Şekli</label>
-                <select
-                  value={paymentMethod}
-                  onChange={(e) => setPaymentMethod(e.target.value as any)}
-                  className="w-full bg-stone-950 border border-stone-800 rounded-xl px-3 py-2 text-xs text-stone-100 focus:outline-none focus:border-amber-500"
-                >
-                  <option value="banka_havale">Banka Havalesi / EFT</option>
-                  <option value="nakit">Nakit Kasa Çıkışı</option>
-                  <option value="kredi_karti">Şirket Kredi Kartı</option>
-                  <option value="cari_borc">Cari Borç Olarak Yaz</option>
-                </select>
+              <div className="grid grid-cols-2 gap-3">
+                <div className="space-y-1">
+                  <label className="text-xs font-semibold text-stone-300">Kategori</label>
+                  <select
+                    value={expenseCategory}
+                    onChange={(e) => setExpenseCategory(e.target.value as any)}
+                    className="w-full bg-stone-950 border border-stone-800 rounded-xl px-3 py-2 text-xs text-stone-100 focus:outline-none focus:border-amber-500"
+                  >
+                    <option value="hammadde">Hammadde (Un, Maya vb.)</option>
+                    <option value="yakit_kurye">Yakıt & Kurye</option>
+                    <option value="ambalaj">Ambalaj & Koli</option>
+                    <option value="fatura_kira">Fatura & Enerji</option>
+                    <option value="diger">Diğer</option>
+                  </select>
+                </div>
+
+                <div className="space-y-1">
+                  <label className="text-xs font-semibold text-stone-300">Ödeme Yöntemi</label>
+                  <select
+                    value={expensePayMethod}
+                    onChange={(e) => setExpensePayMethod(e.target.value as any)}
+                    className="w-full bg-stone-950 border border-stone-800 rounded-xl px-3 py-2 text-xs text-stone-100 focus:outline-none focus:border-amber-500"
+                  >
+                    <option value="banka_havale">Banka Havalesi / EFT</option>
+                    <option value="nakit">Nakit</option>
+                    <option value="kredi_karti">Şirket Kartı</option>
+                    <option value="cari_borc">Cari Borç</option>
+                  </select>
+                </div>
               </div>
 
               <div className="space-y-1">
-                <label className="text-xs font-semibold text-stone-300">Açıklama / Fiş No</label>
-                <textarea
-                  rows={2}
-                  placeholder="Fiş / fatura numarası veya detay notu..."
-                  value={notes}
-                  onChange={(e) => setNotes(e.target.value)}
+                <label className="text-xs font-semibold text-stone-300">Notlar (İsteğe Bağlı)</label>
+                <input
+                  type="text"
+                  value={expenseNotes}
+                  onChange={(e) => setExpenseNotes(e.target.value)}
+                  placeholder="Fatura no veya tedarikçi detayı..."
                   className="w-full bg-stone-950 border border-stone-800 rounded-xl px-3 py-2 text-xs text-stone-100 focus:outline-none focus:border-amber-500"
                 />
               </div>
 
-              <div className="flex items-center justify-end gap-3 pt-4 border-t border-stone-800">
+              <div className="flex items-center justify-end gap-3 pt-3 border-t border-stone-800">
                 <button
                   type="button"
-                  onClick={() => setModalOpen(false)}
+                  onClick={() => setExpenseModalOpen(false)}
                   className="px-4 py-2 bg-stone-800 hover:bg-stone-700 text-stone-300 rounded-xl text-xs font-semibold"
                 >
                   Vazgeç
                 </button>
                 <button
                   type="submit"
-                  disabled={submitting || amount <= 0}
+                  disabled={expenseSubmitting || expenseAmount <= 0}
                   className="flex items-center gap-2 px-5 py-2 bg-amber-500 hover:bg-amber-400 text-stone-950 font-bold rounded-xl text-xs transition-all shadow-lg shadow-amber-500/20 disabled:opacity-50"
                 >
-                  <CheckCircle2 className="w-4 h-4" />
-                  <span>{submitting ? "Kaydediliyor..." : "Gideri Kaydet"}</span>
+                  <Save className="w-4 h-4" />
+                  <span>{expenseSubmitting ? "Kaydediliyor..." : "Gideri Kaydet"}</span>
                 </button>
               </div>
             </form>
@@ -1100,23 +2085,31 @@ export default function AdminFinansPage() {
         </div>
       )}
 
-      {/* MODAL: KURYE GÜN SONU Z RAPORU / FİŞİ */}
+      {/* ========================================================================= */}
+      {/* MODAL 5: DİJİTAL FİŞ GÖRÜNTÜLEME MODALI (OrderSlipModal) */}
+      {/* ========================================================================= */}
+      {slipModalOpen && activeSlipOrder && (
+        <OrderSlipModal
+          order={activeSlipOrder}
+          isOpen={slipModalOpen}
+          onClose={() => {
+            setSlipModalOpen(false);
+            setActiveSlipOrder(null);
+          }}
+          cari={selectedCariForSlip}
+        />
+      )}
+
+      {/* ========================================================================= */}
+      {/* MODAL 6: KURYE Z RAPORU FİŞİ MODALI */}
+      {/* ========================================================================= */}
       <CourierSettlementModal
+        isOpen={courierSettlementModalOpen}
+        onClose={() => setCourierSettlementModalOpen(false)}
         date={selectedSettlementDate}
         orders={dayOrders}
         summary={courierSummary}
-        isOpen={courierSettlementModalOpen}
-        onClose={() => setCourierSettlementModalOpen(false)}
       />
-
-      {/* MODAL: TEKİL SİPARİŞ FİŞİ */}
-      {selectedOrderForSlip && (
-        <OrderSlipModal
-          order={selectedOrderForSlip}
-          isOpen={Boolean(selectedOrderForSlip)}
-          onClose={() => setSelectedOrderForSlip(null)}
-        />
-      )}
     </div>
   );
 }

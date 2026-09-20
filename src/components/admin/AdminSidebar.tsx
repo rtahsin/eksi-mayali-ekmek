@@ -28,84 +28,50 @@ interface AdminSidebarProps {
   pendingOrderCount?: number;
 }
 
+interface NavItem {
+  label: string;
+  href: string;
+  icon: React.ComponentType<{ className?: string }>;
+  badge?: number;
+  roles: string[];
+  exact?: boolean;
+  highlight?: boolean;
+}
+
 export function AdminSidebar({ isOpen, onClose, pendingOrderCount = 0 }: AdminSidebarProps) {
   const pathname = usePathname();
   const { adminUser } = useAdminAuth();
   
   const userRole = adminUser?.role || "support";
 
-  const navItems = [
+  const navItems: NavItem[] = [
     {
-      label: "Operasyon Özeti",
-      href: "/admin",
-      icon: LayoutDashboard,
-      exact: true,
-      roles: ["superadmin", "admin", "support", "editor"],
-    },
-    {
-      label: "Canlı Siparişler",
+      label: "Siparişler",
       href: "/admin/siparisler",
       icon: ShoppingBag,
       badge: pendingOrderCount > 0 ? pendingOrderCount : undefined,
       roles: ["superadmin", "admin", "support"],
     },
     {
-      label: "Kurye Dağıtım & Rota",
-      href: "/admin/siparisler/dagitim",
-      icon: Truck,
-      roles: ["superadmin", "admin", "support"],
-    },
-    {
-      label: "Hızlı Sipariş Girişi",
-      href: "/admin/siparisler/yeni",
-      icon: PlusCircle,
-      highlight: true,
-      roles: ["superadmin", "admin"],
-    },
-    {
-      label: "Ürün Kataloğu",
-      href: "/admin/urunler",
-      icon: Croissant,
-      roles: ["superadmin", "admin"],
-    },
-    {
-      label: "Üretim & Mayalama",
-      href: "/admin/uretim",
-      icon: Flame,
-      roles: ["superadmin", "admin"],
-    },
-    {
-      label: "Kurumsal Cariler (B2B)",
-      href: "/admin/cariler",
-      icon: Building2,
-      roles: ["superadmin", "admin"],
-    },
-    {
-      label: "Müşteri Masası (CRM)",
-      href: "/admin/musteriler",
-      icon: Users,
-      roles: ["superadmin", "admin"],
-    },
-    {
-      label: "Tedarikçiler & Hammadde",
-      href: "/admin/tedarikciler",
-      icon: Wheat,
-      roles: ["superadmin", "admin"],
-    },
-    {
-      label: "Kasa & Finans",
+      label: "Finans (Ön Muhasebe)",
       href: "/admin/finans",
       icon: Wallet,
       roles: ["superadmin", "admin"],
     },
     {
-      label: "Zanaat Bülteni CMS",
+      label: "Ürünler & Fiyatlar",
+      href: "/admin/urunler",
+      icon: Croissant,
+      roles: ["superadmin", "admin"],
+    },
+    {
+      label: "Kütüphane",
       href: "/admin/kutuphane",
       icon: BookOpen,
       roles: ["superadmin", "admin", "editor"],
     },
     {
-      label: "Fırın & Cihaz Ayarları",
+      label: "Ayarlar",
       href: "/admin/ayarlar",
       icon: Settings,
       roles: ["superadmin", "admin"],

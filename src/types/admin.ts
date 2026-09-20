@@ -75,6 +75,7 @@ export interface CariAccount {
   taxOffice?: string;
   customPrices?: Record<string, number>; // productId -> ikili anlaşma toptan fiyatı (₺)
   balance: number; // Müşterinin bize olan borcu (Pozitif = alacağımız var)
+  accountType?: "musteri" | "gider"; // musteri: Şarküteri/Kafe/Restoran, gider: Dükkan Giderleri/Tedarikçi
   notes?: string;
   createdAt: string;
   updatedAt?: string;
@@ -84,7 +85,7 @@ export interface CariTransaction {
   id: string;
   cariId: string;
   date: string; // YYYY-MM-DD
-  type: "satis" | "tahsilat"; // satis: sipariş verildi (borç yazıldı), tahsilat: ödeme alındı (alacak düştü)
+  type: "satis" | "tahsilat" | "odeme"; // satis: sipariş verildi (borç yazıldı), tahsilat: ödeme alındı (alacak düştü), odeme: para ödendi (gider/tedarikçi)
   amount: number;
   description: string;
   paymentMethod?: "nakit" | "banka_havale" | "kredi_karti" | "diger";

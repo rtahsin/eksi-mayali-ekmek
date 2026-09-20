@@ -44,7 +44,7 @@ export default function CariDetailPage() {
 
   // Modals
   const [txModalOpen, setTxModalOpen] = useState(false);
-  const [txType, setTxType] = useState<"satis" | "tahsilat">("tahsilat");
+  const [txType, setTxType] = useState<"satis" | "tahsilat" | "odeme">("tahsilat");
   const [txAmount, setTxAmount] = useState<number>(0);
   const [txDescription, setTxDescription] = useState<string>("");
   const [txDate, setTxDate] = useState<string>(new Date().toISOString().split("T")[0]);
@@ -308,13 +308,17 @@ export default function CariDetailPage() {
     setSlipModalOpen(true);
   };
 
-  // Open Simple Transaction Modal (Satış / Tahsilat)
-  const openModal = (type: "satis" | "tahsilat") => {
+  // Open Simple Transaction Modal (Satış / Tahsilat / Ödeme)
+  const openModal = (type: "satis" | "tahsilat" | "odeme") => {
     setTxType(type);
     setTxAmount(0);
     setTxDate(new Date().toISOString().split("T")[0]);
     setTxDescription(
-      type === "satis" ? "Toplu ekmek teslimatı" : "Banka havalesi ile cari ödeme"
+      type === "satis"
+        ? "Toplu ekmek teslimatı"
+        : type === "tahsilat"
+        ? "Banka havalesi ile cari tahsilat"
+        : "Cariye yapılan ödeme / masraf"
     );
     setTxModalOpen(true);
   };
@@ -561,13 +565,17 @@ export default function CariDetailPage() {
                           {tx.date}
                         </td>
                         <td className="py-3 px-4">
-                          {isSale ? (
+                          {tx.type === "satis" ? (
                             <span className="px-2 py-0.5 rounded bg-amber-500/10 text-amber-400 font-semibold border border-amber-500/20">
                               Satış (Borç)
                             </span>
-                          ) : (
+                          ) : tx.type === "tahsilat" ? (
                             <span className="px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-400 font-semibold border border-emerald-500/20">
-                              Tahsilat (Ödeme)
+                              Tahsilat (Giriş)
+                            </span>
+                          ) : (
+                            <span className="px-2 py-0.5 rounded bg-red-500/10 text-red-400 font-semibold border border-red-500/20">
+                              Ödeme (Çıkış)
                             </span>
                           )}
                         </td>
@@ -575,10 +583,10 @@ export default function CariDetailPage() {
                           {tx.description}
                         </td>
                         <td className="py-3 px-4 text-right font-mono font-bold text-amber-400">
-                          {isSale ? `${tx.amount.toLocaleString("tr-TR")} ₺` : "—"}
+                          {tx.type === "satis" ? `${tx.amount.toLocaleString("tr-TR")} ₺` : "—"}
                         </td>
                         <td className="py-3 px-4 text-right font-mono font-bold text-emerald-400">
-                          {!isSale ? `${tx.amount.toLocaleString("tr-TR")} ₺` : "—"}
+                          {tx.type !== "satis" ? `${tx.amount.toLocaleString("tr-TR")} ₺` : "—"}
                         </td>
                         <td className="py-3 px-4 text-center">
                           {isSale && (

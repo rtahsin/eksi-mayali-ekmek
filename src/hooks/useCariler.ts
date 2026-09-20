@@ -26,20 +26,24 @@ export function useCariler() {
       if (supaErr) throw supaErr;
 
       if (data) {
-        const mapped: CariAccount[] = data.map((d: any) => ({
-          id: d.id,
-          businessName: d.name || "İsimsiz Cari",
-          contactPerson: d.type || "",
-          phone: d.phone || "",
-          address: d.address || "",
-          neighborhood: "",
-          taxNumber: d.tax_id || "",
-          taxOffice: "",
-          balance: Number(d.balance) || 0,
-          notes: d.status || "",
-          createdAt: d.created_at,
-          updatedAt: d.updated_at,
-        }));
+        const mapped: CariAccount[] = data.map((d: any) => {
+          const isExpense = d.type === "gider" || (d.name && d.name.toLowerCase().includes("gider"));
+          return {
+            id: d.id,
+            businessName: d.name || "İsimsiz Cari",
+            contactPerson: d.type || "",
+            phone: d.phone || "",
+            address: d.address || "",
+            neighborhood: "",
+            taxNumber: d.tax_id || "",
+            taxOffice: "",
+            balance: Number(d.balance) || 0,
+            accountType: isExpense ? "gider" : "musteri",
+            notes: d.status || "",
+            createdAt: d.created_at,
+            updatedAt: d.updated_at,
+          };
+        });
         setCariler(mapped);
       }
     } catch (err: any) {
@@ -84,6 +88,7 @@ export function useCariler() {
         ...data,
         id: newId,
         balance,
+        accountType: data.accountType || (data.businessName.toLowerCase().includes("gider") ? "gider" : "musteri"),
         createdAt: new Date().toISOString(),
         updatedAt: new Date().toISOString(),
       };
@@ -93,7 +98,7 @@ export function useCariler() {
         const { error: insErr } = await (supabase as any).from("current_accounts").insert({
           id: newId,
           name: data.businessName,
-          type: data.contactPerson || "customer",
+          type: data.accountType || data.contactPerson || "customer",
           phone: data.phone || "",
           address: data.address || "",
           tax_id: data.taxNumber || "",
@@ -164,11 +169,11 @@ export function useCariler() {
     }
   };
 
-  // Add Cari Transaction (Satış veya Tahsilat)
+  // Add Cari Transaction (Satış, Tahsilat veya Ödeme)
   const addTransaction = async (
     cariId: string,
     tx: {
-      type: "satis" | "tahsilat";
+      type: "satis" | "tahsilat" | "odeme";
       amount: number;
       description: string;
       date?: string;
