@@ -85,12 +85,14 @@ export interface CariTransaction {
   id: string;
   cariId: string;
   date: string; // YYYY-MM-DD
-  type: "satis" | "tahsilat" | "odeme"; // satis: sipariş verildi (borç yazıldı), tahsilat: ödeme alındı (alacak düştü), odeme: para ödendi (gider/tedarikçi)
+  type: "satis" | "tahsilat" | "odeme" | "devir"; // satis: sipariş verildi (borç yazıldı), tahsilat: ödeme alındı (alacak düştü), odeme: para ödendi (gider/tedarikçi), devir: açılış/düzeltme devri
   amount: number;
   description: string;
   paymentMethod?: "nakit" | "banka_havale" | "kredi_karti" | "diger";
   orderId?: string;
-  createdAt: any;
+  slipNumber?: string; // FİŞ-2609-001 veya Belge No
+  balanceAfter?: number; // İşlem sonrası yürüyen bakiye
+  createdAt?: any;
 }
 
 export interface Supplier {

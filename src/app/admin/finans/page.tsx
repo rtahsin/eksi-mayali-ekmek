@@ -38,6 +38,7 @@ import {
   ExternalLink,
   Minus,
   Link2,
+  Gift,
 } from "lucide-react";
 import { useCariler } from "@/hooks/useCariler";
 import { useFinans } from "@/hooks/useFinans";
@@ -100,6 +101,9 @@ export default function AdminFinansPage() {
   const [quickSlipModalOpen, setQuickSlipModalOpen] = useState(false);
   const [selectedCariForSlip, setSelectedCariForSlip] = useState<CariAccount | null>(null);
   const [slipQuantities, setSlipQuantities] = useState<Record<string, number>>({});
+  const [slipFreeItems, setSlipFreeItems] = useState<Record<string, boolean>>({});
+  const [slipStaleReturn, setSlipStaleReturn] = useState<number>(0);
+  const [slipDiscount, setSlipDiscount] = useState<number>(0);
   const [slipDate, setSlipDate] = useState<string>(new Date().toISOString().split("T")[0]);
   const [slipPaymentCollected, setSlipPaymentCollected] = useState<number>(0);
   const [slipPaymentMethod, setSlipPaymentMethod] = useState<"nakit" | "banka_havale" | "kredi_karti">("nakit");
@@ -232,10 +236,21 @@ export default function AdminFinansPage() {
     }
     setSelectedCariForSlip(targetCari);
     setSlipQuantities({});
+    setSlipFreeItems({});
+    setSlipStaleReturn(0);
+    setSlipDiscount(0);
     setSlipDate(new Date().toISOString().split("T")[0]);
     setSlipPaymentCollected(0);
     setSlipNotes("");
     setQuickSlipModalOpen(true);
+  };
+
+  // Toggle item as free/ikram
+  const toggleSlipFreeItem = (productId: string) => {
+    setSlipFreeItems((prev) => ({
+      ...prev,
+      [productId]: !prev[productId],
+    }));
   };
 
   // Update item quantity in Quick Fiş
@@ -252,19 +267,21 @@ export default function AdminFinansPage() {
     });
   };
 
-  // Calculate items for Quick Fiş using agreed prices
+  // Calculate items for Quick Fiş using agreed prices and free/ikram overrides
   const quickSlipItems: OrderItem[] = useMemo(() => {
     return Object.entries(slipQuantities)
       .map(([pId, qty]) => {
         const prod = activeProducts.find((p) => p.id === pId);
         if (!prod || qty <= 0) return null;
 
+        const isFree = Boolean(slipFreeItems[pId]);
         const customPrice = selectedCariForSlip?.customPrices?.[pId];
-        const unitPrice = customPrice !== undefined ? customPrice : prod.price;
+        const normalPrice = customPrice !== undefined ? customPrice : prod.price;
+        const unitPrice = isFree ? 0 : normalPrice;
 
         return {
           productId: prod.id,
-          productName: prod.name,
+          productName: isFree ? `${prod.name} (İkram)` : prod.name,
           quantity: qty,
           unitPrice,
           totalPrice: unitPrice * qty,
@@ -272,20 +289,35 @@ export default function AdminFinansPage() {
         };
       })
       .filter(Boolean) as OrderItem[];
-  }, [slipQuantities, activeProducts, selectedCariForSlip]);
+  }, [slipQuantities, slipFreeItems, activeProducts, selectedCariForSlip]);
 
-  const quickSlipTotal = quickSlipItems.reduce((sum, it) => sum + it.totalPrice, 0);
+  const rawSlipSubtotal = quickSlipItems.reduce((sum, it) => sum + it.totalPrice, 0);
+  const quickSlipTotal = Math.max(0, rawSlipSubtotal - (slipStaleReturn || 0) - (slipDiscount || 0));
 
-  // Submit Quick Fiş
+  // Submit Quick Fiş with Sequential Numbering (FİŞ-2609-001) & Deductions
   const handleSaveQuickSlip = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!selectedCariForSlip || quickSlipItems.length === 0) return;
 
     setSlipSubmitting(true);
     try {
+      const now = new Date();
+      const yy = String(now.getFullYear()).slice(-2);
+      const mm = String(now.getMonth() + 1).padStart(2, "0");
+      const seq = String(Math.floor(Date.now() % 1000)).padStart(3, "0");
+      const generatedSlipNumber = `FİŞ-${yy}${mm}-${seq}`;
+
       const itemsSummary = quickSlipItems
-        .map((it) => `${it.quantity}x ${it.productName} (${it.unitPrice}₺)`)
+        .map((it) => `${it.quantity}x ${it.productName}${it.unitPrice > 0 ? ` (${it.unitPrice}₺)` : ""}`)
         .join(", ");
+
+      const deductionDetails: string[] = [];
+      if (slipStaleReturn > 0) deductionDetails.push(`Bayat İadesi: -${slipStaleReturn}₺`);
+      if (slipDiscount > 0) deductionDetails.push(`İskonto: -${slipDiscount}₺`);
+
+      const fullDescription = `[${generatedSlipNumber}] ${itemsSummary}${
+        deductionDetails.length > 0 ? ` [${deductionDetails.join(", ")}]` : ""
+      }`;
 
       const generatedOrderId = `ord_${Date.now().toString(36)}`;
 
@@ -293,7 +325,7 @@ export default function AdminFinansPage() {
       const res = await addTransaction(selectedCariForSlip.id, {
         type: "satis",
         amount: quickSlipTotal,
-        description: `Fiş: ${itemsSummary}`,
+        description: fullDescription,
         date: slipDate,
         orderId: generatedOrderId,
       });
@@ -303,7 +335,7 @@ export default function AdminFinansPage() {
         await addTransaction(selectedCariForSlip.id, {
           type: "tahsilat",
           amount: Number(slipPaymentCollected),
-          description: `Teslimatta Tahsilat (${slipPaymentMethod === "nakit" ? "Nakit" : slipPaymentMethod === "banka_havale" ? "Havale" : "POS"})`,
+          description: `Teslimatta Tahsilat - ${generatedSlipNumber} (${slipPaymentMethod === "nakit" ? "Nakit" : slipPaymentMethod === "banka_havale" ? "Havale" : "POS"})`,
           date: slipDate,
           paymentMethod: slipPaymentMethod,
           orderId: generatedOrderId,
@@ -316,7 +348,7 @@ export default function AdminFinansPage() {
         // Build AdminOrder representation to show in OrderSlipModal
         const slipOrder: AdminOrder = {
           id: generatedOrderId,
-          orderNumber: generatedOrderId.substring(4, 10).toUpperCase(),
+          orderNumber: generatedSlipNumber,
           customerName: selectedCariForSlip.businessName,
           phone: selectedCariForSlip.phone,
           deliveryAddress: selectedCariForSlip.address || "Belirtilmemiş",
@@ -325,7 +357,7 @@ export default function AdminFinansPage() {
           deliveryDate: slipDate,
           deliveryTimeWindow: "14:00 - 18:00",
           items: quickSlipItems,
-          subtotal: quickSlipTotal,
+          subtotal: rawSlipSubtotal,
           shippingFee: 0,
           totalAmount: quickSlipTotal,
           status: "teslim_edildi",
@@ -333,7 +365,7 @@ export default function AdminFinansPage() {
           paymentStatus: "paid",
           source: "whatsapp",
           cariId: selectedCariForSlip.id,
-          orderNotes: slipNotes,
+          orderNotes: slipNotes ? `${slipNotes}${deductionDetails.length > 0 ? ` • ${deductionDetails.join(", ")}` : ""}` : deductionDetails.join(", "),
           createdAt: new Date().toISOString(),
         };
 
@@ -1097,6 +1129,22 @@ export default function AdminFinansPage() {
                         </Link>
                       </div>
 
+                      {/* WhatsApp Live Statement Share Button */}
+                      {!isExpense && (
+                        <a
+                          href={`https://wa.me/90${cari.phone.replace(/\D/g, "")}?text=${encodeURIComponent(
+                            `🍞 *EKMEKLAB TAŞ FIRIN - CARİ HESAP EKSTRESİ*\nSayın *${cari.businessName}*,\n\n📊 *Güncel Kalan Bakiye:* ${cari.balance.toLocaleString("tr-TR")} ₺\n🔗 *Canlı Ekstre Linkiniz:* ${typeof window !== "undefined" ? window.location.origin : "https://ekmeklab.tr"}/ekstre/${cari.id}\n\nTüm teslimat fişlerinizi ve ödemelerinizi yukarıdaki bağlantıdan anlık olarak inceleyebilirsiniz.\nBereketli işler dileriz!\nEkmekLab Zanaatkar Fırın`
+                          )}`}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="w-full flex items-center justify-center gap-1.5 py-1.5 px-3 rounded-xl bg-emerald-600/15 hover:bg-emerald-600/25 text-emerald-400 text-xs font-semibold border border-emerald-500/30 transition-colors"
+                          title="Müşteriye Canlı Ekstre Linkini WhatsApp'tan Gönder"
+                        >
+                          <MessageCircle className="w-3.5 h-3.5" />
+                          <span>WhatsApp Ekstre Gönder</span>
+                        </a>
+                      )}
+
                       {/* Secondary Row: Edit */}
                       <div className="flex items-center justify-between pt-1 text-xs">
                         <button
@@ -1524,6 +1572,7 @@ export default function AdminFinansPage() {
                     const qty = slipQuantities[prod.id] || 0;
                     const customPrice = selectedCariForSlip.customPrices?.[prod.id];
                     const activePrice = customPrice !== undefined ? customPrice : prod.price;
+                    const isFree = Boolean(slipFreeItems[prod.id]);
 
                     return (
                       <div
@@ -1534,21 +1583,46 @@ export default function AdminFinansPage() {
                             : "bg-stone-950/60 border-stone-800 hover:border-stone-700"
                         }`}
                       >
-                        <div className="space-y-0.5">
+                        <div className="space-y-1">
                           <div className="text-xs font-bold text-stone-200 line-clamp-1">
                             {prod.name}
                           </div>
                           <div className="text-[11px] flex items-center gap-1.5 font-mono">
-                            <span className="text-amber-400 font-bold">{activePrice} ₺</span>
-                            {customPrice !== undefined && (
-                              <span className="text-[10px] text-stone-500 line-through">
-                                {prod.price} ₺
+                            {isFree ? (
+                              <span className="px-1.5 py-0.5 rounded bg-purple-500/20 text-purple-300 font-bold text-[10px] border border-purple-500/30">
+                                🎁 İkram (0 ₺)
                               </span>
+                            ) : (
+                              <>
+                                <span className="text-amber-400 font-bold">{activePrice} ₺</span>
+                                {customPrice !== undefined && (
+                                  <span className="text-[10px] text-stone-500 line-through">
+                                    {prod.price} ₺
+                                  </span>
+                                )}
+                              </>
                             )}
                           </div>
                         </div>
 
                         <div className="flex items-center gap-1 shrink-0">
+                          {/* İkram / Free Toggle */}
+                          {qty > 0 && (
+                            <button
+                              type="button"
+                              onClick={() => toggleSlipFreeItem(prod.id)}
+                              className={`px-1.5 h-7 rounded-lg text-[10px] font-bold flex items-center gap-0.5 transition-all ${
+                                isFree
+                                  ? "bg-purple-600 text-white shadow"
+                                  : "bg-stone-800 hover:bg-stone-700 text-stone-400 border border-stone-700"
+                              }`}
+                              title="Bu ürünü ikram / numune olarak ver (0 ₺)"
+                            >
+                              <Gift className="w-2.5 h-2.5" />
+                              <span>{isFree ? "İkram" : "İkram"}</span>
+                            </button>
+                          )}
+
                           <button
                             type="button"
                             onClick={() => updateSlipQuantity(prod.id, -1)}
@@ -1609,6 +1683,39 @@ export default function AdminFinansPage() {
                 </div>
               </div>
 
+              {/* Deductions: Bayat İadesi & İskonto */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 p-3.5 bg-stone-950/60 border border-stone-800 rounded-2xl">
+                <div className="space-y-1">
+                  <label className="text-[11px] font-semibold text-rose-400 flex items-center justify-between">
+                    <span>Bayat Ekmek İadesi / Fire (-₺)</span>
+                    <span className="text-[10px] text-stone-500 font-normal">Dünkü kalanlar</span>
+                  </label>
+                  <input
+                    type="number"
+                    min="0"
+                    placeholder="0 ₺"
+                    value={slipStaleReturn || ""}
+                    onChange={(e) => setSlipStaleReturn(Math.max(0, Number(e.target.value) || 0))}
+                    className="w-full bg-stone-900 border border-stone-800 focus:border-rose-500 rounded-xl px-3 py-2 text-xs font-mono font-bold text-rose-400 focus:outline-none"
+                  />
+                </div>
+
+                <div className="space-y-1">
+                  <label className="text-[11px] font-semibold text-amber-400 flex items-center justify-between">
+                    <span>Genel İskonto / Yuvarlama (-₺)</span>
+                    <span className="text-[10px] text-stone-500 font-normal">Tutar indirimi</span>
+                  </label>
+                  <input
+                    type="number"
+                    min="0"
+                    placeholder="0 ₺"
+                    value={slipDiscount || ""}
+                    onChange={(e) => setSlipDiscount(Math.max(0, Number(e.target.value) || 0))}
+                    className="w-full bg-stone-900 border border-stone-800 focus:border-amber-500 rounded-xl px-3 py-2 text-xs font-mono font-bold text-amber-400 focus:outline-none"
+                  />
+                </div>
+              </div>
+
               {/* Balance Summary & Collection Input */}
               <div className="p-4 bg-stone-950/90 border border-stone-800 rounded-2xl space-y-3">
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-center text-xs">
@@ -1620,10 +1727,15 @@ export default function AdminFinansPage() {
                   </div>
 
                   <div className="p-2 rounded-xl bg-amber-500/10 border border-amber-500/20">
-                    <div className="text-[10px] text-amber-400">(+) Bu Fiş</div>
+                    <div className="text-[10px] text-amber-400">(+) Bu Fiş Tutarı</div>
                     <div className="font-bold font-mono text-amber-400 mt-0.5">
                       +{(quickSlipTotal || 0).toLocaleString("tr-TR")} ₺
                     </div>
+                    {(slipStaleReturn > 0 || slipDiscount > 0) && (
+                      <div className="text-[9px] text-stone-400">
+                        (Ham: {rawSlipSubtotal} ₺)
+                      </div>
+                    )}
                   </div>
 
                   <div className="p-2 rounded-xl bg-emerald-500/10 border border-emerald-500/20">

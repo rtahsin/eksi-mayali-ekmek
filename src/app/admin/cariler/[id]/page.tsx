@@ -23,6 +23,12 @@ import {
   Minus,
   Check,
   Share2,
+  Trash2,
+  Eye,
+  RotateCcw,
+  FileText,
+  Wallet,
+  Gift,
 } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 import { useCariler } from "@/hooks/useCariler";
@@ -35,11 +41,12 @@ export default function CariDetailPage() {
   const router = useRouter();
   const cariId = params?.id as string;
 
-  const { addTransaction, setManualBalance } = useCariler();
+  const { addTransaction, setManualBalance, deleteTransaction } = useCariler();
   const { products } = useProducts("all");
 
   const [cari, setCari] = useState<CariAccount | null>(null);
   const [transactions, setTransactions] = useState<CariTransaction[]>([]);
+  const [startingBalance, setStartingBalance] = useState<number>(0);
   const [loading, setLoading] = useState(true);
 
   // Modals
@@ -54,6 +61,9 @@ export default function CariDetailPage() {
   // Quick Digital Fiş Modal State
   const [quickSlipModalOpen, setQuickSlipModalOpen] = useState(false);
   const [slipQuantities, setSlipQuantities] = useState<Record<string, number>>({});
+  const [slipFreeItems, setSlipFreeItems] = useState<Record<string, boolean>>({});
+  const [slipStaleReturn, setSlipStaleReturn] = useState<number>(0);
+  const [slipDiscount, setSlipDiscount] = useState<number>(0);
   const [slipDate, setSlipDate] = useState<string>(new Date().toISOString().split("T")[0]);
   const [slipPaymentCollected, setSlipPaymentCollected] = useState<number>(0);
   const [slipPaymentMethod, setSlipPaymentMethod] = useState<"nakit" | "banka_havale" | "kredi_karti">("nakit");
@@ -89,6 +99,7 @@ export default function CariDetailPage() {
     if (res.success) {
       setCari((prev) => (prev ? { ...prev, balance: Number(newBalanceInput || 0) } : null));
       setBalanceAdjustModalOpen(false);
+      fetchCariData();
     } else {
       alert("Bakiye güncellenirken hata: " + res.error);
     }
@@ -98,67 +109,123 @@ export default function CariDetailPage() {
   // Active Tab
   const [activeTab, setActiveTab] = useState<"ekstre" | "fiyatlar">("ekstre");
 
-  // Fetch Cari details from Supabase
-  useEffect(() => {
+  // Fetch Cari details and calculate Running Balance
+  const fetchCariData = async () => {
     if (!cariId) return;
 
     const supabase = createClient();
     if (!supabase) return;
 
-    const fetchCariData = async () => {
-      try {
-        // 1. Fetch Account
-        const { data: acc } = await (supabase as any)
-          .from("current_accounts")
-          .select("*")
-          .eq("id", cariId)
-          .single();
+    try {
+      // 1. Fetch Account
+      const { data: acc } = await (supabase as any)
+        .from("current_accounts")
+        .select("*")
+        .eq("id", cariId)
+        .single();
 
-        if (acc) {
-          setCari({
-            id: acc.id,
-            businessName: acc.name || "Cari Hesap",
-            contactPerson: acc.type || "",
-            phone: acc.phone || "",
-            address: acc.address || "",
-            neighborhood: "",
-            taxNumber: acc.tax_id || "",
-            balance: Number(acc.balance) || 0,
-            notes: acc.status || "",
-            createdAt: acc.created_at,
-            updatedAt: acc.updated_at,
-          });
-        }
+      let currentAcc: CariAccount | null = null;
+      if (acc) {
+        currentAcc = {
+          id: acc.id,
+          businessName: acc.name || "Cari Hesap",
+          contactPerson: acc.type || "",
+          phone: acc.phone || "",
+          address: acc.address || "",
+          neighborhood: "",
+          taxNumber: acc.tax_id || "",
+          taxOffice: "",
+          balance: Number(acc.balance) || 0,
+          accountType: acc.type === "gider" || (acc.name && acc.name.toLowerCase().includes("gider")) ? "gider" : "musteri",
+          notes: acc.status || "",
+          createdAt: acc.created_at,
+          updatedAt: acc.updated_at,
+        };
+        setCari(currentAcc);
+      }
 
-        // 2. Fetch Transactions
-        const { data: txs } = await (supabase as any)
-          .from("account_transactions")
-          .select("*")
-          .eq("account_id", cariId)
-          .order("date", { ascending: false });
+      // 2. Fetch Transactions ordered chronologically ascending to compute running balances
+      const { data: txs } = await (supabase as any)
+        .from("account_transactions")
+        .select("*")
+        .eq("account_id", cariId)
+        .order("date", { ascending: true })
+        .order("created_at", { ascending: true });
 
-        if (txs) {
-          const mapped: CariTransaction[] = txs.map((t: any) => ({
+      if (txs) {
+        const isExpense = currentAcc?.accountType === "gider";
+        const mapped: CariTransaction[] = txs.map((t: any) => {
+          const descLower = (t.description || "").toLowerCase();
+          let txType: "satis" | "tahsilat" | "odeme" | "devir" = "satis";
+
+          if (descLower.includes("devir") || descLower.includes("açılış") || descLower.includes("düzeltme")) {
+            txType = "devir";
+          } else if (t.type === "debt") {
+            txType = "satis";
+          } else if (t.type === "credit") {
+            txType = isExpense ? "odeme" : "tahsilat";
+          }
+
+          // Extract slipNumber if present in description e.g. [FİŞ-2609-001]
+          const slipMatch = (t.description || "").match(/\[(FİŞ-[^\]]+)\]/i);
+          const slipNumber = slipMatch ? slipMatch[1] : undefined;
+
+          return {
             id: t.id,
             cariId: t.account_id,
             date: t.date ? new Date(t.date).toISOString().split("T")[0] : new Date().toISOString().split("T")[0],
-            type: t.type === "debt" ? "satis" : "tahsilat",
+            type: txType,
             amount: Number(t.amount) || 0,
             description: t.description || "",
             paymentMethod: "banka_havale",
             orderId: t.order_id,
+            slipNumber,
             createdAt: t.created_at,
-          }));
-          setTransactions(mapped);
-        }
-      } catch (err) {
-        console.warn("Cari fetch notice:", err);
-      } finally {
-        setLoading(false);
+          };
+        });
+
+        // Compute delta for each transaction
+        // debt (Satış, borç devri): +amount
+        // credit (Tahsilat, ödeme, alacak devri): -amount
+        const getDelta = (t: CariTransaction, originalType: string) => {
+          if (originalType === "credit") return -t.amount;
+          if (originalType === "debt") return t.amount;
+          if (t.type === "tahsilat") return -t.amount;
+          if (t.type === "odeme") return isExpense ? -t.amount : t.amount;
+          return t.amount;
+        };
+
+        const totalDelta = mapped.reduce((sum, t, idx) => sum + getDelta(t, txs[idx]?.type), 0);
+        const currentBal = currentAcc ? currentAcc.balance : 0;
+        const startBal = currentBal - totalDelta;
+        setStartingBalance(Math.round(startBal * 100) / 100);
+
+        let running = startBal;
+        const txsWithBalance = mapped.map((t, idx) => {
+          running += getDelta(t, txs[idx]?.type);
+          return {
+            ...t,
+            balanceAfter: Math.round(running * 100) / 100,
+          };
+        });
+
+        // Store newest first for the user-facing ledger view
+        setTransactions([...txsWithBalance].reverse());
       }
-    };
+    } catch (err) {
+      console.warn("Cari fetch notice:", err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    if (!cariId) return;
 
     fetchCariData();
+
+    const supabase = createClient();
+    if (!supabase) return;
 
     const channelId = `cari-detail-${cariId}-${Date.now()}-${Math.random().toString(36).substring(2, 7)}`;
     const channel = supabase
@@ -177,13 +244,53 @@ export default function CariDetailPage() {
     };
   }, [cariId]);
 
+  // Delete transaction with automatic reverse balance adjustment (Ters Kayıt)
+  const handleDeleteTransaction = async (tx: CariTransaction) => {
+    if (!cari) return;
+
+    const isSale = tx.type === "satis";
+    const isTahsilat = tx.type === "tahsilat";
+    const actionDesc = isSale ? "satış / fiş kaydını" : isTahsilat ? "tahsilat kaydını" : "işlem kaydını";
+    const confirmMessage = `Bu ${actionDesc} silmek ve iptal etmek istediğinize emin misiniz?\n\nİşlem: ${tx.description}\nTutar: ${tx.amount.toLocaleString("tr-TR")} ₺\n\nSilindiğinde cari bakiye otomatik olarak ters kayıt ile düzeltilecektir.`;
+
+    if (!window.confirm(confirmMessage)) return;
+
+    const isCredit = tx.type === "tahsilat" || (tx.type === "odeme" && cari.accountType === "gider");
+    const res = await deleteTransaction(
+      cari.id,
+      tx.id,
+      tx.type,
+      tx.amount,
+      cari.accountType,
+      isCredit
+    );
+
+    if (res.success) {
+      // Re-fetch to get complete, exact state from database
+      await fetchCariData();
+    } else {
+      alert("İşlem silinirken hata oluştu: " + res.error);
+    }
+  };
+
   // Open Quick Digital Fiş Modal
   const handleOpenQuickSlipModal = () => {
     setSlipQuantities({});
+    setSlipFreeItems({});
+    setSlipStaleReturn(0);
+    setSlipDiscount(0);
     setSlipDate(new Date().toISOString().split("T")[0]);
     setSlipPaymentCollected(0);
     setSlipNotes("");
     setQuickSlipModalOpen(true);
+  };
+
+  // Toggle item as free/ikram
+  const toggleSlipFreeItem = (productId: string) => {
+    setSlipFreeItems((prev) => ({
+      ...prev,
+      [productId]: !prev[productId],
+    }));
   };
 
   // Update item quantity in Quick Fiş
@@ -200,7 +307,7 @@ export default function CariDetailPage() {
     });
   };
 
-  // Calculate items for Quick Fiş using agreed prices
+  // Calculate items for Quick Fiş using agreed prices and free/ikram overrides
   const activeProducts = products.length > 0 ? products : INITIAL_PRODUCTS;
 
   const quickSlipItems: OrderItem[] = useMemo(() => {
@@ -209,12 +316,14 @@ export default function CariDetailPage() {
         const prod = activeProducts.find((p) => p.id === pId);
         if (!prod || qty <= 0) return null;
 
+        const isFree = Boolean(slipFreeItems[pId]);
         const customPrice = cari?.customPrices?.[pId];
-        const unitPrice = customPrice !== undefined ? customPrice : prod.price;
+        const normalPrice = customPrice !== undefined ? customPrice : prod.price;
+        const unitPrice = isFree ? 0 : normalPrice;
 
         return {
           productId: prod.id,
-          productName: prod.name,
+          productName: isFree ? `${prod.name} (İkram)` : prod.name,
           quantity: qty,
           unitPrice,
           totalPrice: unitPrice * qty,
@@ -222,20 +331,36 @@ export default function CariDetailPage() {
         };
       })
       .filter(Boolean) as OrderItem[];
-  }, [slipQuantities, activeProducts, cari]);
+  }, [slipQuantities, slipFreeItems, activeProducts, cari]);
 
-  const quickSlipTotal = quickSlipItems.reduce((sum, it) => sum + it.totalPrice, 0);
+  const rawSlipSubtotal = quickSlipItems.reduce((sum, it) => sum + it.totalPrice, 0);
+  const quickSlipTotal = Math.max(0, rawSlipSubtotal - (slipStaleReturn || 0) - (slipDiscount || 0));
 
-  // Submit Quick Fiş
+  // Submit Quick Fiş with Sequential Numbering (FİŞ-2609-001) & Deductions
   const handleSaveQuickSlip = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!cari || quickSlipItems.length === 0) return;
 
     setSlipSubmitting(true);
     try {
+      const now = new Date();
+      const yy = String(now.getFullYear()).slice(-2);
+      const mm = String(now.getMonth() + 1).padStart(2, "0");
+      const slipsCount = transactions.filter((t) => t.type === "satis").length + 1;
+      const seq = String(slipsCount).padStart(3, "0");
+      const generatedSlipNumber = `FİŞ-${yy}${mm}-${seq}`;
+
       const itemsSummary = quickSlipItems
-        .map((it) => `${it.quantity}x ${it.productName} (${it.unitPrice}₺)`)
+        .map((it) => `${it.quantity}x ${it.productName}${it.unitPrice > 0 ? ` (${it.unitPrice}₺)` : ""}`)
         .join(", ");
+
+      const deductionDetails: string[] = [];
+      if (slipStaleReturn > 0) deductionDetails.push(`Bayat İadesi: -${slipStaleReturn}₺`);
+      if (slipDiscount > 0) deductionDetails.push(`İskonto: -${slipDiscount}₺`);
+
+      const fullDescription = `[${generatedSlipNumber}] ${itemsSummary}${
+        deductionDetails.length > 0 ? ` [${deductionDetails.join(", ")}]` : ""
+      }`;
 
       const generatedOrderId = `ord_${Date.now().toString(36)}`;
 
@@ -243,7 +368,7 @@ export default function CariDetailPage() {
       const res = await addTransaction(cari.id, {
         type: "satis",
         amount: quickSlipTotal,
-        description: `Fiş: ${itemsSummary}`,
+        description: fullDescription,
         date: slipDate,
         orderId: generatedOrderId,
       });
@@ -253,7 +378,7 @@ export default function CariDetailPage() {
         await addTransaction(cari.id, {
           type: "tahsilat",
           amount: Number(slipPaymentCollected),
-          description: `Teslimatta Tahsilat (${slipPaymentMethod === "nakit" ? "Nakit" : slipPaymentMethod === "banka_havale" ? "Havale" : "POS"})`,
+          description: `Teslimatta Tahsilat - ${generatedSlipNumber} (${slipPaymentMethod === "nakit" ? "Nakit" : slipPaymentMethod === "banka_havale" ? "Havale" : "POS"})`,
           date: slipDate,
           paymentMethod: slipPaymentMethod,
           orderId: generatedOrderId,
@@ -266,7 +391,7 @@ export default function CariDetailPage() {
         // Build AdminOrder representation to show in OrderSlipModal
         const slipOrder: AdminOrder = {
           id: generatedOrderId,
-          orderNumber: generatedOrderId.substring(4, 10).toUpperCase(),
+          orderNumber: generatedSlipNumber,
           customerName: cari.businessName,
           phone: cari.phone,
           deliveryAddress: cari.address || "Belirtilmemiş",
@@ -275,7 +400,7 @@ export default function CariDetailPage() {
           deliveryDate: slipDate,
           deliveryTimeWindow: "14:00 - 18:00",
           items: quickSlipItems,
-          subtotal: quickSlipTotal,
+          subtotal: rawSlipSubtotal,
           shippingFee: 0,
           totalAmount: quickSlipTotal,
           status: "teslim_edildi",
@@ -283,19 +408,51 @@ export default function CariDetailPage() {
           paymentStatus: "paid",
           source: "whatsapp",
           cariId: cari.id,
-          orderNotes: slipNotes,
+          orderNotes: slipNotes ? `${slipNotes}${deductionDetails.length > 0 ? ` • ${deductionDetails.join(", ")}` : ""}` : deductionDetails.join(", "),
           createdAt: new Date().toISOString(),
         };
 
         // Pop up the digital fiş modal immediately
         setActiveSlipOrder(slipOrder);
         setSlipModalOpen(true);
+        fetchCariData();
       } else {
         alert("Fiş kaydedilirken hata: " + res.error);
       }
     } finally {
       setSlipSubmitting(false);
     }
+  };
+
+  // WhatsApp Statement Share Link
+  const handleSendWhatsAppStatement = () => {
+    if (!cari) return;
+    const cleanPhone = cari.phone.replace(/\D/g, "");
+    const formatted = cleanPhone.startsWith("90")
+      ? cleanPhone
+      : cleanPhone.startsWith("0")
+      ? `9${cleanPhone}`
+      : `90${cleanPhone}`;
+
+    const origin = typeof window !== "undefined" ? window.location.origin : "https://ekmeklab.tr";
+    const statementUrl = `${origin}/ekstre/${cari.id}`;
+
+    const text = [
+      `🍞 *EKMEKLAB TAŞ FIRIN - CARİ HESAP EKSTRESİ*`,
+      `Sayın *${cari.businessName}*,`,
+      ``,
+      `📊 *Güncel Kalan Bakiye:* ${cari.balance.toLocaleString("tr-TR")} ₺`,
+      `📅 *Tarih:* ${new Date().toLocaleDateString("tr-TR")}`,
+      ``,
+      `🔗 *Canlı Ekstre & Teslimat Dökümünüz:*`,
+      statementUrl,
+      ``,
+      `Tüm teslimat fişlerinizi ve ödeme hareketlerinizi yukarıdaki bağlantıdan anlık olarak inceleyebilirsiniz.`,
+      `Bereketli işler dileriz!`,
+      `EkmekLab Zanaatkar Fırın • 0530 638 97 73`,
+    ].join("\n");
+
+    window.open(`https://wa.me/${formatted}?text=${encodeURIComponent(text)}`, "_blank");
   };
 
   // Open existing transaction as Digital Fiş
@@ -438,12 +595,22 @@ export default function CariDetailPage() {
             <span>+ Tahsilat Al</span>
           </button>
 
+          {/* WhatsApp Canlı Ekstre Gönder */}
+          <button
+            onClick={handleSendWhatsAppStatement}
+            className="flex items-center gap-1.5 px-3.5 py-2 bg-emerald-600 hover:bg-emerald-500 text-white font-bold rounded-xl text-xs shadow-lg shadow-emerald-600/20 transition-all active:scale-95"
+            title="Müşteriye Canlı Ekstre Linkini WhatsApp'tan Gönder"
+          >
+            <MessageCircle className="w-3.5 h-3.5" />
+            <span>WhatsApp Ekstre Gönder</span>
+          </button>
+
           <button
             onClick={handlePrint}
             className="flex items-center gap-2 px-3.5 py-2 bg-stone-800 hover:bg-stone-700 text-stone-300 rounded-xl text-xs font-semibold border border-stone-700 transition-colors"
           >
             <Printer className="w-3.5 h-3.5 text-amber-400" />
-            <span>Ekstre</span>
+            <span>Yazdır</span>
           </button>
         </div>
       </div>
@@ -570,85 +737,224 @@ export default function CariDetailPage() {
 
       {/* TAB 1: Ekstre / Hareketler & Fişler */}
       {activeTab === "ekstre" && (
-        <div className="bg-stone-900/70 border border-stone-800 rounded-2xl overflow-hidden shadow-xl">
-          {transactions.length === 0 ? (
-            <div className="p-12 text-center text-stone-400 text-xs">
-              Bu cari hesaba ait henüz işlem hareketi (satış veya tahsilat) bulunmuyor.
-              <div className="mt-4">
-                <button
-                  onClick={handleOpenQuickSlipModal}
-                  className="px-4 py-2 bg-amber-500 text-stone-950 font-bold rounded-xl text-xs inline-flex items-center gap-2"
-                >
-                  <Plus className="w-4 h-4" />
-                  İlk Fişi Kesin
-                </button>
+        <div className="space-y-4">
+          {/* Summary Mini-Cards */}
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+            <div className="p-4 rounded-xl bg-stone-900/80 border border-stone-800">
+              <div className="text-[11px] font-semibold text-stone-400 uppercase tracking-wider">
+                Toplam Borç (Satışlar)
+              </div>
+              <div className="text-xl font-bold font-serif text-amber-400 mt-1">
+                +{(transactions.reduce((sum, tx) => tx.type === "satis" || (tx.type === "devir" && tx.amount > 0) ? sum + tx.amount : sum, 0)).toLocaleString("tr-TR")} ₺
               </div>
             </div>
-          ) : (
-            <div className="overflow-x-auto">
-              <table className="w-full text-left border-collapse">
-                <thead>
-                  <tr className="border-b border-stone-800 text-[11px] font-semibold text-stone-400 uppercase tracking-wider bg-stone-950/40">
-                    <th className="py-3 px-4">Tarih</th>
-                    <th className="py-3 px-4">İşlem Türü</th>
-                    <th className="py-3 px-4">Açıklama / Ürünler</th>
-                    <th className="py-3 px-4 text-right">Borç (Satış ₺)</th>
-                    <th className="py-3 px-4 text-right">Alacak (Tahsilat ₺)</th>
-                    <th className="py-3 px-4 text-center">İşlem</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-stone-800/70 text-xs">
-                  {transactions.map((tx) => {
-                    const isSale = tx.type === "satis";
 
-                    return (
-                      <tr key={tx.id} className="hover:bg-stone-800/30 transition-colors">
-                        <td className="py-3 px-4 font-mono text-stone-300">
-                          {tx.date}
-                        </td>
-                        <td className="py-3 px-4">
-                          {tx.type === "satis" ? (
-                            <span className="px-2 py-0.5 rounded bg-amber-500/10 text-amber-400 font-semibold border border-amber-500/20">
-                              Satış (Borç)
-                            </span>
-                          ) : tx.type === "tahsilat" ? (
-                            <span className="px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-400 font-semibold border border-emerald-500/20">
-                              Tahsilat (Giriş)
-                            </span>
-                          ) : (
-                            <span className="px-2 py-0.5 rounded bg-red-500/10 text-red-400 font-semibold border border-red-500/20">
-                              Ödeme (Çıkış)
-                            </span>
-                          )}
-                        </td>
-                        <td className="py-3 px-4 font-medium text-stone-200 max-w-xs truncate">
-                          {tx.description}
-                        </td>
-                        <td className="py-3 px-4 text-right font-mono font-bold text-amber-400">
-                          {tx.type === "satis" ? `${tx.amount.toLocaleString("tr-TR")} ₺` : "—"}
-                        </td>
-                        <td className="py-3 px-4 text-right font-mono font-bold text-emerald-400">
-                          {tx.type !== "satis" ? `${tx.amount.toLocaleString("tr-TR")} ₺` : "—"}
-                        </td>
-                        <td className="py-3 px-4 text-center">
-                          {isSale && (
-                            <button
-                              onClick={() => handleViewTransactionSlip(tx)}
-                              className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-amber-500/10 hover:bg-amber-500/20 text-amber-400 text-xs font-semibold border border-amber-500/20 transition-colors"
-                              title="Dijital Fişi Gör & WhatsApp'tan Gönder"
-                            >
-                              <Receipt className="w-3.5 h-3.5" />
-                              <span>Fişi Aç</span>
-                            </button>
-                          )}
-                        </td>
-                      </tr>
-                    );
-                  })}
-                </tbody>
-              </table>
+            <div className="p-4 rounded-xl bg-stone-900/80 border border-stone-800">
+              <div className="text-[11px] font-semibold text-stone-400 uppercase tracking-wider">
+                Toplam Alacak (Tahsilatlar)
+              </div>
+              <div className="text-xl font-bold font-serif text-emerald-400 mt-1">
+                -{(transactions.reduce((sum, tx) => tx.type === "tahsilat" || tx.type === "odeme" ? sum + tx.amount : sum, 0)).toLocaleString("tr-TR")} ₺
+              </div>
             </div>
-          )}
+
+            <div className="p-4 rounded-xl bg-stone-900/80 border border-stone-800">
+              <div className="text-[11px] font-semibold text-stone-400 uppercase tracking-wider">
+                Güncel Kalan Bakiye
+              </div>
+              <div className={`text-xl font-bold font-serif mt-1 ${
+                cari.balance > 0 ? "text-amber-400" : cari.balance < 0 ? "text-emerald-400" : "text-stone-300"
+              }`}>
+                {(cari.balance || 0).toLocaleString("tr-TR")} ₺
+              </div>
+            </div>
+          </div>
+
+          {/* Ledger Table */}
+          <div className="bg-stone-900/70 border border-stone-800 rounded-2xl overflow-hidden shadow-xl">
+            {transactions.length === 0 ? (
+              <div className="p-12 text-center text-stone-400 text-xs">
+                Bu cari hesaba ait henüz işlem hareketi (satış veya tahsilat) bulunmuyor.
+                <div className="mt-4">
+                  <button
+                    onClick={handleOpenQuickSlipModal}
+                    className="px-4 py-2 bg-amber-500 text-stone-950 font-bold rounded-xl text-xs inline-flex items-center gap-2"
+                  >
+                    <Plus className="w-4 h-4" />
+                    İlk Fişi Kesin
+                  </button>
+                </div>
+              </div>
+            ) : (
+              <div className="overflow-x-auto">
+                <table className="w-full text-left border-collapse">
+                  <thead>
+                    <tr className="border-b border-stone-800 text-[11px] font-semibold text-stone-400 uppercase tracking-wider bg-stone-950/60">
+                      <th className="py-3 px-4">Tarih</th>
+                      <th className="py-3 px-4">Belge No / İşlem</th>
+                      <th className="py-3 px-4">Açıklama / Detay</th>
+                      <th className="py-3 px-4 text-right">Borç (+) [Satış]</th>
+                      <th className="py-3 px-4 text-right">Alacak (-) [Tahsilat]</th>
+                      <th className="py-3 px-4 text-right">Kalan Bakiye</th>
+                      <th className="py-3 px-4 text-center">İşlemler</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-stone-800/70 text-xs">
+                    {transactions.map((tx) => {
+                      const isSale = tx.type === "satis";
+                      const isTahsilat = tx.type === "tahsilat";
+                      const isDevir = tx.type === "devir";
+                      const isOdeme = tx.type === "odeme";
+
+                      const isDebt = isSale || (isDevir && tx.amount > 0);
+                      const isCredit = isTahsilat || isOdeme;
+
+                      return (
+                        <tr key={tx.id} className="hover:bg-stone-800/30 transition-colors">
+                          {/* Tarih */}
+                          <td className="py-3 px-4 font-mono text-stone-300 whitespace-nowrap">
+                            {tx.date}
+                          </td>
+
+                          {/* Belge No / İşlem Türü */}
+                          <td className="py-3 px-4 whitespace-nowrap">
+                            <div className="flex items-center gap-1.5">
+                              {isSale ? (
+                                <span className="px-2 py-0.5 rounded bg-amber-500/10 text-amber-400 font-semibold border border-amber-500/20 text-[11px]">
+                                  {tx.slipNumber || (tx.orderId ? `#${tx.orderId.substring(4, 10).toUpperCase()}` : "FİŞ")}
+                                </span>
+                              ) : isTahsilat ? (
+                                <span className="px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-400 font-semibold border border-emerald-500/20 text-[11px]">
+                                  TAHSİLAT
+                                </span>
+                              ) : isDevir ? (
+                                <span className="px-2 py-0.5 rounded bg-sky-500/10 text-sky-400 font-semibold border border-sky-500/20 text-[11px]">
+                                  DEVİR
+                                </span>
+                              ) : (
+                                <span className="px-2 py-0.5 rounded bg-rose-500/10 text-rose-400 font-semibold border border-rose-500/20 text-[11px]">
+                                  ÖDEME
+                                </span>
+                              )}
+                            </div>
+                          </td>
+
+                          {/* Açıklama / Detay */}
+                          <td className="py-3 px-4 font-medium text-stone-200 max-w-sm">
+                            <div className="truncate" title={tx.description}>
+                              {tx.description}
+                            </div>
+                            {tx.paymentMethod && (
+                              <div className="text-[10px] text-stone-500 mt-0.5 font-sans">
+                                Ödeme: {tx.paymentMethod === "nakit" ? "Nakit" : tx.paymentMethod === "banka_havale" ? "Banka Havale" : tx.paymentMethod === "kredi_karti" ? "Kredi Kartı / POS" : tx.paymentMethod}
+                              </div>
+                            )}
+                          </td>
+
+                          {/* Borç (+) [Satış] */}
+                          <td className="py-3 px-4 text-right font-mono font-bold text-amber-400 whitespace-nowrap">
+                            {isDebt ? `+${tx.amount.toLocaleString("tr-TR")} ₺` : "—"}
+                          </td>
+
+                          {/* Alacak (-) [Tahsilat] */}
+                          <td className="py-3 px-4 text-right font-mono font-bold text-emerald-400 whitespace-nowrap">
+                            {isCredit ? `-${tx.amount.toLocaleString("tr-TR")} ₺` : "—"}
+                          </td>
+
+                          {/* Yürüyen Bakiye (Balance After) */}
+                          <td className="py-3 px-4 text-right font-mono font-bold whitespace-nowrap">
+                            {tx.balanceAfter !== undefined ? (
+                              <span
+                                className={
+                                  tx.balanceAfter > 0
+                                    ? "text-amber-400"
+                                    : tx.balanceAfter < 0
+                                    ? "text-emerald-400"
+                                    : "text-stone-400"
+                                }
+                              >
+                                {tx.balanceAfter.toLocaleString("tr-TR")} ₺
+                              </span>
+                            ) : (
+                              <span className="text-stone-500">—</span>
+                            )}
+                          </td>
+
+                          {/* İşlemler */}
+                          <td className="py-3 px-4 text-center whitespace-nowrap">
+                            <div className="flex items-center justify-center gap-1.5">
+                              {isSale && (
+                                <button
+                                  onClick={() => handleViewTransactionSlip(tx)}
+                                  className="inline-flex items-center gap-1 px-2 py-1 rounded-lg bg-amber-500/10 hover:bg-amber-500/20 text-amber-400 text-xs font-semibold border border-amber-500/20 transition-colors"
+                                  title="Dijital Fişi Gör & Paylaş"
+                                >
+                                  <Receipt className="w-3.5 h-3.5" />
+                                  <span>Fiş</span>
+                                </button>
+                              )}
+
+                              <button
+                                onClick={() => handleDeleteTransaction(tx)}
+                                className="inline-flex items-center justify-center p-1.5 rounded-lg text-stone-500 hover:text-rose-400 hover:bg-rose-500/10 transition-colors"
+                                title="Bu işlemi iptal et / sil (Ters kayıt ile bakiye düzeltilir)"
+                              >
+                                <Trash2 className="w-3.5 h-3.5" />
+                              </button>
+                            </div>
+                          </td>
+                        </tr>
+                      );
+                    })}
+
+                    {/* Initial Starting Balance Row if present */}
+                    {startingBalance !== 0 && (
+                      <tr className="bg-stone-950/40 text-stone-400 italic">
+                        <td className="py-3 px-4 font-mono">—</td>
+                        <td className="py-3 px-4">
+                          <span className="px-2 py-0.5 rounded bg-stone-800 text-stone-400 font-semibold text-[11px]">
+                            AÇILIŞ
+                          </span>
+                        </td>
+                        <td className="py-3 px-4">Önceki Dönemden Devreden Açılış Bakiyesi</td>
+                        <td className="py-3 px-4 text-right font-mono font-bold text-stone-400">
+                          {startingBalance > 0 ? `+${startingBalance.toLocaleString("tr-TR")} ₺` : "—"}
+                        </td>
+                        <td className="py-3 px-4 text-right font-mono font-bold text-stone-400">
+                          {startingBalance < 0 ? `${startingBalance.toLocaleString("tr-TR")} ₺` : "—"}
+                        </td>
+                        <td className="py-3 px-4 text-right font-mono font-bold text-stone-300">
+                          {startingBalance.toLocaleString("tr-TR")} ₺
+                        </td>
+                        <td className="py-3 px-4 text-center">—</td>
+                      </tr>
+                    )}
+                  </tbody>
+
+                  {/* Table Footer Totals */}
+                  <tfoot>
+                    <tr className="border-t-2 border-stone-800 bg-stone-950/80 font-semibold text-xs text-stone-300">
+                      <td colSpan={3} className="py-3 px-4 uppercase tracking-wider text-[11px] text-stone-400">
+                        GENEL TOPLAM ({transactions.length} İşlem)
+                      </td>
+                      <td className="py-3 px-4 text-right font-mono font-bold text-amber-400">
+                        +{(transactions.reduce((sum, tx) => tx.type === "satis" || (tx.type === "devir" && tx.amount > 0) ? sum + tx.amount : sum, 0)).toLocaleString("tr-TR")} ₺
+                      </td>
+                      <td className="py-3 px-4 text-right font-mono font-bold text-emerald-400">
+                        -{(transactions.reduce((sum, tx) => tx.type === "tahsilat" || tx.type === "odeme" ? sum + tx.amount : sum, 0)).toLocaleString("tr-TR")} ₺
+                      </td>
+                      <td className={`py-3 px-4 text-right font-mono font-bold text-sm ${
+                        cari.balance > 0 ? "text-amber-400" : cari.balance < 0 ? "text-emerald-400" : "text-stone-300"
+                      }`}>
+                        {(cari.balance || 0).toLocaleString("tr-TR")} ₺
+                      </td>
+                      <td className="py-3 px-4 text-center text-stone-500">—</td>
+                    </tr>
+                  </tfoot>
+                </table>
+              </div>
+            )}
+          </div>
         </div>
       )}
 
@@ -778,6 +1084,7 @@ export default function CariDetailPage() {
                     const qty = slipQuantities[prod.id] || 0;
                     const customPrice = cari?.customPrices?.[prod.id];
                     const activePrice = customPrice !== undefined ? customPrice : prod.price;
+                    const isFree = Boolean(slipFreeItems[prod.id]);
 
                     return (
                       <div
@@ -788,21 +1095,46 @@ export default function CariDetailPage() {
                             : "bg-stone-950/60 border-stone-800 hover:border-stone-700"
                         }`}
                       >
-                        <div className="space-y-0.5">
+                        <div className="space-y-1">
                           <div className="text-xs font-bold text-stone-200 line-clamp-1">
                             {prod.name}
                           </div>
                           <div className="text-[11px] flex items-center gap-1.5 font-mono">
-                            <span className="text-amber-400 font-bold">{activePrice} ₺</span>
-                            {customPrice !== undefined && (
-                              <span className="text-[10px] text-stone-500 line-through">
-                                {prod.price} ₺
+                            {isFree ? (
+                              <span className="px-1.5 py-0.5 rounded bg-purple-500/20 text-purple-300 font-bold text-[10px] border border-purple-500/30">
+                                🎁 İkram (0 ₺)
                               </span>
+                            ) : (
+                              <>
+                                <span className="text-amber-400 font-bold">{activePrice} ₺</span>
+                                {customPrice !== undefined && (
+                                  <span className="text-[10px] text-stone-500 line-through">
+                                    {prod.price} ₺
+                                  </span>
+                                )}
+                              </>
                             )}
                           </div>
                         </div>
 
                         <div className="flex items-center gap-1 shrink-0">
+                          {/* İkram / Free Toggle */}
+                          {qty > 0 && (
+                            <button
+                              type="button"
+                              onClick={() => toggleSlipFreeItem(prod.id)}
+                              className={`px-1.5 h-7 rounded-lg text-[10px] font-bold flex items-center gap-0.5 transition-all ${
+                                isFree
+                                  ? "bg-purple-600 text-white shadow"
+                                  : "bg-stone-800 hover:bg-stone-700 text-stone-400 border border-stone-700"
+                              }`}
+                              title="Bu ürünü ikram / numune olarak ver (0 ₺)"
+                            >
+                              <Gift className="w-2.5 h-2.5" />
+                              <span>{isFree ? "İkram" : "İkram"}</span>
+                            </button>
+                          )}
+
                           <button
                             type="button"
                             onClick={() => updateSlipQuantity(prod.id, -1)}
@@ -863,6 +1195,39 @@ export default function CariDetailPage() {
                 </div>
               </div>
 
+              {/* Deductions: Bayat İadesi & İskonto */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 p-3.5 bg-stone-950/60 border border-stone-800 rounded-2xl">
+                <div className="space-y-1">
+                  <label className="text-[11px] font-semibold text-rose-400 flex items-center justify-between">
+                    <span>Bayat Ekmek İadesi / Fire (-₺)</span>
+                    <span className="text-[10px] text-stone-500 font-normal">Dünkü kalanlar</span>
+                  </label>
+                  <input
+                    type="number"
+                    min="0"
+                    placeholder="0 ₺"
+                    value={slipStaleReturn || ""}
+                    onChange={(e) => setSlipStaleReturn(Math.max(0, Number(e.target.value) || 0))}
+                    className="w-full bg-stone-900 border border-stone-800 focus:border-rose-500 rounded-xl px-3 py-2 text-xs font-mono font-bold text-rose-400 focus:outline-none"
+                  />
+                </div>
+
+                <div className="space-y-1">
+                  <label className="text-[11px] font-semibold text-amber-400 flex items-center justify-between">
+                    <span>Genel İskonto / Yuvarlama (-₺)</span>
+                    <span className="text-[10px] text-stone-500 font-normal">Tutar indirimi</span>
+                  </label>
+                  <input
+                    type="number"
+                    min="0"
+                    placeholder="0 ₺"
+                    value={slipDiscount || ""}
+                    onChange={(e) => setSlipDiscount(Math.max(0, Number(e.target.value) || 0))}
+                    className="w-full bg-stone-900 border border-stone-800 focus:border-amber-500 rounded-xl px-3 py-2 text-xs font-mono font-bold text-amber-400 focus:outline-none"
+                  />
+                </div>
+              </div>
+
               {/* Balance Summary & Collection Input */}
               <div className="p-4 bg-stone-950/90 border border-stone-800 rounded-2xl space-y-3">
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-center text-xs">
@@ -874,10 +1239,15 @@ export default function CariDetailPage() {
                   </div>
 
                   <div className="p-2 rounded-xl bg-amber-500/10 border border-amber-500/20">
-                    <div className="text-[10px] text-amber-400">(+) Bu Fiş</div>
+                    <div className="text-[10px] text-amber-400">(+) Bu Fiş Tutarı</div>
                     <div className="font-bold font-mono text-amber-400 mt-0.5">
                       +{quickSlipTotal.toLocaleString("tr-TR")} ₺
                     </div>
+                    {(slipStaleReturn > 0 || slipDiscount > 0) && (
+                      <div className="text-[9px] text-stone-400">
+                        (Ham: {rawSlipSubtotal} ₺)
+                      </div>
+                    )}
                   </div>
 
                   <div className="p-2 rounded-xl bg-emerald-500/10 border border-emerald-500/20">
