@@ -28,11 +28,25 @@ const jetbrainsMono = JetBrains_Mono({
   display: "swap",
 });
 
+export const viewport = {
+  themeColor: "#120E0B",
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 1,
+  userScalable: false,
+};
+
 export const metadata: Metadata = {
   metadataBase: new URL("https://ekmeklab.com"),
   title: "EkmekLab | Taş Fırından Ekşi Mayalı Ekmekler & Şarküteri",
   description:
     "Beylikdüzü'nde ata tohumu unlar ve 8 yıllık ekşi mayayla 36 saatte demlenen katkısız artisan ekmekler ve doğal şarküteri lezzetleri. Fırından çıktığı gün kapınızda.",
+  manifest: "/manifest.json",
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "black-translucent",
+    title: "EkmekLab",
+  },
   keywords: [
     "ekşi mayalı ekmek",
     "Beylikdüzü fırın",
@@ -52,8 +66,8 @@ export const metadata: Metadata = {
     type: "website",
   },
   icons: {
-    icon: "/logo/logo_512.png",
-    apple: "/logo/logo_512.png",
+    icon: "/icons/Icon-192.png",
+    apple: "/icons/Icon-192.png",
   },
 };
 

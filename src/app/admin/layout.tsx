@@ -5,6 +5,7 @@ import { AdminAuthGate } from "@/components/admin/AdminAuthGate";
 import { AdminSidebar } from "@/components/admin/AdminSidebar";
 import { AdminHeader } from "@/components/admin/AdminHeader";
 import { QuickPinLock } from "@/components/admin/QuickPinLock";
+import { PwaInstallPrompt } from "@/components/admin/PwaInstallPrompt";
 import { useBakeryAudio } from "@/hooks/useBakeryAudio";
 import { createClient, isSupabaseConfigured } from "@/lib/supabase/client";
 import { usePathname } from "next/navigation";
@@ -96,6 +97,9 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             {children}
           </main>
         </div>
+
+        {/* Mobile PWA Install Prompt Banner */}
+        <PwaInstallPrompt />
       </div>
     </AdminAuthGate>
   );
