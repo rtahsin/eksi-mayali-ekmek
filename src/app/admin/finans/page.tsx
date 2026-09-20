@@ -39,6 +39,7 @@ import {
   Minus,
   Link2,
   Gift,
+  ArrowRightLeft,
 } from "lucide-react";
 import { useCariler } from "@/hooks/useCariler";
 import { useFinans } from "@/hooks/useFinans";
@@ -51,6 +52,8 @@ import {
   AdminOrder,
   OrderItem,
   BEYLIKDUZU_NEIGHBORHOODS,
+  CashAccountType,
+  CashMovement,
 } from "@/types/admin";
 import { CourierSettlementModal } from "@/components/admin/CourierSettlementModal";
 import { OrderSlipModal } from "@/components/admin/OrderSlipModal";
@@ -68,13 +71,24 @@ export default function AdminFinansPage() {
     addTransaction,
   } = useCariler();
 
-  const { expenses, loading: expensesLoading, metrics, addExpense, deleteExpense } = useFinans();
+  const {
+    expenses,
+    loading: expensesLoading,
+    metrics,
+    kasaBalances,
+    cashMovements,
+    addExpense,
+    addIncome,
+    addTransfer,
+    deleteExpense,
+    deleteFinancialRecord,
+  } = useFinans();
   const { allOrders } = useAdminOrders();
   const { products } = useProducts("all");
   const activeProducts = products.length > 0 ? products : INITIAL_PRODUCTS;
 
   // Active Main Tab
-  const [activeTab, setActiveTab] = useState<"cariler" | "expenses" | "courier_settlement">("cariler");
+  const [activeTab, setActiveTab] = useState<"cariler" | "kasa_banka" | "expenses" | "courier_settlement">("cariler");
 
   // ==========================================
   // TAB 1: CARILER & MÜŞTERİLER (ÖN MUHASEBE)
@@ -547,6 +561,205 @@ export default function AdminFinansPage() {
   };
 
   // ==========================================
+  // TAB 4: KASA & BANKA YÖNETİMİ (FAZ 4)
+  // ==========================================
+  const [cashMovementFilter, setCashMovementFilter] = useState<"all" | "nakit" | "banka_havale" | "pos">("all");
+  const [cashMovementSearch, setCashMovementSearch] = useState("");
+
+  // Virman Modal State
+  const [virmanModalOpen, setVirmanModalOpen] = useState(false);
+  const [virmanFrom, setVirmanFrom] = useState<CashAccountType>("pos");
+  const [virmanTo, setVirmanTo] = useState<CashAccountType>("banka_havale");
+  const [virmanAmount, setVirmanAmount] = useState<number>(0);
+  const [virmanDesc, setVirmanDesc] = useState<string>("");
+  const [virmanDate, setVirmanDate] = useState<string>(new Date().toISOString().split("T")[0]);
+  const [virmanSubmitting, setVirmanSubmitting] = useState(false);
+
+  const openVirmanModal = (from: CashAccountType = "pos", to: CashAccountType = "banka_havale") => {
+    setVirmanFrom(from);
+    setVirmanTo(to);
+    setVirmanAmount(0);
+    let defaultDesc = "Hesaplar arası para aktarımı (Virman)";
+    if (from === "pos" && to === "banka_havale") {
+      defaultDesc = "Mobil POS tahsilatının banka hesabına aktarımı";
+    } else if (from === "nakit" && to === "banka_havale") {
+      defaultDesc = "Fırın çekmecesinden banka hesabına nakit yatırma";
+    } else if (from === "banka_havale" && to === "nakit") {
+      defaultDesc = "Banka hesabından fırın çekmecesine nakit çekme";
+    }
+    setVirmanDesc(defaultDesc);
+    setVirmanDate(new Date().toISOString().split("T")[0]);
+    setVirmanModalOpen(true);
+  };
+
+  const handleSaveVirman = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (virmanAmount <= 0) {
+      alert("Lütfen geçerli bir aktarım tutarı giriniz.");
+      return;
+    }
+    if (virmanFrom === virmanTo) {
+      alert("Kaynak hesap ile hedef hesap aynı olamaz.");
+      return;
+    }
+
+    setVirmanSubmitting(true);
+    const res = await addTransfer({
+      from: virmanFrom,
+      to: virmanTo,
+      amount: Number(virmanAmount),
+      description: virmanDesc.trim() || "Kasa Virmanı",
+      date: virmanDate,
+    });
+
+    if (res.success) {
+      setVirmanModalOpen(false);
+      setVirmanAmount(0);
+      setVirmanDesc("");
+    } else {
+      alert("Virman işlemi kaydedilirken hata oluştu: " + res.error);
+    }
+    setVirmanSubmitting(false);
+  };
+
+  // Quick Direct Cash In / Out Modal State
+  const [cashInOutModalOpen, setCashInOutModalOpen] = useState(false);
+  const [cashInOutType, setCashInOutType] = useState<"in" | "out">("in");
+  const [cashInOutAccount, setCashInOutAccount] = useState<CashAccountType>("nakit");
+  const [cashInOutAmount, setCashInOutAmount] = useState<number>(0);
+  const [cashInOutCategory, setCashInOutCategory] = useState<string>("kasa_giris");
+  const [cashInOutDesc, setCashInOutDesc] = useState<string>("");
+  const [cashInOutDate, setCashInOutDate] = useState<string>(new Date().toISOString().split("T")[0]);
+  const [cashInOutSubmitting, setCashInOutSubmitting] = useState(false);
+
+  const openCashInOutModal = (type: "in" | "out", defaultAccount: CashAccountType = "nakit") => {
+    setCashInOutType(type);
+    setCashInOutAccount(defaultAccount);
+    setCashInOutAmount(0);
+    setCashInOutCategory(type === "in" ? "diger_gelir" : "diger");
+    setCashInOutDesc("");
+    setCashInOutDate(new Date().toISOString().split("T")[0]);
+    setCashInOutModalOpen(true);
+  };
+
+  const handleSaveCashInOut = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (cashInOutAmount <= 0) {
+      alert("Lütfen geçerli bir tutar giriniz.");
+      return;
+    }
+    if (!cashInOutDesc.trim()) {
+      alert("Lütfen bir açıklama giriniz.");
+      return;
+    }
+
+    setCashInOutSubmitting(true);
+    if (cashInOutType === "in") {
+      const res = await addIncome({
+        category: cashInOutCategory,
+        title: cashInOutDesc.trim(),
+        amount: Number(cashInOutAmount),
+        paymentMethod: cashInOutAccount,
+        date: cashInOutDate,
+      });
+      if (res.success) {
+        setCashInOutModalOpen(false);
+        setCashInOutAmount(0);
+        setCashInOutDesc("");
+      } else {
+        alert("Kasa girişi kaydedilirken hata oluştu: " + res.error);
+      }
+    } else {
+      const res = await addExpense({
+        category: (cashInOutCategory as any) || "diger",
+        title: cashInOutDesc.trim(),
+        amount: Number(cashInOutAmount),
+        date: cashInOutDate,
+        paymentMethod: cashInOutAccount as any,
+        notes: "",
+      });
+      if (res.success) {
+        setCashInOutModalOpen(false);
+        setCashInOutAmount(0);
+        setCashInOutDesc("");
+      } else {
+        alert("Kasa çıkışı kaydedilirken hata oluştu: " + res.error);
+      }
+    }
+    setCashInOutSubmitting(false);
+  };
+
+  // Filtered Cash Movements
+  const filteredCashMovements = useMemo(() => {
+    return cashMovements.filter((m) => {
+      if (cashMovementFilter !== "all") {
+        if (m.account !== cashMovementFilter && m.targetAccount !== cashMovementFilter) {
+          return false;
+        }
+      }
+      if (cashMovementSearch.trim()) {
+        const q = cashMovementSearch.toLowerCase();
+        const matchTitle = m.title.toLowerCase().includes(q);
+        const matchCat = (m.category || "").toLowerCase().includes(q);
+        const matchDate = m.date.includes(q);
+        if (!matchTitle && !matchCat && !matchDate) return false;
+      }
+      return true;
+    });
+  }, [cashMovements, cashMovementFilter, cashMovementSearch]);
+
+  const handleDeleteCashMovement = async (m: CashMovement) => {
+    if (m.id.startsWith("ord_")) {
+      alert("Bu hareket kurye/online sipariş teslimatından otomatik yansımaktadır. Değiştirmek için Siparişler sayfasını kullanabilirsiniz.");
+      return;
+    }
+    if (confirm(`"${m.title}" kaydı silinsin mi? Bu işlem kasa bakiyesini tersine etkileyecektir.`)) {
+      const res = await deleteFinancialRecord(m.id);
+      if (!res.success) {
+        alert("Kayıt silinirken hata: " + res.error);
+      }
+    }
+  };
+
+  // Export Cash Movements CSV
+  const handleExportCashMovementsCSV = () => {
+    if (filteredCashMovements.length === 0) {
+      alert("Dışa aktarılacak kasa hareketi bulunamadı.");
+      return;
+    }
+
+    const headers = ["Tarih", "Hesap", "İşlem Türü", "Açıklama", "Tutar (TL)"];
+    const rows = filteredCashMovements.map((m) => {
+      const accLabel =
+        m.account === "nakit"
+          ? "Nakit Kasası"
+          : m.account === "banka_havale"
+          ? "Banka Hesabı"
+          : "Mobil POS";
+      const typeLabel =
+        m.type === "in" ? "Giriş" : m.type === "out" ? "Çıkış" : "Virman Aktarımı";
+      const sign = m.type === "in" ? "+" : m.type === "out" ? "-" : "";
+      return [
+        `"${m.date}"`,
+        `"${accLabel}"`,
+        `"${typeLabel}"`,
+        `"${m.title.replace(/"/g, '""')}"`,
+        `"${sign}${m.amount}"`,
+      ];
+    });
+
+    const csvContent = [headers.join(","), ...rows.map((r) => r.join(","))].join("\n");
+    const blob = new Blob(["\uFEFF" + csvContent], { type: "text/csv;charset=utf-8;" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.setAttribute("href", url);
+    link.setAttribute("download", `Kasa_Banka_Defteri_${new Date().toISOString().split("T")[0]}.csv`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
+  // ==========================================
   // TAB 3: KURYE MUTABAKAT STATE
   // ==========================================
   const [selectedSettlementDate, setSelectedSettlementDate] = useState<string>(() => {
@@ -716,6 +929,43 @@ export default function AdminFinansPage() {
             </>
           )}
 
+          {activeTab === "kasa_banka" && (
+            <>
+              <button
+                onClick={handleExportCashMovementsCSV}
+                className="flex items-center gap-1.5 px-3 py-2 bg-[#221A14] hover:bg-[#2C211A] text-amber-400 font-medium border border-amber-500/30 rounded-xl transition-all text-xs"
+                title="Kasa defterini CSV olarak indir"
+              >
+                <Download className="w-3.5 h-3.5" />
+                <span className="hidden sm:inline">CSV İndir</span>
+              </button>
+
+              <button
+                onClick={() => openVirmanModal("pos", "banka_havale")}
+                className="flex items-center gap-1.5 px-3.5 py-2 bg-purple-950/80 hover:bg-purple-900 text-purple-300 font-bold rounded-xl transition-all shadow-lg border border-purple-500/30 text-xs active:scale-95"
+              >
+                <ArrowRightLeft className="w-4 h-4 text-purple-400" />
+                <span>🔄 Virman (Aktarım)</span>
+              </button>
+
+              <button
+                onClick={() => openCashInOutModal("in", "nakit")}
+                className="flex items-center gap-1.5 px-3.5 py-2 bg-emerald-600 hover:bg-emerald-500 text-stone-950 font-bold rounded-xl transition-all shadow-lg shadow-emerald-600/20 text-xs active:scale-95"
+              >
+                <Plus className="w-4 h-4" />
+                <span>+ Kasaya Giriş</span>
+              </button>
+
+              <button
+                onClick={() => openCashInOutModal("out", "nakit")}
+                className="flex items-center gap-1.5 px-3.5 py-2 bg-red-600 hover:bg-red-500 text-white font-bold rounded-xl transition-all shadow-lg shadow-red-600/20 text-xs active:scale-95"
+              >
+                <Minus className="w-4 h-4" />
+                <span>- Kasadan Çıkış</span>
+              </button>
+            </>
+          )}
+
           {activeTab === "expenses" && (
             <>
               <button
@@ -773,6 +1023,22 @@ export default function AdminFinansPage() {
           <span>Müşteriler & Cariler (Ön Muhasebe)</span>
           <span className="ml-1 px-1.5 py-0.5 rounded-full bg-stone-950/60 text-[10px] font-mono">
             {cariler.length}
+          </span>
+        </button>
+
+        <button
+          type="button"
+          onClick={() => setActiveTab("kasa_banka")}
+          className={`flex items-center gap-2 px-4 py-2.5 rounded-xl font-serif text-xs font-bold transition-all ${
+            activeTab === "kasa_banka"
+              ? "bg-amber-500 text-stone-950 shadow-lg shadow-amber-500/20"
+              : "bg-stone-900/60 text-stone-400 hover:text-stone-200 border border-stone-800"
+          }`}
+        >
+          <DollarSign className="w-4 h-4" />
+          <span>Kasa & Banka (Nakit, Banka, POS)</span>
+          <span className="ml-1 px-1.5 py-0.5 rounded-full bg-stone-950/60 text-[10px] font-mono">
+            {(kasaBalances?.totalLiquid || 0).toLocaleString("tr-TR")} ₺
           </span>
         </button>
 
@@ -1170,6 +1436,403 @@ export default function AdminFinansPage() {
               })}
             </div>
           )}
+        </div>
+      )}
+
+      {/* ========================================================================= */}
+      {/* TAB 4: KASA & BANKA YÖNETİMİ (FAZ 4) */}
+      {/* ========================================================================= */}
+      {activeTab === "kasa_banka" && (
+        <div className="space-y-6">
+          {/* 3 Main Cash Accounts + Total Liquid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            {/* 1. Fırın Nakit Kasası (Çekmece) */}
+            <div className="bg-stone-900/90 border border-stone-800 p-5 rounded-2xl relative overflow-hidden backdrop-blur-sm flex flex-col justify-between shadow-lg hover:border-amber-500/40 transition-all">
+              <div>
+                <div className="flex items-center justify-between text-xs text-amber-400 font-semibold uppercase tracking-wider">
+                  <div className="flex items-center gap-1.5">
+                    <span>💵 Fırın Nakit Kasası</span>
+                  </div>
+                  <span className="text-[10px] px-2 py-0.5 rounded-md bg-amber-500/10 text-amber-300 border border-amber-500/20">
+                    Dükkan Çekmecesi
+                  </span>
+                </div>
+                <div className="text-2xl md:text-3xl font-bold text-stone-100 font-serif mt-3">
+                  {(kasaBalances?.nakit?.balance || 0).toLocaleString("tr-TR")} ₺
+                </div>
+                <div className="mt-2 space-y-1 text-xs">
+                  <div className="flex justify-between text-stone-400">
+                    <span>Toplam Nakit Giriş:</span>
+                    <span className="text-emerald-400 font-mono font-medium">
+                      +{(kasaBalances?.nakit?.inflows || 0).toLocaleString("tr-TR")} ₺
+                    </span>
+                  </div>
+                  <div className="flex justify-between text-stone-400">
+                    <span>Toplam Nakit Çıkış:</span>
+                    <span className="text-red-400 font-mono font-medium">
+                      -{(kasaBalances?.nakit?.outflows || 0).toLocaleString("tr-TR")} ₺
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              <div className="mt-4 pt-3 border-t border-stone-800/80 flex items-center gap-1.5 flex-wrap">
+                <button
+                  type="button"
+                  onClick={() => openCashInOutModal("in", "nakit")}
+                  className="flex-1 min-w-[70px] py-1.5 px-2 bg-emerald-950/60 hover:bg-emerald-900/80 text-emerald-300 border border-emerald-500/30 rounded-lg text-[11px] font-semibold flex items-center justify-center gap-1 transition-all"
+                  title="Nakit Girişi Yap"
+                >
+                  <Plus className="w-3 h-3" />
+                  <span>Giriş</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => openCashInOutModal("out", "nakit")}
+                  className="flex-1 min-w-[70px] py-1.5 px-2 bg-red-950/60 hover:bg-red-900/80 text-red-300 border border-red-500/30 rounded-lg text-[11px] font-semibold flex items-center justify-center gap-1 transition-all"
+                  title="Nakit Çıkışı / Harcama Yap"
+                >
+                  <Minus className="w-3 h-3" />
+                  <span>Çıkış</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => openVirmanModal("nakit", "banka_havale")}
+                  className="py-1.5 px-2 bg-stone-800 hover:bg-stone-700 text-stone-200 border border-stone-700 rounded-lg text-[11px] font-semibold flex items-center justify-center gap-1 transition-all"
+                  title="Bankaya Nakit Yatır (Virman)"
+                >
+                  <ArrowRightLeft className="w-3 h-3 text-amber-400" />
+                  <span className="hidden sm:inline">Bankaya</span>
+                </button>
+              </div>
+              <div className="absolute bottom-0 left-0 right-0 h-1 bg-amber-500/50" />
+            </div>
+
+            {/* 2. Banka Hesabı (Havale / EFT) */}
+            <div className="bg-stone-900/90 border border-stone-800 p-5 rounded-2xl relative overflow-hidden backdrop-blur-sm flex flex-col justify-between shadow-lg hover:border-blue-500/40 transition-all">
+              <div>
+                <div className="flex items-center justify-between text-xs text-blue-400 font-semibold uppercase tracking-wider">
+                  <div className="flex items-center gap-1.5">
+                    <span>🏦 Banka Hesabı</span>
+                  </div>
+                  <span className="text-[10px] px-2 py-0.5 rounded-md bg-blue-500/10 text-blue-300 border border-blue-500/20">
+                    Havale / EFT
+                  </span>
+                </div>
+                <div className="text-2xl md:text-3xl font-bold text-stone-100 font-serif mt-3">
+                  {(kasaBalances?.banka?.balance || 0).toLocaleString("tr-TR")} ₺
+                </div>
+                <div className="mt-2 space-y-1 text-xs">
+                  <div className="flex justify-between text-stone-400">
+                    <span>Gelen Havale / EFT:</span>
+                    <span className="text-emerald-400 font-mono font-medium">
+                      +{(kasaBalances?.banka?.inflows || 0).toLocaleString("tr-TR")} ₺
+                    </span>
+                  </div>
+                  <div className="flex justify-between text-stone-400">
+                    <span>Giden Havale / Masraf:</span>
+                    <span className="text-red-400 font-mono font-medium">
+                      -{(kasaBalances?.banka?.outflows || 0).toLocaleString("tr-TR")} ₺
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              <div className="mt-4 pt-3 border-t border-stone-800/80 flex items-center gap-1.5 flex-wrap">
+                <button
+                  type="button"
+                  onClick={() => openCashInOutModal("in", "banka_havale")}
+                  className="flex-1 min-w-[70px] py-1.5 px-2 bg-emerald-950/60 hover:bg-emerald-900/80 text-emerald-300 border border-emerald-500/30 rounded-lg text-[11px] font-semibold flex items-center justify-center gap-1 transition-all"
+                  title="Banka Hesabına Giriş"
+                >
+                  <Plus className="w-3 h-3" />
+                  <span>Giriş</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => openCashInOutModal("out", "banka_havale")}
+                  className="flex-1 min-w-[70px] py-1.5 px-2 bg-red-950/60 hover:bg-red-900/80 text-red-300 border border-red-500/30 rounded-lg text-[11px] font-semibold flex items-center justify-center gap-1 transition-all"
+                  title="Banka Hesabından Çıkış"
+                >
+                  <Minus className="w-3 h-3" />
+                  <span>Çıkış</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => openVirmanModal("banka_havale", "nakit")}
+                  className="py-1.5 px-2 bg-stone-800 hover:bg-stone-700 text-stone-200 border border-stone-700 rounded-lg text-[11px] font-semibold flex items-center justify-center gap-1 transition-all"
+                  title="Kasaya Nakit Çek (Virman)"
+                >
+                  <ArrowRightLeft className="w-3 h-3 text-blue-400" />
+                  <span className="hidden sm:inline">Kasaya</span>
+                </button>
+              </div>
+              <div className="absolute bottom-0 left-0 right-0 h-1 bg-blue-500/50" />
+            </div>
+
+            {/* 3. Mobil POS / Kredi Kartı */}
+            <div className="bg-stone-900/90 border border-stone-800 p-5 rounded-2xl relative overflow-hidden backdrop-blur-sm flex flex-col justify-between shadow-lg hover:border-purple-500/40 transition-all">
+              <div>
+                <div className="flex items-center justify-between text-xs text-purple-400 font-semibold uppercase tracking-wider">
+                  <div className="flex items-center gap-1.5">
+                    <span>💳 Mobil POS Kasası</span>
+                  </div>
+                  <span className="text-[10px] px-2 py-0.5 rounded-md bg-purple-500/10 text-purple-300 border border-purple-500/20">
+                    Kapıda Kart
+                  </span>
+                </div>
+                <div className="text-2xl md:text-3xl font-bold text-stone-100 font-serif mt-3">
+                  {(kasaBalances?.pos?.pending || 0).toLocaleString("tr-TR")} ₺
+                </div>
+                <div className="mt-2 space-y-1 text-xs">
+                  <div className="flex justify-between text-stone-400">
+                    <span>Toplam Çekilen:</span>
+                    <span className="text-purple-300 font-mono font-medium">
+                      {(kasaBalances?.pos?.inflows || 0).toLocaleString("tr-TR")} ₺
+                    </span>
+                  </div>
+                  <div className="flex justify-between text-stone-400">
+                    <span>Bankaya Aktarılan:</span>
+                    <span className="text-stone-400 font-mono font-medium">
+                      {(kasaBalances?.pos?.transferred || 0).toLocaleString("tr-TR")} ₺
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              <div className="mt-4 pt-3 border-t border-stone-800/80 flex items-center gap-2">
+                <button
+                  type="button"
+                  onClick={() => openVirmanModal("pos", "banka_havale")}
+                  className="w-full py-1.5 px-3 bg-purple-950 hover:bg-purple-900 text-purple-300 border border-purple-500/30 rounded-lg text-[11px] font-semibold flex items-center justify-center gap-1.5 transition-all shadow-md active:scale-95"
+                >
+                  <ArrowRightLeft className="w-3.5 h-3.5 text-purple-400" />
+                  <span>Bankaya Aktar (Virman)</span>
+                </button>
+              </div>
+              <div className="absolute bottom-0 left-0 right-0 h-1 bg-purple-500/50" />
+            </div>
+
+            {/* 4. Toplam Likidite */}
+            <div className="bg-gradient-to-br from-stone-900 to-amber-950/40 border border-amber-500/30 p-5 rounded-2xl relative overflow-hidden backdrop-blur-sm flex flex-col justify-between shadow-xl">
+              <div>
+                <div className="flex items-center justify-between text-xs text-amber-400 font-semibold uppercase tracking-wider">
+                  <span>🪙 Toplam Likit Varlık</span>
+                  <DollarSign className="w-4 h-4 text-amber-400" />
+                </div>
+                <div className="text-2xl md:text-3xl font-bold text-amber-400 font-serif mt-3">
+                  {(kasaBalances?.totalLiquid || 0).toLocaleString("tr-TR")} ₺
+                </div>
+                <p className="text-xs text-stone-300 mt-2 leading-relaxed">
+                  Fırın nakit çekmecesi, banka mevduatı ve POS tahsilatlarının anlık toplam net mevcudiyeti.
+                </p>
+              </div>
+              <div className="mt-4 pt-3 border-t border-amber-500/20 flex items-center justify-between text-[11px] text-stone-400">
+                <span>Aktif Hareket Sayısı:</span>
+                <span className="font-mono font-bold text-amber-300">{cashMovements.length}</span>
+              </div>
+              <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-amber-500 to-yellow-400" />
+            </div>
+          </div>
+
+          {/* Kasa & Banka Hareketleri Defteri (Ledger) */}
+          <div className="bg-stone-900/70 border border-stone-800 rounded-2xl p-6 shadow-xl space-y-4">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+              <div className="flex items-center gap-2">
+                <Wallet className="w-4 h-4 text-amber-500" />
+                <h2 className="text-base font-bold text-stone-100 font-serif">
+                  Kasa & Banka Defteri (Hareketler)
+                </h2>
+                <span className="text-xs text-stone-500">
+                  ({filteredCashMovements.length} hareket)
+                </span>
+              </div>
+
+              {/* Filters */}
+              <div className="flex flex-wrap items-center gap-2.5">
+                <div className="relative">
+                  <Search className="w-3.5 h-3.5 text-stone-500 absolute left-3 top-1/2 -translate-y-1/2" />
+                  <input
+                    type="text"
+                    placeholder="Hareketlerde ara..."
+                    value={cashMovementSearch}
+                    onChange={(e) => setCashMovementSearch(e.target.value)}
+                    className="pl-8 pr-3 py-1.5 bg-stone-950 border border-stone-800 rounded-xl text-xs text-stone-200 placeholder-stone-500 focus:outline-none focus:border-amber-500"
+                  />
+                </div>
+
+                <div className="flex items-center gap-1 bg-stone-950 p-1 rounded-xl border border-stone-800">
+                  <button
+                    type="button"
+                    onClick={() => setCashMovementFilter("all")}
+                    className={`px-2.5 py-1 rounded-lg text-xs font-medium transition-all ${
+                      cashMovementFilter === "all"
+                        ? "bg-amber-500 text-stone-950 font-bold"
+                        : "text-stone-400 hover:text-white"
+                    }`}
+                  >
+                    Tümü ({cashMovements.length})
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setCashMovementFilter("nakit")}
+                    className={`px-2.5 py-1 rounded-lg text-xs font-medium transition-all ${
+                      cashMovementFilter === "nakit"
+                        ? "bg-amber-500 text-stone-950 font-bold"
+                        : "text-stone-400 hover:text-white"
+                    }`}
+                  >
+                    💵 Nakit ({cashMovements.filter((m) => m.account === "nakit" || m.targetAccount === "nakit").length})
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setCashMovementFilter("banka_havale")}
+                    className={`px-2.5 py-1 rounded-lg text-xs font-medium transition-all ${
+                      cashMovementFilter === "banka_havale"
+                        ? "bg-amber-500 text-stone-950 font-bold"
+                        : "text-stone-400 hover:text-white"
+                    }`}
+                  >
+                    🏦 Banka ({cashMovements.filter((m) => m.account === "banka_havale" || m.targetAccount === "banka_havale").length})
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setCashMovementFilter("pos")}
+                    className={`px-2.5 py-1 rounded-lg text-xs font-medium transition-all ${
+                      cashMovementFilter === "pos"
+                        ? "bg-amber-500 text-stone-950 font-bold"
+                        : "text-stone-400 hover:text-white"
+                    }`}
+                  >
+                    💳 POS ({cashMovements.filter((m) => m.account === "pos" || m.targetAccount === "pos").length})
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            {filteredCashMovements.length === 0 ? (
+              <div className="text-center py-12 text-stone-500 text-xs bg-stone-950/40 rounded-xl border border-stone-800/60">
+                Kayıtlı kasa veya banka hareketi bulunamadı.
+              </div>
+            ) : (
+              <div className="overflow-x-auto rounded-xl border border-stone-800">
+                <table className="w-full text-left text-xs">
+                  <thead className="bg-stone-950/80 text-stone-400 font-semibold border-b border-stone-800">
+                    <tr>
+                      <th className="py-3 px-4">Tarih</th>
+                      <th className="py-3 px-4">Hesap</th>
+                      <th className="py-3 px-4">İşlem Türü</th>
+                      <th className="py-3 px-4">Açıklama / Kaynak</th>
+                      <th className="py-3 px-4 text-right">Tutar</th>
+                      <th className="py-3 px-4 text-right">İşlem</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-stone-800/60">
+                    {filteredCashMovements.map((m) => {
+                      const isOrder = m.id.startsWith("ord_");
+                      return (
+                        <tr key={m.id} className="hover:bg-stone-800/30 transition-colors">
+                          <td className="py-3 px-4 text-stone-400 font-mono text-[11px] whitespace-nowrap">
+                            {m.date}
+                          </td>
+                          <td className="py-3 px-4 whitespace-nowrap">
+                            {m.type === "transfer" ? (
+                              <div className="flex items-center gap-1.5 text-[11px]">
+                                <span className="px-2 py-0.5 rounded bg-stone-800 text-stone-300 border border-stone-700">
+                                  {m.account === "nakit"
+                                    ? "Nakit"
+                                    : m.account === "banka_havale"
+                                    ? "Banka"
+                                    : "POS"}
+                                </span>
+                                <ArrowRight className="w-3 h-3 text-amber-500" />
+                                <span className="px-2 py-0.5 rounded bg-stone-800 text-stone-300 border border-stone-700">
+                                  {m.targetAccount === "nakit"
+                                    ? "Nakit"
+                                    : m.targetAccount === "banka_havale"
+                                    ? "Banka"
+                                    : "POS"}
+                                </span>
+                              </div>
+                            ) : m.account === "nakit" ? (
+                              <span className="px-2 py-0.5 rounded-md text-[10px] font-medium border bg-amber-500/10 text-amber-400 border-amber-500/20">
+                                💵 Nakit Kasası
+                              </span>
+                            ) : m.account === "banka_havale" ? (
+                              <span className="px-2 py-0.5 rounded-md text-[10px] font-medium border bg-blue-500/10 text-blue-400 border-blue-500/20">
+                                🏦 Banka Hesabı
+                              </span>
+                            ) : (
+                              <span className="px-2 py-0.5 rounded-md text-[10px] font-medium border bg-purple-500/10 text-purple-400 border-purple-500/20">
+                                💳 Mobil POS
+                              </span>
+                            )}
+                          </td>
+                          <td className="py-3 px-4 whitespace-nowrap">
+                            {m.type === "in" && (
+                              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-950/80 text-emerald-400 border border-emerald-500/30">
+                                <TrendingUp className="w-3 h-3" />
+                                <span>Giriş</span>
+                              </span>
+                            )}
+                            {m.type === "out" && (
+                              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-bold bg-red-950/80 text-red-400 border border-red-500/30">
+                                <TrendingDown className="w-3 h-3" />
+                                <span>Çıkış</span>
+                              </span>
+                            )}
+                            {m.type === "transfer" && (
+                              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-bold bg-purple-950/80 text-purple-300 border border-purple-500/30">
+                                <ArrowRightLeft className="w-3 h-3" />
+                                <span>Virman Aktarım</span>
+                              </span>
+                            )}
+                          </td>
+                          <td className="py-3 px-4 font-medium text-stone-200">
+                            <div>{m.title}</div>
+                            <div className="text-[10px] text-stone-500">
+                              {isOrder ? "📦 Teslim Edilen Sipariş" : m.category || "Manuel Kayıt"}
+                            </div>
+                          </td>
+                          <td
+                            className={`py-3 px-4 text-right font-mono font-bold whitespace-nowrap ${
+                              m.type === "in"
+                                ? "text-emerald-400"
+                                : m.type === "out"
+                                ? "text-red-400"
+                                : "text-purple-300"
+                            }`}
+                          >
+                            {m.type === "in" ? "+" : m.type === "out" ? "-" : "⇄ "}
+                            {Number(m.amount).toLocaleString("tr-TR")} ₺
+                          </td>
+                          <td className="py-3 px-4 text-right whitespace-nowrap">
+                            {isOrder ? (
+                              <span
+                                className="text-[10px] text-stone-500 italic"
+                                title="Sipariş üzerinden otomatik güncellenir"
+                              >
+                                Sipariş Kaydı
+                              </span>
+                            ) : (
+                              <button
+                                type="button"
+                                onClick={() => handleDeleteCashMovement(m)}
+                                className="p-1.5 text-stone-500 hover:text-red-400 hover:bg-stone-800 rounded-lg transition-colors"
+                                title="Hareketi Sil"
+                              >
+                                <Trash2 className="w-3.5 h-3.5" />
+                              </button>
+                            )}
+                          </td>
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </table>
+              </div>
+            )}
+          </div>
         </div>
       )}
 
@@ -2486,6 +3149,243 @@ export default function AdminFinansPage() {
                 >
                   <CheckCircle2 className="w-4 h-4" />
                   <span>{balanceAdjustSubmitting ? "Güncelleniyor..." : "Bakiyeyi Güncelle"}</span>
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* ========================================================================= */}
+      {/* MODAL 8: VİRMAN (HESAPLAR ARASI PARA AKTARIMI) */}
+      {/* ========================================================================= */}
+      {virmanModalOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
+          <div className="bg-stone-900 border border-stone-800 w-full max-w-md rounded-2xl shadow-2xl overflow-hidden">
+            <div className="flex items-center justify-between p-5 border-b border-stone-800 bg-stone-950/60">
+              <div className="flex items-center gap-2">
+                <ArrowRightLeft className="w-5 h-5 text-purple-400" />
+                <h3 className="font-bold text-stone-100 font-serif text-base">
+                  Hesaplar Arası Para Aktarımı (Virman)
+                </h3>
+              </div>
+              <button
+                type="button"
+                onClick={() => setVirmanModalOpen(false)}
+                className="p-1 rounded-lg text-stone-400 hover:text-white hover:bg-stone-800"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            <form onSubmit={handleSaveVirman} className="p-6 space-y-4">
+              <div className="grid grid-cols-2 gap-3">
+                <div className="space-y-1">
+                  <label className="text-xs font-semibold text-stone-300">
+                    Kaynak Hesap (Çıkış)
+                  </label>
+                  <select
+                    value={virmanFrom}
+                    onChange={(e) => setVirmanFrom(e.target.value as CashAccountType)}
+                    className="w-full bg-stone-950 border border-stone-800 rounded-xl px-3 py-2 text-xs text-stone-100 focus:outline-none focus:border-amber-500"
+                  >
+                    <option value="pos">💳 Mobil POS</option>
+                    <option value="nakit">💵 Fırın Nakit Kasası</option>
+                    <option value="banka_havale">🏦 Banka Hesabı</option>
+                  </select>
+                </div>
+
+                <div className="space-y-1">
+                  <label className="text-xs font-semibold text-stone-300">
+                    Hedef Hesap (Giriş)
+                  </label>
+                  <select
+                    value={virmanTo}
+                    onChange={(e) => setVirmanTo(e.target.value as CashAccountType)}
+                    className="w-full bg-stone-950 border border-stone-800 rounded-xl px-3 py-2 text-xs text-stone-100 focus:outline-none focus:border-amber-500"
+                  >
+                    <option value="banka_havale">🏦 Banka Hesabı</option>
+                    <option value="nakit">💵 Fırın Nakit Kasası</option>
+                    <option value="pos">💳 Mobil POS</option>
+                  </select>
+                </div>
+              </div>
+
+              <div className="space-y-1">
+                <label className="text-xs font-semibold text-stone-300">
+                  Aktarılacak Tutar (₺)
+                </label>
+                <div className="relative">
+                  <input
+                    type="number"
+                    min="1"
+                    step="any"
+                    required
+                    value={virmanAmount || ""}
+                    onChange={(e) => setVirmanAmount(Number(e.target.value))}
+                    placeholder="0"
+                    className="w-full bg-stone-950 border border-stone-800 rounded-xl px-3 py-2.5 text-base font-bold font-mono text-purple-300 focus:outline-none focus:border-purple-500 pr-8"
+                  />
+                  <span className="absolute right-3 top-1/2 -translate-y-1/2 text-sm font-bold text-stone-500">
+                    ₺
+                  </span>
+                </div>
+              </div>
+
+              <div className="space-y-1">
+                <label className="text-xs font-semibold text-stone-300">İşlem Tarihi</label>
+                <input
+                  type="date"
+                  required
+                  value={virmanDate}
+                  onChange={(e) => setVirmanDate(e.target.value)}
+                  className="w-full bg-stone-950 border border-stone-800 rounded-xl px-3 py-2 text-xs text-stone-100 focus:outline-none focus:border-amber-500"
+                />
+              </div>
+
+              <div className="space-y-1">
+                <label className="text-xs font-semibold text-stone-300">Açıklama</label>
+                <input
+                  type="text"
+                  required
+                  value={virmanDesc}
+                  onChange={(e) => setVirmanDesc(e.target.value)}
+                  placeholder="Örn: Mobil POS tahsilatının banka hesabına aktarımı"
+                  className="w-full bg-stone-950 border border-stone-800 rounded-xl px-3 py-2 text-xs text-stone-100 focus:outline-none focus:border-amber-500"
+                />
+              </div>
+
+              <div className="flex items-center justify-end gap-3 pt-3 border-t border-stone-800">
+                <button
+                  type="button"
+                  onClick={() => setVirmanModalOpen(false)}
+                  className="px-4 py-2 bg-stone-800 hover:bg-stone-700 text-stone-300 rounded-xl text-xs font-semibold"
+                >
+                  Vazgeç
+                </button>
+                <button
+                  type="submit"
+                  disabled={virmanSubmitting || virmanAmount <= 0}
+                  className="flex items-center gap-2 px-5 py-2 bg-purple-600 hover:bg-purple-500 text-white font-bold rounded-xl text-xs transition-all shadow-lg shadow-purple-600/20 disabled:opacity-50"
+                >
+                  <ArrowRightLeft className="w-4 h-4" />
+                  <span>{virmanSubmitting ? "Aktarılıyor..." : "Virmanı Tamamla"}</span>
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* ========================================================================= */}
+      {/* MODAL 9: KASAYA GİRİŞ / ÇIKIŞ (NAKİT & BANKA HAREKETİ) */}
+      {/* ========================================================================= */}
+      {cashInOutModalOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
+          <div className="bg-stone-900 border border-stone-800 w-full max-w-md rounded-2xl shadow-2xl overflow-hidden">
+            <div className="flex items-center justify-between p-5 border-b border-stone-800 bg-stone-950/60">
+              <div className="flex items-center gap-2">
+                {cashInOutType === "in" ? (
+                  <Plus className="w-5 h-5 text-emerald-400" />
+                ) : (
+                  <Minus className="w-5 h-5 text-red-400" />
+                )}
+                <h3 className="font-bold text-stone-100 font-serif text-base">
+                  {cashInOutType === "in" ? "Kasaya Para Girişi" : "Kasadan Harcama / Para Çıkışı"}
+                </h3>
+              </div>
+              <button
+                type="button"
+                onClick={() => setCashInOutModalOpen(false)}
+                className="p-1 rounded-lg text-stone-400 hover:text-white hover:bg-stone-800"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            <form onSubmit={handleSaveCashInOut} className="p-6 space-y-4">
+              <div className="space-y-1">
+                <label className="text-xs font-semibold text-stone-300">İşlem Görecek Hesap</label>
+                <select
+                  value={cashInOutAccount}
+                  onChange={(e) => setCashInOutAccount(e.target.value as CashAccountType)}
+                  className="w-full bg-stone-950 border border-stone-800 rounded-xl px-3 py-2 text-xs text-stone-100 focus:outline-none focus:border-amber-500"
+                >
+                  <option value="nakit">💵 Fırın Nakit Kasası (Çekmece)</option>
+                  <option value="banka_havale">🏦 Banka Hesabı (Havale / EFT)</option>
+                  <option value="pos">💳 Mobil POS</option>
+                </select>
+              </div>
+
+              <div className="space-y-1">
+                <label className="text-xs font-semibold text-stone-300">Tutar (₺)</label>
+                <div className="relative">
+                  <input
+                    type="number"
+                    min="1"
+                    step="any"
+                    required
+                    value={cashInOutAmount || ""}
+                    onChange={(e) => setCashInOutAmount(Number(e.target.value))}
+                    placeholder="0"
+                    className={`w-full bg-stone-950 border border-stone-800 rounded-xl px-3 py-2.5 text-base font-bold font-mono focus:outline-none pr-8 ${
+                      cashInOutType === "in"
+                        ? "text-emerald-400 focus:border-emerald-500"
+                        : "text-red-400 focus:border-red-500"
+                    }`}
+                  />
+                  <span className="absolute right-3 top-1/2 -translate-y-1/2 text-sm font-bold text-stone-500">
+                    ₺
+                  </span>
+                </div>
+              </div>
+
+              <div className="space-y-1">
+                <label className="text-xs font-semibold text-stone-300">İşlem Tarihi</label>
+                <input
+                  type="date"
+                  required
+                  value={cashInOutDate}
+                  onChange={(e) => setCashInOutDate(e.target.value)}
+                  className="w-full bg-stone-950 border border-stone-800 rounded-xl px-3 py-2 text-xs text-stone-100 focus:outline-none focus:border-amber-500"
+                />
+              </div>
+
+              <div className="space-y-1">
+                <label className="text-xs font-semibold text-stone-300">Açıklama</label>
+                <input
+                  type="text"
+                  required
+                  value={cashInOutDesc}
+                  onChange={(e) => setCashInOutDesc(e.target.value)}
+                  placeholder={
+                    cashInOutType === "in"
+                      ? "Örn: Tahsin Usta sermaye girişi, dükkan dışı nakit satış"
+                      : "Örn: Acil maya alımı, temizlik malzemesi, dükkan harcaması"
+                  }
+                  className="w-full bg-stone-950 border border-stone-800 rounded-xl px-3 py-2 text-xs text-stone-100 focus:outline-none focus:border-amber-500"
+                />
+              </div>
+
+              <div className="flex items-center justify-end gap-3 pt-3 border-t border-stone-800">
+                <button
+                  type="button"
+                  onClick={() => setCashInOutModalOpen(false)}
+                  className="px-4 py-2 bg-stone-800 hover:bg-stone-700 text-stone-300 rounded-xl text-xs font-semibold"
+                >
+                  Vazgeç
+                </button>
+                <button
+                  type="submit"
+                  disabled={cashInOutSubmitting || cashInOutAmount <= 0}
+                  className={`flex items-center gap-2 px-5 py-2 font-bold rounded-xl text-xs transition-all shadow-lg disabled:opacity-50 ${
+                    cashInOutType === "in"
+                      ? "bg-emerald-600 hover:bg-emerald-500 text-stone-950 shadow-emerald-600/20"
+                      : "bg-red-600 hover:bg-red-500 text-white shadow-red-600/20"
+                  }`}
+                >
+                  <Save className="w-4 h-4" />
+                  <span>{cashInOutSubmitting ? "Kaydediliyor..." : "Kaydet"}</span>
                 </button>
               </div>
             </form>

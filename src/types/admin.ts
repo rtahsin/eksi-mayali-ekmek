@@ -129,6 +129,22 @@ export interface ExpenseRecord {
   createdAt: string;
 }
 
+export type CashAccountType = "nakit" | "banka_havale" | "pos";
+
+export interface CashMovement {
+  id: string;
+  type: "in" | "out" | "transfer"; // in: Para Girişi, out: Para Çıkışı, transfer: Virman
+  account: CashAccountType; // "nakit" (Çekmece) | "banka_havale" (Banka) | "pos" (Mobil POS)
+  targetAccount?: CashAccountType; // Virman ise aktarılan hesap
+  amount: number;
+  title: string;
+  category?: string;
+  date: string;
+  notes?: string;
+  relatedSource?: "kurye_teslimat" | "cari_tahsilat" | "cari_odeme" | "gider" | "virman" | "manuel";
+  createdAt?: string;
+}
+
 export const BEYLIKDUZU_NEIGHBORHOODS = [
   "Adnan Kahveci",
   "Barış",
