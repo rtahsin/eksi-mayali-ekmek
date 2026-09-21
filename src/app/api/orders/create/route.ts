@@ -4,6 +4,7 @@ import { createAdminClient } from "@/lib/supabase/admin";
 import { INITIAL_PRODUCTS } from "@/hooks/useProducts";
 import { Order, OrderItem } from "@/types";
 import { checkRateLimit, sanitizeInput } from "@/lib/security/rateLimiter";
+import { getErrorMessage } from "@/lib/utils/error";
 
 // 1. Zod Schema for Request Validation
 const OrderItemSchema = z.object({
@@ -41,24 +42,19 @@ const CreateOrderRequestSchema = z.object({
 
 export async function POST(req: Request) {
   try {
-    // 0. Rate Limiting Check by IP
+    // 0. (IP-based in-memory rate limiting kept as a first line of defense for severe DDoS)
     const forwarded = req.headers.get("x-forwarded-for");
     const realIp = req.headers.get("x-real-ip");
     const clientIp = forwarded ? forwarded.split(",")[0].trim() : realIp || "127.0.0.1";
 
-    const ipLimit = checkRateLimit(`order_ip_${clientIp}`, 5, 600000); // Max 5 orders per 10 mins
+    const ipLimit = checkRateLimit(`order_ip_${clientIp}`, 10, 600000); 
     if (!ipLimit.allowed) {
       return NextResponse.json(
         {
           success: false,
-          error: `Çok fazla sipariş denemesi yapıldı. Güvenlik gereği lütfen ${ipLimit.retryAfterSeconds} saniye sonra tekrar deneyiniz.`,
+          error: `Geçici olarak engellendiniz. Lütfen ${ipLimit.retryAfterSeconds} saniye sonra tekrar deneyiniz.`,
         },
-        {
-          status: 429,
-          headers: {
-            "Retry-After": String(ipLimit.retryAfterSeconds),
-          },
-        }
+        { status: 429 }
       );
     }
 
@@ -67,7 +63,7 @@ export async function POST(req: Request) {
     // Validate request schema with Zod
     const validationResult = CreateOrderRequestSchema.safeParse(rawBody);
     if (!validationResult.success) {
-      const errorMsg = validationResult.error.issues.map((e) => e.message).join(", ");
+      const errorMsg = validationResult.error.issues.map((e) => getErrorMessage(e)).join(", ");
       return NextResponse.json(
         { success: false, error: `Doğrulama hatası: ${errorMsg}` },
         { status: 400 }
@@ -77,22 +73,26 @@ export async function POST(req: Request) {
     const { items, customerInfo, deliveryMethod, paymentMethod, idempotencyKey, userId } =
       validationResult.data;
 
-    // Rate Limiting Check by Phone Number
+    const supabaseAdmin = createAdminClient();
+
+    // 1. Database-backed Rate Limiting Check by Phone Number (Bulletproof against Serverless Cold Starts)
     const cleanPhone = customerInfo.phone.replace(/\D/g, "");
-    if (cleanPhone.length >= 10) {
-      const phoneLimit = checkRateLimit(`order_phone_${cleanPhone}`, 4, 600000); // Max 4 orders per 10 mins
-      if (!phoneLimit.allowed) {
+    if (cleanPhone.length >= 10 && supabaseAdmin) {
+      // Get orders in the last 15 minutes for this phone number
+      const fifteenMinsAgo = new Date(Date.now() - 15 * 60 * 1000).toISOString();
+      const { count } = await (supabaseAdmin as any)
+        .from("orders")
+        .select("*", { count: 'exact', head: true })
+        .eq("phone", cleanPhone)
+        .gte("created_at", fifteenMinsAgo);
+
+      if (count !== null && count >= 2) {
         return NextResponse.json(
           {
             success: false,
-            error: `Bu telefon numarası ile kısa sürede çok fazla sipariş verildi. Lütfen ${phoneLimit.retryAfterSeconds} saniye bekleyiniz.`,
+            error: `Bu telefon numarası ile son 15 dakika içinde maksimum sipariş limitine ulaştınız. Lütfen daha sonra tekrar deneyiniz.`,
           },
-          {
-            status: 429,
-            headers: {
-              "Retry-After": String(phoneLimit.retryAfterSeconds),
-            },
-          }
+          { status: 429 }
         );
       }
     }
@@ -103,8 +103,6 @@ export async function POST(req: Request) {
     const sanitizedNeighborhood = sanitizeInput(customerInfo.neighborhood, 100);
     const sanitizedDistrict = sanitizeInput(customerInfo.district, 50) || "Beylikdüzü";
     const sanitizedNote = sanitizeInput(customerInfo.note || "", 300);
-
-    const supabaseAdmin = createAdminClient();
 
     // 2. Server-side product price & inventory resolution
     const verifiedOrderItems: OrderItem[] = [];
@@ -182,7 +180,7 @@ export async function POST(req: Request) {
           neighborhood: sanitizedNeighborhood,
           address_detail: sanitizedAddressDetail,
           delivery_date: deliveryDateFormatted,
-          status: "bekliyor",
+          status: "onay_bekliyor", // CHANGED: All new web orders go to Awaiting Verification state
           payment_method: paymentMethod,
           subtotal: serverSubtotal,
           shipping_fee: shippingFee,
@@ -207,7 +205,7 @@ export async function POST(req: Request) {
         } else {
           console.error("Supabase order insert error:", supaOrderErr);
         }
-      } catch (supaErr: any) {
+      } catch (supaErr: unknown) {
         console.error("Supabase order creation error:", supaErr);
       }
     }
@@ -220,7 +218,7 @@ export async function POST(req: Request) {
       items: verifiedOrderItems,
       totalAmount,
       shippingFee,
-      status: "pending",
+      status: "onay_bekliyor", // Status matching DB
       paymentMethod,
       deliveryDate: deliveryDateFormatted,
       orderNotes: sanitizedNote,
@@ -232,12 +230,12 @@ export async function POST(req: Request) {
       success: true,
       order: completedOrder,
     });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("Order creation API error:", error);
     return NextResponse.json(
       {
         success: false,
-        error: error.message || "Sipariş işlenirken bir sunucu hatası oluştu.",
+        error: getErrorMessage(error) || "Sipariş işlenirken bir sunucu hatası oluştu.",
       },
       { status: 500 }
     );

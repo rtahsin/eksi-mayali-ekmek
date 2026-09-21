@@ -95,7 +95,7 @@ export async function verifyAdminRequest(req: Request): Promise<
         role,
       },
     };
-  } catch (err: any) {
+  } catch (err: unknown) {
     console.error("Admin token verification error:", err);
     return {
       success: false,

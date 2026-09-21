@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { createAdminClient } from "@/lib/supabase/admin";
+import { getErrorMessage } from "@/lib/utils/error";
 
 export async function DELETE(request: Request) {
   try {
@@ -23,7 +24,7 @@ export async function DELETE(request: Request) {
     }
 
     // Try hard delete first
-    const { error: delErr } = await (supabase as any)
+    const { error: delErr } = await supabase!
       .from("products")
       .delete()
       .eq("id", id);
@@ -31,7 +32,7 @@ export async function DELETE(request: Request) {
     if (delErr) {
       console.warn("Product hard delete warning (falling back to soft delete):", delErr);
       // If foreign key exists or other restriction, soft delete
-      const { error: updateErr } = await (supabase as any)
+      const { error: updateErr } = await supabase!
         .from("products")
         .update({ is_active: false, updated_at: new Date().toISOString() })
         .eq("id", id);
@@ -40,9 +41,9 @@ export async function DELETE(request: Request) {
     }
 
     return NextResponse.json({ success: true, message: "Ürün başarıyla silindi", id });
-  } catch (err: any) {
+  } catch (err: unknown) {
     console.error("API DELETE /api/admin/products error:", err);
-    return NextResponse.json({ error: err.message || "Silme hatası" }, { status: 500 });
+    return NextResponse.json({ error: getErrorMessage(err) || "Silme hatası" }, { status: 500 });
   }
 }
 
@@ -80,15 +81,15 @@ export async function POST(request: Request) {
       updated_at: new Date().toISOString(),
     };
 
-    const { error } = await (supabase as any)
+    const { error } = await supabase!
       .from("products")
       .upsert(payload, { onConflict: "id" });
 
     if (error) throw error;
 
     return NextResponse.json({ success: true, product: payload });
-  } catch (err: any) {
+  } catch (err: unknown) {
     console.error("API POST /api/admin/products error:", err);
-    return NextResponse.json({ error: err.message || "Kaydetme hatası" }, { status: 500 });
+    return NextResponse.json({ error: getErrorMessage(err) || "Kaydetme hatası" }, { status: 500 });
   }
 }

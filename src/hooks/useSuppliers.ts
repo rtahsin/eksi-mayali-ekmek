@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback } from "react";
 import { createClient, isSupabaseConfigured } from "@/lib/supabase/client";
 import { Supplier, SupplierTransaction } from "@/types/admin";
+import { getErrorMessage } from "@/lib/utils/error";
 
 export function useSuppliers() {
   const [suppliers, setSuppliers] = useState<Supplier[]>([]);
@@ -18,7 +19,7 @@ export function useSuppliers() {
     }
 
     try {
-      const { data, error: supaErr } = await (supabase as any)
+      const { data, error: supaErr } = await supabase!
         .from("suppliers")
         .select("*")
         .order("name", { ascending: true });
@@ -38,7 +39,7 @@ export function useSuppliers() {
         }));
         setSuppliers(mapped);
       }
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error("Suppliers fetch error:", err);
       setError("Tedarikçiler yüklenirken hata oluştu.");
     } finally {
@@ -86,7 +87,7 @@ export function useSuppliers() {
       setSuppliers((prev) => [...prev, newObj]);
 
       if (supabase) {
-        const { error: insErr } = await (supabase as any).from("suppliers").insert({
+        const { error: insErr } = await supabase!.from("suppliers").insert({
           id: newId,
           name: data.companyName,
           category: data.materialType || "Hammadde",
@@ -99,10 +100,10 @@ export function useSuppliers() {
       }
 
       return { success: true, id: newId };
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error("Add supplier error:", err);
       fetchSuppliers();
-      return { success: false, error: err.message };
+      return { success: false, error: getErrorMessage(err) };
     }
   };
 
@@ -122,7 +123,7 @@ export function useSuppliers() {
         if (data.notes !== undefined) updatePayload.address = data.notes;
         if (data.balance !== undefined) updatePayload.balance = data.balance;
 
-        const { error: updErr } = await (supabase as any)
+        const { error: updErr } = await supabase!
           .from("suppliers")
           .update(updatePayload)
           .eq("id", id);
@@ -130,10 +131,10 @@ export function useSuppliers() {
       }
 
       return { success: true };
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error("Update supplier error:", err);
       fetchSuppliers();
-      return { success: false, error: err.message };
+      return { success: false, error: getErrorMessage(err) };
     }
   };
 
@@ -143,7 +144,7 @@ export function useSuppliers() {
       setSuppliers((prev) => prev.filter((s) => s.id !== id));
 
       if (supabase) {
-        const { error: delErr } = await (supabase as any)
+        const { error: delErr } = await supabase!
           .from("suppliers")
           .delete()
           .eq("id", id);
@@ -151,10 +152,10 @@ export function useSuppliers() {
       }
 
       return { success: true };
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error("Delete supplier error:", err);
       fetchSuppliers();
-      return { success: false, error: err.message };
+      return { success: false, error: getErrorMessage(err) };
     }
   };
 
@@ -180,7 +181,7 @@ export function useSuppliers() {
 
       if (supabase) {
         // 1. Insert transaction
-        await (supabase as any).from("supplier_transactions").insert({
+        await supabase!.from("supplier_transactions").insert({
           supplier_id: supplierId,
           type: tx.type === "alis" ? "purchase" : "payment",
           amount: amount,
@@ -189,24 +190,24 @@ export function useSuppliers() {
         });
 
         // 2. Update balance
-        const { data: cur } = await (supabase as any)
+        const { data: cur } = await supabase!
           .from("suppliers")
           .select("balance")
           .eq("id", supplierId)
           .single();
 
         const currentBal = Number(cur?.balance) || 0;
-        await (supabase as any)
+        await supabase!
           .from("suppliers")
           .update({ balance: currentBal + balanceDelta, updated_at: new Date().toISOString() })
           .eq("id", supplierId);
       }
 
       return { success: true };
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error("Add supplier transaction error:", err);
       fetchSuppliers();
-      return { success: false, error: err.message };
+      return { success: false, error: getErrorMessage(err) };
     }
   };
 

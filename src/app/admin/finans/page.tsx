@@ -83,7 +83,7 @@ export default function AdminFinansPage() {
     deleteExpense,
     deleteFinancialRecord,
   } = useFinans();
-  const { allOrders } = useAdminOrders();
+  const { allOrders, createManualOrder } = useAdminOrders();
   const { products } = useProducts("all");
   const activeProducts = products.length > 0 ? products : INITIAL_PRODUCTS;
 
@@ -114,6 +114,8 @@ export default function AdminFinansPage() {
   // Quick Fiş Kes (Satış) Modal
   const [quickSlipModalOpen, setQuickSlipModalOpen] = useState(false);
   const [selectedCariForSlip, setSelectedCariForSlip] = useState<CariAccount | null>(null);
+  const [slipCustomerName, setSlipCustomerName] = useState("");
+  const [slipCustomerAddress, setSlipCustomerAddress] = useState("");
   const [slipQuantities, setSlipQuantities] = useState<Record<string, number>>({});
   const [slipFreeItems, setSlipFreeItems] = useState<Record<string, boolean>>({});
   const [slipStaleReturn, setSlipStaleReturn] = useState<number>(0);
@@ -249,6 +251,8 @@ export default function AdminFinansPage() {
       return;
     }
     setSelectedCariForSlip(targetCari);
+    setSlipCustomerName(targetCari.businessName || "");
+    setSlipCustomerAddress(targetCari.address || "");
     setSlipQuantities({});
     setSlipFreeItems({});
     setSlipStaleReturn(0);
@@ -333,7 +337,28 @@ export default function AdminFinansPage() {
         deductionDetails.length > 0 ? ` [${deductionDetails.join(", ")}]` : ""
       }`;
 
-      const generatedOrderId = `ord_${Date.now().toString(36)}`;
+      // Create real order
+      const orderNotes = slipNotes ? `${slipNotes}${deductionDetails.length > 0 ? ` • ${deductionDetails.join(", ")}` : ""}` : deductionDetails.join(", ");
+      const orderRes = await createManualOrder({
+        customerName: slipCustomerName || selectedCariForSlip.businessName,
+        phone: selectedCariForSlip.phone,
+        deliveryAddress: slipCustomerAddress || selectedCariForSlip.address || "Belirtilmemiş",
+        neighborhood: selectedCariForSlip.neighborhood || "Beylikdüzü",
+        deliveryMethod: "courier",
+        deliveryDate: slipDate,
+        status: "teslim_edildi",
+        paymentMethod: "cari",
+        items: quickSlipItems,
+        orderNotes: orderNotes,
+      });
+
+      if (!orderRes.success) {
+        alert("Sipariş (Order) kaydı oluşturulurken hata: " + orderRes.error);
+        setSlipSubmitting(false);
+        return;
+      }
+      
+      const generatedOrderId = orderRes.id as string;
 
       // 1. Record Sale (Borç) Transaction
       const res = await addTransaction(selectedCariForSlip.id, {
@@ -358,7 +383,7 @@ export default function AdminFinansPage() {
         // Sync to Kasa & Banka
         await addIncome({
           category: "cari_tahsilat",
-          title: `[Cari Tahsilat] ${selectedCariForSlip.businessName} - ${generatedSlipNumber}`,
+          title: `[Cari Tahsilat] ${slipCustomerName || selectedCariForSlip.businessName} - ${generatedSlipNumber}`,
           amount: Number(slipPaymentCollected),
           paymentMethod: (slipPaymentMethod === "kredi_karti" ? "pos" : slipPaymentMethod) as any,
           date: slipDate,
@@ -372,9 +397,9 @@ export default function AdminFinansPage() {
         const slipOrder: AdminOrder = {
           id: generatedOrderId,
           orderNumber: generatedSlipNumber,
-          customerName: selectedCariForSlip.businessName,
+          customerName: slipCustomerName || selectedCariForSlip.businessName,
           phone: selectedCariForSlip.phone,
-          deliveryAddress: selectedCariForSlip.address || "Belirtilmemiş",
+          deliveryAddress: slipCustomerAddress || selectedCariForSlip.address || "Belirtilmemiş",
           neighborhood: selectedCariForSlip.neighborhood || "Beylikdüzü",
           deliveryMethod: "courier",
           deliveryDate: slipDate,
@@ -386,9 +411,9 @@ export default function AdminFinansPage() {
           status: "teslim_edildi",
           paymentMethod: "cari",
           paymentStatus: "paid",
-          source: "whatsapp",
+          source: "web",
           cariId: selectedCariForSlip.id,
-          orderNotes: slipNotes ? `${slipNotes}${deductionDetails.length > 0 ? ` • ${deductionDetails.join(", ")}` : ""}` : deductionDetails.join(", "),
+          orderNotes: orderNotes,
           createdAt: new Date().toISOString(),
         };
 
@@ -396,7 +421,7 @@ export default function AdminFinansPage() {
         setActiveSlipOrder(slipOrder);
         setSlipModalOpen(true);
       } else {
-        alert("Fiş kaydedilirken hata: " + res.error);
+        alert("Fiş (Cari hareket) kaydedilirken hata: " + res.error);
       }
     } finally {
       setSlipSubmitting(false);
@@ -2220,6 +2245,29 @@ export default function AdminFinansPage() {
                     </option>
                   ))}
                 </select>
+              </div>
+
+              {/* Editable Name & Address */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div className="space-y-1">
+                  <label className="text-xs font-semibold text-stone-300">Fişte Görünecek Firma Adı</label>
+                  <input
+                    type="text"
+                    required
+                    value={slipCustomerName}
+                    onChange={(e) => setSlipCustomerName(e.target.value)}
+                    className="w-full bg-stone-950 border border-stone-800 rounded-xl px-3 py-2 text-xs text-stone-100 focus:outline-none focus:border-amber-500"
+                  />
+                </div>
+                <div className="space-y-1">
+                  <label className="text-xs font-semibold text-stone-300">Fişte Görünecek Adres</label>
+                  <input
+                    type="text"
+                    value={slipCustomerAddress}
+                    onChange={(e) => setSlipCustomerAddress(e.target.value)}
+                    className="w-full bg-stone-950 border border-stone-800 rounded-xl px-3 py-2 text-xs text-stone-100 focus:outline-none focus:border-amber-500"
+                  />
+                </div>
               </div>
 
               {/* Date & Note Inputs */}

@@ -26,6 +26,7 @@ import { useTrustedDevice } from "@/hooks/useTrustedDevice";
 import { useAdminAuth } from "@/hooks/useAdminAuth";
 import { TrustedDevice, BEYLIKDUZU_NEIGHBORHOODS } from "@/types/admin";
 import { createClient } from "@/lib/supabase/client";
+import { getErrorMessage } from "@/lib/utils/error";
 
 export default function AdminSettingsPage() {
   const { deviceId: currentDeviceId, approveDevice: localApprove } = useTrustedDevice();
@@ -156,8 +157,8 @@ export default function AdminSettingsPage() {
 
       setSettingsSavedSuccess(true);
       setTimeout(() => setSettingsSavedSuccess(false), 3000);
-    } catch (err: any) {
-      alert("Hata: " + err.message);
+    } catch (err: unknown) {
+      alert("Hata: " + getErrorMessage(err));
     } finally {
       setSavingSettings(false);
     }
@@ -190,8 +191,8 @@ export default function AdminSettingsPage() {
       setManualCode("");
       setManualDeviceName("");
       loadSettings();
-    } catch (err: any) {
-      alert("Hata: " + err.message);
+    } catch (err: unknown) {
+      alert("Hata: " + getErrorMessage(err));
     } finally {
       setManualSubmitting(false);
     }

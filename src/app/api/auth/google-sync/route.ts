@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { createAdminClient } from "@/lib/supabase/admin";
+import { getErrorMessage } from "@/lib/utils/error";
 
 export async function POST(req: Request) {
   try {
@@ -55,8 +56,8 @@ export async function POST(req: Request) {
             updated_at: new Date().toISOString(),
           });
         }
-      } catch (e: any) {
-        console.warn("Supabase user sync notice:", e?.message);
+      } catch (e: unknown) {
+        console.warn("Supabase user sync notice:", getErrorMessage(e));
       }
     }
 
@@ -71,8 +72,8 @@ export async function POST(req: Request) {
         phone,
       },
     });
-  } catch (err: any) {
+  } catch (err: unknown) {
     console.error("Google sync API error:", err);
-    return NextResponse.json({ success: false, error: err.message }, { status: 500 });
+    return NextResponse.json({ success: false, error: getErrorMessage(err) }, { status: 500 });
   }
 }

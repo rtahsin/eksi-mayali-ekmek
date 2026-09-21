@@ -91,17 +91,6 @@ export function Footer() {
                 </a>
               </li>
               <li className="flex items-center gap-2">
-                <MessageSquare className="w-4 h-4 text-emerald-400 shrink-0" />
-                <a
-                  href="https://wa.me/905010126653?text=Merhaba%2C%20EkmekLab%20ta%C5%9F%20f%C4%B1r%C4%B1n%C4%B1ndan%20taze%20ek%C5%9Fi%20mayal%C4%B1%20ekmek%20ve%20gurme%20lezzetler%20sipari%C5%9Fi%20vermek%20istiyorum."
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="hover:text-emerald-400"
-                >
-                  WhatsApp Sipariş Hattı
-                </a>
-              </li>
-              <li className="flex items-center gap-2">
                 <Mail className="w-4 h-4 text-artisan-gold shrink-0" />
                 <a href="mailto:ekmeklab@gmail.com" className="hover:text-artisan-gold">
                   ekmeklab@gmail.com

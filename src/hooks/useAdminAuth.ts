@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { createClient, isSupabaseConfigured } from "@/lib/supabase/client";
 import { AdminRole, AdminUser } from "@/types/admin";
+import { getErrorMessage } from "@/lib/utils/error";
 
 const SUPER_ADMIN_EMAILS = [
   "tahsinreyhan@gmail.com",
@@ -30,7 +31,7 @@ export function useAdminAuth() {
           const emailLower = user.email.toLowerCase().trim();
           const isSuper = SUPER_ADMIN_EMAILS.includes(emailLower);
 
-          const { data: profile } = await (supabase as any)
+          const { data: profile } = await supabase!
             .from("profiles")
             .select("*")
             .eq("id", user.id)
@@ -84,7 +85,7 @@ export function useAdminAuth() {
         const emailLower = user.email.toLowerCase().trim();
         const isSuper = SUPER_ADMIN_EMAILS.includes(emailLower);
 
-        const { data: profile } = await (supabase as any)
+        const { data: profile } = await supabase!
           .from("profiles")
           .select("*")
           .eq("id", user.id)
@@ -128,7 +129,7 @@ export function useAdminAuth() {
 
       if (error) {
         let msg = "Giriş yapılamadı. Lütfen bilgilerinizi kontrol edin.";
-        if (error.message.includes("Invalid login credentials")) {
+        if (getErrorMessage(error).includes("Invalid login credentials")) {
           msg = "E-posta adresi veya şifre hatalı.";
         }
         setAuthError(msg);
@@ -138,7 +139,7 @@ export function useAdminAuth() {
       const user = data.user;
       const isSuper = SUPER_ADMIN_EMAILS.includes(cleanEmail);
 
-      const { data: profile } = await (supabase as any)
+      const { data: profile } = await supabase!
         .from("profiles")
         .select("*")
         .eq("id", user.id)
@@ -164,8 +165,8 @@ export function useAdminAuth() {
 
       setAdminUser(adminObj);
       return { success: true, user };
-    } catch (err: any) {
-      const msg = err.message || "Giriş sırasında beklenmedik bir hata oluştu.";
+    } catch (err: unknown) {
+      const msg = getErrorMessage(err) || "Giriş sırasında beklenmedik bir hata oluştu.";
       setAuthError(msg);
       return { success: false, error: msg };
     } finally {
@@ -189,8 +190,8 @@ export function useAdminAuth() {
       });
       if (error) throw error;
       return { success: true };
-    } catch (err: any) {
-      const msg = "Google ile giriş başarısız oldu: " + err.message;
+    } catch (err: unknown) {
+      const msg = "Google ile giriş başarısız oldu: " + getErrorMessage(err);
       setAuthError(msg);
       return { success: false, error: msg };
     } finally {
@@ -206,8 +207,8 @@ export function useAdminAuth() {
       });
       if (error) throw error;
       return { success: true };
-    } catch (err: any) {
-      return { success: false, error: err.message || "Şifre sıfırlama e-postası gönderilemedi." };
+    } catch (err: unknown) {
+      return { success: false, error: getErrorMessage(err) || "Şifre sıfırlama e-postası gönderilemedi." };
     }
   };
 
@@ -215,33 +216,22 @@ export function useAdminAuth() {
     setLoading(true);
     setAuthError(null);
     try {
-      let targetPin = "1453";
-      if (typeof window !== "undefined") {
-        const local = localStorage.getItem("ekmeklab_admin_pin");
-        if (local) targetPin = local;
-      }
+      // New Secure Flow
+      const res = await fetch("/api/admin/auth/pin", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ pin: enteredPin.trim() }),
+      });
 
-      try {
-        const res = await fetch("/api/admin/settings");
-        if (res.ok) {
-          const data = await res.json();
-          if (data.security?.quickPin) {
-            targetPin = String(data.security.quickPin).trim();
-            if (typeof window !== "undefined") {
-              localStorage.setItem("ekmeklab_admin_pin", targetPin);
-            }
-          }
-        }
-      } catch {
-        // Fallback to targetPin
-      }
-
-      if (enteredPin.trim() !== targetPin) {
-        const msg = "Hatalı PIN kodu! Lütfen tekrar deneyin.";
+      const data = await res.json();
+      if (!res.ok || !data.success) {
+        const msg = data.error || "Hatalı PIN kodu! Lütfen tekrar deneyin.";
         setAuthError(msg);
         return { success: false, error: msg };
       }
 
+      // If successful, the API has set the HTTP-Only cookie.
+      // We still update local state for the UI immediately.
       const pinUser: AdminUser = {
         uid: "tahsin_master_admin",
         email: "tahsinreyhan@gmail.com",
@@ -260,8 +250,8 @@ export function useAdminAuth() {
       }
 
       return { success: true, user: pinUser };
-    } catch (err: any) {
-      const msg = err.message || "PIN ile giriş sırasında bir hata oluştu.";
+    } catch (err: unknown) {
+      const msg = getErrorMessage(err) || "PIN ile giriş sırasında bir hata oluştu.";
       setAuthError(msg);
       return { success: false, error: msg };
     } finally {
@@ -274,6 +264,9 @@ export function useAdminAuth() {
       if (supabase) {
         await supabase.auth.signOut();
       }
+      
+      await fetch("/api/admin/auth/pin", { method: "DELETE" }).catch(() => {});
+      
       if (typeof window !== "undefined") {
         localStorage.removeItem("ekmeklab_pin_session");
       }

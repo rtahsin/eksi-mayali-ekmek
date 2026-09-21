@@ -85,6 +85,15 @@ function extractCoordinates(address?: string): { lat: number; lon: number } | nu
 
 const STAGES = [
   {
+    id: "onay_bekliyor",
+    title: "Onay Bekleniyor",
+    desc: "Siparişinizi teyit etmek için WhatsApp üzerinden onay vermeniz bekleniyor.",
+    icon: Clock,
+    color: "text-rose-400",
+    bg: "bg-rose-500/10",
+    border: "border-rose-500/30",
+  },
+  {
     id: "bekliyor",
     title: "Sipariş Alındı",
     desc: "Siparişiniz fırınımıza ulaştı, sıraya alındı.",
@@ -133,16 +142,18 @@ const STAGES = [
 
 function getStageIndex(status: string): number {
   switch (status) {
-    case "bekliyor":
+    case "onay_bekliyor":
       return 0;
-    case "hazirlaniyor":
+    case "bekliyor":
       return 1;
-    case "firinda":
+    case "hazirlaniyor":
       return 2;
-    case "kuryede":
+    case "firinda":
       return 3;
-    case "teslim_edildi":
+    case "kuryede":
       return 4;
+    case "teslim_edildi":
+      return 5;
     case "iptal":
       return -1;
     default:
@@ -429,6 +440,8 @@ export default function OrderTrackingPage({
                     ? "bg-blue-500/10 text-blue-400 border-blue-500/30 animate-pulse"
                     : order.status === "firinda"
                     ? "bg-orange-500/10 text-orange-400 border-orange-500/30"
+                    : order.status === "onay_bekliyor"
+                    ? "bg-rose-500/10 text-rose-400 border-rose-500/30 animate-pulse"
                     : "bg-amber-500/10 text-amber-400 border-amber-500/30"
                 }`}
               >
@@ -442,6 +455,8 @@ export default function OrderTrackingPage({
                     ? "Fırında Pişiyor"
                     : order.status === "hazirlaniyor"
                     ? "Hazırlanıyor"
+                    : order.status === "onay_bekliyor"
+                    ? "Onay Bekleniyor"
                     : order.status === "iptal"
                     ? "İptal Edildi"
                     : "Sipariş Alındı"}
@@ -450,6 +465,31 @@ export default function OrderTrackingPage({
             </div>
           </div>
         </div>
+
+        {order.status === "onay_bekliyor" && (
+          <div className="bg-rose-950/40 border border-rose-900/50 rounded-3xl p-5 sm:p-6 shadow-xl relative overflow-hidden flex flex-col items-center text-center space-y-4">
+            <div className="w-12 h-12 bg-rose-500/20 text-rose-400 rounded-full flex items-center justify-center mb-1">
+              <MessageCircle className="w-6 h-6" />
+            </div>
+            <div>
+              <h2 className="text-rose-200 font-serif text-lg font-bold">Siparişiniz Onay Bekliyor</h2>
+              <p className="text-rose-300/80 text-sm mt-1 max-w-sm mx-auto">
+                Üretime başlayabilmemiz için siparişinizi WhatsApp üzerinden onaylamanız gerekmektedir. Lütfen aşağıdaki butona tıklayarak bize ulaşın.
+              </p>
+            </div>
+            <a
+              href={`https://wa.me/905306389773?text=${encodeURIComponent(
+                `Sipariş Onayı\n\nSipariş No: #${order.orderNumber}\nTutar: ${order.totalAmount} ₺\nMüşteri: ${order.customerName}`
+              )}`}
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-rose-500 text-white font-medium shadow-lg hover:bg-rose-400 transition-colors"
+            >
+              <MessageCircle className="w-5 h-5" />
+              Siparişi WhatsApp'ta Onayla
+            </a>
+          </div>
+        )}
 
         {/* Live Stepper Track */}
         <div className="bg-stone-900/80 border border-stone-800 rounded-3xl p-5 sm:p-6 shadow-xl space-y-6">

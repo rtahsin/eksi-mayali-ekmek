@@ -6,6 +6,7 @@ import { ExpenseRecord, CashAccountType, CashMovement } from "@/types/admin";
 import { useAdminOrders } from "./useAdminOrders";
 import { useCariler } from "./useCariler";
 import { useSuppliers } from "./useSuppliers";
+import { getErrorMessage } from "@/lib/utils/error";
 
 export function useFinans() {
   const [rawRecords, setRawRecords] = useState<any[]>([]);
@@ -25,7 +26,7 @@ export function useFinans() {
     }
 
     try {
-      const { data, error: supaErr } = await (supabase as any)
+      const { data, error: supaErr } = await supabase!
         .from("financial_records")
         .select("*")
         .order("date", { ascending: false });
@@ -35,7 +36,7 @@ export function useFinans() {
       if (data) {
         setRawRecords(data);
       }
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error("Expenses fetch error:", err);
       setError("Giderler yüklenirken hata oluştu.");
     } finally {
@@ -87,7 +88,7 @@ export function useFinans() {
       const tempId = `exp_${Date.now().toString(36)}`;
 
       if (supabase) {
-        const { error: insErr } = await (supabase as any).from("financial_records").insert({
+        const { error: insErr } = await supabase!.from("financial_records").insert({
           type: "expense",
           category: data.category,
           amount: amount,
@@ -100,10 +101,10 @@ export function useFinans() {
       }
 
       return { success: true, id: tempId };
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error("Add expense error:", err);
       fetchExpenses();
-      return { success: false, error: err.message };
+      return { success: false, error: getErrorMessage(err) };
     }
   };
 
@@ -121,7 +122,7 @@ export function useFinans() {
       const tempId = `inc_${Date.now().toString(36)}`;
 
       if (supabase) {
-        const { error: insErr } = await (supabase as any).from("financial_records").insert({
+        const { error: insErr } = await supabase!.from("financial_records").insert({
           type: "income",
           category: data.category || "gelir",
           amount: amount,
@@ -134,9 +135,9 @@ export function useFinans() {
       }
 
       return { success: true, id: tempId };
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error("Add income error:", err);
-      return { success: false, error: err.message };
+      return { success: false, error: getErrorMessage(err) };
     }
   };
 
@@ -153,7 +154,7 @@ export function useFinans() {
       const tempId = `trf_${Date.now().toString(36)}`;
 
       if (supabase) {
-        const { error: insErr } = await (supabase as any).from("financial_records").insert({
+        const { error: insErr } = await supabase!.from("financial_records").insert({
           type: "transfer",
           category: "virman",
           amount: amount,
@@ -166,9 +167,9 @@ export function useFinans() {
       }
 
       return { success: true, id: tempId };
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error("Add transfer error:", err);
-      return { success: false, error: err.message };
+      return { success: false, error: getErrorMessage(err) };
     }
   };
 
@@ -176,7 +177,7 @@ export function useFinans() {
   const deleteExpense = async (id: string) => {
     try {
       if (supabase) {
-        const { error: delErr } = await (supabase as any)
+        const { error: delErr } = await supabase!
           .from("financial_records")
           .delete()
           .eq("id", id);
@@ -185,10 +186,10 @@ export function useFinans() {
       }
 
       return { success: true };
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error("Delete expense error:", err);
       fetchExpenses();
-      return { success: false, error: err.message };
+      return { success: false, error: getErrorMessage(err) };
     }
   };
 

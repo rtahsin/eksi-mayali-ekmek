@@ -32,7 +32,7 @@ export function useJournal() {
     async function syncSupabase() {
       if (!supabase || !isSupabaseConfigured()) return;
       try {
-        const { data, error } = await (supabase as any)
+        const { data, error } = await supabase!
           .from("journal_articles")
           .select("*")
           .order("created_at", { ascending: false });
@@ -40,11 +40,23 @@ export function useJournal() {
         if (!error && data && data.length > 0) {
           const mapped: JournalArticle[] = data.map((d: any) => ({
             id: d.id,
-            title: d.title,
-            slug: d.slug,
+            title: d.title || "",
+            slug: d.slug || "",
+            volumeNumber: d.volume_number || 1,
+            volumeTitle: d.volume_title || "",
+            category: d.category || "tahil",
+            categoryLabel: d.category_label || "Tahıl",
+            subtitle: d.subtitle || "",
+            publishedDate: d.published_date || d.created_at || new Date().toISOString(),
+            readingTimeMinutes: d.reading_time_minutes || 5,
+            thirtySecondTakeaway: d.thirty_second_takeaway || "",
+            dropCapLetter: d.drop_cap_letter || (d.title ? d.title.charAt(0) : "A"),
+            leadParagraph: d.lead_paragraph || d.excerpt || "",
+            sections: d.sections || [],
+            citations: d.citations || [],
+            relatedProductId: d.related_product_id || "",
             excerpt: d.excerpt || "",
             content: d.content || "",
-            category: d.category || "fermentation",
             readTime: d.read_time || "5 dk",
             author: d.author || "Tahsin Usta",
             imageUrl: d.image_url,
@@ -93,7 +105,7 @@ export function useJournal() {
 
       if (supabase) {
         try {
-          await (supabase as any).from("journal_articles").upsert({
+          await supabase!.from("journal_articles").upsert({
             id: article.id,
             title: article.title,
             slug: article.slug,
@@ -121,7 +133,7 @@ export function useJournal() {
 
       if (supabase) {
         try {
-          await (supabase as any)
+          await supabase!
             .from("journal_articles")
             .delete()
             .or(`id.eq.${identifier},slug.eq.${identifier}`);

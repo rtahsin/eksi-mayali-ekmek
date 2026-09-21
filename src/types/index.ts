@@ -39,7 +39,7 @@ export interface OrderItem {
   batchId?: string;
 }
 
-export type OrderStatus = "pending" | "processing" | "ready" | "completed" | "cancelled";
+export type OrderStatus = "onay_bekliyor" | "pending" | "processing" | "ready" | "completed" | "cancelled";
 export type PaymentMethod = "cash_on_delivery" | "pos_at_door" | "whatsapp";
 
 export interface Order {

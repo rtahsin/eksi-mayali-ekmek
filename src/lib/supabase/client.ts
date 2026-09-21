@@ -1,6 +1,6 @@
 import { createBrowserClient } from "@supabase/ssr";
 
-let supabaseBrowserClient: ReturnType<typeof createBrowserClient> | null = null;
+let supabaseBrowserClient: ReturnType<typeof createBrowserClient<any, "public">> | null = null;
 
 export function isSupabaseConfigured(): boolean {
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
@@ -20,6 +20,6 @@ export function createClient() {
     return supabaseBrowserClient;
   }
 
-  supabaseBrowserClient = createBrowserClient(url, anonKey);
+  supabaseBrowserClient = createBrowserClient<any, "public">(url, anonKey);
   return supabaseBrowserClient;
 }

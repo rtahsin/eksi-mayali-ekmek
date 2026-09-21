@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback } from "react";
 import { createClient, isSupabaseConfigured } from "@/lib/supabase/client";
 import { CariAccount, CariTransaction } from "@/types/admin";
+import { getErrorMessage } from "@/lib/utils/error";
 
 export function useCariler() {
   const [cariler, setCariler] = useState<CariAccount[]>([]);
@@ -18,7 +19,7 @@ export function useCariler() {
     }
 
     try {
-      const { data, error: supaErr } = await (supabase as any)
+      const { data, error: supaErr } = await supabase!
         .from("current_accounts")
         .select("*")
         .order("name", { ascending: true });
@@ -46,7 +47,7 @@ export function useCariler() {
         });
         setCariler(mapped);
       }
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error("Cariler fetch error:", err);
       setError("Cari hesaplar yüklenirken hata oluştu.");
     } finally {
@@ -96,7 +97,7 @@ export function useCariler() {
       setCariler((prev) => [...prev, newObj]);
 
       if (supabase) {
-        const { error: insErr } = await (supabase as any).from("current_accounts").insert({
+        const { error: insErr } = await supabase!.from("current_accounts").insert({
           id: newId,
           name: data.businessName,
           type: data.accountType || data.contactPerson || "customer",
@@ -111,7 +112,7 @@ export function useCariler() {
 
         // If there is an opening balance, record the opening transaction
         if (balance !== 0) {
-          await (supabase as any).from("account_transactions").insert({
+          await supabase!.from("account_transactions").insert({
             account_id: newId,
             type: balance > 0 ? "debt" : "credit",
             amount: Math.abs(balance),
@@ -122,10 +123,10 @@ export function useCariler() {
       }
 
       return { success: true, id: newId };
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error("Add cari error:", err);
       fetchCariler();
-      return { success: false, error: err.message };
+      return { success: false, error: getErrorMessage(err) };
     }
   };
 
@@ -164,7 +165,7 @@ export function useCariler() {
         if (data.taxNumber !== undefined) updatePayload.tax_id = data.taxNumber;
         if (balanceToSet !== undefined) updatePayload.balance = balanceToSet;
 
-        const { error: updErr } = await (supabase as any)
+        const { error: updErr } = await supabase!
           .from("current_accounts")
           .update(updatePayload)
           .eq("id", id);
@@ -173,7 +174,7 @@ export function useCariler() {
         // If balance changed directly, log an adjustment transaction
         if (targetCari && balanceToSet !== undefined && balanceToSet !== targetCari.balance) {
           const diff = balanceToSet - targetCari.balance;
-          await (supabase as any).from("account_transactions").insert({
+          await supabase!.from("account_transactions").insert({
             account_id: id,
             type: diff > 0 ? "debt" : "credit",
             amount: Math.abs(diff),
@@ -184,10 +185,10 @@ export function useCariler() {
       }
 
       return { success: true };
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error("Update cari error:", err);
       fetchCariler();
-      return { success: false, error: err.message };
+      return { success: false, error: getErrorMessage(err) };
     }
   };
 
@@ -197,7 +198,7 @@ export function useCariler() {
       setCariler((prev) => prev.filter((c) => c.id !== id));
 
       if (supabase) {
-        const { error: delErr } = await (supabase as any)
+        const { error: delErr } = await supabase!
           .from("current_accounts")
           .delete()
           .eq("id", id);
@@ -205,10 +206,10 @@ export function useCariler() {
       }
 
       return { success: true };
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error("Delete cari error:", err);
       fetchCariler();
-      return { success: false, error: err.message };
+      return { success: false, error: getErrorMessage(err) };
     }
   };
 
@@ -231,7 +232,7 @@ export function useCariler() {
 
       if (supabase) {
         if (diff !== 0) {
-          await (supabase as any).from("account_transactions").insert({
+          await supabase!.from("account_transactions").insert({
             account_id: cariId,
             type: diff > 0 ? "debt" : "credit",
             amount: Math.abs(diff),
@@ -240,17 +241,17 @@ export function useCariler() {
           });
         }
 
-        await (supabase as any)
+        await supabase!
           .from("current_accounts")
           .update({ balance: targetBal, updated_at: new Date().toISOString() })
           .eq("id", cariId);
       }
 
       return { success: true };
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error("Set manual balance error:", err);
       fetchCariler();
-      return { success: false, error: err.message };
+      return { success: false, error: getErrorMessage(err) };
     }
   };
 
@@ -270,58 +271,36 @@ export function useCariler() {
       const amount = Number(tx.amount);
       const targetCari = cariler.find((c) => c.id === cariId);
       const isExpenseAccount = targetCari?.accountType === "gider";
+      // Optimistic fallback logic will be replaced by API call
+      const res = await fetch("/api/admin/finans/transaction", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          cariId,
+          type: tx.type,
+          amount,
+          description: tx.description,
+          paymentMethod: tx.paymentMethod,
+          orderId: tx.orderId,
+          date: tx.date,
+        }),
+      });
 
-      // Bakiye Değişimi:
-      // satis (Satış / Mal Çıkışı): Müşteri borçlanır -> +amount
-      // tahsilat (Müşteriden Para Girişi): Müşteri borcunu öder -> -amount
-      // odeme (Kasadan Para Çıkışı):
-      //   - Müşteri için: Müşteriye para iadesi / ödeme -> Müşteri borçlanır -> +amount
-      //   - Gider hesabı için: Gidere/Tedarikçiye ödeme yaptık -> borç azalır -> -amount
-      let balanceDelta = 0;
-      if (tx.type === "satis") {
-        balanceDelta = amount;
-      } else if (tx.type === "tahsilat") {
-        balanceDelta = -amount;
-      } else if (tx.type === "odeme") {
-        balanceDelta = isExpenseAccount ? -amount : amount;
-      } else if ((tx.type as any) === "devir") {
-        balanceDelta = amount;
+      const data = await res.json();
+      if (!res.ok || !data.success) {
+        throw new Error(data.error || "İşlem kaydedilemedi");
       }
 
-      // Optimistic balance update
+      // Update UI with the exact new balance from server
       setCariler((prev) =>
-        prev.map((c) => (c.id === cariId ? { ...c, balance: c.balance + balanceDelta } : c))
+        prev.map((c) => (c.id === cariId ? { ...c, balance: data.newBalance } : c))
       );
 
-      if (supabase) {
-        // 1. Insert transaction
-        await (supabase as any).from("account_transactions").insert({
-          account_id: cariId,
-          type: tx.type === "satis" ? "debt" : tx.type === "tahsilat" ? "credit" : "debt",
-          amount: amount,
-          description: tx.description,
-          date: tx.date || new Date().toISOString(),
-        });
-
-        // 2. Fetch current balance to be precise
-        const { data: cur } = await (supabase as any)
-          .from("current_accounts")
-          .select("balance")
-          .eq("id", cariId)
-          .single();
-
-        const currentBal = Number(cur?.balance) || 0;
-        await (supabase as any)
-          .from("current_accounts")
-          .update({ balance: currentBal + balanceDelta, updated_at: new Date().toISOString() })
-          .eq("id", cariId);
-      }
-
       return { success: true };
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error("Add transaction error:", err);
       fetchCariler();
-      return { success: false, error: err.message };
+      return { success: false, error: getErrorMessage(err) };
     }
   };
 
@@ -356,31 +335,31 @@ export function useCariler() {
 
       if (supabase) {
         // 1. Delete from account_transactions
-        const { error: delErr } = await (supabase as any)
+        const { error: delErr } = await supabase!
           .from("account_transactions")
           .delete()
           .eq("id", txId);
         if (delErr) throw delErr;
 
         // 2. Fetch current balance and apply reverseDelta
-        const { data: cur } = await (supabase as any)
+        const { data: cur } = await supabase!
           .from("current_accounts")
           .select("balance")
           .eq("id", cariId)
           .single();
 
         const currentBal = Number(cur?.balance) || 0;
-        await (supabase as any)
+        await supabase!
           .from("current_accounts")
           .update({ balance: currentBal + reverseDelta, updated_at: new Date().toISOString() })
           .eq("id", cariId);
       }
 
       return { success: true, reverseDelta };
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error("Delete transaction error:", err);
       fetchCariler();
-      return { success: false, error: err.message };
+      return { success: false, error: getErrorMessage(err) };
     }
   };
 

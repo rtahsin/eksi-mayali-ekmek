@@ -34,6 +34,7 @@ import { createClient } from "@/lib/supabase/client";
 import { useCariler } from "@/hooks/useCariler";
 import { useFinans } from "@/hooks/useFinans";
 import { useProducts, INITIAL_PRODUCTS } from "@/hooks/useProducts";
+import { useAdminOrders } from "@/hooks/useAdminOrders";
 import { CariAccount, CariTransaction, AdminOrder, OrderItem } from "@/types/admin";
 import { OrderSlipModal } from "@/components/admin/OrderSlipModal";
 
@@ -45,6 +46,7 @@ export default function CariDetailPage() {
   const { addTransaction, setManualBalance, deleteTransaction } = useCariler();
   const { addIncome, addExpense } = useFinans();
   const { products } = useProducts("all");
+  const { createManualOrder } = useAdminOrders();
 
   const [cari, setCari] = useState<CariAccount | null>(null);
   const [transactions, setTransactions] = useState<CariTransaction[]>([]);
@@ -62,6 +64,8 @@ export default function CariDetailPage() {
 
   // Quick Digital Fiş Modal State
   const [quickSlipModalOpen, setQuickSlipModalOpen] = useState(false);
+  const [slipCustomerName, setSlipCustomerName] = useState("");
+  const [slipCustomerAddress, setSlipCustomerAddress] = useState("");
   const [slipQuantities, setSlipQuantities] = useState<Record<string, number>>({});
   const [slipFreeItems, setSlipFreeItems] = useState<Record<string, boolean>>({});
   const [slipStaleReturn, setSlipStaleReturn] = useState<number>(0);
@@ -120,7 +124,7 @@ export default function CariDetailPage() {
 
     try {
       // 1. Fetch Account
-      const { data: acc } = await (supabase as any)
+      const { data: acc } = await supabase!
         .from("current_accounts")
         .select("*")
         .eq("id", cariId)
@@ -147,7 +151,7 @@ export default function CariDetailPage() {
       }
 
       // 2. Fetch Transactions ordered chronologically ascending to compute running balances
-      const { data: txs } = await (supabase as any)
+      const { data: txs } = await supabase!
         .from("account_transactions")
         .select("*")
         .eq("account_id", cariId)
@@ -271,7 +275,7 @@ export default function CariDetailPage() {
       // Also remove matching record from financial_records if any
       const supabase = createClient();
       if (supabase) {
-        await (supabase as any)
+        await supabase!
           .from("financial_records")
           .delete()
           .ilike("description", `%${tx.description || tx.id}%`);
@@ -285,6 +289,10 @@ export default function CariDetailPage() {
 
   // Open Quick Digital Fiş Modal
   const handleOpenQuickSlipModal = () => {
+    if (cari) {
+      setSlipCustomerName(cari.businessName || "");
+      setSlipCustomerAddress(cari.address || "");
+    }
     setSlipQuantities({});
     setSlipFreeItems({});
     setSlipStaleReturn(0);
@@ -372,7 +380,28 @@ export default function CariDetailPage() {
         deductionDetails.length > 0 ? ` [${deductionDetails.join(", ")}]` : ""
       }`;
 
-      const generatedOrderId = `ord_${Date.now().toString(36)}`;
+      // Create real order
+      const orderNotes = slipNotes ? `${slipNotes}${deductionDetails.length > 0 ? ` • ${deductionDetails.join(", ")}` : ""}` : deductionDetails.join(", ");
+      const orderRes = await createManualOrder({
+        customerName: slipCustomerName || cari.businessName,
+        phone: cari.phone,
+        deliveryAddress: slipCustomerAddress || cari.address || "Belirtilmemiş",
+        neighborhood: cari.neighborhood || "Beylikdüzü",
+        deliveryMethod: "courier",
+        deliveryDate: slipDate,
+        status: "teslim_edildi",
+        paymentMethod: "cari",
+        items: quickSlipItems,
+        orderNotes: orderNotes,
+      });
+
+      if (!orderRes.success) {
+        alert("Sipariş (Order) kaydı oluşturulurken hata: " + orderRes.error);
+        setSlipSubmitting(false);
+        return;
+      }
+
+      const generatedOrderId = orderRes.id as string;
 
       // 1. Record Sale (Borç) Transaction
       const res = await addTransaction(cari.id, {
@@ -397,7 +426,7 @@ export default function CariDetailPage() {
         // Sync to Kasa & Banka
         await addIncome({
           category: "cari_tahsilat",
-          title: `[Cari Tahsilat] ${cari.businessName} - ${generatedSlipNumber}`,
+          title: `[Cari Tahsilat] ${slipCustomerName || cari.businessName} - ${generatedSlipNumber}`,
           amount: Number(slipPaymentCollected),
           paymentMethod: (slipPaymentMethod === "kredi_karti" ? "pos" : slipPaymentMethod) as any,
           date: slipDate,
@@ -411,9 +440,9 @@ export default function CariDetailPage() {
         const slipOrder: AdminOrder = {
           id: generatedOrderId,
           orderNumber: generatedSlipNumber,
-          customerName: cari.businessName,
+          customerName: slipCustomerName || cari.businessName,
           phone: cari.phone,
-          deliveryAddress: cari.address || "Belirtilmemiş",
+          deliveryAddress: slipCustomerAddress || cari.address || "Belirtilmemiş",
           neighborhood: cari.neighborhood || "Beylikdüzü",
           deliveryMethod: "courier",
           deliveryDate: slipDate,
@@ -425,9 +454,9 @@ export default function CariDetailPage() {
           status: "teslim_edildi",
           paymentMethod: "cari",
           paymentStatus: "paid",
-          source: "whatsapp",
+          source: "web",
           cariId: cari.id,
-          orderNotes: slipNotes ? `${slipNotes}${deductionDetails.length > 0 ? ` • ${deductionDetails.join(", ")}` : ""}` : deductionDetails.join(", "),
+          orderNotes: orderNotes,
           createdAt: new Date().toISOString(),
         };
 
@@ -436,7 +465,7 @@ export default function CariDetailPage() {
         setSlipModalOpen(true);
         fetchCariData();
       } else {
-        alert("Fiş kaydedilirken hata: " + res.error);
+        alert("Fiş (Cari hareket) kaydedilirken hata: " + res.error);
       }
     } finally {
       setSlipSubmitting(false);
@@ -1082,6 +1111,29 @@ export default function CariDetailPage() {
             </div>
 
             <form onSubmit={handleSaveQuickSlip} className="p-5 sm:p-6 space-y-5 max-h-[75vh] overflow-y-auto">
+              {/* Editable Name & Address */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div className="space-y-1">
+                  <label className="text-xs font-semibold text-stone-300">Fişte Görünecek Firma Adı</label>
+                  <input
+                    type="text"
+                    required
+                    value={slipCustomerName}
+                    onChange={(e) => setSlipCustomerName(e.target.value)}
+                    className="w-full bg-stone-950 border border-stone-800 rounded-xl px-3 py-2 text-xs text-stone-100 focus:outline-none focus:border-amber-500"
+                  />
+                </div>
+                <div className="space-y-1">
+                  <label className="text-xs font-semibold text-stone-300">Fişte Görünecek Adres</label>
+                  <input
+                    type="text"
+                    value={slipCustomerAddress}
+                    onChange={(e) => setSlipCustomerAddress(e.target.value)}
+                    className="w-full bg-stone-950 border border-stone-800 rounded-xl px-3 py-2 text-xs text-stone-100 focus:outline-none focus:border-amber-500"
+                  />
+                </div>
+              </div>
+
               {/* Date Input */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div className="space-y-1">

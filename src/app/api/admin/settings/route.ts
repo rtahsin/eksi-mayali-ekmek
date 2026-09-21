@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { createAdminClient } from "@/lib/supabase/admin";
+import { getErrorMessage } from "@/lib/utils/error";
 
 export async function GET(request: Request) {
   try {
@@ -8,13 +9,13 @@ export async function GET(request: Request) {
       return NextResponse.json({ error: "Supabase client unconfigured" }, { status: 500 });
     }
 
-    const { data, error } = await (supabase as any)
+    const { data, error } = await supabase!
       .from("bakery_settings")
       .select("*");
 
     if (error) {
       console.error("Fetch settings error:", error);
-      return NextResponse.json({ error: error.message }, { status: 500 });
+      return NextResponse.json({ error: getErrorMessage(error) }, { status: 500 });
     }
 
     const settingsMap: Record<string, any> = {};
@@ -40,9 +41,9 @@ export async function GET(request: Request) {
       devices,
       security,
     });
-  } catch (err: any) {
+  } catch (err: unknown) {
     console.error("Settings GET handler error:", err);
-    return NextResponse.json({ error: err.message }, { status: 500 });
+    return NextResponse.json({ error: getErrorMessage(err) }, { status: 500 });
   }
 }
 
@@ -57,7 +58,7 @@ export async function POST(request: Request) {
     const { action, value } = body;
 
     if (action === "save_operational") {
-      const { error } = await (supabase as any)
+      const { error } = await supabase!
         .from("bakery_settings")
         .upsert(
           {
@@ -73,7 +74,7 @@ export async function POST(request: Request) {
     }
 
     if (action === "save_devices") {
-      const { error } = await (supabase as any)
+      const { error } = await supabase!
         .from("bakery_settings")
         .upsert(
           {
@@ -89,7 +90,7 @@ export async function POST(request: Request) {
     }
 
     if (action === "save_security") {
-      const { error } = await (supabase as any)
+      const { error } = await supabase!
         .from("bakery_settings")
         .upsert(
           {
@@ -111,7 +112,7 @@ export async function POST(request: Request) {
       }
 
       // Fetch existing
-      const { data: existingRow } = await (supabase as any)
+      const { data: existingRow } = await supabase!
         .from("bakery_settings")
         .select("value")
         .eq("key", "trusted_devices")
@@ -142,7 +143,7 @@ export async function POST(request: Request) {
         });
       }
 
-      const { error } = await (supabase as any).from("bakery_settings").upsert(
+      const { error } = await supabase!.from("bakery_settings").upsert(
         {
           key: "trusted_devices",
           value: devicesList,
@@ -157,7 +158,7 @@ export async function POST(request: Request) {
 
     if (action === "revoke_device" || action === "delete_device") {
       const { deviceId } = body;
-      const { data: existingRow } = await (supabase as any)
+      const { data: existingRow } = await supabase!
         .from("bakery_settings")
         .select("value")
         .eq("key", "trusted_devices")
@@ -177,7 +178,7 @@ export async function POST(request: Request) {
         });
       }
 
-      const { error } = await (supabase as any).from("bakery_settings").upsert(
+      const { error } = await supabase!.from("bakery_settings").upsert(
         {
           key: "trusted_devices",
           value: devicesList,
@@ -191,8 +192,8 @@ export async function POST(request: Request) {
     }
 
     return NextResponse.json({ error: "Invalid action" }, { status: 400 });
-  } catch (err: any) {
+  } catch (err: unknown) {
     console.error("Settings POST handler error:", err);
-    return NextResponse.json({ error: err.message }, { status: 500 });
+    return NextResponse.json({ error: getErrorMessage(err) }, { status: 500 });
   }
 }

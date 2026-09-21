@@ -3,6 +3,7 @@
 import { useState, useEffect, useMemo, useCallback } from "react";
 import { createClient, isSupabaseConfigured } from "@/lib/supabase/client";
 import { AdminOrder, AdminOrderStatus, AdminPaymentMethod, OrderSource } from "@/types/admin";
+import { getErrorMessage } from "@/lib/utils/error";
 
 export function normalizeOrderStatus(rawStatus?: string): AdminOrderStatus {
   if (!rawStatus) return "bekliyor";
@@ -97,9 +98,9 @@ export function useAdminOrders() {
         });
         setOrders(list);
       }
-    } catch (e: any) {
+    } catch (e: unknown) {
       console.warn("Supabase orders exception:", e);
-      setError(e.message);
+      setError(getErrorMessage(e));
     } finally {
       setLoading(false);
     }
@@ -145,9 +146,9 @@ export function useAdminOrders() {
         prev.map((o) => (o.id === orderId ? { ...o, status: newStatus } : o))
       );
       return { success: true };
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error("Update order error:", err);
-      return { success: false, error: err.message };
+      return { success: false, error: getErrorMessage(err) };
     }
   };
 
@@ -161,7 +162,7 @@ export function useAdminOrders() {
       const totalAmount = subtotal + shippingFee;
       const orderId = `ORD-${Date.now().toString().slice(-6)}`;
 
-      const { error: insErr } = await (supabase as any).from("orders").insert({
+      const { error: insErr } = await supabase!.from("orders").insert({
         id: orderId,
         customer_name: orderData.customerName || "Müşteri",
         phone: orderData.phone || "",
@@ -190,14 +191,14 @@ export function useAdminOrders() {
           image_url: it.imageUrl || null,
           weight: it.weight || null,
         }));
-        await (supabase as any).from("order_items").insert(itemInserts);
+        await supabase!.from("order_items").insert(itemInserts);
       }
 
       fetchSupabaseOrders();
       return { success: true, id: orderId };
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error("Create manual order error:", err);
-      return { success: false, error: err.message };
+      return { success: false, error: getErrorMessage(err) };
     }
   };
 

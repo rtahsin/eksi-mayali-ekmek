@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import { X, Mail, Lock, User, Phone, Sparkles, ArrowRight, CheckCircle2 } from "lucide-react";
 import { useCustomerAuth } from "@/hooks/useCustomerAuth";
+import { getErrorMessage } from "@/lib/utils/error";
 
 interface AuthModalProps {
   isOpen: boolean;
@@ -35,7 +36,7 @@ export function AuthModal({ isOpen, onClose, defaultTab = "login" }: AuthModalPr
       if (tab === "login") {
         const { error } = await signInWithEmail(email, password);
         if (error) {
-          setErrorMsg(error.message || "Giriş başarısız. Lütfen bilgilerinizi kontrol edin.");
+          setErrorMsg(getErrorMessage(error) || "Giriş başarısız. Lütfen bilgilerinizi kontrol edin.");
         } else {
           setSuccessMsg("Giriş başarılı! Hoş geldiniz.");
           setTimeout(() => {
@@ -50,7 +51,7 @@ export function AuthModal({ isOpen, onClose, defaultTab = "login" }: AuthModalPr
         }
         const { error } = await signUpWithEmail(email, password, fullName, phone);
         if (error) {
-          setErrorMsg(error.message || "Kayıt işlemi tamamlanamadı.");
+          setErrorMsg(getErrorMessage(error) || "Kayıt işlemi tamamlanamadı.");
         } else {
           setSuccessMsg("Kayıt başarılı! Hesabınız oluşturuldu.");
           setTimeout(() => {
@@ -60,13 +61,13 @@ export function AuthModal({ isOpen, onClose, defaultTab = "login" }: AuthModalPr
       } else if (tab === "forgot") {
         const { error } = await resetPassword(email);
         if (error) {
-          setErrorMsg(error.message || "Şifre sıfırlama e-postası gönderilemedi.");
+          setErrorMsg(getErrorMessage(error) || "Şifre sıfırlama e-postası gönderilemedi.");
         } else {
           setSuccessMsg("Şifre sıfırlama bağlantısı e-posta adresinize gönderildi.");
         }
       }
-    } catch (err: any) {
-      setErrorMsg(err.message || "Beklenmeyen bir hata oluştu.");
+    } catch (err: unknown) {
+      setErrorMsg(getErrorMessage(err) || "Beklenmeyen bir hata oluştu.");
     } finally {
       setSubmitting(false);
     }
@@ -178,8 +179,8 @@ export function AuthModal({ isOpen, onClose, defaultTab = "login" }: AuthModalPr
                     } else if (res?.error) {
                       setErrorMsg(res.error);
                     }
-                  } catch (e: any) {
-                    setErrorMsg(e?.message || "Google ile giriş başlatılamadı.");
+                  } catch (e: unknown) {
+                    setErrorMsg(getErrorMessage(e) || "Google ile giriş başlatılamadı.");
                   } finally {
                     setSubmitting(false);
                   }

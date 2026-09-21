@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { JOURNAL_ARTICLES } from "@/data/journalArticles";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { JournalArticle } from "@/types/journal";
+import { getErrorMessage } from "@/lib/utils/error";
 
 export async function GET() {
   try {
@@ -67,10 +68,10 @@ export async function POST(req: Request) {
     }
 
     return NextResponse.json({ success: true, article: { ...body, id: articleId } });
-  } catch (err: any) {
+  } catch (err: unknown) {
     console.error("API POST /api/journal error:", err);
     return NextResponse.json(
-      { success: false, error: err.message || "Kaydetme hatası" },
+      { success: false, error: getErrorMessage(err) || "Kaydetme hatası" },
       { status: 500 }
     );
   }
@@ -94,10 +95,10 @@ export async function DELETE(req: Request) {
     }
 
     return NextResponse.json({ success: true, deletedId: id });
-  } catch (err: any) {
+  } catch (err: unknown) {
     console.error("API DELETE /api/journal error:", err);
     return NextResponse.json(
-      { success: false, error: err.message || "Silme hatası" },
+      { success: false, error: getErrorMessage(err) || "Silme hatası" },
       { status: 500 }
     );
   }

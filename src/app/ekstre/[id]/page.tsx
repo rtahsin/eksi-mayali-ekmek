@@ -42,7 +42,7 @@ export default function CustomerStatementPage() {
         }
 
         // 1. Fetch Cari Account
-        const { data: acc } = await (supabase as any)
+        const { data: acc } = await supabase!
           .from("current_accounts")
           .select("*")
           .eq("id", cariId)
@@ -64,7 +64,7 @@ export default function CustomerStatementPage() {
           setCari(cariObj);
 
           // 2. Fetch Transactions
-          const { data: txs } = await (supabase as any)
+          const { data: txs } = await supabase!
             .from("account_transactions")
             .select("*")
             .eq("account_id", cariId)

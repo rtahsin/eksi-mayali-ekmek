@@ -1,4 +1,5 @@
 "use client";
+import { getErrorMessage } from "@/lib/utils/error";
 
 import { useState, useEffect } from "react";
 import { createClient } from "@/lib/supabase/client";
@@ -523,7 +524,7 @@ export function useProducts(category?: string) {
 
         // 2. Fallback to rich initial artisan catalog
         setProducts(INITIAL_PRODUCTS.filter((p) => !deletedIds.includes(p.id)));
-      } catch (err: any) {
+      } catch (err: unknown) {
         console.warn("Could not fetch products, using initial catalog:", err);
         setProducts(INITIAL_PRODUCTS.filter((p) => !deletedIds.includes(p.id)));
       } finally {
@@ -605,9 +606,9 @@ export function useProducts(category?: string) {
           .eq("id", id);
         if (error) throw error;
         return { success: true };
-      } catch (e: any) {
+      } catch (e: unknown) {
         console.error("Supabase price update error:", e);
-        return { success: false, error: e.message };
+        return { success: false, error: getErrorMessage(e) };
       }
     }
     return { success: true };
@@ -631,9 +632,9 @@ export function useProducts(category?: string) {
           .eq("id", id);
         if (error) throw error;
         return { success: true, isAvailable: nextStatus };
-      } catch (e: any) {
+      } catch (e: unknown) {
         console.error("Supabase stock update error:", e);
-        return { success: false, error: e.message };
+        return { success: false, error: getErrorMessage(e) };
       }
     }
     return { success: true, isAvailable: nextStatus };
@@ -689,9 +690,9 @@ export function useProducts(category?: string) {
       if (error) throw error;
       await reloadProducts();
       return { success: true, id };
-    } catch (e: any) {
+    } catch (e: unknown) {
       console.error("Supabase save product error:", e);
-      return { success: false, error: e.message };
+      return { success: false, error: getErrorMessage(e) };
     }
   };
 
@@ -718,21 +719,21 @@ export function useProducts(category?: string) {
     const supabase = createClient();
     if (supabase) {
       try {
-        const { error: delErr } = await (supabase as any)
+        const { error: delErr } = await supabase!
           .from("products")
           .delete()
           .eq("id", id);
 
         if (delErr) {
-          await (supabase as any)
+          await supabase!
             .from("products")
             .update({ is_active: false, updated_at: new Date().toISOString() })
             .eq("id", id);
         }
         return { success: true };
-      } catch (e: any) {
+      } catch (e: unknown) {
         console.error("Supabase delete product error:", e);
-        return { success: false, error: e.message };
+        return { success: false, error: getErrorMessage(e) };
       }
     }
     return { success: true };

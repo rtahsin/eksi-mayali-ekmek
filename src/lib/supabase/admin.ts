@@ -1,6 +1,6 @@
 import { createClient as createSupabaseClient } from "@supabase/supabase-js";
 
-let adminClientInstance: ReturnType<typeof createSupabaseClient> | null = null;
+let adminClientInstance: ReturnType<typeof createSupabaseClient<any, any, any>> | null = null;
 
 export function createAdminClient() {
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
@@ -14,7 +14,7 @@ export function createAdminClient() {
     return adminClientInstance;
   }
 
-  adminClientInstance = createSupabaseClient(supabaseUrl, serviceRoleKey, {
+  adminClientInstance = createSupabaseClient<any, any, any>(supabaseUrl, serviceRoleKey, {
     auth: {
       autoRefreshToken: false,
       persistSession: false,

@@ -45,12 +45,12 @@ export interface JournalArticle {
   subtitle: string;
   publishedDate: string;
   readingTimeMinutes: number;
-  thirtySecondTakeaway: string; // Murat Abi & Zeynep Hanım için sıfır latince hap özet
+  thirtySecondTakeaway: string;
   dropCapLetter: string;
   leadParagraph: string;
   sections: JournalSection[];
   citations: JournalCitation[];
-  relatedProductId: string; // Kanca ürün (Satış Köprüsü)
+  relatedProductId: string;
   nextArticle?: {
     slug: string;
     title: string;

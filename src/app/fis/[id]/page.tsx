@@ -80,9 +80,9 @@ export default function PublicReceiptPage() {
         }
 
         // 1. Try finding in `orders` table
-        const { data: orderData } = await (supabase as any)
+        const { data: orderData } = await supabase!
           .from("orders")
-          .select("*")
+          .select("*, order_items(*)")
           .eq("id", id)
           .single();
 
@@ -95,7 +95,7 @@ export default function PublicReceiptPage() {
 
           // If linked to a Cari, fetch Cari balance and history
           if (orderData.cari_id) {
-            const { data: cariData } = await (supabase as any)
+            const { data: cariData } = await supabase!
               .from("current_accounts")
               .select("*")
               .eq("id", orderData.cari_id)
@@ -108,7 +108,7 @@ export default function PublicReceiptPage() {
               prevBal = newBal - Number(orderData.total_amount || 0);
             }
 
-            const { data: hist } = await (supabase as any)
+            const { data: hist } = await supabase!
               .from("account_transactions")
               .select("*")
               .eq("account_id", orderData.cari_id)
@@ -126,12 +126,12 @@ export default function PublicReceiptPage() {
             }
           }
 
-          const rawItems = Array.isArray(orderData.items) ? orderData.items : [];
+          const rawItems = Array.isArray(orderData.order_items) ? orderData.order_items : (Array.isArray(orderData.items) ? orderData.items : []);
           const mappedItems: SlipItem[] = rawItems.map((it: any) => ({
-            name: it.productName || it.name || "Ürün",
+            name: it.product_name || it.productName || it.name || "Ürün",
             quantity: Number(it.quantity) || 1,
-            unitPrice: Number(it.unitPrice) || Number(it.price) || 0,
-            totalPrice: Number(it.totalPrice) || (Number(it.quantity) || 1) * (Number(it.unitPrice) || 0),
+            unitPrice: Number(it.unit_price) || Number(it.unitPrice) || Number(it.price) || 0,
+            totalPrice: Number(it.total_price) || Number(it.totalPrice) || (Number(it.quantity) || 1) * (Number(it.unit_price) || Number(it.unitPrice) || 0),
             weight: it.weight,
           }));
 
@@ -159,14 +159,14 @@ export default function PublicReceiptPage() {
         }
 
         // 2. Try finding in `account_transactions` table if it was recorded as a Cari transaction
-        const { data: txData } = await (supabase as any)
+        const { data: txData } = await supabase!
           .from("account_transactions")
           .select("*")
           .or(`id.eq.${id},order_id.eq.${id}`)
           .single();
 
         if (txData) {
-          const { data: cariData } = await (supabase as any)
+          const { data: cariData } = await supabase!
             .from("current_accounts")
             .select("*")
             .eq("id", txData.account_id)

@@ -48,7 +48,7 @@ export default function SupplierDetailPage() {
     const fetchSupplierData = async () => {
       try {
         // 1. Fetch Supplier
-        const { data: sup } = await (supabase as any)
+        const { data: sup } = await supabase!
           .from("suppliers")
           .select("*")
           .eq("id", supplierId)
@@ -68,7 +68,7 @@ export default function SupplierDetailPage() {
         }
 
         // 2. Fetch Transactions
-        const { data: txs } = await (supabase as any)
+        const { data: txs } = await supabase!
           .from("supplier_transactions")
           .select("*")
           .eq("supplier_id", supplierId)

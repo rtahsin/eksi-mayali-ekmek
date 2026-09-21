@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback } from "react";
 import { User } from "@supabase/supabase-js";
 import { createClient, isSupabaseConfigured } from "@/lib/supabase/client";
+import { getErrorMessage } from "@/lib/utils/error";
 
 export interface UserProfile {
   id: string;
@@ -179,8 +180,8 @@ export function useCustomerAuth() {
 
       if (error) {
         if (
-          error.message?.includes("not enabled") ||
-          error.message?.includes("Unsupported provider")
+          getErrorMessage(error)?.includes("not enabled") ||
+          getErrorMessage(error)?.includes("Unsupported provider")
         ) {
           return {
             success: false,
@@ -188,12 +189,12 @@ export function useCustomerAuth() {
               "Supabase panelinde Google ile giriş henüz aktif edilmemiş. Lütfen e-posta & şifre ile giriş yapın veya Supabase Dashboard > Authentication > Providers > Google anahtarını açın.",
           };
         }
-        return { success: false, error: error.message };
+        return { success: false, error: getErrorMessage(error) };
       }
 
       return { success: true, data };
-    } catch (err: any) {
-      return { success: false, error: err?.message || "Google ile giriş başlatılamadı." };
+    } catch (err: unknown) {
+      return { success: false, error: getErrorMessage(err) || "Google ile giriş başlatılamadı." };
     }
   };
 
@@ -252,8 +253,8 @@ export function useCustomerAuth() {
       }
 
       return { data: json, error: null };
-    } catch (err: any) {
-      return { error: { message: err?.message || "Kayıt sırasında bağlantı hatası oluştu." } };
+    } catch (err: unknown) {
+      return { error: { message: getErrorMessage(err) || "Kayıt sırasında bağlantı hatası oluştu." } };
     }
   };
 

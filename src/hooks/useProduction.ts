@@ -4,6 +4,7 @@ import { useState, useEffect, useMemo, useCallback } from "react";
 import { createClient, isSupabaseConfigured } from "@/lib/supabase/client";
 import { useAdminOrders } from "./useAdminOrders";
 import { useProducts } from "./useProducts";
+import { getErrorMessage } from "@/lib/utils/error";
 
 export type ProductionStage =
   | "otoliz_yogurma"        // 1. Un ve su buluştu, yoğuruldu
@@ -64,7 +65,7 @@ export function useProduction(selectedDate?: string) {
     }
 
     try {
-      const { data, error: supaErr } = await (supabase as any)
+      const { data, error: supaErr } = await supabase!
         .from("production_batches")
         .select("*")
         .order("created_at", { ascending: false });
@@ -93,7 +94,7 @@ export function useProduction(selectedDate?: string) {
         }));
         setBatches(mapped);
       }
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error("Production batches fetch error:", err);
       setError("Üretim partileri yüklenirken hata oluştu.");
     } finally {
@@ -232,7 +233,7 @@ export function useProduction(selectedDate?: string) {
       setBatches((prev) => [newBatch, ...prev]);
 
       if (supabase) {
-        const { error: insErr } = await (supabase as any).from("production_batches").insert({
+        const { error: insErr } = await supabase!.from("production_batches").insert({
           id: batchId,
           batch_number: batchNumber,
           product_id: firstItem?.productId || null,
@@ -249,10 +250,10 @@ export function useProduction(selectedDate?: string) {
       }
 
       return { success: true, id: batchId };
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error("Create batch error:", err);
       fetchBatches();
-      return { success: false, error: err.message };
+      return { success: false, error: getErrorMessage(err) };
     }
   };
 
@@ -264,7 +265,7 @@ export function useProduction(selectedDate?: string) {
       );
 
       if (supabase) {
-        const { error: updErr } = await (supabase as any)
+        const { error: updErr } = await supabase!
           .from("production_batches")
           .update({ status: newStatus, updated_at: new Date().toISOString() })
           .eq("id", batchId);
@@ -272,10 +273,10 @@ export function useProduction(selectedDate?: string) {
       }
 
       return { success: true };
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error("Update batch stage error:", err);
       fetchBatches();
-      return { success: false, error: err.message };
+      return { success: false, error: getErrorMessage(err) };
     }
   };
 
@@ -285,7 +286,7 @@ export function useProduction(selectedDate?: string) {
       setBatches((prev) => prev.filter((b) => b.id !== batchId));
 
       if (supabase) {
-        const { error: delErr } = await (supabase as any)
+        const { error: delErr } = await supabase!
           .from("production_batches")
           .delete()
           .eq("id", batchId);
@@ -293,10 +294,10 @@ export function useProduction(selectedDate?: string) {
       }
 
       return { success: true };
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error("Delete batch error:", err);
       fetchBatches();
-      return { success: false, error: err.message };
+      return { success: false, error: getErrorMessage(err) };
     }
   };
 

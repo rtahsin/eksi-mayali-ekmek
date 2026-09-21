@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { createAdminClient } from "@/lib/supabase/admin";
+import { getErrorMessage } from "@/lib/utils/error";
 
 export async function POST(req: Request) {
   try {
@@ -80,10 +81,10 @@ export async function POST(req: Request) {
       userId,
       user: createdUser?.user,
     });
-  } catch (err: any) {
+  } catch (err: unknown) {
     console.error("Register API error:", err);
     return NextResponse.json(
-      { success: false, error: err.message || "Sunucu hatası oluştu." },
+      { success: false, error: getErrorMessage(err) || "Sunucu hatası oluştu." },
       { status: 500 }
     );
   }

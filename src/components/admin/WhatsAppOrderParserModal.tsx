@@ -64,183 +64,111 @@ export function WhatsAppOrderParserModal({
 }: WhatsAppOrderParserModalProps) {
   const [rawText, setRawText] = useState("");
   const [parsed, setParsed] = useState<ParsedResult | null>(null);
+  const [isParsing, setIsParsing] = useState(false);
+  const [errorMsg, setErrorMsg] = useState<string | null>(null);
 
   if (!isOpen) return null;
 
-  const handleParse = () => {
+  const handleParse = async () => {
     if (!rawText.trim()) return;
+    
+    setIsParsing(true);
+    setErrorMsg(null);
 
-    const lines = rawText
-      .split("\n")
-      .map((l) => l.trim())
-      .filter(Boolean);
+    try {
+      const res = await fetch("/api/admin/orders/parse", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ text: rawText }),
+      });
 
-    const normFull = normalizeTurkish(rawText);
-
-    // 1. Phone number extraction
-    let extractedPhone = "";
-    const phoneRegex = /(?:(?:\+?90|0)?\s*5\d{2}\s*\d{3}\s*\d{2}\s*\d{2})|(?:(?:\+?90|0)?5\d{9})/g;
-    const phoneMatch = rawText.match(phoneRegex);
-    if (phoneMatch && phoneMatch.length > 0) {
-      const clean = phoneMatch[0].replace(/\D/g, "");
-      extractedPhone = clean.startsWith("90")
-        ? "0" + clean.substring(2)
-        : clean.startsWith("0")
-        ? clean
-        : "0" + clean;
-    }
-
-    // 2. Neighborhood extraction
-    let extractedNeighborhood = "";
-    for (const n of BEYLIKDUZU_NEIGHBORHOODS) {
-      if (normFull.includes(normalizeTurkish(n))) {
-        extractedNeighborhood = n;
-        break;
-      }
-    }
-
-    // 3. Payment Method
-    let extractedPayment: AdminPaymentMethod = "cash_on_delivery";
-    if (normFull.includes("pos") || normFull.includes("kart") || normFull.includes("kredi")) {
-      extractedPayment = "pos_at_door";
-    } else if (normFull.includes("havale") || normFull.includes("eft") || normFull.includes("iban")) {
-      extractedPayment = "transfer";
-    } else if (normFull.includes("nakit")) {
-      extractedPayment = "cash_on_delivery";
-    }
-
-    // 4. Products & Quantities extraction
-    const extractedQuantities: Record<string, number> = {};
-    const matchedSummaries: string[] = [];
-
-    products.forEach((prod) => {
-      const pNorm = normalizeTurkish(prod.name);
-      // Keywords for this product
-      const keywords: string[] = [];
-
-      if (pNorm.includes("karakilcik")) keywords.push("karakilcik");
-      else if (pNorm.includes("ceviz")) keywords.push("cevizli", "ceviz");
-      else if (pNorm.includes("zeytin")) keywords.push("zeytinli", "zeytin");
-      else if (pNorm.includes("siyez")) keywords.push("siyez");
-      else if (pNorm.includes("cavdar")) keywords.push("cavdar");
-      else if (pNorm.includes("koy")) keywords.push("koy ekmegi", "koy");
-      else if (pNorm.includes("focaccia")) keywords.push("focaccia", "fokasya");
-      else if (pNorm.includes("baget")) keywords.push("baget");
-      else if (pNorm.includes("tost")) keywords.push("tost");
-      else if (pNorm.includes("tam bugday")) keywords.push("tam bugday");
-      else {
-        // Fallback: first significant word of product name
-        const firstWord = pNorm.split(" ")[0];
-        if (firstWord.length >= 4) keywords.push(firstWord);
+      const data = await res.json();
+      if (!res.ok || !data.success) {
+        throw new Error(data.error || "Yapay Zeka ayrıştırma hatası");
       }
 
-      for (const kw of keywords) {
-        if (normFull.includes(kw)) {
-          // Look for quantity preceding or following keyword
-          // E.g. "2 karakilcik", "2 adet karakilcik", "karakilcik 2 tane"
-          const regexBefore = new RegExp(`(\\d+)\\s*(?:adet|tane|x)?\\s*(?:eksi\\s*mayali\\s*)?${kw}`, "i");
-          const matchBefore = normFull.match(regexBefore);
+      const aiData = data.parsedOrder;
+      
+      // Match AI extracted items to our database products
+      const matchedQuantities: Record<string, number> = {};
+      const summary: string[] = [];
 
-          const regexAfter = new RegExp(`${kw}\\s*(\\d+)\\s*(?:adet|tane)?`, "i");
-          const matchAfter = normFull.match(regexAfter);
-
-          let qty = 1;
-          if (matchBefore && matchBefore[1]) {
-            qty = parseInt(matchBefore[1], 10);
-          } else if (matchAfter && matchAfter[1]) {
-            qty = parseInt(matchAfter[1], 10);
+      if (Array.isArray(aiData.items)) {
+        for (const item of aiData.items) {
+          const aiName = item.productName || "";
+          const qty = item.quantity || 1;
+          
+          if (!aiName) continue;
+          
+          // Find closest product in database
+          const normAi = normalizeTurkish(aiName);
+          let bestMatch: Product | null = null;
+          
+          for (const prod of products) {
+            const normProd = normalizeTurkish(prod.name);
+            if (normProd.includes(normAi) || normAi.includes(normProd)) {
+              bestMatch = prod;
+              break;
+            }
           }
-
-          extractedQuantities[prod.id] = (extractedQuantities[prod.id] || 0) + qty;
-          matchedSummaries.push(`${qty}x ${prod.name}`);
-          break; // Stop checking other keywords for this product
+          
+          if (bestMatch) {
+            matchedQuantities[bestMatch.id] = (matchedQuantities[bestMatch.id] || 0) + qty;
+            summary.push(`${qty}x ${bestMatch.name}`);
+          } else {
+            summary.push(`⚠️ Bulunamadı: ${qty}x ${aiName}`);
+          }
         }
       }
-    });
 
-    // 5. Customer Name extraction
-    let extractedName = "";
-    // Check explicit name patterns: "İsim: Ahmet Yılmaz", "Ad: Ahmet", "Ben Ahmet Yılmaz"
-    const nameMatch = rawText.match(/(?:isim|ad|ad\s*soyad|ben|musteri)\s*[:=-]?\s*([A-Za-zÇçĞğİıÖöŞşÜü\s]{3,30})/i);
-    if (nameMatch && nameMatch[1]) {
-      extractedName = nameMatch[1].trim().split("\n")[0].trim();
-    } else {
-      // Check last line if it looks like a name (2-3 capitalized words)
-      for (let i = lines.length - 1; i >= 0; i--) {
-        const line = lines[i];
-        const words = line.split(/\s+/);
-        if (
-          words.length >= 2 &&
-          words.length <= 3 &&
-          !line.toLowerCase().includes("cad") &&
-          !line.toLowerCase().includes("sok") &&
-          !line.toLowerCase().includes("mah") &&
-          !line.toLowerCase().includes("ekmek") &&
-          !line.toLowerCase().includes("nakit")
-        ) {
-          extractedName = line.replace(/^[-\s]+/, "").trim();
+      // Look up existing customer by AI parsed phone
+      let knownAddress = aiData.addressDetail || "";
+      let knownNeighborhood = aiData.neighborhood || "";
+      let finalName = aiData.customerName || "";
+
+      if (aiData.phone) {
+        const cleanPhone = aiData.phone.replace(/\D/g, "");
+        const formattedPhone = cleanPhone.startsWith("90")
+          ? "0" + cleanPhone.substring(2)
+          : cleanPhone.startsWith("0")
+          ? cleanPhone
+          : "0" + cleanPhone;
+
+        const existingOrder = allOrders.find(
+          (o) => (o.phone || "").replace(/\D/g, "") === formattedPhone.replace(/\D/g, "")
+        );
+        if (existingOrder) {
+          if (!finalName) finalName = existingOrder.customerName;
+          if (!knownAddress) knownAddress = existingOrder.deliveryAddress;
+          if (!knownNeighborhood) knownNeighborhood = existingOrder.neighborhood;
+        }
+      }
+
+      // Ensure neighborhood is strictly one of BEYLIKDUZU_NEIGHBORHOODS if mapped
+      let strictNeighborhood = "";
+      for (const n of BEYLIKDUZU_NEIGHBORHOODS) {
+        if (normalizeTurkish(knownNeighborhood).includes(normalizeTurkish(n))) {
+          strictNeighborhood = n;
           break;
         }
       }
+
+      setParsed({
+        customerName: finalName,
+        phone: aiData.phone || "",
+        deliveryAddress: knownAddress,
+        neighborhood: strictNeighborhood,
+        orderNotes: aiData.note || "",
+        quantities: matchedQuantities,
+        matchedItemsSummary: summary,
+      });
+
+    } catch (err: any) {
+      console.error("AI Parse Error:", err);
+      setErrorMsg(err.message || "Bilinmeyen bir hata oluştu.");
+    } finally {
+      setIsParsing(false);
     }
-
-    // Past customer fallback if phone was matched
-    if (extractedPhone && !extractedName) {
-      const past = allOrders.find((o) => o.phone.replace(/\D/g, "").includes(extractedPhone.replace(/\D/g, "")));
-      if (past) {
-        extractedName = past.customerName;
-      }
-    }
-
-    // 6. Address extraction
-    let extractedAddress = "";
-    const addressLines = lines.filter((line) => {
-      const n = normalizeTurkish(line);
-      return (
-        n.includes("cad") ||
-        n.includes("sok") ||
-        n.includes("no:") ||
-        n.includes("no ") ||
-        n.includes("daire") ||
-        n.includes("kat") ||
-        n.includes("sitesi") ||
-        n.includes("blok") ||
-        n.includes("apt") ||
-        n.includes("apartman") ||
-        n.includes("mah")
-      );
-    });
-
-    if (addressLines.length > 0) {
-      extractedAddress = addressLines.join(", ");
-    } else if (extractedPhone) {
-      // Fallback from past orders
-      const past = allOrders.find((o) => o.phone.replace(/\D/g, "").includes(extractedPhone.replace(/\D/g, "")));
-      if (past) {
-        extractedAddress = past.deliveryAddress;
-        if (!extractedNeighborhood && past.neighborhood) {
-          extractedNeighborhood = past.neighborhood;
-        }
-      }
-    }
-
-    // 7. Notes extraction
-    const noteMatches: string[] = [];
-    if (normFull.includes("dilim")) noteMatches.push("Ekmekler dilimlenecek");
-    if (normFull.includes("zile basma")) noteMatches.push("Zile basmayın");
-    if (normFull.includes("kapiya")) noteMatches.push("Kapıya bırakın");
-    if (normFull.includes("bebek")) noteMatches.push("Bebek uyuyor, sessiz teslimat");
-
-    setParsed({
-      customerName: extractedName,
-      phone: extractedPhone,
-      neighborhood: extractedNeighborhood || "Adnan Kahveci",
-      deliveryAddress: extractedAddress,
-      paymentMethod: extractedPayment,
-      quantities: extractedQuantities,
-      orderNotes: noteMatches.join(", "),
-      matchedItemsSummary: matchedSummaries,
-    });
   };
 
   const handleApply = () => {
@@ -299,15 +227,30 @@ export function WhatsAppOrderParserModal({
         {/* Action Button: Parse */}
         <div>
           <button
-            type="button"
             onClick={handleParse}
-            disabled={!rawText.trim()}
-            className="w-full py-2.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-stone-950 font-bold text-xs flex items-center justify-center gap-2 shadow-lg shadow-amber-500/20 transition-all disabled:opacity-40"
+            disabled={!rawText.trim() || isParsing}
+            className="w-full py-3 bg-amber-500 hover:bg-amber-400 text-stone-950 font-bold rounded-2xl transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 shadow-lg shadow-amber-500/20 text-xs"
           >
-            <Sparkles className="w-4 h-4" />
-            <span>Metni Analiz Et & Bilgileri Çıkar ✨</span>
+            {isParsing ? (
+              <span className="flex items-center gap-2">
+                <span className="w-4 h-4 border-2 border-stone-950/30 border-t-stone-950 rounded-full animate-spin" />
+                <span>Yapay Zeka Düşünüyor...</span>
+              </span>
+            ) : (
+              <>
+                <Sparkles className="w-4 h-4" />
+                <span>Akıllı Yapıştır (AI)</span>
+              </>
+            )}
           </button>
         </div>
+
+        {errorMsg && (
+          <div className="p-3 bg-rose-500/10 border border-rose-500/30 rounded-xl text-rose-400 text-xs flex items-center gap-2">
+            <AlertCircle className="w-4 h-4 shrink-0" />
+            <span>{errorMsg}</span>
+          </div>
+        )}
 
         {/* Parsed Preview Card */}
         {parsed && (

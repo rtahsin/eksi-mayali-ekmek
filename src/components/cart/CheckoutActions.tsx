@@ -82,7 +82,7 @@ export function CheckoutActions() {
  clearCart();
  closeCart();
  setSuccessModal(true, order);
-} catch (err: any) {
+} catch (err: unknown) {
  console.error("Order submission error:", err);
  setErrorMessage("Sipariş oluşturulurken bir hata oluştu. Lütfen WhatsApp ile sipariş vermeyi deneyin.");
 } finally {

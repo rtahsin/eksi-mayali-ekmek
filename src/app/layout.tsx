@@ -41,7 +41,6 @@ export const metadata: Metadata = {
   title: "EkmekLab | Taş Fırından Ekşi Mayalı Ekmekler & Şarküteri",
   description:
     "Beylikdüzü'nde ata tohumu unlar ve 8 yıllık ekşi mayayla 36 saatte demlenen katkısız artisan ekmekler ve doğal şarküteri lezzetleri. Fırından çıktığı gün kapınızda.",
-  manifest: "/manifest.json",
   appleWebApp: {
     capable: true,
     statusBarStyle: "black-translucent",
