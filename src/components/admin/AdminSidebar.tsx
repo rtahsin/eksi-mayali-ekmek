@@ -53,6 +53,12 @@ export function AdminSidebar({ isOpen, onClose, pendingOrderCount = 0 }: AdminSi
       roles: ["superadmin", "admin", "support", "editor"],
     },
     {
+      label: "Kurye Konsolu (GPS)",
+      href: "/kurye",
+      icon: Truck,
+      roles: ["superadmin", "admin", "support", "editor"],
+    },
+    {
       label: "Finans (Ön Muhasebe)",
       href: "/admin/finans",
       icon: Wallet,

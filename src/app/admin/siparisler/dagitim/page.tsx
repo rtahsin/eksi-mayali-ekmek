@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import { useAdminOrders } from "@/hooks/useAdminOrders";
 import {
   Truck,
@@ -19,10 +19,32 @@ import {
   Map as MapIcon,
   X,
   Compass,
+  ArrowUp,
+  ArrowDown,
+  Sparkles,
+  Tag,
+  ListOrdered,
+  Layers,
+  Send,
 } from "lucide-react";
 import Link from "next/link";
 import { OrderSlipModal } from "@/components/admin/OrderSlipModal";
+import { BulkLabelsModal } from "@/components/admin/BulkLabelsModal";
 import { AdminOrder } from "@/types/admin";
+
+const BEYLIKDUZU_ROUTE_ORDER = [
+  "Yakuplu",
+  "Marmara",
+  "Barış",
+  "Cumhuriyet",
+  "Büyükşehir",
+  "Adnan Kahveci",
+  "Gürpınar",
+  "Dereağzı",
+  "Kavaklı",
+  "Sahil",
+  "Beylikdüzü OSB",
+];
 
 function extractCoordinates(address?: string): { lat: string; lon: string } | null {
   if (!address) return null;
@@ -58,13 +80,17 @@ function getMapUrls(address: string) {
 export default function DeliveryRoutePage() {
   const { allOrders, updateOrderStatus, loading } = useAdminOrders();
   const [selectedOrderForSlip, setSelectedOrderForSlip] = useState<AdminOrder | null>(null);
+  const [showBulkLabelsModal, setShowBulkLabelsModal] = useState(false);
   const [selectedDate, setSelectedDate] = useState<string>(
     () => new Date().toISOString().split("T")[0]
   );
   const [showRouteMapModal, setShowRouteMapModal] = useState(false);
+  const [viewMode, setViewMode] = useState<"sequence" | "grouped">("sequence");
+  const [customSequence, setCustomSequence] = useState<string[]>([]);
+  const [isBatchUpdating, setIsBatchUpdating] = useState(false);
 
   // Filter orders for the selected date that require delivery
-  const deliveryOrders = useMemo(() => {
+  const baseDeliveryOrders = useMemo(() => {
     return allOrders.filter(
       (o) =>
         o.deliveryDate === selectedDate &&
@@ -72,6 +98,49 @@ export default function DeliveryRoutePage() {
         o.status !== "iptal"
     );
   }, [allOrders, selectedDate]);
+
+  // Load custom sequence from localStorage when date or orders change
+  useEffect(() => {
+    if (typeof window === "undefined" || baseDeliveryOrders.length === 0) return;
+    const storageKey = `ekmeklab_route_seq_${selectedDate}`;
+    const saved = localStorage.getItem(storageKey);
+    if (saved) {
+      try {
+        const parsed = JSON.parse(saved);
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          setCustomSequence(parsed);
+          return;
+        }
+      } catch (e) {
+        console.warn("Could not parse route sequence from storage:", e);
+      }
+    }
+    // Default initial sequence
+    setCustomSequence(baseDeliveryOrders.map((o) => o.id));
+  }, [selectedDate, baseDeliveryOrders.length]);
+
+  // Sorted delivery orders based on customSequence
+  const deliveryOrders = useMemo(() => {
+    if (customSequence.length === 0) return baseDeliveryOrders;
+    const orderMap = new Map(baseDeliveryOrders.map((o) => [o.id, o]));
+    const result: AdminOrder[] = [];
+
+    // First add in custom order
+    customSequence.forEach((id) => {
+      const o = orderMap.get(id);
+      if (o) {
+        result.push(o);
+        orderMap.delete(id);
+      }
+    });
+
+    // Then any newly added orders
+    orderMap.forEach((o) => {
+      result.push(o);
+    });
+
+    return result;
+  }, [baseDeliveryOrders, customSequence]);
 
   // Group orders by neighborhood
   const groupedOrders = useMemo(() => {
@@ -92,6 +161,91 @@ export default function DeliveryRoutePage() {
     .filter((o) => o.paymentMethod === "cash_on_delivery" && o.status !== "teslim_edildi")
     .reduce((sum, o) => sum + o.totalAmount, 0);
 
+  // Save updated sequence
+  const saveSequence = (newSeq: string[]) => {
+    setCustomSequence(newSeq);
+    if (typeof window !== "undefined") {
+      localStorage.setItem(`ekmeklab_route_seq_${selectedDate}`, JSON.stringify(newSeq));
+    }
+  };
+
+  // Move stop up in sequence
+  const handleMoveUp = (index: number) => {
+    if (index <= 0) return;
+    const newSeq = deliveryOrders.map((o) => o.id);
+    const temp = newSeq[index - 1];
+    newSeq[index - 1] = newSeq[index];
+    newSeq[index] = temp;
+    saveSequence(newSeq);
+  };
+
+  // Move stop down in sequence
+  const handleMoveDown = (index: number) => {
+    if (index >= deliveryOrders.length - 1) return;
+    const newSeq = deliveryOrders.map((o) => o.id);
+    const temp = newSeq[index + 1];
+    newSeq[index + 1] = newSeq[index];
+    newSeq[index] = temp;
+    saveSequence(newSeq);
+  };
+
+  // Auto-sort by Beylikdüzü outbound geographical route
+  const handleAutoSortBeylikduzu = () => {
+    const sorted = [...baseDeliveryOrders].sort((a, b) => {
+      const nA = a.neighborhood || "";
+      const nB = b.neighborhood || "";
+
+      let idxA = BEYLIKDUZU_ROUTE_ORDER.findIndex((x) =>
+        nA.toLowerCase().includes(x.toLowerCase())
+      );
+      let idxB = BEYLIKDUZU_ROUTE_ORDER.findIndex((x) =>
+        nB.toLowerCase().includes(x.toLowerCase())
+      );
+
+      if (idxA === -1) idxA = 999;
+      if (idxB === -1) idxB = 999;
+
+      if (idxA !== idxB) return idxA - idxB;
+      return a.customerName.localeCompare(b.customerName);
+    });
+
+    const newSeq = sorted.map((o) => o.id);
+    saveSequence(newSeq);
+  };
+
+  // Batch update all ready orders to "kuryede"
+  const handleBatchSetCourier = async () => {
+    const eligible = deliveryOrders.filter(
+      (o) => o.status !== "teslim_edildi" && o.status !== "iptal" && o.status !== "kuryede"
+    );
+
+    if (eligible.length === 0) {
+      alert("Kuryeye aktarılacak bekleyen teslimat bulunmuyor.");
+      return;
+    }
+
+    if (
+      !confirm(
+        `${eligible.length} adet siparişi 'Kuryede' durumuna alıp kurye dağıtımına çıkarmak istiyor musunuz?`
+      )
+    ) {
+      return;
+    }
+
+    setIsBatchUpdating(true);
+    try {
+      for (const o of eligible) {
+        await updateOrderStatus(o.id, "kuryede");
+      }
+      alert(`${eligible.length} adet sipariş 'Kuryede' durumuna alındı! Canlı takip müşterilere aktif edildi.`);
+    } catch (err) {
+      console.error("Batch status update error:", err);
+      alert("Durum güncellenirken bir hata oluştu.");
+    } finally {
+      setIsBatchUpdating(false);
+    }
+  };
+
   const handlePrint = () => {
     if (typeof window !== "undefined") {
       window.print();
@@ -108,28 +262,24 @@ export default function DeliveryRoutePage() {
     text += `📦 Toplam Paket: ${totalPackages}\n`;
     text += `💰 Tahsil Edilecek Nakit: ${totalCashToCollect.toLocaleString("tr-TR")} ₺\n\n`;
 
-    let globalIndex = 1;
-    groupedOrders.forEach(([neighborhood, orders]) => {
-      text += `📍 *${neighborhood} Mahallesi (${orders.length} Paket)*\n`;
-      orders.forEach((o) => {
-        const urls = getMapUrls(o.deliveryAddress);
-        text += `${globalIndex}) ${o.customerName} - ${o.phone || ""}\n`;
-        text += `Adres: ${o.deliveryAddress}\n`;
-        text += `Paket: ${o.items.map((it) => `${it.quantity}x ${it.productName}`).join(", ")}\n`;
-        if (o.orderNotes) {
-          text += `Not: ${o.orderNotes}\n`;
-        }
-        
-        let payLabel = "Ödendi / Cari";
-        if (o.paymentMethod === "cash_on_delivery") payLabel = "Kapıda Nakit";
-        else if (o.paymentMethod === "pos_at_door") payLabel = "Kapıda POS";
-        
-        text += `Tutar: ${o.totalAmount} ₺ (${payLabel})\n`;
-        text += `🗺️ Harita/Navigasyon: ${urls.google}\n\n`;
-        globalIndex++;
-      });
-      text += `━━━━━━━━━━━━━━━\n`;
+    deliveryOrders.forEach((o, idx) => {
+      const urls = getMapUrls(o.deliveryAddress);
+      let payLabel = "Ödendi / Cari";
+      if (o.paymentMethod === "cash_on_delivery") payLabel = "Kapıda Nakit";
+      else if (o.paymentMethod === "pos_at_door") payLabel = "Kapıda POS";
+
+      text += `📍 *Durak #${idx + 1}: ${o.customerName}* (${o.neighborhood})\n`;
+      text += `Tel: ${o.phone || "-"}\n`;
+      text += `Adres: ${o.deliveryAddress}\n`;
+      text += `Paket: ${o.items.map((it) => `${it.quantity}x ${it.productName}`).join(", ")}\n`;
+      if (o.orderNotes) {
+        text += `Not: ${o.orderNotes}\n`;
+      }
+      text += `Tutar: ${o.totalAmount} ₺ (${payLabel})\n`;
+      text += `🗺️ Navigasyon: ${urls.google}\n\n`;
     });
+
+    text += `━━━━━━━━━━━━━━━\nFırıncı Tahsin Usta Dağıtım Listesi`;
 
     const url = `https://wa.me/?text=${encodeURIComponent(text)}`;
     window.open(url, "_blank");
@@ -156,6 +306,7 @@ export default function DeliveryRoutePage() {
           </div>
         </div>
 
+        {/* Action Buttons Toolbar */}
         <div className="flex flex-wrap items-center gap-2">
           <input
             type="date"
@@ -164,6 +315,29 @@ export default function DeliveryRoutePage() {
             className="px-3.5 py-2 rounded-xl bg-[#1A1410] border border-[#2A201A] text-xs text-foreground font-mono focus:outline-none focus:border-artisan-gold"
           />
 
+          {/* Courier Console Link */}
+          <Link
+            href="/kurye"
+            target="_blank"
+            className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-amber-500 hover:bg-amber-400 text-stone-950 text-xs font-sans font-bold shadow-md shadow-amber-500/20 transition-all"
+            title="Kurye Mobil Konsolunu Başlat"
+          >
+            <Truck className="w-3.5 h-3.5" />
+            <span>🛵 Kurye Konsolu</span>
+          </Link>
+
+          {/* Bulk Labels Modal Button */}
+          <button
+            type="button"
+            onClick={() => setShowBulkLabelsModal(true)}
+            className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-[#221A14] hover:bg-[#2C211A] border border-artisan-gold/30 text-artisan-gold text-xs font-sans font-medium transition-all"
+            title="Torba ve Paket Etiketlerini Toplu Yazdır"
+          >
+            <Tag className="w-3.5 h-3.5" />
+            <span className="hidden sm:inline">Paket Etiketleri</span>
+          </button>
+
+          {/* Live Map Button */}
           <button
             type="button"
             onClick={() => setShowRouteMapModal(true)}
@@ -171,9 +345,10 @@ export default function DeliveryRoutePage() {
             title="Canlı Harita Görünümünü Aç"
           >
             <MapIcon className="w-3.5 h-3.5" />
-            <span className="hidden sm:inline">Canlı Harita Rotası</span>
+            <span className="hidden sm:inline">Harita</span>
           </button>
 
+          {/* WhatsApp Share Button */}
           <button
             type="button"
             onClick={handleShareWhatsApp}
@@ -181,16 +356,16 @@ export default function DeliveryRoutePage() {
             title="Rotayı ve Harita Linklerini Kuryeye Gönder"
           >
             <MessageCircle className="w-3.5 h-3.5" />
-            <span className="hidden sm:inline">Kurye WhatsApp</span>
+            <span className="hidden sm:inline">WhatsApp</span>
           </button>
 
+          {/* Print Manifest */}
           <button
             type="button"
             onClick={handlePrint}
-            className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-[#221A14] hover:bg-[#2C211A] border border-artisan-gold/30 text-artisan-gold text-xs font-sans font-medium transition-all"
+            className="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl bg-[#221A14] hover:bg-[#2C211A] border border-artisan-gold/30 text-artisan-gold text-xs font-sans font-medium transition-all"
           >
             <Printer className="w-3.5 h-3.5" />
-            <span className="hidden sm:inline">Yazdır</span>
           </button>
         </div>
       </div>
@@ -236,6 +411,64 @@ export default function DeliveryRoutePage() {
         </div>
       </div>
 
+      {/* Operational Controls Ribbon: View Mode Toggle & Batch Actions */}
+      <div className="bg-[#18130F] border border-[#261E17] p-3.5 rounded-2xl flex flex-col sm:flex-row sm:items-center justify-between gap-3 print:hidden shadow-lg">
+        {/* View Mode Switcher */}
+        <div className="flex items-center gap-1.5 bg-[#120E0B] p-1 rounded-xl border border-[#2A201A]">
+          <button
+            type="button"
+            onClick={() => setViewMode("sequence")}
+            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
+              viewMode === "sequence"
+                ? "bg-amber-500 text-stone-950 shadow"
+                : "text-stone-400 hover:text-stone-200"
+            }`}
+          >
+            <ListOrdered className="w-3.5 h-3.5" />
+            <span>Sıralı Rota (Durak 1, 2, 3...)</span>
+          </button>
+
+          <button
+            type="button"
+            onClick={() => setViewMode("grouped")}
+            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
+              viewMode === "grouped"
+                ? "bg-amber-500 text-stone-950 shadow"
+                : "text-stone-400 hover:text-stone-200"
+            }`}
+          >
+            <Layers className="w-3.5 h-3.5" />
+            <span>Mahalle Grupları</span>
+          </button>
+        </div>
+
+        {/* Optimization & Batch Actions */}
+        <div className="flex items-center gap-2">
+          {viewMode === "sequence" && (
+            <button
+              type="button"
+              onClick={handleAutoSortBeylikduzu}
+              className="px-3 py-1.5 rounded-xl bg-amber-500/10 hover:bg-amber-500/20 border border-amber-500/30 text-amber-300 text-xs font-medium flex items-center gap-1.5 transition-colors"
+              title="Beylikdüzü coğrafi güzergahına göre otomatik sırala"
+            >
+              <Compass className="w-3.5 h-3.5 text-amber-400" />
+              <span>🧭 Beylikdüzü Rota Sırasına Göre Diz</span>
+            </button>
+          )}
+
+          <button
+            type="button"
+            onClick={handleBatchSetCourier}
+            disabled={isBatchUpdating}
+            className="px-3 py-1.5 rounded-xl bg-blue-500/10 hover:bg-blue-500/20 border border-blue-500/30 text-blue-300 text-xs font-bold flex items-center gap-1.5 transition-colors disabled:opacity-50"
+            title="Hazırlanan tüm siparişleri tek tıkla kuryeye ver"
+          >
+            <Send className="w-3.5 h-3.5 text-blue-400" />
+            <span>🚀 Tümünü 'Kuryede' Yap</span>
+          </button>
+        </div>
+      </div>
+
       {/* Print-Only Header */}
       <div className="hidden print:block border-b pb-4 mb-4 text-black">
         <h2 className="text-xl font-bold">EKMEKLAB FIRIN KURYESİ DAĞITIM MANİFESTOSU</h2>
@@ -244,10 +477,10 @@ export default function DeliveryRoutePage() {
         </p>
       </div>
 
-      {/* Grouped Deliveries by Neighborhood */}
+      {/* Main Order Views */}
       {loading ? (
         <div className="p-16 text-center text-xs text-foreground/60">Yükleniyor...</div>
-      ) : groupedOrders.length === 0 ? (
+      ) : deliveryOrders.length === 0 ? (
         <div className="p-12 text-center bg-[#18130F] border border-[#261E17] rounded-2xl space-y-2">
           <Truck className="w-8 h-8 text-foreground/30 mx-auto" />
           <div className="text-sm font-sans font-bold text-foreground">
@@ -257,14 +490,179 @@ export default function DeliveryRoutePage() {
             Günün siparişlerini görüntülemek için tarih seçimini değiştirebilirsiniz.
           </div>
         </div>
+      ) : viewMode === "sequence" ? (
+        /* Sequence View (1, 2, 3...) */
+        <div className="space-y-3">
+          {deliveryOrders.map((order, idx) => {
+            const isDelivered = order.status === "teslim_edildi";
+            const urls = getMapUrls(order.deliveryAddress);
+
+            // Estimated arrival (starting at 14:00, +15 mins each)
+            const startHour = 14;
+            const totalMinutes = idx * 15;
+            const etaHour = startHour + Math.floor(totalMinutes / 60);
+            const etaMin = totalMinutes % 60;
+            const etaFormatted = `${String(etaHour).padStart(2, "0")}:${String(etaMin).padStart(
+              2,
+              "0"
+            )}`;
+
+            return (
+              <div
+                key={order.id}
+                className={`p-4 rounded-2xl border transition-all ${
+                  isDelivered
+                    ? "bg-[#14100D] border-stone-800/60 opacity-60"
+                    : "bg-[#18130F] border-[#261E17] hover:border-stone-700"
+                }`}
+              >
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                  {/* Left: Reorder Controls + Info */}
+                  <div className="flex items-start gap-3 flex-1 min-w-0">
+                    {/* Move Up/Down Controls */}
+                    <div className="flex flex-col items-center gap-1 shrink-0 print:hidden">
+                      <button
+                        type="button"
+                        onClick={() => handleMoveUp(idx)}
+                        disabled={idx === 0}
+                        className="p-1 rounded-lg bg-stone-900 border border-stone-800 text-stone-400 hover:text-amber-400 disabled:opacity-30 transition-colors"
+                        title="Yukarı Taşı"
+                      >
+                        <ArrowUp className="w-3 h-3" />
+                      </button>
+
+                      <span className="w-6 h-6 rounded-full bg-amber-500/20 border border-amber-500/40 text-amber-300 font-mono font-bold text-xs flex items-center justify-center">
+                        {idx + 1}
+                      </span>
+
+                      <button
+                        type="button"
+                        onClick={() => handleMoveDown(idx)}
+                        disabled={idx === deliveryOrders.length - 1}
+                        className="p-1 rounded-lg bg-stone-900 border border-stone-800 text-stone-400 hover:text-amber-400 disabled:opacity-30 transition-colors"
+                        title="Aşağı Taşı"
+                      >
+                        <ArrowDown className="w-3 h-3" />
+                      </button>
+                    </div>
+
+                    <div className="space-y-1 min-w-0 flex-1">
+                      <div className="flex flex-wrap items-center gap-2">
+                        <span className="font-serif font-bold text-sm text-foreground">
+                          {order.customerName}
+                        </span>
+                        <span className="text-xs font-mono text-stone-400">
+                          (#{order.orderNumber || order.id.slice(-6)})
+                        </span>
+                        <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-stone-800 text-stone-300 border border-stone-700">
+                          {order.neighborhood}
+                        </span>
+                        <span className="text-[10px] font-mono text-amber-400/90 font-bold">
+                          ⏱️ Tahmini: ~{etaFormatted}
+                        </span>
+                        {urls.coords && (
+                          <span className="text-[10px] font-bold px-1.5 py-0.5 rounded bg-amber-500/15 text-amber-400 border border-amber-500/30">
+                            📍 GPS
+                          </span>
+                        )}
+                      </div>
+
+                      <div className="text-xs text-stone-300 font-sans leading-relaxed select-all">
+                        {order.deliveryAddress}
+                      </div>
+
+                      <div className="text-xs text-stone-400 font-sans">
+                        <strong className="text-stone-300">Paket:</strong>{" "}
+                        {order.items.map((it) => `${it.quantity}x ${it.productName}`).join(", ")}
+                      </div>
+
+                      {order.orderNotes && (
+                        <div className="text-[11px] text-amber-300/90 italic">
+                          Not: {order.orderNotes}
+                        </div>
+                      )}
+                    </div>
+                  </div>
+
+                  {/* Right: Amount & Actions */}
+                  <div className="flex sm:flex-col items-center sm:items-end justify-between gap-2 shrink-0 border-t sm:border-t-0 pt-2 sm:pt-0 border-stone-800">
+                    <div className="text-right">
+                      <div className="font-serif text-base font-bold text-foreground">
+                        {order.totalAmount} ₺
+                      </div>
+                      <div className="text-[11px]">
+                        {order.paymentMethod === "cash_on_delivery" ? (
+                          <span className="text-amber-400 font-bold">Kapıda Nakit</span>
+                        ) : order.paymentMethod === "pos_at_door" ? (
+                          <span className="text-blue-400">Kapıda POS</span>
+                        ) : (
+                          <span className="text-emerald-400">Ödendi / Cari</span>
+                        )}
+                      </div>
+                    </div>
+
+                    <div className="flex items-center gap-1.5 print:hidden">
+                      {order.phone && (
+                        <a
+                          href={`tel:${order.phone}`}
+                          className="p-2 rounded-xl bg-stone-900 border border-stone-800 text-stone-300 hover:text-amber-400 transition-colors"
+                          title="Müşteriyi Ara"
+                        >
+                          <Phone className="w-3.5 h-3.5" />
+                        </a>
+                      )}
+
+                      <a
+                        href={urls.google}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="p-2 rounded-xl bg-amber-500/10 hover:bg-amber-500/20 text-amber-400 border border-amber-500/30 text-xs flex items-center gap-1 transition-colors"
+                        title="Google Navigasyon"
+                      >
+                        <Navigation className="w-3.5 h-3.5" />
+                        <span className="hidden md:inline">Navigasyon</span>
+                      </a>
+
+                      <button
+                        type="button"
+                        onClick={() => setSelectedOrderForSlip(order)}
+                        className="p-2 rounded-xl bg-stone-900 border border-stone-800 text-amber-400 hover:bg-stone-800 transition-colors"
+                        title="Paket Fişi / Etiket Yazdır"
+                      >
+                        <Printer className="w-3.5 h-3.5" />
+                      </button>
+
+                      <button
+                        type="button"
+                        onClick={() =>
+                          updateOrderStatus(
+                            order.id,
+                            isDelivered ? "kuryede" : "teslim_edildi"
+                          )
+                        }
+                        className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all ${
+                          isDelivered
+                            ? "bg-emerald-950/60 border border-emerald-500/40 text-emerald-300"
+                            : "bg-amber-500 hover:bg-amber-400 text-stone-950 shadow-sm"
+                        }`}
+                      >
+                        {isDelivered ? "Teslim Edildi ✓" : "Teslim Et"}
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
       ) : (
+        /* Grouped View by Neighborhood */
         <div className="space-y-6">
           {groupedOrders.map(([neighborhood, orders]) => (
             <div
               key={neighborhood}
               className="bg-[#18130F] border border-[#261E17] rounded-2xl overflow-hidden print:border-black print:bg-white"
             >
-              {/* Neighborhood Header */}
               <div className="bg-[#201812] px-4 py-3 border-b border-[#261E17] flex items-center justify-between print:bg-gray-100 print:text-black">
                 <div className="flex items-center gap-2">
                   <MapPin className="w-4 h-4 text-artisan-gold print:text-black" />
@@ -277,7 +675,6 @@ export default function DeliveryRoutePage() {
                 </div>
               </div>
 
-              {/* Order List */}
               <div className="divide-y divide-[#261E17] print:divide-black">
                 {orders.map((order, idx) => {
                   const isDelivered = order.status === "teslim_edildi";
@@ -290,7 +687,6 @@ export default function DeliveryRoutePage() {
                         isDelivered ? "opacity-60 bg-emerald-950/10" : "hover:bg-[#1E1611]"
                       }`}
                     >
-                      {/* Left: Customer info & Address */}
                       <div className="space-y-1.5 flex-1">
                         <div className="flex items-center gap-2">
                           <span className="w-5 h-5 rounded-full bg-[#291F18] flex items-center justify-center text-[10px] font-mono text-artisan-gold font-bold shrink-0 print:border print:border-black print:text-black">
@@ -315,7 +711,7 @@ export default function DeliveryRoutePage() {
 
                           {urls.coords && (
                             <span className="text-[10px] font-bold px-1.5 py-0.5 rounded bg-amber-500/15 text-amber-400 border border-amber-500/30">
-                              📍 Hassas GPS
+                              📍 GPS
                             </span>
                           )}
                         </div>
@@ -324,7 +720,6 @@ export default function DeliveryRoutePage() {
                           {order.deliveryAddress}
                         </div>
 
-                        {/* Items Summary */}
                         <div className="text-xs text-foreground/60 pl-7 font-sans print:text-black">
                           <strong className="text-foreground/80 print:text-black">Paket:</strong>{" "}
                           {order.items.map((it) => `${it.quantity}x ${it.productName}`).join(", ")}
@@ -337,7 +732,6 @@ export default function DeliveryRoutePage() {
                         )}
                       </div>
 
-                      {/* Right: Amount & Action */}
                       <div className="flex sm:flex-col items-center sm:items-end justify-between gap-2 shrink-0 border-t sm:border-t-0 pt-2 sm:pt-0 border-[#261E17]">
                         <div className="text-right">
                           <div className="font-serif text-base font-bold text-foreground print:text-black">
@@ -354,30 +748,16 @@ export default function DeliveryRoutePage() {
                           </div>
                         </div>
 
-                        {/* Navigation & Status buttons (hidden in print) */}
                         <div className="flex items-center gap-1.5 print:hidden">
-                          {/* Google Maps Button */}
                           <a
                             href={urls.google}
                             target="_blank"
                             rel="noopener noreferrer"
                             className="p-2 rounded-xl bg-amber-500/10 hover:bg-amber-500/20 text-amber-400 text-xs font-sans flex items-center gap-1 transition-colors border border-amber-500/30"
-                            title="Google Haritalar ile Yol Tarifi Al"
+                            title="Google Haritalar"
                           >
                             <Navigation className="w-3.5 h-3.5" />
                             <span>Navigasyon</span>
-                          </a>
-
-                          {/* Yandex Maps Alternative */}
-                          <a
-                            href={urls.yandex}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="p-2 rounded-xl bg-[#241A13] hover:bg-[#302218] text-stone-300 text-xs font-sans flex items-center gap-1 transition-colors border border-[#34241A]"
-                            title="Yandex Navigasyon ile Aç"
-                          >
-                            <Compass className="w-3.5 h-3.5 text-red-400" />
-                            <span className="hidden lg:inline">Yandex</span>
                           </a>
 
                           <button
@@ -420,7 +800,6 @@ export default function DeliveryRoutePage() {
       {showRouteMapModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-sm">
           <div className="bg-stone-900 border border-stone-800 rounded-3xl shadow-2xl max-w-4xl w-full max-h-[90vh] flex flex-col overflow-hidden">
-            {/* Modal Header */}
             <div className="p-4 border-b border-stone-800 flex items-center justify-between bg-stone-950/60">
               <div className="flex items-center gap-2">
                 <MapIcon className="w-5 h-5 text-amber-500" />
@@ -442,9 +821,7 @@ export default function DeliveryRoutePage() {
               </button>
             </div>
 
-            {/* Modal Content: Map + Stop List */}
             <div className="grid grid-cols-1 md:grid-cols-3 flex-1 overflow-hidden">
-              {/* Map Embed Container */}
               <div className="md:col-span-2 relative min-h-[350px] bg-stone-950 flex flex-col items-center justify-center">
                 <iframe
                   title="Beylikdüzü Dağıtım Haritası"
@@ -459,7 +836,6 @@ export default function DeliveryRoutePage() {
                 </div>
               </div>
 
-              {/* Stop Checklist */}
               <div className="p-4 overflow-y-auto max-h-[500px] space-y-3 bg-stone-950/40 border-t md:border-t-0 md:border-l border-stone-800">
                 <div className="text-xs font-bold text-stone-300 uppercase tracking-wider flex items-center justify-between">
                   <span>Teslimat Sırası ({deliveryOrders.length})</span>
@@ -537,6 +913,14 @@ export default function DeliveryRoutePage() {
           onClose={() => setSelectedOrderForSlip(null)}
         />
       )}
+
+      {/* Bulk Bag Labels Modal */}
+      <BulkLabelsModal
+        orders={deliveryOrders}
+        date={selectedDate}
+        isOpen={showBulkLabelsModal}
+        onClose={() => setShowBulkLabelsModal(false)}
+      />
     </div>
   );
 }

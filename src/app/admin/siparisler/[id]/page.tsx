@@ -99,6 +99,8 @@ export default function SingleOrderDetailPage() {
     text += `\n💰 *Toplam Tutar:* ${order.totalAmount} ₺\n`;
     text += `📅 *Teslimat Tarihi:* ${order.deliveryDate} (${order.deliveryTimeWindow || "14:00 - 18:00"})\n`;
     text += `📍 *Adres:* ${order.deliveryAddress}\n\n`;
+    const trackingUrl = typeof window !== "undefined" ? `${window.location.origin}/siparis-takip/${order.orderNumber || order.id}` : `https://ekmeklab.tr/siparis-takip/${order.orderNumber || order.id}`;
+    text += `🔗 *Siparişinizi Canlı Takip Edin:*\n${trackingUrl}\n\n`;
     text += `Ekmekleriniz taş fırında sevgiyle hazırlanmaktadır. Afiyetle tüketiniz! 🌾🍞`;
 
     window.open(`https://wa.me/${formatted}?text=${encodeURIComponent(text)}`, "_blank");
@@ -172,6 +174,16 @@ export default function SingleOrderDetailPage() {
               </a>
             </>
           )}
+
+          <Link
+            href={`/siparis-takip/${order.orderNumber || order.id}`}
+            target="_blank"
+            className="flex items-center gap-1.5 px-3 py-2 bg-blue-500/10 hover:bg-blue-500/20 text-blue-400 border border-blue-500/30 rounded-xl text-xs font-bold transition-all"
+            title="Müşteri Canlı Takip Sayfasını Aç"
+          >
+            <ExternalLink className="w-3.5 h-3.5" />
+            <span className="hidden sm:inline">Canlı Takip Ekranı</span>
+          </Link>
 
           <button
             onClick={handleShareWhatsApp}
