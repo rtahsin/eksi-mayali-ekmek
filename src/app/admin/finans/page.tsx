@@ -57,7 +57,7 @@ export default function FinansDashboardPage() {
         </Link>
 
         {/* Total Receivables */}
-        <Link href="/admin/finans/cariler" className="bg-stone-900 border border-stone-800 hover:border-stone-700 transition-colors rounded-2xl p-5 shadow-lg group">
+        <Link href="/admin/cariler" className="bg-stone-900 border border-stone-800 hover:border-stone-700 transition-colors rounded-2xl p-5 shadow-lg group">
           <div className="flex justify-between items-start mb-4">
             <div className="w-10 h-10 rounded-xl bg-emerald-500/10 flex items-center justify-center">
               <TrendingUp className="w-5 h-5 text-emerald-500" />
@@ -85,7 +85,7 @@ export default function FinansDashboardPage() {
         </Link>
 
         {/* Active Customers */}
-        <Link href="/admin/finans/cariler" className="bg-stone-900 border border-stone-800 hover:border-stone-700 transition-colors rounded-2xl p-5 shadow-lg group">
+        <Link href="/admin/cariler" className="bg-stone-900 border border-stone-800 hover:border-stone-700 transition-colors rounded-2xl p-5 shadow-lg group">
           <div className="flex justify-between items-start mb-4">
             <div className="w-10 h-10 rounded-xl bg-blue-500/10 flex items-center justify-center">
               <Users className="w-5 h-5 text-blue-500" />
@@ -110,7 +110,7 @@ export default function FinansDashboardPage() {
             <p className="text-[10px] text-stone-500">Para akışını yönetin</p>
           </div>
         </Link>
-        <Link href="/admin/finans/cariler" className="flex items-center gap-3 bg-stone-800/50 hover:bg-stone-800 p-4 rounded-2xl border border-stone-700/50 transition-colors group">
+        <Link href="/admin/cariler" className="flex items-center gap-3 bg-stone-800/50 hover:bg-stone-800 p-4 rounded-2xl border border-stone-700/50 transition-colors group">
           <div className="w-10 h-10 rounded-full bg-stone-900 flex items-center justify-center">
             <Receipt className="w-4 h-4 text-stone-400 group-hover:text-emerald-400 transition-colors" />
           </div>
