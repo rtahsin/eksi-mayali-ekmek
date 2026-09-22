@@ -121,8 +121,24 @@ export async function GET(
       const prevBal = curBal - amount;
 
       // Parse items from description if present
+      // Example description: "[FİŞ-2609-007] 10x Taş Fırın Ekşi Mayalı Köy Ekmeği (110₺)"
       const desc = txData.description || "Toptan Ekmek Teslimatı";
-      const cleanDesc = desc.replace(/^(Fiş|Sipariş):\s*/i, "");
+      let cleanDesc = desc.replace(/^\[.*?\]\s*/, "").replace(/^(Fiş|Sipariş):\s*/i, "");
+      
+      let parsedQuantity = 1;
+      let parsedName = cleanDesc;
+      
+      // Try to extract quantity "10x " from the start
+      const match = cleanDesc.match(/^(\d+)x\s+(.*)$/);
+      if (match) {
+        parsedQuantity = parseInt(match[1], 10);
+        parsedName = match[2];
+      }
+      
+      // Try to remove "(110₺)" from the end of the name
+      parsedName = parsedName.replace(/\s*\([\d.,]+[₺TL\s]*\)$/i, "").trim();
+
+      const unitPrice = parsedQuantity > 0 ? amount / parsedQuantity : amount;
 
       return NextResponse.json({
         success: true,
@@ -138,9 +154,9 @@ export async function GET(
           timeWindow: "14:00 - 18:00",
           items: [
             {
-              name: cleanDesc,
-              quantity: 1,
-              unitPrice: amount,
+              name: parsedName,
+              quantity: parsedQuantity,
+              unitPrice: unitPrice,
               totalPrice: amount,
             },
           ],

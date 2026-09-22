@@ -156,31 +156,34 @@ export default function PublicReceiptPage() {
 
           {/* Receipt Meta */}
           <div className="grid grid-cols-[100px_1fr] gap-y-1 text-sm font-semibold uppercase text-stone-300">
-            <div className="text-stone-500">SATIŞ KODU</div>
-            <div className="text-right font-mono text-amber-400">{slip.orderNumber}</div>
+            <div className="text-stone-500">MÜŞTERİ</div>
+            <div className="text-right text-stone-100">{slip.businessName}</div>
             
             <div className="text-stone-500">TARİH</div>
-            <div className="text-right font-mono">{slip.date} {slip.timeWindow && `(${slip.timeWindow})`}</div>
-            
-            <div className="text-stone-500">MÜŞTERİ</div>
-            <div className="text-right">{slip.businessName}</div>
-            
-            <div className="text-stone-500">ÖDEME TİPİ</div>
-            <div className="text-right">Açık Hesap</div>
+            <div className="text-right font-mono">{slip.date}</div>
           </div>
 
           <div className="w-full border-t border-dashed border-stone-800 my-4" />
 
           {/* Items */}
-          <div className="space-y-3">
+          <div className="space-y-4">
             {slip.items.map((it, idx) => (
-              <div key={idx} className="text-sm">
-                <div className="text-xs text-stone-500 mb-0.5 font-mono">
-                  {it.quantity} Adet x {it.unitPrice.toLocaleString("tr-TR")} TL
+              <div key={idx} className="flex gap-3">
+                <div className="w-10 h-10 rounded-lg bg-stone-900 border border-stone-800 flex items-center justify-center text-amber-500 shrink-0">
+                  {it.name.toLowerCase().includes("ekmek") || it.name.toLowerCase().includes("mayalı") ? (
+                    <Store className="w-5 h-5" />
+                  ) : (
+                    <Sparkles className="w-5 h-5" />
+                  )}
                 </div>
-                <div className="flex justify-between items-start font-semibold text-stone-200">
-                  <span>{it.name.toUpperCase()} {it.weight && `(${it.weight}g)`}</span>
-                  <span className="font-mono">{it.totalPrice.toLocaleString("tr-TR")}</span>
+                <div className="flex-1">
+                  <div className="flex justify-between items-start font-semibold text-stone-200">
+                    <span>{it.name} {it.weight && `(${it.weight}g)`}</span>
+                    <span className="font-mono text-amber-400">{it.totalPrice.toLocaleString("tr-TR")} ₺</span>
+                  </div>
+                  <div className="text-xs text-stone-500 mt-1 font-mono">
+                    {it.quantity} Adet x {it.unitPrice.toLocaleString("tr-TR")} ₺
+                  </div>
                 </div>
               </div>
             ))}
@@ -189,12 +192,9 @@ export default function PublicReceiptPage() {
           <div className="w-full border-t border-dashed border-stone-800 my-4" />
 
           {/* Subtotals */}
-          <div className="grid grid-cols-2 gap-y-1 text-sm font-semibold text-stone-300">
-            <div className="text-stone-500">Toplam Ürün</div>
-            <div className="text-right">{slip.items.length} ürün</div>
-            
-            <div className="text-stone-500">Toplam Miktar</div>
-            <div className="text-right">{slip.items.reduce((sum, it) => sum + it.quantity, 0)} birim</div>
+          <div className="flex justify-between items-center text-sm font-semibold text-stone-300">
+            <div className="text-stone-500">Toplam Adet</div>
+            <div className="text-right">{slip.items.reduce((sum, it) => sum + it.quantity, 0)}</div>
           </div>
 
           <div className="w-full border-t border-stone-700 border-2 my-3" />
@@ -208,20 +208,14 @@ export default function PublicReceiptPage() {
           <div className="w-full border-t border-dashed border-stone-800 my-4" />
 
           {/* Customer Info / Balances */}
-          <div className="text-center font-bold text-base mb-4 text-stone-100 uppercase tracking-widest text-xs">Müşteri Bilgileri</div>
+          <div className="text-center font-bold text-base mb-4 text-stone-100 uppercase tracking-widest text-xs">Hesap Durumu</div>
           
-          <div className="grid grid-cols-[120px_1fr] gap-y-1.5 text-sm font-semibold text-stone-300">
-            <div className="text-stone-500">Müşteri :</div>
-            <div className="text-right">{slip.businessName}</div>
+          <div className="grid grid-cols-[120px_1fr] gap-y-2 text-sm font-semibold text-stone-300">
+            <div className="text-stone-500">Önceki Bakiye</div>
+            <div className="text-right font-mono text-stone-400">{(slip.previousBalance || 0).toLocaleString("tr-TR")} ₺</div>
             
-            <div className="text-stone-500">Önceki bakiye</div>
-            <div className="text-right font-mono text-stone-400">{(slip.previousBalance || 0).toLocaleString("tr-TR")} TL</div>
-            
-            <div className="text-stone-500">Bugün ödeme</div>
-            <div className="text-right font-mono text-emerald-400">{(slip.paidAmount || 0).toLocaleString("tr-TR")} TL</div>
-            
-            <div className="text-stone-500">Kalan borç</div>
-            <div className="text-right font-mono text-amber-400">{(slip.newBalance || slip.totalAmount).toLocaleString("tr-TR")} TL</div>
+            <div className="text-stone-500 text-base text-amber-500">Güncel Bakiye</div>
+            <div className="text-right font-mono text-base text-amber-500">{(slip.newBalance || slip.totalAmount).toLocaleString("tr-TR")} ₺</div>
           </div>
 
           <div className="text-[11px] mt-5 text-stone-600">İşlem Yapan: Yönetici</div>
