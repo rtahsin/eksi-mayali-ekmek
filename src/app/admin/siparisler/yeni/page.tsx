@@ -210,9 +210,7 @@ function ManualOrderForm() {
         const itemsSummary = selectedItems
           .map((it) => `${it.quantity}x ${it.productName}`)
           .join(", ");
-        const trackingUrl = typeof window !== "undefined"
-          ? `${window.location.origin}/siparis-takip/${res.id || ""}`
-          : `https://ekmeklab.tr/siparis-takip/${res.id || ""}`;
+        const trackingUrl = `https://ekmeklab.tr/siparis-takip/${res.id || ""}`;
         const text = `Merhaba ${customerName},\nEkmekLab taş fırın siparişiniz kaydedildi: ${itemsSummary}.\n\n📅 Teslimat Günü: ${deliveryDate} (${deliveryTimeWindow})\n💰 Toplam Tutar: ${totalAmount} ₺\n\n🔗 Siparişinizi canlı takip etmek için:\n${trackingUrl}\n\nTeşekkür ederiz! 🍞🌾`;
         window.open(`https://wa.me/${formatted}?text=${encodeURIComponent(text)}`, "_blank");
       }

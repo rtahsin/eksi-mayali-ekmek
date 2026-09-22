@@ -99,7 +99,7 @@ export default function SingleOrderDetailPage() {
     text += `\n💰 *Toplam Tutar:* ${order.totalAmount} ₺\n`;
     text += `📅 *Teslimat Tarihi:* ${order.deliveryDate} (${order.deliveryTimeWindow || "14:00 - 18:00"})\n`;
     text += `📍 *Adres:* ${order.deliveryAddress}\n\n`;
-    const trackingUrl = typeof window !== "undefined" ? `${window.location.origin}/siparis-takip/${order.orderNumber || order.id}` : `https://ekmeklab.tr/siparis-takip/${order.orderNumber || order.id}`;
+    const trackingUrl = `https://ekmeklab.tr/siparis-takip/${order.orderNumber || order.id}`;
     text += `🔗 *Siparişinizi Canlı Takip Edin:*\n${trackingUrl}\n\n`;
     text += `Ekmekleriniz taş fırında sevgiyle hazırlanmaktadır. Afiyetle tüketiniz! 🌾🍞`;
 

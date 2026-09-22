@@ -486,8 +486,7 @@ export default function CariDetailPage() {
       ? `9${cleanPhone}`
       : `90${cleanPhone}`;
 
-    const origin = typeof window !== "undefined" ? window.location.origin : "https://ekmeklab.tr";
-    const statementUrl = `${origin}/ekstre/${cari.id}`;
+    const statementUrl = `https://ekmeklab.tr/ekstre/${cari.id}`;
 
     const text = [
       `🍞 *EKMEKLAB TAŞ FIRIN - CARİ HESAP EKSTRESİ*`,

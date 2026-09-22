@@ -123,7 +123,7 @@ export function OrderSlipModal({ order, isOpen, onClose, cari: propCari }: Order
       lines.push(`💰 *GÜNCEL KALAN BAKİYE: ${finalBalance.toLocaleString("tr-TR")} ₺*`);
     }
 
-    const publicUrl = typeof window !== "undefined" ? `${window.location.origin}/fis/${order.id}` : `https://ekmeklab.tr/fis/${order.id}`;
+    const publicUrl = `https://ekmeklab.tr/fis/${order.id}`;
     lines.push(``);
     lines.push(`🔗 *DİJİTAL FİŞ & CANLI BAKİYE LİNKİNİZ:*`);
     lines.push(publicUrl);
@@ -139,7 +139,7 @@ export function OrderSlipModal({ order, isOpen, onClose, cari: propCari }: Order
 
   // Copy customer public link
   const handleCopyLink = async () => {
-    const publicUrl = `${window.location.origin}/fis/${order.id}`;
+    const publicUrl = `https://ekmeklab.tr/fis/${order.id}`;
     try {
       await navigator.clipboard.writeText(publicUrl);
       setLinkCopied(true);
