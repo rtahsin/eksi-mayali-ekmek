@@ -140,15 +140,12 @@ export default function PublicReceiptPage() {
         <div className="relative bg-[#120E0B] text-stone-200 p-6 sm:p-8 shadow-2xl border border-[#261E17] rounded-lg">
           
           {/* Header: Logo & Brand */}
-          <div className="flex flex-col items-center text-center space-y-2 mb-6">
-            <div className="w-20 h-20 mb-1 rounded-full bg-[#F7EBD3] p-2 flex items-center justify-center shadow-[0_0_15px_rgba(245,158,11,0.15)]">
-              <img src="/logo/logo_mark.png" alt="EkmekLab" className="w-full h-full object-contain" />
+          <div className="flex flex-col items-center text-center mb-6">
+            <div className="w-40 h-32 flex items-center justify-center">
+              <img src="/logo/logo.png" alt="EkmekLab" className="w-full h-full object-contain" />
             </div>
-            <div className="text-xl font-bold uppercase tracking-wider text-stone-100">
-              EKMEKLAB ZANAATKAR FIRIN
-            </div>
-            <div className="text-xs text-stone-400 leading-tight font-medium">
-              BEYLİKDÜZÜ / İSTANBUL -- 0501 012 66 53
+            <div className="text-xs text-stone-400 leading-tight font-medium mt-2">
+              0501 012 66 53
             </div>
           </div>
 
@@ -167,34 +164,42 @@ export default function PublicReceiptPage() {
 
           {/* Items */}
           <div className="space-y-4">
-            {slip.items.map((it, idx) => (
-              <div key={idx} className="flex gap-3">
-                <div className="w-10 h-10 rounded-lg bg-stone-900 border border-stone-800 flex items-center justify-center text-amber-500 shrink-0">
-                  {it.name.toLowerCase().includes("ekmek") || it.name.toLowerCase().includes("mayalı") ? (
-                    <Store className="w-5 h-5" />
-                  ) : (
-                    <Sparkles className="w-5 h-5" />
-                  )}
-                </div>
-                <div className="flex-1">
-                  <div className="flex justify-between items-start font-semibold text-stone-200">
-                    <span>{it.name} {it.weight && `(${it.weight}g)`}</span>
-                    <span className="font-mono text-amber-400">{it.totalPrice.toLocaleString("tr-TR")} ₺</span>
+            {slip.items.map((it, idx) => {
+              const nameLower = it.name.toLowerCase();
+              let imgSrc = "/images/categories/default.jpg";
+              if (nameLower.includes("ekmek") || nameLower.includes("mayalı")) imgSrc = "/images/categories/bread.jpg";
+              else if (nameLower.includes("süt") || nameLower.includes("peynir") || nameLower.includes("tereyağ")) imgSrc = "/images/categories/dairy.jpg";
+              else if (nameLower.includes("tatlı") || nameLower.includes("kurabiye")) imgSrc = "/images/categories/desserts.jpg";
+              else if (nameLower.includes("içecek") || nameLower.includes("kahve")) imgSrc = "/images/categories/beverages.jpg";
+              
+              return (
+                <div key={idx} className="flex gap-3">
+                  <div className="w-12 h-12 rounded-lg bg-stone-900 border border-stone-800 shrink-0 overflow-hidden">
+                    <img src={imgSrc} alt={it.name} className="w-full h-full object-cover opacity-90" />
                   </div>
-                  <div className="text-xs text-stone-500 mt-1 font-mono">
-                    {it.quantity} Adet x {it.unitPrice.toLocaleString("tr-TR")} ₺
+                  <div className="flex-1 flex flex-col justify-center">
+                    <div className="flex justify-between items-start font-semibold text-stone-200">
+                      <span>{it.name} {it.weight && `(${it.weight}g)`}</span>
+                      <span className="font-mono text-amber-400">{it.totalPrice.toLocaleString("tr-TR")} ₺</span>
+                    </div>
+                    <div className="text-xs text-stone-500 mt-1 font-mono">
+                      {it.quantity} Adet x {it.unitPrice.toLocaleString("tr-TR")} ₺
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
 
           <div className="w-full border-t border-dashed border-stone-800 my-4" />
 
           {/* Subtotals */}
-          <div className="flex justify-between items-center text-sm font-semibold text-stone-300">
-            <div className="text-stone-500">Toplam Adet</div>
-            <div className="text-right">{slip.items.reduce((sum, it) => sum + it.quantity, 0)}</div>
+          <div className="grid grid-cols-2 gap-y-1 text-sm font-semibold text-stone-300">
+            <div className="text-stone-500">Toplam Ürün Çeşidi</div>
+            <div className="text-right">{slip.items.length} ürün</div>
+            
+            <div className="text-stone-500">Toplam Miktar</div>
+            <div className="text-right">{slip.items.reduce((sum, it) => sum + it.quantity, 0)} adet</div>
           </div>
 
           <div className="w-full border-t border-stone-700 border-2 my-3" />
