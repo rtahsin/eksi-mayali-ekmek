@@ -53,10 +53,11 @@ export function AdminHeader({
     <header className="sticky top-0 z-30 h-16 bg-[#16120E] border-b border-[#261E17] px-4 sm:px-6 flex items-center justify-between">
       {/* Left: Mobile Toggle & Page Indicator */}
       <div className="flex items-center gap-3">
+        {/* We hide the hamburger on mobile because we use MobileBottomNav now */}
         <button
           type="button"
           onClick={onToggleSidebar}
-          className="lg:hidden p-2 rounded-xl bg-[#1E1712] border border-[#2E231B] text-foreground/80 hover:text-foreground"
+          className="hidden p-2 rounded-xl bg-[#1E1712] border border-[#2E231B] text-foreground/80 hover:text-foreground"
         >
           <Menu className="w-5 h-5" />
         </button>
@@ -86,14 +87,13 @@ export function AdminHeader({
           <span>{isBakeryOpen ? "Fırın Açık" : "Fırın Kapalı"}</span>
         </button>
 
-        {/* Quick Order Button */}
+        {/* Quick Order Button (Hidden on Mobile) */}
         <Link
           href="/admin/siparisler/yeni"
-          className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-artisan-terracotta hover:bg-artisan-terracotta/90 text-foreground text-xs font-serif font-bold transition-all shadow-md shadow-artisan-terracotta/20 border border-artisan-gold/30"
+          className="hidden lg:inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-artisan-terracotta hover:bg-artisan-terracotta/90 text-foreground text-xs font-serif font-bold transition-all shadow-md shadow-artisan-terracotta/20 border border-artisan-gold/30"
         >
           <Plus className="w-4 h-4" />
-          <span className="hidden sm:inline">Hızlı Sipariş</span>
-          <span className="sm:hidden">Sipariş</span>
+          <span>Hızlı Sipariş</span>
         </Link>
 
         {/* Audio Chime Toggle */}

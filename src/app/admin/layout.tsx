@@ -4,6 +4,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { AdminAuthGate } from "@/components/admin/AdminAuthGate";
 import { AdminSidebar } from "@/components/admin/AdminSidebar";
 import { AdminHeader } from "@/components/admin/AdminHeader";
+import { MobileBottomNav } from "@/components/admin/MobileBottomNav";
 import { QuickPinLock } from "@/components/admin/QuickPinLock";
 import { PwaInstallPrompt } from "@/components/admin/PwaInstallPrompt";
 import { useBakeryAudio } from "@/hooks/useBakeryAudio";
@@ -85,7 +86,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         />
 
         {/* Main Content Area */}
-        <div className="lg:pl-64 flex-1 flex flex-col min-w-0">
+        <div className="lg:pl-64 flex-1 flex flex-col min-w-0 pb-20 lg:pb-0">
           <AdminHeader
             onToggleSidebar={() => setSidebarOpen(!sidebarOpen)}
             pendingOrderCount={pendingCount}
@@ -101,6 +102,12 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
 
         {/* Mobile PWA Install Prompt Banner */}
         <PwaInstallPrompt />
+
+        {/* Mobile Bottom Navigation */}
+        <MobileBottomNav
+          onOpenSidebar={() => setSidebarOpen(true)}
+          pendingOrderCount={pendingCount}
+        />
       </div>
     </AdminAuthGate>
   );
