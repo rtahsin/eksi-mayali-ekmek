@@ -101,10 +101,10 @@ export async function GET(
     }
 
     // 2. Try finding in `account_transactions` table if it was recorded as a Cari transaction
-    const { data: txData } = await supabase
+    const { data: txData, error: txError } = await supabase
       .from("account_transactions")
       .select("*")
-      .or(`id.eq.${id},order_id.eq.${id}`)
+      .eq("id", id)
       .maybeSingle();
 
     if (txData) {
@@ -157,6 +157,11 @@ export async function GET(
 
   } catch (error: any) {
     console.error("Fetch slip error:", error);
+    // If it's a UUID syntax error from Postgres (22P02), it just means it wasn't found in transactions
+    if (error?.code === "22P02") {
+       return NextResponse.json({ success: false, error: "Fiş bulunamadı" }, { status: 404 });
+    }
     return NextResponse.json({ success: false, error: error.message }, { status: 500 });
   }
 }
+
