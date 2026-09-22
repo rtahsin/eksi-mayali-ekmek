@@ -129,56 +129,56 @@ export default function PublicReceiptPage() {
   }
 
   return (
-    <div className="min-h-screen bg-stone-100 py-6 sm:py-12 px-3 flex flex-col items-center font-sans">
+    <div className="min-h-screen bg-[#0A0806] py-6 sm:py-12 px-3 flex flex-col items-center font-sans text-stone-200">
       
       {/* 
         This is the main screenshot area. 
-        We use a simple thermal receipt aesthetic. 
+        We use the simple thermal receipt structure but with premium dark colors. 
       */}
       <div id="receipt-card" className="w-full max-w-[400px] relative pb-10 mt-4">
         
-        <div className="relative bg-white text-black p-6 sm:p-8 shadow-sm">
+        <div className="relative bg-[#120E0B] text-stone-200 p-6 sm:p-8 shadow-2xl border border-[#261E17] rounded-lg">
           
           {/* Header: Logo & Brand */}
           <div className="flex flex-col items-center text-center space-y-2 mb-6">
-            <div className="w-20 h-20 mb-1">
-              <img src="/logo/logo_mark.png" alt="EkmekLab" className="w-full h-full object-contain filter invert" />
+            <div className="w-20 h-20 mb-1 rounded-full bg-[#F7EBD3] p-2 flex items-center justify-center shadow-[0_0_15px_rgba(245,158,11,0.15)]">
+              <img src="/logo/logo_mark.png" alt="EkmekLab" className="w-full h-full object-contain" />
             </div>
-            <div className="text-xl font-bold uppercase tracking-wider">
+            <div className="text-xl font-bold uppercase tracking-wider text-stone-100">
               EKMEKLAB ZANAATKAR FIRIN
             </div>
-            <div className="text-xs text-gray-800 leading-tight font-medium">
+            <div className="text-xs text-stone-400 leading-tight font-medium">
               BEYLİKDÜZÜ / İSTANBUL -- 0501 012 66 53
             </div>
           </div>
 
-          <div className="w-full border-t border-dashed border-gray-400 my-4" />
+          <div className="w-full border-t border-dashed border-stone-800 my-4" />
 
           {/* Receipt Meta */}
-          <div className="grid grid-cols-[100px_1fr] gap-y-1 text-sm font-semibold uppercase">
-            <div>SATIŞ KODU</div>
-            <div className="text-right font-mono">{slip.orderNumber}</div>
+          <div className="grid grid-cols-[100px_1fr] gap-y-1 text-sm font-semibold uppercase text-stone-300">
+            <div className="text-stone-500">SATIŞ KODU</div>
+            <div className="text-right font-mono text-amber-400">{slip.orderNumber}</div>
             
-            <div>TARİH</div>
+            <div className="text-stone-500">TARİH</div>
             <div className="text-right font-mono">{slip.date} {slip.timeWindow && `(${slip.timeWindow})`}</div>
             
-            <div>MÜŞTERİ</div>
+            <div className="text-stone-500">MÜŞTERİ</div>
             <div className="text-right">{slip.businessName}</div>
             
-            <div>ÖDEME TİPİ</div>
+            <div className="text-stone-500">ÖDEME TİPİ</div>
             <div className="text-right">Açık Hesap</div>
           </div>
 
-          <div className="w-full border-t border-dashed border-gray-400 my-4" />
+          <div className="w-full border-t border-dashed border-stone-800 my-4" />
 
           {/* Items */}
           <div className="space-y-3">
             {slip.items.map((it, idx) => (
               <div key={idx} className="text-sm">
-                <div className="text-xs text-gray-600 mb-0.5 font-mono">
+                <div className="text-xs text-stone-500 mb-0.5 font-mono">
                   {it.quantity} Adet x {it.unitPrice.toLocaleString("tr-TR")} TL
                 </div>
-                <div className="flex justify-between items-start font-semibold">
+                <div className="flex justify-between items-start font-semibold text-stone-200">
                   <span>{it.name.toUpperCase()} {it.weight && `(${it.weight}g)`}</span>
                   <span className="font-mono">{it.totalPrice.toLocaleString("tr-TR")}</span>
                 </div>
@@ -186,53 +186,53 @@ export default function PublicReceiptPage() {
             ))}
           </div>
 
-          <div className="w-full border-t border-dashed border-gray-400 my-4" />
+          <div className="w-full border-t border-dashed border-stone-800 my-4" />
 
           {/* Subtotals */}
-          <div className="grid grid-cols-2 gap-y-1 text-sm font-semibold">
-            <div>Toplam Ürün</div>
+          <div className="grid grid-cols-2 gap-y-1 text-sm font-semibold text-stone-300">
+            <div className="text-stone-500">Toplam Ürün</div>
             <div className="text-right">{slip.items.length} ürün</div>
             
-            <div>Toplam Miktar</div>
+            <div className="text-stone-500">Toplam Miktar</div>
             <div className="text-right">{slip.items.reduce((sum, it) => sum + it.quantity, 0)} birim</div>
           </div>
 
-          <div className="w-full border-t border-black border-2 my-2" />
+          <div className="w-full border-t border-stone-700 border-2 my-3" />
 
           {/* Grand Total */}
-          <div className="flex justify-between items-center text-lg font-bold">
+          <div className="flex justify-between items-center text-lg font-bold text-stone-100">
             <div>TOPLAM</div>
-            <div className="font-mono">{slip.totalAmount.toLocaleString("tr-TR")} TL</div>
+            <div className="font-mono text-amber-400">{slip.totalAmount.toLocaleString("tr-TR")} TL</div>
           </div>
 
-          <div className="w-full border-t border-dashed border-gray-400 my-4" />
+          <div className="w-full border-t border-dashed border-stone-800 my-4" />
 
           {/* Customer Info / Balances */}
-          <div className="text-center font-bold text-base mb-3">Müşteri Bilgileri</div>
+          <div className="text-center font-bold text-base mb-4 text-stone-100 uppercase tracking-widest text-xs">Müşteri Bilgileri</div>
           
-          <div className="grid grid-cols-[120px_1fr] gap-y-1 text-sm font-semibold">
-            <div>Müşteri :</div>
+          <div className="grid grid-cols-[120px_1fr] gap-y-1.5 text-sm font-semibold text-stone-300">
+            <div className="text-stone-500">Müşteri :</div>
             <div className="text-right">{slip.businessName}</div>
             
-            <div>Önceki bakiye</div>
-            <div className="text-right font-mono">{(slip.previousBalance || 0).toLocaleString("tr-TR")} TL</div>
+            <div className="text-stone-500">Önceki bakiye</div>
+            <div className="text-right font-mono text-stone-400">{(slip.previousBalance || 0).toLocaleString("tr-TR")} TL</div>
             
-            <div>Bugün ödeme</div>
-            <div className="text-right font-mono">{(slip.paidAmount || 0).toLocaleString("tr-TR")} TL</div>
+            <div className="text-stone-500">Bugün ödeme</div>
+            <div className="text-right font-mono text-emerald-400">{(slip.paidAmount || 0).toLocaleString("tr-TR")} TL</div>
             
-            <div>Kalan borç</div>
-            <div className="text-right font-mono">{(slip.newBalance || slip.totalAmount).toLocaleString("tr-TR")} TL</div>
+            <div className="text-stone-500">Kalan borç</div>
+            <div className="text-right font-mono text-amber-400">{(slip.newBalance || slip.totalAmount).toLocaleString("tr-TR")} TL</div>
           </div>
 
-          <div className="text-xs mt-4 text-gray-700">İşlem Yapan: Yönetici</div>
+          <div className="text-[11px] mt-5 text-stone-600">İşlem Yapan: Yönetici</div>
 
           {/* Footer / Stamp */}
-          <div className="pt-8 pb-2 text-center text-xs text-gray-800 space-y-3 font-semibold">
-            <div>— AÇIKLAMALAR —</div>
-            <div>Bizi Tercih Ettiğiniz İçin Teşekkürler</div>
+          <div className="pt-8 pb-2 text-center text-xs text-stone-500 space-y-3 font-semibold">
+            <div className="tracking-widest opacity-80">— AÇIKLAMALAR —</div>
+            <div className="text-stone-400">Bizi Tercih Ettiğiniz İçin Teşekkürler</div>
             
-            <div className="font-normal mt-4">Bu fiş bilgilendirme amaçlıdır.</div>
-            <div className="italic">Bizi tercih ettiğiniz için teşekkürler!</div>
+            <div className="font-normal mt-4 opacity-70">Bu fiş bilgilendirme amaçlıdır.</div>
+            <div className="italic text-stone-400">Bizi tercih ettiğiniz için teşekkürler!</div>
           </div>
 
         </div>
@@ -241,9 +241,9 @@ export default function PublicReceiptPage() {
         <div className="mt-6 flex flex-col sm:flex-row gap-3">
           <button
             onClick={handleCopyLink}
-            className="flex-1 flex items-center justify-center gap-2 p-3.5 bg-white text-black font-bold rounded-xl text-sm border border-gray-300 shadow-sm active:scale-95 transition-transform hover:bg-gray-50"
+            className="flex-1 flex items-center justify-center gap-2 p-3.5 bg-stone-900 text-stone-200 font-bold rounded-xl text-sm border border-stone-800 shadow-sm active:scale-95 transition-transform hover:bg-stone-800"
           >
-            {copied ? <Check className="w-5 h-5 text-green-600" /> : <Copy className="w-5 h-5" />}
+            {copied ? <Check className="w-5 h-5 text-emerald-400" /> : <Copy className="w-5 h-5 text-amber-400" />}
             <span>{copied ? "Link Kopyalandı" : "Fiş Linkini Kopyala"}</span>
           </button>
           
@@ -251,7 +251,7 @@ export default function PublicReceiptPage() {
             href="https://wa.me/905010126653?text=Merhaba%2C%20EkmekLab%20teslimat%20fi%C5%9Fimizle%20ilgili%20yaz%C4%B1yorum."
             target="_blank"
             rel="noreferrer"
-            className="flex-1 flex items-center justify-center gap-2 p-3.5 bg-[#25D366] hover:bg-[#1EBE5A] text-white font-bold rounded-xl text-sm shadow-sm active:scale-95 transition-transform"
+            className="flex-1 flex items-center justify-center gap-2 p-3.5 bg-[#121E15] border border-emerald-900/50 hover:bg-[#16261A] text-emerald-400 font-bold rounded-xl text-sm shadow-sm active:scale-95 transition-transform"
           >
             <MessageCircle className="w-5 h-5" />
             <span>Fırına Yaz</span>
