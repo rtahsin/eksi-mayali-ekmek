@@ -501,7 +501,7 @@ export default function CariDetailPage() {
       ``,
       `Tüm teslimat fişlerinizi ve ödeme hareketlerinizi yukarıdaki bağlantıdan anlık olarak inceleyebilirsiniz.`,
       `Bereketli işler dileriz!`,
-      `EkmekLab Zanaatkar Fırın • 0530 638 97 73`,
+      `EkmekLab Zanaatkar Fırın • 0501 012 66 53`,
     ].join("\n");
 
     window.open(`https://wa.me/${formatted}?text=${encodeURIComponent(text)}`, "_blank");

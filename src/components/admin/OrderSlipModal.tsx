@@ -129,7 +129,7 @@ export function OrderSlipModal({ order, isOpen, onClose, cari: propCari }: Order
     lines.push(publicUrl);
     lines.push(``);
     lines.push(`Afiyet olsun! EkmekLab Zanaatkar Fırın`);
-    lines.push(`İletişim: 0530 638 97 73 • ekmeklab.tr`);
+    lines.push(`İletişim: 0501 012 66 53 • ekmeklab.tr`);
 
     return lines.join("\n");
   };

@@ -28,7 +28,7 @@ export async function GET(request: Request) {
       freeShippingThreshold: 1000,
       shippingFee: 150,
       deliveryWindow: "14:00 - 18:00",
-      whatsappPhone: "0530 638 97 73",
+      whatsappPhone: "0501 012 66 53",
       orderAcceptanceOpen: true,
       announcementText: "",
     };

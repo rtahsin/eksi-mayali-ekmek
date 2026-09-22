@@ -478,7 +478,7 @@ export default function OrderTrackingPage({
               </p>
             </div>
             <a
-              href={`https://wa.me/905306389773?text=${encodeURIComponent(
+              href={`https://wa.me/905010126653?text=${encodeURIComponent(
                 `Sipariş Onayı\n\nSipariş No: #${order.orderNumber}\nTutar: ${order.totalAmount} ₺\nMüşteri: ${order.customerName}`
               )}`}
               target="_blank"

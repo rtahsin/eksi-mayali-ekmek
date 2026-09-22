@@ -43,7 +43,7 @@ export default function AdminSettingsPage() {
   const [freeShippingThreshold, setFreeShippingThreshold] = useState<number>(1000);
   const [shippingFee, setShippingFee] = useState<number>(150);
   const [deliveryWindow, setDeliveryWindow] = useState<string>("14:00 - 18:00");
-  const [whatsappPhone, setWhatsappPhone] = useState<string>("0530 638 97 73");
+  const [whatsappPhone, setWhatsappPhone] = useState<string>("0501 012 66 53");
   const [orderAcceptanceOpen, setOrderAcceptanceOpen] = useState<boolean>(true);
   const [announcementText, setAnnouncementText] = useState<string>("");
 
@@ -434,7 +434,7 @@ export default function AdminSettingsPage() {
                 required
                 value={whatsappPhone}
                 onChange={(e) => setWhatsappPhone(e.target.value)}
-                placeholder="Örn: 0530 638 97 73"
+                placeholder="Örn: 0501 012 66 53"
                 className="w-full bg-stone-950 border border-stone-800 rounded-xl px-3 py-2 text-sm text-stone-100 focus:outline-none focus:border-amber-500"
               />
               <p className="text-[11px] text-stone-400">

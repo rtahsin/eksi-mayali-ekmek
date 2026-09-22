@@ -73,141 +73,13 @@ export default function PublicReceiptPage() {
 
     const fetchSlip = async () => {
       try {
-        const supabase = createClient();
-        if (!supabase) {
-          setLoading(false);
-          return;
-        }
-
-        // 1. Try finding in `orders` table
-        const { data: orderData } = await supabase!
-          .from("orders")
-          .select("*, order_items(*)")
-          .eq("id", id)
-          .single();
-
-        if (orderData) {
-          let prevBal = 0;
-          let newBal = 0;
-          let taxNo = "";
-          let busName = orderData.customer_name || "Değerli Müşterimiz";
-          let historyItems: any[] = [];
-
-          // If linked to a Cari, fetch Cari balance and history
-          if (orderData.cari_id) {
-            const { data: cariData } = await supabase!
-              .from("current_accounts")
-              .select("*")
-              .eq("id", orderData.cari_id)
-              .single();
-
-            if (cariData) {
-              busName = cariData.name || busName;
-              taxNo = cariData.tax_id || "";
-              newBal = Number(cariData.balance) || 0;
-              prevBal = newBal - Number(orderData.total_amount || 0);
-            }
-
-            const { data: hist } = await supabase!
-              .from("account_transactions")
-              .select("*")
-              .eq("account_id", orderData.cari_id)
-              .order("date", { ascending: false })
-              .limit(10);
-
-            if (hist) {
-              historyItems = hist.map((h: any) => ({
-                id: h.id,
-                date: h.date ? new Date(h.date).toISOString().split("T")[0] : "",
-                type: h.type,
-                description: h.description || "İşlem",
-                amount: Number(h.amount) || 0,
-              }));
-            }
-          }
-
-          const rawItems = Array.isArray(orderData.order_items) ? orderData.order_items : (Array.isArray(orderData.items) ? orderData.items : []);
-          const mappedItems: SlipItem[] = rawItems.map((it: any) => ({
-            name: it.product_name || it.productName || it.name || "Ürün",
-            quantity: Number(it.quantity) || 1,
-            unitPrice: Number(it.unit_price) || Number(it.unitPrice) || Number(it.price) || 0,
-            totalPrice: Number(it.total_price) || Number(it.totalPrice) || (Number(it.quantity) || 1) * (Number(it.unit_price) || Number(it.unitPrice) || 0),
-            weight: it.weight,
-          }));
-
-          setSlip({
-            id: orderData.id,
-            orderNumber: orderData.order_number || orderData.id.substring(0, 6).toUpperCase(),
-            businessName: busName,
-            phone: orderData.phone || "",
-            address: orderData.delivery_address || "",
-            neighborhood: orderData.neighborhood || "Beylikdüzü",
-            taxNumber: taxNo,
-            date: orderData.delivery_date ? new Date(orderData.delivery_date).toISOString().split("T")[0] : new Date().toISOString().split("T")[0],
-            timeWindow: orderData.delivery_time_window || "14:00 - 18:00",
-            items: mappedItems,
-            subtotal: Number(orderData.subtotal) || Number(orderData.total_amount) || 0,
-            totalAmount: Number(orderData.total_amount) || 0,
-            previousBalance: prevBal,
-            paidAmount: 0,
-            newBalance: newBal > 0 ? newBal : Number(orderData.total_amount) || 0,
-            status: orderData.status,
-            history: historyItems,
-          });
-          setLoading(false);
-          return;
-        }
-
-        // 2. Try finding in `account_transactions` table if it was recorded as a Cari transaction
-        const { data: txData } = await supabase!
-          .from("account_transactions")
-          .select("*")
-          .or(`id.eq.${id},order_id.eq.${id}`)
-          .single();
-
-        if (txData) {
-          const { data: cariData } = await supabase!
-            .from("current_accounts")
-            .select("*")
-            .eq("id", txData.account_id)
-            .single();
-
-          const busName = cariData?.name || "Kurumsal Müşteri";
-          const taxNo = cariData?.tax_id || "";
-          const curBal = Number(cariData?.balance) || 0;
-          const amount = Number(txData.amount) || 0;
-          const prevBal = curBal - amount;
-
-          // Parse items from description if present
-          const desc = txData.description || "Toptan Ekmek Teslimatı";
-          const cleanDesc = desc.replace(/^(Fiş|Sipariş):\s*/i, "");
-
-          setSlip({
-            id: txData.id,
-            orderNumber: (txData.order_id || txData.id).substring(0, 6).toUpperCase(),
-            businessName: busName,
-            phone: cariData?.phone || "",
-            address: cariData?.address || "",
-            neighborhood: "Beylikdüzü",
-            taxNumber: taxNo,
-            date: txData.date ? new Date(txData.date).toISOString().split("T")[0] : new Date().toISOString().split("T")[0],
-            timeWindow: "14:00 - 18:00",
-            items: [
-              {
-                name: cleanDesc,
-                quantity: 1,
-                unitPrice: amount,
-                totalPrice: amount,
-              },
-            ],
-            subtotal: amount,
-            totalAmount: amount,
-            previousBalance: prevBal,
-            paidAmount: 0,
-            newBalance: curBal,
-          });
-          setLoading(false);
-          return;
+        const res = await fetch(`/api/slip/${id}`);
+        const data = await res.json();
+        
+        if (res.ok && data.success && data.data) {
+          setSlip(data.data);
+        } else {
+          console.warn("Slip fetch notice:", data.error);
         }
       } catch (err) {
         console.warn("Slip fetch notice:", err);
@@ -246,11 +118,11 @@ export default function PublicReceiptPage() {
           Aradığınız teslimat fişi bulunamadı veya bağlantı süresi dolmuş olabilir. Lütfen fırınımızla iletişime geçin.
         </p>
         <a
-          href="tel:05306389773"
+          href="tel:05010126653"
           className="px-5 py-2.5 bg-amber-500 text-stone-950 font-bold rounded-xl text-xs flex items-center gap-2"
         >
           <Phone className="w-4 h-4" />
-          <span>Fırını Ara (0530 638 97 73)</span>
+          <span>Fırını Ara (0501 012 66 53)</span>
         </a>
       </div>
     );
@@ -418,7 +290,7 @@ export default function PublicReceiptPage() {
               <div className="text-[10px] text-stone-500 font-mono space-y-1">
                 <div>EkmekLab Zanaatkar Fırın</div>
                 <div>36 Saat Soğuk Fermantasyon</div>
-                <div>Afiyet şifa olsun.</div>
+                <div>0501 012 66 53</div>
               </div>
             </div>
 
@@ -436,7 +308,7 @@ export default function PublicReceiptPage() {
           </button>
           
           <a
-            href="https://wa.me/905306389773?text=Merhaba%2C%20EkmekLab%20teslimat%20fi%C5%9Fimizle%20ilgili%20yaz%C4%B1yorum."
+            href="https://wa.me/905010126653?text=Merhaba%2C%20EkmekLab%20teslimat%20fi%C5%9Fimizle%20ilgili%20yaz%C4%B1yorum."
             target="_blank"
             rel="noreferrer"
             className="flex-1 flex items-center justify-center gap-2 p-3.5 bg-[#121E15] hover:bg-[#16261A] text-emerald-400 font-bold rounded-2xl text-sm border border-emerald-900/50 transition-all active:scale-95"

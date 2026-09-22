@@ -504,7 +504,7 @@ export default function CustomerStatementPage() {
 
           <div className="flex flex-wrap items-center justify-center gap-4 text-xs">
             <a
-              href="https://wa.me/905306389773"
+              href="https://wa.me/905010126653"
               target="_blank"
               rel="noreferrer"
               className="inline-flex items-center gap-2 px-4 py-2 bg-emerald-600 hover:bg-emerald-500 text-white font-bold rounded-xl shadow-lg shadow-emerald-600/20 transition-all"
@@ -514,11 +514,11 @@ export default function CustomerStatementPage() {
             </a>
 
             <a
-              href="tel:05306389773"
+              href="tel:05010126653"
               className="inline-flex items-center gap-2 px-4 py-2 bg-stone-800 hover:bg-stone-700 text-stone-300 font-semibold rounded-xl border border-stone-700 transition-colors"
             >
               <Phone className="w-4 h-4 text-amber-400" />
-              <span>0530 638 97 73</span>
+              <span>0501 012 66 53</span>
             </a>
           </div>
 
