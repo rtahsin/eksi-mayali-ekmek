@@ -32,7 +32,7 @@ export function useCariler() {
           return {
             id: d.id,
             businessName: d.name || "İsimsiz Cari",
-            contactPerson: d.type || "",
+            contactPerson: d.contact_person || (d.type !== "gider" && d.type !== "musteri" ? d.type : ""),
             phone: d.phone || "",
             address: d.address || "",
             neighborhood: "",
@@ -101,14 +101,17 @@ export function useCariler() {
         const { error: insErr } = await supabase!.from("current_accounts").insert({
           id: newId,
           name: data.businessName,
-          type: data.accountType || data.contactPerson || "customer",
+          type: data.accountType || (data.businessName.toLowerCase().includes("gider") ? "gider" : "musteri"),
+          contact_person: data.contactPerson || "",
           phone: data.phone || "",
           address: data.address || "",
           tax_id: data.taxNumber || "",
+          custom_prices: data.customPrices || null,
           balance: balance,
           credit_limit: 0,
           status: "active",
-          custom_prices: data.customPrices || {},
+          created_at: new Date().toISOString(),
+          updated_at: new Date().toISOString(),
         });
         if (insErr) throw insErr;
 
@@ -161,7 +164,7 @@ export function useCariler() {
       if (supabase) {
         const updatePayload: any = { updated_at: new Date().toISOString() };
         if (data.businessName !== undefined) updatePayload.name = data.businessName;
-        if (data.contactPerson !== undefined) updatePayload.type = data.contactPerson;
+        if (data.contactPerson !== undefined) updatePayload.contact_person = data.contactPerson;
         if (data.phone !== undefined) updatePayload.phone = data.phone;
         if (data.address !== undefined) updatePayload.address = data.address;
         if (data.taxNumber !== undefined) updatePayload.tax_id = data.taxNumber;
@@ -338,30 +341,37 @@ export function useCariler() {
       );
 
       if (supabase) {
-        // 1. Delete from account_transactions
-        const { error: delErr } = await supabase!
+        // 1. Determine Storno type
+        const stornoType = reverseDelta > 0 ? "debt" : "credit";
+
+        // 2. Insert Storno transaction instead of deleting
+        const { error: insErr } = await supabase!
           .from("account_transactions")
-          .delete()
-          .eq("id", txId);
-        if (delErr) throw delErr;
+          .insert({
+            account_id: cariId,
+            type: stornoType,
+            amount: Math.abs(reverseDelta),
+            description: `[İPTAL / STORNO] İşlem Geri Alma`,
+            date: new Date().toISOString().split("T")[0],
+          });
+        if (insErr) throw insErr;
 
-        // 2. Fetch current balance and apply reverseDelta
-        const { data: cur } = await supabase!
-          .from("current_accounts")
-          .select("balance")
-          .eq("id", cariId)
-          .single();
+        // 3. Update Balance Safely via RPC
+        const { data: newBalance, error: updErr } = await supabase!
+          .rpc("adjust_cari_balance", { 
+            p_account_id: cariId, 
+            p_delta: reverseDelta 
+          });
 
-        const currentBal = Number(cur?.balance) || 0;
-        await supabase!
-          .from("current_accounts")
-          .update({ balance: currentBal + reverseDelta, updated_at: new Date().toISOString() })
-          .eq("id", cariId);
+        if (updErr) {
+          console.error("RPC Error in Storno:", updErr);
+          throw new Error("Storno işlemi kaydedilirken bakiye güncellenemedi.");
+        }
       }
 
       return { success: true, reverseDelta };
     } catch (err: unknown) {
-      console.error("Delete transaction error:", err);
+      console.error("Storno transaction error:", err);
       fetchCariler();
       return { success: false, error: getErrorMessage(err) };
     }

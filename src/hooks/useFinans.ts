@@ -10,6 +10,7 @@ import { getErrorMessage } from "@/lib/utils/error";
 
 export function useFinans() {
   const [rawRecords, setRawRecords] = useState<any[]>([]);
+  const [rawCariTx, setRawCariTx] = useState<any[]>([]);
   const [loadingExpenses, setLoadingExpenses] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -26,16 +27,27 @@ export function useFinans() {
     }
 
     try {
-      const { data, error: supaErr } = await supabase!
+      const { data: finData, error: finErr } = await supabase!
         .from("financial_records")
         .select("*")
-        .order("date", { ascending: false });
+        .order("date", { ascending: false })
+        .limit(300); // 5. Performans Limiti
 
-      if (supaErr) throw supaErr;
+      if (finErr) throw finErr;
 
-      if (data) {
-        setRawRecords(data);
-      }
+      const { data: txData, error: txErr } = await supabase!
+        .from("account_transactions")
+        .select(`
+          *,
+          current_accounts(type, name)
+        `)
+        .order("date", { ascending: false })
+        .limit(300); // 5. Performans Limiti
+
+      if (txErr) throw txErr;
+
+      setRawRecords(finData || []);
+      setRawCariTx(txData || []);
     } catch (err: unknown) {
       console.error("Expenses fetch error:", err);
       setError("Giderler yüklenirken hata oluştu.");
@@ -173,21 +185,43 @@ export function useFinans() {
     }
   };
 
-  // Delete Financial Record
+  // Delete Financial Record (Storno)
   const deleteExpense = async (id: string) => {
     try {
       if (supabase) {
-        const { error: delErr } = await supabase!
+        // 1. Fetch original record
+        const { data: orig, error: fetchErr } = await supabase!
           .from("financial_records")
-          .delete()
-          .eq("id", id);
-        if (delErr) throw delErr;
+          .select("*")
+          .eq("id", id)
+          .single();
+        if (fetchErr || !orig) throw fetchErr || new Error("Record not found");
+
+        // 2. Insert reversing record
+        let stornoType = orig.type;
+        if (orig.type === "income") stornoType = "expense";
+        else if (orig.type === "expense") stornoType = "income";
+        
+        const reverseAmount = orig.type === "transfer" ? -Math.abs(Number(orig.amount)) : Number(orig.amount);
+
+        const { error: insErr } = await supabase!
+          .from("financial_records")
+          .insert({
+            type: stornoType,
+            category: orig.category,
+            amount: reverseAmount,
+            description: `[İPTAL / STORNO] ${orig.description}`,
+            payment_method: orig.payment_method,
+            date: new Date().toISOString(),
+          });
+        if (insErr) throw insErr;
+        
         fetchExpenses();
       }
 
       return { success: true };
     } catch (err: unknown) {
-      console.error("Delete expense error:", err);
+      console.error("Storno expense error:", err);
       fetchExpenses();
       return { success: false, error: getErrorMessage(err) };
     }
@@ -246,6 +280,44 @@ export function useFinans() {
           createdAt: d.created_at,
         });
       }
+    });
+
+    // 1.5 Map account_transactions (Cari Tahsilat / Ödeme)
+    rawCariTx.forEach((tx) => {
+      // If it's a devir (opening balance), it doesn't affect Kasa
+      const descLower = (tx.description || "").toLowerCase();
+      if (descLower.includes("devir") || descLower.includes("açılış")) return;
+
+      // We only care about transactions that have a payment_method (i.e. they touched the Kasa)
+      // "nakit", "banka_havale", "pos"
+      if (!tx.payment_method || tx.payment_method === "diger") return;
+
+      const dateStr = tx.date ? new Date(tx.date).toISOString().split("T")[0] : new Date().toISOString().split("T")[0];
+      const amt = Number(tx.amount) || 0;
+      const isExpenseAccount = tx.current_accounts?.type === "gider" || (tx.current_accounts?.name || "").toLowerCase().includes("gider");
+
+      let type: "in" | "out" = "in";
+      let title = "";
+      
+      if (tx.type === "credit") {
+        type = isExpenseAccount ? "out" : "in"; // Tahsilat (in) veya Gider ödemesi (out)
+        title = isExpenseAccount ? `Cari Ödeme - ${tx.current_accounts?.name || ""}` : `Cari Tahsilat - ${tx.current_accounts?.name || ""}`;
+      } else if (tx.type === "debt") {
+        type = isExpenseAccount ? "in" : "out"; // Gider hesabından iade (in) veya Müşteriye borç verme (out)
+        title = isExpenseAccount ? `Gider İade - ${tx.current_accounts?.name || ""}` : `Müşteri Ödeme - ${tx.current_accounts?.name || ""}`;
+      }
+
+      movements.push({
+        id: `tx_${tx.id}`,
+        type: type,
+        account: tx.payment_method as CashAccountType,
+        amount: amt,
+        title: title + (tx.description ? ` (${tx.description})` : ""),
+        category: type === "in" ? "cari_tahsilat" : "cari_odeme",
+        date: dateStr,
+        relatedSource: type === "in" ? "cari_tahsilat" : "cari_odeme",
+        createdAt: tx.created_at,
+      });
     });
 
     // 2. Map delivered orders that haven't been manually recorded

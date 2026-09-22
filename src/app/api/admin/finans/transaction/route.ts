@@ -14,10 +14,10 @@ export async function POST(req: Request) {
       return NextResponse.json({ success: false, error: "Supabase unconfigured" }, { status: 500 });
     }
 
-    // 1. Fetch current account
+    // 1. Fetch current account to check type
     const { data: targetCari, error: cariErr } = await supabase
       .from("current_accounts")
-      .select("*")
+      .select("type, name")
       .eq("id", cariId)
       .single();
 
@@ -37,8 +37,6 @@ export async function POST(req: Request) {
       balanceDelta = isExpenseAccount ? -parsedAmount : parsedAmount;
     }
 
-    const newBalance = Number(targetCari.balance || 0) + balanceDelta;
-
     // 2. Insert Transaction
     const { error: txErr } = await supabase.from("account_transactions").insert({
       account_id: cariId,
@@ -52,13 +50,17 @@ export async function POST(req: Request) {
 
     if (txErr) throw txErr;
 
-    // 3. Update Balance
-    const { error: updErr } = await supabase
-      .from("current_accounts")
-      .update({ balance: newBalance, updated_at: new Date().toISOString() })
-      .eq("id", cariId);
+    // 3. Update Balance Safely via RPC
+    const { data: newBalance, error: updErr } = await supabase
+      .rpc("adjust_cari_balance", { 
+        p_account_id: cariId, 
+        p_delta: balanceDelta 
+      });
 
-    if (updErr) throw updErr;
+    if (updErr) {
+      console.error("RPC Error:", updErr);
+      throw new Error("Bakiye güncellenemedi: " + updErr.message);
+    }
 
     return NextResponse.json({ success: true, newBalance });
   } catch (error: any) {

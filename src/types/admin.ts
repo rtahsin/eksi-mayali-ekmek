@@ -86,11 +86,12 @@ export interface CariTransaction {
   id: string;
   cariId: string;
   date: string; // YYYY-MM-DD
-  type: "satis" | "tahsilat" | "odeme" | "devir"; // satis: sipariş verildi (borç yazıldı), tahsilat: ödeme alındı (alacak düştü), odeme: para ödendi (gider/tedarikçi), devir: açılış/düzeltme devri
+  type: "satis" | "tahsilat" | "odeme" | "devir" | "storno"; // satis: sipariş verildi (borç yazıldı), tahsilat: ödeme alındı (alacak düştü), odeme: para ödendi (gider/tedarikçi), devir: açılış/düzeltme devri, storno: ters kayıt
   amount: number;
   description: string;
   paymentMethod?: "nakit" | "banka_havale" | "kredi_karti" | "diger";
   orderId?: string;
+  relatedOrderId?: string;
   slipNumber?: string; // FİŞ-2609-001 veya Belge No
   balanceAfter?: number; // İşlem sonrası yürüyen bakiye
   createdAt?: any;

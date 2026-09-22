@@ -76,7 +76,8 @@ export function CartDrawer() {
 
           // Reverse geocode via OpenStreetMap Nominatim
           const res = await fetch(
-            `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}&zoom=18&addressdetails=1`
+            `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}&zoom=18&addressdetails=1`,
+            { headers: { "Accept-Language": "tr-TR", "User-Agent": "EkmekLab-App" } }
           );
 
           if (res.ok) {
@@ -122,9 +123,12 @@ export function CartDrawer() {
               ...(matchedNeighborhood ? { neighborhood: matchedNeighborhood } : {}),
               addressDetail: newDetail,
             });
+          } else {
+             setLocateError("Adres servisi yanıt vermedi. Lütfen elle giriniz.");
           }
         } catch (err) {
           console.warn("Location reverse geocode error:", err);
+          setLocateError("Konum servisine erişilemedi. Lütfen elle giriniz.");
         } finally {
           setLocating(false);
         }
@@ -132,13 +136,13 @@ export function CartDrawer() {
       (error) => {
         setLocating(false);
         if (error.code === error.PERMISSION_DENIED) {
-          setLocateError("Konum izni verilmedi. Lütfen adresinizi yazarak giriniz.");
+          setLocateError("Konum izni reddedildi. Lütfen adresinizi elle giriniz.");
         } else {
-          setLocateError("Konum belirlenemedi. Lütfen adresinizi yazarak giriniz.");
+          setLocateError("Konum alınamadı (GPS kapalı veya sinyal yok). Lütfen elle giriniz.");
         }
-        setTimeout(() => setLocateError(null), 4000);
+        setTimeout(() => setLocateError(null), 5000);
       },
-      { timeout: 10000, enableHighAccuracy: true }
+      { timeout: 15000, maximumAge: 0, enableHighAccuracy: true }
     );
   };
 

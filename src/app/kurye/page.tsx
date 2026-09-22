@@ -27,6 +27,7 @@ import {
 import { useAdminOrders } from "@/hooks/useAdminOrders";
 import { createClient, isSupabaseConfigured } from "@/lib/supabase/client";
 import { AdminOrder } from "@/types/admin";
+import { MobileBottomNav } from "@/components/admin/MobileBottomNav";
 
 function extractCoordinates(address?: string): { lat: string; lon: string } | null {
   if (!address) return null;
@@ -662,7 +663,7 @@ export default function CourierMobileConsolePage() {
 
         {/* Bottom Shift Summary Button */}
         {courierOrders.length > 0 && (
-          <div className="pt-4">
+          <div className="pt-4 pb-20">
             <button
               type="button"
               onClick={handleShareShiftWhatsApp}
@@ -674,6 +675,9 @@ export default function CourierMobileConsolePage() {
           </div>
         )}
       </main>
+      
+      {/* Admin navigation bar so users don't get trapped */}
+      <MobileBottomNav onOpenSidebar={() => {}} pendingOrderCount={0} />
     </div>
   );
 }
