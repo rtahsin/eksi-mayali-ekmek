@@ -43,7 +43,7 @@ export default function CariDetailPage() {
   const router = useRouter();
   const cariId = params?.id as string;
 
-  const { addTransaction, setManualBalance, deleteTransaction } = useCariler();
+  const { addTransaction, setManualBalance, deleteTransaction, updateCari } = useCariler();
   const { addIncome, addExpense } = useFinans();
   const { products } = useProducts("all");
   const { createManualOrder } = useAdminOrders();
@@ -86,6 +86,54 @@ export default function CariDetailPage() {
   const [newBalanceInput, setNewBalanceInput] = useState<number>(0);
   const [balanceAdjustReason, setBalanceAdjustReason] = useState<string>("");
   const [balanceAdjustSubmitting, setBalanceAdjustSubmitting] = useState(false);
+
+  // Custom Price Modal
+  const [customPriceModalOpen, setCustomPriceModalOpen] = useState(false);
+  const [selectedProductForPrice, setSelectedProductForPrice] = useState<string>("");
+  const [customPriceInput, setCustomPriceInput] = useState<number | "">("");
+  const [customPriceSubmitting, setCustomPriceSubmitting] = useState(false);
+
+  const handleOpenCustomPriceModal = (prodId?: string, currentPrice?: number) => {
+    if (prodId) {
+      setSelectedProductForPrice(prodId);
+      setCustomPriceInput(currentPrice ?? "");
+    } else {
+      setSelectedProductForPrice(products.length > 0 ? products[0].id : (INITIAL_PRODUCTS[0]?.id || ""));
+      setCustomPriceInput("");
+    }
+    setCustomPriceModalOpen(true);
+  };
+
+  const handleSaveCustomPrice = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!cari || !selectedProductForPrice || customPriceInput === "") return;
+    
+    setCustomPriceSubmitting(true);
+    const updatedPrices = { ...cari.customPrices, [selectedProductForPrice]: Number(customPriceInput) };
+    const res = await updateCari(cari.id, { customPrices: updatedPrices });
+    
+    if (res.success) {
+      setCari(prev => prev ? { ...prev, customPrices: updatedPrices } : null);
+      setCustomPriceModalOpen(false);
+    } else {
+      alert("Özel fiyat kaydedilirken hata oluştu: " + res.error);
+    }
+    setCustomPriceSubmitting(false);
+  };
+
+  const handleDeleteCustomPrice = async (prodId: string) => {
+    if (!cari || !window.confirm("Bu özel fiyatı silmek istediğinize emin misiniz?")) return;
+    
+    const updatedPrices = { ...cari.customPrices };
+    delete updatedPrices[prodId];
+    
+    const res = await updateCari(cari.id, { customPrices: updatedPrices });
+    if (res.success) {
+      setCari(prev => prev ? { ...prev, customPrices: updatedPrices } : null);
+    } else {
+      alert("Özel fiyat silinirken hata oluştu: " + res.error);
+    }
+  };
 
   const openBalanceAdjustModal = () => {
     if (!cari) return;
@@ -1032,7 +1080,7 @@ export default function CariDetailPage() {
       {/* TAB 2: Anlaşmalı Fiyatlar */}
       {activeTab === "fiyatlar" && (
         <div className="bg-stone-900/70 border border-stone-800 rounded-2xl p-6 shadow-xl space-y-4">
-          <div className="flex items-center justify-between">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div>
               <h3 className="text-base font-bold text-stone-100 font-serif">
                 {cari.businessName} Özel Fiyat Tarifesi
@@ -1041,6 +1089,13 @@ export default function CariDetailPage() {
                 Bu müşteriye özel fiş kesildiğinde otomatik olarak uygulanan toptan birim fiyatlar.
               </p>
             </div>
+            <button
+              onClick={() => handleOpenCustomPriceModal()}
+              className="flex items-center gap-1.5 px-3 py-1.5 bg-amber-500 hover:bg-amber-400 text-stone-950 font-bold rounded-lg text-xs transition-colors shrink-0"
+            >
+              <Plus className="w-3.5 h-3.5" />
+              <span>Yeni Fiyat Ekle</span>
+            </button>
           </div>
 
           {customPricesList.length === 0 ? (
@@ -1073,10 +1128,26 @@ export default function CariDetailPage() {
                         {customPrice} ₺
                       </div>
                       {diff > 0 && (
-                        <div className="text-[10px] text-emerald-400 font-semibold">
+                        <div className="text-[10px] text-emerald-400 font-semibold mb-1.5">
                           %{Math.round((diff / retailPrice) * 100)} İskonto
                         </div>
                       )}
+                      <div className="flex items-center justify-end gap-1 mt-1">
+                        <button
+                          onClick={() => handleOpenCustomPriceModal(prodId, customPrice)}
+                          className="p-1 rounded text-stone-400 hover:text-amber-400 hover:bg-stone-800 transition-colors"
+                          title="Düzenle"
+                        >
+                          <FileText className="w-3.5 h-3.5" />
+                        </button>
+                        <button
+                          onClick={() => handleDeleteCustomPrice(prodId)}
+                          className="p-1 rounded text-stone-400 hover:text-rose-400 hover:bg-stone-800 transition-colors"
+                          title="Sil"
+                        >
+                          <Trash2 className="w-3.5 h-3.5" />
+                        </button>
+                      </div>
                     </div>
                   </div>
                 );
@@ -1599,6 +1670,77 @@ export default function CariDetailPage() {
                 >
                   <CheckCircle2 className="w-4 h-4" />
                   <span>{balanceAdjustSubmitting ? "Güncelleniyor..." : "Bakiyeyi Güncelle"}</span>
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* MODAL 5: CUSTOM PRICE MODAL */}
+      {customPriceModalOpen && cari && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
+          <div className="bg-stone-900 border border-stone-800 w-full max-w-md rounded-2xl shadow-2xl overflow-hidden">
+            <div className="flex items-center justify-between p-5 border-b border-stone-800 bg-stone-950/60">
+              <div className="flex items-center gap-2">
+                <Tag className="w-5 h-5 text-amber-500" />
+                <h3 className="font-bold text-stone-100 font-serif text-base">
+                  Özel Fiyat Tanımla
+                </h3>
+              </div>
+              <button
+                onClick={() => setCustomPriceModalOpen(false)}
+                className="p-1 rounded-lg text-stone-400 hover:text-white hover:bg-stone-800"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            <form onSubmit={handleSaveCustomPrice} className="p-6 space-y-4">
+              <div className="space-y-1">
+                <label className="text-xs font-semibold text-stone-300">Ürün Seçin</label>
+                <select
+                  required
+                  value={selectedProductForPrice}
+                  onChange={(e) => setSelectedProductForPrice(e.target.value)}
+                  className="w-full bg-stone-950 border border-stone-800 rounded-xl px-3 py-2 text-sm text-stone-100 focus:outline-none focus:border-amber-500"
+                >
+                  <option value="" disabled>Ürün seçiniz...</option>
+                  {activeProducts.map(p => (
+                    <option key={p.id} value={p.id}>{p.name} (Perakende: {p.price} ₺)</option>
+                  ))}
+                </select>
+              </div>
+
+              <div className="space-y-1">
+                <label className="text-xs font-semibold text-stone-300">Özel Toptan Birim Fiyatı (₺)</label>
+                <input
+                  type="number"
+                  required
+                  min="0"
+                  step="0.01"
+                  value={customPriceInput}
+                  onChange={(e) => setCustomPriceInput(e.target.value === "" ? "" : Number(e.target.value))}
+                  placeholder="Örn: 90"
+                  className="w-full bg-stone-950 border border-stone-800 rounded-xl px-3 py-2 text-lg font-bold font-mono text-amber-400 focus:outline-none focus:border-amber-500"
+                />
+              </div>
+
+              <div className="flex items-center justify-end gap-3 pt-3 border-t border-stone-800">
+                <button
+                  type="button"
+                  onClick={() => setCustomPriceModalOpen(false)}
+                  className="px-4 py-2 bg-stone-800 hover:bg-stone-700 text-stone-300 rounded-xl text-xs font-semibold"
+                >
+                  Vazgeç
+                </button>
+                <button
+                  type="submit"
+                  disabled={customPriceSubmitting || !selectedProductForPrice || customPriceInput === ""}
+                  className="flex items-center gap-2 px-5 py-2 bg-amber-500 hover:bg-amber-400 text-stone-950 font-bold rounded-xl text-xs transition-all shadow-lg shadow-amber-500/20 disabled:opacity-50"
+                >
+                  <CheckCircle2 className="w-4 h-4" />
+                  <span>{customPriceSubmitting ? "Kaydediliyor..." : "Kaydet"}</span>
                 </button>
               </div>
             </form>
