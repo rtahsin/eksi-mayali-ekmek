@@ -257,244 +257,195 @@ export default function PublicReceiptPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#120E0B] text-stone-100 py-6 sm:py-12 px-3 sm:px-6">
-      <div className="max-w-xl mx-auto space-y-6">
+    <div className="min-h-screen bg-[#0A0806] text-stone-100 py-6 sm:py-12 px-3 flex flex-col items-center">
+      
+      {/* 
+        This is the main screenshot area. 
+        We use a specific width and premium dark aesthetic. 
+      */}
+      <div id="receipt-card" className="w-full max-w-md relative pb-10 mt-4">
         
-        {/* Brand Header */}
-        <div className="text-center space-y-2">
-          <Link href="/" className="inline-flex items-center gap-2.5 group">
-            <div className="w-10 h-10 rounded-full bg-[#F7EBD3] p-1.5 flex items-center justify-center shadow-lg">
-              <img src="/logo/logo_mark.png" alt="EkmekLab" className="w-full h-full object-contain" />
-            </div>
-            <div className="text-left">
-              <div className="font-serif text-xl font-bold text-stone-100 leading-none">
-                Ekmek<span className="text-amber-400 italic">Lab</span>
-              </div>
-              <div className="text-[9px] font-mono tracking-widest text-amber-400/80 uppercase mt-0.5">
-                Taş Fırın & Ekşi Maya
-              </div>
-            </div>
-          </Link>
-          <div className="text-xs text-stone-400 font-sans">
-            Resmi Dijital Teslimat & Cari Bakiye Fişi
-          </div>
-        </div>
+        {/* Glow effect behind the card */}
+        <div className="absolute inset-0 bg-artisan-gold/10 blur-[80px] rounded-[40px] pointer-events-none" />
 
-        {/* Main Digital Slip Card */}
-        <div className="bg-stone-900/90 border border-stone-800 rounded-3xl p-5 sm:p-7 shadow-2xl space-y-6 relative overflow-hidden backdrop-blur-sm">
+        <div className="relative bg-[#120E0B] border border-[#261E17] rounded-3xl overflow-hidden shadow-2xl">
           
-          {/* Top Status & Date Banner */}
-          <div className="flex items-start justify-between border-b border-stone-800 pb-4">
-            <div className="space-y-1">
-              <div className="flex items-center gap-2">
-                <span className="text-xs font-bold text-amber-400 uppercase tracking-wider">
-                  Teslimat Fişi
-                </span>
-                <span className="px-2 py-0.5 rounded-full text-[10px] font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
-                  Teslim Edildi
-                </span>
+          {/* Top Decorative Lip (Perforated/Gradient style) */}
+          <div className="h-2 w-full bg-gradient-to-r from-artisan-terracotta via-amber-500 to-emerald-500" />
+          
+          <div className="p-6 sm:p-8 space-y-7">
+            {/* Header: Logo & Brand */}
+            <div className="flex flex-col items-center text-center space-y-3">
+              <div className="w-16 h-16 rounded-full bg-[#F7EBD3] p-2 flex items-center justify-center shadow-[0_0_20px_rgba(245,158,11,0.2)]">
+                <img src="/logo/logo_mark.png" alt="EkmekLab" className="w-full h-full object-contain" />
               </div>
-              <div className="text-xs text-stone-400 font-mono">
-                Fiş #{slip.orderNumber}
+              <div>
+                <div className="font-serif text-2xl font-bold text-stone-100 leading-none">
+                  Ekmek<span className="text-amber-400 italic">Lab</span>
+                </div>
+                <div className="text-[10px] font-mono tracking-widest text-amber-400/80 uppercase mt-1">
+                  Resmi Dijital Fiş
+                </div>
               </div>
             </div>
 
-            <div className="text-right space-y-0.5">
-              <div className="text-xs font-semibold text-stone-200 font-mono">
-                {slip.date}
+            {/* Receipt Meta (Date & No) */}
+            <div className="flex items-end justify-between border-b border-stone-800/80 pb-4">
+              <div className="space-y-0.5">
+                <div className="text-[10px] text-stone-500 font-mono uppercase tracking-widest">Tarih / Saat</div>
+                <div className="text-xs font-semibold text-stone-200 font-mono">
+                  {slip.date} <span className="text-stone-600">|</span> {slip.timeWindow || "14:00-18:00"}
+                </div>
               </div>
-              <div className="text-[11px] text-stone-500">
-                {slip.timeWindow || "14:00 - 18:00"}
+              <div className="text-right space-y-0.5">
+                <div className="text-[10px] text-stone-500 font-mono uppercase tracking-widest">Fiş No</div>
+                <div className="text-xs font-semibold text-amber-400 font-mono">
+                  #{slip.orderNumber}
+                </div>
               </div>
             </div>
-          </div>
 
-          {/* Customer / Corporate Info */}
-          <div className="p-4 rounded-2xl bg-stone-950/70 border border-stone-800 space-y-2">
-            <div className="flex items-center justify-between">
+            {/* Customer Info */}
+            <div className="space-y-2">
               <div className="flex items-center gap-2">
                 <Building2 className="w-4 h-4 text-amber-500" />
-                <h2 className="text-base font-bold text-stone-100 font-serif">
+                <h2 className="text-lg font-bold text-stone-100 font-serif leading-tight">
                   {slip.businessName}
                 </h2>
               </div>
-              {slip.taxNumber && (
-                <span className="text-[11px] text-stone-400 font-mono">
-                  VN: {slip.taxNumber}
-                </span>
-              )}
-            </div>
-
-            <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-stone-400">
-              {slip.phone && (
-                <span className="font-mono text-stone-300">📞 {slip.phone}</span>
-              )}
-              {slip.neighborhood && (
-                <span>📍 {slip.neighborhood}</span>
-              )}
-            </div>
-
-            {slip.address && (
-              <div className="text-[11px] text-stone-500 line-clamp-2 pt-0.5 border-t border-stone-800/60">
-                {slip.address}
+              
+              <div className="grid grid-cols-2 gap-2 text-[11px] text-stone-400 font-mono pl-6">
+                {slip.phone && <div>📞 {slip.phone}</div>}
+                {slip.taxNumber && <div>VN: {slip.taxNumber}</div>}
               </div>
-            )}
-          </div>
-
-          {/* Delivered Items List */}
-          <div className="space-y-3">
-            <div className="flex items-center justify-between text-xs font-bold text-stone-400 uppercase tracking-wider">
-              <span>Teslim Edilen Ürünler</span>
-              <span>Tutar</span>
+              {slip.address && (
+                <div className="pl-6 text-[11px] text-stone-500 leading-relaxed pt-1">
+                  📍 {slip.address}
+                </div>
+              )}
             </div>
 
-            <div className="divide-y divide-stone-800/60 rounded-2xl bg-stone-950/40 border border-stone-800/80 p-3.5 space-y-2.5">
-              {slip.items.map((it, idx) => (
-                <div key={idx} className="pt-2.5 first:pt-0 flex items-center justify-between text-xs">
-                  <div className="space-y-0.5 pr-2">
-                    <div className="font-semibold text-stone-200">
-                      <span className="font-bold text-amber-400 font-mono mr-1.5">{it.quantity}x</span>
-                      {it.name}
-                      {it.weight ? ` (${it.weight}g)` : ""}
+            {/* Dashed Separator */}
+            <div className="w-full border-t-2 border-dashed border-stone-800" />
+
+            {/* Items */}
+            <div className="space-y-3">
+              <div className="flex items-center justify-between text-[10px] font-bold text-stone-500 font-mono uppercase tracking-widest">
+                <span>Ürünler</span>
+                <span>Tutar</span>
+              </div>
+
+              <div className="space-y-3">
+                {slip.items.map((it, idx) => (
+                  <div key={idx} className="flex items-start justify-between text-sm">
+                    <div className="pr-2 leading-tight">
+                      <span className="font-bold text-amber-400 font-mono mr-2">{it.quantity}x</span>
+                      <span className="text-stone-200 font-medium">{it.name}</span>
+                      {it.weight && <span className="text-stone-500 text-xs ml-1">({it.weight}g)</span>}
+                      <div className="text-[11px] text-stone-500 font-mono mt-0.5 ml-6">
+                        Birim: {it.unitPrice.toLocaleString("tr-TR")} ₺
+                      </div>
                     </div>
-                    <div className="text-[11px] text-stone-500 font-mono">
-                      Birim Toptan: {it.unitPrice} ₺
+                    <div className="font-mono font-bold text-stone-100 shrink-0">
+                      {it.totalPrice.toLocaleString("tr-TR")} ₺
                     </div>
                   </div>
-
-                  <div className="font-mono font-bold text-stone-100 text-sm shrink-0">
-                    {it.totalPrice.toLocaleString("tr-TR")} ₺
-                  </div>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
 
-            {/* This Slip Total */}
-            <div className="flex items-center justify-between pt-2 px-1 text-xs">
-              <span className="font-semibold text-stone-300">Bu Fişin Toplamı:</span>
-              <span className="font-mono font-bold text-amber-400 text-lg">
-                {slip.totalAmount.toLocaleString("tr-TR")} ₺
-              </span>
-            </div>
-          </div>
+            {/* Dashed Separator */}
+            <div className="w-full border-t-2 border-dashed border-stone-800" />
 
-          {/* Cari Balance Status Card */}
-          <div className="p-4 sm:p-5 rounded-2xl bg-gradient-to-br from-stone-950 via-stone-900 to-amber-950/30 border border-amber-500/30 space-y-4 shadow-lg">
-            <div className="flex items-center justify-between border-b border-stone-800 pb-2.5">
-              <div className="flex items-center gap-2">
-                <TrendingUp className="w-4 h-4 text-amber-500" />
-                <span className="text-xs font-bold text-stone-200 uppercase tracking-wider">
-                  Cari Hesap Durumu
+            {/* Totals & Balance (The climax of the receipt) */}
+            <div className="bg-[#1A1410] -mx-6 px-6 py-5 space-y-4">
+              
+              {/* This Slip Total */}
+              <div className="flex items-center justify-between">
+                <span className="text-sm font-semibold text-stone-300">Bu Fişin Toplamı:</span>
+                <span className="font-mono font-bold text-amber-400 text-2xl">
+                  {slip.totalAmount.toLocaleString("tr-TR")} ₺
                 </span>
               </div>
-              <span className="text-[11px] text-amber-400/90 font-medium">
-                Canlı Bakiye
-              </span>
-            </div>
 
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 text-center">
-              <div className="p-2.5 rounded-xl bg-stone-900/90 border border-stone-800">
-                <div className="text-[10px] text-stone-400">Önceki Bakiye</div>
-                <div className="text-sm font-bold font-mono text-stone-300 mt-0.5">
-                  {(slip.previousBalance || 0).toLocaleString("tr-TR")} ₺
-                </div>
-              </div>
+              <div className="w-full h-px bg-gradient-to-r from-transparent via-stone-700 to-transparent opacity-50" />
 
-              <div className="p-2.5 rounded-xl bg-amber-500/10 border border-amber-500/20">
-                <div className="text-[10px] text-amber-400">(+) Bu Fiş</div>
-                <div className="text-sm font-bold font-mono text-amber-400 mt-0.5">
-                  +{slip.totalAmount.toLocaleString("tr-TR")} ₺
-                </div>
-              </div>
-
-              <div className="p-2.5 rounded-xl bg-emerald-500/10 border border-emerald-500/20">
-                <div className="text-[10px] text-emerald-400">(-) Yapılan Ödeme</div>
-                <div className="text-sm font-bold font-mono text-emerald-400 mt-0.5">
-                  -{(slip.paidAmount || 0).toLocaleString("tr-TR")} ₺
-                </div>
-              </div>
-
-              <div className="p-2.5 rounded-xl bg-stone-950 border border-amber-500/40">
-                <div className="text-[10px] text-stone-300 font-bold">(=) Kalan Bakiye</div>
-                <div className="text-sm font-bold font-mono text-amber-400 mt-0.5">
+              {/* Balance Mini-Table */}
+              <div className="grid grid-cols-2 gap-y-2 text-xs">
+                <div className="text-stone-400">Önceki Bakiye:</div>
+                <div className="text-right font-mono text-stone-300">{(slip.previousBalance || 0).toLocaleString("tr-TR")} ₺</div>
+                
+                <div className="text-stone-400">Yapılan Ödeme:</div>
+                <div className="text-right font-mono text-emerald-400">-{(slip.paidAmount || 0).toLocaleString("tr-TR")} ₺</div>
+                
+                <div className="text-stone-200 font-bold mt-1 pt-1 border-t border-stone-800">GÜNCEL BAKİYE:</div>
+                <div className="text-right font-mono font-bold text-amber-400 text-base mt-1 pt-1 border-t border-stone-800">
                   {(slip.newBalance || slip.totalAmount).toLocaleString("tr-TR")} ₺
                 </div>
               </div>
             </div>
 
-            <div className="text-[11px] text-stone-400 text-center italic">
-              Bu fiş EkmekLab Taş Fırın atölye kayıtlarıyla anlık senkronizedir.
-            </div>
-          </div>
-
-          {/* Past Deliveries & Payments History */}
-          {slip.history && slip.history.length > 0 && (
-            <div className="p-4 rounded-2xl bg-stone-950/70 border border-stone-800 space-y-3">
-              <div className="flex items-center justify-between border-b border-stone-800/80 pb-2">
-                <div className="flex items-center gap-2">
-                  <Clock className="w-4 h-4 text-amber-500" />
-                  <span className="text-xs font-bold text-stone-200 uppercase tracking-wider">
-                    Önceki Teslimatlar & Ödemeler
-                  </span>
+            {/* History (Optional, compact) */}
+            {slip.history && slip.history.length > 0 && (
+              <div className="pt-2">
+                <div className="text-[10px] font-bold text-stone-500 font-mono uppercase tracking-widest mb-2">
+                  Son Hareketler (Özet)
                 </div>
-                <span className="text-[10px] text-stone-500 font-medium">Son {slip.history.length} Hareket</span>
-              </div>
-
-              <div className="divide-y divide-stone-800/60 text-xs space-y-2">
-                {slip.history.map((h) => {
-                  const isDelivery = h.type === "debt";
-                  return (
-                    <div key={h.id} className="pt-2 first:pt-0 flex items-center justify-between">
-                      <div className="space-y-0.5 pr-2">
-                        <div className="text-stone-300 font-medium line-clamp-1">{h.description}</div>
-                        <div className="text-[10px] text-stone-500 font-mono">{h.date}</div>
-                      </div>
-                      <div className={`font-mono font-bold shrink-0 ${isDelivery ? "text-amber-400" : "text-emerald-400"}`}>
-                        {isDelivery ? `+${h.amount.toLocaleString("tr-TR")} ₺` : `-${h.amount.toLocaleString("tr-TR")} ₺`}
-                      </div>
+                <div className="space-y-1.5 opacity-70">
+                  {slip.history.slice(0, 3).map((h) => (
+                    <div key={h.id} className="flex items-center justify-between text-[10px] font-mono">
+                      <span className="text-stone-400 truncate pr-2">{h.date} - {h.description}</span>
+                      <span className={h.type === "debt" ? "text-amber-400 font-bold" : "text-emerald-400 font-bold"}>
+                        {h.type === "debt" ? "+" : "-"}{h.amount.toLocaleString("tr-TR")}
+                      </span>
                     </div>
-                  );
-                })}
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Footer / Stamp */}
+            <div className="pt-6 pb-2 text-center relative flex flex-col items-center">
+              {/* Optional: Add a subtle 'TESLİM EDİLDİ' watermark if status matches */}
+              {slip.status === "teslim_edildi" && (
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 -rotate-12 opacity-10 pointer-events-none">
+                  <div className="border-4 border-emerald-500 text-emerald-500 text-4xl font-black p-2 tracking-widest">
+                    TESLİM
+                  </div>
+                </div>
+              )}
+              
+              <div className="text-[10px] text-stone-500 font-mono space-y-1">
+                <div>EkmekLab Zanaatkar Fırın</div>
+                <div>36 Saat Soğuk Fermantasyon</div>
+                <div>Afiyet şifa olsun.</div>
               </div>
             </div>
-          )}
 
-          {/* Bakery Contact & Quick Actions */}
-          <div className="pt-2 flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5">
-            <a
-              href="https://wa.me/905306389773?text=Merhaba%2C%20EkmekLab%20teslimat%20fi%C5%9Fimizle%20ilgili%20yaz%C4%B1yorum."
-              target="_blank"
-              rel="noreferrer"
-              className="flex-1 flex items-center justify-center gap-2 py-3 px-4 bg-emerald-600 hover:bg-emerald-500 text-white font-bold rounded-xl text-xs transition-all shadow-lg shadow-emerald-600/20 active:scale-95"
-            >
-              <MessageCircle className="w-4 h-4" />
-              <span>Fırına WhatsApp'tan Yaz</span>
-            </a>
-
-            <a
-              href="tel:05306389773"
-              className="flex items-center justify-center gap-2 py-3 px-4 bg-stone-800 hover:bg-stone-700 text-stone-200 font-semibold rounded-xl text-xs border border-stone-700 transition-all active:scale-95"
-            >
-              <Phone className="w-4 h-4 text-amber-400" />
-              <span>Fırını Ara</span>
-            </a>
-
-            <button
-              onClick={handleCopyLink}
-              className="p-3 bg-stone-800 hover:bg-stone-700 text-stone-300 rounded-xl text-xs border border-stone-700 transition-all active:scale-95 flex items-center justify-center gap-1.5"
-              title="Fiş Linkini Kopyala"
-            >
-              {copied ? <Check className="w-4 h-4 text-emerald-400" /> : <Copy className="w-4 h-4" />}
-              <span className="sm:hidden text-xs font-semibold">{copied ? "Kopyalandı" : "Linki Kopyala"}</span>
-            </button>
-          </div>
-
-          {/* Footer Note */}
-          <div className="text-center pt-3 border-t border-stone-800/80 text-[10px] text-stone-500 space-y-1">
-            <div>36 saat soğuk fermantasyonlu ekşi mayalı taş fırın ekmekleri.</div>
-            <div className="font-semibold text-stone-400">EkmekLab Zanaatkar Fırın • Beylikdüzü, İstanbul</div>
           </div>
         </div>
+
+        {/* Action Buttons (Outside the card, so they can screenshot just the card above) */}
+        <div className="mt-8 flex flex-col sm:flex-row gap-3">
+          <button
+            onClick={handleCopyLink}
+            className="flex-1 flex items-center justify-center gap-2 p-3.5 bg-stone-900 hover:bg-stone-800 text-stone-200 font-bold rounded-2xl text-sm border border-stone-800 transition-all active:scale-95"
+          >
+            {copied ? <Check className="w-5 h-5 text-emerald-400" /> : <Copy className="w-5 h-5 text-amber-400" />}
+            <span>{copied ? "Link Kopyalandı" : "Fiş Linkini Kopyala"}</span>
+          </button>
+          
+          <a
+            href="https://wa.me/905306389773?text=Merhaba%2C%20EkmekLab%20teslimat%20fi%C5%9Fimizle%20ilgili%20yaz%C4%B1yorum."
+            target="_blank"
+            rel="noreferrer"
+            className="flex-1 flex items-center justify-center gap-2 p-3.5 bg-[#121E15] hover:bg-[#16261A] text-emerald-400 font-bold rounded-2xl text-sm border border-emerald-900/50 transition-all active:scale-95"
+          >
+            <MessageCircle className="w-5 h-5" />
+            <span>Fırına Yaz</span>
+          </a>
+        </div>
+
       </div>
     </div>
   );
