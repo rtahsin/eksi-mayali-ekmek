@@ -176,6 +176,7 @@ export function useAdminOrders() {
         shipping_fee: shippingFee,
         total_amount: totalAmount,
         order_notes: orderData.orderNotes || "",
+        cari_id: orderData.cariId || null,
       });
 
       if (insErr) throw insErr;

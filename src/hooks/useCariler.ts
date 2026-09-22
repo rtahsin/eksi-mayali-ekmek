@@ -40,6 +40,7 @@ export function useCariler() {
             taxOffice: "",
             balance: Number(d.balance) || 0,
             accountType: isExpense ? "gider" : "musteri",
+            customPrices: d.custom_prices || {},
             notes: d.status || "",
             createdAt: d.created_at,
             updatedAt: d.updated_at,
@@ -107,6 +108,7 @@ export function useCariler() {
           balance: balance,
           credit_limit: 0,
           status: "active",
+          custom_prices: data.customPrices || {},
         });
         if (insErr) throw insErr;
 
@@ -163,6 +165,8 @@ export function useCariler() {
         if (data.phone !== undefined) updatePayload.phone = data.phone;
         if (data.address !== undefined) updatePayload.address = data.address;
         if (data.taxNumber !== undefined) updatePayload.tax_id = data.taxNumber;
+        if (data.customPrices !== undefined) updatePayload.custom_prices = data.customPrices;
+        if (data.accountType !== undefined) updatePayload.type = data.accountType;
         if (balanceToSet !== undefined) updatePayload.balance = balanceToSet;
 
         const { error: updErr } = await supabase!

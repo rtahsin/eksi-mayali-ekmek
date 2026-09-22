@@ -68,6 +68,7 @@ export default function CariDetailPage() {
   const [slipCustomerAddress, setSlipCustomerAddress] = useState("");
   const [slipQuantities, setSlipQuantities] = useState<Record<string, number>>({});
   const [slipFreeItems, setSlipFreeItems] = useState<Record<string, boolean>>({});
+  const [slipPriceOverrides, setSlipPriceOverrides] = useState<Record<string, number>>({});
   const [slipStaleReturn, setSlipStaleReturn] = useState<number>(0);
   const [slipDiscount, setSlipDiscount] = useState<number>(0);
   const [slipDate, setSlipDate] = useState<string>(new Date().toISOString().split("T")[0]);
@@ -295,6 +296,7 @@ export default function CariDetailPage() {
     }
     setSlipQuantities({});
     setSlipFreeItems({});
+    setSlipPriceOverrides({});
     setSlipStaleReturn(0);
     setSlipDiscount(0);
     setSlipDate(new Date().toISOString().split("T")[0]);
@@ -337,7 +339,9 @@ export default function CariDetailPage() {
         const isFree = Boolean(slipFreeItems[pId]);
         const customPrice = cari?.customPrices?.[pId];
         const normalPrice = customPrice !== undefined ? customPrice : prod.price;
-        const unitPrice = isFree ? 0 : normalPrice;
+        
+        const overridePrice = slipPriceOverrides[pId];
+        const unitPrice = isFree ? 0 : (overridePrice !== undefined ? overridePrice : normalPrice);
 
         return {
           productId: prod.id,

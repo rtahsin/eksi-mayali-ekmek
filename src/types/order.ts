@@ -1,4 +1,4 @@
-export type OrderStatus = "pending" | "processing" | "ready" | "delivered" | "cancelled";
+export type OrderStatus = "onay_bekliyor" | "pending" | "processing" | "ready" | "delivered" | "cancelled";
 export type PaymentMethod = "whatsapp" | "cash_on_delivery" | "credit_card" | "pos_at_door";
 
 export interface OrderItem {
