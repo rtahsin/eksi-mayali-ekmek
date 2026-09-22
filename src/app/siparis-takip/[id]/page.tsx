@@ -42,7 +42,7 @@ interface OrderData {
   subtotal: number;
   shippingFee: number;
   totalAmount: number;
-  status: "bekliyor" | "hazirlaniyor" | "firinda" | "kuryede" | "teslim_edildi" | "iptal";
+  status: "onay_bekliyor" | "bekliyor" | "hazirlaniyor" | "firinda" | "kuryede" | "teslim_edildi" | "iptal";
   paymentMethod: string;
   orderNotes?: string;
   createdAt?: string;
