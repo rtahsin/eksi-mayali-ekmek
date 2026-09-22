@@ -143,7 +143,7 @@ export default function FinansCarilerPage() {
 
       {/* Mobile-Friendly Action Sheet (Bottom Sheet style on mobile, Modal on desktop) */}
       {activeActionSheet && (
-        <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center bg-black/60 backdrop-blur-sm animate-fadeIn">
+        <div className="fixed inset-0 z-[9999] flex items-end sm:items-center justify-center bg-black/60 backdrop-blur-sm animate-fadeIn">
           {/* Backdrop click to close */}
           <div className="absolute inset-0" onClick={() => setActiveActionSheet(null)} />
           
@@ -162,14 +162,14 @@ export default function FinansCarilerPage() {
               {activeActionSheet.accountType !== "gider" && (
                 <>
                   <Link
-                    href={`/admin/cariler/${activeActionSheet.id}?action=fis`}
+                    href={`/admin/finans/cariler/${activeActionSheet.id}?action=fis`}
                     className="flex flex-col items-center justify-center p-4 bg-stone-800/50 hover:bg-artisan-terracotta/20 border border-stone-700 hover:border-artisan-terracotta/50 rounded-2xl transition-all text-center group"
                   >
                     <Receipt className="w-6 h-6 text-artisan-terracotta mb-2 group-hover:scale-110 transition-transform" />
                     <span className="text-xs font-bold text-stone-200">Fiş Kes</span>
                   </Link>
                   <Link
-                    href={`/admin/cariler/${activeActionSheet.id}?action=tahsilat`}
+                    href={`/admin/finans/cariler/${activeActionSheet.id}?action=tahsilat`}
                     className="flex flex-col items-center justify-center p-4 bg-stone-800/50 hover:bg-emerald-500/20 border border-stone-700 hover:border-emerald-500/50 rounded-2xl transition-all text-center group"
                   >
                     <Wallet className="w-6 h-6 text-emerald-400 mb-2 group-hover:scale-110 transition-transform" />
@@ -179,7 +179,7 @@ export default function FinansCarilerPage() {
               )}
               
               <Link
-                href={`/admin/cariler/${activeActionSheet.id}`}
+                href={`/admin/finans/cariler/${activeActionSheet.id}`}
                 className="flex flex-col items-center justify-center p-4 bg-stone-800/50 hover:bg-blue-500/20 border border-stone-700 hover:border-blue-500/50 rounded-2xl transition-all text-center group"
               >
                 <ExternalLink className="w-6 h-6 text-blue-400 mb-2 group-hover:scale-110 transition-transform" />
