@@ -61,6 +61,8 @@ export default function TransactionReceiptModal({ tx, cari, onClose }: Transacti
   const [downloading, setDownloading] = useState(false);
   const [sharing, setSharing] = useState(false);
 
+  const [toastMessage, setToastMessage] = useState<string | null>(null);
+
   const amount = Number(tx.amount) || 0;
   const curBal = Number(cari.balance) || 0;
   let prevBal = 0;
@@ -80,13 +82,13 @@ export default function TransactionReceiptModal({ tx, cari, onClose }: Transacti
       isPositiveDelta = true;
     }
   } else if (tx.type === "satis") {
-    newBal = curBal;
-    prevBal = curBal - amount;
+    newBal = tx.balanceAfter !== undefined ? Number(tx.balanceAfter) : curBal;
+    prevBal = newBal - amount;
     isPositiveDelta = true;
   } else {
     // tahsilat or odeme
-    newBal = curBal;
-    prevBal = curBal + amount;
+    newBal = tx.balanceAfter !== undefined ? Number(tx.balanceAfter) : curBal;
+    prevBal = newBal + amount;
     isPositiveDelta = false;
   }
 
@@ -167,25 +169,39 @@ export default function TransactionReceiptModal({ tx, cari, onClose }: Transacti
 
     try {
       const canvas = await generateCanvas();
-      if (canvas && navigator.share && navigator.canShare) {
-        const blob = await new Promise<Blob | null>((resolve) =>
+      let blob: Blob | null = null;
+      if (canvas) {
+        blob = await new Promise<Blob | null>((resolve) =>
           canvas.toBlob(resolve, "image/png")
         );
-        if (blob) {
-          const file = new File([blob], `EkmekLab_${slipNo}.png`, { type: "image/png" });
-          if (navigator.canShare({ files: [file] })) {
-            await navigator.share({
-              files: [file],
-              title: `EkmekLab Fiş - ${cari.businessName}`,
-              text: text,
-            });
-            setSharing(false);
-            return;
-          }
+      }
+
+      // 1. Mobile Web Share API (Level 2: file + text as caption)
+      if (blob && navigator.share && navigator.canShare) {
+        const file = new File([blob], `EkmekLab_${slipNo}.png`, { type: "image/png" });
+        if (navigator.canShare({ files: [file] })) {
+          await navigator.share({
+            files: [file],
+            text: text,
+          });
+          setSharing(false);
+          return;
         }
       }
 
-      // Fallback: download PNG & open WhatsApp Web
+      // 2. Desktop / Web Fallback:
+      // a) Copy PNG to system clipboard so user can press Ctrl+V in WhatsApp Web
+      if (blob && typeof ClipboardItem !== "undefined" && navigator.clipboard?.write) {
+        try {
+          await navigator.clipboard.write([
+            new ClipboardItem({ "image/png": blob })
+          ]);
+        } catch (clipErr) {
+          console.warn("Clipboard write notice:", clipErr);
+        }
+      }
+
+      // b) Download PNG
       if (canvas) {
         const link = document.createElement("a");
         link.download = `EkmekLab_${slipNo}.png`;
@@ -193,6 +209,7 @@ export default function TransactionReceiptModal({ tx, cari, onClose }: Transacti
         link.click();
       }
 
+      // c) Open WhatsApp with text link
       let phoneClean = (cari.phone || "").replace(/\D/g, "");
       if (phoneClean && !phoneClean.startsWith("90")) {
         phoneClean = phoneClean.startsWith("0") ? `9${phoneClean}` : `90${phoneClean}`;
@@ -203,6 +220,12 @@ export default function TransactionReceiptModal({ tx, cari, onClose }: Transacti
         : `https://api.whatsapp.com/send?text=${encodeURIComponent(text)}`;
 
       window.open(waUrl, "_blank");
+
+      // d) Show helpful feedback to user
+      setToastMessage(
+        "Fiş görseli panoya kopyalandı ve indirildi. WhatsApp açıldığında sohbete Ctrl+V (Yapıştır) yaparak görseli gönderebilirsiniz."
+      );
+      setTimeout(() => setToastMessage(null), 8000);
     } catch (err) {
       console.warn("Share notice:", err);
     } finally {
@@ -392,7 +415,7 @@ export default function TransactionReceiptModal({ tx, cari, onClose }: Transacti
           ) : (
             <>
               <MessageCircle className="w-4 h-4" />
-              <span>WhatsApp İle Paylaş (PNG + Ekstre Linki)</span>
+              <span>WhatsApp İle Paylaş (PNG + Online Fiş)</span>
             </>
           )}
         </button>
@@ -431,6 +454,24 @@ export default function TransactionReceiptModal({ tx, cari, onClose }: Transacti
         </Link>
       </div>
 
+      {/* Floating Toast Notification (especially helpful on Desktop WhatsApp Web) */}
+      {toastMessage && (
+        <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-[10000] bg-stone-900 border border-amber-500/40 text-stone-100 px-4 py-3 rounded-2xl shadow-2xl flex items-center gap-3 text-xs max-w-sm animate-slideUp">
+          <Check className="w-5 h-5 text-amber-400 shrink-0" />
+          <div className="flex-1">
+            <p className="font-bold text-amber-400">Görsel Panoya Kopyalandı & İndirildi</p>
+            <p className="text-[11px] text-stone-300 mt-0.5">
+              WhatsApp açıldığında sohbete <span className="font-mono font-bold bg-stone-800 text-amber-300 px-1 py-0.5 rounded border border-stone-700">Ctrl + V</span> yaparak görseli ve linki birlikte gönderebilirsiniz.
+            </p>
+          </div>
+          <button
+            onClick={() => setToastMessage(null)}
+            className="text-stone-400 hover:text-white p-1"
+          >
+            <X className="w-3.5 h-3.5" />
+          </button>
+        </div>
+      )}
     </div>
   );
 }

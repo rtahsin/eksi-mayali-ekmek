@@ -18,6 +18,7 @@ import {
   ExternalLink,
   Loader2,
   Sparkles,
+  X,
 } from "lucide-react";
 import Link from "next/link";
 import html2canvas from "html2canvas";
@@ -105,6 +106,7 @@ export default function PublicReceiptPage() {
   const [sharing, setSharing] = useState(false);
   const [downloading, setDownloading] = useState(false);
   const [copied, setCopied] = useState(false);
+  const [toastMessage, setToastMessage] = useState<string | null>(null);
 
   useEffect(() => {
     if (!id) return;
@@ -180,25 +182,36 @@ export default function PublicReceiptPage() {
 
     try {
       const canvas = await generateReceiptCanvas();
-      if (canvas && navigator.share && navigator.canShare) {
-        const blob = await new Promise<Blob | null>((resolve) =>
+      let blob: Blob | null = null;
+      if (canvas) {
+        blob = await new Promise<Blob | null>((resolve) =>
           canvas.toBlob(resolve, "image/png")
         );
-        if (blob) {
-          const file = new File([blob], `EkmekLab_${slipNum}.png`, { type: "image/png" });
-          if (navigator.canShare({ files: [file] })) {
-            await navigator.share({
-              files: [file],
-              title: `EkmekLab Teslimat Fişi - ${slip.businessName}`,
-              text: shareCaption,
-            });
-            setSharing(false);
-            return;
-          }
+      }
+
+      if (blob && navigator.share && navigator.canShare) {
+        const file = new File([blob], `EkmekLab_${slipNum}.png`, { type: "image/png" });
+        if (navigator.canShare({ files: [file] })) {
+          await navigator.share({
+            files: [file],
+            text: shareCaption,
+          });
+          setSharing(false);
+          return;
         }
       }
 
-      // Fallback: Download PNG to gallery and open WhatsApp with caption
+      // Fallback: Copy to clipboard, download PNG to gallery and open WhatsApp with caption
+      if (blob && typeof ClipboardItem !== "undefined" && navigator.clipboard?.write) {
+        try {
+          await navigator.clipboard.write([
+            new ClipboardItem({ "image/png": blob })
+          ]);
+        } catch (clipErr) {
+          console.warn("Clipboard write notice:", clipErr);
+        }
+      }
+
       if (canvas) {
         const link = document.createElement("a");
         link.download = `EkmekLab_${slipNum}.png`;
@@ -216,6 +229,11 @@ export default function PublicReceiptPage() {
         : `https://api.whatsapp.com/send?text=${encodeURIComponent(shareCaption)}`;
 
       window.open(waUrl, "_blank");
+
+      setToastMessage(
+        "Fiş görseli panoya kopyalandı ve indirildi. WhatsApp açıldığında sohbete Ctrl+V (Yapıştır) yaparak görseli gönderebilirsiniz."
+      );
+      setTimeout(() => setToastMessage(null), 8000);
     } catch (err) {
       console.warn("Share notice:", err);
     } finally {
@@ -542,6 +560,25 @@ export default function PublicReceiptPage() {
         </div>
 
       </div>
+
+      {/* Floating Toast Notification */}
+      {toastMessage && (
+        <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-[10000] bg-stone-900 border border-amber-500/40 text-stone-100 px-4 py-3 rounded-2xl shadow-2xl flex items-center gap-3 text-xs max-w-sm animate-slideUp">
+          <Check className="w-5 h-5 text-amber-400 shrink-0" />
+          <div className="flex-1">
+            <p className="font-bold text-amber-400">Görsel Panoya Kopyalandı & İndirildi</p>
+            <p className="text-[11px] text-stone-300 mt-0.5">
+              WhatsApp açıldığında sohbete <span className="font-mono font-bold bg-stone-800 text-amber-300 px-1 py-0.5 rounded border border-stone-700">Ctrl + V</span> yaparak görseli ve linki birlikte gönderebilirsiniz.
+            </p>
+          </div>
+          <button
+            onClick={() => setToastMessage(null)}
+            className="text-stone-400 hover:text-white p-1"
+          >
+            <X className="w-3.5 h-3.5" />
+          </button>
+        </div>
+      )}
 
     </div>
   );

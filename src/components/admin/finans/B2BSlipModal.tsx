@@ -15,6 +15,7 @@ import {
 } from "lucide-react";
 import { useCariler } from "@/hooks/useCariler";
 import { useProducts } from "@/hooks/useProducts";
+import { CariTransaction } from "@/types/admin";
 
 interface B2BSlipModalProps {
   cariId: string;
@@ -22,7 +23,7 @@ interface B2BSlipModalProps {
   cariPhone?: string;
   customPrices?: Record<string, number>;
   onClose: () => void;
-  onSuccess?: () => void;
+  onSuccess?: (createdTx?: CariTransaction) => void;
 }
 
 interface SlipItem {
@@ -183,6 +184,19 @@ export default function B2BSlipModal({
         throw new Error(res.error || "Fiş kesilemedi.");
       }
 
+      const createdTx: CariTransaction = {
+        id: res.transactionId || "",
+        cariId: cariId,
+        date: new Date().toISOString().split("T")[0],
+        type: "satis",
+        amount: totalAmount,
+        description: `[${res.slipNumber || "FİŞ"}] ${finalDesc}`,
+        paymentMethod: "diger",
+        slipNumber: res.slipNumber,
+        balanceAfter: res.newBalance,
+        createdAt: new Date().toISOString(),
+      };
+
       setSuccessResult({
         slipNumber: res.slipNumber || "FİŞ",
         transactionId: res.transactionId || null,
@@ -191,7 +205,8 @@ export default function B2BSlipModal({
         items: validItems.map((v) => ({ name: v.name, qty: v.qty, price: v.price })),
       });
 
-      if (onSuccess) onSuccess();
+      if (onSuccess) onSuccess(createdTx);
+      onClose();
     } catch (err: unknown) {
       const message = err instanceof Error ? err.message : "Fiş kesilemedi.";
       setError(message);
@@ -202,33 +217,12 @@ export default function B2BSlipModal({
 
   const getWhatsAppMessage = () => {
     if (!successResult) return "";
-    const itemsList = successResult.items
-      .map((it) => `• ${it.qty}x ${it.name} (${it.price} ₺) = ${(it.qty * it.price).toLocaleString("tr-TR")} ₺`)
-      .join("\n");
-
     const origin = typeof window !== "undefined" ? window.location.origin : "https://ekmeklab.tr";
     const slipUrl = successResult.transactionId
       ? `${origin}/fis/${successResult.transactionId}`
       : `${origin}/admin/cariler/${cariId}`;
-    const ekstreUrl = `${origin}/ekstre/${cariId}`;
 
-    const dateStr = new Date().toLocaleDateString("tr-TR");
-
-    return (
-      `🍞 *EKMEKLAB TAŞ FIRIN - TESLİMAT FİŞİ*\n` +
-      `Sayın *${cariName}*,\n\n` +
-      `📄 *Fiş No:* ${successResult.slipNumber}\n` +
-      `📅 *Tarih:* ${dateStr}\n\n` +
-      `🛒 *Teslim Edilen Ürünler:*\n${itemsList}\n\n` +
-      `💰 *Fiş Toplamı:* ${successResult.totalAmount.toLocaleString("tr-TR")} ₺\n` +
-      (successResult.newBalance !== undefined
-        ? `📊 *Toplam Güncel Bakiye:* ${successResult.newBalance.toLocaleString("tr-TR")} ₺\n\n`
-        : "\n") +
-      `🔗 *Online Fiş Detayı:*\n${slipUrl}\n\n` +
-      `📈 *Tüm Geçmiş Alış & Ödemeleriniz (Canlı Ekstre):*\n${ekstreUrl}\n\n` +
-      `Bizi tercih ettiğiniz için teşekkür eder, bereketli işler dileriz!\n` +
-      `EkmekLab Zanaatkar Fırın`
-    );
+    return `Online Fiş Görüntüle: ${slipUrl}`;
   };
 
   const openWhatsApp = () => {

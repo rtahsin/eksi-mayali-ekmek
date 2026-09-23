@@ -277,7 +277,13 @@ export default function IsolatedCariDetailPage() {
           cariPhone={cari.phone}
           customPrices={cari.customPrices}
           onClose={() => setActiveModal(null)}
-          onSuccess={refetch}
+          onSuccess={(createdTx) => {
+            refetch();
+            setActiveModal(null);
+            if (createdTx) {
+              setSelectedTx(createdTx);
+            }
+          }}
         />
       )}
 
