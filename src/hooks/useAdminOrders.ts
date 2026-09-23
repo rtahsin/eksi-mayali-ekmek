@@ -90,6 +90,7 @@ export function useAdminOrders() {
             paymentMethod: normalizePaymentMethod(o.payment_method),
             paymentStatus: o.status === "teslim_edildi" ? "paid" : "pending",
             source: "web" as OrderSource,
+            cariId: o.cari_id || undefined,
             orderNotes: o.order_notes || "",
             courierNotes: "",
             createdAt: o.created_at,

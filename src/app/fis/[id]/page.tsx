@@ -40,6 +40,7 @@ interface SlipData {
   address?: string;
   neighborhood?: string;
   taxNumber?: string;
+  cariId?: string;
   date: string;
   timeWindow?: string;
   items: SlipItem[];
@@ -152,12 +153,35 @@ export default function PublicReceiptPage() {
           <div className="w-full border-t border-dashed border-stone-800 my-4" />
 
           {/* Receipt Meta */}
-          <div className="grid grid-cols-[100px_1fr] gap-y-1 text-sm font-semibold uppercase text-stone-300">
-            <div className="text-stone-500">MÜŞTERİ</div>
-            <div className="text-right text-stone-100">{slip.businessName}</div>
-            
-            <div className="text-stone-500">TARİH</div>
-            <div className="text-right font-mono">{slip.date}</div>
+          <div className="space-y-2 text-xs text-stone-300">
+            <div className="flex justify-between items-center py-0.5 border-b border-stone-900 pb-1.5">
+              <span className="text-stone-500 font-bold uppercase tracking-wider text-[11px]">FİŞ / BELGE NO</span>
+              <span className="font-mono font-bold text-amber-400 text-sm">{slip.orderNumber || slip.id}</span>
+            </div>
+
+            <div className="flex justify-between items-center py-0.5">
+              <span className="text-stone-500 font-bold uppercase tracking-wider text-[11px]">MÜŞTERİ</span>
+              <span className="font-bold text-stone-100 text-right">{slip.businessName}</span>
+            </div>
+
+            {slip.contactPerson && (
+              <div className="flex justify-between items-center py-0.5">
+                <span className="text-stone-500 font-bold uppercase tracking-wider text-[11px]">YETKİLİ</span>
+                <span className="text-stone-300 text-right font-medium">{slip.contactPerson}</span>
+              </div>
+            )}
+
+            <div className="flex justify-between items-center py-0.5">
+              <span className="text-stone-500 font-bold uppercase tracking-wider text-[11px]">TESLİMAT TARİHİ</span>
+              <span className="font-mono font-bold text-stone-200">{slip.date}</span>
+            </div>
+
+            {slip.timeWindow && (
+              <div className="flex justify-between items-center py-0.5">
+                <span className="text-stone-500 font-bold uppercase tracking-wider text-[11px]">SEVKİYAT</span>
+                <span className="text-stone-300 text-right text-[11px] font-medium">{slip.timeWindow}</span>
+              </div>
+            )}
           </div>
 
           <div className="w-full border-t border-dashed border-stone-800 my-4" />
@@ -219,42 +243,62 @@ export default function PublicReceiptPage() {
             <div className="text-stone-500">Önceki Bakiye</div>
             <div className="text-right font-mono text-stone-400">{(slip.previousBalance || 0).toLocaleString("tr-TR")} ₺</div>
             
-            <div className="text-stone-500 text-base text-amber-500">Güncel Bakiye</div>
+            <div className="text-stone-500 text-base text-amber-500">Güncel Kalan Bakiye</div>
             <div className="text-right font-mono text-base text-amber-500">{(slip.newBalance || slip.totalAmount).toLocaleString("tr-TR")} ₺</div>
           </div>
 
-          <div className="text-[11px] mt-5 text-stone-600">İşlem Yapan: Yönetici</div>
+          <div className="text-[11px] mt-5 text-stone-600">İşlem Yapan: EkmekLab Yönetici</div>
 
           {/* Footer / Stamp */}
           <div className="pt-8 pb-2 text-center text-xs text-stone-500 space-y-3 font-semibold">
             <div className="tracking-widest opacity-80">— AÇIKLAMALAR —</div>
-            <div className="text-stone-400">Bizi Tercih Ettiğiniz İçin Teşekkürler</div>
+            <div className="text-stone-400">EkmekLab Zanaatkar Taş Fırın</div>
             
-            <div className="font-normal mt-4 opacity-70">Bu fiş bilgilendirme amaçlıdır.</div>
-            <div className="italic text-stone-400">Bizi tercih ettiğiniz için teşekkürler!</div>
+            <div className="font-normal mt-4 opacity-70">Bu teslimat fişi bilgilendirme amaçlıdır.</div>
+            <div className="italic text-stone-400">Afiyet olsun, bereketli işler dileriz!</div>
           </div>
 
         </div>
 
         {/* Action Buttons (Outside the card) */}
-        <div className="mt-6 flex flex-col sm:flex-row gap-3">
-          <button
-            onClick={handleCopyLink}
-            className="flex-1 flex items-center justify-center gap-2 p-3.5 bg-stone-900 text-stone-200 font-bold rounded-xl text-sm border border-stone-800 shadow-sm active:scale-95 transition-transform hover:bg-stone-800"
-          >
-            {copied ? <Check className="w-5 h-5 text-emerald-400" /> : <Copy className="w-5 h-5 text-amber-400" />}
-            <span>{copied ? "Link Kopyalandı" : "Fiş Linkini Kopyala"}</span>
-          </button>
-          
-          <a
-            href="https://wa.me/905010126653?text=Merhaba%2C%20EkmekLab%20teslimat%20fi%C5%9Fimizle%20ilgili%20yaz%C4%B1yorum."
-            target="_blank"
-            rel="noreferrer"
-            className="flex-1 flex items-center justify-center gap-2 p-3.5 bg-[#121E15] border border-emerald-900/50 hover:bg-[#16261A] text-emerald-400 font-bold rounded-xl text-sm shadow-sm active:scale-95 transition-transform"
-          >
-            <MessageCircle className="w-5 h-5" />
-            <span>Fırına Yaz</span>
-          </a>
+        <div className="mt-6 space-y-2.5 w-full">
+          {slip.cariId && (
+            <Link
+              href={`/ekstre/${slip.cariId}`}
+              className="w-full flex items-center justify-center gap-2 p-3.5 bg-amber-500 hover:bg-amber-400 text-stone-950 font-bold rounded-xl text-sm shadow-md active:scale-95 transition-all"
+            >
+              <ExternalLink className="w-4 h-4" />
+              <span>Canlı Müşteri Ekstresini Görüntüle</span>
+            </Link>
+          )}
+
+          <div className="flex flex-col sm:flex-row gap-2.5">
+            <button
+              onClick={handleCopyLink}
+              className="flex-1 flex items-center justify-center gap-2 p-3.5 bg-stone-900 text-stone-200 font-bold rounded-xl text-xs border border-stone-800 shadow-sm active:scale-95 transition-transform hover:bg-stone-800"
+            >
+              {copied ? <Check className="w-4 h-4 text-emerald-400" /> : <Copy className="w-4 h-4 text-amber-400" />}
+              <span>{copied ? "Link Kopyalandı" : "Fiş Linkini Kopyala"}</span>
+            </button>
+
+            <button
+              onClick={() => window.print()}
+              className="flex-1 flex items-center justify-center gap-2 p-3.5 bg-stone-900 text-stone-200 font-bold rounded-xl text-xs border border-stone-800 shadow-sm active:scale-95 transition-transform hover:bg-stone-800"
+            >
+              <Printer className="w-4 h-4 text-amber-400" />
+              <span>Yazdır / PDF</span>
+            </button>
+            
+            <a
+              href="https://wa.me/905010126653?text=Merhaba%2C%20EkmekLab%20teslimat%20fi%C5%9Fimizle%20ilgili%20yaz%C4%B1yorum."
+              target="_blank"
+              rel="noreferrer"
+              className="flex-1 flex items-center justify-center gap-2 p-3.5 bg-[#121E15] border border-emerald-900/50 hover:bg-[#16261A] text-emerald-400 font-bold rounded-xl text-xs shadow-sm active:scale-95 transition-transform"
+            >
+              <MessageCircle className="w-4 h-4" />
+              <span>Fırına Yaz</span>
+            </a>
+          </div>
         </div>
 
       </div>

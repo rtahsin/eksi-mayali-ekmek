@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { createClient, isSupabaseConfigured } from "@/lib/supabase/client";
-import { CariAccount, CariTransaction } from "@/types/admin";
+import { CariAccount } from "@/types/admin";
 import { getErrorMessage } from "@/lib/utils/error";
 
 export function useCariler() {
@@ -27,23 +27,27 @@ export function useCariler() {
       if (supaErr) throw supaErr;
 
       if (data) {
-        const mapped: CariAccount[] = data.map((d: any) => {
-          const isExpense = d.type === "gider" || (d.name && d.name.toLowerCase().includes("gider"));
+        const mapped: CariAccount[] = data.map((d: Record<string, unknown>) => {
+          // account_type kolonu artık mevcut, fallback olarak type'a bak
+          const rawAccountType = (d.account_type as string) || (d.type as string) || "musteri";
+          const accountType: "musteri" | "gider" = 
+            rawAccountType === "gider" ? "gider" : "musteri";
+
           return {
-            id: d.id,
-            businessName: d.name || "İsimsiz Cari",
-            contactPerson: d.contact_person || (d.type !== "gider" && d.type !== "musteri" ? d.type : ""),
-            phone: d.phone || "",
-            address: d.address || "",
-            neighborhood: "",
-            taxNumber: d.tax_id || "",
-            taxOffice: "",
+            id: d.id as string,
+            businessName: (d.name as string) || "İsimsiz Cari",
+            contactPerson: (d.contact_person as string) || "",
+            phone: (d.phone as string) || "",
+            address: (d.address as string) || "",
+            neighborhood: (d.neighborhood as string) || "",
+            taxNumber: (d.tax_id as string) || "",
+            taxOffice: (d.tax_office as string) || "",
             balance: Number(d.balance) || 0,
-            accountType: isExpense ? "gider" : "musteri",
-            customPrices: d.custom_prices || {},
-            notes: d.status || "",
-            createdAt: d.created_at,
-            updatedAt: d.updated_at,
+            accountType,
+            customPrices: (d.custom_prices as Record<string, number>) || {},
+            notes: (d.notes as string) || "",
+            createdAt: d.created_at as string,
+            updatedAt: d.updated_at as string,
           };
         });
         setCariler(mapped);
@@ -85,35 +89,63 @@ export function useCariler() {
     try {
       const newId = `cari_${Date.now().toString(36)}_${Math.random().toString(36).substring(2, 6)}`;
       const balance = Number(data.initialBalance) || 0;
+      const accountType = data.accountType || "musteri";
 
       // Optimistic update
       const newObj: CariAccount = {
         ...data,
         id: newId,
         balance,
-        accountType: data.accountType || (data.businessName.toLowerCase().includes("gider") ? "gider" : "musteri"),
+        accountType,
         createdAt: new Date().toISOString(),
         updatedAt: new Date().toISOString(),
       };
       setCariler((prev) => [...prev, newObj]);
 
       if (supabase) {
-        const { error: insErr } = await supabase!.from("current_accounts").insert({
+        const fullPayload = {
           id: newId,
           name: data.businessName,
-          type: data.accountType || (data.businessName.toLowerCase().includes("gider") ? "gider" : "musteri"),
+          type: accountType,
+          account_type: accountType,
           contact_person: data.contactPerson || "",
           phone: data.phone || "",
           address: data.address || "",
+          neighborhood: data.neighborhood || "",
           tax_id: data.taxNumber || "",
-          custom_prices: data.customPrices || null,
+          tax_office: data.taxOffice || "",
+          notes: data.notes || "",
+          custom_prices: data.customPrices || {},
           balance: balance,
           credit_limit: 0,
           status: "active",
           created_at: new Date().toISOString(),
           updated_at: new Date().toISOString(),
-        });
-        if (insErr) throw insErr;
+        };
+
+        const { error: insErr } = await supabase!.from("current_accounts").insert(fullPayload);
+        if (insErr) {
+          if (insErr.code === "42703" || insErr.message?.includes("column")) {
+            // Graceful fallback to core columns if migration wasn't run
+            const corePayload = {
+              id: newId,
+              name: data.businessName,
+              type: data.contactPerson || accountType,
+              phone: data.phone || "",
+              address: data.address || "",
+              tax_id: data.taxNumber || "",
+              balance: balance,
+              credit_limit: 0,
+              status: "active",
+              created_at: new Date().toISOString(),
+              updated_at: new Date().toISOString(),
+            };
+            const { error: coreErr } = await supabase!.from("current_accounts").insert(corePayload);
+            if (coreErr) throw coreErr;
+          } else {
+            throw insErr;
+          }
+        }
 
         // If there is an opening balance, record the opening transaction
         if (balance !== 0) {
@@ -162,21 +194,43 @@ export function useCariler() {
       );
 
       if (supabase) {
-        const updatePayload: any = { updated_at: new Date().toISOString() };
+        const updatePayload: Record<string, unknown> = { updated_at: new Date().toISOString() };
         if (data.businessName !== undefined) updatePayload.name = data.businessName;
         if (data.contactPerson !== undefined) updatePayload.contact_person = data.contactPerson;
         if (data.phone !== undefined) updatePayload.phone = data.phone;
         if (data.address !== undefined) updatePayload.address = data.address;
+        if (data.neighborhood !== undefined) updatePayload.neighborhood = data.neighborhood;
         if (data.taxNumber !== undefined) updatePayload.tax_id = data.taxNumber;
+        if (data.taxOffice !== undefined) updatePayload.tax_office = data.taxOffice;
+        if (data.notes !== undefined) updatePayload.notes = data.notes;
         if (data.customPrices !== undefined) updatePayload.custom_prices = data.customPrices;
-        if (data.accountType !== undefined) updatePayload.type = data.accountType;
+        if (data.accountType !== undefined) {
+          updatePayload.type = data.accountType;
+          updatePayload.account_type = data.accountType;
+        }
         if (balanceToSet !== undefined) updatePayload.balance = balanceToSet;
 
         const { error: updErr } = await supabase!
           .from("current_accounts")
           .update(updatePayload)
           .eq("id", id);
-        if (updErr) throw updErr;
+
+        if (updErr) {
+          if (updErr.code === "42703" || updErr.message?.includes("column")) {
+            // Graceful fallback to core columns
+            const corePayload: Record<string, unknown> = { updated_at: new Date().toISOString() };
+            if (data.businessName !== undefined) corePayload.name = data.businessName;
+            if (data.contactPerson !== undefined) corePayload.type = data.contactPerson;
+            if (data.phone !== undefined) corePayload.phone = data.phone;
+            if (data.address !== undefined) corePayload.address = data.address;
+            if (data.taxNumber !== undefined) corePayload.tax_id = data.taxNumber;
+            if (balanceToSet !== undefined) corePayload.balance = balanceToSet;
+            const { error: coreUpdErr } = await supabase!.from("current_accounts").update(corePayload).eq("id", id);
+            if (coreUpdErr) throw coreUpdErr;
+          } else {
+            throw updErr;
+          }
+        }
 
         // If balance changed directly, log an adjustment transaction
         if (targetCari && balanceToSet !== undefined && balanceToSet !== targetCari.balance) {
@@ -185,7 +239,7 @@ export function useCariler() {
             account_id: id,
             type: diff > 0 ? "debt" : "credit",
             amount: Math.abs(diff),
-            description: `Bakiye Düzeltme (Eski: ${targetCari.balance} ₺ ➔ Yeni: ${balanceToSet} ₺)`,
+            description: `Bakiye Düzeltme (Eski: ${targetCari.balance} ₺ → Yeni: ${balanceToSet} ₺)`,
             date: new Date().toISOString().split("T")[0],
           });
         }
@@ -243,8 +297,9 @@ export function useCariler() {
             account_id: cariId,
             type: diff > 0 ? "debt" : "credit",
             amount: Math.abs(diff),
-            description: `${description} (Eski: ${currentBal} ₺ ➔ Yeni: ${targetBal} ₺)`,
+            description: `${description} (Eski: ${currentBal} ₺ → Yeni: ${targetBal} ₺)`,
             date: new Date().toISOString().split("T")[0],
+            balance_after: targetBal,
           });
         }
 
@@ -272,24 +327,26 @@ export function useCariler() {
       date?: string;
       paymentMethod?: "nakit" | "banka_havale" | "kredi_karti" | "diger";
       orderId?: string;
+      items?: { productId?: string; name: string; qty: number; price: number }[];
+      deliveryTimeWindow?: string;
+      status?: string;
     }
   ) => {
     try {
-      const amount = Number(tx.amount);
-      const targetCari = cariler.find((c) => c.id === cariId);
-      const isExpenseAccount = targetCari?.accountType === "gider";
-      // Optimistic fallback logic will be replaced by API call
       const res = await fetch("/api/admin/finans/transaction", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           cariId,
           type: tx.type,
-          amount,
+          amount: Number(tx.amount),
           description: tx.description,
           paymentMethod: tx.paymentMethod,
           orderId: tx.orderId,
           date: tx.date,
+          items: tx.items,
+          deliveryTimeWindow: tx.deliveryTimeWindow,
+          status: tx.status,
         }),
       });
 
@@ -303,7 +360,13 @@ export function useCariler() {
         prev.map((c) => (c.id === cariId ? { ...c, balance: data.newBalance } : c))
       );
 
-      return { success: true };
+      return {
+        success: true,
+        slipNumber: data.slipNumber,
+        transactionId: data.transactionId,
+        orderId: data.orderId,
+        newBalance: data.newBalance,
+      };
     } catch (err: unknown) {
       console.error("Add transaction error:", err);
       fetchCariler();
@@ -378,7 +441,9 @@ export function useCariler() {
   };
 
   // Aggregated totals
-  const totalReceivable = cariler.reduce((sum, c) => (c.balance > 0 ? sum + c.balance : sum), 0);
+  const totalReceivable = cariler
+    .filter((c) => c.accountType !== "gider")
+    .reduce((sum, c) => (c.balance > 0 ? sum + c.balance : sum), 0);
   const totalCredit = cariler.reduce((sum, c) => (c.balance < 0 ? sum + Math.abs(c.balance) : sum), 0);
 
   return {

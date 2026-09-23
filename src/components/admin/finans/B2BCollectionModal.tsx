@@ -41,8 +41,9 @@ export default function B2BCollectionModal({ cariId, cariName, onClose, onSucces
       }
       if (onSuccess) onSuccess();
       onClose();
-    } catch (err: any) {
-      setError(err.message);
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : "Bir hata oluştu";
+      setError(message);
     } finally {
       setLoading(false);
     }
@@ -92,7 +93,7 @@ export default function B2BCollectionModal({ cariId, cariName, onClose, onSucces
                 <button
                   key={pm.id}
                   type="button"
-                  onClick={() => setPaymentMethod(pm.id as any)}
+                  onClick={() => setPaymentMethod(pm.id as "nakit" | "banka_havale" | "kredi_karti")}
                   className={`p-2 rounded-xl text-xs font-bold border transition-colors ${
                     paymentMethod === pm.id 
                       ? "bg-emerald-500/20 border-emerald-500/50 text-emerald-400" 

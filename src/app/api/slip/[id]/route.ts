@@ -16,23 +16,67 @@ export async function GET(
       return NextResponse.json({ success: false, error: "Supabase unconfigured" }, { status: 500 });
     }
 
-    // 1. Try finding in `orders` table
-    const { data: orderData, error: orderErr } = await supabase
+    // 1. Try finding in `orders` table by ID or order_number
+    let { data: orderData } = await supabase
       .from("orders")
       .select("*, order_items(*)")
       .eq("id", id)
       .maybeSingle();
 
+    if (!orderData) {
+      const { data: ordByNumber } = await supabase
+        .from("orders")
+        .select("*, order_items(*)")
+        .eq("order_number", id)
+        .maybeSingle();
+      if (ordByNumber) orderData = ordByNumber;
+    }
+
+    // 2. If not found in orders directly, check `account_transactions` table by ID or slip_number
+    let txData: Record<string, unknown> | null = null;
+    if (!orderData) {
+      const { data: byId } = await supabase
+        .from("account_transactions")
+        .select("*")
+        .eq("id", id)
+        .maybeSingle();
+      if (byId) {
+        txData = byId;
+      } else {
+        const { data: bySlip } = await supabase
+          .from("account_transactions")
+          .select("*")
+          .eq("slip_number", id)
+          .maybeSingle();
+        if (bySlip) txData = bySlip;
+      }
+
+      // If txData has an order_id, try fetching that order for rich items
+      if (txData && txData.order_id) {
+        const { data: linkedOrder } = await supabase
+          .from("orders")
+          .select("*, order_items(*)")
+          .eq("id", txData.order_id as string)
+          .maybeSingle();
+        if (linkedOrder) {
+          orderData = linkedOrder;
+        }
+      }
+    }
+
+    // Render from orderData if available
     if (orderData) {
       let prevBal = 0;
       let newBal = 0;
       let taxNo = "";
+      let contactPerson = "";
       let busName = orderData.customer_name || "Değerli Müşterimiz";
-      let historyItems: any[] = [];
+      let historyItems: Record<string, unknown>[] = [];
       let phone = orderData.phone || "";
       let address = orderData.delivery_address || "";
+      let neighborhood = orderData.neighborhood || "Beylikdüzü";
 
-      // If linked to a Cari, fetch Cari balance and history
+      // If linked to a Cari, fetch Cari balance, contact person, and history
       if (orderData.cari_id) {
         const { data: cariData } = await supabase
           .from("current_accounts")
@@ -42,11 +86,13 @@ export async function GET(
 
         if (cariData) {
           busName = cariData.name || busName;
+          contactPerson = cariData.contact_person || "";
           taxNo = cariData.tax_id || "";
           newBal = Number(cariData.balance) || 0;
           prevBal = newBal - Number(orderData.total_amount || 0);
           phone = cariData.phone || phone;
           address = cariData.address || address;
+          neighborhood = cariData.neighborhood || neighborhood;
         }
 
         const { data: hist } = await supabase
@@ -57,9 +103,9 @@ export async function GET(
           .limit(10);
 
         if (hist) {
-          historyItems = hist.map((h: any) => ({
+          historyItems = hist.map((h: Record<string, unknown>) => ({
             id: h.id,
-            date: h.date ? new Date(h.date).toISOString().split("T")[0] : "",
+            date: h.date ? new Date(h.date as string).toISOString().split("T")[0] : "",
             type: h.type,
             description: h.description || "İşlem",
             amount: Number(h.amount) || 0,
@@ -68,26 +114,28 @@ export async function GET(
       }
 
       const rawItems = Array.isArray(orderData.order_items) ? orderData.order_items : (Array.isArray(orderData.items) ? orderData.items : []);
-      const mappedItems = rawItems.map((it: any) => ({
-        name: it.product_name || it.productName || it.name || "Ürün",
+      const mappedItems = rawItems.map((it: Record<string, unknown>) => ({
+        name: (it.product_name as string) || (it.productName as string) || (it.name as string) || "Ürün",
         quantity: Number(it.quantity) || 1,
         unitPrice: Number(it.unit_price) || Number(it.unitPrice) || Number(it.price) || 0,
         totalPrice: Number(it.total_price) || Number(it.totalPrice) || (Number(it.quantity) || 1) * (Number(it.unit_price) || Number(it.unitPrice) || 0),
-        weight: it.weight,
+        weight: it.weight as number | undefined,
       }));
 
       return NextResponse.json({
         success: true,
         data: {
           id: orderData.id,
-          orderNumber: orderData.order_number || orderData.id.substring(0, 6).toUpperCase(),
+          orderNumber: orderData.order_number || orderData.id,
           businessName: busName,
-          phone: phone,
-          address: address,
-          neighborhood: orderData.neighborhood || "Beylikdüzü",
+          contactPerson,
+          phone,
+          address,
+          neighborhood,
           taxNumber: taxNo,
+          cariId: orderData.cari_id || undefined,
           date: orderData.delivery_date ? new Date(orderData.delivery_date).toISOString().split("T")[0] : new Date().toISOString().split("T")[0],
-          timeWindow: orderData.delivery_time_window || "14:00 - 18:00",
+          timeWindow: orderData.delivery_time_window || "Sabah Sevkiyatı (07:00 - 09:00)",
           items: mappedItems,
           subtotal: Number(orderData.subtotal) || Number(orderData.total_amount) || 0,
           totalAmount: Number(orderData.total_amount) || 0,
@@ -100,13 +148,7 @@ export async function GET(
       });
     }
 
-    // 2. Try finding in `account_transactions` table if it was recorded as a Cari transaction
-    const { data: txData, error: txError } = await supabase
-      .from("account_transactions")
-      .select("*")
-      .eq("id", id)
-      .maybeSingle();
-
+    // Otherwise render from txData
     if (txData) {
       const { data: cariData } = await supabase
         .from("current_accounts")
@@ -115,48 +157,67 @@ export async function GET(
         .maybeSingle();
 
       const busName = cariData?.name || "Kurumsal Müşteri";
+      const contactPerson = cariData?.contact_person || "";
       const taxNo = cariData?.tax_id || "";
       const curBal = Number(cariData?.balance) || 0;
       const amount = Number(txData.amount) || 0;
       const prevBal = curBal - amount;
 
       // Parse items from description if present
-      // Example description: "[FİŞ-2609-007] 10x Taş Fırın Ekşi Mayalı Köy Ekmeği (110₺)"
-      const desc = txData.description || "Toptan Ekmek Teslimatı";
+      // Example: "[FİŞ-2609-007] 10x Taş Fırın Köy Ekmeği (110₺), 5x Çavdar Ekmeği (120₺)"
+      const desc = (txData.description as string) || "Toptan Ekmek Teslimatı";
       let cleanDesc = desc.replace(/^\[.*?\]\s*/, "").replace(/^(Fiş|Sipariş):\s*/i, "");
       
-      let parsedQuantity = 1;
-      let parsedName = cleanDesc;
-      
-      // Try to extract quantity "10x " from the start
-      const match = cleanDesc.match(/^(\d+)x\s+(.*)$/);
-      if (match) {
-        parsedQuantity = parseInt(match[1], 10);
-        parsedName = match[2];
-      }
-      
-      // Try to remove "(110₺)" from the end of the name
-      parsedName = parsedName.replace(/\s*\([\d.,]+[₺TL\s]*\)$/i, "").trim();
+      // Remove any trailing notes "| Not: ..."
+      cleanDesc = cleanDesc.split(/\s*\|\s*Not:/i)[0].trim();
 
-      const unitPrice = parsedQuantity > 0 ? amount / parsedQuantity : amount;
+      const rawParts = cleanDesc.split(/,\s*/);
+      const parsedItems = rawParts.map((part) => {
+        const match = part.match(/^(\d+)x\s+(.*)$/);
+        let qty = 1;
+        let pName = part;
+        if (match) {
+          qty = parseInt(match[1], 10);
+          pName = match[2];
+        }
+        
+        let unitPrice = 0;
+        const priceMatch = pName.match(/\(([\d.,]+)[₺TL\s]*\)/i);
+        if (priceMatch) {
+          unitPrice = parseFloat(priceMatch[1].replace(",", "."));
+          pName = pName.replace(/\s*\([\d.,]+[₺TL\s]*\)$/i, "").trim();
+        }
+
+        const lineTotal = unitPrice > 0 ? unitPrice * qty : (rawParts.length === 1 ? amount : 0);
+        return {
+          name: pName.trim(),
+          quantity: qty,
+          unitPrice: unitPrice > 0 ? unitPrice : (amount / qty),
+          totalPrice: lineTotal > 0 ? lineTotal : amount,
+        };
+      });
+
+      const slipNo = (txData.slip_number as string) || (txData.order_id as string) || (txData.id as string).substring(0, 8).toUpperCase();
 
       return NextResponse.json({
         success: true,
         data: {
           id: txData.id,
-          orderNumber: (txData.order_id || txData.id).substring(0, 6).toUpperCase(),
+          orderNumber: slipNo,
           businessName: busName,
+          contactPerson,
           phone: cariData?.phone || "",
           address: cariData?.address || "",
-          neighborhood: "Beylikdüzü",
+          neighborhood: cariData?.neighborhood || "Beylikdüzü",
           taxNumber: taxNo,
-          date: txData.date ? new Date(txData.date).toISOString().split("T")[0] : new Date().toISOString().split("T")[0],
-          timeWindow: "14:00 - 18:00",
-          items: [
+          cariId: txData.account_id as string,
+          date: txData.date ? new Date(txData.date as string).toISOString().split("T")[0] : new Date().toISOString().split("T")[0],
+          timeWindow: "Sabah Sevkiyatı (07:00 - 09:00)",
+          items: parsedItems.length > 0 ? parsedItems : [
             {
-              name: parsedName,
-              quantity: parsedQuantity,
-              unitPrice: unitPrice,
+              name: "Toptan Ekmek Teslimatı",
+              quantity: 1,
+              unitPrice: amount,
               totalPrice: amount,
             },
           ],
@@ -171,13 +232,13 @@ export async function GET(
 
     return NextResponse.json({ success: false, error: "Fiş bulunamadı" }, { status: 404 });
 
-  } catch (error: any) {
-    console.error("Fetch slip error:", error);
-    // If it's a UUID syntax error from Postgres (22P02), it just means it wasn't found in transactions
-    if (error?.code === "22P02") {
+  } catch (error: unknown) {
+    const err = error as { code?: string; message?: string };
+    console.error("Fetch slip error:", err);
+    if (err?.code === "22P02") {
        return NextResponse.json({ success: false, error: "Fiş bulunamadı" }, { status: 404 });
     }
-    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+    return NextResponse.json({ success: false, error: err?.message || "Hata oluştu" }, { status: 500 });
   }
 }
 

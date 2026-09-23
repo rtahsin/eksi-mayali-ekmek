@@ -53,9 +53,9 @@ export function AdminSidebar({ isOpen, onClose, pendingOrderCount = 0 }: AdminSi
       roles: ["superadmin", "admin", "support", "editor"],
     },
     {
-      label: "Kurye Konsolu (GPS)",
-      href: "/kurye",
-      icon: Truck,
+      label: "Cariler (B2B)",
+      href: "/admin/cariler",
+      icon: Building2,
       roles: ["superadmin", "admin", "support", "editor"],
     },
     {
@@ -68,6 +68,30 @@ export function AdminSidebar({ isOpen, onClose, pendingOrderCount = 0 }: AdminSi
       label: "Ürünler & Fiyatlar",
       href: "/admin/urunler",
       icon: Croissant,
+      roles: ["superadmin", "admin", "support", "editor"],
+    },
+    {
+      label: "Üretim Planlama",
+      href: "/admin/uretim",
+      icon: Flame,
+      roles: ["superadmin", "admin", "support", "editor"],
+    },
+    {
+      label: "Müşteriler",
+      href: "/admin/musteriler",
+      icon: Users,
+      roles: ["superadmin", "admin", "support", "editor"],
+    },
+    {
+      label: "Tedarikçiler",
+      href: "/admin/tedarikciler",
+      icon: Wheat,
+      roles: ["superadmin", "admin", "support", "editor"],
+    },
+    {
+      label: "Kurye Konsolu",
+      href: "/kurye",
+      icon: Truck,
       roles: ["superadmin", "admin", "support", "editor"],
     },
     {

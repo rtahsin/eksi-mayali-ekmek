@@ -43,3 +43,6 @@ next-env.d.ts
 *.iml
 .idea/
 .vscode/
+
+# Supabase CLI temp
+supabase/.temp/

@@ -419,7 +419,7 @@ export function useFinans() {
       kasaBalances: balances,
       cashMovements: movements,
     };
-  }, [rawRecords, allOrders]);
+  }, [rawRecords, rawCariTx, allOrders]);
 
   // Financial Metrics Calculation
   const metrics = useMemo(() => {
