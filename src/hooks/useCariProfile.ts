@@ -93,54 +93,110 @@ export function useCariProfile(cariId: string) {
           };
         });
         setTransactions(formattedTxs);
-      }
 
-      // Fetch Orders for this Cari
-      const { data: ordersData, error: ordersErr } = await supabase
-        .from("orders")
-        .select("*, order_items(*)")
-        .eq("cari_id", cariId)
-        .order("delivery_date", { ascending: false });
+        // Convert sales transactions (B2B slips) into rich AdminOrder items
+        const salesTxs = formattedTxs.filter((tx) => (tx.type === "satis") && !tx.description.toLowerCase().includes("devri") && !tx.description.toLowerCase().includes("açılış"));
+        
+        const mappedFromTx: AdminOrder[] = salesTxs.map((tx) => {
+          const cleanDesc = tx.description
+            .replace(/^\[.*?\]\s*/, "")
+            .replace(/^(Fiş|Sipariş):\s*/i, "")
+            .split(/\s*\|\s*Not:/i)[0]
+            .split(/\s*\|\s*\[Dilim:/i)[0]
+            .trim();
 
-      if (ordersErr) {
-        console.warn("Orders fetch notice:", ordersErr.message);
-      } else if (ordersData) {
-        const mappedOrders: AdminOrder[] = ordersData.map((o: Record<string, unknown>) => {
-          const rawItems = Array.isArray(o.order_items) ? o.order_items : [];
+          const rawParts = cleanDesc.split(/,\s*/);
+          const parsedItems = rawParts.map((part) => {
+            const match = part.match(/^(\d+)x\s+(.*)$/);
+            let qty = 1;
+            let pName = part;
+            if (match) {
+              qty = parseInt(match[1], 10);
+              pName = match[2];
+            }
+            let unitPrice = 0;
+            const priceMatch = pName.match(/\(([\d.,]+)[₺TL\s]*\)/i);
+            if (priceMatch) {
+              unitPrice = parseFloat(priceMatch[1].replace(",", "."));
+              pName = pName.replace(/\s*\([\d.,]+[₺TL\s]*\)$/i, "").trim();
+            }
+            return {
+              productId: "",
+              productName: pName.trim(),
+              quantity: qty,
+              unitPrice: unitPrice > 0 ? unitPrice : (tx.amount / qty),
+              totalPrice: unitPrice > 0 ? unitPrice * qty : tx.amount,
+            };
+          });
+
+          const timeWindow = tx.description.match(/\[Dilim:\s*([^\]]+)\]/)?.[1]?.trim() || "Sabah Sevkiyatı (07:00 - 09:00)";
+          const displayId = tx.slipNumber || tx.orderId || tx.id;
+
           return {
-            id: o.id as string,
-            orderNumber: ((o.order_number as string) || (o.id as string).replace("ORD-", "")).toUpperCase(),
-            customerName: (o.customer_name as string) || formattedCari.businessName,
-            phone: (o.phone as string) || formattedCari.phone,
-            deliveryAddress: (o.delivery_address as string) || formattedCari.address,
-            neighborhood: (o.neighborhood as string) || formattedCari.neighborhood,
-            deliveryMethod: o.delivery_method === "pickup" ? "pickup" : "courier",
-            deliveryDate: (o.delivery_date as string) || (o.created_at ? String(o.created_at).split("T")[0] : ""),
-            deliveryTimeWindow: (o.delivery_time_window as string) || "14:00 - 18:00",
-            items: rawItems.map((it: Record<string, unknown>) => ({
-              productId: (it.product_id as string) || "",
-              productName: (it.product_name as string) || "Ürün",
-              quantity: Number(it.quantity) || 1,
-              unitPrice: Number(it.unit_price) || 0,
-              totalPrice: Number(it.total_price) || 0,
-              imageUrl: it.image_url as string | undefined,
-              weight: it.weight as number | undefined,
-            })),
-            subtotal: Number(o.subtotal) || Number(o.total_amount) || 0,
-            shippingFee: Number(o.shipping_fee) || 0,
-            totalAmount: Number(o.total_amount) || 0,
-            status: (o.status as any) || "hazirlaniyor",
-            paymentMethod: (o.payment_method as any) || "cari",
-            paymentStatus: o.status === "teslim_edildi" ? "paid" : "pending",
+            id: displayId,
+            orderNumber: tx.slipNumber || displayId,
+            customerName: formattedCari.businessName,
+            phone: formattedCari.phone,
+            deliveryAddress: formattedCari.address,
+            neighborhood: formattedCari.neighborhood,
+            deliveryMethod: "courier",
+            deliveryDate: tx.date,
+            deliveryTimeWindow: timeWindow,
+            items: parsedItems.length > 0 ? parsedItems : [{
+              productId: "",
+              productName: "Toptan Ekmek Teslimatı",
+              quantity: 1,
+              unitPrice: tx.amount,
+              totalPrice: tx.amount,
+            }],
+            subtotal: tx.amount,
+            shippingFee: 0,
+            totalAmount: tx.amount,
+            status: "teslim_edildi",
+            paymentMethod: "cari",
+            paymentStatus: "paid",
             source: "web",
             cariId: cariId,
-            orderNotes: (o.order_notes as string) || "",
+            orderNotes: tx.description,
             courierNotes: "",
-            createdAt: o.created_at,
-            updatedAt: o.updated_at,
+            createdAt: tx.createdAt,
+            updatedAt: tx.createdAt,
           };
         });
-        setOrders(mappedOrders);
+
+        // Also query orders table by IDs if any exist
+        const candidateOrderIds = formattedTxs.map(t => t.orderId || t.slipNumber).filter(Boolean) as string[];
+        if (candidateOrderIds.length > 0) {
+          try {
+            const { data: ordsFromDb } = await supabase
+              .from("orders")
+              .select("*, order_items(*)")
+              .in("id", candidateOrderIds);
+
+            if (ordsFromDb && ordsFromDb.length > 0) {
+              // Merge db orders with tx orders (db order_items have precedence for rich weights/images)
+              const dbMap = new Map(ordsFromDb.map((o: Record<string, unknown>) => [o.id as string, o]));
+              for (const ord of mappedFromTx) {
+                const dbOrd = dbMap.get(ord.id);
+                if (dbOrd && Array.isArray(dbOrd.order_items) && dbOrd.order_items.length > 0) {
+                  ord.items = (dbOrd.order_items as Record<string, unknown>[]).map(it => ({
+                    productId: (it.product_id as string) || "",
+                    productName: (it.product_name as string) || "Ürün",
+                    quantity: Number(it.quantity) || 1,
+                    unitPrice: Number(it.unit_price) || 0,
+                    totalPrice: Number(it.total_price) || 0,
+                    imageUrl: it.image_url as string | undefined,
+                    weight: it.weight as number | undefined,
+                  }));
+                }
+              }
+            }
+          } catch {
+            // graceful ignore
+          }
+        }
+
+        setOrders(mappedFromTx);
       }
 
     } catch (err: unknown) {

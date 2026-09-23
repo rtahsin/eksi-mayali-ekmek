@@ -74,13 +74,19 @@ export default function PublicReceiptPage() {
 
     const fetchSlip = async () => {
       try {
-        const res = await fetch(`/api/slip/${id}`);
+        let cleanId = id;
+        try {
+          cleanId = decodeURIComponent(id).trim();
+        } catch {
+          cleanId = id.trim();
+        }
+        const res = await fetch(`/api/slip/${encodeURIComponent(cleanId)}`);
         const data = await res.json();
         
         if (res.ok && data.success && data.data) {
           setSlip(data.data);
         } else {
-          console.warn("Slip fetch notice:", data.error);
+          console.warn("Slip fetch notice:", data?.error);
         }
       } catch (err) {
         console.warn("Slip fetch notice:", err);

@@ -16,49 +16,89 @@ export async function GET(
       return NextResponse.json({ success: false, error: "Supabase unconfigured" }, { status: 500 });
     }
 
-    // 1. Try finding in `orders` table by ID or order_number
+    // Decode URL-encoded parameter (e.g. F%C4%B0%C5%9E-2609-579 -> FİŞ-2609-579)
+    let decodedId = id;
+    try {
+      decodedId = decodeURIComponent(id).trim();
+    } catch {
+      decodedId = id.trim();
+    }
+
+    // Support both Turkish FİŞ- and ASCII FIS- versions
+    const turkishSlip = decodedId.replace(/^FIS-/i, "FİŞ-");
+    const asciiSlip = decodedId.replace(/^FİŞ-/i, "FIS-");
+    const candidateIds = Array.from(new Set([decodedId, turkishSlip, asciiSlip].filter(Boolean)));
+
+    // 1. Try finding in `orders` table by candidate IDs
     let { data: orderData } = await supabase
       .from("orders")
       .select("*, order_items(*)")
-      .eq("id", id)
+      .in("id", candidateIds)
       .maybeSingle();
 
-    if (!orderData) {
-      const { data: ordByNumber } = await supabase
-        .from("orders")
-        .select("*, order_items(*)")
-        .eq("order_number", id)
-        .maybeSingle();
-      if (ordByNumber) orderData = ordByNumber;
-    }
-
-    // 2. If not found in orders directly, check `account_transactions` table by ID or slip_number
+    // 2. If not found in orders directly, search in `account_transactions`
     let txData: Record<string, unknown> | null = null;
     if (!orderData) {
-      const { data: byId } = await supabase
-        .from("account_transactions")
-        .select("*")
-        .eq("id", id)
-        .maybeSingle();
-      if (byId) {
-        txData = byId;
-      } else {
+      // Check if it's a valid UUID
+      const isUuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(decodedId);
+      if (isUuid) {
+        const { data: byId } = await supabase
+          .from("account_transactions")
+          .select("*")
+          .eq("id", decodedId)
+          .maybeSingle();
+        if (byId) txData = byId;
+      }
+
+      // Check by slip_number
+      if (!txData) {
         const { data: bySlip } = await supabase
           .from("account_transactions")
           .select("*")
-          .eq("slip_number", id)
+          .in("slip_number", candidateIds)
+          .order("created_at", { ascending: false })
+          .limit(1)
           .maybeSingle();
         if (bySlip) txData = bySlip;
       }
 
-      // If txData has an order_id, try fetching that order for rich items
+      // Check by order_id
+      if (!txData) {
+        const { data: byOrdId } = await supabase
+          .from("account_transactions")
+          .select("*")
+          .in("order_id", candidateIds)
+          .order("created_at", { ascending: false })
+          .limit(1)
+          .maybeSingle();
+        if (byOrdId) txData = byOrdId;
+      }
+
+      // Check by description containing slip code (e.g. "[FİŞ-2609-579]")
+      if (!txData) {
+        for (const cand of candidateIds) {
+          const { data: byDesc } = await supabase
+            .from("account_transactions")
+            .select("*")
+            .ilike("description", `%${cand}%`)
+            .order("created_at", { ascending: false })
+            .limit(1)
+            .maybeSingle();
+          if (byDesc) {
+            txData = byDesc;
+            break;
+          }
+        }
+      }
+
+      // If txData has an order_id and orderData was not found, check linked order for rich order_items
       if (txData && txData.order_id) {
         const { data: linkedOrder } = await supabase
           .from("orders")
           .select("*, order_items(*)")
           .eq("id", txData.order_id as string)
           .maybeSingle();
-        if (linkedOrder) {
+        if (linkedOrder && Array.isArray(linkedOrder.order_items) && linkedOrder.order_items.length > 0) {
           orderData = linkedOrder;
         }
       }
@@ -76,12 +116,21 @@ export async function GET(
       let address = orderData.delivery_address || "";
       let neighborhood = orderData.neighborhood || "Beylikdüzü";
 
+      // Extract time window and cariId from order_notes if present
+      let timeWindow = (orderData.delivery_time_window as string) || "Sabah Sevkiyatı (07:00 - 09:00)";
+      const timeMatch = (orderData.order_notes as string)?.match(/\[Dilim:\s*([^\]]+)\]/);
+      if (timeMatch) timeWindow = timeMatch[1].trim();
+
+      let linkedCariId = (orderData.cari_id as string) || undefined;
+      const cariMatch = (orderData.order_notes as string)?.match(/\[Cari:\s*([^\]]+)\]/);
+      if (cariMatch) linkedCariId = cariMatch[1].trim();
+
       // If linked to a Cari, fetch Cari balance, contact person, and history
-      if (orderData.cari_id) {
+      if (linkedCariId) {
         const { data: cariData } = await supabase
           .from("current_accounts")
           .select("*")
-          .eq("id", orderData.cari_id)
+          .eq("id", linkedCariId)
           .maybeSingle();
 
         if (cariData) {
@@ -98,7 +147,7 @@ export async function GET(
         const { data: hist } = await supabase
           .from("account_transactions")
           .select("*")
-          .eq("account_id", orderData.cari_id)
+          .eq("account_id", linkedCariId)
           .order("date", { ascending: false })
           .limit(10);
 
@@ -133,9 +182,9 @@ export async function GET(
           address,
           neighborhood,
           taxNumber: taxNo,
-          cariId: orderData.cari_id || undefined,
+          cariId: linkedCariId,
           date: orderData.delivery_date ? new Date(orderData.delivery_date).toISOString().split("T")[0] : new Date().toISOString().split("T")[0],
-          timeWindow: orderData.delivery_time_window || "Sabah Sevkiyatı (07:00 - 09:00)",
+          timeWindow,
           items: mappedItems,
           subtotal: Number(orderData.subtotal) || Number(orderData.total_amount) || 0,
           totalAmount: Number(orderData.total_amount) || 0,
@@ -212,7 +261,7 @@ export async function GET(
           taxNumber: taxNo,
           cariId: txData.account_id as string,
           date: txData.date ? new Date(txData.date as string).toISOString().split("T")[0] : new Date().toISOString().split("T")[0],
-          timeWindow: "Sabah Sevkiyatı (07:00 - 09:00)",
+          timeWindow: (txData.description as string)?.match(/\[Dilim:\s*([^\]]+)\]/)?.[1]?.trim() || "Sabah Sevkiyatı (07:00 - 09:00)",
           items: parsedItems.length > 0 ? parsedItems : [
             {
               name: "Toptan Ekmek Teslimatı",

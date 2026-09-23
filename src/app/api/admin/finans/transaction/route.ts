@@ -92,10 +92,13 @@ export async function POST(req: Request) {
       }
     }
 
-    // Format description to always include [FİŞ-YYMM-XXX] if not present
+    // Format description to always include [FİŞ-YYMM-XXX] and [Dilim: ...] if not present
     let fullDescription = (description || "").trim();
     if (slipNumber && !fullDescription.includes(slipNumber)) {
       fullDescription = fullDescription ? `[${slipNumber}] ${fullDescription}` : `[${slipNumber}] Toptan Satış`;
+    }
+    if (deliveryTimeWindow && !fullDescription.includes("[Dilim:")) {
+      fullDescription += ` | [Dilim: ${deliveryTimeWindow}]`;
     }
 
     // Auto-create order & order_items if items array is provided (B2B Slip)
@@ -109,26 +112,26 @@ export async function POST(req: Request) {
           phone: targetCari.phone || "",
           delivery_address: targetCari.address || "Kurumsal Teslimat",
           neighborhood: targetCari.neighborhood || "",
+          district: "Beylikdüzü",
           delivery_method: "courier",
           delivery_date: date || new Date().toISOString().split("T")[0],
-          delivery_time_window: deliveryTimeWindow || "Sabah Sevkiyatı (07:00 - 09:00)",
           status: status || "teslim_edildi",
           payment_method: "cari",
           subtotal: parsedAmount,
           shipping_fee: 0,
           total_amount: parsedAmount,
-          cari_id: cariId,
-          order_notes: fullDescription,
+          order_notes: `[Cari: ${cariId}] [Dilim: ${deliveryTimeWindow || "Sabah Sevkiyatı (07:00 - 09:00)"}] ${fullDescription}`,
         });
 
         if (!ordErr) {
-          const itemInserts = items.map((it: { productId?: string; name: string; qty: number; price: number }) => ({
+          const itemInserts = items.map((it: { productId?: string; name: string; qty: number; price: number; weight?: number }) => ({
             order_id: finalOrderId,
             product_id: it.productId || null,
             product_name: it.name,
             quantity: Number(it.qty) || 1,
             unit_price: Number(it.price) || 0,
             total_price: (Number(it.qty) || 1) * (Number(it.price) || 0),
+            weight: it.weight || null,
           }));
           await supabase.from("order_items").insert(itemInserts);
         } else {
@@ -145,11 +148,12 @@ export async function POST(req: Request) {
 
     // 4. Insert Transaction with graceful column fallback
     let transactionId: string | null = null;
+    const normalizedType = type === "satis" ? "debt" : type === "tahsilat" ? "credit" : type;
 
     // Try full insert first (if migration was run)
     const fullTxPayload = {
       account_id: cariId,
-      type: type,
+      type: normalizedType,
       amount: parsedAmount,
       description: fullDescription,
       payment_method: paymentMethod || null,
