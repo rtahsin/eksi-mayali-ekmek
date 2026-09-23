@@ -56,19 +56,21 @@ interface SlipData {
 
 function getItemFallbackImage(name: string): string {
   const lower = name.toLowerCase();
-  if (lower.includes("ekmek") || lower.includes("mayalı") || lower.includes("baget") || lower.includes("somun") || lower.includes("siyez") || lower.includes("karakılçık")) {
-    return "/images/categories/bread.jpg";
-  }
-  if (lower.includes("süt") || lower.includes("peynir") || lower.includes("tereyağ") || lower.includes("mandıra") || lower.includes("jersey")) {
-    return "/images/categories/dairy.jpg";
-  }
-  if (lower.includes("tatlı") || lower.includes("kurabiye") || lower.includes("çörek") || lower.includes("pasta")) {
-    return "/images/categories/desserts.jpg";
-  }
-  if (lower.includes("kahve") || lower.includes("içecek") || lower.includes("çay") || lower.includes("meyve")) {
-    return "/images/categories/beverages.jpg";
-  }
-  return "/images/categories/default.jpg";
+  if (lower.includes("köy") || lower.includes("ekşi maya")) return "/images/products/koy-ekmegi.jpg";
+  if (lower.includes("karakılçık") && lower.includes("un")) return "/images/products/karakilcik-unu.jpg";
+  if (lower.includes("karakılçık")) return "/images/products/karakilcik.jpg";
+  if (lower.includes("siyez") && lower.includes("kavılca")) return "/images/products/kavilca-siyez.jpg";
+  if (lower.includes("siyez")) return "/images/products/siyez.jpg";
+  if (lower.includes("yudane") || lower.includes("tost")) return "/images/products/yudane.jpg";
+  if (lower.includes("özel") || lower.includes("cevizli")) return "/images/products/ekmeklab-ozel.jpg";
+  if (lower.includes("incir")) return "/images/products/ceviz-incir.jpg";
+  if (lower.includes("jersey") || lower.includes("süt")) return "/images/products/jersey-sut-3l.jpg";
+  if (lower.includes("yoğurt")) return "/images/products/dogal-yogurt.jpg";
+  if (lower.includes("tereyağ")) return "/images/products/koy-tereyagi.jpg";
+  if (lower.includes("peynir") || lower.includes("mihaliç")) return "/images/products/mihalic-peyniri.jpg";
+  if (lower.includes("kavurma")) return "/images/products/dana-kavurma.jpg";
+  if (lower.includes("ekmek") || lower.includes("somun") || lower.includes("baget")) return "/images/products/koy-ekmegi.jpg";
+  return "/images/categories/bread.jpg";
 }
 
 export default function PublicReceiptPage() {

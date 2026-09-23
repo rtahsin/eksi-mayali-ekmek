@@ -31,17 +31,40 @@ export async function GET(
       .select("id, name, price, image_url, weight");
 
     const getProductMeta = (itemName: string) => {
-      if (!allProds) return { imageUrl: "", weight: undefined };
       const cleanTarget = itemName.trim().toLowerCase();
-      const found = allProds.find(
-        (p) =>
-          p.name.trim().toLowerCase() === cleanTarget ||
-          cleanTarget.includes(p.name.trim().toLowerCase()) ||
-          p.name.trim().toLowerCase().includes(cleanTarget)
-      );
+      
+      // 1. First try matching Supabase products table
+      if (allProds) {
+        const found = allProds.find(
+          (p) =>
+            p.name.trim().toLowerCase() === cleanTarget ||
+            cleanTarget.includes(p.name.trim().toLowerCase()) ||
+            p.name.trim().toLowerCase().includes(cleanTarget)
+        );
+        if (found?.image_url) {
+          return { imageUrl: found.image_url, weight: found.weight || undefined };
+        }
+      }
+
+      // 2. Fallback to local /images/products static mapping
+      let localImg = "/images/categories/bread.jpg";
+      if (cleanTarget.includes("köy") || cleanTarget.includes("ekşi maya")) localImg = "/images/products/koy-ekmegi.jpg";
+      else if (cleanTarget.includes("karakılçık") && cleanTarget.includes("un")) localImg = "/images/products/karakilcik-unu.jpg";
+      else if (cleanTarget.includes("karakılçık")) localImg = "/images/products/karakilcik.jpg";
+      else if (cleanTarget.includes("siyez") && cleanTarget.includes("kavılca")) localImg = "/images/products/kavilca-siyez.jpg";
+      else if (cleanTarget.includes("siyez")) localImg = "/images/products/siyez.jpg";
+      else if (cleanTarget.includes("yudane") || cleanTarget.includes("tost")) localImg = "/images/products/yudane.jpg";
+      else if (cleanTarget.includes("özel") || cleanTarget.includes("cevizli")) localImg = "/images/products/ekmeklab-ozel.jpg";
+      else if (cleanTarget.includes("incir")) localImg = "/images/products/ceviz-incir.jpg";
+      else if (cleanTarget.includes("jersey") || cleanTarget.includes("süt")) localImg = "/images/products/jersey-sut-3l.jpg";
+      else if (cleanTarget.includes("yoğurt")) localImg = "/images/products/dogal-yogurt.jpg";
+      else if (cleanTarget.includes("tereyağ")) localImg = "/images/products/koy-tereyagi.jpg";
+      else if (cleanTarget.includes("peynir") || cleanTarget.includes("mihaliç")) localImg = "/images/products/mihalic-peyniri.jpg";
+      else if (cleanTarget.includes("kavurma")) localImg = "/images/products/dana-kavurma.jpg";
+
       return {
-        imageUrl: found?.image_url || "",
-        weight: found?.weight || undefined,
+        imageUrl: localImg,
+        weight: undefined,
       };
     };
 
