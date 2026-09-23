@@ -1,6 +1,15 @@
 import { NextResponse } from "next/server";
 import { createAdminClient } from "@/lib/supabase/admin";
 
+interface ParsedSlipItem {
+  name: string;
+  quantity: number;
+  unitPrice: number;
+  totalPrice: number;
+  weight?: number;
+  imageUrl?: string;
+}
+
 export async function GET(
   req: Request,
   { params }: { params: Promise<{ id: string }> }
@@ -16,8 +25,28 @@ export async function GET(
       return NextResponse.json({ success: false, error: "Supabase unconfigured" }, { status: 500 });
     }
 
+    // Load products map for matching image and weight
+    const { data: allProds } = await supabase
+      .from("products")
+      .select("id, name, price, image_url, weight");
+
+    const getProductMeta = (itemName: string) => {
+      if (!allProds) return { imageUrl: "", weight: undefined };
+      const cleanTarget = itemName.trim().toLowerCase();
+      const found = allProds.find(
+        (p) =>
+          p.name.trim().toLowerCase() === cleanTarget ||
+          cleanTarget.includes(p.name.trim().toLowerCase()) ||
+          p.name.trim().toLowerCase().includes(cleanTarget)
+      );
+      return {
+        imageUrl: found?.image_url || "",
+        weight: found?.weight || undefined,
+      };
+    };
+
     // 1. Try finding in `orders` table
-    const { data: orderData, error: orderErr } = await supabase
+    const { data: orderData } = await supabase
       .from("orders")
       .select("*, order_items(*)")
       .eq("id", id)
@@ -28,11 +57,10 @@ export async function GET(
       let newBal = 0;
       let taxNo = "";
       let busName = orderData.customer_name || "Değerli Müşterimiz";
-      let historyItems: any[] = [];
       let phone = orderData.phone || "";
       let address = orderData.delivery_address || "";
+      let neighborhood = orderData.neighborhood || "Beylikdüzü";
 
-      // If linked to a Cari, fetch Cari balance and history
       if (orderData.cari_id) {
         const { data: cariData } = await supabase
           .from("current_accounts")
@@ -47,46 +75,48 @@ export async function GET(
           prevBal = newBal - Number(orderData.total_amount || 0);
           phone = cariData.phone || phone;
           address = cariData.address || address;
-        }
-
-        const { data: hist } = await supabase
-          .from("account_transactions")
-          .select("*")
-          .eq("account_id", orderData.cari_id)
-          .order("date", { ascending: false })
-          .limit(10);
-
-        if (hist) {
-          historyItems = hist.map((h: any) => ({
-            id: h.id,
-            date: h.date ? new Date(h.date).toISOString().split("T")[0] : "",
-            type: h.type,
-            description: h.description || "İşlem",
-            amount: Number(h.amount) || 0,
-          }));
+          neighborhood = cariData.neighborhood || neighborhood;
         }
       }
 
-      const rawItems = Array.isArray(orderData.order_items) ? orderData.order_items : (Array.isArray(orderData.items) ? orderData.items : []);
-      const mappedItems = rawItems.map((it: any) => ({
-        name: it.product_name || it.productName || it.name || "Ürün",
-        quantity: Number(it.quantity) || 1,
-        unitPrice: Number(it.unit_price) || Number(it.unitPrice) || Number(it.price) || 0,
-        totalPrice: Number(it.total_price) || Number(it.totalPrice) || (Number(it.quantity) || 1) * (Number(it.unit_price) || Number(it.unitPrice) || 0),
-        weight: it.weight,
-      }));
+      const rawItems = Array.isArray(orderData.order_items)
+        ? orderData.order_items
+        : Array.isArray(orderData.items)
+        ? orderData.items
+        : [];
+
+      const mappedItems: ParsedSlipItem[] = rawItems.map((it: any) => {
+        const itName = it.product_name || it.productName || it.name || "Ürün";
+        const meta = getProductMeta(itName);
+        const qty = Number(it.quantity) || 1;
+        const uPrice = Number(it.unit_price) || Number(it.unitPrice) || Number(it.price) || 0;
+        const tPrice = Number(it.total_price) || Number(it.totalPrice) || qty * uPrice;
+
+        return {
+          name: itName,
+          quantity: qty,
+          unitPrice: uPrice,
+          totalPrice: tPrice,
+          weight: it.weight || meta.weight,
+          imageUrl: it.image_url || it.imageUrl || meta.imageUrl,
+        };
+      });
 
       return NextResponse.json({
         success: true,
         data: {
           id: orderData.id,
-          orderNumber: orderData.order_number || orderData.id.substring(0, 6).toUpperCase(),
+          orderNumber: orderData.order_number || `ORD-${orderData.id.substring(0, 6).toUpperCase()}`,
+          slipNumber: orderData.order_number || `ORD-${orderData.id.substring(0, 6).toUpperCase()}`,
           businessName: busName,
           phone: phone,
           address: address,
-          neighborhood: orderData.neighborhood || "Beylikdüzü",
+          neighborhood: neighborhood,
           taxNumber: taxNo,
-          date: orderData.delivery_date ? new Date(orderData.delivery_date).toISOString().split("T")[0] : new Date().toISOString().split("T")[0],
+          cariId: orderData.cari_id || null,
+          date: orderData.delivery_date
+            ? new Date(orderData.delivery_date).toISOString().split("T")[0]
+            : new Date().toISOString().split("T")[0],
           timeWindow: orderData.delivery_time_window || "14:00 - 18:00",
           items: mappedItems,
           subtotal: Number(orderData.subtotal) || Number(orderData.total_amount) || 0,
@@ -95,13 +125,12 @@ export async function GET(
           paidAmount: 0,
           newBalance: newBal > 0 ? newBal : Number(orderData.total_amount) || 0,
           status: orderData.status,
-          history: historyItems,
-        }
+        },
       });
     }
 
-    // 2. Try finding in `account_transactions` table if it was recorded as a Cari transaction
-    const { data: txData, error: txError } = await supabase
+    // 2. Try finding in `account_transactions` table
+    const { data: txData } = await supabase
       .from("account_transactions")
       .select("*")
       .eq("id", id)
@@ -118,66 +147,99 @@ export async function GET(
       const taxNo = cariData?.tax_id || "";
       const curBal = Number(cariData?.balance) || 0;
       const amount = Number(txData.amount) || 0;
-      const prevBal = curBal - amount;
+      const isSatis = txData.type === "satis";
+      const prevBal = isSatis ? curBal - amount : curBal + amount;
 
-      // Parse items from description if present
-      // Example description: "[FİŞ-2609-007] 10x Taş Fırın Ekşi Mayalı Köy Ekmeği (110₺)"
+      // Extract slip number: either txData.slip_number or from description [FİŞ-YYMM-XXX]
+      const slipMatch = txData.description?.match(/\[(FİŞ-[^\]]+)\]/i);
+      const extractedSlipNumber =
+        txData.slip_number ||
+        (slipMatch ? slipMatch[1] : `FİŞ-${txData.id.substring(0, 6).toUpperCase()}`);
+
+      // Clean description
       const desc = txData.description || "Toptan Ekmek Teslimatı";
-      let cleanDesc = desc.replace(/^\[.*?\]\s*/, "").replace(/^(Fiş|Sipariş):\s*/i, "");
-      
-      let parsedQuantity = 1;
-      let parsedName = cleanDesc;
-      
-      // Try to extract quantity "10x " from the start
-      const match = cleanDesc.match(/^(\d+)x\s+(.*)$/);
-      if (match) {
-        parsedQuantity = parseInt(match[1], 10);
-        parsedName = match[2];
-      }
-      
-      // Try to remove "(110₺)" from the end of the name
-      parsedName = parsedName.replace(/\s*\([\d.,]+[₺TL\s]*\)$/i, "").trim();
+      let cleanDesc = desc
+        .replace(/\[FİŞ-[^\]]+\]\s*/gi, "")
+        .replace(/^(Fiş|Sipariş):\s*/i, "")
+        .trim();
 
-      const unitPrice = parsedQuantity > 0 ? amount / parsedQuantity : amount;
+      // Separate note if exists (e.g. "... | Not: zil çalmasın")
+      let customNote = "";
+      if (cleanDesc.includes("| Not:")) {
+        const parts = cleanDesc.split("| Not:");
+        cleanDesc = parts[0].trim();
+        customNote = parts[1].trim();
+      }
+
+      // Parse multi-item string: e.g. "10x Taş Fırın Ekşi Mayalı Köy Ekmeği (85₺), 5x 3Lt Jersey Süt (120₺)"
+      const itemStrings = cleanDesc.split(/,\s*(?=\d+x)/);
+      const parsedItems: ParsedSlipItem[] = [];
+
+      for (const rawItem of itemStrings) {
+        const itemMatch = rawItem.trim().match(/^(\d+)x\s+(.*?)(?:\s*\(([\d.,]+)[₺TL\s]*\))?$/i);
+        if (itemMatch) {
+          const qty = parseInt(itemMatch[1], 10);
+          const name = itemMatch[2].trim();
+          const meta = getProductMeta(name);
+          const price = itemMatch[3] ? parseFloat(itemMatch[3].replace(",", ".")) : (qty > 0 ? amount / qty : amount);
+
+          parsedItems.push({
+            name,
+            quantity: qty,
+            unitPrice: price,
+            totalPrice: qty * price,
+            weight: meta.weight,
+            imageUrl: meta.imageUrl,
+          });
+        }
+      }
+
+      // Fallback if parsing failed
+      if (parsedItems.length === 0) {
+        const meta = getProductMeta(cleanDesc);
+        parsedItems.push({
+          name: cleanDesc || "Toptan Ekmek Teslimatı",
+          quantity: 1,
+          unitPrice: amount,
+          totalPrice: amount,
+          weight: meta.weight,
+          imageUrl: meta.imageUrl,
+        });
+      }
 
       return NextResponse.json({
         success: true,
         data: {
           id: txData.id,
-          orderNumber: (txData.order_id || txData.id).substring(0, 6).toUpperCase(),
+          orderNumber: extractedSlipNumber,
+          slipNumber: extractedSlipNumber,
           businessName: busName,
           phone: cariData?.phone || "",
           address: cariData?.address || "",
-          neighborhood: "Beylikdüzü",
+          neighborhood: cariData?.neighborhood || "Beylikdüzü",
           taxNumber: taxNo,
-          date: txData.date ? new Date(txData.date).toISOString().split("T")[0] : new Date().toISOString().split("T")[0],
+          cariId: txData.account_id,
+          date: txData.date
+            ? new Date(txData.date).toISOString().split("T")[0]
+            : new Date().toISOString().split("T")[0],
           timeWindow: "14:00 - 18:00",
-          items: [
-            {
-              name: parsedName,
-              quantity: parsedQuantity,
-              unitPrice: unitPrice,
-              totalPrice: amount,
-            },
-          ],
+          items: parsedItems,
           subtotal: amount,
           totalAmount: amount,
           previousBalance: prevBal,
           paidAmount: 0,
           newBalance: curBal,
-        }
+          notes: customNote,
+        },
       });
     }
 
     return NextResponse.json({ success: false, error: "Fiş bulunamadı" }, { status: 404 });
-
   } catch (error: any) {
     console.error("Fetch slip error:", error);
-    // If it's a UUID syntax error from Postgres (22P02), it just means it wasn't found in transactions
     if (error?.code === "22P02") {
-       return NextResponse.json({ success: false, error: "Fiş bulunamadı" }, { status: 404 });
+      return NextResponse.json({ success: false, error: "Fiş bulunamadı" }, { status: 404 });
     }
     return NextResponse.json({ success: false, error: error.message }, { status: 500 });
   }
 }
-

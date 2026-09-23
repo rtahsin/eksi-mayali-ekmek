@@ -210,6 +210,7 @@ export default function B2BSlipModal({
     const slipUrl = successResult.transactionId
       ? `${origin}/fis/${successResult.transactionId}`
       : `${origin}/admin/cariler/${cariId}`;
+    const ekstreUrl = `${origin}/ekstre/${cariId}`;
 
     const dateStr = new Date().toLocaleDateString("tr-TR");
 
@@ -223,8 +224,9 @@ export default function B2BSlipModal({
       (successResult.newBalance !== undefined
         ? `📊 *Toplam Güncel Bakiye:* ${successResult.newBalance.toLocaleString("tr-TR")} ₺\n\n`
         : "\n") +
-      `🔗 *Online Fiş & Ekstre Görüntüle:*\n${slipUrl}\n\n` +
-      `Afiyet olsun, bereketli işler dileriz!\n` +
+      `🔗 *Online Fiş Detayı:*\n${slipUrl}\n\n` +
+      `📈 *Tüm Geçmiş Alış & Ödemeleriniz (Canlı Ekstre):*\n${ekstreUrl}\n\n` +
+      `Bizi tercih ettiğiniz için teşekkür eder, bereketli işler dileriz!\n` +
       `EkmekLab Zanaatkar Fırın`
     );
   };

@@ -1,8 +1,7 @@
 "use client";
 
-import React, { useEffect, useState, useMemo } from "react";
-import { useParams, useSearchParams } from "next/navigation";
-import { createClient } from "@/lib/supabase/client";
+import React, { useEffect, useState, useRef } from "react";
+import { useParams } from "next/navigation";
 import {
   Building2,
   Calendar,
@@ -11,17 +10,17 @@ import {
   Phone,
   MessageCircle,
   Receipt,
-  CheckCircle2,
-  TrendingUp,
   Share2,
   Printer,
+  Download,
   Copy,
   Check,
-  Store,
-  Sparkles,
   ExternalLink,
+  Loader2,
+  Sparkles,
 } from "lucide-react";
 import Link from "next/link";
+import html2canvas from "html2canvas";
 
 interface SlipItem {
   name: string;
@@ -29,43 +28,58 @@ interface SlipItem {
   unitPrice: number;
   totalPrice: number;
   weight?: number;
+  imageUrl?: string;
 }
 
 interface SlipData {
   id: string;
   orderNumber?: string;
+  slipNumber?: string;
   businessName: string;
   contactPerson?: string;
   phone: string;
   address?: string;
   neighborhood?: string;
   taxNumber?: string;
+  cariId?: string | null;
   date: string;
   timeWindow?: string;
   items: SlipItem[];
   subtotal: number;
   totalAmount: number;
-  // Balance details
   previousBalance?: number;
   paidAmount?: number;
   newBalance?: number;
   status?: string;
-  history?: {
-    id: string;
-    date: string;
-    type: "debt" | "credit";
-    description: string;
-    amount: number;
-  }[];
+  notes?: string;
+}
+
+function getItemFallbackImage(name: string): string {
+  const lower = name.toLowerCase();
+  if (lower.includes("ekmek") || lower.includes("mayalı") || lower.includes("baget") || lower.includes("somun") || lower.includes("siyez") || lower.includes("karakılçık")) {
+    return "/images/categories/bread.jpg";
+  }
+  if (lower.includes("süt") || lower.includes("peynir") || lower.includes("tereyağ") || lower.includes("mandıra") || lower.includes("jersey")) {
+    return "/images/categories/dairy.jpg";
+  }
+  if (lower.includes("tatlı") || lower.includes("kurabiye") || lower.includes("çörek") || lower.includes("pasta")) {
+    return "/images/categories/desserts.jpg";
+  }
+  if (lower.includes("kahve") || lower.includes("içecek") || lower.includes("çay") || lower.includes("meyve")) {
+    return "/images/categories/beverages.jpg";
+  }
+  return "/images/categories/default.jpg";
 }
 
 export default function PublicReceiptPage() {
   const params = useParams();
-  const searchParams = useSearchParams();
   const id = params?.id as string;
+  const receiptCardRef = useRef<HTMLDivElement>(null);
 
   const [loading, setLoading] = useState(true);
   const [slip, setSlip] = useState<SlipData | null>(null);
+  const [sharing, setSharing] = useState(false);
+  const [downloading, setDownloading] = useState(false);
   const [copied, setCopied] = useState(false);
 
   useEffect(() => {
@@ -75,7 +89,7 @@ export default function PublicReceiptPage() {
       try {
         const res = await fetch(`/api/slip/${id}`);
         const data = await res.json();
-        
+
         if (res.ok && data.success && data.data) {
           setSlip(data.data);
         } else {
@@ -91,6 +105,109 @@ export default function PublicReceiptPage() {
     fetchSlip();
   }, [id]);
 
+  // Generate canvas for screenshot / sharing
+  const generateReceiptCanvas = async () => {
+    if (!receiptCardRef.current) return null;
+    return await html2canvas(receiptCardRef.current, {
+      scale: 2,
+      backgroundColor: "#140F0B",
+      logging: false,
+      useCORS: true,
+      allowTaint: true,
+    });
+  };
+
+  // Download high-res PNG
+  const handleDownloadPNG = async () => {
+    if (!slip) return;
+    try {
+      setDownloading(true);
+      const canvas = await generateReceiptCanvas();
+      if (!canvas) return;
+
+      const link = document.createElement("a");
+      const safeName = slip.businessName.replace(/[^a-zA-Z0-9]/g, "_");
+      const slipNum = slip.slipNumber || slip.orderNumber || "Fis";
+      link.download = `EkmekLab_${slipNum}_${safeName}_${slip.date}.png`;
+      link.href = canvas.toDataURL("image/png");
+      link.click();
+    } catch (err) {
+      console.error("Görsel indirme hatası:", err);
+      alert("Görsel oluşturulurken bir hata oluştu.");
+    } finally {
+      setDownloading(false);
+    }
+  };
+
+  // WhatsApp Share with PNG (via Web Share API or download + link)
+  const handleWhatsAppShare = async () => {
+    if (!slip) return;
+    setSharing(true);
+
+    const ekstreUrl = slip.cariId
+      ? `https://ekmeklab.tr/ekstre/${slip.cariId}`
+      : `https://ekmeklab.tr/fis/${slip.id}`;
+    const fisUrl = `https://ekmeklab.tr/fis/${slip.id}`;
+    const slipNum = slip.slipNumber || slip.orderNumber || "FİŞ";
+    const totalStr = slip.totalAmount.toLocaleString("tr-TR") + " ₺";
+    const newBalStr = (slip.newBalance ?? slip.totalAmount).toLocaleString("tr-TR") + " ₺";
+
+    const shareCaption =
+      `🍞 *EKMEKLAB TAŞ FIRIN - TESLİMAT FİŞİ*\n` +
+      `Sayın *${slip.businessName}*,\n\n` +
+      `📋 *Fiş No:* ${slipNum}\n` +
+      `📅 *Tarih:* ${slip.date}\n` +
+      `💰 *Fiş Tutarı:* ${totalStr}\n` +
+      `📊 *Güncel Kalan Bakiye:* ${newBalStr}\n\n` +
+      `🔗 *Online Fiş Detayı:* ${fisUrl}\n` +
+      `📈 *Tüm Geçmiş Alış & Ödemeleriniz:* ${ekstreUrl}\n\n` +
+      `Bizi tercih ettiğiniz için teşekkür eder, bereketli işler dileriz! 🌾`;
+
+    try {
+      const canvas = await generateReceiptCanvas();
+      if (canvas && navigator.share && navigator.canShare) {
+        const blob = await new Promise<Blob | null>((resolve) =>
+          canvas.toBlob(resolve, "image/png")
+        );
+        if (blob) {
+          const file = new File([blob], `EkmekLab_${slipNum}.png`, { type: "image/png" });
+          if (navigator.canShare({ files: [file] })) {
+            await navigator.share({
+              files: [file],
+              title: `EkmekLab Teslimat Fişi - ${slip.businessName}`,
+              text: shareCaption,
+            });
+            setSharing(false);
+            return;
+          }
+        }
+      }
+
+      // Fallback: Download PNG to gallery and open WhatsApp with caption
+      if (canvas) {
+        const link = document.createElement("a");
+        link.download = `EkmekLab_${slipNum}.png`;
+        link.href = canvas.toDataURL("image/png");
+        link.click();
+      }
+
+      let phoneClean = slip.phone.replace(/\D/g, "");
+      if (phoneClean && !phoneClean.startsWith("90")) {
+        phoneClean = phoneClean.startsWith("0") ? `9${phoneClean}` : `90${phoneClean}`;
+      }
+
+      const waUrl = phoneClean
+        ? `https://wa.me/${phoneClean}?text=${encodeURIComponent(shareCaption)}`
+        : `https://api.whatsapp.com/send?text=${encodeURIComponent(shareCaption)}`;
+
+      window.open(waUrl, "_blank");
+    } catch (err) {
+      console.warn("Share notice:", err);
+    } finally {
+      setSharing(false);
+    }
+  };
+
   // Copy Link
   const handleCopyLink = () => {
     navigator.clipboard.writeText(window.location.href);
@@ -100,26 +217,26 @@ export default function PublicReceiptPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-[#120E0B] flex flex-col items-center justify-center p-4 text-stone-300">
-        <div className="w-10 h-10 border-2 border-amber-500 border-t-transparent rounded-full animate-spin mb-4" />
-        <p className="text-sm font-serif">Dijital Fiş Yükleniyor...</p>
+      <div className="min-h-screen bg-[#0C0907] flex flex-col items-center justify-center p-4 text-stone-300">
+        <div className="w-12 h-12 border-3 border-amber-500 border-t-transparent rounded-full animate-spin mb-4" />
+        <p className="text-sm font-serif text-amber-400/90 font-medium">Dijital Fiş Yükleniyor...</p>
       </div>
     );
   }
 
   if (!slip) {
     return (
-      <div className="min-h-screen bg-[#120E0B] flex flex-col items-center justify-center p-4 text-center">
-        <div className="w-14 h-14 rounded-2xl bg-stone-900 border border-stone-800 flex items-center justify-center text-amber-500 mb-4">
-          <Receipt className="w-7 h-7" />
+      <div className="min-h-screen bg-[#0C0907] flex flex-col items-center justify-center p-6 text-center">
+        <div className="w-16 h-16 rounded-2xl bg-[#18130F] border border-[#2A201A] flex items-center justify-center text-amber-500 mb-4 shadow-xl">
+          <Receipt className="w-8 h-8" />
         </div>
         <h1 className="text-xl font-bold font-serif text-stone-100 mb-2">Fiş Bulunamadı</h1>
         <p className="text-xs text-stone-400 max-w-sm mb-6">
-          Aradığınız teslimat fişi bulunamadı veya bağlantı süresi dolmuş olabilir. Lütfen fırınımızla iletişime geçin.
+          Aradığınız teslimat fişi bulunamadı veya silinmiş olabilir. Lütfen fırınımızla iletişime geçiniz.
         </p>
         <a
           href="tel:05010126653"
-          className="px-5 py-2.5 bg-amber-500 text-stone-950 font-bold rounded-xl text-xs flex items-center gap-2"
+          className="px-5 py-3 bg-amber-500 hover:bg-amber-400 text-stone-950 font-bold rounded-2xl text-xs flex items-center gap-2 shadow-lg shadow-amber-500/20 active:scale-95 transition-all"
         >
           <Phone className="w-4 h-4" />
           <span>Fırını Ara (0501 012 66 53)</span>
@@ -128,136 +245,279 @@ export default function PublicReceiptPage() {
     );
   }
 
+  const totalQuantity = slip.items.reduce((sum, it) => sum + it.quantity, 0);
+  const slipDisplayNo = slip.slipNumber || slip.orderNumber || "FİŞ";
+  const prevBalanceVal = slip.previousBalance ?? 0;
+  const currentTotalBalance = slip.newBalance ?? slip.totalAmount;
+
   return (
-    <div className="min-h-screen bg-[#0A0806] py-6 sm:py-12 px-3 flex flex-col items-center font-sans text-stone-200">
+    <div className="min-h-screen bg-[#0A0705] py-6 sm:py-12 px-3 flex flex-col items-center font-sans text-stone-200 selection:bg-amber-500/30 selection:text-amber-300">
       
-      {/* 
-        This is the main screenshot area. 
-        We use the simple thermal receipt structure but with premium dark colors. 
-      */}
-      <div id="receipt-card" className="w-full max-w-[400px] relative pb-10 mt-4">
+      {/* Main Thermal / Luxury Receipt Card Container */}
+      <div className="w-full max-w-[420px] relative pb-6">
         
-        <div className="relative bg-[#120E0B] text-stone-200 p-6 sm:p-8 shadow-2xl border border-[#261E17] rounded-lg">
-          
-          {/* Header: Logo & Brand */}
-          <div className="flex flex-col items-center text-center mb-6">
-            <div className="w-40 h-32 flex items-center justify-center">
-              <img src="/logo/logo.png" alt="EkmekLab" className="w-full h-full object-contain" />
+        {/* Receipt Card */}
+        <div
+          ref={receiptCardRef}
+          id="receipt-card"
+          className="relative bg-[#140F0B] text-stone-200 p-6 sm:p-7 shadow-[0_20px_60px_-15px_rgba(0,0,0,0.9)] border border-[#2E2219] rounded-3xl overflow-hidden print:bg-white print:text-black print:border-none print:shadow-none"
+        >
+          {/* Subtle Top Accent Glow */}
+          <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-amber-600 via-amber-400 to-amber-600 opacity-80 print:hidden" />
+
+          {/* Header: Logo & Bakery Identity */}
+          <div className="flex flex-col items-center text-center mb-5 pt-2">
+            <div className="w-40 h-20 flex items-center justify-center">
+              <img
+                src="/logo/logo.png"
+                alt="EkmekLab"
+                className="w-full h-full object-contain drop-shadow"
+              />
             </div>
-            <div className="text-xs text-stone-400 leading-tight font-medium mt-2">
-              0501 012 66 53
+            <div className="text-[11px] font-serif font-bold text-amber-400 tracking-wide mt-1 uppercase">
+              Zanaatkar Taş Fırın · Beylikdüzü
+            </div>
+            <div className="text-[11px] font-mono text-stone-400 mt-0.5">
+              Tel: 0501 012 66 53
             </div>
           </div>
 
-          <div className="w-full border-t border-dashed border-stone-800 my-4" />
+          <div className="w-full border-t border-dashed border-stone-800 my-4 print:border-stone-400" />
 
-          {/* Receipt Meta */}
-          <div className="grid grid-cols-[100px_1fr] gap-y-1 text-sm font-semibold uppercase text-stone-300">
-            <div className="text-stone-500">MÜŞTERİ</div>
-            <div className="text-right text-stone-100">{slip.businessName}</div>
-            
-            <div className="text-stone-500">TARİH</div>
-            <div className="text-right font-mono">{slip.date}</div>
+          {/* Receipt Meta Details */}
+          <div className="space-y-1.5 text-xs">
+            <div className="flex justify-between items-baseline">
+              <span className="text-stone-500 uppercase tracking-wider font-semibold text-[10px]">Müşteri</span>
+              <span className="font-bold text-stone-100 text-right truncate max-w-[240px] text-sm">
+                {slip.businessName}
+              </span>
+            </div>
+
+            {slip.contactPerson && (
+              <div className="flex justify-between items-baseline">
+                <span className="text-stone-500 uppercase tracking-wider font-semibold text-[10px]">Yetkili</span>
+                <span className="text-stone-300 text-right font-medium">{slip.contactPerson}</span>
+              </div>
+            )}
+
+            <div className="flex justify-between items-baseline">
+              <span className="text-stone-500 uppercase tracking-wider font-semibold text-[10px]">Fiş No</span>
+              <span className="font-mono font-bold text-amber-400 text-right tracking-wider">{slipDisplayNo}</span>
+            </div>
+
+            <div className="flex justify-between items-baseline">
+              <span className="text-stone-500 uppercase tracking-wider font-semibold text-[10px]">Tarih</span>
+              <span className="font-mono text-stone-300 text-right">{slip.date}</span>
+            </div>
+
+            {slip.neighborhood && (
+              <div className="flex justify-between items-baseline">
+                <span className="text-stone-500 uppercase tracking-wider font-semibold text-[10px]">Bölge</span>
+                <span className="text-stone-400 text-right">{slip.neighborhood}</span>
+              </div>
+            )}
           </div>
 
-          <div className="w-full border-t border-dashed border-stone-800 my-4" />
+          <div className="w-full border-t border-dashed border-stone-800 my-4 print:border-stone-400" />
 
-          {/* Items */}
-          <div className="space-y-4">
+          {/* Items Header */}
+          <div className="text-[10px] font-bold uppercase tracking-wider text-amber-400/90 mb-3 flex items-center justify-between">
+            <span>Teslim Edilen Ürünler</span>
+            <span>Tutar</span>
+          </div>
+
+          {/* Items List */}
+          <div className="space-y-3.5">
             {slip.items.map((it, idx) => {
-              const nameLower = it.name.toLowerCase();
-              let imgSrc = "/images/categories/default.jpg";
-              if (nameLower.includes("ekmek") || nameLower.includes("mayalı")) imgSrc = "/images/categories/bread.jpg";
-              else if (nameLower.includes("süt") || nameLower.includes("peynir") || nameLower.includes("tereyağ")) imgSrc = "/images/categories/dairy.jpg";
-              else if (nameLower.includes("tatlı") || nameLower.includes("kurabiye")) imgSrc = "/images/categories/desserts.jpg";
-              else if (nameLower.includes("içecek") || nameLower.includes("kahve")) imgSrc = "/images/categories/beverages.jpg";
-              
+              const fallbackImg = getItemFallbackImage(it.name);
+              const imgSrc = it.imageUrl || fallbackImg;
+
               return (
-                <div key={idx} className="flex gap-3">
-                  <div className="w-12 h-12 rounded-lg bg-stone-900 border border-stone-800 shrink-0 overflow-hidden">
-                    <img src={imgSrc} alt={it.name} className="w-full h-full object-cover opacity-90" />
+                <div key={idx} className="flex items-center gap-3">
+                  {/* Thumbnail Image */}
+                  <div className="w-12 h-12 rounded-xl bg-stone-900 border border-stone-800 shrink-0 overflow-hidden shadow-inner flex items-center justify-center print:border-stone-300">
+                    <img
+                      src={imgSrc}
+                      alt={it.name}
+                      onError={(e) => {
+                        (e.target as HTMLImageElement).src = fallbackImg;
+                      }}
+                      className="w-full h-full object-cover"
+                    />
                   </div>
-                  <div className="flex-1 flex flex-col justify-center">
-                    <div className="flex justify-between items-start font-semibold text-stone-200">
-                      <span>{it.name} {it.weight && `(${it.weight}g)`}</span>
-                      <span className="font-mono text-amber-400">{it.totalPrice.toLocaleString("tr-TR")} ₺</span>
+
+                  {/* Name, Quantity & Price */}
+                  <div className="flex-1 min-w-0">
+                    <div className="font-bold text-stone-100 text-xs sm:text-[13px] leading-snug">
+                      <span className="text-amber-400 font-mono mr-1.5">{it.quantity} Adet</span>
+                      <span>{it.name}</span>
+                      {it.weight && (
+                        <span className="text-[10px] text-stone-400 font-normal ml-1">
+                          ({it.weight}g)
+                        </span>
+                      )}
                     </div>
-                    <div className="text-xs text-stone-500 mt-1 font-mono">
-                      {it.quantity} Adet x {it.unitPrice.toLocaleString("tr-TR")} ₺
+                    <div className="text-[11px] text-stone-400 font-mono mt-0.5">
+                      {it.quantity} x {it.unitPrice.toLocaleString("tr-TR")} ₺
                     </div>
+                  </div>
+
+                  {/* Line Total */}
+                  <div className="text-right shrink-0">
+                    <span className="font-mono font-bold text-stone-100 text-xs sm:text-[13px]">
+                      {it.totalPrice.toLocaleString("tr-TR")} ₺
+                    </span>
                   </div>
                 </div>
               );
             })}
           </div>
 
-          <div className="w-full border-t border-dashed border-stone-800 my-4" />
+          <div className="w-full border-t border-dashed border-stone-800 my-4 print:border-stone-400" />
 
-          {/* Subtotals */}
-          <div className="grid grid-cols-2 gap-y-1 text-sm font-semibold text-stone-300">
-            <div className="text-stone-500">Toplam Ürün Çeşidi</div>
-            <div className="text-right">{slip.items.length} ürün</div>
-            
-            <div className="text-stone-500">Toplam Miktar</div>
-            <div className="text-right">{slip.items.reduce((sum, it) => sum + it.quantity, 0)} adet</div>
+          {/* Quantity & Item Count Summary */}
+          <div className="space-y-1.5 text-xs">
+            <div className="flex justify-between items-center text-stone-400">
+              <span className="text-[11px]">Toplam Kalem / Miktar</span>
+              <span className="font-mono font-medium text-stone-300">
+                {slip.items.length} çeşit • {totalQuantity} adet
+              </span>
+            </div>
+
+            {/* This Slip Total */}
+            <div className="flex justify-between items-center pt-2 border-t border-stone-800/80">
+              <span className="font-serif font-bold text-sm text-stone-100">BU FİŞ TUTARI</span>
+              <span className="font-mono font-black text-lg text-amber-400">
+                {slip.totalAmount.toLocaleString("tr-TR")} ₺
+              </span>
+            </div>
           </div>
 
-          <div className="w-full border-t border-stone-700 border-2 my-3" />
+          <div className="w-full border-t-2 border-dashed border-stone-700 my-4 print:border-stone-400" />
 
-          {/* Grand Total */}
-          <div className="flex justify-between items-center text-lg font-bold text-stone-100">
-            <div>TOPLAM</div>
-            <div className="font-mono text-amber-400">{slip.totalAmount.toLocaleString("tr-TR")} TL</div>
+          {/* Running Balance Card (Option A: Cumulative Balance) */}
+          <div className="bg-[#1C1510] border border-[#2F231A] rounded-2xl p-3.5 space-y-2 print:bg-stone-50 print:border-stone-300">
+            <div className="text-[10px] font-bold text-stone-400 uppercase tracking-wider">
+              Hesap Durumu (Cari Bakiye)
+            </div>
+
+            <div className="flex justify-between items-center text-xs text-stone-400">
+              <span>Önceki Bakiye:</span>
+              <span className="font-mono text-stone-300">
+                {prevBalanceVal.toLocaleString("tr-TR")} ₺
+              </span>
+            </div>
+
+            <div className="flex justify-between items-center text-xs text-stone-400">
+              <span>Bu Fiş Tutarı:</span>
+              <span className="font-mono text-amber-400 font-semibold">
+                +{slip.totalAmount.toLocaleString("tr-TR")} ₺
+              </span>
+            </div>
+
+            <div className="flex justify-between items-center pt-1.5 border-t border-stone-800 text-xs font-bold print:border-stone-300">
+              <span className="text-stone-100">GÜNCEL TOPLAM BAKİYE:</span>
+              <span className="font-mono text-base font-black text-amber-400">
+                {currentTotalBalance.toLocaleString("tr-TR")} ₺
+              </span>
+            </div>
           </div>
 
-          <div className="w-full border-t border-dashed border-stone-800 my-4" />
+          {slip.notes && (
+            <div className="mt-3 p-2.5 rounded-xl bg-stone-900/50 border border-stone-800 text-[11px] text-stone-400">
+              <span className="font-bold text-stone-300 mr-1">Not:</span>
+              <span>{slip.notes}</span>
+            </div>
+          )}
 
-          {/* Customer Info / Balances */}
-          <div className="text-center font-bold text-base mb-4 text-stone-100 uppercase tracking-widest text-xs">Hesap Durumu</div>
-          
-          <div className="grid grid-cols-[120px_1fr] gap-y-2 text-sm font-semibold text-stone-300">
-            <div className="text-stone-500">Önceki Bakiye</div>
-            <div className="text-right font-mono text-stone-400">{(slip.previousBalance || 0).toLocaleString("tr-TR")} ₺</div>
-            
-            <div className="text-stone-500 text-base text-amber-500">Güncel Bakiye</div>
-            <div className="text-right font-mono text-base text-amber-500">{(slip.newBalance || slip.totalAmount).toLocaleString("tr-TR")} ₺</div>
-          </div>
-
-          <div className="text-[11px] mt-5 text-stone-600">İşlem Yapan: Yönetici</div>
-
-          {/* Footer / Stamp */}
-          <div className="pt-8 pb-2 text-center text-xs text-stone-500 space-y-3 font-semibold">
-            <div className="tracking-widest opacity-80">— AÇIKLAMALAR —</div>
-            <div className="text-stone-400">Bizi Tercih Ettiğiniz İçin Teşekkürler</div>
-            
-            <div className="font-normal mt-4 opacity-70">Bu fiş bilgilendirme amaçlıdır.</div>
-            <div className="italic text-stone-400">Bizi tercih ettiğiniz için teşekkürler!</div>
+          {/* Closing Warm Bakery Note */}
+          <div className="pt-6 pb-2 text-center text-xs text-stone-400 space-y-1">
+            <div className="italic font-serif text-stone-300">
+              Bizi tercih ettiğiniz için teşekkür ederiz.
+            </div>
+            <div className="text-[10px] text-stone-500 font-mono tracking-widest uppercase">
+              EkmekLab Taş Fırın · Bereketli İşler
+            </div>
           </div>
 
         </div>
 
-        {/* Action Buttons (Outside the card) */}
-        <div className="mt-6 flex flex-col sm:flex-row gap-3">
-          <button
-            onClick={handleCopyLink}
-            className="flex-1 flex items-center justify-center gap-2 p-3.5 bg-stone-900 text-stone-200 font-bold rounded-xl text-sm border border-stone-800 shadow-sm active:scale-95 transition-transform hover:bg-stone-800"
-          >
-            {copied ? <Check className="w-5 h-5 text-emerald-400" /> : <Copy className="w-5 h-5 text-amber-400" />}
-            <span>{copied ? "Link Kopyalandı" : "Fiş Linkini Kopyala"}</span>
-          </button>
+        {/* Action Buttons (Excluded from Screenshot) */}
+        <div className="mt-5 space-y-2.5 print:hidden">
           
-          <a
-            href="https://wa.me/905010126653?text=Merhaba%2C%20EkmekLab%20teslimat%20fi%C5%9Fimizle%20ilgili%20yaz%C4%B1yorum."
-            target="_blank"
-            rel="noreferrer"
-            className="flex-1 flex items-center justify-center gap-2 p-3.5 bg-[#121E15] border border-emerald-900/50 hover:bg-[#16261A] text-emerald-400 font-bold rounded-xl text-sm shadow-sm active:scale-95 transition-transform"
+          {/* Main Primary Action: WhatsApp Share with PNG & Statement Link */}
+          <button
+            onClick={handleWhatsAppShare}
+            disabled={sharing}
+            className="w-full flex items-center justify-center gap-2.5 py-4 px-4 bg-emerald-600 hover:bg-emerald-500 text-white font-bold rounded-2xl text-sm shadow-xl shadow-emerald-950/40 active:scale-98 transition-all disabled:opacity-50"
           >
-            <MessageCircle className="w-5 h-5" />
-            <span>Fırına Yaz</span>
-          </a>
+            {sharing ? (
+              <>
+                <Loader2 className="w-5 h-5 animate-spin" />
+                <span>Görsel Hazırlanıyor...</span>
+              </>
+            ) : (
+              <>
+                <MessageCircle className="w-5 h-5 stroke-[2.2]" />
+                <span>WhatsApp İle Paylaş (PNG + Link)</span>
+              </>
+            )}
+          </button>
+
+          {/* Secondary Actions: Download PNG & Copy Link */}
+          <div className="grid grid-cols-2 gap-2.5">
+            <button
+              onClick={handleDownloadPNG}
+              disabled={downloading}
+              className="flex items-center justify-center gap-2 p-3 bg-[#18130F] hover:bg-[#221A14] text-stone-200 font-bold rounded-xl text-xs border border-[#2E2219] shadow active:scale-95 transition-all disabled:opacity-50"
+            >
+              {downloading ? (
+                <Loader2 className="w-4 h-4 animate-spin text-amber-400" />
+              ) : (
+                <Download className="w-4 h-4 text-amber-400" />
+              )}
+              <span>Görseli İndir (PNG)</span>
+            </button>
+
+            <button
+              onClick={handleCopyLink}
+              className="flex items-center justify-center gap-2 p-3 bg-[#18130F] hover:bg-[#221A14] text-stone-200 font-bold rounded-xl text-xs border border-[#2E2219] shadow active:scale-95 transition-all"
+            >
+              {copied ? (
+                <Check className="w-4 h-4 text-emerald-400" />
+              ) : (
+                <Copy className="w-4 h-4 text-stone-400" />
+              )}
+              <span>{copied ? "Link Kopyalandı" : "Fiş Linkini Kopyala"}</span>
+            </button>
+          </div>
+
+          {/* Live Customer Statement Link (Eski Alışlar / Ekstre) */}
+          {slip.cariId && (
+            <Link
+              href={`/ekstre/${slip.cariId}`}
+              className="flex items-center justify-between p-3.5 bg-[#18130F] hover:bg-[#201711] border border-[#2E2219] hover:border-amber-500/40 rounded-xl text-xs text-stone-300 font-medium transition-colors group"
+            >
+              <div className="flex items-center gap-2">
+                <Receipt className="w-4 h-4 text-amber-400" />
+                <span>Müşterinin Canlı Ekstresi (Tüm Alış & Ödemeler)</span>
+              </div>
+              <ExternalLink className="w-3.5 h-3.5 text-stone-500 group-hover:text-amber-400 transition-colors" />
+            </Link>
+          )}
+
+          {/* Thermal / Browser Print Button */}
+          <button
+            onClick={() => window.print()}
+            className="w-full flex items-center justify-center gap-2 py-2.5 text-stone-500 hover:text-stone-300 text-xs font-medium transition-colors"
+          >
+            <Printer className="w-3.5 h-3.5" />
+            <span>Termal / Kağıt Yazıcıdan Çıktı Al</span>
+          </button>
         </div>
 
       </div>
+
     </div>
   );
 }
