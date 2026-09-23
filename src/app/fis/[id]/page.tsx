@@ -19,6 +19,9 @@ import {
   Loader2,
   Sparkles,
   X,
+  User,
+  Package,
+  BarChart2,
 } from "lucide-react";
 import Link from "next/link";
 import html2canvas from "html2canvas";
@@ -136,7 +139,7 @@ export default function PublicReceiptPage() {
     if (!receiptCardRef.current) return null;
     return await html2canvas(receiptCardRef.current, {
       scale: 2,
-      backgroundColor: "#140F0B",
+      backgroundColor: "#FBF9F5",
       logging: false,
       useCORS: true,
       allowTaint: true,
@@ -293,196 +296,218 @@ export default function PublicReceiptPage() {
         <div
           ref={receiptCardRef}
           id="receipt-card"
-          className="relative bg-[#140F0B] text-stone-200 p-6 sm:p-7 shadow-[0_20px_60px_-15px_rgba(0,0,0,0.9)] border border-[#2E2219] rounded-3xl overflow-hidden print:bg-white print:text-black print:border-none print:shadow-none"
+          className="relative bg-[#FBF9F5] text-[#221610] p-5 sm:p-6 shadow-[0_20px_50px_rgba(34,22,16,0.12)] border border-[#EBE4D8] rounded-[28px] overflow-hidden print:bg-white print:text-black print:border-none print:shadow-none"
         >
-          {/* Subtle Top Accent Glow */}
-          <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-amber-600 via-amber-400 to-amber-600 opacity-80 print:hidden" />
-
-          {/* Header: Logo & Clean Bakery Identity */}
-          <div className="flex flex-col items-center text-center mb-4 pt-1">
-            <div className="flex items-center justify-center mb-1">
+          {/* Header: Logo & Brand Information (Horizontal Alignment) */}
+          <div className="flex items-center gap-4 mb-4">
+            <div className="w-[74px] h-[74px] rounded-full overflow-hidden shrink-0 border border-[#E5DDCF] bg-white flex items-center justify-center p-0.5 shadow-sm">
               <img
                 src="/logo/logo.png"
                 alt="EkmekLAB"
-                style={{
-                  width: "135px",
-                  height: "auto",
-                  display: "block",
-                  margin: "0 auto",
-                }}
+                className="w-full h-full object-contain"
               />
             </div>
-            <div className="text-[13px] font-bold text-amber-400 tracking-wide mt-1">
-              EkmekLAB - Beylikdüzü
-            </div>
-            <div className="text-xs font-mono text-stone-300 mt-0.5">
-              0501 012 66 53
-            </div>
-          </div>
-
-          <div className="w-full border-t border-[#261E17] my-3.5" />
-
-          {/* Receipt Meta Details */}
-          <div className="space-y-2 text-xs">
-            <div className="flex justify-between items-baseline gap-2">
-              <span className="text-stone-500 uppercase tracking-wider font-semibold text-[10px] shrink-0">
-                Tarih
-              </span>
-              <span className="font-mono text-stone-200 text-right font-medium">
-                {formatDateTime(slip.date, slip.createdAt)}
-              </span>
-            </div>
-
-            <div className="flex justify-between items-start gap-2">
-              <span className="text-stone-500 uppercase tracking-wider font-semibold text-[10px] shrink-0 pt-0.5">
-                Müşteri
-              </span>
-              <span className="font-bold text-stone-100 text-right break-words text-sm flex-1">
-                {slip.businessName}
-              </span>
+            <div className="flex flex-col">
+              <h1 className="text-[28px] font-black text-[#1E140F] tracking-tight leading-none font-sans">
+                EkmekLAB
+              </h1>
+              <div className="text-xs font-semibold text-[#63554D] tracking-[0.2em] uppercase mt-1">
+                B e y l i k d ü z ü
+              </div>
+              <div className="flex items-center gap-1.5 text-xs font-bold text-[#3B2F28] mt-1.5">
+                <Phone className="w-3.5 h-3.5 text-[#8A7A70]" />
+                <span>0501 012 66 53</span>
+              </div>
             </div>
           </div>
 
-          <div className="w-full border-t border-[#261E17] my-3.5" />
-
-          {/* Items List */}
-          {slip.isProductSale === false ? (
-            /* Devir / Tahsilat / Non-product: No broken image boxes! */
-            <div className="space-y-2">
-              {slip.items.map((it, idx) => (
-                <div
-                  key={idx}
-                  className="flex justify-between items-center py-2.5 px-3 bg-[#18130F] rounded-xl border border-[#261E17]"
-                >
-                  <div className="font-medium text-stone-200 text-xs sm:text-[13px]">
-                    {it.name}
-                  </div>
-                  <div className="text-right shrink-0">
-                    <span className="font-mono font-bold text-amber-400 text-xs sm:text-[13px]">
-                      {it.totalPrice.toLocaleString("tr-TR")} ₺
-                    </span>
-                  </div>
+          {/* Meta Info Box: Tarih & Müşteri */}
+          <div className="bg-white/90 border border-[#EBE4D8] rounded-2xl p-3 flex items-center justify-between gap-3 mb-3.5 shadow-sm">
+            {/* Tarih */}
+            <div className="flex items-center gap-2.5 min-w-0 flex-1">
+              <div className="w-9 h-9 rounded-full bg-[#F5EFE6] flex items-center justify-center text-[#5C4C42] shrink-0">
+                <Calendar className="w-4 h-4" />
+              </div>
+              <div className="min-w-0">
+                <div className="text-[9px] font-bold text-[#8A7A70] tracking-wider uppercase">
+                  TARİH
                 </div>
-              ))}
+                <div className="text-xs font-bold text-[#1E140F] truncate">
+                  {formatDateTime(slip.date, slip.createdAt)}
+                </div>
+              </div>
             </div>
-          ) : (
-            /* Actual Product Sale: Clean list with thumbnails */
-            <div className="space-y-3">
-              {slip.items.map((it, idx) => {
-                const fallbackImg = getItemFallbackImage(it.name);
-                const imgSrc = it.imageUrl || fallbackImg;
 
-                return (
-                  <div key={idx} className="flex items-center gap-3">
-                    {/* Thumbnail Image */}
-                    <div className="w-11 h-11 rounded-xl bg-stone-900 border border-stone-800 shrink-0 overflow-hidden shadow-inner flex items-center justify-center print:border-stone-300">
-                      <img
-                        src={imgSrc}
-                        alt={it.name}
-                        onError={(e) => {
-                          (e.target as HTMLImageElement).src = fallbackImg;
-                        }}
-                        className="w-full h-full object-cover"
-                      />
+            <div className="w-px h-8 bg-[#EBE4D8] shrink-0" />
+
+            {/* Müşteri */}
+            <div className="flex items-center gap-2.5 min-w-0 flex-1 pl-1">
+              <div className="w-9 h-9 rounded-full bg-[#F5EFE6] flex items-center justify-center text-[#5C4C42] shrink-0">
+                <User className="w-4 h-4" />
+              </div>
+              <div className="min-w-0">
+                <div className="text-[9px] font-bold text-[#8A7A70] tracking-wider uppercase">
+                  MÜŞTERİ
+                </div>
+                <div className="text-xs font-bold text-[#1E140F] truncate" title={slip.businessName}>
+                  {slip.businessName}
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Products & Summary Card */}
+          <div className="bg-white/90 border border-[#EBE4D8] rounded-2xl p-3.5 sm:p-4 mb-3.5 shadow-sm space-y-3">
+            {/* Line Items */}
+            {slip.isProductSale === false ? (
+              /* Non-product: devir/tahsilat */
+              <div className="space-y-2">
+                {slip.items.map((it, idx) => (
+                  <div
+                    key={idx}
+                    className="flex justify-between items-center py-2 px-3 bg-[#FBF9F5] rounded-xl border border-[#EBE4D8]"
+                  >
+                    <div className="font-bold text-[#1E140F] text-xs sm:text-sm">
+                      {it.name}
                     </div>
-
-                    {/* Name, Quantity & Price */}
-                    <div className="flex-1 min-w-0">
-                      <div className="font-bold text-stone-100 text-xs sm:text-[13px] leading-snug">
-                        <span className="text-amber-400 font-mono mr-1.5">{it.quantity} Adet</span>
-                        <span>{it.name}</span>
-                        {it.weight && (
-                          <span className="text-[10px] text-stone-400 font-normal ml-1">
-                            ({it.weight}g)
-                          </span>
-                        )}
-                      </div>
-                      <div className="text-[11px] text-stone-400 font-mono mt-0.5">
-                        {it.quantity} x {it.unitPrice.toLocaleString("tr-TR")} ₺
-                      </div>
-                    </div>
-
-                    {/* Line Total */}
                     <div className="text-right shrink-0">
-                      <span className="font-mono font-bold text-stone-100 text-xs sm:text-[13px]">
+                      <span className="font-mono font-bold text-amber-800 text-xs sm:text-sm">
                         {it.totalPrice.toLocaleString("tr-TR")} ₺
                       </span>
                     </div>
                   </div>
-                );
-              })}
-            </div>
-          )}
+                ))}
+              </div>
+            ) : (
+              /* Product sale list */
+              <div className="space-y-3">
+                {slip.items.map((it, idx) => {
+                  const fallbackImg = getItemFallbackImage(it.name);
+                  const imgSrc = it.imageUrl || fallbackImg;
+                  return (
+                    <div key={idx} className="flex items-center gap-3">
+                      <div className="w-14 h-14 rounded-xl overflow-hidden shrink-0 border border-[#EAE2D6] shadow-sm bg-[#F5EFE6]">
+                        <img
+                          src={imgSrc}
+                          alt={it.name}
+                          onError={(e) => {
+                            (e.target as HTMLImageElement).src = fallbackImg;
+                          }}
+                          className="w-full h-full object-cover"
+                        />
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <div className="text-xs font-bold text-amber-800 font-sans">
+                          {it.quantity} Adet
+                        </div>
+                        <div className="font-bold text-[#1E140F] text-xs sm:text-[13px] leading-snug truncate">
+                          {it.name}
+                          {it.weight && (
+                            <span className="text-[10px] text-[#7A6B62] font-normal ml-1">
+                              ({it.weight}g)
+                            </span>
+                          )}
+                        </div>
+                        <div className="text-[11px] text-[#7A6B62] font-mono mt-0.5">
+                          {it.quantity} x {it.unitPrice.toLocaleString("tr-TR")} ₺
+                        </div>
+                      </div>
+                      <div className="text-right shrink-0">
+                        <span className="font-sans font-bold text-[#1E140F] text-sm sm:text-base">
+                          {it.totalPrice.toLocaleString("tr-TR")} ₺
+                        </span>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            )}
 
-          <div className="w-full border-t border-[#261E17] my-3.5" />
+            <div className="border-t border-[#F0EAE0]" />
 
-          {/* Quantity & Item Count Summary (if product sale) */}
-          {slip.isProductSale !== false && slip.items.length > 0 && (
-            <div className="flex justify-between items-center text-stone-400 text-xs pb-1.5">
-              <span className="text-[11px]">Toplam Kalem / Miktar</span>
-              <span className="font-mono font-medium text-stone-300">
+            {/* Toplam Kalem / Miktar */}
+            <div className="flex justify-between items-center text-xs">
+              <div className="flex items-center gap-2 text-[#5C4C42]">
+                <Package className="w-4 h-4 text-[#8A7A70]" />
+                <span>Toplam Kalem / Miktar</span>
+              </div>
+              <span className="font-bold text-[#1E140F]">
                 {slip.items.length} çeşit • {totalQuantity} adet
               </span>
             </div>
-          )}
 
-          {/* Toplam */}
-          <div className="flex justify-between items-center py-1">
-            <span className="font-serif font-bold text-sm text-stone-100 uppercase tracking-wide">
-              TOPLAM
-            </span>
-            <span className="font-mono font-black text-lg text-amber-400">
-              {slip.totalAmount.toLocaleString("tr-TR")} ₺
-            </span>
+            {/* TOPLAM */}
+            <div className="flex justify-between items-center pt-1">
+              <div className="flex items-center gap-2">
+                <Receipt className="w-4 h-4 text-[#1E140F]" />
+                <span className="font-black text-sm text-[#1E140F] tracking-wide uppercase">
+                  TOPLAM
+                </span>
+              </div>
+              <div className="bg-[#F5EFE6] px-3.5 py-1 rounded-xl text-base sm:text-lg font-black text-[#B45309]">
+                {slip.totalAmount.toLocaleString("tr-TR")} ₺
+              </div>
+            </div>
           </div>
 
-          <div className="w-full border-t border-[#261E17] my-3.5" />
-
-          {/* Running Balance Card (Option A: Cumulative Balance) */}
-          <div className="bg-[#1C1510] border border-[#2F231A] rounded-2xl p-3.5 space-y-2 print:bg-stone-50 print:border-stone-300">
-            <div className="text-[10px] font-bold text-stone-400 uppercase tracking-wider">
-              Hesap Durumu (Cari Bakiye)
-            </div>
-
-            <div className="flex justify-between items-center text-xs text-stone-400">
-              <span>Önceki Bakiye:</span>
-              <span className="font-mono text-stone-300">
-                {prevBalanceVal.toLocaleString("tr-TR")} ₺
+          {/* Account Balance Card (Hesap Durumu - Cari Bakiye) */}
+          <div className="bg-[#F8F4ED] border border-[#E8DFC8] rounded-2xl p-4 mb-4 space-y-2">
+            <div className="flex items-center gap-2 mb-2">
+              <div className="w-6 h-6 rounded-full bg-[#EFE8DC] flex items-center justify-center text-[#5C4C42]">
+                <BarChart2 className="w-3.5 h-3.5" />
+              </div>
+              <span className="text-[11px] font-black text-[#1E140F] tracking-wider uppercase">
+                HESAP DURUMU (CARİ BAKİYE)
               </span>
             </div>
 
-            <div className="flex justify-between items-center text-xs text-stone-400">
+            <div className="flex justify-between items-center text-xs text-[#5C4C42]">
+              <span>Önceki Bakiye:</span>
+              <span className="font-mono font-bold text-[#1E140F]">{prevBalanceVal.toLocaleString("tr-TR")} ₺</span>
+            </div>
+
+            <div className="flex justify-between items-center text-xs text-[#5C4C42]">
               <span>İşlem Tutarı:</span>
-              <span className="font-mono text-amber-400 font-semibold">
+              <span className="font-mono font-bold text-amber-800">
                 {slip.isPositiveDelta !== false ? "+" : "-"}{slip.totalAmount.toLocaleString("tr-TR")} ₺
               </span>
             </div>
 
-            <div className="flex justify-between items-center pt-1.5 border-t border-stone-800 text-xs font-bold print:border-stone-300">
-              <span className="text-stone-100">GÜNCEL TOPLAM BAKİYE:</span>
-              <span className="font-mono text-base font-black text-amber-400">
+            {/* Highlighted Current Balance Row */}
+            <div className="bg-[#EFE8DD] rounded-xl px-3.5 py-2 flex items-center justify-between mt-1">
+              <span className="text-xs font-bold text-[#1E140F]">Güncel Toplam Bakiye:</span>
+              <span className="font-mono text-base font-black text-[#B45309]">
                 {currentTotalBalance.toLocaleString("tr-TR")} ₺
               </span>
             </div>
           </div>
 
           {slip.notes && (
-            <div className="mt-3 p-2.5 rounded-xl bg-stone-900/50 border border-stone-800 text-[11px] text-stone-400">
-              <span className="font-bold text-stone-300 mr-1">Not:</span>
+            <div className="mb-4 p-2.5 rounded-xl bg-white/70 border border-[#EBE4D8] text-[11px] text-[#5C4C42]">
+              <span className="font-bold text-[#1E140F] mr-1">Not:</span>
               <span>{slip.notes}</span>
             </div>
           )}
 
-          {/* Closing Warm Bakery Note */}
-          <div className="pt-6 pb-2 text-center text-xs text-stone-400 space-y-1">
-            <div className="italic font-serif text-stone-300">
+          {/* Footer */}
+          <div className="text-center space-y-1 pt-1 pb-1">
+            {/* Centered Wheat Stalk SVG */}
+            <div className="flex justify-center text-[#A89688] mb-1">
+              <svg className="w-5 h-5 opacity-80" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M2 22 16 8" />
+                <path d="M3.47 12.53 5 11l1.53 1.53a3.5 3.5 0 0 1 0 4.94L5 19l-1.53-1.53a3.5 3.5 0 0 1 0 4.94Z" />
+                <path d="M7.47 8.53 9 7l1.53 1.53a3.5 3.5 0 0 1 0 4.94L9 15l-1.53-1.53a3.5 3.5 0 0 1 0-4.94Z" />
+                <path d="M11.47 4.53 13 3l1.53 1.53a3.5 3.5 0 0 1 0 4.94L13 11l-1.53-1.53a3.5 3.5 0 0 1 0-4.94Z" />
+                <path d="M20 2h2v2a4 4 0 0 1-4 4h-2V6a4 4 0 0 1 4-4Z" />
+              </svg>
+            </div>
+            <div className="italic font-serif text-[#5C4C42] text-xs">
               Bizi tercih ettiğiniz için teşekkür ederiz.
             </div>
-            <div className="text-[10px] text-stone-500 font-mono tracking-widest uppercase">
-              EkmekLab Taş Fırın · Bereketli İşler
+            <div className="text-[10px] text-[#8A7A70] font-mono tracking-widest uppercase">
+              EKMEKLAB TAŞ FIRIN · BEREKETLİ İŞLER
             </div>
           </div>
-
         </div>
 
         {/* Action Buttons (Excluded from Screenshot) */}
