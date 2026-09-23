@@ -21,7 +21,6 @@ import {
 } from "lucide-react";
 import { useCariler } from "@/hooks/useCariler";
 import { CariAccount, BEYLIKDUZU_NEIGHBORHOODS } from "@/types/admin";
-import CariEditModal from "@/components/admin/cariler/CariEditModal";
 
 export default function FinansCarilerPage() {
   const {
@@ -30,7 +29,6 @@ export default function FinansCarilerPage() {
     totalReceivable,
     addCari,
     updateCari,
-    refreshCariler,
   } = useCariler();
 
   const [searchQuery, setSearchQuery] = useState("");
@@ -39,7 +37,9 @@ export default function FinansCarilerPage() {
 
   // New/Edit modal state
   const [formModalOpen, setFormModalOpen] = useState(false);
-  const [editingCari, setEditingCari] = useState<CariAccount | null>(null);
+  const [editingCari, setEditingCari] = useState<Partial<CariAccount> | null>(null);
+  const [isNewCari, setIsNewCari] = useState(false);
+  const [formSubmitting, setFormSubmitting] = useState(false);
 
   const filteredCariler = useMemo(() => {
     return cariler.filter((cari) => {
@@ -66,15 +66,78 @@ export default function FinansCarilerPage() {
 
   // Open new cari modal
   const openNewCariModal = () => {
-    setEditingCari(null);
+    setIsNewCari(true);
+    setEditingCari({
+      businessName: "",
+      contactPerson: "",
+      phone: "",
+      address: "",
+      neighborhood: "",
+      taxNumber: "",
+      taxOffice: "",
+      accountType: "musteri",
+      notes: "",
+      customPrices: {},
+    });
     setFormModalOpen(true);
   };
 
   // Open edit cari modal
   const openEditCariModal = (cari: CariAccount) => {
-    setEditingCari(cari);
+    setIsNewCari(false);
+    setEditingCari({ ...cari });
     setFormModalOpen(true);
     setActiveActionSheet(null);
+  };
+
+  // Submit form
+  const handleFormSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!editingCari?.businessName) return;
+
+    setFormSubmitting(true);
+    try {
+      if (isNewCari) {
+        const result = await addCari({
+          businessName: editingCari.businessName || "",
+          contactPerson: editingCari.contactPerson || "",
+          phone: editingCari.phone || "",
+          address: editingCari.address || "",
+          neighborhood: editingCari.neighborhood || "",
+          taxNumber: editingCari.taxNumber || "",
+          taxOffice: editingCari.taxOffice || "",
+          accountType: editingCari.accountType || "musteri",
+          notes: editingCari.notes || "",
+          customPrices: editingCari.customPrices || {},
+          initialBalance: 0,
+        });
+        if (!result.success) {
+          alert("Hata: " + result.error);
+          return;
+        }
+      } else if (editingCari.id) {
+        const result = await updateCari(editingCari.id, {
+          businessName: editingCari.businessName,
+          contactPerson: editingCari.contactPerson,
+          phone: editingCari.phone,
+          address: editingCari.address,
+          neighborhood: editingCari.neighborhood,
+          taxNumber: editingCari.taxNumber,
+          taxOffice: editingCari.taxOffice,
+          accountType: editingCari.accountType,
+          notes: editingCari.notes,
+          customPrices: editingCari.customPrices,
+        });
+        if (!result.success) {
+          alert("Hata: " + result.error);
+          return;
+        }
+      }
+      setFormModalOpen(false);
+      setEditingCari(null);
+    } finally {
+      setFormSubmitting(false);
+    }
   };
 
   if (carilerLoading) {
@@ -92,10 +155,10 @@ export default function FinansCarilerPage() {
         <div className="flex items-center justify-between">
           <div>
             <h1 className="font-serif text-xl sm:text-2xl font-bold text-stone-100">
-              Cari Hesaplar
+              Finans
             </h1>
             <p className="text-xs text-stone-400 mt-0.5">
-              Kurumsal müşteriler & bakiye takibi
+              Cari hesaplar, fişler & bakiye takibi
             </p>
           </div>
           <button
@@ -331,19 +394,193 @@ export default function FinansCarilerPage() {
       )}
 
       {/* New/Edit Cari Modal */}
-      {formModalOpen && (
-        <CariEditModal
-          cari={editingCari}
-          onClose={() => {
-            setFormModalOpen(false);
-            setEditingCari(null);
-          }}
-          onSuccess={() => {
-            setFormModalOpen(false);
-            setEditingCari(null);
-            refreshCariler();
-          }}
-        />
+      {formModalOpen && editingCari && (
+        <div className="fixed inset-0 z-[9999] flex items-end sm:items-center justify-center bg-black/70 backdrop-blur-sm overflow-y-auto">
+          <div className="absolute inset-0" onClick={() => setFormModalOpen(false)} />
+
+          <div className="bg-stone-900 sm:border border-stone-800 w-full sm:max-w-lg rounded-t-3xl sm:rounded-3xl shadow-2xl overflow-hidden relative z-10 my-0 sm:my-8 max-h-[90vh] flex flex-col">
+            {/* Handle bar for mobile */}
+            <div className="sm:hidden flex justify-center pt-3 pb-1">
+              <div className="w-10 h-1 bg-stone-700 rounded-full" />
+            </div>
+
+            <div className="p-5 border-b border-stone-800 flex justify-between items-center bg-stone-950 shrink-0">
+              <div>
+                <h3 className="font-bold text-stone-100 font-serif text-lg">
+                  {isNewCari ? "Yeni Müşteri Ekle" : "Müşteri Düzenle"}
+                </h3>
+                <p className="text-xs text-stone-400">
+                  {isNewCari ? "Kurumsal cari hesap oluştur" : editingCari.businessName}
+                </p>
+              </div>
+              <button
+                onClick={() => setFormModalOpen(false)}
+                className="p-2 bg-stone-800 rounded-full text-stone-400 hover:text-white min-h-[44px] min-w-[44px] flex items-center justify-center"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            <form onSubmit={handleFormSubmit} className="p-5 space-y-4 overflow-y-auto flex-1">
+              {/* Business Name */}
+              <div className="space-y-1.5">
+                <label className="text-xs font-bold text-stone-300">
+                  İşletme / Firma Adı <span className="text-rose-400">*</span>
+                </label>
+                <input
+                  type="text"
+                  required
+                  value={editingCari.businessName || ""}
+                  onChange={(e) => setEditingCari({ ...editingCari, businessName: e.target.value })}
+                  placeholder="Örn: Beylikdüzü Cafe Restaurant"
+                  className="w-full bg-stone-950 border border-stone-800 rounded-xl px-4 py-3 text-sm text-stone-100 focus:outline-none focus:border-amber-500/50"
+                />
+              </div>
+
+              {/* Contact Person & Phone — 2 column */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div className="space-y-1.5">
+                  <label className="text-xs font-bold text-stone-300">Yetkili Kişi</label>
+                  <input
+                    type="text"
+                    value={editingCari.contactPerson || ""}
+                    onChange={(e) => setEditingCari({ ...editingCari, contactPerson: e.target.value })}
+                    placeholder="Ahmet Bey"
+                    className="w-full bg-stone-950 border border-stone-800 rounded-xl px-4 py-3 text-sm text-stone-100 focus:outline-none focus:border-amber-500/50"
+                  />
+                </div>
+                <div className="space-y-1.5">
+                  <label className="text-xs font-bold text-stone-300">Telefon</label>
+                  <input
+                    type="tel"
+                    value={editingCari.phone || ""}
+                    onChange={(e) => setEditingCari({ ...editingCari, phone: e.target.value })}
+                    placeholder="0501 012 66 53"
+                    className="w-full bg-stone-950 border border-stone-800 rounded-xl px-4 py-3 text-sm text-stone-100 focus:outline-none focus:border-amber-500/50"
+                  />
+                </div>
+              </div>
+
+              {/* Neighborhood */}
+              <div className="space-y-1.5">
+                <label className="text-xs font-bold text-stone-300">Mahalle</label>
+                <select
+                  value={editingCari.neighborhood || ""}
+                  onChange={(e) => setEditingCari({ ...editingCari, neighborhood: e.target.value })}
+                  className="w-full bg-stone-950 border border-stone-800 rounded-xl px-4 py-3 text-sm text-stone-100 focus:outline-none focus:border-amber-500/50 appearance-none"
+                >
+                  <option value="">Seçiniz...</option>
+                  {BEYLIKDUZU_NEIGHBORHOODS.map((n) => (
+                    <option key={n} value={n}>
+                      {n}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              {/* Address */}
+              <div className="space-y-1.5">
+                <label className="text-xs font-bold text-stone-300">Adres</label>
+                <textarea
+                  rows={2}
+                  value={editingCari.address || ""}
+                  onChange={(e) => setEditingCari({ ...editingCari, address: e.target.value })}
+                  placeholder="Cadde, sokak, bina no..."
+                  className="w-full bg-stone-950 border border-stone-800 rounded-xl px-4 py-3 text-sm text-stone-100 focus:outline-none focus:border-amber-500/50 resize-none"
+                />
+              </div>
+
+              {/* Tax Info */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div className="space-y-1.5">
+                  <label className="text-xs font-bold text-stone-300">Vergi Dairesi</label>
+                  <input
+                    type="text"
+                    value={editingCari.taxOffice || ""}
+                    onChange={(e) => setEditingCari({ ...editingCari, taxOffice: e.target.value })}
+                    placeholder="Beylikdüzü VD"
+                    className="w-full bg-stone-950 border border-stone-800 rounded-xl px-4 py-3 text-sm text-stone-100 focus:outline-none focus:border-amber-500/50"
+                  />
+                </div>
+                <div className="space-y-1.5">
+                  <label className="text-xs font-bold text-stone-300">Vergi / TC No</label>
+                  <input
+                    type="text"
+                    value={editingCari.taxNumber || ""}
+                    onChange={(e) => setEditingCari({ ...editingCari, taxNumber: e.target.value })}
+                    placeholder="1234567890"
+                    className="w-full bg-stone-950 border border-stone-800 rounded-xl px-4 py-3 text-sm text-stone-100 focus:outline-none focus:border-amber-500/50"
+                  />
+                </div>
+              </div>
+
+              {/* Account Type */}
+              <div className="space-y-1.5">
+                <label className="text-xs font-bold text-stone-300">Hesap Türü</label>
+                <div className="flex gap-2">
+                  <button
+                    type="button"
+                    onClick={() => setEditingCari({ ...editingCari, accountType: "musteri" })}
+                    className={`flex-1 py-3 rounded-xl text-xs font-bold transition-all ${
+                      editingCari.accountType !== "gider"
+                        ? "bg-amber-500 text-stone-950"
+                        : "bg-stone-800 text-stone-400 border border-stone-700"
+                    }`}
+                  >
+                    <Building2 className="w-4 h-4 mx-auto mb-1" />
+                    Müşteri / Cari
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setEditingCari({ ...editingCari, accountType: "gider" })}
+                    className={`flex-1 py-3 rounded-xl text-xs font-bold transition-all ${
+                      editingCari.accountType === "gider"
+                        ? "bg-rose-500 text-white"
+                        : "bg-stone-800 text-stone-400 border border-stone-700"
+                    }`}
+                  >
+                    <TrendingUp className="w-4 h-4 mx-auto mb-1" />
+                    Gider / Tedarikçi
+                  </button>
+                </div>
+              </div>
+
+              {/* Notes */}
+              <div className="space-y-1.5">
+                <label className="text-xs font-bold text-stone-300">Notlar</label>
+                <textarea
+                  rows={2}
+                  value={editingCari.notes || ""}
+                  onChange={(e) => setEditingCari({ ...editingCari, notes: e.target.value })}
+                  placeholder="Özel anlaşma detayları, teslimat notları..."
+                  className="w-full bg-stone-950 border border-stone-800 rounded-xl px-4 py-3 text-sm text-stone-100 focus:outline-none focus:border-amber-500/50 resize-none"
+                />
+              </div>
+
+              {/* Submit Buttons */}
+              <div className="flex gap-3 pt-2 pb-4">
+                <button
+                  type="button"
+                  onClick={() => setFormModalOpen(false)}
+                  className="flex-1 py-3 bg-stone-800 hover:bg-stone-700 text-stone-300 rounded-xl text-sm font-bold transition-colors"
+                >
+                  Vazgeç
+                </button>
+                <button
+                  type="submit"
+                  disabled={formSubmitting || !editingCari.businessName}
+                  className="flex-1 py-3 bg-amber-500 hover:bg-amber-400 text-stone-950 rounded-xl text-sm font-bold transition-all shadow-lg shadow-amber-500/20 active:scale-95 disabled:opacity-50"
+                >
+                  {formSubmitting
+                    ? "Kaydediliyor..."
+                    : isNewCari
+                    ? "Müşteriyi Kaydet"
+                    : "Değişiklikleri Kaydet"}
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
       )}
     </div>
   );

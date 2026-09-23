@@ -53,14 +53,8 @@ export function AdminSidebar({ isOpen, onClose, pendingOrderCount = 0 }: AdminSi
       roles: ["superadmin", "admin", "support", "editor"],
     },
     {
-      label: "Cariler (B2B)",
+      label: "Finans",
       href: "/admin/cariler",
-      icon: Building2,
-      roles: ["superadmin", "admin", "support", "editor"],
-    },
-    {
-      label: "Finans (Ön Muhasebe)",
-      href: "/admin/finans",
       icon: Wallet,
       roles: ["superadmin", "admin", "support", "editor"],
     },

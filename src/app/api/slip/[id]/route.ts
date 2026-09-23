@@ -16,145 +16,50 @@ export async function GET(
       return NextResponse.json({ success: false, error: "Supabase unconfigured" }, { status: 500 });
     }
 
-    // Decode URL-encoded parameter (e.g. F%C4%B0%C5%9E-2609-579 -> FİŞ-2609-579)
-    let decodedId = id;
-    try {
-      decodedId = decodeURIComponent(id).trim();
-    } catch {
-      decodedId = id.trim();
-    }
-
-    // Support both Turkish FİŞ- and ASCII FIS- versions
-    const turkishSlip = decodedId.replace(/^FIS-/i, "FİŞ-");
-    const asciiSlip = decodedId.replace(/^FİŞ-/i, "FIS-");
-    const candidateIds = Array.from(new Set([decodedId, turkishSlip, asciiSlip].filter(Boolean)));
-
-    // 1. Try finding in `orders` table by candidate IDs
-    let { data: orderData } = await supabase
+    // 1. Try finding in `orders` table
+    const { data: orderData, error: orderErr } = await supabase
       .from("orders")
       .select("*, order_items(*)")
-      .in("id", candidateIds)
+      .eq("id", id)
       .maybeSingle();
 
-    // 2. If not found in orders directly, search in `account_transactions`
-    let txData: Record<string, unknown> | null = null;
-    if (!orderData) {
-      // Check if it's a valid UUID
-      const isUuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(decodedId);
-      if (isUuid) {
-        const { data: byId } = await supabase
-          .from("account_transactions")
-          .select("*")
-          .eq("id", decodedId)
-          .maybeSingle();
-        if (byId) txData = byId;
-      }
-
-      // Check by slip_number
-      if (!txData) {
-        const { data: bySlip } = await supabase
-          .from("account_transactions")
-          .select("*")
-          .in("slip_number", candidateIds)
-          .order("created_at", { ascending: false })
-          .limit(1)
-          .maybeSingle();
-        if (bySlip) txData = bySlip;
-      }
-
-      // Check by order_id
-      if (!txData) {
-        const { data: byOrdId } = await supabase
-          .from("account_transactions")
-          .select("*")
-          .in("order_id", candidateIds)
-          .order("created_at", { ascending: false })
-          .limit(1)
-          .maybeSingle();
-        if (byOrdId) txData = byOrdId;
-      }
-
-      // Check by description containing slip code (e.g. "[FİŞ-2609-579]")
-      if (!txData) {
-        for (const cand of candidateIds) {
-          const { data: byDesc } = await supabase
-            .from("account_transactions")
-            .select("*")
-            .ilike("description", `%${cand}%`)
-            .order("created_at", { ascending: false })
-            .limit(1)
-            .maybeSingle();
-          if (byDesc) {
-            txData = byDesc;
-            break;
-          }
-        }
-      }
-
-      // If txData has an order_id and orderData was not found, check linked order for rich order_items
-      if (txData && txData.order_id) {
-        const { data: linkedOrder } = await supabase
-          .from("orders")
-          .select("*, order_items(*)")
-          .eq("id", txData.order_id as string)
-          .maybeSingle();
-        if (linkedOrder && Array.isArray(linkedOrder.order_items) && linkedOrder.order_items.length > 0) {
-          orderData = linkedOrder;
-        }
-      }
-    }
-
-    // Render from orderData if available
     if (orderData) {
       let prevBal = 0;
       let newBal = 0;
       let taxNo = "";
-      let contactPerson = "";
       let busName = orderData.customer_name || "Değerli Müşterimiz";
-      let historyItems: Record<string, unknown>[] = [];
+      let historyItems: any[] = [];
       let phone = orderData.phone || "";
       let address = orderData.delivery_address || "";
-      let neighborhood = orderData.neighborhood || "Beylikdüzü";
 
-      // Extract time window and cariId from order_notes if present
-      let timeWindow = (orderData.delivery_time_window as string) || "Sabah Sevkiyatı (07:00 - 09:00)";
-      const timeMatch = (orderData.order_notes as string)?.match(/\[Dilim:\s*([^\]]+)\]/);
-      if (timeMatch) timeWindow = timeMatch[1].trim();
-
-      let linkedCariId = (orderData.cari_id as string) || undefined;
-      const cariMatch = (orderData.order_notes as string)?.match(/\[Cari:\s*([^\]]+)\]/);
-      if (cariMatch) linkedCariId = cariMatch[1].trim();
-
-      // If linked to a Cari, fetch Cari balance, contact person, and history
-      if (linkedCariId) {
+      // If linked to a Cari, fetch Cari balance and history
+      if (orderData.cari_id) {
         const { data: cariData } = await supabase
           .from("current_accounts")
           .select("*")
-          .eq("id", linkedCariId)
+          .eq("id", orderData.cari_id)
           .maybeSingle();
 
         if (cariData) {
           busName = cariData.name || busName;
-          contactPerson = cariData.contact_person || "";
           taxNo = cariData.tax_id || "";
           newBal = Number(cariData.balance) || 0;
           prevBal = newBal - Number(orderData.total_amount || 0);
           phone = cariData.phone || phone;
           address = cariData.address || address;
-          neighborhood = cariData.neighborhood || neighborhood;
         }
 
         const { data: hist } = await supabase
           .from("account_transactions")
           .select("*")
-          .eq("account_id", linkedCariId)
+          .eq("account_id", orderData.cari_id)
           .order("date", { ascending: false })
           .limit(10);
 
         if (hist) {
-          historyItems = hist.map((h: Record<string, unknown>) => ({
+          historyItems = hist.map((h: any) => ({
             id: h.id,
-            date: h.date ? new Date(h.date as string).toISOString().split("T")[0] : "",
+            date: h.date ? new Date(h.date).toISOString().split("T")[0] : "",
             type: h.type,
             description: h.description || "İşlem",
             amount: Number(h.amount) || 0,
@@ -163,28 +68,26 @@ export async function GET(
       }
 
       const rawItems = Array.isArray(orderData.order_items) ? orderData.order_items : (Array.isArray(orderData.items) ? orderData.items : []);
-      const mappedItems = rawItems.map((it: Record<string, unknown>) => ({
-        name: (it.product_name as string) || (it.productName as string) || (it.name as string) || "Ürün",
+      const mappedItems = rawItems.map((it: any) => ({
+        name: it.product_name || it.productName || it.name || "Ürün",
         quantity: Number(it.quantity) || 1,
         unitPrice: Number(it.unit_price) || Number(it.unitPrice) || Number(it.price) || 0,
         totalPrice: Number(it.total_price) || Number(it.totalPrice) || (Number(it.quantity) || 1) * (Number(it.unit_price) || Number(it.unitPrice) || 0),
-        weight: it.weight as number | undefined,
+        weight: it.weight,
       }));
 
       return NextResponse.json({
         success: true,
         data: {
           id: orderData.id,
-          orderNumber: orderData.order_number || orderData.id,
+          orderNumber: orderData.order_number || orderData.id.substring(0, 6).toUpperCase(),
           businessName: busName,
-          contactPerson,
-          phone,
-          address,
-          neighborhood,
+          phone: phone,
+          address: address,
+          neighborhood: orderData.neighborhood || "Beylikdüzü",
           taxNumber: taxNo,
-          cariId: linkedCariId,
           date: orderData.delivery_date ? new Date(orderData.delivery_date).toISOString().split("T")[0] : new Date().toISOString().split("T")[0],
-          timeWindow,
+          timeWindow: orderData.delivery_time_window || "14:00 - 18:00",
           items: mappedItems,
           subtotal: Number(orderData.subtotal) || Number(orderData.total_amount) || 0,
           totalAmount: Number(orderData.total_amount) || 0,
@@ -197,7 +100,13 @@ export async function GET(
       });
     }
 
-    // Otherwise render from txData
+    // 2. Try finding in `account_transactions` table if it was recorded as a Cari transaction
+    const { data: txData, error: txError } = await supabase
+      .from("account_transactions")
+      .select("*")
+      .eq("id", id)
+      .maybeSingle();
+
     if (txData) {
       const { data: cariData } = await supabase
         .from("current_accounts")
@@ -206,67 +115,48 @@ export async function GET(
         .maybeSingle();
 
       const busName = cariData?.name || "Kurumsal Müşteri";
-      const contactPerson = cariData?.contact_person || "";
       const taxNo = cariData?.tax_id || "";
       const curBal = Number(cariData?.balance) || 0;
       const amount = Number(txData.amount) || 0;
       const prevBal = curBal - amount;
 
       // Parse items from description if present
-      // Example: "[FİŞ-2609-007] 10x Taş Fırın Köy Ekmeği (110₺), 5x Çavdar Ekmeği (120₺)"
-      const desc = (txData.description as string) || "Toptan Ekmek Teslimatı";
+      // Example description: "[FİŞ-2609-007] 10x Taş Fırın Ekşi Mayalı Köy Ekmeği (110₺)"
+      const desc = txData.description || "Toptan Ekmek Teslimatı";
       let cleanDesc = desc.replace(/^\[.*?\]\s*/, "").replace(/^(Fiş|Sipariş):\s*/i, "");
       
-      // Remove any trailing notes "| Not: ..."
-      cleanDesc = cleanDesc.split(/\s*\|\s*Not:/i)[0].trim();
+      let parsedQuantity = 1;
+      let parsedName = cleanDesc;
+      
+      // Try to extract quantity "10x " from the start
+      const match = cleanDesc.match(/^(\d+)x\s+(.*)$/);
+      if (match) {
+        parsedQuantity = parseInt(match[1], 10);
+        parsedName = match[2];
+      }
+      
+      // Try to remove "(110₺)" from the end of the name
+      parsedName = parsedName.replace(/\s*\([\d.,]+[₺TL\s]*\)$/i, "").trim();
 
-      const rawParts = cleanDesc.split(/,\s*/);
-      const parsedItems = rawParts.map((part) => {
-        const match = part.match(/^(\d+)x\s+(.*)$/);
-        let qty = 1;
-        let pName = part;
-        if (match) {
-          qty = parseInt(match[1], 10);
-          pName = match[2];
-        }
-        
-        let unitPrice = 0;
-        const priceMatch = pName.match(/\(([\d.,]+)[₺TL\s]*\)/i);
-        if (priceMatch) {
-          unitPrice = parseFloat(priceMatch[1].replace(",", "."));
-          pName = pName.replace(/\s*\([\d.,]+[₺TL\s]*\)$/i, "").trim();
-        }
-
-        const lineTotal = unitPrice > 0 ? unitPrice * qty : (rawParts.length === 1 ? amount : 0);
-        return {
-          name: pName.trim(),
-          quantity: qty,
-          unitPrice: unitPrice > 0 ? unitPrice : (amount / qty),
-          totalPrice: lineTotal > 0 ? lineTotal : amount,
-        };
-      });
-
-      const slipNo = (txData.slip_number as string) || (txData.order_id as string) || (txData.id as string).substring(0, 8).toUpperCase();
+      const unitPrice = parsedQuantity > 0 ? amount / parsedQuantity : amount;
 
       return NextResponse.json({
         success: true,
         data: {
           id: txData.id,
-          orderNumber: slipNo,
+          orderNumber: (txData.order_id || txData.id).substring(0, 6).toUpperCase(),
           businessName: busName,
-          contactPerson,
           phone: cariData?.phone || "",
           address: cariData?.address || "",
-          neighborhood: cariData?.neighborhood || "Beylikdüzü",
+          neighborhood: "Beylikdüzü",
           taxNumber: taxNo,
-          cariId: txData.account_id as string,
-          date: txData.date ? new Date(txData.date as string).toISOString().split("T")[0] : new Date().toISOString().split("T")[0],
-          timeWindow: (txData.description as string)?.match(/\[Dilim:\s*([^\]]+)\]/)?.[1]?.trim() || "Sabah Sevkiyatı (07:00 - 09:00)",
-          items: parsedItems.length > 0 ? parsedItems : [
+          date: txData.date ? new Date(txData.date).toISOString().split("T")[0] : new Date().toISOString().split("T")[0],
+          timeWindow: "14:00 - 18:00",
+          items: [
             {
-              name: "Toptan Ekmek Teslimatı",
-              quantity: 1,
-              unitPrice: amount,
+              name: parsedName,
+              quantity: parsedQuantity,
+              unitPrice: unitPrice,
               totalPrice: amount,
             },
           ],
@@ -281,13 +171,13 @@ export async function GET(
 
     return NextResponse.json({ success: false, error: "Fiş bulunamadı" }, { status: 404 });
 
-  } catch (error: unknown) {
-    const err = error as { code?: string; message?: string };
-    console.error("Fetch slip error:", err);
-    if (err?.code === "22P02") {
+  } catch (error: any) {
+    console.error("Fetch slip error:", error);
+    // If it's a UUID syntax error from Postgres (22P02), it just means it wasn't found in transactions
+    if (error?.code === "22P02") {
        return NextResponse.json({ success: false, error: "Fiş bulunamadı" }, { status: 404 });
     }
-    return NextResponse.json({ success: false, error: err?.message || "Hata oluştu" }, { status: 500 });
+    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
   }
 }
 

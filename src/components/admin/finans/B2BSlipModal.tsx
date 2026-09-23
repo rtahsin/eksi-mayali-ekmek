@@ -12,8 +12,6 @@ import {
   ExternalLink,
   Tag,
   Share2,
-  Calendar,
-  Clock,
 } from "lucide-react";
 import { useCariler } from "@/hooks/useCariler";
 import { useProducts } from "@/hooks/useProducts";
@@ -39,9 +37,6 @@ interface SlipItem {
 interface SuccessResult {
   slipNumber: string;
   transactionId?: string | null;
-  orderId?: string | null;
-  deliveryDate: string;
-  deliveryTimeWindow: string;
   totalAmount: number;
   newBalance?: number;
   items: { name: string; qty: number; price: number }[];
@@ -62,9 +57,6 @@ export default function B2BSlipModal({
   const currentCari = useMemo(() => cariler.find((c) => c.id === cariId), [cariler, cariId]);
   const effectiveCustomPrices = customPrices || currentCari?.customPrices || {};
   const effectivePhone = cariPhone || currentCari?.phone || "";
-
-  const [deliveryDate, setDeliveryDate] = useState<string>(() => new Date().toISOString().split("T")[0]);
-  const [deliveryTimeWindow, setDeliveryTimeWindow] = useState("Sabah Sevkiyatı (07:00 - 09:00)");
 
   const [items, setItems] = useState<SlipItem[]>([
     { id: "1", name: "", qty: 1, price: 0 },
@@ -185,15 +177,6 @@ export default function B2BSlipModal({
         amount: totalAmount,
         description: finalDesc,
         paymentMethod: "diger",
-        date: deliveryDate,
-        deliveryTimeWindow,
-        status: "teslim_edildi",
-        items: validItems.map((v) => ({
-          productId: v.productId,
-          name: v.name,
-          qty: v.qty,
-          price: v.price,
-        })),
       });
 
       if (!res.success) {
@@ -203,9 +186,6 @@ export default function B2BSlipModal({
       setSuccessResult({
         slipNumber: res.slipNumber || "FİŞ",
         transactionId: res.transactionId || null,
-        orderId: res.orderId || null,
-        deliveryDate,
-        deliveryTimeWindow,
         totalAmount,
         newBalance: res.newBalance,
         items: validItems.map((v) => ({ name: v.name, qty: v.qty, price: v.price })),
@@ -227,28 +207,23 @@ export default function B2BSlipModal({
       .join("\n");
 
     const origin = typeof window !== "undefined" ? window.location.origin : "https://ekmeklab.tr";
-    const targetId = successResult.slipNumber || successResult.orderId || successResult.transactionId;
-    const slipUrl = `${origin}/fis/${targetId}`;
+    const slipUrl = successResult.transactionId
+      ? `${origin}/fis/${successResult.transactionId}`
+      : `${origin}/admin/cariler/${cariId}`;
 
-    const dateFormatted = new Date(successResult.deliveryDate).toLocaleDateString("tr-TR", {
-      day: "numeric",
-      month: "long",
-      year: "numeric",
-    });
+    const dateStr = new Date().toLocaleDateString("tr-TR");
 
     return (
       `🍞 *EKMEKLAB TAŞ FIRIN - TESLİMAT FİŞİ*\n` +
       `Sayın *${cariName}*,\n\n` +
       `📄 *Fiş No:* ${successResult.slipNumber}\n` +
-      `📅 *Teslimat Tarihi:* ${dateFormatted}\n` +
-      `⏰ *Sevkiyat Dilimi:* ${successResult.deliveryTimeWindow}\n\n` +
+      `📅 *Tarih:* ${dateStr}\n\n` +
       `🛒 *Teslim Edilen Ürünler:*\n${itemsList}\n\n` +
       `💰 *Fiş Toplamı:* ${successResult.totalAmount.toLocaleString("tr-TR")} ₺\n` +
       (successResult.newBalance !== undefined
         ? `📊 *Toplam Güncel Bakiye:* ${successResult.newBalance.toLocaleString("tr-TR")} ₺\n\n`
         : "\n") +
-      `🔗 *Online Fiş Görüntüle:*\n${slipUrl}\n\n` +
-      `🔗 *Canlı Cari Ekstreniz:*\n${origin}/ekstre/${cariId}\n\n` +
+      `🔗 *Online Fiş & Ekstre Görüntüle:*\n${slipUrl}\n\n` +
       `Afiyet olsun, bereketli işler dileriz!\n` +
       `EkmekLab Zanaatkar Fırın`
     );
@@ -261,13 +236,6 @@ export default function B2BSlipModal({
       ? `https://wa.me/90${cleanPhone}?text=${text}`
       : `https://api.whatsapp.com/send?text=${text}`;
     window.open(waUrl, "_blank");
-  };
-
-  const setQuickDate = (type: "today" | "tomorrow" | "yesterday") => {
-    const d = new Date();
-    if (type === "tomorrow") d.setDate(d.getDate() + 1);
-    else if (type === "yesterday") d.setDate(d.getDate() - 1);
-    setDeliveryDate(d.toISOString().split("T")[0]);
   };
 
   return (
@@ -321,22 +289,12 @@ export default function B2BSlipModal({
             {/* Slip Summary Card */}
             <div className="bg-stone-950 border border-stone-800 rounded-2xl p-5 space-y-4">
               <div className="flex items-center justify-between border-b border-stone-800/80 pb-3">
-                <div>
-                  <span className="text-[10px] text-stone-500 font-bold uppercase tracking-wider block">
-                    Fiş Numarası
-                  </span>
-                  <span className="text-amber-400 font-mono font-bold text-base">
-                    {successResult.slipNumber}
-                  </span>
-                </div>
-                <div className="text-right">
-                  <span className="text-[10px] text-stone-500 font-bold uppercase tracking-wider block">
-                    Teslimat Tarihi
-                  </span>
-                  <span className="text-stone-300 font-mono text-xs font-semibold">
-                    {new Date(successResult.deliveryDate).toLocaleDateString("tr-TR")}
-                  </span>
-                </div>
+                <span className="text-xs text-stone-400 font-bold uppercase tracking-wider">
+                  Fiş Numarası
+                </span>
+                <span className="px-2.5 py-1 bg-amber-500/10 border border-amber-500/30 text-amber-400 font-mono font-bold text-sm rounded-lg">
+                  {successResult.slipNumber}
+                </span>
               </div>
 
               <div className="space-y-1.5 text-xs text-stone-300">
@@ -370,7 +328,7 @@ export default function B2BSlipModal({
             </div>
 
             {/* Action Buttons */}
-            <div className="space-y-2.5 pt-2">
+            <div className="space-y-3 pt-2">
               <button
                 type="button"
                 onClick={openWhatsApp}
@@ -380,32 +338,22 @@ export default function B2BSlipModal({
                 <span>WhatsApp ile Fişi Gönder</span>
               </button>
 
-              <div className="grid grid-cols-2 gap-2.5">
+              {successResult.transactionId && (
                 <a
-                  href={`/fis/${successResult.slipNumber || successResult.orderId || successResult.transactionId}`}
+                  href={`/fis/${successResult.transactionId}`}
                   target="_blank"
                   rel="noreferrer"
-                  className="py-3 bg-stone-800 hover:bg-stone-700 text-stone-200 font-bold rounded-2xl transition-colors flex items-center justify-center gap-2 text-xs border border-stone-700"
+                  className="w-full py-3.5 bg-stone-800 hover:bg-stone-700 text-stone-200 font-bold rounded-2xl transition-colors flex items-center justify-center gap-2 text-sm border border-stone-700"
                 >
-                  <ExternalLink className="w-3.5 h-3.5 text-amber-400" />
-                  <span>Fişi Görüntüle</span>
+                  <ExternalLink className="w-4 h-4 text-stone-400" />
+                  <span>Online Fişi Görüntüle</span>
                 </a>
-
-                <a
-                  href={`/ekstre/${cariId}`}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="py-3 bg-stone-800 hover:bg-stone-700 text-stone-200 font-bold rounded-2xl transition-colors flex items-center justify-center gap-2 text-xs border border-stone-700"
-                >
-                  <ExternalLink className="w-3.5 h-3.5 text-emerald-400" />
-                  <span>Canlı Ekstre</span>
-                </a>
-              </div>
+              )}
 
               <button
                 type="button"
                 onClick={onClose}
-                className="w-full py-3 bg-transparent text-stone-400 hover:text-stone-200 text-xs font-bold transition-colors"
+                className="w-full py-3 bg-transparent text-stone-400 hover:text-stone-200 text-sm font-bold transition-colors"
               >
                 Kapat
               </button>
@@ -419,62 +367,6 @@ export default function B2BSlipModal({
                 {error}
               </div>
             )}
-
-            {/* Delivery Date & Time Slot Selection */}
-            <div className="bg-stone-950 p-4 rounded-2xl border border-stone-800 space-y-3">
-              <div className="flex items-center justify-between">
-                <label className="text-xs font-bold text-stone-300 flex items-center gap-1.5">
-                  <Calendar className="w-3.5 h-3.5 text-amber-400" />
-                  <span>Teslimat Tarihi</span>
-                </label>
-                <div className="flex items-center gap-1.5">
-                  <button
-                    type="button"
-                    onClick={() => setQuickDate("yesterday")}
-                    className="px-2 py-1 rounded-lg text-[10px] font-bold bg-stone-900 hover:bg-stone-800 text-stone-400 border border-stone-800 transition-colors"
-                  >
-                    Dün
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => setQuickDate("today")}
-                    className="px-2 py-1 rounded-lg text-[10px] font-bold bg-amber-500/10 hover:bg-amber-500/20 text-amber-400 border border-amber-500/20 transition-colors"
-                  >
-                    Bugün
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => setQuickDate("tomorrow")}
-                    className="px-2 py-1 rounded-lg text-[10px] font-bold bg-stone-900 hover:bg-stone-800 text-stone-400 border border-stone-800 transition-colors"
-                  >
-                    Yarın
-                  </button>
-                </div>
-              </div>
-
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-                <input
-                  type="date"
-                  value={deliveryDate}
-                  onChange={(e) => setDeliveryDate(e.target.value)}
-                  className="w-full bg-stone-900 border border-stone-800 rounded-xl px-3 py-2 text-xs font-mono font-bold text-stone-100 focus:outline-none focus:border-amber-500/50"
-                  required
-                />
-
-                <div className="relative">
-                  <select
-                    value={deliveryTimeWindow}
-                    onChange={(e) => setDeliveryTimeWindow(e.target.value)}
-                    className="w-full bg-stone-900 border border-stone-800 rounded-xl px-3 py-2 text-xs font-medium text-stone-200 focus:outline-none focus:border-amber-500/50 appearance-none"
-                  >
-                    <option value="Sabah Sevkiyatı (07:00 - 09:00)">Sabah Sevkiyatı (07:00 - 09:00)</option>
-                    <option value="Öğlen Sevkiyatı (11:00 - 13:00)">Öğlen Sevkiyatı (11:00 - 13:00)</option>
-                    <option value="Akşam Sevkiyatı (16:00 - 18:00)">Akşam Sevkiyatı (16:00 - 18:00)</option>
-                    <option value="Gün İçi Teslimat">Gün İçi Teslimat</option>
-                  </select>
-                </div>
-              </div>
-            </div>
 
             <div className="space-y-3">
               <div className="flex justify-between items-center mb-1">

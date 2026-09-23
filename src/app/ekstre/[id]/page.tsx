@@ -49,20 +49,16 @@ export default function CustomerStatementPage() {
           .single();
 
         if (acc) {
-          const rawAccountType = acc.account_type || acc.type || "musteri";
           const cariObj: CariAccount = {
             id: acc.id,
             businessName: acc.name || "Değerli Müşterimiz",
-            contactPerson: acc.contact_person || (acc.type !== "gider" && acc.type !== "musteri" ? acc.type : ""),
+            contactPerson: acc.type || "",
             phone: acc.phone || "",
             address: acc.address || "",
-            neighborhood: acc.neighborhood || "",
-            taxOffice: acc.tax_office || "",
+            neighborhood: "",
             taxNumber: acc.tax_id || "",
             balance: Number(acc.balance) || 0,
-            accountType: rawAccountType === "gider" ? "gider" : "musteri",
-            notes: acc.notes || "",
-            customPrices: acc.custom_prices || {},
+            accountType: acc.type === "gider" ? "gider" : "musteri",
             createdAt: acc.created_at,
           };
           setCari(cariObj);
@@ -77,33 +73,30 @@ export default function CustomerStatementPage() {
 
           if (txs) {
             const isExpense = cariObj.accountType === "gider";
-            const mapped: CariTransaction[] = txs.map((t: Record<string, unknown>) => {
-              const rawType = (t.type as string) || "satis";
-              const desc = (t.description as string) || "";
-              const descLower = desc.toLowerCase();
+            const mapped: CariTransaction[] = txs.map((t: any) => {
+              const descLower = (t.description || "").toLowerCase();
               let txType: "satis" | "tahsilat" | "odeme" | "devir" = "satis";
 
-              if (descLower.includes("devir") || descLower.includes("açılış") || descLower.includes("düzeltme") || rawType === "devir") {
+              if (descLower.includes("devir") || descLower.includes("açılış") || descLower.includes("düzeltme")) {
                 txType = "devir";
-              } else if (rawType === "tahsilat" || rawType === "credit") {
-                txType = isExpense ? "odeme" : "tahsilat";
-              } else if (rawType === "odeme") {
-                txType = "odeme";
-              } else {
+              } else if (t.type === "debt") {
                 txType = "satis";
+              } else if (t.type === "credit") {
+                txType = isExpense ? "odeme" : "tahsilat";
               }
 
-              const slipNumber = (t.slip_number as string) || desc.match(/\[(FİŞ-[^\]]+)\]/i)?.[1] || undefined;
+              const slipMatch = (t.description || "").match(/\[(FİŞ-[^\]]+)\]/i);
+              const slipNumber = slipMatch ? slipMatch[1] : undefined;
 
               return {
-                id: t.id as string,
-                cariId: t.account_id as string,
-                date: t.date ? new Date(t.date as string).toISOString().split("T")[0] : (t.created_at ? new Date(t.created_at as string).toISOString().split("T")[0] : ""),
+                id: t.id,
+                cariId: t.account_id,
+                date: t.date ? new Date(t.date).toISOString().split("T")[0] : "",
                 type: txType,
                 amount: Number(t.amount) || 0,
-                description: desc,
+                description: t.description || "",
                 slipNumber,
-                orderId: (t.order_id as string) || undefined,
+                orderId: t.order_id,
                 createdAt: t.created_at,
               };
             });
@@ -154,19 +147,8 @@ export default function CustomerStatementPage() {
   const handleShareWhatsApp = () => {
     if (!cari) return;
     const url = window.location.href;
-    const text =
-      `🍞 *EKMEKLAB TAŞ FIRIN - HESAP EKSTRESİ*\n` +
-      `Sayın *${cari.businessName}*,\n\n` +
-      `📊 *Güncel Kalan Bakiye:* ${cari.balance.toLocaleString("tr-TR")} ₺\n\n` +
-      `🔗 *Canlı Ekstre Bağlantınız:*\n${url}\n\n` +
-      `Tüm teslimat fişlerinizi ve ödemelerinizi yukarıdaki bağlantıdan anlık olarak inceleyebilirsiniz.\n` +
-      `Bereketli işler dileriz!\nEkmekLab Zanaatkar Fırın`;
-
-    const cleanPhone = cari.phone ? cari.phone.replace(/\D/g, "") : "";
-    const waUrl = cleanPhone
-      ? `https://wa.me/90${cleanPhone}?text=${encodeURIComponent(text)}`
-      : `https://api.whatsapp.com/send?text=${encodeURIComponent(text)}`;
-    window.open(waUrl, "_blank");
+    const text = `EkmekLab Taş Fırın - ${cari.businessName} Güncel Hesap Ekstresi:\n💰 Kalan Bakiye: ${cari.balance.toLocaleString("tr-TR")} ₺\n🔗 İncelemek için: ${url}`;
+    window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, "_blank");
   };
 
   const handleCopyLink = async () => {
@@ -448,9 +430,9 @@ export default function CustomerStatementPage() {
                         </td>
 
                         <td className="py-3 px-4 text-center whitespace-nowrap print:hidden">
-                          {isSale && (tx.slipNumber || tx.orderId || tx.id) ? (
+                          {isSale && tx.orderId ? (
                             <Link
-                              href={`/fis/${tx.slipNumber || tx.orderId || tx.id}`}
+                              href={`/fis/${tx.orderId}`}
                               target="_blank"
                               className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-amber-500/10 hover:bg-amber-500/20 text-amber-400 text-xs font-semibold border border-amber-500/20 transition-colors"
                               title="Dijital Fişi Aç"

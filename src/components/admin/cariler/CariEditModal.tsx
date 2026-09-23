@@ -7,33 +7,31 @@ import { useProducts } from "@/hooks/useProducts";
 import { CariAccount, BEYLIKDUZU_NEIGHBORHOODS } from "@/types/admin";
 
 interface CariEditModalProps {
-  cari?: CariAccount | null;
+  cari: CariAccount;
   onClose: () => void;
   onSuccess?: () => void;
 }
 
 export default function CariEditModal({ cari, onClose, onSuccess }: CariEditModalProps) {
-  const { updateCari, addCari } = useCariler();
+  const { updateCari } = useCariler();
   const { allProducts } = useProducts();
-
-  const isNew = !cari;
 
   const [activeTab, setActiveTab] = useState<"info" | "prices">("info");
 
   const [formData, setFormData] = useState({
-    businessName: cari?.businessName || "",
-    contactPerson: cari?.contactPerson || "",
-    phone: cari?.phone || "",
-    neighborhood: cari?.neighborhood || "",
-    address: cari?.address || "",
-    taxOffice: cari?.taxOffice || "",
-    taxNumber: cari?.taxNumber || "",
-    accountType: cari?.accountType || "musteri",
-    notes: cari?.notes || "",
+    businessName: cari.businessName || "",
+    contactPerson: cari.contactPerson || "",
+    phone: cari.phone || "",
+    neighborhood: cari.neighborhood || "",
+    address: cari.address || "",
+    taxOffice: cari.taxOffice || "",
+    taxNumber: cari.taxNumber || "",
+    accountType: cari.accountType || "musteri",
+    notes: cari.notes || "",
   });
 
   const [customPrices, setCustomPrices] = useState<Record<string, number>>(
-    cari?.customPrices || {}
+    cari.customPrices || {}
   );
 
   const [loading, setLoading] = useState(false);
@@ -62,31 +60,18 @@ export default function CariEditModal({ cari, onClose, onSuccess }: CariEditModa
     setLoading(true);
     setError(null);
     try {
-      if (isNew) {
-        const res = await addCari({
-          ...formData,
-          customPrices,
-          initialBalance: 0,
-        });
+      const res = await updateCari(cari.id, {
+        ...formData,
+        customPrices,
+      });
 
-        if (!res.success) {
-          throw new Error(res.error || "Müşteri oluşturulamadı.");
-        }
-      } else if (cari) {
-        const res = await updateCari(cari.id, {
-          ...formData,
-          customPrices,
-        });
-
-        if (!res.success) {
-          throw new Error(res.error || "Müşteri güncellenemedi.");
-        }
+      if (!res.success) {
+        throw new Error(res.error || "Müşteri güncellenemedi.");
       }
-
       if (onSuccess) onSuccess();
       onClose();
     } catch (err: unknown) {
-      const message = err instanceof Error ? err.message : "İşlem başarısız oldu.";
+      const message = err instanceof Error ? err.message : "Müşteri güncellenemedi.";
       setError(message);
     } finally {
       setLoading(false);
@@ -113,11 +98,9 @@ export default function CariEditModal({ cari, onClose, onSuccess }: CariEditModa
             </div>
             <div>
               <h3 className="font-bold text-stone-100 font-serif text-base sm:text-lg">
-                {isNew ? "Yeni Kurumsal Müşteri Ekle" : "Müşteri Kartını Düzenle"}
+                Müşteri Kartını Düzenle
               </h3>
-              <p className="text-xs text-stone-400">
-                {isNew ? "Kurumsal cari hesap ve toptan anlaşmalı fiyatlar" : cari?.businessName}
-              </p>
+              <p className="text-xs text-stone-400">{cari.businessName}</p>
             </div>
           </div>
           <button

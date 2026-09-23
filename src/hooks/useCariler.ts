@@ -327,9 +327,6 @@ export function useCariler() {
       date?: string;
       paymentMethod?: "nakit" | "banka_havale" | "kredi_karti" | "diger";
       orderId?: string;
-      items?: { productId?: string; name: string; qty: number; price: number }[];
-      deliveryTimeWindow?: string;
-      status?: string;
     }
   ) => {
     try {
@@ -344,9 +341,6 @@ export function useCariler() {
           paymentMethod: tx.paymentMethod,
           orderId: tx.orderId,
           date: tx.date,
-          items: tx.items,
-          deliveryTimeWindow: tx.deliveryTimeWindow,
-          status: tx.status,
         }),
       });
 
@@ -364,7 +358,6 @@ export function useCariler() {
         success: true,
         slipNumber: data.slipNumber,
         transactionId: data.transactionId,
-        orderId: data.orderId,
         newBalance: data.newBalance,
       };
     } catch (err: unknown) {

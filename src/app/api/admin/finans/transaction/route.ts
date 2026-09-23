@@ -3,18 +3,7 @@ import { createAdminClient } from "@/lib/supabase/admin";
 
 export async function POST(req: Request) {
   try {
-    const {
-      cariId,
-      type,
-      amount,
-      description,
-      paymentMethod,
-      orderId,
-      date,
-      items,
-      deliveryTimeWindow,
-      status,
-    } = await req.json();
+    const { cariId, type, amount, description, paymentMethod, orderId, date } = await req.json();
 
     if (!cariId || !type || amount === undefined) {
       return NextResponse.json({ success: false, error: "Eksik parametre" }, { status: 400 });
@@ -28,7 +17,7 @@ export async function POST(req: Request) {
     // 1. Fetch current account to check type
     const { data: targetCari, error: cariErr } = await supabase
       .from("current_accounts")
-      .select("type, name, account_type, balance, phone, address, neighborhood")
+      .select("type, name, account_type, balance")
       .eq("id", cariId)
       .single();
 
@@ -92,54 +81,10 @@ export async function POST(req: Request) {
       }
     }
 
-    // Format description to always include [FİŞ-YYMM-XXX] and [Dilim: ...] if not present
+    // Format description to always include [FİŞ-YYMM-XXX] if not present
     let fullDescription = (description || "").trim();
     if (slipNumber && !fullDescription.includes(slipNumber)) {
       fullDescription = fullDescription ? `[${slipNumber}] ${fullDescription}` : `[${slipNumber}] Toptan Satış`;
-    }
-    if (deliveryTimeWindow && !fullDescription.includes("[Dilim:")) {
-      fullDescription += ` | [Dilim: ${deliveryTimeWindow}]`;
-    }
-
-    // Auto-create order & order_items if items array is provided (B2B Slip)
-    let finalOrderId = orderId || null;
-    if (type === "satis" && items && Array.isArray(items) && items.length > 0 && !finalOrderId && slipNumber) {
-      finalOrderId = slipNumber;
-      try {
-        const { error: ordErr } = await supabase.from("orders").insert({
-          id: finalOrderId,
-          customer_name: targetCari.name || "Kurumsal Cari",
-          phone: targetCari.phone || "",
-          delivery_address: targetCari.address || "Kurumsal Teslimat",
-          neighborhood: targetCari.neighborhood || "",
-          district: "Beylikdüzü",
-          delivery_method: "courier",
-          delivery_date: date || new Date().toISOString().split("T")[0],
-          status: status || "teslim_edildi",
-          payment_method: "cari",
-          subtotal: parsedAmount,
-          shipping_fee: 0,
-          total_amount: parsedAmount,
-          order_notes: `[Cari: ${cariId}] [Dilim: ${deliveryTimeWindow || "Sabah Sevkiyatı (07:00 - 09:00)"}] ${fullDescription}`,
-        });
-
-        if (!ordErr) {
-          const itemInserts = items.map((it: { productId?: string; name: string; qty: number; price: number; weight?: number }) => ({
-            order_id: finalOrderId,
-            product_id: it.productId || null,
-            product_name: it.name,
-            quantity: Number(it.qty) || 1,
-            unit_price: Number(it.price) || 0,
-            total_price: (Number(it.qty) || 1) * (Number(it.price) || 0),
-            weight: it.weight || null,
-          }));
-          await supabase.from("order_items").insert(itemInserts);
-        } else {
-          console.warn("Order auto-creation notice:", ordErr.message);
-        }
-      } catch (err) {
-        console.warn("Order auto-creation error:", err);
-      }
     }
 
     // 3. Calculate balance after this transaction
@@ -148,16 +93,15 @@ export async function POST(req: Request) {
 
     // 4. Insert Transaction with graceful column fallback
     let transactionId: string | null = null;
-    const normalizedType = type === "satis" ? "debt" : type === "tahsilat" ? "credit" : type;
 
     // Try full insert first (if migration was run)
     const fullTxPayload = {
       account_id: cariId,
-      type: normalizedType,
+      type: type,
       amount: parsedAmount,
       description: fullDescription,
       payment_method: paymentMethod || null,
-      order_id: finalOrderId,
+      order_id: orderId || null,
       slip_number: slipNumber,
       balance_after: balanceAfter,
       date: date || new Date().toISOString().split("T")[0],
@@ -240,7 +184,6 @@ export async function POST(req: Request) {
       slipNumber,
       balanceAfter: finalBalance,
       transactionId,
-      orderId: finalOrderId,
     });
   } catch (error: unknown) {
     const message = error instanceof Error ? error.message : "Bilinmeyen hata";

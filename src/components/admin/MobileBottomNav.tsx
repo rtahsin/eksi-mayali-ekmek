@@ -29,7 +29,7 @@ export function MobileBottomNav({ onOpenSidebar, pendingOrderCount = 0 }: Mobile
     },
     {
       label: "Finans",
-      href: "/admin/finans",
+      href: "/admin/cariler",
       icon: Wallet,
       badge: 0,
     },
