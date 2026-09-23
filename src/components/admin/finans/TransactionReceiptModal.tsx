@@ -147,29 +147,38 @@ export default function TransactionReceiptModal({ tx, cari, onClose }: Transacti
 
   const generateCanvas = async () => {
     if (!receiptRef.current) return null;
-    return await html2canvas(receiptRef.current, {
-      scale: 2,
-      backgroundColor: "#FBF9F5",
-      logging: false,
-      useCORS: true,
-      allowTaint: true,
-      scrollX: 0,
-      scrollY: 0,
-      windowWidth: receiptRef.current.scrollWidth,
-      windowHeight: receiptRef.current.scrollHeight,
-      ignoreElements: (el) =>
-        el.hasAttribute("data-html2canvas-ignore") ||
-        el.classList.contains("html2canvas-ignore"),
-      onclone: (clonedDoc) => {
-        const el = clonedDoc.querySelector('[data-receipt-card="true"]') as HTMLElement | null;
-        if (el) {
-          el.style.overflow = "visible";
-        }
-        clonedDoc.querySelectorAll("img").forEach((img) => {
-          img.style.display = "inline-block";
-        });
-      },
-    });
+
+    const modalContainer = receiptRef.current.closest(".overflow-y-auto") as HTMLElement | null;
+    const prevModalScroll = modalContainer ? modalContainer.scrollTop : 0;
+    const prevWindowScroll = window.scrollY;
+
+    try {
+      if (modalContainer) modalContainer.scrollTop = 0;
+      window.scrollTo(0, 0);
+
+      return await html2canvas(receiptRef.current, {
+        scale: 2,
+        backgroundColor: "#FBF9F5",
+        logging: false,
+        useCORS: true,
+        allowTaint: true,
+        ignoreElements: (el) =>
+          el.hasAttribute("data-html2canvas-ignore") ||
+          el.classList.contains("html2canvas-ignore"),
+        onclone: (clonedDoc) => {
+          const el = clonedDoc.querySelector('[data-receipt-card="true"]') as HTMLElement | null;
+          if (el) {
+            el.style.overflow = "visible";
+          }
+          clonedDoc.querySelectorAll("img").forEach((img) => {
+            img.style.display = "inline-block";
+          });
+        },
+      });
+    } finally {
+      if (modalContainer) modalContainer.scrollTop = prevModalScroll;
+      window.scrollTo(0, prevWindowScroll);
+    }
   };
 
   const handleDownloadPNG = async () => {
