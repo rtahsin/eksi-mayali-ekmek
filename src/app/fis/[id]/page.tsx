@@ -62,21 +62,24 @@ interface SlipData {
   notes?: string;
 }
 
-function formatDateTime(dateStr?: string, createdAtStr?: string): string {
+function formatDateTime(dateStr?: string, createdAtStr?: string): { date: string; time: string } {
   const target = createdAtStr || dateStr;
-  if (!target) return "";
+  if (!target) return { date: "", time: "" };
   try {
     const d = new Date(target);
-    if (isNaN(d.getTime())) return dateStr || "";
-    return d.toLocaleString("tr-TR", {
+    if (isNaN(d.getTime())) return { date: dateStr || "", time: "" };
+    const date = d.toLocaleDateString("tr-TR", {
       day: "numeric",
       month: "long",
       year: "numeric",
+    });
+    const time = d.toLocaleTimeString("tr-TR", {
       hour: "2-digit",
       minute: "2-digit",
     });
+    return { date, time };
   } catch {
-    return dateStr || "";
+    return { date: dateStr || "", time: "" };
   }
 }
 
@@ -297,6 +300,7 @@ export default function PublicReceiptPage() {
   const slipDisplayNo = slip.slipNumber || slip.orderNumber || "FİŞ";
   const prevBalanceVal = slip.previousBalance ?? 0;
   const currentTotalBalance = slip.newBalance ?? slip.totalAmount;
+  const formattedDt = formatDateTime(slip.date, slip.createdAt);
 
   return (
     <div className="min-h-screen bg-[#0A0705] py-6 sm:py-12 px-3 flex flex-col items-center font-sans text-stone-200 selection:bg-amber-500/30 selection:text-amber-300">
@@ -336,34 +340,37 @@ export default function PublicReceiptPage() {
           </div>
 
           {/* Meta Info Box: Tarih & Müşteri */}
-          <div className="bg-white/90 border border-[#EBE4D8] rounded-2xl p-3.5 flex items-center justify-between gap-3 mb-3.5 shadow-sm">
+          <div className="bg-white/90 border border-[#EBE4D8] rounded-2xl p-3 mb-3.5 shadow-sm grid grid-cols-2 divide-x divide-[#EBE4D8] items-center">
             {/* Tarih */}
-            <div className="flex items-center gap-2.5 min-w-0 flex-1">
-              <div className="w-9 h-9 rounded-full bg-[#F5EFE6] flex items-center justify-center text-[#5C4C42] shrink-0">
+            <div className="flex items-center gap-2 pr-2 min-w-0">
+              <div className="w-8 h-8 rounded-full bg-[#F5EFE6] flex items-center justify-center text-[#5C4C42] shrink-0">
                 <Calendar className="w-4 h-4" />
               </div>
               <div className="min-w-0 flex-1">
-                <div className="text-[9px] font-bold text-[#8A7A70] tracking-wider uppercase leading-normal">
+                <div className="text-[9px] font-bold text-[#8A7A70] tracking-wider uppercase leading-none mb-1">
                   TARİH
                 </div>
-                <div className="text-xs font-bold text-[#1E140F] leading-normal whitespace-nowrap pb-0.5">
-                  {formatDateTime(slip.date, slip.createdAt)}
+                <div className="text-[11px] font-bold text-[#1E140F] leading-tight">
+                  <span>{formattedDt.date}</span>
+                  {formattedDt.time && (
+                    <span className="text-[10px] text-[#7A6B62] font-semibold ml-1 whitespace-nowrap">
+                      {formattedDt.time}
+                    </span>
+                  )}
                 </div>
               </div>
             </div>
 
-            <div className="w-px h-8 bg-[#EBE4D8] shrink-0" />
-
             {/* Müşteri */}
-            <div className="flex items-center gap-2.5 min-w-0 flex-1 pl-1">
-              <div className="w-9 h-9 rounded-full bg-[#F5EFE6] flex items-center justify-center text-[#5C4C42] shrink-0">
+            <div className="flex items-center gap-2 pl-2.5 min-w-0">
+              <div className="w-8 h-8 rounded-full bg-[#F5EFE6] flex items-center justify-center text-[#5C4C42] shrink-0">
                 <User className="w-4 h-4" />
               </div>
               <div className="min-w-0 flex-1">
-                <div className="text-[9px] font-bold text-[#8A7A70] tracking-wider uppercase leading-normal">
+                <div className="text-[9px] font-bold text-[#8A7A70] tracking-wider uppercase leading-none mb-1">
                   MÜŞTERİ
                 </div>
-                <div className="text-xs font-bold text-[#1E140F] leading-tight break-words pb-0.5" title={slip.businessName}>
+                <div className="text-[11px] sm:text-xs font-bold text-[#1E140F] leading-tight break-words" title={slip.businessName}>
                   {slip.businessName}
                 </div>
               </div>
