@@ -45,6 +45,7 @@ interface SlipData {
   date: string;
   createdAt?: string;
   isProductSale?: boolean;
+  isPositiveDelta?: boolean;
   type?: string;
   timeWindow?: string;
   items: SlipItem[];
@@ -175,16 +176,7 @@ export default function PublicReceiptPage() {
     const totalStr = slip.totalAmount.toLocaleString("tr-TR") + " ₺";
     const newBalStr = (slip.newBalance ?? slip.totalAmount).toLocaleString("tr-TR") + " ₺";
 
-    const shareCaption =
-      `🍞 *EKMEKLAB TAŞ FIRIN - TESLİMAT FİŞİ*\n` +
-      `Sayın *${slip.businessName}*,\n\n` +
-      `📋 *Fiş No:* ${slipNum}\n` +
-      `📅 *Tarih:* ${formatDateTime(slip.date, slip.createdAt)}\n` +
-      `💰 *Fiş Tutarı:* ${totalStr}\n` +
-      `📊 *Güncel Kalan Bakiye:* ${newBalStr}\n\n` +
-      `🔗 *Online Fiş Detayı:* ${fisUrl}\n` +
-      `📈 *Tüm Geçmiş Alış & Ödemeleriniz:* ${ekstreUrl}\n\n` +
-      `Bizi tercih ettiğiniz için teşekkür eder, bereketli işler dileriz! 🌾`;
+    const shareCaption = `Online Fiş Görüntüle: ${fisUrl}`;
 
     try {
       const canvas = await generateReceiptCanvas();
@@ -331,26 +323,6 @@ export default function PublicReceiptPage() {
                 {slip.businessName}
               </span>
             </div>
-
-            {slip.contactPerson && (
-              <div className="flex justify-between items-baseline gap-2">
-                <span className="text-stone-500 uppercase tracking-wider font-semibold text-[10px] shrink-0">
-                  Yetkili
-                </span>
-                <span className="text-stone-300 text-right font-medium">
-                  {slip.contactPerson}
-                </span>
-              </div>
-            )}
-
-            <div className="flex justify-between items-baseline gap-2">
-              <span className="text-stone-500 uppercase tracking-wider font-semibold text-[10px] shrink-0">
-                Fiş No
-              </span>
-              <span className="font-mono font-bold text-amber-400 text-right tracking-wider">
-                {slipDisplayNo}
-              </span>
-            </div>
           </div>
 
           <div className="w-full border-t border-[#261E17] my-3.5" />
@@ -462,9 +434,9 @@ export default function PublicReceiptPage() {
             </div>
 
             <div className="flex justify-between items-center text-xs text-stone-400">
-              <span>Bu Fiş Tutarı:</span>
+              <span>İşlem Tutarı:</span>
               <span className="font-mono text-amber-400 font-semibold">
-                +{slip.totalAmount.toLocaleString("tr-TR")} ₺
+                {slip.isPositiveDelta !== false ? "+" : "-"}{slip.totalAmount.toLocaleString("tr-TR")} ₺
               </span>
             </div>
 

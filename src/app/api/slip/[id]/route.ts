@@ -171,8 +171,31 @@ export async function GET(
       const taxNo = cariData?.tax_id || "";
       const curBal = Number(cariData?.balance) || 0;
       const amount = Number(txData.amount) || 0;
-      const isSatis = txData.type === "satis";
-      const prevBal = isSatis ? curBal - amount : curBal + amount;
+      let prevBal = 0;
+      let newBal = Number(txData.balance_after ?? curBal);
+      let isPositiveDelta = true;
+
+      if (txData.type === "devir") {
+        const eskiMatch = txData.description?.match(/Eski:\s*([\d.,]+)\s*₺/i);
+        const yeniMatch = txData.description?.match(/Yeni:\s*([\d.,]+)\s*₺/i);
+        if (eskiMatch && yeniMatch) {
+          prevBal = parseFloat(eskiMatch[1].replace(/\./g, "").replace(",", "."));
+          newBal = parseFloat(yeniMatch[1].replace(/\./g, "").replace(",", "."));
+          isPositiveDelta = newBal >= prevBal;
+        } else {
+          prevBal = 0;
+          newBal = amount;
+          isPositiveDelta = true;
+        }
+      } else if (txData.type === "satis") {
+        newBal = curBal;
+        prevBal = curBal - amount;
+        isPositiveDelta = true;
+      } else {
+        newBal = curBal;
+        prevBal = curBal + amount;
+        isPositiveDelta = false;
+      }
 
       // Extract slip number: either txData.slip_number or from description [FİŞ-YYMM-XXX]
       const slipMatch = txData.description?.match(/\[(FİŞ-[^\]]+)\]/i);
@@ -259,7 +282,8 @@ export async function GET(
           totalAmount: amount,
           previousBalance: prevBal,
           paidAmount: 0,
-          newBalance: curBal,
+          newBalance: newBal,
+          isPositiveDelta: isPositiveDelta,
           notes: customNote,
         },
       });
