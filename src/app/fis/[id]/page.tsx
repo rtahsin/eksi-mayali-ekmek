@@ -43,6 +43,9 @@ interface SlipData {
   taxNumber?: string;
   cariId?: string | null;
   date: string;
+  createdAt?: string;
+  isProductSale?: boolean;
+  type?: string;
   timeWindow?: string;
   items: SlipItem[];
   subtotal: number;
@@ -52,6 +55,24 @@ interface SlipData {
   newBalance?: number;
   status?: string;
   notes?: string;
+}
+
+function formatDateTime(dateStr?: string, createdAtStr?: string): string {
+  const target = createdAtStr || dateStr;
+  if (!target) return "";
+  try {
+    const d = new Date(target);
+    if (isNaN(d.getTime())) return dateStr || "";
+    return d.toLocaleString("tr-TR", {
+      day: "numeric",
+      month: "long",
+      year: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+    });
+  } catch {
+    return dateStr || "";
+  }
 }
 
 function getItemFallbackImage(name: string): string {
@@ -158,7 +179,7 @@ export default function PublicReceiptPage() {
       `🍞 *EKMEKLAB TAŞ FIRIN - TESLİMAT FİŞİ*\n` +
       `Sayın *${slip.businessName}*,\n\n` +
       `📋 *Fiş No:* ${slipNum}\n` +
-      `📅 *Tarih:* ${slip.date}\n` +
+      `📅 *Tarih:* ${formatDateTime(slip.date, slip.createdAt)}\n` +
       `💰 *Fiş Tutarı:* ${totalStr}\n` +
       `📊 *Güncel Kalan Bakiye:* ${newBalStr}\n\n` +
       `🔗 *Online Fiş Detayı:* ${fisUrl}\n` +
@@ -267,135 +288,165 @@ export default function PublicReceiptPage() {
           {/* Subtle Top Accent Glow */}
           <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-amber-600 via-amber-400 to-amber-600 opacity-80 print:hidden" />
 
-          {/* Header: Logo & Bakery Identity */}
-          <div className="flex flex-col items-center text-center mb-5 pt-2">
-            <div className="w-40 h-20 flex items-center justify-center">
+          {/* Header: Logo & Clean Bakery Identity */}
+          <div className="flex flex-col items-center text-center mb-4 pt-1">
+            <div className="flex items-center justify-center mb-1">
               <img
                 src="/logo/logo.png"
-                alt="EkmekLab"
-                className="w-full h-full object-contain drop-shadow"
+                alt="EkmekLAB"
+                style={{
+                  width: "135px",
+                  height: "auto",
+                  display: "block",
+                  margin: "0 auto",
+                }}
               />
             </div>
-            <div className="text-[11px] font-serif font-bold text-amber-400 tracking-wide mt-1 uppercase">
-              Zanaatkar Taş Fırın · Beylikdüzü
+            <div className="text-[13px] font-bold text-amber-400 tracking-wide mt-1">
+              EkmekLAB - Beylikdüzü
             </div>
-            <div className="text-[11px] font-mono text-stone-400 mt-0.5">
-              Tel: 0501 012 66 53
+            <div className="text-xs font-mono text-stone-300 mt-0.5">
+              0501 012 66 53
             </div>
           </div>
 
-          <div className="w-full border-t border-dashed border-stone-800 my-4 print:border-stone-400" />
+          <div className="w-full border-t border-[#261E17] my-3.5" />
 
           {/* Receipt Meta Details */}
-          <div className="space-y-1.5 text-xs">
-            <div className="flex justify-between items-baseline">
-              <span className="text-stone-500 uppercase tracking-wider font-semibold text-[10px]">Müşteri</span>
-              <span className="font-bold text-stone-100 text-right truncate max-w-[240px] text-sm">
+          <div className="space-y-2 text-xs">
+            <div className="flex justify-between items-baseline gap-2">
+              <span className="text-stone-500 uppercase tracking-wider font-semibold text-[10px] shrink-0">
+                Tarih
+              </span>
+              <span className="font-mono text-stone-200 text-right font-medium">
+                {formatDateTime(slip.date, slip.createdAt)}
+              </span>
+            </div>
+
+            <div className="flex justify-between items-start gap-2">
+              <span className="text-stone-500 uppercase tracking-wider font-semibold text-[10px] shrink-0 pt-0.5">
+                Müşteri
+              </span>
+              <span className="font-bold text-stone-100 text-right break-words text-sm flex-1">
                 {slip.businessName}
               </span>
             </div>
 
             {slip.contactPerson && (
-              <div className="flex justify-between items-baseline">
-                <span className="text-stone-500 uppercase tracking-wider font-semibold text-[10px]">Yetkili</span>
-                <span className="text-stone-300 text-right font-medium">{slip.contactPerson}</span>
+              <div className="flex justify-between items-baseline gap-2">
+                <span className="text-stone-500 uppercase tracking-wider font-semibold text-[10px] shrink-0">
+                  Yetkili
+                </span>
+                <span className="text-stone-300 text-right font-medium">
+                  {slip.contactPerson}
+                </span>
               </div>
             )}
 
-            <div className="flex justify-between items-baseline">
-              <span className="text-stone-500 uppercase tracking-wider font-semibold text-[10px]">Fiş No</span>
-              <span className="font-mono font-bold text-amber-400 text-right tracking-wider">{slipDisplayNo}</span>
+            <div className="flex justify-between items-baseline gap-2">
+              <span className="text-stone-500 uppercase tracking-wider font-semibold text-[10px] shrink-0">
+                Fiş No
+              </span>
+              <span className="font-mono font-bold text-amber-400 text-right tracking-wider">
+                {slipDisplayNo}
+              </span>
             </div>
-
-            <div className="flex justify-between items-baseline">
-              <span className="text-stone-500 uppercase tracking-wider font-semibold text-[10px]">Tarih</span>
-              <span className="font-mono text-stone-300 text-right">{slip.date}</span>
-            </div>
-
-            {slip.neighborhood && (
-              <div className="flex justify-between items-baseline">
-                <span className="text-stone-500 uppercase tracking-wider font-semibold text-[10px]">Bölge</span>
-                <span className="text-stone-400 text-right">{slip.neighborhood}</span>
-              </div>
-            )}
           </div>
 
-          <div className="w-full border-t border-dashed border-stone-800 my-4 print:border-stone-400" />
-
-          {/* Items Header */}
-          <div className="text-[10px] font-bold uppercase tracking-wider text-amber-400/90 mb-3 flex items-center justify-between">
-            <span>Teslim Edilen Ürünler</span>
-            <span>Tutar</span>
-          </div>
+          <div className="w-full border-t border-[#261E17] my-3.5" />
 
           {/* Items List */}
-          <div className="space-y-3.5">
-            {slip.items.map((it, idx) => {
-              const fallbackImg = getItemFallbackImage(it.name);
-              const imgSrc = it.imageUrl || fallbackImg;
-
-              return (
-                <div key={idx} className="flex items-center gap-3">
-                  {/* Thumbnail Image */}
-                  <div className="w-12 h-12 rounded-xl bg-stone-900 border border-stone-800 shrink-0 overflow-hidden shadow-inner flex items-center justify-center print:border-stone-300">
-                    <img
-                      src={imgSrc}
-                      alt={it.name}
-                      onError={(e) => {
-                        (e.target as HTMLImageElement).src = fallbackImg;
-                      }}
-                      className="w-full h-full object-cover"
-                    />
+          {slip.isProductSale === false ? (
+            /* Devir / Tahsilat / Non-product: No broken image boxes! */
+            <div className="space-y-2">
+              {slip.items.map((it, idx) => (
+                <div
+                  key={idx}
+                  className="flex justify-between items-center py-2.5 px-3 bg-[#18130F] rounded-xl border border-[#261E17]"
+                >
+                  <div className="font-medium text-stone-200 text-xs sm:text-[13px]">
+                    {it.name}
                   </div>
-
-                  {/* Name, Quantity & Price */}
-                  <div className="flex-1 min-w-0">
-                    <div className="font-bold text-stone-100 text-xs sm:text-[13px] leading-snug">
-                      <span className="text-amber-400 font-mono mr-1.5">{it.quantity} Adet</span>
-                      <span>{it.name}</span>
-                      {it.weight && (
-                        <span className="text-[10px] text-stone-400 font-normal ml-1">
-                          ({it.weight}g)
-                        </span>
-                      )}
-                    </div>
-                    <div className="text-[11px] text-stone-400 font-mono mt-0.5">
-                      {it.quantity} x {it.unitPrice.toLocaleString("tr-TR")} ₺
-                    </div>
-                  </div>
-
-                  {/* Line Total */}
                   <div className="text-right shrink-0">
-                    <span className="font-mono font-bold text-stone-100 text-xs sm:text-[13px]">
+                    <span className="font-mono font-bold text-amber-400 text-xs sm:text-[13px]">
                       {it.totalPrice.toLocaleString("tr-TR")} ₺
                     </span>
                   </div>
                 </div>
-              );
-            })}
-          </div>
+              ))}
+            </div>
+          ) : (
+            /* Actual Product Sale: Clean list with thumbnails */
+            <div className="space-y-3">
+              {slip.items.map((it, idx) => {
+                const fallbackImg = getItemFallbackImage(it.name);
+                const imgSrc = it.imageUrl || fallbackImg;
 
-          <div className="w-full border-t border-dashed border-stone-800 my-4 print:border-stone-400" />
+                return (
+                  <div key={idx} className="flex items-center gap-3">
+                    {/* Thumbnail Image */}
+                    <div className="w-11 h-11 rounded-xl bg-stone-900 border border-stone-800 shrink-0 overflow-hidden shadow-inner flex items-center justify-center print:border-stone-300">
+                      <img
+                        src={imgSrc}
+                        alt={it.name}
+                        onError={(e) => {
+                          (e.target as HTMLImageElement).src = fallbackImg;
+                        }}
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
 
-          {/* Quantity & Item Count Summary */}
-          <div className="space-y-1.5 text-xs">
-            <div className="flex justify-between items-center text-stone-400">
+                    {/* Name, Quantity & Price */}
+                    <div className="flex-1 min-w-0">
+                      <div className="font-bold text-stone-100 text-xs sm:text-[13px] leading-snug">
+                        <span className="text-amber-400 font-mono mr-1.5">{it.quantity} Adet</span>
+                        <span>{it.name}</span>
+                        {it.weight && (
+                          <span className="text-[10px] text-stone-400 font-normal ml-1">
+                            ({it.weight}g)
+                          </span>
+                        )}
+                      </div>
+                      <div className="text-[11px] text-stone-400 font-mono mt-0.5">
+                        {it.quantity} x {it.unitPrice.toLocaleString("tr-TR")} ₺
+                      </div>
+                    </div>
+
+                    {/* Line Total */}
+                    <div className="text-right shrink-0">
+                      <span className="font-mono font-bold text-stone-100 text-xs sm:text-[13px]">
+                        {it.totalPrice.toLocaleString("tr-TR")} ₺
+                      </span>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          )}
+
+          <div className="w-full border-t border-[#261E17] my-3.5" />
+
+          {/* Quantity & Item Count Summary (if product sale) */}
+          {slip.isProductSale !== false && slip.items.length > 0 && (
+            <div className="flex justify-between items-center text-stone-400 text-xs pb-1.5">
               <span className="text-[11px]">Toplam Kalem / Miktar</span>
               <span className="font-mono font-medium text-stone-300">
                 {slip.items.length} çeşit • {totalQuantity} adet
               </span>
             </div>
+          )}
 
-            {/* This Slip Total */}
-            <div className="flex justify-between items-center pt-2 border-t border-stone-800/80">
-              <span className="font-serif font-bold text-sm text-stone-100">BU FİŞ TUTARI</span>
-              <span className="font-mono font-black text-lg text-amber-400">
-                {slip.totalAmount.toLocaleString("tr-TR")} ₺
-              </span>
-            </div>
+          {/* Toplam */}
+          <div className="flex justify-between items-center py-1">
+            <span className="font-serif font-bold text-sm text-stone-100 uppercase tracking-wide">
+              TOPLAM
+            </span>
+            <span className="font-mono font-black text-lg text-amber-400">
+              {slip.totalAmount.toLocaleString("tr-TR")} ₺
+            </span>
           </div>
 
-          <div className="w-full border-t-2 border-dashed border-stone-700 my-4 print:border-stone-400" />
+          <div className="w-full border-t border-[#261E17] my-3.5" />
 
           {/* Running Balance Card (Option A: Cumulative Balance) */}
           <div className="bg-[#1C1510] border border-[#2F231A] rounded-2xl p-3.5 space-y-2 print:bg-stone-50 print:border-stone-300">

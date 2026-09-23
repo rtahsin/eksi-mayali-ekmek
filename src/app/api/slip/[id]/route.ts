@@ -137,9 +137,10 @@ export async function GET(
           neighborhood: neighborhood,
           taxNumber: taxNo,
           cariId: orderData.cari_id || null,
-          date: orderData.delivery_date
-            ? new Date(orderData.delivery_date).toISOString().split("T")[0]
-            : new Date().toISOString().split("T")[0],
+          isProductSale: true,
+          type: "satis",
+          createdAt: orderData.created_at || orderData.delivery_date,
+          date: orderData.created_at || orderData.delivery_date || new Date().toISOString(),
           timeWindow: orderData.delivery_time_window || "14:00 - 18:00",
           items: mappedItems,
           subtotal: Number(orderData.subtotal) || Number(orderData.total_amount) || 0,
@@ -217,16 +218,22 @@ export async function GET(
         }
       }
 
-      // Fallback if parsing failed
+      const isProductSale = txData.type === "satis" && parsedItems.length > 0;
+
+      // Fallback if parsing failed or non-product transaction (devir, tahsilat, etc.)
       if (parsedItems.length === 0) {
-        const meta = getProductMeta(cleanDesc);
+        let defaultName = cleanDesc;
+        if (!defaultName) {
+          if (txData.type === "devir") defaultName = "Devir Bakiye Girişi";
+          else if (txData.type === "tahsilat") defaultName = "Tahsilat";
+          else if (txData.type === "odeme") defaultName = "Ödeme Çıkışı";
+          else defaultName = "Finansal İşlem";
+        }
         parsedItems.push({
-          name: cleanDesc || "Toptan Ekmek Teslimatı",
+          name: defaultName,
           quantity: 1,
           unitPrice: amount,
           totalPrice: amount,
-          weight: meta.weight,
-          imageUrl: meta.imageUrl,
         });
       }
 
@@ -242,9 +249,10 @@ export async function GET(
           neighborhood: cariData?.neighborhood || "Beylikdüzü",
           taxNumber: taxNo,
           cariId: txData.account_id,
-          date: txData.date
-            ? new Date(txData.date).toISOString().split("T")[0]
-            : new Date().toISOString().split("T")[0],
+          isProductSale: isProductSale,
+          type: txData.type,
+          createdAt: txData.created_at || txData.date,
+          date: txData.created_at || txData.date || new Date().toISOString(),
           timeWindow: "14:00 - 18:00",
           items: parsedItems,
           subtotal: amount,
