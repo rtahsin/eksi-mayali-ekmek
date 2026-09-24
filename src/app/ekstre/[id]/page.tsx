@@ -6,7 +6,6 @@ import Link from "next/link";
 import {
   Calendar,
   Phone,
-  MessageCircle,
   Receipt,
   Printer,
   Share2,
@@ -16,6 +15,9 @@ import {
   User,
   BarChart2,
   Package,
+  Download,
+  Filter,
+  X,
 } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 import { CariAccount, CariTransaction } from "@/types/admin";
@@ -29,6 +31,12 @@ export default function CustomerStatementPage() {
   const [transactions, setTransactions] = useState<CariTransaction[]>([]);
   const [startingBalance, setStartingBalance] = useState<number>(0);
   const [copied, setCopied] = useState(false);
+
+  // Date and type filters
+  const [dateFilter, setDateFilter] = useState<"all" | "this_month" | "last_month" | "last_30_days" | "custom">("all");
+  const [typeFilter, setTypeFilter] = useState<"all" | "satis" | "tahsilat">("all");
+  const [startDate, setStartDate] = useState<string>("");
+  const [endDate, setEndDate] = useState<string>("");
 
   useEffect(() => {
     if (!cariId) return;
@@ -136,26 +144,88 @@ export default function CustomerStatementPage() {
     fetchStatement();
   }, [cariId]);
 
+  const filteredTransactions = useMemo(() => {
+    return transactions.filter((tx) => {
+      // Type filter
+      if (typeFilter === "satis" && tx.type !== "satis" && tx.type !== "devir") return false;
+      if (typeFilter === "tahsilat" && tx.type !== "tahsilat" && tx.type !== "odeme") return false;
+
+      // Date filter
+      if (!tx.date) return true;
+      const txDate = new Date(tx.date);
+      const now = new Date();
+
+      if (dateFilter === "this_month") {
+        return txDate.getFullYear() === now.getFullYear() && txDate.getMonth() === now.getMonth();
+      }
+      if (dateFilter === "last_month") {
+        const lastMonth = new Date(now.getFullYear(), now.getMonth() - 1, 1);
+        return txDate.getFullYear() === lastMonth.getFullYear() && txDate.getMonth() === lastMonth.getMonth();
+      }
+      if (dateFilter === "last_30_days") {
+        const thirtyDaysAgo = new Date();
+        thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+        return txDate >= thirtyDaysAgo;
+      }
+      if (dateFilter === "custom") {
+        if (startDate && tx.date < startDate) return false;
+        if (endDate && tx.date > endDate) return false;
+      }
+      return true;
+    });
+  }, [transactions, dateFilter, typeFilter, startDate, endDate]);
+
   const totalBorc = useMemo(() => {
-    return transactions.reduce((sum, tx) => (tx.type === "satis" || (tx.type === "devir" && tx.amount > 0) ? sum + tx.amount : sum), 0);
-  }, [transactions]);
+    return filteredTransactions.reduce(
+      (sum, tx) => (tx.type === "satis" || (tx.type === "devir" && tx.amount > 0) ? sum + tx.amount : sum),
+      0
+    );
+  }, [filteredTransactions]);
 
   const totalAlacak = useMemo(() => {
-    return transactions.reduce((sum, tx) => (tx.type === "tahsilat" || tx.type === "odeme" ? sum + tx.amount : sum), 0);
-  }, [transactions]);
+    return filteredTransactions.reduce(
+      (sum, tx) => (tx.type === "tahsilat" || tx.type === "odeme" ? sum + tx.amount : sum),
+      0
+    );
+  }, [filteredTransactions]);
 
-  const handleShareWhatsApp = () => {
-    if (!cari) return;
-    const url = window.location.href;
-    const text = `EkmekLab Taş Fırın - ${cari.businessName} Canlı Hesap Ekstresi:\n💰 Güncel Bakiye: ${cari.balance.toLocaleString("tr-TR")} ₺\n🔗 Canlı Ekstre Linki: ${url}`;
-    let phoneClean = (cari.phone || "").replace(/\D/g, "");
-    if (phoneClean && !phoneClean.startsWith("90")) {
-      phoneClean = phoneClean.startsWith("0") ? `9${phoneClean}` : `90${phoneClean}`;
+  const handleExportCSV = () => {
+    if (!cari || filteredTransactions.length === 0) {
+      alert("Dışa aktarılacak işlem bulunamadı.");
+      return;
     }
-    const waUrl = phoneClean
-      ? `https://wa.me/${phoneClean}?text=${encodeURIComponent(text)}`
-      : `https://api.whatsapp.com/send?text=${encodeURIComponent(text)}`;
-    window.open(waUrl, "_blank");
+
+    const headers = ["Tarih", "Belge / Fiş No", "İşlem Türü", "Açıklama", "Borç (TL)", "Alacak (TL)", "Yürüyen Bakiye (TL)"];
+    const rows = filteredTransactions.map((tx) => {
+      const isDebt = tx.type === "satis" || (tx.type === "devir" && tx.amount > 0);
+      const isCredit = tx.type === "tahsilat" || tx.type === "odeme";
+      const typeLabel = tx.type === "satis" ? "Teslimat Fişi" : tx.type === "tahsilat" ? "Tahsilat" : tx.type === "devir" ? "Devir/Düzeltme" : "İşlem";
+      const slipNo = tx.slipNumber || "-";
+      const cleanDesc = (tx.description || "").replace(/"/g, '""');
+      const borc = isDebt ? tx.amount.toFixed(2) : "0.00";
+      const alacak = isCredit ? tx.amount.toFixed(2) : "0.00";
+      const bakiye = tx.balanceAfter !== undefined ? tx.balanceAfter.toFixed(2) : "";
+
+      return [
+        `"${tx.date}"`,
+        `"${slipNo}"`,
+        `"${typeLabel}"`,
+        `"${cleanDesc}"`,
+        borc,
+        alacak,
+        bakiye,
+      ].join(";");
+    });
+
+    const csvContent = "\uFEFF" + [headers.join(";"), ...rows].join("\r\n");
+    const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    const cleanBusinessName = cari.businessName.replace(/[^a-zA-Z0-9çÇğĞıİöÖşŞüÜ_-]/g, "_");
+    link.href = url;
+    link.download = `EkmekLab_Ekstre_${cleanBusinessName}_${new Date().toISOString().split("T")[0]}.csv`;
+    link.click();
+    URL.revokeObjectURL(url);
   };
 
   const handleCopyLink = async () => {
@@ -230,15 +300,15 @@ export default function CustomerStatementPage() {
               </div>
             </div>
 
-            {/* Actions: WhatsApp, Share, Print */}
+            {/* Actions: Excel/CSV, Copy Link, Print */}
             <div className="flex flex-wrap items-center gap-2 print:hidden">
               <button
-                onClick={handleShareWhatsApp}
-                className="flex items-center gap-1.5 px-3.5 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold shadow-md shadow-emerald-950/20 active:scale-95 transition-all"
-                title="WhatsApp ile Paylaş"
+                onClick={handleExportCSV}
+                className="flex items-center gap-1.5 px-3.5 py-2.5 rounded-xl bg-[#F5EFE6] hover:bg-[#EAE2D4] text-[#B45309] text-xs font-bold border border-[#E8DFC8] shadow-sm active:scale-95 transition-all"
+                title="Excel / CSV Formatında İndir"
               >
-                <MessageCircle className="w-4 h-4" />
-                <span>WhatsApp ile Paylaş</span>
+                <Download className="w-4 h-4 text-[#B45309]" />
+                <span>Excel / CSV İndir</span>
               </button>
 
               <button
@@ -376,23 +446,92 @@ export default function CustomerStatementPage() {
 
           {/* Transaction Ledger Table */}
           <div className="bg-white/90 border border-[#EBE4D8] rounded-2xl shadow-sm overflow-hidden">
-            <div className="p-4 sm:p-5 border-b border-[#EBE4D8] bg-[#FAF6F0] flex items-center justify-between">
-              <div className="flex items-center gap-2.5">
-                <div className="w-7 h-7 rounded-full bg-[#EFE8DC] flex items-center justify-center text-[#5C4C42]">
-                  <BarChart2 className="w-4 h-4" />
+            <div className="p-4 sm:p-5 border-b border-[#EBE4D8] bg-[#FAF6F0] space-y-3">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                <div className="flex items-center gap-2.5">
+                  <div className="w-7 h-7 rounded-full bg-[#EFE8DC] flex items-center justify-center text-[#5C4C42]">
+                    <BarChart2 className="w-4 h-4" />
+                  </div>
+                  <h2 className="text-xs sm:text-sm font-black text-[#1E140F] tracking-wide uppercase">
+                    Hesap Hareketleri & Teslimat Fişleri ({filteredTransactions.length})
+                  </h2>
                 </div>
-                <h2 className="text-xs sm:text-sm font-black text-[#1E140F] tracking-wide uppercase">
-                  Hesap Hareketleri & Teslimat Fişleri ({transactions.length})
-                </h2>
+                <span className="text-[11px] font-semibold text-[#8A7A70]">
+                  Yürüyen Bakiye Düzeni
+                </span>
               </div>
-              <span className="text-[11px] font-semibold text-[#8A7A70]">
-                Yürüyen Bakiye Düzeni
-              </span>
+
+              {/* Filter Toolbar (Hidden on print) */}
+              <div className="flex flex-wrap items-center gap-2 pt-2 border-t border-[#EBE4D8]/60 print:hidden text-xs">
+                {/* Period Pills */}
+                <div className="flex items-center gap-1 bg-[#F5EFE6] p-1 rounded-xl border border-[#E8DFC8]">
+                  {[
+                    { id: "all", label: "Tüm Zamanlar" },
+                    { id: "this_month", label: "Bu Ay" },
+                    { id: "last_month", label: "Geçen Ay" },
+                    { id: "last_30_days", label: "Son 30 Gün" },
+                    { id: "custom", label: "Tarih Seç" },
+                  ].map((p) => (
+                    <button
+                      key={p.id}
+                      onClick={() => setDateFilter(p.id as any)}
+                      className={`px-2.5 py-1 rounded-lg font-bold text-[11px] transition-all ${
+                        dateFilter === p.id
+                          ? "bg-[#B45309] text-white shadow-sm"
+                          : "text-[#63554D] hover:text-[#1E140F]"
+                      }`}
+                    >
+                      {p.label}
+                    </button>
+                  ))}
+                </div>
+
+                {/* Type Filter Pills */}
+                <div className="flex items-center gap-1 bg-[#F5EFE6] p-1 rounded-xl border border-[#E8DFC8]">
+                  {[
+                    { id: "all", label: "Tümü" },
+                    { id: "satis", label: "Fişler" },
+                    { id: "tahsilat", label: "Tahsilatlar" },
+                  ].map((t) => (
+                    <button
+                      key={t.id}
+                      onClick={() => setTypeFilter(t.id as any)}
+                      className={`px-2.5 py-1 rounded-lg font-bold text-[11px] transition-all ${
+                        typeFilter === t.id
+                          ? "bg-[#1E140F] text-white shadow-sm"
+                          : "text-[#63554D] hover:text-[#1E140F]"
+                      }`}
+                    >
+                      {t.label}
+                    </button>
+                  ))}
+                </div>
+
+                {/* Custom Date Range Picker */}
+                {dateFilter === "custom" && (
+                  <div className="flex items-center gap-1.5 bg-[#F5EFE6] px-2.5 py-1 rounded-xl border border-[#E8DFC8]">
+                    <span className="text-[10px] font-bold text-[#8A7A70] uppercase">Aralık:</span>
+                    <input
+                      type="date"
+                      value={startDate}
+                      onChange={(e) => setStartDate(e.target.value)}
+                      className="bg-white border border-[#E8DFC8] rounded px-1.5 py-0.5 text-[11px] text-[#1E140F] font-mono focus:outline-none"
+                    />
+                    <span className="text-[#8A7A70]">-</span>
+                    <input
+                      type="date"
+                      value={endDate}
+                      onChange={(e) => setEndDate(e.target.value)}
+                      className="bg-white border border-[#E8DFC8] rounded px-1.5 py-0.5 text-[11px] text-[#1E140F] font-mono focus:outline-none"
+                    />
+                  </div>
+                )}
+              </div>
             </div>
 
-            {transactions.length === 0 ? (
+            {filteredTransactions.length === 0 ? (
               <div className="p-12 text-center text-[#7A6B62] text-xs">
-                Kayıtlı herhangi bir işlem hareketi bulunmuyor.
+                Seçilen filtrelere uygun hesap hareketi bulunmuyor.
               </div>
             ) : (
               <div className="overflow-x-auto">
@@ -409,7 +548,7 @@ export default function CustomerStatementPage() {
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-[#EBE4D8]/80 text-xs">
-                    {transactions.map((tx) => {
+                    {filteredTransactions.map((tx) => {
                       const isSale = tx.type === "satis";
                       const isTahsilat = tx.type === "tahsilat";
                       const isDevir = tx.type === "devir";
@@ -472,14 +611,14 @@ export default function CustomerStatementPage() {
                           </td>
 
                           <td className="py-3 px-4 text-center whitespace-nowrap print:hidden">
-                            {isSale ? (
+                            {isSale || tx.type === "tahsilat" ? (
                               <Link
                                 href={`/fis/${tx.orderId || tx.id}`}
                                 target="_blank"
                                 className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-[#F5EFE6] hover:bg-[#EFE8DC] text-[#B45309] text-xs font-bold border border-[#E8DFC8] transition-colors"
-                                title="Dijital Fişi Aç"
+                                title="Dijital Belgeyi Aç"
                               >
-                                <span>Fiş</span>
+                                <span>{tx.type === "tahsilat" ? "Makbuz" : "Fiş"}</span>
                                 <ExternalLink className="w-3 h-3" />
                               </Link>
                             ) : (
@@ -516,7 +655,7 @@ export default function CustomerStatementPage() {
                   <tfoot>
                     <tr className="border-t-2 border-[#EBE4D8] bg-[#F5EFE6] font-bold text-xs text-[#1E140F]">
                       <td colSpan={3} className="py-4 px-4 uppercase tracking-wider text-[11px] text-[#5C4C42]">
-                        GENEL TOPLAM ({transactions.length} İşlem)
+                        GENEL TOPLAM ({filteredTransactions.length} İşlem)
                       </td>
                       <td className="py-4 px-4 text-right font-black text-[#B45309]">
                         +{totalBorc.toLocaleString("tr-TR")} ₺

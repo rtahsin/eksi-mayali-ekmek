@@ -317,6 +317,28 @@ export default function TransactionReceiptModal({ tx, cari, onClose }: Transacti
             </div>
           </div>
 
+          {/* Document Title & Slip Number Badge */}
+          <div className="flex items-center justify-between gap-2 px-1 mb-3">
+            <span
+              className={`text-[11px] font-black uppercase tracking-wider px-3 py-1 rounded-full border ${
+                tx.type === "tahsilat"
+                  ? "bg-emerald-50 text-emerald-800 border-emerald-200"
+                  : tx.type === "devir"
+                  ? "bg-sky-50 text-sky-800 border-sky-200"
+                  : "bg-[#F5EFE6] text-[#B45309] border-[#E8DFC8]"
+              }`}
+            >
+              {tx.type === "tahsilat"
+                ? "Tahsilat Makbuzu"
+                : tx.type === "devir"
+                ? "Devir / Düzeltme Makbuzu"
+                : "Teslimat Fişi"}
+            </span>
+            <span className="font-mono text-xs font-bold text-[#8A7A70] bg-[#F5EFE6] px-2.5 py-0.5 rounded-lg border border-[#E8DFC8]">
+              {slipNo}
+            </span>
+          </div>
+
           {/* Meta Info Box: Tarih & Müşteri */}
           <div className="bg-white/90 border border-[#EBE4D8] rounded-2xl p-3 mb-3.5 shadow-sm grid grid-cols-2 divide-x divide-[#EBE4D8] items-center">
             {/* Tarih */}
@@ -355,87 +377,153 @@ export default function TransactionReceiptModal({ tx, cari, onClose }: Transacti
             </div>
           </div>
 
-          {/* Products & Summary Card */}
+          {/* Products or Tahsilat Summary Card */}
           <div className="bg-white/90 border border-[#EBE4D8] rounded-2xl p-3.5 sm:p-4 mb-3.5 shadow-sm space-y-3">
-            {/* Line Items */}
-            {!isProductSale ? (
-              /* Non-product: devir/tahsilat */
-              <div className="space-y-2">
-                {items.map((it, idx) => (
-                  <div
-                    key={idx}
-                    className="flex justify-between items-center py-2.5 px-3.5 bg-[#FBF9F5] rounded-xl border border-[#EBE4D8]"
-                  >
-                    <div className="font-bold text-[#1E140F] text-xs sm:text-sm leading-normal pb-0.5">
-                      {it.name}
-                    </div>
-                    <div className="text-right shrink-0 pl-2">
-                      <span className="font-bold text-[#92400E] text-xs sm:text-sm leading-normal inline-block py-0.5">
-                        {it.total.toLocaleString("tr-TR")} ₺
+            {tx.type === "tahsilat" ? (
+              /* Dedicated Tahsilat View */
+              <div className="space-y-3">
+                <div className="bg-[#FAF7F2] border border-[#EBE4D8] rounded-xl p-3.5 space-y-2.5">
+                  <div className="flex justify-between items-center">
+                    <span className="text-[11px] font-bold text-[#8A7A70] uppercase tracking-wider">Tahsil Edilen Tutar:</span>
+                    <span className="text-base sm:text-lg font-black text-emerald-800">
+                      {amount.toLocaleString("tr-TR")} ₺
+                    </span>
+                  </div>
+                  {tx.paymentMethod && (
+                    <div className="flex justify-between items-center text-xs">
+                      <span className="text-[#5C4C42]">Ödeme Şekli:</span>
+                      <span className="font-bold text-[#1E140F]">
+                        {tx.paymentMethod === "nakit"
+                          ? "💵 Nakit"
+                          : tx.paymentMethod === "banka_havale"
+                          ? "🏦 Banka Havalesi / EFT"
+                          : tx.paymentMethod === "kredi_karti"
+                          ? "💳 Kredi Kartı / POS"
+                          : tx.paymentMethod}
                       </span>
                     </div>
+                  )}
+                  {cleanDesc && cleanDesc !== "Tahsilat" && (
+                    <div className="text-xs text-[#7A6B62] pt-1.5 border-t border-[#EBE4D8]/80">
+                      <span className="font-medium">{cleanDesc}</span>
+                    </div>
+                  )}
+                </div>
+
+                <div className="border-t border-[#F0EAE0]" />
+
+                {/* Tahsilat Toplam */}
+                <div className="flex justify-between items-center pt-0.5 pb-0.5">
+                  <div className="flex items-center gap-2">
+                    <Receipt className="w-4 h-4 text-emerald-800" />
+                    <span className="font-black text-xs sm:text-sm text-emerald-900 tracking-wide uppercase leading-normal">
+                      TAHSİLAT TOPLAMI
+                    </span>
                   </div>
-                ))}
+                  <div className="bg-emerald-50 border border-emerald-200 px-3.5 py-1.5 rounded-xl text-base sm:text-lg font-black text-emerald-800">
+                    {amount.toLocaleString("tr-TR")} ₺
+                  </div>
+                </div>
               </div>
-            ) : (
-              /* Product sale list */
+            ) : !isProductSale ? (
+              /* Non-product: devir/düzeltme */
               <div className="space-y-3">
-                {items.map((it, idx) => {
-                  const fallback = getItemFallbackImage(it.name);
-                  return (
-                    <div key={idx} className="flex items-center gap-3">
-                      <div className="w-14 h-14 rounded-xl overflow-hidden shrink-0 border border-[#EAE2D6] shadow-sm bg-[#F5EFE6]">
-                        <img src={fallback} alt={it.name} className="w-full h-full object-cover" />
-                      </div>
-                      <div className="flex-1 min-w-0">
-                        <div className="text-xs font-bold text-[#B45309] leading-normal pb-0.5">
-                          {it.qty} Adet
-                        </div>
-                        <div className="font-bold text-[#1E140F] text-xs sm:text-[13px] leading-snug break-words pb-0.5">
-                          {it.name}
-                        </div>
-                        <div className="text-[11px] text-[#7A6B62] font-medium leading-normal inline-block py-0.5 mt-0.5">
-                          {it.qty} x {it.price.toLocaleString("tr-TR")} ₺
-                        </div>
+                <div className="space-y-2">
+                  {items.map((it, idx) => (
+                    <div
+                      key={idx}
+                      className="flex justify-between items-center py-2.5 px-3.5 bg-[#FBF9F5] rounded-xl border border-[#EBE4D8]"
+                    >
+                      <div className="font-bold text-[#1E140F] text-xs sm:text-sm leading-normal pb-0.5">
+                        {it.name}
                       </div>
                       <div className="text-right shrink-0 pl-2">
-                        <span className="font-bold text-[#1E140F] text-sm sm:text-base leading-normal inline-block py-0.5">
+                        <span className="font-bold text-[#92400E] text-xs sm:text-sm leading-normal inline-block py-0.5">
                           {it.total.toLocaleString("tr-TR")} ₺
                         </span>
                       </div>
                     </div>
-                  );
-                })}
+                  ))}
+                </div>
+
+                <div className="border-t border-[#F0EAE0]" />
+
+                {/* TOPLAM */}
+                <div className="flex justify-between items-center pt-1.5 pb-0.5">
+                  <div className="flex items-center gap-2">
+                    <Receipt className="w-4 h-4 text-[#1E140F]" />
+                    <span className="font-black text-sm text-[#1E140F] tracking-wide uppercase leading-normal pb-0.5">
+                      TOPLAM
+                    </span>
+                  </div>
+                  <div className="bg-[#F5EFE6] px-4 py-2 rounded-xl text-base sm:text-lg font-black text-[#B45309] leading-normal flex items-center justify-center">
+                    <span className="inline-block py-0.5 leading-normal">
+                      {amount.toLocaleString("tr-TR")} ₺
+                    </span>
+                  </div>
+                </div>
+              </div>
+            ) : (
+              /* Product sale list */
+              <div className="space-y-3">
+                <div className="space-y-3">
+                  {items.map((it, idx) => {
+                    const fallback = getItemFallbackImage(it.name);
+                    return (
+                      <div key={idx} className="flex items-center gap-3">
+                        <div className="w-14 h-14 rounded-xl overflow-hidden shrink-0 border border-[#EAE2D6] shadow-sm bg-[#F5EFE6]">
+                          <img src={fallback} alt={it.name} className="w-full h-full object-cover" />
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <div className="text-xs font-bold text-[#B45309] leading-normal pb-0.5">
+                            {it.qty} Adet
+                          </div>
+                          <div className="font-bold text-[#1E140F] text-xs sm:text-[13px] leading-snug break-words pb-0.5">
+                            {it.name}
+                          </div>
+                          <div className="text-[11px] text-[#7A6B62] font-medium leading-normal inline-block py-0.5 mt-0.5">
+                            {it.qty} x {it.price.toLocaleString("tr-TR")} ₺
+                          </div>
+                        </div>
+                        <div className="text-right shrink-0 pl-2">
+                          <span className="font-bold text-[#1E140F] text-sm sm:text-base leading-normal inline-block py-0.5">
+                            {it.total.toLocaleString("tr-TR")} ₺
+                          </span>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+
+                <div className="border-t border-[#F0EAE0]" />
+
+                {/* Toplam Kalem / Miktar */}
+                <div className="flex justify-between items-center text-xs py-0.5">
+                  <div className="flex items-center gap-2 text-[#5C4C42]">
+                    <Package className="w-4 h-4 text-[#8A7A70]" />
+                    <span className="leading-normal pb-0.5">Toplam Kalem / Miktar</span>
+                  </div>
+                  <span className="font-bold text-[#1E140F] leading-normal pb-0.5">
+                    {items.length} çeşit • {items.reduce((s, i) => s + (i.qty || 1), 0)} adet
+                  </span>
+                </div>
+
+                {/* TOPLAM */}
+                <div className="flex justify-between items-center pt-1.5 pb-0.5">
+                  <div className="flex items-center gap-2">
+                    <Receipt className="w-4 h-4 text-[#1E140F]" />
+                    <span className="font-black text-sm text-[#1E140F] tracking-wide uppercase leading-normal pb-0.5">
+                      TOPLAM
+                    </span>
+                  </div>
+                  <div className="bg-[#F5EFE6] px-4 py-2 rounded-xl text-base sm:text-lg font-black text-[#B45309] leading-normal flex items-center justify-center">
+                    <span className="inline-block py-0.5 leading-normal">
+                      {amount.toLocaleString("tr-TR")} ₺
+                    </span>
+                  </div>
+                </div>
               </div>
             )}
-
-            <div className="border-t border-[#F0EAE0]" />
-
-            {/* Toplam Kalem / Miktar */}
-            <div className="flex justify-between items-center text-xs py-0.5">
-              <div className="flex items-center gap-2 text-[#5C4C42]">
-                <Package className="w-4 h-4 text-[#8A7A70]" />
-                <span className="leading-normal pb-0.5">Toplam Kalem / Miktar</span>
-              </div>
-              <span className="font-bold text-[#1E140F] leading-normal pb-0.5">
-                {items.length} çeşit • {items.reduce((s, i) => s + (i.qty || 1), 0)} adet
-              </span>
-            </div>
-
-            {/* TOPLAM */}
-            <div className="flex justify-between items-center pt-1.5 pb-0.5">
-              <div className="flex items-center gap-2">
-                <Receipt className="w-4 h-4 text-[#1E140F]" />
-                <span className="font-black text-sm text-[#1E140F] tracking-wide uppercase leading-normal pb-0.5">
-                  TOPLAM
-                </span>
-              </div>
-              <div className="bg-[#F5EFE6] px-4 py-2 rounded-xl text-base sm:text-lg font-black text-[#B45309] leading-normal flex items-center justify-center">
-                <span className="inline-block py-0.5 leading-normal">
-                  {amount.toLocaleString("tr-TR")} ₺
-                </span>
-              </div>
-            </div>
           </div>
 
           {/* Account Balance Card (Hesap Durumu - Cari Bakiye) */}
@@ -457,16 +545,27 @@ export default function TransactionReceiptModal({ tx, cari, onClose }: Transacti
             </div>
 
             <div className="flex justify-between items-center text-xs text-[#5C4C42] py-0.5">
-              <span className="leading-normal">İşlem Tutarı:</span>
-              <span className="font-bold text-[#92400E] leading-normal inline-block py-0.5">
-                {isPositiveDelta ? `+${amount.toLocaleString("tr-TR")}` : `-${amount.toLocaleString("tr-TR")}`} ₺
+              <span className="leading-normal">
+                {tx.type === "tahsilat"
+                  ? "Tahsil Edilen Tutar (-):"
+                  : tx.type === "devir"
+                  ? "Düzeltme Tutarı:"
+                  : "Fiş Tutarı (+):"}
+              </span>
+              <span
+                className={`font-bold leading-normal inline-block py-0.5 ${
+                  tx.type === "tahsilat" ? "text-emerald-800" : "text-[#92400E]"
+                }`}
+              >
+                {tx.type === "tahsilat" ? "-" : isPositiveDelta ? "+" : "-"}
+                {amount.toLocaleString("tr-TR")} ₺
               </span>
             </div>
 
             {/* Highlighted Current Balance Row */}
             <div className="bg-[#EFE8DD] rounded-xl px-4 py-3 flex items-center justify-between mt-1.5">
               <span className="text-xs font-bold text-[#1E140F] leading-normal pb-0.5">
-                Güncel Toplam Bakiye:
+                {tx.type === "tahsilat" ? "Kalan Güncel Borç:" : "Güncel Toplam Bakiye:"}
               </span>
               <span className="text-base sm:text-lg font-black text-[#B45309] leading-normal inline-block py-0.5">
                 {newBal.toLocaleString("tr-TR")} ₺

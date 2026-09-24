@@ -10,13 +10,19 @@ interface CariEditModalProps {
   cari: CariAccount;
   onClose: () => void;
   onSuccess?: () => void;
+  initialTab?: "info" | "prices";
 }
 
-export default function CariEditModal({ cari, onClose, onSuccess }: CariEditModalProps) {
+export default function CariEditModal({
+  cari,
+  onClose,
+  onSuccess,
+  initialTab = "info",
+}: CariEditModalProps) {
   const { updateCari } = useCariler();
   const { allProducts } = useProducts();
 
-  const [activeTab, setActiveTab] = useState<"info" | "prices">("info");
+  const [activeTab, setActiveTab] = useState<"info" | "prices">(initialTab);
 
   const [formData, setFormData] = useState({
     businessName: cari.businessName || "",

@@ -188,12 +188,12 @@ export async function GET(
           isPositiveDelta = true;
         }
       } else if (txData.type === "satis") {
-        newBal = curBal;
-        prevBal = curBal - amount;
+        newBal = txData.balance_after !== null && txData.balance_after !== undefined ? Number(txData.balance_after) : curBal;
+        prevBal = newBal - amount;
         isPositiveDelta = true;
       } else {
-        newBal = curBal;
-        prevBal = curBal + amount;
+        newBal = txData.balance_after !== null && txData.balance_after !== undefined ? Number(txData.balance_after) : curBal;
+        prevBal = newBal + amount;
         isPositiveDelta = false;
       }
 
@@ -274,6 +274,7 @@ export async function GET(
           cariId: txData.account_id,
           isProductSale: isProductSale,
           type: txData.type,
+          paymentMethod: txData.payment_method || null,
           createdAt: txData.created_at || txData.date,
           date: txData.created_at || txData.date || new Date().toISOString(),
           timeWindow: "14:00 - 18:00",

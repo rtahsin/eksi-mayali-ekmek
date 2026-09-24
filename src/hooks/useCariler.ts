@@ -259,6 +259,9 @@ export function useCariler() {
       setCariler((prev) => prev.filter((c) => c.id !== id));
 
       if (supabase) {
+        // Clean up transactions first to prevent FK constraint errors
+        await supabase!.from("account_transactions").delete().eq("account_id", id);
+
         const { error: delErr } = await supabase!
           .from("current_accounts")
           .delete()
