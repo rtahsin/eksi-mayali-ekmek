@@ -135,13 +135,21 @@ export async function POST(req: Request) {
     }
 
     // 5. Update Balance
-    await supabase
+    const { error: balErr } = await supabase
       .from("current_accounts")
       .update({
         balance: balanceAfter,
         updated_at: new Date().toISOString(),
       })
       .eq("id", cariId);
+
+    if (balErr) {
+      // Rollback inserted transaction to preserve atomic balance consistency
+      if (transactionId) {
+        await supabase.from("account_transactions").delete().eq("id", transactionId);
+      }
+      throw new Error(`Cari bakiye güncellenemedi, hareket geri alındı: ${balErr.message}`);
+    }
 
     return NextResponse.json({
       success: true,

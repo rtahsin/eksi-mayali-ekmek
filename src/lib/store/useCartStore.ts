@@ -26,6 +26,10 @@ export interface CustomerInfo {
   deliveryDate: string; // "today" | "tomorrow" | "custom:YYYY-MM-DD"
   customDate?: string;
   note?: string;
+  shareLocation?: boolean;
+  customerLat?: number | null;
+  customerLng?: number | null;
+  locationConsentAt?: string | null;
 }
 
 interface CartStore {
@@ -33,6 +37,7 @@ interface CartStore {
   isOpen: boolean;
   deliveryMethod: DeliveryMethod;
   customerInfo: CustomerInfo;
+  userId: string | null;
   isSuccessModalOpen: boolean;
   lastCompletedOrder: Order | null;
 
@@ -43,6 +48,8 @@ interface CartStore {
   clearCart: () => void;
   setDeliveryMethod: (method: DeliveryMethod) => void;
   setCustomerInfo: (info: Partial<CustomerInfo>) => void;
+  setUserId: (userId: string | null) => void;
+  setShareLocation: (share: boolean, lat?: number | null, lng?: number | null) => void;
   toggleCart: () => void;
   openCart: () => void;
   closeCart: () => void;
@@ -63,6 +70,10 @@ const DEFAULT_CUSTOMER_INFO: CustomerInfo = {
   addressDetail: "",
   deliveryDate: "today",
   note: "",
+  shareLocation: false,
+  customerLat: null,
+  customerLng: null,
+  locationConsentAt: null,
 };
 
 export const useCartStore = create<CartStore>()(
@@ -72,6 +83,7 @@ export const useCartStore = create<CartStore>()(
       isOpen: false,
       deliveryMethod: "courier",
       customerInfo: DEFAULT_CUSTOMER_INFO,
+      userId: null,
       isSuccessModalOpen: false,
       lastCompletedOrder: null,
 
@@ -145,6 +157,22 @@ export const useCartStore = create<CartStore>()(
         });
       },
 
+      setUserId: (userId) => {
+        set({ userId });
+      },
+
+      setShareLocation: (share, lat = null, lng = null) => {
+        set({
+          customerInfo: {
+            ...get().customerInfo,
+            shareLocation: share,
+            customerLat: lat,
+            customerLng: lng,
+            locationConsentAt: share ? new Date().toISOString() : null,
+          },
+        });
+      },
+
       toggleCart: () => set({ isOpen: !get().isOpen }),
       openCart: () => set({ isOpen: true }),
       closeCart: () => set({ isOpen: false }),
@@ -166,7 +194,6 @@ export const useCartStore = create<CartStore>()(
 
       getShippingFee: () => {
         const subtotal = get().getSubtotal();
-        if (get().deliveryMethod === "pickup") return 0;
         // 1000 TL ve üzeri teslimat ücretsiz, aksi halde 150 TL
         if (subtotal === 0) return 0;
         return subtotal >= 1000 ? 0 : 150;

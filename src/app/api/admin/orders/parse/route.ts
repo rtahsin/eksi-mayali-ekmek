@@ -1,6 +1,8 @@
 import { NextResponse } from "next/server";
 import { GoogleGenAI, Type } from "@google/genai";
 
+import { checkRateLimit } from "@/lib/security/rateLimiter";
+
 // Ensure the Gemini API key is available
 const apiKey = process.env.GEMINI_API_KEY;
 if (!apiKey) {
@@ -11,15 +13,37 @@ const ai = new GoogleGenAI({ apiKey });
 
 export async function POST(req: Request) {
   try {
+    // 0. Rate limiting to prevent Gemini API quota exhaustion
+    const forwarded = req.headers.get("x-forwarded-for");
+    const realIp = req.headers.get("x-real-ip");
+    const clientIp = forwarded ? forwarded.split(",")[0].trim() : realIp || "127.0.0.1";
+
+    const rateLimit = checkRateLimit(`ai_parse_${clientIp}`, 15, 60000);
+    if (!rateLimit.allowed) {
+      return NextResponse.json(
+        { success: false, error: `Çok fazla ayrıştırma isteği. Lütfen ${rateLimit.retryAfterSeconds} saniye bekleyin.` },
+        { status: 429 }
+      );
+    }
+
     const { text } = await req.json();
 
-    if (!text) {
-      return NextResponse.json({ success: false, error: "Text is required" }, { status: 400 });
+    if (!text || typeof text !== "string" || !text.trim()) {
+      return NextResponse.json({ success: false, error: "Ayrıştırılacak metin gereklidir." }, { status: 400 });
+    }
+
+    if (text.length > 2500) {
+      return NextResponse.json(
+        { success: false, error: "Metin çok uzun. Maksimum 2500 karakter girilebilir." },
+        { status: 400 }
+      );
     }
 
     if (!apiKey) {
       return NextResponse.json({ success: false, error: "AI API Key eksik. Lütfen ortam değişkenlerini yapılandırın." }, { status: 500 });
     }
+
+    const sanitizedText = text.trim();
 
     const prompt = `
 Aşağıdaki ham WhatsApp sipariş mesajını analiz et.
@@ -27,7 +51,7 @@ Bana Müşteri Adı, Telefonu, Semt, Mahalle, Adres Detayı, Sipariş Notu ve Ü
 
 Müşterinin mesajı:
 """
-${text}
+${sanitizedText}
 """
 `;
 

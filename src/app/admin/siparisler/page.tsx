@@ -13,6 +13,8 @@ import {
   CheckCircle2,
   Calendar,
   Filter,
+  ChevronLeft,
+  ChevronRight,
 } from "lucide-react";
 import Link from "next/link";
 
@@ -27,8 +29,25 @@ export default function AdminOrdersPage() {
     setDateFilter,
     searchQuery,
     setSearchQuery,
+    allOrders,
     updateOrderStatus,
   } = useAdminOrders();
+
+  const [extraFilter, setExtraFilter] = React.useState<"none" | "pending_payment" | "unassigned_courier">("none");
+
+  // Bekleyen tahsilat ve atanmamış kurye hesaplamaları
+  const pendingPaymentOrders = React.useMemo(
+    () => allOrders.filter((o) => o.status !== "iptal" && o.paymentStatus !== "paid"),
+    [allOrders]
+  );
+  const pendingPaymentTotal = React.useMemo(
+    () => pendingPaymentOrders.reduce((sum, o) => sum + o.totalAmount, 0),
+    [pendingPaymentOrders]
+  );
+  const unassignedCourierCount = React.useMemo(
+    () => allOrders.filter((o) => !o.courierId && o.status !== "iptal" && o.status !== "teslim_edildi").length,
+    [allOrders]
+  );
 
   const statusTabs = [
     { id: "all", label: "Tümü" },
@@ -39,6 +58,31 @@ export default function AdminOrdersPage() {
     { id: "teslim_edildi", label: "🟢 Teslim Edilen", count: stats.completedTodayCount },
     { id: "iptal", label: "⚪ İptal" },
   ];
+
+  const displayedOrders = React.useMemo(() => {
+    return orders.filter((o) => {
+      if (extraFilter === "pending_payment") {
+        return o.paymentStatus !== "paid" && o.status !== "iptal";
+      }
+      if (extraFilter === "unassigned_courier") {
+        return !o.courierId && o.status !== "iptal" && o.status !== "teslim_edildi";
+      }
+      return true;
+    });
+  }, [orders, extraFilter]);
+
+  const [currentPage, setCurrentPage] = React.useState(0);
+  const PAGE_SIZE = 24;
+
+  React.useEffect(() => {
+    setCurrentPage(0);
+  }, [statusFilter, dateFilter, searchQuery, extraFilter]);
+
+  const totalPages = Math.max(1, Math.ceil(displayedOrders.length / PAGE_SIZE));
+  const paginatedOrders = React.useMemo(() => {
+    const start = currentPage * PAGE_SIZE;
+    return displayedOrders.slice(start, start + PAGE_SIZE);
+  }, [displayedOrders, currentPage, PAGE_SIZE]);
 
   return (
     <div className="space-y-6">
@@ -190,6 +234,38 @@ export default function AdminOrdersPage() {
             </button>
           ))}
         </div>
+
+        {/* Row 3: Özel Hızlı Filtreler (Tahsilat & Kurye Durumu) */}
+        <div className="flex items-center gap-2 pt-1 border-t border-[#221812] text-xs">
+          <span className="text-[11px] font-sans text-foreground/50">Hızlı Filtre:</span>
+          <button
+            onClick={() => setExtraFilter(extraFilter === "pending_payment" ? "none" : "pending_payment")}
+            className={`px-2.5 py-1 rounded-lg text-xs transition-colors flex items-center gap-1.5 ${
+              extraFilter === "pending_payment"
+                ? "bg-amber-500/20 text-amber-300 border border-amber-500/40 font-bold"
+                : "bg-[#1A1410] text-foreground/60 hover:text-foreground border border-transparent"
+            }`}
+          >
+            <span>Ödemesi Bekleyen</span>
+            <span className="text-[10px] font-mono px-1 rounded bg-amber-500/10">
+              {pendingPaymentOrders.length} ({pendingPaymentTotal} ₺)
+            </span>
+          </button>
+
+          <button
+            onClick={() => setExtraFilter(extraFilter === "unassigned_courier" ? "none" : "unassigned_courier")}
+            className={`px-2.5 py-1 rounded-lg text-xs transition-colors flex items-center gap-1.5 ${
+              extraFilter === "unassigned_courier"
+                ? "bg-blue-500/20 text-blue-300 border border-blue-500/40 font-bold"
+                : "bg-[#1A1410] text-foreground/60 hover:text-foreground border border-transparent"
+            }`}
+          >
+            <span>Kuryeye Atanmamış</span>
+            <span className="text-[10px] font-mono px-1 rounded bg-blue-500/10">
+              {unassignedCourierCount}
+            </span>
+          </button>
+        </div>
       </div>
 
       {/* Orders List / Grid */}
@@ -198,7 +274,7 @@ export default function AdminOrdersPage() {
           <div className="w-10 h-10 rounded-full border-2 border-artisan-gold/30 border-t-artisan-gold animate-spin mx-auto" />
           <p className="text-xs text-foreground/60">Canlı siparişler yükleniyor...</p>
         </div>
-      ) : orders.length === 0 ? (
+      ) : displayedOrders.length === 0 ? (
         <div className="p-16 text-center space-y-3 bg-[#18130F] rounded-3xl border border-[#261E17]">
           <div className="w-12 h-12 rounded-full bg-[#201812] border border-[#2F241D] flex items-center justify-center mx-auto text-foreground/40">
             <ShoppingBag className="w-6 h-6" />
@@ -213,14 +289,49 @@ export default function AdminOrdersPage() {
           </div>
         </div>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 sm:gap-5">
-          {orders.map((order) => (
-            <OrderCard
-              key={order.id}
-              order={order}
-              onUpdateStatus={updateOrderStatus}
-            />
-          ))}
+        <div className="space-y-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 sm:gap-5">
+            {paginatedOrders.map((order) => (
+              <OrderCard
+                key={order.id}
+                order={order}
+                onUpdateStatus={updateOrderStatus}
+              />
+            ))}
+          </div>
+
+          {totalPages > 1 && (
+            <div className="flex flex-col sm:flex-row items-center justify-between gap-4 p-4 rounded-2xl bg-[#18130F] border border-[#261E17] text-xs font-sans">
+              <span className="text-foreground/60">
+                Toplam <strong className="text-foreground font-mono">{displayedOrders.length}</strong> siparişten{" "}
+                <span className="font-mono text-artisan-gold">
+                  {currentPage * PAGE_SIZE + 1} - {Math.min((currentPage + 1) * PAGE_SIZE, displayedOrders.length)}
+                </span>{" "}
+                arası gösteriliyor
+              </span>
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={() => setCurrentPage((p) => Math.max(0, p - 1))}
+                  disabled={currentPage === 0}
+                  className="px-3 py-1.5 rounded-xl bg-[#221812] hover:bg-[#2C2018] text-foreground/80 hover:text-foreground disabled:opacity-40 disabled:pointer-events-none border border-[#2F241D] flex items-center gap-1 transition-all"
+                >
+                  <ChevronLeft className="w-3.5 h-3.5" />
+                  <span>Önceki</span>
+                </button>
+                <span className="px-3 py-1 font-mono text-artisan-gold bg-[#221812] rounded-xl border border-artisan-gold/20">
+                  {currentPage + 1} / {totalPages}
+                </span>
+                <button
+                  onClick={() => setCurrentPage((p) => Math.min(totalPages - 1, p + 1))}
+                  disabled={currentPage >= totalPages - 1}
+                  className="px-3 py-1.5 rounded-xl bg-[#221812] hover:bg-[#2C2018] text-foreground/80 hover:text-foreground disabled:opacity-40 disabled:pointer-events-none border border-[#2F241D] flex items-center gap-1 transition-all"
+                >
+                  <span>Sonraki</span>
+                  <ChevronRight className="w-3.5 h-3.5" />
+                </button>
+              </div>
+            </div>
+          )}
         </div>
       )}
     </div>

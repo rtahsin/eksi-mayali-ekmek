@@ -17,6 +17,8 @@ interface CourierSettlementModalProps {
     posPending: number;
     onlineTotal: number;
     grandTotal: number;
+    handoverCash?: number;
+    cashDifference?: number;
   };
   isOpen: boolean;
   onClose: () => void;
@@ -147,6 +149,22 @@ export function CourierSettlementModal({
                 <span>GENEL DAĞITIM CİROSU:</span>
                 <span>{summary.grandTotal.toLocaleString("tr-TR")} ₺</span>
               </div>
+
+              {/* Cash Handover Difference */}
+              {summary.handoverCash !== undefined && summary.handoverCash > 0 && (
+                <div className="p-2 rounded bg-gray-100 border border-gray-300 space-y-0.5 text-[10px]">
+                  <div className="flex justify-between font-bold">
+                    <span>Teslim Alınan Nakit:</span>
+                    <span>{summary.handoverCash.toLocaleString("tr-TR")} ₺</span>
+                  </div>
+                  <div className="flex justify-between font-bold">
+                    <span>Kasa Farkı:</span>
+                    <span className={summary.cashDifference === 0 ? "text-emerald-700" : summary.cashDifference! > 0 ? "text-blue-700" : "text-red-700"}>
+                      {summary.cashDifference! >= 0 ? "+" : ""}{summary.cashDifference!.toLocaleString("tr-TR")} ₺
+                    </span>
+                  </div>
+                </div>
+              )}
             </div>
 
             {/* Detailed Order List (Compact) */}

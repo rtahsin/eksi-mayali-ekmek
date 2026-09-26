@@ -11,7 +11,6 @@ import {
   Plus,
   Minus,
   Truck,
-  Store,
   Calendar,
   User,
   Phone,
@@ -291,43 +290,24 @@ export function CartDrawer() {
  )}
  </div>
 
- {/* Delivery Method Toggle */}
- <div className="space-y-2">
+ {/* Delivery Method Indicator - Courier Only */}
+ <div className="space-y-1.5">
  <div className="text-[11px] font-serif font-bold text-artisan-gold uppercase tracking-wider">
- Teslimat Tercihi
+ Teslimat Yöntemi
  </div>
- <div className="grid grid-cols-2 gap-2">
- <button
- type="button"
- onClick={() => setDeliveryMethod("courier")}
- className={`p-3 rounded-xl border font-sans text-xs text-left transition-all ${
- deliveryMethod === "courier"
- ? "bg-surface-elevated border-artisan-gold text-artisan-cream shadow-sm"
- : "bg-surface border-surface-border text-artisan-cream/60 hover:text-artisan-cream"
-}`}
- >
- <div className="flex items-center gap-1.5 font-bold mb-0.5">
- <Truck className="w-4 h-4 text-artisan-gold" />
- <span>Beylikdüzü Kurye</span>
+ <div className="p-3 rounded-xl bg-surface border border-artisan-gold/30 flex items-center justify-between shadow-sm">
+ <div className="flex items-center gap-2.5">
+ <div className="w-8 h-8 rounded-lg bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-artisan-gold shrink-0">
+ <Truck className="w-4 h-4" />
  </div>
- <div className="text-[10px] text-artisan-cream/60">Kapınıza Teslimat</div>
- </button>
-
- <button
- type="button"
- onClick={() => setDeliveryMethod("pickup")}
- className={`p-3 rounded-xl border font-sans text-xs text-left transition-all ${
- deliveryMethod === "pickup"
- ? "bg-surface-elevated border-artisan-gold text-artisan-cream shadow-sm"
- : "bg-surface border-surface-border text-artisan-cream/60 hover:text-artisan-cream"
-}`}
- >
- <div className="flex items-center gap-1.5 font-bold mb-0.5">
- <Store className="w-4 h-4 text-artisan-gold" />
- <span>Gel-Al (Atölye)</span>
+ <div>
+ <div className="font-bold text-xs text-artisan-cream flex items-center gap-1.5">
+ <span>Beylikdüzü Fırın Kuryesi</span>
+ <span className="text-[9px] px-1.5 py-0.5 rounded bg-amber-500/20 text-artisan-gold font-mono font-bold">KAPINIZA TESLİM</span>
  </div>
- <div className="text-[10px] text-artisan-cream/60">İmalathaneden Teslim</div>
- </button>
+ <div className="text-[10px] text-artisan-cream/60">Taze taş fırın ekmekleriniz kapınıza ulaştırılır</div>
+ </div>
+ </div>
  </div>
  </div>
 

@@ -26,22 +26,27 @@ export function CariBalanceAdjustModal({ isOpen, onClose, cari, onSuccess }: Pro
       const supabase = createClient();
       if (!supabase) throw new Error("Supabase client error");
 
-      const { data: res, error: rpcError } = await supabase.rpc("adjust_cari_balance", {
+      const { data: res, error: rpcError } = await supabase.rpc("record_cari_transaction_atomic", {
         p_account_id: cari.id,
-        p_amount: Number(amount),
-        p_type: "devir",
+        p_amount: Math.abs(Number(amount)),
+        p_type: Number(amount) >= 0 ? "devir" : "odeme",
         p_description: description,
       });
 
-      if (rpcError || !res?.success) {
-        throw new Error(rpcError?.message || res?.error || "Kayıt hatası");
+      if (rpcError) {
+        throw new Error(rpcError.message || "Kayıt hatası");
+      }
+      const result = res as { success?: boolean; error?: string } | null;
+      if (!result?.success) {
+        throw new Error(result?.error || "Kayıt hatası");
       }
 
       onSuccess();
       setAmount("");
       setDescription("Devir / Bakiye Düzeltme");
-    } catch (err: any) {
-      alert("Hata: " + err.message);
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : "Bilinmeyen hata";
+      alert("Hata: " + message);
     } finally {
       setSubmitting(false);
     }

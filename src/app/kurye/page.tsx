@@ -1,102 +1,146 @@
 "use client";
 
-import React, { useState, useEffect, useMemo, useRef } from "react";
+import React, { useState, useEffect, useMemo, useRef, useCallback } from "react";
 import Link from "next/link";
-import {
-  Truck,
-  MapPin,
-  Phone,
-  MessageCircle,
-  Navigation,
-  Compass,
-  CheckCircle2,
-  AlertCircle,
-  Package,
-  ArrowRight,
-  Maximize2,
-  Minimize2,
-  RefreshCw,
-  Radio,
-  Clock,
-  DollarSign,
-  CreditCard,
-  Check,
-  Volume2,
-  VolumeX,
-} from "lucide-react";
+import { Truck, CheckCircle2, MessageCircle, AlertCircle } from "lucide-react";
 import { useAdminOrders } from "@/hooks/useAdminOrders";
+import { useCouriers } from "@/hooks/useCouriers";
+import { usePayments } from "@/hooks/usePayments";
 import { createClient, isSupabaseConfigured } from "@/lib/supabase/client";
 import { AdminOrder } from "@/types/admin";
+import { PaymentMethodType } from "@/types/payment";
 import { MobileBottomNav } from "@/components/admin/MobileBottomNav";
-
-function extractCoordinates(address?: string): { lat: string; lon: string } | null {
-  if (!address) return null;
-  const match = address.match(/(?:GPS|Konum):\s*([0-9.]+),\s*([0-9.]+)/i);
-  if (match) {
-    return { lat: match[1], lon: match[2] };
-  }
-  return null;
-}
-
-function getNavigationUrls(address: string) {
-  const coords = extractCoordinates(address);
-  const cleanAddress = address.replace(/\[📍\s*(?:GPS|Konum):[^\]]+\]/g, "").trim();
-  const query = encodeURIComponent(`${cleanAddress}, Beylikdüzü, İstanbul`);
-
-  if (coords) {
-    return {
-      google: `https://www.google.com/maps/dir/?api=1&destination=${coords.lat},${coords.lon}`,
-      apple: `https://maps.apple.com/?daddr=${coords.lat},${coords.lon}`,
-      yandex: `https://yandex.com.tr/harita/?rtext=~${coords.lat}%2C${coords.lon}&rtt=auto`,
-      coords,
-    };
-  }
-
-  return {
-    google: `https://www.google.com/maps/search/?api=1&query=${query}`,
-    apple: `https://maps.apple.com/?q=${query}`,
-    yandex: `https://yandex.com.tr/harita/?text=${query}`,
-    coords: null,
-  };
-}
+import { CourierHeader } from "@/components/courier/CourierHeader";
+import { CourierShiftRibbon } from "@/components/courier/CourierShiftRibbon";
+import { CourierActiveStopCard } from "@/components/courier/CourierActiveStopCard";
+import { CourierQueueList } from "@/components/courier/CourierQueueList";
+import { CourierPaymentModal } from "@/components/courier/CourierPaymentModal";
 
 export default function CourierMobileConsolePage() {
   const { allOrders, updateOrderStatus, loading } = useAdminOrders();
+  const { couriers, updateCourierLocation } = useCouriers();
+  const { createPayment } = usePayments();
+
   const [selectedDate, setSelectedDate] = useState<string>(
     () => new Date().toISOString().split("T")[0]
   );
+  const [selectedCourierId, setSelectedCourierId] = useState<string>("all");
   const [activeOrderIndex, setActiveOrderIndex] = useState<number>(0);
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [soundAlert, setSoundAlert] = useState(true);
 
+  // Reordering state: array of order IDs
+  const [customQueueOrder, setCustomQueueOrder] = useState<string[]>([]);
+
+  // Delivery + Payment Settlement Modal
+  const [settlementOrder, setSettlementOrder] = useState<AdminOrder | null>(null);
+  const [settling, setSettling] = useState(false);
+  const [settlementError, setSettlementError] = useState<string | null>(null);
+
   // GPS Tracking State
   const [gpsActive, setGpsActive] = useState(false);
   const [gpsAccuracy, setGpsAccuracy] = useState<number | null>(null);
-  const [currentCoords, setCurrentCoords] = useState<{ lat: number; lon: number } | null>(null);
   const [gpsError, setGpsError] = useState<string | null>(null);
   const watchIdRef = useRef<number | null>(null);
-
+  const lastLocationUpdateRef = useRef<number>(0);
   const supabase = useMemo(() => createClient(), []);
+  const locationChannelRef = useRef<ReturnType<NonNullable<typeof supabase>["channel"]> | null>(null);
+
+  // Set default courier on initial load
+  useEffect(() => {
+    if (couriers.length > 0 && selectedCourierId === "all") {
+      const activeOne = couriers.find((c) => c.isOnShift) || couriers[0];
+      if (activeOne) {
+        setSelectedCourierId(activeOne.id);
+      }
+    }
+  }, [couriers, selectedCourierId]);
+
+  // Load custom queue order from localStorage
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    try {
+      const key = `ekmeklab_courier_queue_${selectedDate}_${selectedCourierId}`;
+      const saved = localStorage.getItem(key);
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        if (Array.isArray(parsed)) {
+          setCustomQueueOrder(parsed);
+        }
+      }
+    } catch {}
+  }, [selectedDate, selectedCourierId]);
+
+  // Save custom queue order to localStorage
+  const saveQueueOrder = useCallback(
+    (orderIds: string[]) => {
+      setCustomQueueOrder(orderIds);
+      if (typeof window !== "undefined") {
+        try {
+          const key = `ekmeklab_courier_queue_${selectedDate}_${selectedCourierId}`;
+          localStorage.setItem(key, JSON.stringify(orderIds));
+        } catch {}
+      }
+    },
+    [selectedDate, selectedCourierId]
+  );
 
   // Filter today's courier orders
   const courierOrders = useMemo(() => {
-    return allOrders.filter(
-      (o) =>
-        o.deliveryDate === selectedDate &&
-        o.deliveryMethod === "courier" &&
-        o.status !== "iptal"
-    );
-  }, [allOrders, selectedDate]);
+    return allOrders.filter((o) => {
+      const isDate = o.deliveryDate === selectedDate;
+      const isCourier = o.deliveryMethod === "courier";
+      const notCancelled = o.status !== "iptal";
+      const matchesCourier =
+        selectedCourierId === "all" ||
+        o.courierId === selectedCourierId ||
+        (!o.courierId && selectedCourierId === "unassigned");
+      return isDate && isCourier && notCancelled && matchesCourier;
+    });
+  }, [allOrders, selectedDate, selectedCourierId]);
 
   // Pending vs Delivered
   const deliveredOrders = useMemo(
     () => courierOrders.filter((o) => o.status === "teslim_edildi"),
     [courierOrders]
   );
-  const pendingOrders = useMemo(
-    () => courierOrders.filter((o) => o.status !== "teslim_edildi"),
-    [courierOrders]
-  );
+
+  // Sorted pending orders respecting customQueueOrder
+  const pendingOrders = useMemo(() => {
+    const uncompleted = courierOrders.filter((o) => o.status !== "teslim_edildi");
+    if (customQueueOrder.length === 0) return uncompleted;
+
+    const map = new Map(uncompleted.map((o) => [o.id, o]));
+    const sorted: AdminOrder[] = [];
+
+    // Add in saved order
+    for (const id of customQueueOrder) {
+      const item = map.get(id);
+      if (item) {
+        sorted.push(item);
+        map.delete(id);
+      }
+    }
+    // Add any newly arrived orders not in saved order list
+    map.forEach((item) => sorted.push(item));
+    return sorted;
+  }, [courierOrders, customQueueOrder]);
+
+  // Move stop up or down in queue
+  const handleMoveStop = (orderId: string, direction: "up" | "down") => {
+    const currentList = pendingOrders.map((o) => o.id);
+    const index = currentList.indexOf(orderId);
+    if (index === -1) return;
+
+    const newIndex = direction === "up" ? index - 1 : index + 1;
+    if (newIndex < 0 || newIndex >= currentList.length) return;
+
+    const temp = currentList[index];
+    currentList[index] = currentList[newIndex];
+    currentList[newIndex] = temp;
+
+    saveQueueOrder(currentList);
+  };
 
   // Financial totals for courier shift
   const totalCashToCollect = useMemo(() => {
@@ -139,6 +183,10 @@ export default function CourierMobileConsolePage() {
         navigator.geolocation.clearWatch(watchIdRef.current);
         watchIdRef.current = null;
       }
+      if (locationChannelRef.current && supabase) {
+        supabase.removeChannel(locationChannelRef.current);
+        locationChannelRef.current = null;
+      }
       setGpsActive(false);
       setGpsAccuracy(null);
     } else {
@@ -151,11 +199,9 @@ export default function CourierMobileConsolePage() {
       const id = navigator.geolocation.watchPosition(
         (pos) => {
           const { latitude, longitude, accuracy, heading, speed } = pos.coords;
-          setCurrentCoords({ lat: latitude, lon: longitude });
           setGpsAccuracy(Math.round(accuracy));
           setGpsActive(true);
 
-          // Save to localStorage
           try {
             localStorage.setItem(
               "ekmeklab_courier_gps",
@@ -170,18 +216,39 @@ export default function CourierMobileConsolePage() {
             );
           } catch {}
 
-          // Broadcast via Supabase Realtime channel if available
-          if (supabase && isSupabaseConfigured()) {
-            const channel = supabase.channel("courier-live-location");
-            channel.send({
+          const now = Date.now();
+          if (
+            selectedCourierId &&
+            selectedCourierId !== "all" &&
+            selectedCourierId !== "unassigned" &&
+            now - lastLocationUpdateRef.current > 10000
+          ) {
+            lastLocationUpdateRef.current = now;
+            updateCourierLocation(selectedCourierId, latitude, longitude).catch(() => {});
+          }
+
+          if (supabase && isSupabaseConfigured() && selectedCourierId && selectedCourierId !== "all") {
+            const channelName = `courier-location-${selectedCourierId}`;
+            if (!locationChannelRef.current || locationChannelRef.current.topic !== `realtime:${channelName}`) {
+              if (locationChannelRef.current) {
+                supabase.removeChannel(locationChannelRef.current);
+              }
+              const ch = supabase.channel(channelName);
+              ch.subscribe();
+              locationChannelRef.current = ch;
+            }
+
+            locationChannelRef.current.send({
               type: "broadcast",
-              event: "location_update",
+              event: "courier_location",
               payload: {
+                courierId: selectedCourierId,
                 lat: latitude,
                 lon: longitude,
                 accuracy,
                 heading,
                 speed,
+                timestamp: Date.now(),
                 updatedAt: new Date().toISOString(),
               },
             });
@@ -207,22 +274,98 @@ export default function CourierMobileConsolePage() {
       if (watchIdRef.current !== null) {
         navigator.geolocation.clearWatch(watchIdRef.current);
       }
+      if (locationChannelRef.current && supabase) {
+        supabase.removeChannel(locationChannelRef.current);
+        locationChannelRef.current = null;
+      }
     };
-  }, []);
+  }, [supabase]);
 
-  // Handle Mark as Delivered
-  const handleMarkDelivered = async (orderId: string) => {
-    if (soundAlert && typeof window !== "undefined" && "vibrate" in navigator) {
-      try {
-        navigator.vibrate([100, 50, 100]);
-      } catch {}
-    }
-
-    await updateOrderStatus(orderId, "teslim_edildi");
-    setActiveOrderIndex(0);
+  const openSettlement = (order: AdminOrder) => {
+    setSettlementError(null);
+    setSettlementOrder(order);
   };
 
-  // Fullscreen toggle
+  const handleConfirmDeliveryWithPayment = async (
+    paymentType: "cash" | "pos" | "unpaid" | "prepaid"
+  ) => {
+    if (!settlementOrder) return;
+    setSettling(true);
+    setSettlementError(null);
+
+    try {
+      if (soundAlert && typeof window !== "undefined" && "vibrate" in navigator) {
+        try {
+          navigator.vibrate([100, 50, 100]);
+        } catch {}
+      }
+
+      const activeCourier = couriers.find((c) => c.id === selectedCourierId);
+      const effectiveCourierId = activeCourier?.id || settlementOrder.courierId || null;
+
+      if (paymentType === "cash") {
+        await createPayment({
+          orderId: settlementOrder.id,
+          amount: settlementOrder.totalAmount,
+          method: "cash" as PaymentMethodType,
+          status: "completed",
+          collectedBy: "courier",
+          courierId: effectiveCourierId,
+          note: `Kapıda nakit teslim alındı (${activeCourier?.displayName || "Kurye"})`,
+          cariId: settlementOrder.cariId,
+        });
+      } else if (paymentType === "pos") {
+        await createPayment({
+          orderId: settlementOrder.id,
+          amount: settlementOrder.totalAmount,
+          method: "pos" as PaymentMethodType,
+          status: "completed",
+          collectedBy: "courier",
+          courierId: effectiveCourierId,
+          note: `Kapıda mobil POS ile çekildi (${activeCourier?.displayName || "Kurye"})`,
+          cariId: settlementOrder.cariId,
+        });
+      } else if (paymentType === "unpaid") {
+        await createPayment({
+          orderId: settlementOrder.id,
+          amount: 0,
+          method: "cash" as PaymentMethodType,
+          status: "pending",
+          collectedBy: "courier",
+          courierId: effectiveCourierId,
+          note: "Kapıda tahsilat yapılamadı - bakiyeye/ödemeye bırakıldı",
+        });
+      } else if (paymentType === "prepaid") {
+        await createPayment({
+          orderId: settlementOrder.id,
+          amount: settlementOrder.totalAmount,
+          method: "cari" as PaymentMethodType,
+          status: "completed",
+          collectedBy: "admin",
+          note: "Önceden ödendi / Cari hesap kaydı",
+          cariId: settlementOrder.cariId,
+        });
+      }
+
+      await updateOrderStatus(
+        settlementOrder.id,
+        "teslim_edildi",
+        `Kurye teslim etti (${paymentType.toUpperCase()})`,
+        "courier",
+        effectiveCourierId || undefined,
+        `Kurye teslimatı tamamladı. Tahsilat: ${paymentType}`
+      );
+
+      setSettlementOrder(null);
+      setActiveOrderIndex(0);
+    } catch (err: unknown) {
+      console.error("Delivery confirmation error:", err);
+      setSettlementError("Teslimat onaylanırken bir hata oluştu.");
+    } finally {
+      setSettling(false);
+    }
+  };
+
   const toggleFullscreen = () => {
     if (!document.fullscreenElement) {
       document.documentElement.requestFullscreen().catch(() => {});
@@ -235,85 +378,46 @@ export default function CourierMobileConsolePage() {
     }
   };
 
-  // Share summary via WhatsApp to Tahsin Usta
   const handleShareShiftWhatsApp = () => {
-    const text = [
-      `🥖 *EKMEKLAB KURYE GÜN SONU KASA RAPORU*`,
-      `📅 *Tarih:* ${selectedDate}`,
-      `📦 *Toplam Paket:* ${courierOrders.length}`,
-      `✅ *Teslim Edilen:* ${deliveredOrders.length}`,
-      `⏳ *Kalan:* ${pendingOrders.length}`,
-      ``,
-      `💵 *Toplanan Kapıda Nakit:* ${totalCashCollected.toLocaleString("tr-TR")} ₺`,
-      `💳 *Çekilen Mobil POS:* ${totalPosCollected.toLocaleString("tr-TR")} ₺`,
-      `💰 *Toplam Tahsilat:* ${(totalCashCollected + totalPosCollected).toLocaleString("tr-TR")} ₺`,
-      ``,
-      `_EkmekLab Taş Fırın Kurye Konsolu_`,
-    ].join("\n");
+    const activeCourier = couriers.find((c) => c.id === selectedCourierId);
+    const courierName = activeCourier ? activeCourier.displayName : "Kurye Ekibi";
 
-    window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, "_blank");
+    const text = `🍞 *EkmekLab Kurye Kasa Raporu*
+📅 Tarih: ${selectedDate}
+🛵 Kurye: ${courierName}
+--------------------------
+📦 Toplam Paket: ${courierOrders.length}
+✅ Teslim Edilen: ${deliveredOrders.length}
+⏳ Kalan Paket: ${pendingOrders.length}
+
+💰 *Tahsilat Özeti:*
+💵 Toplanan Nakit: *${totalCashCollected.toLocaleString("tr-TR")} ₺*
+💳 Çekilen Mobil POS: *${totalPosCollected.toLocaleString("tr-TR")} ₺*
+📊 Genel Ciro: *${(totalCashCollected + totalPosCollected).toLocaleString("tr-TR")} ₺*
+--------------------------
+Kasa devri için fırına teslim edilecek tutar: *${totalCashCollected.toLocaleString("tr-TR")} ₺*`;
+
+    const url = `https://wa.me/905436329243?text=${encodeURIComponent(text)}`;
+    window.open(url, "_blank");
   };
 
   return (
-    <div className="min-h-screen bg-stone-950 text-stone-100 pb-24 font-sans selection:bg-amber-500/30">
-      {/* Top Mobile Bar */}
-      <header className="sticky top-0 z-40 bg-stone-900/95 backdrop-blur-md border-b border-stone-800 p-3 sm:p-4 shadow-xl">
-        <div className="max-w-xl mx-auto flex items-center justify-between gap-2">
-          <div className="flex items-center gap-2">
-            <div className="w-9 h-9 rounded-xl bg-amber-500/20 border border-amber-500/40 flex items-center justify-center text-amber-400 shrink-0">
-              <Truck className="w-5 h-5" />
-            </div>
-            <div>
-              <h1 className="text-sm font-bold font-serif text-stone-100 flex items-center gap-1.5">
-                <span>EkmekLab Kurye</span>
-                <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-amber-500/20 text-amber-400 font-bold">
-                  BEYLİKDÜZÜ
-                </span>
-              </h1>
-              <p className="text-[11px] text-stone-400 font-mono">
-                {selectedDate === new Date().toISOString().split("T")[0] ? "Bugünkü Dağıtım" : selectedDate}
-              </p>
-            </div>
-          </div>
-
-          <div className="flex items-center gap-2">
-            {/* GPS Status / Toggle */}
-            <button
-              type="button"
-              onClick={toggleGps}
-              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold transition-all ${
-                gpsActive
-                  ? "bg-emerald-950 border border-emerald-500/50 text-emerald-400 shadow-md shadow-emerald-950/50"
-                  : "bg-stone-800 border border-stone-700 text-stone-300 hover:text-white"
-              }`}
-              title="Canlı GPS Konum Paylaşımını Başlat / Durdur"
-            >
-              <Radio className={`w-3.5 h-3.5 ${gpsActive ? "animate-pulse text-emerald-400" : "text-stone-400"}`} />
-              <span>{gpsActive ? `GPS Açık (±${gpsAccuracy}m)` : "GPS Başlat"}</span>
-            </button>
-
-            {/* Sound toggle */}
-            <button
-              type="button"
-              onClick={() => setSoundAlert(!soundAlert)}
-              className="p-2 rounded-xl bg-stone-800 text-stone-400 hover:text-stone-200 border border-stone-700"
-              title="Ses ve Titreşim Bildirimi"
-            >
-              {soundAlert ? <Volume2 className="w-4 h-4 text-amber-400" /> : <VolumeX className="w-4 h-4" />}
-            </button>
-
-            {/* Fullscreen button */}
-            <button
-              type="button"
-              onClick={toggleFullscreen}
-              className="p-2 rounded-xl bg-stone-800 text-stone-400 hover:text-stone-200 border border-stone-700"
-              title="Tam Ekran"
-            >
-              {isFullscreen ? <Minimize2 className="w-4 h-4" /> : <Maximize2 className="w-4 h-4" />}
-            </button>
-          </div>
-        </div>
-      </header>
+    <div className="min-h-screen bg-[#120E0B] text-foreground font-sans pb-24 selection:bg-amber-500/20 selection:text-amber-400">
+      {/* 1. Header Toolbar */}
+      <CourierHeader
+        selectedDate={selectedDate}
+        onDateChange={setSelectedDate}
+        gpsActive={gpsActive}
+        gpsAccuracy={gpsAccuracy}
+        onToggleGps={toggleGps}
+        soundAlert={soundAlert}
+        onToggleSound={() => setSoundAlert(!soundAlert)}
+        isFullscreen={isFullscreen}
+        onToggleFullscreen={toggleFullscreen}
+        selectedCourierId={selectedCourierId}
+        onSelectCourier={setSelectedCourierId}
+        couriers={couriers}
+      />
 
       {/* GPS Error Alert */}
       {gpsError && (
@@ -325,44 +429,18 @@ export default function CourierMobileConsolePage() {
         </div>
       )}
 
-      {/* Shift Overview Ribbon */}
-      <div className="max-w-xl mx-auto px-4 mt-4">
-        <div className="grid grid-cols-3 gap-2 bg-stone-900 border border-stone-800 p-3 rounded-2xl text-center shadow-lg">
-          <div>
-            <div className="text-[10px] uppercase font-bold text-stone-400 tracking-wider">Teslimat</div>
-            <div className="text-base font-bold font-mono text-stone-100 mt-0.5">
-              <span className="text-emerald-400">{deliveredOrders.length}</span>
-              <span className="text-stone-500"> / </span>
-              <span>{courierOrders.length}</span>
-            </div>
-            <div className="text-[10px] text-stone-400 font-sans">
-              {pendingOrders.length} paket kaldı
-            </div>
-          </div>
+      {/* 2. Shift Financial & Order Count Ribbon */}
+      <CourierShiftRibbon
+        deliveredCount={deliveredOrders.length}
+        totalCount={courierOrders.length}
+        pendingCount={pendingOrders.length}
+        totalCashToCollect={totalCashToCollect}
+        totalCashCollected={totalCashCollected}
+        totalPosToCollect={totalPosToCollect}
+        totalPosCollected={totalPosCollected}
+      />
 
-          <div className="border-x border-stone-800">
-            <div className="text-[10px] uppercase font-bold text-amber-400 tracking-wider">Kalan Nakit</div>
-            <div className="text-base font-bold font-mono text-amber-400 mt-0.5">
-              {totalCashToCollect.toLocaleString("tr-TR")} ₺
-            </div>
-            <div className="text-[10px] text-stone-400 font-sans">
-              Alınan: {totalCashCollected} ₺
-            </div>
-          </div>
-
-          <div>
-            <div className="text-[10px] uppercase font-bold text-blue-400 tracking-wider">Kalan POS</div>
-            <div className="text-base font-bold font-mono text-blue-400 mt-0.5">
-              {totalPosToCollect.toLocaleString("tr-TR")} ₺
-            </div>
-            <div className="text-[10px] text-stone-400 font-sans">
-              Çekilen: {totalPosCollected} ₺
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Main Content Area */}
+      {/* 3. Main Content Area */}
       <main className="max-w-xl mx-auto px-4 mt-4 space-y-5">
         {loading ? (
           <div className="p-16 text-center text-stone-400 space-y-3">
@@ -370,185 +448,38 @@ export default function CourierMobileConsolePage() {
             <p className="text-xs">Teslimat rotası yükleniyor...</p>
           </div>
         ) : courierOrders.length === 0 ? (
-          <div className="p-12 text-center bg-stone-900 border border-stone-800 rounded-3xl space-y-3">
+          <div className="p-10 text-center bg-stone-900 border border-stone-800 rounded-3xl space-y-3">
             <Truck className="w-12 h-12 text-stone-600 mx-auto" />
             <h2 className="text-base font-bold text-stone-100 font-serif">
               Bugün İçin Teslimat Siparişi Yok
             </h2>
             <p className="text-xs text-stone-400 max-w-xs mx-auto">
-              {selectedDate} tarihine atanmış aktif kurye dağıtımı bulunmuyor.
+              Seçilen kurye ve {selectedDate} tarihine atanmış aktif sipariş bulunmuyor.
             </p>
-            <Link
-              href="/admin/siparisler"
-              className="inline-flex items-center gap-1.5 px-4 py-2 bg-amber-500 text-stone-950 font-bold rounded-xl text-xs"
-            >
-              <span>Siparişler Masasına Dön</span>
-            </Link>
-          </div>
-        ) : currentStop ? (
-          /* ========================================================================= */
-          /* HERO CARD: SIRADAKİ TESLİMAT */
-          /* ========================================================================= */
-          <div className="space-y-3">
-            <div className="flex items-center justify-between text-xs px-1">
-              <span className="font-bold text-amber-400 uppercase tracking-widest flex items-center gap-1.5">
-                <span className="w-2.5 h-2.5 rounded-full bg-amber-400 animate-ping" />
-                <span>SIRADAKİ TESLİMAT DURAK {courierOrders.indexOf(currentStop) + 1} / {courierOrders.length}</span>
-              </span>
-              <span className="text-stone-400 font-mono text-[11px]">
-                #{currentStop.orderNumber || currentStop.id.slice(-6)}
-              </span>
-            </div>
-
-            {/* Giant Active Card */}
-            <div className="bg-gradient-to-b from-stone-900 via-stone-900 to-[#1e1712] border-2 border-amber-500/50 rounded-3xl p-5 shadow-2xl space-y-4 relative overflow-hidden">
-              {/* Customer & Phone Bar */}
-              <div className="flex items-start justify-between gap-3">
-                <div>
-                  <div className="text-[11px] font-bold text-amber-500/90 uppercase tracking-wider">
-                    {currentStop.neighborhood || "Beylikdüzü"}
-                  </div>
-                  <h2 className="text-xl sm:text-2xl font-bold font-serif text-stone-100 mt-0.5">
-                    {currentStop.customerName}
-                  </h2>
-                </div>
-
-                {/* Quick Call & WhatsApp Buttons */}
-                <div className="flex items-center gap-2 shrink-0">
-                  {currentStop.phone && (
-                    <>
-                      <a
-                        href={`tel:${currentStop.phone}`}
-                        className="flex items-center justify-center w-11 h-11 rounded-2xl bg-amber-500 text-stone-950 shadow-lg shadow-amber-500/20 active:scale-95 transition-transform"
-                        title="Müşteriyi Ara"
-                      >
-                        <Phone className="w-5 h-5" />
-                      </a>
-                      <a
-                        href={`https://wa.me/90${currentStop.phone.replace(/\D/g, "")}?text=${encodeURIComponent(
-                          `Merhaba ${currentStop.customerName} Bey/Hanım, EkmekLab taş fırınından taze ekmeklerinizle yoldayım, yaklaşık 10 dakikaya adresinizdeyim. 🍞🛵`
-                        )}`}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="flex items-center justify-center w-11 h-11 rounded-2xl bg-emerald-600 text-stone-950 shadow-lg shadow-emerald-600/20 active:scale-95 transition-transform"
-                        title="WhatsApp'tan Yaz"
-                      >
-                        <MessageCircle className="w-5 h-5" />
-                      </a>
-                    </>
-                  )}
-                </div>
-              </div>
-
-              {/* Delivery Address Box */}
-              <div className="bg-stone-950/80 border border-stone-800 rounded-2xl p-4 space-y-2">
-                <div className="flex items-start gap-2.5">
-                  <MapPin className="w-5 h-5 text-amber-400 shrink-0 mt-0.5" />
-                  <div className="text-sm font-medium text-stone-100 leading-relaxed select-all">
-                    {currentStop.deliveryAddress}
-                  </div>
-                </div>
-
-                {currentStop.orderNotes && (
-                  <div className="p-2.5 rounded-xl bg-amber-500/10 border border-amber-500/20 text-xs text-amber-300 font-sans italic flex items-center gap-2">
-                    <span className="font-bold shrink-0">Bina/Zil Notu:</span>
-                    <span>{currentStop.orderNotes}</span>
-                  </div>
-                )}
-              </div>
-
-              {/* Items Summary */}
-              <div className="bg-stone-950/50 border border-stone-800/80 rounded-2xl p-3.5 space-y-2">
-                <div className="text-[11px] font-bold text-stone-400 uppercase tracking-wider flex items-center gap-1.5">
-                  <Package className="w-3.5 h-3.5 text-amber-400" />
-                  <span>Paket İçeriği</span>
-                </div>
-                <div className="space-y-1">
-                  {currentStop.items.map((it, idx) => (
-                    <div key={idx} className="flex items-center justify-between text-xs text-stone-200">
-                      <span className="font-medium">
-                        <strong className="text-amber-400">{it.quantity}x</strong> {it.productName}
-                      </span>
-                      <span className="text-stone-400 font-mono">{it.totalPrice} ₺</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              {/* Payment Badge Banner */}
-              <div className="rounded-2xl p-3.5 border flex items-center justify-between gap-3 shadow-inner">
-                {currentStop.paymentMethod === "cash_on_delivery" ? (
-                  <div className="flex items-center gap-2.5 w-full bg-amber-500/15 border border-amber-500/30 p-3 rounded-xl">
-                    <DollarSign className="w-6 h-6 text-amber-400 shrink-0" />
-                    <div>
-                      <div className="text-[10px] uppercase font-bold text-amber-400">Kapıda Nakit Tahsil Edilecek</div>
-                      <div className="text-2xl font-bold font-mono text-amber-300">
-                        {currentStop.totalAmount.toLocaleString("tr-TR")} ₺
-                      </div>
-                    </div>
-                  </div>
-                ) : currentStop.paymentMethod === "pos_at_door" ? (
-                  <div className="flex items-center gap-2.5 w-full bg-blue-500/15 border border-blue-500/30 p-3 rounded-xl">
-                    <CreditCard className="w-6 h-6 text-blue-400 shrink-0" />
-                    <div>
-                      <div className="text-[10px] uppercase font-bold text-blue-400">Kapıda Mobil POS Çekilecek</div>
-                      <div className="text-2xl font-bold font-mono text-blue-300">
-                        {currentStop.totalAmount.toLocaleString("tr-TR")} ₺
-                      </div>
-                    </div>
-                  </div>
-                ) : (
-                  <div className="flex items-center gap-2.5 w-full bg-emerald-500/15 border border-emerald-500/30 p-3 rounded-xl">
-                    <CheckCircle2 className="w-6 h-6 text-emerald-400 shrink-0" />
-                    <div>
-                      <div className="text-[10px] uppercase font-bold text-emerald-400">Tahsilat Yok (Ödendi / Cari)</div>
-                      <div className="text-lg font-bold font-mono text-emerald-300">
-                        {currentStop.totalAmount.toLocaleString("tr-TR")} ₺
-                      </div>
-                    </div>
-                  </div>
-                )}
-              </div>
-
-              {/* One-Tap Navigation Buttons */}
-              {(() => {
-                const nav = getNavigationUrls(currentStop.deliveryAddress);
-                return (
-                  <div className="grid grid-cols-2 gap-2.5 pt-1">
-                    <a
-                      href={nav.google}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex items-center justify-center gap-2 py-3 px-4 rounded-2xl bg-stone-800 hover:bg-stone-700 text-stone-100 font-bold text-xs border border-stone-700 transition-all active:scale-95 shadow"
-                    >
-                      <Navigation className="w-4 h-4 text-amber-400" />
-                      <span>Google Harita</span>
-                    </a>
-
-                    <a
-                      href={nav.yandex}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex items-center justify-center gap-2 py-3 px-4 rounded-2xl bg-stone-800 hover:bg-stone-700 text-stone-100 font-bold text-xs border border-stone-700 transition-all active:scale-95 shadow"
-                    >
-                      <Compass className="w-4 h-4 text-red-400" />
-                      <span>Yandex Navigasyon</span>
-                    </a>
-                  </div>
-                );
-              })()}
-
-              {/* Giant Complete Delivery Button */}
+            <div className="flex items-center justify-center gap-2 pt-2">
               <button
                 type="button"
-                onClick={() => handleMarkDelivered(currentStop.id)}
-                className="w-full py-4 px-6 bg-gradient-to-r from-emerald-600 via-emerald-500 to-teal-500 hover:from-emerald-500 hover:to-teal-400 text-stone-950 font-serif font-black text-lg sm:text-xl rounded-2xl shadow-xl shadow-emerald-600/30 active:scale-95 transition-all flex items-center justify-center gap-3 border border-emerald-400/40"
+                onClick={() => setSelectedCourierId("all")}
+                className="px-4 py-2 bg-stone-800 hover:bg-stone-700 text-stone-200 font-medium rounded-xl text-xs"
               >
-                <Check className="w-6 h-6 stroke-[3]" />
-                <span>TESLİM EDİLDİ OLARAK ONAYLA</span>
+                Tüm Kuryelere Bak
               </button>
+              <Link
+                href="/admin/siparisler/dagitim"
+                className="inline-flex items-center gap-1.5 px-4 py-2 bg-amber-500 text-stone-950 font-bold rounded-xl text-xs shadow-md"
+              >
+                <span>Dağıtım Masasına Git</span>
+              </Link>
             </div>
           </div>
+        ) : currentStop ? (
+          /* Active Hero Delivery Card */
+          <CourierActiveStopCard
+            currentStop={currentStop}
+            stopIndex={pendingOrders.indexOf(currentStop)}
+            totalStops={pendingOrders.length}
+            onOpenSettlement={openSettlement}
+          />
         ) : (
           /* All deliveries completed */
           <div className="p-8 text-center bg-gradient-to-b from-stone-900 to-emerald-950/40 border border-emerald-500/40 rounded-3xl space-y-4 shadow-xl">
@@ -557,10 +488,10 @@ export default function CourierMobileConsolePage() {
             </div>
             <div className="space-y-1">
               <h2 className="text-xl font-bold font-serif text-stone-100">
-                Tebrikler! Günün Tüm Teslimatları Tamamlandı
+                Tebrikler! Tüm Teslimatlar Tamamlandı
               </h2>
               <p className="text-xs text-stone-400 max-w-sm mx-auto">
-                Toplam {courierOrders.length} sipariş başarıyla müşterilere teslim edildi.
+                Bugünkü {courierOrders.length} sipariş başarıyla müşterilere ulaştırıldı.
               </p>
             </div>
 
@@ -578,7 +509,7 @@ export default function CourierMobileConsolePage() {
             <button
               type="button"
               onClick={handleShareShiftWhatsApp}
-              className="w-full py-3 px-4 rounded-2xl bg-emerald-600 hover:bg-emerald-500 text-stone-950 font-bold text-xs flex items-center justify-center gap-2 shadow-lg shadow-emerald-600/20"
+              className="w-full py-3.5 px-4 rounded-2xl bg-emerald-600 hover:bg-emerald-500 text-stone-950 font-bold text-xs flex items-center justify-center gap-2 shadow-lg shadow-emerald-600/20"
             >
               <MessageCircle className="w-4 h-4" />
               <span>Tahsin Usta'ya Gün Sonu Kasa Raporunu Gönder</span>
@@ -586,96 +517,29 @@ export default function CourierMobileConsolePage() {
           </div>
         )}
 
-        {/* ========================================================================= */}
-        {/* ALL STOPS LIST (Durak Sıralaması & Atlama) */}
-        {/* ========================================================================= */}
-        <div className="space-y-3 pt-2">
-          <div className="flex items-center justify-between text-xs px-1">
-            <span className="font-bold text-stone-300 font-serif">Günün Tüm Durakları ({courierOrders.length})</span>
-            <span className="text-stone-500 text-[11px]">Durak atlamak için tıklayın</span>
-          </div>
-
-          <div className="space-y-2">
-            {courierOrders.map((order, idx) => {
-              const isDelivered = order.status === "teslim_edildi";
-              const isCurrent = currentStop?.id === order.id;
-
-              return (
-                <div
-                  key={order.id}
-                  onClick={() => {
-                    if (!isDelivered) {
-                      const pIdx = pendingOrders.findIndex((o) => o.id === order.id);
-                      if (pIdx !== -1) setActiveOrderIndex(pIdx);
-                    }
-                  }}
-                  className={`p-3.5 rounded-2xl border transition-all cursor-pointer ${
-                    isCurrent
-                      ? "bg-amber-500/10 border-amber-500/60 shadow-md shadow-amber-500/10"
-                      : isDelivered
-                      ? "bg-stone-900/40 border-stone-800/60 opacity-60"
-                      : "bg-stone-900/80 border-stone-800 hover:border-stone-700"
-                  }`}
-                >
-                  <div className="flex items-center justify-between gap-3">
-                    <div className="flex items-center gap-2.5 min-w-0">
-                      <span
-                        className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-mono font-bold shrink-0 ${
-                          isDelivered
-                            ? "bg-emerald-950 text-emerald-400 border border-emerald-500/40"
-                            : isCurrent
-                            ? "bg-amber-500 text-stone-950 font-bold"
-                            : "bg-stone-800 text-stone-400"
-                        }`}
-                      >
-                        {isDelivered ? "✓" : idx + 1}
-                      </span>
-                      <div className="min-w-0">
-                        <div className="text-xs font-bold text-stone-200 truncate">
-                          {order.customerName}
-                        </div>
-                        <div className="text-[11px] text-stone-400 truncate">
-                          {order.neighborhood} · {order.deliveryAddress}
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="text-right shrink-0">
-                      <div className="text-xs font-bold font-mono text-stone-100">
-                        {order.totalAmount} ₺
-                      </div>
-                      <div className="text-[10px]">
-                        {order.paymentMethod === "cash_on_delivery" ? (
-                          <span className="text-amber-400 font-semibold">Nakit</span>
-                        ) : order.paymentMethod === "pos_at_door" ? (
-                          <span className="text-blue-400 font-semibold">POS</span>
-                        ) : (
-                          <span className="text-emerald-400 font-semibold">Ödendi</span>
-                        )}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-
-        {/* Bottom Shift Summary Button */}
-        {courierOrders.length > 0 && (
-          <div className="pt-4 pb-20">
-            <button
-              type="button"
-              onClick={handleShareShiftWhatsApp}
-              className="w-full py-3 px-4 rounded-2xl bg-stone-900 hover:bg-stone-800 border border-stone-800 text-stone-300 font-medium text-xs flex items-center justify-center gap-2 transition-colors"
-            >
-              <MessageCircle className="w-4 h-4 text-emerald-400" />
-              <span>Gün Sonu Kurye Raporunu WhatsApp ile Paylaş</span>
-            </button>
-          </div>
-        )}
+        {/* 4. Queue of Stops */}
+        <CourierQueueList
+          pendingOrders={pendingOrders}
+          deliveredOrders={deliveredOrders}
+          currentStopId={currentStop?.id}
+          onSelectStop={setActiveOrderIndex}
+          onMoveStop={handleMoveStop}
+          onOpenSettlement={openSettlement}
+          onShareShiftWhatsApp={handleShareShiftWhatsApp}
+          courierOrdersCount={courierOrders.length}
+        />
       </main>
-      
+
+      {/* 5. Settlement / Payment Modal */}
+      <CourierPaymentModal
+        order={settlementOrder}
+        isOpen={Boolean(settlementOrder)}
+        onClose={() => setSettlementOrder(null)}
+        onConfirmDelivery={handleConfirmDeliveryWithPayment}
+        isSubmitting={settling}
+        error={settlementError}
+      />
+
       {/* Admin navigation bar so users don't get trapped */}
       <MobileBottomNav onOpenSidebar={() => {}} pendingOrderCount={0} />
     </div>

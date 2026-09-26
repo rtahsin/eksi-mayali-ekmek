@@ -24,7 +24,7 @@ import { OrderSlipModal } from "./OrderSlipModal";
 
 interface OrderCardProps {
   order: AdminOrder;
-  onUpdateStatus: (orderId: string, newStatus: AdminOrderStatus) => Promise<any>;
+  onUpdateStatus: (orderId: string, newStatus: AdminOrderStatus) => Promise<{ success: boolean; error?: string }>;
 }
 
 export function OrderCard({ order, onUpdateStatus }: OrderCardProps) {
@@ -109,6 +109,21 @@ export function OrderCard({ order, onUpdateStatus }: OrderCardProps) {
                   <span>Cari</span>
                 </span>
               )}
+              {order.courierId && (
+                <span className="px-2 py-0.5 rounded-md bg-blue-950/60 border border-blue-500/30 text-blue-400 text-[10px] font-sans flex items-center gap-1">
+                  <Truck className="w-2.5 h-2.5" />
+                  <span>Kurye Atandı</span>
+                </span>
+              )}
+              <span
+                className={`px-2 py-0.5 rounded-md text-[10px] font-sans border ${
+                  order.paymentStatus === "paid"
+                    ? "bg-emerald-950/60 border-emerald-500/30 text-emerald-400"
+                    : "bg-amber-950/60 border-amber-500/30 text-amber-400"
+                }`}
+              >
+                {order.paymentStatus === "paid" ? "Ödendi" : "Tahsil Edilecek"}
+              </span>
             </div>
 
             <div className="flex items-center gap-2 text-xs text-foreground/60 font-sans">

@@ -1,10 +1,10 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
 import { createAdminClient } from "@/lib/supabase/admin";
-import { INITIAL_PRODUCTS } from "@/hooks/useProducts";
 import { Order, OrderItem } from "@/types";
 import { checkRateLimit, sanitizeInput } from "@/lib/security/rateLimiter";
 import { getErrorMessage } from "@/lib/utils/error";
+import { generateOrderNumber } from "@/lib/utils/orderNumber";
 
 // 1. Zod Schema for Request Validation
 const OrderItemSchema = z.object({
@@ -26,6 +26,10 @@ const CustomerInfoSchema = z.object({
   deliveryDate: z.string().optional(),
   customDate: z.string().optional(),
   note: z.string().max(300).optional(),
+  shareLocation: z.boolean().optional(),
+  customerLat: z.number().nullable().optional(),
+  customerLng: z.number().nullable().optional(),
+  locationConsentAt: z.string().nullable().optional(),
 });
 
 const CreateOrderRequestSchema = z.object({
@@ -40,14 +44,41 @@ const CreateOrderRequestSchema = z.object({
   userId: z.string().max(100).optional(),
 });
 
+interface DBOrderRow {
+  id: string;
+  order_number?: string | null;
+  customer_name: string;
+  phone: string;
+  delivery_address: string;
+  subtotal: number;
+  shipping_fee: number;
+  total_amount: number;
+  status: string;
+  payment_method: string;
+  delivery_date?: string | null;
+  order_notes?: string | null;
+  created_at: string;
+  updated_at?: string | null;
+  order_items?: {
+    product_id: string;
+    product_name: string;
+    quantity: number;
+    unit_price: number;
+    total_price: number;
+    image_url?: string | null;
+    weight?: number | null;
+    made_to_order?: boolean;
+  }[];
+}
+
 export async function POST(req: Request) {
   try {
-    // 0. (IP-based in-memory rate limiting kept as a first line of defense for severe DDoS)
+    // 0. IP-based Rate Limiting
     const forwarded = req.headers.get("x-forwarded-for");
     const realIp = req.headers.get("x-real-ip");
     const clientIp = forwarded ? forwarded.split(",")[0].trim() : realIp || "127.0.0.1";
 
-    const ipLimit = checkRateLimit(`order_ip_${clientIp}`, 10, 600000); 
+    const ipLimit = checkRateLimit(`order_ip_${clientIp}`, 10, 600000);
     if (!ipLimit.allowed) {
       return NextResponse.json(
         {
@@ -74,19 +105,70 @@ export async function POST(req: Request) {
       validationResult.data;
 
     const supabaseAdmin = createAdminClient();
+    if (!supabaseAdmin) {
+      console.error("Supabase admin client unavailable in /api/orders/create");
+      return NextResponse.json(
+        { success: false, error: "Sunucu veritabanı bağlantısı kurulamadı." },
+        { status: 500 }
+      );
+    }
 
-    // 1. Database-backed Rate Limiting Check by Phone Number (Bulletproof against Serverless Cold Starts)
-    const cleanPhone = customerInfo.phone.replace(/\D/g, "");
-    if (cleanPhone.length >= 10 && supabaseAdmin) {
-      // Get orders in the last 15 minutes for this phone number
-      const fifteenMinsAgo = new Date(Date.now() - 15 * 60 * 1000).toISOString();
-      const { count } = await (supabaseAdmin as any)
+    // 1. Idempotency Key Kontrolü (Çift Sipariş Önleme)
+    if (idempotencyKey) {
+      const { data: existingData } = await supabaseAdmin
         .from("orders")
-        .select("*", { count: 'exact', head: true })
+        .select("*, order_items(*)")
+        .eq("idempotency_key", idempotencyKey)
+        .maybeSingle();
+
+      if (existingData) {
+        const row = existingData as unknown as DBOrderRow;
+        const mappedExisting: Order = {
+          id: row.id,
+          orderNumber: row.order_number || row.id.replace("ORD-", "").toUpperCase(),
+          customerName: row.customer_name,
+          phone: row.phone,
+          deliveryAddress: row.delivery_address,
+          items: (row.order_items || []).map((it) => ({
+            productId: it.product_id,
+            productName: it.product_name,
+            quantity: Number(it.quantity) || 1,
+            unitPrice: Number(it.unit_price) || 0,
+            totalPrice: Number(it.total_price) || 0,
+            imageUrl: it.image_url || undefined,
+            weight: it.weight || undefined,
+            madeToOrder: it.made_to_order,
+          })),
+          subtotal: Number(row.subtotal) || 0,
+          shippingFee: Number(row.shipping_fee) || 0,
+          totalAmount: Number(row.total_amount) || 0,
+          status: row.status as Order["status"],
+          paymentMethod: row.payment_method as Order["paymentMethod"],
+          deliveryDate: row.delivery_date || undefined,
+          orderNotes: row.order_notes || undefined,
+          createdAt: row.created_at,
+          updatedAt: row.updated_at || undefined,
+        };
+
+        return NextResponse.json({
+          success: true,
+          order: mappedExisting,
+          isExisting: true,
+        });
+      }
+    }
+
+    // 2. Database-backed Rate Limiting Check by Phone Number
+    const cleanPhone = customerInfo.phone.replace(/\D/g, "");
+    if (cleanPhone.length >= 10) {
+      const fifteenMinsAgo = new Date(Date.now() - 15 * 60 * 1000).toISOString();
+      const { count } = await supabaseAdmin
+        .from("orders")
+        .select("*", { count: "exact", head: true })
         .eq("phone", cleanPhone)
         .gte("created_at", fifteenMinsAgo);
 
-      if (count !== null && count >= 2) {
+      if (count !== null && count >= 3) {
         return NextResponse.json(
           {
             success: false,
@@ -104,31 +186,42 @@ export async function POST(req: Request) {
     const sanitizedDistrict = sanitizeInput(customerInfo.district, 50) || "Beylikdüzü";
     const sanitizedNote = sanitizeInput(customerInfo.note || "", 300);
 
-    // 2. Server-side product price & inventory resolution
+    // 3. Server-side product price & inventory resolution directly from Database
+    const productIds = items.map((it) => it.productId);
+    const { data: dbProducts, error: prodErr } = await supabaseAdmin
+      .from("products")
+      .select("*")
+      .in("id", productIds);
+
+    if (prodErr || !dbProducts) {
+      console.error("Products query error:", prodErr);
+      return NextResponse.json(
+        { success: false, error: "Ürün bilgileri doğrulanamadı." },
+        { status: 500 }
+      );
+    }
+
+    interface DBProductItem {
+      id: string;
+      name: string;
+      price: number | string;
+      image_url?: string | null;
+      imageUrl?: string | null;
+      weight?: number | null;
+      made_to_order?: boolean;
+      madeToOrder?: boolean;
+      is_available?: boolean;
+    }
+
+    const productMap = new Map<string, DBProductItem>(
+      (dbProducts as DBProductItem[]).map((p) => [p.id, p])
+    );
+
     const verifiedOrderItems: OrderItem[] = [];
     let serverSubtotal = 0;
 
     for (const item of items) {
-      let productData: any = null;
-
-      // Check Supabase products first
-      if (supabaseAdmin) {
-        try {
-          const { data: supaProd } = await (supabaseAdmin as any)
-            .from("products")
-            .select("*")
-            .eq("id", item.productId)
-            .single();
-          if (supaProd) {
-            productData = supaProd;
-          }
-        } catch {}
-      }
-
-      // Fallback to static catalog
-      if (!productData) {
-        productData = INITIAL_PRODUCTS.find((p) => p.id === item.productId);
-      }
+      const productData = productMap.get(item.productId);
 
       if (!productData) {
         return NextResponse.json(
@@ -137,7 +230,22 @@ export async function POST(req: Request) {
         );
       }
 
-      const unitPrice = Number(productData.price) || 135;
+      // Stok & mevcudiyet kontrolü (P1-6)
+      if (productData.is_available === false) {
+        return NextResponse.json(
+          { success: false, error: `${productData.name} şu an stokta bulunmuyor.` },
+          { status: 400 }
+        );
+      }
+
+      const unitPrice = Number(productData.price) ?? 0;
+      if (unitPrice <= 0) {
+        return NextResponse.json(
+          { success: false, error: `Ürün fiyatı geçersiz (${productData.name})` },
+          { status: 400 }
+        );
+      }
+
       const lineTotal = unitPrice * item.quantity;
       serverSubtotal += lineTotal;
 
@@ -147,17 +255,20 @@ export async function POST(req: Request) {
         quantity: item.quantity,
         unitPrice,
         totalPrice: lineTotal,
-        imageUrl: productData.imageUrl || productData.image_url,
-        weight: productData.weight,
+        imageUrl: productData.imageUrl || productData.image_url || undefined,
+        weight: productData.weight || undefined,
         madeToOrder: productData.madeToOrder ?? productData.made_to_order,
       });
     }
 
-    // 3. Server-side shipping fee & total amount calculation
+    // 4. Server-side shipping fee & total amount calculation
     const shippingFee = deliveryMethod === "pickup" ? 0 : serverSubtotal >= 1000 ? 0 : 150;
     const totalAmount = serverSubtotal + shippingFee;
 
-    const orderId = `ORD-${Date.now().toString().slice(-6)}`;
+    const orderId = `ORD-${crypto.randomUUID().split("-")[0].toUpperCase()}`;
+    const now = new Date();
+    const nowIso = now.toISOString();
+
     const fullAddress =
       deliveryMethod === "pickup"
         ? "İmalathaneden Gel-Al (Beylikdüzü Atölye)"
@@ -165,65 +276,182 @@ export async function POST(req: Request) {
 
     const deliveryDateFormatted = customerInfo.deliveryDate || "today";
 
-    // 4. Save to Supabase (PostgreSQL)
-    if (supabaseAdmin) {
-      try {
-        const adminAny = supabaseAdmin as any;
-        const { error: supaOrderErr } = await adminAny.from("orders").insert({
-          id: orderId,
-          user_id: userId || null,
-          customer_name: sanitizedName,
-          phone: cleanPhone,
-          delivery_method: deliveryMethod,
-          delivery_address: fullAddress,
-          district: sanitizedDistrict,
-          neighborhood: sanitizedNeighborhood,
-          address_detail: sanitizedAddressDetail,
-          delivery_date: deliveryDateFormatted,
-          status: "onay_bekliyor", // CHANGED: All new web orders go to Awaiting Verification state
-          payment_method: paymentMethod,
-          subtotal: serverSubtotal,
-          shipping_fee: shippingFee,
-          total_amount: totalAmount,
-          order_notes: sanitizedNote || null,
-          idempotency_key: idempotencyKey || null,
-        });
+    const isLocationShared = Boolean(
+      customerInfo.shareLocation && customerInfo.customerLat && customerInfo.customerLng
+    );
+    const locationConsentAt = isLocationShared ? customerInfo.locationConsentAt || nowIso : null;
 
-        if (!supaOrderErr) {
-          const itemInserts = verifiedOrderItems.map((it) => ({
-            order_id: orderId,
-            product_id: it.productId,
-            product_name: it.productName,
-            quantity: it.quantity,
-            unit_price: it.unitPrice,
-            total_price: it.totalPrice,
-            image_url: it.imageUrl || null,
-            weight: it.weight || null,
-            made_to_order: Boolean(it.madeToOrder),
-          }));
-          await adminAny.from("order_items").insert(itemInserts);
-        } else {
-          console.error("Supabase order insert error:", supaOrderErr);
+    let finalOrderNumber = "";
+
+    const orderPayload = {
+      id: orderId,
+      customer_name: sanitizedName,
+      phone: cleanPhone,
+      delivery_method: deliveryMethod,
+      delivery_address: fullAddress,
+      district: sanitizedDistrict,
+      neighborhood: sanitizedNeighborhood,
+      address_detail: sanitizedAddressDetail,
+      delivery_date: deliveryDateFormatted,
+      status: "bekliyor",
+      payment_method: paymentMethod,
+      payment_status: "pending",
+      source: "web",
+      subtotal: serverSubtotal,
+      shipping_fee: shippingFee,
+      total_amount: totalAmount,
+      order_notes: sanitizedNote || null,
+      idempotency_key: idempotencyKey || null,
+      location_shared: isLocationShared,
+      customer_lat: customerInfo.customerLat ?? null,
+      customer_lng: customerInfo.customerLng ?? null,
+      location_consent_at: locationConsentAt,
+      created_at: nowIso,
+      updated_at: nowIso,
+    };
+
+    const itemsPayload = verifiedOrderItems.map((it) => ({
+      product_id: it.productId,
+      product_name: it.productName,
+      quantity: it.quantity,
+      unit_price: it.unitPrice,
+      total_price: it.totalPrice,
+      image_url: it.imageUrl || null,
+      weight: it.weight || null,
+      made_to_order: Boolean(it.madeToOrder),
+    }));
+
+    // 5. Atomic PostgreSQL order creation (P0-2 & P0-3)
+    let atomicSuccess = false;
+    try {
+      const { data: rpcRes, error: rpcErr } = await supabaseAdmin.rpc("create_order_atomic", {
+        p_order: orderPayload,
+        p_items: itemsPayload,
+        p_user_id: userId || null,
+      });
+
+      if (!rpcErr && rpcRes && rpcRes.order_number) {
+        finalOrderNumber = rpcRes.order_number;
+        atomicSuccess = true;
+      } else if (rpcErr) {
+        console.warn("create_order_atomic RPC error, falling back to direct transactional insert:", rpcErr.message || rpcErr);
+      }
+    } catch (rpcEx) {
+      console.warn("create_order_atomic RPC exception:", rpcEx);
+    }
+
+    if (!atomicSuccess) {
+      // Fallback: Direct insert with STRICT error handling
+      finalOrderNumber = await generateOrderNumber(now);
+
+      const { error: supaOrderErr } = await supabaseAdmin.from("orders").insert({
+        ...orderPayload,
+        order_number: finalOrderNumber,
+        user_id: userId || null,
+      });
+
+      if (supaOrderErr) {
+        console.error("Supabase order insert error:", supaOrderErr);
+        return NextResponse.json(
+          {
+            success: false,
+            error: "Sipariş veritabanına kaydedilemedi. Lütfen tekrar deneyiniz.",
+          },
+          { status: 500 }
+        );
+      }
+
+      // Kalemleri ekle
+      const itemInserts = itemsPayload.map((it) => ({
+        ...it,
+        order_id: orderId,
+      }));
+      const { error: itemsErr } = await supabaseAdmin.from("order_items").insert(itemInserts);
+      if (itemsErr) {
+        console.error("Order items insert error:", itemsErr);
+      }
+
+      // Audit log (order_status_history)
+      await supabaseAdmin.from("order_status_history").insert({
+        order_id: orderId,
+        from_status: null,
+        to_status: "bekliyor",
+        changed_by_role: "customer",
+        changed_by_id: userId || null,
+        note: "Müşteri web üzerinden sipariş verdi",
+      });
+
+      // Ödeme kaydı (payments)
+      const payMethod =
+        paymentMethod === "cash_on_delivery"
+          ? "cash"
+          : paymentMethod === "pos_at_door"
+          ? "pos"
+          : "online_card";
+
+      await supabaseAdmin.from("payments").insert({
+        order_id: orderId,
+        amount: totalAmount,
+        method: payMethod,
+        status: "pending",
+        note: "Web siparişi oluşturuldu",
+      });
+
+      // Canlı konum paylaşıldıysa customer_locations tablosuna ilk kaydı at
+      if (isLocationShared && customerInfo.customerLat && customerInfo.customerLng) {
+        await supabaseAdmin.from("customer_locations").insert({
+          order_id: orderId,
+          lat: customerInfo.customerLat,
+          lng: customerInfo.customerLng,
+          accuracy: 10,
+        });
+      }
+
+      // Giriş yapmış kullanıcı profilini güncelle
+      if (userId) {
+        const { data: profData } = await supabaseAdmin
+          .from("profiles")
+          .select("total_orders, total_spent")
+          .eq("id", userId)
+          .maybeSingle();
+
+        if (profData) {
+          const currentOrders = Number(profData.total_orders) || 0;
+          const currentSpent = Number(profData.total_spent) || 0;
+          await supabaseAdmin
+            .from("profiles")
+            .update({
+              total_orders: currentOrders + 1,
+              total_spent: currentSpent + totalAmount,
+              last_order_at: nowIso,
+              updated_at: nowIso,
+            })
+            .eq("id", userId);
         }
-      } catch (supaErr: unknown) {
-        console.error("Supabase order creation error:", supaErr);
       }
     }
 
     const completedOrder: Order = {
       id: orderId,
+      orderNumber: finalOrderNumber,
       customerName: sanitizedName,
       phone: cleanPhone,
       deliveryAddress: fullAddress,
       items: verifiedOrderItems,
-      totalAmount,
+      subtotal: serverSubtotal,
       shippingFee,
-      status: "onay_bekliyor", // Status matching DB
+      totalAmount,
+      status: "bekliyor",
       paymentMethod,
       deliveryDate: deliveryDateFormatted,
-      orderNotes: sanitizedNote,
-      createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString(),
+      orderNotes: sanitizedNote || undefined,
+      locationShared: isLocationShared,
+      customerLat: customerInfo.customerLat ?? null,
+      customerLng: customerInfo.customerLng ?? null,
+      locationConsentAt: locationConsentAt ?? undefined,
+      userId: userId || null,
+      createdAt: nowIso,
+      updatedAt: nowIso,
     };
 
     return NextResponse.json({

@@ -58,11 +58,26 @@ export interface AdminOrder {
   paymentMethod: AdminPaymentMethod;
   paymentStatus: "paid" | "pending" | "on_delivery";
   source: OrderSource;
+  courierId?: string | null;
+  assignedAt?: string | null;
+  deliveredAt?: string | null;
+  cancelledAt?: string | null;
+  cancelReason?: string | null;
+  cancelledBy?: "customer" | "admin" | "system" | null;
+  customerLat?: number | null;
+  customerLng?: number | null;
+  locationShared?: boolean;
+  locationConsentAt?: string | null;
+  deliveryLat?: number | null;
+  deliveryLng?: number | null;
+  estimatedDelivery?: string | null;
+  userId?: string | null;
+  idempotencyKey?: string | null;
   cariId?: string;
   orderNotes?: string;
   courierNotes?: string;
-  createdAt: any;
-  updatedAt?: any;
+  createdAt: string;
+  updatedAt?: string;
 }
 
 export interface CariAccount {
@@ -94,7 +109,7 @@ export interface CariTransaction {
   relatedOrderId?: string;
   slipNumber?: string; // FİŞ-2609-001 veya Belge No
   balanceAfter?: number; // İşlem sonrası yürüyen bakiye
-  createdAt?: any;
+  createdAt?: string;
 }
 
 export interface Supplier {
@@ -116,7 +131,7 @@ export interface SupplierTransaction {
   amount: number;
   description: string;
   paymentMethod?: "nakit" | "banka_havale" | "kredi_karti" | "diger";
-  createdAt: any;
+  createdAt?: string;
 }
 
 export interface ExpenseRecord {

@@ -76,8 +76,36 @@ export default function KvkkPage() {
               <li><strong>Kimlik Bilgileri:</strong> Ad, soyad.</li>
               <li><strong>İletişim Bilgileri:</strong> Telefon numarası, teslimat adresi (mahalle, cadde, sokak, bina, daire no), e-posta adresi.</li>
               <li><strong>Müşteri İşlem Bilgileri:</strong> Sipariş edilen ekmek ve gurme ürünler, sipariş tarihi/saati, teslimat notları, sepet toplamı, ödeme yöntemi tercihi.</li>
+              <li><strong>Konum Bilgileri (Açık Rızanız ile):</strong> Teslimat anında isteğe bağlı olarak paylaştığınız GPS koordinatları (enlem, boylam, doğruluk mesafesi).</li>
               <li><strong>İşlem Güvenliği Verileri:</strong> IP adresi, sepet oturum bilgileri, cihaz ve tarayıcı teknik erişim logları.</li>
             </ul>
+          </section>
+
+          {/* Section 2.1: Konum Verisi (Anchor: #konum-verisi) */}
+          <section id="konum-verisi" className="space-y-3 bg-surface p-6 rounded-2xl border-2 border-artisan-gold/40 scroll-mt-24 shadow-md">
+            <div className="flex items-center gap-2">
+              <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse" />
+              <h2 className="font-serif text-lg font-bold text-foreground text-artisan-gold">
+                Konum Verisi İşleme ve Canlı Takip Aydınlatması
+              </h2>
+            </div>
+            <p>
+              Sipariş verme ve takip aşamasında size sunulan <strong>Canlı Konum Paylaşımı</strong> özelliği, 6698 sayılı KVKK Madde 5/1 uyarınca <strong>tamamen açık rızanıza</strong> tabidir. Konum paylaşımı vermemeniz durumunda sipariş süreciniz hiçbir şekilde kısıtlanmaz, teslimatınız açık adresiniz üzerinden olağan akışında gerçekleştirilir.
+            </p>
+            <div className="space-y-2 text-xs sm:text-sm text-foreground/75 pl-2">
+              <p>
+                <strong>• Hangi Veriler Toplanır?</strong> Yalnızca cihazınızın tarayıcı Geolocation API&apos;si aracılığıyla ürettiği anlık enlem (latitude), boylam (longitude) ve doğruluk payı (accuracy) bilgisi alınır.
+              </p>
+              <p>
+                <strong>• İşleme Amacı:</strong> Kuryemizin adresinizi Beylikdüzü ara sokaklarında gecikmeden bulabilmesi ve sipariş takip ekranında size kurye-müşteri mesafesini canlı radar olarak gösterebilmek amacıyla kullanılır.
+              </p>
+              <p>
+                <strong>• 72 Saatlik Otomatik Silme Güvencesi:</strong> Teslimat tamamlandıktan veya sipariş kapandıktan sonra konum verileriniz maksimum <strong>72 saat</strong> saklanır. Bu sürenin sonunda otomatik veri temizleme mekanizmamız (cron job) aracılığıyla veritabanından kalıcı olarak ve geri getirilemez biçimde silinir.
+              </p>
+              <p>
+                <strong>• Rızayı Geri Çekme Hakkı:</strong> Sipariş takip sayfasında yer alan <em>&quot;Canlı Konum Paylaşımı&quot;</em> butonunu kapatarak istediğiniz an konum paylaşımınızı tek tıkla durdurabilirsiniz.
+              </p>
+            </div>
           </section>
 
           {/* Section 3 */}

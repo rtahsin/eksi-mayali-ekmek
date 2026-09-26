@@ -318,7 +318,7 @@ export default function BakeryProductionPage() {
           <div className="p-4 rounded-xl bg-stone-950/60 border border-stone-800 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
             <div>
               <div className="text-xs font-bold text-stone-200">
-                Dükkan Tezgahı / Gel-Al İçin Ekstra Pişirim
+                Dükkan Tezgahı ve Vitrin İçin Ekstra Pişirim
               </div>
               <div className="text-[11px] text-stone-400">
                 Siparişler dışında vitrinde satılacak günlük ekmek sayısı.

@@ -96,28 +96,37 @@ export function QuickSlipModal({ isOpen, onClose, cari, activeProducts, onSucces
       if (slipStaleReturn > 0) descLines.push(`Bayat İade/Fire Düşüldü: -${slipStaleReturn} ₺`);
       if (slipDiscount > 0) descLines.push(`Genel İskonto/Yuvarlama: -${slipDiscount} ₺`);
 
-      // 2. Adjust balance using RPC (Single Source of Truth)
-      const { data: res, error: rpcError } = await supabase.rpc("adjust_cari_balance", {
+      // 2. Adjust balance using Atomic RPC (Single Source of Truth)
+      const { data: res, error: rpcError } = await supabase.rpc("record_cari_transaction_atomic", {
         p_account_id: cari.id,
         p_amount: quickSlipTotal,
         p_type: "satis",
         p_description: descLines.join(" | "),
-        p_related_order_id: generatedOrderId,
+        p_order_id: generatedOrderId,
+        p_slip_number: generatedSlipNumber,
       });
 
-      if (rpcError || !res?.success) {
-        throw new Error(rpcError?.message || res?.error || "Kayıt hatası");
+      if (rpcError) {
+        throw new Error(rpcError.message || "Kayıt hatası");
+      }
+      const result = res as { success?: boolean; error?: string } | null;
+      if (!result?.success) {
+        throw new Error(result?.error || "Kayıt hatası");
       }
 
       // 3. (Optional) If payment is collected right away
       if (Number(slipPaymentCollected) > 0) {
-        await supabase.rpc("adjust_cari_balance", {
+        const { error: payRpcErr } = await supabase.rpc("record_cari_transaction_atomic", {
           p_account_id: cari.id,
           p_amount: Number(slipPaymentCollected),
           p_type: "tahsilat",
           p_description: `Teslimatta Anında Tahsilat - ${generatedSlipNumber} (${slipPaymentMethod})`,
-          p_related_order_id: generatedOrderId,
+          p_payment_method: slipPaymentMethod,
+          p_order_id: generatedOrderId,
         });
+        if (payRpcErr) {
+          console.error("Tahsilat RPC hatası:", payRpcErr);
+        }
       }
 
       // Success
@@ -130,9 +139,10 @@ export function QuickSlipModal({ isOpen, onClose, cari, activeProducts, onSucces
       setSlipDiscount(0);
       setSlipPaymentCollected(0);
       
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error(err);
-      alert("Hata: " + err.message);
+      const message = err instanceof Error ? err.message : "Bilinmeyen hata";
+      alert("Hata: " + message);
     } finally {
       setSubmitting(false);
     }

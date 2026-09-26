@@ -27,7 +27,60 @@ export function normalizePaymentMethod(rawMethod?: string): AdminPaymentMethod {
   return "cash_on_delivery";
 }
 
-export function useAdminOrders() {
+interface RawOrderItemRow {
+  product_id?: string | null;
+  product_name?: string | null;
+  quantity?: number | null;
+  unit_price?: number | string | null;
+  total_price?: number | string | null;
+  image_url?: string | null;
+  weight?: number | null;
+}
+
+interface RawOrderRow {
+  id: string;
+  order_number?: string | null;
+  customer_name?: string | null;
+  phone?: string | null;
+  delivery_address?: string | null;
+  neighborhood?: string | null;
+  delivery_method?: string | null;
+  delivery_date?: string | null;
+  subtotal?: number | string | null;
+  shipping_fee?: number | string | null;
+  total_amount?: number | string | null;
+  status?: string | null;
+  payment_method?: string | null;
+  payment_status?: string | null;
+  source?: string | null;
+  order_notes?: string | null;
+  courier_notes?: string | null;
+  courier_id?: string | null;
+  assigned_at?: string | null;
+  delivered_at?: string | null;
+  cancelled_at?: string | null;
+  cancel_reason?: string | null;
+  cancelled_by?: "customer" | "admin" | "system" | null;
+  customer_lat?: number | null;
+  customer_lng?: number | null;
+  location_shared?: boolean | null;
+  location_consent_at?: string | null;
+  delivery_lat?: number | null;
+  delivery_lng?: number | null;
+  estimated_delivery?: string | null;
+  user_id?: string | null;
+  idempotency_key?: string | null;
+  cari_id?: string | null;
+  created_at: string;
+  updated_at?: string | null;
+  order_items?: RawOrderItemRow[];
+}
+
+interface UseAdminOrdersOptions {
+  limit?: number;
+}
+
+export function useAdminOrders(options: UseAdminOrdersOptions = {}) {
   const [orders, setOrders] = useState<AdminOrder[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -46,24 +99,33 @@ export function useAdminOrders() {
     }
 
     try {
-      const { data, error } = await supabase
+      let query = supabase
         .from("orders")
         .select("*, order_items(*)")
         .order("created_at", { ascending: false });
+
+      if (options.limit) {
+        query = query.limit(options.limit);
+      } else {
+        query = query.limit(300);
+      }
+
+      const { data, error } = await query;
 
       if (error) {
         console.error("Supabase orders error:", error);
         setError("Siparişler yüklenirken hata oluştu.");
       } else if (data) {
-        const list: AdminOrder[] = data.map((o: any) => {
-          const items = (o.order_items || []).map((it: any) => ({
+        const rawList = data as unknown as RawOrderRow[];
+        const list: AdminOrder[] = rawList.map((o) => {
+          const items = (o.order_items || []).map((it) => ({
             productId: it.product_id || "",
             productName: it.product_name || "Ürün",
             quantity: Number(it.quantity) || 1,
             unitPrice: Number(it.unit_price) || 0,
             totalPrice: Number(it.total_price) || 0,
-            imageUrl: it.image_url,
-            weight: it.weight,
+            imageUrl: it.image_url || undefined,
+            weight: it.weight || undefined,
           }));
 
           const d =
@@ -74,7 +136,7 @@ export function useAdminOrders() {
 
           return {
             id: o.id,
-            orderNumber: o.id.replace("ORD-", "").toUpperCase(),
+            orderNumber: o.order_number || o.id.replace("ORD-", "").toUpperCase(),
             customerName: o.customer_name || "İsimsiz Müşteri",
             phone: o.phone || "",
             deliveryAddress: o.delivery_address || "",
@@ -86,14 +148,30 @@ export function useAdminOrders() {
             subtotal: Number(o.subtotal) || 0,
             shippingFee: Number(o.shipping_fee) || 0,
             totalAmount: Number(o.total_amount) || 0,
-            status: normalizeOrderStatus(o.status),
-            paymentMethod: normalizePaymentMethod(o.payment_method),
-            paymentStatus: o.status === "teslim_edildi" ? "paid" : "pending",
-            source: "web" as OrderSource,
+            status: normalizeOrderStatus(o.status || undefined),
+            paymentMethod: normalizePaymentMethod(o.payment_method || undefined),
+            paymentStatus: (o.payment_status as "paid" | "pending" | "on_delivery") || (o.status === "teslim_edildi" ? "paid" : "pending"),
+            source: (o.source as OrderSource) || "web",
+            courierId: o.courier_id || null,
+            assignedAt: o.assigned_at || null,
+            deliveredAt: o.delivered_at || null,
+            cancelledAt: o.cancelled_at || null,
+            cancelReason: o.cancel_reason || null,
+            cancelledBy: o.cancelled_by || null,
+            customerLat: o.customer_lat ?? null,
+            customerLng: o.customer_lng ?? null,
+            locationShared: !!o.location_shared,
+            locationConsentAt: o.location_consent_at || null,
+            deliveryLat: o.delivery_lat ?? null,
+            deliveryLng: o.delivery_lng ?? null,
+            estimatedDelivery: o.estimated_delivery || null,
+            userId: o.user_id || null,
+            idempotencyKey: o.idempotency_key || null,
+            cariId: o.cari_id || undefined,
             orderNotes: o.order_notes || "",
-            courierNotes: "",
+            courierNotes: o.courier_notes || "",
             createdAt: o.created_at,
-            updatedAt: o.updated_at,
+            updatedAt: o.updated_at || undefined,
           };
         });
         setOrders(list);
@@ -120,6 +198,13 @@ export function useAdminOrders() {
             fetchSupabaseOrders();
           }
         )
+        .on(
+          "postgres_changes",
+          { event: "*", schema: "public", table: "payments" },
+          () => {
+            fetchSupabaseOrders();
+          }
+        )
         .subscribe();
 
       return () => {
@@ -128,22 +213,83 @@ export function useAdminOrders() {
     }
   }, [supabase, fetchSupabaseOrders]);
 
-  // Update order status
+  // Update order status with audit log (order_status_history)
   const updateOrderStatus = async (
     orderId: string,
     newStatus: AdminOrderStatus,
-    _courierNotes?: string
+    courierNotes?: string,
+    changedByRole: "system" | "admin" | "courier" | "customer" = "admin",
+    changedById?: string,
+    note?: string
   ) => {
     try {
+      const currentOrder = orders.find((o) => o.id === orderId);
+      if (currentOrder && (currentOrder.status === "teslim_edildi" || currentOrder.status === "iptal") && currentOrder.status !== newStatus) {
+        return {
+          success: false,
+          error: `'${currentOrder.status}' durumundaki bir sipariş nihai durumdadır ve değiştirilemez.`,
+        };
+      }
+      const nowIso = new Date().toISOString();
+
       if (supabase && isSupabaseConfigured()) {
-        await supabase
+        const updatePayload: Record<string, unknown> = {
+          status: newStatus,
+          updated_at: nowIso,
+        };
+
+        if (courierNotes !== undefined) {
+          updatePayload.courier_notes = courierNotes;
+        }
+
+        if (newStatus === "teslim_edildi") {
+          updatePayload.delivered_at = nowIso;
+          updatePayload.payment_status = "paid";
+        } else if (newStatus === "iptal") {
+          updatePayload.cancelled_at = nowIso;
+          updatePayload.cancelled_by = changedByRole;
+          if (note) updatePayload.cancel_reason = note;
+        }
+
+        let updateQuery = supabase
           .from("orders")
-          .update({ status: newStatus, updated_at: new Date().toISOString() })
+          .update(updatePayload)
           .eq("id", orderId);
+
+        if (currentOrder?.status) {
+          updateQuery = updateQuery.eq("status", currentOrder.status);
+        }
+
+        const { error: updateErr } = await updateQuery;
+
+        if (updateErr) throw updateErr;
+
+        // Audit Trail (order_status_history)
+        await supabase.from("order_status_history").insert({
+          order_id: orderId,
+          from_status: currentOrder?.status || null,
+          to_status: newStatus,
+          changed_by_role: changedByRole,
+          changed_by_id: changedById || null,
+          note: note || courierNotes || null,
+        });
       }
 
       setOrders((prev) =>
-        prev.map((o) => (o.id === orderId ? { ...o, status: newStatus } : o))
+        prev.map((o) =>
+          o.id === orderId
+            ? {
+                ...o,
+                status: newStatus,
+                deliveredAt: newStatus === "teslim_edildi" ? nowIso : o.deliveredAt,
+                paymentStatus: newStatus === "teslim_edildi" ? "paid" : o.paymentStatus,
+                cancelledAt: newStatus === "iptal" ? nowIso : o.cancelledAt,
+                cancelReason: newStatus === "iptal" && note ? note : o.cancelReason,
+                cancelledBy: newStatus === "iptal" ? (changedByRole === "courier" ? "admin" : changedByRole) : o.cancelledBy,
+                courierNotes: courierNotes !== undefined ? courierNotes : o.courierNotes,
+              }
+            : o
+        )
       );
       return { success: true };
     } catch (err: unknown) {
@@ -152,34 +298,137 @@ export function useAdminOrders() {
     }
   };
 
+  // Assign courier to order
+  const assignCourier = async (
+    orderId: string,
+    courierId: string,
+    adminId?: string
+  ) => {
+    try {
+      if (!supabase) return { success: false, error: "Supabase bağlantısı yok" };
+      const currentOrder = orders.find((o) => o.id === orderId);
+      if (currentOrder && (currentOrder.status === "teslim_edildi" || currentOrder.status === "iptal")) {
+        return {
+          success: false,
+          error: `'${currentOrder.status}' durumundaki bir siparişe kurye atanamaz.`,
+        };
+      }
+      const nowIso = new Date().toISOString();
+
+      let updateQuery = supabase
+        .from("orders")
+        .update({
+          courier_id: courierId,
+          assigned_at: nowIso,
+          status: "kuryede",
+          updated_at: nowIso,
+        })
+        .eq("id", orderId);
+
+      if (currentOrder?.status) {
+        updateQuery = updateQuery.eq("status", currentOrder.status);
+      }
+
+      const { error: updateErr } = await updateQuery;
+
+      if (updateErr) throw updateErr;
+
+      // Audit log
+      await supabase.from("order_status_history").insert({
+        order_id: orderId,
+        from_status: orders.find((o) => o.id === orderId)?.status || null,
+        to_status: "kuryede",
+        changed_by_role: "admin",
+        changed_by_id: adminId || null,
+        note: `Kuryeye atandı (Kurye ID: ${courierId})`,
+      });
+
+      setOrders((prev) =>
+        prev.map((o) =>
+          o.id === orderId
+            ? { ...o, courierId, assignedAt: nowIso, status: "kuryede" }
+            : o
+        )
+      );
+
+      return { success: true };
+    } catch (err: unknown) {
+      console.error("Assign courier error:", err);
+      return { success: false, error: getErrorMessage(err) };
+    }
+  };
+
+  // Cancel order flow
+  const cancelOrder = async (
+    orderId: string,
+    reason: string,
+    cancelledBy: "admin" | "customer" | "system" = "admin",
+    userId?: string
+  ) => {
+    return updateOrderStatus(orderId, "iptal", undefined, cancelledBy, userId, reason);
+  };
+
   // Create manual/WhatsApp order
   const createManualOrder = async (orderData: Partial<AdminOrder>) => {
     try {
       if (!supabase) return { success: false, error: "Supabase bağlantısı yok" };
 
       const subtotal = (orderData.items || []).reduce((sum, it) => sum + it.totalPrice, 0);
-      const shippingFee = orderData.deliveryMethod === "pickup" ? 0 : subtotal >= 1000 ? 0 : 150;
+      const shippingFee = subtotal >= 1000 ? 0 : 150;
       const totalAmount = subtotal + shippingFee;
-      const orderId = `ORD-${Date.now().toString().slice(-6)}`;
+      const orderId = crypto.randomUUID();
 
-      const { error: insErr } = await supabase!.from("orders").insert({
+      // Generate sequential collision-free order number SIP-YYMM-XXX
+      let generatedOrderNumber = orderData.orderNumber;
+      if (!generatedOrderNumber) {
+        try {
+          const { data: numData } = await supabase.rpc("generate_order_number");
+          if (numData) {
+            generatedOrderNumber = numData;
+          }
+        } catch (rpcErr) {
+          console.warn("generate_order_number RPC error:", rpcErr);
+        }
+        if (!generatedOrderNumber) {
+          const now = new Date();
+          const yymm = `${now.getFullYear().toString().slice(2)}${String(now.getMonth() + 1).padStart(2, "0")}`;
+          const randomSuffix = Math.floor(100 + Math.random() * 900);
+          generatedOrderNumber = `SIP-${yymm}-${randomSuffix}`;
+        }
+      }
+
+      const { error: insErr } = await supabase.from("orders").insert({
         id: orderId,
+        order_number: generatedOrderNumber,
         customer_name: orderData.customerName || "Müşteri",
         phone: orderData.phone || "",
-        delivery_address: orderData.deliveryAddress || "Atölye Teslim",
+        delivery_address: orderData.deliveryAddress || "",
         neighborhood: orderData.neighborhood || "",
-        delivery_method: orderData.deliveryMethod || "courier",
+        delivery_method: "courier",
         delivery_date: orderData.deliveryDate || new Date().toISOString().split("T")[0],
         status: orderData.status || "bekliyor",
         payment_method: orderData.paymentMethod || "cash_on_delivery",
+        payment_status: orderData.paymentStatus || "pending",
+        source: orderData.source || "admin",
         subtotal,
         shipping_fee: shippingFee,
         total_amount: totalAmount,
         order_notes: orderData.orderNotes || "",
+        courier_notes: orderData.courierNotes || "",
+        courier_id: orderData.courierId || null,
         cari_id: orderData.cariId || null,
       });
 
       if (insErr) throw insErr;
+
+      // Status history entry for order creation
+      await supabase.from("order_status_history").insert({
+        order_id: orderId,
+        from_status: null,
+        to_status: orderData.status || "bekliyor",
+        changed_by_role: "admin",
+        note: "Manuel sipariş oluşturuldu",
+      });
 
       if (orderData.items && orderData.items.length > 0) {
         const itemInserts = orderData.items.map((it) => ({
@@ -192,11 +441,11 @@ export function useAdminOrders() {
           image_url: it.imageUrl || null,
           weight: it.weight || null,
         }));
-        await supabase!.from("order_items").insert(itemInserts);
+        await supabase.from("order_items").insert(itemInserts);
       }
 
       fetchSupabaseOrders();
-      return { success: true, id: orderId };
+      return { success: true, id: orderId, orderNumber: generatedOrderNumber };
     } catch (err: unknown) {
       console.error("Create manual order error:", err);
       return { success: false, error: getErrorMessage(err) };
@@ -264,7 +513,10 @@ export function useAdminOrders() {
     searchQuery,
     setSearchQuery,
     updateOrderStatus,
+    assignCourier,
+    cancelOrder,
     createManualOrder,
+    refetch: fetchSupabaseOrders,
   };
 }
 

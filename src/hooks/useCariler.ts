@@ -400,31 +400,20 @@ export function useCariler() {
       );
 
       if (supabase) {
-        // 1. Determine Storno type
+        // Atomik Storno: Hem transaction kaydı hem bakiye güncellemesi tek RPC'de
         const stornoType = reverseDelta > 0 ? "debt" : "credit";
 
-        // 2. Insert Storno transaction instead of deleting
-        const { error: insErr } = await supabase!
-          .from("account_transactions")
-          .insert({
-            account_id: cariId,
-            type: stornoType,
-            amount: Math.abs(reverseDelta),
-            description: `[İPTAL / STORNO] İşlem Geri Alma`,
-            date: new Date().toISOString().split("T")[0],
-          });
-        if (insErr) throw insErr;
-
-        // 3. Update Balance Safely via RPC
-        const { data: newBalance, error: updErr } = await supabase!
-          .rpc("adjust_cari_balance", { 
-            p_account_id: cariId, 
-            p_delta: reverseDelta 
+        const { data: stornoResult, error: stornoErr } = await supabase
+          .rpc("record_cari_transaction_atomic", {
+            p_account_id: cariId,
+            p_type: stornoType,
+            p_amount: Math.abs(reverseDelta),
+            p_description: `[İPTAL / STORNO] İşlem Geri Alma`,
           });
 
-        if (updErr) {
-          console.error("RPC Error in Storno:", updErr);
-          throw new Error("Storno işlemi kaydedilirken bakiye güncellenemedi.");
+        if (stornoErr) {
+          console.error("Storno RPC Error:", stornoErr);
+          throw new Error("Storno işlemi kaydedilirken hata oluştu.");
         }
       }
 

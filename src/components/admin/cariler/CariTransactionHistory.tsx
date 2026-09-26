@@ -89,7 +89,7 @@ export function CariTransactionHistory({
                   return (
                     <tr key={tx.id} className="hover:bg-stone-900/40 transition-colors group">
                       <td className="py-3 px-4 whitespace-nowrap text-xs text-stone-300">
-                        {new Date(tx.createdAt).toLocaleDateString("tr-TR", {
+                        {new Date(tx.createdAt || tx.date || Date.now()).toLocaleDateString("tr-TR", {
                           day: "2-digit", month: "short", year: "numeric", hour: "2-digit", minute: "2-digit"
                         })}
                       </td>

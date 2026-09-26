@@ -13,7 +13,7 @@ export interface CreateOrderParams {
   userId?: string;
 }
 
-export async function createOrderInFirestore(params: CreateOrderParams): Promise<Order> {
+export async function createOrderInSupabase(params: CreateOrderParams): Promise<Order> {
   const { items, customerInfo, deliveryMethod, paymentMethod, idempotencyKey, userId } = params;
 
   // Call Server-side Secure API Route (/api/orders/create)
@@ -45,6 +45,9 @@ export async function createOrderInFirestore(params: CreateOrderParams): Promise
   return data.order as Order;
 }
 
+// Geriye dönük uyumluluk için alias
+export const createOrderInFirestore = createOrderInSupabase;
+
 /**
  * Builds a structured, readable WhatsApp message template and directs to wa.me/905436329243
  */
@@ -58,10 +61,7 @@ export function generateWhatsAppOrderUrl(params: CreateOrderParams): string {
       ? "Kapıda Nakit Ödeme"
       : "WhatsApp Üzerinden Teyitli";
 
-  const deliveryLabel =
-    deliveryMethod === "pickup"
-      ? "🏬 İmalathaneden Gel-Al (Beylikdüzü Atölye)"
-      : "🛵 Beylikdüzü İçi Kurye Dağıtım";
+  const deliveryLabel = "🛵 Beylikdüzü İçi Fırın Kuryesi";
 
   const curDate = customerInfo?.deliveryDate || "today";
   const deliveryDateLabel =

@@ -1,6 +1,5 @@
 import { type NextRequest, NextResponse } from "next/server";
 import { createServerClient } from "@supabase/ssr";
-
 import { jwtVerify } from "jose";
 
 export async function middleware(request: NextRequest) {
@@ -15,6 +14,7 @@ export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
   let isAuthenticatedAdmin = false;
+  let hasValidUserSession = false;
 
   // 1. Supabase Session Check
   if (url && anonKey && url.startsWith("https://")) {
@@ -40,12 +40,16 @@ export async function middleware(request: NextRequest) {
 
       const { data: { user } } = await supabase.auth.getUser();
       if (user) {
-        // Here we could fetch the profile, but for simplicity we rely on 
-        // the fact that standard auth users must be admins. 
-        // (A more thorough check would look at the DB role).
-        // Let's assume user.email being super admin is enough for now, 
-        // but we'll accept any authenticated user as admin if they have a session.
-        isAuthenticatedAdmin = true;
+        hasValidUserSession = true;
+        // Check role from profiles table — only admin/superadmin get admin access
+        const { data: profile } = await supabase
+          .from("profiles")
+          .select("role")
+          .eq("id", user.id)
+          .single();
+        if (profile?.role === "admin" || profile?.role === "superadmin") {
+          isAuthenticatedAdmin = true;
+        }
       }
     } catch {
       // Ignored
@@ -61,7 +65,7 @@ export async function middleware(request: NextRequest) {
       );
       await jwtVerify(adminCookie.value, secret);
       isAuthenticatedAdmin = true;
-    } catch (err) {
+    } catch {
       // Invalid JWT
     }
   }
@@ -73,13 +77,31 @@ export async function middleware(request: NextRequest) {
     }
   }
 
-  // Optional: Enforce protection on /admin/* pages as well, 
-  // but AdminAuthGate handles UI redirects fine. We'll add a server-side redirect for safety.
+  // 4. Protect /admin/* routes
   if (pathname.startsWith("/admin") && !pathname.startsWith("/admin/login") && !pathname.startsWith("/api/")) {
     if (!isAuthenticatedAdmin) {
       const loginUrl = new URL(`/admin/login`, request.url);
       loginUrl.searchParams.set("redirect", pathname);
       return NextResponse.redirect(loginUrl);
+    }
+  }
+
+  // 5. Protect /kurye route (kurye / admin session required)
+  if (pathname.startsWith("/kurye")) {
+    if (!isAuthenticatedAdmin && !hasValidUserSession) {
+      const loginUrl = new URL(`/admin/login`, request.url);
+      loginUrl.searchParams.set("redirect", pathname);
+      return NextResponse.redirect(loginUrl);
+    }
+  }
+
+  // 6. Protect /hesabim/* routes (customer login required)
+  if (pathname.startsWith("/hesabim")) {
+    if (!hasValidUserSession && !isAuthenticatedAdmin) {
+      const redirectUrl = new URL("/", request.url);
+      redirectUrl.searchParams.set("auth", "login");
+      redirectUrl.searchParams.set("redirect", pathname);
+      return NextResponse.redirect(redirectUrl);
     }
   }
 

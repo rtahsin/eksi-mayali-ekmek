@@ -39,11 +39,31 @@ export interface OrderItem {
   batchId?: string;
 }
 
-export type OrderStatus = "onay_bekliyor" | "pending" | "processing" | "ready" | "completed" | "cancelled";
-export type PaymentMethod = "cash_on_delivery" | "pos_at_door" | "whatsapp";
+export type OrderStatus =
+  | "onay_bekliyor"
+  | "pending"
+  | "processing"
+  | "ready"
+  | "completed"
+  | "cancelled"
+  | "bekliyor"
+  | "hazirlaniyor"
+  | "firinda"
+  | "kuryede"
+  | "teslim_edildi"
+  | "iptal";
+
+export type PaymentMethod =
+  | "cash_on_delivery"
+  | "pos_at_door"
+  | "whatsapp"
+  | "online"
+  | "transfer"
+  | "cari";
 
 export interface Order {
   id: string;
+  orderNumber?: string;
   customerName: string;
   phone: string;
   deliveryAddress: string;
@@ -55,9 +75,24 @@ export interface Order {
   paymentMethod: PaymentMethod;
   deliveryDate?: string;
   orderNotes?: string;
+  courierId?: string | null;
+  assignedAt?: string | null;
+  deliveredAt?: string | null;
+  cancelledAt?: string | null;
+  cancelReason?: string | null;
+  cancelledBy?: "customer" | "admin" | "system" | null;
+  customerLat?: number | null;
+  customerLng?: number | null;
+  locationShared?: boolean;
+  locationConsentAt?: string | null;
+  userId?: string | null;
   createdAt: string;
   updatedAt?: string;
 }
+
+export * from "./courier";
+export * from "./payment";
+export * from "./orderStatusHistory";
 
 // Backward compatibility types
 export type BatchStatus = "idle" | "fermentation" | "baking" | "ready" | "completed";
@@ -69,7 +104,7 @@ export interface ProductionBatch {
   processTemplateId?: string;
   notes?: string;
   status: BatchStatus;
-  startedAt?: any;
+  startedAt?: string | Date;
   durationHours?: number;
   estimatedDurationHours?: number;
   hydration?: number;

@@ -5,11 +5,14 @@ import { useProducts, ExtendedProduct } from "@/hooks/useProducts";
 import { ProductCard } from "./ProductCard";
 import { ProductModal } from "./ProductModal";
 import { Sparkles, Truck } from "lucide-react";
+interface ProductCatalogProps {
+  initialProducts?: ExtendedProduct[];
+}
 
-export function ProductCatalog() {
+export function ProductCatalog({ initialProducts }: ProductCatalogProps = {}) {
   const [selectedCategory, setSelectedCategory] = useState<string>("all");
   const [modalProduct, setModalProduct] = useState<ExtendedProduct | null>(null);
-  const { products } = useProducts(selectedCategory);
+  const { products } = useProducts(selectedCategory, initialProducts);
 
   const categories = [
     { id: "all", label: "Tüm Ürünler" },

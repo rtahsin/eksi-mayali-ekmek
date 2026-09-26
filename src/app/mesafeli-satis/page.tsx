@@ -94,9 +94,8 @@ export default function MesafeliSatisPage() {
               <span>Madde 4 - Teslimat Esasları ve Kurye Koşulları</span>
             </h2>
             <ul className="list-disc list-inside space-y-1.5 text-foreground/75 text-xs sm:text-sm pl-2">
-              <li><strong>Teslimat Bölgesi:</strong> Ürünlerimizin tazeliğini, sıcaklığını ve soğuk zincirini korumak adına teslimatlar <em>İstanbul - Beylikdüzü ilçesi sınırları dahilinde</em> kendi fırın kuryemizle yapılmaktadır.</li>
+              <li><strong>Teslimat Bölgesi:</strong> Ürünlerimizin tazeliğini, sıcaklığını ve soğuk zincirini korumak adına teslimatlar <em>İstanbul - Beylikdüzü ilçesi sınırları dahilinde</em> kendi fırın kuryemizle kapıya yapılmaktadır.</li>
               <li><strong>Ücretsiz Teslimat Eşiği:</strong> <strong>1.000 TL ve üzeri</strong> siparişlerde fırın kuryesi teslimatı <strong>ÜCRETSİZDİR</strong>. 1.000 TL altındaki siparişlerde standart 150 TL kurye teslimat ücreti sepet toplamına eklenir.</li>
-              <li><strong>Gel-Al (Atölyeden Teslim):</strong> Gel-Al seçeneğini tercih eden müşterilerimizden hiçbir teslimat ücreti tahsil edilmez; ürünler atölyeden sıcak teslim alınabilir.</li>
               <li><strong>Teslimat Zamanı:</strong> Günlük taze ekmekler ve siparişler, belirtilen dağıtım saatleri (14:00 - 18:00) arasında Alıcı&apos;nın belirttiği adrese ulaştırılır.</li>
             </ul>
           </section>

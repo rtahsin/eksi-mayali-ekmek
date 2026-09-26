@@ -17,25 +17,8 @@ export interface ExtendedProduct extends Product {
   masterclass?: MasterclassDetail;
 }
 
-export function normalizeCategory(rawCategory?: string): "bread" | "specialty" | "gurme" {
-  if (!rawCategory) return "bread";
-  const lower = rawCategory.toLowerCase();
-  if (
-    lower.includes("sarkuteri") ||
-    lower.includes("şarküteri") ||
-    lower.includes("pantry") ||
-    lower.includes("gurme") ||
-    lower.includes("mandira") ||
-    lower.includes("mandıra") ||
-    lower.includes("dairy")
-  ) {
-    return "gurme";
-  }
-  if (lower.includes("ozel") || lower.includes("özel") || lower.includes("specialty")) {
-    return "specialty";
-  }
-  return "bread";
-}
+import { normalizeCategory } from "@/lib/utils/productCategory";
+export { normalizeCategory };
 
 export const INITIAL_PRODUCTS: ExtendedProduct[] = [
   // 1. Taş Fırın Ekmekleri (Günlük Taze Çıkış)
@@ -465,9 +448,14 @@ const unmarkIdAsDeletedLocally = (id: string) => {
   } catch {}
 };
 
-export function useProducts(category?: string) {
-  const [products, setProducts] = useState<ExtendedProduct[]>(INITIAL_PRODUCTS);
-  const [loading, setLoading] = useState<boolean>(false);
+export function useProducts(category?: string, initialProducts?: ExtendedProduct[]) {
+  const [products, setProducts] = useState<ExtendedProduct[]>(() => {
+    if (initialProducts && initialProducts.length > 0) {
+      return initialProducts;
+    }
+    return INITIAL_PRODUCTS;
+  });
+  const [loading, setLoading] = useState<boolean>(!initialProducts);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {

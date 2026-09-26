@@ -67,3 +67,14 @@ Bu kurallar, EkmekLab projesinde kod yazarken, hata ayıklarken ve yeni modül e
 
 ## 5. 🧪 Derleme & Doğrulama Zorunluluğu
 - Her kod değişikliği sonrasında **`npm run build`** çalıştırılarak tüm rotaların (App Router) ve TypeScript türlerinin 0 hata ile derlendiği doğrulanmalıdır.
+
+---
+
+## 6. 🔐 Güvenlik, API Yetkilendirme & Eşzamanlılık (Concurrency) Kuralları
+- **Service Role'e Doğrudan Güvenilemez**: `createAdminClient()` kullanan tüm API rotalarında token ve rol doğrulaması [`src/lib/security/apiAuth.ts`](file:///f:/ekmeklab_app/src/lib/security/apiAuth.ts) üzerinden `verifyApiAuth(req)` ile yapılmalıdır. İstemci body'sinde gelen `isAdmin`, `cancelledBy: "admin"` vb. alanlara asla güvenilmez.
+- **Atomik Cari Finans Yönetimi**: Cari bakiye ve hareket işlemleri için eski `adjust_cari_balance` DEĞİL, PostgreSQL tarafında tek transaction'da çalışan atomik `record_cari_transaction_atomic` RPC fonksiyonu kullanılmalıdır.
+- **Optimistic Locking (İyimser Kilitleme)**: Sipariş durumu güncellemelerinde TOCTOU (Time-of-check to time-of-use) ve yarış durumlarını önlemek için UPDATE sorgusuna `.eq("status", currentStatus)` koşulu eklenmeli ve 0 satır güncellendiğinde 409 Conflict dönülmelidir.
+- **Kurye Canlı Konum İzolasyonu**: Realtime broadcast kanalları global olarak değil, kurye bazında izole (`courier-location-${courierId}`) açılmalı ve unmount/stop anında `supabase.removeChannel(channel)` ile kapatılmalıdır.
+- **Halka Açık Takip ve Veri Minimizasyonu**: Misafir ve halka açık sipariş takibinde (`/api/orders/[id]`), yetkisiz sorgularda finansal toplamlar (`total_amount`, `subtotal`, `shipping_fee`) `null` olarak maskelenmeli, ürün fiyatları yanıttan soyulmalı ve IP/telefon rate limiting uygulanmalıdır.
+- **Ardışık Sipariş Numaralandırma**: Manuel ve otomatik siparişlerde `Date.now()` veya `Math.random()` kullanılmaz; ID için `crypto.randomUUID()`, sipariş numarası için veritabanı `generate_order_number()` RPC fonksiyonu kullanılır (`SIP-YYMM-XXX`).
+
