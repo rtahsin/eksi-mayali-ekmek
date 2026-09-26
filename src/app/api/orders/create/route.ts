@@ -4,7 +4,6 @@ import { createAdminClient } from "@/lib/supabase/admin";
 import { Order, OrderItem } from "@/types";
 import { checkRateLimit, sanitizeInput } from "@/lib/security/rateLimiter";
 import { getErrorMessage } from "@/lib/utils/error";
-import { generateOrderNumber } from "@/lib/utils/orderNumber";
 
 // 1. Zod Schema for Request Validation
 const OrderItemSchema = z.object({
