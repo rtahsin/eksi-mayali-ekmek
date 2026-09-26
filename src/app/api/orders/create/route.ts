@@ -322,114 +322,24 @@ export async function POST(req: Request) {
     }));
 
     // 5. Atomic PostgreSQL order creation (P0-2 & P0-3)
-    let atomicSuccess = false;
-    try {
-      const { data: rpcRes, error: rpcErr } = await supabaseAdmin.rpc("create_order_atomic", {
-        p_order: orderPayload,
-        p_items: itemsPayload,
-        p_user_id: userId || null,
-      });
+    const { data: rpcRes, error: rpcErr } = await supabaseAdmin.rpc("create_order_atomic", {
+      p_order: orderPayload,
+      p_items: itemsPayload,
+      p_user_id: userId || null,
+    });
 
-      if (!rpcErr && rpcRes && rpcRes.order_number) {
-        finalOrderNumber = rpcRes.order_number;
-        atomicSuccess = true;
-      } else if (rpcErr) {
-        console.warn("create_order_atomic RPC error, falling back to direct transactional insert:", rpcErr.message || rpcErr);
-      }
-    } catch (rpcEx) {
-      console.warn("create_order_atomic RPC exception:", rpcEx);
+    if (rpcErr || !rpcRes || !rpcRes.success) {
+      console.error("create_order_atomic RPC error:", rpcErr);
+      return NextResponse.json(
+        {
+          success: false,
+          error: "Sipariş veritabanına atomik olarak kaydedilemedi. Lütfen tekrar deneyiniz.",
+        },
+        { status: 500 }
+      );
     }
 
-    if (!atomicSuccess) {
-      // Fallback: Direct insert with STRICT error handling
-      finalOrderNumber = await generateOrderNumber(now);
-
-      const { error: supaOrderErr } = await supabaseAdmin.from("orders").insert({
-        ...orderPayload,
-        order_number: finalOrderNumber,
-        user_id: userId || null,
-      });
-
-      if (supaOrderErr) {
-        console.error("Supabase order insert error:", supaOrderErr);
-        return NextResponse.json(
-          {
-            success: false,
-            error: "Sipariş veritabanına kaydedilemedi. Lütfen tekrar deneyiniz.",
-          },
-          { status: 500 }
-        );
-      }
-
-      // Kalemleri ekle
-      const itemInserts = itemsPayload.map((it) => ({
-        ...it,
-        order_id: orderId,
-      }));
-      const { error: itemsErr } = await supabaseAdmin.from("order_items").insert(itemInserts);
-      if (itemsErr) {
-        console.error("Order items insert error:", itemsErr);
-      }
-
-      // Audit log (order_status_history)
-      await supabaseAdmin.from("order_status_history").insert({
-        order_id: orderId,
-        from_status: null,
-        to_status: "bekliyor",
-        changed_by_role: "customer",
-        changed_by_id: userId || null,
-        note: "Müşteri web üzerinden sipariş verdi",
-      });
-
-      // Ödeme kaydı (payments)
-      const payMethod =
-        paymentMethod === "cash_on_delivery"
-          ? "cash"
-          : paymentMethod === "pos_at_door"
-          ? "pos"
-          : "online_card";
-
-      await supabaseAdmin.from("payments").insert({
-        order_id: orderId,
-        amount: totalAmount,
-        method: payMethod,
-        status: "pending",
-        note: "Web siparişi oluşturuldu",
-      });
-
-      // Canlı konum paylaşıldıysa customer_locations tablosuna ilk kaydı at
-      if (isLocationShared && customerInfo.customerLat && customerInfo.customerLng) {
-        await supabaseAdmin.from("customer_locations").insert({
-          order_id: orderId,
-          lat: customerInfo.customerLat,
-          lng: customerInfo.customerLng,
-          accuracy: 10,
-        });
-      }
-
-      // Giriş yapmış kullanıcı profilini güncelle
-      if (userId) {
-        const { data: profData } = await supabaseAdmin
-          .from("profiles")
-          .select("total_orders, total_spent")
-          .eq("id", userId)
-          .maybeSingle();
-
-        if (profData) {
-          const currentOrders = Number(profData.total_orders) || 0;
-          const currentSpent = Number(profData.total_spent) || 0;
-          await supabaseAdmin
-            .from("profiles")
-            .update({
-              total_orders: currentOrders + 1,
-              total_spent: currentSpent + totalAmount,
-              last_order_at: nowIso,
-              updated_at: nowIso,
-            })
-            .eq("id", userId);
-        }
-      }
-    }
+    finalOrderNumber = rpcRes.order_number || orderId;
 
     const completedOrder: Order = {
       id: orderId,

@@ -15,6 +15,7 @@ export async function middleware(request: NextRequest) {
 
   let isAuthenticatedAdmin = false;
   let hasValidUserSession = false;
+  let userRole: string | null = null;
 
   // 1. Supabase Session Check
   if (url && anonKey && url.startsWith("https://")) {
@@ -47,7 +48,8 @@ export async function middleware(request: NextRequest) {
           .select("role")
           .eq("id", user.id)
           .single();
-        if (profile?.role === "admin" || profile?.role === "superadmin") {
+        userRole = profile?.role || null;
+        if (userRole === "admin" || userRole === "superadmin") {
           isAuthenticatedAdmin = true;
         }
       }
@@ -86,9 +88,10 @@ export async function middleware(request: NextRequest) {
     }
   }
 
-  // 5. Protect /kurye route (kurye / admin session required)
+  // 5. Protect /kurye route (strictly restricted to courier, staff, or admin roles)
+  const isCourierOrAdmin = isAuthenticatedAdmin || userRole === "courier" || userRole === "staff";
   if (pathname.startsWith("/kurye")) {
-    if (!isAuthenticatedAdmin && !hasValidUserSession) {
+    if (!isCourierOrAdmin) {
       const loginUrl = new URL(`/admin/login`, request.url);
       loginUrl.searchParams.set("redirect", pathname);
       return NextResponse.redirect(loginUrl);
