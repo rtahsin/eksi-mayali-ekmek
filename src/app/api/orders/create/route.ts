@@ -77,7 +77,7 @@ export async function POST(req: Request) {
     const realIp = req.headers.get("x-real-ip");
     const clientIp = forwarded ? forwarded.split(",")[0].trim() : realIp || "127.0.0.1";
 
-    const ipLimit = checkRateLimit(`order_ip_${clientIp}`, 10, 600000);
+    const ipLimit = await checkRateLimit(`order_ip_${clientIp}`, 10, 600000);
     if (!ipLimit.allowed) {
       return NextResponse.json(
         {
@@ -160,6 +160,17 @@ export async function POST(req: Request) {
     // 2. Database-backed Rate Limiting Check by Phone Number
     const cleanPhone = customerInfo.phone.replace(/\D/g, "");
     if (cleanPhone.length >= 10) {
+      const phoneLimit = await checkRateLimit(`order_phone_${cleanPhone}`, 5, 600000);
+      if (!phoneLimit.allowed) {
+        return NextResponse.json(
+          {
+            success: false,
+            error: `Bu telefon numarası ile çok fazla sipariş denemesi yapıldı. Lütfen ${phoneLimit.retryAfterSeconds} saniye sonra tekrar deneyiniz.`,
+          },
+          { status: 429 }
+        );
+      }
+
       const fifteenMinsAgo = new Date(Date.now() - 15 * 60 * 1000).toISOString();
       const { count } = await supabaseAdmin
         .from("orders")

@@ -66,3 +66,14 @@ Supabase PostgreSQL üzerinde yapılan güvenlik kontrolleri:
 * `README.md` baştan sona yeniden yazılarak tüm tarihi Flutter/Dart ve Cloud Functions referansları kaldırıldı; mimari %100 Next.js 16 + Supabase PostgreSQL atomik yapısına kavuşturuldu.
 * `instructions.md` ve `settings.json` dosyalarındaki legacy referanslar temizlendi.
 * `npm run build` çalıştırıldı ve 58/58 rotanın 0 hata ile derlendiği doğrulandı.
+
+---
+
+## 6. 🛡️ GÖREV 1: Dağıtık Kalıcı Rate Limiter (Tamamlandı)
+* **Yapılan İşlem**: Sunucusuz (Vercel serverless) ortamlarda instance'lar arası paylaşılamayan in-memory Map yerine, Supabase PostgreSQL üzerinde çalışan atomik sliding window rate limiter kuruldu.
+* **Değiştirilen Dosyalar**:
+  - `supabase/migrations/011_rate_limit_buckets.sql`: `rate_limit_buckets` tablosu, RLS politikası ve atomik satır kilitlemeli (`FOR UPDATE`) `check_rate_limit` PL/pgSQL fonksiyonu.
+  - `src/lib/security/rateLimiter.ts`: `checkRateLimit` fonksiyonu veritabanı RPC katmanına bağlandı; IP ve telefon bazlı sliding window korundu.
+  - `src/app/api/orders/create/route.ts`: IP rate limiter (10 istek / 10 dk) ve telefon rate limiter (5 istek / 10 dk) `await checkRateLimit` ile bağlandı.
+  - `src/app/api/orders/[id]/route.ts` & `src/app/api/admin/orders/parse/route.ts`: `checkRateLimit` çağrıları `await` ile asenkron kalıcı yapıya uyarlandı.
+* **Test Yöntemi**: Canlı veritabanı üzerinde 11 ardışık istek atılarak test edildi. 1-10 arası istekler `allowed: true` ile azalan bakiye verdi; 11. istek `allowed: false` ve `retryAfterSeconds: 59` ile 429 engeli üretti. Test sonrası geçici bucket temizlendi. `npm run build` ile 58/58 rota 0 hata ile doğrulandı.

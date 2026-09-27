@@ -22,7 +22,7 @@ export async function GET(
     // IP Rate Limiting (30 requests per minute)
     const forwardedFor = _req.headers.get("x-forwarded-for");
     const clientIp = forwardedFor ? forwardedFor.split(",")[0].trim() : "127.0.0.1";
-    const ipLimit = checkRateLimit(`order_get_${clientIp}`, 30, 60000);
+    const ipLimit = await checkRateLimit(`order_get_${clientIp}`, 30, 60000);
     if (!ipLimit.allowed) {
       return NextResponse.json(
         {
@@ -74,7 +74,7 @@ export async function GET(
     const verifyPhone = url.searchParams.get("phone");
     if (!isAuthorized && verifyPhone) {
       // Brute-force protection for phone verification (5 attempts per 5 minutes per IP/Order)
-      const phoneVerifyLimit = checkRateLimit(`phone_verify_${clientIp}_${order.id}`, 5, 300000);
+      const phoneVerifyLimit = await checkRateLimit(`phone_verify_${clientIp}_${order.id}`, 5, 300000);
       if (!phoneVerifyLimit.allowed) {
         return NextResponse.json(
           {

@@ -18,7 +18,7 @@ export async function POST(req: Request) {
     const realIp = req.headers.get("x-real-ip");
     const clientIp = forwarded ? forwarded.split(",")[0].trim() : realIp || "127.0.0.1";
 
-    const rateLimit = checkRateLimit(`ai_parse_${clientIp}`, 15, 60000);
+    const rateLimit = await checkRateLimit(`ai_parse_${clientIp}`, 15, 60000);
     if (!rateLimit.allowed) {
       return NextResponse.json(
         { success: false, error: `Çok fazla ayrıştırma isteği. Lütfen ${rateLimit.retryAfterSeconds} saniye bekleyin.` },

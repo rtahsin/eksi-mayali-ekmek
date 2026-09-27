@@ -1,27 +1,4 @@
-/**
- * In-memory sliding window rate limiter for public API endpoints.
- * Automatically evicts stale buckets every 5 minutes.
- */
-
-interface RateBucket {
-  timestamps: number[];
-}
-
-const buckets = new Map<string, RateBucket>();
-
-// Periodic cleanup of stale entries every 5 minutes
-if (typeof setInterval !== "undefined") {
-  setInterval(() => {
-    const now = Date.now();
-    for (const [key, bucket] of buckets.entries()) {
-      // Filter out timestamps older than 30 minutes
-      bucket.timestamps = bucket.timestamps.filter((t) => now - t < 1800000);
-      if (bucket.timestamps.length === 0) {
-        buckets.delete(key);
-      }
-    }
-  }, 300000);
-}
+import { createAdminClient } from "@/lib/supabase/admin";
 
 export interface RateLimitResult {
   allowed: boolean;
@@ -30,46 +7,40 @@ export interface RateLimitResult {
 }
 
 /**
- * Checks if an identifier (IP address, phone number, etc.) is within rate limits.
+ * Distributed sliding window rate limiter backed by Supabase PostgreSQL (rate_limit_buckets).
+ * Prevents DDoS, brute-force attacks, and serverless state partitioning across instances.
  *
- * @param key Unique key to identify the client (e.g., `ip_1.2.3.4` or `phone_0532...`)
- * @param maxRequests Maximum requests allowed within the window
- * @param windowMs Window duration in milliseconds (e.g., 600000 for 10 minutes)
+ * @param key Unique key to identify client or resource (e.g. `order_ip_${clientIp}`)
+ * @param maxRequests Maximum requests allowed within window (default 5)
+ * @param windowMs Window duration in milliseconds (default 600,000 = 10 mins)
  */
-export function checkRateLimit(
+export async function checkRateLimit(
   key: string,
   maxRequests: number = 5,
   windowMs: number = 600000
-): RateLimitResult {
-  const now = Date.now();
-  let bucket = buckets.get(key);
-
-  if (!bucket) {
-    bucket = { timestamps: [] };
-    buckets.set(key, bucket);
+): Promise<RateLimitResult> {
+  const supabase = createAdminClient();
+  if (!supabase) {
+    console.error("[RateLimiter] Database admin client unavailable for rate limiting");
+    throw new Error("RATE_LIMITER_UNAVAILABLE: Supabase admin client could not be initialized");
   }
 
-  // Remove timestamps outside the active window
-  bucket.timestamps = bucket.timestamps.filter((t) => now - t < windowMs);
+  const { data, error } = await supabase.rpc("check_rate_limit", {
+    p_key: key,
+    p_max_requests: maxRequests,
+    p_window_ms: windowMs,
+  });
 
-  if (bucket.timestamps.length >= maxRequests) {
-    const oldest = bucket.timestamps[0];
-    const retryAfterMs = windowMs - (now - oldest);
-    const retryAfterSeconds = Math.max(1, Math.ceil(retryAfterMs / 1000));
-    return {
-      allowed: false,
-      remaining: 0,
-      retryAfterSeconds,
-    };
+  if (error) {
+    console.error(`[RateLimiter] check_rate_limit RPC failed for key '${key}':`, error.message);
+    throw new Error(`RATE_LIMIT_CHECK_FAILED: ${error.message}`);
   }
 
-  // Add current timestamp
-  bucket.timestamps.push(now);
-
+  const result = typeof data === "string" ? JSON.parse(data) : data;
   return {
-    allowed: true,
-    remaining: maxRequests - bucket.timestamps.length,
-    retryAfterSeconds: 0,
+    allowed: Boolean(result?.allowed),
+    remaining: Number(result?.remaining ?? 0),
+    retryAfterSeconds: Number(result?.retryAfterSeconds ?? 0),
   };
 }
 
