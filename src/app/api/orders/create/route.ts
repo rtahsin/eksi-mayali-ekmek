@@ -5,6 +5,7 @@ import { Order, OrderItem } from "@/types";
 import { checkRateLimit, sanitizeInput } from "@/lib/security/rateLimiter";
 import { getErrorMessage } from "@/lib/utils/error";
 import { getOrderCutoffTime, isPastCutoff, isSameDayDelivery } from "@/lib/settings/cutoff";
+import * as Sentry from "@sentry/nextjs";
 
 // 1. Zod Schema for Request Validation
 const OrderItemSchema = z.object({
@@ -118,6 +119,7 @@ export async function POST(req: Request) {
     const supabaseAdmin = createAdminClient();
     if (!supabaseAdmin) {
       console.error("Supabase admin client unavailable in /api/orders/create");
+      Sentry.captureMessage("Supabase admin client unavailable in /api/orders/create", "error");
       return NextResponse.json(
         { success: false, error: "Sunucu veritabanı bağlantısı kurulamadı." },
         { status: 500 }
@@ -231,6 +233,10 @@ export async function POST(req: Request) {
 
     if (prodErr || !dbProducts) {
       console.error("Products query error:", prodErr);
+      Sentry.captureException(prodErr || new Error("Products query error in /api/orders/create"), {
+        tags: { endpoint: "/api/orders/create", type: "products_query_error" },
+        extra: { productIds },
+      });
       return NextResponse.json(
         { success: false, error: "Ürün bilgileri doğrulanamadı." },
         { status: 500 }
@@ -367,6 +373,10 @@ export async function POST(req: Request) {
 
     if (rpcErr || !rpcRes || !rpcRes.success) {
       console.error("create_order_atomic RPC error:", rpcErr);
+      Sentry.captureException(rpcErr || new Error("create_order_atomic returned success: false"), {
+        tags: { endpoint: "/api/orders/create", type: "rpc_error" },
+        extra: { orderId, orderPayload, rpcRes },
+      });
       return NextResponse.json(
         {
           success: false,
@@ -408,6 +418,9 @@ export async function POST(req: Request) {
     });
   } catch (error: unknown) {
     console.error("Order creation API error:", error);
+    Sentry.captureException(error, {
+      tags: { endpoint: "/api/orders/create", type: "unhandled_500" },
+    });
     return NextResponse.json(
       {
         success: false,

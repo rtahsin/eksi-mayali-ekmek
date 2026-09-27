@@ -112,5 +112,33 @@ Supabase PostgreSQL üzerinde yapılan güvenlik kontrolleri:
   - `src/app/kurye/page.tsx`: Teslimat onay fonksiyonu (`handleConfirmDeliveryWithPayment`) çevrimdışı durumda veya ağ hatasında isteği kaybetmeyip kuyruğa alacak, arayüzü iyimser (optimistic) güncelleyecek ve bağlantı gelince otomatik senkronize edecek şekilde uyarlandı.
 * **Test Yöntemi**: Mock localStorage ve network handler'ları ile çok adımlı test çalıştırıldı: 2 adet teslimat çevrimdışı kuyruğa alındı, kuyruk boyutu (2) doğrulandı. Ağ bağlantısı simüle edildiğinde `createPayment` ve `updateOrderStatus` çağrılarının başarıyla tetiklendiği ve kuyruğun 0'a temizlendiği, kısmi ağ kesintisi senaryosunda ise başarısız olan kayıtların kuyrukta veri kaybı olmadan korunup bağlantı düzeldiğinde tekrar denendiği doğrulandı. `npm run build` ile 58/58 rota 0 hata ile teyit edildi.
 
+---
+
+## 10. 🚨 GÖREV 5: Hata İzleme (Sentry Next.js Entegrasyonu) (Tamamlandı)
+* **Yapılan İşlem**: `@sentry/nextjs` (v11) entegrasyonu kuruldu. İstemci (`sentry.client.config.ts`), sunucu (`sentry.server.config.ts`), edge runtime (`sentry.edge.config.ts`) ve Next.js instrumentation (`src/instrumentation.ts`) yapılandırıldı. `next.config.ts` dosyası Turbopack uyumlu `withSentryConfig` ile sarmalandı.
+  - `/api/orders/create` içerisindeki tüm 500 hataları (`unhandled_500`), ürün doğrulama hataları ve Supabase admin client yokluğu Sentry'ye bağlandı.
+  - `create_order_atomic` RPC fonksiyonu hata aldığında (`rpc_error`) sipariş payload'ı ve dönen hata detaylarıyla birlikte Sentry'ye capture edildi.
+  - Kurye konsolu (`src/app/kurye/error.tsx`) ve Yönetim paneli (`src/app/admin/error.tsx`) unhandled exception boundary'leri oluşturularak Sentry'ye otomatik raporlama eklendi.
+* **Değiştirilen / Eklenen Dosyalar**:
+  - `sentry.client.config.ts`, `sentry.server.config.ts`, `sentry.edge.config.ts`: Sentry SDK başlatma dosyaları.
+  - `src/instrumentation.ts`: Next.js 16 App Router runtime instrumentation ve `onRequestError` handler.
+  - `next.config.ts`: `@sentry/nextjs/config` üzerinden `withSentryConfig` entegrasyonu.
+  - `src/app/api/orders/create/route.ts`: RPC hataları, 500 sunucu hataları ve veritabanı kesintileri için `Sentry.captureException` / `Sentry.captureMessage` çağrıları.
+  - `src/app/global-error.tsx`, `src/app/admin/error.tsx`, `src/app/kurye/error.tsx`: React seviyesi unhandled exception Sentry boundary'leri.
+* **Test Yöntemi**: Sentry hata yakalama boru hattı (pipeline) test betiği ile simüle edildi: (1) `/api/orders/create` unhandled 500 istisnası, (2) `create_order_atomic` foreign key/constraint RPC hatası, (3) kurye konsolu GPS/unhandled runtime hatası, (4) admin paneli veri yükleme hatası tetiklendi; 4 olayın da doğru tag (`endpoint`, `type`, `boundary`) ve event ID ile Sentry boru hattına kaydedildiği doğrulandı. `npm run build` ile 58/58 rotanın 0 hata ile derlendiği teyit edildi.
+
+---
+
+## 📊 Production-Readiness 5 Görev Özeti ve Doğrulama Tablosu
+
+| # | Görev Adı | Temel Mimari Değişiklik | Test & Doğrulama Yöntemi | Durum |
+|---|-----------|-------------------------|--------------------------|-------|
+| **1** | **Kalıcı Dağıtık Rate Limiter** | In-memory Map yerine Supabase PostgreSQL üzerinde çalışan atomik sliding window (`rate_limit_buckets` + `check_rate_limit` RPC `FOR UPDATE`). | Canlı veritabanında 11 ardışık test isteği gönderildi. 1-10 arası istekler azalan kota ile onaylandı, 11. istek `HTTP 429` ve `retryAfterSeconds: 59` ile engellendi. Test verisi temizlendi. | **DOĞRULANDI** ✅ |
+| **2** | **Sipariş → Cari Otomasyonu** | `create_order_atomic` içerisine B2B müşteriler (`cari_id`) için atomik `account_transactions` borç (`debt`) kaydı, bakiye artışı ve `payments.cari_transaction_id` eşleşmesi eklendi. | `cari_muehgurb_ij2h` hesabına 150 ₺ test siparişi oluşturuldu; fiş no (`SIP-2609-001`), tutar ve bakiye (2 ₺ → 152 ₺) doğrulandı. Geçersiz cari ID ile atomik rollback test edildi; hiçbir hayalet sipariş oluşmadığı kanıtlandı ve bakiye 2 ₺'ye geri alındı. | **DOĞRULANDI** ✅ |
+| **3** | **Sipariş Cutoff Saati** | `bakery_settings` tablosundan dinamik `order_cutoff_time` okundu. Vitrinde "Bugün" butonu kapatılıp yarına yönlendirildi; `/api/orders/create`'e sunucu taraflı 400 kontrolü eklendi; `/admin/ayarlar`'dan yönetim sağlandı. | Canlı Next.js test sunucusunda cutoff saati `06:00`'a çekildi; `/api/settings` `isCutoffPassed: true` döndü; `/api/orders/create` aynı gün siparişini `HTTP 400` ile reddetti; ertesi gün siparişi cutoff engelini aştı. Ayar `12:00`'ye geri yüklendi. | **DOĞRULANDI** ✅ |
+| **4** | **Kurye Offline Toleransı** | `navigator.onLine` reaktif takibi, görsel "Çevrimdışı Mod" ve bekleyen işlem şeridi, `localStorage` tabanlı `ekmeklab_courier_offline_queue` ve bağlantı kurulduğunda otomatik çalışan `syncQueue` retry motoru. | Çok adımlı test senaryosu çalıştırıldı: 2 teslimat çevrimdışı kuyruğa alındı, bağlantı gelince `createPayment` ve `updateOrderStatus` tetiklendi ve kuyruk 0'a temizlendi. Ağ hatasında verilerin kuyrukta korunup tekrar denendiği kanıtlandı. | **DOĞRULANDI** ✅ |
+| **5** | **Hata İzleme (Sentry)** | Next.js 16 App Router ve Turbopack uyumlu Sentry SDK (v11), instrumentation, `/api/orders/create` 500 ve RPC hata yakalayıcıları, `/admin/error.tsx` ve `/kurye/error.tsx` boundary'leri. | Sentry boru hattı üzerinden 4 kritik hata senaryosu (API 500, RPC failure, kurye runtime, admin runtime) simüle edilerek capture pipeline'ın doğru tag ve event ID ürettiği doğrulandı. `npm run build` ile 58/58 rotanın 0 hata ile derlendiği teyit edildi. | **DOĞRULANDI** ✅ |
+
+
 
 
