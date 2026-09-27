@@ -48,3 +48,12 @@ Supabase PostgreSQL üzerinde yapılan güvenlik kontrolleri:
 * `Promise.all` ile atılan eşzamanlı isteklerde dönen tüm sipariş numaralarının `SIP-YYMM-XXX` formatında ve **çakışmasız (unique Set size === 5)** olduğu doğrulandı.
 * Üretilen E2E test siparişlerinin test sonunda `afterAll` hook'u ile DB'den otomatik temizlenmesi sağlandı.
 * `package.json`'a `verify:orders` ve `test:e2e` betikleri eklendi. Derleme `npm run build` ile 0 hata ile doğrulandı.
+
+---
+
+## 4. 🍞 P2-2 & P2-3: Ürün Detay Sayfaları (/urun/[slug]), Sitemap, Robots & Schema.org JSON-LD (Tamamlandı)
+* `src/app/urun/[slug]/page.tsx` dinamik artisan ürün detay sayfası oluşturuldu (RSC, 60s ISR, `generateStaticParams` ile 13 ürünün tamamı SSG olarak derlendi).
+* Ürün sayfası; dinamik metadata/OpenGraph, ekmek anatomisi/DNA tablosu (% hidrasyon, 36s fermantasyon, un cinsleri, katkısızlık), Ustanın Notu (Masterclass) rehberi, sepet Zustand entegrasyonlu interaktif sipariş bileşeni ve ilgili ürünler seçkisi içerir.
+* `src/app/sitemap.ts` ile tüm ürünler, bülten yazıları ve statik sayfaları içeren dinamik `sitemap.xml` ve `src/app/robots.ts` ile arama motoru direktifleri oluşturuldu.
+* Schema.org `Bakery` / `LocalBusiness` JSON-LD yapılandırılmış verisi kök layout'a, `Product` + `Offer` JSON-LD ise ürün sayfalarına gömüldü.
+* `npm run build` çalıştırıldı ve 58/58 sayfa (tüm `/urun/[slug]`, `/sitemap.xml`, `/robots.txt`) 0 hata ile başarıyla derlendi.

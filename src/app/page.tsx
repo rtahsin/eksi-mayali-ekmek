@@ -8,8 +8,9 @@ import { HowWeBake } from "@/components/storefront/HowWeBake";
 import { CartDrawer } from "@/components/cart/CartDrawer";
 import { OrderSuccessModal } from "@/components/cart/OrderSuccessModal";
 import { Footer } from "@/components/common/Footer";
-import { INITIAL_PRODUCTS, ExtendedProduct } from "@/hooks/useProducts";
+import { INITIAL_PRODUCTS, ExtendedProduct } from "@/data/initialProducts";
 import { normalizeCategory } from "@/lib/utils/productCategory";
+import { slugify } from "@/lib/utils/slugify";
 
 export const revalidate = 60; // ISR: Revalidate catalog every 60 seconds
 
@@ -48,6 +49,7 @@ export default async function HomePage() {
       if (data && !error && data.length > 0) {
         products = data.map((p: any) => ({
           id: p.id,
+          slug: p.slug || slugify(p.name),
           name: p.name,
           description: p.description || "",
           price: Number(p.price),

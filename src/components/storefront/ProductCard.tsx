@@ -1,9 +1,11 @@
 "use client";
 
 import React, { useState} from "react";
-import { ExtendedProduct} from "@/hooks/useProducts";
-import { useCartStore} from "@/lib/store/useCartStore";
-import { ShoppingBag, Plus, Minus, Check, BookOpen} from "lucide-react";
+import { ExtendedProduct } from "@/hooks/useProducts";
+import { useCartStore } from "@/lib/store/useCartStore";
+import { ShoppingBag, Plus, Minus, Check, BookOpen, ExternalLink } from "lucide-react";
+import Link from "next/link";
+import { getProductUrl } from "@/lib/utils/slugify";
 
 interface ProductCardProps {
  product: ExtendedProduct;
@@ -82,7 +84,13 @@ export function ProductCard({ product, onOpenDetails}: ProductCardProps) {
         <div>
           <div className="flex items-center justify-between gap-2">
             <h3 className="font-serif font-bold text-foreground text-base leading-snug group-hover:text-artisan-gold transition-colors">
-              {product.name}
+              <Link
+                href={getProductUrl(product)}
+                onClick={(e) => e.stopPropagation()}
+                className="hover:underline"
+              >
+                {product.name}
+              </Link>
             </h3>
           </div>
 
@@ -114,11 +122,19 @@ export function ProductCard({ product, onOpenDetails}: ProductCardProps) {
           </div>
 
             {/* Masterclass & Health Note Prompt */}
-            <div className="pt-2">
+            <div className="pt-2 flex items-center justify-between gap-2">
               <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-surface-panel/80 group-hover:bg-surface-elevated text-[11px] text-artisan-gold border border-artisan-gold/20 font-sans font-medium group-hover:border-artisan-gold/50 transition-all">
                 <BookOpen className="w-3.5 h-3.5 text-artisan-gold shrink-0" />
                 <span>Ustanın Notu: Zanaat & Biyoloji →</span>
               </span>
+              <Link
+                href={getProductUrl(product)}
+                onClick={(e) => e.stopPropagation()}
+                className="p-1 rounded text-foreground/50 hover:text-artisan-gold transition-colors"
+                title="Ayrıntılı ürün sayfasına git"
+              >
+                <ExternalLink className="w-3.5 h-3.5" />
+              </Link>
             </div>
           </div>
 
