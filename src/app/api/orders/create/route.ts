@@ -4,6 +4,7 @@ import { createAdminClient } from "@/lib/supabase/admin";
 import { Order, OrderItem } from "@/types";
 import { checkRateLimit, sanitizeInput } from "@/lib/security/rateLimiter";
 import { getErrorMessage } from "@/lib/utils/error";
+import { getOrderCutoffTime, isPastCutoff, isSameDayDelivery } from "@/lib/settings/cutoff";
 
 // 1. Zod Schema for Request Validation
 const OrderItemSchema = z.object({
@@ -121,6 +122,20 @@ export async function POST(req: Request) {
         { success: false, error: "Sunucu veritabanı bağlantısı kurulamadı." },
         { status: 500 }
       );
+    }
+
+    // Cutoff Saati Kontrolü (GÖREV 3: Aynı gün teslimat cutoff kontrolü)
+    if (isSameDayDelivery(customerInfo.deliveryDate)) {
+      const cutoffTime = await getOrderCutoffTime(supabaseAdmin);
+      if (isPastCutoff(cutoffTime)) {
+        return NextResponse.json(
+          {
+            success: false,
+            error: `Bugün için sipariş kabul saati (${cutoffTime}) geçmiştir. Lütfen teslimat için yarın veya ileri bir tarih seçiniz.`,
+          },
+          { status: 400 }
+        );
+      }
     }
 
     // 1. Idempotency Key Kontrolü (Çift Sipariş Önleme)

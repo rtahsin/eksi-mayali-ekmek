@@ -159,19 +159,47 @@ export function CartDrawer() {
     }
   }, [isLoggedIn, profile, customerInfo.name, customerInfo.phone, setCustomerInfo]);
 
- const currentDeliveryDate = customerInfo?.deliveryDate || "today";
- const [showCustomDate, setShowCustomDate] = useState<boolean>(
- currentDeliveryDate.startsWith("custom:")
- );
+  const [cutoffInfo, setCutoffInfo] = useState<{ cutoffTime: string; isCutoffPassed: boolean }>({
+    cutoffTime: "12:00",
+    isCutoffPassed: false,
+  });
 
- const itemCount = getItemCount();
- const subtotal = getSubtotal();
- const shippingFee = getShippingFee();
- const totalAmount = getTotalAmount();
+  const todayStr = new Date().toISOString().split("T")[0];
+  const tomorrow = new Date();
+  tomorrow.setDate(tomorrow.getDate() + 1);
+  const tomorrowStr = tomorrow.toISOString().split("T")[0];
 
- if (!isOpen) return null;
+  React.useEffect(() => {
+    if (isOpen) {
+      fetch("/api/settings")
+        .then((res) => res.json())
+        .then((data) => {
+          if (data && data.cutoffTime) {
+            setCutoffInfo(data);
+            if (data.isCutoffPassed) {
+              const curDate = customerInfo?.deliveryDate || "today";
+              if (curDate === "today" || curDate === todayStr || curDate === `custom:${todayStr}`) {
+                setCustomerInfo({ deliveryDate: "tomorrow" });
+                setShowCustomDate(false);
+              }
+            }
+          }
+        })
+        .catch((err) => console.error("Error checking cutoff time:", err));
+    }
+  }, [isOpen, customerInfo?.deliveryDate, setCustomerInfo, todayStr]);
 
- const todayStr = new Date().toISOString().split("T")[0];
+  const currentDeliveryDate = customerInfo?.deliveryDate || "today";
+  const [showCustomDate, setShowCustomDate] = useState<boolean>(
+    currentDeliveryDate.startsWith("custom:")
+  );
+
+  const itemCount = getItemCount();
+  const subtotal = getSubtotal();
+  const shippingFee = getShippingFee();
+  const totalAmount = getTotalAmount();
+
+  if (!isOpen) return null;
 
  return (
  <div className="fixed inset-0 z-50 flex justify-end">
@@ -321,18 +349,27 @@ export function CartDrawer() {
  <div className="grid grid-cols-3 gap-1.5">
  <button
  type="button"
+ disabled={cutoffInfo.isCutoffPassed}
  onClick={() => {
+ if (cutoffInfo.isCutoffPassed) return;
  setShowCustomDate(false);
  setCustomerInfo({ deliveryDate: "today"});
 }}
  className={`p-2.5 rounded-xl border font-sans text-xs text-center transition-all ${
- currentDeliveryDate === "today"
+ cutoffInfo.isCutoffPassed
+ ? "bg-surface/30 border-surface-border/40 text-artisan-cream/30 cursor-not-allowed"
+ : currentDeliveryDate === "today"
  ? "bg-artisan-brown text-artisan-cream font-bold border-artisan-gold shadow-sm"
  : "bg-surface border-surface-border text-artisan-cream/70 hover:text-artisan-cream"
 }`}
+ title={
+ cutoffInfo.isCutoffPassed
+ ? `Bugün için son sipariş saati (${cutoffInfo.cutoffTime}) dolmuştur.`
+ : "Aynı Gün Teslimat"
+}
  >
- <div className="font-bold">Bugün</div>
- <div className="text-[9px] opacity-80">Aynı Gün</div>
+ <div className={`font-bold ${cutoffInfo.isCutoffPassed ? "line-through opacity-60" : ""}`}>Bugün</div>
+ <div className="text-[9px] opacity-80">{cutoffInfo.isCutoffPassed ? "Süre Doldu" : "Aynı Gün"}</div>
  </button>
 
  <button
@@ -355,7 +392,7 @@ export function CartDrawer() {
  type="button"
  onClick={() => {
  setShowCustomDate(true);
- setCustomerInfo({ deliveryDate: "custom:" + (customerInfo.customDate || todayStr)});
+ setCustomerInfo({ deliveryDate: "custom:" + (customerInfo.customDate || (cutoffInfo.isCutoffPassed ? tomorrowStr : todayStr))});
 }}
  className={`p-2.5 rounded-xl border font-sans text-xs text-center transition-all ${
  showCustomDate
@@ -368,6 +405,16 @@ export function CartDrawer() {
  </button>
  </div>
 
+ {/* Cutoff Notice */}
+ {cutoffInfo.isCutoffPassed && (
+ <div className="text-[10px] text-artisan-gold/90 bg-artisan-brown/40 border border-artisan-gold/20 rounded-lg p-2 flex items-center gap-1.5 mt-1.5 leading-tight">
+ <span>⏰</span>
+ <span>
+ Bugün için son sipariş saati ({cutoffInfo.cutoffTime}) dolmuştur. Siparişleriniz yarın fırından taze teslim edilecektir.
+ </span>
+ </div>
+ )}
+
  {/* Custom Date Input */}
  {showCustomDate && (
  <div className="pt-2">
@@ -376,8 +423,8 @@ export function CartDrawer() {
  </label>
  <input
  type="date"
- min={todayStr}
- value={customerInfo.customDate || todayStr}
+ min={cutoffInfo.isCutoffPassed ? tomorrowStr : todayStr}
+ value={customerInfo.customDate || (cutoffInfo.isCutoffPassed ? tomorrowStr : todayStr)}
  onChange={(e) => {
  const dateVal = e.target.value;
  setCustomerInfo({

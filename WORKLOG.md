@@ -88,3 +88,16 @@ Supabase PostgreSQL üzerinde yapılan güvenlik kontrolleri:
   - `src/app/api/orders/create/route.ts`: Zod validasyon şeması `cariId` / `cari_id` ve `"cari"` ödeme yöntemini kabul edecek şekilde genişletildi; atomik RPC'ye `cari_id` iletildi.
 * **Test Yöntemi**: `cari_muehgurb_ij2h` (Numetal gıda) cari hesabı üzerinde gerçek entegrasyon testi çalıştırıldı: 150 ₺'lik test siparişi oluşturuldu, `account_transactions`'a `SIP-2609-001` fiş numaralı ve 150 ₺ tutarlı `debt` kaydı düştüğü, bakiyenin 2 ₺'den 152 ₺'ye yükseldiği, `payments.cari_transaction_id`'nin bağlandığı doğrulandı. Ardından geçersiz `cari_id` ile çağrı yapılarak hatanın fırlatıldığı ve hiçbir hayalet (phantom) sipariş oluşmadığı (tam atomik rollback) test edildi. Test verileri temizlenip bakiye 2 ₺'ye geri yüklendi. `npm run build` ile 58/58 rotanın 0 hata ile derlendiği teyit edildi.
 
+---
+
+## 8. ⏰ GÖREV 3: Sipariş Cutoff Saati (Tamamlandı)
+* **Yapılan İşlem**: `bakery_settings` tablosundan dinamik olarak okunan son sipariş saati (`order_cutoff_time`, varsayılan `12:00`) mekanizması kuruldu. Hem vitrinde (UI) cutoff geçildiğinde aynı gün teslimat otomatik kapatılıp ertesi güne yönlendirildi, hem de API seviyesinde (`/api/orders/create`) bypass edilemez sunucu taraflı 400 doğrulaması eklendi. Fırıncının admin panelinden (`/admin/ayarlar`) bu saati canlı değiştirebilmesi sağlandı.
+* **Değiştirilen Dosyalar**:
+  - `src/lib/settings/cutoff.ts`: Europe/Istanbul saat dilimi bazlı `isPastCutoff`, `isSameDayDelivery` ve veritabanı okuyucusu `getOrderCutoffTime`.
+  - `src/app/api/settings/route.ts`: Vitrinin cutoff ve operasyon durumunu okuduğu dinamik halka açık API rotası.
+  - `src/app/api/orders/create/route.ts`: Cutoff saati geçtikten sonra gelen aynı gün ("today") siparişleri engelleyen server-side 400 kontrolü.
+  - `src/components/cart/CartDrawer.tsx`: Cutoff geçtiğinde "Bugün" butonunu devre dışı bırakan (`disabled`), bilgilendirme uyarısı gösteren, tarihi otomatik "Yarın"a yönlendiren ve takvim minimum tarihini yarına çeken vitrin entegrasyonu.
+  - `src/app/api/admin/settings/route.ts` & `src/app/admin/ayarlar/page.tsx`: Fırıncının son sipariş saatini panelden güncelleyip kaydetmesi ve veritabanında `order_cutoff_time` anahtarını senkronize etmesi sağlandı.
+* **Test Yöntemi**: Canlı çalışan Next.js sunucusu ve Supabase veritabanında `order_cutoff_time` geçici olarak geçmiş bir saate (`06:00`) ayarlandı. `GET /api/settings`'in `isCutoffPassed: true` döndüğü, ardından `/api/orders/create`'e aynı gün siparişi gönderildiğinde sunucunun `HTTP 400` ve `Bugün için sipariş kabul saati (06:00) geçmiştir...` hatası ile reddettiği, ertesi gün siparişlerinin ise cutoff engelini başarıyla aştığı E2E test ile doğrulandı. Test bitiminde ayar veritabanında orijinal haline (`12:00`) geri yüklendi. `npm run build` ile 58/58 rotanın 0 hata ile derlendiği teyit edildi.
+
+

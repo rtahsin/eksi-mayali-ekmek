@@ -31,7 +31,12 @@ export async function GET(request: Request) {
       whatsappPhone: "0501 012 66 53",
       orderAcceptanceOpen: true,
       announcementText: "",
+      orderCutoffTime: "12:00",
     };
+
+    const rawCutoff = settingsMap["order_cutoff_time"] || operational.orderCutoffTime || "12:00";
+    operational.orderCutoffTime =
+      typeof rawCutoff === "object" ? rawCutoff.cutoff_time || rawCutoff.time || "12:00" : String(rawCutoff);
 
     const devices = settingsMap["trusted_devices"] || [];
     const security = settingsMap["security_settings"] || { quickPin: "1453" };
@@ -58,18 +63,31 @@ export async function POST(request: Request) {
     const { action, value } = body;
 
     if (action === "save_operational") {
+      const nowIso = new Date().toISOString();
       const { error } = await supabase!
         .from("bakery_settings")
         .upsert(
           {
             key: "operational_settings",
             value,
-            updated_at: new Date().toISOString(),
+            updated_at: nowIso,
           },
           { onConflict: "key" }
         );
 
       if (error) throw error;
+
+      if (value.orderCutoffTime) {
+        await supabase!.from("bakery_settings").upsert(
+          {
+            key: "order_cutoff_time",
+            value: value.orderCutoffTime,
+            updated_at: nowIso,
+          },
+          { onConflict: "key" }
+        );
+      }
+
       return NextResponse.json({ success: true, message: "Ayarlar güncellendi" });
     }
 

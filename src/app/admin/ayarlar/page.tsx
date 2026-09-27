@@ -43,6 +43,7 @@ export default function AdminSettingsPage() {
   const [freeShippingThreshold, setFreeShippingThreshold] = useState<number>(1000);
   const [shippingFee, setShippingFee] = useState<number>(150);
   const [deliveryWindow, setDeliveryWindow] = useState<string>("14:00 - 18:00");
+  const [orderCutoffTime, setOrderCutoffTime] = useState<string>("12:00");
   const [whatsappPhone, setWhatsappPhone] = useState<string>("0501 012 66 53");
   const [orderAcceptanceOpen, setOrderAcceptanceOpen] = useState<boolean>(true);
   const [announcementText, setAnnouncementText] = useState<string>("");
@@ -73,6 +74,9 @@ export default function AdminSettingsPage() {
           }
           if (data.operational.deliveryWindow) {
             setDeliveryWindow(data.operational.deliveryWindow);
+          }
+          if (data.operational.orderCutoffTime) {
+            setOrderCutoffTime(data.operational.orderCutoffTime);
           }
           if (data.operational.whatsappPhone) {
             setWhatsappPhone(data.operational.whatsappPhone);
@@ -141,6 +145,7 @@ export default function AdminSettingsPage() {
             freeShippingThreshold: Number(freeShippingThreshold),
             shippingFee: Number(shippingFee),
             deliveryWindow,
+            orderCutoffTime,
             whatsappPhone,
             orderAcceptanceOpen,
             announcementText,
@@ -421,6 +426,25 @@ export default function AdminSettingsPage() {
               />
               <p className="text-[11px] text-stone-400">
                 Müşteriye ve kurye manifestosunda gösterilen teslimat zaman aralığı.
+              </p>
+            </div>
+
+            {/* Same-Day Order Cutoff Time */}
+            <div className="space-y-1.5">
+              <label className="text-xs font-semibold text-stone-300 flex items-center gap-1.5">
+                <Clock className="w-3.5 h-3.5 text-amber-500" />
+                <span>Aynı Gün Sipariş Cutoff Saati</span>
+              </label>
+              <input
+                type="text"
+                required
+                value={orderCutoffTime}
+                onChange={(e) => setOrderCutoffTime(e.target.value)}
+                placeholder="Örn: 12:00"
+                className="w-full bg-stone-950 border border-stone-800 rounded-xl px-3 py-2 text-sm text-stone-100 focus:outline-none focus:border-amber-500"
+              />
+              <p className="text-[11px] text-stone-400">
+                Bu saatten sonra vitrinde aynı gün teslimat kapatılır ve siparişler yarına aktarılır.
               </p>
             </div>
 
