@@ -27,6 +27,8 @@ interface CourierHeaderProps {
   selectedCourierId: string;
   onSelectCourier: (id: string) => void;
   couriers: Courier[];
+  isOnline?: boolean;
+  queueLength?: number;
 }
 
 export function CourierHeader({
@@ -42,6 +44,8 @@ export function CourierHeader({
   selectedCourierId,
   onSelectCourier,
   couriers,
+  isOnline = true,
+  queueLength = 0,
 }: CourierHeaderProps) {
   return (
     <header className="sticky top-0 z-40 bg-[#120E0B]/95 backdrop-blur-md border-b border-[#261E17] px-4 py-2.5 shadow-xl">
@@ -65,7 +69,16 @@ export function CourierHeader({
                 <h1 className="text-xs font-bold font-serif text-stone-100 uppercase tracking-wider">
                   Kurye Konsolu
                 </h1>
-                <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+                {isOnline ? (
+                  <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" title="Çevrimiçi" />
+                ) : (
+                  <span
+                    className="text-[9px] font-mono px-1.5 py-0.2 rounded bg-amber-500/20 text-amber-300 border border-amber-500/40 font-semibold"
+                    title={queueLength > 0 ? `${queueLength} işlem kuyrukta` : "İnternet bağlantısı yok"}
+                  >
+                    Çevrimdışı {queueLength > 0 ? `(${queueLength})` : ""}
+                  </span>
+                )}
               </div>
               <input
                 type="date"

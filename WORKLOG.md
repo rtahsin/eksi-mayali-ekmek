@@ -100,4 +100,17 @@ Supabase PostgreSQL üzerinde yapılan güvenlik kontrolleri:
   - `src/app/api/admin/settings/route.ts` & `src/app/admin/ayarlar/page.tsx`: Fırıncının son sipariş saatini panelden güncelleyip kaydetmesi ve veritabanında `order_cutoff_time` anahtarını senkronize etmesi sağlandı.
 * **Test Yöntemi**: Canlı çalışan Next.js sunucusu ve Supabase veritabanında `order_cutoff_time` geçici olarak geçmiş bir saate (`06:00`) ayarlandı. `GET /api/settings`'in `isCutoffPassed: true` döndüğü, ardından `/api/orders/create`'e aynı gün siparişi gönderildiğinde sunucunun `HTTP 400` ve `Bugün için sipariş kabul saati (06:00) geçmiştir...` hatası ile reddettiği, ertesi gün siparişlerinin ise cutoff engelini başarıyla aştığı E2E test ile doğrulandı. Test bitiminde ayar veritabanında orijinal haline (`12:00`) geri yüklendi. `npm run build` ile 58/58 rotanın 0 hata ile derlendiği teyit edildi.
 
+---
+
+## 9. 🛵 GÖREV 4: Kurye Offline / Bağlantı Kaybı Toleransı (Tamamlandı)
+* **Yapılan İşlem**: Kurye mobil konsolu (`/kurye`) sahadayken internet kopmalarına karşı tam toleranslı hale getirildi. `navigator.onLine` üzerinden bağlantı durumu izlenerek bağlantı koptuğunda kuryeye görsel çevrimdışı bildirim şeridi ve başlık rozeti gösterildi. Çevrimdışıyken yapılan teslimat ve ödeme onayları yerel `localStorage` kuyruğuna (`ekmeklab_courier_offline_queue`) kaydedildi; bağlantı yeniden sağlandığında otomatik retry kuyruğu devreye sokularak tüm bekleyen teslimat ve tahsilatların sunucuya aktarılması sağlandı.
+* **Değiştirilen Dosyalar**:
+  - `src/lib/courier/offlineQueue.ts`: `localStorage` tabanlı kalıcı offline kuyruk yönetim modülü (`addToOfflineQueue`, `removeFromOfflineQueue`, `getOfflineQueue`).
+  - `src/hooks/useCourierNetwork.ts`: `navigator.onLine` izleme, otomatik kuyruk senkronizasyonu (`syncQueue`) ve kuyruk uzunluğu reaktif hook'u.
+  - `src/components/courier/CourierOfflineBanner.tsx`: Kurye ekranında bağlantı koptuğunda "Çevrimdışı Mod" ve bekleyen işlem sayısını gösteren, bağlantı gelince "Şimdi Gönder" butonu sunan görsel bileşen.
+  - `src/components/courier/CourierHeader.tsx`: Başlıkta canlı yeşil (çevrimiçi) veya sarı/kırmızı (çevrimdışı) durum göstergesi ve bekleyen işlem rozeti.
+  - `src/app/kurye/page.tsx`: Teslimat onay fonksiyonu (`handleConfirmDeliveryWithPayment`) çevrimdışı durumda veya ağ hatasında isteği kaybetmeyip kuyruğa alacak, arayüzü iyimser (optimistic) güncelleyecek ve bağlantı gelince otomatik senkronize edecek şekilde uyarlandı.
+* **Test Yöntemi**: Mock localStorage ve network handler'ları ile çok adımlı test çalıştırıldı: 2 adet teslimat çevrimdışı kuyruğa alındı, kuyruk boyutu (2) doğrulandı. Ağ bağlantısı simüle edildiğinde `createPayment` ve `updateOrderStatus` çağrılarının başarıyla tetiklendiği ve kuyruğun 0'a temizlendiği, kısmi ağ kesintisi senaryosunda ise başarısız olan kayıtların kuyrukta veri kaybı olmadan korunup bağlantı düzeldiğinde tekrar denendiği doğrulandı. `npm run build` ile 58/58 rota 0 hata ile teyit edildi.
+
+
 

@@ -15,11 +15,21 @@ import { CourierShiftRibbon } from "@/components/courier/CourierShiftRibbon";
 import { CourierActiveStopCard } from "@/components/courier/CourierActiveStopCard";
 import { CourierQueueList } from "@/components/courier/CourierQueueList";
 import { CourierPaymentModal } from "@/components/courier/CourierPaymentModal";
+import { CourierOfflineBanner } from "@/components/courier/CourierOfflineBanner";
+import { useCourierNetwork } from "@/hooks/useCourierNetwork";
+import { OfflinePaymentPayload, OfflineStatusPayload } from "@/lib/courier/offlineQueue";
 
 export default function CourierMobileConsolePage() {
   const { allOrders, updateOrderStatus, loading } = useAdminOrders();
   const { couriers, updateCourierLocation } = useCouriers();
   const { createPayment } = usePayments();
+  const {
+    isOnline,
+    queueLength,
+    isSyncing,
+    enqueueDelivery,
+    syncQueue,
+  } = useCourierNetwork();
 
   const [selectedDate, setSelectedDate] = useState<string>(
     () => new Date().toISOString().split("T")[0]
@@ -45,6 +55,13 @@ export default function CourierMobileConsolePage() {
   const lastLocationUpdateRef = useRef<number>(0);
   const supabase = useMemo(() => createClient(), []);
   const locationChannelRef = useRef<ReturnType<NonNullable<typeof supabase>["channel"]> | null>(null);
+
+  // Auto-sync offline queue when back online
+  useEffect(() => {
+    if (isOnline && queueLength > 0 && !isSyncing) {
+      syncQueue({ createPayment, updateOrderStatus });
+    }
+  }, [isOnline, queueLength, isSyncing, syncQueue, createPayment, updateOrderStatus]);
 
   // Set default courier on initial load
   useEffect(() => {
@@ -303,8 +320,10 @@ export default function CourierMobileConsolePage() {
       const activeCourier = couriers.find((c) => c.id === selectedCourierId);
       const effectiveCourierId = activeCourier?.id || settlementOrder.courierId || null;
 
+      let paymentPayload: OfflinePaymentPayload | undefined = undefined;
+
       if (paymentType === "cash") {
-        await createPayment({
+        paymentPayload = {
           orderId: settlementOrder.id,
           amount: settlementOrder.totalAmount,
           method: "cash" as PaymentMethodType,
@@ -313,9 +332,9 @@ export default function CourierMobileConsolePage() {
           courierId: effectiveCourierId,
           note: `Kapıda nakit teslim alındı (${activeCourier?.displayName || "Kurye"})`,
           cariId: settlementOrder.cariId,
-        });
+        };
       } else if (paymentType === "pos") {
-        await createPayment({
+        paymentPayload = {
           orderId: settlementOrder.id,
           amount: settlementOrder.totalAmount,
           method: "pos" as PaymentMethodType,
@@ -324,9 +343,9 @@ export default function CourierMobileConsolePage() {
           courierId: effectiveCourierId,
           note: `Kapıda mobil POS ile çekildi (${activeCourier?.displayName || "Kurye"})`,
           cariId: settlementOrder.cariId,
-        });
+        };
       } else if (paymentType === "unpaid") {
-        await createPayment({
+        paymentPayload = {
           orderId: settlementOrder.id,
           amount: 0,
           method: "cash" as PaymentMethodType,
@@ -334,9 +353,9 @@ export default function CourierMobileConsolePage() {
           collectedBy: "courier",
           courierId: effectiveCourierId,
           note: "Kapıda tahsilat yapılamadı - bakiyeye/ödemeye bırakıldı",
-        });
+        };
       } else if (paymentType === "prepaid") {
-        await createPayment({
+        paymentPayload = {
           orderId: settlementOrder.id,
           amount: settlementOrder.totalAmount,
           method: "cari" as PaymentMethodType,
@@ -344,20 +363,63 @@ export default function CourierMobileConsolePage() {
           collectedBy: "admin",
           note: "Önceden ödendi / Cari hesap kaydı",
           cariId: settlementOrder.cariId,
-        });
+        };
       }
 
-      await updateOrderStatus(
-        settlementOrder.id,
-        "teslim_edildi",
-        `Kurye teslim etti (${paymentType.toUpperCase()})`,
-        "courier",
-        effectiveCourierId || undefined,
-        `Kurye teslimatı tamamladı. Tahsilat: ${paymentType}`
-      );
+      const statusPayload: OfflineStatusPayload = {
+        orderId: settlementOrder.id,
+        newStatus: "teslim_edildi",
+        courierNotes: `Kurye teslim etti (${paymentType.toUpperCase()})`,
+        changedByRole: "courier",
+        changedById: effectiveCourierId || undefined,
+        note: `Kurye teslimatı tamamladı. Tahsilat: ${paymentType}`,
+      };
 
-      setSettlementOrder(null);
-      setActiveOrderIndex(0);
+      // 1. If currently offline, queue into localStorage and update UI optimistically
+      if (!isOnline) {
+        enqueueDelivery(settlementOrder.id, paymentPayload, statusPayload);
+        await updateOrderStatus(
+          settlementOrder.id,
+          "teslim_edildi",
+          statusPayload.courierNotes,
+          statusPayload.changedByRole,
+          statusPayload.changedById,
+          statusPayload.note
+        ).catch(() => {});
+        setSettlementOrder(null);
+        setActiveOrderIndex(0);
+        return;
+      }
+
+      // 2. Online: Try immediate execution with graceful fallback to queue on network error
+      try {
+        if (paymentPayload) {
+          await createPayment(paymentPayload);
+        }
+        await updateOrderStatus(
+          settlementOrder.id,
+          "teslim_edildi",
+          statusPayload.courierNotes,
+          statusPayload.changedByRole,
+          statusPayload.changedById,
+          statusPayload.note
+        );
+        setSettlementOrder(null);
+        setActiveOrderIndex(0);
+      } catch (networkErr: unknown) {
+        console.warn("Direct network delivery update failed, queuing for offline retry:", networkErr);
+        enqueueDelivery(settlementOrder.id, paymentPayload, statusPayload);
+        await updateOrderStatus(
+          settlementOrder.id,
+          "teslim_edildi",
+          statusPayload.courierNotes,
+          statusPayload.changedByRole,
+          statusPayload.changedById,
+          statusPayload.note
+        ).catch(() => {});
+        setSettlementOrder(null);
+        setActiveOrderIndex(0);
+      }
     } catch (err: unknown) {
       console.error("Delivery confirmation error:", err);
       setSettlementError("Teslimat onaylanırken bir hata oluştu.");
@@ -417,6 +479,16 @@ Kasa devri için fırına teslim edilecek tutar: *${totalCashCollected.toLocaleS
         selectedCourierId={selectedCourierId}
         onSelectCourier={setSelectedCourierId}
         couriers={couriers}
+        isOnline={isOnline}
+        queueLength={queueLength}
+      />
+
+      {/* Courier Offline & Retry Queue Banner */}
+      <CourierOfflineBanner
+        isOnline={isOnline}
+        queueLength={queueLength}
+        isSyncing={isSyncing}
+        onManualSync={() => syncQueue({ createPayment, updateOrderStatus })}
       />
 
       {/* GPS Error Alert */}
