@@ -1,20 +1,67 @@
 import { NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
+import { createAdminClient } from "@/lib/supabase/admin";
 
 export async function GET(request: Request) {
   const { searchParams, origin } = new URL(request.url);
   const code = searchParams.get("code");
-  const next = searchParams.get("next") ?? "/";
+  let next = searchParams.get("next") ?? "/";
+
+  // Prevent open redirect vulnerabilities
+  if (!next.startsWith("/")) {
+    next = "/";
+  }
+
+  // Support Vercel / reverse proxy host headers
+  const forwardedHost = request.headers.get("x-forwarded-host");
+  const forwardedProto = request.headers.get("x-forwarded-proto") || "https";
+  const isLocalEnv = process.env.NODE_ENV === "development";
+  const redirectOrigin = isLocalEnv || !forwardedHost ? origin : `${forwardedProto}://${forwardedHost}`;
 
   if (code) {
     const supabase = await createClient();
     if (supabase) {
-      const { error } = await supabase.auth.exchangeCodeForSession(code);
-      if (!error) {
-        return NextResponse.redirect(`${origin}${next}`);
+      const { data, error } = await supabase.auth.exchangeCodeForSession(code);
+      if (!error && data?.user) {
+        const user = data.user;
+        const email = (user.email || "").toLowerCase();
+        const fullName =
+          user.user_metadata?.full_name ||
+          user.user_metadata?.name ||
+          email.split("@")[0] ||
+          "";
+        const avatarUrl =
+          user.user_metadata?.avatar_url ||
+          user.user_metadata?.picture ||
+          "";
+        const isSuper =
+          email === "tahsinreyhan@gmail.com" || email === "ekmeklab@gmail.com";
+
+        // Ensure user profile exists in public.profiles table
+        const adminClient = createAdminClient();
+        if (adminClient) {
+          try {
+            await (adminClient as any).from("profiles").upsert(
+              {
+                id: user.id,
+                email: email,
+                full_name: fullName,
+                avatar_url: avatarUrl,
+                role: isSuper ? "superadmin" : "customer",
+                updated_at: new Date().toISOString(),
+              },
+              { onConflict: "id" }
+            );
+          } catch (e) {
+            console.warn("OAuth profile sync notice:", e);
+          }
+        }
+
+        return NextResponse.redirect(`${redirectOrigin}${next}`);
       }
     }
   }
 
-  return NextResponse.redirect(`${origin}/`);
+  return NextResponse.redirect(`${redirectOrigin}/`);
 }
+
