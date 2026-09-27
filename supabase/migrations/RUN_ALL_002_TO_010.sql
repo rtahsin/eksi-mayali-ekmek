@@ -6,6 +6,23 @@
 -- ==============================================================================
 
 -- ------------------------------------------------------------------------------
+-- 0. ENUM GÜVENLİĞİ
+-- ------------------------------------------------------------------------------
+DO $$ BEGIN
+    ALTER TYPE user_role_type ADD VALUE IF NOT EXISTS 'courier';
+EXCEPTION
+    WHEN duplicate_object THEN null;
+    WHEN others THEN null;
+END $$;
+
+DO $$ BEGIN
+    ALTER TYPE user_role_type ADD VALUE IF NOT EXISTS 'staff';
+EXCEPTION
+    WHEN duplicate_object THEN null;
+    WHEN others THEN null;
+END $$;
+
+-- ------------------------------------------------------------------------------
 -- 1. KURYE TABLOSU VE İZİNLERİ (002_create_couriers.sql)
 -- ------------------------------------------------------------------------------
 CREATE TABLE IF NOT EXISTS public.couriers (
@@ -43,7 +60,7 @@ USING (
   EXISTS (
     SELECT 1 FROM public.profiles
     WHERE profiles.id = auth.uid()
-    AND profiles.role IN ('admin', 'superadmin')
+    AND profiles.role::text IN ('admin', 'superadmin')
   )
 );
 
@@ -131,7 +148,7 @@ USING (
   EXISTS (
     SELECT 1 FROM public.profiles
     WHERE profiles.id = auth.uid()
-    AND profiles.role IN ('admin', 'superadmin')
+    AND profiles.role::text IN ('admin', 'superadmin')
   )
 );
 
@@ -189,7 +206,7 @@ USING (
   EXISTS (
     SELECT 1 FROM public.profiles
     WHERE profiles.id = auth.uid()
-    AND profiles.role IN ('admin', 'superadmin', 'courier', 'staff')
+    AND profiles.role::text IN ('admin', 'superadmin', 'courier', 'staff')
   )
 );
 
@@ -228,7 +245,7 @@ USING (
   EXISTS (
     SELECT 1 FROM public.profiles
     WHERE profiles.id = auth.uid()
-    AND profiles.role IN ('admin', 'superadmin', 'courier', 'staff')
+    AND profiles.role::text IN ('admin', 'superadmin', 'courier', 'staff')
   )
 );
 
@@ -289,7 +306,7 @@ USING (
   EXISTS (
     SELECT 1 FROM public.profiles
     WHERE profiles.id = auth.uid()
-    AND profiles.role IN ('admin', 'superadmin')
+    AND profiles.role::text IN ('admin', 'superadmin')
   )
 );
 
@@ -324,7 +341,7 @@ USING (
   EXISTS (
     SELECT 1 FROM public.profiles
     WHERE profiles.id = auth.uid()
-    AND profiles.role IN ('admin', 'superadmin')
+    AND profiles.role::text IN ('admin', 'superadmin')
   )
 );
 
@@ -345,7 +362,7 @@ USING (
   EXISTS (
     SELECT 1 FROM public.profiles
     WHERE profiles.id = auth.uid()
-    AND profiles.role IN ('admin', 'superadmin')
+    AND profiles.role::text IN ('admin', 'superadmin')
   )
 );
 
@@ -355,7 +372,7 @@ USING (
   EXISTS (
     SELECT 1 FROM public.profiles
     WHERE profiles.id = auth.uid()
-    AND profiles.role IN ('admin', 'superadmin')
+    AND profiles.role::text IN ('admin', 'superadmin')
   )
 );
 
