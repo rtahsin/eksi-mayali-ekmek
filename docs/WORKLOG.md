@@ -115,3 +115,51 @@ Template:
 - Sonraki adım:
   - Production deploy ve son kullanıcı kabul smoke testleri.
 
+---
+
+## 2026-09-27 (Veritabanı Sağlamlaştırma, P2 Özellikleri & Production-Readiness Paketi)
+- Scope: Canlı veritabanı migration'larının doğrulanması, P2 kullanıcı/SEO özellikleri ve 5 aşamalı Production-Readiness teslimatı
+- Yapılan:
+  1. **Veritabanı Migration & RLS Doğrulaması**:
+     - `RUN_ALL_002_TO_010.sql` konsolide migration'ı hazırlandı ve enum cast hataları (`::delivery_method_type`, `::order_status_type`, `::payment_method_type`, `profiles.role::text`) giderildi.
+     - 23 RLS politikası ve 7 RLS korumalı tablo doğrulanarak `payments`, `order_status_history` ve `customer_locations` tablolarında RLS'nin aktif olduğu teyit edildi.
+     - `AGENTS.md` kuralı eklendi: "Veritabanı Migration Bütünlüğü & Ad-hoc Konsolide Script Yasağı".
+     - Soft-fail fallback blokları `/api/orders/create` içerisinden tamamen silindi; sessiz veri bozulması riski sonlandırıldı.
+  2. **P2 Özellikleri (Test & SEO)**:
+     - **Playwright Smoke Test**: `tests/api-orders-create.spec.ts` oluşturuldu; eşzamanlı 10 siparişte `SIP-YYMM-XXX` formatında ardışık, çakışmasız numara üretimi assert edildi.
+     - **Ürün Detay Sayfaları (`/urun/[slug]`)**: ISR (`revalidate = 60`) ve `generateStaticParams` ile dinamik sayfalar oluşturuldu; Artisan fırın teması, un oranı, fermantasyon süresi rozetleri, besin değerleri ve Sepete Ekle çekmecesi entegre edildi.
+     - **Schema.org Zengin Snippet**: `BreadcrumbList`, `Product` ve `Bakery` yapısal JSON-LD verileri ürün sayfalarına gömüldü.
+     - **Dinamik Sitemap & Robots**: `src/app/sitemap.ts` ve `src/app/robots.ts` ile tüm ürün ve içerik sayfaları dinamik indekslemeye açıldı.
+  3. **Production-Readiness Görev 1 - Dağıtık Sliding Window Rate Limiter (Commit `2ff69ed`)**:
+     - RAM tabanlı limiter yerine Supabase PostgreSQL tabanlı atomik sliding window limiter yazıldı (`supabase/migrations/011_rate_limit_buckets.sql` + `src/lib/security/rateLimiter.ts`).
+     - `/api/orders/create` (10/dk), `/api/orders/[id]` (30/dk) ve `/api/admin/orders/parse` (20/dk) rotalarına uygulandı.
+  4. **Production-Readiness Görev 2 - Sipariş ➔ Cari Hesaba Atomik İşleme (Commit `d1faea3`)**:
+     - `supabase/migrations/012_order_to_cari_automation.sql` yazıldı. B2B / Cari siparişlerde borç kaydı (`account_transactions` - `satis`/`debt`) ve bakiye güncellemesi `create_order_atomic` fonksiyonu içerisinde tek transaction'da atomik yapıldı.
+     - `PaymentMethod` tipine `"cari"` eklendi, `Order.cariId` desteği entegre edildi. Rollback testi başarıyla doğrulandı.
+  5. **Production-Readiness Görev 3 - Gün İçi Sipariş Kesilme Saati (Cutoff Time) (Commit `539aae6`)**:
+     - `bakery_settings` tablosundan dinamik okunan `order_cutoff_time` (varsayılan "18:00") eklendi.
+     - `src/lib/settings/cutoff.ts` ile `Europe/Istanbul` saat diliminde aynı gün sipariş kesilme kontrolü yapıldı.
+     - `/api/settings` genel dinamik uç noktası sağlandı; saat aşılmışsa `/api/orders/create` sunucu seviyesinde 400 hatası dönüyor.
+     - İstemci tarafında `CartDrawer.tsx` kullanıcıyı otomatik olarak yarına yönlendiriyor ve bilgilendiriyor; `/admin/ayarlar` panelinden kesilme saati yönetilebiliyor.
+  6. **Production-Readiness Görev 4 - Kurye Konsolu Çevrimdışı (Offline) Toleransı (Commit `a8f6990`)**:
+     - Kurye hareket halindeyken bağlantı koptuğunda teslimat veya tahsilatın kaybolmaması için `src/lib/courier/offlineQueue.ts` yerel kuyruğu geliştirildi.
+     - `src/hooks/useCourierNetwork.ts` ile ağ durumu izlendi, internet geldiğinde otomatik retry sağlandı.
+     - `CourierOfflineBanner.tsx` ve `CourierHeader` durum rozetleri ile kullanıcı arayüzü güçlendirildi.
+  7. **Production-Readiness Görev 5 - Sentry Entegrasyonu & Canlı Doğrulama (Commit `e65e8d8`)**:
+     - Next.js 16 App Router ve Turbopack uyumlu `@sentry/nextjs` (v11) kuruldu.
+     - `sentry.client.config.ts`, `sentry.server.config.ts`, `sentry.edge.config.ts`, `src/instrumentation.ts` ve `next.config.ts` (`withSentryConfig`) yapılandırıldı.
+     - Global, admin ve kurye sayfalarına Error Boundary bileşenleri eklendi.
+     - `/api/orders/create` 500 ve RPC rollback durumları özel etiketlerle Sentry'ye bağlandı.
+     - Canlı DSN testi çalıştırıldı; Sentry Event ID `13e9917450e846768484475b33463c16` ile Sentry sunucularına iletildi.
+  8. **Google OAuth & Vercel Callback Güçlendirmesi (Commit `9ac5682`)**:
+     - `src/app/auth/callback/route.ts` rotasına `x-forwarded-host` desteği, open-redirect koruması ve Google OAuth ile ilk kez gelen kullanıcıların `public.profiles` tablosuna otomatik upsert edilmesi eklendi.
+     - Vercel Deployment Protection (Vercel Authentication) kapatma ve Supabase URL Configuration yapılandırma adımları belgelendi.
+- Doğrulama (analyze/test/build):
+  - `npm run build` ile doğrulandı (Exit code 0, 58 App Router rotası 0 hata ile derlendi).
+  - Canlı Sentry flush testi başarılı (Event ID: `13e9917450e846768484475b33463c16`).
+  - Tüm değişiklikler `main`, `master` ve `feature/location-ux-improvements` dallarına pushlandı.
+- Risk/Not:
+  - Vercel Dashboard üzerinde "Deployment Protection -> Vercel Authentication" seçeneği kapalı (Disabled) olmalıdır.
+  - Supabase Dashboard üzerinde `supabase/migrations/011_rate_limit_buckets.sql` ve `012_order_to_cari_automation.sql` çalıştırılmış olmalıdır.
+- Sonraki adım:
+  - Yeni geliştirme oturumunda son kullanıcı kabul testleri ve canlı operasyon izlemesi.
