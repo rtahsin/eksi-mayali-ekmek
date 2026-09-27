@@ -1,7 +1,7 @@
 # 📋 EkmekLab Doğrulama & İş Günlüğü (WORKLOG)
 
 > **Tarih**: 27 Eylül 2026  
-> **Durum**: 🏆 **TAM DOĞRULAMA GEÇTİ — TÜM ŞEMA, ATOMİK SİPARİŞ VE RLS GÜVENLİĞİ %100 CANLIDA ONAYLANDI**
+> **Durum**: 🚀 **P2 GÖREVLERİ İŞLENİYOR**
 
 ---
 
@@ -24,6 +24,7 @@
 * **Sipariş ID**: `ORD-BE05436A`
 * **Üretilen Sipariş Numarası**: **`SIP-2609-002`**
 * **Sonuç**: `pg_advisory_xact_lock` transaction kilidi sayesinde eşzamanlı çakışmasız ardışık numara üretimi ve tek transaction'da atomik kayıt çalıştığı %100 doğrulandı.
+* **Temizlik**: Her iki test siparişi de üretim kuyruğunu kirletmemesi adına canlı veritabanından güvenle silindi.
 
 ---
 
@@ -42,22 +43,8 @@ Supabase PostgreSQL üzerinde yapılan güvenlik kontrolleri:
 
 ---
 
-## 3. 📝 Sonnet'e Özet Rapor (Neler Yapıldı?)
-
-Sonnet ile paylaşılacak teknik bulgu ve tamamlanan maddeler:
-
-1. **Ad-hoc Konsolide Script İptal Edildi & Kural Güvenceye Alındı**:
-   - Tabloları RLS'siz oluşturabilecek geçici script derhal iptal edildi.
-   - `AGENTS.md` kural kitabına: *"Eksik tablo/kolon bulunduğunda, önce repodaki numaralı migration dosyalarının çalıştırılıp çalıştırılmadığı kontrol edilir; var olan migration'lar varken elle yeni bir 'konsolide' şema script'i yazılmaz."* ilkesi işlendi.
-
-2. **Repodaki Orijinal Migration Zinciri Sırasıyla Uygulandı**:
-   - `002_create_couriers.sql`'den başlayarak `003`, `004`, `005`, `006`, `007`, `008`, `009` ve `010` orijinal RLS politikaları, kısıtları ve foreign key'leri ile uygulandı.
-   - `user_role_type` enum'ı ile RLS politikaları arasındaki PostgreSQL tip uyuşmazlığı (`22P02`), politikalara `profiles.role::text IN (...)` cast'i eklenerek kalıcı olarak çözüldü.
-
-3. **`create_order_atomic` Enum Uyumu**:
-   - JSONB payload'ından okunan `delivery_method`, `status` ve `payment_method` değerleri `delivery_method_type`, `order_status_type` ve `payment_method_type` enum türlerine dönüştürülerek PL/pgSQL katı tip denetiminden başarıyla geçirildi.
-
-4. **Canlı Doğrulama ve ACID Bütünlüğü**:
-   - Canlı endpoint `/api/orders/create` üzerinden gerçek siparişler gönderildi.
-   - Siparişlerin `SIP-2609-001` ve `SIP-2609-002` numaralarıyla ardışık, atomik ve tüm alt kayıtlarıyla (`items`, `payments`, `status_history`, `locations`) eksiksiz oluştuğu doğrulandı.
-   - Anonim anahtarla (`anon key`) yapılan sorgularda `payments`, `order_status_history` ve `customer_locations` tablolarından sıfır veri sızdığı, RLS politikalarının tam çalıştığı onaylandı.
+## 3. 🧪 P2-1: Playwright Smoke Test & Concurrency Suite (Tamamlandı)
+* `tests/e2e/order-flow.spec.ts` dosyasına storefront yükleme, tekil atomik sipariş ve 5 eşzamanlı sipariş (concurrency) senaryoları eklendi.
+* `Promise.all` ile atılan eşzamanlı isteklerde dönen tüm sipariş numaralarının `SIP-YYMM-XXX` formatında ve **çakışmasız (unique Set size === 5)** olduğu doğrulandı.
+* Üretilen E2E test siparişlerinin test sonunda `afterAll` hook'u ile DB'den otomatik temizlenmesi sağlandı.
+* `package.json`'a `verify:orders` ve `test:e2e` betikleri eklendi. Derleme `npm run build` ile 0 hata ile doğrulandı.

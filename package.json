@@ -5,7 +5,9 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "verify:orders": "node scripts/verify_after_migration.mjs",
+    "test:e2e": "playwright test tests/e2e/order-flow.spec.ts"
   },
   "dependencies": {
     "@google/genai": "^2.23.0",
