@@ -14,11 +14,9 @@ Bu doküman, **EkmekLab** projesinin güncel mimarisini, veri modellerini, güve
      - **Supabase Realtime**:
        - `postgres_changes`: Sipariş ve cari hareketlerinin admin ve müşteri ekranlarında canlı senkronizasyonu.
        - `broadcast` (`courier-live-location`): Kuryenin mobil cihazından yayılan anlık GPS koordinatlarının fırına ve müşteriye aktarımı.
-  2. **Firebase Suite**:
-     - **Firebase Authentication**: Email/Password, Google Sign-In, Anonim oturumlar.
-     - **Cloud Firestore**: NoSQL koleksiyonlar (ürün kataloğu, ayarlar, blog).
-     - **Firebase Cloud Storage**: Ürün ve blog yüksek çözünürlüklü medya varlıkları.
-     - **Cloud Functions (Node.js 22)**: Sipariş güvenlik motoru (`createOrderSecure`), OTP e-posta akışları, audit logları.
+  2. **Yardımcı Servisler & Depolama**:
+     - **Firebase Authentication & Storage**: Kimlik doğrulama oturumları ve ürün/blog görsel medya depolama.
+     - **Atomik Supabase RPC**: Sipariş oluşturma (`create_order_atomic`) ve cari finans hareketleri (`record_cari_transaction_atomic`) PostgreSQL tarafında atomik olarak yönetilir.
 
 ---
 
@@ -43,11 +41,12 @@ ekmeklab_app/
 │   ├── components/              # Yeniden Kullanılabilir React Bileşenleri
 │   │   ├── admin/               # Admin Paneli Bileşenleri (Sidebar, Modallar, Kartlar)
 │   │   └── ui/                  # Temel Arayüz Öğeleri
+│   ├── data/                    # Statik Veri ve Makaleler (journalArticles, initialProducts)
 │   ├── hooks/                   # React Hook'ları (useAdminOrders, useCariler, useFinans vb.)
-│   ├── lib/                     # Supabase & Firebase İstemcileri, Yardımcı Fonksiyonlar
+│   ├── lib/                     # Supabase & İstemci Kütüphaneleri, Yardımcı Fonksiyonlar
 │   └── types/                   # Katı TypeScript Tip ve Interface Tanımları
-├── functions/                   # Firebase Cloud Functions (Node.js Backend)
-├── firestore.rules              # Firestore Güvenlik Kuralları
+├── supabase/                    # PostgreSQL Veritabanı Migration Dosyaları
+├── tests/                       # Playwright E2E Test Paketi
 ├── storage.rules                # Storage Güvenlik Kuralları
 ├── package.json                 # Bağımlılıklar ve Komutlar
 ├── instructions.md              # Bu Mimari Kılavuzu

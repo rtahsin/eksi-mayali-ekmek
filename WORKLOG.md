@@ -57,3 +57,12 @@ Supabase PostgreSQL üzerinde yapılan güvenlik kontrolleri:
 * `src/app/sitemap.ts` ile tüm ürünler, bülten yazıları ve statik sayfaları içeren dinamik `sitemap.xml` ve `src/app/robots.ts` ile arama motoru direktifleri oluşturuldu.
 * Schema.org `Bakery` / `LocalBusiness` JSON-LD yapılandırılmış verisi kök layout'a, `Product` + `Offer` JSON-LD ise ürün sayfalarına gömüldü.
 * `npm run build` çalıştırıldı ve 58/58 sayfa (tüm `/urun/[slug]`, `/sitemap.xml`, `/robots.txt`) 0 hata ile başarıyla derlendi.
+
+---
+
+## 5. 🧹 P2-4: Firebase/Firestore Legacy Temizliği (Tamamlandı)
+* Eski ve kullanılmayan `functions/` dizini, `firestore.rules` ve `firestore.indexes.json` dosyaları depodan tamamen temizlendi.
+* `firebase.json` dosyası gereksiz firestore/functions hedeflerinden arındırılarak yalnızca mevcut medya depolama (`storage.rules`) ile sınırlandırıldı.
+* `README.md` baştan sona yeniden yazılarak tüm tarihi Flutter/Dart ve Cloud Functions referansları kaldırıldı; mimari %100 Next.js 16 + Supabase PostgreSQL atomik yapısına kavuşturuldu.
+* `instructions.md` ve `settings.json` dosyalarındaki legacy referanslar temizlendi.
+* `npm run build` çalıştırıldı ve 58/58 rotanın 0 hata ile derlendiği doğrulandı.

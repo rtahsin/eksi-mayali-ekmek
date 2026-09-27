@@ -1,57 +1,58 @@
 # 🍞 EkmekLab · Zanaat & Bilim Odaklı E-Ticaret Platformu
 
-EkmekLab; Beylikdüzü'nde ata tohumları, canlı ekşi maya ve geleneksel soğuk fermantasyon teknikleriyle üretim yapan artisan fırın ve şarküteri işletmesinin modern dijital platformudur.
+EkmekLab; Beylikdüzü'nde ata tohumu taş değirmen unları, 8 yıllık canlı ekşi maya ve 36 saatlik geleneksel soğuk fermantasyon teknikleriyle üretim yapan artisan fırın ve şarküteri işletmesinin modern, yüksek performanslı dijital platformudur.
 
-Proje; yüksek performanslı **Next.js müşteri vitrini** ile operasyonel **Flutter Web yönetim panelini** tek bir Firebase altyapısı üzerinde buluşturan hibrit bir mimariye sahiptir.
+Proje, %100 **Next.js 16 (App Router)** ve **Supabase PostgreSQL** mimarisi üzerine kurulu olup; vitrin, kurye konsolu, sipariş komuta merkezi ve ön muhasebe yönetimini tek bir çatı altında birleştirir.
 
 ---
 
-## 🏗️ Mimari Yapı ve Birlikte Yaşama Stratejisi
+## 🏗️ Mimari Yapı ve Teknoloji Yığını
 
 ```
 ekmeklab_app/
-├── src/                     # Next.js Müşteri Vitrini (Storefront & Kütüphane)
-│   ├── app/                 # Next.js App Router sayfaları (/, /kutuphane, /api)
-│   ├── components/          # React UI bileşenleri (storefront, cart, atelier, journal)
-│   ├── hooks/               # Custom React hook'ları (useProducts, useJournal)
-│   ├── lib/                 # İstemci kütüphaneleri (Firebase, sepet Zustand store, sipariş)
-│   └── types/               # Merkezi TypeScript tip tanımları
-├── lib/                     # Flutter Web Operasyon & Yönetim Paneli
-│   ├── admin/               # İşletme yönetim ekranları (/admin, /admin-mobile)
-│   ├── services/            # Flutter servis katmanı (auth, order, product)
-│   └── models/              # Dart veri modelleri
-├── functions/               # Firebase Cloud Functions (Node.js 22 Backend)
-│   ├── index.js             # Sipariş doğrulama (createOrderSecure), OTP, webhook'lar
-│   └── src/                 # Yardımcı servisler ve bildirim mantığı
-├── public/                  # Statik medya varlıkları (logo, aktif fırın görselleri)
-├── docs/                    # Detaylı operasyon, denetim ve şema dokümanları
-├── firestore.rules          # Firestore güvenlik ve yetki kuralları
-├── storage.rules            # Firebase Storage erişim kuralları
-├── firebase.json            # Firebase Hosting ve emülatör yapılandırması
-└── instructions.md          # Proje geliştirme & mimari ana yönergesi
+├── src/
+│   ├── app/                 # Next.js App Router (Sayfalar, Dinamik Rotalar, API'lar)
+│   │   ├── (storefront)/    # Vitrin (/, /urun/[slug], /kutuphane)
+│   │   ├── admin/           # Fırın Komuta Merkezi (/admin/siparisler, /admin/finans, /admin/cariler)
+│   │   ├── kurye/           # Mobil Kurye Konsolu & Canlı Rota Yönetimi
+│   │   ├── siparis-takip/   # Müşteri Halka Açık Sipariş Takip Ekranı
+│   │   ├── fis/ & ekstre/   # Canlı Muhasebe Fişi ve Ekstre Ekranları
+│   │   ├── sitemap.ts       # Dinamik XML Sitemap Üreticisi
+│   │   ├── robots.ts        # SEO Arama Motoru Direktifleri
+│   │   └── api/             # Atomik Sunucu API Rotaları (/api/orders/create vb.)
+│   ├── components/          # Modüler React UI Bileşenleri (Atelier, Storefront, Admin, Cart)
+│   ├── data/                # Statik ve Ön Tanımlı Veriler (Katalog, Blog Makaleleri)
+│   ├── hooks/               # Custom React Hook'ları (useProducts, useAdminOrders vb.)
+│   ├── lib/                 # İstemci & Güvenlik Kütüphaneleri (Supabase, Zustand Store, API Auth)
+│   └── types/               # Merkezi TypeScript Tip ve Interface Tanımları
+├── public/                  # Statik Medya Varlıkları (Logo, Atelier Panoraması, PWA İkonları)
+├── supabase/                # PostgreSQL Veritabanı Migration Dosyaları (001 - 010)
+├── tests/e2e/               # Playwright E2E & Concurrency Test Paketi
+├── AGENTS.md                # Geliştirici & Agent Mimari Kuralları
+├── WORKLOG.md               # Güncel Doğrulama & İş Günlüğü
+└── package.json             # Bağımlılıklar ve Komutlar
 ```
 
-### 1. 🛍️ Müşteri Vitrini (Next.js 16)
-- **Teknoloji**: Next.js (App Router, Turbopack), React 19, TypeScript, Tailwind CSS, Zustand, Framer Motion.
-- **Odak**: Hızlı yükleme, SEO optimizasyonu, akıcı sepet deneyimi ve fırıncılık bilimi bülteni (`/kutuphane`).
-- **Özellikler**:
-  - Taş fırın ekmekleri, ön sipariş ve şarküteri seçkisi kataloğu.
-  - Taze ekmek fermantasyon ve fırınlama anatomisi rehberi.
-  - Hızlı sepet çekmecesi (CartDrawer), kapıda ödeme & kurye teslimat akışı.
-  - Zanaat & Bilim Journal arşivi ve dinamik yazı okuyucu.
+### 1. 🛍️ Müşteri Vitrini & SEO (Next.js 16)
+- **Teknoloji**: Next.js 16 (App Router, Turbopack), React 19, TypeScript, Tailwind CSS, Zustand, Framer Motion.
+- **Performans & SEO**:
+  - Dinamik Ürün Detay Sayfaları (`/urun/[slug]`) ve 60 saniye ISR (Incremental Static Regeneration).
+  - Schema.org JSON-LD yapılandırılmış veri (`Bakery` / `LocalBusiness` ve `Product` + `Offer`).
+  - Dinamik XML Site Haritası (`/sitemap.xml`) ve arama motoru direktifleri (`/robots.txt`).
+  - Bilim ve Zanaat Kütüphanesi (`/kutuphane/[slug]`).
 
-### 2. 📱 Yönetim & Operasyon Paneli (Flutter Web)
-- **Teknoloji**: Flutter 3.x, Responsive Framework, Material 3, Provider.
-- **Erişim**: `/admin` (Masaüstü Operasyon) ve `/admin-mobile` (Kurye / Hızlı Mobil Panel).
-- **Özellikler**:
-  - Stok, sipariş durum geçmişi ve anlık kurye takibi.
-  - Ürün ve kategori içerik yönetimi (CRUD).
-  - Güvenli audit/denetim logları.
+### 2. ⚡ Atomik Backend & Veritabanı (Supabase PostgreSQL)
+- **ACID & Atomik İşlemler**: Tüm sipariş oluşturma işlemleri PostgreSQL üzerinde `pg_advisory_xact_lock` kilidiyle çalışan `create_order_atomic` RPC fonksiyonu üzerinden tek transaction'da yürütülür.
+- **Ardışık Sipariş Numarası**: `generate_order_number()` fonksiyonu ile yarış koşullarından (race condition) arındırılmış `SIP-YYMM-XXX` formatında ardışık numara üretimi.
+- **Finans & Ön Muhasebe**: Atomik `record_cari_transaction_atomic` fonksiyonu ile simetrik bakiye takibi, yürüyen bakiye ve storno (ters kayıt) güvencesi.
+- **Supabase Realtime**:
+  - `postgres_changes`: Fırın paneli ve kurye ekranlarında anlık canlı sipariş senkronizasyonu.
+  - `courier-location-${courierId}`: Kuryeden izole kanal üzerinden fırına ve müşteriye canlı GPS konumu aktarımı.
+- **Güvenlik (RLS)**: Tüm tablolarda (`orders`, `order_items`, `couriers`, `payments`, `order_status_history`, `customer_locations`, `current_accounts`) Row Level Security (RLS) aktif ve denetlenmiştir.
 
-### 3. ☁️ Backend & Veritabanı (Firebase Suite)
-- **Cloud Firestore**: Tek doğruluk kaynağı (`urunler`, `kategoriler`, `siparisler`, `bloglar`, `ayarlar`).
-- **Cloud Functions**: Fiyat ve stok doğrulamalı güvenli sipariş motoru (`createOrderSecure`), e-posta OTP akışları.
-- **Firebase Auth & Storage**: Güvenli oturumlar ve ürün medya depolama.
+### 3. 🛵 Kurye Konsolu & Yönetim Paneli
+- **Kurye Konsolu (`/kurye`)**: Sahada tek elle kullanıma uygun, yüksek kontrastlı, tek tıkla arama / navigasyon ve durum güncelleme desteği.
+- **Fırın Komuta Merkezi (`/admin`)**: Rol tabanlı yetkilendirme (`admin`, `superadmin`, `staff`), dağıtım optimizasyonu, cari hesaplar ve günlük üretim planlama.
 
 ---
 
@@ -60,44 +61,42 @@ ekmeklab_app/
 ### Gereksinimler
 - **Node.js**: v20+ (Node.js 22 önerilir)
 - **npm** veya **pnpm**
-- **Flutter SDK**: 3.x (Admin paneli geliştirmesi için)
-- **Firebase CLI**: `npm install -g firebase-tools`
+- **Supabase Hesabı & Projesi**
 
-### 1. Next.js Vitrinini Başlatma
-
+### 1. Bağımlılıkları Yükleme
 ```bash
-# Bağımlılıkları yükleyin
 npm install
+```
 
-# Geliştirme sunucusunu başlatın
+### 2. Çevre Değişkenleri (.env.local)
+```env
+NEXT_PUBLIC_SUPABASE_URL=https://<your-project>.supabase.co
+NEXT_PUBLIC_SUPABASE_ANON_KEY=<your-anon-key>
+SUPABASE_SERVICE_ROLE_KEY=<your-service-role-key>
+ADMIN_PIN=1234
+```
+
+### 3. Geliştirme Sunucusunu Başlatma
+```bash
 npm run dev
 ```
 Uygulama varsayılan olarak `http://localhost:3000` adresinde çalışır.
 
-### 2. Next.js Üretim Derlemesi
-
+### 4. Üretim Derlemesi ve Tip Doğrulama
 ```bash
-# Tip kontrolü ve statik üretim derlemesi
 npm run build
-
-# Üretim sunucusunu başlatma
-npm start
 ```
 
-### 3. Flutter Admin Panelini Başlatma (Gerektiğinde)
-
+### 5. Doğrulama ve E2E Testleri
 ```bash
-# Flutter bağımlılıklarını alma
-flutter pub get
+# Canlı veritabanı şema ve atomik sipariş smoke testi
+npm run verify:orders
 
-# Chrome üzerinde web çalıştırma
-flutter run -d chrome --web-port=8080
+# Playwright E2E & Concurrency testleri
+npm run test:e2e
 ```
 
 ---
 
-## 📜 Geliştirme Standartları
-
-- Tüm Firestore ve API entegrasyonlarında [instructions.md](file:///f:/ekmeklab_app/instructions.md) dosyasındaki kurallar esas alınır.
-- Tip güvenliği için `strict: true` TypeScript kullanılır; `any` tipi kullanılmaz.
-- Sipariş oluşturma işlemleri doğrudan Firestore yazması yerine Cloud Functions `createOrderSecure` API kapısı üzerinden yürütülür.
+## 📜 Geliştirici & Agent Kuralları
+Detaylı geliştirici ve mimari standartlar için [AGENTS.md](file:///f:/ekmeklab_app/AGENTS.md) dosyasını inceleyiniz. Bu projede kesinlikle harici Flutter/Dart kodu bulunmaz; sistem %100 Next.js App Router ve TypeScript tabanlıdır.
