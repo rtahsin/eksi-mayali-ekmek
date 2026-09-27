@@ -38,9 +38,11 @@ const CreateOrderRequestSchema = z.object({
     .max(30, "Sepette en fazla 30 kalem ürün olabilir"),
   customerInfo: CustomerInfoSchema,
   deliveryMethod: z.enum(["courier", "pickup"]),
-  paymentMethod: z.enum(["whatsapp", "cash_on_delivery", "pos_at_door"]),
+  paymentMethod: z.enum(["whatsapp", "cash_on_delivery", "pos_at_door", "cari"]),
   idempotencyKey: z.string().max(100).optional(),
   userId: z.string().max(100).optional(),
+  cariId: z.string().max(100).optional(),
+  cari_id: z.string().max(100).optional(),
 });
 
 interface DBOrderRow {
@@ -100,8 +102,17 @@ export async function POST(req: Request) {
       );
     }
 
-    const { items, customerInfo, deliveryMethod, paymentMethod, idempotencyKey, userId } =
-      validationResult.data;
+    const {
+      items,
+      customerInfo,
+      deliveryMethod,
+      paymentMethod,
+      idempotencyKey,
+      userId,
+      cariId,
+      cari_id,
+    } = validationResult.data;
+    const effectiveCariId = cariId || cari_id || null;
 
     const supabaseAdmin = createAdminClient();
     if (!supabaseAdmin) {
@@ -316,6 +327,7 @@ export async function POST(req: Request) {
       customer_lat: customerInfo.customerLat ?? null,
       customer_lng: customerInfo.customerLng ?? null,
       location_consent_at: locationConsentAt,
+      cari_id: effectiveCariId,
       created_at: nowIso,
       updated_at: nowIso,
     };
@@ -370,6 +382,7 @@ export async function POST(req: Request) {
       customerLng: customerInfo.customerLng ?? null,
       locationConsentAt: locationConsentAt ?? undefined,
       userId: userId || null,
+      cariId: effectiveCariId,
       createdAt: nowIso,
       updatedAt: nowIso,
     };

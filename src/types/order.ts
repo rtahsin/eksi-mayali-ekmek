@@ -1,5 +1,5 @@
 export type OrderStatus = "onay_bekliyor" | "pending" | "processing" | "ready" | "delivered" | "cancelled";
-export type PaymentMethod = "whatsapp" | "cash_on_delivery" | "credit_card" | "pos_at_door";
+export type PaymentMethod = "whatsapp" | "cash_on_delivery" | "credit_card" | "pos_at_door" | "cari";
 
 export interface OrderItem {
   productId: string;
@@ -38,6 +38,7 @@ export interface Order {
   paymentMethod: PaymentMethod;
   idempotencyKey?: string;
   orderNotes?: string;
+  cariId?: string | null;
   preferredDeliveryWindow?: string;
   createdAt: {
     seconds?: number;

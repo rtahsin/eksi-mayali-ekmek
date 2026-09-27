@@ -77,3 +77,14 @@ Supabase PostgreSQL üzerinde yapılan güvenlik kontrolleri:
   - `src/app/api/orders/create/route.ts`: IP rate limiter (10 istek / 10 dk) ve telefon rate limiter (5 istek / 10 dk) `await checkRateLimit` ile bağlandı.
   - `src/app/api/orders/[id]/route.ts` & `src/app/api/admin/orders/parse/route.ts`: `checkRateLimit` çağrıları `await` ile asenkron kalıcı yapıya uyarlandı.
 * **Test Yöntemi**: Canlı veritabanı üzerinde 11 ardışık istek atılarak test edildi. 1-10 arası istekler `allowed: true` ile azalan bakiye verdi; 11. istek `allowed: false` ve `retryAfterSeconds: 59` ile 429 engeli üretti. Test sonrası geçici bucket temizlendi. `npm run build` ile 58/58 rota 0 hata ile doğrulandı.
+
+---
+
+## 7. 💼 GÖREV 2: Sipariş → Cari Hesap Otomasyonu (Tamamlandı)
+* **Yapılan İşlem**: `create_order_atomic` fonksiyonuna B2B siparişler için `cari_id` parametresi bağlandı. Sipariş toplamı tek bir atomik PostgreSQL transaction'ında `account_transactions` tablosuna borç (`debt`) olarak kaydedilip `current_accounts.balance` simetrik olarak güncellendi. `payments.cari_transaction_id` eşleşmesi sağlandı; geçersiz cari veya herhangi bir hata anında siparişin ve tüm ilişkili kayıtların eksiksiz rollback olması garantilendi.
+* **Değiştirilen Dosyalar**:
+  - `supabase/migrations/012_order_to_cari_automation.sql`: `create_order_atomic` fonksiyonu `FOR UPDATE` satır kilitlemeli cari hesap kontrolü ve borç hareketi oluşturma adımı ile güncellendi.
+  - `src/types/index.ts` & `src/types/order.ts`: `PaymentMethod` tipine `"cari"`, `Order` tipine opsiyonel `cariId` alanı eklendi.
+  - `src/app/api/orders/create/route.ts`: Zod validasyon şeması `cariId` / `cari_id` ve `"cari"` ödeme yöntemini kabul edecek şekilde genişletildi; atomik RPC'ye `cari_id` iletildi.
+* **Test Yöntemi**: `cari_muehgurb_ij2h` (Numetal gıda) cari hesabı üzerinde gerçek entegrasyon testi çalıştırıldı: 150 ₺'lik test siparişi oluşturuldu, `account_transactions`'a `SIP-2609-001` fiş numaralı ve 150 ₺ tutarlı `debt` kaydı düştüğü, bakiyenin 2 ₺'den 152 ₺'ye yükseldiği, `payments.cari_transaction_id`'nin bağlandığı doğrulandı. Ardından geçersiz `cari_id` ile çağrı yapılarak hatanın fırlatıldığı ve hiçbir hayalet (phantom) sipariş oluşmadığı (tam atomik rollback) test edildi. Test verileri temizlenip bakiye 2 ₺'ye geri yüklendi. `npm run build` ile 58/58 rotanın 0 hata ile derlendiği teyit edildi.
+

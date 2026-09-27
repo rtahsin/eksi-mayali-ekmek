@@ -87,6 +87,7 @@ export interface Order {
   locationShared?: boolean;
   locationConsentAt?: string | null;
   userId?: string | null;
+  cariId?: string | null;
   createdAt: string;
   updatedAt?: string;
 }
