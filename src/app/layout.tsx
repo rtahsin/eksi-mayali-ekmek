@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Fraunces, Lora, Caveat, JetBrains_Mono } from "next/font/google";
+import { Fraunces, Lora, Caveat, JetBrains_Mono, Inter } from "next/font/google";
 import { AuthProvider } from "@/components/auth/AuthProvider";
 import "./globals.css";
 
@@ -25,6 +25,12 @@ const caveat = Caveat({
 const jetbrainsMono = JetBrains_Mono({
   subsets: ["latin"],
   variable: "--font-jetbrains-mono",
+  display: "swap",
+});
+
+const inter = Inter({
+  subsets: ["latin"],
+  variable: "--font-inter",
   display: "swap",
 });
 
@@ -128,7 +134,7 @@ export default function RootLayout({
         />
       </head>
       <body
-        className={`${fraunces.variable} ${lora.variable} ${caveat.variable} ${jetbrainsMono.variable} min-h-screen bg-background text-foreground antialiased font-sans noise-bg selection:bg-artisan-terracotta/20 selection:text-artisan-wood`}
+        className={`${fraunces.variable} ${lora.variable} ${inter.variable} ${caveat.variable} ${jetbrainsMono.variable} min-h-screen bg-background text-foreground antialiased font-sans noise-bg selection:bg-artisan-terracotta/20 selection:text-artisan-wood`}
       >
         <AuthProvider>{children}</AuthProvider>
       </body>

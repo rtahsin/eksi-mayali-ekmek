@@ -94,7 +94,7 @@ export function ProductCard({ product, onOpenDetails}: ProductCardProps) {
             </h3>
           </div>
 
-          <p className="text-xs text-foreground/80/70 line-clamp-2 mt-1.5 font-sans leading-relaxed">
+          <p className="text-xs text-foreground/90 line-clamp-2 mt-1.5 font-sans leading-relaxed">
             {product.description}
           </p>
 
@@ -130,7 +130,7 @@ export function ProductCard({ product, onOpenDetails}: ProductCardProps) {
               <Link
                 href={getProductUrl(product)}
                 onClick={(e) => e.stopPropagation()}
-                className="p-1 rounded text-foreground/50 hover:text-artisan-gold transition-colors"
+                className="p-1 rounded text-foreground/90 hover:text-artisan-gold transition-colors"
                 title="Ayrıntılı ürün sayfasına git"
               >
                 <ExternalLink className="w-3.5 h-3.5" />
@@ -141,7 +141,7 @@ export function ProductCard({ product, onOpenDetails}: ProductCardProps) {
  {/* Bottom Price & Add Actions */}
  <div className="pt-3 border-t border-surface-border space-y-3">
  <div className="flex items-baseline justify-between">
- <span className="text-xs font-sans text-foreground/80/60">Fiyat</span>
+ <span className="text-xs font-sans text-foreground/90">Fiyat</span>
  <div className="font-serif text-xl font-bold text-foreground">
  {product.price}{" "}
  <span className="text-xs text-artisan-gold font-normal font-sans">TL</span>
@@ -155,17 +155,17 @@ export function ProductCard({ product, onOpenDetails}: ProductCardProps) {
  type="button"
  onClick={handleDecrement}
  disabled={quantity <= 1}
- className="w-8 h-9 flex items-center justify-center text-foreground/80/70 hover:text-foreground hover:bg-surface-elevated transition-colors disabled:opacity-30"
+ className="w-11 h-11 flex items-center justify-center text-foreground/90 hover:text-foreground hover:bg-surface-elevated transition-colors disabled:opacity-30"
  >
  <Minus className="w-3.5 h-3.5" />
  </button>
- <span className="w-8 text-center font-sans text-xs font-bold text-foreground">
+ <span className="w-10 text-center font-sans text-xs font-bold text-foreground">
  {quantity}
  </span>
  <button
  type="button"
  onClick={handleIncrement}
- className="w-8 h-9 flex items-center justify-center text-foreground/80/70 hover:text-foreground hover:bg-surface-elevated transition-colors"
+ className="w-11 h-11 flex items-center justify-center text-foreground/90 hover:text-foreground hover:bg-surface-elevated transition-colors"
  >
  <Plus className="w-3.5 h-3.5" />
  </button>

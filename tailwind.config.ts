@@ -52,7 +52,8 @@ const config: Config = {
       },
       fontFamily: {
         serif: ["var(--font-fraunces)", "Georgia", "serif"],
-        sans: ["var(--font-lora)", "Helvetica", "Arial", "sans-serif"],
+        sans: ["var(--font-inter)", "Helvetica", "Arial", "sans-serif"],
+        lora: ["var(--font-lora)", "Georgia", "serif"],
         mono: ["var(--font-jetbrains-mono)", "monospace"],
         hand: ["var(--font-caveat)", "cursive"],
       },

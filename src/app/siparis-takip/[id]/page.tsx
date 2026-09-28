@@ -509,7 +509,7 @@ export default function OrderTrackingPage({
         <div className="max-w-md w-full p-8 bg-[#18130F] border border-[#261E17] rounded-3xl text-center space-y-4 shadow-2xl">
           <AlertCircle className="w-12 h-12 text-[#F59E0B] mx-auto" />
           <h1 className="font-serif text-xl font-bold text-[#F7EBD3]">Sipariş Bulunamadı</h1>
-          <p className="text-stone-400 text-xs leading-relaxed">
+          <p className="text-stone-300 text-xs leading-relaxed">
             <strong>#{rawId}</strong> referansına ait sipariş kaydı bulunamadı. Lütfen sipariş takip linkinizi kontrol ediniz veya fırınımızla iletişime geçiniz.
           </p>
           <div className="pt-2 flex flex-col gap-2">
@@ -553,7 +553,7 @@ export default function OrderTrackingPage({
                   Canlı Takip
                 </span>
               </div>
-              <div className="text-[11px] text-stone-400 font-mono">
+              <div className="text-[11px] text-stone-300 font-mono">
                 Sipariş #{order.orderNumber}
               </div>
             </div>
@@ -588,7 +588,7 @@ export default function OrderTrackingPage({
               <h1 className="font-serif text-xl sm:text-2xl font-bold text-stone-100 mt-1">
                 Merhaba, {order.customerName}
               </h1>
-              <p className="text-xs text-stone-400 mt-1">
+              <p className="text-xs text-stone-300 mt-1">
                 Ekşi mayalı ekmekleriniz fırından taptaze çıkıp kapınıza ulaşana kadar her adımı buradan canlı izleyebilirsiniz.
               </p>
             </div>
@@ -605,7 +605,7 @@ export default function OrderTrackingPage({
                     : order.status === "onay_bekliyor"
                     ? "bg-rose-500/10 text-rose-400 border-rose-500/30 animate-pulse"
                     : order.status === "iptal"
-                    ? "bg-stone-800 text-stone-400 border-stone-700"
+                    ? "bg-stone-800 text-stone-300 border-stone-700"
                     : "bg-[#F59E0B]/10 text-[#F59E0B] border-[#F59E0B]/30"
                 }`}
               >
@@ -646,7 +646,7 @@ export default function OrderTrackingPage({
         {/* Live Stepper Track */}
         {order.status !== "iptal" && (
           <div className="bg-[#18130F] border border-[#261E17] rounded-3xl p-5 sm:p-6 shadow-xl space-y-6">
-            <h2 className="text-xs font-mono uppercase tracking-wider text-stone-400 flex items-center gap-2">
+            <h2 className="text-xs font-mono uppercase tracking-wider text-stone-300 flex items-center gap-2">
               <Sparkles className="w-3.5 h-3.5 text-[#F59E0B]" />
               <span>Sipariş Aşamaları</span>
             </h2>
@@ -665,7 +665,7 @@ export default function OrderTrackingPage({
                           ? `${stage.bg} ${stage.color} border-2 ${stage.border} shadow-lg shadow-amber-500/10 scale-110`
                           : isPast
                           ? "bg-emerald-500/20 text-emerald-400 border border-emerald-500/40"
-                          : "bg-stone-950 text-stone-600 border border-[#261E17]"
+                          : "bg-stone-950 text-stone-400 border border-[#261E17]"
                       }`}
                     >
                       {isPast ? (
@@ -683,7 +683,7 @@ export default function OrderTrackingPage({
                               ? "text-amber-200"
                               : isPast
                               ? "text-stone-200"
-                              : "text-stone-500"
+                              : "text-stone-300"
                           }`}
                         >
                           {stage.title}
@@ -701,8 +701,8 @@ export default function OrderTrackingPage({
                           isCurrent
                             ? "text-stone-300 font-medium"
                             : isPast
-                            ? "text-stone-400"
-                            : "text-stone-600"
+                            ? "text-stone-300"
+                            : "text-stone-400"
                         }`}
                       >
                         {stage.desc}
@@ -725,7 +725,7 @@ export default function OrderTrackingPage({
                   <h3 className="text-sm font-serif font-bold text-stone-200">
                     Canlı Konum Paylaşımı
                   </h3>
-                  <p className="text-[11px] text-stone-400">
+                  <p className="text-[11px] text-stone-300">
                     {isSharing
                       ? "📍 Konumunuz kuryeye anlık olarak aktarılıyor."
                       : "Kuryemizin sizi daha rahat bulması için konumunuzu açabilirsiniz."}
@@ -778,7 +778,7 @@ export default function OrderTrackingPage({
                   <div className="text-xs font-mono font-bold text-blue-300">
                     ~{distanceInfo.distanceKm} km
                   </div>
-                  <div className="text-[10px] text-stone-400">
+                  <div className="text-[10px] text-stone-300">
                     Tahmini ~{distanceInfo.etaMinutes} dk
                   </div>
                 </div>
@@ -810,7 +810,7 @@ export default function OrderTrackingPage({
                 </div>
 
                 <div className="flex items-center justify-between gap-2 text-xs">
-                  <span className="text-stone-400 text-[11px]">
+                  <span className="text-stone-300 text-[11px]">
                     Kuryeniz Beylikdüzü bölgesinde siparişinizi teslim etmek üzere ilerliyor.
                   </span>
                   <a
@@ -830,7 +830,7 @@ export default function OrderTrackingPage({
 
         {/* Order Details & Summary */}
         <div className="bg-[#18130F] border border-[#261E17] rounded-3xl p-5 sm:p-6 shadow-xl space-y-4">
-          <h2 className="text-xs font-mono uppercase tracking-wider text-stone-400 flex items-center gap-2">
+          <h2 className="text-xs font-mono uppercase tracking-wider text-stone-300 flex items-center gap-2">
             <Package className="w-3.5 h-3.5 text-[#F59E0B]" />
             <span>Sipariş Detayları</span>
           </h2>
@@ -847,7 +847,7 @@ export default function OrderTrackingPage({
             ))}
 
             {order.shippingFee > 0 && (
-              <div className="py-2.5 flex items-center justify-between text-xs text-stone-400">
+              <div className="py-2.5 flex items-center justify-between text-xs text-stone-300">
                 <span>Kurye Teslimat Ücreti</span>
                 <span className="font-mono">{order.shippingFee} ₺</span>
               </div>
@@ -861,7 +861,7 @@ export default function OrderTrackingPage({
 
           <div className="pt-3 border-t border-[#261E17] grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
             <div className="p-3 rounded-2xl bg-[#120E0B] border border-[#261E17] space-y-1">
-              <div className="text-[10px] font-mono text-stone-500 uppercase">Ödeme Bilgisi</div>
+              <div className="text-[10px] font-mono text-stone-300 uppercase">Ödeme Bilgisi</div>
               <div className="text-stone-200 font-medium flex items-center justify-between">
                 <span>
                   {order.paymentMethod === "cash_on_delivery"
@@ -889,7 +889,7 @@ export default function OrderTrackingPage({
             </div>
 
             <div className="p-3 rounded-2xl bg-[#120E0B] border border-[#261E17] space-y-1">
-              <div className="text-[10px] font-mono text-stone-500 uppercase">Teslimat Zamanı</div>
+              <div className="text-[10px] font-mono text-stone-300 uppercase">Teslimat Zamanı</div>
               <div className="text-stone-200 font-medium">
                 {order.deliveryDate || "Bugün"} ({order.deliveryTimeWindow || "14:00 - 18:00"})
               </div>
@@ -897,13 +897,13 @@ export default function OrderTrackingPage({
           </div>
 
           <div className="p-3 rounded-2xl bg-[#120E0B] border border-[#261E17] space-y-1 text-xs">
-            <div className="text-[10px] font-mono text-stone-500 uppercase flex items-center gap-1.5">
+            <div className="text-[10px] font-mono text-stone-300 uppercase flex items-center gap-1.5">
               <MapPin className="w-3 h-3 text-[#F59E0B]" />
               <span>Teslimat Adresi</span>
             </div>
             <div className="text-stone-300 font-medium">{order.deliveryAddress}</div>
             {order.orderNotes && (
-              <div className="text-stone-400 text-[11px] pt-1 italic">
+              <div className="text-stone-300 text-[11px] pt-1 italic">
                 Not: {order.orderNotes}
               </div>
             )}
@@ -913,7 +913,7 @@ export default function OrderTrackingPage({
         {/* Status History Timeline (Audit Trail) */}
         {statusHistory.length > 0 && (
           <div className="bg-[#18130F] border border-[#261E17] rounded-3xl p-5 sm:p-6 shadow-xl space-y-3">
-            <h2 className="text-xs font-mono uppercase tracking-wider text-stone-400 flex items-center gap-2">
+            <h2 className="text-xs font-mono uppercase tracking-wider text-stone-300 flex items-center gap-2">
               <History className="w-3.5 h-3.5 text-[#F59E0B]" />
               <span>İşlem Zaman Çizelgesi</span>
             </h2>
@@ -938,7 +938,7 @@ export default function OrderTrackingPage({
                       ? `İptal edildi (${h.note || "Müşteri talebi"})`
                       : h.toStatus}
                   </span>
-                  <span className="font-mono text-stone-500 text-[11px]">
+                  <span className="font-mono text-stone-300 text-[11px]">
                     {new Date(h.createdAt).toLocaleTimeString("tr-TR", {
                       hour: "2-digit",
                       minute: "2-digit",
@@ -953,7 +953,7 @@ export default function OrderTrackingPage({
         {/* Cancellation Section */}
         {canCancel && (
           <div className="p-4 rounded-2xl bg-rose-500/5 border border-rose-500/20 flex items-center justify-between gap-4">
-            <div className="text-xs text-stone-400">
+            <div className="text-xs text-stone-300">
               Siparişiniz henüz hazırlanmaya başlamadı. Fikrinizi değiştirdiyseniz iptal edebilirsiniz.
             </div>
             <button
@@ -973,11 +973,11 @@ export default function OrderTrackingPage({
                 <XCircle className="w-6 h-6 text-rose-500 shrink-0" />
                 <h3 className="font-serif font-bold text-base">Siparişi İptal Et</h3>
               </div>
-              <p className="text-xs text-stone-400 leading-relaxed">
+              <p className="text-xs text-stone-300 leading-relaxed">
                 #{order.orderNumber} numaralı siparişinizi iptal etmek istediğinize emin misiniz?
               </p>
               <div>
-                <label className="text-[11px] font-mono text-stone-400 block mb-1">
+                <label className="text-[11px] font-mono text-stone-300 block mb-1">
                   İptal Sebebi (İsteğe bağlı):
                 </label>
                 <textarea
@@ -985,7 +985,7 @@ export default function OrderTrackingPage({
                   onChange={(e) => setCancelReason(e.target.value)}
                   placeholder="Vazgeçtim, teslimat adresi yanlıştı vb."
                   rows={2}
-                  className="w-full px-3 py-2 rounded-xl bg-[#120E0B] border border-[#261E17] text-xs text-stone-200 placeholder:text-stone-600 focus:outline-none focus:border-[#F59E0B]"
+                  className="w-full px-3 py-2 rounded-xl bg-[#120E0B] border border-[#261E17] text-xs text-stone-200 placeholder:text-stone-400 focus:outline-none focus:border-[#F59E0B]"
                 />
               </div>
 

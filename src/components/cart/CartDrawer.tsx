@@ -224,7 +224,7 @@ export function CartDrawer() {
  {itemCount} Ürün
  </span>
  </div>
- <div className="text-[10px] font-sans text-artisan-cream/60">
+ <div className="text-[10px] font-sans text-artisan-cream/90">
  EkmekLab Taze Fırın Çıkışı
  </div>
  </div>
@@ -232,7 +232,7 @@ export function CartDrawer() {
 
  <button
  onClick={closeCart}
- className="p-2 rounded-lg text-artisan-cream/70 hover:text-artisan-cream hover:bg-surface-elevated transition-colors"
+ className="p-2 rounded-lg text-artisan-cream/90 hover:text-artisan-cream hover:bg-surface-elevated transition-colors"
  >
  <X className="w-5 h-5" />
  </button>
@@ -249,7 +249,7 @@ export function CartDrawer() {
  <h4 className="font-serif text-base font-bold text-artisan-cream">
  Sepetiniz Henüz Boş
  </h4>
- <p className="text-xs text-artisan-cream/70 max-w-xs font-sans">
+ <p className="text-xs text-artisan-cream/90 max-w-xs font-sans">
  Taş fırında taze pişen ekşi mayalı ekmeklerimizden ve şarküteri ürünlerimizden seçin.
  </p>
  </div>
@@ -275,7 +275,7 @@ export function CartDrawer() {
  Ücretsiz kurye teslimatına son <strong className="text-artisan-gold font-bold">{1000 - subtotal} TL</strong>
  </span>
  )}
- <span className="text-[10px] font-mono text-foreground/50">1.000 TL Hedefi</span>
+ <span className="text-[10px] font-mono text-foreground/90">1.000 TL Hedefi</span>
  </div>
 
  <div className="w-full h-2 rounded-full bg-surface-panel overflow-hidden border border-surface-border">
@@ -287,7 +287,7 @@ export function CartDrawer() {
 
  {subtotal < 1000 && (
  <div className="pt-1 flex flex-wrap items-center gap-1.5 text-[11px]">
- <span className="text-foreground/50 font-sans text-[10px]">Gurme Eşlikçi:</span>
+ <span className="text-foreground/90 font-sans text-[10px]">Gurme Eşlikçi:</span>
  {!items.some((i) => i.productId === "YGnge5isqk1d4nI4YUx8") && (
  <button
  type="button"
@@ -333,7 +333,7 @@ export function CartDrawer() {
  <span>Beylikdüzü Fırın Kuryesi</span>
  <span className="text-[9px] px-1.5 py-0.5 rounded bg-amber-500/20 text-artisan-gold font-mono font-bold">KAPINIZA TESLİM</span>
  </div>
- <div className="text-[10px] text-artisan-cream/60">Taze taş fırın ekmekleriniz kapınıza ulaştırılır</div>
+ <div className="text-[10px] text-artisan-cream/90">Taze taş fırın ekmekleriniz kapınıza ulaştırılır</div>
  </div>
  </div>
  </div>
@@ -343,7 +343,7 @@ export function CartDrawer() {
  <div className="space-y-2">
  <div className="text-[11px] font-serif font-bold text-artisan-gold uppercase tracking-wider flex items-center justify-between">
  <span>Teslimat Günü</span>
- <span className="text-[10px] text-artisan-cream/60 font-normal">Taze Pişirme</span>
+ <span className="text-[10px] text-artisan-cream/90 font-normal">Taze Pişirme</span>
  </div>
 
  <div className="grid grid-cols-3 gap-1.5">
@@ -360,7 +360,7 @@ export function CartDrawer() {
  ? "bg-surface/30 border-surface-border/40 text-artisan-cream/30 cursor-not-allowed"
  : currentDeliveryDate === "today"
  ? "bg-artisan-brown text-artisan-cream font-bold border-artisan-gold shadow-sm"
- : "bg-surface border-surface-border text-artisan-cream/70 hover:text-artisan-cream"
+ : "bg-surface border-surface-border text-artisan-cream/90 hover:text-artisan-cream"
 }`}
  title={
  cutoffInfo.isCutoffPassed
@@ -381,7 +381,7 @@ export function CartDrawer() {
  className={`p-2.5 rounded-xl border font-sans text-xs text-center transition-all ${
  currentDeliveryDate === "tomorrow"
  ? "bg-artisan-brown text-artisan-cream font-bold border-artisan-gold shadow-sm"
- : "bg-surface border-surface-border text-artisan-cream/70 hover:text-artisan-cream"
+ : "bg-surface border-surface-border text-artisan-cream/90 hover:text-artisan-cream"
 }`}
  >
  <div className="font-bold">Yarın</div>
@@ -397,7 +397,7 @@ export function CartDrawer() {
  className={`p-2.5 rounded-xl border font-sans text-xs text-center transition-all ${
  showCustomDate
  ? "bg-artisan-brown text-artisan-cream font-bold border-artisan-gold shadow-sm"
- : "bg-surface border-surface-border text-artisan-cream/70 hover:text-artisan-cream"
+ : "bg-surface border-surface-border text-artisan-cream/90 hover:text-artisan-cream"
 }`}
  >
  <div className="font-bold">Tarih Seç</div>
@@ -418,7 +418,7 @@ export function CartDrawer() {
  {/* Custom Date Input */}
  {showCustomDate && (
  <div className="pt-2">
- <label className="block text-[10px] font-sans text-artisan-cream/70 mb-1">
+ <label className="block text-[10px] font-sans text-artisan-cream/90 mb-1">
  İstediğiniz Teslimat Tarihi:
  </label>
  <input
@@ -460,7 +460,7 @@ export function CartDrawer() {
  <div className="font-serif font-bold text-xs sm:text-sm text-artisan-cream truncate">
  {item.name}
  </div>
- <div className="text-[10px] font-sans text-artisan-cream/60 mt-0.5">
+ <div className="text-[10px] font-sans text-artisan-cream/90 mt-0.5">
  {item.weight}gr · {item.price} TL
  </div>
  <div className="font-serif text-sm font-bold text-artisan-gold mt-1">
@@ -472,7 +472,7 @@ export function CartDrawer() {
  <button
  type="button"
  onClick={() => removeItem(item.productId)}
- className="text-zinc-500 hover:text-red-400 transition-colors p-1"
+ className="text-zinc-300 hover:text-red-400 transition-colors p-1"
  >
  <Trash2 className="w-3.5 h-3.5" />
  </button>
@@ -481,17 +481,17 @@ export function CartDrawer() {
  <button
  type="button"
  onClick={() => updateQuantity(item.productId, item.quantity - 1)}
- className="w-6 h-6 flex items-center justify-center text-artisan-cream/70 hover:text-artisan-cream"
+ className="w-11 h-11 flex items-center justify-center text-artisan-cream/90 hover:text-artisan-cream"
  >
  <Minus className="w-3 h-3" />
  </button>
- <span className="w-6 text-center font-serif text-xs font-bold text-artisan-cream">
+ <span className="w-8 text-center font-serif text-xs font-bold text-artisan-cream">
  {item.quantity}
  </span>
  <button
  type="button"
  onClick={() => updateQuantity(item.productId, item.quantity + 1)}
- className="w-6 h-6 flex items-center justify-center text-artisan-cream/70 hover:text-artisan-cream"
+ className="w-11 h-11 flex items-center justify-center text-artisan-cream/90 hover:text-artisan-cream"
  >
  <Plus className="w-3 h-3" />
  </button>
@@ -527,7 +527,7 @@ export function CartDrawer() {
     {/* Saved Addresses for logged in user */}
     {isLoggedIn && addresses.length > 0 && deliveryMethod === "courier" && (
       <div className="p-2.5 rounded-xl bg-surface border border-surface-border space-y-1.5">
-        <div className="text-[10px] font-sans text-artisan-cream/70 flex items-center justify-between">
+        <div className="text-[10px] font-sans text-artisan-cream/90 flex items-center justify-between">
           <span>Kayıtlı Adresleriniz (Tek Tıkla Doldur):</span>
         </div>
         <div className="flex flex-wrap gap-1.5">
@@ -544,7 +544,7 @@ export function CartDrawer() {
               className={`px-2.5 py-1 rounded-lg text-[11px] font-sans border transition-all flex items-center gap-1 ${
                 customerInfo.addressDetail === addr.addressDetail
                   ? "bg-artisan-brown text-artisan-cream border-artisan-gold font-bold shadow-sm"
-                  : "bg-surface-panel border-surface-border text-artisan-cream/70 hover:text-artisan-cream"
+                  : "bg-surface-panel border-surface-border text-artisan-cream/90 hover:text-artisan-cream"
               }`}
             >
               <MapPin className="w-3 h-3 text-artisan-gold" />
@@ -573,11 +573,11 @@ export function CartDrawer() {
     <div className="space-y-2.5 font-sans">
  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
  <div>
- <label className="block text-[10px] font-sans text-artisan-cream/70 mb-1">
+ <label className="block text-[10px] font-sans text-artisan-cream/90 mb-1">
  Adınız Soyadınız *
  </label>
  <div className="relative">
- <User className="w-3.5 h-3.5 text-zinc-500 absolute left-2.5 top-2.5" />
+ <User className="w-3.5 h-3.5 text-zinc-300 absolute left-2.5 top-2.5" />
  <input
  type="text"
  value={customerInfo.name}
@@ -589,11 +589,11 @@ export function CartDrawer() {
  </div>
 
  <div>
- <label className="block text-[10px] font-sans text-artisan-cream/70 mb-1">
+ <label className="block text-[10px] font-sans text-artisan-cream/90 mb-1">
  Telefon Numarası *
  </label>
  <div className="relative">
- <Phone className="w-3.5 h-3.5 text-zinc-500 absolute left-2.5 top-2.5" />
+ <Phone className="w-3.5 h-3.5 text-zinc-300 absolute left-2.5 top-2.5" />
  <input
  type="tel"
  value={customerInfo.phone}
@@ -609,7 +609,7 @@ export function CartDrawer() {
  <>
  <div>
   <div className="flex items-center justify-between mb-1">
-    <label className="text-[10px] font-sans text-artisan-cream/70">
+    <label className="text-[10px] font-sans text-artisan-cream/90">
       Beylikdüzü Mahallesi *
     </label>
     <button
@@ -646,7 +646,7 @@ export function CartDrawer() {
  </div>
 
  <div>
- <label className="block text-[10px] font-sans text-artisan-cream/70 mb-1">
+ <label className="block text-[10px] font-sans text-artisan-cream/90 mb-1">
  Açık Adres (Cadde / Sokak / Bina / Daire) *
  </label>
  <textarea
@@ -661,7 +661,7 @@ export function CartDrawer() {
  )}
 
  <div>
- <label className="block text-[10px] font-sans text-artisan-cream/70 mb-1">
+ <label className="block text-[10px] font-sans text-artisan-cream/90 mb-1">
  Sipariş Notu (Opsiyonel)
  </label>
  <input
@@ -681,7 +681,7 @@ export function CartDrawer() {
  {/* Footer & Price Breakdown */}
  {items.length > 0 && (
  <div className="p-4 sm:p-5 border-t border-surface-border bg-surface/95 space-y-3">
- <div className="space-y-1.5 font-sans text-xs text-artisan-cream/70">
+ <div className="space-y-1.5 font-sans text-xs text-artisan-cream/90">
  <div className="flex items-center justify-between">
  <span>Ara Toplam</span>
  <span className="text-artisan-cream font-serif font-bold">{subtotal} TL</span>
