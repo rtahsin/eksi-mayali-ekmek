@@ -7,25 +7,14 @@ export function AtelierThresholdHero() {
   return (
     <section className="relative w-full bg-background overflow-hidden border-b border-surface-border">
       {/* 1. Main Visual Hero Stage */}
-      <div className="relative w-full flex items-end sm:items-center min-h-[460px] sm:min-h-[520px] md:min-h-0 md:aspect-[16/9] md:max-h-[85vh] lg:max-h-[900px]">
-        {/* Mobile Background Image: Vertical 3:4 perspective clearly showing the full arched bakery door, bread rack & stone steps */}
+      <div className="relative w-full flex items-end sm:items-center min-h-[420px] sm:min-h-[500px] md:min-h-0 md:aspect-[16/9] md:max-h-[85vh] lg:max-h-[900px]">
+        {/* Background Image: Original atelier_threshold.png with mobile-tuned focus on the door opening & warm light */}
         <div
           style={{
-            backgroundImage: "url('/atelier/atelier_door_mobile.jpg')",
+            backgroundImage: "url('/atelier/atelier_threshold.png')",
             backgroundSize: "cover",
-            backgroundPosition: "center 15%",
           }}
-          className="md:hidden absolute inset-0 w-full h-full opacity-90 filter brightness-95 contrast-105"
-        />
-
-        {/* Desktop Background Image: Wide 16:9 cinematic perspective showing the rustic stone facade & open entrance */}
-        <div
-          style={{
-            backgroundImage: "url('/atelier/atelier_door_desktop.jpg')",
-            backgroundSize: "cover",
-            backgroundPosition: "center center",
-          }}
-          className="hidden md:block absolute inset-0 w-full h-full opacity-65 filter brightness-90 contrast-115"
+          className="absolute inset-0 w-full h-full bg-[70%_25%] md:bg-center opacity-90 md:opacity-60 filter brightness-95 md:brightness-90 contrast-110 md:contrast-125 sepia-[.15]"
         />
 
         {/* Desktop Gradient: Left-to-right fade leaving right side visual clear */}
