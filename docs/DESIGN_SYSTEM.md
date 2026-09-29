@@ -15,11 +15,11 @@ Bu doküman, EkmekLab müşteri vitrininde (Storefront) geçerli olan renk palet
 
 | Token Adı | HEX Kodu | Kullanım Alanı & Kural |
 | :--- | :--- | :--- |
-| `canvas-linen` | `#FAF7F2` | Mağaza vitrini ana zemin rengi (Body canvas). Gözü dinlendirir. |
+| `canvas-linen` | `#F4EFEA` | Mağaza vitrini ana zemin rengi (Body canvas). Gözü dinlendiren taş un tonu. |
 | `surface-cream` | `#FFFFFF` | Ürün kartları, paneller, modal yüzeyleri (Taze un tonu). |
-| `surface-subtle` | `#F5EFEB` | Kategori sekmeleri pasif durumu, ikincil kutular. |
-| `border-stone` | `#ECE5D8` | Kart kenarlıkları ve ayırıcı çizgiler (Un tozu yumuşaklığı). |
-| `border-subtle` | `#F0EAE0` | İkincil ince çizgiler. |
+| `surface-subtle` | `#EBE3D8` | Kategori sekmeleri pasif durumu, ikincil kutular. |
+| `border-stone` | `#DFD5C6` | Kart kenarlıkları ve ayırıcı çizgiler (Taş un tozu yumuşaklığı). |
+| `border-subtle` | `#E8E0D4` | İkincil ince çizgiler. |
 | `text-espresso` | `#211A14` | Başlıklar, ürün adları ve fiyatlar (Simsiyah yerine koyu espresso). |
 | `text-wheat` | `#615347` | Açıklama metinleri ve ikincil yazılar (Kavrulmuş buğday). |
 | `text-muted` | `#8C7D70` | Yardımcı metinler, gramaj, dipnotlar. |
@@ -27,7 +27,8 @@ Bu doküman, EkmekLab müşteri vitrininde (Storefront) geçerli olan renk palet
 | `artisan-terracotta-dark` | `#B34B26` | Buton hover ve aktif basılma durumu. |
 | `artisan-terracotta-soft` | `#F7ECE6` | Terakota rozet arka planı (Yumuşak kiremit zemin). |
 | `artisan-gold` | `#C59B6D` | İkincil detaylar, yıldızlar, altın sarısı kabuk vurguları. |
-| `hero-dark` | `#12100E` | Gece fırını hero banner arka planı. |
+| `hero-dark` | `#16120F` | Gece fırını hero banner arka planı. |
+| `dawn-bridge` | Gradient | Koyu fırın kapısından keten vitrine yumuşak gün ışığı erimesi. |
 
 ---
 

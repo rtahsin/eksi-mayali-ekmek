@@ -6,38 +6,42 @@ import { BookOpen, ArrowRight } from "lucide-react";
 
 export function HowWeBake() {
   return (
-    <section id="nasil-uretiyoruz" className="relative py-16 md:py-32 border-t border-b border-surface-border bg-background overflow-hidden">
+    <section id="nasil-uretiyoruz" className="relative py-16 md:py-24 bg-linen text-espresso border-b border-linen-border overflow-hidden">
       
-      {/* Background structural lines for laboratory aesthetic */}
-      <div className="absolute inset-0 opacity-[0.03] pointer-events-none" 
-           style={{ backgroundImage: 'linear-gradient(#E8E0D5 1px, transparent 1px), linear-gradient(90deg, #E8E0D5 1px, transparent 1px)', backgroundSize: '100px 100px' }}>
-      </div>
+      {/* Background subtle structural flour lines */}
+      <div 
+        className="absolute inset-0 opacity-[0.025] pointer-events-none" 
+        style={{ 
+          backgroundImage: 'linear-gradient(#211A14 1px, transparent 1px), linear-gradient(90deg, #211A14 1px, transparent 1px)', 
+          backgroundSize: '100px 100px' 
+        }}
+      />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         
         {/* Minimal Editorial Header */}
-        <div className="text-center mb-12 md:mb-20 space-y-4">
-          <p className="font-serif text-xs md:text-sm text-artisan-gold tracking-[0.3em] uppercase">
+        <div className="text-center mb-10 md:mb-16 space-y-3">
+          <p className="font-serif text-xs md:text-sm text-artisan-terracotta tracking-[0.25em] uppercase font-semibold">
             Ekmek Anatomisi
           </p>
-          <h2 className="font-serif text-3xl md:text-5xl lg:text-6xl font-bold text-foreground">
+          <h2 className="font-serif text-3xl md:text-5xl lg:text-6xl font-bold text-espresso tracking-tight">
             Su, Un, Tuz ve Zaman.
           </h2>
-          <p className="font-sans text-foreground/60 text-sm md:text-base max-w-xl mx-auto pt-4">
+          <p className="font-sans text-espresso-wheat text-xs sm:text-sm md:text-base max-w-xl mx-auto pt-2 leading-relaxed">
             Standart fırıncılığın hızlandırdığı her adımı, biz olması gerektiği gibi yavaşlatıyoruz. 
-            İşte laboratuvarımızın temel reçetesi:
+            İşte atölyemizin temel zanaat reçetesi:
           </p>
         </div>
 
-        {/* Blueprint Area */}
-        <div className="relative w-full aspect-[4/3] md:aspect-[16/9] max-h-[85vh] bg-[#0A0908] rounded-2xl md:rounded-3xl border border-surface-border overflow-hidden shadow-clay-lg flex items-center justify-center">
+        {/* Blueprint Area: Framed photographic exhibition canvas */}
+        <div className="relative w-full aspect-[4/3] md:aspect-[16/9] max-h-[85vh] bg-[#120E0B] rounded-2xl md:rounded-3xl border border-linen-border overflow-hidden shadow-xl flex items-center justify-center">
           
-          {/* Base Image generated via AI */}
+          {/* Base Image */}
           <Image 
             src="/atelier/bread_anatomy_real.jpg"
             alt="Bread Anatomy Photograph"
             fill
-            className="object-cover opacity-85 filter brightness-105 contrast-105"
+            className="object-cover opacity-90 filter brightness-100 contrast-105"
             sizes="(max-width: 1280px) 100vw, 1280px"
           />
 
@@ -54,10 +58,10 @@ export function HowWeBake() {
                 <span className="w-8 md:w-16 h-[1px] bg-artisan-gold/50"></span>
                 01. KÜLTÜR
               </div>
-              <div className="font-mono text-foreground text-xs md:text-sm bg-surface/90 backdrop-blur-md px-3 py-1.5 md:px-4 md:py-2 border border-surface-border rounded">
+              <div className="font-mono text-foreground text-xs md:text-sm bg-surface/90 backdrop-blur-md px-3 py-1.5 md:px-4 md:py-2 border border-surface-border rounded-lg">
                 MAYA: 8 YILLIK CANLI
               </div>
-              <p className="font-hand text-foreground/80 text-xl md:text-2xl mt-3 max-w-[150px] md:max-w-[220px] leading-tight rotate-[-2deg]">
+              <p className="font-serif italic text-foreground/80 text-base md:text-lg mt-2 max-w-[150px] md:max-w-[220px] leading-tight">
                 Her gün aynı saatte beslenir, endüstriyel maya girmez.
               </p>
             </div>
@@ -68,10 +72,10 @@ export function HowWeBake() {
                 02. HİDRASYON
                 <span className="w-8 md:w-16 h-[1px] bg-artisan-gold/50"></span>
               </div>
-              <div className="font-mono text-foreground text-xs md:text-sm bg-surface/90 backdrop-blur-md px-3 py-1.5 md:px-4 md:py-2 border border-surface-border rounded">
+              <div className="font-mono text-foreground text-xs md:text-sm bg-surface/90 backdrop-blur-md px-3 py-1.5 md:px-4 md:py-2 border border-surface-border rounded-lg">
                 SU ORANI: %78 - %82
               </div>
-              <p className="font-hand text-foreground/80 text-xl md:text-2xl mt-3 max-w-[160px] md:max-w-[230px] leading-tight rotate-[2deg]">
+              <p className="font-serif italic text-foreground/80 text-base md:text-lg mt-2 max-w-[160px] md:max-w-[230px] leading-tight">
                 Yüksek su tutma kapasitesi sayesinde içi nemli ve yumuşak.
               </p>
             </div>
@@ -82,10 +86,10 @@ export function HowWeBake() {
                 <span className="w-8 md:w-12 h-[1px] bg-artisan-gold/50"></span>
                 03. ZAMAN
               </div>
-              <div className="font-mono text-foreground text-xs md:text-sm bg-surface/90 backdrop-blur-md px-3 py-1.5 md:px-4 md:py-2 border border-surface-border rounded">
+              <div className="font-mono text-foreground text-xs md:text-sm bg-surface/90 backdrop-blur-md px-3 py-1.5 md:px-4 md:py-2 border border-surface-border rounded-lg">
                 SOĞUK MAYALAMA: 36 SAAT
               </div>
-              <p className="font-hand text-foreground/80 text-xl md:text-2xl mt-3 max-w-[160px] md:max-w-[230px] leading-tight rotate-[-3deg]">
+              <p className="font-serif italic text-foreground/80 text-base md:text-lg mt-2 max-w-[160px] md:max-w-[230px] leading-tight">
                 Fitik asit parçalanır, demir ve mineraller serbest kalır.
               </p>
             </div>
@@ -96,10 +100,10 @@ export function HowWeBake() {
                 04. ATEŞ
                 <span className="w-8 md:w-12 h-[1px] bg-artisan-gold/50"></span>
               </div>
-              <div className="font-mono text-foreground text-xs md:text-sm bg-surface/90 backdrop-blur-md px-3 py-1.5 md:px-4 md:py-2 border border-surface-border rounded">
+              <div className="font-mono text-foreground text-xs md:text-sm bg-surface/90 backdrop-blur-md px-3 py-1.5 md:px-4 md:py-2 border border-surface-border rounded-lg">
                 TAŞ TABAN: 240°C
               </div>
-              <p className="font-hand text-foreground/80 text-xl md:text-2xl mt-3 max-w-[160px] md:max-w-[220px] leading-tight rotate-[4deg]">
+              <p className="font-serif italic text-foreground/80 text-base md:text-lg mt-2 max-w-[160px] md:max-w-[220px] leading-tight">
                 Buhar şokuyla mühürlenen nar gibi çıtır karamelize kabuk.
               </p>
             </div>
@@ -108,29 +112,29 @@ export function HowWeBake() {
         </div>
 
         {/* Bridge to Science & Order */}
-        <div className="mt-10 sm:mt-14 flex flex-col sm:flex-row items-center justify-between p-6 sm:p-8 rounded-3xl bg-surface border border-surface-border shadow-xl gap-6">
+        <div className="mt-10 sm:mt-14 flex flex-col sm:flex-row items-center justify-between p-6 sm:p-8 rounded-3xl bg-linen-surface border border-linen-border shadow-xs gap-6">
           <div className="space-y-1.5 text-center sm:text-left">
-            <div className="text-[11px] font-mono tracking-widest uppercase text-artisan-gold font-semibold">
+            <div className="text-[11px] font-sans tracking-wider uppercase text-artisan-terracotta font-semibold">
               EKMEKLAB · FERMANTASYON BİYOLOJİSİ
             </div>
-            <h4 className="font-serif text-xl sm:text-2xl font-bold text-foreground">
+            <h4 className="font-serif text-xl sm:text-2xl font-bold text-espresso">
               Zanaatın arkasındaki bilimi keşfedin.
             </h4>
-            <p className="text-xs sm:text-sm text-foreground/70 font-sans max-w-lg leading-relaxed">
+            <p className="text-xs sm:text-sm text-espresso-wheat font-sans max-w-lg leading-relaxed">
               36 saatlik laktik asit fermantasyonu neden midede şişkinlik yapmaz? Karakılçık buğdayı ve canlı çiğ süt kimyası.
             </p>
           </div>
           <div className="flex flex-wrap items-center gap-3 shrink-0">
             <a
               href="/kutuphane"
-              className="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-surface-panel hover:bg-surface-elevated text-artisan-gold border border-artisan-gold/30 text-xs font-sans font-semibold transition-all"
+              className="touch-target-44 inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-linen-subtle hover:bg-linen text-espresso border border-linen-border text-xs font-sans font-semibold transition-all shadow-2xs"
             >
-              <BookOpen className="w-4 h-4" />
+              <BookOpen className="w-4 h-4 text-artisan-terracotta" />
               <span>Bülteni Oku →</span>
             </a>
             <a
               href="#ekmekler"
-              className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-artisan-terracotta hover:bg-artisan-terracotta/90 text-foreground text-xs font-sans font-bold shadow-lg shadow-artisan-terracotta/25 border border-artisan-gold/30 transition-all hover:scale-[1.02] active:scale-[0.98]"
+              className="touch-target-44 inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-artisan-terracotta hover:bg-artisan-terracotta-dark text-white text-xs font-sans font-semibold shadow-xs transition-all hover:scale-[1.01] active:scale-[0.98]"
             >
               <span>🍞 Fırından Sipariş Ver</span>
               <ArrowRight className="w-3.5 h-3.5" />

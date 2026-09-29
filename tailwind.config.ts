@@ -40,11 +40,11 @@ const config: Config = {
         },
         // Artisan Cream & Warm Linen Design System tokens
         linen: {
-          DEFAULT: "#FAF7F2",
+          DEFAULT: "#F4EFEA",
           surface: "#FFFFFF",
-          subtle: "#F5EFEB",
-          border: "#ECE5D8",
-          borderSubtle: "#F0EAE0",
+          subtle: "#EBE3D8",
+          border: "#DFD5C6",
+          borderSubtle: "#E8E0D4",
         },
         espresso: {
           DEFAULT: "#211A14",

@@ -5,7 +5,7 @@ import { Wheat, Truck, ArrowRight, BookOpen, Clock } from "lucide-react";
 
 export function AtelierThresholdHero() {
   return (
-    <section className="relative w-full bg-background overflow-hidden border-b border-surface-border">
+    <section className="relative w-full bg-[#16120F] overflow-hidden">
       {/* 1. Main Visual Hero Stage */}
       <div className="relative w-full flex items-end sm:items-center min-h-[420px] sm:min-h-[500px] md:min-h-0 md:aspect-[16/9] md:max-h-[85vh] lg:max-h-[900px]">
         {/* Background Image: Original atelier_threshold.png with mobile-tuned focus on the door opening & warm light */}
@@ -18,10 +18,10 @@ export function AtelierThresholdHero() {
         />
 
         {/* Desktop Gradient: Left-to-right fade leaving right side visual clear */}
-        <div className="hidden md:block absolute inset-0 bg-gradient-to-r from-background via-background/85 to-transparent pointer-events-none w-3/5" />
+        <div className="hidden md:block absolute inset-0 bg-gradient-to-r from-[#16120F] via-[#16120F]/85 to-transparent pointer-events-none w-3/5" />
 
         {/* Mobile Gradient: Bottom-up fade protecting text legibility while revealing top door photo */}
-        <div className="absolute inset-0 bg-gradient-to-t from-background via-background/80 via-45% to-transparent/10 md:bg-gradient-to-t md:from-background/90 md:via-transparent md:to-transparent pointer-events-none" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#16120F] via-[#16120F]/80 via-45% to-transparent/10 md:bg-gradient-to-t md:from-[#16120F]/90 md:via-transparent md:to-transparent pointer-events-none" />
 
         {/* Content Container */}
         <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-7 sm:py-16 md:py-20 w-full">
@@ -48,7 +48,7 @@ export function AtelierThresholdHero() {
             <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 pt-1 sm:pt-2">
               <a
                 href="#ekmekler"
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl bg-artisan-terracotta hover:bg-artisan-terracotta/90 text-foreground font-serif text-sm font-bold shadow-lg shadow-artisan-terracotta/25 border border-artisan-gold/30 transition-all hover:scale-[1.02] active:scale-[0.98]"
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl bg-artisan-terracotta hover:bg-artisan-terracotta/90 text-white font-serif text-sm font-bold shadow-lg shadow-artisan-terracotta/25 border border-artisan-gold/30 transition-all hover:scale-[1.02] active:scale-[0.98]"
               >
                 <span>🍞 Günün Taze Ekmekleri</span>
                 <ArrowRight className="w-4 h-4" />
@@ -66,7 +66,7 @@ export function AtelierThresholdHero() {
       </div>
 
       {/* 2. Trust Ribbon: Clean, uncrowded strip anchoring the hero */}
-      <div className="w-full border-t border-surface-border bg-surface-card/60 backdrop-blur-md py-3.5 sm:py-4 px-4 sm:px-6 lg:px-8">
+      <div className="w-full border-t border-[#33261C] bg-[#1C1713]/90 backdrop-blur-md py-3.5 sm:py-4 px-4 sm:px-6 lg:px-8">
         <div className="max-w-6xl mx-auto grid grid-cols-3 gap-2 sm:gap-6 text-center sm:text-left">
           <div className="flex flex-col sm:flex-row items-center sm:items-start gap-1 sm:gap-2.5">
             <Wheat className="w-4 h-4 text-artisan-gold shrink-0 mt-0.5" />
@@ -93,6 +93,12 @@ export function AtelierThresholdHero() {
           </div>
         </div>
       </div>
+
+      {/* 3. Dawn Ambient Light Bleed (Fırın kapısından keten tezgaha yumuşak gün ışığı erimesi) */}
+      <div
+        className="w-full h-10 sm:h-14 bg-gradient-to-b from-[#1C1713] via-[#2F241B] via-30% via-[#9E826B]/20 to-linen pointer-events-none"
+        aria-hidden="true"
+      />
     </section>
   );
 }
