@@ -1,201 +1,112 @@
 "use client";
 
-import React, { useState} from "react";
+import React, { useState } from "react";
 import { ExtendedProduct } from "@/hooks/useProducts";
 import { useCartStore } from "@/lib/store/useCartStore";
-import { ShoppingBag, Plus, Minus, Check, BookOpen, ExternalLink } from "lucide-react";
+import { Plus, Check } from "lucide-react";
 import Link from "next/link";
 import { getProductUrl } from "@/lib/utils/slugify";
 
 interface ProductCardProps {
- product: ExtendedProduct;
- onOpenDetails: (product: ExtendedProduct) => void;
+  product: ExtendedProduct;
+  onOpenDetails: (product: ExtendedProduct) => void;
 }
 
-export function ProductCard({ product, onOpenDetails}: ProductCardProps) {
- const [quantity, setQuantity] = useState<number>(1);
- const [isAdded, setIsAdded] = useState<boolean>(false);
- const addItem = useCartStore((state) => state.addItem);
+export function ProductCard({ product, onOpenDetails }: ProductCardProps) {
+  const [isAdded, setIsAdded] = useState<boolean>(false);
+  const addItem = useCartStore((state) => state.addItem);
 
- const handleIncrement = (e: React.MouseEvent) => {
- e.stopPropagation();
- setQuantity((prev) => prev + 1);
-};
+  const handleAddToCart = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    const success = addItem(product, null, 1);
+    if (success) {
+      setIsAdded(true);
+      setTimeout(() => setIsAdded(false), 1200);
+    }
+  };
 
- const handleDecrement = (e: React.MouseEvent) => {
- e.stopPropagation();
- if (quantity > 1) {
- setQuantity((prev) => prev - 1);
-}
-};
+  return (
+    <div
+      onClick={() => onOpenDetails(product)}
+      className="group cursor-pointer rounded-2xl bg-linen-surface border border-linen-border hover:border-artisan-terracotta/40 hover:shadow-xl transition-all duration-300 flex flex-col justify-between overflow-hidden shadow-xs"
+    >
+      {/* Product Image */}
+      <div className="relative h-48 sm:h-52 w-full bg-linen-subtle overflow-hidden">
+        <img
+          src={product.imageUrl}
+          alt={product.name}
+          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+          loading="lazy"
+        />
 
- const handleAddToCart = (e: React.MouseEvent) => {
- e.stopPropagation();
- const success = addItem(product, null, quantity);
- if (success) {
- setIsAdded(true);
- setTimeout(() => setIsAdded(false), 1200);
-}
-};
+        {/* Minimal Single Badge: Only show if Made-to-order */}
+        {product.madeToOrder && (
+          <div className="absolute top-2.5 left-2.5 pointer-events-none">
+            <span className="px-2.5 py-0.5 rounded-full bg-artisan-terracotta-soft text-artisan-terracotta border border-artisan-terracotta/20 text-[10px] font-sans font-bold uppercase tracking-wide">
+              Ön Sipariş
+            </span>
+          </div>
+        )}
 
- return (
- <div
- onClick={() => onOpenDetails(product)}
- className="group cursor-pointer rounded-2xl bg-surface border border-surface-border hover:border-artisan-gold/60 transition-all duration-300 flex flex-col justify-between overflow-hidden shadow-lg hover:shadow-2xl"
- >
- {/* Product Image */}
- <div className="relative h-56 w-full bg-background overflow-hidden">
- <img
- src={product.imageUrl}
- alt={product.name}
- className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 filter brightness-95"
- />
- <div className="absolute inset-0 bg-gradient-to-t from-surface via-transparent to-transparent opacity-85" />
-
- {/* Top Badges */}
- <div className="absolute top-3 left-3 flex flex-wrap gap-1.5 pointer-events-none">
- {product.madeToOrder ? (
- <span className="px-2.5 py-0.5 rounded-full bg-artisan-terracotta text-foreground text-[10px] font-sans font-bold uppercase shadow-sm">
- Ön Sipariş
- </span>
- ) : (
- <span className="px-2.5 py-0.5 rounded-full bg-emerald-900/90 text-emerald-300 border border-emerald-500/40 text-[10px] font-sans font-bold uppercase shadow-sm">
- Günlük Taze
- </span>
- )}
-
- {product.isPopular && (
- <span className="px-2.5 py-0.5 rounded-full bg-[#D2B48C] text-stone-950 text-[10px] font-sans font-bold uppercase shadow-sm">
- Öne Çıkan
- </span>
- )}
- </div>
-
-        {/* Weight / Volume Tag */}
-        <div className="absolute bottom-3 right-3 text-[11px] font-sans text-foreground px-2.5 py-0.5 rounded-md bg-surface/90 border border-surface-border font-mono">
+        {/* Clean Weight / Volume Tag */}
+        <div className="absolute bottom-2.5 right-2.5 text-[11px] font-sans font-medium text-espresso px-2 py-0.5 rounded-md bg-linen-surface/90 backdrop-blur-sm border border-linen-border shadow-2xs">
           {product.weight >= 1000 && product.weightUnit === "ml"
-            ? `${product.weight / 1000} Litre`
+            ? `${product.weight / 1000}L`
             : `${product.weight}${product.weightUnit || "g"}`}
         </div>
       </div>
 
       {/* Content */}
-      <div className="p-5 flex-1 flex flex-col justify-between space-y-4">
+      <div className="p-4 sm:p-5 flex-1 flex flex-col justify-between space-y-3">
         <div>
-          <div className="flex items-center justify-between gap-2">
-            <h3 className="font-serif font-bold text-foreground text-base leading-snug group-hover:text-artisan-gold transition-colors">
-              <Link
-                href={getProductUrl(product)}
-                onClick={(e) => e.stopPropagation()}
-                className="hover:underline"
-              >
-                {product.name}
-              </Link>
-            </h3>
-          </div>
+          <h3 className="font-serif font-bold text-espresso text-base sm:text-lg leading-snug group-hover:text-artisan-terracotta transition-colors line-clamp-1">
+            <Link
+              href={getProductUrl(product)}
+              onClick={(e) => e.stopPropagation()}
+              className="hover:underline"
+            >
+              {product.name}
+            </Link>
+          </h3>
 
-          <p className="text-xs text-foreground/90 line-clamp-2 mt-1.5 font-sans leading-relaxed">
+          <p className="text-xs text-espresso-wheat line-clamp-2 mt-1 font-sans leading-relaxed">
             {product.description}
           </p>
+        </div>
 
-          {/* Artisan DNA Pills */}
-          <div className="pt-1.5 flex flex-wrap gap-1.5 text-[10px] font-sans">
-            {product.hydration && (
-              <span className="px-2 py-0.5 rounded-md bg-surface-panel border border-surface-border text-artisan-gold font-mono">
-                %{product.hydration} Su
-              </span>
-            )}
-            {product.category === "bread" || product.category === "specialty" ? (
-              <span className="px-2 py-0.5 rounded-md bg-surface-panel border border-surface-border text-foreground/80 font-mono">
-                36s Soğuk Fermantasyon
-              </span>
+        {/* Bottom Price & Add Action: 36px visual + 44px hit-target */}
+        <div className="pt-2.5 border-t border-linen-border flex items-center justify-between gap-3">
+          <div className="flex items-baseline gap-1">
+            <span className="font-serif text-xl sm:text-2xl font-bold text-espresso">
+              {product.price}
+            </span>
+            <span className="text-xs text-espresso-muted font-sans font-medium">TL</span>
+          </div>
+
+          <button
+            type="button"
+            onClick={handleAddToCart}
+            className={`touch-target-44 h-9 px-3.5 sm:px-4 rounded-xl font-sans text-xs font-semibold flex items-center justify-center gap-1.5 transition-all active:scale-[0.97] ${
+              isAdded
+                ? "bg-emerald-600 text-white shadow-xs"
+                : "bg-artisan-terracotta hover:bg-artisan-terracotta-dark text-white shadow-xs"
+            }`}
+            title="Sepete Ekle"
+          >
+            {isAdded ? (
+              <>
+                <Check className="w-3.5 h-3.5 stroke-[2.5]" />
+                <span>Eklendi</span>
+              </>
             ) : (
-              <span className="px-2 py-0.5 rounded-md bg-surface-panel border border-surface-border text-emerald-400/90 font-sans">
-                %100 Doğal & Katkısız
-              </span>
+              <>
+                <Plus className="w-3.5 h-3.5 stroke-[2.5]" />
+                <span>Sepete Ekle</span>
+              </>
             )}
-            {product.flourTypes && product.flourTypes.length > 0 && (
-              <span className="px-2 py-0.5 rounded-md bg-surface-panel border border-surface-border text-artisan-terracotta font-sans font-medium">
-                {product.flourTypes[0].split(" ")[0]}
-              </span>
-            )}
-          </div>
-
-            {/* Masterclass & Health Note Prompt */}
-            <div className="pt-2 flex items-center justify-between gap-2">
-              <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-surface-panel/80 group-hover:bg-surface-elevated text-[11px] text-artisan-gold border border-artisan-gold/20 font-sans font-medium group-hover:border-artisan-gold/50 transition-all">
-                <BookOpen className="w-3.5 h-3.5 text-artisan-gold shrink-0" />
-                <span>Ustanın Notu: Zanaat & Biyoloji →</span>
-              </span>
-              <Link
-                href={getProductUrl(product)}
-                onClick={(e) => e.stopPropagation()}
-                className="p-1 rounded text-foreground/90 hover:text-artisan-gold transition-colors"
-                title="Ayrıntılı ürün sayfasına git"
-              >
-                <ExternalLink className="w-3.5 h-3.5" />
-              </Link>
-            </div>
-          </div>
-
- {/* Bottom Price & Add Actions */}
- <div className="pt-3 border-t border-surface-border space-y-3">
- <div className="flex items-baseline justify-between">
- <span className="text-xs font-sans text-foreground/90">Fiyat</span>
- <div className="font-serif text-xl font-bold text-foreground">
- {product.price}{" "}
- <span className="text-xs text-artisan-gold font-normal font-sans">TL</span>
- </div>
- </div>
-
- <div className="flex items-center gap-2">
- {/* Stepper */}
- <div className="flex items-center rounded-xl bg-surface-panel border border-surface-border overflow-hidden">
- <button
- type="button"
- onClick={handleDecrement}
- disabled={quantity <= 1}
- className="w-11 h-11 flex items-center justify-center text-foreground/90 hover:text-foreground hover:bg-surface-elevated transition-colors disabled:opacity-30"
- >
- <Minus className="w-3.5 h-3.5" />
- </button>
- <span className="w-10 text-center font-sans text-xs font-bold text-foreground">
- {quantity}
- </span>
- <button
- type="button"
- onClick={handleIncrement}
- className="w-11 h-11 flex items-center justify-center text-foreground/90 hover:text-foreground hover:bg-surface-elevated transition-colors"
- >
- <Plus className="w-3.5 h-3.5" />
- </button>
- </div>
-
- {/* Add Button */}
- <button
- type="button"
- onClick={handleAddToCart}
- className={`flex-1 h-9 rounded-xl font-sans text-xs font-bold flex items-center justify-center gap-1.5 transition-all ${
- isAdded
- ? "bg-emerald-600 text-foreground font-bold shadow-md"
- : "bg-artisan-terracotta hover:bg-artisan-terracotta/90 text-foreground shadow-md shadow-[#8B5E3C]/20 border border-artisan-gold/30"
-}`}
- >
- {isAdded ? (
- <>
- <Check className="w-4 h-4" />
- EKLENDİ
- </>
- ) : (
- <>
- <ShoppingBag className="w-4 h-4 text-artisan-gold" />
- SEPETE EKLE
- </>
- )}
- </button>
- </div>
- </div>
- </div>
- </div>
- );
+          </button>
+        </div>
+      </div>
+    </div>
+  );
 }

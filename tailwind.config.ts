@@ -38,6 +38,20 @@ const config: Config = {
           border: "#3D342E",
           highlight: "#4F433A",
         },
+        // Artisan Cream & Warm Linen Design System tokens
+        linen: {
+          DEFAULT: "#FAF7F2",
+          surface: "#FFFFFF",
+          subtle: "#F5EFEB",
+          border: "#ECE5D8",
+          borderSubtle: "#F0EAE0",
+        },
+        espresso: {
+          DEFAULT: "#211A14",
+          light: "#3A2F25",
+          wheat: "#615347",
+          muted: "#8C7D70",
+        },
         artisan: {
           brown: "#6B4931",
           crust: "#8B5A33",
@@ -47,7 +61,9 @@ const config: Config = {
           oven: "#D85C1C",
           wood: "#4A3525",
           temp: "#4A90E2",
-          terracotta: "#C86A46",
+          terracotta: "#C85A32",
+          "terracotta-dark": "#B34B26",
+          "terracotta-soft": "#F7ECE6",
         },
       },
       fontFamily: {

@@ -5,7 +5,27 @@
 :root {
   --brand-cream: #FAF6F0;
   --brand-gold: #C59B6D;
-  --brand-terracotta: #C86A46;
+  --brand-terracotta: #C85A32;
+  --canvas-linen: #FAF7F2;
+  --surface-cream: #FFFFFF;
+  --border-stone: #ECE5D8;
+  --text-espresso: #211A14;
+  --text-wheat: #615347;
+}
+
+/* Touch Target helper: ensures min 44x44px hit target for 36px visual buttons */
+.touch-target-44 {
+  position: relative;
+}
+.touch-target-44::after {
+  content: "";
+  position: absolute;
+  top: -4px;
+  bottom: -4px;
+  left: -8px;
+  right: -8px;
+  min-width: 44px;
+  min-height: 44px;
 }
 
 * {
