@@ -18,11 +18,11 @@ export const revalidate = 60; // ISR: Revalidate catalog every 60 seconds
 export const metadata: Metadata = {
   title: "EkmekLab | Taş Fırın Ekşi Mayalı Ekmek & Gurme Lezzetler",
   description:
-    "Beylikdüzü'nde 36 saatlik soğuk fermantasyonla pişen taş fırın ekşi mayalı ekmekler ve doğal mandıra seçkisi. Günlük taze üretim.",
+    "Beylikdüzü'nde ata tohumu unlar ve canlı ekşi mayayla, uzun fermantasyonla hazırlanan katkısız ekmekler ve doğal mandıra seçkisi. Günlük taze üretim.",
   openGraph: {
     title: "EkmekLab | Taş Fırın Ekşi Mayalı Ekmek & Gurme Lezzetler",
     description:
-      "Beylikdüzü'nde 36 saatlik soğuk fermantasyonla pişen taş fırın ekşi mayalı ekmekler ve doğal mandıra seçkisi.",
+      "Beylikdüzü'nde ata tohumu unlar ve canlı ekşi mayayla, uzun fermantasyonla hazırlanan katkısız ekmekler ve doğal mandıra seçkisi.",
     type: "website",
     locale: "tr_TR",
   },

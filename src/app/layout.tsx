@@ -45,7 +45,7 @@ export const metadata: Metadata = {
   metadataBase: new URL("https://ekmeklab.com"),
   title: "EkmekLab | Taş Fırından Ekşi Mayalı Ekmekler & Şarküteri",
   description:
-    "Beylikdüzü'nde ata tohumu unlar ve 8 yıllık ekşi mayayla 36 saatte demlenen katkısız artisan ekmekler ve doğal şarküteri lezzetleri. Fırından çıktığı gün kapınızda.",
+    "Beylikdüzü'nde ata tohumu unlar ve canlı ekşi mayayla, uzun fermantasyonla hazırlanan katkısız artisan ekmekler ve doğal şarküteri lezzetleri. Fırından çıktığı gün kapınızda.",
   appleWebApp: {
     capable: true,
     statusBarStyle: "black-translucent",
@@ -63,7 +63,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "EkmekLab | Taş Fırından Ekşi Mayalı Ekmekler",
     description:
-      "Ata tohumu taş değirmen unları ve 8 yıllık canlı ekşi maya. Beylikdüzü fırınından kapınıza.",
+      "Ata tohumu taş değirmen unları ve canlı ekşi maya. Beylikdüzü fırınından kapınıza.",
     url: "https://ekmeklab.com",
     siteName: "EkmekLab",
     locale: "tr_TR",
@@ -77,46 +77,16 @@ export const metadata: Metadata = {
 
 const bakeryJsonLd = {
   "@context": "https://schema.org",
-  "@type": "Bakery",
+  "@type": "Organization",
   "@id": "https://ekmeklab.com/#bakery",
   "name": "EkmekLab",
   "url": "https://ekmeklab.com",
   "logo": "https://ekmeklab.com/icons/Icon-512.png",
   "image": "https://ekmeklab.com/atelier/atelier_panorama.png",
   "description":
-    "Beylikdüzü'nde ata tohumu unlar ve 8 yıllık canlı ekşi mayayla 36 saatte demlenen katkısız artisan ekmekler ve doğal şarküteri lezzetleri.",
-  "telephone": "+905320000000",
-  "priceRange": "₺₺",
-  "servesCuisine": ["Ekşi Mayalı Ekmek", "Artisan Bakery", "Doğal Şarküteri"],
-  "address": {
-    "@type": "PostalAddress",
-    "streetAddress": "Cumhuriyet Mah. E-5 Yan Yol No: 12",
-    "addressLocality": "Beylikdüzü",
-    "addressRegion": "İstanbul",
-    "postalCode": "34520",
-    "addressCountry": "TR",
-  },
-  "geo": {
-    "@type": "GeoCoordinates",
-    "latitude": 41.0025,
-    "longitude": 28.6412,
-  },
-  "openingHoursSpecification": [
-    {
-      "@type": "OpeningHoursSpecification",
-      "dayOfWeek": [
-        "Monday",
-        "Tuesday",
-        "Wednesday",
-        "Thursday",
-        "Friday",
-        "Saturday",
-      ],
-      "opens": "08:00",
-      "closes": "20:00",
-    },
-  ],
-  "sameAs": ["https://www.instagram.com/ekmeklab"],
+    "Beylikdüzü'nde ata tohumu unlar ve canlı ekşi mayayla, uzun fermantasyonla hazırlanan katkısız artisan ekmekler ve doğal şarküteri lezzetleri.",
+  "areaServed": "Beylikdüzü, İstanbul",
+  "sameAs": ["https://www.instagram.com/ekmeklabtr"],
 };
 
 export default function RootLayout({

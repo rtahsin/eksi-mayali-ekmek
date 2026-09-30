@@ -14,7 +14,6 @@ import {
   Utensils,
   Flame,
   BookOpen,
-  Clock,
   Droplets,
 } from "lucide-react";
 
@@ -116,22 +115,14 @@ export function ProductModal({ product, onClose }: ProductModalProps) {
             </div>
 
             {/* Quick Specs Chips */}
-            <div className="flex flex-wrap gap-2 text-xs font-sans">
-              <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-linen-surface border border-linen-border text-espresso-wheat">
-                <Clock className="w-3 h-3 text-artisan-terracotta" />
-                36s Soğuk Fermantasyon
-              </span>
-              <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-linen-surface border border-linen-border text-espresso-wheat">
-                <Wheat className="w-3 h-3 text-artisan-terracotta" />
-                Ata Tohumu Unlar
-              </span>
-              {product.hydration && (
-                <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-linen-surface border border-linen-border text-espresso-wheat md:hidden">
+            {product.hydration && (
+              <div className="flex flex-wrap gap-2 text-xs font-sans">
+                <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-linen-surface border border-linen-border text-espresso-wheat">
                   <Droplets className="w-3 h-3 text-artisan-terracotta" />
-                  %{product.hydration} Su Oranı
+                  %{product.hydration} Hidrasyon
                 </span>
-              )}
-            </div>
+              </div>
+            )}
 
             {/* Sub-tabs for deep storytelling */}
             <div className="flex border-b border-linen-border gap-2 pt-1">
@@ -144,7 +135,7 @@ export function ProductModal({ product, onClose }: ProductModalProps) {
                     : "text-espresso-wheat hover:text-espresso"
                 }`}
               >
-                🌾 Zanaat & Un
+                Zanaat & Un
               </button>
               <button
                 type="button"
@@ -155,7 +146,7 @@ export function ProductModal({ product, onClose }: ProductModalProps) {
                     : "text-espresso-wheat hover:text-espresso"
                 }`}
               >
-                🌱 Sindirim & Sağlık
+                Sindirim & Sağlık
               </button>
               <button
                 type="button"
@@ -166,7 +157,7 @@ export function ProductModal({ product, onClose }: ProductModalProps) {
                     : "text-espresso-wheat hover:text-espresso"
                 }`}
               >
-                🧀 Tüketim & Saklama
+                Tüketim & Saklama
               </button>
             </div>
 
@@ -214,11 +205,11 @@ export function ProductModal({ product, onClose }: ProductModalProps) {
                 <div className="p-4 rounded-2xl bg-linen-surface border border-linen-border space-y-2 shadow-2xs">
                   <div className="font-bold text-emerald-700 flex items-center gap-1.5 font-serif text-xs">
                     <ShieldCheck className="w-4 h-4 text-emerald-600" />
-                    <span>Neden Midede Şişkinlik Yapmaz?</span>
+                    <span>Uzun fermantasyon sindirimi nasıl etkiler?</span>
                   </div>
                   <p className="text-xs text-espresso-wheat leading-relaxed">
                     {masterclass?.healthBenefit ||
-                      "36 saatlik soğuk fermantasyon sayesinde gluten ve fitik asit doğal olarak parçalanır, hazmı çok kolaydır."}
+                      "Uzun fermantasyon sırasında fitik asit ve gluten kısmen parçalanır; bu, bazı kişilerde ekmeğin daha rahat tolere edilmesine yardımcı olabilir."}
                   </p>
                 </div>
 

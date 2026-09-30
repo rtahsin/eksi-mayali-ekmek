@@ -39,7 +39,7 @@ export function Footer() {
               </div>
             </div>
             <p className="text-xs text-artisan-cream/70 font-sans leading-relaxed">
-              Beylikdüzü'nde ata tohumu unlar ve 8 yıllık canlı ekşi mayayla 36 saatte
+              Beylikdüzü'nde ata tohumu unlar ve canlı ekşi mayayla, uzun fermantasyonla
               olgunlaştırılan katkısız artisan ekmekler ve doğal gurme lezzetler.
             </p>
           </div>

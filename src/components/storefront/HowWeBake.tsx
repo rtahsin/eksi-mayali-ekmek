@@ -22,10 +22,10 @@ export function HowWeBake() {
         {/* Minimal Editorial Header */}
         <div className="text-center mb-10 md:mb-16 space-y-3">
           <p className="font-serif text-xs md:text-sm text-artisan-terracotta tracking-[0.25em] uppercase font-semibold">
-            Ekmek Anatomisi
+            Ekmek Anatomisi · Köy Ekmeği
           </p>
           <h2 className="font-serif text-3xl md:text-5xl lg:text-6xl font-bold text-espresso tracking-tight">
-            Su, Un, Tuz ve Zaman.
+            Bir ekmeğin dört kararı.
           </h2>
           <p className="font-sans text-espresso-wheat text-xs sm:text-sm md:text-base max-w-xl mx-auto pt-2 leading-relaxed">
             Standart fırıncılığın hızlandırdığı her adımı, biz olması gerektiği gibi yavaşlatıyoruz. 
@@ -121,7 +121,7 @@ export function HowWeBake() {
               Zanaatın arkasındaki bilimi keşfedin.
             </h4>
             <p className="text-xs sm:text-sm text-espresso-wheat font-sans max-w-lg leading-relaxed">
-              36 saatlik laktik asit fermantasyonu neden midede şişkinlik yapmaz? Karakılçık buğdayı ve canlı çiğ süt kimyası.
+              Uzun fermantasyon ekmeği neden bazı insanlar için daha kolay sindirilir hale getirir? Fitik asit, gluten ve laktik asit bakterilerinin rolü.
             </p>
           </div>
           <div className="flex flex-wrap items-center gap-3 shrink-0">
