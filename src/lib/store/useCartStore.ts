@@ -62,6 +62,11 @@ interface CartStore {
   getTotalAmount: () => number;
 }
 
+// Drawer'ı sadece masaüstünde otomatik aç; mobilde alttaki sepet barı kullanılır
+const shouldAutoOpenCart = () =>
+  typeof window !== "undefined" &&
+  window.matchMedia("(min-width: 768px)").matches;
+
 const DEFAULT_CUSTOMER_INFO: CustomerInfo = {
   name: "",
   phone: "",
@@ -101,7 +106,7 @@ export const useCartStore = create<CartStore>()(
             quantity: newQuantity,
             maxStock,
           };
-          set({ items: updatedItems, isOpen: true });
+          set({ items: updatedItems, isOpen: get().isOpen || shouldAutoOpenCart() });
           return true;
         } else {
           const newItem: CartItem = {
@@ -116,7 +121,7 @@ export const useCartStore = create<CartStore>()(
             flourTypes: product.flourTypes,
             hydration: product.hydration,
           };
-          set({ items: [...currentItems, newItem], isOpen: true });
+          set({ items: [...currentItems, newItem], isOpen: get().isOpen || shouldAutoOpenCart() });
           return true;
         }
       },

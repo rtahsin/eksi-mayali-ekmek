@@ -4,22 +4,52 @@ import React, { useState, useEffect } from "react";
 import { useProducts, ExtendedProduct } from "@/hooks/useProducts";
 import { ProductCard } from "./ProductCard";
 import { ProductModal } from "./ProductModal";
-import { Sparkles, Truck } from "lucide-react";
+import { Truck } from "lucide-react";
+
 interface ProductCatalogProps {
   initialProducts?: ExtendedProduct[];
+}
+
+const CATEGORIES = [
+  { id: "all", label: "Tüm Ürünler" },
+  { id: "bread", label: "Taş Fırın Ekmekleri" },
+  { id: "specialty", label: "Özel & Ön Sipariş" },
+  { id: "gurme", label: "Gurme Lezzetler" },
+];
+
+function CategoryChips({
+  selected,
+  onSelect,
+  className = "",
+}: {
+  selected: string;
+  onSelect: (id: string) => void;
+  className?: string;
+}) {
+  return (
+    <div className={className}>
+      {CATEGORIES.map((cat) => (
+        <button
+          key={cat.id}
+          type="button"
+          onClick={() => onSelect(cat.id)}
+          className={`shrink-0 whitespace-nowrap px-4 py-2 rounded-xl text-xs font-sans transition-all ${
+            selected === cat.id
+              ? "bg-artisan-terracotta text-white font-semibold shadow-xs"
+              : "bg-linen-surface text-espresso-wheat hover:text-espresso border border-linen-border hover:border-artisan-terracotta/30"
+          }`}
+        >
+          {cat.label}
+        </button>
+      ))}
+    </div>
+  );
 }
 
 export function ProductCatalog({ initialProducts }: ProductCatalogProps = {}) {
   const [selectedCategory, setSelectedCategory] = useState<string>("all");
   const [modalProduct, setModalProduct] = useState<ExtendedProduct | null>(null);
   const { products } = useProducts(selectedCategory, initialProducts);
-
-  const categories = [
-    { id: "all", label: "Tüm Ürünler" },
-    { id: "bread", label: "🍞 Taş Fırın Ekmekleri" },
-    { id: "specialty", label: "🌾 Özel & Ön Sipariş" },
-    { id: "gurme", label: "🧈 Gurme Lezzetler" },
-  ];
 
   // URL hash navigation listener (#gurme-lezzetler, #sarkuteri, #ekmekler)
   useEffect(() => {
@@ -43,7 +73,6 @@ export function ProductCatalog({ initialProducts }: ProductCatalogProps = {}) {
       }
     }
 
-    // Run on initial load if hash is present
     if (window.location.hash) {
       handleHash();
     }
@@ -53,47 +82,49 @@ export function ProductCatalog({ initialProducts }: ProductCatalogProps = {}) {
   }, []);
 
   return (
-    <section id="ekmekler" className="py-14 sm:py-20 bg-linen text-espresso border-b border-linen-border scroll-mt-24">
+    <section
+      id="ekmekler"
+      className="py-8 sm:py-20 bg-linen text-espresso border-b border-linen-border scroll-mt-16 sm:scroll-mt-24"
+    >
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Anchor targets for direct navigation */}
         <div id="gurme-lezzetler" className="scroll-mt-28" />
         <div id="sarkuteri" className="scroll-mt-28" />
 
         {/* Section Header */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between mb-10 gap-6">
+        <div className="flex flex-col md:flex-row md:items-end justify-between mb-4 md:mb-10 gap-4 md:gap-6">
           <div className="space-y-2">
-            <div className="inline-flex items-center gap-1.5 font-sans text-xs font-semibold text-artisan-terracotta uppercase tracking-wider">
+            <div className="inline-flex items-center gap-1.5 font-sans text-[11px] sm:text-xs font-semibold text-artisan-terracotta uppercase tracking-wider">
               <span>✦</span>
-              <span>GÜNLÜK TAZE FIRIN & GURME SEÇKİSİ</span>
+              <span>Günlük taze fırın & gurme seçkisi</span>
             </div>
-            <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold text-espresso tracking-tight">
+            <h2 className="font-serif text-2xl sm:text-4xl lg:text-5xl font-bold text-espresso tracking-tight text-balance">
               Taze Ekmeklerimiz & Gurme Lezzetler
             </h2>
-            <p className="text-xs sm:text-sm text-espresso-wheat font-sans max-w-lg leading-relaxed">
+            <p className="hidden sm:block text-sm text-espresso-wheat font-sans max-w-lg leading-relaxed">
               Taş fırında taze pişen günlük ekmeklerimiz, ata tohumu ön sipariş çeşitlerimiz ve fırınımıza eşlik eden doğal mandıra & kiler lezzetleri.
             </p>
           </div>
 
-          {/* Category Filter Tabs */}
-          <div className="flex flex-wrap gap-2">
-            {categories.map((cat) => (
-              <button
-                key={cat.id}
-                onClick={() => setSelectedCategory(cat.id)}
-                className={`px-4 py-2 rounded-xl text-xs font-sans transition-all ${
-                  selectedCategory === cat.id
-                    ? "bg-artisan-terracotta text-white font-semibold shadow-xs"
-                    : "bg-linen-surface text-espresso-wheat hover:text-espresso border border-linen-border hover:border-artisan-terracotta/30"
-                }`}
-              >
-                {cat.label}
-              </button>
-            ))}
-          </div>
+          {/* Desktop: chips sit to the right of the heading */}
+          <CategoryChips
+            selected={selectedCategory}
+            onSelect={setSelectedCategory}
+            className="hidden md:flex flex-wrap gap-2"
+          />
         </div>
 
-        {/* Products Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 sm:gap-6">
+        {/* Mobile: one-row, horizontally scrollable, sticky under the header */}
+        <div className="md:hidden sticky top-14 z-30 -mx-4 px-4 py-2.5 mb-4 bg-linen/95 backdrop-blur border-b border-linen-border">
+          <CategoryChips
+            selected={selectedCategory}
+            onSelect={setSelectedCategory}
+            className="flex gap-2 overflow-x-auto no-scrollbar"
+          />
+        </div>
+
+        {/* Products Grid: 2 columns on mobile */}
+        <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-6">
           {products.map((product) => (
             <ProductCard
               key={product.id}
@@ -104,7 +135,7 @@ export function ProductCatalog({ initialProducts }: ProductCatalogProps = {}) {
         </div>
 
         {/* Delivery & Assurance Banner */}
-        <div className="mt-12 p-4 sm:p-5 rounded-2xl bg-linen-surface border border-linen-border flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-sans text-espresso-wheat shadow-xs">
+        <div className="mt-8 sm:mt-12 p-4 sm:p-5 rounded-2xl bg-linen-surface border border-linen-border flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-sans text-espresso-wheat shadow-xs">
           <div className="flex items-center gap-3">
             <Truck className="w-5 h-5 text-artisan-terracotta shrink-0" />
             <span>

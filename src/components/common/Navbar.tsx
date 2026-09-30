@@ -35,10 +35,10 @@ export function Navbar() {
 
   return (
     <header className="sticky top-0 z-40 bg-surface border-b border-surface-border shadow-lg">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 h-18 flex items-center justify-between">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 h-14 sm:h-[72px] flex items-center justify-between">
         {/* Brand Logo & Name */}
         <a href="/" className="flex items-center gap-3 group py-2">
-          <div className="relative w-10 h-10 rounded-full overflow-hidden bg-[#F7EBD3] p-1 flex items-center justify-center shrink-0 shadow-md">
+          <div className="relative w-9 h-9 sm:w-10 sm:h-10 rounded-full overflow-hidden bg-[#F7EBD3] p-1 flex items-center justify-center shrink-0 shadow-md">
             <img
               src="/logo/logo_mark.png"
               alt="EkmekLab"
@@ -52,7 +52,7 @@ export function Navbar() {
             <div className="font-serif text-xl font-bold tracking-wide text-foreground flex items-center gap-1">
               Ekmek<span className="text-artisan-gold font-normal italic">Lab</span>
             </div>
-            <div className="text-[10px] font-sans text-artisan-gold/80 tracking-wider uppercase">
+            <div className="hidden sm:block text-[10px] font-sans text-artisan-gold/80 tracking-wider uppercase">
               Artisan Fırın · Beylikdüzü
             </div>
           </div>
@@ -149,10 +149,11 @@ export function Navbar() {
             <button
               type="button"
               onClick={() => openAuthModal("login")}
-              className="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl bg-surface-panel hover:bg-surface-elevated text-foreground/80 hover:text-foreground border border-surface-border font-sans text-xs transition-all"
+              aria-label="Giriş Yap"
+              className="inline-flex items-center justify-center gap-1.5 w-10 h-10 sm:w-auto sm:h-auto sm:px-3 sm:py-2 rounded-xl bg-surface-panel hover:bg-surface-elevated text-foreground/80 hover:text-foreground border border-surface-border font-sans text-xs transition-all"
             >
-              <User className="w-3.5 h-3.5 text-artisan-gold" />
-              <span>Giriş Yap</span>
+              <User className="w-4 h-4 sm:w-3.5 sm:h-3.5 text-artisan-gold" />
+              <span className="hidden sm:inline">Giriş Yap</span>
             </button>
           )}
 
@@ -160,14 +161,14 @@ export function Navbar() {
           <button
             type="button"
             onClick={openCart}
-            className={`inline-flex items-center gap-2 px-3.5 sm:px-4 py-2 rounded-xl font-sans text-xs transition-all ${
+            className={`inline-flex items-center gap-2 px-3 sm:px-4 h-10 sm:h-auto sm:py-2 rounded-xl font-sans text-xs transition-all ${
               itemCount > 0
                 ? "bg-artisan-terracotta text-foreground font-bold shadow-lg shadow-artisan-terracotta/30 hover:bg-artisan-terracotta/90"
                 : "bg-surface-panel hover:bg-surface-elevated text-foreground/80 border border-surface-border"
             }`}
           >
             <ShoppingBag className="w-4 h-4 text-artisan-gold" />
-            <span className="hidden xs:inline">Sepetim</span>
+            <span className="hidden sm:inline">Sepetim</span>
             <span
               className={`w-5 h-5 rounded-full font-bold flex items-center justify-center text-[10px] ${
                 itemCount > 0

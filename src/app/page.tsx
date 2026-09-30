@@ -6,6 +6,7 @@ import { AtelierThresholdHero } from "@/components/atelier/AtelierThresholdHero"
 import { ProductCatalog } from "@/components/storefront/ProductCatalog";
 import { HowWeBake } from "@/components/storefront/HowWeBake";
 import { CartDrawer } from "@/components/cart/CartDrawer";
+import { MobileCartBar } from "@/components/cart/MobileCartBar";
 import { OrderSuccessModal } from "@/components/cart/OrderSuccessModal";
 import { Footer } from "@/components/common/Footer";
 import { INITIAL_PRODUCTS, ExtendedProduct } from "@/data/initialProducts";
@@ -96,6 +97,9 @@ export default async function HomePage() {
 
       {/* 3. Footer */}
       <Footer />
+
+      {/* 3b. Mobile sticky cart bar (md altında) */}
+      <MobileCartBar />
 
       {/* 4. Drawers & Modals (Client Islands) */}
       <CartDrawer />

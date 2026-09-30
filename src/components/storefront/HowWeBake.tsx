@@ -136,7 +136,7 @@ export function HowWeBake() {
               href="#ekmekler"
               className="touch-target-44 inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-artisan-terracotta hover:bg-artisan-terracotta-dark text-white text-xs font-sans font-semibold shadow-xs transition-all hover:scale-[1.01] active:scale-[0.98]"
             >
-              <span>🍞 Fırından Sipariş Ver</span>
+              <span>Fırından Sipariş Ver</span>
               <ArrowRight className="w-3.5 h-3.5" />
             </a>
           </div>
