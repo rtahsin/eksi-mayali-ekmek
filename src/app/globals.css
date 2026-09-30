@@ -34,10 +34,17 @@
   padding: 0;
 }
 
+html {
+  overflow-x: hidden;
+}
+
+body {
+  overflow-x: clip;
+}
+
 html,
 body {
   color-scheme: dark;
-  overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
