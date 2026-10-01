@@ -43,11 +43,14 @@ export function AtelierThresholdHero() {
         </div>
       </div>
 
-      {/* 2. Dawn Ambient Light Bleed: thinner on mobile to cut dead space */}
-      <div
-        className="w-full h-5 sm:h-14 bg-gradient-to-b from-[#1C1713] via-[#2F241B] via-30% via-[#9E826B]/20 to-linen pointer-events-none"
-        aria-hidden="true"
-      />
+      {/* 2. Hearth Ember & Terracotta Fire Glow Transition */}
+      <div className="relative w-full overflow-hidden pointer-events-none" aria-hidden="true">
+        {/* Soft hearth ambient light spread */}
+        <div className="absolute inset-x-0 -top-8 h-20 bg-gradient-to-r from-transparent via-[#C85A32]/25 to-transparent blur-2xl" />
+
+        {/* Continuous ember-to-parchment gradient */}
+        <div className="w-full h-14 sm:h-20 md:h-24 bg-gradient-to-b from-[#16120F] via-[#2A150D] via-25% via-[#6B2C15]/75 via-50% via-[#B35226]/40 via-75% via-[#D4905A]/25 to-linen" />
+      </div>
     </section>
   );
 }

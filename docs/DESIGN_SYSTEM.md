@@ -15,11 +15,11 @@ Bu doküman, EkmekLab müşteri vitrininde (Storefront) geçerli olan renk palet
 
 | Token Adı | HEX Kodu | Kullanım Alanı & Kural |
 | :--- | :--- | :--- |
-| `canvas-linen` | `#F4EFEA` | Mağaza vitrini ana zemin rengi (Body canvas). Gözü dinlendiren taş un tonu. |
-| `surface-cream` | `#FFFFFF` | Ürün kartları, paneller, modal yüzeyleri (Taze un tonu). |
-| `surface-subtle` | `#EBE3D8` | Kategori sekmeleri pasif durumu, ikincil kutular. |
-| `border-stone` | `#DFD5C6` | Kart kenarlıkları ve ayırıcı çizgiler (Taş un tozu yumuşaklığı). |
-| `border-subtle` | `#E8E0D4` | İkincil ince çizgiler. |
+| `canvas-linen` | `#ECE3D6` | Mağaza vitrini ana zemin rengi (Body canvas). Sıcak fırın kağıdı / doğal parşömen tonu. |
+| `surface-cream` | `#FAF6EE` | Ürün kartları, paneller, modal yüzeyleri (Süt kaymağı ve un tonu; çiğ beyazlık yok). |
+| `surface-subtle` | `#E2D7C7` | Kategori sekmeleri pasif durumu, ikincil kutular ve görsel zeminleri. |
+| `border-stone` | `#D7C7B2` | Kart kenarlıkları ve ayırıcı çizgiler (Sıcak taş fırın tezgahı). |
+| `border-subtle` | `#DFD2C0` | İkincil ince çizgiler. |
 | `text-espresso` | `#211A14` | Başlıklar, ürün adları ve fiyatlar (Simsiyah yerine koyu espresso). |
 | `text-wheat` | `#615347` | Açıklama metinleri ve ikincil yazılar (Kavrulmuş buğday). |
 | `text-muted` | `#8C7D70` | Yardımcı metinler, gramaj, dipnotlar. |
@@ -28,7 +28,7 @@ Bu doküman, EkmekLab müşteri vitrininde (Storefront) geçerli olan renk palet
 | `artisan-terracotta-soft` | `#F7ECE6` | Terakota rozet arka planı (Yumuşak kiremit zemin). |
 | `artisan-gold` | `#C59B6D` | İkincil detaylar, yıldızlar, altın sarısı kabuk vurguları. |
 | `hero-dark` | `#16120F` | Gece fırını hero banner arka planı. |
-| `dawn-bridge` | Gradient | Koyu fırın kapısından keten vitrine yumuşak gün ışığı erimesi. |
+| `hearth-bridge` | Gradient | Koyu fırın kapısından fırın köz ateşi ve terracotta ışıltısıyla parşömene eriyen sıcak geçiş. |
 
 ---
 
