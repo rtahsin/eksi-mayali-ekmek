@@ -129,16 +129,28 @@ Supabase PostgreSQL üzerinde yapılan güvenlik kontrolleri:
 
 ---
 
-## 📊 Production-Readiness 5 Görev Özeti ve Doğrulama Tablosu
+## 11. 🍞 GÖREV 6: Vitrin, Mobil Ergonomi, Atölye Çekmece Menüsü & Kütüphane Arka Planı (Tamamlandı)
+* **Tarih**: 1 Ekim 2026
+* **Yapılan İşlemler**:
+  1. **Mobil Görünüm & Sticky Header Düzeltmesi**:
+     - `src/app/globals.css` içinde `body` üzerindeki `overflow-x: hidden` kuralı `overflow-x: clip` olarak güncellendi (`html` üzerinde `overflow-x: hidden` korundu). Böylece mobilde scroll esnasında kaybolan yapışkan (sticky) Navbar ve kategori seçim çubuğu sabit kalacak şekilde düzeltildi.
+     - `src/components/cart/MobileCartBar.tsx` arayüzü sadeleştirildi: Ürün listesini kapatan koyu dikey gradyan kaldırıldı, bara `pointer-events-none` verilerek altındaki kartlara tıklama özgürlüğü sağlandı; sepet butonu `bg-espresso border border-white/10` ve turuncu "Sepete Git" etiketi ile ergonomik hale getirildi.
+  2. **Hero Alanı & Vizyon Başlığı Sadeleştirmesi**:
+     - `src/components/atelier/AtelierThresholdHero.tsx`: Kalabalık rozetler, 3'lü güven rozetleri (ribbon) ve hantal butonlar kaldırılarak minimalist artisan estetik sağlandı.
+     - Vizyon başlığı: *"Gerçek ekmeğin geleceğini, taş fırında yeniden kuruyoruz."* ve açıklayıcı alt metin yerleştirildi.
+  3. **Kesintisiz Koyu Artisan Tuval (#120E0B) & Sıcak Geçiş**:
+     - Beyaz/krem blokların oluşturduğu sert kontrast kırılması kaldırılarak vitrin ve ürün kataloğu baştan başa fırın kimliğiyle uyumlu sıcak koyu taş tonu (`#120E0B`) ile birleştirildi.
+  4. **Atölye Çekmece Menüsü (Atelier Navigation Drawer)**:
+     - Header'a sol taraftan açılan şık ve tam ekran bir çekmece menü eklendi (`src/components/common/AtelierMenuDrawer.tsx`).
+     - Kurumsal ve fırın kimliğini tanıtan navigasyon başlıkları: *Biz Kimiz & Manifestomuz*, *Taş Fırınımız & Zanaat*, *Kurumsal & İş Ortaklığı*, *Bilim & Zanaat Kütüphanesi*, *İletişim & Konum*.
+  5. **Kütüphane Bölümü Sabit Banner Entegrasyonu**:
+     - `/kutuphane` fihristi (`src/app/kutuphane/page.tsx`), `/kutuphane/[slug]` editoryal makale okuyucusu (`src/components/journal/EditorialArticleView.tsx`) ve `/kutuphane/yonetim` yazı masası sayfalarının arka planı ana banner'ımız olan **`/atelier/atelier_threshold.png`** (sıcak taş fırın kapısı & EkmekLab tabelası) ile değiştirildi.
+     - `fixed inset-0` ve `bg-cover` ile sayfa boyunca sabitlendi ("değişmesin arka plan"); sayfa kaydırıldıkça arka plan kaymaz, kesintisiz bir atmosfer sunar.
+     - Mobilde dikey ekranlara uygun `bg-[80%_30%] md:bg-center` odaklama uygulandı.
+     - `#120E0B` artisan zemin ve kehribar/terakota tonlu vinyet gradyanı ile uzun metinlerin okunurluğu ve tipografi kontrastı garanti altına alındı.
+     - Sosyal medya / WhatsApp OpenGraph paylaşım görselleri (`layout.tsx`, `[slug]/page.tsx`) yeni banner ile güncellendi.
+* **Doğrulama**:
+  - `npm run build` çalıştırılarak tüm 58 sayfa ve rota (Turbopack + React 19) 0 hata ile derlendi.
+  - Değişiklikler GitHub `main` dalına commit'lenip push edildi (`e2ad829`) ve Vercel Production'a dağıtıldı.
 
-| # | Görev Adı | Temel Mimari Değişiklik | Test & Doğrulama Yöntemi | Durum |
-|---|-----------|-------------------------|--------------------------|-------|
-| **1** | **Kalıcı Dağıtık Rate Limiter** | In-memory Map yerine Supabase PostgreSQL üzerinde çalışan atomik sliding window (`rate_limit_buckets` + `check_rate_limit` RPC `FOR UPDATE`). | Canlı veritabanında 11 ardışık test isteği gönderildi. 1-10 arası istekler azalan kota ile onaylandı, 11. istek `HTTP 429` ve `retryAfterSeconds: 59` ile engellendi. Test verisi temizlendi. | **DOĞRULANDI** ✅ |
-| **2** | **Sipariş → Cari Otomasyonu** | `create_order_atomic` içerisine B2B müşteriler (`cari_id`) için atomik `account_transactions` borç (`debt`) kaydı, bakiye artışı ve `payments.cari_transaction_id` eşleşmesi eklendi. | `cari_muehgurb_ij2h` hesabına 150 ₺ test siparişi oluşturuldu; fiş no (`SIP-2609-001`), tutar ve bakiye (2 ₺ → 152 ₺) doğrulandı. Geçersiz cari ID ile atomik rollback test edildi; hiçbir hayalet sipariş oluşmadığı kanıtlandı ve bakiye 2 ₺'ye geri alındı. | **DOĞRULANDI** ✅ |
-| **3** | **Sipariş Cutoff Saati** | `bakery_settings` tablosundan dinamik `order_cutoff_time` okundu. Vitrinde "Bugün" butonu kapatılıp yarına yönlendirildi; `/api/orders/create`'e sunucu taraflı 400 kontrolü eklendi; `/admin/ayarlar`'dan yönetim sağlandı. | Canlı Next.js test sunucusunda cutoff saati `06:00`'a çekildi; `/api/settings` `isCutoffPassed: true` döndü; `/api/orders/create` aynı gün siparişini `HTTP 400` ile reddetti; ertesi gün siparişi cutoff engelini aştı. Ayar `12:00`'ye geri yüklendi. | **DOĞRULANDI** ✅ |
-| **4** | **Kurye Offline Toleransı** | `navigator.onLine` reaktif takibi, görsel "Çevrimdışı Mod" ve bekleyen işlem şeridi, `localStorage` tabanlı `ekmeklab_courier_offline_queue` ve bağlantı kurulduğunda otomatik çalışan `syncQueue` retry motoru. | Çok adımlı test senaryosu çalıştırıldı: 2 teslimat çevrimdışı kuyruğa alındı, bağlantı gelince `createPayment` ve `updateOrderStatus` tetiklendi ve kuyruk 0'a temizlendi. Ağ hatasında verilerin kuyrukta korunup tekrar denendiği kanıtlandı. | **DOĞRULANDI** ✅ |
-| **5** | **Hata İzleme (Sentry)** | Next.js 16 App Router ve Turbopack uyumlu Sentry SDK (v11), instrumentation, `/api/orders/create` 500 ve RPC hata yakalayıcıları, `/admin/error.tsx` ve `/kurye/error.tsx` boundary'leri. | Sentry boru hattı üzerinden 4 kritik hata senaryosu (API 500, RPC failure, kurye runtime, admin runtime) simüle edilerek capture pipeline'ın doğru tag ve event ID ürettiği doğrulandı. `npm run build` ile 58/58 rotanın 0 hata ile derlendiği teyit edildi. | **DOĞRULANDI** ✅ |
-
-
-
-
+---
