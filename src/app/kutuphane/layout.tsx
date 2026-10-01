@@ -22,7 +22,7 @@ export const metadata: Metadata = {
     type: "website",
     images: [
       {
-        url: "/atelier/atelier_panorama.png",
+        url: "/atelier/atelier_threshold.png",
         width: 1536,
         height: 1024,
         alt: "EkmekLab Taş Fırın & Zanaat Tezgâhı",

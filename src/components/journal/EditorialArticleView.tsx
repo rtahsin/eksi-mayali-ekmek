@@ -55,24 +55,24 @@ export function EditorialArticleView({ article}: EditorialArticleViewProps) {
 }
 };
 
- return (
- <div className="relative w-full min-h-screen bg-background text-foreground/80 overflow-hidden">
- {/* 1. Atmospheric Photographic Background Image (Sıcak Zanaat Tezgâhı Dokusu) */}
- <div
- className="fixed inset-0 pointer-events-none opacity-30 filter contrast-125 brightness-90 bg-cover bg-center"
- style={{
- backgroundImage: "url('/atelier/atelier_panorama.png')",
-}}
- />
- {/* Soft Hearth Ambient Vignette & Darkness Layer for Crystal-Clear Readability */}
- <div className="fixed inset-0 pointer-events-none bg-gradient-to-b from-[#14100D]/85 via-[#16120E]/80 to-[#14100D]/90" />
- <div
- className="fixed inset-0 pointer-events-none opacity-50"
- style={{
- backgroundImage:
- "radial-gradient(circle at 50% 10%, rgba(139, 94, 60, 0.22) 0%, transparent 60%), radial-gradient(circle at 50% 90%, rgba(139, 94, 60, 0.15) 0%, transparent 70%)",
-}}
- />
+  return (
+    <div className="relative w-full min-h-screen bg-[#120E0B] text-foreground/80 overflow-hidden">
+      {/* 1. Atmospheric Photographic Background Image (EkmekLab Eşik & Taş Fırın Banner) */}
+      <div
+        className="fixed inset-0 pointer-events-none opacity-30 sm:opacity-35 filter brightness-90 contrast-125 sepia-[.15] bg-cover bg-[80%_30%] md:bg-center"
+        style={{
+          backgroundImage: "url('/atelier/atelier_threshold.png')",
+        }}
+      />
+      {/* Soft Hearth Ambient Vignette & Darkness Layer for Crystal-Clear Readability */}
+      <div className="fixed inset-0 pointer-events-none bg-gradient-to-b from-[#120E0B]/85 via-[#14100D]/80 to-[#120E0B]/92" />
+      <div
+        className="fixed inset-0 pointer-events-none opacity-40"
+        style={{
+          backgroundImage:
+            "radial-gradient(circle at 50% 10%, rgba(197, 155, 109, 0.18) 0%, transparent 60%), radial-gradient(circle at 50% 90%, rgba(200, 90, 50, 0.12) 0%, transparent 70%)",
+        }}
+      />
 
  {/* Hairline Reading Progress */}
  <div className="fixed top-0 left-0 w-full h-0.5 bg-surface-panel z-50">

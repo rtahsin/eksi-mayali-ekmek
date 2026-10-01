@@ -219,19 +219,19 @@ export default function JournalAdminPage() {
 }));
 };
 
- return (
- <div className="min-h-screen flex flex-col bg-background text-foreground/80 font-sans selection:bg-artisan-terracotta/30 selection:text-artisan-gold relative">
- {/* Subtle living atmospheric background */}
- <div
- className="fixed inset-0 pointer-events-none opacity-25 filter contrast-125 brightness-75 bg-cover bg-center"
- style={{
- backgroundImage: "url('/atelier/atelier_panorama.png')",
-}}
- />
- <div className="fixed inset-0 pointer-events-none bg-gradient-to-b from-background/90 via-[#16120E]/85 to-[#14100D]/95" />
+  return (
+    <div className="min-h-screen flex flex-col bg-[#120E0B] text-foreground/80 font-sans selection:bg-artisan-terracotta/30 selection:text-artisan-gold relative">
+      {/* Living atmospheric threshold banner background */}
+      <div
+        className="fixed inset-0 pointer-events-none opacity-25 filter brightness-85 contrast-125 sepia-[.15] bg-cover bg-[80%_30%] md:bg-center"
+        style={{
+          backgroundImage: "url('/atelier/atelier_threshold.png')",
+        }}
+      />
+      <div className="fixed inset-0 pointer-events-none bg-gradient-to-b from-[#120E0B]/90 via-[#14100D]/85 to-[#120E0B]/95" />
 
- {/* 1. Navbar */}
- <Navbar />
+      {/* 1. Navbar */}
+      <Navbar />
 
  <main className="relative z-10 flex-1 max-w-5xl mx-auto px-5 sm:px-8 py-10 sm:py-14 w-full">
  {/* ========================================================================= */}

@@ -37,7 +37,7 @@ export async function generateMetadata({ params }: ArticlePageProps): Promise<Me
       authors: ["EkmekLab Araştırma Masası"],
       images: [
         {
-          url: "/atelier/atelier_panorama.png",
+          url: "/atelier/atelier_threshold.png",
           width: 1536,
           height: 1024,
           alt: article.title,

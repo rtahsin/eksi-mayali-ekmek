@@ -82,7 +82,7 @@ const bakeryJsonLd = {
   "name": "EkmekLab",
   "url": "https://ekmeklab.com",
   "logo": "https://ekmeklab.com/icons/Icon-512.png",
-  "image": "https://ekmeklab.com/atelier/atelier_panorama.png",
+  "image": "https://ekmeklab.com/atelier/atelier_threshold.png",
   "description":
     "Beylikdüzü'nde ata tohumu unlar ve canlı ekşi mayayla, uzun fermantasyonla hazırlanan katkısız artisan ekmekler ve doğal şarküteri lezzetleri.",
   "areaServed": "Beylikdüzü, İstanbul",
