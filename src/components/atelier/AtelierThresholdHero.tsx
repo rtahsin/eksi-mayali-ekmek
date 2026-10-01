@@ -1,7 +1,6 @@
 "use client";
 
 import React from "react";
-import { ArrowRight } from "lucide-react";
 
 export function AtelierThresholdHero() {
   return (
@@ -25,32 +24,28 @@ export function AtelierThresholdHero() {
 
         {/* Content Container */}
         <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-16 md:py-20 w-full">
-          <div className="max-w-2xl space-y-4 sm:space-y-6">
-            <h1 className="font-serif text-4xl sm:text-6xl lg:text-7xl font-bold text-foreground tracking-tight leading-[1.08] text-balance">
-              İyi ekmek tesadüf değildir.
+          <div className="max-w-2xl space-y-3 sm:space-y-4">
+            <div className="inline-flex items-center gap-1.5 font-sans text-[11px] sm:text-xs font-semibold text-artisan-gold uppercase tracking-widest">
+              <span>✦</span>
+              <span>EkmekLab · Gastronomi & Fermantasyon Atölyesi</span>
+            </div>
+
+            <h1 className="font-serif text-3xl sm:text-5xl lg:text-6xl font-bold text-foreground tracking-tight leading-[1.12] text-balance">
+              Gerçek ekmeğin geleceğini, taş fırında yeniden kuruyoruz.
             </h1>
 
-            <div className="pt-1 sm:pt-2">
-              <a
-                href="/kutuphane"
-                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full border border-artisan-gold/50 text-artisan-cream font-sans text-sm font-medium hover:bg-white/10 transition-colors"
-              >
-                <span>İçeri gir</span>
-                <ArrowRight className="w-4 h-4" />
-              </a>
-            </div>
+            <p className="text-xs sm:text-sm md:text-base text-stone-300 font-sans leading-relaxed max-w-xl">
+              Endüstriyel hıza karşı yavaş fermantasyon, yerel buğday mirası ve ödünsüz zanaat.
+            </p>
           </div>
         </div>
       </div>
 
-      {/* 2. Hearth Ember & Terracotta Fire Glow Transition */}
-      <div className="relative w-full overflow-hidden pointer-events-none" aria-hidden="true">
-        {/* Soft hearth ambient light spread */}
-        <div className="absolute inset-x-0 -top-8 h-20 bg-gradient-to-r from-transparent via-[#C85A32]/25 to-transparent blur-2xl" />
-
-        {/* Continuous ember-to-parchment gradient */}
-        <div className="w-full h-14 sm:h-20 md:h-24 bg-gradient-to-b from-[#16120F] via-[#2A150D] via-25% via-[#6B2C15]/75 via-50% via-[#B35226]/40 via-75% via-[#D4905A]/25 to-linen" />
-      </div>
+      {/* 2. Seamless transition into the unified #120E0B catalog: zero color break */}
+      <div
+        className="w-full h-4 sm:h-8 bg-gradient-to-b from-[#16120F] to-[#120E0B] pointer-events-none"
+        aria-hidden="true"
+      />
     </section>
   );
 }

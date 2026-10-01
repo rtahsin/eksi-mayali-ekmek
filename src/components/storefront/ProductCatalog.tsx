@@ -35,8 +35,8 @@ function CategoryChips({
           onClick={() => onSelect(cat.id)}
           className={`shrink-0 whitespace-nowrap px-4 py-2 rounded-xl text-xs font-sans transition-all ${
             selected === cat.id
-              ? "bg-artisan-terracotta text-white font-semibold shadow-xs"
-              : "bg-linen-surface text-espresso-wheat hover:text-espresso border border-linen-border hover:border-artisan-terracotta/30"
+              ? "bg-artisan-terracotta text-white font-semibold shadow-sm"
+              : "bg-[#1C1815] text-stone-300 hover:text-white border border-[#2E241D] hover:border-artisan-gold/40"
           }`}
         >
           {cat.label}
@@ -84,7 +84,7 @@ export function ProductCatalog({ initialProducts }: ProductCatalogProps = {}) {
   return (
     <section
       id="ekmekler"
-      className="py-8 sm:py-20 bg-linen text-espresso border-b border-linen-border scroll-mt-16 sm:scroll-mt-24"
+      className="py-8 sm:py-16 bg-[#120E0B] text-foreground border-b border-[#261E17] scroll-mt-16 sm:scroll-mt-24"
     >
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Anchor targets for direct navigation */}
@@ -92,16 +92,16 @@ export function ProductCatalog({ initialProducts }: ProductCatalogProps = {}) {
         <div id="sarkuteri" className="scroll-mt-28" />
 
         {/* Section Header */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between mb-4 md:mb-10 gap-4 md:gap-6">
+        <div className="flex flex-col md:flex-row md:items-end justify-between mb-6 md:mb-10 gap-4 md:gap-6">
           <div className="space-y-2">
-            <div className="inline-flex items-center gap-1.5 font-sans text-[11px] sm:text-xs font-semibold text-artisan-terracotta uppercase tracking-wider">
+            <div className="inline-flex items-center gap-1.5 font-sans text-[11px] sm:text-xs font-semibold text-artisan-gold uppercase tracking-wider">
               <span>✦</span>
-              <span>Günlük taze fırın & gurme seçkisi</span>
+              <span>Günlük taze taş fırın & gurme seçkisi</span>
             </div>
-            <h2 className="font-serif text-2xl sm:text-4xl lg:text-5xl font-bold text-espresso tracking-tight text-balance">
+            <h2 className="font-serif text-2xl sm:text-4xl lg:text-5xl font-bold text-foreground tracking-tight text-balance">
               Taze Ekmeklerimiz & Gurme Lezzetler
             </h2>
-            <p className="hidden sm:block text-sm text-espresso-wheat font-sans max-w-lg leading-relaxed">
+            <p className="hidden sm:block text-sm text-stone-300 font-sans max-w-lg leading-relaxed">
               Taş fırında taze pişen günlük ekmeklerimiz, ata tohumu ön sipariş çeşitlerimiz ve fırınımıza eşlik eden doğal mandıra & kiler lezzetleri.
             </p>
           </div>
@@ -115,7 +115,7 @@ export function ProductCatalog({ initialProducts }: ProductCatalogProps = {}) {
         </div>
 
         {/* Mobile: one-row, horizontally scrollable, sticky under the header */}
-        <div className="md:hidden sticky top-14 z-30 -mx-4 px-4 py-2.5 mb-4 bg-linen/95 backdrop-blur border-b border-linen-border">
+        <div className="md:hidden sticky top-14 z-30 -mx-4 px-4 py-2.5 mb-4 bg-[#120E0B]/95 backdrop-blur border-b border-[#261E17]">
           <CategoryChips
             selected={selectedCategory}
             onSelect={setSelectedCategory}
@@ -135,15 +135,15 @@ export function ProductCatalog({ initialProducts }: ProductCatalogProps = {}) {
         </div>
 
         {/* Delivery & Assurance Banner */}
-        <div className="mt-8 sm:mt-12 p-4 sm:p-5 rounded-2xl bg-linen-surface border border-linen-border flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-sans text-espresso-wheat shadow-xs">
+        <div className="mt-8 sm:mt-12 p-4 sm:p-5 rounded-2xl bg-[#18130F] border border-[#261E17] flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-sans text-stone-300 shadow-md">
           <div className="flex items-center gap-3">
-            <Truck className="w-5 h-5 text-artisan-terracotta shrink-0" />
+            <Truck className="w-5 h-5 text-artisan-gold shrink-0" />
             <span>
-              <strong className="text-espresso font-serif font-bold">Kendi Fırın Kuryemizle Teslimat:</strong>{" "}
+              <strong className="text-foreground font-serif font-bold">Kendi Fırın Kuryemizle Teslimat:</strong>{" "}
               Beylikdüzü içi aynı gün veya seçtiğiniz tarihte kapınıza ulaştırıyoruz.
             </span>
           </div>
-          <div className="text-artisan-terracotta font-semibold font-sans shrink-0 px-3 py-1 rounded-lg bg-artisan-terracotta-soft border border-artisan-terracotta/20 text-xs">
+          <div className="text-artisan-gold font-semibold font-sans shrink-0 px-3 py-1.5 rounded-lg bg-[#261C14] border border-artisan-gold/30 text-xs">
             1000 TL Üzeri Kurye ÜCRETSİZ · Altında 150 TL
           </div>
         </div>

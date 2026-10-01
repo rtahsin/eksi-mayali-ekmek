@@ -38,13 +38,13 @@ const config: Config = {
           border: "#3D342E",
           highlight: "#4F433A",
         },
-        // Artisan Parchment & Warm Stone Design System tokens
+        // Artisan Cream & Warm Linen Design System tokens
         linen: {
-          DEFAULT: "#ECE3D6",
-          surface: "#FAF6EE",
-          subtle: "#E2D7C7",
-          border: "#D7C7B2",
-          borderSubtle: "#DFD2C0",
+          DEFAULT: "#F4EFEA",
+          surface: "#FFFFFF",
+          subtle: "#EBE3D8",
+          border: "#DFD5C6",
+          borderSubtle: "#E8E0D4",
         },
         espresso: {
           DEFAULT: "#211A14",

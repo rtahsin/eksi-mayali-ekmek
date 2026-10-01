@@ -1,15 +1,17 @@
 "use client";
 
 import React, { useState, useRef, useEffect } from "react";
-import { ShoppingBag, MessageSquare, BookOpen, User, LogOut, Package, Shield, ChevronDown } from "lucide-react";
+import { ShoppingBag, MessageSquare, BookOpen, User, LogOut, Package, Shield, ChevronDown, Menu } from "lucide-react";
 import { useCartStore } from "@/lib/store/useCartStore";
 import { useAuth } from "@/components/auth/AuthProvider";
+import { AtelierMenuDrawer } from "./AtelierMenuDrawer";
 
 export function Navbar() {
   const itemCount = useCartStore((state) => state.getItemCount());
   const openCart = useCartStore((state) => state.openCart);
   const { user, profile, isLoggedIn, openAuthModal, signOut } = useAuth();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [isAtelierMenuOpen, setIsAtelierMenuOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   // Close dropdown on outside click
@@ -36,9 +38,20 @@ export function Navbar() {
   return (
     <header className="sticky top-0 z-40 bg-surface border-b border-surface-border shadow-lg">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 h-14 sm:h-[72px] flex items-center justify-between">
-        {/* Brand Logo & Name */}
-        <a href="/" className="flex items-center gap-3 group py-2">
-          <div className="relative w-9 h-9 sm:w-10 sm:h-10 rounded-full overflow-hidden bg-[#F7EBD3] p-1 flex items-center justify-center shrink-0 shadow-md">
+        {/* Brand Logo & Name + Atelier Menu Toggle */}
+        <div className="flex items-center gap-2 sm:gap-3.5">
+          <button
+            type="button"
+            onClick={() => setIsAtelierMenuOpen(true)}
+            aria-label="Atölye Menüsü"
+            className="touch-target-44 inline-flex items-center justify-center gap-1.5 px-2.5 sm:px-3 h-10 rounded-xl bg-surface-panel hover:bg-surface-elevated text-foreground/90 hover:text-foreground border border-surface-border text-xs font-sans font-medium transition-all"
+          >
+            <Menu className="w-4 h-4 text-artisan-gold" />
+            <span className="hidden sm:inline font-serif font-medium text-xs tracking-wide">Menü</span>
+          </button>
+
+          <a href="/" className="flex items-center gap-2.5 sm:gap-3 group py-2">
+            <div className="relative w-9 h-9 sm:w-10 sm:h-10 rounded-full overflow-hidden bg-[#F7EBD3] p-1 flex items-center justify-center shrink-0 shadow-md">
             <img
               src="/logo/logo_mark.png"
               alt="EkmekLab"
@@ -57,6 +70,7 @@ export function Navbar() {
             </div>
           </div>
         </a>
+      </div>
 
         {/* Center Nav Links */}
         <nav className="hidden md:flex items-center gap-7 text-xs font-sans">
@@ -181,6 +195,12 @@ export function Navbar() {
           </button>
         </div>
       </div>
+
+      {/* Atelier Slide-over Menu Drawer */}
+      <AtelierMenuDrawer
+        isOpen={isAtelierMenuOpen}
+        onClose={() => setIsAtelierMenuOpen(false)}
+      />
     </header>
   );
 }

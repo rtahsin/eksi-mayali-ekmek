@@ -33,10 +33,10 @@ export function ProductCard({ product, onOpenDetails }: ProductCardProps) {
   return (
     <div
       onClick={() => onOpenDetails(product)}
-      className="group cursor-pointer rounded-xl sm:rounded-2xl bg-linen-surface border border-linen-border hover:border-artisan-terracotta/40 hover:shadow-xl transition-all duration-300 flex flex-col overflow-hidden shadow-xs"
+      className="group cursor-pointer rounded-xl sm:rounded-2xl bg-[#18130F] border border-[#261E17] hover:border-artisan-gold/40 hover:shadow-xl transition-all duration-300 flex flex-col overflow-hidden shadow-sm"
     >
       {/* Product Image: square on mobile, fixed height from sm up */}
-      <div className="relative w-full aspect-square sm:aspect-auto sm:h-52 bg-linen-subtle overflow-hidden">
+      <div className="relative w-full aspect-square sm:aspect-auto sm:h-52 bg-[#130F0C] overflow-hidden">
         <img
           src={product.imageUrl}
           alt={product.name}
@@ -47,13 +47,13 @@ export function ProductCard({ product, onOpenDetails }: ProductCardProps) {
 
         {product.madeToOrder && (
           <div className="absolute top-2 left-2 sm:top-2.5 sm:left-2.5 pointer-events-none">
-            <span className="px-2 py-0.5 sm:px-2.5 rounded-full bg-artisan-terracotta-soft text-artisan-terracotta border border-artisan-terracotta/20 text-[9px] sm:text-[10px] font-sans font-bold uppercase tracking-wide">
+            <span className="px-2 py-0.5 sm:px-2.5 rounded-full bg-artisan-terracotta text-white text-[9px] sm:text-[10px] font-sans font-bold uppercase tracking-wide shadow-sm">
               Ön Sipariş
             </span>
           </div>
         )}
 
-        <div className="absolute bottom-2 right-2 sm:bottom-2.5 sm:right-2.5 text-[10px] sm:text-[11px] font-sans font-medium text-espresso px-1.5 sm:px-2 py-0.5 rounded-md bg-linen-surface/90 backdrop-blur-sm border border-linen-border shadow-2xs">
+        <div className="absolute bottom-2 right-2 sm:bottom-2.5 sm:right-2.5 text-[10px] sm:text-[11px] font-sans font-medium text-stone-300 px-1.5 sm:px-2 py-0.5 rounded-md bg-[#120E0B]/90 backdrop-blur-sm border border-[#261E17] shadow-sm">
           {weightLabel}
         </div>
       </div>
@@ -61,7 +61,7 @@ export function ProductCard({ product, onOpenDetails }: ProductCardProps) {
       {/* Content */}
       <div className="p-3 sm:p-5 flex-1 flex flex-col justify-between gap-2 sm:gap-3">
         <div>
-          <h3 className="font-serif font-bold text-espresso text-sm sm:text-lg leading-snug group-hover:text-artisan-terracotta transition-colors line-clamp-2 sm:line-clamp-1 min-h-[2.5rem] sm:min-h-0">
+          <h3 className="font-serif font-bold text-foreground text-sm sm:text-lg leading-snug group-hover:text-artisan-gold transition-colors line-clamp-2 sm:line-clamp-1 min-h-[2.5rem] sm:min-h-0">
             <Link
               href={getProductUrl(product)}
               onClick={(e) => e.stopPropagation()}
@@ -72,18 +72,18 @@ export function ProductCard({ product, onOpenDetails }: ProductCardProps) {
           </h3>
 
           {/* Description is desktop-only: keeps mobile cards short */}
-          <p className="hidden sm:block text-xs text-espresso-wheat line-clamp-2 mt-1 font-sans leading-relaxed">
+          <p className="hidden sm:block text-xs text-stone-400 line-clamp-2 mt-1 font-sans leading-relaxed">
             {product.description}
           </p>
         </div>
 
         {/* Price + Add */}
-        <div className="sm:pt-2.5 sm:border-t border-linen-border flex items-center justify-between gap-2">
+        <div className="sm:pt-2.5 sm:border-t border-[#261E17] flex items-center justify-between gap-2">
           <div className="flex items-baseline gap-1">
-            <span className="font-serif text-lg sm:text-2xl font-bold text-espresso">
+            <span className="font-serif text-lg sm:text-2xl font-bold text-foreground">
               {product.price}
             </span>
-            <span className="text-[10px] sm:text-xs text-espresso-muted font-sans font-medium">TL</span>
+            <span className="text-[10px] sm:text-xs text-stone-400 font-sans font-medium">TL</span>
           </div>
 
           <button

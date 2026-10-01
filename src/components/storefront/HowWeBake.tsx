@@ -6,7 +6,7 @@ import { BookOpen, ArrowRight } from "lucide-react";
 
 export function HowWeBake() {
   return (
-    <section id="nasil-uretiyoruz" className="relative py-16 md:py-24 bg-linen text-espresso border-b border-linen-border overflow-hidden">
+    <section id="nasil-uretiyoruz" className="relative py-16 md:py-24 bg-[#120E0B] text-foreground border-b border-[#261E17] overflow-hidden">
       
       {/* Background subtle structural flour lines */}
       <div 
@@ -24,17 +24,17 @@ export function HowWeBake() {
           <p className="font-serif text-xs md:text-sm text-artisan-terracotta tracking-[0.25em] uppercase font-semibold">
             Ekmek Anatomisi · Köy Ekmeği
           </p>
-          <h2 className="font-serif text-3xl md:text-5xl lg:text-6xl font-bold text-espresso tracking-tight">
+          <h2 className="font-serif text-3xl md:text-5xl lg:text-6xl font-bold text-foreground tracking-tight">
             Bir ekmeğin dört kararı.
           </h2>
-          <p className="font-sans text-espresso-wheat text-xs sm:text-sm md:text-base max-w-xl mx-auto pt-2 leading-relaxed">
+          <p className="font-sans text-stone-300 text-xs sm:text-sm md:text-base max-w-xl mx-auto pt-2 leading-relaxed">
             Standart fırıncılığın hızlandırdığı her adımı, biz olması gerektiği gibi yavaşlatıyoruz. 
             İşte atölyemizin temel zanaat reçetesi:
           </p>
         </div>
 
         {/* Blueprint Area: Framed photographic exhibition canvas */}
-        <div className="relative w-full aspect-[4/3] md:aspect-[16/9] max-h-[85vh] bg-[#120E0B] rounded-2xl md:rounded-3xl border border-linen-border overflow-hidden shadow-xl flex items-center justify-center">
+        <div className="relative w-full aspect-[4/3] md:aspect-[16/9] max-h-[85vh] bg-[#120E0B] rounded-2xl md:rounded-3xl border border-[#261E17] overflow-hidden shadow-xl flex items-center justify-center">
           
           {/* Base Image */}
           <Image 
@@ -112,24 +112,24 @@ export function HowWeBake() {
         </div>
 
         {/* Bridge to Science & Order */}
-        <div className="mt-10 sm:mt-14 flex flex-col sm:flex-row items-center justify-between p-6 sm:p-8 rounded-3xl bg-linen-surface border border-linen-border shadow-xs gap-6">
+        <div className="mt-10 sm:mt-14 flex flex-col sm:flex-row items-center justify-between p-6 sm:p-8 rounded-3xl bg-[#18130F] border border-[#261E17] shadow-md gap-6">
           <div className="space-y-1.5 text-center sm:text-left">
-            <div className="text-[11px] font-sans tracking-wider uppercase text-artisan-terracotta font-semibold">
+            <div className="text-[11px] font-sans tracking-wider uppercase text-artisan-gold font-semibold">
               EKMEKLAB · FERMANTASYON BİYOLOJİSİ
             </div>
-            <h4 className="font-serif text-xl sm:text-2xl font-bold text-espresso">
+            <h4 className="font-serif text-xl sm:text-2xl font-bold text-foreground">
               Zanaatın arkasındaki bilimi keşfedin.
             </h4>
-            <p className="text-xs sm:text-sm text-espresso-wheat font-sans max-w-lg leading-relaxed">
+            <p className="text-xs sm:text-sm text-stone-300 font-sans max-w-lg leading-relaxed">
               Uzun fermantasyon ekmeği neden bazı insanlar için daha kolay sindirilir hale getirir? Fitik asit, gluten ve laktik asit bakterilerinin rolü.
             </p>
           </div>
           <div className="flex flex-wrap items-center gap-3 shrink-0">
             <a
               href="/kutuphane"
-              className="touch-target-44 inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-linen-subtle hover:bg-linen text-espresso border border-linen-border text-xs font-sans font-semibold transition-all shadow-2xs"
+              className="touch-target-44 inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-[#221B16] hover:bg-[#2C231C] text-foreground border border-[#33261C] text-xs font-sans font-semibold transition-all shadow-sm"
             >
-              <BookOpen className="w-4 h-4 text-artisan-terracotta" />
+              <BookOpen className="w-4 h-4 text-artisan-gold" />
               <span>Bülteni Oku →</span>
             </a>
             <a
