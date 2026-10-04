@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { ArrowUp, ArrowDown, CheckCircle2, MessageCircle } from "lucide-react";
+import { ArrowUp, ArrowDown, CheckCircle2 } from "lucide-react";
 import { AdminOrder } from "@/types/admin";
 
 interface CourierQueueListProps {
@@ -11,8 +11,7 @@ interface CourierQueueListProps {
   onSelectStop: (index: number) => void;
   onMoveStop: (orderId: string, direction: "up" | "down") => void;
   onOpenSettlement: (order: AdminOrder) => void;
-  onShareShiftWhatsApp: () => void;
-  courierOrdersCount: number;
+  totalCount: number;
 }
 
 export function CourierQueueList({
@@ -22,16 +21,15 @@ export function CourierQueueList({
   onSelectStop,
   onMoveStop,
   onOpenSettlement,
-  onShareShiftWhatsApp,
-  courierOrdersCount,
+  totalCount,
 }: CourierQueueListProps) {
   return (
     <div className="space-y-3 pt-2">
       <div className="flex items-center justify-between text-xs px-1">
         <span className="font-bold text-stone-300 font-serif">
-          Teslimat Sıralaması ({pendingOrders.length} Bekleyen / {courierOrdersCount} Toplam)
+          Rota ({pendingOrders.length} bekleyen / {totalCount} toplam)
         </span>
-        <span className="text-stone-500 text-[11px]">Sırayı oklarla düzenleyebilirsiniz</span>
+        <span className="text-stone-500 text-[11px]">Oklarla sırala</span>
       </div>
 
       <div className="space-y-2">
@@ -106,13 +104,17 @@ export function CourierQueueList({
                     <div className="text-xs font-bold font-mono text-stone-100">
                       {order.totalAmount} ₺
                     </div>
-                    <div className="text-[10px]">
-                      {order.paymentMethod === "cash_on_delivery" ? (
-                        <span className="text-amber-400 font-semibold">Nakit</span>
+                    <div className="text-[10px] font-semibold">
+                      {order.cariId || order.paymentMethod === "cari" ? (
+                        <span className="text-orange-300">Cari</span>
+                      ) : order.paymentStatus === "paid" ? (
+                        <span className="text-emerald-400">Ödendi</span>
                       ) : order.paymentMethod === "pos_at_door" ? (
-                        <span className="text-blue-400 font-semibold">POS</span>
+                        <span className="text-amber-300">POS</span>
+                      ) : order.paymentMethod === "transfer" ? (
+                        <span className="text-amber-300">Havale</span>
                       ) : (
-                        <span className="text-emerald-400 font-semibold">Ödendi</span>
+                        <span className="text-amber-400">Nakit</span>
                       )}
                     </div>
                   </div>
@@ -157,19 +159,6 @@ export function CourierQueueList({
         )}
       </div>
 
-      {/* Bottom Shift Summary Button */}
-      {courierOrdersCount > 0 && (
-        <div className="pt-4 pb-20">
-          <button
-            type="button"
-            onClick={onShareShiftWhatsApp}
-            className="w-full py-3.5 px-4 rounded-2xl bg-stone-900 hover:bg-stone-800 border border-stone-800 text-stone-300 font-medium text-xs flex items-center justify-center gap-2 transition-colors shadow-md"
-          >
-            <MessageCircle className="w-4 h-4 text-emerald-400" />
-            <span>Gün Sonu Kurye Raporunu WhatsApp ile Paylaş</span>
-          </button>
-        </div>
-      )}
     </div>
   );
 }
