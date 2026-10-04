@@ -9,12 +9,13 @@ import {
   AlertCircle,
 } from "lucide-react";
 import { AdminOrder } from "@/types/admin";
+import type { DeliveryPayment } from "@/lib/orders/delivery";
 
 interface CourierPaymentModalProps {
   order: AdminOrder | null;
   isOpen: boolean;
   onClose: () => void;
-  onConfirmDelivery: (type: "cash" | "pos" | "prepaid" | "unpaid") => void;
+  onConfirmDelivery: (type: DeliveryPayment) => void;
   isSubmitting: boolean;
   error?: string | null;
 }
@@ -28,6 +29,7 @@ export function CourierPaymentModal({
   error,
 }: CourierPaymentModalProps) {
   if (!isOpen || !order) return null;
+  const isCari = Boolean(order.cariId);
 
   return (
     <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4 bg-black/80 backdrop-blur-sm animate-in fade-in">
@@ -103,17 +105,17 @@ export function CourierPaymentModal({
               </span>
             </button>
 
-            {/* 3. Already Paid / Cari */}
+            {/* 3. Havale / önceden ödendi */}
             <button
               type="button"
               disabled={isSubmitting}
-              onClick={() => onConfirmDelivery("prepaid")}
+              onClick={() => onConfirmDelivery("transfer")}
               className="p-3.5 rounded-2xl bg-emerald-500/10 hover:bg-emerald-500/25 border border-emerald-500/30 text-emerald-300 hover:text-emerald-200 font-bold text-xs flex flex-col items-center justify-center gap-1.5 active:scale-95 transition-all text-center"
             >
               <CheckCircle2 className="w-5 h-5 text-emerald-400" />
-              <span>Önceden Ödendi / Cari</span>
+              <span>Havale / EFT</span>
               <span className="text-[10px] font-normal text-emerald-400/80">
-                Tahsilat Alınmadı
+                Önceden ödendi
               </span>
             </button>
 
@@ -125,9 +127,9 @@ export function CourierPaymentModal({
               className="p-3.5 rounded-2xl bg-rose-500/10 hover:bg-rose-500/25 border border-rose-500/30 text-rose-300 hover:text-rose-200 font-bold text-xs flex flex-col items-center justify-center gap-1.5 active:scale-95 transition-all text-center"
             >
               <AlertCircle className="w-5 h-5 text-rose-400" />
-              <span>Ödeme Alınamadı</span>
+              <span>{isCari ? "Cariye İşlendi" : "Ödeme Alınamadı"}</span>
               <span className="text-[10px] font-normal text-rose-400/80">
-                Ödeme Bekliyor
+                {isCari ? "Borç cari hesaba" : "Ödeme bekliyor"}
               </span>
             </button>
           </div>

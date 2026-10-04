@@ -8,6 +8,7 @@ import { addDays, istanbulToday, normalizeDeliveryDate } from "@/lib/time/istanb
 import { computeShippingFee } from "@/lib/settings/schema";
 import { useStoreSettings } from "@/hooks/useStoreSettings";
 import { useIstanbulToday } from "@/hooks/useIstanbulToday";
+import { defaultDeliveryPayment, deliverOrder } from "@/lib/orders/delivery";
 
 export function normalizeOrderStatus(rawStatus?: string): AdminOrderStatus {
   if (!rawStatus) return "bekliyor";
@@ -215,84 +216,35 @@ export function useAdminOrders(options: UseAdminOrdersOptions = {}) {
     }
   }, [supabase, fetchSupabaseOrders]);
 
-  // Update order status with audit log (order_status_history)
+  // Durum değişikliği sunucuda: ara durumlar /status, teslim /deliver (ödeme + cari tek işlem), iptal /cancel.
   const updateOrderStatus = async (
     orderId: string,
     newStatus: AdminOrderStatus,
-    courierNotes?: string,
-    changedByRole: "system" | "admin" | "courier" | "customer" = "admin",
-    changedById?: string,
+    _courierNotes?: string,
+    _changedByRole: "system" | "admin" | "courier" | "customer" = "admin",
+    _changedById?: string,
     note?: string
   ) => {
+    const currentOrder = orders.find((o) => o.id === orderId);
     try {
-      const currentOrder = orders.find((o) => o.id === orderId);
-      if (currentOrder && (currentOrder.status === "teslim_edildi" || currentOrder.status === "iptal") && currentOrder.status !== newStatus) {
-        return {
-          success: false,
-          error: `'${currentOrder.status}' durumundaki bir sipariş nihai durumdadır ve değiştirilemez.`,
-        };
-      }
-      const nowIso = new Date().toISOString();
-
-      if (supabase && isSupabaseConfigured()) {
-        const updatePayload: Record<string, unknown> = {
-          status: newStatus,
-          updated_at: nowIso,
-        };
-
-        if (courierNotes !== undefined) {
-          updatePayload.courier_notes = courierNotes;
-        }
-
-        if (newStatus === "teslim_edildi") {
-          updatePayload.delivered_at = nowIso;
-          updatePayload.payment_status = "paid";
-        } else if (newStatus === "iptal") {
-          updatePayload.cancelled_at = nowIso;
-          updatePayload.cancelled_by = changedByRole;
-          if (note) updatePayload.cancel_reason = note;
-        }
-
-        let updateQuery = supabase
-          .from("orders")
-          .update(updatePayload)
-          .eq("id", orderId);
-
-        if (currentOrder?.status) {
-          updateQuery = updateQuery.eq("status", currentOrder.status);
-        }
-
-        const { error: updateErr } = await updateQuery;
-
-        if (updateErr) throw updateErr;
-
-        // Audit Trail (order_status_history)
-        await supabase.from("order_status_history").insert({
-          order_id: orderId,
-          from_status: currentOrder?.status || null,
-          to_status: newStatus,
-          changed_by_role: changedByRole,
-          changed_by_id: changedById || null,
-          note: note || courierNotes || null,
+      if (newStatus === "teslim_edildi") {
+        const payment = defaultDeliveryPayment(currentOrder?.paymentMethod, Boolean(currentOrder?.cariId));
+        const res = await deliverOrder(orderId, payment, note);
+        if (!res.ok) throw new Error(res.error || "Teslim kaydedilemedi");
+      } else {
+        const url = newStatus === "iptal" ? `/api/orders/${encodeURIComponent(orderId)}/cancel` : `/api/orders/${encodeURIComponent(orderId)}/status`;
+        const res = await fetch(url, {
+          method: "PATCH",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(newStatus === "iptal" ? { reason: note || "Fırın iptal etti" } : { status: newStatus, note }),
         });
+        const data: unknown = await res.json().catch(() => null);
+        if (!res.ok) {
+          const msg = (data as { error?: unknown } | null)?.error;
+          throw new Error(typeof msg === "string" ? msg : "Durum güncellenemedi");
+        }
       }
-
-      setOrders((prev) =>
-        prev.map((o) =>
-          o.id === orderId
-            ? {
-                ...o,
-                status: newStatus,
-                deliveredAt: newStatus === "teslim_edildi" ? nowIso : o.deliveredAt,
-                paymentStatus: newStatus === "teslim_edildi" ? "paid" : o.paymentStatus,
-                cancelledAt: newStatus === "iptal" ? nowIso : o.cancelledAt,
-                cancelReason: newStatus === "iptal" && note ? note : o.cancelReason,
-                cancelledBy: newStatus === "iptal" ? (changedByRole === "courier" ? "admin" : changedByRole) : o.cancelledBy,
-                courierNotes: courierNotes !== undefined ? courierNotes : o.courierNotes,
-              }
-            : o
-        )
-      );
+      await fetchSupabaseOrders();
       return { success: true };
     } catch (err: unknown) {
       console.error("Update order error:", err);
@@ -370,84 +322,44 @@ export function useAdminOrders(options: UseAdminOrdersOptions = {}) {
     return updateOrderStatus(orderId, "iptal", undefined, cancelledBy, userId, reason);
   };
 
-  // Create manual/WhatsApp order
-  const createManualOrder = async (orderData: Partial<AdminOrder>) => {
+  // Manuel sipariş: sunucuda tek atomik RPC (numara, kalemler, geçmiş). Cari borcu teslimde yazılır.
+  const createManualOrder = async (orderData: Partial<AdminOrder> & { idempotencyKey?: string }) => {
     try {
-      if (!supabase) return { success: false, error: "Supabase bağlantısı yok" };
-
       const subtotal = (orderData.items || []).reduce((sum, it) => sum + it.totalPrice, 0);
-      const shippingFee = computeShippingFee(subtotal, storeSettings);
-      const totalAmount = subtotal + shippingFee;
-      const orderId = crypto.randomUUID();
-
-      // Generate sequential collision-free order number SIP-YYMM-XXX
-      let generatedOrderNumber = orderData.orderNumber;
-      if (!generatedOrderNumber) {
-        try {
-          const { data: numData } = await supabase.rpc("generate_order_number");
-          if (numData) {
-            generatedOrderNumber = numData;
-          }
-        } catch (rpcErr) {
-          console.warn("generate_order_number RPC error:", rpcErr);
-        }
-        if (!generatedOrderNumber) {
-          const now = new Date();
-          const yymm = `${now.getFullYear().toString().slice(2)}${String(now.getMonth() + 1).padStart(2, "0")}`;
-          const randomSuffix = Math.floor(100 + Math.random() * 900);
-          generatedOrderNumber = `SIP-${yymm}-${randomSuffix}`;
-        }
-      }
-
-      const { error: insErr } = await supabase.from("orders").insert({
-        id: orderId,
-        order_number: generatedOrderNumber,
-        customer_name: orderData.customerName || "Müşteri",
-        phone: orderData.phone || "",
-        delivery_address: orderData.deliveryAddress || "",
-        neighborhood: orderData.neighborhood || "",
-        delivery_method: "courier",
-        delivery_date: orderData.deliveryDate || istanbulToday(),
-        status: orderData.status || "bekliyor",
-        payment_method: orderData.paymentMethod || "cash_on_delivery",
-        payment_status: orderData.paymentStatus || "pending",
-        source: orderData.source || "admin",
-        subtotal,
-        shipping_fee: shippingFee,
-        total_amount: totalAmount,
-        order_notes: orderData.orderNotes || "",
-        courier_notes: orderData.courierNotes || "",
-        courier_id: orderData.courierId || null,
-        cari_id: orderData.cariId || null,
+      const shippingFee = orderData.shippingFee ?? computeShippingFee(subtotal, storeSettings);
+      const res = await fetch("/api/admin/orders", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          idempotencyKey: orderData.idempotencyKey || crypto.randomUUID(),
+          customerName: orderData.customerName || "",
+          phone: orderData.phone || "",
+          deliveryAddress: orderData.deliveryAddress || "",
+          neighborhood: orderData.neighborhood || "",
+          deliveryDate: orderData.deliveryDate || istanbulToday(),
+          deliveryTimeWindow: orderData.deliveryTimeWindow || undefined,
+          items: (orderData.items || []).map((it) => ({
+            productId: it.productId,
+            productName: it.productName,
+            quantity: it.quantity,
+            unitPrice: it.unitPrice,
+            ...(it.imageUrl ? { imageUrl: it.imageUrl } : {}),
+            ...(it.weight ? { weight: it.weight } : {}),
+          })),
+          shippingFee,
+          paymentMethod: orderData.paymentMethod === "online" ? "transfer" : orderData.paymentMethod || "cash_on_delivery",
+          source: orderData.source || "phone",
+          status: orderData.status === "bekliyor" ? "bekliyor" : "hazirlaniyor",
+          ...(orderData.cariId ? { cariId: orderData.cariId } : {}),
+          orderNotes: orderData.orderNotes || "",
+        }),
       });
-
-      if (insErr) throw insErr;
-
-      // Status history entry for order creation
-      await supabase.from("order_status_history").insert({
-        order_id: orderId,
-        from_status: null,
-        to_status: orderData.status || "bekliyor",
-        changed_by_role: "admin",
-        note: "Manuel sipariş oluşturuldu",
-      });
-
-      if (orderData.items && orderData.items.length > 0) {
-        const itemInserts = orderData.items.map((it) => ({
-          order_id: orderId,
-          product_id: it.productId,
-          product_name: it.productName,
-          quantity: it.quantity,
-          unit_price: it.unitPrice,
-          total_price: it.totalPrice,
-          image_url: it.imageUrl || null,
-          weight: it.weight || null,
-        }));
-        await supabase.from("order_items").insert(itemInserts);
-      }
+      const data: unknown = await res.json().catch(() => null);
+      const rec = (data && typeof data === "object" ? data : {}) as { id?: string; orderNumber?: string; error?: string };
+      if (!res.ok || !rec.id) throw new Error(rec.error || "Sipariş kaydedilemedi");
 
       fetchSupabaseOrders();
-      return { success: true, id: orderId, orderNumber: generatedOrderNumber };
+      return { success: true, id: rec.id, orderNumber: rec.orderNumber };
     } catch (err: unknown) {
       console.error("Create manual order error:", err);
       return { success: false, error: getErrorMessage(err) };

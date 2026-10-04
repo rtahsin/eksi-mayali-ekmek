@@ -121,53 +121,31 @@ export async function PATCH(
       }
     }
 
-    const nowIso = new Date().toISOString();
-
-    // 2. Siparişi iptal olarak güncelle (iyimser kilit: durum bu arada değiştiyse 0 satır → 409)
-    const { data: updatedRows, error: updateErr } = await supabase
-      .from("orders")
-      .update({
-        status: "iptal",
-        cancelled_at: nowIso,
-        cancel_reason: reason,
-        cancelled_by: requestedBy,
-        updated_at: nowIso,
-      })
-      .eq("id", orderData.id)
-      .eq("status", currentStatus)
-      .select("id");
-
-    if (updateErr) {
-      throw updateErr;
-    }
-
-    if (!updatedRows || updatedRows.length === 0) {
-      return NextResponse.json(
-        { error: "Sipariş durumu bu sırada değişti. Lütfen sayfayı yenileyip tekrar deneyin." },
-        { status: 409 }
-      );
-    }
-
-    // 3. Durum geçmişine (audit log) kaydet
-    await supabase.from("order_status_history").insert({
-      order_id: orderData.id,
-      from_status: currentStatus,
-      to_status: "iptal",
-      changed_by_role: requestedBy,
-      changed_by_id: actorId,
-      note: reason,
+    // 2. Tek işlemde: iptal + geçmiş + bekleyen ödemeler + cari storno (018 cancel_order_atomic).
+    //    Müşteri yolu: sipariş hâlâ okunan durumda olmalı (arada değiştiyse 409).
+    const { error: rpcErr } = await supabase.rpc("cancel_order_atomic", {
+      p_order_id: orderData.id,
+      p_reason: reason,
+      p_actor_role: requestedBy,
+      p_actor_id: actorId,
+      p_expected_status: requestedBy === "customer" ? currentStatus : null,
     });
 
-    // 4. Varsa ilişkili ödeme kaydını iptal / iade olarak işaretle
-    await supabase
-      .from("payments")
-      .update({
-        status: "failed",
-        note: `Sipariş iptali nedeniyle ödeme kapatıldı: ${reason}`,
-        updated_at: nowIso,
-      })
-      .eq("order_id", orderData.id)
-      .eq("status", "pending");
+    if (rpcErr) {
+      if (rpcErr.message.includes("STATUS_CHANGED")) {
+        return NextResponse.json(
+          { error: "Sipariş durumu bu sırada değişti. Lütfen sayfayı yenileyip tekrar deneyin." },
+          { status: 409 }
+        );
+      }
+      if (rpcErr.message.includes("ORDER_DELIVERED")) {
+        return NextResponse.json(
+          { error: "Teslim edilmiş sipariş iptal edilemez. Cari siparişse cari ekranından fişi iptal edin." },
+          { status: 409 }
+        );
+      }
+      throw rpcErr;
+    }
 
     return NextResponse.json({
       success: true,

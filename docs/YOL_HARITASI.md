@@ -10,7 +10,7 @@
 | 0.5 | CI (her PR'da otomatik build) | ~2 saat | ✅ tamamlandı (4 Eki, PR #3) |
 | 1 | Sipariş çekirdeği onarımı | 3-4 gün | ✅ canlıda (4 Eki, PR #4): 014 uygulandı ve doğrulandı; Telegram env eklendi. Not: 014 birleştirmeden birkaç dakika önce çalıştı → o aralıkta web siparişi reddedildi (sıra kuralı: önce kod, sonra migration) |
 | 2 | Esnek ürün ve satış yönetimi (kategori, satış günleri, kapasite, paket, kampanya) | 4-5 gün | ✅ canlıda (4 Eki, PR #6): 015 önce uygulandı, sonra kod; önizleme + canlı duman testi ✅ |
-| 3 | Admin sadeleştirme + finans doğruluğu | ~5 gün | 3b-1 (defter) PR #8 — bakiyeler teyitli (Yerumda 17.870, Ofsüt 13.630); 016 canlıda ✅, 017 merge'ten ÖNCE · sonra 3b-2 (018), 3a |
+| 3 | Admin sadeleştirme + finans doğruluğu | ~5 gün | 3b-1 ✅ canlıda (PR #8, 016+017; Numetal deneme carisi silindi) · 3b-2 PR'da (018 merge'ten ÖNCE) · sonra 3a |
 | 4 | Marka, görseller, içerik, yasal metinler | 4-6 gün + içerik | bekliyor |
 | 5 | Temizlik ve araçlar | 1-2 gün | bekliyor |
 
@@ -349,7 +349,7 @@ Ayrıca: yinelenen `idempotency_key`'leri boşalt + kısmi unique index; `order_
 | 015 | 2 | ürün alanları, satış günleri, gün kapasitesi, kategoriler, RPC v4 | ÖNCE |
 | 016 | 3 | cari defter normalizasyonu, `delta`, mutabakat, kanonik defter RPC, tarayıcı yazma yetkisi kapanır | ÖNCE (merge'ten hemen önce; arada eski ekranlardan cari yazılamaz) |
 | 017 | 3 | defter RPC sağlamlaştırma: kuruş yuvarlama, 999+ fiş sırası, kilit altında hedef bakiye (PR #8 incelemesi) | ÖNCE (yeni parametreyi kod kullanır) |
-| 018 | 3 | iptal/teslim RPC'leri, RPC v5 | PR 3b-2 ile |
+| 018 | 3 | `mark_order_delivered`, `cancel_order_atomic`, `create_order_atomic` v5 (cari borcu teslimde), `generate_order_number` tarayıcıdan geri alınır | ÖNCE (yeni rotalar bu fonksiyonları çağırır) |
 | 019 | 4 | `media` bucket + politikalar | yükleme arayüzünden ÖNCE |
 | 020 | 4 | `journal_articles` v2 | editörden ÖNCE |
 
