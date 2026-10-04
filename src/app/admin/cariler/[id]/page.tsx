@@ -22,11 +22,11 @@ import {
 } from "lucide-react";
 import { useCariProfile } from "@/hooks/useCariProfile";
 import { useCariler } from "@/hooks/useCariler";
-import B2BSlipModal from "@/components/admin/finans/B2BSlipModal";
-import B2BCollectionModal from "@/components/admin/finans/B2BCollectionModal";
+import B2BSlipModal from "@/components/admin/cariler/B2BSlipModal";
+import B2BCollectionModal from "@/components/admin/cariler/B2BCollectionModal";
 import CariEditModal from "@/components/admin/cariler/CariEditModal";
 import BalanceAdjustModal from "@/components/admin/cariler/BalanceAdjustModal";
-import TransactionReceiptModal from "@/components/admin/finans/TransactionReceiptModal";
+import TransactionReceiptModal from "@/components/admin/cariler/TransactionReceiptModal";
 import { CariTransaction } from "@/types/admin";
 import { LEDGER_TYPE_LABELS, PAYMENT_METHOD_LABELS } from "@/lib/cari/ledger";
 import { addDays, istanbulToday } from "@/lib/time/istanbul";

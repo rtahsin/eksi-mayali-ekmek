@@ -29,10 +29,8 @@ import {
   Loader2,
   Building2,
   Tag,
-  Sparkles,
 } from "lucide-react";
 import Link from "next/link";
-import { WhatsAppOrderParserModal } from "@/components/admin/WhatsAppOrderParserModal";
 import { istanbulToday } from "@/lib/time/istanbul";
 import { computeShippingFee } from "@/lib/settings/schema";
 import { useStoreSettings } from "@/hooks/useStoreSettings";
@@ -55,7 +53,6 @@ function ManualOrderForm() {
   const selectedCari = cariler.find((c) => c.id === selectedCariId) || null;
 
   // WhatsApp Parser Modal
-  const [showWhatsAppParserModal, setShowWhatsAppParserModal] = useState(false);
 
   // Form State
   const [customerName, setCustomerName] = useState("");
@@ -212,29 +209,9 @@ function ManualOrderForm() {
     }
   };
 
-  const handleApplyWhatsAppParsed = (parsed: {
-    customerName?: string;
-    phone?: string;
-    neighborhood?: string;
-    deliveryAddress?: string;
-    paymentMethod?: AdminPaymentMethod;
-    quantities: Record<string, number>;
-    orderNotes?: string;
-  }) => {
-    if (parsed.customerName) setCustomerName(parsed.customerName);
-    if (parsed.phone) setPhone(parsed.phone);
-    if (parsed.neighborhood) setNeighborhood(parsed.neighborhood);
-    if (parsed.deliveryAddress) setDeliveryAddress(parsed.deliveryAddress);
-    if (parsed.paymentMethod) setPaymentMethod(parsed.paymentMethod);
-    if (parsed.orderNotes) setOrderNotes(parsed.orderNotes);
-    if (Object.keys(parsed.quantities).length > 0) {
-      setQuantities(parsed.quantities);
-    }
-  };
-
   return (
     <div className="space-y-6 max-w-5xl mx-auto pb-16">
-      {/* Breadcrumb, Title & WhatsApp Parser Trigger */}
+      {/* Breadcrumb & Title */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div className="flex items-center gap-3">
           <Link
@@ -251,17 +228,6 @@ function ManualOrderForm() {
               WhatsApp, telefon veya kurumsal cari siparişini anında Beylikdüzü kurye rota listesine ekleyin.
             </p>
           </div>
-        </div>
-
-        <div>
-          <button
-            type="button"
-            onClick={() => setShowWhatsAppParserModal(true)}
-            className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-emerald-600/15 hover:bg-emerald-600/25 border border-emerald-500/40 text-emerald-400 text-xs font-bold transition-all shadow-md active:scale-95"
-          >
-            <Sparkles className="w-4 h-4 text-emerald-400" />
-            <span>📋 WhatsApp Metnini Yapıştır & Doldur</span>
-          </button>
         </div>
       </div>
 
@@ -578,14 +544,6 @@ function ManualOrderForm() {
         </div>
       </form>
 
-      {/* WhatsApp Quick Order Parser Modal */}
-      <WhatsAppOrderParserModal
-        isOpen={showWhatsAppParserModal}
-        onClose={() => setShowWhatsAppParserModal(false)}
-        products={products}
-        allOrders={allOrders}
-        onApply={handleApplyWhatsAppParsed}
-      />
     </div>
   );
 }

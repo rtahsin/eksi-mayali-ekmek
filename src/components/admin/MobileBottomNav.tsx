@@ -3,7 +3,7 @@
 import React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { ShoppingBag, Truck, Wallet, Plus, Menu } from "lucide-react";
+import { LayoutDashboard, ShoppingBag, Truck, Wallet, Plus, Menu } from "lucide-react";
 
 interface MobileBottomNavProps {
   onOpenSidebar: () => void;
@@ -13,33 +13,19 @@ interface MobileBottomNavProps {
 export function MobileBottomNav({ onOpenSidebar, pendingOrderCount = 0 }: MobileBottomNavProps) {
   const pathname = usePathname();
 
+  // Sol: Bugün, Sipariş · orta: yeni sipariş · sağ: Teslimat, Cariler · Diğer (menü)
   const navItems = [
-    {
-      label: "Sipariş",
-      href: "/admin/siparisler",
-      icon: ShoppingBag,
-      badge: pendingOrderCount,
-      exact: true,
-    },
-    {
-      label: "Kurye",
-      href: "/kurye",
-      icon: Truck,
-      badge: 0,
-    },
-    {
-      label: "Finans",
-      href: "/admin/cariler",
-      icon: Wallet,
-      badge: 0,
-    },
+    { label: "Bugün", href: "/admin", icon: LayoutDashboard, badge: 0, exact: true },
+    { label: "Sipariş", href: "/admin/siparisler", icon: ShoppingBag, badge: pendingOrderCount, exact: true },
+    { label: "Teslimat", href: "/kurye", icon: Truck, badge: 0, exact: false },
+    { label: "Cariler", href: "/admin/cariler", icon: Wallet, badge: 0, exact: false },
   ];
 
   return (
     <div className="lg:hidden fixed bottom-0 left-0 right-0 z-40 bg-[#16120E]/95 backdrop-blur-md border-t border-[#261E17] shadow-[0_-10px_40px_-10px_rgba(0,0,0,0.8)]" style={{ paddingBottom: 'env(safe-area-inset-bottom)' }}>
       <div className="flex items-center justify-around h-[68px] px-2 relative">
         
-        {/* Left Side Navigation (Siparişler & Kurye) */}
+        {/* Sol: Bugün, Sipariş */}
         {navItems.slice(0, 2).map((item) => {
           const isActive = item.exact
             ? pathname === item.href
@@ -78,11 +64,11 @@ export function MobileBottomNav({ onOpenSidebar, pendingOrderCount = 0 }: Mobile
             <div className="w-14 h-14 bg-artisan-terracotta text-stone-950 rounded-full flex items-center justify-center shadow-lg shadow-artisan-terracotta/30 border-4 border-[#120E0B] transition-transform active:scale-95">
               <Plus className="w-6 h-6 stroke-[3]" />
             </div>
-            <span className="text-[10px] font-bold text-stone-300 mt-1">Yeni Fiş</span>
+            <span className="text-[10px] font-bold text-stone-300 mt-1">Sipariş Ekle</span>
           </Link>
         </div>
 
-        {/* Right Side Navigation (Finans) */}
+        {/* Sağ: Teslimat, Cariler */}
         {navItems.slice(2).map((item) => {
           const isActive = item.exact
             ? pathname === item.href

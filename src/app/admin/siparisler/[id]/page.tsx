@@ -25,6 +25,7 @@ import {
 } from "lucide-react";
 import { useAdminOrders } from "@/hooks/useAdminOrders";
 import { useCouriers } from "@/hooks/useCouriers";
+import { FEATURES } from "@/lib/features";
 import { usePayments } from "@/hooks/usePayments";
 import { useOrderHistory } from "@/hooks/useOrderHistory";
 import { OrderSlipModal } from "@/components/admin/OrderSlipModal";
@@ -459,7 +460,8 @@ export default function SingleOrderDetailPage() {
 
         {/* Right Column: Courier, Customer & Delivery Details */}
         <div className="space-y-6">
-          {/* Courier Assignment Card */}
+          {/* Courier Assignment Card (kurye yönetimi açıksa) */}
+          {FEATURES.courierManagement && (
           <div className="bg-[#18130F] border border-[#261E17] rounded-3xl p-5 shadow space-y-3">
             <h3 className="font-serif font-bold text-stone-100 text-sm flex items-center gap-2">
               <Truck className="w-4 h-4 text-blue-400" />
@@ -497,6 +499,7 @@ export default function SingleOrderDetailPage() {
               </div>
             )}
           </div>
+          )}
 
           {/* Delivery & Address Card */}
           <div className="bg-[#18130F] border border-[#261E17] rounded-3xl p-5 shadow space-y-3 text-xs">

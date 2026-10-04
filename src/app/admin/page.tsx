@@ -86,11 +86,11 @@ export default function AdminDashboardPage() {
             <span>+ Hızlı Sipariş Yaz</span>
           </Link>
           <Link
-            href="/admin/siparisler/dagitim"
+            href="/kurye"
             className="flex items-center gap-2 px-4 py-2.5 bg-stone-800 hover:bg-stone-700 text-stone-200 font-semibold rounded-xl transition-all border border-stone-700 text-sm active:scale-95"
           >
             <Truck className="w-4 h-4 text-amber-400" />
-            <span>Kurye Rotası</span>
+            <span>Teslimat</span>
           </Link>
         </div>
       </div>
@@ -344,11 +344,11 @@ export default function AdminDashboardPage() {
 
             <div className="mt-4 pt-3 border-t border-stone-800/80">
               <Link
-                href="/admin/siparisler/dagitim"
+                href="/kurye"
                 className="w-full flex items-center justify-center gap-2 py-2 text-xs font-bold text-amber-400 hover:text-amber-300 bg-amber-500/10 hover:bg-amber-500/20 rounded-xl transition-all"
               >
                 <Truck className="w-3.5 h-3.5" />
-                <span>Kurye Rota Listesini Aç</span>
+                <span>Teslimat Ekranını Aç</span>
               </Link>
             </div>
           </div>
