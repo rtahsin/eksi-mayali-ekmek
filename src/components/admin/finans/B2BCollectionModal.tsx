@@ -14,7 +14,7 @@ interface B2BCollectionModalProps {
 export default function B2BCollectionModal({ cariId, cariName, onClose, onSuccess }: B2BCollectionModalProps) {
   const { addTransaction } = useCariler();
   const [amount, setAmount] = useState("");
-  const [paymentMethod, setPaymentMethod] = useState<"nakit" | "banka_havale" | "kredi_karti">("banka_havale");
+  const [paymentMethod, setPaymentMethod] = useState<"nakit" | "banka_havale" | "pos">("banka_havale");
   const [desc, setDesc] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -30,10 +30,10 @@ export default function B2BCollectionModal({ cariId, cariName, onClose, onSucces
     setError(null);
     try {
       const res = await addTransaction(cariId, {
-        type: "tahsilat",
+        kind: "tahsilat",
         amount: Number(amount),
-        description: desc || "Tahsilat Alındı",
-        paymentMethod: paymentMethod,
+        description: desc.trim() || undefined,
+        paymentMethod,
       });
 
       if (!res.success) {
@@ -88,12 +88,12 @@ export default function B2BCollectionModal({ cariId, cariName, onClose, onSucces
               {[
                 { id: "banka_havale", label: "Havale/EFT" },
                 { id: "nakit", label: "Nakit" },
-                { id: "kredi_karti", label: "Kredi Kartı" }
+                { id: "pos", label: "Kart (POS)" }
               ].map(pm => (
                 <button
                   key={pm.id}
                   type="button"
-                  onClick={() => setPaymentMethod(pm.id as "nakit" | "banka_havale" | "kredi_karti")}
+                  onClick={() => setPaymentMethod(pm.id as "nakit" | "banka_havale" | "pos")}
                   className={`p-2 rounded-xl text-xs font-bold border transition-colors ${
                     paymentMethod === pm.id 
                       ? "bg-emerald-500/20 border-emerald-500/50 text-emerald-400" 

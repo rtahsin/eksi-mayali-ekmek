@@ -1,7 +1,11 @@
 import { NextResponse } from "next/server";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { verifyApiAuth } from "@/lib/security/apiAuth";
-import { checkRateLimit } from "@/lib/security/rateLimiter";
+import { checkRateLimit, getClientIp } from "@/lib/security/rateLimiter";
+import { signAccountToken, verifyOrderToken, verifySlipToken } from "@/lib/security/linkToken";
+import { LEDGER_SELECT, mapLedgerRow, type LedgerRow } from "@/lib/cari/ledger";
+import { SITE_URL } from "@/lib/site";
+import { getErrorMessage } from "@/lib/utils/error";
 
 interface ParsedSlipItem {
   name: string;
@@ -12,20 +16,50 @@ interface ParsedSlipItem {
   imageUrl?: string;
 }
 
-export async function GET(
-  req: Request,
-  { params }: { params: Promise<{ id: string }> }
-) {
+interface ProductMetaRow {
+  name: string;
+  image_url: string | null;
+  weight: number | null;
+}
+
+interface OrderItemRow {
+  product_name: string | null;
+  quantity: number | string | null;
+  unit_price: number | string | null;
+  total_price: number | string | null;
+  image_url: string | null;
+  weight: number | null;
+}
+
+function productMeta(products: ProductMetaRow[], itemName: string): { imageUrl?: string; weight?: number } {
+  const target = itemName.trim().toLowerCase();
+  const found = products.find((p) => {
+    const n = p.name.trim().toLowerCase();
+    return n === target || target.includes(n) || n.includes(target);
+  });
+  return { imageUrl: found?.image_url || undefined, weight: found?.weight || undefined };
+}
+
+function ekstreUrl(accountId: string | null): string | null {
+  if (!accountId) return null;
+  const t = signAccountToken(accountId);
+  return t ? `${SITE_URL}/ekstre/${encodeURIComponent(accountId)}?t=${t}` : null;
+}
+
+const notFound = () => NextResponse.json({ success: false, error: "Fiş bulunamadı" }, { status: 404 });
+
+/**
+ * Fiş / makbuz verisi. Erişim: admin oturumu ya da imzalı link (`?t=`):
+ *  - sipariş fişi → sipariş takip token'ı, cari hareketi → fiş token'ı.
+ * Token yoksa/yanlışsa 404 (varlık bilgisi sızdırılmaz).
+ */
+export async function GET(req: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
     const { id } = await params;
-    if (!id || id.length > 64) {
-      return NextResponse.json({ success: false, error: "Eksik ID" }, { status: 400 });
-    }
+    if (!id || id.length > 64) return notFound();
+    const token = new URL(req.url).searchParams.get("t");
 
-    // IP Rate Limiting (30 requests per minute) — fiş ID tahminini yavaşlatır
-    const forwardedFor = req.headers.get("x-forwarded-for");
-    const clientIp = forwardedFor ? forwardedFor.split(",")[0].trim() : req.headers.get("x-real-ip") || "127.0.0.1";
-    const ipLimit = await checkRateLimit(`slip_get_${clientIp}`, 30, 60000);
+    const ipLimit = await checkRateLimit(`slip_get_${getClientIp(req)}`, 30, 60000);
     if (!ipLimit.allowed) {
       return NextResponse.json(
         { success: false, error: `Çok fazla istek. Lütfen ${ipLimit.retryAfterSeconds} saniye sonra tekrar deneyin.` },
@@ -34,290 +68,177 @@ export async function GET(
     }
 
     const supabase = createAdminClient();
-    if (!supabase) {
-      return NextResponse.json({ success: false, error: "Supabase unconfigured" }, { status: 500 });
-    }
+    if (!supabase) return NextResponse.json({ success: false, error: "Supabase unconfigured" }, { status: 500 });
 
-    // Load products map for matching image and weight
-    const { data: allProds } = await supabase
-      .from("products")
-      .select("id, name, price, image_url, weight");
+    const isUuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(id);
+    const tokenOk = verifySlipToken(id, token) || verifyOrderToken(id, token);
+    const isAdmin = tokenOk ? false : (await verifyApiAuth(req)).isAdmin;
+    if (!tokenOk && !isAdmin) return notFound();
 
-    const getProductMeta = (itemName: string) => {
-      const cleanTarget = itemName.trim().toLowerCase();
-      
-      // 1. First try matching Supabase products table
-      if (allProds) {
-        const found = allProds.find(
-          (p) =>
-            p.name.trim().toLowerCase() === cleanTarget ||
-            cleanTarget.includes(p.name.trim().toLowerCase()) ||
-            p.name.trim().toLowerCase().includes(cleanTarget)
-        );
-        if (found?.image_url) {
-          return { imageUrl: found.image_url, weight: found.weight || undefined };
-        }
-      }
+    const { data: prods } = await supabase.from("products").select("name, image_url, weight");
+    const products = (prods ?? []) as ProductMetaRow[];
 
-      // 2. Fallback to local /images/products static mapping
-      let localImg = "/images/categories/bread.jpg";
-      if (cleanTarget.includes("köy") || cleanTarget.includes("ekşi maya")) localImg = "/images/products/koy-ekmegi.jpg";
-      else if (cleanTarget.includes("karakılçık") && cleanTarget.includes("un")) localImg = "/images/products/karakilcik-unu.jpg";
-      else if (cleanTarget.includes("karakılçık")) localImg = "/images/products/karakilcik.jpg";
-      else if (cleanTarget.includes("siyez") && cleanTarget.includes("kavılca")) localImg = "/images/products/kavilca-siyez.jpg";
-      else if (cleanTarget.includes("siyez")) localImg = "/images/products/siyez.jpg";
-      else if (cleanTarget.includes("yudane") || cleanTarget.includes("tost")) localImg = "/images/products/yudane.jpg";
-      else if (cleanTarget.includes("özel") || cleanTarget.includes("cevizli")) localImg = "/images/products/ekmeklab-ozel.jpg";
-      else if (cleanTarget.includes("incir")) localImg = "/images/products/ceviz-incir.jpg";
-      else if (cleanTarget.includes("jersey") || cleanTarget.includes("süt")) localImg = "/images/products/jersey-sut-3l.jpg";
-      else if (cleanTarget.includes("yoğurt")) localImg = "/images/products/dogal-yogurt.jpg";
-      else if (cleanTarget.includes("tereyağ")) localImg = "/images/products/koy-tereyagi.jpg";
-      else if (cleanTarget.includes("peynir") || cleanTarget.includes("mihaliç")) localImg = "/images/products/mihalic-peyniri.jpg";
-      else if (cleanTarget.includes("kavurma")) localImg = "/images/products/dana-kavurma.jpg";
-
-      return {
-        imageUrl: localImg,
-        weight: undefined,
-      };
-    };
-
-    // 1. Try finding in `orders` table
-    const { data: orderData } = await supabase
-      .from("orders")
-      .select("*, order_items(*)")
-      .eq("id", id)
-      .maybeSingle();
-
-    if (orderData) {
-      // Sipariş fişleri müşteri kişisel verisi içerir: sadece admin görebilir
-      const auth = await verifyApiAuth(req);
-      if (!auth.isAdmin) {
-        return NextResponse.json(
-          { success: false, error: "Bu fişi görüntüleme yetkiniz yok" },
-          { status: auth.isAuthenticated ? 403 : 401 }
-        );
-      }
-
-      let prevBal = 0;
-      let newBal = 0;
-      let taxNo = "";
-      let busName = orderData.customer_name || "Değerli Müşterimiz";
-      let phone = orderData.phone || "";
-      let address = orderData.delivery_address || "";
-      let neighborhood = orderData.neighborhood || "Beylikdüzü";
-
-      if (orderData.cari_id) {
-        const { data: cariData } = await supabase
+    // 1) Cari hareketi (teslimat fişi / tahsilat makbuzu / devir / iptal)
+    if (isUuid && (isAdmin || verifySlipToken(id, token))) {
+      const { data: row } = await supabase.from("account_transactions").select(LEDGER_SELECT).eq("id", id).maybeSingle();
+      if (row) {
+        const tx = mapLedgerRow(row as LedgerRow);
+        const { data: acc } = await supabase
           .from("current_accounts")
-          .select("*")
-          .eq("id", orderData.cari_id)
+          .select("name, tax_id, phone, address, neighborhood")
+          .eq("id", tx.cariId)
           .maybeSingle();
+        const cari = (acc ?? {}) as { name?: string; tax_id?: string; phone?: string; address?: string; neighborhood?: string };
 
-        if (cariData) {
-          busName = cariData.name || busName;
-          taxNo = cariData.tax_id || "";
-          newBal = Number(cariData.balance) || 0;
-          prevBal = newBal - Number(orderData.total_amount || 0);
-          phone = cariData.phone || phone;
-          address = cariData.address || address;
-          neighborhood = cariData.neighborhood || neighborhood;
+        let reversesSlip: string | null = null;
+        if (tx.reversesId) {
+          const { data: orig } = await supabase.from("account_transactions").select("slip_number").eq("id", tx.reversesId).maybeSingle();
+          reversesSlip = (orig as { slip_number: string | null } | null)?.slip_number ?? null;
         }
-      }
 
-      const rawItems = Array.isArray(orderData.order_items)
-        ? orderData.order_items
-        : Array.isArray(orderData.items)
-        ? orderData.items
-        : [];
+        const items: ParsedSlipItem[] = (tx.items ?? []).map((it) => ({
+          name: it.name,
+          quantity: it.quantity,
+          unitPrice: it.unitPrice,
+          totalPrice: Math.round(it.quantity * it.unitPrice * 100) / 100,
+          ...productMeta(products, it.name),
+        }));
+        const isProductSale = tx.type === "satis" && items.length > 0;
+        // 016 öncesi fişlerde not açıklamanın "| Not:" kısmında; sonrasında açıklamanın kendisi not
+        const hasJsonItems = Array.isArray((row as LedgerRow).items);
+        const note = hasJsonItems ? tx.description : tx.description.split("| Not:")[1]?.trim() ?? "";
+        const label =
+          tx.type === "storno"
+            ? `İptal edilen belge: ${reversesSlip ?? "—"}`
+            : tx.description || (tx.type === "devir" ? "Bakiye düzeltme" : tx.type === "tahsilat" ? "Tahsilat" : "Teslimat");
+        const balanceAfter = tx.balanceAfter ?? 0;
 
-      const mappedItems: ParsedSlipItem[] = rawItems.map((it: any) => {
-        const itName = it.product_name || it.productName || it.name || "Ürün";
-        const meta = getProductMeta(itName);
-        const qty = Number(it.quantity) || 1;
-        const uPrice = Number(it.unit_price) || Number(it.unitPrice) || Number(it.price) || 0;
-        const tPrice = Number(it.total_price) || Number(it.totalPrice) || qty * uPrice;
-
-        return {
-          name: itName,
-          quantity: qty,
-          unitPrice: uPrice,
-          totalPrice: tPrice,
-          weight: it.weight || meta.weight,
-          imageUrl: it.image_url || it.imageUrl || meta.imageUrl,
-        };
-      });
-
-      return NextResponse.json({
-        success: true,
-        data: {
-          id: orderData.id,
-          orderNumber: orderData.order_number || `ORD-${orderData.id.substring(0, 6).toUpperCase()}`,
-          slipNumber: orderData.order_number || `ORD-${orderData.id.substring(0, 6).toUpperCase()}`,
-          businessName: busName,
-          phone: phone,
-          address: address,
-          neighborhood: neighborhood,
-          taxNumber: taxNo,
-          cariId: orderData.cari_id || null,
-          isProductSale: true,
-          type: "satis",
-          createdAt: orderData.created_at || orderData.delivery_date,
-          date: orderData.created_at || orderData.delivery_date || new Date().toISOString(),
-          timeWindow: orderData.delivery_time_window || "14:00 - 18:00",
-          items: mappedItems,
-          subtotal: Number(orderData.subtotal) || Number(orderData.total_amount) || 0,
-          totalAmount: Number(orderData.total_amount) || 0,
-          previousBalance: prevBal,
-          paidAmount: 0,
-          newBalance: newBal > 0 ? newBal : Number(orderData.total_amount) || 0,
-          status: orderData.status,
-        },
-      });
-    }
-
-    // 2. Try finding in `account_transactions` table
-    const { data: txData } = await supabase
-      .from("account_transactions")
-      .select("*")
-      .eq("id", id)
-      .maybeSingle();
-
-    if (txData) {
-      const { data: cariData } = await supabase
-        .from("current_accounts")
-        .select("*")
-        .eq("id", txData.account_id)
-        .maybeSingle();
-
-      const busName = cariData?.name || "Kurumsal Müşteri";
-      const taxNo = cariData?.tax_id || "";
-      const curBal = Number(cariData?.balance) || 0;
-      const amount = Number(txData.amount) || 0;
-      let prevBal = 0;
-      let newBal = Number(txData.balance_after ?? curBal);
-      let isPositiveDelta = true;
-
-      if (txData.type === "devir") {
-        const eskiMatch = txData.description?.match(/Eski:\s*([\d.,]+)\s*₺/i);
-        const yeniMatch = txData.description?.match(/Yeni:\s*([\d.,]+)\s*₺/i);
-        if (eskiMatch && yeniMatch) {
-          prevBal = parseFloat(eskiMatch[1].replace(/\./g, "").replace(",", "."));
-          newBal = parseFloat(yeniMatch[1].replace(/\./g, "").replace(",", "."));
-          isPositiveDelta = newBal >= prevBal;
-        } else {
-          prevBal = 0;
-          newBal = amount;
-          isPositiveDelta = true;
-        }
-      } else if (txData.type === "satis") {
-        newBal = txData.balance_after !== null && txData.balance_after !== undefined ? Number(txData.balance_after) : curBal;
-        prevBal = newBal - amount;
-        isPositiveDelta = true;
-      } else {
-        newBal = txData.balance_after !== null && txData.balance_after !== undefined ? Number(txData.balance_after) : curBal;
-        prevBal = newBal + amount;
-        isPositiveDelta = false;
-      }
-
-      // Extract slip number: either txData.slip_number or from description [FİŞ-YYMM-XXX]
-      const slipMatch = txData.description?.match(/\[(FİŞ-[^\]]+)\]/i);
-      const extractedSlipNumber =
-        txData.slip_number ||
-        (slipMatch ? slipMatch[1] : `FİŞ-${txData.id.substring(0, 6).toUpperCase()}`);
-
-      // Clean description
-      const desc = txData.description || "Toptan Ekmek Teslimatı";
-      let cleanDesc = desc
-        .replace(/\[FİŞ-[^\]]+\]\s*/gi, "")
-        .replace(/^(Fiş|Sipariş):\s*/i, "")
-        .trim();
-
-      // Separate note if exists (e.g. "... | Not: zil çalmasın")
-      let customNote = "";
-      if (cleanDesc.includes("| Not:")) {
-        const parts = cleanDesc.split("| Not:");
-        cleanDesc = parts[0].trim();
-        customNote = parts[1].trim();
-      }
-
-      // Parse multi-item string: e.g. "10x Taş Fırın Ekşi Mayalı Köy Ekmeği (85₺), 5x 3Lt Jersey Süt (120₺)"
-      const itemStrings = cleanDesc.split(/,\s*(?=\d+x)/);
-      const parsedItems: ParsedSlipItem[] = [];
-
-      for (const rawItem of itemStrings) {
-        const itemMatch = rawItem.trim().match(/^(\d+)x\s+(.*?)(?:\s*\(([\d.,]+)[₺TL\s]*\))?$/i);
-        if (itemMatch) {
-          const qty = parseInt(itemMatch[1], 10);
-          const name = itemMatch[2].trim();
-          const meta = getProductMeta(name);
-          const price = itemMatch[3] ? parseFloat(itemMatch[3].replace(",", ".")) : (qty > 0 ? amount / qty : amount);
-
-          parsedItems.push({
-            name,
-            quantity: qty,
-            unitPrice: price,
-            totalPrice: qty * price,
-            weight: meta.weight,
-            imageUrl: meta.imageUrl,
-          });
-        }
-      }
-
-      const isProductSale = txData.type === "satis" && parsedItems.length > 0;
-
-      // Fallback if parsing failed or non-product transaction (devir, tahsilat, etc.)
-      if (parsedItems.length === 0) {
-        let defaultName = cleanDesc;
-        if (!defaultName) {
-          if (txData.type === "devir") defaultName = "Devir Bakiye Girişi";
-          else if (txData.type === "tahsilat") defaultName = "Tahsilat";
-          else if (txData.type === "odeme") defaultName = "Ödeme Çıkışı";
-          else defaultName = "Finansal İşlem";
-        }
-        parsedItems.push({
-          name: defaultName,
-          quantity: 1,
-          unitPrice: amount,
-          totalPrice: amount,
+        return NextResponse.json({
+          success: true,
+          data: {
+            id: tx.id,
+            slipNumber: tx.slipNumber || `FİŞ-${tx.id.slice(0, 6).toUpperCase()}`,
+            businessName: cari.name || "Kurumsal Müşteri",
+            phone: cari.phone || "",
+            address: cari.address || "",
+            neighborhood: cari.neighborhood || "",
+            taxNumber: cari.tax_id || "",
+            cariId: tx.cariId,
+            ekstreUrl: ekstreUrl(tx.cariId),
+            isProductSale,
+            type: tx.type,
+            cancelled: Boolean(await isReversed(supabase, tx.id)),
+            paymentMethod: tx.paymentMethod || null,
+            createdAt: tx.createdAt || tx.date,
+            date: tx.date,
+            items: isProductSale ? items : [{ name: label, quantity: 1, unitPrice: Math.abs(tx.delta), totalPrice: Math.abs(tx.delta) }],
+            subtotal: Math.abs(tx.delta),
+            totalAmount: Math.abs(tx.delta),
+            isPositiveDelta: tx.delta >= 0,
+            previousBalance: Math.round((balanceAfter - tx.delta) * 100) / 100,
+            newBalance: balanceAfter,
+            notes: isProductSale ? note : "",
+          },
         });
       }
-
-      return NextResponse.json({
-        success: true,
-        data: {
-          id: txData.id,
-          orderNumber: extractedSlipNumber,
-          slipNumber: extractedSlipNumber,
-          businessName: busName,
-          phone: cariData?.phone || "",
-          address: cariData?.address || "",
-          neighborhood: cariData?.neighborhood || "Beylikdüzü",
-          taxNumber: taxNo,
-          cariId: txData.account_id,
-          isProductSale: isProductSale,
-          type: txData.type,
-          paymentMethod: txData.payment_method || null,
-          createdAt: txData.created_at || txData.date,
-          date: txData.created_at || txData.date || new Date().toISOString(),
-          timeWindow: "14:00 - 18:00",
-          items: parsedItems,
-          subtotal: amount,
-          totalAmount: amount,
-          previousBalance: prevBal,
-          paidAmount: 0,
-          newBalance: newBal,
-          isPositiveDelta: isPositiveDelta,
-          notes: customNote,
-        },
-      });
     }
 
-    return NextResponse.json({ success: false, error: "Fiş bulunamadı" }, { status: 404 });
-  } catch (error: any) {
+    // 2) Sipariş fişi
+    if (isAdmin || verifyOrderToken(id, token)) {
+      const { data: order } = await supabase
+        .from("orders")
+        .select(
+          "id, order_number, cari_id, customer_name, phone, delivery_address, neighborhood, delivery_date, delivery_time_window, status, subtotal, total_amount, created_at, order_items(product_name, quantity, unit_price, total_price, image_url, weight)"
+        )
+        .eq("id", id)
+        .maybeSingle();
+      if (order) {
+        const o = order as {
+          id: string; order_number: string | null; cari_id: string | null; customer_name: string | null; phone: string | null;
+          delivery_address: string | null; neighborhood: string | null; delivery_date: string | null; delivery_time_window: string | null;
+          status: string; subtotal: number | string | null; total_amount: number | string | null; created_at: string;
+          order_items: OrderItemRow[] | null;
+        };
+        const total = Number(o.total_amount) || 0;
+        let businessName = o.customer_name || "Değerli Müşterimiz";
+        let taxNumber = "";
+        let previousBalance: number | undefined;
+        let newBalance: number | undefined;
+
+        if (o.cari_id) {
+          const { data: acc } = await supabase.from("current_accounts").select("name, tax_id").eq("id", o.cari_id).maybeSingle();
+          const a = (acc ?? {}) as { name?: string; tax_id?: string };
+          businessName = a.name || businessName;
+          taxNumber = a.tax_id || "";
+          // Bu siparişin defterdeki satış satırı (o anki bakiye — yürüyen bakiye kuralı)
+          const { data: sale } = await supabase
+            .from("account_transactions")
+            .select("delta, balance_after")
+            .eq("order_id", o.id)
+            .eq("type", "satis")
+            .order("created_at", { ascending: false })
+            .limit(1)
+            .maybeSingle();
+          const s = sale as { delta: number | string; balance_after: number | string | null } | null;
+          if (s && s.balance_after !== null) {
+            newBalance = Number(s.balance_after);
+            previousBalance = Math.round((newBalance - Number(s.delta)) * 100) / 100;
+          }
+        }
+
+        const items: ParsedSlipItem[] = (o.order_items ?? []).map((it) => {
+          const name = it.product_name || "Ürün";
+          const quantity = Number(it.quantity) || 1;
+          const unitPrice = Number(it.unit_price) || 0;
+          const meta = productMeta(products, name);
+          return {
+            name,
+            quantity,
+            unitPrice,
+            totalPrice: Number(it.total_price) || quantity * unitPrice,
+            weight: it.weight || meta.weight,
+            imageUrl: it.image_url || meta.imageUrl,
+          };
+        });
+
+        return NextResponse.json({
+          success: true,
+          data: {
+            id: o.id,
+            orderNumber: o.order_number || o.id.slice(0, 8).toUpperCase(),
+            slipNumber: o.order_number || o.id.slice(0, 8).toUpperCase(),
+            businessName,
+            phone: o.phone || "",
+            address: o.delivery_address || "",
+            neighborhood: o.neighborhood || "",
+            taxNumber,
+            cariId: o.cari_id,
+            ekstreUrl: ekstreUrl(o.cari_id),
+            isProductSale: true,
+            type: "satis",
+            createdAt: o.created_at,
+            date: o.delivery_date || o.created_at,
+            timeWindow: o.delivery_time_window || "",
+            items,
+            subtotal: Number(o.subtotal) || total,
+            totalAmount: total,
+            isPositiveDelta: true,
+            previousBalance,
+            newBalance,
+            status: o.status,
+          },
+        });
+      }
+    }
+
+    return notFound();
+  } catch (error: unknown) {
     console.error("Fetch slip error:", error);
-    if (error?.code === "22P02") {
-      return NextResponse.json({ success: false, error: "Fiş bulunamadı" }, { status: 404 });
-    }
-    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+    return NextResponse.json({ success: false, error: getErrorMessage(error) }, { status: 500 });
   }
+}
+
+async function isReversed(supabase: NonNullable<ReturnType<typeof createAdminClient>>, txId: string): Promise<boolean> {
+  const { data } = await supabase.from("account_transactions").select("id").eq("reverses_id", txId).limit(1);
+  return Boolean(data && data.length > 0);
 }

@@ -10,7 +10,7 @@
 | 0.5 | CI (her PR'da otomatik build) | ~2 saat | ✅ tamamlandı (4 Eki, PR #3) |
 | 1 | Sipariş çekirdeği onarımı | 3-4 gün | ✅ canlıda (4 Eki, PR #4): 014 uygulandı ve doğrulandı; Telegram env eklendi. Not: 014 birleştirmeden birkaç dakika önce çalıştı → o aralıkta web siparişi reddedildi (sıra kuralı: önce kod, sonra migration) |
 | 2 | Esnek ürün ve satış yönetimi (kategori, satış günleri, kapasite, paket, kampanya) | 4-5 gün | ✅ canlıda (4 Eki, PR #6): 015 önce uygulandı, sonra kod; önizleme + canlı duman testi ✅ |
-| 3 | Admin sadeleştirme + finans doğruluğu | ~5 gün | sıradaki (3b öncesi: iki şarküterinin gerçek bakiyesi teyit edilecek) |
+| 3 | Admin sadeleştirme + finans doğruluğu | ~5 gün | 3b-1 (defter) PR #8 — bakiyeler teyitli (Yerumda 17.870, Ofsüt 13.630); 016 canlıda ✅, 017 merge'ten ÖNCE · sonra 3b-2 (018), 3a |
 | 4 | Marka, görseller, içerik, yasal metinler | 4-6 gün + içerik | bekliyor |
 | 5 | Temizlik ve araçlar | 1-2 gün | bekliyor |
 
@@ -317,15 +317,18 @@ Ayrıca: yinelenen `idempotency_key`'leri boşalt + kısmi unique index; `order_
 
 **3b (finans — Tahsin önce iki şarküterinin gerçek bakiyesini teyit eder):**
 - **016:** `account_transactions` türleri kanonik (`satis`, `tahsilat`, `devir`, `storno`); `delta` sütunu; eski `debt/credit` dönüşümü; geçiş mutabakatı (bakiye = SUM(delta) olacak şekilde tek devir satırı); `adjust_cari_balance` kaldırılır; tek atomik `record_cari_transaction_atomic` **oluşturulur** (canlıda hiç yok; hesabı kilitler, `FİŞ-YYMM-NNN` numarası kilit altında, storno desteği, service-role).
-- **017:** `cancel_order_atomic` (cari borcunu storno ile geri alır), `mark_order_delivered` (idempotent — offline tekrarlar için; nakit/POS tek ödeme satırı; "ödenmedi" beklemede kalır), `generate_order_number` authenticated'dan geri alınır.
-- **Uygulama:** tüm cari yazımları `/api/admin/cari/transactions` üzerinden — **fiş kes (`B2BSlipModal`) = kalem listeli `satis`** (şarküteri teslimatlarının ana yolu), tahsilat, düzeltme = storno + yeni kayıt, bakiye düzeltme = işaretli devir; `/api/admin/finans/transaction` silinir; manuel sipariş sunucu rotasına taşınır (`/api/admin/orders`, istemci insert ve `Math.random` yok); kurye teslim penceresi Nakit / POS / Ödenmedi (cari siparişte tek "Cariye işlendi"); cari silme = arşiv (bakiye 0 ise); `/ekstre/[id]` ve `/fis/[id]` imzalı link (`LINK_SIGNING_SECRET`, `src/lib/security/linkToken.ts`) ile sunucudan okunur, ekstre tür eşlemesi düzelir. Tahsin iki şarküteriye yeni ekstre linkini gönderir.
+- **017:** defter RPC sağlamlaştırma (PR #8 incelemesi).
+- **018:** `cancel_order_atomic` (cari borcunu storno ile geri alır), `mark_order_delivered` (idempotent — offline tekrarlar için; nakit/POS tek ödeme satırı; "ödenmedi" beklemede kalır), `generate_order_number` authenticated'dan geri alınır.
+- **Uygulama:** tüm cari yazımları `/api/admin/cari/transactions` üzerinden — **fiş kes (`B2BSlipModal`) = kalem listeli `satis`** (şarküteri teslimatlarının ana yolu), tahsilat, düzeltme = storno + yeni kayıt, bakiye düzeltme = işaretli devir; `/api/admin/finans/transaction` silinir; manuel sipariş sunucu rotasına taşınır (`/api/admin/orders`, istemci insert ve `Math.random` yok); kurye teslim penceresi Nakit / POS / Ödenmedi (cari siparişte tek "Cariye işlendi"); cari silme = arşiv (bakiye 0 ise); gerçek geçmişi olmayan deneme carisi (tüm hareketleri iptal edilmiş) kalıcı silinebilir — Tahsin'in isteği, 4 Eki 2026; `/ekstre/[id]` ve `/fis/[id]` imzalı link (`LINK_SIGNING_SECRET`, `src/lib/security/linkToken.ts`) ile sunucudan okunur, ekstre tür eşlemesi düzelir. Tahsin iki şarküteriye yeni ekstre linkini gönderir.
 
-**Doğrulama:** `bakiye ≠ SUM(delta)` sorgusu boş; `016_017_smoke.sql` (iptal → storno ve bakiye geri; nakit teslim → tek ödeme satırı); önizlemede imzalı link çalışır, imzasız 404.
+**3b iki PR'a bölündü:** 3b-1 = 016 + defter API'si + cari ekranları + imzalı ekstre/fiş linkleri (kurye nakit/POS tahsilatı da API'ye bağlandı; "cariye yaz" artık yanlışlıkla tahsilat yazmıyor). 3b-2 = 018 + manuel sipariş sunucu rotası + kurye teslim penceresi. **Not:** 015'teki `create_order_atomic` cari dalı eski `debt` türüyle yazar ve 016 sonrası CHECK'e takılır; bugün hiçbir çağıran `cari_id` göndermiyor, 018 bu dalı teslimata taşıyarak yeniden tanımlar.
+
+**Doğrulama:** `bakiye ≠ SUM(delta)` sorgusu boş; `016_smoke.sql`, `017_smoke.sql`, `018_smoke.sql` (iptal → storno ve bakiye geri; nakit teslim → tek ödeme satırı); önizlemede imzalı link çalışır, imzasız 404.
 
 ### Faz 4 — Marka ve içerik
-- **Görseller:** 018 Supabase Storage `media` bucket + admin-only yazma politikaları; ürün sayfasında yükleme (tarayıcıda WebP'ye küçült); 4 Firebase görseli → `public/images/products/` karşılıkları (SQL); Unsplash ve yapay zekâ atölye görselleri → **Tahsin'in gerçek fotoğrafları**; `next.config.ts` remotePatterns güncellenir.
+- **Görseller:** 019 Supabase Storage `media` bucket + admin-only yazma politikaları; ürün sayfasında yükleme (tarayıcıda WebP'ye küçült); 4 Firebase görseli → `public/images/products/` karşılıkları (SQL); Unsplash ve yapay zekâ atölye görselleri → **Tahsin'in gerçek fotoğrafları**; `next.config.ts` remotePatterns güncellenir.
 - **Slug:** `slugify` (Türkçe harf çevirimi), benzersizlik, mevcut slug otomatik değişmez; bozuk slug'lar için tek seferlik UPDATE listesi.
-- **Kütüphane:** 019 `journal_articles` v2 (`body_md`, `subtitle`, `published_at`, `citations`, `related_product_ids`…); tek editör admin içinde (`/api/admin/journal` + `requireAdmin`); `/kutuphane` sunucuda render (react-markdown + remark-gfm); `/kutuphane/yonetim` ve localStorage kalkar; mevcut 2 makale aktarılır.
+- **Kütüphane:** 020 `journal_articles` v2 (`body_md`, `subtitle`, `published_at`, `citations`, `related_product_ids`…); tek editör admin içinde (`/api/admin/journal` + `requireAdmin`); `/kutuphane` sunucuda render (react-markdown + remark-gfm); `/kutuphane/yonetim` ve localStorage kalkar; mevcut 2 makale aktarılır.
 - **Tasarım:** 2-3 ana sayfa yönü görsel taslak olarak sunulur (`public/design-preview/` denemeleri ve `main`'deki son tasarım çalışması temel; logo ile uyumlu "Atölye Kremi" önerilir), Tahsin seçer, uygulanır (en fazla 2 font ailesi, gerçek fotoğraf, logo korunur); sahte metinler (uydurma A.Ş. adı, placeholder numara, doğrulanmamış iddialar) temizlenir.
 - **SEO/yasal:** gerçek bilgilerle JSON-LD (ev adresi yerine semt, `areaServed`, `sameAs`), ürün `availability` (InStock / PreOrder / OutOfStock); mesafeli satış, KVKK, gizlilik satıcı kimliğiyle yeniden yazılır (veri işleyenler: Supabase, Vercel, Telegram); hukuki kontrol önerilir.
 
@@ -344,10 +347,11 @@ Ayrıca: yinelenen `idempotency_key`'leri boşalt + kısmi unique index; `order_
 | 013 | 0 | fonksiyon yetkileri, search_path, profil sütun yetkileri, sipariş politikaları, ayarlar, güvenli profil tetikleyicisi, `app_migrations` | SONRA |
 | 014 | 1 | `delivery_date` → DATE, idempotency index, onay sütunları, RPC v3 | SONRA |
 | 015 | 2 | ürün alanları, satış günleri, gün kapasitesi, kategoriler, RPC v4 | ÖNCE |
-| 016 | 3 | cari defter normalizasyonu, `delta`, mutabakat, kanonik defter RPC | PR 3b ile (bakiye teyidi önce) |
-| 017 | 3 | iptal/teslim RPC'leri, RPC v5 | PR 3b ile |
-| 018 | 4 | `media` bucket + politikalar | yükleme arayüzünden ÖNCE |
-| 019 | 4 | `journal_articles` v2 | editörden ÖNCE |
+| 016 | 3 | cari defter normalizasyonu, `delta`, mutabakat, kanonik defter RPC, tarayıcı yazma yetkisi kapanır | ÖNCE (merge'ten hemen önce; arada eski ekranlardan cari yazılamaz) |
+| 017 | 3 | defter RPC sağlamlaştırma: kuruş yuvarlama, 999+ fiş sırası, kilit altında hedef bakiye (PR #8 incelemesi) | ÖNCE (yeni parametreyi kod kullanır) |
+| 018 | 3 | iptal/teslim RPC'leri, RPC v5 | PR 3b-2 ile |
+| 019 | 4 | `media` bucket + politikalar | yükleme arayüzünden ÖNCE |
+| 020 | 4 | `journal_articles` v2 | editörden ÖNCE |
 
 ## 8. Açık kararlar (ilgili fazın başında sorulacak)
 - **Faz 1 — ✅ karar verildi (Tahsin, 4 Eki):** hepsi admin ayarlarından sonradan değiştirilebilir olmalı (teslimatlar henüz başlamadı). Varsayılanlar: minimum sepet **yok** (`minBasketAmount=0`), ücretsiz teslimat eşiği **1000 ₺**, altında teslimat ücreti (varsayılan 150 ₺), teslimat aralığı 14:00–18:00 (değişebilir), açık günler **her gün** (haftanın günleri + kapalı tarihler ayardan kapatılabilir), ileriye sipariş **7 gün**. Müşteri e-posta kodu girişi (SMTP / Gmail uygulama şifresi) **ertelendi**: misafir takip linki + cihaz hafızası + Google girişi yeterli; ihtiyaç doğunca Tahsin ile birlikte kurulur.

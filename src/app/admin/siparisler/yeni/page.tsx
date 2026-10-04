@@ -180,18 +180,25 @@ function ManualOrderForm() {
     });
 
     if (res.success) {
-      // If Cari order, record transaction in cari_hareketler automatically
+      // Cari sipariş → teslimat fişi (satış) defterde, kalemleriyle
       if (selectedCariId) {
-        const itemsSummary = selectedItems
-          .map((it) => `${it.quantity}x ${it.productName}`)
-          .join(", ");
-        await addTransaction(selectedCariId, {
-          type: "satis",
-          amount: totalAmount,
-          description: `Sipariş: ${itemsSummary}`,
+        const items = selectedItems.map((it) => ({
+          name: it.productName,
+          quantity: it.quantity,
+          unitPrice: it.unitPrice,
+          productId: it.productId,
+        }));
+        if (shippingFee > 0) items.push({ name: "Teslimat ücreti", quantity: 1, unitPrice: shippingFee, productId: "" });
+        const ledger = await addTransaction(selectedCariId, {
+          kind: "satis",
+          items: items.map(({ productId, ...rest }) => (productId ? { ...rest, productId } : rest)),
+          description: `Sipariş ${res.orderNumber || ""}`.trim(),
           date: deliveryDate,
           orderId: res.id,
         });
+        if (!ledger.success) {
+          alert(`Sipariş kaydedildi ama cari fişi yazılamadı: ${ledger.error}. Cari ekranından fişi elle kesin.`);
+        }
       }
 
       // If WhatsApp pre-confirmation requested

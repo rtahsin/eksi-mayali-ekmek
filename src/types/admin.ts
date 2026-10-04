@@ -92,22 +92,47 @@ export interface CariAccount {
   balance: number; // Müşterinin bize olan borcu (Pozitif = alacağımız var)
   accountType?: "musteri" | "gider"; // musteri: Şarküteri/Kafe/Restoran, gider: Dükkan Giderleri/Tedarikçi
   notes?: string;
+  archivedAt?: string | null; // arşivli cari: listede görünmez, yeni hareket alamaz
   createdAt: string;
   updatedAt?: string;
+}
+
+/**
+ * Cari defter türü (016 sonrası kanonik):
+ * satis: teslimat fişi (borç +), tahsilat: ödeme alındı (borç −),
+ * devir: açılış / bakiye düzeltme (±), storno: bir hareketin ters kaydı (iptal).
+ */
+export type LedgerType = "satis" | "tahsilat" | "devir" | "storno";
+
+export type LedgerPaymentMethod = "nakit" | "pos" | "banka_havale" | "kredi_karti" | "diger";
+
+export interface LedgerItem {
+  name: string;
+  quantity: number;
+  unitPrice: number;
+  productId?: string;
 }
 
 export interface CariTransaction {
   id: string;
   cariId: string;
-  date: string; // YYYY-MM-DD
-  type: "satis" | "tahsilat" | "odeme" | "devir" | "storno"; // satis: sipariş verildi (borç yazıldı), tahsilat: ödeme alındı (alacak düştü), odeme: para ödendi (gider/tedarikçi), devir: açılış/düzeltme devri, storno: ters kayıt
+  date: string; // YYYY-MM-DD (İstanbul)
+  type: LedgerType;
+  /** Her zaman pozitif tutar (gösterim için) */
   amount: number;
+  /** Bakiyeye etkisi: + borç artar, − borç azalır. Bakiye = Σ delta */
+  delta: number;
   description: string;
-  paymentMethod?: "nakit" | "banka_havale" | "kredi_karti" | "diger";
+  paymentMethod?: LedgerPaymentMethod | string;
   orderId?: string;
   relatedOrderId?: string;
-  slipNumber?: string; // FİŞ-2609-001 veya Belge No
-  balanceAfter?: number; // İşlem sonrası yürüyen bakiye
+  slipNumber?: string; // FİŞ-2609-001
+  balanceAfter?: number; // İşlem anındaki yürüyen bakiye
+  items?: LedgerItem[];
+  /** Bu kayıt bir storno ise iptal ettiği hareket */
+  reversesId?: string | null;
+  /** Bu hareket iptal edildiyse storno kaydının id'si */
+  reversedById?: string | null;
   createdAt?: string;
 }
 

@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import { X, Scale, Loader2, CheckCircle2, ArrowRight } from "lucide-react";
 import { CariAccount } from "@/types/admin";
+import { recordLedger } from "@/hooks/useCariler";
 
 interface BalanceAdjustModalProps {
   cari: CariAccount;
@@ -17,7 +18,7 @@ export default function BalanceAdjustModal({
 }: BalanceAdjustModalProps) {
   const currentBalance = Number(cari.balance) || 0;
   const [targetBalanceStr, setTargetBalanceStr] = useState<string>(String(currentBalance));
-  const [reason, setReason] = useState<string>("Eski Defter Devri & Mutabakat");
+  const [reason, setReason] = useState<string>("Mutabakat");
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -35,19 +36,14 @@ export default function BalanceAdjustModal({
     setError(null);
 
     try {
-      const res = await fetch("/api/admin/finans/transaction", {
-        method: "PATCH",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          accountId: cari.id,
-          targetBalance,
-          reason: reason.trim(),
-        }),
+      // Fark kadar tek "devir" satırı (atomik RPC); geçmiş kayıtlara dokunulmaz
+      const res = await recordLedger(cari.id, {
+        kind: "set_balance",
+        targetBalance,
+        description: reason.trim(),
       });
-
-      const data = await res.json();
-      if (!res.ok || !data.success) {
-        throw new Error(data.error || "Bakiye güncellenemedi.");
+      if (!res.success) {
+        throw new Error(res.error || "Bakiye güncellenemedi.");
       }
 
       onSuccess(targetBalance);

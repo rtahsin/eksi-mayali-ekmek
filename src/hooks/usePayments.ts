@@ -173,51 +173,31 @@ export function usePayments(orderIdFilter?: string) {
       const nowIso = new Date().toISOString();
       const paidAt = data.paidAt || (paymentStatus === "completed" ? nowIso : null);
 
-      // B2B Entegrasyonu: Eğer cariId varsa ve ödeme tamamlandıysa cari_hareketi oluştur
-      if (data.cariId && paymentStatus === "completed") {
-        try {
-          // Cari hesabın güncel bakiyesini al
-          const { data: cariData } = await supabase
-            .from("current_accounts")
-            .select("balance")
-            .eq("id", data.cariId)
-            .single();
-
-          const currentBal = Number(cariData?.balance) || 0;
-          // Simetrik bakiye ilkesi: Tahsilat (-) bakiyeyi düşürür
-          const newBalanceAfter = currentBal - data.amount;
-
-          // Ardışık fiş numarası
-          const yymm = `${new Date().getFullYear().toString().slice(2)}${String(new Date().getMonth() + 1).padStart(2, "0")}`;
-          const slipNumber = `FİŞ-${yymm}-${Math.floor(100 + Math.random() * 900)}`;
-
-          const { data: txInserted, error: txErr } = await supabase
-            .from("account_transactions")
-            .insert({
-              account_id: data.cariId,
-              type: "tahsilat",
-              amount: data.amount,
-              description: data.note || `Sipariş Tahsilatı (${data.orderId})`,
-              payment_method: data.method === "cash" ? "nakit" : data.method === "pos" ? "kredi_karti" : "banka_havale",
-              order_id: data.orderId,
-              slip_number: slipNumber,
-              balance_after: newBalanceAfter,
-              date: nowIso.split("T")[0],
-            })
-            .select("id")
-            .single();
-
-          if (!txErr && txInserted) {
-            cariTransactionId = (txInserted as { id: string }).id;
-            // Cari bakiyesini güncelle
-            await supabase
-              .from("current_accounts")
-              .update({ balance: newBalanceAfter, updated_at: nowIso })
-              .eq("id", data.cariId);
-          }
-        } catch (cariEx: unknown) {
-          console.warn("Cari transaction creation notice:", cariEx);
-        }
+      // Cari siparişte alınan ödeme → cari defterine TAHSİLAT (sunucuda, atomik).
+      // "Cariye yaz" (method: cari) ödeme değildir; borç zaten satış fişiyle yazılır.
+      const LEDGER_METHOD: Record<Exclude<PaymentMethodType, "cari">, "nakit" | "pos" | "banka_havale"> = {
+        cash: "nakit",
+        pos: "pos",
+        online_card: "pos",
+        transfer: "banka_havale",
+      };
+      if (data.cariId && paymentStatus === "completed" && data.method !== "cari") {
+        const res = await fetch("/api/admin/cari/transactions", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            kind: "tahsilat",
+            accountId: data.cariId,
+            amount: data.amount,
+            paymentMethod: LEDGER_METHOD[data.method],
+            description: data.note || "Teslimatta tahsilat",
+            orderId: data.orderId,
+          }),
+        });
+        const body: unknown = await res.json().catch(() => null);
+        const rec = (body && typeof body === "object" ? body : {}) as { transactionId?: string; error?: string };
+        if (!res.ok || !rec.transactionId) throw new Error(rec.error || "Cari tahsilatı kaydedilemedi");
+        cariTransactionId = rec.transactionId;
       }
 
       const { data: inserted, error: insErr } = await supabase
@@ -301,127 +281,12 @@ export function usePayments(orderIdFilter?: string) {
     }
   };
 
-  // B2B Sipariş Teslim Edildiğinde Cari Borç Hareketi Yaz
-  const recordOrderDeliveryDebt = async (params: {
-    orderId: string;
-    cariId: string;
-    totalAmount: number;
-    orderNumber?: string;
-    description?: string;
-  }) => {
-    try {
-      if (!supabase) return { success: false, error: "Supabase bağlantısı yok" };
-
-      // 1. Zaten bu sipariş için satış borcu yazılmış mı kontrol et (idempotency)
-      const { data: existingTx } = await supabase
-        .from("account_transactions")
-        .select("id")
-        .eq("order_id", params.orderId)
-        .eq("type", "satis")
-        .limit(1);
-
-      if (existingTx && existingTx.length > 0) {
-        return { success: true, message: "Cari borcu zaten kayıtlı" };
-      }
-
-      // 2. Güncel cari bakiyesini çek
-      const { data: cariData, error: cariErr } = await supabase
-        .from("current_accounts")
-        .select("balance")
-        .eq("id", params.cariId)
-        .single();
-
-      if (cariErr || !cariData) {
-        return { success: false, error: "Cari hesap bulunamadı" };
-      }
-
-      const currentBalance = Number(cariData.balance) || 0;
-      // Simetrik bakiye ilkesi: Borç (+) bakiyeyi artırır
-      const newBalanceAfter = currentBalance + params.totalAmount;
-      const nowIso = new Date().toISOString();
-      const slipNumber = params.orderNumber || `FİŞ-${nowIso.slice(2, 4)}${nowIso.slice(5, 7)}-${Math.floor(100 + Math.random() * 900)}`;
-
-      // 3. account_transactions'a satis (borç) kaydı ekle
-      const { error: txErr } = await supabase.from("account_transactions").insert({
-        account_id: params.cariId,
-        type: "satis",
-        amount: params.totalAmount,
-        description: params.description || `B2B Sipariş Teslimatı (#${params.orderNumber || params.orderId})`,
-        payment_method: "veresiye",
-        order_id: params.orderId,
-        slip_number: slipNumber,
-        balance_after: newBalanceAfter,
-        date: nowIso.split("T")[0],
-      });
-
-      if (txErr) throw txErr;
-
-      // 4. Cari güncel bakiyesini güncelle
-      await supabase
-        .from("current_accounts")
-        .update({ balance: newBalanceAfter, updated_at: nowIso })
-        .eq("id", params.cariId);
-
-      return { success: true, newBalance: newBalanceAfter };
-    } catch (err: unknown) {
-      console.error("recordOrderDeliveryDebt error:", err);
-      return { success: false, error: getErrorMessage(err) };
-    }
-  };
-
-  // Sipariş İptal Edildiğinde / Düzeltildiğinde Storno (Ters Kayıt) Aç
-  const recordOrderStorno = async (params: {
-    orderId: string;
-    cariId: string;
-    amount: number;
-    reason: string;
-  }) => {
-    try {
-      if (!supabase) return { success: false, error: "Supabase bağlantısı yok" };
-
-      const { data: cariData } = await supabase
-        .from("current_accounts")
-        .select("balance")
-        .eq("id", params.cariId)
-        .single();
-
-      const currentBalance = Number(cariData?.balance) || 0;
-      // Storno: Satış borcunu düşürür (-)
-      const newBalanceAfter = currentBalance - params.amount;
-      const nowIso = new Date().toISOString();
-
-      await supabase.from("account_transactions").insert({
-        account_id: params.cariId,
-        type: "storno",
-        amount: params.amount,
-        description: `İPTAL / STORNO: ${params.reason} (${params.orderId})`,
-        payment_method: "diger",
-        order_id: params.orderId,
-        slip_number: `STR-${nowIso.slice(2, 4)}${nowIso.slice(5, 7)}-${Math.floor(100 + Math.random() * 900)}`,
-        balance_after: newBalanceAfter,
-        date: nowIso.split("T")[0],
-      });
-
-      await supabase
-        .from("current_accounts")
-        .update({ balance: newBalanceAfter, updated_at: nowIso })
-        .eq("id", params.cariId);
-
-      return { success: true, newBalance: newBalanceAfter };
-    } catch (err: unknown) {
-      console.error("recordOrderStorno error:", err);
-      return { success: false, error: getErrorMessage(err) };
-    }
-  };
-
   return {
     payments,
     loading,
     error,
     createPayment,
     updatePaymentStatus,
-    recordOrderDeliveryDebt,
-    recordOrderStorno,
     fetchPaymentsByOrder,
     fetchCourierDailyPayments,
     refetch: fetchPayments,

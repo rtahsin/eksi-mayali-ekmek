@@ -38,3 +38,29 @@ export function verifyOrderToken(orderId: string, token: string | null | undefin
   const b = Buffer.from(token);
   return a.length === b.length && crypto.timingSafeEqual(a, b);
 }
+
+/** Cari ekstre linki token'ı (hesaba bağlı). */
+export function signAccountToken(accountId: string): string | null {
+  return mac("account", accountId);
+}
+
+export function verifyAccountToken(accountId: string, token: string | null | undefined): boolean {
+  return safeEqual(signAccountToken(accountId), token);
+}
+
+/** Tek fiş / makbuz linki token'ı (harekete bağlı). */
+export function signSlipToken(transactionId: string): string | null {
+  return mac("slip", transactionId);
+}
+
+export function verifySlipToken(transactionId: string, token: string | null | undefined): boolean {
+  return safeEqual(signSlipToken(transactionId), token);
+}
+
+function safeEqual(expected: string | null, token: string | null | undefined): boolean {
+  if (!expected || !token || typeof token !== "string") return false;
+  // Bayt uzunluğu (çok baytlı karakterli token timingSafeEqual'ı fırlatmasın → 500 yerine geçersiz)
+  const a = Buffer.from(expected);
+  const b = Buffer.from(token);
+  return a.length === b.length && crypto.timingSafeEqual(a, b);
+}

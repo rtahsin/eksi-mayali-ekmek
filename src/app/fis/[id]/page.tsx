@@ -1,31 +1,27 @@
 "use client";
 
 import React, { useEffect, useState, useRef } from "react";
-import { useParams } from "next/navigation";
+import { useParams, useSearchParams } from "next/navigation";
 import {
   Building2,
   Calendar,
   Clock,
   MapPin,
   Phone,
-  MessageCircle,
   Receipt,
-  Share2,
   Printer,
   Download,
   Copy,
   Check,
   ExternalLink,
   Loader2,
-  Sparkles,
-  X,
   User,
   Package,
   BarChart2,
 } from "lucide-react";
-import Link from "next/link";
 import html2canvas from "html2canvas";
-import { SITE_URL, CONTACT } from "@/lib/site";
+import { CONTACT } from "@/lib/site";
+import { PAYMENT_METHOD_LABELS } from "@/lib/cari/ledger";
 
 interface SlipItem {
   name: string;
@@ -47,6 +43,8 @@ interface SlipData {
   neighborhood?: string;
   taxNumber?: string;
   cariId?: string | null;
+  ekstreUrl?: string | null;
+  cancelled?: boolean;
   date: string;
   createdAt?: string;
   isProductSale?: boolean;
@@ -107,21 +105,20 @@ function getItemFallbackImage(name: string): string {
 export default function PublicReceiptPage() {
   const params = useParams();
   const id = params?.id as string;
+  const linkToken = useSearchParams()?.get("t") || "";
   const receiptCardRef = useRef<HTMLDivElement>(null);
 
   const [loading, setLoading] = useState(true);
   const [slip, setSlip] = useState<SlipData | null>(null);
-  const [sharing, setSharing] = useState(false);
   const [downloading, setDownloading] = useState(false);
   const [copied, setCopied] = useState(false);
-  const [toastMessage, setToastMessage] = useState<string | null>(null);
 
   useEffect(() => {
     if (!id) return;
 
     const fetchSlip = async () => {
       try {
-        const res = await fetch(`/api/slip/${id}`);
+        const res = await fetch(`/api/slip/${encodeURIComponent(id)}${linkToken ? `?t=${encodeURIComponent(linkToken)}` : ""}`);
         const data = await res.json();
 
         if (res.ok && data.success && data.data) {
@@ -137,7 +134,7 @@ export default function PublicReceiptPage() {
     };
 
     fetchSlip();
-  }, [id]);
+  }, [id, linkToken]);
 
   const generateReceiptCanvas = async () => {
     if (!receiptCardRef.current) return null;
@@ -190,82 +187,6 @@ export default function PublicReceiptPage() {
     }
   };
 
-  // WhatsApp Share with PNG (via Web Share API or download + link)
-  const handleWhatsAppShare = async () => {
-    if (!slip) return;
-    setSharing(true);
-
-    const ekstreUrl = slip.cariId
-      ? `${SITE_URL}/ekstre/${slip.cariId}`
-      : `${SITE_URL}/fis/${slip.id}`;
-    const fisUrl = `${SITE_URL}/fis/${slip.id}`;
-    const slipNum = slip.slipNumber || slip.orderNumber || "FİŞ";
-    const totalStr = slip.totalAmount.toLocaleString("tr-TR") + " ₺";
-    const newBalStr = (slip.newBalance ?? slip.totalAmount).toLocaleString("tr-TR") + " ₺";
-
-    const shareCaption = `Online Fiş Görüntüle: ${fisUrl}`;
-
-    try {
-      const canvas = await generateReceiptCanvas();
-      let blob: Blob | null = null;
-      if (canvas) {
-        blob = await new Promise<Blob | null>((resolve) =>
-          canvas.toBlob(resolve, "image/png")
-        );
-      }
-
-      if (blob && navigator.share && navigator.canShare) {
-        const file = new File([blob], `EkmekLab_${slipNum}.png`, { type: "image/png" });
-        if (navigator.canShare({ files: [file] })) {
-          await navigator.share({
-            files: [file],
-            text: shareCaption,
-          });
-          setSharing(false);
-          return;
-        }
-      }
-
-      // Fallback: Copy to clipboard, download PNG to gallery and open WhatsApp with caption
-      if (blob && typeof ClipboardItem !== "undefined" && navigator.clipboard?.write) {
-        try {
-          await navigator.clipboard.write([
-            new ClipboardItem({ "image/png": blob })
-          ]);
-        } catch (clipErr) {
-          console.warn("Clipboard write notice:", clipErr);
-        }
-      }
-
-      if (canvas) {
-        const link = document.createElement("a");
-        link.download = `EkmekLab_${slipNum}.png`;
-        link.href = canvas.toDataURL("image/png");
-        link.click();
-      }
-
-      let phoneClean = slip.phone.replace(/\D/g, "");
-      if (phoneClean && !phoneClean.startsWith("90")) {
-        phoneClean = phoneClean.startsWith("0") ? `9${phoneClean}` : `90${phoneClean}`;
-      }
-
-      const waUrl = phoneClean
-        ? `https://wa.me/${phoneClean}?text=${encodeURIComponent(shareCaption)}`
-        : `https://api.whatsapp.com/send?text=${encodeURIComponent(shareCaption)}`;
-
-      window.open(waUrl, "_blank");
-
-      setToastMessage(
-        "Fiş görseli panoya kopyalandı ve indirildi. WhatsApp açıldığında sohbete Ctrl+V (Yapıştır) yaparak görseli gönderebilirsiniz."
-      );
-      setTimeout(() => setToastMessage(null), 8000);
-    } catch (err) {
-      console.warn("Share notice:", err);
-    } finally {
-      setSharing(false);
-    }
-  };
-
   // Copy Link
   const handleCopyLink = () => {
     navigator.clipboard.writeText(window.location.href);
@@ -290,7 +211,7 @@ export default function PublicReceiptPage() {
         </div>
         <h1 className="text-xl font-bold font-serif text-stone-100 mb-2">Fiş Bulunamadı</h1>
         <p className="text-xs text-stone-400 max-w-sm mb-6">
-          Aradığınız teslimat fişi bulunamadı veya silinmiş olabilir. Lütfen fırınımızla iletişime geçiniz.
+          Fiş bulunamadı ya da link eksik/geçersiz. Size gönderilen linkin tamamını açtığınızdan emin olun veya fırınımızı arayın.
         </p>
         <a
           href={`tel:+${CONTACT.phoneE164}`}
@@ -306,7 +227,8 @@ export default function PublicReceiptPage() {
   const totalQuantity = slip.items.reduce((sum, it) => sum + it.quantity, 0);
   const slipDisplayNo = slip.slipNumber || slip.orderNumber || "FİŞ";
   const prevBalanceVal = slip.previousBalance ?? 0;
-  const currentTotalBalance = slip.newBalance ?? slip.totalAmount;
+  const currentTotalBalance = slip.newBalance ?? 0;
+  const hasBalance = slip.newBalance !== undefined && slip.newBalance !== null;
   const formattedDt = formatDateTime(slip.date, slip.createdAt);
 
   return (
@@ -354,6 +276,8 @@ export default function PublicReceiptPage() {
                   ? "bg-emerald-50 text-emerald-800 border-emerald-200"
                   : slip.type === "devir"
                   ? "bg-sky-50 text-sky-800 border-sky-200"
+                  : slip.type === "storno"
+                  ? "bg-stone-100 text-stone-700 border-stone-300"
                   : "bg-[#F5EFE6] text-[#B45309] border-[#E8DFC8]"
               }`}
             >
@@ -361,8 +285,15 @@ export default function PublicReceiptPage() {
                 ? "Tahsilat Makbuzu"
                 : slip.type === "devir"
                 ? "Devir / Düzeltme Makbuzu"
+                : slip.type === "storno"
+                ? "İptal (Storno) Makbuzu"
                 : "Teslimat Fişi"}
             </span>
+            {slip.cancelled && (
+              <span className="text-[10px] font-black uppercase tracking-wider px-2 py-0.5 rounded-full border bg-rose-50 text-rose-800 border-rose-200">
+                İptal edildi
+              </span>
+            )}
             <span className="font-mono text-xs font-bold text-[#8A7A70] bg-[#F5EFE6] px-2.5 py-0.5 rounded-lg border border-[#E8DFC8]">
               {slipDisplayNo}
             </span>
@@ -422,13 +353,7 @@ export default function PublicReceiptPage() {
                     <div className="flex justify-between items-center text-xs">
                       <span className="text-[#5C4C42]">Ödeme Şekli:</span>
                       <span className="font-bold text-[#1E140F]">
-                        {slip.paymentMethod === "nakit"
-                          ? "💵 Nakit"
-                          : slip.paymentMethod === "banka_havale"
-                          ? "🏦 Banka Havalesi / EFT"
-                          : slip.paymentMethod === "kredi_karti"
-                          ? "💳 Kredi Kartı / POS"
-                          : slip.paymentMethod}
+                        {PAYMENT_METHOD_LABELS[slip.paymentMethod] || slip.paymentMethod}
                       </span>
                     </div>
                   )}
@@ -568,7 +493,8 @@ export default function PublicReceiptPage() {
             )}
           </div>
 
-          {/* Account Balance Card (Hesap Durumu - Cari Bakiye) */}
+          {/* Account Balance Card (Hesap Durumu - Cari Bakiye) — o anki bakiye (balance_after) */}
+          {hasBalance && (
           <div className="bg-[#F8F4ED] border border-[#E8DFC8] rounded-2xl p-4 mb-4 space-y-2.5">
             <div className="flex items-center gap-2 mb-2">
               <div className="w-6 h-6 rounded-full bg-[#EFE8DC] flex items-center justify-center text-[#5C4C42]">
@@ -592,6 +518,8 @@ export default function PublicReceiptPage() {
                   ? "Tahsil Edilen Tutar (-):"
                   : slip.type === "devir"
                   ? "Düzeltme Tutarı:"
+                  : slip.type === "storno"
+                  ? "İptal Tutarı:"
                   : "Fiş Tutarı (+):"}
               </span>
               <span
@@ -616,6 +544,7 @@ export default function PublicReceiptPage() {
               </span>
             </div>
           </div>
+          )}
 
           {slip.notes && (
             <div className="mb-4 p-2.5 rounded-xl bg-white/70 border border-[#EBE4D8] text-[11px] text-[#5C4C42] leading-normal pb-0.5">
@@ -680,17 +609,17 @@ export default function PublicReceiptPage() {
           </button>
 
           {/* Live Customer Statement Link (Eski Alışlar / Ekstre) */}
-          {slip.cariId && (
-            <Link
-              href={`/ekstre/${slip.cariId}`}
+          {slip.ekstreUrl && (
+            <a
+              href={slip.ekstreUrl}
               className="flex items-center justify-between p-3.5 bg-[#18130F] hover:bg-[#201711] border border-[#2E2219] hover:border-amber-500/40 rounded-xl text-xs text-stone-300 font-medium transition-colors group"
             >
               <div className="flex items-center gap-2">
                 <Receipt className="w-4 h-4 text-amber-400" />
-                <span>Müşterinin Canlı Ekstresi (Tüm Alış & Ödemeler)</span>
+                <span>Hesap Ekstresi (Tüm Teslimat ve Ödemeler)</span>
               </div>
               <ExternalLink className="w-3.5 h-3.5 text-stone-500 group-hover:text-amber-400 transition-colors" />
-            </Link>
+            </a>
           )}
 
           {/* Thermal / Browser Print Button */}
@@ -704,25 +633,6 @@ export default function PublicReceiptPage() {
         </div>
 
       </div>
-
-      {/* Floating Toast Notification */}
-      {toastMessage && (
-        <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-[10000] bg-stone-900 border border-amber-500/40 text-stone-100 px-4 py-3 rounded-2xl shadow-2xl flex items-center gap-3 text-xs max-w-sm animate-slideUp">
-          <Check className="w-5 h-5 text-amber-400 shrink-0" />
-          <div className="flex-1">
-            <p className="font-bold text-amber-400">Görsel Panoya Kopyalandı & İndirildi</p>
-            <p className="text-[11px] text-stone-300 mt-0.5">
-              WhatsApp açıldığında sohbete <span className="font-mono font-bold bg-stone-800 text-amber-300 px-1 py-0.5 rounded border border-stone-700">Ctrl + V</span> yaparak görseli ve linki birlikte gönderebilirsiniz.
-            </p>
-          </div>
-          <button
-            onClick={() => setToastMessage(null)}
-            className="text-stone-400 hover:text-white p-1"
-          >
-            <X className="w-3.5 h-3.5" />
-          </button>
-        </div>
-      )}
 
     </div>
   );
