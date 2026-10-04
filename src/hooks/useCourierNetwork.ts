@@ -1,26 +1,8 @@
 "use client";
 
 import { useState, useEffect, useCallback, useRef } from "react";
-import {
-  getOfflineQueue,
-  addToOfflineQueue,
-  removeFromOfflineQueue,
-  OfflineQueueItem,
-  OfflinePaymentPayload,
-  OfflineStatusPayload,
-} from "@/lib/courier/offlineQueue";
-
-interface SyncHandlers {
-  createPayment: (data: OfflinePaymentPayload) => Promise<{ success?: boolean; error?: string } | void>;
-  updateOrderStatus: (
-    orderId: string,
-    newStatus: any,
-    courierNotes?: string,
-    changedByRole?: any,
-    changedById?: string,
-    note?: string
-  ) => Promise<{ success?: boolean; error?: string } | void>;
-}
+import { getOfflineQueue, addToOfflineQueue, removeFromOfflineQueue } from "@/lib/courier/offlineQueue";
+import { deliverOrder, type DeliveryPayment } from "@/lib/orders/delivery";
 
 export function useCourierNetwork() {
   const [isOnline, setIsOnline] = useState<boolean>(() => {
@@ -44,75 +26,49 @@ export function useCourierNetwork() {
     setQueueLength(queue.length);
   }, []);
 
-  // Sync queued items to backend
-  const syncQueue = useCallback(
-    async (handlers: SyncHandlers) => {
-      const queue = getOfflineQueue();
-      if (queue.length === 0) {
-        setQueueLength(0);
-        return { synced: 0, failed: 0 };
+  const [syncErrors, setSyncErrors] = useState<string[]>([]);
+
+  // Kuyruğu sunucuya gönder: teslim rotası tekrar güvenli (aynı teslim iki kez yazılmaz).
+  // Ağ/sunucu hatasında dur (sonra yeniden dene); kalıcı hatada (iptal edilmiş vb.) kaydı çıkar ve göster.
+  const syncQueue = useCallback(async () => {
+    const queue = getOfflineQueue();
+    if (queue.length === 0) {
+      setQueueLength(0);
+      return { synced: 0, failed: 0 };
+    }
+
+    setIsSyncing(true);
+    let syncedCount = 0;
+    let failedCount = 0;
+    const errors: string[] = [];
+
+    for (const item of queue) {
+      const res = await deliverOrder(item.orderId, item.payment, item.note);
+      if (res.ok) {
+        removeFromOfflineQueue(item.id);
+        syncedCount++;
+      } else if (res.retryable) {
+        failedCount++;
+        break;
+      } else {
+        removeFromOfflineQueue(item.id);
+        failedCount++;
+        errors.push(`${item.orderId.slice(0, 8)}: ${res.error}`);
       }
+    }
 
-      setIsSyncing(true);
-      let syncedCount = 0;
-      let failedCount = 0;
+    setQueueLength(getOfflineQueue().length);
+    setIsSyncing(false);
+    if (errors.length) setSyncErrors((prev) => [...prev, ...errors]);
 
-      for (const item of queue) {
-        try {
-          // 1. Process payment if attached
-          if (item.paymentPayload) {
-            await handlers.createPayment(item.paymentPayload);
-          }
+    const result = { synced: syncedCount, failed: failedCount, timestamp: Date.now() };
+    setLastSyncResult(result);
+    return result;
+  }, []);
 
-          // 2. Process order status update
-          await handlers.updateOrderStatus(
-            item.statusPayload.orderId,
-            item.statusPayload.newStatus,
-            item.statusPayload.courierNotes,
-            item.statusPayload.changedByRole,
-            item.statusPayload.changedById,
-            item.statusPayload.note
-          );
-
-          // Remove successful item from queue
-          removeFromOfflineQueue(item.id);
-          syncedCount++;
-        } catch (err) {
-          console.error(`Failed to sync queued courier action ${item.id}:`, err);
-          failedCount++;
-          // Break to avoid cascading errors when connection drops again
-          break;
-        }
-      }
-
-      const remaining = getOfflineQueue();
-      setQueueLength(remaining.length);
-      setIsSyncing(false);
-
-      const result = { synced: syncedCount, failed: failedCount, timestamp: Date.now() };
-      setLastSyncResult(result);
-      return result;
-    },
-    []
-  );
-
-  // Enqueue a delivery confirmation when offline or network fails
   const enqueueDelivery = useCallback(
-    (orderId: string, paymentPayload?: OfflinePaymentPayload, statusPayload?: OfflineStatusPayload) => {
-      const defaultStatusPayload: OfflineStatusPayload = statusPayload || {
-        orderId,
-        newStatus: "teslim_edildi",
-        courierNotes: "Çevrimdışı teslim edildi",
-        changedByRole: "courier",
-        note: "Çevrimdışı teslimat kaydı",
-      };
-
-      const newItem = addToOfflineQueue({
-        orderId,
-        paymentPayload,
-        statusPayload: defaultStatusPayload,
-      });
-
+    (orderId: string, payment: DeliveryPayment, note?: string) => {
+      const newItem = addToOfflineQueue({ orderId, payment, note: note ?? "Çevrimdışı teslim" });
       refreshQueueLength();
       return newItem;
     },
@@ -151,6 +107,8 @@ export function useCourierNetwork() {
     lastSyncResult,
     enqueueDelivery,
     syncQueue,
+    syncErrors,
+    clearSyncErrors: () => setSyncErrors([]),
     refreshQueueLength,
   };
 }

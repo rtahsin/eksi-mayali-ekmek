@@ -34,6 +34,8 @@ import {
 import Link from "next/link";
 import { WhatsAppOrderParserModal } from "@/components/admin/WhatsAppOrderParserModal";
 import { istanbulToday } from "@/lib/time/istanbul";
+import { computeShippingFee } from "@/lib/settings/schema";
+import { useStoreSettings } from "@/hooks/useStoreSettings";
 import { SITE_URL } from "@/lib/site";
 
 function ManualOrderForm() {
@@ -43,7 +45,10 @@ function ManualOrderForm() {
 
   const { createManualOrder, allOrders } = useAdminOrders();
   const { products } = useProducts("all");
-  const { cariler, addTransaction } = useCariler();
+  const { cariler } = useCariler();
+  const { settings: storeSettings } = useStoreSettings();
+  // Aynı formun çift gönderimi tek sipariş olur (sunucu idempotency anahtarı)
+  const [idempotencyKey] = useState(() => crypto.randomUUID());
 
   // Selected Cari
   const [selectedCariId, setSelectedCariId] = useState<string>(initialCariId);
@@ -139,7 +144,8 @@ function ManualOrderForm() {
     .filter(Boolean) as OrderItem[];
 
   const subtotal = selectedItems.reduce((sum, it) => sum + it.totalPrice, 0);
-  const shippingFee = subtotal >= 1000 ? 0 : 150;
+  // Teslimat ücreti ayarlardan; cari (toptan) siparişte ücret yok
+  const shippingFee = selectedCariId ? 0 : computeShippingFee(subtotal, storeSettings);
   const totalAmount = subtotal + shippingFee;
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -161,6 +167,7 @@ function ManualOrderForm() {
     setErrorMsg(null);
 
     const res = await createManualOrder({
+      idempotencyKey,
       customerName: customerName.trim(),
       phone: phone.trim(),
       deliveryAddress: deliveryAddress.trim(),
@@ -180,26 +187,7 @@ function ManualOrderForm() {
     });
 
     if (res.success) {
-      // Cari sipariş → teslimat fişi (satış) defterde, kalemleriyle
-      if (selectedCariId) {
-        const items = selectedItems.map((it) => ({
-          name: it.productName,
-          quantity: it.quantity,
-          unitPrice: it.unitPrice,
-          productId: it.productId,
-        }));
-        if (shippingFee > 0) items.push({ name: "Teslimat ücreti", quantity: 1, unitPrice: shippingFee, productId: "" });
-        const ledger = await addTransaction(selectedCariId, {
-          kind: "satis",
-          items: items.map(({ productId, ...rest }) => (productId ? { ...rest, productId } : rest)),
-          description: `Sipariş ${res.orderNumber || ""}`.trim(),
-          date: deliveryDate,
-          orderId: res.id,
-        });
-        if (!ledger.success) {
-          alert(`Sipariş kaydedildi ama cari fişi yazılamadı: ${ledger.error}. Cari ekranından fişi elle kesin.`);
-        }
-      }
+      // Cari siparişte teslimat fişi teslimde otomatik kesilir (018 mark_order_delivered)
 
       // If WhatsApp pre-confirmation requested
       if (autoOpenWhatsApp && phone.trim()) {

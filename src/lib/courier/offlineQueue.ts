@@ -1,55 +1,55 @@
-import { PaymentMethodType, PaymentStatusType, PaymentCollectedBy } from "@/types/payment";
-import { AdminOrderStatus } from "@/types/admin";
+import type { DeliveryPayment } from "@/lib/orders/delivery";
 
 export const COURIER_OFFLINE_QUEUE_KEY = "ekmeklab_courier_offline_queue";
 
-export interface OfflinePaymentPayload {
-  orderId: string;
-  amount: number;
-  method: PaymentMethodType;
-  status?: PaymentStatusType;
-  collectedBy?: PaymentCollectedBy;
-  courierId?: string | null;
-  note?: string | null;
-  cariId?: string | null;
-}
-
-export interface OfflineStatusPayload {
-  orderId: string;
-  newStatus: AdminOrderStatus;
-  courierNotes?: string;
-  changedByRole: "courier" | "admin" | "system";
-  changedById?: string;
-  note?: string;
-}
-
+/** Çevrimdışıyken yapılan teslim; bağlantı gelince /api/orders/[id]/deliver ile gönderilir (tekrar güvenli). */
 export interface OfflineQueueItem {
   id: string;
   timestamp: number;
   orderId: string;
-  paymentPayload?: OfflinePaymentPayload;
-  statusPayload: OfflineStatusPayload;
+  payment: DeliveryPayment;
+  note?: string;
 }
 
-/**
- * Reads offline queue from localStorage safely.
- */
+const PAYMENTS: ReadonlySet<string> = new Set(["cash", "pos", "transfer", "unpaid"]);
+
+/** Eski biçimdeki kayıtları (paymentPayload + statusPayload) yeni biçime çevirir. */
+function normalizeItem(raw: unknown): OfflineQueueItem | null {
+  if (!raw || typeof raw !== "object") return null;
+  const r = raw as Record<string, unknown>;
+  if (typeof r.id !== "string" || typeof r.orderId !== "string") return null;
+  const timestamp = typeof r.timestamp === "number" ? r.timestamp : Date.now();
+
+  if (typeof r.payment === "string" && PAYMENTS.has(r.payment)) {
+    return { id: r.id, timestamp, orderId: r.orderId, payment: r.payment as DeliveryPayment, note: typeof r.note === "string" ? r.note : undefined };
+  }
+  const pp = (r.paymentPayload ?? null) as { method?: unknown; status?: unknown } | null;
+  const payment: DeliveryPayment =
+    pp && pp.status === "completed"
+      ? pp.method === "cash"
+        ? "cash"
+        : pp.method === "pos" || pp.method === "online_card"
+        ? "pos"
+        : pp.method === "transfer"
+        ? "transfer"
+        : "unpaid"
+      : "unpaid";
+  return { id: r.id, timestamp, orderId: r.orderId, payment, note: "Çevrimdışı teslim" };
+}
+
 export function getOfflineQueue(): OfflineQueueItem[] {
   if (typeof window === "undefined") return [];
   try {
     const raw = localStorage.getItem(COURIER_OFFLINE_QUEUE_KEY);
     if (!raw) return [];
-    const parsed = JSON.parse(raw);
-    return Array.isArray(parsed) ? parsed : [];
+    const parsed: unknown = JSON.parse(raw);
+    return Array.isArray(parsed) ? parsed.map(normalizeItem).filter((x): x is OfflineQueueItem => x !== null) : [];
   } catch (err) {
     console.error("Error reading courier offline queue:", err);
     return [];
   }
 }
 
-/**
- * Saves entire queue to localStorage.
- */
 export function saveOfflineQueue(queue: OfflineQueueItem[]): void {
   if (typeof window === "undefined") return;
   try {
@@ -59,36 +59,18 @@ export function saveOfflineQueue(queue: OfflineQueueItem[]): void {
   }
 }
 
-/**
- * Adds an item to the courier offline queue.
- */
-export function addToOfflineQueue(
-  item: Omit<OfflineQueueItem, "id" | "timestamp">
-): OfflineQueueItem {
-  const currentQueue = getOfflineQueue();
-  const newItem: OfflineQueueItem = {
-    ...item,
-    id: `queue_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`,
-    timestamp: Date.now(),
-  };
-
-  const updated = [...currentQueue, newItem];
-  saveOfflineQueue(updated);
+export function addToOfflineQueue(item: Omit<OfflineQueueItem, "id" | "timestamp">): OfflineQueueItem {
+  // Aynı sipariş için tek kayıt: son seçim geçerli
+  const currentQueue = getOfflineQueue().filter((q) => q.orderId !== item.orderId);
+  const newItem: OfflineQueueItem = { ...item, id: `queue_${crypto.randomUUID()}`, timestamp: Date.now() };
+  saveOfflineQueue([...currentQueue, newItem]);
   return newItem;
 }
 
-/**
- * Removes an item from the courier offline queue by id.
- */
 export function removeFromOfflineQueue(id: string): void {
-  const currentQueue = getOfflineQueue();
-  const updated = currentQueue.filter((item) => item.id !== id);
-  saveOfflineQueue(updated);
+  saveOfflineQueue(getOfflineQueue().filter((item) => item.id !== id));
 }
 
-/**
- * Clears the offline queue.
- */
 export function clearOfflineQueue(): void {
   if (typeof window === "undefined") return;
   try {
