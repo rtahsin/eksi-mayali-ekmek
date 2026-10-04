@@ -100,10 +100,7 @@ END $$;
 --   Tahsin'in onayladığı GERÇEK bakiyeler. Listede olmayan hesaplar için mevcut
 --   current_accounts.balance doğru kabul edilir. Fark varsa tek bir "devir" satırı
 --   eklenir (eski kayıtlar silinmez), ardından bakiye = SUM(delta) yapılır.
-CREATE TEMP TABLE _confirmed_balances (account_id text PRIMARY KEY, balance numeric NOT NULL) ON COMMIT DROP;
--- Tahsin'in onayı (4 Eki 2026): Yerumda 17.870 ₺, Ofsüt 13.630 ₺
-INSERT INTO _confirmed_balances VALUES ('cari_mubs5o74_z8ns', 17870), ('cari_mu93322t_wha0', 13630);
-
+--   (Geçici tablo kullanılmaz: Supabase SQL Editor onu sonraki ifadeye taşımadı.)
 DO $$
 DECLARE
   acc RECORD;
@@ -116,8 +113,12 @@ BEGIN
 
   FOR acc IN SELECT id, balance FROM public.current_accounts LOOP
     SELECT COALESCE(SUM(delta), 0) INTO v_sum FROM public.account_transactions WHERE account_id = acc.id;
-    SELECT balance INTO v_target FROM _confirmed_balances WHERE account_id = acc.id;
-    v_target := COALESCE(v_target, acc.balance, 0);
+    -- Tahsin'in onayı (4 Eki 2026): Yerumda 17.870 ₺, Ofsüt 13.630 ₺
+    v_target := CASE acc.id
+      WHEN 'cari_mubs5o74_z8ns' THEN 17870
+      WHEN 'cari_mu93322t_wha0' THEN 13630
+      ELSE COALESCE(acc.balance, 0)
+    END;
 
     IF v_target <> v_sum THEN
       INSERT INTO public.account_transactions (account_id, type, amount, delta, description, date, created_at, balance_after)
