@@ -7,7 +7,7 @@
 |---|---|---|---|
 | Acil | Tahsin'in kod beklemeden yapacakları (§4) | 15 dk | ✅ tamamlandı (4 Eki) |
 | 0 | Güvenlik yaması | ~1 gün + 1 saat Tahsin | ✅ tamamlandı (4 Eki): PR #1 canlıda, 013 uygulandı ve doğrulandı, `JWT_SECRET` silindi |
-| 0.5 | CI (her PR'da otomatik build) | ~2 saat | sıradaki |
+| 0.5 | CI (her PR'da otomatik build) | ~2 saat | 🟡 PR açık |
 | 1 | Sipariş çekirdeği onarımı | 3-4 gün | bekliyor |
 | 2 | Fırın günleri, kapasite, eşlikçiler | 3-4 gün | bekliyor |
 | 3 | Admin sadeleştirme + finans doğruluğu | ~5 gün | bekliyor |
@@ -344,7 +344,7 @@ Ayrıca: yinelenen `idempotency_key`'leri boşalt + kısmi unique index; `order_
 | 019 | 4 | `journal_articles` v2 | editörden ÖNCE |
 
 ## 8. Açık kararlar (ilgili fazın başında sorulacak)
-- **Faz 1:** minimum sepet tutarı, teslimat ücreti, ücretsiz teslimat eşiği; teslimat saat aralığı; açık günler; kaç gün ileriye sipariş.
+- **Faz 1 — ✅ karar verildi (Tahsin, 4 Eki):** hepsi admin ayarlarından sonradan değiştirilebilir olmalı (teslimatlar henüz başlamadı). Varsayılanlar: minimum sepet **yok** (`minBasketAmount=0`), ücretsiz teslimat eşiği **1000 ₺**, altında teslimat ücreti (varsayılan 150 ₺), teslimat aralığı 14:00–18:00 (değişebilir), açık günler **her gün** (haftanın günleri + kapalı tarihler ayardan kapatılabilir), ileriye sipariş **7 gün**. Müşteri e-posta kodu girişi (SMTP / Gmail uygulama şifresi) **ertelendi**: misafir takip linki + cihaz hafızası + Google girişi yeterli; ihtiyaç doğunca Tahsin ile birlikte kurulur.
 - **Faz 2:** günlük perakende ekmek kapasitesi ve günlük toptan adet; fırın günleri (hangi günler) ve varsayılan son sipariş saati (öneri: bir önceki gün 20:00); hangi ürün günlük / fırın günü / eşlikçi; sadece eşlikçiden oluşan siparişe izin (öneri: min sepet tutarsa evet); ayrı staging Supabase projesi (öneri: evet).
 - **Faz 4:** tasarım yönü; gerçek fotoğraflar; satıcı yasal kimliği (mesafeli satış sözleşmesi için).
 - **Yayından önce (Tahsin, kod dışı):** gıda üretim kaydı/izni ve vergi durumu — İlçe Tarım Müdürlüğü ve bir mali müşavirle görüşme.
