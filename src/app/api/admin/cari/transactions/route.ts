@@ -10,7 +10,9 @@ import { SITE_URL } from "@/lib/site";
 const accountId = z.string().min(1).max(80);
 const description = z.string().trim().max(500).optional();
 const date = z.string().refine(isIsoDate, "Tarih YYYY-AA-GG olmalı").optional();
-const money = z.number().finite().positive().max(10_000_000);
+const cents = (v: number) => Math.round(v * 100) / 100;
+// Kuruşa yuvarlanır (bakiye NUMERIC(12,2)); RPC de yuvarlar
+const money = z.number().finite().positive().max(10_000_000).transform(cents);
 
 const ItemSchema = z.object({
   name: z.string().trim().min(1).max(120),
@@ -43,7 +45,7 @@ const RequestSchema = z.discriminatedUnion("kind", [
   z.object({
     kind: z.literal("devir"),
     accountId,
-    amount: z.number().finite().refine((v) => v !== 0, "Tutar 0 olamaz").refine((v) => Math.abs(v) <= 10_000_000),
+    amount: z.number().finite().transform(cents).refine((v) => v !== 0, "Tutar 0 olamaz").refine((v) => Math.abs(v) <= 10_000_000),
     description: z.string().trim().min(3, "Açıklama yazın").max(500),
     date,
   }),
@@ -51,7 +53,7 @@ const RequestSchema = z.discriminatedUnion("kind", [
   z.object({
     kind: z.literal("set_balance"),
     accountId,
-    targetBalance: z.number().finite().min(-10_000_000).max(10_000_000),
+    targetBalance: z.number().finite().min(-10_000_000).max(10_000_000).transform(cents),
     description: z.string().trim().min(3, "Neden yazın").max(500),
   }),
   // Hareketi iptal et (ters kayıt); hareket silinmez
@@ -99,6 +101,7 @@ export async function POST(request: Request) {
     let reversesId: string | null = null;
     let txDate: string | null = null;
     let text = body.description ?? null;
+    let targetBalance: number | null = null;
 
     switch (body.kind) {
       case "satis": {
@@ -124,15 +127,11 @@ export async function POST(request: Request) {
         txDate = body.date ?? null;
         break;
       case "set_balance": {
-        const { data: acc, error } = await supabase.from("current_accounts").select("balance").eq("id", body.accountId).maybeSingle();
-        if (error) throw error;
-        if (!acc) return NextResponse.json({ error: "Cari hesap bulunamadı." }, { status: 404 });
-        const current = Number((acc as { balance: number | string | null }).balance) || 0;
-        const diff = Math.round((body.targetBalance - current) * 100) / 100;
-        if (diff === 0) return NextResponse.json({ success: true, unchanged: true, balanceAfter: current });
+        // Fark RPC içinde hesap kilidi altında hesaplanır (eşzamanlı tahsilatla yarış yok)
         type = "devir";
-        amount = diff;
-        text = `Bakiye düzeltme: ${body.description} (${current.toLocaleString("tr-TR")} ₺ → ${body.targetBalance.toLocaleString("tr-TR")} ₺)`;
+        amount = 0;
+        targetBalance = body.targetBalance;
+        text = `Bakiye düzeltme: ${body.description} (hedef ${body.targetBalance.toLocaleString("tr-TR")} ₺)`;
         break;
       }
       case "storno":
@@ -154,6 +153,7 @@ export async function POST(request: Request) {
       p_order_id: orderId,
       p_reverses_id: reversesId,
       p_created_by: guard.auth.userId,
+      p_target_balance: targetBalance,
     });
 
     if (error) {
@@ -162,7 +162,10 @@ export async function POST(request: Request) {
       throw error;
     }
 
-    const res = data as { transaction_id: string; slip_number: string; balance_after: number; delta: number };
+    const res = data as { transaction_id?: string; slip_number?: string; balance_after: number; delta: number; unchanged?: boolean };
+    if (res.unchanged || !res.transaction_id) {
+      return NextResponse.json({ success: true, unchanged: true, balanceAfter: Number(res.balance_after) });
+    }
     const token = signSlipToken(res.transaction_id);
     return NextResponse.json({
       success: true,

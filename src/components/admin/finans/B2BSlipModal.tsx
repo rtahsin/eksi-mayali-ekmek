@@ -141,7 +141,9 @@ export default function B2BSlipModal({
       return;
     }
 
-    if (totalAmount <= 0) {
+    // Sunucu yalnız geçerli kalemleri toplar ve kuruşa yuvarlar; makbuz da aynı tutarı göstersin
+    const slipTotal = Math.round(validItems.reduce((sum, i) => sum + Number(i.qty) * Number(i.price), 0) * 100) / 100;
+    if (slipTotal <= 0) {
       setError("Fiş toplam tutarı 0'dan büyük olmalıdır.");
       return;
     }
@@ -170,8 +172,8 @@ export default function B2BSlipModal({
         cariId,
         date: istanbulToday(),
         type: "satis",
-        amount: totalAmount,
-        delta: totalAmount,
+        amount: slipTotal,
+        delta: slipTotal,
         description: notes.trim(),
         slipNumber: res.slipNumber,
         balanceAfter: res.balanceAfter,

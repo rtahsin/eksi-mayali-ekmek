@@ -173,9 +173,15 @@ export function usePayments(orderIdFilter?: string) {
       const nowIso = new Date().toISOString();
       const paidAt = data.paidAt || (paymentStatus === "completed" ? nowIso : null);
 
-      // Cari siparişte kapıda nakit/POS tahsilatı → cari defterine TAHSİLAT (sunucuda, atomik).
-      // "Cariye yaz" (method: cari) tahsilat değildir; borç zaten satış fişiyle yazılır.
-      if (data.cariId && paymentStatus === "completed" && (data.method === "cash" || data.method === "pos")) {
+      // Cari siparişte alınan ödeme → cari defterine TAHSİLAT (sunucuda, atomik).
+      // "Cariye yaz" (method: cari) ödeme değildir; borç zaten satış fişiyle yazılır.
+      const LEDGER_METHOD: Record<Exclude<PaymentMethodType, "cari">, "nakit" | "pos" | "banka_havale"> = {
+        cash: "nakit",
+        pos: "pos",
+        online_card: "pos",
+        transfer: "banka_havale",
+      };
+      if (data.cariId && paymentStatus === "completed" && data.method !== "cari") {
         const res = await fetch("/api/admin/cari/transactions", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -183,7 +189,7 @@ export function usePayments(orderIdFilter?: string) {
             kind: "tahsilat",
             accountId: data.cariId,
             amount: data.amount,
-            paymentMethod: data.method === "cash" ? "nakit" : "pos",
+            paymentMethod: LEDGER_METHOD[data.method],
             description: data.note || "Teslimatta tahsilat",
             orderId: data.orderId,
           }),

@@ -58,6 +58,9 @@ export function verifySlipToken(transactionId: string, token: string | null | un
 }
 
 function safeEqual(expected: string | null, token: string | null | undefined): boolean {
-  if (!expected || !token || typeof token !== "string" || token.length !== expected.length) return false;
-  return crypto.timingSafeEqual(Buffer.from(expected), Buffer.from(token));
+  if (!expected || !token || typeof token !== "string") return false;
+  // Bayt uzunluğu (çok baytlı karakterli token timingSafeEqual'ı fırlatmasın → 500 yerine geçersiz)
+  const a = Buffer.from(expected);
+  const b = Buffer.from(token);
+  return a.length === b.length && crypto.timingSafeEqual(a, b);
 }

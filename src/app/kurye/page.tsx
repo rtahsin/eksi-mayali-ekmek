@@ -394,7 +394,12 @@ export default function CourierMobileConsolePage() {
       // 2. Online: Try immediate execution with graceful fallback to queue on network error
       try {
         if (paymentPayload) {
-          await createPayment(paymentPayload);
+          // Ödeme (ve cari tahsilatı) yazılamadıysa teslim işaretlenmez: para kaydı kaybolmasın
+          const pay = await createPayment(paymentPayload);
+          if (!pay.success) {
+            setSettlementError(`Ödeme kaydedilemedi, teslim işaretlenmedi: ${pay.error || "bilinmeyen hata"}. Tekrar deneyin.`);
+            return;
+          }
         }
         await updateOrderStatus(
           settlementOrder.id,

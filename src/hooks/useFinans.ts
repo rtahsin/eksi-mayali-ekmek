@@ -291,8 +291,10 @@ export function useFinans() {
 
       const dateStr = tx.date ? String(tx.date).slice(0, 10) : istanbulToday();
       const amt = Math.abs(Number(tx.delta ?? tx.amount) || 0);
-      const type: "in" | "out" = "in";
-      const title = `Cari Tahsilat - ${tx.current_accounts?.name || ""}`;
+      // Gider carisinde (tedarikçi) "tahsilat" satırı aslında bizim ödememiz → kasadan çıkış
+      const isExpenseAccount = tx.current_accounts?.type === "gider";
+      const type: "in" | "out" = isExpenseAccount ? "out" : "in";
+      const title = `${isExpenseAccount ? "Cari Ödeme" : "Cari Tahsilat"} - ${tx.current_accounts?.name || ""}`;
 
       movements.push({
         id: `tx_${tx.id}`,

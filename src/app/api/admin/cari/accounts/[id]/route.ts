@@ -45,8 +45,14 @@ export async function PATCH(request: Request, { params }: { params: Promise<{ id
       update.archived_at = null;
     }
 
-    const { error } = await supabase.from("current_accounts").update(update).eq("id", id);
+    // Arşivde bakiye = 0 koşulu UPDATE'in kendisinde: kontrol ile yazım arasında fiş gelirse 0 satır → 409
+    let query = supabase.from("current_accounts").update(update).eq("id", id);
+    if (archived === true) query = query.eq("balance", 0);
+    const { data: updated, error } = await query.select("id");
     if (error) throw error;
+    if (!updated || updated.length === 0) {
+      return NextResponse.json({ error: "Bakiye bu arada değişti; cari arşivlenmedi. Sayfayı yenileyip tekrar deneyin." }, { status: 409 });
+    }
     return NextResponse.json({ success: true });
   } catch (err: unknown) {
     console.error("PATCH /api/admin/cari/accounts/[id]:", err);

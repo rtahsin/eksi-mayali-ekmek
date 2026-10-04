@@ -25,7 +25,7 @@
 --
 -- Not: create_order_atomic (015) içindeki cari dalı eski "debt" türüyle yazar ve 016 sonrası
 --   CHECK'e takılır. Bugün hiçbir çağıran cari_id göndermiyor (web siparişi göndermez,
---   manuel sipariş henüz RPC kullanmıyor); 017 (Faz 3b-2) bu dalı teslimata taşıyarak yeniden tanımlar.
+--   manuel sipariş henüz RPC kullanmıyor); 018 (Faz 3b-2) bu dalı teslimata taşıyarak yeniden tanımlar.
 -- ==============================================================================
 
 BEGIN;
