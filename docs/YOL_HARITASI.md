@@ -1,61 +1,354 @@
-# EkmekLab Yol Haritası (Denetim Sonucu)
+# EkmekLab Yol Haritası ve Uygulama Planı
 
-Tarih: 2026-10-03 · Yöntem: statik kod ve doküman incelemesi (uygulama çalıştırılmadı, `npm run build` henüz koşulmadı).
+> **Tek kaynak.** Bu dosya Tahsin'in ve tüm Claude oturumlarının ortak planıdır. Her oturum başında okunur; bir faz bitince aşağıdaki durum tablosu güncellenir. Plan 4 Ekim 2026'da Tahsin tarafından onaylandı. Son güncelleme: 2026-10-04.
 
-## 1. Hedef (Tahsin ile konuşulan)
-- Marka kimliği + sipariş alan site: "zanaat ve bilim" hikâyesi, 8 yıllık maya, özel reçeteler.
-- Önce **Beylikdüzü içi teslimat** (şimdilik Tahsin kendi teslim ediyor, ileride kurye olabilir).
-- Model: haftanın belirli günü / ön siparişle sınırlı özel reçeteler + gurme eşlikçiler; tek ekmek yerine paket.
-- Kargo ve çavdar ürünü sonra; başlangıçta Shopier yeterli.
-- Mevcut toptan müşteri: 2 şarküteri, günlük ~30 ekmek (uygulamada hafif takip yeterli).
-- Yayın zamanı: "hazır olunca".
+## Durum
+| Faz | Konu | Tahmini süre | Durum |
+|---|---|---|---|
+| Acil | Tahsin'in kod beklemeden yapacakları (§4) | 15 dk | ✅ büyük ölçüde tamam (4 Eki) — `JWT_SECRET` ve `.env` kontrolü teyit bekliyor |
+| 0 | Güvenlik yaması | ~1 gün + 1 saat Tahsin | sıradaki |
+| 0.5 | CI (her PR'da otomatik build) | ~2 saat | bekliyor |
+| 1 | Sipariş çekirdeği onarımı | 3-4 gün | bekliyor |
+| 2 | Fırın günleri, kapasite, eşlikçiler | 3-4 gün | bekliyor |
+| 3 | Admin sadeleştirme + finans doğruluğu | ~5 gün | bekliyor |
+| 4 | Marka, görseller, içerik, yasal metinler | 4-6 gün + içerik | bekliyor |
+| 5 | Temizlik ve araçlar | 1-2 gün | bekliyor |
 
-## 2. Bulgular
+Toplam: odaklı ~3-4 hafta (oturumlar halinde). Faz 4, tasarım yönü seçilince Faz 3 ile paralel yürüyebilir.
 
-### Acil (yayından önce)
-1. **`.env` git'e girmiş.** İçinde `GMAIL_USER`, `GMAIL_PASSWORD`, `ADDRESS_SYNC_TOKEN` var (değerler gerçek görünüyor). `.gitignore`'da olmasına rağmen eski bir commit'te (c847224) eklenmiş. Yapılacak: Gmail uygulama şifresini iptal edip yenile, token'ı yenile, dosyayı git takibinden çıkar. (Geçmişte kaldığı için repo özel kalmalı.)
-2. **Gerçek ödeme yok.** `credit_card` sadece bir etiket; iyzico/PayTR entegrasyonu bulunmuyor. Başlangıç için "kapıda ödeme / IBAN-havale / WhatsApp onayı" yeterli olabilir; online kart sonra.
-3. **Ruhsat / vergi durumu.** İmalathane ruhsatsız, şirket yok. Reklam ve halka açık satıştan önce İlçe Tarım Müdürlüğü ve mali müşavirle görüşülmeli (bu kod değil, iş).
+---
 
-### Sadeleştirme
-4. **Firebase kalıntıları:** `useAdminAuth`, `serverAuth`, `src/lib/firebase/*`, ürün görselleri Firebase Storage'da. Docs hâlâ "Firebase Auth + Storage" diyor. Karar: görselleri Supabase Storage'a taşı, Firebase'i tamamen kaldır (veya bilinçli şekilde tut).
-5. **Fazla ağır modüller:** kurye konsolu, cari/finans/kasa/tedarikçi/gider sayfaları. Tek kişilik operasyon için çoğu gereksiz. Önerilen: kurye = basit "bugünün teslimat listesi" (yol tarifi, ara, WhatsApp, teslim edildi); finans = 2 şarküteri için basit bakiye. Geri kalanı gizle/arşivle.
-6. **Doküman kirliliği:** ~25 doküman, çoğu eski (Flutter, Mart 2026) ve çelişkili. `OTONOM_DEGERLENDIRME_RAPORU.md` "%100 güvenli" diyor; bu iddia doğrulanmış değil. Tek bir güncel README + bu yol haritası yeter; eskiler `docs/arsiv/` altına.
-7. Repoda gereksiz dosyalar izleniyor: `firebase-debug.log`, `playwright-report/`, `test-results/`.
-8. Kodda `any` kullanımı var (`useAdminAuth.ts:280`, `useFinans.ts`) ve AGENTS.md bunu yasaklıyor. Düşük öncelik.
+## 1. Bağlam (Neden?)
+Tahsin 8 yıldır ekşi maya ekmek üretiyor; Beylikdüzü'ndeki bahçe atölyesinde (22 m², taş fırın) günde ~100 ekmek kapasitesi var. Şu an 2 şarküteriye günlük ~30 ekmek toptan satıyor; bireysel müşterisi ve reklamı yok. Amaç ucuz toptan satıştan çok **marka olmak**, ekmek bilincini yaymak, kitleye ulaşmak; uzun vadede kargo ve belki yatırım.
 
-### Eksik (hedef için)
-9. **Haftalık ön sipariş akışı:** "bu haftanın fırını", kalan adet, sipariş kapanış/teslim günü. Cutoff saati mekanizması hazır, üzerine kurulabilir.
-10. **Paket / eşlikçi ürünler:** ekmek + tereyağı/reçel gibi bundle ve minimum sepet tutarı.
-11. **Marka sayfaları:** hikâye, süreç, reçete notları (kütüphane bölümü temel olarak var). Görsel iyileştirme ve gerçek fotoğraf/video.
-12. **E-posta/WhatsApp liste toplama**, Instagram bağlantısı, basit analitik.
-13. Yasal sayfalar var (KVKK, gizlilik, mesafeli satış); ruhsat/vergi bilgisi netleşince içerikleri güncellenmeli.
+Mevcut uygulama (Next.js 16 + Supabase + Vercel, ~38k satır) Flutter/Firebase'den taşınırken **ağır bir fırın operasyon yazılımına** dönüşmüş (kurye GPS, kasa, gider, tedarikçi…), ama hedefin kalbi olan **marka hikâyesi, haftalık ön sipariş, eşlikçi ürünler, minimum sepet** yok. Üstelik canlıda ciddi güvenlik açıkları ve web siparişlerini admin'de görünmez yapan bir hata var.
 
-## 3. Önerilen sıra
+**Hedef ürün:** Marka kimliği + Beylikdüzü içi teslimatlı sipariş platformu; Tahsin'i yormayan sade bir yönetim paneli.
 
-**Aşama 0 – Güvenlik ve temizlik (1-2 gün)**
-- `.env` temizliği ve şifre yenileme, gereksiz dosyaların takipten çıkarılması.
-- `npm install` + `npm run build` ile derleme durumunu doğrula; canlı Supabase bağlantısını kontrol et.
-- Eski dokümanları arşivle.
+## 2. Kararlar (Tahsin, 3-4 Ekim 2026)
+- **Satış ritmi:** standart ekşi maya ekmek her gün (günlük kapasite sınırıyla) + haftada 1-2 belirli günde sınırlı adetli özel reçeteler (ön sipariş) + eşlikçiler (tereyağı, reçel, peynir…) her zaman, minimum sepet tutarıyla.
+- **Ödeme (açılış):** kapıda nakit, kapıda POS, WhatsApp'ta anlaşma. IBAN yok, online kart yok. Kargo/online ödeme (Shopier) sonra.
+- **Teslimat:** Beylikdüzü; şimdilik Tahsin, ileride bir kurye.
+- **Admin modülleri — kalır:** Siparişler, Ürünler, Ayarlar, Cari hesaplar (2 şarküteri), Müşteriler, YZ sipariş okuyucu (Gemini), Üretim (sadeleşir), Kütüphane editörü (tek kopya). **Gizlenir:** Kurye yönetimi (kurye gelince açılır). **Kaldırılır:** Kasa, Giderler, Tedarikçiler, Kurye gün sonu kasası, PIN girişi. Dağıtım + kurye ekranı tek "Teslimat" ekranında birleşir; admin ana sayfası "Bugün" ekranı olur. Veritabanı tabloları silinmez.
+- **Şarküteri teslimatları:** sipariş olarak değil, **fiş kesmeye devam** (cari hesap). Üretim planı toptanı ayarlardaki "günlük toptan adet" ile ekler.
+- **Müşteri girişi:** Google + misafir sipariş; e-posta/şifre kaydı kalkar (Supabase'in varsayılan e-postası müşterilere ulaşmıyor, şifre sıfırlama sayfası yok). **Admin girişi:** Google.
+- **Yeni sipariş bildirimi:** Telegram botu (kişisel veri göndermeden).
+- **Alan adı:** `ekmeklab.tr`. **İşletme WhatsApp:** 0501 012 66 53.
+- **Çalışma yeri:** plan bulutta bitti, uygulama Tahsin'in bilgisayarında (Claude masaüstü uygulaması → Code → Local, klasör `F:\ekmeklab_app`).
+- **Canlı dal:** bilinmiyor → çalışma `main` üzerinden; Faz 0 yayınından önce Vercel'de kontrol edilir (hedef: Vercel production + GitHub varsayılan dalı = `main`).
+- **Test verisi:** canlı Supabase projesinde; test kayıtları "TEST" ile işaretlenir ve iş bitince silinir.
 
-**Aşama 1 – Çekirdek akışı sağlamlaştır (3-5 gün)**
-- Ürün → sepet → sipariş → admin'de görme → teslim edildi akışını uçtan uca test et.
-- Firebase bağımlılığını kaldır, görselleri Supabase Storage'a taşı.
-- Ödeme: kapıda ödeme + IBAN/havale bilgisi; kart ödemesi sonraya.
+## 3. Doğrulanmış kritik bulgular
+| # | Bulgu | Yer |
+|---|---|---|
+| K1 | Web siparişleri `delivery_date="today"/"tomorrow"/"custom:..."` metniyle kaydediliyor; admin/üretim/teslimat ekranları `YYYY-MM-DD` ile süzdüğü için **görünmüyor**. Ayrıca "bugün" her yerde UTC (İstanbul 00-03 arası yanlış gün) | `src/app/api/orders/create/route.ts:319,337`; `src/hooks/useAdminOrders.ts:467-489` |
+| K2 | Kayıt e-postayı otomatik onaylıyor ve iki sabit e-postaya superadmin veriyor; Google girişi her seferinde rolü `customer`/`superadmin` diye eziyor | `src/app/api/auth/register/route.ts:41,67,74`; `src/app/auth/callback/route.ts:38,50` |
+| K3 | `/api/auth/google-sync` kimlik kontrolsüz, kullanılmıyor, profilleri eziyor | `src/app/api/auth/google-sync/route.ts` |
+| K4 | `/api/journal` POST/DELETE kimlik kontrolsüz, kullanılmıyor | `src/app/api/journal/route.ts:41,80,94` |
+| K5 | Hassas veritabanı fonksiyonlarında yetki kısıtı (REVOKE) yoktu — **4 Eki acil SQL ile kapatıldı**, 013 kalıcılaştırır | `supabase/migrations/*` |
+| K6 | `geolocation=()` başlığı tüm sitede konumu kapatıyor | `next.config.ts:27` |
+| K7 | Admin PIN'i herkese okunur tablodaydı, varsayılanı giriş sayfasında yazılı; `JWT_SECRET` yoksa çerez koddaki sabit metinle imzalanıyor — **PIN 4 Eki'de gizlendi ve rastgele yapıldı**, kod Faz 0'da kalkar | `src/app/api/admin/auth/pin/route.ts:5-7,29`; `src/middleware.ts:61-73`; `supabase/schema.sql:401-403` |
+| K8 | `/api/orders/create` kullanıcı/cari bilgisini istekten alıyor | `route.ts:43-47,113-117,351,371` |
+| K9 | `profiles` güncelleme kuralı sütun kısıtı içermiyordu (rol dahil) — **4 Eki acil SQL ile kapatıldı**, 013 kalıcılaştırır | `supabase/schema.sql:308-310` |
 
-**Aşama 2 – Hedef modele uyarla (1 hafta)**
-- Haftalık ön sipariş ve kalan adet göstergesi.
-- Paket/eşlikçi ürünler ve minimum sepet.
-- Kurye konsolunu basit teslimat listesine indir.
+Diğer önemli bulgular: WhatsApp butonu sipariş kaydetmiyor (`CheckoutActions.tsx:48-64`); stok hiçbir şey yapmıyor (0→25); admin ayarlarındaki ücret/eşik/numara vitrine bağlı değil; minimum sepet yok; takip sayfasında misafir toplamları "0 ₺", zaman çizelgesi boş, iptal hep 403; kuryenin canlı konumu herkese açık; şarküteri ekstre linki boş görünüyor ve tür eşlemesi hatalı; kurye teslim penceresi cari borcu siliyor; finans yazımları atomik değil ve kalıcı siliyor; ürün kaydetmek slug'ı bozuyor; görsel yükleme yok; kütüphane düzenlemeleri sadece tarayıcıya kaydediliyor ve `/kutuphane/yonetim` herkese açık; 4 farklı WhatsApp numarası, 2 alan adı; müşteri manifesti admin'e açılıyor; yasal metinler online kart iddia ediyor; atölye görselleri yapay zekâ üretimi; CI Flutter dönemine ait ve her push'ta kırmızı.
 
-**Aşama 3 – Marka ve yayın (1-2 hafta)**
-- Ana sayfa hikâye ve görsel yenileme (tasarım alternatifleri birlikte denenir).
-- Gerçek fotoğraflar, SEO, liste toplama.
-- Yayın öncesi kontrol listesi (ruhsat/vergi, yasal metinler, test siparişleri).
+**4 Ekim canlı veritabanı tespitleri:**
+- `record_cari_transaction_atomic` canlı veritabanında **yok** (AGENTS.md onu zorunlu tutuyor ama hiç oluşturulmamış; Faz 3'te 016 ile oluşturulur).
+- Supabase Auth'ta 3 kullanıcı var, üçü de Tahsin'in.
+- Repo 4 Ekim'de **private** yapıldı.
 
-**Sonra:** Shopier ile kargo denemesi, çavdar ürünü, online kart ödemesi.
+---
 
-## 4. Açık sorular
-- Görsel kimlik: mevcut koyu kahve/altın tema mı, alternatifler mi denensin?
-- Hangi ürünler ilk haftalık sürümde olacak, eşlikçiler neler?
-- Teslimat günleri ve bölge sınırı (Beylikdüzü'nün hangi mahalleleri)?
+## 4. ACİL ADIMLAR — ✅ 4 Ekim'de uygulandı
+**Sonuç:** acil SQL tek transaction'da uygulandı. Kontrol çıktısı: `adjust_cari_balance`, `check_rate_limit`, `cleanup_expired_customer_locations`, `create_order_atomic`, `generate_slip_number` herkese ve girişliye kapalı; `generate_order_number` sadece girişliye açık (admin paneli için); `is_admin` açık (RLS gereği); `check_order_status_progression` ve `handle_new_user` tetikleyici fonksiyonları açık görünüyor ama doğrudan çağrılamaz (013 toparlar). Kullanıcı listesi temiz, repo private.
+
+**Teyit bekleyenler (Tahsin):**
+1. Vercel'de `JWT_SECRET` var mı? Yoksa uzun rastgele bir değer ekle (Production + Preview), Redeploy et.
+2. Admin paneline Google ile girip siparişlerin göründüğünü kontrol et.
+3. GitHub'da `.env` dosyası: değerler `your_...` gibi örnek metinse sorun yok; gerçekse iptal et/yenile.
+
+**Uygulanan SQL (kayıt için — tekrar çalıştırmaya gerek yok):**
+```sql
+BEGIN;
+-- 1) PIN: herkese açık okuma kapanır, PIN kimsenin bilmediği rastgele bir değere çevrilir
+DO $$ DECLARE p record; BEGIN
+  FOR p IN SELECT policyname FROM pg_policies
+           WHERE schemaname='public' AND tablename='bakery_settings' LOOP
+    EXECUTE format('DROP POLICY %I ON public.bakery_settings', p.policyname);
+  END LOOP;
+END $$;
+CREATE POLICY "Public read bakery settings" ON public.bakery_settings
+  FOR SELECT USING (key <> 'security_settings');
+CREATE POLICY "Admin manage bakery settings" ON public.bakery_settings
+  FOR ALL USING (public.is_admin());
+INSERT INTO public.bakery_settings (key, value)
+VALUES ('security_settings', jsonb_build_object('quickPin', gen_random_uuid()::text))
+ON CONFLICT (key) DO UPDATE
+  SET value = public.bakery_settings.value || jsonb_build_object('quickPin', gen_random_uuid()::text),
+      updated_at = now();
+
+-- 2) Kullanıcılar profilinde sadece ad/telefon/avatar değiştirebilsin (rol değil)
+REVOKE INSERT, UPDATE, DELETE ON public.profiles FROM anon, authenticated;
+GRANT UPDATE (full_name, phone, avatar_url, updated_at) ON public.profiles TO authenticated;
+
+-- 3) Sipariş/para fonksiyonları sadece sunucudan çağrılabilsin
+DO $$ DECLARE r record; BEGIN
+  FOR r IN SELECT p.oid::regprocedure AS sig, p.proname
+           FROM pg_proc p JOIN pg_namespace n ON n.oid = p.pronamespace
+           WHERE n.nspname = 'public' AND p.proname IN (
+             'create_order_atomic','record_cari_transaction_atomic','adjust_cari_balance',
+             'check_rate_limit','generate_slip_number','cleanup_expired_customer_locations',
+             'generate_order_number') LOOP
+    EXECUTE format('REVOKE ALL ON FUNCTION %s FROM PUBLIC, anon, authenticated', r.sig);
+    EXECUTE format('GRANT EXECUTE ON FUNCTION %s TO service_role', r.sig);
+    IF r.proname = 'generate_order_number' THEN   -- admin paneli hâlâ kullanıyor (Faz 3'e kadar)
+      EXECUTE format('GRANT EXECUTE ON FUNCTION %s TO authenticated', r.sig);
+    END IF;
+  END LOOP;
+END $$;
+COMMIT;
+```
+Sonuç olarak **PIN girişi artık fiilen kapalı**; admin girişi Google ile.
+
+---
+
+## 5. Çalışma şekli
+### 5.1 Bulut oturumu — ✅ tamamlandı (4 Ekim)
+Çalışma dalı `claude/brave-maxwell-e3hq6r`, `main` üzerine taşındı; bu plan `docs/YOL_HARITASI.md` olarak yazıldı; `AGENTS.md`'ye plan işaretçisi eklendi. Kod değişikliği yapılmadı.
+
+### 5.2 Yerel oturum (Tahsin'in bilgisayarı)
+- Claude masaüstü → **Code** → **Local** → **Select folder** → `F:\ekmeklab_app`. İlk mesaj:
+  > AGENTS.md ve docs/YOL_HARITASI.md'yi oku. Önce `git status` ile yerel değişikliklerimi kontrol et, hiçbirini kaybetmeden `claude/brave-maxwell-e3hq6r` dalına geç. Sonra Faz 0'a başla.
+- Oturum kuralları: yerel değişiklikleri asla silme; `.env.local`'in **varlığını** kontrol et (değerleri okuma/yazdırma); `npm ci`; AGENTS.md gereği `node_modules/next/dist/docs/` içinden ilgili rehberleri oku; her değişiklikten sonra `npm run build`.
+- Her fazın başında ilgili bölümü koda karşı yeniden doğrula; plan ile kod çelişirse önce Tahsin'e sor.
+
+### 5.3 PR, migration ve yayın kuralları
+- Her faz ayrı PR → `main`. Tahsin Vercel önizleme linkinde ve yerelde dener, birleştirir.
+- Migration'lar numaralı (`supabase/migrations/013_...` ve sonrası); ad-hoc birleşik script yok. Tahsin SQL Editor'de çalıştırır: önce sonu `ROLLBACK` olan kuru deneme, sonra `COMMIT`. Öncesi/sonrası doğrulama çıktısını yerel oturuma yapıştırır. Her migration `app_migrations` tablosuna kendini yazar ve `supabase/tests/NNN_*.sql` (BEGIN…ROLLBACK) duman testi içerir.
+- Her yeni/değişen fonksiyon: `SET search_path = public, pg_temp` + açık `REVOKE ... FROM PUBLIC, anon, authenticated` / `GRANT ... TO service_role` (`CREATE OR REPLACE` bunları sıfırlar).
+- Uygulama ↔ migration sırası her fazda belirtilir (§7).
+- Vercel önizlemeleri canlı veritabanına yazar; önizlemeden giden Telegram mesajları `[TEST]` önekli. Faz 2'den itibaren ayrı bir "staging" Supabase projesi önerilir (açık karar).
+
+---
+
+## 6. Fazlar (teknik ayrıntı — yürütecek oturum için)
+
+### Faz 0 — Güvenlik yaması (ayrı PR, en hızlı yayın)
+**Amaç:** yetki yükseltme, para/borç kurcalama ve kişisel veri sızıntısı yollarını kapatmak; uygulama yayından önce ve sonra çalışır kalır.
+
+**Ön iş:** `npm ci`; Next 16 dokümanları (`01-app/02-guides/upgrading/version-16.md`, `03-api-reference/03-file-conventions/proxy.md`, `04-functions/after.md`, route handlers); Supabase env'siz `npm run build` taban çizgisi (Gemini istemcisi modül seviyesinde oluşturuluyor: kırılırsa `src/app/api/admin/orders/parse/route.ts` içinde handler'a taşı). Tahsin V-sorgularını (aşağıda) çalıştırır.
+
+**Kod adımları:**
+1. **Yetki yardımcısı** — `src/lib/security/apiAuth.ts`: `verifyApiAuth` önce çerez oturumunu okur (`createClient` from `src/lib/supabase/server.ts` + `auth.getUser()`), sonra mevcut Bearer yolu; rol `createAdminClient()` ile. `requireAdmin(req)` ekle ve `src/app/api/admin/**` altındaki her handler'ın ilk satırında çağır (middleware'e ek savunma).
+2. **PIN ve "güvenilir cihaz" kaldır** — sil: `src/app/api/admin/auth/pin/route.ts`, `src/components/admin/QuickPinLock.tsx`, `src/hooks/useTrustedDevice.ts`, `tests/e2e/admin-login.spec.ts`, `tests/e2e/quick-receipt.spec.ts`. `src/middleware.ts`: jose ve 61-73 kaldır; `/api/admin/` istisnasız korunur. `src/hooks/useAdminAuth.ts`: `SUPER_ADMIN_EMAILS`, `isSuper`, `loginWithPin`, PIN localStorage oturumu, `firebaseUser` kaldır; eski localStorage anahtarlarını bir kez temizle. `AdminAuthGate.tsx` sadeleşir (52-187 silinir). `admin/layout.tsx` + `AdminHeader.tsx`: kilit kaldırılır. `admin/login/page.tsx`: PIN sekmesi ve "1453" ipucu silinir, Google varsayılan; şifre sekmesi V5'te `email` sağlayıcılı admin yoksa kaldırılır; `redirect` parametresi sadece `/` ile başlayan (`//` değil) yollar. `admin/ayarlar/page.tsx`: güvenlik bölümü silinir. `api/admin/settings/route.ts`: GET sadece `operational`, POST zod ile. `package.json`: `jose` kaldırılır.
+3. **Roller** — `src/app/auth/callback/route.ts`: profil upsert'i `role` içermez, `ignoreDuplicates: true`. `src/app/api/auth/register/route.ts` silinir; `AuthModal.tsx`'ten kayıt/şifremi unuttum sekmeleri, `useCustomerAuth.ts`'ten `signUpWithEmail`/`resetPassword`, `AuthProvider.tsx` tipleri. `supabase/schema.sql` içindeki `handle_new_user` 013'teki güvenli sürümle güncellenir (referans dosya açığı geri getirmesin).
+4. **Sahipsiz uç noktaları sil** (çağıranı yok): `src/app/api/auth/google-sync/`, `src/app/api/orders/my/`, `src/app/api/journal/`.
+5. **Sipariş uçları** (`src/app/api/orders/`):
+   - `create/route.ts`: şemadan `userId`, `cariId`, `cari_id`, `"cari"` çıkar; `p_user_id` çerez oturumundan; cevaptan `cari_id` çıkar. `src/lib/order/createOrder.ts` ve `CheckoutActions.tsx` `userId` göndermez.
+   - `[id]/route.ts`: id regex ile doğrulanır (`ORD-…`, `SIP-YYMM-NNN`, UUID); `.or()` yerine `.eq()`; maskeli görünümden `courier` bloğu tamamen çıkar.
+   - `[id]/cancel/route.ts`: misafir tam olarak son 4 hane gönderir; IP+sipariş başına 5/10 dk sınır; `body.userId` yok sayılır (sahiplik çerezden); `cari_id`'li siparişler herkese açık yoldan iptal edilemez; `.eq("status", current)` + 0 satırda 409.
+   - `src/app/api/slip/[id]/route.ts`: id bir siparişse admin şart; IP sınırı.
+6. **Diğer:** `next.config.ts:27` → `geolocation=(self)`; `git rm --cached .env` + `.env.example` (`NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`, `SUPABASE_SERVICE_ROLE_KEY`, `CRON_SECRET`, `GEMINI_API_KEY`, `NEXT_PUBLIC_SENTRY_DSN`, `SENTRY_AUTH_TOKEN`, `NEXT_PUBLIC_SITE_URL`, `TELEGRAM_BOT_TOKEN`, `TELEGRAM_CHAT_ID`, `LINK_SIGNING_SECRET`); `RUN_ALL_002_TO_010.sql` ve `UPDATE_CREATE_ORDER_ATOMIC.sql` → `supabase/migrations/_archive/` + "ÇALIŞTIRMAYIN" README.
+7. **Yeni:** `supabase/migrations/013_security_hardening.sql`, `supabase/tests/013_verify.sql`.
+
+**013 taslağı** (V-sorgu çıktısına göre uyarlanır; uygulama yayınlandıktan SONRA çalıştırılır, çünkü eski kod `security_settings` satırı yoksa PIN'i "1453" kabul ediyor; §4 acil SQL'in yaptıklarıyla çakışmaz, idempotenttir):
+```sql
+BEGIN;
+CREATE TABLE IF NOT EXISTS public.app_migrations (id text PRIMARY KEY, applied_at timestamptz NOT NULL DEFAULT now());
+ALTER TABLE public.app_migrations ENABLE ROW LEVEL SECURITY;
+REVOKE ALL ON public.app_migrations FROM anon, authenticated;
+
+-- Profil tetikleyicisi: e-postaya göre rol yok, çakışmada rol asla değişmez
+CREATE OR REPLACE FUNCTION public.handle_new_user()
+RETURNS trigger LANGUAGE plpgsql SECURITY DEFINER SET search_path = '' AS $$
+BEGIN
+  INSERT INTO public.profiles AS p (id, email, full_name, phone, avatar_url)
+  VALUES (NEW.id, NEW.email,
+          COALESCE(NEW.raw_user_meta_data->>'full_name', NEW.raw_user_meta_data->>'name', split_part(NEW.email,'@',1)),
+          NEW.raw_user_meta_data->>'phone', NEW.raw_user_meta_data->>'avatar_url')
+  ON CONFLICT (id) DO UPDATE SET
+    email = EXCLUDED.email,
+    full_name = COALESCE(p.full_name, EXCLUDED.full_name),
+    avatar_url = COALESCE(EXCLUDED.avatar_url, p.avatar_url),
+    updated_at = now();
+  RETURN NEW;
+EXCEPTION WHEN OTHERS THEN
+  RAISE WARNING 'handle_new_user(%): %', NEW.id, SQLERRM;
+  RETURN NEW;
+END $$;
+
+-- SECURITY DEFINER / hassas fonksiyonlar (tüm overload'lar; is_admin hariç, RLS ona muhtaç)
+DO $$ DECLARE r record; v_sig text; BEGIN
+  FOR r IN
+    SELECT n.nspname, p.proname, pg_get_function_identity_arguments(p.oid) AS args
+    FROM pg_proc p JOIN pg_namespace n ON n.oid = p.pronamespace
+    WHERE n.nspname = 'public' AND p.prokind = 'f' AND p.proname <> 'is_admin'
+      AND NOT EXISTS (SELECT 1 FROM pg_depend d WHERE d.objid = p.oid AND d.deptype = 'e')
+      AND (p.prosecdef OR p.proname IN ('create_order_atomic','record_cari_transaction_atomic',
+           'adjust_cari_balance','check_rate_limit','generate_slip_number','generate_order_number',
+           'cleanup_expired_customer_locations','handle_new_user','check_order_status_progression'))
+  LOOP
+    v_sig := format('%I.%I(%s)', r.nspname, r.proname, r.args);
+    EXECUTE format('REVOKE ALL ON FUNCTION %s FROM PUBLIC, anon, authenticated', v_sig);
+    EXECUTE format('GRANT EXECUTE ON FUNCTION %s TO service_role', v_sig);
+    IF r.proname <> 'handle_new_user' THEN
+      EXECUTE format('ALTER FUNCTION %s SET search_path = public, pg_temp', v_sig);
+    END IF;
+  END LOOP;
+END $$;
+DO $$ BEGIN   -- admin tarayıcısı Faz 3'e kadar kullanıyor
+  IF to_regprocedure('public.generate_order_number()') IS NOT NULL THEN
+    GRANT EXECUTE ON FUNCTION public.generate_order_number() TO authenticated;
+  END IF;
+END $$;
+ALTER FUNCTION public.is_admin() SET search_path = public, pg_temp;
+ALTER FUNCTION public.is_admin() STABLE;
+GRANT EXECUTE ON FUNCTION public.is_admin() TO anon, authenticated, service_role;
+ALTER DEFAULT PRIVILEGES FOR ROLE postgres REVOKE EXECUTE ON FUNCTIONS FROM PUBLIC;
+ALTER DEFAULT PRIVILEGES FOR ROLE postgres IN SCHEMA public REVOKE EXECUTE ON FUNCTIONS FROM anon, authenticated;
+
+-- Profil: rol kendi kendine değiştirilemez
+REVOKE INSERT, UPDATE, DELETE ON public.profiles FROM anon, authenticated;
+GRANT UPDATE (full_name, phone, avatar_url, updated_at) ON public.profiles TO authenticated;
+
+-- Siparişler: müşteri tarafı istemci yazımı yok (sipariş API'si service-role ile yazar)
+DROP POLICY IF EXISTS "Anyone can create orders" ON public.orders;
+DROP POLICY IF EXISTS "customers_create_orders" ON public.orders;
+DROP POLICY IF EXISTS "customers_cancel_own_pending" ON public.orders;
+DROP POLICY IF EXISTS "Users read their own orders or admins read all" ON public.orders;
+DROP POLICY IF EXISTS "Admins update orders" ON public.orders;
+DROP POLICY IF EXISTS "Anyone can insert order items" ON public.order_items;
+DROP POLICY IF EXISTS "customers_insert_own_items" ON public.order_items;
+DROP POLICY IF EXISTS "Users read their own order items or admins read all" ON public.order_items;
+DROP POLICY IF EXISTS "customers_view_own_orders" ON public.orders;
+CREATE POLICY "customers_view_own_orders" ON public.orders FOR SELECT TO authenticated USING (user_id = auth.uid());
+DROP POLICY IF EXISTS "admin_full_access_orders" ON public.orders;
+CREATE POLICY "admin_full_access_orders" ON public.orders FOR ALL TO authenticated
+  USING (public.is_admin()) WITH CHECK (public.is_admin());
+DROP POLICY IF EXISTS "customers_view_own_items" ON public.order_items;
+CREATE POLICY "customers_view_own_items" ON public.order_items FOR SELECT TO authenticated
+  USING (EXISTS (SELECT 1 FROM public.orders o WHERE o.id = order_items.order_id AND o.user_id = auth.uid()));
+DROP POLICY IF EXISTS "admin_full_items" ON public.order_items;
+CREATE POLICY "admin_full_items" ON public.order_items FOR ALL TO authenticated
+  USING (public.is_admin()) WITH CHECK (public.is_admin());
+DROP POLICY IF EXISTS "admin_manage_payments" ON public.payments;
+CREATE POLICY "admin_manage_payments" ON public.payments FOR ALL TO authenticated
+  USING (public.is_admin()) WITH CHECK (public.is_admin());
+
+-- Ayarlar: herkese açık okuma yok (tüm okuyucular service-role); PIN/cihaz kayıtları silinir
+DROP POLICY IF EXISTS "Public read bakery settings" ON public.bakery_settings;
+DELETE FROM public.bakery_settings WHERE key IN ('security_settings','trusted_devices');
+
+INSERT INTO public.app_migrations (id) VALUES ('013_security_hardening') ON CONFLICT DO NOTHING;
+COMMIT;
+```
+
+**V-sorguları** (`013_verify.sql`; öncesi ve sonrası çalıştırılır): V1 fonksiyon yetkileri (`has_function_privilege` anon/authenticated, `proconfig`); V2 tüm `pg_policies`; V3 RLS'i kapalı tablolar (boş olmalı); V4 `profiles` tablo/sütun yetkileri; V5 admin/superadmin profilleri + `auth.users` sağlayıcısı (Tahsin superadmin olmalı; değilse yayından önce `UPDATE public.profiles SET role='superadmin' WHERE lower(email)='tahsinreyhan@gmail.com'`); V6 `auth.users` tetikleyicileri ve `bakery_settings` anahtarları; V7 `record_cari_transaction_atomic`, `adjust_cari_balance`, `generate_slip_number` prod'da var mı (4 Eki: `record_cari_transaction_atomic` **yok**); V8 `is_admin()`/`auth.*` dışında fonksiyon çağıran politikalar (varsa 013'ü uyarla). Saldırı simülasyonu sorguları (BEGIN…ROLLBACK) gerekirse yerel oturumda üretilir, repoya yazılmaz.
+
+**Yayın sırası (Tahsin):**
+1. Vercel'de **Production Branch**'i kontrol et (Settings → Git). `main` değilse: `main` önizlemesini gözden geçirip production'ı `main`'e çevir (ya da Faz 0 commit'i mevcut production dalına da alınır). Env'ler var mı: `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`, `SUPABASE_SERVICE_ROLE_KEY`, `CRON_SECRET`, `GEMINI_API_KEY`.
+2. Supabase → Authentication → URL Configuration: Site URL `https://ekmeklab.tr`; Redirect URL'lere canlı ve önizleme `/auth/callback` adresleri.
+3. PR'ı birleştir → canlıda Google ile admin girişi + veriler görünüyor mu.
+4. 013: kuru deneme (ROLLBACK) → gerçek → V-sorguları tekrar.
+5. `JWT_SECRET` artık kullanılmıyor → Vercel'den silinebilir.
+6. Kurcalanma kontrolü: ayarlar, ürün fiyatları/aktiflik, iki şarküterinin bakiyesi (kendi kayıtlarınla), admin listesi; GitHub → Security → secret scanning uyarıları. Firebase'i henüz kapatma (4 ürün görseli Faz 4'e kadar orada).
+
+**Doğrulama:** `npm run build` + `npx tsc --noEmit`; `rg -n "1453|admin_session|SUPER_ADMIN_EMAILS|quickPin|google-sync|from \"jose\"" src` boş; canlıda gizli pencerede `/api/admin/settings` → 401, Google admin girişi çalışır, nakit test siparişi oluşur ve "Hepsi" filtresinde görünür, `/api/slip/<ORD id>` → 401, takip görünümünde kurye bloğu yok.
+
+### Faz 0.5 — CI (ayrı küçük PR)
+`.github/workflows/ci.yml` baştan: PR + `main` push'ta Node 22 → `npm ci` → `npx tsc --noEmit` → `npm test --if-present` → `npm run build` (Supabase env'siz, `NEXT_TELEMETRY_DISABLED=1`). `package.json`'a `typecheck` ve `test` script'leri (Next 16'da `next lint` yok).
+
+### Faz 1 — Sipariş çekirdeği onarımı
+**Amaç:** web siparişleri operasyonda görünür; her yerde tek İstanbul saati; WhatsApp siparişi gerçek kayıt; ayarlar vitrini ve API'yi gerçekten yönetir; misafir takibi çalışır; fırıncıya bildirim gider.
+
+1. **İstanbul saati:** `src/lib/time/istanbul.ts` (`istanbulToday`, `addDays`, `istanbulWeekday`, `formatTrDate`; `getTodayDateStringTurkey`/`isPastCutoff` `src/lib/settings/cutoff.ts`'ten buraya taşınır). Tüm `toISOString().split("T")[0]` kullanımları değişir: `useAdminOrders.ts:131-135,408,456-461`, `useProduction.ts:51-56,79`, `admin/page.tsx:30`, `kurye/page.tsx:35`, `uretim/page.tsx:59`, `siparisler/yeni/page.tsx:58-64`, `OrderSlipModal.tsx:98`, `CartDrawer.tsx`.
+2. **Ayarlar:** `src/lib/settings/schema.ts` (zod, mevcut `operational_settings` JSON'u + yeni anahtarlar) ve `src/lib/settings/server.ts` (`getStoreSettings()`, service-role, varsayılanlar, eski `order_cutoff_time` anahtarını da okur). Anahtarlar: `shippingFee`, `freeShippingThreshold`, `minBasketAmount`, `deliveryWindow`, `whatsappPhone` (varsayılan `905010126653`), `orderAcceptanceOpen`, `announcementText`, `orderCutoffTime`, `neighborhoods` (10 Beylikdüzü mahallesi), `openWeekdays`, `closedDates`, `maxDaysAhead` (7), `dailyBreadCapacity`, `wholesaleDailyLoaves`. Tipler `src/types/settings.ts`. `/api/settings` herkese açık alt kümeyi döner; admin ayarlar sayfası yeni alanları yönetir.
+3. **Teslim tarihleri:** `src/lib/ordering/dates.ts` (`computeDeliveryDates`: cutoff, açık günler, kapalı tarihler, `maxDaysAhead`) + `GET /api/availability`.
+4. **Sepet** (`CartDrawer.tsx`, `CheckoutActions.tsx`, `MobileCartBar.tsx`, `src/lib/store/useCartStore.ts` — `main` sürümleri): tarih çipleri API'den (`YYYY-MM-DD`); ücret/eşik/min sepet ayarlardan (sabit 1000/150 kalkar: `useCartStore.ts:195-200`, `MobileCartBar`, `ProductCatalog` bandı); min sepet ilerleme çubuğu ödemeyi kilitler; mahalleler ayardan; GPS butonu `customerLat/Lng` + onay zamanı (Nominatim ve adrese koordinat yazma kalkar); zustand persist `version: 2` + eski tarih değerlerini temizleyen `migrate`; ödeme denemesi başına tek idempotency anahtarı.
+5. **WhatsApp siparişi:** önce gerçek sipariş (`payment_method='whatsapp'`, `status='bekliyor'`), başarı penceresinde "Siparişi WhatsApp'tan onayla" `<a>` linki (iOS popup engeline takılmaz). `onay_bekliyor` durumu eklenmez; koddaki 12 kullanımı kaldırılır.
+6. **`/api/orders/create` kontrol sırası:** sipariş kabul açık mı → mahalle izinli mi → teslim yöntemi courier → tarih `computeDeliveryDates` içinde mi → ara toplam ≥ min sepet → ücret/eşik ayardan → onay kutusu işaretli → RPC; RPC hataları Türkçe mesajlı 409; ardından `after()` ile Telegram.
+7. **Telegram:** `src/lib/notify/telegram.ts` (3 sn zaman aşımı, hata siparişi asla bozmaz, Sentry'ye yazar). Mesaj: sipariş no, tarih, mahalle, ürünler, tutar, ödeme, admin linki — **ad/telefon/adres yok** (KVKK). Önizlemede `[TEST]` öneki. Tahsin: BotFather ile bot açar, token + chat id'yi Vercel env'e girer (yerel oturum adım adım yardım eder).
+8. **Takip:** `src/types/tracking.ts`; API snake_case→camelCase dönüştürür (zaman çizelgesi ve "0 ₺" düzelir); `normalizeOrderStatus` vb. `src/lib/orders/normalize.ts`'e. `siparis-takip/[id]/page.tsx` sade yeniden yazılır: maskeli görünüm + "telefonunun son 4 hanesi" formu, iptal çalışır, son durum değilken 60 sn'de bir yenileme; istemci `.or()` sorgusu, kurye haritası/yayını ve müşteri konum paylaşımı kalkar (`useCustomerLocation.ts`, `LocationConsentModal.tsx` silinir).
+9. **Başarı penceresi:** `SIP-…` no, tarih + saat aralığı, ödeme, takip linki, WhatsApp butonu.
+10. **Sabitler:** `src/lib/site.ts` (`SITE_URL` = `NEXT_PUBLIC_SITE_URL` = `https://ekmeklab.tr`, iletişim bilgileri); sabit numara/domainlerin hepsi buradan (`grep wa.me|905|ekmeklab\.(com|tr)`). `src/app/manifest.ts` müşteri manifesti (`start_url "/"`); admin manifesti `public/admin.webmanifest` (admin layout sunucu+istemci olarak ayrılır, `robots: noindex`); `public/manifest.json` silinir. Fontlar `subsets: ["latin","latin-ext"]`.
+11. **Yasal minimum:** ödemede zorunlu onay kutusu (mesafeli satış + KVKK; `terms_accepted_at`, `terms_version` kaydedilir); online kart/BDDK iddiaları kaldırılır (`gizlilik/page.tsx:67`, `mesafeli-satis/page.tsx:85`).
+12. **Testler:** vitest (`istanbul.ts`, `dates.ts`, ayar şeması).
+
+**014 (uygulama yayınlandıktan SONRA; uygulama artık ISO tarih gönderiyor olmalı):**
+```sql
+-- ön kontrol (ayrı): SELECT delivery_date, count(*) FROM public.orders GROUP BY 1 ORDER BY 2 DESC;
+ALTER TABLE public.orders ALTER COLUMN delivery_date DROP DEFAULT;
+ALTER TABLE public.orders ALTER COLUMN delivery_date TYPE date USING (
+  CASE
+    WHEN delivery_date ~ '^\d{4}-\d{2}-\d{2}$'        THEN delivery_date::date
+    WHEN delivery_date ~ '^custom:\d{4}-\d{2}-\d{2}$' THEN substr(delivery_date, 8)::date
+    WHEN delivery_date = 'tomorrow' THEN (created_at AT TIME ZONE 'Europe/Istanbul')::date + 1
+    ELSE (created_at AT TIME ZONE 'Europe/Istanbul')::date
+  END);
+ALTER TABLE public.orders ALTER COLUMN delivery_date SET NOT NULL;
+```
+Ayrıca: yinelenen `idempotency_key`'leri boşalt + kısmi unique index; `order_items(order_id)`, `order_items(product_id)` indeksleri; `terms_accepted_at`, `terms_version` sütunları; `create_order_atomic` v3 (aynı imza `(jsonb,jsonb,uuid)`): ISO tarih zorunlu, idempotency (aynı anahtar → mevcut siparişi döner), başlangıç durumu sadece `bekliyor/hazirlaniyor`, **oluşturmada `payments` satırı yok** (ödeme tahsil edilince yazılır), cari bloğu admin yolu için kalır, `SET search_path` + REVOKE/GRANT; sonda tip öz-kontrolü.
+
+**Doğrulama:** vitest uç durumları (İstanbul 11:59/12:00 cutoff; UTC 21:00-24:00 gün kayması); build; 014 ön kontrol → kuru deneme → gerçek → `014_smoke.sql`; önizlemede Tahsin'in telefonundan: nakit/POS/WhatsApp birer sipariş, admin'de cutoff değişince en erken tarih kayar, min sepet ödemeyi kilitler, sahte mahalle (curl) reddedilir, sipariş admin "Bugün"de görünür, Telegram gelir, misafir takibi ve iptal çalışır.
+
+### Faz 2 — Fırın günleri, kapasite, eşlikçiler
+**Model (015):**
+- `products` + `availability` (`daily` | `bake_day` | `always`), `capacity_units` (ekmek 1, paket = içindeki ekmek sayısı, eşlikçi 0), `daily_limit` (opsiyonel), `lead_time_days`, `cross_sell`. Kategoriye göre tek seferlik doldurma (Tahsin sonra gözden geçirir). `order_items.capacity_units` anlık kopya.
+- `bake_days(id, bake_date UNIQUE, title, note, order_deadline, is_published)` ve `bake_day_items(bake_day_id, product_id, quantity_limit, sort_order)`; RLS: yayınlanmışlar herkese, yönetim admin. `v_product_reservations` görünümü (`security_invoker`, iptaller hariç).
+- `create_order_atomic` v4: `pg_advisory_xact_lock(hashtext('ekmeklab:capacity:'||tarih))` altında **sayaç tutmadan** SUM ile kontrol: ürün aktif/uygun mu; fırın günü ürünü o tarihte yayınlanmış fırın gününde var mı ve son saat geçmedi mi; ürün limiti (`quantity_limit` / `daily_limit`); günlük perakende ekmek kapasitesi (`dailyBreadCapacity`, sadece perakende — toptan fişler sipariş olmadığı için zaten dahil değil). Hata kodları: `PRODUCT_UNAVAILABLE`, `NOT_A_BAKE_DAY_PRODUCT`, `BAKE_DAY_CLOSED`, `PRODUCT_LIMIT_REACHED`, `DAILY_CAPACITY_FULL` (kalan adetle). İptaller kapasiteyi kendiliğinden boşaltır. Admin rotası için `options.bypass_limits`.
+- Eşlikçi stoku v1: "Tükendi" anahtarı (`is_available`), sayısal stok yok. Paket v1: normal ürün. Fırın günleri v1: elle + "+7 gün kopyala".
+- Kurallar: en erken teslim = bugün + `lead_time_days` (+1 cutoff geçtiyse); fırın günü ürünü sadece o tarihe ve son saate kadar (son saat cutoff'u ezer); sepetin tarihleri = ürünlerin kesişimi.
+
+**Uygulama:** `src/lib/ordering/availability.ts` (saf) + `loadAvailability.ts` + `POST /api/availability` (sepetin tek doğruluk kaynağı; `/api/orders/create` aynı fonksiyonla yeniden doğrular). Vitrin: `WeeklyBakeSection.tsx` ("Bu haftanın fırını", son sipariş zamanı, "8/20 kaldı"); ürün kartı rozetleri ("Her gün", "Fırın günü: Cmt 12 Eki", "Tükendi", "Eşlikçi"); `stock || 25` hileleri kalkar (`page.tsx:60`, `useProducts.ts:84`, `urun/[slug]/page.tsx:51`, `api/admin/products/route.ts:68`). Sepet: tarih çipleri `POST /api/availability`'den (neden açıklamalı), çapraz satış `cross_sell` ürünlerinden (sabit ID'ler kalkar). Admin "Fırın Günleri" sayfası (`src/app/admin/firin-gunleri/`, `api/admin/bake-days`): 4 haftalık liste, ürün + limit, rezerve/kalan, yayınla, +7 gün kopyala, 7 günlük kapasite şeridi. Üretim (`uretim/page.tsx`, `useProduction.ts`): tarih seçimi; ekmek / fırın günü / **toptan (ayardaki `wholesaleDailyLoaves`)** / eşlikçi paketleme listesi; yazdırılabilir; parti aşamaları kalkar. Ürün admin: yeni alanlar, silme = arşiv.
+
+**Sıra:** 015 uygulamadan ÖNCE (RPC eski çağrıyı kabul eder). **Doğrulama:** vitest (kesişim, hazırlık süresi, son saat, kapasite); `015_smoke.sql` (limit 2 → 3. sipariş reddedilir; kapasite dolunca reddedilir); 10 paralel çağrıda limit 2 → tam 2 başarı; önizlemede uçtan uca.
+
+### Faz 3 — Admin sadeleştirme + finans doğruluğu
+**3a (navigasyon):** menü = Bugün · Siparişler · Teslimat · Üretim · Fırın Günleri · Ürünler · Cariler · Müşteriler · Kütüphane · Ayarlar (`AdminSidebar.tsx:47-103`, `MobileBottomNav.tsx:16-36` + ikincil linkler: `admin/page.tsx:88,346`, `siparisler/page.tsx:102`, `kurye/page.tsx:540`, dagitim bileşenleri). **Sil:** `src/app/admin/finans/**`, `src/app/admin/tedarikciler/**`, `useFinans.ts`, `useSuppliers.ts`, `CourierSettlementModal.tsx`, `src/components/admin/dagitim/*` (önce `getMapUrls` + `BEYLIKDUZU_ROUTE_ORDER` → `src/lib/delivery/maps.ts`); `siparisler/dagitim` → `/kurye` yönlendirmesi. **Kurye yönetimi:** `src/lib/features.ts` bayrağı (kapalı) → `notFound()`; sipariş detayındaki kurye seçimi bayrağa bağlı. **Teslimat ekranı:** `/kurye` yeniden yazılır (tarih seçici, rota sırası + elle sıralama, ara/WhatsApp/navigasyon, etiket yazdır; mevcut `CourierActiveStopCard`, `CourierQueueList` kullanılır; GPS izleme/yayını ve gün sonu raporu kalkar). **"Bugün" paneli:** bugün/yarın teslimatlar, bekleyen siparişler (WhatsApp olanlar işaretli), ürün bazında ekmek toplamları (+ toptan), sıradaki fırın gününün doluluğu, tahsil edilecek nakit/POS, hızlı işlemler. `musteriler/[id]` listeye bağlanır ya da silinir.
+
+**3b (finans — Tahsin önce iki şarküterinin gerçek bakiyesini teyit eder):**
+- **016:** `account_transactions` türleri kanonik (`satis`, `tahsilat`, `devir`, `storno`); `delta` sütunu; eski `debt/credit` dönüşümü; geçiş mutabakatı (bakiye = SUM(delta) olacak şekilde tek devir satırı); `adjust_cari_balance` kaldırılır; tek atomik `record_cari_transaction_atomic` **oluşturulur** (canlıda hiç yok; hesabı kilitler, `FİŞ-YYMM-NNN` numarası kilit altında, storno desteği, service-role).
+- **017:** `cancel_order_atomic` (cari borcunu storno ile geri alır), `mark_order_delivered` (idempotent — offline tekrarlar için; nakit/POS tek ödeme satırı; "ödenmedi" beklemede kalır), `generate_order_number` authenticated'dan geri alınır.
+- **Uygulama:** tüm cari yazımları `/api/admin/cari/transactions` üzerinden — **fiş kes (`B2BSlipModal`) = kalem listeli `satis`** (şarküteri teslimatlarının ana yolu), tahsilat, düzeltme = storno + yeni kayıt, bakiye düzeltme = işaretli devir; `/api/admin/finans/transaction` silinir; manuel sipariş sunucu rotasına taşınır (`/api/admin/orders`, istemci insert ve `Math.random` yok); kurye teslim penceresi Nakit / POS / Ödenmedi (cari siparişte tek "Cariye işlendi"); cari silme = arşiv (bakiye 0 ise); `/ekstre/[id]` ve `/fis/[id]` imzalı link (`LINK_SIGNING_SECRET`, `src/lib/security/linkToken.ts`) ile sunucudan okunur, ekstre tür eşlemesi düzelir. Tahsin iki şarküteriye yeni ekstre linkini gönderir.
+
+**Doğrulama:** `bakiye ≠ SUM(delta)` sorgusu boş; `016_017_smoke.sql` (iptal → storno ve bakiye geri; nakit teslim → tek ödeme satırı); önizlemede imzalı link çalışır, imzasız 404.
+
+### Faz 4 — Marka ve içerik
+- **Görseller:** 018 Supabase Storage `media` bucket + admin-only yazma politikaları; ürün sayfasında yükleme (tarayıcıda WebP'ye küçült); 4 Firebase görseli → `public/images/products/` karşılıkları (SQL); Unsplash ve yapay zekâ atölye görselleri → **Tahsin'in gerçek fotoğrafları**; `next.config.ts` remotePatterns güncellenir.
+- **Slug:** `slugify` (Türkçe harf çevirimi), benzersizlik, mevcut slug otomatik değişmez; bozuk slug'lar için tek seferlik UPDATE listesi.
+- **Kütüphane:** 019 `journal_articles` v2 (`body_md`, `subtitle`, `published_at`, `citations`, `related_product_ids`…); tek editör admin içinde (`/api/admin/journal` + `requireAdmin`); `/kutuphane` sunucuda render (react-markdown + remark-gfm); `/kutuphane/yonetim` ve localStorage kalkar; mevcut 2 makale aktarılır.
+- **Tasarım:** 2-3 ana sayfa yönü görsel taslak olarak sunulur (`public/design-preview/` denemeleri ve `main`'deki son tasarım çalışması temel; logo ile uyumlu "Atölye Kremi" önerilir), Tahsin seçer, uygulanır (en fazla 2 font ailesi, gerçek fotoğraf, logo korunur); sahte metinler (uydurma A.Ş. adı, placeholder numara, doğrulanmamış iddialar) temizlenir.
+- **SEO/yasal:** gerçek bilgilerle JSON-LD (ev adresi yerine semt, `areaServed`, `sameAs`), ürün `availability` (InStock / PreOrder / OutOfStock); mesafeli satış, KVKK, gizlilik satıcı kimliğiyle yeniden yazılır (veri işleyenler: Supabase, Vercel, Telegram); hukuki kontrol önerilir.
+
+### Faz 5 — Temizlik ve araçlar
+- **Sil:** `local_llm_bridge/`, `playwright-report/`, `test-results/`, `.idea/`, `.vscode/`, `.firebase/`, `firebase.json`, `.firebaserc`, `storage.rules`, `cors.json`, `setup-cors.ps1`, `firebase-debug.log`, kökteki `settings.json`, `instructions.md`, eski script'ler (**`scripts/verify_after_migration.mjs` canlıya gerçek sipariş atıyor**), ölü kod (`src/lib/firebase/*`, `src/lib/auth/serverAuth.ts`, `src/components/admin/cariler/` altındaki 6 kullanılmayan modal, `src/hooks/index.ts`, `useModalScrollLock.ts`, `src/lib/utils/orderNumber.ts`, `src/types/order.ts`), `firebase`/`firebase-admin`/`dotenv` paketleri; `.gitignore` eklemeleri (`node_modules/`, `*.log`, `playwright-report/`, `test-results/`, `__pycache__/`, `.firebase/`).
+- **Dokümanlar:** eskiler `docs/arsiv/`'e (bu dosya ve `DESIGN_SYSTEM.md` hariç); yeni README (kurulum, env, migration süreci, yayın, Tahsin'in runbook'ları); `AGENTS.md` güncellenir (Firebase ve `cari_hareketler` çıkar; "cari silmeden önce hareketleri sil" → storno/arşiv; yeni kurallar: fonksiyonlarda `search_path` + açık GRANT, İstanbul saati yardımcısı, rotalarda `requireAdmin`, bildirimler `after()` ile).
+- **Migration baseline:** Tahsin'in makinesinde `supabase db dump` ile prod şeması `supabase/baseline/`'a; eski dosyalar `_archive/`'e; yeni migration'lar 020'den devam.
+- **Sentry:** `src/instrumentation-client.ts` (`tracesSampleRate: 0.1`, Replay yok), `sentry.client.config.ts` silinir.
+- **Proxy:** `src/middleware.ts` → `src/proxy.ts` (`export function proxy`); matcher sadece `/admin`, `/kurye`, `/hesabim`, `/api/admin` (vitrin her istekte oturum sorgusu yapmaz).
+
+---
+
+## 7. Migration sırası
+| No | Faz | İçerik | Uygulamaya göre |
+|---|---|---|---|
+| 013 | 0 | fonksiyon yetkileri, search_path, profil sütun yetkileri, sipariş politikaları, ayarlar, güvenli profil tetikleyicisi, `app_migrations` | SONRA |
+| 014 | 1 | `delivery_date` → DATE, idempotency index, onay sütunları, RPC v3 | SONRA |
+| 015 | 2 | ürün uygunluğu, kapasite, fırın günleri, görünüm, RPC v4 | ÖNCE |
+| 016 | 3 | cari defter normalizasyonu, `delta`, mutabakat, kanonik defter RPC | PR 3b ile (bakiye teyidi önce) |
+| 017 | 3 | iptal/teslim RPC'leri, RPC v5 | PR 3b ile |
+| 018 | 4 | `media` bucket + politikalar | yükleme arayüzünden ÖNCE |
+| 019 | 4 | `journal_articles` v2 | editörden ÖNCE |
+
+## 8. Açık kararlar (ilgili fazın başında sorulacak)
+- **Faz 1:** minimum sepet tutarı, teslimat ücreti, ücretsiz teslimat eşiği; teslimat saat aralığı; açık günler; kaç gün ileriye sipariş.
+- **Faz 2:** günlük perakende ekmek kapasitesi ve günlük toptan adet; fırın günleri (hangi günler) ve varsayılan son sipariş saati (öneri: bir önceki gün 20:00); hangi ürün günlük / fırın günü / eşlikçi; sadece eşlikçiden oluşan siparişe izin (öneri: min sepet tutarsa evet); ayrı staging Supabase projesi (öneri: evet).
+- **Faz 4:** tasarım yönü; gerçek fotoğraflar; satıcı yasal kimliği (mesafeli satış sözleşmesi için).
+- **Yayından önce (Tahsin, kod dışı):** gıda üretim kaydı/izni ve vergi durumu — İlçe Tarım Müdürlüğü ve bir mali müşavirle görüşme.
+
+## 9. Next.js 16 ve ortam notları (yürütücü için)
+- `middleware` → `proxy.ts` (Node.js runtime, `export function proxy`); `after()` kararlı (bildirimler için); `revalidateTag` ikinci argüman ister; `next lint` yok; async `params`/`cookies()`; kod klasik `revalidate`/`dynamic` kullanıyor — `cacheComponents`/`"use cache"` açma.
+- Lockfile TypeScript 7.0.2: Next 16'nın TS CLI yolu sayesinde build büyük ihtimalle çalışır; ilk `npm run build` bunu doğrular.
+- Supabase istemci fabrikaları env yoksa `null` döner: her zaman null kontrolü. Tarayıcı Supabase istemcisi `https://` olmayan URL'yi reddeder.
+- AGENTS.md kuralları geçerli: `any` yok, tipler `src/types/`, realtime kanalları unmount'ta kapatılır, CSV = BOM + `;`, RPC hatasında 500/409 ile açık hata (sessiz yedek yol yok), numaralı migration.
