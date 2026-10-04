@@ -12,7 +12,6 @@
     "test:e2e": "playwright test tests/e2e/order-flow.spec.ts"
   },
   "dependencies": {
-    "@google/genai": "^2.23.0",
     "@sentry/nextjs": "^11.0.0",
     "@supabase/ssr": "^0.12.7",
     "@supabase/supabase-js": "^2.116.0",

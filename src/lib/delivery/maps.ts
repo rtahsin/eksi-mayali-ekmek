@@ -1,3 +1,5 @@
+/** Teslimat haritası yardımcıları (eski dağıtım ekranından taşındı; Faz 3a-2 Teslimat ekranı kullanır). */
+
 export const BEYLIKDUZU_ROUTE_ORDER = [
   "Yakuplu",
   "Marmara",

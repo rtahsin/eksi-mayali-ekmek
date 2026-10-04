@@ -458,10 +458,10 @@ Kasa devri için fırına teslim edilecek tutar: *${totalCashCollected.toLocaleS
                 Tüm Kuryelere Bak
               </button>
               <Link
-                href="/admin/siparisler/dagitim"
+                href="/admin/siparisler"
                 className="inline-flex items-center gap-1.5 px-4 py-2 bg-amber-500 text-stone-950 font-bold rounded-xl text-xs shadow-md"
               >
-                <span>Dağıtım Masasına Git</span>
+                <span>Siparişlere Git</span>
               </Link>
             </div>
           </div>

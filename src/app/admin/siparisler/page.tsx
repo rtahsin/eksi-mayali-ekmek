@@ -99,11 +99,11 @@ export default function AdminOrdersPage() {
 
         <div className="flex items-center gap-2.5">
           <Link
-            href="/admin/siparisler/dagitim"
+            href="/kurye"
             className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[#201812] hover:bg-[#2B2018] border border-artisan-gold/30 text-artisan-gold text-xs font-sans font-medium transition-all"
           >
             <Truck className="w-4 h-4" />
-            <span>Kurye Dağıtım Listesi</span>
+            <span>Teslimat</span>
           </Link>
 
           <Link
