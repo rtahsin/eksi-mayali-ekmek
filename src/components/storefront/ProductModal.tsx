@@ -1,7 +1,8 @@
 "use client";
 
 import React, { useState } from "react";
-import { ExtendedProduct } from "@/hooks/useProducts";
+import type { ExtendedProduct } from "@/types";
+import { productBadges } from "@/lib/products/badges";
 import { useCartStore } from "@/lib/store/useCartStore";
 import {
   X,
@@ -111,7 +112,19 @@ export function ProductModal({ product, onClose }: ProductModalProps) {
               <div className="font-serif text-2xl font-bold text-foreground mt-1 flex items-baseline gap-1">
                 <span>{product.price}</span>
                 <span className="text-xs font-sans font-normal text-stone-400">TL</span>
+                {product.compareAtPrice ? (
+                  <span className="text-sm font-sans font-normal text-stone-500 line-through ml-1">{product.compareAtPrice} TL</span>
+                ) : null}
               </div>
+              {productBadges(product).length > 0 && (
+                <div className="flex flex-wrap gap-1.5 mt-2">
+                  {productBadges(product).map((b) => (
+                    <span key={b.label} className="px-2 py-0.5 rounded-full bg-artisan-terracotta/15 text-artisan-gold text-[10px] font-bold uppercase">
+                      {b.label}
+                    </span>
+                  ))}
+                </div>
+              )}
             </div>
 
             {/* Quick Specs Chips */}
@@ -284,7 +297,8 @@ export function ProductModal({ product, onClose }: ProductModalProps) {
             <button
               type="button"
               onClick={handleAddToCart}
-              className={`touch-target-44 flex-1 h-11 rounded-xl font-sans text-xs font-semibold flex items-center justify-center gap-2 transition-all shadow-sm active:scale-[0.98] ${
+              disabled={product.isAvailable === false}
+              className={`touch-target-44 disabled:opacity-40 disabled:cursor-not-allowed flex-1 h-11 rounded-xl font-sans text-xs font-semibold flex items-center justify-center gap-2 transition-all shadow-sm active:scale-[0.98] ${
                 isAdded
                   ? "bg-emerald-600 text-white"
                   : "bg-artisan-terracotta hover:bg-artisan-terracotta-dark text-white"
@@ -298,7 +312,7 @@ export function ProductModal({ product, onClose }: ProductModalProps) {
               ) : (
                 <>
                   <ShoppingBag className="w-4 h-4" />
-                  <span>Sepete Ekle · {product.price * quantity} TL</span>
+                  <span>{product.isAvailable === false ? "Tükendi" : `Sepete Ekle · ${product.price * quantity} TL`}</span>
                 </>
               )}
             </button>

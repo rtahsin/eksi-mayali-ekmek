@@ -4,7 +4,7 @@ import { useState, useEffect, useCallback } from "react";
 import { createClient, isSupabaseConfigured } from "@/lib/supabase/client";
 import { CariAccount, CariTransaction } from "@/types/admin";
 import { Product } from "@/types";
-import { INITIAL_PRODUCTS, normalizeCategory, ExtendedProduct } from "@/hooks/useProducts";
+import type { ExtendedProduct } from "@/types";
 
 export function useCariProfile(cariId: string) {
   const [cari, setCari] = useState<CariAccount | null>(null);
@@ -118,7 +118,7 @@ export function useCariProfile(cariId: string) {
           id: p.id as string,
           name: p.name as string,
           price: Number(p.price) || 0,
-          category: normalizeCategory(p.category as string),
+          category: (p.category as string) || "bread",
           isAvailable: p.is_available !== false,
           isActive: true,
           imageUrl: (p.image_url as string) || "",
@@ -130,12 +130,9 @@ export function useCariProfile(cariId: string) {
           isNew: Boolean(p.is_new)
         }));
         setActiveProducts(mapped);
-      } else {
-        setActiveProducts(INITIAL_PRODUCTS.filter(x => x.isActive));
       }
     } catch (err) {
       console.warn("Urunler fetch error:", err);
-      setActiveProducts(INITIAL_PRODUCTS.filter(x => x.isActive));
     }
   }, []);
 

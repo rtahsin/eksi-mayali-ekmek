@@ -1,7 +1,8 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { useProducts, ExtendedProduct } from "@/hooks/useProducts";
+import { useProducts } from "@/hooks/useProducts";
+import type { ExtendedProduct, ProductCategoryInfo } from "@/types";
 import { ProductCard } from "./ProductCard";
 import { ProductModal } from "./ProductModal";
 import { Truck } from "lucide-react";
@@ -9,27 +10,24 @@ import { ShippingPolicyNote } from "./ShippingPolicyNote";
 
 interface ProductCatalogProps {
   initialProducts?: ExtendedProduct[];
+  /** Admin'den yönetilen kategoriler (görünür olanlar) */
+  categories?: ProductCategoryInfo[];
 }
 
-const CATEGORIES = [
-  { id: "all", label: "Tüm Ürünler" },
-  { id: "bread", label: "Taş Fırın Ekmekleri" },
-  { id: "specialty", label: "Özel & Ön Sipariş" },
-  { id: "gurme", label: "Gurme Lezzetler" },
-];
-
 function CategoryChips({
+  tabs,
   selected,
   onSelect,
   className = "",
 }: {
+  tabs: { id: string; label: string }[];
   selected: string;
   onSelect: (id: string) => void;
   className?: string;
 }) {
   return (
     <div className={className}>
-      {CATEGORIES.map((cat) => (
+      {tabs.map((cat) => (
         <button
           key={cat.id}
           type="button"
@@ -47,10 +45,17 @@ function CategoryChips({
   );
 }
 
-export function ProductCatalog({ initialProducts }: ProductCatalogProps = {}) {
+export function ProductCatalog({ initialProducts, categories = [] }: ProductCatalogProps = {}) {
   const [selectedCategory, setSelectedCategory] = useState<string>("all");
   const [modalProduct, setModalProduct] = useState<ExtendedProduct | null>(null);
-  const { products } = useProducts(selectedCategory, initialProducts);
+  const { products, allProducts } = useProducts(selectedCategory, initialProducts);
+
+  // Yalnız içinde ürün olan kategoriler sekme olur
+  const usedCategories = new Set(allProducts.map((p) => p.category));
+  const tabs = [
+    { id: "all", label: "Tüm Ürünler" },
+    ...categories.filter((c) => usedCategories.has(c.id)).map((c) => ({ id: c.id, label: c.name })),
+  ];
 
   // URL hash navigation listener (#gurme-lezzetler, #sarkuteri, #ekmekler)
   useEffect(() => {
@@ -109,6 +114,7 @@ export function ProductCatalog({ initialProducts }: ProductCatalogProps = {}) {
 
           {/* Desktop: chips sit to the right of the heading */}
           <CategoryChips
+            tabs={tabs}
             selected={selectedCategory}
             onSelect={setSelectedCategory}
             className="hidden md:flex flex-wrap gap-2"
@@ -118,6 +124,7 @@ export function ProductCatalog({ initialProducts }: ProductCatalogProps = {}) {
         {/* Mobile: one-row, horizontally scrollable, sticky under the header */}
         <div className="md:hidden sticky top-14 z-30 -mx-4 px-4 py-2.5 mb-4 bg-[#120E0B]/95 backdrop-blur border-b border-[#261E17]">
           <CategoryChips
+            tabs={tabs}
             selected={selectedCategory}
             onSelect={setSelectedCategory}
             className="flex gap-2 overflow-x-auto no-scrollbar"

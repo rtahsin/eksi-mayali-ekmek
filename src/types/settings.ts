@@ -39,3 +39,10 @@ export interface DeliveryDateOption {
   /** "Bugün", "Yarın", "Pzt 6 Eki" */
   label: string;
 }
+
+/** Sepete göre bir günün durumu (`/api/availability`). */
+export interface CartDateOption extends DeliveryDateOption {
+  available: boolean;
+  reason: string | null;
+  remainingCapacity: number | null;
+}

@@ -8,7 +8,7 @@ import { getErrorMessage } from "@/lib/utils/error";
 import { verifyApiAuth } from "@/lib/security/apiAuth";
 import { getStoreSettings } from "@/lib/settings/server";
 import { computeShippingFee } from "@/lib/settings/schema";
-import { computeDeliveryDates } from "@/lib/ordering/dates";
+import { getCartAvailability } from "@/lib/ordering/loadAvailability";
 import { isIsoDate } from "@/lib/time/istanbul";
 import { signOrderToken } from "@/lib/security/linkToken";
 import { notifyNewOrder } from "@/lib/notify/telegram";
@@ -136,6 +136,10 @@ function mapRpcError(message: string): { status: number; error: string; code: st
   const known: Record<string, string> = {
     INVALID_DELIVERY_DATE: "Seçilen teslim tarihi artık geçerli değil. Lütfen yeni bir tarih seçin.",
     PRODUCT_UNAVAILABLE: "Sepetinizdeki bir ürün şu an satışta değil. Lütfen sepetinizi güncelleyin.",
+    NOT_ON_SALE_THIS_DAY: "Sepetinizdeki bir ürün seçtiğiniz gün satışta değil. Lütfen başka bir gün seçin.",
+    LEAD_TIME_NOT_MET: "Sepetinizdeki bir ürün daha önceden sipariş edilmeli. Lütfen ileri bir gün seçin.",
+    PRODUCT_LIMIT_REACHED: "Seçtiğiniz gün için bir ürünün adedi doldu. Lütfen adedi azaltın ya da başka bir gün seçin.",
+    DAILY_CAPACITY_FULL: "Seçtiğiniz gün fırın kapasitemiz doldu. Lütfen başka bir gün seçin.",
   };
   for (const [code, error] of Object.entries(known)) {
     if (message.includes(code)) return { status: 409, error, code };
@@ -197,9 +201,15 @@ export async function POST(req: Request) {
       return fail(400, "Seçilen mahalleye henüz teslimat yapmıyoruz.", "NEIGHBORHOOD_NOT_SERVED");
     }
 
-    const allowedDates = computeDeliveryDates(settings);
-    if (!allowedDates.some((d) => d.date === customerInfo.deliveryDate)) {
+    // Gün + sepet kuralları (satış günü, hazırlık süresi, ürün limiti, kapasite) — sepetle aynı hesap.
+    // Kesin kontrol RPC içinde kilit altında tekrar yapılır.
+    const cartDates = await getCartAvailability(supabaseAdmin, settings, items);
+    const chosen = cartDates.find((d) => d.date === customerInfo.deliveryDate);
+    if (!chosen) {
       return fail(409, "Seçilen teslim tarihi artık geçerli değil. Lütfen sepetten yeni bir tarih seçin.", "INVALID_DELIVERY_DATE");
+    }
+    if (!chosen.available) {
+      return fail(409, `${chosen.reason ?? "Sepetiniz seçilen gün için uygun değil"}. Lütfen sepetten başka bir gün seçin.`, "DATE_NOT_AVAILABLE");
     }
 
     const cleanPhone = normalizePhone(customerInfo.phone);

@@ -2,19 +2,19 @@
 
 import { useEffect } from "react";
 import { create } from "zustand";
-import type { DeliveryDateOption, PublicStoreSettings } from "@/types/settings";
+import type { CartDateOption, PublicStoreSettings } from "@/types/settings";
 import { DEFAULT_STORE_SETTINGS, toPublicSettings } from "@/lib/settings/schema";
 
 interface StoreSettingsState {
   settings: PublicStoreSettings;
   /** Sunucudan gerçek ayarlar geldi mi (gelmeden önce varsayılanlar gösterilir) */
   loaded: boolean;
-  dates: DeliveryDateOption[];
+  dates: CartDateOption[];
   datesLoaded: boolean;
   datesError: string | null;
   loadSettings: () => Promise<void>;
-  /** Teslim tarihleri anlık hesaplanır (cutoff); sepet her açıldığında tazelenir */
-  loadDates: () => Promise<void>;
+  /** Teslim tarihleri sepet içeriğine göre anlık hesaplanır (cutoff, satış günleri, limitler, kapasite) */
+  loadDates: (items: { productId: string; quantity: number }[]) => Promise<void>;
 }
 
 let settingsPromise: Promise<void> | null = null;
@@ -41,11 +41,16 @@ const useStoreSettingsStore = create<StoreSettingsState>()((set) => ({
     return settingsPromise;
   },
 
-  loadDates: async () => {
+  loadDates: async (items) => {
     try {
-      const res = await fetch("/api/availability", { cache: "no-store" });
+      const res = await fetch("/api/availability", {
+        method: "POST",
+        cache: "no-store",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ items }),
+      });
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
-      const data: { dates?: DeliveryDateOption[] } = await res.json();
+      const data: { dates?: CartDateOption[] } = await res.json();
       set({ dates: Array.isArray(data.dates) ? data.dates : [], datesLoaded: true, datesError: null });
     } catch {
       set({ datesLoaded: true, datesError: "Teslim tarihleri yüklenemedi. Lütfen sayfayı yenileyin." });
@@ -66,16 +71,31 @@ export function useStoreSettings() {
   return { settings, loaded };
 }
 
-/** Seçilebilir teslim tarihleri; `active` true olduğunda (ör. sepet açıkken) tazelenir. */
-export function useDeliveryDates(active: boolean) {
+/**
+ * Sepete göre teslim günleri; `active` iken (sepet açık) ve sepet içeriği değiştikçe tazelenir.
+ */
+export function useDeliveryDates(active: boolean, items: { productId: string; quantity: number }[]) {
   const dates = useStoreSettingsStore((s) => s.dates);
   const datesLoaded = useStoreSettingsStore((s) => s.datesLoaded);
   const datesError = useStoreSettingsStore((s) => s.datesError);
   const loadDates = useStoreSettingsStore((s) => s.loadDates);
+  const signature = JSON.stringify(items.map((i) => [i.productId, i.quantity]));
 
   useEffect(() => {
-    if (active) void loadDates();
-  }, [active, loadDates]);
+    if (!active) return;
+    const lines: { productId: string; quantity: number }[] = (JSON.parse(signature) as [string, number][]).map(
+      ([productId, quantity]) => ({ productId, quantity })
+    );
+    const timer = setTimeout(() => void loadDates(lines), 250); // adet +/− hızlı basılınca tek istek
+    return () => clearTimeout(timer);
+  }, [active, signature, loadDates]);
 
-  return { dates, datesLoaded, datesError, reloadDates: loadDates };
+  const reloadDates = () => {
+    const lines: { productId: string; quantity: number }[] = (JSON.parse(signature) as [string, number][]).map(
+      ([productId, quantity]) => ({ productId, quantity })
+    );
+    return loadDates(lines);
+  };
+
+  return { dates, datesLoaded, datesError, reloadDates };
 }

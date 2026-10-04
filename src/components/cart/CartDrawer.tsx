@@ -22,6 +22,7 @@ import {
   CheckCircle2,
 } from "lucide-react";
 import { useAuth } from "@/components/auth/AuthProvider";
+import { useProducts } from "@/hooks/useProducts";
 
 const formatTl = (value: number) => `${value.toLocaleString("tr-TR")} ₺`;
 
@@ -32,28 +33,41 @@ export function CartDrawer() {
   const closeCart = useCartStore((s) => s.closeCart);
   const updateQuantity = useCartStore((s) => s.updateQuantity);
   const removeItem = useCartStore((s) => s.removeItem);
+  const addItem = useCartStore((s) => s.addItem);
   const setCustomerInfo = useCartStore((s) => s.setCustomerInfo);
   const setLocation = useCartStore((s) => s.setLocation);
   const itemCount = useCartStore((s) => s.getItemCount());
   const subtotal = useCartStore((s) => s.getSubtotal());
 
   const { settings } = useStoreSettings();
-  const { dates, datesLoaded, datesError, reloadDates } = useDeliveryDates(isOpen);
+  const { allProducts } = useProducts();
+  const inCart = new Set(items.map((i) => i.productId));
+  const suggestions = Array.from(
+    new Set(items.flatMap((i) => allProducts.find((p) => p.id === i.productId)?.crossSell ?? []))
+  )
+    .filter((id) => !inCart.has(id))
+    .map((id) => allProducts.find((p) => p.id === id))
+    .filter((p): p is NonNullable<typeof p> => Boolean(p && p.isAvailable !== false))
+    .slice(0, 3);
+  const { dates, datesLoaded, datesError, reloadDates } = useDeliveryDates(isOpen, items);
+  const availableDates = dates.filter((d) => d.available);
+  const unavailableReasons = Array.from(new Set(dates.filter((d) => !d.available && d.reason).map((d) => d.reason as string)));
   const { profile, addresses, isLoggedIn, openAuthModal, saveAddress } = useAuth();
   const [saveThisAddress, setSaveThisAddress] = useState(true);
 
   const [locating, setLocating] = useState(false);
   const [locateError, setLocateError] = useState<string | null>(null);
 
-  // Seçili tarih artık geçerli değilse (cutoff geçti, gün kapatıldı…) ilk uygun güne geç
+  // Seçili gün artık uygun değilse (cutoff, satış günü, limit, kapasite…) ilk uygun güne geç
   useEffect(() => {
     if (!datesLoaded) return;
-    if (dates.length === 0) {
+    const firstAvailable = dates.find((d) => d.available);
+    if (!firstAvailable) {
       if (customerInfo.deliveryDate) setCustomerInfo({ deliveryDate: "" });
       return;
     }
-    if (!dates.some((d) => d.date === customerInfo.deliveryDate)) {
-      setCustomerInfo({ deliveryDate: dates[0].date });
+    if (!dates.some((d) => d.available && d.date === customerInfo.deliveryDate)) {
+      setCustomerInfo({ deliveryDate: firstAvailable.date });
     }
   }, [dates, datesLoaded, customerInfo.deliveryDate, setCustomerInfo]);
 
@@ -136,6 +150,8 @@ export function CartDrawer() {
     ? "Şu an sipariş almıyoruz. Lütfen daha sonra tekrar deneyin."
     : datesLoaded && dates.length === 0
     ? "Önümüzdeki günlerde teslimat günümüz bulunmuyor."
+    : datesLoaded && items.length > 0 && availableDates.length === 0
+    ? unavailableReasons[0] ?? "Sepetiniz için uygun teslim günü bulunamadı."
     : datesError;
 
   return (
@@ -265,27 +281,49 @@ export function CartDrawer() {
                     {orderingBlockedReason}
                   </div>
                 ) : (
-                  <div className="flex flex-wrap gap-1.5" role="radiogroup" aria-label="Teslim günü">
-                    {dates.map((d) => {
-                      const selected = customerInfo.deliveryDate === d.date;
-                      return (
-                        <button
-                          key={d.date}
-                          type="button"
-                          role="radio"
-                          aria-checked={selected}
-                          onClick={() => setCustomerInfo({ deliveryDate: d.date })}
-                          className={`px-3 py-2 rounded-xl border font-sans text-xs transition-all ${
-                            selected
-                              ? "bg-artisan-terracotta text-white font-semibold border-artisan-terracotta shadow-xs"
-                              : "bg-linen-surface border-linen-border text-espresso-wheat hover:text-espresso"
-                          }`}
-                        >
-                          {d.label}
-                        </button>
-                      );
-                    })}
-                  </div>
+                  <>
+                    <div className="flex flex-wrap gap-1.5" role="radiogroup" aria-label="Teslim günü">
+                      {dates.map((d) => {
+                        const selected = d.available && customerInfo.deliveryDate === d.date;
+                        return (
+                          <button
+                            key={d.date}
+                            type="button"
+                            role="radio"
+                            aria-checked={selected}
+                            aria-disabled={!d.available}
+                            disabled={!d.available}
+                            title={d.reason ?? undefined}
+                            onClick={() => d.available && setCustomerInfo({ deliveryDate: d.date })}
+                            className={`px-3 py-2 rounded-xl border font-sans text-xs transition-all ${
+                              !d.available
+                                ? "bg-linen-subtle/50 border-linen-border/50 text-espresso-muted/50 line-through cursor-not-allowed"
+                                : selected
+                                ? "bg-artisan-terracotta text-white font-semibold border-artisan-terracotta shadow-xs"
+                                : "bg-linen-surface border-linen-border text-espresso-wheat hover:text-espresso"
+                            }`}
+                          >
+                            {d.label}
+                          </button>
+                        );
+                      })}
+                    </div>
+                    {unavailableReasons.length > 0 && (
+                      <ul className="text-[10px] text-espresso-wheat space-y-0.5">
+                        {unavailableReasons.slice(0, 3).map((r) => (
+                          <li key={r}>• {r}</li>
+                        ))}
+                      </ul>
+                    )}
+                    {(() => {
+                      const sel = dates.find((d) => d.date === customerInfo.deliveryDate);
+                      return sel && sel.remainingCapacity !== null && sel.remainingCapacity <= 10 ? (
+                        <div className="text-[10px] text-artisan-terracotta font-semibold">
+                          Bu gün için son {sel.remainingCapacity} ekmeklik yer kaldı
+                        </div>
+                      ) : null;
+                    })()}
+                  </>
                 )}
               </div>
 
@@ -348,6 +386,30 @@ export function CartDrawer() {
                   ))}
                 </div>
               </div>
+
+              {/* Birlikte iyi gider (admin'in seçtiği öneriler) */}
+              {suggestions.length > 0 && (
+                <div className="space-y-2">
+                  <div className="text-[11px] font-sans font-semibold text-artisan-terracotta uppercase tracking-wider">
+                    Birlikte iyi gider
+                  </div>
+                  <div className="flex flex-wrap gap-1.5">
+                    {suggestions.map((p) => (
+                      <button
+                        key={p.id}
+                        type="button"
+                        onClick={() => addItem(p, null, 1)}
+                        className="px-2.5 py-1.5 rounded-lg bg-linen-subtle hover:bg-linen-surface text-espresso border border-linen-border text-[11px] font-sans flex items-center gap-1"
+                      >
+                        <Plus className="w-3 h-3" />
+                        <span>
+                          {p.name} (+{formatTl(p.price)})
+                        </span>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
 
               {/* Müşteri ve adres */}
               <div className="space-y-3 pt-2 border-t border-linen-border">

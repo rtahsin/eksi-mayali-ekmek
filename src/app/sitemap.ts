@@ -1,6 +1,5 @@
 import { MetadataRoute } from "next";
-import { createClient as createSupabaseClient } from "@supabase/supabase-js";
-import { INITIAL_PRODUCTS } from "@/data/initialProducts";
+import { getCatalog } from "@/lib/products/server";
 import { JOURNAL_ARTICLES } from "@/data/journalArticles";
 import { getProductSlug } from "@/lib/utils/slugify";
 import { SITE_URL } from "@/lib/site";
@@ -54,22 +53,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   }));
 
   // 3. Dynamic Products
-  let productSlugs: string[] = INITIAL_PRODUCTS.map((p) => getProductSlug(p));
-  try {
-    const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
-    const anonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
-    if (url && anonKey) {
-      const supabase = createSupabaseClient(url, anonKey);
-      const { data } = await supabase
-        .from("products")
-        .select("id, name, slug")
-        .eq("is_active", true);
-
-      if (data && data.length > 0) {
-        productSlugs = data.map((p) => getProductSlug(p));
-      }
-    }
-  } catch {}
+  const { products } = await getCatalog();
+  const productSlugs = products.map((p) => getProductSlug(p));
 
   const uniqueSlugs = Array.from(new Set(productSlugs));
   const productRoutes: MetadataRoute.Sitemap = uniqueSlugs.map((slug) => ({
