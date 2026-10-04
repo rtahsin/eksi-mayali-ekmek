@@ -5,7 +5,7 @@
 ## Durum
 | Faz | Konu | Tahmini süre | Durum |
 |---|---|---|---|
-| Acil | Tahsin'in kod beklemeden yapacakları (§4) | 15 dk | ✅ büyük ölçüde tamam (4 Eki) — `JWT_SECRET` ve `.env` kontrolü teyit bekliyor |
+| Acil | Tahsin'in kod beklemeden yapacakları (§4) | 15 dk | ✅ tamamlandı (4 Eki) |
 | 0 | Güvenlik yaması | ~1 gün + 1 saat Tahsin | sıradaki |
 | 0.5 | CI (her PR'da otomatik build) | ~2 saat | bekliyor |
 | 1 | Sipariş çekirdeği onarımı | 3-4 gün | bekliyor |
@@ -55,7 +55,9 @@ Diğer önemli bulgular: WhatsApp butonu sipariş kaydetmiyor (`CheckoutActions.
 
 **4 Ekim canlı veritabanı tespitleri:**
 - `record_cari_transaction_atomic` canlı veritabanında **yok** (AGENTS.md onu zorunlu tutuyor ama hiç oluşturulmamış; Faz 3'te 016 ile oluşturulur).
-- Supabase Auth'ta 3 kullanıcı var, üçü de Tahsin'in.
+- Supabase Auth'ta 4 Google hesabı var: `tahsinreyhan@gmail.com` ve `ekmeklab@gmail.com` superadmin; `sourdaoxyz@gmail.com` customer; `kriptocutahsin@gmail.com` customer (hiç giriş yapmamış — Tahsin'in olduğu teyit edilecek).
+- `orders`, `order_items`, `order_status_history`, `payments` politikaları repodaki 007-009 ile uyumlu; siparişlerde herkese açık okuma politikası **yok**. `orders` üzerinde tek tetikleyici: `trg_order_status_progression`.
+- **K1 canlıda görüldü:** admin "Sipariş Komuta Merkezi"nde "Bekleyen: 2" yazarken varsayılan "Bugünün Teslimatları" listesi boş (filtre `useAdminOrders.ts:90,467`). Geçici çözüm: **"Tüm Tarihler"** sekmesi. Kalıcı çözüm Faz 1.
 - Repo 4 Ekim'de **private** yapıldı.
 
 ---
@@ -63,10 +65,7 @@ Diğer önemli bulgular: WhatsApp butonu sipariş kaydetmiyor (`CheckoutActions.
 ## 4. ACİL ADIMLAR — ✅ 4 Ekim'de uygulandı
 **Sonuç:** acil SQL tek transaction'da uygulandı. Kontrol çıktısı: `adjust_cari_balance`, `check_rate_limit`, `cleanup_expired_customer_locations`, `create_order_atomic`, `generate_slip_number` herkese ve girişliye kapalı; `generate_order_number` sadece girişliye açık (admin paneli için); `is_admin` açık (RLS gereği); `check_order_status_progression` ve `handle_new_user` tetikleyici fonksiyonları açık görünüyor ama doğrudan çağrılamaz (013 toparlar). Kullanıcı listesi temiz, repo private.
 
-**Teyit bekleyenler (Tahsin):**
-1. Vercel'de `JWT_SECRET` var mı? Yoksa uzun rastgele bir değer ekle (Production + Preview), Redeploy et.
-2. Admin paneline Google ile girip siparişlerin göründüğünü kontrol et.
-3. GitHub'da `.env` dosyası: değerler `your_...` gibi örnek metinse sorun yok; gerçekse iptal et/yenile.
+**Teyitler (Tahsin, 4 Eki):** Vercel'de `JWT_SECRET` tanımlı; `.env`'deki değerler örnek metin (gerçek şifre yok); admin girişi Google ile çalışıyor (siparişler "Tüm Tarihler" sekmesinde, bkz. K1).
 
 **Uygulanan SQL (kayıt için — tekrar çalıştırmaya gerek yok):**
 ```sql
