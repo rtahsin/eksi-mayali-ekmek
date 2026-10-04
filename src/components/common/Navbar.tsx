@@ -7,8 +7,12 @@ import { useAuth } from "@/components/auth/AuthProvider";
 import { AtelierMenuDrawer } from "./AtelierMenuDrawer";
 
 export function Navbar() {
-  const itemCount = useCartStore((state) => state.getItemCount());
+  const storedItemCount = useCartStore((state) => state.getItemCount());
   const openCart = useCartStore((state) => state.openCart);
+  // Sepet localStorage'dan gelir; sunucu çıktısıyla uyuşması için ilk render'da 0 göster
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
+  const itemCount = mounted ? storedItemCount : 0;
   const { user, profile, isLoggedIn, openAuthModal, signOut } = useAuth();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isAtelierMenuOpen, setIsAtelierMenuOpen] = useState(false);

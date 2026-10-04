@@ -33,6 +33,7 @@ import { PaymentRecordModal } from "@/components/admin/siparisler/PaymentRecordM
 import { AdminOrder, AdminOrderStatus } from "@/types/admin";
 import { Payment } from "@/types/payment";
 import { OrderStatusHistoryEntry } from "@/types/orderStatusHistory";
+import { SITE_URL } from "@/lib/site";
 
 export default function SingleOrderDetailPage() {
   const params = useParams();
@@ -157,7 +158,7 @@ export default function SingleOrderDetailPage() {
     text += `\n💰 *Toplam Tutar:* ${order.totalAmount} ₺\n`;
     text += `📅 *Teslimat Tarihi:* ${order.deliveryDate} (${order.deliveryTimeWindow || "14:00 - 18:00"})\n`;
     text += `📍 *Adres:* ${order.deliveryAddress}\n\n`;
-    const trackingUrl = `https://ekmeklab.tr/siparis-takip/${order.orderNumber || order.id}`;
+    const trackingUrl = `${SITE_URL}/siparis-takip/${order.orderNumber || order.id}`;
     text += `🔗 *Siparişinizi Canlı Takip Edin:*\n${trackingUrl}\n\n`;
     text += `Ekmekleriniz taş fırında sevgiyle hazırlanmaktadır. Afiyetle tüketiniz! 🌾🍞`;
 

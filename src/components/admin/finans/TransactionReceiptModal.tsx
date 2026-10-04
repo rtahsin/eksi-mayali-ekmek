@@ -18,6 +18,7 @@ import {
 import { CariAccount, CariTransaction } from "@/types/admin";
 import html2canvas from "html2canvas";
 import Link from "next/link";
+import { SITE_URL } from "@/lib/site";
 
 interface TransactionReceiptModalProps {
   tx: CariTransaction;
@@ -202,7 +203,7 @@ export default function TransactionReceiptModal({ tx, cari, onClose }: Transacti
 
   const handleWhatsApp = async () => {
     setSharing(true);
-    const fisUrl = `https://ekmeklab.tr/fis/${tx.id}`;
+    const fisUrl = `${SITE_URL}/fis/${tx.id}`;
     const text = `Online Fiş Görüntüle: ${fisUrl}`;
 
     try {

@@ -1,37 +1,38 @@
-import { NextResponse } from "next/server";
+import { NextResponse, after } from "next/server";
 import { z } from "zod";
+import * as Sentry from "@sentry/nextjs";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { Order, OrderItem } from "@/types";
 import { checkRateLimit, sanitizeInput } from "@/lib/security/rateLimiter";
 import { getErrorMessage } from "@/lib/utils/error";
 import { verifyApiAuth } from "@/lib/security/apiAuth";
-import { getOrderCutoffTime, isPastCutoff, isSameDayDelivery } from "@/lib/settings/cutoff";
-import * as Sentry from "@sentry/nextjs";
+import { getStoreSettings } from "@/lib/settings/server";
+import { computeShippingFee } from "@/lib/settings/schema";
+import { computeDeliveryDates } from "@/lib/ordering/dates";
+import { isIsoDate } from "@/lib/time/istanbul";
+import { signOrderToken } from "@/lib/security/linkToken";
+import { notifyNewOrder } from "@/lib/notify/telegram";
+import { TERMS_VERSION } from "@/lib/legal";
 
-// 1. Zod Schema for Request Validation
 const OrderItemSchema = z.object({
-  productId: z.string().min(1, "Ürün ID gereklidir"),
+  productId: z.string().min(1, "Ürün ID gereklidir").max(100),
   quantity: z
     .number()
     .int()
     .positive("Miktar 1 veya daha fazla olmalıdır")
     .max(100, "Maksimum 100 adet sipariş edilebilir"),
-  batchId: z.string().optional(),
 });
 
 const CustomerInfoSchema = z.object({
-  name: z.string().min(2, "Geçerli bir ad ve soyad giriniz").max(80, "Ad soyad çok uzun"),
+  name: z.string().trim().min(2, "Geçerli bir ad ve soyad giriniz").max(80, "Ad soyad çok uzun"),
   phone: z.string().min(10, "Geçerli bir telefon numarası giriniz").max(20, "Telefon numarası çok uzun"),
-  district: z.string().default("Beylikdüzü"),
-  neighborhood: z.string().min(2, "Mahalle bilgisi gereklidir").max(100),
-  addressDetail: z.string().min(3, "Açık adres bilgisi gereklidir").max(250),
-  deliveryDate: z.string().optional(),
-  customDate: z.string().optional(),
+  neighborhood: z.string().trim().min(2, "Mahalle bilgisi gereklidir").max(100),
+  addressDetail: z.string().trim().min(5, "Açık adres bilgisi gereklidir").max(250),
+  deliveryDate: z.string().refine(isIsoDate, "Teslim tarihi geçersiz"),
   note: z.string().max(300).optional(),
-  shareLocation: z.boolean().optional(),
-  customerLat: z.number().nullable().optional(),
-  customerLng: z.number().nullable().optional(),
-  locationConsentAt: z.string().nullable().optional(),
+  customerLat: z.number().min(-90).max(90).nullable().optional(),
+  customerLng: z.number().min(-180).max(180).nullable().optional(),
+  locationConsentAt: z.string().max(40).nullable().optional(),
 });
 
 const CreateOrderRequestSchema = z.object({
@@ -40,9 +41,10 @@ const CreateOrderRequestSchema = z.object({
     .min(1, "Sepetinizde en az 1 ürün olmalıdır")
     .max(30, "Sepette en fazla 30 kalem ürün olabilir"),
   customerInfo: CustomerInfoSchema,
-  deliveryMethod: z.enum(["courier", "pickup"]),
+  deliveryMethod: z.literal("courier"),
   paymentMethod: z.enum(["whatsapp", "cash_on_delivery", "pos_at_door"]),
-  idempotencyKey: z.string().max(100).optional(),
+  idempotencyKey: z.string().min(8).max(100),
+  termsAccepted: z.literal(true, { message: "Mesafeli satış sözleşmesi ve KVKK metni onaylanmalıdır" }),
 });
 
 interface DBOrderRow {
@@ -57,6 +59,7 @@ interface DBOrderRow {
   status: string;
   payment_method: string;
   delivery_date?: string | null;
+  delivery_time_window?: string | null;
   order_notes?: string | null;
   created_at: string;
   updated_at?: string | null;
@@ -72,267 +75,227 @@ interface DBOrderRow {
   }[];
 }
 
+interface DBProductItem {
+  id: string;
+  name: string;
+  price: number | string;
+  image_url?: string | null;
+  weight?: number | null;
+  made_to_order?: boolean;
+  is_available?: boolean;
+  is_active?: boolean;
+}
+
+const fail = (status: number, error: string, code?: string) =>
+  NextResponse.json({ success: false, error, ...(code ? { code } : {}) }, { status });
+
+/** "Barış Mah." / "barış" → "barış" (karşılaştırma için) */
+const normalizeNeighborhood = (value: string) =>
+  value.replace(/\s+Mah(\.|allesi)?$/i, "").trim().toLocaleLowerCase("tr-TR");
+
+/** Telefonu tek biçime getirir: 05XXXXXXXXX */
+function normalizePhone(raw: string): string | null {
+  let digits = raw.replace(/\D/g, "");
+  if (digits.startsWith("90") && digits.length === 12) digits = digits.slice(2);
+  if (digits.length === 10 && digits.startsWith("5")) digits = `0${digits}`;
+  return /^05\d{9}$/.test(digits) ? digits : null;
+}
+
+function mapExistingOrder(row: DBOrderRow): Order {
+  return {
+    id: row.id,
+    orderNumber: row.order_number || row.id,
+    customerName: row.customer_name,
+    phone: row.phone,
+    deliveryAddress: row.delivery_address,
+    items: (row.order_items || []).map((it) => ({
+      productId: it.product_id,
+      productName: it.product_name,
+      quantity: Number(it.quantity) || 1,
+      unitPrice: Number(it.unit_price) || 0,
+      totalPrice: Number(it.total_price) || 0,
+      imageUrl: it.image_url || undefined,
+      weight: it.weight || undefined,
+      madeToOrder: it.made_to_order,
+    })),
+    subtotal: Number(row.subtotal) || 0,
+    shippingFee: Number(row.shipping_fee) || 0,
+    totalAmount: Number(row.total_amount) || 0,
+    status: row.status as Order["status"],
+    paymentMethod: row.payment_method as Order["paymentMethod"],
+    deliveryDate: row.delivery_date || undefined,
+    deliveryTimeWindow: row.delivery_time_window || undefined,
+    orderNotes: row.order_notes || undefined,
+    createdAt: row.created_at,
+    updatedAt: row.updated_at || undefined,
+  };
+}
+
+/** RPC'nin fırlattığı bilinen hataları müşteriye Türkçe 409 olarak döndürür. */
+function mapRpcError(message: string): { status: number; error: string; code: string } | null {
+  const known: Record<string, string> = {
+    INVALID_DELIVERY_DATE: "Seçilen teslim tarihi artık geçerli değil. Lütfen yeni bir tarih seçin.",
+    PRODUCT_UNAVAILABLE: "Sepetinizdeki bir ürün şu an satışta değil. Lütfen sepetinizi güncelleyin.",
+  };
+  for (const [code, error] of Object.entries(known)) {
+    if (message.includes(code)) return { status: 409, error, code };
+  }
+  return null;
+}
+
 export async function POST(req: Request) {
   try {
-    // 0. IP-based Rate Limiting
+    // 0. IP bazlı istek sınırı
     const forwarded = req.headers.get("x-forwarded-for");
     const realIp = req.headers.get("x-real-ip");
     const clientIp = forwarded ? forwarded.split(",")[0].trim() : realIp || "127.0.0.1";
 
     const ipLimit = await checkRateLimit(`order_ip_${clientIp}`, 10, 600000);
     if (!ipLimit.allowed) {
-      return NextResponse.json(
-        {
-          success: false,
-          error: `Geçici olarak engellendiniz. Lütfen ${ipLimit.retryAfterSeconds} saniye sonra tekrar deneyiniz.`,
-        },
-        { status: 429 }
-      );
+      return fail(429, `Geçici olarak engellendiniz. Lütfen ${ipLimit.retryAfterSeconds} saniye sonra tekrar deneyiniz.`);
     }
 
-    const rawBody = await req.json();
-
-    // Validate request schema with Zod
-    const validationResult = CreateOrderRequestSchema.safeParse(rawBody);
-    if (!validationResult.success) {
-      const errorMsg = validationResult.error.issues.map((e) => getErrorMessage(e)).join(", ");
-      return NextResponse.json(
-        { success: false, error: `Doğrulama hatası: ${errorMsg}` },
-        { status: 400 }
-      );
+    const validation = CreateOrderRequestSchema.safeParse(await req.json().catch(() => null));
+    if (!validation.success) {
+      const errorMsg = validation.error.issues.map((e) => e.message).join(", ");
+      return fail(400, `Doğrulama hatası: ${errorMsg}`);
     }
-
-    const {
-      items,
-      customerInfo,
-      deliveryMethod,
-      paymentMethod,
-      idempotencyKey,
-    } = validationResult.data;
-
-    // Sipariş sahibi SADECE doğrulanmış oturumdan gelir (çerez veya Bearer); istek gövdesine güvenilmez.
-    const auth = await verifyApiAuth(req);
-    const sessionUserId = auth.isAuthenticated ? auth.userId : null;
+    const { items, customerInfo, paymentMethod, idempotencyKey } = validation.data;
 
     const supabaseAdmin = createAdminClient();
     if (!supabaseAdmin) {
-      console.error("Supabase admin client unavailable in /api/orders/create");
       Sentry.captureMessage("Supabase admin client unavailable in /api/orders/create", "error");
-      return NextResponse.json(
-        { success: false, error: "Sunucu veritabanı bağlantısı kurulamadı." },
-        { status: 500 }
-      );
+      return fail(500, "Sunucu veritabanı bağlantısı kurulamadı.");
     }
 
-    // Cutoff Saati Kontrolü (GÖREV 3: Aynı gün teslimat cutoff kontrolü)
-    if (isSameDayDelivery(customerInfo.deliveryDate)) {
-      const cutoffTime = await getOrderCutoffTime(supabaseAdmin);
-      if (isPastCutoff(cutoffTime)) {
-        return NextResponse.json(
-          {
-            success: false,
-            error: `Bugün için sipariş kabul saati (${cutoffTime}) geçmiştir. Lütfen teslimat için yarın veya ileri bir tarih seçiniz.`,
-          },
-          { status: 400 }
-        );
-      }
+    // 1. İdempotency: aynı ödeme denemesi tekrar gelirse mevcut siparişi döndür
+    const { data: existingData } = await supabaseAdmin
+      .from("orders")
+      .select("*, order_items(*)")
+      .eq("idempotency_key", idempotencyKey)
+      .maybeSingle();
+    if (existingData) {
+      const existing = mapExistingOrder(existingData as unknown as DBOrderRow);
+      return NextResponse.json({
+        success: true,
+        order: existing,
+        trackingToken: signOrderToken(existing.id),
+        isExisting: true,
+      });
     }
 
-    // 1. Idempotency Key Kontrolü (Çift Sipariş Önleme)
-    if (idempotencyKey) {
-      const { data: existingData } = await supabaseAdmin
-        .from("orders")
-        .select("*, order_items(*)")
-        .eq("idempotency_key", idempotencyKey)
-        .maybeSingle();
-
-      if (existingData) {
-        const row = existingData as unknown as DBOrderRow;
-        const mappedExisting: Order = {
-          id: row.id,
-          orderNumber: row.order_number || row.id.replace("ORD-", "").toUpperCase(),
-          customerName: row.customer_name,
-          phone: row.phone,
-          deliveryAddress: row.delivery_address,
-          items: (row.order_items || []).map((it) => ({
-            productId: it.product_id,
-            productName: it.product_name,
-            quantity: Number(it.quantity) || 1,
-            unitPrice: Number(it.unit_price) || 0,
-            totalPrice: Number(it.total_price) || 0,
-            imageUrl: it.image_url || undefined,
-            weight: it.weight || undefined,
-            madeToOrder: it.made_to_order,
-          })),
-          subtotal: Number(row.subtotal) || 0,
-          shippingFee: Number(row.shipping_fee) || 0,
-          totalAmount: Number(row.total_amount) || 0,
-          status: row.status as Order["status"],
-          paymentMethod: row.payment_method as Order["paymentMethod"],
-          deliveryDate: row.delivery_date || undefined,
-          orderNotes: row.order_notes || undefined,
-          createdAt: row.created_at,
-          updatedAt: row.updated_at || undefined,
-        };
-
-        return NextResponse.json({
-          success: true,
-          order: mappedExisting,
-          isExisting: true,
-        });
-      }
+    // 2. İşletme kuralları (tek kaynak: admin ayarları)
+    const settings = await getStoreSettings(supabaseAdmin);
+    if (!settings.orderAcceptanceOpen) {
+      return fail(409, "Şu an sipariş almıyoruz. Lütfen daha sonra tekrar deneyin.", "ORDERS_CLOSED");
     }
 
-    // 2. Database-backed Rate Limiting Check by Phone Number
-    const cleanPhone = customerInfo.phone.replace(/\D/g, "");
-    if (cleanPhone.length >= 10) {
-      const phoneLimit = await checkRateLimit(`order_phone_${cleanPhone}`, 5, 600000);
-      if (!phoneLimit.allowed) {
-        return NextResponse.json(
-          {
-            success: false,
-            error: `Bu telefon numarası ile çok fazla sipariş denemesi yapıldı. Lütfen ${phoneLimit.retryAfterSeconds} saniye sonra tekrar deneyiniz.`,
-          },
-          { status: 429 }
-        );
-      }
-
-      const fifteenMinsAgo = new Date(Date.now() - 15 * 60 * 1000).toISOString();
-      const { count } = await supabaseAdmin
-        .from("orders")
-        .select("*", { count: "exact", head: true })
-        .eq("phone", cleanPhone)
-        .gte("created_at", fifteenMinsAgo);
-
-      if (count !== null && count >= 3) {
-        return NextResponse.json(
-          {
-            success: false,
-            error: `Bu telefon numarası ile son 15 dakika içinde maksimum sipariş limitine ulaştınız. Lütfen daha sonra tekrar deneyiniz.`,
-          },
-          { status: 429 }
-        );
-      }
+    const neighborhoodMatch = settings.neighborhoods.find(
+      (n) => normalizeNeighborhood(n) === normalizeNeighborhood(customerInfo.neighborhood)
+    );
+    if (!neighborhoodMatch) {
+      return fail(400, "Seçilen mahalleye henüz teslimat yapmıyoruz.", "NEIGHBORHOOD_NOT_SERVED");
     }
 
-    // Sanitize user inputs
-    const sanitizedName = sanitizeInput(customerInfo.name, 80);
-    const sanitizedAddressDetail = sanitizeInput(customerInfo.addressDetail, 250);
-    const sanitizedNeighborhood = sanitizeInput(customerInfo.neighborhood, 100);
-    const sanitizedDistrict = sanitizeInput(customerInfo.district, 50) || "Beylikdüzü";
-    const sanitizedNote = sanitizeInput(customerInfo.note || "", 300);
+    const allowedDates = computeDeliveryDates(settings);
+    if (!allowedDates.some((d) => d.date === customerInfo.deliveryDate)) {
+      return fail(409, "Seçilen teslim tarihi artık geçerli değil. Lütfen sepetten yeni bir tarih seçin.", "INVALID_DELIVERY_DATE");
+    }
 
-    // 3. Server-side product price & inventory resolution directly from Database
-    const productIds = items.map((it) => it.productId);
+    const cleanPhone = normalizePhone(customerInfo.phone);
+    if (!cleanPhone) {
+      return fail(400, "Lütfen geçerli bir cep telefonu numarası giriniz (05XX XXX XX XX).");
+    }
+
+    // 3. Telefon bazlı istek sınırı
+    const phoneLimit = await checkRateLimit(`order_phone_${cleanPhone}`, 5, 600000);
+    if (!phoneLimit.allowed) {
+      return fail(429, `Bu telefon numarası ile çok fazla sipariş denemesi yapıldı. Lütfen ${phoneLimit.retryAfterSeconds} saniye sonra tekrar deneyiniz.`);
+    }
+
+    // 4. Fiyatlar ve ürün durumu yalnızca veritabanından
+    const productIds = Array.from(new Set(items.map((it) => it.productId)));
     const { data: dbProducts, error: prodErr } = await supabaseAdmin
       .from("products")
-      .select("*")
+      .select("id, name, price, image_url, weight, made_to_order, is_available, is_active")
       .in("id", productIds);
 
     if (prodErr || !dbProducts) {
-      console.error("Products query error:", prodErr);
       Sentry.captureException(prodErr || new Error("Products query error in /api/orders/create"), {
         tags: { endpoint: "/api/orders/create", type: "products_query_error" },
-        extra: { productIds },
       });
-      return NextResponse.json(
-        { success: false, error: "Ürün bilgileri doğrulanamadı." },
-        { status: 500 }
-      );
+      return fail(500, "Ürün bilgileri doğrulanamadı.");
     }
 
-    interface DBProductItem {
-      id: string;
-      name: string;
-      price: number | string;
-      image_url?: string | null;
-      imageUrl?: string | null;
-      weight?: number | null;
-      made_to_order?: boolean;
-      madeToOrder?: boolean;
-      is_available?: boolean;
-    }
-
-    const productMap = new Map<string, DBProductItem>(
-      (dbProducts as DBProductItem[]).map((p) => [p.id, p])
-    );
-
+    const productMap = new Map<string, DBProductItem>((dbProducts as DBProductItem[]).map((p) => [p.id, p]));
     const verifiedOrderItems: OrderItem[] = [];
     let serverSubtotal = 0;
 
     for (const item of items) {
-      const productData = productMap.get(item.productId);
-
-      if (!productData) {
-        return NextResponse.json(
-          { success: false, error: `Ürün bulunamadı (ID: ${item.productId})` },
-          { status: 404 }
-        );
+      const product = productMap.get(item.productId);
+      if (!product || product.is_active === false) {
+        return fail(409, "Sepetinizdeki bir ürün artık satışta değil. Lütfen sepetinizi güncelleyin.", "PRODUCT_UNAVAILABLE");
       }
-
-      // Stok & mevcudiyet kontrolü (P1-6)
-      if (productData.is_available === false) {
-        return NextResponse.json(
-          { success: false, error: `${productData.name} şu an stokta bulunmuyor.` },
-          { status: 400 }
-        );
+      if (product.is_available === false) {
+        return fail(409, `${product.name} şu an tükendi. Lütfen sepetinizden çıkarın.`, "PRODUCT_UNAVAILABLE");
       }
-
-      const unitPrice = Number(productData.price) ?? 0;
-      if (unitPrice <= 0) {
-        return NextResponse.json(
-          { success: false, error: `Ürün fiyatı geçersiz (${productData.name})` },
-          { status: 400 }
-        );
+      const unitPrice = Number(product.price);
+      if (!Number.isFinite(unitPrice) || unitPrice <= 0) {
+        return fail(409, `Ürün fiyatı geçersiz (${product.name}).`, "PRODUCT_UNAVAILABLE");
       }
 
       const lineTotal = unitPrice * item.quantity;
       serverSubtotal += lineTotal;
-
       verifiedOrderItems.push({
         productId: item.productId,
-        productName: productData.name,
+        productName: product.name,
         quantity: item.quantity,
         unitPrice,
         totalPrice: lineTotal,
-        imageUrl: productData.imageUrl || productData.image_url || undefined,
-        weight: productData.weight || undefined,
-        madeToOrder: productData.madeToOrder ?? productData.made_to_order,
+        imageUrl: product.image_url || undefined,
+        weight: product.weight || undefined,
+        madeToOrder: product.made_to_order,
       });
     }
 
-    // 4. Server-side shipping fee & total amount calculation
-    const shippingFee = deliveryMethod === "pickup" ? 0 : serverSubtotal >= 1000 ? 0 : 150;
+    // 5. Minimum sepet, teslimat ücreti (ayarlardan)
+    if (settings.minBasketAmount > 0 && serverSubtotal < settings.minBasketAmount) {
+      return fail(
+        409,
+        `Minimum sipariş tutarı ${settings.minBasketAmount.toLocaleString("tr-TR")} ₺'dir.`,
+        "MIN_BASKET_NOT_MET"
+      );
+    }
+    const shippingFee = computeShippingFee(serverSubtotal, settings);
     const totalAmount = serverSubtotal + shippingFee;
 
+    // 6. Kayıt
+    const auth = await verifyApiAuth(req);
+    const sessionUserId = auth.isAuthenticated ? auth.userId : null;
+
+    const sanitizedName = sanitizeInput(customerInfo.name, 80);
+    const sanitizedAddressDetail = sanitizeInput(customerInfo.addressDetail, 250);
+    const sanitizedNote = sanitizeInput(customerInfo.note || "", 300);
+    const neighborhood = neighborhoodMatch;
+    const district = "Beylikdüzü";
+    const fullAddress = `${neighborhood} Mah., ${sanitizedAddressDetail} / ${district}`;
+
+    const hasLocation =
+      typeof customerInfo.customerLat === "number" && typeof customerInfo.customerLng === "number";
+    const nowIso = new Date().toISOString();
     const orderId = `ORD-${crypto.randomUUID().split("-")[0].toUpperCase()}`;
-    const now = new Date();
-    const nowIso = now.toISOString();
-
-    const fullAddress =
-      deliveryMethod === "pickup"
-        ? "İmalathaneden Gel-Al (Beylikdüzü Atölye)"
-        : `${sanitizedNeighborhood}, ${sanitizedAddressDetail} / ${sanitizedDistrict}`;
-
-    const deliveryDateFormatted = customerInfo.deliveryDate || "today";
-
-    const isLocationShared = Boolean(
-      customerInfo.shareLocation && customerInfo.customerLat && customerInfo.customerLng
-    );
-    const locationConsentAt = isLocationShared ? customerInfo.locationConsentAt || nowIso : null;
-
-    let finalOrderNumber = "";
 
     const orderPayload = {
       id: orderId,
       customer_name: sanitizedName,
       phone: cleanPhone,
-      delivery_method: deliveryMethod,
+      delivery_method: "courier",
       delivery_address: fullAddress,
-      district: sanitizedDistrict,
-      neighborhood: sanitizedNeighborhood,
+      district,
+      neighborhood,
       address_detail: sanitizedAddressDetail,
-      delivery_date: deliveryDateFormatted,
+      delivery_date: customerInfo.deliveryDate,
+      delivery_time_window: settings.deliveryWindow,
       status: "bekliyor",
       payment_method: paymentMethod,
       payment_status: "pending",
@@ -341,11 +304,13 @@ export async function POST(req: Request) {
       shipping_fee: shippingFee,
       total_amount: totalAmount,
       order_notes: sanitizedNote || null,
-      idempotency_key: idempotencyKey || null,
-      location_shared: isLocationShared,
-      customer_lat: customerInfo.customerLat ?? null,
-      customer_lng: customerInfo.customerLng ?? null,
-      location_consent_at: locationConsentAt,
+      idempotency_key: idempotencyKey,
+      location_shared: hasLocation,
+      customer_lat: hasLocation ? customerInfo.customerLat : null,
+      customer_lng: hasLocation ? customerInfo.customerLng : null,
+      location_consent_at: hasLocation ? customerInfo.locationConsentAt || nowIso : null,
+      terms_accepted_at: nowIso,
+      terms_version: TERMS_VERSION,
       created_at: nowIso,
       updated_at: nowIso,
     };
@@ -361,7 +326,6 @@ export async function POST(req: Request) {
       made_to_order: Boolean(it.madeToOrder),
     }));
 
-    // 5. Atomic PostgreSQL order creation (P0-2 & P0-3)
     const { data: rpcRes, error: rpcErr } = await supabaseAdmin.rpc("create_order_atomic", {
       p_order: orderPayload,
       p_items: itemsPayload,
@@ -369,24 +333,22 @@ export async function POST(req: Request) {
     });
 
     if (rpcErr || !rpcRes || !rpcRes.success) {
-      console.error("create_order_atomic RPC error:", rpcErr);
+      const mapped = rpcErr ? mapRpcError(rpcErr.message) : null;
+      if (mapped) return fail(mapped.status, mapped.error, mapped.code);
+
       Sentry.captureException(rpcErr || new Error("create_order_atomic returned success: false"), {
         tags: { endpoint: "/api/orders/create", type: "rpc_error" },
-        extra: { orderId, orderPayload, rpcRes },
+        extra: { orderId, rpcRes },
       });
-      return NextResponse.json(
-        {
-          success: false,
-          error: "Sipariş veritabanına atomik olarak kaydedilemedi. Lütfen tekrar deneyiniz.",
-        },
-        { status: 500 }
-      );
+      return fail(500, "Sipariş kaydedilemedi. Lütfen tekrar deneyiniz.");
     }
 
-    finalOrderNumber = rpcRes.order_number || orderId;
+    // RPC v3 aynı idempotency anahtarıyla eşzamanlı gelen isteği mevcut siparişe yönlendirebilir
+    const finalOrderId: string = typeof rpcRes.order_id === "string" ? rpcRes.order_id : orderId;
+    const finalOrderNumber: string = rpcRes.order_number || finalOrderId;
 
     const completedOrder: Order = {
-      id: orderId,
+      id: finalOrderId,
       orderNumber: finalOrderNumber,
       customerName: sanitizedName,
       phone: cleanPhone,
@@ -397,32 +359,35 @@ export async function POST(req: Request) {
       totalAmount,
       status: "bekliyor",
       paymentMethod,
-      deliveryDate: deliveryDateFormatted,
+      deliveryDate: customerInfo.deliveryDate,
+      deliveryTimeWindow: settings.deliveryWindow,
       orderNotes: sanitizedNote || undefined,
-      locationShared: isLocationShared,
-      customerLat: customerInfo.customerLat ?? null,
-      customerLng: customerInfo.customerLng ?? null,
-      locationConsentAt: locationConsentAt ?? undefined,
       userId: sessionUserId,
       createdAt: nowIso,
       updatedAt: nowIso,
     };
 
+    // 7. Fırıncıya bildirim (yanıtı bekletmez, hata siparişi bozmaz)
+    after(() =>
+      notifyNewOrder({
+        orderNumber: finalOrderNumber,
+        orderId: finalOrderId,
+        deliveryDate: customerInfo.deliveryDate,
+        neighborhood,
+        items: verifiedOrderItems.map((it) => ({ name: it.productName, quantity: it.quantity })),
+        totalAmount,
+        paymentMethod,
+      })
+    );
+
     return NextResponse.json({
       success: true,
       order: completedOrder,
+      trackingToken: signOrderToken(finalOrderId),
     });
   } catch (error: unknown) {
     console.error("Order creation API error:", error);
-    Sentry.captureException(error, {
-      tags: { endpoint: "/api/orders/create", type: "unhandled_500" },
-    });
-    return NextResponse.json(
-      {
-        success: false,
-        error: getErrorMessage(error) || "Sipariş işlenirken bir sunucu hatası oluştu.",
-      },
-      { status: 500 }
-    );
+    Sentry.captureException(error, { tags: { endpoint: "/api/orders/create", type: "unhandled_500" } });
+    return fail(500, getErrorMessage(error) || "Sipariş işlenirken bir sunucu hatası oluştu.");
   }
 }

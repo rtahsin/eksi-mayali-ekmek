@@ -1,117 +1,87 @@
 import { Order, PaymentMethod } from "@/types";
-import { CartItem, CustomerInfo, DeliveryMethod } from "@/lib/store/useCartStore";
+import { CartItem, CustomerInfo } from "@/lib/store/useCartStore";
+import { formatTrDate } from "@/lib/time/istanbul";
+
+export type CheckoutPaymentMethod = Extract<PaymentMethod, "whatsapp" | "cash_on_delivery" | "pos_at_door">;
 
 export interface CreateOrderParams {
   items: CartItem[];
   customerInfo: CustomerInfo;
-  deliveryMethod: DeliveryMethod;
-  paymentMethod: PaymentMethod;
-  subtotal: number;
-  shippingFee: number;
-  totalAmount: number;
-  idempotencyKey?: string;
+  paymentMethod: CheckoutPaymentMethod;
+  /** Ödeme denemesi başına TEK anahtar: çift tıklama/yeniden deneme aynı siparişi döndürür. */
+  idempotencyKey: string;
+  termsAccepted: boolean;
 }
 
-export async function createOrderInSupabase(params: CreateOrderParams): Promise<Order> {
-  const { items, customerInfo, deliveryMethod, paymentMethod, idempotencyKey } = params;
+export interface CreateOrderResult {
+  order: Order;
+  trackingToken: string | null;
+}
 
-  // Call Server-side Secure API Route (/api/orders/create)
+export class OrderSubmitError extends Error {
+  constructor(message: string, public readonly code?: string) {
+    super(message);
+    this.name = "OrderSubmitError";
+  }
+}
+
+export async function submitOrder(params: CreateOrderParams): Promise<CreateOrderResult> {
+  const { items, customerInfo, paymentMethod, idempotencyKey, termsAccepted } = params;
+
   const response = await fetch("/api/orders/create", {
     method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
+    headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
-      items: items.map((item) => ({
-        productId: item.productId,
-        quantity: item.quantity,
-        batchId: item.batchId,
-      })),
-      customerInfo,
-      deliveryMethod,
+      items: items.map((item) => ({ productId: item.productId, quantity: item.quantity })),
+      customerInfo: {
+        name: customerInfo.name,
+        phone: customerInfo.phone,
+        neighborhood: customerInfo.neighborhood,
+        addressDetail: customerInfo.addressDetail,
+        deliveryDate: customerInfo.deliveryDate,
+        note: customerInfo.note || undefined,
+        customerLat: customerInfo.customerLat ?? null,
+        customerLng: customerInfo.customerLng ?? null,
+        locationConsentAt: customerInfo.locationConsentAt ?? null,
+      },
+      deliveryMethod: "courier",
       paymentMethod,
-      idempotencyKey: idempotencyKey || `IDEM-${crypto.randomUUID()}`,
+      idempotencyKey,
+      termsAccepted,
     }),
   });
 
-  const data = await response.json();
+  const data: { success?: boolean; error?: string; code?: string; order?: Order; trackingToken?: string | null } =
+    await response.json().catch(() => ({}));
 
-  if (!response.ok || !data.success) {
-    throw new Error(data.error || "Sipariş sunucu tarafından onaylanamadı.");
+  if (!response.ok || !data.success || !data.order) {
+    throw new OrderSubmitError(data.error || "Sipariş oluşturulamadı. Lütfen tekrar deneyin.", data.code);
   }
 
-  return data.order as Order;
+  return { order: data.order, trackingToken: data.trackingToken ?? null };
 }
 
-// Geriye dönük uyumluluk için alias
-export const createOrderInFirestore = createOrderInSupabase;
+const PAYMENT_LABELS: Record<string, string> = {
+  whatsapp: "WhatsApp'ta konuşalım",
+  cash_on_delivery: "Kapıda nakit",
+  pos_at_door: "Kapıda kart (POS)",
+};
 
-/**
- * Builds a structured, readable WhatsApp message template and directs to wa.me/905436329243
- */
-export function generateWhatsAppOrderUrl(params: CreateOrderParams): string {
-  const { items, customerInfo, deliveryMethod, paymentMethod, subtotal, shippingFee, totalAmount } = params;
+export function paymentLabel(method: string): string {
+  return PAYMENT_LABELS[method] ?? method;
+}
 
-  const paymentLabel =
-    paymentMethod === "pos_at_door"
-      ? "Kapıda Kredi Kartı / POS"
-      : paymentMethod === "cash_on_delivery"
-      ? "Kapıda Nakit Ödeme"
-      : "WhatsApp Üzerinden Teyitli";
-
-  const deliveryLabel = "🛵 Beylikdüzü İçi Fırın Kuryesi";
-
-  const curDate = customerInfo?.deliveryDate || "today";
-  const deliveryDateLabel =
-    curDate === "today"
-      ? "Bugün (Aynı Gün Teslimat)"
-      : curDate === "tomorrow"
-      ? "Yarın Sabah Fırın Çıkışı"
-      : curDate.replace("custom:", "") + " Tarihinde";
-
-  const lines: string[] = [
-    "🍞 *EKMEKLAB YENİ SİPARİŞ BİLDİRİMİ*",
-    "──────────────────────────",
-    "*Sipariş Kalemleri:*",
+/** Sipariş KAYDEDİLDİKTEN sonra WhatsApp'ta gönderilecek onay mesajı (kişisel veri tekrarlanmaz). */
+export function buildWhatsAppConfirmText(order: Order, trackingLink: string): string {
+  const lines = [
+    `Merhaba, ${order.orderNumber || order.id} numaralı siparişimi onaylamak istiyorum.`,
+    "",
+    ...order.items.map((it) => `• ${it.quantity} × ${it.productName}`),
+    `Toplam: ${order.totalAmount.toLocaleString("tr-TR")} ₺`,
   ];
-
-  items.forEach((item, index) => {
-    lines.push(
-      `${index + 1}. *${item.name}*` +
-      `\n   ↳ ${item.quantity} Adet x ${item.price} TL = ${item.quantity * item.price} TL`
-    );
-  });
-
-  lines.push("──────────────────────────");
-  lines.push(`💰 *Ara Toplam:* ${subtotal} TL`);
-  if (shippingFee > 0) {
-    lines.push(`🛵 *Kurye Ücreti:* ${shippingFee} TL`);
-  } else {
-    lines.push(`🛵 *Kargo/Kurye:* ÜCRETSİZ`);
+  if (order.deliveryDate) {
+    lines.push(`Teslim: ${formatTrDate(order.deliveryDate, "long")}${order.deliveryTimeWindow ? `, ${order.deliveryTimeWindow}` : ""}`);
   }
-  lines.push(`🏷️ *GENEL TOPLAM:* ${totalAmount} TL`);
-  lines.push("──────────────────────────");
-  lines.push(`📅 *Teslimat Günü:* ${deliveryDateLabel}`);
-  lines.push(`📍 *Teslimat Şekli:* ${deliveryLabel}`);
-  lines.push(`💳 *Ödeme Tercihi:* ${paymentLabel}`);
-  lines.push("");
-  lines.push("*Müşteri Bilgileri:*");
-  lines.push(`👤 *Ad Soyad:* ${customerInfo.name || "Belirtilmedi"}`);
-  lines.push(`📞 *Telefon:* ${customerInfo.phone || "Belirtilmedi"}`);
-
-  if (deliveryMethod === "courier") {
-    lines.push(`🏘️ *Mahalle:* ${customerInfo.neighborhood}`);
-    lines.push(`🏠 *Adres:* ${customerInfo.addressDetail || "Belirtilmedi"}`);
-  }
-
-  if (customerInfo.note && customerInfo.note.trim()) {
-    lines.push(`📝 *Sipariş Notu:* ${customerInfo.note}`);
-  }
-
-  lines.push("──────────────────────────");
-  lines.push("Lütfen siparişimi onaylayıp teslimat saatini iletir misiniz?");
-
-  const text = lines.join("\n");
-  const phone = "905010126653";
-  return `https://wa.me/${phone}?text=${encodeURIComponent(text)}`;
+  lines.push(`Ödeme: ${paymentLabel(order.paymentMethod)}`, "", `Takip: ${trackingLink}`);
+  return lines.join("\n");
 }

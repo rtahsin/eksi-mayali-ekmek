@@ -5,6 +5,7 @@ import { createClient, isSupabaseConfigured } from "@/lib/supabase/client";
 import { useAdminOrders } from "./useAdminOrders";
 import { useProducts } from "./useProducts";
 import { getErrorMessage } from "@/lib/utils/error";
+import { addDays, istanbulToday, toIstanbulDate } from "@/lib/time/istanbul";
 
 export type ProductionStage =
   | "otoliz_yogurma"        // 1. Un ve su buluştu, yoğuruldu
@@ -48,12 +49,8 @@ export function useProduction(selectedDate?: string) {
   const { allOrders } = useAdminOrders();
   const { products } = useProducts("all");
 
-  const todayStr = useMemo(() => new Date().toISOString().split("T")[0], []);
-  const tomorrowStr = useMemo(() => {
-    const tm = new Date();
-    tm.setDate(tm.getDate() + 1);
-    return tm.toISOString().split("T")[0];
-  }, []);
+  const todayStr = useMemo(() => istanbulToday(), []);
+  const tomorrowStr = useMemo(() => addDays(todayStr, 1), [todayStr]);
 
   const activeDate = selectedDate || tomorrowStr;
   const supabase = createClient();
@@ -76,7 +73,7 @@ export function useProduction(selectedDate?: string) {
         const mapped: ProductionBatch[] = data.map((d: any) => ({
           id: d.id,
           batchNumber: d.batch_number || `PARTI-${d.id.slice(-4)}`,
-          targetDate: d.bake_time ? new Date(d.bake_time).toISOString().split("T")[0] : activeDate,
+          targetDate: d.bake_time ? toIstanbulDate(d.bake_time) : activeDate,
           status: (d.status || "otoliz_yogurma") as ProductionStage,
           items: [
             {

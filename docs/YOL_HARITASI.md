@@ -7,8 +7,8 @@
 |---|---|---|---|
 | Acil | Tahsin'in kod beklemeden yapacakları (§4) | 15 dk | ✅ tamamlandı (4 Eki) |
 | 0 | Güvenlik yaması | ~1 gün + 1 saat Tahsin | ✅ tamamlandı (4 Eki): PR #1 canlıda, 013 uygulandı ve doğrulandı, `JWT_SECRET` silindi |
-| 0.5 | CI (her PR'da otomatik build) | ~2 saat | 🟡 PR açık |
-| 1 | Sipariş çekirdeği onarımı | 3-4 gün | bekliyor |
+| 0.5 | CI (her PR'da otomatik build) | ~2 saat | ✅ tamamlandı (4 Eki, PR #3) |
+| 1 | Sipariş çekirdeği onarımı | 3-4 gün | 🟡 kod hazır (dal `faz-1-siparis-cekirdegi`; typecheck + 37 test + build ✅). Kalan: PR/yayın → 014 (Tahsin) → Telegram botu |
 | 2 | Fırın günleri, kapasite, eşlikçiler | 3-4 gün | bekliyor |
 | 3 | Admin sadeleştirme + finans doğruluğu | ~5 gün | bekliyor |
 | 4 | Marka, görseller, içerik, yasal metinler | 4-6 gün + içerik | bekliyor |
@@ -277,7 +277,9 @@ COMMIT;
 12. **Testler:** vitest (`istanbul.ts`, `dates.ts`, ayar şeması).
 13. **Misafir siparişini hesaba bağlama + cihaz hafızası:** `/api/orders/create` cevabına imzalı `trackingToken` (HMAC, `LINK_SIGNING_SECRET`, sipariş id'sine bağlı) eklenir; takip linki `/siparis-takip/<no>?t=<token>` token varsa tam görünüm verir (son 4 hane formu yedek yol). Sipariş no + token tarayıcıda saklanır → "Siparişlerim" giriş yapmadan o cihazdaki siparişleri listeler. Başarı penceresinde "Siparişini hesabına kaydet" (Google / e-posta kodu); giriş sonrası `POST /api/orders/claim` cihazdaki token'larla `user_id` boş siparişleri hesaba bağlar (token şart; telefona göre bağlama YOK — doğrulanmamış telefon başkasının siparişini açar). Giriş yapmış müşteri sepette ad/telefon/adresi profilden doldurur, yeni adresi kaydedebilir.
 
-**014 (uygulama yayınlandıktan SONRA; uygulama artık ISO tarih gönderiyor olmalı):**
+**Uygulama notları (4 Eki):** takip token'ı `LINK_SIGNING_SECRET` yoksa service-role anahtarından türetilir (ek env gerekmez); müşteri konumu yalnızca siparişe yazılır (`customer_locations` artık kullanılmıyor, tablo silinmedi); misafir "Siparişlerim" sayfası `/siparislerim` (giriş gerektirmez); sabit kimlikli çapraz satış butonları kaldırıldı (Faz 2'de `cross_sell` ile gelir); admin ayarlar sayfası tüm yeni alanları yönetir ve canlı tarih önizlemesi gösterir.
+
+**014 (uygulama yayınlandıktan SONRA; uygulama artık ISO tarih gönderiyor olmalı):** dosya `supabase/migrations/014_order_core.sql`, duman testi `supabase/tests/014_smoke.sql`. 4 Eki canlı ön kontrol: 4 sipariş (2 `today`, 2 `tomorrow`), yinelenen idempotency anahtarı yok, `delivery_date`'e bağlı görünüm yok.
 ```sql
 -- ön kontrol (ayrı): SELECT delivery_date, count(*) FROM public.orders GROUP BY 1 ORDER BY 2 DESC;
 ALTER TABLE public.orders ALTER COLUMN delivery_date DROP DEFAULT;

@@ -18,6 +18,7 @@ import {
  Share2,
  MessageSquare,
 } from "lucide-react";
+import { SITE_URL } from "@/lib/site";
 
 interface EditorialArticleViewProps {
  article: JournalArticle;
@@ -222,7 +223,7 @@ export function EditorialArticleView({ article}: EditorialArticleViewProps) {
  <div className="flex items-center gap-2.5">
  <a
  href={`https://api.whatsapp.com/send?text=${encodeURIComponent(
- `"${article.title}" - EkmekLab Bilim & Zanaat Araştırması: https://ekmeklab.com/kutuphane/${article.slug}`
+ `"${article.title}" - EkmekLab Bilim & Zanaat Araştırması: ${SITE_URL}/kutuphane/${article.slug}`
  )}`}
  target="_blank"
  rel="noopener noreferrer"

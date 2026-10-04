@@ -25,6 +25,7 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import html2canvas from "html2canvas";
+import { SITE_URL } from "@/lib/site";
 
 interface SlipItem {
   name: string;
@@ -195,9 +196,9 @@ export default function PublicReceiptPage() {
     setSharing(true);
 
     const ekstreUrl = slip.cariId
-      ? `https://ekmeklab.tr/ekstre/${slip.cariId}`
-      : `https://ekmeklab.tr/fis/${slip.id}`;
-    const fisUrl = `https://ekmeklab.tr/fis/${slip.id}`;
+      ? `${SITE_URL}/ekstre/${slip.cariId}`
+      : `${SITE_URL}/fis/${slip.id}`;
+    const fisUrl = `${SITE_URL}/fis/${slip.id}`;
     const slipNum = slip.slipNumber || slip.orderNumber || "FİŞ";
     const totalStr = slip.totalAmount.toLocaleString("tr-TR") + " ₺";
     const newBalStr = (slip.newBalance ?? slip.totalAmount).toLocaleString("tr-TR") + " ₺";

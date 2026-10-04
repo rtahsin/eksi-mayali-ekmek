@@ -4,6 +4,9 @@ import { useState, useEffect, useMemo, useCallback } from "react";
 import { createClient, isSupabaseConfigured } from "@/lib/supabase/client";
 import { AdminOrder, AdminOrderStatus, AdminPaymentMethod, OrderSource } from "@/types/admin";
 import { getErrorMessage } from "@/lib/utils/error";
+import { addDays, istanbulToday, normalizeDeliveryDate } from "@/lib/time/istanbul";
+import { computeShippingFee } from "@/lib/settings/schema";
+import { useStoreSettings } from "@/hooks/useStoreSettings";
 
 export function normalizeOrderStatus(rawStatus?: string): AdminOrderStatus {
   if (!rawStatus) return "bekliyor";
@@ -91,6 +94,7 @@ export function useAdminOrders(options: UseAdminOrdersOptions = {}) {
   const [searchQuery, setSearchQuery] = useState<string>("");
 
   const supabase = createClient();
+  const { settings: storeSettings } = useStoreSettings();
 
   const fetchSupabaseOrders = useCallback(async () => {
     if (!supabase || !isSupabaseConfigured()) {
@@ -128,11 +132,8 @@ export function useAdminOrders(options: UseAdminOrdersOptions = {}) {
             weight: it.weight || undefined,
           }));
 
-          const d =
-            o.delivery_date ||
-            (o.created_at
-              ? new Date(o.created_at).toISOString().split("T")[0]
-              : new Date().toISOString().split("T")[0]);
+          // Eski "today"/"tomorrow"/"custom:" kayıtları sipariş anına göre ISO tarihe çevrilir (K1)
+          const d = normalizeDeliveryDate(o.delivery_date, o.created_at);
 
           return {
             id: o.id,
@@ -374,7 +375,7 @@ export function useAdminOrders(options: UseAdminOrdersOptions = {}) {
       if (!supabase) return { success: false, error: "Supabase bağlantısı yok" };
 
       const subtotal = (orderData.items || []).reduce((sum, it) => sum + it.totalPrice, 0);
-      const shippingFee = subtotal >= 1000 ? 0 : 150;
+      const shippingFee = computeShippingFee(subtotal, storeSettings);
       const totalAmount = subtotal + shippingFee;
       const orderId = crypto.randomUUID();
 
@@ -405,7 +406,7 @@ export function useAdminOrders(options: UseAdminOrdersOptions = {}) {
         delivery_address: orderData.deliveryAddress || "",
         neighborhood: orderData.neighborhood || "",
         delivery_method: "courier",
-        delivery_date: orderData.deliveryDate || new Date().toISOString().split("T")[0],
+        delivery_date: orderData.deliveryDate || istanbulToday(),
         status: orderData.status || "bekliyor",
         payment_method: orderData.paymentMethod || "cash_on_delivery",
         payment_status: orderData.paymentStatus || "pending",
@@ -453,12 +454,9 @@ export function useAdminOrders(options: UseAdminOrdersOptions = {}) {
   };
 
   // Date constants
-  const todayStr = useMemo(() => new Date().toISOString().split("T")[0], []);
-  const tomorrowStr = useMemo(() => {
-    const tm = new Date();
-    tm.setDate(tm.getDate() + 1);
-    return tm.toISOString().split("T")[0];
-  }, []);
+  // İstanbul takvimi (UTC değil): gece yarısından sonra da doğru gün
+  const todayStr = useMemo(() => istanbulToday(), []);
+  const tomorrowStr = useMemo(() => addDays(todayStr, 1), [todayStr]);
 
   // Filtered orders
   const filteredOrders = useMemo(() => {

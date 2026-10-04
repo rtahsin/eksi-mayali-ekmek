@@ -4,197 +4,156 @@ import { getErrorMessage } from "@/lib/utils/error";
 import { verifyApiAuth } from "@/lib/security/apiAuth";
 import { checkRateLimit } from "@/lib/security/rateLimiter";
 import { parseOrderLookup } from "@/lib/orders/orderId";
+import { verifyOrderToken } from "@/lib/security/linkToken";
+import { CUSTOMER_CANCELLABLE, normalizeOrderStatus } from "@/lib/orders/normalize";
+import { normalizeDeliveryDate } from "@/lib/time/istanbul";
+import type { TrackingOrder } from "@/types/tracking";
 
-export async function GET(
-  _req: Request,
-  props: { params: Promise<{ id: string }> }
-) {
+interface OrderRow {
+  id: string;
+  order_number: string | null;
+  user_id: string | null;
+  courier_id: string | null;
+  cari_id: string | null;
+  customer_name: string | null;
+  phone: string | null;
+  neighborhood: string | null;
+  address_detail: string | null;
+  delivery_date: string | null;
+  delivery_time_window: string | null;
+  status: string;
+  payment_method: string | null;
+  subtotal: number | string | null;
+  shipping_fee: number | string | null;
+  total_amount: number | string | null;
+  order_notes: string | null;
+  cancel_reason: string | null;
+  created_at: string;
+  order_items: { product_name: string | null; quantity: number | null; unit_price: number | string | null; total_price: number | string | null }[] | null;
+}
+
+const maskName = (name: string) =>
+  name
+    .trim()
+    .split(/\s+/)
+    .map((p) => (p.length > 1 ? p[0] + "*".repeat(p.length - 1) : p))
+    .join(" ");
+
+const maskPhone = (phone: string) => {
+  const clean = phone.replace(/\D/g, "");
+  return clean.length < 7 ? "***" : `${clean.slice(0, 3)} *** ** ${clean.slice(-2)}`;
+};
+
+const num = (v: number | string | null) => (v === null || v === undefined ? null : Number(v));
+
+function getClientIp(req: Request): string {
+  const forwarded = req.headers.get("x-forwarded-for");
+  return forwarded ? forwarded.split(",")[0].trim() : req.headers.get("x-real-ip") || "127.0.0.1";
+}
+
+export async function GET(req: Request, props: { params: Promise<{ id: string }> }) {
   try {
-    const params = await props.params;
-    const lookup = parseOrderLookup(params.id);
-
+    const lookup = parseOrderLookup((await props.params).id);
     if (!lookup) {
-      return NextResponse.json(
-        { error: "Geçersiz sipariş numarası", code: "INVALID_ID" },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: "Geçersiz sipariş numarası", code: "INVALID_ID" }, { status: 400 });
     }
 
-    // IP Rate Limiting (30 requests per minute)
-    const forwardedFor = _req.headers.get("x-forwarded-for");
-    const clientIp = forwardedFor ? forwardedFor.split(",")[0].trim() : "127.0.0.1";
+    const clientIp = getClientIp(req);
     const ipLimit = await checkRateLimit(`order_get_${clientIp}`, 30, 60000);
     if (!ipLimit.allowed) {
       return NextResponse.json(
-        {
-          error: `Çok fazla istek yapıldı. Lütfen ${ipLimit.retryAfterSeconds} saniye sonra tekrar deneyin.`,
-          code: "RATE_LIMITED",
-        },
+        { error: `Çok fazla istek yapıldı. Lütfen ${ipLimit.retryAfterSeconds} saniye sonra tekrar deneyin.`, code: "RATE_LIMITED" },
         { status: 429 }
       );
     }
 
     const supabase = createAdminClient();
     if (!supabase) {
-      return NextResponse.json(
-        { error: "Veritabanı bağlantısı kurulamadı", code: "DB_CONNECTION_ERROR" },
-        { status: 500 }
-      );
+      return NextResponse.json({ error: "Veritabanı bağlantısı kurulamadı", code: "DB_CONNECTION_ERROR" }, { status: 500 });
     }
 
-    // 1. Fetch order details with items (ORD-… / UUID id or SIP-YYMM-XXX order_number)
-    const { data: order, error: orderErr } = await supabase
+    const { data, error: orderErr } = await supabase
       .from("orders")
-      .select("*, order_items(*)")
+      .select(
+        "id, order_number, user_id, courier_id, cari_id, customer_name, phone, neighborhood, address_detail, delivery_date, delivery_time_window, status, payment_method, subtotal, shipping_fee, total_amount, order_notes, cancel_reason, created_at, order_items(product_name, quantity, unit_price, total_price)"
+      )
       .eq(lookup.column, lookup.value)
       .maybeSingle();
 
-    if (orderErr || !order) {
-      return NextResponse.json(
-        { error: "Sipariş bulunamadı", code: "NOT_FOUND" },
-        { status: 404 }
-      );
+    if (orderErr || !data) {
+      return NextResponse.json({ error: "Sipariş bulunamadı", code: "NOT_FOUND" }, { status: 404 });
     }
+    const order = data as unknown as OrderRow;
 
-    // 2. Authorization check via JWT / Auth header
-    const auth = await verifyApiAuth(_req);
-    let isAuthorized = false;
+    // Yetki: admin, atanmış kurye, sipariş sahibi, imzalı takip linki ya da telefonun son 4 hanesi
+    const url = new URL(req.url);
+    const auth = await verifyApiAuth(req);
+    const isOwner = Boolean(auth.isAuthenticated && order.user_id && auth.userId === order.user_id);
+    let isAuthorized =
+      auth.isAdmin ||
+      (auth.isCourier && Boolean(auth.courierDbId) && auth.courierDbId === order.courier_id) ||
+      isOwner ||
+      verifyOrderToken(order.id, url.searchParams.get("t"));
 
-    if (auth.isAuthenticated) {
-      if (auth.isAdmin) {
-        isAuthorized = true;
-      } else if (auth.isCourier && auth.courierDbId === order.courier_id) {
-        isAuthorized = true;
-      } else if (order.user_id && auth.userId === order.user_id) {
-        isAuthorized = true;
-      }
-    }
-
-    // 3. Guest verification via phone number parameter
-    const url = new URL(_req.url);
-    const verifyPhone = url.searchParams.get("phone");
-    if (!isAuthorized && verifyPhone) {
-      // Brute-force protection for phone verification (5 attempts per 5 minutes per IP/Order)
-      const phoneVerifyLimit = await checkRateLimit(`phone_verify_${clientIp}_${order.id}`, 5, 300000);
-      if (!phoneVerifyLimit.allowed) {
+    const phoneParam = url.searchParams.get("phone");
+    if (!isAuthorized && phoneParam) {
+      const verifyLimit = await checkRateLimit(`phone_verify_${clientIp}_${order.id}`, 5, 600000);
+      if (!verifyLimit.allowed) {
         return NextResponse.json(
-          {
-            error: "Çok fazla hatalı telefon doğrulama denemesi yapıldı. Lütfen bir süre bekleyin.",
-            code: "TOO_MANY_VERIFY_ATTEMPTS",
-          },
+          { error: "Çok fazla hatalı deneme yapıldı. Lütfen bir süre bekleyin.", code: "TOO_MANY_VERIFY_ATTEMPTS" },
           { status: 429 }
         );
       }
-
-      const cleanVerify = verifyPhone.replace(/\D/g, "");
-      const cleanOrderPhone = (order.phone || "").replace(/\D/g, "");
-      if (cleanVerify.length >= 4 && cleanOrderPhone.endsWith(cleanVerify)) {
+      const last4 = phoneParam.replace(/\D/g, "");
+      const orderPhone = (order.phone || "").replace(/\D/g, "");
+      if (last4.length === 4 && orderPhone.length >= 4 && orderPhone.endsWith(last4)) {
         isAuthorized = true;
+      } else {
+        return NextResponse.json({ error: "Telefon numarasının son 4 hanesi eşleşmedi.", code: "PHONE_MISMATCH" }, { status: 403 });
       }
     }
 
-    // 4. Fetch courier info if assigned
-    let courierInfo = null;
-    if (order.courier_id) {
-      const { data: courier } = await supabase
-        .from("couriers")
-        .select("id, display_name, phone, vehicle_type, is_on_shift, current_lat, current_lng, location_updated_at")
-        .eq("id", order.courier_id)
-        .single();
-      courierInfo = courier || null;
-    }
-
-    // 5. Fetch latest customer location if shared
-    let customerLatestLocation = null;
-    if (order.location_shared) {
-      const { data: loc } = await supabase
-        .from("customer_locations")
-        .select("lat, lng, accuracy, heading, speed, created_at")
-        .eq("order_id", order.id)
-        .order("created_at", { ascending: false })
-        .limit(1)
-        .single();
-      customerLatestLocation = loc || null;
-    }
-
-    // 6. Fetch status history
-    const { data: history } = await supabase
+    const { data: historyRows } = await supabase
       .from("order_status_history")
-      .select("*")
+      .select("to_status, created_at")
       .eq("order_id", order.id)
       .order("created_at", { ascending: true });
 
-    // Helper to mask PII for unauthorized public tracking queries
-    const maskName = (name: string) => {
-      const parts = (name || "").trim().split(/\s+/);
-      return parts.map((p) => (p.length > 1 ? p[0] + "*".repeat(p.length - 1) : p)).join(" ");
-    };
+    const status = normalizeOrderStatus(order.status);
+    const items = order.order_items ?? [];
 
-    const maskPhone = (phone: string) => {
-      const clean = (phone || "").replace(/\D/g, "");
-      if (clean.length < 7) return "***";
-      return clean.slice(0, 3) + " *** ** " + clean.slice(-2);
-    };
-
-    if (isAuthorized) {
-      // 7. Fetch payments (only for authorized users)
-      const { data: payments } = await supabase
-        .from("payments")
-        .select("*")
-        .eq("order_id", order.id)
-        .order("created_at", { ascending: false });
-
-      return NextResponse.json({
-        success: true,
-        order: {
-          ...order,
-          items: order.order_items || [],
-          history: history || [],
-          payments: payments || [],
-          courier: courierInfo,
-          customerLocation: customerLatestLocation,
-          isAuthorized: true,
-          isMasked: false,
-        },
-      });
-    }
-
-    // Unauthorized / Public tracking view (strictly masked - no financial details or raw PII)
-    const safeOrder = {
+    const result: TrackingOrder = {
       id: order.id,
-      order_number: order.order_number,
-      customer_name: maskName(order.customer_name),
-      phone: maskPhone(order.phone),
-      delivery_address: order.neighborhood ? `${order.neighborhood} Mah., Beylikdüzü` : "Beylikdüzü",
+      orderNumber: order.order_number || order.id,
+      status,
+      deliveryDate: normalizeDeliveryDate(order.delivery_date, order.created_at),
+      deliveryTimeWindow: order.delivery_time_window,
       neighborhood: order.neighborhood,
-      delivery_method: order.delivery_method,
-      delivery_date: order.delivery_date,
-      delivery_time_window: order.delivery_time_window,
-      status: order.status,
-      // Mask financial totals for unauthenticated public viewers
-      subtotal: null,
-      shipping_fee: null,
-      total_amount: null,
-      // Strip unit prices from items for public tracking
-      items: (order.order_items || []).map((it: { product_name?: string; quantity?: number }) => ({
-        product_name: it.product_name,
-        quantity: it.quantity,
+      items: items.map((it) => ({
+        name: it.product_name || "Ürün",
+        quantity: Number(it.quantity) || 1,
+        unitPrice: isAuthorized ? num(it.unit_price) : null,
+        totalPrice: isAuthorized ? num(it.total_price) : null,
       })),
-      // Only return stage progression timestamps, no internal admin/courier notes
-      history: (history || []).map((h: { from_status: string; to_status: string; created_at: string }) => ({
-        from_status: h.from_status,
-        to_status: h.to_status,
-        created_at: h.created_at,
+      subtotal: isAuthorized ? num(order.subtotal) : null,
+      shippingFee: isAuthorized ? num(order.shipping_fee) : null,
+      totalAmount: isAuthorized ? num(order.total_amount) : null,
+      paymentMethod: isAuthorized ? order.payment_method : null,
+      customerName: isAuthorized ? order.customer_name || "" : maskName(order.customer_name || ""),
+      phone: maskPhone(order.phone || ""),
+      addressDetail: isAuthorized ? order.address_detail : null,
+      orderNotes: isAuthorized ? order.order_notes : null,
+      createdAt: order.created_at,
+      cancelReason: order.cancel_reason,
+      history: (historyRows ?? []).map((h: { to_status: string; created_at: string }) => ({
+        status: normalizeOrderStatus(h.to_status),
+        at: h.created_at,
       })),
-      // Kurye bilgisi (konum dahil) doğrulanmamış görünümde hiç paylaşılmaz
-      isMasked: true,
-      isAuthorized: false,
+      canCancel: isAuthorized && !order.cari_id && CUSTOMER_CANCELLABLE.has(status),
+      isMasked: !isAuthorized,
     };
 
-    return NextResponse.json({
-      success: true,
-      order: safeOrder,
-    });
+    return NextResponse.json({ success: true, order: result }, { headers: { "Cache-Control": "no-store" } });
   } catch (err: unknown) {
     console.error("GET /api/orders/[id] error:", err);
     return NextResponse.json(

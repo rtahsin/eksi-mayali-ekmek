@@ -54,20 +54,20 @@ export default function GizlilikPage() {
           <section className="space-y-3 bg-surface p-6 rounded-2xl border border-surface-border">
             <h2 className="font-serif text-lg font-bold text-foreground text-artisan-gold flex items-center gap-2">
               <CheckCircle2 className="w-4 h-4 text-emerald-400" />
-              <span>2. Ödeme ve Kart Bilgileri Güvenliği</span>
+              <span>2. Ödeme Bilgileri</span>
             </h2>
             <p>
-              EkmekLab platformunda alışveriş güvenliğiniz en üst seviyede tutulur:
+              EkmekLab web sitesi üzerinden online kart ödemesi alınmaz:
             </p>
             <ul className="list-disc list-inside space-y-1.5 text-foreground/75 text-xs sm:text-sm pl-2">
               <li>
-                <strong>Kredi ve Banka Kartı Bilgileri Asla Saklanmaz:</strong> Sipariş sırasında girdiğiniz kredi veya banka kartı bilgileri, CVV kodları ve şifreler sistemlerimizde veya sunucularımızda <strong>hiçbir şekilde kaydedilmez, saklanmaz ve görüntülenemez</strong>.
+                <strong>Kart bilgisi istenmez ve saklanmaz:</strong> Sipariş sırasında kredi/banka kartı bilgisi girilmez; sistemlerimizde kart bilgisi bulunmaz.
               </li>
               <li>
-                <strong>256-Bit SSL Şifreleme:</strong> Tüm ödeme akışları, bankalar ve lisanslı ödeme kuruluşları (BDDK ve TCMB onaylı) arasında doğrudan 256-bit SSL güvenlik sertifikası ile şifreli olarak gerçekleştirilir.
+                <strong>Ödeme teslimatta yapılır:</strong> Kapıda nakit, kapıda kartla (POS cihazı) ya da WhatsApp üzerinden anlaşarak ödeme yapılır.
               </li>
               <li>
-                <strong>Kapıda Ödeme ve Güvenlik:</strong> Arzu eden müşterilerimiz için kendi fırın kuryemiz aracılığıyla kapıda nakit veya temassız POS ödeme seçeneği de sunulmaktadır.
+                <strong>Bağlantı güvenliği:</strong> Sitemizle aranızdaki tüm iletişim SSL/TLS ile şifrelenir.
               </li>
             </ul>
           </section>

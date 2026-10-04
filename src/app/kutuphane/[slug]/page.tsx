@@ -2,6 +2,7 @@ import React from "react";
 import type { Metadata } from "next";
 import { JOURNAL_ARTICLES } from "@/data/journalArticles";
 import { DynamicArticleReader } from "@/components/journal/DynamicArticleReader";
+import { SITE_URL } from "@/lib/site";
 
 export function generateStaticParams() {
   return JOURNAL_ARTICLES.map((art) => ({
@@ -29,7 +30,7 @@ export async function generateMetadata({ params }: ArticlePageProps): Promise<Me
     openGraph: {
       title: article.title,
       description: article.subtitle,
-      url: `https://ekmeklab.com/kutuphane/${article.slug}`,
+      url: `${SITE_URL}/kutuphane/${article.slug}`,
       siteName: "EkmekLab",
       locale: "tr_TR",
       type: "article",

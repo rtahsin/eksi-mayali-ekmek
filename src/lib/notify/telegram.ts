@@ -1,0 +1,58 @@
+import * as Sentry from "@sentry/nextjs";
+import { SITE_URL } from "@/lib/site";
+import { formatTrDate } from "@/lib/time/istanbul";
+
+export interface NewOrderNotice {
+  orderNumber: string;
+  orderId: string;
+  deliveryDate: string;
+  neighborhood: string;
+  items: { name: string; quantity: number }[];
+  totalAmount: number;
+  paymentMethod: string;
+}
+
+const PAYMENT_LABELS: Record<string, string> = {
+  cash_on_delivery: "Kapıda nakit",
+  pos_at_door: "Kapıda POS",
+  whatsapp: "WhatsApp'ta anlaşma",
+};
+
+/**
+ * Yeni sipariş bildirimini Telegram'a gönderir. KVKK: ad, telefon ve adres GÖNDERİLMEZ.
+ * Hiçbir koşulda hata fırlatmaz (sipariş akışını bozmaz); 3 sn zaman aşımı; hatalar Sentry'ye.
+ * `TELEGRAM_BOT_TOKEN` / `TELEGRAM_CHAT_ID` yoksa sessizce atlar.
+ */
+export async function notifyNewOrder(order: NewOrderNotice): Promise<void> {
+  const token = process.env.TELEGRAM_BOT_TOKEN;
+  const chatId = process.env.TELEGRAM_CHAT_ID;
+  if (!token || !chatId) return;
+
+  const isPreview = process.env.VERCEL_ENV && process.env.VERCEL_ENV !== "production";
+  const lines = [
+    `${isPreview ? "[TEST] " : ""}🍞 Yeni sipariş ${order.orderNumber}`,
+    `📅 ${formatTrDate(order.deliveryDate, "long")}`,
+    `📍 ${order.neighborhood || "-"}`,
+    ...order.items.map((it) => `• ${it.quantity} × ${it.name}`),
+    `💰 ${order.totalAmount.toLocaleString("tr-TR")} ₺ — ${PAYMENT_LABELS[order.paymentMethod] ?? order.paymentMethod}`,
+    `${SITE_URL}/admin/siparisler/${encodeURIComponent(order.orderId)}`,
+  ];
+
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), 3000);
+  try {
+    const res = await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ chat_id: chatId, text: lines.join("\n"), disable_web_page_preview: true }),
+      signal: controller.signal,
+    });
+    if (!res.ok) {
+      Sentry.captureMessage(`Telegram notify failed: HTTP ${res.status}`, "warning");
+    }
+  } catch (err: unknown) {
+    Sentry.captureException(err, { tags: { area: "telegram_notify" } });
+  } finally {
+    clearTimeout(timer);
+  }
+}

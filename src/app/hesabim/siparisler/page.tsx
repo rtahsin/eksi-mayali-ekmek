@@ -64,7 +64,6 @@ export default function MusteriSiparislerPage() {
       if (activeTab === "active") {
         return (
           o.status === "bekliyor" ||
-          o.status === "onay_bekliyor" ||
           o.status === "hazirlaniyor" ||
           o.status === "firinda" ||
           o.status === "kuryede"

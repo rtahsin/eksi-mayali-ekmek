@@ -82,7 +82,7 @@ export default function MesafeliSatisPage() {
             </h2>
             <ul className="list-disc list-inside space-y-1.5 text-foreground/75 text-xs sm:text-sm pl-2">
               <li>Ürünlerin cinsi, miktarı, birim fiyatı ve toplam bedeli sipariş özetinde ve Alıcı&apos;ya iletilen sipariş teyidinde belirtildiği gibidir. Tüm fiyatlara KDV dahildir.</li>
-              <li>Ödeme; web sitesi üzerinden kredi/banka kartı ile güvenli online ödeme veya sipariş tesliminde fırın kuryemize kapıda nakit/kredi kartı şeklinde gerçekleştirilebilir.</li>
+              <li>Ödeme, sipariş tesliminde kapıda nakit veya kapıda kartla (POS cihazı) ya da WhatsApp üzerinden anlaşılan şekilde yapılır. Web sitesi üzerinden online kart ödemesi alınmaz.</li>
               <li>Ön sipariş gerektiren özel fermantasyon ekmekler siparişin onaylanmasını takip eden belirlenen fırın çıkış gününde hazırlanır.</li>
             </ul>
           </section>
@@ -95,7 +95,7 @@ export default function MesafeliSatisPage() {
             </h2>
             <ul className="list-disc list-inside space-y-1.5 text-foreground/75 text-xs sm:text-sm pl-2">
               <li><strong>Teslimat Bölgesi:</strong> Ürünlerimizin tazeliğini, sıcaklığını ve soğuk zincirini korumak adına teslimatlar <em>İstanbul - Beylikdüzü ilçesi sınırları dahilinde</em> kendi fırın kuryemizle kapıya yapılmaktadır.</li>
-              <li><strong>Ücretsiz Teslimat Eşiği:</strong> <strong>1.000 TL ve üzeri</strong> siparişlerde fırın kuryesi teslimatı <strong>ÜCRETSİZDİR</strong>. 1.000 TL altındaki siparişlerde standart 150 TL kurye teslimat ücreti sepet toplamına eklenir.</li>
+              <li><strong>Teslimat Ücreti:</strong> Teslimat ücreti, varsa ücretsiz teslimat eşiği ve minimum sipariş tutarı sipariş anında sepette açıkça gösterilir ve siparişin onaylandığı andaki tutarlar geçerlidir.</li>
               <li><strong>Teslimat Zamanı:</strong> Günlük taze ekmekler ve siparişler, belirtilen dağıtım saatleri (14:00 - 18:00) arasında Alıcı&apos;nın belirttiği adrese ulaştırılır.</li>
             </ul>
           </section>

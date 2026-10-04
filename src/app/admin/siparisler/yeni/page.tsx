@@ -33,6 +33,8 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { WhatsAppOrderParserModal } from "@/components/admin/WhatsAppOrderParserModal";
+import { istanbulToday } from "@/lib/time/istanbul";
+import { SITE_URL } from "@/lib/site";
 
 function ManualOrderForm() {
   const router = useRouter();
@@ -55,13 +57,7 @@ function ManualOrderForm() {
   const [phone, setPhone] = useState("");
   const [deliveryAddress, setDeliveryAddress] = useState("");
   const [neighborhood, setNeighborhood] = useState<string>("Adnan Kahveci");
-  const [deliveryDate, setDeliveryDate] = useState<string>(() => {
-    const d = new Date();
-    if (d.getHours() >= 13) {
-      d.setDate(d.getDate() + 1);
-    }
-    return d.toISOString().split("T")[0];
-  });
+  const [deliveryDate, setDeliveryDate] = useState<string>(() => istanbulToday());
   const [deliveryTimeWindow, setDeliveryTimeWindow] = useState("14:00 - 18:00");
   const [paymentMethod, setPaymentMethod] = useState<AdminPaymentMethod>("cash_on_delivery");
   const [source, setSource] = useState<OrderSource>("whatsapp");
@@ -209,7 +205,7 @@ function ManualOrderForm() {
         const itemsSummary = selectedItems
           .map((it) => `${it.quantity}x ${it.productName}`)
           .join(", ");
-        const trackingUrl = `https://ekmeklab.tr/siparis-takip/${res.id || ""}`;
+        const trackingUrl = `${SITE_URL}/siparis-takip/${res.id || ""}`;
         const text = `Merhaba ${customerName},\nEkmekLab taş fırın siparişiniz kaydedildi: ${itemsSummary}.\n\n📅 Teslimat Günü: ${deliveryDate} (${deliveryTimeWindow})\n💰 Toplam Tutar: ${totalAmount} ₺\n\n🔗 Siparişinizi canlı takip etmek için:\n${trackingUrl}\n\nTeşekkür ederiz! 🍞🌾`;
         window.open(`https://wa.me/${formatted}?text=${encodeURIComponent(text)}`, "_blank");
       }

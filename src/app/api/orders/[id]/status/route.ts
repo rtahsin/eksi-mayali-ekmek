@@ -6,7 +6,6 @@ import { verifyApiAuth } from "@/lib/security/apiAuth";
 
 // Allowed normal state transitions
 const ALLOWED_TRANSITIONS: Record<AdminOrderStatus, AdminOrderStatus[]> = {
-  onay_bekliyor: ["bekliyor", "iptal"],
   bekliyor: ["hazirlaniyor", "iptal"],
   hazirlaniyor: ["firinda", "iptal"],
   firinda: ["kuryede", "iptal"],

@@ -2,34 +2,35 @@ import type { Metadata } from "next";
 import { Fraunces, Lora, Caveat, JetBrains_Mono, Inter } from "next/font/google";
 import { AuthProvider } from "@/components/auth/AuthProvider";
 import "./globals.css";
+import { SITE_URL } from "@/lib/site";
 
 const fraunces = Fraunces({
-  subsets: ["latin"],
+  subsets: ["latin", "latin-ext"],
   variable: "--font-fraunces",
   display: "swap",
 });
 
 const lora = Lora({
-  subsets: ["latin"],
+  subsets: ["latin", "latin-ext"],
   weight: ["400", "500", "600", "700"],
   variable: "--font-lora",
   display: "swap",
 });
 
 const caveat = Caveat({
-  subsets: ["latin"],
+  subsets: ["latin", "latin-ext"],
   variable: "--font-caveat",
   display: "swap",
 });
 
 const jetbrainsMono = JetBrains_Mono({
-  subsets: ["latin"],
+  subsets: ["latin", "latin-ext"],
   variable: "--font-jetbrains-mono",
   display: "swap",
 });
 
 const inter = Inter({
-  subsets: ["latin"],
+  subsets: ["latin", "latin-ext"],
   variable: "--font-inter",
   display: "swap",
 });
@@ -42,7 +43,7 @@ export const viewport = {
 };
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://ekmeklab.com"),
+  metadataBase: new URL(SITE_URL),
   title: "EkmekLab | Taş Fırından Ekşi Mayalı Ekmekler & Şarküteri",
   description:
     "Beylikdüzü'nde ata tohumu unlar ve canlı ekşi mayayla, uzun fermantasyonla hazırlanan katkısız artisan ekmekler ve doğal şarküteri lezzetleri. Fırından çıktığı gün kapınızda.",
@@ -64,7 +65,7 @@ export const metadata: Metadata = {
     title: "EkmekLab | Taş Fırından Ekşi Mayalı Ekmekler",
     description:
       "Ata tohumu taş değirmen unları ve canlı ekşi maya. Beylikdüzü fırınından kapınıza.",
-    url: "https://ekmeklab.com",
+    url: SITE_URL,
     siteName: "EkmekLab",
     locale: "tr_TR",
     type: "website",
@@ -78,11 +79,11 @@ export const metadata: Metadata = {
 const bakeryJsonLd = {
   "@context": "https://schema.org",
   "@type": "Organization",
-  "@id": "https://ekmeklab.com/#bakery",
+  "@id": `${SITE_URL}/#bakery`,
   "name": "EkmekLab",
-  "url": "https://ekmeklab.com",
-  "logo": "https://ekmeklab.com/icons/Icon-512.png",
-  "image": "https://ekmeklab.com/atelier/atelier_threshold.png",
+  "url": SITE_URL,
+  "logo": `${SITE_URL}/icons/Icon-512.png`,
+  "image": `${SITE_URL}/atelier/atelier_threshold.png`,
   "description":
     "Beylikdüzü'nde ata tohumu unlar ve canlı ekşi mayayla, uzun fermantasyonla hazırlanan katkısız artisan ekmekler ve doğal şarküteri lezzetleri.",
   "areaServed": "Beylikdüzü, İstanbul",
