@@ -1,635 +1,760 @@
 "use client";
 
-import React, { useState, useEffect, useMemo } from "react";
-import Image from "next/image";
+import React, { useMemo, useState } from "react";
 import {
-  Layers,
-  Search,
   Plus,
-  Edit3,
-  Check,
+  Search,
+  Pencil,
   X,
-  Sparkles,
-  Wheat,
   Save,
-  RefreshCw,
+  Loader2,
+  Archive,
+  RotateCcw,
+  CalendarDays,
+  Package,
+  Tag,
+  FolderTree,
+  Trash2,
   Eye,
   EyeOff,
-  Filter,
-  Flame,
-  Clock,
-  Droplet,
-  Trash2,
+  AlertCircle,
+  ChevronDown,
 } from "lucide-react";
-import { useProducts, ExtendedProduct, normalizeCategory } from "@/hooks/useProducts";
+import type { ExtendedProduct, ProductCategoryInfo } from "@/types";
+import { emptyProductForm, productToForm, useAdminCatalog, type ProductForm } from "@/hooks/useAdminCatalog";
+import { formatTrDate, istanbulToday } from "@/lib/time/istanbul";
+import { productBadges } from "@/lib/products/badges";
+import { getErrorMessage } from "@/lib/utils/error";
+
+const inputCls =
+  "w-full bg-stone-950 border border-stone-800 rounded-xl px-3 py-2 text-sm text-stone-100 focus:outline-none focus:border-amber-500";
+const tl = (v: number) => `${v.toLocaleString("tr-TR")} ₺`;
 
 export default function AdminProductsPage() {
-  const {
-    products,
-    loading,
-    updateProductPrice,
-    toggleProductStock,
-    saveProduct,
-    deleteProduct,
-    reloadProducts,
-  } = useProducts();
+  const { products, categories, loading, error, saveProduct, archiveProduct, quickUpdate, saveCategory, deleteCategory } =
+    useAdminCatalog();
 
-  const [searchQuery, setSearchQuery] = useState("");
-  const [selectedCategory, setSelectedCategory] = useState<string>("all");
-  const [savingId, setSavingId] = useState<string | null>(null);
+  const [tab, setTab] = useState<"products" | "categories">("products");
+  const [query, setQuery] = useState("");
+  const [categoryFilter, setCategoryFilter] = useState("all");
+  const [showArchived, setShowArchived] = useState(false);
+  const [editing, setEditing] = useState<ProductForm | null>(null);
+  const [busyId, setBusyId] = useState<string | null>(null);
+  const [listError, setListError] = useState<string | null>(null);
 
-  // Edit/Add modal state
-  const [modalOpen, setModalOpen] = useState(false);
-  const [editingProduct, setEditingProduct] = useState<Partial<ExtendedProduct> | null>(null);
-  const [isNewProduct, setIsNewProduct] = useState(false);
-  const [deletingId, setDeletingId] = useState<string | null>(null);
+  const categoryName = (id: string) => categories.find((c) => c.id === id)?.name ?? id;
 
-  // Delete product with confirmation
-  const handleDeleteProduct = async (id: string, name: string) => {
-    const isConfirmed = window.confirm(
-      `"${name}" ürününü katalogdan ve menüden kalıcı olarak silmek istediğinize emin misiniz?`
-    );
-    if (!isConfirmed) return;
+  const visible = useMemo(() => {
+    const q = query.trim().toLocaleLowerCase("tr-TR");
+    return products
+      .filter((p) => (showArchived ? p.isActive === false : p.isActive !== false))
+      .filter((p) => categoryFilter === "all" || p.category === categoryFilter)
+      .filter((p) => !q || p.name.toLocaleLowerCase("tr-TR").includes(q));
+  }, [products, query, categoryFilter, showArchived]);
 
-    setDeletingId(id);
-    const res = await deleteProduct(id);
-    setDeletingId(null);
-
-    if (modalOpen && editingProduct?.id === id) {
-      setModalOpen(false);
-    }
-
-    if (!res.success) {
-      alert("Ürün silinirken bir hata oluştu: " + (res.error || "Bilinmeyen hata"));
+  const runQuick = async (p: ExtendedProduct, patch: Partial<ProductForm>) => {
+    setBusyId(p.id);
+    setListError(null);
+    try {
+      await quickUpdate(p, patch);
+    } catch (err: unknown) {
+      setListError(`${p.name}: ${getErrorMessage(err)}`);
+    } finally {
+      setBusyId(null);
     }
   };
-
-  // Quick inline price update
-  const handlePriceChange = async (id: string, newPrice: number) => {
-    if (isNaN(newPrice) || newPrice < 0) return;
-    setSavingId(id);
-    await updateProductPrice(id, newPrice);
-    setTimeout(() => setSavingId(null), 300);
-  };
-
-  // Quick inline stock toggle
-  const handleStockToggle = async (id: string, currentStatus?: boolean) => {
-    setSavingId(id);
-    await toggleProductStock(id, currentStatus);
-    setTimeout(() => setSavingId(null), 300);
-  };
-
-  // Open Edit Modal
-  const openEditModal = (product: ExtendedProduct) => {
-    setIsNewProduct(false);
-    setEditingProduct({ ...product });
-    setModalOpen(true);
-  };
-
-  // Open New Product Modal
-  const openNewModal = () => {
-    setIsNewProduct(true);
-    const newId = `prod_${Date.now().toString(36)}`;
-    setEditingProduct({
-      id: newId,
-      name: "",
-      description: "",
-      price: 150,
-      category: "bread",
-      stock: 50,
-      weight: 800,
-      weightUnit: "g",
-      imageUrl: "https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=900&q=85",
-      isAvailable: true,
-      isActive: true,
-      masterclass: {
-        flourHeritage: "",
-        technique: "",
-        healthBenefit: "",
-        pairingStorage: "",
-      },
-    });
-    setModalOpen(true);
-  };
-
-  // Save Modal
-  const handleSaveModal = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!editingProduct || !editingProduct.name) return;
-
-    const prodId = editingProduct.id || `prod_${Date.now().toString(36)}`;
-    const finalProduct: Partial<ExtendedProduct> = {
-      ...editingProduct,
-      id: prodId,
-      price: Number(editingProduct.price) || 0,
-      weight: Number(editingProduct.weight) || 800,
-      stock: Number(editingProduct.stock) || 25,
-      isAvailable: editingProduct.isAvailable !== false,
-      isActive: true,
-    };
-
-    const res = await saveProduct(finalProduct);
-    if (res.success) {
-      setModalOpen(false);
-      setEditingProduct(null);
-    } else {
-      alert("Ürün kaydedilirken hata oluştu: " + res.error);
-    }
-  };
-
-  const handleDelete = async (id: string) => {
-    if (confirm("Bu ürünü listeden kaldırmak istediğinize emin misiniz?")) {
-      await deleteProduct(id);
-    }
-  };
-
-  // Filtered Products
-  const filteredProducts = useMemo(() => {
-    return products.filter((p) => {
-      // Category filter
-      if (selectedCategory !== "all") {
-        const norm = normalizeCategory(p.category);
-        if (selectedCategory === "bread" && norm !== "bread") return false;
-        if (selectedCategory === "gurme" && norm !== "gurme") return false;
-        if (selectedCategory === "specialty" && norm !== "specialty") return false;
-      }
-
-      // Search
-      if (searchQuery.trim()) {
-        const q = searchQuery.toLowerCase();
-        const matchName = p.name.toLowerCase().includes(q);
-        const matchDesc = p.description?.toLowerCase().includes(q);
-        if (!matchName && !matchDesc) return false;
-      }
-
-      return true;
-    });
-  }, [products, selectedCategory, searchQuery]);
 
   return (
-    <div className="space-y-6 max-w-7xl mx-auto pb-16">
-      {/* Top Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-stone-900/80 p-6 rounded-2xl border border-stone-800 shadow-xl">
+    <div className="space-y-5 max-w-5xl mx-auto pb-16">
+      <div className="bg-stone-900/80 p-5 sm:p-6 rounded-2xl border border-stone-800 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <div className="flex items-center gap-2 text-xs font-semibold text-amber-500 uppercase tracking-widest mb-1">
-            <Layers className="w-3.5 h-3.5" />
-            <span>Katalog ve Fiyat Yönetimi</span>
-          </div>
-          <h1 className="text-2xl font-bold text-stone-100 font-serif">
-            Ürünler & Gurme Lezzetler
-          </h1>
+          <h1 className="text-2xl font-bold text-stone-100 font-serif">Ürünler</h1>
           <p className="text-stone-400 text-xs mt-1">
-            Taş fırın ekmekleri, mandıra & gurme ürünleri için anında fiyat, stok ve fermantasyon DNA düzenlemesi.
+            Fiyat, kampanya, satış günleri, paketler ve kategoriler. Değişiklikler vitrinde en geç 1 dakikada görünür.
           </p>
         </div>
-
-        <div className="flex items-center gap-3">
+        <div className="flex gap-2">
           <button
-            onClick={reloadProducts}
-            className="p-2.5 rounded-xl bg-stone-800 hover:bg-stone-700 text-stone-300 transition-colors border border-stone-700"
-            title="Kataloğu Yenile"
+            type="button"
+            onClick={() => setTab(tab === "products" ? "categories" : "products")}
+            className="px-4 py-2.5 rounded-xl bg-stone-800 hover:bg-stone-700 text-stone-200 text-sm font-semibold flex items-center gap-2"
           >
-            <RefreshCw className={`w-4 h-4 ${loading ? "animate-spin text-amber-400" : ""}`} />
+            {tab === "products" ? <FolderTree className="w-4 h-4" /> : <Package className="w-4 h-4" />}
+            {tab === "products" ? "Kategoriler" : "Ürünler"}
           </button>
-          <button
-            onClick={openNewModal}
-            className="flex items-center gap-2 px-4 py-2.5 bg-amber-500 hover:bg-amber-400 text-stone-950 font-bold rounded-xl transition-all shadow-lg shadow-amber-500/20 active:scale-95 text-sm"
-          >
-            <Plus className="w-4 h-4" />
-            <span>Yeni Ürün Ekle</span>
-          </button>
+          {tab === "products" && (
+            <button
+              type="button"
+              onClick={() => setEditing(emptyProductForm(categories[0]?.id ?? "bread"))}
+              className="px-4 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-stone-950 text-sm font-bold flex items-center gap-2"
+            >
+              <Plus className="w-4 h-4" /> Yeni ürün
+            </button>
+          )}
         </div>
       </div>
 
-      {/* Filter and Search Bar */}
-      <div className="bg-stone-900/60 border border-stone-800 p-4 rounded-2xl flex flex-col md:flex-row gap-4 justify-between items-center">
-        {/* Search */}
-        <div className="relative w-full md:w-80">
-          <Search className="w-4 h-4 text-stone-500 absolute left-3.5 top-1/2 -translate-y-1/2" />
-          <input
-            type="text"
-            placeholder="Ürün adı veya açıklama ile ara..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full bg-stone-950 border border-stone-800 rounded-xl pl-10 pr-4 py-2 text-sm text-stone-200 placeholder-stone-500 focus:outline-none focus:border-amber-500/60 transition-colors"
-          />
-        </div>
-
-        {/* Category Pills */}
-        <div className="flex items-center gap-2 overflow-x-auto w-full md:w-auto pb-2 md:pb-0">
-          <button
-            onClick={() => setSelectedCategory("all")}
-            className={`px-3.5 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap transition-all ${
-              selectedCategory === "all"
-                ? "bg-amber-500 text-stone-950"
-                : "bg-stone-800/80 text-stone-400 hover:text-stone-200"
-            }`}
-          >
-            Tüm Ürünler ({products.length})
-          </button>
-          <button
-            onClick={() => setSelectedCategory("bread")}
-            className={`px-3.5 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap transition-all ${
-              selectedCategory === "bread"
-                ? "bg-amber-500 text-stone-950"
-                : "bg-stone-800/80 text-stone-400 hover:text-stone-200"
-            }`}
-          >
-            🥖 Taş Fırın Ekmekleri
-          </button>
-          <button
-            onClick={() => setSelectedCategory("gurme")}
-            className={`px-3.5 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap transition-all ${
-              selectedCategory === "gurme"
-                ? "bg-amber-500 text-stone-950"
-                : "bg-stone-800/80 text-stone-400 hover:text-stone-200"
-            }`}
-          >
-            🧀 Gurme & Mandıra
-          </button>
-          <button
-            onClick={() => setSelectedCategory("specialty")}
-            className={`px-3.5 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap transition-all ${
-              selectedCategory === "specialty"
-                ? "bg-amber-500 text-stone-950"
-                : "bg-stone-800/80 text-stone-400 hover:text-stone-200"
-            }`}
-          >
-            ✨ Özel Seçkiler
-          </button>
-        </div>
-      </div>
-
-      {/* Product Table / Cards */}
-      {loading ? (
-        <div className="p-16 text-center text-stone-400 bg-stone-900 border border-stone-800 rounded-2xl">
-          <RefreshCw className="w-8 h-8 animate-spin text-amber-500 mx-auto mb-3" />
-          Ürün kataloğu yükleniyor...
-        </div>
-      ) : filteredProducts.length === 0 ? (
-        <div className="p-16 text-center text-stone-400 bg-stone-900 border border-stone-800 rounded-2xl">
-          Arama kriterlerinize uygun ürün bulunamadı.
-        </div>
-      ) : (
-        <div className="bg-stone-900/70 border border-stone-800 rounded-2xl overflow-hidden shadow-xl">
-          <div className="overflow-x-auto">
-            <table className="w-full text-left border-collapse">
-              <thead>
-                <tr className="border-b border-stone-800 text-[11px] font-semibold text-stone-400 uppercase tracking-wider bg-stone-950/40">
-                  <th className="py-3.5 px-4">Görsel & Ürün</th>
-                  <th className="py-3.5 px-4">Kategori</th>
-                  <th className="py-3.5 px-4">Fiyat (₺)</th>
-                  <th className="py-3.5 px-4">Gramaj</th>
-                  <th className="py-3.5 px-4">Stok Durumu</th>
-                  <th className="py-3.5 px-4 text-right">İşlemler</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-stone-800/70 text-sm">
-                {filteredProducts.map((prod) => {
-                  const isAvailable = prod.isAvailable !== false;
-                  const isSaving = savingId === prod.id;
-                  const normCat = normalizeCategory(prod.category);
-
-                  return (
-                    <tr
-                      key={prod.id}
-                      className="hover:bg-stone-800/30 transition-colors group"
-                    >
-                      {/* Visual & Title */}
-                      <td className="py-3.5 px-4">
-                        <div className="flex items-center gap-3">
-                          <div className="relative w-12 h-12 rounded-xl overflow-hidden bg-stone-800 border border-stone-700 shrink-0">
-                            {prod.imageUrl ? (
-                              <img
-                                src={prod.imageUrl}
-                                alt={prod.name}
-                                className="w-full h-full object-cover group-hover:scale-105 transition-transform"
-                              />
-                            ) : (
-                              <div className="w-full h-full flex items-center justify-center text-stone-600">
-                                <Wheat className="w-5 h-5" />
-                              </div>
-                            )}
-                          </div>
-                          <div>
-                            <div className="font-bold text-stone-100 flex items-center gap-2">
-                              <span>{prod.name}</span>
-                              {prod.madeToOrder && (
-                                <span className="text-[10px] bg-amber-500/10 text-amber-400 px-1.5 py-0.5 rounded border border-amber-500/20 font-medium">
-                                  Siparişe Özel
-                                </span>
-                              )}
-                            </div>
-                            <div className="text-xs text-stone-400 line-clamp-1 max-w-sm mt-0.5">
-                              {prod.description}
-                            </div>
-                          </div>
-                        </div>
-                      </td>
-
-                      {/* Category */}
-                      <td className="py-3.5 px-4">
-                        {normCat === "bread" && (
-                          <span className="text-xs px-2 py-0.5 rounded-full bg-amber-500/10 text-amber-400 border border-amber-500/20">
-                            Ekmek
-                          </span>
-                        )}
-                        {normCat === "gurme" && (
-                          <span className="text-xs px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
-                            Gurme Lezzet
-                          </span>
-                        )}
-                        {normCat === "specialty" && (
-                          <span className="text-xs px-2 py-0.5 rounded-full bg-purple-500/10 text-purple-400 border border-purple-500/20">
-                            Özel Seçki
-                          </span>
-                        )}
-                      </td>
-
-                      {/* Inline Price */}
-                      <td className="py-3.5 px-4">
-                        <div className="flex items-center gap-1.5">
-                          <input
-                            type="number"
-                            defaultValue={prod.price}
-                            onBlur={(e) => handlePriceChange(prod.id, Number(e.target.value))}
-                            onKeyDown={(e) => {
-                              if (e.key === "Enter") {
-                                handlePriceChange(prod.id, Number((e.target as HTMLInputElement).value));
-                              }
-                            }}
-                            className="w-20 bg-stone-950 border border-stone-800 rounded-lg px-2 py-1 text-sm font-bold text-stone-100 focus:border-amber-500 focus:outline-none"
-                          />
-                          <span className="text-stone-400 text-xs font-bold">₺</span>
-                          {isSaving && (
-                            <Check className="w-3.5 h-3.5 text-emerald-400 animate-bounce" />
-                          )}
-                        </div>
-                      </td>
-
-                      {/* Weight */}
-                      <td className="py-3.5 px-4 text-xs text-stone-300 font-mono">
-                        {prod.weight ? `${prod.weight} ${prod.weightUnit || "g"}` : "—"}
-                      </td>
-
-                      {/* In-Stock Status */}
-                      <td className="py-3.5 px-4">
-                        <button
-                          onClick={() => handleStockToggle(prod.id, prod.isAvailable)}
-                          className={`flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold transition-all ${
-                            isAvailable
-                              ? "bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 hover:bg-emerald-500/20"
-                              : "bg-red-500/10 text-red-400 border border-red-500/30 hover:bg-red-500/20"
-                          }`}
-                        >
-                          <span
-                            className={`w-1.5 h-1.5 rounded-full ${
-                              isAvailable ? "bg-emerald-400" : "bg-red-400"
-                            }`}
-                          />
-                          <span>{isAvailable ? "Stokta Var" : "Tükendi"}</span>
-                        </button>
-                      </td>
-
-                      {/* Actions */}
-                      <td className="py-3.5 px-4 text-right">
-                        <div className="flex items-center justify-end gap-1.5">
-                          <button
-                            onClick={() => openEditModal(prod)}
-                            className="p-2 rounded-xl bg-stone-800 hover:bg-stone-700 text-stone-300 hover:text-white transition-colors"
-                            title="Düzenle & Fermantasyon DNA"
-                          >
-                            <Edit3 className="w-4 h-4" />
-                          </button>
-
-                          <button
-                            type="button"
-                            disabled={deletingId === prod.id}
-                            onClick={() => handleDeleteProduct(prod.id, prod.name)}
-                            className="p-2 rounded-xl bg-stone-800 hover:bg-red-500/20 text-stone-400 hover:text-red-400 transition-colors border border-transparent hover:border-red-500/30 disabled:opacity-50"
-                            title="Ürünü Katalogdan Sil"
-                          >
-                            <Trash2 className="w-4 h-4" />
-                          </button>
-                        </div>
-                      </td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
-          </div>
+      {(error || listError) && (
+        <div className="p-3 rounded-xl bg-red-950/50 border border-red-500/40 text-xs text-red-300 flex items-center gap-2">
+          <AlertCircle className="w-4 h-4 shrink-0" /> {listError ?? error}
         </div>
       )}
 
-      {/* Product Edit / Add Modal */}
-      {modalOpen && editingProduct && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm overflow-y-auto">
-          <div className="bg-stone-900 border border-stone-800 w-full max-w-2xl rounded-2xl shadow-2xl overflow-hidden my-8">
-            <div className="flex items-center justify-between p-5 border-b border-stone-800 bg-stone-950/60">
-              <div className="flex items-center gap-2">
-                <Wheat className="w-5 h-5 text-amber-500" />
-                <h3 className="font-bold text-stone-100 font-serif text-lg">
-                  {isNewProduct ? "Yeni Ürün Ekle" : "Ürün & Fermantasyon Detayları"}
-                </h3>
-              </div>
-              <button
-                onClick={() => setModalOpen(false)}
-                className="p-1 rounded-lg text-stone-400 hover:text-white hover:bg-stone-800"
-              >
-                <X className="w-5 h-5" />
-              </button>
+      {tab === "categories" ? (
+        <CategoryManager categories={categories} products={products} onSave={saveCategory} onDelete={deleteCategory} />
+      ) : (
+        <>
+          <div className="flex flex-col sm:flex-row gap-2">
+            <div className="relative flex-1">
+              <Search className="w-4 h-4 text-stone-500 absolute left-3 top-1/2 -translate-y-1/2" />
+              <input
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+                placeholder="Ürün ara…"
+                className={`${inputCls} pl-9`}
+              />
             </div>
-
-            <form onSubmit={handleSaveModal} className="p-6 space-y-6 max-h-[80vh] overflow-y-auto">
-              {/* Basic Fields */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div className="sm:col-span-2 space-y-1.5">
-                  <label className="text-xs font-semibold text-stone-300">Ürün Adı</label>
-                  <input
-                    type="text"
-                    required
-                    value={editingProduct.name || ""}
-                    onChange={(e) => setEditingProduct({ ...editingProduct, name: e.target.value })}
-                    placeholder="Örn: Taş Fırın Ekşi Mayalı Köy Ekmeği"
-                    className="w-full bg-stone-950 border border-stone-800 rounded-xl px-3 py-2 text-sm text-stone-100 focus:outline-none focus:border-amber-500"
-                  />
-                </div>
-
-                <div className="sm:col-span-2 space-y-1.5">
-                  <label className="text-xs font-semibold text-stone-300">Açıklama</label>
-                  <textarea
-                    rows={2}
-                    value={editingProduct.description || ""}
-                    onChange={(e) => setEditingProduct({ ...editingProduct, description: e.target.value })}
-                    placeholder="Ürünün tadı, dokusu ve içeriği hakkında kısa bilgi..."
-                    className="w-full bg-stone-950 border border-stone-800 rounded-xl px-3 py-2 text-sm text-stone-100 focus:outline-none focus:border-amber-500"
-                  />
-                </div>
-
-                <div className="space-y-1.5">
-                  <label className="text-xs font-semibold text-stone-300">Fiyat (₺)</label>
-                  <input
-                    type="number"
-                    required
-                    min={0}
-                    value={editingProduct.price ?? 150}
-                    onChange={(e) => setEditingProduct({ ...editingProduct, price: Number(e.target.value) })}
-                    className="w-full bg-stone-950 border border-stone-800 rounded-xl px-3 py-2 text-sm text-stone-100 focus:outline-none focus:border-amber-500"
-                  />
-                </div>
-
-                <div className="space-y-1.5">
-                  <label className="text-xs font-semibold text-stone-300">Kategori</label>
-                  <select
-                    value={editingProduct.category || "bread"}
-                    onChange={(e) => setEditingProduct({ ...editingProduct, category: e.target.value })}
-                    className="w-full bg-stone-950 border border-stone-800 rounded-xl px-3 py-2 text-sm text-stone-100 focus:outline-none focus:border-amber-500"
-                  >
-                    <option value="bread">Taş Fırın Ekmeği</option>
-                    <option value="gurme">Gurme Lezzet & Mandıra</option>
-                    <option value="specialty">Özel Seçki & Atölye</option>
-                  </select>
-                </div>
-
-                <div className="space-y-1.5">
-                  <label className="text-xs font-semibold text-stone-300">Gramaj (g)</label>
-                  <input
-                    type="number"
-                    min={0}
-                    value={editingProduct.weight ?? 800}
-                    onChange={(e) => setEditingProduct({ ...editingProduct, weight: Number(e.target.value) })}
-                    className="w-full bg-stone-950 border border-stone-800 rounded-xl px-3 py-2 text-sm text-stone-100 focus:outline-none focus:border-amber-500"
-                  />
-                </div>
-
-                <div className="space-y-1.5">
-                  <label className="text-xs font-semibold text-stone-300">Stok Adedi</label>
-                  <input
-                    type="number"
-                    min={0}
-                    value={editingProduct.stock ?? 50}
-                    onChange={(e) => setEditingProduct({ ...editingProduct, stock: Number(e.target.value) })}
-                    className="w-full bg-stone-950 border border-stone-800 rounded-xl px-3 py-2 text-sm text-stone-100 focus:outline-none focus:border-amber-500"
-                  />
-                </div>
-
-                <div className="sm:col-span-2 space-y-1.5">
-                  <label className="text-xs font-semibold text-stone-300">Görsel URL</label>
-                  <input
-                    type="text"
-                    value={editingProduct.imageUrl || ""}
-                    onChange={(e) => setEditingProduct({ ...editingProduct, imageUrl: e.target.value })}
-                    placeholder="https://..."
-                    className="w-full bg-stone-950 border border-stone-800 rounded-xl px-3 py-2 text-sm text-stone-100 focus:outline-none focus:border-amber-500"
-                  />
-                </div>
-              </div>
-
-              {/* Masterclass / Fermentation DNA Section */}
-              <div className="pt-4 border-t border-stone-800 space-y-4">
-                <div className="flex items-center gap-2 text-amber-400 font-semibold text-xs uppercase tracking-wider">
-                  <Sparkles className="w-4 h-4" />
-                  <span>Fermantasyon DNA & Ustalık Notları (Vitrin Detayları)</span>
-                </div>
-
-                <div className="space-y-3">
-                  <div>
-                    <label className="text-xs text-stone-300">Un ve Mayanın Kökeni (flourHeritage)</label>
-                    <input
-                      type="text"
-                      value={editingProduct.masterclass?.flourHeritage || ""}
-                      onChange={(e) =>
-                        setEditingProduct({
-                          ...editingProduct,
-                          masterclass: {
-                            ...editingProduct.masterclass,
-                            flourHeritage: e.target.value,
-                          },
-                        })
-                      }
-                      placeholder="Örn: Taş değirmen atalık Karakılçık ve Sarı Buğday unları..."
-                      className="w-full mt-1 bg-stone-950 border border-stone-800 rounded-xl px-3 py-2 text-xs text-stone-100 focus:outline-none focus:border-amber-500"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="text-xs text-stone-300">Teknik & Fermantasyon (technique)</label>
-                    <input
-                      type="text"
-                      value={editingProduct.masterclass?.technique || ""}
-                      onChange={(e) =>
-                        setEditingProduct({
-                          ...editingProduct,
-                          masterclass: {
-                            ...editingProduct.masterclass,
-                            technique: e.target.value,
-                          },
-                        })
-                      }
-                      placeholder="Örn: 36 saat soğuk fermantasyon, %78 hidrasyon oranı..."
-                      className="w-full mt-1 bg-stone-950 border border-stone-800 rounded-xl px-3 py-2 text-xs text-stone-100 focus:outline-none focus:border-amber-500"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="text-xs text-stone-300">Beden & Sindirim Sağlığı (healthBenefit)</label>
-                    <input
-                      type="text"
-                      value={editingProduct.masterclass?.healthBenefit || ""}
-                      onChange={(e) =>
-                        setEditingProduct({
-                          ...editingProduct,
-                          masterclass: {
-                            ...editingProduct.masterclass,
-                            healthBenefit: e.target.value,
-                          },
-                        })
-                      }
-                      placeholder="Örn: Düşük glisemik indeks, probiyotik mikrobiyom dostu sindirim..."
-                      className="w-full mt-1 bg-stone-950 border border-stone-800 rounded-xl px-3 py-2 text-xs text-stone-100 focus:outline-none focus:border-amber-500"
-                    />
-                  </div>
-                </div>
-              </div>
-
-              {/* Action Buttons */}
-              <div className="flex items-center justify-between gap-3 pt-4 border-t border-stone-800">
-                {!isNewProduct && editingProduct?.id ? (
-                  <button
-                    type="button"
-                    disabled={deletingId === editingProduct.id}
-                    onClick={() => handleDeleteProduct(editingProduct.id!, editingProduct.name || "Ürün")}
-                    className="flex items-center gap-1.5 px-3.5 py-2 bg-red-500/10 hover:bg-red-500/20 text-red-400 rounded-xl text-xs font-semibold border border-red-500/30 transition-all active:scale-95 disabled:opacity-50"
-                  >
-                    <Trash2 className="w-3.5 h-3.5" />
-                    <span>{deletingId === editingProduct.id ? "Siliniyor..." : "Bu Ürünü Sil"}</span>
-                  </button>
-                ) : (
-                  <div />
-                )}
-
-                <div className="flex items-center gap-2">
-                  <button
-                    type="button"
-                    onClick={() => setModalOpen(false)}
-                    className="px-4 py-2 bg-stone-800 hover:bg-stone-700 text-stone-300 rounded-xl text-xs font-semibold transition-colors"
-                  >
-                    Vazgeç
-                  </button>
-                  <button
-                    type="submit"
-                    className="flex items-center gap-2 px-5 py-2 bg-amber-500 hover:bg-amber-400 text-stone-950 font-bold rounded-xl text-xs transition-all shadow-lg shadow-amber-500/20"
-                  >
-                    <Save className="w-4 h-4" />
-                    <span>{isNewProduct ? "Ürünü Ekle" : "Değişiklikleri Kaydet"}</span>
-                  </button>
-                </div>
-              </div>
-            </form>
+            <select value={categoryFilter} onChange={(e) => setCategoryFilter(e.target.value)} className={`${inputCls} sm:w-56`}>
+              <option value="all">Tüm kategoriler</option>
+              {categories.map((c) => (
+                <option key={c.id} value={c.id}>
+                  {c.name}
+                </option>
+              ))}
+            </select>
+            <button
+              type="button"
+              onClick={() => setShowArchived(!showArchived)}
+              className={`px-4 py-2 rounded-xl text-sm font-semibold border flex items-center gap-2 ${
+                showArchived ? "bg-stone-700 border-stone-600 text-stone-100" : "bg-stone-950 border-stone-800 text-stone-400"
+              }`}
+            >
+              <Archive className="w-4 h-4" /> {showArchived ? "Arşiv" : "Arşivi göster"}
+            </button>
           </div>
-        </div>
+
+          {loading ? (
+            <div className="py-20 flex justify-center text-stone-400 text-sm gap-2">
+              <Loader2 className="w-4 h-4 animate-spin" /> Yükleniyor…
+            </div>
+          ) : visible.length === 0 ? (
+            <div className="py-16 text-center text-stone-500 text-sm border border-dashed border-stone-800 rounded-2xl">
+              {showArchived ? "Arşivde ürün yok." : "Ürün bulunamadı."}
+            </div>
+          ) : (
+            <ul className="space-y-2">
+              {visible.map((p) => (
+                <li key={p.id} className="p-3 rounded-2xl bg-stone-900/70 border border-stone-800 flex items-center gap-3">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img src={p.imageUrl} alt="" className="w-14 h-14 rounded-xl object-cover bg-stone-800 shrink-0" />
+                  <div className="flex-1 min-w-0">
+                    <div className="font-semibold text-stone-100 text-sm truncate">{p.name}</div>
+                    <div className="text-xs text-stone-400 flex flex-wrap items-center gap-x-2 gap-y-1 mt-0.5">
+                      <span>{categoryName(p.category)}</span>
+                      <span className="font-mono text-stone-200">{tl(p.price)}</span>
+                      {p.compareAtPrice ? <span className="line-through text-stone-500">{tl(p.compareAtPrice)}</span> : null}
+                      {productBadges(p).map((b) => (
+                        <span key={b.label} className="px-1.5 py-0.5 rounded-md bg-amber-500/10 text-amber-300 border border-amber-500/20 text-[10px]">
+                          {b.label}
+                        </span>
+                      ))}
+                      {p.dailyLimit !== null && p.dailyLimit !== undefined && (
+                        <span className="text-[10px] text-stone-500">günde en fazla {p.dailyLimit}</span>
+                      )}
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-1.5 shrink-0">
+                    {p.isActive !== false ? (
+                      <button
+                        type="button"
+                        disabled={busyId === p.id}
+                        onClick={() => runQuick(p, { isAvailable: p.isAvailable === false })}
+                        className={`px-2.5 py-2 rounded-xl text-[11px] font-bold border min-w-[76px] ${
+                          p.isAvailable === false
+                            ? "bg-red-500/10 text-red-300 border-red-500/30"
+                            : "bg-emerald-500/10 text-emerald-300 border-emerald-500/30"
+                        }`}
+                        title="Tükendi / satışta"
+                      >
+                        {busyId === p.id ? <Loader2 className="w-3.5 h-3.5 animate-spin mx-auto" /> : p.isAvailable === false ? "Tükendi" : "Satışta"}
+                      </button>
+                    ) : (
+                      <button
+                        type="button"
+                        disabled={busyId === p.id}
+                        onClick={() => runQuick(p, { isActive: true })}
+                        className="px-2.5 py-2 rounded-xl text-[11px] font-bold border bg-stone-800 text-stone-200 border-stone-700 flex items-center gap-1"
+                      >
+                        <RotateCcw className="w-3.5 h-3.5" /> Geri al
+                      </button>
+                    )}
+                    <button
+                      type="button"
+                      onClick={() => setEditing(productToForm(p))}
+                      aria-label={`${p.name} düzenle`}
+                      className="p-2.5 rounded-xl bg-stone-800 hover:bg-stone-700 text-stone-200"
+                    >
+                      <Pencil className="w-4 h-4" />
+                    </button>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          )}
+        </>
+      )}
+
+      {editing && (
+        <ProductEditor
+          initial={editing}
+          products={products}
+          categories={categories}
+          onClose={() => setEditing(null)}
+          onSave={async (form) => {
+            await saveProduct(form);
+            setEditing(null);
+          }}
+          onArchive={
+            editing.id
+              ? async () => {
+                  await archiveProduct(editing.id as string);
+                  setEditing(null);
+                }
+              : undefined
+          }
+        />
       )}
     </div>
+  );
+}
+
+/* ─────────────────────────── Ürün düzenleyici ─────────────────────────── */
+
+function ProductEditor({
+  initial,
+  products,
+  categories,
+  onClose,
+  onSave,
+  onArchive,
+}: {
+  initial: ProductForm;
+  products: ExtendedProduct[];
+  categories: ProductCategoryInfo[];
+  onClose: () => void;
+  onSave: (form: ProductForm) => Promise<void>;
+  onArchive?: () => Promise<void>;
+}) {
+  const [form, setForm] = useState<ProductForm>(initial);
+  const [saving, setSaving] = useState(false);
+  const [err, setErr] = useState<string | null>(null);
+  const [newDate, setNewDate] = useState("");
+  const [newDateLimit, setNewDateLimit] = useState("");
+  const [bundlePick, setBundlePick] = useState("");
+  const [showDetails, setShowDetails] = useState(false);
+  const today = istanbulToday();
+
+  const set = <K extends keyof ProductForm>(key: K, value: ProductForm[K]) => setForm((f) => ({ ...f, [key]: value }));
+  const others = products.filter((p) => p.id !== form.id && p.isActive !== false);
+  const nameOf = (id: string) => products.find((p) => p.id === id)?.name ?? id;
+
+  const bundleSeparateTotal = form.bundleItems.reduce(
+    (sum, b) => sum + (products.find((p) => p.id === b.productId)?.price ?? 0) * b.quantity,
+    0
+  );
+
+  const submit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setSaving(true);
+    setErr(null);
+    try {
+      await onSave(form);
+    } catch (error: unknown) {
+      setErr(getErrorMessage(error));
+      setSaving(false);
+    }
+  };
+
+  return (
+    <div className="fixed inset-0 z-50 bg-black/70 flex items-stretch sm:items-center justify-center sm:p-4" role="dialog" aria-modal="true">
+      <form onSubmit={submit} className="w-full sm:max-w-2xl bg-stone-900 sm:rounded-2xl border border-stone-800 flex flex-col max-h-full sm:max-h-[92vh]">
+        <div className="p-4 border-b border-stone-800 flex items-center justify-between">
+          <h2 className="font-serif text-lg font-bold text-stone-100">{form.id ? "Ürünü düzenle" : "Yeni ürün"}</h2>
+          <button type="button" onClick={onClose} aria-label="Kapat" className="p-2 rounded-lg text-stone-400 hover:text-stone-100">
+            <X className="w-5 h-5" />
+          </button>
+        </div>
+
+        <div className="flex-1 overflow-y-auto p-4 space-y-6">
+          {/* Temel */}
+          <Section title="Temel bilgiler">
+            <Field label="Ürün adı">
+              <input required value={form.name} onChange={(e) => set("name", e.target.value)} className={inputCls} />
+            </Field>
+            <Field label="Açıklama">
+              <textarea rows={3} value={form.description} onChange={(e) => set("description", e.target.value)} className={inputCls} />
+            </Field>
+            <div className="grid grid-cols-2 gap-3">
+              <Field label="Kategori">
+                <select value={form.category} onChange={(e) => set("category", e.target.value)} className={inputCls}>
+                  {categories.map((c) => (
+                    <option key={c.id} value={c.id}>
+                      {c.name}
+                      {c.isVisible ? "" : " (gizli)"}
+                    </option>
+                  ))}
+                </select>
+              </Field>
+              <Field label="Sıra" hint="Küçük olan önce görünür">
+                <input type="number" min={0} value={form.displayOrder} onChange={(e) => set("displayOrder", Number(e.target.value))} className={inputCls} />
+              </Field>
+              <Field label="Fiyat (₺)">
+                <input type="number" min={0} step="0.01" required value={form.price} onChange={(e) => set("price", Number(e.target.value))} className={inputCls} />
+              </Field>
+              <Field label="Kampanya: eski fiyat (₺)" hint="Doluysa vitrinde üstü çizili görünür">
+                <input
+                  type="number"
+                  min={0}
+                  step="0.01"
+                  value={form.compareAtPrice ?? ""}
+                  onChange={(e) => set("compareAtPrice", e.target.value === "" ? null : Number(e.target.value))}
+                  className={inputCls}
+                />
+              </Field>
+              <Field label="Ağırlık / miktar">
+                <div className="flex gap-2">
+                  <input type="number" min={0} value={form.weight} onChange={(e) => set("weight", Number(e.target.value))} className={inputCls} />
+                  <select value={form.weightUnit} onChange={(e) => set("weightUnit", e.target.value as ProductForm["weightUnit"])} className={`${inputCls} w-24`}>
+                    {(["g", "kg", "ml", "l", "adet"] as const).map((u) => (
+                      <option key={u} value={u}>
+                        {u}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              </Field>
+              <Field label="Görsel adresi" hint="Şimdilik bağlantı; yükleme Faz 4'te">
+                <input value={form.imageUrl ?? ""} onChange={(e) => set("imageUrl", e.target.value || null)} placeholder="https://…" className={inputCls} />
+              </Field>
+            </div>
+          </Section>
+
+          {/* Satış */}
+          <Section title="Ne zaman satılır?" icon={<CalendarDays className="w-4 h-4" />}>
+            <div className="grid grid-cols-2 gap-2">
+              {(
+                [
+                  ["daily", "Her gün"],
+                  ["dates", "Sadece seçtiğim günlerde"],
+                ] as const
+              ).map(([v, label]) => (
+                <button
+                  key={v}
+                  type="button"
+                  onClick={() => set("availability", v)}
+                  className={`py-3 rounded-xl text-sm font-bold border ${
+                    form.availability === v ? "bg-amber-500 text-stone-950 border-amber-500" : "bg-stone-950 text-stone-400 border-stone-800"
+                  }`}
+                >
+                  {label}
+                </button>
+              ))}
+            </div>
+
+            {form.availability === "dates" && (
+              <div className="space-y-2">
+                <div className="flex gap-2">
+                  <input type="date" min={today} value={newDate} onChange={(e) => setNewDate(e.target.value)} className={inputCls} />
+                  <input
+                    type="number"
+                    min={0}
+                    value={newDateLimit}
+                    onChange={(e) => setNewDateLimit(e.target.value)}
+                    placeholder="adet (ops.)"
+                    className={`${inputCls} w-28`}
+                  />
+                  <button
+                    type="button"
+                    onClick={() => {
+                      if (!newDate) return;
+                      const rest = form.saleDates.filter((d) => d.date !== newDate);
+                      set(
+                        "saleDates",
+                        [...rest, { date: newDate, limit: newDateLimit === "" ? null : Number(newDateLimit) }].sort((a, b) =>
+                          a.date.localeCompare(b.date)
+                        )
+                      );
+                      setNewDate("");
+                      setNewDateLimit("");
+                    }}
+                    className="px-4 rounded-xl bg-stone-800 text-stone-200 text-sm font-bold"
+                  >
+                    Ekle
+                  </button>
+                </div>
+                {form.saleDates.filter((d) => d.date >= today).length === 0 ? (
+                  <p className="text-[11px] text-amber-300">Yaklaşan satış günü yok — ürün vitrinde &quot;Yakında&quot; görünür, sipariş alınmaz.</p>
+                ) : (
+                  <div className="flex flex-wrap gap-1.5">
+                    {form.saleDates
+                      .filter((d) => d.date >= today)
+                      .map((d) => (
+                        <span key={d.date} className="text-xs px-2.5 py-1 rounded-lg bg-amber-500/10 text-amber-200 border border-amber-500/20 flex items-center gap-1.5">
+                          {formatTrDate(d.date, "long")}
+                          {d.limit !== null ? ` · ${d.limit} adet` : ""}
+                          <button type="button" aria-label="Kaldır" onClick={() => set("saleDates", form.saleDates.filter((x) => x.date !== d.date))}>
+                            <X className="w-3 h-3" />
+                          </button>
+                        </span>
+                      ))}
+                  </div>
+                )}
+              </div>
+            )}
+
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+              <Field label="Günlük adet sınırı" hint="Boş = sınırsız">
+                <input
+                  type="number"
+                  min={0}
+                  value={form.dailyLimit ?? ""}
+                  onChange={(e) => set("dailyLimit", e.target.value === "" ? null : Number(e.target.value))}
+                  className={inputCls}
+                />
+              </Field>
+              <Field label="En az kaç gün önceden" hint="0 = aynı gün">
+                <input type="number" min={0} max={30} value={form.leadTimeDays} onChange={(e) => set("leadTimeDays", Number(e.target.value))} className={inputCls} />
+              </Field>
+              <Field label="Fırın kapasitesinden" hint="Ekmek 1, eşlikçi 0, 3'lü paket 3">
+                <input type="number" min={0} max={100} value={form.capacityUnits} onChange={(e) => set("capacityUnits", Number(e.target.value))} className={inputCls} />
+              </Field>
+            </div>
+          </Section>
+
+          {/* Paket */}
+          <Section title="Paket içeriği (isteğe bağlı)" icon={<Package className="w-4 h-4" />}>
+            <div className="flex gap-2">
+              <select value={bundlePick} onChange={(e) => setBundlePick(e.target.value)} className={inputCls}>
+                <option value="">Pakete ürün ekle…</option>
+                {others.map((p) => (
+                  <option key={p.id} value={p.id}>
+                    {p.name} ({tl(p.price)})
+                  </option>
+                ))}
+              </select>
+              <button
+                type="button"
+                onClick={() => {
+                  if (!bundlePick) return;
+                  const existing = form.bundleItems.find((b) => b.productId === bundlePick);
+                  set(
+                    "bundleItems",
+                    existing
+                      ? form.bundleItems.map((b) => (b.productId === bundlePick ? { ...b, quantity: b.quantity + 1 } : b))
+                      : [...form.bundleItems, { productId: bundlePick, quantity: 1 }]
+                  );
+                  setBundlePick("");
+                }}
+                className="px-4 rounded-xl bg-stone-800 text-stone-200 text-sm font-bold"
+              >
+                Ekle
+              </button>
+            </div>
+            {form.bundleItems.length > 0 && (
+              <div className="space-y-1.5">
+                {form.bundleItems.map((b) => (
+                  <div key={b.productId} className="flex items-center gap-2 text-sm text-stone-200">
+                    <input
+                      type="number"
+                      min={1}
+                      value={b.quantity}
+                      onChange={(e) =>
+                        set(
+                          "bundleItems",
+                          form.bundleItems.map((x) => (x.productId === b.productId ? { ...x, quantity: Math.max(1, Number(e.target.value)) } : x))
+                        )
+                      }
+                      className={`${inputCls} w-20`}
+                    />
+                    <span className="flex-1">× {nameOf(b.productId)}</span>
+                    <button type="button" aria-label="Kaldır" onClick={() => set("bundleItems", form.bundleItems.filter((x) => x.productId !== b.productId))} className="text-stone-500 hover:text-red-400">
+                      <X className="w-4 h-4" />
+                    </button>
+                  </div>
+                ))}
+                <p className="text-[11px] text-stone-400">
+                  Ayrı ayrı toplam: <strong className="text-stone-200">{tl(bundleSeparateTotal)}</strong>
+                  {form.price > 0 && bundleSeparateTotal > form.price && (
+                    <> · müşteri kazancı {tl(bundleSeparateTotal - form.price)} (eski fiyat alanına {tl(bundleSeparateTotal)} yazabilirsiniz)</>
+                  )}
+                </p>
+              </div>
+            )}
+          </Section>
+
+          {/* Birlikte iyi gider */}
+          <Section title="Birlikte iyi gider (sepette öneri, en fazla 6)" icon={<Tag className="w-4 h-4" />}>
+            <div className="flex flex-wrap gap-1.5">
+              {others.map((p) => {
+                const on = form.crossSell.includes(p.id);
+                return (
+                  <button
+                    key={p.id}
+                    type="button"
+                    onClick={() =>
+                      set("crossSell", on ? form.crossSell.filter((x) => x !== p.id) : form.crossSell.length < 6 ? [...form.crossSell, p.id] : form.crossSell)
+                    }
+                    className={`px-2.5 py-1.5 rounded-lg text-xs border ${
+                      on ? "bg-amber-500/15 text-amber-200 border-amber-500/40" : "bg-stone-950 text-stone-400 border-stone-800"
+                    }`}
+                  >
+                    {p.name}
+                  </button>
+                );
+              })}
+            </div>
+          </Section>
+
+          {/* Durum */}
+          <Section title="Durum">
+            <div className="grid grid-cols-2 gap-2">
+              <Toggle label="Vitrinde göster" on={form.isActive} onChange={(v) => set("isActive", v)} />
+              <Toggle label="Satışta (tükenmedi)" on={form.isAvailable} onChange={(v) => set("isAvailable", v)} />
+              <Toggle label="Öne çıkan" on={form.isPopular} onChange={(v) => set("isPopular", v)} />
+              <Toggle label="Yeni" on={form.isNew} onChange={(v) => set("isNew", v)} />
+            </div>
+          </Section>
+
+          {/* Detay */}
+          <button type="button" onClick={() => setShowDetails(!showDetails)} className="text-xs text-stone-400 flex items-center gap-1">
+            <ChevronDown className={`w-4 h-4 transition-transform ${showDetails ? "rotate-180" : ""}`} /> Ürün sayfası detayları (içerik, un, hikâye)
+          </button>
+          {showDetails && (
+            <Section title="Ürün sayfası detayları">
+              <Field label="İçindekiler" hint="Virgülle ayırın">
+                <input
+                  value={form.ingredients.join(", ")}
+                  onChange={(e) => set("ingredients", e.target.value.split(",").map((s) => s.trim()).filter(Boolean))}
+                  className={inputCls}
+                />
+              </Field>
+              <div className="grid grid-cols-2 gap-3">
+                <Field label="Un türleri" hint="Virgülle ayırın">
+                  <input
+                    value={form.flourTypes.join(", ")}
+                    onChange={(e) => set("flourTypes", e.target.value.split(",").map((s) => s.trim()).filter(Boolean))}
+                    className={inputCls}
+                  />
+                </Field>
+                <Field label="Hidrasyon (%)">
+                  <input
+                    type="number"
+                    min={0}
+                    max={200}
+                    value={form.hydration ?? ""}
+                    onChange={(e) => set("hydration", e.target.value === "" ? null : Number(e.target.value))}
+                    className={inputCls}
+                  />
+                </Field>
+              </div>
+              {(
+                [
+                  ["flourHeritage", "Unun ve mayanın hikâyesi"],
+                  ["technique", "Teknik"],
+                  ["healthBenefit", "Sindirim / sağlık"],
+                  ["pairingStorage", "Nasıl tüketilir, saklanır"],
+                ] as const
+              ).map(([key, label]) => (
+                <Field key={key} label={label}>
+                  <textarea
+                    rows={2}
+                    value={form.masterclass?.[key] ?? ""}
+                    onChange={(e) => set("masterclass", { ...(form.masterclass ?? {}), [key]: e.target.value })}
+                    className={inputCls}
+                  />
+                </Field>
+              ))}
+            </Section>
+          )}
+        </div>
+
+        <div className="p-4 border-t border-stone-800 flex items-center justify-between gap-2">
+          {onArchive && form.isActive ? (
+            <button
+              type="button"
+              onClick={async () => {
+                if (!window.confirm(`"${form.name}" arşivlensin mi? Vitrinden kalkar, geçmiş siparişler korunur.`)) return;
+                setSaving(true);
+                try {
+                  await onArchive();
+                } catch (error: unknown) {
+                  setErr(getErrorMessage(error));
+                  setSaving(false);
+                }
+              }}
+              className="px-3 py-2.5 rounded-xl text-sm text-red-300 hover:bg-red-500/10 flex items-center gap-1.5"
+            >
+              <Archive className="w-4 h-4" /> Arşivle
+            </button>
+          ) : (
+            <span />
+          )}
+          <div className="flex items-center gap-2">
+            {err && <span className="text-xs text-red-300 max-w-[220px]">{err}</span>}
+            <button type="submit" disabled={saving} className="px-5 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-stone-950 font-bold text-sm flex items-center gap-2 disabled:opacity-50">
+              {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />} Kaydet
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  );
+}
+
+/* ─────────────────────────── Kategori yönetimi ─────────────────────────── */
+
+function CategoryManager({
+  categories,
+  products,
+  onSave,
+  onDelete,
+}: {
+  categories: ProductCategoryInfo[];
+  products: ExtendedProduct[];
+  onSave: (c: Partial<ProductCategoryInfo> & { name: string }) => Promise<void>;
+  onDelete: (id: string) => Promise<void>;
+}) {
+  const [drafts, setDrafts] = useState<Record<string, ProductCategoryInfo>>({});
+  const [newName, setNewName] = useState("");
+  const [busy, setBusy] = useState<string | null>(null);
+  const [err, setErr] = useState<string | null>(null);
+
+  const run = async (key: string, fn: () => Promise<void>) => {
+    setBusy(key);
+    setErr(null);
+    try {
+      await fn();
+    } catch (error: unknown) {
+      setErr(getErrorMessage(error));
+    } finally {
+      setBusy(null);
+    }
+  };
+
+  return (
+    <div className="space-y-3">
+      {err && (
+        <div className="p-3 rounded-xl bg-red-950/50 border border-red-500/40 text-xs text-red-300 flex items-center gap-2">
+          <AlertCircle className="w-4 h-4" /> {err}
+        </div>
+      )}
+      {categories.map((c) => {
+        const d = drafts[c.id] ?? c;
+        const count = products.filter((p) => p.category === c.id).length;
+        const dirty = d.name !== c.name || d.displayOrder !== c.displayOrder || d.isVisible !== c.isVisible;
+        return (
+          <div key={c.id} className="p-3 rounded-2xl bg-stone-900/70 border border-stone-800 flex flex-wrap items-center gap-2">
+            <input
+              value={d.name}
+              onChange={(e) => setDrafts({ ...drafts, [c.id]: { ...d, name: e.target.value } })}
+              className={`${inputCls} flex-1 min-w-[160px]`}
+            />
+            <input
+              type="number"
+              min={0}
+              value={d.displayOrder}
+              onChange={(e) => setDrafts({ ...drafts, [c.id]: { ...d, displayOrder: Number(e.target.value) } })}
+              className={`${inputCls} w-20`}
+              aria-label="Sıra"
+            />
+            <button
+              type="button"
+              onClick={() => setDrafts({ ...drafts, [c.id]: { ...d, isVisible: !d.isVisible } })}
+              className="p-2.5 rounded-xl bg-stone-800 text-stone-300"
+              aria-label={d.isVisible ? "Gizle" : "Göster"}
+              title={d.isVisible ? "Vitrinde görünüyor" : "Vitrinde gizli"}
+            >
+              {d.isVisible ? <Eye className="w-4 h-4" /> : <EyeOff className="w-4 h-4 text-stone-500" />}
+            </button>
+            <span className="text-xs text-stone-500 w-16 text-center">{count} ürün</span>
+            <button
+              type="button"
+              disabled={!dirty || busy === c.id}
+              onClick={() => run(c.id, () => onSave(d))}
+              className="px-3 py-2.5 rounded-xl bg-amber-500 text-stone-950 text-xs font-bold disabled:opacity-30"
+            >
+              {busy === c.id ? <Loader2 className="w-4 h-4 animate-spin" /> : "Kaydet"}
+            </button>
+            <button
+              type="button"
+              disabled={count > 0 || busy === c.id}
+              onClick={() => window.confirm(`"${c.name}" silinsin mi?`) && run(c.id, () => onDelete(c.id))}
+              className="p-2.5 rounded-xl text-stone-500 hover:text-red-400 disabled:opacity-30"
+              aria-label="Sil"
+              title={count > 0 ? "İçinde ürün olan kategori silinemez; gizleyebilirsiniz" : "Sil"}
+            >
+              <Trash2 className="w-4 h-4" />
+            </button>
+          </div>
+        );
+      })}
+
+      <div className="flex gap-2">
+        <input value={newName} onChange={(e) => setNewName(e.target.value)} placeholder="Yeni kategori adı (ör. Kampanyalar)" className={inputCls} />
+        <button
+          type="button"
+          disabled={newName.trim().length < 2 || busy === "new"}
+          onClick={() =>
+            run("new", async () => {
+              await onSave({ name: newName.trim(), displayOrder: categories.length + 1, isVisible: true });
+              setNewName("");
+            })
+          }
+          className="px-4 rounded-xl bg-amber-500 text-stone-950 text-sm font-bold flex items-center gap-1 disabled:opacity-40"
+        >
+          <Plus className="w-4 h-4" /> Ekle
+        </button>
+      </div>
+    </div>
+  );
+}
+
+/* ─────────────────────────── küçük parçalar ─────────────────────────── */
+
+function Section({ title, icon, children }: { title: string; icon?: React.ReactNode; children: React.ReactNode }) {
+  return (
+    <section className="space-y-3">
+      <h3 className="text-xs font-bold uppercase tracking-wider text-amber-500 flex items-center gap-1.5">
+        {icon}
+        {title}
+      </h3>
+      {children}
+    </section>
+  );
+}
+
+function Field({ label, hint, children }: { label: string; hint?: string; children: React.ReactNode }) {
+  return (
+    <label className="block space-y-1">
+      <span className="text-xs font-semibold text-stone-300">{label}</span>
+      {children}
+      {hint && <span className="block text-[11px] text-stone-500">{hint}</span>}
+    </label>
+  );
+}
+
+function Toggle({ label, on, onChange }: { label: string; on: boolean; onChange: (v: boolean) => void }) {
+  return (
+    <button
+      type="button"
+      onClick={() => onChange(!on)}
+      aria-pressed={on}
+      className={`py-2.5 px-3 rounded-xl text-sm font-semibold border text-left ${
+        on ? "bg-emerald-500/10 text-emerald-300 border-emerald-500/30" : "bg-stone-950 text-stone-500 border-stone-800"
+      }`}
+    >
+      {on ? "✓ " : "○ "}
+      {label}
+    </button>
   );
 }

@@ -1,7 +1,8 @@
 "use client";
 
 import React, { useState } from "react";
-import { ExtendedProduct } from "@/hooks/useProducts";
+import type { ExtendedProduct } from "@/types";
+import { productBadges } from "@/lib/products/badges";
 import { useCartStore } from "@/lib/store/useCartStore";
 import { Plus, Check } from "lucide-react";
 import Link from "next/link";
@@ -25,6 +26,9 @@ export function ProductCard({ product, onOpenDetails }: ProductCardProps) {
     }
   };
 
+  const badges = productBadges(product);
+  const soldOut = product.isAvailable === false;
+
   const weightLabel =
     product.weight >= 1000 && product.weightUnit === "ml"
       ? `${product.weight / 1000}L`
@@ -45,11 +49,22 @@ export function ProductCard({ product, onOpenDetails }: ProductCardProps) {
           decoding="async"
         />
 
-        {product.madeToOrder && (
-          <div className="absolute top-2 left-2 sm:top-2.5 sm:left-2.5 pointer-events-none">
-            <span className="px-2 py-0.5 sm:px-2.5 rounded-full bg-artisan-terracotta text-white text-[9px] sm:text-[10px] font-sans font-bold uppercase tracking-wide shadow-sm">
-              Ön Sipariş
-            </span>
+        {badges.length > 0 && (
+          <div className="absolute top-2 left-2 sm:top-2.5 sm:left-2.5 flex flex-col items-start gap-1 pointer-events-none">
+            {badges.map((b) => (
+              <span
+                key={b.label}
+                className={`px-2 py-0.5 sm:px-2.5 rounded-full text-[9px] sm:text-[10px] font-sans font-bold uppercase tracking-wide shadow-sm ${
+                  b.tone === "danger"
+                    ? "bg-stone-800 text-stone-200"
+                    : b.tone === "gold"
+                    ? "bg-artisan-gold text-stone-950"
+                    : "bg-artisan-terracotta text-white"
+                }`}
+              >
+                {b.label}
+              </span>
+            ))}
           </div>
         )}
 
@@ -79,18 +94,22 @@ export function ProductCard({ product, onOpenDetails }: ProductCardProps) {
 
         {/* Price + Add */}
         <div className="sm:pt-2.5 sm:border-t border-[#261E17] flex items-center justify-between gap-2">
-          <div className="flex items-baseline gap-1">
+          <div className="flex items-baseline gap-1 flex-wrap">
             <span className="font-serif text-lg sm:text-2xl font-bold text-foreground">
               {product.price}
             </span>
             <span className="text-[10px] sm:text-xs text-stone-400 font-sans font-medium">TL</span>
+            {product.compareAtPrice ? (
+              <span className="text-[11px] sm:text-xs text-stone-500 line-through font-sans">{product.compareAtPrice} TL</span>
+            ) : null}
           </div>
 
           <button
             type="button"
             onClick={handleAddToCart}
-            aria-label={`${product.name} sepete ekle`}
-            className={`touch-target-44 shrink-0 h-9 w-9 sm:w-auto sm:px-4 rounded-full sm:rounded-xl font-sans text-xs font-semibold flex items-center justify-center gap-1.5 transition-all active:scale-[0.95] ${
+            disabled={soldOut}
+            aria-label={soldOut ? `${product.name} tükendi` : `${product.name} sepete ekle`}
+            className={`touch-target-44 shrink-0 h-9 w-9 sm:w-auto sm:px-4 rounded-full sm:rounded-xl font-sans text-xs font-semibold flex items-center justify-center gap-1.5 transition-all active:scale-[0.95] disabled:opacity-40 disabled:cursor-not-allowed ${
               isAdded
                 ? "bg-emerald-600 text-white shadow-xs"
                 : "bg-artisan-terracotta hover:bg-artisan-terracotta-dark text-white shadow-xs"

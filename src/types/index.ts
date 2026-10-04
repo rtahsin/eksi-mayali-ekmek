@@ -26,6 +26,58 @@ export interface Product {
   storageInstructions?: string;
   flourTypes?: string[];
   hydration?: number;
+  // ── Faz 2: esnek satış kuralları (admin'den yönetilir) ──
+  /** Kampanya: üstü çizili eski fiyat */
+  compareAtPrice?: number | null;
+  /** "daily" = her gün, "dates" = sadece seçilen günlerde */
+  availability?: ProductAvailability;
+  /** availability = "dates" için yaklaşan satış günleri */
+  saleDates?: ProductSaleDate[];
+  /** Ürün başına günlük adet sınırı (yok = sınırsız) */
+  dailyLimit?: number | null;
+  /** En az kaç gün önceden sipariş */
+  leadTimeDays?: number;
+  /** Günlük ekmek kapasitesinden düşen birim (ekmek 1, eşlikçi 0, paket = içindeki ekmek) */
+  capacityUnits?: number;
+  /** Paket içeriği */
+  bundleItems?: BundleItem[];
+  /** "Birlikte iyi gider" önerileri (ürün id'leri) */
+  crossSell?: string[];
+  displayOrder?: number;
+}
+
+export interface MasterclassDetail {
+  flourHeritage?: string;
+  technique?: string;
+  healthBenefit?: string;
+  pairingStorage?: string;
+  videoUrl?: string;
+}
+
+export interface ExtendedProduct extends Product {
+  masterclass?: MasterclassDetail;
+}
+
+export type ProductAvailability = "daily" | "dates";
+
+export interface ProductSaleDate {
+  /** `YYYY-MM-DD` */
+  date: string;
+  /** O gün için adet sınırı (yok = ürünün günlük sınırı / sınırsız) */
+  limit: number | null;
+}
+
+export interface BundleItem {
+  productId: string;
+  quantity: number;
+}
+
+export interface ProductCategoryInfo {
+  id: string;
+  name: string;
+  description: string;
+  displayOrder: number;
+  isVisible: boolean;
 }
 
 export interface OrderItem {

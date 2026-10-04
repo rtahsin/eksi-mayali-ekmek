@@ -20,6 +20,16 @@ interface CheckoutActionsProps {
 
 const newAttemptKey = () => `IDEM-${crypto.randomUUID()}`;
 
+/** Bu hatalarda tarih listesi tazelenir (gün dolmuş / kapanmış olabilir). */
+const DATE_RELATED_CODES = new Set([
+  "INVALID_DELIVERY_DATE",
+  "DATE_NOT_AVAILABLE",
+  "NOT_ON_SALE_THIS_DAY",
+  "LEAD_TIME_NOT_MET",
+  "PRODUCT_LIMIT_REACHED",
+  "DAILY_CAPACITY_FULL",
+]);
+
 export function CheckoutActions({ minBasketShortfall, orderingBlockedReason, onDatesStale, onOrderPlaced }: CheckoutActionsProps) {
   const items = useCartStore((s) => s.items);
   const customerInfo = useCartStore((s) => s.customerInfo);
@@ -90,7 +100,7 @@ export function CheckoutActions({ minBasketShortfall, orderingBlockedReason, onD
     } catch (err: unknown) {
       if (err instanceof OrderSubmitError) {
         setErrorMessage(err.message);
-        if (err.code === "INVALID_DELIVERY_DATE") onDatesStale();
+        if (err.code && DATE_RELATED_CODES.has(err.code)) onDatesStale();
       } else {
         console.error("Order submission error:", err);
         setErrorMessage("Bağlantı hatası. Lütfen tekrar deneyin; aynı sipariş iki kez oluşmaz.");

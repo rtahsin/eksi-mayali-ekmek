@@ -9,7 +9,7 @@
 | 0 | Güvenlik yaması | ~1 gün + 1 saat Tahsin | ✅ tamamlandı (4 Eki): PR #1 canlıda, 013 uygulandı ve doğrulandı, `JWT_SECRET` silindi |
 | 0.5 | CI (her PR'da otomatik build) | ~2 saat | ✅ tamamlandı (4 Eki, PR #3) |
 | 1 | Sipariş çekirdeği onarımı | 3-4 gün | ✅ canlıda (4 Eki, PR #4): 014 uygulandı ve doğrulandı; Telegram env eklendi. Not: 014 birleştirmeden birkaç dakika önce çalıştı → o aralıkta web siparişi reddedildi (sıra kuralı: önce kod, sonra migration) |
-| 2 | Fırın günleri, kapasite, eşlikçiler | 3-4 gün | sıradaki |
+| 2 | Esnek ürün ve satış yönetimi (kategori, satış günleri, kapasite, paket, kampanya) | 4-5 gün | 🟡 başladı |
 | 3 | Admin sadeleştirme + finans doğruluğu | ~5 gün | bekliyor |
 | 4 | Marka, görseller, içerik, yasal metinler | 4-6 gün + içerik | bekliyor |
 | 5 | Temizlik ve araçlar | 1-2 gün | bekliyor |
@@ -296,17 +296,21 @@ Ayrıca: yinelenen `idempotency_key`'leri boşalt + kısmi unique index; `order_
 
 **Doğrulama:** vitest uç durumları (İstanbul 11:59/12:00 cutoff; UTC 21:00-24:00 gün kayması); build; 014 ön kontrol → kuru deneme → gerçek → `014_smoke.sql`; önizlemede Tahsin'in telefonundan: nakit/POS/WhatsApp birer sipariş, admin'de cutoff değişince en erken tarih kayar, min sepet ödemeyi kilitler, sahte mahalle (curl) reddedilir, sipariş admin "Bugün"de görünür, Telegram gelir, misafir takibi ve iptal çalışır.
 
-### Faz 2 — Fırın günleri, kapasite, eşlikçiler
-**Model (015):**
-- `products` + `availability` (`daily` | `bake_day` | `always`), `capacity_units` (ekmek 1, paket = içindeki ekmek sayısı, eşlikçi 0), `daily_limit` (opsiyonel), `lead_time_days`, `cross_sell`. Kategoriye göre tek seferlik doldurma (Tahsin sonra gözden geçirir). `order_items.capacity_units` anlık kopya.
-- `bake_days(id, bake_date UNIQUE, title, note, order_deadline, is_published)` ve `bake_day_items(bake_day_id, product_id, quantity_limit, sort_order)`; RLS: yayınlanmışlar herkese, yönetim admin. `v_product_reservations` görünümü (`security_invoker`, iptaller hariç).
-- `create_order_atomic` v4: `pg_advisory_xact_lock(hashtext('ekmeklab:capacity:'||tarih))` altında **sayaç tutmadan** SUM ile kontrol: ürün aktif/uygun mu; fırın günü ürünü o tarihte yayınlanmış fırın gününde var mı ve son saat geçmedi mi; ürün limiti (`quantity_limit` / `daily_limit`); günlük perakende ekmek kapasitesi (`dailyBreadCapacity`, sadece perakende — toptan fişler sipariş olmadığı için zaten dahil değil). Hata kodları: `PRODUCT_UNAVAILABLE`, `NOT_A_BAKE_DAY_PRODUCT`, `BAKE_DAY_CLOSED`, `PRODUCT_LIMIT_REACHED`, `DAILY_CAPACITY_FULL` (kalan adetle). İptaller kapasiteyi kendiliğinden boşaltır. Admin rotası için `options.bypass_limits`.
-- Eşlikçi stoku v1: "Tükendi" anahtarı (`is_available`), sayısal stok yok. Paket v1: normal ürün. Fırın günleri v1: elle + "+7 gün kopyala".
-- Kurallar: en erken teslim = bugün + `lead_time_days` (+1 cutoff geçtiyse); fırın günü ürünü sadece o tarihe ve son saate kadar (son saat cutoff'u ezer); sepetin tarihleri = ürünlerin kesişimi.
+### Faz 2 — Esnek ürün ve satış yönetimi (4 Eki'de yeniden tasarlandı)
+**Karar (Tahsin, 4 Eki):** kapasite ve özel reçete günleri henüz belli değil (siparişe göre üretim); ürün grupları, paketler ve kampanyalar zamanla Tahsin tarafından admin'den belirlenecek; sadece eşlikçiden oluşan siparişe izin var; test canlıda (TEST önekli kayıtlar). Bu yüzden sabit "fırın günü" yapısı yerine **her şey admin'den yönetilen esnek kurallar**:
 
-**Uygulama:** `src/lib/ordering/availability.ts` (saf) + `loadAvailability.ts` + `POST /api/availability` (sepetin tek doğruluk kaynağı; `/api/orders/create` aynı fonksiyonla yeniden doğrular). Vitrin: `WeeklyBakeSection.tsx` ("Bu haftanın fırını", son sipariş zamanı, "8/20 kaldı"); ürün kartı rozetleri ("Her gün", "Fırın günü: Cmt 12 Eki", "Tükendi", "Eşlikçi"); `stock || 25` hileleri kalkar (`page.tsx:60`, `useProducts.ts:84`, `urun/[slug]/page.tsx:51`, `api/admin/products/route.ts:68`). Sepet: tarih çipleri `POST /api/availability`'den (neden açıklamalı), çapraz satış `cross_sell` ürünlerinden (sabit ID'ler kalkar). Admin "Fırın Günleri" sayfası (`src/app/admin/firin-gunleri/`, `api/admin/bake-days`): 4 haftalık liste, ürün + limit, rezerve/kalan, yayınla, +7 gün kopyala, 7 günlük kapasite şeridi. Üretim (`uretim/page.tsx`, `useProduction.ts`): tarih seçimi; ekmek / fırın günü / **toptan (ayardaki `wholesaleDailyLoaves`)** / eşlikçi paketleme listesi; yazdırılabilir; parti aşamaları kalkar. Ürün admin: yeni alanlar, silme = arşiv.
+**Model (015, uygulamadan ÖNCE — eklemeli, eski kod etkilenmez):**
+- `products` yeni sütunlar: `compare_at_price` (kampanya: üstü çizili eski fiyat), `availability` (`daily` | `dates`), `daily_limit` (ürün başına günlük adet sınırı, ops.), `lead_time_days` (en az kaç gün önceden), `capacity_units` (günlük ekmek kapasitesinden kaç birim düşer: ekmek 1, eşlikçi 0, paket = içindeki ekmek), `bundle_items` (paket içeriği `[{product_id, quantity}]`), `cross_sell` (birlikte iyi gider). Mevcut ürünler: `gurme` kategorisi `capacity_units = 0`, diğerleri 1.
+- `product_sale_dates(product_id, sale_date, quantity_limit)` — `availability = 'dates'` ürünlerin satıldığı günler (özel reçete istenen gün açılır).
+- `capacity_days(day, bread_capacity, note)` — belirli bir gün için ekmek kapasitesi (ayardaki `dailyBreadCapacity` varsayılanı ezer; ikisi de boşsa sınırsız).
+- `categories` admin'den yönetilir (`is_visible` eklenir); ürün kategorisi serbest.
+- `order_items.capacity_units`, `order_items.components` anlık kopya (paket açılımı üretim toplamında kullanılır).
+- `create_order_atomic` v4 (aynı imza): `pg_advisory_xact_lock` (tarih başına) altında SUM ile kontrol — ürün aktif/uygun, `dates` ürünü o tarihte satışta mı, hazırlık süresi, ürün limiti (`quantity_limit` / `daily_limit`), günlük ekmek kapasitesi. Hata kodları: `PRODUCT_UNAVAILABLE`, `NOT_ON_SALE_THIS_DAY`, `LEAD_TIME_NOT_MET`, `PRODUCT_LIMIT_REACHED`, `DAILY_CAPACITY_FULL`. İptaller kapasiteyi kendiliğinden boşaltır. Admin yolu için `bypass_limits`.
 
-**Sıra:** 015 uygulamadan ÖNCE (RPC eski çağrıyı kabul eder). **Doğrulama:** vitest (kesişim, hazırlık süresi, son saat, kapasite); `015_smoke.sql` (limit 2 → 3. sipariş reddedilir; kapasite dolunca reddedilir); 10 paralel çağrıda limit 2 → tam 2 başarı; önizlemede uçtan uca.
+**Uygulama:** `src/lib/ordering/availability.ts` (saf, testli) + sunucu yükleyici; `POST /api/availability` sepet içeriğine göre tarih listesi (neden açıklamalı) — sepetin ve `/api/orders/create`'in tek doğruluk kaynağı. Sunucu tarafı katalog yükleyici (statik katalog yedeği ve `stock || 25` hileleri kalkar). Vitrin: kategori sekmeleri veritabanından; ürün kartı rozetleri ("Kampanya", "Paket", "Sadece Cmt 12 Eki", "Tükendi"); sepet çapraz satışı `cross_sell`'den. Admin Ürünler sayfası baştan: tüm alanlar, satış günleri takvimi, paket içeriği, kampanya fiyatı, birlikte iyi gider, kategori yönetimi, silme = arşiv, slug Türkçe ve tekil (mevcut slug değişmez). Üretim sayfası baştan: tarih seç → ürün bazında toplam (paketler açılır) + toptan adet + kapasite doluluğu + gün için kapasite belirleme; yazdırılabilir; parti aşamaları kalkar.
+
+**Sıra:** 015 → uygulama. **Doğrulama:** vitest (kesişim, hazırlık süresi, satış günleri, kapasite, paket açılımı); `015_smoke.sql`; canlıda TEST siparişiyle uçtan uca.
+**Ertelenen:** kupon kodu, sayısal stok, ürün görseli yükleme (Faz 4).
 
 ### Faz 3 — Admin sadeleştirme + finans doğruluğu
 **3a (navigasyon):** menü = Bugün · Siparişler · Teslimat · Üretim · Fırın Günleri · Ürünler · Cariler · Müşteriler · Kütüphane · Ayarlar (`AdminSidebar.tsx:47-103`, `MobileBottomNav.tsx:16-36` + ikincil linkler: `admin/page.tsx:88,346`, `siparisler/page.tsx:102`, `kurye/page.tsx:540`, dagitim bileşenleri). **Sil:** `src/app/api/admin/orders/parse/`, `src/components/admin/WhatsAppOrderParserModal.tsx` (+ `siparisler/yeni` içindeki kullanımı), `@google/genai` paketi ve `GEMINI_API_KEY` (env örneği + Vercel), `src/app/admin/finans/**`, `src/app/admin/tedarikciler/**`, `useFinans.ts`, `useSuppliers.ts`, `CourierSettlementModal.tsx`, `src/components/admin/dagitim/*` (önce `getMapUrls` + `BEYLIKDUZU_ROUTE_ORDER` → `src/lib/delivery/maps.ts`); `siparisler/dagitim` → `/kurye` yönlendirmesi. **Kurye yönetimi:** `src/lib/features.ts` bayrağı (kapalı) → `notFound()`; sipariş detayındaki kurye seçimi bayrağa bağlı. **Teslimat ekranı:** `/kurye` yeniden yazılır (tarih seçici, rota sırası + elle sıralama, ara/WhatsApp/navigasyon, etiket yazdır; mevcut `CourierActiveStopCard`, `CourierQueueList` kullanılır; GPS izleme/yayını ve gün sonu raporu kalkar). **"Bugün" paneli:** bugün/yarın teslimatlar, bekleyen siparişler (WhatsApp olanlar işaretli), ürün bazında ekmek toplamları (+ toptan), sıradaki fırın gününün doluluğu, tahsil edilecek nakit/POS, hızlı işlemler. `musteriler/[id]` listeye bağlanır ya da silinir.
@@ -339,7 +343,7 @@ Ayrıca: yinelenen `idempotency_key`'leri boşalt + kısmi unique index; `order_
 |---|---|---|---|
 | 013 | 0 | fonksiyon yetkileri, search_path, profil sütun yetkileri, sipariş politikaları, ayarlar, güvenli profil tetikleyicisi, `app_migrations` | SONRA |
 | 014 | 1 | `delivery_date` → DATE, idempotency index, onay sütunları, RPC v3 | SONRA |
-| 015 | 2 | ürün uygunluğu, kapasite, fırın günleri, görünüm, RPC v4 | ÖNCE |
+| 015 | 2 | ürün alanları, satış günleri, gün kapasitesi, kategoriler, RPC v4 | ÖNCE |
 | 016 | 3 | cari defter normalizasyonu, `delta`, mutabakat, kanonik defter RPC | PR 3b ile (bakiye teyidi önce) |
 | 017 | 3 | iptal/teslim RPC'leri, RPC v5 | PR 3b ile |
 | 018 | 4 | `media` bucket + politikalar | yükleme arayüzünden ÖNCE |

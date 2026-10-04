@@ -2,14 +2,13 @@ import React from "react";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import { createClient as createSupabaseClient } from "@supabase/supabase-js";
 import { Navbar } from "@/components/common/Navbar";
 import { Footer } from "@/components/common/Footer";
 import { CartDrawer } from "@/components/cart/CartDrawer";
 import { OrderSuccessModal } from "@/components/cart/OrderSuccessModal";
 import { ProductDetailClientActions } from "@/components/storefront/ProductDetailClientActions";
-import { INITIAL_PRODUCTS, ExtendedProduct } from "@/data/initialProducts";
-import { normalizeCategory } from "@/lib/utils/productCategory";
+import type { ExtendedProduct } from "@/types";
+import { getCatalog, getProductBySlugOrId as getProductBySlugOrIdServer } from "@/lib/products/server";
 import { slugify, getProductSlug, getProductUrl } from "@/lib/utils/slugify";
 import { ShippingPolicyNote } from "@/components/storefront/ShippingPolicyNote";
 import {
@@ -31,105 +30,17 @@ import { SITE_URL } from "@/lib/site";
 
 export const revalidate = 60; // ISR: Revalidate product page every 60 seconds
 
-function getPublicSupabaseClient() {
-  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const anonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
-  if (!url || !anonKey || !url.startsWith("https://")) return null;
-  return createSupabaseClient(url, anonKey);
-}
-
-// Map raw database row to ExtendedProduct
-function mapDbProduct(p: any): ExtendedProduct {
-  return {
-    id: p.id,
-    slug: p.slug || slugify(p.name),
-    name: p.name,
-    description: p.description || "",
-    price: Number(p.price),
-    imageUrl:
-      p.image_url ||
-      "https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=900&q=85",
-    category: normalizeCategory(p.category),
-    stock: Number(p.stock) || 25,
-    weight: Number(p.weight) || 800,
-    weightUnit: p.weight_unit || "g",
-    madeToOrder: Boolean(p.made_to_order),
-    isPopular: Boolean(p.is_popular),
-    isNew: Boolean(p.is_new),
-    isAvailable: p.is_available !== false,
-    isActive: p.is_active !== false,
-    ingredients: Array.isArray(p.ingredients) ? p.ingredients : [],
-    flourTypes: Array.isArray(p.flour_types) ? p.flour_types : [],
-    hydration: p.hydration ? Number(p.hydration) : undefined,
-    atelierPlacement: p.atelier_placement || undefined,
-    masterclass: p.masterclass || undefined,
-  };
-}
-
 async function getProductBySlugOrId(slugOrId: string): Promise<ExtendedProduct | null> {
-  const cleanParam = decodeURIComponent(slugOrId).trim().toLowerCase();
-
-  try {
-    const supabase = getPublicSupabaseClient();
-    if (supabase) {
-      // 1. Try finding by exact slug or exact ID
-      const { data, error } = await supabase
-        .from("products")
-        .select("*")
-        .or(`slug.eq.${cleanParam},id.eq.${cleanParam}`)
-        .eq("is_active", true)
-        .maybeSingle();
-
-      if (data && !error) {
-        return mapDbProduct(data);
-      }
-
-      // 2. Fetch all active and match by slugified name
-      const { data: allActive } = await supabase
-        .from("products")
-        .select("*")
-        .eq("is_active", true);
-
-      if (allActive && allActive.length > 0) {
-        const found = allActive.find(
-          (p) =>
-            p.slug === cleanParam ||
-            p.id.toLowerCase() === cleanParam ||
-            slugify(p.name) === cleanParam
-        );
-        if (found) return mapDbProduct(found);
-      }
-    }
-  } catch (err) {
-    console.warn("Product fetch from DB failed, checking static fallback:", err);
-  }
-
-  // Fallback to INITIAL_PRODUCTS
-  const staticFound = INITIAL_PRODUCTS.find(
-    (p) =>
-      p.slug === cleanParam ||
-      p.id.toLowerCase() === cleanParam ||
-      slugify(p.name) === cleanParam
-  );
-
-  return staticFound || null;
+  const clean = decodeURIComponent(slugOrId).trim().toLowerCase();
+  const direct = await getProductBySlugOrIdServer(clean);
+  if (direct) return direct;
+  // Eski linkler: ada göre üretilmiş slug
+  const { products } = await getCatalog();
+  return products.find((p) => p.slug === clean || p.id.toLowerCase() === clean || slugify(p.name) === clean) ?? null;
 }
 
 async function getAllProducts(): Promise<ExtendedProduct[]> {
-  try {
-    const supabase = getPublicSupabaseClient();
-    if (supabase) {
-      const { data, error } = await supabase
-        .from("products")
-        .select("*")
-        .eq("is_active", true);
-
-      if (data && !error && data.length > 0) {
-        return data.map(mapDbProduct);
-      }
-    }
-  } catch {}
-  return INITIAL_PRODUCTS;
+  return (await getCatalog()).products;
 }
 
 export async function generateStaticParams() {

@@ -1,54 +1,92 @@
 import { NextResponse } from "next/server";
+import { z } from "zod";
 import { requireAdmin } from "@/lib/security/apiAuth";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { getErrorMessage } from "@/lib/utils/error";
+import { getCatalog } from "@/lib/products/server";
+import { slugify } from "@/lib/utils/slugify";
+import { isIsoDate, istanbulToday } from "@/lib/time/istanbul";
 
-export async function DELETE(request: Request) {
+const money = z.number().finite().min(0).max(100000);
+const intOrNull = (max: number) => z.number().int().min(0).max(max).nullable();
+const strList = (max: number) => z.array(z.string().trim().min(1).max(80)).max(max);
+
+const ProductSchema = z
+  .object({
+    id: z.string().regex(/^[A-Za-z0-9_-]{2,80}$/).optional(),
+    name: z.string().trim().min(2, "Ürün adı en az 2 karakter").max(120),
+    slug: z
+      .string()
+      .trim()
+      .regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/, "Adres (slug) yalnız küçük harf, rakam ve tire içerebilir")
+      .max(120)
+      .optional(),
+    description: z.string().max(4000).default(""),
+    price: money,
+    compareAtPrice: money.nullable().default(null),
+    imageUrl: z.string().trim().max(1000).nullable().default(null),
+    category: z.string().trim().min(1).max(60),
+    weight: z.number().int().min(0).max(100000).default(0),
+    weightUnit: z.enum(["g", "kg", "ml", "l", "adet"]).default("g"),
+    isAvailable: z.boolean().default(true),
+    isActive: z.boolean().default(true),
+    isPopular: z.boolean().default(false),
+    isNew: z.boolean().default(false),
+    madeToOrder: z.boolean().default(false),
+    availability: z.enum(["daily", "dates"]).default("daily"),
+    saleDates: z
+      .array(z.object({ date: z.string().refine(isIsoDate, "Tarih YYYY-AA-GG olmalı"), limit: intOrNull(10000) }))
+      .max(120)
+      .default([]),
+    dailyLimit: intOrNull(10000).default(null),
+    leadTimeDays: z.number().int().min(0).max(30).default(0),
+    capacityUnits: z.number().int().min(0).max(100).default(1),
+    bundleItems: z
+      .array(z.object({ productId: z.string().min(1).max(80), quantity: z.number().int().min(1).max(100) }))
+      .max(20)
+      .default([]),
+    crossSell: z.array(z.string().min(1).max(80)).max(6).default([]),
+    displayOrder: z.number().int().min(0).max(100000).default(0),
+    ingredients: strList(40).default([]),
+    flourTypes: strList(20).default([]),
+    hydration: z.number().int().min(0).max(200).nullable().default(null),
+    masterclass: z
+      .object({
+        flourHeritage: z.string().max(2000).optional(),
+        technique: z.string().max(2000).optional(),
+        healthBenefit: z.string().max(2000).optional(),
+        pairingStorage: z.string().max(2000).optional(),
+        videoUrl: z.string().max(500).optional(),
+      })
+      .nullable()
+      .default(null),
+  })
+  .refine((p) => p.compareAtPrice === null || p.compareAtPrice > p.price, {
+    message: "Kampanya için eski fiyat, satış fiyatından yüksek olmalı",
+    path: ["compareAtPrice"],
+  });
+
+export async function GET(request: Request) {
   const guard = await requireAdmin(request);
   if (!guard.ok) return guard.response;
 
-  try {
-    const supabase = createAdminClient();
-    if (!supabase) {
-      return NextResponse.json({ error: "Supabase unconfigured" }, { status: 500 });
-    }
+  const supabase = createAdminClient();
+  if (!supabase) return NextResponse.json({ error: "Supabase unconfigured" }, { status: 500 });
+  return NextResponse.json(await getCatalog({ includeInactive: true, client: supabase }));
+}
 
-    const { searchParams } = new URL(request.url);
-    let id = searchParams.get("id");
-
-    if (!id) {
-      try {
-        const body = await request.json();
-        id = body.id;
-      } catch {}
-    }
-
-    if (!id) {
-      return NextResponse.json({ error: "Product ID is required" }, { status: 400 });
-    }
-
-    // Try hard delete first
-    const { error: delErr } = await supabase!
-      .from("products")
-      .delete()
-      .eq("id", id);
-
-    if (delErr) {
-      console.warn("Product hard delete warning (falling back to soft delete):", delErr);
-      // If foreign key exists or other restriction, soft delete
-      const { error: updateErr } = await supabase!
-        .from("products")
-        .update({ is_active: false, updated_at: new Date().toISOString() })
-        .eq("id", id);
-
-      if (updateErr) throw updateErr;
-    }
-
-    return NextResponse.json({ success: true, message: "Ürün başarıyla silindi", id });
-  } catch (err: unknown) {
-    console.error("API DELETE /api/admin/products error:", err);
-    return NextResponse.json({ error: getErrorMessage(err) || "Silme hatası" }, { status: 500 });
-  }
+/** Tekil slug: istenen ya da addan türetilen; çakışırsa -2, -3… */
+async function uniqueSlug(
+  supabase: NonNullable<ReturnType<typeof createAdminClient>>,
+  base: string,
+  ownId: string | null
+): Promise<string> {
+  const root = base || "urun";
+  const { data } = await supabase.from("products").select("id, slug").like("slug", `${root}%`);
+  const taken = new Set(((data ?? []) as { id: string; slug: string | null }[]).filter((r) => r.id !== ownId).map((r) => r.slug));
+  if (!taken.has(root)) return root;
+  for (let i = 2; i < 1000; i++) if (!taken.has(`${root}-${i}`)) return `${root}-${i}`;
+  return `${root}-${crypto.randomUUID().slice(0, 6)}`;
 }
 
 export async function POST(request: Request) {
@@ -57,46 +95,99 @@ export async function POST(request: Request) {
 
   try {
     const supabase = createAdminClient();
-    if (!supabase) {
-      return NextResponse.json({ error: "Supabase unconfigured" }, { status: 500 });
+    if (!supabase) return NextResponse.json({ error: "Supabase unconfigured" }, { status: 500 });
+
+    const parsed = ProductSchema.safeParse(await request.json().catch(() => null));
+    if (!parsed.success) {
+      return NextResponse.json({ error: parsed.error.issues.map((i) => i.message).join(", ") }, { status: 400 });
     }
+    const p = parsed.data;
 
-    const body = await request.json();
-    const id = body.id || `prod_${Date.now().toString(36)}`;
+    // Mevcut ürün mü? (slug ancak admin açıkça değiştirirse değişir — eski linkler kırılmasın)
+    const existing = p.id
+      ? ((await supabase.from("products").select("id, slug").eq("id", p.id).maybeSingle()).data as { id: string; slug: string | null } | null)
+      : null;
 
-    const payload: any = {
+    const id = existing?.id ?? p.id ?? `prod_${slugify(p.name).slice(0, 40) || "urun"}_${crypto.randomUUID().slice(0, 4)}`;
+    const wantedSlug = p.slug ?? existing?.slug ?? slugify(p.name);
+    const slug = wantedSlug === existing?.slug ? wantedSlug : await uniqueSlug(supabase, wantedSlug, existing?.id ?? null);
+
+    // Paket ve öneriler kendini içeremez
+    const bundleItems = p.bundleItems.filter((b) => b.productId !== id);
+    const crossSell = Array.from(new Set(p.crossSell.filter((c) => c !== id)));
+
+    const row = {
       id,
-      name: body.name,
-      slug: body.slug || (body.name ? body.name.toLowerCase().replace(/[^a-z0-9]+/g, "-") : id),
-      description: body.description || "",
-      price: Number(body.price) || 0,
-      image_url: body.imageUrl || body.image_url || null,
-      category: body.category || "bread",
-      stock: Number(body.stock) || 25,
-      weight: Number(body.weight) || 800,
-      weight_unit: body.weightUnit || body.weight_unit || "g",
-      made_to_order: Boolean(body.madeToOrder ?? body.made_to_order),
-      is_popular: Boolean(body.isPopular ?? body.is_popular),
-      is_new: Boolean(body.isNew ?? body.is_new),
-      is_available: body.isAvailable !== false && body.is_available !== false,
-      is_active: true,
-      ingredients: Array.isArray(body.ingredients) ? body.ingredients : [],
-      flour_types: Array.isArray(body.flourTypes ?? body.flour_types) ? (body.flourTypes ?? body.flour_types) : [],
-      hydration: body.hydration ? Number(body.hydration) : null,
-      atelier_placement: body.atelierPlacement || body.atelier_placement || null,
-      masterclass: body.masterclass || null,
+      slug,
+      name: p.name,
+      description: p.description,
+      price: p.price,
+      compare_at_price: p.compareAtPrice,
+      image_url: p.imageUrl || null,
+      category: p.category,
+      weight: p.weight,
+      weight_unit: p.weightUnit,
+      is_available: p.isAvailable,
+      is_active: p.isActive,
+      is_popular: p.isPopular,
+      is_new: p.isNew,
+      made_to_order: p.madeToOrder,
+      availability: p.availability,
+      daily_limit: p.dailyLimit,
+      lead_time_days: p.leadTimeDays,
+      capacity_units: p.capacityUnits,
+      bundle_items: bundleItems.length ? bundleItems.map((b) => ({ product_id: b.productId, quantity: b.quantity })) : null,
+      cross_sell: crossSell,
+      display_order: p.displayOrder,
+      ingredients: p.ingredients,
+      flour_types: p.flourTypes,
+      hydration: p.hydration,
+      masterclass: p.masterclass,
       updated_at: new Date().toISOString(),
     };
 
-    const { error } = await supabase!
-      .from("products")
-      .upsert(payload, { onConflict: "id" });
-
+    const { error } = await supabase.from("products").upsert(row, { onConflict: "id" });
     if (error) throw error;
 
-    return NextResponse.json({ success: true, product: payload });
+    // Satış günleri: bugünden itibarenkileri verilen listeyle değiştir (geçmiş günler kayıt olarak kalır)
+    const today = istanbulToday();
+    const { error: delErr } = await supabase.from("product_sale_dates").delete().eq("product_id", id).gte("sale_date", today);
+    if (delErr) throw delErr;
+    const future = p.availability === "dates" ? p.saleDates.filter((d) => d.date >= today) : [];
+    if (future.length) {
+      const unique = Array.from(new Map(future.map((d) => [d.date, d])).values());
+      const { error: insErr } = await supabase
+        .from("product_sale_dates")
+        .insert(unique.map((d) => ({ product_id: id, sale_date: d.date, quantity_limit: d.limit })));
+      if (insErr) throw insErr;
+    }
+
+    return NextResponse.json({ success: true, id, slug });
   } catch (err: unknown) {
-    console.error("API POST /api/admin/products error:", err);
+    console.error("POST /api/admin/products:", err);
     return NextResponse.json({ error: getErrorMessage(err) || "Kaydetme hatası" }, { status: 500 });
+  }
+}
+
+/** Silme = arşiv (geçmiş siparişler ve fişler ürüne bağlı kalır). Tekrar etkinleştirmek için kaydedilir. */
+export async function DELETE(request: Request) {
+  const guard = await requireAdmin(request);
+  if (!guard.ok) return guard.response;
+
+  try {
+    const supabase = createAdminClient();
+    if (!supabase) return NextResponse.json({ error: "Supabase unconfigured" }, { status: 500 });
+    const id = new URL(request.url).searchParams.get("id");
+    if (!id || !/^[A-Za-z0-9_-]{2,80}$/.test(id)) return NextResponse.json({ error: "Geçersiz ürün" }, { status: 400 });
+
+    const { error } = await supabase
+      .from("products")
+      .update({ is_active: false, updated_at: new Date().toISOString() })
+      .eq("id", id);
+    if (error) throw error;
+    return NextResponse.json({ success: true, id });
+  } catch (err: unknown) {
+    console.error("DELETE /api/admin/products:", err);
+    return NextResponse.json({ error: getErrorMessage(err) || "Arşivleme hatası" }, { status: 500 });
   }
 }
