@@ -21,6 +21,7 @@ import {
 } from "lucide-react";
 import { useCariler } from "@/hooks/useCariler";
 import { CariAccount, BEYLIKDUZU_NEIGHBORHOODS } from "@/types/admin";
+import { SITE_URL } from "@/lib/site";
 
 export default function FinansCarilerPage() {
   const {
@@ -60,7 +61,7 @@ export default function FinansCarilerPage() {
 
   const generateWhatsAppLink = (cari: CariAccount) => {
     return `https://wa.me/90${cari.phone.replace(/\D/g, "")}?text=${encodeURIComponent(
-      `🍞 *EKMEKLAB TAŞ FIRIN - CARİ HESAP EKSTRESİ*\nSayın *${cari.businessName}*,\n\n📊 *Güncel Kalan Bakiye:* ${cari.balance.toLocaleString("tr-TR")} ₺\n🔗 *Canlı Ekstre Linkiniz:* https://ekmeklab.tr/ekstre/${cari.id}\n\nTüm teslimat fişlerinizi ve ödemelerinizi yukarıdaki bağlantıdan anlık olarak inceleyebilirsiniz.\nBereketli işler dileriz!\nEkmekLab Zanaatkar Fırın`
+      `🍞 *EKMEKLAB TAŞ FIRIN - CARİ HESAP EKSTRESİ*\nSayın *${cari.businessName}*,\n\n📊 *Güncel Kalan Bakiye:* ${cari.balance.toLocaleString("tr-TR")} ₺\n🔗 *Canlı Ekstre Linkiniz:* ${SITE_URL}/ekstre/${cari.id}\n\nTüm teslimat fişlerinizi ve ödemelerinizi yukarıdaki bağlantıdan anlık olarak inceleyebilirsiniz.\nBereketli işler dileriz!\nEkmekLab Zanaatkar Fırın`
     )}`;
   };
 

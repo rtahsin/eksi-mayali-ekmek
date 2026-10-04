@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { ExtendedProduct } from "@/hooks/useProducts";
 import { useCartStore } from "@/lib/store/useCartStore";
 import { ShoppingBag, Plus, Minus, Check, MessageCircle, ArrowRight } from "lucide-react";
+import { CONTACT } from "@/lib/site";
 
 interface ProductDetailClientActionsProps {
   product: ExtendedProduct;
@@ -144,7 +145,7 @@ export function ProductDetailClientActions({ product }: ProductDetailClientActio
 
       {/* WhatsApp Support Bar */}
       <a
-        href={`https://wa.me/905320000000?text=${whatsappMessage}`}
+        href={`https://wa.me/${CONTACT.phoneE164}?text=${whatsappMessage}`}
         target="_blank"
         rel="noopener noreferrer"
         className="flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl bg-surface/60 hover:bg-surface border border-emerald-500/20 hover:border-emerald-500/50 text-xs text-emerald-400 font-sans transition-all"

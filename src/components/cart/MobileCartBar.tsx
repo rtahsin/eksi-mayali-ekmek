@@ -3,8 +3,7 @@
 import React, { useEffect, useState } from "react";
 import { ShoppingBag } from "lucide-react";
 import { useCartStore } from "@/lib/store/useCartStore";
-
-const FREE_SHIPPING_THRESHOLD = 1000;
+import { useStoreSettings } from "@/hooks/useStoreSettings";
 
 export function MobileCartBar() {
   // Avoid SSR/localStorage hydration mismatch: render only after mount
@@ -15,10 +14,20 @@ export function MobileCartBar() {
   const subtotal = useCartStore((s) => s.getSubtotal());
   const isOpen = useCartStore((s) => s.isOpen);
   const openCart = useCartStore((s) => s.openCart);
+  const { settings } = useStoreSettings();
 
   if (!mounted || itemCount === 0) return null;
 
-  const remaining = FREE_SHIPPING_THRESHOLD - subtotal;
+  const minRemaining = settings.minBasketAmount - subtotal;
+  const freeRemaining = settings.freeShippingThreshold - subtotal;
+  const hint =
+    minRemaining > 0
+      ? `Minimum sipariş için ${minRemaining.toLocaleString("tr-TR")} ₺ daha`
+      : settings.shippingFee === 0 || (settings.freeShippingThreshold > 0 && freeRemaining <= 0)
+      ? "Teslimat ücretsiz"
+      : settings.freeShippingThreshold > 0
+      ? `Ücretsiz teslimata ${freeRemaining.toLocaleString("tr-TR")} ₺ kaldı`
+      : `Teslimat ${settings.shippingFee.toLocaleString("tr-TR")} ₺`;
 
   return (
     <>
@@ -43,12 +52,8 @@ export function MobileCartBar() {
                 </span>
               </span>
               <span className="flex flex-col leading-tight">
-                <span className="font-serif text-base font-bold">{subtotal} TL</span>
-                <span className="font-sans text-[11px] text-white/70">
-                  {remaining > 0
-                    ? `Ücretsiz kurye için ${remaining} TL kaldı`
-                    : "Kurye ücretsiz"}
-                </span>
+                <span className="font-serif text-base font-bold">{subtotal.toLocaleString("tr-TR")} ₺</span>
+                <span className="font-sans text-[11px] text-white/70">{hint}</span>
               </span>
             </span>
 

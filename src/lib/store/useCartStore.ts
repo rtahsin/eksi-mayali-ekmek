@@ -1,6 +1,7 @@
 import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
 import { Product, ProductionBatch, Order } from "@/types";
+import { isIsoDate } from "@/lib/time/istanbul";
 
 export interface CartItem {
   productId: string;
@@ -15,21 +16,27 @@ export interface CartItem {
   hydration?: number;
 }
 
-export type DeliveryMethod = "courier" | "pickup";
+export type DeliveryMethod = "courier";
 
 export interface CustomerInfo {
   name: string;
   phone: string;
-  district: string;
+  /** Mahalle adı ("Mah." eki olmadan), ayarlardaki listeden */
   neighborhood: string;
   addressDetail: string;
-  deliveryDate: string; // "today" | "tomorrow" | "custom:YYYY-MM-DD"
-  customDate?: string;
+  /** `YYYY-MM-DD` (İstanbul) — `/api/availability` listesinden; boş = seçilmedi */
+  deliveryDate: string;
   note?: string;
-  shareLocation?: boolean;
+  /** Müşteri "Konumumu ekle" ile paylaştıysa (kuryenin kapıyı bulması için) */
   customerLat?: number | null;
   customerLng?: number | null;
   locationConsentAt?: string | null;
+}
+
+export interface CompletedOrder {
+  order: Order;
+  /** Takip linki için imzalı token (misafir siparişinde tam görünüm) */
+  trackingToken: string | null;
 }
 
 interface CartStore {
@@ -37,49 +44,42 @@ interface CartStore {
   isOpen: boolean;
   deliveryMethod: DeliveryMethod;
   customerInfo: CustomerInfo;
-  userId: string | null;
   isSuccessModalOpen: boolean;
-  lastCompletedOrder: Order | null;
+  lastCompleted: CompletedOrder | null;
 
-  // Actions
   addItem: (product: Product, batch?: ProductionBatch | null, quantity?: number) => boolean;
   removeItem: (productId: string) => void;
   updateQuantity: (productId: string, quantity: number) => void;
   clearCart: () => void;
-  setDeliveryMethod: (method: DeliveryMethod) => void;
   setCustomerInfo: (info: Partial<CustomerInfo>) => void;
-  setUserId: (userId: string | null) => void;
-  setShareLocation: (share: boolean, lat?: number | null, lng?: number | null) => void;
+  setLocation: (lat: number | null, lng: number | null) => void;
   toggleCart: () => void;
   openCart: () => void;
   closeCart: () => void;
-  setSuccessModal: (open: boolean, order?: Order | null) => void;
+  showSuccess: (completed: CompletedOrder) => void;
+  hideSuccess: () => void;
 
-  // Getters
   getItemCount: () => number;
   getSubtotal: () => number;
-  getShippingFee: () => number;
-  getTotalAmount: () => number;
 }
 
 // Drawer'ı sadece masaüstünde otomatik aç; mobilde alttaki sepet barı kullanılır
 const shouldAutoOpenCart = () =>
-  typeof window !== "undefined" &&
-  window.matchMedia("(min-width: 768px)").matches;
+  typeof window !== "undefined" && window.matchMedia("(min-width: 768px)").matches;
 
 const DEFAULT_CUSTOMER_INFO: CustomerInfo = {
   name: "",
   phone: "",
-  district: "Beylikdüzü",
-  neighborhood: "Adnan Kahveci Mah.",
+  neighborhood: "",
   addressDetail: "",
-  deliveryDate: "today",
+  deliveryDate: "",
   note: "",
-  shareLocation: false,
   customerLat: null,
   customerLng: null,
   locationConsentAt: null,
 };
+
+const stripMah = (value: string) => value.replace(/\s+Mah(\.|allesi)?$/i, "").trim();
 
 export const useCartStore = create<CartStore>()(
   persist(
@@ -88,48 +88,43 @@ export const useCartStore = create<CartStore>()(
       isOpen: false,
       deliveryMethod: "courier",
       customerInfo: DEFAULT_CUSTOMER_INFO,
-      userId: null,
       isSuccessModalOpen: false,
-      lastCompletedOrder: null,
+      lastCompleted: null,
 
       addItem: (product, batch, quantity = 1) => {
         const currentItems = get().items;
         const existingIndex = currentItems.findIndex((item) => item.productId === product.id);
-        const maxStock = batch?.availableStock ?? product.stock ?? 25;
+        const maxStock = batch?.availableStock ?? 100;
 
         if (existingIndex > -1) {
-          const existingItem = currentItems[existingIndex];
-          const newQuantity = existingItem.quantity + quantity;
           const updatedItems = [...currentItems];
           updatedItems[existingIndex] = {
-            ...existingItem,
-            quantity: newQuantity,
+            ...currentItems[existingIndex],
+            quantity: Math.min(100, currentItems[existingIndex].quantity + quantity),
             maxStock,
           };
           set({ items: updatedItems, isOpen: get().isOpen || shouldAutoOpenCart() });
           return true;
-        } else {
-          const newItem: CartItem = {
-            productId: product.id,
-            batchId: batch?.batchId || "BATCH-TAZE-FIRIN",
-            name: product.name,
-            price: product.price,
-            quantity,
-            maxStock,
-            imageUrl: product.imageUrl,
-            weight: product.weight,
-            flourTypes: product.flourTypes,
-            hydration: product.hydration,
-          };
-          set({ items: [...currentItems, newItem], isOpen: get().isOpen || shouldAutoOpenCart() });
-          return true;
         }
+
+        const newItem: CartItem = {
+          productId: product.id,
+          batchId: batch?.batchId,
+          name: product.name,
+          price: product.price,
+          quantity,
+          maxStock,
+          imageUrl: product.imageUrl,
+          weight: product.weight,
+          flourTypes: product.flourTypes,
+          hydration: product.hydration,
+        };
+        set({ items: [...currentItems, newItem], isOpen: get().isOpen || shouldAutoOpenCart() });
+        return true;
       },
 
       removeItem: (productId) => {
-        set({
-          items: get().items.filter((item) => item.productId !== productId),
-        });
+        set({ items: get().items.filter((item) => item.productId !== productId) });
       },
 
       updateQuantity: (productId, quantity) => {
@@ -137,43 +132,25 @@ export const useCartStore = create<CartStore>()(
           get().removeItem(productId);
           return;
         }
-
         set({
-          items: get().items.map((item) => {
-            if (item.productId === productId) {
-              return { ...item, quantity };
-            }
-            return item;
-          }),
+          items: get().items.map((item) =>
+            item.productId === productId ? { ...item, quantity: Math.min(100, quantity) } : item
+          ),
         });
       },
 
-      clearCart: () => {
-        set({ items: [] });
-      },
+      clearCart: () => set({ items: [] }),
 
-      setDeliveryMethod: (method) => {
-        set({ deliveryMethod: method });
-      },
+      setCustomerInfo: (info) => set({ customerInfo: { ...get().customerInfo, ...info } }),
 
-      setCustomerInfo: (info) => {
-        set({
-          customerInfo: { ...get().customerInfo, ...info },
-        });
-      },
-
-      setUserId: (userId) => {
-        set({ userId });
-      },
-
-      setShareLocation: (share, lat = null, lng = null) => {
+      setLocation: (lat, lng) => {
+        const has = lat !== null && lng !== null;
         set({
           customerInfo: {
             ...get().customerInfo,
-            shareLocation: share,
-            customerLat: lat,
-            customerLng: lng,
-            locationConsentAt: share ? new Date().toISOString() : null,
+            customerLat: has ? lat : null,
+            customerLng: has ? lng : null,
+            locationConsentAt: has ? new Date().toISOString() : null,
           },
         });
       },
@@ -182,40 +159,47 @@ export const useCartStore = create<CartStore>()(
       openCart: () => set({ isOpen: true }),
       closeCart: () => set({ isOpen: false }),
 
-      setSuccessModal: (open, order = null) => {
-        set({
-          isSuccessModalOpen: open,
-          lastCompletedOrder: order ?? get().lastCompletedOrder,
-        });
-      },
+      showSuccess: (completed) => set({ isSuccessModalOpen: true, lastCompleted: completed }),
+      hideSuccess: () => set({ isSuccessModalOpen: false }),
 
-      getItemCount: () => {
-        return get().items.reduce((acc, item) => acc + item.quantity, 0);
-      },
-
-      getSubtotal: () => {
-        return get().items.reduce((acc, item) => acc + item.price * item.quantity, 0);
-      },
-
-      getShippingFee: () => {
-        const subtotal = get().getSubtotal();
-        // 1000 TL ve üzeri teslimat ücretsiz, aksi halde 150 TL
-        if (subtotal === 0) return 0;
-        return subtotal >= 1000 ? 0 : 150;
-      },
-
-      getTotalAmount: () => {
-        return get().getSubtotal() + get().getShippingFee();
-      },
+      getItemCount: () => get().items.reduce((acc, item) => acc + item.quantity, 0),
+      getSubtotal: () => get().items.reduce((acc, item) => acc + item.price * item.quantity, 0),
     }),
     {
       name: "ekmeklab-cart-storage",
+      version: 2,
       storage: createJSONStorage(() => localStorage),
       partialize: (state) => ({
         items: state.items,
         deliveryMethod: state.deliveryMethod,
         customerInfo: state.customerInfo,
       }),
+      // v1: deliveryDate "today"/"tomorrow"/"custom:…", mahalle "X Mah.", konum alanları farklı
+      migrate: (persisted, version) => {
+        const state = (persisted ?? {}) as { items?: CartItem[]; deliveryMethod?: string; customerInfo?: unknown };
+        if (version < 2) {
+          const old: Record<string, unknown> =
+            typeof state.customerInfo === "object" && state.customerInfo !== null
+              ? (state.customerInfo as Record<string, unknown>)
+              : {};
+          const oldDate = typeof old.deliveryDate === "string" ? old.deliveryDate : "";
+          const customDate = oldDate.startsWith("custom:") ? oldDate.slice(7) : oldDate;
+          state.customerInfo = {
+            ...DEFAULT_CUSTOMER_INFO,
+            name: typeof old.name === "string" ? old.name : "",
+            phone: typeof old.phone === "string" ? old.phone : "",
+            neighborhood: typeof old.neighborhood === "string" ? stripMah(old.neighborhood) : "",
+            addressDetail:
+              typeof old.addressDetail === "string"
+                ? old.addressDetail.replace(/\s*\[📍 GPS:[^\]]*\]/g, "").trim()
+                : "",
+            note: typeof old.note === "string" ? old.note : "",
+            deliveryDate: isIsoDate(customDate) ? customDate : "",
+          };
+          state.deliveryMethod = "courier";
+        }
+        return state as unknown as CartStore;
+      },
     }
   )
 );

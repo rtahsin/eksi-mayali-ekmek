@@ -23,7 +23,6 @@ export interface TrustedDevice {
 }
 
 export type AdminOrderStatus =
-  | "onay_bekliyor"   // WhatsApp onay bekleyen yeni sipariş
   | "bekliyor"        // Yeni sipariş, teyit bekliyor
   | "hazirlaniyor"     // Hamur / paket hazırlanıyor
   | "firinda"          // Fırında pişiyor

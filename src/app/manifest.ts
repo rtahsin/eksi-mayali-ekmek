@@ -2,10 +2,12 @@ import { MetadataRoute } from "next";
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: "EkmekLab Yönetim Paneli",
+    name: "EkmekLab — Ekşi Mayalı Ekmek",
     short_name: "EkmekLab",
-    description: "EkmekLab Taş Fırın Atölye & ERP Yönetim Paneli",
-    start_url: "/admin",
+    description: "Beylikdüzü'nde taş fırında ekşi mayalı ekmek; kapına teslim.",
+    start_url: "/",
+    scope: "/",
+    lang: "tr",
     display: "standalone",
     background_color: "#120E0B",
     theme_color: "#120E0B",

@@ -3,11 +3,12 @@ import { createClient as createSupabaseClient } from "@supabase/supabase-js";
 import { INITIAL_PRODUCTS } from "@/data/initialProducts";
 import { JOURNAL_ARTICLES } from "@/data/journalArticles";
 import { getProductSlug } from "@/lib/utils/slugify";
+import { SITE_URL } from "@/lib/site";
 
 export const revalidate = 3600; // 1 hour cache
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const baseUrl = "https://ekmeklab.com";
+  const baseUrl = SITE_URL;
   const now = new Date();
 
   // 1. Core Static Routes

@@ -1,95 +1,140 @@
 "use client";
 
-import React from "react";
-import { useCartStore} from "@/lib/store/useCartStore";
-import { CheckCircle2, PackageCheck, MessageSquare, X, ArrowRight} from "lucide-react";
+import React, { useState } from "react";
+import Link from "next/link";
+import { useCartStore } from "@/lib/store/useCartStore";
+import { useStoreSettings } from "@/hooks/useStoreSettings";
+import { useAuth } from "@/components/auth/AuthProvider";
+import { buildWhatsAppConfirmText, paymentLabel } from "@/lib/order/createOrder";
+import { toWhatsAppNumber } from "@/lib/settings/schema";
+import { formatTrDate } from "@/lib/time/istanbul";
+import { trackingUrl, whatsappLink } from "@/lib/site";
+import { CheckCircle2, MessageSquare, X, Copy, Check, UserPlus, PackageSearch } from "lucide-react";
 
 export function OrderSuccessModal() {
- const { isSuccessModalOpen, lastCompletedOrder, setSuccessModal} = useCartStore();
+  const isOpen = useCartStore((s) => s.isSuccessModalOpen);
+  const completed = useCartStore((s) => s.lastCompleted);
+  const hideSuccess = useCartStore((s) => s.hideSuccess);
+  const { settings } = useStoreSettings();
+  const { isLoggedIn, openAuthModal } = useAuth();
+  const [copied, setCopied] = useState(false);
 
- if (!isSuccessModalOpen || !lastCompletedOrder) return null;
+  if (!isOpen || !completed) return null;
 
- return (
- <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-background/90 animate-fadeIn">
- <div className="relative w-full max-w-lg rounded-2xl bg-surface-panel border border-surface-border p-6 sm:p-8 shadow-2xl space-y-6 overflow-hidden">
- {/* Ambient Top Glow */}
- <div className="absolute top-0 left-1/2 -translate-x-1/2 w-48 h-1 bg-gradient-to-r from-transparent via-artisan-gold to-transparent" />
+  const { order, trackingToken } = completed;
+  const orderNo = order.orderNumber || order.id;
+  const link = trackingUrl(orderNo, trackingToken);
+  const waHref = whatsappLink(buildWhatsAppConfirmText(order, link), toWhatsAppNumber(settings.whatsappPhone));
+  const isWhatsApp = order.paymentMethod === "whatsapp";
 
- {/* Close Button */}
- <button
- onClick={() => setSuccessModal(false)}
- className="absolute top-4 right-4 text-foreground/60 hover:text-foreground p-1 rounded-lg hover:bg-surface-elevated transition-colors"
- >
- <X className="w-5 h-5" />
- </button>
+  const copyLink = async () => {
+    try {
+      await navigator.clipboard.writeText(link);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch {
+      // pano izni yoksa link zaten görünür
+    }
+  };
 
- {/* Success Icon & Header */}
- <div className="text-center space-y-2">
- <div className="w-16 h-16 rounded-full bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center mx-auto text-emerald-400">
- <CheckCircle2 className="w-9 h-9" />
- </div>
- <div className="font-mono text-xs font-bold text-artisan-gold uppercase tracking-wider">
- SİPARİŞİNİZ BAŞARIYLA ALINDI
- </div>
- <h2 className="text-2xl font-extrabold text-foreground">
- İmalathane Tezgâhına İletildi!
- </h2>
- <p className="text-xs text-foreground/60 font-sans max-w-sm mx-auto">
- Siparişiniz ekşi maya ustalarımıza ulaştı. Fırından taze çıktığında hemen paketlenip dağıtıma çıkacaktır.
- </p>
- </div>
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-background/90 animate-fadeIn" role="dialog" aria-modal="true" aria-labelledby="order-success-title">
+      <div className="relative w-full max-w-lg max-h-[92vh] overflow-y-auto rounded-2xl bg-surface-panel border border-surface-border p-6 sm:p-8 shadow-2xl space-y-5">
+        <button
+          onClick={hideSuccess}
+          aria-label="Kapat"
+          className="absolute top-4 right-4 text-foreground/60 hover:text-foreground p-1 rounded-lg hover:bg-surface-elevated transition-colors"
+        >
+          <X className="w-5 h-5" />
+        </button>
 
- {/* Order Details Summary Box */}
- <div className="p-4 rounded-xl bg-surface border border-surface-border space-y-3 font-mono text-xs">
- <div className="flex items-center justify-between pb-2 border-b border-surface-border">
- <span className="text-zinc-500">Sipariş No</span>
- <span className="font-bold text-artisan-gold text-sm">
- #{lastCompletedOrder.id}
- </span>
- </div>
+        <div className="text-center space-y-2">
+          <div className="w-14 h-14 rounded-full bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center mx-auto text-emerald-400">
+            <CheckCircle2 className="w-8 h-8" />
+          </div>
+          <h2 id="order-success-title" className="font-serif text-2xl font-bold text-foreground">
+            Siparişiniz alındı
+          </h2>
+          <p className="text-xs text-foreground/60 font-sans">
+            {isWhatsApp
+              ? "Siparişiniz kaydedildi. Ödemeyi konuşmak için aşağıdan WhatsApp'ta onaylayın."
+              : "Siparişiniz fırına iletildi. Teslim günü kapınızda olacak."}
+          </p>
+        </div>
 
- <div className="flex items-center justify-between">
- <span className="text-zinc-500">Müşteri</span>
- <span className="text-zinc-200">{lastCompletedOrder.customerName}</span>
- </div>
+        <div className="p-4 rounded-xl bg-surface border border-surface-border space-y-2.5 text-xs font-sans">
+          <Row label="Sipariş No" value={<span className="font-mono font-bold text-artisan-gold text-sm">{orderNo}</span>} />
+          {order.deliveryDate && (
+            <Row
+              label="Teslim"
+              value={`${formatTrDate(order.deliveryDate, "long")}${order.deliveryTimeWindow ? `, ${order.deliveryTimeWindow}` : ""}`}
+            />
+          )}
+          <Row label="Ödeme" value={paymentLabel(order.paymentMethod)} />
+          <Row label="Toplam" value={<strong>{order.totalAmount.toLocaleString("tr-TR")} ₺</strong>} />
+        </div>
 
- <div className="flex items-center justify-between">
- <span className="text-zinc-500">Ödeme Tercihi</span>
- <span className="text-zinc-200">
- {lastCompletedOrder.paymentMethod === "pos_at_door"
- ? "Kapıda Kredi Kartı (POS)"
- : "Kapıda Nakit Ödeme"}
- </span>
- </div>
+        <div className="space-y-2.5">
+          <a
+            href={waHref}
+            target="_blank"
+            rel="noopener noreferrer"
+            className={`w-full py-3 rounded-xl font-sans text-sm font-bold flex items-center justify-center gap-2 transition-colors ${
+              isWhatsApp
+                ? "bg-emerald-600 hover:bg-emerald-500 text-white"
+                : "bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-400 border border-emerald-500/30"
+            }`}
+          >
+            <MessageSquare className="w-4 h-4" />
+            {isWhatsApp ? "Siparişi WhatsApp'tan Onayla" : "WhatsApp'tan Yazın"}
+          </a>
 
- <div className="flex items-center justify-between pt-2 border-t border-surface-border font-bold text-sm">
- <span className="text-foreground/70">Toplam Tutar</span>
- <span className="text-foreground">{lastCompletedOrder.totalAmount} TL</span>
- </div>
- </div>
+          <div className="flex gap-2">
+            <Link
+              href={`/siparis-takip/${encodeURIComponent(orderNo)}${trackingToken ? `?t=${encodeURIComponent(trackingToken)}` : ""}`}
+              onClick={hideSuccess}
+              className="flex-1 py-2.5 rounded-xl bg-surface hover:bg-surface-elevated border border-surface-border text-foreground font-sans text-xs font-semibold flex items-center justify-center gap-1.5"
+            >
+              <PackageSearch className="w-4 h-4" /> Siparişi Takip Et
+            </Link>
+            <button
+              type="button"
+              onClick={copyLink}
+              className="px-3 py-2.5 rounded-xl bg-surface hover:bg-surface-elevated border border-surface-border text-foreground/80 font-sans text-xs flex items-center gap-1.5"
+              aria-label="Takip linkini kopyala"
+            >
+              {copied ? <Check className="w-4 h-4 text-emerald-400" /> : <Copy className="w-4 h-4" />}
+              {copied ? "Kopyalandı" : "Linki kopyala"}
+            </button>
+          </div>
 
- {/* Action Buttons */}
- <div className="space-y-3">
- <a
- href={`https://wa.me/905436329243?text=${encodeURIComponent(
- `Merhaba, #${lastCompletedOrder.id} numaralı siparişim hakkında bilgi almak istiyorum.`
- )}`}
- target="_blank"
- rel="noopener noreferrer"
- className="w-full py-3 rounded-xl bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 font-mono text-xs font-bold flex items-center justify-center gap-2 transition-colors"
- >
- <MessageSquare className="w-4 h-4" />
- WhatsApp'tan Sipariş Durumu Sor
- </a>
+          {!isLoggedIn && (
+            <button
+              type="button"
+              onClick={() => {
+                hideSuccess();
+                openAuthModal();
+              }}
+              className="w-full py-2.5 rounded-xl border border-artisan-gold/30 text-artisan-gold hover:bg-artisan-gold/10 font-sans text-xs font-semibold flex items-center justify-center gap-1.5"
+            >
+              <UserPlus className="w-4 h-4" /> Siparişini hesabına kaydet (Google ile giriş)
+            </button>
+          )}
 
- <button
- onClick={() => setSuccessModal(false)}
- className="w-full py-3 rounded-xl bg-artisan-gold hover:bg-artisan-amber text-stone-950 font-mono text-xs font-bold transition-all shadow-md shadow-artisan-gold/10"
- >
- Alışverişe Devam Et
- </button>
- </div>
- </div>
- </div>
- );
+          <p className="text-[11px] text-center text-foreground/50 font-sans">
+            Bu cihazdan verdiğiniz siparişler <Link href="/siparislerim" onClick={hideSuccess} className="underline">Siparişlerim</Link> sayfasında da görünür.
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function Row({ label, value }: { label: string; value: React.ReactNode }) {
+  return (
+    <div className="flex items-center justify-between gap-3">
+      <span className="text-foreground/50">{label}</span>
+      <span className="text-foreground text-right">{value}</span>
+    </div>
+  );
 }

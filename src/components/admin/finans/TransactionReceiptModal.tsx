@@ -18,6 +18,7 @@ import {
 import { CariAccount, CariTransaction } from "@/types/admin";
 import html2canvas from "html2canvas";
 import Link from "next/link";
+import { SITE_URL, CONTACT } from "@/lib/site";
 
 interface TransactionReceiptModalProps {
   tx: CariTransaction;
@@ -202,7 +203,7 @@ export default function TransactionReceiptModal({ tx, cari, onClose }: Transacti
 
   const handleWhatsApp = async () => {
     setSharing(true);
-    const fisUrl = `https://ekmeklab.tr/fis/${tx.id}`;
+    const fisUrl = `${SITE_URL}/fis/${tx.id}`;
     const text = `Online Fiş Görüntüle: ${fisUrl}`;
 
     try {
@@ -312,7 +313,7 @@ export default function TransactionReceiptModal({ tx, cari, onClose }: Transacti
               </div>
               <div className="flex items-center gap-1.5 text-xs font-bold text-[#3B2F28] mt-1 leading-normal">
                 <Phone className="w-3.5 h-3.5 text-[#8A7A70]" />
-                <span className="leading-normal pb-0.5">0501 012 66 53</span>
+                <span className="leading-normal pb-0.5">{CONTACT.phoneDisplay}</span>
               </div>
             </div>
           </div>

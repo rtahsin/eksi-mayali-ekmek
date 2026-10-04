@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { SITE_URL } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "Bilim & Zanaat Kütüphanesi | EkmekLab",
@@ -16,7 +17,7 @@ export const metadata: Metadata = {
     title: "Bilim & Zanaat Kütüphanesi | EkmekLab",
     description:
       "Gıdanın hücresel kökenine inen, zanaatkârın tezgâhı ile bilimin kesiştiği bağımsız araştırma bülteni.",
-    url: "https://ekmeklab.com/kutuphane",
+    url: `${SITE_URL}/kutuphane`,
     siteName: "EkmekLab",
     locale: "tr_TR",
     type: "website",

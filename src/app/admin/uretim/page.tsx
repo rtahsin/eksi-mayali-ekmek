@@ -18,6 +18,7 @@ import {
   AlertCircle,
 } from "lucide-react";
 import { useProduction, ProductionStage } from "@/hooks/useProduction";
+import { addDays, istanbulToday } from "@/lib/time/istanbul";
 
 const STAGES: { key: ProductionStage; label: string; desc: string; icon: string }[] = [
   {
@@ -53,11 +54,7 @@ const STAGES: { key: ProductionStage; label: string; desc: string; icon: string 
 ];
 
 export default function BakeryProductionPage() {
-  const [selectedDate, setSelectedDate] = useState<string>(() => {
-    const tm = new Date();
-    tm.setDate(tm.getDate() + 1);
-    return tm.toISOString().split("T")[0];
-  });
+  const [selectedDate, setSelectedDate] = useState<string>(() => addDays(istanbulToday(), 1));
 
   const [counterSurplus, setCounterSurplus] = useState<number>(10);
   const [notes, setNotes] = useState<string>("");

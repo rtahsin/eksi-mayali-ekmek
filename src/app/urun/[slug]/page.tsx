@@ -11,6 +11,7 @@ import { ProductDetailClientActions } from "@/components/storefront/ProductDetai
 import { INITIAL_PRODUCTS, ExtendedProduct } from "@/data/initialProducts";
 import { normalizeCategory } from "@/lib/utils/productCategory";
 import { slugify, getProductSlug, getProductUrl } from "@/lib/utils/slugify";
+import { ShippingPolicyNote } from "@/components/storefront/ShippingPolicyNote";
 import {
   Wheat,
   Activity,
@@ -26,6 +27,7 @@ import {
   Award,
   BookOpen,
 } from "lucide-react";
+import { SITE_URL } from "@/lib/site";
 
 export const revalidate = 60; // ISR: Revalidate product page every 60 seconds
 
@@ -156,7 +158,7 @@ export async function generateMetadata({ params }: ProductPageProps): Promise<Me
   const description =
     product.description ||
     `${product.name} - Taş değirmen unları ve 8 yıllık canlı ekşi maya ile 36 saatte pişen artisan ekmek.`;
-  const url = `https://ekmeklab.com/urun/${getProductSlug(product)}`;
+  const url = `${SITE_URL}/urun/${getProductSlug(product)}`;
 
   return {
     title,
@@ -229,7 +231,7 @@ export default async function ProductDetailPage({ params }: ProductPageProps) {
     category: product.category,
     offers: {
       "@type": "Offer",
-      url: `https://ekmeklab.com/urun/${canonicalSlug}`,
+      url: `${SITE_URL}/urun/${canonicalSlug}`,
       priceCurrency: "TRY",
       price: product.price,
       availability:
@@ -378,8 +380,8 @@ export default async function ProductDetailPage({ params }: ProductPageProps) {
                 <span>Kendi Fırın Kuryemizle Kapınıza Teslimat</span>
               </div>
               <p className="text-foreground/60 leading-relaxed">
-                Beylikdüzü ve civarına fırından taze çıktığı gün özel kuryemizle ulaştırıyoruz.
-                1000 TL üzeri siparişlerde kurye teslimatı <strong>ÜCRETSİZDİR</strong>.
+                Beylikdüzü içinde seçtiğiniz gün kapınıza ulaştırıyoruz.{" "}
+                <ShippingPolicyNote />.
               </p>
             </div>
           </div>

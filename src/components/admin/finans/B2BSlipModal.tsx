@@ -16,6 +16,7 @@ import {
 import { useCariler } from "@/hooks/useCariler";
 import { useProducts } from "@/hooks/useProducts";
 import { CariTransaction } from "@/types/admin";
+import { SITE_URL } from "@/lib/site";
 
 interface B2BSlipModalProps {
   cariId: string;
@@ -217,7 +218,7 @@ export default function B2BSlipModal({
 
   const getWhatsAppMessage = () => {
     if (!successResult) return "";
-    const origin = typeof window !== "undefined" ? window.location.origin : "https://ekmeklab.tr";
+    const origin = typeof window !== "undefined" ? window.location.origin : SITE_URL;
     const slipUrl = successResult.transactionId
       ? `${origin}/fis/${successResult.transactionId}`
       : `${origin}/admin/cariler/${cariId}`;

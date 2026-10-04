@@ -4,8 +4,10 @@ import { getErrorMessage } from "@/lib/utils/error";
 import { verifyApiAuth } from "@/lib/security/apiAuth";
 import { checkRateLimit } from "@/lib/security/rateLimiter";
 import { parseOrderLookup } from "@/lib/orders/orderId";
+import { verifyOrderToken } from "@/lib/security/linkToken";
+import { CONTACT } from "@/lib/site";
 
-const CUSTOMER_CANCELLABLE_STATUSES = new Set(["bekliyor", "onay_bekliyor"]);
+const CUSTOMER_CANCELLABLE_STATUSES = new Set(["bekliyor"]);
 
 function getClientIp(req: Request): string {
   const forwarded = req.headers.get("x-forwarded-for");
@@ -68,26 +70,33 @@ export async function PATCH(
         );
       }
 
-      // Yalnızca 'bekliyor' (veya onay_bekliyor) durumunda iptal edilebilir
+      // Yalnızca 'bekliyor' durumunda iptal edilebilir
       if (!CUSTOMER_CANCELLABLE_STATUSES.has(currentStatus)) {
         return NextResponse.json(
           {
             error:
-              "Siparişiniz fırında hazırlanma veya teslimat aşamasına geçtiğinden doğrudan iptal edilemez. Lütfen fırınımızla 0501 012 6653 numaralı telefondan iletişime geçiniz.",
+              `Siparişiniz hazırlanmaya başladığı için buradan iptal edilemiyor. Lütfen fırını arayın: ${CONTACT.phoneDisplay}`,
           },
           { status: 400 }
         );
       }
 
-      if (orderData.user_id) {
-        // Üye siparişi: sahiplik doğrulaması (IDOR önleme)
-        if (!actorId || actorId !== orderData.user_id) {
-          return NextResponse.json(
-            { error: "Bu siparişi iptal etme yetkiniz bulunmamaktadır." },
-            { status: 403 }
-          );
-        }
-      } else {
+      // Yetki: sipariş sahibi oturumu, imzalı takip linki veya (misafir) telefonun son 4 hanesi
+      const isOwner = Boolean(actorId && orderData.user_id && actorId === orderData.user_id);
+      const hasValidToken = verifyOrderToken(
+        orderData.id,
+        typeof bodyRecord.token === "string" ? bodyRecord.token : null
+      );
+
+      if (!isOwner && !hasValidToken && orderData.user_id) {
+        // Üye siparişi, sahibi değil (IDOR önleme)
+        return NextResponse.json(
+          { error: "Bu siparişi iptal etme yetkiniz bulunmamaktadır." },
+          { status: 403 }
+        );
+      }
+
+      if (!isOwner && !hasValidToken) {
         // Misafir siparişi: telefonun TAM OLARAK son 4 hanesi + kaba kuvvet sınırı
         const verifyLimit = await checkRateLimit(
           `cancel_verify_${getClientIp(req)}_${orderData.id}`,

@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from "react";
 import { X, ArrowRight, BookOpen, Wheat, Building2, MapPin, Mail, Phone, ExternalLink } from "lucide-react";
 import Link from "next/link";
+import { CONTACT, whatsappLink } from "@/lib/site";
 
 interface AtelierMenuDrawerProps {
   isOpen: boolean;
@@ -188,8 +189,8 @@ export function AtelierMenuDrawer({ isOpen, onClose }: AtelierMenuDrawerProps) {
           </div>
           <div className="flex items-center gap-2.5 text-stone-400">
             <Mail className="w-4 h-4 text-artisan-gold shrink-0" />
-            <a href="mailto:kurumsal@ekmeklab.com" className="hover:text-artisan-gold transition-colors">
-              kurumsal@ekmeklab.com
+            <a href={`mailto:${CONTACT.email}`} className="hover:text-artisan-gold transition-colors">
+              {CONTACT.email}
             </a>
           </div>
           <div className="pt-2 text-[10px] text-stone-600 font-mono">
@@ -300,14 +301,14 @@ export function AtelierMenuDrawer({ isOpen, onClose }: AtelierMenuDrawerProps) {
                 </div>
                 <div className="pt-2 flex flex-col sm:flex-row gap-3">
                   <a
-                    href="mailto:kurumsal@ekmeklab.com?subject=Kurumsal%20Tedarik%20Talebi"
+                    href={`mailto:${CONTACT.email}?subject=Kurumsal%20Tedarik%20Talebi`}
                     className="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-artisan-terracotta text-white font-semibold hover:bg-artisan-terracotta-dark transition-colors"
                   >
                     <Mail className="w-4 h-4" />
-                    <span>kurumsal@ekmeklab.com</span>
+                    <span>{CONTACT.email}</span>
                   </a>
                   <a
-                    href="https://wa.me/905320000000?text=Merhaba,%20kurumsal%20ekmek%20tedari%C4%9Fi%20hakk%C4%B1nda%20bilgi%20almak%20istiyorum."
+                    href={whatsappLink("Merhaba, kurumsal ekmek tedariği hakkında bilgi almak istiyorum.")}
                     target="_blank"
                     rel="noreferrer"
                     className="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-[#2C221B] hover:bg-[#382B22] text-foreground border border-surface-border transition-colors font-semibold"

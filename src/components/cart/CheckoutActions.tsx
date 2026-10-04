@@ -1,154 +1,186 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
+import Link from "next/link";
 import { useCartStore } from "@/lib/store/useCartStore";
-import { createOrderInFirestore, generateWhatsAppOrderUrl } from "@/lib/order/createOrder";
-import { MessageSquare, CreditCard, Banknote, Loader2, AlertCircle, ArrowRight } from "lucide-react";
-import { PaymentMethod } from "@/types";
+import { CheckoutPaymentMethod, OrderSubmitError, submitOrder } from "@/lib/order/createOrder";
+import { rememberDeviceOrder } from "@/lib/orders/deviceOrders";
+import { MessageSquare, CreditCard, Banknote, Loader2, AlertCircle } from "lucide-react";
 
-export function CheckoutActions() {
-  const {
-    items,
-    customerInfo,
-    deliveryMethod,
-    getSubtotal,
-    getShippingFee,
-    getTotalAmount,
-    clearCart,
-    closeCart,
-    setSuccessModal,
-  } = useCartStore();
+interface CheckoutActionsProps {
+  /** Minimum sepet sağlanmadıysa ödeme kilitli */
+  minBasketShortfall: number;
+  /** Sipariş alımı kapalı / seçilebilir tarih yok */
+  orderingBlockedReason: string | null;
+  /** Tarih listesi tazelenmeli (ör. 409 INVALID_DELIVERY_DATE sonrası) */
+  onDatesStale: () => void;
+  /** Sipariş başarıyla kaydedildikten sonra (sepet temizlenmeden önce) çağrılır */
+  onOrderPlaced?: () => void;
+}
 
-  const [loadingMethod, setLoadingMethod] = useState<PaymentMethod | "whatsapp" | null>(null);
+const newAttemptKey = () => `IDEM-${crypto.randomUUID()}`;
+
+export function CheckoutActions({ minBasketShortfall, orderingBlockedReason, onDatesStale, onOrderPlaced }: CheckoutActionsProps) {
+  const items = useCartStore((s) => s.items);
+  const customerInfo = useCartStore((s) => s.customerInfo);
+  const clearCart = useCartStore((s) => s.clearCart);
+  const closeCart = useCartStore((s) => s.closeCart);
+  const showSuccess = useCartStore((s) => s.showSuccess);
+
+  const [loadingMethod, setLoadingMethod] = useState<CheckoutPaymentMethod | null>(null);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [termsAccepted, setTermsAccepted] = useState(false);
 
-  const subtotal = getSubtotal();
-  const shippingFee = getShippingFee();
-  const totalAmount = getTotalAmount();
+  // Ödeme denemesi başına tek anahtar; sepet içeriği değişince yeni deneme sayılır.
+  const attemptKeyRef = useRef<string>("");
+  const cartSignature = JSON.stringify(items.map((i) => [i.productId, i.quantity]));
+  useEffect(() => {
+    attemptKeyRef.current = newAttemptKey();
+  }, [cartSignature]);
 
-  const validateForm = (): boolean => {
-    if (!customerInfo.name || customerInfo.name.trim().length < 2) {
-      setErrorMessage("Lütfen ad ve soyadınızı giriniz.");
-      return false;
-    }
-    if (!customerInfo.phone || customerInfo.phone.trim().length < 10) {
-      setErrorMessage("Lütfen geçerli bir telefon numarası giriniz.");
-      return false;
-    }
-    if (deliveryMethod === "courier" && (!customerInfo.addressDetail || customerInfo.addressDetail.trim().length < 5)) {
-      setErrorMessage("Lütfen teslimat için açık adresinizi giriniz.");
-      return false;
+  const validateForm = (): string | null => {
+    if (orderingBlockedReason) return orderingBlockedReason;
+    if (!customerInfo.deliveryDate) return "Lütfen bir teslim günü seçin.";
+    if (!customerInfo.name || customerInfo.name.trim().length < 2) return "Lütfen ad ve soyadınızı giriniz.";
+    if (customerInfo.phone.replace(/\D/g, "").length < 10) return "Lütfen geçerli bir telefon numarası giriniz.";
+    if (!customerInfo.neighborhood) return "Lütfen mahallenizi seçin.";
+    if (!customerInfo.addressDetail || customerInfo.addressDetail.trim().length < 5)
+      return "Lütfen teslimat için açık adresinizi giriniz.";
+    if (minBasketShortfall > 0)
+      return `Minimum sipariş tutarına ${minBasketShortfall.toLocaleString("tr-TR")} ₺ kaldı.`;
+    if (!termsAccepted) return "Devam etmek için sözleşmeyi ve aydınlatma metnini onaylayın.";
+    return null;
+  };
+
+  const handleOrder = async (method: CheckoutPaymentMethod) => {
+    const problem = validateForm();
+    if (problem) {
+      setErrorMessage(problem);
+      return;
     }
     setErrorMessage(null);
-    return true;
-  };
-
-  const handleWhatsAppOrder = () => {
-    if (!validateForm()) return;
-
-    setLoadingMethod("whatsapp");
-    const url = generateWhatsAppOrderUrl({
-      items,
-      customerInfo,
-      deliveryMethod,
-      paymentMethod: "whatsapp",
-      subtotal,
-      shippingFee,
-      totalAmount,
-    });
-
-    window.open(url, "_blank");
-    setLoadingMethod(null);
-  };
-
-  const handleCodOrder = async (method: "cash_on_delivery" | "pos_at_door") => {
-    if (!validateForm()) return;
-
     setLoadingMethod(method);
+
     try {
-      const order = await createOrderInFirestore({
+      const { order, trackingToken } = await submitOrder({
         items,
         customerInfo,
-        deliveryMethod,
         paymentMethod: method,
-        subtotal,
-        shippingFee,
-        totalAmount,
+        idempotencyKey: attemptKeyRef.current || newAttemptKey(),
+        termsAccepted,
       });
 
+      if (trackingToken) {
+        rememberDeviceOrder({
+          id: order.id,
+          orderNumber: order.orderNumber || order.id,
+          token: trackingToken,
+          deliveryDate: order.deliveryDate || customerInfo.deliveryDate,
+          totalAmount: order.totalAmount,
+          createdAt: order.createdAt,
+        });
+      }
+
+      attemptKeyRef.current = newAttemptKey();
+      onOrderPlaced?.();
       clearCart();
       closeCart();
-      setSuccessModal(true, order);
+      setTermsAccepted(false);
+      showSuccess({ order, trackingToken });
     } catch (err: unknown) {
-      console.error("Order submission error:", err);
-      setErrorMessage("Sipariş oluşturulurken bir hata oluştu. Lütfen WhatsApp ile sipariş vermeyi deneyin.");
+      if (err instanceof OrderSubmitError) {
+        setErrorMessage(err.message);
+        if (err.code === "INVALID_DELIVERY_DATE") onDatesStale();
+      } else {
+        console.error("Order submission error:", err);
+        setErrorMessage("Bağlantı hatası. Lütfen tekrar deneyin; aynı sipariş iki kez oluşmaz.");
+      }
     } finally {
       setLoadingMethod(null);
     }
   };
 
+  const disabled = loadingMethod !== null || items.length === 0;
+
   return (
     <div className="space-y-3 pt-2">
-      {/* Error alert */}
+      {/* Yasal onay (mesafeli satış + KVKK) */}
+      <label className="flex items-start gap-2.5 text-[11px] leading-snug font-sans text-espresso-wheat cursor-pointer select-none">
+        <input
+          type="checkbox"
+          checked={termsAccepted}
+          onChange={(e) => {
+            setTermsAccepted(e.target.checked);
+            if (e.target.checked) setErrorMessage(null);
+          }}
+          className="mt-0.5 h-4 w-4 shrink-0 accent-artisan-terracotta"
+        />
+        <span>
+          <Link href="/mesafeli-satis" target="_blank" className="underline text-espresso hover:text-artisan-terracotta">
+            Mesafeli Satış Sözleşmesi
+          </Link>
+          {"'ni ve "}
+          <Link href="/kvkk" target="_blank" className="underline text-espresso hover:text-artisan-terracotta">
+            KVKK Aydınlatma Metni
+          </Link>
+          {"'ni okudum, onaylıyorum."}
+        </span>
+      </label>
+
       {errorMessage && (
-        <div className="p-3 rounded-xl bg-red-500/10 border border-red-500/25 text-red-600 text-xs font-sans flex items-center gap-2">
+        <div role="alert" className="p-3 rounded-xl bg-red-500/10 border border-red-500/25 text-red-600 text-xs font-sans flex items-center gap-2">
           <AlertCircle className="w-4 h-4 shrink-0" />
           <span>{errorMessage}</span>
         </div>
       )}
 
-      {/* Primary Action: WhatsApp Fast Order */}
-      <button
-        type="button"
-        onClick={handleWhatsAppOrder}
-        disabled={loadingMethod !== null || items.length === 0}
-        className="touch-target-44 w-full py-3.5 px-4 rounded-xl bg-artisan-terracotta hover:bg-artisan-terracotta-dark active:scale-[0.99] text-white font-sans font-semibold text-xs flex items-center justify-center gap-2.5 transition-all shadow-xs disabled:opacity-50"
-      >
-        {loadingMethod === "whatsapp" ? (
-          <Loader2 className="w-4 h-4 animate-spin" />
-        ) : (
-          <MessageSquare className="w-4 h-4" />
-        )}
-        <span>WhatsApp ile Hızlı Sipariş Ver</span>
-        <ArrowRight className="w-3.5 h-3.5" />
-      </button>
-
-      {/* Secondary Pay-at-Door Actions */}
-      <div className="grid grid-cols-2 gap-2 pt-1">
-        {/* Cash on Delivery */}
+      <div className="grid grid-cols-2 gap-2">
         <button
           type="button"
-          onClick={() => handleCodOrder("cash_on_delivery")}
-          disabled={loadingMethod !== null || items.length === 0}
-          className="touch-target-44 py-2.5 px-2 rounded-xl bg-linen-surface hover:bg-linen-subtle active:scale-[0.99] border border-linen-border text-espresso font-sans text-xs font-medium flex items-center justify-center gap-1.5 transition-all disabled:opacity-50 shadow-2xs"
+          onClick={() => handleOrder("cash_on_delivery")}
+          disabled={disabled}
+          className="touch-target-44 py-3.5 px-2 rounded-xl bg-artisan-terracotta hover:bg-artisan-terracotta-dark active:scale-[0.99] text-white font-sans text-xs font-semibold flex items-center justify-center gap-1.5 transition-all disabled:opacity-50 shadow-xs"
         >
           {loadingMethod === "cash_on_delivery" ? (
-            <Loader2 className="w-3.5 h-3.5 animate-spin text-artisan-terracotta" />
+            <Loader2 className="w-4 h-4 animate-spin" />
           ) : (
-            <Banknote className="w-3.5 h-3.5 text-artisan-terracotta" />
+            <Banknote className="w-4 h-4" />
           )}
           <span>Kapıda Nakit</span>
         </button>
 
-        {/* POS on Delivery */}
         <button
           type="button"
-          onClick={() => handleCodOrder("pos_at_door")}
-          disabled={loadingMethod !== null || items.length === 0}
-          className="touch-target-44 py-2.5 px-2 rounded-xl bg-linen-surface hover:bg-linen-subtle active:scale-[0.99] border border-linen-border text-espresso font-sans text-xs font-medium flex items-center justify-center gap-1.5 transition-all disabled:opacity-50 shadow-2xs"
+          onClick={() => handleOrder("pos_at_door")}
+          disabled={disabled}
+          className="touch-target-44 py-3.5 px-2 rounded-xl bg-artisan-terracotta hover:bg-artisan-terracotta-dark active:scale-[0.99] text-white font-sans text-xs font-semibold flex items-center justify-center gap-1.5 transition-all disabled:opacity-50 shadow-xs"
         >
           {loadingMethod === "pos_at_door" ? (
-            <Loader2 className="w-3.5 h-3.5 animate-spin text-artisan-terracotta" />
+            <Loader2 className="w-4 h-4 animate-spin" />
           ) : (
-            <CreditCard className="w-3.5 h-3.5 text-artisan-terracotta" />
+            <CreditCard className="w-4 h-4" />
           )}
-          <span>Kapıda POS / Kart</span>
+          <span>Kapıda Kart</span>
         </button>
       </div>
 
-      <div className="text-center text-[11px] font-sans text-espresso-muted pt-1">
-        ⚡ Beylikdüzü fırın kuryesi ile taze kapınızda
-      </div>
+      <button
+        type="button"
+        onClick={() => handleOrder("whatsapp")}
+        disabled={disabled}
+        className="touch-target-44 w-full py-3 px-4 rounded-xl bg-linen-surface hover:bg-linen-subtle active:scale-[0.99] border border-linen-border text-espresso font-sans text-xs font-medium flex items-center justify-center gap-2 transition-all disabled:opacity-50 shadow-2xs"
+      >
+        {loadingMethod === "whatsapp" ? (
+          <Loader2 className="w-4 h-4 animate-spin text-artisan-terracotta" />
+        ) : (
+          <MessageSquare className="w-4 h-4 text-artisan-terracotta" />
+        )}
+        <span>Siparişi Ver, Ödemeyi WhatsApp&apos;ta Konuşalım</span>
+      </button>
+
+      <p className="text-center text-[11px] font-sans text-espresso-muted">
+        Siparişiniz her durumda kaydedilir; size takip linki verilir.
+      </p>
     </div>
   );
 }

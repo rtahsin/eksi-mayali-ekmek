@@ -18,6 +18,8 @@ import { CourierPaymentModal } from "@/components/courier/CourierPaymentModal";
 import { CourierOfflineBanner } from "@/components/courier/CourierOfflineBanner";
 import { useCourierNetwork } from "@/hooks/useCourierNetwork";
 import { OfflinePaymentPayload, OfflineStatusPayload } from "@/lib/courier/offlineQueue";
+import { istanbulToday } from "@/lib/time/istanbul";
+import { whatsappLink } from "@/lib/site";
 
 export default function CourierMobileConsolePage() {
   const { allOrders, updateOrderStatus, loading } = useAdminOrders();
@@ -31,9 +33,7 @@ export default function CourierMobileConsolePage() {
     syncQueue,
   } = useCourierNetwork();
 
-  const [selectedDate, setSelectedDate] = useState<string>(
-    () => new Date().toISOString().split("T")[0]
-  );
+  const [selectedDate, setSelectedDate] = useState<string>(() => istanbulToday());
   const [selectedCourierId, setSelectedCourierId] = useState<string>("all");
   const [activeOrderIndex, setActiveOrderIndex] = useState<number>(0);
   const [isFullscreen, setIsFullscreen] = useState(false);
@@ -459,7 +459,7 @@ export default function CourierMobileConsolePage() {
 --------------------------
 Kasa devri için fırına teslim edilecek tutar: *${totalCashCollected.toLocaleString("tr-TR")} ₺*`;
 
-    const url = `https://wa.me/905436329243?text=${encodeURIComponent(text)}`;
+    const url = whatsappLink(text);
     window.open(url, "_blank");
   };
 

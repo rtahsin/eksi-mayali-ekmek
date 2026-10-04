@@ -22,6 +22,8 @@ import {
   ExternalLink,
   Link2,
 } from "lucide-react";
+import { istanbulToday } from "@/lib/time/istanbul";
+import { CONTACT, SITE_URL } from "@/lib/site";
 
 interface OrderSlipModalProps {
   order: AdminOrder;
@@ -95,7 +97,7 @@ export function OrderSlipModal({ order, isOpen, onClose, cari: propCari }: Order
   const generateSlipText = () => {
     const lines: string[] = [];
     lines.push(`🍞 *EKMEKLAB TAŞ FIRIN - TESLİMAT & HESAP FİŞİ*`);
-    lines.push(`📅 *Tarih:* ${order.deliveryDate || new Date().toISOString().split("T")[0]} (${order.deliveryTimeWindow || "14:00 - 18:00"})`);
+    lines.push(`📅 *Tarih:* ${order.deliveryDate || istanbulToday()} (${order.deliveryTimeWindow || "14:00 - 18:00"})`);
     lines.push(`🏢 *Firma / Müşteri:* ${activeCari?.businessName || order.customerName}`);
     if (activeCari?.taxNumber) {
       lines.push(`🏛️ *Vergi No:* ${activeCari.taxNumber}`);
@@ -123,13 +125,13 @@ export function OrderSlipModal({ order, isOpen, onClose, cari: propCari }: Order
       lines.push(`💰 *GÜNCEL KALAN BAKİYE: ${finalBalance.toLocaleString("tr-TR")} ₺*`);
     }
 
-    const publicUrl = `https://ekmeklab.tr/fis/${order.id}`;
+    const publicUrl = `${SITE_URL}/fis/${order.id}`;
     lines.push(``);
     lines.push(`🔗 *DİJİTAL FİŞ & CANLI BAKİYE LİNKİNİZ:*`);
     lines.push(publicUrl);
     lines.push(``);
     lines.push(`Afiyet olsun! EkmekLab Zanaatkar Fırın`);
-    lines.push(`İletişim: 0501 012 66 53 • ekmeklab.tr`);
+    lines.push(`İletişim: ${CONTACT.phoneDisplay} • ${SITE_URL.replace(/^https?:\/\//, "")}`);
 
     return lines.join("\n");
   };
@@ -139,7 +141,7 @@ export function OrderSlipModal({ order, isOpen, onClose, cari: propCari }: Order
 
   // Copy customer public link
   const handleCopyLink = async () => {
-    const publicUrl = `https://ekmeklab.tr/fis/${order.id}`;
+    const publicUrl = `${SITE_URL}/fis/${order.id}`;
     try {
       await navigator.clipboard.writeText(publicUrl);
       setLinkCopied(true);

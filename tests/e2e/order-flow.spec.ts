@@ -1,24 +1,64 @@
-import { test, expect } from "@playwright/test";
+import { test, expect, type APIRequestContext } from "@playwright/test";
 import { createClient } from "@supabase/supabase-js";
 import dotenv from "dotenv";
 
+/**
+ * ⚠️ Bu testler GERÇEK veritabanına sipariş yazar (Vercel önizleme/yerel ortam canlı Supabase'e bağlıdır).
+ * Tüm test siparişleri "TEST" önekiyle oluşturulur ve afterAll'da bağlı kayıtlarıyla silinir.
+ */
 dotenv.config({ path: ".env.local" });
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || "";
 const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY || "";
 const supabaseAdmin = supabaseUrl && serviceKey ? createClient(supabaseUrl, serviceKey) : null;
 
+async function firstDeliveryDate(request: APIRequestContext): Promise<string> {
+  const res = await request.get("/api/availability");
+  expect(res.ok()).toBeTruthy();
+  const body: { dates: { date: string }[] } = await res.json();
+  expect(body.dates.length).toBeGreaterThan(0);
+  return body.dates[0].date;
+}
+
+async function activeProduct(): Promise<{ id: string; price: number }> {
+  if (!supabaseAdmin) throw new Error("Supabase env yok (.env.local)");
+  const { data, error } = await supabaseAdmin
+    .from("products")
+    .select("id, price")
+    .eq("is_active", true)
+    .eq("is_available", true)
+    .gt("price", 0)
+    .order("price")
+    .limit(1)
+    .single();
+  if (error || !data) throw new Error("Aktif ürün bulunamadı");
+  return { id: data.id, price: Number(data.price) };
+}
+
+const orderPayload = (opts: { productId: string; date: string; idx: number; key: string }) => ({
+  customerInfo: {
+    name: `TEST Playwright ${opts.idx}`,
+    phone: `0555123450${opts.idx}`,
+    neighborhood: "Barış",
+    addressDetail: `TEST Sk. No: ${opts.idx + 5}`,
+    deliveryDate: opts.date,
+  },
+  items: [{ productId: opts.productId, quantity: 1 }],
+  deliveryMethod: "courier",
+  paymentMethod: "cash_on_delivery",
+  idempotencyKey: opts.key,
+  termsAccepted: true,
+});
+
 test.describe("Order Flow & Concurrency E2E Tests", () => {
   const createdOrderIds: string[] = [];
 
   test.afterAll(async () => {
-    // Clean up created test orders to avoid polluting production DB
-    if (supabaseAdmin && createdOrderIds.length > 0) {
-      console.log(`Cleaning up ${createdOrderIds.length} E2E test orders...`);
-      for (const id of createdOrderIds) {
-        await supabaseAdmin.from("orders").delete().eq("id", id);
-      }
+    if (!supabaseAdmin || createdOrderIds.length === 0) return;
+    for (const table of ["order_items", "order_status_history", "payments"]) {
+      await supabaseAdmin.from(table).delete().in("order_id", createdOrderIds);
     }
+    await supabaseAdmin.from("orders").delete().in("id", createdOrderIds).like("customer_name", "TEST%");
   });
 
   test("1. Storefront homepage loads with artisan branding", async ({ page }) => {
@@ -27,85 +67,59 @@ test.describe("Order Flow & Concurrency E2E Tests", () => {
     await expect(page).toHaveTitle(/EkmekLab/i);
   });
 
-  test("2. /api/orders/create creates a single valid order with formatted order_number", async ({ request }) => {
-    const payload = {
-      customerInfo: {
-        name: "Playwright Test User",
-        phone: "05551234567",
-        district: "Beylikdüzü",
-        neighborhood: "Barış",
-        addressDetail: "Test Sk. No: 5",
-        deliveryDate: "today",
-      },
-      items: [
-        {
-          productId: "sample-ekmek-1",
-          quantity: 1,
-        },
-      ],
-      deliveryMethod: "courier",
-      paymentMethod: "cash_on_delivery",
-      idempotencyKey: `pw-single-${Date.now()}`,
-    };
+  test("2. Geçersiz istekler reddedilir (eski tarih metni, onaysız)", async ({ request }) => {
+    const product = await activeProduct();
+    const date = await firstDeliveryDate(request);
 
-    const response = await request.post("/api/orders/create", {
-      data: payload,
+    const legacyDate = await request.post("/api/orders/create", {
+      data: { ...orderPayload({ productId: product.id, date, idx: 0, key: `pw-legacy-${Date.now()}` }), customerInfo: { ...orderPayload({ productId: product.id, date, idx: 0, key: "x" }).customerInfo, deliveryDate: "today" } },
     });
+    expect(legacyDate.status()).toBe(400);
 
-    expect(response.status()).toBe(200);
-    const body = await response.json();
-
-    expect(body.success).toBe(true);
-    expect(body.order).toBeDefined();
-    expect(body.order.orderNumber).toMatch(/^SIP-\d{4}-\d{3}$/);
-    expect(body.order.subtotal).toBe(150);
-    expect(body.order.totalAmount).toBe(300); // 150 subtotal + 150 shipping
-
-    createdOrderIds.push(body.order.id);
+    const noTerms = await request.post("/api/orders/create", {
+      data: { ...orderPayload({ productId: product.id, date, idx: 0, key: `pw-noterms-${Date.now()}` }), termsAccepted: false },
+    });
+    expect(noTerms.status()).toBe(400);
   });
 
-  test("3. Concurrency test: 5 simultaneous orders produce unique, non-colliding order numbers", async ({ request }) => {
-    const concurrentCount = 5;
-    const promises = Array.from({ length: concurrentCount }).map((_, idx) => {
-      const payload = {
-        customerInfo: {
-          name: `Playwright Concurrent ${idx + 1}`,
-          phone: `0555123450${idx}`,
-          district: "Beylikdüzü",
-          neighborhood: "Cumhuriyet",
-          addressDetail: `Adnan Kahveci Cad. No: ${idx + 10}`,
-          deliveryDate: "today",
-        },
-        items: [
-          {
-            productId: "sample-ekmek-1",
-            quantity: 1,
-          },
-        ],
-        deliveryMethod: "courier",
-        paymentMethod: "cash_on_delivery",
-        idempotencyKey: `pw-concurrent-${Date.now()}-${idx}-${Math.random().toString(36).substring(2, 7)}`,
-      };
+  test("3. Tek geçerli sipariş + idempotency", async ({ request }) => {
+    const product = await activeProduct();
+    const date = await firstDeliveryDate(request);
+    const key = `pw-single-${Date.now()}`;
 
-      return request.post("/api/orders/create", { data: payload });
-    });
+    const first = await request.post("/api/orders/create", { data: orderPayload({ productId: product.id, date, idx: 1, key }) });
+    expect(first.status()).toBe(200);
+    const body = await first.json();
+    expect(body.success).toBe(true);
+    expect(body.order.orderNumber).toMatch(/^SIP-\d{4}-\d{3,}$/);
+    expect(body.order.deliveryDate).toBe(date);
+    expect(body.order.subtotal).toBe(product.price);
+    expect(typeof body.trackingToken).toBe("string");
+    createdOrderIds.push(body.order.id);
 
-    const responses = await Promise.all(promises);
+    const again = await request.post("/api/orders/create", { data: orderPayload({ productId: product.id, date, idx: 1, key }) });
+    const againBody = await again.json();
+    expect(againBody.order.id).toBe(body.order.id);
+  });
+
+  test("4. 5 eşzamanlı sipariş benzersiz sipariş numarası alır", async ({ request }) => {
+    const product = await activeProduct();
+    const date = await firstDeliveryDate(request);
+    const responses = await Promise.all(
+      Array.from({ length: 5 }).map((_, idx) =>
+        request.post("/api/orders/create", {
+          data: orderPayload({ productId: product.id, date, idx: idx + 2, key: `pw-concurrent-${Date.now()}-${idx}` }),
+        })
+      )
+    );
 
     const orderNumbers: string[] = [];
-
     for (const res of responses) {
       expect(res.status()).toBe(200);
       const json = await res.json();
-      expect(json.success).toBe(true);
-      expect(json.order.orderNumber).toMatch(/^SIP-\d{4}-\d{3}$/);
       orderNumbers.push(json.order.orderNumber);
       createdOrderIds.push(json.order.id);
     }
-
-    // Assert that every generated order number is unique (NO COLLISIONS!)
-    const uniqueNumbers = new Set(orderNumbers);
-    expect(uniqueNumbers.size).toBe(concurrentCount);
-    console.log("Successfully generated concurrent order numbers:", orderNumbers);
+    expect(new Set(orderNumbers).size).toBe(5);
   });
 });

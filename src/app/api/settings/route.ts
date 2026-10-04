@@ -1,31 +1,18 @@
 import { NextResponse } from "next/server";
-import { createAdminClient } from "@/lib/supabase/admin";
-import { getOrderCutoffTime, isPastCutoff, DEFAULT_CUTOFF_TIME } from "@/lib/settings/cutoff";
+import { getStoreSettings } from "@/lib/settings/server";
+import { toPublicSettings } from "@/lib/settings/schema";
+import { isPastCutoff } from "@/lib/time/istanbul";
 
 export const dynamic = "force-dynamic";
 
+/** Vitrin ve sepet için herkese açık işletme ayarları. */
 export async function GET() {
-  try {
-    const supabase = createAdminClient();
-    if (!supabase) {
-      return NextResponse.json({
-        cutoffTime: DEFAULT_CUTOFF_TIME,
-        isCutoffPassed: isPastCutoff(DEFAULT_CUTOFF_TIME),
-      });
-    }
-
-    const cutoffTime = await getOrderCutoffTime(supabase);
-    const cutoffPassed = isPastCutoff(cutoffTime);
-
-    return NextResponse.json({
-      cutoffTime,
-      isCutoffPassed: cutoffPassed,
-    });
-  } catch (err: unknown) {
-    console.error("Public settings GET error:", err);
-    return NextResponse.json({
-      cutoffTime: DEFAULT_CUTOFF_TIME,
-      isCutoffPassed: isPastCutoff(DEFAULT_CUTOFF_TIME),
-    });
-  }
+  const settings = await getStoreSettings();
+  return NextResponse.json(
+    {
+      settings: toPublicSettings(settings),
+      isCutoffPassed: isPastCutoff(settings.orderCutoffTime),
+    },
+    { headers: { "Cache-Control": "no-store" } }
+  );
 }

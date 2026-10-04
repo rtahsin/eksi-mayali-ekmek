@@ -1,8 +1,7 @@
 "use client";
 
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import {
-  ShieldCheck,
   CheckCircle2,
   Clock,
   Truck,
@@ -11,359 +10,367 @@ import {
   Volume2,
   Power,
   Megaphone,
+  CalendarDays,
+  Wallet,
+  Plus,
+  X,
+  Loader2,
+  AlertCircle,
+  Wheat,
 } from "lucide-react";
-import { useAdminAuth } from "@/hooks/useAdminAuth";
-import { BEYLIKDUZU_NEIGHBORHOODS } from "@/types/admin";
-import { createClient } from "@/lib/supabase/client";
+import type { StoreSettings } from "@/types/settings";
+import { DEFAULT_NEIGHBORHOODS, DEFAULT_STORE_SETTINGS } from "@/lib/settings/schema";
+import { computeDeliveryDates } from "@/lib/ordering/dates";
+import { formatTrDate, istanbulToday } from "@/lib/time/istanbul";
 import { getErrorMessage } from "@/lib/utils/error";
 
+const WEEKDAYS: { value: number; label: string }[] = [
+  { value: 1, label: "Pzt" },
+  { value: 2, label: "Sal" },
+  { value: 3, label: "Çar" },
+  { value: 4, label: "Per" },
+  { value: 5, label: "Cum" },
+  { value: 6, label: "Cmt" },
+  { value: 0, label: "Paz" },
+];
+
+const inputCls =
+  "w-full bg-stone-950 border border-stone-800 rounded-xl px-3 py-2 text-sm text-stone-100 focus:outline-none focus:border-amber-500";
+
 export default function AdminSettingsPage() {
-  const { adminUser } = useAdminAuth();
-
-  // Operational Settings state
-  const [freeShippingThreshold, setFreeShippingThreshold] = useState<number>(1000);
-  const [shippingFee, setShippingFee] = useState<number>(150);
-  const [deliveryWindow, setDeliveryWindow] = useState<string>("14:00 - 18:00");
-  const [orderCutoffTime, setOrderCutoffTime] = useState<string>("12:00");
-  const [whatsappPhone, setWhatsappPhone] = useState<string>("0501 012 66 53");
-  const [orderAcceptanceOpen, setOrderAcceptanceOpen] = useState<boolean>(true);
-  const [announcementText, setAnnouncementText] = useState<string>("");
-
-  const [savingSettings, setSavingSettings] = useState(false);
-  const [settingsSavedSuccess, setSettingsSavedSuccess] = useState(false);
+  const [form, setForm] = useState<StoreSettings>(DEFAULT_STORE_SETTINGS);
+  const [loading, setLoading] = useState(true);
+  const [loadError, setLoadError] = useState<string | null>(null);
+  const [saving, setSaving] = useState(false);
+  const [saved, setSaved] = useState(false);
+  const [saveError, setSaveError] = useState<string | null>(null);
+  const [newClosedDate, setNewClosedDate] = useState("");
+  const [newNeighborhood, setNewNeighborhood] = useState("");
   const [audioTesting, setAudioTesting] = useState(false);
 
-  // Fetch operational settings from the admin API
+  const set = <K extends keyof StoreSettings>(key: K, value: StoreSettings[K]) => {
+    setForm((prev) => ({ ...prev, [key]: value }));
+    setSaved(false);
+  };
+
   const loadSettings = useCallback(async () => {
+    setLoading(true);
+    setLoadError(null);
     try {
-      const res = await fetch("/api/admin/settings");
-      if (res.ok) {
-        const data = await res.json();
-        if (data.operational) {
-          if (data.operational.freeShippingThreshold !== undefined) {
-            setFreeShippingThreshold(Number(data.operational.freeShippingThreshold));
-          }
-          if (data.operational.shippingFee !== undefined) {
-            setShippingFee(Number(data.operational.shippingFee));
-          }
-          if (data.operational.deliveryWindow) {
-            setDeliveryWindow(data.operational.deliveryWindow);
-          }
-          if (data.operational.orderCutoffTime) {
-            setOrderCutoffTime(data.operational.orderCutoffTime);
-          }
-          if (data.operational.whatsappPhone) {
-            setWhatsappPhone(data.operational.whatsappPhone);
-          }
-          if (data.operational.orderAcceptanceOpen !== undefined) {
-            setOrderAcceptanceOpen(Boolean(data.operational.orderAcceptanceOpen));
-          }
-          if (data.operational.announcementText !== undefined) {
-            setAnnouncementText(data.operational.announcementText);
-          }
-        }
-      }
-    } catch (err) {
-      console.error("Load settings error:", err);
+      const res = await fetch("/api/admin/settings", { cache: "no-store" });
+      const data: { operational?: StoreSettings; error?: string } = await res.json();
+      if (!res.ok || !data.operational) throw new Error(data.error || `HTTP ${res.status}`);
+      setForm(data.operational);
+    } catch (err: unknown) {
+      setLoadError("Ayarlar yüklenemedi: " + getErrorMessage(err));
+    } finally {
+      setLoading(false);
     }
   }, []);
 
   useEffect(() => {
-    loadSettings();
-
-    // Supabase Realtime channel for instant settings updates
-    const supabase = createClient();
-    if (!supabase) return;
-
-    const channelId = `bakery_settings_admin-${Date.now()}-${Math.random().toString(36).substring(2, 7)}`;
-    const channel = supabase
-      .channel(channelId)
-      .on(
-        "postgres_changes",
-        { event: "*", schema: "public", table: "bakery_settings" },
-        () => {
-          loadSettings();
-        }
-      )
-      .subscribe();
-
-    return () => {
-      supabase.removeChannel(channel);
-    };
+    void loadSettings();
   }, [loadSettings]);
 
-  // Save Operational Settings
-  const handleSaveSettings = async (e: React.FormEvent) => {
+  const handleSave = async (e: React.FormEvent) => {
     e.preventDefault();
-    setSavingSettings(true);
-    setSettingsSavedSuccess(false);
-
+    setSaving(true);
+    setSaveError(null);
+    setSaved(false);
     try {
       const res = await fetch("/api/admin/settings", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          action: "save_operational",
-          value: {
-            freeShippingThreshold: Number(freeShippingThreshold),
-            shippingFee: Number(shippingFee),
-            deliveryWindow,
-            orderCutoffTime,
-            whatsappPhone,
-            orderAcceptanceOpen,
-            announcementText,
-            updatedAt: new Date().toISOString(),
-            updatedBy: adminUser?.email || "admin",
-          },
-        }),
+        body: JSON.stringify({ action: "save_operational", value: form }),
       });
-
-      if (!res.ok) {
-        const errData = await res.json();
-        throw new Error(errData.error || "Ayarlar kaydedilemedi");
-      }
-
-      setSettingsSavedSuccess(true);
-      setTimeout(() => setSettingsSavedSuccess(false), 3000);
+      const data: { error?: string } = await res.json().catch(() => ({}));
+      if (!res.ok) throw new Error(data.error || "Ayarlar kaydedilemedi");
+      setSaved(true);
+      setTimeout(() => setSaved(false), 3000);
     } catch (err: unknown) {
-      alert("Hata: " + getErrorMessage(err));
+      setSaveError(getErrorMessage(err));
     } finally {
-      setSavingSettings(false);
+      setSaving(false);
     }
   };
 
-  // Test Chime Sound
+  const toggleWeekday = (day: number) =>
+    set(
+      "openWeekdays",
+      form.openWeekdays.includes(day) ? form.openWeekdays.filter((d) => d !== day) : [...form.openWeekdays, day].sort()
+    );
+
+  const toggleNeighborhood = (name: string) =>
+    set(
+      "neighborhoods",
+      form.neighborhoods.includes(name) ? form.neighborhoods.filter((n) => n !== name) : [...form.neighborhoods, name]
+    );
+
   const playTestChime = () => {
-    try {
-      setAudioTesting(true);
-      const audio = new Audio("/audio/new-order.mp3");
-      audio.play().catch(() => {
-        // Fallback tone
-        const ctx = new (window.AudioContext || (window as any).webkitAudioContext)();
-        const osc = ctx.createOscillator();
-        const gain = ctx.createGain();
-        osc.connect(gain);
-        gain.connect(ctx.destination);
-        osc.frequency.setValueAtTime(587.33, ctx.currentTime); // D5
-        osc.frequency.setValueAtTime(880, ctx.currentTime + 0.15); // A5
-        gain.gain.setValueAtTime(0.3, ctx.currentTime);
-        gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.4);
-        osc.start();
-        osc.stop(ctx.currentTime + 0.4);
-      });
-      setTimeout(() => setAudioTesting(false), 1500);
-    } catch (err) {
-      setAudioTesting(false);
-    }
+    setAudioTesting(true);
+    new Audio("/audio/new-order.mp3").play().catch(() => undefined);
+    setTimeout(() => setAudioTesting(false), 1500);
   };
+
+  const preview = computeDeliveryDates({ ...form });
+  const allNeighborhoods = Array.from(new Set([...DEFAULT_NEIGHBORHOODS, ...form.neighborhoods]));
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center py-24 text-stone-400 gap-2 text-sm">
+        <Loader2 className="w-4 h-4 animate-spin" /> Ayarlar yükleniyor…
+      </div>
+    );
+  }
 
   return (
-    <div className="space-y-8 max-w-6xl mx-auto pb-16">
-      {/* Header */}
-      <div className="bg-stone-900/80 p-6 rounded-2xl border border-stone-800 shadow-xl flex flex-col md:flex-row md:items-center justify-between gap-4">
+    <form onSubmit={handleSave} className="space-y-6 max-w-4xl mx-auto pb-28">
+      <div className="bg-stone-900/80 p-6 rounded-2xl border border-stone-800 flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <div className="flex items-center gap-2 text-xs font-semibold text-amber-500 uppercase tracking-widest mb-1">
-            <ShieldCheck className="w-3.5 h-3.5" />
-            <span>Fırın Operasyon & Sistem Konfigürasyonu</span>
-          </div>
-          <h1 className="text-2xl font-bold text-stone-100 font-serif">
-            Fırın Ayarları
-          </h1>
+          <h1 className="text-2xl font-bold text-stone-100 font-serif">Fırın Ayarları</h1>
           <p className="text-stone-400 text-xs mt-1">
-            Beylikdüzü kurye ücreti, sipariş kabul durumunu ve bildirimleri yapılandırın.
+            Buradaki her değer vitrini, sepeti ve sipariş kontrolünü anında yönetir.
           </p>
         </div>
-
-        {/* Chime Sound Test Button */}
         <button
+          type="button"
           onClick={playTestChime}
-          disabled={audioTesting}
-          className="flex items-center gap-2 px-4 py-2.5 bg-stone-800 hover:bg-stone-700 text-stone-200 rounded-xl text-xs font-bold border border-stone-700 transition-all active:scale-95 shrink-0"
+          className="flex items-center gap-2 px-4 py-2.5 bg-stone-800 hover:bg-stone-700 text-stone-200 rounded-xl text-xs font-bold border border-stone-700 shrink-0"
         >
           <Volume2 className={`w-4 h-4 ${audioTesting ? "text-amber-400 animate-pulse" : "text-stone-400"}`} />
-          <span>{audioTesting ? "Zil Çalıyor..." : "Sipariş Zilini Test Et"}</span>
+          Sipariş Zilini Test Et
         </button>
       </div>
 
-      {/* SECTION 1: Mağaza Operasyon & Kurye Kuralları */}
-      <div className="bg-stone-900/70 border border-stone-800 rounded-2xl p-6 shadow-xl space-y-6">
-        <div className="flex items-center justify-between pb-4 border-b border-stone-800">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-amber-500/10 flex items-center justify-center text-amber-500">
-              <Truck className="w-5 h-5" />
-            </div>
-            <div>
-              <h2 className="text-lg font-bold text-stone-100 font-serif">
-                Mağaza & Dağıtım Kuralları
-              </h2>
-              <p className="text-xs text-stone-400">
-                Web sitesi vitrini ve sepette uygulanan teslimat parametreleri
-              </p>
-            </div>
-          </div>
+      {loadError && (
+        <div className="p-3 rounded-xl bg-red-950/50 border border-red-500/40 text-xs text-red-300 flex items-center gap-2">
+          <AlertCircle className="w-4 h-4" /> {loadError}
+        </div>
+      )}
 
-          {/* Quick Order Acceptance Toggle */}
-          <button
-            type="button"
-            onClick={() => setOrderAcceptanceOpen(!orderAcceptanceOpen)}
-            className={`flex items-center gap-2 px-3.5 py-1.5 rounded-xl text-xs font-bold border transition-all ${
-              orderAcceptanceOpen
-                ? "bg-emerald-500/15 text-emerald-300 border-emerald-500/30 hover:bg-emerald-500/25"
-                : "bg-red-500/15 text-red-300 border-red-500/30 hover:bg-red-500/25"
-            }`}
-          >
-            <Power className="w-3.5 h-3.5" />
-            <span>{orderAcceptanceOpen ? "Sipariş Alımı: Açık" : "Sipariş Alımı: Kapalı"}</span>
-          </button>
+      {/* Sipariş alımı */}
+      <Section icon={<Power className="w-5 h-5" />} title="Sipariş Alımı">
+        <button
+          type="button"
+          onClick={() => set("orderAcceptanceOpen", !form.orderAcceptanceOpen)}
+          className={`w-full sm:w-auto px-4 py-3 rounded-xl text-sm font-bold border transition-all ${
+            form.orderAcceptanceOpen
+              ? "bg-emerald-500/15 text-emerald-300 border-emerald-500/30"
+              : "bg-red-500/15 text-red-300 border-red-500/30"
+          }`}
+        >
+          {form.orderAcceptanceOpen ? "● Sipariş alıyoruz (kapatmak için dokun)" : "○ Sipariş alımı KAPALI (açmak için dokun)"}
+        </button>
+        <Field label="Vitrin duyurusu (isteğe bağlı)" icon={<Megaphone className="w-3.5 h-3.5 text-amber-500" />}>
+          <input
+            type="text"
+            maxLength={300}
+            value={form.announcementText}
+            onChange={(e) => set("announcementText", e.target.value)}
+            placeholder="Örn: Bu hafta sonu fırın kapalıdır."
+            className={inputCls}
+          />
+        </Field>
+      </Section>
+
+      {/* Ücretler */}
+      <Section icon={<Wallet className="w-5 h-5" />} title="Ücretler">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          <Field label="Teslimat ücreti (₺)" hint="Eşiğin altındaki siparişlere eklenir.">
+            <input type="number" min={0} value={form.shippingFee} onChange={(e) => set("shippingFee", Number(e.target.value))} className={inputCls} />
+          </Field>
+          <Field label="Ücretsiz teslimat eşiği (₺)" hint="0 = her siparişe ücret uygulanır.">
+            <input type="number" min={0} value={form.freeShippingThreshold} onChange={(e) => set("freeShippingThreshold", Number(e.target.value))} className={inputCls} />
+          </Field>
+          <Field label="Minimum sepet (₺)" hint="0 = sınır yok.">
+            <input type="number" min={0} value={form.minBasketAmount} onChange={(e) => set("minBasketAmount", Number(e.target.value))} className={inputCls} />
+          </Field>
+        </div>
+      </Section>
+
+      {/* Takvim */}
+      <Section icon={<CalendarDays className="w-5 h-5" />} title="Teslimat Takvimi">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          <Field label="Aynı gün için son sipariş saati" icon={<Clock className="w-3.5 h-3.5 text-amber-500" />}>
+            <input type="time" value={form.orderCutoffTime} onChange={(e) => set("orderCutoffTime", e.target.value)} className={inputCls} />
+          </Field>
+          <Field label="Teslimat saat aralığı" icon={<Truck className="w-3.5 h-3.5 text-amber-500" />}>
+            <input type="text" maxLength={50} value={form.deliveryWindow} onChange={(e) => set("deliveryWindow", e.target.value)} placeholder="14:00 - 18:00" className={inputCls} />
+          </Field>
+          <Field label="Kaç gün ileriye sipariş" hint="0 = sadece bugün">
+            <input type="number" min={0} max={30} value={form.maxDaysAhead} onChange={(e) => set("maxDaysAhead", Number(e.target.value))} className={inputCls} />
+          </Field>
         </div>
 
-        <form onSubmit={handleSaveSettings} className="space-y-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-            {/* Free Shipping Limit */}
-            <div className="space-y-1.5">
-              <label className="text-xs font-semibold text-stone-300">
-                Ücretsiz Kurye Teslimat Limiti (₺)
-              </label>
-              <input
-                type="number"
-                min={0}
-                required
-                value={freeShippingThreshold}
-                onChange={(e) => setFreeShippingThreshold(Number(e.target.value))}
-                className="w-full bg-stone-950 border border-stone-800 rounded-xl px-3 py-2 text-sm text-stone-100 focus:outline-none focus:border-amber-500"
-              />
-              <p className="text-[11px] text-stone-400">
-                Bu tutar ve üzerindeki sepetlerde kurye teslimat ücreti 0 ₺ olarak hesaplanır.
-              </p>
-            </div>
-
-            {/* Flat Shipping Fee */}
-            <div className="space-y-1.5">
-              <label className="text-xs font-semibold text-stone-300">
-                Sabit Kurye Ücreti (Limit Altı) (₺)
-              </label>
-              <input
-                type="number"
-                min={0}
-                required
-                value={shippingFee}
-                onChange={(e) => setShippingFee(Number(e.target.value))}
-                className="w-full bg-stone-950 border border-stone-800 rounded-xl px-3 py-2 text-sm text-stone-100 focus:outline-none focus:border-amber-500"
-              />
-              <p className="text-[11px] text-stone-400">
-                Limit altındaki kurye siparişlerine otomatik eklenen teslimat bedeli.
-              </p>
-            </div>
-
-            {/* Delivery Time Window */}
-            <div className="space-y-1.5">
-              <label className="text-xs font-semibold text-stone-300">
-                Günlük Dağıtım Saat Aralığı
-              </label>
-              <input
-                type="text"
-                required
-                value={deliveryWindow}
-                onChange={(e) => setDeliveryWindow(e.target.value)}
-                placeholder="Örn: 14:00 - 18:00"
-                className="w-full bg-stone-950 border border-stone-800 rounded-xl px-3 py-2 text-sm text-stone-100 focus:outline-none focus:border-amber-500"
-              />
-              <p className="text-[11px] text-stone-400">
-                Müşteriye ve kurye manifestosunda gösterilen teslimat zaman aralığı.
-              </p>
-            </div>
-
-            {/* Same-Day Order Cutoff Time */}
-            <div className="space-y-1.5">
-              <label className="text-xs font-semibold text-stone-300 flex items-center gap-1.5">
-                <Clock className="w-3.5 h-3.5 text-amber-500" />
-                <span>Aynı Gün Sipariş Cutoff Saati</span>
-              </label>
-              <input
-                type="text"
-                required
-                value={orderCutoffTime}
-                onChange={(e) => setOrderCutoffTime(e.target.value)}
-                placeholder="Örn: 12:00"
-                className="w-full bg-stone-950 border border-stone-800 rounded-xl px-3 py-2 text-sm text-stone-100 focus:outline-none focus:border-amber-500"
-              />
-              <p className="text-[11px] text-stone-400">
-                Bu saatten sonra vitrinde aynı gün teslimat kapatılır ve siparişler yarına aktarılır.
-              </p>
-            </div>
-
-            {/* WhatsApp Business Line */}
-            <div className="space-y-1.5">
-              <label className="text-xs font-semibold text-stone-300">
-                Resmi WhatsApp İletişim & Sipariş Hattı
-              </label>
-              <input
-                type="text"
-                required
-                value={whatsappPhone}
-                onChange={(e) => setWhatsappPhone(e.target.value)}
-                placeholder="Örn: 0501 012 66 53"
-                className="w-full bg-stone-950 border border-stone-800 rounded-xl px-3 py-2 text-sm text-stone-100 focus:outline-none focus:border-amber-500"
-              />
-              <p className="text-[11px] text-stone-400">
-                Müşteri bildirimleri ve tek tıkla sipariş yönlendirme hattı.
-              </p>
-            </div>
-          </div>
-
-          {/* Announcement Banner Input */}
-          <div className="space-y-1.5">
-            <div className="flex items-center gap-2 text-xs font-semibold text-stone-300">
-              <Megaphone className="w-3.5 h-3.5 text-amber-500" />
-              <span>Vitrin Duyuru / Uyarı Metni (İsteğe Bağlı)</span>
-            </div>
-            <input
-              type="text"
-              value={announcementText}
-              onChange={(e) => setAnnouncementText(e.target.value)}
-              placeholder="Örn: Taze ekmeklerimiz saat 14:00'te fırından çıkmaktadır. Erken sipariş veriniz."
-              className="w-full bg-stone-950 border border-stone-800 rounded-xl px-3 py-2 text-xs text-stone-100 placeholder-stone-600 focus:outline-none focus:border-amber-500"
-            />
-          </div>
-
-          {/* Delivery Region Info Box */}
-          <div className="p-4 rounded-xl bg-stone-950/60 border border-stone-800 space-y-2">
-            <div className="flex items-center gap-2 text-xs font-bold text-stone-300">
-              <MapPin className="w-4 h-4 text-amber-500" />
-              <span>Yetkili Dağıtım Bölgesi: Sadece Beylikdüzü</span>
-            </div>
-            <div className="flex flex-wrap gap-1.5 pt-1">
-              {BEYLIKDUZU_NEIGHBORHOODS.map((neighborhood) => (
-                <span
-                  key={neighborhood}
-                  className="text-[11px] font-medium px-2 py-0.5 rounded-md bg-stone-800/80 text-stone-300 border border-stone-700/60"
+        <Field label="Teslimat yapılan günler">
+          <div className="flex flex-wrap gap-2">
+            {WEEKDAYS.map((d) => {
+              const on = form.openWeekdays.includes(d.value);
+              return (
+                <button
+                  key={d.value}
+                  type="button"
+                  onClick={() => toggleWeekday(d.value)}
+                  aria-pressed={on}
+                  className={`w-14 py-2.5 rounded-xl text-sm font-bold border ${
+                    on ? "bg-amber-500 text-stone-950 border-amber-500" : "bg-stone-950 text-stone-500 border-stone-800"
+                  }`}
                 >
-                  {neighborhood}
+                  {d.label}
+                </button>
+              );
+            })}
+          </div>
+        </Field>
+
+        <Field label="Kapalı tarihler (tatil, bakım…)">
+          <div className="flex gap-2">
+            <input type="date" min={istanbulToday()} value={newClosedDate} onChange={(e) => setNewClosedDate(e.target.value)} className={inputCls} />
+            <button
+              type="button"
+              onClick={() => {
+                if (newClosedDate && !form.closedDates.includes(newClosedDate)) {
+                  set("closedDates", [...form.closedDates, newClosedDate].sort());
+                }
+                setNewClosedDate("");
+              }}
+              className="px-4 rounded-xl bg-stone-800 text-stone-200 text-sm font-bold flex items-center gap-1"
+            >
+              <Plus className="w-4 h-4" /> Ekle
+            </button>
+          </div>
+          {form.closedDates.length > 0 && (
+            <div className="flex flex-wrap gap-1.5 mt-2">
+              {form.closedDates.map((d) => (
+                <span key={d} className="text-xs px-2.5 py-1 rounded-lg bg-red-500/10 text-red-300 border border-red-500/20 flex items-center gap-1.5">
+                  {formatTrDate(d, "long")}
+                  <button type="button" aria-label={`${d} kapalı tarihini kaldır`} onClick={() => set("closedDates", form.closedDates.filter((x) => x !== d))}>
+                    <X className="w-3 h-3" />
+                  </button>
                 </span>
               ))}
             </div>
-          </div>
+          )}
+        </Field>
 
-          {/* Submit button */}
-          <div className="flex items-center justify-end gap-3 pt-4 border-t border-stone-800">
-            {settingsSavedSuccess && (
-              <span className="text-xs font-bold text-emerald-400 flex items-center gap-1">
-                <CheckCircle2 className="w-4 h-4" />
-                Ayarlar başarıyla kaydedildi!
-              </span>
-            )}
-            <button
-              type="submit"
-              disabled={savingSettings}
-              className="flex items-center gap-2 px-6 py-2.5 bg-amber-500 hover:bg-amber-400 text-stone-950 font-bold rounded-xl text-xs transition-all shadow-lg shadow-amber-500/20 active:scale-95 disabled:opacity-50"
-            >
-              <Save className="w-4 h-4" />
-              <span>{savingSettings ? "Kaydediliyor..." : "Ayarları Kaydet"}</span>
-            </button>
-          </div>
-        </form>
+        <div className="p-3 rounded-xl bg-stone-950/60 border border-stone-800 text-xs text-stone-400">
+          <span className="font-semibold text-stone-300">Müşteri şu an şu günleri seçebilir: </span>
+          {preview.length === 0 ? <span className="text-red-300">hiçbiri</span> : preview.map((d) => d.label).join(", ")}
+        </div>
+      </Section>
+
+      {/* Mahalleler */}
+      <Section icon={<MapPin className="w-5 h-5" />} title="Teslimat Mahalleleri (Beylikdüzü)">
+        <div className="flex flex-wrap gap-2">
+          {allNeighborhoods.map((n) => {
+            const on = form.neighborhoods.includes(n);
+            return (
+              <button
+                key={n}
+                type="button"
+                onClick={() => toggleNeighborhood(n)}
+                aria-pressed={on}
+                className={`px-3 py-2 rounded-xl text-xs font-semibold border ${
+                  on ? "bg-amber-500/15 text-amber-300 border-amber-500/40" : "bg-stone-950 text-stone-500 border-stone-800 line-through"
+                }`}
+              >
+                {n}
+              </button>
+            );
+          })}
+        </div>
+        <div className="flex gap-2">
+          <input
+            type="text"
+            maxLength={60}
+            value={newNeighborhood}
+            onChange={(e) => setNewNeighborhood(e.target.value)}
+            placeholder="Yeni mahalle adı (Mah. yazmadan)"
+            className={inputCls}
+          />
+          <button
+            type="button"
+            onClick={() => {
+              const name = newNeighborhood.replace(/\s+Mah(\.|allesi)?$/i, "").trim();
+              if (name.length >= 2 && !form.neighborhoods.includes(name)) set("neighborhoods", [...form.neighborhoods, name]);
+              setNewNeighborhood("");
+            }}
+            className="px-4 rounded-xl bg-stone-800 text-stone-200 text-sm font-bold flex items-center gap-1"
+          >
+            <Plus className="w-4 h-4" /> Ekle
+          </button>
+        </div>
+      </Section>
+
+      {/* İletişim */}
+      <Section icon={<Megaphone className="w-5 h-5" />} title="İletişim">
+        <Field label="İşletme WhatsApp hattı" hint="Müşterinin onay ve soru mesajları bu numaraya gider.">
+          <input type="tel" value={form.whatsappPhone} onChange={(e) => set("whatsappPhone", e.target.value)} placeholder="0501 012 66 53" className={inputCls} />
+        </Field>
+      </Section>
+
+      {/* Üretim (Faz 2) */}
+      <Section icon={<Wheat className="w-5 h-5" />} title="Üretim Kapasitesi">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <Field label="Günlük perakende ekmek kapasitesi" hint="Boş = sınırsız. Fırın günleri ile birlikte devreye girer.">
+            <input
+              type="number"
+              min={0}
+              value={form.dailyBreadCapacity ?? ""}
+              onChange={(e) => set("dailyBreadCapacity", e.target.value === "" ? null : Number(e.target.value))}
+              className={inputCls}
+            />
+          </Field>
+          <Field label="Günlük toptan (şarküteri) ekmek adedi" hint="Üretim planına eklenir.">
+            <input type="number" min={0} value={form.wholesaleDailyLoaves} onChange={(e) => set("wholesaleDailyLoaves", Number(e.target.value))} className={inputCls} />
+          </Field>
+        </div>
+      </Section>
+
+      {/* Kaydet çubuğu */}
+      <div className="fixed bottom-20 lg:bottom-6 left-0 right-0 lg:left-64 px-4 z-30 pointer-events-none">
+        <div className="max-w-4xl mx-auto flex items-center justify-end gap-3 pointer-events-auto">
+          {saveError && <span className="text-xs text-red-300 bg-stone-950/90 px-3 py-2 rounded-lg">{saveError}</span>}
+          {saved && (
+            <span className="text-xs font-bold text-emerald-400 flex items-center gap-1 bg-stone-950/90 px-3 py-2 rounded-lg">
+              <CheckCircle2 className="w-4 h-4" /> Kaydedildi
+            </span>
+          )}
+          <button
+            type="submit"
+            disabled={saving}
+            className="flex items-center gap-2 px-6 py-3 bg-amber-500 hover:bg-amber-400 text-stone-950 font-bold rounded-xl text-sm shadow-lg shadow-black/40 disabled:opacity-50"
+          >
+            {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
+            {saving ? "Kaydediliyor…" : "Ayarları Kaydet"}
+          </button>
+        </div>
       </div>
+    </form>
+  );
+}
 
+function Section({ icon, title, children }: { icon: React.ReactNode; title: string; children: React.ReactNode }) {
+  return (
+    <section className="bg-stone-900/70 border border-stone-800 rounded-2xl p-5 sm:p-6 space-y-4">
+      <h2 className="flex items-center gap-3 text-lg font-bold text-stone-100 font-serif">
+        <span className="w-9 h-9 rounded-xl bg-amber-500/10 flex items-center justify-center text-amber-500">{icon}</span>
+        {title}
+      </h2>
+      {children}
+    </section>
+  );
+}
+
+function Field({ label, hint, icon, children }: { label: string; hint?: string; icon?: React.ReactNode; children: React.ReactNode }) {
+  return (
+    <div className="space-y-1.5">
+      <div className="text-xs font-semibold text-stone-300 flex items-center gap-1.5">
+        {icon}
+        {label}
+      </div>
+      {children}
+      {hint && <p className="text-[11px] text-stone-500">{hint}</p>}
     </div>
   );
 }

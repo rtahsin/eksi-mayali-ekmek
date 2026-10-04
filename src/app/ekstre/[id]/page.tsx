@@ -21,6 +21,7 @@ import {
 } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 import { CariAccount, CariTransaction } from "@/types/admin";
+import { CONTACT } from "@/lib/site";
 
 export default function CustomerStatementPage() {
   const params = useParams();
@@ -295,7 +296,7 @@ export default function CustomerStatementPage() {
                 </div>
                 <div className="flex items-center gap-1.5 text-xs font-bold text-[#3B2F28] mt-1 leading-normal">
                   <Phone className="w-3.5 h-3.5 text-[#8A7A70]" />
-                  <span className="leading-normal pb-0.5">0501 012 66 53</span>
+                  <span className="leading-normal pb-0.5">{CONTACT.phoneDisplay}</span>
                 </div>
               </div>
             </div>

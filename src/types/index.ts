@@ -41,7 +41,6 @@ export interface OrderItem {
 }
 
 export type OrderStatus =
-  | "onay_bekliyor"
   | "pending"
   | "processing"
   | "ready"
@@ -74,7 +73,9 @@ export interface Order {
   totalAmount: number;
   status: OrderStatus;
   paymentMethod: PaymentMethod;
+  /** `YYYY-MM-DD` (İstanbul) */
   deliveryDate?: string;
+  deliveryTimeWindow?: string;
   orderNotes?: string;
   courierId?: string | null;
   assignedAt?: string | null;

@@ -27,7 +27,7 @@ export function OrderHistoryCard({ order, onOrderCancelled }: OrderHistoryCardPr
   const [cancelReason, setCancelReason] = useState("");
   const [error, setError] = useState<string | null>(null);
 
-  const canCancel = order.status === "bekliyor" || order.status === "onay_bekliyor";
+  const canCancel = order.status === "bekliyor";
 
   const getStatusBadge = (status: string) => {
     switch (status) {

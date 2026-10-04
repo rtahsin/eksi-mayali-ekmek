@@ -5,6 +5,7 @@ import { useProducts, ExtendedProduct } from "@/hooks/useProducts";
 import { ProductCard } from "./ProductCard";
 import { ProductModal } from "./ProductModal";
 import { Truck } from "lucide-react";
+import { ShippingPolicyNote } from "./ShippingPolicyNote";
 
 interface ProductCatalogProps {
   initialProducts?: ExtendedProduct[];
@@ -140,11 +141,11 @@ export function ProductCatalog({ initialProducts }: ProductCatalogProps = {}) {
             <Truck className="w-5 h-5 text-artisan-gold shrink-0" />
             <span>
               <strong className="text-foreground font-serif font-bold">Kendi Fırın Kuryemizle Teslimat:</strong>{" "}
-              Beylikdüzü içi aynı gün veya seçtiğiniz tarihte kapınıza ulaştırıyoruz.
+              Beylikdüzü içinde seçtiğiniz gün kapınıza ulaştırıyoruz.
             </span>
           </div>
           <div className="text-artisan-gold font-semibold font-sans shrink-0 px-3 py-1.5 rounded-lg bg-[#261C14] border border-artisan-gold/30 text-xs">
-            1000 TL Üzeri Kurye ÜCRETSİZ · Altında 150 TL
+            <ShippingPolicyNote />
           </div>
         </div>
 
