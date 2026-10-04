@@ -3,6 +3,7 @@ import { createAdminClient } from "@/lib/supabase/admin";
 import { getErrorMessage } from "@/lib/utils/error";
 import { verifyApiAuth } from "@/lib/security/apiAuth";
 import { checkRateLimit } from "@/lib/security/rateLimiter";
+import { parseOrderLookup } from "@/lib/orders/orderId";
 
 export async function GET(
   _req: Request,
@@ -10,11 +11,11 @@ export async function GET(
 ) {
   try {
     const params = await props.params;
-    const orderId = params.id;
+    const lookup = parseOrderLookup(params.id);
 
-    if (!orderId) {
+    if (!lookup) {
       return NextResponse.json(
-        { error: "Sipariş ID parametresi zorunludur", code: "MISSING_ID" },
+        { error: "Geçersiz sipariş numarası", code: "INVALID_ID" },
         { status: 400 }
       );
     }
@@ -41,11 +42,11 @@ export async function GET(
       );
     }
 
-    // 1. Fetch order details with items (supports UUID or SIP-YYMM-XXX order_number)
+    // 1. Fetch order details with items (ORD-… / UUID id or SIP-YYMM-XXX order_number)
     const { data: order, error: orderErr } = await supabase
       .from("orders")
       .select("*, order_items(*)")
-      .or(`id.eq.${orderId},order_number.eq.${orderId}`)
+      .eq(lookup.column, lookup.value)
       .maybeSingle();
 
     if (orderErr || !order) {
@@ -185,15 +186,7 @@ export async function GET(
         to_status: h.to_status,
         created_at: h.created_at,
       })),
-      courier: courierInfo
-        ? {
-            display_name: courierInfo.display_name,
-            vehicle_type: courierInfo.vehicle_type,
-            current_lat: courierInfo.current_lat,
-            current_lng: courierInfo.current_lng,
-            location_updated_at: courierInfo.location_updated_at,
-          }
-        : null,
+      // Kurye bilgisi (konum dahil) doğrulanmamış görünümde hiç paylaşılmaz
       isMasked: true,
       isAuthorized: false,
     };

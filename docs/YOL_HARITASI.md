@@ -6,7 +6,7 @@
 | Faz | Konu | Tahmini süre | Durum |
 |---|---|---|---|
 | Acil | Tahsin'in kod beklemeden yapacakları (§4) | 15 dk | ✅ tamamlandı (4 Eki) |
-| 0 | Güvenlik yaması | ~1 gün + 1 saat Tahsin | sıradaki |
+| 0 | Güvenlik yaması | ~1 gün + 1 saat Tahsin | 🟡 kod hazır (dal `faz-0-guvenlik`, build ✅) — PR, yayın ve 013 bekliyor |
 | 0.5 | CI (her PR'da otomatik build) | ~2 saat | bekliyor |
 | 1 | Sipariş çekirdeği onarımı | 3-4 gün | bekliyor |
 | 2 | Fırın günleri, kapasite, eşlikçiler | 3-4 gün | bekliyor |
@@ -31,7 +31,7 @@ Mevcut uygulama (Next.js 16 + Supabase + Vercel, ~38k satır) Flutter/Firebase'd
 - **Teslimat:** Beylikdüzü; şimdilik Tahsin, ileride bir kurye.
 - **Admin modülleri — kalır:** Siparişler, Ürünler, Ayarlar, Cari hesaplar (2 şarküteri), Müşteriler, YZ sipariş okuyucu (Gemini), Üretim (sadeleşir), Kütüphane editörü (tek kopya). **Gizlenir:** Kurye yönetimi (kurye gelince açılır). **Kaldırılır:** Kasa, Giderler, Tedarikçiler, Kurye gün sonu kasası, PIN girişi. Dağıtım + kurye ekranı tek "Teslimat" ekranında birleşir; admin ana sayfası "Bugün" ekranı olur. Veritabanı tabloları silinmez.
 - **Şarküteri teslimatları:** sipariş olarak değil, **fiş kesmeye devam** (cari hesap). Üretim planı toptanı ayarlardaki "günlük toptan adet" ile ekler.
-- **Müşteri girişi:** Google + misafir sipariş; e-posta/şifre kaydı kalkar (Supabase'in varsayılan e-postası müşterilere ulaşmıyor, şifre sıfırlama sayfası yok). **Admin girişi:** Google.
+- **Müşteri girişi (4 Eki güncellendi):** Google **+ şifresiz e-posta kodu** (6 haneli kod; hesap ilk girişte açılır, şifre/sıfırlama sorunu yok) + misafir sipariş. Misafir siparişleri hesaba **bağlanır** (Faz 1 madde 13). Şifreli kayıt yok. E-posta kodu Supabase Auth'ta özel SMTP gerektirir; kurulana kadar `NEXT_PUBLIC_EMAIL_LOGIN_ENABLED=false` ile gizli. **Admin girişi:** Google.
 - **Yeni sipariş bildirimi:** Telegram botu (kişisel veri göndermeden).
 - **Alan adı:** `ekmeklab.tr`. **İşletme WhatsApp:** 0501 012 66 53.
 - **Çalışma yeri:** plan bulutta bitti, uygulama Tahsin'in bilgisayarında (Claude masaüstü uygulaması → Code → Local, klasör `F:\ekmeklab_app`).
@@ -117,6 +117,8 @@ Sonuç olarak **PIN girişi artık fiilen kapalı**; admin girişi Google ile.
 Çalışma dalı `claude/brave-maxwell-e3hq6r`, `main` üzerine taşındı; bu plan `docs/YOL_HARITASI.md` olarak yazıldı; `AGENTS.md`'ye plan işaretçisi eklendi. Kod değişikliği yapılmadı.
 
 ### 5.2 Yerel oturum (Tahsin'in bilgisayarı)
+> **4 Ekim notu:** Yerel `main`'de GitHub'a hiç gönderilmemiş 6 commit (Faz A–E, ayrı bir oturumun işi) vardı. Tahsin'in kararıyla bu plan tek referans alındı; o commit'ler kaybolmasın diye `backup/local-main-faz-A-E` etiketiyle saklandı, yerel `main` olduğu gibi bırakıldı. Faz 0 dalı bu plan dalından (`origin/main` tabanlı) açıldı.
+
 - Claude masaüstü → **Code** → **Local** → **Select folder** → `F:\ekmeklab_app`. İlk mesaj:
   > AGENTS.md ve docs/YOL_HARITASI.md'yi oku. Önce `git status` ile yerel değişikliklerimi kontrol et, hiçbirini kaybetmeden `claude/brave-maxwell-e3hq6r` dalına geç. Sonra Faz 0'a başla.
 - Oturum kuralları: yerel değişiklikleri asla silme; `.env.local`'in **varlığını** kontrol et (değerleri okuma/yazdırma); `npm ci`; AGENTS.md gereği `node_modules/next/dist/docs/` içinden ilgili rehberleri oku; her değişiklikten sonra `npm run build`.
@@ -273,6 +275,7 @@ COMMIT;
 10. **Sabitler:** `src/lib/site.ts` (`SITE_URL` = `NEXT_PUBLIC_SITE_URL` = `https://ekmeklab.tr`, iletişim bilgileri); sabit numara/domainlerin hepsi buradan (`grep wa.me|905|ekmeklab\.(com|tr)`). `src/app/manifest.ts` müşteri manifesti (`start_url "/"`); admin manifesti `public/admin.webmanifest` (admin layout sunucu+istemci olarak ayrılır, `robots: noindex`); `public/manifest.json` silinir. Fontlar `subsets: ["latin","latin-ext"]`.
 11. **Yasal minimum:** ödemede zorunlu onay kutusu (mesafeli satış + KVKK; `terms_accepted_at`, `terms_version` kaydedilir); online kart/BDDK iddiaları kaldırılır (`gizlilik/page.tsx:67`, `mesafeli-satis/page.tsx:85`).
 12. **Testler:** vitest (`istanbul.ts`, `dates.ts`, ayar şeması).
+13. **Misafir siparişini hesaba bağlama + cihaz hafızası:** `/api/orders/create` cevabına imzalı `trackingToken` (HMAC, `LINK_SIGNING_SECRET`, sipariş id'sine bağlı) eklenir; takip linki `/siparis-takip/<no>?t=<token>` token varsa tam görünüm verir (son 4 hane formu yedek yol). Sipariş no + token tarayıcıda saklanır → "Siparişlerim" giriş yapmadan o cihazdaki siparişleri listeler. Başarı penceresinde "Siparişini hesabına kaydet" (Google / e-posta kodu); giriş sonrası `POST /api/orders/claim` cihazdaki token'larla `user_id` boş siparişleri hesaba bağlar (token şart; telefona göre bağlama YOK — doğrulanmamış telefon başkasının siparişini açar). Giriş yapmış müşteri sepette ad/telefon/adresi profilden doldurur, yeni adresi kaydedebilir.
 
 **014 (uygulama yayınlandıktan SONRA; uygulama artık ISO tarih gönderiyor olmalı):**
 ```sql

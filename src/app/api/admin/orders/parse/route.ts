@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { requireAdmin } from "@/lib/security/apiAuth";
 import { GoogleGenAI, Type } from "@google/genai";
 
 import { checkRateLimit } from "@/lib/security/rateLimiter";
@@ -12,6 +13,9 @@ if (!apiKey) {
 const ai = new GoogleGenAI({ apiKey });
 
 export async function POST(req: Request) {
+  const guard = await requireAdmin(req);
+  if (!guard.ok) return guard.response;
+
   try {
     // 0. Rate limiting to prevent Gemini API quota exhaustion
     const forwarded = req.headers.get("x-forwarded-for");

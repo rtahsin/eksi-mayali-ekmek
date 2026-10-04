@@ -1,6 +1,5 @@
 import { type NextRequest, NextResponse } from "next/server";
 import { createServerClient } from "@supabase/ssr";
-import { jwtVerify } from "jose";
 
 export async function middleware(request: NextRequest) {
   let response = NextResponse.next({
@@ -58,28 +57,14 @@ export async function middleware(request: NextRequest) {
     }
   }
 
-  // 2. PIN JWT Cookie Check
-  const adminCookie = request.cookies.get("admin_session");
-  if (adminCookie?.value) {
-    try {
-      const secret = new TextEncoder().encode(
-        process.env.JWT_SECRET || "fallback-secret-for-development-only-change-in-prod"
-      );
-      await jwtVerify(adminCookie.value, secret);
-      isAuthenticatedAdmin = true;
-    } catch {
-      // Invalid JWT
-    }
-  }
-
-  // 3. Enforce protection on /api/admin/* (except login routes)
-  if (pathname.startsWith("/api/admin/") && pathname !== "/api/admin/auth/pin") {
+  // 2. Enforce protection on /api/admin/* (no exceptions)
+  if (pathname.startsWith("/api/admin/")) {
     if (!isAuthenticatedAdmin) {
       return NextResponse.json({ error: "Unauthorized API access" }, { status: 401 });
     }
   }
 
-  // 4. Protect /admin/* routes
+  // 3. Protect /admin/* routes
   if (pathname.startsWith("/admin") && !pathname.startsWith("/admin/login") && !pathname.startsWith("/api/")) {
     if (!isAuthenticatedAdmin) {
       const loginUrl = new URL(`/admin/login`, request.url);
@@ -88,7 +73,7 @@ export async function middleware(request: NextRequest) {
     }
   }
 
-  // 5. Protect /kurye route (strictly restricted to courier, staff, or admin roles)
+  // 4. Protect /kurye route (strictly restricted to courier, staff, or admin roles)
   const isCourierOrAdmin = isAuthenticatedAdmin || userRole === "courier" || userRole === "staff";
   if (pathname.startsWith("/kurye")) {
     if (!isCourierOrAdmin) {
@@ -98,7 +83,7 @@ export async function middleware(request: NextRequest) {
     }
   }
 
-  // 6. Protect /hesabim/* routes (customer login required)
+  // 5. Protect /hesabim/* routes (customer login required)
   if (pathname.startsWith("/hesabim")) {
     if (!hasValidUserSession && !isAuthenticatedAdmin) {
       const redirectUrl = new URL("/", request.url);

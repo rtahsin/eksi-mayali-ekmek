@@ -1,51 +1,74 @@
 import { NextResponse } from "next/server";
+import { z } from "zod";
+import { requireAdmin } from "@/lib/security/apiAuth";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { getErrorMessage } from "@/lib/utils/error";
 
+const DEFAULT_OPERATIONAL = {
+  freeShippingThreshold: 1000,
+  shippingFee: 150,
+  deliveryWindow: "14:00 - 18:00",
+  whatsappPhone: "0501 012 66 53",
+  orderAcceptanceOpen: true,
+  announcementText: "",
+  orderCutoffTime: "12:00",
+};
+
+const OperationalSettingsSchema = z.object({
+  freeShippingThreshold: z.number().min(0).max(100000),
+  shippingFee: z.number().min(0).max(10000),
+  deliveryWindow: z.string().trim().min(1).max(50),
+  orderCutoffTime: z.string().regex(/^([01]\d|2[0-3]):[0-5]\d$/, "Saat SS:DD formatında olmalıdır"),
+  whatsappPhone: z.string().trim().min(10).max(30),
+  orderAcceptanceOpen: z.boolean(),
+  announcementText: z.string().max(300).default(""),
+});
+
+const SaveSettingsRequestSchema = z.object({
+  action: z.literal("save_operational"),
+  value: OperationalSettingsSchema,
+});
+
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return typeof value === "object" && value !== null && !Array.isArray(value);
+}
+
 export async function GET(request: Request) {
+  const guard = await requireAdmin(request);
+  if (!guard.ok) return guard.response;
+
   try {
     const supabase = createAdminClient();
     if (!supabase) {
       return NextResponse.json({ error: "Supabase client unconfigured" }, { status: 500 });
     }
 
-    const { data, error } = await supabase!
+    const { data, error } = await supabase
       .from("bakery_settings")
-      .select("*");
+      .select("key, value")
+      .in("key", ["operational_settings", "order_cutoff_time"]);
 
     if (error) {
       console.error("Fetch settings error:", error);
       return NextResponse.json({ error: getErrorMessage(error) }, { status: 500 });
     }
 
-    const settingsMap: Record<string, any> = {};
-    (data || []).forEach((row: any) => {
-      settingsMap[row.key] = row.value;
-    });
+    const settingsMap = new Map<string, unknown>(
+      (data || []).map((row: { key: string; value: unknown }) => [row.key, row.value])
+    );
 
-    // Defaults if not set yet
-    const operational = settingsMap["operational_settings"] || {
-      freeShippingThreshold: 1000,
-      shippingFee: 150,
-      deliveryWindow: "14:00 - 18:00",
-      whatsappPhone: "0501 012 66 53",
-      orderAcceptanceOpen: true,
-      announcementText: "",
-      orderCutoffTime: "12:00",
+    const storedOperational = settingsMap.get("operational_settings");
+    const operational: Record<string, unknown> = {
+      ...DEFAULT_OPERATIONAL,
+      ...(isRecord(storedOperational) ? storedOperational : {}),
     };
 
-    const rawCutoff = settingsMap["order_cutoff_time"] || operational.orderCutoffTime || "12:00";
-    operational.orderCutoffTime =
-      typeof rawCutoff === "object" ? rawCutoff.cutoff_time || rawCutoff.time || "12:00" : String(rawCutoff);
+    const rawCutoff = settingsMap.get("order_cutoff_time") ?? operational.orderCutoffTime ?? "12:00";
+    operational.orderCutoffTime = isRecord(rawCutoff)
+      ? String(rawCutoff.cutoff_time ?? rawCutoff.time ?? "12:00")
+      : String(rawCutoff);
 
-    const devices = settingsMap["trusted_devices"] || [];
-    const security = settingsMap["security_settings"] || { quickPin: "1453" };
-
-    return NextResponse.json({
-      operational,
-      devices,
-      security,
-    });
+    return NextResponse.json({ operational });
   } catch (err: unknown) {
     console.error("Settings GET handler error:", err);
     return NextResponse.json({ error: getErrorMessage(err) }, { status: 500 });
@@ -53,163 +76,39 @@ export async function GET(request: Request) {
 }
 
 export async function POST(request: Request) {
+  const guard = await requireAdmin(request);
+  if (!guard.ok) return guard.response;
+
   try {
     const supabase = createAdminClient();
     if (!supabase) {
       return NextResponse.json({ error: "Supabase client unconfigured" }, { status: 500 });
     }
 
-    const body = await request.json();
-    const { action, value } = body;
-
-    if (action === "save_operational") {
-      const nowIso = new Date().toISOString();
-      const { error } = await supabase!
-        .from("bakery_settings")
-        .upsert(
-          {
-            key: "operational_settings",
-            value,
-            updated_at: nowIso,
-          },
-          { onConflict: "key" }
-        );
-
-      if (error) throw error;
-
-      if (value.orderCutoffTime) {
-        await supabase!.from("bakery_settings").upsert(
-          {
-            key: "order_cutoff_time",
-            value: value.orderCutoffTime,
-            updated_at: nowIso,
-          },
-          { onConflict: "key" }
-        );
-      }
-
-      return NextResponse.json({ success: true, message: "Ayarlar güncellendi" });
+    const parsed = SaveSettingsRequestSchema.safeParse(await request.json().catch(() => null));
+    if (!parsed.success) {
+      const message = parsed.error.issues.map((issue) => issue.message).join(", ");
+      return NextResponse.json({ error: `Geçersiz ayar: ${message}` }, { status: 400 });
     }
 
-    if (action === "save_devices") {
-      const { error } = await supabase!
-        .from("bakery_settings")
-        .upsert(
-          {
-            key: "trusted_devices",
-            value,
-            updated_at: new Date().toISOString(),
-          },
-          { onConflict: "key" }
-        );
+    const nowIso = new Date().toISOString();
+    const value = {
+      ...parsed.data.value,
+      updatedAt: nowIso,
+      updatedBy: guard.auth.userId,
+    };
 
-      if (error) throw error;
-      return NextResponse.json({ success: true, message: "Cihazlar güncellendi" });
-    }
+    const { error } = await supabase
+      .from("bakery_settings")
+      .upsert({ key: "operational_settings", value, updated_at: nowIso }, { onConflict: "key" });
+    if (error) throw error;
 
-    if (action === "save_security") {
-      const { error } = await supabase!
-        .from("bakery_settings")
-        .upsert(
-          {
-            key: "security_settings",
-            value,
-            updated_at: new Date().toISOString(),
-          },
-          { onConflict: "key" }
-        );
+    const { error: cutoffError } = await supabase
+      .from("bakery_settings")
+      .upsert({ key: "order_cutoff_time", value: value.orderCutoffTime, updated_at: nowIso }, { onConflict: "key" });
+    if (cutoffError) throw cutoffError;
 
-      if (error) throw error;
-      return NextResponse.json({ success: true, message: "Güvenlik ayarları güncellendi" });
-    }
-
-    if (action === "authorize_device") {
-      const { deviceId, deviceName, approvedBy } = body;
-      if (!deviceId) {
-        return NextResponse.json({ error: "deviceId required" }, { status: 400 });
-      }
-
-      // Fetch existing
-      const { data: existingRow } = await supabase!
-        .from("bakery_settings")
-        .select("value")
-        .eq("key", "trusted_devices")
-        .maybeSingle();
-
-      let devicesList: any[] = Array.isArray(existingRow?.value) ? [...existingRow.value] : [];
-      const now = new Date().toISOString();
-
-      const existingIndex = devicesList.findIndex((d) => d.id === deviceId || d.deviceId === deviceId);
-      if (existingIndex >= 0) {
-        devicesList[existingIndex] = {
-          ...devicesList[existingIndex],
-          deviceName: deviceName || devicesList[existingIndex].deviceName,
-          approved: true,
-          approvedAt: now,
-          approvedBy: approvedBy || "Superadmin",
-          lastUsedAt: now,
-        };
-      } else {
-        devicesList.push({
-          id: deviceId,
-          deviceId,
-          deviceName: deviceName || "Mobil / Masaüstü Yetkili",
-          approved: true,
-          approvedAt: now,
-          approvedBy: approvedBy || "Superadmin",
-          lastUsedAt: now,
-        });
-      }
-
-      const { error } = await supabase!.from("bakery_settings").upsert(
-        {
-          key: "trusted_devices",
-          value: devicesList,
-          updated_at: now,
-        },
-        { onConflict: "key" }
-      );
-
-      if (error) throw error;
-      return NextResponse.json({ success: true, devices: devicesList });
-    }
-
-    if (action === "revoke_device" || action === "delete_device") {
-      const { deviceId } = body;
-      const { data: existingRow } = await supabase!
-        .from("bakery_settings")
-        .select("value")
-        .eq("key", "trusted_devices")
-        .maybeSingle();
-
-      let devicesList: any[] = Array.isArray(existingRow?.value) ? [...existingRow.value] : [];
-      const now = new Date().toISOString();
-
-      if (action === "delete_device") {
-        devicesList = devicesList.filter((d) => d.id !== deviceId && d.deviceId !== deviceId);
-      } else {
-        devicesList = devicesList.map((d) => {
-          if (d.id === deviceId || d.deviceId === deviceId) {
-            return { ...d, approved: false, revokedAt: now };
-          }
-          return d;
-        });
-      }
-
-      const { error } = await supabase!.from("bakery_settings").upsert(
-        {
-          key: "trusted_devices",
-          value: devicesList,
-          updated_at: now,
-        },
-        { onConflict: "key" }
-      );
-
-      if (error) throw error;
-      return NextResponse.json({ success: true, devices: devicesList });
-    }
-
-    return NextResponse.json({ error: "Invalid action" }, { status: 400 });
+    return NextResponse.json({ success: true, message: "Ayarlar güncellendi" });
   } catch (err: unknown) {
     console.error("Settings POST handler error:", err);
     return NextResponse.json({ error: getErrorMessage(err) }, { status: 500 });

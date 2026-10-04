@@ -104,7 +104,7 @@ export default function MusteriSiparislerPage() {
         </p>
         <div className="pt-3">
           <button
-            onClick={() => openAuthModal("login")}
+            onClick={() => openAuthModal()}
             className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-[#F59E0B] to-[#C85A32] text-black font-bold text-xs shadow-lg hover:brightness-110 active:scale-95 transition-all"
           >
             <LogIn className="w-4 h-4" />

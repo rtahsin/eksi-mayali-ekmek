@@ -43,36 +43,26 @@ CREATE TABLE IF NOT EXISTS public.profiles (
 );
 
 -- Trigger to automatically create profile on signup
+-- Güvenli profil tetikleyicisi (013_security_hardening ile aynı): e-postaya göre rol YOK,
+-- çakışmada rol asla değişmez. Rol sadece admin tarafından profiles.role üzerinden verilir.
 CREATE OR REPLACE FUNCTION public.handle_new_user()
-RETURNS TRIGGER AS $$
-DECLARE
-    user_role public.user_role_type := 'customer';
+RETURNS trigger LANGUAGE plpgsql SECURITY DEFINER SET search_path = '' AS $$
 BEGIN
-    IF NEW.email IN ('tahsinreyhan@gmail.com', 'ekmeklab@gmail.com') THEN
-        user_role := 'superadmin';
-    END IF;
-
-    INSERT INTO public.profiles (id, email, full_name, phone, role, avatar_url)
-    VALUES (
-        NEW.id,
-        NEW.email,
-        COALESCE(NEW.raw_user_meta_data->>'full_name', NEW.raw_user_meta_data->>'name', split_part(NEW.email, '@', 1)),
-        NEW.raw_user_meta_data->>'phone',
-        user_role,
-        NEW.raw_user_meta_data->>'avatar_url'
-    )
-    ON CONFLICT (id) DO UPDATE SET
-        email = EXCLUDED.email,
-        full_name = COALESCE(EXCLUDED.full_name, public.profiles.full_name),
-        avatar_url = COALESCE(EXCLUDED.avatar_url, public.profiles.avatar_url),
-        updated_at = NOW();
-
-    RETURN NEW;
-EXCEPTION
-    WHEN OTHERS THEN
-        RETURN NEW;
-END;
-$$ LANGUAGE plpgsql SECURITY DEFINER SET search_path = public, auth;
+  INSERT INTO public.profiles AS p (id, email, full_name, phone, avatar_url)
+  VALUES (NEW.id, NEW.email,
+          COALESCE(NEW.raw_user_meta_data->>'full_name', NEW.raw_user_meta_data->>'name', split_part(NEW.email,'@',1)),
+          NEW.raw_user_meta_data->>'phone', NEW.raw_user_meta_data->>'avatar_url')
+  ON CONFLICT (id) DO UPDATE SET
+    email = EXCLUDED.email,
+    full_name = COALESCE(p.full_name, EXCLUDED.full_name),
+    avatar_url = COALESCE(EXCLUDED.avatar_url, p.avatar_url),
+    updated_at = now();
+  RETURN NEW;
+EXCEPTION WHEN OTHERS THEN
+  RAISE WARNING 'handle_new_user(%): %', NEW.id, SQLERRM;
+  RETURN NEW;
+END $$;
+REVOKE ALL ON FUNCTION public.handle_new_user() FROM PUBLIC, anon, authenticated;
 
 DROP TRIGGER IF EXISTS on_auth_user_created ON auth.users;
 CREATE TRIGGER on_auth_user_created
@@ -397,10 +387,7 @@ CREATE POLICY "Admin manage journal articles"
     ON public.journal_articles FOR ALL
     USING (public.is_admin());
 
--- Bakery Settings: Public read, Admin write
-CREATE POLICY "Public read bakery settings"
-    ON public.bakery_settings FOR SELECT
-    USING (true);
+-- Bakery Settings: herkese açık okuma YOK (tüm okuyucular service-role API rotaları), sadece admin yazar
 
 CREATE POLICY "Admin manage bakery settings"
     ON public.bakery_settings FOR ALL

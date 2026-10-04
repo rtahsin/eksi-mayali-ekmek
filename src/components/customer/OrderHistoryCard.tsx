@@ -82,8 +82,6 @@ export function OrderHistoryCard({ order, onOrderCancelled }: OrderHistoryCardPr
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           reason: cancelReason || "Müşteri geçmiş siparişler sayfasından iptal etti",
-          cancelledBy: "customer",
-          userId: order.userId || undefined,
         }),
       });
 

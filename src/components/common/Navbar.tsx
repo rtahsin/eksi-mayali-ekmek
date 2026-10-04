@@ -162,7 +162,7 @@ export function Navbar() {
           ) : (
             <button
               type="button"
-              onClick={() => openAuthModal("login")}
+              onClick={() => openAuthModal()}
               aria-label="Giriş Yap"
               className="inline-flex items-center justify-center gap-1.5 w-10 h-10 sm:w-auto sm:h-auto sm:px-3 sm:py-2 rounded-xl bg-surface-panel hover:bg-surface-elevated text-foreground/80 hover:text-foreground border border-surface-border font-sans text-xs transition-all"
             >

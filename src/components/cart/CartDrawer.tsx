@@ -516,7 +516,7 @@ export function CartDrawer() {
       ) : (
         <button
           type="button"
-          onClick={() => openAuthModal("login")}
+          onClick={() => openAuthModal()}
           className="text-[10px] font-sans text-artisan-terracotta hover:underline font-bold flex items-center gap-1"
         >
           <span>Giriş Yap</span>
@@ -559,7 +559,7 @@ export function CartDrawer() {
     {!isLoggedIn && (
       <button
         type="button"
-        onClick={() => openAuthModal("login")}
+        onClick={() => openAuthModal()}
         className="w-full p-2.5 rounded-xl bg-linen-subtle hover:bg-linen-surface border border-linen-border text-xs text-artisan-terracotta flex items-center justify-between transition-colors text-left shadow-2xs"
       >
         <span className="flex items-center gap-1.5">

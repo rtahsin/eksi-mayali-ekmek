@@ -1,14 +1,38 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import type { Session } from "@supabase/supabase-js";
 import { createClient, isSupabaseConfigured } from "@/lib/supabase/client";
 import { AdminRole, AdminUser } from "@/types/admin";
 import { getErrorMessage } from "@/lib/utils/error";
 
-const SUPER_ADMIN_EMAILS = [
-  "tahsinreyhan@gmail.com",
-  "ekmeklab@gmail.com",
-];
+/** PIN ve "güvenilir cihaz" döneminden kalan tarayıcı anahtarları (bir kez temizlenir). */
+const LEGACY_STORAGE_KEYS = ["ekmeklab_pin_session", "ekmeklab_admin_pin", "ekmeklab_trusted_device_id"];
+const LEGACY_STORAGE_PREFIX = "ekmeklab_device_approved_";
+
+function clearLegacyAdminStorage() {
+  if (typeof window === "undefined") return;
+  try {
+    LEGACY_STORAGE_KEYS.forEach((key) => localStorage.removeItem(key));
+    Object.keys(localStorage)
+      .filter((key) => key.startsWith(LEGACY_STORAGE_PREFIX))
+      .forEach((key) => localStorage.removeItem(key));
+  } catch {
+    // Storage erişilemiyorsa (gizli pencere vb.) yapılacak bir şey yok
+  }
+}
+
+function isAdminRole(role: unknown): role is Extract<AdminRole, "admin" | "superadmin"> {
+  return role === "admin" || role === "superadmin";
+}
+
+/** Sadece `next/navigation` içi göreli yollar ("/..." ama "//..." değil). */
+export function safeRedirectPath(target: string | null | undefined, fallback = "/admin"): string {
+  if (!target || !target.startsWith("/") || target.startsWith("//") || target.startsWith("/\\")) {
+    return fallback;
+  }
+  return target;
+}
 
 export function useAdminAuth() {
   const [adminUser, setAdminUser] = useState<AdminUser | null>(null);
@@ -18,173 +42,81 @@ export function useAdminAuth() {
   const supabase = createClient();
 
   useEffect(() => {
+    clearLegacyAdminStorage();
+
     if (!supabase || !isSupabaseConfigured()) {
       setLoading(false);
       return;
     }
 
-    const checkSession = async () => {
-      try {
-        const { data } = await supabase.auth.getSession();
-        const user = data?.session?.user;
-        if (user && user.email) {
-          const emailLower = user.email.toLowerCase().trim();
-          const isSuper = SUPER_ADMIN_EMAILS.includes(emailLower);
+    let cancelled = false;
 
-          const { data: profile } = await supabase!
-            .from("profiles")
-            .select("*")
-            .eq("id", user.id)
-            .single();
-
-          const role = (profile?.role as AdminRole) || (isSuper ? "superadmin" : "customer");
-
-          if (isSuper || role === "superadmin" || role === "admin") {
-            setAdminUser({
-              uid: user.id,
-              email: user.email,
-              displayName: isSuper ? "Tahsin Usta" : (profile?.full_name || user.email.split("@")[0]),
-              role: isSuper ? "superadmin" : role,
-              isActive: true,
-            });
-          } else {
-            setAdminUser(null);
-          }
-        } else if (typeof window !== "undefined") {
-          // Check for quick PIN session
-          const savedPinSession = localStorage.getItem("ekmeklab_pin_session");
-          if (savedPinSession) {
-            try {
-              const parsed = JSON.parse(savedPinSession);
-              if (parsed && parsed.role === "superadmin") {
-                setAdminUser(parsed);
-              }
-            } catch {
-              localStorage.removeItem("ekmeklab_pin_session");
-            }
-          } else {
-            setAdminUser(null);
-          }
-        } else {
-          setAdminUser(null);
-        }
-      } catch (err) {
-        console.warn("Admin session check warning:", err);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    checkSession();
-
-    const {
-      data: { subscription },
-    } = supabase.auth.onAuthStateChange(async (_event: any, session: any) => {
+    const resolveAdmin = async (session: Session | null) => {
       const user = session?.user;
-      if (user && user.email) {
-        const emailLower = user.email.toLowerCase().trim();
-        const isSuper = SUPER_ADMIN_EMAILS.includes(emailLower);
+      if (!user || !user.email) {
+        if (!cancelled) setAdminUser(null);
+        return;
+      }
 
-        const { data: profile } = await supabase!
-          .from("profiles")
-          .select("*")
-          .eq("id", user.id)
-          .single();
+      const { data: profile } = await supabase
+        .from("profiles")
+        .select("role, full_name")
+        .eq("id", user.id)
+        .maybeSingle();
 
-        const role = (profile?.role as AdminRole) || (isSuper ? "superadmin" : "customer");
+      if (cancelled) return;
 
-        if (isSuper || role === "superadmin" || role === "admin") {
-          setAdminUser({
-            uid: user.id,
-            email: user.email,
-            displayName: profile?.full_name || user.email.split("@")[0],
-            role: isSuper ? "superadmin" : role,
-            isActive: true,
-          });
-        } else {
-          setAdminUser(null);
-        }
+      const role: unknown = profile?.role;
+      if (isAdminRole(role)) {
+        const fullName: unknown = profile?.full_name;
+        setAdminUser({
+          uid: user.id,
+          email: user.email,
+          displayName: typeof fullName === "string" && fullName ? fullName : user.email.split("@")[0],
+          role,
+          isActive: true,
+        });
       } else {
         setAdminUser(null);
       }
-      setLoading(false);
+    };
+
+    supabase.auth
+      .getSession()
+      .then(({ data }) => resolveAdmin(data.session))
+      .catch((err: unknown) => console.warn("Admin session check warning:", err))
+      .finally(() => {
+        if (!cancelled) setLoading(false);
+      });
+
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((_event, session) => {
+      resolveAdmin(session)
+        .catch((err: unknown) => console.warn("Admin session update warning:", err))
+        .finally(() => {
+          if (!cancelled) setLoading(false);
+        });
     });
 
     return () => {
+      cancelled = true;
       subscription.unsubscribe();
     };
   }, [supabase]);
 
-  const login = async (email: string, pass: string) => {
+  const loginWithGoogle = async (redirectPath = "/admin") => {
     setLoading(true);
     setAuthError(null);
     try {
       if (!supabase) throw new Error("Supabase bağlantısı kurulamadı.");
-
-      const cleanEmail = email.trim().toLowerCase();
-      const { data, error } = await supabase.auth.signInWithPassword({
-        email: cleanEmail,
-        password: pass,
-      });
-
-      if (error) {
-        let msg = "Giriş yapılamadı. Lütfen bilgilerinizi kontrol edin.";
-        if (getErrorMessage(error).includes("Invalid login credentials")) {
-          msg = "E-posta adresi veya şifre hatalı.";
-        }
-        setAuthError(msg);
-        return { success: false, error: msg };
-      }
-
-      const user = data.user;
-      const isSuper = SUPER_ADMIN_EMAILS.includes(cleanEmail);
-
-      const { data: profile } = await supabase!
-        .from("profiles")
-        .select("*")
-        .eq("id", user.id)
-        .single();
-
-      const role = (profile?.role as AdminRole) || (isSuper ? "superadmin" : "customer");
-
-      if (!isSuper && role !== "superadmin" && role !== "admin") {
-        await supabase.auth.signOut();
-        setAdminUser(null);
-        const deniedMsg = "Bu alana yalnızca yetkili fırın yöneticileri erişebilir.";
-        setAuthError(deniedMsg);
-        return { success: false, error: deniedMsg };
-      }
-
-      const adminObj: AdminUser = {
-        uid: user.id,
-        email: user.email || cleanEmail,
-        displayName: profile?.full_name || cleanEmail.split("@")[0],
-        role: isSuper ? "superadmin" : role,
-        isActive: true,
-      };
-
-      setAdminUser(adminObj);
-      return { success: true, user };
-    } catch (err: unknown) {
-      const msg = getErrorMessage(err) || "Giriş sırasında beklenmedik bir hata oluştu.";
-      setAuthError(msg);
-      return { success: false, error: msg };
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const loginWithGoogle = async () => {
-    setLoading(true);
-    setAuthError(null);
-    try {
-      if (!supabase) throw new Error("Supabase bağlantısı kurulamadı.");
+      const next = encodeURIComponent(safeRedirectPath(redirectPath));
       const { error } = await supabase.auth.signInWithOAuth({
         provider: "google",
         options: {
           redirectTo:
             typeof window !== "undefined"
-              ? `${window.location.origin}/auth/callback?next=/admin`
+              ? `${window.location.origin}/auth/callback?next=${next}`
               : undefined,
         },
       });
@@ -193,69 +125,8 @@ export function useAdminAuth() {
     } catch (err: unknown) {
       const msg = "Google ile giriş başarısız oldu: " + getErrorMessage(err);
       setAuthError(msg);
-      return { success: false, error: msg };
-    } finally {
       setLoading(false);
-    }
-  };
-
-  const resetPassword = async (email: string) => {
-    try {
-      if (!supabase) throw new Error("Supabase bağlantısı kurulamadı.");
-      const { error } = await supabase.auth.resetPasswordForEmail(email.trim().toLowerCase(), {
-        redirectTo: typeof window !== "undefined" ? `${window.location.origin}/auth/reset-password` : undefined,
-      });
-      if (error) throw error;
-      return { success: true };
-    } catch (err: unknown) {
-      return { success: false, error: getErrorMessage(err) || "Şifre sıfırlama e-postası gönderilemedi." };
-    }
-  };
-
-  const loginWithPin = async (enteredPin: string) => {
-    setLoading(true);
-    setAuthError(null);
-    try {
-      // New Secure Flow
-      const res = await fetch("/api/admin/auth/pin", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ pin: enteredPin.trim() }),
-      });
-
-      const data = await res.json();
-      if (!res.ok || !data.success) {
-        const msg = data.error || "Hatalı PIN kodu! Lütfen tekrar deneyin.";
-        setAuthError(msg);
-        return { success: false, error: msg };
-      }
-
-      // If successful, the API has set the HTTP-Only cookie.
-      // We still update local state for the UI immediately.
-      const pinUser: AdminUser = {
-        uid: "tahsin_master_admin",
-        email: "tahsinreyhan@gmail.com",
-        displayName: "Tahsin Usta",
-        role: "superadmin",
-        isActive: true,
-      };
-
-      setAdminUser(pinUser);
-      if (typeof window !== "undefined") {
-        localStorage.setItem("ekmeklab_pin_session", JSON.stringify(pinUser));
-        const localId = localStorage.getItem("ekmeklab_trusted_device_id");
-        if (localId) {
-          localStorage.setItem(`ekmeklab_device_approved_${localId}`, "true");
-        }
-      }
-
-      return { success: true, user: pinUser };
-    } catch (err: unknown) {
-      const msg = getErrorMessage(err) || "PIN ile giriş sırasında bir hata oluştu.";
-      setAuthError(msg);
       return { success: false, error: msg };
-    } finally {
-      setLoading(false);
     }
   };
 
@@ -264,12 +135,7 @@ export function useAdminAuth() {
       if (supabase) {
         await supabase.auth.signOut();
       }
-      
-      await fetch("/api/admin/auth/pin", { method: "DELETE" }).catch(() => {});
-      
-      if (typeof window !== "undefined") {
-        localStorage.removeItem("ekmeklab_pin_session");
-      }
+      clearLegacyAdminStorage();
       setAdminUser(null);
     } catch (e) {
       console.error("Logout error:", e);
@@ -277,20 +143,12 @@ export function useAdminAuth() {
   };
 
   return {
-    firebaseUser: adminUser ? ({ uid: adminUser.uid, email: adminUser.email } as any) : null,
     adminUser,
     isAuthenticated: Boolean(adminUser && adminUser.isActive),
-    isSuperAdmin: Boolean(
-      adminUser &&
-        (adminUser.role === "superadmin" ||
-          SUPER_ADMIN_EMAILS.includes(adminUser.email?.toLowerCase() || ""))
-    ),
+    isSuperAdmin: adminUser?.role === "superadmin",
     loading,
     authError,
-    login,
-    loginWithPin,
     loginWithGoogle,
-    resetPassword,
     logout,
   };
 }

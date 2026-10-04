@@ -1,8 +1,12 @@
 import { NextResponse } from "next/server";
+import { requireAdmin } from "@/lib/security/apiAuth";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { getErrorMessage } from "@/lib/utils/error";
 
 export async function DELETE(request: Request) {
+  const guard = await requireAdmin(request);
+  if (!guard.ok) return guard.response;
+
   try {
     const supabase = createAdminClient();
     if (!supabase) {
@@ -48,6 +52,9 @@ export async function DELETE(request: Request) {
 }
 
 export async function POST(request: Request) {
+  const guard = await requireAdmin(request);
+  if (!guard.ok) return guard.response;
+
   try {
     const supabase = createAdminClient();
     if (!supabase) {

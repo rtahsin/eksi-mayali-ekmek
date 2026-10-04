@@ -10,11 +10,10 @@ export interface CreateOrderParams {
   shippingFee: number;
   totalAmount: number;
   idempotencyKey?: string;
-  userId?: string;
 }
 
 export async function createOrderInSupabase(params: CreateOrderParams): Promise<Order> {
-  const { items, customerInfo, deliveryMethod, paymentMethod, idempotencyKey, userId } = params;
+  const { items, customerInfo, deliveryMethod, paymentMethod, idempotencyKey } = params;
 
   // Call Server-side Secure API Route (/api/orders/create)
   const response = await fetch("/api/orders/create", {
@@ -31,8 +30,7 @@ export async function createOrderInSupabase(params: CreateOrderParams): Promise<
       customerInfo,
       deliveryMethod,
       paymentMethod,
-      idempotencyKey: idempotencyKey || `IDEM-${Date.now()}-${Math.random().toString(36).substring(2, 7)}`,
-      userId: userId || undefined,
+      idempotencyKey: idempotencyKey || `IDEM-${crypto.randomUUID()}`,
     }),
   });
 
