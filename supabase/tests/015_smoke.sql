@@ -11,14 +11,23 @@ DECLARE
   r JSONB;
   v_err TEXT;
   i INT;
+  v_existing_units INT;
 BEGIN
+  -- Canlı veride o gün için zaten alınmış siparişler olabilir: test kapasitesi "mevcut + 3" olur
+  SELECT COALESCE(SUM(oi.quantity * COALESCE(oi.capacity_units, p.capacity_units, 1)), 0) INTO v_existing_units
+  FROM public.order_items oi
+  JOIN public.orders o ON o.id = oi.order_id
+  LEFT JOIN public.products p ON p.id = oi.product_id
+  WHERE o.delivery_date = v_day AND o.status <> 'iptal';
+
   INSERT INTO public.products (id, name, slug, price, category, is_active, is_available, availability, daily_limit, capacity_units)
   VALUES ('SMOKE-LIMIT', 'TEST Limitli', 'smoke-limitli', 10, 'bread', true, true, 'daily', 2, 1),
          ('SMOKE-DATES', 'TEST Günlü', 'smoke-gunlu', 10, 'bread', true, true, 'dates', NULL, 1),
          ('SMOKE-ESLIK', 'TEST Eşlikçi', 'smoke-eslikci', 10, 'gurme', true, true, 'daily', NULL, 0),
          ('SMOKE-CAP', 'TEST Kapasite', 'smoke-kapasite', 10, 'bread', true, true, 'daily', NULL, 1);
   INSERT INTO public.product_sale_dates (product_id, sale_date, quantity_limit) VALUES ('SMOKE-DATES', v_day + 1, NULL);
-  INSERT INTO public.capacity_days (day, bread_capacity) VALUES (v_day, 3);
+  INSERT INTO public.capacity_days (day, bread_capacity) VALUES (v_day, v_existing_units + 3)
+  ON CONFLICT (day) DO UPDATE SET bread_capacity = EXCLUDED.bread_capacity;
 
   v_base := jsonb_build_object('customer_name', 'TEST Smoke', 'phone', '05000000000', 'delivery_address', 'TEST',
     'delivery_method', 'courier', 'payment_method', 'cash_on_delivery', 'subtotal', 10, 'shipping_fee', 0, 'total_amount', 10,
