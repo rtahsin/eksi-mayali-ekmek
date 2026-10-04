@@ -55,6 +55,10 @@ export async function PATCH(
 
     const currentStatus: string = orderData.status;
 
+    if (currentStatus === "iptal") {
+      return NextResponse.json({ error: "Sipariş zaten iptal edilmiş." }, { status: 409 });
+    }
+
     if (requestedBy === "customer") {
       // Cari (toptan) siparişleri herkese açık yoldan iptal edilemez
       if (orderData.cari_id) {
@@ -106,10 +110,6 @@ export async function PATCH(
           );
         }
       }
-    }
-
-    if (currentStatus === "iptal") {
-      return NextResponse.json({ error: "Sipariş zaten iptal edilmiş." }, { status: 409 });
     }
 
     const nowIso = new Date().toISOString();
