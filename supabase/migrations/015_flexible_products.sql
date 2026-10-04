@@ -369,7 +369,7 @@ LANGUAGE plpgsql
 VOLATILE
 SECURITY DEFINER
 SET search_path = public, pg_temp
-AS $
+AS $$
 DECLARE
   v_id TEXT := p_product->>'id';
 BEGIN
@@ -408,13 +408,13 @@ BEGIN
   FROM jsonb_array_elements(COALESCE(p_sale_dates, '[]'::jsonb)) d
   WHERE (d->>'date')::date >= p_from;
 END;
-$;
+$$;
 
 REVOKE ALL ON FUNCTION public.admin_save_product(JSONB, JSONB, DATE) FROM PUBLIC, anon, authenticated;
 GRANT EXECUTE ON FUNCTION public.admin_save_product(JSONB, JSONB, DATE) TO service_role;
 
 -- Öz-kontrol
-DO $ BEGIN
+DO $$ BEGIN
   IF to_regclass('public.product_sale_dates') IS NULL OR to_regclass('public.capacity_days') IS NULL THEN
     RAISE EXCEPTION '015 öz-kontrol: yeni tablolar oluşmadı';
   END IF;
