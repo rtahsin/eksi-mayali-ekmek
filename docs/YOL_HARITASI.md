@@ -8,8 +8,8 @@
 | Acil | Tahsin'in kod beklemeden yapacakları (§4) | 15 dk | ✅ tamamlandı (4 Eki) |
 | 0 | Güvenlik yaması | ~1 gün + 1 saat Tahsin | ✅ tamamlandı (4 Eki): PR #1 canlıda, 013 uygulandı ve doğrulandı, `JWT_SECRET` silindi |
 | 0.5 | CI (her PR'da otomatik build) | ~2 saat | ✅ tamamlandı (4 Eki, PR #3) |
-| 1 | Sipariş çekirdeği onarımı | 3-4 gün | 🟡 kod hazır (dal `faz-1-siparis-cekirdegi`; typecheck + 37 test + build ✅). Kalan: PR/yayın → 014 (Tahsin) → Telegram botu |
-| 2 | Fırın günleri, kapasite, eşlikçiler | 3-4 gün | bekliyor |
+| 1 | Sipariş çekirdeği onarımı | 3-4 gün | ✅ canlıda (4 Eki, PR #4): 014 uygulandı ve doğrulandı; Telegram env eklendi. Not: 014 birleştirmeden birkaç dakika önce çalıştı → o aralıkta web siparişi reddedildi (sıra kuralı: önce kod, sonra migration) |
+| 2 | Fırın günleri, kapasite, eşlikçiler | 3-4 gün | sıradaki |
 | 3 | Admin sadeleştirme + finans doğruluğu | ~5 gün | bekliyor |
 | 4 | Marka, görseller, içerik, yasal metinler | 4-6 gün + içerik | bekliyor |
 | 5 | Temizlik ve araçlar | 1-2 gün | bekliyor |
