@@ -16,6 +16,7 @@
 --   5) order_items.capacity_units / components (anlık kopya)
 --   6) create_order_atomic v4: satış günü, hazırlık süresi, ürün limiti,
 --      günlük ekmek kapasitesi (tarih başına kilit altında)
+--   7) admin_save_product: ürün + satış günleri tek işlemde
 -- ==============================================================================
 
 BEGIN;
@@ -159,6 +160,16 @@ BEGIN
 
   -- Aynı gün için kapasite/limit kontrolleri sıraya girer (sayaç yok, SUM ile)
   PERFORM pg_advisory_xact_lock(hashtext('ekmeklab:capacity:' || v_delivery_date::text));
+
+  -- Kilit beklerken aynı anahtarlı eşzamanlı istek kaydedilmiş olabilir: kazananı döndür
+  -- (aksi halde yeniden deneme, dolmuş kapasite/limit yüzünden yanlışlıkla reddedilir)
+  IF v_idem IS NOT NULL THEN
+    SELECT id, order_number INTO v_existing FROM public.orders WHERE idempotency_key = v_idem;
+    IF FOUND THEN
+      RETURN jsonb_build_object('success', true, 'order_id', v_existing.id,
+                                'order_number', v_existing.order_number, 'is_existing', true);
+    END IF;
+  END IF;
 
   FOR v_line IN
     SELECT x->>'product_id' AS product_id, SUM((x->>'quantity')::integer) AS qty
@@ -349,8 +360,61 @@ $$;
 REVOKE ALL ON FUNCTION public.create_order_atomic(JSONB, JSONB, UUID) FROM PUBLIC, anon, authenticated;
 GRANT EXECUTE ON FUNCTION public.create_order_atomic(JSONB, JSONB, UUID) TO service_role;
 
+-- 7) admin_save_product: ürün + gelecekteki satış günleri TEK işlemde ------------------------
+--   p_product: products satırı (jsonb, sütun adlarıyla); p_sale_dates: [{date, limit}] ;
+--   p_from: bugün (İstanbul). Geçmiş satış günleri kayıt olarak kalır.
+CREATE OR REPLACE FUNCTION public.admin_save_product(p_product JSONB, p_sale_dates JSONB, p_from DATE)
+RETURNS VOID
+LANGUAGE plpgsql
+VOLATILE
+SECURITY DEFINER
+SET search_path = public, pg_temp
+AS $
+DECLARE
+  v_id TEXT := p_product->>'id';
+BEGIN
+  IF v_id IS NULL OR v_id = '' THEN
+    RAISE EXCEPTION 'PRODUCT_ID_REQUIRED';
+  END IF;
+
+  INSERT INTO public.products AS p (
+    id, slug, name, description, price, compare_at_price, image_url, category, weight, weight_unit,
+    is_available, is_active, is_popular, is_new, made_to_order, availability, daily_limit,
+    lead_time_days, capacity_units, bundle_items, cross_sell, display_order, ingredients,
+    flour_types, hydration, masterclass, updated_at
+  )
+  SELECT r.id, r.slug, r.name, r.description, r.price, r.compare_at_price, r.image_url, r.category, r.weight,
+         r.weight_unit, r.is_available, r.is_active, r.is_popular, r.is_new, r.made_to_order,
+         COALESCE(r.availability, 'daily'), r.daily_limit, COALESCE(r.lead_time_days, 0),
+         COALESCE(r.capacity_units, 1), r.bundle_items, COALESCE(r.cross_sell, '{}'), COALESCE(r.display_order, 0),
+         r.ingredients, r.flour_types, r.hydration, r.masterclass, now()
+  FROM jsonb_populate_record(NULL::public.products, p_product) r
+  ON CONFLICT (id) DO UPDATE SET
+    slug = EXCLUDED.slug, name = EXCLUDED.name, description = EXCLUDED.description, price = EXCLUDED.price,
+    compare_at_price = EXCLUDED.compare_at_price, image_url = EXCLUDED.image_url, category = EXCLUDED.category,
+    weight = EXCLUDED.weight, weight_unit = EXCLUDED.weight_unit, is_available = EXCLUDED.is_available,
+    is_active = EXCLUDED.is_active, is_popular = EXCLUDED.is_popular, is_new = EXCLUDED.is_new,
+    made_to_order = EXCLUDED.made_to_order, availability = EXCLUDED.availability,
+    daily_limit = EXCLUDED.daily_limit, lead_time_days = EXCLUDED.lead_time_days,
+    capacity_units = EXCLUDED.capacity_units, bundle_items = EXCLUDED.bundle_items,
+    cross_sell = EXCLUDED.cross_sell, display_order = EXCLUDED.display_order,
+    ingredients = EXCLUDED.ingredients, flour_types = EXCLUDED.flour_types, hydration = EXCLUDED.hydration,
+    masterclass = EXCLUDED.masterclass, updated_at = now();
+
+  DELETE FROM public.product_sale_dates WHERE product_id = v_id AND sale_date >= p_from;
+
+  INSERT INTO public.product_sale_dates (product_id, sale_date, quantity_limit)
+  SELECT DISTINCT ON ((d->>'date')::date) v_id, (d->>'date')::date, NULLIF(d->>'limit', '')::integer
+  FROM jsonb_array_elements(COALESCE(p_sale_dates, '[]'::jsonb)) d
+  WHERE (d->>'date')::date >= p_from;
+END;
+$;
+
+REVOKE ALL ON FUNCTION public.admin_save_product(JSONB, JSONB, DATE) FROM PUBLIC, anon, authenticated;
+GRANT EXECUTE ON FUNCTION public.admin_save_product(JSONB, JSONB, DATE) TO service_role;
+
 -- Öz-kontrol
-DO $$ BEGIN
+DO $ BEGIN
   IF to_regclass('public.product_sale_dates') IS NULL OR to_regclass('public.capacity_days') IS NULL THEN
     RAISE EXCEPTION '015 öz-kontrol: yeni tablolar oluşmadı';
   END IF;

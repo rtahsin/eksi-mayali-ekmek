@@ -50,8 +50,7 @@ export async function getCatalog(options: { includeInactive?: boolean; client?: 
   let productQuery = supabase.from("products").select("*").order("display_order", { ascending: true }).order("name");
   if (!options.includeInactive) productQuery = productQuery.eq("is_active", true);
 
-  let categoryQuery = supabase.from("categories").select("*").order("display_order", { ascending: true });
-  if (!options.includeInactive) categoryQuery = categoryQuery.neq("is_visible", false);
+  const categoryQuery = supabase.from("categories").select("*").order("display_order", { ascending: true });
 
   const [{ data: productRows, error: productErr }, { data: categoryRows, error: categoryErr }] = await Promise.all([
     productQuery,
@@ -64,13 +63,18 @@ export async function getCatalog(options: { includeInactive?: boolean; client?: 
   }
   if (categoryErr) console.warn("getCatalog categories:", categoryErr.message);
 
-  const rows = (productRows ?? []) as ProductRow[];
+  const allCategories = ((categoryRows ?? []) as CategoryRow[]).map(mapCategoryRow);
+  const hiddenCategoryIds = new Set(allCategories.filter((c) => !c.isVisible).map((c) => c.id));
+  // Vitrin: gizli kategorideki ürünler "Tüm Ürünler"de de görünmez
+  const rows = ((productRows ?? []) as ProductRow[]).filter(
+    (r) => options.includeInactive || !hiddenCategoryIds.has(r.category ?? "")
+  );
   const datesProductIds = rows.filter((r) => r.availability === "dates").map((r) => r.id);
   const saleDates = await loadSaleDates(supabase, datesProductIds, istanbulToday());
 
   return {
     products: rows.map((r) => mapProductRow(r, saleDates.get(r.id) ?? [])),
-    categories: ((categoryRows ?? []) as CategoryRow[]).map(mapCategoryRow),
+    categories: options.includeInactive ? allCategories : allCategories.filter((c) => c.isVisible),
   };
 }
 

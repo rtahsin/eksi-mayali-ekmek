@@ -15,7 +15,8 @@ BEGIN
   INSERT INTO public.products (id, name, slug, price, category, is_active, is_available, availability, daily_limit, capacity_units)
   VALUES ('SMOKE-LIMIT', 'TEST Limitli', 'smoke-limitli', 10, 'bread', true, true, 'daily', 2, 1),
          ('SMOKE-DATES', 'TEST Günlü', 'smoke-gunlu', 10, 'bread', true, true, 'dates', NULL, 1),
-         ('SMOKE-ESLIK', 'TEST Eşlikçi', 'smoke-eslikci', 10, 'gurme', true, true, 'daily', NULL, 0);
+         ('SMOKE-ESLIK', 'TEST Eşlikçi', 'smoke-eslikci', 10, 'gurme', true, true, 'daily', NULL, 0),
+         ('SMOKE-CAP', 'TEST Kapasite', 'smoke-kapasite', 10, 'bread', true, true, 'daily', NULL, 1);
   INSERT INTO public.product_sale_dates (product_id, sale_date, quantity_limit) VALUES ('SMOKE-DATES', v_day + 1, NULL);
   INSERT INTO public.capacity_days (day, bread_capacity) VALUES (v_day, 3);
 
@@ -35,13 +36,17 @@ BEGIN
   EXCEPTION WHEN others THEN v_err := SQLERRM; END;
   ASSERT v_err LIKE '%PRODUCT_LIMIT_REACHED%', 'ürün limiti çalışmıyor: ' || COALESCE(v_err, 'hata yok');
 
-  -- 2) Kapasite 3 (2 dolu): 2 birimlik ekmek reddedilir, eşlikçi (0 birim) geçer
+  -- 2) Kapasite 3 (2 dolu): limitsiz, her gün satılan ekmekten 2 adet reddedilir; eşlikçi (0 birim) geçer
   v_err := NULL;
   BEGIN
     PERFORM public.create_order_atomic(v_base || jsonb_build_object('id', 'ORD-SMK04', 'idempotency_key', 'IDEM-SMK-4'),
-      '[{"product_id":"SMOKE-DATES","product_name":"x","quantity":2,"unit_price":10,"total_price":20}]', NULL);
+      '[{"product_id":"SMOKE-CAP","product_name":"x","quantity":2,"unit_price":10,"total_price":20}]', NULL);
   EXCEPTION WHEN others THEN v_err := SQLERRM; END;
-  ASSERT v_err LIKE '%NOT_ON_SALE_THIS_DAY%' OR v_err LIKE '%DAILY_CAPACITY_FULL%', 'beklenen ret yok: ' || COALESCE(v_err, 'hata yok');
+  ASSERT v_err LIKE '%DAILY_CAPACITY_FULL%', 'kapasite kontrolü çalışmıyor: ' || COALESCE(v_err, 'hata yok');
+
+  r := public.create_order_atomic(v_base || jsonb_build_object('id', 'ORD-SMK4B', 'idempotency_key', 'IDEM-SMK-4B'),
+    '[{"product_id":"SMOKE-CAP","product_name":"x","quantity":1,"unit_price":10,"total_price":10}]', NULL);
+  ASSERT (r->>'success')::boolean, 'kalan 1 birimlik kapasite kullanılamadı';
 
   r := public.create_order_atomic(v_base || jsonb_build_object('id', 'ORD-SMK05', 'idempotency_key', 'IDEM-SMK-5'),
     '[{"product_id":"SMOKE-ESLIK","product_name":"x","quantity":5,"unit_price":10,"total_price":50}]', NULL);
@@ -71,7 +76,17 @@ BEGIN
     '[{"product_id":"SMOKE-LIMIT","product_name":"x","quantity":5,"unit_price":10,"total_price":50}]', NULL);
   ASSERT (r->>'success')::boolean, 'bypass_limits çalışmıyor';
 
-  -- 6) Kalem anlık kopyası
+  -- 6) admin_save_product: ürün + satış günleri tek işlemde
+  PERFORM public.admin_save_product(
+    jsonb_build_object('id', 'SMOKE-SAVE', 'name', 'TEST Kayıt', 'slug', 'smoke-kayit', 'price', 5,
+      'category', 'bread', 'availability', 'dates', 'cross_sell', jsonb_build_array('SMOKE-ESLIK')),
+    jsonb_build_array(jsonb_build_object('date', to_char(v_day, 'YYYY-MM-DD'), 'limit', 4)),
+    v_day);
+  ASSERT (SELECT quantity_limit FROM public.product_sale_dates WHERE product_id = 'SMOKE-SAVE' AND sale_date = v_day) = 4,
+    'admin_save_product satış gününü yazmadı';
+  ASSERT (SELECT cross_sell FROM public.products WHERE id = 'SMOKE-SAVE') = ARRAY['SMOKE-ESLIK'], 'cross_sell yazılmadı';
+
+  -- 7) Kalem anlık kopyası
   ASSERT (SELECT capacity_units FROM public.order_items WHERE order_id = 'ORD-SMK05' LIMIT 1) = 0, 'capacity_units kopyalanmadı';
 
   RAISE NOTICE '015 smoke OK';

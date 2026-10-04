@@ -63,9 +63,11 @@ export async function GET(request: Request) {
 
     // Ürün adları/kategorileri ve güncel kapasite birimleri (paket içeriği ürünleri dahil)
     const ids = Array.from(totals.keys());
-    const { data: products } = ids.length
+    const { data: products, error: metaErr } = ids.length
       ? await supabase.from("products").select("id, name, category, capacity_units").in("id", ids)
-      : { data: [] };
+      : { data: [], error: null };
+    // Ürün bilgisi okunamazsa eşlikçiler ekmek sayılır ve plan yanlış olur: sessizce devam etme
+    if (metaErr) throw metaErr;
     const meta = new Map(
       ((products ?? []) as { id: string; name: string; category: string | null; capacity_units: number | null }[]).map((p) => [p.id, p])
     );

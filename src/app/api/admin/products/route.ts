@@ -116,6 +116,33 @@ export async function POST(request: Request) {
     const bundleItems = p.bundleItems.filter((b) => b.productId !== id);
     const crossSell = Array.from(new Set(p.crossSell.filter((c) => c !== id)));
 
+    // İç içe paket yok: paketin içindekiler paket olamaz, başka bir paketin içindeki ürün paket olamaz
+    if (bundleItems.length > 0) {
+      const { data: comps, error: compErr } = await supabase
+        .from("products")
+        .select("id, name, bundle_items")
+        .in("id", bundleItems.map((b) => b.productId));
+      if (compErr) throw compErr;
+      const nested = ((comps ?? []) as { name: string; bundle_items: unknown }[]).find(
+        (c) => Array.isArray(c.bundle_items) && c.bundle_items.length > 0
+      );
+      if (nested) {
+        return NextResponse.json({ error: `"${nested.name}" zaten bir paket; paket içine paket eklenemez.` }, { status: 400 });
+      }
+      const { data: parents, error: parentErr } = await supabase
+        .from("products")
+        .select("name")
+        .contains("bundle_items", [{ product_id: id }])
+        .limit(1);
+      if (parentErr) throw parentErr;
+      if (parents && parents.length > 0) {
+        return NextResponse.json(
+          { error: `Bu ürün "${(parents[0] as { name: string }).name}" paketinin içinde; kendisi paket yapılamaz.` },
+          { status: 400 }
+        );
+      }
+    }
+
     const row = {
       id,
       slug,
@@ -143,24 +170,15 @@ export async function POST(request: Request) {
       flour_types: p.flourTypes,
       hydration: p.hydration,
       masterclass: p.masterclass,
-      updated_at: new Date().toISOString(),
     };
 
-    const { error } = await supabase.from("products").upsert(row, { onConflict: "id" });
+    // Ürün + gelecekteki satış günleri tek veritabanı işleminde (yarım kayıt kalmaz)
+    const { error } = await supabase.rpc("admin_save_product", {
+      p_product: row,
+      p_sale_dates: p.availability === "dates" ? p.saleDates : [],
+      p_from: istanbulToday(),
+    });
     if (error) throw error;
-
-    // Satış günleri: bugünden itibarenkileri verilen listeyle değiştir (geçmiş günler kayıt olarak kalır)
-    const today = istanbulToday();
-    const { error: delErr } = await supabase.from("product_sale_dates").delete().eq("product_id", id).gte("sale_date", today);
-    if (delErr) throw delErr;
-    const future = p.availability === "dates" ? p.saleDates.filter((d) => d.date >= today) : [];
-    if (future.length) {
-      const unique = Array.from(new Map(future.map((d) => [d.date, d])).values());
-      const { error: insErr } = await supabase
-        .from("product_sale_dates")
-        .insert(unique.map((d) => ({ product_id: id, sale_date: d.date, quantity_limit: d.limit })));
-      if (insErr) throw insErr;
-    }
 
     return NextResponse.json({ success: true, id, slug });
   } catch (err: unknown) {
