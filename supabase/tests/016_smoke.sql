@@ -91,9 +91,13 @@ BEGIN
   -- 8) Tarayıcı rolleri doğrudan yazamaz, RPC'yi çağıramaz
   ASSERT NOT has_table_privilege('authenticated', 'public.account_transactions', 'INSERT'), 'authenticated deftere yazabiliyor';
   ASSERT NOT has_table_privilege('authenticated', 'public.current_accounts', 'UPDATE'), 'authenticated bakiyeyi değiştirebiliyor';
-  ASSERT NOT has_function_privilege('authenticated',
-    'public.record_cari_transaction_atomic(text, text, numeric, text, text, date, jsonb, text, uuid, uuid)', 'EXECUTE'),
-    'authenticated RPC çağırabiliyor';
+  -- İmzadan bağımsız (017 yeni parametre ekledi): defter fonksiyonlarının hiçbir sürümü tarayıcıdan çağrılamaz
+  ASSERT NOT EXISTS (
+    SELECT 1 FROM pg_proc p JOIN pg_namespace n ON n.oid = p.pronamespace
+    WHERE n.nspname = 'public'
+      AND p.proname IN ('record_cari_transaction_atomic', 'delete_cari_account')
+      AND (has_function_privilege('authenticated', p.oid, 'EXECUTE') OR has_function_privilege('anon', p.oid, 'EXECUTE'))
+  ), 'defter RPC tarayıcı rolünden çağrılabiliyor';
 
   -- 9) Kalıcı silme: gerçek geçmişi olan cari silinemez; her hareketi iptal edilmiş cari silinir
   BEGIN
