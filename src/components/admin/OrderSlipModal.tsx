@@ -1,8 +1,8 @@
 "use client";
 
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import { AdminOrder, CariAccount } from "@/types/admin";
-import { useCariler } from "@/hooks/useCariler";
+import { useCariler, getShareUrl } from "@/hooks/useCariler";
 import {
   X,
   Check,
@@ -68,10 +68,23 @@ export function OrderSlipModal({ order, isOpen, onClose, cari: propCari }: Order
 
   // Payment / Collection collected at delivery time
   const [collectedPayment, setCollectedPayment] = useState<number>(0);
-  const [paymentMethod, setPaymentMethod] = useState<"nakit" | "banka_havale" | "kredi_karti">("nakit");
+  const [paymentMethod, setPaymentMethod] = useState<"nakit" | "banka_havale" | "pos">("nakit");
   const [isRecordingPayment, setIsRecordingPayment] = useState(false);
   const [paymentRecorded, setPaymentRecorded] = useState(false);
   const [copied, setCopied] = useState(false);
+
+  // Müşteriye giden fiş linki imzalı (sipariş takip token'ı); imzasız /fis linki veri göstermez
+  const [publicUrl, setPublicUrl] = useState<string | null>(null);
+  useEffect(() => {
+    if (!isOpen) return;
+    let alive = true;
+    getShareUrl({ orderId: order.id }).then((u) => {
+      if (alive) setPublicUrl(u);
+    });
+    return () => {
+      alive = false;
+    };
+  }, [isOpen, order.id]);
 
   // Balance calculations:
   // If this order is already reflected in the Cari's balance:
@@ -125,10 +138,11 @@ export function OrderSlipModal({ order, isOpen, onClose, cari: propCari }: Order
       lines.push(`💰 *GÜNCEL KALAN BAKİYE: ${finalBalance.toLocaleString("tr-TR")} ₺*`);
     }
 
-    const publicUrl = `${SITE_URL}/fis/${order.id}`;
-    lines.push(``);
-    lines.push(`🔗 *DİJİTAL FİŞ & CANLI BAKİYE LİNKİNİZ:*`);
-    lines.push(publicUrl);
+    if (publicUrl) {
+      lines.push(``);
+      lines.push(`🔗 *DİJİTAL FİŞ LİNKİNİZ:*`);
+      lines.push(publicUrl);
+    }
     lines.push(``);
     lines.push(`Afiyet olsun! EkmekLab Zanaatkar Fırın`);
     lines.push(`İletişim: ${CONTACT.phoneDisplay} • ${SITE_URL.replace(/^https?:\/\//, "")}`);
@@ -141,7 +155,7 @@ export function OrderSlipModal({ order, isOpen, onClose, cari: propCari }: Order
 
   // Copy customer public link
   const handleCopyLink = async () => {
-    const publicUrl = `${SITE_URL}/fis/${order.id}`;
+    if (!publicUrl) return;
     try {
       await navigator.clipboard.writeText(publicUrl);
       setLinkCopied(true);
@@ -182,7 +196,7 @@ export function OrderSlipModal({ order, isOpen, onClose, cari: propCari }: Order
     setIsRecordingPayment(true);
     try {
       const res = await addTransaction(activeCari.id, {
-        type: "tahsilat",
+        kind: "tahsilat",
         amount: Number(collectedPayment),
         description: `Teslimatta Tahsilat - Sipariş #${order.orderNumber || order.id.substring(0, 6)}`,
         paymentMethod: paymentMethod,
@@ -384,12 +398,12 @@ export function OrderSlipModal({ order, isOpen, onClose, cari: propCari }: Order
 
                   <select
                     value={paymentMethod}
-                    onChange={(e) => setPaymentMethod(e.target.value as any)}
+                    onChange={(e) => setPaymentMethod(e.target.value as "nakit" | "banka_havale" | "pos")}
                     className="bg-stone-900 border border-stone-700 rounded-lg px-2 py-1.5 text-xs text-stone-300 focus:outline-none"
                   >
                     <option value="nakit">Nakit</option>
                     <option value="banka_havale">Havale</option>
-                    <option value="kredi_karti">POS/Kart</option>
+                    <option value="pos">POS/Kart</option>
                   </select>
 
                   {collectedPayment > 0 && !paymentRecorded && (
@@ -433,7 +447,7 @@ export function OrderSlipModal({ order, isOpen, onClose, cari: propCari }: Order
             </button>
 
             <a
-              href={`/fis/${order.id}`}
+              href={publicUrl || `/fis/${order.id}`}
               target="_blank"
               rel="noreferrer"
               className="p-2.5 bg-stone-800/80 hover:bg-stone-800 text-stone-300 hover:text-white rounded-xl text-xs border border-stone-700 transition-colors flex items-center justify-center"

@@ -10,7 +10,7 @@
 | 0.5 | CI (her PR'da otomatik build) | ~2 saat | ✅ tamamlandı (4 Eki, PR #3) |
 | 1 | Sipariş çekirdeği onarımı | 3-4 gün | ✅ canlıda (4 Eki, PR #4): 014 uygulandı ve doğrulandı; Telegram env eklendi. Not: 014 birleştirmeden birkaç dakika önce çalıştı → o aralıkta web siparişi reddedildi (sıra kuralı: önce kod, sonra migration) |
 | 2 | Esnek ürün ve satış yönetimi (kategori, satış günleri, kapasite, paket, kampanya) | 4-5 gün | ✅ canlıda (4 Eki, PR #6): 015 önce uygulandı, sonra kod; önizleme + canlı duman testi ✅ |
-| 3 | Admin sadeleştirme + finans doğruluğu | ~5 gün | sıradaki (3b öncesi: iki şarküterinin gerçek bakiyesi teyit edilecek) |
+| 3 | Admin sadeleştirme + finans doğruluğu | ~5 gün | 3b-1 (defter) PR'da — 016 merge'ten ÖNCE çalıştırılır; bakiye teyidi bekleniyor · sonra 3b-2 (017), 3a |
 | 4 | Marka, görseller, içerik, yasal metinler | 4-6 gün + içerik | bekliyor |
 | 5 | Temizlik ve araçlar | 1-2 gün | bekliyor |
 
@@ -320,7 +320,9 @@ Ayrıca: yinelenen `idempotency_key`'leri boşalt + kısmi unique index; `order_
 - **017:** `cancel_order_atomic` (cari borcunu storno ile geri alır), `mark_order_delivered` (idempotent — offline tekrarlar için; nakit/POS tek ödeme satırı; "ödenmedi" beklemede kalır), `generate_order_number` authenticated'dan geri alınır.
 - **Uygulama:** tüm cari yazımları `/api/admin/cari/transactions` üzerinden — **fiş kes (`B2BSlipModal`) = kalem listeli `satis`** (şarküteri teslimatlarının ana yolu), tahsilat, düzeltme = storno + yeni kayıt, bakiye düzeltme = işaretli devir; `/api/admin/finans/transaction` silinir; manuel sipariş sunucu rotasına taşınır (`/api/admin/orders`, istemci insert ve `Math.random` yok); kurye teslim penceresi Nakit / POS / Ödenmedi (cari siparişte tek "Cariye işlendi"); cari silme = arşiv (bakiye 0 ise); `/ekstre/[id]` ve `/fis/[id]` imzalı link (`LINK_SIGNING_SECRET`, `src/lib/security/linkToken.ts`) ile sunucudan okunur, ekstre tür eşlemesi düzelir. Tahsin iki şarküteriye yeni ekstre linkini gönderir.
 
-**Doğrulama:** `bakiye ≠ SUM(delta)` sorgusu boş; `016_017_smoke.sql` (iptal → storno ve bakiye geri; nakit teslim → tek ödeme satırı); önizlemede imzalı link çalışır, imzasız 404.
+**3b iki PR'a bölündü:** 3b-1 = 016 + defter API'si + cari ekranları + imzalı ekstre/fiş linkleri (kurye nakit/POS tahsilatı da API'ye bağlandı; "cariye yaz" artık yanlışlıkla tahsilat yazmıyor). 3b-2 = 017 + manuel sipariş sunucu rotası + kurye teslim penceresi. **Not:** 015'teki `create_order_atomic` cari dalı eski `debt` türüyle yazar ve 016 sonrası CHECK'e takılır; bugün hiçbir çağıran `cari_id` göndermiyor, 017 bu dalı teslimata taşıyarak yeniden tanımlar.
+
+**Doğrulama:** `bakiye ≠ SUM(delta)` sorgusu boş; `016_smoke.sql`, `017_smoke.sql` (iptal → storno ve bakiye geri; nakit teslim → tek ödeme satırı); önizlemede imzalı link çalışır, imzasız 404.
 
 ### Faz 4 — Marka ve içerik
 - **Görseller:** 018 Supabase Storage `media` bucket + admin-only yazma politikaları; ürün sayfasında yükleme (tarayıcıda WebP'ye küçült); 4 Firebase görseli → `public/images/products/` karşılıkları (SQL); Unsplash ve yapay zekâ atölye görselleri → **Tahsin'in gerçek fotoğrafları**; `next.config.ts` remotePatterns güncellenir.
@@ -344,7 +346,7 @@ Ayrıca: yinelenen `idempotency_key`'leri boşalt + kısmi unique index; `order_
 | 013 | 0 | fonksiyon yetkileri, search_path, profil sütun yetkileri, sipariş politikaları, ayarlar, güvenli profil tetikleyicisi, `app_migrations` | SONRA |
 | 014 | 1 | `delivery_date` → DATE, idempotency index, onay sütunları, RPC v3 | SONRA |
 | 015 | 2 | ürün alanları, satış günleri, gün kapasitesi, kategoriler, RPC v4 | ÖNCE |
-| 016 | 3 | cari defter normalizasyonu, `delta`, mutabakat, kanonik defter RPC | PR 3b ile (bakiye teyidi önce) |
+| 016 | 3 | cari defter normalizasyonu, `delta`, mutabakat, kanonik defter RPC, tarayıcı yazma yetkisi kapanır | ÖNCE (merge'ten hemen önce; arada eski ekranlardan cari yazılamaz) |
 | 017 | 3 | iptal/teslim RPC'leri, RPC v5 | PR 3b ile |
 | 018 | 4 | `media` bucket + politikalar | yükleme arayüzünden ÖNCE |
 | 019 | 4 | `journal_articles` v2 | editörden ÖNCE |

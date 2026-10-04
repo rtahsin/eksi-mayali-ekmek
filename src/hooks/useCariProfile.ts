@@ -3,6 +3,8 @@
 import { useState, useEffect, useCallback } from "react";
 import { createClient, isSupabaseConfigured } from "@/lib/supabase/client";
 import { CariAccount, CariTransaction } from "@/types/admin";
+import { mapAccount } from "@/lib/cari/account";
+import { LEDGER_SELECT, mapLedger, type LedgerRow } from "@/lib/cari/ledger";
 import { Product } from "@/types";
 import type { ExtendedProduct } from "@/types";
 
@@ -33,67 +35,17 @@ export function useCariProfile(cariId: string) {
         throw new Error(cariError.message);
       }
 
-      // Supabase'den gelen snake_case veriyi camelCase objeye çevirme
-      const rawAccountType = (cariData.account_type as string) || (cariData.type as string) || "musteri";
-      const formattedCari: CariAccount = {
-        id: cariData.id,
-        businessName: cariData.name || "İsimsiz Cari",
-        contactPerson: cariData.contact_person || "",
-        phone: cariData.phone || "",
-        address: cariData.address || "",
-        neighborhood: cariData.neighborhood || "",
-        taxOffice: cariData.tax_office || "",
-        taxNumber: cariData.tax_id || "",
-        balance: Number(cariData.balance) || 0,
-        accountType: rawAccountType === "gider" ? "gider" : "musteri",
-        customPrices: cariData.custom_prices || {},
-        notes: cariData.notes || "",
-        createdAt: cariData.created_at,
-        updatedAt: cariData.updated_at,
-      };
+      setCari(mapAccount(cariData as Record<string, unknown>));
 
-      setCari(formattedCari);
-
-      // Fetch Transactions
       const { data: txData, error: txError } = await supabase
         .from("account_transactions")
-        .select("*")
+        .select(LEDGER_SELECT)
         .eq("account_id", cariId)
+        .order("date", { ascending: false })
         .order("created_at", { ascending: false });
 
-      if (txError) {
-        console.warn("Tx fetch error:", txError);
-      } else if (txData) {
-        const formattedTxs: CariTransaction[] = txData.map((t: Record<string, unknown>) => {
-          const rawType = (t.type as string) || "satis";
-          let txType: "satis" | "tahsilat" | "odeme" | "devir" | "storno" = "satis";
-          if (rawType === "tahsilat" || rawType === "credit") txType = "tahsilat";
-          else if (rawType === "odeme") txType = "odeme";
-          else if (rawType === "devir") txType = "devir";
-          else if (rawType === "storno") txType = "storno";
-          else if (rawType === "debt" || rawType === "satis") txType = "satis";
-
-          const desc = (t.description as string) || "";
-          const parsedSlip = (t.slip_number as string) || desc.match(/\[(FİŞ-[^\]]+)\]/)?.[1] || undefined;
-
-          return {
-            id: t.id as string,
-            cariId: t.account_id as string,
-            date: t.date ? String(t.date).split("T")[0] : (t.created_at ? String(t.created_at).split("T")[0] : new Date().toISOString().split("T")[0]),
-            type: txType,
-            amount: Number(t.amount) || 0,
-            description: desc,
-            paymentMethod: (t.payment_method as "nakit" | "banka_havale" | "kredi_karti" | "diger" | undefined) || undefined,
-            orderId: (t.order_id as string) || undefined,
-            slipNumber: parsedSlip,
-            balanceAfter: t.balance_after !== null && t.balance_after !== undefined ? Number(t.balance_after) : undefined,
-            relatedOrderId: (t.order_id as string) || undefined,
-            createdAt: t.created_at as string,
-          };
-        });
-        setTransactions(formattedTxs);
-      }
-
+      if (txError) throw new Error(txError.message);
+      setTransactions(mapLedger((txData ?? []) as LedgerRow[]));
     } catch (err: unknown) {
       const message = err instanceof Error ? err.message : "Cari bilgileri alınamadı.";
       console.error("Cari fetch error:", err);

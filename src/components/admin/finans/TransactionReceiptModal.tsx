@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   X,
   MessageCircle,
@@ -18,7 +18,9 @@ import {
 import { CariAccount, CariTransaction } from "@/types/admin";
 import html2canvas from "html2canvas";
 import Link from "next/link";
-import { SITE_URL, CONTACT } from "@/lib/site";
+import { CONTACT } from "@/lib/site";
+import { LEDGER_DOCUMENT_TITLES, PAYMENT_METHOD_LABELS } from "@/lib/cari/ledger";
+import { getShareUrl } from "@/hooks/useCariler";
 
 interface TransactionReceiptModalProps {
   tx: CariTransaction;
@@ -80,71 +82,39 @@ export default function TransactionReceiptModal({ tx, cari, onClose }: Transacti
 
   const [toastMessage, setToastMessage] = useState<string | null>(null);
   const formattedDt = formatDateTime(tx.date, tx.createdAt);
-  const amount = Number(tx.amount) || 0;
-  const curBal = Number(cari.balance) || 0;
-  let prevBal = 0;
-  let newBal = Number(tx.balanceAfter ?? curBal);
-  let isPositiveDelta = true;
+  // Yürüyen bakiye: o hareketin anındaki bakiye (balance_after) ve işaretli tutar (delta)
+  const amount = Math.abs(tx.delta);
+  const newBal = tx.balanceAfter ?? (Number(cari.balance) || 0);
+  const prevBal = Math.round((newBal - tx.delta) * 100) / 100;
+  const isPositiveDelta = tx.delta >= 0;
+  const slipNo = tx.slipNumber || `FİŞ-${tx.id.substring(0, 6).toUpperCase()}`;
+  const cleanDesc = tx.description || "";
 
-  if (tx.type === "devir") {
-    const eskiMatch = tx.description?.match(/Eski:\s*([\d.,]+)\s*₺/i);
-    const yeniMatch = tx.description?.match(/Yeni:\s*([\d.,]+)\s*₺/i);
-    if (eskiMatch && yeniMatch) {
-      prevBal = parseFloat(eskiMatch[1].replace(/\./g, "").replace(",", "."));
-      newBal = parseFloat(yeniMatch[1].replace(/\./g, "").replace(",", "."));
-      isPositiveDelta = newBal >= prevBal;
-    } else {
-      prevBal = 0;
-      newBal = amount;
-      isPositiveDelta = true;
-    }
-  } else if (tx.type === "satis") {
-    newBal = tx.balanceAfter !== undefined ? Number(tx.balanceAfter) : curBal;
-    prevBal = newBal - amount;
-    isPositiveDelta = true;
-  } else {
-    // tahsilat or odeme
-    newBal = tx.balanceAfter !== undefined ? Number(tx.balanceAfter) : curBal;
-    prevBal = newBal + amount;
-    isPositiveDelta = false;
-  }
-
-  // Extract slip number
-  const slipMatch = tx.description?.match(/\[(FİŞ-[^\]]+)\]/i);
-  const slipNo = tx.slipNumber || (slipMatch ? slipMatch[1] : `FİŞ-${tx.id.substring(0, 6).toUpperCase()}`);
-
-  // Parse items from description
-  const cleanDesc = (tx.description || "")
-    .replace(/\[FİŞ-[^\]]+\]\s*/gi, "")
-    .replace(/^(Fiş|Sipariş):\s*/i, "")
-    .split("| Not:")[0]
-    .trim();
-
-  const itemStrings = cleanDesc.split(/,\s*(?=\d+x)/);
-  const items: ParsedItem[] = [];
-
-  for (const raw of itemStrings) {
-    const m = raw.trim().match(/^(\d+)x\s+(.*?)(?:\s*\(([\d.,]+)[₺TL\s]*\))?$/i);
-    if (m) {
-      const q = parseInt(m[1], 10);
-      const n = m[2].trim();
-      const p = m[3] ? parseFloat(m[3].replace(",", ".")) : (q > 0 ? amount / q : amount);
-      items.push({ name: n, qty: q, price: p, total: q * p });
-    }
-  }
-
+  const items: ParsedItem[] = (tx.items ?? []).map((it) => ({
+    name: it.name,
+    qty: it.quantity,
+    price: it.unitPrice,
+    total: Math.round(it.quantity * it.unitPrice * 100) / 100,
+  }));
   const isProductSale = tx.type === "satis" && items.length > 0;
-
   if (items.length === 0) {
-    let defaultName = cleanDesc;
-    if (!defaultName) {
-      if (tx.type === "devir") defaultName = "Devir Bakiye Girişi";
-      else if (tx.type === "tahsilat") defaultName = "Tahsilat";
-      else if (tx.type === "odeme") defaultName = "Ödeme Çıkışı";
-      else defaultName = "Finansal İşlem";
-    }
+    const defaultName =
+      cleanDesc ||
+      (tx.type === "devir" ? "Bakiye düzeltme" : tx.type === "tahsilat" ? "Tahsilat" : tx.type === "storno" ? "İptal (ters kayıt)" : "Teslimat");
     items.push({ name: defaultName, qty: 1, price: amount, total: amount });
   }
+
+  // Müşteriye giden fiş linki imzalı
+  const [shareUrl, setShareUrl] = useState<string | null>(null);
+  useEffect(() => {
+    let alive = true;
+    getShareUrl({ transactionId: tx.id }).then((u) => {
+      if (alive) setShareUrl(u);
+    });
+    return () => {
+      alive = false;
+    };
+  }, [tx.id]);
 
   const generateCanvas = async () => {
     if (!receiptRef.current) return null;
@@ -203,8 +173,12 @@ export default function TransactionReceiptModal({ tx, cari, onClose }: Transacti
 
   const handleWhatsApp = async () => {
     setSharing(true);
-    const fisUrl = `${SITE_URL}/fis/${tx.id}`;
-    const text = `Online Fiş Görüntüle: ${fisUrl}`;
+    if (!shareUrl) {
+      alert("Fiş linki henüz hazır değil, birkaç saniye sonra tekrar deneyin.");
+      setSharing(false);
+      return;
+    }
+    const text = `Online Fiş Görüntüle: ${shareUrl}`;
 
     try {
       const canvas = await generateCanvas();
@@ -326,14 +300,12 @@ export default function TransactionReceiptModal({ tx, cari, onClose }: Transacti
                   ? "bg-emerald-50 text-emerald-800 border-emerald-200"
                   : tx.type === "devir"
                   ? "bg-sky-50 text-sky-800 border-sky-200"
+                  : tx.type === "storno"
+                  ? "bg-stone-100 text-stone-700 border-stone-300"
                   : "bg-[#F5EFE6] text-[#B45309] border-[#E8DFC8]"
               }`}
             >
-              {tx.type === "tahsilat"
-                ? "Tahsilat Makbuzu"
-                : tx.type === "devir"
-                ? "Devir / Düzeltme Makbuzu"
-                : "Teslimat Fişi"}
+              {LEDGER_DOCUMENT_TITLES[tx.type]}
             </span>
             <span className="font-mono text-xs font-bold text-[#8A7A70] bg-[#F5EFE6] px-2.5 py-0.5 rounded-lg border border-[#E8DFC8]">
               {slipNo}
@@ -394,13 +366,7 @@ export default function TransactionReceiptModal({ tx, cari, onClose }: Transacti
                     <div className="flex justify-between items-center text-xs">
                       <span className="text-[#5C4C42]">Ödeme Şekli:</span>
                       <span className="font-bold text-[#1E140F]">
-                        {tx.paymentMethod === "nakit"
-                          ? "💵 Nakit"
-                          : tx.paymentMethod === "banka_havale"
-                          ? "🏦 Banka Havalesi / EFT"
-                          : tx.paymentMethod === "kredi_karti"
-                          ? "💳 Kredi Kartı / POS"
-                          : tx.paymentMethod}
+                        {PAYMENT_METHOD_LABELS[tx.paymentMethod] || tx.paymentMethod}
                       </span>
                     </div>
                   )}
@@ -551,6 +517,8 @@ export default function TransactionReceiptModal({ tx, cari, onClose }: Transacti
                   ? "Tahsil Edilen Tutar (-):"
                   : tx.type === "devir"
                   ? "Düzeltme Tutarı:"
+                  : tx.type === "storno"
+                  ? "İptal Tutarı:"
                   : "Fiş Tutarı (+):"}
               </span>
               <span
@@ -627,7 +595,7 @@ export default function TransactionReceiptModal({ tx, cari, onClose }: Transacti
           </button>
 
           <a
-            href={`/fis/${tx.id}`}
+            href={shareUrl || `/fis/${tx.id}`}
             target="_blank"
             rel="noopener noreferrer"
             className="flex items-center justify-center gap-1.5 p-3 bg-[#18130F] hover:bg-[#221A14] text-stone-200 font-bold rounded-xl text-xs border border-[#2E2219] shadow active:scale-95 transition-all"

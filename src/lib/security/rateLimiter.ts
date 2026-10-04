@@ -57,3 +57,9 @@ export function sanitizeInput(text: string, maxLength: number = 500): string {
     .trim()
     .slice(0, maxLength);
 }
+
+/** İstemci IP'si (Vercel: x-forwarded-for ilk değer). */
+export function getClientIp(req: Request): string {
+  const forwardedFor = req.headers.get("x-forwarded-for");
+  return forwardedFor ? forwardedFor.split(",")[0].trim() : req.headers.get("x-real-ip") || "127.0.0.1";
+}

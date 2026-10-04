@@ -7,21 +7,16 @@ import {
   Plus,
   Trash2,
   Loader2,
-  CheckCircle2,
-  MessageCircle,
-  ExternalLink,
   Tag,
-  Share2,
 } from "lucide-react";
 import { useCariler } from "@/hooks/useCariler";
 import { useProducts } from "@/hooks/useProducts";
 import { CariTransaction } from "@/types/admin";
-import { SITE_URL } from "@/lib/site";
+import { istanbulToday } from "@/lib/time/istanbul";
 
 interface B2BSlipModalProps {
   cariId: string;
   cariName: string;
-  cariPhone?: string;
   customPrices?: Record<string, number>;
   onClose: () => void;
   onSuccess?: (createdTx?: CariTransaction) => void;
@@ -36,18 +31,9 @@ interface SlipItem {
   isCustomPrice?: boolean;
 }
 
-interface SuccessResult {
-  slipNumber: string;
-  transactionId?: string | null;
-  totalAmount: number;
-  newBalance?: number;
-  items: { name: string; qty: number; price: number }[];
-}
-
 export default function B2BSlipModal({
   cariId,
   cariName,
-  cariPhone,
   customPrices,
   onClose,
   onSuccess,
@@ -58,7 +44,6 @@ export default function B2BSlipModal({
   // Find cari if props are omitted
   const currentCari = useMemo(() => cariler.find((c) => c.id === cariId), [cariler, cariId]);
   const effectiveCustomPrices = customPrices || currentCari?.customPrices || {};
-  const effectivePhone = cariPhone || currentCari?.phone || "";
 
   const [items, setItems] = useState<SlipItem[]>([
     { id: "1", name: "", qty: 1, price: 0 },
@@ -66,9 +51,6 @@ export default function B2BSlipModal({
   const [notes, setNotes] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-
-  // Success view state
-  const [successResult, setSuccessResult] = useState<SuccessResult | null>(null);
 
   const totalAmount = useMemo(() => {
     return items.reduce((sum, item) => sum + (Number(item.qty) || 0) * (Number(item.price) || 0), 0);
@@ -168,43 +150,34 @@ export default function B2BSlipModal({
     setError(null);
 
     try {
-      // Build clean item description
-      const itemsText = validItems
-        .map((i) => `${i.qty}x ${i.name} (${i.price}₺)`)
-        .join(", ");
-      const finalDesc = notes.trim() ? `${itemsText} | Not: ${notes.trim()}` : itemsText;
-
       const res = await addTransaction(cariId, {
-        type: "satis",
-        amount: totalAmount,
-        description: finalDesc,
-        paymentMethod: "diger",
+        kind: "satis",
+        items: validItems.map((i) => ({
+          name: i.name.trim(),
+          quantity: Number(i.qty),
+          unitPrice: Number(i.price),
+          ...(i.productId ? { productId: i.productId } : {}),
+        })),
+        description: notes.trim() || undefined,
       });
 
-      if (!res.success) {
+      if (!res.success || !res.transactionId) {
         throw new Error(res.error || "Fiş kesilemedi.");
       }
 
       const createdTx: CariTransaction = {
-        id: res.transactionId || "",
-        cariId: cariId,
-        date: new Date().toISOString().split("T")[0],
+        id: res.transactionId,
+        cariId,
+        date: istanbulToday(),
         type: "satis",
         amount: totalAmount,
-        description: `[${res.slipNumber || "FİŞ"}] ${finalDesc}`,
-        paymentMethod: "diger",
+        delta: totalAmount,
+        description: notes.trim(),
         slipNumber: res.slipNumber,
-        balanceAfter: res.newBalance,
+        balanceAfter: res.balanceAfter,
+        items: validItems.map((v) => ({ name: v.name.trim(), quantity: Number(v.qty), unitPrice: Number(v.price) })),
         createdAt: new Date().toISOString(),
       };
-
-      setSuccessResult({
-        slipNumber: res.slipNumber || "FİŞ",
-        transactionId: res.transactionId || null,
-        totalAmount,
-        newBalance: res.newBalance,
-        items: validItems.map((v) => ({ name: v.name, qty: v.qty, price: v.price })),
-      });
 
       if (onSuccess) onSuccess(createdTx);
       onClose();
@@ -214,25 +187,6 @@ export default function B2BSlipModal({
     } finally {
       setLoading(false);
     }
-  };
-
-  const getWhatsAppMessage = () => {
-    if (!successResult) return "";
-    const origin = typeof window !== "undefined" ? window.location.origin : SITE_URL;
-    const slipUrl = successResult.transactionId
-      ? `${origin}/fis/${successResult.transactionId}`
-      : `${origin}/admin/cariler/${cariId}`;
-
-    return `Online Fiş Görüntüle: ${slipUrl}`;
-  };
-
-  const openWhatsApp = () => {
-    const cleanPhone = effectivePhone.replace(/\D/g, "");
-    const text = encodeURIComponent(getWhatsAppMessage());
-    const waUrl = cleanPhone
-      ? `https://wa.me/90${cleanPhone}?text=${text}`
-      : `https://api.whatsapp.com/send?text=${text}`;
-    window.open(waUrl, "_blank");
   };
 
   return (
@@ -268,96 +222,6 @@ export default function B2BSlipModal({
         </div>
 
         {/* Content */}
-        {successResult ? (
-          /* SUCCESS VIEW */
-          <div className="p-6 space-y-6 overflow-y-auto">
-            <div className="text-center space-y-2">
-              <div className="w-16 h-16 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 flex items-center justify-center mx-auto">
-                <CheckCircle2 className="w-9 h-9" />
-              </div>
-              <h4 className="text-xl font-bold font-serif text-stone-100">
-                Teslimat Fişi Kesildi!
-              </h4>
-              <p className="text-xs text-stone-400">
-                Cari hesaba borç kaydedildi ve bakiye güncellendi.
-              </p>
-            </div>
-
-            {/* Slip Summary Card */}
-            <div className="bg-stone-950 border border-stone-800 rounded-2xl p-5 space-y-4">
-              <div className="flex items-center justify-between border-b border-stone-800/80 pb-3">
-                <span className="text-xs text-stone-400 font-bold uppercase tracking-wider">
-                  Fiş Numarası
-                </span>
-                <span className="px-2.5 py-1 bg-amber-500/10 border border-amber-500/30 text-amber-400 font-mono font-bold text-sm rounded-lg">
-                  {successResult.slipNumber}
-                </span>
-              </div>
-
-              <div className="space-y-1.5 text-xs text-stone-300">
-                {successResult.items.map((it, idx) => (
-                  <div key={idx} className="flex justify-between items-center py-1">
-                    <span>
-                      {it.qty}x {it.name}
-                    </span>
-                    <span className="font-mono text-stone-200">
-                      {(it.qty * it.price).toLocaleString("tr-TR")} ₺
-                    </span>
-                  </div>
-                ))}
-              </div>
-
-              <div className="border-t border-stone-800 pt-3 flex justify-between items-baseline">
-                <span className="text-sm font-bold text-stone-300">Fiş Tutarı:</span>
-                <span className="text-2xl font-black font-mono text-stone-100">
-                  {successResult.totalAmount.toLocaleString("tr-TR")} ₺
-                </span>
-              </div>
-
-              {successResult.newBalance !== undefined && (
-                <div className="flex justify-between items-center text-xs text-stone-400 pt-1">
-                  <span>Güncel Toplam Bakiye:</span>
-                  <span className="font-mono font-bold text-amber-400">
-                    {successResult.newBalance.toLocaleString("tr-TR")} ₺
-                  </span>
-                </div>
-              )}
-            </div>
-
-            {/* Action Buttons */}
-            <div className="space-y-3 pt-2">
-              <button
-                type="button"
-                onClick={openWhatsApp}
-                className="w-full py-4 bg-[#25D366] hover:bg-[#20ba59] text-stone-950 font-black rounded-2xl transition-all shadow-lg shadow-[#25D366]/20 active:scale-95 flex items-center justify-center gap-2.5 min-h-[56px]"
-              >
-                <MessageCircle className="w-5 h-5" />
-                <span>WhatsApp ile Fişi Gönder</span>
-              </button>
-
-              {successResult.transactionId && (
-                <a
-                  href={`/fis/${successResult.transactionId}`}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="w-full py-3.5 bg-stone-800 hover:bg-stone-700 text-stone-200 font-bold rounded-2xl transition-colors flex items-center justify-center gap-2 text-sm border border-stone-700"
-                >
-                  <ExternalLink className="w-4 h-4 text-stone-400" />
-                  <span>Online Fişi Görüntüle</span>
-                </a>
-              )}
-
-              <button
-                type="button"
-                onClick={onClose}
-                className="w-full py-3 bg-transparent text-stone-400 hover:text-stone-200 text-sm font-bold transition-colors"
-              >
-                Kapat
-              </button>
-            </div>
-          </div>
-        ) : (
-          /* FORM VIEW */
           <form onSubmit={handleSubmit} className="p-5 space-y-4 overflow-y-auto flex-1">
             {error && (
               <div className="p-3 bg-rose-500/10 border border-rose-500/20 rounded-xl text-rose-400 text-xs">
@@ -530,7 +394,6 @@ export default function B2BSlipModal({
               </button>
             </div>
           </form>
-        )}
       </div>
     </div>
   );

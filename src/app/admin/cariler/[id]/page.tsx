@@ -14,19 +14,21 @@ import {
   ExternalLink,
   Scale,
   Tag,
-  Trash2,
+  Archive,
+  Undo2,
   Download,
   Calendar,
 } from "lucide-react";
 import { useCariProfile } from "@/hooks/useCariProfile";
 import { useCariler } from "@/hooks/useCariler";
 import B2BSlipModal from "@/components/admin/finans/B2BSlipModal";
-import B2BSlipEditModal from "@/components/admin/finans/B2BSlipEditModal";
 import B2BCollectionModal from "@/components/admin/finans/B2BCollectionModal";
 import CariEditModal from "@/components/admin/cariler/CariEditModal";
 import BalanceAdjustModal from "@/components/admin/cariler/BalanceAdjustModal";
 import TransactionReceiptModal from "@/components/admin/finans/TransactionReceiptModal";
 import { CariTransaction } from "@/types/admin";
+import { LEDGER_TYPE_LABELS, PAYMENT_METHOD_LABELS } from "@/lib/cari/ledger";
+import { addDays, istanbulToday } from "@/lib/time/istanbul";
 
 export default function IsolatedCariDetailPage() {
   const params = useParams();
@@ -35,13 +37,13 @@ export default function IsolatedCariDetailPage() {
   const id = params?.id as string;
 
   const { cari, transactions, activeProducts, loading, refetch } = useCariProfile(id);
-  const { deleteCari } = useCariler();
+  const { archiveCari, addTransaction } = useCariler();
 
   const [activeModal, setActiveModal] = useState<"slip" | "collection" | "edit" | "adjust_balance" | null>(null);
   const [editModalTab, setEditModalTab] = useState<"info" | "prices">("info");
   const [selectedTx, setSelectedTx] = useState<CariTransaction | null>(null);
-  const [editingTx, setEditingTx] = useState<CariTransaction | null>(null);
-  const [deleting, setDeleting] = useState(false);
+  const [busyTxId, setBusyTxId] = useState<string | null>(null);
+  const [archiving, setArchiving] = useState(false);
 
   // Filters for transactions
   const [dateFilter, setDateFilter] = useState<"all" | "this_month" | "last_month" | "last_30" | "custom">("all");
@@ -55,43 +57,37 @@ export default function IsolatedCariDetailPage() {
     else if (action === "tahsilat") setActiveModal("collection");
   }, [searchParams]);
 
-  // Filtered transactions
+  // Filtered transactions (İstanbul takvim günü üzerinden)
+  const today = istanbulToday();
+  const thisMonth = today.slice(0, 7);
+  const lastMonth = addDays(`${thisMonth}-01`, -1).slice(0, 7);
   const filteredTransactions = transactions.filter((tx) => {
-    // Type filter
-    if (typeFilter === "debt" && tx.type !== "satis" && tx.type !== "devir") return false;
-    if (typeFilter === "credit" && tx.type !== "tahsilat" && tx.type !== "odeme") return false;
+    if (typeFilter === "debt" && !(tx.delta > 0)) return false;
+    if (typeFilter === "credit" && !(tx.delta < 0)) return false;
 
-    // Date filter
-    const txDate = new Date(tx.createdAt || tx.date);
-    const now = new Date();
-
-    if (dateFilter === "this_month") {
-      if (txDate.getMonth() !== now.getMonth() || txDate.getFullYear() !== now.getFullYear()) {
-        return false;
-      }
-    } else if (dateFilter === "last_month") {
-      const prevMonth = new Date(now.getFullYear(), now.getMonth() - 1, 1);
-      if (txDate.getMonth() !== prevMonth.getMonth() || txDate.getFullYear() !== prevMonth.getFullYear()) {
-        return false;
-      }
-    } else if (dateFilter === "last_30") {
-      const thirtyDaysAgo = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000);
-      if (txDate < thirtyDaysAgo) return false;
-    } else if (dateFilter === "custom") {
-      if (startDate) {
-        const start = new Date(startDate);
-        start.setHours(0, 0, 0, 0);
-        if (txDate < start) return false;
-      }
-      if (endDate) {
-        const end = new Date(endDate);
-        end.setHours(23, 59, 59, 999);
-        if (txDate > end) return false;
-      }
+    if (dateFilter === "this_month" && tx.date.slice(0, 7) !== thisMonth) return false;
+    if (dateFilter === "last_month" && tx.date.slice(0, 7) !== lastMonth) return false;
+    if (dateFilter === "last_30" && tx.date < addDays(today, -30)) return false;
+    if (dateFilter === "custom") {
+      if (startDate && tx.date < startDate) return false;
+      if (endDate && tx.date > endDate) return false;
     }
-
     return true;
   });
+
+  const handleStorno = async (tx: CariTransaction) => {
+    if (!cari) return;
+    const reason = window.prompt(
+      `${LEDGER_TYPE_LABELS[tx.type]} ${tx.slipNumber || ""} (${tx.amount.toLocaleString("tr-TR")} ₺) iptal edilecek.\n\nKayıt silinmez; ters kayıt atılır ve bakiye düzelir. Doğrusu gerekiyorsa sonra yeni fiş kesin.\n\nİptal nedeni:`,
+      ""
+    );
+    if (reason === null) return;
+    setBusyTxId(tx.id);
+    const res = await addTransaction(cari.id, { kind: "storno", reversesId: tx.id, description: reason.trim() || undefined });
+    setBusyTxId(null);
+    if (!res.success) alert(res.error || "İptal kaydedilemedi");
+    refetch();
+  };
 
   const handleExportCSV = () => {
     if (!cari || filteredTransactions.length === 0) return;
@@ -101,37 +97,15 @@ export default function IsolatedCariDetailPage() {
     csvContent += "Tarih;Fiş No;İşlem Türü;Açıklama;Ödeme Şekli;Borç (+);Alacak (-);Kalan Bakiye\n";
 
     filteredTransactions.forEach((tx) => {
-      const isDebt = tx.type === "satis" || tx.type === "devir";
-      const dateStr = new Date(tx.createdAt || tx.date).toLocaleString("tr-TR");
+      const dateStr = tx.date.split("-").reverse().join(".");
       const slip = tx.slipNumber || "-";
-      const typeStr =
-        tx.type === "satis"
-          ? "Toptan Satış"
-          : tx.type === "tahsilat"
-          ? "Tahsilat"
-          : tx.type === "devir"
-          ? "Açılış/Devir"
-          : tx.type === "odeme"
-          ? "Ödeme"
-          : tx.type === "storno"
-          ? "Storno"
-          : "İşlem";
-      const desc = (tx.description || "").replace(/;/g, ",");
-      const payMethod = tx.paymentMethod
-        ? tx.paymentMethod === "nakit"
-          ? "Nakit"
-          : tx.paymentMethod === "banka_havale"
-          ? "Havale/EFT"
-          : tx.paymentMethod === "kredi_karti"
-          ? "Kredi Kartı"
-          : tx.paymentMethod
-        : "-";
-      const debtAmount = isDebt ? tx.amount.toFixed(2).replace(".", ",") : "0,00";
-      const creditAmount = !isDebt ? tx.amount.toFixed(2).replace(".", ",") : "0,00";
-      const balanceStr =
-        tx.balanceAfter !== undefined
-          ? tx.balanceAfter.toFixed(2).replace(".", ",")
-          : "-";
+      const typeStr = LEDGER_TYPE_LABELS[tx.type] + (tx.reversedById ? " (iptal edildi)" : "");
+      const desc = (tx.description || "").replace(/[;"\n]/g, " ");
+      const payMethod = tx.paymentMethod ? PAYMENT_METHOD_LABELS[tx.paymentMethod] || tx.paymentMethod : "-";
+      const money = (n: number) => n.toFixed(2).replace(".", ",");
+      const debtAmount = tx.delta > 0 ? money(tx.delta) : "0,00";
+      const creditAmount = tx.delta < 0 ? money(-tx.delta) : "0,00";
+      const balanceStr = tx.balanceAfter !== undefined ? money(tx.balanceAfter) : "-";
 
       csvContent += `"${dateStr}";"${slip}";"${typeStr}";"${desc}";"${payMethod}";"${debtAmount}";"${creditAmount}";"${balanceStr}"\n`;
     });
@@ -141,24 +115,26 @@ export default function IsolatedCariDetailPage() {
     const link = document.createElement("a");
     const safeName = (cari.businessName || "cari").toLowerCase().replace(/[^a-z0-9]/gi, "_");
     link.setAttribute("href", url);
-    link.setAttribute("download", `${safeName}_hesap_ekstresi_${new Date().toISOString().split("T")[0]}.csv`);
+    link.setAttribute("download", `${safeName}_hesap_ekstresi_${istanbulToday()}.csv`);
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
   };
 
-  const handleDeleteCari = async () => {
+  const handleArchiveCari = async () => {
     if (!cari) return;
-    const confirmMsg = `"${cari.businessName}" adlı cari hesabı ve TÜM geçmiş hareketlerini tamamen silmek istediğinize emin misiniz?\n\nBu işlem geri alınamaz!`;
-    if (!window.confirm(confirmMsg)) return;
-
-    setDeleting(true);
-    const res = await deleteCari(cari.id);
+    if (cari.balance !== 0) {
+      alert(`Bakiyesi ${cari.balance.toLocaleString("tr-TR")} ₺ olan cari arşivlenemez. Önce bakiyeyi kapatın (tahsilat veya düzeltme).`);
+      return;
+    }
+    if (!window.confirm(`"${cari.businessName}" arşivlensin mi?\n\nListeden kalkar, yeni fiş kesilemez. Geçmiş fişler ve ekstre korunur.`)) return;
+    setArchiving(true);
+    const res = await archiveCari(cari.id);
     if (res.success) {
       router.push("/admin/cariler");
     } else {
-      alert(`Cari silinirken hata oluştu: ${res.error || "Bilinmeyen hata"}`);
-      setDeleting(false);
+      alert(res.error || "Arşivlenemedi");
+      setArchiving(false);
     }
   };
 
@@ -221,19 +197,15 @@ export default function IsolatedCariDetailPage() {
             <span>Düzenle</span>
           </button>
 
-          {/* Delete Cari */}
+          {/* Archive Cari (silme yok) */}
           <button
-            onClick={handleDeleteCari}
-            disabled={deleting}
-            className="flex items-center gap-1.5 px-3.5 py-2 bg-rose-950/40 border border-rose-900/40 hover:bg-rose-900/60 text-rose-400 hover:text-rose-200 text-xs sm:text-sm font-bold rounded-2xl transition-all disabled:opacity-50"
-            title="Cariyi ve tüm hareketlerini kalıcı olarak sil"
+            onClick={handleArchiveCari}
+            disabled={archiving}
+            className="flex items-center gap-1.5 px-3.5 py-2 bg-stone-900 border border-stone-800 hover:bg-stone-800 text-stone-400 hover:text-stone-200 text-xs sm:text-sm font-bold rounded-2xl transition-all disabled:opacity-50"
+            title="Cariyi arşivle (bakiye 0 olmalı)"
           >
-            {deleting ? (
-              <Loader2 className="w-4 h-4 animate-spin text-rose-400" />
-            ) : (
-              <Trash2 className="w-4 h-4" />
-            )}
-            <span className="hidden sm:inline">Cariyi Sil</span>
+            {archiving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Archive className="w-4 h-4" />}
+            <span className="hidden sm:inline">Arşivle</span>
           </button>
         </div>
       </div>
@@ -317,10 +289,10 @@ export default function IsolatedCariDetailPage() {
               </div>
               <div className="text-xs text-stone-500 mt-1 font-semibold">
                 {cari.balance > 0
-                  ? "Alacaklı (Müşteri Borçlu)"
+                  ? "Müşterinin borcu"
                   : cari.balance < 0
-                  ? "Borçlu (Biz Borçluyuz)"
-                  : "Bakiye Yok"}
+                  ? "Fazla ödeme (müşteri alacaklı)"
+                  : "Borç yok"}
               </div>
             </div>
 
@@ -328,7 +300,7 @@ export default function IsolatedCariDetailPage() {
             <button
               onClick={() => setActiveModal("adjust_balance")}
               className="mt-3 py-2 px-3 bg-stone-900 hover:bg-stone-850 hover:border-amber-500/40 border border-stone-800 text-stone-300 hover:text-amber-400 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-1.5 active:scale-95"
-              title="Bakiyeyi doğrudan el ile düzelt ve devir kaydı oluştur"
+              title="Bakiyeyi doğru değere getir (fark kadar düzeltme kaydı atılır)"
             >
               <Scale className="w-3.5 h-3.5 text-amber-400" />
               <span>Bakiyeyi Düzelt</span>
@@ -459,11 +431,12 @@ export default function IsolatedCariDetailPage() {
             </div>
           ) : (
             filteredTransactions.map((tx) => {
-              const isDebt = tx.type === "satis" || tx.type === "devir";
+              const isDebt = tx.delta > 0;
+              const cancelled = Boolean(tx.reversedById);
               return (
                 <div
                   key={tx.id}
-                  className="p-4 flex flex-col gap-3 hover:bg-stone-800/20 transition-colors"
+                  className={`p-4 flex flex-col gap-3 hover:bg-stone-800/20 transition-colors ${cancelled ? "opacity-50" : ""}`}
                 >
                   <div className="flex items-start gap-3">
                     <div
@@ -471,7 +444,9 @@ export default function IsolatedCariDetailPage() {
                         isDebt ? "bg-rose-500/10" : "bg-emerald-500/10"
                       }`}
                     >
-                      {isDebt ? (
+                      {tx.type === "storno" ? (
+                        <Undo2 className="w-5 h-5 text-stone-400" />
+                      ) : isDebt ? (
                         <ArrowUpRight className="w-5 h-5 text-rose-500" />
                       ) : (
                         <ArrowDownRight className="w-5 h-5 text-emerald-500" />
@@ -479,19 +454,14 @@ export default function IsolatedCariDetailPage() {
                     </div>
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-2 flex-wrap">
-                        <span className="text-sm font-bold text-stone-200">
-                          {tx.type === "satis"
-                            ? "Toptan Satış"
-                            : tx.type === "tahsilat"
-                            ? "Tahsilat"
-                            : tx.type === "devir"
-                            ? "Açılış/Devir"
-                            : tx.type === "odeme"
-                            ? "Ödeme"
-                            : tx.type === "storno"
-                            ? "Storno"
-                            : "İşlem"}
+                        <span className={`text-sm font-bold text-stone-200 ${cancelled ? "line-through" : ""}`}>
+                          {LEDGER_TYPE_LABELS[tx.type]}
                         </span>
+                        {cancelled && (
+                          <span className="text-[10px] font-bold px-1.5 py-0.5 rounded bg-stone-800 text-stone-400 border border-stone-700">
+                            İPTAL EDİLDİ
+                          </span>
+                        )}
                         {tx.slipNumber && (
                           <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-amber-500/10 text-amber-400 border border-amber-500/20">
                             {tx.slipNumber}
@@ -499,13 +469,7 @@ export default function IsolatedCariDetailPage() {
                         )}
                         {tx.paymentMethod && (
                           <span className="text-[10px] px-1.5 py-0.5 rounded bg-stone-800 text-stone-400 border border-stone-700">
-                            {tx.paymentMethod === "nakit"
-                              ? "💵 Nakit"
-                              : tx.paymentMethod === "banka_havale"
-                              ? "🏦 Havale"
-                              : tx.paymentMethod === "kredi_karti"
-                              ? "💳 Kart"
-                              : tx.paymentMethod}
+                            {PAYMENT_METHOD_LABELS[tx.paymentMethod] || tx.paymentMethod}
                           </span>
                         )}
                       </div>
@@ -513,7 +477,7 @@ export default function IsolatedCariDetailPage() {
                         {tx.description}
                       </div>
                       <div className="text-[10px] text-stone-500 mt-1 font-mono">
-                        {new Date(tx.createdAt || tx.date).toLocaleString("tr-TR")}
+                        {tx.date.split("-").reverse().join(".")}
                       </div>
                     </div>
                   </div>
@@ -525,8 +489,8 @@ export default function IsolatedCariDetailPage() {
                           isDebt ? "text-rose-400" : "text-emerald-400"
                         }`}
                       >
-                        {isDebt ? "+" : "-"}
-                        {tx.amount.toLocaleString("tr-TR")} ₺
+                        {isDebt ? "+" : tx.delta < 0 ? "−" : ""}
+                        {Math.abs(tx.delta).toLocaleString("tr-TR")} ₺
                       </div>
                       {tx.balanceAfter !== undefined && (
                         <span className="text-[10px] text-stone-500 font-mono">
@@ -536,15 +500,18 @@ export default function IsolatedCariDetailPage() {
                     </div>
 
                     <div className="flex items-center gap-2">
-                      {/* Edit Button */}
-                      <button
-                        onClick={() => setEditingTx(tx)}
-                        className="px-3 py-2 bg-stone-800 hover:bg-stone-700 text-stone-300 hover:text-amber-400 rounded-xl transition-colors border border-stone-700 min-h-[40px] flex items-center gap-1.5 text-xs font-bold active:scale-95"
-                        title="Fişi / İşlemi Düzenle"
-                      >
-                        <Edit className="w-3.5 h-3.5" />
-                        <span className="hidden sm:inline">Düzenle</span>
-                      </button>
+                      {/* İptal (ters kayıt) — kayıt düzenlenmez/silinmez */}
+                      {tx.type !== "storno" && !cancelled && (
+                        <button
+                          onClick={() => handleStorno(tx)}
+                          disabled={busyTxId === tx.id}
+                          className="px-3 py-2 bg-stone-800 hover:bg-stone-700 text-stone-300 hover:text-rose-300 rounded-xl transition-colors border border-stone-700 min-h-[40px] flex items-center gap-1.5 text-xs font-bold active:scale-95 disabled:opacity-50"
+                          title="İptal et (ters kayıt)"
+                        >
+                          {busyTxId === tx.id ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Undo2 className="w-3.5 h-3.5" />}
+                          <span className="hidden sm:inline">İptal Et</span>
+                        </button>
+                      )}
 
                       {/* View & Share Receipt Button */}
                       <button
@@ -568,7 +535,6 @@ export default function IsolatedCariDetailPage() {
         <B2BSlipModal
           cariId={cari.id}
           cariName={cari.businessName}
-          cariPhone={cari.phone}
           customPrices={cari.customPrices}
           onClose={() => setActiveModal(null)}
           onSuccess={(createdTx) => {
@@ -608,18 +574,6 @@ export default function IsolatedCariDetailPage() {
           onClose={() => setActiveModal(null)}
           onSuccess={() => {
             setActiveModal(null);
-            refetch();
-          }}
-        />
-      )}
-
-      {editingTx && (
-        <B2BSlipEditModal
-          tx={editingTx}
-          cari={cari}
-          onClose={() => setEditingTx(null)}
-          onSuccess={() => {
-            setEditingTx(null);
             refetch();
           }}
         />

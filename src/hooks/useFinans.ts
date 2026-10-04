@@ -7,6 +7,7 @@ import { useAdminOrders } from "./useAdminOrders";
 import { useCariler } from "./useCariler";
 import { useSuppliers } from "./useSuppliers";
 import { getErrorMessage } from "@/lib/utils/error";
+import { istanbulToday } from "@/lib/time/istanbul";
 
 export function useFinans() {
   const [rawRecords, setRawRecords] = useState<any[]>([]);
@@ -282,30 +283,16 @@ export function useFinans() {
       }
     });
 
-    // 1.5 Map account_transactions (Cari Tahsilat / Ödeme)
+    // 1.5 Cari tahsilatları kasaya girer (016 defteri: type=tahsilat, delta<0). Finans modülü Faz 3a'da kalkıyor.
+    const reversed = new Set(rawCariTx.map((tx) => tx.reverses_id).filter(Boolean));
     rawCariTx.forEach((tx) => {
-      // If it's a devir (opening balance), it doesn't affect Kasa
-      const descLower = (tx.description || "").toLowerCase();
-      if (descLower.includes("devir") || descLower.includes("açılış")) return;
-
-      // We only care about transactions that have a payment_method (i.e. they touched the Kasa)
-      // "nakit", "banka_havale", "pos"
+      if (tx.type !== "tahsilat" || reversed.has(tx.id)) return;
       if (!tx.payment_method || tx.payment_method === "diger") return;
 
-      const dateStr = tx.date ? new Date(tx.date).toISOString().split("T")[0] : new Date().toISOString().split("T")[0];
-      const amt = Number(tx.amount) || 0;
-      const isExpenseAccount = tx.current_accounts?.type === "gider" || (tx.current_accounts?.name || "").toLowerCase().includes("gider");
-
-      let type: "in" | "out" = "in";
-      let title = "";
-      
-      if (tx.type === "credit") {
-        type = isExpenseAccount ? "out" : "in"; // Tahsilat (in) veya Gider ödemesi (out)
-        title = isExpenseAccount ? `Cari Ödeme - ${tx.current_accounts?.name || ""}` : `Cari Tahsilat - ${tx.current_accounts?.name || ""}`;
-      } else if (tx.type === "debt") {
-        type = isExpenseAccount ? "in" : "out"; // Gider hesabından iade (in) veya Müşteriye borç verme (out)
-        title = isExpenseAccount ? `Gider İade - ${tx.current_accounts?.name || ""}` : `Müşteri Ödeme - ${tx.current_accounts?.name || ""}`;
-      }
+      const dateStr = tx.date ? String(tx.date).slice(0, 10) : istanbulToday();
+      const amt = Math.abs(Number(tx.delta ?? tx.amount) || 0);
+      const type: "in" | "out" = "in";
+      const title = `Cari Tahsilat - ${tx.current_accounts?.name || ""}`;
 
       movements.push({
         id: `tx_${tx.id}`,

@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState, useMemo } from "react";
-import { useParams } from "next/navigation";
+import { useParams, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import {
   Calendar,
@@ -19,18 +19,30 @@ import {
   Filter,
   X,
 } from "lucide-react";
-import { createClient } from "@/lib/supabase/client";
-import { CariAccount, CariTransaction } from "@/types/admin";
+import { CariTransaction } from "@/types/admin";
+import { LEDGER_TYPE_LABELS } from "@/lib/cari/ledger";
 import { CONTACT } from "@/lib/site";
+import { addDays, istanbulToday } from "@/lib/time/istanbul";
+
+interface StatementAccount {
+  id: string;
+  businessName: string;
+  contactPerson: string;
+  phone: string;
+  taxNumber: string;
+  balance: number;
+}
+
+type StatementTx = CariTransaction & { slipToken: string | null };
 
 export default function CustomerStatementPage() {
   const params = useParams();
   const cariId = params?.id as string;
+  const linkToken = useSearchParams()?.get("t") || "";
 
   const [loading, setLoading] = useState(true);
-  const [cari, setCari] = useState<CariAccount | null>(null);
-  const [transactions, setTransactions] = useState<CariTransaction[]>([]);
-  const [startingBalance, setStartingBalance] = useState<number>(0);
+  const [cari, setCari] = useState<StatementAccount | null>(null);
+  const [transactions, setTransactions] = useState<StatementTx[]>([]);
   const [copied, setCopied] = useState(false);
 
   // Date and type filters
@@ -42,99 +54,15 @@ export default function CustomerStatementPage() {
   useEffect(() => {
     if (!cariId) return;
 
+    // Veri sunucudan: imzalı link (?t=) doğrulanır; tarayıcı tabloya doğrudan erişmez
     const fetchStatement = async () => {
       try {
-        const supabase = createClient();
-        if (!supabase) {
-          setLoading(false);
-          return;
-        }
-
-        // 1. Fetch Cari Account
-        const { data: acc } = await supabase!
-          .from("current_accounts")
-          .select("*")
-          .eq("id", cariId)
-          .single();
-
-        if (acc) {
-          const cariObj: CariAccount = {
-            id: acc.id,
-            businessName: acc.name || "Değerli Müşterimiz",
-            contactPerson: acc.type || "",
-            phone: acc.phone || "",
-            address: acc.address || "",
-            neighborhood: "",
-            taxNumber: acc.tax_id || "",
-            balance: Number(acc.balance) || 0,
-            accountType: acc.type === "gider" ? "gider" : "musteri",
-            createdAt: acc.created_at,
-          };
-          setCari(cariObj);
-
-          // 2. Fetch Transactions
-          const { data: txs } = await supabase!
-            .from("account_transactions")
-            .select("*")
-            .eq("account_id", cariId)
-            .order("date", { ascending: true })
-            .order("created_at", { ascending: true });
-
-          if (txs) {
-            const isExpense = cariObj.accountType === "gider";
-            const mapped: CariTransaction[] = txs.map((t: any) => {
-              const descLower = (t.description || "").toLowerCase();
-              let txType: "satis" | "tahsilat" | "odeme" | "devir" = "satis";
-
-              if (descLower.includes("devir") || descLower.includes("açılış") || descLower.includes("düzeltme")) {
-                txType = "devir";
-              } else if (t.type === "debt") {
-                txType = "satis";
-              } else if (t.type === "credit") {
-                txType = isExpense ? "odeme" : "tahsilat";
-              }
-
-              const slipMatch = (t.description || "").match(/\[(FİŞ-[^\]]+)\]/i);
-              const slipNumber = slipMatch ? slipMatch[1] : undefined;
-
-              return {
-                id: t.id,
-                cariId: t.account_id,
-                date: t.date ? new Date(t.date).toISOString().split("T")[0] : "",
-                type: txType,
-                amount: Number(t.amount) || 0,
-                description: t.description || "",
-                slipNumber,
-                orderId: t.order_id,
-                createdAt: t.created_at,
-              };
-            });
-
-            // Compute Running Balance
-            const getDelta = (t: CariTransaction, originalType: string) => {
-              if (originalType === "credit") return -t.amount;
-              if (originalType === "debt") return t.amount;
-              if (t.type === "tahsilat") return -t.amount;
-              return t.amount;
-            };
-
-            const totalDelta = mapped.reduce((sum, t, idx) => sum + getDelta(t, txs[idx]?.type), 0);
-            const currentBal = cariObj.balance;
-            const startBal = currentBal - totalDelta;
-            setStartingBalance(Math.round(startBal * 100) / 100);
-
-            let running = startBal;
-            const txsWithBalance = mapped.map((t, idx) => {
-              running += getDelta(t, txs[idx]?.type);
-              return {
-                ...t,
-                balanceAfter: Math.round(running * 100) / 100,
-              };
-            });
-
-            setTransactions([...txsWithBalance].reverse());
-          }
-        }
+        const qs = linkToken ? `?t=${encodeURIComponent(linkToken)}` : "";
+        const res = await fetch(`/api/ekstre/${encodeURIComponent(cariId)}${qs}`);
+        if (!res.ok) return;
+        const data = (await res.json()) as { cari: StatementAccount; transactions: StatementTx[] };
+        setCari(data.cari);
+        setTransactions(data.transactions);
       } catch (err) {
         console.error("Statement fetch error:", err);
       } finally {
@@ -143,31 +71,19 @@ export default function CustomerStatementPage() {
     };
 
     fetchStatement();
-  }, [cariId]);
+  }, [cariId, linkToken]);
 
   const filteredTransactions = useMemo(() => {
+    const today = istanbulToday();
+    const thisMonth = today.slice(0, 7);
+    const lastMonth = addDays(`${thisMonth}-01`, -1).slice(0, 7);
     return transactions.filter((tx) => {
-      // Type filter
-      if (typeFilter === "satis" && tx.type !== "satis" && tx.type !== "devir") return false;
-      if (typeFilter === "tahsilat" && tx.type !== "tahsilat" && tx.type !== "odeme") return false;
+      if (typeFilter === "satis" && !(tx.delta > 0)) return false;
+      if (typeFilter === "tahsilat" && !(tx.delta < 0)) return false;
 
-      // Date filter
-      if (!tx.date) return true;
-      const txDate = new Date(tx.date);
-      const now = new Date();
-
-      if (dateFilter === "this_month") {
-        return txDate.getFullYear() === now.getFullYear() && txDate.getMonth() === now.getMonth();
-      }
-      if (dateFilter === "last_month") {
-        const lastMonth = new Date(now.getFullYear(), now.getMonth() - 1, 1);
-        return txDate.getFullYear() === lastMonth.getFullYear() && txDate.getMonth() === lastMonth.getMonth();
-      }
-      if (dateFilter === "last_30_days") {
-        const thirtyDaysAgo = new Date();
-        thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
-        return txDate >= thirtyDaysAgo;
-      }
+      if (dateFilter === "this_month") return tx.date.slice(0, 7) === thisMonth;
+      if (dateFilter === "last_month") return tx.date.slice(0, 7) === lastMonth;
+      if (dateFilter === "last_30_days") return tx.date >= addDays(today, -30);
       if (dateFilter === "custom") {
         if (startDate && tx.date < startDate) return false;
         if (endDate && tx.date > endDate) return false;
@@ -176,19 +92,15 @@ export default function CustomerStatementPage() {
     });
   }, [transactions, dateFilter, typeFilter, startDate, endDate]);
 
-  const totalBorc = useMemo(() => {
-    return filteredTransactions.reduce(
-      (sum, tx) => (tx.type === "satis" || (tx.type === "devir" && tx.amount > 0) ? sum + tx.amount : sum),
-      0
-    );
-  }, [filteredTransactions]);
+  const totalBorc = useMemo(
+    () => filteredTransactions.reduce((sum, tx) => (tx.delta > 0 ? sum + tx.delta : sum), 0),
+    [filteredTransactions]
+  );
 
-  const totalAlacak = useMemo(() => {
-    return filteredTransactions.reduce(
-      (sum, tx) => (tx.type === "tahsilat" || tx.type === "odeme" ? sum + tx.amount : sum),
-      0
-    );
-  }, [filteredTransactions]);
+  const totalAlacak = useMemo(
+    () => filteredTransactions.reduce((sum, tx) => (tx.delta < 0 ? sum - tx.delta : sum), 0),
+    [filteredTransactions]
+  );
 
   const handleExportCSV = () => {
     if (!cari || filteredTransactions.length === 0) {
@@ -198,14 +110,13 @@ export default function CustomerStatementPage() {
 
     const headers = ["Tarih", "Belge / Fiş No", "İşlem Türü", "Açıklama", "Borç (TL)", "Alacak (TL)", "Yürüyen Bakiye (TL)"];
     const rows = filteredTransactions.map((tx) => {
-      const isDebt = tx.type === "satis" || (tx.type === "devir" && tx.amount > 0);
-      const isCredit = tx.type === "tahsilat" || tx.type === "odeme";
-      const typeLabel = tx.type === "satis" ? "Teslimat Fişi" : tx.type === "tahsilat" ? "Tahsilat" : tx.type === "devir" ? "Devir/Düzeltme" : "İşlem";
+      const typeLabel = LEDGER_TYPE_LABELS[tx.type] + (tx.reversedById ? " (iptal edildi)" : "");
       const slipNo = tx.slipNumber || "-";
       const cleanDesc = (tx.description || "").replace(/"/g, '""');
-      const borc = isDebt ? tx.amount.toFixed(2) : "0.00";
-      const alacak = isCredit ? tx.amount.toFixed(2) : "0.00";
-      const bakiye = tx.balanceAfter !== undefined ? tx.balanceAfter.toFixed(2) : "";
+      const money = (n: number) => n.toFixed(2).replace(".", ",");
+      const borc = tx.delta > 0 ? money(tx.delta) : "0,00";
+      const alacak = tx.delta < 0 ? money(-tx.delta) : "0,00";
+      const bakiye = tx.balanceAfter !== undefined ? money(tx.balanceAfter) : "";
 
       return [
         `"${tx.date}"`,
@@ -224,7 +135,7 @@ export default function CustomerStatementPage() {
     const link = document.createElement("a");
     const cleanBusinessName = cari.businessName.replace(/[^a-zA-Z0-9çÇğĞıİöÖşŞüÜ_-]/g, "_");
     link.href = url;
-    link.download = `EkmekLab_Ekstre_${cleanBusinessName}_${new Date().toISOString().split("T")[0]}.csv`;
+    link.download = `EkmekLab_Ekstre_${cleanBusinessName}_${istanbulToday()}.csv`;
     link.click();
     URL.revokeObjectURL(url);
   };
@@ -550,47 +461,45 @@ export default function CustomerStatementPage() {
                   </thead>
                   <tbody className="divide-y divide-[#EBE4D8]/80 text-xs">
                     {filteredTransactions.map((tx) => {
-                      const isSale = tx.type === "satis";
-                      const isTahsilat = tx.type === "tahsilat";
-                      const isDevir = tx.type === "devir";
-
-                      const isDebt = isSale || (isDevir && tx.amount > 0);
-                      const isCredit = isTahsilat || tx.type === "odeme";
+                      const isDebt = tx.delta > 0;
+                      const isCredit = tx.delta < 0;
+                      const cancelled = Boolean(tx.reversedById);
 
                       return (
-                        <tr key={tx.id} className="hover:bg-[#FAF6F0] transition-colors">
+                        <tr key={tx.id} className={`hover:bg-[#FAF6F0] transition-colors ${cancelled ? "opacity-60" : ""}`}>
                           <td className="py-3 px-4 font-medium text-[#5C4C42] whitespace-nowrap">
-                            {tx.date}
+                            {tx.date.split("-").reverse().join(".")}
                           </td>
 
                           <td className="py-3 px-4 whitespace-nowrap">
-                            {isSale ? (
-                              <span className="px-2.5 py-1 rounded-lg bg-[#F5EFE6] text-[#B45309] font-bold border border-[#E8DFC8] text-[11px]">
-                                {tx.slipNumber || "FİŞ"}
-                              </span>
-                            ) : isTahsilat ? (
-                              <span className="px-2.5 py-1 rounded-lg bg-emerald-50 text-emerald-800 font-bold border border-emerald-200 text-[11px]">
-                                TAHSİLAT
-                              </span>
-                            ) : (
-                              <span className="px-2.5 py-1 rounded-lg bg-sky-50 text-sky-800 font-bold border border-sky-200 text-[11px]">
-                                DEVİR
-                              </span>
-                            )}
+                            <span
+                              className={`px-2.5 py-1 rounded-lg font-bold border text-[11px] ${
+                                tx.type === "satis"
+                                  ? "bg-[#F5EFE6] text-[#B45309] border-[#E8DFC8]"
+                                  : tx.type === "tahsilat"
+                                  ? "bg-emerald-50 text-emerald-800 border-emerald-200"
+                                  : tx.type === "storno"
+                                  ? "bg-stone-100 text-stone-700 border-stone-300"
+                                  : "bg-sky-50 text-sky-800 border-sky-200"
+                              }`}
+                            >
+                              {tx.slipNumber || LEDGER_TYPE_LABELS[tx.type]}
+                            </span>
+                            {cancelled && <span className="ml-1.5 text-[10px] font-bold text-rose-700">İPTAL</span>}
                           </td>
 
                           <td className="py-3 px-4 font-medium text-[#1E140F] max-w-sm">
                             <div className="truncate" title={tx.description}>
-                              {tx.description}
+                              {tx.description || LEDGER_TYPE_LABELS[tx.type]}
                             </div>
                           </td>
 
                           <td className="py-3 px-4 text-right font-bold text-[#B45309] whitespace-nowrap">
-                            {isDebt ? `+${tx.amount.toLocaleString("tr-TR")} ₺` : "—"}
+                            {isDebt ? `+${tx.delta.toLocaleString("tr-TR")} ₺` : "—"}
                           </td>
 
                           <td className="py-3 px-4 text-right font-bold text-emerald-800 whitespace-nowrap">
-                            {isCredit ? `-${tx.amount.toLocaleString("tr-TR")} ₺` : "—"}
+                            {isCredit ? `−${(-tx.delta).toLocaleString("tr-TR")} ₺` : "—"}
                           </td>
 
                           <td className="py-3 px-4 text-right font-bold whitespace-nowrap">
@@ -612,16 +521,16 @@ export default function CustomerStatementPage() {
                           </td>
 
                           <td className="py-3 px-4 text-center whitespace-nowrap print:hidden">
-                            {isSale || tx.type === "tahsilat" ? (
-                              <Link
-                                href={`/fis/${tx.orderId || tx.id}`}
+                            {tx.slipToken ? (
+                              <a
+                                href={`/fis/${tx.id}?t=${tx.slipToken}`}
                                 target="_blank"
                                 className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-[#F5EFE6] hover:bg-[#EFE8DC] text-[#B45309] text-xs font-bold border border-[#E8DFC8] transition-colors"
                                 title="Dijital Belgeyi Aç"
                               >
-                                <span>{tx.type === "tahsilat" ? "Makbuz" : "Fiş"}</span>
+                                <span>{tx.type === "satis" ? "Fiş" : "Makbuz"}</span>
                                 <ExternalLink className="w-3 h-3" />
-                              </Link>
+                              </a>
                             ) : (
                               "—"
                             )}
@@ -630,27 +539,6 @@ export default function CustomerStatementPage() {
                       );
                     })}
 
-                    {startingBalance !== 0 && (
-                      <tr className="bg-[#FAF6F0] text-[#7A6B62] italic">
-                        <td className="py-3 px-4 font-mono">—</td>
-                        <td className="py-3 px-4">
-                          <span className="px-2.5 py-1 rounded-lg bg-[#EFE8DD] text-[#5C4C42] font-bold text-[11px]">
-                            AÇILIŞ
-                          </span>
-                        </td>
-                        <td className="py-3 px-4">Önceki Dönemden Devreden Açılış Bakiyesi</td>
-                        <td className="py-3 px-4 text-right font-bold text-[#7A6B62]">
-                          {startingBalance > 0 ? `+${startingBalance.toLocaleString("tr-TR")} ₺` : "—"}
-                        </td>
-                        <td className="py-3 px-4 text-right font-bold text-[#7A6B62]">
-                          {startingBalance < 0 ? `${startingBalance.toLocaleString("tr-TR")} ₺` : "—"}
-                        </td>
-                        <td className="py-3 px-4 text-right font-bold text-[#1E140F]">
-                          {startingBalance.toLocaleString("tr-TR")} ₺
-                        </td>
-                        <td className="py-3 px-4 text-center print:hidden">—</td>
-                      </tr>
-                    )}
                   </tbody>
 
                   <tfoot>

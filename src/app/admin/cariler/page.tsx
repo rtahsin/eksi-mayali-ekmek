@@ -21,7 +21,7 @@ import {
 } from "lucide-react";
 import { useCariler } from "@/hooks/useCariler";
 import { CariAccount, BEYLIKDUZU_NEIGHBORHOODS } from "@/types/admin";
-import { SITE_URL } from "@/lib/site";
+import { shareViaWhatsApp, ekstreMessage } from "@/lib/cari/whatsapp";
 
 export default function FinansCarilerPage() {
   const {
@@ -58,12 +58,6 @@ export default function FinansCarilerPage() {
   }, [cariler, searchQuery, balanceFilter]);
 
   const debtorCount = cariler.filter((c) => c.balance > 0 && c.accountType !== "gider").length;
-
-  const generateWhatsAppLink = (cari: CariAccount) => {
-    return `https://wa.me/90${cari.phone.replace(/\D/g, "")}?text=${encodeURIComponent(
-      `🍞 *EKMEKLAB TAŞ FIRIN - CARİ HESAP EKSTRESİ*\nSayın *${cari.businessName}*,\n\n📊 *Güncel Kalan Bakiye:* ${cari.balance.toLocaleString("tr-TR")} ₺\n🔗 *Canlı Ekstre Linkiniz:* ${SITE_URL}/ekstre/${cari.id}\n\nTüm teslimat fişlerinizi ve ödemelerinizi yukarıdaki bağlantıdan anlık olarak inceleyebilirsiniz.\nBereketli işler dileriz!\nEkmekLab Zanaatkar Fırın`
-    )}`;
-  };
 
   // Open new cari modal
   const openNewCariModal = () => {
@@ -110,7 +104,6 @@ export default function FinansCarilerPage() {
           accountType: editingCari.accountType || "musteri",
           notes: editingCari.notes || "",
           customPrices: editingCari.customPrices || {},
-          initialBalance: 0,
         });
         if (!result.success) {
           alert("Hata: " + result.error);
@@ -379,15 +372,20 @@ export default function FinansCarilerPage() {
               </button>
 
               {activeActionSheet.accountType !== "gider" && (
-                <a
-                  href={generateWhatsAppLink(activeActionSheet)}
-                  target="_blank"
-                  rel="noreferrer"
+                <button
+                  type="button"
+                  onClick={() =>
+                    shareViaWhatsApp(
+                      activeActionSheet.phone,
+                      { accountId: activeActionSheet.id },
+                      ekstreMessage(activeActionSheet.businessName, activeActionSheet.balance)
+                    )
+                  }
                   className="flex flex-col items-center justify-center p-4 bg-stone-800/50 hover:bg-[#25D366]/20 border border-stone-700 hover:border-[#25D366]/50 rounded-2xl transition-all text-center group min-h-[88px] active:scale-95 col-span-2 sm:col-span-1"
                 >
                   <MessageCircle className="w-6 h-6 text-[#25D366] mb-2 group-hover:scale-110 transition-transform" />
                   <span className="text-xs font-bold text-stone-200">WhatsApp&apos;tan At</span>
-                </a>
+                </button>
               )}
             </div>
           </div>
