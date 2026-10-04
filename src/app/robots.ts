@@ -14,6 +14,7 @@ export default function robots(): MetadataRoute.Robots {
         "/ekstre/",
         "/auth/",
         "/hesabim/",
+        "/tasarim/",
       ],
     },
     sitemap: `${SITE_URL}/sitemap.xml`,
