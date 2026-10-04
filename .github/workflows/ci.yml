@@ -26,8 +26,11 @@ jobs:
 
       - name: Gizli dosya kontrolü
         run: |
-          if git ls-files --error-unmatch .env .env.local >/dev/null 2>&1; then
-            echo "HATA: .env / .env.local git'te izleniyor. 'git rm --cached' ile çıkarın."
+          # .env.example dışındaki tüm .env varyantları (.env, .env.local, .env.production, alt klasörler) yasak
+          tracked=$(git ls-files -- '.env' '.env.*' '**/.env' '**/.env.*' | grep -vE '(^|/)\.env\.example$' || true)
+          if [ -n "$tracked" ]; then
+            echo "HATA: Şu ortam dosyaları git'te izleniyor ('git rm --cached' ile çıkarın):"
+            echo "$tracked"
             exit 1
           fi
 
