@@ -159,6 +159,22 @@ export function useCariler() {
     }
   };
 
+  /** Yalnız deneme carisi: tüm hareketleri iptal edilmiş olmalı (sunucu denetler). */
+  const deleteCari = async (id: string) => {
+    try {
+      const res = await fetch(`/api/admin/cari/accounts/${encodeURIComponent(id)}`, { method: "DELETE" });
+      const data: unknown = await res.json().catch(() => null);
+      if (!res.ok) {
+        const msg = (data as { error?: unknown } | null)?.error;
+        throw new Error(typeof msg === "string" ? msg : "Cari silinemedi");
+      }
+      await fetchCariler();
+      return { success: true };
+    } catch (err: unknown) {
+      return { success: false, error: getErrorMessage(err) };
+    }
+  };
+
   const addTransaction = async (cariId: string, tx: LedgerWrite) => {
     const r = await recordLedger(cariId, tx);
     if (r.success && r.balanceAfter !== undefined) {
@@ -183,6 +199,7 @@ export function useCariler() {
     addCari,
     updateCari,
     archiveCari,
+    deleteCari,
     addTransaction,
     refreshCariler: fetchCariler,
   };

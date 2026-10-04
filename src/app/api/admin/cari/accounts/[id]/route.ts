@@ -53,3 +53,25 @@ export async function PATCH(request: Request, { params }: { params: Promise<{ id
     return NextResponse.json({ error: getErrorMessage(err) || "Cari güncellenemedi" }, { status: 500 });
   }
 }
+
+/** Deneme carisini kalıcı sil: yalnız her hareketi iptal edilmişse (gerçek geçmiş yoksa). */
+export async function DELETE(request: Request, { params }: { params: Promise<{ id: string }> }) {
+  const guard = await requireAdmin(request);
+  if (!guard.ok) return guard.response;
+  const { id } = await params;
+
+  const supabase = createAdminClient();
+  if (!supabase) return NextResponse.json({ error: "Supabase unconfigured" }, { status: 500 });
+
+  const { error } = await supabase.rpc("delete_cari_account", { p_account_id: id });
+  if (!error) return NextResponse.json({ success: true });
+  if (error.message.includes("CARI_HAS_HISTORY")) {
+    return NextResponse.json(
+      { error: "Bu caride iptal edilmemiş hareketler var; kalıcı silinemez. Gerçek hesapsa arşivleyin, denemeyse önce hareketleri iptal edin." },
+      { status: 409 }
+    );
+  }
+  if (error.message.includes("CARI_NOT_FOUND")) return NextResponse.json({ error: "Cari hesap bulunamadı." }, { status: 404 });
+  console.error("DELETE /api/admin/cari/accounts/[id]:", error);
+  return NextResponse.json({ error: getErrorMessage(error) || "Cari silinemedi" }, { status: 500 });
+}

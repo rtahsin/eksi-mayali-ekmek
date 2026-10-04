@@ -95,7 +95,24 @@ BEGIN
     'public.record_cari_transaction_atomic(text, text, numeric, text, text, date, jsonb, text, uuid, uuid)', 'EXECUTE'),
     'authenticated RPC çağırabiliyor';
 
-  -- 9) Canlı veri: tüm hesaplarda bakiye = SUM(delta)
+  -- 9) Kalıcı silme: gerçek geçmişi olan cari silinemez; her hareketi iptal edilmiş cari silinir
+  BEGIN
+    PERFORM public.delete_cari_account('cari_SMOKE016'); -- devir (−20) iptal edilmedi
+    RAISE EXCEPTION 'geçmişi olan cari silindi';
+  EXCEPTION WHEN OTHERS THEN
+    GET STACKED DIAGNOSTICS v_err = MESSAGE_TEXT;
+    ASSERT v_err LIKE '%CARI_HAS_HISTORY%', 'beklenmeyen hata: ' || v_err;
+  END;
+  INSERT INTO public.current_accounts (id, name, balance, status, created_at, updated_at)
+  VALUES ('cari_SMOKE016B', 'TEST Deneme Cari', 0, 'active', now(), now());
+  r := public.record_cari_transaction_atomic('cari_SMOKE016B', 'satis', 2);
+  PERFORM public.record_cari_transaction_atomic('cari_SMOKE016B', 'storno', 0, NULL, NULL, NULL, NULL, NULL,
+    (r->>'transaction_id')::uuid);
+  r := public.delete_cari_account('cari_SMOKE016B');
+  ASSERT (r->>'deleted_transactions')::int = 2, 'silinen hareket sayısı yanlış';
+  ASSERT NOT EXISTS (SELECT 1 FROM public.current_accounts WHERE id = 'cari_SMOKE016B'), 'deneme cari silinmedi';
+
+  -- 10) Canlı veri: tüm hesaplarda bakiye = SUM(delta)
   ASSERT NOT EXISTS (
     SELECT 1 FROM public.current_accounts a
     WHERE COALESCE(a.balance, 0) <> COALESCE((SELECT SUM(delta) FROM public.account_transactions t WHERE t.account_id = a.id), 0)

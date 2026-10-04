@@ -20,6 +20,7 @@
 --   3) mutabakat: bakiye ≠ SUM(delta) ise tek "devir" satırı (aşağıdaki onaylı bakiyeler)
 --   4) current_accounts.archived_at (silme yerine arşiv)
 --   5) record_cari_transaction_atomic (yeni imza), adjust_cari_balance kaldırılır
+--   5b) delete_cari_account: yalnız gerçek geçmişi olmayan (deneme) cari kalıcı silinir
 --   6) tarayıcıdan doğrudan yazma kapatılır (tüm yazımlar sunucu API'si + RPC)
 --
 -- Not: create_order_atomic (015) içindeki cari dalı eski "debt" türüyle yazar ve 016 sonrası
@@ -76,6 +77,8 @@ BEGIN
         WHEN tx.type = 'storno' THEN 'storno'
         WHEN v_delta = 0 THEN 'devir'
         WHEN tx.type = 'devir' OR COALESCE(tx.description, '') ~* '(devir|açılış|acilis|düzeltme|duzeltme|mutabakat)' THEN 'devir'
+        -- "Tahsilat" yazıp borcu ARTIRAN eski kayıt (ör. Ofsüt 21 Eyl 7.580 ₺) tahsilat olamaz → devir
+        WHEN v_delta > 0 AND COALESCE(tx.description, '') ~* 'tahsilat' THEN 'devir'
         WHEN v_delta < 0 THEN 'tahsilat'
         ELSE 'satis'
       END;
@@ -98,9 +101,8 @@ END $$;
 --   current_accounts.balance doğru kabul edilir. Fark varsa tek bir "devir" satırı
 --   eklenir (eski kayıtlar silinmez), ardından bakiye = SUM(delta) yapılır.
 CREATE TEMP TABLE _confirmed_balances (account_id text PRIMARY KEY, balance numeric NOT NULL) ON COMMIT DROP;
--- ↓↓↓ Tahsin'in onayı (4 Eki 2026) — yayından önce doldurulur ↓↓↓
--- INSERT INTO _confirmed_balances VALUES ('cari_mubs5o74_z8ns', 17870), ('cari_mu93322t_wha0', 13630);
--- ↑↑↑
+-- Tahsin'in onayı (4 Eki 2026): Yerumda 17.870 ₺, Ofsüt 13.630 ₺
+INSERT INTO _confirmed_balances VALUES ('cari_mubs5o74_z8ns', 17870), ('cari_mu93322t_wha0', 13630);
 
 DO $$
 DECLARE
@@ -254,6 +256,44 @@ REVOKE ALL ON FUNCTION public.record_cari_transaction_atomic(TEXT, TEXT, NUMERIC
   FROM PUBLIC, anon, authenticated;
 GRANT EXECUTE ON FUNCTION public.record_cari_transaction_atomic(TEXT, TEXT, NUMERIC, TEXT, TEXT, DATE, JSONB, TEXT, UUID, UUID)
   TO service_role;
+
+-- Deneme carisini kalıcı silme: yalnız gerçek geçmişi YOKSA (hiç hareket yok ya da her hareket
+--   iptal edilmiş / iptal kaydı). Gerçek geçmişi olan cari silinmez, arşivlenir.
+CREATE OR REPLACE FUNCTION public.delete_cari_account(p_account_id TEXT)
+RETURNS JSONB
+LANGUAGE plpgsql
+VOLATILE
+SECURITY DEFINER
+SET search_path = public, pg_temp
+AS $$
+DECLARE
+  v_deleted INTEGER;
+BEGIN
+  PERFORM 1 FROM public.current_accounts WHERE id = p_account_id FOR UPDATE;
+  IF NOT FOUND THEN
+    RAISE EXCEPTION 'CARI_NOT_FOUND: %', p_account_id;
+  END IF;
+
+  IF EXISTS (
+    SELECT 1 FROM public.account_transactions t
+    WHERE t.account_id = p_account_id
+      AND t.type <> 'storno'
+      AND NOT EXISTS (SELECT 1 FROM public.account_transactions s WHERE s.reverses_id = t.id)
+  ) THEN
+    RAISE EXCEPTION 'CARI_HAS_HISTORY: %', p_account_id;
+  END IF;
+
+  -- Tek ifade: storno ↔ asıl satır öz-referansı ifade sonunda denetlenir
+  DELETE FROM public.account_transactions WHERE account_id = p_account_id;
+  GET DIAGNOSTICS v_deleted = ROW_COUNT;
+  DELETE FROM public.current_accounts WHERE id = p_account_id;
+
+  RETURN jsonb_build_object('success', true, 'deleted_transactions', v_deleted);
+END;
+$$;
+
+REVOKE ALL ON FUNCTION public.delete_cari_account(TEXT) FROM PUBLIC, anon, authenticated;
+GRANT EXECUTE ON FUNCTION public.delete_cari_account(TEXT) TO service_role;
 
 -- 6) Doğrudan yazma yok: admin ekranları okur (RLS), yazımlar service_role üzerinden
 REVOKE INSERT, UPDATE, DELETE ON public.account_transactions FROM anon, authenticated;

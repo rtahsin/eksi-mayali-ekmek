@@ -15,6 +15,7 @@ import {
   Scale,
   Tag,
   Archive,
+  Trash2,
   Undo2,
   Download,
   Calendar,
@@ -37,7 +38,7 @@ export default function IsolatedCariDetailPage() {
   const id = params?.id as string;
 
   const { cari, transactions, activeProducts, loading, refetch } = useCariProfile(id);
-  const { archiveCari, addTransaction } = useCariler();
+  const { archiveCari, deleteCari, addTransaction } = useCariler();
 
   const [activeModal, setActiveModal] = useState<"slip" | "collection" | "edit" | "adjust_balance" | null>(null);
   const [editModalTab, setEditModalTab] = useState<"info" | "prices">("info");
@@ -121,10 +122,28 @@ export default function IsolatedCariDetailPage() {
     document.body.removeChild(link);
   };
 
+  // Gerçek geçmişi yok (hiç hareket yok ya da hepsi iptal edilmiş) → deneme carisi, kalıcı silinebilir
+  const canDelete = transactions.every((tx) => tx.type === "storno" || Boolean(tx.reversedById));
+
+  const handleDeleteCari = async () => {
+    if (!cari) return;
+    if (!window.confirm(`"${cari.businessName}" kalıcı olarak silinsin mi?\n\nGerçek hareketi olmayan (deneme) cari olduğu için tüm kayıtlarıyla silinir. Geri alınamaz.`)) return;
+    setArchiving(true);
+    const res = await deleteCari(cari.id);
+    if (res.success) {
+      router.push("/admin/cariler");
+    } else {
+      alert(res.error || "Silinemedi");
+      setArchiving(false);
+    }
+  };
+
   const handleArchiveCari = async () => {
     if (!cari) return;
     if (cari.balance !== 0) {
-      alert(`Bakiyesi ${cari.balance.toLocaleString("tr-TR")} ₺ olan cari arşivlenemez. Önce bakiyeyi kapatın (tahsilat veya düzeltme).`);
+      alert(
+        `Bakiyesi ${cari.balance.toLocaleString("tr-TR")} ₺ olan cari arşivlenemez. Önce bakiyeyi kapatın (tahsilat veya düzeltme).\n\nDeneme carisiyse: hareketlerini "İptal Et" ile iptal edin; ardından "Kalıcı Sil" görünür.`
+      );
       return;
     }
     if (!window.confirm(`"${cari.businessName}" arşivlensin mi?\n\nListeden kalkar, yeni fiş kesilemez. Geçmiş fişler ve ekstre korunur.`)) return;
@@ -197,16 +216,28 @@ export default function IsolatedCariDetailPage() {
             <span>Düzenle</span>
           </button>
 
-          {/* Archive Cari (silme yok) */}
-          <button
-            onClick={handleArchiveCari}
-            disabled={archiving}
-            className="flex items-center gap-1.5 px-3.5 py-2 bg-stone-900 border border-stone-800 hover:bg-stone-800 text-stone-400 hover:text-stone-200 text-xs sm:text-sm font-bold rounded-2xl transition-all disabled:opacity-50"
-            title="Cariyi arşivle (bakiye 0 olmalı)"
-          >
-            {archiving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Archive className="w-4 h-4" />}
-            <span className="hidden sm:inline">Arşivle</span>
-          </button>
+          {/* Deneme carisi → kalıcı sil; gerçek geçmişi olan cari → arşivle */}
+          {canDelete ? (
+            <button
+              onClick={handleDeleteCari}
+              disabled={archiving}
+              className="flex items-center gap-1.5 px-3.5 py-2 bg-rose-950/40 border border-rose-900/40 hover:bg-rose-900/60 text-rose-400 hover:text-rose-200 text-xs sm:text-sm font-bold rounded-2xl transition-all disabled:opacity-50"
+              title="Gerçek hareketi olmayan (deneme) cariyi kalıcı sil"
+            >
+              {archiving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Trash2 className="w-4 h-4" />}
+              <span className="hidden sm:inline">Kalıcı Sil</span>
+            </button>
+          ) : (
+            <button
+              onClick={handleArchiveCari}
+              disabled={archiving}
+              className="flex items-center gap-1.5 px-3.5 py-2 bg-stone-900 border border-stone-800 hover:bg-stone-800 text-stone-400 hover:text-stone-200 text-xs sm:text-sm font-bold rounded-2xl transition-all disabled:opacity-50"
+              title="Cariyi arşivle (bakiye 0 olmalı; geçmiş korunur)"
+            >
+              {archiving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Archive className="w-4 h-4" />}
+              <span className="hidden sm:inline">Arşivle</span>
+            </button>
+          )}
         </div>
       </div>
 
