@@ -10,7 +10,7 @@
 | 0.5 | CI (her PR'da otomatik build) | ~2 saat | ✅ tamamlandı (4 Eki, PR #3) |
 | 1 | Sipariş çekirdeği onarımı | 3-4 gün | ✅ canlıda (4 Eki, PR #4): 014 uygulandı ve doğrulandı; Telegram env eklendi. Not: 014 birleştirmeden birkaç dakika önce çalıştı → o aralıkta web siparişi reddedildi (sıra kuralı: önce kod, sonra migration) |
 | 2 | Esnek ürün ve satış yönetimi (kategori, satış günleri, kapasite, paket, kampanya) | 4-5 gün | ✅ canlıda (4 Eki, PR #6): 015 önce uygulandı, sonra kod; önizleme + canlı duman testi ✅ |
-| 3 | Admin sadeleştirme + finans doğruluğu | ~5 gün | 3b ✅ canlıda (PR #8 + #9; 016–018) · 3a-1 (menü + silmeler) PR'da · sonra 3a-2 (Teslimat ekranı + Bugün paneli) |
+| 3 | Admin sadeleştirme + finans doğruluğu | ~5 gün | 3b ✅ canlıda (PR #8 + #9; 016–018) · 3a-1 ✅ (PR #10) · 3a-2 (Teslimat ekranı + Bugün paneli) PR'da · sonra Faz 4 |
 | 4 | Marka, görseller, içerik, yasal metinler | 4-6 gün + içerik | bekliyor |
 | 5 | Temizlik ve araçlar | 1-2 gün | bekliyor |
 

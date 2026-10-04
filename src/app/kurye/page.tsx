@@ -1,61 +1,56 @@
 "use client";
 
-import React, { useState, useEffect, useMemo, useRef, useCallback } from "react";
+import React, { useState, useEffect, useMemo, useCallback } from "react";
 import Link from "next/link";
-import { Truck, CheckCircle2, MessageCircle, AlertCircle } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { Truck, CheckCircle2, Printer, CalendarDays, AlertTriangle } from "lucide-react";
 import { useAdminOrders } from "@/hooks/useAdminOrders";
-import { useCouriers } from "@/hooks/useCouriers";
-import { createClient, isSupabaseConfigured } from "@/lib/supabase/client";
 import { AdminOrder } from "@/types/admin";
 import { MobileBottomNav } from "@/components/admin/MobileBottomNav";
-import { CourierHeader } from "@/components/courier/CourierHeader";
-import { CourierShiftRibbon } from "@/components/courier/CourierShiftRibbon";
 import { CourierActiveStopCard } from "@/components/courier/CourierActiveStopCard";
 import { CourierQueueList } from "@/components/courier/CourierQueueList";
 import { CourierPaymentModal } from "@/components/courier/CourierPaymentModal";
 import { CourierOfflineBanner } from "@/components/courier/CourierOfflineBanner";
+import { DeliveryLabels } from "@/components/courier/DeliveryLabels";
 import { useCourierNetwork } from "@/hooks/useCourierNetwork";
+import { useIstanbulToday } from "@/hooks/useIstanbulToday";
+import { addDays, formatTrDate } from "@/lib/time/istanbul";
 import { deliverOrder, DELIVERY_PAYMENT_LABELS, type DeliveryPayment } from "@/lib/orders/delivery";
-import { istanbulToday } from "@/lib/time/istanbul";
-import { whatsappLink } from "@/lib/site";
+import { moveStop, sortStops } from "@/lib/delivery/maps";
 
-export default function CourierMobileConsolePage() {
+const ROUTE_KEY = (date: string) => `ekmeklab_route_${date}`;
+
+function readRoute(date: string): string[] {
+  try {
+    const raw = localStorage.getItem(ROUTE_KEY(date));
+    const parsed: unknown = raw ? JSON.parse(raw) : [];
+    return Array.isArray(parsed) ? parsed.filter((x): x is string => typeof x === "string") : [];
+  } catch {
+    return [];
+  }
+}
+
+/**
+ * Teslimat ekranı (Faz 3a-2): seçilen günün teslimatları rota sırasıyla.
+ * Sıra: mahalleye göre öneri + elle düzenleme (bu cihazda saklanır). Teslim → tek atomik sunucu işlemi;
+ * bağlantı yoksa çevrimdışı kuyruğa alınır.
+ */
+export default function DeliveryConsolePage() {
+  const router = useRouter();
   const { allOrders, loading, refetch: refetchOrders } = useAdminOrders();
-  const { couriers, updateCourierLocation } = useCouriers();
-  const {
-    isOnline,
-    queueLength,
-    isSyncing,
-    enqueueDelivery,
-    syncQueue,
-    syncErrors,
-    clearSyncErrors,
-  } = useCourierNetwork();
+  const { isOnline, queueLength, isSyncing, enqueueDelivery, syncQueue, syncErrors, clearSyncErrors } = useCourierNetwork();
 
-  const [selectedDate, setSelectedDate] = useState<string>(() => istanbulToday());
-  const [selectedCourierId, setSelectedCourierId] = useState<string>("all");
-  const [activeOrderIndex, setActiveOrderIndex] = useState<number>(0);
-  const [isFullscreen, setIsFullscreen] = useState(false);
-  const [soundAlert, setSoundAlert] = useState(true);
-
-  // Reordering state: array of order IDs
-  const [customQueueOrder, setCustomQueueOrder] = useState<string[]>([]);
-
-  // Delivery + Payment Settlement Modal
+  const today = useIstanbulToday();
+  const [selectedDate, setSelectedDate] = useState<string>(today);
+  const [manualRoute, setManualRoute] = useState<string[]>([]);
+  const [activeId, setActiveId] = useState<string | null>(null);
   const [settlementOrder, setSettlementOrder] = useState<AdminOrder | null>(null);
   const [settling, setSettling] = useState(false);
   const [settlementError, setSettlementError] = useState<string | null>(null);
 
-  // GPS Tracking State
-  const [gpsActive, setGpsActive] = useState(false);
-  const [gpsAccuracy, setGpsAccuracy] = useState<number | null>(null);
-  const [gpsError, setGpsError] = useState<string | null>(null);
-  const watchIdRef = useRef<number | null>(null);
-  const lastLocationUpdateRef = useRef<number>(0);
-  const supabase = useMemo(() => createClient(), []);
-  const locationChannelRef = useRef<ReturnType<NonNullable<typeof supabase>["channel"]> | null>(null);
+  useEffect(() => setManualRoute(readRoute(selectedDate)), [selectedDate]);
 
-  // Çevrimdışı kuyruk: bağlantı gelince hemen, sonra 30 sn'de bir dener (sunucu hatasında sıkı döngü yok)
+  // Çevrimdışı kuyruk: bağlantı gelince hemen, sonra 30 sn'de bir dener
   useEffect(() => {
     if (!isOnline || queueLength === 0) return;
     const run = () => {
@@ -68,265 +63,47 @@ export default function CourierMobileConsolePage() {
     return () => window.clearInterval(timer);
   }, [isOnline, queueLength, syncQueue, refetchOrders]);
 
-  // Set default courier on initial load
-  useEffect(() => {
-    if (couriers.length > 0 && selectedCourierId === "all") {
-      const activeOne = couriers.find((c) => c.isOnShift) || couriers[0];
-      if (activeOne) {
-        setSelectedCourierId(activeOne.id);
-      }
-    }
-  }, [couriers, selectedCourierId]);
+  const dayOrders = useMemo(
+    () => allOrders.filter((o) => o.deliveryDate === selectedDate && o.deliveryMethod === "courier" && o.status !== "iptal"),
+    [allOrders, selectedDate]
+  );
+  // Onaylanmamış ("bekliyor") sipariş rotaya girmez; sayısı uyarı olarak gösterilir
+  const unconfirmed = dayOrders.filter((o) => o.status === "bekliyor");
+  const delivered = dayOrders.filter((o) => o.status === "teslim_edildi");
+  const pending = useMemo(
+    () =>
+      sortStops(
+        dayOrders.filter((o) => o.status !== "bekliyor" && o.status !== "teslim_edildi"),
+        manualRoute
+      ),
+    [dayOrders, manualRoute]
+  );
 
-  // Load custom queue order from localStorage
-  useEffect(() => {
-    if (typeof window === "undefined") return;
-    try {
-      const key = `ekmeklab_courier_queue_${selectedDate}_${selectedCourierId}`;
-      const saved = localStorage.getItem(key);
-      if (saved) {
-        const parsed = JSON.parse(saved);
-        if (Array.isArray(parsed)) {
-          setCustomQueueOrder(parsed);
-        }
-      }
-    } catch {}
-  }, [selectedDate, selectedCourierId]);
+  const activeIndex = Math.max(0, pending.findIndex((o) => o.id === activeId));
+  const currentStop = pending[activeIndex] ?? null;
 
-  // Save custom queue order to localStorage
-  const saveQueueOrder = useCallback(
-    (orderIds: string[]) => {
-      setCustomQueueOrder(orderIds);
-      if (typeof window !== "undefined") {
-        try {
-          const key = `ekmeklab_courier_queue_${selectedDate}_${selectedCourierId}`;
-          localStorage.setItem(key, JSON.stringify(orderIds));
-        } catch {}
-      }
+  const handleMove = useCallback(
+    (orderId: string, direction: "up" | "down") => {
+      const next = moveStop(pending.map((o) => o.id), orderId, direction);
+      setManualRoute(next);
+      try {
+        localStorage.setItem(ROUTE_KEY(selectedDate), JSON.stringify(next));
+      } catch {}
     },
-    [selectedDate, selectedCourierId]
+    [pending, selectedDate]
   );
 
-  // Filter today's courier orders
-  const courierOrders = useMemo(() => {
-    return allOrders.filter((o) => {
-      const isDate = o.deliveryDate === selectedDate;
-      const isCourier = o.deliveryMethod === "courier";
-      const notCancelled = o.status !== "iptal";
-      const matchesCourier =
-        selectedCourierId === "all" ||
-        o.courierId === selectedCourierId ||
-        (!o.courierId && selectedCourierId === "unassigned");
-      return isDate && isCourier && notCancelled && matchesCourier;
-    });
-  }, [allOrders, selectedDate, selectedCourierId]);
-
-  // Pending vs Delivered
-  const deliveredOrders = useMemo(
-    () => courierOrders.filter((o) => o.status === "teslim_edildi"),
-    [courierOrders]
-  );
-
-  // Sorted pending orders respecting customQueueOrder
-  const pendingOrders = useMemo(() => {
-    const uncompleted = courierOrders.filter((o) => o.status !== "teslim_edildi");
-    if (customQueueOrder.length === 0) return uncompleted;
-
-    const map = new Map(uncompleted.map((o) => [o.id, o]));
-    const sorted: AdminOrder[] = [];
-
-    // Add in saved order
-    for (const id of customQueueOrder) {
-      const item = map.get(id);
-      if (item) {
-        sorted.push(item);
-        map.delete(id);
-      }
-    }
-    // Add any newly arrived orders not in saved order list
-    map.forEach((item) => sorted.push(item));
-    return sorted;
-  }, [courierOrders, customQueueOrder]);
-
-  // Move stop up or down in queue
-  const handleMoveStop = (orderId: string, direction: "up" | "down") => {
-    const currentList = pendingOrders.map((o) => o.id);
-    const index = currentList.indexOf(orderId);
-    if (index === -1) return;
-
-    const newIndex = direction === "up" ? index - 1 : index + 1;
-    if (newIndex < 0 || newIndex >= currentList.length) return;
-
-    const temp = currentList[index];
-    currentList[index] = currentList[newIndex];
-    currentList[newIndex] = temp;
-
-    saveQueueOrder(currentList);
-  };
-
-  // Financial totals for courier shift
-  const totalCashToCollect = useMemo(() => {
-    return courierOrders
-      .filter((o) => o.paymentMethod === "cash_on_delivery" && o.status !== "teslim_edildi")
-      .reduce((sum, o) => sum + o.totalAmount, 0);
-  }, [courierOrders]);
-
-  const totalPosToCollect = useMemo(() => {
-    return courierOrders
-      .filter((o) => o.paymentMethod === "pos_at_door" && o.status !== "teslim_edildi")
-      .reduce((sum, o) => sum + o.totalAmount, 0);
-  }, [courierOrders]);
-
-  const totalCashCollected = useMemo(() => {
-    return deliveredOrders
-      .filter((o) => o.paymentMethod === "cash_on_delivery")
-      .reduce((sum, o) => sum + o.totalAmount, 0);
-  }, [deliveredOrders]);
-
-  const totalPosCollected = useMemo(() => {
-    return deliveredOrders
-      .filter((o) => o.paymentMethod === "pos_at_door")
-      .reduce((sum, o) => sum + o.totalAmount, 0);
-  }, [deliveredOrders]);
-
-  // The Active Current Stop (First pending order or selected index)
-  const currentStop: AdminOrder | null = useMemo(() => {
-    if (pendingOrders.length === 0) return null;
-    if (activeOrderIndex >= pendingOrders.length) {
-      return pendingOrders[0] || null;
-    }
-    return pendingOrders[activeOrderIndex] || pendingOrders[0] || null;
-  }, [pendingOrders, activeOrderIndex]);
-
-  // Start / Stop Live GPS Tracking
-  const toggleGps = () => {
-    if (gpsActive) {
-      if (watchIdRef.current !== null) {
-        navigator.geolocation.clearWatch(watchIdRef.current);
-        watchIdRef.current = null;
-      }
-      if (locationChannelRef.current && supabase) {
-        supabase.removeChannel(locationChannelRef.current);
-        locationChannelRef.current = null;
-      }
-      setGpsActive(false);
-      setGpsAccuracy(null);
-    } else {
-      if (!("geolocation" in navigator)) {
-        setGpsError("Cihazınızda GPS / Konum desteği bulunamadı.");
-        return;
-      }
-
-      setGpsError(null);
-      const id = navigator.geolocation.watchPosition(
-        (pos) => {
-          const { latitude, longitude, accuracy, heading, speed } = pos.coords;
-          setGpsAccuracy(Math.round(accuracy));
-          setGpsActive(true);
-
-          try {
-            localStorage.setItem(
-              "ekmeklab_courier_gps",
-              JSON.stringify({
-                lat: latitude,
-                lon: longitude,
-                accuracy,
-                heading,
-                speed,
-                updatedAt: new Date().toISOString(),
-              })
-            );
-          } catch {}
-
-          const now = Date.now();
-          if (
-            selectedCourierId &&
-            selectedCourierId !== "all" &&
-            selectedCourierId !== "unassigned" &&
-            now - lastLocationUpdateRef.current > 10000
-          ) {
-            lastLocationUpdateRef.current = now;
-            updateCourierLocation(selectedCourierId, latitude, longitude).catch(() => {});
-          }
-
-          if (supabase && isSupabaseConfigured() && selectedCourierId && selectedCourierId !== "all") {
-            const channelName = `courier-location-${selectedCourierId}`;
-            if (!locationChannelRef.current || locationChannelRef.current.topic !== `realtime:${channelName}`) {
-              if (locationChannelRef.current) {
-                supabase.removeChannel(locationChannelRef.current);
-              }
-              const ch = supabase.channel(channelName);
-              ch.subscribe();
-              locationChannelRef.current = ch;
-            }
-
-            locationChannelRef.current.send({
-              type: "broadcast",
-              event: "courier_location",
-              payload: {
-                courierId: selectedCourierId,
-                lat: latitude,
-                lon: longitude,
-                accuracy,
-                heading,
-                speed,
-                timestamp: Date.now(),
-                updatedAt: new Date().toISOString(),
-              },
-            });
-          }
-        },
-        (err) => {
-          console.warn("GPS watch error:", err);
-          setGpsError("Konum izni verilmedi veya GPS sinyali zayıf.");
-          setGpsActive(false);
-        },
-        {
-          enableHighAccuracy: true,
-          maximumAge: 5000,
-          timeout: 15000,
-        }
-      );
-      watchIdRef.current = id;
-    }
-  };
-
-  useEffect(() => {
-    return () => {
-      if (watchIdRef.current !== null) {
-        navigator.geolocation.clearWatch(watchIdRef.current);
-      }
-      if (locationChannelRef.current && supabase) {
-        supabase.removeChannel(locationChannelRef.current);
-        locationChannelRef.current = null;
-      }
-    };
-  }, [supabase]);
-
-  const openSettlement = (order: AdminOrder) => {
-    setSettlementError(null);
-    setSettlementOrder(order);
-  };
-
-  const handleConfirmDeliveryWithPayment = async (payment: DeliveryPayment) => {
+  const handleDeliver = async (payment: DeliveryPayment) => {
     if (!settlementOrder) return;
     setSettling(true);
     setSettlementError(null);
-
-    if (soundAlert && typeof window !== "undefined" && "vibrate" in navigator) {
-      try {
-        navigator.vibrate([100, 50, 100]);
-      } catch {}
-    }
-
-    const note = `Kurye teslimi · ${DELIVERY_PAYMENT_LABELS[payment]}`;
+    const note = `Teslimat · ${DELIVERY_PAYMENT_LABELS[payment]}`;
     try {
-      // Teslim + ödeme + cari tek sunucu işleminde (tekrar güvenli). Bağlantı yoksa kuyruğa.
       const res = isOnline ? await deliverOrder(settlementOrder.id, payment, note) : { ok: false, retryable: true };
       if (res.ok || res.retryable) {
         if (!res.ok) enqueueDelivery(settlementOrder.id, payment, note);
         setSettlementOrder(null);
-        setActiveOrderIndex(0);
+        setActiveId(null);
         refetchOrders();
         return;
       }
@@ -336,205 +113,148 @@ export default function CourierMobileConsolePage() {
     }
   };
 
-  const toggleFullscreen = () => {
-    if (!document.fullscreenElement) {
-      document.documentElement.requestFullscreen().catch(() => {});
-      setIsFullscreen(true);
-    } else {
-      if (document.exitFullscreen) {
-        document.exitFullscreen().catch(() => {});
-        setIsFullscreen(false);
-      }
-    }
-  };
-
-  const handleShareShiftWhatsApp = () => {
-    const activeCourier = couriers.find((c) => c.id === selectedCourierId);
-    const courierName = activeCourier ? activeCourier.displayName : "Kurye Ekibi";
-
-    const text = `🍞 *EkmekLab Kurye Kasa Raporu*
-📅 Tarih: ${selectedDate}
-🛵 Kurye: ${courierName}
---------------------------
-📦 Toplam Paket: ${courierOrders.length}
-✅ Teslim Edilen: ${deliveredOrders.length}
-⏳ Kalan Paket: ${pendingOrders.length}
-
-💰 *Tahsilat Özeti:*
-💵 Toplanan Nakit: *${totalCashCollected.toLocaleString("tr-TR")} ₺*
-💳 Çekilen Mobil POS: *${totalPosCollected.toLocaleString("tr-TR")} ₺*
-📊 Genel Ciro: *${(totalCashCollected + totalPosCollected).toLocaleString("tr-TR")} ₺*
---------------------------
-Kasa devri için fırına teslim edilecek tutar: *${totalCashCollected.toLocaleString("tr-TR")} ₺*`;
-
-    const url = whatsappLink(text);
-    window.open(url, "_blank");
-  };
+  const toCollect = pending.reduce(
+    (sum, o) => (o.cariId || o.paymentMethod === "cari" || o.paymentStatus === "paid" ? sum : sum + o.totalAmount),
+    0
+  );
 
   return (
-    <div className="min-h-screen bg-[#120E0B] text-foreground font-sans pb-24 selection:bg-amber-500/20 selection:text-amber-400">
-      {/* 1. Header Toolbar */}
-      <CourierHeader
-        selectedDate={selectedDate}
-        onDateChange={setSelectedDate}
-        gpsActive={gpsActive}
-        gpsAccuracy={gpsAccuracy}
-        onToggleGps={toggleGps}
-        soundAlert={soundAlert}
-        onToggleSound={() => setSoundAlert(!soundAlert)}
-        isFullscreen={isFullscreen}
-        onToggleFullscreen={toggleFullscreen}
-        selectedCourierId={selectedCourierId}
-        onSelectCourier={setSelectedCourierId}
-        couriers={couriers}
-        isOnline={isOnline}
-        queueLength={queueLength}
-      />
-
-      {/* Courier Offline & Retry Queue Banner */}
-      <CourierOfflineBanner
-        isOnline={isOnline}
-        queueLength={queueLength}
-        isSyncing={isSyncing}
-        onManualSync={() => syncQueue().then(() => refetchOrders())}
-      />
-
-      {/* Çevrimdışı teslimlerden sunucunun reddettikleri (ör. sipariş bu arada iptal edilmiş) */}
-      {syncErrors.length > 0 && (
-        <div className="mx-4 mt-3 p-3 rounded-2xl bg-rose-950/60 border border-rose-500/40 text-rose-200 text-xs space-y-1">
-          <div className="font-bold">Bazı çevrimdışı teslimler kaydedilemedi — fırını arayın:</div>
-          {syncErrors.map((e) => (
-            <div key={e} className="font-mono">{e}</div>
-          ))}
-          <button onClick={clearSyncErrors} className="mt-1 underline text-rose-300">
-            Anladım
-          </button>
-        </div>
-      )}
-
-      {/* GPS Error Alert */}
-      {gpsError && (
-        <div className="max-w-xl mx-auto px-4 mt-3">
-          <div className="p-3 rounded-xl bg-red-950/70 border border-red-500/40 text-red-300 text-xs flex items-center gap-2">
-            <AlertCircle className="w-4 h-4 text-red-400 shrink-0" />
-            <span>{gpsError}</span>
-          </div>
-        </div>
-      )}
-
-      {/* 2. Shift Financial & Order Count Ribbon */}
-      <CourierShiftRibbon
-        deliveredCount={deliveredOrders.length}
-        totalCount={courierOrders.length}
-        pendingCount={pendingOrders.length}
-        totalCashToCollect={totalCashToCollect}
-        totalCashCollected={totalCashCollected}
-        totalPosToCollect={totalPosToCollect}
-        totalPosCollected={totalPosCollected}
-      />
-
-      {/* 3. Main Content Area */}
-      <main className="max-w-xl mx-auto px-4 mt-4 space-y-5">
-        {loading ? (
-          <div className="p-16 text-center text-stone-400 space-y-3">
-            <div className="w-8 h-8 border-2 border-amber-500 border-t-transparent rounded-full animate-spin mx-auto" />
-            <p className="text-xs">Teslimat rotası yükleniyor...</p>
-          </div>
-        ) : courierOrders.length === 0 ? (
-          <div className="p-10 text-center bg-stone-900 border border-stone-800 rounded-3xl space-y-3">
-            <Truck className="w-12 h-12 text-stone-600 mx-auto" />
-            <h2 className="text-base font-bold text-stone-100 font-serif">
-              Bugün İçin Teslimat Siparişi Yok
-            </h2>
-            <p className="text-xs text-stone-400 max-w-xs mx-auto">
-              Seçilen kurye ve {selectedDate} tarihine atanmış aktif sipariş bulunmuyor.
-            </p>
-            <div className="flex items-center justify-center gap-2 pt-2">
-              <button
-                type="button"
-                onClick={() => setSelectedCourierId("all")}
-                className="px-4 py-2 bg-stone-800 hover:bg-stone-700 text-stone-200 font-medium rounded-xl text-xs"
-              >
-                Tüm Kuryelere Bak
-              </button>
-              <Link
-                href="/admin/siparisler"
-                className="inline-flex items-center gap-1.5 px-4 py-2 bg-amber-500 text-stone-950 font-bold rounded-xl text-xs shadow-md"
-              >
-                <span>Siparişlere Git</span>
-              </Link>
-            </div>
-          </div>
-        ) : currentStop ? (
-          /* Active Hero Delivery Card */
-          <CourierActiveStopCard
-            currentStop={currentStop}
-            stopIndex={pendingOrders.indexOf(currentStop)}
-            totalStops={pendingOrders.length}
-            onOpenSettlement={openSettlement}
-          />
-        ) : (
-          /* All deliveries completed */
-          <div className="p-8 text-center bg-gradient-to-b from-stone-900 to-emerald-950/40 border border-emerald-500/40 rounded-3xl space-y-4 shadow-xl">
-            <div className="w-16 h-16 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center mx-auto border border-emerald-500/40">
-              <CheckCircle2 className="w-8 h-8" />
-            </div>
-            <div className="space-y-1">
-              <h2 className="text-xl font-bold font-serif text-stone-100">
-                Tebrikler! Tüm Teslimatlar Tamamlandı
-              </h2>
-              <p className="text-xs text-stone-400 max-w-sm mx-auto">
-                Bugünkü {courierOrders.length} sipariş başarıyla müşterilere ulaştırıldı.
-              </p>
-            </div>
-
-            <div className="p-4 rounded-2xl bg-stone-950 border border-stone-800 grid grid-cols-2 gap-3 text-center">
-              <div>
-                <div className="text-[10px] uppercase text-stone-400 font-bold">Toplanan Nakit</div>
-                <div className="text-lg font-bold font-mono text-amber-400">{totalCashCollected} ₺</div>
-              </div>
-              <div>
-                <div className="text-[10px] uppercase text-stone-400 font-bold">Çekilen Mobil POS</div>
-                <div className="text-lg font-bold font-mono text-blue-400">{totalPosCollected} ₺</div>
-              </div>
-            </div>
-
+    <>
+      <div className="min-h-screen bg-[#120E0B] text-stone-200 pb-28 print:hidden">
+        {/* Başlık + tarih */}
+        <header className="sticky top-0 z-30 bg-[#120E0B]/95 backdrop-blur border-b border-[#261E17] px-4 py-3 space-y-3">
+          <div className="flex items-center justify-between gap-3">
+            <h1 className="font-serif text-xl font-bold text-stone-100 flex items-center gap-2">
+              <Truck className="w-5 h-5 text-amber-400" /> Teslimat
+            </h1>
             <button
               type="button"
-              onClick={handleShareShiftWhatsApp}
-              className="w-full py-3.5 px-4 rounded-2xl bg-emerald-600 hover:bg-emerald-500 text-stone-950 font-bold text-xs flex items-center justify-center gap-2 shadow-lg shadow-emerald-600/20"
+              onClick={() => window.print()}
+              disabled={pending.length + delivered.length === 0}
+              className="flex items-center gap-1.5 px-3 py-2 rounded-xl bg-stone-800 hover:bg-stone-700 text-stone-200 text-xs font-bold border border-stone-700 disabled:opacity-40"
             >
-              <MessageCircle className="w-4 h-4" />
-              <span>Tahsin Usta'ya Gün Sonu Kasa Raporunu Gönder</span>
+              <Printer className="w-4 h-4 text-amber-400" /> Etiket yazdır
             </button>
           </div>
-        )}
+          <div className="flex items-center gap-2">
+            {[
+              { label: "Bugün", value: today },
+              { label: "Yarın", value: addDays(today, 1) },
+            ].map((d) => (
+              <button
+                key={d.value}
+                type="button"
+                onClick={() => setSelectedDate(d.value)}
+                className={`px-3.5 py-2 rounded-xl text-xs font-bold border ${
+                  selectedDate === d.value
+                    ? "bg-amber-500 text-stone-950 border-amber-500"
+                    : "bg-stone-900 text-stone-300 border-stone-800"
+                }`}
+              >
+                {d.label}
+              </button>
+            ))}
+            <label className="flex items-center gap-1.5 px-3 py-2 rounded-xl bg-stone-900 border border-stone-800 text-xs text-stone-300 min-w-0">
+              <CalendarDays className="w-4 h-4 text-stone-500 shrink-0" />
+              <input
+                type="date"
+                value={selectedDate}
+                onChange={(e) => e.target.value && setSelectedDate(e.target.value)}
+                className="bg-transparent focus:outline-none min-w-0"
+              />
+            </label>
+          </div>
+          <div className="flex items-center justify-between text-[11px] text-stone-400">
+            <span>{formatTrDate(selectedDate, "long")}</span>
+            <span>
+              {pending.length} bekleyen · {delivered.length} teslim
+              {toCollect > 0 && <> · tahsil edilecek <strong className="text-amber-300">{toCollect.toLocaleString("tr-TR")} ₺</strong></>}
+            </span>
+          </div>
+        </header>
 
-        {/* 4. Queue of Stops */}
-        <CourierQueueList
-          pendingOrders={pendingOrders}
-          deliveredOrders={deliveredOrders}
-          currentStopId={currentStop?.id}
-          onSelectStop={setActiveOrderIndex}
-          onMoveStop={handleMoveStop}
-          onOpenSettlement={openSettlement}
-          onShareShiftWhatsApp={handleShareShiftWhatsApp}
-          courierOrdersCount={courierOrders.length}
+        <CourierOfflineBanner
+          isOnline={isOnline}
+          queueLength={queueLength}
+          isSyncing={isSyncing}
+          onManualSync={() => syncQueue().then(() => refetchOrders())}
         />
-      </main>
 
-      {/* 5. Settlement / Payment Modal */}
-      <CourierPaymentModal
-        order={settlementOrder}
-        isOpen={Boolean(settlementOrder)}
-        onClose={() => setSettlementOrder(null)}
-        onConfirmDelivery={handleConfirmDeliveryWithPayment}
-        isSubmitting={settling}
-        error={settlementError}
-      />
+        <main className="px-4 pt-4 space-y-5 max-w-2xl mx-auto">
+          {syncErrors.length > 0 && (
+            <div className="p-3 rounded-2xl bg-rose-950/60 border border-rose-500/40 text-rose-200 text-xs space-y-1">
+              <div className="font-bold">Bazı çevrimdışı teslimler kaydedilemedi:</div>
+              {syncErrors.map((e) => (
+                <div key={e} className="font-mono">{e}</div>
+              ))}
+              <button onClick={clearSyncErrors} className="mt-1 underline text-rose-300">
+                Anladım
+              </button>
+            </div>
+          )}
 
-      {/* Admin navigation bar so users don't get trapped */}
-      <MobileBottomNav onOpenSidebar={() => {}} pendingOrderCount={0} />
-    </div>
+          {unconfirmed.length > 0 && (
+            <Link
+              href="/admin/siparisler"
+              className="flex items-center gap-2 p-3 rounded-2xl bg-amber-500/10 border border-amber-500/30 text-amber-300 text-xs font-medium"
+            >
+              <AlertTriangle className="w-4 h-4 shrink-0" />
+              <span>
+                Bu gün için <strong>{unconfirmed.length}</strong> onaylanmamış sipariş var; onaylanınca rotaya girer.
+              </span>
+            </Link>
+          )}
+
+          {loading ? (
+            <div className="py-16 text-center text-stone-500 text-sm">Yükleniyor…</div>
+          ) : currentStop ? (
+            <CourierActiveStopCard
+              currentStop={currentStop}
+              stopIndex={activeIndex}
+              totalStops={pending.length}
+              onOpenSettlement={(o) => {
+                setSettlementError(null);
+                setSettlementOrder(o);
+              }}
+            />
+          ) : (
+            <div className="py-12 text-center space-y-2">
+              <CheckCircle2 className="w-10 h-10 text-emerald-500 mx-auto" />
+              <p className="text-sm text-stone-300 font-serif">
+                {delivered.length > 0 ? "Bu günün teslimatları tamam." : "Bu gün için teslimat yok."}
+              </p>
+            </div>
+          )}
+
+          {(pending.length > 0 || delivered.length > 0) && (
+            <CourierQueueList
+              pendingOrders={pending}
+              deliveredOrders={delivered}
+              currentStopId={currentStop?.id}
+              onSelectStop={(i) => setActiveId(pending[i]?.id ?? null)}
+              onMoveStop={handleMove}
+              onOpenSettlement={(o) => {
+                setSettlementError(null);
+                setSettlementOrder(o);
+              }}
+              totalCount={pending.length + delivered.length}
+            />
+          )}
+        </main>
+
+        <CourierPaymentModal
+          order={settlementOrder}
+          isOpen={Boolean(settlementOrder)}
+          onClose={() => setSettlementOrder(null)}
+          onConfirmDelivery={handleDeliver}
+          isSubmitting={settling}
+          error={settlementError}
+        />
+
+        <MobileBottomNav onOpenSidebar={() => router.push("/admin")} pendingOrderCount={unconfirmed.length} />
+      </div>
+
+      <DeliveryLabels orders={[...pending, ...delivered]} date={selectedDate} />
+    </>
   );
 }

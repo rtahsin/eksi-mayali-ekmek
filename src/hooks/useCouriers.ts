@@ -170,39 +170,6 @@ export function useCouriers() {
     return updateCourier(id, { isOnShift });
   };
 
-  // Kurye konumunu güncelle
-  const updateCourierLocation = async (id: string, lat: number, lng: number) => {
-    try {
-      if (!supabase) return { success: false, error: "Supabase bağlantısı yok" };
-      const nowIso = new Date().toISOString();
-
-      const { error: updErr } = await supabase
-        .from("couriers")
-        .update({
-          current_lat: lat,
-          current_lng: lng,
-          location_updated_at: nowIso,
-          updated_at: nowIso,
-        })
-        .eq("id", id);
-
-      if (updErr) throw updErr;
-
-      setCouriers((prev) =>
-        prev.map((c) =>
-          c.id === id
-            ? { ...c, currentLat: lat, currentLng: lng, locationUpdatedAt: nowIso }
-            : c
-        )
-      );
-
-      return { success: true };
-    } catch (err: unknown) {
-      console.error("Update courier location error:", err);
-      return { success: false, error: getErrorMessage(err) };
-    }
-  };
-
   // Aktif ve vardiyadaki kuryeler
   const activeCouriers = useMemo(() => {
     return couriers.filter((c) => c.isActive && c.isOnShift);
@@ -216,7 +183,6 @@ export function useCouriers() {
     createCourier,
     updateCourier,
     toggleCourierShift,
-    updateCourierLocation,
     refetch: fetchCouriers,
   };
 }
