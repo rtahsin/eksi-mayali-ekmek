@@ -37,18 +37,15 @@ JOIN pg_namespace n ON n.oid = c.relnamespace
 WHERE n.nspname = 'public' AND c.relkind = 'r' AND NOT c.relrowsecurity
 ORDER BY 1;
 
--- V4) profiles tablo ve sütun yetkileri: anon/authenticated için tablo düzeyinde
---     INSERT/UPDATE/DELETE olmamalı; authenticated sadece full_name, phone,
---     avatar_url, updated_at sütunlarını UPDATE edebilmeli.
-SELECT 'table' AS level, grantee, privilege_type, NULL AS column_name
-FROM information_schema.role_table_grants
-WHERE table_schema = 'public' AND table_name = 'profiles' AND grantee IN ('anon', 'authenticated')
-UNION ALL
-SELECT 'column', grantee, privilege_type, column_name
-FROM information_schema.column_privileges
-WHERE table_schema = 'public' AND table_name = 'profiles' AND grantee IN ('anon', 'authenticated')
-  AND privilege_type IN ('INSERT', 'UPDATE')
-ORDER BY 1, 2, 3, 4;
+-- V4) profiles yetkileri (has_*_privilege; information_schema yetkisiz kullanıcıya gizler):
+--     tbl_update/tbl_insert/role_col_update FALSE olmalı; authenticated için name_col_update TRUE.
+SELECT r AS role,
+       has_table_privilege(r, 'public.profiles', 'UPDATE') AS tbl_update,
+       has_table_privilege(r, 'public.profiles', 'INSERT') AS tbl_insert,
+       has_table_privilege(r, 'public.profiles', 'DELETE') AS tbl_delete,
+       has_column_privilege(r, 'public.profiles', 'role', 'UPDATE') AS role_col_update,
+       has_column_privilege(r, 'public.profiles', 'full_name', 'UPDATE') AS name_col_update
+FROM unnest(ARRAY['anon', 'authenticated']) AS r;
 
 -- V5) Kullanıcılar, rolleri ve giriş sağlayıcıları. Tahsin superadmin olmalı.
 --     Değilse yayından ÖNCE (ayrı çalıştırın):
