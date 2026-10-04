@@ -188,7 +188,7 @@ export function AdminSidebar({ isOpen, onClose, pendingOrderCount = 0 }: AdminSi
         <div className="p-3.5 border-t border-[#261E17] space-y-2 bg-[#120E0B]">
           <div className="flex items-center gap-2 px-2.5 py-1.5 rounded-lg bg-[#1A1410] border border-[#2A201A] text-[10px] text-emerald-400">
             <ShieldCheck className="w-3.5 h-3.5 shrink-0" />
-            <span className="truncate">Cihaz Yetkilendirildi (PC/Mobil)</span>
+            <span className="truncate">Google ile doğrulandı</span>
           </div>
 
           <a

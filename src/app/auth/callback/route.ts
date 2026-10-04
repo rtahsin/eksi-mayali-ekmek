@@ -7,8 +7,8 @@ export async function GET(request: Request) {
   const code = searchParams.get("code");
   let next = searchParams.get("next") ?? "/";
 
-  // Prevent open redirect vulnerabilities
-  if (!next.startsWith("/")) {
+  // Prevent open redirect vulnerabilities ("//evil.com" is protocol-relative)
+  if (!next.startsWith("/") || next.startsWith("//") || next.startsWith("/\\")) {
     next = "/";
   }
 
@@ -34,23 +34,22 @@ export async function GET(request: Request) {
           user.user_metadata?.avatar_url ||
           user.user_metadata?.picture ||
           "";
-        const isSuper =
-          email === "tahsinreyhan@gmail.com" || email === "ekmeklab@gmail.com";
 
-        // Ensure user profile exists in public.profiles table
+        // Ensure user profile exists in public.profiles table.
+        // Rol ASLA buradan yazılmaz: yeni profil veritabanı varsayılanını (customer) alır,
+        // mevcut profil hiç değiştirilmez (ignoreDuplicates).
         const adminClient = createAdminClient();
         if (adminClient) {
           try {
-            await (adminClient as any).from("profiles").upsert(
+            await adminClient.from("profiles").upsert(
               {
                 id: user.id,
                 email: email,
                 full_name: fullName,
                 avatar_url: avatarUrl,
-                role: isSuper ? "superadmin" : "customer",
                 updated_at: new Date().toISOString(),
               },
-              { onConflict: "id" }
+              { onConflict: "id", ignoreDuplicates: true }
             );
           } catch (e) {
             console.warn("OAuth profile sync notice:", e);

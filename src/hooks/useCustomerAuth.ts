@@ -31,7 +31,6 @@ export function useCustomerAuth() {
   const [addresses, setAddresses] = useState<SavedAddress[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [isAuthModalOpen, setIsAuthModalOpen] = useState<boolean>(false);
-  const [authView, setAuthView] = useState<"login" | "register" | "forgot">("login");
 
   const supabase = createClient();
 
@@ -186,7 +185,7 @@ export function useCustomerAuth() {
           return {
             success: false,
             error:
-              "Supabase panelinde Google ile giriş henüz aktif edilmemiş. Lütfen e-posta & şifre ile giriş yapın veya Supabase Dashboard > Authentication > Providers > Google anahtarını açın.",
+              "Google ile giriş şu an kullanılamıyor. Lütfen daha sonra tekrar deneyin veya misafir olarak sipariş verin.",
           };
         }
         return { success: false, error: getErrorMessage(error) };
@@ -198,73 +197,47 @@ export function useCustomerAuth() {
     }
   };
 
-  const signInWithEmail = async (email: string, pass: string) => {
-    if (!supabase) return { error: { message: "Supabase henüz yapılandırılmamış." } };
-
+  /**
+   * Şifresiz giriş 1. adım: e-postaya 6 haneli kod gönderir. Hesap yoksa ilk girişte açılır.
+   * (Supabase Auth'ta özel SMTP ve kod içeren "Magic Link" e-posta şablonu gerekir.)
+   */
+  const sendEmailCode = async (email: string): Promise<{ success: boolean; error?: string }> => {
+    if (!supabase) return { success: false, error: "Giriş sistemi şu an yapılandırılmamış." };
     const cleanEmail = email.trim().toLowerCase();
-    const { data, error } = await supabase.auth.signInWithPassword({
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(cleanEmail)) {
+      return { success: false, error: "Geçerli bir e-posta adresi girin." };
+    }
+    const { error } = await supabase.auth.signInWithOtp({
       email: cleanEmail,
-      password: pass,
+      options: { shouldCreateUser: true },
     });
-
-    if (!error && data?.user) {
-      setUser(data.user);
-      await fetchProfileAndAddresses(data.user.id, cleanEmail);
+    if (error) {
+      const msg = getErrorMessage(error);
+      if (/rate limit|too many|seconds/i.test(msg)) {
+        return { success: false, error: "Çok sık kod istendi. Lütfen bir dakika sonra tekrar deneyin." };
+      }
+      return { success: false, error: "Kod gönderilemedi. Lütfen adresi kontrol edip tekrar deneyin." };
     }
-
-    return { data, error };
+    return { success: true };
   };
 
-  const signUpWithEmail = async (
+  /** Şifresiz giriş 2. adım: e-postadaki kodu doğrular ve oturumu açar. */
+  const verifyEmailCode = async (
     email: string,
-    pass: string,
-    fullName: string,
-    phone: string
-  ) => {
-    try {
-      // Call server endpoint to create user with auto-confirmation
-      const res = await fetch("/api/auth/register", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          email: email.trim().toLowerCase(),
-          password: pass,
-          fullName: fullName.trim(),
-          phone: phone.trim(),
-        }),
-      });
-
-      const json = await res.json();
-      if (!res.ok || !json.success) {
-        return { error: { message: json.error || "Kayıt başarısız oldu." } };
-      }
-
-      // Automatically sign in the user
-      if (supabase) {
-        const loginRes = await supabase.auth.signInWithPassword({
-          email: email.trim().toLowerCase(),
-          password: pass,
-        });
-        if (loginRes.data?.user) {
-          setUser(loginRes.data.user);
-          await fetchProfileAndAddresses(loginRes.data.user.id, email.trim().toLowerCase());
-        }
-        return loginRes;
-      }
-
-      return { data: json, error: null };
-    } catch (err: unknown) {
-      return { error: { message: getErrorMessage(err) || "Kayıt sırasında bağlantı hatası oluştu." } };
-    }
-  };
-
-  const resetPassword = async (email: string) => {
-    if (!supabase) return { error: { message: "Supabase henüz yapılandırılmamış." } };
-    const origin = typeof window !== "undefined" ? window.location.origin : "";
-    const { error } = await supabase.auth.resetPasswordForEmail(email.trim().toLowerCase(), {
-      redirectTo: `${origin}/auth/reset-password`,
+    code: string
+  ): Promise<{ success: boolean; error?: string }> => {
+    if (!supabase) return { success: false, error: "Giriş sistemi şu an yapılandırılmamış." };
+    const token = code.replace(/\D/g, "");
+    if (token.length < 6) return { success: false, error: "E-postadaki kodun tamamını girin." };
+    const { data, error } = await supabase.auth.verifyOtp({
+      email: email.trim().toLowerCase(),
+      token,
+      type: "email",
     });
-    return { error };
+    if (error || !data.user) {
+      return { success: false, error: "Kod hatalı veya süresi dolmuş. Yeni kod isteyebilirsiniz." };
+    }
+    return { success: true };
   };
 
   const signOut = async () => {
@@ -313,16 +286,11 @@ export function useCustomerAuth() {
     isLoggedIn: Boolean(user),
     isConfigured: isSupabaseConfigured(),
     isAuthModalOpen,
-    authView,
-    openAuthModal: (view: "login" | "register" | "forgot" = "login") => {
-      setAuthView(view);
-      setIsAuthModalOpen(true);
-    },
+    openAuthModal: () => setIsAuthModalOpen(true),
     closeAuthModal: () => setIsAuthModalOpen(false),
     signInWithGoogle,
-    signInWithEmail,
-    signUpWithEmail,
-    resetPassword,
+    sendEmailCode,
+    verifyEmailCode,
     signOut,
     saveAddress,
     refreshUser: () => {

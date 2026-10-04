@@ -5,7 +5,6 @@ import { AdminAuthGate } from "@/components/admin/AdminAuthGate";
 import { AdminSidebar } from "@/components/admin/AdminSidebar";
 import { AdminHeader } from "@/components/admin/AdminHeader";
 import { MobileBottomNav } from "@/components/admin/MobileBottomNav";
-import { QuickPinLock } from "@/components/admin/QuickPinLock";
 import { PwaInstallPrompt } from "@/components/admin/PwaInstallPrompt";
 import { useBakeryAudio } from "@/hooks/useBakeryAudio";
 import { createClient, isSupabaseConfigured } from "@/lib/supabase/client";
@@ -14,7 +13,6 @@ import { usePathname } from "next/navigation";
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [pendingCount, setPendingCount] = useState(0);
-  const [isLocked, setIsLocked] = useState(false);
   const pathname = usePathname();
 
   const { soundEnabled, toggleSound, playOrderChime } = useBakeryAudio();
@@ -75,9 +73,6 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   return (
     <AdminAuthGate>
       <div className="min-h-screen bg-[#120E0B] text-foreground font-sans flex flex-col selection:bg-artisan-terracotta/30 selection:text-artisan-gold">
-        {/* Quick PIN Lock Screen */}
-        <QuickPinLock isLocked={isLocked} onUnlock={() => setIsLocked(false)} />
-
         {/* Sidebar */}
         <AdminSidebar
           isOpen={sidebarOpen}
@@ -92,7 +87,6 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             pendingOrderCount={pendingCount}
             soundEnabled={soundEnabled}
             onToggleSound={toggleSound}
-            onLockScreen={() => setIsLocked(true)}
           />
 
           <main className="flex-1 p-4 sm:p-6 lg:p-8 max-w-7xl w-full mx-auto">

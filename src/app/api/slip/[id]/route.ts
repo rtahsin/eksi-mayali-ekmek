@@ -1,5 +1,7 @@
 import { NextResponse } from "next/server";
 import { createAdminClient } from "@/lib/supabase/admin";
+import { verifyApiAuth } from "@/lib/security/apiAuth";
+import { checkRateLimit } from "@/lib/security/rateLimiter";
 
 interface ParsedSlipItem {
   name: string;
@@ -16,8 +18,19 @@ export async function GET(
 ) {
   try {
     const { id } = await params;
-    if (!id) {
+    if (!id || id.length > 64) {
       return NextResponse.json({ success: false, error: "Eksik ID" }, { status: 400 });
+    }
+
+    // IP Rate Limiting (30 requests per minute) — fiş ID tahminini yavaşlatır
+    const forwardedFor = req.headers.get("x-forwarded-for");
+    const clientIp = forwardedFor ? forwardedFor.split(",")[0].trim() : req.headers.get("x-real-ip") || "127.0.0.1";
+    const ipLimit = await checkRateLimit(`slip_get_${clientIp}`, 30, 60000);
+    if (!ipLimit.allowed) {
+      return NextResponse.json(
+        { success: false, error: `Çok fazla istek. Lütfen ${ipLimit.retryAfterSeconds} saniye sonra tekrar deneyin.` },
+        { status: 429 }
+      );
     }
 
     const supabase = createAdminClient();
@@ -76,6 +89,15 @@ export async function GET(
       .maybeSingle();
 
     if (orderData) {
+      // Sipariş fişleri müşteri kişisel verisi içerir: sadece admin görebilir
+      const auth = await verifyApiAuth(req);
+      if (!auth.isAdmin) {
+        return NextResponse.json(
+          { success: false, error: "Bu fişi görüntüleme yetkiniz yok" },
+          { status: auth.isAuthenticated ? 403 : 401 }
+        );
+      }
+
       let prevBal = 0;
       let newBal = 0;
       let taxNo = "";

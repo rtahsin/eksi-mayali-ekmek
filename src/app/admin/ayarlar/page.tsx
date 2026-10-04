@@ -3,41 +3,22 @@
 import React, { useState, useEffect, useCallback } from "react";
 import {
   ShieldCheck,
-  Smartphone,
-  Laptop,
   CheckCircle2,
-  XCircle,
-  AlertTriangle,
-  Plus,
-  RefreshCw,
   Clock,
   Truck,
   Save,
-  Info,
   MapPin,
-  Lock,
   Volume2,
-  Bell,
-  Trash2,
   Power,
   Megaphone,
 } from "lucide-react";
-import { useTrustedDevice } from "@/hooks/useTrustedDevice";
 import { useAdminAuth } from "@/hooks/useAdminAuth";
-import { TrustedDevice, BEYLIKDUZU_NEIGHBORHOODS } from "@/types/admin";
+import { BEYLIKDUZU_NEIGHBORHOODS } from "@/types/admin";
 import { createClient } from "@/lib/supabase/client";
 import { getErrorMessage } from "@/lib/utils/error";
 
 export default function AdminSettingsPage() {
-  const { deviceId: currentDeviceId, approveDevice: localApprove } = useTrustedDevice();
   const { adminUser } = useAdminAuth();
-
-  // Devices state
-  const [devices, setDevices] = useState<TrustedDevice[]>([]);
-  const [loadingDevices, setLoadingDevices] = useState(true);
-  const [manualCode, setManualCode] = useState("");
-  const [manualDeviceName, setManualDeviceName] = useState("");
-  const [manualSubmitting, setManualSubmitting] = useState(false);
 
   // Operational Settings state
   const [freeShippingThreshold, setFreeShippingThreshold] = useState<number>(1000);
@@ -48,20 +29,13 @@ export default function AdminSettingsPage() {
   const [orderAcceptanceOpen, setOrderAcceptanceOpen] = useState<boolean>(true);
   const [announcementText, setAnnouncementText] = useState<string>("");
 
-  // Security / PIN state
-  const [quickPin, setQuickPin] = useState<string>("1453");
-  const [showPin, setShowPin] = useState<boolean>(false);
-  const [savingPin, setSavingPin] = useState<boolean>(false);
-  const [pinSavedSuccess, setPinSavedSuccess] = useState<boolean>(false);
-
   const [savingSettings, setSavingSettings] = useState(false);
   const [settingsSavedSuccess, setSettingsSavedSuccess] = useState(false);
   const [audioTesting, setAudioTesting] = useState(false);
 
-  // Fetch settings & devices from Supabase API
+  // Fetch operational settings from the admin API
   const loadSettings = useCallback(async () => {
     try {
-      setLoadingDevices(true);
       const res = await fetch("/api/admin/settings");
       if (res.ok) {
         const data = await res.json();
@@ -88,20 +62,9 @@ export default function AdminSettingsPage() {
             setAnnouncementText(data.operational.announcementText);
           }
         }
-        if (data.security?.quickPin) {
-          setQuickPin(String(data.security.quickPin));
-          if (typeof window !== "undefined") {
-            localStorage.setItem("ekmeklab_admin_pin", String(data.security.quickPin));
-          }
-        }
-        if (Array.isArray(data.devices)) {
-          setDevices(data.devices);
-        }
       }
     } catch (err) {
       console.error("Load settings error:", err);
-    } finally {
-      setLoadingDevices(false);
     }
   }, []);
 
@@ -169,125 +132,6 @@ export default function AdminSettingsPage() {
     }
   };
 
-  // Manually authorize a device
-  const handleManualAuthorize = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!manualCode.trim()) return;
-
-    setManualSubmitting(true);
-    try {
-      const res = await fetch("/api/admin/settings", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          action: "authorize_device",
-          deviceId: manualCode.trim(),
-          deviceName: manualDeviceName.trim() || "Mobil Cihaz",
-          approvedBy: adminUser?.email || "Superadmin",
-        }),
-      });
-
-      if (!res.ok) {
-        const d = await res.json();
-        throw new Error(d.error || "Yetkilendirilemedi");
-      }
-
-      localApprove(manualCode.trim());
-      setManualCode("");
-      setManualDeviceName("");
-      loadSettings();
-    } catch (err: unknown) {
-      alert("Hata: " + getErrorMessage(err));
-    } finally {
-      setManualSubmitting(false);
-    }
-  };
-
-  const handleApproveDevice = async (id: string) => {
-    try {
-      await fetch("/api/admin/settings", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          action: "authorize_device",
-          deviceId: id,
-          approvedBy: adminUser?.email || "Superadmin",
-        }),
-      });
-      localApprove(id);
-      loadSettings();
-    } catch (err) {
-      console.error(err);
-    }
-  };
-
-  const handleRevokeDevice = async (id: string) => {
-    try {
-      await fetch("/api/admin/settings", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          action: "revoke_device",
-          deviceId: id,
-        }),
-      });
-      loadSettings();
-    } catch (err) {
-      console.error(err);
-    }
-  };
-
-  const handleDeleteDevice = async (id: string) => {
-    if (!confirm("Bu cihaz kaydını silmek istediğinize emin misiniz?")) return;
-    try {
-      await fetch("/api/admin/settings", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          action: "delete_device",
-          deviceId: id,
-        }),
-      });
-      loadSettings();
-    } catch (err) {
-      console.error(err);
-    }
-  };
-
-  const handleSavePin = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!quickPin || quickPin.trim().length !== 4) {
-      alert("PIN kodu tam olarak 4 haneli olmalıdır.");
-      return;
-    }
-    setSavingPin(true);
-    setPinSavedSuccess(false);
-    try {
-      const res = await fetch("/api/admin/settings", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          action: "save_security",
-          value: { quickPin: quickPin.trim() },
-        }),
-      });
-      if (res.ok) {
-        if (typeof window !== "undefined") {
-          localStorage.setItem("ekmeklab_admin_pin", quickPin.trim());
-        }
-        setPinSavedSuccess(true);
-        setTimeout(() => setPinSavedSuccess(false), 3000);
-      } else {
-        alert("PIN güncellenemedi.");
-      }
-    } catch (err) {
-      console.error(err);
-      alert("PIN güncellenirken hata oluştu.");
-    } finally {
-      setSavingPin(false);
-    }
-  };
-
   // Test Chime Sound
   const playTestChime = () => {
     try {
@@ -323,10 +167,10 @@ export default function AdminSettingsPage() {
             <span>Fırın Operasyon & Sistem Konfigürasyonu</span>
           </div>
           <h1 className="text-2xl font-bold text-stone-100 font-serif">
-            Fırın Ayarları & Güvenli Cihazlar
+            Fırın Ayarları
           </h1>
           <p className="text-stone-400 text-xs mt-1">
-            Yetkili cihazları yönetin, Beylikdüzü kurye ücreti, sipariş kabul durumunu ve bildirimleri yapılandırın.
+            Beylikdüzü kurye ücreti, sipariş kabul durumunu ve bildirimleri yapılandırın.
           </p>
         </div>
 
@@ -520,224 +364,6 @@ export default function AdminSettingsPage() {
         </form>
       </div>
 
-      {/* SECTION 2: Yetkili Cihazlar (Trusted Devices Whitelist) */}
-      <div className="bg-stone-900/70 border border-stone-800 rounded-2xl p-6 shadow-xl space-y-6">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-stone-800">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-amber-500/10 flex items-center justify-center text-amber-500">
-              <Lock className="w-5 h-5" />
-            </div>
-            <div>
-              <h2 className="text-lg font-bold text-stone-100 font-serif">
-                Yetkili Cihaz Listesi (Güvenli Cihazlar)
-              </h2>
-              <p className="text-xs text-stone-400">
-                Tahsin Usta (tahsinreyhan@gmail.com) yetkisiyle tüm telefon ve bilgisayarlarınızı onaylayabilirsiniz.
-              </p>
-            </div>
-          </div>
-
-          <button
-            onClick={loadSettings}
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-stone-800 hover:bg-stone-700 text-stone-300 text-xs font-medium self-start sm:self-auto"
-          >
-            <RefreshCw className="w-3.5 h-3.5" />
-            <span>Yenile</span>
-          </button>
-        </div>
-
-        {/* Informative Banner */}
-        <div className="p-4 rounded-xl bg-amber-500/5 border border-amber-500/20 text-xs text-stone-300 flex items-start gap-3">
-          <Info className="w-4 h-4 text-amber-400 shrink-0 mt-0.5" />
-          <div className="space-y-1">
-            <p className="font-semibold text-amber-300">Telefonunuzu Nasıl Yetkilendirirsiniz?</p>
-            <p className="text-stone-400 leading-relaxed">
-              Tahsin Usta olarak giriş yaptığınızda telefonunuz doğrudan yetkilendirilir. Diğer cihazlarınız için ekranda beliren <strong>Cihaz Kodu</strong>&apos;nu aşağıdaki forma yazarak veya listeden <strong>&apos;Onayla&apos;</strong> butonuna basarak kalıcı erişim izni verebilirsiniz.
-            </p>
-          </div>
-        </div>
-
-        {/* Fırıncı Hızlı PIN Kodu Ayarı */}
-        <form
-          onSubmit={handleSavePin}
-          className="bg-amber-500/10 border border-amber-500/30 p-4 sm:p-5 rounded-2xl space-y-3"
-        >
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-            <div>
-              <div className="flex items-center gap-2">
-                <Lock className="w-4 h-4 text-amber-400" />
-                <h3 className="text-sm font-bold text-stone-100 font-serif">
-                  Fırıncı 4 Haneli Hızlı PIN Kodu
-                </h3>
-              </div>
-              <p className="text-xs text-stone-300 mt-0.5">
-                Fırın tezgahında veya telefonunuzda uzun şifre yazmadan tek dokunuşla panele anında girmek için kullanılır.
-              </p>
-            </div>
-
-            <div className="flex items-center gap-2">
-              <div className="relative">
-                <input
-                  type={showPin ? "text" : "password"}
-                  maxLength={4}
-                  value={quickPin}
-                  onChange={(e) => setQuickPin(e.target.value.replace(/\D/g, ""))}
-                  placeholder="1453"
-                  className="w-28 text-center text-base font-mono font-bold tracking-widest bg-stone-900 border border-stone-700 rounded-xl px-3 py-2 text-amber-400 focus:outline-none focus:border-amber-500"
-                />
-                <button
-                  type="button"
-                  onClick={() => setShowPin(!showPin)}
-                  className="text-[10px] text-stone-400 hover:text-stone-200 mt-1 block text-center w-full"
-                >
-                  {showPin ? "Gizle" : "Göster"}
-                </button>
-              </div>
-
-              <button
-                type="submit"
-                disabled={savingPin}
-                className="px-4 py-2 bg-amber-500 hover:bg-amber-400 text-stone-950 font-bold rounded-xl text-xs transition-all shadow-lg shadow-amber-500/20 active:scale-95 disabled:opacity-50"
-              >
-                {savingPin ? "Kaydediliyor..." : "PIN'i Güncelle"}
-              </button>
-            </div>
-          </div>
-
-          {pinSavedSuccess && (
-            <div className="p-2.5 rounded-xl bg-emerald-950/60 border border-emerald-500/40 text-xs text-emerald-300 flex items-center gap-2">
-              <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
-              <span>Fırıncı PIN kodunuz başarıyla güncellendi ve tüm cihazlarınızla senkronize edildi.</span>
-            </div>
-          )}
-        </form>
-
-        {/* Manual Device Authorization Form */}
-        <form
-          onSubmit={handleManualAuthorize}
-          className="bg-stone-950/60 p-4 rounded-xl border border-stone-800 flex flex-col md:flex-row gap-3 items-end"
-        >
-          <div className="w-full md:w-1/2 space-y-1">
-            <label className="text-xs font-semibold text-stone-300">Cihaz Kodu (Device ID)</label>
-            <input
-              type="text"
-              required
-              placeholder="Örn: dev_m1ab2c3d_xyz"
-              value={manualCode}
-              onChange={(e) => setManualCode(e.target.value)}
-              className="w-full bg-stone-900 border border-stone-700 rounded-xl px-3 py-2 text-xs font-mono text-stone-100 placeholder-stone-600 focus:outline-none focus:border-amber-500"
-            />
-          </div>
-
-          <div className="w-full md:w-1/3 space-y-1">
-            <label className="text-xs font-semibold text-stone-300">Cihaz İsmi (İsteğe Bağlı)</label>
-            <input
-              type="text"
-              placeholder="Örn: Tahsin iPhone 15 Pro"
-              value={manualDeviceName}
-              onChange={(e) => setManualDeviceName(e.target.value)}
-              className="w-full bg-stone-900 border border-stone-700 rounded-xl px-3 py-2 text-xs text-stone-100 placeholder-stone-600 focus:outline-none focus:border-amber-500"
-            />
-          </div>
-
-          <button
-            type="submit"
-            disabled={manualSubmitting}
-            className="w-full md:w-auto px-4 py-2 bg-amber-500 hover:bg-amber-400 text-stone-950 font-bold rounded-xl text-xs transition-all shadow-lg shadow-amber-500/20 whitespace-nowrap active:scale-95 disabled:opacity-50"
-          >
-            {manualSubmitting ? "Onaylanıyor..." : "+ Cihazı Yetkilendir"}
-          </button>
-        </form>
-
-        {/* Devices Table */}
-        {loadingDevices ? (
-          <div className="p-8 text-center text-stone-400 text-xs">Cihazlar listeleniyor...</div>
-        ) : devices.length === 0 ? (
-          <div className="p-8 text-center text-stone-400 text-xs border border-dashed border-stone-800 rounded-xl">
-            Henüz eklenmiş cihaz bulunmuyor. Giriş yapan yöneticiler otomatik olarak tanınır.
-          </div>
-        ) : (
-          <div className="space-y-3">
-            {devices.map((dev) => {
-              const isCurrent = dev.id === currentDeviceId || dev.deviceId === currentDeviceId;
-              const isMobile = /phone|android|iphone|ipad/i.test(dev.deviceName || dev.userAgent || "");
-
-              return (
-                <div
-                  key={dev.id}
-                  className={`p-4 rounded-xl border flex flex-col sm:flex-row sm:items-center justify-between gap-3 transition-colors ${
-                    isCurrent
-                      ? "bg-amber-500/5 border-amber-500/30"
-                      : "bg-stone-950/40 border-stone-800 hover:border-stone-700"
-                  }`}
-                >
-                  <div className="flex items-center gap-3">
-                    <div className="w-9 h-9 rounded-xl bg-stone-800 flex items-center justify-center text-stone-400 shrink-0">
-                      {isMobile ? <Smartphone className="w-5 h-5 text-amber-400" /> : <Laptop className="w-5 h-5 text-sky-400" />}
-                    </div>
-                    <div>
-                      <div className="flex items-center gap-2">
-                        <span className="font-bold text-stone-200 text-sm">{dev.deviceName || "Yetkili Cihaz"}</span>
-                        {isCurrent && (
-                          <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/30">
-                            Şu Anki Cihazınız
-                          </span>
-                        )}
-                      </div>
-                      <div className="text-[11px] font-mono text-stone-400 mt-0.5">
-                        ID: {dev.deviceId || dev.id}
-                      </div>
-                      <div className="text-[10px] text-stone-400 mt-0.5">
-                        Son Giriş: {dev.lastUsedAt ? new Date(dev.lastUsedAt).toLocaleString("tr-TR") : "—"}
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="flex items-center gap-3 pt-2 sm:pt-0 border-t sm:border-t-0 border-stone-800/80">
-                    {dev.approved ? (
-                      <span className="flex items-center gap-1.5 text-xs font-bold text-emerald-400 bg-emerald-500/10 px-3 py-1 rounded-full border border-emerald-500/20">
-                        <CheckCircle2 className="w-3.5 h-3.5" />
-                        <span>Yetkili</span>
-                      </span>
-                    ) : (
-                      <span className="flex items-center gap-1.5 text-xs font-bold text-amber-400 bg-amber-500/10 px-3 py-1 rounded-full border border-amber-500/20">
-                        <AlertTriangle className="w-3.5 h-3.5" />
-                        <span>Onay Bekliyor</span>
-                      </span>
-                    )}
-
-                    <div className="flex items-center gap-1">
-                      {dev.approved ? (
-                        <button
-                          onClick={() => handleRevokeDevice(dev.id || dev.deviceId)}
-                          className="px-3 py-1 text-xs font-medium text-amber-400 hover:bg-amber-500/10 rounded-lg transition-colors"
-                        >
-                          Askıya Al
-                        </button>
-                      ) : (
-                        <button
-                          onClick={() => handleApproveDevice(dev.id || dev.deviceId)}
-                          className="px-3 py-1 text-xs font-bold text-emerald-400 bg-emerald-500/10 hover:bg-emerald-500/20 rounded-lg transition-colors border border-emerald-500/30"
-                        >
-                          Onayla
-                        </button>
-                      )}
-
-                      <button
-                        onClick={() => handleDeleteDevice(dev.id || dev.deviceId)}
-                        className="p-1.5 text-stone-400 hover:text-red-400 hover:bg-red-500/10 rounded-lg transition-colors"
-                        title="Cihazı Sil"
-                      >
-                        <Trash2 className="w-3.5 h-3.5" />
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        )}
-      </div>
     </div>
   );
 }

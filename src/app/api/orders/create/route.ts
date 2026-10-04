@@ -4,6 +4,7 @@ import { createAdminClient } from "@/lib/supabase/admin";
 import { Order, OrderItem } from "@/types";
 import { checkRateLimit, sanitizeInput } from "@/lib/security/rateLimiter";
 import { getErrorMessage } from "@/lib/utils/error";
+import { verifyApiAuth } from "@/lib/security/apiAuth";
 import { getOrderCutoffTime, isPastCutoff, isSameDayDelivery } from "@/lib/settings/cutoff";
 import * as Sentry from "@sentry/nextjs";
 
@@ -40,11 +41,8 @@ const CreateOrderRequestSchema = z.object({
     .max(30, "Sepette en fazla 30 kalem ürün olabilir"),
   customerInfo: CustomerInfoSchema,
   deliveryMethod: z.enum(["courier", "pickup"]),
-  paymentMethod: z.enum(["whatsapp", "cash_on_delivery", "pos_at_door", "cari"]),
+  paymentMethod: z.enum(["whatsapp", "cash_on_delivery", "pos_at_door"]),
   idempotencyKey: z.string().max(100).optional(),
-  userId: z.string().max(100).optional(),
-  cariId: z.string().max(100).optional(),
-  cari_id: z.string().max(100).optional(),
 });
 
 interface DBOrderRow {
@@ -110,11 +108,11 @@ export async function POST(req: Request) {
       deliveryMethod,
       paymentMethod,
       idempotencyKey,
-      userId,
-      cariId,
-      cari_id,
     } = validationResult.data;
-    const effectiveCariId = cariId || cari_id || null;
+
+    // Sipariş sahibi SADECE doğrulanmış oturumdan gelir (çerez veya Bearer); istek gövdesine güvenilmez.
+    const auth = await verifyApiAuth(req);
+    const sessionUserId = auth.isAuthenticated ? auth.userId : null;
 
     const supabaseAdmin = createAdminClient();
     if (!supabaseAdmin) {
@@ -348,7 +346,6 @@ export async function POST(req: Request) {
       customer_lat: customerInfo.customerLat ?? null,
       customer_lng: customerInfo.customerLng ?? null,
       location_consent_at: locationConsentAt,
-      cari_id: effectiveCariId,
       created_at: nowIso,
       updated_at: nowIso,
     };
@@ -368,7 +365,7 @@ export async function POST(req: Request) {
     const { data: rpcRes, error: rpcErr } = await supabaseAdmin.rpc("create_order_atomic", {
       p_order: orderPayload,
       p_items: itemsPayload,
-      p_user_id: userId || null,
+      p_user_id: sessionUserId,
     });
 
     if (rpcErr || !rpcRes || !rpcRes.success) {
@@ -406,8 +403,7 @@ export async function POST(req: Request) {
       customerLat: customerInfo.customerLat ?? null,
       customerLng: customerInfo.customerLng ?? null,
       locationConsentAt: locationConsentAt ?? undefined,
-      userId: userId || null,
-      cariId: effectiveCariId,
+      userId: sessionUserId,
       createdAt: nowIso,
       updatedAt: nowIso,
     };

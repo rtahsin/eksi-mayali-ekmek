@@ -12,12 +12,11 @@ interface AuthContextType {
   loading: boolean;
   isLoggedIn: boolean;
   isConfigured: boolean;
-  openAuthModal: (view?: "login" | "register" | "forgot") => void;
+  openAuthModal: () => void;
   closeAuthModal: () => void;
   signInWithGoogle: () => Promise<any>;
-  signInWithEmail: (email: string, pass: string) => Promise<any>;
-  signUpWithEmail: (email: string, pass: string, fullName: string, phone: string) => Promise<any>;
-  resetPassword: (email: string) => Promise<any>;
+  sendEmailCode: (email: string) => Promise<{ success: boolean; error?: string }>;
+  verifyEmailCode: (email: string, code: string) => Promise<{ success: boolean; error?: string }>;
   signOut: () => Promise<void>;
   saveAddress: (addr: Omit<SavedAddress, "id" | "userId">) => Promise<any>;
   refreshUser: () => void;
@@ -31,11 +30,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   return (
     <AuthContext.Provider value={auth}>
       {children}
-      <AuthModal
-        isOpen={auth.isAuthModalOpen}
-        onClose={auth.closeAuthModal}
-        defaultTab={auth.authView === "register" ? "register" : "login"}
-      />
+      <AuthModal isOpen={auth.isAuthModalOpen} onClose={auth.closeAuthModal} />
     </AuthContext.Provider>
   );
 }

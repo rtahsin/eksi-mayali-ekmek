@@ -1,8 +1,12 @@
 import { NextResponse } from "next/server";
+import { requireAdmin } from "@/lib/security/apiAuth";
 import { createAdminClient } from "@/lib/supabase/admin";
 
 // POST: Yeni Fiş / Tahsilat / İşlem Kaydet
 export async function POST(req: Request) {
+  const guard = await requireAdmin(req);
+  if (!guard.ok) return guard.response;
+
   try {
     const { cariId, type, amount, description, paymentMethod, orderId, date } = await req.json();
 
@@ -167,6 +171,9 @@ export async function POST(req: Request) {
 
 // PUT: Mevcut Fiş / İşlem Düzenle (1-A)
 export async function PUT(req: Request) {
+  const guard = await requireAdmin(req);
+  if (!guard.ok) return guard.response;
+
   try {
     const { transactionId, accountId, amount, description, date, paymentMethod } = await req.json();
 
@@ -283,6 +290,9 @@ export async function PUT(req: Request) {
 
 // DELETE: Fiş / İşlem İptal Et & Sil (1-A)
 export async function DELETE(req: Request) {
+  const guard = await requireAdmin(req);
+  if (!guard.ok) return guard.response;
+
   try {
     const { searchParams } = new URL(req.url);
     const transactionId = searchParams.get("transactionId") || searchParams.get("id");
@@ -363,6 +373,9 @@ export async function DELETE(req: Request) {
 
 // PATCH: Doğrudan Bakiye Düzeltme & Devir Kaydı (2-A)
 export async function PATCH(req: Request) {
+  const guard = await requireAdmin(req);
+  if (!guard.ok) return guard.response;
+
   try {
     const { accountId, targetBalance, reason } = await req.json();
 

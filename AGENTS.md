@@ -10,6 +10,8 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 
 # 🍞 EkmekLab - Geliştirici & Agent Çalışma Kuralları
 
+> **Aktif plan:** [`docs/YOL_HARITASI.md`](docs/YOL_HARITASI.md). Her oturum başında oku; faz durumunu orada güncelle. Bu dosyadaki bazı bilgiler eski (ör. Firebase, `cari_hareketler`) ve Faz 5'te güncellenecek; çelişki olursa yol haritası geçerlidir ve çelişkiyi Tahsin'e bildir.
+
 Bu kurallar, EkmekLab projesinde kod yazarken, hata ayıklarken ve yeni modül eklerken uyulması zorunlu teknik ve mimari standartları belirler.
 
 ---

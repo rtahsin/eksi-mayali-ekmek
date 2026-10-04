@@ -11,7 +11,6 @@ import {
   Bell,
   Volume2,
   VolumeX,
-  Lock,
 } from "lucide-react";
 import Link from "next/link";
 
@@ -20,7 +19,6 @@ interface AdminHeaderProps {
   pendingOrderCount?: number;
   soundEnabled?: boolean;
   onToggleSound?: () => void;
-  onLockScreen?: () => void;
 }
 
 export function AdminHeader({
@@ -28,7 +26,6 @@ export function AdminHeader({
   pendingOrderCount = 0,
   soundEnabled = true,
   onToggleSound,
-  onLockScreen,
 }: AdminHeaderProps) {
   const { adminUser, logout } = useAdminAuth();
   const [timeStr, setTimeStr] = useState("");
@@ -112,18 +109,6 @@ export function AdminHeader({
           </button>
         )}
 
-        {/* Quick PIN Lock */}
-        {onLockScreen && (
-          <button
-            type="button"
-            onClick={onLockScreen}
-            title="Ekranı Hızlı Kilitle (4 Haneli PIN)"
-            className="p-2 rounded-xl bg-stone-900 hover:bg-stone-800 border border-stone-700 text-stone-300 hover:text-amber-400 transition-colors"
-          >
-            <Lock className="w-4 h-4" />
-          </button>
-        )}
-
         {/* Notification Bell */}
         <Link
           href="/admin/siparisler"
@@ -144,7 +129,9 @@ export function AdminHeader({
             <div className="text-xs font-serif font-bold text-foreground truncate max-w-[120px]">
               {adminUser?.displayName || "Yönetici"}
             </div>
-            <div className="text-[10px] font-mono text-artisan-gold/80">Süper Admin</div>
+            <div className="text-[10px] font-mono text-artisan-gold/80">
+              {adminUser?.role === "superadmin" ? "Süper Admin" : "Yönetici"}
+            </div>
           </div>
 
           <button
