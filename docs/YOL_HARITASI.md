@@ -6,8 +6,8 @@
 | Faz | Konu | Tahmini süre | Durum |
 |---|---|---|---|
 | Acil | Tahsin'in kod beklemeden yapacakları (§4) | 15 dk | ✅ tamamlandı (4 Eki) |
-| 0 | Güvenlik yaması | ~1 gün + 1 saat Tahsin | 🟡 kod canlıda (PR #1, 4 Eki; önizleme + canlı duman testi ✅). Kalan: 013 (kuru deneme ✅, gerçek uygulama Tahsin) ve Vercel `JWT_SECRET` silme |
-| 0.5 | CI (her PR'da otomatik build) | ~2 saat | bekliyor |
+| 0 | Güvenlik yaması | ~1 gün + 1 saat Tahsin | ✅ tamamlandı (4 Eki): PR #1 canlıda, 013 uygulandı ve doğrulandı, `JWT_SECRET` silindi |
+| 0.5 | CI (her PR'da otomatik build) | ~2 saat | sıradaki |
 | 1 | Sipariş çekirdeği onarımı | 3-4 gün | bekliyor |
 | 2 | Fırın günleri, kapasite, eşlikçiler | 3-4 gün | bekliyor |
 | 3 | Admin sadeleştirme + finans doğruluğu | ~5 gün | bekliyor |
