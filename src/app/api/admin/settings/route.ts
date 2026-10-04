@@ -20,7 +20,7 @@ export async function GET(request: Request) {
     if (!supabase) {
       return NextResponse.json({ error: "Supabase client unconfigured" }, { status: 500 });
     }
-    return NextResponse.json({ operational: await getStoreSettings(supabase) });
+    return NextResponse.json({ operational: await getStoreSettings(supabase, { failClosed: true }) });
   } catch (err: unknown) {
     console.error("Settings GET handler error:", err);
     return NextResponse.json({ error: getErrorMessage(err) }, { status: 500 });

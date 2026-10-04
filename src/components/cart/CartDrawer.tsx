@@ -39,7 +39,8 @@ export function CartDrawer() {
 
   const { settings } = useStoreSettings();
   const { dates, datesLoaded, datesError, reloadDates } = useDeliveryDates(isOpen);
-  const { profile, addresses, isLoggedIn, openAuthModal } = useAuth();
+  const { profile, addresses, isLoggedIn, openAuthModal, saveAddress } = useAuth();
+  const [saveThisAddress, setSaveThisAddress] = useState(true);
 
   const [locating, setLocating] = useState(false);
   const [locateError, setLocateError] = useState<string | null>(null);
@@ -114,6 +115,22 @@ export function CartDrawer() {
   const threshold = settings.freeShippingThreshold;
   const minBasketShortfall = Math.max(0, settings.minBasketAmount - subtotal);
   const hasLocation = typeof customerInfo.customerLat === "number" && typeof customerInfo.customerLng === "number";
+  const addressIsSaved = addresses.some(
+    (a) => a.addressDetail.trim() === customerInfo.addressDetail.trim() &&
+      a.neighborhood.replace(/s+Mah(.|allesi)?$/i, "").trim() === customerInfo.neighborhood
+  );
+  const canSaveAddress = isLoggedIn && !addressIsSaved && customerInfo.addressDetail.trim().length >= 5 && Boolean(customerInfo.neighborhood);
+
+  const handleOrderPlaced = () => {
+    if (!canSaveAddress || !saveThisAddress) return;
+    void saveAddress({
+      title: addresses.length === 0 ? "Ev" : `Adres ${addresses.length + 1}`,
+      district: "Beylikdüzü",
+      neighborhood: customerInfo.neighborhood,
+      addressDetail: customerInfo.addressDetail.trim(),
+      isDefault: addresses.length === 0,
+    }).catch(() => undefined);
+  };
 
   const orderingBlockedReason = !settings.orderAcceptanceOpen
     ? "Şu an sipariş almıyoruz. Lütfen daha sonra tekrar deneyin."
@@ -479,6 +496,17 @@ export function CartDrawer() {
                       )}
                     </div>
                     {locateError && <div className="text-[10px] text-amber-700 mt-1">{locateError}</div>}
+                    {canSaveAddress && (
+                      <label className="mt-1.5 flex items-center gap-2 text-[11px] text-espresso-wheat cursor-pointer">
+                        <input
+                          type="checkbox"
+                          checked={saveThisAddress}
+                          onChange={(e) => setSaveThisAddress(e.target.checked)}
+                          className="h-3.5 w-3.5 accent-artisan-terracotta"
+                        />
+                        Bu adresi sonraki siparişlerim için kaydet
+                      </label>
+                    )}
                   </div>
 
                   <div>
@@ -525,6 +553,7 @@ export function CartDrawer() {
               minBasketShortfall={minBasketShortfall}
               orderingBlockedReason={orderingBlockedReason}
               onDatesStale={() => void reloadDates()}
+              onOrderPlaced={handleOrderPlaced}
             />
           </div>
         )}

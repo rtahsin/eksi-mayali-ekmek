@@ -7,6 +7,7 @@ import { CartDrawer } from "@/components/cart/CartDrawer";
 import { OrderSuccessModal } from "@/components/cart/OrderSuccessModal";
 import { Lock, ArrowLeft, Mail, ShieldAlert, CheckCircle2 } from "lucide-react";
 import Link from "next/link";
+import { CONTACT } from "@/lib/site";
 
 export default function GizlilikPage() {
   return (
@@ -111,7 +112,7 @@ export default function GizlilikPage() {
             </p>
             <div className="text-xs text-foreground/70 space-y-1 pt-1">
               <div><strong>E-posta:</strong> <a href="mailto:ekmeklab@gmail.com" className="text-artisan-gold hover:underline">ekmeklab@gmail.com</a></div>
-              <div><strong>Telefon:</strong> 0501 012 66 53</div>
+              <div><strong>Telefon:</strong> {CONTACT.phoneDisplay}</div>
               <div><strong>Adres:</strong> Beylikdüzü, İstanbul</div>
             </div>
           </section>

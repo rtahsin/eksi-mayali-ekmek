@@ -185,7 +185,7 @@ export async function POST(req: Request) {
     }
 
     // 2. İşletme kuralları (tek kaynak: admin ayarları)
-    const settings = await getStoreSettings(supabaseAdmin);
+    const settings = await getStoreSettings(supabaseAdmin, { failClosed: true });
     if (!settings.orderAcceptanceOpen) {
       return fail(409, "Şu an sipariş almıyoruz. Lütfen daha sonra tekrar deneyin.", "ORDERS_CLOSED");
     }
@@ -343,9 +343,26 @@ export async function POST(req: Request) {
       return fail(500, "Sipariş kaydedilemedi. Lütfen tekrar deneyiniz.");
     }
 
-    // RPC v3 aynı idempotency anahtarıyla eşzamanlı gelen isteği mevcut siparişe yönlendirebilir
     const finalOrderId: string = typeof rpcRes.order_id === "string" ? rpcRes.order_id : orderId;
     const finalOrderNumber: string = rpcRes.order_number || finalOrderId;
+
+    // RPC v3: aynı idempotency anahtarıyla eşzamanlı gelen istek kazanan siparişe yönlendirilir.
+    // Bu durumda kayıtlı siparişi döndür ve ikinci "yeni sipariş" bildirimi GÖNDERME.
+    if (rpcRes.is_existing === true) {
+      const { data: persisted } = await supabaseAdmin
+        .from("orders")
+        .select("*, order_items(*)")
+        .eq("id", finalOrderId)
+        .maybeSingle();
+      if (persisted) {
+        return NextResponse.json({
+          success: true,
+          order: mapExistingOrder(persisted as unknown as DBOrderRow),
+          trackingToken: signOrderToken(finalOrderId),
+          isExisting: true,
+        });
+      }
+    }
 
     const completedOrder: Order = {
       id: finalOrderId,

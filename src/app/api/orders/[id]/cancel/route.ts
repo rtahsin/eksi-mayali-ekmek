@@ -5,6 +5,7 @@ import { verifyApiAuth } from "@/lib/security/apiAuth";
 import { checkRateLimit } from "@/lib/security/rateLimiter";
 import { parseOrderLookup } from "@/lib/orders/orderId";
 import { verifyOrderToken } from "@/lib/security/linkToken";
+import { CONTACT } from "@/lib/site";
 
 const CUSTOMER_CANCELLABLE_STATUSES = new Set(["bekliyor"]);
 
@@ -74,7 +75,7 @@ export async function PATCH(
         return NextResponse.json(
           {
             error:
-              "Siparişiniz fırında hazırlanma veya teslimat aşamasına geçtiğinden doğrudan iptal edilemez. Lütfen fırınımızla 0501 012 6653 numaralı telefondan iletişime geçiniz.",
+              `Siparişiniz hazırlanmaya başladığı için buradan iptal edilemiyor. Lütfen fırını arayın: ${CONTACT.phoneDisplay}`,
           },
           { status: 400 }
         );

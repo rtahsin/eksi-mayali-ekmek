@@ -7,6 +7,7 @@ import { CartDrawer } from "@/components/cart/CartDrawer";
 import { OrderSuccessModal } from "@/components/cart/OrderSuccessModal";
 import { ShieldCheck, ArrowLeft, Mail, Phone, MapPin } from "lucide-react";
 import Link from "next/link";
+import { CONTACT } from "@/lib/site";
 
 export default function KvkkPage() {
   return (
@@ -55,7 +56,7 @@ export default function KvkkPage() {
               </div>
               <div className="flex items-center gap-2">
                 <Phone className="w-3.5 h-3.5 text-artisan-gold" />
-                <span>Telefon: 0501 012 66 53</span>
+                <span>Telefon: {CONTACT.phoneDisplay}</span>
               </div>
               <div className="flex items-center gap-2">
                 <Mail className="w-3.5 h-3.5 text-artisan-gold" />

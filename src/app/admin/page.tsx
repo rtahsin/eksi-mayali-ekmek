@@ -22,13 +22,13 @@ import {
 import { useAdminOrders } from "@/hooks/useAdminOrders";
 import { useAdminAuth } from "@/hooks/useAdminAuth";
 import { OrderStatusBadge } from "@/components/admin/OrderStatusBadge";
-import { istanbulToday } from "@/lib/time/istanbul";
+import { useIstanbulToday } from "@/hooks/useIstanbulToday";
 
 export default function AdminDashboardPage() {
   const { orders, allOrders, stats, loading } = useAdminOrders();
   const { adminUser } = useAdminAuth();
 
-  const todayStr = useMemo(() => istanbulToday(), []);
+  const todayStr = useIstanbulToday();
 
   // Today's orders
   const todayOrders = useMemo(() => {

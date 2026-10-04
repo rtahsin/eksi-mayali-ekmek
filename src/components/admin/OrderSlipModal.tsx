@@ -23,7 +23,7 @@ import {
   Link2,
 } from "lucide-react";
 import { istanbulToday } from "@/lib/time/istanbul";
-import { SITE_URL } from "@/lib/site";
+import { CONTACT, SITE_URL } from "@/lib/site";
 
 interface OrderSlipModalProps {
   order: AdminOrder;
@@ -131,7 +131,7 @@ export function OrderSlipModal({ order, isOpen, onClose, cari: propCari }: Order
     lines.push(publicUrl);
     lines.push(``);
     lines.push(`Afiyet olsun! EkmekLab Zanaatkar Fırın`);
-    lines.push(`İletişim: 0501 012 66 53 • ekmeklab.tr`);
+    lines.push(`İletişim: ${CONTACT.phoneDisplay} • ${SITE_URL.replace(/^https?:\/\//, "")}`);
 
     return lines.join("\n");
   };

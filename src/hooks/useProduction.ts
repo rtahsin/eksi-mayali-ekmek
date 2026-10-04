@@ -5,7 +5,8 @@ import { createClient, isSupabaseConfigured } from "@/lib/supabase/client";
 import { useAdminOrders } from "./useAdminOrders";
 import { useProducts } from "./useProducts";
 import { getErrorMessage } from "@/lib/utils/error";
-import { addDays, istanbulToday, toIstanbulDate } from "@/lib/time/istanbul";
+import { addDays, toIstanbulDate } from "@/lib/time/istanbul";
+import { useIstanbulToday } from "@/hooks/useIstanbulToday";
 
 export type ProductionStage =
   | "otoliz_yogurma"        // 1. Un ve su buluştu, yoğuruldu
@@ -49,7 +50,7 @@ export function useProduction(selectedDate?: string) {
   const { allOrders } = useAdminOrders();
   const { products } = useProducts("all");
 
-  const todayStr = useMemo(() => istanbulToday(), []);
+  const todayStr = useIstanbulToday();
   const tomorrowStr = useMemo(() => addDays(todayStr, 1), [todayStr]);
 
   const activeDate = selectedDate || tomorrowStr;

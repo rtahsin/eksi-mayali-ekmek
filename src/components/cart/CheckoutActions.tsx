@@ -14,11 +14,13 @@ interface CheckoutActionsProps {
   orderingBlockedReason: string | null;
   /** Tarih listesi tazelenmeli (ör. 409 INVALID_DELIVERY_DATE sonrası) */
   onDatesStale: () => void;
+  /** Sipariş başarıyla kaydedildikten sonra (sepet temizlenmeden önce) çağrılır */
+  onOrderPlaced?: () => void;
 }
 
 const newAttemptKey = () => `IDEM-${crypto.randomUUID()}`;
 
-export function CheckoutActions({ minBasketShortfall, orderingBlockedReason, onDatesStale }: CheckoutActionsProps) {
+export function CheckoutActions({ minBasketShortfall, orderingBlockedReason, onDatesStale, onOrderPlaced }: CheckoutActionsProps) {
   const items = useCartStore((s) => s.items);
   const customerInfo = useCartStore((s) => s.customerInfo);
   const clearCart = useCartStore((s) => s.clearCart);
@@ -80,6 +82,7 @@ export function CheckoutActions({ minBasketShortfall, orderingBlockedReason, onD
       }
 
       attemptKeyRef.current = newAttemptKey();
+      onOrderPlaced?.();
       clearCart();
       closeCart();
       setTermsAccepted(false);

@@ -7,6 +7,7 @@ import { getErrorMessage } from "@/lib/utils/error";
 import { addDays, istanbulToday, normalizeDeliveryDate } from "@/lib/time/istanbul";
 import { computeShippingFee } from "@/lib/settings/schema";
 import { useStoreSettings } from "@/hooks/useStoreSettings";
+import { useIstanbulToday } from "@/hooks/useIstanbulToday";
 
 export function normalizeOrderStatus(rawStatus?: string): AdminOrderStatus {
   if (!rawStatus) return "bekliyor";
@@ -454,8 +455,8 @@ export function useAdminOrders(options: UseAdminOrdersOptions = {}) {
   };
 
   // Date constants
-  // İstanbul takvimi (UTC değil): gece yarısından sonra da doğru gün
-  const todayStr = useMemo(() => istanbulToday(), []);
+  // İstanbul takvimi (UTC değil); sayfa açık kalsa da gece yarısı ilerler
+  const todayStr = useIstanbulToday();
   const tomorrowStr = useMemo(() => addDays(todayStr, 1), [todayStr]);
 
   // Filtered orders

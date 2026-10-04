@@ -25,7 +25,7 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import html2canvas from "html2canvas";
-import { SITE_URL } from "@/lib/site";
+import { SITE_URL, CONTACT } from "@/lib/site";
 
 interface SlipItem {
   name: string;
@@ -293,11 +293,11 @@ export default function PublicReceiptPage() {
           Aradığınız teslimat fişi bulunamadı veya silinmiş olabilir. Lütfen fırınımızla iletişime geçiniz.
         </p>
         <a
-          href="tel:05010126653"
+          href={`tel:+${CONTACT.phoneE164}`}
           className="px-5 py-3 bg-amber-500 hover:bg-amber-400 text-stone-950 font-bold rounded-2xl text-xs flex items-center gap-2 shadow-lg shadow-amber-500/20 active:scale-95 transition-all"
         >
           <Phone className="w-4 h-4" />
-          <span>Fırını Ara (0501 012 66 53)</span>
+          <span>Fırını Ara ({CONTACT.phoneDisplay})</span>
         </a>
       </div>
     );
@@ -341,7 +341,7 @@ export default function PublicReceiptPage() {
               </div>
               <div className="flex items-center gap-1.5 text-xs font-bold text-[#3B2F28] mt-1 leading-normal">
                 <Phone className="w-3.5 h-3.5 text-[#8A7A70]" />
-                <span className="leading-normal pb-0.5">0501 012 66 53</span>
+                <span className="leading-normal pb-0.5">{CONTACT.phoneDisplay}</span>
               </div>
             </div>
           </div>

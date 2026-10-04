@@ -2,6 +2,7 @@
 
 import React from "react";
 import { Phone, Mail, MapPin, MessageSquare, BookOpen } from "lucide-react";
+import { CONTACT } from "@/lib/site";
 
 function InstagramIcon({ className = "w-4 h-4" }: { className?: string }) {
   return (
@@ -86,14 +87,14 @@ export function Footer() {
               </li>
               <li className="flex items-center gap-2 font-sans">
                 <Phone className="w-4 h-4 text-artisan-gold shrink-0" />
-                <a href="tel:+905010126653" className="hover:text-artisan-gold">
-                  0501 012 66 53
+                <a href={`tel:+${CONTACT.phoneE164}`} className="hover:text-artisan-gold">
+                  {CONTACT.phoneDisplay}
                 </a>
               </li>
               <li className="flex items-center gap-2">
                 <Mail className="w-4 h-4 text-artisan-gold shrink-0" />
-                <a href="mailto:ekmeklab@gmail.com" className="hover:text-artisan-gold">
-                  ekmeklab@gmail.com
+                <a href={`mailto:${CONTACT.email}`} className="hover:text-artisan-gold">
+                  {CONTACT.email}
                 </a>
               </li>
             </ul>

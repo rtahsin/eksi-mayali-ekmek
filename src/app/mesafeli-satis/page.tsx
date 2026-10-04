@@ -7,6 +7,7 @@ import { CartDrawer } from "@/components/cart/CartDrawer";
 import { OrderSuccessModal } from "@/components/cart/OrderSuccessModal";
 import { FileText, ArrowLeft, Truck, AlertTriangle, CheckCircle2, Phone, Mail } from "lucide-react";
 import Link from "next/link";
+import { CONTACT } from "@/lib/site";
 
 export default function MesafeliSatisPage() {
   return (
@@ -52,7 +53,7 @@ export default function MesafeliSatisPage() {
               <div className="text-xs text-foreground/75 space-y-1 pl-3 border-l-2 border-artisan-gold/40">
                 <div><strong>Unvan:</strong> EkmekLab Artisan Fırın</div>
                 <div><strong>Adres:</strong> Beylikdüzü, İstanbul</div>
-                <div><strong>Telefon:</strong> 0501 012 66 53</div>
+                <div><strong>Telefon:</strong> {CONTACT.phoneDisplay}</div>
                 <div><strong>E-posta:</strong> ekmeklab@gmail.com</div>
               </div>
 
@@ -128,7 +129,7 @@ export default function MesafeliSatisPage() {
             </p>
             <ul className="list-disc list-inside space-y-1.5 text-foreground/75 text-xs sm:text-sm pl-2">
               <li>Teslimat sırasında ambalajı hasar görmüş, ezilmiş veya üretim/lezzet kusuru taşıdığı tespit edilen ürünler için Alıcı, kurye teslimi anında ürünü kabul etmeme hakkına sahiptir.</li>
-              <li>Teslimat sonrasında fark edilen herhangi bir kusur durumunda, aynı gün içerisinde <strong>0501 012 66 53</strong> numaralı WhatsApp hattımızdan ürün görseli ile bildirim yapılması halinde, koşulsuz olarak <strong>aynı gün yeni ürün telafisi veya sipariş bedeli iadesi</strong> sağlanır.</li>
+              <li>Teslimat sonrasında fark edilen herhangi bir kusur durumunda, aynı gün içerisinde <strong>{CONTACT.phoneDisplay}</strong> numaralı WhatsApp hattımızdan ürün görseli ile bildirim yapılması halinde, koşulsuz olarak <strong>aynı gün yeni ürün telafisi veya sipariş bedeli iadesi</strong> sağlanır.</li>
             </ul>
           </section>
 
