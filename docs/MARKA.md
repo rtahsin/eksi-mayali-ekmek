@@ -1,4 +1,4 @@
-# EkmekLab — Marka Çalışma Dosyası (taslak v1, 5 Ekim 2026)
+# EkmekLab — Marka Çalışma Dosyası (v2, 5 Ekim 2026)
 
 > Tahsin ile birlikte geliştirilir. Siteye, ambalaja, sosyal medyaya ve videolara uygulanan her şeyin kaynağı bu dosyadır.
 > ✅ = karar verildi · ❓ = Tahsin'in kararı bekleniyor
@@ -30,13 +30,15 @@
 
 **Kural:** sağlık iddiası yok (yönetmelik + güven). Merak ettiğimiz bilimsel konular Kütüphane'de **kaynaklı** yazı olarak anlatılır.
 
-## 4. Slogan seçenekleri ❓
+## 4. Slogan ✅
 
-1. **Mahallenin ekmek laboratuvarı.** *(öneri: ana slogan; adı açıklar, sıcak ve iddiasız)*
-2. **İyi ekmek, herkesin sofrasına.** *(öneri: misyon cümlesi; fiyat felsefesini taşır)*
-3. Bir gece ekmek yoktu. *(hikâye başlığı olarak; site ve ilk video için)*
-4. Deneye deneye, paylaşa paylaşa.
-5. Un, su, tuz ve sabır.
+**Ana slogan: "Mahallenin ekmek laboratuvarı."** · Misyon cümlesi: **"İyi ekmek, herkesin sofrasına."** (Tahsin, 5 Eki)
+
+Diğer seçenekler (yedek / başlık olarak):
+
+- Bir gece ekmek yoktu. *(hikâye başlığı olarak; site ve ilk video için)*
+- Deneye deneye, paylaşa paylaşa.
+- Un, su, tuz ve sabır.
 
 ## 5. Ürün ailesi ve fiyat merdiveni ❓
 
@@ -50,18 +52,35 @@ Fiyat **ucuz** görünmemeli, **adil** görünmeli. Fark ambalajla, isimle ve hi
 
 - **İmza ekmeğinin adı ve hikâyesi olmalı** (ör. "Lab No.1", "Mavi Haşhaşlı Çavdar"). İki gün sürmesi zaten doğal bir kıtlık; haftada belirli günlerde ön siparişle satmak hem değeri hem kâr marjını korur.
 - **Kargoya en uygun ürün de bu.** Yoğun çavdar ekmeği günlerce dayanır; kargo hedefine çavdarla başlamak mantıklı.
+### 5.1 İmza ekmeği için isim önerileri ❓
+
+| İsim | Neden |
+|---|---|
+| **Gece Yarısı** | Çavdarın koyu rengi + markanın gece yarısı başlayan hikâyesi. *Öneri.* |
+| Lab No.1 | Laboratuvarın ilk ve en emek isteyen formülü; seri devam edebilir (No.2…). |
+| Sabır | İki gün dinlenmesini anlatır; kısa ve akılda kalır. |
+| Mavi Haşhaşlı Kara | Ne olduğunu doğrudan söyler; sade. |
+| İki Gün | Süreci isim yapar; merak uyandırır. |
+
 - Tahsin'in sorusu: *"Diğer fırınlardan ucuz olmak kalite algımı düşürür mü?"* Ambalajsız, isimsiz satılırsa evet; kraft, etiket ve hikâyeyle satılırsa hayır. Bu durumda "mahalle fiyatı" bir ilke olarak okunur.
 
-## 6. En hızlı kazanç: isimsiz satılan ekmeğe kimlik ❓
+## 6. En hızlı kazanç: isimsiz satılan ekmeğe kimlik ✅ (başlıyoruz)
+
+**Elde olanlar:** ekmek boyutuna uygun **pencereli kraft torbalar** (üstüne logo mührü basılacak) ve **baskılı bez torbalar** (birim maliyet ~25 ₺; perakende müşterinin **ilk siparişinde hediye**). Sistem ilk siparişi telefon numarasından tanıyıp Teslimat ekranında ve etikette "İLK SİPARİŞ · bez torba" diye işaretler; sitede de "ilk siparişine bez torba hediye" yazar (torba bitince admin'den kapatılır).
+
 
 Bugün köy ekmeğin şarküterilerde **EkmekLab olduğu bilinmeden** 120–150 ₺'ye satılıyor. Her ekmek reklama dönüşebilir:
 
 - **Kauçuk kaşe:** Logo zaten yuvarlak bir mühür; kraft torbaya basılan bir kaşe ucuzdur ve çok yakışır.
 - **Küçük etiket:** EkmekLab · Beylikdüzü · ekmeğin adı · pişirme tarihi · QR (siteye ya da Instagram'a). *Paketli satışta etiket zorunlulukları var; içindekiler, alerjen ve tarih alanlarını birlikte netleştiririz.*
 - **Şarküteri vitrin çıkartması:** "EkmekLab ekmeği burada." Şarküteriye de müşteri getirir.
-- **Sitede "Nerede bulunur?":** EkmekLab satan şarküterilerin listesi (izinleriyle). Onlara trafik, sana görünürlük.
+- **Sitede "Nerede bulunur?":** EkmekLab satan şarküterilerin listesi. ✅ Tahsin onayladı (şarküteri adları/adresleri bekleniyor).
 
-## 7. Şeffaflık: "formül kartı" ❓
+## 7. Şeffaflık: formül kartı yerine video ✅
+
+**Karar (Tahsin):** oran kartı yok; etiketteki QR, ekmeğin **ürün sayfasına** gider. Orada ekmeğin hikâyesi ve (çekildikçe) yapılış / tanıtım videosu durur. Video gelene kadar sayfada yazılı hikâye ve fotoğraf olur.
+
+*(İlk öneri, arşiv:)*
 
 Herkes "artisan" diyor, kimse oranını söylemiyor. Her ekmeğin kısa bir kartı olabilir:
 
@@ -115,9 +134,7 @@ Sosyal medyada tanınan, düzenli kargo alan, Beylikdüzü'nde birçok şarküte
 
 ## 12. Bekleyen kararlar ❓
 
-1. Slogan (§4).
-2. İmza ekmeğinin adı ve satış günleri (§5).
-3. Kaşe + etiket + vitrin çıkartması: başlayalım mı? (§6)
-4. Şarküterileri sitede listeleyebilir miyiz? (izin)
-5. Formül kartında oranlar yazılsın mı? (§7)
-6. Fiyat merdiveni uygun mu? (§5)
+1. İmza ekmeğinin adı ve satış günleri (§5) — isim önerileri §5.1'de.
+2. Şarküterilerin adı, adresi (ya da harita linki), Instagram hesabı (§6).
+3. Fiyat merdiveni uygun mu? (§5)
+4. Kaşe: logonun sade, tek renk kaşe sürümü (ince gravür detayları küçük kaşede dağılabilir).
