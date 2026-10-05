@@ -203,7 +203,7 @@ export function ResultStage({ d, r, level, best, nextUnlocked, notesCollected, n
             <Row k="Tuz" you={`%${r.saltPct}`} master="%2, sonda" ok={r.saltPct >= 1.6 && r.saltPct <= 2.4 && d.saltTiming === "son"} />
             <Row k="Hamur sıcaklığı" you={`${r.doughTemp}°`} master="27–28°" ok={r.doughTemp >= 26 && r.doughTemp <= 28.5} />
             <Row k="Katlama" you={`${folds}`} master="4–6" ok={folds >= 4 && folds <= 7} />
-            <Row k="Fırına girerken kabarma" you={`%${Math.round(r.proof * 100)}`} master="%100–120" ok={r.proof >= 0.9 && r.proof <= 1.35} />
+            <Row k="Fırına girerken olgunluk" you={`%${Math.round(r.proof * 100)}`} master="%85–120" ok={r.proof >= 0.85 && r.proof <= 1.2} />
             <Row k="Buharlı süre" you={`${steamMin} dk`} master="20 dk" ok={steamMin >= 15 && steamMin <= 25} />
             <Row k="Pişme" you={`${d.bakeMinutes} dk`} master="40–45 dk" ok={d.bakeMinutes >= 38 && d.bakeMinutes <= 48} />
             <Row

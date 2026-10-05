@@ -121,8 +121,8 @@ export const PREDICTIONS: Prediction[] = [
   },
   {
     id: "maya_olum",
-    at: "koy:firin_ic",
-    question: "Mayalar fırında ekmeğin içi kaç dereceye gelince ölür?",
+    at: "koy:kesik",
+    question: "Birazdan fırın: mayalar, ekmeğin içi kaç dereceye gelince ölür?",
     options: [
       { id: "40", text: "~40 °C" },
       { id: "60", text: "~60 °C" },

@@ -189,7 +189,7 @@ export function LabGame() {
       ask(`koy:maya`, () => undefined);
     };
     if (id === "siyez") ask("siyez:giris", () => unlock("tarih_karacadag", go));
-    else if (id === "gece_yarisi") unlock("tarih_cavdar", () => setScreen({ k: "cavdar" }));
+    else if (id === "gece_yarisi") setScreen({ k: "cavdar" });
     else go();
   };
 
@@ -201,7 +201,7 @@ export function LabGame() {
         ask(`koy:${STAGES[i + 1].key}`, () => undefined);
       } else setScreen({ k: "sonuc" });
     };
-    const afterCard = () => (s.key === "firin" ? ask("koy:firin_ic", next) : next());
+    const afterCard = next;
     if (s.card) unlock(s.card, afterCard);
     else afterCard();
   };
@@ -439,6 +439,16 @@ export function LabGame() {
             const S = st.C;
             return (
               <>
+                {screen.i > 0 && (
+                  <button
+                    type="button"
+                    onClick={() => setScreen({ k: "oyun", i: screen.i - 1 })}
+                    className="text-sm font-semibold min-h-[44px]"
+                    style={{ color: C.soft }}
+                  >
+                    ← Önceki aşama: {STAGES[screen.i - 1].label}
+                  </button>
+                )}
                 <S key={`${levelId}-${screen.i}`} d={d} set={set} level={level} done={() => finishStage(screen.i)} />
                 <div className="flex justify-center pt-1">
                   <LensButton onClick={() => setLens(true)} />

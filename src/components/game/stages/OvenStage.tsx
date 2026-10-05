@@ -7,8 +7,8 @@ import { OvenArt } from "../art";
 import { LoafSvg } from "../BreadSvg";
 import { Btn, C, Feedback, Readout, StageTitle, Tahsin } from "../ui";
 import type { StageProps } from "./types";
+import { ClockControls, Upcoming, useClock } from "../useClock";
 
-const MIN_MS = 200; // her fırın dakikası
 
 /** Taş fırın: yükle, buhar ver, buharı tahliye et, iç sıcaklığı ölç, çıkar */
 export function OvenStage({ d, set, done }: StageProps) {
@@ -16,14 +16,11 @@ export function OvenStage({ d, set, done }: StageProps) {
   const [open, setOpen] = useState(false);
   const [steam, setSteam] = useState(false);
   const [vent, setVent] = useState<number | null>(null);
-  const [m, setM] = useState(0);
+  // 1× hızda bir fırın dakikası ≈ 0,5 saniye: 20. dakika ~10 saniye sonra gelir; duraklatılabilir
+  const clock = useClock(2, 75);
+  const m = Math.floor(clock.t);
   const [probe, setProbe] = useState<number | null>(null);
 
-  useEffect(() => {
-    if (step !== "pisir") return;
-    const iv = window.setInterval(() => setM((x) => Math.min(75, x + 1)), MIN_MS);
-    return () => window.clearInterval(iv);
-  }, [step]);
   useEffect(() => {
     if (step === "pisir" && m >= 75) setStep("cikti");
   }, [m, step]);
@@ -42,6 +39,7 @@ export function OvenStage({ d, set, done }: StageProps) {
     set("steam", steam);
     set("ventMinute", vent);
     set("bakeMinutes", m);
+    clock.pause();
     setStep("cikti");
     sfx.creak();
     buzz(30);
@@ -114,6 +112,17 @@ export function OvenStage({ d, set, done }: StageProps) {
 
       {step === "pisir" && (
         <>
+          {!clock.started && (
+            <Tahsin>
+              {steam
+                ? "Benim düzenim: 20. dakikada kapağı açıp buharı bırakırım, ~40. dakikada renge bakıp çıkarırım. Hazır olunca kapağı kapat."
+                : "Buharsız pişiriyoruz. ~40. dakikada renge bakıp çıkarırım. Hazır olunca kapağı kapat."}
+            </Tahsin>
+          )}
+          <ClockControls clock={clock} label="Kapağı kapat, pişirmeyi başlat" />
+          {clock.started && steam && vent === null && (
+            <Upcoming active={m >= 15 && m <= 25}>{m < 15 ? "Buhar içeride; kulak açılıyor. Tahliye zamanı yaklaşınca haber vereceğim." : m <= 25 ? "Şimdi buharı bırakmanın tam zamanı." : "Buhar uzun kaldı; kabuk soluk kalabilir."}</Upcoming>
+          )}
           <div className="grid grid-cols-3 gap-2 rounded-2xl p-3 border" style={{ borderColor: C.line, background: C.card }}>
             <Readout value={`${m} dk`} label="süre" />
             <Readout value={steam ? (vent === null ? "açık" : `${vent}. dk`) : "yok"} label="buhar" tone={steam && vent === null && m > 28 ? "warn" : "ink"} />
@@ -140,7 +149,7 @@ export function OvenStage({ d, set, done }: StageProps) {
           <div className="grid grid-cols-2 gap-3">
             <Btn
               variant="ghost"
-              disabled={!steam || vent !== null}
+              disabled={!steam || vent !== null || !clock.started}
               onClick={() => {
                 setVent(m);
                 sfx.hiss(0.6);
@@ -158,7 +167,7 @@ export function OvenStage({ d, set, done }: StageProps) {
               Termometre
             </Btn>
           </div>
-          <Btn disabled={m < 10} onClick={takeOut}>
+          <Btn disabled={m < 10 || !clock.started} onClick={takeOut}>
             Fırından çıkar
           </Btn>
         </>

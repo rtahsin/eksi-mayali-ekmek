@@ -25,6 +25,7 @@ export const RYE_MASTER: RyeDecisions = {
   proofHours: 1.5,
   covered: true,
   fallingOven: true,
+  steamAtLoad: true,
   bakeMinutes: 120,
   vents: 3,
   flip: true,
@@ -192,7 +193,8 @@ export function simulateRye(d: RyeDecisions): RyeRun {
       ev(t, key, label);
     }
   };
-  let moisture = 1; // fırın içindeki nem (buhar); tahliye düşürür
+  // Fırın içindeki nem: yüklerken verilen buhar + hamurun kendi buharı; tahliye düşürür
+  let moisture = d.steamAtLoad ? 1 : 0.45;
   const ventEvery = d.vents > 0 ? d.bakeMinutes / (d.vents + 1) : Infinity;
   for (let m = 0; m <= d.bakeMinutes; m += 1) {
     const core = ryeCoreAt(m, T, d.fallingOven);
@@ -306,7 +308,8 @@ function scoreRye(d: RyeDecisions, p: RyePhysio): RyeResult {
   const acidBalance = gauss(sourness, 0.45, 0.3);
   const saltTaste = gauss(p.saltPct, 2.5, 0.9);
   const scores = {
-    kabarma: Math.round(100 * clamp(0.75 * proofQ + 0.25 * poppy) * (d.mix === "yogur" ? 0.92 : 1)),
+    // Buharsız yüklemede kabuk erken bağlar, ekmek açılamaz ve yanlardan yırtılır
+    kabarma: Math.round(100 * clamp(0.75 * proofQ + 0.25 * poppy) * (d.mix === "yogur" ? 0.92 : 1) * (d.steamAtLoad ? 1 : 0.85)),
     // Fazla mayalanan çavdarın kabuk altında boşluk kalır, iç çöker
     ic: Math.round(100 * clamp(1 - gummy) * (0.85 + 0.15 * restQ) * (over ? 0.75 : 1)),
     kabuk: Math.round(100 * clamp(crustQ * (0.55 + 0.45 * p.bottomCrust) * skin * (0.8 + 0.2 * poppy) * (burnt ? 0.3 : 1))),
@@ -325,6 +328,7 @@ function scoreRye(d: RyeDecisions, p: RyePhysio): RyeResult {
   else if (under) tips.push("mayalanma_az");
   if (!d.covered) tips.push("ortu_yok");
   if (!d.fallingOven && crustColor > 0.8) tips.push("firin_sabit");
+  if (!d.steamAtLoad) tips.push("buhar_yok");
   if (d.vents === 0) tips.push("buhar_kaldi");
   if (!d.flip) tips.push("ters_cevirmedi");
   if (done < 0.7) tips.push("az_pisti");
@@ -374,6 +378,7 @@ export const RYE_TIP_TEXT: Record<RyeTipKey, string> = {
   ortu_yok: "Dolapta üstünü kapatmadın; yüzey kurudu, kabuk derisi çatladı.",
   firin_sabit: "Fırını 220 °C'de sabit bıraktın; iki saatte üst yandı. Isıtıcıları kapat, sıcaklık kendiliğinden düşsün.",
   buhar_kaldi: "Buharı hiç tahliye etmedin; kabuk ıslak ve yumuşak kaldı.",
+  buhar_yok: "Yüklerken buhar vermedin; kabuk hemen bağladı, ekmek açılamadı.",
   ters_cevirmedi: "Kalıptan çıkarıp ters çevirmedin; alt kabuk nemli kaldı.",
   az_pisti: "Biraz daha fırında kalmalıydı; yoğun çavdarın içi 96 dereceyi görmedi.",
   erken_kesti: "Bir gün dolmadan kestin; jel oturmadan bıçağa yapışır. Streçte en az bir, ideali iki gün.",

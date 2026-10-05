@@ -3,6 +3,7 @@ import {
   MASTER_DECISIONS,
   doughTemperature,
   internalTempAt,
+  maturityAtShape,
   pokeResult,
   simulateBread,
   starterVigor,
@@ -52,10 +53,10 @@ describe("EkmekLab simülatörü — Tahsin'in köy ekmeği", () => {
     expect(warm.scores.toplam).toBeGreaterThan(cold.scores.toplam);
   });
 
-  it("parmak testi kabarmaya göre", () => {
-    expect(pokeResult(0.6)).toBe("hizli");
-    expect(pokeResult(1.1)).toBe("yavas");
-    expect(pokeResult(1.6)).toBe("donmuyor");
+  it("parmak testi şekil anındaki olgunluğa göre: usta ayarı 4 °C, kısa mayalanma 12 °C", () => {
+    expect(pokeResult(maturityAtShape(MASTER_DECISIONS))).toBe("yavas");
+    expect(pokeResult(maturityAtShape({ ...MASTER_DECISIONS, bulkHours: 2 }))).toBe("hizli");
+    expect(pokeResult(maturityAtShape({ ...MASTER_DECISIONS, bulkHours: 5 }))).toBe("donmuyor");
   });
 
   it("tuz otolize konursa usta uyarır; tuzsuz yavan", () => {

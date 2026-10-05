@@ -10,6 +10,7 @@ import { LensButton, LensSheet } from "../micro/LensSheet";
 import { Btn, C, Feedback, Readout, StageTitle, Tahsin, mono, serif } from "../ui";
 import { RyeCrumbSvg, RyeLoafSvg } from "./RyeLoaf";
 import type { ChapterHooks } from "./StarterChapter";
+import { ClockControls, Upcoming, useClock } from "../useClock";
 
 /**
  * Bölüm 4 — Gece Yarısı: Tahsin'in mavi haşhaşlı çavdarı (docs/OYUN.md §11).
@@ -74,8 +75,11 @@ export function RyeChapter({ hooks, onDone }: { hooks: ChapterHooks; onDone: (sc
   const [poured, setPoured] = useState(false);
   const [mixed, setMixed] = useState<null | "karistir" | "yogur">(null);
   const [pressing, setPressing] = useState(false);
-  const [t, setT] = useState(0);
-  const [running, setRunning] = useState(false);
+  // Mayalanma: 1× hızda bir saat ≈ 3,3 sn (çatlak penceresi ~3,5 sn, duraklatılabilir).
+  // Fırın: 1× hızda bir dakika ≈ 0,33 sn (iki saat ≈ 40 sn; 3× ile ~13 sn).
+  const proofClock = useClock(0.3, 5);
+  const ovenClock = useClock(3, 180);
+  const t = step === "firin" ? Math.floor(ovenClock.t) : proofClock.t;
   const [lens, setLens] = useState(false);
   const [recorded, setRecorded] = useState(false);
   const asked = useRef(new Set<string>());
@@ -118,12 +122,6 @@ export function RyeChapter({ hooks, onDone }: { hooks: ChapterHooks; onDone: (sc
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [step]);
 
-  // Zaman akışları: mayalanma (saat) ve fırın (dakika)
-  useEffect(() => {
-    if (!running) return;
-    const iv = window.setInterval(() => setT((x) => x + (step === "firin" ? 1 : 0.05)), step === "firin" ? 120 : 220);
-    return () => window.clearInterval(iv);
-  }, [running, step]);
   // Haşhaş kaplama: basılı tutunca dolar; kuru elle tutmaz
   useEffect(() => {
     if (!pressing) return;
@@ -132,8 +130,8 @@ export function RyeChapter({ hooks, onDone }: { hooks: ChapterHooks; onDone: (sc
   }, [pressing]);
 
   const next = (s: Step) => {
-    setT(0);
-    setRunning(false);
+    proofClock.pause();
+    ovenClock.pause();
     setStep(s);
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
@@ -151,6 +149,23 @@ export function RyeChapter({ hooks, onDone }: { hooks: ChapterHooks; onDone: (sc
   return (
     <div className="space-y-5">
       <StageTitle kicker="Bölüm" n={4} title="Gece Yarısı" sub="Mavi haşhaşlı çavdar. İki gün dinlenir." />
+      {idx > 0 && step !== "sonuc" && (
+        <button
+          type="button"
+          onClick={() => {
+            const prev = STEPS[idx - 1];
+            if (prev === "haslama") setPoured(false);
+            if (prev === "karistir") setMixed(null);
+            if (prev === "mayalanma") proofClock.reset();
+            if (prev === "firin") ovenClock.reset();
+            next(prev);
+          }}
+          className="text-sm font-semibold min-h-[44px]"
+          style={{ color: C.soft }}
+        >
+          ← Önceki adım
+        </button>
+      )}
       <div className="flex gap-1.5">
         {STEPS.map((s, i) => (
           <div key={s} className="h-1.5 flex-1 rounded-full" style={{ background: i <= idx ? C.accent : C.line }} />
@@ -324,9 +339,11 @@ export function RyeChapter({ hooks, onDone }: { hooks: ChapterHooks; onDone: (sc
             <Readout value={`${t.toFixed(1)} sa`} label="süre" />
             <Readout value={cracks > 0.05 ? (cracks > 0.75 ? "derin" : "belirdi") : "yok"} label="çatlaklar" tone={cracks > 0.05 && cracks <= 0.75 ? "good" : cracks > 0.75 ? "bad" : "ink"} />
           </div>
-          {!running && t === 0 ? (
-            <Btn onClick={() => setRunning(true)}>Zamanı akıt</Btn>
-          ) : (
+          <Upcoming active={cracks > 0.05 && cracks <= 0.75}>
+            {cracks <= 0.05 ? "Yüzey henüz düz. Genelde 1–2 saatte çatlar belirir." : cracks <= 0.75 ? "Çatlaklar belirdi: dolaba alma zamanı." : "Çatlaklar derinleşti; fazla bekledi."}
+          </Upcoming>
+          <ClockControls clock={proofClock} label="Kalıpları tezgâha koy, zamanı başlat" />
+          {proofClock.started && (
             <>
               <p className="text-sm font-bold">Dolaba alırken:</p>
               <Choice
@@ -340,7 +357,7 @@ export function RyeChapter({ hooks, onDone }: { hooks: ChapterHooks; onDone: (sc
               <Btn
                 onClick={() => {
                   set("proofHours", Math.max(0.1, t));
-                  setRunning(false);
+                  proofClock.pause();
                   hooks.unlock("olay_catlak", () => next("firin"));
                 }}
               >
@@ -354,14 +371,14 @@ export function RyeChapter({ hooks, onDone }: { hooks: ChapterHooks; onDone: (sc
       {step === "firin" && (
         <>
           <Tahsin>
-            {t === 0
-              ? "Sabah. Fırını 280 dereceye ısıttım. Kalıpları nasıl pişireceğiz?"
+            {!ovenClock.started
+              ? "Sabah. Fırını 280 dereceye ısıttım. Kalıpları nasıl pişireceğiz? Benim düzenim: 220'de yükle, buhar ver, ısıtıcıları kapat; ara ara buharı bırak; iki saate yakın kalıptan çıkarıp ters çevir."
               : d.fallingOven
               ? "Isıtıcılar kapalı, fırın kendi kendine soğuyor; üst yanmadan içi pişiyor. Ara ara kapağı açıp buharı bırak."
               : "Fırın 220'de sabit. Uzun pişmede üste dikkat."}
           </Tahsin>
           <RyeLoafSvg look={{ rise, cracks, crust: crustNow, poppy: d.poppyCoverage, inTin: !d.flip }} className="w-full" />
-          {t === 0 && !running ? (
+          {!ovenClock.started ? (
             <>
               <Choice
                 value={d.fallingOven ? "dusen" : "sabit"}
@@ -371,18 +388,22 @@ export function RyeChapter({ hooks, onDone }: { hooks: ChapterHooks; onDone: (sc
                 ]}
                 onChange={(v) => set("fallingOven", v === "dusen")}
               />
-              <Btn
-                onClick={() => {
-                  sfx.creak();
-                  sfx.hiss();
-                  setRunning(true);
-                }}
-              >
-                Kalıpları fırına koy
-              </Btn>
+              <Choice
+                value={d.steamAtLoad ? "buhar" : "yok"}
+                options={[
+                  { v: "buhar", label: "Yüklerken buhar ver", sub: "Tahsin" },
+                  { v: "yok", label: "Buharsız" },
+                ]}
+                onChange={(v) => set("steamAtLoad", v === "buhar")}
+              />
+              <ClockControls clock={ovenClock} label="Kalıpları koy, kapağı kapat" />
             </>
           ) : (
             <>
+              <ClockControls clock={ovenClock} />
+              <Upcoming active={t >= 100 && !d.flip}>
+                {t < 100 ? "İç yavaş ısınıyor; arada bir buharı bırak. ~100. dakikadan sonra kalıptan çıkarıp ters çevir." : !d.flip ? "Kalıptan çıkarıp ters çevirme zamanı." : "Alt kabuk kuruyor; birkaç dakika sonra çıkar."}
+              </Upcoming>
               <div className="grid grid-cols-3 gap-2 rounded-2xl p-3 border" style={{ borderColor: C.line, background: C.card }}>
                 <Readout value={`${t} dk`} label="süre" />
                 <Readout value={`${Math.round(ovenCore)}°`} label="iç sıcaklık" tone={ovenCore >= 96 ? "good" : "ink"} />
@@ -423,7 +444,7 @@ export function RyeChapter({ hooks, onDone }: { hooks: ChapterHooks; onDone: (sc
               <Btn
                 onClick={() => {
                   set("bakeMinutes", t);
-                  setRunning(false);
+                  ovenClock.pause();
                   sfx.ding(ovenCore >= 96);
                   hooks.unlock("olay_dusen_firin", () => next("dinlenme"));
                 }}

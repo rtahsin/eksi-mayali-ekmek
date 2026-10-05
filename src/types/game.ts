@@ -350,6 +350,8 @@ export interface RyeDecisions {
   covered: boolean;
   /** Düşen fırın: 280 °C'de ısıt, 220 °C'de yükle, ısıtıcılar kapalı kalsın */
   fallingOven: boolean;
+  /** Kalıpları yüklerken buhar verildi mi (Tahsin: evet) */
+  steamAtLoad: boolean;
   /** Fırında toplam süre (dk; Tahsin ~120) */
   bakeMinutes: number;
   /** Buharı kaç kez tahliye etti */
@@ -372,6 +374,7 @@ export type RyeTipKey =
   | "ortu_yok"
   | "firin_sabit"
   | "buhar_kaldi"
+  | "buhar_yok"
   | "ters_cevirmedi"
   | "az_pisti"
   | "erken_kesti"
