@@ -1,57 +1,82 @@
-import React from "react";
-import type { Metadata } from "next";
-import { Navbar } from "@/components/common/Navbar";
-import { AtelierThresholdHero } from "@/components/atelier/AtelierThresholdHero";
-import { ProductCatalog } from "@/components/storefront/ProductCatalog";
-import { HowWeBake } from "@/components/storefront/HowWeBake";
+import type { Metadata, Viewport } from "next";
 import { CartDrawer } from "@/components/cart/CartDrawer";
 import { MobileCartBar } from "@/components/cart/MobileCartBar";
 import { OrderSuccessModal } from "@/components/cart/OrderSuccessModal";
-import { Footer } from "@/components/common/Footer";
+import { HomeHeader } from "@/components/home/HomeHeader";
+import { HomeFooter } from "@/components/home/HomeFooter";
+import {
+  HomeFaq,
+  HomeHero,
+  HomeLab,
+  HomeLibrary,
+  HomeProducts,
+  HomeStockists,
+  HomeStory,
+  HomeWholesale,
+} from "@/components/home/HomeSections";
 import { getCatalog } from "@/lib/products/server";
+import { groupHomeProducts } from "@/lib/products/homeSections";
+import { getStoreSettings } from "@/lib/settings/server";
+import { toWhatsAppNumber } from "@/lib/settings/schema";
+import { CONTACT } from "@/lib/site";
 
-export const revalidate = 60; // ISR: Revalidate catalog every 60 seconds
+export const revalidate = 60; // ISR: katalog ve ayarlar dakikada bir tazelenir
+
+const TITLE = "EkmekLab · Mahallenin ekmek laboratuvarı";
+const DESCRIPTION =
+  "Beylikdüzü'nde ekşi mayayla, taş tabanlı fırında pişen ekmek. Un, su, tuz ve yaklaşık 24 saat. Sen günü seç, kapına getirelim.";
 
 export const metadata: Metadata = {
-  title: "EkmekLab | Taş Fırın Ekşi Mayalı Ekmek & Gurme Lezzetler",
-  description:
-    "Beylikdüzü'nde ata tohumu unlar ve canlı ekşi mayayla, uzun fermantasyonla hazırlanan katkısız ekmekler ve doğal mandıra seçkisi. Günlük taze üretim.",
+  title: TITLE,
+  description: DESCRIPTION,
   openGraph: {
-    title: "EkmekLab | Taş Fırın Ekşi Mayalı Ekmek & Gurme Lezzetler",
-    description:
-      "Beylikdüzü'nde ata tohumu unlar ve canlı ekşi mayayla, uzun fermantasyonla hazırlanan katkısız ekmekler ve doğal mandıra seçkisi.",
+    title: TITLE,
+    description: DESCRIPTION,
     type: "website",
     locale: "tr_TR",
+    images: [{ url: "/images/products/koy-ekmegi.jpg", width: 848, height: 1131, alt: "EkmekLab köy ekmeği" }],
   },
 };
 
+export const viewport: Viewport = {
+  themeColor: "#F6EEDF",
+};
+
 export default async function HomePage() {
-  const { products, categories } = await getCatalog();
+  const [{ products }, settings] = await Promise.all([getCatalog(), getStoreSettings()]);
+  const groups = groupHomeProducts(products);
 
   return (
-    <div className="min-h-screen flex flex-col bg-background text-foreground selection:bg-artisan-amber/20 selection:text-artisan-gold font-sans">
-      {/* 1. Header with Logo & Cart */}
-      <Navbar />
+    <div className="min-h-screen flex flex-col bg-krem-paper text-krem-ink font-sans [color-scheme:light] selection:bg-krem-accent/20">
+      <a
+        href="#ekmekler"
+        className="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-50 focus:rounded-full focus:bg-krem-ink focus:px-4 focus:py-2 focus:text-white"
+      >
+        Ekmeklere geç
+      </a>
+      <HomeHeader />
 
-      {/* 2. Main Storefront Flow */}
-      <main className="flex-1 space-y-0">
-        {/* Atölyenin Eşiği (Hero with atelier_threshold.png) */}
-        <AtelierThresholdHero />
+      {settings.announcementText && (
+        <p className="border-b border-krem-line bg-krem-card px-4 py-2.5 text-center text-sm text-krem-ink">
+          {settings.announcementText}
+        </p>
+      )}
 
-        {/* Ekmekler, Özel Ön Sipariş & Şarküteri Kataloğu (Pre-rendered RSC + client hydrated) */}
-        <ProductCatalog initialProducts={products} categories={categories} />
-
-        {/* Nasıl Üretiyoruz? (3 Sade Adım) */}
-        <HowWeBake />
+      <main className="flex-1">
+        <HomeHero settings={settings} />
+        <HomeProducts groups={groups} settings={settings} />
+        <HomeStory />
+        <HomeLab />
+        <HomeStockists />
+        <HomeLibrary />
+        <HomeWholesale settings={settings} />
+        <HomeFaq settings={settings} />
       </main>
 
-      {/* 3. Footer */}
-      <Footer />
+      <HomeFooter whatsappE164={toWhatsAppNumber(settings.whatsappPhone || CONTACT.phoneDisplay)} />
 
-      {/* 3b. Mobile sticky cart bar (md altında) */}
+      {/* Sepet ve sipariş (istemci adaları) */}
       <MobileCartBar />
-
-      {/* 4. Drawers & Modals (Client Islands) */}
       <CartDrawer />
       <OrderSuccessModal />
     </div>
