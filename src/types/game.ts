@@ -49,6 +49,8 @@ export interface BakeDecisions {
   waterTempC: number;
   saltGrams: number;
   saltTiming: SaltTiming;
+  /** Otoliz süresi (dakika; 0 = otoliz yok) */
+  autolyseMinutes: number;
   /** Yoğurma ritim oyunu başarısı (0–1) */
   kneadQuality: number;
   /** Katlamalı mayalanma süresi (saat) */
@@ -127,4 +129,309 @@ export interface BakeResult {
   scores: { kabarma: number; ic: number; kabuk: number; lezzet: number; toplam: number };
   title: string;
   tips: TipKey[];
+}
+
+/* ───────────────────────── Sürüm 3: mikro dünya, maya bölümü, defter ───────────────────────── */
+
+/** Mikro dünyadaki canlı grupları (lonca) */
+export type Guild =
+  /** Enterobakteriler ve benzeri aside duyarlı öncüler (yeni mayanın ilk günleri) */
+  | "ent"
+  /** Öncü laktik asit bakterileri (Leuconostoc, Weissella, Lactococcus…) */
+  | "lacP"
+  /** Ekşi maya uzmanı laktik asit bakterileri (F. sanfranciscensis, L. plantarum…) */
+  | "lacS"
+  /** Mayalar (K. humilis, S. cerevisiae…) */
+  | "yst";
+
+/** Nüfuslar: log10 KOB/g (koloni oluşturan birim / gram) */
+export type Populations = Record<Guild, number>;
+
+export type MicroPhase = "kavanoz" | "otoliz" | "yogurma" | "mayalanma" | "sekil" | "dolap" | "firin" | "sogutma";
+
+/** Hamurun ana yapı malzemesi: buğday/siyez gluten ağı kurar, çavdar pentozan jeli */
+export type Matrix = "bugday" | "siyez" | "cavdar";
+
+/** Fırın ve soğuma sırasında iç yapının durumu */
+export interface HeatState {
+  /** Çekirdek sıcaklık (°C) */
+  coreC: number;
+  /** Yüzey sıcaklığı (°C) */
+  surfaceC: number;
+  /** Canlı maya oranı (1 = hepsi canlı, 0 = hepsi öldü) */
+  yeastAlive: number;
+  labAlive: number;
+  /** Nişasta jelleşmesi 0–1 */
+  starchGel: number;
+  /** Protein ağının pişip donması 0–1 */
+  glutenSet: number;
+  /** Kabuk oluşumu ve renk (Maillard) 0–1 */
+  crust: number;
+  /** Soğurken nişastanın yeniden düzenlenmesi (retrogradasyon, içi "oturtur") 0–1 */
+  retro: number;
+}
+
+/**
+ * Bir andaki mikro dünya. Büyüteç (MicroScope) bunu çizer; motor üretir.
+ * 0–1 alanlar görselleştirme içindir; mutlak değerler ayrı alanlarda.
+ */
+export interface MicroSnapshot {
+  /** Zaman (saat), kendi çizelgesinde (maya bölümünde günün saati; pişirme gününde maya beslemesinden beri) */
+  t: number;
+  phase: MicroPhase;
+  matrix: Matrix;
+  /** Ortam/hamur sıcaklığı (°C) */
+  tempC: number;
+  pH: number;
+  /** log10 KOB/g */
+  pop: Populations;
+  /** Fermente edilebilir şeker, 0–1 (1 = bol) */
+  sugar: number;
+  /** Henüz kesilmemiş hasarlı nişasta, 0–1 */
+  damagedStarch: number;
+  /** Suyun unla buluşması (otoliz başında düşük), 0–1 */
+  water: number;
+  /** Çözünmüş CO₂ doygunluğu, 0–1 (1 = su doydu, gaz kabarcıklara geçiyor) */
+  dissolvedCO2: number;
+  /** Hacim artışı (0 = başlangıç, 1 = iki katı) */
+  gas: number;
+  /** Gluten ağı gelişimi 0–1 (çavdarda pentozan jeli) */
+  glutenDev: number;
+  /** Proteaz/asit hasarı 0–1 */
+  glutenDamage: number;
+  /** Ağın hizalanması 0–1 (katlama, şekil gerginliği) */
+  glutenAlign: number;
+  /** Tuz iyonları 0–1 (0 = tuz yok, 1 = %2) */
+  salt: number;
+  /** mmol/kg */
+  lactic: number;
+  acetic: number;
+  /** Anlık enzim aktiviteleri 0–1 */
+  amylase: number;
+  protease: number;
+  phytase: number;
+  /** Fırın/soğuma (yalnız o aşamalarda) */
+  heat?: HeatState;
+}
+
+/** Pişirme günü zaman çizelgesindeki olaylar */
+export type BakeEventKey =
+  | "maya_beslendi"
+  | "maya_tepe"
+  | "otoliz"
+  | "yogurma"
+  | "tuz"
+  | "katlama"
+  | "iki_kat"
+  | "on_sekil"
+  | "son_sekil"
+  | "dolap"
+  | "firin"
+  | "son_maya_patlamasi"
+  | "maya_oldu"
+  | "nisasta_jel"
+  | "gluten_dondu"
+  | "amilaz_durdu"
+  | "kabuk_renk"
+  | "ic_pisti"
+  | "firindan_cikti"
+  | "kesildi";
+
+export interface BakeEvent {
+  /** saat (pişirme günü çizelgesi) */
+  t: number;
+  key: BakeEventKey;
+  /** Kısa Türkçe etiket (ör. "Maya öldü · 55 °C") */
+  label: string;
+}
+
+/** Simülasyonun tamamı: sonuç + mikro zaman çizelgesi */
+export interface BakeRun {
+  result: BakeResult;
+  /** Zamana göre sıralı örnekler (5 dk; fırında 1 dk) */
+  samples: MicroSnapshot[];
+  events: BakeEvent[];
+  /** Aşama başlangıçları (saat) */
+  marks: Record<MicroPhase | "kesim", number>;
+}
+
+/* ── Bölüm 1: maya ── */
+
+export type FlourKind = "beyaz" | "tam_bugday" | "tam_cavdar";
+export type StarterSpot = "serin" | "tezgah" | "ilik";
+export type FeedRatio = "1:1:1" | "1:2:2" | "1:5:5";
+
+export interface StarterDayDecision {
+  spot: StarterSpot;
+  /** Günün başında besleme ("yok" = beslemeden bekle) */
+  feed: FeedRatio | "yok";
+}
+
+export type StarterSmell = "un" | "peynir" | "kusmuk" | "yogurt" | "sirke" | "meyve" | "aseton" | "elma" | "kuf";
+
+/** Günün özeti: oyuncuya ne görüneceği */
+export type StarterStageKey = "uyku" | "sahte_kabarma" | "sessizlik" | "uyaniyor" | "hazir" | "ac" | "kuf";
+
+export interface StarterState {
+  /** Tamamlanan gün sayısı */
+  day: number;
+  flour: FlourKind;
+  pop: Populations;
+  pH: number;
+  /** mmol/kg */
+  lactic: number;
+  acetic: number;
+  /** g/kg fermente edilebilir şeker */
+  sugar: number;
+  /** Arka arkaya beslenmeden geçen gün */
+  hungryDays: number;
+  /** Küflendi: atılıp yeniden başlanmalı */
+  ruined: boolean;
+}
+
+export interface StarterDay {
+  day: number;
+  decision: StarterDayDecision;
+  /** Saatlik örnekler 0..24 (25 adet) */
+  hours: MicroSnapshot[];
+  /** Saatlik kavanoz kabarması 0..24 (0 = lastik çizgisi, 1 = iki katı) */
+  rise: number[];
+  peakRise: number;
+  peakHour: number;
+  smell: StarterSmell;
+  hooch: boolean;
+  stage: StarterStageKey;
+}
+
+/** Mayanın karnesi: sonraki bölümlerde kullanılır */
+export interface StarterProfile {
+  name: string;
+  flour: FlourKind;
+  /** Hazır olduğu gün (null = henüz değil) */
+  readyDay: number | null;
+  /** 0–1: 1:1:1 beslemeden sonra iki katına çıkma hızı */
+  vigor: number;
+  /** 0–1 */
+  acidity: number;
+  /** 0–1: asetik asidin payı (keskinlik) */
+  aceticShare: number;
+  /** Bakteri:maya oranı (ör. 100 = 100 bakteriye 1 maya) */
+  labPerYeast: number;
+}
+
+/* ── Gece Yarısı (çavdar) ── */
+
+export interface RyeDecisions {
+  /** Ekşi hamura giren çavdar unu (% toplam un) */
+  sourPct: number;
+  /** Ekşi hamurun olgunlaşma süresi (saat) */
+  sourHours: number;
+  /** Ekşi hamurun sıcaklığı (°C) */
+  sourTempC: number;
+  /** Hidrasyon (%) */
+  hydration: number;
+  saltPct: number;
+  /** Kalıpta son mayalanma (saat) */
+  proofHours: number;
+  bakeTempC: number;
+  bakeMinutes: number;
+  /** Kesmeden önce dinlenme (saat) */
+  restHours: number;
+  /** Üstüne mavi haşhaş */
+  poppy: boolean;
+}
+
+/* ── Tahminler (tahmin et → gör → anla) ── */
+
+export interface Prediction {
+  id: string;
+  /** Hangi anda sorulur ("bolum:asama", ör. "maya:gun2", "koy:mayalanma") */
+  at: string;
+  question: string;
+  options: { id: string; text: string }[];
+  correct: string;
+  /** Cevaptan sonra gösterilen kısa açıklama (1–2 cümle) */
+  reveal: string;
+  /** Açılan defter kartı */
+  cardId?: string;
+}
+
+/* ── Defter ── */
+
+export type CardKind = "canli" | "molekul" | "olay" | "efsane" | "tarih";
+
+export interface CardSource {
+  citation: string;
+  url: string;
+}
+
+/** Büyüteçte dokunulabilen varlık türleri */
+export type MicroEntityKind =
+  | "ent"
+  | "lacP"
+  | "lacS"
+  | "yst"
+  | "nisasta"
+  | "gluten"
+  | "amilaz"
+  | "proteaz"
+  | "fitaz"
+  | "kabarcik"
+  | "co2"
+  | "maltoz"
+  | "asit"
+  | "tuz"
+  | "pentozan";
+
+export interface CodexCard {
+  id: string;
+  kind: CardKind;
+  /** Türkçe ad (ör. "Kazachstania humilis" ya da "Amilaz") */
+  name: string;
+  /** Bilimsel ad (canlılar) */
+  latin?: string;
+  /** Sevimli lakap (canlılar, ör. "Humi") */
+  nick?: string;
+  /** Usta sözü / tek satır (≤ 140 karakter) */
+  short: string;
+  /** Neden? (sade mekanizma) */
+  why: string;
+  /** Bilim (sayılar, koşullar) */
+  deep: string;
+  /** Canlılar için kimlik */
+  stats?: {
+    shape?: string;
+    sizeUm?: string;
+    tempOpt?: string;
+    pH?: string;
+    eats?: string;
+    makes?: string;
+    foundIn?: string;
+  };
+  sources: CardSource[];
+  /** Çoğu ustanın bilmediği */
+  rare?: boolean;
+  /** Çizim anahtarı (CardArt) */
+  art: string;
+  /** Büyüteçte bu varlığa dokununca açılır */
+  microKey?: MicroEntityKind;
+}
+
+/* ── İlerleme ── */
+
+export interface LabProgressV3 {
+  version: 3;
+  /** Bölüm/seviye başına en iyi puan */
+  best: Partial<Record<LevelId | "maya", number>>;
+  /** Açılan defter kartları */
+  cards: string[];
+  /** Tahminler: doğru / toplam */
+  sezgi: { right: number; total: number };
+  /** Cevaplanan tahminler (aynı soru iki kez sayılmasın) */
+  answered: string[];
+  /** Oyuncunun mayası (Bölüm 1) */
+  starter: StarterProfile | null;
+  plays: number;
+  /** Tamamlanan deney görevleri */
+  quests: string[];
 }

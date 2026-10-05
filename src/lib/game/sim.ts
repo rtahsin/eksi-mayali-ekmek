@@ -18,6 +18,7 @@ export const MASTER_DECISIONS: BakeDecisions = {
   waterTempC: 4,
   saltGrams: 80,
   saltTiming: "son",
+  autolyseMinutes: 60,
   kneadQuality: 0.9,
   bulkHours: 3,
   foldTimes: [0.5, 1, 1.5, 2, 2.5],
