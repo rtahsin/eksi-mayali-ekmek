@@ -92,3 +92,38 @@
 - **Dolap kararı:** şekil anındaki kabarmaya göre 4 °C ya da 12 °C → 4 °C.
 - **Fırın:** buharlı süre fırında kabarmayı ve kulağı, buharsız süre kabuğu belirler.
 - **Kesme zamanı:** erken kesmek iç yapıyı hamurumsu yapar.
+
+---
+
+## 10. Sürüm 2 — yapılanlar (5 Ekim 2026)
+
+**8 aşama, her biri ayrı mini oyun** (`src/components/game/stages/`):
+1. **Maya** — lastikli kavanoz zaman atlamalı kabarır/iner, tepede yakala; tartıya basılı tutarak dök (atalet var, taşabilir).
+2. **Un, su, tuz** — istenen hamur sıcaklığı (DDT) bulmacası: suyun sıcaklığını ayarla; suyu dök (unun kaldırma sınırı); tuz şimdi mi sonra mı; otoliz.
+3. **Yoğurma** — ritim oyunu (halka hamura değince dokun); tuz; pencere testi (gluten yetersizse yırtılır); fazla yoğurma hamuru ısıtır.
+4. **Katlamalı mayalanma** — kasadaki canlı hamur yayılır; kenarından tutup ortaya çekerek katla; küçük kavanozla (alikot) kabarmayı ölç.
+5. **Şekil ve dolap** — daire çizerek gerginlik (fazlası yırtar), tezgâhta dinlenme, son şekil, parmak testi (geri dönüş hızı kabarmayı anlatır), dolap kararı, gece.
+6. **Kesik** — bıçak tutuşu (30°/90°) + parmakla tek hareket; açı, uzunluk, hız ölçülür.
+7. **Taş fırın** — kapak, yükleme, buhar (tıslama), canlı fırın kabarması ve kabuk rengi, buharı tahliye, termometre, çıkar.
+8. **Sabır** — kabuğun şarkısı (çıtırtı sesi + çatlaklar), kesme zamanı.
+
+**Sonuç:** bıçak animasyonuyla kesit, puan (yıldız, rekor), aroma profili (laktik / asetik / kavrulmuş), ustanın yorumları, "Sen ve usta" karşılaştırma tablosu, Instagram dikey paylaşım kartı (PNG), sipariş köprüsü.
+
+**İlerleme:** Laboratuvar Defteri (30 kaynaklı bilim notu, ★ = ustaların bile çoğunun bilmediği), seviye kilitleri (köyde 75 → %50 siyez; Gece Yarısı çavdar Tahsin'in reçetesiyle açılacak), rekorlar — bu cihazda saklanır.
+
+**Ses:** dosya yok, Web Audio ile sentez (dökme, şapırtı, buhar, çıtırtı, bıçak, zil, gıcırtı). Titreşim destekleyen telefonlarda.
+
+### Kaynaklar (bilim notları)
+- De Vuyst & Neysens, *The sourdough microflora*, Trends in Food Science & Technology (2005) — LAB:maya ≈ 100:1
+- Calvert ve ark., *A review of sourdough starters*, PMC8117929 (2021)
+- Raymond Calvel (otoliz, 1974); Bakerpedia — Autolyse
+- Sun ve ark., *The entrainment and evolution of gas bubbles in bread dough*, Cereal Chemistry (2023) — delikler yoğurmada doğar
+- Geisslitz ve ark., *Comparative Study on Gluten Protein Composition of Ancient and Modern Wheat Species*, Foods 8(9) (2019) — siyezde yüksek gliadin/glutenin
+- Heun ve ark., *Site of einkorn wheat domestication identified by DNA fingerprinting*, Science 278 (1997) — Karacadağ
+- Lopez ve ark. (2001); Leenhardt ve ark. (2005) — ekşi maya fermantasyonunda fitat azalması
+- Schieberle & Grosch (TU München, 1985/1992) — 2-asetil-1-pirolin kabukta ~30 kat
+- Hamelman, *Bread: A Baker's Book of Techniques and Recipes* (2004) — laktik/asetik ve sıcaklık; çavdar
+- Nişasta retrogradasyonu literatürü — bayatlama en hızlı 0–5 °C
+- Bakerpedia — fırın kabarması (~60 °C maya ölümü, 60–80 °C nişasta jelleşmesi)
+
+> Sağlık iddiası yok: notlar mekanizma ve kaynak anlatır (docs/MARKA.md §3).

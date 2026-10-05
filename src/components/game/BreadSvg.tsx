@@ -66,13 +66,29 @@ export interface BreadLook {
   crust: number;
   openness: number;
   gummy: number;
+  /** İç rengi (siyez altın sarısı) */
+  crumbColor?: string;
 }
 
 /** Ekmeğin yandan görünüşü: kubbe, kabuk rengi, kesik ve kulak, un serpintisi, gravür taraması */
-export function LoafSvg({ look, seed = 7, className }: { look: BreadLook; seed?: number; className?: string }) {
+export function LoafSvg({
+  look,
+  seed = 7,
+  className,
+  growth = 1,
+  crackles = 0,
+}: {
+  look: BreadLook;
+  seed?: number;
+  className?: string;
+  /** Fırında büyüme (0 = hamur, 1 = tam ekmek) */
+  growth?: number;
+  /** Kabuktaki çıtırtı çatlakları (0–1) */
+  crackles?: number;
+}) {
   const id = useId().replace(/:/g, "");
   const W = 360;
-  const s = shapeOf(look.height, W, 210);
+  const s = shapeOf(lerp(Math.min(look.height, 0.42) * 0.75, look.height, growth), W, 210);
   const color = crustColor(look.crust);
   const dots = useMemo(() => {
     const rnd = mulberry32(seed);
@@ -83,7 +99,24 @@ export function LoafSvg({ look, seed = 7, className }: { look: BreadLook; seed?:
   }, [seed, s]);
 
   // Kesik: kubbenin tepesine yakın, hafif eğri bir yarık; kulak = açıklık + üstte kalkan dudak
-  const earOpen = 2 + look.ear * 14;
+  const earOpen = 1 + look.ear * 14 * growth;
+  const crumb = look.crumbColor ?? CRUMB;
+  const cracks = useMemo(() => {
+    const rnd = mulberry32(seed + 99);
+    return Array.from({ length: 22 }, () => {
+      const x = (rnd() - 0.5) * s.width * 0.85;
+      const y = topY(s, x) + 6 + rnd() * s.height * 0.6;
+      const pts = [`${(s.cx + x).toFixed(1)},${y.toFixed(1)}`];
+      let cx = s.cx + x;
+      let cy = y;
+      for (let k = 0; k < 3; k++) {
+        cx += (rnd() - 0.5) * 14;
+        cy += (rnd() - 0.3) * 8;
+        pts.push(`${cx.toFixed(1)},${cy.toFixed(1)}`);
+      }
+      return { d: `M ${pts.join(" L ")}`, at: rnd() };
+    });
+  }, [seed, s]);
   const x1 = -s.width * 0.3;
   const x2 = s.width * 0.28;
   const depthBelowTop = 6 + s.height * 0.12;
@@ -102,7 +135,7 @@ export function LoafSvg({ look, seed = 7, className }: { look: BreadLook; seed?:
   const slit = `M ${upper.join(" L ")} L ${[...lower].reverse().join(" L ")} Z`;
 
   return (
-    <svg viewBox={`0 0 ${W} 240`} className={className} role="img" aria-label="Senin ekmeğin">
+    <svg viewBox={`0 ${Math.max(0, s.base - s.height - 34).toFixed(0)} ${W} ${(240 - Math.max(0, s.base - s.height - 34)).toFixed(0)}`} className={className} role="img" aria-label="Senin ekmeğin">
       <defs>
         <linearGradient id={`c${id}`} x1="0" y1="0" x2="0" y2="1">
           <stop offset="0" stopColor={mix(color, "#1E120C", 0.25)} />
@@ -120,7 +153,20 @@ export function LoafSvg({ look, seed = 7, className }: { look: BreadLook; seed?:
       <path d={domePath(s)} fill={`url(#c${id})`} stroke={INK} strokeWidth="2" />
       <g clipPath={`url(#k${id})`}>
         <rect x="0" y="0" width={W} height="240" fill={`url(#h${id})`} />
-        <path d={slit} fill={CRUMB} stroke={INK} strokeWidth="1.2" />
+        {[0.92, 0.74, 0.56].map((k) => (
+          <path
+            key={k}
+            d={`M ${s.cx - s.width * 0.5 * k} ${topY(s, -s.width * 0.5 * k) + 3} Q ${s.cx} ${s.base - s.height * (1 + 0.05) } ${s.cx + s.width * 0.5 * k} ${topY(s, s.width * 0.5 * k) + 3}`}
+            fill="none"
+            stroke="#FFF6E0"
+            strokeWidth="2.5"
+            opacity={0.35 * (1 - look.crust * 0.6)}
+          />
+        ))}
+        <path d={slit} fill={crumb} stroke={INK} strokeWidth="1.2" />
+        {cracks.map((c, i) =>
+          c.at < crackles ? <path key={`k${i}`} d={c.d} fill="none" stroke="#2A1A12" strokeWidth="0.9" opacity="0.55" /> : null
+        )}
         {look.ear > 0.35 && (
           <path d={`M ${upper.join(" L ")}`} fill="none" stroke={mix(color, "#1E120C", 0.5)} strokeWidth={1.5 + look.ear * 3} strokeLinecap="round" />
         )}
@@ -157,7 +203,7 @@ export function CrumbSvg({ look, seed = 11, className }: { look: BreadLook; seed
   }, [seed, s, look.openness, look.gummy]);
 
   return (
-    <svg viewBox={`0 0 ${W} 240`} className={className} role="img" aria-label="Ekmeğinin kesiti">
+    <svg viewBox={`0 ${Math.max(0, s.base - s.height - 20).toFixed(0)} ${W} ${(240 - Math.max(0, s.base - s.height - 20)).toFixed(0)}`} className={className} role="img" aria-label="Ekmeğinin kesiti">
       <defs>
         <clipPath id={`k${id}`}>
           <path d={domePath(s)} />
@@ -167,7 +213,7 @@ export function CrumbSvg({ look, seed = 11, className }: { look: BreadLook; seed
           <stop offset="1" stopColor="#8A6A3E" stopOpacity={0.15 + look.gummy * 0.5} />
         </linearGradient>
       </defs>
-      <path d={domePath(s)} fill={CRUMB} stroke={crust} strokeWidth={4 + look.crust * 7} />
+      <path d={domePath(s)} fill={look.crumbColor ?? CRUMB} stroke={crust} strokeWidth={4 + look.crust * 7} />
       <g clipPath={`url(#k${id})`}>
         {holes.map((h, i) => (
           <ellipse
@@ -177,8 +223,8 @@ export function CrumbSvg({ look, seed = 11, className }: { look: BreadLook; seed
             rx={h.rx}
             ry={h.ry}
             transform={`rotate(${h.rot} ${h.x} ${h.y})`}
-            fill="#D7B985"
-            stroke="#B8955E"
+            fill={mix(look.crumbColor ?? CRUMB, "#8A6A3E", 0.3)}
+            stroke={mix(look.crumbColor ?? CRUMB, "#5A4020", 0.4)}
             strokeWidth="0.6"
           />
         ))}

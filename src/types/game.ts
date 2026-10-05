@@ -1,39 +1,71 @@
-/** EkmekLab simülatörü ("Usta Olabilir misin?") — oyuncunun kararları ve ekmeğin sonucu. */
+/** EkmekLab simülatörü ("Usta olabilir misin?") — seviyeler, oyuncu kararları, sonuç. */
 
-export type WaterTemp = "soguk" | "oda" | "ilik";
+export type LevelId = "koy" | "siyez" | "gece_yarisi";
+
+export interface LevelProfile {
+  id: LevelId;
+  name: string;
+  rank: "Çırak" | "Kalfa" | "Usta";
+  blurb: string;
+  /** Unun kaldırabileceği en yüksek su oranı (%) */
+  maxHydration: number;
+  /** Ustanın su aralığı (%) */
+  idealHydration: [number, number];
+  /** Gluten gücü (köy = 1); siyez zayıf */
+  glutenStrength: number;
+  /** Mayalanma hızı çarpanı */
+  fermentSpeed: number;
+  /** Kesmek için ideal bekleme (saat) */
+  cutIdealHours: number;
+  crumbColor: string;
+  /** Açılması için köy ekmeğinde gereken en iyi puan (yoksa açık) */
+  unlockScore?: number;
+  available: boolean;
+}
+
 export type FridgePlan = "dort" | "on_iki_sonra_dort";
-export type CutWait = "hemen" | "bir_saat" | "uc_saat";
+export type SaltTiming = "otoliz" | "son";
+
+export interface ScoreCut {
+  /** Kesiğin ekmeğin uzun eksenine göre açısı (derece, 0 = boylamasına) */
+  angleToAxis: number;
+  /** Kesiğin ekmek boyunu kaplama oranı (0–1) */
+  coverage: number;
+  /** Hareketin kararlılığı / hızı (0–1) */
+  speed: number;
+  /** Bıçağın yüzeye göre tutuluşu */
+  blade: 30 | 90;
+}
 
 export interface BakeDecisions {
-  /** Mayayı beslemeden kaç saat sonra kullandın (0–12) */
+  level: LevelId;
+  /** Mayayı beslemeden kaç saat sonra kullandın */
   levainHours: number;
-  /** Maya miktarı, unun yüzdesi (5–30) */
-  levainPct: number;
-  /** Su / un yüzdesi (60–90) */
-  hydration: number;
-  waterTemp: WaterTemp;
-  /** Tuz, unun yüzdesi (0–4) */
-  saltPct: number;
-  /** Yoğurma mini oyunu başarısı (0–1) */
+  /** Döküp tarttığın maya (g, 4000 g una) */
+  levainGrams: number;
+  /** Döküp tarttığın su (g) */
+  waterGrams: number;
+  /** Suyun sıcaklığı (°C) */
+  waterTempC: number;
+  saltGrams: number;
+  saltTiming: SaltTiming;
+  /** Yoğurma ritim oyunu başarısı (0–1) */
   kneadQuality: number;
-  /** Katlamalı mayalanma süresi, saat (1–6) */
+  /** Katlamalı mayalanma süresi (saat) */
   bulkHours: number;
-  /** Katlamaların yapıldığı saatler (bulk başından itibaren) */
+  /** Katlamaların yapıldığı saatler */
   foldTimes: number[];
-  /** Ön + son şekildeki gerginlik (0–1) */
-  shapeTension: number;
+  preshapeTension: number;
+  finalTension: number;
   fridgePlan: FridgePlan;
-  /** Bıçak açısı, hamur yüzeyine göre derece (0–90) */
-  scoreAngle: number;
-  /** Kesik derinliği (0–1) */
-  scoreDepth: number;
-  /** Fırın sıcaklığı, °C (180–260) */
-  ovenTemp: number;
-  /** Buharlı pişirme, dakika (0–30) */
-  steamMinutes: number;
-  /** Toplam pişirme, dakika (20–70) */
+  cut: ScoreCut;
+  /** Fırına buhar verildi mi */
+  steam: boolean;
+  /** Buharın tahliye edildiği dakika (null = hiç) */
+  ventMinute: number | null;
   bakeMinutes: number;
-  cutWait: CutWait;
+  /** Fırından çıktıktan kaç saat sonra kesildi */
+  cutWaitHours: number;
 }
 
 export type TipKey =
@@ -47,35 +79,51 @@ export type TipKey =
   | "hamur_soguk"
   | "tuz_yok"
   | "tuz_fazla"
+  | "tuz_otoliz"
   | "yogurma_zayif"
   | "katlama_az"
   | "katlama_bosa"
   | "az_kabardi"
   | "fazla_kabardi"
   | "gerginlik_az"
+  | "gerginlik_fazla"
   | "kesik_kotu"
-  | "buhar_az"
-  | "buhar_fazla"
+  | "kesik_dik"
+  | "buhar_yok"
+  | "buhar_tahliye_yok"
+  | "buhar_erken"
   | "az_pisti"
   | "yandi"
   | "erken_kesti";
 
+export interface AromaProfile {
+  /** Yoğurt gibi yumuşak ekşilik */
+  laktik: number;
+  /** Sirke gibi keskin ekşilik */
+  asetik: number;
+  /** Kabuktan gelen kavrulmuş / kraker kokusu (Maillard) */
+  kavrulmus: number;
+}
+
 export interface BakeResult {
-  /** Ara değerler (ekranda göstergeler için) */
   doughTemp: number;
-  /** Bulk sonu hacim artışı (1.0 = iki katı) */
+  hydration: number;
+  levainPct: number;
+  saltPct: number;
   bulkRise: number;
-  /** Fırına girerken toplam kabarma (1.0–1.2 ideal) */
+  /** Fırına girerken toplam kabarma (≈1,0–1,2 ideal) */
   proof: number;
   gluten: number;
-  /** Ekmeğin şekli ve görünüşü (çizim için, 0–1) */
+  internalTemp: number;
+  /** Çizim için 0–1 değerler */
   height: number;
   ear: number;
   crust: number;
   openness: number;
   gummy: number;
   sourness: number;
-  /** Puanlar (0–100) */
+  aroma: AromaProfile;
+  crumbColor: string;
   scores: { kabarma: number; ic: number; kabuk: number; lezzet: number; toplam: number };
   title: string;
   tips: TipKey[];
