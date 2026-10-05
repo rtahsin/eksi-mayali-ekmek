@@ -38,10 +38,16 @@ export interface GuildParams {
  */
 export const GUILDS: Record<Guild, GuildParams> = {
   ent: { muOpt: 1.1, Tmin: 5, Topt: 37, Tmax: 46, pHmin: 4.5, pHopt: 6.3, maxLog: 9.0, gas: 1.3, acid: 2.5, aceticShare: 0.45, sugarUse: 0.5, acidDeath: 0.55 },
-  lacP: { muOpt: 0.7, Tmin: 3, Topt: 28, Tmax: 38, pHmin: 4.1, pHopt: 6.2, maxLog: 9.2, gas: 0.06, acid: 3.0, aceticShare: 0.3, sugarUse: 0.5, acidDeath: 0.3 },
-  lacS: { muOpt: 0.62, Tmin: 9, Topt: 32, Tmax: 38.5, pHmin: 3.55, pHopt: 5.6, maxLog: 9.5, gas: 0.05, acid: 1.5, aceticShare: 0.22, sugarUse: 0.27, acidDeath: 0.08 },
-  yst: { muOpt: 0.23, Tmin: 4, Topt: 27, Tmax: 35.5, pHmin: 2.8, pHopt: 4.5, maxLog: 7.8, gas: 3.2, acid: 0, aceticShare: 0, sugarUse: 0.45, acidDeath: 0.05 },
+  lacP: { muOpt: 0.7, Tmin: 2, Topt: 28, Tmax: 38, pHmin: 4.1, pHopt: 6.2, maxLog: 9.2, gas: 0.06, acid: 3.0, aceticShare: 0.3, sugarUse: 0.5, acidDeath: 0.3 },
+  lacS: { muOpt: 0.62, Tmin: 3, Topt: 33, Tmax: 41, pHmin: 3.55, pHopt: 5.6, maxLog: 9.5, gas: 0.05, acid: 1.5, aceticShare: 0.22, sugarUse: 0.27, acidDeath: 0.08 },
+  yst: { muOpt: 0.23, Tmin: 6, Topt: 27, Tmax: 36, pHmin: 2.8, pHopt: 4.5, maxLog: 7.8, gas: 3.2, acid: 0, aceticShare: 0, sugarUse: 0.45, acidDeath: 0.05 },
 };
+
+/**
+ * Pişirme günü hamurundaki maya: olgun mayada K. humilis ile S. cerevisiae birlikte yaşar; S. cerevisiae
+ * gaz üretiminde daha sıcakta (~32–36 °C) en hızlıdır. Hamurda bu karışımın ortalaması kullanılır (ılık hamur hızlanır).
+ */
+export const DOUGH_YEAST: GuildParams = { ...GUILDS.yst, muOpt: 0.28, Topt: 34, Tmax: 42 };
 
 export interface FlourParams {
   label: string;
@@ -67,7 +73,7 @@ export const FLOURS: Record<FlourKind, FlourParams> = {
     damagedStarch: 55,
     amylase: 0.9,
     buffer: 1.0,
-    nutrients: 0.82,
+    nutrients: 0.9,
   },
   tam_bugday: {
     label: "Tam buğday",
@@ -110,9 +116,9 @@ export interface MatrixParams {
 }
 
 export const MATRIX: Record<Matrix, MatrixParams> = {
-  bugday: { glutenCapacity: 1, glutenRobust: 1, gelStart: 58, gelEnd: 72, amylaseOff: 82, ovenAmylase: 0.35, fermentBoost: 1, buffer: 1.15 },
-  siyez: { glutenCapacity: 0.66, glutenRobust: 0.7, gelStart: 58, gelEnd: 72, amylaseOff: 82, ovenAmylase: 0.4, fermentBoost: 1.12, buffer: 1.2 },
-  cavdar: { glutenCapacity: 0.12, glutenRobust: 0.5, gelStart: 52, gelEnd: 66, amylaseOff: 86, ovenAmylase: 1, fermentBoost: 1.1, buffer: 1.45 },
+  bugday: { glutenCapacity: 1, glutenRobust: 1, gelStart: 60, gelEnd: 80, amylaseOff: 84, ovenAmylase: 0.35, fermentBoost: 1, buffer: 0.8 },
+  siyez: { glutenCapacity: 0.66, glutenRobust: 0.7, gelStart: 60, gelEnd: 80, amylaseOff: 84, ovenAmylase: 0.4, fermentBoost: 1.12, buffer: 0.85 },
+  cavdar: { glutenCapacity: 0.12, glutenRobust: 0.5, gelStart: 52, gelEnd: 70, amylaseOff: 90, ovenAmylase: 1, fermentBoost: 1.1, buffer: 1.1 },
 };
 
 /** Laktik asidin pKa'sı 3,86; asetiğin 4,76 (ayrışmamış asit, hücre zarından geçip içeriden zarar verir) */

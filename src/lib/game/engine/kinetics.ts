@@ -1,5 +1,5 @@
 import type { Guild, Populations } from "@/types/game";
-import { GUILDS, PH_FLOOR, PH_FLOUR } from "./params";
+import { GUILDS, PH_FLOOR, PH_FLOUR, type GuildParams } from "./params";
 
 /** Mikrobiyal kinetik: büyüme, asit, gaz, enzimler. Saf fonksiyonlar. */
 
@@ -44,8 +44,7 @@ export function phytaseActivity(T: number, pH: number): number {
 }
 
 /** Bir loncanın verilen koşullarda büyüme hızı (ln/saat) */
-export function growthRate(g: Guild, logN: number, T: number, pH: number, sugar: number, nutrients: number): number {
-  const p = GUILDS[g];
+export function growthRate(g: Guild, logN: number, T: number, pH: number, sugar: number, nutrients: number, p: GuildParams = GUILDS[g]): number {
   const tau = ctmi(T, p.Tmin, p.Topt, p.Tmax);
   const phi = pH <= p.pHmin ? 0 : clamp((pH - p.pHmin) / (p.pHopt - p.pHmin)) ** 0.8;
   const sF = sugar / (sugar + 1.2);
@@ -56,8 +55,7 @@ export function growthRate(g: Guild, logN: number, T: number, pH: number, sugar:
 }
 
 /** Metabolik etkinlik (büyümeden bağımsız: durağan fazda da asit ve gaz üretilir) */
-export function activity(g: Guild, logN: number, T: number, pH: number, sugar: number): number {
-  const p = GUILDS[g];
+export function activity(g: Guild, logN: number, T: number, pH: number, sugar: number, p: GuildParams = GUILDS[g]): number {
   const tau = ctmi(T, p.Tmin - 4, p.Topt, p.Tmax + 1);
   const lo = p.pHmin - 0.35;
   const phi = clamp((pH - lo) / (p.pHopt - lo));
@@ -93,6 +91,8 @@ export interface FermentEnv {
   robust: number;
   /** Canlıların hız çarpanı (tuz ozmotik olarak yavaşlatır; yoksa 1) */
   rateMul?: number;
+  /** Bu ortamda loncanın parametrelerini değiştir (ör. hamurdaki maya karışımı) */
+  guilds?: Partial<Record<Guild, GuildParams>>;
 }
 
 export interface StepOut {
@@ -123,14 +123,14 @@ export function fermentStep(s: FermentState, env: FermentEnv): StepOut {
   const rm = env.rateMul ?? 1;
 
   for (const g of GUILD_LIST) {
-    const p = GUILDS[g];
+    const p = env.guilds?.[g] ?? GUILDS[g];
     const logN = s.pop[g];
-    const mu = growthRate(g, logN, T, pH, s.sugar, env.nutrients);
+    const mu = growthRate(g, logN, T, pH, s.sugar, env.nutrients, p);
     let death = 0;
     if (pH < p.pHmin) death += p.acidDeath * (p.pHmin - pH);
     if (s.sugar < 0.25) death += 0.008;
     pop[g] = Math.max(-1, logN + ((mu * rm) / Math.LN10 - death) * dtH);
-    const a = activity(g, logN, T, pH, s.sugar) * rm;
+    const a = activity(g, logN, T, pH, s.sugar, p) * rm;
     sugarUse += p.sugarUse * a;
     const share = clamp(p.aceticShare * acMod, 0, 0.6);
     lac += p.acid * (1 - share) * a;

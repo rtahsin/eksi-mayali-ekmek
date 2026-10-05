@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useRef, useState } from "react";
-import { bulkRiseAt, doughTemperature, fermentationRate, fridgeExtra, pokeResult } from "@/lib/game/sim";
+import { maturityAtOven, maturityAtShape, pokeResult } from "@/lib/game/sim";
 import { sfx, buzz } from "@/lib/game/audio";
 import { DoughBlob } from "../DoughBlob";
 import { Btn, C, Feedback, StageTitle, Tahsin } from "../ui";
@@ -17,10 +17,8 @@ export function ShapeStage({ d, set, done }: StageProps) {
   const [night, setNight] = useState(0);
   const lastSound = useRef(0);
 
-  const temp = doughTemperature(d.waterTempC, d.kneadQuality);
-  const rate = fermentationRate(d, temp);
-  const bulk = bulkRiseAt(d, temp, d.bulkHours);
-  const poke = pokeResult(bulk);
+  const atShape = maturityAtShape(d);
+  const poke = pokeResult(atShape);
   const pokeRecovery = poke === "hizli" ? 0.9 : poke === "yavas" ? 0.18 : 0;
   const torn = acc > 1.05;
   const tension = Math.min(1, acc);
@@ -202,8 +200,8 @@ export function ShapeStage({ d, set, done }: StageProps) {
               }}
             />
             <div className="mb-4 px-5 py-3 rounded-2xl text-sm font-semibold" style={{ background: "#FFFFFFD9", color: C.ink }}>
-              Dolap: {d.fridgePlan === "dort" ? "4 °C" : night < 0.4 ? "12 °C" : "4 °C"} · hamur{" "}
-              {Math.round((bulk + fridgeExtra(d.fridgePlan, rate, bulk) * night) * 100)}% kabarık
+              Dolap: {d.fridgePlan === "dort" ? "4 °C" : night < 0.4 ? "12 °C" : "4 °C"} · olgunluk %
+              {Math.round((atShape + (maturityAtOven(d) - atShape) * night) * 100)}
             </div>
           </div>
           <Tahsin>

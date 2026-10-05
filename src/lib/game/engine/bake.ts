@@ -19,6 +19,7 @@ import {
   FLOURS,
   FRIDGE_C,
   FRIDGE_HOURS,
+  DOUGH_YEAST,
   LEVAIN_TEMP_C,
   MATRIX,
   ROOM_TEMP_C,
@@ -92,9 +93,9 @@ export function pokeResult(maturity: number): "hizli" | "yavas" | "donmuyor" {
 }
 
 /** Usta ayarında fırına girerken üretilmiş toplam gaz (olgunluk 1,0'ın karşılığı) */
-const GAS_REF = 6.2;
+const GAS_REF = 0.72;
 /** Çözünmüş CO₂ kapasitesi (göreli): su doymadan kabarcık büyümez */
-const DISSOLVE_CAP = 0.5;
+const DISSOLVE_CAP = 0.12;
 
 interface DoughState {
   f: FermentState;
@@ -268,6 +269,7 @@ export function simulateBake(d: BakeDecisions, opts: BakeOptions = {}): BakeRun 
     aceticMod: 1,
     robust: mx.glutenRobust,
     rateMul: saltRate(saltPct),
+    guilds: { yst: DOUGH_YEAST },
   };
   // Yoğurma ağı kurar (ritim başarısı); tuz sonda eklenirse ağı sıkılaştırır
   dev = clamp(dev + (cap - dev) * (0.35 + 0.5 * clamp(d.kneadQuality)));
@@ -297,7 +299,7 @@ export function simulateBake(d: BakeDecisions, opts: BakeOptions = {}): BakeRun 
     g -= into;
     const strength = clamp(st.dev * (1 - st.f.damage) * (0.85 + 0.075 * Math.min(2, st.salt)));
     const retain = 0.35 + 0.65 * strength;
-    st.vol = Math.max(0, st.vol + g * 0.42 * retain - st.vol * (0.015 + 0.05 * (1 - strength)) * dt);
+    st.vol = Math.max(0, st.vol + g * 4.5 * retain - st.vol * (0.015 + 0.05 * (1 - strength)) * dt);
   };
   for (let tk = 0; tk < 0.25 - 1e-9; tk += DT) {
     step(doughT0);
@@ -474,7 +476,7 @@ export function simulateBake(d: BakeDecisions, opts: BakeOptions = {}): BakeRun 
     startC,
   });
   events.sort((a, b) => a.t - b.t);
-  return { result, samples, events, marks };
+  return { result, samples, events, marks, maturityAtShape };
 }
 
 interface Physio {
@@ -519,7 +521,7 @@ function scoreBake(d: BakeDecisions, lv: LevelProfile, p: Physio): BakeResult {
   const tornSkin = Math.max(d.preshapeTension, d.finalTension) > 0.97;
 
   const proof = p.maturity;
-  const proofQ = gauss(proof, 1.0, 0.2);
+  const proofQ = gauss(proof, 1.0, 0.24);
   const underProof = proof < 0.72;
   const overProof = proof > 1.38;
   const overFerm = clamp((proof - 1.38) / 0.9 + Math.max(0, p.damage - 0.45));

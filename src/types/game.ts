@@ -253,6 +253,8 @@ export interface BakeRun {
   events: BakeEvent[];
   /** Aşama başlangıçları (saat) */
   marks: Record<MicroPhase | "kesim", number>;
+  /** Son şekil anındaki olgunluk (1 = fırına girerken ideal); parmak testi ve dolap kararı için */
+  maturityAtShape: number;
 }
 
 /* ── Bölüm 1: maya ── */
