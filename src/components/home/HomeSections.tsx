@@ -401,7 +401,7 @@ export function HomeWholesale({ settings }: { settings: StoreSettings }) {
             <Eyebrow>Kafe · şarküteri · restoran</Eyebrow>
             <SectionTitle id="isletme-baslik">İşletmenize ekmek</SectionTitle>
             <p className="text-[17px] leading-relaxed text-krem-soft">
-              Beylikdüzü&apos;nde şarküterilere her gün ekmek veriyoruz. Senin işletmene de olur: hangi ekmek, kaç adet,
+              Beylikdüzü&apos;nde şarküterilere düzenli ekmek veriyoruz. Senin işletmene de olur: hangi ekmek, kaç adet,
               hangi günler; yaz, birlikte planlayalım.
             </p>
           </div>
