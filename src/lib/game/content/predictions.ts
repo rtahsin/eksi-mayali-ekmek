@@ -170,6 +170,43 @@ export const PREDICTIONS: Prediction[] = [
     reveal: "Proteini bol ama ağı zayıf ve az elastik: yapışkan hamur, daha az su, daha nazik katlama.",
     cardId: "tarih_karacadag",
   },
+  {
+    id: "cavdar_asit",
+    at: "cavdar:hamur",
+    question: "Çavdar ekmeği neden hep ekşi mayayla yapılır?",
+    options: [
+      { id: "lezzet", text: "Sadece ekşi tadı için" },
+      { id: "amilaz", text: "Asit amilazı frenler; yoksa iç yapışır" },
+      { id: "kabarma", text: "Fırıncı mayası çavdarı kabartamaz" },
+    ],
+    correct: "amilaz",
+    reveal: "Çavdarda amilaz bol ve nişasta düşük sıcaklıkta jelleşir; asit olmazsa fırında jel kesilir, iç vıcık vıcık olur.",
+    cardId: "tarih_cavdar",
+  },
+  {
+    id: "cavdar_yogurma",
+    at: "cavdar:karistir",
+    question: "Çavdar hamurunu pencere testi görene kadar yoğurmalı mı?",
+    options: [
+      { id: "evet", text: "Evet, gluten gelişmeli" },
+      { id: "hayir", text: "Hayır, çavdar gluten ağı kurmaz" },
+    ],
+    correct: "hayir",
+    reveal: "Çavdar proteinleri ağ kuramaz; yapıyı pentozan jeli ve nişasta taşır. Karıştırmak yeter; yoğurmak yalnız yapışkanlaştırır.",
+    cardId: "pentozan",
+  },
+  {
+    id: "cavdar_dinlenme",
+    at: "cavdar:dinlenme",
+    question: "Fırından çıkan çavdar ekmeği ne zaman kesilir?",
+    options: [
+      { id: "1sa", text: "Bir saat sonra" },
+      { id: "1gun", text: "En az bir, ideali iki gün sonra" },
+    ],
+    correct: "1gun",
+    reveal: "İç gluten değil jel ve nişastayla tutunur; nemin dağılması ve nişastanın oturması 24–48 saat sürer.",
+    cardId: "olay_kesme",
+  },
 ];
 
 export const PREDICTION_AT: Record<string, Prediction> = Object.fromEntries(PREDICTIONS.map((p) => [p.at, p]));

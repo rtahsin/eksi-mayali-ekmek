@@ -3,7 +3,7 @@ import type { LevelId, LevelProfile } from "@/types/game";
 /**
  * Seviyeler. Köy ekmeği Tahsin'in reçetesidir (docs/OYUN.md §9).
  * %50 siyez: un davranışı literatürden (siyezde zayıf gluten, az su kaldırma, hızlı mayalanma);
- * kesme süresi Tahsin'den (~1 gün). Gece Yarısı (çavdar) Tahsin'in reçetesi gelince açılacak.
+ * kesme süresi Tahsin'den (~1 gün). Gece Yarısı (çavdar): Tahsin'in tarifi, kendi motoru (engine/rye.ts).
  */
 export const LEVELS: Record<LevelId, LevelProfile> = {
   koy: {
@@ -37,7 +37,7 @@ export const LEVELS: Record<LevelId, LevelProfile> = {
     id: "gece_yarisi",
     name: "Gece Yarısı",
     rank: "Usta",
-    blurb: "Mavi haşhaşlı çavdar. İki gün dinlenir, tek başına bir öğün. Yakında.",
+    blurb: "Mavi haşhaşlı çavdar: haşlama, ekşi maya, düşen fırın. İki gün dinlenir, tek başına bir öğün.",
     maxHydration: 85,
     idealHydration: [80, 85],
     glutenStrength: 0.3,
@@ -45,7 +45,7 @@ export const LEVELS: Record<LevelId, LevelProfile> = {
     cutIdealHours: 48,
     crumbColor: "#6B4A35",
     unlockScore: 80,
-    available: false,
+    available: true,
   },
 };
 

@@ -18,6 +18,7 @@ import { LensButton, LensSheet } from "./micro/LensSheet";
 import { CardSheet, PredictionSheet } from "./codex/CardSheet";
 import { Codex } from "./codex/Codex";
 import { StarterChapter, type ChapterHooks } from "./chapters/StarterChapter";
+import { RyeChapter } from "./chapters/RyeChapter";
 import { StarterStage } from "./stages/StarterStage";
 import { MixStage } from "./stages/MixStage";
 import { KneadStage } from "./stages/KneadStage";
@@ -58,7 +59,7 @@ const STAGES: StageDef[] = [
   { key: "sogutma", label: "Sabır", C: CoolStage, fields: ["cutWaitHours"], phases: ["sogutma"], card: "olay_kesme", lensTitle: "Soğuma", lensNote: "Jelleşmiş nişasta soğudukça yeniden düzenlenir; içi oturtan budur." },
 ];
 
-type Screen = { k: "kapi" } | { k: "atolye" } | { k: "maya" } | { k: "oyun"; i: number } | { k: "sonuc" };
+type Screen = { k: "kapi" } | { k: "atolye" } | { k: "maya" } | { k: "cavdar" } | { k: "oyun"; i: number } | { k: "sonuc" };
 
 const fresh = (level: LevelId): BakeDecisions => ({
   ...MASTER_DECISIONS,
@@ -188,6 +189,7 @@ export function LabGame() {
       ask(`koy:maya`, () => undefined);
     };
     if (id === "siyez") ask("siyez:giris", () => unlock("tarih_karacadag", go));
+    else if (id === "gece_yarisi") unlock("tarih_cavdar", () => setScreen({ k: "cavdar" }));
     else go();
   };
 
@@ -254,7 +256,7 @@ export function LabGame() {
     <div className="min-h-screen" style={{ background: C.paper, color: C.ink, fontFamily: "var(--font-inter)" }}>
       <div className="max-w-md mx-auto px-5 pt-4 pb-12 space-y-5">
         <div className="flex items-center justify-between text-sm">
-          {screen.k === "oyun" || screen.k === "maya" ? (
+          {screen.k === "oyun" || screen.k === "maya" || screen.k === "cavdar" ? (
             <button
               type="button"
               onClick={() => {
@@ -421,6 +423,13 @@ export function LabGame() {
               setActiveStarter(p);
               setScreen({ k: "atolye" });
             }}
+          />
+        )}
+
+        {screen.k === "cavdar" && (
+          <RyeChapter
+            hooks={hooks}
+            onDone={(score) => update((x) => ({ ...x, plays: x.plays + 1, best: { ...x.best, gece_yarisi: Math.max(x.best.gece_yarisi ?? 0, score) } }))}
           />
         )}
 

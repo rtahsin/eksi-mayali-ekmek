@@ -323,24 +323,84 @@ export interface StarterProfile {
 
 /* ── Gece Yarısı (çavdar) ── */
 
+/**
+ * Gece Yarısı (Tahsin'in tarifi, docs/OYUN.md §11): haşlama (arpa unu, çavdar kırması, kabak çekirdeği, keten,
+ * karabuğday + kaynar su, ~1 gün) → çavdar unu, siyez, su, çavdar ekşi mayası, tuz; yoğrulmaz → 12 parça, ıslak elle
+ * mavi haşhaşa bula, kalıba → oda sıcaklığında çatlayana dek → kapalı dolap → düşen fırın ~2 sa, ters çevir → 1–2 gün dinlen.
+ */
 export interface RyeDecisions {
-  /** Ekşi hamura giren çavdar unu (% toplam un) */
-  sourPct: number;
-  /** Ekşi hamurun olgunlaşma süresi (saat) */
-  sourHours: number;
-  /** Ekşi hamurun sıcaklığı (°C) */
-  sourTempC: number;
-  /** Hidrasyon (%) */
-  hydration: number;
-  saltPct: number;
-  /** Kalıpta son mayalanma (saat) */
+  /** Haşlamanın suyu: kaynar (Tahsin) ya da ılık */
+  scaldWater: "kaynar" | "ilik";
+  /** Haşlamanın beklediği süre (saat) */
+  scaldHours: number;
+  /** Çavdar ekşi mayası (g; Tahsin 1500) */
+  sourGrams: number;
+  /** Ana hamura eklenen su (g; Tahsin 2400) */
+  waterGrams: number;
+  saltGrams: number;
+  /** Karıştırma: yalnız karıştır (Tahsin) ya da yoğur */
+  mix: "karistir" | "yogur";
+  /** Parçaları haşhaşa bulamadan önce el ve hamur ıslatıldı mı */
+  wetHands: boolean;
+  /** Haşhaş kaplaması (0–1) */
+  poppyCoverage: number;
+  /** Kalıpta oda sıcaklığında mayalanma (saat) */
   proofHours: number;
-  bakeTempC: number;
+  /** Dolapta üstü hava almayacak şekilde kapatıldı mı */
+  covered: boolean;
+  /** Düşen fırın: 280 °C'de ısıt, 220 °C'de yükle, ısıtıcılar kapalı kalsın */
+  fallingOven: boolean;
+  /** Fırında toplam süre (dk; Tahsin ~120) */
   bakeMinutes: number;
-  /** Kesmeden önce dinlenme (saat) */
+  /** Buharı kaç kez tahliye etti */
+  vents: number;
+  /** Sonda kalıptan çıkarıp ters çevirip altını kurutmak */
+  flip: boolean;
+  /** Streçte dinlenme (saat; en az 24, ideali 48) */
   restHours: number;
-  /** Üstüne mavi haşhaş */
-  poppy: boolean;
+}
+
+export type RyeTipKey =
+  | "asit_az"
+  | "haslama_ilik"
+  | "haslama_kisa"
+  | "yogurdun"
+  | "el_kuru"
+  | "hashas_eksik"
+  | "mayalanma_az"
+  | "mayalanma_fazla"
+  | "ortu_yok"
+  | "firin_sabit"
+  | "buhar_kaldi"
+  | "ters_cevirmedi"
+  | "az_pisti"
+  | "erken_kesti"
+  | "tuz";
+
+export interface RyeResult {
+  /** Fırına girerken hamurun pH'ı */
+  pH: number;
+  /** Nişasta saldırısı 0–1 (amilazın jelleşen nişastayı kesmesi) */
+  starchAttack: number;
+  /** Fırına girerken olgunluk (1 = ideal) */
+  proof: number;
+  coreC: number;
+  gummy: number;
+  crust: number;
+  bottomCrust: number;
+  height: number;
+  sweetness: number;
+  sourness: number;
+  scores: { kabarma: number; ic: number; kabuk: number; lezzet: number; toplam: number };
+  title: string;
+  tips: RyeTipKey[];
+}
+
+export interface RyeRun {
+  result: RyeResult;
+  samples: MicroSnapshot[];
+  events: BakeEvent[];
+  marks: { haslama: number; karistirma: number; mayalanma: number; dolap: number; firin: number; dinlenme: number };
 }
 
 /* ── Tahminler (tahmin et → gör → anla) ── */
