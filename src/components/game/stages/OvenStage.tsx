@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { internalTempAt, simulateBread } from "@/lib/game/sim";
+import { internalTempAt, runFor, simulateBread } from "@/lib/game/sim";
 import { sfx, buzz } from "@/lib/game/audio";
 import { OvenArt } from "../art";
 import { LoafSvg } from "../BreadSvg";
@@ -33,6 +33,10 @@ export function OvenStage({ d, set, done }: StageProps) {
   const growth = Math.min(1, m / 12) ** 0.7;
   const look = { ...projected, crust: m === 0 ? 0 : now.crust };
   const steamOn = steam && vent === null && step === "pisir";
+  // Ekmeğin içinde olanlar: motorun fırın olayları, iç sıcaklık ilerledikçe belirir
+  const ovenRun = runFor({ ...d, steam, ventMinute: vent, bakeMinutes: Math.max(42, m) });
+  const OVEN_KEYS = ["son_maya_patlamasi", "maya_oldu", "nisasta_jel", "gluten_dondu", "amilaz_durdu", "kabuk_renk", "ic_pisti"];
+  const happened = ovenRun.events.filter((e) => OVEN_KEYS.includes(e.key) && e.t <= ovenRun.marks.firin + m / 60 + 1e-6);
 
   const takeOut = () => {
     set("steam", steam);
@@ -115,9 +119,20 @@ export function OvenStage({ d, set, done }: StageProps) {
             <Readout value={steam ? (vent === null ? "açık" : `${vent}. dk`) : "yok"} label="buhar" tone={steam && vent === null && m > 28 ? "warn" : "ink"} />
             <Readout value={probe === null ? "—" : `${probe}°`} label="iç sıcaklık" tone={probe !== null && probe >= 96 ? "good" : "ink"} />
           </div>
+          {happened.length > 0 && (
+            <ol className="space-y-1" aria-label="Ekmeğin içinde olanlar">
+              {happened.map((e) => (
+                <li key={e.key} className="flex items-center gap-2 text-sm font-semibold animate-[pop_.4s_ease-out]">
+                  <span className="w-2 h-2 rounded-full shrink-0" style={{ background: C.accent }} />
+                  {e.label}
+                </li>
+              ))}
+            </ol>
+          )}
+          <style>{`@keyframes pop{from{transform:translateX(-8px);opacity:0}to{transform:none;opacity:1}}`}</style>
           <Tahsin>
             {m < 8
-              ? "Şimdi fırın kabarması: hamurun içi 60 dereceye gelene kadar maya son nefesini veriyor."
+              ? "Şimdi fırın kabarması: gaz ısıyla genleşiyor, çözünmüş CO₂ kabarcıklara geçiyor; içi ~60 dereceye gelene kadar maya son nefesini veriyor."
               : steam && vent === null
               ? "Kesik açılıyor, kulak kalkıyor. Buharı ne zaman bırakacağına sen karar ver; buhar kalırsa kabuk soluk kalır."
               : "Buhar gitti; kabuk kızarmaya başladı. Renge bak, istersen termometreyle ölç."}

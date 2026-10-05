@@ -31,10 +31,10 @@
 - **"Maya havadan yakalanır" büyük ölçüde efsanedir.** 500 ekşi maya üzerinde yapılan çalışmada coğrafyanın
   belirleyici olmadığı görüldü (Landis ve ark. 2021, *eLife* 10:e61644, doi:10.7554/eLife.61644). Havada
   çoğunlukla küf sporu vardır.
-- Fırıncının elleri ve kapları mikrop taşır ama ana yapıdaki payı küçüktür (Reese ve ark. 2020, *Proc R Soc B*
-  287:20200394, doi:10.1098/rspb.2020.0394).
+- Fırıncının elleri ve kapları mikrop taşır ama ana yapıdaki payı küçüktür (Reese ve ark. 2020, *mSphere* 5:e00950-19,
+  doi:10.1128/msphere.00950-19).
 - **Böcekler gerçek taşıyıcıdır:** *F. sanfranciscensis* un böceklerinin (*Tribolium confusum*) bağırsağında
-  yaşar ve depolanan tahıla böceklerle yayılır (Boiocchi ve ark. 2017, *Food Microbiol* 66:93); sirke
+  yaşar ve depolanan tahıla böceklerle yayılır (Boiocchi ve ark. 2017, *J Appl Microbiol* 123:944, doi:10.1111/jam.13546); sirke
   sinekleri mayaları taşır.
 - Un suyla karışınca birçok mikrop uyanır; ortam asitlendikçe aside dayanıklı LAB ve mayalar kalır.
 
@@ -50,7 +50,8 @@
 
 Tam tahıl (tam buğday, siyez, çavdar) daha çok enzim, besin ve mikrop getirir → olgunlaşma hızlanır.
 ~21 °C enterobakterileri daha iyi bastırır; 30 °C asitleşmeyi hızlandırır ama istenmeyenler daha uzun kalabilir.
-(Temel kaynaklar: De Vuyst & Neysens 2005; Van Kerrebroeck ve ark. 2017; Ercolini ve ark. 2013.)
+(Temel kaynaklar: De Vuyst & Neysens 2005, doi:10.1016/j.tifs.2004.02.012; De Vuyst ve ark. 2014,
+*Food Microbiol* 37:11, doi:10.1016/j.fm.2013.06.002.)
 
 ## 4. Gluten, su, tuz
 
@@ -89,7 +90,7 @@ Tam tahıl (tam buğday, siyez, çavdar) daha çok enzim, besin ve mikrop getiri
 
 - Maya şekeri CO₂ ve etanole çevirir. **CO₂ önce hamurun suyunda çözünür**; su doyunca gaz kabarcıklara geçer.
 - **Maya yeni kabarcık yaratamaz.** Yoğururken hamura giren minik hava kabarcıkları çekirdektir; CO₂ yalnızca
-  bunları şişirir (Baker & Mize 1941). → Ekmeğin gözenekleri yoğurmada doğar.
+  bunları şişirir (Baker & Mize 1941; özet: Campbell & Martin 2020, *Breadmaking* 3. bs., doi:10.1016/b978-0-08-102519-2.00011-6). → Ekmeğin gözenekleri yoğurmada doğar.
 - Katlama ve şekil **yeni kabarcık eklemez**; büyükleri böler, ağı hizalar → daha düzgün iç, daha iyi gaz tutma.
 - Fırında: gazın ısıyla genleşmesi, CO₂'nin çözeltiden çıkması, su ve etanolün buharlaşması → **fırın kabarması**.
 
@@ -139,7 +140,7 @@ Tam tahıl (tam buğday, siyez, çavdar) daha çok enzim, besin ve mikrop getiri
 | Efsane | Gerçek |
 |---|---|
 | Maya havadan yakalanır | Mikroplar çoğunlukla undan gelir |
-| Ekşi maya ekmeği çölyak hastaları için güvenlidir | **Değildir.** Kalan gluten 20 ppm sınırının çok üstündedir; yalnız glutensiz unlarla yapılan ekmek uygundur |
+| Ekşi maya ekmeği çölyak hastaları için güvenlidir | **Değildir.** Kalan gluten 20 ppm sınırının çok üstündedir; gluteni tamamen parçalamak için deneysel özel suşlar ve mantar proteazları gerekti (Greco ve ark. 2011, doi:10.1016/j.cgh.2010.09.025) |
 | Kabarcıkları maya yaratır | Kabarcıklar yoğururken giren havadan büyür |
 | Ekmeği buzdolabında saklamak tazeler | Bayatlamayı hızlandırır; dondur |
 | Bayatlama kurumaktır | Nişastanın yeniden kristalleşmesidir |

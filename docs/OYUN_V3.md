@@ -138,3 +138,25 @@ mayalar 5–7. gün).
 - `src/components/game/codex/` — `Codex.tsx`, `CardArt.tsx`.
 - `src/components/game/sandbox/` — `Sandbox.tsx`, `BiographyChart.tsx`.
 - `src/components/game/LabGame.tsx` — kabuk (kapı, atölye, bölümler, defter, ses).
+
+## 6. Durum (6 Ekim 2026)
+
+Yapıldı:
+- **Bilim dosyası** `docs/BILIM.md` — Tahsin'in NotebookLM "EKMEK" defterinden (263 kaynak); atıflar Crossref'te doğrulandı.
+- **Motor** (`src/lib/game/engine`) — kardinal sıcaklık modeli (Gänzle 1998 değerleri), asit→pH tamponu, amilaz/proteaz/fitaz,
+  CO₂'nin önce çözünüp sonra kabarcıklara geçmesi, dolapta soğuma eğrisi, fırın olay haritası. Maya bölümünde gerçek ardışıklık
+  (1–2. gün sahte kabarma, 3–4. sessizlik, 5. uyanış, 6. gün hazır; beyaz un 7., çavdar 4., serin yer 12.). 23 motor testi.
+- **Lab Büyüteci** (`src/components/game/micro`) — canvas mikro dünya: maya tomurcuklanır, bakteriler bölünür, enterobakteriler kamçılıdır,
+  amilaz makasları, maltoz, CO₂, H⁺, tuz iyonları, gluten ağı (hizalanma, hasar), çavdarda pentozan, kabarcıklar yalnız hava çekirdeklerinden
+  büyür; fırında hücreler "pat" diye ölür, nişasta şişip jelleşir. Dokununca ad + defter kartı. ×100/×400/×1000. Önizleme: `/laboratuvar/mikroskop`.
+- **Bölüm 1: Maya** — doğa sahnesi (mikropların izi), kavanoz (un, yer), gün gün akış + büyüteç, sahte kabarma/sessizlik tahminleri, isim + karne.
+  Oyuncunun mayası sonraki bölümlerde kullanılır.
+- **Köy/Siyez** — her aşamada büyüteç (oyuncunun kararlarıyla hesaplanan hamur), aşama başında tahmin, sonunda kart; fırında canlı olay listesi;
+  sonuçta "ekmeğin biyografisi" grafiği ve baştan sona otopsi büyüteci.
+- **Defter** — 35 kart (canlılar, moleküller, olaylar, efsaneler, tarih), üç katman (usta sözü → Neden? → Bilim + kaynak). 13 tahmin sorusu, Sezgi puanı.
+
+Sırada:
+- Gece Yarısı (çavdar) bölümü: motorda pentozan/amilaz parametreleri hazır; akış ve Tahsin'in reçetesi bekleniyor.
+- Deney tezgâhı (serbest deney + görevler), ustalaşılan aşamalar için "hızlı mod".
+- Prolog dalışı (ekmek kesitinden hücreye yakınlaşma animasyonu) — şimdilik kapıdan sonra tek büyüteç görüntüsü.
+- Paylaşım kartına maya adı ve biyografi grafiği.

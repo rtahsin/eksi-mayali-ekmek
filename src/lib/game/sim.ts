@@ -1,4 +1,4 @@
-import type { BakeDecisions, BakeResult, BakeRun, TipKey } from "@/types/game";
+import type { BakeDecisions, BakeResult, BakeRun, StarterProfile, TipKey } from "@/types/game";
 import { coreTempAt, simulateBake, sampleAt } from "./engine/bake";
 
 /**
@@ -10,13 +10,19 @@ export { MASTER_DECISIONS, doughTemperature, waterTempFor, frictionFactor, level
 
 const gauss = (x: number, mu: number, sigma: number) => Math.exp(-((x - mu) ** 2) / (2 * sigma ** 2));
 
+/** Oyuncunun kendi mayası (Bölüm 1); yoksa Tahsin'in mayası */
+let activeStarter: StarterProfile | undefined;
+export function setActiveStarter(p: StarterProfile | null | undefined) {
+  activeStarter = p ?? undefined;
+}
+
 /** Aynı kararlarla tekrar tekrar hesaplamamak için küçük önbellek */
 const cache = new Map<string, BakeRun>();
 export function runFor(d: BakeDecisions): BakeRun {
-  const key = JSON.stringify(d);
+  const key = JSON.stringify(d) + JSON.stringify(activeStarter ?? null);
   const hit = cache.get(key);
   if (hit) return hit;
-  const run = simulateBake(d);
+  const run = simulateBake(d, { starter: activeStarter });
   cache.set(key, run);
   if (cache.size > 40) {
     const first = cache.keys().next().value;

@@ -5,6 +5,7 @@ import type { BakeDecisions, MicroSnapshot, StarterDay } from "@/types/game";
 import { MASTER_DECISIONS, simulateBake } from "@/lib/game/engine/bake";
 import { newStarter, runStarterDay } from "@/lib/game/engine/starter";
 import { MicroScope } from "./MicroScope";
+import { BiographyChart } from "../BiographyChart";
 import type { Magnification } from "./world";
 
 /** Büyütecin önizlemesi: motorun gerçek zaman çizelgeleri üzerinde kaydırıcı ve zaman akışı */
@@ -30,12 +31,12 @@ export function MicroPreview() {
   const [i, setI] = useState(0);
   const [play, setPlay] = useState(false);
 
-  const samples = useMemo(() => {
-    if (src === "maya") return starterWeek();
+  const run = useMemo(() => {
     const d: BakeDecisions =
       src === "pide" ? { ...MASTER_DECISIONS, waterTempC: 30, bulkHours: 5 } : src === "siyez" ? { ...MASTER_DECISIONS, level: "siyez", waterGrams: 2800 } : MASTER_DECISIONS;
-    return simulateBake(d).samples;
+    return simulateBake(d);
   }, [src]);
+  const samples = useMemo(() => (src === "maya" ? starterWeek() : run.samples), [src, run]);
 
   useEffect(() => setI(0), [src]);
   useEffect(() => {
@@ -69,6 +70,7 @@ export function MicroPreview() {
             {play ? "Durdur" : "Oynat"}
           </button>
         </div>
+        {src !== "maya" && <BiographyChart run={run} />}
         <input type="range" min={0} max={samples.length - 1} value={i} onChange={(e) => setI(Number(e.target.value))} className="w-full" />
         <pre className="text-[11px] leading-snug overflow-x-auto">
           {JSON.stringify({ phase: s.phase, T: s.tempC.toFixed(1), pH: s.pH.toFixed(2), pop: Object.fromEntries(Object.entries(s.pop).map(([k, v]) => [k, v.toFixed(1)])), gas: s.gas.toFixed(2), gluten: s.glutenDev.toFixed(2), damage: s.glutenDamage.toFixed(2), heat: s.heat && { core: s.heat.coreC.toFixed(0), gel: s.heat.starchGel.toFixed(2) } }, null, 1)}

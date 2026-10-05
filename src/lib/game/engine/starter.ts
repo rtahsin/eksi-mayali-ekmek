@@ -172,7 +172,7 @@ function classify(
   if (peakRise >= 0.9 && peakHour <= 9 && pop.yst >= 6.6 && pop.ent < 4.5 && end.pH < 4.2 && dec.feed !== "yok")
     return { stage: "hazir", smell: acShare > 0.3 ? "elma" : "meyve" };
   if (peakRise >= 0.3 && entShare > 0.45) return { stage: "sahte_kabarma", smell: end.pH > 5.0 && pop.ent > 8.3 ? "kusmuk" : "peynir" };
-  if (pop.yst >= 5.8 && peakRise >= 0.3) return { stage: "uyaniyor", smell: acShare > 0.32 ? "sirke" : "yogurt" };
+  if (pop.yst >= 6.4 && peakRise >= 0.45) return { stage: "uyaniyor", smell: acShare > 0.32 ? "sirke" : "yogurt" };
   if (end.pH < 4.7) return { stage: "sessizlik", smell: acShare > 0.32 ? "sirke" : "yogurt" };
   if (peakRise < 0.15 || end.pH > 5) return { stage: "uyku", smell: st.day <= 1 ? "un" : "peynir" };
   return { stage: "sessizlik", smell: "yogurt" };

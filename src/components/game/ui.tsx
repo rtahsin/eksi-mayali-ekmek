@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import type { ScienceNote } from "@/lib/game/science";
 
 /** Oyunun krem paleti (docs/MARKA.md §8) */
 export const C = {
@@ -125,44 +124,11 @@ export function Feedback({ tone, children }: { tone: "good" | "warn" | "bad"; ch
 }
 
 /** Kazanılan bilim notu kartı */
-export function NoteCard({ note, total, collected, onClose }: { note: ScienceNote; total: number; collected: number; onClose: () => void }) {
-  return (
-    <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-4" style={{ background: "#1E120CB3" }}>
-      <div
-        className="w-full max-w-md rounded-3xl p-6 space-y-4 shadow-2xl animate-[notein_.45s_cubic-bezier(.2,1.4,.4,1)]"
-        style={{ background: C.card, color: C.ink, border: `2px solid ${C.ink}` }}
-      >
-        <div className="flex items-center justify-between">
-          <span className="text-[11px] font-bold uppercase tracking-[0.2em]" style={{ color: C.accent }}>
-            Laboratuvar defteri · {collected}/{total}
-          </span>
-          {note.rare && (
-            <span className="text-[10px] font-bold px-2 py-1 rounded-full" style={{ background: C.ink, color: C.paper }}>
-              ★ Ustalar bile bilmez
-            </span>
-          )}
-        </div>
-        <h3 className="text-2xl font-semibold leading-tight" style={serif}>
-          {note.title}
-        </h3>
-        <p className="text-[15px] leading-relaxed">{note.body}</p>
-        <p className="text-xs italic" style={{ color: C.soft }}>
-          Kaynak: {note.source}
-        </p>
-        <Btn variant="dark" onClick={onClose}>
-          Deftere ekle ✓
-        </Btn>
-      </div>
-      <style>{`@keyframes notein{from{transform:translateY(40px) scale(.9);opacity:0}to{transform:none;opacity:1}}`}</style>
-    </div>
-  );
-}
-
-export function StageTitle({ n, title, sub }: { n: number; title: string; sub?: string }) {
+export function StageTitle({ n, title, sub, kicker = "Aşama" }: { n: number; title: string; sub?: string; kicker?: string }) {
   return (
     <div className="space-y-1">
       <div className="text-[11px] font-bold uppercase tracking-[0.2em]" style={{ color: C.accent }}>
-        Aşama {n}
+        {kicker} {n}
       </div>
       <h2 className="text-3xl font-semibold leading-tight" style={serif}>
         {title}

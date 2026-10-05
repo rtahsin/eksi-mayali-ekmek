@@ -423,7 +423,7 @@ export function simulateBake(d: BakeDecisions, opts: BakeOptions = {}): BakeRun 
         ev(t + mnt / 60, key, label);
       }
     };
-    mark("maya_oldu", core >= 58, "Mayalar öldü · ~55–60 °C");
+    mark("maya_oldu", core >= 60, "Mayalar ve bakteriler öldü · ~60 °C");
     mark("nisasta_jel", core >= mx.gelStart, `Nişasta jelleşiyor · ${mx.gelStart} °C`);
     mark("gluten_dondu", core >= 75, "Protein ağı dondu · 75 °C");
     mark("amilaz_durdu", core >= mx.amylaseOff, `Amilaz sustu · ${mx.amylaseOff} °C`);

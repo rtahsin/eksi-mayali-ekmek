@@ -38,6 +38,7 @@ describe("Bölüm 1: kendiliğinden ekşi maya", () => {
     expect(days[0].stage).toBe("sahte_kabarma");
     expect(days[0].peakRise).toBeGreaterThan(1);
     expect(days[2].peakRise).toBeLessThan(0.6);
+    expect(days[2].stage).toBe("sessizlik");
     const ready = days.find((d) => d.stage === "hazir")?.day ?? 99;
     expect(ready).toBeGreaterThanOrEqual(5);
     expect(ready).toBeLessThanOrEqual(7);
