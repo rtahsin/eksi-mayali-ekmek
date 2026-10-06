@@ -561,7 +561,6 @@ function ProductEditor({
                 [
                   ["flourHeritage", "Unun ve mayanın hikâyesi"],
                   ["technique", "Teknik"],
-                  ["healthBenefit", "Sindirim / sağlık"],
                   ["pairingStorage", "Nasıl tüketilir, saklanır"],
                 ] as const
               ).map(([key, label]) => (

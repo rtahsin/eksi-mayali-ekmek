@@ -11,10 +11,8 @@ import {
   Plus,
   Minus,
   Wheat,
-  ShieldCheck,
   Utensils,
   Flame,
-  BookOpen,
   Droplets,
 } from "lucide-react";
 
@@ -26,7 +24,7 @@ interface ProductModalProps {
 export function ProductModal({ product, onClose }: ProductModalProps) {
   const [quantity, setQuantity] = useState<number>(1);
   const [isAdded, setIsAdded] = useState<boolean>(false);
-  const [activeTab, setActiveTab] = useState<"story" | "health" | "pairing">("story");
+  const [activeTab, setActiveTab] = useState<"story" | "pairing">("story");
   const addItem = useCartStore((state) => state.addItem);
 
   if (!product) return null;
@@ -152,17 +150,6 @@ export function ProductModal({ product, onClose }: ProductModalProps) {
               </button>
               <button
                 type="button"
-                onClick={() => setActiveTab("health")}
-                className={`pb-2 text-xs font-sans font-semibold transition-colors relative ${
-                  activeTab === "health"
-                    ? "text-foreground border-b-2 border-artisan-terracotta"
-                    : "text-stone-400 hover:text-stone-200"
-                }`}
-              >
-                Sindirim & Sağlık
-              </button>
-              <button
-                type="button"
                 onClick={() => setActiveTab("pairing")}
                 className={`pb-2 text-xs font-sans font-semibold transition-colors relative ${
                   activeTab === "pairing"
@@ -212,50 +199,7 @@ export function ProductModal({ product, onClose }: ProductModalProps) {
               </div>
             )}
 
-            {/* Tab 2: Sağlık & Sindirim */}
-            {activeTab === "health" && (
-              <div className="space-y-3 animate-fadeIn text-xs sm:text-sm text-stone-300 font-sans leading-relaxed">
-                <div className="p-4 rounded-2xl bg-[#1E1915] border border-[#2E241D] space-y-2 shadow-sm">
-                  <div className="font-bold text-emerald-400 flex items-center gap-1.5 font-serif text-xs">
-                    <ShieldCheck className="w-4 h-4 text-emerald-500" />
-                    <span>Uzun fermantasyon sindirimi nasıl etkiler?</span>
-                  </div>
-                  <p className="text-xs text-stone-300 leading-relaxed">
-                    {masterclass?.healthBenefit ||
-                      "Uzun fermantasyon, ekmeğin aromasını ve dokusunu belirleyen temel adımdır. Ayrıntılar Kütüphane bölümünde."}
-                  </p>
-                </div>
-
-                <div className="text-[11px] text-emerald-400/90 font-sans font-medium">
-                  ✓ Hiçbir ticari maya, koruyucu, kabartıcı veya renklendirici içermez.
-                </div>
-
-                {/* Cross-Link to Science Library */}
-                <a
-                  href={`/kutuphane#${product.category === "bread" ? "gluten-proteoliz" : "fitik-asit-mineraller"}`}
-                  className="p-3.5 rounded-2xl bg-[#1E1915] border border-[#2E241D] hover:border-artisan-gold/40 flex items-center justify-between transition-all group mt-2 shadow-sm"
-                >
-                  <div className="flex items-center gap-2.5">
-                    <div className="p-2 rounded-xl bg-[#261E17] border border-[#3A2F25] text-artisan-gold">
-                      <BookOpen className="w-4 h-4" />
-                    </div>
-                    <div>
-                      <div className="font-serif text-xs font-bold text-foreground group-hover:text-artisan-gold transition-colors">
-                        Bilim & Zanaat Kütüphanesi'nde İnceleyin
-                      </div>
-                      <div className="text-[10px] text-stone-400 font-sans">
-                        Gluten proteolizi ve enzim aktivitesinin akademik temelleri
-                      </div>
-                    </div>
-                  </div>
-                  <span className="text-xs text-artisan-gold group-hover:translate-x-1 transition-transform font-bold">
-                    →
-                  </span>
-                </a>
-              </div>
-            )}
-
-            {/* Tab 3: Tüketim & Saklama */}
+            {/* Tab 2: Tüketim & Saklama */}
             {activeTab === "pairing" && (
               <div className="space-y-3 animate-fadeIn text-xs sm:text-sm text-stone-300 font-sans leading-relaxed">
                 <div className="p-4 rounded-2xl bg-[#1E1915] border border-[#2E241D] space-y-2 shadow-sm">
