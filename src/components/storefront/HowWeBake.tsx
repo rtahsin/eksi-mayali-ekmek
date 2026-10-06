@@ -59,7 +59,7 @@ export function HowWeBake() {
                 01. KÜLTÜR
               </div>
               <div className="font-mono text-foreground text-xs md:text-sm bg-surface/90 backdrop-blur-md px-3 py-1.5 md:px-4 md:py-2 border border-surface-border rounded-lg">
-                MAYA: 8 YILLIK CANLI
+                MAYA: CANLI KÜLTÜR
               </div>
               <p className="font-serif italic text-foreground/80 text-base md:text-lg mt-2 max-w-[150px] md:max-w-[220px] leading-tight">
                 Her gün aynı saatte beslenir, endüstriyel maya girmez.
@@ -87,7 +87,7 @@ export function HowWeBake() {
                 03. ZAMAN
               </div>
               <div className="font-mono text-foreground text-xs md:text-sm bg-surface/90 backdrop-blur-md px-3 py-1.5 md:px-4 md:py-2 border border-surface-border rounded-lg">
-                SOĞUK MAYALAMA: 36 SAAT
+                UZUN SOĞUK MAYALAMA
               </div>
               <p className="font-serif italic text-foreground/80 text-base md:text-lg mt-2 max-w-[160px] md:max-w-[230px] leading-tight">
                 Fitik asit parçalanır, demir ve mineraller serbest kalır.

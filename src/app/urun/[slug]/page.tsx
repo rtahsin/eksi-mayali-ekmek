@@ -68,7 +68,7 @@ export async function generateMetadata({ params }: ProductPageProps): Promise<Me
   const title = `${product.name} | EkmekLab Taş Fırın`;
   const description =
     product.description ||
-    `${product.name} - Taş değirmen unları ve 8 yıllık canlı ekşi maya ile 36 saatte pişen artisan ekmek.`;
+    `${product.name} - Canlı ekşi maya ve uzun fermantasyonla taş fırında pişen artisan ekmek.`;
   const url = `${SITE_URL}/urun/${getProductSlug(product)}`;
 
   return {
@@ -238,7 +238,7 @@ export default async function ProductDetailPage({ params }: ProductPageProps) {
             <div className="grid grid-cols-3 gap-3 pt-2 text-center text-xs">
               <div className="p-3 rounded-xl bg-surface border border-surface-border">
                 <Clock className="w-4 h-4 text-artisan-gold mx-auto mb-1" />
-                <span className="font-bold text-foreground block">36 Saat</span>
+                <span className="font-bold text-foreground block">Uzun</span>
                 <span className="text-foreground/60 text-[11px]">Soğuk Mayalanma</span>
               </div>
               <div className="p-3 rounded-xl bg-surface border border-surface-border">
@@ -248,8 +248,8 @@ export default async function ProductDetailPage({ params }: ProductPageProps) {
               </div>
               <div className="p-3 rounded-xl bg-surface border border-surface-border">
                 <ShieldCheck className="w-4 h-4 text-emerald-400 mx-auto mb-1" />
-                <span className="font-bold text-foreground block">%100 Temiz</span>
-                <span className="text-foreground/60 text-[11px]">Sıfır Katkı</span>
+                <span className="font-bold text-foreground block">Taş Fırın</span>
+                <span className="text-foreground/60 text-[11px]">Günlük Pişim</span>
               </div>
             </div>
           </div>

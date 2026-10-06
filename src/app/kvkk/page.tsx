@@ -77,7 +77,7 @@ export default function KvkkPage() {
               <li><strong>Kimlik Bilgileri:</strong> Ad, soyad.</li>
               <li><strong>İletişim Bilgileri:</strong> Telefon numarası, teslimat adresi (mahalle, cadde, sokak, bina, daire no), e-posta adresi.</li>
               <li><strong>Müşteri İşlem Bilgileri:</strong> Sipariş edilen ekmek ve gurme ürünler, sipariş tarihi/saati, teslimat notları, sepet toplamı, ödeme yöntemi tercihi.</li>
-              <li><strong>Konum Bilgileri (Açık Rızanız ile):</strong> Teslimat anında isteğe bağlı olarak paylaştığınız GPS koordinatları (enlem, boylam, doğruluk mesafesi).</li>
+              <li><strong>Konum Bilgileri (Açık Rızanız ile):</strong> Sipariş verirken isteğe bağlı olarak paylaştığınız tek seferlik GPS koordinatları (enlem, boylam).</li>
               <li><strong>İşlem Güvenliği Verileri:</strong> IP adresi, sepet oturum bilgileri, cihaz ve tarayıcı teknik erişim logları.</li>
             </ul>
           </section>
@@ -87,24 +87,24 @@ export default function KvkkPage() {
             <div className="flex items-center gap-2">
               <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse" />
               <h2 className="font-serif text-lg font-bold text-foreground text-artisan-gold">
-                Konum Verisi İşleme ve Canlı Takip Aydınlatması
+                Konum Verisi İşleme Aydınlatması
               </h2>
             </div>
             <p>
-              Sipariş verme ve takip aşamasında size sunulan <strong>Canlı Konum Paylaşımı</strong> özelliği, 6698 sayılı KVKK Madde 5/1 uyarınca <strong>tamamen açık rızanıza</strong> tabidir. Konum paylaşımı vermemeniz durumunda sipariş süreciniz hiçbir şekilde kısıtlanmaz, teslimatınız açık adresiniz üzerinden olağan akışında gerçekleştirilir.
+              Sipariş verirken size sunulan isteğe bağlı <strong>"Konumumu ekle"</strong> özelliği, 6698 sayılı KVKK Madde 5/1 uyarınca <strong>tamamen açık rızanıza</strong> tabidir. Konum paylaşımı vermemeniz durumunda sipariş süreciniz hiçbir şekilde kısıtlanmaz, teslimatınız açık adresiniz üzerinden olağan akışında gerçekleştirilir.
             </p>
             <div className="space-y-2 text-xs sm:text-sm text-foreground/75 pl-2">
               <p>
-                <strong>• Hangi Veriler Toplanır?</strong> Yalnızca cihazınızın tarayıcı Geolocation API&apos;si aracılığıyla ürettiği anlık enlem (latitude), boylam (longitude) ve doğruluk payı (accuracy) bilgisi alınır.
+                <strong>• Hangi Veriler Toplanır?</strong> Yalnızca "Konumumu ekle" düğmesine bastığınızda cihazınızın tarayıcı Geolocation API&apos;si aracılığıyla ürettiği anlık enlem ve boylam bilgisi alınır; konumunuz sürekli izlenmez.
               </p>
               <p>
-                <strong>• İşleme Amacı:</strong> Kuryemizin adresinizi Beylikdüzü ara sokaklarında gecikmeden bulabilmesi ve sipariş takip ekranında size kurye-müşteri mesafesini canlı radar olarak gösterebilmek amacıyla kullanılır.
+                <strong>• İşleme Amacı:</strong> Yalnızca kuryemizin (fırın sahibi) kapınızı gecikmeden bulabilmesi için ilgili siparişin teslimat ekranında yol tarifi olarak kullanılır; canlı takip yapılmaz.
               </p>
               <p>
-                <strong>• 72 Saatlik Otomatik Silme Güvencesi:</strong> Teslimat tamamlandıktan veya sipariş kapandıktan sonra konum verileriniz maksimum <strong>72 saat</strong> saklanır. Bu sürenin sonunda otomatik veri temizleme mekanizmamız (cron job) aracılığıyla veritabanından kalıcı olarak ve geri getirilemez biçimde silinir.
+                <strong>• Saklama ve Silme:</strong> Konum bilgisi ilgili sipariş kaydıyla birlikte saklanır; silinmesini istediğinizde WhatsApp veya telefonla başvurabilirsiniz.
               </p>
               <p>
-                <strong>• Rızayı Geri Çekme Hakkı:</strong> Sipariş takip sayfasında yer alan <em>&quot;Canlı Konum Paylaşımı&quot;</em> butonunu kapatarak istediğiniz an konum paylaşımınızı tek tıkla durdurabilirsiniz.
+                <strong>• Rızayı Geri Çekme Hakkı:</strong> Sepetteki konum bilgisini "kaldır" bağlantısıyla sipariş vermeden önce silebilirsiniz; verilmiş siparişteki konumun silinmesini bizden talep edebilirsiniz.
               </p>
             </div>
           </section>

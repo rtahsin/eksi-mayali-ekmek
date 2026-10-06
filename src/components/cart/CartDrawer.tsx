@@ -629,6 +629,11 @@ export function CartDrawer() {
                         </button>
                       )}
                     </div>
+                    {!hasLocation && (
+                      <p className="text-xs text-espresso-wheat mt-1">
+                        Konumun yalnızca kapını bulmak için kuryeye gösterilir; butona basmazsan paylaşılmaz.
+                      </p>
+                    )}
                     {locateError && <div className="text-xs text-amber-700 mt-1">{locateError}</div>}
                     {canSaveAddress && (
                       <label className="mt-1.5 flex items-center gap-2 text-xs text-espresso-wheat cursor-pointer">

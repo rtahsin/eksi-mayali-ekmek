@@ -178,10 +178,6 @@ export function CheckoutActions({
           <Link href="/mesafeli-satis" target="_blank" className="underline text-espresso hover:text-artisan-terracotta">
             Mesafeli Satış Sözleşmesi
           </Link>
-          {"'ni ve "}
-          <Link href="/kvkk" target="_blank" className="underline text-espresso hover:text-artisan-terracotta">
-            KVKK Aydınlatma Metni
-          </Link>
           {"'ni okudum, onaylıyorum."}
         </span>
       </label>
@@ -190,6 +186,14 @@ export function CheckoutActions({
           {errors.terms}
         </p>
       )}
+
+      <p className="text-xs font-sans text-espresso-wheat">
+        Kişisel verileriniz{" "}
+        <Link href="/kvkk" target="_blank" className="underline text-espresso hover:text-artisan-terracotta">
+          KVKK Aydınlatma Metni
+        </Link>{" "}
+        kapsamında işlenir.
+      </p>
 
       {errorMessage && (
         <div role="alert" className="p-2.5 rounded-xl bg-red-500/10 border border-red-500/25 text-red-700 text-xs font-sans flex items-center gap-2">

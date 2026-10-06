@@ -222,7 +222,7 @@ export function ProductModal({ product, onClose }: ProductModalProps) {
                   </div>
                   <p className="text-xs text-stone-300 leading-relaxed">
                     {masterclass?.healthBenefit ||
-                      "Uzun fermantasyon sırasında fitik asit ve gluten kısmen parçalanır; bu, bazı kişilerde ekmeğin daha rahat tolere edilmesine yardımcı olabilir."}
+                      "Uzun fermantasyon, ekmeğin aromasını ve dokusunu belirleyen temel adımdır. Ayrıntılar Kütüphane bölümünde."}
                   </p>
                 </div>
 
