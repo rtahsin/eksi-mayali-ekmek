@@ -1,67 +1,185 @@
-import type { FlourKind, Guild, Matrix, StarterSpot } from "@/types/game";
+import type { FlourKind, Guild, Matrix, StarterSpot, Param } from "@/types/game";
 
 /**
- * Simülasyon sabitleri. Sayılar literatürden (docs/BILIM.md) alınıp oyun için yuvarlanmıştır;
- * amaç laboratuvar doğruluğu değil, yönün ve büyüklüğün doğru olmasıdır.
+ * Simülasyon sabitleri (MIMARI §2.5 / P1-05).
+ * Her sabit ya bir literatür iddiasına (`claim`) ya da kalibrasyon testine (`fitted`) bağlıdır.
  */
 
+export const PARAMS: Record<string, Param> = {
+  // ── Enterobakteriler ──
+  ent_muOpt: { value: 1.1, fitted: "kinetics.ts" },
+  ent_Tmin: { value: 5, fitted: "kinetics.ts" },
+  ent_Topt: { value: 37, fitted: "kinetics.ts" },
+  ent_Tmax: { value: 46, fitted: "kinetics.ts" },
+  ent_pHmin: { value: 4.5, fitted: "starter.ts" },
+  ent_pHopt: { value: 6.3, fitted: "starter.ts" },
+  ent_maxLog: { value: 9.0, fitted: "starter.ts" },
+  ent_gas: { value: 1.3, fitted: "starter.ts" },
+  ent_acid: { value: 2.5, fitted: "starter.ts" },
+  ent_aceticShare: { value: 0.45, fitted: "starter.ts" },
+  ent_sugarUse: { value: 0.5, fitted: "starter.ts" },
+  ent_acidDeath: { value: 0.55, fitted: "starter.ts" },
+
+  // ── Öncü Laktik Asit Bakterileri (Leuconostoc, Weissella) ──
+  lacP_muOpt: { value: 0.7, fitted: "kinetics.ts" },
+  lacP_Tmin: { value: 2, fitted: "kinetics.ts" },
+  lacP_Topt: { value: 28, fitted: "kinetics.ts" },
+  lacP_Tmax: { value: 38, fitted: "kinetics.ts" },
+  lacP_pHmin: { value: 4.1, fitted: "starter.ts" },
+  lacP_pHopt: { value: 6.2, fitted: "starter.ts" },
+  lacP_maxLog: { value: 9.2, fitted: "starter.ts" },
+  lacP_gas: { value: 0.06, fitted: "starter.ts" },
+  lacP_acid: { value: 3.0, fitted: "starter.ts" },
+  lacP_aceticShare: { value: 0.3, fitted: "starter.ts" },
+  lacP_sugarUse: { value: 0.5, fitted: "starter.ts" },
+  lacP_acidDeath: { value: 0.3, fitted: "starter.ts" },
+
+  // ── Fructilactobacillus sanfranciscensis ──
+  lacS_muOpt: { value: 0.62, fitted: "kinetics.ts" },
+  lacS_Tmin: { value: 3, fitted: "kinetics.ts" },
+  lacS_Topt: { value: 33, claim: "claim_f_sanfran_growth" },
+  lacS_Tmax: { value: 41, claim: "claim_f_sanfran_growth" },
+  lacS_pHmin: { value: 3.55, fitted: "starter.ts" },
+  lacS_pHopt: { value: 5.6, fitted: "starter.ts" },
+  lacS_maxLog: { value: 9.5, fitted: "starter.ts" },
+  lacS_gas: { value: 0.05, fitted: "starter.ts" },
+  lacS_acid: { value: 1.5, fitted: "starter.ts" },
+  lacS_aceticShare: { value: 0.22, fitted: "starter.ts" },
+  lacS_sugarUse: { value: 0.27, fitted: "starter.ts" },
+  lacS_acidDeath: { value: 0.08, fitted: "starter.ts" },
+
+  // ── Maya (Kazachstania humilis / Saccharomyces cerevisiae) ──
+  yst_muOpt: { value: 0.23, fitted: "kinetics.ts" },
+  yst_Tmin: { value: 6, fitted: "kinetics.ts" },
+  yst_Topt: { value: 27, fitted: "kinetics.ts" },
+  yst_Tmax: { value: 36, fitted: "kinetics.ts" },
+  yst_pHmin: { value: 2.8, fitted: "starter.ts" },
+  yst_pHopt: { value: 4.5, fitted: "starter.ts" },
+  yst_maxLog: { value: 7.8, fitted: "starter.ts" },
+  yst_gas: { value: 3.2, fitted: "starter.ts" },
+  yst_acid: { value: 0, fitted: "starter.ts" },
+  yst_aceticShare: { value: 0, fitted: "starter.ts" },
+  yst_sugarUse: { value: 0.45, fitted: "starter.ts" },
+  yst_acidDeath: { value: 0.05, fitted: "starter.ts" },
+
+  // ── Hamur Matrisi ve Nişasta Jelleşmesi ──
+  bugday_gelStart: { value: 60, claim: "claim_starch_gelatinization" },
+  bugday_gelEnd: { value: 80, claim: "claim_starch_gelatinization" },
+  bugday_amylaseOff: { value: 84, claim: "claim_amylase_activity" },
+  bugday_glutenCapacity: { value: 1, fitted: "bake.ts" },
+  bugday_glutenRobust: { value: 1, fitted: "bake.ts" },
+  bugday_ovenAmylase: { value: 0.35, fitted: "bake.ts" },
+  bugday_fermentBoost: { value: 1, fitted: "bake.ts" },
+  bugday_buffer: { value: 0.8, fitted: "bake.ts" },
+
+  siyez_gelStart: { value: 60, claim: "claim_starch_gelatinization" },
+  siyez_gelEnd: { value: 80, claim: "claim_starch_gelatinization" },
+  siyez_amylaseOff: { value: 84, claim: "claim_amylase_activity" },
+  siyez_glutenCapacity: { value: 0.66, fitted: "bake.ts" },
+  siyez_glutenRobust: { value: 0.7, fitted: "bake.ts" },
+  siyez_ovenAmylase: { value: 0.4, fitted: "bake.ts" },
+  siyez_fermentBoost: { value: 1.12, fitted: "bake.ts" },
+  siyez_buffer: { value: 0.85, fitted: "bake.ts" },
+
+  cavdar_gelStart: { value: 52, fitted: "rye.ts" },
+  cavdar_gelEnd: { value: 70, fitted: "rye.ts" },
+  cavdar_amylaseOff: { value: 90, fitted: "rye.ts" },
+  cavdar_glutenCapacity: { value: 0.12, fitted: "rye.ts" },
+  cavdar_glutenRobust: { value: 0.5, fitted: "rye.ts" },
+  cavdar_ovenAmylase: { value: 1, fitted: "rye.ts" },
+  cavdar_fermentBoost: { value: 1.1, fitted: "rye.ts" },
+  cavdar_buffer: { value: 0.8, fitted: "rye.ts" },
+
+  // ── Asit ve Tampon Sabitleri ──
+  pka_lactic: { value: 3.86, fitted: "kinetics.ts" },
+  pka_acetic: { value: 4.76, fitted: "kinetics.ts" },
+  ph_flour: { value: 6.2, fitted: "kinetics.ts" },
+  ph_floor: { value: 3.35, fitted: "kinetics.ts" },
+};
+
 export interface GuildParams {
-  /** En iyi koşulda özgül büyüme hızı (ln birim / saat) */
   muOpt: number;
-  /** Kardinal sıcaklıklar (°C): altında/üstünde büyüme yok */
   Tmin: number;
   Topt: number;
   Tmax: number;
-  /** Büyümenin durduğu pH ve tam hıza ulaştığı pH */
   pHmin: number;
   pHopt: number;
-  /** Taşıma kapasitesi (log10 KOB/g) */
   maxLog: number;
-  /** Etkinlik başına gaz (göreli birim / saat) */
   gas: number;
-  /** Etkinlik başına asit (mmol/kg/saat) */
   acid: number;
-  /** Ürettiği asidin asetik payı (heterofermentatif canlılarda yüksek) */
   aceticShare: number;
-  /** Etkinlik başına şeker tüketimi (g/kg/saat) */
   sugarUse: number;
-  /** pH sınırın altına inince ölüm hızı (log10/saat, pH birimi başına) */
   acidDeath: number;
 }
 
-/**
- * Loncalar.
- * - lacS: F. sanfranciscensis ~32 °C'de en hızlı, ~38 °C üstünde büyümez; aside çok dayanıklı (Gänzle ve ark. 1998).
- * - yst: K. humilis (C. milleri) ~27 °C'de en hızlı, ~35 °C üstünde büyümez (Gänzle ve ark. 1998).
- * - ent: enterobakteriler nötr pH'ta hızlı, pH ~4,5 altında çekilir (De Vuyst ve ark.; Ercolini ve ark. 2013).
- * - lacP: öncü LAB (Leuconostoc, Weissella, Lactococcus) ılımlı sıcaklık, orta asit dayanımı.
- */
 export const GUILDS: Record<Guild, GuildParams> = {
-  ent: { muOpt: 1.1, Tmin: 5, Topt: 37, Tmax: 46, pHmin: 4.5, pHopt: 6.3, maxLog: 9.0, gas: 1.3, acid: 2.5, aceticShare: 0.45, sugarUse: 0.5, acidDeath: 0.55 },
-  lacP: { muOpt: 0.7, Tmin: 2, Topt: 28, Tmax: 38, pHmin: 4.1, pHopt: 6.2, maxLog: 9.2, gas: 0.06, acid: 3.0, aceticShare: 0.3, sugarUse: 0.5, acidDeath: 0.3 },
-  lacS: { muOpt: 0.62, Tmin: 3, Topt: 33, Tmax: 41, pHmin: 3.55, pHopt: 5.6, maxLog: 9.5, gas: 0.05, acid: 1.5, aceticShare: 0.22, sugarUse: 0.27, acidDeath: 0.08 },
-  yst: { muOpt: 0.23, Tmin: 6, Topt: 27, Tmax: 36, pHmin: 2.8, pHopt: 4.5, maxLog: 7.8, gas: 3.2, acid: 0, aceticShare: 0, sugarUse: 0.45, acidDeath: 0.05 },
+  ent: {
+    muOpt: PARAMS.ent_muOpt.value,
+    Tmin: PARAMS.ent_Tmin.value,
+    Topt: PARAMS.ent_Topt.value,
+    Tmax: PARAMS.ent_Tmax.value,
+    pHmin: PARAMS.ent_pHmin.value,
+    pHopt: PARAMS.ent_pHopt.value,
+    maxLog: PARAMS.ent_maxLog.value,
+    gas: PARAMS.ent_gas.value,
+    acid: PARAMS.ent_acid.value,
+    aceticShare: PARAMS.ent_aceticShare.value,
+    sugarUse: PARAMS.ent_sugarUse.value,
+    acidDeath: PARAMS.ent_acidDeath.value,
+  },
+  lacP: {
+    muOpt: PARAMS.lacP_muOpt.value,
+    Tmin: PARAMS.lacP_Tmin.value,
+    Topt: PARAMS.lacP_Topt.value,
+    Tmax: PARAMS.lacP_Tmax.value,
+    pHmin: PARAMS.lacP_pHmin.value,
+    pHopt: PARAMS.lacP_pHopt.value,
+    maxLog: PARAMS.lacP_maxLog.value,
+    gas: PARAMS.lacP_gas.value,
+    acid: PARAMS.lacP_acid.value,
+    aceticShare: PARAMS.lacP_aceticShare.value,
+    sugarUse: PARAMS.lacP_sugarUse.value,
+    acidDeath: PARAMS.lacP_acidDeath.value,
+  },
+  lacS: {
+    muOpt: PARAMS.lacS_muOpt.value,
+    Tmin: PARAMS.lacS_Tmin.value,
+    Topt: PARAMS.lacS_Topt.value,
+    Tmax: PARAMS.lacS_Tmax.value,
+    pHmin: PARAMS.lacS_pHmin.value,
+    pHopt: PARAMS.lacS_pHopt.value,
+    maxLog: PARAMS.lacS_maxLog.value,
+    gas: PARAMS.lacS_gas.value,
+    acid: PARAMS.lacS_acid.value,
+    aceticShare: PARAMS.lacS_aceticShare.value,
+    sugarUse: PARAMS.lacS_sugarUse.value,
+    acidDeath: PARAMS.lacS_acidDeath.value,
+  },
+  yst: {
+    muOpt: PARAMS.yst_muOpt.value,
+    Tmin: PARAMS.yst_Tmin.value,
+    Topt: PARAMS.yst_Topt.value,
+    Tmax: PARAMS.yst_Tmax.value,
+    pHmin: PARAMS.yst_pHmin.value,
+    pHopt: PARAMS.yst_pHopt.value,
+    maxLog: PARAMS.yst_maxLog.value,
+    gas: PARAMS.yst_gas.value,
+    acid: PARAMS.yst_acid.value,
+    aceticShare: PARAMS.yst_aceticShare.value,
+    sugarUse: PARAMS.yst_sugarUse.value,
+    acidDeath: PARAMS.yst_acidDeath.value,
+  },
 };
 
-/**
- * Pişirme günü hamurundaki maya: olgun mayada K. humilis ile S. cerevisiae birlikte yaşar; S. cerevisiae
- * gaz üretiminde daha sıcakta (~32–36 °C) en hızlıdır. Hamurda bu karışımın ortalaması kullanılır (ılık hamur hızlanır).
- */
 export const DOUGH_YEAST: GuildParams = { ...GUILDS.yst, muOpt: 0.28, Topt: 34, Tmax: 42 };
 
 export interface FlourParams {
   label: string;
-  /** Unun getirdiği canlılar (log10 KOB/g un) */
   inoculum: Record<Guild, number>;
-  /** Başlangıçta serbest şeker (g/kg un) */
   sugar: number;
-  /** Amilazın kesebileceği hasarlı nişasta (g/kg un) */
   damagedStarch: number;
-  /** Amilaz gücü (göreli) */
   amylase: number;
-  /** Tampon kapasitesi (kepek ve mineral arttıkça pH daha yavaş düşer) */
   buffer: number;
-  /** Mikroplar için besin zenginliği (vitamin, mineral, amino asit) */
   nutrients: number;
 }
 
@@ -98,43 +216,57 @@ export const FLOURS: Record<FlourKind, FlourParams> = {
 export const SPOT_TEMP: Record<StarterSpot, number> = { serin: 18, tezgah: 24, ilik: 28 };
 
 export interface MatrixParams {
-  /** Gluten ağı kurma kapasitesi (köy buğday karışımı = 1) */
   glutenCapacity: number;
-  /** Proteaz hasarına dayanıklılık (zayıf ağ daha çabuk çözülür) */
   glutenRobust: number;
-  /** Nişastanın jelleşmeye başladığı ve bitirdiği sıcaklık (°C) */
   gelStart: number;
   gelEnd: number;
-  /** α-amilazın fırında söndüğü sıcaklık (°C) */
   amylaseOff: number;
-  /** Fırında amilazın jelleşmiş nişastaya saldırı gücü */
   ovenAmylase: number;
-  /** Mayalanma hızına etkisi (şeker ve enzim zenginliği) */
   fermentBoost: number;
-  /** Tampon (pH düşüşünü yavaşlatır) */
   buffer: number;
 }
 
 export const MATRIX: Record<Matrix, MatrixParams> = {
-  bugday: { glutenCapacity: 1, glutenRobust: 1, gelStart: 60, gelEnd: 80, amylaseOff: 84, ovenAmylase: 0.35, fermentBoost: 1, buffer: 0.8 },
-  siyez: { glutenCapacity: 0.66, glutenRobust: 0.7, gelStart: 60, gelEnd: 80, amylaseOff: 84, ovenAmylase: 0.4, fermentBoost: 1.12, buffer: 0.85 },
-  cavdar: { glutenCapacity: 0.12, glutenRobust: 0.5, gelStart: 52, gelEnd: 70, amylaseOff: 90, ovenAmylase: 1, fermentBoost: 1.1, buffer: 0.8 },
+  bugday: {
+    glutenCapacity: PARAMS.bugday_glutenCapacity.value,
+    glutenRobust: PARAMS.bugday_glutenRobust.value,
+    gelStart: PARAMS.bugday_gelStart.value,
+    gelEnd: PARAMS.bugday_gelEnd.value,
+    amylaseOff: PARAMS.bugday_amylaseOff.value,
+    ovenAmylase: PARAMS.bugday_ovenAmylase.value,
+    fermentBoost: PARAMS.bugday_fermentBoost.value,
+    buffer: PARAMS.bugday_buffer.value,
+  },
+  siyez: {
+    glutenCapacity: PARAMS.siyez_glutenCapacity.value,
+    glutenRobust: PARAMS.siyez_glutenRobust.value,
+    gelStart: PARAMS.siyez_gelStart.value,
+    gelEnd: PARAMS.siyez_gelEnd.value,
+    amylaseOff: PARAMS.siyez_amylaseOff.value,
+    ovenAmylase: PARAMS.siyez_ovenAmylase.value,
+    fermentBoost: PARAMS.siyez_fermentBoost.value,
+    buffer: PARAMS.siyez_buffer.value,
+  },
+  cavdar: {
+    glutenCapacity: PARAMS.cavdar_glutenCapacity.value,
+    glutenRobust: PARAMS.cavdar_glutenRobust.value,
+    gelStart: PARAMS.cavdar_gelStart.value,
+    gelEnd: PARAMS.cavdar_gelEnd.value,
+    amylaseOff: PARAMS.cavdar_amylaseOff.value,
+    ovenAmylase: PARAMS.cavdar_ovenAmylase.value,
+    fermentBoost: PARAMS.cavdar_fermentBoost.value,
+    buffer: PARAMS.cavdar_buffer.value,
+  },
 };
 
-/** Laktik asidin pKa'sı 3,86; asetiğin 4,76 (ayrışmamış asit, hücre zarından geçip içeriden zarar verir) */
-export const PKA_LACTIC = 3.86;
-export const PKA_ACETIC = 4.76;
+export const PKA_LACTIC = PARAMS.pka_lactic.value;
+export const PKA_ACETIC = PARAMS.pka_acetic.value;
+export const PH_FLOUR = PARAMS.ph_flour.value;
+export const PH_FLOOR = PARAMS.ph_floor.value;
 
-/** Un-su karışımının başlangıç pH'ı */
-export const PH_FLOUR = 6.2;
-/** Tampon modelinde inilebilecek en düşük pH */
-export const PH_FLOOR = 3.35;
-
-/** Pişirme günü: 8 ekmeklik parti */
 export const FLOUR_GRAMS = 4000;
 export const ROOM_TEMP_C = 24;
 export const FLOUR_TEMP_C = 22;
 export const LEVAIN_TEMP_C = 24;
 export const FRIDGE_C = 4;
-/** Dolapta geçen gece (saat) */
 export const FRIDGE_HOURS = 12;

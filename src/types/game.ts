@@ -1,5 +1,7 @@
 /** EkmekLab simülatörü ("Usta olabilir misin?") — seviyeler, oyuncu kararları, sonuç. */
 
+import type { ConceptId, ClaimId } from "@/lib/knowledge/registry";
+
 export type LevelId = "koy" | "siyez" | "gece_yarisi";
 
 export interface LevelProfile {
@@ -419,6 +421,8 @@ export interface Prediction {
   reveal: string;
   /** Açılan defter kartı */
   cardId?: string;
+  /** Bağlı iddia kimliği */
+  claimId?: ClaimId;
 }
 
 /* ── Defter ── */
@@ -500,3 +504,24 @@ export interface LabProgressV3 {
   /** Tamamlanan deney görevleri */
   quests: string[];
 }
+
+/* ── v4 Sözleşmeleri (MIMARI §2.5 / P1-05) ── */
+
+export interface CodexCardV4 {
+  concept: ConceptId;
+  art: string;
+  microKey?: MicroEntityKind;
+  rare?: boolean;
+}
+export type Param<T = number> =
+  | { value: T; claim: ClaimId }
+  | { value: T; fitted: string };
+
+export interface LearnerProgressV4 {
+  v: 4;
+  cards: Partial<Record<ConceptId, { at: number; via: "lens" | "tahmin" | "bolum" | "okuma" }>>;
+  predictions: Record<string, { pick: number; correct: boolean; at: number }>;
+  chapters: Record<string, { done: boolean; best?: number }>;
+  reads: Record<string, { at: number; pct: number }>;
+}
+

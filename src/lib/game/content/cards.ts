@@ -1,476 +1,180 @@
-import type { CodexCard } from "@/types/game";
+import type { CodexCard, CodexCardV4, CardKind, CardSource } from "@/types/game";
+import { GRAPH, type ConceptId, type SourceId } from "@/lib/knowledge/registry";
+import type { ContentRef } from "@/lib/knowledge/refs";
 
 /**
- * Laboratuvar Defteri kartları. İçerik docs/BILIM.md'den (Tahsin'in NotebookLM "EKMEK" defteri).
- * Kural: sağlık vaadi yok; "ne olur" anlatılır. Her kartın kaynağı var.
+ * Laboratuvar Defteri kartları v4 (MIMARI §2.5 / P1-05).
+ * Görünür metin Concept.layers + nick + identity'den türetilir;
+ * kaynaklar GRAPH.sources'tan (/kaynak/[id]) gelir.
  */
 
-const GANZLE_1998 = { citation: "Gänzle, Ehmann & Hammes (1998), Appl. Environ. Microbiol. 64:2616", url: "https://doi.org/10.1128/AEM.64.7.2616-2623.1998" };
-const ZHENG_2020 = { citation: "Zheng ve ark. (2020), Int. J. Syst. Evol. Microbiol. 70:2782", url: "https://doi.org/10.1099/ijsem.0.004107" };
-const LANDIS_2021 = { citation: "Landis ve ark. (2021), eLife 10:e61644", url: "https://doi.org/10.7554/eLife.61644" };
-const REESE_2020 = { citation: "Reese ve ark. (2020), mSphere 5:e00950-19", url: "https://doi.org/10.1128/msphere.00950-19" };
-const DEVUYST_2005 = { citation: "De Vuyst & Neysens (2005), Trends Food Sci. Technol. 16:43", url: "https://doi.org/10.1016/j.tifs.2004.02.012" };
-const VANKERREBROECK_2017 = { citation: "De Vuyst ve ark. (2014), Food Microbiol. 37:11 — kendiliğinden ekşi mayada ardışıklık", url: "https://doi.org/10.1016/j.fm.2013.06.002" };
-const GANZLE_PROT_2008 = { citation: "Gänzle, Loponen & Gobbetti (2008), Trends Food Sci. Technol. 19:513", url: "https://doi.org/10.1016/j.tifs.2008.04.002" };
-const THIELE_2002 = { citation: "Thiele, Gänzle & Vogel (2002), Cereal Chem. 79:45", url: "https://doi.org/10.1094/CCHEM.2002.79.1.45" };
-const LEENHARDT_2005 = { citation: "Leenhardt ve ark. (2005), J. Agric. Food Chem. 53:98", url: "https://doi.org/10.1021/jf049193q" };
-const LOPONEN_2018 = { citation: "Loponen & Gänzle (2018), Foods 7:96", url: "https://doi.org/10.3390/foods7070096" };
-const BAKER_1941 = { citation: "Campbell & Martin (2020), Breadmaking 3. bs., «Bread aeration and dough rheology» (Baker & Mize 1941 bulgusu: kabarcıklar yoğurmada oluşur)", url: "https://doi.org/10.1016/b978-0-08-102519-2.00011-6" };
-const ARRANZ_2018 = { citation: "Arranz-Otaegui ve ark. (2018), PNAS 115:7925", url: "https://doi.org/10.1073/pnas.1801071115" };
-const HEUN_1997 = { citation: "Heun ve ark. (1997), Science 278:1312", url: "https://doi.org/10.1126/science.278.5341.1312" };
-const BOIOCCHI_2017 = { citation: "Boiocchi ve ark. (2017), J. Appl. Microbiol. 123:944", url: "https://doi.org/10.1111/jam.13546" };
-const DELCOUR = { citation: "Delcour & Hoseney, Principles of Cereal Science and Technology (3. bs., AACC, 2010)", url: "https://doi.org/10.1094/9781891127632" };
-const CELIAC = { citation: "Greco ve ark. (2011), Clin. Gastroenterol. Hepatol. 9:24 — gluteni tamamen parçalamak için özel suşlar ve mantar proteazları gerekti", url: "https://doi.org/10.1016/j.cgh.2010.09.025" };
+const CARD_STATS: Record<string, CodexCard["stats"]> = {
+  f_sanfranciscensis: { shape: "Çubuk, zincir", sizeUm: "~0,8 × 2–4", tempOpt: "~33 °C", pH: "3,5'e kadar dayanır", eats: "Maltoz", makes: "Laktik + asetik asit, CO₂", foundIn: "Ekşi maya; un böcekleri" },
+  l_plantarum: { shape: "Çubuk", tempOpt: "~30–35 °C", eats: "Glukoz, fruktoz, maltoz…", makes: "Laktik asit", foundIn: "Bitkiler, tahıl, turşu" },
+  oncu_lab: { shape: "Kok çiftleri", tempOpt: "~25–30 °C", makes: "Laktik asit, CO₂", foundIn: "Un, bitkiler" },
+  enterobakteri: { shape: "Kamçılı kısa çubuk", tempOpt: "~37 °C", pH: "~4,5 altında çekilir", makes: "Gaz, karışık asitler, kötü koku", foundIn: "Un, toprak" },
+  k_humilis: { shape: "Oval hücre, tomurcuklanır", sizeUm: "~4–7", tempOpt: "~27 °C", pH: "Çok asit dayanımlı", eats: "Glukoz, fruktoz", makes: "CO₂, etanol", foundIn: "Ekşi maya" },
+  s_cerevisiae: { shape: "Oval, tomurcuklanır", sizeUm: "~5–10", tempOpt: "~30–35 °C", eats: "Glukoz, fruktoz, maltoz", makes: "CO₂, etanol", foundIn: "Meyve, böcekler, ekşi maya" },
+};
 
-export const CARDS: CodexCard[] = [
+const CARD_SOURCES_MAP: Record<string, SourceId[]> = {
+  f_sanfranciscensis: ["ganzle_1998", "zheng_2020"],
+  l_plantarum: ["devuyst_2014", "zheng_2020"],
+  oncu_lab: ["devuyst_2005", "devuyst_2014"],
+  enterobakteri: ["devuyst_2005", "devuyst_2014"],
+  k_humilis: ["ganzle_1998"],
+  s_cerevisiae: ["devuyst_2005"],
+  gluten: ["delcour_2010"],
+  nisasta: ["delcour_2010"],
+  amilaz: ["delcour_2010"],
+  proteaz: ["ganzle_prot_2008", "thiele_2002"],
+  maltoz: ["ganzle_1998"],
+  co2: ["campbell_2020"],
+  asitler: ["devuyst_2005"],
+  tuz: ["delcour_2010"],
+  fitaz: ["leenhardt_2005", "loponen_2018"],
+  pentozan: ["delcour_2010"],
+  aroma_2ap: ["thiele_2002"],
+  olay_ardisiklik: ["devuyst_2005", "devuyst_2014"],
+  olay_kabarcik: ["campbell_2020"],
+  olay_otoliz: ["delcour_2010"],
+  olay_soguk_su: ["delcour_2010"],
+  olay_sicaklik_secer: ["ganzle_1998"],
+  olay_dolap: ["devuyst_2005"],
+  olay_firin: ["delcour_2010"],
+  olay_buhar: ["delcour_2010"],
+  olay_bayatlama: ["delcour_2010"],
+  olay_kesme: ["delcour_2010"],
+  efsane_hava: ["landis_2021", "reese_2020", "boiocchi_2017"],
+  efsane_colyak: ["greco_2011"],
+  efsane_olu_maya: ["devuyst_2014"],
+  efsane_dolap_ekmek: ["delcour_2010"],
+  tarih_shubayqa: ["arranz_2018"],
+  tarih_karacadag: ["heun_1997"],
+  tarih_cavdar: ["delcour_2010"],
+  tarih_fruktan: ["loponen_2018"],
+  olay_haslama: ["delcour_2010"],
+  olay_catlak: ["delcour_2010"],
+  olay_dusen_firin: ["delcour_2010"],
+};
+
+export const CARDS_V4: readonly CodexCardV4[] = [
   // ── Canlılar ──
-  {
-    id: "f_sanfranciscensis",
-    kind: "canli",
-    name: "Fructilactobacillus sanfranciscensis",
-    latin: "Fructilactobacillus sanfranciscensis",
-    nick: "Sanfran",
-    short: "Ekşi mayanın simge bakterisi; ekşiliği ve aromayı o yapar.",
-    why: "Maltozu parçalayıp laktik asit, asetik asit ve biraz CO₂ üretir. Bölünürken çıkardığı glukozu mayalara bırakır.",
-    deep: "Zorunlu heterofermentatif çubuk bakteri. En hızlı ~33 °C'de büyür, 41 °C üstünde büyüyemez. Eski adı Lactobacillus sanfranciscensis; 2020'de yeni cinse taşındı.",
-    stats: { shape: "Çubuk, zincir", sizeUm: "~0,8 × 2–4", tempOpt: "~33 °C", pH: "3,5'e kadar dayanır", eats: "Maltoz", makes: "Laktik + asetik asit, CO₂", foundIn: "Ekşi maya; un böcekleri" },
-    sources: [GANZLE_1998, ZHENG_2020],
-    rare: true,
-    art: "lacS",
-    microKey: "lacS",
-  },
-  {
-    id: "l_plantarum",
-    kind: "canli",
-    name: "Lactiplantibacillus plantarum",
-    latin: "Lactiplantibacillus plantarum",
-    nick: "Planto",
-    short: "Bitkilerden gelen dayanıklı bir laktik bakteri; yeni mayaların kurucularından.",
-    why: "Çok çeşitli şekerleri kullanabildiği için mayanın ilk günlerinde hızla çoğalır ve asidi yükseltir.",
-    deep: "Fakültatif heterofermentatif. Bitki yüzeylerinde, tahılda ve fermente gıdalarda yaygındır. Kendiliğinden kurulan mayalarda 4–6. günlerde öne çıkar.",
-    stats: { shape: "Çubuk", tempOpt: "~30–35 °C", eats: "Glukoz, fruktoz, maltoz…", makes: "Laktik asit", foundIn: "Bitkiler, tahıl, turşu" },
-    sources: [VANKERREBROECK_2017, ZHENG_2020],
-    art: "lacS",
-  },
-  {
-    id: "oncu_lab",
-    kind: "canli",
-    name: "Öncü laktik bakteriler",
-    latin: "Leuconostoc, Weissella",
-    nick: "Öncüler",
-    short: "Yeni mayanın ilk asitçileri; ortamı ekşi maya uzmanlarına hazırlarlar.",
-    why: "İlk 1–3 günde çoğalıp pH'ı 5'in altına indirirler. Asit arttıkça kendileri de çekilir; yerlerini aside daha dayanıklı bakteriler alır.",
-    deep: "Kok (yuvarlak) ya da kısa çubuk; çift ve zincir halinde. Heterofermentatif oldukları için biraz CO₂ de üretirler.",
-    stats: { shape: "Kok çiftleri", tempOpt: "~25–30 °C", makes: "Laktik asit, CO₂", foundIn: "Un, bitkiler" },
-    sources: [DEVUYST_2005, VANKERREBROECK_2017],
-    art: "lacP",
-    microKey: "lacP",
-  },
-  {
-    id: "enterobakteri",
-    kind: "canli",
-    name: "Enterobakteriler",
-    latin: "Enterobacter ve akrabaları",
-    nick: "Geçici misafir",
-    short: "1. günün sahte kabarması onların işi; asit yükselince elenirler.",
-    why: "Undan gelirler, nötr pH'ta çok hızlı çoğalıp gaz ve kötü koku üretirler. pH ~4,5 altına inince dayanamazlar.",
-    deep: "Kendiliğinden kurulan mayada ilk 24 saatin baskın grubu. Laktik bakterilerin asidi onları birkaç günde temizler.",
-    stats: { shape: "Kamçılı kısa çubuk", tempOpt: "~37 °C", pH: "~4,5 altında çekilir", makes: "Gaz, karışık asitler, kötü koku", foundIn: "Un, toprak" },
-    sources: [DEVUYST_2005, VANKERREBROECK_2017],
-    art: "ent",
-    microKey: "ent",
-  },
-  {
-    id: "k_humilis",
-    kind: "canli",
-    name: "Kazachstania humilis",
-    latin: "Kazachstania humilis",
-    nick: "Humi",
-    short: "Ekşi mayanın yabani mayası; maltoz yemez, bakterinin artığıyla yaşar.",
-    why: "Maltozu kullanamaz; F. sanfranciscensis'in maltozu parçalarken bıraktığı glukozla beslenir. Yarış yerine iş bölümü.",
-    deep: "En hızlı ~27 °C'de büyür, 36 °C üstünde büyüyemez. Eski adı Candida humilis / C. milleri. Aside çok dayanıklıdır.",
-    stats: { shape: "Oval hücre, tomurcuklanır", sizeUm: "~4–7", tempOpt: "~27 °C", pH: "Çok asit dayanımlı", eats: "Glukoz, fruktoz", makes: "CO₂, etanol", foundIn: "Ekşi maya" },
-    sources: [GANZLE_1998],
-    rare: true,
-    art: "yst",
-    microKey: "yst",
-  },
-  {
-    id: "s_cerevisiae",
-    kind: "canli",
-    name: "Saccharomyces cerevisiae",
-    latin: "Saccharomyces cerevisiae",
-    nick: "Saki",
-    short: "Fırıncı mayasının yabani kuzeni; ekşi mayada da yaşar.",
-    why: "Şekeri CO₂ ve etanole çevirir; hamuru kabartan gazın büyük kısmı mayalardan gelir.",
-    deep: "Hamurda gaz üretimi daha sıcakta (~32–36 °C) en hızlıdır. Saf fırıncı mayası 19. yüzyılda endüstriyel olarak üretilmeye başlandı.",
-    stats: { shape: "Oval, tomurcuklanır", sizeUm: "~5–10", tempOpt: "~30–35 °C", eats: "Glukoz, fruktoz, maltoz", makes: "CO₂, etanol", foundIn: "Meyve, böcekler, ekşi maya" },
-    sources: [DEVUYST_2005],
-    art: "yst",
-  },
+  { concept: "f_sanfranciscensis", art: "lacS", microKey: "lacS", rare: true },
+  { concept: "l_plantarum", art: "lacS" },
+  { concept: "oncu_lab", art: "lacP", microKey: "lacP" },
+  { concept: "enterobakteri", art: "ent", microKey: "ent" },
+  { concept: "k_humilis", art: "yst", microKey: "yst", rare: true },
+  { concept: "s_cerevisiae", art: "yst" },
+
   // ── Moleküller ve enzimler ──
-  {
-    id: "gluten",
-    kind: "molekul",
-    name: "Gluten",
-    short: "Su ve emekle kurulan ağ; gazı balon gibi tutan odur.",
-    why: "Gliadin hamura akışkanlık ve uzama verir, glutenin esneklik ve direnç. Su değince birbirine tutunurlar; yoğurma zincirleri hizalar.",
-    deep: "Glutenin dev zincirleri disülfit köprüleriyle (–S–S–) bağlanır. Pencere testinde ışık geçiren zar, ağın gazı tutacak kadar geliştiğini gösterir.",
-    sources: [DELCOUR],
-    art: "gluten",
-    microKey: "gluten",
-  },
-  {
-    id: "nisasta",
-    kind: "molekul",
-    name: "Nişasta taneleri",
-    short: "Unun çoğu nişastadır; büyük mercimek ve küçük top biçiminde taneler.",
-    why: "Fırında su emip şişerler, jelleşip iç yapıyı sabitlerler. Soğudukça yeniden düzenlenip içi oturturlar.",
-    deep: "Buğdayda büyük (A, 15–35 µm) ve küçük (B, 2–8 µm) taneler bulunur. Değirmende zedelenen 'hasarlı' taneler amilazın kesebildiği kısımdır.",
-    sources: [DELCOUR],
-    art: "nisasta",
-    microKey: "nisasta",
-  },
-  {
-    id: "amilaz",
-    kind: "molekul",
-    name: "Amilaz",
-    short: "Nişastayı şekere kesen makas: mayanın yemeğini o hazırlar.",
-    why: "β-amilaz uçtan maltoz koparır, α-amilaz zinciri ortadan böler. Yalnız hasarlı nişastaya erişebilirler.",
-    deep: "β-amilaz en etkin 62–64 °C'de, 82–84 °C'de söner; α-amilaz daha ısıya dayanıklıdır. Düşük pH amilazı frenler; çavdarda bu yüzden ekşi maya şarttır.",
-    sources: [DELCOUR],
-    rare: true,
-    art: "amilaz",
-    microKey: "amilaz",
-  },
-  {
-    id: "proteaz",
-    kind: "molekul",
-    name: "Proteaz",
-    short: "Asit yükselince uyanan ağ kesici; fazlası hamuru çorba yapar.",
-    why: "Unun kendi proteazları nötr pH'ta uyur; ekşi mayanın asidi pH'ı ~4'e indirince uyanıp gluteni keser.",
-    deep: "Aspartik proteinazlar. Kestikleri parçaları bakteri peptidazları amino asitlere ayırır: bunlar aromanın hammaddesidir. Aşırı mayalanmada ağ çözülür.",
-    sources: [GANZLE_PROT_2008],
-    rare: true,
-    art: "proteaz",
-    microKey: "proteaz",
-  },
-  {
-    id: "maltoz",
-    kind: "molekul",
-    name: "Maltoz",
-    short: "İki glukozun el ele hali: hamurdaki ana yakıt.",
-    why: "Amilaz nişastadan maltoz keser; bakteriler ve mayalar bunu yakıp asit ve gaz üretir.",
-    deep: "F. sanfranciscensis maltozu fosforilazla parçalar ve glukozu dışarı bırakır; maltoz kullanamayan K. humilis bu glukozla beslenir.",
-    sources: [GANZLE_1998],
-    art: "maltoz",
-    microKey: "maltoz",
-  },
-  {
-    id: "co2",
-    kind: "molekul",
-    name: "Karbondioksit",
-    short: "Hamuru kabartan gaz; önce suda çözünür.",
-    why: "Maya ve bazı bakteriler CO₂ üretir. Gaz önce hamurun suyunda çözünür; su doyunca kabarcıklara geçer.",
-    deep: "Fırında CO₂'nin çözünürlüğü düşer, gaz kabarcıklara geçip genleşir: fırın kabarmasının bir kısmı budur.",
-    sources: [BAKER_1941, DELCOUR],
-    art: "co2",
-    microKey: "co2",
-  },
-  {
-    id: "asitler",
-    kind: "molekul",
-    name: "Laktik ve asetik asit",
-    short: "Laktik yoğurt gibi yumuşak, asetik sirke gibi keskin.",
-    why: "Sıcak ve sulu maya laktiği, serin ve sıkı maya asetiği artırır. Dolapta bekleyen hamurda asetik payı yükselir.",
-    deep: "İkisinin molar oranına fermentasyon katsayısı denir. Asit pH'ı düşürür, istenmeyen mikropları eler ve küfü geciktirir.",
-    sources: [GANZLE_1998, DEVUYST_2005],
-    art: "asit",
-    microKey: "asit",
-  },
-  {
-    id: "tuz",
-    kind: "molekul",
-    name: "Tuz",
-    short: "Ağı sıkılaştırır, mayayı frenler, lezzeti açar.",
-    why: "Proteinlerdeki yükleri perdeleyerek hamuru daha sıkı ve daha az yapışkan yapar; ozmotik baskıyla mayaları ve bakterileri yavaşlatır.",
-    deep: "Unun %2'si civarı yaygındır. Tuzu en sonda eklemenin belirgin bir farkı denemelerde görülmemiştir; kural tartışmalıdır.",
-    sources: [DELCOUR],
-    art: "tuz",
-    microKey: "tuz",
-  },
-  {
-    id: "fitaz",
-    kind: "molekul",
-    name: "Fitaz",
-    short: "Kepekteki fitik asidi parçalayan enzim; asit onu çalıştırır.",
-    why: "Ekşi mayanın düşürdüğü pH, unun kendi fitazını çalıştırır; fitik asit parçalanır ve ona bağlı mineraller serbest kalır.",
-    deep: "Uzun ekşi maya fermentasyonunda fitik asidin %50–70'ten fazlası parçalanabilir (Leenhardt ve ark. 2005).",
-    sources: [LEENHARDT_2005],
-    rare: true,
-    art: "fitaz",
-    microKey: "fitaz",
-  },
-  {
-    id: "pentozan",
-    kind: "molekul",
-    name: "Pentozanlar",
-    short: "Çavdarın süngeri: gluten yerine yapıyı onlar taşır.",
-    why: "Arabinoksilanlar suyu sünger gibi çeker, şişip jel kurar. Çavdar hamurunu bu jel ayakta tutar.",
-    deep: "Çavdar proteinleri (secalin) ağ kuramaz. Asit pentozanların suda çözünmesini ve su tutmasını da artırır.",
-    sources: [DELCOUR],
-    art: "pentozan",
-    microKey: "pentozan",
-  },
-  {
-    id: "aroma_2ap",
-    kind: "molekul",
-    name: "2-asetil-1-pirolin",
-    short: "Kabuğun kavrulmuş, fındıksı kokusu; tarifi bakteriden başlar.",
-    why: "Bazı laktik bakteriler arginini ornitine çevirir; ornitin fırında Maillard tepkimesiyle bu kokuya dönüşür.",
-    deep: "Ekşi mayalı ekmeğin kabuk aromasında önemli bir bileşik. Yani kabuğun kokusu bir gece önce dolapta hazırlanır.",
-    sources: [THIELE_2002],
-    rare: true,
-    art: "aroma",
-  },
-  // ── Olaylar ──
-  {
-    id: "olay_ardisiklik",
-    kind: "olay",
-    name: "Bir mayanın doğuşu",
-    short: "1. gün sahte kabarma, 3. gün sessizlik, 5–7. gün gerçek maya.",
-    why: "İlk gün enterobakteriler patlar; öncü bakterilerin asidi onları eler; asit dayanıklılar ve mayalar yerleşince topluluk oturur.",
-    deep: "pH 6,2 → 5,0–5,5 (1. gün) → 4,0–4,5 (2–3) → 3,5–4,0 (olgun). Olgun mayada bakteri 10⁸–10⁹, maya 10⁶–10⁷ KOB/g.",
-    sources: [VANKERREBROECK_2017, DEVUYST_2005],
-    art: "kavanoz",
-  },
-  {
-    id: "olay_kabarcik",
-    kind: "olay",
-    name: "Kabarcıklar yoğurmada doğar",
-    short: "Maya yeni kabarcık yaratamaz; yalnız var olanları şişirir.",
-    why: "Yoğururken hamura giren minik hava kabarcıkları çekirdektir. Çözünen CO₂ bunlara geçer. Katlama yeni kabarcık eklemez; büyükleri böler.",
-    deep: "Bu yüzden yoğurma ve katlama ekmeğin iç dokusunu belirler: gözeneklerin sayısı karıştırmada, büyüklüğü mayalanmada belirlenir.",
-    sources: [BAKER_1941, DELCOUR],
-    rare: true,
-    art: "kabarcik",
-    microKey: "kabarcik",
-  },
-  {
-    id: "olay_otoliz",
-    kind: "olay",
-    name: "Otoliz",
-    short: "Un ve su dinlenirken ağ kendiliğinden kurulmaya başlar.",
-    why: "Un suyu tamamen çeker, proteinler kendiliğinden bağlanır, proteazlar ağı hafifçe gevşetir, amilaz şeker hazırlar.",
-    deep: "Raymond Calvel'in 1974'te tanımladığı yöntem. Daha kısa yoğurma, daha uzayabilir hamur.",
-    sources: [DELCOUR],
-    art: "otoliz",
-  },
-  {
-    id: "olay_soguk_su",
-    kind: "olay",
-    name: "Soğuk suyun sırrı",
-    short: "Yoğurma hamuru ısıtır; soğuk su onu dengeler.",
-    why: "Hedef hamur sıcaklığı ~27 °C. Oda, un ve maya sıcaklığına yoğurmanın sürtünme ısısı da eklenir; su sıcaklığı geri kalanı ayarlar.",
-    deep: "4 × hamur sıcaklığı ≈ oda + un + maya + su + sürtünme. Sıcak hamur fermentasyonu kaçırır; enzimler hızlanıp ağı zayıflatır.",
-    sources: [DELCOUR],
-    art: "termometre",
-  },
-  {
-    id: "olay_sicaklik_secer",
-    kind: "olay",
-    name: "Sıcaklık kimi kayırır?",
-    short: "Serin hamur mayayı, ılık hamur bakteriyi kayırır.",
-    why: "K. humilis en hızlı ~27 °C'de, F. sanfranciscensis ~33 °C'de büyür. Sıcaklığı değiştirmek topluluğun dengesini değiştirir.",
-    deep: "Ilık ve sulu maya: daha çok laktik, daha yumuşak ekşi. Serin ve sıkı maya: daha çok asetik, daha keskin.",
-    sources: [GANZLE_1998],
-    rare: true,
-    art: "termometre",
-  },
-  {
-    id: "olay_dolap",
-    kind: "olay",
-    name: "Dolapta bir gece",
-    short: "4 °C'de maya neredeyse durur, bakteriler aromayı işler.",
-    why: "Soğukta gaz üretimi durur ama bakteriler yavaşça asit ve aroma üretmeye devam eder. Soğuk hamur kesik için de sıkılaşır.",
-    deep: "Hamurun dolapta 4 °C'ye inmesi saatler sürer; ilk saatlerde mayalanma sürer. Tahsin: şekilde tam kabardıysa 4 °C, erkense önce 12–13 °C.",
-    sources: [GANZLE_1998],
-    art: "dolap",
-  },
-  {
-    id: "olay_firin",
-    kind: "olay",
-    name: "Fırının içindeki saat",
-    short: "~60 °C'de maya ölür, nişasta jelleşir, ağ donar; 92–98 °C'de iç pişer.",
-    why: "Isı merkeze ilerledikçe: son gaz patlaması, mayanın ölümü, nişastanın su emip jelleşmesi, proteinlerin pıhtılaşması.",
-    deep: "Su kaynamadan iç 100 °C'yi geçemez. Kabukta ise su uçtuktan sonra Maillard tepkimeleri renk ve koku verir.",
-    sources: [DELCOUR],
-    art: "firin",
-  },
-  {
-    id: "olay_buhar",
-    kind: "olay",
-    name: "Buharın işi",
-    short: "Buhar kabuğu geciktirir: kulak kalkar, kabuk parlar.",
-    why: "Soğuk hamura yoğuşan buhar yüzeyi esnek tutar, kesik açılır. Yüzey nişastası jelleşip parlar. Kabarma bitince tahliye: kabuk kurur, renk alır.",
-    deep: "Kabarma pişmenin ilk ~15–30 dakikasında biter. Tahsin'in 20 dk buharlı + 20 dk buharsız düzeni bu aralıktadır.",
-    sources: [DELCOUR],
-    art: "buhar",
-  },
-  {
-    id: "olay_bayatlama",
-    kind: "olay",
-    name: "Bayatlama kuruma değildir",
-    short: "Ekmeği buzdolabına koyma: en hızlı orada bayatlar. Dondur.",
-    why: "Jelleşmiş nişasta soğudukça yeniden kristalleşir (retrogradasyon). Bu tepkime ~4 °C civarında en hızlıdır; -20 °C'de durur.",
-    deep: "Isıtınca kristaller kısmen çözülür, ekmek bir süre tazelenir. Ekşi mayanın asidi küfü geciktirir.",
-    sources: [DELCOUR],
-    rare: true,
-    art: "dolap",
-  },
-  {
-    id: "olay_kesme",
-    kind: "olay",
-    name: "Kesmek için sabır",
-    short: "Sıcak ekmeği kesersen içi hamurumsu olur.",
-    why: "Nişasta oturmamış, nem dağılmamıştır. Köy ekmeği ~3 saat, yoğun siyez ~1 gün, çavdar 1–2 gün bekler.",
-    deep: "Çavdarda iç gluten değil jel ve nişastayla tutunur; oturması 24–48 saat sürer.",
-    sources: [DELCOUR],
-    art: "bicak",
-  },
+  { concept: "gluten", art: "gluten", microKey: "gluten" },
+  { concept: "nisasta", art: "nisasta", microKey: "nisasta" },
+  { concept: "amilaz", art: "amilaz", microKey: "amilaz" },
+  { concept: "proteaz", art: "proteaz", microKey: "proteaz" },
+  { concept: "maltoz", art: "maltoz", microKey: "maltoz" },
+  { concept: "co2", art: "co2", microKey: "co2" },
+  { concept: "asitler", art: "asit", microKey: "asit" },
+  { concept: "tuz", art: "tuz", microKey: "tuz" },
+  { concept: "fitaz", art: "fitaz", microKey: "fitaz" },
+  { concept: "pentozan", art: "pentozan", microKey: "pentozan" },
+  { concept: "aroma_2ap", art: "aroma" },
+
+  // ── Olaylar ve teknikler ──
+  { concept: "olay_ardisiklik", art: "ardisiklik" },
+  { concept: "olay_kabarcik", art: "kabarcik", microKey: "kabarcik" },
+  { concept: "olay_otoliz", art: "otoliz" },
+  { concept: "olay_soguk_su", art: "soguk_su" },
+  { concept: "olay_sicaklik_secer", art: "sicaklik" },
+  { concept: "olay_dolap", art: "dolap" },
+  { concept: "olay_firin", art: "firin" },
+  { concept: "olay_buhar", art: "buhar" },
+  { concept: "olay_bayatlama", art: "bayatlama" },
+  { concept: "olay_kesme", art: "kesme" },
+
   // ── Efsaneler ──
-  {
-    id: "efsane_hava",
-    kind: "efsane",
-    name: "Efsane: maya havadan yakalanır",
-    short: "Mikroplar çoğunlukla undan gelir; havada daha çok küf sporu var.",
-    why: "500 ekşi maya karşılaştırıldığında coğrafyanın belirleyici olmadığı görüldü. Ana kaynak un ve tahıl tanesidir.",
-    deep: "Fırıncının elleri de mikrop taşır ama ana yapıdaki payı küçüktür. F. sanfranciscensis un böceklerinin bağırsağında yaşar.",
-    sources: [LANDIS_2021, REESE_2020, BOIOCCHI_2017],
-    rare: true,
-    art: "efsane",
-  },
-  {
-    id: "efsane_colyak",
-    kind: "efsane",
-    name: "Efsane: ekşi maya çölyağa uygundur",
-    short: "Değildir. Buğday ve çavdarla yapılan ekşi maya ekmeği gluten içerir.",
-    why: "Fermentasyon gluteni bir miktar parçalar ama kalan miktar 20 ppm güvenlik sınırının çok üstündedir.",
-    deep: "Çölyak hastaları için yalnız doğal olarak glutensiz unlarla yapılan ekmekler uygundur.",
-    sources: [CELIAC],
-    art: "efsane",
-  },
-  {
-    id: "efsane_olu_maya",
-    kind: "efsane",
-    name: "Efsane: 3. gün sessizleşen maya öldü",
-    short: "Ölmedi; asit yükseliyor, asıl topluluk yerleşiyor. Sabret.",
-    why: "İlk günün kabarması enterobakterilerdendi. Asit onları eledi; mayalar henüz azken gaz azalır.",
-    deep: "Yeni başlayanların çoğu mayayı tam bu sessiz evrede atar. Birkaç gün düzenli besleme mayaları getirir.",
-    sources: [VANKERREBROECK_2017],
-    art: "efsane",
-  },
-  {
-    id: "efsane_dolap_ekmek",
-    kind: "efsane",
-    name: "Efsane: ekmek buzdolabında taze kalır",
-    short: "Tersine: buzdolabı bayatlamayı hızlandırır.",
-    why: "Nişastanın yeniden kristalleşmesi ~4 °C'de en hızlıdır. Saklamak için oda sıcaklığı (kısa süre) ya da derin dondurucu.",
-    deep: "Dondurulmuş dilimler kızartılınca neredeyse taze ekmek gibi olur.",
-    sources: [DELCOUR],
-    art: "efsane",
-  },
-  // ── Tarih ──
-  {
-    id: "tarih_shubayqa",
-    kind: "tarih",
-    name: "14.400 yıllık ekmek",
-    short: "En eski ekmek tarımdan binlerce yıl önce, yabani siyezle yapıldı.",
-    why: "Ürdün'de Shubayqa 1'de Natufi avcı-toplayıcıların ocaklarında kömürleşmiş ekmek kırıntıları bulundu.",
-    deep: "Yabani siyez, arpa ve saz yumrularından yapılmış mayasız yassı ekmek. İnsanlar ekmeği tarımdan önce yapmış olabilir.",
-    sources: [ARRANZ_2018],
-    rare: true,
-    art: "tarih",
-  },
-  {
-    id: "tarih_karacadag",
-    kind: "tarih",
-    name: "Siyezin evi: Karacadağ",
-    short: "Siyez Güneydoğu Anadolu'da, Karacadağ'da evcilleştirildi.",
-    why: "Genetik karşılaştırma, ekili siyezin en yakın yabani akrabasının Karacadağ dağlarında yetiştiğini gösterdi.",
-    deep: "Siyez (Triticum monococcum) en eski evcil buğdaylardandır. Gluteni zayıf ve az elastiktir; sarı rengini karotenoidler (lutein) verir.",
-    sources: [HEUN_1997],
-    rare: true,
-    art: "tarih",
-  },
-  {
-    id: "tarih_cavdar",
-    kind: "tarih",
-    name: "Çavdar neden hep ekşi?",
-    short: "Çavdarda amilaz güçlüdür; asit olmadan içi vıcık vıcık olur.",
-    why: "Çavdar nişastası düşük sıcaklıkta jelleşir; fırında güçlü amilaz bu jeli keser. Ekşi mayanın asidi amilazı frenler.",
-    deep: "Bu yüzden Kuzey ve Doğu Avrupa'nın çavdar ekmekleri yüzyıllardır ekşi mayayla yapılır ve kesilmeden 1–2 gün dinlendirilir.",
-    sources: [DELCOUR],
-    art: "tarih",
-  },
-  {
-    id: "tarih_fruktan",
-    kind: "olay",
-    name: "Uzun mayalanmada fruktanlar",
-    short: "Uzun fermentasyonda mayalar ve bakteriler fruktanların çoğunu tüketir.",
-    why: "Buğdaydaki fruktanlar mayaların invertaz enzimiyle parçalanıp yakıt olur.",
-    deep: "12–48 saatlik fermentasyonlarda fruktanların büyük bölümü kaybolur (Loponen & Gänzle 2018). Bu bir sağlık vaadi değil, fermentasyonun kimyasıdır.",
-    sources: [LOPONEN_2018],
-    art: "maltoz",
-  },
+  { concept: "efsane_hava", art: "hava" },
+  { concept: "efsane_colyak", art: "colyak" },
+  { concept: "efsane_olu_maya", art: "olu_maya" },
+  { concept: "efsane_dolap_ekmek", art: "dolap_ekmek" },
+
+  // ── Tarih ve miras ──
+  { concept: "tarih_shubayqa", art: "shubayqa" },
+  { concept: "tarih_karacadag", art: "karacadag" },
+  { concept: "tarih_cavdar", art: "cavdar" },
+  { concept: "tarih_fruktan", art: "fruktan" },
+
+  // ── Çavdar / Gece Yarısı ──
+  { concept: "olay_haslama", art: "haslama" },
+  { concept: "olay_catlak", art: "catlak" },
+  { concept: "olay_dusen_firin", art: "dusen_firin" },
 ];
 
-/** Gece Yarısı (çavdar) kartları — Tahsin'in tarifi + docs/BILIM.md §8, §12 */
-CARDS.push(
-  {
-    id: "olay_haslama",
-    kind: "olay",
-    name: "Kaynar suyla haşlama",
-    short: "Tohumlara, kırmaya ve una kaynar su: bir gün sonra hem tatlı hem nemli.",
-    why: "Kaynar su o kısmın enzimlerini söndürür ve nişastanın bir kısmını önceden jelleştirir; jel suyu tutar, ekmek uzun süre nemli kalır. Karışım soğurken amilazın en sevdiği 60–70 °C'den geçer ve nişastanın bir kısmı şekere döner.",
-    deep: "Nişasta ~60–82 °C'de jelleşir, β-amilaz en etkin 62–64 °C'dedir ve 82–84 °C'de söner (docs/BILIM.md §5, §7). Haşlama bu sıcaklıkları sırayla kullanır. Keten tohumunun müsilajı da suyu bağlar. Tatlılık ve nem çıkarımı bu verilerden yapılmıştır.",
-    sources: [DELCOUR],
-    rare: true,
-    art: "otoliz",
-  },
-  {
-    id: "olay_catlak",
-    kind: "olay",
-    name: "Çatlaklar konuşur",
-    short: "Çavdarın parmak testi yok; üstünde çatlaklar belirince hazırdır.",
-    why: "Çavdar hamuru ağ yerine jel ile gazı tutar ve az kabarır. Gaz yüzeyi gerdikçe haşhaş kaplı kabuk çatlar: bu, dolaba ya da fırına geçme işaretidir.",
-    deep: "Çatlaklar belirmeden pişen çavdar sıkı kalır ve yanlarından yırtılır; çatlaklar derinleşip açılırsa fazla mayalanmıştır, fırında çöker.",
-    sources: [DELCOUR],
-    art: "kavanoz",
-  },
-  {
-    id: "olay_dusen_firin",
-    kind: "olay",
-    name: "Düşen fırın",
-    short: "280 °C'de ısıt, 220'de yükle, ısıtıcıları kapat: sıcaklık kendiliğinden düşsün.",
-    why: "Yoğun çavdar iki saat fırında kalır. Sabit yüksek ısıda üst yanar; düşen ısı kabuğu yakmadan içi yavaşça 96 °C'nin üstüne taşır.",
-    deep: "Büyük ve yoğun kalıp ekmeğinde iç sıcaklık yavaş yükselir; su kaynamadan iç 100 °C'yi geçemez. Sonda kalıptan çıkarıp ters çevirmek alt kabuğu kurutur.",
-    sources: [DELCOUR],
-    art: "firin",
-  }
+function buildSources(sourceIds: SourceId[]): CardSource[] {
+  return sourceIds.map((srcId) => {
+    const s = GRAPH.sources[srcId];
+    if (!s) {
+      return { citation: srcId, url: `/kaynak/${srcId}` };
+    }
+    const author = s.authors[0] || "Kaynak";
+    const etAl = s.authors.length > 1 ? " ve ark." : "";
+    const venue = s.venue ? `, ${s.venue}` : "";
+    return {
+      citation: `${author}${etAl} (${s.year})${venue}`,
+      url: `/kaynak/${srcId}`,
+    };
+  });
+}
+
+export const CARDS: CodexCard[] = CARDS_V4.map((v4) => {
+  const concept = GRAPH.concepts[v4.concept];
+  const sourceIds = CARD_SOURCES_MAP[v4.concept] || [];
+  const sources = buildSources(sourceIds);
+
+  const card: CodexCard = {
+    id: v4.concept,
+    kind: (concept?.kind === "tahil" || concept?.kind === "un" ? "molekul" : concept?.kind || "olay") as CardKind,
+    name: concept?.name || v4.concept,
+    short: concept?.layers.usta || "",
+    why: concept?.layers.neden || "",
+    deep: concept?.layers.bilim || "",
+    art: v4.art,
+    sources,
+  };
+
+  if (concept?.latin) card.latin = concept.latin;
+  if (concept?.nick) card.nick = concept.nick;
+  if (v4.microKey) card.microKey = v4.microKey;
+  if (v4.rare) card.rare = v4.rare;
+  if (CARD_STATS[v4.concept]) card.stats = CARD_STATS[v4.concept];
+
+  return card;
+});
+
+export const CARD_BY_ID: Record<string, CodexCard> = Object.fromEntries(
+  CARDS.map((c) => [c.id, c])
 );
 
-export const CARD_BY_ID: Record<string, CodexCard> = Object.fromEntries(CARDS.map((c) => [c.id, c]));
-
-/** Büyüteçte dokunulan varlığın kartı */
 export function cardForEntity(kind: string): CodexCard | undefined {
   return CARDS.find((c) => c.microKey === kind);
 }
 
-export const KIND_LABEL: Record<CodexCard["kind"], string> = {
+export const KIND_LABEL: Record<CardKind, string> = {
   canli: "Canlılar",
-  molekul: "Moleküller",
+  molekul: "Moleküller & Enzimler",
   olay: "Olaylar",
   efsane: "Efsaneler",
-  tarih: "Tarih",
+  tarih: "Tarih & Miras",
 };
+
+/** Knowledge doğrulayıcısı için kart referansları adaptörü (K002) */
+export function toContentRefs(): ContentRef[] {
+  return CARDS_V4.map((c) => ({
+    kind: "kart",
+    id: c.concept,
+    surface: "icerik",
+    claimIds: [],
+    conceptIds: [c.concept],
+    mediaIds: [],
+  }));
+}

@@ -1,8 +1,8 @@
 import type { Prediction } from "@/types/game";
 
 /**
- * Tahmin et → gör → anla. Her soru oyunun bir anında sorulur; cevaptan sonra kısa açıklama ve kart.
- * İçerik docs/BILIM.md'den.
+ * Tahmin et → gör → anla (MIMARI §2.5 / P1-05).
+ * Her soru oyunun bir anında sorulur; cevaptan sonra kısa açıklama, kart ve doğrulanmış iddia (claimId) sunulur.
  */
 export const PREDICTIONS: Prediction[] = [
   {
@@ -17,6 +17,7 @@ export const PREDICTIONS: Prediction[] = [
     correct: "un",
     reveal: "Undan. Mikroplar tahıl tanesinin yüzeyinden una geçer. 500 maya karşılaştırıldığında hava ve coğrafya belirleyici çıkmadı.",
     cardId: "efsane_hava",
+    claimId: "claim_f_sanfran_beetle",
   },
   {
     id: "sahte",
@@ -29,6 +30,7 @@ export const PREDICTIONS: Prediction[] = [
     correct: "hayir",
     reveal: "Bu gazı mayalar değil enterobakteriler yaptı. Asit yükselince elenecekler. Peynirimsi koku da onlardan.",
     cardId: "enterobakteri",
+    claimId: "claim_enterobacter_false_rise",
   },
   {
     id: "sessiz",
@@ -41,6 +43,7 @@ export const PREDICTIONS: Prediction[] = [
     correct: "sabret",
     reveal: "Ölmedi. Asit yükseldi, öncüler çekildi; mayalar henüz az. Yeni başlayanların çoğu mayayı tam burada atar.",
     cardId: "efsane_olu_maya",
+    claimId: "claim_oncu_lab_pioneer",
   },
   {
     id: "tepe",
@@ -54,6 +57,7 @@ export const PREDICTIONS: Prediction[] = [
     correct: "eksi",
     reveal: "Şeker azalır, asit birikir. Ekmek daha ekşi olur; çok beklerse kabartma gücü de düşer. Biraz geç kullanmak tercih meselesidir.",
     cardId: "asitler",
+    claimId: "claim_f_sanfran_maltose",
   },
   {
     id: "su",
@@ -67,6 +71,7 @@ export const PREDICTIONS: Prediction[] = [
     correct: "sicaklik",
     reveal: "Yoğurmanın sürtünmesi hamuru ısıtır. Oda, un ve mayanın sıcaklığıyla birlikte suyu ayarlayarak hamuru ~27 °C'de tutarsın.",
     cardId: "olay_soguk_su",
+    claimId: "claim_ddt_control",
   },
   {
     id: "tuz",
@@ -80,6 +85,7 @@ export const PREDICTIONS: Prediction[] = [
     correct: "guclu",
     reveal: "Proteinlerdeki yükleri perdeler; hamur daha sıkı ve daha az yapışkan olur. Mayayı da biraz yavaşlatır.",
     cardId: "tuz",
+    claimId: "claim_gluten_structure",
   },
   {
     id: "kabarcik",
@@ -92,6 +98,7 @@ export const PREDICTIONS: Prediction[] = [
     correct: "hava",
     reveal: "Maya yeni kabarcık yaratamaz. CO₂ önce suda çözünür, sonra yoğurmada giren minik hava çekirdeklerini şişirir.",
     cardId: "olay_kabarcik",
+    claimId: "claim_bubble_nucleation",
   },
   {
     id: "dolap",
@@ -105,6 +112,7 @@ export const PREDICTIONS: Prediction[] = [
     correct: "bakteri",
     reveal: "Soğukta gaz üretimi neredeyse durur ama bakteriler yavaşça asit ve aroma üretir. Soğuk hamur kesik için de sıkılaşır.",
     cardId: "olay_dolap",
+    claimId: "claim_f_sanfran_growth",
   },
   {
     id: "buhar",
@@ -118,6 +126,7 @@ export const PREDICTIONS: Prediction[] = [
     correct: "kabuk",
     reveal: "Buhar yüzeyi esnek tutar; kesik açılır, kulak kalkar, yüzey nişastası jelleşip parlar. Kabarma bitince tahliye: kabuk renk alır.",
     cardId: "olay_buhar",
+    claimId: "claim_starch_gelatinization",
   },
   {
     id: "maya_olum",
@@ -131,6 +140,7 @@ export const PREDICTIONS: Prediction[] = [
     correct: "60",
     reveal: "~60 °C. O ana kadar son bir gaz patlaması yaparlar. Hemen ardından nişasta jelleşir, ağ donar.",
     cardId: "olay_firin",
+    claimId: "claim_f_sanfran_growth",
   },
   {
     id: "kesme",
@@ -143,6 +153,7 @@ export const PREDICTIONS: Prediction[] = [
     correct: "hamur",
     reveal: "Nişasta henüz oturmadı, nem dağılmadı. Köy ekmeği ~3 saat sonra, yoğun ekmekler daha da geç kesilir.",
     cardId: "olay_kesme",
+    claimId: "claim_starch_gelatinization",
   },
   {
     id: "saklama",
@@ -156,6 +167,7 @@ export const PREDICTIONS: Prediction[] = [
     correct: "dondurucu",
     reveal: "Dondurucuda. Bayatlama nişastanın yeniden kristalleşmesidir ve ~4 °C'de en hızlıdır: buzdolabı bayatlatır.",
     cardId: "olay_bayatlama",
+    claimId: "claim_starch_gelatinization",
   },
   {
     id: "siyez",
@@ -169,6 +181,7 @@ export const PREDICTIONS: Prediction[] = [
     correct: "gluten",
     reveal: "Proteini bol ama ağı zayıf ve az elastik: yapışkan hamur, daha az su, daha nazik katlama.",
     cardId: "tarih_karacadag",
+    claimId: "claim_gluten_structure",
   },
   {
     id: "cavdar_asit",
@@ -182,6 +195,7 @@ export const PREDICTIONS: Prediction[] = [
     correct: "amilaz",
     reveal: "Çavdarda amilaz bol ve nişasta düşük sıcaklıkta jelleşir; asit olmazsa fırında jel kesilir, iç vıcık vıcık olur.",
     cardId: "tarih_cavdar",
+    claimId: "claim_amylase_activity",
   },
   {
     id: "cavdar_yogurma",
@@ -194,6 +208,7 @@ export const PREDICTIONS: Prediction[] = [
     correct: "hayir",
     reveal: "Çavdar proteinleri ağ kuramaz; yapıyı pentozan jeli ve nişasta taşır. Karıştırmak yeter; yoğurmak yalnız yapışkanlaştırır.",
     cardId: "pentozan",
+    claimId: "claim_gluten_structure",
   },
   {
     id: "cavdar_dinlenme",
@@ -206,6 +221,7 @@ export const PREDICTIONS: Prediction[] = [
     correct: "1gun",
     reveal: "İç gluten değil jel ve nişastayla tutunur; nemin dağılması ve nişastanın oturması 24–48 saat sürer.",
     cardId: "olay_kesme",
+    claimId: "claim_starch_gelatinization",
   },
 ];
 
