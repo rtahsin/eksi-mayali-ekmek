@@ -1,10 +1,11 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { ExtendedProduct } from "@/hooks/useProducts";
 import { useCartStore } from "@/lib/store/useCartStore";
 import { ShoppingBag, Plus, Minus, Check, MessageCircle, ArrowRight } from "lucide-react";
 import { CONTACT } from "@/lib/site";
+import { captureRef } from "@/lib/track";
 
 interface ProductDetailClientActionsProps {
   product: ExtendedProduct;
@@ -15,6 +16,11 @@ export function ProductDetailClientActions({ product }: ProductDetailClientActio
   const [isAdded, setIsAdded] = useState<boolean>(false);
   const addItem = useCartStore((state) => state.addItem);
   const openCart = useCartStore((state) => state.openCart);
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => {
+    setMounted(true);
+    captureRef();
+  }, []);
 
   const handleIncrement = () => {
     setQuantity((prev) => prev + 1);
@@ -46,6 +52,22 @@ export function ProductDetailClientActions({ product }: ProductDetailClientActio
 
   return (
     <div className="space-y-4 pt-2">
+      {/* Mobil yapışkan sipariş çubuğu: her zaman (ürün sayfasında alt sepet barı yok) */}
+      {mounted && isAvailable && (
+        <div
+          className="md:hidden fixed inset-x-0 bottom-0 z-30 px-3 pt-2 pointer-events-none"
+          style={{ paddingBottom: "calc(env(safe-area-inset-bottom, 0px) + 0.75rem)" }}
+        >
+          <button
+            type="button"
+            onClick={handleBuyNow}
+            className="pointer-events-auto w-full flex items-center justify-between gap-3 px-4 py-3.5 rounded-2xl bg-artisan-terracotta-dark text-white font-sans font-semibold text-sm shadow-lg shadow-black/40 active:scale-[0.99] transition-transform"
+          >
+            <span>Evine getirelim</span>
+            <span className="font-serif text-base">{product.price} ₺</span>
+          </button>
+        </div>
+      )}
       {/* Price & Quantity & Add To Cart Box */}
       <div className="p-4 sm:p-5 rounded-2xl bg-surface border border-surface-border space-y-4 shadow-xl">
         <div className="flex items-baseline justify-between">

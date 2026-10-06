@@ -53,7 +53,7 @@ export function sanitizeInput(text: string, maxLength: number = 500): string {
   return text
     .replace(/\0/g, "") // Remove null bytes
     .replace(/<[^>]*>?/gm, "") // Strip HTML/script tags
-    .replace(/[<>'"`;]/g, "") // Strip dangerous injection characters
+    .replace(/[\u0000-\u001F\u007F]/g, " ") // Kontrol karakterleri boşluk olsun; kesme işareti ve noktalı virgül korunur (React çıktıyı zaten kaçırır)
     .trim()
     .slice(0, maxLength);
 }
