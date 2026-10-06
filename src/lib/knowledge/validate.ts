@@ -190,6 +190,26 @@ export function validateGraph(
         });
       }
     }
+
+    // K009: Yazı özeti > 160 karakter ya da levels boş
+    if (ref.kind === "yazi") {
+      if (ref.summary && ref.summary.length > 160) {
+        issues.push({
+          code: "K009",
+          severity: "error",
+          ref: ref.id,
+          message: `Yazı özeti 160 karakteri aşıyor (${ref.summary.length} karakter): ${ref.id}`,
+        });
+      }
+      if (!ref.levels || ref.levels.length === 0) {
+        issues.push({
+          code: "K009",
+          severity: "error",
+          ref: ref.id,
+          message: `Yazı hedef kitle seviyesi (levels) boş olamaz: ${ref.id}`,
+        });
+      }
+    }
   }
 
   return issues;

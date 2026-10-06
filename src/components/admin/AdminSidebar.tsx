@@ -58,7 +58,6 @@ export function AdminSidebar({ isOpen, onClose, pendingOrderCount = 0 }: AdminSi
     { label: "Ürünler", href: "/admin/urunler", icon: Croissant, roles: ["superadmin", "admin", "staff"] },
     { label: "Cariler", href: "/admin/cariler", icon: Wallet, roles: ["superadmin", "admin", "staff"] },
     { label: "Müşteriler", href: "/admin/musteriler", icon: Users, roles: ["superadmin", "admin", "staff"] },
-    { label: "Kütüphane", href: "/admin/kutuphane", icon: BookOpen, roles: ["superadmin", "admin", "staff"] },
     { label: "Ayarlar", href: "/admin/ayarlar", icon: Settings, roles: ["superadmin", "admin", "staff"] },
   ];
 
