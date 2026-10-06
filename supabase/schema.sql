@@ -1,3 +1,4 @@
+-- Referans dosya; canlı şema 013+ numaralı migration'larla değişti. Çalıştırmayın.
 -- ==============================================================================
 -- EKMEKLAB ARTISAN BAKERY & ERP - SUPABASE (POSTGRESQL) PRODUCTION SCHEMA
 -- ==============================================================================

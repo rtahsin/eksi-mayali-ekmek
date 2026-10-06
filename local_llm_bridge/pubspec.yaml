@@ -1,3 +1,0 @@
-name: local_llm_bridge
-dependencies:
-  http: ^1.2.0 # Ollama API calls
