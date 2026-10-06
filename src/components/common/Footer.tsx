@@ -64,7 +64,12 @@ export function Footer() {
               <li>
                 <a href="/kutuphane" className="hover:text-artisan-gold transition-colors flex items-center gap-1">
                   <BookOpen className="w-3 h-3 text-artisan-gold" />
-                  <span>Bilim & Zanaat Bülteni</span>
+                  <span>Kütüphane</span>
+                </a>
+              </li>
+              <li>
+                <a href="/kavram" className="hover:text-artisan-gold transition-colors">
+                  Kavramlar Sözlüğü
                 </a>
               </li>
               <li>
