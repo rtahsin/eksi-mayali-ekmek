@@ -72,36 +72,44 @@ export function AdminLayoutClient({ children }: { children: React.ReactNode }) {
 
   return (
     <AdminAuthGate>
-      <div className="min-h-screen bg-[#120E0B] text-foreground font-sans flex flex-col selection:bg-artisan-terracotta/30 selection:text-artisan-gold">
+      <div className="min-h-screen bg-[#120E0B] text-foreground font-sans flex flex-col selection:bg-artisan-terracotta/30 selection:text-artisan-gold print:min-h-0 print:bg-white print:p-0">
         {/* Sidebar */}
-        <AdminSidebar
-          isOpen={sidebarOpen}
-          onClose={() => setSidebarOpen(false)}
-          pendingOrderCount={pendingCount}
-        />
+        <div className="print:hidden">
+          <AdminSidebar
+            isOpen={sidebarOpen}
+            onClose={() => setSidebarOpen(false)}
+            pendingOrderCount={pendingCount}
+          />
+        </div>
 
         {/* Main Content Area */}
-        <div className="lg:pl-64 flex-1 flex flex-col min-w-0 pb-20 lg:pb-0">
-          <AdminHeader
-            onToggleSidebar={() => setSidebarOpen(!sidebarOpen)}
-            pendingOrderCount={pendingCount}
-            soundEnabled={soundEnabled}
-            onToggleSound={toggleSound}
-          />
+        <div className="lg:pl-64 flex-1 flex flex-col min-w-0 pb-20 lg:pb-0 print:pl-0 print:pb-0">
+          <div className="print:hidden">
+            <AdminHeader
+              onToggleSidebar={() => setSidebarOpen(!sidebarOpen)}
+              pendingOrderCount={pendingCount}
+              soundEnabled={soundEnabled}
+              onToggleSound={toggleSound}
+            />
+          </div>
 
-          <main className="flex-1 p-4 sm:p-6 lg:p-8 max-w-7xl w-full mx-auto">
+          <main className="flex-1 p-4 sm:p-6 lg:p-8 max-w-7xl w-full mx-auto print:p-0 print:max-w-none print:m-0">
             {children}
           </main>
         </div>
 
         {/* Mobile PWA Install Prompt Banner */}
-        <PwaInstallPrompt />
+        <div className="print:hidden">
+          <PwaInstallPrompt />
+        </div>
 
         {/* Mobile Bottom Navigation */}
-        <MobileBottomNav
-          onOpenSidebar={() => setSidebarOpen(true)}
-          pendingOrderCount={pendingCount}
-        />
+        <div className="print:hidden">
+          <MobileBottomNav
+            onOpenSidebar={() => setSidebarOpen(true)}
+            pendingOrderCount={pendingCount}
+          />
+        </div>
       </div>
     </AdminAuthGate>
   );

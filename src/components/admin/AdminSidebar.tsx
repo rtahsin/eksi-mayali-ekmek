@@ -16,6 +16,7 @@ import {
   ShieldCheck,
   Flame,
   Users,
+  Printer,
   X,
 } from "lucide-react";
 
@@ -53,6 +54,7 @@ export function AdminSidebar({ isOpen, onClose, pendingOrderCount = 0 }: AdminSi
     },
     { label: "Teslimat", href: "/kurye", icon: Truck, roles: ["superadmin", "admin", "support", "editor"] },
     { label: "Üretim", href: "/admin/uretim", icon: Flame, roles: ["superadmin", "admin", "support", "editor"] },
+    { label: "Etiket Baskı", href: "/admin/baski", icon: Printer, roles: ["superadmin", "admin", "support", "editor"] },
     { label: "Ürünler", href: "/admin/urunler", icon: Croissant, roles: ["superadmin", "admin", "support", "editor"] },
     { label: "Cariler", href: "/admin/cariler", icon: Wallet, roles: ["superadmin", "admin", "support", "editor"] },
     { label: "Müşteriler", href: "/admin/musteriler", icon: Users, roles: ["superadmin", "admin", "support", "editor"] },
