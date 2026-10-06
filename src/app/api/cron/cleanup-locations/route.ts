@@ -93,13 +93,28 @@ export async function GET(req: Request) {
       deletedRateLimitsCount = rateLimitCount ?? 0;
     }
 
+    // 5. funnel_events temizliği (13 ay / 395 günden eski huni ve öğrenme ölçümleri, P1-10)
+    const funnelThreshold = new Date(Date.now() - 395 * 24 * 60 * 60 * 1000).toISOString();
+    let deletedFunnelEventsCount = 0;
+    const { error: funnelErr, count: funnelCount } = await supabase
+      .from("funnel_events")
+      .delete({ count: "exact" })
+      .lt("created_at", funnelThreshold);
+
+    if (funnelErr) {
+      console.warn("Funnel events cleanup warning:", funnelErr);
+    } else {
+      deletedFunnelEventsCount = funnelCount ?? 0;
+    }
+
     return NextResponse.json({
       success: true,
       deletedLocationsCount,
       ordersCleanedCount: ordersCleanedCount ?? 0,
       deletedRateLimitsCount,
+      deletedFunnelEventsCount,
       thresholdDate,
-      message: "72 saatten eski KVKK müşteri konum verileri ve 24 saatten eski rate limit verileri başarıyla temizlendi.",
+      message: "72 saatten eski KVKK müşteri konum verileri, 24 saatten eski rate limitler ve 13 aydan eski huni olayları başarıyla temizlendi.",
     });
   } catch (err: unknown) {
     const message = err instanceof Error ? err.message : "Bilinmeyen sunucu hatası";

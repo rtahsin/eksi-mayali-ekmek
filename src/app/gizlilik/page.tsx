@@ -84,6 +84,8 @@ export default function GizlilikPage() {
             <ul className="list-disc list-inside space-y-1.5 text-foreground/75 text-xs sm:text-sm pl-2">
               <li><strong>Sepet Çerezleri:</strong> Sayfalar arasında gezinirken sepetinize eklediğiniz ekşi mayalı ekmek ve gurme lezzetlerin kaybolmamasını sağlar.</li>
               <li><strong>Tercih Çerezleri:</strong> Sipariş ve kullanıcı oturum tercihlerinizi hatırlar.</li>
+              {/* [HUKUKI TEYIT GEREKLIDIR] */}
+              <li><strong>Anonim Pedagojik ve Huni Ölçümü:</strong> Kişisel veri içermeyen, reklam hedeflemesi yapmayan ve üçüncü taraflara aktarılmayan; yalnızca atölye deneyimini ve eğitim içeriğini geliştirmeye yarayan örnekleme analitiği (en fazla 13 ay süreyle saklanır).</li>
               <li><strong>İzleme/Reklam Çerezi Yoktur:</strong> Web sitemizde sizi diğer sitelerde takip eden veya kişisel profilinizi çıkaran üçüncü taraf reklam izleme çerezleri <em>kullanılmamaktadır</em>.</li>
             </ul>
             <p className="text-xs text-foreground/60 pt-1">

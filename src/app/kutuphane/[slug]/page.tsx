@@ -10,6 +10,7 @@ import {
   getArticleComponent,
 } from "@/lib/editorial";
 import { Sources } from "@/components/editorial/Sources";
+import { LearningTracker } from "@/components/editorial/LearningTracker";
 import { SITE_URL } from "@/lib/site";
 import { Clock, ArrowLeft, ShieldCheck } from "lucide-react";
 
@@ -123,6 +124,7 @@ export default async function ArticleDetailPage({ params }: ArticlePageProps) {
       <div className="fixed inset-0 pointer-events-none bg-gradient-to-b from-[#120E0B]/90 via-[#14100D]/85 to-[#120E0B]/95" />
 
       <Navbar />
+      <LearningTracker path={`/kutuphane/${article.slug}`} />
 
       <main className="relative z-10 flex-1 max-w-3xl mx-auto px-5 sm:px-8 py-10 sm:py-14 w-full">
         {/* Geri Dönüş Linki */}

@@ -8,6 +8,7 @@ import { MASTER_DECISIONS, runFor, setActiveStarter, simulateBread } from "@/lib
 import { CARD_BY_ID, CARDS, cardForEntity } from "@/lib/game/content/cards";
 import { PREDICTION_AT } from "@/lib/game/content/predictions";
 import { EMPTY_PROGRESS, loadProgress, saveProgress } from "@/lib/game/progress";
+import { trackLearningSession } from "@/lib/engagement/track";
 import { TAHSIN_STARTER } from "@/lib/game/engine/starter";
 import { sfx, buzz } from "@/lib/game/audio";
 import { DoorArt } from "./art";
@@ -124,12 +125,34 @@ export function LabGame() {
   const [lockMsg, setLockMsg] = useState<string | null>(null);
   const progressRef = useRef(progress);
   progressRef.current = progress;
+  const startTimeRef = useRef(Date.now());
+  const initialCardsCountRef = useRef(0);
 
   useEffect(() => {
     const p = loadProgress();
     setProgress(p);
+    initialCardsCountRef.current = p.cards?.length || 0;
     setActiveStarter(p.starter);
   }, []);
+
+  useEffect(() => {
+    const handlePageHide = () => {
+      const durationSeconds = Math.round((Date.now() - startTimeRef.current) / 1000);
+      const cardsViewed = Math.max(0, (progressRef.current.cards?.length || 0) - initialCardsCountRef.current);
+      trackLearningSession({
+        durationSeconds,
+        cardsViewed,
+        path: "/laboratuvar",
+      });
+    };
+
+    window.addEventListener("pagehide", handlePageHide);
+    return () => {
+      window.removeEventListener("pagehide", handlePageHide);
+      handlePageHide();
+    };
+  }, []);
+
   useEffect(() => {
     if (screen.k !== "kapi") window.scrollTo({ top: 0, behavior: "smooth" });
   }, [screen]);

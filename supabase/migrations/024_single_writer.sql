@@ -75,8 +75,6 @@ USING (
 );
 
 -- app_migrations kaydı
-INSERT INTO public.app_migrations (version, name, applied_at)
-VALUES ('024', 'single_writer', now())
-ON CONFLICT (version) DO UPDATE SET name = EXCLUDED.name, applied_at = EXCLUDED.applied_at;
+INSERT INTO public.app_migrations (id) VALUES ('024_single_writer') ON CONFLICT DO NOTHING;
 
 COMMIT;

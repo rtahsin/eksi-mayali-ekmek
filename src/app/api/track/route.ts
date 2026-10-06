@@ -1,33 +1,90 @@
 import { NextResponse } from "next/server";
-import { z } from "zod";
 import { createAdminClient } from "@/lib/supabase/admin";
-import { checkRateLimit, getClientIp } from "@/lib/security/rateLimiter";
+import { getClientIp } from "@/lib/security/rateLimiter";
 import { appEnv } from "@/lib/kernel/env";
+import { EventPayloadSchema, MAX_PROPS_BYTE_SIZE } from "@/lib/engagement/events";
 
-const Schema = z.object({
-  event: z.enum(["scan", "cart_open", "checkout_start", "order_ok", "order_error"]),
-  ref: z.string().regex(/^[a-z0-9_-]{1,40}$/).nullish(),
-  code: z.string().max(40).optional(),
-  orderId: z.string().max(40).optional(),
-  env: z.enum(["production", "preview", "development"]).optional(),
-});
+// Bellek içi IP hız sınırlayıcı (Postgres kullanılmaz, P1-10)
+interface RateRecord {
+  count: number;
+  resetAt: number;
+}
+const rateLimitMap = new Map<string, RateRecord>();
+const WINDOW_MS = 60_000; // 1 dakika
+const MAX_REQUESTS = 60; // Dakikada maks 60 istek
 
-/** Huni olayı kaydı. Kişisel veri yok; her durumda 204 döner (ölçüm akışı bozmaz). */
+function checkInMemoryRateLimit(ip: string): boolean {
+  const now = Date.now();
+  const record = rateLimitMap.get(ip);
+
+  // Eski kayıtları periyodik temizle (Harita boyutu 5000'i aşarsa)
+  if (rateLimitMap.size > 5000) {
+    for (const [key, val] of rateLimitMap.entries()) {
+      if (val.resetAt < now) {
+        rateLimitMap.delete(key);
+      }
+    }
+  }
+
+  if (!record || record.resetAt < now) {
+    rateLimitMap.set(ip, { count: 1, resetAt: now + WINDOW_MS });
+    return true;
+  }
+
+  if (record.count >= MAX_REQUESTS) {
+    return false;
+  }
+
+  record.count += 1;
+  return true;
+}
+
+/**
+ * Huni & öğrenme olayı kaydı (P1-10).
+ * Kişisel veri içermez, 2 KB gövde sınırı ve bellek içi sınır uygulanır.
+ * Her durumda 204 döner (ölçüm akışı bozmaz).
+ */
 export async function POST(req: Request) {
   try {
-    const parsed = Schema.safeParse(await req.json().catch(() => null));
-    if (!parsed.success) return new NextResponse(null, { status: 204 });
-    const limit = await checkRateLimit(`track_${getClientIp(req)}`, 60, 600000);
-    if (!limit.allowed) return new NextResponse(null, { status: 204 });
+    const ip = getClientIp(req);
+    if (!checkInMemoryRateLimit(ip)) {
+      return new NextResponse(null, { status: 204 });
+    }
+
+    // 2 KB gövde sınırı kontrolü
+    const rawText = await req.text();
+    const byteLength = typeof Buffer !== "undefined"
+      ? Buffer.byteLength(rawText, "utf8")
+      : new TextEncoder().encode(rawText).length;
+
+    if (byteLength > MAX_PROPS_BYTE_SIZE) {
+      return new NextResponse(null, { status: 204 });
+    }
+
+    const json = JSON.parse(rawText);
+    const parsed = EventPayloadSchema.safeParse(json);
+    if (!parsed.success) {
+      return new NextResponse(null, { status: 204 });
+    }
+
     const supabase = createAdminClient();
     if (supabase) {
-      const { event, ref, code, orderId, env: reqEnv } = parsed.data;
+      const { event, ref, code, orderId, env: reqEnv, props } = parsed.data;
       const currentEnv = reqEnv || appEnv();
       const codeWithEnv = code || (currentEnv !== "production" ? currentEnv : null);
-      await supabase.from("funnel_events").insert({ event, ref: ref ?? null, code: codeWithEnv ?? null, order_id: orderId ?? null });
+
+      await supabase.from("funnel_events").insert({
+        event,
+        ref: ref ?? null,
+        code: codeWithEnv ?? null,
+        order_id: orderId ?? null,
+        props: props ?? null,
+        env: currentEnv ?? null,
+      });
     }
   } catch {
-    // tablo henüz yoksa (021 uygulanmadı) ya da DB hatası: sessizce geç
+    // Tablo henüz yoksa (021/025 uygulanmadı) ya da DB hatası: sessizce geç
   }
+
   return new NextResponse(null, { status: 204 });
 }

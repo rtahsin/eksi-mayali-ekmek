@@ -164,8 +164,6 @@ REVOKE ALL ON FUNCTION public.record_order_payment(TEXT, NUMERIC, TEXT, TEXT, TE
 GRANT EXECUTE ON FUNCTION public.record_order_payment(TEXT, NUMERIC, TEXT, TEXT, TEXT, UUID, TEXT, TEXT, TIMESTAMPTZ) TO service_role;
 
 -- app_migrations kaydı
-INSERT INTO public.app_migrations (version, name, applied_at)
-VALUES ('023', 'record_order_payment', now())
-ON CONFLICT (version) DO UPDATE SET name = EXCLUDED.name, applied_at = EXCLUDED.applied_at;
+INSERT INTO public.app_migrations (id) VALUES ('023_record_order_payment') ON CONFLICT DO NOTHING;
 
 COMMIT;

@@ -109,6 +109,16 @@ export default function KvkkPage() {
             </div>
           </section>
 
+          {/* Section 2.2: Anonim Eğitim ve Ziyaret Ölçümleri [HUKUKI TEYIT GEREKLIDIR] */}
+          <section className="space-y-3 bg-surface p-6 rounded-2xl border border-surface-border">
+            <h2 className="font-serif text-lg font-bold text-foreground text-artisan-gold">
+              2.2. Anonim Eğitim ve Ziyaret Ölçümleri (Kişisel Veri İçermeyen Analitik)
+            </h2>
+            <p>
+              EkmekLab platformunda sunulan ekşi maya simülatörü (/laboratuvar) ve araştırma kütüphanemizde pedagojik deneyimi iyileştirmek amacıyla tamamen anonim, kişisel veri (ad, telefon, IP adresi veya hesap kimliği) barındırmayan kullanım metrikleri (%20 rastgele örnekleme yöntemiyle) toplanmaktadır. Bu metrikler yalnızca etkileşim süresi ve incelenen kavram kartı adetlerini kapsar; üçüncü taraf analitik veya reklam ağlarıyla paylaşılmaz ve en fazla 13 ay süreyle saklanır.
+            </p>
+          </section>
+
           {/* Section 3 */}
           <section className="space-y-3 bg-surface p-6 rounded-2xl border border-surface-border">
             <h2 className="font-serif text-lg font-bold text-foreground text-artisan-gold">
