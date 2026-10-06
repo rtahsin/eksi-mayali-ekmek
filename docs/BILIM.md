@@ -1,9 +1,13 @@
 # EkmekLab bilim dosyası
 
-> Kaynak: Tahsin'in NotebookLM defteri **"EKMEK"** (263 kaynak; hakemli makaleler, ders kitapları, tezler,
-> fırıncı kaynakları). Cevaplar defterden kaynak göstererek alındı (6 Ekim 2026). Aşağıdaki "temel kaynak"
-> satırları, defterdeki iddianın dayandığı birincil yayındır. Oyun metinleri yalnızca bu dosyadan beslenir.
+> **Resmi Kayıt Notu (P1-01 Göçü - Ekim 2026):**
+> Bu dosyadaki tüm bilimsel kaynaklar, iddialar ve kavramlar tip güvenli kayıt dizinlerine göçürülmüştür:
+> - **Kaynaklar:** `content/sources/index.ts` (Crossref API ile doğrulanmış birincil yayınlar)
+> - **İddialar:** `content/claims/index.ts` (Destek kontrolleri ve kanıt atıfları ile iddialar)
+> - **Kavramlar:** `content/concepts/index.ts` (3 katmanlı zanaat, neden ve bilim anlatımı)
 >
+> Kaynak: Tahsin'in NotebookLM defteri **"EKMEK"** (263 kaynak; hakemli makaleler, ders kitapları, tezler,
+> fırıncı kaynakları). Cevaplar defterden kaynak göstererek alındı.
 > Kural: sağlık vaadi yok. Biyokimya "ne olur" diye anlatılır; "sağlıklı / sindirimi kolay" denmez.
 
 ## 1. Mayanın canlıları
