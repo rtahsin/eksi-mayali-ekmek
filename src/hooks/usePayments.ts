@@ -152,7 +152,7 @@ export function usePayments(orderIdFilter?: string) {
     }
   };
 
-  // Yeni ödeme oluştur
+  // Yeni ödeme oluştur (API üzerinden tek-yazar, P1-09)
   const createPayment = async (data: {
     orderId: string;
     amount: number;
@@ -166,119 +166,66 @@ export function usePayments(orderIdFilter?: string) {
     cariId?: string | null;
   }) => {
     try {
-      if (!supabase) return { success: false, error: "Supabase bağlantısı yok" };
-
-      let cariTransactionId: string | null = null;
       const paymentStatus = data.status || "completed";
       const nowIso = new Date().toISOString();
       const paidAt = data.paidAt || (paymentStatus === "completed" ? nowIso : null);
 
-      // Cari siparişte alınan ödeme → cari defterine TAHSİLAT (sunucuda, atomik).
-      // "Cariye yaz" (method: cari) ödeme değildir; borç zaten satış fişiyle yazılır.
-      const LEDGER_METHOD: Record<Exclude<PaymentMethodType, "cari">, "nakit" | "pos" | "banka_havale"> = {
-        cash: "nakit",
-        pos: "pos",
-        online_card: "pos",
-        transfer: "banka_havale",
-      };
-      if (data.cariId && paymentStatus === "completed" && data.method !== "cari") {
-        const res = await fetch("/api/admin/cari/transactions", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            kind: "tahsilat",
-            accountId: data.cariId,
-            amount: data.amount,
-            paymentMethod: LEDGER_METHOD[data.method],
-            description: data.note || "Teslimatta tahsilat",
-            orderId: data.orderId,
-          }),
-        });
-        const body: unknown = await res.json().catch(() => null);
-        const rec = (body && typeof body === "object" ? body : {}) as { transactionId?: string; error?: string };
-        if (!res.ok || !rec.transactionId) throw new Error(rec.error || "Cari tahsilatı kaydedilemedi");
-        cariTransactionId = rec.transactionId;
-      }
-
-      const { data: inserted, error: insErr } = await supabase
-        .from("payments")
-        .insert({
-          order_id: data.orderId,
+      const res = await fetch(`/api/admin/orders/${data.orderId}/payments`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
           amount: data.amount,
           method: data.method,
           status: paymentStatus,
-          paid_at: paidAt,
-          collected_by: data.collectedBy || null,
-          courier_id: data.courierId || null,
-          transaction_ref: data.transactionRef || null,
-          cari_transaction_id: cariTransactionId,
+          paidAt,
+          collectedBy: data.collectedBy || "admin",
+          courierId: data.courierId || null,
+          transactionRef: data.transactionRef || null,
           note: data.note || null,
-        })
-        .select()
-        .single();
+        }),
+      });
 
-      if (insErr) throw insErr;
-
-      // Siparişin payment_status alanını güncelle
-      if (paymentStatus === "completed") {
-        await supabase
-          .from("orders")
-          .update({ payment_status: "paid", updated_at: nowIso })
-          .eq("id", data.orderId);
+      const body = await res.json().catch(() => ({}));
+      if (!res.ok) {
+        return {
+          success: false,
+          error: body.error || "Ödeme kaydedilemedi",
+        };
       }
 
-      if (inserted) {
-        const newPayment = mapPaymentRow(inserted as unknown as RawPaymentRow);
-        setPayments((prev) => [newPayment, ...prev]);
-        return { success: true, payment: newPayment };
-      }
+      const rpcData = body.data || {};
+      const newPayment: Payment = {
+        id: rpcData.payment_id || `temp-${Date.now()}`,
+        orderId: data.orderId,
+        amount: data.amount,
+        method: data.method,
+        status: paymentStatus,
+        paidAt,
+        collectedBy: data.collectedBy || "admin",
+        courierId: data.courierId || null,
+        transactionRef: data.transactionRef || null,
+        cariTransactionId: rpcData.cari_transaction_id || null,
+        note: data.note || null,
+        createdAt: nowIso,
+        updatedAt: nowIso,
+      };
 
-      return { success: true };
+      setPayments((prev) => [newPayment, ...prev]);
+      return { success: true, payment: newPayment };
     } catch (err: unknown) {
       console.error("Create payment error:", err);
       return { success: false, error: getErrorMessage(err) };
     }
   };
 
-  // Ödeme durumu güncelle
+  // Ödeme durumu güncelle (tek yazar: doğrudan istemci yazımı kapalıdır)
   const updatePaymentStatus = async (
-    paymentId: string,
-    status: PaymentStatusType,
-    paidAt?: string
+    _paymentId: string,
+    _status: PaymentStatusType,
+    _paidAt?: string
   ) => {
-    try {
-      if (!supabase) return { success: false, error: "Supabase bağlantısı yok" };
-      const nowIso = new Date().toISOString();
-
-      const payload: Record<string, unknown> = {
-        status,
-        updated_at: nowIso,
-      };
-
-      if (status === "completed") {
-        payload.paid_at = paidAt || nowIso;
-      }
-
-      const { error: updErr } = await supabase
-        .from("payments")
-        .update(payload)
-        .eq("id", paymentId);
-
-      if (updErr) throw updErr;
-
-      setPayments((prev) =>
-        prev.map((p) =>
-          p.id === paymentId
-            ? { ...p, status, paidAt: status === "completed" ? (paidAt || nowIso) : p.paidAt }
-            : p
-        )
-      );
-
-      return { success: true };
-    } catch (err: unknown) {
-      console.error("Update payment status error:", err);
-      return { success: false, error: getErrorMessage(err) };
-    }
+    console.warn("Direct client-side payment status update is deprecated (single-writer rule).");
+    return { success: false, error: "İstemciden doğrudan ödeme güncelleme yetkisi kapalıdır." };
   };
 
   return {

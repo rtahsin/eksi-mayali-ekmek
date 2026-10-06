@@ -33,7 +33,7 @@ export function AdminLayoutClient({ children }: { children: React.ReactNode }) {
         const { count, error } = await supabase
           .from("orders")
           .select("*", { count: "exact", head: true })
-          .in("status", ["bekliyor", "pending", "hazirlaniyor", "processing"]);
+          .in("status", ["bekliyor", "hazirlaniyor"]);
 
         if (!error && count !== null) {
           if (prevCountRef.current !== null && count > prevCountRef.current) {

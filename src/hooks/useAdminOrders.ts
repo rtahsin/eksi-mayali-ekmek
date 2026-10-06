@@ -252,14 +252,13 @@ export function useAdminOrders(options: UseAdminOrdersOptions = {}) {
     }
   };
 
-  // Assign courier to order
+  // Assign courier to order (API üzerinden tek-yazar, P1-09)
   const assignCourier = async (
     orderId: string,
     courierId: string,
-    adminId?: string
+    _adminId?: string
   ) => {
     try {
-      if (!supabase) return { success: false, error: "Supabase bağlantısı yok" };
       const currentOrder = orders.find((o) => o.id === orderId);
       if (currentOrder && (currentOrder.status === "teslim_edildi" || currentOrder.status === "iptal")) {
         return {
@@ -267,36 +266,25 @@ export function useAdminOrders(options: UseAdminOrdersOptions = {}) {
           error: `'${currentOrder.status}' durumundaki bir siparişe kurye atanamaz.`,
         };
       }
-      const nowIso = new Date().toISOString();
 
-      let updateQuery = supabase
-        .from("orders")
-        .update({
-          courier_id: courierId,
-          assigned_at: nowIso,
+      const res = await fetch(`/api/orders/${orderId}/assign-courier`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          courierId,
           status: "kuryede",
-          updated_at: nowIso,
-        })
-        .eq("id", orderId);
-
-      if (currentOrder?.status) {
-        updateQuery = updateQuery.eq("status", currentOrder.status);
-      }
-
-      const { error: updateErr } = await updateQuery;
-
-      if (updateErr) throw updateErr;
-
-      // Audit log
-      await supabase.from("order_status_history").insert({
-        order_id: orderId,
-        from_status: orders.find((o) => o.id === orderId)?.status || null,
-        to_status: "kuryede",
-        changed_by_role: "admin",
-        changed_by_id: adminId || null,
-        note: `Kuryeye atandı (Kurye ID: ${courierId})`,
+        }),
       });
 
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) {
+        return {
+          success: false,
+          error: data.error || "Kurye ataması başarısız oldu.",
+        };
+      }
+
+      const nowIso = new Date().toISOString();
       setOrders((prev) =>
         prev.map((o) =>
           o.id === orderId

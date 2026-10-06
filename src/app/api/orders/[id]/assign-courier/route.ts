@@ -85,7 +85,14 @@ export async function PATCH(
     }
 
     const nowIso = new Date().toISOString();
-    const targetStatus = typeof body.status === "string" && body.status ? body.status : "kuryede";
+    // Durum beyaz listesi: Kurye ataması ile yalnızca 'kuryede' durumuna geçiş yapılabilir (P1-09)
+    if (body.status && body.status !== "kuryede") {
+      return NextResponse.json(
+        { error: "Kurye ataması yalnızca 'kuryede' durumuna geçiş için geçerlidir.", code: "INVALID_STATUS" },
+        { status: 400 }
+      );
+    }
+    const targetStatus = "kuryede";
 
     // 3. Update orders table with optimistic lock on order.status
     const { data: updatedOrders, error: updateErr } = await supabase
