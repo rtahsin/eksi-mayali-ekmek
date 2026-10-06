@@ -1,7 +1,8 @@
 import { OrderItem } from "./index";
-export type { OrderItem };
+import type { Role, OrderStatus, PaymentMethod } from "@/lib/kernel/enums";
+export type { OrderItem, Role };
 
-export type AdminRole = "superadmin" | "admin" | "editor" | "support";
+export type AdminRole = Extract<Role, "superadmin" | "admin" | "staff">;
 
 export interface AdminUser {
   uid: string;
@@ -11,31 +12,8 @@ export interface AdminUser {
   isActive: boolean;
 }
 
-export interface TrustedDevice {
-  id: string;
-  deviceId: string;
-  deviceName: string;
-  approved: boolean;
-  approvedAt?: string;
-  approvedBy?: string;
-  lastUsedAt: string;
-  userAgent?: string;
-}
-
-export type AdminOrderStatus =
-  | "bekliyor"        // Yeni sipariş, teyit bekliyor
-  | "hazirlaniyor"     // Hamur / paket hazırlanıyor
-  | "firinda"          // Fırında pişiyor
-  | "kuryede"          // Kurye teslimata çıktı
-  | "teslim_edildi"    // Başarıyla teslim edildi
-  | "iptal";           // İptal edildi
-
-export type AdminPaymentMethod =
-  | "cash_on_delivery" // Kapıda Nakit
-  | "pos_at_door"      // Kapıda Kredi Kartı (Mobil POS)
-  | "online"           // Online Kredi Kartı
-  | "transfer"         // Havale / EFT
-  | "cari";            // Kurumsal Cari Hesaba Yaz
+export type AdminOrderStatus = OrderStatus;
+export type AdminPaymentMethod = PaymentMethod;
 
 export type OrderSource = "web" | "whatsapp" | "phone" | "in_store";
 
@@ -133,56 +111,6 @@ export interface CariTransaction {
   reversesId?: string | null;
   /** Bu hareket iptal edildiyse storno kaydının id'si */
   reversedById?: string | null;
-  createdAt?: string;
-}
-
-export interface Supplier {
-  id: string;
-  companyName: string;
-  materialType: string; // Un, Süt, Maya, Koli vb.
-  phone: string;
-  contactPerson?: string;
-  balance: number; // Bizim borcumuz (Pozitif = tedarikçiye borcumuz var)
-  notes?: string;
-  createdAt: string;
-}
-
-export interface SupplierTransaction {
-  id: string;
-  supplierId: string;
-  date: string; // YYYY-MM-DD
-  type: "alis" | "odeme"; // alis: hammadde aldık (borcumuz arttı), odeme: para ödedik (borcumuz azaldı)
-  amount: number;
-  description: string;
-  paymentMethod?: "nakit" | "banka_havale" | "kredi_karti" | "diger";
-  createdAt?: string;
-}
-
-export interface ExpenseRecord {
-  id: string;
-  category: "hammadde" | "yakit_kurye" | "ambalaj" | "fatura_kira" | "diger";
-  title: string;
-  amount: number;
-  date: string;
-  supplierId?: string;
-  paymentMethod: "nakit" | "kredi_karti" | "banka_havale" | "cari_borc";
-  notes?: string;
-  createdAt: string;
-}
-
-export type CashAccountType = "nakit" | "banka_havale" | "pos";
-
-export interface CashMovement {
-  id: string;
-  type: "in" | "out" | "transfer"; // in: Para Girişi, out: Para Çıkışı, transfer: Virman
-  account: CashAccountType; // "nakit" (Çekmece) | "banka_havale" (Banka) | "pos" (Mobil POS)
-  targetAccount?: CashAccountType; // Virman ise aktarılan hesap
-  amount: number;
-  title: string;
-  category?: string;
-  date: string;
-  notes?: string;
-  relatedSource?: "kurye_teslimat" | "cari_tahsilat" | "cari_odeme" | "gider" | "virman" | "manuel";
   createdAt?: string;
 }
 

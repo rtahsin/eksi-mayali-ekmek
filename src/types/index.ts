@@ -92,26 +92,8 @@ export interface OrderItem {
   batchId?: string;
 }
 
-export type OrderStatus =
-  | "pending"
-  | "processing"
-  | "ready"
-  | "completed"
-  | "cancelled"
-  | "bekliyor"
-  | "hazirlaniyor"
-  | "firinda"
-  | "kuryede"
-  | "teslim_edildi"
-  | "iptal";
-
-export type PaymentMethod =
-  | "cash_on_delivery"
-  | "pos_at_door"
-  | "whatsapp"
-  | "online"
-  | "transfer"
-  | "cari";
+import type { OrderStatus, PaymentMethod } from "@/lib/kernel/enums";
+export type { OrderStatus, PaymentMethod };
 
 export interface Order {
   id: string;

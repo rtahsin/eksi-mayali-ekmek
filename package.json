@@ -8,6 +8,7 @@
     "start": "next start",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
+    "db:types": "npx supabase gen types typescript --project-id yayxobdugadqjskddixj > src/types/database.ts",
     "verify:orders": "node scripts/verify_after_migration.mjs",
     "test:e2e": "playwright test tests/e2e/order-flow.spec.ts"
   },
