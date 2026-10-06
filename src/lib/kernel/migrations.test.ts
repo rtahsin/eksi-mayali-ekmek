@@ -1,9 +1,28 @@
+import fs from "fs";
+import path from "path";
 import { describe, it, expect } from "vitest";
 import {
   EXPECTED_MIGRATIONS,
-  scanExpectedMigrations,
   checkMigrationDiff,
 } from "./migrations";
+
+/**
+ * Disk üzerindeki `supabase/migrations` dizininden ≥013 migration listesini dinamik okur (DoD doğrulaması için).
+ */
+function scanExpectedMigrations(dirPath?: string): string[] {
+  const targetDir = dirPath || path.resolve(process.cwd(), "supabase/migrations");
+  if (!fs.existsSync(targetDir)) return [];
+
+  return fs
+    .readdirSync(targetDir)
+    .filter((f) => f.endsWith(".sql"))
+    .map((f) => f.replace(/\.sql$/, ""))
+    .filter((name) => {
+      const match = name.match(/^(\d{3})/);
+      return match ? parseInt(match[1], 10) >= 13 : false;
+    })
+    .sort();
+}
 
 describe("Database Migrations Integrity & Verification (P1-11)", () => {
   it("matches EXPECTED_MIGRATIONS exactly with files >=013 in supabase/migrations directory", () => {

@@ -1,6 +1,3 @@
-import fs from "fs";
-import path from "path";
-
 /**
  * 013 ve sonrası beklenen numaralı migration'lar listesi (P1-11).
  * Canlı veritabanındaki `app_migrations` tablosuyla senkron kontrolü için tek kaynaktır.
@@ -40,22 +37,4 @@ export function checkMigrationDiff(appliedIds: string[]): MigrationDiffResult {
     missing,
     allApplied: missing.length === 0,
   };
-}
-
-/**
- * Disk üzerindeki `supabase/migrations` dizininden ≥013 migration listesini dinamik okur (DoD doğrulaması için).
- */
-export function scanExpectedMigrations(dirPath?: string): string[] {
-  const targetDir = dirPath || path.resolve(process.cwd(), "supabase/migrations");
-  if (!fs.existsSync(targetDir)) return [];
-
-  return fs
-    .readdirSync(targetDir)
-    .filter((f) => f.endsWith(".sql"))
-    .map((f) => f.replace(/\.sql$/, ""))
-    .filter((name) => {
-      const match = name.match(/^(\d{3})/);
-      return match ? parseInt(match[1], 10) >= 13 : false;
-    })
-    .sort();
 }
