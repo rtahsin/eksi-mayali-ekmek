@@ -13,6 +13,11 @@ if (!supabaseUrl || !serviceKey) {
   process.exit(1);
 }
 
+if (process.env.ALLOW_PROD_WRITES !== "1") {
+  console.error("HATA: Canlı veritabanına yazma koruması devrede. Bu script'i çalıştırmak için ALLOW_PROD_WRITES=1 ortam değişkeni zorunludur.");
+  process.exit(1);
+}
+
 const supabase = createClient(supabaseUrl, serviceKey, {
   auth: { autoRefreshToken: false, persistSession: false },
 });
