@@ -4,8 +4,11 @@ import { getStoreSettings } from "@/lib/settings/server";
 import { computeDeliveryDates } from "@/lib/ordering/dates";
 import { getCartAvailability } from "@/lib/ordering/loadAvailability";
 import { createAdminClient } from "@/lib/supabase/admin";
+import { rateLimit, postgresRateLimitStore, ipRateLimitKey } from "@/lib/security/rateLimiter";
 
 export const dynamic = "force-dynamic";
+
+const availabilityLimiter = rateLimit(postgresRateLimitStore, { failMode: "open" });
 
 /** Sepet boşken: genel seçilebilir günler. */
 export async function GET() {
@@ -25,6 +28,15 @@ const CartSchema = z.object({
 
 /** Sepet içeriğine göre: her gün uygun mu, değilse neden (satış günü, limit, kapasite, hazırlık süresi). */
 export async function POST(req: Request) {
+  const rateLimitKey = ipRateLimitKey("avail", req);
+  const limitCheck = await availabilityLimiter(rateLimitKey, 60, 600000);
+  if (!limitCheck.allowed) {
+    return NextResponse.json(
+      { error: "Çok fazla istek gönderildi. Lütfen biraz bekleyin." },
+      { status: 429 }
+    );
+  }
+
   const parsed = CartSchema.safeParse(await req.json().catch(() => null));
   if (!parsed.success) {
     return NextResponse.json({ error: "Geçersiz sepet" }, { status: 400 });

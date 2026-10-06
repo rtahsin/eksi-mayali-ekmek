@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { revalidateTag } from "next/cache";
 import { z } from "zod";
 import { requireAdmin } from "@/lib/security/apiAuth";
 import { createAdminClient } from "@/lib/supabase/admin";
@@ -62,6 +63,8 @@ export async function POST(request: Request) {
       .from("bakery_settings")
       .upsert({ key: "order_cutoff_time", value: value.orderCutoffTime, updated_at: nowIso }, { onConflict: "key" });
     if (cutoffError) throw cutoffError;
+
+    revalidateTag("settings", "max");
 
     return NextResponse.json({ success: true, message: "Ayarlar güncellendi" });
   } catch (err: unknown) {
