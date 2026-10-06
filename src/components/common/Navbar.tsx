@@ -77,7 +77,7 @@ export function Navbar() {
       </div>
 
         {/* Center Nav Links */}
-        <nav className="hidden md:flex items-center gap-7 text-xs font-sans">
+        <nav className="hidden md:flex items-center gap-6 text-xs font-sans">
           <a
             href="/#ekmekler"
             onClick={(e) => {
@@ -106,10 +106,16 @@ export function Navbar() {
           </a>
           <a
             href="/kutuphane"
+            className="text-foreground/80 hover:text-foreground transition-colors font-medium tracking-wide"
+          >
+            Kütüphane
+          </a>
+          <a
+            href="/kavram"
             className="text-artisan-gold hover:text-foreground flex items-center gap-1.5 font-semibold transition-colors tracking-wide bg-surface-panel px-3 py-1.5 rounded-xl border border-surface-border"
           >
             <BookOpen className="w-3.5 h-3.5 text-artisan-gold" />
-            <span>Bilim & Zanaat</span>
+            <span>Kavramlar</span>
           </a>
         </nav>
 
