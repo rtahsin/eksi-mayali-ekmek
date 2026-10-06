@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { getErrorMessage } from "@/lib/utils/error";
 import { verifyApiAuth } from "@/lib/security/apiAuth";
-import { checkRateLimit } from "@/lib/security/rateLimiter";
+import { checkRateLimit, getClientIp } from "@/lib/security/rateLimiter";
 import { parseOrderLookup } from "@/lib/orders/orderId";
 import { verifyOrderToken } from "@/lib/security/linkToken";
 import { CUSTOMER_CANCELLABLE, normalizeOrderStatus } from "@/lib/orders/normalize";
@@ -46,10 +46,6 @@ const maskPhone = (phone: string) => {
 
 const num = (v: number | string | null) => (v === null || v === undefined ? null : Number(v));
 
-function getClientIp(req: Request): string {
-  const forwarded = req.headers.get("x-forwarded-for");
-  return forwarded ? forwarded.split(",")[0].trim() : req.headers.get("x-real-ip") || "127.0.0.1";
-}
 
 export async function GET(req: Request, props: { params: Promise<{ id: string }> }) {
   try {

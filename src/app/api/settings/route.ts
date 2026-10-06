@@ -1,18 +1,29 @@
 import { NextResponse } from "next/server";
+import { unstable_cache } from "next/cache";
 import { getStoreSettings } from "@/lib/settings/server";
 import { toPublicSettings } from "@/lib/settings/schema";
-import { isPastCutoff } from "@/lib/time/istanbul";
 
-export const dynamic = "force-dynamic";
+const getCachedPublicSettings = unstable_cache(
+  async () => {
+    const settings = await getStoreSettings();
+    return toPublicSettings(settings);
+  },
+  ["store_settings_public"],
+  {
+    revalidate: 60,
+    tags: ["settings"],
+  }
+);
 
 /** Vitrin ve sepet için herkese açık işletme ayarları. */
 export async function GET() {
-  const settings = await getStoreSettings();
+  const settings = await getCachedPublicSettings();
   return NextResponse.json(
+    { settings },
     {
-      settings: toPublicSettings(settings),
-      isCutoffPassed: isPastCutoff(settings.orderCutoffTime),
-    },
-    { headers: { "Cache-Control": "no-store" } }
+      headers: {
+        "Cache-Control": "public, s-maxage=60, stale-while-revalidate=300",
+      },
+    }
   );
 }

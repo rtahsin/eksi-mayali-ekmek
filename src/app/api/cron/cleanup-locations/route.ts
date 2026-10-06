@@ -79,12 +79,27 @@ export async function GET(req: Request) {
       console.warn("Orders table location cleanup warning:", ordersCleanErr);
     }
 
+    // 4. rate_limit_buckets temizliği (24 saatten eski)
+    const rateLimitThreshold = new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString();
+    let deletedRateLimitsCount = 0;
+    const { error: rateLimitErr, count: rateLimitCount } = await supabase
+      .from("rate_limit_buckets")
+      .delete({ count: "exact" })
+      .lt("updated_at", rateLimitThreshold);
+
+    if (rateLimitErr) {
+      console.warn("Rate limit buckets cleanup warning:", rateLimitErr);
+    } else {
+      deletedRateLimitsCount = rateLimitCount ?? 0;
+    }
+
     return NextResponse.json({
       success: true,
       deletedLocationsCount,
       ordersCleanedCount: ordersCleanedCount ?? 0,
+      deletedRateLimitsCount,
       thresholdDate,
-      message: "72 saatten eski KVKK müşteri konum verileri başarıyla temizlendi.",
+      message: "72 saatten eski KVKK müşteri konum verileri ve 24 saatten eski rate limit verileri başarıyla temizlendi.",
     });
   } catch (err: unknown) {
     const message = err instanceof Error ? err.message : "Bilinmeyen sunucu hatası";

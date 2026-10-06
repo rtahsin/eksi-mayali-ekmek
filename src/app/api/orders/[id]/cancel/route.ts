@@ -2,18 +2,13 @@ import { NextResponse } from "next/server";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { getErrorMessage } from "@/lib/utils/error";
 import { verifyApiAuth } from "@/lib/security/apiAuth";
-import { checkRateLimit } from "@/lib/security/rateLimiter";
+import { checkRateLimit, getClientIp } from "@/lib/security/rateLimiter";
 import { parseOrderLookup } from "@/lib/orders/orderId";
 import { verifyOrderToken } from "@/lib/security/linkToken";
 import { CONTACT } from "@/lib/site";
 
 const CUSTOMER_CANCELLABLE_STATUSES = new Set(["bekliyor"]);
 
-function getClientIp(req: Request): string {
-  const forwarded = req.headers.get("x-forwarded-for");
-  const realIp = req.headers.get("x-real-ip");
-  return forwarded ? forwarded.split(",")[0].trim() : realIp || "127.0.0.1";
-}
 
 export async function PATCH(
   req: Request,
