@@ -77,6 +77,43 @@ describe("Content Graph Integrity Check", () => {
     expect(issues3.some((i) => i.code === "K007" && i.message.includes("Ürün yüzeyinde stock-licensed"))).toBe(true);
   });
 
+  it("enforces K010 rules: comparison claims require legalCheck, and surface: urun articles trigger warning", () => {
+    // 1. K010 hata: Karşılaştırma iddiası legalCheck olmadan kullanılamaz
+    const badGraph = {
+      ...GRAPH,
+      claims: {
+        ...GRAPH.claims,
+        bad_comparison: {
+          text: "Karakılçık ekmeği beyaz ekmekten 3 kat daha fazla lif içerir.",
+          about: ["karakilcik"],
+          evidence: [{ source: "delcour_2010" }] as const,
+          status: "dogrulandi" as const,
+          confidence: "yuksek" as const,
+          sensitivity: "karsilastirma" as const,
+          legalCheck: undefined,
+          review: null,
+        },
+      },
+    };
+    const issuesComp = validateGraph(badGraph, []);
+    expect(issuesComp.some((i) => i.code === "K010" && i.severity === "error")).toBe(true);
+
+    // 2. K010 uyarı: surface: urun yazıda Claim kullanımı çerçeve okuması gerektirir
+    const issuesWarn = validateGraph(GRAPH, [
+      {
+        kind: "yazi",
+        id: "yazi_urun_test",
+        surface: "urun",
+        claimIds: ["claim_damaged_starch"],
+        conceptIds: ["nisasta"],
+        mediaIds: [],
+        summary: "Özet metni",
+        levels: [1],
+      },
+    ]);
+    expect(issuesWarn.some((i) => i.code === "K010" && i.severity === "warn")).toBe(true);
+  });
+
   it("verifies published articles have fromInbox and valid source file", () => {
     const articles = articleIndex();
     const published = articles.filter((a) => a.status === "yayinda");

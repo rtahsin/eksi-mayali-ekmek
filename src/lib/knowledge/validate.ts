@@ -153,6 +153,16 @@ export function validateGraph(
       }
     }
 
+    // K010: Karşılaştırma iddiası legalCheck olmadan kullanılamaz (hata)
+    if (claim.sensitivity === "karsilastirma" && !claim.legalCheck) {
+      issues.push({
+        code: "K010",
+        severity: "error",
+        ref: id,
+        message: `Karşılaştırma iddiası legalCheck olmadan kullanılamaz: ${id}`,
+      });
+    }
+
     // K011: review.hash uyuşmazlığı
     if (claim.review) {
       const currentHash = claimHash(claim);
@@ -264,6 +274,16 @@ export function validateGraph(
           message: `Ürün yüzeyinde sağlık terimi kullanılamaz: ${terms.join(", ")}`,
         });
       }
+    }
+
+    // K010: surface: "urun" yazıda <Claim> kullanımı (uyarı)
+    if (ref.surface === "urun" && ref.kind === "yazi" && ref.claimIds.length > 0) {
+      issues.push({
+        code: "K010",
+        severity: "warn",
+        ref: ref.id,
+        message: `Ürün bağlantılı yazıda doğrudan iddia kullanımı çerçeve okuması gerektirir: ${ref.id}`,
+      });
     }
 
     // K009: Yazı özeti > 160 karakter ya da levels boş
