@@ -1,3 +1,5 @@
+import "server-only";
+
 import * as Sentry from "@sentry/nextjs";
 import { SITE_URL } from "@/lib/site";
 import { formatTrDate } from "@/lib/time/istanbul";
