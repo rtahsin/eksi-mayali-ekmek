@@ -1,6 +1,6 @@
 # EkmekLab Yol Haritası ve Uygulama Planı
 
-> **Tek kaynak.** Bu dosya Tahsin'in ve tüm Claude oturumlarının ortak planıdır. Her oturum başında okunur; bir faz bitince aşağıdaki durum tablosu güncellenir. Plan 4 Ekim 2026'da Tahsin tarafından onaylandı. Son güncelleme: 2026-10-04.
+> **Tek kaynak.** Bu dosya Tahsin'in ve tüm Claude oturumlarının ortak planıdır. Her oturum başında okunur; bir faz bitince aşağıdaki durum tablosu güncellenir. Plan 4 Ekim 2026'da Tahsin tarafından onaylandı; Mimari v1 (§10) 6 Ekim'de eklendi. Son güncelleme: 2026-10-06.
 
 ## Durum
 | Faz | Konu | Tahmini süre | Durum |
@@ -13,6 +13,12 @@
 | 3 | Admin sadeleştirme + finans doğruluğu | ~5 gün | 3b ✅ canlıda (PR #8 + #9; 016–018) · 3a-1 ✅ (PR #10) · 3a-2 (Teslimat ekranı + Bugün paneli) PR'da · sonra Faz 4 |
 | 4 | Marka, görseller, içerik, yasal metinler | 4-6 gün + içerik | sürüyor: krem tasarım seçildi (`docs/MARKA.md`); oyun `/laboratuvar` v3 canlıda (PR #13, #14), Bölüm 4 Gece Yarısı + oynanış düzeltmeleri PR #15; bilim dosyası `docs/BILIM.md` (NotebookLM "EKMEK"); sırada krem ana sayfa |
 | 5 | Temizlik ve araçlar | 1-2 gün | bekliyor |
+| **Mimari v1** | Eğitim platformu omurgası — [`MIMARI.md`](MIMARI.md), [`IS_PAKETLERI.md`](IS_PAKETLERI.md), [`adr/`](adr/) (Tahsin onayı 6 Eki) | — | belgeler yazıldı (6 Eki); ayrıntı §10 |
+| G0 | Uçuştaki işi indir: faz-4 yığını (sepet-onar → qr-olcum (021 ÖNCE) → konum-yasal), PR #15, etiket+QR | mevcut iş | bekliyor |
+| P0 | Çekirdek: P0-00 sağlık beyanı acil · 01 repo hijyeni · 02 DB tipleri · 03 trafik kalkanı · 04 önizleme koruması · 05 bilgi çekirdeği · 06 mimari testleri | ~6–7 ajan oturumu · Tahsin ~30 dk | bekliyor (P0-00 ve P0-01 G0 ile paralel) |
+| P1 | Motor: kanıt göçü, MDX Kütüphane, pilot yazı, kavram/kaynak, oyun↔bilgi, medya, arama, ürün↔içerik, tek yazar, öğrenme ölçümü, gözlem | ~13–15 ajan oturumu · Tahsin ~2–3 sa iddia + ~15 dk/yazı | bekliyor |
+| Tasarım | D1 iskelet kararı (Tahsin) → T-01 krem token'ları + ana sayfa | karara bağlı | karar bekliyor |
+| P2 | Genişleme: deney, atölye defteri, kalibrasyon, öğrenme yolları, etiket okuma, pro araçlar, soru kutusu, bülten… | tetikleyiciye bağlı | her biri kendi koşuluyla |
 
 Toplam: odaklı ~3-4 hafta (oturumlar halinde). Faz 4, tasarım yönü seçilince Faz 3 ile paralel yürüyebilir.
 
@@ -352,8 +358,11 @@ Ayrıca: yinelenen `idempotency_key`'leri boşalt + kısmi unique index; `order_
 | 016 | 3 | cari defter normalizasyonu, `delta`, mutabakat, kanonik defter RPC, tarayıcı yazma yetkisi kapanır | ÖNCE (merge'ten hemen önce; arada eski ekranlardan cari yazılamaz) |
 | 017 | 3 | defter RPC sağlamlaştırma: kuruş yuvarlama, 999+ fiş sırası, kilit altında hedef bakiye (PR #8 incelemesi) | ÖNCE (yeni parametreyi kod kullanır) |
 | 018 | 3 | `mark_order_delivered`, `cancel_order_atomic`, `create_order_atomic` v5 (cari borcu teslimde), `generate_order_number` tarayıcıdan geri alınır | ÖNCE (yeni rotalar bu fonksiyonları çağırır) |
-| 019 | 4 | `media` bucket + politikalar | yükleme arayüzünden ÖNCE |
-| 020 | 4 | `journal_articles` v2 | editörden ÖNCE |
+| 019 | 4 | ~~`media` bucket + politikalar~~ — **hiç oluşturulmadı**; işi P1-06 alır | — |
+| 020 | 4 | ~~`journal_articles` v2~~ — **iptal** (6 Eki: içerik git'te, ADR-0002) | — |
+| 021 | 4 | `funnel_events` (sipariş hunisi, kişisel veri yok) — `faz-4-qr-olcum` dalında | ÖNCE (kod tablo yoksa sessiz atlar) |
+
+**6 Ekim'den itibaren numara kuralı:** yeni migration'a numara **birleşme anında** verilir (sıradaki boş numara); böylece "numara sırasına göre uygula" kuralı bozulmaz. 021'deki "019/020 Faz 4'e ayrılmıştır" notu geçersizdir. Planlananlar (sıra birleşmeye göre): `media` bucket (P1-06, ÖNCE) · `record_order_payment` RPC (P1-09, ÖNCE) · `orders`/`payments`/`order_status_history` tarayıcı yazımı kapanır (P1-09, SONRA) · `funnel_events` genişletme: `props`, `env`, `learning_session` (P1-10, ÖNCE).
 
 ## 8. Açık kararlar (ilgili fazın başında sorulacak)
 - **Faz 1 — ✅ karar verildi (Tahsin, 4 Eki):** hepsi admin ayarlarından sonradan değiştirilebilir olmalı (teslimatlar henüz başlamadı). Varsayılanlar: minimum sepet **yok** (`minBasketAmount=0`), ücretsiz teslimat eşiği **1000 ₺**, altında teslimat ücreti (varsayılan 150 ₺), teslimat aralığı 14:00–18:00 (değişebilir), açık günler **her gün** (haftanın günleri + kapalı tarihler ayardan kapatılabilir), ileriye sipariş **7 gün**. Müşteri e-posta kodu girişi (SMTP / Gmail uygulama şifresi) **ertelendi**: misafir takip linki + cihaz hafızası + Google girişi yeterli; ihtiyaç doğunca Tahsin ile birlikte kurulur.
@@ -361,9 +370,17 @@ Ayrıca: yinelenen `idempotency_key`'leri boşalt + kısmi unique index; `order_
 - **Faz 4:** tasarım yönü; gerçek fotoğraflar; satıcı yasal kimliği (mesafeli satış sözleşmesi için).
 - **Plan bitince (Tahsin, 4 Eki) — adres doğruluğu ve uydurma sipariş:** bugün adres serbest metin, telefon doğrulanmıyor, konum paylaşımı çalışmıyor; tek gerçek koruma "bekliyor" onayı + IP/telefon hız sınırı + hizmet verilen mahalle listesi. Konuşulacak seçenekler: (1) konum özelliğini onarıp haritada iğne zorunlu, (2) yapılandırılmış adres (sokak/cadde, bina no, daire/kat, tarif), (3) ilk siparişte WhatsApp ile telefon doğrulama (kod ya da tek tık onay linki), (4) ilk sipariş yalnız kapıda ödeme, (5) aynı telefon/adresten çok sayıda iptal edilen siparişte otomatik engel. Önce konum hatası incelenir (neden çalışmıyor).
 - **Yayından önce (Tahsin, kod dışı):** gıda üretim kaydı/izni ve vergi durumu — İlçe Tarım Müdürlüğü ve bir mali müşavirle görüşme.
+- **Mimari v1 (6 Eki) — ✅ karar verildi:** eğitim içeriği git'te (020 iptal); staging yok (kabul edilmiş risk, ADR-0005; Faz 2'deki "staging önerisi: evet" maddesi kapandı); 10x eksenleri içerik hacmi + ziyaretçi patlaması.
+- **Mimari v1 — açık (ilgili paketin başında sade dille sorulur):** içerik kapsamı (yalnız tahıl/ekmek mi, eşlikçiler de mi — çiğ süt yazısı bu yüzden bekliyor) · D1 site iskeleti · pilot yazı konusu (P1-03) · `/kavram` ve `/kaynak` adları (P1-04) · Kütüphane ve oyunun açılması (P1-12) · krem tema geçişinin zamanı (T-01) · analitik ve KVKK metni için hukuki teyit (P1-10, P1-11) · P2 paketlerinin açılma koşulları.
 
 ## 9. Next.js 16 ve ortam notları (yürütücü için)
 - `middleware` → `proxy.ts` (Node.js runtime, `export function proxy`); `after()` kararlı (bildirimler için); `revalidateTag` ikinci argüman ister; `next lint` yok; async `params`/`cookies()`; kod klasik `revalidate`/`dynamic` kullanıyor — `cacheComponents`/`"use cache"` açma.
 - Lockfile TypeScript 7.0.2: Next 16'nın TS CLI yolu sayesinde build büyük ihtimalle çalışır; ilk `npm run build` bunu doğrular.
 - Supabase istemci fabrikaları env yoksa `null` döner: her zaman null kontrolü. Tarayıcı Supabase istemcisi `https://` olmayan URL'yi reddeder.
 - AGENTS.md kuralları geçerli: `any` yok, tipler `src/types/`, realtime kanalları unmount'ta kapatılır, CSV = BOM + `;`, RPC hatasında 500/409 ile açık hata (sessiz yedek yol yok), numaralı migration.
+- TypeScript 7'de derleyici API'si yok: dependency-cruiser gibi TS API'sine dayanan araçlar çalışmaz (ADR-0008). `server-only` paketi kurulu değil; Next derlemede kendisi eşler, vitest'te boş modüle eşlenir. `supabase db dump` Docker ister (makinede yok); `supabase gen types` istemez.
+
+## 10. Mimari v1 (6 Ekim 2026)
+Eğitim platformu omurgası: [`MIMARI.md`](MIMARI.md) (stres testi, modüller, veri, sözleşmeler, güvenlik), [`IS_PAKETLERI.md`](IS_PAKETLERI.md) (ajana verilebilir brifingler), [`adr/`](adr/) (8 karar). Sıra: **G0 → P0 → P1**, tasarım şeridi Tahsin kararına bağlı, P2 tetikleyicilerle.
+
+**Eski fazlarla eşleme:** Faz 0–3 ✅ değişmez. Faz 4 → G0 (etiket+QR, oyun, faz-4 yığını) + tasarım şeridi (ana sayfa; PR #16 kapalı kalır); "Kütüphane 020" → P1-02 (git); "medya 019" → P1-06; görseller, slug, SEO/yasal maddeleri Faz 4'te kalır. Faz 5: temizlik → P0-01; proxy → P0-03; Sentry → P1-11; şema tabanı dökümü ertelendi (Docker/pg_dump yok); Firebase paketlerinin silinmesi P0-01 sonrası ayrı küçük PR.

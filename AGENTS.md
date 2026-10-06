@@ -11,6 +11,7 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 # 🍞 EkmekLab - Geliştirici & Agent Çalışma Kuralları
 
 > **Aktif plan:** [`docs/YOL_HARITASI.md`](docs/YOL_HARITASI.md). Her oturum başında oku; faz durumunu orada güncelle. Çelişki olursa yol haritası geçerlidir; çelişkiyi Tahsin'e bildir.
+> **Mimari:** [`docs/MIMARI.md`](docs/MIMARI.md) (modüller, veri, sözleşmeler) · iş paketleri [`docs/IS_PAKETLERI.md`](docs/IS_PAKETLERI.md) (ajan brifingleri) · kararlar [`docs/adr/`](docs/adr/). Bir paket üzerinde çalışıyorsan önce o paketin brifingini ve "Ortak kurallar"ı oku; yazma kapsamının dışına çıkma.
 
 Bu kurallar, EkmekLab projesinde kod yazarken, hata ayıklarken ve yeni modül eklerken uyulması zorunlu teknik ve mimari standartları belirler.
 
@@ -20,7 +21,7 @@ Bu kurallar, EkmekLab projesinde kod yazarken, hata ayıklarken ve yeni modül e
 - **Çekirdek**: Next.js 16 (App Router, Turbopack, React 19, Node.js).
 - **Stil & Tasarım**: Tailwind CSS + Vanilla CSS.
 - **Backend & Veritabanı**: **Supabase** (PostgreSQL, Auth, Realtime). Giriş: admin ve müşteri için Google OAuth (Supabase Auth); admin PIN'i yoktur. Tablolar: `orders`, `order_items`, `products`, `current_accounts` ve cari defteri `account_transactions`. İstemci fabrikaları `src/lib/supabase/` altında (env yoksa `null` döner: her zaman null kontrolü yap).
-- **Firebase**: Artık backend değildir. `src/lib/firebase/*` ve `firebase`/`firebase-admin` paketleri yalnızca eski kalıntıdır (src içinde onları import eden yok; Faz 5'te silinecek). Yeni kodda Firebase kullanma.
+- **Firebase**: Artık backend değildir. `src/lib/firebase/*` ve `firebase`/`firebase-admin` paketleri yalnızca eski kalıntıdır (src içinde onları import eden yok; P0-01 sonrası ayrı küçük PR'da silinecek). Yeni kodda Firebase kullanma.
 - **Bildirim**: Yeni sipariş bildirimi Telegram ile (`src/lib/notify/telegram.ts`), `after()` içinde gönderilir; mesajda kişisel veri (ad/telefon/adres) olmaz (KVKK). Hata siparişi asla bozmaz.
 - **Yasaklı Teknolojiler**: Bu repo içinde kesinlikle **Dart / Flutter** kodu yazılamaz, çalıştırılamaz veya önerilemez. Proje %100 Web/Next.js tabanlıdır.
 
@@ -35,14 +36,9 @@ Bu kurallar, EkmekLab projesinde kod yazarken, hata ayıklarken ve yeni modül e
 ---
 
 ## 3. 🎨 Tasarım Sistemi & Artisan Bakery Estetiği
-- **Renk Paleti**:
-  - Koyu Zemin: `#120E0B`
-  - Kart / Yüzey: `#18130F`
-  - Kenarlıklar: `#261E17`
-  - Vurgu Altın: `#F59E0B` (`artisan-gold`)
-  - Vurgu Terakota: `#C85A32` (`artisan-terracotta`)
-  - Hamur / Un Tonu: `#F7EBD3` (`artisan-cream`)
-  - Jenerik düz parlak renkler (varsayılan mavi, kırmızı) yerine her zaman fırın kimliğiyle uyumlu HSL / sıcak taş tonları kullanılmalıdır.
+- **Renk Paleti**: Karar verilmiş yön **"Atölye Kremi"** ([`docs/MARKA.md`](docs/MARKA.md) §8: zemin `#F6EEDF`, kâğıt `#FBF6EC`, mürekkep `#3B1E1A`, ikincil `#6E5148`, çizgi `#E2D3BD`, vurgu terakota `#B4532A`; Fraunces + Inter). Canlı site hâlâ eski koyu temada (`src/app/layout.tsx` `className="dark"`, zemin `#120E0B`); krem geçişi Tahsin'in iskelet/ana sayfa kararıyla birlikte yapılır (IS_PAKETLERI T-01). O zamana kadar: mevcut ekranlarda var olan token'ları kullan, **yeni sabit hex sınıfı ekleme**, tema değiştirme. `docs/DESIGN_SYSTEM.md`'deki palet geçerli değildir.
+  - `#B4532A` krem zemin üzerinde gövde metni için yeterli kontrastı vermez (~4,3:1); yalnız büyük metin ve arayüz öğelerinde kullan.
+  - Jenerik düz parlak renkler (varsayılan mavi, kırmızı) yerine her zaman fırın kimliğiyle uyumlu sıcak taş tonları kullanılmalıdır.
 - **Tipografi**: Marka kimliği ve başlıklar için `font-serif`, metinler ve veri tabloları için modern sans-serif ve `font-mono`.
 - **Mobil Ergonomi**: Kurye konsolu (`/kurye`) ve müşteri takip (`/siparis-takip/[id]`) ekranlarında tek elle kullanıma uygun büyük butonlar, yüksek kontrast ve tek tıkla arama / WhatsApp / navigasyon desteği şarttır.
 
@@ -95,4 +91,16 @@ Bu kurallar, EkmekLab projesinde kod yazarken, hata ayıklarken ve yeni modül e
 - **Migration Kuralları**: Her migration kendini `app_migrations` tablosuna yazar ve `supabase/tests/NNN_*.sql` (BEGIN…ROLLBACK) duman testi içerir. Her yeni/değişen fonksiyon `SET search_path = public, pg_temp` taşır ve açık `REVOKE ALL ... FROM PUBLIC, anon, authenticated` + `GRANT EXECUTE ... TO service_role` içerir (`CREATE OR REPLACE` yetkileri sıfırlar; her seferinde yeniden yaz).
 - **Migration ↔ Yayın Sırası**: Tahsin SQL'i kendisi Supabase SQL Editor'de çalıştırır (önce sonu `ROLLBACK` olan kuru deneme, sonra `COMMIT`). Sıra önemlidir: eklemeli migration'lar (yeni sütun/tablo, geriye uyumlu RPC) uygulamadan ÖNCE; tip değiştiren veya eski kodu bozan migration'lar uygulamadan SONRA. Her PR açıklamasında sırayı açıkça yaz (bkz. `docs/YOL_HARITASI.md` §7).
 - **SQL'i Script ile Düzenleme**: SQL dosyalarını JS/Node script'iyle değiştirirken `String.replace`'e `$$` içeren değiştirme dizesi verme; `$$` tek `$`'a çöker ve dolar-tırnaklı fonksiyon gövdelerini bozar (015'te yaşandı). Fonksiyonlu değiştirme (`replace(x, () => yeni)`) veya doğrudan dosya düzenleme kullan.
+- **Migration Numarası Birleşme Anında**: Yeni migration'a numara PR birleşirken verilir (sıradaki boş numara); önceden numara ayırma. 019 ve 020 hiç oluşturulmadı (YOL_HARITASI §7).
+- **Tek Yazar**: `orders`, `payments`, `order_status_history` yalnız sunucu (RPC / API rotası) tarafından yazılır; tarayıcıdan doğrudan yazım ekleme (ADR-0007). Mevcut tarayıcı yazımları P1-09'da kalkar.
+- **Önizleme = Canlı Veritabanı**: Staging yok (ADR-0005). Vercel önizlemeleri canlı Supabase'e yazar. Ajanlar service-role anahtarıyla script çalıştırmaz ve canlı veritabanına bağlanmaz; canlı veri silen script/test `ALLOW_PROD_WRITES=1` + `TEST` öneki olmadan çalışmamalı; test kayıtları "TEST" önekli.
+
+---
+
+## 7. 📚 İçerik ve Kanıt Kuralları (Mimari v1)
+- **İçerik git'te**: Kaynak, iddia, kavram, yazı, medya kaydı ve gezinme verisi `content/` altında (ADR-0002). Admin'de yazı editörü yok; localStorage veritabanı gibi kullanılmaz. Tahsin'in kendi malzemesi `content/gelen/`'e gelir; ajan taslağa çevirir.
+- **Her bilimsel cümle bir iddiaya bağlı**: Yazı gövdesinde bilimsel bilgi `<Claim id="…"/>` ile verilir; kimlikler literal string. İddia metni tek cümle, "ne olur" dili; kanıtta alıntı kopyalanmaz (telif), yalnız `locator`.
+- **İnceleme iki adımlı** (ADR-0003): kanıt ajanı NotebookLM'den "destekliyor mu, nerede?" kontrolünü `supportCheck` olarak yazar, DOI'yi Crossref'te doğrular; Tahsin ifadeyi ve yazının çerçevesini onaylar. `review` alanını **yalnız Tahsin'in açık onayından sonra**, güncel `claimHash` ile yaz. Onaylı bir iddiayı değiştirirsen onay geçersiz olur (K011); PR'da "değişen iddialar" olarak listele.
+- **Sağlık beyanı yok** (MARKA §3, BILIM.md): "sağlıklı, şifa, önler, iyileştirir, sindirimi kolay…" gibi fayda iddiaları yazılmaz. Sağlık terimi yalnız bir efsaneyi düzeltirken geçebilir; ürün sayfalarında (`/urun`, `/e`, ürüne bağlı yazılar) hiç geçmez. Doğrulayıcı kuralları MIMARI.md §2.5 (K001–K011).
+- **Kararları ajan vermez**: site iskeleti/menü, ana sayfa, tema geçişi, içerik kapsamı (ekmek dışı konular), pilot konu Tahsin'in kararıdır.
 
