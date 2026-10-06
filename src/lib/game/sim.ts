@@ -3,36 +3,29 @@ import { coreTempAt, simulateBake, sampleAt } from "./engine/bake";
 
 /**
  * Aşama ekranlarının kullandığı yardımcılar. Hesap v3 motorunda (engine/bake.ts): zaman adımlı mikro dünya.
- * Bu dosya ekranlarla motor arasındaki ince katmandır.
+ * Bu dosya ekranlarla motor arasındaki saf katmandır (modül düzeyi değişken durum içermez).
  */
 
 export { MASTER_DECISIONS, doughTemperature, waterTempFor, frictionFactor, levelOf, pokeResult } from "./engine/bake";
 
 const gauss = (x: number, mu: number, sigma: number) => Math.exp(-((x - mu) ** 2) / (2 * sigma ** 2));
 
-/** Oyuncunun kendi mayası (Bölüm 1); yoksa Tahsin'in mayası */
-let activeStarter: StarterProfile | undefined;
-export function setActiveStarter(p: StarterProfile | null | undefined) {
-  activeStarter = p ?? undefined;
+/**
+ * Geriye dönük uyumluluk için no-op; modül düzeyi değişken durum kaldırılmıştır (MIMARI §2.5 / P1-05).
+ */
+export function setActiveStarter(_p: StarterProfile | null | undefined): void {
+  // no-op; durum parametre olarak taşınır
 }
 
-/** Aynı kararlarla tekrar tekrar hesaplamamak için küçük önbellek */
-const cache = new Map<string, BakeRun>();
-export function runFor(d: BakeDecisions): BakeRun {
-  const key = JSON.stringify(d) + JSON.stringify(activeStarter ?? null);
-  const hit = cache.get(key);
-  if (hit) return hit;
-  const run = simulateBake(d, { starter: activeStarter });
-  cache.set(key, run);
-  if (cache.size > 40) {
-    const first = cache.keys().next().value;
-    if (first !== undefined) cache.delete(first);
-  }
-  return run;
+/**
+ * Saf hesaplama fonksiyonu; parametre olarak starter profili alabilir.
+ */
+export function runFor(d: BakeDecisions, starter?: StarterProfile): BakeRun {
+  return simulateBake(d, { starter });
 }
 
-export function simulateBread(d: BakeDecisions): BakeResult {
-  return runFor(d).result;
+export function simulateBread(d: BakeDecisions, starter?: StarterProfile): BakeResult {
+  return runFor(d, starter).result;
 }
 
 /** Maya canlılığı: beslemeden ~4,5 saat sonra tepe; öncesi hızlı yükselir, sonrası yavaş düşer */
@@ -41,20 +34,20 @@ export function starterVigor(hours: number): number {
 }
 
 /** Katlamalı mayalanmanın t. saatinde hacim artışı (1 = iki katı), motorun zaman çizelgesinden */
-export function bulkRiseAt(d: BakeDecisions, _doughTemp: number, hours: number): number {
-  const run = runFor({ ...d, bulkHours: Math.max(5, d.bulkHours) });
+export function bulkRiseAt(d: BakeDecisions, _doughTemp: number, hours: number, starter?: StarterProfile): number {
+  const run = runFor({ ...d, bulkHours: Math.max(5, d.bulkHours) }, starter);
   if (hours <= 0) return 0;
   return sampleAt(run, run.marks.mayalanma + Math.min(hours, 5) - 1e-6).gas;
 }
 
 /** Şekil anında hamurun olgunluğu (1 = fırına girerken ideal) */
-export function maturityAtShape(d: BakeDecisions): number {
-  return runFor(d).maturityAtShape;
+export function maturityAtShape(d: BakeDecisions, starter?: StarterProfile): number {
+  return runFor(d, starter).maturityAtShape;
 }
 
 /** Fırına girerken olgunluk */
-export function maturityAtOven(d: BakeDecisions): number {
-  return runFor(d).result.proof;
+export function maturityAtOven(d: BakeDecisions, starter?: StarterProfile): number {
+  return runFor(d, starter).result.proof;
 }
 
 /** Fırındaki ekmeğin iç sıcaklığı (°C), dolaptan ~5 °C girer */
