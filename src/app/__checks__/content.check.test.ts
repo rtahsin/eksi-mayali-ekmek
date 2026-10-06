@@ -8,12 +8,73 @@ import { generateStaticParams as generateConceptParams } from "../kavram/[slug]/
 import { generateStaticParams as generateSourceParams } from "../kaynak/[id]/page";
 import { MAIN_NAV_LINKS, FOOTER_NAV_LINKS } from "@content/nav/links";
 
+import { MEDIA } from "@/lib/editorial/media";
+
 describe("Content Graph Integrity Check", () => {
-  it("validates the content knowledge graph and article refs without errors", () => {
+  it("validates the content knowledge graph, article refs, and media registry without errors", () => {
     const refs = toContentRefs();
-    const issues = validateGraph(GRAPH, refs);
+    const issues = validateGraph(GRAPH, refs, MEDIA);
     const errors = issues.filter((i) => i.severity === "error");
     expect(errors).toEqual([]);
+  });
+
+  it("ensures all public/atelier files are under 300 KB", () => {
+    const atelierDir = path.resolve(process.cwd(), "public/atelier");
+    expect(fs.existsSync(atelierDir)).toBe(true);
+    const files = fs.readdirSync(atelierDir);
+    expect(files.length).toBeGreaterThan(0);
+
+    for (const f of files) {
+      const stat = fs.statSync(path.join(atelierDir, f));
+      const sizeKb = stat.size / 1024;
+      expect(sizeKb).toBeLessThan(300);
+    }
+  });
+
+  it("enforces K007 rules correctly on invalid media and product surfaces", () => {
+    // 1. Alt metin eksik
+    const issues1 = validateGraph(GRAPH, [], {
+      bad_media: {
+        url: "/test.webp",
+        alt: "",
+        license: "own",
+      },
+    });
+    expect(issues1.some((i) => i.code === "K007" && i.message.includes("alt metni"))).toBe(true);
+
+    // 2. Geçersiz lisans
+    const issues2 = validateGraph(GRAPH, [], {
+      bad_media: {
+        url: "/test.webp",
+        alt: "Güzel görsel",
+        // @ts-expect-error invalid license testing
+        license: "invalid-license",
+      },
+    });
+    expect(issues2.some((i) => i.code === "K007" && i.message.includes("lisansı"))).toBe(true);
+
+    // 3. Ürün yüzeyinde stock-licensed medya kullanımı yasak
+    const issues3 = validateGraph(
+      GRAPH,
+      [
+        {
+          kind: "urun",
+          id: "urun_test",
+          surface: "urun",
+          claimIds: [],
+          conceptIds: [],
+          mediaIds: ["med_stock_test"],
+        },
+      ],
+      {
+        med_stock_test: {
+          url: "/stock.webp",
+          alt: "Stok ekmek",
+          license: "stock-licensed",
+        },
+      }
+    );
+    expect(issues3.some((i) => i.code === "K007" && i.message.includes("Ürün yüzeyinde stock-licensed"))).toBe(true);
   });
 
   it("verifies published articles have fromInbox and valid source file", () => {

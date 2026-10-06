@@ -1,0 +1,66 @@
+import { defineMedia } from "@/lib/editorial/define";
+
+export const media = defineMedia({
+  med_atelier_threshold: {
+    url: "/atelier/atelier_threshold.webp",
+    alt: "EkmekLab zanaatkâr taş fırını ve atölye tezgâh eşiği",
+    license: "stock-licensed",
+    credit: "EkmekLab Arşiv",
+    dimensions: { width: 1376, height: 768 },
+    aspectRatio: "16:9",
+    kind: "image",
+    notes: "Atölye eşiği atmosfer arka planı",
+  },
+  med_bread_anatomy: {
+    url: "/atelier/bread_anatomy_real.webp",
+    alt: "Gerçek ekşi mayalı ekmek iç yapısı, gözenek ve kabuk anatomisi",
+    license: "own",
+    credit: "Tahsin / EkmekLab",
+    dimensions: { width: 1376, height: 768 },
+    aspectRatio: "16:9",
+    kind: "image",
+    notes: "Atölye gerçek ekmek anatomisi fotoğrafı",
+  },
+  med_atelier_panorama: {
+    url: "/atelier/atelier_panorama.webp",
+    alt: "EkmekLab unlu mamuller üretim alanı ve taş değirmen tezgâhı",
+    license: "stock-licensed",
+    credit: "EkmekLab Arşiv",
+    dimensions: { width: 1536, height: 1024 },
+    aspectRatio: "3:2",
+    kind: "image",
+    notes: "Geniş açı atölye panorama",
+  },
+  med_closeup_bread: {
+    url: "/atelier/closeup_bread.webp",
+    alt: "Fırından yeni çıkmış çıtır ekşi mayalı köy ekmeği kabuğu yakın çekimi",
+    license: "stock-licensed",
+    credit: "EkmekLab Arşiv",
+    dimensions: { width: 1536, height: 1024 },
+    aspectRatio: "3:2",
+    kind: "image",
+    notes: "Karakılçık / ekşi mayalı ekmek yakın plan kabuk dokusu",
+  },
+  med_closeup_counter: {
+    url: "/atelier/closeup_counter.webp",
+    alt: "Un serpilmiş ahşap hamur hazırlık ve yoğurma tezgâhı",
+    license: "stock-licensed",
+    credit: "EkmekLab Arşiv",
+    dimensions: { width: 1536, height: 1024 },
+    aspectRatio: "3:2",
+    kind: "image",
+    notes: "Tezgâh hazırlık detayı",
+  },
+  med_closeup_pantry: {
+    url: "/atelier/closeup_pantry.webp",
+    alt: "Atölye un çuvalları, taş değirmen tahılları ve kiler",
+    license: "stock-licensed",
+    credit: "EkmekLab Arşiv",
+    dimensions: { width: 1536, height: 1024 },
+    aspectRatio: "3:2",
+    kind: "image",
+    notes: "Kiler ve hammadde stok alanı",
+  },
+});
+
+export type MediaId = keyof typeof media;

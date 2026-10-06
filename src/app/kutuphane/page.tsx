@@ -26,7 +26,7 @@ export default function LibraryIndexPage() {
       <div
         className="fixed inset-0 pointer-events-none opacity-20 filter brightness-90 contrast-125 sepia-[.15] bg-cover bg-center"
         style={{
-          backgroundImage: "url('/atelier/atelier_threshold.png')",
+          backgroundImage: "url('/atelier/atelier_threshold.webp')",
         }}
       />
       <div className="fixed inset-0 pointer-events-none bg-gradient-to-b from-[#120E0B]/90 via-[#14100D]/85 to-[#120E0B]/95" />

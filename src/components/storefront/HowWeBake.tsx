@@ -38,7 +38,7 @@ export function HowWeBake() {
           
           {/* Base Image */}
           <Image 
-            src="/atelier/bread_anatomy_real.jpg"
+            src="/atelier/bread_anatomy_real.webp"
             alt="Bread Anatomy Photograph"
             fill
             className="object-cover opacity-90 filter brightness-100 contrast-105"

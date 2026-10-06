@@ -110,7 +110,7 @@ export default function AdminLoginPage() {
       {/* Background Subtle Ambience */}
       <div
         className="fixed inset-0 pointer-events-none opacity-25 filter brightness-90 contrast-125 bg-cover bg-center"
-        style={{ backgroundImage: "url('/atelier/atelier_threshold.png')" }}
+        style={{ backgroundImage: "url('/atelier/atelier_threshold.webp')" }}
       />
       <div className="fixed inset-0 pointer-events-none bg-gradient-to-t from-[#120E0B] via-[#120E0B]/90 to-[#120E0B]/80" />
 

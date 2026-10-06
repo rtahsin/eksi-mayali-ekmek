@@ -1,16 +1,26 @@
-import type { KnowledgeGraph, ClaimInput, SourceInput, ConceptInput } from "./types";
+import type { KnowledgeGraph, ClaimInput, SourceInput, ConceptInput, MediaItemInput, MediaLicense } from "./types";
 import type { ContentRef, GraphIssue } from "./refs";
 import { claimHash } from "./define";
 import { findHealthTerms, hasBenefitVerb } from "./lint";
 
 const DOI_REGEX = /^10\.\d{4,9}\/[-._;()/:A-Za-z0-9]+$/;
 const DATE_REGEX = /^\d{4}-\d{2}-\d{2}$/;
+const VALID_LICENSES: readonly MediaLicense[] = [
+  "own",
+  "cc-by",
+  "cc-by-sa",
+  "cc0",
+  "stock-licensed",
+  "adapted-from-publication",
+];
 
 export function validateGraph(
   graph: KnowledgeGraph,
-  refs: readonly ContentRef[] = []
+  refs: readonly ContentRef[] = [],
+  mediaRegistry?: Record<string, MediaItemInput>
 ): GraphIssue[] {
   const issues: GraphIssue[] = [];
+  const mediaMap = mediaRegistry || graph.media;
 
   const sourceKeys = Object.keys(graph.sources);
   const claimKeys = Object.keys(graph.claims);
@@ -39,6 +49,15 @@ export function validateGraph(
       allKeys.set(id, "concept");
     }
   }
+  if (mediaMap) {
+    for (const id of Object.keys(mediaMap)) {
+      if (allKeys.has(id)) {
+        issues.push({ code: "K001", severity: "error", ref: id, message: `Yinelenen kimlik: ${id}` });
+      } else {
+        allKeys.set(id, "media");
+      }
+    }
+  }
 
   // K004: DOI biçimi / doğrulama tarihi kontrolü
   for (const [id, source] of Object.entries(graph.sources)) {
@@ -47,6 +66,38 @@ export function validateGraph(
     }
     if (!source.verified?.at || !DATE_REGEX.test(source.verified.at)) {
       issues.push({ code: "K004", severity: "error", ref: id, message: `Doğrulama tarihi yok veya geçersiz: ${source.verified?.at}` });
+    }
+  }
+
+  // K007: Medya doğrulaması (alt metin, lisans, kaynak referansı)
+  if (mediaMap) {
+    for (const [id, item] of Object.entries(mediaMap)) {
+      if (!item.alt || item.alt.trim().length === 0) {
+        issues.push({
+          code: "K007",
+          severity: "error",
+          ref: id,
+          message: `Medya alt metni eksik veya boş: ${id}`,
+        });
+      }
+      if (!item.license || !VALID_LICENSES.includes(item.license)) {
+        issues.push({
+          code: "K007",
+          severity: "error",
+          ref: id,
+          message: `Medya lisansı eksik veya geçersiz (${item.license}): ${id}`,
+        });
+      }
+      if (item.license === "adapted-from-publication") {
+        if (!item.sourceId || !graph.sources[item.sourceId]) {
+          issues.push({
+            code: "K007",
+            severity: "error",
+            ref: id,
+            message: `adapted-from-publication lisanslı medya için geçerli sourceId zorunludur: ${id}`,
+          });
+        }
+      }
     }
   }
 
@@ -130,6 +181,14 @@ export function validateGraph(
       }
     }
 
+    if (concept.media && mediaMap) {
+      for (const mId of concept.media) {
+        if (!mediaMap[mId]) {
+          issues.push({ code: "K002", severity: "error", ref: id, message: `Kopuk kavram medya referansı: ${mId}` });
+        }
+      }
+    }
+
     // K008: İddiasız kavram (uyarı)
     const claimCount = conceptClaimCounts.get(id) || 0;
     if (claimCount === 0) {
@@ -176,6 +235,22 @@ export function validateGraph(
     for (const cptId of ref.conceptIds) {
       if (!graph.concepts[cptId]) {
         issues.push({ code: "K002", severity: "error", ref: ref.id, message: `Kopuk kavram referansı: ${cptId}` });
+      }
+    }
+
+    for (const mId of ref.mediaIds) {
+      if (mediaMap) {
+        const item = mediaMap[mId];
+        if (!item) {
+          issues.push({ code: "K002", severity: "error", ref: ref.id, message: `Kopuk medya referansı: ${mId}` });
+        } else if (ref.surface === "urun" && item.license === "stock-licensed") {
+          issues.push({
+            code: "K007",
+            severity: "error",
+            ref: ref.id,
+            message: `Ürün yüzeyinde stock-licensed medya kullanılamaz: ${mId}`,
+          });
+        }
       }
     }
 

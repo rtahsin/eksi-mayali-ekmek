@@ -79,4 +79,33 @@ export interface KnowledgeGraph {
   sources: Record<string, SourceInput>;
   claims: Record<string, ClaimInput>;
   concepts: Record<string, ConceptInput>;
+  media?: Record<string, MediaItemInput>;
 }
+
+export type MediaLicense =
+  | "own"
+  | "cc-by"
+  | "cc-by-sa"
+  | "cc0"
+  | "stock-licensed"
+  | "adapted-from-publication";
+
+export type MediaKind = "image" | "video" | "diagram";
+
+export interface MediaDimensions {
+  width: number;
+  height: number;
+}
+
+export interface MediaItemInput {
+  url: string;
+  alt: string;
+  license: MediaLicense;
+  credit?: string;
+  sourceId?: string;
+  dimensions?: MediaDimensions;
+  aspectRatio?: string;
+  kind?: MediaKind;
+  notes?: string;
+}
+
