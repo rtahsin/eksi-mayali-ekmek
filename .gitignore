@@ -47,5 +47,16 @@ next-env.d.ts
 .vscode/
 .temp/
 supabase/.temp/
-*_export.txt
+# Testing & reports
+/playwright-report/
+/test-results/
 
+# Firebase & local bridge legacy
+.firebase/
+firebase-debug.log*
+local_llm_bridge/
+
+# Python cache
+__pycache__/
+*.pyc
+scripts/__pycache__/

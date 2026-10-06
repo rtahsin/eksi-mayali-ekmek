@@ -2,7 +2,6 @@ name: CI
 
 on:
   pull_request:
-    branches: [main]
   push:
     branches: [main]
 
@@ -30,6 +29,15 @@ jobs:
           tracked=$(git ls-files -- '.env' '.env.*' '**/.env' '**/.env.*' | grep -vE '(^|/)\.env\.example$' || true)
           if [ -n "$tracked" ]; then
             echo "HATA: Şu ortam dosyaları git'te izleniyor ('git rm --cached' ile çıkarın):"
+            echo "$tracked"
+            exit 1
+          fi
+
+      - name: Repo hijyeni kontrolü
+        run: |
+          tracked=$(git ls-files local_llm_bridge playwright-report test-results .idea .firebase firebase-debug.log scripts/__pycache__)
+          if [ -n "$tracked" ]; then
+            echo "HATA: Şu dosyalar/dizinler git'te izlenmemelidir ('git rm -r --cached' ile çıkarın):"
             echo "$tracked"
             exit 1
           fi
