@@ -6,6 +6,7 @@ import { useCartStore } from "@/lib/store/useCartStore";
 import { CheckoutPaymentMethod, OrderSubmitError, submitOrder } from "@/lib/order/createOrder";
 import { rememberDeviceOrder } from "@/lib/orders/deviceOrders";
 import { CHECKOUT_FIELD_ORDER, CheckoutErrors, validateCheckout } from "@/lib/order/validate";
+import { trackEvent } from "@/lib/track";
 import { MessageSquare, Loader2, AlertCircle } from "lucide-react";
 
 interface CheckoutActionsProps {
@@ -136,6 +137,7 @@ export function CheckoutActions({
         });
       }
 
+      trackEvent("order_ok", { orderId: order.orderNumber || order.id });
       attemptKeyRef.current = newAttemptKey();
       onOrderPlaced?.();
       clearCart();
@@ -144,9 +146,11 @@ export function CheckoutActions({
       showSuccess({ order, trackingToken });
     } catch (err: unknown) {
       if (err instanceof OrderSubmitError) {
+        trackEvent("order_error", { code: err.code || "unknown" });
         setErrorMessage(err.message);
         if (err.code && DATE_RELATED_CODES.has(err.code)) onDatesStale();
       } else {
+        trackEvent("order_error", { code: "network" });
         console.error("Order submission error:", err);
         setErrorMessage("Bağlantı hatası. Lütfen tekrar deneyin; aynı sipariş iki kez oluşmaz.");
       }

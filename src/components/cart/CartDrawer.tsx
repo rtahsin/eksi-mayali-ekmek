@@ -25,6 +25,7 @@ import { useAuth } from "@/components/auth/AuthProvider";
 import { useProducts } from "@/hooks/useProducts";
 import { stripMah, type CheckoutErrors } from "@/lib/order/validate";
 import type { CheckoutPaymentMethod } from "@/lib/order/createOrder";
+import { trackEvent } from "@/lib/track";
 
 const formatTl = (value: number) => `${value.toLocaleString("tr-TR")} ₺`;
 
@@ -58,6 +59,12 @@ export function CartDrawer() {
   const [saveThisAddress, setSaveThisAddress] = useState(true);
   const [paymentMethod, setPaymentMethod] = useState<Exclude<CheckoutPaymentMethod, "whatsapp">>("cash_on_delivery");
   const [errors, setErrors] = useState<CheckoutErrors>({});
+  const startedRef = React.useRef(false);
+  const markCheckoutStart = () => {
+    if (startedRef.current) return;
+    startedRef.current = true;
+    trackEvent("checkout_start", { once: true });
+  };
   const clearError = (field: keyof CheckoutErrors) => setErrors((e) => (e[field] ? { ...e, [field]: undefined } : e));
 
   const [locating, setLocating] = useState(false);
@@ -91,6 +98,10 @@ export function CartDrawer() {
     if (!customerInfo.phone && profile.phone) patch.phone = profile.phone;
     if (Object.keys(patch).length > 0) setCustomerInfo(patch);
   }, [isLoggedIn, profile, customerInfo.name, customerInfo.phone, setCustomerInfo]);
+
+  useEffect(() => {
+    if (isOpen) trackEvent("cart_open", { once: true });
+  }, [isOpen]);
 
   // Telefonun Geri tuşu siteden çıkarmak yerine çekmeceyi kapatsın
   useEffect(() => {
@@ -492,6 +503,7 @@ export function CartDrawer() {
                         <User className="w-3.5 h-3.5 text-zinc-300 absolute left-2.5 top-2.5" />
                         <input
                           id="checkout-customer-name"
+                          onFocus={markCheckoutStart}
                           type="text"
                           autoComplete="name"
                           value={customerInfo.name}

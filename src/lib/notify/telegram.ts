@@ -10,6 +10,8 @@ export interface NewOrderNotice {
   items: { name: string; quantity: number }[];
   totalAmount: number;
   paymentMethod: string;
+  /** Bu telefondan daha önce (iptal dışı) sipariş yok: Tahsin teyit etsin. Kişisel veri içermez. */
+  isFirstOrder?: boolean;
 }
 
 const PAYMENT_LABELS: Record<string, string> = {
@@ -31,6 +33,7 @@ export async function notifyNewOrder(order: NewOrderNotice): Promise<void> {
   const isPreview = process.env.VERCEL_ENV && process.env.VERCEL_ENV !== "production";
   const lines = [
     `${isPreview ? "[TEST] " : ""}🍞 Yeni sipariş ${order.orderNumber}`,
+    ...(order.isFirstOrder ? ["🆕 İlk sipariş: adresi/telefonu teyit et"] : []),
     `📅 ${formatTrDate(order.deliveryDate, "long")}`,
     `📍 ${order.neighborhood || "-"}`,
     ...order.items.map((it) => `• ${it.quantity} × ${it.name}`),

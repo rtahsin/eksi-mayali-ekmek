@@ -196,7 +196,7 @@ export default async function ProductDetailPage({ params }: ProductPageProps) {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
           {/* Left Column: Visual Showcase */}
           <div className="lg:col-span-6 space-y-4">
-            <div className="relative rounded-3xl overflow-hidden bg-surface border border-surface-border shadow-2xl aspect-[4/3] sm:aspect-[1/1] group">
+            <div className="relative rounded-3xl overflow-hidden bg-surface border border-surface-border shadow-2xl aspect-[16/10] sm:aspect-[1/1] group">
               <img
                 src={product.imageUrl}
                 alt={product.name}

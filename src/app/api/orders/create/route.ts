@@ -271,6 +271,19 @@ export async function POST(req: Request) {
     const shippingFee = computeShippingFee(serverSubtotal, settings);
     const totalAmount = serverSubtotal + shippingFee;
 
+    // İlk sipariş mi? (Tahsin teyit etsin; telefon doğrulanmıyor). Sorgu hatası siparişi bozmaz.
+    let isFirstOrder = false;
+    try {
+      const { count } = await supabaseAdmin
+        .from("orders")
+        .select("id", { count: "exact", head: true })
+        .eq("phone", cleanPhone)
+        .neq("status", "iptal");
+      isFirstOrder = count === 0;
+    } catch {
+      isFirstOrder = false;
+    }
+
     // 6. Kayıt
     const auth = await verifyApiAuth(req);
     const sessionUserId = auth.isAuthenticated ? auth.userId : null;
@@ -396,6 +409,7 @@ export async function POST(req: Request) {
         items: verifiedOrderItems.map((it) => ({ name: it.productName, quantity: it.quantity })),
         totalAmount,
         paymentMethod,
+        isFirstOrder,
       })
     );
 
