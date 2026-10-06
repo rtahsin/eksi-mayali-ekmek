@@ -14,9 +14,9 @@
 | 4 | Marka, görseller, içerik, yasal metinler | 4-6 gün + içerik | sürüyor: krem tasarım seçildi (`docs/MARKA.md`); oyun `/laboratuvar` v3 canlıda (PR #13, #14), Bölüm 4 Gece Yarısı + oynanış düzeltmeleri PR #15; bilim dosyası `docs/BILIM.md` (NotebookLM "EKMEK"); sırada krem ana sayfa |
 | 5 | Temizlik ve araçlar | 1-2 gün | bekliyor |
 | **Mimari v1** | Eğitim platformu omurgası — [`MIMARI.md`](MIMARI.md), [`IS_PAKETLERI.md`](IS_PAKETLERI.md), [`adr/`](adr/) (Tahsin onayı 6 Eki) | — | belgeler yazıldı (6 Eki); ayrıntı §10 |
-| G0 | Uçuştaki işi indir: faz-4 yığını (sepet-onar → qr-olcum (021 ÖNCE) → konum-yasal), PR #15, etiket+QR | mevcut iş | bekliyor |
-| P0 | Çekirdek: P0-00 sağlık beyanı acil · 01 repo hijyeni · 02 DB tipleri · 03 trafik kalkanı · 04 önizleme koruması · 05 bilgi çekirdeği · 06 mimari testleri | ~6–7 ajan oturumu · Tahsin ~30 dk | bekliyor (P0-00 ve P0-01 G0 ile paralel) |
-| P1 | Motor: kanıt göçü, MDX Kütüphane, pilot yazı, kavram/kaynak, oyun↔bilgi, medya, arama, ürün↔içerik, tek yazar, öğrenme ölçümü, gözlem | ~13–15 ajan oturumu · Tahsin ~2–3 sa iddia + ~15 dk/yazı | bekliyor |
+| G0 | Uçuştaki işi indir: faz-4 yığını (sepet-onar → qr-olcum (021 ÖNCE) → konum-yasal), PR #15, etiket+QR | mevcut iş | ✅ tamamlandı (6 Eki, main'e birleştirildi) |
+| P0 | Çekirdek: P0-00 sağlık beyanı acil · 01 repo hijyeni · 02 DB tipleri · 03 trafik kalkanı · 04 önizleme koruması · 05 bilgi çekirdeği · 06 mimari testleri | ~6–7 ajan oturumu | ✅ tamamlandı (6 Eki, P0-00..P0-06, 22 test dosyası, 131 test yeşil, main'de) |
+| P1 | Motor: kanıt göçü, MDX Kütüphane, pilot yazı, kavram/kaynak, oyun↔bilgi, medya, arama, ürün↔içerik, tek yazar, öğrenme ölçümü, gözlem | ~13–15 ajan oturumu · Tahsin ~2–3 sa iddia + ~15 dk/yazı | 🔄 aktif / sıradaki faz (P1-01) |
 | Tasarım | D1 iskelet kararı (Tahsin) → T-01 krem token'ları + ana sayfa | karara bağlı | karar bekliyor |
 | P2 | Genişleme: deney, atölye defteri, kalibrasyon, öğrenme yolları, etiket okuma, pro araçlar, soru kutusu, bülten… | tetikleyiciye bağlı | her biri kendi koşuluyla |
 
