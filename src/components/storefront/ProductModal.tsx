@@ -1,9 +1,20 @@
 "use client";
 
 import React, { useState } from "react";
+import Link from "next/link";
 import type { ExtendedProduct } from "@/types";
 import { productBadges } from "@/lib/products/badges";
 import { useCartStore } from "@/lib/store/useCartStore";
+
+function getFlourConceptSlug(flour: string): string | null {
+  const f = flour.toLowerCase();
+  if (f.includes("karakılçık") || f.includes("karakilcik")) return "karakilcik";
+  if (f.includes("siyez")) return "siyez";
+  if (f.includes("çavdar") || f.includes("cavdar")) return "cavdar_unu";
+  if (f.includes("dinkel") || f.includes("kavulca")) return "dinkel_kavulca";
+  if (f.includes("tam buğday") || f.includes("tam bugday")) return "tam_bugday";
+  return null;
+}
 import {
   X,
   ShoppingBag,
@@ -189,11 +200,26 @@ export function ProductModal({ product, onClose }: ProductModalProps) {
                 {product.flourTypes && product.flourTypes.length > 0 && (
                   <div className="flex flex-wrap gap-1.5 pt-1">
                     <span className="text-[11px] font-sans text-stone-400 self-center mr-1">Un Seçkisi:</span>
-                    {product.flourTypes.map((flour, idx) => (
-                      <span key={idx} className="px-2 py-0.5 rounded-md bg-[#251E19] border border-[#3A2F25] text-[11px] font-sans text-stone-200">
-                        {flour}
-                      </span>
-                    ))}
+                    {product.flourTypes.map((flour, idx) => {
+                      const conceptSlug = getFlourConceptSlug(flour);
+                      if (conceptSlug) {
+                        return (
+                          <Link
+                            key={idx}
+                            href={`/kavram/${conceptSlug}`}
+                            className="px-2 py-0.5 rounded-md bg-[#251E19] hover:bg-[#332922] border border-[#3A2F25] hover:border-artisan-gold/40 text-[11px] font-sans text-stone-200 hover:text-artisan-gold transition-colors inline-flex items-center gap-1"
+                          >
+                            <span>{flour}</span>
+                            <span className="text-[9px] text-artisan-gold/60">↗</span>
+                          </Link>
+                        );
+                      }
+                      return (
+                        <span key={idx} className="px-2 py-0.5 rounded-md bg-[#251E19] border border-[#3A2F25] text-[11px] font-sans text-stone-200">
+                          {flour}
+                        </span>
+                      );
+                    })}
                   </div>
                 )}
               </div>

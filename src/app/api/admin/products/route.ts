@@ -6,6 +6,7 @@ import { getErrorMessage } from "@/lib/utils/error";
 import { getCatalog } from "@/lib/products/server";
 import { slugify } from "@/lib/utils/slugify";
 import { isIsoDate, istanbulToday } from "@/lib/time/istanbul";
+import { findHealthTerms } from "@/lib/knowledge/lint";
 
 const money = z.number().finite().min(0).max(100000);
 const intOrNull = (max: number) => z.number().int().min(0).max(max).nullable();
@@ -64,6 +65,31 @@ const ProductSchema = z
   .refine((p) => p.compareAtPrice === null || p.compareAtPrice > p.price, {
     message: "Kampanya için eski fiyat, satış fiyatından yüksek olmalı",
     path: ["compareAtPrice"],
+  })
+  .superRefine((p, ctx) => {
+    const fieldsToCheck: [string, string | undefined][] = [
+      ["name", p.name],
+      ["description", p.description],
+      ["flourHeritage", p.masterclass?.flourHeritage],
+      ["technique", p.masterclass?.technique],
+      ["healthBenefit", p.masterclass?.healthBenefit],
+      ["pairingStorage", p.masterclass?.pairingStorage],
+      ...((p.ingredients || []).map((ing, i) => [`ingredients[${i}]`, ing] as [string, string])),
+      ...((p.flourTypes || []).map((fl, i) => [`flourTypes[${i}]`, fl] as [string, string])),
+    ];
+
+    for (const [pathKey, val] of fieldsToCheck) {
+      if (val) {
+        const terms = findHealthTerms(val);
+        if (terms.length > 0) {
+          ctx.addIssue({
+            code: z.ZodIssueCode.custom,
+            message: `Ürün alanlarında yasaklı sağlık/şifa beyanı terimleri bulunamaz (K006): ${terms.join(", ")}`,
+            path: [pathKey],
+          });
+        }
+      }
+    }
   });
 
 export async function GET(request: Request) {

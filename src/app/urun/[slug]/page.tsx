@@ -24,7 +24,9 @@ import {
   Droplets,
   Award,
   BookOpen,
+  ArrowRight,
 } from "lucide-react";
+import { articleIndex } from "@/lib/editorial";
 import { SITE_URL } from "@/lib/site";
 
 export const revalidate = 60; // ISR: Revalidate product page every 60 seconds
@@ -125,6 +127,16 @@ export default async function ProductDetailPage({ params }: ProductPageProps) {
 
   const masterclass = product.masterclass;
   const canonicalSlug = getProductSlug(product);
+
+  // İlgili Kütüphane Yazıları (P1-08)
+  const allArticles = articleIndex();
+  const relatedArticles = allArticles.filter(
+    (art) =>
+      art.status !== "arsiv" &&
+      (art.products?.includes(product.id) ||
+       art.products?.includes(canonicalSlug) ||
+       (canonicalSlug.includes("karakilcik") && art.slug.includes("karakilcik")))
+  );
 
   // Schema.org Product + Offer JSON-LD structured data (P2-3)
   const productJsonLd = {
@@ -401,7 +413,7 @@ export default async function ProductDetailPage({ params }: ProductPageProps) {
                 <span>USTANIN NOTU & BİYOLOJİ</span>
               </div>
               <h2 className="font-serif text-2xl sm:text-3xl font-bold text-foreground">
-                Zanaatın Perde Arkası ve Sağlık Etkisi
+                Zanaatın Perde Arkası ve Fermantasyon Biyolojisi
               </h2>
             </div>
 
@@ -444,6 +456,59 @@ export default async function ProductDetailPage({ params }: ProductPageProps) {
                   </p>
                 </div>
               )}
+            </div>
+          </section>
+        )}
+
+        {/* 3.5. İlgili Kütüphane Yazıları & Bilimsel Araştırma Notları (P1-08) */}
+        {relatedArticles.length > 0 && (
+          <section className="pt-6 border-t border-surface-border space-y-6">
+            <div className="flex items-center justify-between">
+              <div>
+                <div className="inline-flex items-center gap-1.5 font-mono text-xs text-artisan-gold uppercase tracking-wider mb-1">
+                  <BookOpen className="w-4 h-4 text-artisan-gold" />
+                  <span>BİLİM & ZANAAT KÜTÜPHANESİ</span>
+                </div>
+                <h3 className="font-serif text-2xl font-bold text-foreground">
+                  Bu Ekmeğin Bilimi & Araştırma Notları
+                </h3>
+                <p className="text-xs text-foreground/60 font-sans mt-0.5">
+                  Hamur biyolojisi, ata tohumları ve fermantasyon süreçlerine dair kütüphane incelemelerimiz.
+                </p>
+              </div>
+              <Link
+                href="/kutuphane"
+                className="text-xs text-artisan-gold hover:underline font-serif flex items-center gap-1"
+              >
+                <span>Tüm Kütüphaneyi Gör</span>
+                <ChevronRight className="w-3.5 h-3.5" />
+              </Link>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+              {relatedArticles.map((art) => (
+                <Link
+                  key={art.slug}
+                  href={`/kutuphane/${art.slug}`}
+                  className="group rounded-2xl bg-surface border border-surface-border hover:border-artisan-gold/50 p-5 transition-all flex flex-col justify-between space-y-3"
+                >
+                  <div className="space-y-2">
+                    <span className="text-[10px] font-mono uppercase px-2 py-0.5 rounded-full bg-artisan-gold/15 text-artisan-gold border border-artisan-gold/30">
+                      Araştırma Yazısı · {art.readingMinutes} dk okuma
+                    </span>
+                    <h4 className="font-serif font-bold text-base text-foreground group-hover:text-artisan-gold transition-colors">
+                      {art.title}
+                    </h4>
+                    <p className="text-xs text-foreground/70 font-sans line-clamp-2 leading-relaxed">
+                      {art.summary}
+                    </p>
+                  </div>
+                  <div className="pt-2 border-t border-surface-border flex items-center justify-between text-xs font-mono text-artisan-gold group-hover:underline">
+                    <span>Yazıyı Oku</span>
+                    <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
+                  </div>
+                </Link>
+              ))}
             </div>
           </section>
         )}
