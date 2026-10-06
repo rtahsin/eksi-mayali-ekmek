@@ -13,6 +13,7 @@ import { isIsoDate } from "@/lib/time/istanbul";
 import { signOrderToken } from "@/lib/security/linkToken";
 import { notifyNewOrder } from "@/lib/notify/telegram";
 import { TERMS_VERSION } from "@/lib/legal";
+import { normalizePhone, stripMah } from "@/lib/order/validate";
 
 const OrderItemSchema = z.object({
   productId: z.string().min(1, "Ürün ID gereklidir").max(100),
@@ -90,16 +91,7 @@ const fail = (status: number, error: string, code?: string) =>
   NextResponse.json({ success: false, error, ...(code ? { code } : {}) }, { status });
 
 /** "Barış Mah." / "barış" → "barış" (karşılaştırma için) */
-const normalizeNeighborhood = (value: string) =>
-  value.replace(/\s+Mah(\.|allesi)?$/i, "").trim().toLocaleLowerCase("tr-TR");
-
-/** Telefonu tek biçime getirir: 05XXXXXXXXX */
-function normalizePhone(raw: string): string | null {
-  let digits = raw.replace(/\D/g, "");
-  if (digits.startsWith("90") && digits.length === 12) digits = digits.slice(2);
-  if (digits.length === 10 && digits.startsWith("5")) digits = `0${digits}`;
-  return /^05\d{9}$/.test(digits) ? digits : null;
-}
+const normalizeNeighborhood = (value: string) => stripMah(value).toLocaleLowerCase("tr-TR");
 
 function mapExistingOrder(row: DBOrderRow): Order {
   return {
@@ -415,6 +407,6 @@ export async function POST(req: Request) {
   } catch (error: unknown) {
     console.error("Order creation API error:", error);
     Sentry.captureException(error, { tags: { endpoint: "/api/orders/create", type: "unhandled_500" } });
-    return fail(500, getErrorMessage(error) || "Sipariş işlenirken bir sunucu hatası oluştu.");
+    return fail(500, "Sipariş şu an kaydedilemedi. Lütfen birkaç saniye sonra tekrar deneyin; aynı sipariş iki kez oluşmaz.");
   }
 }

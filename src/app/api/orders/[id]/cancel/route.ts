@@ -155,7 +155,7 @@ export async function PATCH(
   } catch (err: unknown) {
     console.error("Cancel order error:", err);
     return NextResponse.json(
-      { error: getErrorMessage(err) || "Sipariş iptali sırasında bir hata oluştu" },
+      { error: "Sipariş şu an iptal edilemedi. Lütfen fırını arayın." },
       { status: 500 }
     );
   }

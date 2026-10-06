@@ -157,7 +157,7 @@ export async function GET(req: Request, props: { params: Promise<{ id: string }>
   } catch (err: unknown) {
     console.error("GET /api/orders/[id] error:", err);
     return NextResponse.json(
-      { error: getErrorMessage(err) || "Sipariş bilgileri alınırken hata oluştu", code: "SERVER_ERROR" },
+      { error: "Sipariş bilgileri şu an alınamadı. Lütfen tekrar deneyin.", code: "SERVER_ERROR" },
       { status: 500 }
     );
   }

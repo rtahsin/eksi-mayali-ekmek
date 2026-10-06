@@ -23,6 +23,8 @@ import {
 } from "lucide-react";
 import { useAuth } from "@/components/auth/AuthProvider";
 import { useProducts } from "@/hooks/useProducts";
+import { stripMah, type CheckoutErrors } from "@/lib/order/validate";
+import type { CheckoutPaymentMethod } from "@/lib/order/createOrder";
 
 const formatTl = (value: number) => `${value.toLocaleString("tr-TR")} ₺`;
 
@@ -54,6 +56,9 @@ export function CartDrawer() {
   const unavailableReasons = Array.from(new Set(dates.filter((d) => !d.available && d.reason).map((d) => d.reason as string)));
   const { profile, addresses, isLoggedIn, openAuthModal, saveAddress } = useAuth();
   const [saveThisAddress, setSaveThisAddress] = useState(true);
+  const [paymentMethod, setPaymentMethod] = useState<Exclude<CheckoutPaymentMethod, "whatsapp">>("cash_on_delivery");
+  const [errors, setErrors] = useState<CheckoutErrors>({});
+  const clearError = (field: keyof CheckoutErrors) => setErrors((e) => (e[field] ? { ...e, [field]: undefined } : e));
 
   const [locating, setLocating] = useState(false);
   const [locateError, setLocateError] = useState<string | null>(null);
@@ -86,6 +91,18 @@ export function CartDrawer() {
     if (!customerInfo.phone && profile.phone) patch.phone = profile.phone;
     if (Object.keys(patch).length > 0) setCustomerInfo(patch);
   }, [isLoggedIn, profile, customerInfo.name, customerInfo.phone, setCustomerInfo]);
+
+  // Telefonun Geri tuşu siteden çıkarmak yerine çekmeceyi kapatsın
+  useEffect(() => {
+    if (!isOpen) return;
+    window.history.pushState({ ekmeklabCart: true }, "");
+    const onPop = () => closeCart();
+    window.addEventListener("popstate", onPop);
+    return () => {
+      window.removeEventListener("popstate", onPop);
+      if ((window.history.state as { ekmeklabCart?: boolean } | null)?.ekmeklabCart) window.history.back();
+    };
+  }, [isOpen, closeCart]);
 
   // ESC ile kapat
   useEffect(() => {
@@ -131,7 +148,7 @@ export function CartDrawer() {
   const hasLocation = typeof customerInfo.customerLat === "number" && typeof customerInfo.customerLng === "number";
   const addressIsSaved = addresses.some(
     (a) => a.addressDetail.trim() === customerInfo.addressDetail.trim() &&
-      a.neighborhood.replace(/s+Mah(.|allesi)?$/i, "").trim() === customerInfo.neighborhood
+      stripMah(a.neighborhood) === customerInfo.neighborhood
   );
   const canSaveAddress = isLoggedIn && !addressIsSaved && customerInfo.addressDetail.trim().length >= 5 && Boolean(customerInfo.neighborhood);
 
@@ -168,17 +185,17 @@ export function CartDrawer() {
             <div>
               <div className="font-serif text-base font-bold text-espresso flex items-center gap-2">
                 <span>Sepetim</span>
-                <span className="text-[11px] font-sans px-2.5 py-0.5 rounded-full bg-linen-subtle text-espresso border border-linen-border font-medium">
+                <span className="text-xs font-sans px-2.5 py-0.5 rounded-full bg-linen-subtle text-espresso border border-linen-border font-medium">
                   {itemCount} Ürün
                 </span>
               </div>
-              <div className="text-[10px] font-sans text-espresso-wheat">EkmekLab Taze Fırın Çıkışı</div>
+              <div className="text-xs font-sans text-espresso-wheat">EkmekLab Taze Fırın Çıkışı</div>
             </div>
           </div>
           <button
             onClick={closeCart}
             aria-label="Sepeti kapat"
-            className="p-2 rounded-lg touch-target-44 text-espresso-muted hover:text-espresso hover:bg-linen-subtle transition-colors"
+            className="p-2 rounded-lg touch-target-44 text-espresso-wheat hover:text-espresso hover:bg-linen-subtle transition-colors"
           >
             <X className="w-5 h-5" />
           </button>
@@ -195,7 +212,7 @@ export function CartDrawer() {
 
           {items.length === 0 ? (
             <div className="h-full flex flex-col items-center justify-center text-center py-16 space-y-4">
-              <div className="w-16 h-16 rounded-2xl bg-linen-surface border border-linen-border flex items-center justify-center text-espresso-muted shadow-2xs">
+              <div className="w-16 h-16 rounded-2xl bg-linen-surface border border-linen-border flex items-center justify-center text-espresso-wheat shadow-2xs">
                 <ShoppingBag className="w-8 h-8" />
               </div>
               <div className="space-y-1">
@@ -247,7 +264,7 @@ export function CartDrawer() {
 
               {/* Teslimat */}
               <div className="space-y-1.5">
-                <div className="text-[11px] font-sans font-semibold text-artisan-terracotta uppercase tracking-wider">
+                <div className="text-xs font-sans font-semibold text-artisan-terracotta uppercase tracking-wider">
                   Teslimat
                 </div>
                 <div className="p-3 rounded-xl bg-linen-surface border border-linen-border flex items-center gap-2.5 shadow-2xs">
@@ -256,7 +273,7 @@ export function CartDrawer() {
                   </div>
                   <div>
                     <div className="font-bold text-xs text-espresso">Beylikdüzü içi kapıya teslim</div>
-                    <div className="text-[10px] text-espresso-wheat">
+                    <div className="text-xs text-espresso-wheat">
                       Teslimat saati: {settings.deliveryWindow}
                     </div>
                   </div>
@@ -265,9 +282,9 @@ export function CartDrawer() {
 
               {/* Teslim günü */}
               <div className="space-y-2">
-                <div className="text-[11px] font-sans font-semibold text-artisan-terracotta uppercase tracking-wider flex items-center justify-between">
+                <div className="text-xs font-sans font-semibold text-artisan-terracotta uppercase tracking-wider flex items-center justify-between">
                   <span>Teslim Günü</span>
-                  <span className="text-[10px] text-espresso-wheat font-normal normal-case">
+                  <span className="text-xs text-espresso-wheat font-normal normal-case">
                     Aynı gün için son sipariş {settings.orderCutoffTime}
                   </span>
                 </div>
@@ -282,7 +299,7 @@ export function CartDrawer() {
                   </div>
                 ) : (
                   <>
-                    <div className="flex flex-wrap gap-1.5" role="radiogroup" aria-label="Teslim günü">
+                    <div id="checkout-dates" className="flex flex-wrap gap-1.5" role="radiogroup" aria-label="Teslim günü">
                       {dates.map((d) => {
                         const selected = d.available && customerInfo.deliveryDate === d.date;
                         return (
@@ -294,10 +311,14 @@ export function CartDrawer() {
                             aria-disabled={!d.available}
                             disabled={!d.available}
                             title={d.reason ?? undefined}
-                            onClick={() => d.available && setCustomerInfo({ deliveryDate: d.date })}
+                            onClick={() => {
+                              if (!d.available) return;
+                              setCustomerInfo({ deliveryDate: d.date });
+                              clearError("deliveryDate");
+                            }}
                             className={`px-3 py-2 rounded-xl border font-sans text-xs transition-all ${
                               !d.available
-                                ? "bg-linen-subtle/50 border-linen-border/50 text-espresso-muted/50 line-through cursor-not-allowed"
+                                ? "bg-linen-subtle/50 border-linen-border/50 text-espresso-wheat/50 line-through cursor-not-allowed"
                                 : selected
                                 ? "bg-artisan-terracotta text-white font-semibold border-artisan-terracotta shadow-xs"
                                 : "bg-linen-surface border-linen-border text-espresso-wheat hover:text-espresso"
@@ -309,7 +330,7 @@ export function CartDrawer() {
                       })}
                     </div>
                     {unavailableReasons.length > 0 && (
-                      <ul className="text-[10px] text-espresso-wheat space-y-0.5">
+                      <ul className="text-xs text-espresso-wheat space-y-0.5">
                         {unavailableReasons.slice(0, 3).map((r) => (
                           <li key={r}>• {r}</li>
                         ))}
@@ -318,7 +339,7 @@ export function CartDrawer() {
                     {(() => {
                       const sel = dates.find((d) => d.date === customerInfo.deliveryDate);
                       return sel && sel.remainingCapacity !== null && sel.remainingCapacity <= 10 ? (
-                        <div className="text-[10px] text-artisan-terracotta font-semibold">
+                        <div className="text-xs text-artisan-terracotta font-semibold">
                           Bu gün için son {sel.remainingCapacity} ekmeklik yer kaldı
                         </div>
                       ) : null;
@@ -329,7 +350,7 @@ export function CartDrawer() {
 
               {/* Ürünler */}
               <div className="space-y-3">
-                <div className="text-[11px] font-sans font-semibold text-artisan-terracotta uppercase tracking-wider">
+                <div className="text-xs font-sans font-semibold text-artisan-terracotta uppercase tracking-wider">
                   Seçilen Ürünler
                 </div>
                 <div className="space-y-2.5">
@@ -346,7 +367,7 @@ export function CartDrawer() {
                       />
                       <div className="flex-1 min-w-0">
                         <div className="font-serif font-bold text-xs sm:text-sm text-espresso truncate">{item.name}</div>
-                        <div className="text-[10px] font-sans text-espresso-wheat mt-0.5">
+                        <div className="text-xs font-sans text-espresso-wheat mt-0.5">
                           {item.weight}gr · {formatTl(item.price)}
                         </div>
                         <div className="font-serif text-sm font-bold text-espresso mt-1">
@@ -358,7 +379,7 @@ export function CartDrawer() {
                           type="button"
                           onClick={() => removeItem(item.productId)}
                           aria-label={`${item.name} ürününü sepetten çıkar`}
-                          className="touch-target-44 text-espresso-muted hover:text-red-500 transition-colors p-1"
+                          className="touch-target-44 text-espresso-wheat hover:text-red-500 transition-colors p-1"
                         >
                           <Trash2 className="w-3.5 h-3.5" />
                         </button>
@@ -390,7 +411,7 @@ export function CartDrawer() {
               {/* Birlikte iyi gider (admin'in seçtiği öneriler) */}
               {suggestions.length > 0 && (
                 <div className="space-y-2">
-                  <div className="text-[11px] font-sans font-semibold text-artisan-terracotta uppercase tracking-wider">
+                  <div className="text-xs font-sans font-semibold text-artisan-terracotta uppercase tracking-wider">
                     Birlikte iyi gider
                   </div>
                   <div className="flex flex-wrap gap-1.5">
@@ -399,7 +420,7 @@ export function CartDrawer() {
                         key={p.id}
                         type="button"
                         onClick={() => addItem(p, null, 1)}
-                        className="px-2.5 py-1.5 rounded-lg bg-linen-subtle hover:bg-linen-surface text-espresso border border-linen-border text-[11px] font-sans flex items-center gap-1"
+                        className="px-2.5 py-1.5 rounded-lg bg-linen-subtle hover:bg-linen-surface text-espresso border border-linen-border text-xs font-sans flex items-center gap-1"
                       >
                         <Plus className="w-3 h-3" />
                         <span>
@@ -414,11 +435,11 @@ export function CartDrawer() {
               {/* Müşteri ve adres */}
               <div className="space-y-3 pt-2 border-t border-linen-border">
                 <div className="flex items-center justify-between">
-                  <div className="text-[11px] font-sans font-semibold text-artisan-terracotta uppercase tracking-wider">
+                  <div className="text-xs font-sans font-semibold text-artisan-terracotta uppercase tracking-wider">
                     Teslimat & İletişim Bilgileri
                   </div>
                   {isLoggedIn ? (
-                    <span className="text-[10px] font-sans text-emerald-600 font-medium flex items-center gap-1">
+                    <span className="text-xs font-sans text-emerald-600 font-medium flex items-center gap-1">
                       <Sparkles className="w-3 h-3" />
                       <span>Müdavim Üye</span>
                     </span>
@@ -426,7 +447,7 @@ export function CartDrawer() {
                     <button
                       type="button"
                       onClick={() => openAuthModal()}
-                      className="text-[10px] font-sans text-artisan-terracotta hover:underline font-bold"
+                      className="text-xs font-sans text-artisan-terracotta hover:underline font-bold"
                     >
                       Giriş Yap
                     </button>
@@ -435,7 +456,7 @@ export function CartDrawer() {
 
                 {isLoggedIn && addresses.length > 0 && (
                   <div className="p-2.5 rounded-xl bg-linen-surface border border-linen-border space-y-1.5">
-                    <div className="text-[10px] font-sans text-espresso-wheat">Kayıtlı adresleriniz:</div>
+                    <div className="text-xs font-sans text-espresso-wheat">Kayıtlı adresleriniz:</div>
                     <div className="flex flex-wrap gap-1.5">
                       {addresses.map((addr) => (
                         <button
@@ -443,11 +464,11 @@ export function CartDrawer() {
                           type="button"
                           onClick={() =>
                             setCustomerInfo({
-                              neighborhood: addr.neighborhood.replace(/\s+Mah(\.|allesi)?$/i, "").trim(),
+                              neighborhood: stripMah(addr.neighborhood),
                               addressDetail: addr.addressDetail,
                             })
                           }
-                          className={`px-2.5 py-1 rounded-lg text-[11px] font-sans border transition-all flex items-center gap-1 ${
+                          className={`px-2.5 py-1 rounded-lg text-xs font-sans border transition-all flex items-center gap-1 ${
                             customerInfo.addressDetail === addr.addressDetail
                               ? "bg-artisan-terracotta-soft text-artisan-terracotta border-artisan-terracotta/40 font-bold shadow-2xs"
                               : "bg-linen-subtle border-linen-border text-espresso-wheat hover:text-espresso"
@@ -464,7 +485,7 @@ export function CartDrawer() {
                 <div className="space-y-2.5 font-sans">
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                     <div>
-                      <label htmlFor="checkout-customer-name" className="block text-[10px] text-espresso-wheat mb-1">
+                      <label htmlFor="checkout-customer-name" className="block text-xs text-espresso-wheat mb-1">
                         Adınız Soyadınız *
                       </label>
                       <div className="relative">
@@ -474,14 +495,24 @@ export function CartDrawer() {
                           type="text"
                           autoComplete="name"
                           value={customerInfo.name}
-                          onChange={(e) => setCustomerInfo({ name: e.target.value })}
+                          onChange={(e) => {
+                            setCustomerInfo({ name: e.target.value });
+                            clearError("name");
+                          }}
+                          aria-invalid={Boolean(errors.name)}
+                          enterKeyHint="next"
                           placeholder="Ad Soyad"
-                          className="w-full pl-8 pr-2.5 py-2 rounded-xl bg-linen-surface border border-linen-border text-xs text-espresso focus:border-artisan-terracotta focus:ring-1 focus:ring-artisan-terracotta outline-none"
+                          className="w-full pl-8 pr-2.5 py-2 rounded-xl bg-linen-surface border border-linen-border text-base text-espresso focus:border-artisan-terracotta focus:ring-1 focus:ring-artisan-terracotta outline-none"
                         />
+                        {errors.name && (
+                          <p role="alert" className="mt-1 text-xs text-red-700">
+                            {errors.name}
+                          </p>
+                        )}
                       </div>
                     </div>
                     <div>
-                      <label htmlFor="checkout-customer-phone" className="block text-[10px] text-espresso-wheat mb-1">
+                      <label htmlFor="checkout-customer-phone" className="block text-xs text-espresso-wheat mb-1">
                         Cep Telefonu *
                       </label>
                       <div className="relative">
@@ -492,23 +523,38 @@ export function CartDrawer() {
                           inputMode="tel"
                           autoComplete="tel"
                           value={customerInfo.phone}
-                          onChange={(e) => setCustomerInfo({ phone: e.target.value })}
+                          onChange={(e) => {
+                            setCustomerInfo({ phone: e.target.value });
+                            clearError("phone");
+                          }}
+                          aria-invalid={Boolean(errors.phone)}
+                          enterKeyHint="next"
                           placeholder="05XX XXX XX XX"
-                          className="w-full pl-8 pr-2.5 py-2 rounded-xl bg-linen-surface border border-linen-border text-xs text-espresso focus:border-artisan-terracotta focus:ring-1 focus:ring-artisan-terracotta outline-none"
+                          className="w-full pl-8 pr-2.5 py-2 rounded-xl bg-linen-surface border border-linen-border text-base text-espresso focus:border-artisan-terracotta focus:ring-1 focus:ring-artisan-terracotta outline-none"
                         />
+                        {errors.phone && (
+                          <p role="alert" className="mt-1 text-xs text-red-700">
+                            {errors.phone}
+                          </p>
+                        )}
                       </div>
                     </div>
                   </div>
 
                   <div>
-                    <label htmlFor="checkout-neighborhood" className="block text-[10px] text-espresso-wheat mb-1">
+                    <label htmlFor="checkout-neighborhood" className="block text-xs text-espresso-wheat mb-1">
                       Beylikdüzü Mahallesi *
                     </label>
                     <select
                       id="checkout-neighborhood"
                       value={customerInfo.neighborhood}
-                      onChange={(e) => setCustomerInfo({ neighborhood: e.target.value })}
-                      className="w-full px-2.5 py-2 rounded-xl bg-linen-surface border border-linen-border text-xs text-espresso focus:border-artisan-terracotta focus:ring-1 focus:ring-artisan-terracotta outline-none"
+                      onChange={(e) => {
+                        setCustomerInfo({ neighborhood: e.target.value });
+                        clearError("neighborhood");
+                      }}
+                      aria-invalid={Boolean(errors.neighborhood)}
+                      autoComplete="address-level3"
+                      className="w-full px-2.5 py-2 rounded-xl bg-linen-surface border border-linen-border text-base text-espresso focus:border-artisan-terracotta focus:ring-1 focus:ring-artisan-terracotta outline-none"
                     >
                       <option value="">Mahalle seçin…</option>
                       {settings.neighborhoods.map((nh) => (
@@ -517,10 +563,15 @@ export function CartDrawer() {
                         </option>
                       ))}
                     </select>
+                    {errors.neighborhood && (
+                      <p role="alert" className="mt-1 text-xs text-red-700">
+                        {errors.neighborhood}
+                      </p>
+                    )}
                   </div>
 
                   <div>
-                    <label htmlFor="checkout-address-detail" className="block text-[10px] text-espresso-wheat mb-1">
+                    <label htmlFor="checkout-address-detail" className="block text-xs text-espresso-wheat mb-1">
                       Açık Adres (Cadde / Sokak / Bina / Daire) *
                     </label>
                     <textarea
@@ -528,13 +579,22 @@ export function CartDrawer() {
                       rows={2}
                       autoComplete="street-address"
                       value={customerInfo.addressDetail}
-                      onChange={(e) => setCustomerInfo({ addressDetail: e.target.value })}
+                      onChange={(e) => {
+                        setCustomerInfo({ addressDetail: e.target.value });
+                        clearError("addressDetail");
+                      }}
+                      aria-invalid={Boolean(errors.addressDetail)}
                       placeholder="Örn: Çiftlik Cad. No: 14 D: 6"
-                      className="w-full px-2.5 py-1.5 rounded-xl bg-linen-surface border border-linen-border text-xs text-espresso focus:border-artisan-terracotta focus:ring-1 focus:ring-artisan-terracotta outline-none resize-none"
+                      className="w-full px-2.5 py-1.5 rounded-xl bg-linen-surface border border-linen-border text-base text-espresso focus:border-artisan-terracotta focus:ring-1 focus:ring-artisan-terracotta outline-none resize-none"
                     />
+                    {errors.addressDetail && (
+                      <p role="alert" className="mt-1 text-xs text-red-700">
+                        {errors.addressDetail}
+                      </p>
+                    )}
                     <div className="mt-1.5 flex items-center justify-between gap-2">
                       {hasLocation ? (
-                        <span className="text-[10px] text-emerald-600 flex items-center gap-1">
+                        <span className="text-xs text-emerald-600 flex items-center gap-1">
                           <CheckCircle2 className="w-3 h-3" /> Konumunuz kuryeye iletilecek
                           <button
                             type="button"
@@ -549,7 +609,7 @@ export function CartDrawer() {
                           type="button"
                           disabled={locating}
                           onClick={handleGetLocation}
-                          className="text-[10px] font-semibold text-artisan-terracotta flex items-center gap-1 disabled:opacity-50"
+                          className="text-xs font-semibold text-artisan-terracotta flex items-center gap-1 disabled:opacity-50"
                           title="Kuryenin kapınızı kolay bulması için konumunuzu siparişe ekler (isteğe bağlı)"
                         >
                           {locating ? <Loader2 className="w-3 h-3 animate-spin" /> : <Navigation className="w-3 h-3" />}
@@ -557,9 +617,9 @@ export function CartDrawer() {
                         </button>
                       )}
                     </div>
-                    {locateError && <div className="text-[10px] text-amber-700 mt-1">{locateError}</div>}
+                    {locateError && <div className="text-xs text-amber-700 mt-1">{locateError}</div>}
                     {canSaveAddress && (
-                      <label className="mt-1.5 flex items-center gap-2 text-[11px] text-espresso-wheat cursor-pointer">
+                      <label className="mt-1.5 flex items-center gap-2 text-xs text-espresso-wheat cursor-pointer">
                         <input
                           type="checkbox"
                           checked={saveThisAddress}
@@ -572,7 +632,7 @@ export function CartDrawer() {
                   </div>
 
                   <div>
-                    <label htmlFor="checkout-order-note" className="block text-[10px] text-espresso-wheat mb-1">
+                    <label htmlFor="checkout-order-note" className="block text-xs text-espresso-wheat mb-1">
                       Sipariş Notu (İsteğe bağlı)
                     </label>
                     <input
@@ -582,8 +642,50 @@ export function CartDrawer() {
                       value={customerInfo.note || ""}
                       onChange={(e) => setCustomerInfo({ note: e.target.value })}
                       placeholder="Örn: Zili çalmayınız, kapıya asınız."
-                      className="w-full px-2.5 py-2 rounded-xl bg-linen-surface border border-linen-border text-xs text-espresso focus:border-artisan-terracotta focus:ring-1 focus:ring-artisan-terracotta outline-none"
+                      className="w-full px-2.5 py-2 rounded-xl bg-linen-surface border border-linen-border text-base text-espresso focus:border-artisan-terracotta focus:ring-1 focus:ring-artisan-terracotta outline-none"
                     />
+                  </div>
+                </div>
+              </div>
+
+              {/* Ödeme yöntemi + özet */}
+              <div className="space-y-2 pt-2 border-t border-linen-border">
+                <div className="text-xs font-sans font-semibold text-artisan-terracotta uppercase tracking-wider">
+                  Ödeme (teslimatta)
+                </div>
+                <div className="grid grid-cols-2 gap-2" role="radiogroup" aria-label="Ödeme yöntemi">
+                  {(
+                    [
+                      ["cash_on_delivery", "Kapıda nakit"],
+                      ["pos_at_door", "Kapıda kart"],
+                    ] as const
+                  ).map(([value, label]) => (
+                    <button
+                      key={value}
+                      type="button"
+                      role="radio"
+                      aria-checked={paymentMethod === value}
+                      onClick={() => setPaymentMethod(value)}
+                      className={`touch-target-44 py-3 rounded-xl border font-sans text-sm transition-all ${
+                        paymentMethod === value
+                          ? "bg-artisan-terracotta-soft border-artisan-terracotta text-espresso font-semibold"
+                          : "bg-linen-surface border-linen-border text-espresso-wheat"
+                      }`}
+                    >
+                      {label}
+                    </button>
+                  ))}
+                </div>
+                <div className="space-y-1 font-sans text-sm text-espresso-wheat pt-1">
+                  <div className="flex items-center justify-between">
+                    <span>Ara toplam</span>
+                    <span className="text-espresso font-serif font-bold">{formatTl(subtotal)}</span>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span>Teslimat</span>
+                    <span className={shippingFee === 0 ? "text-emerald-700 font-bold" : "text-espresso"}>
+                      {shippingFee === 0 ? "ÜCRETSİZ" : formatTl(shippingFee)}
+                    </span>
                   </div>
                 </div>
               </div>
@@ -593,25 +695,20 @@ export function CartDrawer() {
 
         {/* Footer */}
         {items.length > 0 && (
-          <div className="p-4 sm:p-5 border-t border-linen-border bg-linen-surface space-y-3">
-            <div className="space-y-1.5 font-sans text-xs text-espresso-wheat">
-              <div className="flex items-center justify-between">
-                <span>Ara Toplam</span>
-                <span className="text-espresso font-serif font-bold">{formatTl(subtotal)}</span>
-              </div>
-              <div className="flex items-center justify-between">
-                <span>Teslimat</span>
-                <span className={shippingFee === 0 ? "text-emerald-600 font-bold" : "text-espresso"}>
-                  {shippingFee === 0 ? "ÜCRETSİZ" : formatTl(shippingFee)}
-                </span>
-              </div>
-              <div className="flex items-center justify-between pt-2 border-t border-linen-border font-bold text-sm text-espresso">
-                <span className="font-serif">GENEL TOPLAM</span>
-                <span className="text-lg font-serif text-artisan-terracotta">{formatTl(totalAmount)}</span>
-              </div>
+          <div
+            className="px-4 sm:px-5 pt-3 border-t border-linen-border bg-linen-surface space-y-2"
+            style={{ paddingBottom: "calc(env(safe-area-inset-bottom, 0px) + 0.75rem)" }}
+          >
+            <div className="flex items-center justify-between font-bold text-espresso">
+              <span className="font-serif text-sm">GENEL TOPLAM</span>
+              <span className="text-lg font-serif text-artisan-terracotta">{formatTl(totalAmount)}</span>
             </div>
 
             <CheckoutActions
+              paymentMethod={paymentMethod}
+              totalAmount={totalAmount}
+              errors={errors}
+              onErrors={setErrors}
               minBasketShortfall={minBasketShortfall}
               orderingBlockedReason={orderingBlockedReason}
               onDatesStale={() => void reloadDates()}
@@ -629,7 +726,7 @@ function ProgressRow({ text, goal, ratio }: { text: React.ReactNode; goal: strin
     <>
       <div className="flex items-center justify-between text-xs gap-2">
         <span className="text-espresso-wheat font-medium">{text}</span>
-        <span className="text-[10px] font-sans text-espresso-muted shrink-0">{goal}</span>
+        <span className="text-xs font-sans text-espresso-wheat shrink-0">{goal}</span>
       </div>
       <div className="w-full h-2 rounded-full bg-linen-subtle overflow-hidden border border-linen-border">
         <div
