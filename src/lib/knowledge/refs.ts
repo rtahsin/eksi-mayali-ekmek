@@ -7,6 +7,8 @@ export interface ContentRef {
   conceptIds: readonly string[];
   mediaIds: readonly string[];
   text?: string;
+  summary?: string;
+  levels?: readonly (1 | 2 | 3)[];
 }
 
 export interface GraphIssue {

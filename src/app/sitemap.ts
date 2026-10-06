@@ -1,6 +1,6 @@
 import { MetadataRoute } from "next";
 import { getCatalog } from "@/lib/products/server";
-import { JOURNAL_ARTICLES } from "@/data/journalArticles";
+import { articleIndex } from "@/lib/editorial";
 import { getProductSlug } from "@/lib/utils/slugify";
 import { SITE_URL } from "@/lib/site";
 
@@ -44,13 +44,15 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     },
   ];
 
-  // 2. Journal Library Articles
-  const journalRoutes: MetadataRoute.Sitemap = JOURNAL_ARTICLES.map((art) => ({
-    url: `${baseUrl}/kutuphane/${art.slug}`,
-    lastModified: art.publishedDate ? new Date(art.publishedDate) : now,
-    changeFrequency: "monthly",
-    priority: 0.7,
-  }));
+  // 2. Journal Library Articles (from articleIndex)
+  const journalRoutes: MetadataRoute.Sitemap = articleIndex()
+    .filter((art) => art.status !== "arsiv")
+    .map((art) => ({
+      url: `${baseUrl}/kutuphane/${art.slug}`,
+      lastModified: art.publishedAt ? new Date(art.publishedAt) : now,
+      changeFrequency: "monthly",
+      priority: 0.7,
+    }));
 
   // 3. Dynamic Products
   const { products } = await getCatalog();

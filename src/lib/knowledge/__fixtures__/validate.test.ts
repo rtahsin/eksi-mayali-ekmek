@@ -140,6 +140,27 @@ describe("Knowledge Graph Validation Rules (K-Codes)", () => {
     expect(k011?.severity).toBe("error");
   });
 
+  it("K009: yazı özeti 160 karakteri aştığında veya levels boş olduğunda hata verir", () => {
+    const graph = createGoodGraph();
+    const badArticleRefs: ContentRef[] = [
+      {
+        kind: "yazi",
+        id: "uzun-yazi",
+        status: "taslak",
+        surface: "icerik",
+        claimIds: [],
+        conceptIds: [],
+        mediaIds: [],
+        summary: "Bu çok uzun bir özet metnidir. ".repeat(10), // > 160 karakter
+        levels: [], // Boş levels
+      },
+    ];
+
+    const issues = validateGraph(graph, badArticleRefs);
+    const k009Issues = issues.filter((i) => i.code === "K009");
+    expect(k009Issues.length).toBeGreaterThanOrEqual(2);
+  });
+
   describe("Tip Düzeyi Doğrulama (Compile-Time / Type Safety)", () => {
     it("kopuk ClaimId derleme anında yakalanır ve @ts-expect-error zorunludur", () => {
       // @ts-expect-error Kopuk ClaimId derleme anında yakalanmalıdır

@@ -61,5 +61,7 @@ export const goodRefs: ContentRef[] = [
     claimIds: ["claim_ph_drop"],
     conceptIds: ["fermentasyon"],
     mediaIds: [],
+    summary: "Geçerli bir araştırma yazısı özeti.",
+    levels: [1, 2],
   },
 ];
