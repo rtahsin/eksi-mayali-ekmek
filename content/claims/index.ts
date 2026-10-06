@@ -171,7 +171,11 @@ export const claims = defineClaims({
     ],
     status: "dogrulandi",
     confidence: "yuksek",
-    review: null,
+    review: {
+      by: "tahsin",
+      at: "2026-10-06",
+      hash: "f4e06712e9d9",
+    },
   },
 
   claim_starch_gelatinization: {
@@ -209,7 +213,11 @@ export const claims = defineClaims({
     ],
     status: "dogrulandi",
     confidence: "yuksek",
-    review: null,
+    review: {
+      by: "tahsin",
+      at: "2026-10-06",
+      hash: "69bbf2ba1c5e",
+    },
   },
 
   claim_amylase_activity: {
@@ -457,7 +465,11 @@ export const claims = defineClaims({
     ],
     status: "dogrulandi",
     confidence: "yuksek",
-    review: null,
+    review: {
+      by: "tahsin",
+      at: "2026-10-06",
+      hash: "72f2f8961904",
+    },
   },
 
   claim_ddt_control: {
