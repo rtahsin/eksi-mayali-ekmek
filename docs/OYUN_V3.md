@@ -156,7 +156,7 @@ Yapıldı:
 - **Defter** — 35 kart (canlılar, moleküller, olaylar, efsaneler, tarih), üç katman (usta sözü → Neden? → Bilim + kaynak). 13 tahmin sorusu, Sezgi puanı.
 
 Sırada:
-- Gece Yarısı (çavdar) bölümü: motorda pentozan/amilaz parametreleri hazır; akış ve Tahsin'in reçetesi bekleniyor.
+- ~~Gece Yarısı~~ → yapıldı (6 Ekim): Tahsin'in tarifi, `engine/rye.ts` + `chapters/RyeChapter.tsx`, docs/OYUN.md §11, BILIM.md §12.
 - Deney tezgâhı (serbest deney + görevler), ustalaşılan aşamalar için "hızlı mod".
 - Prolog dalışı (ekmek kesitinden hücreye yakınlaşma animasyonu) — şimdilik kapıdan sonra tek büyüteç görüntüsü.
 - Paylaşım kartına maya adı ve biyografi grafiği.

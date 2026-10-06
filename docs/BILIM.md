@@ -159,3 +159,17 @@ Tam tahıl (tam buğday, siyez, çavdar) daha çok enzim, besin ve mikrop getiri
 | 20 dk buhar + 20 dk buharsız | **Doğru.** Kabarma ilk yarıda biter, sonra kabuk renk alır |
 | Köy 3 sa, siyez ~1 gün, çavdar 2 gün bekletip kesmek | **Doğru.** Nişasta oturması/retrogradasyon; çavdarda 24–48 sa |
 | Dolap 4 °C (ya da önce 12 °C) | **Doğru.** 4 °C'de maya neredeyse durur, bakteri asidi ve aroma sürer |
+
+## 12. Gece Yarısı — bilim ne diyor?
+
+| Pratik | Değerlendirme |
+|---|---|
+| Kaynar suyla haşlama, ~1 gün | **Doğru.** Kaynar su o kısmın enzimlerini söndürür (amilaz 82–90 °C'de söner, §5) ve nişastanın bir kısmını önceden jelleştirir (§7: ~60–82 °C) → jel suyu tutar, ekmek uzun süre nemli kalır. Karışım soğurken amilazın en etkin olduğu 60–70 °C'den geçer; nişastanın bir kısmı şekere döner → tatlılık. Keten müsilajı da suyu bağlar. *(Bu çıkarım §5 ve §7'deki kaynaklı sıcaklıklardan yapılmıştır.)* |
+| 1500 g çavdar ekşi mayası | **Doğru ve şart.** Çavdarda amilaz bol, nişasta düşük sıcaklıkta jelleşir; asit amilazı frenlemezse fırında "nişasta saldırısı" olur, iç yapışır (§8). |
+| Yoğurmamak | **Doğru.** Çavdar gluten ağı kurmaz; yapıyı pentozan jeli taşır (§8). Yoğurmak kazandırmaz. |
+| Islak elle haşhaşa bulamak | **Doğru.** Kuru yüzeye tohum tutunmaz; su yapıştırıcıdır. |
+| Üstte yarıklar belirene dek mayalandırmak | **Doğru.** Çavdarda parmak testi yerine yüzey çatlakları kullanılır; ağ olmadığı için gaz yüzeyi gerer ve çatlatır. |
+| Dolapta üstü kapalı | **Doğru.** Açık yüzey kurur, kabuk derisi çatlar; 4 °C'de maya durur, bakteri asidi sürer (§1). |
+| Düşen fırın, ~2 saat, buhar tahliyesi | **Doğru.** Yoğun, büyük kalıp ekmeğinde iç yavaş ısınır; sabit yüksek ısıda üst yanar. Tahliye nemi atar, kabuk kurur ve renk alır (§7). |
+| Ters çevirip altı kurutmak | **Doğru.** Kalıpta kalan alt yüz buharda kalır; açıkta kısa pişme alt kabuğu bağlar. |
+| Streçte 1–2 gün | **Doğru.** İç jel ve nişastayla tutunur; nem dağılması ve oturma 24–48 sa sürer (§8). |

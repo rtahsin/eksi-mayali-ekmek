@@ -118,7 +118,7 @@ export interface MatrixParams {
 export const MATRIX: Record<Matrix, MatrixParams> = {
   bugday: { glutenCapacity: 1, glutenRobust: 1, gelStart: 60, gelEnd: 80, amylaseOff: 84, ovenAmylase: 0.35, fermentBoost: 1, buffer: 0.8 },
   siyez: { glutenCapacity: 0.66, glutenRobust: 0.7, gelStart: 60, gelEnd: 80, amylaseOff: 84, ovenAmylase: 0.4, fermentBoost: 1.12, buffer: 0.85 },
-  cavdar: { glutenCapacity: 0.12, glutenRobust: 0.5, gelStart: 52, gelEnd: 70, amylaseOff: 90, ovenAmylase: 1, fermentBoost: 1.1, buffer: 1.1 },
+  cavdar: { glutenCapacity: 0.12, glutenRobust: 0.5, gelStart: 52, gelEnd: 70, amylaseOff: 90, ovenAmylase: 1, fermentBoost: 1.1, buffer: 0.8 },
 };
 
 /** Laktik asidin pKa'sı 3,86; asetiğin 4,76 (ayrışmamış asit, hücre zarından geçip içeriden zarar verir) */

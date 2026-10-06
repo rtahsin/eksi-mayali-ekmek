@@ -8,13 +8,15 @@ import { ScaleArt, ThermometerArt } from "../art";
 import { DoughBlob } from "../DoughBlob";
 import { Btn, C, Feedback, Readout, StageTitle, Tahsin, mono } from "../ui";
 import { usePour } from "../usePour";
+import { Nudge } from "../Nudge";
 import type { StageProps } from "./types";
 
 /** Hamur: istenen hamur sıcaklığı hesabı (DDT), suyu dök, tuzun zamanı, otoliz */
 export function MixStage({ d, set, level, done }: StageProps) {
   const [phase, setPhase] = useState<"isi" | "su" | "tuz" | "tuzTart" | "otoliz">("isi");
   const [waterT, setWaterT] = useState(20);
-  const water = usePour(700, 4000);
+  // 400 g/sn: hedef aralık (~160 g) yaklaşık 0,4 sn; kaçarsa ince ayar düğmeleri var
+  const water = usePour(400, 4000);
   const salt = usePour(40, 200);
   const [autolyse, setAutolyse] = useState(0);
 
@@ -102,6 +104,7 @@ export function MixStage({ d, set, level, done }: StageProps) {
           >
             {water.pouring ? "Su dökülüyor…" : "Basılı tut: suyu dök"}
           </button>
+          <Nudge onNudge={water.nudge} step={25} />
           <div className="grid grid-cols-2 gap-3">
             <Btn variant="ghost" onClick={water.reset} disabled={water.grams === 0}>
               Boşalt
@@ -162,6 +165,7 @@ export function MixStage({ d, set, level, done }: StageProps) {
           >
             {salt.pouring ? "Tuz dökülüyor…" : "Basılı tut: tuzu dök"}
           </button>
+          <Nudge onNudge={salt.nudge} step={5} />
           <div className="grid grid-cols-2 gap-3">
             <Btn variant="ghost" onClick={salt.reset} disabled={salt.grams === 0 || salt.pouring}>
               Boşalt
