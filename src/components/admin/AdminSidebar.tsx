@@ -40,26 +40,26 @@ export function AdminSidebar({ isOpen, onClose, pendingOrderCount = 0 }: AdminSi
   const pathname = usePathname();
   const { adminUser } = useAdminAuth();
   
-  const userRole = adminUser?.role || "support";
+  const userRole = adminUser?.role || "staff";
 
   // Faz 3a: günlük iş akışına göre sade menü (finans/tedarikçi/dağıtım ekranları kaldırıldı)
   const navItems: NavItem[] = [
-    { label: "Bugün", href: "/admin", icon: LayoutDashboard, roles: ["superadmin", "admin", "support", "editor"], exact: true },
+    { label: "Bugün", href: "/admin", icon: LayoutDashboard, roles: ["superadmin", "admin", "staff"], exact: true },
     {
       label: "Siparişler",
       href: "/admin/siparisler",
       icon: ShoppingBag,
       badge: pendingOrderCount > 0 ? pendingOrderCount : undefined,
-      roles: ["superadmin", "admin", "support", "editor"],
+      roles: ["superadmin", "admin", "staff"],
     },
-    { label: "Teslimat", href: "/kurye", icon: Truck, roles: ["superadmin", "admin", "support", "editor"] },
-    { label: "Üretim", href: "/admin/uretim", icon: Flame, roles: ["superadmin", "admin", "support", "editor"] },
-    { label: "Etiket Baskı", href: "/admin/baski", icon: Printer, roles: ["superadmin", "admin", "support", "editor"] },
-    { label: "Ürünler", href: "/admin/urunler", icon: Croissant, roles: ["superadmin", "admin", "support", "editor"] },
-    { label: "Cariler", href: "/admin/cariler", icon: Wallet, roles: ["superadmin", "admin", "support", "editor"] },
-    { label: "Müşteriler", href: "/admin/musteriler", icon: Users, roles: ["superadmin", "admin", "support", "editor"] },
-    { label: "Kütüphane", href: "/admin/kutuphane", icon: BookOpen, roles: ["superadmin", "admin", "support", "editor"] },
-    { label: "Ayarlar", href: "/admin/ayarlar", icon: Settings, roles: ["superadmin", "admin", "support", "editor"] },
+    { label: "Teslimat", href: "/kurye", icon: Truck, roles: ["superadmin", "admin", "staff"] },
+    { label: "Üretim", href: "/admin/uretim", icon: Flame, roles: ["superadmin", "admin", "staff"] },
+    { label: "Etiket Baskı", href: "/admin/baski", icon: Printer, roles: ["superadmin", "admin", "staff"] },
+    { label: "Ürünler", href: "/admin/urunler", icon: Croissant, roles: ["superadmin", "admin", "staff"] },
+    { label: "Cariler", href: "/admin/cariler", icon: Wallet, roles: ["superadmin", "admin", "staff"] },
+    { label: "Müşteriler", href: "/admin/musteriler", icon: Users, roles: ["superadmin", "admin", "staff"] },
+    { label: "Kütüphane", href: "/admin/kutuphane", icon: BookOpen, roles: ["superadmin", "admin", "staff"] },
+    { label: "Ayarlar", href: "/admin/ayarlar", icon: Settings, roles: ["superadmin", "admin", "staff"] },
   ];
 
   const filteredNavItems = navItems;
