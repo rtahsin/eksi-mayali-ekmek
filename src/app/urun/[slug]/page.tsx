@@ -21,7 +21,6 @@ import {
   ChevronRight,
   Flame,
   Clock,
-  Heart,
   Droplets,
   Award,
   BookOpen,
@@ -429,19 +428,6 @@ export default async function ProductDetailPage({ params }: ProductPageProps) {
                   </div>
                   <p className="text-xs sm:text-sm text-foreground/80 leading-relaxed font-sans">
                     {masterclass.technique}
-                  </p>
-                </div>
-              )}
-
-              {/* Card 3: Health & Digestion */}
-              {masterclass.healthBenefit && (
-                <div className="p-6 rounded-3xl bg-surface border border-surface-border space-y-3">
-                  <div className="flex items-center gap-2.5 text-emerald-400 font-serif font-bold text-base">
-                    <Heart className="w-5 h-5 text-emerald-400 shrink-0" />
-                    <span>Sindirim ve Beden Sağlığı Etkisi</span>
-                  </div>
-                  <p className="text-xs sm:text-sm text-foreground/80 leading-relaxed font-sans">
-                    {masterclass.healthBenefit}
                   </p>
                 </div>
               )}

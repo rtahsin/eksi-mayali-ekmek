@@ -108,6 +108,21 @@ export default function LibraryIndexPage() {
  </div>
  </header>
 
+ {/* 3. Empty State or Articles List */}
+ {filteredArticles.length === 0 ? (
+ <div className="py-16 text-center space-y-4 rounded-3xl bg-surface/40 border border-surface-border p-8 sm:p-12">
+ <div className="text-[11px] font-mono tracking-widest uppercase text-artisan-gold font-semibold">
+ BÜLTEN & KÜTÜPHANE
+ </div>
+ <h2 className="font-serif text-2xl sm:text-3xl font-semibold text-foreground">
+ Yeni araştırmalar ve bültenler yakında
+ </h2>
+ <p className="font-serif text-sm sm:text-base text-foreground/70 max-w-lg mx-auto leading-relaxed">
+ Tahıl bilimi, soğuk fermantasyon biyokimyası ve taş fırın zanaatına dair hakemli literatüre dayalı yeni araştırma dosyalarımız hazırlanıyor.
+ </p>
+ </div>
+ ) : (
+ <>
  {/* 3. Featured Lead Essay (Kutusuz, Dergi Manşeti Düzeni) */}
  {leadArticle && (selectedFilter === "all" || selectedFilter === leadArticle.category) && (
  <section className="space-y-5 pb-10 border-b border-[#2A2017]">
@@ -202,6 +217,8 @@ export default function LibraryIndexPage() {
  </div>
  </section>
 
+ </>
+ )}
  {/* 5. Minimalist Storefront Signpost */}
  <footer className="pt-10 border-t-2 border-surface-border flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left">
  <div className="space-y-0.5">
