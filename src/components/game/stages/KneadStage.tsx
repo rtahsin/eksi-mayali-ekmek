@@ -7,9 +7,12 @@ import { ScaleArt, ThermometerArt } from "../art";
 import { DoughBlob } from "../DoughBlob";
 import { Btn, C, Feedback, StageTitle, Tahsin, mono } from "../ui";
 import { usePour } from "../usePour";
+import { Nudge } from "../Nudge";
 import type { StageProps } from "./types";
 
-const BEAT_MS = 720;
+const BEAT_MS = 800;
+/** Başlamadan önce 3-2-1 (tepki ve hazırlanma payı) */
+const LEAD_MS = 2400;
 
 type Hit = "mükemmel" | "iyi" | "kaçtı";
 
@@ -19,6 +22,7 @@ function useRhythm(beats: number, onFinish: (scores: number[]) => void) {
   const [phase, setPhase] = useState(0);
   const [beat, setBeat] = useState(0);
   const [last, setLast] = useState<Hit | null>(null);
+  const [countdown, setCountdown] = useState(0);
   const t0 = useRef(0);
   const scores = useRef<number[]>([]);
   const hitBeat = useRef(-1);
@@ -29,6 +33,12 @@ function useRhythm(beats: number, onFinish: (scores: number[]) => void) {
     let raf = 0;
     const loop = (now: number) => {
       const el = now - t0.current;
+      if (el < 0) {
+        setCountdown(Math.ceil(-el / (LEAD_MS / 3)));
+        raf = requestAnimationFrame(loop);
+        return;
+      }
+      setCountdown(0);
       const b = Math.floor(el / BEAT_MS);
       if (b >= beats) {
         setActive(false);
@@ -51,7 +61,7 @@ function useRhythm(beats: number, onFinish: (scores: number[]) => void) {
     scores.current = [];
     hitBeat.current = -1;
     finished.current = false;
-    t0.current = performance.now() + 400;
+    t0.current = performance.now() + LEAD_MS;
     setLast(null);
     setActive(true);
   }, []);
@@ -63,7 +73,8 @@ function useRhythm(beats: number, onFinish: (scores: number[]) => void) {
     const b = Math.round(el / BEAT_MS) - 1;
     if (b < 0 || b >= beats || b <= hitBeat.current) return;
     const err = Math.abs(el - (b + 1) * BEAT_MS);
-    const s = err < 90 ? 1 : err < 190 ? 0.6 : 0.15;
+    // Telefonda dokunma gecikmesi ve insan tepkisi için geniş pencere
+    const s = err < 120 ? 1 : err < 240 ? 0.6 : 0.15;
     while (scores.current.length < b) scores.current.push(0);
     scores.current[b] = s;
     hitBeat.current = b;
@@ -73,7 +84,7 @@ function useRhythm(beats: number, onFinish: (scores: number[]) => void) {
     if (s === 1) buzz(15);
   }, [active, beats]);
 
-  return { active, phase, beat, last, start, tap };
+  return { active, phase, beat, last, start, tap, countdown };
 }
 
 export function KneadStage({ d, set, done }: StageProps) {
@@ -122,7 +133,12 @@ export function KneadStage({ d, set, done }: StageProps) {
           </Tahsin>
           <div className="relative w-72 h-72 mx-auto" onPointerDown={rhythm.tap} style={{ touchAction: "none" }}>
             <DoughBlob radius={82} shag={Math.max(0, 0.9 - liveQ)} sheen={0.15 + liveQ * 0.7} loft={0.45} mode="tap" />
-            {rhythm.active && (
+            {rhythm.active && rhythm.countdown > 0 && (
+              <div className="absolute inset-0 flex items-center justify-center pointer-events-none text-7xl font-black" style={{ color: C.accent }}>
+                {rhythm.countdown}
+              </div>
+            )}
+            {rhythm.active && rhythm.countdown === 0 && (
               <svg viewBox="0 0 300 300" className="absolute inset-0 pointer-events-none">
                 <circle cx="150" cy="150" r="80" fill="none" stroke={C.good} strokeWidth="3" strokeDasharray="6 6" opacity="0.8" />
                 <circle cx="150" cy="150" r={ringR} fill="none" stroke={C.accent} strokeWidth="5" opacity={0.4 + rhythm.phase * 0.6} />
@@ -180,6 +196,7 @@ export function KneadStage({ d, set, done }: StageProps) {
           >
             {salt.pouring ? "Tuz dökülüyor…" : "Basılı tut: tuzu dök"}
           </button>
+          <Nudge onNudge={salt.nudge} step={5} />
           <div className="grid grid-cols-2 gap-3">
             <Btn variant="ghost" onClick={salt.reset} disabled={salt.grams === 0 || salt.pouring}>
               Boşalt

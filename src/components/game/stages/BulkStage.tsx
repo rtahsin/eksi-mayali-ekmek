@@ -6,9 +6,9 @@ import { sfx, buzz } from "@/lib/game/audio";
 import { ClockArt } from "../art";
 import { DoughBlob } from "../DoughBlob";
 import { Btn, C, Feedback, StageTitle, Tahsin, mono } from "../ui";
+import { ClockControls, useClock } from "../useClock";
 import type { StageProps } from "./types";
 
-const TICK_MS = 1100; // her tık = yarım saat
 const MAX_H = 5;
 
 /** Kabarmayı cetvel gibi okutan küçük kavanoz (alikot yöntemi) */
@@ -40,8 +40,9 @@ function AliquotJar({ rise }: { rise: number }) {
 }
 
 export function BulkStage({ d, set, level, done }: StageProps) {
-  const [t, setT] = useState(0);
-  const [running, setRunning] = useState(false);
+  // 1× hızda bir saat ≈ 5 saniye: yarım saatlik katlama aralığı ~2,5 saniye; duraklatıp katlanabilir
+  const clock = useClock(0.2, MAX_H);
+  const t = clock.t;
   const [folds, setFolds] = useState<number[]>([]);
   const [lastFoldAt, setLastFoldAt] = useState(0);
   const [tighten, setTighten] = useState(0);
@@ -56,26 +57,23 @@ export function BulkStage({ d, set, level, done }: StageProps) {
   const radius = 62 + rise * 22 + spread * 40 - tighten * 8;
   const loft = Math.max(0.15, 0.35 + rise * 0.35 - spread * 0.45 + tighten * 0.2);
 
+  // Katlamanın verdiği gerginlik zamanla gevşer (yarım saatte ~%40)
   useEffect(() => {
-    if (!running) return;
-    const iv = window.setInterval(() => setT((x) => Math.min(MAX_H, x + 0.5)), TICK_MS);
-    return () => window.clearInterval(iv);
-  }, [running]);
-  useEffect(() => {
-    if (t >= MAX_H) setRunning(false);
-    if (t !== lastTick.current) {
-      lastTick.current = t;
-      setTighten((x) => x * 0.6);
-    }
+    const dt = t - lastTick.current;
+    if (dt <= 0) return;
+    lastTick.current = t;
+    setTighten((x) => x * 0.6 ** (dt / 0.5));
   }, [t]);
 
   const onFold = () => {
-    if (!running && t === 0) return;
+    if (!clock.started) return;
     sfx.pat(0.9);
     buzz(20);
     setLastFoldAt(t);
     setTighten((x) => Math.min(1.5, x + 0.6));
-    setFolds((f) => (f.length && f[f.length - 1] === t ? f : [...f, t]));
+    const at = Math.round(t * 10) / 10;
+    // Aynı anda art arda yapılan hareketler tek katlama sayılır
+    setFolds((f) => (f.length && at - f[f.length - 1] < 0.2 ? f : [...f, at]));
   };
 
   const hint = useMemo(() => {
@@ -136,20 +134,12 @@ export function BulkStage({ d, set, level, done }: StageProps) {
         </div>
       </div>
       {t >= MAX_H && <Feedback tone="bad">Saat doldu; hamur uzun süre kaldı.</Feedback>}
-      {!running && t === 0 ? (
-        <Btn
-          onClick={() => {
-            sfx.unlock();
-            setRunning(true);
-          }}
-        >
-          Zamanı başlat
-        </Btn>
-      ) : (
+      <ClockControls clock={clock} label="Hamuru kasaya koy, zamanı başlat" />
+      {clock.started && (
         <Btn
           disabled={t < 0.5}
           onClick={() => {
-            setRunning(false);
+            clock.pause();
             set("bulkHours", Math.max(0.5, t));
             set("foldTimes", folds);
             done();

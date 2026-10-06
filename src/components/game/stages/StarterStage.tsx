@@ -1,12 +1,14 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { starterVigor } from "@/lib/game/sim";
 import { FLOUR_GRAMS } from "@/lib/game/levels";
 import { sfx, buzz } from "@/lib/game/audio";
 import { JarArt, ClockArt, ScaleArt } from "../art";
 import { Btn, C, Feedback, StageTitle, Tahsin, mono } from "../ui";
 import { usePour } from "../usePour";
+import { Nudge } from "../Nudge";
+import { ClockControls, Upcoming, useClock } from "../useClock";
 import type { StageProps } from "./types";
 
 /** Kavanozdaki maya seviyesi: tepeye kadar kabarır, sonra yavaşça iner */
@@ -21,25 +23,17 @@ function jarLevel(h: number) {
 
 export function StarterStage({ d, set, done }: StageProps) {
   const [phase, setPhase] = useState<"izle" | "dok" | "bitti">("izle");
-  const [h, setH] = useState(0);
-  const [running, setRunning] = useState(false);
+  // 1× hızda bir saat ≈ 3 saniye: tepe penceresi (3,5–6,5 sa) ~9 saniye sürer; duraklatıp düşünülebilir
+  const clock = useClock(0.35, 12);
+  const h = clock.t;
   const pour = usePour(260, 1200);
-
-  useEffect(() => {
-    if (!running) return;
-    const t = window.setInterval(() => setH((x) => (x >= 12 ? 12 : Math.round((x + 0.05) * 100) / 100)), 60);
-    return () => window.clearInterval(t);
-  }, [running]);
-  useEffect(() => {
-    if (h >= 12) setRunning(false);
-  }, [h]);
 
   const vigor = starterVigor(h);
   const pct = (pour.grams / FLOUR_GRAMS) * 100;
   const pourTarget: [number, number] = [600, 800];
 
   const pick = () => {
-    setRunning(false);
+    clock.pause();
     set("levainHours", h);
     const good = h >= 3.5 && h <= 6.5;
     sfx.ding(good);
@@ -71,19 +65,14 @@ export function StarterStage({ d, set, done }: StageProps) {
               </div>
             </div>
           </div>
-          {running ? (
-            <Btn onClick={pick}>Şimdi kullan!</Btn>
-          ) : (
-            <Btn
-              onClick={() => {
-                sfx.unlock();
-                setH(0);
-                setRunning(true);
-              }}
-            >
-              Zamanı akıt
-            </Btn>
-          )}
+          <Upcoming active={h >= 3.5 && h <= 6.5}>
+            {h < 3.5 ? "Kubbe yükseliyor… Tepe genelde 4–5. saatte." : h <= 6.5 ? "Şimdi tepe civarında: kubbeli ve fokurdayan maya." : "Maya inmeye başladı; beklersen daha ekşi olur."}
+          </Upcoming>
+          <ClockControls
+            clock={clock}
+            label="Zamanı başlat"
+          />
+          {clock.started && <Btn onClick={pick}>Mayayı şimdi kullan</Btn>}
         </>
       )}
 
@@ -112,6 +101,7 @@ export function StarterStage({ d, set, done }: StageProps) {
           >
             {pour.pouring ? "Dökülüyor…" : "Basılı tut: mayayı dök"}
           </button>
+          <Nudge onNudge={pour.nudge} step={20} />
           <div className="grid grid-cols-2 gap-3">
             <Btn variant="ghost" onClick={pour.reset} disabled={pour.grams === 0}>
               Boşalt

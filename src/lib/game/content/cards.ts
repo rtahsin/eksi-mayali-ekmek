@@ -425,6 +425,41 @@ export const CARDS: CodexCard[] = [
   },
 ];
 
+/** Gece Yarısı (çavdar) kartları — Tahsin'in tarifi + docs/BILIM.md §8, §12 */
+CARDS.push(
+  {
+    id: "olay_haslama",
+    kind: "olay",
+    name: "Kaynar suyla haşlama",
+    short: "Tohumlara, kırmaya ve una kaynar su: bir gün sonra hem tatlı hem nemli.",
+    why: "Kaynar su o kısmın enzimlerini söndürür ve nişastanın bir kısmını önceden jelleştirir; jel suyu tutar, ekmek uzun süre nemli kalır. Karışım soğurken amilazın en sevdiği 60–70 °C'den geçer ve nişastanın bir kısmı şekere döner.",
+    deep: "Nişasta ~60–82 °C'de jelleşir, β-amilaz en etkin 62–64 °C'dedir ve 82–84 °C'de söner (docs/BILIM.md §5, §7). Haşlama bu sıcaklıkları sırayla kullanır. Keten tohumunun müsilajı da suyu bağlar. Tatlılık ve nem çıkarımı bu verilerden yapılmıştır.",
+    sources: [DELCOUR],
+    rare: true,
+    art: "otoliz",
+  },
+  {
+    id: "olay_catlak",
+    kind: "olay",
+    name: "Çatlaklar konuşur",
+    short: "Çavdarın parmak testi yok; üstünde çatlaklar belirince hazırdır.",
+    why: "Çavdar hamuru ağ yerine jel ile gazı tutar ve az kabarır. Gaz yüzeyi gerdikçe haşhaş kaplı kabuk çatlar: bu, dolaba ya da fırına geçme işaretidir.",
+    deep: "Çatlaklar belirmeden pişen çavdar sıkı kalır ve yanlarından yırtılır; çatlaklar derinleşip açılırsa fazla mayalanmıştır, fırında çöker.",
+    sources: [DELCOUR],
+    art: "kavanoz",
+  },
+  {
+    id: "olay_dusen_firin",
+    kind: "olay",
+    name: "Düşen fırın",
+    short: "280 °C'de ısıt, 220'de yükle, ısıtıcıları kapat: sıcaklık kendiliğinden düşsün.",
+    why: "Yoğun çavdar iki saat fırında kalır. Sabit yüksek ısıda üst yanar; düşen ısı kabuğu yakmadan içi yavaşça 96 °C'nin üstüne taşır.",
+    deep: "Büyük ve yoğun kalıp ekmeğinde iç sıcaklık yavaş yükselir; su kaynamadan iç 100 °C'yi geçemez. Sonda kalıptan çıkarıp ters çevirmek alt kabuğu kurutur.",
+    sources: [DELCOUR],
+    art: "firin",
+  }
+);
+
 export const CARD_BY_ID: Record<string, CodexCard> = Object.fromEntries(CARDS.map((c) => [c.id, c]));
 
 /** Büyüteçte dokunulan varlığın kartı */

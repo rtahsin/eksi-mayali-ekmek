@@ -57,5 +57,14 @@ export function usePour(ratePerSec: number, maxGrams: number) {
     setGrams(0);
   }, []);
 
-  return { grams, pouring, start, stop, reset, flowing: pouring || flow.current > 0 };
+  /** İnce ayar: tek dokunuşla biraz ekle ya da geri al (refleks gerektirmeden hedefe varmak için) */
+  const nudge = useCallback(
+    (delta: number) => {
+      sfx.unlock();
+      setGrams((g) => Math.max(0, Math.min(maxGrams, g + delta)));
+    },
+    [maxGrams]
+  );
+
+  return { grams, pouring, start, stop, reset, nudge, flowing: pouring || flow.current > 0 };
 }

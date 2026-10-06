@@ -127,3 +127,20 @@
 - Bakerpedia — fırın kabarması (~60 °C maya ölümü, 60–80 °C nişasta jelleşmesi)
 
 > Sağlık iddiası yok: notlar mekanizma ve kaynak anlatır (docs/MARKA.md §3).
+
+## 11. Usta reçetesi — Gece Yarısı (Tahsin'in anlatımı, 6 Ekim 2026)
+
+> 12 ekmeklik parti. Oyunun Bölüm 4'ü (motor: `src/lib/game/engine/rye.ts`, ekran: `chapters/RyeChapter.tsx`).
+
+| # | Aşama | Usta ne yapıyor |
+|---|---|---|
+| 1 | **Haşlama** | 500 g arpa unu + 1200 g çavdar kırması + 600 g kabak çekirdeği içi + 400 g keten tohumu + 500 g karabuğday unu, üstüne **3000 g kaynar su**; karıştırılır, **~1 gün** bekler. |
+| 2 | **Hamur** | Haşlamanın üstüne **3000 g çavdar unu, 800 g siyez unu, 2400 g su, 1500 g çavdar ekşi mayası, 170 g tuz**. **Yoğrulmaz**, yalnız karıştırılır. |
+| 3 | **Şekil** | Toplam **12'ye** bölünür. Önce el ve hamurun her yanı **ıslatılır**, sonra **mavi haşhaş** dolu kaba daldırılıp her yanı eşit kaplanır; **teflon kalıba** konur. |
+| 4 | **Mayalanma** | Oda sıcaklığında **~1–2 saat**, üstte **yarıklar oluşana**, biraz kabarana dek. |
+| 5 | **Dolap** | Üstü **hava almayacak şekilde kapatılıp** dolaba. |
+| 6 | **Fırın** | **280 °C**'ye ısıt → **220 °C**'ye düşür, kalıpları koy; ısıtıcılar ~30–60 dk kapalı kalır (üst yanmaz, kabuk sertleşmez). Sonra daha da düşür (**~180 °C**), toplam **~2 saat**; ara ara kapağı açıp **buharı tahliye** et. 2 saate yakın kalıptan çıkar, **ters çevir**, alt kabuk bağlasın diye biraz daha fırında kurut. |
+| 7 | **Dinlenme** | Tel rafta oda sıcaklığına iner, **streç filme sarılır**, **en az 1, ideali 2 gün** bekler. |
+
+Oyunda hesap: ekmek başına ~1,17 kg; un (haşlama tahılları + çavdar + siyez + ekşi mayanın unu) ≈ 6,75 kg, su ≈ 6,15 kg (≈ %91), tuz ≈ %2,5;
+ekşi maya %100 hidrasyonlu varsayıldı (Tahsin'e sorulacak).

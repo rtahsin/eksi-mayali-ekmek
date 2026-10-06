@@ -218,6 +218,9 @@ export function StarterChapter({ hooks, onDone }: { hooks: ChapterHooks; onDone:
 
       {scene === "kavanoz" && (
         <>
+          <button type="button" onClick={() => setScene("doga")} className="text-sm font-semibold min-h-[44px]" style={{ color: C.soft }}>
+            ← Mikropların izine dön
+          </button>
           <Tahsin>Bir kavanoz, un ve su. Hangi unla başlıyoruz, kavanoz nerede duracak?</Tahsin>
           <div className="space-y-2">
             {(Object.keys(FLOURS) as FlourKind[]).map((f) => (
@@ -242,6 +245,16 @@ export function StarterChapter({ hooks, onDone }: { hooks: ChapterHooks; onDone:
 
       {scene === "gunler" && today && (
         <>
+          <button
+            type="button"
+            onClick={() => {
+              if (window.confirm("Kavanozu boşaltıp baştan başlansın mı? (Un ve yer seçimine dönersin)")) restart();
+            }}
+            className="text-sm font-semibold min-h-[44px]"
+            style={{ color: C.soft }}
+          >
+            ↺ Baştan başla
+          </button>
           <div className="flex items-center justify-between">
             <h3 className="text-2xl font-semibold" style={serif}>
               {today.day}. gün

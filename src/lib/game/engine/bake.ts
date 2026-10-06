@@ -85,10 +85,13 @@ export function coreTempAt(minutes: number, startC = 5): number {
   return 99 - (99 - startC) * Math.exp(-minutes / 11.6);
 }
 
-/** Parmak testi: hamurun geri dönüş hızı (olgunluk M'ye göre) */
-export function pokeResult(maturity: number): "hizli" | "yavas" | "donmuyor" {
-  if (maturity < 0.62) return "hizli";
-  if (maturity > 1.3) return "donmuyor";
+/**
+ * Parmak testi, şekil anındaki olgunluğa göre (usta ayarında ~0,6): erkense iz hemen kapanır (→ önce 12 °C),
+ * kıvamındaysa yavaş döner (→ 4 °C), fazlaysa dönmez.
+ */
+export function pokeResult(maturityAtShape: number): "hizli" | "yavas" | "donmuyor" {
+  if (maturityAtShape < 0.5) return "hizli";
+  if (maturityAtShape > 0.98) return "donmuyor";
   return "yavas";
 }
 
