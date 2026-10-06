@@ -1,3 +1,5 @@
+import "server-only";
+
 import type { SupabaseClient } from "@supabase/supabase-js";
 import type { ExtendedProduct, ProductCategoryInfo, ProductSaleDate } from "@/types";
 import { createAdminClient } from "@/lib/supabase/admin";
