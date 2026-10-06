@@ -62,7 +62,7 @@ export function EditorialArticleView({ article}: EditorialArticleViewProps) {
       <div
         className="fixed inset-0 pointer-events-none opacity-30 sm:opacity-35 filter brightness-90 contrast-125 sepia-[.15] bg-cover bg-[80%_30%] md:bg-center"
         style={{
-          backgroundImage: "url('/atelier/atelier_threshold.png')",
+          backgroundImage: "url('/atelier/atelier_threshold.webp')",
         }}
       />
       {/* Soft Hearth Ambient Vignette & Darkness Layer for Crystal-Clear Readability */}

@@ -52,7 +52,7 @@ export async function generateMetadata({
       authors: ["EkmekLab Araştırma Masası"],
       images: [
         {
-          url: article.hero || "/atelier/atelier_threshold.png",
+          url: article.hero || "/atelier/atelier_threshold.webp",
           width: 1200,
           height: 630,
           alt: article.title,
@@ -117,7 +117,7 @@ export default async function ArticleDetailPage({ params }: ArticlePageProps) {
       <div
         className="fixed inset-0 pointer-events-none opacity-15 filter brightness-90 contrast-125 sepia-[.15] bg-cover bg-center"
         style={{
-          backgroundImage: "url('/atelier/atelier_threshold.png')",
+          backgroundImage: "url('/atelier/atelier_threshold.webp')",
         }}
       />
       <div className="fixed inset-0 pointer-events-none bg-gradient-to-b from-[#120E0B]/90 via-[#14100D]/85 to-[#120E0B]/95" />

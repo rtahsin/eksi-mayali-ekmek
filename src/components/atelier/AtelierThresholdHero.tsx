@@ -10,7 +10,7 @@ export function AtelierThresholdHero() {
         {/* Background: on mobile the focal point is set to 80% 30% */}
         <div
           style={{
-            backgroundImage: "url('/atelier/atelier_threshold.png')",
+            backgroundImage: "url('/atelier/atelier_threshold.webp')",
             backgroundSize: "cover",
           }}
           className="absolute inset-0 w-full h-full bg-[80%_30%] md:bg-center opacity-90 md:opacity-60 filter brightness-95 md:brightness-90 contrast-110 md:contrast-125 sepia-[.15]"

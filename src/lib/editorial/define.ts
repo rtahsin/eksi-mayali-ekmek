@@ -16,3 +16,10 @@ export interface ArticleMetaInput {
 }
 
 export const defineArticle = <const T extends ArticleMetaInput>(meta: T): T => meta;
+
+import type { MediaLicense, MediaItemInput, MediaDimensions, MediaKind } from "@/lib/knowledge/types";
+
+export type { MediaLicense, MediaItemInput, MediaDimensions, MediaKind };
+export type MediaRegistry = Record<string, MediaItemInput>;
+
+export const defineMedia = <const T extends MediaRegistry>(items: T): T => items;
