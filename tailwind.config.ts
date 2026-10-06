@@ -38,6 +38,17 @@ const config: Config = {
           border: "#3D342E",
           highlight: "#4F433A",
         },
+        // Atölye Kremi (docs/MARKA.md §8) — yeni ana sayfa
+        krem: {
+          paper: "#F6EEDF",
+          card: "#FBF6EC",
+          ink: "#3B1E1A",
+          soft: "#6E5148",
+          line: "#E2D3BD",
+          accent: "#B4532A",
+          // Küçük metinde AA kontrast için koyu terakota (krem zeminde ~5.6:1)
+          "accent-ink": "#9A4422",
+        },
         // Artisan Cream & Warm Linen Design System tokens
         linen: {
           DEFAULT: "#F4EFEA",
