@@ -10,7 +10,8 @@ dotenv.config({ path: ".env.local" });
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || "";
 const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY || "";
-const supabaseAdmin = supabaseUrl && serviceKey ? createClient(supabaseUrl, serviceKey) : null;
+const allowProdWrites = process.env.ALLOW_PROD_WRITES === "1";
+const supabaseAdmin = supabaseUrl && serviceKey && allowProdWrites ? createClient(supabaseUrl, serviceKey) : null;
 
 async function firstDeliveryDate(request: APIRequestContext): Promise<string> {
   const res = await request.get("/api/availability");
@@ -52,6 +53,10 @@ const orderPayload = (opts: { productId: string; date: string; idx: number; key:
 
 test.describe("Order Flow & Concurrency E2E Tests", () => {
   const createdOrderIds: string[] = [];
+
+  test.beforeEach(() => {
+    test.skip(process.env.ALLOW_PROD_WRITES !== "1", "ALLOW_PROD_WRITES=1 olmadan canlıya yazan E2E testleri koşmaz.");
+  });
 
   test.afterAll(async () => {
     if (!supabaseAdmin || createdOrderIds.length === 0) return;

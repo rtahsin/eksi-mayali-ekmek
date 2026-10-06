@@ -1,4 +1,4 @@
-/** Sipariş hunisi ölçümü: istemci tarafı. Kişisel veri göndermez; hata hiçbir şeyi bozmaz. */
+import { appEnv } from "@/lib/kernel/env";
 
 export type FunnelEvent = "scan" | "cart_open" | "checkout_start" | "order_ok" | "order_error";
 
@@ -38,7 +38,13 @@ export function trackEvent(event: FunnelEvent, extra: { code?: string; orderId?:
     void fetch("/api/track", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ event, ref: currentRef(), code: extra.code, orderId: extra.orderId }),
+      body: JSON.stringify({
+        event,
+        ref: currentRef(),
+        code: extra.code,
+        orderId: extra.orderId,
+        env: appEnv(),
+      }),
       keepalive: true,
     }).catch(() => undefined);
   } catch {

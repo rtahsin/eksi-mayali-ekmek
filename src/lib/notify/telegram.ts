@@ -1,6 +1,7 @@
 import * as Sentry from "@sentry/nextjs";
 import { SITE_URL } from "@/lib/site";
 import { formatTrDate } from "@/lib/time/istanbul";
+import { appEnv } from "@/lib/kernel/env";
 
 export interface NewOrderNotice {
   orderNumber: string;
@@ -30,9 +31,9 @@ export async function notifyNewOrder(order: NewOrderNotice): Promise<void> {
   const chatId = process.env.TELEGRAM_CHAT_ID;
   if (!token || !chatId) return;
 
-  const isPreview = process.env.VERCEL_ENV && process.env.VERCEL_ENV !== "production";
+  const isPreviewOrDev = appEnv() !== "production";
   const lines = [
-    `${isPreview ? "[TEST] " : ""}🍞 Yeni sipariş ${order.orderNumber}`,
+    `${isPreviewOrDev ? "[TEST] " : ""}🍞 Yeni sipariş ${order.orderNumber}`,
     ...(order.isFirstOrder ? ["🆕 İlk sipariş: adresi/telefonu teyit et"] : []),
     `📅 ${formatTrDate(order.deliveryDate, "long")}`,
     `📍 ${order.neighborhood || "-"}`,
