@@ -16,5 +16,6 @@ export const FOOTER_NAV_LINKS: readonly NavLink[] = [
   { href: "/#gurme-lezzetler", label: "Gurme Lezzetler" },
   { href: "/kutuphane", label: "Kütüphane" },
   { href: "/kavram", label: "Kavramlar Sözlüğü" },
+  { href: "/arama", label: "Arama" },
   { href: "/#nasil-uretiyoruz", label: "Nasıl Üretiyoruz?" },
 ];

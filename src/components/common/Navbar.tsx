@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useRef, useEffect } from "react";
-import { ShoppingBag, MessageSquare, BookOpen, User, LogOut, Package, Shield, ChevronDown, Menu } from "lucide-react";
+import { ShoppingBag, MessageSquare, BookOpen, User, LogOut, Package, Shield, ChevronDown, Menu, Search } from "lucide-react";
 import { useCartStore } from "@/lib/store/useCartStore";
 import { useAuth } from "@/components/auth/AuthProvider";
 import { AtelierMenuDrawer } from "./AtelierMenuDrawer";
@@ -121,7 +121,14 @@ export function Navbar() {
 
         {/* Right CTA Actions */}
         <div className="flex items-center gap-2 sm:gap-3">
-          {/* WhatsApp button removed to enforce professional cart checkout */}          {/* Customer Auth Button / Menu */}
+          <a
+            href="/arama"
+            aria-label="Kütüphanede Ara"
+            className="touch-target-44 p-2 rounded-xl text-foreground/70 hover:text-foreground hover:bg-surface-panel border border-transparent hover:border-surface-border transition-colors flex items-center justify-center"
+          >
+            <Search className="w-4 h-4 text-artisan-gold" />
+          </a>
+          {/* Customer Auth Button / Menu */}
           {isLoggedIn ? (
             <div className="relative" ref={dropdownRef}>
               <button

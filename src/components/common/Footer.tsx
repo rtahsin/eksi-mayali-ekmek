@@ -73,6 +73,11 @@ export function Footer() {
                 </a>
               </li>
               <li>
+                <a href="/arama" className="hover:text-artisan-gold transition-colors">
+                  Arama
+                </a>
+              </li>
+              <li>
                 <a href="/#nasil-uretiyoruz" className="hover:text-artisan-gold transition-colors">
                   Nasıl Üretiyoruz?
                 </a>
