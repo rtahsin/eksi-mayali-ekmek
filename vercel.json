@@ -3,6 +3,10 @@
     {
       "path": "/api/cron/cleanup-locations",
       "schedule": "0 3 * * *"
+    },
+    {
+      "path": "/api/cron/threshold",
+      "schedule": "0 17 * * *"
     }
   ]
 }

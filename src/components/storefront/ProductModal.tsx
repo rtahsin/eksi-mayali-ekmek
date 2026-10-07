@@ -6,6 +6,8 @@ import Link from "next/link";
 import type { ExtendedProduct } from "@/types";
 import { productBadges } from "@/lib/products/badges";
 import { useCartStore } from "@/lib/store/useCartStore";
+import { useIstanbulToday } from "@/hooks/useIstanbulToday";
+import { getProductThresholdDisplay } from "@/lib/ordering/threshold";
 
 function getFlourConceptSlug(flour: string): string | null {
   const f = flour.toLowerCase();
@@ -39,6 +41,8 @@ export function ProductModal({ product, onClose }: ProductModalProps) {
   const [isAdded, setIsAdded] = useState<boolean>(false);
   const [activeTab, setActiveTab] = useState<"story" | "pairing">("story");
   const addItem = useCartStore((state) => state.addItem);
+  const today = useIstanbulToday();
+  const thresholdInfo = product ? getProductThresholdDisplay(product, today) : null;
 
   useEffect(() => {
     setMounted(true);
@@ -83,15 +87,15 @@ export function ProductModal({ product, onClose }: ProductModalProps) {
 
           {/* Top Badge */}
           <div className="relative z-10 p-4 flex flex-wrap gap-2 pointer-events-none">
-            {product.madeToOrder ? (
+            {thresholdInfo?.isThreshold ? (
               <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-accent text-white border border-accent/80 text-xs font-sans font-bold tracking-wide shadow-md">
                 <span className="w-1.5 h-1.5 rounded-full bg-white" />
-                <span>Ön Sipariş</span>
+                <span>{thresholdInfo.displayLabel}</span>
               </span>
             ) : (
               <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-cream-surface text-ink border border-line text-xs font-sans font-bold tracking-wide shadow-md">
                 <span className="w-1.5 h-1.5 rounded-full bg-good animate-pulse" />
-                <span>Günlük Taze Fırın</span>
+                <span>Bugün fırında</span>
               </span>
             )}
           </div>
@@ -144,6 +148,47 @@ export function ProductModal({ product, onClose }: ProductModalProps) {
                 </div>
               )}
             </div>
+
+            {/* Threshold progress bar if specialty bread */}
+            {thresholdInfo?.isThreshold && thresholdInfo.state && (
+              <div className="p-3.5 rounded-2xl bg-bg border border-line space-y-2">
+                <div className="flex items-center justify-between text-xs">
+                  <span
+                    className={`font-semibold ${
+                      thresholdInfo.state.isSoldOut
+                        ? "text-bad"
+                        : thresholdInfo.state.isReached
+                        ? "text-good"
+                        : "text-accent"
+                    }`}
+                  >
+                    {thresholdInfo.displayLabel}
+                  </span>
+                  <span className="font-mono text-ink-muted">
+                    %{thresholdInfo.state.progressPercent}
+                  </span>
+                </div>
+                <div className="w-full bg-cream-surface rounded-full h-2 overflow-hidden border border-line">
+                  <div
+                    className={`h-full rounded-full transition-all duration-500 ${
+                      thresholdInfo.state.isSoldOut
+                        ? "bg-bad"
+                        : thresholdInfo.state.isReached
+                        ? "bg-good"
+                        : "bg-accent"
+                    }`}
+                    style={{ width: `${thresholdInfo.state.progressPercent}%` }}
+                  />
+                </div>
+                <p className="text-xs text-ink-muted leading-relaxed">
+                  {thresholdInfo.state.isSoldOut
+                    ? "Bu satış günü için azami üretim kapasitesi dolmuştur."
+                    : thresholdInfo.state.isReached
+                    ? "Asgari üretim eşiğine ulaşıldı, fırın kesinleşti!"
+                    : `Fırının açılması için ${thresholdInfo.state.remainingToThreshold} adet daha sipariş gerekiyor. Eşik dolmazsa sipariş bir sonraki haftaya kayar.`}
+                </p>
+              </div>
+            )}
 
             {/* Quick Specs Chips */}
             {product.hydration && (

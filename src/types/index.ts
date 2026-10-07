@@ -44,6 +44,10 @@ export interface Product {
   /** "Birlikte iyi gider" önerileri (ürün id'leri) */
   crossSell?: string[];
   displayOrder?: number;
+  /** Faz I-05: sipariş üzerine üretim eşiği (null = eşiksiz, her gün ekmeği) */
+  orderThreshold?: number | null;
+  /** Faz I-05: haftalık satış günleri (1=Pzt..7=Paz) */
+  saleWeekdays?: number[] | null;
 }
 
 export interface MasterclassDetail {
@@ -65,6 +69,11 @@ export interface ProductSaleDate {
   date: string;
   /** O gün için adet sınırı (yok = ürünün günlük sınırı / sınırsız) */
   limit: number | null;
+  /** Faz I-05: eşik değerlendirme durumu */
+  status?: "toplaniyor" | "kesinlesti" | "kaydirildi";
+  decidedAt?: string | null;
+  /** Faz I-05: toplanan sipariş adedi */
+  orderedCount?: number;
 }
 
 export interface BundleItem {

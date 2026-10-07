@@ -7,6 +7,8 @@ import { useCartStore } from "@/lib/store/useCartStore";
 import { Plus, Check } from "lucide-react";
 import Link from "next/link";
 import { getProductUrl } from "@/lib/utils/slugify";
+import { useIstanbulToday } from "@/hooks/useIstanbulToday";
+import { getProductThresholdDisplay } from "@/lib/ordering/threshold";
 
 interface ProductCardProps {
   product: ExtendedProduct;
@@ -16,6 +18,8 @@ interface ProductCardProps {
 export function ProductCard({ product, onOpenDetails }: ProductCardProps) {
   const [isAdded, setIsAdded] = useState<boolean>(false);
   const addItem = useCartStore((state) => state.addItem);
+  const today = useIstanbulToday();
+  const thresholdInfo = getProductThresholdDisplay(product, today);
 
   const handleAddToCart = (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -90,6 +94,47 @@ export function ProductCard({ product, onOpenDetails }: ProductCardProps) {
             {product.description}
           </p>
         </div>
+
+        {/* Threshold bar or Everyday badge */}
+        {thresholdInfo.isThreshold && thresholdInfo.state ? (
+          <div className="space-y-1.5 py-1">
+            <div className="flex items-center justify-between text-xs">
+              <span
+                className={`font-semibold ${
+                  thresholdInfo.state.isSoldOut
+                    ? "text-bad"
+                    : thresholdInfo.state.isReached
+                    ? "text-good"
+                    : "text-accent"
+                }`}
+              >
+                {thresholdInfo.displayLabel}
+              </span>
+              <span className="font-mono text-ink-muted">
+                %{thresholdInfo.state.progressPercent}
+              </span>
+            </div>
+            <div className="w-full bg-cream-surface rounded-full h-1.5 overflow-hidden border border-line">
+              <div
+                className={`h-full rounded-full transition-all duration-500 ${
+                  thresholdInfo.state.isSoldOut
+                    ? "bg-bad"
+                    : thresholdInfo.state.isReached
+                    ? "bg-good"
+                    : "bg-accent"
+                }`}
+                style={{ width: `${thresholdInfo.state.progressPercent}%` }}
+              />
+            </div>
+          </div>
+        ) : (
+          <div className="py-1">
+            <span className="inline-flex items-center gap-1.5 text-xs text-ink-muted font-sans">
+              <span className="w-1.5 h-1.5 rounded-full bg-good" />
+              <span>Bugün fırında</span>
+            </span>
+          </div>
+        )}
 
         {/* Price + Add to cart */}
         <div className="pt-2 sm:pt-3 border-t border-line/60 flex items-center justify-between gap-2">

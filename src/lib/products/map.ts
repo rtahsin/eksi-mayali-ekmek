@@ -30,6 +30,8 @@ export interface ProductRow {
   capacity_units?: number | null;
   bundle_items?: unknown;
   cross_sell?: string[] | null;
+  order_threshold?: number | null;
+  sale_weekdays?: number[] | null;
 }
 
 export interface CategoryRow {
@@ -101,6 +103,8 @@ export function mapProductRow(row: ProductRow, saleDates: ProductSaleDate[] = []
     bundleItems: parseBundleItems(row.bundle_items),
     crossSell: Array.isArray(row.cross_sell) ? row.cross_sell : [],
     displayOrder: Number(row.display_order) || 0,
+    orderThreshold: toNumberOrNull(row.order_threshold),
+    saleWeekdays: Array.isArray(row.sale_weekdays) ? row.sale_weekdays.map(Number) : null,
   };
 }
 

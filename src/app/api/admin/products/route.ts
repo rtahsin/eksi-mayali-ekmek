@@ -48,6 +48,8 @@ const ProductSchema = z
       .default([]),
     crossSell: z.array(z.string().min(1).max(80)).max(6).default([]),
     displayOrder: z.number().int().min(0).max(100000).default(0),
+    orderThreshold: intOrNull(10000).default(null),
+    saleWeekdays: z.array(z.number().int().min(1).max(7)).max(7).nullable().default(null),
     ingredients: strList(40).default([]),
     flourTypes: strList(20).default([]),
     hydration: z.number().int().min(0).max(200).nullable().default(null),
@@ -196,6 +198,8 @@ export async function POST(request: Request) {
       flour_types: p.flourTypes,
       hydration: p.hydration,
       masterclass: p.masterclass,
+      order_threshold: p.orderThreshold,
+      sale_weekdays: p.saleWeekdays,
     };
 
     // Ürün + gelecekteki satış günleri tek veritabanı işleminde (yarım kayıt kalmaz)
