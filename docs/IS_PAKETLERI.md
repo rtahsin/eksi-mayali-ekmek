@@ -427,3 +427,17 @@ Girdi: `content/gelen/<tarih>-<konu>.md` (döküm, not, fotoğraf açıklaması)
 - **Dal:** `i-05-esik-cubugu`.
 
 **Sıra:** I-04 ve I-02 bağımsız · I-05 → I-01 (kartta çubuk) · I-03 son (kaydırılan sipariş notu I-05'e bağlı).
+
+### I-06 Eşik modelini kaldır, yerine ürün başına satış günleri (Tahsin, 7 Eki 2026)
+- **Karar:** I-05'teki eşik, ilerleme çubuğu ve "bir sonraki haftaya kaydırma" **tamamen kalkar**. Özel ekmek, Tahsin'in seçtiği hafta günlerinde üretilir; sipariş az da olsa o gün yapılır. Müşteri ürünün gününü kartta açıkça görür ("Her Cuma · sıradaki 10 Eki") ve yalnız o günlere sipariş verebilir. I-05 bölümü tarihsel kayıttır, uygulanmaz.
+- **Önemli:** `026_threshold_bakes.sql` canlıda **hiç çalıştırılmadı** (`app_migrations`'da yok, Tahsin 7 Eki teyit etti). Bu yüzden 026 dosyası yerinde **yeniden yazılabilir** (uygulanmış bir migration değiştirilmiyor). Tahsin 026'nın eski hâlini çalıştırmayacak.
+- **Oku:** AGENTS.md §6 · `supabase/migrations/015_flexible_products.sql` (`availability = 'dates'`, `product_sale_dates`, `admin_save_product`) · `src/lib/ordering/availability.ts` · `src/lib/products/badges.ts`.
+- **Yazma kapsamı:** `supabase/migrations/026_*.sql` + `supabase/tests/026_*.sql`, `src/lib/ordering/**`, `src/lib/products/**`, `src/app/api/cron/**`, `vercel.json`, `src/app/admin/urunler/**`, `src/app/api/admin/products/**`, ürün kartı bileşenleri, `src/lib/notify/telegram.ts`, `src/types/**`.
+- **Kaldır:** `src/lib/ordering/threshold.ts` + testleri, `src/app/api/cron/threshold/` ve `vercel.json`'daki cron'u, kartlardaki ilerleme çubuğu ve "Kesinleşti" etiketleri, admin formundaki eşik/üst sınır alanları, `order_threshold` her yerden, Telegram eşik mesajı.
+- **026 (yeniden, eklemeli, ÖNCE):** yalnız `ALTER TABLE products ADD COLUMN IF NOT EXISTS sale_weekdays smallint[]` (1=Pzt…7=Paz; NULL = her gün) + `admin_save_product`'ın bu alanı da kaydeden sürümü (015'teki davranış korunur; `product_sale_dates` satırları silinip yeniden yazılırken **siparişi olan tarih silinmez**) + `SET search_path = public, pg_temp`, REVOKE/GRANT, `app_migrations` kaydı, duman testi. `create_order_atomic`'e **dokunulmaz**.
+- **Nasıl çalışır:** hafta günü seçilen ürün `availability = 'dates'` olur. Admin kaydında ve her gece mevcut cron ile (yeni rota ya da `cleanup-locations` yanına; `CRON_SECRET`) önümüzdeki **8 haftanın** o günleri için `product_sale_dates` satırları oluşturulur (yoksa ekle, varsa dokunma). Böylece mevcut uygunluk ve sipariş kontrolü (015/018) değişmeden çalışır.
+- **Admin formu:** "Satış günleri: **Her gün** / **Haftanın belirli günleri**" + Pzt…Paz çipleri (≥44 px). Kayıtta sonraki 3 satış günü önizlenir.
+- **Müşteri görünümü:** kartta ve ürün sayfasında rozet "Her Cuma · sıradaki 10 Eki" (birden çok gün: "Salı ve Cuma"). Sepetteki tarih seçimi yalnız o günleri sunar (mevcut `availability.ts`). Her gün ekmeğinde rozet "Her gün".
+- **DoD:** saf `upcomingSaleDates(weekdays, fromIstanbulDate, weeks)` ve `weekdayLabel(weekdays)` + testleri (İstanbul saati, hafta dönümü) · `rg -n "order_threshold|thresholdState|kesinlesti|kaydirildi" src supabase/migrations/026*` boş · 026 duman testi: kayıt sonrası 8 haftalık satırlar oluşur, siparişi olan tarih silinmez · ortak DoD.
+- **Tahsin adımı:** yeni 026'yı kuru deneme → gerçek (5 dk); admin'de Gece Yarısı → "Haftanın belirli günleri" → Cuma → kaydet; önizlemede kartta "Her Cuma" rozetini ve sepette yalnız Cuma'ların çıktığını gör.
+- **Dal:** `i-06-satis-gunleri`.
