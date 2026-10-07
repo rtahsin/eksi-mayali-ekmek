@@ -197,7 +197,7 @@ export function RyeChapter({ hooks, onDone }: { hooks: ChapterHooks; onDone: (sc
             <Btn
               onClick={() => {
                 sfx.unlock();
-                sfx.pour();
+                sfx.pour(1.4);
                 buzz(20);
                 setPoured(true);
               }}
@@ -304,7 +304,7 @@ export function RyeChapter({ hooks, onDone }: { hooks: ChapterHooks; onDone: (sc
               variant={d.wetHands ? "dark" : "ghost"}
               onClick={() => {
                 set("wetHands", true);
-                sfx.pour();
+                sfx.pour(0.8);
               }}
             >
               {d.wetHands ? "Eller ıslak ✓" : "Elini ıslat"}
