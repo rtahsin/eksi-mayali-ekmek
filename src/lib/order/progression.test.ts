@@ -122,22 +122,22 @@ describe("buildReorderItems pure function (I-03)", () => {
   });
 });
 
-describe("extractPostponedNotice pure function (I-03 / I-05)", () => {
+describe("extractPostponedNotice pure function (I-03)", () => {
   it("extracts postponed note from status history", () => {
     const history = [
       { note: "Sipariş oluşturuldu", changedByRole: "customer" },
       {
-        note: "Gece Yarısı eşiğe ulaşmadığı için (7/10) teslimat 17.10.2026 tarihine kaydırıldı",
+        note: "Gece Yarısı teslimatı 17.10.2026 tarihine ertelendi",
         changedByRole: "system",
       },
     ];
 
     const notice = extractPostponedNotice(history);
-    expect(notice).toContain("Gece Yarısı eşiğe ulaşmadığı için");
+    expect(notice).toContain("Gece Yarısı teslimatı");
     expect(notice).toContain("17.10.2026");
   });
 
-  it("returns null if no threshold shift note exists", () => {
+  it("returns null if no postponement note exists", () => {
     const history = [
       { note: "Sipariş oluşturuldu", changedByRole: "customer" },
       { note: "Fırına verildi", changedByRole: "admin" },

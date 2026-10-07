@@ -7,7 +7,7 @@ import type { ExtendedProduct } from "@/types";
 import { productBadges } from "@/lib/products/badges";
 import { useCartStore } from "@/lib/store/useCartStore";
 import { useIstanbulToday } from "@/hooks/useIstanbulToday";
-import { getProductThresholdDisplay } from "@/lib/ordering/threshold";
+import { getSaleScheduleBadge } from "@/lib/ordering/saleDates";
 
 function getFlourConceptSlug(flour: string): string | null {
   const f = flour.toLowerCase();
@@ -28,6 +28,7 @@ import {
   Utensils,
   Flame,
   Droplets,
+  CalendarDays,
 } from "lucide-react";
 
 interface ProductModalProps {
@@ -42,7 +43,7 @@ export function ProductModal({ product, onClose }: ProductModalProps) {
   const [activeTab, setActiveTab] = useState<"story" | "pairing">("story");
   const addItem = useCartStore((state) => state.addItem);
   const today = useIstanbulToday();
-  const thresholdInfo = product ? getProductThresholdDisplay(product, today) : null;
+  const scheduleBadge = product ? getSaleScheduleBadge(product, today) : null;
 
   useEffect(() => {
     setMounted(true);
@@ -87,10 +88,10 @@ export function ProductModal({ product, onClose }: ProductModalProps) {
 
           {/* Top Badge */}
           <div className="relative z-10 p-4 flex flex-wrap gap-2 pointer-events-none">
-            {thresholdInfo?.isThreshold ? (
+            {product.saleWeekdays && product.saleWeekdays.length > 0 && product.saleWeekdays.length < 7 ? (
               <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-accent text-white border border-accent/80 text-xs font-sans font-bold tracking-wide shadow-md">
                 <span className="w-1.5 h-1.5 rounded-full bg-white" />
-                <span>{thresholdInfo.displayLabel}</span>
+                <span>{scheduleBadge}</span>
               </span>
             ) : (
               <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-cream-surface text-ink border border-line text-xs font-sans font-bold tracking-wide shadow-md">
@@ -149,44 +150,18 @@ export function ProductModal({ product, onClose }: ProductModalProps) {
               )}
             </div>
 
-            {/* Threshold progress bar if specialty bread */}
-            {thresholdInfo?.isThreshold && thresholdInfo.state && (
-              <div className="p-3.5 rounded-2xl bg-bg border border-line space-y-2">
-                <div className="flex items-center justify-between text-xs">
-                  <span
-                    className={`font-semibold ${
-                      thresholdInfo.state.isSoldOut
-                        ? "text-bad"
-                        : thresholdInfo.state.isReached
-                        ? "text-good"
-                        : "text-accent"
-                    }`}
-                  >
-                    {thresholdInfo.displayLabel}
-                  </span>
-                  <span className="font-mono text-ink-muted">
-                    %{thresholdInfo.state.progressPercent}
+            {/* Sale Schedule Info */}
+            {scheduleBadge && (
+              <div className="p-3.5 rounded-2xl bg-bg border border-line flex items-center justify-between gap-3 shadow-xs">
+                <div className="flex items-center gap-2">
+                  <CalendarDays className="w-4 h-4 text-accent shrink-0" />
+                  <span className="text-xs font-semibold text-ink font-sans">
+                    {scheduleBadge}
                   </span>
                 </div>
-                <div className="w-full bg-cream-surface rounded-full h-2 overflow-hidden border border-line">
-                  <div
-                    className={`h-full rounded-full transition-all duration-500 ${
-                      thresholdInfo.state.isSoldOut
-                        ? "bg-bad"
-                        : thresholdInfo.state.isReached
-                        ? "bg-good"
-                        : "bg-accent"
-                    }`}
-                    style={{ width: `${thresholdInfo.state.progressPercent}%` }}
-                  />
-                </div>
-                <p className="text-xs text-ink-muted leading-relaxed">
-                  {thresholdInfo.state.isSoldOut
-                    ? "Bu satış günü için azami üretim kapasitesi dolmuştur."
-                    : thresholdInfo.state.isReached
-                    ? "Asgari üretim eşiğine ulaşıldı, fırın kesinleşti!"
-                    : `Fırının açılması için ${thresholdInfo.state.remainingToThreshold} adet daha sipariş gerekiyor. Eşik dolmazsa sipariş bir sonraki haftaya kayar.`}
-                </p>
+                <span className="text-xs text-ink-muted font-sans font-medium">
+                  {product.saleWeekdays && product.saleWeekdays.length > 0 ? "Özel Fırın Günü" : "Taş Fırın"}
+                </span>
               </div>
             )}
 

@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import crypto from "crypto";
 import { createAdminClient } from "@/lib/supabase/admin";
-import { sendThresholdSummary, ThresholdDecisionItem } from "@/lib/notify/telegram";
+import { ensureSaleDatesWindow } from "@/lib/ordering/saleDates";
 
 export async function GET(req: Request) {
   try {
@@ -29,6 +29,7 @@ export async function GET(req: Request) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
+    // 2. Admin Supabase İstemcisi
     const supabase = createAdminClient();
     if (!supabase) {
       return NextResponse.json(
@@ -37,37 +38,20 @@ export async function GET(req: Request) {
       );
     }
 
-    // 2. decide_threshold_bakes RPC çağrısı
-    const nowIso = new Date().toISOString();
-    const { data, error } = await supabase.rpc("decide_threshold_bakes", {
-      p_now: nowIso,
-    });
-
-    if (error) {
-      console.error("decide_threshold_bakes RPC hatası:", error);
-      return NextResponse.json(
-        { error: "Eşik kararları hesaplanırken veritabanı hatası oluştu: " + error.message },
-        { status: 500 }
-      );
-    }
-
-    const result = data as { processed: number; decisions: ThresholdDecisionItem[] } | null;
-    const decisions = result?.decisions || [];
-
-    // 3. Telegram Özeti (KVKK uyumlu, ad/telefon yok)
-    if (decisions.length > 0) {
-      await sendThresholdSummary(decisions);
-    }
+    // 3. Önümüzdeki 8 haftalık satış tarihlerini garantiye al
+    const result = await ensureSaleDatesWindow(supabase, 8);
 
     return NextResponse.json({
       success: true,
-      processed: result?.processed ?? 0,
-      decisions,
-      timestamp: nowIso,
+      productsCount: result.productsCount,
+      datesAdded: result.datesAdded,
+      syncedAt: new Date().toISOString(),
     });
   } catch (err: unknown) {
-    const message = err instanceof Error ? err.message : "Bilinmeyen sunucu hatası";
-    console.error("Threshold cron exception:", err);
-    return NextResponse.json({ error: message }, { status: 500 });
+    console.error("GET /api/cron/sale-dates error:", err);
+    return NextResponse.json(
+      { error: "İç sunucu hatası", detail: err instanceof Error ? err.message : String(err) },
+      { status: 500 }
+    );
   }
 }

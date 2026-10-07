@@ -6,6 +6,7 @@ import { getErrorMessage } from "@/lib/utils/error";
 import { getCatalog } from "@/lib/products/server";
 import { slugify } from "@/lib/utils/slugify";
 import { isIsoDate, istanbulToday } from "@/lib/time/istanbul";
+import { upcomingSaleDates } from "@/lib/ordering/saleDates";
 import { findHealthTerms } from "@/lib/knowledge/lint";
 
 const money = z.number().finite().min(0).max(100000);
@@ -48,7 +49,6 @@ const ProductSchema = z
       .default([]),
     crossSell: z.array(z.string().min(1).max(80)).max(6).default([]),
     displayOrder: z.number().int().min(0).max(100000).default(0),
-    orderThreshold: intOrNull(10000).default(null),
     saleWeekdays: z.array(z.number().int().min(1).max(7)).max(7).nullable().default(null),
     ingredients: strList(40).default([]),
     flourTypes: strList(20).default([]),
@@ -171,6 +171,9 @@ export async function POST(request: Request) {
       }
     }
 
+    const hasSaleWeekdays = Array.isArray(p.saleWeekdays) && p.saleWeekdays.length > 0;
+    const effectiveAvailability = hasSaleWeekdays ? "dates" : p.availability;
+
     const row = {
       id,
       slug,
@@ -187,7 +190,7 @@ export async function POST(request: Request) {
       is_popular: p.isPopular,
       is_new: p.isNew,
       made_to_order: p.madeToOrder,
-      availability: p.availability,
+      availability: effectiveAvailability,
       daily_limit: p.dailyLimit,
       lead_time_days: p.leadTimeDays,
       capacity_units: p.capacityUnits,
@@ -198,14 +201,19 @@ export async function POST(request: Request) {
       flour_types: p.flourTypes,
       hydration: p.hydration,
       masterclass: p.masterclass,
-      order_threshold: p.orderThreshold,
       sale_weekdays: p.saleWeekdays,
     };
+
+    let saleDatesToSave = effectiveAvailability === "dates" ? p.saleDates : [];
+    if (hasSaleWeekdays && saleDatesToSave.length === 0) {
+      const generatedDates = upcomingSaleDates(p.saleWeekdays, istanbulToday(), 8);
+      saleDatesToSave = generatedDates.map((d) => ({ date: d, limit: p.dailyLimit ?? null }));
+    }
 
     // Ürün + gelecekteki satış günleri tek veritabanı işleminde (yarım kayıt kalmaz)
     const { error } = await supabase.rpc("admin_save_product", {
       p_product: row,
-      p_sale_dates: p.availability === "dates" ? p.saleDates : [],
+      p_sale_dates: saleDatesToSave,
       p_from: istanbulToday(),
     });
     if (error) throw error;

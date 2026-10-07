@@ -87,4 +87,23 @@ describe("POST /api/admin/products health terms validation (K006 / P1-08)", () =
     const json = await res.json();
     expect(json.success).toBe(true);
   });
+
+  it("accepts product with saleWeekdays and generates upcoming sale dates window", async () => {
+    const req = new Request("http://localhost:3000/api/admin/products", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        name: "Gece Yarısı",
+        description: "Yalnız cuma geceleri pişen özel cevizli ekşi mayalı.",
+        price: 180,
+        category: "bread",
+        saleWeekdays: [5],
+      }),
+    });
+
+    const res = await POST(req);
+    expect(res.status).toBe(200);
+    const json = await res.json();
+    expect(json.success).toBe(true);
+  });
 });

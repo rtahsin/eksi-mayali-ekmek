@@ -5,8 +5,8 @@
       "schedule": "0 3 * * *"
     },
     {
-      "path": "/api/cron/threshold",
-      "schedule": "0 17 * * *"
+      "path": "/api/cron/sale-dates",
+      "schedule": "0 21 * * *"
     }
   ]
 }

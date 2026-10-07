@@ -23,6 +23,7 @@ import {
 import type { ExtendedProduct, ProductCategoryInfo } from "@/types";
 import { emptyProductForm, productToForm, useAdminCatalog, type ProductForm } from "@/hooks/useAdminCatalog";
 import { formatTrDate, istanbulToday } from "@/lib/time/istanbul";
+import { upcomingSaleDates } from "@/lib/ordering/saleDates";
 import { productBadges } from "@/lib/products/badges";
 import { getErrorMessage } from "@/lib/utils/error";
 
@@ -431,42 +432,47 @@ function ProductEditor({
             </div>
           </Section>
 
-          {/* Sipariş Üzerine Eşik Yönetimi (I-05) */}
-          <Section title="Sipariş Üzerine Özel Ekmek (Eşik Çubuğu)" icon={<CalendarDays className="w-4 h-4" />}>
-            <Toggle
-              label="Sipariş Üzerine Üretim (Eşik Modeli)"
-              on={form.orderThreshold !== null}
-              onChange={(on) => set("orderThreshold", on ? 10 : null)}
-            />
-            {form.orderThreshold !== null && (
+          {/* Satış Günleri (I-06) */}
+          <Section title="Satış Günleri" icon={<CalendarDays className="w-4 h-4" />}>
+            <div className="grid grid-cols-2 gap-2">
+              <button
+                type="button"
+                onClick={() => {
+                  set("saleWeekdays", null);
+                  set("availability", "daily");
+                }}
+                className={`py-3 px-3 rounded-xl text-xs sm:text-sm font-bold border transition-colors min-h-[44px] ${
+                  !form.saleWeekdays || form.saleWeekdays.length === 0
+                    ? "bg-amber-500 text-stone-950 border-amber-500"
+                    : "bg-stone-950 text-stone-400 border-stone-800 hover:border-stone-700"
+                }`}
+              >
+                Her gün
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  const initialDays = form.saleWeekdays && form.saleWeekdays.length > 0 ? form.saleWeekdays : [5];
+                  set("saleWeekdays", initialDays);
+                  set("availability", "dates");
+                }}
+                className={`py-3 px-3 rounded-xl text-xs sm:text-sm font-bold border transition-colors min-h-[44px] ${
+                  form.saleWeekdays && form.saleWeekdays.length > 0
+                    ? "bg-amber-500 text-stone-950 border-amber-500"
+                    : "bg-stone-950 text-stone-400 border-stone-800 hover:border-stone-700"
+                }`}
+              >
+                Haftanın belirli günleri
+              </button>
+            </div>
+
+            {form.saleWeekdays && form.saleWeekdays.length > 0 && (
               <div className="space-y-3 p-3.5 rounded-xl bg-stone-950 border border-stone-800">
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                  <Field label="Asgari Eşik (Adet)" hint="Üretim kesinleşmesi için gereken en az sipariş (varsayılan: 10)">
-                    <input
-                      type="number"
-                      min={1}
-                      max={1000}
-                      value={form.orderThreshold ?? 10}
-                      onChange={(e) => set("orderThreshold", Math.max(1, Number(e.target.value) || 1))}
-                      className={inputCls}
-                    />
-                  </Field>
-                  <Field label="Üst Sınır (İsteğe bağlı)" hint="Fırın kapasitesi dolunca 'Tükendi' olur">
-                    <input
-                      type="number"
-                      min={0}
-                      value={form.dailyLimit ?? ""}
-                      onChange={(e) => set("dailyLimit", e.target.value === "" ? null : Number(e.target.value))}
-                      placeholder="Boş = sınırsız"
-                      className={inputCls}
-                    />
-                  </Field>
-                </div>
                 <div>
-                  <span className="text-xs font-semibold text-stone-300 block mb-1.5">
-                    Haftalık Satış Günleri (Hangi günlerde taze pişer?)
+                  <span className="text-xs font-semibold text-stone-300 block mb-2">
+                    Taze Pişme Günleri (Pzt…Paz)
                   </span>
-                  <div className="flex flex-wrap gap-1.5">
+                  <div className="flex flex-wrap gap-2">
                     {[
                       { id: 1, label: "Pzt" },
                       { id: 2, label: "Sal" },
@@ -484,12 +490,18 @@ function ProductEditor({
                           onClick={() => {
                             const current = form.saleWeekdays ?? [];
                             const updated = selected ? current.filter((x) => x !== day.id) : [...current, day.id].sort();
-                            set("saleWeekdays", updated.length > 0 ? updated : null);
+                            if (updated.length > 0) {
+                              set("saleWeekdays", updated);
+                              set("availability", "dates");
+                            } else {
+                              set("saleWeekdays", null);
+                              set("availability", "daily");
+                            }
                           }}
-                          className={`px-3 py-1.5 rounded-lg text-xs font-bold border transition-colors ${
+                          className={`min-w-[44px] min-h-[44px] px-3.5 py-2.5 rounded-xl text-xs font-bold border transition-colors flex items-center justify-center ${
                             selected
-                              ? "bg-amber-500 text-stone-950 border-amber-500"
-                              : "bg-stone-900 text-stone-400 border-stone-800 hover:border-stone-700"
+                              ? "bg-amber-500 text-stone-950 border-amber-500 shadow-sm"
+                              : "bg-stone-900 text-stone-300 border-stone-800 hover:border-stone-700"
                           }`}
                         >
                           {day.label}
@@ -497,10 +509,22 @@ function ProductEditor({
                       );
                     })}
                   </div>
-                  <p className="text-xs text-stone-500 mt-1.5">
-                    Dolmazsa bu ürünü içeren siparişler sonraki haftanın aynı gününe otomatik kaydırılır.
-                  </p>
                 </div>
+
+                {/* Önizleme: Sonraki 3 Satış Günü */}
+                {(() => {
+                  const nextThree = upcomingSaleDates(form.saleWeekdays, istanbulToday(), 4).slice(0, 3);
+                  return nextThree.length > 0 ? (
+                    <div className="pt-2 border-t border-stone-900 flex items-center gap-2 flex-wrap text-xs text-stone-400">
+                      <span className="font-semibold text-stone-300">Sıradaki Satış Günleri:</span>
+                      {nextThree.map((d) => (
+                        <span key={d} className="px-2 py-0.5 rounded-md bg-stone-900 border border-stone-800 text-amber-400 font-mono">
+                          {formatTrDate(d)}
+                        </span>
+                      ))}
+                    </div>
+                  ) : null;
+                })()}
               </div>
             )}
           </Section>
