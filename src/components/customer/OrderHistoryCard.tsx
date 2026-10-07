@@ -1,20 +1,22 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { Order } from "@/types";
 import {
-  Package,
   Calendar,
   ChevronRight,
-  Truck,
-  CheckCircle2,
-  Clock,
-  Flame,
-  XCircle,
   MapPin,
-  ExternalLink,
+  RefreshCw,
+  Check,
+  AlertTriangle,
+  RotateCcw,
 } from "lucide-react";
+import { getOrderProgress, buildReorderItems, extractPostponedNotice } from "@/lib/order/progression";
+import { useOrderHistory } from "@/hooks/useOrderHistory";
+import { useProducts } from "@/hooks/useProducts";
+import { useCartStore } from "@/lib/store/useCartStore";
+import { formatTrDate } from "@/lib/time/istanbul";
 
 interface OrderHistoryCardProps {
   order: Order;
@@ -26,52 +28,27 @@ export function OrderHistoryCard({ order, onOrderCancelled }: OrderHistoryCardPr
   const [cancelModalOpen, setCancelModalOpen] = useState(false);
   const [cancelReason, setCancelReason] = useState("");
   const [error, setError] = useState<string | null>(null);
+  const [postponedNotice, setPostponedNotice] = useState<string | null>(null);
+  const [reorderNotice, setReorderNotice] = useState<string | null>(null);
 
+  const { fetchStatusHistory } = useOrderHistory();
+  const { allProducts } = useProducts("all");
+  const addItem = useCartStore((state) => state.addItem);
+
+  const progression = getOrderProgress(order.status);
   const canCancel = order.status === "bekliyor";
 
-  const getStatusBadge = (status: string) => {
-    switch (status) {
-      case "teslim_edildi":
-        return {
-          label: "Teslim Edildi",
-          icon: CheckCircle2,
-          className: "bg-emerald-500/10 text-emerald-400 border-emerald-500/30",
-        };
-      case "kuryede":
-        return {
-          label: "Kuryede (Yolda)",
-          icon: Truck,
-          className: "bg-blue-500/10 text-blue-400 border-blue-500/30 animate-pulse",
-        };
-      case "firinda":
-        return {
-          label: "Fırında Pişiyor",
-          icon: Flame,
-          className: "bg-orange-500/10 text-orange-400 border-orange-500/30",
-        };
-      case "hazirlaniyor":
-        return {
-          label: "Hazırlanıyor",
-          icon: Package,
-          className: "bg-amber-500/10 text-amber-400 border-amber-500/30",
-        };
-      case "iptal":
-        return {
-          label: "İptal Edildi",
-          icon: XCircle,
-          className: "bg-stone-800 text-stone-400 border-stone-700",
-        };
-      default:
-        return {
-          label: "Sipariş Alındı",
-          icon: Clock,
-          className: "bg-[#F59E0B]/10 text-[#F59E0B] border-[#F59E0B]/30",
-        };
-    }
-  };
-
-  const badge = getStatusBadge(order.status);
-  const StatusIcon = badge.icon;
+  useEffect(() => {
+    let mounted = true;
+    fetchStatusHistory(order.id).then((history) => {
+      if (!mounted) return;
+      const notice = extractPostponedNotice(history);
+      setPostponedNotice(notice);
+    });
+    return () => {
+      mounted = false;
+    };
+  }, [order.id, fetchStatusHistory]);
 
   const handleCancel = async () => {
     setCancelling(true);
@@ -81,7 +58,7 @@ export function OrderHistoryCard({ order, onOrderCancelled }: OrderHistoryCardPr
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          reason: cancelReason || "Müşteri geçmiş siparişler sayfasından iptal etti",
+          reason: cancelReason || "Müşteri hesap panelinden iptal etti",
         }),
       });
 
@@ -101,97 +78,204 @@ export function OrderHistoryCard({ order, onOrderCancelled }: OrderHistoryCardPr
     }
   };
 
-  const formattedDate = new Date(order.createdAt).toLocaleDateString("tr-TR", {
-    day: "numeric",
-    month: "long",
-    year: "numeric",
-    hour: "2-digit",
-    minute: "2-digit",
-  });
+  const handleReorder = () => {
+    const plan = buildReorderItems(order.items, allProducts);
+    if (plan.availableItems.length === 0) {
+      setReorderNotice("Bu siparişteki ürünler şu anda satışta bulunmuyor.");
+      setTimeout(() => setReorderNotice(null), 3500);
+      return;
+    }
+
+    for (const item of plan.availableItems) {
+      addItem(item.product, null, item.quantity);
+    }
+
+    if (plan.unavailableItems.length > 0) {
+      setReorderNotice(
+        `${plan.availableItems.length} ürün sepete eklendi (${plan.unavailableItems.length} ürün tükendi).`
+      );
+    } else {
+      setReorderNotice("Tüm ürünler güncel fiyatlarıyla sepete eklendi!");
+    }
+    setTimeout(() => setReorderNotice(null), 3500);
+  };
+
+  const formattedDate = order.deliveryDate
+    ? formatTrDate(order.deliveryDate, "long")
+    : new Date(order.createdAt).toLocaleDateString("tr-TR", {
+        day: "numeric",
+        month: "long",
+        year: "numeric",
+      });
 
   return (
-    <div className="bg-[#18130F] border border-[#261E17] rounded-2xl p-5 hover:border-[#F59E0B]/30 transition-all space-y-4 shadow-lg group">
-      {/* Header: Order Number, Date and Status Badge */}
-      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[#261E17] pb-3.5">
+    <div className="bg-cream-surface border border-line rounded-2xl p-4 sm:p-6 hover:border-accent/40 transition-all space-y-4 shadow-xs text-ink">
+      {/* Header: Order Number, Date and Status */}
+      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-line pb-3.5">
         <div className="space-y-1">
           <div className="flex items-center gap-2">
-            <span className="font-mono text-sm font-bold text-stone-100">
+            <span className="font-mono text-sm font-bold text-ink">
               #{order.orderNumber || order.id.replace("ORD-", "")}
             </span>
             <span
-              className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-bold border ${badge.className}`}
+              className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-bold border ${
+                progression.isCancelled
+                  ? "bg-bad/10 text-bad border-bad/30"
+                  : progression.isDelivered
+                  ? "bg-good/10 text-good border-good/30"
+                  : "bg-accent/10 text-accent border-accent/30"
+              }`}
             >
-              <StatusIcon className="w-3 h-3" />
-              <span>{badge.label}</span>
+              <span>{progression.statusLabel}</span>
             </span>
           </div>
-          <div className="text-xs text-stone-400 flex items-center gap-1.5">
-            <Calendar className="w-3 h-3 text-stone-500" />
-            <span>{formattedDate}</span>
+          <div className="text-xs text-ink-muted flex items-center gap-1.5 font-sans">
+            <Calendar className="w-3.5 h-3.5 text-accent" />
+            <span>Teslimat: {formattedDate}</span>
           </div>
         </div>
 
         <div className="text-right">
-          <span className="text-xs text-stone-400 block font-mono">Toplam</span>
-          <span className="text-base font-serif font-bold text-[#F59E0B]">
-            {order.totalAmount} ₺
+          <span className="text-xs text-ink-muted block font-sans">Toplam Tutar</span>
+          <span className="text-base sm:text-lg font-serif font-bold text-accent">
+            {order.totalAmount.toLocaleString("tr-TR")} ₺
           </span>
         </div>
       </div>
 
+      {/* ─── DURUM ÇUBUĞU (bekliyor → hazırlanıyor → fırında → yolda → teslim) ─── */}
+      <div className="py-1">
+        {progression.isCancelled ? (
+          <div className="p-3 rounded-xl bg-bad/10 border border-bad/20 flex items-center justify-between text-xs text-bad">
+            <span className="font-semibold">Bu sipariş iptal edilmiştir.</span>
+            {order.cancelReason && (
+              <span className="text-ink-muted italic">({order.cancelReason})</span>
+            )}
+          </div>
+        ) : (
+          <div className="space-y-2">
+            <div className="grid grid-cols-5 gap-1 sm:gap-2">
+              {progression.steps.map((s) => (
+                <div key={s.key} className="flex flex-col items-center gap-1 text-center">
+                  <div
+                    className={`h-1.5 w-full rounded-full transition-all duration-300 ${
+                      s.isCompleted || s.isCurrent ? "bg-accent" : "bg-line"
+                    }`}
+                  />
+                  <span
+                    className={`text-[11px] sm:text-xs font-sans truncate ${
+                      s.isCurrent
+                        ? "font-bold text-accent"
+                        : s.isCompleted
+                        ? "font-medium text-ink"
+                        : "text-ink-muted"
+                    }`}
+                  >
+                    {s.label}
+                  </span>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+      </div>
+
+      {/* ─── EŞİK NEDENİYLE KAYDIRILAN SİPARİŞTE AÇIK NOT ─── */}
+      {postponedNotice && !progression.isCancelled && !progression.isDelivered && (
+        <div className="p-3.5 rounded-xl bg-accent/10 border border-accent/30 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs">
+          <div className="flex items-start gap-2 text-ink">
+            <AlertTriangle className="w-4 h-4 text-accent shrink-0 mt-0.5" />
+            <div>
+              <strong className="font-semibold text-accent block">Özel Ekmek Eşik Bildirimi</strong>
+              <p className="text-ink-muted leading-relaxed mt-0.5">{postponedNotice}</p>
+            </div>
+          </div>
+          {canCancel && (
+            <button
+              type="button"
+              onClick={() => setCancelModalOpen(true)}
+              className="touch-target-44 px-3 py-1.5 rounded-xl bg-bad text-white font-semibold text-xs hover:bg-bad/90 transition-colors shrink-0"
+            >
+              İptal Et
+            </button>
+          )}
+        </div>
+      )}
+
       {/* Items Summary */}
-      <div className="space-y-2">
-        <div className="text-xs text-stone-300 divide-y divide-[#261E17]">
+      <div className="bg-bg/60 border border-line rounded-xl p-3 space-y-1.5">
+        <div className="text-xs text-ink divide-y divide-line/60">
           {order.items.map((item, idx) => (
             <div key={idx} className="py-1.5 flex items-center justify-between">
               <span className="flex items-center gap-2">
-                <span className="font-mono text-xs font-bold text-[#F59E0B]">
-                  {item.quantity}x
+                <span className="font-mono text-xs font-bold text-accent">
+                  {item.quantity}×
                 </span>
-                <span className="text-stone-200">{item.productName}</span>
+                <span className="font-sans font-medium">{item.productName}</span>
               </span>
-              <span className="font-mono text-xs text-stone-400">{item.totalPrice} ₺</span>
+              <span className="font-mono text-xs text-ink-muted">
+                {item.totalPrice.toLocaleString("tr-TR")} ₺
+              </span>
             </div>
           ))}
         </div>
       </div>
 
-      {/* Address & Delivery */}
-      <div className="bg-[#120E0B] border border-[#261E17] rounded-xl p-3 text-xs text-stone-400 flex items-start gap-2">
-        <MapPin className="w-3.5 h-3.5 text-[#F59E0B] shrink-0 mt-0.5" />
-        <span className="line-clamp-2 leading-relaxed">{order.deliveryAddress}</span>
-      </div>
+      {/* Address */}
+      {order.deliveryAddress && (
+        <div className="bg-bg/40 border border-line/60 rounded-xl p-2.5 text-xs text-ink-muted flex items-start gap-2">
+          <MapPin className="w-3.5 h-3.5 text-accent shrink-0 mt-0.5" />
+          <span className="line-clamp-2 leading-relaxed">{order.deliveryAddress}</span>
+        </div>
+      )}
+
+      {/* Reorder Notification Toast */}
+      {reorderNotice && (
+        <div className="p-2.5 rounded-xl bg-good/15 border border-good/30 text-xs text-ink font-sans flex items-center gap-2">
+          <Check className="w-4 h-4 text-good shrink-0" />
+          <span>{reorderNotice}</span>
+        </div>
+      )}
 
       {/* Footer Actions */}
-      <div className="flex items-center justify-between pt-1 gap-2">
-        {canCancel ? (
+      <div className="flex flex-wrap items-center justify-between pt-1 gap-2">
+        <div className="flex items-center gap-2">
+          {/* Tekrar Sipariş Ver Butonu */}
           <button
-            onClick={() => setCancelModalOpen(true)}
-            className="text-xs text-rose-400 hover:text-rose-300 font-medium transition-colors"
+            type="button"
+            onClick={handleReorder}
+            className="touch-target-44 px-3.5 py-2 rounded-xl bg-accent text-white hover:bg-accent/90 text-xs font-semibold inline-flex items-center gap-1.5 transition-all shadow-xs"
           >
-            İptal Et
+            <RotateCcw className="w-3.5 h-3.5" />
+            <span>Tekrar Sipariş Ver</span>
           </button>
-        ) : (
-          <div className="text-xs text-stone-500 italic">
-            {order.status === "iptal" ? "İptal edilmiş sipariş" : "Hazırlık/Teslimat aşamasında"}
-          </div>
-        )}
+
+          {canCancel && !postponedNotice && (
+            <button
+              type="button"
+              onClick={() => setCancelModalOpen(true)}
+              className="touch-target-44 px-3 py-2 text-xs text-bad hover:text-bad/80 font-medium transition-colors"
+            >
+              İptal Et
+            </button>
+          )}
+        </div>
 
         <Link
           href={`/siparis-takip/${order.id}`}
-          className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-[#261E17] hover:bg-[#342920] text-[#F7EBD3] text-xs font-medium transition-colors ml-auto"
+          className="touch-target-44 inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-cream-surface border border-line hover:border-accent text-ink text-xs font-medium transition-colors ml-auto shadow-xs"
         >
           <span>Canlı Takip</span>
-          <ChevronRight className="w-3.5 h-3.5 text-[#F59E0B]" />
+          <ChevronRight className="w-3.5 h-3.5 text-accent" />
         </Link>
       </div>
 
       {/* Cancel Modal */}
       {cancelModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-in fade-in duration-200">
-          <div className="w-full max-w-sm bg-[#18130F] border border-[#261E17] rounded-2xl p-6 text-stone-100 space-y-4">
-            <h3 className="font-serif font-bold text-base text-[#F7EBD3]">Siparişi İptal Et</h3>
-            <p className="text-xs text-stone-400 leading-relaxed">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fadeIn">
+          <div className="w-full max-w-sm bg-cream-surface border border-line rounded-2xl p-6 text-ink space-y-4 shadow-xl">
+            <h3 className="font-serif font-bold text-base text-ink">Siparişi İptal Et</h3>
+            <p className="text-xs text-ink-muted leading-relaxed">
               #{order.orderNumber || order.id} numaralı siparişinizi iptal etmek istediğinize emin misiniz?
             </p>
 
@@ -200,27 +284,29 @@ export function OrderHistoryCard({ order, onOrderCancelled }: OrderHistoryCardPr
               onChange={(e) => setCancelReason(e.target.value)}
               placeholder="İptal sebebiniz (isteğe bağlı)..."
               rows={2}
-              className="w-full px-3 py-2 rounded-xl bg-[#120E0B] border border-[#261E17] text-xs text-stone-200 placeholder:text-stone-600 focus:outline-none focus:border-[#F59E0B]"
+              className="w-full px-3 py-2 rounded-xl bg-bg border border-line text-xs text-ink placeholder:text-ink-muted focus:outline-none focus:border-accent"
             />
 
             {error && (
-              <div className="text-xs text-rose-400 bg-rose-500/10 p-2.5 rounded-xl border border-rose-500/20">
+              <div className="text-xs text-bad bg-bad/10 p-2.5 rounded-xl border border-bad/20">
                 {error}
               </div>
             )}
 
             <div className="flex gap-2 justify-end pt-2">
               <button
+                type="button"
                 onClick={() => setCancelModalOpen(false)}
                 disabled={cancelling}
-                className="px-4 py-2 rounded-xl bg-[#261E17] hover:bg-[#342920] text-xs font-medium transition-colors"
+                className="touch-target-44 px-4 py-2 rounded-xl bg-bg border border-line hover:bg-cream-surface text-xs font-medium transition-colors"
               >
                 Vazgeç
               </button>
               <button
+                type="button"
                 onClick={handleCancel}
                 disabled={cancelling}
-                className="px-4 py-2 rounded-xl bg-rose-600 hover:bg-rose-500 text-white font-medium text-xs transition-colors disabled:opacity-50"
+                className="touch-target-44 px-4 py-2 rounded-xl bg-bad hover:bg-bad/90 text-white font-medium text-xs transition-colors disabled:opacity-50"
               >
                 {cancelling ? "İptal Ediliyor..." : "İptal Et"}
               </button>
