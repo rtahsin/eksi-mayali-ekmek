@@ -3,6 +3,21 @@
 @tailwind utilities;
 
 :root {
+  /* Atölye Kremi Semantik Token'ları (T-01, docs/MARKA.md §8) */
+  --bg: #F6EEDF;
+  --surface: #FBF6EC;
+  --ink: #3B1E1A;
+  --ink-muted: #6E5148;
+  --line: #E2D3BD;
+  --accent: #B4532A;
+
+  /* Durum ve oyun semantik renkleri */
+  --color-good: #5E7F3E;
+  --color-warn: #C8862C;
+  --color-bad: #9B2C1F;
+  --color-dough: #EAD3A2;
+
+  /* Eski token uyumluluğu */
   --brand-cream: #FAF6F0;
   --brand-gold: #C59B6D;
   --brand-terracotta: #C85A32;
@@ -56,16 +71,16 @@ body {
 }
 
 ::-webkit-scrollbar-track {
-  background: #1C1815;
+  background: var(--bg, #F6EEDF);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #3D342E;
+  background: var(--line, #E2D3BD);
   border-radius: 3px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #4F433A;
+  background: var(--ink-muted, #6E5148);
 }
 
 /* Organic Noise Texture */

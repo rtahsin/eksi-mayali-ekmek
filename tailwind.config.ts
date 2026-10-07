@@ -30,6 +30,22 @@ const config: Config = {
         "float": "float 4s ease-in-out infinite",
       },
       colors: {
+        // Semantik "Atölye Kremi" token'ları (T-01, docs/MARKA.md §8)
+        bg: "var(--bg)",
+        "cream-surface": "var(--surface)",
+        ink: {
+          DEFAULT: "var(--ink)",
+          muted: "var(--ink-muted)",
+        },
+        line: "var(--line)",
+        accent: {
+          DEFAULT: "var(--accent)",
+        },
+        good: "var(--color-good)",
+        warn: "var(--color-warn)",
+        bad: "var(--color-bad)",
+        dough: "var(--color-dough)",
+
         background: "#12100E",
         foreground: "#E8E0D5",
         surface: {
@@ -38,6 +54,7 @@ const config: Config = {
           elevated: "#2C2521",
           border: "#3D342E",
           highlight: "#4F433A",
+          cream: "var(--surface)",
         },
         // Artisan Cream & Warm Linen Design System tokens
         linen: {
