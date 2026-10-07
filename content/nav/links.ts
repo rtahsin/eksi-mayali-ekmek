@@ -9,6 +9,7 @@ export const MAIN_NAV_LINKS: readonly NavLink[] = [
   { href: "/#gurme-lezzetler", label: "Gurme Lezzetler" },
   { href: "/kutuphane", label: "Kütüphane" },
   { href: "/kavram", label: "Kavramlar" },
+  { href: "/laboratuvar", label: "Laboratuvar" },
 ];
 
 export const FOOTER_NAV_LINKS: readonly NavLink[] = [
@@ -16,6 +17,7 @@ export const FOOTER_NAV_LINKS: readonly NavLink[] = [
   { href: "/#gurme-lezzetler", label: "Gurme Lezzetler" },
   { href: "/kutuphane", label: "Kütüphane" },
   { href: "/kavram", label: "Kavramlar Sözlüğü" },
+  { href: "/laboratuvar", label: "Laboratuvar Simülasyonu" },
   { href: "/arama", label: "Arama" },
   { href: "/#nasil-uretiyoruz", label: "Nasıl Üretiyoruz?" },
 ];
