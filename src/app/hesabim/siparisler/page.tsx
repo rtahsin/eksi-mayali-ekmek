@@ -7,17 +7,15 @@ import { useOrderHistory } from "@/hooks/useOrderHistory";
 import { OrderHistoryCard } from "@/components/customer/OrderHistoryCard";
 import { Order } from "@/types";
 import {
-  Package,
   ShoppingBag,
   Sparkles,
   RefreshCw,
   LogIn,
-  AlertCircle,
 } from "lucide-react";
 
 export default function MusteriSiparislerPage() {
   const { user, loading: authLoading, openAuthModal } = useCustomerAuth();
-  const { fetchMyOrders, loading: ordersLoading, error } = useOrderHistory();
+  const { fetchMyOrders, loading: ordersLoading } = useOrderHistory();
 
   const [orders, setOrders] = useState<Order[]>([]);
   const [totalCount, setTotalCount] = useState<number>(0);
@@ -69,6 +67,7 @@ export default function MusteriSiparislerPage() {
           o.status === "kuryede"
         );
       }
+
       if (activeTab === "completed") {
         return o.status === "teslim_edildi";
       }
@@ -81,8 +80,8 @@ export default function MusteriSiparislerPage() {
 
   if (authLoading) {
     return (
-      <div className="flex flex-col items-center justify-center py-20 text-stone-400">
-        <div className="w-8 h-8 border-2 border-[#F59E0B] border-t-transparent rounded-full animate-spin mb-3" />
+      <div className="flex flex-col items-center justify-center py-20 text-ink-muted">
+        <div className="w-8 h-8 border-2 border-accent border-t-transparent rounded-full animate-spin mb-3" />
         <span className="text-xs font-serif">Kullanıcı oturumu kontrol ediliyor...</span>
       </div>
     );
@@ -91,20 +90,21 @@ export default function MusteriSiparislerPage() {
   // Not Logged In State
   if (!user) {
     return (
-      <div className="bg-[#18130F] border border-[#261E17] rounded-3xl p-8 sm:p-12 text-center max-w-lg mx-auto shadow-2xl space-y-4">
-        <div className="w-14 h-14 mx-auto rounded-2xl bg-[#F59E0B]/10 border border-[#F59E0B]/20 flex items-center justify-center text-[#F59E0B]">
+      <div className="bg-cream-surface border border-line rounded-3xl p-8 sm:p-12 text-center max-w-lg mx-auto shadow-sm space-y-4 text-ink">
+        <div className="w-14 h-14 mx-auto rounded-2xl bg-accent/10 border border-accent/20 flex items-center justify-center text-accent">
           <LogIn className="w-7 h-7" />
         </div>
-        <h2 className="text-xl font-serif font-bold text-[#F7EBD3]">
+        <h2 className="text-xl font-serif font-bold text-ink">
           Siparişlerinizi Görmek İçin Giriş Yapın
         </h2>
-        <p className="text-xs text-stone-400 leading-relaxed max-w-sm mx-auto">
-          Geçmiş siparişlerinizi, teslimat detaylarını ve canlı kurye takibinizi hesabınızdan görüntüleyebilirsiniz.
+        <p className="text-xs text-ink-muted leading-relaxed max-w-sm mx-auto">
+          Geçmiş siparişlerinizi, teslimat detaylarını ve sipariş durum çubuğunuzu hesabınızdan görüntüleyebilirsiniz.
         </p>
         <div className="pt-3">
           <button
+            type="button"
             onClick={() => openAuthModal()}
-            className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-[#F59E0B] to-[#C85A32] text-black font-bold text-xs shadow-lg hover:brightness-110 active:scale-95 transition-all"
+            className="touch-target-44 inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-accent text-white font-semibold text-xs shadow-md hover:bg-accent/90 active:scale-95 transition-all"
           >
             <LogIn className="w-4 h-4" />
             <span>Giriş Yap / Kayıt Ol</span>
@@ -119,18 +119,19 @@ export default function MusteriSiparislerPage() {
       {/* Page Title & Stats Bar */}
       <div className="flex flex-wrap items-center justify-between gap-4">
         <div>
-          <h1 className="text-xl sm:text-2xl font-serif font-bold text-[#F7EBD3]">
+          <h1 className="text-xl sm:text-2xl font-serif font-bold text-ink">
             Sipariş Geçmişim
           </h1>
-          <p className="text-xs text-stone-400 mt-1">
+          <p className="text-xs text-ink-muted mt-1 font-sans">
             Toplam {totalCount} siparişiniz kayıtlı.
           </p>
         </div>
 
         <button
+          type="button"
           onClick={() => loadOrders(0, false)}
           disabled={ordersLoading}
-          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-[#18130F] border border-[#261E17] hover:border-[#F59E0B]/40 text-stone-300 text-xs font-medium transition-colors"
+          className="touch-target-44 inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-cream-surface border border-line hover:border-accent text-ink-muted hover:text-ink text-xs font-medium transition-colors shadow-xs"
         >
           <RefreshCw className={`w-3.5 h-3.5 ${ordersLoading ? "animate-spin" : ""}`} />
           <span>Yenile</span>
@@ -138,43 +139,47 @@ export default function MusteriSiparislerPage() {
       </div>
 
       {/* Filter Tabs */}
-      <div className="flex items-center gap-2 overflow-x-auto pb-2 border-b border-[#261E17]">
+      <div className="flex items-center gap-2 overflow-x-auto pb-2 border-b border-line no-scrollbar">
         <button
+          type="button"
           onClick={() => setActiveTab("all")}
-          className={`px-3.5 py-1.5 rounded-xl text-xs font-medium transition-colors ${
+          className={`touch-target-44 px-3.5 py-1.5 rounded-xl text-xs font-sans transition-colors whitespace-nowrap ${
             activeTab === "all"
-              ? "bg-[#261E17] text-[#F59E0B] border border-[#F59E0B]/30 font-bold"
-              : "text-stone-400 hover:text-stone-200"
+              ? "bg-accent text-white font-bold shadow-xs"
+              : "bg-cream-surface text-ink-muted hover:text-ink border border-line"
           }`}
         >
           Tümü ({orders.length})
         </button>
         <button
+          type="button"
           onClick={() => setActiveTab("active")}
-          className={`px-3.5 py-1.5 rounded-xl text-xs font-medium transition-colors ${
+          className={`touch-target-44 px-3.5 py-1.5 rounded-xl text-xs font-sans transition-colors whitespace-nowrap ${
             activeTab === "active"
-              ? "bg-[#261E17] text-blue-400 border border-blue-500/30 font-bold"
-              : "text-stone-400 hover:text-stone-200"
+              ? "bg-accent text-white font-bold shadow-xs"
+              : "bg-cream-surface text-ink-muted hover:text-ink border border-line"
           }`}
         >
           Aktif Siparişler
         </button>
         <button
+          type="button"
           onClick={() => setActiveTab("completed")}
-          className={`px-3.5 py-1.5 rounded-xl text-xs font-medium transition-colors ${
+          className={`touch-target-44 px-3.5 py-1.5 rounded-xl text-xs font-sans transition-colors whitespace-nowrap ${
             activeTab === "completed"
-              ? "bg-[#261E17] text-emerald-400 border border-emerald-500/30 font-bold"
-              : "text-stone-400 hover:text-stone-200"
+              ? "bg-accent text-white font-bold shadow-xs"
+              : "bg-cream-surface text-ink-muted hover:text-ink border border-line"
           }`}
         >
           Teslim Edilenler
         </button>
         <button
+          type="button"
           onClick={() => setActiveTab("cancelled")}
-          className={`px-3.5 py-1.5 rounded-xl text-xs font-medium transition-colors ${
+          className={`touch-target-44 px-3.5 py-1.5 rounded-xl text-xs font-sans transition-colors whitespace-nowrap ${
             activeTab === "cancelled"
-              ? "bg-[#261E17] text-stone-300 border border-stone-600 font-bold"
-              : "text-stone-400 hover:text-stone-200"
+              ? "bg-accent text-white font-bold shadow-xs"
+              : "bg-cream-surface text-ink-muted hover:text-ink border border-line"
           }`}
         >
           İptal Edilenler
@@ -183,27 +188,27 @@ export default function MusteriSiparislerPage() {
 
       {/* Orders List or Empty State */}
       {ordersLoading && orders.length === 0 ? (
-        <div className="flex flex-col items-center justify-center py-20 text-stone-400">
-          <div className="w-8 h-8 border-2 border-[#F59E0B] border-t-transparent rounded-full animate-spin mb-3" />
+        <div className="flex flex-col items-center justify-center py-20 text-ink-muted">
+          <div className="w-8 h-8 border-2 border-accent border-t-transparent rounded-full animate-spin mb-3" />
           <span className="text-xs font-serif">Siparişleriniz yükleniyor...</span>
         </div>
       ) : filteredOrders.length === 0 ? (
-        <div className="bg-[#18130F] border border-[#261E17] rounded-3xl p-10 text-center space-y-4 shadow-xl">
-          <div className="w-14 h-14 mx-auto rounded-2xl bg-[#F59E0B]/10 border border-[#F59E0B]/20 flex items-center justify-center text-[#F59E0B]">
+        <div className="bg-cream-surface border border-line rounded-3xl p-10 text-center space-y-4 shadow-xs text-ink">
+          <div className="w-14 h-14 mx-auto rounded-2xl bg-accent/10 border border-accent/20 flex items-center justify-center text-accent">
             <ShoppingBag className="w-7 h-7" />
           </div>
-          <h3 className="font-serif font-bold text-base text-[#F7EBD3]">
+          <h3 className="font-serif font-bold text-base text-ink">
             {activeTab === "all"
               ? "Henüz bir siparişiniz bulunmuyor"
               : "Bu filtreye ait bir sipariş bulunamadı"}
           </h3>
-          <p className="text-xs text-stone-400 max-w-sm mx-auto leading-relaxed">
+          <p className="text-xs text-ink-muted max-w-sm mx-auto leading-relaxed">
             Taş fırınımızdan çıkan taptaze ekşi mayalı ekmeklerimizi keşfetmek için hemen fırın vitrinimize göz atın.
           </p>
           <div className="pt-2">
             <Link
               href="/"
-              className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-[#F59E0B] to-[#C85A32] text-black font-bold text-xs shadow-lg hover:brightness-110 active:scale-95 transition-all"
+              className="touch-target-44 inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-accent text-white font-semibold text-xs shadow-md hover:bg-accent/90 active:scale-95 transition-all"
             >
               <Sparkles className="w-4 h-4" />
               <span>Fırın Vitrinine Git</span>
@@ -224,9 +229,10 @@ export default function MusteriSiparislerPage() {
           {orders.length < totalCount && (
             <div className="text-center pt-4">
               <button
+                type="button"
                 onClick={handleLoadMore}
                 disabled={ordersLoading}
-                className="px-6 py-2.5 rounded-xl bg-[#18130F] border border-[#261E17] hover:border-[#F59E0B]/40 text-stone-300 text-xs font-medium transition-colors disabled:opacity-50"
+                className="touch-target-44 px-6 py-2.5 rounded-xl bg-cream-surface border border-line hover:border-accent text-ink-muted hover:text-ink text-xs font-medium transition-colors disabled:opacity-50 shadow-xs"
               >
                 {ordersLoading ? "Yükleniyor..." : "Daha Fazla Göster"}
               </button>
