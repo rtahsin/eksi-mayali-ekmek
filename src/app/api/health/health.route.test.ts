@@ -22,7 +22,7 @@ vi.mock("@/lib/supabase/admin", () => ({
           { id: "023_record_order_payment" },
           { id: "024_single_writer" },
           { id: "025_funnel_events_v2" },
-          { id: "026_threshold_bakes" },
+          { id: "026_product_sale_weekdays" },
         ],
         error: null,
       }),

@@ -19,8 +19,8 @@ function mockProduct(partial: Partial<ExtendedProduct>): ExtendedProduct {
 
 describe("groupCatalog pure function (I-01)", () => {
   it("correctly identifies product groups", () => {
-    const everyday = mockProduct({ name: "Köy Ekmeği", category: "bread", orderThreshold: null });
-    const specialty = mockProduct({ name: "Gece Yarısı", category: "bread", orderThreshold: 10 });
+    const everyday = mockProduct({ name: "Köy Ekmeği", category: "bread", saleWeekdays: null });
+    const specialty = mockProduct({ name: "Gece Yarısı", category: "bread", saleWeekdays: [5] });
     const pantry = mockProduct({ name: "Doğal Bal", category: "pantry" });
     const gurme = mockProduct({ name: "Tulum Peyniri", category: "gurme" });
 
@@ -32,8 +32,8 @@ describe("groupCatalog pure function (I-01)", () => {
 
   it("sorts everyday bread first, specialty bread second, accompaniments last", () => {
     const p1Pantry = mockProduct({ id: "1", name: "Karakovan Balı", category: "pantry" });
-    const p2Specialty = mockProduct({ id: "2", name: "Siyez Cevizli (Özel)", category: "bread", orderThreshold: 10 });
-    const p3Everyday = mockProduct({ id: "3", name: "Klasik Köy Ekmeği", category: "bread", orderThreshold: null });
+    const p2Specialty = mockProduct({ id: "2", name: "Siyez Cevizli (Özel)", category: "bread", saleWeekdays: [5] });
+    const p3Everyday = mockProduct({ id: "3", name: "Klasik Köy Ekmeği", category: "bread", saleWeekdays: null });
 
     const grouped = groupCatalog([p1Pantry, p2Specialty, p3Everyday]);
 

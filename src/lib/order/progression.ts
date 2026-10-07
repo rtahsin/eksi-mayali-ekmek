@@ -133,7 +133,7 @@ export function buildReorderItems(
 }
 
 /**
- * Sipariş geçmişi veya notlarından eşik nedeniyle kaydırılma uyarısını ayıklar (I-03 / I-05).
+ * Sipariş geçmişi veya notlarından ertelenme uyarısını ayıklar.
  */
 export function extractPostponedNotice(
   history: Array<{ note?: string | null; changedByRole?: string }>
@@ -143,7 +143,7 @@ export function extractPostponedNotice(
   for (let i = history.length - 1; i >= 0; i--) {
     const entry = history[i];
     const note = entry?.note || "";
-    if (note.includes("eşiğe ulaşmadığı için") || note.includes("kaydırıldı")) {
+    if (note.includes("ertelendi") || note.includes("tarihine alındı")) {
       return note;
     }
   }

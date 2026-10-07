@@ -44,13 +44,7 @@ export function isAccompaniment(product: ExtendedProduct): boolean {
  */
 export function isSpecialtyBread(product: ExtendedProduct): boolean {
   if (isAccompaniment(product)) return false;
-  if (
-    product.orderThreshold !== null &&
-    product.orderThreshold !== undefined &&
-    product.orderThreshold > 0
-  ) {
-    return true;
-  }
+  if (product.saleWeekdays && product.saleWeekdays.length > 0) return true;
   if (product.madeToOrder) return true;
   if (product.availability === "dates") return true;
   if (product.category === "specialty") return true;
