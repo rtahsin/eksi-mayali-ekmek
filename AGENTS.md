@@ -36,7 +36,7 @@ Bu kurallar, EkmekLab projesinde kod yazarken, hata ayıklarken ve yeni modül e
 ---
 
 ## 3. 🎨 Tasarım Sistemi & Artisan Bakery Estetiği
-- **Renk Paleti**: Karar verilmiş yön **"Atölye Kremi"** ([`docs/MARKA.md`](docs/MARKA.md) §8: zemin `#F6EEDF`, kâğıt `#FBF6EC`, mürekkep `#3B1E1A`, ikincil `#6E5148`, çizgi `#E2D3BD`, vurgu terakota `#B4532A`; Fraunces + Inter). Canlı site hâlâ eski koyu temada (`src/app/layout.tsx` `className="dark"`, zemin `#120E0B`); krem geçişi Tahsin'in iskelet/ana sayfa kararıyla birlikte yapılır (IS_PAKETLERI T-01). O zamana kadar: mevcut ekranlarda var olan token'ları kullan, **yeni sabit hex sınıfı ekleme**, tema değiştirme. `docs/DESIGN_SYSTEM.md`'deki palet geçerli değildir.
+- **Renk Paleti**: Karar verilmiş ve canlıya alınmış yön **"Atölye Kremi"** ([`docs/MARKA.md`](docs/MARKA.md) §8: zemin `#F6EEDF`, kâğıt `#FBF6EC`, mürekkep `#3B1E1A`, ikincil `#6E5148`, çizgi `#E2D3BD`, vurgu terakota `#B4532A`; Fraunces + Inter). Canlı site ve vitrin Atölye Kremi'ne geçirilmiştir (IS_PAKETLERI D1 & T-01). `docs/DESIGN_SYSTEM.md`'deki eski palet geçerli değildir.
   - `#B4532A` krem zemin üzerinde gövde metni için yeterli kontrastı vermez (~4,3:1); yalnız büyük metin ve arayüz öğelerinde kullan.
   - Jenerik düz parlak renkler (varsayılan mavi, kırmızı) yerine her zaman fırın kimliğiyle uyumlu sıcak taş tonları kullanılmalıdır.
 - **Tipografi**: Marka kimliği ve başlıklar için `font-serif`, metinler ve veri tabloları için modern sans-serif ve `font-mono`.
