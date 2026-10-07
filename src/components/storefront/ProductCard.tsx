@@ -10,6 +10,8 @@ import { getProductUrl } from "@/lib/utils/slugify";
 import { useIstanbulToday } from "@/hooks/useIstanbulToday";
 import { getProductThresholdDisplay } from "@/lib/ordering/threshold";
 
+import { PRODUCT_IMAGE_PLACEHOLDER } from "@/lib/products/map";
+
 interface ProductCardProps {
   product: ExtendedProduct;
   onOpenDetails: (product: ExtendedProduct) => void;
@@ -17,6 +19,8 @@ interface ProductCardProps {
 
 export function ProductCard({ product, onOpenDetails }: ProductCardProps) {
   const [isAdded, setIsAdded] = useState<boolean>(false);
+  const [imgSrc, setImgSrc] = useState<string>(product.imageUrl || PRODUCT_IMAGE_PLACEHOLDER);
+  const [imgLoaded, setImgLoaded] = useState<boolean>(false);
   const addItem = useCartStore((state) => state.addItem);
   const today = useIstanbulToday();
   const thresholdInfo = getProductThresholdDisplay(product, today);
@@ -44,11 +48,20 @@ export function ProductCard({ product, onOpenDetails }: ProductCardProps) {
       className="group cursor-pointer rounded-2xl bg-cream-surface border border-line hover:border-accent/60 hover:shadow-md transition-all duration-300 flex flex-col overflow-hidden shadow-xs"
     >
       {/* Product Image */}
-      <div className="relative w-full aspect-square sm:aspect-auto sm:h-56 bg-bg overflow-hidden border-b border-line/60">
+      <div className="relative w-full aspect-square sm:aspect-auto sm:h-56 bg-cream-surface/70 overflow-hidden border-b border-line/60">
+        {!imgLoaded && (
+          <div className="absolute inset-0 bg-cream-surface/80 animate-pulse flex items-center justify-center">
+            <span className="text-2xl opacity-40">🍞</span>
+          </div>
+        )}
         <img
-          src={product.imageUrl}
+          src={imgSrc}
           alt={product.name}
-          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+          onError={() => setImgSrc(PRODUCT_IMAGE_PLACEHOLDER)}
+          onLoad={() => setImgLoaded(true)}
+          className={`w-full h-full object-cover group-hover:scale-105 transition-all duration-700 ${
+            imgLoaded ? "opacity-100" : "opacity-0"
+          }`}
           loading="lazy"
           decoding="async"
         />
@@ -154,7 +167,7 @@ export function ProductCard({ product, onOpenDetails }: ProductCardProps) {
             disabled={soldOut}
             onClick={handleAddToCart}
             aria-label={`${product.name} sepete ekle`}
-            className={`touch-target-44 px-3 sm:px-4 py-2 rounded-xl text-xs font-semibold flex items-center gap-1.5 transition-all shadow-xs ${
+            className={`touch-target-44 min-w-[44px] min-h-[44px] px-3 sm:px-4 py-2 rounded-xl text-xs font-semibold flex items-center justify-center gap-1.5 transition-all shadow-xs ${
               soldOut
                 ? "bg-line text-ink-muted cursor-not-allowed"
                 : isAdded
