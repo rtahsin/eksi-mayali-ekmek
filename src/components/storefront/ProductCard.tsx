@@ -37,10 +37,10 @@ export function ProductCard({ product, onOpenDetails }: ProductCardProps) {
   return (
     <div
       onClick={() => onOpenDetails(product)}
-      className="group cursor-pointer rounded-xl sm:rounded-2xl bg-[#18130F] border border-[#261E17] hover:border-artisan-gold/40 hover:shadow-xl transition-all duration-300 flex flex-col overflow-hidden shadow-sm"
+      className="group cursor-pointer rounded-2xl bg-cream-surface border border-line hover:border-accent/60 hover:shadow-md transition-all duration-300 flex flex-col overflow-hidden shadow-xs"
     >
-      {/* Product Image: square on mobile, fixed height from sm up */}
-      <div className="relative w-full aspect-square sm:aspect-auto sm:h-52 bg-[#130F0C] overflow-hidden">
+      {/* Product Image */}
+      <div className="relative w-full aspect-square sm:aspect-auto sm:h-56 bg-bg overflow-hidden border-b border-line/60">
         <img
           src={product.imageUrl}
           alt={product.name}
@@ -54,12 +54,12 @@ export function ProductCard({ product, onOpenDetails }: ProductCardProps) {
             {badges.map((b) => (
               <span
                 key={b.label}
-                className={`px-2 py-0.5 sm:px-2.5 rounded-full text-[9px] sm:text-[10px] font-sans font-bold uppercase tracking-wide shadow-sm ${
+                className={`px-2 py-0.5 sm:px-2.5 rounded-full text-[9px] sm:text-[10px] font-sans font-bold uppercase tracking-wide shadow-xs ${
                   b.tone === "danger"
-                    ? "bg-stone-800 text-stone-200"
+                    ? "bg-bad text-white"
                     : b.tone === "gold"
-                    ? "bg-artisan-gold text-stone-950"
-                    : "bg-artisan-terracotta text-white"
+                    ? "bg-amber-100 text-amber-900 border border-amber-300"
+                    : "bg-accent text-white"
                 }`}
               >
                 {b.label}
@@ -68,15 +68,15 @@ export function ProductCard({ product, onOpenDetails }: ProductCardProps) {
           </div>
         )}
 
-        <div className="absolute bottom-2 right-2 sm:bottom-2.5 sm:right-2.5 text-[10px] sm:text-[11px] font-sans font-medium text-stone-300 px-1.5 sm:px-2 py-0.5 rounded-md bg-[#120E0B]/90 backdrop-blur-sm border border-[#261E17] shadow-sm">
+        <div className="absolute bottom-2 right-2 sm:bottom-2.5 sm:right-2.5 text-[10px] sm:text-[11px] font-mono font-medium text-ink-muted px-2 py-0.5 rounded-md bg-cream-surface/90 backdrop-blur-sm border border-line shadow-xs">
           {weightLabel}
         </div>
       </div>
 
       {/* Content */}
-      <div className="p-3 sm:p-5 flex-1 flex flex-col justify-between gap-2 sm:gap-3">
+      <div className="p-3.5 sm:p-5 flex-1 flex flex-col justify-between gap-3">
         <div>
-          <h3 className="font-serif font-bold text-foreground text-sm sm:text-lg leading-snug group-hover:text-artisan-gold transition-colors line-clamp-2 sm:line-clamp-1 min-h-[2.5rem] sm:min-h-0">
+          <h3 className="font-serif font-bold text-ink text-base sm:text-lg leading-snug group-hover:text-accent transition-colors line-clamp-2 min-h-[2.5rem] sm:min-h-0">
             <Link
               href={getProductUrl(product)}
               onClick={(e) => e.stopPropagation()}
@@ -86,44 +86,48 @@ export function ProductCard({ product, onOpenDetails }: ProductCardProps) {
             </Link>
           </h3>
 
-          {/* Description is desktop-only: keeps mobile cards short */}
-          <p className="hidden sm:block text-xs text-stone-400 line-clamp-2 mt-1 font-sans leading-relaxed">
+          <p className="hidden sm:block text-xs text-ink-muted line-clamp-2 mt-1.5 font-sans leading-relaxed">
             {product.description}
           </p>
         </div>
 
-        {/* Price + Add */}
-        <div className="sm:pt-2.5 sm:border-t border-[#261E17] flex items-center justify-between gap-2">
-          <div className="flex items-baseline gap-1 flex-wrap">
-            <span className="font-serif text-lg sm:text-2xl font-bold text-foreground">
-              {product.price}
+        {/* Price + Add to cart */}
+        <div className="pt-2 sm:pt-3 border-t border-line/60 flex items-center justify-between gap-2">
+          <div className="flex items-baseline gap-1.5 flex-wrap">
+            {product.compareAtPrice && product.compareAtPrice > product.price && (
+              <span className="text-xs text-ink-muted line-through font-mono">
+                {product.compareAtPrice.toLocaleString("tr-TR")} ₺
+              </span>
+            )}
+            <span className="font-serif text-lg sm:text-2xl font-bold text-ink">
+              {product.price.toLocaleString("tr-TR")} ₺
             </span>
-            <span className="text-[10px] sm:text-xs text-stone-400 font-sans font-medium">TL</span>
-            {product.compareAtPrice ? (
-              <span className="text-[11px] sm:text-xs text-stone-500 line-through font-sans">{product.compareAtPrice} TL</span>
-            ) : null}
           </div>
 
           <button
             type="button"
-            onClick={handleAddToCart}
             disabled={soldOut}
-            aria-label={soldOut ? `${product.name} tükendi` : `${product.name} sepete ekle`}
-            className={`touch-target-44 shrink-0 h-9 w-9 sm:w-auto sm:px-4 rounded-full sm:rounded-xl font-sans text-xs font-semibold flex items-center justify-center gap-1.5 transition-all active:scale-[0.95] disabled:opacity-40 disabled:cursor-not-allowed ${
-              isAdded
-                ? "bg-emerald-600 text-white shadow-xs"
-                : "bg-artisan-terracotta hover:bg-artisan-terracotta-dark text-white shadow-xs"
+            onClick={handleAddToCart}
+            aria-label={`${product.name} sepete ekle`}
+            className={`touch-target-44 px-3 sm:px-4 py-2 rounded-xl text-xs font-semibold flex items-center gap-1.5 transition-all shadow-xs ${
+              soldOut
+                ? "bg-line text-ink-muted cursor-not-allowed"
+                : isAdded
+                ? "bg-good text-white"
+                : "bg-accent text-white hover:bg-accent/90 active:scale-95"
             }`}
           >
             {isAdded ? (
               <>
-                <Check className="w-4 h-4 sm:w-3.5 sm:h-3.5 stroke-[2.5]" />
+                <Check className="w-3.5 h-3.5" />
                 <span className="hidden sm:inline">Eklendi</span>
               </>
+            ) : soldOut ? (
+              <span>Tükendi</span>
             ) : (
               <>
-                <Plus className="w-4 h-4 sm:w-3.5 sm:h-3.5 stroke-[2.5]" />
-                <span className="hidden sm:inline">Sepete Ekle</span>
+                <Plus className="w-3.5 h-3.5" />
+                <span className="hidden sm:inline">Ekle</span>
               </>
             )}
           </button>

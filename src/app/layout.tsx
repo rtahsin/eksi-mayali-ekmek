@@ -96,7 +96,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="tr" className="dark scroll-smooth">
+    <html lang="tr" className="scroll-smooth">
       <head>
         <script
           type="application/ld+json"
@@ -104,7 +104,7 @@ export default function RootLayout({
         />
       </head>
       <body
-        className={`${fraunces.variable} ${lora.variable} ${inter.variable} ${caveat.variable} ${jetbrainsMono.variable} min-h-screen bg-background text-foreground antialiased font-sans noise-bg selection:bg-artisan-terracotta/20 selection:text-artisan-wood`}
+        className={`${fraunces.variable} ${lora.variable} ${inter.variable} ${caveat.variable} ${jetbrainsMono.variable} min-h-screen bg-bg text-ink antialiased font-sans noise-bg selection:bg-accent/20 selection:text-ink`}
       >
         <AuthProvider>{children}</AuthProvider>
       </body>
