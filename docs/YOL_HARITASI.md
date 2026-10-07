@@ -19,7 +19,7 @@
 | P1 | Motor: kanıt göçü (P1-01 ✅), MDX Kütüphane (P1-02 ✅), pilot yazı (P1-03 ✅), kavram/kaynak (P1-04 ✅), oyun↔bilgi (P1-05 ✅), medya (P1-06 ✅), arama (P1-07 ✅), ürün↔içerik (P1-08 ✅), tek yazar (P1-09 ✅), öğrenme ölçümü (P1-10 ✅), gözlem (P1-11 ✅), laboratuvar açılışı (P1-12 ✅) | ~13–15 ajan oturumu | ✅ tamamlandı (P1-01..P1-12 tüm P1 fazı eksiksiz tamamlandı) |
 | Tasarım | T-01 krem token'ları (✅) → D1 iskelet kararı: Seçenek 4 (Kitle / Vitrin) seçildi (✅) → Ana sayfa krem geçişi | karara bağlı | D1 kararlaştırıldı (Seçenek 4); ana sayfa krem geçişi hazır |
 | P2 | Genişleme: P2-06 Profesyonel Araçlar (✅ tamamlandı: fırıncı yüzdesi, DDT, maya planlayıcı /arac/*); diğerleri tetikleyiciyle | tetikleyiciye bağlı | P2-06 tamamlandı; diğerleri koşulunu bekliyor |
-| I | Mevcut yapıyı mükemmelleştirme (7 Eki): I-02 menü + gece teması (✅ PR #35), I-04 mobil düzeltmeler (✅ PR #36), I-05 sipariş üzerine özel ekmek eşik çubuğu (✅ PR #37); I-01 ürün listesi (sırada), I-03 profil | ~5–7 ajan oturumu | sürüyor: I-02, I-04, I-05 tamamlandı |
+| I | Mevcut yapıyı mükemmelleştirme (7 Eki): I-02 menü + gece teması (✅ PR #35), I-04 mobil düzeltmeler (✅ PR #36), I-05 sipariş üzerine özel ekmek eşik çubuğu (✅ PR #37), I-01 ürün listesi (✅ PR #38); I-03 profil (sırada) | ~5–7 ajan oturumu | sürüyor: I-02, I-04, I-05, I-01 tamamlandı |
 
 Toplam: odaklı ~3-4 hafta (oturumlar halinde). Faz 4, tasarım yönü seçilince Faz 3 ile paralel yürüyebilir.
 
