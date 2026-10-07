@@ -159,10 +159,12 @@ describe("Content Graph Integrity Check", () => {
     }
   });
 
-  it("ensures neutral navigation links include Kütüphane and Kavramlar", () => {
+  it("ensures neutral navigation links include Kütüphane, Kavramlar, and Laboratuvar", () => {
     expect(MAIN_NAV_LINKS.some((l) => l.href === "/kutuphane")).toBe(true);
     expect(MAIN_NAV_LINKS.some((l) => l.href === "/kavram")).toBe(true);
+    expect(MAIN_NAV_LINKS.some((l) => l.href === "/laboratuvar")).toBe(true);
     expect(FOOTER_NAV_LINKS.some((l) => l.href === "/kutuphane")).toBe(true);
     expect(FOOTER_NAV_LINKS.some((l) => l.href === "/kavram")).toBe(true);
+    expect(FOOTER_NAV_LINKS.some((l) => l.href === "/laboratuvar")).toBe(true);
   });
 });
