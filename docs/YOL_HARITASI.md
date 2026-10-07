@@ -20,7 +20,7 @@
 | Tasarım | T-01 krem token'ları (✅) → D1 iskelet kararı: Seçenek 4 (Kitle / Vitrin) seçildi (✅) → Ana sayfa krem geçişi | karara bağlı | D1 kararlaştırıldı (Seçenek 4); ana sayfa krem geçişi hazır |
 | P2 | Genişleme: P2-06 Profesyonel Araçlar (✅ tamamlandı: fırıncı yüzdesi, DDT, maya planlayıcı /arac/*); diğerleri tetikleyiciyle | tetikleyiciye bağlı | P2-06 tamamlandı; diğerleri koşulunu bekliyor |
 | I | Mevcut yapıyı mükemmelleştirme (7 Eki): I-02 menü + gece teması (✅ PR #35), I-04 mobil düzeltmeler (✅ PR #36), I-05 sipariş üzerine özel ekmek eşik çubuğu (✅ PR #37), I-01 ürün listesi (✅ PR #38), I-03 profil (✅ PR #39) | ~5–7 ajan oturumu | ✅ tamamlandı (I-01..I-05 tüm Faz I paketleri tamamlandı ve main'e birleştirildi) |
-| I-06 | Eşik/çubuk/kaydırma kaldırılır; ürün başına satış günleri (ör. Gece Yarısı = Cuma), kartta "Her Cuma" rozeti. 026 canlıda hiç çalışmadı; yeniden yazılır. Ayrıntı IS_PAKETLERI I-06 | ~1 ajan oturumu | bekliyor |
+| I-06 | Eşik/çubuk/kaydırma kaldırılır; ürün başına satış günleri (ör. Gece Yarısı = Cuma), kartta "Her Cuma" rozeti. 026 canlıda hiç çalışmadı; yeniden yazılır. Ayrıntı IS_PAKETLERI I-06 | ~1 ajan oturumu | ✅ tamamlandı (PR #41) |
 
 Toplam: odaklı ~3-4 hafta (oturumlar halinde). Faz 4, tasarım yönü seçilince Faz 3 ile paralel yürüyebilir.
 
