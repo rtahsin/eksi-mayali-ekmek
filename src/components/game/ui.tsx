@@ -2,19 +2,19 @@
 
 import React, { useEffect, useState } from "react";
 
-/** Oyunun krem paleti (docs/MARKA.md §8) */
+/** Oyunun krem paleti semantik token'ları (T-01, docs/MARKA.md §8) */
 export const C = {
-  paper: "#F6EEDF",
-  card: "#FBF6EC",
-  ink: "#3B1E1A",
-  soft: "#6E5148",
-  line: "#E2D3BD",
-  accent: "#B4532A",
-  good: "#5E7F3E",
-  warn: "#C8862C",
-  bad: "#9B2C1F",
-  dough: "#EAD3A2",
-};
+  paper: "var(--bg, #F6EEDF)",
+  card: "var(--surface, #FBF6EC)",
+  ink: "var(--ink, #3B1E1A)",
+  soft: "var(--ink-muted, #6E5148)",
+  line: "var(--line, #E2D3BD)",
+  accent: "var(--accent, #B4532A)",
+  good: "var(--color-good, #5E7F3E)",
+  warn: "var(--color-warn, #C8862C)",
+  bad: "var(--color-bad, #9B2C1F)",
+  dough: "var(--color-dough, #EAD3A2)",
+} as const;
 export const serif = { fontFamily: "var(--font-fraunces)" } as const;
 export const mono = { fontFamily: "var(--font-jetbrains-mono)" } as const;
 
@@ -117,7 +117,14 @@ export function Readout({ value, label, tone = "ink" }: { value: string; label: 
 export function Feedback({ tone, children }: { tone: "good" | "warn" | "bad"; children: React.ReactNode }) {
   const color = tone === "good" ? C.good : tone === "bad" ? C.bad : C.warn;
   return (
-    <div className="rounded-xl px-4 py-2.5 text-sm font-semibold text-center border-2" style={{ borderColor: color, color, background: `${color}12` }}>
+    <div
+      className="rounded-xl px-4 py-2.5 text-sm font-semibold text-center border-2"
+      style={{
+        borderColor: color,
+        color,
+        background: `color-mix(in srgb, ${color} 12%, transparent)`,
+      }}
+    >
       {children}
     </div>
   );
