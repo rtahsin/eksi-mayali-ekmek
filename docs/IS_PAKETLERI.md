@@ -382,7 +382,7 @@ Girdi: `content/gelen/<tarih>-<konu>.md` (döküm, not, fotoğraf açıklaması)
 
 > **Karar:** Ana sayfa yeniden tasarlanmaz ("yap-boz yok"); mevcut krem vitrin korunur ve iyileştirilir. Haftalık abonelik ve mahalle günleri **yok**. Satış modeli: 1–2 **her gün ekmeği** (o gün için sipariş) + belirli hafta günlerinde **sipariş üzerine açılan özel ekmekler** (eşik çubuğu). Paketler §1 "Ortak kurallar" ile birlikte verilir.
 
-### I-01 Ürün listesi: önce ekmekler, sonra eşlikçiler
+### I-01 Ürün listesi: önce ekmekler, sonra eşlikçiler (✅ Tamamlandı — PR #38)
 - **Yazma kapsamı:** `src/components/storefront/ProductCatalog.tsx` ve kart bileşeni, `src/lib/products/**` (yalnız sıralama/gruplama yardımcısı + testi).
 - **İş:**
   - Mobilde (<768px) iki yatay raf (scroll-snap, sonraki kart kenardan görünür): **Ekmeklerimiz** → önce her gün ekmekleri, sonra özel/ön sipariş ekmekleri (eşik çubuğuyla, I-05); **Eşlikçiler** → mandıra/gurme ürünleri. Masaüstünde mevcut ızgara aynı sırayla.
@@ -392,7 +392,7 @@ Girdi: `content/gelen/<tarih>-<konu>.md` (döküm, not, fotoğraf açıklaması)
 - **Tahsin (önizleme):** telefonda önce ekmek rafı, altında eşlikçi rafı.
 - **Dal:** `i-01-urun-listesi`.
 
-### I-02 Menü ve gece teması
+### I-02 Menü ve gece teması (✅ Tamamlandı — PR #35)
 - **Yazma kapsamı:** `src/components/common/AtelierMenuDrawer.tsx`, `src/components/common/Navbar.tsx`, `content/nav/links.ts`, `src/app/globals.css`, `tailwind.config.ts`.
 - **İş:**
   - Menü dört bölüm: **hesap alanı** (giriş yaptıysa "Merhaba ‹ad› · Siparişlerim", değilse "Giriş yap") · **Sipariş** (Ekmekler, Eşlikçiler, Teslimat bölgesi ve ücret, Nerede bulunur) · **Keşfet** (Biz kimiz, Kütüphane, Laboratuvar, Fırıncı araçları) · **alt** (Kurumsal ve şef çözümleri, WhatsApp'tan yaz — `src/lib/site.ts` `whatsappLink`, tema düğmesi). 01–06 numaraları kalkar. Her satır ≥48 px.
@@ -400,19 +400,19 @@ Girdi: `content/gelen/<tarih>-<konu>.md` (döküm, not, fotoğraf açıklaması)
 - **DoD:** `resolveTheme(tercih, sistem)` saf fonksiyon + test · kontrast testi gece paleti için de geçer (gövde ≥4,5:1) · ortak DoD.
 - **Dal:** `i-02-menu-tema`.
 
-### I-03 Profil (Hesabım)
+### I-03 Profil (Hesabım) (✅ Tamamlandı — PR #39)
 - **Yazma kapsamı:** `src/app/hesabim/**`, `src/hooks/useOrderHistory.ts`, gerekirse `src/app/api/orders/**` (yalnız okuma).
 - **İş:** **Siparişlerim**: durum çubuğu (bekliyor → hazırlanıyor → fırında → yolda → teslim), "**Tekrar sipariş ver**" (aynı ürünleri sepete koyar; fiyat sunucudan), eşik nedeniyle **kaydırılan** siparişte açık not ("Gece Yarısı 10 kişiye ulaşmadı; siparişin 17 Eki Cuma'ya kaydı · İptal et"). **Adreslerim**. **İletişim tercihi** (WhatsApp onayı). **Çıkış.** Abonelik ve mahalle günü yok.
 - **DoD:** durum eşleme ve "tekrar sipariş" dönüşümü saf fonksiyon + test · iptal mevcut `cancel_order_atomic` yolundan · ortak DoD.
 - **Dal:** `i-03-profil`.
 
-### I-04 Mobil düzeltmeler (denetim, 7 Eki)
+### I-04 Mobil düzeltmeler (denetim, 7 Eki) (✅ Tamamlandı — PR #36)
 - **Yazma kapsamı:** `src/components/common/**`, `src/components/cart/**`, `src/app/urun/**`, `src/app/kutuphane/**`, `src/app/kavram/**`, `src/app/globals.css`.
 - **İş:** 280 px'de başlık taşmaz, sepet ikonu görünür · sabit alt çubuklar `env(safe-area-inset-bottom)` payı alır · tam ekran paneller `dvh` · 11 px altı yazı kalmaz (gövde ≥16, yardımcı ≥13) · `prefers-reduced-motion` desteği · ürün sayfası ve Kütüphane/Kavram koyu temadan krem token'lara geçer.
 - **DoD:** 280 / 375 / 720 px'de `document.documentElement.scrollWidth === innerWidth` (PR'da ekran görüntüleri) · `rg -n "text-\[(9|10)px\]" src` boş · ortak DoD.
 - **Dal:** `i-04-mobil`.
 
-### I-05 Sipariş üzerine özel ekmek: eşik çubuğu
+### I-05 Sipariş üzerine özel ekmek: eşik çubuğu (✅ Tamamlandı — PR #37)
 - **Model (Tahsin):** özel ekmek belirli hafta günlerinde satılır. Ürün başına **eşik** (varsayılan 10) ve isteğe bağlı **üst sınır** admin'den ayarlanır. Karar anı: **üretimden önceki akşam, son sipariş saatinde** (`orderCutoffTime`). Eşik dolduysa o gün üretilir ("Kesinleşti"); dolmadıysa o ekmeği içeren siparişler **bir sonraki haftanın aynı gününe kayar**, sayaç orada sürer; müşteri haberdar edilir, isterse iptal eder.
 - **Oku:** `supabase/migrations/015_flexible_products.sql`, `018_order_lifecycle.sql` (advisory kilit deseni), `src/lib/ordering/availability.ts`, AGENTS.md §6 (atomik RPC, migration kuralları, Telegram'da kişisel veri yok).
 - **Yazma kapsamı:** yeni migration (numara birleşmede) + smoke, `src/lib/ordering/**` (+test), `src/app/api/cron/threshold/route.ts`, `vercel.json`, admin ürün formu (`src/app/admin/urunler/**`, `src/app/api/admin/products/**`), ürün kartı çubuğu, `src/lib/notify/telegram.ts` (yalnız yeni mesaj).
