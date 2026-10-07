@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import { createPortal } from "react-dom";
 import { X, ArrowRight, BookOpen, Microscope, Calculator, MapPin, Mail, Phone, ExternalLink } from "lucide-react";
 import Link from "next/link";
 import { CONTACT, whatsappLink } from "@/lib/site";
@@ -11,7 +12,12 @@ interface AtelierMenuDrawerProps {
 }
 
 export function AtelierMenuDrawer({ isOpen, onClose }: AtelierMenuDrawerProps) {
+  const [mounted, setMounted] = useState(false);
   const [activeModal, setActiveModal] = useState<"manifesto" | "corporate" | null>(null);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   // Close on Escape key
   useEffect(() => {
@@ -33,20 +39,20 @@ export function AtelierMenuDrawer({ isOpen, onClose }: AtelierMenuDrawerProps) {
     };
   }, [isOpen, activeModal, onClose]);
 
-  if (!isOpen) return null;
+  if (!isOpen || !mounted) return null;
 
-  return (
+  return createPortal(
     <>
       {/* Backdrop */}
       <div
-        className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm transition-opacity animate-fadeIn"
+        className="fixed inset-0 z-[100] bg-black/60 backdrop-blur-xs transition-opacity animate-fadeIn"
         onClick={onClose}
         aria-hidden="true"
       />
 
       {/* Drawer Container (Left-side slide in) */}
       <aside
-        className="fixed inset-y-0 left-0 z-50 w-full max-w-md bg-cream-surface border-r border-line text-ink flex flex-col justify-between shadow-2xl animate-slideRight overflow-y-auto"
+        className="fixed inset-y-0 left-0 z-[101] w-full max-w-md h-full bg-cream-surface border-r border-line text-ink flex flex-col justify-between shadow-2xl animate-slideRight overflow-y-auto"
         role="dialog"
         aria-modal="true"
         aria-label="Atölye Menüsü"
@@ -214,11 +220,12 @@ export function AtelierMenuDrawer({ isOpen, onClose }: AtelierMenuDrawerProps) {
 
       {/* Embedded Modal 1: Manifesto */}
       {activeModal === "manifesto" && (
-        <div className="fixed inset-0 z-60 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fadeIn">
+        <div className="fixed inset-0 z-[110] flex items-center justify-center p-4 bg-black/60 backdrop-blur-xs animate-fadeIn">
           <div className="relative w-full max-w-2xl bg-cream-surface border border-line rounded-3xl p-6 sm:p-8 text-ink max-h-[90vh] overflow-y-auto space-y-6 shadow-2xl">
             <button
               onClick={() => setActiveModal(null)}
-              className="touch-target-44 absolute top-4 right-4 p-2 rounded-xl bg-bg hover:bg-cream-surface text-ink-muted hover:text-ink border border-line transition-colors"
+              aria-label="Kapat"
+              className="absolute top-4 right-4 z-10 w-9 h-9 flex items-center justify-center rounded-xl bg-bg/90 hover:bg-cream-surface text-ink-muted hover:text-ink border border-line transition-colors shadow-xs"
             >
               <X className="w-4 h-4" />
             </button>
@@ -253,11 +260,12 @@ export function AtelierMenuDrawer({ isOpen, onClose }: AtelierMenuDrawerProps) {
 
       {/* Embedded Modal 2: Corporate */}
       {activeModal === "corporate" && (
-        <div className="fixed inset-0 z-60 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fadeIn">
+        <div className="fixed inset-0 z-[110] flex items-center justify-center p-4 bg-black/60 backdrop-blur-xs animate-fadeIn">
           <div className="relative w-full max-w-xl bg-cream-surface border border-line rounded-3xl p-6 sm:p-8 text-ink max-h-[90vh] overflow-y-auto space-y-6 shadow-2xl">
             <button
               onClick={() => setActiveModal(null)}
-              className="touch-target-44 absolute top-4 right-4 p-2 rounded-xl bg-bg hover:bg-cream-surface text-ink-muted hover:text-ink border border-line transition-colors"
+              aria-label="Kapat"
+              className="absolute top-4 right-4 z-10 w-9 h-9 flex items-center justify-center rounded-xl bg-bg/90 hover:bg-cream-surface text-ink-muted hover:text-ink border border-line transition-colors shadow-xs"
             >
               <X className="w-4 h-4" />
             </button>
@@ -291,6 +299,7 @@ export function AtelierMenuDrawer({ isOpen, onClose }: AtelierMenuDrawerProps) {
           </div>
         </div>
       )}
-    </>
+    </>,
+    document.body
   );
 }

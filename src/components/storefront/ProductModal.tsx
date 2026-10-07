@@ -1,6 +1,7 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { createPortal } from "react-dom";
 import Link from "next/link";
 import type { ExtendedProduct } from "@/types";
 import { productBadges } from "@/lib/products/badges";
@@ -33,12 +34,17 @@ interface ProductModalProps {
 }
 
 export function ProductModal({ product, onClose }: ProductModalProps) {
+  const [mounted, setMounted] = useState(false);
   const [quantity, setQuantity] = useState<number>(1);
   const [isAdded, setIsAdded] = useState<boolean>(false);
   const [activeTab, setActiveTab] = useState<"story" | "pairing">("story");
   const addItem = useCartStore((state) => state.addItem);
 
-  if (!product) return null;
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!product || !mounted) return null;
 
   const handleAddToCart = () => {
     const success = addItem(product, null, quantity);
@@ -53,14 +59,15 @@ export function ProductModal({ product, onClose }: ProductModalProps) {
 
   const masterclass = product.masterclass;
 
-  return (
+  return createPortal(
     <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/60 backdrop-blur-sm animate-fadeIn">
       <div className="relative w-full max-w-3xl rounded-3xl bg-cream-surface border border-line overflow-hidden shadow-2xl flex flex-col md:flex-row max-h-[92vh] text-ink">
         {/* Close Button */}
         <button
           onClick={onClose}
-          className="touch-target-44 absolute top-3.5 right-3.5 z-30 p-2 rounded-xl bg-bg hover:bg-cream-surface text-ink-muted hover:text-ink border border-line transition-colors"
+          className="absolute top-3.5 right-3.5 z-30 w-9 h-9 flex items-center justify-center rounded-xl bg-bg/90 hover:bg-cream-surface text-ink-muted hover:text-ink border border-line transition-colors shadow-xs"
           title="Kapat"
+          aria-label="Kapat"
         >
           <X className="w-4 h-4" />
         </button>
@@ -289,6 +296,7 @@ export function ProductModal({ product, onClose }: ProductModalProps) {
           </div>
         </div>
       </div>
-    </div>
+    </div>,
+    document.body
   );
 }
