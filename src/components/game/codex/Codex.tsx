@@ -63,7 +63,7 @@ export function Codex({ unlocked, sezgi, onClose }: { unlocked: Set<string>; sez
                   {has ? (c.rare ? "★ " : "") + (c.nick ?? c.name) : "???"}
                 </div>
                 {has && c.latin && (
-                  <div className="text-[10px] italic leading-tight" style={{ color: C.soft }}>
+                  <div className="text-xs italic leading-tight" style={{ color: C.soft }}>
                     {c.latin}
                   </div>
                 )}

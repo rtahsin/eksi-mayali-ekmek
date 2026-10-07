@@ -29,7 +29,7 @@ export function CourierQueueList({
         <span className="font-bold text-stone-300 font-serif">
           Rota ({pendingOrders.length} bekleyen / {totalCount} toplam)
         </span>
-        <span className="text-stone-500 text-[11px]">Oklarla sırala</span>
+        <span className="text-stone-500 text-xs">Oklarla sırala</span>
       </div>
 
       <div className="space-y-2">
@@ -93,7 +93,7 @@ export function CourierQueueList({
                       <span className="w-2 h-2 rounded-full bg-emerald-400 shrink-0" title="Canlı Konum Var" />
                     )}
                   </div>
-                  <div className="text-[11px] text-stone-400 truncate">
+                  <div className="text-xs text-stone-400 truncate">
                     {order.neighborhood} · {order.deliveryAddress}
                   </div>
                 </div>
@@ -104,7 +104,7 @@ export function CourierQueueList({
                     <div className="text-xs font-bold font-mono text-stone-100">
                       {order.totalAmount} ₺
                     </div>
-                    <div className="text-[10px] font-semibold">
+                    <div className="text-xs font-semibold">
                       {order.cariId || order.paymentMethod === "cari" ? (
                         <span className="text-orange-300">Cari</span>
                       ) : order.paymentStatus === "paid" ? (
@@ -136,7 +136,7 @@ export function CourierQueueList({
         {/* Delivered List Accordion/Section */}
         {deliveredOrders.length > 0 && (
           <div className="pt-3">
-            <div className="text-[11px] font-bold text-stone-500 uppercase tracking-wider mb-2">
+            <div className="text-xs font-bold text-stone-500 uppercase tracking-wider mb-2">
               Tamamlanan Teslimatlar ({deliveredOrders.length})
             </div>
             <div className="space-y-1.5 opacity-60">
@@ -149,7 +149,7 @@ export function CourierQueueList({
                     <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0" />
                     <span className="font-medium text-stone-300 truncate">{order.customerName}</span>
                   </div>
-                  <div className="text-stone-400 font-mono text-[11px]">
+                  <div className="text-stone-400 font-mono text-xs">
                     {order.totalAmount} ₺ (Teslim Edildi)
                   </div>
                 </div>

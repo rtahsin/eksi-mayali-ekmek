@@ -65,7 +65,7 @@ export function MixStage({ d, set, level, done }: StageProps) {
               <div className="text-sm rounded-xl p-3 border" style={{ borderColor: C.line }}>
                 Tahmini hamur:{" "}
                 <strong style={{ ...mono, color: predicted >= 26 && predicted <= 28.5 ? C.good : C.bad }}>{predicted.toFixed(1)} °C</strong>
-                <div className="text-[11px] mt-1" style={{ ...mono, color: C.soft }}>
+                <div className="text-xs mt-1" style={{ ...mono, color: C.soft }}>
                   (oda + un + maya + su + makine) ÷ 4
                 </div>
               </div>

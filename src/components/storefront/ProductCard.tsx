@@ -54,7 +54,7 @@ export function ProductCard({ product, onOpenDetails }: ProductCardProps) {
             {badges.map((b) => (
               <span
                 key={b.label}
-                className={`px-2 py-0.5 sm:px-2.5 rounded-full text-[9px] sm:text-[10px] font-sans font-bold uppercase tracking-wide shadow-xs ${
+                className={`px-2 py-0.5 sm:px-2.5 rounded-full text-xs sm:text-xs font-sans font-bold uppercase tracking-wide shadow-xs ${
                   b.tone === "danger"
                     ? "bg-bad text-white"
                     : b.tone === "gold"
@@ -68,7 +68,7 @@ export function ProductCard({ product, onOpenDetails }: ProductCardProps) {
           </div>
         )}
 
-        <div className="absolute bottom-2 right-2 sm:bottom-2.5 sm:right-2.5 text-[10px] sm:text-[11px] font-mono font-medium text-ink-muted px-2 py-0.5 rounded-md bg-cream-surface/90 backdrop-blur-sm border border-line shadow-xs">
+        <div className="absolute bottom-2 right-2 sm:bottom-2.5 sm:right-2.5 text-xs sm:text-xs font-mono font-medium text-ink-muted px-2 py-0.5 rounded-md bg-cream-surface/90 backdrop-blur-sm border border-line shadow-xs">
           {weightLabel}
         </div>
       </div>

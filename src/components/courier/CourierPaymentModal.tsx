@@ -37,7 +37,7 @@ export function CourierPaymentModal({
         {/* Modal Header */}
         <div className="flex items-start justify-between">
           <div>
-            <span className="text-[10px] uppercase font-bold text-amber-400 tracking-wider">
+            <span className="text-xs uppercase font-bold text-amber-400 tracking-wider">
               Teslimat & Tahsilat Onayı
             </span>
             <h3 className="text-lg font-bold font-serif text-stone-100 mt-0.5">
@@ -86,7 +86,7 @@ export function CourierPaymentModal({
             >
               <DollarSign className="w-6 h-6 text-amber-400" />
               <span>Kapıda Nakit</span>
-              <span className="text-[10px] font-normal text-amber-400/80 font-mono">
+              <span className="text-xs font-normal text-amber-400/80 font-mono">
                 {order.totalAmount} ₺ Nakit
               </span>
             </button>
@@ -100,7 +100,7 @@ export function CourierPaymentModal({
             >
               <CreditCard className="w-6 h-6 text-blue-400" />
               <span>Mobil POS</span>
-              <span className="text-[10px] font-normal text-blue-400/80 font-mono">
+              <span className="text-xs font-normal text-blue-400/80 font-mono">
                 {order.totalAmount} ₺ Kart
               </span>
             </button>
@@ -114,7 +114,7 @@ export function CourierPaymentModal({
             >
               <CheckCircle2 className="w-5 h-5 text-emerald-400" />
               <span>Havale / EFT</span>
-              <span className="text-[10px] font-normal text-emerald-400/80">
+              <span className="text-xs font-normal text-emerald-400/80">
                 Önceden ödendi
               </span>
             </button>
@@ -128,7 +128,7 @@ export function CourierPaymentModal({
             >
               <AlertCircle className="w-5 h-5 text-rose-400" />
               <span>{isCari ? "Cariye İşlendi" : "Ödeme Alınamadı"}</span>
-              <span className="text-[10px] font-normal text-rose-400/80">
+              <span className="text-xs font-normal text-rose-400/80">
                 {isCari ? "Borç cari hesaba" : "Ödeme bekliyor"}
               </span>
             </button>

@@ -199,7 +199,7 @@ export default function ProductionPage() {
                 </button>
               )}
             </div>
-            <p className="text-[11px] text-stone-500">
+            <p className="text-xs text-stone-500">
               Kapasite dolunca o gün için ekmek siparişi kapanır (sadece eşlikçi siparişleri açık kalır). Genel varsayılan: Ayarlar → Üretim Kapasitesi.
             </p>
           </section>
@@ -212,9 +212,9 @@ export default function ProductionPage() {
 function Stat({ label, value, hint }: { label: string; value: string; hint?: string }) {
   return (
     <div className="p-4 rounded-2xl bg-stone-900/70 border border-stone-800 print:bg-white print:border-black">
-      <div className="text-[11px] uppercase tracking-wider text-stone-500">{label}</div>
+      <div className="text-xs uppercase tracking-wider text-stone-500">{label}</div>
       <div className="font-serif text-3xl font-bold text-stone-100 print:text-black">{value}</div>
-      {hint && <div className="text-[11px] text-stone-400">{hint}</div>}
+      {hint && <div className="text-xs text-stone-400">{hint}</div>}
     </div>
   );
 }

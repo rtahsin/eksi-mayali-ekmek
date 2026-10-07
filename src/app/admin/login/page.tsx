@@ -39,7 +39,7 @@ function LoginForm() {
           <h1 className="font-serif text-xl sm:text-2xl font-bold tracking-tight text-foreground">
             Ekmek<span className="text-artisan-gold italic">Lab</span> Komuta Merkezi
           </h1>
-          <p className="text-[11px] text-foreground/60 font-sans">
+          <p className="text-xs text-foreground/60 font-sans">
             Fırın, Dağıtım & Yönetim Masası
           </p>
         </div>
@@ -91,7 +91,7 @@ function LoginForm() {
       </div>
 
       {/* Footer */}
-      <div className="pt-3 border-t border-[#2F241D] flex items-center justify-between text-[11px] text-foreground/50">
+      <div className="pt-3 border-t border-[#2F241D] flex items-center justify-between text-xs text-foreground/50">
         <div className="flex items-center gap-1.5 text-emerald-400/90">
           <ShieldCheck className="w-3.5 h-3.5" />
           <span>Yetki sunucuda doğrulanır</span>

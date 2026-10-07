@@ -182,7 +182,7 @@ export default function OrderTrackingPage({ params, searchParams }: PageProps) {
         <section className="p-5 rounded-2xl bg-surface-panel border border-surface-border space-y-4">
           <div className="flex items-center justify-between gap-3">
             <div>
-              <div className="text-[11px] uppercase tracking-wider text-foreground/50">Teslim</div>
+              <div className="text-xs uppercase tracking-wider text-foreground/50">Teslim</div>
               <div className="font-serif text-lg font-bold text-foreground">{formatTrDate(order.deliveryDate, "long")}</div>
               {order.deliveryTimeWindow && <div className="text-xs text-foreground/60">{order.deliveryTimeWindow}</div>}
             </div>
@@ -219,7 +219,7 @@ export default function OrderTrackingPage({ params, searchParams }: PageProps) {
                     <span className={`text-sm flex-1 ${done ? "text-foreground font-semibold" : "text-foreground/40"}`}>
                       {ORDER_STATUS_LABELS[step]}
                     </span>
-                    {done && at && <span className="text-[11px] text-foreground/40">{timeOf(at)}</span>}
+                    {done && at && <span className="text-xs text-foreground/40">{timeOf(at)}</span>}
                   </li>
                 );
               })}
@@ -264,7 +264,7 @@ export default function OrderTrackingPage({ params, searchParams }: PageProps) {
 
         {/* Ürünler ve tutar */}
         <section className="p-5 rounded-2xl bg-surface-panel border border-surface-border space-y-3">
-          <h2 className="text-[11px] uppercase tracking-wider text-foreground/50">Ürünler</h2>
+          <h2 className="text-xs uppercase tracking-wider text-foreground/50">Ürünler</h2>
           <ul className="space-y-2">
             {order.items.map((it, i) => (
               <li key={`${it.name}-${i}`} className="flex items-center justify-between text-sm">

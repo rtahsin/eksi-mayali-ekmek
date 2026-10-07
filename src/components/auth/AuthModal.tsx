@@ -89,7 +89,7 @@ export function AuthModal({ isOpen, onClose }: AuthModalProps) {
         {/* Header Ribbon */}
         <div className="relative px-6 pt-6 pb-4 border-b border-surface-border bg-gradient-to-b from-surface-elevated/80 to-surface-panel flex items-start justify-between">
           <div className="space-y-1">
-            <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-artisan-gold/10 border border-artisan-gold/30 text-[11px] font-sans font-medium text-artisan-gold">
+            <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-artisan-gold/10 border border-artisan-gold/30 text-xs font-sans font-medium text-artisan-gold">
               <Sparkles className="w-3 h-3" />
               <span>EkmekLab Müdavim Kulübü</span>
             </div>
@@ -158,12 +158,12 @@ export function AuthModal({ isOpen, onClose }: AuthModalProps) {
                 <>
                   <div className="flex items-center gap-3">
                     <div className="flex-1 h-px bg-surface-border" />
-                    <span className="text-[11px] font-sans text-foreground/40 uppercase">veya</span>
+                    <span className="text-xs font-sans text-foreground/40 uppercase">veya</span>
                     <div className="flex-1 h-px bg-surface-border" />
                   </div>
 
                   <form onSubmit={handleSendCode} className="space-y-3">
-                    <label htmlFor="auth-email" className="block text-[11px] font-sans text-foreground/70">
+                    <label htmlFor="auth-email" className="block text-xs font-sans text-foreground/70">
                       E-posta adresin
                     </label>
                     <div className="relative">
@@ -192,7 +192,7 @@ export function AuthModal({ isOpen, onClose }: AuthModalProps) {
                 </>
               )}
 
-              <p className="text-[11px] text-center text-foreground/50 font-sans">
+              <p className="text-xs text-center text-foreground/50 font-sans">
                 Hesap açmadan da misafir olarak sipariş verebilirsin.
               </p>
             </>
@@ -200,7 +200,7 @@ export function AuthModal({ isOpen, onClose }: AuthModalProps) {
 
           {step === "code" && (
             <form onSubmit={handleVerifyCode} className="space-y-3">
-              <label htmlFor="auth-code" className="block text-[11px] font-sans text-foreground/70">
+              <label htmlFor="auth-code" className="block text-xs font-sans text-foreground/70">
                 Giriş kodu
               </label>
               <div className="relative">
@@ -254,7 +254,7 @@ export function AuthModal({ isOpen, onClose }: AuthModalProps) {
                   Kodu tekrar gönder
                 </button>
               </div>
-              <p className="text-[11px] text-foreground/50 font-sans">
+              <p className="text-xs text-foreground/50 font-sans">
                 Gelmediyse spam/gereksiz klasörüne bak.
               </p>
             </form>

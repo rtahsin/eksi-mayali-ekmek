@@ -108,7 +108,7 @@ export default async function ArticleDetailPage({ params }: ArticlePageProps) {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#120E0B] text-[#E8E0D5] font-sans selection:bg-[#B4532A]/30 selection:text-[#D4A373] relative overflow-hidden">
+    <div className="min-h-screen flex flex-col bg-bg text-ink font-sans selection:bg-accent/20 selection:text-accent relative overflow-hidden">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(articleJsonLd) }}
@@ -116,12 +116,11 @@ export default async function ArticleDetailPage({ params }: ArticlePageProps) {
 
       {/* Arka Plan Atmosferi */}
       <div
-        className="fixed inset-0 pointer-events-none opacity-15 filter brightness-90 contrast-125 sepia-[.15] bg-cover bg-center"
+        className="fixed inset-0 pointer-events-none opacity-5 filter brightness-95 bg-cover bg-center"
         style={{
           backgroundImage: "url('/atelier/atelier_threshold.webp')",
         }}
       />
-      <div className="fixed inset-0 pointer-events-none bg-gradient-to-b from-[#120E0B]/90 via-[#14100D]/85 to-[#120E0B]/95" />
 
       <Navbar />
       <LearningTracker path={`/kutuphane/${article.slug}`} />
@@ -131,7 +130,7 @@ export default async function ArticleDetailPage({ params }: ArticlePageProps) {
         <div className="mb-8">
           <Link
             href="/kutuphane"
-            className="inline-flex items-center gap-1.5 text-xs font-mono text-[#A89F91] hover:text-[#D4A373] transition-colors"
+            className="inline-flex items-center gap-1.5 text-xs font-mono text-ink-muted hover:text-accent transition-colors"
           >
             <ArrowLeft className="w-3.5 h-3.5" />
             <span>Kütüphaneye Dön</span>
@@ -139,27 +138,27 @@ export default async function ArticleDetailPage({ params }: ArticlePageProps) {
         </div>
 
         {/* Makale Başlığı */}
-        <header className="space-y-4 border-b border-[#3D342E] pb-8 mb-8">
-          <div className="flex flex-wrap items-center gap-2 text-xs font-mono text-[#D4A373]">
-            <span className="px-2 py-0.5 rounded-full bg-[#2C2521] border border-[#3D342E]">
+        <header className="space-y-4 border-b border-line pb-8 mb-8">
+          <div className="flex flex-wrap items-center gap-2 text-xs font-mono text-accent">
+            <span className="px-2.5 py-0.5 rounded-full bg-cream-surface border border-line text-ink">
               Araştırma Dosyası
             </span>
-            <span className="flex items-center gap-1 text-[#A89F91] ml-auto">
-              <Clock className="w-3.5 h-3.5 text-[#B4532A]" />
+            <span className="flex items-center gap-1 text-ink-muted ml-auto">
+              <Clock className="w-3.5 h-3.5 text-accent" />
               <span>{article.readingMinutes} dakika okuma</span>
             </span>
           </div>
 
-          <h1 className="font-serif text-3xl sm:text-5xl text-[#E8E0D5] tracking-tight leading-tight">
+          <h1 className="font-serif text-3xl sm:text-5xl text-ink tracking-tight leading-tight font-bold">
             {article.title}
           </h1>
 
-          <p className="text-base sm:text-lg text-[#A89F91] font-serif italic leading-relaxed">
+          <p className="text-base sm:text-lg text-ink-muted font-serif italic leading-relaxed">
             {article.summary}
           </p>
 
-          <div className="flex items-center gap-2 pt-2 text-xs font-mono text-[#A89F91]">
-            <ShieldCheck className="w-4 h-4 text-[#B4532A]" />
+          <div className="flex items-center gap-2 pt-2 text-xs font-mono text-ink-muted">
+            <ShieldCheck className="w-4 h-4 text-accent" />
             <span>{article.claimsUsed.length} Doğrulanmış Literatür Kanıtı</span>
             <span>·</span>
             <span>Güncelleme: {article.updatedAt}</span>
@@ -167,7 +166,7 @@ export default async function ArticleDetailPage({ params }: ArticlePageProps) {
         </header>
 
         {/* MDX Makale Gövdesi */}
-        <article className="prose prose-invert prose-stone max-w-none text-[#E8E0D5] leading-relaxed font-sans text-base sm:text-lg prose-headings:font-serif prose-headings:text-[#E8E0D5] prose-h2:text-2xl sm:prose-h2:text-3xl prose-h2:mt-10 prose-h2:mb-4 prose-p:my-4 prose-a:text-[#D4A373] prose-strong:text-[#E8E0D5]">
+        <article className="prose max-w-none text-ink leading-relaxed font-sans text-base sm:text-lg prose-headings:font-serif prose-headings:text-ink prose-h2:text-2xl sm:prose-h2:text-3xl prose-h2:mt-10 prose-h2:mb-4 prose-p:my-4 prose-a:text-accent prose-strong:text-ink">
           <PostComponent />
         </article>
 

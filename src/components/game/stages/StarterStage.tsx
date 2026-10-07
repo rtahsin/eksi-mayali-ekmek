@@ -60,7 +60,7 @@ export function StarterStage({ d, set, done }: StageProps) {
               <div className="text-3xl font-bold" style={mono}>
                 {h.toFixed(1)}
               </div>
-              <div className="text-[11px] uppercase tracking-wider" style={{ color: C.soft }}>
+              <div className="text-xs uppercase tracking-wider" style={{ color: C.soft }}>
                 saat
               </div>
             </div>

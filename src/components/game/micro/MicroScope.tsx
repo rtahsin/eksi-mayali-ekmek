@@ -136,7 +136,7 @@ export function MicroScope({ snapshot, magnification = "x400", focus, onEntityTa
               style={{ boxShadow: "inset 0 0 40px 14px rgba(59,30,26,0.45), inset 0 0 3px 2px rgba(120,80,160,0.15)" }}
             />
             {/* Göstergeler */}
-            <div className="pointer-events-none absolute top-[11%] inset-x-0 flex justify-center gap-2 text-[11px] font-bold">
+            <div className="pointer-events-none absolute top-[11%] inset-x-0 flex justify-center gap-2 text-xs font-bold">
               <span className="px-2 py-0.5 rounded-full" style={{ background: "#FBF6ECE6", color: "#3B1E1A" }}>
                 {Math.round(heat ? heat.coreC : snapshot.tempC)} °C
               </span>
@@ -144,13 +144,13 @@ export function MicroScope({ snapshot, magnification = "x400", focus, onEntityTa
                 pH {snapshot.pH.toFixed(1).replace(".", ",")}
               </span>
             </div>
-            <div className="pointer-events-none absolute bottom-[12%] inset-x-0 flex flex-col items-center gap-0.5 text-[10px] font-bold" style={{ color: "#FBF6EC" }}>
+            <div className="pointer-events-none absolute bottom-[12%] inset-x-0 flex flex-col items-center gap-0.5 text-xs font-bold" style={{ color: "#FBF6EC" }}>
               <div className="h-[3px] rounded" style={{ width: bar.px, background: "#FBF6EC" }} />
               <span style={{ textShadow: "0 1px 2px #3B1E1A" }}>
                 {bar.um} µm · {magnification.replace("x", "×")}
               </span>
             </div>
-            <div className="pointer-events-none absolute top-1/2 left-[5%] -translate-y-1/2 text-[10px] font-bold -rotate-90 origin-left" style={{ color: "#FBF6ECCC" }}>
+            <div className="pointer-events-none absolute top-1/2 left-[5%] -translate-y-1/2 text-xs font-bold -rotate-90 origin-left" style={{ color: "#FBF6ECCC" }}>
               {PHASE_LABEL[snapshot.phase]}
             </div>
             {label && (

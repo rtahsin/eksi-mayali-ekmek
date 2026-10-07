@@ -82,7 +82,7 @@ export function LensSheet({ open, onClose, snapshot, samples, startIndex, title,
       <div className="relative w-full max-w-md max-h-[94vh] overflow-y-auto rounded-t-[28px] px-5 pt-4 pb-8 space-y-4" style={{ background: C.paper, color: C.ink }}>
         <div className="flex items-center justify-between">
           <div>
-            <p className="text-[11px] font-bold uppercase tracking-[0.2em]" style={{ color: C.accent }}>
+            <p className="text-xs font-bold uppercase tracking-[0.2em]" style={{ color: C.accent }}>
               Lab Büyüteci
             </p>
             <h2 className="text-xl font-semibold" style={{ fontFamily: "var(--font-fraunces)" }}>

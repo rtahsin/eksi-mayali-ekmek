@@ -42,40 +42,40 @@ export function Navbar() {
   return (
     <>
       <header className="sticky top-0 z-40 bg-cream-surface/90 backdrop-blur-md border-b border-line shadow-xs">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 h-14 sm:h-[72px] flex items-center justify-between">
+      <div className="max-w-6xl mx-auto px-2 sm:px-6 lg:px-8 h-14 sm:h-[72px] flex items-center justify-between">
         {/* Brand Logo & Name + Atelier Menu Toggle */}
-        <div className="flex items-center gap-2 sm:gap-3.5">
+        <div className="flex items-center gap-1.5 sm:gap-3.5 min-w-0 shrink">
           <button
             type="button"
             onClick={() => setIsAtelierMenuOpen(true)}
             aria-label="Atölye Menüsü"
-            className="touch-target-44 inline-flex items-center justify-center gap-1.5 px-2.5 sm:px-3 h-10 rounded-xl bg-bg hover:bg-cream-surface text-ink border border-line text-xs font-sans font-medium transition-all"
+            className="touch-target-44 inline-flex items-center justify-center gap-1.5 px-2 sm:px-3 h-9 sm:h-10 rounded-xl bg-bg hover:bg-cream-surface text-ink border border-line text-xs font-sans font-medium transition-all shrink-0"
           >
             <Menu className="w-4 h-4 text-accent" />
             <span className="hidden sm:inline font-serif font-medium text-xs tracking-wide">Menü</span>
           </button>
 
-          <a href="/" className="flex items-center gap-2.5 sm:gap-3 group py-2">
-            <div className="relative w-9 h-9 sm:w-10 sm:h-10 rounded-full overflow-hidden bg-bg p-1 flex items-center justify-center shrink-0 border border-line shadow-xs">
-            <img
-              src="/logo/logo_mark.png"
-              alt="EkmekLab"
-              className="w-full h-full object-contain"
-              onError={(e) => {
-                (e.target as HTMLElement).style.display = "none";
-              }}
-            />
-          </div>
-          <div>
-            <div className="font-serif text-xl font-bold tracking-wide text-ink flex items-center gap-1">
-              Ekmek<span className="text-accent font-normal italic">Lab</span>
+          <a href="/" className="flex items-center gap-2 sm:gap-3 group py-2 min-w-0">
+            <div className="relative w-8 h-8 sm:w-10 sm:h-10 rounded-full overflow-hidden bg-bg p-1 flex items-center justify-center shrink-0 border border-line shadow-xs">
+              <img
+                src="/logo/logo_mark.png"
+                alt="EkmekLab"
+                className="w-full h-full object-contain"
+                onError={(e) => {
+                  (e.target as HTMLElement).style.display = "none";
+                }}
+              />
             </div>
-            <div className="hidden sm:block text-[10px] font-sans text-ink-muted tracking-wider uppercase font-semibold">
-              Artisan Fırın · Beylikdüzü
+            <div className="min-w-0">
+              <div className="font-serif text-base sm:text-xl font-bold tracking-wide text-ink flex items-center gap-1 truncate">
+                Ekmek<span className="text-accent font-normal italic">Lab</span>
+              </div>
+              <div className="hidden sm:block text-xs font-sans text-ink-muted tracking-wider uppercase font-semibold">
+                Artisan Fırın · Beylikdüzü
+              </div>
             </div>
-          </div>
-        </a>
-      </div>
+          </a>
+        </div>
 
         {/* Center Nav Links */}
         <nav className="hidden md:flex items-center gap-5 text-xs font-sans">
@@ -119,11 +119,11 @@ export function Navbar() {
         </nav>
 
         {/* Right CTA Actions */}
-        <div className="flex items-center gap-2 sm:gap-3">
+        <div className="flex items-center gap-1.5 sm:gap-3 shrink-0">
           <a
             href="/arama"
             aria-label="Kütüphanede Ara"
-            className="touch-target-44 p-2 rounded-xl text-ink-muted hover:text-ink hover:bg-bg border border-transparent hover:border-line transition-colors flex items-center justify-center"
+            className="touch-target-44 p-1.5 sm:p-2 rounded-xl text-ink-muted hover:text-ink hover:bg-bg border border-transparent hover:border-line transition-colors flex items-center justify-center"
           >
             <Search className="w-4 h-4 text-accent" />
           </a>
@@ -135,7 +135,7 @@ export function Navbar() {
                 onClick={() => setIsDropdownOpen(!isDropdownOpen)}
                 className="inline-flex items-center gap-2 px-3 py-1.5 rounded-xl bg-bg hover:bg-cream-surface text-ink border border-line font-sans text-xs transition-all"
               >
-                <div className="w-6 h-6 rounded-full bg-accent/15 flex items-center justify-center text-[10px] font-bold text-accent border border-accent/30">
+                <div className="w-6 h-6 rounded-full bg-accent/15 flex items-center justify-center text-xs font-bold text-accent border border-accent/30">
                   {initials || "E"}
                 </div>
                 <span className="hidden sm:inline max-w-[100px] truncate font-medium">
@@ -148,7 +148,7 @@ export function Navbar() {
                 <div className="absolute right-0 mt-2 w-52 bg-cream-surface border border-line rounded-2xl shadow-xl py-2 z-50">
                   <div className="px-4 py-2 border-b border-line">
                     <div className="text-xs font-bold text-ink truncate">{displayName}</div>
-                    <div className="text-[10px] text-ink-muted truncate">{user?.email}</div>
+                    <div className="text-xs text-ink-muted truncate">{user?.email}</div>
                   </div>
 
                   {isAdmin && (
@@ -180,7 +180,7 @@ export function Navbar() {
               type="button"
               onClick={() => openAuthModal()}
               aria-label="Giriş Yap"
-              className="inline-flex items-center justify-center gap-1.5 w-10 h-10 sm:w-auto sm:h-auto sm:px-3 sm:py-2 rounded-xl bg-bg hover:bg-cream-surface text-ink border border-line font-sans text-xs transition-all"
+              className="inline-flex items-center justify-center gap-1.5 w-9 h-9 sm:w-auto sm:h-auto sm:px-3 sm:py-2 rounded-xl bg-bg hover:bg-cream-surface text-ink border border-line font-sans text-xs transition-all"
             >
               <User className="w-4 h-4 sm:w-3.5 sm:h-3.5 text-accent" />
               <span className="hidden sm:inline">Giriş Yap</span>
@@ -191,7 +191,7 @@ export function Navbar() {
           <button
             type="button"
             onClick={openCart}
-            className={`inline-flex items-center gap-2 px-3 sm:px-4 h-10 sm:h-auto sm:py-2 rounded-xl font-sans text-xs transition-all ${
+            className={`inline-flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-4 h-9 sm:h-auto sm:py-2 rounded-xl font-sans text-xs transition-all ${
               itemCount > 0
                 ? "bg-accent text-white font-bold shadow-md hover:bg-accent/90"
                 : "bg-bg hover:bg-cream-surface text-ink border border-line"
@@ -200,7 +200,7 @@ export function Navbar() {
             <ShoppingBag className={`w-4 h-4 ${itemCount > 0 ? "text-white" : "text-accent"}`} />
             <span className="hidden sm:inline">Sepetim</span>
             <span
-              className={`w-5 h-5 rounded-full font-bold flex items-center justify-center text-[10px] ${
+              className={`w-5 h-5 rounded-full font-bold flex items-center justify-center text-xs ${
                 itemCount > 0
                   ? "bg-white text-accent"
                   : "bg-line text-ink"

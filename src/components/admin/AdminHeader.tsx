@@ -117,7 +117,7 @@ export function AdminHeader({
         >
           <Bell className="w-4 h-4" />
           {pendingOrderCount > 0 && (
-            <span className="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-amber-500 text-stone-950 text-[10px] font-bold flex items-center justify-center animate-bounce">
+            <span className="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-amber-500 text-stone-950 text-xs font-bold flex items-center justify-center animate-bounce">
               {pendingOrderCount}
             </span>
           )}
@@ -129,7 +129,7 @@ export function AdminHeader({
             <div className="text-xs font-serif font-bold text-foreground truncate max-w-[120px]">
               {adminUser?.displayName || "Yönetici"}
             </div>
-            <div className="text-[10px] font-mono text-artisan-gold/80">
+            <div className="text-xs font-mono text-artisan-gold/80">
               {adminUser?.role === "superadmin" ? "Süper Admin" : "Yönetici"}
             </div>
           </div>

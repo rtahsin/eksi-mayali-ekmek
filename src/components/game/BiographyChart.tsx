@@ -62,7 +62,7 @@ export function BiographyChart({ run }: { run: BakeRun }) {
             </g>
           ))}
       </svg>
-      <figcaption className="flex flex-wrap gap-x-3 gap-y-1 text-[11px] font-bold justify-center">
+      <figcaption className="flex flex-wrap gap-x-3 gap-y-1 text-xs font-bold justify-center">
         {lines.map((l) => (
           <span key={l.key} className="inline-flex items-center gap-1">
             <span className="w-3 h-1 rounded" style={{ background: l.color }} />

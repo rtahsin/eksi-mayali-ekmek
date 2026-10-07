@@ -100,45 +100,45 @@ export default function AdminCourierManagementPage() {
       {/* Metrics Ribbon */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4">
         <div className="bg-[#18130F] border border-[#261E17] p-4 rounded-2xl space-y-1">
-          <div className="flex items-center gap-2 text-[11px] font-sans text-stone-400">
+          <div className="flex items-center gap-2 text-xs font-sans text-stone-400">
             <Users className="w-3.5 h-3.5 text-[#F59E0B]" />
             <span>Toplam Kayıtlı Kurye</span>
           </div>
           <div className="font-serif text-2xl font-bold text-stone-100">{couriers.length}</div>
-          <div className="text-[10px] text-stone-500 font-sans">Kayıtlı dağıtım personeli</div>
+          <div className="text-xs text-stone-500 font-sans">Kayıtlı dağıtım personeli</div>
         </div>
 
         <div className="bg-[#18130F] border border-[#261E17] p-4 rounded-2xl space-y-1">
-          <div className="flex items-center gap-2 text-[11px] font-sans text-stone-400">
+          <div className="flex items-center gap-2 text-xs font-sans text-stone-400">
             <Power className="w-3.5 h-3.5 text-emerald-400" />
             <span>Vardiyada (Aktif)</span>
           </div>
           <div className="font-serif text-2xl font-bold text-emerald-400">
             {activeCouriers.length}
           </div>
-          <div className="text-[10px] text-emerald-500/80 font-sans">Sipariş almaya hazır</div>
+          <div className="text-xs text-emerald-500/80 font-sans">Sipariş almaya hazır</div>
         </div>
 
         <div className="bg-[#18130F] border border-[#261E17] p-4 rounded-2xl space-y-1">
-          <div className="flex items-center gap-2 text-[11px] font-sans text-stone-400">
+          <div className="flex items-center gap-2 text-xs font-sans text-stone-400">
             <Truck className="w-3.5 h-3.5 text-blue-400" />
             <span>Kuryedeki Paketler</span>
           </div>
           <div className="font-serif text-2xl font-bold text-blue-400">
             {todayOrders.filter((o) => o.status === "kuryede").length}
           </div>
-          <div className="text-[10px] text-stone-500 font-sans">Şu an yolda</div>
+          <div className="text-xs text-stone-500 font-sans">Şu an yolda</div>
         </div>
 
         <div className="bg-[#18130F] border border-[#261E17] p-4 rounded-2xl space-y-1">
-          <div className="flex items-center gap-2 text-[11px] font-sans text-stone-400">
+          <div className="flex items-center gap-2 text-xs font-sans text-stone-400">
             <RefreshCw className="w-3.5 h-3.5 text-amber-400" />
             <span>Bugün Tamamlanan</span>
           </div>
           <div className="font-serif text-2xl font-bold text-stone-100">
             {todayOrders.filter((o) => o.status === "teslim_edildi").length}
           </div>
-          <div className="text-[10px] text-stone-500 font-sans">Teslim edilen sipariş</div>
+          <div className="text-xs text-stone-500 font-sans">Teslim edilen sipariş</div>
         </div>
       </div>
 

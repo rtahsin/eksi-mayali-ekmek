@@ -179,7 +179,7 @@ export function Micro({
           <Sparkles className="w-3.5 h-3.5" />
           <span>Lab Büyüteci ({magnification})</span>
         </span>
-        <span className="text-[10px] text-foreground/50 uppercase">
+        <span className="text-xs text-foreground/50 uppercase">
           Faz: {snapshot.phase}
         </span>
       </div>

@@ -59,7 +59,7 @@ export default function B2BCollectionModal({ cariId, cariName, onClose, onSucces
             </div>
             <div>
               <h3 className="font-bold text-stone-100 font-serif">Tahsilat Al</h3>
-              <p className="text-[10px] text-stone-400">{cariName}</p>
+              <p className="text-xs text-stone-400">{cariName}</p>
             </div>
           </div>
           <button onClick={onClose} disabled={loading} className="text-stone-400 hover:text-white">
@@ -71,7 +71,7 @@ export default function B2BCollectionModal({ cariId, cariName, onClose, onSucces
           {error && <div className="p-3 bg-rose-500/10 border border-rose-500/20 rounded-xl text-rose-400 text-xs">{error}</div>}
           
           <div>
-            <label className="block text-[10px] font-bold text-stone-500 uppercase tracking-wider mb-2">Tahsilat Tutarı (₺)</label>
+            <label className="block text-xs font-bold text-stone-500 uppercase tracking-wider mb-2">Tahsilat Tutarı (₺)</label>
             <input
               type="number"
               value={amount}
@@ -83,7 +83,7 @@ export default function B2BCollectionModal({ cariId, cariName, onClose, onSucces
           </div>
 
           <div>
-            <label className="block text-[10px] font-bold text-stone-500 uppercase tracking-wider mb-2">Ödeme Yöntemi</label>
+            <label className="block text-xs font-bold text-stone-500 uppercase tracking-wider mb-2">Ödeme Yöntemi</label>
             <div className="grid grid-cols-3 gap-2">
               {[
                 { id: "banka_havale", label: "Havale/EFT" },
@@ -107,7 +107,7 @@ export default function B2BCollectionModal({ cariId, cariName, onClose, onSucces
           </div>
 
           <div>
-            <label className="block text-[10px] font-bold text-stone-500 uppercase tracking-wider mb-2">Açıklama / Not</label>
+            <label className="block text-xs font-bold text-stone-500 uppercase tracking-wider mb-2">Açıklama / Not</label>
             <textarea
               value={desc}
               onChange={(e) => setDesc(e.target.value)}

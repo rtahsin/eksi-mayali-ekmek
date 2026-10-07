@@ -166,4 +166,25 @@ body {
   display: none;
 }
 
+/* Erişilebilirlik: Prefers Reduced Motion desteği (I-04) */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
 
+/* Mobil Tam Ekran ve Güvenli Alan Desteği (I-04) */
+.h-screen-dvh {
+  height: 100dvh;
+}
+.min-h-screen-dvh {
+  min-height: 100dvh;
+}
+.pb-safe {
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}

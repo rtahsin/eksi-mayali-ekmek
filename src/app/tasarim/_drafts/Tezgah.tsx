@@ -87,7 +87,7 @@ export function TezgahDraft({ data }: { data: DraftData }) {
             ["ÖDEME", "Kapıda nakit / kart"],
           ].map(([k, v]) => (
             <div key={k} className="px-4 py-3" style={{ background: C.white }}>
-              <div className="text-[11px]" style={{ ...mono, color: C.soft }}>
+              <div className="text-xs" style={{ ...mono, color: C.soft }}>
                 {k}
               </div>
               <div className="font-semibold">{v}</div>

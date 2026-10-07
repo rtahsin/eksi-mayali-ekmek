@@ -119,43 +119,43 @@ export default function AdminOrdersPage() {
       {/* Live Operational Metrics Ribbon */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4">
         <div className="bg-[#18130F] border border-[#261E17] p-4 rounded-2xl space-y-1">
-          <div className="flex items-center gap-2 text-[11px] font-sans text-foreground/60">
+          <div className="flex items-center gap-2 text-xs font-sans text-foreground/60">
             <ShoppingBag className="w-3.5 h-3.5 text-artisan-gold" />
             <span>Bugünkü Siparişler</span>
           </div>
           <div className="font-serif text-2xl font-bold text-foreground">{stats.totalToday}</div>
-          <div className="text-[10px] text-artisan-gold/80 font-mono">
+          <div className="text-xs text-artisan-gold/80 font-mono">
             Toplam: {stats.todayRevenue.toLocaleString("tr-TR")} ₺
           </div>
         </div>
 
         <div className="bg-[#18130F] border border-[#261E17] p-4 rounded-2xl space-y-1">
-          <div className="flex items-center gap-2 text-[11px] font-sans text-foreground/60">
+          <div className="flex items-center gap-2 text-xs font-sans text-foreground/60">
             <Clock className="w-3.5 h-3.5 text-amber-400" />
             <span>Bekleyen / Teyit</span>
           </div>
           <div className="font-serif text-2xl font-bold text-amber-400">{stats.pendingCount}</div>
-          <div className="text-[10px] text-foreground/50 font-sans">Aksiyon bekliyor</div>
+          <div className="text-xs text-foreground/50 font-sans">Aksiyon bekliyor</div>
         </div>
 
         <div className="bg-[#18130F] border border-[#261E17] p-4 rounded-2xl space-y-1">
-          <div className="flex items-center gap-2 text-[11px] font-sans text-foreground/60">
+          <div className="flex items-center gap-2 text-xs font-sans text-foreground/60">
             <Flame className="w-3.5 h-3.5 text-red-400" />
             <span>Fırında / Hazırlıkta</span>
           </div>
           <div className="font-serif text-2xl font-bold text-red-400">
             {stats.processingCount + stats.bakingCount}
           </div>
-          <div className="text-[10px] text-foreground/50 font-sans">Üretim aşamasında</div>
+          <div className="text-xs text-foreground/50 font-sans">Üretim aşamasında</div>
         </div>
 
         <div className="bg-[#18130F] border border-[#261E17] p-4 rounded-2xl space-y-1">
-          <div className="flex items-center gap-2 text-[11px] font-sans text-foreground/60">
+          <div className="flex items-center gap-2 text-xs font-sans text-foreground/60">
             <Truck className="w-3.5 h-3.5 text-blue-400" />
             <span>Kurye Dağıtımında</span>
           </div>
           <div className="font-serif text-2xl font-bold text-blue-400">{stats.courierCount}</div>
-          <div className="text-[10px] text-foreground/50 font-sans">Yoldaki paketler</div>
+          <div className="text-xs text-foreground/50 font-sans">Yoldaki paketler</div>
         </div>
       </div>
 
@@ -227,7 +227,7 @@ export default function AdminOrdersPage() {
             >
               <span>{tab.label}</span>
               {tab.count !== undefined && tab.count > 0 && (
-                <span className="px-1.5 py-0.2 rounded-full bg-artisan-gold/20 text-artisan-gold text-[10px] font-mono">
+                <span className="px-1.5 py-0.2 rounded-full bg-artisan-gold/20 text-artisan-gold text-xs font-mono">
                   {tab.count}
                 </span>
               )}
@@ -237,7 +237,7 @@ export default function AdminOrdersPage() {
 
         {/* Row 3: Özel Hızlı Filtreler (Tahsilat & Kurye Durumu) */}
         <div className="flex items-center gap-2 pt-1 border-t border-[#221812] text-xs">
-          <span className="text-[11px] font-sans text-foreground/50">Hızlı Filtre:</span>
+          <span className="text-xs font-sans text-foreground/50">Hızlı Filtre:</span>
           <button
             onClick={() => setExtraFilter(extraFilter === "pending_payment" ? "none" : "pending_payment")}
             className={`px-2.5 py-1 rounded-lg text-xs transition-colors flex items-center gap-1.5 ${
@@ -247,7 +247,7 @@ export default function AdminOrdersPage() {
             }`}
           >
             <span>Ödemesi Bekleyen</span>
-            <span className="text-[10px] font-mono px-1 rounded bg-amber-500/10">
+            <span className="text-xs font-mono px-1 rounded bg-amber-500/10">
               {pendingPaymentOrders.length} ({pendingPaymentTotal} ₺)
             </span>
           </button>
@@ -261,7 +261,7 @@ export default function AdminOrdersPage() {
             }`}
           >
             <span>Kuryeye Atanmamış</span>
-            <span className="text-[10px] font-mono px-1 rounded bg-blue-500/10">
+            <span className="text-xs font-mono px-1 rounded bg-blue-500/10">
               {unassignedCourierCount}
             </span>
           </button>

@@ -35,7 +35,7 @@ export function Tahsin({ children, speed = 18 }: { children: string; speed?: num
         className="relative rounded-2xl rounded-tl-sm px-4 py-3 text-[15px] leading-relaxed border shadow-sm min-h-[52px] w-full"
         style={{ background: C.card, borderColor: C.line, color: C.ink }}
       >
-        <span className="block text-[11px] font-bold uppercase tracking-wider mb-0.5" style={{ color: C.accent }}>
+        <span className="block text-xs font-bold uppercase tracking-wider mb-0.5" style={{ color: C.accent }}>
           Tahsin
         </span>
         {children.slice(0, n)}
@@ -107,7 +107,7 @@ export function Readout({ value, label, tone = "ink" }: { value: string; label: 
       <div className="text-2xl font-bold" style={{ ...mono, color }}>
         {value}
       </div>
-      <div className="text-[11px] uppercase tracking-wider" style={{ color: C.soft }}>
+      <div className="text-xs uppercase tracking-wider" style={{ color: C.soft }}>
         {label}
       </div>
     </div>
@@ -134,7 +134,7 @@ export function Feedback({ tone, children }: { tone: "good" | "warn" | "bad"; ch
 export function StageTitle({ n, title, sub, kicker = "Aşama" }: { n: number; title: string; sub?: string; kicker?: string }) {
   return (
     <div className="space-y-1">
-      <div className="text-[11px] font-bold uppercase tracking-[0.2em]" style={{ color: C.accent }}>
+      <div className="text-xs font-bold uppercase tracking-[0.2em]" style={{ color: C.accent }}>
         {kicker} {n}
       </div>
       <h2 className="text-3xl font-semibold leading-tight" style={serif}>

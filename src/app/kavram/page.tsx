@@ -5,6 +5,8 @@ import { BookOpen, Sparkles, ArrowRight, Dna } from "lucide-react";
 import { GRAPH, type ConceptId } from "@/lib/knowledge/registry";
 import { claimsAbout } from "@/lib/knowledge/query";
 import type { ConceptKind } from "@/lib/knowledge/types";
+import { Navbar } from "@/components/common/Navbar";
+import { Footer } from "@/components/common/Footer";
 
 export const metadata: Metadata = {
   title: "Kavramlar Sözlüğü | EkmekLab Bilim & Zanaat",
@@ -50,21 +52,23 @@ export default function ConceptsIndexPage() {
   }
 
   return (
-    <div className="min-h-screen bg-surface text-foreground font-sans">
+    <div className="min-h-screen flex flex-col bg-bg text-ink font-sans selection:bg-accent/20 selection:text-accent">
+      <Navbar />
+
       {/* Hero Header */}
-      <header className="border-b border-surface-border bg-surface-panel/40 py-12 md:py-16">
+      <header className="border-b border-line bg-cream-surface/60 py-12 md:py-16">
         <div className="max-w-5xl mx-auto px-4 sm:px-6">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-artisan-gold/10 border border-artisan-gold/30 text-artisan-gold text-xs font-medium mb-4">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-accent/10 border border-accent/25 text-accent text-xs font-medium mb-4">
             <Dna className="w-3.5 h-3.5" />
             <span>Fırıncılık & Fermantasyon Sözlüğü</span>
           </div>
-          <h1 className="font-serif text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-foreground mb-4">
-            Bilim & Zanaat <span className="text-artisan-gold italic">Kavramları</span>
+          <h1 className="font-serif text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-ink mb-4">
+            Bilim & Zanaat <span className="text-accent italic font-normal">Kavramları</span>
           </h1>
-          <p className="text-sm sm:text-base text-foreground/70 max-w-2xl leading-relaxed">
+          <p className="text-sm sm:text-base text-ink-muted max-w-2xl leading-relaxed">
             Ekşi mayanın canlı ekosisteminden taş değirmende unun öğütülmesine kadar atölyede gözlemlediğimiz her olgunun bilimsel karşılığı. Kulaktan dolma inanışlar yerine doğrulanmış kanıtlar.
           </p>
-          <div className="mt-6 flex flex-wrap items-center gap-4 text-xs text-foreground/50">
+          <div className="mt-6 flex flex-wrap items-center gap-4 text-xs text-ink-muted">
             <span>Toplam {allConcepts.length} Kavram</span>
             <span>·</span>
             <span>3 Katmanlı Anlatım (Usta / Neden / Bilim)</span>
@@ -75,7 +79,7 @@ export default function ConceptsIndexPage() {
       </header>
 
       {/* Grouped Concepts Section */}
-      <main className="max-w-5xl mx-auto px-4 sm:px-6 py-12 space-y-12">
+      <main className="flex-1 max-w-5xl mx-auto px-4 sm:px-6 py-12 space-y-12 w-full">
         {KIND_ORDER.map((kind) => {
           const items = grouped[kind];
           if (!items || items.length === 0) return null;
@@ -83,14 +87,14 @@ export default function ConceptsIndexPage() {
 
           return (
             <section key={kind} className="space-y-4">
-              <div className="border-b border-surface-border pb-2">
-                <h2 className="font-serif text-xl sm:text-2xl font-bold text-foreground flex items-center gap-2">
+              <div className="border-b border-line pb-2">
+                <h2 className="font-serif text-xl sm:text-2xl font-bold text-ink flex items-center gap-2">
                   <span>{meta.title}</span>
-                  <span className="text-xs font-sans font-normal text-artisan-gold/80 px-2 py-0.5 rounded-md bg-artisan-gold/10">
+                  <span className="text-xs font-sans font-normal text-accent px-2 py-0.5 rounded-md bg-accent/10">
                     {items.length}
                   </span>
                 </h2>
-                <p className="text-xs text-foreground/60 mt-1">{meta.desc}</p>
+                <p className="text-xs text-ink-muted mt-1">{meta.desc}</p>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -102,42 +106,42 @@ export default function ConceptsIndexPage() {
                     <Link
                       key={slug}
                       href={`/kavram/${slug}`}
-                      className="group p-5 rounded-2xl bg-surface-panel/70 hover:bg-surface-elevated border border-surface-border hover:border-artisan-gold/40 transition-all flex flex-col justify-between"
+                      className="group p-5 rounded-2xl bg-cream-surface hover:border-accent/50 border border-line transition-all flex flex-col justify-between shadow-xs hover:shadow-md"
                     >
                       <div>
                         <div className="flex items-center justify-between gap-2 mb-2">
-                          <span className="font-serif text-lg font-bold text-foreground group-hover:text-artisan-gold transition-colors">
+                          <span className="font-serif text-lg font-bold text-ink group-hover:text-accent transition-colors">
                             {concept.name}
                           </span>
                           {concept.nick && (
-                            <span className="text-[11px] font-mono text-artisan-gold/90 px-2 py-0.5 rounded-full bg-artisan-brown/20 border border-artisan-gold/20">
+                            <span className="text-xs font-mono text-accent px-2 py-0.5 rounded-full bg-accent/10 border border-accent/20">
                               {concept.nick}
                             </span>
                           )}
                         </div>
 
                         {concept.latin && (
-                          <div className="text-xs italic text-foreground/50 mb-2 font-serif">
+                          <div className="text-xs italic text-ink-muted mb-2 font-serif">
                             {concept.latin}
                           </div>
                         )}
 
-                        <p className="text-xs text-foreground/75 leading-relaxed line-clamp-2">
+                        <p className="text-xs text-ink-muted leading-relaxed line-clamp-2">
                           {concept.layers.usta}
                         </p>
                       </div>
 
-                      <div className="mt-4 pt-3 border-t border-surface-border/60 flex items-center justify-between text-[11px] text-foreground/50">
+                      <div className="mt-4 pt-3 border-t border-line/60 flex items-center justify-between text-xs text-ink-muted">
                         <div className="flex items-center gap-2">
                           <span>{claims.length} iddia</span>
                           {hasReviewed && (
-                            <span className="inline-flex items-center gap-1 text-emerald-400">
+                            <span className="inline-flex items-center gap-1 text-good">
                               <Sparkles className="w-3 h-3" />
                               <span>Onaylı</span>
                             </span>
                           )}
                         </div>
-                        <span className="group-hover:translate-x-1 group-hover:text-artisan-gold transition-all flex items-center gap-1 font-medium">
+                        <span className="group-hover:translate-x-1 group-hover:text-accent transition-all flex items-center gap-1 font-medium">
                           İncele <ArrowRight className="w-3 h-3" />
                         </span>
                       </div>
@@ -149,6 +153,8 @@ export default function ConceptsIndexPage() {
           );
         })}
       </main>
+
+      <Footer />
     </div>
   );
 }

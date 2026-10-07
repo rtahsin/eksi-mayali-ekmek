@@ -39,7 +39,7 @@ export function VideoFacadeCard({ video}: VideoFacadeCardProps) {
  <Play className="w-5 h-5 fill-current ml-0.5" />
  </div>
 
- <span className="absolute bottom-3 right-3 text-[11px] font-mono text-foreground bg-black/70 px-2.5 py-0.5 rounded border border-white/10">
+ <span className="absolute bottom-3 right-3 text-xs font-mono text-foreground bg-black/70 px-2.5 py-0.5 rounded border border-white/10">
  {video.duration}
  </span>
  </div>

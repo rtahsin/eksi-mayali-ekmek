@@ -164,7 +164,7 @@ export default function DeliveryConsolePage() {
               />
             </label>
           </div>
-          <div className="flex items-center justify-between text-[11px] text-stone-400">
+          <div className="flex items-center justify-between text-xs text-stone-400">
             <span>{formatTrDate(selectedDate, "long")}</span>
             <span>
               {pending.length} bekleyen · {delivered.length} teslim

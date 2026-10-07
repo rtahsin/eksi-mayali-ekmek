@@ -87,7 +87,7 @@ export default function MayaPlanlayiciPage() {
               className="w-full accent-accent"
             />
 
-            <div className="flex justify-between text-[11px] text-ink-muted font-mono">
+            <div className="flex justify-between text-xs text-ink-muted font-mono">
               <span>80g (1 küçük somun)</span>
               <span>150g (Standart 1 büyük somun)</span>
               <span>300g (2 somun)</span>
@@ -124,7 +124,7 @@ export default function MayaPlanlayiciPage() {
                     <div className="text-xs text-accent font-medium mt-0.5">
                       ~{profile.baseHoursAt24C} saat
                     </div>
-                    <div className="text-[10px] text-ink-muted mt-1 leading-tight line-clamp-2">
+                    <div className="text-xs text-ink-muted mt-1 leading-tight line-clamp-2">
                       {profile.description}
                     </div>
                   </button>
@@ -159,7 +159,7 @@ export default function MayaPlanlayiciPage() {
               className="w-full accent-accent"
             />
 
-            <div className="flex justify-between text-[11px] text-ink-muted font-mono">
+            <div className="flex justify-between text-xs text-ink-muted font-mono">
               <span>18°C (Serin/Yavaş)</span>
               <span>24°C (Standart Oda)</span>
               <span>28°C (Ilık/Hızlı)</span>
@@ -198,19 +198,19 @@ export default function MayaPlanlayiciPage() {
 
             <div className="grid grid-cols-3 gap-2 text-center">
               <div className="p-3 rounded-xl bg-bg border border-line">
-                <span className="text-[11px] text-ink-muted block">Ana Maya</span>
+                <span className="text-xs text-ink-muted block">Ana Maya</span>
                 <span className="font-mono text-lg font-bold text-accent">
                   {result.seedStarterWeight}g
                 </span>
               </div>
               <div className="p-3 rounded-xl bg-bg border border-line">
-                <span className="text-[11px] text-ink-muted block">Un (Besin)</span>
+                <span className="text-xs text-ink-muted block">Un (Besin)</span>
                 <span className="font-mono text-lg font-bold text-ink">
                   {result.flourWeight}g
                 </span>
               </div>
               <div className="p-3 rounded-xl bg-bg border border-line">
-                <span className="text-[11px] text-ink-muted block">İçme Suyu</span>
+                <span className="text-xs text-ink-muted block">İçme Suyu</span>
                 <span className="font-mono text-lg font-bold text-ink">
                   {result.waterWeight}g
                 </span>
@@ -241,7 +241,7 @@ export default function MayaPlanlayiciPage() {
                 <div className="font-mono text-xl font-bold text-accent">
                   {result.suggestedFeedingTime}
                 </div>
-                <span className="text-[11px] text-ink-muted">
+                <span className="text-xs text-ink-muted">
                   Hedef yoğurma saatinden {result.estimatedPeakHours} saat önce besleyiniz.
                 </span>
               </div>
@@ -262,7 +262,7 @@ export default function MayaPlanlayiciPage() {
                 <div className="w-[40%] bg-accent" title="Aktif Zirve (Hamura Katılacak An)" />
                 <div className="w-[30%] bg-stone-300" title="Çöküş & Asitlenme" />
               </div>
-              <div className="flex justify-between text-[10px] text-ink-muted font-mono">
+              <div className="flex justify-between text-xs text-ink-muted font-mono">
                 <span>Başlangıç</span>
                 <span className="text-accent font-bold">ZİRVE (2.5-3x)</span>
                 <span>Çöküş</span>

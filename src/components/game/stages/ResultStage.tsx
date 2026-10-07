@@ -95,7 +95,7 @@ export function ResultStage({ d, r, level, best, nextUnlocked, notesCollected, n
   return (
     <div className="space-y-6">
       <div className="text-center space-y-1">
-        <p className="text-[11px] font-bold uppercase tracking-[0.2em]" style={{ color: C.accent }}>
+        <p className="text-xs font-bold uppercase tracking-[0.2em]" style={{ color: C.accent }}>
           {level.name} · senin ekmeğin
         </p>
         <h2
@@ -185,7 +185,7 @@ export function ResultStage({ d, r, level, best, nextUnlocked, notesCollected, n
         <div className="text-sm font-bold mb-1">Sen ve usta</div>
         <table className="w-full">
           <thead>
-            <tr className="text-[11px] uppercase tracking-wider" style={{ color: C.soft }}>
+            <tr className="text-xs uppercase tracking-wider" style={{ color: C.soft }}>
               <th className="text-left font-semibold pb-1"> </th>
               <th className="text-right font-semibold pb-1">sen</th>
               <th className="text-right font-semibold pb-1">Tahsin</th>

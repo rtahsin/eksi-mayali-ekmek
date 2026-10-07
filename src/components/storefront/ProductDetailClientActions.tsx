@@ -61,7 +61,7 @@ export function ProductDetailClientActions({ product }: ProductDetailClientActio
           <button
             type="button"
             onClick={handleBuyNow}
-            className="pointer-events-auto w-full flex items-center justify-between gap-3 px-4 py-3.5 rounded-2xl bg-artisan-terracotta-dark text-white font-sans font-semibold text-sm shadow-lg shadow-black/40 active:scale-[0.99] transition-transform"
+            className="pointer-events-auto w-full flex items-center justify-between gap-3 px-4 py-3.5 rounded-2xl bg-accent text-white font-sans font-semibold text-sm shadow-lg shadow-black/30 active:scale-[0.99] transition-transform"
           >
             <span>Evine getirelim</span>
             <span className="font-serif text-base">{product.price} ₺</span>
@@ -69,32 +69,32 @@ export function ProductDetailClientActions({ product }: ProductDetailClientActio
         </div>
       )}
       {/* Price & Quantity & Add To Cart Box */}
-      <div className="p-4 sm:p-5 rounded-2xl bg-surface border border-surface-border space-y-4 shadow-xl">
+      <div className="p-4 sm:p-5 rounded-2xl bg-cream-surface border border-line space-y-4 shadow-xl text-ink">
         <div className="flex items-baseline justify-between">
           <div>
-            <span className="text-xs font-sans text-foreground/60 uppercase tracking-wider block">
+            <span className="text-xs font-sans text-ink-muted uppercase tracking-wider block">
               Birim Fiyat
             </span>
             <div className="flex items-baseline gap-1.5 mt-0.5">
-              <span className="font-serif text-3xl font-bold text-foreground">
+              <span className="font-serif text-3xl font-bold text-ink">
                 {product.price}
               </span>
-              <span className="text-sm font-sans text-artisan-gold">TL</span>
-              <span className="text-xs text-foreground/50 ml-1">
+              <span className="text-sm font-sans text-accent font-semibold">TL</span>
+              <span className="text-xs text-ink-muted ml-1">
                 / {product.weight} {product.weightUnit || "g"}
               </span>
             </div>
           </div>
 
           <div className="text-right">
-            <span className="text-xs font-sans text-foreground/60 block">Stok Durumu</span>
+            <span className="text-xs font-sans text-ink-muted block">Stok Durumu</span>
             {isAvailable ? (
-              <span className="inline-flex items-center gap-1.5 text-xs text-emerald-400 font-medium mt-0.5">
-                <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+              <span className="inline-flex items-center gap-1.5 text-xs text-good font-semibold mt-0.5">
+                <span className="w-2 h-2 rounded-full bg-good animate-pulse" />
                 Taze Üretimde / Mevcut
               </span>
             ) : (
-              <span className="text-xs text-red-400 font-medium mt-0.5 block">
+              <span className="text-xs text-bad font-semibold mt-0.5 block">
                 Tükendi / Stokta Yok
               </span>
             )}
@@ -104,24 +104,24 @@ export function ProductDetailClientActions({ product }: ProductDetailClientActio
         {/* Stepper and Add To Cart */}
         <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
           {/* Stepper */}
-          <div className="flex items-center justify-between sm:justify-start rounded-xl bg-surface-panel border border-surface-border overflow-hidden px-1 py-1">
+          <div className="flex items-center justify-between sm:justify-start rounded-xl bg-bg border border-line overflow-hidden px-1 py-1">
             <button
               type="button"
               onClick={handleDecrement}
               disabled={quantity <= 1 || !isAvailable}
-              className="p-2.5 rounded-lg hover:bg-surface text-foreground/70 hover:text-foreground disabled:opacity-40 transition-colors"
+              className="p-2.5 rounded-lg hover:bg-cream-surface text-ink-muted hover:text-ink disabled:opacity-40 transition-colors"
               aria-label="Adet azalt"
             >
               <Minus className="w-4 h-4" />
             </button>
-            <span className="w-12 text-center font-mono font-bold text-sm text-foreground">
+            <span className="w-12 text-center font-mono font-bold text-sm text-ink">
               {quantity}
             </span>
             <button
               type="button"
               onClick={handleIncrement}
               disabled={!isAvailable}
-              className="p-2.5 rounded-lg hover:bg-surface text-foreground/70 hover:text-foreground disabled:opacity-40 transition-colors"
+              className="p-2.5 rounded-lg hover:bg-cream-surface text-ink-muted hover:text-ink disabled:opacity-40 transition-colors"
               aria-label="Adet artır"
             >
               <Plus className="w-4 h-4" />
@@ -135,8 +135,8 @@ export function ProductDetailClientActions({ product }: ProductDetailClientActio
             disabled={!isAvailable}
             className={`flex-1 flex items-center justify-center gap-2 py-3 px-6 rounded-xl font-sans font-bold text-sm transition-all duration-300 shadow-md ${
               isAdded
-                ? "bg-emerald-600 text-white"
-                : "bg-artisan-gold text-[#120E0B] hover:bg-artisan-gold/90 hover:shadow-artisan-gold/20"
+                ? "bg-good text-white"
+                : "bg-accent text-white hover:bg-accent/90"
             } disabled:opacity-50 disabled:cursor-not-allowed`}
           >
             {isAdded ? (
@@ -158,10 +158,10 @@ export function ProductDetailClientActions({ product }: ProductDetailClientActio
           type="button"
           onClick={handleBuyNow}
           disabled={!isAvailable}
-          className="w-full flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl bg-surface-panel hover:bg-surface-elevated border border-surface-border hover:border-artisan-gold/40 text-xs font-sans text-artisan-cream transition-all disabled:opacity-50"
+          className="w-full flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl bg-bg hover:bg-cream-surface border border-line hover:border-accent/40 text-xs font-sans text-ink font-medium transition-all disabled:opacity-50"
         >
           <span>Hemen Sipariş Ver & Sepeti İncele</span>
-          <ArrowRight className="w-3.5 h-3.5 text-artisan-gold" />
+          <ArrowRight className="w-3.5 h-3.5 text-accent" />
         </button>
       </div>
 
@@ -170,9 +170,9 @@ export function ProductDetailClientActions({ product }: ProductDetailClientActio
         href={`https://wa.me/${CONTACT.phoneE164}?text=${whatsappMessage}`}
         target="_blank"
         rel="noopener noreferrer"
-        className="flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl bg-surface/60 hover:bg-surface border border-emerald-500/20 hover:border-emerald-500/50 text-xs text-emerald-400 font-sans transition-all"
+        className="flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl bg-cream-surface hover:bg-bg border border-line text-xs text-ink-muted hover:text-ink font-sans transition-all"
       >
-        <MessageCircle className="w-4 h-4 text-emerald-400" />
+        <MessageCircle className="w-4 h-4 text-good" />
         <span>Özel Gramaj & Toplu Sipariş İçin Fırın Ustasına Yazın</span>
       </a>
     </div>

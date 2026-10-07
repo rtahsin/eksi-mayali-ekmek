@@ -135,7 +135,7 @@ export function Search({ initialQuery = "", autoFocus = false, className = "" }:
                       <div className="space-y-1.5 flex-1 min-w-0">
                         <div className="flex items-center gap-2">
                           <span
-                            className={`inline-flex items-center gap-1 text-[11px] font-mono px-2 py-0.5 rounded-full border ${config.badgeClass}`}
+                            className={`inline-flex items-center gap-1 text-xs font-mono px-2 py-0.5 rounded-full border ${config.badgeClass}`}
                           >
                             <Icon className="w-3 h-3" />
                             <span>{config.label}</span>
@@ -154,7 +154,7 @@ export function Search({ initialQuery = "", autoFocus = false, className = "" }:
                             {doc.tags.slice(0, 4).map((tag) => (
                               <span
                                 key={tag}
-                                className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-surface-elevated text-foreground/50"
+                                className="text-xs font-mono px-1.5 py-0.5 rounded bg-surface-elevated text-foreground/50"
                               >
                                 #{tag}
                               </span>

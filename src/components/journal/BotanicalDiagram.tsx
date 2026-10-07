@@ -11,7 +11,7 @@ export function BotanicalDiagram({ diagram}: BotanicalDiagramProps) {
  return (
  <figure className="my-12 py-8 border-y border-surface-border text-center space-y-4">
  {/* Archival Plate Label */}
- <div className="flex items-center justify-between text-left text-[11px] font-mono tracking-widest text-artisan-gold uppercase pb-2 border-b border-[#2A2017]">
+ <div className="flex items-center justify-between text-left text-xs font-mono tracking-widest text-artisan-gold uppercase pb-2 border-b border-[#2A2017]">
  <span>EKMEKLAB ANATOMİ ARŞİVİ · LEVHA I</span>
  <span className="italic font-serif text-foreground/80/60">Özgün Gravür Çizimi</span>
  </div>

@@ -89,7 +89,7 @@ export function AdminSidebar({ isOpen, onClose, pendingOrderCount = 0 }: AdminSi
               <div className="font-serif text-lg font-bold text-foreground flex items-center gap-1">
                 Ekmek<span className="text-artisan-gold italic">Lab</span>
               </div>
-              <div className="text-[9px] font-sans text-artisan-gold/80 tracking-widest uppercase font-mono">
+              <div className="text-xs font-sans text-artisan-gold/80 tracking-widest uppercase font-mono">
                 Atölye ERP · v2.0
               </div>
             </div>
@@ -134,7 +134,7 @@ export function AdminSidebar({ isOpen, onClose, pendingOrderCount = 0 }: AdminSi
                 </div>
 
                 {item.badge !== undefined && (
-                  <span className="px-1.5 py-0.5 rounded-full bg-amber-500 text-stone-950 font-bold text-[10px] animate-pulse">
+                  <span className="px-1.5 py-0.5 rounded-full bg-amber-500 text-stone-950 font-bold text-xs animate-pulse">
                     {item.badge}
                   </span>
                 )}
@@ -145,7 +145,7 @@ export function AdminSidebar({ isOpen, onClose, pendingOrderCount = 0 }: AdminSi
 
         {/* Footer Security Status & Storefront Link */}
         <div className="p-3.5 border-t border-[#261E17] space-y-2 bg-[#120E0B]">
-          <div className="flex items-center gap-2 px-2.5 py-1.5 rounded-lg bg-[#1A1410] border border-[#2A201A] text-[10px] text-emerald-400">
+          <div className="flex items-center gap-2 px-2.5 py-1.5 rounded-lg bg-[#1A1410] border border-[#2A201A] text-xs text-emerald-400">
             <ShieldCheck className="w-3.5 h-3.5 shrink-0" />
             <span className="truncate">Google ile doğrulandı</span>
           </div>

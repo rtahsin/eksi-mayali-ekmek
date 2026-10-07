@@ -448,7 +448,7 @@ export default function AdminCustomersPage() {
           <div className="overflow-x-auto">
             <table className="w-full text-left border-collapse">
               <thead>
-                <tr className="border-b border-stone-800 text-[11px] font-semibold text-stone-400 uppercase tracking-wider bg-stone-950/40">
+                <tr className="border-b border-stone-800 text-xs font-semibold text-stone-400 uppercase tracking-wider bg-stone-950/40">
                   <th className="py-3 px-4">Müşteri / Üye</th>
                   <th className="py-3 px-4">Durum</th>
                   <th className="py-3 px-4">Mahalle / Konum</th>
@@ -476,12 +476,12 @@ export default function AdminCustomersPage() {
                               <div className="flex items-center gap-1.5">
                                 <span className="font-bold text-stone-100">{c.name}</span>
                                 {c.isMudavim && (
-                                  <span className="text-[10px] px-1.5 py-0.2 rounded bg-sky-500/15 text-sky-400 border border-sky-500/30 font-semibold" title="Müdavim Kulübü Üyesi">
+                                  <span className="text-xs px-1.5 py-0.2 rounded bg-sky-500/15 text-sky-400 border border-sky-500/30 font-semibold" title="Müdavim Kulübü Üyesi">
                                     Müdavim
                                   </span>
                                 )}
                               </div>
-                              <div className="font-mono text-[11px] text-stone-400">
+                              <div className="font-mono text-xs text-stone-400">
                                 {c.phone || (c.email ? c.email : "Telefon yok")}
                               </div>
                             </div>
@@ -531,7 +531,7 @@ export default function AdminCustomersPage() {
                           {c.totalSpent.toLocaleString("tr-TR")} ₺
                         </td>
 
-                        <td className="py-3.5 px-4 text-stone-400 font-mono text-[11px]">
+                        <td className="py-3.5 px-4 text-stone-400 font-mono text-xs">
                           {c.lastOrderDate}
                         </td>
 
@@ -634,14 +634,14 @@ export default function AdminCustomersPage() {
                                     {c.orders.slice(0, 4).map((o) => (
                                       <div key={o.id} className="flex items-center justify-between p-1.5 rounded-lg bg-stone-950/60 border border-stone-800/80">
                                         <div>
-                                          <div className="font-mono font-bold text-stone-200 text-[11px]">{o.id}</div>
-                                          <div className="text-[10px] text-stone-400">{o.deliveryDate}</div>
+                                          <div className="font-mono font-bold text-stone-200 text-xs">{o.id}</div>
+                                          <div className="text-xs text-stone-400">{o.deliveryDate}</div>
                                         </div>
                                         <div className="text-right">
-                                          <div className="font-mono font-bold text-amber-400 text-[11px]">{o.totalAmount} ₺</div>
+                                          <div className="font-mono font-bold text-amber-400 text-xs">{o.totalAmount} ₺</div>
                                           <Link
                                             href={`/admin/siparisler/${o.id}`}
-                                            className="text-[10px] text-sky-400 hover:underline flex items-center gap-0.5 justify-end"
+                                            className="text-xs text-sky-400 hover:underline flex items-center gap-0.5 justify-end"
                                           >
                                             Detay <ExternalLink className="w-2.5 h-2.5" />
                                           </Link>

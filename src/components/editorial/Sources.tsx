@@ -10,9 +10,9 @@ export function Sources({ ids }: SourcesProps) {
   if (!ids || ids.length === 0) return null;
 
   return (
-    <section className="mt-12 pt-8 border-t border-[#3D342E]">
-      <h3 className="font-serif text-lg text-[#E8E0D5] mb-4 flex items-center gap-2">
-        <span className="text-[#B4532A]">📚</span>
+    <section className="mt-12 pt-8 border-t border-line">
+      <h3 className="font-serif text-lg text-ink mb-4 flex items-center gap-2">
+        <span className="text-accent">📚</span>
         <span>Yazıda Yararlanılan Kaynaklar</span>
       </h3>
       <ul className="space-y-3">
@@ -25,20 +25,20 @@ export function Sources({ ids }: SourcesProps) {
           return (
             <li
               key={id}
-              className="text-xs text-[#A89F91] leading-relaxed p-3 rounded-lg bg-[#1C1815] border border-[#3D342E]/60"
+              className="text-xs text-ink-muted leading-relaxed p-3.5 rounded-xl bg-cream-surface border border-line"
             >
-              <div className="font-sans font-medium text-[#E8E0D5]">
+              <div className="font-sans font-medium text-ink">
                 {src.authors.join(", ")} ({src.year})
               </div>
-              <div className="italic text-[#D4A373] mt-0.5">{src.title}</div>
-              <div className="text-[11px] text-[#A89F91] mt-1 flex flex-wrap gap-x-3">
+              <div className="italic text-accent mt-0.5">{src.title}</div>
+              <div className="text-xs text-ink-muted mt-1.5 flex flex-wrap gap-x-3">
                 {venue && <span>{venue}</span>}
                 {doi && (
                   <a
                     href={`https://doi.org/${doi}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-[#B4532A] hover:underline"
+                    className="text-accent hover:underline font-mono"
                   >
                     doi:{doi}
                   </a>

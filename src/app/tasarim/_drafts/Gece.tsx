@@ -28,7 +28,7 @@ function ProductCard({ p }: { p: Product }) {
         <img src={p.imageUrl || "/images/products/koy-ekmegi.jpg"} alt={p.name} className="w-full h-full object-cover" />
         {badge(p) && (
           <span
-            className="absolute top-2 left-2 px-2 py-1 rounded-md text-[10px] font-bold uppercase tracking-wider"
+            className="absolute top-2 left-2 px-2 py-1 rounded-md text-xs font-bold uppercase tracking-wider"
             style={{ background: `${C.bg}CC`, color: C.gold }}
           >
             {badge(p)}
@@ -114,7 +114,7 @@ export function GeceDraft({ data }: { data: DraftData }) {
             ["Ödeme", "Kapıda nakit ya da kart"],
           ].map(([k, v]) => (
             <div key={k} className="rounded-xl border px-4 py-3" style={{ borderColor: C.line, background: C.card }}>
-              <div className="text-[11px] uppercase tracking-wider" style={{ color: C.gold }}>
+              <div className="text-xs uppercase tracking-wider" style={{ color: C.gold }}>
                 {k}
               </div>
               <div style={{ color: C.text }}>{v}</div>

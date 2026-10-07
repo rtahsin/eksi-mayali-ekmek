@@ -99,7 +99,7 @@ export function CourierFormModal({
               <h3 className="font-serif font-bold text-base text-[#F7EBD3]">
                 {courier ? "Kurye Bilgilerini Güncelle" : "Yeni Kurye Ekle"}
               </h3>
-              <p className="text-[11px] text-stone-400">
+              <p className="text-xs text-stone-400">
                 {courier ? courier.displayName : "Dağıtım ekibine yeni kurye tanımlayın"}
               </p>
             </div>

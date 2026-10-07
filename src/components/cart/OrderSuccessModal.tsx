@@ -121,7 +121,7 @@ export function OrderSuccessModal() {
             </button>
           )}
 
-          <p className="text-[11px] text-center text-foreground/50 font-sans">
+          <p className="text-xs text-center text-foreground/50 font-sans">
             Bu cihazdan verdiğiniz siparişler <Link href="/siparislerim" onClick={hideSuccess} className="underline">Siparişlerim</Link> sayfasında da görünür.
           </p>
         </div>

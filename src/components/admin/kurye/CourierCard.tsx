@@ -67,7 +67,7 @@ export function CourierCard({
               {courier.displayName}
             </h3>
             <span
-              className={`px-2 py-0.5 rounded-full text-[10px] font-bold border ${
+              className={`px-2 py-0.5 rounded-full text-xs font-bold border ${
                 courier.isOnShift
                   ? "bg-emerald-500/10 text-emerald-400 border-emerald-500/30"
                   : "bg-stone-800 text-stone-400 border-stone-700"
@@ -108,11 +108,11 @@ export function CourierCard({
       {/* Stats Ribbon */}
       <div className="grid grid-cols-2 gap-2 text-xs">
         <div className="p-2.5 rounded-2xl bg-[#120E0B] border border-[#261E17]">
-          <span className="text-[10px] font-mono text-stone-500 uppercase block">Atanan Sipariş</span>
+          <span className="text-xs font-mono text-stone-500 uppercase block">Atanan Sipariş</span>
           <span className="text-base font-bold text-stone-200">{assignedOrderCount}</span>
         </div>
         <div className="p-2.5 rounded-2xl bg-[#120E0B] border border-[#261E17]">
-          <span className="text-[10px] font-mono text-stone-500 uppercase block">Teslim Edilen</span>
+          <span className="text-xs font-mono text-stone-500 uppercase block">Teslim Edilen</span>
           <span className="text-base font-bold text-emerald-400">{completedOrderCount}</span>
         </div>
       </div>
@@ -131,7 +131,7 @@ export function CourierCard({
         </div>
 
         {courier.currentLat && courier.currentLng ? (
-          <div className="p-2.5 rounded-xl bg-blue-500/10 border border-blue-500/20 text-[11px] flex items-center justify-between text-blue-300">
+          <div className="p-2.5 rounded-xl bg-blue-500/10 border border-blue-500/20 text-xs flex items-center justify-between text-blue-300">
             <div className="flex items-center gap-1.5">
               <MapPin className="w-3.5 h-3.5 text-blue-400" />
               <span>Canlı GPS Konumu Var</span>
@@ -147,7 +147,7 @@ export function CourierCard({
             </a>
           </div>
         ) : (
-          <div className="text-[11px] text-stone-600 italic">
+          <div className="text-xs text-stone-600 italic">
             Henüz GPS sinyali alınmadı
           </div>
         )}

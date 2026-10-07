@@ -33,7 +33,7 @@ export function CourierActiveStopCard({ currentStop, stopIndex, totalStops, onOp
         <span className="font-bold text-amber-400 uppercase tracking-widest">
           Sıradaki durak {stopIndex + 1} / {totalStops}
         </span>
-        <span className="text-stone-400 font-mono text-[11px]">
+        <span className="text-stone-400 font-mono text-xs">
           #{currentStop.orderNumber || currentStop.id.slice(-6)}
           {currentStop.deliveryTimeWindow ? ` · ${currentStop.deliveryTimeWindow}` : ""}
         </span>
@@ -43,7 +43,7 @@ export function CourierActiveStopCard({ currentStop, stopIndex, totalStops, onOp
         {/* Müşteri + ara / WhatsApp */}
         <div className="flex items-start justify-between gap-3">
           <div className="min-w-0">
-            <span className="text-[11px] font-bold text-amber-500/90 uppercase tracking-wider">
+            <span className="text-xs font-bold text-amber-500/90 uppercase tracking-wider">
               {currentStop.neighborhood || "Beylikdüzü"}
             </span>
             <h2 className="text-xl sm:text-2xl font-bold font-serif text-stone-100 mt-0.5 break-words">
@@ -94,7 +94,7 @@ export function CourierActiveStopCard({ currentStop, stopIndex, totalStops, onOp
 
         {/* Paket içeriği */}
         <div className="bg-[#120E0B]/60 border border-[#261E17] rounded-2xl p-3.5 space-y-1.5">
-          <div className="text-[11px] font-bold text-stone-400 uppercase tracking-wider flex items-center gap-1.5">
+          <div className="text-xs font-bold text-stone-400 uppercase tracking-wider flex items-center gap-1.5">
             <Package className="w-3.5 h-3.5 text-amber-400" /> Paket
           </div>
           {currentStop.items.map((it, idx) => (
@@ -124,7 +124,7 @@ export function CourierActiveStopCard({ currentStop, stopIndex, totalStops, onOp
             <CircleCheck className="w-6 h-6 shrink-0" />
           )}
           <div>
-            <div className="text-[11px] uppercase font-bold">{pay.label}</div>
+            <div className="text-xs uppercase font-bold">{pay.label}</div>
             <div className="text-2xl font-bold font-mono">{pay.amount.toLocaleString("tr-TR")} ₺</div>
           </div>
         </div>
@@ -149,7 +149,7 @@ export function CourierActiveStopCard({ currentStop, stopIndex, totalStops, onOp
           </a>
         </div>
         {nav.hasCoordinates && (
-          <p className="text-[11px] text-emerald-400 -mt-2">Müşteri sipariş verirken konumunu paylaştı; navigasyon tam noktaya gider.</p>
+          <p className="text-xs text-emerald-400 -mt-2">Müşteri sipariş verirken konumunu paylaştı; navigasyon tam noktaya gider.</p>
         )}
 
         <button

@@ -226,7 +226,7 @@ export function OrderSlipModal({ order, isOpen, onClose, cari: propCari }: Order
               <h3 className="font-serif font-bold text-stone-100 text-sm sm:text-base">
                 Dijital Teslimat & Hesap Fişi
               </h3>
-              <p className="text-[11px] text-stone-400">
+              <p className="text-xs text-stone-400">
                 Sipariş #{order.orderNumber || order.id.substring(0, 6)} • {order.deliveryDate}
               </p>
             </div>
@@ -248,7 +248,7 @@ export function OrderSlipModal({ order, isOpen, onClose, cari: propCari }: Order
             <div className="flex items-center justify-between">
               <span className="text-xs font-semibold text-stone-300">Kurumsal Cari Hesabı</span>
               {activeCari && (
-                <span className="text-[11px] text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-2 py-0.5 rounded-full font-medium">
+                <span className="text-xs text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-2 py-0.5 rounded-full font-medium">
                   Cari Eşleşti
                 </span>
               )}
@@ -300,7 +300,7 @@ export function OrderSlipModal({ order, isOpen, onClose, cari: propCari }: Order
                     <div className="font-medium text-stone-100">
                       <span className="font-bold text-amber-400 font-mono">{it.quantity}x</span> {it.productName}
                     </div>
-                    <div className="text-[11px] text-stone-500 font-mono">
+                    <div className="text-xs text-stone-500 font-mono">
                       Birim Toptan: {it.unitPrice} ₺
                     </div>
                   </div>
@@ -329,7 +329,7 @@ export function OrderSlipModal({ order, isOpen, onClose, cari: propCari }: Order
                     Cari Hesap Bakiye Tablosu
                   </span>
                 </div>
-                <span className="text-[11px] text-stone-400">
+                <span className="text-xs text-stone-400">
                   {activeCari.businessName}
                 </span>
               </div>
@@ -337,38 +337,38 @@ export function OrderSlipModal({ order, isOpen, onClose, cari: propCari }: Order
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-center">
                 {/* 1. Previous Balance */}
                 <div className="p-2.5 rounded-xl bg-stone-900/90 border border-stone-800">
-                  <div className="text-[10px] text-stone-400 font-medium">Önceki Bakiye</div>
+                  <div className="text-xs text-stone-400 font-medium">Önceki Bakiye</div>
                   <div className="text-sm sm:text-base font-bold font-mono text-stone-300 mt-1">
                     {previousBalance.toLocaleString("tr-TR")} ₺
                   </div>
-                  <div className="text-[9px] text-stone-500 mt-0.5">Eski Borç</div>
+                  <div className="text-xs text-stone-500 mt-0.5">Eski Borç</div>
                 </div>
 
                 {/* 2. This Order */}
                 <div className="p-2.5 rounded-xl bg-amber-500/10 border border-amber-500/20">
-                  <div className="text-[10px] text-amber-400 font-medium">(+) Bu Fiş Tutarı</div>
+                  <div className="text-xs text-amber-400 font-medium">(+) Bu Fiş Tutarı</div>
                   <div className="text-sm sm:text-base font-bold font-mono text-amber-400 mt-1">
                     +{thisOrderTotal.toLocaleString("tr-TR")} ₺
                   </div>
-                  <div className="text-[9px] text-amber-500/80 mt-0.5">Teslim Edilen</div>
+                  <div className="text-xs text-amber-500/80 mt-0.5">Teslim Edilen</div>
                 </div>
 
                 {/* 3. Collected Payment */}
                 <div className="p-2.5 rounded-xl bg-emerald-500/10 border border-emerald-500/20">
-                  <div className="text-[10px] text-emerald-400 font-medium">(-) Alınan Ödeme</div>
+                  <div className="text-xs text-emerald-400 font-medium">(-) Alınan Ödeme</div>
                   <div className="text-sm sm:text-base font-bold font-mono text-emerald-400 mt-1">
                     -{collectedPayment || 0} ₺
                   </div>
-                  <div className="text-[9px] text-emerald-500/80 mt-0.5">Tahsilat</div>
+                  <div className="text-xs text-emerald-500/80 mt-0.5">Tahsilat</div>
                 </div>
 
                 {/* 4. New Balance */}
                 <div className="p-2.5 rounded-xl bg-stone-950 border border-amber-500/40">
-                  <div className="text-[10px] text-stone-300 font-bold">(=) Yeni Bakiye</div>
+                  <div className="text-xs text-stone-300 font-bold">(=) Yeni Bakiye</div>
                   <div className="text-sm sm:text-base font-bold font-mono text-amber-400 mt-1">
                     {finalBalance.toLocaleString("tr-TR")} ₺
                   </div>
-                  <div className="text-[9px] text-amber-500 font-medium mt-0.5">Kalan Son Borç</div>
+                  <div className="text-xs text-amber-500 font-medium mt-0.5">Kalan Son Borç</div>
                 </div>
               </div>
 
@@ -378,7 +378,7 @@ export function OrderSlipModal({ order, isOpen, onClose, cari: propCari }: Order
                   <div className="text-xs font-semibold text-stone-200">
                     Bu Teslimatta Tahsilat Alındı mı?
                   </div>
-                  <div className="text-[11px] text-stone-400">
+                  <div className="text-xs text-stone-400">
                     Elden nakit veya havale aldıysanız tutarı girin:
                   </div>
                 </div>
