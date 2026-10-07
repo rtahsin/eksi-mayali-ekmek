@@ -13,21 +13,21 @@ export function AtelierThresholdHero() {
   return (
     <section className="relative w-full bg-bg text-ink overflow-hidden border-b border-line">
       {/* 1. Main Visual Hero Stage */}
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 sm:pt-14 pb-12 sm:pb-16 grid md:grid-cols-12 gap-8 lg:gap-12 items-center">
-        {/* Left Column: Text & CTAs (7 cols) */}
-        <div className="md:col-span-7 space-y-6">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-0 sm:pt-14 pb-12 sm:pb-16 grid md:grid-cols-12 gap-6 md:gap-8 lg:gap-12 items-center">
+        {/* Text & CTAs: mobilde görselin altında, masaüstünde solda */}
+        <div className="md:col-span-6 space-y-6 order-2 md:order-1">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-line bg-cream-surface text-xs font-mono text-ink-muted">
             <span className="w-2 h-2 rounded-full bg-accent animate-pulse" />
             <span>Beylikdüzü · Ekşi Mayalı Taş Fırın</span>
           </div>
 
           <h1 className="font-serif text-3xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-ink leading-[1.08] text-balance">
-            Siparişe göre pişen <em className="italic text-accent font-normal">ekşi mayalı</em> ekmek.
+            Her gün taş fırından <em className="italic text-accent font-normal">ekşi mayalı</em> ekmek.
           </h1>
 
           <p className="text-base sm:text-lg text-ink-muted leading-relaxed max-w-xl font-sans">
             Ata tohumu taş değirmen unları, canlı ekşi maya ve sabırlı soğuk fermantasyon.
-            Sen günü seç; fırından çıktığı gün Beylikdüzü&apos;nde kendi kuryemizle kapına getirelim.
+            Günün ekmeği her gün, özel ekmekler kendi gününde; fırından çıktığı gün Beylikdüzü&apos;nde kendi kuryemizle kapına getirelim.
           </p>
 
           <div className="flex flex-wrap items-center gap-3 pt-2">
@@ -46,19 +46,17 @@ export function AtelierThresholdHero() {
           </div>
         </div>
 
-        {/* Right Column: Hero Visual (5 cols) */}
-        <div className="md:col-span-5 relative">
-          <div className="relative aspect-[4/5] sm:aspect-[1/1] md:aspect-[4/5] rounded-[24px] sm:rounded-[28px] overflow-hidden border border-line bg-cream-surface shadow-md">
+        {/* Görsel: kendi oranında (1376×768), kırpılmadan; mobilde üstte ve kenardan kenara */}
+        <div className="md:col-span-6 relative order-1 md:order-2 -mx-4 sm:mx-0">
+          <div className="relative aspect-[1376/768] sm:rounded-[28px] overflow-hidden sm:border sm:border-line bg-cream-surface sm:shadow-md">
             <Image
               src="/atelier/atelier_threshold.webp"
               alt="EkmekLab Taş Fırın Atölyesi"
               fill
               priority
               className="object-cover filter contrast-[1.05]"
-              sizes="(max-width: 768px) 100vw, 40vw"
+              sizes="(max-width: 768px) 100vw, 50vw"
             />
-            {/* Subtle paper vignette */}
-            <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent pointer-events-none" />
           </div>
 
           {/* Logo badge floating in corner */}

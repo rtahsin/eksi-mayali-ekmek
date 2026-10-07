@@ -18,7 +18,7 @@ export function HowWeBake() {
               Nasıl çalışıyoruz?
             </h2>
             <p className="text-sm text-ink-muted">
-              Rafta bayatlayan ekmek yok. Her somun, sizin seçtiğiniz gün için özel yoğrulur.
+              Günün ekmeği her gün fırından çıkar; özel ekmekler kendi gününde.
             </p>
           </div>
 
@@ -26,13 +26,13 @@ export function HowWeBake() {
             {[
               {
                 num: "01",
-                title: "Günü Seç",
-                desc: "Sepetini doldur, sana uygun teslim gününü belirle. Önceden üyelik açman gerekmez.",
+                title: "Ekmeğini ve Gününü Seç",
+                desc: "Günün ekmeği her gün, özel ekmekler haftanın belli günlerinde. Üyelik gerekmez.",
               },
               {
                 num: "02",
-                title: "Siparişine Göre Pişer",
-                desc: "Hamur gelen sipariş adedine göre yoğrulur ve taş fırında taze pişer; israf ve bayatlama olmaz.",
+                title: "Taş Fırında Pişer",
+                desc: "Ekşi mayayla, acele etmeden yoğrulur ve taş fırında pişer.",
               },
               {
                 num: "03",
