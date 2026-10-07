@@ -375,3 +375,55 @@ Girdi: `content/gelen/<tarih>-<konu>.md` (döküm, not, fotoğraf açıklaması)
 | P2-08 | **"Laboratuvar Notları" bülteni**: çift onay, sürümlü rıza metni, abonelikten çıkma | P1-02 | **İYS/KVKK hukuki teyit** · teyit bayrağı yoksa gönderim yok |
 | P2-09 | **Öğrenen hesabı senkronu** (`learner_progress`, misafir sipariş claim deseni) | P2-04 | tekrar gelen öğrenen oranı tetikleyicisi |
 | P2-10 | **QR sayfasında "bu haftanın fırını"** | P2-02 | Tahsin onayı (etikete tarih yazılmaz kararı korunur) |
+
+---
+
+## 9. Faz I — Mevcut yapıyı mükemmelleştirme (Tahsin, 7 Eki 2026)
+
+> **Karar:** Ana sayfa yeniden tasarlanmaz ("yap-boz yok"); mevcut krem vitrin korunur ve iyileştirilir. Haftalık abonelik ve mahalle günleri **yok**. Satış modeli: 1–2 **her gün ekmeği** (o gün için sipariş) + belirli hafta günlerinde **sipariş üzerine açılan özel ekmekler** (eşik çubuğu). Paketler §1 "Ortak kurallar" ile birlikte verilir.
+
+### I-01 Ürün listesi: önce ekmekler, sonra eşlikçiler
+- **Yazma kapsamı:** `src/components/storefront/ProductCatalog.tsx` ve kart bileşeni, `src/lib/products/**` (yalnız sıralama/gruplama yardımcısı + testi).
+- **İş:**
+  - Mobilde (<768px) iki yatay raf (scroll-snap, sonraki kart kenardan görünür): **Ekmeklerimiz** → önce her gün ekmekleri, sonra özel/ön sipariş ekmekleri (eşik çubuğuyla, I-05); **Eşlikçiler** → mandıra/gurme ürünleri. Masaüstünde mevcut ızgara aynı sırayla.
+  - Sıra: `display_order` (admin) → grup (her gün / özel / eşlikçi) → ad. "Tüm Ürünler" karışık sıralaması kalkar.
+  - Kart "+" düğmesi ≥44×44 px; görsel yüklenirken boş kutu yerine yer tutucu.
+- **DoD:** `groupCatalog()` saf fonksiyonu + testi (her gün ekmeği ilk, eşlikçiler son, `display_order` korunur) · 375 px'de iki raf yana kayar, sayfa yana kaymaz · ortak DoD.
+- **Tahsin (önizleme):** telefonda önce ekmek rafı, altında eşlikçi rafı.
+- **Dal:** `i-01-urun-listesi`.
+
+### I-02 Menü ve gece teması
+- **Yazma kapsamı:** `src/components/common/AtelierMenuDrawer.tsx`, `src/components/common/Navbar.tsx`, `content/nav/links.ts`, `src/app/globals.css`, `tailwind.config.ts`.
+- **İş:**
+  - Menü dört bölüm: **hesap alanı** (giriş yaptıysa "Merhaba ‹ad› · Siparişlerim", değilse "Giriş yap") · **Sipariş** (Ekmekler, Eşlikçiler, Teslimat bölgesi ve ücret, Nerede bulunur) · **Keşfet** (Biz kimiz, Kütüphane, Laboratuvar, Fırıncı araçları) · **alt** (Kurumsal ve şef çözümleri, WhatsApp'tan yaz — `src/lib/site.ts` `whatsappLink`, tema düğmesi). 01–06 numaraları kalkar. Her satır ≥48 px.
+  - **Tema:** krem + gece. Varsayılan telefonun ayarı (`prefers-color-scheme`); düğme Otomatik / Gündüz / Gece arasında geçer, seçim cihazda saklanır (`localStorage`, try/catch). Gece paleti "kâğıdın gece hali": koyu kahve zemin, krem yazı, açık terakota vurgu; yalnız token'larla.
+- **DoD:** `resolveTheme(tercih, sistem)` saf fonksiyon + test · kontrast testi gece paleti için de geçer (gövde ≥4,5:1) · ortak DoD.
+- **Dal:** `i-02-menu-tema`.
+
+### I-03 Profil (Hesabım)
+- **Yazma kapsamı:** `src/app/hesabim/**`, `src/hooks/useOrderHistory.ts`, gerekirse `src/app/api/orders/**` (yalnız okuma).
+- **İş:** **Siparişlerim**: durum çubuğu (bekliyor → hazırlanıyor → fırında → yolda → teslim), "**Tekrar sipariş ver**" (aynı ürünleri sepete koyar; fiyat sunucudan), eşik nedeniyle **kaydırılan** siparişte açık not ("Gece Yarısı 10 kişiye ulaşmadı; siparişin 17 Eki Cuma'ya kaydı · İptal et"). **Adreslerim**. **İletişim tercihi** (WhatsApp onayı). **Çıkış.** Abonelik ve mahalle günü yok.
+- **DoD:** durum eşleme ve "tekrar sipariş" dönüşümü saf fonksiyon + test · iptal mevcut `cancel_order_atomic` yolundan · ortak DoD.
+- **Dal:** `i-03-profil`.
+
+### I-04 Mobil düzeltmeler (denetim, 7 Eki)
+- **Yazma kapsamı:** `src/components/common/**`, `src/components/cart/**`, `src/app/urun/**`, `src/app/kutuphane/**`, `src/app/kavram/**`, `src/app/globals.css`.
+- **İş:** 280 px'de başlık taşmaz, sepet ikonu görünür · sabit alt çubuklar `env(safe-area-inset-bottom)` payı alır · tam ekran paneller `dvh` · 11 px altı yazı kalmaz (gövde ≥16, yardımcı ≥13) · `prefers-reduced-motion` desteği · ürün sayfası ve Kütüphane/Kavram koyu temadan krem token'lara geçer.
+- **DoD:** 280 / 375 / 720 px'de `document.documentElement.scrollWidth === innerWidth` (PR'da ekran görüntüleri) · `rg -n "text-\[(9|10)px\]" src` boş · ortak DoD.
+- **Dal:** `i-04-mobil`.
+
+### I-05 Sipariş üzerine özel ekmek: eşik çubuğu
+- **Model (Tahsin):** özel ekmek belirli hafta günlerinde satılır. Ürün başına **eşik** (varsayılan 10) ve isteğe bağlı **üst sınır** admin'den ayarlanır. Karar anı: **üretimden önceki akşam, son sipariş saatinde** (`orderCutoffTime`). Eşik dolduysa o gün üretilir ("Kesinleşti"); dolmadıysa o ekmeği içeren siparişler **bir sonraki haftanın aynı gününe kayar**, sayaç orada sürer; müşteri haberdar edilir, isterse iptal eder.
+- **Oku:** `supabase/migrations/015_flexible_products.sql`, `018_order_lifecycle.sql` (advisory kilit deseni), `src/lib/ordering/availability.ts`, AGENTS.md §6 (atomik RPC, migration kuralları, Telegram'da kişisel veri yok).
+- **Yazma kapsamı:** yeni migration (numara birleşmede) + smoke, `src/lib/ordering/**` (+test), `src/app/api/cron/threshold/route.ts`, `vercel.json`, admin ürün formu (`src/app/admin/urunler/**`, `src/app/api/admin/products/**`), ürün kartı çubuğu, `src/lib/notify/telegram.ts` (yalnız yeni mesaj).
+- **Veri (eklemeli, ÖNCE):** `products.order_threshold int NULL` (NULL = eşiksiz, her gün ekmeği), `products.sale_weekdays smallint[] NULL` (1=Pzt…7=Paz); `product_sale_dates.status text CHECK IN ('toplaniyor','kesinlesti','kaydirildi') DEFAULT 'toplaniyor'`, `decided_at timestamptz`. Üst sınır mevcut `quantity_limit`.
+- **RPC `decide_threshold_bakes(p_now timestamptz)`:** kesim saati geçmiş ve `toplaniyor` durumundaki her satış günü için iptal edilmemiş siparişlerdeki adedi sayar. ≥ eşik → `kesinlesti`. < eşik → o ürünü içeren siparişlerin `delivery_date`'i +7 gün (sipariş bütün halinde kayar; durum geçmişine satır), +7 günün satış günü satırı yoksa oluşturulur, eski satır `kaydirildi`. Yeni günde üst sınır/kapasite yoksa o sipariş kaydırılmaz, admin listesinde işaretlenir. Tarih başına `pg_advisory_xact_lock` (create_order_atomic ile aynı anahtar), **idempotent**, `SET search_path = public, pg_temp`, REVOKE/GRANT kuralları.
+- **Tetikleme:** `GET /api/cron/threshold` (`CRON_SECRET`), her gün kesimden hemen sonra (Vercel cron UTC; 20:00 İstanbul = `0 17 * * *`; kesim saati değişirse cron güncellenir) + admin Üretim sayfası açılınca aynı RPC (idempotent). Telegram'a **kişisel veri olmadan**: "Gece Yarısı · Cuma 10 Eki: 12/10 kesinleşti" ya da "7/10 → 17 Eki'ye kaydı · 7 sipariş · admin linki". Müşteri bildirimi: admin'de kaydırılan siparişler listesi, her satırda hazır mesajlı WhatsApp düğmesi; takip sayfası ve Hesabım yeni tarihi ve notu gösterir.
+- **Arayüz:** ürün kartında çubuk "7/10 · Cuma'ya 2 gün" → dolunca "Kesinleşti" (üst sınır varsa "Kesinleşti · 12/25", dolunca "Tükendi"). Her gün ekmeğinde çubuk yok, "Bugün fırında" etiketi. Admin ürün formu: "Sipariş üzerine" anahtarı, eşik (varsayılan 10), hafta günleri, isteğe bağlı üst sınır.
+- **DoD:** saf `thresholdState(adet, esik, ustSinir)` ve `nextSaleDate(gunler, tarih)` + testleri (İstanbul saati, kesim sınırı) · smoke: eşik altı → siparişler +7, durum geçmişi yazılı, ikinci çalıştırma değişiklik yapmaz; eşik üstü → `kesinlesti`; iptal siparişler sayılmaz · cron rotası `CRON_SECRET`'sız 401 · ortak DoD.
+- **Migration:** eklemeli kolonlar + RPC **ÖNCE**.
+- **Tahsin adımı:** migration kuru deneme → gerçek (5 dk); admin'de Gece Yarısı için eşik 10 + Cuma; önizlemede kartta çubuğu gör.
+- **Dur ve sor:** kayan sipariş yeni günde sığmıyorsa ne olacağı; eşikli ürünle aynı sepette o gün satılmayan bir ürün varsa.
+- **Dal:** `i-05-esik-cubugu`.
+
+**Sıra:** I-04 ve I-02 bağımsız · I-05 → I-01 (kartta çubuk) · I-03 son (kaydırılan sipariş notu I-05'e bağlı).
