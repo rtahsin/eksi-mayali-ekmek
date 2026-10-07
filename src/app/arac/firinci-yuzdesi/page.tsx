@@ -428,7 +428,7 @@ export default function FirinciYuzdesiPage() {
                 onChange={(e) => setHydrationPercent(Number(e.target.value))}
                 className="w-full accent-accent"
               />
-              <div className="flex justify-between text-[11px] text-ink-muted font-mono">
+              <div className="flex justify-between text-xs text-ink-muted font-mono">
                 <span>%55 (Sert/Simit)</span>
                 <span>%75 (Standart Köy)</span>
                 <span>%90 (Ciabatta/Tava)</span>
@@ -450,7 +450,7 @@ export default function FirinciYuzdesiPage() {
                 onChange={(e) => setStarterPercent(Number(e.target.value))}
                 className="w-full accent-accent"
               />
-              <div className="flex justify-between text-[11px] text-ink-muted font-mono">
+              <div className="flex justify-between text-xs text-ink-muted font-mono">
                 <span>%5 (Uzun Soğuk)</span>
                 <span>%20 (Standart)</span>
                 <span>%35 (Hızlı Hamur)</span>
@@ -472,7 +472,7 @@ export default function FirinciYuzdesiPage() {
                 onChange={(e) => setSaltPercent(Number(e.target.value))}
                 className="w-full accent-accent"
               />
-              <div className="flex justify-between text-[11px] text-ink-muted font-mono">
+              <div className="flex justify-between text-xs text-ink-muted font-mono">
                 <span>%1.5 (Hafif)</span>
                 <span>%2.0 (İdeal Zanaatkar)</span>
                 <span>%2.5 (Belirgin)</span>
@@ -559,7 +559,7 @@ export default function FirinciYuzdesiPage() {
                 <span className="font-mono text-xl font-bold text-ink">
                   {result.totalDoughWeight}g
                 </span>
-                <span className="text-[11px] text-ink-muted block mt-0.5">
+                <span className="text-xs text-ink-muted block mt-0.5">
                   {result.loafCount} somun x {result.loafWeight}g
                 </span>
               </div>
@@ -568,7 +568,7 @@ export default function FirinciYuzdesiPage() {
                 <span className="font-mono text-xl font-bold text-accent">
                   %{result.effectiveHydration}
                 </span>
-                <span className="text-[11px] text-ink-muted block mt-0.5">
+                <span className="text-xs text-ink-muted block mt-0.5">
                   Mayadaki su dahil
                 </span>
               </div>
@@ -577,7 +577,7 @@ export default function FirinciYuzdesiPage() {
             {/* Malzeme Tablosu */}
             <div className="overflow-hidden rounded-xl border border-line">
               <table className="w-full text-left text-xs sm:text-sm">
-                <thead className="bg-bg border-b border-line text-ink-muted font-mono uppercase text-[11px]">
+                <thead className="bg-bg border-b border-line text-ink-muted font-mono uppercase text-xs">
                   <tr>
                     <th className="py-2.5 px-3">Bileşen</th>
                     <th className="py-2.5 px-3 text-right">Oran</th>

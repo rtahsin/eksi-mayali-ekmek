@@ -326,7 +326,7 @@ export function LabGame() {
         {screen.k === "kapi" && (
           <div className="space-y-6 pt-2 text-center">
             <div>
-              <p className="text-[11px] font-bold uppercase tracking-[0.25em]" style={{ color: C.accent }}>
+              <p className="text-xs font-bold uppercase tracking-[0.25em]" style={{ color: C.accent }}>
                 Mahallenin ekmek laboratuvarı
               </p>
               <h1 className="text-[44px] font-semibold leading-[1.05] mt-2" style={serif}>
@@ -386,7 +386,7 @@ export function LabGame() {
               style={{ borderColor: C.ink, background: C.card }}
             >
               <div className="flex items-center justify-between">
-                <span className="text-[11px] font-bold uppercase tracking-[0.2em] px-2 py-1 rounded-full" style={{ background: C.ink, color: C.paper }}>
+                <span className="text-xs font-bold uppercase tracking-[0.2em] px-2 py-1 rounded-full" style={{ background: C.ink, color: C.paper }}>
                   Bölüm 1
                 </span>
                 <span className="text-sm font-bold">{progress.starter ? `✓ ${progress.starter.name}` : "Önerilen"}</span>
@@ -417,7 +417,7 @@ export function LabGame() {
                   style={{ borderColor: open ? C.ink : C.line, background: open ? C.card : "transparent", opacity: open ? 1 : 0.7 }}
                 >
                   <div className="flex items-center justify-between">
-                    <span className="text-[11px] font-bold uppercase tracking-[0.2em] px-2 py-1 rounded-full" style={{ background: open ? C.ink : C.line, color: open ? C.paper : C.soft }}>
+                    <span className="text-xs font-bold uppercase tracking-[0.2em] px-2 py-1 rounded-full" style={{ background: open ? C.ink : C.line, color: open ? C.paper : C.soft }}>
                       Bölüm {n + 2} · {lv.rank}
                     </span>
                     <span className="text-sm font-bold">{!lv.available ? "Yakında" : open ? (best !== undefined ? `En iyi: ${best}` : "Yeni") : "🔒"}</span>

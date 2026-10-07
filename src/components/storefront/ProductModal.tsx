@@ -107,7 +107,7 @@ export function ProductModal({ product, onClose }: ProductModalProps) {
               {product.hydration && (
                 <>
                   <span className="text-line">|</span>
-                  <span className="flex items-center gap-1 text-[11px] text-ink-muted font-medium">
+                  <span className="flex items-center gap-1 text-xs text-ink-muted font-medium">
                     <Droplets className="w-3.5 h-3.5 text-accent" />
                     %{product.hydration} Hidrasyon
                   </span>
@@ -121,7 +121,7 @@ export function ProductModal({ product, onClose }: ProductModalProps) {
         <div className="p-5 sm:p-7 flex-1 flex flex-col justify-between overflow-y-auto space-y-5 bg-cream-surface">
           <div className="space-y-4">
             <div>
-              <div className="text-[11px] font-mono text-accent font-semibold uppercase tracking-wider">
+              <div className="text-xs font-mono text-accent font-semibold uppercase tracking-wider">
                 {product.category === "pantry" ? "Şarküteri & Kiler" : "Fırın Zanaatı & Reçete"}
               </div>
               <h2 className="font-serif text-2xl sm:text-3xl font-bold text-ink mt-1 leading-snug">
@@ -137,7 +137,7 @@ export function ProductModal({ product, onClose }: ProductModalProps) {
               {productBadges(product).length > 0 && (
                 <div className="flex flex-wrap gap-1.5 mt-2">
                   {productBadges(product).map((b) => (
-                    <span key={b.label} className="px-2 py-0.5 rounded-full bg-accent/15 text-accent text-[10px] font-bold uppercase">
+                    <span key={b.label} className="px-2 py-0.5 rounded-full bg-accent/15 text-accent text-xs font-bold uppercase">
                       {b.label}
                     </span>
                   ))}
@@ -208,7 +208,7 @@ export function ProductModal({ product, onClose }: ProductModalProps) {
 
                 {product.flourTypes && product.flourTypes.length > 0 && (
                   <div className="flex flex-wrap gap-1.5 pt-1">
-                    <span className="text-[11px] font-sans text-ink-muted self-center mr-1">Un Seçkisi:</span>
+                    <span className="text-xs font-sans text-ink-muted self-center mr-1">Un Seçkisi:</span>
                     {product.flourTypes.map((flour, idx) => {
                       const conceptSlug = getFlourConceptSlug(flour);
                       if (conceptSlug) {
@@ -216,15 +216,15 @@ export function ProductModal({ product, onClose }: ProductModalProps) {
                           <Link
                             key={idx}
                             href={`/kavram/${conceptSlug}`}
-                            className="px-2 py-0.5 rounded-md bg-bg hover:bg-cream-surface border border-line hover:border-accent/40 text-[11px] font-sans text-ink hover:text-accent transition-colors inline-flex items-center gap-1"
+                            className="px-2 py-0.5 rounded-md bg-bg hover:bg-cream-surface border border-line hover:border-accent/40 text-xs font-sans text-ink hover:text-accent transition-colors inline-flex items-center gap-1"
                           >
                             <span>{flour}</span>
-                            <span className="text-[9px] text-accent">↗</span>
+                            <span className="text-xs text-accent">↗</span>
                           </Link>
                         );
                       }
                       return (
-                        <span key={idx} className="px-2 py-0.5 rounded-md bg-bg border border-line text-[11px] font-sans text-ink">
+                        <span key={idx} className="px-2 py-0.5 rounded-md bg-bg border border-line text-xs font-sans text-ink">
                           {flour}
                         </span>
                       );

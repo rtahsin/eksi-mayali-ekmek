@@ -370,7 +370,7 @@ function Field({ label, hint, icon, children }: { label: string; hint?: string; 
         {label}
       </div>
       {children}
-      {hint && <p className="text-[11px] text-stone-500">{hint}</p>}
+      {hint && <p className="text-xs text-stone-500">{hint}</p>}
     </div>
   );
 }

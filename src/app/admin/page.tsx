@@ -49,7 +49,7 @@ function DeliveryCard({ title, date, s }: { title: string; date: string; s: DayS
         <h3 className="font-serif font-bold text-stone-100 flex items-center gap-2">
           <Truck className="w-4 h-4 text-amber-400" /> {title}
         </h3>
-        <span className="text-[11px] text-stone-500">{formatTrDate(date)}</span>
+        <span className="text-xs text-stone-500">{formatTrDate(date)}</span>
       </div>
       <div className="flex items-baseline gap-2">
         <span className="text-3xl font-black font-mono text-stone-100">{s.toDeliver}</span>
@@ -121,7 +121,7 @@ function BakeCard({ title, p }: { title: string; p: ProductionDay | null }) {
             </div>
           )}
           {extras.length > 0 && (
-            <div className="text-[11px] text-stone-500 pt-1">
+            <div className="text-xs text-stone-500 pt-1">
               Paketlenecek: {extras.map((l) => `${l.quantity}× ${l.name}`).join(", ")}
             </div>
           )}
@@ -129,7 +129,7 @@ function BakeCard({ title, p }: { title: string; p: ProductionDay | null }) {
       )}
       {limit !== null && (
         <div className="space-y-1 pt-1">
-          <div className="flex justify-between text-[11px] text-stone-400">
+          <div className="flex justify-between text-xs text-stone-400">
             <span className="flex items-center gap-1">
               <Gauge className="w-3.5 h-3.5" /> Kapasite
             </span>
@@ -197,7 +197,7 @@ export default function TodayPage() {
           <h2 className="font-serif font-bold text-stone-100 flex items-center gap-2">
             <Clock className="w-4 h-4 text-amber-400" /> Onay bekleyen
             {pending.length > 0 && (
-              <span className="px-2 py-0.5 rounded-full bg-[#C85A32] text-white text-[11px]">{pending.length}</span>
+              <span className="px-2 py-0.5 rounded-full bg-[#C85A32] text-white text-xs">{pending.length}</span>
             )}
           </h2>
           <Link href="/admin/siparisler" className="text-xs text-amber-400 flex items-center gap-1">
@@ -218,11 +218,11 @@ export default function TodayPage() {
                     <div className="min-w-0 flex-1">
                       <div className="flex items-center gap-2">
                         <span className="text-sm font-bold text-stone-100 truncate">{o.customerName}</span>
-                        <span className={`inline-flex items-center gap-1 px-1.5 py-0.5 rounded-md border text-[10px] font-bold shrink-0 ${src.cls}`}>
+                        <span className={`inline-flex items-center gap-1 px-1.5 py-0.5 rounded-md border text-xs font-bold shrink-0 ${src.cls}`}>
                           <src.icon className="w-3 h-3" /> {src.label}
                         </span>
                       </div>
-                      <div className="text-[11px] text-stone-400 truncate">
+                      <div className="text-xs text-stone-400 truncate">
                         {relativeTrDate(o.deliveryDate)} · {o.neighborhood} · {o.items.reduce((n, it) => n + it.quantity, 0)} ürün
                       </div>
                     </div>

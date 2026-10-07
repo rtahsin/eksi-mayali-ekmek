@@ -114,7 +114,7 @@ export function PwaInstallPrompt() {
             </button>
           </div>
 
-          <p className="text-[11px] text-stone-400 leading-snug">
+          <p className="text-xs text-stone-400 leading-snug">
             {isIOS
               ? "Uygulamayı iPhone ana ekranınıza eklemek için Safari'de Paylaş simgesine (kare yukarı ok) dokunup 'Ana Ekrana Ekle'yi seçin."
               : "Admin panelini telefonunuza tek dokunuşla tam ekran bağımsız bir uygulama olarak yükleyin."}
@@ -134,7 +134,7 @@ export function PwaInstallPrompt() {
           )}
 
           {isIOS && (
-            <div className="pt-1.5 flex items-center gap-2 text-[10px] text-amber-400/90 font-medium">
+            <div className="pt-1.5 flex items-center gap-2 text-xs text-amber-400/90 font-medium">
               <Share className="w-3.5 h-3.5" />
               <span>Paylaş ➔ Ana Ekrana Ekle</span>
             </div>

@@ -252,7 +252,7 @@ export default function CustomerStatementPage() {
                   <User className="w-4 h-4" />
                 </div>
                 <div className="min-w-0 flex-1">
-                  <div className="text-[9px] font-bold text-[#8A7A70] tracking-wider uppercase leading-none mb-1">
+                  <div className="text-xs font-bold text-[#8A7A70] tracking-wider uppercase leading-none mb-1">
                     HESAP SAHİBİ / MÜŞTERİ
                   </div>
                   <div className="text-base sm:text-lg font-black text-[#1E140F] leading-snug break-words">
@@ -291,20 +291,20 @@ export default function CustomerStatementPage() {
                   <Calendar className="w-4 h-4" />
                 </div>
                 <div className="min-w-0">
-                  <div className="text-[9px] font-bold text-[#8A7A70] tracking-wider uppercase leading-none mb-1">
+                  <div className="text-xs font-bold text-[#8A7A70] tracking-wider uppercase leading-none mb-1">
                     EKSTRE TARİHİ
                   </div>
                   <div className="text-xs sm:text-sm font-bold text-[#1E140F] leading-tight">
                     {new Date().toLocaleDateString("tr-TR", { day: "numeric", month: "long", year: "numeric" })}
                   </div>
-                  <div className="text-[10px] text-[#8A7A70] mt-0.5 font-medium">
+                  <div className="text-xs text-[#8A7A70] mt-0.5 font-medium">
                     Canlı Mutabakat & Hesap Dökümü
                   </div>
                 </div>
               </div>
 
               <div className="text-right shrink-0 pl-2">
-                <div className="text-[9px] font-bold text-[#8A7A70] tracking-wider uppercase leading-none mb-1">
+                <div className="text-xs font-bold text-[#8A7A70] tracking-wider uppercase leading-none mb-1">
                   TOPLAM İŞLEM
                 </div>
                 <div className="bg-[#F5EFE6] px-3 py-1 rounded-xl text-xs sm:text-sm font-black text-[#B45309]">
@@ -317,28 +317,28 @@ export default function CustomerStatementPage() {
           {/* Summary Mini-Cards (Alışlar, Ödemeler & Güncel Bakiye) */}
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
             <div className="bg-white/90 border border-[#EBE4D8] rounded-2xl p-4 shadow-sm space-y-1">
-              <div className="text-[10px] font-bold text-[#8A7A70] uppercase tracking-wider">
+              <div className="text-xs font-bold text-[#8A7A70] uppercase tracking-wider">
                 Toplam Sipariş & Alışlar
               </div>
               <div className="text-xl sm:text-2xl font-black text-[#1E140F]">
                 +{totalBorc.toLocaleString("tr-TR")} ₺
               </div>
-              <p className="text-[11px] text-[#7A6B62]">Teslim edilen ürün toplamı</p>
+              <p className="text-xs text-[#7A6B62]">Teslim edilen ürün toplamı</p>
             </div>
 
             <div className="bg-white/90 border border-[#EBE4D8] rounded-2xl p-4 shadow-sm space-y-1">
-              <div className="text-[10px] font-bold text-[#8A7A70] uppercase tracking-wider">
+              <div className="text-xs font-bold text-[#8A7A70] uppercase tracking-wider">
                 Toplam Yapılan Ödemeler
               </div>
               <div className="text-xl sm:text-2xl font-black text-emerald-800">
                 -{totalAlacak.toLocaleString("tr-TR")} ₺
               </div>
-              <p className="text-[11px] text-[#7A6B62]">Tahsilat & ödeme toplamı</p>
+              <p className="text-xs text-[#7A6B62]">Tahsilat & ödeme toplamı</p>
             </div>
 
             {/* Current Balance (Highlighted Tablet) */}
             <div className="bg-[#EFE8DD] border border-[#E5DAC8] rounded-2xl p-4 shadow-sm space-y-1">
-              <div className="text-[10px] font-black text-[#5C4C42] uppercase tracking-wider">
+              <div className="text-xs font-black text-[#5C4C42] uppercase tracking-wider">
                 Güncel Toplam Bakiye
               </div>
               <div className={`text-xl sm:text-2xl font-black ${
@@ -346,7 +346,7 @@ export default function CustomerStatementPage() {
               }`}>
                 {(cari.balance || 0).toLocaleString("tr-TR")} ₺
               </div>
-              <p className="text-[11px] font-bold text-[#7A6B62]">
+              <p className="text-xs font-bold text-[#7A6B62]">
                 {cari.balance > 0
                   ? "Ödenecek Kalan Borç"
                   : cari.balance < 0
@@ -368,7 +368,7 @@ export default function CustomerStatementPage() {
                     Hesap Hareketleri & Teslimat Fişleri ({filteredTransactions.length})
                   </h2>
                 </div>
-                <span className="text-[11px] font-semibold text-[#8A7A70]">
+                <span className="text-xs font-semibold text-[#8A7A70]">
                   Yürüyen Bakiye Düzeni
                 </span>
               </div>
@@ -387,7 +387,7 @@ export default function CustomerStatementPage() {
                     <button
                       key={p.id}
                       onClick={() => setDateFilter(p.id as any)}
-                      className={`px-2.5 py-1 rounded-lg font-bold text-[11px] transition-all ${
+                      className={`px-2.5 py-1 rounded-lg font-bold text-xs transition-all ${
                         dateFilter === p.id
                           ? "bg-[#B45309] text-white shadow-sm"
                           : "text-[#63554D] hover:text-[#1E140F]"
@@ -408,7 +408,7 @@ export default function CustomerStatementPage() {
                     <button
                       key={t.id}
                       onClick={() => setTypeFilter(t.id as any)}
-                      className={`px-2.5 py-1 rounded-lg font-bold text-[11px] transition-all ${
+                      className={`px-2.5 py-1 rounded-lg font-bold text-xs transition-all ${
                         typeFilter === t.id
                           ? "bg-[#1E140F] text-white shadow-sm"
                           : "text-[#63554D] hover:text-[#1E140F]"
@@ -422,19 +422,19 @@ export default function CustomerStatementPage() {
                 {/* Custom Date Range Picker */}
                 {dateFilter === "custom" && (
                   <div className="flex items-center gap-1.5 bg-[#F5EFE6] px-2.5 py-1 rounded-xl border border-[#E8DFC8]">
-                    <span className="text-[10px] font-bold text-[#8A7A70] uppercase">Aralık:</span>
+                    <span className="text-xs font-bold text-[#8A7A70] uppercase">Aralık:</span>
                     <input
                       type="date"
                       value={startDate}
                       onChange={(e) => setStartDate(e.target.value)}
-                      className="bg-white border border-[#E8DFC8] rounded px-1.5 py-0.5 text-[11px] text-[#1E140F] font-mono focus:outline-none"
+                      className="bg-white border border-[#E8DFC8] rounded px-1.5 py-0.5 text-xs text-[#1E140F] font-mono focus:outline-none"
                     />
                     <span className="text-[#8A7A70]">-</span>
                     <input
                       type="date"
                       value={endDate}
                       onChange={(e) => setEndDate(e.target.value)}
-                      className="bg-white border border-[#E8DFC8] rounded px-1.5 py-0.5 text-[11px] text-[#1E140F] font-mono focus:outline-none"
+                      className="bg-white border border-[#E8DFC8] rounded px-1.5 py-0.5 text-xs text-[#1E140F] font-mono focus:outline-none"
                     />
                   </div>
                 )}
@@ -449,7 +449,7 @@ export default function CustomerStatementPage() {
               <div className="overflow-x-auto">
                 <table className="w-full text-left border-collapse">
                   <thead>
-                    <tr className="border-b border-[#EBE4D8] bg-[#F5EFE6]/70 text-[10px] font-bold text-[#8A7A70] uppercase tracking-wider">
+                    <tr className="border-b border-[#EBE4D8] bg-[#F5EFE6]/70 text-xs font-bold text-[#8A7A70] uppercase tracking-wider">
                       <th className="py-3 px-4">Tarih</th>
                       <th className="py-3 px-4">Belge / Fiş No</th>
                       <th className="py-3 px-4">Açıklama / Kalemler</th>
@@ -473,7 +473,7 @@ export default function CustomerStatementPage() {
 
                           <td className="py-3 px-4 whitespace-nowrap">
                             <span
-                              className={`px-2.5 py-1 rounded-lg font-bold border text-[11px] ${
+                              className={`px-2.5 py-1 rounded-lg font-bold border text-xs ${
                                 tx.type === "satis"
                                   ? "bg-[#F5EFE6] text-[#B45309] border-[#E8DFC8]"
                                   : tx.type === "tahsilat"
@@ -485,7 +485,7 @@ export default function CustomerStatementPage() {
                             >
                               {tx.slipNumber || LEDGER_TYPE_LABELS[tx.type]}
                             </span>
-                            {cancelled && <span className="ml-1.5 text-[10px] font-bold text-rose-700">İPTAL</span>}
+                            {cancelled && <span className="ml-1.5 text-xs font-bold text-rose-700">İPTAL</span>}
                           </td>
 
                           <td className="py-3 px-4 font-medium text-[#1E140F] max-w-sm">
@@ -543,7 +543,7 @@ export default function CustomerStatementPage() {
 
                   <tfoot>
                     <tr className="border-t-2 border-[#EBE4D8] bg-[#F5EFE6] font-bold text-xs text-[#1E140F]">
-                      <td colSpan={3} className="py-4 px-4 uppercase tracking-wider text-[11px] text-[#5C4C42]">
+                      <td colSpan={3} className="py-4 px-4 uppercase tracking-wider text-xs text-[#5C4C42]">
                         GENEL TOPLAM ({filteredTransactions.length} İşlem)
                       </td>
                       <td className="py-4 px-4 text-right font-black text-[#B45309]">
@@ -579,10 +579,10 @@ export default function CustomerStatementPage() {
             <div className="italic font-serif text-[#5C4C42] text-sm">
               Bizi tercih ettiğiniz için teşekkür ederiz.
             </div>
-            <div className="text-[11px] text-[#8A7A70] tracking-widest uppercase font-bold">
+            <div className="text-xs text-[#8A7A70] tracking-widest uppercase font-bold">
               EKMEKLAB TAŞ FIRIN · BEREKETLİ İŞLER
             </div>
-            <div className="flex items-center justify-center gap-1.5 text-[10px] text-[#8A7A70] pt-1">
+            <div className="flex items-center justify-center gap-1.5 text-xs text-[#8A7A70] pt-1">
               <ShieldCheck className="w-3.5 h-3.5 text-emerald-600" />
               <span>Bu canlı ekstre sayfası EkmekLab Taş Fırın Otomasyon Sistemi tarafından gerçek zamanlı üretilmiştir.</span>
             </div>

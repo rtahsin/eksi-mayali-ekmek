@@ -33,7 +33,7 @@ export function Concept({ id, children }: ConceptProps) {
         <span className="block text-xs text-[#E8E0D5] leading-relaxed mb-2 font-sans">
           {concept.layers.usta}
         </span>
-        <span className="block pt-1.5 border-t border-[#3D342E]/60 text-[10px] text-[#A89F91]">
+        <span className="block pt-1.5 border-t border-[#3D342E]/60 text-xs text-[#A89F91]">
           <span className="font-semibold text-[#B4532A]">Neden: </span>
           {concept.layers.neden}
         </span>

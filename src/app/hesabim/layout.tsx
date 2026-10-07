@@ -30,7 +30,7 @@ export default function HesabimLayout({
               <div className="font-serif font-bold text-stone-100 text-sm tracking-wide">
                 EkmekLab
               </div>
-              <div className="text-[11px] text-stone-400 font-sans">
+              <div className="text-xs text-stone-400 font-sans">
                 Müşteri Hesabı
               </div>
             </div>

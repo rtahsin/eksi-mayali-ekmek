@@ -119,20 +119,20 @@ export function OrderHistoryCard({ order, onOrderCancelled }: OrderHistoryCardPr
               #{order.orderNumber || order.id.replace("ORD-", "")}
             </span>
             <span
-              className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-bold border ${badge.className}`}
+              className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-bold border ${badge.className}`}
             >
               <StatusIcon className="w-3 h-3" />
               <span>{badge.label}</span>
             </span>
           </div>
-          <div className="text-[11px] text-stone-400 flex items-center gap-1.5">
+          <div className="text-xs text-stone-400 flex items-center gap-1.5">
             <Calendar className="w-3 h-3 text-stone-500" />
             <span>{formattedDate}</span>
           </div>
         </div>
 
         <div className="text-right">
-          <span className="text-[11px] text-stone-400 block font-mono">Toplam</span>
+          <span className="text-xs text-stone-400 block font-mono">Toplam</span>
           <span className="text-base font-serif font-bold text-[#F59E0B]">
             {order.totalAmount} ₺
           </span>
@@ -172,7 +172,7 @@ export function OrderHistoryCard({ order, onOrderCancelled }: OrderHistoryCardPr
             İptal Et
           </button>
         ) : (
-          <div className="text-[11px] text-stone-500 italic">
+          <div className="text-xs text-stone-500 italic">
             {order.status === "iptal" ? "İptal edilmiş sipariş" : "Hazırlık/Teslimat aşamasında"}
           </div>
         )}

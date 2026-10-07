@@ -168,13 +168,13 @@ export default function FinansCarilerPage() {
         {/* Overview Cards — 2 column on mobile */}
         <div className="grid grid-cols-2 gap-3">
           <div className="bg-stone-900 border border-stone-800 rounded-2xl p-4 shadow-lg">
-            <div className="text-[10px] font-bold text-stone-500 uppercase mb-1">Toplam Alacak</div>
+            <div className="text-xs font-bold text-stone-500 uppercase mb-1">Toplam Alacak</div>
             <div className="text-lg sm:text-xl font-black font-mono text-emerald-400">
               {totalReceivable.toLocaleString("tr-TR")} ₺
             </div>
           </div>
           <div className="bg-stone-900 border border-stone-800 rounded-2xl p-4 shadow-lg">
-            <div className="text-[10px] font-bold text-stone-500 uppercase mb-1">Borçlu Müşteri</div>
+            <div className="text-xs font-bold text-stone-500 uppercase mb-1">Borçlu Müşteri</div>
             <div className="text-lg sm:text-xl font-black font-mono text-stone-100">
               {debtorCount} <span className="text-xs font-normal text-stone-400">hesap</span>
             </div>
@@ -243,20 +243,20 @@ export default function FinansCarilerPage() {
                       <h3 className="font-bold text-stone-100 text-[15px] leading-tight flex items-center gap-2 flex-wrap">
                         <span className="truncate">{cari.businessName}</span>
                         {isExpense && (
-                          <span className="px-1.5 py-0.5 rounded bg-rose-500/20 text-rose-400 text-[9px] uppercase tracking-wider font-bold shrink-0">
+                          <span className="px-1.5 py-0.5 rounded bg-rose-500/20 text-rose-400 text-xs uppercase tracking-wider font-bold shrink-0">
                             Gider
                           </span>
                         )}
                       </h3>
                       {cari.contactPerson && (
-                        <div className="flex items-center gap-1.5 text-[11px] text-stone-400 mt-1">
+                        <div className="flex items-center gap-1.5 text-xs text-stone-400 mt-1">
                           <Users className="w-3 h-3 shrink-0" /> {cari.contactPerson}
                         </div>
                       )}
                     </div>
                   </div>
 
-                  <div className="space-y-1.5 text-[11px]">
+                  <div className="space-y-1.5 text-xs">
                     {cari.phone && (
                       <div className="flex items-center gap-1.5 text-stone-400">
                         <Phone className="w-3 h-3 text-stone-500 shrink-0" />
@@ -278,7 +278,7 @@ export default function FinansCarilerPage() {
                 <div className="bg-stone-950 p-4 border-t border-stone-800">
                   <div className="flex items-center justify-between">
                     <div>
-                      <div className="text-[10px] text-stone-500 font-bold uppercase tracking-wider mb-0.5">
+                      <div className="text-xs text-stone-500 font-bold uppercase tracking-wider mb-0.5">
                         Güncel Bakiye
                       </div>
                       <div

@@ -354,7 +354,7 @@ export function StarterChapter({ hooks, onDone }: { hooks: ChapterHooks; onDone:
             ))}
           </div>
           <div className="rounded-3xl border-2 p-4 space-y-2" style={{ borderColor: C.ink, background: C.card }}>
-            <p className="text-[11px] font-bold uppercase tracking-[0.2em]" style={{ color: C.accent }}>
+            <p className="text-xs font-bold uppercase tracking-[0.2em]" style={{ color: C.accent }}>
               Maya karnesi
             </p>
             <p className="text-2xl font-semibold" style={serif}>

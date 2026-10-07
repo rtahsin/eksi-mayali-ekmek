@@ -533,7 +533,7 @@ function RyeResultView({ r, onRecord }: { r: ReturnType<typeof simulateRye>; onR
         <>
           <RyeCrumbSvg gummy={x.gummy} crust={x.crust} className="w-full" />
           <div className="text-center space-y-1">
-            <p className="text-[11px] font-bold uppercase tracking-[0.25em]" style={{ color: C.accent }}>
+            <p className="text-xs font-bold uppercase tracking-[0.25em]" style={{ color: C.accent }}>
               Gece Yarısı
             </p>
             <h2 className="text-4xl font-semibold" style={serif}>

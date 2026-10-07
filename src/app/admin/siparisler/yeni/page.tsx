@@ -246,7 +246,7 @@ function ManualOrderForm() {
           </div>
           <div>
             <div className="text-xs font-bold text-stone-200">Kurumsal Müşteri / Cari Seçimi</div>
-            <div className="text-[11px] text-stone-400">
+            <div className="text-xs text-stone-400">
               Toptan cari seçilirse ikili anlaşmalı özel fiyatlar otomatik uygulanır.
             </div>
           </div>
@@ -356,7 +356,7 @@ function ManualOrderForm() {
                 <span>Ürün Seçimi & Adetler</span>
               </h2>
               {selectedCari && (
-                <span className="text-[11px] text-amber-400 font-semibold bg-amber-500/10 px-2.5 py-0.5 rounded-full border border-amber-500/20">
+                <span className="text-xs text-amber-400 font-semibold bg-amber-500/10 px-2.5 py-0.5 rounded-full border border-amber-500/20">
                   {selectedCari.businessName} Anlaşmalı Fiyatları Aktif
                 </span>
               )}
@@ -381,10 +381,10 @@ function ManualOrderForm() {
                       <div className="text-xs font-bold text-stone-200 line-clamp-1">
                         {prod.name}
                       </div>
-                      <div className="text-[11px] flex items-center gap-1.5 font-mono">
+                      <div className="text-xs flex items-center gap-1.5 font-mono">
                         <span className="text-amber-400 font-bold">{activePrice} ₺</span>
                         {customPrice !== undefined && (
-                          <span className="text-[10px] text-stone-500 line-through">
+                          <span className="text-xs text-stone-500 line-through">
                             {prod.price} ₺
                           </span>
                         )}

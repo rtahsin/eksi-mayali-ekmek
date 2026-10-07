@@ -72,7 +72,7 @@ export function MicroPreview() {
         </div>
         {src !== "maya" && <BiographyChart run={run} />}
         <input type="range" min={0} max={samples.length - 1} value={i} onChange={(e) => setI(Number(e.target.value))} className="w-full" />
-        <pre className="text-[11px] leading-snug overflow-x-auto">
+        <pre className="text-xs leading-snug overflow-x-auto">
           {JSON.stringify({ phase: s.phase, T: s.tempC.toFixed(1), pH: s.pH.toFixed(2), pop: Object.fromEntries(Object.entries(s.pop).map(([k, v]) => [k, v.toFixed(1)])), gas: s.gas.toFixed(2), gluten: s.glutenDev.toFixed(2), damage: s.glutenDamage.toFixed(2), heat: s.heat && { core: s.heat.coreC.toFixed(0), gel: s.heat.starchGel.toFixed(2) } }, null, 1)}
         </pre>
       </div>

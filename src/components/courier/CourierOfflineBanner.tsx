@@ -33,11 +33,11 @@ export function CourierOfflineBanner({
             <div>
               <div className="text-xs font-bold font-serif uppercase tracking-wider text-amber-300 flex items-center gap-1.5">
                 <span>Çevrimdışı Mod</span>
-                <span className="text-[10px] font-sans px-1.5 py-0.2 rounded bg-amber-500/30 text-amber-200 font-semibold">
+                <span className="text-xs font-sans px-1.5 py-0.2 rounded bg-amber-500/30 text-amber-200 font-semibold">
                   Bağlantı Yok
                 </span>
               </div>
-              <p className="text-[11px] text-amber-200/80 font-sans leading-tight mt-0.5">
+              <p className="text-xs text-amber-200/80 font-sans leading-tight mt-0.5">
                 {queueLength > 0
                   ? `Cihazınızda ${queueLength} adet bekleyen teslimat işlemi kuyrukta kayıtlı.`
                   : "Onaylanan teslimatlar cihazınıza kaydedilecek, internet gelince otomatik gönderilecektir."}
@@ -67,7 +67,7 @@ export function CourierOfflineBanner({
             <div className="text-xs font-bold font-serif uppercase tracking-wider text-blue-300">
               {isSyncing ? "Senkronize Ediliyor..." : "Bağlantı Yeniden Kuruldu"}
             </div>
-            <p className="text-[11px] text-blue-200/80 font-sans leading-tight mt-0.5">
+            <p className="text-xs text-blue-200/80 font-sans leading-tight mt-0.5">
               {isSyncing
                 ? `${queueLength} adet çevrimdışı işlem sunucuya aktarılıyor...`
                 : `${queueLength} adet bekleyen teslimat işlemi sunucuya gönderilmeyi bekliyor.`}

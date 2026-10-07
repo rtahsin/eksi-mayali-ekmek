@@ -18,7 +18,7 @@ export function CardBody({ card }: { card: CodexCard }) {
           <CardArt art={card.art} size={60} />
         </div>
         <div>
-          <p className="text-[10px] font-bold uppercase tracking-[0.2em]" style={{ color: C.accent }}>
+          <p className="text-xs font-bold uppercase tracking-[0.2em]" style={{ color: C.accent }}>
             {KIND_LABEL[card.kind]} {card.rare ? "· ★ ustalar bile bilmez" : ""}
           </p>
           <h3 className="text-xl font-semibold leading-tight" style={serif}>
@@ -56,7 +56,7 @@ export function CardBody({ card }: { card: CodexCard }) {
       )}
       {depth >= 1 && (
         <div className="rounded-xl border-l-4 pl-3 py-1" style={{ borderColor: C.accent }}>
-          <p className="text-[11px] font-bold uppercase tracking-wider" style={{ color: C.accent }}>
+          <p className="text-xs font-bold uppercase tracking-wider" style={{ color: C.accent }}>
             Neden?
           </p>
           <p className="text-sm leading-relaxed">{card.why}</p>
@@ -64,11 +64,11 @@ export function CardBody({ card }: { card: CodexCard }) {
       )}
       {depth >= 2 && (
         <div className="rounded-xl border-l-4 pl-3 py-1 space-y-2" style={{ borderColor: C.ink }}>
-          <p className="text-[11px] font-bold uppercase tracking-wider">Bilim</p>
+          <p className="text-xs font-bold uppercase tracking-wider">Bilim</p>
           <p className="text-sm leading-relaxed">{card.deep}</p>
           <ul className="space-y-1">
             {card.sources.map((s) => (
-              <li key={s.url} className="text-[11px] italic" style={{ color: C.soft }}>
+              <li key={s.url} className="text-xs italic" style={{ color: C.soft }}>
                 <a href={s.url} target="_blank" rel="noopener noreferrer" className="underline">
                   {s.citation}
                 </a>
@@ -115,7 +115,7 @@ export function PredictionSheet({ p, onAnswer, onDone }: { p: Prediction; onAnsw
     <div className="fixed inset-0 z-[55] flex items-end justify-center" role="dialog" aria-modal="true" aria-label="Tahmin et">
       <div className="absolute inset-0" style={{ background: "rgba(59,30,26,0.45)" }} />
       <div className="relative w-full max-w-md rounded-t-[28px] px-5 pt-5 pb-8 space-y-4" style={{ background: C.paper, color: C.ink }}>
-        <p className="text-[11px] font-bold uppercase tracking-[0.25em]" style={{ color: C.accent }}>
+        <p className="text-xs font-bold uppercase tracking-[0.25em]" style={{ color: C.accent }}>
           Tahmin et
         </p>
         <h3 className="text-2xl font-semibold leading-snug" style={serif}>

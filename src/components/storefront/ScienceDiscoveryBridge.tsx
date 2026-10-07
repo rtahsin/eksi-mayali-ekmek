@@ -63,7 +63,7 @@ export function ScienceDiscoveryBridge() {
                   </div>
 
                   <div>
-                    <span className="text-[11px] font-mono uppercase tracking-wider text-accent font-semibold">
+                    <span className="text-xs font-mono uppercase tracking-wider text-accent font-semibold">
                       {c.tag}
                     </span>
                     <h3 className="font-serif text-xl font-bold text-ink mt-1 group-hover:text-accent transition-colors">

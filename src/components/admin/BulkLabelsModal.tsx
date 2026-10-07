@@ -121,7 +121,7 @@ export function BulkLabelsModal({ orders, date, isOpen, onClose }: BulkLabelsMod
                         <div className="font-serif font-black tracking-wide text-xs print:text-black">
                           🍞 EKMEKLAB TAŞ FIRIN
                         </div>
-                        <div className="text-[10px] text-stone-400 print:text-gray-600 font-mono">
+                        <div className="text-xs text-stone-400 print:text-gray-600 font-mono">
                           {date} · Teslimat Paketi
                         </div>
                       </div>
@@ -130,7 +130,7 @@ export function BulkLabelsModal({ orders, date, isOpen, onClose }: BulkLabelsMod
                         <span className="inline-block px-2 py-0.5 rounded-lg bg-amber-500/20 text-amber-400 print:bg-black print:text-white font-mono font-black text-xs">
                           DURAK #{idx + 1}
                         </span>
-                        <div className="text-[10px] text-stone-400 print:text-gray-600 font-mono">
+                        <div className="text-xs text-stone-400 print:text-gray-600 font-mono">
                           #{order.orderNumber || order.id.slice(-6)}
                         </div>
                       </div>
@@ -147,7 +147,7 @@ export function BulkLabelsModal({ orders, date, isOpen, onClose }: BulkLabelsMod
                           <span>{order.phone}</span>
                         </div>
                       )}
-                      <div className="text-[11px] text-stone-300 print:text-black leading-tight flex items-start gap-1">
+                      <div className="text-xs text-stone-300 print:text-black leading-tight flex items-start gap-1">
                         <MapPin className="w-3 h-3 text-amber-400 print:text-black shrink-0 mt-0.5" />
                         <span>
                           <strong>{order.neighborhood}</strong> · {order.deliveryAddress}
@@ -157,7 +157,7 @@ export function BulkLabelsModal({ orders, date, isOpen, onClose }: BulkLabelsMod
 
                     {/* Items List */}
                     <div className="p-2 rounded-xl bg-stone-900/80 print:bg-gray-50 border border-stone-800 print:border-gray-300 space-y-1">
-                      <div className="text-[10px] font-mono text-stone-400 print:text-gray-600 uppercase">
+                      <div className="text-xs font-mono text-stone-400 print:text-gray-600 uppercase">
                         Paket İçeriği:
                       </div>
                       <div className="space-y-0.5">
@@ -169,7 +169,7 @@ export function BulkLabelsModal({ orders, date, isOpen, onClose }: BulkLabelsMod
                             <span className="font-bold text-amber-300 print:text-black">
                               {item.quantity}x {item.productName}
                             </span>
-                            <span className="text-[11px] font-mono text-stone-400 print:text-gray-700">
+                            <span className="text-xs font-mono text-stone-400 print:text-gray-700">
                               {item.totalPrice} ₺
                             </span>
                           </div>
@@ -179,7 +179,7 @@ export function BulkLabelsModal({ orders, date, isOpen, onClose }: BulkLabelsMod
 
                     {/* Order Notes if any */}
                     {order.orderNotes && (
-                      <div className="p-1.5 rounded-lg bg-amber-500/10 print:bg-yellow-50 text-[10px] text-amber-300 print:text-black italic">
+                      <div className="p-1.5 rounded-lg bg-amber-500/10 print:bg-yellow-50 text-xs text-amber-300 print:text-black italic">
                         <strong>Not:</strong> {order.orderNotes}
                       </div>
                     )}
@@ -188,7 +188,7 @@ export function BulkLabelsModal({ orders, date, isOpen, onClose }: BulkLabelsMod
                     <div className="flex items-center justify-between pt-1 border-t border-dashed border-stone-700 print:border-black text-xs">
                       <div>
                         <span
-                          className={`font-bold font-mono px-2 py-0.5 rounded text-[11px] ${
+                          className={`font-bold font-mono px-2 py-0.5 rounded text-xs ${
                             order.paymentMethod === "cash_on_delivery"
                               ? "bg-amber-500/20 text-amber-400 print:bg-transparent print:text-black"
                               : order.paymentMethod === "pos_at_door"

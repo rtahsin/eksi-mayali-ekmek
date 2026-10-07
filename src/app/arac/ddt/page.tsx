@@ -127,7 +127,7 @@ export default function DDTCalculatorPage() {
               className="w-full accent-accent"
             />
 
-            <div className="flex justify-between text-[11px] text-ink-muted font-mono">
+            <div className="flex justify-between text-xs text-ink-muted font-mono">
               <span>21°C (Yavaş/Serin)</span>
               <span>25°C (Dengeli Standart)</span>
               <span>28°C (Hızlı Hamur)</span>
@@ -172,7 +172,7 @@ export default function DDTCalculatorPage() {
                 onChange={(e) => setFlourTemp(Number(e.target.value))}
                 className="w-full accent-accent"
               />
-              <span className="text-[11px] text-ink-muted">
+              <span className="text-xs text-ink-muted">
                 Un genellikle oda sıcaklığına yakındır (Ölçüm yapmadıysanız oda ısısı ile aynı giriniz).
               </span>
             </div>
@@ -210,7 +210,7 @@ export default function DDTCalculatorPage() {
                       <div className="font-mono text-accent text-sm font-bold mt-0.5">
                         +{preset.defaultTemp}°C
                       </div>
-                      <div className="text-[10px] text-ink-muted mt-1 leading-tight line-clamp-2">
+                      <div className="text-xs text-ink-muted mt-1 leading-tight line-clamp-2">
                         {preset.desc}
                       </div>
                     </button>
@@ -305,7 +305,7 @@ export default function DDTCalculatorPage() {
 
             {/* Formül Özeti */}
             <div className="p-3.5 rounded-xl bg-bg border border-line text-xs font-mono text-ink-muted space-y-1">
-              <div className="text-[11px] uppercase tracking-wider text-ink font-semibold">
+              <div className="text-xs uppercase tracking-wider text-ink font-semibold">
                 Uygulanan Formül ({ddtResult.isFourFactor ? "4 Faktörlü" : "3 Faktörlü"}):
               </div>
               <div className="text-ink">
@@ -331,7 +331,7 @@ export default function DDTCalculatorPage() {
 
             <div className="grid grid-cols-2 gap-3 pt-1">
               <div className="space-y-1">
-                <label className="text-[11px] text-ink font-medium">Musluk Suyu Isısı (°C)</label>
+                <label className="text-xs text-ink font-medium">Musluk Suyu Isısı (°C)</label>
                 <input
                   type="number"
                   min={10}
@@ -342,7 +342,7 @@ export default function DDTCalculatorPage() {
                 />
               </div>
               <div className="space-y-1">
-                <label className="text-[11px] text-ink font-medium">Toplam Su Ağırlığı (g)</label>
+                <label className="text-xs text-ink font-medium">Toplam Su Ağırlığı (g)</label>
                 <input
                   type="number"
                   min={100}

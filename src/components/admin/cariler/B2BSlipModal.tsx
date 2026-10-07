@@ -288,7 +288,7 @@ export default function B2BSlipModal({
                     {/* Quantity, Unit Price, Total & Delete Row */}
                     <div className="flex items-center gap-2">
                       <div className="flex-1 space-y-1">
-                        <label className="text-[10px] text-stone-500 uppercase font-bold">Adet</label>
+                        <label className="text-xs text-stone-500 uppercase font-bold">Adet</label>
                         <input
                           type="number"
                           min="1"
@@ -303,11 +303,11 @@ export default function B2BSlipModal({
 
                       <div className="flex-1 space-y-1">
                         <div className="flex items-center justify-between">
-                          <label className="text-[10px] text-stone-500 uppercase font-bold">
+                          <label className="text-xs text-stone-500 uppercase font-bold">
                             Birim ₺
                           </label>
                           {item.isCustomPrice && (
-                            <span className="text-[9px] text-amber-400 font-bold flex items-center gap-0.5">
+                            <span className="text-xs text-amber-400 font-bold flex items-center gap-0.5">
                               <Tag className="w-2.5 h-2.5" /> Özel
                             </span>
                           )}
@@ -326,7 +326,7 @@ export default function B2BSlipModal({
                       <div className="text-stone-600 text-xs pt-4 font-bold">=</div>
 
                       <div className="w-24 space-y-1">
-                        <label className="text-[10px] text-stone-500 uppercase font-bold">Tutar</label>
+                        <label className="text-xs text-stone-500 uppercase font-bold">Tutar</label>
                         <div className="w-full bg-stone-900/60 border border-stone-800/80 rounded-xl px-2 py-2 text-sm text-right font-mono font-bold text-amber-400">
                           {((Number(item.qty) || 0) * (Number(item.price) || 0)).toLocaleString("tr-TR")} ₺
                         </div>
@@ -363,7 +363,7 @@ export default function B2BSlipModal({
             <div className="bg-stone-950 border border-stone-800 rounded-2xl p-4 flex justify-between items-center">
               <div>
                 <div className="text-xs text-stone-400 font-bold">Toplam Fiş Tutarı</div>
-                <div className="text-[10px] text-stone-500">Müşteri borcuna eklenecektir</div>
+                <div className="text-xs text-stone-500">Müşteri borcuna eklenecektir</div>
               </div>
               <div className="text-2xl font-black font-mono text-amber-400">
                 {totalAmount.toLocaleString("tr-TR")} ₺

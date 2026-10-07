@@ -73,7 +73,7 @@ export default function DeviceOrdersPage() {
                       </div>
                     </div>
                     {status && (
-                      <span className="text-[11px] px-2 py-1 rounded-full bg-artisan-gold/10 text-artisan-gold border border-artisan-gold/20 shrink-0">
+                      <span className="text-xs px-2 py-1 rounded-full bg-artisan-gold/10 text-artisan-gold border border-artisan-gold/20 shrink-0">
                         {ORDER_STATUS_LABELS[status]}
                       </span>
                     )}

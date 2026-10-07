@@ -18,6 +18,8 @@ import { GRAPH, type ConceptId, type ClaimId } from "@/lib/knowledge/registry";
 import { claimsAbout, sourcesFor } from "@/lib/knowledge/query";
 import { articleIndex } from "@/lib/editorial";
 import { SITE_URL } from "@/lib/site";
+import { Navbar } from "@/components/common/Navbar";
+import { Footer } from "@/components/common/Footer";
 
 export const dynamicParams = false;
 
@@ -76,28 +78,30 @@ export default async function ConceptDetailPage({ params }: PageProps) {
   };
 
   return (
-    <article className="min-h-screen bg-surface text-foreground font-sans">
+    <article className="min-h-screen flex flex-col bg-bg text-ink font-sans selection:bg-accent/20 selection:text-accent">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
 
+      <Navbar />
+
       {/* Breadcrumb / Top Navigation */}
-      <nav className="border-b border-surface-border bg-surface-panel/40 py-4">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 flex items-center justify-between text-xs text-foreground/60">
+      <nav className="border-b border-line bg-cream-surface/60 py-3.5">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 flex items-center justify-between text-xs text-ink-muted">
           <Link
             href="/kavram"
-            className="inline-flex items-center gap-1.5 hover:text-artisan-gold transition-colors font-medium"
+            className="inline-flex items-center gap-1.5 hover:text-accent transition-colors font-medium"
           >
             <ArrowLeft className="w-3.5 h-3.5" />
             <span>Kavramlar Sözlüğü</span>
           </Link>
           <div className="flex items-center gap-2">
-            <span className="uppercase tracking-wider text-[10px] px-2 py-0.5 rounded bg-surface-elevated border border-surface-border">
+            <span className="uppercase tracking-wider text-xs px-2.5 py-0.5 rounded-full bg-cream-surface border border-line text-ink font-medium">
               {concept.kind}
             </span>
             {concept.nick && (
-              <span className="font-mono text-artisan-gold text-[11px]">
+              <span className="font-mono text-accent text-xs">
                 @{concept.nick}
               </span>
             )}
@@ -105,14 +109,14 @@ export default async function ConceptDetailPage({ params }: PageProps) {
         </div>
       </nav>
 
-      <main className="max-w-4xl mx-auto px-4 sm:px-6 py-10 md:py-14 space-y-12">
+      <main className="flex-1 max-w-4xl mx-auto px-4 sm:px-6 py-10 md:py-14 space-y-12 w-full">
         {/* Concept Header */}
-        <header className="space-y-3 border-b border-surface-border pb-8">
-          <h1 className="font-serif text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-foreground">
+        <header className="space-y-3 border-b border-line pb-8">
+          <h1 className="font-serif text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-ink">
             {concept.name}
           </h1>
           {concept.latin && (
-            <p className="text-sm sm:text-base italic font-serif text-artisan-gold/90">
+            <p className="text-sm sm:text-base italic font-serif text-accent">
               {concept.latin}
             </p>
           )}
@@ -120,41 +124,41 @@ export default async function ConceptDetailPage({ params }: PageProps) {
 
         {/* 3-Layer Breakdown */}
         <section className="space-y-6">
-          <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-artisan-gold">
+          <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-accent">
             <Layers className="w-4 h-4" />
             <span>3 Katmanlı Anlatım</span>
           </div>
 
           <div className="grid grid-cols-1 gap-5">
             {/* 1. Usta Katmanı */}
-            <div className="p-6 rounded-2xl bg-surface-panel/80 border border-surface-border space-y-2">
-              <div className="flex items-center gap-2 text-amber-400 font-serif font-bold text-sm">
+            <div className="p-6 rounded-2xl bg-cream-surface border border-line space-y-2 shadow-xs">
+              <div className="flex items-center gap-2 text-accent font-serif font-bold text-sm">
                 <Hammer className="w-4 h-4" />
                 <span>1. Usta Katmanı — Ne Görüyorsun?</span>
               </div>
-              <p className="text-sm text-foreground/90 leading-relaxed font-sans pl-6">
+              <p className="text-sm text-ink leading-relaxed font-sans pl-6">
                 {concept.layers.usta}
               </p>
             </div>
 
             {/* 2. Neden Katmanı */}
-            <div className="p-6 rounded-2xl bg-surface-panel/80 border border-surface-border space-y-2">
-              <div className="flex items-center gap-2 text-sky-400 font-serif font-bold text-sm">
+            <div className="p-6 rounded-2xl bg-cream-surface border border-line space-y-2 shadow-xs">
+              <div className="flex items-center gap-2 text-accent font-serif font-bold text-sm">
                 <FlaskConical className="w-4 h-4" />
                 <span>2. Neden Katmanı — Mekanizma</span>
               </div>
-              <p className="text-sm text-foreground/90 leading-relaxed font-sans pl-6">
+              <p className="text-sm text-ink leading-relaxed font-sans pl-6">
                 {concept.layers.neden}
               </p>
             </div>
 
             {/* 3. Bilim Katmanı */}
-            <div className="p-6 rounded-2xl bg-surface-panel/80 border border-surface-border space-y-2">
-              <div className="flex items-center gap-2 text-emerald-400 font-serif font-bold text-sm">
+            <div className="p-6 rounded-2xl bg-cream-surface border border-line space-y-2 shadow-xs">
+              <div className="flex items-center gap-2 text-good font-serif font-bold text-sm">
                 <GraduationCap className="w-4 h-4" />
                 <span>3. Bilim Katmanı — Biyokimya & Mikrobiyoloji</span>
               </div>
-              <p className="text-sm text-foreground/90 leading-relaxed font-sans pl-6">
+              <p className="text-sm text-ink leading-relaxed font-sans pl-6">
                 {concept.layers.bilim}
               </p>
             </div>
@@ -164,21 +168,21 @@ export default async function ConceptDetailPage({ params }: PageProps) {
         {/* Identity Rows (if present) */}
         {concept.identity && concept.identity.length > 0 && (
           <section className="space-y-4">
-            <h2 className="font-serif text-xl font-bold text-foreground">
+            <h2 className="font-serif text-xl font-bold text-ink">
               Karakteristik Özellikler
             </h2>
-            <div className="rounded-2xl border border-surface-border overflow-hidden bg-surface-panel/60">
+            <div className="rounded-2xl border border-line overflow-hidden bg-cream-surface shadow-xs">
               <table className="w-full text-xs font-sans">
                 <tbody>
                   {concept.identity.map((item, idx) => (
                     <tr
                       key={idx}
-                      className="border-b border-surface-border last:border-b-0"
+                      className="border-b border-line last:border-b-0"
                     >
-                      <td className="py-3 px-4 font-semibold text-foreground/70 w-1/3">
+                      <td className="py-3 px-4 font-semibold text-ink-muted w-1/3">
                         {item.label}
                       </td>
-                      <td className="py-3 px-4 text-foreground/90 font-medium">
+                      <td className="py-3 px-4 text-ink font-medium">
                         {item.value}
                       </td>
                     </tr>
@@ -192,10 +196,10 @@ export default async function ConceptDetailPage({ params }: PageProps) {
         {/* Claims Section */}
         {claims.length > 0 && (
           <section className="space-y-4">
-            <div className="flex items-center justify-between border-b border-surface-border pb-2">
-              <h2 className="font-serif text-xl font-bold text-foreground flex items-center gap-2">
+            <div className="flex items-center justify-between border-b border-line pb-2">
+              <h2 className="font-serif text-xl font-bold text-ink flex items-center gap-2">
                 <span>Doğrulanmış Bilimsel İddialar</span>
-                <span className="text-xs font-sans font-normal text-artisan-gold/80 px-2 py-0.5 rounded-md bg-artisan-gold/10">
+                <span className="text-xs font-sans font-normal text-accent px-2 py-0.5 rounded-md bg-accent/10">
                   {claims.length}
                 </span>
               </h2>
@@ -205,14 +209,14 @@ export default async function ConceptDetailPage({ params }: PageProps) {
               {claims.map((claim, idx) => (
                 <div
                   key={idx}
-                  className="p-5 rounded-2xl bg-surface-panel/60 border border-surface-border space-y-3"
+                  className="p-5 rounded-2xl bg-cream-surface border border-line space-y-3 shadow-xs"
                 >
                   <div className="flex items-start justify-between gap-3">
-                    <p className="text-xs sm:text-sm text-foreground/90 leading-relaxed font-medium">
+                    <p className="text-xs sm:text-sm text-ink leading-relaxed font-medium">
                       {claim.text}
                     </p>
                     {claim.review && (
-                      <span className="shrink-0 inline-flex items-center gap-1 text-[11px] font-medium text-emerald-400 bg-emerald-950/40 border border-emerald-800/40 px-2 py-0.5 rounded-full">
+                      <span className="shrink-0 inline-flex items-center gap-1 text-xs font-medium text-good bg-good/10 border border-good/30 px-2 py-0.5 rounded-full">
                         <ShieldCheck className="w-3 h-3" />
                         <span>Tahsin Onaylı</span>
                       </span>
@@ -220,15 +224,15 @@ export default async function ConceptDetailPage({ params }: PageProps) {
                   </div>
 
                   {claim.evidence && claim.evidence.length > 0 && (
-                    <div className="pt-2 border-t border-surface-border/40 flex flex-wrap items-center gap-2 text-[11px] text-foreground/60">
-                      <span className="font-medium text-foreground/40">Kaynak:</span>
+                    <div className="pt-2 border-t border-line/60 flex flex-wrap items-center gap-2 text-xs text-ink-muted">
+                      <span className="font-medium text-ink-muted">Kaynak:</span>
                       {claim.evidence.map((ev, eIdx) => {
                         const src = GRAPH.sources[ev.source as keyof typeof GRAPH.sources];
                         return (
                           <Link
                             key={eIdx}
                             href={`/kaynak/${ev.source}`}
-                            className="hover:text-artisan-gold underline decoration-artisan-gold/30 hover:decoration-artisan-gold transition-colors"
+                            className="hover:text-accent underline decoration-accent/30 hover:decoration-accent transition-colors"
                           >
                             {src ? `${src.authors[0]?.split(" ")[0]} et al. (${src.year})` : ev.source}
                             {ev.locator ? ` [${ev.locator}]` : ""}
@@ -246,7 +250,7 @@ export default async function ConceptDetailPage({ params }: PageProps) {
         {/* Sources Section */}
         {sources.length > 0 && (
           <section className="space-y-4">
-            <h2 className="font-serif text-xl font-bold text-foreground">
+            <h2 className="font-serif text-xl font-bold text-ink">
               Dayanılan Akademik Kaynaklar
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -260,16 +264,16 @@ export default async function ConceptDetailPage({ params }: PageProps) {
                   <Link
                     key={idx}
                     href={`/kaynak/${srcId || ""}`}
-                    className="group p-4 rounded-xl bg-surface-panel/50 hover:bg-surface-elevated border border-surface-border hover:border-artisan-gold/40 transition-all text-xs"
+                    className="group p-4 rounded-xl bg-cream-surface hover:border-accent/50 border border-line transition-all text-xs shadow-xs"
                   >
-                    <div className="font-semibold text-foreground group-hover:text-artisan-gold transition-colors line-clamp-2">
+                    <div className="font-semibold text-ink group-hover:text-accent transition-colors line-clamp-2">
                       {src.title}
                     </div>
-                    <div className="text-[11px] text-foreground/60 mt-1">
+                    <div className="text-xs text-ink-muted mt-1">
                       {src.authors.join(", ")} ({src.year})
                     </div>
                     {src.venue && (
-                      <div className="text-[10px] italic text-foreground/40 mt-0.5">
+                      <div className="text-xs italic text-ink-muted mt-0.5">
                         {src.venue}
                       </div>
                     )}
@@ -283,7 +287,7 @@ export default async function ConceptDetailPage({ params }: PageProps) {
         {/* Related Articles */}
         {relatedArticles.length > 0 && (
           <section className="space-y-4">
-            <h2 className="font-serif text-xl font-bold text-foreground">
+            <h2 className="font-serif text-xl font-bold text-ink">
               İlgili Kütüphane Yazıları
             </h2>
             <div className="grid grid-cols-1 gap-3">
@@ -291,12 +295,12 @@ export default async function ConceptDetailPage({ params }: PageProps) {
                 <Link
                   key={art.slug}
                   href={`/kutuphane/${art.slug}`}
-                  className="group p-5 rounded-2xl bg-surface-panel/60 hover:bg-surface-elevated border border-surface-border hover:border-artisan-gold/40 transition-all"
+                  className="group p-5 rounded-2xl bg-cream-surface hover:border-accent/50 border border-line transition-all shadow-xs"
                 >
-                  <div className="font-serif text-base font-bold text-foreground group-hover:text-artisan-gold transition-colors">
+                  <div className="font-serif text-base font-bold text-ink group-hover:text-accent transition-colors">
                     {art.title}
                   </div>
-                  <p className="text-xs text-foreground/70 mt-1 line-clamp-2">
+                  <p className="text-xs text-ink-muted mt-1 line-clamp-2">
                     {art.summary}
                   </p>
                 </Link>
@@ -306,25 +310,27 @@ export default async function ConceptDetailPage({ params }: PageProps) {
         )}
 
         {/* "Oyunda Gör" CTA */}
-        <section className="p-6 rounded-2xl bg-gradient-to-r from-artisan-brown/30 via-surface-panel to-artisan-gold/10 border border-artisan-gold/30 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <section className="p-6 rounded-2xl bg-cream-surface border border-line flex flex-col sm:flex-row sm:items-center justify-between gap-4 shadow-xs">
           <div className="space-y-1">
-            <div className="flex items-center gap-2 font-serif font-bold text-foreground text-base">
-              <Gamepad2 className="w-5 h-5 text-artisan-gold" />
+            <div className="flex items-center gap-2 font-serif font-bold text-ink text-base">
+              <Gamepad2 className="w-5 h-5 text-accent" />
               <span>Atölye Laboratuvarında Dene</span>
             </div>
-            <p className="text-xs text-foreground/70">
+            <p className="text-xs text-ink-muted">
               Bu kavramın fermantasyon sürecine ve ekmek yapısına etkisini simülasyonda interaktif olarak gözlemle.
             </p>
           </div>
           <Link
             href="/laboratuvar"
-            className="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-artisan-gold hover:bg-artisan-gold-light text-stone-950 font-medium text-xs transition-colors shrink-0 font-sans shadow-md"
+            className="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-accent hover:bg-accent/90 text-white font-medium text-xs transition-colors shrink-0 font-sans shadow-md"
           >
             <span>Laboratuvara Git</span>
             <ExternalLink className="w-3.5 h-3.5" />
           </Link>
         </section>
       </main>
+
+      <Footer />
     </article>
   );
 }

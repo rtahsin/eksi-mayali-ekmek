@@ -37,7 +37,7 @@ function ProductCard({ p }: { p: Product }) {
           <span style={{ color: C.soft }}>
             {weightLabel(p)}
             {badge(p) && (
-              <span className="ml-2 text-[11px] uppercase tracking-wider" style={{ color: C.accent }}>
+              <span className="ml-2 text-xs uppercase tracking-wider" style={{ color: C.accent }}>
                 {badge(p)}
               </span>
             )}

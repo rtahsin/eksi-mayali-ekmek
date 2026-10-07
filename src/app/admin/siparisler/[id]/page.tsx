@@ -289,7 +289,7 @@ export default function SingleOrderDetailPage() {
 
       {/* Status Stepper */}
       <div className="bg-[#18130F] border border-[#261E17] p-5 rounded-3xl shadow space-y-3">
-        <div className="text-[11px] font-semibold text-stone-400 uppercase tracking-wider">
+        <div className="text-xs font-semibold text-stone-400 uppercase tracking-wider">
           Sipariş Durumunu Değiştir
         </div>
         <div className="grid grid-cols-2 sm:grid-cols-5 gap-2">
@@ -335,7 +335,7 @@ export default function SingleOrderDetailPage() {
                     <div>
                       <div className="font-bold text-stone-100 text-sm">{it.productName}</div>
                       {it.weight && (
-                        <div className="text-[11px] text-stone-400 font-mono">{it.weight}g Taş Fırın</div>
+                        <div className="text-xs text-stone-400 font-mono">{it.weight}g Taş Fırın</div>
                       )}
                     </div>
                   </div>
@@ -344,7 +344,7 @@ export default function SingleOrderDetailPage() {
                     <div className="font-mono font-bold text-[#F59E0B] text-sm">
                       {it.totalPrice} ₺
                     </div>
-                    <div className="text-[10px] text-stone-500 font-mono">
+                    <div className="text-xs text-stone-500 font-mono">
                       Birim: {it.unitPrice} ₺
                     </div>
                   </div>
@@ -409,18 +409,18 @@ export default function SingleOrderDetailPage() {
                           ? "🌐 Online Kart"
                           : "🏢 Cari Hesap"}
                         {p.transactionRef && (
-                          <span className="text-stone-500 text-[11px] ml-1.5 font-mono">
+                          <span className="text-stone-500 text-xs ml-1.5 font-mono">
                             ({p.transactionRef})
                           </span>
                         )}
                       </div>
-                      <div className="text-[10px] text-stone-500">
+                      <div className="text-xs text-stone-500">
                         {new Date(p.createdAt).toLocaleString("tr-TR")} • {p.collectedBy || "admin"}
                       </div>
                     </div>
                     <div className="text-right">
                       <span className="font-mono font-bold text-emerald-400 block">{p.amount} ₺</span>
-                      <span className="text-[10px] px-1.5 py-0.2 rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/30">
+                      <span className="text-xs px-1.5 py-0.2 rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/30">
                         {p.status}
                       </span>
                     </div>
@@ -445,11 +445,11 @@ export default function SingleOrderDetailPage() {
                         {h.fromStatus ? `${h.fromStatus} → ` : "Başlangıç: "}
                         <span className="text-[#F59E0B]">{h.toStatus}</span>
                       </span>
-                      {h.note && <p className="text-[11px] text-stone-500 mt-0.5">{h.note}</p>}
+                      {h.note && <p className="text-xs text-stone-500 mt-0.5">{h.note}</p>}
                     </div>
-                    <div className="text-right font-mono text-[11px] text-stone-500">
+                    <div className="text-right font-mono text-xs text-stone-500">
                       <div>{new Date(h.createdAt).toLocaleTimeString("tr-TR")}</div>
-                      <div className="text-[10px] uppercase text-stone-600">{h.changedByRole}</div>
+                      <div className="text-xs uppercase text-stone-600">{h.changedByRole}</div>
                     </div>
                   </div>
                 ))}
@@ -469,7 +469,7 @@ export default function SingleOrderDetailPage() {
             </h3>
 
             <div>
-              <label className="text-[11px] text-stone-400 block mb-1.5 font-medium">
+              <label className="text-xs text-stone-400 block mb-1.5 font-medium">
                 Sorumlu Kuryeyi Seç:
               </label>
               <select
@@ -493,7 +493,7 @@ export default function SingleOrderDetailPage() {
                   <span>{assignedCourier.displayName}</span>
                 </div>
                 <div className="text-stone-400">{assignedCourier.phone}</div>
-                <div className="text-[10px] font-mono text-stone-500 uppercase">
+                <div className="text-xs font-mono text-stone-500 uppercase">
                   Araç: {assignedCourier.vehicleType}
                 </div>
               </div>
@@ -541,14 +541,14 @@ export default function SingleOrderDetailPage() {
                   <Navigation className="w-3.5 h-3.5" />
                   <span>Müşteri Canlı Konumu Paylaştı</span>
                 </div>
-                <div className="text-[11px] font-mono text-stone-400">
+                <div className="text-xs font-mono text-stone-400">
                   {order.customerLat.toFixed(5)}, {order.customerLng.toFixed(5)}
                 </div>
                 <a
                   href={`https://www.google.com/maps/dir/?api=1&destination=${order.customerLat},${order.customerLng}`}
                   target="_blank"
                   rel="noreferrer"
-                  className="inline-flex items-center gap-1 text-[11px] text-[#F59E0B] hover:underline font-medium"
+                  className="inline-flex items-center gap-1 text-xs text-[#F59E0B] hover:underline font-medium"
                 >
                   <span>Google Haritalarda Canlı Noktayı Aç</span>
                   <ExternalLink className="w-3 h-3" />

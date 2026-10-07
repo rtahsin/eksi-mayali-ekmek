@@ -91,7 +91,7 @@ export function PaymentRecordModal({
               <h3 className="font-serif font-bold text-base text-[#F7EBD3]">
                 Tahsilat / Ödeme Kaydı
               </h3>
-              <p className="text-[11px] text-stone-400 font-mono">
+              <p className="text-xs text-stone-400 font-mono">
                 Sipariş #{orderNumber}
               </p>
             </div>
@@ -108,11 +108,11 @@ export function PaymentRecordModal({
         {/* Info Banner */}
         <div className="bg-[#120E0B] border border-[#261E17] rounded-xl p-3 flex items-center justify-between text-xs">
           <div>
-            <span className="text-stone-400 block text-[10px] font-mono">Toplam Sipariş Tutarı</span>
+            <span className="text-stone-400 block text-xs font-mono">Toplam Sipariş Tutarı</span>
             <span className="font-bold text-stone-200 text-sm">{totalAmount} ₺</span>
           </div>
           <div className="text-right">
-            <span className="text-stone-400 block text-[10px] font-mono">Kalan Tahsilat</span>
+            <span className="text-stone-400 block text-xs font-mono">Kalan Tahsilat</span>
             <span className="font-bold text-[#F59E0B] text-sm">{remainingAmount} ₺</span>
           </div>
         </div>

@@ -92,31 +92,31 @@ export function OrderCard({ order, onUpdateStatus }: OrderCardProps) {
               </Link>
               <OrderStatusBadge status={order.status} />
               {order.source === "whatsapp" && (
-                <span className="px-2 py-0.5 rounded-md bg-emerald-950/60 border border-emerald-500/30 text-emerald-400 text-[10px] font-sans flex items-center gap-1">
+                <span className="px-2 py-0.5 rounded-md bg-emerald-950/60 border border-emerald-500/30 text-emerald-400 text-xs font-sans flex items-center gap-1">
                   <MessageSquare className="w-2.5 h-2.5" />
                   <span>WhatsApp</span>
                 </span>
               )}
               {order.source === "web" && (
-                <span className="px-2 py-0.5 rounded-md bg-blue-950/60 border border-blue-500/30 text-blue-400 text-[10px] font-sans flex items-center gap-1">
+                <span className="px-2 py-0.5 rounded-md bg-blue-950/60 border border-blue-500/30 text-blue-400 text-xs font-sans flex items-center gap-1">
                   <Globe className="w-2.5 h-2.5" />
                   <span>Web</span>
                 </span>
               )}
               {order.paymentMethod === "cari" && (
-                <span className="px-2 py-0.5 rounded-md bg-purple-950/60 border border-purple-500/30 text-purple-300 text-[10px] font-sans flex items-center gap-1">
+                <span className="px-2 py-0.5 rounded-md bg-purple-950/60 border border-purple-500/30 text-purple-300 text-xs font-sans flex items-center gap-1">
                   <Building2 className="w-2.5 h-2.5" />
                   <span>Cari</span>
                 </span>
               )}
               {order.courierId && (
-                <span className="px-2 py-0.5 rounded-md bg-blue-950/60 border border-blue-500/30 text-blue-400 text-[10px] font-sans flex items-center gap-1">
+                <span className="px-2 py-0.5 rounded-md bg-blue-950/60 border border-blue-500/30 text-blue-400 text-xs font-sans flex items-center gap-1">
                   <Truck className="w-2.5 h-2.5" />
                   <span>Kurye Atandı</span>
                 </span>
               )}
               <span
-                className={`px-2 py-0.5 rounded-md text-[10px] font-sans border ${
+                className={`px-2 py-0.5 rounded-md text-xs font-sans border ${
                   order.paymentStatus === "paid"
                     ? "bg-emerald-950/60 border-emerald-500/30 text-emerald-400"
                     : "bg-amber-950/60 border-amber-500/30 text-amber-400"
@@ -136,7 +136,7 @@ export function OrderCard({ order, onUpdateStatus }: OrderCardProps) {
             <div className="font-serif text-base font-bold text-foreground">
               {order.totalAmount} ₺
             </div>
-            <div className="text-[10px] text-foreground/50 font-sans">
+            <div className="text-xs text-foreground/50 font-sans">
               {order.paymentMethod === "cash_on_delivery"
                 ? "Kapıda Nakit"
                 : order.paymentMethod === "pos_at_door"
@@ -156,7 +156,7 @@ export function OrderCard({ order, onUpdateStatus }: OrderCardProps) {
             <div className="font-bold text-foreground text-sm flex items-center gap-2">
               <span>{order.customerName}</span>
               {order.neighborhood && (
-                <span className="px-2 py-0.5 rounded-full bg-[#241A13] border border-artisan-gold/30 text-artisan-gold text-[10px] font-mono">
+                <span className="px-2 py-0.5 rounded-full bg-[#241A13] border border-artisan-gold/30 text-artisan-gold text-xs font-mono">
                   {order.neighborhood}
                 </span>
               )}
@@ -198,7 +198,7 @@ export function OrderCard({ order, onUpdateStatus }: OrderCardProps) {
           </div>
 
           {order.orderNotes && (
-            <div className="text-[11px] text-amber-300/80 bg-amber-950/20 border border-amber-500/20 px-2.5 py-1.5 rounded-lg">
+            <div className="text-xs text-amber-300/80 bg-amber-950/20 border border-amber-500/20 px-2.5 py-1.5 rounded-lg">
               <strong>Not:</strong> {order.orderNotes}
             </div>
           )}
@@ -206,19 +206,19 @@ export function OrderCard({ order, onUpdateStatus }: OrderCardProps) {
 
         {/* Items Ordered */}
         <div className="py-2 border-t border-[#261D17] space-y-1.5 text-xs font-sans">
-          <div className="text-[10px] font-serif font-bold text-artisan-gold/80 uppercase tracking-wider">
+          <div className="text-xs font-serif font-bold text-artisan-gold/80 uppercase tracking-wider">
             Sipariş İçeriği
           </div>
           <div className="space-y-1">
             {order.items.map((it, idx) => (
               <div key={idx} className="flex items-center justify-between text-foreground/85">
                 <div className="flex items-center gap-2">
-                  <span className="w-5 h-5 rounded-md bg-[#241A13] text-artisan-gold font-mono font-bold flex items-center justify-center text-[10px]">
+                  <span className="w-5 h-5 rounded-md bg-[#241A13] text-artisan-gold font-mono font-bold flex items-center justify-center text-xs">
                     {it.quantity}
                   </span>
                   <span>{it.productName}</span>
                 </div>
-                <span className="text-foreground/50 font-mono text-[11px]">{it.totalPrice} ₺</span>
+                <span className="text-foreground/50 font-mono text-xs">{it.totalPrice} ₺</span>
               </div>
             ))}
           </div>
@@ -261,7 +261,7 @@ export function OrderCard({ order, onUpdateStatus }: OrderCardProps) {
             )}
           </button>
         ) : (
-          <div className="text-[11px] text-foreground/40 font-mono">İşlem Tamamlandı</div>
+          <div className="text-xs text-foreground/40 font-mono">İşlem Tamamlandı</div>
         )}
 
         {/* Print Thermal Slip / Sticker */}
@@ -288,7 +288,7 @@ export function OrderCard({ order, onUpdateStatus }: OrderCardProps) {
 
           {showWhatsAppMenu && (
             <div className="absolute right-0 bottom-full mb-2 w-52 bg-[#1A1410] border border-[#2F241D] rounded-2xl p-1.5 shadow-2xl z-30 space-y-1 text-xs">
-              <div className="px-2 py-1 text-[10px] font-serif font-bold text-artisan-gold uppercase">
+              <div className="px-2 py-1 text-xs font-serif font-bold text-artisan-gold uppercase">
                 WhatsApp Şablonu Seç
               </div>
               <button

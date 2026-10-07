@@ -47,13 +47,13 @@ export function MobileCartBar() {
             <span className="flex items-center gap-3 text-left">
               <span className="relative">
                 <ShoppingBag className="w-5 h-5" />
-                <span className="absolute -top-2 -right-2 min-w-[18px] h-[18px] px-1 rounded-full bg-[#D2B48C] text-stone-950 text-[10px] font-bold flex items-center justify-center">
+                <span className="absolute -top-2 -right-2 min-w-[18px] h-[18px] px-1 rounded-full bg-[#D2B48C] text-stone-950 text-xs font-bold flex items-center justify-center">
                   {itemCount}
                 </span>
               </span>
               <span className="flex flex-col leading-tight">
                 <span className="font-serif text-base font-bold">{subtotal.toLocaleString("tr-TR")} ₺</span>
-                <span className="font-sans text-[11px] text-white/70">{hint}</span>
+                <span className="font-sans text-xs text-white/70">{hint}</span>
               </span>
             </span>
 

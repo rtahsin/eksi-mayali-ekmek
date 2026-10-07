@@ -29,7 +29,7 @@ export function Claim({ id, children }: ClaimProps) {
         }`}
         title={claim.text}
       >
-        <span className="text-[10px] text-[#B4532A] font-bold">§</span>
+        <span className="text-xs text-[#B4532A] font-bold">§</span>
         <span>{children || (isMyth ? "Efsane" : "Bilimsel Kanıt")}</span>
       </span>
 
@@ -42,7 +42,7 @@ export function Claim({ id, children }: ClaimProps) {
           {claim.text}
         </span>
         {claim.evidence && claim.evidence.length > 0 && (
-          <span className="block pt-1.5 border-t border-[#3D342E]/60 text-[10px] text-[#A89F91]">
+          <span className="block pt-1.5 border-t border-[#3D342E]/60 text-xs text-[#A89F91]">
             <span className="font-semibold text-[#D4A373]">Kaynak: </span>
             {claim.evidence.map((ev, idx) => {
               const src = SOURCES[ev.source as keyof typeof SOURCES];

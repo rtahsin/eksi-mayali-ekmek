@@ -154,12 +154,12 @@ export default function AdminProductsPage() {
                       <span className="font-mono text-stone-200">{tl(p.price)}</span>
                       {p.compareAtPrice ? <span className="line-through text-stone-500">{tl(p.compareAtPrice)}</span> : null}
                       {productBadges(p).map((b) => (
-                        <span key={b.label} className="px-1.5 py-0.5 rounded-md bg-amber-500/10 text-amber-300 border border-amber-500/20 text-[10px]">
+                        <span key={b.label} className="px-1.5 py-0.5 rounded-md bg-amber-500/10 text-amber-300 border border-amber-500/20 text-xs">
                           {b.label}
                         </span>
                       ))}
                       {p.dailyLimit !== null && p.dailyLimit !== undefined && (
-                        <span className="text-[10px] text-stone-500">günde en fazla {p.dailyLimit}</span>
+                        <span className="text-xs text-stone-500">günde en fazla {p.dailyLimit}</span>
                       )}
                     </div>
                   </div>
@@ -169,7 +169,7 @@ export default function AdminProductsPage() {
                         type="button"
                         disabled={busyId === p.id}
                         onClick={() => runQuick(p, { isAvailable: p.isAvailable === false })}
-                        className={`px-2.5 py-2 rounded-xl text-[11px] font-bold border min-w-[76px] ${
+                        className={`px-2.5 py-2 rounded-xl text-xs font-bold border min-w-[76px] ${
                           p.isAvailable === false
                             ? "bg-red-500/10 text-red-300 border-red-500/30"
                             : "bg-emerald-500/10 text-emerald-300 border-emerald-500/30"
@@ -183,7 +183,7 @@ export default function AdminProductsPage() {
                         type="button"
                         disabled={busyId === p.id}
                         onClick={() => runQuick(p, { isActive: true })}
-                        className="px-2.5 py-2 rounded-xl text-[11px] font-bold border bg-stone-800 text-stone-200 border-stone-700 flex items-center gap-1"
+                        className="px-2.5 py-2 rounded-xl text-xs font-bold border bg-stone-800 text-stone-200 border-stone-700 flex items-center gap-1"
                       >
                         <RotateCcw className="w-3.5 h-3.5" /> Geri al
                       </button>
@@ -393,7 +393,7 @@ function ProductEditor({
                   </button>
                 </div>
                 {form.saleDates.filter((d) => d.date >= today).length === 0 ? (
-                  <p className="text-[11px] text-amber-300">Yaklaşan satış günü yok — ürün vitrinde &quot;Yakında&quot; görünür, sipariş alınmaz.</p>
+                  <p className="text-xs text-amber-300">Yaklaşan satış günü yok — ürün vitrinde &quot;Yakında&quot; görünür, sipariş alınmaz.</p>
                 ) : (
                   <div className="flex flex-wrap gap-1.5">
                     {form.saleDates
@@ -482,7 +482,7 @@ function ProductEditor({
                     </button>
                   </div>
                 ))}
-                <p className="text-[11px] text-stone-400">
+                <p className="text-xs text-stone-400">
                   Ayrı ayrı toplam: <strong className="text-stone-200">{tl(bundleSeparateTotal)}</strong>
                   {form.price > 0 && bundleSeparateTotal > form.price && (
                     <> · müşteri kazancı {tl(bundleSeparateTotal - form.price)} (eski fiyat alanına {tl(bundleSeparateTotal)} yazabilirsiniz)</>
@@ -737,7 +737,7 @@ function Field({ label, hint, children }: { label: string; hint?: string; childr
     <label className="block space-y-1">
       <span className="text-xs font-semibold text-stone-300">{label}</span>
       {children}
-      {hint && <span className="block text-[11px] text-stone-500">{hint}</span>}
+      {hint && <span className="block text-xs text-stone-500">{hint}</span>}
     </label>
   );
 }

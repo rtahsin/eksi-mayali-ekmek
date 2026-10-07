@@ -295,7 +295,7 @@ export default function TransactionReceiptModal({ tx, cari, onClose }: Transacti
           {/* Document Title & Slip Number Badge */}
           <div className="flex items-center justify-between gap-2 px-1 mb-3">
             <span
-              className={`text-[11px] font-black uppercase tracking-wider px-3 py-1 rounded-full border ${
+              className={`text-xs font-black uppercase tracking-wider px-3 py-1 rounded-full border ${
                 tx.type === "tahsilat"
                   ? "bg-emerald-50 text-emerald-800 border-emerald-200"
                   : tx.type === "devir"
@@ -320,13 +320,13 @@ export default function TransactionReceiptModal({ tx, cari, onClose }: Transacti
                 <Calendar className="w-4 h-4" />
               </div>
               <div className="min-w-0 flex-1">
-                <div className="text-[9px] font-bold text-[#8A7A70] tracking-wider uppercase leading-none mb-1">
+                <div className="text-xs font-bold text-[#8A7A70] tracking-wider uppercase leading-none mb-1">
                   TARİH
                 </div>
-                <div className="text-[11px] font-bold text-[#1E140F] leading-tight">
+                <div className="text-xs font-bold text-[#1E140F] leading-tight">
                   <span>{formattedDt.date}</span>
                   {formattedDt.time && (
-                    <span className="text-[10px] text-[#7A6B62] font-semibold ml-1 whitespace-nowrap">
+                    <span className="text-xs text-[#7A6B62] font-semibold ml-1 whitespace-nowrap">
                       {formattedDt.time}
                     </span>
                   )}
@@ -340,10 +340,10 @@ export default function TransactionReceiptModal({ tx, cari, onClose }: Transacti
                 <User className="w-4 h-4" />
               </div>
               <div className="min-w-0 flex-1">
-                <div className="text-[9px] font-bold text-[#8A7A70] tracking-wider uppercase leading-none mb-1">
+                <div className="text-xs font-bold text-[#8A7A70] tracking-wider uppercase leading-none mb-1">
                   MÜŞTERİ
                 </div>
-                <div className="text-[11px] sm:text-xs font-bold text-[#1E140F] leading-tight break-words" title={cari.businessName}>
+                <div className="text-xs sm:text-xs font-bold text-[#1E140F] leading-tight break-words" title={cari.businessName}>
                   {cari.businessName}
                 </div>
               </div>
@@ -357,7 +357,7 @@ export default function TransactionReceiptModal({ tx, cari, onClose }: Transacti
               <div className="space-y-3">
                 <div className="bg-[#FAF7F2] border border-[#EBE4D8] rounded-xl p-3.5 space-y-2.5">
                   <div className="flex justify-between items-center">
-                    <span className="text-[11px] font-bold text-[#8A7A70] uppercase tracking-wider">Tahsil Edilen Tutar:</span>
+                    <span className="text-xs font-bold text-[#8A7A70] uppercase tracking-wider">Tahsil Edilen Tutar:</span>
                     <span className="text-base sm:text-lg font-black text-emerald-800">
                       {amount.toLocaleString("tr-TR")} ₺
                     </span>
@@ -448,7 +448,7 @@ export default function TransactionReceiptModal({ tx, cari, onClose }: Transacti
                           <div className="font-bold text-[#1E140F] text-xs sm:text-[13px] leading-snug break-words pb-0.5">
                             {it.name}
                           </div>
-                          <div className="text-[11px] text-[#7A6B62] font-medium leading-normal inline-block py-0.5 mt-0.5">
+                          <div className="text-xs text-[#7A6B62] font-medium leading-normal inline-block py-0.5 mt-0.5">
                             {it.qty} x {it.price.toLocaleString("tr-TR")} ₺
                           </div>
                         </div>
@@ -499,7 +499,7 @@ export default function TransactionReceiptModal({ tx, cari, onClose }: Transacti
               <div className="w-6 h-6 rounded-full bg-[#EFE8DC] flex items-center justify-center text-[#5C4C42]">
                 <BarChart2 className="w-3.5 h-3.5" />
               </div>
-              <span className="text-[11px] font-black text-[#1E140F] tracking-wider uppercase leading-normal pb-0.5">
+              <span className="text-xs font-black text-[#1E140F] tracking-wider uppercase leading-normal pb-0.5">
                 HESAP DURUMU (CARİ BAKİYE)
               </span>
             </div>
@@ -557,7 +557,7 @@ export default function TransactionReceiptModal({ tx, cari, onClose }: Transacti
             <div className="italic font-serif text-[#5C4C42] text-xs leading-normal pb-0.5">
               Bizi tercih ettiğiniz için teşekkür ederiz.
             </div>
-            <div className="text-[10px] text-[#8A7A70] tracking-widest uppercase leading-normal pb-0.5">
+            <div className="text-xs text-[#8A7A70] tracking-widest uppercase leading-normal pb-0.5">
               EKMEKLAB TAŞ FIRIN · BEREKETLİ İŞLER
             </div>
           </div>
@@ -624,7 +624,7 @@ export default function TransactionReceiptModal({ tx, cari, onClose }: Transacti
           <Check className="w-5 h-5 text-amber-400 shrink-0" />
           <div className="flex-1">
             <p className="font-bold text-amber-400">Görsel Panoya Kopyalandı & İndirildi</p>
-            <p className="text-[11px] text-stone-300 mt-0.5">
+            <p className="text-xs text-stone-300 mt-0.5">
               WhatsApp açıldığında sohbete <span className="font-mono font-bold bg-stone-800 text-amber-300 px-1 py-0.5 rounded border border-stone-700">Ctrl + V</span> yaparak görseli ve linki birlikte gönderebilirsiniz.
             </p>
           </div>

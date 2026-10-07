@@ -266,7 +266,7 @@ export default function IsolatedCariDetailPage() {
                       setEditModalTab("prices");
                       setActiveModal("edit");
                     }}
-                    className="text-[11px] text-stone-400 hover:text-amber-400 underline font-medium"
+                    className="text-xs text-stone-400 hover:text-amber-400 underline font-medium"
                   >
                     Düzenle
                   </button>
@@ -304,7 +304,7 @@ export default function IsolatedCariDetailPage() {
 
           <div className="bg-stone-950 p-5 rounded-2xl border border-stone-800 sm:min-w-[220px] flex flex-col justify-between">
             <div>
-              <div className="text-[10px] text-stone-500 font-bold uppercase tracking-wider mb-1">
+              <div className="text-xs text-stone-500 font-bold uppercase tracking-wider mb-1">
                 Güncel Bakiye
               </div>
               <div
@@ -489,17 +489,17 @@ export default function IsolatedCariDetailPage() {
                           {LEDGER_TYPE_LABELS[tx.type]}
                         </span>
                         {cancelled && (
-                          <span className="text-[10px] font-bold px-1.5 py-0.5 rounded bg-stone-800 text-stone-400 border border-stone-700">
+                          <span className="text-xs font-bold px-1.5 py-0.5 rounded bg-stone-800 text-stone-400 border border-stone-700">
                             İPTAL EDİLDİ
                           </span>
                         )}
                         {tx.slipNumber && (
-                          <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-amber-500/10 text-amber-400 border border-amber-500/20">
+                          <span className="text-xs font-mono px-1.5 py-0.5 rounded bg-amber-500/10 text-amber-400 border border-amber-500/20">
                             {tx.slipNumber}
                           </span>
                         )}
                         {tx.paymentMethod && (
-                          <span className="text-[10px] px-1.5 py-0.5 rounded bg-stone-800 text-stone-400 border border-stone-700">
+                          <span className="text-xs px-1.5 py-0.5 rounded bg-stone-800 text-stone-400 border border-stone-700">
                             {PAYMENT_METHOD_LABELS[tx.paymentMethod] || tx.paymentMethod}
                           </span>
                         )}
@@ -507,7 +507,7 @@ export default function IsolatedCariDetailPage() {
                       <div className="text-xs text-stone-400 mt-0.5 line-clamp-2">
                         {tx.description}
                       </div>
-                      <div className="text-[10px] text-stone-500 mt-1 font-mono">
+                      <div className="text-xs text-stone-500 mt-1 font-mono">
                         {tx.date.split("-").reverse().join(".")}
                       </div>
                     </div>
@@ -524,7 +524,7 @@ export default function IsolatedCariDetailPage() {
                         {Math.abs(tx.delta).toLocaleString("tr-TR")} ₺
                       </div>
                       {tx.balanceAfter !== undefined && (
-                        <span className="text-[10px] text-stone-500 font-mono">
+                        <span className="text-xs text-stone-500 font-mono">
                           Bakiye: {tx.balanceAfter.toLocaleString("tr-TR")} ₺
                         </span>
                       )}

@@ -98,7 +98,7 @@ export default function BalanceAdjustModal({
           {/* Current Balance Box */}
           <div className="bg-stone-950 p-4 rounded-2xl border border-stone-800 flex justify-between items-center">
             <div>
-              <div className="text-[10px] text-stone-500 uppercase font-bold tracking-wider">
+              <div className="text-xs text-stone-500 uppercase font-bold tracking-wider">
                 Mevcut Bakiye
               </div>
               <div className="text-xl font-mono font-black text-stone-300 mt-0.5">
@@ -107,7 +107,7 @@ export default function BalanceAdjustModal({
             </div>
             <ArrowRight className="w-5 h-5 text-stone-600" />
             <div className="text-right">
-              <div className="text-[10px] text-amber-500 uppercase font-bold tracking-wider">
+              <div className="text-xs text-amber-500 uppercase font-bold tracking-wider">
                 Yeni Hedef
               </div>
               <div className="text-xl font-mono font-black text-amber-400 mt-0.5">
@@ -170,7 +170,7 @@ export default function BalanceAdjustModal({
               placeholder="Örn: Eski defterden devir, nakit mutabakatı..."
               className="w-full bg-stone-950 border border-stone-800 rounded-xl px-4 py-3 text-xs text-stone-200 focus:outline-none focus:border-amber-500/50"
             />
-            <p className="text-[10px] text-stone-500">
+            <p className="text-xs text-stone-500">
               Bu açıklama hesap hareketlerine şeffaf bir devir kaydı olarak işlenecektir.
             </p>
           </div>

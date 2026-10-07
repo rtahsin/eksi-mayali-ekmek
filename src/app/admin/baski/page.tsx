@@ -241,7 +241,7 @@ export default function AdminPrintPage() {
                   <Package className="w-4 h-4 text-artisan-gold" />
                   Ekmek ve Metin Ayarları
                 </span>
-                <span className="text-[10px] font-mono text-artisan-gold/80 bg-artisan-gold/10 px-2 py-0.5 rounded-full">
+                <span className="text-xs font-mono text-artisan-gold/80 bg-artisan-gold/10 px-2 py-0.5 rounded-full">
                   50×70 mm Termal
                 </span>
               </div>
@@ -286,7 +286,7 @@ export default function AdminPrintPage() {
                   <label className="text-xs font-mono text-foreground/70 uppercase">
                     Ürün Slug'ı (QR Hedefi)
                   </label>
-                  <span className="text-[10px] font-mono text-foreground/50">
+                  <span className="text-xs font-mono text-foreground/50">
                     /e/{"{slug}"}
                   </span>
                 </div>
@@ -305,7 +305,7 @@ export default function AdminPrintPage() {
                   <label className="text-xs font-mono text-foreground/70 uppercase">
                     İsteğe Bağlı Tek Satır (Alt Bilgi)
                   </label>
-                  <span className="text-[10px] font-mono text-foreground/50">
+                  <span className="text-xs font-mono text-foreground/50">
                     Opsiyonel
                   </span>
                 </div>
@@ -324,7 +324,7 @@ export default function AdminPrintPage() {
                   <label className="text-xs font-mono text-foreground/70 uppercase">
                     Satış Noktası / Şarküteri Kodu (Ref)
                   </label>
-                  <span className="text-[10px] font-mono text-foreground/50">
+                  <span className="text-xs font-mono text-foreground/50">
                     3–6 harf/rakam (örn: kuzu)
                   </span>
                 </div>
@@ -343,7 +343,7 @@ export default function AdminPrintPage() {
                     </div>
                   )}
                 </div>
-                <p className="text-[11px] text-foreground/50 font-sans">
+                <p className="text-xs text-foreground/50 font-sans">
                   Şarküteri veya kafe kodu girildiğinde QR okutma sayısı o nokta üzerinden ölçülür.
                 </p>
               </div>
@@ -426,7 +426,7 @@ export default function AdminPrintPage() {
                     onChange={(e) => setOffset((prev) => ({ ...prev, x: Number(e.target.value) }))}
                     className="w-full accent-artisan-gold cursor-pointer"
                   />
-                  <div className="flex justify-between text-[9px] font-mono text-foreground/40">
+                  <div className="flex justify-between text-xs font-mono text-foreground/40">
                     <span>-5 mm (Sola)</span>
                     <span>0 mm</span>
                     <span>+5 mm (Sağa)</span>
@@ -448,7 +448,7 @@ export default function AdminPrintPage() {
                     onChange={(e) => setOffset((prev) => ({ ...prev, y: Number(e.target.value) }))}
                     className="w-full accent-artisan-gold cursor-pointer"
                   />
-                  <div className="flex justify-between text-[9px] font-mono text-foreground/40">
+                  <div className="flex justify-between text-xs font-mono text-foreground/40">
                     <span>-5 mm (Yukarı)</span>
                     <span>0 mm</span>
                     <span>+5 mm (Aşağı)</span>
@@ -466,7 +466,7 @@ export default function AdminPrintPage() {
                   <Sparkles className="w-4 h-4 text-artisan-gold" />
                   Canlı Etiket Önizleme
                 </span>
-                <span className="text-[10px] font-mono text-stone-400">
+                <span className="text-xs font-mono text-stone-400">
                   50 mm × 70 mm
                 </span>
               </div>
@@ -484,7 +484,7 @@ export default function AdminPrintPage() {
                     offsetY={offset.y}
                   />
                 </div>
-                <div className="text-[10px] font-mono text-stone-400 mt-4 flex items-center gap-2">
+                <div className="text-xs font-mono text-stone-400 mt-4 flex items-center gap-2">
                   <span>Gerçek Ölçek: 5×7 cm</span>
                   <span>·</span>
                   <span>Termal S/B Çıktı</span>
@@ -493,7 +493,7 @@ export default function AdminPrintPage() {
 
               {/* Target Link Info */}
               <div className="w-full p-4 rounded-2xl bg-[#181310] border border-surface-border space-y-2 text-xs font-mono">
-                <div className="flex items-center justify-between text-foreground/60 text-[10px]">
+                <div className="flex items-center justify-between text-foreground/60 text-xs">
                   <span>QR KOD HEDEF ADRESİ:</span>
                   <a
                     href={targetUrl}
@@ -505,10 +505,10 @@ export default function AdminPrintPage() {
                     <ExternalLink className="w-3 h-3" />
                   </a>
                 </div>
-                <div className="p-2.5 rounded-xl bg-black/40 text-artisan-gold text-[11px] break-all select-all font-mono">
+                <div className="p-2.5 rounded-xl bg-black/40 text-artisan-gold text-xs break-all select-all font-mono">
                   {targetUrl}
                 </div>
-                <div className="text-[10px] text-foreground/50 leading-relaxed font-sans pt-1">
+                <div className="text-xs text-foreground/50 leading-relaxed font-sans pt-1">
                   Karekod tarandığında önce <span className="font-mono text-foreground/80">/e/{slug}</span> iniş rotasına uğrayarak funnel metriği kaydeder, ardından ürün sayfasına yönlenir.
                 </div>
               </div>

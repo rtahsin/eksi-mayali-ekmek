@@ -93,7 +93,7 @@ export function HowWeBake() {
                   <span className="w-6 md:w-12 h-[1px] bg-amber-200/60" />
                   01. KÜLTÜR
                 </div>
-                <div className="font-mono text-white text-[11px] md:text-xs bg-black/70 backdrop-blur-md px-3 py-1 border border-white/20 rounded-lg">
+                <div className="font-mono text-white text-xs md:text-xs bg-black/70 backdrop-blur-md px-3 py-1 border border-white/20 rounded-lg">
                   MAYA: CANLI KÜLTÜR
                 </div>
                 <p className="font-serif italic text-white/90 text-xs md:text-sm mt-1.5 max-w-[150px] md:max-w-[200px] leading-snug">
@@ -107,7 +107,7 @@ export function HowWeBake() {
                   02. HİDRASYON
                   <span className="w-6 md:w-12 h-[1px] bg-amber-200/60" />
                 </div>
-                <div className="font-mono text-white text-[11px] md:text-xs bg-black/70 backdrop-blur-md px-3 py-1 border border-white/20 rounded-lg">
+                <div className="font-mono text-white text-xs md:text-xs bg-black/70 backdrop-blur-md px-3 py-1 border border-white/20 rounded-lg">
                   SU ORANI: %78 - %82
                 </div>
                 <p className="font-serif italic text-white/90 text-xs md:text-sm mt-1.5 max-w-[150px] md:max-w-[200px] leading-snug">
@@ -121,7 +121,7 @@ export function HowWeBake() {
                   <span className="w-6 md:w-12 h-[1px] bg-amber-200/60" />
                   03. ZAMAN
                 </div>
-                <div className="font-mono text-white text-[11px] md:text-xs bg-black/70 backdrop-blur-md px-3 py-1 border border-white/20 rounded-lg">
+                <div className="font-mono text-white text-xs md:text-xs bg-black/70 backdrop-blur-md px-3 py-1 border border-white/20 rounded-lg">
                   UZUN SOĞUK MAYALAMA
                 </div>
                 <p className="font-serif italic text-white/90 text-xs md:text-sm mt-1.5 max-w-[160px] md:max-w-[220px] leading-snug">
@@ -135,7 +135,7 @@ export function HowWeBake() {
                   04. ATEŞ
                   <span className="w-6 md:w-12 h-[1px] bg-amber-200/60" />
                 </div>
-                <div className="font-mono text-white text-[11px] md:text-xs bg-black/70 backdrop-blur-md px-3 py-1 border border-white/20 rounded-lg">
+                <div className="font-mono text-white text-xs md:text-xs bg-black/70 backdrop-blur-md px-3 py-1 border border-white/20 rounded-lg">
                   TAŞ TABAN: 240°C
                 </div>
                 <p className="font-serif italic text-white/90 text-xs md:text-sm mt-1.5 max-w-[160px] md:max-w-[220px] leading-snug">

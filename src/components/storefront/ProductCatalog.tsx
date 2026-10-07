@@ -100,7 +100,7 @@ export function ProductCatalog({ initialProducts, categories = [] }: ProductCata
         {/* Section Header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-6 md:mb-10 gap-4 md:gap-6">
           <div className="space-y-2">
-            <div className="inline-flex items-center gap-1.5 font-sans text-[11px] sm:text-xs font-semibold text-accent uppercase tracking-wider">
+            <div className="inline-flex items-center gap-1.5 font-sans text-xs sm:text-xs font-semibold text-accent uppercase tracking-wider">
               <span>✦</span>
               <span>Günlük taze taş fırın & gurme seçkisi</span>
             </div>

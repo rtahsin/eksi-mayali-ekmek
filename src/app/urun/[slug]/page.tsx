@@ -168,7 +168,7 @@ export default async function ProductDetailPage({ params }: ProductPageProps) {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-background text-foreground font-sans selection:bg-artisan-amber/20 selection:text-artisan-gold">
+    <div className="min-h-screen flex flex-col bg-bg text-ink font-sans selection:bg-accent/20 selection:text-ink">
       {/* Schema.org Structured Data */}
       <script
         type="application/ld+json"
@@ -181,15 +181,15 @@ export default async function ProductDetailPage({ params }: ProductPageProps) {
         {/* Breadcrumb Navigation */}
         <nav
           aria-label="Breadcrumb"
-          className="flex items-center gap-2 text-xs font-sans text-foreground/60"
+          className="flex items-center gap-2 text-xs font-sans text-ink-muted"
         >
-          <Link href="/" className="hover:text-artisan-gold transition-colors">
+          <Link href="/" className="hover:text-accent transition-colors">
             Ana Sayfa
           </Link>
-          <ChevronRight className="w-3.5 h-3.5 text-foreground/40" />
+          <ChevronRight className="w-3.5 h-3.5 text-ink-muted" />
           <Link
             href="/#ekmekler"
-            className="hover:text-artisan-gold transition-colors capitalize"
+            className="hover:text-accent transition-colors capitalize"
           >
             {product.category === "bread"
               ? "Taş Fırın Ekmekleri"
@@ -197,8 +197,8 @@ export default async function ProductDetailPage({ params }: ProductPageProps) {
               ? "Özel Ekmekler"
               : "Gurme Lezzetler"}
           </Link>
-          <ChevronRight className="w-3.5 h-3.5 text-foreground/40" />
-          <span className="text-foreground font-medium truncate max-w-[200px] sm:max-w-none">
+          <ChevronRight className="w-3.5 h-3.5 text-ink-muted" />
+          <span className="text-ink font-medium truncate max-w-[200px] sm:max-w-none">
             {product.name}
           </span>
         </nav>
@@ -207,39 +207,39 @@ export default async function ProductDetailPage({ params }: ProductPageProps) {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
           {/* Left Column: Visual Showcase */}
           <div className="lg:col-span-6 space-y-4">
-            <div className="relative rounded-3xl overflow-hidden bg-surface border border-surface-border shadow-2xl aspect-[16/10] sm:aspect-[1/1] group">
+            <div className="relative rounded-3xl overflow-hidden bg-cream-surface border border-line shadow-2xl aspect-[16/10] sm:aspect-[1/1] group">
               <img
                 src={product.imageUrl}
                 alt={product.name}
                 className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 filter brightness-95"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-surface/80 via-transparent to-transparent opacity-60" />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-60" />
 
               {/* Badges on Image */}
               <div className="absolute top-4 left-4 flex flex-wrap gap-2 pointer-events-none">
                 {product.madeToOrder ? (
-                  <span className="px-3 py-1 rounded-full bg-artisan-terracotta text-foreground text-xs font-sans font-bold uppercase shadow-md">
+                  <span className="px-3 py-1 rounded-full bg-accent text-white text-xs font-sans font-bold uppercase shadow-md">
                     Ön Siparişle Taze Pişer
                   </span>
                 ) : (
-                  <span className="px-3 py-1 rounded-full bg-emerald-950/90 text-emerald-300 border border-emerald-500/40 text-xs font-sans font-bold uppercase shadow-md">
+                  <span className="px-3 py-1 rounded-full bg-cream-surface text-good border border-line text-xs font-sans font-bold uppercase shadow-md">
                     Günlük Taş Fırın Üretimi
                   </span>
                 )}
                 {product.isPopular && (
-                  <span className="px-3 py-1 rounded-full bg-artisan-gold/90 text-[#120E0B] text-xs font-sans font-bold uppercase shadow-md">
+                  <span className="px-3 py-1 rounded-full bg-accent text-white text-xs font-sans font-bold uppercase shadow-md">
                     Çok Sevilen
                   </span>
                 )}
               </div>
 
               {/* Bottom Quick Tag */}
-              <div className="absolute bottom-4 left-4 right-4 flex items-center justify-between text-xs text-artisan-cream/90 bg-background/80 backdrop-blur-md px-4 py-2.5 rounded-xl border border-white/10">
+              <div className="absolute bottom-4 left-4 right-4 flex items-center justify-between text-xs text-ink bg-cream-surface/90 backdrop-blur-md px-4 py-2.5 rounded-xl border border-line shadow-xs">
                 <div className="flex items-center gap-2">
-                  <Flame className="w-4 h-4 text-artisan-gold" />
+                  <Flame className="w-4 h-4 text-accent" />
                   <span>Meşe Odunu ve Taş Taban Pişimi</span>
                 </div>
-                <div className="font-mono text-artisan-gold font-bold">
+                <div className="font-mono text-accent font-bold">
                   {product.weight} {product.weightUnit || "g"}
                 </div>
               </div>
@@ -247,20 +247,20 @@ export default async function ProductDetailPage({ params }: ProductPageProps) {
 
             {/* Quick Guarantees */}
             <div className="grid grid-cols-3 gap-3 pt-2 text-center text-xs">
-              <div className="p-3 rounded-xl bg-surface border border-surface-border">
-                <Clock className="w-4 h-4 text-artisan-gold mx-auto mb-1" />
-                <span className="font-bold text-foreground block">Uzun</span>
-                <span className="text-foreground/60 text-[11px]">Soğuk Mayalanma</span>
+              <div className="p-3 rounded-xl bg-cream-surface border border-line">
+                <Clock className="w-4 h-4 text-accent mx-auto mb-1" />
+                <span className="font-bold text-ink block">Uzun</span>
+                <span className="text-ink-muted text-xs">Soğuk Mayalanma</span>
               </div>
-              <div className="p-3 rounded-xl bg-surface border border-surface-border">
-                <Wheat className="w-4 h-4 text-artisan-terracotta mx-auto mb-1" />
-                <span className="font-bold text-foreground block">Atalık Un</span>
-                <span className="text-foreground/60 text-[11px]">Taş Değirmen</span>
+              <div className="p-3 rounded-xl bg-cream-surface border border-line">
+                <Wheat className="w-4 h-4 text-accent mx-auto mb-1" />
+                <span className="font-bold text-ink block">Atalık Un</span>
+                <span className="text-ink-muted text-xs">Taş Değirmen</span>
               </div>
-              <div className="p-3 rounded-xl bg-surface border border-surface-border">
-                <ShieldCheck className="w-4 h-4 text-emerald-400 mx-auto mb-1" />
-                <span className="font-bold text-foreground block">Taş Fırın</span>
-                <span className="text-foreground/60 text-[11px]">Günlük Pişim</span>
+              <div className="p-3 rounded-xl bg-cream-surface border border-line">
+                <ShieldCheck className="w-4 h-4 text-good mx-auto mb-1" />
+                <span className="font-bold text-ink block">Taş Fırın</span>
+                <span className="text-ink-muted text-xs">Günlük Pişim</span>
               </div>
             </div>
           </div>
@@ -269,7 +269,7 @@ export default async function ProductDetailPage({ params }: ProductPageProps) {
           <div className="lg:col-span-6 space-y-6">
             <div>
               <div className="flex items-center gap-2 mb-2">
-                <span className="px-2.5 py-0.5 rounded-md bg-surface-panel border border-surface-border text-artisan-gold text-xs font-mono font-medium">
+                <span className="px-2.5 py-0.5 rounded-md bg-bg border border-line text-accent text-xs font-mono font-medium">
                   {product.category === "bread"
                     ? "EKŞİ MAYALI EKMEK"
                     : product.category === "specialty"
@@ -277,17 +277,17 @@ export default async function ProductDetailPage({ params }: ProductPageProps) {
                     : "GURME ŞARKÜTERİ"}
                 </span>
                 {product.hydration && (
-                  <span className="px-2.5 py-0.5 rounded-md bg-surface-panel border border-surface-border text-foreground/80 text-xs font-mono">
+                  <span className="px-2.5 py-0.5 rounded-md bg-bg border border-line text-ink-muted text-xs font-mono">
                     %{product.hydration} Hidrasyon
                   </span>
                 )}
               </div>
 
-              <h1 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold text-foreground tracking-tight leading-tight">
+              <h1 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold text-ink tracking-tight leading-tight">
                 {product.name}
               </h1>
 
-              <p className="mt-4 text-sm sm:text-base text-foreground/80 leading-relaxed font-sans">
+              <p className="mt-4 text-sm sm:text-base text-ink-muted leading-relaxed font-sans">
                 {product.description}
               </p>
             </div>
@@ -296,12 +296,12 @@ export default async function ProductDetailPage({ params }: ProductPageProps) {
             <ProductDetailClientActions product={product} />
 
             {/* Delivery Guarantee Info Box */}
-            <div className="p-4 rounded-2xl bg-surface/50 border border-surface-border space-y-2 text-xs font-sans text-foreground/80">
-              <div className="flex items-center gap-2 text-artisan-gold font-bold">
+            <div className="p-4 rounded-2xl bg-cream-surface border border-line space-y-2 text-xs font-sans text-ink-muted">
+              <div className="flex items-center gap-2 text-accent font-bold">
                 <Truck className="w-4 h-4" />
                 <span>Kendi Fırın Kuryemizle Kapınıza Teslimat</span>
               </div>
-              <p className="text-foreground/60 leading-relaxed">
+              <p className="text-ink-muted leading-relaxed">
                 Beylikdüzü içinde seçtiğiniz gün kapınıza ulaştırıyoruz.{" "}
                 <ShippingPolicyNote />.
               </p>
@@ -310,74 +310,74 @@ export default async function ProductDetailPage({ params }: ProductPageProps) {
         </div>
 
         {/* 2. Artisan DNA Specifications Table */}
-        <section className="pt-6 border-t border-surface-border">
+        <section className="pt-6 border-t border-line">
           <div className="mb-6">
-            <h2 className="font-serif text-2xl sm:text-3xl font-bold text-foreground flex items-center gap-2.5">
-              <Sparkles className="w-6 h-6 text-artisan-gold" />
+            <h2 className="font-serif text-2xl sm:text-3xl font-bold text-ink flex items-center gap-2.5">
+              <Sparkles className="w-6 h-6 text-accent" />
               <span>Ürün Kimliği & Zanaat Özellikleri</span>
             </h2>
-            <p className="text-xs sm:text-sm text-foreground/60 mt-1 font-sans">
+            <p className="text-xs sm:text-sm text-ink-muted mt-1 font-sans">
               EkmekLab mutfağında her somunun ardında şeffaf ve tavizsiz bir zanaat yatar.
             </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
             {/* Spec 1: Hydration */}
-            <div className="p-5 rounded-2xl bg-surface border border-surface-border space-y-1">
-              <div className="flex items-center gap-2 text-artisan-gold text-xs font-bold uppercase tracking-wider">
+            <div className="p-5 rounded-2xl bg-cream-surface border border-line space-y-1">
+              <div className="flex items-center gap-2 text-accent text-xs font-bold uppercase tracking-wider">
                 <Droplets className="w-4 h-4" />
                 <span>Hidrasyon (Su Oranı)</span>
               </div>
-              <div className="font-mono text-2xl font-bold text-foreground pt-1">
+              <div className="font-mono text-2xl font-bold text-ink pt-1">
                 {product.hydration ? `%${product.hydration}` : "Doğal Kıvam"}
               </div>
-              <p className="text-xs text-foreground/60">
+              <p className="text-xs text-ink-muted">
                 Yüksek su oranı ile yumuşak, geniş gözenekli ve nemli iç doku.
               </p>
             </div>
 
             {/* Spec 2: Fermentation */}
-            <div className="p-5 rounded-2xl bg-surface border border-surface-border space-y-1">
-              <div className="flex items-center gap-2 text-artisan-gold text-xs font-bold uppercase tracking-wider">
+            <div className="p-5 rounded-2xl bg-cream-surface border border-line space-y-1">
+              <div className="flex items-center gap-2 text-accent text-xs font-bold uppercase tracking-wider">
                 <Clock className="w-4 h-4" />
                 <span>Soğuk Fermantasyon</span>
               </div>
-              <div className="font-mono text-2xl font-bold text-foreground pt-1">
+              <div className="font-mono text-2xl font-bold text-ink pt-1">
                 {product.category === "bread" || product.category === "specialty"
                   ? "36 - 40 Saat"
                   : "Geleneksel"}
               </div>
-              <p className="text-xs text-foreground/60">
+              <p className="text-xs text-ink-muted">
                 +4°C'de yavaş olgunlaşma; fitik asit sıfırlanır, gluten yumuşar.
               </p>
             </div>
 
             {/* Spec 3: Flour Types */}
-            <div className="p-5 rounded-2xl bg-surface border border-surface-border space-y-1">
-              <div className="flex items-center gap-2 text-artisan-gold text-xs font-bold uppercase tracking-wider">
+            <div className="p-5 rounded-2xl bg-cream-surface border border-line space-y-1">
+              <div className="flex items-center gap-2 text-accent text-xs font-bold uppercase tracking-wider">
                 <Wheat className="w-4 h-4" />
                 <span>Un & Tahıl Cinsi</span>
               </div>
-              <div className="font-serif text-lg font-bold text-foreground pt-1 truncate">
+              <div className="font-serif text-lg font-bold text-ink pt-1 truncate">
                 {product.flourTypes && product.flourTypes.length > 0
                   ? product.flourTypes.join(", ")
                   : "Atalık Taş Değirmen"}
               </div>
-              <p className="text-xs text-foreground/60">
+              <p className="text-xs text-ink-muted">
                 Ruşeymi ve kepeği ayrıştırılmamış yerli taş değirmen unu.
               </p>
             </div>
 
             {/* Spec 4: Clean Label */}
-            <div className="p-5 rounded-2xl bg-surface border border-surface-border space-y-1">
-              <div className="flex items-center gap-2 text-artisan-gold text-xs font-bold uppercase tracking-wider">
+            <div className="p-5 rounded-2xl bg-cream-surface border border-line space-y-1">
+              <div className="flex items-center gap-2 text-accent text-xs font-bold uppercase tracking-wider">
                 <ShieldCheck className="w-4 h-4" />
                 <span>Temiz İçerik</span>
               </div>
-              <div className="font-mono text-2xl font-bold text-emerald-400 pt-1">
+              <div className="font-mono text-2xl font-bold text-good pt-1">
                 %100 Katkısız
               </div>
-              <p className="text-xs text-foreground/60">
+              <p className="text-xs text-ink-muted">
                 Ticari maya, endüstriyel enzim veya koruyucu kimyasal içermez.
               </p>
             </div>
@@ -385,16 +385,16 @@ export default async function ProductDetailPage({ params }: ProductPageProps) {
 
           {/* Ingredients list */}
           {product.ingredients && product.ingredients.length > 0 && (
-            <div className="mt-4 p-5 rounded-2xl bg-surface border border-surface-border flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs">
-              <div className="flex items-center gap-2 text-foreground font-serif text-sm font-bold shrink-0">
-                <Award className="w-4 h-4 text-artisan-gold" />
+            <div className="mt-4 p-5 rounded-2xl bg-cream-surface border border-line flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs">
+              <div className="flex items-center gap-2 text-ink font-serif text-sm font-bold shrink-0">
+                <Award className="w-4 h-4 text-accent" />
                 <span>İçindekiler Listesi:</span>
               </div>
               <div className="flex flex-wrap gap-2">
                 {product.ingredients.map((ing, idx) => (
                   <span
                     key={idx}
-                    className="px-3 py-1 rounded-lg bg-surface-panel border border-surface-border text-foreground/90 font-sans"
+                    className="px-3 py-1 rounded-lg bg-bg border border-line text-ink font-sans"
                   >
                     {ing}
                   </span>
@@ -406,13 +406,13 @@ export default async function ProductDetailPage({ params }: ProductPageProps) {
 
         {/* 3. Deep Dive Masterclass: Ustanın Notu & Biyoloji */}
         {masterclass && (
-          <section className="pt-6 border-t border-surface-border">
+          <section className="pt-6 border-t border-line">
             <div className="mb-6">
-              <div className="inline-flex items-center gap-2 font-serif text-xs font-bold text-artisan-gold uppercase tracking-wider mb-2">
+              <div className="inline-flex items-center gap-2 font-serif text-xs font-bold text-accent uppercase tracking-wider mb-2">
                 <BookOpen className="w-4 h-4" />
                 <span>USTANIN NOTU & BİYOLOJİ</span>
               </div>
-              <h2 className="font-serif text-2xl sm:text-3xl font-bold text-foreground">
+              <h2 className="font-serif text-2xl sm:text-3xl font-bold text-ink">
                 Zanaatın Perde Arkası ve Fermantasyon Biyolojisi
               </h2>
             </div>
@@ -420,12 +420,12 @@ export default async function ProductDetailPage({ params }: ProductPageProps) {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {/* Card 1: Flour & Yeast Heritage */}
               {masterclass.flourHeritage && (
-                <div className="p-6 rounded-3xl bg-surface border border-surface-border space-y-3">
-                  <div className="flex items-center gap-2.5 text-artisan-gold font-serif font-bold text-base">
-                    <Wheat className="w-5 h-5 text-artisan-gold shrink-0" />
+                <div className="p-6 rounded-3xl bg-cream-surface border border-line space-y-3">
+                  <div className="flex items-center gap-2.5 text-accent font-serif font-bold text-base">
+                    <Wheat className="w-5 h-5 text-accent shrink-0" />
                     <span>Unun ve Mayanın Kökeni</span>
                   </div>
-                  <p className="text-xs sm:text-sm text-foreground/80 leading-relaxed font-sans">
+                  <p className="text-xs sm:text-sm text-ink-muted leading-relaxed font-sans">
                     {masterclass.flourHeritage}
                   </p>
                 </div>
@@ -433,12 +433,12 @@ export default async function ProductDetailPage({ params }: ProductPageProps) {
 
               {/* Card 2: Fermentation Technique */}
               {masterclass.technique && (
-                <div className="p-6 rounded-3xl bg-surface border border-surface-border space-y-3">
-                  <div className="flex items-center gap-2.5 text-artisan-gold font-serif font-bold text-base">
-                    <Activity className="w-5 h-5 text-artisan-gold shrink-0" />
+                <div className="p-6 rounded-3xl bg-cream-surface border border-line space-y-3">
+                  <div className="flex items-center gap-2.5 text-accent font-serif font-bold text-base">
+                    <Activity className="w-5 h-5 text-accent shrink-0" />
                     <span>Fermantasyon ve Zanaat Tekniği</span>
                   </div>
-                  <p className="text-xs sm:text-sm text-foreground/80 leading-relaxed font-sans">
+                  <p className="text-xs sm:text-sm text-ink-muted leading-relaxed font-sans">
                     {masterclass.technique}
                   </p>
                 </div>
@@ -446,12 +446,12 @@ export default async function ProductDetailPage({ params }: ProductPageProps) {
 
               {/* Card 4: Pairing & Storage */}
               {masterclass.pairingStorage && (
-                <div className="p-6 rounded-3xl bg-surface border border-surface-border space-y-3">
-                  <div className="flex items-center gap-2.5 text-artisan-terracotta font-serif font-bold text-base">
-                    <Sparkles className="w-5 h-5 text-artisan-terracotta shrink-0" />
+                <div className="p-6 rounded-3xl bg-cream-surface border border-line space-y-3">
+                  <div className="flex items-center gap-2.5 text-accent font-serif font-bold text-base">
+                    <Sparkles className="w-5 h-5 text-accent shrink-0" />
                     <span>Nasıl Tüketilmeli & Saklanmalı?</span>
                   </div>
-                  <p className="text-xs sm:text-sm text-foreground/80 leading-relaxed font-sans">
+                  <p className="text-xs sm:text-sm text-ink-muted leading-relaxed font-sans">
                     {masterclass.pairingStorage}
                   </p>
                 </div>
@@ -462,23 +462,23 @@ export default async function ProductDetailPage({ params }: ProductPageProps) {
 
         {/* 3.5. İlgili Kütüphane Yazıları & Bilimsel Araştırma Notları (P1-08) */}
         {relatedArticles.length > 0 && (
-          <section className="pt-6 border-t border-surface-border space-y-6">
+          <section className="pt-6 border-t border-line space-y-6">
             <div className="flex items-center justify-between">
               <div>
-                <div className="inline-flex items-center gap-1.5 font-mono text-xs text-artisan-gold uppercase tracking-wider mb-1">
-                  <BookOpen className="w-4 h-4 text-artisan-gold" />
+                <div className="inline-flex items-center gap-1.5 font-mono text-xs text-accent uppercase tracking-wider mb-1">
+                  <BookOpen className="w-4 h-4 text-accent" />
                   <span>BİLİM & ZANAAT KÜTÜPHANESİ</span>
                 </div>
-                <h3 className="font-serif text-2xl font-bold text-foreground">
+                <h3 className="font-serif text-2xl font-bold text-ink">
                   Bu Ekmeğin Bilimi & Araştırma Notları
                 </h3>
-                <p className="text-xs text-foreground/60 font-sans mt-0.5">
+                <p className="text-xs text-ink-muted font-sans mt-0.5">
                   Hamur biyolojisi, ata tohumları ve fermantasyon süreçlerine dair kütüphane incelemelerimiz.
                 </p>
               </div>
               <Link
                 href="/kutuphane"
-                className="text-xs text-artisan-gold hover:underline font-serif flex items-center gap-1"
+                className="text-xs text-accent hover:underline font-serif flex items-center gap-1"
               >
                 <span>Tüm Kütüphaneyi Gör</span>
                 <ChevronRight className="w-3.5 h-3.5" />
@@ -490,20 +490,20 @@ export default async function ProductDetailPage({ params }: ProductPageProps) {
                 <Link
                   key={art.slug}
                   href={`/kutuphane/${art.slug}`}
-                  className="group rounded-2xl bg-surface border border-surface-border hover:border-artisan-gold/50 p-5 transition-all flex flex-col justify-between space-y-3"
+                  className="group rounded-2xl bg-cream-surface border border-line hover:border-accent/40 p-5 transition-all flex flex-col justify-between space-y-3"
                 >
                   <div className="space-y-2">
-                    <span className="text-[10px] font-mono uppercase px-2 py-0.5 rounded-full bg-artisan-gold/15 text-artisan-gold border border-artisan-gold/30">
+                    <span className="text-xs font-mono uppercase px-2 py-0.5 rounded-full bg-accent/15 text-accent border border-accent/30">
                       Araştırma Yazısı · {art.readingMinutes} dk okuma
                     </span>
-                    <h4 className="font-serif font-bold text-base text-foreground group-hover:text-artisan-gold transition-colors">
+                    <h4 className="font-serif font-bold text-base text-ink group-hover:text-accent transition-colors">
                       {art.title}
                     </h4>
-                    <p className="text-xs text-foreground/70 font-sans line-clamp-2 leading-relaxed">
+                    <p className="text-xs text-ink-muted font-sans line-clamp-2 leading-relaxed">
                       {art.summary}
                     </p>
                   </div>
-                  <div className="pt-2 border-t border-surface-border flex items-center justify-between text-xs font-mono text-artisan-gold group-hover:underline">
+                  <div className="pt-2 border-t border-line flex items-center justify-between text-xs font-mono text-accent group-hover:underline">
                     <span>Yazıyı Oku</span>
                     <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
                   </div>
@@ -515,19 +515,19 @@ export default async function ProductDetailPage({ params }: ProductPageProps) {
 
         {/* 4. Related Products Carousel / Grid */}
         {relatedProducts.length > 0 && (
-          <section className="pt-6 border-t border-surface-border space-y-6">
+          <section className="pt-6 border-t border-line space-y-6">
             <div className="flex items-center justify-between">
               <div>
-                <h3 className="font-serif text-2xl font-bold text-foreground">
+                <h3 className="font-serif text-2xl font-bold text-ink">
                   Fırından Birlikte İyi Gidenler
                 </h3>
-                <p className="text-xs text-foreground/60 font-sans mt-0.5">
+                <p className="text-xs text-ink-muted font-sans mt-0.5">
                   Bu lezzete eşlik eden diğer ekmeklerimiz ve mandıra gurme seçkisi.
                 </p>
               </div>
               <Link
                 href="/#ekmekler"
-                className="text-xs text-artisan-gold hover:underline font-serif flex items-center gap-1"
+                className="text-xs text-accent hover:underline font-serif flex items-center gap-1"
               >
                 <span>Tüm Kataloğu Gör</span>
                 <ChevronRight className="w-3.5 h-3.5" />
@@ -539,9 +539,9 @@ export default async function ProductDetailPage({ params }: ProductPageProps) {
                 <Link
                   key={rel.id}
                   href={getProductUrl(rel)}
-                  className="group rounded-2xl bg-surface border border-surface-border hover:border-artisan-gold/50 p-4 transition-all duration-300 flex flex-col justify-between space-y-3"
+                  className="group rounded-2xl bg-cream-surface border border-line hover:border-accent/40 p-4 transition-all duration-300 flex flex-col justify-between space-y-3"
                 >
-                  <div className="relative h-40 w-full rounded-xl overflow-hidden bg-background">
+                  <div className="relative h-40 w-full rounded-xl overflow-hidden bg-bg">
                     <img
                       src={rel.imageUrl}
                       alt={rel.name}
@@ -549,18 +549,18 @@ export default async function ProductDetailPage({ params }: ProductPageProps) {
                     />
                   </div>
                   <div className="flex-1">
-                    <h4 className="font-serif font-bold text-sm text-foreground group-hover:text-artisan-gold transition-colors line-clamp-1">
+                    <h4 className="font-serif font-bold text-sm text-ink group-hover:text-accent transition-colors line-clamp-1">
                       {rel.name}
                     </h4>
-                    <p className="text-[11px] text-foreground/60 line-clamp-2 mt-1 font-sans">
+                    <p className="text-xs text-ink-muted line-clamp-2 mt-1 font-sans">
                       {rel.description}
                     </p>
                   </div>
-                  <div className="flex items-baseline justify-between pt-2 border-t border-surface-border">
-                    <span className="font-serif font-bold text-base text-foreground">
-                      {rel.price} <span className="text-xs text-artisan-gold font-sans font-normal">TL</span>
+                  <div className="flex items-baseline justify-between pt-2 border-t border-line">
+                    <span className="font-serif font-bold text-base text-ink">
+                      {rel.price} <span className="text-xs text-accent font-sans font-normal">TL</span>
                     </span>
-                    <span className="text-[10px] text-artisan-gold font-sans font-medium group-hover:underline">
+                    <span className="text-xs text-accent font-sans font-medium group-hover:underline">
                       İncele →
                     </span>
                   </div>
@@ -574,9 +574,9 @@ export default async function ProductDetailPage({ params }: ProductPageProps) {
         <div className="pt-4 text-center">
           <Link
             href="/"
-            className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-surface border border-surface-border hover:border-artisan-gold/50 text-xs font-serif text-artisan-cream transition-all"
+            className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-cream-surface border border-line hover:border-accent/40 text-xs font-serif text-ink transition-all shadow-xs"
           >
-            <ArrowLeft className="w-4 h-4 text-artisan-gold" />
+            <ArrowLeft className="w-4 h-4 text-accent" />
             <span>Ana Sayfaya ve Tüm Fırın Kataloğuna Dön</span>
           </Link>
         </div>
