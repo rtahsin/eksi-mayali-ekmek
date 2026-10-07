@@ -327,8 +327,11 @@ Yeni paket açılmadan önce:
 
 ## 6. Tasarım şeridi (Tahsin kararı bekliyor)
 
-### D1 İskelet kararı
-4 seçenek (yolculuk / sorular / defter / kitle) kâğıt-düzeyi taslakla gösterilir; Tahsin seçer; sonra o seçeneğin gerektirdiği içerik türleri kapsamlanır (ör. "yolculuk" → P2-04 öne çekilir). Ajan seçmez.
+### D1 İskelet kararı (✅ Karar verildi — Tahsin, 7 Eki 2026)
+Tahsin Seçenek 4'ü seçti: **Kitle / Vitrin (Fırın ritmi ve taze ekmek siparişi önde, bilim ve araçlar arkasında)**.
+- **Ana Sayfa Yapısı:** Taze fırın ritmi, haftalık ön sipariş ve ürün kataloğu vitrinde önde; hemen ardından "Nasıl Üretiyoruz?" ve zanaat otoritesi katmanı (Laboratuvar, Kütüphane, Kavramlar Sözlüğü ve Profesyonel Fırıncı Araçları `/arac`).
+- **Tasarım Teması:** Atölye Kremi (`#F6EEDF` zemin, `#FBF6EC` kart, `#3B1E1A` mürekkep, `#B4532A` terakota vurgu; Fraunces + Inter).
+- **Sonraki Adım:** Ana sayfayı (`src/app/page.tsx`) koyu temadan Atölye Kremi vitrinine taşımak.
 
 ### T-01 Krem token'ları
 - **Yazma kapsamı:** `src/app/globals.css`, `tailwind.config.ts`, `src/components/game/ui.tsx`, `src/app/layout.tsx`.
