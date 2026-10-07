@@ -148,14 +148,12 @@ function extractImports(filePath: string, content: string): ModuleEdge[] {
       target.startsWith("firebase-admin/") ||
       target === "firebase-admin"
     ) {
-      if (!filePath.startsWith("src/lib/firebase/")) {
-        edges.push({
-          fromMod,
-          toMod: "external_firebase",
-          fromFile: filePath,
-          importTarget: target,
-        });
-      }
+      edges.push({
+        fromMod,
+        toMod: "external_firebase",
+        fromFile: filePath,
+        importTarget: target,
+      });
       continue;
     }
 
