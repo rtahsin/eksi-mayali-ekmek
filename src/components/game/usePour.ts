@@ -40,21 +40,39 @@ export function usePour(ratePerSec: number, maxGrams: number) {
     return () => window.clearInterval(t);
   }, [pouring]);
 
+  // Bileşen unmount olduğunda çalan sesi kesin olarak durdur
+  useEffect(() => {
+    return () => {
+      try {
+        stopSound.current();
+      } catch {}
+    };
+  }, []);
+
   const start = useCallback(() => {
     sfx.unlock();
     flow.current = ratePerSec;
     setPouring(true);
+    // Varsa önceki sesi durdur
+    try {
+      stopSound.current();
+    } catch {}
     stopSound.current = sfx.pour();
   }, [ratePerSec]);
 
   const stop = useCallback(() => {
     setPouring(false);
-    stopSound.current();
+    try {
+      stopSound.current();
+    } catch {}
   }, []);
 
   const reset = useCallback(() => {
     flow.current = 0;
     setGrams(0);
+    try {
+      stopSound.current();
+    } catch {}
   }, []);
 
   /** İnce ayar: tek dokunuşla biraz ekle ya da geri al (refleks gerektirmeden hedefe varmak için) */

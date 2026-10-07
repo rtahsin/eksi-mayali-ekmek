@@ -177,7 +177,7 @@ export function StarterChapter({ hooks, onDone }: { hooks: ChapterHooks; onDone:
     const r = runStarterDay(st, { spot, feed: days.length === 0 ? "1:1:1" : feed });
     setState(r.next);
     setDays((d) => [...d, r.day]);
-    sfx.pour();
+    sfx.pour(1.2);
     buzz(15);
   };
 

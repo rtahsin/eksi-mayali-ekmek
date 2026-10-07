@@ -120,13 +120,19 @@ export function LabGame() {
   const [queue, setQueue] = useState<Overlay[]>([]);
   const [codex, setCodex] = useState(false);
   const [lens, setLens] = useState(false);
-  const [muted, setMuted] = useState(false);
+  const [muted, setMuted] = useState(() => sfx.isMuted());
   const [resultBest, setResultBest] = useState<number | undefined>(undefined);
   const [lockMsg, setLockMsg] = useState<string | null>(null);
   const progressRef = useRef(progress);
   progressRef.current = progress;
   const startTimeRef = useRef(Date.now());
   const initialCardsCountRef = useRef(0);
+
+  useEffect(() => {
+    return () => {
+      sfx.stopAll();
+    };
+  }, []);
 
   useEffect(() => {
     const p = loadProgress();
@@ -331,13 +337,13 @@ export function LabGame() {
             <div className="text-left">
               {door === "kapali" && (
                 <Tahsin>
-                  Selam, ben Tahsin. 2018&apos;de bir gece evde ekmek yoktu; sobada un, su ve tuzla kendim yaptım. O gün bugündür yapıyorum. Gel, içeri
+                  EkmekLab fırın laboratuvarına hoş geldin. Ata tohumu unların, canlı ekşi mayanın ve fermantasyon zanaatının kalbine adım at. Gel, içeri
                   gir.
                 </Tahsin>
               )}
               {door === "sir" && (
                 <Tahsin>
-                  Sana bir sır vereyim: bu ekmekleri ben yapmıyorum. Şu gördüğün canlılar yapıyor; bir yemek kaşığı olgun mayada milyarlarcası var. Usta,
+                  Sana bir sır vereyim: bu ekmekleri tek başımıza yapmıyoruz. Şu gördüğün canlılar yapıyor; bir yemek kaşığı olgun mayada milyarlarcası var. Usta,
                   onlara iyi bakan kişidir. Al bu büyüteci; her adımda içeri bakabilirsin.
                 </Tahsin>
               )}

@@ -8,8 +8,10 @@
 type Ctx = AudioContext;
 
 let ctx: Ctx | null = null;
+let masterGain: GainNode | null = null;
 let muted = false;
 let noiseBuf: AudioBuffer | null = null;
+const activeStoppers = new Set<() => void>();
 
 function getCtx(): Ctx | null {
   if (typeof window === "undefined") return null;
@@ -20,6 +22,15 @@ function getCtx(): Ctx | null {
     ctx = new AC();
   }
   return ctx;
+}
+
+function getMasterGain(c: Ctx): GainNode {
+  if (!masterGain) {
+    masterGain = c.createGain();
+    masterGain.gain.setValueAtTime(muted ? 0 : 1, c.currentTime);
+    masterGain.connect(c.destination);
+  }
+  return masterGain;
 }
 
 function noise(c: Ctx): AudioBuffer {
@@ -35,7 +46,7 @@ function noise(c: Ctx): AudioBuffer {
 function out(c: Ctx, gain = 0.5): GainNode {
   const g = c.createGain();
   g.gain.value = gain;
-  g.connect(c.destination);
+  g.connect(getMasterGain(c));
   return g;
 }
 
@@ -46,9 +57,31 @@ export const sfx = {
   },
   setMuted(m: boolean) {
     muted = m;
+    const c = getCtx();
+    if (c) {
+      const mg = getMasterGain(c);
+      mg.gain.cancelScheduledValues(c.currentTime);
+      mg.gain.setValueAtTime(m ? 0 : 1, c.currentTime);
+    }
+    if (m) {
+      for (const stop of Array.from(activeStoppers)) {
+        try {
+          stop();
+        } catch {}
+      }
+      activeStoppers.clear();
+    }
   },
   isMuted() {
     return muted;
+  },
+  stopAll() {
+    for (const stop of Array.from(activeStoppers)) {
+      try {
+        stop();
+      } catch {}
+    }
+    activeStoppers.clear();
   },
 
   /** Hamur şapırtısı: alçak bir tok ses */
@@ -80,8 +113,8 @@ export const sfx = {
     n.stop(t + 0.1);
   },
 
-  /** Dökme sesi; durdurmak için dönen fonksiyonu çağır */
-  pour(): () => void {
+  /** Dökme sesi; durdurmak için dönen fonksiyonu çağır ya da süre ver */
+  pour(durationSec?: number): () => void {
     const c = getCtx();
     if (!c || muted) return () => {};
     const n = c.createBufferSource();
@@ -101,14 +134,34 @@ export const sfx = {
     n.connect(f).connect(g);
     n.start();
     lfo.start();
-    return () => {
-      const t = c.currentTime;
-      g.gain.cancelScheduledValues(t);
-      g.gain.setValueAtTime(g.gain.value, t);
-      g.gain.linearRampToValueAtTime(0, t + 0.12);
-      n.stop(t + 0.15);
-      lfo.stop(t + 0.15);
+
+    let stopped = false;
+    let autoTimer: ReturnType<typeof setTimeout> | null = null;
+
+    const stop = () => {
+      if (stopped) return;
+      stopped = true;
+      activeStoppers.delete(stop);
+      if (autoTimer) clearTimeout(autoTimer);
+      try {
+        const t = c.currentTime;
+        g.gain.cancelScheduledValues(t);
+        g.gain.setValueAtTime(g.gain.value, t);
+        g.gain.linearRampToValueAtTime(0, t + 0.12);
+        n.stop(t + 0.15);
+        lfo.stop(t + 0.15);
+      } catch {}
     };
+
+    activeStoppers.add(stop);
+
+    // Otomatik kapanma koruması: süre verilmişse o süre, verilmemişse en fazla 8 saniye sonra söner
+    const maxSec = durationSec ?? 8;
+    autoTimer = setTimeout(() => {
+      stop();
+    }, maxSec * 1000);
+
+    return stop;
   },
 
   /** Buhar tıslaması */
@@ -129,6 +182,15 @@ export const sfx = {
     n.connect(f).connect(g);
     n.start(t);
     n.stop(t + seconds + 0.05);
+
+    const stop = () => {
+      activeStoppers.delete(stop);
+      try {
+        n.stop();
+      } catch {}
+    };
+    activeStoppers.add(stop);
+    setTimeout(() => activeStoppers.delete(stop), (seconds + 0.1) * 1000);
   },
 
   /** Kabuğun şarkısı: rastgele minik çıtırtılar */

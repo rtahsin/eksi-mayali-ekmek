@@ -11,7 +11,7 @@
 ## 2. Senaryo
 
 1. **Kapı:** Gravür tarzı çizilmiş atölye kapısı aralanır. İçeride fırın yanıyor.
-2. **Tahsin karşılar** (kısa metin baloncukları, arkadaş tonu): "Selam, ben Tahsin. 2018'de bir gece evde ekmek yoktu, sobada kendim yaptım; o gün bugündür yapıyorum. Bir de sen denemek ister misin?"
+2. **Karşılama** (kısa metin baloncukları, atölye tonu): "EkmekLab fırın laboratuvarına hoş geldin. Ata tohumu unların, canlı ekşi mayanın ve fermantasyon zanaatının kalbine adım at. Gel, içeri gir."
 3. **Simülasyon:** 6 aşama, her biri 20–40 saniyelik bir mini oyun. Her aşamada Tahsin'den kısa bir ipucu gelir; yanlış yaparsan da esprili bir yorum.
 4. **Sonuç:** Ekmeğin fırından çıkar. Bütün hâli ve kesiti çizilir; puan ve unvan verilir.
 5. **Paylaş:** Sonuç kartı (ekmeğin resmi + unvan + "ekmeklab.tr'de sen de dene") tek dokunuşla Instagram / WhatsApp.
