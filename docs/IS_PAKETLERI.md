@@ -366,7 +366,7 @@ Girdi: `content/gelen/<tarih>-<konu>.md` (döküm, not, fotoğraf açıklaması)
 | P2-03 | **Motor kalibrasyonu**: deney sıcaklık eğrileri ↔ motor tahmini, hata eşiği raporu (pH ölçer eklenirse asit eğrisi) | P2-01, P1-05 | ≥1 deney · eşik testi |
 | P2-04 | **Öğrenme yolları ve seviyeler**: `content/paths`, `/yol/[slug]`, saf "sıradaki adım" önericisi | P1-05, D1 | D1 "yolculuk" seçerse öne çekilir · öneri testleri |
 | P2-05 | **Etiket okuma aracı**: `content/additives` (TGK Katkı Maddeleri Yönetmeliği, TGK Ekmek ve Ekmek Çeşitleri Tebliği — NotebookLM'e eklenip doğrulanır), saf ayrıştırıcı, `/etiket` (girdi saklanmaz) | P1-01, P1-04 | **hukuki teyit** (haksız rekabet / karşılaştırmalı reklam) · 50 anonim içindekiler listesiyle test |
-| P2-06 | **Profesyonel araçlar**: fırıncı yüzdesi, DDT, maya planlayıcı (`starter.ts`), `/arac/*` | P1-05 | — · elle hesaplanmış örneklerle testler; motor matematiği kopyalanmaz |
+| P2-06 | **Profesyonel araçlar**: fırıncı yüzdesi, DDT, maya planlayıcı (`starter.ts`), `/arac/*` | P1-05 | ✅ Tamamlandı — elle hesaplanmış altın testler (bakersPercentage, ddt, starter), `/arac` hub ve 3 interaktif araç |
 | P2-07 | **Soru kutusu**: kavram/yazı sayfasında soru → `questions` (PII minimum) + Telegram → "Komşu soruyor" içeriği | P1-04 | — · smoke + hız sınırı |
 | P2-08 | **"Laboratuvar Notları" bülteni**: çift onay, sürümlü rıza metni, abonelikten çıkma | P1-02 | **İYS/KVKK hukuki teyit** · teyit bayrağı yoksa gönderim yok |
 | P2-09 | **Öğrenen hesabı senkronu** (`learner_progress`, misafir sipariş claim deseni) | P2-04 | tekrar gelen öğrenen oranı tetikleyicisi |

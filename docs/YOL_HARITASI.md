@@ -18,7 +18,7 @@
 | P0 | Çekirdek: P0-00 sağlık beyanı acil · 01 repo hijyeni · 02 DB tipleri · 03 trafik kalkanı · 04 önizleme koruması · 05 bilgi çekirdeği · 06 mimari testleri | ~6–7 ajan oturumu | ✅ tamamlandı (6 Eki, P0-00..P0-06, 22 test dosyası, 131 test yeşil, main'de) |
 | P1 | Motor: kanıt göçü (P1-01 ✅), MDX Kütüphane (P1-02 ✅), pilot yazı (P1-03 ✅), kavram/kaynak (P1-04 ✅), oyun↔bilgi (P1-05 ✅), medya (P1-06 ✅), arama (P1-07 ✅), ürün↔içerik (P1-08 ✅), tek yazar (P1-09 ✅), öğrenme ölçümü (P1-10 ✅), gözlem (P1-11 ✅), laboratuvar açılışı (P1-12 ✅) | ~13–15 ajan oturumu | ✅ tamamlandı (P1-01..P1-12 tüm P1 fazı eksiksiz tamamlandı) |
 | Tasarım | T-01 krem token'ları (✅) → D1 iskelet kararı (Tahsin) + ana sayfa | karara bağlı | T-01 tamamlandı; D1 iskelet kararı bekliyor |
-| P2 | Genişleme: deney, atölye defteri, kalibrasyon, öğrenme yolları, etiket okuma, pro araçlar, soru kutusu, bülten… | tetikleyiciye bağlı | her biri kendi koşuluyla |
+| P2 | Genişleme: P2-06 Profesyonel Araçlar (✅ tamamlandı: fırıncı yüzdesi, DDT, maya planlayıcı /arac/*); diğerleri tetikleyiciyle | tetikleyiciye bağlı | P2-06 tamamlandı; diğerleri koşulunu bekliyor |
 
 Toplam: odaklı ~3-4 hafta (oturumlar halinde). Faz 4, tasarım yönü seçilince Faz 3 ile paralel yürüyebilir.
 
