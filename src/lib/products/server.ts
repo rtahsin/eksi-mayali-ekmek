@@ -17,28 +17,63 @@ interface SaleDateRow {
   product_id: string;
   sale_date: string;
   quantity_limit: number | null;
+  status?: "toplaniyor" | "kesinlesti" | "kaydirildi";
+  decided_at?: string | null;
 }
 
 async function loadSaleDates(supabase: SupabaseClient, productIds: string[], from: string): Promise<Map<string, ProductSaleDate[]>> {
   const out = new Map<string, ProductSaleDate[]>();
   if (productIds.length === 0) return out;
-  const { data, error } = await supabase
-    .from("product_sale_dates")
-    .select("product_id, sale_date, quantity_limit")
-    .in("product_id", productIds)
-    .gte("sale_date", from)
-    .order("sale_date");
+  const [{ data, error }, { data: itemsData, error: itemsError }] = await Promise.all([
+    supabase
+      .from("product_sale_dates")
+      .select("product_id, sale_date, quantity_limit, status, decided_at")
+      .in("product_id", productIds)
+      .gte("sale_date", from)
+      .order("sale_date"),
+    supabase
+      .from("order_items")
+      .select("product_id, quantity, orders!inner(delivery_date, status)")
+      .in("product_id", productIds)
+      .gte("orders.delivery_date", from)
+      .neq("orders.status", "iptal"),
+  ]);
+
   if (error) {
     console.warn("product_sale_dates read:", error.message);
     return out;
   }
+  if (itemsError) {
+    console.warn("order_items count read:", itemsError.message);
+  }
+
+  const orderCounts = new Map<string, number>();
+  for (const row of (itemsData ?? []) as {
+    product_id: string;
+    quantity: number;
+    orders: { delivery_date: string; status: string } | { delivery_date: string; status: string }[];
+  }[]) {
+    const o = Array.isArray(row.orders) ? row.orders[0] : row.orders;
+    if (!o || !row.product_id) continue;
+    const key = `${row.product_id}:${o.delivery_date}`;
+    orderCounts.set(key, (orderCounts.get(key) ?? 0) + (Number(row.quantity) || 0));
+  }
+
   for (const row of (data ?? []) as SaleDateRow[]) {
     const list = out.get(row.product_id) ?? [];
-    list.push({ date: row.sale_date, limit: row.quantity_limit });
+    const ordered = orderCounts.get(`${row.product_id}:${row.sale_date}`) ?? 0;
+    list.push({
+      date: row.sale_date,
+      limit: row.quantity_limit,
+      status: row.status || "toplaniyor",
+      decidedAt: row.decided_at,
+      orderedCount: ordered,
+    });
     out.set(row.product_id, list);
   }
   return out;
 }
+
 
 /**
  * Katalog (service-role). Vitrin: yalnız aktif ürünler ve görünür kategoriler.

@@ -32,6 +32,8 @@ export interface ProductForm {
   flourTypes: string[];
   hydration: number | null;
   masterclass: MasterclassDetail | null;
+  orderThreshold: number | null;
+  saleWeekdays: number[] | null;
 }
 
 const UNITS: ProductForm["weightUnit"][] = ["g", "kg", "ml", "l", "adet"];
@@ -65,6 +67,8 @@ export function productToForm(p: ExtendedProduct): ProductForm {
     flourTypes: p.flourTypes ?? [],
     hydration: p.hydration ?? null,
     masterclass: p.masterclass ?? null,
+    orderThreshold: p.orderThreshold ?? null,
+    saleWeekdays: p.saleWeekdays ?? null,
   };
 }
 
@@ -95,6 +99,8 @@ export function emptyProductForm(category: string): ProductForm {
     flourTypes: [],
     hydration: null,
     masterclass: null,
+    orderThreshold: null,
+    saleWeekdays: null,
   };
 }
 

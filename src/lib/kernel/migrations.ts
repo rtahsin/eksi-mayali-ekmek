@@ -14,6 +14,7 @@ export const EXPECTED_MIGRATIONS: readonly string[] = [
   "023_record_order_payment",
   "024_single_writer",
   "025_funnel_events_v2",
+  "026_threshold_bakes",
 ] as const;
 
 export interface MigrationDiffResult {

@@ -431,6 +431,80 @@ function ProductEditor({
             </div>
           </Section>
 
+          {/* Sipariş Üzerine Eşik Yönetimi (I-05) */}
+          <Section title="Sipariş Üzerine Özel Ekmek (Eşik Çubuğu)" icon={<CalendarDays className="w-4 h-4" />}>
+            <Toggle
+              label="Sipariş Üzerine Üretim (Eşik Modeli)"
+              on={form.orderThreshold !== null}
+              onChange={(on) => set("orderThreshold", on ? 10 : null)}
+            />
+            {form.orderThreshold !== null && (
+              <div className="space-y-3 p-3.5 rounded-xl bg-stone-950 border border-stone-800">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <Field label="Asgari Eşik (Adet)" hint="Üretim kesinleşmesi için gereken en az sipariş (varsayılan: 10)">
+                    <input
+                      type="number"
+                      min={1}
+                      max={1000}
+                      value={form.orderThreshold ?? 10}
+                      onChange={(e) => set("orderThreshold", Math.max(1, Number(e.target.value) || 1))}
+                      className={inputCls}
+                    />
+                  </Field>
+                  <Field label="Üst Sınır (İsteğe bağlı)" hint="Fırın kapasitesi dolunca 'Tükendi' olur">
+                    <input
+                      type="number"
+                      min={0}
+                      value={form.dailyLimit ?? ""}
+                      onChange={(e) => set("dailyLimit", e.target.value === "" ? null : Number(e.target.value))}
+                      placeholder="Boş = sınırsız"
+                      className={inputCls}
+                    />
+                  </Field>
+                </div>
+                <div>
+                  <span className="text-xs font-semibold text-stone-300 block mb-1.5">
+                    Haftalık Satış Günleri (Hangi günlerde taze pişer?)
+                  </span>
+                  <div className="flex flex-wrap gap-1.5">
+                    {[
+                      { id: 1, label: "Pzt" },
+                      { id: 2, label: "Sal" },
+                      { id: 3, label: "Çar" },
+                      { id: 4, label: "Per" },
+                      { id: 5, label: "Cum" },
+                      { id: 6, label: "Cmt" },
+                      { id: 7, label: "Paz" },
+                    ].map((day) => {
+                      const selected = (form.saleWeekdays ?? []).includes(day.id);
+                      return (
+                        <button
+                          key={day.id}
+                          type="button"
+                          onClick={() => {
+                            const current = form.saleWeekdays ?? [];
+                            const updated = selected ? current.filter((x) => x !== day.id) : [...current, day.id].sort();
+                            set("saleWeekdays", updated.length > 0 ? updated : null);
+                          }}
+                          className={`px-3 py-1.5 rounded-lg text-xs font-bold border transition-colors ${
+                            selected
+                              ? "bg-amber-500 text-stone-950 border-amber-500"
+                              : "bg-stone-900 text-stone-400 border-stone-800 hover:border-stone-700"
+                          }`}
+                        >
+                          {day.label}
+                        </button>
+                      );
+                    })}
+                  </div>
+                  <p className="text-xs text-stone-500 mt-1.5">
+                    Dolmazsa bu ürünü içeren siparişler sonraki haftanın aynı gününe otomatik kaydırılır.
+                  </p>
+                </div>
+              </div>
+            )}
+          </Section>
+
           {/* Paket */}
           <Section title="Paket içeriği (isteğe bağlı)" icon={<Package className="w-4 h-4" />}>
             <div className="flex gap-2">

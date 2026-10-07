@@ -50,6 +50,7 @@ supabase/.temp/
 # Testing & reports
 /playwright-report/
 /test-results/
+/scratch/
 
 # Firebase & local bridge legacy
 .firebase/
