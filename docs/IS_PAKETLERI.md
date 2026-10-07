@@ -333,10 +333,11 @@ Tahsin Seçenek 4'ü seçti: **Kitle / Vitrin (Fırın ritmi ve taze ekmek sipar
 - **Tasarım Teması:** Atölye Kremi (`#F6EEDF` zemin, `#FBF6EC` kart, `#3B1E1A` mürekkep, `#B4532A` terakota vurgu; Fraunces + Inter).
 - **Sonraki Adım:** Ana sayfayı (`src/app/page.tsx`) koyu temadan Atölye Kremi vitrinine taşımak.
 
-### T-01 Krem token'ları
-- **Yazma kapsamı:** `src/app/globals.css`, `tailwind.config.ts`, `src/components/game/ui.tsx`, `src/app/layout.tsx`.
-- **İş:** semantik token'lar (`--bg`, `--surface`, `--ink`, `--ink-muted`, `--line`, `--accent`) yalnız krem (MARKA §8); kontrast birim testi (gövde ≥4,5:1, büyük ≥3:1; `#B4532A` / `#F6EEDF` ≈4,3:1 → gövde metninde kullanılmaz); oyunun renk nesnesi token'a; sabit hex cırcırı. Koyu tema canlı geçişte silinir; geçiş ana sayfa/iskelet uygulamasıyla birlikte.
-- **Dal:** `t-01-krem-tokenlari`.
+### T-01 Krem token'ları & Vitrin Geçişi (✅ Tamamlandı — PR #27)
+- Canlı vitrin (`/`), `Navbar`, `Footer`, `AtelierMenuDrawer`, `AtelierThresholdHero`, `ProductCatalog`, `ProductCard`, `ProductModal`, `HowWeBake` ve yeni `ScienceDiscoveryBridge` Atölye Kremi (`#F6EEDF` zemin, `#FBF6EC` kart/yüzey, `#3B1E1A` mürekkep, `#6E5148` ikincil, `#E2D3BD` çizgi, `#B4532A` terakota) semantik token'larına geçirildi.
+- Renk şeması `globals.css` ve `layout.tsx` üzerinde light/Atölye Kremi olarak ayarlandı.
+- MARKA.md §3 gereği vitrin metinlerindeki tüm sağlık beyanları temizlendi.
+
 
 ---
 
