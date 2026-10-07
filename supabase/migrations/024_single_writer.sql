@@ -50,6 +50,7 @@ USING (
 
 -- 3) payments tablosu: Yazma politikaları kaldırılır, yalnızca SELECT kalır
 DROP POLICY IF EXISTS "admin_manage_payments" ON public.payments;
+DROP POLICY IF EXISTS "courier_insert_payments" ON public.payments;
 
 DROP POLICY IF EXISTS "admin_staff_select_payments" ON public.payments;
 CREATE POLICY "admin_staff_select_payments" ON public.payments FOR SELECT

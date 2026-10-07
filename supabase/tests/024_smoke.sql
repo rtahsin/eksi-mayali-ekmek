@@ -20,9 +20,6 @@ BEGIN
   INSERT INTO public.products (id, name, slug, price, category, is_active, is_available, availability, capacity_units)
   VALUES ('SMOKE-024', 'TEST Ekmek 024', 'smoke-024', 50, 'bread', true, true, 'daily', 1);
 
-  INSERT INTO public.profiles (id, full_name, role)
-  VALUES (v_user_id, 'TEST Customer 024', 'customer')
-  ON CONFLICT (id) DO UPDATE SET role = 'customer';
 
   v_base := jsonb_build_object(
     'customer_name', 'TEST 024',
@@ -39,7 +36,7 @@ BEGIN
     'source', 'web'
   );
 
-  PERFORM public.create_order_atomic(v_base || '{"id":"ORD-S024A"}', v_items, v_user_id);
+  PERFORM public.create_order_atomic(v_base || '{"id":"ORD-S024A"}', v_items, NULL);
 
   -- 2) İstemci rolüne bürün (authenticated)
   SET LOCAL ROLE authenticated;
@@ -47,7 +44,7 @@ BEGIN
 
   -- A) Tarayıcıdan orders UPDATE reddedilmeli (0 satır güncellenmeli)
   UPDATE public.orders
-     SET notes = 'hacked_note'
+     SET order_notes = 'hacked_note'
    WHERE id = 'ORD-S024A';
   GET DIAGNOSTICS v_rows = ROW_COUNT;
   ASSERT v_rows = 0, 'Tarayıcıdan orders tablosuna UPDATE başarılı oldu! 0 olmalıydı, alınan: ' || v_rows;
