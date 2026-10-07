@@ -91,6 +91,8 @@ function resolveModule(filePath: string): ModuleName | null {
   if (norm.startsWith("src/lib/utils")) return "utils";
   if (norm.startsWith("src/lib/print")) return "print";
   if (
+    norm.startsWith("src/lib/design") ||
+    norm.startsWith("src/lib/theme") ||
     norm.endsWith("src/lib/site.ts") ||
     norm.endsWith("src/lib/features.ts") ||
     norm.endsWith("src/lib/legal.ts")

@@ -34,6 +34,30 @@
   --text-wheat: #615347;
 }
 
+/* Atölye Gece Semantik Token'ları: "kâğıdın gece hali" (I-02) */
+html.dark,
+[data-theme="dark"] {
+  --bg: #1E1614;
+  --bg-rgb: 30 22 20;
+  --surface: #281E1A;
+  --surface-rgb: 40 30 26;
+  --ink: #F6EEDF;
+  --ink-rgb: 246 238 223;
+  --ink-muted: #CBBBAE;
+  --ink-muted-rgb: 203 187 174;
+  --line: #3D2D27;
+  --line-rgb: 61 45 39;
+  --accent: #E07A5F;
+  --accent-rgb: 224 122 95;
+
+  --color-good: #82A358;
+  --color-warn: #DDA14C;
+  --color-bad: #BD4638;
+  --color-dough: #EAD3A2;
+
+  color-scheme: dark;
+}
+
 /* Touch Target helper: ensures min 44x44px hit target for 36px visual buttons */
 .touch-target-44:not(.absolute) {
   position: relative;

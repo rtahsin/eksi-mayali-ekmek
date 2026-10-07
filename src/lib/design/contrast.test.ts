@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { ATELIER_CREAM } from "./tokens";
+import { ATELIER_CREAM, ATELIER_NIGHT } from "./tokens";
 
 /**
  * WCAG 2.1 Bağıl Parlaklık (Relative Luminance) hesaplayıcı
@@ -69,6 +69,46 @@ describe("Atölye Kremi Renk & Kontrast Doğrulaması (T-01, MARKA §8)", () => 
 
     it("ikincil metin kart üzerinde AA kontrast sağlar (≥ 4.5:1)", () => {
       const contrast = calculateContrast(ATELIER_CREAM.inkMuted, ATELIER_CREAM.surface);
+      expect(contrast).toBeGreaterThanOrEqual(4.5);
+    });
+  });
+
+  describe("Atölye Gece Paleti Kontrast Doğrulaması (I-02 - kâğıdın gece hali)", () => {
+    it("gece paleti token değerlerini doğrular", () => {
+      expect(ATELIER_NIGHT.bg).toBe("#1E1614");
+      expect(ATELIER_NIGHT.surface).toBe("#281E1A");
+      expect(ATELIER_NIGHT.ink).toBe("#F6EEDF");
+      expect(ATELIER_NIGHT.inkMuted).toBe("#CBBBAE");
+      expect(ATELIER_NIGHT.line).toBe("#3D2D27");
+      expect(ATELIER_NIGHT.accent).toBe("#E07A5F");
+    });
+
+    it("krem yazı (#F6EEDF) koyu kahve zemin (#1E1614) üzerinde AAA kontrast sağlar (> 7:1)", () => {
+      const contrast = calculateContrast(ATELIER_NIGHT.ink, ATELIER_NIGHT.bg);
+      expect(contrast).toBeGreaterThanOrEqual(7.0);
+      expect(contrast).toBeGreaterThan(12.0);
+    });
+
+    it("ikincil yazı (#CBBBAE) koyu kahve zemin üzerinde gövde metni AA kuralını (≥ 4.5:1) rahatça geçer", () => {
+      const contrast = calculateContrast(ATELIER_NIGHT.inkMuted, ATELIER_NIGHT.bg);
+      expect(contrast).toBeGreaterThanOrEqual(4.5);
+      expect(contrast).toBeGreaterThan(7.0);
+    });
+
+    it("krem yazı gece kart yüzeyi (#281E1A) üzerinde AAA kontrast sağlar (> 7:1)", () => {
+      const contrast = calculateContrast(ATELIER_NIGHT.ink, ATELIER_NIGHT.surface);
+      expect(contrast).toBeGreaterThanOrEqual(7.0);
+      expect(contrast).toBeGreaterThan(10.0);
+    });
+
+    it("ikincil yazı gece kart yüzeyi üzerinde gövde metni AA kuralını (≥ 4.5:1) geçer", () => {
+      const contrast = calculateContrast(ATELIER_NIGHT.inkMuted, ATELIER_NIGHT.surface);
+      expect(contrast).toBeGreaterThanOrEqual(4.5);
+      expect(contrast).toBeGreaterThan(6.0);
+    });
+
+    it("açık terakota vurgusu (#E07A5F) koyu kahve zemin üzerinde ≥ 4.5:1 kontrast sağlar", () => {
+      const contrast = calculateContrast(ATELIER_NIGHT.accent, ATELIER_NIGHT.bg);
       expect(contrast).toBeGreaterThanOrEqual(4.5);
     });
   });
