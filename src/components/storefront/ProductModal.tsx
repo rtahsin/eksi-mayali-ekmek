@@ -82,21 +82,23 @@ export function ProductModal({ product, onClose }: ProductModalProps) {
           <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent md:hidden" />
 
           {/* Top Badge */}
-          <div className="relative z-10 p-4 flex flex-wrap gap-2">
+          <div className="relative z-10 p-4 flex flex-wrap gap-2 pointer-events-none">
             {product.madeToOrder ? (
-              <span className="px-3 py-1 rounded-full bg-accent text-white text-[11px] font-sans font-semibold tracking-wide shadow-xs">
-                Ön Sipariş
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-accent text-white border border-accent/80 text-xs font-sans font-bold tracking-wide shadow-md">
+                <span className="w-1.5 h-1.5 rounded-full bg-white" />
+                <span>Ön Sipariş</span>
               </span>
             ) : (
-              <span className="px-3 py-1 rounded-full bg-cream-surface/95 text-ink border border-line text-[11px] font-sans font-medium shadow-xs">
-                Günlük Taze Fırın
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-cream-surface text-ink border border-line text-xs font-sans font-bold tracking-wide shadow-md">
+                <span className="w-1.5 h-1.5 rounded-full bg-good animate-pulse" />
+                <span>Günlük Taze Fırın</span>
               </span>
             )}
           </div>
 
           {/* Bottom Specs Strip (Hydration & Weight) */}
           <div className="relative z-10 p-4 space-y-1.5 hidden md:block">
-            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-xl bg-cream-surface/95 backdrop-blur-sm border border-line text-xs font-sans text-ink shadow-xs">
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-xl bg-cream-surface text-ink border border-line text-xs font-sans shadow-md">
               <span className="font-serif font-bold text-sm text-ink">
                 {product.weight >= 1000 && product.weightUnit === "ml"
                   ? `${product.weight / 1000}L`
@@ -105,8 +107,8 @@ export function ProductModal({ product, onClose }: ProductModalProps) {
               {product.hydration && (
                 <>
                   <span className="text-line">|</span>
-                  <span className="flex items-center gap-1 text-[11px] text-ink-muted">
-                    <Droplets className="w-3 h-3 text-accent" />
+                  <span className="flex items-center gap-1 text-[11px] text-ink-muted font-medium">
+                    <Droplets className="w-3.5 h-3.5 text-accent" />
                     %{product.hydration} Hidrasyon
                   </span>
                 </>

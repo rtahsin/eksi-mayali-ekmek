@@ -31,15 +31,15 @@ const config: Config = {
       },
       colors: {
         // Semantik "Atölye Kremi" token'ları (T-01, docs/MARKA.md §8)
-        bg: "var(--bg)",
-        "cream-surface": "var(--surface)",
+        bg: "rgb(var(--bg-rgb, 246 238 223) / <alpha-value>)",
+        "cream-surface": "rgb(var(--surface-rgb, 251 246 236) / <alpha-value>)",
         ink: {
-          DEFAULT: "var(--ink)",
-          muted: "var(--ink-muted)",
+          DEFAULT: "rgb(var(--ink-rgb, 59 30 26) / <alpha-value>)",
+          muted: "rgb(var(--ink-muted-rgb, 110 81 72) / <alpha-value>)",
         },
-        line: "var(--line)",
+        line: "rgb(var(--line-rgb, 226 211 189) / <alpha-value>)",
         accent: {
-          DEFAULT: "var(--accent)",
+          DEFAULT: "rgb(var(--accent-rgb, 180 83 42) / <alpha-value>)",
         },
         good: "var(--color-good)",
         warn: "var(--color-warn)",

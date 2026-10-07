@@ -5,11 +5,17 @@
 :root {
   /* Atölye Kremi Semantik Token'ları (T-01, docs/MARKA.md §8) */
   --bg: #F6EEDF;
+  --bg-rgb: 246 238 223;
   --surface: #FBF6EC;
+  --surface-rgb: 251 246 236;
   --ink: #3B1E1A;
+  --ink-rgb: 59 30 26;
   --ink-muted: #6E5148;
+  --ink-muted-rgb: 110 81 72;
   --line: #E2D3BD;
+  --line-rgb: 226 211 189;
   --accent: #B4532A;
+  --accent-rgb: 180 83 42;
 
   /* Durum ve oyun semantik renkleri */
   --color-good: #5E7F3E;
