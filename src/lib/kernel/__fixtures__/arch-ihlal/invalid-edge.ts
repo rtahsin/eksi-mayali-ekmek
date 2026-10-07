@@ -2,6 +2,7 @@
 // arch.test.ts bu dosyayı ayrıştırarak ihlalleri yakalayabildiğini test eder.
 
 // İhlal 1 (R4): Firebase doğrudan içe aktarılamaz
+// @ts-expect-error Kasıtlı test fixture importu
 import { firebaseConfig } from "@/lib/firebase/config";
 
 // İhlal 2 (R2): Eğitim modülünden ticaret modülüne doğrudan import yasaktır
