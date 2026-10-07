@@ -40,7 +40,8 @@ export function Navbar() {
   const isAdmin = profile?.role === "admin" || profile?.role === "superadmin";
 
   return (
-    <header className="sticky top-0 z-40 bg-cream-surface/90 backdrop-blur-md border-b border-line shadow-xs">
+    <>
+      <header className="sticky top-0 z-40 bg-cream-surface/90 backdrop-blur-md border-b border-line shadow-xs">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 h-14 sm:h-[72px] flex items-center justify-between">
         {/* Brand Logo & Name + Atelier Menu Toggle */}
         <div className="flex items-center gap-2 sm:gap-3.5">
@@ -210,12 +211,13 @@ export function Navbar() {
           </button>
         </div>
       </div>
-
-      {/* Atelier Slide-over Menu Drawer */}
-      <AtelierMenuDrawer
-        isOpen={isAtelierMenuOpen}
-        onClose={() => setIsAtelierMenuOpen(false)}
-      />
     </header>
+
+    {/* Atelier Slide-over Menu Drawer */}
+    <AtelierMenuDrawer
+      isOpen={isAtelierMenuOpen}
+      onClose={() => setIsAtelierMenuOpen(false)}
+    />
+  </>
   );
 }

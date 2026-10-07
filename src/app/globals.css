@@ -29,8 +29,11 @@
 }
 
 /* Touch Target helper: ensures min 44x44px hit target for 36px visual buttons */
-.touch-target-44 {
+.touch-target-44:not(.absolute) {
   position: relative;
+}
+.touch-target-44.absolute {
+  position: absolute;
 }
 .touch-target-44::after {
   content: "";
