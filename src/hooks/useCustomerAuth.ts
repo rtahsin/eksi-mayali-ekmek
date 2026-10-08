@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
-import { User } from "@supabase/supabase-js";
+import type { User, Session, AuthChangeEvent } from "@supabase/supabase-js";
 import { createClient, isSupabaseConfigured } from "@/lib/supabase/client";
 import { getErrorMessage } from "@/lib/utils/error";
 
@@ -10,7 +10,7 @@ export interface UserProfile {
   email: string;
   fullName: string;
   phone: string;
-  role: "customer" | "staff" | "admin" | "superadmin";
+  role: "customer" | "staff" | "admin" | "superadmin" | "courier";
   avatarUrl?: string;
 }
 
@@ -39,10 +39,8 @@ export function useCustomerAuth() {
       if (!supabase) return;
 
       try {
-        const supa = supabase as any;
-
         // 1. Fetch profile
-        const { data: profileData } = await supa
+        const { data: profileData } = await supabase
           .from("profiles")
           .select("*")
           .eq("id", userId)
@@ -51,11 +49,11 @@ export function useCustomerAuth() {
         if (profileData) {
           setProfile({
             id: profileData.id,
-            email: profileData.email,
+            email: profileData.email || email,
             fullName: profileData.full_name || email.split("@")[0],
             phone: profileData.phone || "",
             role: profileData.role || "customer",
-            avatarUrl: profileData.avatar_url,
+            avatarUrl: profileData.avatar_url ?? undefined,
           });
         } else {
           setProfile({
@@ -68,7 +66,7 @@ export function useCustomerAuth() {
         }
 
         // 2. Fetch saved addresses
-        const { data: addressData } = await supa
+        const { data: addressData } = await supabase
           .from("saved_addresses")
           .select("*")
           .eq("user_id", userId)
@@ -76,7 +74,7 @@ export function useCustomerAuth() {
 
         if (addressData) {
           setAddresses(
-            addressData.map((addr: any) => ({
+            addressData.map((addr) => ({
               id: addr.id,
               userId: addr.user_id,
               title: addr.title || "Ev",
@@ -112,8 +110,7 @@ export function useCustomerAuth() {
 
     // 2. Supabase Auth Session Listener
     if (supabase && isSupabaseConfigured()) {
-      supabase.auth.getSession().then((res: any) => {
-        const session = res?.data?.session;
+      supabase.auth.getSession().then(({ data: { session } }) => {
         const currentUser = session?.user ?? null;
         if (currentUser && currentUser.email) {
           setUser(currentUser);
@@ -124,7 +121,7 @@ export function useCustomerAuth() {
 
       const {
         data: { subscription },
-      } = supabase.auth.onAuthStateChange(async (_event: any, session: any) => {
+      } = supabase.auth.onAuthStateChange(async (_event: AuthChangeEvent, session: Session | null) => {
         const currentUser = session?.user ?? null;
         if (currentUser && currentUser.email) {
           setUser(currentUser);
@@ -257,8 +254,7 @@ export function useCustomerAuth() {
   const saveAddress = async (addr: Omit<SavedAddress, "id" | "userId">) => {
     if (!supabase || !user) return { error: "Giriş yapmalısınız" };
 
-    const supa = supabase as any;
-    const { data, error } = await supa
+    const { data, error } = await supabase
       .from("saved_addresses")
       .insert({
         user_id: user.id,

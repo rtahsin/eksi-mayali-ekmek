@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { getErrorMessage } from "@/lib/utils/error";
+import { logError } from "@/lib/kernel/log";
 import { verifyApiAuth } from "@/lib/security/apiAuth";
 
 export async function PATCH(
@@ -139,7 +140,7 @@ export async function PATCH(
       courierName: courier.display_name,
     });
   } catch (err: unknown) {
-    console.error("PATCH /api/orders/[id]/assign-courier error:", err);
+    logError("PATCH /api/orders/[id]/assign-courier error:", err);
     return NextResponse.json(
       { error: getErrorMessage(err) || "Kurye ataması yapılırken hata oluştu", code: "SERVER_ERROR" },
       { status: 500 }

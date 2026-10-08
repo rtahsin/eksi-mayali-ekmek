@@ -2,7 +2,7 @@ import Link from "next/link";
 import type { Product } from "@/types";
 import { CONTACT, whatsappLink } from "@/lib/site";
 import { productBadges } from "@/lib/products/badges";
-import { tl, weightLabel, type DraftData } from "../data";
+import { tl, weightLabel, type DraftData } from "../types";
 
 /** Yön 3 · Mahalle Tezgâhı — sade, modern, menü listesi gibi okunur; büyük yazı, az süs. */
 const C = {

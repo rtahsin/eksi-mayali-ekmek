@@ -73,41 +73,40 @@ describe("Atölye Kremi Renk & Kontrast Doğrulaması (T-01, MARKA §8)", () => 
     });
   });
 
-  describe("Atölye Gece Paleti Kontrast Doğrulaması (I-02 - kâğıdın gece hali)", () => {
+  describe("Atölye Gece Paleti Kontrast Doğrulaması (Obsidyen & Fırın Közü)", () => {
     it("gece paleti token değerlerini doğrular", () => {
-      expect(ATELIER_NIGHT.bg).toBe("#1E1614");
-      expect(ATELIER_NIGHT.surface).toBe("#281E1A");
-      expect(ATELIER_NIGHT.ink).toBe("#F6EEDF");
-      expect(ATELIER_NIGHT.inkMuted).toBe("#CBBBAE");
-      expect(ATELIER_NIGHT.line).toBe("#3D2D27");
+      expect(ATELIER_NIGHT.bg).toBe("#0E0D0C");
+      expect(ATELIER_NIGHT.surface).toBe("#181715");
+      expect(ATELIER_NIGHT.ink).toBe("#F8F4EE");
+      expect(ATELIER_NIGHT.inkMuted).toBe("#9E9387");
+      expect(ATELIER_NIGHT.line).toBe("#2A2724");
       expect(ATELIER_NIGHT.accent).toBe("#E07A5F");
     });
 
-    it("krem yazı (#F6EEDF) koyu kahve zemin (#1E1614) üzerinde AAA kontrast sağlar (> 7:1)", () => {
+    it("krem yazı (#F8F4EE) obsidyen zemin (#0E0D0C) üzerinde AAA kontrast sağlar (> 7:1)", () => {
       const contrast = calculateContrast(ATELIER_NIGHT.ink, ATELIER_NIGHT.bg);
       expect(contrast).toBeGreaterThanOrEqual(7.0);
-      expect(contrast).toBeGreaterThan(12.0);
+      expect(contrast).toBeGreaterThan(14.0);
     });
 
-    it("ikincil yazı (#CBBBAE) koyu kahve zemin üzerinde gövde metni AA kuralını (≥ 4.5:1) rahatça geçer", () => {
+    it("ikincil yazı (#9E9387) obsidyen zemin üzerinde gövde metni AA kuralını (≥ 4.5:1) rahatça geçer", () => {
       const contrast = calculateContrast(ATELIER_NIGHT.inkMuted, ATELIER_NIGHT.bg);
       expect(contrast).toBeGreaterThanOrEqual(4.5);
-      expect(contrast).toBeGreaterThan(7.0);
+      expect(contrast).toBeGreaterThan(5.5);
     });
 
-    it("krem yazı gece kart yüzeyi (#281E1A) üzerinde AAA kontrast sağlar (> 7:1)", () => {
+    it("krem yazı gece kart yüzeyi (#181715) üzerinde AAA kontrast sağlar (> 7:1)", () => {
       const contrast = calculateContrast(ATELIER_NIGHT.ink, ATELIER_NIGHT.surface);
       expect(contrast).toBeGreaterThanOrEqual(7.0);
-      expect(contrast).toBeGreaterThan(10.0);
+      expect(contrast).toBeGreaterThan(12.0);
     });
 
     it("ikincil yazı gece kart yüzeyi üzerinde gövde metni AA kuralını (≥ 4.5:1) geçer", () => {
       const contrast = calculateContrast(ATELIER_NIGHT.inkMuted, ATELIER_NIGHT.surface);
       expect(contrast).toBeGreaterThanOrEqual(4.5);
-      expect(contrast).toBeGreaterThan(6.0);
     });
 
-    it("açık terakota vurgusu (#E07A5F) koyu kahve zemin üzerinde ≥ 4.5:1 kontrast sağlar", () => {
+    it("açık terakota vurgusu (#E07A5F) obsidyen zemin üzerinde ≥ 4.5:1 kontrast sağlar", () => {
       const contrast = calculateContrast(ATELIER_NIGHT.accent, ATELIER_NIGHT.bg);
       expect(contrast).toBeGreaterThanOrEqual(4.5);
     });

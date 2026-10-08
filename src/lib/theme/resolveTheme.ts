@@ -71,16 +71,46 @@ export function getSystemTheme(): SystemTheme {
 }
 
 /**
- * DOM üzerindeki kök <html> elementine temayı uygular.
+ * DOM üzerindeki kök <html> elementine temayı ve varyantı uygular.
  */
-export function applyThemeToDOM(theme: ResolvedTheme): void {
+export type DarkThemeVariant = "a" | "b" | "old";
+export const THEME_VARIANT_STORAGE_KEY = "ekmeklab_dark_variant";
+
+export function getStoredDarkVariant(): DarkThemeVariant {
+  if (typeof window === "undefined") return "b";
+  try {
+    const val = localStorage.getItem(THEME_VARIANT_STORAGE_KEY);
+    if (val === "a" || val === "b" || val === "old") {
+      return val;
+    }
+  } catch {
+    // localStorage erişim engelli
+  }
+  return "b";
+}
+
+export function setStoredDarkVariant(variant: DarkThemeVariant): void {
+  if (typeof window === "undefined") return;
+  try {
+    localStorage.setItem(THEME_VARIANT_STORAGE_KEY, variant);
+  } catch {
+    // localStorage erişim engelli
+  }
+}
+
+export function applyThemeToDOM(theme: ResolvedTheme, variant?: DarkThemeVariant): void {
   if (typeof document === "undefined") return;
   const root = document.documentElement;
+  const activeVariant = variant ?? getStoredDarkVariant();
+
   if (theme === "dark") {
     root.classList.add("dark");
     root.setAttribute("data-theme", "dark");
+    root.setAttribute("data-dark-variant", activeVariant);
   } else {
     root.classList.remove("dark");
     root.setAttribute("data-theme", "light");
+    root.removeAttribute("data-dark-variant");
   }
 }
+

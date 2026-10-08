@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { requireAdmin } from "@/lib/security/apiAuth";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { getErrorMessage } from "@/lib/utils/error";
+import { logError } from "@/lib/kernel/log";
 import { CariProfileSchema, profileToRow } from "@/lib/cari/account";
 
 /** Yeni cari hesap. Açılış bakiyesi varsa defterde tek "devir" satırı olarak yazılır (bakiye ona göre). */
@@ -50,7 +51,7 @@ export async function POST(request: Request) {
     }
     return NextResponse.json({ success: true, id });
   } catch (err: unknown) {
-    console.error("POST /api/admin/cari/accounts:", err);
+    logError("POST /api/admin/cari/accounts:", err);
     return NextResponse.json({ error: getErrorMessage(err) || "Cari oluşturulamadı" }, { status: 500 });
   }
 }

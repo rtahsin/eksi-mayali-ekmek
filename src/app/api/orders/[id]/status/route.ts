@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { z } from "zod";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { getErrorMessage } from "@/lib/utils/error";
+import { logError } from "@/lib/kernel/log";
 import { verifyApiAuth } from "@/lib/security/apiAuth";
 import { parseOrderLookup } from "@/lib/orders/orderId";
 
@@ -87,11 +88,11 @@ export async function PATCH(req: Request, props: { params: Promise<{ id: string 
       changed_by_id: auth.userId,
       note: parsed.data.note || null,
     });
-    if (histErr) console.error("order_status_history insert:", histErr);
+    if (histErr) logError("order_status_history insert:", histErr);
 
     return NextResponse.json({ success: true, status: next });
   } catch (err: unknown) {
-    console.error("PATCH /api/orders/[id]/status:", err);
+    logError("PATCH /api/orders/[id]/status:", err);
     return NextResponse.json({ error: getErrorMessage(err) || "Durum güncellenemedi" }, { status: 500 });
   }
 }

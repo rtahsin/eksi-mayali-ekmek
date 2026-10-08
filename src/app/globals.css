@@ -34,9 +34,59 @@
   --text-wheat: #615347;
 }
 
-/* Atölye Gece Semantik Token'ları: "kâğıdın gece hali" (I-02) */
+/* Atölye Gece Semantik Token'ları: "Obsidyen & Fırın Közü" (OLED Derinliği — Resmi Gece Teması) */
 html.dark,
-[data-theme="dark"] {
+[data-theme="dark"],
+html.dark[data-dark-variant="b"],
+[data-theme="dark"][data-dark-variant="b"] {
+  --bg: #0E0D0C;
+  --bg-rgb: 14 13 12;
+  --surface: #181715;
+  --surface-rgb: 24 23 21;
+  --ink: #F8F4EE;
+  --ink-rgb: 248 244 238;
+  --ink-muted: #9E9387;
+  --ink-muted-rgb: 158 147 135;
+  --line: #2A2724;
+  --line-rgb: 42 39 36;
+  --accent: #E07A5F;
+  --accent-rgb: 224 122 95;
+
+  --color-good: #82A358;
+  --color-warn: #DDA14C;
+  --color-bad: #BD4638;
+  --color-dough: #EAD3A2;
+
+  color-scheme: dark;
+}
+
+/* Seçenek A (Alternatif): Döküm Taş & Sıcak Kömür (Warm Charcoal) */
+html.dark[data-dark-variant="a"],
+[data-theme="dark"][data-dark-variant="a"] {
+  --bg: #141312;
+  --bg-rgb: 20 19 18;
+  --surface: #1E1D1A;
+  --surface-rgb: 30 29 26;
+  --ink: #F4EFEA;
+  --ink-rgb: 244 239 234;
+  --ink-muted: #A3988C;
+  --ink-muted-rgb: 163 152 140;
+  --line: #322F2B;
+  --line-rgb: 50 47 43;
+  --accent: #D97746;
+  --accent-rgb: 217 119 70;
+
+  --color-good: #82A358;
+  --color-warn: #DDA14C;
+  --color-bad: #BD4638;
+  --color-dough: #EAD3A2;
+
+  color-scheme: dark;
+}
+
+/* Eski Hali: Çamurlu Kahverengi (Kıyaslama amaçlı) */
+html.dark[data-dark-variant="old"],
+[data-theme="dark"][data-dark-variant="old"] {
   --bg: #1E1614;
   --bg-rgb: 30 22 20;
   --surface: #281E1A;

@@ -6,6 +6,7 @@ import { signAccountToken, verifyOrderToken, verifySlipToken } from "@/lib/secur
 import { LEDGER_SELECT, mapLedgerRow, type LedgerRow } from "@/lib/cari/ledger";
 import { SITE_URL } from "@/lib/site";
 import { getErrorMessage } from "@/lib/utils/error";
+import { logError } from "@/lib/kernel/log";
 
 interface ParsedSlipItem {
   name: string;
@@ -233,7 +234,7 @@ export async function GET(req: Request, { params }: { params: Promise<{ id: stri
 
     return notFound();
   } catch (error: unknown) {
-    console.error("Fetch slip error:", error);
+    logError("Fetch slip error:", error);
     return NextResponse.json({ success: false, error: getErrorMessage(error) }, { status: 500 });
   }
 }

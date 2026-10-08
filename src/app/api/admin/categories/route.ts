@@ -3,6 +3,7 @@ import { z } from "zod";
 import { requireAdmin } from "@/lib/security/apiAuth";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { getErrorMessage } from "@/lib/utils/error";
+import { logError } from "@/lib/kernel/log";
 import { slugify } from "@/lib/utils/slugify";
 
 const CategorySchema = z.object({
@@ -44,7 +45,7 @@ export async function POST(request: Request) {
     if (error) throw error;
     return NextResponse.json({ success: true, id });
   } catch (err: unknown) {
-    console.error("POST /api/admin/categories:", err);
+    logError("POST /api/admin/categories:", err);
     return NextResponse.json({ error: getErrorMessage(err) }, { status: 500 });
   }
 }
@@ -71,7 +72,7 @@ export async function DELETE(request: Request) {
     if (error) throw error;
     return NextResponse.json({ success: true });
   } catch (err: unknown) {
-    console.error("DELETE /api/admin/categories:", err);
+    logError("DELETE /api/admin/categories:", err);
     return NextResponse.json({ error: getErrorMessage(err) }, { status: 500 });
   }
 }

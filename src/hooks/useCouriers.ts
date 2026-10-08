@@ -136,7 +136,7 @@ export function useCouriers() {
     try {
       if (!supabase) return { success: false, error: "Supabase bağlantısı yok" };
 
-      const payload: Record<string, unknown> = {
+      const payload: import("@/types/database").Database["public"]["Tables"]["couriers"]["Update"] = {
         updated_at: new Date().toISOString(),
       };
 

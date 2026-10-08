@@ -5,6 +5,7 @@ import { createAdminClient } from "@/lib/supabase/admin";
 import { Order, OrderItem } from "@/types";
 import { checkRateLimit, sanitizeInput } from "@/lib/security/rateLimiter";
 import { getErrorMessage } from "@/lib/utils/error";
+import { logError } from "@/lib/kernel/log";
 import { verifyApiAuth } from "@/lib/security/apiAuth";
 import { getStoreSettings } from "@/lib/settings/server";
 import { computeShippingFee } from "@/lib/settings/schema";
@@ -419,7 +420,7 @@ export async function POST(req: Request) {
       trackingToken: signOrderToken(finalOrderId),
     });
   } catch (error: unknown) {
-    console.error("Order creation API error:", error);
+    logError("Order creation API error:", error);
     Sentry.captureException(error, { tags: { endpoint: "/api/orders/create", type: "unhandled_500" } });
     return fail(500, "Sipariş şu an kaydedilemedi. Lütfen birkaç saniye sonra tekrar deneyin; aynı sipariş iki kez oluşmaz.");
   }

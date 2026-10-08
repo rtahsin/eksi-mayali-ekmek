@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { requireAdmin } from "@/lib/security/apiAuth";
 import { getErrorMessage } from "@/lib/utils/error";
+import { logError } from "@/lib/kernel/log";
 
 export async function POST(
   req: Request,
@@ -58,7 +59,7 @@ export async function POST(
     });
 
     if (error) {
-      console.error("record_order_payment error:", error);
+      logError("record_order_payment error:", error);
       return NextResponse.json(
         { error: error.message || "Ödeme kaydedilemedi", code: "PAYMENT_RECORD_FAILED" },
         { status: 400 }
@@ -70,7 +71,7 @@ export async function POST(
       data,
     });
   } catch (err: unknown) {
-    console.error("POST /api/admin/orders/[id]/payments exception:", err);
+    logError("POST /api/admin/orders/[id]/payments exception:", err);
     return NextResponse.json(
       { error: getErrorMessage(err) || "Ödeme işlemi sırasında sunucu hatası", code: "SERVER_ERROR" },
       { status: 500 }

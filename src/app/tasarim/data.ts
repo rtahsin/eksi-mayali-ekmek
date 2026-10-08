@@ -1,14 +1,9 @@
+import "server-only";
 import { getCatalog } from "@/lib/products/server";
 import { getStoreSettings } from "@/lib/settings/server";
-import type { Product } from "@/types";
+import type { DraftData } from "./types";
 
-/** Tasarım taslakları gerçek katalogla çizilir (Faz 4: yön seçimi). */
-export interface DraftData {
-  breads: Product[];
-  extras: Product[];
-  freeShippingThreshold: number;
-  shippingFee: number;
-}
+export type { DraftData };
 
 export async function loadDraftData(): Promise<DraftData> {
   const [{ products }, settings] = await Promise.all([getCatalog(), getStoreSettings()]);
@@ -20,7 +15,3 @@ export async function loadDraftData(): Promise<DraftData> {
     shippingFee: settings.shippingFee,
   };
 }
-
-export const tl = (n: number) => `${n.toLocaleString("tr-TR")} ₺`;
-
-export const weightLabel = (p: Product) => (p.weight ? `${p.weight}${p.weightUnit || "g"}` : "");

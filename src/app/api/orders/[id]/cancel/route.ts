@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { getErrorMessage } from "@/lib/utils/error";
+import { logError } from "@/lib/kernel/log";
 import { verifyApiAuth } from "@/lib/security/apiAuth";
 import { checkRateLimit, getClientIp } from "@/lib/security/rateLimiter";
 import { parseOrderLookup } from "@/lib/orders/orderId";
@@ -148,7 +149,7 @@ export async function PATCH(
       orderId: orderData.id,
     });
   } catch (err: unknown) {
-    console.error("Cancel order error:", err);
+    logError("Cancel order error:", err);
     return NextResponse.json(
       { error: "Sipariş şu an iptal edilemedi. Lütfen fırını arayın." },
       { status: 500 }

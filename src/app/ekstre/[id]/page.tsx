@@ -46,8 +46,11 @@ export default function CustomerStatementPage() {
   const [copied, setCopied] = useState(false);
 
   // Date and type filters
-  const [dateFilter, setDateFilter] = useState<"all" | "this_month" | "last_month" | "last_30_days" | "custom">("all");
-  const [typeFilter, setTypeFilter] = useState<"all" | "satis" | "tahsilat">("all");
+  type StatementDateFilter = "all" | "this_month" | "last_month" | "last_30_days" | "custom";
+  type StatementTypeFilter = "all" | "satis" | "tahsilat";
+
+  const [dateFilter, setDateFilter] = useState<StatementDateFilter>("all");
+  const [typeFilter, setTypeFilter] = useState<StatementTypeFilter>("all");
   const [startDate, setStartDate] = useState<string>("");
   const [endDate, setEndDate] = useState<string>("");
 
@@ -377,16 +380,18 @@ export default function CustomerStatementPage() {
               <div className="flex flex-wrap items-center gap-2 pt-2 border-t border-[#EBE4D8]/60 print:hidden text-xs">
                 {/* Period Pills */}
                 <div className="flex items-center gap-1 bg-[#F5EFE6] p-1 rounded-xl border border-[#E8DFC8]">
-                  {[
-                    { id: "all", label: "Tüm Zamanlar" },
-                    { id: "this_month", label: "Bu Ay" },
-                    { id: "last_month", label: "Geçen Ay" },
-                    { id: "last_30_days", label: "Son 30 Gün" },
-                    { id: "custom", label: "Tarih Seç" },
-                  ].map((p) => (
+                  {(
+                    [
+                      { id: "all", label: "Tüm Zamanlar" },
+                      { id: "this_month", label: "Bu Ay" },
+                      { id: "last_month", label: "Geçen Ay" },
+                      { id: "last_30_days", label: "Son 30 Gün" },
+                      { id: "custom", label: "Tarih Seç" },
+                    ] as const
+                  ).map((p) => (
                     <button
                       key={p.id}
-                      onClick={() => setDateFilter(p.id as any)}
+                      onClick={() => setDateFilter(p.id)}
                       className={`px-2.5 py-1 rounded-lg font-bold text-xs transition-all ${
                         dateFilter === p.id
                           ? "bg-[#B45309] text-white shadow-sm"
@@ -400,14 +405,16 @@ export default function CustomerStatementPage() {
 
                 {/* Type Filter Pills */}
                 <div className="flex items-center gap-1 bg-[#F5EFE6] p-1 rounded-xl border border-[#E8DFC8]">
-                  {[
-                    { id: "all", label: "Tümü" },
-                    { id: "satis", label: "Fişler" },
-                    { id: "tahsilat", label: "Tahsilatlar" },
-                  ].map((t) => (
+                  {(
+                    [
+                      { id: "all", label: "Tümü" },
+                      { id: "satis", label: "Fişler" },
+                      { id: "tahsilat", label: "Tahsilatlar" },
+                    ] as const
+                  ).map((t) => (
                     <button
                       key={t.id}
-                      onClick={() => setTypeFilter(t.id as any)}
+                      onClick={() => setTypeFilter(t.id)}
                       className={`px-2.5 py-1 rounded-lg font-bold text-xs transition-all ${
                         typeFilter === t.id
                           ? "bg-[#1E140F] text-white shadow-sm"
