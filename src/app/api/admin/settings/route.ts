@@ -4,6 +4,7 @@ import { z } from "zod";
 import { requireAdmin } from "@/lib/security/apiAuth";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { getErrorMessage } from "@/lib/utils/error";
+import { logError } from "@/lib/kernel/log";
 import { getStoreSettings } from "@/lib/settings/server";
 import { StoreSettingsSchema } from "@/lib/settings/schema";
 
@@ -23,7 +24,7 @@ export async function GET(request: Request) {
     }
     return NextResponse.json({ operational: await getStoreSettings(supabase, { failClosed: true }) });
   } catch (err: unknown) {
-    console.error("Settings GET handler error:", err);
+    logError("Settings GET handler error:", err);
     return NextResponse.json({ error: getErrorMessage(err) }, { status: 500 });
   }
 }
@@ -68,7 +69,7 @@ export async function POST(request: Request) {
 
     return NextResponse.json({ success: true, message: "Ayarlar güncellendi" });
   } catch (err: unknown) {
-    console.error("Settings POST handler error:", err);
+    logError("Settings POST handler error:", err);
     return NextResponse.json({ error: getErrorMessage(err) }, { status: 500 });
   }
 }

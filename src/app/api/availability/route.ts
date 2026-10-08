@@ -4,6 +4,7 @@ import { getStoreSettings } from "@/lib/settings/server";
 import { computeDeliveryDates } from "@/lib/ordering/dates";
 import { getCartAvailability } from "@/lib/ordering/loadAvailability";
 import { createAdminClient } from "@/lib/supabase/admin";
+import { logError } from "@/lib/kernel/log";
 import { rateLimit, postgresRateLimitStore, ipRateLimitKey } from "@/lib/security/rateLimiter";
 
 export const dynamic = "force-dynamic";
@@ -55,7 +56,7 @@ export async function POST(req: Request) {
       { headers: { "Cache-Control": "no-store" } }
     );
   } catch (err: unknown) {
-    console.error("POST /api/availability:", err);
+    logError("POST /api/availability:", err);
     return NextResponse.json({ error: "Uygun günler hesaplanamadı" }, { status: 503 });
   }
 }

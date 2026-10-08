@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import crypto from "crypto";
 import { createAdminClient } from "@/lib/supabase/admin";
+import { logError } from "@/lib/kernel/log";
 import { ensureSaleDatesWindow } from "@/lib/ordering/saleDates";
 
 export async function GET(req: Request) {
@@ -8,7 +9,7 @@ export async function GET(req: Request) {
     // 1. Cron Secret Doğrulaması (Fail-closed & Timing-attack safe)
     const cronSecret = process.env.CRON_SECRET;
     if (!cronSecret) {
-      console.error("CRON_SECRET ortam değişkeni sunucuda yapılandırılmamış!");
+      logError("CRON_SECRET ortam değişkeni sunucuda yapılandırılmamış!");
       return NextResponse.json(
         { error: "Sunucu yapılandırma hatası: CRON_SECRET eksik" },
         { status: 500 }
@@ -48,7 +49,7 @@ export async function GET(req: Request) {
       syncedAt: new Date().toISOString(),
     });
   } catch (err: unknown) {
-    console.error("GET /api/cron/sale-dates error:", err);
+    logError("GET /api/cron/sale-dates error:", err);
     return NextResponse.json(
       { error: "İç sunucu hatası", detail: err instanceof Error ? err.message : String(err) },
       { status: 500 }

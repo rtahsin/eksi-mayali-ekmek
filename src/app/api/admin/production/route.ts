@@ -3,6 +3,7 @@ import { z } from "zod";
 import { requireAdmin } from "@/lib/security/apiAuth";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { getErrorMessage } from "@/lib/utils/error";
+import { logError } from "@/lib/kernel/log";
 import { getStoreSettings } from "@/lib/settings/server";
 import { expandBundles } from "@/lib/ordering/availability";
 import { parseBundleItems } from "@/lib/products/map";
@@ -97,7 +98,7 @@ export async function GET(request: Request) {
     };
     return NextResponse.json(body, { headers: { "Cache-Control": "no-store" } });
   } catch (err: unknown) {
-    console.error("GET /api/admin/production:", err);
+    logError("GET /api/admin/production:", err);
     return NextResponse.json({ error: getErrorMessage(err) }, { status: 500 });
   }
 }
@@ -132,7 +133,7 @@ export async function POST(request: Request) {
     if (error) throw error;
     return NextResponse.json({ success: true });
   } catch (err: unknown) {
-    console.error("POST /api/admin/production:", err);
+    logError("POST /api/admin/production:", err);
     return NextResponse.json({ error: getErrorMessage(err) }, { status: 500 });
   }
 }

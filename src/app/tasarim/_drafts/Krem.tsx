@@ -2,7 +2,7 @@ import Link from "next/link";
 import type { Product } from "@/types";
 import { CONTACT, whatsappLink } from "@/lib/site";
 import { productBadges } from "@/lib/products/badges";
-import { tl, weightLabel, type DraftData } from "../data";
+import { tl, weightLabel, type DraftData } from "../types";
 
 /** Yön 1 · Atölye Kremi — logonun kremi ve bordo mürekkebi; kâğıt menü hissi. */
 const C = {

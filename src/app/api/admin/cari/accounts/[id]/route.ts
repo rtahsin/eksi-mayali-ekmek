@@ -3,6 +3,7 @@ import { z } from "zod";
 import { requireAdmin } from "@/lib/security/apiAuth";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { getErrorMessage } from "@/lib/utils/error";
+import { logError } from "@/lib/kernel/log";
 import { CariProfileSchema, profileToRow } from "@/lib/cari/account";
 
 const PatchSchema = CariProfileSchema.extend({ archived: z.boolean().optional() });
@@ -55,7 +56,7 @@ export async function PATCH(request: Request, { params }: { params: Promise<{ id
     }
     return NextResponse.json({ success: true });
   } catch (err: unknown) {
-    console.error("PATCH /api/admin/cari/accounts/[id]:", err);
+    logError("PATCH /api/admin/cari/accounts/[id]:", err);
     return NextResponse.json({ error: getErrorMessage(err) || "Cari güncellenemedi" }, { status: 500 });
   }
 }
@@ -78,6 +79,6 @@ export async function DELETE(request: Request, { params }: { params: Promise<{ i
     );
   }
   if (error.message.includes("CARI_NOT_FOUND")) return NextResponse.json({ error: "Cari hesap bulunamadı." }, { status: 404 });
-  console.error("DELETE /api/admin/cari/accounts/[id]:", error);
+  logError("DELETE /api/admin/cari/accounts/[id]:", error);
   return NextResponse.json({ error: getErrorMessage(error) || "Cari silinemedi" }, { status: 500 });
 }

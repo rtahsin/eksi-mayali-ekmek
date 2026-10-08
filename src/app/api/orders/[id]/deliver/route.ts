@@ -4,6 +4,7 @@ import { createAdminClient } from "@/lib/supabase/admin";
 import { verifyApiAuth } from "@/lib/security/apiAuth";
 import { parseOrderLookup } from "@/lib/orders/orderId";
 import { getErrorMessage } from "@/lib/utils/error";
+import { logError } from "@/lib/kernel/log";
 
 const BodySchema = z.object({
   payment: z.enum(["cash", "pos", "transfer", "unpaid"]),
@@ -70,7 +71,7 @@ export async function POST(req: Request, props: { params: Promise<{ id: string }
     const res = (data ?? {}) as { already?: boolean };
     return NextResponse.json({ success: true, already: Boolean(res.already) });
   } catch (err: unknown) {
-    console.error("POST /api/orders/[id]/deliver:", err);
+    logError("POST /api/orders/[id]/deliver:", err);
     return NextResponse.json({ error: getErrorMessage(err) || "Teslim kaydedilemedi" }, { status: 500 });
   }
 }

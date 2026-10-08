@@ -15,11 +15,11 @@ interface AuthContextType {
   isConfigured: boolean;
   openAuthModal: () => void;
   closeAuthModal: () => void;
-  signInWithGoogle: () => Promise<any>;
+  signInWithGoogle: () => Promise<{ success: boolean; data?: unknown; error?: string }>;
   sendEmailCode: (email: string) => Promise<{ success: boolean; error?: string }>;
   verifyEmailCode: (email: string, code: string) => Promise<{ success: boolean; error?: string }>;
   signOut: () => Promise<void>;
-  saveAddress: (addr: Omit<SavedAddress, "id" | "userId">) => Promise<any>;
+  saveAddress: (addr: Omit<SavedAddress, "id" | "userId">) => Promise<{ data?: unknown; error?: unknown }>;
   refreshUser: () => void;
 }
 

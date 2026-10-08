@@ -3,6 +3,7 @@ import { z } from "zod";
 import { requireAdmin } from "@/lib/security/apiAuth";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { getErrorMessage } from "@/lib/utils/error";
+import { logError } from "@/lib/kernel/log";
 import { isIsoDate } from "@/lib/time/istanbul";
 
 const cents = (v: number) => Math.round(v * 100) / 100;
@@ -111,7 +112,7 @@ export async function POST(request: Request) {
     const res = data as { order_id: string; order_number: string; is_existing?: boolean };
     return NextResponse.json({ success: true, id: res.order_id, orderNumber: res.order_number, existing: Boolean(res.is_existing) });
   } catch (err: unknown) {
-    console.error("POST /api/admin/orders:", err);
+    logError("POST /api/admin/orders:", err);
     return NextResponse.json({ error: getErrorMessage(err) || "Sipariş kaydedilemedi" }, { status: 500 });
   }
 }

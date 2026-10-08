@@ -3,8 +3,17 @@
 import React, { useState, useEffect } from "react";
 import { Download, X, Smartphone, Share, PlusSquare, Check } from "lucide-react";
 
+interface BeforeInstallPromptEvent extends Event {
+  prompt: () => Promise<void>;
+  userChoice: Promise<{ outcome: "accepted" | "dismissed" }>;
+}
+
+interface NavigatorWithStandalone extends Navigator {
+  standalone?: boolean;
+}
+
 export function PwaInstallPrompt() {
-  const [deferredPrompt, setDeferredPrompt] = useState<any>(null);
+  const [deferredPrompt, setDeferredPrompt] = useState<BeforeInstallPromptEvent | null>(null);
   const [isStandalone, setIsStandalone] = useState(false);
   const [isIOS, setIsIOS] = useState(false);
   const [showPrompt, setShowPrompt] = useState(false);
@@ -14,9 +23,10 @@ export function PwaInstallPrompt() {
   useEffect(() => {
     // 1. Check if already in standalone (app) mode
     const checkStandalone = () => {
+      const nav = window.navigator as NavigatorWithStandalone;
       const isStandaloneMode =
         window.matchMedia("(display-mode: standalone)").matches ||
-        (window.navigator as any).standalone === true ||
+        nav.standalone === true ||
         document.referrer.includes("android-app://");
       setIsStandalone(Boolean(isStandaloneMode));
       return isStandaloneMode;
@@ -45,7 +55,7 @@ export function PwaInstallPrompt() {
     // 4. Listen for Chrome/Android `beforeinstallprompt`
     const handleBeforeInstall = (e: Event) => {
       e.preventDefault();
-      setDeferredPrompt(e);
+      setDeferredPrompt(e as BeforeInstallPromptEvent);
       setShowPrompt(true);
     };
 

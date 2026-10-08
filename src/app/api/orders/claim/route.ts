@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
 import { createAdminClient } from "@/lib/supabase/admin";
+import { logError } from "@/lib/kernel/log";
 import { verifyApiAuth } from "@/lib/security/apiAuth";
 import { verifyOrderToken } from "@/lib/security/linkToken";
 import { checkRateLimit } from "@/lib/security/rateLimiter";
@@ -52,7 +53,7 @@ export async function POST(req: Request) {
     .select("id");
 
   if (error) {
-    console.error("Order claim error:", error.message);
+    logError("Order claim error:", error);
     return NextResponse.json({ error: "Siparişler hesaba bağlanamadı" }, { status: 500 });
   }
 

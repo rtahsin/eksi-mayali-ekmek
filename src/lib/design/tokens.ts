@@ -24,15 +24,15 @@ export const ATELIER_CREAM = {
 } as const;
 
 /**
- * Atölye Gece Paleti: "Kâğıdın gece hali" (I-02)
- * Koyu kahve zemin, krem yazı, açık terakota vurgu.
+ * Atölye Gece Paleti: "Obsidyen & Fırın Közü" (OLED Derinliği)
+ * Zemin #0E0D0C, kart #181715, mürekkep #F8F4EE, ikincil #9E9387, çizgi #2A2724, vurgu #E07A5F.
  */
 export const ATELIER_NIGHT = {
-  bg: "#1E1614",
-  surface: "#281E1A",
-  ink: "#F6EEDF",
-  inkMuted: "#CBBBAE",
-  line: "#3D2D27",
+  bg: "#0E0D0C",
+  surface: "#181715",
+  ink: "#F8F4EE",
+  inkMuted: "#9E9387",
+  line: "#2A2724",
   accent: "#E07A5F",
   // Yardımcı durum ve fırın gösterge renkleri
   good: "#82A358",

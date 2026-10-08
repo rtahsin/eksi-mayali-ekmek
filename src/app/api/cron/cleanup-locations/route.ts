@@ -1,13 +1,14 @@
 import { NextResponse } from "next/server";
 import crypto from "crypto";
 import { createAdminClient } from "@/lib/supabase/admin";
+import { logError, logWarn } from "@/lib/kernel/log";
 
 export async function GET(req: Request) {
   try {
     // 1. Cron Secret Doğrulaması (Fail-closed & Timing-attack safe)
     const cronSecret = process.env.CRON_SECRET;
     if (!cronSecret) {
-      console.error("CRON_SECRET ortam değişkeni sunucuda yapılandırılmamış!");
+      logError("CRON_SECRET ortam değişkeni sunucuda yapılandırılmamış!");
       return NextResponse.json(
         { error: "Sunucu yapılandırma hatası: CRON_SECRET eksik" },
         { status: 500 }
@@ -53,7 +54,7 @@ export async function GET(req: Request) {
         .lt("created_at", thresholdDate);
 
       if (deleteError) {
-        console.error("Konum tablosu temizleme hatası:", deleteError);
+        logError("Konum tablosu temizleme hatası:", deleteError);
       } else {
         deletedLocationsCount = count ?? 0;
       }
@@ -76,7 +77,7 @@ export async function GET(req: Request) {
       .lt("delivered_at", thresholdDate);
 
     if (ordersCleanErr) {
-      console.warn("Orders table location cleanup warning:", ordersCleanErr);
+      logWarn("Orders table location cleanup warning:", { error: ordersCleanErr });
     }
 
     // 4. rate_limit_buckets temizliği (24 saatten eski)
@@ -88,7 +89,7 @@ export async function GET(req: Request) {
       .lt("updated_at", rateLimitThreshold);
 
     if (rateLimitErr) {
-      console.warn("Rate limit buckets cleanup warning:", rateLimitErr);
+      logWarn("Rate limit buckets cleanup warning:", { error: rateLimitErr });
     } else {
       deletedRateLimitsCount = rateLimitCount ?? 0;
     }
@@ -102,7 +103,7 @@ export async function GET(req: Request) {
       .lt("created_at", funnelThreshold);
 
     if (funnelErr) {
-      console.warn("Funnel events cleanup warning:", funnelErr);
+      logWarn("Funnel events cleanup warning:", { error: funnelErr });
     } else {
       deletedFunnelEventsCount = funnelCount ?? 0;
     }
@@ -118,7 +119,7 @@ export async function GET(req: Request) {
     });
   } catch (err: unknown) {
     const message = err instanceof Error ? err.message : "Bilinmeyen sunucu hatası";
-    console.error("Cleanup cron exception:", err);
+    logError("Cleanup cron exception:", err);
     return NextResponse.json({ error: message }, { status: 500 });
   }
 }

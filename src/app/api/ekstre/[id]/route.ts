@@ -5,6 +5,7 @@ import { checkRateLimit, getClientIp } from "@/lib/security/rateLimiter";
 import { signSlipToken, verifyAccountToken } from "@/lib/security/linkToken";
 import { LEDGER_SELECT, mapLedger, type LedgerRow } from "@/lib/cari/ledger";
 import { getErrorMessage } from "@/lib/utils/error";
+import { logError } from "@/lib/kernel/log";
 
 const notFound = () => NextResponse.json({ error: "Ekstre bulunamadı" }, { status: 404 });
 
@@ -62,7 +63,7 @@ export async function GET(req: Request, { params }: { params: Promise<{ id: stri
       { headers: { "Cache-Control": "private, no-store" } }
     );
   } catch (err: unknown) {
-    console.error("GET /api/ekstre/[id]:", err);
+    logError("GET /api/ekstre/[id]:", err);
     return NextResponse.json({ error: getErrorMessage(err) }, { status: 500 });
   }
 }

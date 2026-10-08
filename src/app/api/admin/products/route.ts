@@ -3,6 +3,7 @@ import { z } from "zod";
 import { requireAdmin } from "@/lib/security/apiAuth";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { getErrorMessage } from "@/lib/utils/error";
+import { logError } from "@/lib/kernel/log";
 import { getCatalog } from "@/lib/products/server";
 import { slugify } from "@/lib/utils/slugify";
 import { isIsoDate, istanbulToday } from "@/lib/time/istanbul";
@@ -220,7 +221,7 @@ export async function POST(request: Request) {
 
     return NextResponse.json({ success: true, id, slug });
   } catch (err: unknown) {
-    console.error("POST /api/admin/products:", err);
+    logError("POST /api/admin/products:", err);
     return NextResponse.json({ error: getErrorMessage(err) || "Kaydetme hatası" }, { status: 500 });
   }
 }
@@ -243,7 +244,7 @@ export async function DELETE(request: Request) {
     if (error) throw error;
     return NextResponse.json({ success: true, id });
   } catch (err: unknown) {
-    console.error("DELETE /api/admin/products:", err);
+    logError("DELETE /api/admin/products:", err);
     return NextResponse.json({ error: getErrorMessage(err) || "Arşivleme hatası" }, { status: 500 });
   }
 }

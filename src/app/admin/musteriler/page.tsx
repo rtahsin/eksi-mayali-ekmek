@@ -27,11 +27,11 @@ import Link from "next/link";
 
 interface RegisteredProfile {
   id: string;
-  email: string;
-  full_name?: string;
-  phone?: string;
-  role?: string;
-  avatar_url?: string;
+  email: string | null;
+  full_name?: string | null;
+  phone?: string | null;
+  role?: string | null;
+  avatar_url?: string | null;
   created_at: string;
 }
 
@@ -144,22 +144,22 @@ export default function AdminCustomersPage() {
 
       if (matchKey) {
         map[matchKey].isMudavim = true;
-        map[matchKey].email = prof.email;
-        map[matchKey].avatarUrl = prof.avatar_url;
+        map[matchKey].email = prof.email || undefined;
+        map[matchKey].avatarUrl = prof.avatar_url || undefined;
         map[matchKey].id = prof.id;
         if (!map[matchKey].name || map[matchKey].name === "İsimsiz") {
-          map[matchKey].name = prof.full_name || prof.email.split("@")[0];
+          map[matchKey].name = prof.full_name || (prof.email ? prof.email.split("@")[0] : "Kayıtlı Müşteri");
         }
       } else {
         // Registered profile without orders yet
-        const profKey = profCleanPhone || prof.email;
+        const profKey = profCleanPhone || prof.email || prof.id;
         if (!map[profKey]) {
           map[profKey] = {
             id: prof.id,
             phone: prof.phone || "",
-            name: prof.full_name || prof.email.split("@")[0],
-            email: prof.email,
-            avatarUrl: prof.avatar_url,
+            name: prof.full_name || (prof.email ? prof.email.split("@")[0] : "Kayıtlı Müşteri"),
+            email: prof.email || undefined,
+            avatarUrl: prof.avatar_url || undefined,
             isMudavim: true,
             neighborhood: "Kayıtlı Üye",
             address: "Adres girilmedi",

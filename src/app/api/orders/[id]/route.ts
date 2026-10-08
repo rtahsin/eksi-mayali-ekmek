@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { getErrorMessage } from "@/lib/utils/error";
+import { logError } from "@/lib/kernel/log";
 import { verifyApiAuth } from "@/lib/security/apiAuth";
 import { checkRateLimit, getClientIp } from "@/lib/security/rateLimiter";
 import { parseOrderLookup } from "@/lib/orders/orderId";
@@ -151,7 +152,7 @@ export async function GET(req: Request, props: { params: Promise<{ id: string }>
 
     return NextResponse.json({ success: true, order: result }, { headers: { "Cache-Control": "no-store" } });
   } catch (err: unknown) {
-    console.error("GET /api/orders/[id] error:", err);
+    logError("GET /api/orders/[id] error:", err);
     return NextResponse.json(
       { error: "Sipariş bilgileri şu an alınamadı. Lütfen tekrar deneyin.", code: "SERVER_ERROR" },
       { status: 500 }

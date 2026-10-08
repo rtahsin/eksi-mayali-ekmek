@@ -3,6 +3,7 @@ import { z } from "zod";
 import { requireAdmin } from "@/lib/security/apiAuth";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { getErrorMessage } from "@/lib/utils/error";
+import { logError } from "@/lib/kernel/log";
 import { isIsoDate } from "@/lib/time/istanbul";
 import { signSlipToken } from "@/lib/security/linkToken";
 import { SITE_URL } from "@/lib/site";
@@ -177,7 +178,7 @@ export async function POST(request: Request) {
     });
   } catch (err: unknown) {
     // Kesin kural: atomik RPC başarısızsa parçalı yedek yol YOK (AGENTS.md §6)
-    console.error("POST /api/admin/cari/transactions:", err);
+    logError("POST /api/admin/cari/transactions:", err);
     return NextResponse.json({ error: getErrorMessage(err) || "Hareket kaydedilemedi" }, { status: 500 });
   }
 }
