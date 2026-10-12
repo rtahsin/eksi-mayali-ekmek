@@ -1,0 +1,480 @@
+{
+ "consensus": [
+  {
+   "claim_tr": "Hamur sıcaklığı yükseldikçe fermantasyon genellikle hızlanır ve bulk/son prova süresi kısalır; bu ilişki starter oranı, un türü ve hamurun başlangıçtaki fermantasyon durumuna bağlıdır.",
+   "strength": "B_orta",
+   "n_supporting": 5,
+   "source_ids": [
+    "W32",
+    "W34",
+    "W35",
+    "W44",
+    "W24"
+   ]
+  },
+  {
+   "claim_tr": "Katlama ve germe-katlama hamur kuvvetini ve işlenebilirliği artırabilir; ancak katlama sayısı arttıkça hamur sıkılaşabilir ve açık iç yapı üzerindeki sonuç yönteme ve hamura göre değişebilir.",
+   "strength": "B_orta",
+   "n_supporting": 6,
+   "source_ids": [
+    "W19",
+    "W23",
+    "W28",
+    "W32",
+    "W39",
+    "W40"
+   ]
+  },
+  {
+   "claim_tr": "Yoğurmama yöntemi uygun fermantasyon ve formül koşullarında başarılı ekmek verebilir; bazı karşılaştırmalarda kırıntı katlamalı veya mikserle işlenmiş hamurdan biraz daha sıkı bulunurken, başka karşılaştırmalarda belirgin fark görülmemiştir.",
+   "strength": "C_zayıf",
+   "n_supporting": 4,
+   "source_ids": [
+    "W23",
+    "W28",
+    "W29",
+    "W40"
+   ]
+  },
+  {
+   "claim_tr": "Hidrasyonu artırmak kırıntıyı daha açık ve nemli yapabilir; buna karşılık somun yüksekliği, fırın yayı veya skor açılması azalabilir. Sonuç unun özelliklerine ve hamurun yapısal dayanımına bağlıdır.",
+   "strength": "B_orta",
+   "n_supporting": 4,
+   "source_ids": [
+    "W22",
+    "W23",
+    "W30",
+    "W36"
+   ]
+  },
+  {
+   "claim_tr": "Pişirmenin başlangıcında buharı somun çevresinde tutmak veya kapaklı kap kullanmak, kuru/açık pişirmeye kıyasla fırın yayılmasını ve kabuk gelişimini destekleyebilir; kırıntı farkı her karşılaştırmada görülmez.",
+   "strength": "B_orta",
+   "n_supporting": 6,
+   "source_ids": [
+    "W11",
+    "W12",
+    "W20",
+    "W38",
+    "W45",
+    "W14"
+   ]
+  },
+  {
+   "claim_tr": "Soğuk fermantasyon mayayı yavaşlatır fakat fermantasyon tamamen durmayabilir; süre uzadıkça aşırı mayalanma ve gluten/gaz tutma kaybı riski artabilir.",
+   "strength": "B_orta",
+   "n_supporting": 6,
+   "source_ids": [
+    "W3",
+    "W32",
+    "W34",
+    "W36",
+    "W37",
+    "W8"
+   ]
+  },
+  {
+   "claim_tr": "Soğuk bekletmenin lezzet üzerindeki etkisi süreyle düzenli biçimde artmayabilir: bazı denemelerde daha derin veya ekşi tat bildirilirken, bazılarında fark az ya da yoktur; çok uzun bekletme bazı hamurlarda kaliteyi düşürmüştür.",
+   "strength": "B_orta",
+   "n_supporting": 5,
+   "source_ids": [
+    "W5",
+    "W6",
+    "W8",
+    "W34",
+    "W37"
+   ]
+  },
+  {
+   "claim_tr": "Daha yüksek starter besleme oranı, starterin tepeye ulaşmasını uzatabilir; starter miktarını ve besleme oranını değiştirmenin sonucu sıcaklık ve kültür özellikleriyle birlikte değerlendirilmelidir.",
+   "strength": "B_orta",
+   "n_supporting": 3,
+   "source_ids": [
+    "W9",
+    "W18",
+    "W44"
+   ]
+  },
+  {
+   "claim_tr": "Otoliz hamurun uzayabilirliğini artırabilir ve gereken karıştırma süresini azaltabilir; çok uzun otoliz, özellikle taze öğütülmüş veya yüksek enzim etkinlikli unlarda, hamuru zayıflatabilir.",
+   "strength": "C_zayıf",
+   "n_supporting": 2,
+   "source_ids": [
+    "W15",
+    "W17"
+   ]
+  },
+  {
+   "claim_tr": "Ticari maya eklemek fermantasyonu hızlandırabilir ve zamanlamayı öngörülebilir kılabilir; yüksek doz veya soğukta uzun bekletme aşırı mayalanma riskini artırabilir.",
+   "strength": "B_orta",
+   "n_supporting": 3,
+   "source_ids": [
+    "W16",
+    "W21",
+    "W4"
+   ]
+  }
+ ],
+ "quantitative": [
+  {
+   "quantity_tr": "Yoğurmama yöntemi için belirtilen uzun fermantasyon süresi",
+   "value_or_range": "12 saat veya daha uzun; soğuk fermantasyon bazen günlere uzayabilir",
+   "unit": "saat/gün",
+   "conditions_tr": "Yoğurmama yöntemi için genel yöntem açıklaması; W45'teki süre kontrollü deney sonucu değil.",
+   "source_ids": [
+    "W45"
+   ]
+  },
+  {
+   "quantity_tr": "Yoğurmama hamurunda yaklaşık hidrasyon",
+   "value_or_range": "Yaklaşık %75",
+   "unit": "un ağırlığına göre yüzde",
+   "conditions_tr": "Yüksek hidrasyonun moleküler hareketliliği ve kendiliğinden hizalanmayı artırdığına ilişkin kaynak açıklaması.",
+   "source_ids": [
+    "W45"
+   ]
+  },
+  {
+   "quantity_tr": "Hamurda tuz oranı",
+   "value_or_range": "Yaklaşık %2",
+   "unit": "un ağırlığına göre yüzde",
+   "conditions_tr": "Yaklaşık %75 hidrasyonlu hamurla ilgili yöntem açıklaması; geleneksel hamurlara göre daha fazla tuz gerektiği iddiası deneysel ölçüm olarak verilmemiştir.",
+   "source_ids": [
+    "W45",
+    "W7",
+    "W28",
+    "W31"
+   ]
+  },
+  {
+   "quantity_tr": "Hidrasyon artışının somun özellikleriyle karşılaştırıldığı aralık",
+   "value_or_range": "%82'den %92'ye",
+   "unit": "un ağırlığına göre yüzde",
+   "conditions_tr": "Taze öğütülmüş tam tahıllı hard red spring ve white Sonora karışımı; no-knead ekşi mayalı hamur. Fırın yayı ve skor açılması azalmış; kırıntı açıklığı ve nemi artmış; kabuk incelmiş.",
+   "source_ids": [
+    "W22"
+   ]
+  },
+  {
+   "quantity_tr": "Hidrasyon artışının ikinci karşılaştırması",
+   "value_or_range": "%74'ten %82'ye",
+   "unit": "un ağırlığına göre yüzde",
+   "conditions_tr": "Ekmek unu denemesi; %82 hamurda otoliz yapılmamış ve iki katlama uygulanmış; yükseklik/fırın yayı azalmış, kırıntı açıklığı artmıştır.",
+   "source_ids": [
+    "W23"
+   ]
+  },
+  {
+   "quantity_tr": "Bulk fermantasyonu için sıcaklığa bağlı yaklaşık süreler",
+   "value_or_range": "18°C: 7–9; 20°C: 6–8; 22°C: 5–6,5; 24°C: 4–5; 26°C: 3,5–4,5; 28°C: 3–3,5; 30°C: 2–3",
+   "unit": "saat",
+   "conditions_tr": "Yaklaşık %20 inokülasyonlu aktif starter, %70–78 hidrasyonlu beyaz/ağırlıklı beyaz hamur; son hamur sıcaklığı ortam sıcaklığına yakın.",
+   "source_ids": [
+    "W34"
+   ]
+  },
+  {
+   "quantity_tr": "Hamur sıcaklığına göre önerilen bulk süresi ve hedef kabarma",
+   "value_or_range": "65°F: 8–12 saat ve %75–100; 70°F: 6–9 saat ve %50–75; 75°F: 4–6 saat ve %30–50; 80°F: 3–4 saat ve %25–30; 85°F: 2–3 saat ve %20–25",
+   "unit": "saat ve başlangıç hacmine göre yüzde",
+   "conditions_tr": "Kaynağın çizelgesi %20 starter varsayımıyla verilmiştir.",
+   "source_ids": [
+    "W32"
+   ]
+  },
+  {
+   "quantity_tr": "Sıcaklık değişimine ilişkin genel fermantasyon kuralı",
+   "value_or_range": "Her 5°C artışta aktivite yaklaşık 2 katına çıkar; ayrıca 10°C artış için Q10 yaklaşık 2,4 olarak aktarılmıştır",
+   "unit": "aktivite katsayısı",
+   "conditions_tr": "Genel/pratik tahminlerdir; belirli starter ve un için kontrollü ölçüm değildir. Q10, yaklaşık 16–27°C aralığı için planlayıcı tarafından türetilmiştir.",
+   "source_ids": [
+    "W34",
+    "W44"
+   ]
+  },
+  {
+   "quantity_tr": "Bulk sıcaklığına bağlı hamur yükselmesi için örnek eşikler",
+   "value_or_range": "65°F'de %75–100; 70°F'de %50–75; 75°F'de %30–50; 80°F'de %25–30; 85°F'de %20–25",
+   "unit": "başlangıç hacmine göre yüzde",
+   "conditions_tr": "20% starter varsayımına dayalı çizelge; sıcaklık yükseldikçe şekillendirme öncesi hedef kabarma azalıyor.",
+   "source_ids": [
+    "W32"
+   ]
+  },
+  {
+   "quantity_tr": "Soğukta bekletme süresinin uzatıldığı hamur örnekleri",
+   "value_or_range": "Yaklaşık 12–24 saat; 36–48 saat; bazı denemelerde 72–80 saat",
+   "unit": "saat",
+   "conditions_tr": "Farklı tarif, aşama ve sıcaklıklarda yapılan uygulayıcı denemeleri; tat, doku ve aşırı fermantasyon sonuçları tutarlı değildir.",
+   "source_ids": [
+    "W5",
+    "W7",
+    "W8",
+    "W37"
+   ]
+  },
+  {
+   "quantity_tr": "Starter besleme oranıyla tepeye ulaşma süresi",
+   "value_or_range": "1:1:1: yaklaşık 4 saat; 1:2:2: yaklaşık 8 saat; 1:4:4: yaklaşık 12 saat",
+   "unit": "saat",
+   "conditions_tr": "Oran starter:un:su ve ağırlık esaslı; 78°F'de tutulan bir olgun starterın uygulayıcı denemesi. Başka bir kaynakta 1:4:4 için 12 saat bildirilmiştir.",
+   "source_ids": [
+    "W18",
+    "W44"
+   ]
+  },
+  {
+   "quantity_tr": "Starter inokülasyon oranına göre bulk süreleri",
+   "value_or_range": "%5: 8–12 saat; %10: 6–8 saat; %20: 4–6 saat; %25: 3–5 saat; %30 ve üzeri: 2–4 saat",
+   "unit": "starter yüzdesi ve saat",
+   "conditions_tr": "75°F'de verilen tahmini çizelge.",
+   "source_ids": [
+    "W32"
+   ]
+  },
+  {
+   "quantity_tr": "Şekillendirilmiş ekşi mayalı hamurun soğuk son provası",
+   "value_or_range": "2–4°C'de 12–16 saat standart; 16–24 saat uzatılmış; 5–7°C'de 8–14 saat",
+   "unit": "°C ve saat",
+   "conditions_tr": "Uygulayıcı rehberi; sıcaklık yükseldikçe fermantasyon ve aşırı prova riski artar. 4–5°C'de yaklaşık 20 saati aşan bekletme için de risk uyarısı verilmiştir.",
+   "source_ids": [
+    "W34",
+    "W36",
+    "W37"
+   ]
+  },
+  {
+   "quantity_tr": "Fırında buharı/kapalı ortamı tutma süresi",
+   "value_or_range": "İlk 15–25 dakika; örnek programlarda 20 dakika kapalı, ardından 20–25 dakika kapaksız",
+   "unit": "dakika",
+   "conditions_tr": "Dutch oven, metal kase veya benzeri kapaklı düzenek; kaynaklara göre sıcaklık ve son pişirme süresi değişir.",
+   "source_ids": [
+    "W11",
+    "W14",
+    "W20",
+    "W38"
+   ]
+  },
+  {
+   "quantity_tr": "Baguette'in pişirme sırasındaki ağırlık kaybı",
+   "value_or_range": "Yaklaşık %15",
+   "unit": "başlangıç ağırlığının yüzdesi",
+   "conditions_tr": "Pişirme sırasında su kaybına ilişkin genel uygulayıcı kuralı.",
+   "source_ids": [
+    "W31"
+   ]
+  },
+  {
+   "quantity_tr": "Dutch oven ile taş ve buhar tepsisinde gözlenen kabuk kalınlığı",
+   "value_or_range": "Dutch oven: yaklaşık 2–3 mm; taş+buhar: yaklaşık 4–5 mm; buharsız taş: 5–7 mm",
+   "unit": "mm",
+   "conditions_tr": "%78 hidrasyonlu hamurla yapılan uygulayıcı karşılaştırması ve aynı kaynaktaki tablo; bir ölçüm anlatımında Dutch oven yaklaşık 3 mm, taş yaklaşık 5 mm olarak verilmiştir.",
+   "source_ids": [
+    "W38"
+   ]
+  }
+ ],
+ "moderators_tr": [
+  "Hamur sıcaklığı; küçük aliquot örnekleri ana hamurdan daha hızlı ısınıp soğuyabileceğinden ölçüm temsil gücü.",
+  "Starter inokülasyon oranı, starterın olgunluğu ve besleme oranı.",
+  "Un türü ve protein gücü; tam tahıl/çavdar oranı, taze öğütülmüş un ve enzim etkinliği.",
+  "Hamur hidrasyonu ve başlangıçtaki gluten gelişimi; yüksek hidrasyon genellikle daha fazla katlama gerektirebilir.",
+  "Soğuk fermantasyonun bulkta mı yoksa şekillendirmeden sonra mı yapıldığı ve hamurun buzdolabına girmeden önceki fermantasyon düzeyi.",
+  "Buzdolabı sıcaklığı ve hamurun soğuma hızı; sıcak hamur soğurken fermantasyon bir süre daha devam edebilir.",
+  "Soğuk bekletme süresi: kısa ve orta süreler ile çok uzun sürelerin tat, yapı ve aşırı mayalanma sonuçları aynı değildir.",
+  "Yoğurma, otoliz, katlama sayısı ve zamanlaması; aşırı işleme açık kırıntıyı azaltabilir.",
+  "Pişirme düzeneği, ilk aşamadaki buharın miktarı ve süresi, kapak kullanımı ve son pişirme sıcaklığı.",
+  "Karşılaştırmaların tek somun/tek fırıncı gözlemine dayanması, şekillendirme farkları ve tadımcı sayısı."
+ ],
+ "conflicts": [
+  {
+   "issue_tr": "Daha uzun soğuk fermantasyonun lezzeti artırıp artırmadığı konusunda sonuçlar uyuşmuyor: bazı denemelerde ekşilik/karmaşıklık artarken bazılarında fark az veya yok; bazı uzun bekletmeler daha kötü doku vermiştir.",
+   "likely_reason_tr": "Sıcaklık, süre, hamurun aşamaya girmeden önceki fermantasyon düzeyi, starter/inokülasyon, un ve formül farklıdır; bazı karşılaştırmalar nitel ve tek kişilik değerlendirmelerdir.",
+   "source_ids": [
+    "W5",
+    "W6",
+    "W8",
+    "W34",
+    "W37"
+   ]
+  },
+  {
+   "issue_tr": "Daha yüksek hidrasyonun somun yüksekliği/fırın yayı üzerindeki etkisi bazı denemelerde azalma yönündeyken, yüksek hidrasyonlu yavaş fermantasyonun açık gözenek yapısına eğilim verdiği de bildirilmiştir.",
+   "likely_reason_tr": "Unun su tutma ve gaz tutma gücü, gluten yapısı, katlama/otoliz yöntemi ve fermantasyon derecesi farklıdır; kırıntı açıklığı ile somun yüksekliği aynı sonuç ölçütü değildir.",
+   "source_ids": [
+    "W22",
+    "W23",
+    "W30",
+    "W36"
+   ]
+  },
+  {
+   "issue_tr": "Yoğurmama, katlama ve mikser uygulamalarının kırıntı yapısı üzerindeki karşılaştırmalı sonuçları tutarlı değildir.",
+   "likely_reason_tr": "Un ve hidrasyon, katlama sayısı, bulk süresi ve hamur gücü değişmiştir; bazı kaynaklar yan yana test, bazıları ikincil özet veya kişisel gözlemdir.",
+   "source_ids": [
+    "W23",
+    "W28",
+    "W29",
+    "W39"
+   ]
+  },
+  {
+   "issue_tr": "Tam buğday/çavdar ununun fermantasyon hızına veya starter yükselmesine etkisi kaynaklar arasında değişmektedir.",
+   "likely_reason_tr": "Un türü, starter kültürü, sıcaklık, olgunluk ve kıvam farklıdır; gözlemlerin bir kısmı kontrollü karşılaştırma değildir.",
+   "source_ids": [
+    "W24",
+    "W32",
+    "W9"
+   ]
+  },
+  {
+   "issue_tr": "Kapaklı pişirme ile taşta açık buharlı pişirmenin kırıntı üzerindeki etkisi her zaman farklı bulunmamıştır; buna karşın kabuk ölçütlerinde farklar bildirilmiştir.",
+   "likely_reason_tr": "Buhar miktarı ve somun çevresinde tutulması, fırın sıcaklığı ve karşılaştırılan sonuç ölçütü (kabuk veya kırıntı) değişmektedir.",
+   "source_ids": [
+    "W38",
+    "W11",
+    "W12",
+    "W20"
+   ]
+  }
+ ],
+ "simulation_rules": [
+  {
+   "rule_tr": "Fermantasyon hızını sıcaklığa bağlı artır; süreyi hedef dönüşüm miktarına göre ters orantılı olarak azalt. Starter oranını ayrıca hızlandırıcı olarak kullan.",
+   "functional_form": "Yaklaşık Q10/Arrhenius benzeri sıcaklık çarpanı; inokülasyon oranıyla artan, pratik çizelgelerle kalibre edilen hız.",
+   "param_suggestions": "Yaklaşık 16–27°C aralığında Q10 ≈ 2,4 (türetilmiş tahmin); alternatif genel kural her 5°C'de yaklaşık 2 kat aktivite. %20 starter için W34 ve W32 süre çizelgeleri başlangıç kalibrasyonu olabilir.",
+   "source_ids": [
+    "W32",
+    "W34",
+    "W44"
+   ]
+  },
+  {
+   "rule_tr": "Soğutmaya geçişte hamur sıcaklığı anında buzdolabı sıcaklığına eşitlenmemeli; soğuma süresince artık fermantasyonu hesaba kat.",
+   "functional_form": "Isıl geçiş modeliyle sıcaklık düşerken zamana bağlı azalan fermantasyon hızı; hamur sıcaklığına bağlı gecikmeli soğuma.",
+   "param_suggestions": "W32'de 40°F buzdolabına konan 80°F hamur için ek %15–20, 65°F hamur için ek yaklaşık %5 yükselme gözlemi başlangıç aralığıdır.",
+   "source_ids": [
+    "W32"
+   ]
+  },
+  {
+   "rule_tr": "Soğuk fermantasyonda süre uzadıkça lezzet/organik asit gelişimini artır, fakat uzun sürede gluten gücü ve gaz tutma kaybı ile aşırı prova riskini de artır; tat etkisini tekdüze kabul etme.",
+   "functional_form": "Lezzet için sıcaklığa bağlı yavaş artış ve olası doyum; yapı için gecikmeli eşik/bozulma riski. Sonuç, başlangıç fermentasyon düzeyine bağlı olmalıdır.",
+   "param_suggestions": "Şekillendirilmiş somun için 2–4°C'de 12–16 saat standart, 16–24 saat uzatılmış aralık; 36–48 saatte sonuç hamurun ön fermantasyonuna bağlı; 4–5°C'de yaklaşık 20 saati aşmak riskli olabilir. Bunlar kaynaklardaki uygulayıcı aralıklarıdır, evrensel eşik değildir.",
+   "source_ids": [
+    "W8",
+    "W34",
+    "W36",
+    "W37"
+   ]
+  },
+  {
+   "rule_tr": "Katlamayı hamur hidrasyonu ve mevcut kuvvete bağlı uygula; katlama hamur gücünü artırırken çok sayıda/çok geç katlama sıkılaşma ve daha kapalı kırıntı oluşturabilir.",
+   "functional_form": "İlk katlamalarda artan, yeterli kuvvetten sonra doyuma ulaşan güç fonksiyonu; aşırı katlamada kırıntı açıklığı için azalan etki.",
+   "param_suggestions": "W32'nin %20 starter ve 75°F örneğindeki 30 dakika arayla 3 seti temel senaryo olarak kullan; %80 ve üzeri hidrasyonda en az 3 katlama önerisi W39'da geçer. Bu sayılar farklı formüllerde sabit reçete değildir.",
+   "source_ids": [
+    "W14",
+    "W19",
+    "W32",
+    "W39"
+   ]
+  },
+  {
+   "rule_tr": "Hidrasyon artışını kırıntı açıklığı/neminde artış; hamur dayanımı ve somun yüksekliğinde ise un gücüne bağlı olumsuz veya nötr etki olarak kodla.",
+   "functional_form": "Sonuç değişkenine ve un/hamur gücüne bağlı etkileşimli, doğrusal olmayan yanıt; tek yönlü evrensel katsayı kullanma.",
+   "param_suggestions": "Kaynak karşılaştırma noktaları %74→%82 ve %82→%92'dir; bunlarda daha açık kırıntı bildirilmiş, iki karşılaştırmada da yükseklik/fırın yayı azalmıştır.",
+   "source_ids": [
+    "W22",
+    "W23"
+   ]
+  },
+  {
+   "rule_tr": "Pişirmenin ilk bölümünde buhar veya kapakla nemi somun çevresinde tut; sonrasında kapağı kaldırıp kuru pişirmeye geç.",
+   "functional_form": "İlk pişirme aşamasında kabuk setini geciktiren, süreye bağlı buhar etkisi; buharı tüm pişirme boyunca sürdürmede aşırı nem cezası.",
+   "param_suggestions": "Kaynaklarda ilk buharlı/kapalı aşama yaklaşık 15–25 dakika; bazı örneklerde 20 dakika kapalı, ardından 20–25 dakika kapaksızdır. Etki büyüklüğü nicel olarak genellenemez.",
+   "source_ids": [
+    "W11",
+    "W14",
+    "W20",
+    "W38"
+   ]
+  },
+  {
+   "rule_tr": "Starter besleme oranı yükseldikçe tepeye ulaşma süresini uzat; sıcaklığı ayrı bir değişken olarak tut.",
+   "functional_form": "Besleme oranıyla artan tepe süresi; eldeki verilerde yaklaşık monoton, ancak kültür ve sıcaklıkla değişen ilişki.",
+   "param_suggestions": "78°F'deki örnek: 1:1:1 yaklaşık 4 saat, 1:2:2 yaklaşık 8 saat, 1:4:4 yaklaşık 12 saat. Oran starter:un:su ve ağırlık esaslıdır.",
+   "source_ids": [
+    "W18",
+    "W44"
+   ]
+  },
+  {
+   "rule_tr": "Otoliz karıştırma ihtiyacını azaltıp uzayabilirliği artırabilir; uzun otoliz için un enzim etkinliğine bağlı zayıflama cezası ekle.",
+   "functional_form": "Kısa/orta dinlenmede yarar ve uzadıkça azalan getiri; uzun süre veya yüksek enzim etkinliğinde eşik sonrası hamur gücü düşüşü.",
+   "param_suggestions": "Kaynakta çoğunlukla beyaz unlu ekmekler için 1 saat tercih edildiği; bazı yüksek proteinli/eski öğütülmüş tam buğday hamurlarında 2 saat veya daha uzun sürelerin düşünülebildiği belirtiliyor. Kesin optimum verilmemiştir.",
+   "source_ids": [
+    "W15"
+   ]
+  }
+ ],
+ "gaps_tr": [
+  "Çoğu bulgu kontrollü, tekrarlı ve körlenmiş deneylerden değil; tek fırıncı veya az sayıda somun gözleminden geliyor.",
+  "Lezzet, ekşilik, kırıntı açıklığı, somun yüksekliği, gluten gücü ve gaz tutma için ortak ve nicel ölçüm protokolleri yok.",
+  "Soğuk fermantasyon süresi karşılaştırmalarında hamur sıcaklığı, buzdolabı sıcaklığı, inokülasyon ve soğutma hızı çoğu zaman raporlanmamış.",
+  "Hidrasyon etkisi un protein düzeyi, unun öğütülme/tazelik durumu ve tam tahıl oranına göre yeterince ayrıştırılmamış.",
+  "No-knead, katlama, yoğurma ve otoliz karşılaştırmalarında tüm değişkenleri eşitleyen tekrar deneyleri az.",
+  "Buhar miktarı, nem düzeyi ve kabuk gelişimi arasındaki ilişki için ölçülmüş nem/sıcaklık profilleri ve tekrarlı nicel sonuçlar eksik.",
+  "Starter besleme oranı, un türü ve sıcaklığın kültür olgunluğu ile etkileşimini karşılaştıran standartlaştırılmış veriler sınırlı.",
+  "Kaynaklardaki pratik süre ve sıcaklık çizelgeleri farklı tarifler arasında doğrudan aktarılabilecek evrensel eşikler olarak doğrulanmamıştır."
+ ],
+ "tid": "T25",
+ "name": "Fırıncı deneyimleri ve uygulamalı testler",
+ "n_sources": 44,
+ "n_findings": 269,
+ "theme_source_ids": [
+  "W1",
+  "W10",
+  "W11",
+  "W12",
+  "W13",
+  "W14",
+  "W15",
+  "W16",
+  "W17",
+  "W18",
+  "W19",
+  "W2",
+  "W20",
+  "W21",
+  "W22",
+  "W23",
+  "W24",
+  "W25",
+  "W26",
+  "W28",
+  "W29",
+  "W3",
+  "W30",
+  "W31",
+  "W32",
+  "W33",
+  "W34",
+  "W35",
+  "W36",
+  "W37",
+  "W38",
+  "W39",
+  "W4",
+  "W40",
+  "W41",
+  "W42",
+  "W43",
+  "W44",
+  "W45",
+  "W5",
+  "W6",
+  "W7",
+  "W8",
+  "W9"
+ ]
+}

@@ -1,0 +1,406 @@
+{
+ "consensus": [
+  {
+   "claim_tr": "Karıştırma süresi ile hamur veya ürün performansı arasında her koşulda doğrusal bir ilişki yoktur; yetersiz karıştırmadan optimuma geçiş yarar sağlayabilirken, optimumun ötesinde karıştırma somun hacmini ve hamur yapısını olumsuz etkileyebilir.",
+   "strength": "B_orta",
+   "n_supporting": 5,
+   "source_ids": [
+    "Q36",
+    "Q31",
+    "P363",
+    "P451",
+    "P452"
+   ]
+  },
+  {
+   "claim_tr": "Aşırı karıştırma bazı buğday hamuru koşullarında gaz tutulumunu ve somun hacmini zayıflatabilir; karıştırmayı tepe noktasından sonra sürdürmek test edilen unlarda hacmi düşürmüştür.",
+   "strength": "B_orta",
+   "n_supporting": 4,
+   "source_ids": [
+    "Q36",
+    "Q31",
+    "P451",
+    "W14"
+   ]
+  },
+  {
+   "claim_tr": "Otoliz, hamurun uzayabilirliğini artırabilir ve olgunlaşma için gereken mekanik karıştırma veya yoğurma süresini azaltabilir.",
+   "strength": "B_orta",
+   "n_supporting": 2,
+   "source_ids": [
+    "W15",
+    "W17"
+   ]
+  },
+  {
+   "claim_tr": "Otolizin gereğinden uzun sürmesi, özellikle enzim etkinliğinin yüksek olabileceği unlarda, hamurun aşırı gevşemesine veya zayıflamasına yol açabilir.",
+   "strength": "B_orta",
+   "n_supporting": 2,
+   "source_ids": [
+    "W15",
+    "W31"
+   ]
+  },
+  {
+   "claim_tr": "Fermantasyon sırasındaki germe-katlama hamur kuvvetini ve gluten ağının gelişimini destekleyebilir; yoğurmasız yöntemde yeterli katlama, bazı koşullarda yoğurmaya alternatif olabilir.",
+   "strength": "B_orta",
+   "n_supporting": 5,
+   "source_ids": [
+    "W32",
+    "W19",
+    "W39",
+    "W40",
+    "W23"
+   ]
+  },
+  {
+   "claim_tr": "Katlamanın veya hamuru çalıştırmanın gereğinden fazla sürdürülmesi bazı uygulamalarda daha yoğun ve daha az açık iç doku ile ilişkilendirilmiştir; hamur yeterli kuvvete ulaştığında ek işlemin yararı sınırlı olabilir.",
+   "strength": "C_zayıf",
+   "n_supporting": 2,
+   "source_ids": [
+    "W14",
+    "W3"
+   ]
+  },
+  {
+   "claim_tr": "Uzun fermantasyon, yoğurma yapılmayan yöntemde hamurun gluten ağının gelişmesi için kullanılabilir; ancak bu bulgu genel bir fermantasyon süresi kuralı olarak değerlendirilmemelidir.",
+   "strength": "C_zayıf",
+   "n_supporting": 1,
+   "source_ids": [
+    "W45"
+   ]
+  },
+  {
+   "claim_tr": "Karıştırma hızı, süresi, iş girdisi ve mikser basıncı gibi işlem koşulları hamur boşluk oranı veya gluten içermeyen ekmeğin hacim ve dokusunu etkileyebilir; yön ve büyüklük ürün türüne ve koşullara bağlıdır.",
+   "strength": "B_orta",
+   "n_supporting": 2,
+   "source_ids": [
+    "Q36",
+    "Q13"
+   ]
+  },
+  {
+   "claim_tr": "Karıştırma ve otoliz sonuçları unun protein özellikleri, un türü, hidrasyon, ekipman ve değerlendirilen sonuca bağlıdır; farklı ürün ve yöntemlerden gelen bulgular tek bir evrensel optimuma indirgenemez.",
+   "strength": "B_orta",
+   "n_supporting": 5,
+   "source_ids": [
+    "P1161",
+    "Q31",
+    "W23",
+    "W28"
+   ]
+  }
+ ],
+ "quantitative": [
+  {
+   "quantity_tr": "Karıştırma süresi karşılaştırması",
+   "value_or_range": "1 dakika; 2 dakika 30 saniye; 7 dakika",
+   "unit": "dakika",
+   "conditions_tr": "Derlemede aktarılan karşılaştırmada sırasıyla yetersiz, optimum ve aşırı karıştırma koşulları olarak sınıflandırılmıştır.",
+   "source_ids": [
+    "Q36"
+   ]
+  },
+  {
+   "quantity_tr": "Karışma tepe noktasından sonra ek karıştırma",
+   "value_or_range": "0,6",
+   "unit": "dakika",
+   "conditions_tr": "200 g pin mikserde, tepe noktasından sonra bu kadar ek karıştırma tüm test edilen unlarda somun hacmini düşürmüştür.",
+   "source_ids": [
+    "Q31"
+   ]
+  },
+  {
+   "quantity_tr": "Tepe noktasından sonra ek karıştırmayla somun hacmi düşüşü",
+   "value_or_range": "90 rpm'de 16–50; 118 rpm'de 29–68",
+   "unit": "cm³",
+   "conditions_tr": "Protein içeriği %10,6, %12,4 ve %13,8 olan unlar; 200 g pin mikser.",
+   "source_ids": [
+    "Q31"
+   ]
+  },
+  {
+   "quantity_tr": "Yüksek proteinli unun yetersiz karıştırıldığı koşuldaki ortalama somun hacmi",
+   "value_or_range": "922",
+   "unit": "cm³",
+   "conditions_tr": "200 g pin mikserde yüksek proteinli un örneği; bu koşulda en büyük fırınlanmış somunlar elde edilmiştir.",
+   "source_ids": [
+    "Q31"
+   ]
+  },
+  {
+   "quantity_tr": "Pin mikser karıştırma süresinin mixograph süresinden farkı",
+   "value_or_range": "90 rpm'de 0,7; 104 rpm'de 1,2; 118 rpm'de 1,6 daha kısa",
+   "unit": "dakika",
+   "conditions_tr": "Yalnız un ve suyla yapılan karşılaştırmada pin mikserin süresi mixograph süresinden kısadır; hız arttıkça fark büyümüştür.",
+   "source_ids": [
+    "Q31"
+   ]
+  },
+  {
+   "quantity_tr": "Spelt hamuru için bildirilen optimum mekanik işlem süresi",
+   "value_or_range": "10",
+   "unit": "dakika",
+   "conditions_tr": "Spelt hamuru için bildirilen çalışma koşulu; başka unlara genellenemez.",
+   "source_ids": [
+    "P363"
+   ]
+  },
+  {
+   "quantity_tr": "Hamur gelişim süresi modeli ve incelenen işlem aralıkları",
+   "value_or_range": "ddt = Ef/[Pwsp - Pwsp*]; su 68–125 mL/100 g un; hız 50–110 rpm",
+   "unit": "dakika (ddt); mL/100 g un; rpm",
+   "conditions_tr": "Planet mikserde, Pwsp kritik güç değerinin üzerindeyken Pwsp arttıkça modelde ddt azalır.",
+   "source_ids": []
+  },
+  {
+   "quantity_tr": "Karıştırmayı 3 dakikadan 5 dakikaya çıkarınca GMP miktarındaki azalma",
+   "value_or_range": "Yaklaşık %20,20",
+   "unit": "%",
+   "conditions_tr": "Buğday unu hamurunun karıştırma aşamasında 3 ve 5 dakika karşılaştırması.",
+   "source_ids": [
+    "P451"
+   ]
+  },
+  {
+   "quantity_tr": "Tam buğdaylı kurabiye hamurunda incelenen karıştırma süreleri ve en iyi organizasyon",
+   "value_or_range": "1–10 dakika; en iyi organizasyon 3 dakikada",
+   "unit": "dakika",
+   "conditions_tr": "Bileşen dağılım organizasyonu 3 dakikada diğer incelenen sürelerden daha iyi bildirilmiştir.",
+   "source_ids": [
+    "P452"
+   ]
+  },
+  {
+   "quantity_tr": "Glutensiz buharda pişirilmiş ekmek için önerilen karıştırma süresi",
+   "value_or_range": "10–15",
+   "unit": "dakika",
+   "conditions_tr": "Pirinç unu veya mısır unu bazlı ürünlerde tek aşamalı üretim yöntemi.",
+   "source_ids": [
+    "P652"
+   ]
+  },
+  {
+   "quantity_tr": "Yoğurmasız yöntemde bildirilen fermantasyon süresi",
+   "value_or_range": "12 saat veya daha uzun; soğutulmuş fermantasyonda günlere uzayabilir",
+   "unit": "saat / gün",
+   "conditions_tr": "Genel no-knead yöntemi açıklaması; belirli bir tarif için sabit optimum olarak verilmemiştir.",
+   "source_ids": [
+    "W45"
+   ]
+  },
+  {
+   "quantity_tr": "Otoliz ve katlama karşılaştırmasındaki tarif koşulları",
+   "value_or_range": "%74 hidrasyon, %15 starter, yaklaşık 8 saat bulk fermantasyon, 76°F",
+   "unit": "%; saat; °F",
+   "conditions_tr": "Breadtopia Select bolted ekmek unuyla yapılan karşılaştırmada somun şekli, yüksekliği ve iç doku büyük ölçüde benzer bildirilmiştir.",
+   "source_ids": [
+    "W23"
+   ]
+  },
+  {
+   "quantity_tr": "Ayrı tam tahıllı einkorn denemesindeki hidrasyon ve starter oranı",
+   "value_or_range": "%70 hidrasyon; %28 starter",
+   "unit": "%",
+   "conditions_tr": "No-knead hamur ile otoliz ve dört katlama uygulanan hamurun karşılaştırması.",
+   "source_ids": [
+    "W23"
+   ]
+  },
+  {
+   "quantity_tr": "Fermantasyon sırasında katlama programı örneği",
+   "value_or_range": "75°F; %20 starter; 30 dakika arayla 3 set; isteğe bağlı 120. dakikada 1 set",
+   "unit": "°F; %; dakika; set",
+   "conditions_tr": "Kaynağın standart örnek programı; evrensel optimum olarak sunulmamıştır.",
+   "source_ids": [
+    "W32"
+   ]
+  },
+  {
+   "quantity_tr": "Otoliz süresi karşılaştırmalarında kullanılan süreler",
+   "value_or_range": "30 ve 60",
+   "unit": "dakika",
+   "conditions_tr": "Sert ekşi mayalı artisan ekmekten yapılan demi-baget denemeleri; otolizli hamurlar otoliz uygulanmayan hamurdan daha fazla genişleme göstermiştir.",
+   "source_ids": [
+    "W17"
+   ]
+  },
+  {
+   "quantity_tr": "Gerip katlama uygulama düzeni",
+   "value_or_range": "2 saat boyunca her 30 dakikada bir",
+   "unit": "saat; dakika",
+   "conditions_tr": "Kişisel no-knead ekmek deneyinde her uygulamada kabın dört kenarı katlanmıştır.",
+   "source_ids": [
+    "W40"
+   ]
+  },
+  {
+   "quantity_tr": "Dört hamur işleminde soğutulmuş somun ağırlıkları",
+   "value_or_range": "Kontrol 559; no-knead 548; stand mikser 544; food processor 475",
+   "unit": "g",
+   "conditions_tr": "Soğutma sonrası tartım; yazar, food processor somunundaki düşük ağırlığı hamurun işlem sırasında kaybolmasına bağlamıştır.",
+   "source_ids": [
+    "W28"
+   ]
+  },
+  {
+   "quantity_tr": "Yüksek hidrasyonlu ekşi mayalı hamur karşılaştırmasının temel koşulları",
+   "value_or_range": "%80 ekmek unu, %20 çavdar unu, %20 starter, %2 tuz, %80 hidrasyon; yaklaşık 3 saat bulk ve 30 dakikada bir katlama",
+   "unit": "%; saat; dakika",
+   "conditions_tr": "Kaynağın işlem karşılaştırması; metindeki no-knead açıklamasında ayrıca yaklaşık 12–18 saat ifadesi yer aldığı için süre anlatımı kaynak içinde farklıdır.",
+   "source_ids": [
+    "W28"
+   ]
+  }
+ ],
+ "moderators_tr": [
+  "Un türü ve bileşimi: buğday, yüksek proteinli buğday, spelt, einkorn, tam tahıl, çavdar ve glutensiz unlar aynı yanıtı vermeyebilir.",
+  "Protein düzeyi ve unun enzim etkinliği; özellikle uzun otolizde hamurun gevşeme veya zayıflama riskiyle ilişkilendirilmiştir.",
+  "Karıştırma süresi, hızı, güç girdisi, mikser türü ve hazne basıncı; süre karşılaştırmalarında kullanılan ekipman sonuçları değiştirebilir.",
+  "Hidrasyon, starter oranı ve fermantasyon sıcaklığı katlama ihtiyacını ve hamurun kuvvet kazanmasını etkileyebilir.",
+  "Karıştırmanın veya katlamanın yeterli gelişim noktasına göre konumu; tepe noktasından önceki gelişim ile tepe noktasından sonraki aşırı işlem aynı etkiyi göstermeyebilir.",
+  "Otolizin süresi ve içeriği; kaynaklarda un-su dinlendirmesi ile tüm malzemelerin birlikte dinlendirilmesi ayrı uygulamalardır.",
+  "Sonuç ölçütü: GMP, hamur gelişim süresi, boşluk oranı, gaz tutulumu, somun hacmi, iç doku ve işlenebilirlik birbirinin yerine geçen ölçütler değildir.",
+  "Fermantasyon sırasında hamura uygulanan katlamalar ile katlanmayan aliquot örneğinin yükselmesi farklı olabilir; aliquot ana hamurun yükselişini fazla tahmin edebilir."
+ ],
+ "conflicts": [
+  {
+   "issue_tr": "Yetersiz karıştırılmış yüksek proteinli un örneğinde en büyük somun hacmi bildirilirken, başka bulgular aşırı karıştırmanın hacmi düşürdüğünü veya güçlü gluten ağının gaz tutulumunu desteklediğini gösteriyor.",
+   "likely_reason_tr": "Karıştırma etkisi doğrusal olmayabilir; unun protein düzeyi, mikser, tepe noktasına göre işlem süresi ve belirlenen kontrol koşulları farklıdır. Yetersiz karıştırmada elde edilen tekil hacim sonucu evrensel bir yetersiz karıştırma yararı olarak yorumlanmamalıdır.",
+   "source_ids": [
+    "Q31",
+    "Q36",
+    "W31"
+   ]
+  },
+  {
+   "issue_tr": "No-knead ve katlamalı hamurlar bazı denemelerde benzer somun ve iç doku verirken, başka denemelerde no-knead veya mikser hamuru daha yoğun iç dokuyla ilişkilendirilmiştir.",
+   "likely_reason_tr": "Un karışımı, hidrasyon, katlama programı, fermantasyon süresi ve uygulayıcı yöntemi farklıdır; kaynakların bir bölümü fırıncı deneyi niteliğindedir.",
+   "source_ids": [
+    "W23",
+    "W28",
+    "W29"
+   ]
+  },
+  {
+   "issue_tr": "Daha uzun otoliz bazı baget denemelerinde daha büyük somunla ilişkilendirilirken, en büyük somunun iç dokusu daha az açık bulunmuş; başka kaynaklar aşırı uzun otolizin hamuru zayıflatabileceğini bildiriyor.",
+   "likely_reason_tr": "Somun büyüklüğü, iç dokunun açıklığı ve hamur işlenebilirliği ayrı sonuçlardır; süre etkisi un ve tarif koşullarına bağlıdır ve tek bir optimum süre gösterilmemiştir.",
+   "source_ids": [
+    "W17",
+    "W15",
+    "W31"
+   ]
+  },
+  {
+   "issue_tr": "Düşük hız ve uzun süre glutensiz ekmek hacmini artırıp dokuyu yumuşatırken, buğday hamurunda aşırı karıştırma olumsuz sonuçlarla ilişkilendirilmiştir.",
+   "likely_reason_tr": "Glutensiz ve glutenli hamurlar farklı ürün sistemleridir; hız ve süre değerleri glutensiz çalışma için bildirilmediğinden sonuçlar doğrudan karşılaştırılamaz.",
+   "source_ids": [
+    "Q13",
+    "Q31",
+    "Q36"
+   ]
+  }
+ ],
+ "simulation_rules": [
+  {
+   "rule_tr": "Karıştırma süresinin etkisini tek yönlü artış olarak değil, yeterli gelişimden sonra performansın düşebildiği optimumlu bir yanıt olarak kodla.",
+   "functional_form": "Optimumlu çan eğrisi veya parçalı eğri: gelişim aralığında artış, optimum sonrasında azalış.",
+   "param_suggestions": "Q36'daki derleme karşılaştırmasında 1 dakika yetersiz, 2,5 dakika optimum ve 7 dakika aşırı koşul olarak kullanılabilir; bunları yalnız bu karşılaştırmanın başlangıç noktaları say, diğer hamur ve mikserlere doğrudan atama.",
+   "source_ids": [
+    "Q36",
+    "Q31",
+    "P363",
+    "P452"
+   ]
+  },
+  {
+   "rule_tr": "Tepe noktasından sonra karıştırmayı sürdürme için somun hacmine negatif etki tanımla.",
+   "functional_form": "Tepe noktasından sonra eşikli azalma; veriye göre doğrusal ya da parçalı doğrusal azalma.",
+   "param_suggestions": "Q31'de tepe noktasından sonra 0,6 dakika ek karıştırma, 90 rpm'de 16–50 cm³ ve 118 rpm'de 29–68 cm³ hacim düşüşüyle ilişkilidir; katsayıları yalnız benzer 200 g pin mikser ve un koşullarında kalibre et.",
+   "source_ids": [
+    "Q31"
+   ]
+  },
+  {
+   "rule_tr": "Otoliz, gerekli mekanik karıştırma süresini azaltan ve uzayabilirliği artırabilen bir işlem olarak temsil edilsin; süre aşırı uzarsa zayıflama riski eklensin.",
+   "functional_form": "Başlangıçta doyum gösteren yarar ve uzun sürelerde aşağı yönlü eşik/ceza; eşik için kaynaklardan evrensel sayı atanmasın.",
+   "param_suggestions": "Kaynaklarda 30 ve 60 dakikalık denemeler ile 1 saatlik tercih örneği vardır; yüksek enzim etkinliği veya taze öğütülmüş un koşullarında uzun süre cezasını daha belirgin düşün, ancak sayısal eşik veriden belirlenmemiştir.",
+   "source_ids": [
+    "W15",
+    "W17",
+    "W31"
+   ]
+  },
+  {
+   "rule_tr": "Katlama setleri hamur kuvvetini artırabilir; kuvvet yeterli hale geldikten sonra ek katlamaların yararı azalabilir ve iç doku yoğunlaşabilir.",
+   "functional_form": "Katlama sayısına göre doyum eğrisi; yeterli kuvvetten sonra plato, aşırı işlemde olası negatif etki.",
+   "param_suggestions": "Kaynaklardaki örnekler 30 dakikada bir 3 set ve isteğe bağlı 120. dakikada ek set ile 2 saat boyunca 30 dakikada bir katlamadır; bunlar tarif örnekleridir, genel optimum değildir.",
+   "source_ids": [
+    "W32",
+    "W40",
+    "W14",
+    "W3"
+   ]
+  },
+  {
+   "rule_tr": "Karıştırma gücü kritik değerin üzerindeyken hamur gelişim süresini özgül güç girdisiyle ters yönde ilişkilendir.",
+   "functional_form": "Kritik eşik üstünde azalan fonksiyon: ddt = Ef/[Pwsp - Pwsp*].",
+   "param_suggestions": "Denklemi kaynakta verildiği biçimde kullan; Ef ve kritik güç için sayısal değerler verilmediğinden bunları bu veri kümesinden türetme. Bildirilen deney aralığı 68–125 mL/100 g un ve 50–110 rpm'dir.",
+   "source_ids": []
+  },
+  {
+   "rule_tr": "Karıştırma hızını, süresini, güç girdisini veya mikser basıncını artırmanın boşluk oranına etkisini koşula bağlı bir işlem etkisi olarak tanımla; tüm un ve mikserlere aynı katsayıyı uygulama.",
+   "functional_form": "Etkileşimli model: işlem etkisi × un türü/hamur koşulu; yön için koşula bağlı parametre.",
+   "param_suggestions": "Boşluk oranı artışı derlemede aktarılmıştır, ancak parametre büyüklüğü veya ortak sayısal katsayı verilmemiştir; katsayıyı belirsiz bırak.",
+   "source_ids": [
+    "Q36",
+    "Q13"
+   ]
+  }
+ ],
+ "gaps_tr": [
+  "Birçok kaynakta un türü, hidrasyon ve mikser koşulları arasında karşılaştırılabilir standart ölçümler yoktur; evrensel karıştırma süresi çıkarılamaz.",
+  "Derlemedeki 1, 2,5 ve 7 dakika karşılaştırmasının ayrıntılı un, hidrasyon ve ekipman bilgileri sağlanan satırda yoktur.",
+  "Karıştırma hızı, iş girdisi ve hazne basıncının boşluk oranına etkileri için sayısal katsayı veya belirsizlik aralığı verilmemiştir.",
+  "Otolizin süreye bağlı yarar ve zarar eğrisini, farklı unlar için sayısal eşiklerle tanımlayacak karşılaştırmalı veri eksiktir.",
+  "Katlama sayısı ve zamanlamasının gluten kuvveti, gaz tutulumu ve son somun hacmi üzerindeki doz-yanıt ilişkisi standartlaştırılmamıştır.",
+  "Bazı sonuçlar fırıncıların kişisel deneyimlerine veya ikincil anlatımlara dayanır; tekrarlı deney ve nesnel hacim/iç doku ölçümleri sınırlıdır.",
+  "Glutensiz ekmekteki karıştırma bulguları glutenli buğday hamuruna doğrudan aktarılamaz; glutensiz çalışma için hız ve süre değerleri bildirilmemiştir.",
+  "Karıştırma ve otolizin somun hacmine etkisini gaz üretimi, gaz tutulumu, hamur reolojisi ve fırınlama aşaması üzerinden ayıran veriler yetersizdir."
+ ],
+ "tid": "T08",
+ "name": "Yoğurma ve otoliz → gluten gelişimi, hacim",
+ "n_sources": 29,
+ "n_findings": 69,
+ "theme_source_ids": [
+  "P1161",
+  "P15",
+  "P339",
+  "P363",
+  "P440",
+  "P451",
+  "P452",
+  "P493",
+  "P582",
+  "P652",
+  "Q13",
+  "Q31",
+  "Q36",
+  "Q66",
+  "W10",
+  "W14",
+  "W15",
+  "W17",
+  "W19",
+  "W23",
+  "W26",
+  "W28",
+  "W29",
+  "W3",
+  "W31",
+  "W32",
+  "W39",
+  "W40",
+  "W45"
+ ]
+}

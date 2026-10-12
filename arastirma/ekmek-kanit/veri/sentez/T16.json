@@ -1,0 +1,433 @@
+{
+ "consensus": [
+  {
+   "claim_tr": "Daha yüksek sıcaklık veya daha yoğun ısıl maruziyet, birçok incelenen üründe esmerleşmeyi artırır; etki fırınlama yöntemi ve ürün türüne göre değişir.",
+   "strength": "B_orta",
+   "n_supporting": 6,
+   "source_ids": [
+    "Q74",
+    "Q73",
+    "Q147",
+    "P693",
+    "Q75",
+    "P646"
+   ]
+  },
+  {
+   "claim_tr": "Pişirme ilerledikçe nem ve kütle kaybı oluşabilir; kaybın miktarı süreye, sıcaklığa ve pişirme düzenine bağlıdır.",
+   "strength": "B_orta",
+   "n_supporting": 6,
+   "source_ids": [
+    "Q146",
+    "Q24",
+    "Q75",
+    "Q145",
+    "P710"
+   ]
+  },
+  {
+   "claim_tr": "Turuncu etli tatlı patates unu içeren buğday ekmeğinde özgül hacim sıcaklıkla doğrusal artmamış; 180 °C’ye kadar artıp daha yüksek sıcaklıklarda azalmıştır.",
+   "strength": "B_orta",
+   "n_supporting": 2,
+   "source_ids": [
+    "P693",
+    "Q145"
+   ]
+  },
+  {
+   "claim_tr": "Pişirme süresi ve sıcaklığının kabuk kalınlığı, renk ve doku üzerinde etkileri olabilir; bu etkiler kullanılan sıcaklık-süre bileşimine bağlıdır.",
+   "strength": "B_orta",
+   "n_supporting": 4,
+   "source_ids": [
+    "Q147",
+    "P694"
+   ]
+  },
+  {
+   "claim_tr": "Pişirmenin erken aşamasında buharı somun çevresinde tutmak, uygulayıcı kaynaklarında genişleme ve kabuk kalitesiyle ilişkilendirilmiştir; deneysel bulgular da buhar düzeyinin gözeneklilik ve ısı aktarımını etkileyebildiğini gösterir.",
+   "strength": "B_orta",
+   "n_supporting": 5,
+   "source_ids": [
+    "W20",
+    "W11",
+    "W38"
+   ]
+  },
+  {
+   "claim_tr": "Pişirme yönteminin türü (ör. zorlanmış konveksiyon, kızgın buhar destekli veya mikrodalga destekli pişirme) hacim, sertlik, nem, kabuk rengi ve gözenek yapısında farklı sonuçlar oluşturabilir; tek bir genel yön her ürüne uygulanamaz.",
+   "strength": "B_orta",
+   "n_supporting": 5,
+   "source_ids": [
+    "Q13",
+    "Q73",
+    "P646",
+    "P694"
+   ]
+  },
+  {
+   "claim_tr": "Merkez sıcaklığı pişirme sonu için yararlı bir gösterge olsa da, tamamlanma veya somun şeklinin korunması için gereken eşik ürüne ve kalite ölçütüne bağlıdır.",
+   "strength": "B_orta",
+   "n_supporting": 4,
+   "source_ids": [
+    "Q27",
+    "Q146",
+    "Q75",
+    "W29"
+   ]
+  },
+  {
+   "claim_tr": "Daha yüksek ısıl maruziyet bazı ekmeklerde sertliği artırabilir; ancak sonuç ürün bileşimi ve pişirme yöntemiyle değişebilir.",
+   "strength": "C_zayıf",
+   "n_supporting": 4,
+   "source_ids": [
+    "P694",
+    "P646"
+   ]
+  }
+ ],
+ "quantitative": [
+  {
+   "quantity_tr": "Sıcaklık artışı başına Maillard reaksiyon hızı değişimi",
+   "value_or_range": "Her +10 °C’de 3–5 kat hızlanma",
+   "unit": "kat / 10 °C",
+   "conditions_tr": "Unlu ürünlerin ısıl işlemi; tipik Maillard reaksiyonu 120 °C üzerinde gerçekleşir.",
+   "source_ids": [
+    "Q74"
+   ]
+  },
+  {
+   "quantity_tr": "Ekmek sulu ekstraktının 420 nm absorbansı",
+   "value_or_range": "225 °C/50 dakika koşulunda, 220 °C/60 dakika koşulunun 4 katı",
+   "unit": "kat",
+   "conditions_tr": "Ekmek fırınlama; ölçüm 420 nm’de yapılmıştır.",
+   "source_ids": [
+    "Q74"
+   ]
+  },
+  {
+   "quantity_tr": "Ekmek pişmesinin tamamlandığını belirtmek için bildirilen iç sıcaklık",
+   "value_or_range": "92–95",
+   "unit": "°C",
+   "conditions_tr": "Ekmek pişirme; çoğunlukla yeterli kabul edilen aralık olarak aktarılmıştır.",
+   "source_ids": [
+    "Q27"
+   ]
+  },
+  {
+   "quantity_tr": "Cup bread merkezinin hedef sıcaklığa ulaşma zamanı ve son sıcaklığı",
+   "value_or_range": "Yaklaşık 510 s’de merkez sıcaklığı ≥94 °C; 600 s’de deneysel 92–96 °C ve simülasyonda 95 °C",
+   "unit": "s; °C",
+   "conditions_tr": "Önceden 200 °C’ye ısıtılmış, kapalı ve zorlanmış konveksiyonlu fırında %100 beyaz buğday unlu cup bread.",
+   "source_ids": [
+    "Q146"
+   ]
+  },
+  {
+   "quantity_tr": "Cup bread merkez nem konsantrasyonu",
+   "value_or_range": "Başlangıç yaklaşık 313; 600 s sonunda yaklaşık 220.5",
+   "unit": "kg m⁻³",
+   "conditions_tr": "200 °C’de pişirilen %100 beyaz buğday unlu cup bread; son değer simülasyon sonucudur.",
+   "source_ids": [
+    "Q146"
+   ]
+  },
+  {
+   "quantity_tr": "Gözenek açılma sıcaklık aralığı ve geçiş sıcaklığı",
+   "value_or_range": "71–81; geçiş yaklaşık 76",
+   "unit": "°C",
+   "conditions_tr": "Buğday unu, su ve mayadan hazırlanan hamurun pişirme modeli.",
+   "source_ids": [
+    "Q24",
+    "P614"
+   ]
+  },
+  {
+   "quantity_tr": "Pişirme sonunda ekmek hacminin başlangıç hacmine oranı",
+   "value_or_range": "Yaklaşık 1.9",
+   "unit": "kat",
+   "conditions_tr": "Model; 180 °C pişirme ve başlangıç su/un oranı 0.55.",
+   "source_ids": [
+    "Q24"
+   ]
+  },
+  {
+   "quantity_tr": "Fırınlama sırasında kapalı gözeneklerde buharlaşma-yoğuşmanın etkin ısı iletkenliğine katkısı",
+   "value_or_range": "%60’tan fazla",
+   "unit": "%",
+   "conditions_tr": "Modelleme ve 180 °C’de 30 dakika ekmek pişirme deneyi.",
+   "source_ids": [
+    "Q24"
+   ]
+  },
+  {
+   "quantity_tr": "Kabuk kalınlığı: 15 dakikadan 30 dakikaya pişirme süresi artışı",
+   "value_or_range": "180 °C’de 1.18 ± 0.009’dan 3.21 ± 0.011’e; 200 °C’de 1.55 ± 0.022’den 4.03 ± 0.009’a; 220 °C’de 2.71 ± 0.014’ten 5.18 ± 0.012’ye",
+   "unit": "mm",
+   "conditions_tr": "Varamin buğday unlu ekmek; elektrikli statik fırın, doğal konveksiyon.",
+   "source_ids": [
+    "Q147"
+   ]
+  },
+  {
+   "quantity_tr": "Pişirme sıcaklığı ve çekirdek sıcaklığı aralığında bildirilen ağırlık kaybı",
+   "value_or_range": "Yaklaşık %4–12",
+   "unit": "%",
+   "conditions_tr": "Vakumla soğutulan tost ekmeği; düşük değer en düşük, yüksek değer en yüksek fırın ve çekirdek sıcaklıklarında.",
+   "source_ids": [
+    "Q75"
+   ]
+  },
+  {
+   "quantity_tr": "Vakumla soğutulan tost ekmeğinde esmerleşme indeksi",
+   "value_or_range": "16’dan 55’e",
+   "unit": "BI",
+   "conditions_tr": "200 °C/90 °C çekirdek sıcaklığı koşulundan 240 °C/98 °C koşuluna; standart ekmek BI değeri 55 olarak bildirilmiştir.",
+   "source_ids": [
+    "Q75"
+   ]
+  },
+  {
+   "quantity_tr": "Zorlanmış konveksiyon ve odaklanmış radyant ısı ile pişirme süresindeki azalma",
+   "value_or_range": "%25–40",
+   "unit": "%",
+   "conditions_tr": "Kalıp ve fincan ekmeği; 175–200 °C aralığında doğal konveksiyonla karşılaştırma.",
+   "source_ids": [
+    "P694"
+   ]
+  },
+  {
+   "quantity_tr": "Hedef kromatikliğe ulaşma süresi",
+   "value_or_range": "Zorlanmış konveksiyonla 10; doğal konveksiyonla 15–25",
+   "unit": "dakika",
+   "conditions_tr": "200 °C’de kalıp ve fincan ekmeği.",
+   "source_ids": [
+    "P694"
+   ]
+  },
+  {
+   "quantity_tr": "Kızgın buhar yöntemlerinde kek hacmi",
+   "value_or_range": "Yalnız kızgın buharla 67.86; kızgın buhar ve sıcak hava birlikte 74.87",
+   "unit": "cm³",
+   "conditions_tr": "Meşe palamudu unu ve inülinle zenginleştirilmiş kek; 160 °C’de 25 dakika.",
+   "source_ids": [
+    "P646"
+   ]
+  },
+  {
+   "quantity_tr": "Pirinç unu, meşe palamudu unu ve inülinli kekte esmerleşme hız sabiti",
+   "value_or_range": "140/160/180 °C’de sırasıyla zorlanmış konveksiyon 0.0033/0.0057/0.0071; kızgın buhar 0.0022/0.0038/0.0059; kızgın buhar destekli 0.0064/0.0178/0.0276",
+   "unit": "min⁻¹",
+   "conditions_tr": "Fırınlama süresi 5–25 dakika; yöntemler ve sıcaklıklar arası karşılaştırma.",
+   "source_ids": [
+    "Q73"
+   ]
+  },
+  {
+   "quantity_tr": "Par-pişirme düzeyinin %95’ten %50’ye düşürülmesiyle zaman içindeki sertleşme değişimi",
+   "value_or_range": "%19.4 daha az sertleşme",
+   "unit": "%",
+   "conditions_tr": "Par-pişirilmiş ve depolanmış ekmekler.",
+   "source_ids": [
+    "Q15"
+   ]
+  },
+  {
+   "quantity_tr": "Farklı par-pişirme düzeylerinde ikinci pişirme sonrası ekmek ağırlığı kaybı",
+   "value_or_range": "WB %3.51; WWB %3.41; WRB %3.19",
+   "unit": "%",
+   "conditions_tr": "%95 par-pişirilmiş beyaz buğday, tam buğday ve çavdar ekmeği; ikinci pişirme 230 °C’de 3 dakika, 10 buhar darbesi ve ardından 200 °C’de 6 dakika.",
+   "source_ids": [
+    "Q15"
+   ]
+  }
+ ],
+ "moderators_tr": [
+  "Un ve ürün bileşimi: beyaz buğday, tam buğday, çavdar, glutensiz ve OFSP içeren kompozit ürünlerin yanıtları aynı değildir.",
+  "Pişirme yöntemi ve fırın ısı aktarımı: doğal/zorlanmış konveksiyon, radyant ısı, mikrodalga, ohmik, buhar ve kızgın buhar destekli yöntemler farklı sonuçlar verebilir.",
+  "Sıcaklık-süre bileşimi: daha yüksek sıcaklık daha kısa sürede uygulanabilir; tek başına sıcaklık, toplam ısıl maruziyeti temsil etmez.",
+  "Buharın zamanı ve miktarı: erken aşamada buhar veya kapakla buharı tutma ile pişirme boyunca aşırı nemli ortam aynı etkiyi göstermeyebilir.",
+  "Ürün geometrisi ve fırın düzeni: kalıp/fincan ekmeği, yassı ekmek ve somun; raf konumu, fırın yükü ve hava akışından etkilenebilir.",
+  "Son nokta ölçütü: kabuk rengi, merkez sıcaklığı, somunun çökmemesi, nem ve duyusal kabul farklı pişirme sonlarını tanımlayabilir.",
+  "Par-pişirme düzeyi ve ikinci pişirme koşulları, son nem ve tekstür yanıtlarını değiştirebilir."
+ ],
+ "conflicts": [
+  {
+   "issue_tr": "Bazı bulgular 92–95 °C merkez sıcaklığını pişmenin tamamlanması için yeterli sayarken, pilot tost ekmeği çalışmasında iyi şeklin korunması için 98 °C bildirilmiş; başka bir kaynakta yapının çoğunun 99 °C’den önce oluştuğu aktarılmıştır.",
+   "likely_reason_tr": "Ürün ve süreç farklılıklarının yanı sıra “tam pişme”, yapısal oluşum ve soğutma sırasında çökmeme farklı sonlanım ölçütleridir.",
+   "source_ids": [
+    "Q27",
+    "Q146",
+    "Q75",
+    "W29"
+   ]
+  },
+  {
+   "issue_tr": "Sıcaklığın artırılması bazı kompozit ekmeklerde 180 °C’ye kadar hacmi artırırken daha yüksek sıcaklıklarda azaltmış; diğer bulgular ise sıcaklık artışını renklenme veya hacim artışıyla ilişkilendirmiştir.",
+   "likely_reason_tr": "Hacim yanıtı ürün bileşimine ve sıcaklık-süre bileşimine bağlı, doğrusal olmayan bir yanıt olabilir; esmerleşme hacimle aynı ölçüt değildir.",
+   "source_ids": [
+    "P693",
+    "Q145",
+    "Q13"
+   ]
+  },
+  {
+   "issue_tr": "Buharın ürün çevresinde erken aşamada bulunması genişlemeyi ve ısınmayı destekleyebilirken, model fırında su veya buhar eklenmesi toplam ısı akışını ya da iletimi azaltmıştır.",
+   "likely_reason_tr": "Bulgular farklı sistemleri ve ölçütleri kapsar: fırın içindeki toplam ısı akışı, ürün içi yerel ısınma hızı ve hamurun yüzeyinde buharın oluşturduğu etki aynı şey değildir.",
+   "source_ids": [
+    "W20",
+    "W11",
+    "Q76"
+   ]
+  },
+  {
+   "issue_tr": "Pişirme ilerledikçe nem kaybı bildiren çalışmaların yanında, belirli bir ikinci pişirme koşulunda kırıntı nem kaybı tespit edilmemiştir.",
+   "likely_reason_tr": "Sonuçlar farklı pişirme aşamalarına ve uygulamalara aittir; par-pişirilmiş ekmeğin ikinci pişirmesi, tek aşamalı pişirme veya model tahminiyle doğrudan karşılaştırılamaz.",
+   "source_ids": [
+    "Q145",
+    "Q146",
+    "Q24",
+    "Q15"
+   ]
+  },
+  {
+   "issue_tr": "Sıcaklık artışı bazı çalışmalarda sertliği artırmış, kızgın buhar-sıcak hava kombinasyonunda ise daha düşük sertlik bildirilmiştir; ayrıca bir çalışmada sıcaklık kaynaklı sertlik farkı anlamlı değildir.",
+   "likely_reason_tr": "Ürün formülasyonu, pişirme yöntemi ve ölçüm/karşılaştırma koşulları farklıdır; tek yönlü genel bir sertlik etkisi çıkarılamaz.",
+   "source_ids": [
+    "P693",
+    "P646"
+   ]
+  }
+ ],
+ "simulation_rules": [
+  {
+   "rule_tr": "Esmerleşmeyi sıcaklık ve zamanla artan bir kinetik durum değişkeni olarak kodla; mevcut kanıt, tek bir evrensel hız sabiti değil sıcaklığa duyarlı bir hız gerektirir.",
+   "functional_form": "Arrhenius tipi hız veya sıcaklığa bağlı üstel hız; esmerleşme durumu zamanla doyuma yaklaşabilir.",
+   "param_suggestions": "Q74’te her 10 °C artış için 3–5 kat hızlanma bildirilmiştir; bu aralık yalnız uygun unlu ürün ısıl işlemi için başlangıç kalibrasyonu olarak kullanılmalı. Q73’te kek sistemine özgü k değerleri 140–180 °C arasında yönteme göre verilmiştir; bunlar ekmeğe doğrudan aktarılmamalıdır.",
+   "source_ids": [
+    "Q74",
+    "Q73",
+    "P646"
+   ]
+  },
+  {
+   "rule_tr": "Nem kaybını pişirme süresi ve termal maruziyetle monoton artan, ancak zamanla sınırlı hale gelebilecek bir süreç olarak modelle.",
+   "functional_form": "İlk aşamada hızlı, ilerleyen zamanda yavaşlayan doyumlu azalma; merkez ve yüzey için ayrı durum değişkenleri.",
+   "param_suggestions": "200 °C’de cup bread modeli için merkez nemi yaklaşık 313 kg m⁻³ başlangıçtan 600 s’de 220.5 kg m⁻³’e iner. Başka bir vakumla soğutulan tost ekmeği çalışmasında pişirme kaybı yaklaşık %4–12 aralığındadır; ürün ve yöntem bazında ayrı kalibrasyon gerekir.",
+   "source_ids": [
+    "Q146",
+    "Q75",
+    "Q24"
+   ]
+  },
+  {
+   "rule_tr": "OFSP içeren kompozit ekmekte hacim yanıtını sıcaklığa göre optimumlu olarak tanımla; bu eğriyi diğer formülasyonlara genelleme.",
+   "functional_form": "180 °C civarında tepe yapan, daha düşük ve daha yüksek sıcaklıklarda azalan çan eğrisi veya parçalı doğrusal fonksiyon.",
+   "param_suggestions": "İncelenen OFSP’li ekmeklerde hacim 150–180 °C arasında arttı ve ≥190 °C’de azaldı; doğrusal olmayan tepenin konumu için 180 °C başlangıç değeri kullanılabilir.",
+   "source_ids": [
+    "P693",
+    "Q145"
+   ]
+  },
+  {
+   "rule_tr": "Kabuk kalınlığını incelenen koşul aralığında pişirme süresi ve sıcaklıkla artan yerel bir yanıt olarak kodla.",
+   "functional_form": "Sıcaklık ve zamanla artan doğrusal veya etkileşimli regresyon; dış aralıkta ek veri olmadan doğrusal ekstrapolasyon yapma.",
+   "param_suggestions": "Varamin ekmeğinde doğal konveksiyonda 15’ten 30 dakikaya çıkıldığında kabuk kalınlığı 180, 200 ve 220 °C’de sırasıyla yaklaşık 1.18→3.21, 1.55→4.03 ve 2.71→5.18 mm olmuştur.",
+   "source_ids": [
+    "Q147"
+   ]
+  },
+  {
+   "rule_tr": "Pişirme sonunu yalnız sabit süreyle değil, merkez sıcaklığı ve ürünün hedef kalite ölçütleriyle birlikte belirle.",
+   "functional_form": "Merkez sıcaklığında eşik/lojistik geçiş; hedef ürün için ayrıca çökme veya yapı kararlılığı koşulu.",
+   "param_suggestions": "92–95 °C genel pişme göstergesi olarak; cup bread modelinde yaklaşık 510 s’de ≥94 °C olarak bildirilmiştir. Pilot tost ekmeğinde şeklin korunması için 98 °C gerekmiştir; bu nedenle eşik ürün türüne göre ayarlanmalıdır.",
+   "source_ids": [
+    "Q27",
+    "Q146",
+    "Q75"
+   ]
+  },
+  {
+   "rule_tr": "Buhar etkisini pişirmenin erken ve geç aşamalarında farklılaştır; erken buharı genişleme/yüzey davranışına, geç kuru aşamayı renk ve kabuk oluşumuna bağlayan aşamalı bir kural kullan.",
+   "functional_form": "Zamana bağlı iki aşamalı kontrol: erken aşamada buhar veya kapalı ortam, sonraki aşamada buharı azaltma/kuru pişirme.",
+   "param_suggestions": "Uygulayıcı kaynaklarında ilk yaklaşık 15–25 dakika kapatma veya buhar tutma örnekleri vardır; bunlar ürün ve fırına özgü önerilerdir, evrensel sabit olarak kullanılmamalıdır. Erken buharın yerel ısınmayı artırdığı deneysel olarak bildirilmiştir.",
+   "source_ids": [
+    "W20",
+    "W11",
+    "W38"
+   ]
+  },
+  {
+   "rule_tr": "Pişirme yöntemi için ısı ve nem aktarımını ayrı parametreleştir; aynı fırın sıcaklığında yöntem değişimini ürün yanıtlarına doğrudan uygulanan bir çarpan olarak ele alma.",
+   "functional_form": "Konveksiyon, radyasyon ve buhar/yoğuşma katkılarını ayıran enerji-kütle aktarım modeli; yöntem parametreleriyle koşullu yanıt.",
+   "param_suggestions": "Bir ekmek modelinde kapalı gözeneklerde buharlaşma-yoğuşmanın etkin ısı iletkenliğine katkısı %60’tan fazla bildirilmiştir; bu değer yalnız ilgili model koşullarına aittir. Zorlanmış konveksiyon ve radyant ısı için pişirme süresi doğal konveksiyona göre %25–40 daha kısa raporlanmıştır.",
+   "source_ids": [
+    "Q24",
+    "P694",
+    "Q76"
+   ]
+  }
+ ],
+ "gaps_tr": [
+  "Ekmek formülasyonu, somun geometrisi ve fırın koşullarını eşleştirerek sıcaklık-süre-buhar etkilerini aynı deney tasarımında karşılaştıran veri sınırlıdır.",
+  "Ekmek için sıcaklık başına esmerleşme kinetiği ve aktarılabilir parametreler azdır; Q73 ve P646’daki ayrıntılı hız sabitleri kek sistemlerine aittir.",
+  "Buhar miktarı, zamanlaması ve yüzey nemi ölçümlerinin ekmek hacmi, kabuk rengi ve nem kaybıyla nicel ilişkisi yeterince belirlenmemiştir.",
+  "Merkez sıcaklığına dayalı pişme sonu eşikleri ürün türü ve kalite ölçütleri arasında değişmektedir; eşikleri doğrudan karşılaştıran çalışmalar gereklidir.",
+  "Hacim için 180 °C civarında bildirilen optimum, OFSP içeren kompozit ekmeğe özgüdür; diğer ekmek türleri için sıcaklık-tepki eğrileri eksiktir.",
+  "Bazı kaynaklar yalnız yön bildirmekte, etki büyüklüğü, belirsizlik aralığı veya istatistiksel anlamlılık vermemektedir.",
+  "Fırın raf konumu, yük düzeyi ve gerçek ürün yüzey/merkez sıcaklıklarının birlikte ölçüldüğü karşılaştırmalı veriler sınırlıdır."
+ ],
+ "tid": "T16",
+ "name": "Pişirme sıcaklığı, süresi ve buhar → kabuk rengi, hacim, nem",
+ "n_sources": 48,
+ "n_findings": 136,
+ "theme_source_ids": [
+  "P1048",
+  "P1087",
+  "P1199",
+  "P288",
+  "P614",
+  "P628",
+  "P630",
+  "P638",
+  "P640",
+  "P642",
+  "P646",
+  "P650",
+  "P652",
+  "P66",
+  "P683",
+  "P693",
+  "P694",
+  "P700",
+  "P709",
+  "P710",
+  "P716",
+  "P740",
+  "P767",
+  "P837",
+  "P889",
+  "P992",
+  "Q103",
+  "Q117",
+  "Q13",
+  "Q145",
+  "Q146",
+  "Q147",
+  "Q15",
+  "Q155",
+  "Q24",
+  "Q27",
+  "Q73",
+  "Q74",
+  "Q75",
+  "Q76",
+  "W11",
+  "W14",
+  "W20",
+  "W28",
+  "W29",
+  "W31",
+  "W38",
+  "W45"
+ ]
+}

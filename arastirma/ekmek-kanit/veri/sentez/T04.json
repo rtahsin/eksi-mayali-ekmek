@@ -1,0 +1,476 @@
+{
+ "consensus": [
+  {
+   "claim_tr": "Maya suşu, hamurda gaz üretimini ve kabartma performansını; dolayısıyla hamur veya ekmek hacmini belirgin biçimde değiştirebilir. Ancak suş sıralaması un matriksine ve ölçüm koşullarına göre değişir.",
+   "strength": "B_orta",
+   "n_supporting": 9,
+   "source_ids": [
+    "Q38",
+    "Q41",
+    "Q142",
+    "Q143",
+    "Q144",
+    "Q154",
+    "Q8",
+    "P26",
+    "P49"
+   ]
+  },
+  {
+   "claim_tr": "Daha yüksek CO₂ üretimi genellikle daha fazla hacim/kabarma ile ilişkilidir; bununla birlikte son hacim yalnızca gaz miktarına değil, gazın hamurda tutulmasına ve salım zamanlamasına da bağlıdır.",
+   "strength": "B_orta",
+   "n_supporting": 5,
+   "source_ids": [
+    "Q142",
+    "Q143",
+    "P3",
+    "P11",
+    "P46"
+   ]
+  },
+  {
+   "claim_tr": "Suşlar aroma ve uçucu bileşik profillerinde farklılık oluşturabilir; hangi suşun üstün olduğu bileşik türüne ve ürüne bağlıdır, genel bir aroma üstünlüğü çıkarılamaz.",
+   "strength": "B_orta",
+   "n_supporting": 8,
+   "source_ids": [
+    "Q55",
+    "Q143",
+    "Q8",
+    "P71",
+    "P72",
+    "P76",
+    "P98",
+    "P103"
+   ]
+  },
+  {
+   "claim_tr": "Maya dozunu veya inokulum düzeyini artırmak bazı koşullarda daha hızlı kabarma ya da daha yüksek maya kaynaklı uçucu bileşik oluşumuyla ilişkilidir; doz etkisinin büyüklüğü ve duyusal sonucu ürün ve fermantasyon koşullarına bağlıdır.",
+   "strength": "C_zayıf",
+   "n_supporting": 5,
+   "source_ids": [
+    "W21",
+    "W32",
+    "W16",
+    "P686"
+   ]
+  },
+  {
+   "claim_tr": "Fermantasyon sıcaklığı, süresi ve hamur bileşimi maya suşu veya dozunun gözlenen etkisini değiştirebilir; bazı aroma bileşenlerinde maya düzeyi ile sıcaklık arasında etkileşim bildirilmiştir.",
+   "strength": "C_zayıf",
+   "n_supporting": 3,
+   "source_ids": [
+    "Q7",
+    "Q8",
+    "P71"
+   ]
+  },
+  {
+   "claim_tr": "Alternatif veya geleneksel olmayan mayalar kimi çalışmalarda tatmin edici kabartma ve farklı/tercih edilen aroma sağlamıştır; fakat kabartma performansı ticari S. cerevisiae ile eşdeğer olmak zorunda değildir.",
+   "strength": "B_orta",
+   "n_supporting": 6,
+   "source_ids": [
+    "Q142",
+    "P3",
+    "P47",
+    "P72",
+    "P108",
+    "P113"
+   ]
+  },
+  {
+   "claim_tr": "Suş ve maya dozundaki değişiklikler ekmek içi yapısı, sertlik ve duyusal özelliklerde de farklılık yaratabilir; bu sonuçların yönü tutarlı değildir ve ürün formülasyonuna bağlıdır.",
+   "strength": "B_orta",
+   "n_supporting": 5,
+   "source_ids": [
+    "Q38",
+    "Q41",
+    "P46",
+    "P51",
+    "P686"
+   ]
+  },
+  {
+   "claim_tr": "Fırıncı deneyimi kaynakları, ekşi mayalı hamura ticari maya eklemenin kabarmayı hızlandırabildiğini; daha uzun fermantasyonla birlikte düşük doz kullanımının ise lezzet nüanslarını etkileyebileceğini bildiriyor. Bu gözlemler deneysel kanıtlarla aynı ağırlıkta değerlendirilmemelidir.",
+   "strength": "C_zayıf",
+   "n_supporting": 4,
+   "source_ids": [
+    "W21",
+    "W16",
+    "W30",
+    "W32"
+   ]
+  }
+ ],
+ "quantitative": [
+  {
+   "quantity_tr": "Yüksek glutenli buğday ekmeğinde suşa göre özgül hacim",
+   "value_or_range": "ACY9 için özette 1,1 cm³/g; ACY9 ve ACY30 için sonuçlarda yaklaşık 2 cm³/g; ACY298 yaklaşık 4,5 cm³/g; ACY158 5,0 cm³/g olarak da raporlanmış; ACY34 ve ACY283 >5 cm³/g",
+   "unit": "cm³/g",
+   "conditions_tr": "Yüksek glutenli buğday unu hamuru; suşlar arası karşılaştırma. Kaynakta ACY9 için farklı değerler raporlandığından ikisi de korunmuştur.",
+   "source_ids": [
+    "Q38"
+   ]
+  },
+  {
+   "quantity_tr": "Dondurulmuş hamurdan hazırlanan buharda pişmiş ekmeklerde bildirilen özgül hacimler",
+   "value_or_range": "1,81 (C2)–2,87 (S1)",
+   "unit": "kaynakta belirtilen özgül hacim birimi",
+   "conditions_tr": "18 ticari maya suşu; dondurulmuş hamur çözündürülüp son mayalama sonrası buharda pişirilmiştir.",
+   "source_ids": [
+    "Q41"
+   ]
+  },
+  {
+   "quantity_tr": "Hamur kabartma hızı",
+   "value_or_range": "Buğdayda 211–403; tritordeumda 327–623",
+   "unit": "mL/dak",
+   "conditions_tr": "4 g un, 100 mg taze maya hücresi ve 7 mL suyla, 28 °C'de yaklaşık 90 dakika ölçüm; YMAS60 sırasıyla 403 ± 30 ve 623 ± 54 mL/dak.",
+   "source_ids": [
+    "Q142"
+   ]
+  },
+  {
+   "quantity_tr": "Maksimum hamur hacmi",
+   "value_or_range": "Buğdayda 10,3–16,0; tritordeumda 13,2–26,1",
+   "unit": "mL",
+   "conditions_tr": "28 °C'de; YMAS60 buğdayda 45 dakikada 15,0 ± 0,7 mL, tritordeumda 60 dakikada 26,1 ± 3,4 mL.",
+   "source_ids": [
+    "Q142"
+   ]
+  },
+  {
+   "quantity_tr": "Karışık maya kültürüyle ölçülen hamur hacmi",
+   "value_or_range": "30 °C'de üçlü kültür 195 ± 3,51; ticari SFI 121 ± 2,08; oda sıcaklığında sırasıyla 175 ± 2,52 ve 112 ± 2,00",
+   "unit": "mL",
+   "conditions_tr": "100 g buğday unu, 0,5 g tuz, 2 g şeker, 90 mL su ve 1 g maya; hacim 0–8 saatte ölçülmüştür.",
+   "source_ids": [
+    "Q144"
+   ]
+  },
+  {
+   "quantity_tr": "Yerel maya izolatlarıyla hamur hacmi",
+   "value_or_range": "AAUTf1: 131; AAUTf5: 128; AAUSh17: 127; AAUTj15: 125; ticari maya: 117",
+   "unit": "cm³",
+   "conditions_tr": "AAUTf1 ve AAUTf5 değerleri 120 dakikada; AAUSh17 ve AAUTj15 değerleri 60 dakikada, ticari maya değeri 90 dakikada ölçülmüştür.",
+   "source_ids": [
+    "P26"
+   ]
+  },
+  {
+   "quantity_tr": "K. marxianus suşlarında fırın kabarması",
+   "value_or_range": "13,3–41,5",
+   "unit": "%",
+   "conditions_tr": "Hamurun elektrik dirençli fırın düzeneğindeki kabarması; suşlar arasında karşılaştırma.",
+   "source_ids": [
+    "P3"
+   ]
+  },
+  {
+   "quantity_tr": "Tatlı hamurda maya suşlarına göre şeker tüketimi, CO₂ ve metabolit üretimi",
+   "value_or_range": "Şeker tüketimi %0,78–5,25; CO₂ %0,33–3,01; etanol %0,20–1,26; gliserol %0,17–0,80; organik asit %0,09–0,29",
+   "unit": "w/w, un kuru maddesi üzerinden",
+   "conditions_tr": "%14 sakkaroz eklenmiş tatlı hamur; 23 maya suşu karşılaştırılmıştır.",
+   "source_ids": [
+    "P71"
+   ]
+  },
+  {
+   "quantity_tr": "Ekşi mayalı hamurda starter oranı ve bulk fermantasyon süresi",
+   "value_or_range": "%5: 8–12 saat; %10: 6–8 saat; %20: 4–6 saat; %25: 3–5 saat; %30 ve üzeri: 2–4 saat",
+   "unit": "saat",
+   "conditions_tr": "Fırıncı kaynağındaki çizelge; hamur sıcaklığı 75 °F.",
+   "source_ids": [
+    "W32"
+   ]
+  },
+  {
+   "quantity_tr": "Ekşi mayalı hamurda instant maya dozuna ilişkin bildirilen süre etkileri",
+   "value_or_range": "%0,07 toplam un ağırlığına göre: şekillendirmeye 30 dakika erken hazır; %0,14: bulk fermantasyon süresi yarıya indi",
+   "unit": "% ve dakika/süre oranı",
+   "conditions_tr": "Maurizio’nun Beginner’s Sourdough Bread formülüyle yapılan fırıncı denemeleri; daha yüksek dozda soğuk mayalamada aşırı mayalanma da bildirilmiştir.",
+   "source_ids": [
+    "W16"
+   ]
+  },
+  {
+   "quantity_tr": "Zymomonas ve S. cerevisiae ile ekmek benzeri hamur hacmi",
+   "value_or_range": "Z. mobilis UMB479 ile 5 saatte 650 mL; S. cerevisiae son hacmi 575 mL",
+   "unit": "mL",
+   "conditions_tr": "Ekmek benzeri hamur fermantasyonu; UMB479 için bildirilen maksimum hacim.",
+   "source_ids": [
+    "P47"
+   ]
+  },
+  {
+   "quantity_tr": "Model sıvı hamurda CO₂ üretim hızı",
+   "value_or_range": "Ticari CS 38,7; YMAS36 ve YMAS60 28–30; M. carpophila Ag2 12; T. delbrueckii H.S.1.1 15",
+   "unit": "cm³/saat",
+   "conditions_tr": "%4,5 malttoz ve %1,5 glukoz içeren model ortam; 30 °C'de 18 saat.",
+   "source_ids": [
+    "Q142"
+   ]
+  },
+  {
+   "quantity_tr": "Ekşi hamur ekmeklerinde aroma analiziyle tanımlanan uçucu bileşik sayısı",
+   "value_or_range": "62",
+   "unit": "bileşik",
+   "conditions_tr": "Düz hamur ve farklı maya/laktobasil içeren ekşi hamur ekmeklerinin HS-SPME-GC/MS analizi.",
+   "source_ids": [
+    "Q143"
+   ]
+  },
+  {
+   "quantity_tr": "Palmiye şarabı izolatlarıyla ekmekte kabartma puanı",
+   "value_or_range": "Z. rouxii 2,33; S. cerevisiae 2,83; ticari STK Royal 2,70; Saf-instant 2,40; mayasız kontrol 2,29",
+   "unit": "5 puanlık ölçek",
+   "conditions_tr": "Yaklaşık 1 saat, 37 ± 2 °C fermantasyon; 200 °C'de 1 saat pişirme.",
+   "source_ids": [
+    "Q55"
+   ]
+  },
+  {
+   "quantity_tr": "Palmiye şarabı izolatlarıyla ekmekte doku puanı",
+   "value_or_range": "Z. rouxii 2,14–S. cerevisiae 2,84",
+   "unit": "5 puanlık ölçek",
+   "conditions_tr": "Buğday unlu hamurlar; aynı fermantasyon ve pişirme koşulları.",
+   "source_ids": [
+    "Q55"
+   ]
+  },
+  {
+   "quantity_tr": "K. humilis ile hamur hacmindeki artış",
+   "value_or_range": "%72,19",
+   "unit": "%",
+   "conditions_tr": "K. humilis 3-8 ile 3 saat fermantasyon.",
+   "source_ids": [
+    "P145"
+   ]
+  }
+ ],
+ "moderators_tr": [
+  "Maya suşu ve türü; aynı tür içindeki suşlar arasında da kabartma, CO₂ üretimi ve aroma profili değişebilir.",
+  "Maya dozu/inokulum oranı ve ekşi maya starter oranı.",
+  "Fermantasyon sıcaklığı ve süresi; örneğin maya dozu ile sıcaklık aroma bileşenlerinde etkileşebilir.",
+  "Un türü ve matriksi (buğday, tritordeum, tam tahıl, yüksek glutenli un veya kompozit un).",
+  "Hamurdaki şeker türü ve miktarı; tatlı hamur, sakkaroz stresi ve maltoz kullanımı sonuçları değiştirebilir.",
+  "Hamurun gaz tutma kapasitesi ve CO₂ salım hızı; üretilen gaz miktarı tek başına son hacmi belirlemeyebilir.",
+  "Maya türlerinin karışım hâlinde kullanılması ve laktik asit bakterileriyle etkileşim.",
+  "Ürün ve proses türü: fırın ekmeği, buharda pişmiş ekmek, kouglof veya ekmek benzeri hamur; ayrıca pişirme yöntemi.",
+  "Fırıncı kaynaklarındaki doz-süre gözlemleri tarif, starter gücü ve ortam koşullarına bağlıdır."
+ ],
+ "conflicts": [
+  {
+   "issue_tr": "Suşların hacim/kabartma sıralaması çalışmalar arasında aynı değildir; bazı suşlar bir un veya testte yüksek performans gösterirken başka koşullarda aynı sonucu göstermeyebilir.",
+   "likely_reason_tr": "Un matriksi, hamur formülasyonu, gaz tutma, fermantasyon süresi ve hacim ölçüm yöntemleri farklıdır; kaynaklarda bazı suşlar için özet ve sonuç değerleri de birbiriyle tam örtüşmemektedir.",
+   "source_ids": [
+    "Q38",
+    "Q41",
+    "Q142",
+    "Q144",
+    "P3",
+    "P47"
+   ]
+  },
+  {
+   "issue_tr": "Daha hızlı veya daha yüksek gaz üretimi her zaman en yüksek son hacim ya da en iyi fırın kabarmasıyla eşleşmez.",
+   "likely_reason_tr": "Gazın üretim hızı kadar salım zamanlaması ve hamurun gazı tutma kapasitesi de önemlidir; ölçülen sonuçlar fermantasyon hacmi, fırın kabarması ve son ekmek hacmi gibi farklı sonlanımlardır.",
+   "source_ids": [
+    "Q142",
+    "Q143",
+    "P3",
+    "P11",
+    "P46"
+   ]
+  },
+  {
+   "issue_tr": "Daha yüksek maya dozu kimi kaynaklarda hız veya uçucu bileşik artışıyla ilişkilendirilirken, dozun aroma ve ürün kalitesindeki net etkisi tutarlı biçimde gösterilmemiştir.",
+   "likely_reason_tr": "Kaynakların bir kısmı fırıncı denemesidir; hamur tipi, sıcaklık, fermantasyon süresi ve incelenen aroma bileşeni farklıdır. Bir miktar artış ile aşırı doz aynı etkiyi vermeyebilir.",
+   "source_ids": [
+    "Q7",
+    "P71",
+    "W16",
+    "W21",
+    "W32"
+   ]
+  },
+  {
+   "issue_tr": "Alternatif maya suşları bazı çalışmalarda tatmin edici kabartma veya panel tercihi sağlarken, başka karşılaştırmalarda ticari fırıncı mayasının hacim performansının gerisinde kalmıştır.",
+   "likely_reason_tr": "Tür ve suş özellikleri, test ortamı ve karşılaştırma ölçütleri farklıdır; aroma kabulü ile kabartma performansı aynı özellik değildir.",
+   "source_ids": [
+    "P3",
+    "P47",
+    "P72",
+    "P108",
+    "P113"
+   ]
+  }
+ ],
+ "simulation_rules": [
+  {
+   "rule_tr": "Her maya suşu için gaz üretim hızı ve kabartma etkinliğine ayrı suş etkisi tanımla; tek bir tür ortalamasının tüm suşları temsil ettiğini varsayma.",
+   "functional_form": "Suşa özgü katsayılı kinetik terim: r_CO2(t) = k_strain × f(substrat, sıcaklık, fermantasyon aşaması). Suş etkisini hiyerarşik/rastgele etki olarak da kodla.",
+   "param_suggestions": "Parametreleri deney verisinden suş bazında kalibre et. Kaynaklarda buğday hamurunda 211–403 mL/dak ve tritordeumda 327–623 mL/dak; model sıvı hamurda 12–38,7 cm³/saat aralıkları görülüyor, ancak farklı düzenekleri ortak ölçeğe dönüştürme.",
+   "source_ids": [
+    "Q142",
+    "Q38",
+    "Q41",
+    "Q144"
+   ]
+  },
+  {
+   "rule_tr": "Doz veya starter oranı arttıkça fermantasyon süresinin kısalmasını başlangıç varsayımı olarak kullan; çok geniş doz aralıklarında doğrusal ekstrapolasyon yapma.",
+   "functional_form": "Dozla azalan süre için doygunluklu ilişki: t_ferment = t_min + (t_max − t_min)/(1 + k·dose); kaynakta desteklenen aralığın dışında ekstrapolasyonu sınırla.",
+   "param_suggestions": "75 °F için fırıncı çizelgesindeki örnek süreleri kullan: %5 starterda 8–12 saatten %30+ düzeyinde 2–4 saate. Instant maya için W16’daki %0,07 ve %0,14 gözlemleri yalnız ilgili tarif bağlamında başlangıç noktası olabilir.",
+   "source_ids": [
+    "W32",
+    "W16",
+    "W21"
+   ]
+  },
+  {
+   "rule_tr": "Son hacmi yalnız toplam CO₂’ye bağlama; gaz tutma ve gaz salım zamanlamasını ayrı durum değişkenleri olarak modelle.",
+   "functional_form": "Hacim artışı ≈ CO₂ üretimi × gaz tutma katsayısı; gaz tutma katsayısı zamanla değişebilir. Yüksek üretim hızına otomatik olarak aynı oranda yüksek son hacim atama.",
+   "param_suggestions": "Q143’te hacmin CO₂ üretimiyle genel olarak arttığı; P3’te yüksek fırın kabarması gösteren suşların genellikle daha yavaş CO₂ saldığı bildirilmiştir. Sayısal tutma katsayısı verilmediğinden deneysel kalibrasyon gerekir.",
+   "source_ids": [
+    "Q143",
+    "P3",
+    "P11",
+    "P46"
+   ]
+  },
+  {
+   "rule_tr": "Maya dozu ve sıcaklığın aroma etkisini etkileşimli olarak kodla; aroma bileşenleri için tek bir toplam aroma katsayısı kullanmak yerine bileşik veya bileşik grubu bazında etkiler tanımla.",
+   "functional_form": "Aroma_i = baz_i + β_dose,i·dose + β_temp,i·temperature + β_interaction,i·dose·temperature + suş etkisi.",
+   "param_suggestions": "Q7’de 2%, 4% ve 6% maya ile 8, 16 ve 32 °C koşulları arasında bileşen bazında farklılık/etkileşim bildiriliyor; sayısal tepe alanları verilmediği için katsayılar bu satırlardan çıkarılamaz.",
+   "source_ids": [
+    "Q7",
+    "P71",
+    "P103"
+   ]
+  },
+  {
+   "rule_tr": "Karışık maya kültürlerini tek bir ortalama suş gibi değil, bileşime bağlı bir sistem olarak temsil et; karışımın etkisi doğrusal olmayabilir.",
+   "functional_form": "Karışım çıktısı = Σ(w_i·suş_i etkisi) + Σ(γ_ij·w_i·w_j etkileşimi); w_i karışımdaki oranı gösterir.",
+   "param_suggestions": "Q144’te üçlü kültürün 30 °C'de 8 saatte 195 ± 3,51 mL, ticari SFI’nin 121 ± 2,08 mL verdiği bildirilmiştir. Tek bir karışım sonucu etkileşim katsayılarını belirlemeye yetmez.",
+   "source_ids": [
+    "Q144",
+    "P26",
+    "P76",
+    "P831"
+   ]
+  },
+  {
+   "rule_tr": "Hacim, iç yapı, sertlik ve duyusal çıktılarda suşa bağlı değişkenlik için belirsizlik aralığı koru; kanıt yönü tutarlı olmayan kalite sonuçlarını sabit yönlü etki olarak kodlama.",
+   "functional_form": "Çok çıktılı suş etkisi: y_j = μ_j + u_strain,j; u_strain,j yönü ve büyüklüğü her çıktı için ayrı tahmin edilir.",
+   "param_suggestions": "Q41’de bildirilen özgül hacim 1,81–2,87 aralığındadır; P46’da iç yapı suşlar arasında farklıdır ancak nicel etki verilmemiştir. Bu değerler farklı ürün ve ölçüm sistemlerine aittir.",
+   "source_ids": [
+    "Q41",
+    "P46",
+    "P51",
+    "P686"
+   ]
+  }
+ ],
+ "gaps_tr": [
+  "Aynı un, formülasyon, sıcaklık ve ölçüm yöntemi altında maya dozu ile suşun faktöriyel olarak birlikte karşılaştırıldığı nicel çalışmalar azdır.",
+  "Farklı deney düzeneklerindeki CO₂ hızı, toplam CO₂, hamur hacmi, fırın kabarması ve son somun hacmini ortak ölçekte karşılaştırmak mümkün değildir.",
+  "Doz-cevap eğrilerinin optimum, eşik veya plato noktalarını belirleyecek yeterli veri çoğu kaynakta verilmemiştir.",
+  "Aroma sonuçlarında bileşiklerin tepe alanları ve duyusal yoğunlukları çoğu satırda sayısal olarak bulunmamaktadır; toplam uçucu bileşik sayısı aroma üstünlüğü anlamına gelmez.",
+  "Yüksek dozun fermantasyon hızına, aroma kalitesine ve aşırı mayalanma riskine etkisini aynı çalışmada izleyen deneysel kanıt sınırlıdır.",
+  "Maya suşu, gaz tutma kapasitesi ve gluten/hamur reolojisi arasındaki nicel bağlantı netleştirilmemiştir.",
+  "Fırıncı kaynaklarında bildirilen doz ve zaman sonuçları kontrollü deneylerden ayrılmalı; tarif, starter gücü ve ortam sıcaklığı gibi değişkenler çoğunlukla standartlaştırılmamıştır.",
+  "Bazı kaynak özetlerinde aynı suş veya sonuç için farklı sayısal değerler raporlandığından, simülasyon parametreleri doğrudan alınmadan önce tam metin doğrulaması gerekir."
+ ],
+ "tid": "T04",
+ "name": "Maya dozu ve suşu → gaz üretimi, hacim, aroma",
+ "n_sources": 86,
+ "n_findings": 223,
+ "theme_source_ids": [
+  "P1023",
+  "P1027",
+  "P1028",
+  "P103",
+  "P1032",
+  "P1042",
+  "P105",
+  "P108",
+  "P109",
+  "P11",
+  "P113",
+  "P1149",
+  "P1161",
+  "P118",
+  "P1188",
+  "P1243",
+  "P1251",
+  "P1254",
+  "P145",
+  "P147",
+  "P149",
+  "P151",
+  "P152",
+  "P163",
+  "P17",
+  "P179",
+  "P2",
+  "P230",
+  "P233",
+  "P245",
+  "P26",
+  "P28",
+  "P29",
+  "P3",
+  "P30",
+  "P43",
+  "P45",
+  "P46",
+  "P47",
+  "P49",
+  "P50",
+  "P51",
+  "P52",
+  "P54",
+  "P55",
+  "P56",
+  "P59",
+  "P66",
+  "P686",
+  "P71",
+  "P72",
+  "P751",
+  "P76",
+  "P765",
+  "P767",
+  "P831",
+  "P879",
+  "P89",
+  "P97",
+  "P98",
+  "P988",
+  "Q100",
+  "Q142",
+  "Q143",
+  "Q144",
+  "Q154",
+  "Q157",
+  "Q165",
+  "Q167",
+  "Q38",
+  "Q40",
+  "Q41",
+  "Q53",
+  "Q54",
+  "Q55",
+  "Q7",
+  "Q8",
+  "Q84",
+  "W16",
+  "W21",
+  "W30",
+  "W31",
+  "W32",
+  "W34",
+  "W4",
+  "W9"
+ ]
+}

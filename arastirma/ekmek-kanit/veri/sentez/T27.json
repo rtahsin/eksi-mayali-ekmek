@@ -1,0 +1,461 @@
+{
+ "consensus": [
+  {
+   "claim_tr": "Fermantasyon ve kullanılan mikrobiyal kültür, ekmekteki uçucu bileşiklerin miktarını ve profilini belirgin biçimde değiştirebilir; farklı kaynaklarda uçucu bileşik çeşitliliği veya toplam düzeylerde artış bildirilmiştir.",
+   "strength": "A_güçlü",
+   "n_supporting": 8,
+   "source_ids": [
+    "Q14",
+    "Q143",
+    "Q8",
+    "Q11",
+    "Q109",
+    "Q85"
+   ]
+  },
+  {
+   "claim_tr": "Maya ve LAB türü/suşu ile bunların birlikte kullanımı aroma profilini bileşik türüne göre değiştirir; belirli mikroorganizmalar bazı esterler, alkoller veya diğer uçucularla ilişkilendirilmiştir.",
+   "strength": "A_güçlü",
+   "n_supporting": 7,
+   "source_ids": [
+    "Q143",
+    "Q8",
+    "Q20",
+    "P52",
+    "P151",
+    "P98",
+    "P103"
+   ]
+  },
+  {
+   "claim_tr": "Ekşi maya veya LAB-maya karma kültürleri birçok çalışmada aroma bileşiklerinin miktarını ya da çeşitliliğini artırmıştır; ancak toplam aroma bileşikleri her durumda artmaz ve profilin bileşimi değişebilir.",
+   "strength": "A_güçlü",
+   "n_supporting": 8,
+   "source_ids": [
+    "Q112",
+    "Q109",
+    "P233",
+    "P224",
+    "P831"
+   ]
+  },
+  {
+   "claim_tr": "Fermantasyon sıcaklığı, süresi ve maya düzeyi uçucu bileşikleri seçici biçimde etkiler; aynı koşul bazı aroma bileşiklerini artırırken diğerlerini azaltabilir.",
+   "strength": "A_güçlü",
+   "n_supporting": 6,
+   "source_ids": [
+    "Q7",
+    "Q6",
+    "Q19",
+    "P767",
+    "P181",
+    "Q152"
+   ]
+  },
+  {
+   "claim_tr": "Depolama sırasında uçucu profil değişebilir: bazı bileşikler azalırken bazı esterler artabilir; değişimin yönü bileşiğe, ekmek türüne ve depolama koşullarına bağlıdır.",
+   "strength": "A_güçlü",
+   "n_supporting": 6,
+   "source_ids": [
+    "Q128",
+    "Q14",
+    "Q20",
+    "Q104",
+    "P236",
+    "Q17"
+   ]
+  },
+  {
+   "claim_tr": "Un türü, ekmek matrisi ve formülasyon aroma bileşimi ile koku aktivitesini değiştirir; farklı unlardan yapılan ekmekler aynı aroma bileşiklerini aynı düzeyde taşımaz.",
+   "strength": "B_orta",
+   "n_supporting": 6,
+   "source_ids": [
+    "Q94",
+    "P1162",
+    "P1163",
+    "P1170",
+    "P683",
+    "P722"
+   ]
+  },
+  {
+   "claim_tr": "Öncül maddeler ve fermentasyon koşulları belirli aroma bileşiklerinin oluşumunu yönlendirebilir; örneğin maya, lösin ve fenilalanin öncüllerini sırasıyla 3-metilbutanal ve fenilasetaldehit gibi ürünlere dönüştürebilir.",
+   "strength": "B_orta",
+   "n_supporting": 3,
+   "source_ids": [
+    "Q19",
+    "Q6",
+    "P1168"
+   ]
+  },
+  {
+   "claim_tr": "Depolama veya işlem koşullarının aroma üzerindeki etkisi, duyusal kabul edilebilirlikle her zaman doğrudan eşdeğer değildir; bazı kaynaklar belirli bileşik değişimlerini aroma bozulmasıyla ilişkilendirirken bazıları yalnızca kimyasal profil değişimini raporlamıştır.",
+   "strength": "B_orta",
+   "n_supporting": 4,
+   "source_ids": [
+    "Q128",
+    "Q104",
+    "P236",
+    "Q17"
+   ]
+  }
+ ],
+ "quantitative": [
+  {
+   "quantity_tr": "Taze ekmekten 5 günlük ekmeğe geçişte karbonil bileşikler içindeki aldehit ve keton payı",
+   "value_or_range": "Aldehit %72,9'dan %15,1'e; keton %27,1'den %84,9'a",
+   "unit": "%",
+   "conditions_tr": "Beyaz ekmek; taze ve 5 gün depolanmış örnekler.",
+   "source_ids": [
+    "Q128"
+   ]
+  },
+  {
+   "quantity_tr": "RBL 102 ekmeğinde tanımlanan ekşi hamur aroma bileşiği sayısı",
+   "value_or_range": "25",
+   "unit": "bileşik",
+   "conditions_tr": "RBL 102 ile in situ hazırlanmış ekşi hamur ekmeği; asetik asit dışındaki majör bileşikler kırıntı ve kabukta en çok 0,6 ppm'e ulaştı.",
+   "source_ids": [
+    "Q14"
+   ]
+  },
+  {
+   "quantity_tr": "Kontrol ekşi hamur ekmeğinde 2,3-bütandion düzeyi",
+   "value_or_range": "Gün 0: 0,014 ppm (4 saat) ve 0,019 ppm (gece boyunca); Gün 5: sırasıyla 0,003 ve 0,005 ppm",
+   "unit": "ppm",
+   "conditions_tr": "4 saat fermantasyon veya 4 saat fermantasyonun ardından yaklaşık 17 saat 4 °C'de bekletme.",
+   "source_ids": [
+    "Q14"
+   ]
+  },
+  {
+   "quantity_tr": "Soğuk fermantasyonla 2,3-bütandion FD faktöründeki artış",
+   "value_or_range": "24 saatte yaklaşık 4 kat, 48 saatte 8 kat; eşik aşım değerleri 1815 ve 1992, kontrolde 109",
+   "unit": "kat ve eşik aşım değeri",
+   "conditions_tr": "Yüksek proteinli (%13) buğday unu ile hazırlanan bageller; hamur 5 °C'de 24 veya 48 saat fermente edildi.",
+   "source_ids": [
+    "Q6"
+   ]
+  },
+  {
+   "quantity_tr": "2-asetil-1-pirolin eşik aşım değeri",
+   "value_or_range": "24 saatlik bagelde 2603; 48 saatlik bagelde 2466; kontrolde 2329",
+   "unit": "eşik aşım değeri",
+   "conditions_tr": "Hamur 5 °C'de 24 veya 48 saat soğuk fermente edildi.",
+   "source_ids": [
+    "Q6"
+   ]
+  },
+  {
+   "quantity_tr": "Öncül maddelerin 3-metilbutanal ve 2-fenilethanole dönüşüm oranı",
+   "value_or_range": "%15–55",
+   "unit": "%",
+   "conditions_tr": "Model çalışmalarında L-lösin ve L-fenilalanin öncülleri sırasıyla 3-metilbutanal ve 2-fenilethanol oluşumuyla ilişkilendirildi.",
+   "source_ids": [
+    "Q19"
+   ]
+  },
+  {
+   "quantity_tr": "Kuru üzüm şurubu ekşi mayalı ekmekte 3. gündeki ester katkısının ticari maya kontrolüne göre farkı",
+   "value_or_range": "%12 daha yüksek",
+   "unit": "%",
+   "conditions_tr": "25 °C ve %50 bağıl nemde kapalı depolama; Day 0–Day 3.",
+   "source_ids": [
+    "Q20"
+   ]
+  },
+  {
+   "quantity_tr": "Kuru üzüm şurubu ekşi mayalı ekmekte 3. gündeki fenol bolluğunun ticari maya kontrolüne göre farkı",
+   "value_or_range": "%60 daha yüksek",
+   "unit": "%",
+   "conditions_tr": "25 °C ve %50 bağıl nemde kapalı depolama.",
+   "source_ids": [
+    "Q20"
+   ]
+  },
+  {
+   "quantity_tr": "Kuru üzüm grubu ekmeğinde alkol içeriğinin depolama değişimi",
+   "value_or_range": "Day 0'dan Day 1'e %30 azalma",
+   "unit": "%",
+   "conditions_tr": "25 °C ve %50 bağıl nemde kapalı depolama.",
+   "source_ids": [
+    "Q20"
+   ]
+  },
+  {
+   "quantity_tr": "Ticari maya grubunda alkol içeriğinin depolama değişimi",
+   "value_or_range": "Day 1'de %7, Day 3'te %16 azalma",
+   "unit": "%",
+   "conditions_tr": "25 °C ve %50 bağıl nemde kapalı depolama.",
+   "source_ids": [
+    "Q20"
+   ]
+  },
+  {
+   "quantity_tr": "Organik ve konvansiyonel ekmek kabuğundaki VOC miktarı",
+   "value_or_range": "Organik: 29,7 ± 0,9; konvansiyonel: 21,5 ± 0,4",
+   "unit": "μg/g",
+   "conditions_tr": "Organik ve konvansiyonel ekmeklerin karşılaştırması.",
+   "source_ids": [
+    "Q94"
+   ]
+  },
+  {
+   "quantity_tr": "Ekşi hamur propagasyon süresine göre toplam VOC miktarı",
+   "value_or_range": "Kabuk: t1'de 25,7 ± 0,4, t10'da 21,9 ± 0,6; iç: t1'de 25,3 ± 0,9, t10'da 13,7 ± 0,8",
+   "unit": "μg/g",
+   "conditions_tr": "İlk fermantasyon (t1) ve 10 günlük propagasyon (t10) sonrası ekmekler.",
+   "source_ids": [
+    "Q94"
+   ]
+  },
+  {
+   "quantity_tr": "D3 ve LAB suşu B48 kombinasyonunda 2-feniletanol",
+   "value_or_range": "69 597,79 ± 230,77",
+   "unit": "μg/kg",
+   "conditions_tr": "15 °C'de fermente edilen hamur; D13 + L. brevis B48 kombinasyonu.",
+   "source_ids": [
+    "Q8"
+   ]
+  },
+  {
+   "quantity_tr": "Soğuk depolamada ekşi hamur ekmeğindeki etil hekzanoat ve etil oktanoat tepe alanı artışı",
+   "value_or_range": "6,3–9,7 kat",
+   "unit": "kat",
+   "conditions_tr": "Lactiplantibacillus plantarum 9 ile hazırlanmış ekşi hamur ekmeği; soğuk depolamanın 3. günü.",
+   "source_ids": [
+    "P236"
+   ]
+  },
+  {
+   "quantity_tr": "36 saat ortak fermantasyonda buğday kepeğindeki etil esterlerin göreli içeriği",
+   "value_or_range": "%58,47",
+   "unit": "%",
+   "conditions_tr": "S. fibuligera ve L. fermentum ortak kültürü.",
+   "source_ids": [
+    "P1024"
+   ]
+  },
+  {
+   "quantity_tr": "36 saat ortak fermantasyonda buğday kepeğindeki 4-etilguaiakolun göreli içeriği",
+   "value_or_range": "%52,81",
+   "unit": "%",
+   "conditions_tr": "S. fibuligera ve L. curvatus ortak kültürü.",
+   "source_ids": [
+    "P1024"
+   ]
+  },
+  {
+   "quantity_tr": "Pişmiş ekmekte toplam aroma miktarı",
+   "value_or_range": "Rekombinant maya ile 9; dönüştürülmemiş suşla 4; ticari maya ile 5",
+   "unit": "μg/g ürün",
+   "conditions_tr": "Lipaz A eksprese eden rekombinant S. cerevisiae CEN kullanımı.",
+   "source_ids": []
+  },
+  {
+   "quantity_tr": "Ekmek uçucu bileşik profili için donmuş depolama süresi ve sıcaklığı",
+   "value_or_range": "0, 14 ve 28 gün; −30 °C'de belirgin depolama değişikliği bildirilmedi",
+   "unit": "gün; °C",
+   "conditions_tr": "WWYB ve tip II WWSB örnekleri.",
+   "source_ids": [
+    "Q17"
+   ]
+  }
+ ],
+ "moderators_tr": [
+  "Mikroorganizma türü, suşu ve LAB-maya oranı; özellikle ester, alkol, asit ve aldehit profillerini değiştirebilir.",
+  "Fermantasyon sıcaklığı ve süresi: düşük, orta ve yüksek sıcaklıklarda farklı bileşik grupları öne çıkabilir; uzun süre her bileşiği aynı yönde etkilemez.",
+  "Maya düzeyi ile maya ürün formülasyonu (taze veya aktif kuru maya) uçucu bileşiklerin oluşumunu ve bileşik türlerini etkiler.",
+  "Depolama süresi, sıcaklığı, bağıl nemi ve kapalı/açık olma durumu; bileşiklerin korunmasını, kaybını veya artışını değiştirebilir.",
+  "Un ve ürün matrisi (buğday, pirinç, çavdar, glutensiz unlar; kepek ve tam un) başlangıç öncüllerini ve ortaya çıkan aroma profilini etkiler.",
+  "Ön-ferment reçetesi, öncül amino asitlerin bulunması ve anaerobik koşullar belirli aroma bileşiklerinin üretimini etkileyebilir.",
+  "Pişirme, buharda pişirme ve tostlama koşulları uçucu bileşiklerin oluşumunu veya kaybını değiştirebilir.",
+  "Ölçüm bölgesi (kırıntı/kabuk), analiz yöntemi ve kullanılan gösterge (konsantrasyon, göreli içerik, FD faktörü, tepe alanı veya koku aktivitesi) sonuçların karşılaştırılabilirliğini sınırlar."
+ ],
+ "conflicts": [
+  {
+   "issue_tr": "Uzun fermantasyon bazı kaynaklarda maya metabolizması veya LAB kaynaklı aroma oluşumunu desteklerken, başka bir bulguda uzatılmış ekşi maya fermantasyonunda asit, aldehit, keton ve furanlar azalmıştır.",
+   "likely_reason_tr": "Fermantasyon süresi tek başına belirleyici değildir; starter bileşimi, ürün matrisi, ardışık yenileme sayısı ve ölçülen bileşik sınıfı farklıdır.",
+   "source_ids": [
+    "Q152",
+    "P149",
+    "P181"
+   ]
+  },
+  {
+   "issue_tr": "Depolamada aroma bileşiklerinin kaybı ve aroma bozulması raporlanırken, soğukta depolamada bazı etil esterlerin tepe alanları belirgin biçimde artmıştır.",
+   "likely_reason_tr": "Bulgular farklı bileşiklere, ekmek türlerine ve depolama koşullarına aittir; toplam uçucu kaybı, tekil ester artışını dışlamaz.",
+   "source_ids": [
+    "Q104",
+    "P236",
+    "Q14",
+    "Q20"
+   ]
+  },
+  {
+   "issue_tr": "Sıcak fermantasyon bazı aldehit ve furanları artırırken, daha düşük sıcaklıklar bazı esterleri ve alkolleri artırmıştır; ayrıca 35 °C'de belirli amino asit kökenli ürünlerin üretimi desteklenmiştir.",
+   "likely_reason_tr": "Sıcaklık etkisi bileşik ve öncül yoluna özgüdür; çalışmalar farklı hamur, maya düzeyi ve ürün sistemlerinde yapılmıştır.",
+   "source_ids": [
+    "Q7",
+    "Q19"
+   ]
+  },
+  {
+   "issue_tr": "Ekşi maya veya karma kültürler çoğu bulguda toplam uçucu düzeyini/çeşitliliğini artırırken, kırmızı fasulye ekşi hamurlu ekmekte toplam aroma bileşikleri azalmıştır.",
+   "likely_reason_tr": "Starter suşları ve eklenen bakliyat matrisi farklıdır; toplam miktar azalırken belirli yeni bileşikler veya tekil bileşikler artabilir.",
+   "source_ids": [
+    "Q109",
+    "P224"
+   ]
+  }
+ ],
+ "simulation_rules": [
+  {
+   "rule_tr": "Mikrobiyal starter ve suş kimliğine bağlı, bileşik sınıfı bazında aroma profili üret; ekşi maya veya karma kültürü tek bir sabit aroma artış katsayısıyla temsil etme.",
+   "functional_form": "VOC_i = temel_i × exp(β_i,suş × fermantasyon_maruz_kalımı); suş etkisi bileşik bazında ve yönü değişebilir.",
+   "param_suggestions": "Nicel katsayılar çoğu kaynakta yoktur; tür/suş etkisini kalibre edilmesi gereken bir parametre yap. Profil değişimi için Q143, Q8, Q52 ve P151'deki bileşik-özgül bulguları kullan.",
+   "source_ids": [
+    "Q143",
+    "Q8",
+    "Q52",
+    "P151"
+   ]
+  },
+  {
+   "rule_tr": "Fermantasyon sıcaklığının etkisini bileşik sınıfına göre ayrı uygula; düşük/orta sıcaklıkta bazı esterler ve alkoller, yüksek sıcaklıkta bazı furanlar, pirazinler ve aldehitler daha yüksek olabilir.",
+   "functional_form": "VOC_i(T) = VOC_i,0 × f_i(T); gözlenen aralıklarda bileşik sınıfına göre artan, azalan veya optimumlu yanıt.",
+   "param_suggestions": "Tam öğütülmüş buğday sisteminde 8, 16 ve 32 °C karşılaştırmalarını ayrık kalibrasyon noktaları olarak kullan; 32 °C'de artan ve 8/16 °C'de artan bileşik gruplarını ayrı parametreleştir.",
+   "source_ids": [
+    "Q7"
+   ]
+  },
+  {
+   "rule_tr": "Fermentasyon süresi ve maya düzeyini aroma oluşumuna bileşik-özgü etkilerle kodla; süre uzadıkça tüm uçucuların artacağı varsayılmamalıdır.",
+   "functional_form": "VOC_i(t,Y) = VOC_i,0 + g_i(t) + h_i(Y) + etkileşim_i(t,Y); g_i için artış, azalış veya doyum seçeneği.",
+   "param_suggestions": "CSB bulgularındaki maya düzeylerini %0,5, %1 ve %1,5; süreleri 20, 40 ve 60 dakika olarak deney koşulu noktaları kullan. Diğer hamur sistemlerine bu değerleri doğrudan genelleme.",
+   "source_ids": [
+    "P767",
+    "Q7"
+   ]
+  },
+  {
+   "rule_tr": "Soğuk fermantasyonda belirli aroma aktif bileşenlerine artış ver; bu etkiyi bütün uçuculara uygulama.",
+   "functional_form": "FD_i(t) = FD_i,0 × exp(k_i t) veya ölçüm aralığında parçalı doğrusal yanıt.",
+   "param_suggestions": "5 °C'de 24 ve 48 saat için 2,3-bütandion FD artışını yaklaşık 4 ve 8 kat olarak; eşik aşım değerlerini sırasıyla 1815 ve 1992, kontrolü 109 olarak kalibre et.",
+   "source_ids": [
+    "Q6"
+   ]
+  },
+  {
+   "rule_tr": "Depolamada uçucu bileşikleri sınıf veya molekül bazında güncelle; bazı bileşiklerde azalma, bazılarında artış veya yaklaşık sabitlik mümkün olsun.",
+   "functional_form": "VOC_i(t) = VOC_i,0 × exp(−k_i t) + üretim_i(t); k_i ve üretim terimi bileşik/koşula özgüdür.",
+   "param_suggestions": "Beyaz ekmekte 0–5 gün arasında aldehit payını %72,9'dan %15,1'e, keton payını %27,1'den %84,9'a değişen örnek bir profil olarak kullan; bunu diğer ekmek türlerine genelleme.",
+   "source_ids": [
+    "Q128"
+   ]
+  },
+  {
+   "rule_tr": "Soğuk depolamada bazı ekşi maya esterleri için artış terimine izin ver; aynı anda başka uçucuların kaybı da modellenebilsin.",
+   "functional_form": "VOC_ester(t) = VOC_0 × (1 + a t) veya sınırlı süreli üstel artış; diğer VOC'ler için bağımsız azalma katsayısı.",
+   "param_suggestions": "L. plantarum 9 ekmeğinde 3. gün için etil hekzanoat ve etil oktanoat tepe alanı artışını 6,3–9,7 kat aralığında kullan; yalnız bu koşula özgü kalibrasyon noktasıdır.",
+   "source_ids": [
+    "P236"
+   ]
+  },
+  {
+   "rule_tr": "Öncül amino asitlerden aroma bileşiği oluşumunu öncül düzeyi ve fermantasyon ortamına bağla.",
+   "functional_form": "ürün_i = öncül_i × dönüşüm_verimi_i; verim sıcaklık ve oksijen koşullarına bağlıdır.",
+   "param_suggestions": "Q19'daki model çalışmaları için dönüşüm oranı aralığını %15–55 kullan; 35 °C ve anaerobik koşulları 2-PE ve 3-MB üretimini destekleyen koşullar olarak kodla.",
+   "source_ids": [
+    "Q19"
+   ]
+  },
+  {
+   "rule_tr": "Depolama değişiminin toplam profil düzeyinde sınırlı kalabildiği ürün sistemlerini temsil et; tüm ekmeklerde zorunlu depolama etkisi tanımlama.",
+   "functional_form": "VOC_i(t) = VOC_i,0 × (1 + ε_i(t)); uygun sistemde ε_i(t) ≈ 0.",
+   "param_suggestions": "WWYB ve tip II WWSB için −30 °C'de 0, 14 ve 28 gün aralığında belirgin değişiklik gözlenmediğinden, bu sisteme özgü depolama katsayısını sıfıra yakın başlat.",
+   "source_ids": [
+    "Q17"
+   ]
+  }
+ ],
+ "gaps_tr": [
+  "Çok sayıda bulguda nicel konsantrasyon veya varyans verilmemiştir; bu nedenle etki büyüklüklerini çalışmalar arasında birleştirmek sınırlıdır.",
+  "VOC konsantrasyonu, göreli bolluk, tepe alanı, FD faktörü ve koku aktivitesi farklı ölçütlerdir; ortak bir nicel ölçeğe dönüştürme bilgisi çoğu satırda yoktur.",
+  "Depolama çalışmalarında ekmek türü, paketleme, sıcaklık, nem ve örnekleme zamanı her zaman birlikte raporlanmamıştır.",
+  "Aroma kimyası değişikliklerinin duyusal kabul, koku yoğunluğu veya tüketici tercihiyle ilişkisi sınırlı sayıda bulguda belirtilmiştir.",
+  "Farklı starter suşları için aynı un, reçete, fermantasyon ve pişirme koşullarında doğrudan karşılaştırmalar yetersizdir.",
+  "Fermantasyon sıcaklığı ve süresinin bileşik-özgü kinetikleri ile olası optimumları için yeterli sayısal zaman serisi bulunmamaktadır.",
+  "Kabuk ve kırıntı sonuçları, pişirme sırasında oluşan bileşikler ve analiz anındaki uçucular arasında yöntemsel karşılaştırma sınırlıdır.",
+  "Derleme ve fırıncı kaynaklarındaki genel aroma iddiaları, deneysel ve nicel bulgularla aynı kanıt düzeyinde değildir."
+ ],
+ "tid": "T27",
+ "name": "Ekmek aroması: uçucu bileşikler",
+ "n_sources": 63,
+ "n_findings": 111,
+ "theme_source_ids": [
+  "P101",
+  "P1024",
+  "P103",
+  "P104",
+  "P1046",
+  "P105",
+  "P1058",
+  "P109",
+  "P1162",
+  "P1163",
+  "P1167",
+  "P1168",
+  "P1170",
+  "P1171",
+  "P118",
+  "P127",
+  "P149",
+  "P151",
+  "P152",
+  "P166",
+  "P181",
+  "P185",
+  "P218",
+  "P224",
+  "P233",
+  "P236",
+  "P52",
+  "P536",
+  "P599",
+  "P677",
+  "P683",
+  "P684",
+  "P686",
+  "P689",
+  "P71",
+  "P72",
+  "P722",
+  "P749",
+  "P76",
+  "P767",
+  "P831",
+  "P842",
+  "P85",
+  "P879",
+  "P903",
+  "P955",
+  "P98",
+  "Q11",
+  "Q112",
+  "Q128",
+  "Q14",
+  "Q143",
+  "Q152",
+  "Q153",
+  "Q17",
+  "Q19",
+  "Q20",
+  "Q6",
+  "Q7",
+  "Q8",
+  "Q94",
+  "W30",
+  "W36"
+ ]
+}

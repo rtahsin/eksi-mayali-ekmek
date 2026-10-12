@@ -1,0 +1,460 @@
+{
+ "consensus": [
+  {
+   "claim_tr": "NaCl genellikle buğday hamurunu güçlendirir: gelişme ve stabilite süreleri, uzamaya karşı direnç ve/veya elastik modüller artabilir; yumuşama azalabilir. Etkinin büyüklüğü un çeşidine, tuz düzeyine ve işleme koşullarına bağlıdır.",
+   "strength": "A_güçlü",
+   "n_supporting": 8,
+   "source_ids": [
+    "Q45",
+    "Q46",
+    "Q49",
+    "Q51",
+    "Q115",
+    "Q27",
+    "Q47"
+   ]
+  },
+  {
+   "claim_tr": "NaCl azaltımı veya tamamen kaldırılması çoğu hamur sisteminde hamur gücünü ve karıştırma stabilitesini düşürebilir; yapışkanlığı ve su absorbsiyonunu artırabilir. Ancak yanıt un çeşidine ve formülasyona göre değişebilir.",
+   "strength": "B_orta",
+   "n_supporting": 5,
+   "source_ids": [
+    "Q27",
+    "Q46",
+    "Q47",
+    "Q45",
+    "Q43"
+   ]
+  },
+  {
+   "claim_tr": "Tuz düzeyi maya fermantasyonunu ve hamurun kabarmasını etkiler; daha yüksek tuz bazı çalışmalarda gaz üretimini veya maksimum hamur yüksekliğini azaltırken, tuz azaltımı bazı hamurlarda fermantasyon hacmini artırmıştır. Etki ürüne ve ölçüm koşuluna bağlıdır.",
+   "strength": "B_orta",
+   "n_supporting": 5,
+   "source_ids": [
+    "Q36",
+    "Q49",
+    "Q48",
+    "Q4",
+    "P151"
+   ]
+  },
+  {
+   "claim_tr": "Tuz azaltımının somun veya ürün hacmine etkisi tek yönlü ve genellenebilir değildir: bazı ekmeklerde hacim azalırken, bazı formülasyonlarda tuz miktarıyla hacim arasında negatif ilişki veya belirli bir tuz düzeyinde optimum bildirilmiştir.",
+   "strength": "B_orta",
+   "n_supporting": 7,
+   "source_ids": [
+    "Q46",
+    "Q47",
+    "Q42",
+    "Q50",
+    "Q43",
+    "Q52"
+   ]
+  },
+  {
+   "claim_tr": "Kademeli veya orta düzey tuz azaltımı bazı tüketici çalışmalarında duyusal olarak fark edilmemiş ya da kabul edilebilir bulunmuştur; daha büyük azaltımlarda algı ve kabul sonucu ürün ve test koşullarına göre değişebilir.",
+   "strength": "A_güçlü",
+   "n_supporting": 6,
+   "source_ids": [
+    "Q44",
+    "P1070",
+    "P1072",
+    "P1075",
+    "P1076",
+    "Q46"
+   ]
+  },
+  {
+   "claim_tr": "NaCl'nin KCl ile kısmen veya tamamen değiştirilmesi bazı ekmeklerde hacim, tekstür veya duyusal kabulü koruyabilir; başka sistemlerde yüksek ikame düzeyleri reolojik ya da hacimsel farklılıklarla ilişkilidir.",
+   "strength": "B_orta",
+   "n_supporting": 6,
+   "source_ids": [
+    "Q46",
+    "Q42",
+    "Q50",
+    "Q52"
+   ]
+  },
+  {
+   "claim_tr": "NaCl düzeyi farinograf su absorbsiyonunu çoğunlukla düşürür; tuzun azaltılması veya kaldırılması bazı deneylerde absorbsiyonu artırmıştır. Bu sonuç, tuz düzeyi ve ölçüm sistemine bağlı bir reoloji etkisi olarak ele alınmalıdır.",
+   "strength": "B_orta",
+   "n_supporting": 4,
+   "source_ids": [
+    "Q45",
+    "Q46",
+    "Q49",
+    "Q51"
+   ]
+  },
+  {
+   "claim_tr": "Tuz partikül boyutu veya kapsüllenmiş tuzun hamur içindeki dağılımı, tuz düzeyi azaltılırken algılanan tuzluluğun korunmasına yardımcı olabilir.",
+   "strength": "C_zayıf",
+   "n_supporting": 1,
+   "source_ids": [
+    "Q44"
+   ]
+  }
+ ],
+ "quantitative": [
+  {
+   "quantity_tr": "Ekmekte kademeli tuz azaltımı",
+   "value_or_range": "1,7 ± 0,2'den 1,1 ± 0,1'e; yaklaşık %35 azaltım",
+   "unit": "g/100 g ekmek",
+   "conditions_tr": "Üç yıllık uygulama; tüketicilerin azaltımı fark etmediği bildirildi.",
+   "source_ids": [
+    "Q44",
+    "P1070"
+   ]
+  },
+  {
+   "quantity_tr": "Hamurda azaltılmış tuz düzeyinin reolojik etkisi",
+   "value_or_range": "<%1,2 düzeyinde uzamaya karşı direnç ve kompleks modül azaldı",
+   "unit": "% tuz düzeyi; birim temeli kaynak özetinde belirtilmemiş",
+   "conditions_tr": "Sıvı-katı oranında etki bildirilmedi.",
+   "source_ids": [
+    "Q44"
+   ]
+  },
+  {
+   "quantity_tr": "Durum buğdayı ekmeğinde tuz azaltımı",
+   "value_or_range": "%50; 10–20 g/kg NaCl azaltımı",
+   "unit": "%; g/kg",
+   "conditions_tr": "Kabuk rengi ve kızarmış aroma azaldı; özgül hacim ve iç doku tutarlılığı olumlu etkilendi, sayısal etki büyüklüğü verilmedi.",
+   "source_ids": [
+    "Q44"
+   ]
+  },
+  {
+   "quantity_tr": "Tuzsuz ve %2,5 NaCl'li un hamurunda farinograf sonuçları",
+   "value_or_range": "Su absorbsiyonu %63,6'dan %62,3'e; gelişme süresi 2,3'ten 5,2 dakikaya; stabilite 2,9'dan 18,0 dakikaya; yumuşama 60'tan 2 BU'ya; FQN 38'den 200 mm'ye",
+   "unit": "%; dakika; BU; mm",
+   "conditions_tr": "Buğday unu, %0 ile %2,5 NaCl karşılaştırması; farinograf.",
+   "source_ids": [
+    "Q45"
+   ]
+  },
+  {
+   "quantity_tr": "NaCl'nin nişasta pastalama sıcaklığına etkisi",
+   "value_or_range": "%0'da 60,00°C; %1,5'te 61,75°C; %2,5'te 61,85°C",
+   "unit": "°C; tuz düzeyi % (kaynakta belirtilen)",
+   "conditions_tr": "Buğday unu süspansiyonu; RVA.",
+   "source_ids": [
+    "Q45"
+   ]
+  },
+  {
+   "quantity_tr": "NaCl'nin tepe ve son viskoziteye etkisi",
+   "value_or_range": "Tepe: 2547, 2771, 2916; son: 2880, 2893, 3065; sırasıyla %0, %1,5 ve %2,5 NaCl",
+   "unit": "cP",
+   "conditions_tr": "Buğday unu süspansiyonu; RVA.",
+   "source_ids": [
+    "Q45"
+   ]
+  },
+  {
+   "quantity_tr": "NaCl'nin %2'den %0'a indirilmesinde hamur absorbsiyonu ve reoloji",
+   "value_or_range": "Absorbsiyon %58,9 ± 0,2'den %62,8 ± 0,1'e; gelişme 13,9 ± 1,1'den 7,4 ± 0,4 dakikaya; stabilite 18,3 ± 0,2'den 9,9 ± 0,6 dakikaya; W 264,0 ± 7,1'den 199,5 ± 7,8'e",
+   "unit": "%; dakika; W için 10⁻⁴ J",
+   "conditions_tr": "Ekmeklik buğday unu; %2 NaCl kontrolü ile tuzsuz formül karşılaştırması.",
+   "source_ids": [
+    "Q46"
+   ]
+  },
+  {
+   "quantity_tr": "NaCl'nin %2'den %0'a indirilmesinde ekmek hacmi ve sertliği",
+   "value_or_range": "Özgül hacim 3,16 ± 0,03'ten 2,90 ± 0,05'e; başlangıç sertliği 533 ± 27'den 717 ± 60'a; sertleşme hızı 294 ± 18'den 579 ± 45'e",
+   "unit": "cm³/g; gf; gf/gün",
+   "conditions_tr": "Ekmek; %2 NaCl kontrolü ile %0 NaCl karşılaştırması.",
+   "source_ids": [
+    "Q46"
+   ]
+  },
+  {
+   "quantity_tr": "NaCl'nin KCl ile %50 ikamesinde ekmek ölçümleri",
+   "value_or_range": "Özgül hacim kontrolle anlamlı farklı değil: 3,16 ± 0,03'e karşı 3,06 ± 0,11 cm³/g; sertlik 533 ± 27'ye karşı 531 ± 51 gf; sertleşme hızı 294 ± 18'e karşı 306 ± 22 gf/gün",
+   "unit": "cm³/g; gf; gf/gün",
+   "conditions_tr": "Toplam tuz %2; %2 NaCl kontrolü ile %1 NaCl + %1 KCl karşılaştırması.",
+   "source_ids": [
+    "Q46"
+   ]
+  },
+  {
+   "quantity_tr": "37 buğday çeşidinde NaCl azaltımı",
+   "value_or_range": "%2,0'dan %1,1'e",
+   "unit": "% un ağırlığına göre",
+   "conditions_tr": "Somun hacmi genellikle azaldı, ancak bazı çeşitlerde ters yanıt görüldü; uygun kıvam için iş girdisi ve karıştırma süresi azaldı.",
+   "source_ids": [
+    "Q47"
+   ]
+  },
+  {
+   "quantity_tr": "Tuz azaltımının pretzel hamuru fermantasyon hacmine etkisi",
+   "value_or_range": "70 ± 26'dan 183 ± 29'a; T1'den T4'e %40,53 azaltım",
+   "unit": "mL",
+   "conditions_tr": "Pretzel hamuru; 23°C'de 1 saat fermantasyon.",
+   "source_ids": [
+    "Q48"
+   ]
+  },
+  {
+   "quantity_tr": "NaCl artışının iki unda gaz üretimi ve tutulumuna etkisi",
+   "value_or_range": "Toplam gaz: Aubusson 1518'den 1272 mL'ye, Blasco 1584'ten 1242 mL'ye; tutma katsayısı sırasıyla %81,9'dan %89,8'e ve %80,7'den %88,5'e",
+   "unit": "mL; %",
+   "conditions_tr": "Aubusson ve Blasco unları; 0–%3 NaCl, reyofermentometrede 3 saat.",
+   "source_ids": [
+    "Q49"
+   ]
+  },
+  {
+   "quantity_tr": "NaCl'nin düşük düzeyde mikrobiyal büyümeyi sınırlaması",
+   "value_or_range": "Laktobasillerde tam inhibisyon %4 NaCl'de; C. milleri %8 NaCl'ye kadar büyüyebildi",
+   "unit": "% NaCl",
+   "conditions_tr": "Laktobasil testi 0–%4, maya testi 0–%8 NaCl aralığında.",
+   "source_ids": [
+    "Q4"
+   ]
+  },
+  {
+   "quantity_tr": "Farklı tuz ikamelerinde çörek ve rulo hacmi aralığı",
+   "value_or_range": "Çörek 197 ± 12–263 ± 15; rulo 206 ± 14–266 ± 13",
+   "unit": "cm³",
+   "conditions_tr": "T530 unu, sekiz NaCl azaltımı ve KCl/CaCl₂ ikamesi formülasyonu; ölçüm 90 dakika soğutma sonrasında.",
+   "source_ids": [
+    "Q42",
+    "Q50"
+   ]
+  },
+  {
+   "quantity_tr": "Kademeli azaltımda tüketici fark algısı",
+   "value_or_range": "%10 ve %20 azaltımda ayırt edilebilir fark yok; P=0,82 ve P=0,37",
+   "unit": "% azaltım; p-değeri",
+   "conditions_tr": "Lima'da 65 tüketiciyle üçgen tat testi.",
+   "source_ids": [
+    "P1075"
+   ]
+  },
+  {
+   "quantity_tr": "Düşük sodyumlu ekmek karşılaştırmaları",
+   "value_or_range": "282'den 231 mg/100 g'a ve 279'dan 123 mg/100 g'a düşüşlerde fark algılanmadı; tuzsuz örnek ile 64 mg/100 g sodyumlu örnek arasında da fark algılanmadı",
+   "unit": "mg sodyum/100 g",
+   "conditions_tr": "Mozambikli kentli tüketiciler; taze beyaz ekmekte üçgen test.",
+   "source_ids": [
+    "P1072"
+   ]
+  }
+ ],
+ "moderators_tr": [
+  "Un çeşidi ve buğday materyali önemlidir: tuz azaltımında somun hacmi bazı çeşitlerde ters yönde değişmiş, hamur yapışkanlığı da bazı çeşitlerde değişmemiştir.",
+  "Başlangıç ve son tuz düzeyi ile azaltımın büyüklüğü önemlidir; kademeli/orta düzey azaltımların duyusal olarak fark edilmemesi, tüm düzeylerde aynı sonucu garanti etmez.",
+  "Ürün biçimi ve proses (ekmek, yassı ekmek, pretzel; mayalı veya mayasız hamur; ekşi maya, YSF veya MFSD) fermantasyon, hacim ve reoloji yanıtını değiştirebilir.",
+  "Tuz ikame maddesinin türü ve ikame oranı önemlidir: KCl, CaCl₂, Mg tuzları ve glukonatların etkileri aynı değildir; KCl sonuçları da ürün sistemleri arasında değişmiştir.",
+  "Tuzun partikül boyutu, kapsüllenmesi ve hamur içindeki dağılımı, toplam NaCl düzeyinden bağımsız olarak duyusal tuzluluk algısını etkileyebilir.",
+  "Karıştırma yöntemi, hamurun hidrasyonu ve kıvamı, fermantasyon süresi/sıcaklığı ve ölçüm yöntemi reolojik veya gaz üretimi sonuçlarının karşılaştırılabilirliğini sınırlar.",
+  "Duyusal sonuçlar panel türüne, tüketici örneklemine ve teste (üçgen test, kabul puanı, satış takibi) bağlıdır."
+ ],
+ "conflicts": [
+  {
+   "issue_tr": "Tuz azaltımı bazı ekmek çalışmalarında somun hacmini düşürürken, başka formülasyonlarda tuz miktarı ile hacim arasında negatif ilişki veya azaltım düzeyine bağlı optimum bildirilmiştir.",
+   "likely_reason_tr": "Un çeşidi, ekmek tipi, mayalama ve işleme koşulları ile ikame tuzlarının farklı olması; ayrıca bazı bulguların korelasyon, bazılarının doğrudan müdahale karşılaştırması olması.",
+   "source_ids": [
+    "Q46",
+    "Q47",
+    "Q42",
+    "Q50",
+    "Q43",
+    "Q52"
+   ]
+  },
+  {
+   "issue_tr": "NaCl artışı farinograf su absorbsiyonunu düşürürken, tuzun tamamen kaldırılması absorbsiyonu artırmıştır; düşük sodyumlu deniz tuzu kullanımı ise bazı koşullarda absorbsiyonu artırmıştır.",
+   "likely_reason_tr": "NaCl düzeyinin, ikame tuzunun ve un/hamur sisteminin farklı olması; sonuçların aynı formülasyon ve aynı ölçüm koşullarında elde edilmemesi.",
+   "source_ids": [
+    "Q45",
+    "Q46",
+    "Q49",
+    "Q51",
+    "Q27"
+   ]
+  },
+  {
+   "issue_tr": "KCl ikamesi bazı standart ekmek çalışmalarında hacim, tekstür veya duyusal özellikleri değiştirmezken, diğer sistemlerde yüksek ikame düzeyi hacim ya da hamur reolojisiyle ilişkili değişiklik göstermiştir.",
+   "likely_reason_tr": "İkame oranı, ekşi maya veya ticari maya kullanımı, toplam tuz düzeyi ve hamur/ekmek türü farklıdır.",
+   "source_ids": [
+    "Q46",
+    "Q42",
+    "Q50",
+    "Q52"
+   ]
+  },
+  {
+   "issue_tr": "Tuz azaltımının algılanabilirliği çalışmalarda aynı değildir: bazı azaltımlar fark edilmemiş, bazı tuzsuz ve düşük sodyumlu örnekler arasında ise duyusal fark saptanmıştır.",
+   "likely_reason_tr": "Azaltım büyüklüğü, ürün ve tüketici grubu ile duyusal test tasarımının farklı olması.",
+   "source_ids": [
+    "Q44",
+    "P1070",
+    "P1072",
+    "P1075",
+    "P1076",
+    "Q46"
+   ]
+  },
+  {
+   "issue_tr": "Tuz artışı hamur yükselmesini veya toplam gaz üretimini sınırlayabilirken, tuz azaltımı bazı hamurlarda fermantasyon hacmini artırmıştır; buna karşılık gaz tutma katsayısı artabilir.",
+   "likely_reason_tr": "Gaz üretimi, gaz tutma ve hamur yüksekliği farklı çıktılardır; mayalı/mayasız hamur, mikroorganizma türü ve tuz konsantrasyonu da değişmektedir.",
+   "source_ids": [
+    "Q36",
+    "Q49",
+    "Q48",
+    "Q4",
+    "P151",
+    "Q51"
+   ]
+  }
+ ],
+ "simulation_rules": [
+  {
+   "rule_tr": "Hamur kuvveti/stabilitesi için NaCl etkisini, çalışılan aralıkta genel olarak artan fakat un ve proses özelliklerine bağlı bir yanıt olarak kodlayın; tuz azalınca zayıflama ve yapışkanlık artışı olasılığına izin verin.",
+   "functional_form": "Düşük–orta düzeylerde monoton artış veya doygunluk; un çeşidine göre katsayı değişkenliği. Gerekirse kuvvet ve yapışkanlık için ayrı çıktı fonksiyonları.",
+   "param_suggestions": "Gözlenen aralıklar %0–%3 NaCl; farinograf örneklerinde %0–%2,5. %2'den %0'a geçişte W 264,0'dan 199,5'e ve stabilite 18,3'ten 9,9 dakikaya değişmiştir; bunlar yalnız ilgili un/proses için kalibrasyon hedefidir.",
+   "source_ids": [
+    "Q45",
+    "Q46",
+    "Q49",
+    "Q51",
+    "Q115",
+    "Q27",
+    "Q47"
+   ]
+  },
+  {
+   "rule_tr": "Su absorbsiyonunu NaCl düzeyiyle genellikle ters yönde ilişkilendirin; ikame tuzları veya düşük sodyumlu tuzlar için ayrı parametre kullanın.",
+   "functional_form": "İncelenen aralık içinde doğrusal azalma veya zayıf doygunluk; alternatif tuz sistemleri için ayrı katsayı.",
+   "param_suggestions": "%0–%2,5 aralığında Q45'te %63,6'dan %62,3'e; %0–%2 aralığında Q46'da %58,9'dan %62,8'e ters yönde değişim görüldüğünden, tek evrensel eğim atamayın ve un bazında kalibre edin.",
+   "source_ids": [
+    "Q45",
+    "Q46",
+    "Q49",
+    "Q51",
+    "Q27"
+   ]
+  },
+  {
+   "rule_tr": "Fermantasyon hızı veya hamur yüksekliği için artan tuzun baskılayıcı etkisini, tür ve süreç koşullarına bağlı olarak modelleyin; gaz üretimini gaz tutmadan ayrı izleyin.",
+   "functional_form": "Tuz arttıkça azalan fermantasyon/gaz üretimi için monoton azalma veya eşik; gaz tutma için ayrı artan fonksiyon. Ürün ve maya türüne göre parametreleştirme.",
+   "param_suggestions": "Sayısal konsantrasyon kanıtı bulunan örnekler %0–%3 NaCl'de gaz üretimi, %0–%1,2'de mayalı hamur yüksekliği ve %0–%8'de maya büyümesidir. Pretzel örneğinde %40,53 azaltımda 1 saatlik hacim 70 ± 26'dan 183 ± 29 mL'ye çıkmıştır; bu değer yalnız o proses için kullanılmalıdır.",
+   "source_ids": [
+    "Q36",
+    "Q49",
+    "Q48",
+    "Q4",
+    "P151",
+    "Q51"
+   ]
+  },
+  {
+   "rule_tr": "Somun hacmini tuz düzeyinin evrensel, tek yönlü fonksiyonu olarak tanımlamayın; un, maya ve reçete koşullarına göre yön değişimi veya optimuma izin verin.",
+   "functional_form": "Ürün sistemine göre monoton azalma/artma veya optimumlu (tek tepeli) eğri; çeşide bağlı rastgele etki.",
+   "param_suggestions": "Gözlenen tuz aralıkları arasında %0–%2 NaCl ve %2,0–%1,1 azaltımı bulunur; Q1064 yalnızca optimumun belirli bir azaltım düzeyine kadar olabileceğini bildirir, sayısal optimum verilmediğinden tepe konumunu kanıtlanmış değer gibi sabitlemeyin.",
+   "source_ids": [
+    "Q46",
+    "Q47",
+    "Q42",
+    "Q50",
+    "Q43",
+    "Q52"
+   ]
+  },
+  {
+   "rule_tr": "Duyusal fark algısını yalnızca tuz konsantrasyonuna değil, azaltım yüzdesine ve sunum/test koşullarına bağlayın; kademeli azaltım için algısal eşik modeli kullanın.",
+   "functional_form": "Azaltım büyüklüğüne göre eşik veya sigmoid algılanabilirlik fonksiyonu; kabul edilebilirlik algılanabilirlikten ayrı çıktı olmalı.",
+   "param_suggestions": "Çalışmalarda fark edilmeyen azaltımlar %10 ve %20 (P1075), ekmekte %35 kademeli azaltım (Q44/P1070) ve bazı karşılaştırmalarda %50'yi aşan sodyum azaltımıdır (P1072). Bu bulgular farklı ürün ve testlere aittir; tek eşik olarak birleştirilmemelidir.",
+   "source_ids": [
+    "Q44",
+    "P1070",
+    "P1072",
+    "P1075",
+    "P1076",
+    "Q46"
+   ]
+  },
+  {
+   "rule_tr": "KCl ikamesini NaCl azaltımından ayrı bir girdi olarak ele alın; hacim, reoloji ve duyusal çıktıları ikame oranına ve ekmek sistemine göre hesaplayın.",
+   "functional_form": "İkame oranı için doğrusal veya doğrusal olmayan yanıt; sistemler arası etkileşim ve gerekirse eşik.",
+   "param_suggestions": "İncelenen oranlar %0–%100 ikameyi kapsar. YSF'de %20'ye kadar hacim farkı bildirilmezken, MFSD'de %50 ikamede en düşük hacim raporlanmıştır; bazı standart ekmek denemelerinde %100'e kadar hacim farkı saptanmamıştır.",
+   "source_ids": [
+    "Q46",
+    "Q42",
+    "Q50",
+    "Q52"
+   ]
+  },
+  {
+   "rule_tr": "İri taneli veya kapsüllenmiş tuzu modelleyecekseniz toplam tuz miktarından ayrı bir dağılım/yerleşim parametresi kullanın; bu parametre duyusal tuzluluk algısının korunmasını temsil etsin.",
+   "functional_form": "Partikül boyutu ve dağılımına bağlı algısal etki; mevcut bulgularla sayısal fonksiyon biçimi belirlenemez.",
+   "param_suggestions": "Kaynakta buğday ekmeği için 2–3,5 mm iri taneli tuzla %25 azaltım, 1000–2000 μm kapsüllenmiş tuzla %50 azaltım ve pizza kabuğunda %25 azaltım bildirilmiştir; bu düzeyler yalnız bildirilen uygulamalardır.",
+   "source_ids": [
+    "Q44"
+   ]
+  }
+ ],
+ "gaps_tr": [
+  "Birçok satır etki yönü veriyor ancak varyans, örneklem büyüklüğü veya karşılaştırmalar arası standartlaştırılabilir etki büyüklüğü vermiyor.",
+  "Tuz yüzdesinin bazı çalışmalarda un ağırlığına, bazılarında ürün veya formülasyon ağırlığına göre verildiği açık değil; bu durum sayısal birleştirmeyi sınırlar.",
+  "Aynı un ve aynı proses içinde birden fazla tuz düzeyini karşılaştırıp reoloji, fermantasyon, hacim ve duyusal sonuçları birlikte ölçen çalışma sayısı sınırlı.",
+  "Tuz azaltımının maya aktivitesine doğrudan etkisi ile hamur reolojisi ve gaz tutma üzerinden dolaylı etkisini ayıran nicel veriler yetersiz.",
+  "Hacim bulguları un çeşidi ve ürün sistemiyle değişiyor; çeşide özgü parametreler ve bağımsız doğrulamalar eksik.",
+  "Duyusal fark eşiği, kabul edilebilirlik ve satın alma davranışı aynı çalışmalarda tutarlı biçimde birlikte ölçülmemiştir.",
+  "KCl dışındaki ikame tuzları ve iri/kapsüllenmiş tuz uygulamaları için karşılaştırılabilir, doz-yanıt verileri sınırlıdır.",
+  "Tuz azaltımının mikrobiyal dayanıklılık, raf ömrü, renk ve aroma üzerindeki etkileri için bu bulgu kümesinde ortak ve nicel sonuçlar yetersizdir."
+ ],
+ "tid": "T05",
+ "name": "Tuz → maya aktivitesi, reoloji, hacim, duyusal",
+ "n_sources": 44,
+ "n_findings": 132,
+ "theme_source_ids": [
+  "P100",
+  "P1064",
+  "P1065",
+  "P1067",
+  "P1070",
+  "P1072",
+  "P1073",
+  "P1074",
+  "P1075",
+  "P1076",
+  "P108",
+  "P1104",
+  "P115",
+  "P118",
+  "P151",
+  "P47",
+  "P491",
+  "P510",
+  "P518",
+  "P520",
+  "P522",
+  "P526",
+  "P527",
+  "P91",
+  "P932",
+  "Q144",
+  "Q27",
+  "Q36",
+  "Q4",
+  "Q42",
+  "Q43",
+  "Q44",
+  "Q45",
+  "Q46",
+  "Q47",
+  "Q48",
+  "Q49",
+  "Q50",
+  "Q51",
+  "Q52",
+  "W31",
+  "W33",
+  "W45",
+  "W7"
+ ]
+}

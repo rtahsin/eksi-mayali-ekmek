@@ -1,0 +1,501 @@
+{
+ "consensus": [
+  {
+   "claim_tr": "Ekşi maya fermantasyonu bazı ekmeklerde GI'yi veya erken dönem yemek sonrası glikoz yanıtını düşürebilir; ancak etki tüm ekmeklerde ve çalışmalarda tutarlı değildir. Klinik yanıt, GI ve glikoz AUC'si ayrı sonuçlar olarak değerlendirilmelidir.",
+   "strength": "B_orta",
+   "n_supporting": 9,
+   "source_ids": [
+    "Q70",
+    "Q88",
+    "Q155",
+    "Q112",
+    "Q165"
+   ]
+  },
+  {
+   "claim_tr": "Lif, tam tahıl ve bazı alternatif un veya bileşenlerin eklenmesi çoğu bildirilen durumda nişasta sindirimini, GI'yi ya da glikoz salımını azaltır; etkinin büyüklüğü formülasyona ve ürüne bağlıdır.",
+   "strength": "A_güçlü",
+   "n_supporting": 10,
+   "source_ids": [
+    "Q9",
+    "Q99",
+    "Q101",
+    "Q13",
+    "P967",
+    "P927",
+    "P416"
+   ]
+  },
+  {
+   "claim_tr": "Yüksek amilozlu veya dirençli nişasta içeren bileşenler ve bazı fermantasyon/işleme uygulamaları dirençli nişastayı artırabilir ya da nişasta hidrolizini yavaşlatabilir; sonuç kullanılan malzeme ve prosese bağlıdır.",
+   "strength": "B_orta",
+   "n_supporting": 7,
+   "source_ids": [
+    "P1083",
+    "P1082",
+    "P1086",
+    "P145",
+    "P1054",
+    "Q43",
+    "P1053"
+   ]
+  },
+  {
+   "claim_tr": "Depolama ekmek nişastasının fiziksel düzenini ve sindirilebilir fraksiyonlarını değiştirebilir. Bazı ekşi mayalı ekmeklerde depolamayla RDS azalırken SDS artmıştır; kristalleşme ölçümleri ve ekmek sertliğiyle ilişkisi her zaman doğrudan yorumlanamaz.",
+   "strength": "B_orta",
+   "n_supporting": 5,
+   "source_ids": [
+    "Q27",
+    "Q128",
+    "Q127",
+    "P1054",
+    "Q105"
+   ]
+  },
+  {
+   "claim_tr": "Pişirme ve ısıl işlem nişasta jelatinleşmesini, yapısal düzenliliği ve sindirilebilirliği etkileyebilir; etkilerin yönü işlem türü ve koşullarına göre değiştiğinden tek bir evrensel pişirme etkisi çıkarılamaz.",
+   "strength": "B_orta",
+   "n_supporting": 6,
+   "source_ids": [
+    "Q13",
+    "P650",
+    "Q27",
+    "P1053",
+    "Q15"
+   ]
+  },
+  {
+   "claim_tr": "İnsan çalışmalarında ekmek türü ve formülasyonu glikoz yanıtını değiştirebilir; bazı sonuçlar yalnızca belirli zaman noktalarında görülürken AUC'de fark olmayabilir. Bu nedenle tek zaman noktası, toplam glisemik yanıtın yerine kullanılmamalıdır.",
+   "strength": "B_orta",
+   "n_supporting": 5,
+   "source_ids": [
+    "Q88",
+    "P983",
+    "P991",
+    "Q70"
+   ]
+  },
+  {
+   "claim_tr": "Tuz düzeyi nişastanın jelatinleşme/pasting özelliklerini etkileyebilir; ancak bu reolojik veya termal değişikliklerden tek başına insanlardaki glisemik yanıtın yönü çıkarılamaz.",
+   "strength": "C_zayıf",
+   "n_supporting": 4,
+   "source_ids": [
+    "Q45",
+    "Q51",
+    "Q43"
+   ]
+  },
+  {
+   "claim_tr": "Aynı bileşen değişikliği farklı ekmek matrislerinde farklı nişasta-fraksiyonu sonuçları verebilir. Örneğin tuz azaltımıyla birlikte kolin klorür kullanımı glutensiz ve glutenli yassı ekmeklerde aynı yönde sonuç vermemiştir.",
+   "strength": "C_zayıf",
+   "n_supporting": 2,
+   "source_ids": [
+    "Q43",
+    "P774"
+   ]
+  }
+ ],
+ "quantitative": [
+  {
+   "quantity_tr": "Ekşi maya içermeyen mayalı ekmeğe kıyasla ekşi maya ilavesiyle bildirilen glisemik indeks",
+   "value_or_range": "GI daha düşük; sayısal GI verilmemiş",
+   "unit": "GI",
+   "conditions_tr": "Bir çalışmada ekşi maya ilavesi %15 ve %22,5; Novotni ve ark. karşılaştırması.",
+   "source_ids": [
+    "Q70"
+   ]
+  },
+  {
+   "quantity_tr": "Ekşi mayalı buğday ekmeği ile diğer ekmeklerin GI ve GL değerleri",
+   "value_or_range": "GI: 54'e karşı 71; GL: 8'e karşı 9 (tam buğday) veya 10 (beyaz buğday unu ekmeği)",
+   "unit": "GI ve GL; 30 g porsiyon",
+   "conditions_tr": "Derlemede aktarılan ekmek karşılaştırmaları; porsiyon büyüklüğü 30 g.",
+   "source_ids": [
+    "Q112"
+   ]
+  },
+  {
+   "quantity_tr": "Glutensiz ekmeğe inülin tipi fruktan eklenmesiyle GI ve GL değişimi",
+   "value_or_range": "GI 71'den 48'e; GL 12'den 8'e",
+   "unit": "GI ve GL",
+   "conditions_tr": "Glutensiz ekmeğe %12 inülin tipi fruktan eklenmesi.",
+   "source_ids": [
+    "Q99",
+    "Q101"
+   ]
+  },
+  {
+   "quantity_tr": "Ekşi hamur çalışmalarında dirençli ve hızlı sindirilebilir nişasta değişimi",
+   "value_or_range": "Dirençli nişasta %89–120 artış; hızlı sindirilebilir nişasta yaklaşık yarıya iniş",
+   "unit": "%",
+   "conditions_tr": "Derlemede bildirilen farklı ekşi hamur çalışmaları; çalışmalar arası koşullar değişken.",
+   "source_ids": [
+    "Q9"
+   ]
+  },
+  {
+   "quantity_tr": "Ekşi maya ile diyet lifi birlikte kullanıldığında bildirilen GI",
+   "value_or_range": "GI 55'in altına düşebilir",
+   "unit": "GI",
+   "conditions_tr": "Ekşi hamura %5–10 diyet lifi eklenmesi.",
+   "source_ids": [
+    "Q9"
+   ]
+  },
+  {
+   "quantity_tr": "Laktik asitten zengin tam öğün ekşi mayalı ekmekte erken kan glikozu yanıtı",
+   "value_or_range": "15. dakikada p_adj < 0,001; 30. dakikada p_adj = 0,003; 4 saatlik glikoz AUC'sinde fark yok (p > 0,05)",
+   "unit": "dakika; p değeri",
+   "conditions_tr": "WSB ile WYB karşılaştırması; ölçüm ekmek tüketiminden sonraki 4 saat boyunca yapıldı.",
+   "source_ids": [
+    "Q88"
+   ]
+  },
+  {
+   "quantity_tr": "Bir derlemede 120. dakikada bildirilen kan glikozu",
+   "value_or_range": "Ekşi mayalı ekmek 90 mmol/L; beyaz buğday ekmeği 125 mmol/L",
+   "unit": "mmol/L (kaynak satırında bildirildiği biçimde)",
+   "conditions_tr": "Ekşi mayalı ekmek ile beyaz buğday ekmeği tüketimi; ölçüm 120. dakika.",
+   "source_ids": [
+    "Q155"
+   ]
+  },
+  {
+   "quantity_tr": "Sağlıklı popülasyonlardaki ekşi maya ve glisemi çalışmalarının sayısı",
+   "value_or_range": "12 çalışmanın 10'unda bir tür olumlu glisemik etki; insülini ölçen 7 çalışmanın 5'inde bazı olumlu etkiler",
+   "unit": "çalışma sayısı",
+   "conditions_tr": "Benzer mayalı ekmekle karşılaştırmalı derleme; derleme kanıt düzeyini düşük ve genel kanıtı ikna edici olmayan olarak değerlendirdi.",
+   "source_ids": [
+    "Q70"
+   ]
+  },
+  {
+   "quantity_tr": "Tuz düzeyinin buğday unu süspansiyonundaki nişasta pastalama sıcaklığına etkisi",
+   "value_or_range": "Kontrol 60,00°C; %1,5 NaCl'de 61,75°C; %2,5 NaCl'de 61,85°C",
+   "unit": "°C",
+   "conditions_tr": "Buğday unu süspansiyonu; RVA ölçümü; %0, %1,5 ve %2,5 NaCl.",
+   "source_ids": [
+    "Q45"
+   ]
+  },
+  {
+   "quantity_tr": "Un tipine göre nişasta pasting sıcaklığı",
+   "value_or_range": "Beyaz buğday unu 57,6 ± 0,8°C; tam buğday unu 73,1 ± 6,7°C",
+   "unit": "°C",
+   "conditions_tr": "WF ile WWM karşılaştırması.",
+   "source_ids": [
+    "Q15"
+   ]
+  },
+  {
+   "quantity_tr": "Par-bake patatesli ekmeğinde dondurulmuş depolamayla tahmini GI",
+   "value_or_range": "86,1'den 69,9'a",
+   "unit": "eGI",
+   "conditions_tr": "Afyonkarahisar patatesli ekmeği; −18°C'de 0–60 gün depolama.",
+   "source_ids": [
+    "Q105"
+   ]
+  },
+  {
+   "quantity_tr": "Quinoa unu ve buğday kepeği içeren ekmeğin GI'si",
+   "value_or_range": "42,00 ± 0,83; kontrol 69,20 ± 1,84",
+   "unit": "GI",
+   "conditions_tr": "İnsanlarda değerlendirilen TQ13 formülasyonu: %20 quinoa unu ve %3 buğday kepeği.",
+   "source_ids": [
+    "P995"
+   ]
+  },
+  {
+   "quantity_tr": "Yüksek amilozlu buğday unu ile ekmekte dirençli nişasta değişimi",
+   "value_or_range": "Kontrole kıyasla yaklaşık 6, 11 veya 12 kat artış",
+   "unit": "kat",
+   "conditions_tr": "%84 amilozlu unun %50 ikamesinde yaklaşık 6 kat; %71 amilozlu unun %100 ikamesinde yaklaşık 11 kat; %84 amilozlu unun %100 ikamesinde yaklaşık 12 kat.",
+   "source_ids": [
+    "P1083"
+   ]
+  },
+  {
+   "quantity_tr": "Optimize edilmiş ortak kültürlü sıvı ekşi hamurla mantouda dirençli nişasta",
+   "value_or_range": "%23,02'den %40,68'e; bildirilen artış %76,7",
+   "unit": "%",
+   "conditions_tr": "K. humilis 3-8 ve F. sanfranciscensis 5 ortak kültürü; mantou üretimi.",
+   "source_ids": [
+    "P145"
+   ]
+  },
+  {
+   "quantity_tr": "Glutensiz yassı ekmekte tuz azaltımıyla sindirilebilir nişasta fraksiyonları",
+   "value_or_range": "RDS: 49,72 ± 5,16'dan 40,29 ± 1,60 g/100 g'a; SDS: 22,21 ± 3,74'ten 28,40 ± 0,36 g/100 g'a; RS: 16,23 ± 1,30'dan 18,97 ± 0,42 g/100 g'a",
+   "unit": "g/100 g",
+   "conditions_tr": "Pirinç unlu glutensiz yassı ekmek; kontrol ile %50 tuz azaltımı karşılaştırması. Hidroliz parametreleri farkları istatistiksel olarak anlamlı değildi.",
+   "source_ids": [
+    "Q43"
+   ]
+  },
+  {
+   "quantity_tr": "Fonksiyonel L-tipi inülin içeren un ikamesinde en düşük hidroliz indeksi",
+   "value_or_range": "26,64",
+   "unit": "%",
+   "conditions_tr": "L-tipi inülin içeren IRWF; ikame düzeyi %20 a/a.",
+   "source_ids": [
+    "P1006"
+   ]
+  },
+  {
+   "quantity_tr": "Dondurulmuş depolama sonrası par-bake ekmeğinde gözlenen süre aralığı",
+   "value_or_range": "0–60 gün",
+   "unit": "gün",
+   "conditions_tr": "Afyonkarahisar patatesli ekmeği örnekleri −18°C'de depolandı; eGI 86,1'den 69,9'a düştü.",
+   "source_ids": [
+    "Q105"
+   ]
+  }
+ ],
+ "moderators_tr": [
+  "Ekşi maya starterinin türü, fermantasyon süresi ve koşulları; ekmekte ekşi maya oranı.",
+  "Un türü ve tam tahıl oranı; lif, kepek, protein, yağ, polifenol ve alternatif un bileşenlerinin miktarı.",
+  "Ekmek matrisi: glutenli veya glutensiz oluşu ve yassı ekmek, somun ya da buharda pişmiş ekmek gibi ürün tipi.",
+  "Pişirme, mikrodalga/ohmik ısıtma, par-bake ve dondurma-çözündürme koşulları.",
+  "Depolama sıcaklığı ve süresi; retrogradasyon ve yeniden kristalleşme düzeyi.",
+  "NaCl düzeyi ve tuz azaltımına eşlik eden ikame bileşenleri; tuzun jelatinleşmeye etkisi, glisemik etkiye doğrudan eşdeğer değildir.",
+  "İnsan çalışmasında popülasyon (sağlıklı, fazla kilolu veya tip 2 diyabetli), porsiyon ve ölçüm zamanı; glikoz tepe noktası ile AUC farklı sonuçlar verebilir.",
+  "Ölçüm türü: tahmini GI, insan GI'si, in vitro hidroliz/sindirim ve yemek sonrası glikoz yanıtı birbirinin yerine kullanılamaz."
+ ],
+ "conflicts": [
+  {
+   "issue_tr": "Ekşi mayanın GI'yi veya glisemik yanıtı düşürmesi konusunda tutarsızlık vardır. Bazı derleme ve çalışmalar düşüş bildirirken bazıları etkinin koşula bağlı olduğunu veya tek başına ekşi mayadan kesin sonuç çıkarılamayacağını belirtir; bazı klinik karşılaştırmalarda glikoz AUC'si değişmemiştir.",
+   "likely_reason_tr": "Starter, fermantasyon süresi, ekmek formülasyonu ve karşılaştırıcıların farklı olması; ayrıca GI, tek zaman noktasındaki glikoz ve AUC gibi farklı sonlanımların birlikte yorumlanması.",
+   "source_ids": [
+    "Q70",
+    "Q88",
+    "Q155",
+    "Q165",
+    "Q112"
+   ]
+  },
+  {
+   "issue_tr": "Tuz azaltımı ve kolin klorür eklenmesi glutensiz yassı ekmekte RDS'yi düşürüp RS'yi artırırken, glutenli yassı ekmekte kolin klorürlü koşulda RDS ve hidroliz parametreleri artmış, RS azalmıştır.",
+   "likely_reason_tr": "Glutenli ve glutensiz ürün matrislerinin farklılığı; ayrıca tuz azaltımının ve kolin klorür ikamesinin birlikte uygulanması.",
+   "source_ids": [
+    "Q43"
+   ]
+  },
+  {
+   "issue_tr": "Dondurulmuş depolamanın nişasta düzeni ve sindirilebilirlik üzerindeki etkisi kaynaklar arasında aynı biçimde ifade edilmemiştir: bazı kaynaklar belirli sıcaklıklarda kristalit gelişimi farkı bildirirken, bir deney tek dondurma-çözündürme ve bir haftalık depolamada nişasta özelliklerinde değişiklik bulmamıştır.",
+   "likely_reason_tr": "Depolama sıcaklığı, süresi, örnek türü ve ölçülen özelliğin (kristallilik, jelatinleşme/retrogradasyon veya sindirilebilirlik) farklı olması.",
+   "source_ids": [
+    "Q27",
+    "Q16",
+    "Q128",
+    "Q105"
+   ]
+  },
+  {
+   "issue_tr": "Ekmek depolaması sırasında kristallilik artışı ve nişasta yeniden düzenlenmesi bildirilirken, kristalleşme ile ekmek sertleşmesi arasında mutlak bir neden-sonuç ilişkisi kurulmadığı da belirtilmiştir.",
+   "likely_reason_tr": "Farklı çalışmaların yapısal ölçümleri ve tekstür sonuçlarını farklı biçimde değerlendirmesi; kristallilik tek başına bütün bayatlama mekanizmalarını temsil etmez.",
+   "source_ids": [
+    "Q128",
+    "Q127"
+   ]
+  }
+ ],
+ "simulation_rules": [
+  {
+   "rule_tr": "Ekşi maya etkisini tek bir sabit GI indirimi olarak kodlamayın. Starter, süre ve formülasyona bağlı bir etki terimi kullanın; kanıt karışık olduğundan varsayılan etkiyi sıfıra yakın tutup belirsizliği yüksek tanımlayın.",
+   "functional_form": "Koşula bağlı katsayı veya etkileşim terimi: ΔGI = f(starter, fermantasyon süresi, formülasyon); çalışmalar arası rastgele etki eklenebilir.",
+   "param_suggestions": "Kaynaklarda örnek değerler GI ≈54 karşılaştırma ≈75 (Q984) ve 30 g porsiyonda GI 54'e karşı 71 (Q112) olarak bildirilmiştir; bunları evrensel katsayı değil, ürün-özel kalibrasyon hedefleri olarak kullanın. Q70 derlemesinde kanıt düşük düzeydedir.",
+   "source_ids": [
+    "Q70",
+    "Q112",
+    "Q165"
+   ]
+  },
+  {
+   "rule_tr": "Lif veya inülin etkisini dozla artabilen, fakat ürün matrisine bağlı bir sindirilebilirlik/GI azaltımı olarak modelleyin; yalnızca ölçülmüş doz aralıklarında kalibrasyon yapın.",
+   "functional_form": "Doza bağlı azalma; veri yeterliyse doyuma yaklaşan fonksiyon (ör. doygunluk eğrisi), aksi halde aralık içi doğrusal yaklaşım.",
+   "param_suggestions": "%12 inülin tipi fruktan için GI 71'den 48'e ve GL 12'den 8'e; ekşi maya ile %5–10 lif kullanımında GI'nin 55'in altına inebildiği bildirilmiştir. Bunları yalnızca ilgili ürün koşullarına bağlayın.",
+   "source_ids": [
+    "Q99",
+    "Q101",
+    "Q9"
+   ]
+  },
+  {
+   "rule_tr": "Yüksek amiloz veya dirençli nişasta bileşenlerini sindirilebilir nişasta havuzundan daha yavaş sindirilen/dirençli havuza aktarım olarak kodlayın.",
+   "functional_form": "Bileşen dozu ve amiloz düzeyine bağlı fraksiyon dönüşümü; ölçüm yoksa GI etkisini doğrudan belirlemek yerine RDS/SDS/RS bileşenlerini izleyin.",
+   "param_suggestions": "Yüksek amilozlu un için bildirilen RS artışı kontrole göre yaklaşık 6–12 kattır; bu geniş aralık yalnızca bildirilen un ikame düzeyleri ve amiloz içerikleri için geçerlidir.",
+   "source_ids": [
+    "P1083",
+    "P1082",
+    "P1086",
+    "Q43"
+   ]
+  },
+  {
+   "rule_tr": "Fermantasyon ve işleme etkilerini en azından un/ekmek tipiyle etkileşimli tanımlayın; bazı uygulamalar hidrolizi azaltırken LAB kaynaklı nişasta hidrolizi artış da oluşturabilir.",
+   "functional_form": "İşlem × matris etkileşimi; yönü önceden sabitlenmeyen katsayı veya koşula bağlı dallanma.",
+   "param_suggestions": "Fermente mısır yan ürünleri için nişasta hidroliz indeksinde yaklaşık %13 düşüş; bazı ekşi hamur/LAB kaynaklarında nişasta hidrolizinin artabildiği bildirilmiştir. Aynı parametreyi tüm fermantasyonlara atamayın.",
+   "source_ids": [
+    "P1062",
+    "P153",
+    "P1053",
+    "Q165"
+   ]
+  },
+  {
+   "rule_tr": "Depolama süresini nişasta fraksiyonları ve yapısal düzen için ayrı durum değişkenleriyle temsil edin; ölçüm yoksa kristallilik artışını doğrudan GI düşüşüne çevirmeyin.",
+   "functional_form": "Zamana bağlı, başlangıçta hızlı ve daha sonra yavaşlayan değişim; gerektiğinde depolama sıcaklığına bağlı dallanma.",
+   "param_suggestions": "Kaynaklar ilk 24 saatte bazı nişasta özelliklerinde hızlı değişim ve sonraki dönemde daha yavaş değişim bildiriyor; sayısal hız sabiti verilmediğinden hız parametresi deneysel kalibrasyon gerektirir. RDS azalması/SDS artışı ekşi mayalı ekmek için bildirilmiştir.",
+   "source_ids": [
+    "Q127",
+    "Q128",
+    "P1054"
+   ]
+  },
+  {
+   "rule_tr": "Isıtma, pişirme ve tuz düzeyini glisemik yanıtın doğrudan vekili olarak değil, jelatinleşme ve nişasta yapısını değiştiren proses değişkenleri olarak modele alın.",
+   "functional_form": "Koşula bağlı eşik veya etkileşim modeli; mevcut kanıt tek yönlü genel bir fonksiyon seçmek için yetersizdir.",
+   "param_suggestions": "RVA süspansiyonunda %0–2,5 NaCl için 60,00–61,85°C pastalama sıcaklığı; 6–40°C/dk ısıtma hızında jelatinleşme özelliklerinin yönü değişmiştir. Bu değerleri ürün-özel termal alt modele koyun, doğrudan GI katsayısı olarak kullanmayın.",
+   "source_ids": [
+    "Q45",
+    "Q27",
+    "P650"
+   ]
+  },
+  {
+   "rule_tr": "İnsan glikoz yanıtını zaman serisi ve toplam yanıt olarak ayrı modelleyin; erken farkın AUC farkı olduğunu varsaymayın.",
+   "functional_form": "Zaman bağımlı yanıt eğrisi; tepe zamanı/yüksekliği ve AUC için ayrı çıktılar.",
+   "param_suggestions": "Bir çalışmada WSB ile WYB arasında 15. ve 30. dakikada fark varken 4 saatlik glikoz AUC'sinde fark yoktur. Bu nedenle tek bir çarpan yerine zaman noktası ve AUC katsayılarını ayrı kalibre edin.",
+   "source_ids": [
+    "Q88",
+    "P983"
+   ]
+  }
+ ],
+ "gaps_tr": [
+  "Ekşi maya çalışmalarında starter suşu, fermantasyon süresi, asitlik ve ekmek formülasyonu yeterince standartlaştırılmamıştır; sonuçların karşılaştırılabilirliği sınırlıdır.",
+  "Birçok bulguda GI, RDS/SDS/RS veya hidroliz için sayısal etki büyüklüğü, değişkenlik ölçüsü ve istatistiksel anlamlılık verilmemiştir.",
+  "İn vitro sindirilebilirlik, tahmini GI ve insanlarda ölçülen glikoz yanıtı arasında doğrudan dönüşüm sağlayacak ortak veriler eksiktir.",
+  "Depolama sıcaklığı ve süresinin nişasta fraksiyonları, kristallilik ve insan glisemik yanıtı üzerindeki ortak etkisini nicel olarak tanımlayan veriler azdır.",
+  "Tuzun nişasta jelatinleşmesi/pasting özelliklerine etkisi bildirilmiş olsa da tuz düzeyinden insan glisemik yanıtına uzanan doğrudan kanıt sınırlıdır.",
+  "İnsan çalışmalarında örneklem, porsiyon, popülasyon ve ölçüm zamanlarının farklılığı nedeniyle sonuçlar arasında doğrudan nicel karşılaştırma yapılamamaktadır.",
+  "İşleme koşullarının (pişirme, dondurma-çözündürme, mikrodalga veya ohmik ısıtma) sindirilebilir nişasta üzerindeki etkileri için karşılaştırılabilir doz-yanıt eğrileri eksiktir."
+ ],
+ "tid": "T20",
+ "name": "Glisemik yanıt ve nişasta sindirilebilirliği",
+ "n_sources": 111,
+ "n_findings": 173,
+ "theme_source_ids": [
+  "P1005",
+  "P1006",
+  "P1009",
+  "P1053",
+  "P1054",
+  "P1055",
+  "P1058",
+  "P1060",
+  "P1062",
+  "P1063",
+  "P1082",
+  "P1083",
+  "P1086",
+  "P1087",
+  "P1088",
+  "P1092",
+  "P1107",
+  "P1120",
+  "P1134",
+  "P1254",
+  "P145",
+  "P16",
+  "P178",
+  "P205",
+  "P294",
+  "P298",
+  "P304",
+  "P305",
+  "P307",
+  "P313",
+  "P327",
+  "P35",
+  "P351",
+  "P36",
+  "P383",
+  "P408",
+  "P409",
+  "P410",
+  "P416",
+  "P449",
+  "P468",
+  "P471",
+  "P475",
+  "P501",
+  "P522",
+  "P530",
+  "P532",
+  "P536",
+  "P573",
+  "P583",
+  "P597",
+  "P603",
+  "P611",
+  "P650",
+  "P656",
+  "P658",
+  "P660",
+  "P661",
+  "P665",
+  "P721",
+  "P759",
+  "P772",
+  "P773",
+  "P774",
+  "P775",
+  "P776",
+  "P780",
+  "P800",
+  "P878",
+  "P903",
+  "P910",
+  "P927",
+  "P933",
+  "P947",
+  "P967",
+  "P971",
+  "P977",
+  "P983",
+  "P984",
+  "P987",
+  "P988",
+  "P991",
+  "P992",
+  "P993",
+  "P995",
+  "P999",
+  "Q101",
+  "Q105",
+  "Q112",
+  "Q127",
+  "Q128",
+  "Q13",
+  "Q135",
+  "Q136",
+  "Q15",
+  "Q153",
+  "Q155",
+  "Q16",
+  "Q165",
+  "Q27",
+  "Q33",
+  "Q43",
+  "Q45",
+  "Q51",
+  "Q70",
+  "Q80",
+  "Q88",
+  "Q9",
+  "Q99",
+  "W36",
+  "W42"
+ ]
+}

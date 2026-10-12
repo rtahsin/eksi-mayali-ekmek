@@ -1,0 +1,459 @@
+{
+ "consensus": [
+  {
+   "claim_tr": "Fermantasyon süresinin uzaması çoğu ekşi hamur ve hamur sisteminde pH’ın düşmesiyle; TTA veya ölçülen organik asitlerin artmasıyla ilişkilidir.",
+   "strength": "A_güçlü",
+   "n_supporting": 11,
+   "source_ids": [
+    "Q9",
+    "Q82",
+    "Q84",
+    "Q56",
+    "Q149",
+    "Q139",
+    "Q140",
+    "Q141",
+    "Q97",
+    "Q119",
+    "Q151"
+   ]
+  },
+  {
+   "claim_tr": "Daha yüksek fermantasyon sıcaklığı bazı sistemlerde asitlenmeyi hızlandırabilir; ancak sıcaklığın etkisi süreye ve sisteme bağlıdır ve her zaman daha düşük son pH anlamına gelmez.",
+   "strength": "B_orta",
+   "n_supporting": 4,
+   "source_ids": [
+    "Q3",
+    "Q9",
+    "Q1",
+    "P133"
+   ]
+  },
+  {
+   "claim_tr": "Ekşi maya oranını artırmak genellikle ekmek veya hamur pH’ını düşürür ve TTA/asitliği yükseltir; yan ürün, un ve ekşi maya formülasyonu gibi özellikler bu ilişkiyi değiştirebilir.",
+   "strength": "A_güçlü",
+   "n_supporting": 6,
+   "source_ids": [
+    "Q82",
+    "Q100",
+    "Q115",
+    "Q119",
+    "Q98",
+    "Q150"
+   ]
+  },
+  {
+   "claim_tr": "pH ve TTA çoğu fermantasyon bulgusunda ters yönde değişir; ancak birbirlerinin tam karşılığı değildir ve bazı formülasyonlarda biri değişirken diğeri anlamlı değişmeyebilir.",
+   "strength": "B_orta",
+   "n_supporting": 5,
+   "source_ids": [
+    "Q97",
+    "Q140",
+    "Q141",
+    "Q26",
+    "P174"
+   ]
+  },
+  {
+   "claim_tr": "Başlatıcı suşu veya mikrobiyal topluluk, asitlenme hızını ve üretilen asit profilini etkileyebilir; laktik ve asetik asidin aynı yönde değişmesi zorunlu değildir.",
+   "strength": "B_orta",
+   "n_supporting": 7,
+   "source_ids": [
+    "Q8",
+    "Q160",
+    "Q165",
+    "Q52"
+   ]
+  },
+  {
+   "claim_tr": "Fermantasyon ve yenileme ilerledikçe pH düşebilir ve TTA artabilir; bununla birlikte olgun ekşi hamurda bazı ölçütler yenileme zamanına kadar kararlı kalabilir.",
+   "strength": "B_orta",
+   "n_supporting": 3,
+   "source_ids": [
+    "Q97",
+    "P140",
+    "P180"
+   ]
+  },
+  {
+   "claim_tr": "Hamur verimi/hidrasyon, asit üretimini değiştirebilen bir moderatördür; bir çalışmada DY’nin %200’den %300’e çıkarılması laktik asit ve bakteri sayısını düşürmüştür, ancak bu yön tüm sistemlere genellenemez.",
+   "strength": "C_zayıf",
+   "n_supporting": 2,
+   "source_ids": [
+    "Q98",
+    "P174"
+   ]
+  },
+  {
+   "claim_tr": "Soğuk koşullarda da asitlenme görülebilir; ancak mevcut bulgular soğuk fermantasyonun sıcak fermantasyona göre asit üretimini ne ölçüde değiştirdiğini ortak bir büyüklükle belirlemiyor.",
+   "strength": "C_zayıf",
+   "n_supporting": 3,
+   "source_ids": [
+    "Q141",
+    "W6"
+   ]
+  },
+  {
+   "claim_tr": "Fermantasyon süresi ve sıcaklığının etkisi doğrusal olmak zorunda değildir: erken ve geç fermantasyon evrelerinde sıcaklıklar arasındaki asitlenme sıralaması değişebilir ve bazı çalışmalarda optimal süre bildirilmiştir.",
+   "strength": "B_orta",
+   "n_supporting": 2,
+   "source_ids": [
+    "P133",
+    "Q9"
+   ]
+  }
+ ],
+ "quantitative": [
+  {
+   "quantity_tr": "Buğday ekşi hamurunda fermantasyonu 4 saatten 10 saate uzatınca ekşi hamur pH’ı",
+   "value_or_range": "4.51–4.73'ten 3.30–3.50'ye",
+   "unit": "pH",
+   "conditions_tr": "30 °C; 4 ve 10 saat karşılaştırması.",
+   "source_ids": [
+    "Q9"
+   ]
+  },
+  {
+   "quantity_tr": "Buğday ekşi hamurunda fermantasyonu 4 saatten 10 saate uzatınca ekmek pH’ı",
+   "value_or_range": "4.45–4.74'ten 3.20–3.40'a",
+   "unit": "pH",
+   "conditions_tr": "30 °C; 4 ve 10 saat karşılaştırması.",
+   "source_ids": [
+    "Q9"
+   ]
+  },
+  {
+   "quantity_tr": "İdeal ekşi hamur pH’ına ulaşma süresi",
+   "value_or_range": "25 °C'de 11 saat; 35 °C'de 9 saat",
+   "unit": "saat",
+   "conditions_tr": "Ekşi hamur fermantasyonu; bildirilen ideal pH değeri verilmemiştir.",
+   "source_ids": [
+    "Q9"
+   ]
+  },
+  {
+   "quantity_tr": "Ekşi maya oranına bağlı ekmek TTA değerleri",
+   "value_or_range": "%0, %10, %20 ve %30 ekşi maya için sırasıyla 4.93, 5.86, 6.53 ve 7.10",
+   "unit": "Kaynakta bildirilen TTA birimi",
+   "conditions_tr": "Dört buğday çeşidiyle hazırlanan tam buğday ekmeği; ekşi maya seviyesi 100 g un bazında.",
+   "source_ids": [
+    "Q82"
+   ]
+  },
+  {
+   "quantity_tr": "Ekşi maya oranına bağlı ekmek pH değerleri",
+   "value_or_range": "%0, %10, %20 ve %30 ekşi maya için sırasıyla 6.02, 5.82, 5.62 ve 5.41",
+   "unit": "pH",
+   "conditions_tr": "Tam buğday ekmeği; ekşi maya seviyesi 100 g un bazında.",
+   "source_ids": [
+    "Q82"
+   ]
+  },
+  {
+   "quantity_tr": "Yedi günlük günlük besleme fermantasyonunda pH değişimi",
+   "value_or_range": "USWF: 6.02 ± 0.12 → 3.74 ± 0.01; SWF20: 5.50 ± 0.04 → 3.80 ± 0.01; SWF25: 5.45 ± 0.02 → 3.78 ± 0.01",
+   "unit": "pH",
+   "conditions_tr": "Un-su oranı 1:1; 30 °C; yedi gün; günlük %20 back-slopping.",
+   "source_ids": [
+    "Q84"
+   ]
+  },
+  {
+   "quantity_tr": "LAB starterli pizza hamurundaki laktik asit, 48 saatte",
+   "value_or_range": "DL 4.93 ± 0.91; DY 0.17 ± 0.02",
+   "unit": "g/L",
+   "conditions_tr": "22 °C ve %80 bağıl nem; DL: LAB starteri ve ekmek mayası, DY: yalnız ekmek mayası.",
+   "source_ids": [
+    "Q56"
+   ]
+  },
+  {
+   "quantity_tr": "Pizza hamurunda 0–48 saat pH değişimi",
+   "value_or_range": "DL: 6.10 ± 0.04 → 3.80 ± 0.13; DY: 6.13 ± 0.03 → 5.44 ± 0.04",
+   "unit": "pH",
+   "conditions_tr": "22 °C ve %80 bağıl nem; DL ve DY karşılaştırması.",
+   "source_ids": [
+    "Q56"
+   ]
+  },
+  {
+   "quantity_tr": "Kefir tanesi kültürü starterli hamurda 0–8 saat pH değişimi",
+   "value_or_range": "5.48 ± 0.20 → 4.56",
+   "unit": "pH",
+   "conditions_tr": "25 °C fermantasyon; ara ölçüm 4. saatte yapılmış.",
+   "source_ids": [
+    "Q149"
+   ]
+  },
+  {
+   "quantity_tr": "Kefir tanesi kültürü starterli hamurda 0–8 saat titrasyon asitliği değişimi",
+   "value_or_range": "20 ± 0.05% → 49 ± 0.05%",
+   "unit": "%",
+   "conditions_tr": "25 °C; artış için P < 0.05 bildirilmiş.",
+   "source_ids": [
+    "Q149"
+   ]
+  },
+  {
+   "quantity_tr": "Kefir tanesi kültürü starterli hamurda laktik ve asetik asit değişimi",
+   "value_or_range": "Laktik asit 311 → 901; asetik asit 1288 → 1999",
+   "unit": "mg/L",
+   "conditions_tr": "25 °C’de 8 saat; 0–4 saat arasında iki asitte de anlamlı değişim bildirilmemiş (P > 0.05).",
+   "source_ids": [
+    "Q149"
+   ]
+  },
+  {
+   "quantity_tr": "0–6 saat spontan ekşi maya fermantasyonunda TTA artışı",
+   "value_or_range": "Buğday %166.9; khorasan %155.5; spelt %143.3; emmer %139.2",
+   "unit": "%",
+   "conditions_tr": "25 °C; ölçümler 0, 2, 4 ve 6. saatlerde.",
+   "source_ids": [
+    "Q139"
+   ]
+  },
+  {
+   "quantity_tr": "105. günde sıcaklıkla ilişkili toplam asitlik",
+   "value_or_range": "Çavdar: 10 °C'de 57.92, 4 °C'de 38.51; buğday: 10 °C'de 39.39, 4 °C'de 25.83",
+   "unit": "g/L",
+   "conditions_tr": "Çavdar ve buğday ekşi hamurları; 105. gün ölçümü.",
+   "source_ids": [
+    "Q1"
+   ]
+  },
+  {
+   "quantity_tr": "Dokuz geri besleme boyunca ortalama pH değişimi",
+   "value_or_range": "Rafine unlu hamurlar 6.09 → 3.73; tam buğday unlu hamurlar 6.33 → 3.88",
+   "unit": "pH",
+   "conditions_tr": "BS0–BS9; 25 °C; başlangıç un:su 1:1, ardından dokuz kez 1:2:2 geri besleme.",
+   "source_ids": [
+    "Q97"
+   ]
+  },
+  {
+   "quantity_tr": "Dokuz geri besleme boyunca TTA değişimi",
+   "value_or_range": "Rafine unlu hamurlar 1.83 → 10.3; tam buğday unlu hamurlar 3.0 → 17.5",
+   "unit": "mL/10 g",
+   "conditions_tr": "BS0–BS9; 25 °C; ardışık geri besleme sistemi.",
+   "source_ids": [
+    "Q97"
+   ]
+  },
+  {
+   "quantity_tr": "Ekşi hamur DY'si %200'den %300'e çıkarıldığında laktik asit",
+   "value_or_range": "L. fermentum: 520.33 → 129.00; L. plantarum: 620.33 → 169.00",
+   "unit": "mg/100 g kuru baz",
+   "conditions_tr": "Ekşi hamur 24 saat 30 °C'de fermente edilmiştir.",
+   "source_ids": [
+    "Q98"
+   ]
+  },
+  {
+   "quantity_tr": "Scald fermantasyonunda 48 saate kadar laktik asit artışı",
+   "value_or_range": "13.8 kat",
+   "unit": "kat",
+   "conditions_tr": "Letonya tipi çavdar ekmeği scald'ı; 0, 12, 24, 36 ve 48 saatlik süreler incelenmiştir.",
+   "source_ids": []
+  }
+ ],
+ "moderators_tr": [
+  "Fermantasyon sıcaklığı ve sıcaklık geçmişi; sıcaklığın etkisi erken ve geç evrelerde farklılaşabilir.",
+  "Fermantasyon süresi, ölçüm zamanı ve yenileme/back-slopping sayısı.",
+  "Un ve tahıl türü; rafine, tam tahıl, buğday, çavdar ve diğer tahıllar farklı başlangıç ve son asitlik değerleri gösterebilir.",
+  "Ekşi maya ekleme oranı ve ekşi mayanın hamur içindeki formülasyonu.",
+  "Başlatıcı suşu, starter topluluğunun bileşimi ve spontan ya da inokule fermantasyon kullanılması.",
+  "Hamur verimi/hidrasyon; mevcut karşılaştırmalarda DY etkisi için sınırlı ve bağlama özgü kanıt vardır.",
+  "Yan ürün türü ve ikame düzeyi; fermente AP, CP ve OP sonuçları aynı yönde veya büyüklükte değildir.",
+  "Ölçülen sonlanım: pH, TTA/toplam asitlik, laktik asit ve asetik asit birbirinin yerine kullanılamaz.",
+  "Ürün aşaması ve matris: ekşi hamur, hamur, pişmiş ekmek ve in vitro fermantasyon sonuçları doğrudan eşdeğer değildir."
+ ],
+ "conflicts": [
+  {
+   "issue_tr": "Sıcaklık artışının asitlenmeye etkisi tutarlı değil: derleme sıcak koşullarda daha yüksek aktivite ve organik asit üretimini sıklıkla bildirirken, sıcaklık karşılaştırmalı çalışmada 25 °C örneklerinin daha sonraki ölçümlerde daha düşük pH'ı ve daha uzun süren asitlenme etkinliği bildirilmiştir; başka bir sistemde sıcaklıklar arasında LAB sayıları neredeyse aynı kalmıştır.",
+   "likely_reason_tr": "Sıcaklık etkisi zamana, mikrobiyal topluluğa ve ölçülen çıktıya bağlı olabilir; erken asitlenme hızı, son pH ve hücre sayısı aynı yanıtı ölçmez. Çalışmaların fermantasyon süresi ve sistemleri de farklıdır.",
+   "source_ids": [
+    "Q3",
+    "Q9",
+    "P133",
+    "P134"
+   ]
+  },
+  {
+   "issue_tr": "pH düşüşü her durumda TTA artışıyla eşleşmiyor: fermente CP/OP kullanımında pH düşüşü bildirilirken hamur TTA'sı kontrolün altında ölçülmüş; DY karşılaştırmasında ise TTA için anlamlı etki bildirilmemiştir.",
+   "likely_reason_tr": "pH ve TTA farklı asitlik özelliklerini ölçer; ürün matrisi, asitlerin türü ve tamponlama özellikleri sonuçları ayrıştırabilir. Bu kaynaklarda ayrıntılı karşılaştırmalı açıklama verilmemiştir.",
+   "source_ids": [
+    "Q26",
+    "P174",
+    "Q141"
+   ]
+  },
+  {
+   "issue_tr": "Daha düşük sıcaklıkta daha yüksek toplam asitlik bildiren uzun süreli bir karşılaştırma yoktur; buna karşılık 4 °C'den 10 °C'ye geçişle 105. gündeki toplam asitlik artmıştır ve genel derleme de sıcak koşullarda daha yüksek aktiviteyi sıklıkla raporlar.",
+   "likely_reason_tr": "Bu bulgular farklı sıcaklık aralıkları, uzun süreli depolama/fermantasyon ve farklı tahıl sistemlerinden gelir; doğrudan ortak bir sıcaklık-tepki eğrisi oluşturmazlar.",
+   "source_ids": [
+    "Q1",
+    "Q3"
+   ]
+  },
+  {
+   "issue_tr": "Ekşi hamur oranı veya starter türü değiştiğinde asitlik/pH yanıtı genel olarak beklenen yönde olsa da asit profili her zaman birlikte değişmez; örneğin bazı starter karşılaştırmalarında laktik asit artarken asetik asit düşmüştür.",
+   "likely_reason_tr": "Mikrobiyal toplulukların metabolik profilleri, un karışımı ve formülasyon farklıdır; toplam asitlik ile tek tek organik asitlerin yönü aynı olmak zorunda değildir.",
+   "source_ids": [
+    "Q82",
+    "Q98"
+   ]
+  }
+ ],
+ "simulation_rules": [
+  {
+   "rule_tr": "Fermantasyon süresi arttıkça pH'ı çoğu sistemde düşür; asit üretimini ise artan fakat sistem ve ölçüt bazında kalibre edilmesi gereken bir süreç olarak temsil et.",
+   "functional_form": "Zamanla azalan pH ve doyuma yaklaşan asit birikimi; verilere uymuyorsa parçalı veya gecikmeli eğri kullan.",
+   "param_suggestions": "Parametreleri veri setine göre uydur. Kalibrasyon hedefleri olarak 30 °C buğday ekşi hamurunda 4–10 saatte pH 4.51–4.73'ten 3.30–3.50'ye; Q97'de 25 °C ve BS0–BS9 boyunca pH ve TTA değişimlerini kullan. Bu uç noktalar evrensel sabit değildir.",
+   "source_ids": [
+    "Q9",
+    "Q97",
+    "Q149"
+   ]
+  },
+  {
+   "rule_tr": "Sıcaklığın asitlenme üzerindeki etkisini tek, koşulsuz doğrusal katsayıyla kodlama; sıcaklık ile fermantasyon zamanının etkileşmesine izin ver.",
+   "functional_form": "Zamana bağlı Arrhenius-benzeri hız terimi veya sıcaklık×zaman etkileşimli, parçalı hız modeli; yüksek sıcaklıkta erken hız artışı ve daha sonraki evrede olası sıralama değişimini kapsa.",
+   "param_suggestions": "Doğrudan verilmiş sıcaklık karşılaştırmalarını başlangıç kalibrasyonu yap: Q9'da ideal pH'a ulaşma süresi 25 °C'de 11, 35 °C'de 9 saat; Q133'te 25 °C ve 35 °C için erken/geç evre yanıtları farklıdır. Aktivasyon enerjisi veya evrensel sıcaklık katsayısı bu bulgulardan çıkarılamaz.",
+   "source_ids": [
+    "Q3",
+    "Q9",
+    "P133",
+    "Q1"
+   ]
+  },
+  {
+   "rule_tr": "Ekşi maya oranını pH için negatif, asitlik/TTA için çoğunlukla pozitif bir girdi olarak kodla; etkiyi un ve ürün matrisine göre değiştir.",
+   "functional_form": "Oran arttıkça pH için azalan, TTA için artan doğrusal veya doyuma ulaşan yanıt; un ve starter türüne göre etkileşim terimleri.",
+   "param_suggestions": "Q82'de %0–30 ekşi maya aralığında pH 6.02'den 5.41'e, bildirilen TTA 4.93'ten 7.10'a değişmiştir. Bu aralık bu çalışmanın tam buğday ekmeğine aittir; başka matrislere doğrudan taşınmamalıdır.",
+   "source_ids": [
+    "Q82",
+    "Q100",
+    "Q115",
+    "Q119",
+    "Q98"
+   ]
+  },
+  {
+   "rule_tr": "pH, TTA, laktik asit ve asetik asidi ayrı durum değişkenleri olarak tut; pH'ı toplam asit miktarının basit doğrusal dönüşümü olarak kullanma.",
+   "functional_form": "Ayrı asit birikim denklemleri ve pH için matrise özgü tamponlama/yanıt fonksiyonu; TTA'yı ayrı bir ölçüm çıktısı olarak hesapla.",
+   "param_suggestions": "Ayrı değişkenlerin gerekliliği Q26 ve P174'te pH ile TTA yanıtlarının ayrışmasıyla, Q952'de ise laktik ve asetik asidin zıt yönde değişebilmesiyle desteklenir. Sayısal tamponlama katsayısı kaynaklarda verilmemiştir.",
+   "source_ids": [
+    "Q26",
+    "P174",
+    "Q141"
+   ]
+  },
+  {
+   "rule_tr": "Başlatıcı suşu/topluluğunu asitlenme hızını ve laktik-asetik asit profilini değiştiren kategorik bir etken olarak kodla.",
+   "functional_form": "Suş/topluluk için ayrı hız ve ürün profili katsayıları veya kategorik etkiler; veriler uygunsa suş×sıcaklık ve suş×süre etkileşimleri.",
+   "param_suggestions": "Q56'da 48 saatte DL ve DY laktik asit değerlerini; Q8'de 15 °C'deki farklı kültür kombinasyonlarının asit profillerini kalibrasyon örneği olarak kullan. Genellenebilir suş katsayıları bu satırlarda sağlanmamıştır.",
+   "source_ids": [
+    "Q56",
+    "Q8",
+    "Q160"
+   ]
+  },
+  {
+   "rule_tr": "Fermantasyon ilerledikçe aktif asitlenmenin azalabileceği veya olgun aşamada ölçütlerin kararlı kalabileceği bir faz geçişine izin ver.",
+   "functional_form": "Başlangıç/geçiş/olgunlaşma fazlı parçalı model veya artışı sınırlayan doyum terimi.",
+   "param_suggestions": "P180'de olgun ekşi hamurda pH 4.04 ± 0.02 ve TTA 18.39 ± 0.56 mL 0.1 M NaOH/10 g olarak kararlı bildirilmiştir; bunları genel eşik değil, o sisteme ait olgun-aşama referansı olarak kullan.",
+   "source_ids": [
+    "P180",
+    "Q97",
+    "P140"
+   ]
+  },
+  {
+   "rule_tr": "Soğuk fermantasyonda asitlenme hızını sıcak fermantasyondan otomatik olarak sıfır kabul etme; mevcut kanıtla hız farkını sabit biçimde belirleme.",
+   "functional_form": "Düşük sıcaklıkta pozitif fakat ayarlanabilir fermantasyon hızı; sıcaklık etkisini süreye ve kültüre bağlı kıl.",
+   "param_suggestions": "Q141'de 4–6 °C koşulunda 0–16 saatte pH 6.13'ten 5.27'ye düşmüş ve TTA 2.6'dan 6.17'ye yükselmiştir. Bu tek sisteme özgü değerlerdir; genel soğuk-fermantasyon parametresi değildir.",
+   "source_ids": [
+    "Q141",
+    "W6"
+   ]
+  }
+ ],
+ "gaps_tr": [
+  "Aynı un, starter, hamur verimi ve fermantasyon süresinde farklı sıcaklıkları karşılaştıran; pH, TTA, laktik asit ve asetik asidi birlikte ölçen çalışmalar sınırlı görünmektedir.",
+  "Derleme sıcaklık sınıfları (>30 °C ve 4–15 °C) için ortak sayısal etki büyüklüğü bildirmemektedir; kaynaklar arası karşılaştırma için standartlaştırılmış sonuçlar yoktur.",
+  "Fermantasyon süresi ve sıcaklığının etkileşimini tanımlayacak ortak zaman serileri ve tekrarlanabilir kinetik parametreler sağlanmamıştır.",
+  "pH ile TTA arasındaki ayrışmayı açıklamak veya simüle etmek için matris tamponlama kapasitesi ve organik asit türlerinin eşzamanlı ölçümleri çoğu satırda verilmemiştir.",
+  "Laktik/asetik asit oranı için sayısal değerler azdır; starter ve proses koşullarına göre karşılaştırılabilir oran aralıkları çıkarılamamaktadır.",
+  "DY/hidrasyon, tuz, un türü ve ekşi maya oranının sıcaklık ve süreyle etkileşimini ayrıştıran faktöriyel bulgular yetersizdir.",
+  "Bazı bulgularda birim, ölçüm yöntemi veya başlangıç ve son değerler eksiktir; farklı çalışmaların TTA ve toplam asitlik sonuçlarını doğrudan birleştirmek bu nedenle sınırlıdır.",
+  "Ekmek hamuru, ekşi hamur, pişmiş ekmek ve in vitro kolon fermantasyonu gibi farklı örnek türlerinin sonuçları aynı simülasyon çıktısı olarak kabul edilmemelidir."
+ ],
+ "tid": "T02",
+ "name": "Sıcaklık, süre ve ekşi maya → organik asitler, pH, TTA, laktik/asetik oranı",
+ "n_sources": 62,
+ "n_findings": 80,
+ "theme_source_ids": [
+  "P1035",
+  "P1046",
+  "P1058",
+  "P1176",
+  "P1179",
+  "P133",
+  "P134",
+  "P140",
+  "P145",
+  "P149",
+  "P160",
+  "P165",
+  "P166",
+  "P170",
+  "P171",
+  "P172",
+  "P174",
+  "P177",
+  "P180",
+  "P181",
+  "P182",
+  "P188",
+  "P192",
+  "P205",
+  "P222",
+  "P235",
+  "P241",
+  "P258",
+  "P264",
+  "P52",
+  "P599",
+  "P725",
+  "P751",
+  "P830",
+  "P952",
+  "P97",
+  "Q1",
+  "Q100",
+  "Q115",
+  "Q119",
+  "Q139",
+  "Q140",
+  "Q141",
+  "Q149",
+  "Q150",
+  "Q151",
+  "Q2",
+  "Q26",
+  "Q3",
+  "Q52",
+  "Q56",
+  "Q8",
+  "Q81",
+  "Q82",
+  "Q84",
+  "Q9",
+  "Q97",
+  "Q98",
+  "W1",
+  "W19",
+  "W34",
+  "W6"
+ ]
+}

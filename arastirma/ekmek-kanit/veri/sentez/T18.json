@@ -1,0 +1,610 @@
+{
+ "consensus": [
+  {
+   "claim_tr": "Depolama süresi uzadıkça ekmek sertliği genellikle artar; artışın büyüklüğü ekmek türüne ve depolama koşullarına göre değişir.",
+   "strength": "A_güçlü",
+   "n_supporting": 12,
+   "source_ids": [
+    "Q127",
+    "Q128",
+    "Q17",
+    "Q82",
+    "Q105",
+    "Q63",
+    "Q85",
+    "Q86",
+    "Q151",
+    "Q58",
+    "Q109",
+    "Q87"
+   ]
+  },
+  {
+   "claim_tr": "Depolama sırasında ekmek nemi çoğu çalışmada azalır; ambalaj, ekmek formülasyonu ve sıcaklık bu kaybın derecesini değiştirebilir.",
+   "strength": "A_güçlü",
+   "n_supporting": 7,
+   "source_ids": [
+    "Q127",
+    "Q105",
+    "Q85",
+    "Q86",
+    "Q115",
+    "Q87"
+   ]
+  },
+  {
+   "claim_tr": "Ekşi hamur, bazı ekmek sistemlerinde nem kaybını ve sertleşme hızını azaltabilir; ancak ekşi hamur oranı, türü ve formülasyon sonucu değiştirebilir ve her sistemde yumuşama sağlamaz.",
+   "strength": "B_orta",
+   "n_supporting": 9,
+   "source_ids": [
+    "Q39",
+    "Q84",
+    "Q151",
+    "Q82",
+    "Q115"
+   ]
+  },
+  {
+   "claim_tr": "Enzim preparatları ve bazı enzim karışımları ekmek sertliğini veya bayatlama hızını azaltabilir; etki enzim türüne, dozuna ve ekmek sistemine bağlıdır.",
+   "strength": "B_orta",
+   "n_supporting": 8,
+   "source_ids": [
+    "Q129",
+    "P467",
+    "P807",
+    "P851",
+    "P852",
+    "P853",
+    "P858",
+    "P808"
+   ]
+  },
+  {
+   "claim_tr": "Bazı hidrokolloidler ve lif kaynaklı bileşenler su tutumunu artırabilir veya depolama sırasında sertleşmeyi azaltabilir; sonuç bileşen türüne ve düzeyine bağlıdır.",
+   "strength": "B_orta",
+   "n_supporting": 8,
+   "source_ids": [
+    "Q34",
+    "Q99",
+    "Q29",
+    "Q151",
+    "P943",
+    "P901",
+    "P803",
+    "P228"
+   ]
+  },
+  {
+   "claim_tr": "Kabuk ve iç kısım arasındaki nem alışverişi çevresel bağıl nemden etkilenir; yüksek bağıl nem kabuğun nem almasına, düşük bağıl nem ise kurumasına yol açabilir.",
+   "strength": "C_zayıf",
+   "n_supporting": 1,
+   "source_ids": [
+    "Q27"
+   ]
+  },
+  {
+   "claim_tr": "Ambalajlama ve kabuk kaplama/modifikasyonları nem ve ağırlık kaybını azaltabilir; ambalaj türü depolama boyunca sertleşme ve nem kaybı sonuçlarını değiştirebilir.",
+   "strength": "B_orta",
+   "n_supporting": 5,
+   "source_ids": [
+    "Q129",
+    "Q85",
+    "P653",
+    "P920",
+    "Q71"
+   ]
+  },
+  {
+   "claim_tr": "Düşük sıcaklık her zaman bayatlamayı yavaşlatmaz: buzdolabı sıcaklığında nişasta kristalleşmesi ve bayatlama oda sıcaklığına göre hızlanabilirken, dondurulmuş depolama bazı ekmeklerde tazelik veya tekstürü daha iyi koruyabilir.",
+   "strength": "B_orta",
+   "n_supporting": 5,
+   "source_ids": [
+    "Q87",
+    "Q127"
+   ]
+  },
+  {
+   "claim_tr": "Dondurulmuş hamur veya kısmen pişmiş ekmekte depolama süresi ve donma-çözünme işlemleri sertliği, nemi ya da maya canlılığını olumsuz etkileyebilir; sonuç ürün ve uygulamaya göre değişir.",
+   "strength": "B_orta",
+   "n_supporting": 7,
+   "source_ids": [
+    "Q16",
+    "Q17",
+    "Q105",
+    "W36",
+    "P5"
+   ]
+  },
+  {
+   "claim_tr": "Nişasta retrogradasyonu bayatlamanın önemli mekanizmalarındandır; ancak tek başına bayatlamanın bütün tekstürel ve su dağılımı değişimlerini açıklamaz.",
+   "strength": "B_orta",
+   "n_supporting": 3,
+   "source_ids": [
+    "Q131",
+    "Q128",
+    "Q34"
+   ]
+  }
+ ],
+ "quantitative": [
+  {
+   "quantity_tr": "Barbari ekmeğinde elma lifi ve CMC ile bildirilen su absorpsiyonu, yumuşama derecesi ve kalite",
+   "value_or_range": "%69,35; 19,0 B.U.; 113,0",
+   "unit": "su absorpsiyonu yüzde; yumuşama B.U.; kalite birimi belirtilmemiş",
+   "conditions_tr": "%11 elma lifi ve %0,5 CMC; 72 saat sonra en düşük bayatlama ile ilişkilendirildi.",
+   "source_ids": [
+    "Q34"
+   ]
+  },
+  {
+   "quantity_tr": "Dondurulmuş depolamada maya kontrolü ekmeğinde sertlik değişimi",
+   "value_or_range": "3,84 → 5,31; %38,3 artış",
+   "unit": "N; yüzde",
+   "conditions_tr": "WWYB; dondurulmuş depolama, gün 0–28; ara ölçüm gün 14'te 4,35 N.",
+   "source_ids": [
+    "Q17"
+   ]
+  },
+  {
+   "quantity_tr": "Dondurulmuş depolamada Tip II ekşi hamurlu ekmek sertliği",
+   "value_or_range": "3,63 → 4,79 N; gün 28'de 7,81 N; gün 14'e kadar %31,9 artış",
+   "unit": "N; yüzde",
+   "conditions_tr": "Tip II WWSB; depolama günleri 0, 14 ve 28.",
+   "source_ids": [
+    "Q17"
+   ]
+  },
+  {
+   "quantity_tr": "Tam buğday ekmeğinde sourdough düzeyine bağlı sertlik",
+   "value_or_range": "%0–30 sourdough için 1. günde 17,6–20,8 N; 3. günde 22,7–26,9 N",
+   "unit": "N",
+   "conditions_tr": "Sourdough düzeyi arttıkça sertlik artışı bildirildi; ölçüm 1. ve 3. günlerde.",
+   "source_ids": [
+    "Q82"
+   ]
+  },
+  {
+   "quantity_tr": "Ekşi hamur ilavesiyle glutensiz pirinç ekmeğinde kırıntı nemi ve sertliği",
+   "value_or_range": "Nem %49,57’ye karşı %46,26; sertlik 0,83 N’ye karşı 0,98 N",
+   "unit": "%; N",
+   "conditions_tr": "Ekşi hamurlu ekmek kontrolle karşılaştırıldı.",
+   "source_ids": [
+    "Q151"
+   ]
+  },
+  {
+   "quantity_tr": "Glutensiz pirinç ekmeğinde iki günlük depolama sertlik değişimi",
+   "value_or_range": "0,50 → 1,45 N",
+   "unit": "N",
+   "conditions_tr": "Kapalı ekmekler 25 °C’de gün 0’dan gün 2’ye kadar saklandı.",
+   "source_ids": [
+    "Q151"
+   ]
+  },
+  {
+   "quantity_tr": "Ekşi hamurlu ve kontrol glutensiz pirinç ekmeğinde depolama hızları",
+   "value_or_range": "Nem kaybı 1,11’e karşı 3,96; sertlik artışı 0,35’e karşı 0,61; kohezyon kaybı 0,19’a karşı 0,25; esneklik kaybı 0,11’e karşı 0,14",
+   "unit": "nem için g H₂O/100 g kırıntı/gün; sertlik için N/gün; kohezyon ve esneklik için /gün",
+   "conditions_tr": "Ekşi hamurlu ekmek ve kontrol; 25 °C’de depolama.",
+   "source_ids": [
+    "Q151"
+   ]
+  },
+  {
+   "quantity_tr": "Sourdough ve ticari mayalı ekmekte 24–72 saatlik sertlik artışı",
+   "value_or_range": "%8,3 ve %10,2",
+   "unit": "%",
+   "conditions_tr": "Modern buğday ekmeklerinde sourdough ve ticari mayalı kontrol karşılaştırması.",
+   "source_ids": [
+    "Q39"
+   ]
+  },
+  {
+   "quantity_tr": "Dondurulmuş par-bake ekmeklerde 0–60 gün sertlik değişimi",
+   "value_or_range": "Normal ekmek 1,43 ± 0,13 → 2,48 ± 0,29; patatesli ekmek 1,03 ± 0,02 → 1,60 ± 0,13; Vakfıkebir ekmeği 1,06 ± 0,04 → 2,24 ± 0,33",
+   "unit": "N",
+   "conditions_tr": "−18 °C’de 60 güne kadar depolama; çözdürme 26 °C’de 60 dakika, son pişirme 210–220 °C’de 14 dakika.",
+   "source_ids": [
+    "Q105"
+   ]
+  },
+  {
+   "quantity_tr": "Dondurulmuş par-bake ekmeklerde 0–60 gün nem değişimi",
+   "value_or_range": "Normal %40,50 ± 0,01 → %38,53 ± 0,04; patatesli %40,20 ± 0,13 → %38,71 ± 0,01; Vakfıkebir %40,61 ± 0,16 → %40,38 ± 0,54",
+   "unit": "% nem",
+   "conditions_tr": "−18 °C’de 60 güne kadar depolama; Vakfıkebir ekmeğinde değişimin dondurulmuş depolamadan anlamlı etkilenmediği bildirildi.",
+   "source_ids": [
+    "Q105"
+   ]
+  },
+  {
+   "quantity_tr": "Buğday ve ekşi mayalı ekmekte 10 günlük ağırlık kaybı",
+   "value_or_range": "Kâğıt torba: %10,3 ± 2,9 / %13,5 ± 3,3; ekmek kutusu: %7,0 ± 2,9 / %8,9 ± 1,3; oda sıcaklığında plastik torba: %3,5 ± 3,1 / %5,7 ± 0,6",
+   "unit": "%",
+   "conditions_tr": "Sırasıyla buğday/ekşi mayalı ekmek; 10 günlük depolama. Kâğıt torba yaklaşık 21,3 °C, ekmek kutusu 22,0 °C, oda sıcaklığındaki plastik torba 21,9 °C.",
+   "source_ids": [
+    "Q85"
+   ]
+  },
+  {
+   "quantity_tr": "Sourdough ekmekte 72 saatlik sertlik azalması",
+   "value_or_range": "%20–30",
+   "unit": "%",
+   "conditions_tr": "Sourdough’lu SWF ekmekleri; 25 °C’de kapalı poşette 72 saat. SB USWF için başlangıç kırıntı sertliği %60 olarak aktarılmıştır.",
+   "source_ids": [
+    "Q84"
+   ]
+  },
+  {
+   "quantity_tr": "PcXyn11A uygulanmış ekmekte sertlik azalması",
+   "value_or_range": "%34,68; depolama sırasında %25,9–35,4",
+   "unit": "%",
+   "conditions_tr": "İlk değer 4 mg/kg PcXyn11A için kontrole kıyasla; depolama aralığı 4 °C’de 1–5 gün.",
+   "source_ids": [
+    "P603"
+   ]
+  },
+  {
+   "quantity_tr": "Enzim kokteyliyle depolama sonu ekmek sertliği",
+   "value_or_range": "Kontrol 65,13 N; %2, %4 ve %6 kokteyl için sırasıyla 22,99; 23,24 ve 18,24 N",
+   "unit": "N",
+   "conditions_tr": "α-amilaz, ksilanaz ve selülaz içeren kokteyl; 5 günlük depolama.",
+   "source_ids": [
+    "P467"
+   ]
+  },
+  {
+   "quantity_tr": "Glutensiz ekmekte bamya müsilajı oranına bağlı 48 saatlik sertlik",
+   "value_or_range": "B4: 4–5 N; B1: 14 N",
+   "unit": "N",
+   "conditions_tr": "B4, %75 müsilaj içeren; B1 yalnız ksantan gam içeren glutensiz ekmek; 48 saat depolama.",
+   "source_ids": [
+    "P943"
+   ]
+  },
+  {
+   "quantity_tr": "G-Gly Maillard reaksiyon ürünüyle bildirilen değişimler",
+   "value_or_range": "Bayatlama hızı −%24,07; ekmek nemi +%3,48; zayıf bağlı su hareketliliği +%0,77",
+   "unit": "%",
+   "conditions_tr": "G-Gly eklenmiş ekmek, kontrolle karşılaştırıldı.",
+   "source_ids": [
+    "P800"
+   ]
+  },
+  {
+   "quantity_tr": "Yulaf, arpa ve maya β-glukanı eklenmiş tam buğday ekmeğinde sertlik",
+   "value_or_range": "Yulaf 881,69 g; arpa 952,97 g; maya 631,75 g; kontrol 317,49 g",
+   "unit": "g",
+   "conditions_tr": "β-glukan içermeyen kontrolle karşılaştırma.",
+   "source_ids": []
+  },
+  {
+   "quantity_tr": "Aktif atmosfer veya ambalaj çalışmalarında bildirilen bağıl nem koşulları",
+   "value_or_range": "%40 ve %80 bağıl nem",
+   "unit": "% bağıl nem",
+   "conditions_tr": "%80 bağıl nemde kabuk nem aldı, %40’ta kurudu; ekmek kabuğu depolaması.",
+   "source_ids": [
+    "Q27"
+   ]
+  }
+ ],
+ "moderators_tr": [
+  "Depolama sıcaklığı ve süresi; buzdolabı, oda sıcaklığı ve dondurucu koşulları aynı yönde etki göstermeyebilir.",
+  "Ekmek tipi ve formülasyonu: tam buğday, glutensiz, yassı ekmek, par-bake ve farklı tahıl/nişasta sistemleri.",
+  "Ekşi hamurun türü, oranı, mikroorganizma bileşimi ve hamur verimi; bazı sonuçlarda ekşi hamur düzeyi arttıkça sertlik önce azalıp sonra artmıştır.",
+  "Ambalaj ve çevre koşulları: ambalaj geçirgenliği/türü, bağıl nem ve atmosfer bileşimi nem alışverişini ve sertliği etkileyebilir.",
+  "Dondurma geçmişi: depolama süresi, dondurma-çözünme döngüsü, kısmi pişirme ve hamurun ya da pişmiş ürünün dondurulması.",
+  "Katkı/işlem kimliği ve dozu: enzim, hidrokolloid, lif, nişasta modifikasyonu, kaplama ve emülgatörler farklı yön ve büyüklüklerde etki gösterebilir.",
+  "Ölçülen sonuç ve ölçüm zamanı: sertlik, çiğnenebilirlik, kohezyon, nem kaybı, su hareketliliği ve DSC/XRD sonuçları birbirinin doğrudan ikamesi değildir."
+ ],
+ "conflicts": [
+  {
+   "issue_tr": "Dondurulmuş depolama bazı sonuçlarda doku veya nem kaybıyla ilişkilendirilirken bazı çalışmalarda tazeliği ve sertliği daha iyi korudu ya da kısa dönem boyunca kayda değer değişiklik oluşturmadı.",
+   "likely_reason_tr": "Hamur ile pişmiş ekmeğin, par-bake ürünün ve farklı ekmek türlerinin karşılaştırılması; depolama süresi, sıcaklık ve çözdürme/son pişirme protokollerinin farklı olması.",
+   "source_ids": [
+    "Q105",
+    "Q87",
+    "Q17",
+    "Q127"
+   ]
+  },
+  {
+   "issue_tr": "Ekşi hamur bazı çalışmalarda sertleşme ve nem kaybını azaltırken, başka çalışmalarda ekşi hamur oranı arttıkça sertlik artmıştır.",
+   "likely_reason_tr": "Ekşi hamur oranı, un türü, starter ve hamur verimi farklıdır; bazı sistemlerde yanıt doğrusal değil, optimumlu olabilir.",
+   "source_ids": [
+    "Q39",
+    "Q84",
+    "Q151",
+    "Q82",
+    "Q115",
+    "Q98",
+    "Q150"
+   ]
+  },
+  {
+   "issue_tr": "Modifiye tapiyoka nişastasıyla ilgili sonuçlar aynı yönde değildir: yüksek derecede hidroksipropillenmiş nişasta bayatlamayı geciktirirken daha düşük derecede modifiye nişastalar bayatlamayı hızlandırmıştır.",
+   "likely_reason_tr": "Modifikasyon türü ve derecesi farklıdır; DS ve fosforil içeriği değiştikçe nişastanın işlevi de değişebilir.",
+   "source_ids": [
+    "Q16"
+   ]
+  },
+  {
+   "issue_tr": "Düşük sıcaklıkta depolamanın bayatlamaya etkisi çelişkilidir: buzdolabı koşullarında bayatlama hızlanabilirken dondurulmuş depolamada değişim sınırlı veya daha yavaş olabilir.",
+   "likely_reason_tr": "Buzdolabı ve dondurucu sıcaklıkları farklı mekanizmaları ve su durumlarını etkiler; çalışmaların ekmek türü ve süreleri de farklıdır.",
+   "source_ids": [
+    "Q87"
+   ]
+  },
+  {
+   "issue_tr": "Ozonlama için fırın kaybının azaldığı belirtilmesine karşın verilen sayısal değerler %10,02’den %12,52’ye yükselmektedir.",
+   "likely_reason_tr": "Özetin yön bildirimiyle sayısal değerler arasında olası raporlama veya aktarım tutarsızlığı vardır; yön kesin kabul edilmemelidir.",
+   "source_ids": []
+  },
+  {
+   "issue_tr": "Atmosfer bileşiminin DSC sonuçlarında belirgin fark yaratmadığı raporlanırken, CO₂ paketlemesinin bazı ekmek rulolarında sertliği azalttığı bildirilmiştir.",
+   "likely_reason_tr": "Çalışmalar farklı ekmek ve ambalaj sistemlerini, sonuç ölçütlerini ve karşılaştırma koşullarını kullanmıştır; DSC farkı olmaması tekstür farkı olmadığı anlamına gelmeyebilir.",
+   "source_ids": [
+    "Q127",
+    "Q71"
+   ]
+  }
+ ],
+ "simulation_rules": [
+  {
+   "rule_tr": "Saklama süresine bağlı sertleşmeyi varsayılan olarak monoton artan bir süreç olarak kodlayın; formülasyon ve sıcaklığa bağlı eğim/başlangıç değeri ayrı parametreler olsun.",
+   "functional_form": "H(t) = H0 + kH·t veya veri yeterliyse doyuma yaklaşan monoton fonksiyon; kH ≥ 0.",
+   "param_suggestions": "Genel eğim için güvenilir tek bir ortak sayısal katsayı yoktur. Kalibrasyonda, örneğin Q151’de 25 °C’de 0–2 gün için 0,50→1,45 N veya Q105’te −18 °C’de 0–60 gün ürün bazlı değerleri kullanın; bunları başka ekmeklere doğrudan taşımayın.",
+   "source_ids": [
+    "Q127",
+    "Q151",
+    "Q105",
+    "Q17",
+    "Q82"
+   ]
+  },
+  {
+   "rule_tr": "Nem değişimini depolama süresiyle genellikle azalan, ambalaj ve ortam nemiyle değişen bir değişken olarak temsil edin.",
+   "functional_form": "dM/dt = −kM·(M − Meq); Meq ambalaj geçirgenliği ve ortam bağıl nemine bağlıdır. Kinetik katsayı verilmediğinden model parametresi deneysel olarak kalibre edilmelidir.",
+   "param_suggestions": "Nicel kalibrasyon için Q105’te −18 °C’de 0–60 gün ürün bazlı nem değerleri veya Q85’te 10 günlük ambalaj türüne özgü ağırlık kayıpları kullanılabilir. Kabuk için yalnızca yön bilgisi mevcuttur: %40 RH’de kuruma, %80 RH’de nem alma.",
+   "source_ids": [
+    "Q127",
+    "Q105",
+    "Q85",
+    "Q27"
+   ]
+  },
+  {
+   "rule_tr": "Ekşi hamurun etkisini evrensel sabit bir yumuşatma katsayısı olarak değil, ekmek sistemine ve düzeyine bağlı bir etkileşim olarak kodlayın.",
+   "functional_form": "kH = kH,0·g(s); g(s) bazı sistemlerde azalan, bazı sistemlerde U-biçimli/optimumlu olabilir. Tekdüze doğrusal etki varsaymayın.",
+   "param_suggestions": "Q98 ve Q150’de %10, %20, %30 düzeylerinde %20’ye kadar sertlik azalması, daha yüksek düzeyde yeniden artış bildirilmiştir; Q82 ve Q115 ters yönde sonuçlar gösterdiğinden parametreler ekmek sistemine göre kalibre edilmelidir.",
+   "source_ids": [
+    "Q98",
+    "Q150",
+    "Q82",
+    "Q115",
+    "Q39",
+    "Q151"
+   ]
+  },
+  {
+   "rule_tr": "Enzim katkısını depolama boyunca sertlik artış hızını veya sertlik düzeyini düşüren, enzime ve doza özgü bir çarpanla temsil edin.",
+   "functional_form": "H(t) = H0 + kH,enz·t; kH,enz = r·kH,kontrol ve 0 ≤ r < 1, ancak r enzime/doza özgüdür.",
+   "param_suggestions": "Sabit bir genel r verilmemiştir. Veriyle kalibrasyon örnekleri: P467’de 5 günlük sertlik 65,13 N kontrolden 18,24–23,24 N’ye; P603’te 4 mg/kg PcXyn11A ile başlangıç sertliği %34,68 daha düşük bildirilmiştir.",
+   "source_ids": [
+    "P467",
+    "P603",
+    "P807",
+    "P851",
+    "P852",
+    "P808"
+   ]
+  },
+  {
+   "rule_tr": "Sıcaklık etkisini tek bir Arrhenius eğrisiyle tüm sıcaklık aralığına uygulamayın; buzdolabı sıcaklığındaki bayatlama artışı ve dondurucudaki koruma ayrı rejimler olarak ele alınmalıdır.",
+   "functional_form": "Parçalı sıcaklık fonksiyonu: kH(T) için soğutma, ortam ve dondurma rejimlerini ayrı tanımlayın; ürün ve süreye göre dondurucu rejiminde daha düşük etkin değişim hızı mümkün olsun.",
+   "param_suggestions": "Nicel genel aktivasyon enerjisi veya sıcaklık katsayısı yoktur. Yön bilgisi: buzdolabında ortam sıcaklığına göre daha hızlı bayatlama (Q787); dondurulmuş ekmekte 72 saate kadar kayda değer değişim olmaması (Q787) ve uzun depolamada dondurmanın nem/sertliği daha iyi koruması (Q87).",
+   "source_ids": [
+    "Q87"
+   ]
+  },
+  {
+   "rule_tr": "Donma-çözünme döngüsü veya dondurulmuş depolama etkisini ürün türüne bağlı bir hasar terimi olarak ekleyin; maya canlılığı ve ekmek tekstürü ayrı durum değişkenleri olmalıdır.",
+   "functional_form": "Döngü sayısı n veya donmuş depolama süresi t için hasar birikimi D(n,t) ≥ 0; sertlik/kalite D ile değişir, maya canlılığı ayrıca azalabilir. Katsayılar ürün özelinde kalibre edilir.",
+   "param_suggestions": "P5’te altı döngü sonrasında kapsüllenmiş mayada %86,47, kapsüllenmemiş kontrolde %59,48 canlılık; Q105’te −18 °C’de 0–60 gün sertlik artışı ürün bazında verilmiştir. Bu değerler aynı model parametresi olarak birleştirilmemelidir.",
+   "source_ids": [
+    "P5",
+    "Q105",
+    "Q17",
+    "W36"
+   ]
+  },
+  {
+   "rule_tr": "Retrogradasyonu bayatlama/sertleşmeye katkıda bulunan bir iç durum değişkeni olarak kullanın, fakat toplam sertliğin tek belirleyicisi yapmayın.",
+   "functional_form": "H(t) = H0 + a·R(t) + b·L(t) + c·P(t); R retrogradasyon, L nem kaybı, P diğer yapısal etkiler. Katsayılar mevcut satırlardan nicel olarak belirlenemez.",
+   "param_suggestions": "Retrogradasyon için sayısal parametre veya ortak etki büyüklüğü verilmemiştir; yalnızca önemli fakat tek başına yeterli olmayan bir mekanizma olduğu desteklenmektedir.",
+   "source_ids": [
+    "Q131",
+    "Q128",
+    "Q34"
+   ]
+  }
+ ],
+ "gaps_tr": [
+  "Çalışmalar arasında ortak depolama sıcaklığı, süre, ambalaj ve sertlik ölçüm protokolü bulunmadığından birleşik etki büyüklüğü hesaplamak mümkün değildir.",
+  "Çoğu bulguda örneklem büyüklüğü, varyans, anlamlılık testi veya tam ölçüm zaman serisi verilmemiştir.",
+  "Bağıl nemin ekmek kabuğu ve iç nemi üzerindeki nicel sorpsiyon/alışveriş katsayıları yoktur.",
+  "Ekşi hamur etkilerinde starter türü, asitlik, doz ve hamur veriminin birbirinden bağımsız katkıları yeterince ayrıştırılmamıştır.",
+  "Dondurulmuş hamur, dondurulmuş pişmiş ekmek ve par-bake ekmek sonuçları doğrudan karşılaştırılabilecek şekilde raporlanmamıştır.",
+  "Bayatlama, sertlik, su hareketliliği, nem kaybı ve nişasta retrogradasyonu arasındaki nicel nedensel bağlantılar çoğu kayıtta verilmemiştir.",
+  "Paketleme atmosferi için CO₂/N₂ karışımlarının farklı ekmek tipleri ve kalite ölçütlerindeki etkisini genelleştirecek nicel veri sınırlıdır.",
+  "Bazı kayıtların özetinde ölçüm birimi, karşılaştırma yönü veya sayısal sonuç eksik ya da tutarsızdır; simülasyon parametrelemesinde bu veriler ihtiyatla kullanılmalıdır."
+ ],
+ "tid": "T18",
+ "name": "Bayatlama, depolama ve dondurma",
+ "n_sources": 162,
+ "n_findings": 266,
+ "theme_source_ids": [
+  "P100",
+  "P1004",
+  "P101",
+  "P1024",
+  "P1053",
+  "P1085",
+  "P1086",
+  "P1134",
+  "P1142",
+  "P1144",
+  "P1146",
+  "P1188",
+  "P163",
+  "P176",
+  "P177",
+  "P19",
+  "P190",
+  "P222",
+  "P224",
+  "P228",
+  "P233",
+  "P242",
+  "P248",
+  "P278",
+  "P305",
+  "P35",
+  "P372",
+  "P38",
+  "P39",
+  "P40",
+  "P42",
+  "P422",
+  "P45",
+  "P455",
+  "P464",
+  "P465",
+  "P467",
+  "P471",
+  "P475",
+  "P496",
+  "P497",
+  "P5",
+  "P530",
+  "P546",
+  "P575",
+  "P578",
+  "P596",
+  "P60",
+  "P603",
+  "P605",
+  "P615",
+  "P619",
+  "P637",
+  "P653",
+  "P658",
+  "P697",
+  "P730",
+  "P740",
+  "P744",
+  "P756",
+  "P774",
+  "P778",
+  "P782",
+  "P787",
+  "P788",
+  "P790",
+  "P800",
+  "P803",
+  "P806",
+  "P807",
+  "P808",
+  "P821",
+  "P830",
+  "P834",
+  "P835",
+  "P836",
+  "P837",
+  "P839",
+  "P840",
+  "P841",
+  "P842",
+  "P844",
+  "P847",
+  "P850",
+  "P851",
+  "P852",
+  "P853",
+  "P854",
+  "P856",
+  "P858",
+  "P86",
+  "P860",
+  "P867",
+  "P875",
+  "P877",
+  "P878",
+  "P885",
+  "P892",
+  "P901",
+  "P902",
+  "P903",
+  "P904",
+  "P912",
+  "P914",
+  "P918",
+  "P920",
+  "P921",
+  "P927",
+  "P930",
+  "P941",
+  "P942",
+  "P943",
+  "P944",
+  "P945",
+  "P957",
+  "P961",
+  "P963",
+  "P965",
+  "P968",
+  "P971",
+  "P972",
+  "P973",
+  "Q100",
+  "Q105",
+  "Q109",
+  "Q11",
+  "Q115",
+  "Q119",
+  "Q127",
+  "Q128",
+  "Q129",
+  "Q13",
+  "Q130",
+  "Q131",
+  "Q14",
+  "Q143",
+  "Q150",
+  "Q151",
+  "Q16",
+  "Q17",
+  "Q18",
+  "Q27",
+  "Q29",
+  "Q34",
+  "Q39",
+  "Q5",
+  "Q50",
+  "Q51",
+  "Q52",
+  "Q58",
+  "Q63",
+  "Q68",
+  "Q71",
+  "Q79",
+  "Q82",
+  "Q84",
+  "Q85",
+  "Q86",
+  "Q87",
+  "Q98",
+  "Q99",
+  "W36"
+ ]
+}

@@ -1,0 +1,404 @@
+{
+ "consensus": [
+  {
+   "claim_tr": "Hidrasyonun özgül hacme etkisi çoğu formülasyonda doğrusal değildir: su artışı belirli bir düzeye kadar hacmi artırabilir, ancak optimumun aşılması hacmi düşürebilir veya hamur biçimini/ölçülebilirliğini bozabilir.",
+   "strength": "A_güçlü",
+   "n_supporting": 6,
+   "source_ids": [
+    "Q29",
+    "Q30",
+    "Q151"
+   ]
+  },
+  {
+   "claim_tr": "Daha yüksek su düzeyi çoğu bildirilen sistemde hamur veya iç doku sertliğini/kıvamını azaltır; bu eğilim özellikle glutensiz hamurlarda geri ekstrüzyon ölçümlerinde belirgindir.",
+   "strength": "A_güçlü",
+   "n_supporting": 5,
+   "source_ids": [
+    "Q21",
+    "Q30",
+    "Q151",
+    "P460"
+   ]
+  },
+  {
+   "claim_tr": "Hidrasyon artışı birçok ekmek sisteminde daha açık ve gözenekli iç yapıyla ilişkilidir; ancak bu, somun yüksekliği veya fırın yayı artışı anlamına gelmeyebilir.",
+   "strength": "B_orta",
+   "n_supporting": 5,
+   "source_ids": [
+    "P454",
+    "W22",
+    "W23"
+   ]
+  },
+  {
+   "claim_tr": "Su düzeyi arttıkça ekmek içi neminin artabildiği bildirilmiştir; kanıt hem deneysel kontrol ekmeği hem de fırıncı karşılaştırmasını içerir.",
+   "strength": "B_orta",
+   "n_supporting": 2,
+   "source_ids": [
+    "Q23",
+    "W22"
+   ]
+  },
+  {
+   "claim_tr": "Hidrasyonun reolojiye etkisi ölçülen özelliğe ve sisteme bağlıdır: kepek ön hidrasyonu hamur kıvamını düşürürken gelişme süresini uzatmış; glutensiz hamurlarda su düzeyi geri ekstrüzyon reolojisini belirgin biçimde değiştirmiştir.",
+   "strength": "B_orta",
+   "n_supporting": 3,
+   "source_ids": [
+    "Q30",
+    "Q151"
+   ]
+  },
+  {
+   "claim_tr": "Optimum su düzeyi un/nişasta türüne, katkıya ve su absorpsiyon kapasitesine bağlıdır; farklı sistemlerde bildirilen optimumlar belirgin biçimde farklıdır.",
+   "strength": "A_güçlü",
+   "n_supporting": 6,
+   "source_ids": [
+    "Q29",
+    "Q151",
+    "Q21"
+   ]
+  },
+  {
+   "claim_tr": "Belirli bir optimum hidrasyonda ekmek içi yaylanırlığı, kohezyon veya genel doku iyileşebilir; bu bulgular bütün su aralığı boyunca sürekli iyileşme olarak yorumlanmamalıdır.",
+   "strength": "B_orta",
+   "n_supporting": 3,
+   "source_ids": [
+    "Q27",
+    "Q30",
+    "P460"
+   ]
+  },
+  {
+   "claim_tr": "Fırıncı gözlemlerinde daha yüksek hidrasyon daha açık iç yapı ile birlikte daha düşük somun yüksekliği/fırın yayıyla ilişkilendirilmiştir; bu, yüksekliğin hidrasyona tepkisinin iç gözeneklilikten farklı olabileceğini gösterir.",
+   "strength": "C_zayıf",
+   "n_supporting": 2,
+   "source_ids": [
+    "W22",
+    "W23"
+   ]
+  },
+  {
+   "claim_tr": "Yüksek hidrasyon gluten hareketliliğini ve mekanik kuvvete duyarlılığı artırabilir; bu gözlemler belirli yoğurmasız hamurlar veya yoğurma koşullarıyla sınırlıdır.",
+   "strength": "C_zayıf",
+   "n_supporting": 2,
+   "source_ids": [
+    "W45",
+    "P453"
+   ]
+  }
+ ],
+ "quantitative": [
+  {
+   "quantity_tr": "Tam buğday hamurunda karşılaştırılan su düzeyleri",
+   "value_or_range": "%56, %58 ve %60",
+   "unit": "hamur su düzeyi",
+   "conditions_tr": "%60 düzeyinde reoloji, iç kırıntı yaylanırlığı ve kohezyon iyileşmiştir.",
+   "source_ids": [
+    "Q27"
+   ]
+  },
+  {
+   "quantity_tr": "Su oranı artışı ve geç mayalama kabarcık genişleme hızı",
+   "value_or_range": "%50'den %54,5'e",
+   "unit": "un ağırlığı bazında su yüzdesi",
+   "conditions_tr": "Geç mayalama aşamalarında kabarcık genişleme hızı azalmıştır; sayısal hız verilmemiştir.",
+   "source_ids": [
+    "Q36"
+   ]
+  },
+  {
+   "quantity_tr": "Pirinç unu/mısır nişastası sistemlerinde seçilen optimum hidrasyonlar",
+   "value_or_range": "RF-HPMC %100; RF-ksantan %100; MS-HPMC %80; MS-ksantan %110",
+   "unit": "g su/100 g un veya nişasta",
+   "conditions_tr": "Hidrasyon taraması %70–120 aralığında yapılmıştır; RF-psyllium %100'ün üzerinde kalıptan taşmış, MS-psyllium hacmi %90'a kadar artmış ancak somunlar ölçülememiştir.",
+   "source_ids": [
+    "Q29"
+   ]
+  },
+  {
+   "quantity_tr": "Yulaf kepeği ön hidrasyonu ve kompozit ekmek özgül hacmi",
+   "value_or_range": "aw 0.9951'de 3.53±0.05; aw 0.9979'da 4.21±0.14; aw 0.9989'da 3.47±0.15",
+   "unit": "cm³/g",
+   "conditions_tr": "Beyaz unun %20'si önceden hidrate kepekle değiştirilmiştir; en yüksek değer aw 0.9979'da görülmüştür.",
+   "source_ids": [
+    "Q30"
+   ]
+  },
+  {
+   "quantity_tr": "Kepek ön hidrasyonu ile kırıntı sertliği",
+   "value_or_range": "aw 0.9951'de 554.499±16.084; aw 0.9979'da 346.039±14.906",
+   "unit": "N",
+   "conditions_tr": "%20 kepek ikamesi; ölçüm 24 °C'de yapılmıştır. aw 0.9979'da sertlik en düşüktür.",
+   "source_ids": [
+    "Q30"
+   ]
+  },
+  {
+   "quantity_tr": "Kepek ön hidrasyonu ile hamur kıvamı ve gelişme süresi",
+   "value_or_range": "aw 0.9951: 526±12 BU ve 5.9±0.2 dk; aw 0.9979: 366±20 BU ve 11.8±0.6 dk; aw 0.9989: 237±10 BU ve 22.4±1.2 dk",
+   "unit": "BU ve dakika",
+   "conditions_tr": "Kepek hamur nemleri sırasıyla %56.52, %61.54 ve %65.52'dir; aw yükseldikçe kıvam azalmış ve gelişme süresi uzamıştır.",
+   "source_ids": [
+    "Q30"
+   ]
+  },
+  {
+   "quantity_tr": "Glutensiz pirinç ekmeğinde su düzeyi ve özgül hacim",
+   "value_or_range": "%80: 3.65; %90: 4.62; %100: 5.08; %110: 4.18",
+   "unit": "su yüzdesi ve cm³/g",
+   "conditions_tr": "Un karışımı temelinde; ekşi hamurlu ve kontrol ekmekleri birlikte değerlendirilmiştir. Genel en yüksek değer %100'de bulunmuştur.",
+   "source_ids": [
+    "Q151"
+   ]
+  },
+  {
+   "quantity_tr": "Glutensiz pirinç hamurunda su düzeyi ve geri ekstrüzyon sertliği",
+   "value_or_range": "%80: 13.16; %90: 4.17; %100: 2.09; %110: 1.19",
+   "unit": "su yüzdesi ve N",
+   "conditions_tr": "Su artışıyla sertlik azalmıştır; %100 ve %110 değerleri anlamlı olarak farklı değildir.",
+   "source_ids": [
+    "Q151"
+   ]
+  },
+  {
+   "quantity_tr": "Glutensiz pirinç hamurunda su düzeyi ve geri ekstrüzyon kıvamı",
+   "value_or_range": "%80: 169.54; %90: 64.01; %100: 28.43; %110: 15.96",
+   "unit": "su yüzdesi ve N·mm",
+   "conditions_tr": "Hamur geri ekstrüzyon ölçümünde su düzeyi arttıkça kıvam azalmıştır.",
+   "source_ids": [
+    "Q151"
+   ]
+  },
+  {
+   "quantity_tr": "Keçiboynuzu unu ikameli pirinç ekmeğinde fraksiyona göre optimum su düzeyi ve özgül hacim",
+   "value_or_range": "A: %150 ve 2.22 (0.07); B: %140 ve 1.70 (0.07); C: %120 ve 1.61 (0.12); D: %130 ve 2.21 (0.13)",
+   "unit": "su yüzdesi ve cm³/g",
+   "conditions_tr": "Formülasyonda %15 keçiboynuzu unu ikamesi vardır; hacim değerleri ortalama (SD) olarak verilmiştir.",
+   "source_ids": [
+    "Q21"
+   ]
+  },
+  {
+   "quantity_tr": "Tam tahıl tritikale ikameli ekmekte test edilen su düzeyleri",
+   "value_or_range": "70, 80, 90 ve 100",
+   "unit": "g su/100 g un",
+   "conditions_tr": "%60 tam tahıl Goanna tritikalesi ikamesinde, test edilen düzeyler içinde 100 g/100 g un en yüksek kalite koşulu olarak bildirilmiştir.",
+   "source_ids": [
+    "P175"
+   ]
+  },
+  {
+   "quantity_tr": "Kombucha SCOBY ekşi mayalı ekmeğinde test edilen hidrasyon aralığı ve bildirilen en iyi düzey",
+   "value_or_range": "%70–90; en iyi özellikler %80'de",
+   "unit": "hidrasyon yüzdesi",
+   "conditions_tr": "%80 hidrasyon gözeneklilik, nişasta kristalleşmesi, doku ve mekanik dayanım bakımından en iyi düzey olarak bildirilmiştir.",
+   "source_ids": [
+    "P178"
+   ]
+  },
+  {
+   "quantity_tr": "Artizan ekşi mayalı ekmekte incelenen hidrasyon düzeyleri",
+   "value_or_range": "%65, %75 ve %85",
+   "unit": "hidrasyon yüzdesi",
+   "conditions_tr": "Fermantasyon süreleri 6, 12 ve 18 saattir; hidrasyon arttıkça gözeneklilik ve ortalama hücre alanı artmış, sertlik ve çiğnenebilirlik azalmıştır.",
+   "source_ids": [
+    "P181"
+   ]
+  },
+  {
+   "quantity_tr": "Nohut unlu glutensiz ekmekte incelenen su aralığı ve bildirilen olumlu düzey",
+   "value_or_range": "%100–180; hacim artışı ve kabul edilebilirlik için bildirilen düzey %150",
+   "unit": "un ağırlığının yüzdesi",
+   "conditions_tr": "%150 su düzeyinde doku, lezzet ve genel kabul edilebilirlik artmış; kabul edilebilirlik en az 8/10 olarak verilmiştir.",
+   "source_ids": [
+    "P454"
+   ]
+  },
+  {
+   "quantity_tr": "Riso unlu glutensiz ekmekte optimizasyonla seçilen formülasyon",
+   "value_or_range": "%110 hidrasyon ve %2.2 HPMC",
+   "unit": "hidrasyon yüzdesi ve HPMC yüzdesi",
+   "conditions_tr": "Desirability index ile kalite optimizasyonunda en uygun formülasyon olarak belirlenmiştir.",
+   "source_ids": [
+    "P944"
+   ]
+  },
+  {
+   "quantity_tr": "Vital buğday gluteni örnekleri için bildirilen optimum özgül hacim aralıkları",
+   "value_or_range": "Pişirme karışımında 1.74–2.38; zayıf buğday unu sisteminde 4.25–5.49",
+   "unit": "mL/g",
+   "conditions_tr": "Her örneğin optimum su düzeyi özgül su absorpsiyon kapasitesine bağlıdır.",
+   "source_ids": []
+  }
+ ],
+ "moderators_tr": [
+  "Un/nişasta türü ve bileşim: pirinç unu, mısır nişastası, nohut unu, tritikale ve buğday sistemlerinde bildirilen optimumlar farklıdır.",
+  "HPMC, ksantan, psyllium, keçiboynuzu unu, palamut unu veya kepek gibi katkıların türü ve düzeyi su gereksinimini ve yanıtı değiştirir.",
+  "Önceden hidrate kepek için aw ve kepeğin doygunluk düzeyi önemlidir; doygunluk üstünde serbest su bildirilmiştir.",
+  "Su düzeyinin tanımı ve temeli çalışmalar arasında değişir: un ağırlığına göre yüzde, karışım temeli, hamur nemi veya aw kullanılmıştır; bu değerler doğrudan eşdeğer kabul edilmemelidir.",
+  "Hamur ve ürün aşaması: hamur kıvamı/gelişme süresi, kabarcık genişlemesi, ekmek hacmi ve pişmiş kırıntı dokusu aynı hidrasyon yanıtını vermeyebilir.",
+  "Fermantasyon süresi ve koşulları, hidrasyonun gözeneklilik ve kabul edilebilirlikle ilişkisini değiştirebilir.",
+  "Unun özgül su absorpsiyon kapasitesi ve kullanılan lifin hidrasyon özellikleri, uygun su miktarının belirlenmesini etkiler.",
+  "Yoğurma, katlama, otoliz, şekillendirme ve hamurun işlenebilirliği gibi yöntem farkları fırıncı gözlemlerindeki sonuçları etkileyebilir."
+ ],
+ "conflicts": [
+  {
+   "issue_tr": "Hidrasyon artışı bazı çalışmalarda gözenekliliği ve ortalama hücre alanını artırırken, Q36'da su oranının %50'den %54,5'e çıkarılması geç mayalama aşamasındaki kabarcık genişleme hızını azaltmıştır.",
+   "likely_reason_tr": "Ölçülen sonuçlar farklıdır: toplam gözeneklilik/hücre alanı ile geç mayalama anındaki kabarcık genişleme hızı aynı özellik değildir; un sistemi ve deney koşulları da farklı olabilir.",
+   "source_ids": [
+    "Q36",
+    "P181"
+   ]
+  },
+  {
+   "issue_tr": "Daha yüksek hidrasyon açık iç yapıyla ilişkilendirilirken fırıncı karşılaştırmalarında somun yüksekliği ve fırın yayı azalmıştır.",
+   "likely_reason_tr": "İç yapı açıklığı ile somun yüksekliği farklı kalite ölçütleridir; fırıncı kaynaklarında ayrıca un karışımı ve hamur işleme koşulları sınırlı karşılaştırmalarda değişebilir.",
+   "source_ids": [
+    "W22",
+    "W23",
+    "P181"
+   ]
+  },
+  {
+   "issue_tr": "Su artışı bazı sistemlerde özgül hacmi artırırken diğerlerinde belirli bir optimumdan sonra düşürmüştür; optimum hidrasyon değerleri de geniş ölçüde değişmiştir.",
+   "likely_reason_tr": "Un/nişasta ve katkı türü, su absorpsiyon kapasitesi, formülasyon ve ölçülen hacim yanıtı farklıdır; bulgular tek bir genel optimumu desteklemez.",
+   "source_ids": [
+    "Q29",
+    "Q30",
+    "Q151"
+   ]
+  },
+  {
+   "issue_tr": "Su artışı hamur kıvamını veya sertliğini düşürebilirken bazı tam buğday ya da kepekli sistemlerde optimum düzeyde yaylanırlık, kohezyon veya doku iyileşmiştir.",
+   "likely_reason_tr": "Bulgular farklı sistemlerde ve farklı aşamalarda ölçülen sonuçlara aittir; optimum düzeydeki pişmiş ekmek dokusu ile hamur reolojisi aynı değildir.",
+   "source_ids": [
+    "Q27",
+    "Q30",
+    "Q151",
+    "P460"
+   ]
+  }
+ ],
+ "simulation_rules": [
+  {
+   "rule_tr": "Özgül hacmi hidrasyona göre doğrusal değil, formülasyona özgü bir optimumla modelle; optimumun ötesinde hacim azalmasına izin ver.",
+   "functional_form": "Optimumlu çan eğrisi veya parçalı eğri: hacim = Vmax − k·(hidrasyon − hidrasyon_opt)^2; hacim negatif olamaz.",
+   "param_suggestions": "Optimumu evrensel sabitleme. Kaynaklardaki örnekler arasında RF-HPMC/RF-ksantan için %100, MS-HPMC için %80, MS-ksantan için %110, pirinç-nohut ekmeğinde genel olarak %100 ve Kombucha ekşi mayalı ekmekte %80 vardır.",
+   "source_ids": [
+    "Q29",
+    "Q151",
+    "P178"
+   ]
+  },
+  {
+   "rule_tr": "Hidrasyon arttıkça hamur sertliği/kıvamı için azalan bir yanıt kullan; ürün ve formülasyona göre azalma eğrisinin eğimi değişsin.",
+   "functional_form": "Monoton azalan doğrusal veya doygunluk eğrisi; yeterli veri varsa formülasyona özgü parçalı/parametrik eğri.",
+   "param_suggestions": "Q151'de %80'den %110'a çıkışta geri ekstrüzyon sertliği 13.16 N'den 1.19 N'ye, kıvam 169.54'ten 15.96 N·mm'ye düşmüştür. Bunları yalnızca aynı glutensiz pirinç hamuru sistemi için başlangıç kalibrasyonu olarak kullan.",
+   "source_ids": [
+    "Q151",
+    "Q30",
+    "Q21"
+   ]
+  },
+  {
+   "rule_tr": "İç gözeneklilik/hücre alanı için hidrasyonla artış eğilimi tanımla, fakat somun yüksekliği ve fırın yayını ayrı durum değişkenleri olarak tut.",
+   "functional_form": "Gözeneklilik için aralık içinde artan veya doyuma ulaşan eğri; yükseklik/fırın yayı için bağımsız, formülasyon ve hamur işleme koşullarına bağlı fonksiyon.",
+   "param_suggestions": "65%, 75% ve 85% artizan ekşi hamur düzeylerinde gözeneklilik ve ortalama hücre alanı artmıştır; fırıncı karşılaştırmalarında %74→%82 ve %82→%92 artışlarında yükseklik/fırın yayı azalmıştır. Tek bir ortak eğim kanıttan çıkarılamaz.",
+   "source_ids": [
+    "P181",
+    "W22",
+    "W23"
+   ]
+  },
+  {
+   "rule_tr": "Kepek ön hidrasyonunun etkisini kepek aw'sine bağlı optimumla modelle; optimumun altında ve üstünde ekmek kalitesini düşür.",
+   "functional_form": "aw çevresinde optimumlu çan eğrisi; hamur kıvamı için aw ile azalan, gelişme süresi için aw ile artan ilişki.",
+   "param_suggestions": "İncelenen %20 kepek ikamesi sisteminde ekmek özgül hacmi ve yumuşaklık için en iyi bildirilen aw 0.9979'dur; kıvam 526±12 BU'dan 237±10 BU'ya, gelişme süresi 5.9±0.2 dk'dan 22.4±1.2 dk'ya, aw 0.9951'den 0.9989'a giderken değişmiştir.",
+   "source_ids": [
+    "Q30",
+    "P460"
+   ]
+  },
+  {
+   "rule_tr": "İç nemini hidrasyonla artıran basit bir ilişki kullanmak mümkündür; ancak nem tutma ve pişirme kaybı için veri olmadığında katsayıyı belirsiz bırak.",
+   "functional_form": "Artan doğrusal ilişki veya doygunluk; parametreleri ürün ve pişirme koşullarına göre kalibre et.",
+   "param_suggestions": "Kontrol ekmeğinde 54'ten 71 g su/100 g una geçişte iç nem artmıştır; sayısal nem değişimi verilmediği için eğim önerilemez.",
+   "source_ids": [
+    "Q23",
+    "W22"
+   ]
+  },
+  {
+   "rule_tr": "Simülasyonda hidrasyonu tek bir evrensel değişken olarak değil, açıkça tanımlanmış baz ve hamur/ürün aşamasıyla kodla.",
+   "functional_form": "Koşullu model: yanıt = f(hidrasyon, un/nişasta türü, katkı, su absorpsiyon kapasitesi, süreç aşaması).",
+   "param_suggestions": "Kaynaklarda un ağırlığı yüzdesi, karışım temeli, hamur nemi ve aw kullanılmıştır; bu ölçüleri dönüştürecek bilgi bulunmayan durumlarda ayrı tut.",
+   "source_ids": [
+    "Q29",
+    "Q30",
+    "Q151",
+    "P971"
+   ]
+  }
+ ],
+ "gaps_tr": [
+  "Birçok çalışmada hidrasyon düzeyleri arasında sonuçların sayısal büyüklüğü, belirsizliği veya istatistiksel karşılaştırması verilmemiştir.",
+  "Su yüzdesinin hesabında kullanılan baz çalışmalara göre değiştiği için farklı sistemlerdeki optimumlar doğrudan karşılaştırılamaz.",
+  "Hidrasyon ile gözeneklilik, kabarcık büyümesi ve somun yüksekliği arasındaki mekanistik bağlantıyı aynı deneyde ölçen veri sınırlıdır.",
+  "Un protein kalitesi, gluten özellikleri ve su absorpsiyon kapasitesine göre hidrasyon-yanıt eğrilerinin parametreleri yeterince raporlanmamıştır.",
+  "Glutensiz formülasyonlarda katkı türü ve düzeyinin su düzeyiyle etkileşimini karşılaştıran, ortak ölçüm protokolü kullanan çalışmalar gereklidir.",
+  "Fırıncı kaynaklarındaki hidrasyon karşılaştırmaları az sayıda somuna ve değişebilen işleme koşullarına dayandığından genellenebilirlik düşüktür.",
+  "Hamur reolojisi, pişmiş ekmek dokusu ve depolama süresindeki değişimleri aynı hidrasyon taramasında birleştiren veriler yetersizdir."
+ ],
+ "tid": "T07",
+ "name": "Hidrasyon → reoloji, hacim, iç yapı",
+ "n_sources": 45,
+ "n_findings": 90,
+ "theme_source_ids": [
+  "P1161",
+  "P142",
+  "P174",
+  "P175",
+  "P178",
+  "P181",
+  "P182",
+  "P453",
+  "P454",
+  "P455",
+  "P460",
+  "P464",
+  "P493",
+  "P591",
+  "P671",
+  "P828",
+  "P925",
+  "P944",
+  "P971",
+  "Q100",
+  "Q150",
+  "Q151",
+  "Q21",
+  "Q22",
+  "Q23",
+  "Q27",
+  "Q29",
+  "Q30",
+  "Q36",
+  "Q66",
+  "Q74",
+  "Q98",
+  "W1",
+  "W12",
+  "W14",
+  "W19",
+  "W22",
+  "W23",
+  "W3",
+  "W30",
+  "W35",
+  "W39",
+  "W44",
+  "W45",
+  "W9"
+ ]
+}

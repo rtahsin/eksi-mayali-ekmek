@@ -1,0 +1,477 @@
+{
+ "consensus": [
+  {
+   "claim_tr": "Fermantasyonun uzatılması veya uygun ekşi hamur/LAB uygulaması, birçok ekmek sisteminde akrilamidi azaltmıştır; ancak etki ekmek matrisi, fermantasyon koşulu ve startera bağlıdır ve her koşulda azalma beklenemez.",
+   "strength": "A_güçlü",
+   "n_supporting": 14,
+   "source_ids": [
+    "Q160",
+    "Q161",
+    "Q162",
+    "P723",
+    "P749",
+    "P733",
+    "P756",
+    "P755",
+    "P750",
+    "P152",
+    "P768",
+    "P822",
+    "P244",
+    "P754"
+   ]
+  },
+  {
+   "claim_tr": "L-asparajinaz, ekmek ve diğer fırın ürünlerinde akrilamidi azaltmaya yönelik tekrarlanan bir müdahaledir; bildirilen azalma büyüklükleri ürün ve uygulama koşullarına göre değişir.",
+   "strength": "A_güçlü",
+   "n_supporting": 6,
+   "source_ids": [
+    "Q74",
+    "P747",
+    "P727",
+    "P744",
+    "P739",
+    "P740"
+   ]
+  },
+  {
+   "claim_tr": "Pişirme sıcaklığı, süresi ve kabukta oluşan ısıl işlem şiddeti akrilamid düzeyini etkiler; daha düşük sıcaklık veya optimize edilmiş pişirme bazı ekmek çalışmalarında azalmayla ilişkilidir. Bununla birlikte sıcaklık etkisi ürün ve diğer proses koşullarından bağımsız tek bir doğrusal ilişki olarak genellenemez.",
+   "strength": "B_orta",
+   "n_supporting": 5,
+   "source_ids": [
+    "Q74",
+    "Q161",
+    "P340",
+    "P740",
+    "P642"
+   ]
+  },
+  {
+   "claim_tr": "Ekşi hamur asitlenmesi ve pH değişimi akrilamid oluşumunu etkileyebilir; bazı bulgular daha düşük pH ile daha düşük akrilamidi destekler, ancak kaynaklar etki büyüklüğü veya bütün ürünlere uygulanabilecek ortak bir pH yanıtı belirlememektedir.",
+   "strength": "B_orta",
+   "n_supporting": 4,
+   "source_ids": [
+    "P755",
+    "P758",
+    "P733",
+    "Q161"
+   ]
+  },
+  {
+   "claim_tr": "Bitkisel ekstraktlar ve yan ürünler bazı ekmeklerde akrilamidi azaltabilir; etkinin katkının türüne ve gıda matrisine bağlı olduğu, bazı bitkisel tozların ise artırıcı sonuç verebildiği bildirilmiştir.",
+   "strength": "B_orta",
+   "n_supporting": 5,
+   "source_ids": [
+    "P728",
+    "P730",
+    "Q162",
+    "Q26",
+    "P722"
+   ]
+  },
+  {
+   "claim_tr": "Şeker ve amino asit formülasyonu akrilamidi, özellikle ekmek kabuğunda, değiştirebilir; yön ve büyüklük bileşiğin türüne ve ekleme düzeyine bağlıdır. Bu nedenle bütün şekerler veya amino asitler için ortak bir azaltma katsayısı çıkarılamaz.",
+   "strength": "B_orta",
+   "n_supporting": 3,
+   "source_ids": [
+    "Q163",
+    "Q74",
+    "P727"
+   ]
+  },
+  {
+   "claim_tr": "Ekmek kabuğundaki akrilamid, ölçümlerin çoğunda ekmek içindekinden daha yüksek bulunmuştur; iç fraksiyon sonuçları kabuk eğilimlerini her zaman izlememiştir.",
+   "strength": "C_zayıf",
+   "n_supporting": 1,
+   "source_ids": [
+    "Q163"
+   ]
+  },
+  {
+   "claim_tr": "Pişirme ve fermantasyon mikotoksinleri etkileyebilir, ancak yön ve büyüklük mikotoksine ve prosese bağlıdır: bazı koşullarda azalma bildirilirken DON için artış, OTA için ise sınırlı veya anlamsız değişim de raporlanmıştır.",
+   "strength": "B_orta",
+   "n_supporting": 4,
+   "source_ids": [
+    "Q94",
+    "P189",
+    "P711",
+    "P712"
+   ]
+  }
+ ],
+ "quantitative": [
+  {
+   "quantity_tr": "Kurabiye pişirme sıcaklığı aralıkları ve proses kontaminantları",
+   "value_or_range": "CML oluşumu 205–230; akrilamid (AA) oluşumu 155–205",
+   "unit": "°C",
+   "conditions_tr": "Derlemede aktarılan kurabiye işleme koşulları; bu aralıklar oluşumun teşvik edildiği sıcaklık aralıkları olarak bildirilmiştir.",
+   "source_ids": [
+    "Q74"
+   ]
+  },
+  {
+   "quantity_tr": "L-asparajinaz uygulamasıyla akrilamid azalması",
+   "value_or_range": "Tatlı ekmekte %81; kurabiyede %84",
+   "unit": "%",
+   "conditions_tr": "Derlemede aktarılan tatlı ekmek ve kurabiye çalışmaları.",
+   "source_ids": [
+    "Q74"
+   ]
+  },
+  {
+   "quantity_tr": "Bisküviye pektin eklenmesiyle akrilamid azalması",
+   "value_or_range": "%67",
+   "unit": "%",
+   "conditions_tr": "Bisküvi formülasyonuna %5 pektin eklenmesi.",
+   "source_ids": [
+    "Q74"
+   ]
+  },
+  {
+   "quantity_tr": "Mikrodalga kızartma ile akrilamid azalması",
+   "value_or_range": "%37–83",
+   "unit": "%",
+   "conditions_tr": "Derlemede aktarılan mikrodalga kızartma çalışmaları.",
+   "source_ids": [
+    "Q74"
+   ]
+  },
+  {
+   "quantity_tr": "Vakumla birleştirilmiş fırınlamayla kurabiyede akrilamid azalması",
+   "value_or_range": "%30–45",
+   "unit": "%",
+   "conditions_tr": "Kurabiye için iki çalışmada sırasıyla %30 ve %45 azalma bildirilmiştir.",
+   "source_ids": [
+    "Q74"
+   ]
+  },
+  {
+   "quantity_tr": "Sitrik asit uygulamasıyla akrilamid azalması",
+   "value_or_range": "%20–30",
+   "unit": "%",
+   "conditions_tr": "Yarı tatlı kurabiye hamuru.",
+   "source_ids": [
+    "Q74"
+   ]
+  },
+  {
+   "quantity_tr": "%2 histidinle HMF ve akrilamid inhibisyonu",
+   "value_or_range": "HMF %90; akrilamid %65",
+   "unit": "%",
+   "conditions_tr": "Kurabiye formülasyonuna %2 histidin eklenmesi.",
+   "source_ids": [
+    "Q74"
+   ]
+  },
+  {
+   "quantity_tr": "Tam tahıllı buğday ekmeğinde fermantasyon uzatılmasıyla akrilamid azalması",
+   "value_or_range": "%87 daha düşük",
+   "unit": "%",
+   "conditions_tr": "Maya fermantasyonunun 30 dakikadan 360 dakikaya uzatılması.",
+   "source_ids": [
+    "Q160"
+   ]
+  },
+  {
+   "quantity_tr": "Beyaz ekmekte fermantasyon ve pişirme süresi uzatıldığında akrilamid artışı",
+   "value_or_range": "En fazla 2 kat",
+   "unit": "kat",
+   "conditions_tr": "Fermantasyon 70 dakikadan 150 dakikaya, pişirme 20 dakikadan 30 dakikaya çıkarılmıştır.",
+   "source_ids": [
+    "Q160"
+   ]
+  },
+  {
+   "quantity_tr": "Ekşi hamur fermantasyonuyla buğday ekmeğinde akrilamid azalması",
+   "value_or_range": "%24.38–58.83",
+   "unit": "%",
+   "conditions_tr": "Derlemede aktarılan kaynak çalışmalar; 10–12 saatlik fermantasyon özellikle etkili olarak bildirilmiştir.",
+   "source_ids": [
+    "Q161"
+   ]
+  },
+  {
+   "quantity_tr": "Çavdar ekmeğinde pişirme sıcaklığını düşürmeyle akrilamid azalması",
+   "value_or_range": "Yaklaşık %25",
+   "unit": "%",
+   "conditions_tr": "Pişirme sıcaklığının 260 °C'den 230 °C'ye düşürülmesi.",
+   "source_ids": [
+    "Q161"
+   ]
+  },
+  {
+   "quantity_tr": "Bitkisel katkılarla bildirilen akrilamid azalması aralığı",
+   "value_or_range": "%2.7–97.1",
+   "unit": "%",
+   "conditions_tr": "Farklı katkı türleri, konsantrasyonlar ve gıda matrislerini kapsar; fırınlanmış ve kızartılmış ürünler dahildir.",
+   "source_ids": [
+    "P728"
+   ]
+  },
+  {
+   "quantity_tr": "Yeşil çay ve Caesalpinia spinosa katkılarıyla bildirilen akrilamid azalmaları",
+   "value_or_range": "Yeşil çayda %2.7; Caesalpinia spinosa'da %97.1",
+   "unit": "%",
+   "conditions_tr": "Yeşil çay 0.5 g/kg; Caesalpinia spinosa 1500 mg/kg. Derlemede bildirilen fırınlanmış/kızartılmış ürün sonuçları.",
+   "source_ids": [
+    "P728"
+   ]
+  },
+  {
+   "quantity_tr": "Fermente veya ultrasonik OP yan ürünü içeren ekmekte akrilamid",
+   "value_or_range": "Ortalama 14.7",
+   "unit": "μg/kg",
+   "conditions_tr": "Buğday ekmeğinde %5–20 yan ürün ikamesi; %15 ve %20 ultrasonik OP istisnası dışında OP ekmekleri kontrolün altında bulunmuştur.",
+   "source_ids": [
+    "Q26"
+   ]
+  },
+  {
+   "quantity_tr": "Fermente AP/CP yan ürünü içeren ekmekte akrilamid",
+   "value_or_range": "Kontrolün ortalama 2.5 katı",
+   "unit": "kat",
+   "conditions_tr": "Fermente badem (AP) ve hindistan cevizi (CP) yan ürünü içeren ekmekler.",
+   "source_ids": [
+    "Q26"
+   ]
+  },
+  {
+   "quantity_tr": "Beyaz tava ekmeği kabuğunda şeker uygulamalarıyla ölçülen akrilamid aralığı",
+   "value_or_range": "40.0–102.6",
+   "unit": "μg/kg",
+   "conditions_tr": "Şeker uygulamalarında; 6 g/100 g un düzeyinde riboz en düşük (41.0 μg/kg), fruktoz en yüksek (102.6 μg/kg) değeri vermiştir.",
+   "source_ids": [
+    "Q163"
+   ]
+  },
+  {
+   "quantity_tr": "Asparajin artışıyla kabuk akrilamidindeki değişim",
+   "value_or_range": "0.3 g/100 g un uygulamasında, 0.1 g/100 g un uygulamasının 3 katı",
+   "unit": "kat",
+   "conditions_tr": "Kontrol ekmeğine 6 g/100 g un sükroz eklenmiş amino asit uygulamaları.",
+   "source_ids": [
+    "Q163"
+   ]
+  },
+  {
+   "quantity_tr": "SCG ve eşlik eden katkılarla bildirilen akrilamid düşüşü",
+   "value_or_range": "47.00'dan 10.5'e; en düşük değer 10.50 ± 2.27",
+   "unit": "μg/kg",
+   "conditions_tr": "Tam buğday ekmeği; %4 SCG ve ilgili kombine formülasyonda ayrıca %1 limon suyu ile %1 biberiye suyu; 180 °C'de 20 dakika pişirme. En düşük değer 120 dakika fermantasyonda bildirilmiştir.",
+   "source_ids": [
+    "Q162"
+   ]
+  },
+  {
+   "quantity_tr": "W. confusa V20 ekşi mayasıyla akrilamid azalması",
+   "value_or_range": "%62",
+   "unit": "%",
+   "conditions_tr": "Buğday ekmeği, fırıncı mayalı kontrolle karşılaştırılmıştır.",
+   "source_ids": [
+    "P723"
+   ]
+  },
+  {
+   "quantity_tr": "Özel LAB ve maya starterlarıyla çavdar gevrek ekmeğinde akrilamid azalması",
+   "value_or_range": "En fazla %79.6; 13 formülasyonun 11'inde anlamlı azalma",
+   "unit": "%",
+   "conditions_tr": "LAB:maya oranı 10:1; fermantasyon 30 veya 37 °C'de 4 veya 8 saat.",
+   "source_ids": [
+    "P749"
+   ]
+  },
+  {
+   "quantity_tr": "Ekşi hamurlu ekmekte DON, MON ve toplam enniatin değişimleri",
+   "value_or_range": "DON TOT yaklaşık %25 azalma; MON yaklaşık %30 azalma; ENN TOT yaklaşık %15 azalma",
+   "unit": "%",
+   "conditions_tr": "Ekşi hamurlu ekmekler kontrol ekmekleriyle karşılaştırılmıştır.",
+   "source_ids": [
+    "Q94"
+   ]
+  }
+ ],
+ "moderators_tr": [
+  "Ürün matrisi ve tahıl türü: tam tahıllı buğday, beyaz ekmek, çavdar ekmeği ve kurabiyede aynı müdahale aynı sonucu vermemiştir.",
+  "Fermantasyon süresi, sıcaklığı, bağıl nemi, ekşi hamur oranı ve starter suşu; fermantasyon uzatmanın etkisi bazı ekmeklerde azalma, bazılarında artış veya karmaşık yanıt şeklindedir.",
+  "Ekşi hamurun pH'ı ve toplam indirgen şeker düzeyi akrilamid oluşumuyla ilişkili olabilir; kaynakta pH ve şeker korelasyonları bildirilmiş, ancak evrensel doz-yanıt verilmemiştir.",
+  "Pişirme sıcaklığı ve süresi birlikte değerlendirilmelidir; kabuk rengi, buhar düzeyi ve fırın kubbe sıcaklığı da ölçülen akrilamidle ilişkili bulunmuştur.",
+  "Şeker ve amino asit türü ile ekleme düzeyi: glukoz, fruktoz, sükroz, riboz ve farklı amino asitlerde yönler aynı değildir; bazı yanıtlar doğrusal değildir.",
+  "Bitkisel katkının türü, konsantrasyonu ve fiziksel biçimi önemlidir; ekstraktlar derlemede genel olarak tozlardan daha etkili, bazı tozlar ise artırıcı olarak bildirilmiştir.",
+  "Asparajinazın dozu ve uygulandığı ürün/ham madde etkileyebilir; bildirilen ekmek ve kurabiye azalmaları farklı uygulamalara aittir.",
+  "Kabuğun ve ekmek içinin ayrı ölçülmesi gerekir; kabuk eğilimleri ekmek içine otomatik olarak genellenemez.",
+  "Mikotoksin sonuçları toksin türüne, başlangıç kontaminasyonuna, ekşi hamur koşuluna ve pişirme profiline bağlıdır; DON ve OTA için istisnalar bildirilmiştir."
+ ],
+ "conflicts": [
+  {
+   "issue_tr": "Fermantasyon süresinin uzatılması bir çalışmada tam tahıllı buğday ekmeğinde akrilamidi belirgin biçimde azaltırken beyaz ekmekte fermantasyon ve pişirmenin birlikte uzatılması akrilamidi artırmıştır.",
+   "likely_reason_tr": "Tahıl ve ürün matrisi farklıdır; ayrıca fermantasyon ve pişirme süreleri birlikte değiştiğinden tek başına fermantasyon süresinin etkisi ayrıştırılamaz.",
+   "source_ids": [
+    "Q160"
+   ]
+  },
+  {
+   "issue_tr": "Ekşi hamurla DON azalması bildirilirken, belirli kontamine mısır unu ve ticari ekşi hamur koşulunda fermantasyon ve pişirme sonrasında DON artışı bildirilmiştir.",
+   "likely_reason_tr": "Başlangıç kontaminasyonu, un karışımı, ekşi hamur türü ve fermantasyon koşulları farklıdır; iki sonuç farklı deney sistemlerine aittir.",
+   "source_ids": [
+    "Q94",
+    "P189"
+   ]
+  },
+  {
+   "issue_tr": "Bitkisel katkıların çoğu azaltıcı olarak sunulsa da bazı bitkisel tozlar akrilamidi artırmıştır.",
+   "likely_reason_tr": "Katkı türü, konsantrasyonu, ekstrakt veya toz biçimi ve gıda matrisi farklıdır; derlemede tek bir katkı etkisi yerine değişken sonuçlar aktarılmıştır.",
+   "source_ids": [
+    "P728"
+   ]
+  },
+  {
+   "issue_tr": "Şeker veya amino asit düzeyi arttığında kabuk akrilamidinin yanıtı bileşiğe göre artış, azalış, küçük değişim veya doğrusal olmayan değişim gösterebilir.",
+   "likely_reason_tr": "Maillard öncüllerinin türü ve düzeyi farklıdır; sonuçlar ayrıca kabuk ve iç fraksiyonu için aynı değildir.",
+   "source_ids": [
+    "Q163"
+   ]
+  }
+ ],
+ "simulation_rules": [
+  {
+   "rule_tr": "Fermantasyon etkisini tek bir evrensel azalma katsayısı olarak değil, ürün ve starter koşuluna bağlı etkileşim olarak kodla. Kanıt bulunan belirli koşullarda azalma katsayısı kullan; beyaz ekmekte birlikte uzatılmış pişirme-fermantasyon koşulunu otomatik olarak azaltıcı varsayma.",
+   "functional_form": "Ürün/startera bağlı, doyuma yaklaşabilen süre yanıtı; karşıt koşullar için ayrı katsayı veya koşullu model.",
+   "param_suggestions": "Tam tahıllı buğday ekmeğinde 30–360 dakika karşılaştırması için %87 azalma; buğday ekşi hamurunda bildirilen azalma %24.38–58.83. Beyaz ekmekte 70–150 dakika fermantasyon ve 20–30 dakika pişirme birlikte olduğunda en fazla 2 kat artış bildirildi. Bu değerleri farklı ürünlere doğrudan taşımayın.",
+   "source_ids": [
+    "Q160",
+    "Q161",
+    "P750",
+    "P723",
+    "P749"
+   ]
+  },
+  {
+   "rule_tr": "Asparajinazı, uygulama ve ürün türüne göre sınırlı bir çarpanla temsil et; derleme sonuçları ile farklı ekmek deneylerini tek katsayıda birleştirme.",
+   "functional_form": "Uygulama sonrası akrilamid = kontrol × (1 − azaltım oranı); doza bağlı biçim için veri yetersiz.",
+   "param_suggestions": "Derlemede tatlı ekmek için %81, kurabiye için %84 azalma; ekmek deneylerinde %51.7 (100 U/g un) ve %42.5 azalma bildirilmiştir. Ürün/enzim koşulu bilinmiyorsa bu değerlerden tek bir varsayılan katsayı seçilmemelidir.",
+   "source_ids": [
+    "Q74",
+    "P744",
+    "P739",
+    "P747",
+    "P727",
+    "P740"
+   ]
+  },
+  {
+   "rule_tr": "Pişirme sıcaklığı ve süresini birlikte modelle; sıcaklık etkisini tek başına doğrusal kabul etme ve ekmek türüne özgü kalibrasyon kullan.",
+   "functional_form": "Sıcaklık-süre etkileşimli eşik veya doğrusal olmayan ısıl şiddet fonksiyonu; kabuk rengi için ayrıca doygunlaşan/tepe yapan yanıt.",
+   "param_suggestions": "Çavdar ekmeğinde 260 °C'den 230 °C'ye düşürme yaklaşık %25 azalmayla ilişkilidir; başka bir ekmek kaynağında 220 °C altı hedeflenmiştir. Kurabiyede AA için 155–205 °C, CML için 205–230 °C aralıkları bildirilmiştir; bunlar ekmek için doğrulanmış eşik değildir.",
+   "source_ids": [
+    "Q161",
+    "P340",
+    "Q74",
+    "P642",
+    "P740"
+   ]
+  },
+  {
+   "rule_tr": "Ekşi hamur pH'ını ve indirgen şeker düzeyini akrilamid öncülleriyle ilişkili yardımcı değişkenler olarak ekle; korelasyonu nedensel ve bütün ürünlerde sabit etki sayma.",
+   "functional_form": "pH ve indirgen şeker için etkileşimli, parametreleri yerel veriden kalibre edilen ilişki; pH yanıtı için doğrusal varsayım yalnızca başlangıç modeli olabilir.",
+   "param_suggestions": "Bildirilen korelasyonlar pH için r = 0.915 ve toplam indirgen şeker için r = 0.885'tir; ekşi hamurda pH'ın 3 birim düşmesiyle azalma bildirilmiştir. Bunlar doğrudan evrensel regresyon katsayısı değildir.",
+   "source_ids": [
+    "P758",
+    "P755",
+    "P733"
+   ]
+  },
+  {
+   "rule_tr": "Şeker ve amino asit katkılarını kimliğine ve düzeyine göre ayrı girdiler olarak tut; tek bir 'şeker artışı' veya 'amino asit artışı' katsayısı kullanma.",
+   "functional_form": "Bileşik ve doz bazlı, gerektiğinde doğrusal olmayan veya işaret değiştiren yanıt.",
+   "param_suggestions": "Beyaz tava ekmeğinde 6 g/100 g un düzeyinde kabuk akrilamidi 40.0–102.6 μg/kg aralığında bildirilmiştir; asparajin 0.1'den 0.3 g/100 g una çıkarıldığında üç kat düzey raporlanmıştır. Değerler bu formülasyon koşullarına özgüdür.",
+   "source_ids": [
+    "Q163"
+   ]
+  },
+  {
+   "rule_tr": "Bitkisel katkı etkisini katkı türü, dozu ve ekstrakt/toz biçimine göre ayrı modelle; genel bitkisel katkı katsayısı kullanma.",
+   "functional_form": "Katkı türü ve dozuna göre katsayı; yeterli doz verisi varsa doyum veya eşik biçimi, aksi halde kategorik müdahale.",
+   "param_suggestions": "Derlemede farklı katkı ve matrisler için %2.7–97.1 azalma aralığı bildirilmiştir; belirli örnekler 0.5 g/kg yeşil çayda %2.7 ve 1500 mg/kg Caesalpinia spinosa'da %97.1 azalmadır. Geniş aralık genel parametre olarak kullanılmamalıdır.",
+   "source_ids": [
+    "P728",
+    "P730",
+    "Q162"
+   ]
+  },
+  {
+   "rule_tr": "Kabuk ve ekmek içi akrilamidini ayrı durum değişkenleri olarak modelle; kabuk değerini ürünün tamamına eşitleme.",
+   "functional_form": "Fraksiyona özgü alt modeller; kabukta daha yüksek başlangıç/ısıl işlem etkisi için kaynakla kalibre edilen ayrı parametre.",
+   "param_suggestions": "Beyaz tava ekmeğinde kabuk ortalama olarak ekmek içinden %30 daha yüksek bildirilmiştir; şeker ve amino asit sistemlerinde ekmek içi aralıkları sırasıyla 34.7–47.2 ve 33.4–49.3 μg/kg'dır.",
+   "source_ids": [
+    "Q163"
+   ]
+  },
+  {
+   "rule_tr": "Mikotoksin dönüşümünü akrilamidden ayrı modelle ve toksin türüne özgü parametre kullan; pişirmeyi veya ekşi hamuru bütün toksinler için kesin azaltıcı kabul etme.",
+   "functional_form": "Toksin ve proses koşuluna bağlı ayrı dönüşüm katsayısı; değişim yok veya artış olasılığını dışlamayan koşullu model.",
+   "param_suggestions": "Pişirmeyle bazı mikotoksinlerde yaklaşık %8–18 veya belirli pita deneylerinde %16–25 azalma bildirilmiştir; yüksek sıcaklık-kısa süre koşullarında AFB1/AFG1 için ortalama %39 azalma raporlanmış, OTA görece dayanıklı bulunmuştur. DON için özel fermantasyon koşulunda %28 artış ve pişirme sonrasında başlangıca göre %16 artış bildirilmiştir.",
+   "source_ids": [
+    "Q94",
+    "P711",
+    "P189",
+    "P712"
+   ]
+  }
+ ],
+ "gaps_tr": [
+  "Birçok derleme bulgusunda özgün çalışma koşulları, kontrol tanımı, örneklem büyüklüğü ve belirsizlik aralıkları verilmediğinden ortak etki büyüklüğü hesaplanamıyor.",
+  "Fermantasyon süresi, sıcaklığı, pH, bağıl nem, starter suşu ve pişirme süresinin birbirinden bağımsız etkilerini ayıran karşılaştırmalı veriler sınırlıdır.",
+  "Akrilamid sonuçları için farklı ekmek matrisi ve laboratuvarlar arasında ölçüm yöntemleri ile ürün bazındaki başlangıç düzeyleri verilmemiştir.",
+  "Şeker ve amino asit doz-yanıtları belirli bir beyaz tava ekmeği çalışmasına dayanıyor; diğer ekmek türlerine genellenebilirlik belirsizdir.",
+  "Asparajinaz için enzim dozu, ön işlem koşulları ve kalite/duyusal sonuçlarla birlikte raporlanan ekmek verisi sınırlıdır.",
+  "Bitkisel katkılarda bileşik, doz ve ekstrakt/toz biçimi çok değişkendir; bildirilen geniş azalma aralığı tek bir simülasyon parametresi oluşturmaya uygun değildir.",
+  "Kabuk ve iç akrilamidinin birçok çalışmada ayrı raporlanmaması, bütün ekmek için fraksiyon-temelli tahminleri kısıtlar.",
+  "CML ve HMF için bu satırlarda az sayıda sayısal veri vardır; kurabiye sıcaklık bulguları ekmeğe doğrudan aktarılamaz.",
+  "Mikotoksinlerde başlangıç düzeyi ve toksin türüne göre sonuçlar değişmektedir; farklı deneylerin pişirme ve fermantasyon koşulları doğrudan karşılaştırılabilir değildir."
+ ],
+ "tid": "T17",
+ "name": "Akrilamid ve proses kontaminantları",
+ "n_sources": 39,
+ "n_findings": 99,
+ "theme_source_ids": [
+  "P189",
+  "P244",
+  "P340",
+  "P642",
+  "P671",
+  "P672",
+  "P711",
+  "P712",
+  "P722",
+  "P723",
+  "P727",
+  "P728",
+  "P730",
+  "P733",
+  "P734",
+  "P739",
+  "P740",
+  "P744",
+  "P747",
+  "P748",
+  "P749",
+  "P750",
+  "P751",
+  "P752",
+  "P754",
+  "P755",
+  "P756",
+  "P758",
+  "P768",
+  "P822",
+  "P919",
+  "Q152",
+  "Q160",
+  "Q161",
+  "Q162",
+  "Q163",
+  "Q26",
+  "Q74",
+  "Q94"
+ ]
+}
