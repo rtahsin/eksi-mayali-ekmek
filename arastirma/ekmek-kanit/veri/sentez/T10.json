@@ -1,0 +1,517 @@
+{
+ "consensus": [
+  {
+   "claim_tr": "Hasarlı nişasta arttıkça un/hamur su absorbsiyonu genellikle artar.",
+   "strength": "B_orta",
+   "n_supporting": 3,
+   "source_ids": [
+    "P294",
+    "P296",
+    "P307"
+   ]
+  },
+  {
+   "claim_tr": "Hasarlı nişastanın artması, yüksek düzeylerde ekmek kalitesini olumsuz etkileyebilir: hacim düşebilir, iç sertliği ve kabuk koyuluğu artabilir. Etki un ve ürün koşullarına bağlıdır.",
+   "strength": "B_orta",
+   "n_supporting": 4,
+   "source_ids": [
+    "P294",
+    "P478",
+    "Q9",
+    "Q27"
+   ]
+  },
+  {
+   "claim_tr": "Daha ince öğütme veya fraksiyonlama, bazı buğday unlarında hasarlı nişastayı artırır; bunun büyüklüğü ve ekmek performansına yansıması öğütme yöntemi ile ürüne bağlıdır.",
+   "strength": "B_orta",
+   "n_supporting": 3,
+   "source_ids": [
+    "P414",
+    "P425"
+   ]
+  },
+  {
+   "claim_tr": "Kepek, arabinoksilan ve beta-glukan gibi lif/NSP bileşenlerinin eklenmesi çoğunlukla su tutma veya hamur su kaldırma gereksinimini artırır; lif türü ve parçacık özellikleri sonucu değiştirebilir.",
+   "strength": "A_güçlü",
+   "n_supporting": 7,
+   "source_ids": [
+    "P302",
+    "P338",
+    "P449",
+    "P480",
+    "P581",
+    "P313",
+    "P360"
+   ]
+  },
+  {
+   "claim_tr": "Kepek veya lif ilavesi besinsel bileşenleri artırabilir; ancak yüksek ikame ya da belirli glutensiz formülasyonlarda hacim ve bazı hamur/ekmek kalite ölçütleri düşebilir.",
+   "strength": "B_orta",
+   "n_supporting": 5,
+   "source_ids": [
+    "P313",
+    "P971",
+    "P302",
+    "P480",
+    "P360"
+   ]
+  },
+  {
+   "claim_tr": "Partikül boyutunun ekmek hacmi ve dokusu üzerindeki etkisi evrensel olarak tek yönlü değildir: bazı tam buğday ve kepek sistemlerinde daha ince parçacıklar hacmi artırıp ekmeği yumuşatırken, başka sistemlerde hacmi düşürüp sertliği artırabilir.",
+   "strength": "A_güçlü",
+   "n_supporting": 7,
+   "source_ids": [
+    "Q13",
+    "Q61",
+    "P393",
+    "P414",
+    "P772",
+    "P392",
+    "P389"
+   ]
+  },
+  {
+   "claim_tr": "Partikül boyutu veya parçacık fraksiyonu için ürün ve hammaddeye özgü optimum bulunabilir; orta boyutlu buğday unu buharda pişmiş ekmekte en iyi kaliteyi verirken farklı tam buğday sistemlerinde daha ince veya daha iri kepek avantaj sağlayabilmiştir.",
+   "strength": "B_orta",
+   "n_supporting": 4,
+   "source_ids": [
+    "P414",
+    "Q61",
+    "P389",
+    "P789"
+   ]
+  },
+  {
+   "claim_tr": "Kepek/lifin işlevsel etkileri yalnız parçacık boyutuna bağlı değildir: tür, çözünürlük, ön işlem, ikame oranı ve ürünün gluten/hamur yapısı sonucu değiştirebilir.",
+   "strength": "B_orta",
+   "n_supporting": 6,
+   "source_ids": [
+    "P927",
+    "P480",
+    "P581",
+    "P486",
+    "P772",
+    "P313"
+   ]
+  },
+  {
+   "claim_tr": "Tam tahıl veya kepek içeriğinin artması besinsel bileşenleri artırabilir; buna karşılık bazı ekmeklerde hacim azalması ve daha sert doku görülür.",
+   "strength": "B_orta",
+   "n_supporting": 5,
+   "source_ids": [
+    "P313",
+    "P360",
+    "Q90",
+    "Q91",
+    "P190"
+   ]
+  }
+ ],
+ "quantitative": [
+  {
+   "quantity_tr": "İyi ekmek kalitesi için bildirilen hasarlı nişasta düzeyi",
+   "value_or_range": "yaklaşık %8",
+   "unit": "%",
+   "conditions_tr": "Buğday unu ve ekmek yapımı; derlemede aktarılan çalışmalar.",
+   "source_ids": [
+    "Q27"
+   ]
+  },
+  {
+   "quantity_tr": "Azaltılmış tuz koşulunda kullanılan hasarlı nişasta düzeyi",
+   "value_or_range": "%8,43",
+   "unit": "%",
+   "conditions_tr": "Derlemede aktarılan çalışmada azaltılmış tuzun hamur işlemesine olumsuz etkilerini hafifletmek için kullanılmıştır.",
+   "source_ids": [
+    "Q27"
+   ]
+  },
+  {
+   "quantity_tr": "Hasarlı nişastanın yüksek olduğu un için bildirilen eşik",
+   "value_or_range": ">%12",
+   "unit": "%",
+   "conditions_tr": "Bu düzeyin üzerinde su absorbsiyonu artabilir ve ekmek hacmi azalabilir.",
+   "source_ids": [
+    "Q9"
+   ]
+  },
+  {
+   "quantity_tr": "Hasarlı nişasta artışıyla birlikte hamur su absorbsiyonu",
+   "value_or_range": "%60,7 → %63,8",
+   "unit": "%",
+   "conditions_tr": "Hasarlı nişasta %3,15’ten %6,13’e yükseltilen laboratuvar öğütmesi unları.",
+   "source_ids": [
+    "P294"
+   ]
+  },
+  {
+   "quantity_tr": "Hasarlı nişasta artışıyla birlikte ekmek özgül hacmi ve sertliği",
+   "value_or_range": "Özgül hacim 4,04 → 3,53 cm³/g; sertlik 4,09 → 5,25 N",
+   "unit": "cm³/g; N",
+   "conditions_tr": "Hasarlı nişasta %3,15’ten %6,13’e yükseltilen unlarla üretilen ekmek.",
+   "source_ids": [
+    "P294"
+   ]
+  },
+  {
+   "quantity_tr": "Endüstriyel ve laboratuvar öğütme unlarının hasarlı nişasta düzeyi",
+   "value_or_range": "Endüstriyel 20–27 UCD (ortalama 24); laboratuvar 15–21 UCD (ortalama 18)",
+   "unit": "UCD",
+   "conditions_tr": "Endüstriyel öğütme unlarında düzey daha yüksektir.",
+   "source_ids": [
+    "P296"
+   ]
+  },
+  {
+   "quantity_tr": "Hasarlı nişasta ile su absorbsiyonu ve hamur sıvılaşması korelasyonları",
+   "value_or_range": "r = 0,690; r = 0,781",
+   "unit": "korelasyon katsayısı",
+   "conditions_tr": "Endüstriyel öğütme unlarından 20 örnek; sırasıyla su absorbsiyonu ve hamur sıvılaşması.",
+   "source_ids": [
+    "P296"
+   ]
+  },
+  {
+   "quantity_tr": "Tam buğday ununda partikül boyutu ile ekmek hacmi korelasyonu",
+   "value_or_range": "d50 115–492 μm; r = −0,907",
+   "unit": "μm; korelasyon katsayısı",
+   "conditions_tr": "Ariheuk mor buğdayından altı tam buğday unu örneği; d50 küçüldükçe hacim arttı.",
+   "source_ids": [
+    "Q61"
+   ]
+  },
+  {
+   "quantity_tr": "Buharda pişmiş ekmekte bildirilen en iyi partikül boyutu",
+   "value_or_range": "78 μm",
+   "unit": "μm",
+   "conditions_tr": "Farklı parçacık boyutlu buğday unlarında genel kalite için en iyi değer; uzayabilirlik için 66 ve 78 μm orta boyutları en yüksek değerleri verdi.",
+   "source_ids": [
+    "P414"
+   ]
+  },
+  {
+   "quantity_tr": "Jet öğütülmüş tam buğday ununda karşılaştırılan partikül boyutları",
+   "value_or_range": "17–53 μm ve 84 μm",
+   "unit": "μm",
+   "conditions_tr": "17–53 μm aralığındaki daha ince un, 84 μm una kıyasla ekmek özgül hacmini ve nemini düşürdü, iç sertliğini artırdı.",
+   "source_ids": [
+    "Q13"
+   ]
+  },
+  {
+   "quantity_tr": "İnce ve kaba buğday kepeği partikül boyutları",
+   "value_or_range": "463 μm ve 783 μm",
+   "unit": "μm",
+   "conditions_tr": "Tek rafine una kepek eklenerek yeniden oluşturulan tam buğday unlarında ince partiküller daha büyük somun hacmi ve daha yumuşak doku sağladı.",
+   "source_ids": [
+    "P393"
+   ]
+  },
+  {
+   "quantity_tr": "Tam buğday tava ekmeğinde ince ve iri kepek ile bayatlama kinetik hızı",
+   "value_or_range": "İnce kepek 0,174; iri kepek 0,091",
+   "unit": "gün⁻¹",
+   "conditions_tr": "%30 kepek ikamesi; iri kepekte bayatlama kinetik hızı daha düşüktü.",
+   "source_ids": [
+    "P789"
+   ]
+  },
+  {
+   "quantity_tr": "Kepek ikamesiyle incelenen hamur formülasyon aralığı",
+   "value_or_range": "%10–30",
+   "unit": "%",
+   "conditions_tr": "Buğday hamurunda kepek, sade unun yerine kullanıldığında kepek oranı yükseldikçe su kaldırma kapasitesi arttı.",
+   "source_ids": [
+    "P480"
+   ]
+  },
+  {
+   "quantity_tr": "Süper ince öğütülmüş kepeğin iri kepeğe göre su tutma kapasitesi değişimi",
+   "value_or_range": "%17–20 azalma",
+   "unit": "%",
+   "conditions_tr": "Buğday kepeğinin süper ince öğütülmesi ve iri kepekle karşılaştırılması.",
+   "source_ids": [
+    "P480"
+   ]
+  },
+  {
+   "quantity_tr": "Ultrafine öğütülmüş buğday kepeğinin su tutma kapasitesi",
+   "value_or_range": "6,53 → 6,20 → 5,32",
+   "unit": "g/g",
+   "conditions_tr": "Ultrafine öğütme ve partikül boyutu küçültme koşullarında ölçülen değerler.",
+   "source_ids": [
+    "P501"
+   ]
+  },
+  {
+   "quantity_tr": "Beyaz, tam buğday ve elek fraksiyonlu ekmeklerde özgül hacim",
+   "value_or_range": "<250 μm: 2,71 ± 0,06; <500 μm: 2,26 ± 0,08; beyaz un: 2,35 ± 0,23; tam buğday: 2,36 ± 0,15",
+   "unit": "cm³/g",
+   "conditions_tr": "Aynı bileşen oranları ve su ilavesiyle; <250 μm fraksiyon en yüksek değeri verdi.",
+   "source_ids": [
+    "Q72"
+   ]
+  },
+  {
+   "quantity_tr": "Tam buğday ve beyaz ekmek sertliği",
+   "value_or_range": "Tam buğday 5436,63 ± 503,28; beyaz un 3829,78 ± 218,01",
+   "unit": "g",
+   "conditions_tr": "Dört un türü aynı tarifle hazırlanmıştır.",
+   "source_ids": [
+    "Q72"
+   ]
+  },
+  {
+   "quantity_tr": "Tam tahıl ununda farinograf su absorbsiyonu, gelişme süresi ve stabilite",
+   "value_or_range": "Artış bildirilmiş; sayısal değer verilmemiştir",
+   "unit": "—",
+   "conditions_tr": "Tam buğday unu oranı artırıldığında rafine un ve karışımlara kıyasla.",
+   "source_ids": [
+    "P360"
+   ]
+  }
+ ],
+ "moderators_tr": [
+  "Hasarlı nişasta düzeyi ve ölçüm yöntemi: kaynaklarda yüzde ve UCD gibi farklı ölçüler kullanılmıştır; bu değerler doğrudan eşdeğer kabul edilmemelidir.",
+  "Unun buğday/tahıl türü, tam tahıl veya rafine olması ve öğütme düzeni.",
+  "Partikül boyutunun ortalaması (ör. d50), dağılımı, kepek fraksiyonunun inceliği ve fraksiyonlama yöntemi.",
+  "Ürün türü: tava ekmeği, buharda pişmiş ekmek, yufka veya glutensiz ekmek sonuçları aynı yönde değildir.",
+  "Kepek/lif kaynağı, çözünürlük, viskozite, arabinoksilanın yapısı ve ön işlem (ör. buhar patlaması veya enzimatik işlem).",
+  "Kepek/lif ikame oranı ve hamurun başlangıç gluten düzeyi; su rekabeti, seyreltme ve ağ yapısı etkileri oranla değişebilir.",
+  "Hamur hidrasyonu ve formülasyon; kaba pirinç fraksiyonunun olumlu etkisi yüksek hidrasyon koşuluyla birlikte bildirilmiştir.",
+  "Fermantasyon, pişirme ve depolama koşulları; özellikle hacim, doku ve bayatlama ölçümlerinin yorumunu etkiler."
+ ],
+ "conflicts": [
+  {
+   "issue_tr": "Daha ince partikül bazı çalışmalarda hacmi artırıp ekmeği yumuşatırken, diğerlerinde özgül hacmi azaltıp sertliği artırmıştır.",
+   "likely_reason_tr": "Tam buğday unu, kepek veya başka bileşenlerin kullanılması; partikül boyutu aralığı, öğütme yöntemi ve ürün tipi farklıdır. Etki tek başına partikül boyutuna atfedilemeyebilir.",
+   "source_ids": [
+    "Q61",
+    "P393",
+    "Q13",
+    "P414",
+    "P772",
+    "P389"
+   ]
+  },
+  {
+   "issue_tr": "İnce öğütme her zaman su tutma kapasitesini artırmamıştır; bazı lif/kepek sistemlerinde partikül küçüldükçe kapasite azalmıştır.",
+   "likely_reason_tr": "Kepek/lif türü ve yapısal özellikleri farklıdır; kepeğin süper ince veya ultrafine öğütülmesi, yulaf lifi ve karabuğday kabuğu tozu ile aynı davranışı göstermeyebilir.",
+   "source_ids": [
+    "Q25",
+    "P480",
+    "P501",
+    "P772"
+   ]
+  },
+  {
+   "issue_tr": "Hasarlı nişasta için yaklaşık %8 düzeyinin iyi ekmek kalitesiyle ilişkilendirilmesi, %12 üzerindeki düzeylerde hacim düşebileceği bildirimi ve %3,15–6,13 aralığındaki deney sonuçları doğrudan tek bir eşik eğrisi oluşturmuyor.",
+   "likely_reason_tr": "Çalışmaların hasarlı nişasta düzeyi, un/öğütme kaynağı, ölçüm birimi ve ürün kalitesi ölçütleri farklıdır; eşiklerin evrensel olduğu gösterilmemiştir.",
+   "source_ids": [
+    "Q27",
+    "Q9",
+    "P294",
+    "P296"
+   ]
+  },
+  {
+   "issue_tr": "Taş öğütme, bazı derleme bulgularında daha yüksek besin bileşenleri ve ekmek hacmiyle; başka bulgularda daha yüksek hasarlı nişastayla ilişkilendirilmiştir. Valsli öğütmede ise daha iyi hamur reolojisi bildirilmiştir.",
+   "likely_reason_tr": "Taş ve valsli öğütme karşılaştırmaları farklı buğdaylar, öğütme koşulları ve ürün değerlendirmelerine dayanıyor; sonuçlar tek bir öğütme yöntemi lehine genellenemez.",
+   "source_ids": [
+    "P403",
+    "P409",
+    "P404"
+   ]
+  }
+ ],
+ "simulation_rules": [
+  {
+   "rule_tr": "Hasarlı nişasta arttıkça su absorbsiyonunu artır; ilişkiyi yalnız gözlenen aralıkta uygula ve yüksek değerlerde sınırsız doğrusal ekstrapolasyondan kaçın.",
+   "functional_form": "Düşük-orta düzeyde doğrusal artış; kapsam dışı yüksek düzeylerde doyum veya belirsizlik aralığı.",
+   "param_suggestions": "P294'te %3,15→%6,13 artışına karşı su absorbsiyonu %60,7→%63,8 olmuştur. P296 korelasyonu r=0,690; P307 doğrusal/orantılı artış bildirir. Bunlar kalibrasyon referanslarıdır, evrensel eğim değildir.",
+   "source_ids": [
+    "P294",
+    "P296",
+    "P307"
+   ]
+  },
+  {
+   "rule_tr": "Hasarlı nişasta için kalite etkisini eşik/koşula bağlı tanımla: orta düzeyler işlevsel olabilir; yüksek düzeylerde hacim düşüşü ve sertlik artışı olasılığı yükselir.",
+   "functional_form": "Eşikli veya parçalı doğrusal yanıt; yaklaşık %8 civarında kalite referansı, >%12’de olası olumsuz hacim etkisi. Eşikler belirsizlikle temsil edilmeli.",
+   "param_suggestions": "Yaklaşık %8 iyi kalite için bildirilmiştir; >%12’de su absorbsiyonu artışı ve hacim azalışı bildirimi vardır. %3,15→%6,13 deneyinde özgül hacim 4,04→3,53 cm³/g, sertlik 4,09→5,25 N değişmiştir. Farklı yöntemler nedeniyle tek eşik olarak sabitleme.",
+   "source_ids": [
+    "Q27",
+    "Q9",
+    "P294",
+    "P478"
+   ]
+  },
+  {
+   "rule_tr": "Partikül boyutunu ekmek hacmi/dokusu için tek yönlü genel katsayıyla değil, tahıl-ürün-öğütme koşullarına göre ayrı parametrelerle kodla.",
+   "functional_form": "Ürüne göre doğrusal eğilim veya optimumlu çan eğrisi; modelde sınıf/ürün etkileşimi.",
+   "param_suggestions": "Buharda pişmiş buğday ekmeğinde 78 μm genel kalite optimumu bildirilmiştir. Ariheuk tam buğdayda d50 115–492 μm aralığında küçüldükçe hacimle r=−0,907 ilişki bulunmuştur; jet öğütülmüş tam buğday ekmeğinde 17–53 μm, 84 μm’ye göre daha düşük hacim vermiştir.",
+   "source_ids": [
+    "P414",
+    "Q61",
+    "Q13"
+   ]
+  },
+  {
+   "rule_tr": "Kepek/lif oranı arttıkça su gereksinimini artır; ancak etkiyi lif türü ve parçacık özelliklerine bağla.",
+   "functional_form": "İncelenen ikame aralığında artan doz-yanıt; su gereksinimi için tür/öğütme etkileşimi.",
+   "param_suggestions": "Buğday hamurunda %10–30 kepek ikamesinde su kaldırma kapasitesi artmıştır; NSP ilavesi yaklaşık %6’ya kadar su gereksinimini artırabilir. Öte yandan bazı süper ince/ultrafine kepeklerde su tutma kapasitesi azalmıştır; tek ortak eğim kullanılmamalıdır.",
+   "source_ids": [
+    "P480",
+    "P338",
+    "P449",
+    "P501"
+   ]
+  },
+  {
+   "rule_tr": "Kepek/lif artışının besinsel kazanımını ve yapısal kalite maliyetini ayrı durum değişkenleri olarak izle.",
+   "functional_form": "Besinsel bileşenlerde artan doz-yanıt; hacim ve doku için formülasyona bağlı negatif veya karma yanıt.",
+   "param_suggestions": "Kepek düzeyi arttıkça besinsel bileşen artışı bildirilmiştir; bazı kepek/lif formülasyonlarında hacim olumsuz etkilenmiştir. Sayısal genel katsayı verilmediğinden eğimi veriyle kalibre et, sabit etki atama.",
+   "source_ids": [
+    "P313",
+    "P971",
+    "P302"
+   ]
+  },
+  {
+   "rule_tr": "İri ve ince kepek için depolama/bayatlama etkisini ayrı kodla; ekmek hacmi yönünü bayatlama etkisinden türetme.",
+   "functional_form": "Depolama zamanına bağlı kinetik; kepek parçacık boyutuna göre farklı hız parametresi.",
+   "param_suggestions": "Tam buğday tava ekmeğinde %30 ikamede bayatlama kinetik hızı ince kepekte 0,174 gün⁻¹, iri kepekte 0,091 gün⁻¹ bildirilmiştir. Bu değerler yalnız o koşul için referanstır.",
+   "source_ids": [
+    "P789"
+   ]
+  }
+ ],
+ "gaps_tr": [
+  "Hasarlı nişasta ölçüm birimleri ve yöntemleri çalışmalar arasında uyumlaştırılmamıştır; yüzde, UCD ve diğer ölçümler için dönüşüm verisi yoktur.",
+  "Hasarlı nişasta ile hacim, sertlik ve su absorbsiyonu arasındaki doz-yanıtı belirleyecek aynı un ve aynı proses içinde yapılmış geniş aralıklı karşılaştırmalar sınırlıdır.",
+  "Yaklaşık %8 ve >%12 değerlerinin farklı un türleri, ekmek prosesleri ve kalite hedeflerinde ne ölçüde genellenebileceği belirsizdir.",
+  "Partikül boyutu çalışmalarında un/kepek bileşimi, dağılım genişliği, öğütme kaynaklı hasar ve hidrasyon çoğu zaman birlikte değişmektedir; nedensel ayrıştırma yetersizdir.",
+  "Kepek/lif türü, çözünürlük, molekül özellikleri ve ikame düzeyi için karşılaştırılabilir standartlaştırılmış ölçümler eksiktir.",
+  "Hacim ve doku sonuçları farklı ekmek türlerine aittir; aynı partikül boyutunun farklı ürünlerdeki etkisini doğrudan karşılaştıran çalışmalar azdır.",
+  "Ölçek büyütme ve endüstriyel üretimde, laboratuvar öğütmesi veya kontrollü ürünlerden elde edilen parametrelerin geçerliliği yeterince gösterilmemiştir.",
+  "Simülasyon için gerekli ortak etki büyüklükleri, hata dağılımları ve çalışmalar arası varyans çoğu satırda verilmemiştir."
+ ],
+ "tid": "T10",
+ "name": "Hasarlı nişasta, kül/randıman, kepek, lif, partikül boyutu",
+ "n_sources": 112,
+ "n_findings": 281,
+ "theme_source_ids": [
+  "P1005",
+  "P1006",
+  "P1029",
+  "P1071",
+  "P1091",
+  "P1092",
+  "P1093",
+  "P1094",
+  "P1097",
+  "P1222",
+  "P1253",
+  "P135",
+  "P174",
+  "P190",
+  "P192",
+  "P195",
+  "P196",
+  "P235",
+  "P255",
+  "P294",
+  "P296",
+  "P297",
+  "P300",
+  "P302",
+  "P303",
+  "P305",
+  "P307",
+  "P313",
+  "P322",
+  "P323",
+  "P327",
+  "P338",
+  "P345",
+  "P346",
+  "P347",
+  "P349",
+  "P352",
+  "P360",
+  "P376",
+  "P383",
+  "P389",
+  "P392",
+  "P393",
+  "P398",
+  "P399",
+  "P400",
+  "P401",
+  "P403",
+  "P404",
+  "P405",
+  "P407",
+  "P408",
+  "P409",
+  "P410",
+  "P412",
+  "P413",
+  "P414",
+  "P416",
+  "P422",
+  "P423",
+  "P425",
+  "P449",
+  "P478",
+  "P480",
+  "P486",
+  "P501",
+  "P504",
+  "P534",
+  "P535",
+  "P544",
+  "P549",
+  "P581",
+  "P595",
+  "P665",
+  "P671",
+  "P758",
+  "P772",
+  "P789",
+  "P828",
+  "P860",
+  "P91",
+  "P927",
+  "P934",
+  "P945",
+  "P971",
+  "P987",
+  "Q109",
+  "Q125",
+  "Q126",
+  "Q13",
+  "Q134",
+  "Q142",
+  "Q164",
+  "Q166",
+  "Q21",
+  "Q25",
+  "Q27",
+  "Q3",
+  "Q61",
+  "Q72",
+  "Q89",
+  "Q9",
+  "Q90",
+  "Q91",
+  "Q94",
+  "Q97",
+  "W12",
+  "W32",
+  "W36",
+  "W39",
+  "W42",
+  "W9"
+ ]
+}

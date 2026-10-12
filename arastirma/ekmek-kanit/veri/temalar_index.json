@@ -1,0 +1,205 @@
+[
+ {
+  "tid": "T01",
+  "name": "Fermantasyon/son mayalanma sıcaklığı → gaz üretimi, hacim, mikrobiyal hız",
+  "file": "temalar/T01-fermantasyon-son-mayalanma-sicakligi-gaz-uretimi-h.md",
+  "n_sources": 24,
+  "n_findings": 34
+ },
+ {
+  "tid": "T02",
+  "name": "Sıcaklık, süre ve ekşi maya → organik asitler, pH, TTA, laktik/asetik oranı",
+  "file": "temalar/T02-sicaklik-sure-ve-eksi-maya-organik-asitler-ph-tta-.md",
+  "n_sources": 62,
+  "n_findings": 80
+ },
+ {
+  "tid": "T03",
+  "name": "Fermantasyon süresi ve soğuk mayalanma → aroma ve duyusal",
+  "file": "temalar/T03-fermantasyon-suresi-ve-soguk-mayalanma-aroma-ve-du.md",
+  "n_sources": 69,
+  "n_findings": 103
+ },
+ {
+  "tid": "T04",
+  "name": "Maya dozu ve suşu → gaz üretimi, hacim, aroma",
+  "file": "temalar/T04-maya-dozu-ve-susu-gaz-uretimi-hacim-aroma.md",
+  "n_sources": 86,
+  "n_findings": 223
+ },
+ {
+  "tid": "T05",
+  "name": "Tuz → maya aktivitesi, reoloji, hacim, duyusal",
+  "file": "temalar/T05-tuz-maya-aktivitesi-reoloji-hacim-duyusal.md",
+  "n_sources": 44,
+  "n_findings": 132
+ },
+ {
+  "tid": "T06",
+  "name": "Şeker ve yağ → fermantasyon, hacim, bayatlama",
+  "file": "temalar/T06-seker-ve-yag-fermantasyon-hacim-bayatlama.md",
+  "n_sources": 28,
+  "n_findings": 64
+ },
+ {
+  "tid": "T07",
+  "name": "Hidrasyon → reoloji, hacim, iç yapı",
+  "file": "temalar/T07-hidrasyon-reoloji-hacim-ic-yapi.md",
+  "n_sources": 45,
+  "n_findings": 90
+ },
+ {
+  "tid": "T08",
+  "name": "Yoğurma ve otoliz → gluten gelişimi, hacim",
+  "file": "temalar/T08-yogurma-ve-otoliz-gluten-gelisimi-hacim.md",
+  "n_sources": 29,
+  "n_findings": 69
+ },
+ {
+  "tid": "T09",
+  "name": "Un proteini ve gluten kalitesi → reoloji ve hacim",
+  "file": "temalar/T09-un-proteini-ve-gluten-kalitesi-reoloji-ve-hacim.md",
+  "n_sources": 53,
+  "n_findings": 116
+ },
+ {
+  "tid": "T10",
+  "name": "Hasarlı nişasta, kül/randıman, kepek, lif, partikül boyutu",
+  "file": "temalar/T10-hasarli-nisasta-kul-randiman-kepek-lif-partikul-bo.md",
+  "n_sources": 112,
+  "n_findings": 281
+ },
+ {
+  "tid": "T11",
+  "name": "Tahıl türü ve çeşidi (antik buğdaylar, çavdar, durum)",
+  "file": "temalar/T11-tahil-turu-ve-cesidi-antik-bugdaylar-cavdar-durum.md",
+  "n_sources": 73,
+  "n_findings": 173
+ },
+ {
+  "tid": "T12",
+  "name": "Ekşi maya kullanımı → hacim, sertlik, raf ömrü, duyusal",
+  "file": "temalar/T12-eksi-maya-kullanimi-hacim-sertlik-raf-omru-duyusal.md",
+  "n_sources": 83,
+  "n_findings": 164
+ },
+ {
+  "tid": "T13",
+  "name": "Ekşi maya ekolojisi ve besleme (backslopping, sıcaklık, un)",
+  "file": "temalar/T13-eksi-maya-ekolojisi-ve-besleme-backslopping-sicakl.md",
+  "n_sources": 59,
+  "n_findings": 82
+ },
+ {
+  "tid": "T14",
+  "name": "Enzimler, oksidanlar, emülgatörler",
+  "file": "temalar/T14-enzimler-oksidanlar-emulgatorler.md",
+  "n_sources": 89,
+  "n_findings": 246
+ },
+ {
+  "tid": "T15",
+  "name": "Hidrokolloidler ve glutensiz ekmek",
+  "file": "temalar/T15-hidrokolloidler-ve-glutensiz-ekmek.md",
+  "n_sources": 62,
+  "n_findings": 227
+ },
+ {
+  "tid": "T16",
+  "name": "Pişirme sıcaklığı, süresi ve buhar → kabuk rengi, hacim, nem",
+  "file": "temalar/T16-pisirme-sicakligi-suresi-ve-buhar-kabuk-rengi-haci.md",
+  "n_sources": 48,
+  "n_findings": 136
+ },
+ {
+  "tid": "T17",
+  "name": "Akrilamid ve proses kontaminantları",
+  "file": "temalar/T17-akrilamid-ve-proses-kontaminantlari.md",
+  "n_sources": 39,
+  "n_findings": 99
+ },
+ {
+  "tid": "T18",
+  "name": "Bayatlama, depolama ve dondurma",
+  "file": "temalar/T18-bayatlama-depolama-ve-dondurma.md",
+  "n_sources": 162,
+  "n_findings": 266
+ },
+ {
+  "tid": "T19",
+  "name": "Küf ve raf ömrü",
+  "file": "temalar/T19-kuf-ve-raf-omru.md",
+  "n_sources": 53,
+  "n_findings": 69
+ },
+ {
+  "tid": "T20",
+  "name": "Glisemik yanıt ve nişasta sindirilebilirliği",
+  "file": "temalar/T20-glisemik-yanit-ve-nisasta-sindirilebilirligi.md",
+  "n_sources": 111,
+  "n_findings": 173
+ },
+ {
+  "tid": "T21",
+  "name": "Fitat ve mineral biyoyararlanımı",
+  "file": "temalar/T21-fitat-ve-mineral-biyoyararlanimi.md",
+  "n_sources": 36,
+  "n_findings": 78
+ },
+ {
+  "tid": "T22",
+  "name": "FODMAP, protein sindirilebilirliği, gluten immünojenitesi",
+  "file": "temalar/T22-fodmap-protein-sindirilebilirligi-gluten-immunojen.md",
+  "n_sources": 57,
+  "n_findings": 116
+ },
+ {
+  "tid": "T23",
+  "name": "Ekmek tüketimi ve sağlık sonuçları (epidemiyoloji, klinik)",
+  "file": "temalar/T23-ekmek-tuketimi-ve-saglik-sonuclari-epidemiyoloji-k.md",
+  "n_sources": 44,
+  "n_findings": 106
+ },
+ {
+  "tid": "T24",
+  "name": "Matematiksel ve hesaplamalı modeller",
+  "file": "temalar/T24-matematiksel-ve-hesaplamali-modeller.md",
+  "n_sources": 40,
+  "n_findings": 99
+ },
+ {
+  "tid": "T25",
+  "name": "Fırıncı deneyimleri ve uygulamalı testler",
+  "file": "temalar/T25-firinci-deneyimleri-ve-uygulamali-testler.md",
+  "n_sources": 44,
+  "n_findings": 269
+ },
+ {
+  "tid": "T26",
+  "name": "Türk ekmekleri (somun, Vakfıkebir, yufka, bazlama, pide, simit, tandır)",
+  "file": "temalar/T26-turk-ekmekleri-somun-vakfikebir-yufka-bazlama-pide.md",
+  "n_sources": 44,
+  "n_findings": 198
+ },
+ {
+  "tid": "T27",
+  "name": "Ekmek aroması: uçucu bileşikler",
+  "file": "temalar/T27-ekmek-aromasi-ucucu-bilesikler.md",
+  "n_sources": 63,
+  "n_findings": 111
+ },
+ {
+  "tid": "T28",
+  "name": "Buğday dışı katkılar (baklagil, sözde tahıl, sebze/meyve tozu)",
+  "file": "temalar/T28-bugday-disi-katkilar-baklagil-sozde-tahil-sebze-me.md",
+  "n_sources": 104,
+  "n_findings": 297
+ },
+ {
+  "tid": "T29",
+  "name": "Tarih ve arkeoloji",
+  "file": "temalar/T29-tarih-ve-arkeoloji.md",
+  "n_sources": 4,
+  "n_findings": 5
+ }
+]

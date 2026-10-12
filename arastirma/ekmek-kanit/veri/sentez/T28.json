@@ -1,0 +1,570 @@
+{
+ "consensus": [
+  {
+   "claim_tr": "Buğday dışı un, kepek veya toz ikamesi birçok formülasyonda somun hacmini ya da özgül hacmi düşürür; düşüş çoğunlukla ikame oranı arttıkça belirginleşir. Bu eğilim genel olmakla birlikte bileşene ve matrise özgü istisnalar vardır.",
+   "strength": "A_güçlü",
+   "n_supporting": 20,
+   "source_ids": [
+    "Q57",
+    "Q60",
+    "Q145",
+    "Q25",
+    "Q28",
+    "Q104",
+    "Q102",
+    "Q35",
+    "Q86",
+    "Q23",
+    "P359",
+    "P350",
+    "P351",
+    "P310",
+    "P315",
+    "P317",
+    "P268",
+    "P269",
+    "P272",
+    "P17"
+   ]
+  },
+  {
+   "claim_tr": "Baklagil, tohum, meyve-sebze ve bazı yan ürünlerin eklenmesi çoğu kez protein ve/veya lif içeriğini artırır; artışın büyüklüğü katkı türüne ve düzeyine bağlıdır.",
+   "strength": "A_güçlü",
+   "n_supporting": 19,
+   "source_ids": [
+    "Q9",
+    "Q57",
+    "Q60",
+    "Q141",
+    "Q102",
+    "Q103",
+    "P207",
+    "P950",
+    "P310",
+    "P315",
+    "P317",
+    "P320",
+    "P351",
+    "P1145",
+    "P268",
+    "P269",
+    "P270",
+    "P308",
+    "P977"
+   ]
+  },
+  {
+   "claim_tr": "Duyusal kabul çoğu çalışmada ikame/katkı düzeyine bağlıdır: orta veya sınırlı düzeyler kabul edilebilir ya da en iyi bulunabilirken, yüksek düzeyler tat, renk veya doku nedeniyle kabulü düşürebilir.",
+   "strength": "A_güçlü",
+   "n_supporting": 15,
+   "source_ids": [
+    "Q57",
+    "Q160",
+    "Q103",
+    "Q104",
+    "Q35",
+    "P350",
+    "P351",
+    "P315",
+    "P308",
+    "P269",
+    "P270",
+    "P1143",
+    "P1213",
+    "P356",
+    "P358"
+   ]
+  },
+  {
+   "claim_tr": "İkame veya lifçe zenginleştirme birçok ekmekte iç yapı sertliğini artırır; ancak etki başlangıç dokusu, katkı türü, doz ve depolama koşullarına göre değişebilir.",
+   "strength": "A_güçlü",
+   "n_supporting": 14,
+   "source_ids": [
+    "Q60",
+    "Q145",
+    "Q28",
+    "Q109",
+    "P350",
+    "P351",
+    "P352",
+    "P356",
+    "P358",
+    "P269",
+    "P309",
+    "P317",
+    "Q25",
+    "Q160"
+   ]
+  },
+  {
+   "claim_tr": "Buğday dışı bileşenler hamurun su gereksinimi ve reolojik özelliklerini değiştirebilir; su absorbsiyonu artışı, stabilite veya gelişme süresindeki değişimler tek yönde ve tüm katkılar için ortak değildir.",
+   "strength": "B_orta",
+   "n_supporting": 10,
+   "source_ids": [
+    "Q145",
+    "Q141",
+    "Q32",
+    "Q35",
+    "P401",
+    "P541",
+    "P308",
+    "P311",
+    "P536",
+    "P537"
+   ]
+  },
+  {
+   "claim_tr": "Duyusal ve teknolojik sonuçlar yalnızca ikame yüzdesiyle açıklanamaz; katkının türü, partikül boyutu, işlenme/fermantasyon durumu ve ürün matrisi sonucu değiştirebilir.",
+   "strength": "A_güçlü",
+   "n_supporting": 12,
+   "source_ids": [
+    "P356",
+    "P358",
+    "P79",
+    "P776",
+    "P537",
+    "Q26",
+    "Q28",
+    "P350",
+    "P1213",
+    "P268",
+    "P950",
+    "P968"
+   ]
+  },
+  {
+   "claim_tr": "Bazı katkılar veya uygun formülasyonlar hacmi koruyabilir ya da artırabilir; bu sonuç genel bir ikame etkisi değil, belirli bileşen ve işlem koşullarına bağlı bir istisnadır.",
+   "strength": "B_orta",
+   "n_supporting": 8,
+   "source_ids": [
+    "Q26",
+    "Q71",
+    "P776",
+    "P79",
+    "P474",
+    "P968",
+    "P356",
+    "P358"
+   ]
+  },
+  {
+   "claim_tr": "Glutensiz ürünlerde katkının etkisi buğday ekmeğinden farklı olabilir; aynı bileşen veya baklagil unu, farklı formülasyon ve yapılandırıcılarla hacim ve doku üzerinde farklı yönlerde sonuç verebilir.",
+   "strength": "B_orta",
+   "n_supporting": 5,
+   "source_ids": [
+    "P968",
+    "P780",
+    "Q28",
+    "P975",
+    "P977"
+   ]
+  }
+ ],
+ "quantitative": [
+  {
+   "quantity_tr": "Yulaf unu ikamesinde incelenen düzeyler; duyusal kabulün iyileştiği bildirilen düzey",
+   "value_or_range": "%0, %10, %15, %20 ve %25; kabul iyileşmesi %20'de",
+   "unit": "% un ikamesi",
+   "conditions_tr": "Buğday ekmeğinde yulaf unu ikamesi; derleme bulgusu.",
+   "source_ids": [
+    "Q57"
+   ]
+  },
+  {
+   "quantity_tr": "%20 nohut unu ikamesinde protein ve lif değişimi",
+   "value_or_range": "Protein %8,90'dan %15,30'a; lif %0,60'tan %4,70'e",
+   "unit": "%",
+   "conditions_tr": "Buğday ekmeği; kontrol ile %20 nohut unu ikamesi karşılaştırması.",
+   "source_ids": [
+    "Q57"
+   ]
+  },
+  {
+   "quantity_tr": "Mantar tozu ikamesinde özgül somun hacmi",
+   "value_or_range": "Kontrol 3,42; beyaz mantar %2,5–5'te 3,30–3,18; kahverengi mantar %2,5–5'te 2,82–2,67",
+   "unit": "cm³/g",
+   "conditions_tr": "Freeze-dried A. bisporus tozu, buğday ununun %2,5 veya %5'inin ikamesi.",
+   "source_ids": [
+    "Q60"
+   ]
+  },
+  {
+   "quantity_tr": "Mantar tozu ikamesinde iç yapı sertliği",
+   "value_or_range": "Kontrol 1710 ± 169; beyaz mantar %2,5 ve %5'te 3939 ± 225 ve 5582 ± 80; kahverengi mantar %2,5 ve %5'te 3529 ± 99 ve 5438 ± 153",
+   "unit": "g",
+   "conditions_tr": "Freeze-dried A. bisporus tozu, buğday ununun %2,5 veya %5'inin ikamesi.",
+   "source_ids": [
+    "Q60"
+   ]
+  },
+  {
+   "quantity_tr": "OFSP ve balkabağı unlu kompozit ekmeklerde somun ve özgül hacim",
+   "value_or_range": "Somun hacmi 166,50–349,94; özgül hacim 1,34–2,62; kontrol sırasıyla 363,78 ± 1,19 ve 2,86 ± 0,02",
+   "unit": "cm³; cm³/g",
+   "conditions_tr": "Buğday unu %40–80, OFSP %10–50 ve balkabağı unu %10–40 aralıklarındaki kompozit karışımlar.",
+   "source_ids": [
+    "Q145"
+   ]
+  },
+  {
+   "quantity_tr": "Yulaf lifi tozu ikamesinde özgül hacim",
+   "value_or_range": "Kontrol 6,4; %20 OFP1 4,0; %20 OFP2 3,6",
+   "unit": "cm³/g",
+   "conditions_tr": "Buğday ekmeği ruloları; OFP1 parçacık boyutu 75 µm, OFP2 150 µm; ölçüm pişirmeden 3 saat sonra.",
+   "source_ids": [
+    "Q25"
+   ]
+  },
+  {
+   "quantity_tr": "Taro unu ikamesinde somun ve özgül hacim",
+   "value_or_range": "Somun hacmi %7,5 ikamede 514'ten %30 ikamede 494'e; özgül hacim tarolu ekmeklerde 1,70–1,82, buğday kontrollerinde 2,03 ve 2,09",
+   "unit": "cm³; cm³/g",
+   "conditions_tr": "Kihaque taro unu; %7,5–30 ikame; 235 °C'de 35 dakika pişirme.",
+   "source_ids": [
+    "Q104"
+   ]
+  },
+  {
+   "quantity_tr": "Ekmek ağacı unu ikamesinde özgül hacim",
+   "value_or_range": "%0'da 3,00; %5'te 2,96; %40'ta 1,32",
+   "unit": "cm³/g",
+   "conditions_tr": "Buğday ununun %0–40 ekmek ağacı unu ile ikamesi; %5 karışımı kontrolle anlamlı farklı değildi.",
+   "source_ids": [
+    "Q35"
+   ]
+  },
+  {
+   "quantity_tr": "Deniz iğdesi posasıyla protein ve toplam diyet lifi değişimi",
+   "value_or_range": "Protein %13,5'ten %16,8'e; toplam diyet lifi %5,4'ten %11,6'ya",
+   "unit": "%",
+   "conditions_tr": "Buğday ununa göre %0–12 deniz iğdesi posası; uç değerler kontrol ve %12 düzeyleri.",
+   "source_ids": [
+    "P269"
+   ]
+  },
+  {
+   "quantity_tr": "Deniz iğdesi posasıyla özgül somun hacmi değişimi",
+   "value_or_range": "%11–28 azalma",
+   "unit": "%",
+   "conditions_tr": "Buğday ekmeğinde un ağırlığına göre %3–12 posa.",
+   "source_ids": [
+    "P269"
+   ]
+  },
+  {
+   "quantity_tr": "Deniz iğdesi posasıyla iç yapı sertliği",
+   "value_or_range": "Kontrolde 3,8; %12 posada 12,4",
+   "unit": "N",
+   "conditions_tr": "Kontrol ekmeği ile %12 deniz iğdesi posalı ekmek karşılaştırması.",
+   "source_ids": [
+    "P269"
+   ]
+  },
+  {
+   "quantity_tr": "Mercimek unu ikamesinde protein, ham lif ve kül aralıkları",
+   "value_or_range": "Protein %10,60–13,45; ham lif %1,05–2,70; kül %1,15–1,72",
+   "unit": "%",
+   "conditions_tr": "Buğday ununun %0, %5, %10, %15 ve %20'sinin mercimek unuyla ikamesi.",
+   "source_ids": [
+    "P270"
+   ]
+  },
+  {
+   "quantity_tr": "Nohut ve OFSP ikamesinde somun hacmi ve özgül hacim",
+   "value_or_range": "Somun hacmi 359,17'den 205,83'e; özgül hacim 2,91'den 1,58'e",
+   "unit": "cm³; cm³/g",
+   "conditions_tr": "Buğday ununun nohut ve OFSP unuyla ikamesi; bildirilen aralık kontrol ile yüksek ikame formülasyonları arasındadır.",
+   "source_ids": [
+    "P317"
+   ]
+  },
+  {
+   "quantity_tr": "Kenevir pres küspesi unuyla protein ve çözünür lif değişimi",
+   "value_or_range": "Protein 8,9'dan 17,6'ya; çözünür lif 0,54'ten 1,27'ye",
+   "unit": "g/100 g",
+   "conditions_tr": "Pirinç unu bazlı glutensiz ekşi mayalı ekmek; HC düzeyi %0–30, uç değerler kontrol ve %30.",
+   "source_ids": [
+    "P950"
+   ]
+  },
+  {
+   "quantity_tr": "Siyah erik posası tozunda duyusal değerlendirme",
+   "value_or_range": "En yüksek ortalama puan 4,82/5",
+   "unit": "puan",
+   "conditions_tr": "Beyaz buğday ununa %15 domates posası tozu ilavesi.",
+   "source_ids": [
+    "P308"
+   ]
+  },
+  {
+   "quantity_tr": "Pancar tozu ikamesinde en yüksek bildirilen genel kabul",
+   "value_or_range": "%10 ikamede 3,90 ± 0,84",
+   "unit": "puan",
+   "conditions_tr": "Ekşi mayalı ekmek; kontrol ve %5, %10, %15 pancar tozu ikamesi arasında karşılaştırma.",
+   "source_ids": [
+    "P1143"
+   ]
+  }
+ ],
+ "moderators_tr": [
+  "Katkının kimliği ve bileşimi: baklagil, sözde tahıl, lifli yan ürün, meyve-sebze tozu ve mantar tozu aynı etkiyi göstermiyor.",
+  "İkame/katkı yüzdesi; bazı sonuçlarda düşük veya orta düzeyler kabul edilebilirken yüksek düzeylerde hacim, doku veya duyusal kalite kötüleşebiliyor.",
+  "Ürün matrisi: buğday ekmeği, glutensiz ekmek, ekşi mayalı ekmek, buharda pişmiş ürün ve farklı ekmek türleri sonuçları değiştirebilir.",
+  "İkame edilen buğday/gluten miktarı ve formülasyondaki diğer unların oranı, gluten ağının ve hacmin korunmasını etkileyebilir.",
+  "Partikül boyutu ve katkının formu; örneğin amarant fraksiyonu, yulaf kepeği/unu/filizi veya fermente yan ürünler farklı sonuçlar verebilir.",
+  "Su düzeyinin lif veya un karışımına göre ayarlanması ve yoğurma/pişirme koşulları teknolojik sonuçları etkileyebilir.",
+  "Fermantasyon veya ön işlem; fermente posalar, tempeh unu ve filizlendirilmiş bileşenler için sonuçlar farklı olabilir.",
+  "Depolama süresi ve sıcaklığı, özellikle sertlik ve bayatlama ölçümlerinin yorumunu değiştirir.",
+  "Duyusal panel ölçeği ve panel özellikleri, kabul edilebilir düzeylerin çalışmalar arasında doğrudan karşılaştırılmasını sınırlar."
+ ],
+ "conflicts": [
+  {
+   "issue_tr": "Birçok ikame hacmi düşürürken bazı katkılar hacmi artırmış veya etkilememiştir; büyük parçacıklı amarantta yüksek ikamede hacim artışı, bazı yulaf yan ürünü ve fermente posa örneklerinde de artış bildirilmiştir.",
+   "likely_reason_tr": "Bileşen türü, partikül boyutu, fermentasyon/işlem durumu, ikame oranı ve ürün matrisi farklıdır; hacim sonuçları tek bir genel doz etkisine indirgenemez.",
+   "source_ids": [
+    "Q57",
+    "Q60",
+    "Q145",
+    "P359",
+    "P350",
+    "P356",
+    "P358",
+    "Q26",
+    "P79",
+    "P776",
+    "P531"
+   ]
+  },
+  {
+   "issue_tr": "Nohut unu bazı buğday ekmeği bulgularında hacim ve işlenebilirliği olumsuz etkilerken nohut bazlı glutensiz ekmekte nohut unu düzeyinin artırılması taze ekmek özgül hacmini artırmıştır.",
+   "likely_reason_tr": "Buğdaylı ve glutensiz matrislerin başlangıç yapısı ve formülasyon bileşenleri farklıdır; glutensiz çalışmada psyllium ve CGTase gibi yapılandırıcılar da değerlendirilmiştir.",
+   "source_ids": [
+    "Q57",
+    "P317",
+    "P968",
+    "P780"
+   ]
+  },
+  {
+   "issue_tr": "Duyusal kabul için bildirilen uygun düzeyler katkıdan katkıya değişir; bazı çalışmalarda kabul yüksek ikameye kadar korunurken bazılarında orta düzeyde tepe yapıp sonra düşer.",
+   "likely_reason_tr": "Katkıların tat, renk ve tekstür etkileri ile panel ölçeği, panelist grubu ve ürün tipi farklıdır.",
+   "source_ids": [
+    "Q57",
+    "Q35",
+    "P350",
+    "P315",
+    "P269",
+    "P270",
+    "P1143",
+    "P1213"
+   ]
+  },
+  {
+   "issue_tr": "Hacim azalışı ve sertlik artışı sık bildirilse de her çalışmada birlikte görülmez; bazı formülasyonlarda hacim artarken sertlik de artabilir veya sertlik değişmeyebilir.",
+   "likely_reason_tr": "Hacim ve tekstür farklı yapısal özellikleri ölçer; matrise, katkı düzeyine, depolama süresine ve kullanılan doku ölçümüne bağlı olarak birbirinden bağımsız değişebilir.",
+   "source_ids": [
+    "P356",
+    "P358",
+    "P531",
+    "P268",
+    "P776",
+    "Q28",
+    "Q60"
+   ]
+  }
+ ],
+ "simulation_rules": [
+  {
+   "rule_tr": "Özgül hacmi katkı türü ve matrise göre ayrı parametreleştir; başlangıç varsayımı olarak buğday ununun ikame oranı arttıkça hacim için azalan bir yanıt kullan, fakat bileşen bazında artış veya etkisizlik seçeneğini açık tut.",
+   "functional_form": "Bileşene özgü doğrusal azalma veya eşikli azalma; istisnai bileşenlerde etkisiz ya da artan yanıt. Tek bir evrensel eğri kullanma.",
+   "param_suggestions": "Azalma görülen örneklerde kontrol ile yüksek ikame arasındaki hacim düşüşü yaklaşık %11–28 (deniz iğdesi posası) ve özgül hacim 3,00'dan 1,32 cm³/g'a (ekmek ağacı unu, %0–40) kadar bildirilmiştir. Bunlar genel katsayı değil, bileşene özgü kalibrasyon aralıklarıdır.",
+   "source_ids": [
+    "P269",
+    "Q35",
+    "P317",
+    "P359",
+    "Q145",
+    "P356",
+    "P358"
+   ]
+  },
+  {
+   "rule_tr": "Duyusal kabulü, ikame yüzdesine bağlı tepe yapabilen bir değişken olarak kodla; optimum düzey bileşen ve ürün matrisi bazında belirlenmelidir.",
+   "functional_form": "Optimumlu çan eğrisi veya parçalı doğrusal fonksiyon: başlangıçta yatay/artış, bileşene özgü eşikten sonra azalış.",
+   "param_suggestions": "Kanıt örneklerinde optimum/uygun düzeyler %10 mercimek, %10 pancar tozu, yaklaşık %15–30 yulaf unu ve deniz iğdesi posasında %6'ya kadar kabul edilebilirliktir. Bunları evrensel eşik değil başlangıç aralıkları olarak kullan.",
+   "source_ids": [
+    "P270",
+    "P1143",
+    "P1213",
+    "P269",
+    "Q57"
+   ]
+  },
+  {
+   "rule_tr": "Protein ve lif artışını öncelikle katkının besin bileşimi ve ikame oranına bağlı hesapla; etkinin katkı türüne göre değişmesini koru.",
+   "functional_form": "İçerik için bileşenlerin kütle dengesiyle doğrusal karışım; ölçüm veya işlem etkisi mevcutsa bileşene özgü düzeltme.",
+   "param_suggestions": "Örnek kalibrasyon uçları: %20 nohut unu ikamesinde protein %8,90'dan %15,30'a ve lif %0,60'tan %4,70'e; %30 kenevir pres küspesinde protein 8,9'dan 17,6 g/100 g'a çıkmıştır. Bu değerler ilgili ürün ve formülasyonlarla sınırlıdır.",
+   "source_ids": [
+    "Q57",
+    "P950",
+    "P269",
+    "P270",
+    "P317"
+   ]
+  },
+  {
+   "rule_tr": "İç yapı sertliği için yüksek lifli veya yüksek ikameli formülasyonlarda artış eğilimi kullan; düşük düzeylerde etkisizlik ve depolama ile ek artış olasılığını ayrı ele al.",
+   "functional_form": "Doza bağlı artış veya eşik sonrası artış; depolama varsa zamana bağlı sertleşme terimi. Katkı ve matris için ayrı katsayılar.",
+   "param_suggestions": "Mantar tozunda %2,5–5 ikameyle kontrol sertliği 1710 ± 169 g'dan 3529–5582 g aralığına; deniz iğdesi posasında kontrol 3,8 N'den %12 düzeyinde 12,4 N'ye çıkmıştır. Ölçüm birimleri ve matrisler arasında doğrudan katsayı aktarımı yapma.",
+   "source_ids": [
+    "Q60",
+    "P269",
+    "P350",
+    "Q28",
+    "Q25"
+   ]
+  },
+  {
+   "rule_tr": "Hamur su absorbsiyonu ve reolojik özelliklerini katkı türüne özgü bağımsız alt modellerle temsil et; hacim değişiminden doğrudan türetme.",
+   "functional_form": "Katkı ve doz etkileşimli parçalı doğrusal yanıt; veriler yön bakımından çelişkili veya eksikse belirsizlik aralığı ya da senaryo seçimi.",
+   "param_suggestions": "Ayçiçeği küspesinde su absorbsiyonu %55'ten %59,1'e çıkarken stabilite 10,40'tan 6,68 dakikaya düşmüştür; yer fıstığı ununda gelişme süresi 6'dan 7 dakikaya ve stabilite 8,5'ten 13 dakikaya yükselmiştir. Bu zıt örnekler ortak parametre kullanılmamasını destekler.",
+   "source_ids": [
+    "Q141",
+    "P541",
+    "Q145",
+    "Q35",
+    "P311"
+   ]
+  },
+  {
+   "rule_tr": "Glutensiz ve buğdaylı ekmek için ayrı yapı/hacim parametreleri kullan; yapılandırıcıların varlığını ve katkı kombinasyonlarını etkileşim olarak modele ekle.",
+   "functional_form": "Matrise göre katmanlı model: sonuç = temel matris etkisi + katkı etkisi + katkı×matris ve gerekirse katkı×yapılandırıcı etkileşimi.",
+   "param_suggestions": "Glutensiz nohut bazlı sistemde nohut unu artışı özgül hacmi artırmış, buğday ekmeği kaynaklarında nohut veya karma ikameler hacmi düşürebilmiştir. Sayısal genelleme için yeterli ortak ölçek yoktur; matris bazında kalibrasyon gerekir.",
+   "source_ids": [
+    "P968",
+    "P780",
+    "Q57",
+    "P317"
+   ]
+  }
+ ],
+ "gaps_tr": [
+  "Birçok derleme ve deney satırında ikame yüzdesi, temel formülasyon, su miktarı veya pişirme koşulları eksik olduğundan doz-yanıt eğrileri ortak ölçekte kurulamaz.",
+  "Somun hacmi, özgül hacim ve farklı ürün geometrileri bazı kayıtlarda birlikte veya tutarlı birimlerle verilmemiştir; ölçüm tanımları standardize değildir.",
+  "Aynı katkı maddesi için farklı matrislerdeki sonuçları doğrudan karşılaştırmaya yetecek eşleştirilmiş deney sayısı sınırlıdır.",
+  "Duyusal değerlendirmelerde panel büyüklüğü, ölçek ve istatistiksel anlamlılık her kaynakta raporlanmadığından uygun doz eşikleri belirsizdir.",
+  "Hamur reolojisi, gluten ağı, su absorbsiyonu ve son ürün hacmi arasındaki mekanistik bağlantılar birçok bulguda nicel olarak verilmemiştir.",
+  "Sertlik ve bayatlama sonuçlarında depolama süresi, sıcaklığı ve ölçüm protokolü farklı veya eksiktir.",
+  "Bazı satırlarda yön bilgisi mevcut olsa da sayısal değer yoktur; bu nedenle simülasyon parametreleri çoğu katkı için nicel olarak tahmin edilemez."
+ ],
+ "tid": "T28",
+ "name": "Buğday dışı katkılar (baklagil, sözde tahıl, sebze/meyve tozu)",
+ "n_sources": 104,
+ "n_findings": 297,
+ "theme_source_ids": [
+  "P1143",
+  "P1145",
+  "P1160",
+  "P1168",
+  "P1169",
+  "P1213",
+  "P1216",
+  "P1222",
+  "P17",
+  "P207",
+  "P268",
+  "P269",
+  "P270",
+  "P272",
+  "P274",
+  "P298",
+  "P308",
+  "P309",
+  "P310",
+  "P311",
+  "P312",
+  "P314",
+  "P315",
+  "P317",
+  "P320",
+  "P350",
+  "P351",
+  "P352",
+  "P354",
+  "P356",
+  "P358",
+  "P359",
+  "P401",
+  "P429",
+  "P443",
+  "P455",
+  "P458",
+  "P468",
+  "P472",
+  "P474",
+  "P48",
+  "P492",
+  "P494",
+  "P495",
+  "P507",
+  "P529",
+  "P531",
+  "P532",
+  "P536",
+  "P537",
+  "P540",
+  "P541",
+  "P577",
+  "P591",
+  "P597",
+  "P598",
+  "P660",
+  "P693",
+  "P695",
+  "P719",
+  "P720",
+  "P721",
+  "P722",
+  "P776",
+  "P780",
+  "P785",
+  "P79",
+  "P830",
+  "P841",
+  "P890",
+  "P902",
+  "P931",
+  "P932",
+  "P937",
+  "P948",
+  "P950",
+  "P954",
+  "P968",
+  "P969",
+  "P970",
+  "P975",
+  "P977",
+  "P983",
+  "P992",
+  "P999",
+  "Q102",
+  "Q103",
+  "Q104",
+  "Q109",
+  "Q141",
+  "Q145",
+  "Q160",
+  "Q23",
+  "Q25",
+  "Q26",
+  "Q28",
+  "Q32",
+  "Q35",
+  "Q57",
+  "Q60",
+  "Q71",
+  "Q86",
+  "Q9",
+  "W1"
+ ]
+}

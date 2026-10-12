@@ -1,0 +1,450 @@
+{
+ "consensus": [
+  {
+   "claim_tr": "Hamur fermantasyonu çoğu durumda fruktanları ve/veya toplam FODMAP’ları azaltır; ancak azalma tahıl, ürün, mikroorganizma suşu ve proses koşullarına göre büyük ölçüde değişir.",
+   "strength": "A_güçlü",
+   "n_supporting": 21,
+   "source_ids": [
+    "Q165",
+    "Q9",
+    "Q56",
+    "Q1",
+    "Q89",
+    "Q90",
+    "Q92",
+    "Q10",
+    "P97",
+    "Q53",
+    "Q113",
+    "Q11"
+   ]
+  },
+  {
+   "claim_tr": "FODMAP azaltımının büyüklüğü suşa ve fermantasyon rejimine bağlıdır; seçilmiş LAB veya mayalar yüksek azaltım sağlayabilirken bazı suşlar matriksteki FODMAP’ları fermente edemeyebilir.",
+   "strength": "A_güçlü",
+   "n_supporting": 12,
+   "source_ids": [
+    "Q165",
+    "Q9",
+    "Q113",
+    "P97",
+    "Q56",
+    "Q90",
+    "Q92"
+   ]
+  },
+  {
+   "claim_tr": "Rafine buğday ürünlerinde prova süresinin uzatılması çoğunlukla fruktan veya toplam FODMAP azalmasıyla ilişkilidir; bu ilişki tüm ekmek türleri ve fermantasyon koşulları için genellenemez.",
+   "strength": "B_orta",
+   "n_supporting": 4,
+   "source_ids": [
+    "Q92",
+    "Q10",
+    "Q90",
+    "Q91"
+   ]
+  },
+  {
+   "claim_tr": "Ekşi hamur fruktanları azaltırken mannitolü artırabilir; bu nedenle fruktan azalması her zaman toplam FODMAP azalması anlamına gelmez.",
+   "strength": "B_orta",
+   "n_supporting": 3,
+   "source_ids": [
+    "Q10",
+    "Q165",
+    "Q92"
+   ]
+  },
+  {
+   "claim_tr": "Ekşi hamur veya LAB fermantasyonu bazı sistemlerde in vitro protein sindirilebilirliğini artırır; etki kullanılan hammaddeye, startera ve yardımcı işlemlere bağlıdır.",
+   "strength": "B_orta",
+   "n_supporting": 8,
+   "source_ids": [
+    "Q153",
+    "Q9",
+    "Q157",
+    "P984"
+   ]
+  },
+  {
+   "claim_tr": "LAB proteolizi ve uygun peptidaz veya fungal proteaz kombinasyonları gluten proteinlerini ve bazı immünojenik peptitleri parçalayabilir; çok düşük artık gluten düzeyleri için özel işlem koşulları bildirilmiştir.",
+   "strength": "B_orta",
+   "n_supporting": 6,
+   "source_ids": [
+    "Q165",
+    "Q156"
+   ]
+  },
+  {
+   "claim_tr": "Protein veya gluten parçalanması tek başına immünojenitenin ortadan kalktığını göstermez: ölçülen sonuçlar protein fraksiyonuna ve kullanılan immünojenite ölçümüne bağlıdır; bir çalışmada sindirim sırasında toplam immünojenik peptit konsantrasyonu azalmamıştır.",
+   "strength": "B_orta",
+   "n_supporting": 6,
+   "source_ids": [
+    "Q154",
+    "Q165"
+   ]
+  },
+  {
+   "claim_tr": "Düşük FODMAP ekşi hamur ekmeğinin IBS belirtilerini azaltabileceğine dair bulgu aktarılmıştır; ancak verilen satırlarda klinik etki büyüklüğü ve FODMAP miktarı sayısal olarak belirtilmemiştir.",
+   "strength": "C_zayıf",
+   "n_supporting": 2,
+   "source_ids": [
+    "Q155"
+   ]
+  },
+  {
+   "claim_tr": "Pişirme, hamurla karşılaştırıldığında bildirilen protein verimlilik oranını düşürmüştür; bu bulgu tek bir karşılaştırmaya dayandığından genel ekmek protein kalitesine doğrudan genellenmemelidir.",
+   "strength": "C_zayıf",
+   "n_supporting": 1,
+   "source_ids": [
+    "Q74"
+   ]
+  }
+ ],
+ "quantitative": [
+  {
+   "quantity_tr": "Ekşi hamur çalışmalarında bildirilen fruktan azalması",
+   "value_or_range": "%65–75; geleneksel ekşi hamur için ayrıca %65–70",
+   "unit": "%",
+   "conditions_tr": "Derlemelerde aktarılan çalışmalar; sonuçlar suşa ve fermantasyon koşullarına bağlıdır.",
+   "source_ids": [
+    "Q9",
+    "Q165"
+   ]
+  },
+  {
+   "quantity_tr": "Seçilmiş LAB starterlarıyla fruktan azalması",
+   "value_or_range": ">%92",
+   "unit": "%",
+   "conditions_tr": "Derlemede bildirilen seçilmiş LAB starter uygulamaları.",
+   "source_ids": [
+    "Q165"
+   ]
+  },
+  {
+   "quantity_tr": "Seçilmiş Saccharomyces cerevisiae suşlarında son ekmek fruktan düzeyi",
+   "value_or_range": "%0,3 kuru madde; düşük invertaz aktiviteli suşlarda yaklaşık %0,6 kuru madde",
+   "unit": "% kuru madde",
+   "conditions_tr": "Buğday hamuru fermantasyonu; yüksek invertaz aktiviteli suşlar düşük aktiviteli suşlarla karşılaştırılmıştır.",
+   "source_ids": [
+    "Q113",
+    "Q165"
+   ]
+  },
+  {
+   "quantity_tr": "Kluyveromyces marxianus uygulamasında fruktan azalması",
+   "value_or_range": ">%90",
+   "unit": "%",
+   "conditions_tr": "Derlemede aktarılan K. marxianus fermantasyon uygulaması.",
+   "source_ids": [
+    "Q165"
+   ]
+  },
+  {
+   "quantity_tr": "Fırın mayasıyla düz hamur yönteminde fruktan azalması",
+   "value_or_range": "<%50",
+   "unit": "%",
+   "conditions_tr": "Derlemede bildirilen düz hamur ekmeği uygulaması.",
+   "source_ids": [
+    "Q165"
+   ]
+  },
+  {
+   "quantity_tr": "Tam buğday ekşi hamurunda rafinoz azalması",
+   "value_or_range": "%62–80",
+   "unit": "%",
+   "conditions_tr": "Derlemede bildirilen tam buğday unu çalışmaları.",
+   "source_ids": [
+    "Q9"
+   ]
+  },
+  {
+   "quantity_tr": "Rafine buğday ekmeğinde prova süresini 60 dakikadan 80 dakikaya uzatınca toplam FODMAP değişimi",
+   "value_or_range": "528’den 358 mg/100 g DM’ye; %32 azalma",
+   "unit": "mg/100 g kuru madde; %",
+   "conditions_tr": "Tip 550 ekmek; 32 °C ve %80 bağıl nem.",
+   "source_ids": [
+    "Q92",
+    "Q10"
+   ]
+  },
+  {
+   "quantity_tr": "Ekşi hamurlu rafine buğday ekmeğinde prova süresini 60 dakikadan 80 dakikaya uzatınca toplam FODMAP değişimi",
+   "value_or_range": "523’ten 474 mg/100 g DM’ye; %9 azalma",
+   "unit": "mg/100 g kuru madde; %",
+   "conditions_tr": "Tip 550 buğday ekmeği; ekşi hamurlu tarif.",
+   "source_ids": [
+    "Q92",
+    "Q10"
+   ]
+  },
+  {
+   "quantity_tr": "Ciabatta’da prova süresini 90 dakikadan 120 dakikaya uzatınca toplam FODMAP değişimi",
+   "value_or_range": "685’ten 595 mg/100 g DM’ye; %13 azalma",
+   "unit": "mg/100 g kuru madde; %",
+   "conditions_tr": "Ciabatta; son hamur 22 °C’de prova edilmiştir.",
+   "source_ids": [
+    "Q92",
+    "Q10"
+   ]
+  },
+  {
+   "quantity_tr": "LAB starterlı pizza hamurunda sindirim öncesi FOS",
+   "value_or_range": "0,93’ten 0,29 g/100 g’a (PL); yalnız ekmek mayalı hamurda 0,91’den 0,36 g/100 g’a (PY)",
+   "unit": "g/100 g",
+   "conditions_tr": "Fermantasyon 0 saatten 24 saate çıkarılmıştır; PL: LAB starteri ve ekmek mayası; PY: yalnız ekmek mayası.",
+   "source_ids": [
+    "Q56"
+   ]
+  },
+  {
+   "quantity_tr": "İki aşamalı L. plantarum ekşi hamur yöntemiyle ekmek fruktanındaki değişim",
+   "value_or_range": "2,61’den 1,90 g/100 g kuru maddeye",
+   "unit": "g/100 g kuru madde",
+   "conditions_tr": "Çavdar ekmeği; ekşi maya 30 °C’de, %85 bağıl nemde 24 saat fermente edilmiştir.",
+   "source_ids": [
+    "Q89",
+    "Q91"
+   ]
+  },
+  {
+   "quantity_tr": "Buğday ekmeğinde 60 dakikadan 150 dakikaya fermantasyon uzatıldığında fruktan değişimi",
+   "value_or_range": "0,44’ten 0,28 g/100 g’a; %37 azalma",
+   "unit": "g/100 g; %",
+   "conditions_tr": "60, 90, 120 ve 150 dakikalık fermantasyon koşullarının karşılaştırması.",
+   "source_ids": [
+    "Q90"
+   ]
+  },
+  {
+   "quantity_tr": "Ekşi hamur ve fungal proteaz kombinasyonuyla gluten düzeyi ve 33-mer hidrolizi",
+   "value_or_range": "12 ppm gluten; 33-mer hidrolizi 6 saatte %70, 18 saatte tamamlanmış",
+   "unit": "ppm; %",
+   "conditions_tr": "Buğday ekşi hamuru; seçilmiş LAB ile Aspergillus oryzae veya A. niger proteazları birlikte kullanılmıştır.",
+   "source_ids": [
+    "Q165"
+   ]
+  },
+  {
+   "quantity_tr": "Seçilmiş LAB karışımıyla kirletici glutenin parçalanması",
+   "value_or_range": "Yaklaşık 300 ppm gluten tamamen parçalanmış",
+   "unit": "ppm",
+   "conditions_tr": "Glutensiz bileşenlerin seçilmiş LAB karışımıyla fermantasyonu.",
+   "source_ids": [
+    "Q156"
+   ]
+  },
+  {
+   "quantity_tr": "Protein sindirilebilirliği için bildirilen sonuçlar",
+   "value_or_range": "%87’ye kadar; tam tahıllı ekmekte ekşi hamur %87,3, biga %74,2–83,9, fırıncı mayası en fazla %81,9",
+   "unit": "%",
+   "conditions_tr": "Farklı hammaddeler ve mayalama yöntemleri; değerler aynı deney veya tek bir koşul için ortak bir aralık değildir.",
+   "source_ids": [
+    "Q153",
+    "Q157"
+   ]
+  },
+  {
+   "quantity_tr": "Pişirme öncesi hamur ve pişmiş ekmekte protein verimlilik oranı",
+   "value_or_range": "1,34’ten 0,92’ye",
+   "unit": "oran",
+   "conditions_tr": "Ekmek hamuru ile pişmiş ekmek karşılaştırması.",
+   "source_ids": [
+    "Q74"
+   ]
+  }
+ ],
+ "moderators_tr": [
+  "LAB veya maya suşu, enzim repertuvarı ve invertaz aktivitesi FODMAP azalmasının büyüklüğünü değiştirebilir.",
+  "Fermantasyon süresi tek başına yeterli bir belirleyici değildir: bazı buğday sistemlerinde süre uzadıkça azalma görülürken, çavdar ekmeğinde 90–180 dakika aralığında fruktan üzerinde anlamlı süre etkisi bildirilmemiştir.",
+  "Un tipi ve tahıl türü başlangıç FODMAP düzeylerini etkiler; çavdarca zengin ürünlerde FOS düzeyleri yüksek olabilir.",
+  "Ekşi hamur fermantasyonu fruktanları azaltırken mannitolü artırabilir; sonuç olarak toplam FODMAP fruktan değişimini izlemeyebilir.",
+  "Sıcaklık, prova süresi, starter oranı, fermantasyon aşaması ve ekşi mayanın hamurdaki payı sonuçları değiştirebilir.",
+  "Protein sindirilebilirliği bulguları un ve yan ürün bileşimine, ekşi hamur veya biga gibi mayalama yöntemlerine ve ksilanaz ya da diğer enzimlerin kullanımına bağlıdır.",
+  "Gluten parçalanması; LAB suşu, peptidaz/proteaz varlığı, muamele süresi ve ultrason gibi yardımcı işlemlerden etkilenir.",
+  "Gluten, gliadin, glutenin, ATI, WGA ve immünojenik peptitler farklı sonlanımlardır; birindeki değişim diğerlerinin de aynı yönde değiştiğini göstermez."
+ ],
+ "conflicts": [
+  {
+   "issue_tr": "Maya fermantasyonunun ekşi hamurdan daha fazla fruktan ve rafinoz azalması sağladığı bir çalışma varken, bazı seçilmiş LAB veya K. marxianus uygulamalarında çok yüksek fruktan azalması bildirilmiştir.",
+   "likely_reason_tr": "Sonuçlar belirli suşlara, enzim aktivitelerine, un matrisine ve proses koşullarına aittir; genel maya-ekşi hamur karşılaştırması olarak yorumlanmamalıdır.",
+   "source_ids": [
+    "P97",
+    "Q165",
+    "Q113",
+    "Q9"
+   ]
+  },
+  {
+   "issue_tr": "Ekşi hamur tam tahıllı ekmekte fruktanı azaltmış, ancak toplam FODMAP’ı azaltmamıştır; mannitol artışı eşlik etmiştir.",
+   "likely_reason_tr": "Fruktan azalmasının yanında başka FODMAP bileşenlerinin, özellikle mannitolün, artması toplam ölçümü dengelemiş olabilir.",
+   "source_ids": [
+    "Q92",
+    "Q10",
+    "Q165"
+   ]
+  },
+  {
+   "issue_tr": "Fermantasyon süresi uzatıldığında bazı buğday ekmeklerinde fruktan azalırken, çavdar ekmeğinde 90–180 dakika aralığında anlamlı etki bildirilmemiştir.",
+   "likely_reason_tr": "Tahıl matrisi, starter/proses yöntemi ve incelenen süre aralıkları farklıdır.",
+   "source_ids": [
+    "Q90",
+    "Q91",
+    "Q92"
+   ]
+  },
+  {
+   "issue_tr": "Bazı özel LAB/proteaz işlemlerinde gluten veya immünojenik peptit parçalanması bildirilirken, ekşi hamur ekmeğinin in vitro sindirimi sırasında toplam immünojenik peptit konsantrasyonunun azalmadığı da raporlanmıştır.",
+   "likely_reason_tr": "İşlem ve ölçüm sonlanımları farklıdır; gluten düzeyi veya belirli peptitlerin hidrolizi, toplam immünojenik peptit miktarıyla eşdeğer değildir.",
+   "source_ids": [
+    "Q165",
+    "Q156"
+   ]
+  },
+  {
+   "issue_tr": "Farklı ekşi hamur starterlarıyla çavdar ununda ELISA ile ölçülen gluten içeriğinin arttığı bildirilirken, başka uygulamalarda gluten veya gliadin azalması raporlanmıştır.",
+   "likely_reason_tr": "Çavdar unu ve secalin içeren örneklerde matrise özgü protein değişimleri ile ELISA ölçümünün farklılığı, bu sonuçların doğrudan karşılaştırılmasını sınırlar.",
+   "source_ids": [
+    "Q165"
+   ]
+  }
+ ],
+ "simulation_rules": [
+  {
+   "rule_tr": "Fermantasyon ilerledikçe fruktan/FODMAP azalmasını temel bir süreç olarak kodla; fakat bütün hamurlar için tek bir sabit azalma katsayısı kullanma.",
+   "functional_form": "Süreye bağlı, başlangıçta hızlı sonra yavaşlayan doyum eğrisi; gerekirse suş ve un tipine göre ayrı eğriler.",
+   "param_suggestions": "Kalibrasyon çıpaları olarak geleneksel ekşi hamurda %65–70 azalma, derleme genelinde %65–75 ve seçilmiş starter uygulamalarında >%90 bildirimleri kullanılabilir; bunlar evrensel parametre değildir.",
+   "source_ids": [
+    "Q165",
+    "Q9"
+   ]
+  },
+  {
+   "rule_tr": "Prova süresinin etkisini ürün ve süreç sınıfına göre tanımla; rafine buğday ve ciabatta sonuçlarını çavdar veya tam tahıllı ekmeğe doğrudan aktarma.",
+   "functional_form": "Ürün sınıfına özgü süre-tepki fonksiyonu; mevcut verilerde doğrusal azalma veya doyum arasında seçim yapmak için yeterli zaman noktası yoktur.",
+   "param_suggestions": "Rafine buğday için 60→80 dakikada toplam FODMAP %32 azalma (ekşi hamursuz) ve %9 azalma (ekşi hamurlu); ciabatta için 90→120 dakikada %13 azalma. Çavdar için 90–180 dakikada fruktan süre etkisini sıfıra yakın kodla.",
+   "source_ids": [
+    "Q92",
+    "Q10",
+    "Q91"
+   ]
+  },
+  {
+   "rule_tr": "Toplam FODMAP’ı tek bir fruktan değişkeni olarak modelleme; mannitol gibi bileşenlerin ters yönde değişmesine izin ver.",
+   "functional_form": "Bileşen bazlı kütle dengesi: toplam FODMAP = fruktan + diğer ölçülen FODMAP bileşenleri; bileşen akışları ayrı işaret ve katsayılarla.",
+   "param_suggestions": "Tam buğday ekmeği örneğinde ekşi hamurla fruktan 552±16’dan 452±45 mg/100 g DM’ye inerken mannitol 33±1’den 515±14 mg/100 g DM’ye çıkmıştır; toplam FODMAP azalması varsayma.",
+   "source_ids": [
+    "Q10",
+    "Q92"
+   ]
+  },
+  {
+   "rule_tr": "Suş etkisini ayrı bir parametre olarak kullan ve etkisiz ya da düşük etkili suşlara izin ver.",
+   "functional_form": "Suş rastgele etkisi veya suş sınıfına özgü katsayı; FODMAP tüketimi için eşik/kapasite parametresi.",
+   "param_suggestions": "Seçilmiş S. cerevisiae suşlarında son fruktan %0,3 kuru maddeye karşı düşük invertazlı suşlarda yaklaşık %0,6; C. fabianii NTCyb için buğday hamuru matriksinde fermente edememe bildirimi kalibrasyon örnekleridir.",
+   "source_ids": [
+    "Q113",
+    "Q165"
+   ]
+  },
+  {
+   "rule_tr": "Protein sindirilebilirliğini fermantasyon süresinden otomatik olarak türetme; hammadde, starter ve yardımcı enzim/işlemleri ayrı girdiler olarak tut.",
+   "functional_form": "Çok değişkenli model; fermantasyon ve yardımcı işlem terimleri ile hammaddeye bağlı etkileşimler.",
+   "param_suggestions": "Bildirilen örnekler arasında %87’ye kadar sindirilebilirlik, ekşi hamur ekmeğinde %87,3 ve biga ekmeklerinde %74,2–83,9 vardır; bu değerleri tek bir evrensel artış oranı olarak kullanma.",
+   "source_ids": [
+    "Q153",
+    "Q157",
+    "P984"
+   ]
+  },
+  {
+   "rule_tr": "Gluten azaltımını immünojenite azalmasının vekili olarak tek başına kullanma; protein fraksiyonları ve peptit sonlanımlarını ayrı durum değişkenleri olarak izleme.",
+   "functional_form": "Ayrı durum değişkenleri: toplam gluten, gliadin/glutenin, ATI ve immünojenik peptitler; her biri için işlem-özgül dönüşüm.",
+   "param_suggestions": "Özel LAB-fungal proteaz kombinasyonunda 12 ppm gluten ve 33-merin 6 saatte %70, 18 saatte tam hidrolizi; diğer ekşi hamur sindiriminde toplam immünojenik peptit azalmasının görülmemesi, ayrı kalibrasyon gerektirir.",
+   "source_ids": [
+    "Q165",
+    "Q156"
+   ]
+  },
+  {
+   "rule_tr": "Düşük FODMAP hedefini bileşen konsantrasyonları için eşik kısıtı olarak kodla; eşik altında olma koşulunu ölçülmüş değer yoksa sayısallaştırma.",
+   "functional_form": "Eşik/uygunluk fonksiyonu; hedef eşik sağlanıp sağlanmadığına göre ikili çıktı.",
+   "param_suggestions": "Bir çalışmada buğday ekmeği FODMAP’ı L. casei veya L. plantarum ile 72 saat fermantasyonda <0,1 g/100 g olarak bildirilmiştir; diğer bazı satırlarda eşiklerin sayısal değeri verilmemiştir.",
+   "source_ids": [
+    "P1038"
+   ]
+  }
+ ],
+ "gaps_tr": [
+  "Farklı un, suş ve ürünler arasında doğrudan karşılaştırmaya izin verecek standartlaştırılmış FODMAP ve fruktan ölçümleri sınırlıdır.",
+  "Birçok sonuç yalnızca yüzde azalma veya eşik altında olma biçiminde verilmiş; başlangıç ve son konsantrasyonlar birlikte raporlanmamıştır.",
+  "Fermantasyon süresi, sıcaklık, inokulum, hamur hidrasyonu ve pişirme koşullarını ortak bir doz-tepki modeli kurmaya yetecek yoğunlukta bildiren veri yoktur.",
+  "Toplam FODMAP ile fruktan, fazla fruktoz, rafinoz ve mannitolün birlikte ölçüldüğü çalışma sayısı sınırlıdır.",
+  "Protein sindirilebilirliği ölçümleri farklı hammaddeler ve deney düzeneklerinden geldiğinden sonuçlar doğrudan birleştirilememektedir.",
+  "Gluten düzeyinin, belirli immünojenik peptitlerin ve biyolojik immünojenite/klinik sonuçların aynı örneklerde birlikte değerlendirildiği bulgular sınırlıdır.",
+  "Düşük FODMAP ekmeğinin klinik belirtiler üzerindeki etki büyüklüğü, verilen satırlarda sayısal olarak yer almamaktadır.",
+  "Pişirme sonrası protein verimlilik oranına ilişkin bulgu tek bir karşılaştırmaya dayanmaktadır; farklı ekmek türlerinde tekrarına dair veri verilmemiştir."
+ ],
+ "tid": "T22",
+ "name": "FODMAP, protein sindirilebilirliği, gluten immünojenitesi",
+ "n_sources": 57,
+ "n_findings": 116,
+ "theme_source_ids": [
+  "P1006",
+  "P1034",
+  "P1035",
+  "P1036",
+  "P1038",
+  "P1039",
+  "P1040",
+  "P1041",
+  "P1042",
+  "P1043",
+  "P1044",
+  "P1049",
+  "P1052",
+  "P1054",
+  "P1055",
+  "P1056",
+  "P1058",
+  "P1062",
+  "P1063",
+  "P11",
+  "P1120",
+  "P1123",
+  "P113",
+  "P186",
+  "P199",
+  "P209",
+  "P211",
+  "P217",
+  "P219",
+  "P221",
+  "P575",
+  "P578",
+  "P637",
+  "P843",
+  "P89",
+  "P97",
+  "P984",
+  "Q1",
+  "Q10",
+  "Q103",
+  "Q133",
+  "Q135",
+  "Q149",
+  "Q153",
+  "Q154",
+  "Q155",
+  "Q156",
+  "Q157",
+  "Q165",
+  "Q53",
+  "Q56",
+  "Q74",
+  "Q89",
+  "Q9",
+  "Q90",
+  "Q91",
+  "Q92"
+ ]
+}

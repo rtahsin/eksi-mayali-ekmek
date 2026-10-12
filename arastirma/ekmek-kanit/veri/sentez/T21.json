@@ -1,0 +1,442 @@
+{
+ "consensus": [
+  {
+   "claim_tr": "Fermantasyon, özellikle ekşi maya uygulamaları, ekmek ve hamurda fitat/fitik asit düzeyini çoğunlukla azaltır; azalma büyüklüğü ürün ve süreçler arasında geniş değişkenlik gösterir.",
+   "strength": "A_güçlü",
+   "n_supporting": 20,
+   "source_ids": [
+    "Q164",
+    "Q9",
+    "P984",
+    "Q84",
+    "Q140",
+    "Q141",
+    "Q166",
+    "Q167",
+    "P595",
+    "P1022",
+    "P1023",
+    "P1024",
+    "P1027",
+    "P407",
+    "P749",
+    "P1028",
+    "P1029",
+    "P1031",
+    "P1035"
+   ]
+  },
+  {
+   "claim_tr": "Fitat parçalanması fermantasyon süresi, pH, sıcaklık, un/tarif bileşimi ve kullanılan starter veya fitaz üreten mikroorganizmaya bağlıdır; tek bir evrensel azalma oranı çıkarılamaz.",
+   "strength": "A_güçlü",
+   "n_supporting": 10,
+   "source_ids": [
+    "Q140",
+    "Q141",
+    "Q165",
+    "Q167",
+    "P1023",
+    "P1027",
+    "P1028",
+    "P1029",
+    "P1031",
+    "P1172"
+   ]
+  },
+  {
+   "claim_tr": "Fitaz ilavesi veya fitaz üreten mikroorganizmaların kullanılması, uygun koşullarda fitat yıkımını artırıp çok düşük fitat düzeylerine ulaşabilir.",
+   "strength": "A_güçlü",
+   "n_supporting": 7,
+   "source_ids": [
+    "Q164",
+    "Q167",
+    "P1023",
+    "P1027",
+    "P1031",
+    "P1032",
+    "P1024"
+   ]
+  },
+  {
+   "claim_tr": "Fitat azalması mineral biyoyararlanımını artırma potansiyeli taşır; ancak fitatın azalması tek başına insanlarda demir emiliminin veya her mineralin biyoyararlanımının artacağını garanti etmez.",
+   "strength": "B_orta",
+   "n_supporting": 8,
+   "source_ids": [
+    "Q164",
+    "Q9",
+    "Q112",
+    "P984",
+    "P759",
+    "Q168",
+    "P1035",
+    "W42"
+   ]
+  },
+  {
+   "claim_tr": "İnsan demir emilimi bulguları müdahaleye ve demir bileşiğine göre değişebilir: fitazla artış bildirilirken, çok düşük fitatlı ekşi mayalı ekmekte kontrol ekmeğine göre anlamlı fark görülmeyen bir sonuç da vardır.",
+   "strength": "B_orta",
+   "n_supporting": 2,
+   "source_ids": [
+    "Q164"
+   ]
+  },
+  {
+   "claim_tr": "Unun/tarifin başlangıç fitat düzeyi ve bileşimi son ürünün fitat düzeyini etkiler; farklı tahıl ve karışım tariflerinde başlangıç düzeyleri ve fermantasyon sonundaki parçalanma oranları farklıdır.",
+   "strength": "B_orta",
+   "n_supporting": 5,
+   "source_ids": [
+    "Q140",
+    "Q141",
+    "P1028",
+    "P409"
+   ]
+  },
+  {
+   "claim_tr": "Fermantasyon ve ekmek üretimi sırasında fitat azalabilir; pişirme sonrasında doğal buğday fitazı aktivitesi kaybolabilir.",
+   "strength": "B_orta",
+   "n_supporting": 3,
+   "source_ids": [
+    "P1022",
+    "P1029",
+    "P1031"
+   ]
+  },
+  {
+   "claim_tr": "Mineral biyoyararlanımına ilişkin sonuçlar mineral türüne, biyofortifikasyon uygulamasına ve ekmek sistemine göre değişebilir; iyot, selenyum ve çinko sonuçları aynı yönde değildir.",
+   "strength": "B_orta",
+   "n_supporting": 1,
+   "source_ids": [
+    "Q168"
+   ]
+  }
+ ],
+ "quantitative": [
+  {
+   "quantity_tr": "Fitazla birlikte değerlendirilen demir emilimindeki artış",
+   "value_or_range": "%50 (demir sülfat); %61 (ferrochel)",
+   "unit": "%",
+   "conditions_tr": "Fitazın demir sülfat veya ferrochel ile birlikte verildiği değerlendirme; her iki sonuç için p < 0,05.",
+   "source_ids": [
+    "Q164"
+   ]
+  },
+  {
+   "quantity_tr": "Ekşi mayalı ekmekte fraksiyonel demir emiliminin kontrol ekmeğine oranı",
+   "value_or_range": "0,94 ± 0,05",
+   "unit": "oran",
+   "conditions_tr": "Brune çalışması; 23°C'de 48 saat ekşi maya fermantasyonu; tüm ekmeklerde maya kullanıldı; kontrol ekmeğinden anlamlı farklılık bildirilmedi.",
+   "source_ids": [
+    "Q164"
+   ]
+  },
+  {
+   "quantity_tr": "Aspergillus fitazı uygulamasında fitat fraksiyonlarındaki azalma ve ferritin değişimi",
+   "value_or_range": "ΣIP3–6: %23 azalma; ΣIP5–6: %18 azalma; ferritin: 45'ten 33'e, yaklaşık %27 azalma",
+   "unit": "fitat fraksiyonları için %; ferritin için μg/L",
+   "conditions_tr": "2500 PTU/100 g fitaz; müdahale 4 ay sürdü.",
+   "source_ids": [
+    "Q164"
+   ]
+  },
+  {
+   "quantity_tr": "Ekşi maya fermantasyonunda bildirilen fitat azalması/parçalanması",
+   "value_or_range": "%40'tan %90'ın üzerine; ayrı derlemede %96,6'ya kadar",
+   "unit": "%",
+   "conditions_tr": "Derlemelerde farklı ekmekler, tahıllar ve fermantasyon koşulları bir arada raporlanmıştır; Q9'da karşılaştırmalı mayalı fermantasyon için %56'ya kadar parçalanma da bildirilmiştir.",
+   "source_ids": [
+    "Q164",
+    "Q9",
+    "P984"
+   ]
+  },
+  {
+   "quantity_tr": "Hamur pH'sının düşürülmesiyle bildirilen fitik asit azalması",
+   "value_or_range": "pH 5,5'te %70 azalma; endojen fitaz optimum pH'sı 4,3–4,6",
+   "unit": "%; pH",
+   "conditions_tr": "Derlemede aktarılan değerler; belirli ekmek/hamur formülasyonu belirtilmemiştir.",
+   "source_ids": [
+    "Q165"
+   ]
+  },
+  {
+   "quantity_tr": "Ekşi mayalı ve maya ile fermente ekmek karşılaştırmasında bildirilen mineral biyoyararlanımı artışı",
+   "value_or_range": "Demir %10; çinko %25",
+   "unit": "%",
+   "conditions_tr": "Derlemede bildirilen ekşi maya ve maya fermantasyonu karşılaştırmaları.",
+   "source_ids": [
+    "Q9"
+   ]
+  },
+  {
+   "quantity_tr": "Klein Valor tam buğday örneklerinde sourdough işlemiyle fitik asit azalması",
+   "value_or_range": "%90–95; 19,93'ten 0,92 mg PAP/g'a (USWF), 18,25'ten 0,96'ya (SWF20) ve 18,29'dan 1,00 mg PAP/g'a (SWF25)",
+   "unit": "%; mg PAP/g kuru madde",
+   "conditions_tr": "Un ve sourdough ölçümleri karşılaştırıldı; değerler kuru madde bazındadır.",
+   "source_ids": [
+    "Q84"
+   ]
+  },
+  {
+   "quantity_tr": "Pearl millet ve pearl millet:mısır tariflerinde 168 saat sonunda fitat parçalanması",
+   "value_or_range": "P: %91,3; P1M1: %98,2; P1M2: %72,7",
+   "unit": "%",
+   "conditions_tr": "Yaklaşık 22°C; P = pearl millet, P1M1 = 1:1, P1M2 = 1:2 pearl millet:mısır.",
+   "source_ids": [
+    "Q140"
+   ]
+  },
+  {
+   "quantity_tr": "SMWB10 hamurunda 16 saatlik fermantasyonla fitik asit değişimi",
+   "value_or_range": "203,19'den 105,33 mg/100 g'a; yaklaşık %48 azalma",
+   "unit": "mg/100 g; %",
+   "conditions_tr": "Type 650 buğday ununa %10 ayçiçeği küspesi içeren SMWB10 formülasyonu.",
+   "source_ids": [
+    "Q141"
+   ]
+  },
+  {
+   "quantity_tr": "Ekmek üretiminde kaynak una göre fitik asit azalması",
+   "value_or_range": "Yaklaşık %75",
+   "unit": "%",
+   "conditions_tr": "Hamur 25,6°C'de 12 saat fermente edildi; ardından 2 saat son mayalama uygulandı; düşüş anlamlıydı (p < 0,05).",
+   "source_ids": [
+    "Q166"
+   ]
+  },
+  {
+   "quantity_tr": "Fitaz üreten mayalı kompozit unda ve ekmekte bildirilen fitat düzeyleri",
+   "value_or_range": "1 saat fermantasyon sonrası yaklaşık 1,25 μmol/g ve yaklaşık %80 azalma; TY13 ekmeği 0,41 μmol/g, BY80/YD80 ekmekleri 0,75 μmol/g; 2 saatlik işlemlerde yaklaşık 0,26 μmol/g",
+   "unit": "μmol/g; %",
+   "conditions_tr": "Buğday-manyok-sorgum kompozit ürünü; fitaz üreten maya suşları ve fermantasyon süreleri karşılaştırıldı.",
+   "source_ids": [
+    "Q167"
+   ]
+  },
+  {
+   "quantity_tr": "Fitaz üreten maya ve maya özütüyle elde edilen en düşük fitat düzeyleri",
+   "value_or_range": "0,08–0,22 μmol/g; belirli kombinasyonlarda 0,08 μmol/g ve yaklaşık %99 azalma",
+   "unit": "μmol/g; %",
+   "conditions_tr": "Kompozit ekmek; 2 saat fermantasyon; ön-inkübasyon ve Bacto/YE2 maya özütü kullanılan uygulamalar.",
+   "source_ids": [
+    "Q167",
+    "P1023",
+    "P1032"
+   ]
+  },
+  {
+   "quantity_tr": "İnjera tariflerinde başlangıç fitatı ve 168 saat sonunda parçalanma",
+   "value_or_range": "Başlangıç: P 1,63; P1M1 1,01; P1M2 0,50 g/100 g; parçalanma: sırasıyla %91,3, %98,2 ve %72,7",
+   "unit": "g/100 g; %",
+   "conditions_tr": "P = pearl millet; P1M1 = 1:1 pearl millet:mısır; P1M2 = 1:2 pearl millet:mısır.",
+   "source_ids": [
+    "Q140"
+   ]
+  },
+  {
+   "quantity_tr": "Fermantasyon sonrasında Irak buğday unlarında fitik asit azalması ve inorganik fosfor artışı",
+   "value_or_range": "Fitat azalması: %26,98–47,06; inorganik fosfor artışı: %32,4–42,37",
+   "unit": "%",
+   "conditions_tr": "Üç değirmen unu; AL-Brairie, AL-Nesr ve AL-Al-Doura için fitat azalmaları sırasıyla %47,06, %26,98 ve %40,00; fosfor artışları %32,4, %42,37 ve %36,21.",
+   "source_ids": [
+    "P1022"
+   ]
+  },
+  {
+   "quantity_tr": "Ekşi mayalı Pakistan yassı ekmeklerinde bildirilen fitik asit yıkımı",
+   "value_or_range": "%57,5–79,8",
+   "unit": "%",
+   "conditions_tr": "Un ve ekmek türüne göre değişti: ince buğday unu roti %61,0–61,8; chakki unu %57,5–75,3; maida %58,5–79,8.",
+   "source_ids": [
+    "P1028"
+   ]
+  },
+  {
+   "quantity_tr": "Fitaz ekstraktlarıyla hamurda bildirilen fitat azalması",
+   "value_or_range": "Buğday ruşeymi fitaz ekstraktıyla %90,6; pirinç kepeği ekstraktıyla 10, 20 ve 30 ml'de sırasıyla %62,7, %65,7 ve %77,2",
+   "unit": "%",
+   "conditions_tr": "Düşük kalorili/diyabetik ekmek hamuru; ekstraktlar fermantasyon sırasında kullanıldı.",
+   "source_ids": [
+    "P1031"
+   ]
+  },
+  {
+   "quantity_tr": "Kontrol hamurunda fermantasyon ve pişirme sonrası fitat azalması",
+   "value_or_range": "Fermantasyon sonrası %17,2; pişirme sonrası %22,1",
+   "unit": "%",
+   "conditions_tr": "Fitaz ekstraktı eklenmemiş kontrol hamuru; fermantasyon 45 dakika.",
+   "source_ids": [
+    "P1031"
+   ]
+  },
+  {
+   "quantity_tr": "Selenyum biyofortifikasyonunda sindirim sırasında salınan selenyum ve biyoyararlanım yüzdesi",
+   "value_or_range": "Salım 81–121 μg/kg, kontrol ortalaması 19 μg/kg; biyoyararlanım %54–58, kontroller %76,5–83",
+   "unit": "μg/kg; %",
+   "conditions_tr": "İki buğday çeşidinden üretilmiş biyofortifiye ekmekler; salım kontrole göre artarken biyoyararlanım yüzdesi daha düşüktü.",
+   "source_ids": [
+    "Q168"
+   ]
+  }
+ ],
+ "moderators_tr": [
+  "Fermantasyon süresi: farklı kaynaklarda 1–2 saatten 48 saate ve 168 saate kadar süreçler incelenmiş; uzama her koşulda aynı büyüklükte etki anlamına gelmiyor.",
+  "Hamur pH'sı: düşük pH ile daha düşük fitat ilişkilendirilmiş; endojen fitaz için optimum pH 4,3–4,6 olarak aktarılmıştır.",
+  "Sıcaklık: belirli LAB ekşi mayalarında en yüksek fitat degradasyonu 25°C'de görülürken, başka bir maya sisteminde 30°C'de kısa sürede düşük fitat elde edilmiştir.",
+  "Başlangıç hammaddesi, un tipi, tam tahıl/kepek oranı ve tahıl-legüm karışım oranı başlangıç fitatını ve elde edilen son düzeyi değiştirir.",
+  "Starter türü ve suşu, ko-kültür, fitaz üretme kapasitesi, ön-inkübasyon ve maya özütü kullanımı fitat yıkımını etkileyebilir.",
+  "Eklenen fitazın kaynağı ve dozu; Aspergillus, buğday ruşeymi, pirinç kepeği ve fitaz üreten mayalar farklı sonuçlar vermiştir.",
+  "Fırınlama düzeni ve ekmek türü (tandır roti, tawa roti, chapatti, yassı ekmek veya somun) sonuçları karşılaştırılabilir olmaktan çıkarabilir.",
+  "Mineral emilimi/biyoyararlanımı ölçülen mineral türüne, demir bileşiğine, biyofortifikasyon uygulamasına ve ekmek matrisine bağlıdır."
+ ],
+ "conflicts": [
+  {
+   "issue_tr": "Fitat azaltımı ve ekşi maya için genel mineral biyoyararlanımı artışı bildirilmesine karşın, uzun süre fermente edilip ΣIP3–6 çok düşük düzeye indirilen ekmekte fraksiyonel demir emilimi kontrol ekmeğinden anlamlı biçimde farklı bulunmamıştır.",
+   "likely_reason_tr": "Fitat azalması emilim için tek belirleyici olmayabilir; ekmek matrisi, demir bileşiği, müdahale ve ölçüm koşulları farklıdır. Derleme bulguları ile tekil insan çalışmasının koşulları aynı değildir.",
+   "source_ids": [
+    "Q164",
+    "Q9",
+    "Q112",
+    "P984",
+    "P759"
+   ]
+  },
+  {
+   "issue_tr": "Fitazla demir emiliminde artış bildirilirken, fitazlı ekmek müdahalesinde ferritin 45'ten 33 μg/L'ye düşmüştür.",
+   "likely_reason_tr": "Akut/öğün düzeyindeki demir emilimi ile 4 aylık müdahalede ölçülen ferritin aynı sonuç ölçütü değildir; kaynak satırları bu farkı açıklayacak ek bilgi vermemektedir.",
+   "source_ids": [
+    "Q164"
+   ]
+  },
+  {
+   "issue_tr": "Ekşi maya ve ticari maya arasındaki fitat parçalanma farkı kaynaklar arasında değişmektedir; bazı derleme değerleri ekşi maya lehine belirgin fark verirken, yassı ekmek deneyinde ticari maya değerleri bazı örneklerde ekşi maya değerlerine yakındır.",
+   "likely_reason_tr": "Un tipi, ürün türü, fermantasyon tarifi ve karşılaştırma koşulları farklıdır; değerler farklı deneylerden ve ürün kategorilerinden gelmektedir.",
+   "source_ids": [
+    "Q9",
+    "P1028"
+   ]
+  },
+  {
+   "issue_tr": "Selenyum biyofortifikasyonu sindirim sırasında salımı artırırken biyoyararlanım yüzdesi kontrolün altında kalmıştır; çinko biyoyararlanımı da uygulama ve ekmek sistemine göre farklı yönler göstermiştir.",
+   "likely_reason_tr": "Mineral salımı ve biyoyararlanım yüzdesi ayrı ölçütlerdir; mineral, çeşit, biyofortifikasyon kombinasyonu ve ekmek türü sonuçları değiştirmiş olabilir.",
+   "source_ids": [
+    "Q168"
+   ]
+  }
+ ],
+ "simulation_rules": [
+  {
+   "rule_tr": "Fermantasyon süresine bağlı fitat azalmasını başlangıçta artan, ilerleyen zamanda plato yapabilen bir dönüşüm olarak modelle; mevcut kanıt tek bir evrensel hız sabiti sağlamaz.",
+   "functional_form": "Doyum modeli: phytate(t) = phytate_min + (phytate_0 - phytate_min) × exp(-k × t); alternatif olarak sınırlı aralıkta doğrusal azalma.",
+   "param_suggestions": "k ve phytate_min ürün/starter için kalibre edilmeli. Senaryo aralığı olarak kaynaklarda yaklaşık %20–30'dan %90–99'a uzanan toplam azalmalar kullanılmıştır; bunlar farklı koşullara aittir, tek ortak parametre olarak alınmamalıdır.",
+   "source_ids": [
+    "Q84",
+    "Q140",
+    "Q141",
+    "Q166",
+    "P1022",
+    "P1023",
+    "P1035"
+   ]
+  },
+  {
+   "rule_tr": "Daha düşük pH fitat yıkımını artırabilir; pH etkisini optimuma yaklaşınca artan, optimumdan sapınca azalan biçimde temsil et.",
+   "functional_form": "Optimumlu çan eğrisi veya pH optimumuna göre Gauss fonksiyonu; fitat dönüşüm hızı pH 4,3–4,6 çevresinde yüksek, pH 5,5'e doğru daha düşük olacak şekilde.",
+   "param_suggestions": "Optimum pH 4,3–4,6; pH 5,5'te bildirilen fitat azalması yaklaşık %70. Bu değerler derleme aktarımıdır ve tüm unlara genellenmemelidir.",
+   "source_ids": [
+    "Q165",
+    "P1029"
+   ]
+  },
+  {
+   "rule_tr": "Sıcaklık etkisini mikrobiyal sisteme bağlı optimumlu fonksiyon olarak kodla; sıcaklığın artmasını her durumda daha fazla fitat yıkımı sayma.",
+   "functional_form": "Suşa özgü optimumlu çan eğrisi; istenirse sıcaklığa bağlı hız için optimum çevresinde sınırlı aralıklı ikinci dereceden fonksiyon.",
+   "param_suggestions": "L. brevis HEB33/L. plantarum ELB78 sistemi için test edilen 25, 30 ve 35°C arasında bildirilen en yüksek degradasyon 25°C'dedir. Pichia/maya özütü sisteminde 30°C'de 1 saatte düşük fitat bildirilmiştir; bu ayrı sistem olarak parametrelenmelidir.",
+   "source_ids": [
+    "P1027",
+    "P1023"
+   ]
+  },
+  {
+   "rule_tr": "Ekzojen fitaz veya fitaz üreten starter kullanımını fitat yıkım hızına ve erişilebilir son dönüşüm oranına artırıcı etki olarak ekle; etkisini doz/suşa bağlı ve sınırlı tut.",
+   "functional_form": "Doyuma yaklaşan doz-yanıt: k = k0 + kmax × dose/(K + dose); fitazlı ve fitazsız süreçler için ayrı parametreler.",
+   "param_suggestions": "Kaynaklardaki örnekler arasında 2500 PTU/100 g fitaz, 1 saat fermantasyonda yaklaşık %80 azalma ve belirli 2 saatlik maya/özüt kombinasyonlarında yaklaşık %99 azalma vardır; farklı sistemlerin sonuçları doğrudan birleştirilmemelidir.",
+   "source_ids": [
+    "Q164",
+    "Q167",
+    "P1031",
+    "P1032",
+    "P1023"
+   ]
+  },
+  {
+   "rule_tr": "Tarif/un türünü başlangıç fitat düzeyini belirleyen ayrı bir parametre olarak kullan; fermantasyon etkisini mutlak başlangıca değil başlangıca göre oranlı dönüşüm olarak uygula.",
+   "functional_form": "phytate_final = phytate_initial(recipe, flour) × (1 - degradation_fraction(process, starter, pH, time, temperature)).",
+   "param_suggestions": "Başlangıç değerleri kaynakta 0,50–1,63 g/100 g aralığında pearl millet:mısır tarifleri için, buğday unu tiplerinde 0,4380–0,9460 g/100 g kuru madde olarak verilmiştir; bunlar yalnız ilgili tarif/un bağlamında kullanılmalıdır.",
+   "source_ids": [
+    "Q140",
+    "P1029"
+   ]
+  },
+  {
+   "rule_tr": "Fitat azalmasından mineral emilimine geçişi kesin ve bire bir dönüşüm olarak kodlama; mineral türü ve deney bağlamına göre ayrı, belirsizliği yüksek bir yanıt fonksiyonu kullan.",
+   "functional_form": "Mineral_biyoyararlanımı = g(fitat:mineral oranı, mineral_bileşiği, ürün_matrisi, müdahale); fitat düşüşüne bağlı artış varsa eşikli veya doygun ilişki ve geniş belirsizlik aralığı.",
+   "param_suggestions": "İnsan verisinde fitazla demir emilimi için +%50 (demir sülfat) ve +%61 (ferrochel) bildirilmiş; başka bir ekmek çalışmasında fraksiyonel demir emilim oranı 0,94 ± 0,05 ve anlamlı fark yoktur. Bu sonuçları tek parametreye indirgemeyin.",
+   "source_ids": [
+    "Q164",
+    "Q9",
+    "Q168"
+   ]
+  }
+ ],
+ "gaps_tr": [
+  "Fitat azalması ile gerçek insan mineral emilimi arasındaki ilişki için daha fazla karşılaştırılabilir kontrollü insan çalışması gerekir; mevcut insan demir bulguları sınırlı ve farklı müdahalelere aittir.",
+  "Çalışmaların önemli bir bölümünde fitat azalması bildirilse de biyoyararlanım doğrudan ölçülmemiştir; in vitro erişilebilirlik, emilim ve uzun dönem mineral durumu birbirinden ayrılmalıdır.",
+  "Farklı starter, un, tarif, pH, süre ve sıcaklıkların etkilerini ortak bir nicel modele aktaracak standartlaştırılmış koşul ve ölçüm raporlaması sınırlıdır.",
+  "Birçok deneyde başlangıç ve son fitat düzeyleri, analiz yöntemi veya kuru madde temeli aynı ayrıntıda verilmemiştir; sonuçların doğrudan karşılaştırılması kısıtlıdır.",
+  "Fitaz doz-cevap ilişkisi, enzim kaynağı ve pişirme öncesi/sonrası aktivite değişimi hakkında karşılaştırılabilir nicel veri azdır.",
+  "Fitat azalmasının demir, çinko ve diğer mineraller üzerindeki etkisi mineral türüne ve ekmek matrisine göre ayrıştırılmamıştır; aynı anda ölçülen mineral biyoyararlanımı verisi sınırlıdır.",
+  "Fermantasyon sırasında fitat yıkımının zamana bağlı kinetiği çoğu kaynakta yeterli ara zaman noktalarıyla verilmediğinden hız ve plato parametreleri güvenle kestirilemez."
+ ],
+ "tid": "T21",
+ "name": "Fitat ve mineral biyoyararlanımı",
+ "n_sources": 36,
+ "n_findings": 78,
+ "theme_source_ids": [
+  "P1022",
+  "P1023",
+  "P1024",
+  "P1027",
+  "P1028",
+  "P1029",
+  "P1031",
+  "P1032",
+  "P1035",
+  "P1082",
+  "P1147",
+  "P1172",
+  "P1177",
+  "P207",
+  "P407",
+  "P409",
+  "P595",
+  "P749",
+  "P759",
+  "P834",
+  "P860",
+  "P890",
+  "P892",
+  "P984",
+  "Q112",
+  "Q140",
+  "Q141",
+  "Q164",
+  "Q165",
+  "Q166",
+  "Q167",
+  "Q168",
+  "Q40",
+  "Q84",
+  "Q9",
+  "W42"
+ ]
+}

@@ -1,0 +1,448 @@
+{
+ "consensus": [
+  {
+   "claim_tr": "Buğday unu örnekleri içinde protein içeriği, somun hacmiyle genellikle pozitif ilişkilidir; ancak bildirilen ilişkiler korelasyondur ve un türüne göre değişebilir.",
+   "strength": "B_orta",
+   "n_supporting": 3,
+   "source_ids": [
+    "Q65",
+    "Q67",
+    "P265"
+   ]
+  },
+  {
+   "claim_tr": "Gluten ağı, buğday hamurunda fermantasyon gazının tutulmasına ve gaz hücrelerinin stabilize edilmesine katkı sağlar; glutenin yokluğu gaz tutmayı ve hamur reolojisini zayıflatır.",
+   "strength": "A_güçlü",
+   "n_supporting": 5,
+   "source_ids": [
+    "P544",
+    "Q36",
+    "P972",
+    "P973",
+    "P978"
+   ]
+  },
+  {
+   "claim_tr": "Vital buğday gluteni eklenmesi çoğu buğday ekmeği bağlamında hacmi artırabilir; etki un matrisi, ürün türü ve gluten dozuna bağlıdır ve her tahıl sisteminde görülmez.",
+   "strength": "B_orta",
+   "n_supporting": 7,
+   "source_ids": [
+    "Q18",
+    "Q61",
+    "Q109"
+   ]
+  },
+  {
+   "claim_tr": "Vital gluten, incelenen formülasyonlarda çoğunlukla hamur reolojisini güçlendirmiş; su absorpsiyonu, gelişme süresi veya stabiliteyi artırıp yumuşamayı azaltabilmiştir.",
+   "strength": "B_orta",
+   "n_supporting": 4,
+   "source_ids": [
+    "Q18",
+    "P926",
+    "P500"
+   ]
+  },
+  {
+   "claim_tr": "Un kuvveti ile hacim arasındaki ilişki evrensel değildir: bazı buğday unu çalışmalarında daha kuvvetli un daha yüksek hacimle ilişkilendirilirken, bazı kışlık buğday sonuçlarında düşük gluten gücü en yüksek hacimlerle ilişkilendirilmiştir.",
+   "strength": "B_orta",
+   "n_supporting": 4,
+   "source_ids": [
+    "Q36",
+    "Q66",
+    "Q65",
+    "Q67"
+   ]
+  },
+  {
+   "claim_tr": "Gluten ilavesinin etkisi dozla doğrusal olmak zorunda değildir; optimum veya eşik dozlar ürün ve un türüne göre değişebilir, ayrıca bazı sistemlerde doz artışı hacmi anlamlı biçimde artırmayabilir.",
+   "strength": "B_orta",
+   "n_supporting": 4,
+   "source_ids": [
+    "Q18",
+    "P470"
+   ]
+  },
+  {
+   "claim_tr": "Daha yüksek protein veya gluten içeriği bazı çalışmalarda su absorpsiyonu ve su ihtiyacının artmasıyla birlikte bildirilmiştir; bu nedenle hidrasyon, hacim ve reoloji etkilerinin yorumlanmasında önemli bir koşuldur.",
+   "strength": "B_orta",
+   "n_supporting": 3,
+   "source_ids": [
+    "P278",
+    "P405"
+   ]
+  },
+  {
+   "claim_tr": "Protein miktarı tek başına gluten işlevselliğini veya ekmekçilik kalitesini belirlemez; gluten alt birimleri ve gluten gücüyle ilgili farklılıklar hamur özelliklerini ve uygun kullanım amacını değiştirebilir.",
+   "strength": "B_orta",
+   "n_supporting": 5,
+   "source_ids": [
+    "P281",
+    "P282",
+    "P284",
+    "P285",
+    "P267"
+   ]
+  },
+  {
+   "claim_tr": "Gluten ilavesi bazı sistemlerde somun hacmi dışında ekmek içi yapısını, sertliği veya pişirme kaybını da etkileyebilir; bu ikincil kalite etkilerinin yönü ve büyüklüğü her çalışmada aynı değildir.",
+   "strength": "B_orta",
+   "n_supporting": 5,
+   "source_ids": [
+    "Q18",
+    "Q61",
+    "Q66",
+    "Q109",
+    "P926"
+   ]
+  }
+ ],
+ "quantitative": [
+  {
+   "quantity_tr": "Protein içeriği ile somun hacmi arasındaki korelasyon",
+   "value_or_range": "R = 0,27; p < 0,05",
+   "unit": "korelasyon katsayısı",
+   "conditions_tr": "İsveç ticari un karışımları.",
+   "source_ids": [
+    "Q67",
+    "Q65"
+   ]
+  },
+  {
+   "quantity_tr": "Protein içeriği ile somun hacmi arasındaki korelasyon",
+   "value_or_range": "R = 0,49; p < 0,01",
+   "unit": "korelasyon katsayısı",
+   "conditions_tr": "İsveç ticari yazlık buğday unları.",
+   "source_ids": [
+    "Q65"
+   ]
+  },
+  {
+   "quantity_tr": "Vital gluten düzeyleri ve beyaz unlu ekmeğin özgül hacmi",
+   "value_or_range": "%2, %4, %5 ve %6 gluten; 1,9–2,5",
+   "unit": "% un ağırlığı; mL/g",
+   "conditions_tr": "Dondurulmuş beyaz unlu hamur örnekleri; aralık gluten düzeyleri arasındaki bildirilen özgül hacim aralığıdır.",
+   "source_ids": [
+    "Q18"
+   ]
+  },
+  {
+   "quantity_tr": "Vital gluten düzeyleri ve tam buğday ekmeğinin özgül hacmi",
+   "value_or_range": "%2, %4, %5 ve %6 gluten; 1,4–1,7",
+   "unit": "% un ağırlığı; mL/g",
+   "conditions_tr": "Dondurulmuş tam buğday unlu hamur örnekleri.",
+   "source_ids": [
+    "Q18"
+   ]
+  },
+  {
+   "quantity_tr": "Hacim artışı için bildirilen yeterli gluten düzeyi",
+   "value_or_range": "Beyaz un için %4; tam buğday için %6",
+   "unit": "% un ağırlığı",
+   "conditions_tr": "Dondurulmuş hamurdan yapılan beyaz ve tam tahıl buğday ekmekleri.",
+   "source_ids": [
+    "Q18"
+   ]
+  },
+  {
+   "quantity_tr": "Vital gluten ilavesiyle ekmek hacmindeki değişim",
+   "value_or_range": "SH: 320,4 → 403,5; LH: 323,9 → 346,7",
+   "unit": "mL",
+   "conditions_tr": "Ariheuk mor buğdayının SH ve LH yüksek hızlı öğütme unları; %10 vital gluten, ilavesiz örneğe karşılaştırma.",
+   "source_ids": [
+    "Q61"
+   ]
+  },
+  {
+   "quantity_tr": "Vital gluten ilavesiyle ekmek yüksekliğindeki değişim",
+   "value_or_range": "SH: 41,6 → 50,4; LH: 41,4 → 42,9",
+   "unit": "mm",
+   "conditions_tr": "Ariheuk mor buğdayının SH ve LH yüksek hızlı öğütme unları; %10 vital gluten, ilavesiz örneğe karşılaştırma.",
+   "source_ids": [
+    "Q61"
+   ]
+  },
+  {
+   "quantity_tr": "Vital gluten eklenince ekmek hacmi",
+   "value_or_range": "432,48 ± 50,01 → 543,19 ± 25,41",
+   "unit": "mL",
+   "conditions_tr": "Debittered lupin ve tip 1 un içeren formülasyonda Control 2 ile VG örneğinin karşılaştırılması; VG oranı bildirilmemiştir.",
+   "source_ids": [
+    "Q109"
+   ]
+  },
+  {
+   "quantity_tr": "Vital gluten eklenince özgül ekmek hacmi",
+   "value_or_range": "2,79 ± 0,39 → 3,59 ± 0,20",
+   "unit": "mL/g",
+   "conditions_tr": "Control 2 ile VG örneğinin karşılaştırılması; VG oranı bildirilmemiştir.",
+   "source_ids": [
+    "Q109"
+   ]
+  },
+  {
+   "quantity_tr": "VG ve SSL birlikte eklenince ekmek hacmi",
+   "value_or_range": "432,48 ± 50,01 → 565,11 ± 31,16",
+   "unit": "mL",
+   "conditions_tr": "Control 2 ile VG + %0,5 SSL örneğinin karşılaştırılması; VG oranı bildirilmemiştir.",
+   "source_ids": [
+    "Q109"
+   ]
+  },
+  {
+   "quantity_tr": "Laktillenmiş glutenin buhar ekmeği özgül hacmine etkisi",
+   "value_or_range": "Boş gruba göre +%18,34; buğday gluteni grubuna göre +%5,73",
+   "unit": "%",
+   "conditions_tr": "Üç donma-çözünme döngüsünden sonra.",
+   "source_ids": [
+    "P500"
+   ]
+  },
+  {
+   "quantity_tr": "Unun %22,5'inin alt-aleuron fraksiyonları veya ticari glutenle ikamesinde özgül somun hacmi değişimi",
+   "value_or_range": "Sub-alF +%14,8; Sub-alC +%14,0; GluA +%14,3; GluB +%21,8",
+   "unit": "%",
+   "conditions_tr": "İkame bileşenleri buğday nişastasıyla %20,6 protein içeriğine standardize edilmiştir.",
+   "source_ids": []
+  },
+  {
+   "quantity_tr": "Unun %6'sının izole glutenle ikamesinde özgül somun hacmi değişimi",
+   "value_or_range": "Sub-alC kaynaklı gluten +%27,2; karşılık gelen undan izole gluten +%29,4",
+   "unit": "%",
+   "conditions_tr": "Beyaz unun ikamesi; iki gluten kaynağı karşılaştırılmıştır.",
+   "source_ids": []
+  },
+  {
+   "quantity_tr": "Kepek alt-aleuron protein düzeyiyle ilişkili somun hacmi farkı",
+   "value_or_range": "+%22,4",
+   "unit": "%",
+   "conditions_tr": "Alt-aleuron protein içeriği farklı kepeklerle hazırlanan, parçacık boyutları benzer kepekli ekmeklerde en düşükten en yüksek proteinli kepeğe geçiş.",
+   "source_ids": [
+    "P265"
+   ]
+  },
+  {
+   "quantity_tr": "Somun hacmi değişkenliğinin açıklanan oranı",
+   "value_or_range": "%99",
+   "unit": "%",
+   "conditions_tr": "Altı laboratuvar ölçekli kepek örneğinde alt-aleuron protein içeriğine göre.",
+   "source_ids": [
+    "P265"
+   ]
+  },
+  {
+   "quantity_tr": "Protein içeriği ve protein dışı fraksiyonla somun hacmi regresyon modeli",
+   "value_or_range": "R² = 0,936",
+   "unit": "belirleme katsayısı",
+   "conditions_tr": "Sert kırmızı bahar buğdayı millstream'leri; çoklu regresyon.",
+   "source_ids": [
+    "P273"
+   ]
+  },
+  {
+   "quantity_tr": "Un protein içeriği ile su absorpsiyonu arasındaki korelasyon",
+   "value_or_range": "r = 0,84",
+   "unit": "korelasyon katsayısı",
+   "conditions_tr": "Altı Suriye buğday genotipi ve iki İngiliz un örneğinin karşılaştırılması; anlamlı pozitif korelasyon.",
+   "source_ids": [
+    "P278"
+   ]
+  },
+  {
+   "quantity_tr": "Dondurulmuş hamurda pişirme ağırlık kaybı aralıkları",
+   "value_or_range": "Beyaz un: %10,2–12,5; tam buğday: %9,5–10,9",
+   "unit": "%",
+   "conditions_tr": "Vital gluten eklenen örneklerde; azalma özellikle %5 ve %6 gluten düzeylerinde belirgin bildirilmiştir.",
+   "source_ids": [
+    "Q18"
+   ]
+  }
+ ],
+ "moderators_tr": [
+  "Un ve tahıl matrisi: beyaz buğday, tam buğday, mor buğday, kışlık/yazlık buğday ve tritikale sonuçları aynı değildir.",
+  "Başlangıç protein düzeyi ve gluten gücü birbirinden ayrı özelliklerdir; protein miktarı glutenin işlevsel kalitesini tek başına belirlemez.",
+  "Gluten dozu ve doz aralığı önemlidir; bazı sonuçlar eşik/optimum doz gösterirken tritikale ekmeğinde %1–%5 aralığında hacim artışı saptanmamıştır.",
+  "Öğütme ve fraksiyon özellikleri, kepek miktarı ve kepeğin alt-aleuron protein içeriği hacim yanıtını değiştirebilir.",
+  "Hidrasyon ve su absorpsiyonu, protein/gluten artışıyla birlikte değişebilir ve hamur reolojisini etkileyebilir.",
+  "Ürün ve süreç koşulları: tava ekmeği, buhar ekmeği, dondurulmuş hamur ve kısa süreli ekmek yapımı farklı yanıtlar vermiştir.",
+  "Glutenin alt birim profili ve genetik arka plan, ekmekçilik kalitesinin yanı sıra kurabiye/bisküvi uygunluğunu da değiştirebilir.",
+  "Laktillenmiş gluten, SSL gibi eşlik eden iyileştiriciler ve donma-çözünme döngüleri sonuçları değiştirebilir.",
+  "Somun hacmi, özgül hacim, ekmek yüksekliği, gaz tutma ve iç yapı birbiriyle ilişkili olsa da aynı ölçüm değildir."
+ ],
+ "conflicts": [
+  {
+   "issue_tr": "Un kuvveti ile somun hacmi konusunda zıt yönlü sonuçlar bildirilmiştir: bazı kaynaklar daha kuvvetli unla hacmin arttığını, diğerleri hamur kuvvetiyle negatif ilişkiyi veya kışlık buğdayda düşük gluten gücüyle en yüksek hacmi bildirmiştir.",
+   "likely_reason_tr": "Buğday sınıfı, gluten gücü ile protein miktarının farklılığı, kullanılan hacim/kalite ölçütleri ve unların ekmek yapım sürecine uygunluğu değişebilir. Bulgular, tek yönlü evrensel bir kuvvet-hacim kuralı kurulmasını desteklemiyor.",
+   "source_ids": [
+    "Q36",
+    "Q66",
+    "Q65",
+    "Q67"
+   ]
+  },
+  {
+   "issue_tr": "Vital glutenin hacim etkisi genel olarak olumlu olsa da Belcanto tritikale ekmeğinde %1–%5 gluten artışıyla anlamlı hacim artışı görülmemiştir.",
+   "likely_reason_tr": "Tritikale matrisi buğday unundan farklı olabilir; ayrıca diğer çalışmalardaki formülasyon, gluten dozu, işlem koşulu ve hacim ölçümleri aynı değildir.",
+   "source_ids": [
+    "Q18",
+    "Q61",
+    "Q109"
+   ]
+  },
+  {
+   "issue_tr": "Vital gluten dozunun artırılmasının bazı buğday örneklerinde hacmi artırması, ancak farklı unlarda farklı dozların yeterli olması ve başka sistemlerde optimum reoloji dozlarının değişmesi, tek bir doğrusal doz-yanıtı desteklememektedir.",
+   "likely_reason_tr": "Başlangıçtaki un protein/gluten düzeyi, beyaz veya tam tahıl matrisi, donmuş hamur koşulları ve ölçülen sonuç (hacim ya da depolama kararlılığı) farklıdır.",
+   "source_ids": [
+    "Q18",
+    "P470"
+   ]
+  },
+  {
+   "issue_tr": "Yüksek protein/kuvvetin hacimle olumlu ilişkisi, gluten kalitesinin veya polimerik protein özelliklerinin her durumda ekmekçilik kalitesini artırdığı anlamına gelmemektedir.",
+   "likely_reason_tr": "Protein miktarı, gluten polimer özellikleri, alt birim bileşimi ve ekmek dışı kullanım amacı (ör. kurabiye/bisküvi) farklı kalite boyutlarıdır; bazı ilişkiler korelasyoneldir.",
+   "source_ids": [
+    "Q65",
+    "Q67",
+    "P273",
+    "P281",
+    "P284",
+    "P288"
+   ]
+  }
+ ],
+ "simulation_rules": [
+  {
+   "rule_tr": "Buğday ununda protein içeriği arttığında somun hacmi için pozitif eğilim tanımlanabilir; bunu doğrudan nedensel ve sabit bir katsayı olarak değil, un sınıfına bağlı ampirik ilişki olarak kullanın.",
+   "functional_form": "Un sınıfına göre katsayısı değişen doğrusal terim veya monoton ilişki; gözlenen aralık dışına ekstrapolasyon yapmayın.",
+   "param_suggestions": "İsveç yazlık buğday ununda protein-hacim korelasyonu R=0,49; karışımlarda R=0,27 olarak bildirilmiştir. Bunlar korelasyondur, hacimdeki birim protein artışı için eğim değildir. Kışlık buğdayda yüksek protein en yüksek hacimlerle ilişkilendirilmiştir.",
+   "source_ids": [
+    "Q65",
+    "Q67"
+   ]
+  },
+  {
+   "rule_tr": "Gaz tutma kapasitesini gluten ağı varlığı ve bütünlüğüyle artırın; gluten yokluğunda bu kapasiteyi azaltın. Gaz üretimi ile gaz tutmayı ayrı durum değişkenleri olarak modelleyin.",
+   "functional_form": "Gluten ağı bütünlüğüne bağlı monoton artış; ağ bütünlüğü düşük veya yoksa gaz tutma kapasitesinde azalma.",
+   "param_suggestions": "Kaynaklar yönü nitel olarak destekliyor; sayısal katsayı veya eşik vermiyor. Parametreler deneysel kalibrasyon gerektirir.",
+   "source_ids": [
+    "P544",
+    "Q36",
+    "P972",
+    "P973",
+    "P978"
+   ]
+  },
+  {
+   "rule_tr": "Vital gluten ilavesini hacim için çoğu buğday sisteminde olumlu, fakat tahıl matrisi ve dozla koşullanan bir etki olarak kodlayın; tritikale için otomatik hacim artışı varsaymayın.",
+   "functional_form": "Başlangıçta artan, olası doyum/eşik içeren doz-yanıt; matrise özgü katsayı veya etkileşim terimi.",
+   "param_suggestions": "Beyaz unda %4, tam buğdayda %6 düzeyi hacim artışı için yeterli bildirilmiştir; Ariheuk mor buğdayında %10 kullanılmıştır. Belcanto tritikalesinde %1–%5 arasında anlamlı hacim artışı yoktur. Bu değerler sistemlere özgüdür.",
+   "source_ids": [
+    "Q18",
+    "Q61"
+   ]
+  },
+  {
+   "rule_tr": "Gluten dozu için hamur kararlılığı ve ekmek hacmi yanıtlarını ayrı modelleyin; bir özellikte optimum doz, diğerinde aynı optimumu garanti etmez.",
+   "functional_form": "Kararlılık için optimumlu/çan eğrisi; hacim için matrise göre artan-doyan veya etkisiz yanıt.",
+   "param_suggestions": "Dondurulmuş beyaz unda en kararlı örnekler %4 ve %6; tam buğdayda %4 ve %5 gluten düzeylerinde bildirilmiştir. Bu aralıklar yalnızca incelenen un ve depolama koşulları için kullanılmalıdır.",
+   "source_ids": [
+    "Q18"
+   ]
+  },
+  {
+   "rule_tr": "Protein veya gluten artışına bağlı su absorpsiyonu artışını hidrasyon gereksinimine bağlayın; sabit su miktarında bunun reolojiye yansımasına izin verin.",
+   "functional_form": "Protein/gluten içeriğine göre monoton hidrasyon gereksinimi; hidrasyon ayarlanmadığında hamur sertliği ve reolojik durum üzerinden dolaylı etki.",
+   "param_suggestions": "Un protein-su absorpsiyonu korelasyonu r=0,84 olarak bildirilmiştir. Tritikalede %1–%5 vital gluten ilavesi su absorpsiyonunu artırmıştır; sayısal su artış katsayısı verilmemiştir.",
+   "source_ids": [
+    "P278",
+    "Q18"
+   ]
+  },
+  {
+   "rule_tr": "Un kuvvetinin hacim etkisini sabit pozitif katsayıyla kodlamayın; buğday sınıfı ve un özelliklerine göre yön değiştirebilen bir etkileşim kullanın.",
+   "functional_form": "Buğday sınıfı × gluten kuvveti etkileşimi; gerekirse doğrusal olmayan veya optimumlu yanıt.",
+   "param_suggestions": "Daha kuvvetli unla hacim artışı Q66'da, negatif kuvvet-hacim korelasyonu Q65'te ve düşük gluten gücüyle en yüksek hacim Q67'de bildirilmiştir. Birleşik sayısal katsayı çıkarılamaz.",
+   "source_ids": [
+    "Q65",
+    "Q66",
+    "Q67"
+   ]
+  },
+  {
+   "rule_tr": "Kepekli ekmek simülasyonunda kepek proteinini ve özellikle alt-aleuron protein içeriğini, parçacık boyutuyla birlikte hacmi açıklayan değişkenler olarak değerlendirin.",
+   "functional_form": "Protein içeriğine bağlı pozitif terim; kepek fraksiyonu ve parçacık boyutuyla etkileşim.",
+   "param_suggestions": "En düşükten en yüksek alt-aleuron proteinli kepeğe geçişte hacim +%22,4 bildirilmiş; alt-aleuron protein içeriği altı kepek örneğinde hacim değişkenliğinin %99'unu açıklamıştır. Bu sonuçları yalnızca benzer kepekli ekmek bağlamında kullanın.",
+   "source_ids": [
+    "P265"
+   ]
+  }
+ ],
+ "gaps_tr": [
+  "Protein ve gluten için birim miktar başına somun hacmi değişimini veren ortak, karşılaştırılabilir doz-yanıt verileri yetersizdir; korelasyon katsayıları nedensel eğim değildir.",
+  "Un kuvveti, protein miktarı, gluten miktarı ve gluten kalitesinin bağımsız katkılarını aynı deney tasarımında ayıran çalışmalar sınırlıdır.",
+  "Gluten ilavesinin gaz hücresi oluşumu ve stabilizasyonuna etkisi çoğunlukla nitel bildirilmiştir; gaz hücresi dinamiğiyle hacmi bağlayan nicel parametreler eksiktir.",
+  "Farklı un sınıfları, tahıl türleri, öğütme fraksiyonları ve proseslerin aynı standart koşullarda karşılaştırıldığı veri azdır.",
+  "Gluten dozu için hacim, reoloji, ekmek içi tekstürü ve depolama kararlılığına ait ortak optimumların bulunup bulunmadığı belirsizdir.",
+  "Kışlık buğdayda düşük gluten gücüyle yüksek hacim ilişkisinin hangi un veya proses koşullarında ortaya çıktığı açıklığa kavuşmamıştır.",
+  "Vital glutenin hidrasyon ihtiyacı, hamur sertliği ve nihai hacim üzerindeki aracılık yolları için sayısal mekanistik veriler eksiktir.",
+  "Çalışmalar arasındaki hacim, özgül hacim ve yükseklik ölçümleri ile hamur hazırlama ve pişirme koşulları tam olarak karşılaştırılabilir değildir."
+ ],
+ "tid": "T09",
+ "name": "Un proteini ve gluten kalitesi → reoloji ve hacim",
+ "n_sources": 53,
+ "n_findings": 116,
+ "theme_source_ids": [
+  "P1040",
+  "P1161",
+  "P265",
+  "P267",
+  "P271",
+  "P273",
+  "P278",
+  "P280",
+  "P281",
+  "P282",
+  "P283",
+  "P284",
+  "P285",
+  "P288",
+  "P297",
+  "P303",
+  "P304",
+  "P318",
+  "P393",
+  "P405",
+  "P440",
+  "P470",
+  "P493",
+  "P500",
+  "P502",
+  "P539",
+  "P544",
+  "P549",
+  "P585",
+  "P670",
+  "P849",
+  "P882",
+  "P910",
+  "P924",
+  "P926",
+  "P930",
+  "P972",
+  "P973",
+  "P978",
+  "P987",
+  "Q109",
+  "Q110",
+  "Q157",
+  "Q18",
+  "Q36",
+  "Q61",
+  "Q65",
+  "Q66",
+  "Q67",
+  "W3",
+  "W31",
+  "W32",
+  "W43"
+ ]
+}

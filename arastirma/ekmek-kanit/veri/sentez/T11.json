@@ -1,0 +1,469 @@
+{
+ "consensus": [
+  {
+   "claim_tr": "Antik buğday türleri ve çeşitleri ekmekçilik bakımından tek tip değildir; hamur işleme toleransı, somun hacmi, sertlik ve iç yapı tür ve genotipe göre değişir. Bu nedenle antik buğdaylar için yaygın buğdaya göre tek yönlü bir kalite etkisi genellenemez.",
+   "strength": "A_güçlü",
+   "n_supporting": 8,
+   "source_ids": [
+    "Q39",
+    "Q110",
+    "P363",
+    "P365",
+    "P368",
+    "P369",
+    "P370",
+    "P1171"
+   ]
+  },
+  {
+   "claim_tr": "Einkorn ve emmer hamurları bazı çalışmalarda yaygın buğdaya kıyasla mekanik işlemeye veya uzun fermantasyona daha az tolerans göstermiş; bazı einkorn çeşitlerinde zayıf fermantasyon ve düşük ekmek kalitesi bildirilmiştir. Bununla birlikte çeşit ve formülasyon sonuçları değişebilir.",
+   "strength": "B_orta",
+   "n_supporting": 4,
+   "source_ids": [
+    "P363",
+    "P368",
+    "P369",
+    "Q39"
+   ]
+  },
+  {
+   "claim_tr": "Tahıl türü ve çeşidi somun hacmini ve ekmek sertliğini etkileyebilir, ancak etkinin yönü genotipe bağlıdır: bazı einkorn araştırmalarında hacim düşerken belirli kavılca ve buğday genotiplerinde yüksek hacim veya düşük sertlik bildirilmiştir.",
+   "strength": "A_güçlü",
+   "n_supporting": 7,
+   "source_ids": [
+    "Q39",
+    "Q110",
+    "Q12",
+    "P365",
+    "P369",
+    "P588"
+   ]
+  },
+  {
+   "claim_tr": "Spelt, yaygın buğdaydan daha yüksek ortalama protein içerebilse de gluten kuvveti daha düşük olabilir; buna rağmen bir genotip karşılaştırmasında pişirme testi sonuçları benzer bulunmuştur. Protein düzeyi tek başına ekmekçilik performansını belirlemez.",
+   "strength": "B_orta",
+   "n_supporting": 2,
+   "source_ids": [
+    "P370"
+   ]
+  },
+  {
+   "claim_tr": "Buğday çeşidi ve yetiştirme çevresi protein, gluten, sedimentasyon, tane sertliği ve hamur karıştırma özelliklerinde farklılık yaratır; genotip × çevre etkileşimi de kalite ve verim sonuçlarını değiştirebilir.",
+   "strength": "A_güçlü",
+   "n_supporting": 8,
+   "source_ids": [
+    "Q133",
+    "Q134",
+    "Q136",
+    "Q137",
+    "Q138",
+    "P370",
+    "P439",
+    "P588"
+   ]
+  },
+  {
+   "claim_tr": "Islah ve çeşit yenilenmesi kaliteyi her ölçütte aynı yönde değiştirmeyebilir: bazı kaynaklar yeni çeşitlerin verim ve kaliteye katkısını bildirirken, tarihsel eğilimlerde somun hacmi veya protein düşüşleri de raporlanmıştır.",
+   "strength": "B_orta",
+   "n_supporting": 5,
+   "source_ids": [
+    "Q135",
+    "P427",
+    "P437",
+    "Q137"
+   ]
+  },
+  {
+   "claim_tr": "Durum unu eklenmesi hamur direncini artırabilir; Tırnaklı ekmeği çalışmasında duyusal görünüş puanı %20 durum unu düzeyinde en yüksek bulunmuştur. Bu sonuçlar belirli ürün ve işlem koşullarına bağlıdır.",
+   "strength": "C_zayıf",
+   "n_supporting": 1,
+   "source_ids": [
+    "Q108"
+   ]
+  },
+  {
+   "claim_tr": "Çimlendirilmiş tam buğday unu ekmek içi yumuşaklığını veya kabuk esmerleşmesini artırabilir; sonuçlar çimlendirme koşullarına ve formülasyona bağlıdır. Derleme, olumsuz etkileri sınırlamak için daha kısa çimlendirme, düşük ikame veya vital buğday gluteni seçeneklerini belirtmiştir.",
+   "strength": "B_orta",
+   "n_supporting": 2,
+   "source_ids": [
+    "Q13",
+    "Q83"
+   ]
+  },
+  {
+   "claim_tr": "Yüksek amilozlu buğday unu dirençli nişastayı artırabilir; ancak ekmek hacmi düşüşü, daha yoğun iç yapı ve daha yüksek sertlik gibi kalite ödünleşmeleri de bildirilmiştir.",
+   "strength": "B_orta",
+   "n_supporting": 2,
+   "source_ids": [
+    "P1083"
+   ]
+  }
+ ],
+ "quantitative": [
+  {
+   "quantity_tr": "Çimlendirilmiş tam buğday unu kullanıldığında 24 saat depolama sonrasındaki ekmek içi yumuşaklığı iyileşmesi",
+   "value_or_range": "%200",
+   "unit": "iyileşme",
+   "conditions_tr": "Tam buğday unu dâhil; derleme daha kısa çimlendirme, düşük ikame veya vital buğday gluteni eklenmesini olumsuz etkileri sınırlama seçenekleri olarak bildiriyor.",
+   "source_ids": [
+    "Q13"
+   ]
+  },
+  {
+   "quantity_tr": "Tam tahıllı einkorn unu oranı ve bildirilen optimum oran",
+   "value_or_range": "%10–70; optimum %65,12",
+   "unit": "un oranı",
+   "conditions_tr": "Einkorn tam tahıl unu oranının değiştirildiği ekmek araştırmaları; optimum, derlemede aktarılan optimizasyon çalışmasına aittir.",
+   "source_ids": [
+    "Q110"
+   ]
+  },
+  {
+   "quantity_tr": "Farklı tahıllardan ekmeklerin 24 saatlik sertlik değerleri",
+   "value_or_range": "283,2 ± 4,04–910,4 ± 81,76",
+   "unit": "g",
+   "conditions_tr": "Kontrol, buğday, emmer, khorasan ve spelt ekmekleri; kontrol en düşük, khorasan en yüksek sertliğe sahipti.",
+   "source_ids": [
+    "Q39"
+   ]
+  },
+  {
+   "quantity_tr": "Khorasan ve modern buğday sourdough ekmeklerinin özgül hacmi",
+   "value_or_range": "1,52 ± 0,019 ve 1,83 ± 0,020",
+   "unit": "mL/g",
+   "conditions_tr": "Unun %25'i sourdough ile değiştirildi; su 400 BU kıvamına göre ayarlandı.",
+   "source_ids": [
+    "Q39"
+   ]
+  },
+  {
+   "quantity_tr": "Spelt ve yaygın buğday ortalama protein içeriği",
+   "value_or_range": "%14,3 ve %11,9",
+   "unit": "%",
+   "conditions_tr": "İspanya genotipleri iki yıl boyunca Güney İspanya'nın Andalucia bölgesinde yetiştirildi.",
+   "source_ids": [
+    "P370"
+   ]
+  },
+  {
+   "quantity_tr": "Spelt ve yaygın buğday Alveograf P/L değerleri",
+   "value_or_range": "0,5 ve 1,8",
+   "unit": "P/L",
+   "conditions_tr": "İspanya spelt ve yaygın buğday genotiplerinin karşılaştırması.",
+   "source_ids": [
+    "P370"
+   ]
+  },
+  {
+   "quantity_tr": "Spelt ve yaygın buğday Alveograf W değerleri",
+   "value_or_range": "187 ve 438",
+   "unit": "× 10⁻⁴ J",
+   "conditions_tr": "İspanya spelt ve yaygın buğday genotiplerinin karşılaştırması; spelt değeri daha düşüktü.",
+   "source_ids": [
+    "P370"
+   ]
+  },
+  {
+   "quantity_tr": "Blue 10 genotipinden yapılan tam buğday ekmeğinin hacmi ve 24 saatlik sertliği",
+   "value_or_range": "387 ± 3,5; 901 ± 65,3",
+   "unit": "mL; g",
+   "conditions_tr": "Beş ilkbahar buğday genotipinin karşılaştırması; Blue 10 en yüksek hacim ve en düşük sertlik değerini verdi.",
+   "source_ids": [
+    "Q12"
+   ]
+  },
+  {
+   "quantity_tr": "Çeşitler arası un protein içeriği aralığı",
+   "value_or_range": "%10,7–18,7",
+   "unit": "%",
+   "conditions_tr": "Türkiye Ege Bölgesi ve farklı ekolojik koşullarda incelenen buğday çeşitleri.",
+   "source_ids": [
+    "Q136"
+   ]
+  },
+  {
+   "quantity_tr": "Çeşitler arası gluten içeriği, sedimentasyon ve farinograf su absorbsiyonu aralıkları",
+   "value_or_range": "Gluten %26,7–33,5; sedimentasyon 19–31; su absorbsiyonu %58,8–69,3",
+   "unit": "%; mL; %",
+   "conditions_tr": "Çeşitler arası karşılaştırma; ICC yöntemleri kullanıldı.",
+   "source_ids": [
+    "Q136"
+   ]
+  },
+  {
+   "quantity_tr": "Yağışa dayalı beş sezonda çeşitler arası protein ve Zeleny sedimentasyonu aralıkları",
+   "value_or_range": "Protein %12,62–16,92; Zeleny 32,00–61,50",
+   "unit": "%; mL",
+   "conditions_tr": "Beş yetiştirme sezonunun ortalama değer aralıkları.",
+   "source_ids": [
+    "Q138"
+   ]
+  },
+  {
+   "quantity_tr": "Tarihsel verim-protein ilişkisi",
+   "value_or_range": "Yıllık 3,35 kg/da verim artışıyla protein konsantrasyonunda %0,03 düşüş",
+   "unit": "kg/da/yıl; yüzde puan/yıl",
+   "conditions_tr": "Derlemede aktarılan tarihsel eğilim.",
+   "source_ids": [
+    "Q135"
+   ]
+  },
+  {
+   "quantity_tr": "Yeni yüksek verim potansiyelli çeşitlere atfedilen verim ve kalite iyileşmesi payı",
+   "value_or_range": "%60",
+   "unit": "iyileşme payı",
+   "conditions_tr": "Derlemede aktarılan genel değerlendirme.",
+   "source_ids": [
+    "Q135"
+   ]
+  },
+  {
+   "quantity_tr": "Almanya kışlık buğday çeşit denemelerinde 1983'e göre tarihsel değişimler",
+   "value_or_range": "Somun hacmi −%8,5; protein −%8,0; düşme sayısı +%5,8; sedimentasyon +%7,9; sertlik +%13,4; su absorbsiyonu +%1,2; öğütme randımanı +%2,4",
+   "unit": "%",
+   "conditions_tr": "1983–2014 resmî kışlık buğday çeşit denemeleri; değişimler 1983'e göre verilmiştir.",
+   "source_ids": [
+    "P427"
+   ]
+  },
+  {
+   "quantity_tr": "Tırnaklı ekmeği formülasyonunda durum unu düzeyi ve ekstensograf aralıkları",
+   "value_or_range": "%10–30 durum unu; R5 413,50–625,50; Rm 471,50–692,00",
+   "unit": "%; BU",
+   "conditions_tr": "Hamur yaklaşık 40 dakika, 32 °C ve %80 bağıl nemde fermante edildi.",
+   "source_ids": [
+    "Q108"
+   ]
+  },
+  {
+   "quantity_tr": "Tırnaklı ekmeğinde durum unu düzeyine göre en yüksek görünüş puanı",
+   "value_or_range": "%20 durum ununda 4,54 ± 0,03; genel aralık 3,84–4,54",
+   "unit": "1–5 puan",
+   "conditions_tr": "10 panelist; ölçüm pişirme sonrası 1. saatte yapıldı.",
+   "source_ids": [
+    "Q108"
+   ]
+  },
+  {
+   "quantity_tr": "Yüksek amilozlu buğday unu kullanımıyla dirençli nişasta artışı",
+   "value_or_range": "Yaklaşık 6–12 kat; %71 amilozlu HAWF %100 kullanımda yaklaşık 11 kat, %84 amilozlu HAWF %100 kullanımda yaklaşık 12 kat, %84 amilozlu HAWF %50 kullanımda yaklaşık 6 kat",
+   "unit": "WTWF kontrolüne göre kat",
+   "conditions_tr": "Endüstri standardı hızlı hamur yöntemi; oranlar HAWF ikame düzeyine ve amiloz içeriğine bağlıdır.",
+   "source_ids": [
+    "P1083"
+   ]
+  },
+  {
+   "quantity_tr": "Tam tahıl Goanna tritikalesi için test edilen ikame oranları ve bildirilen yüksek kalite düzeyi",
+   "value_or_range": "%0, %60, %70, %80 ve %90; en yüksek kalite koşullarından biri %60",
+   "unit": "un ikamesi",
+   "conditions_tr": "Goanna tritikalesi; 100 g su/100 g un.",
+   "source_ids": [
+    "P175"
+   ]
+  }
+ ],
+ "moderators_tr": [
+  "Tür ve çeşit/genotip; aynı tahıl türü içindeki genotip farkları da ekmek hacmi, sertlik ve hamur özelliklerini değiştirebilir.",
+  "Yetiştirme yılı, çevre ve genotip × çevre etkileşimi; protein, verim ve teknolojik kalite sonuçlarını etkileyebilir.",
+  "Un ikame oranı ve formülasyon; özellikle einkorn, durum, tritikale, mor buğday ve yüksek amilozlu unlarda gözlenen etkiyi değiştirebilir.",
+  "Çimlendirme sıcaklığı ve süresi; SWF20 ve SWF25 gibi farklı sıcaklık uygulamaları kabuk esmerleşmesini etkileyebilir.",
+  "Fermantasyon türü ve süresi, su miktarı ve hamur kıvamı; tahıl türleri arası ekmek karşılaştırmalarını etkiler.",
+  "Ölçüm zamanı; ekmek sertliği depolama boyunca artabilir ve yumuşaklık sonuçları ölçüm zamanına duyarlıdır.",
+  "Pişirme ürünü ve yöntem; Tırnaklı ekmeği, hızlı hamur yöntemi ve tam tahıllı somun sonuçları doğrudan birbirine genellenemez.",
+  "Gluten kuvveti ile protein miktarı aynı özellik değildir; daha yüksek protein, mutlaka daha güçlü gluten veya daha iyi somun performansı anlamına gelmez."
+ ],
+ "conflicts": [
+  {
+   "issue_tr": "Antik buğdayların yaygın buğdaya göre somun hacmi ve ekmek sertliği için tek yönlü bir sıralaması yoktur: einkorn için düşük hacim bildirilirken, CDC Tatra kavılca ekmeği karşılaştırma ekmeğinden daha yüksek özgül hacim göstermiş; çeşide bağlı başka yüksek hacim ve düşük sertlik sonuçları da raporlanmıştır.",
+   "likely_reason_tr": "Tür ve çeşit farklılıkları, unun tam tahıl olup olmaması, formülasyon, fermantasyon ve pişirme yöntemi çalışmalar arasında değişmektedir.",
+   "source_ids": [
+    "Q110",
+    "P365",
+    "P369",
+    "Q39",
+    "Q12"
+   ]
+  },
+  {
+   "issue_tr": "Speltin protein içeriği yaygın buğdaydan yüksek bulunurken gluten kuvveti daha düşük raporlanmış; buna karşın pişirme testi sonuçları benzer bildirilmiştir.",
+   "likely_reason_tr": "Protein miktarı glutenin kuvvetiyle aynı ölçüt değildir; karşılaştırılan genotipler ve pişirme testi koşulları da sonucu etkileyebilir.",
+   "source_ids": [
+    "P370"
+   ]
+  },
+  {
+   "issue_tr": "Çeşit yenilenmesi ve ıslahın ekmekçilik kalitesine etkisi tutarlı biçimde bütün kalite ölçütlerinde artış değildir; bazı kaynaklar iyileşme bildirirken Almanya tarihsel serisinde somun hacmi ve protein azalmıştır.",
+   "likely_reason_tr": "Islah hedefleri, dönemler, ölçülen kalite tanımları ve çevresel koşullar farklıdır; kalite bileşenleri verimle ödünleşebilir.",
+   "source_ids": [
+    "Q135",
+    "P427",
+    "P437",
+    "Q137"
+   ]
+  },
+  {
+   "issue_tr": "Çimlendirme veya mor tam tahıl unu eklenmesi bazı koşullarda yumuşaklık/iyileşme sağlarken başka koşullarda hacim ya da kalite parametrelerinde olumsuzluklarla birlikte raporlanmıştır.",
+   "likely_reason_tr": "Un türü ve ikame oranı, çimlendirme koşulu, fermentasyon ve depolama süresi farklıdır; sonuçlar aynı müdahalenin aynı formülasyondaki doğrudan karşılaştırmaları değildir.",
+   "source_ids": [
+    "Q13",
+    "Q83",
+    "P754"
+   ]
+  }
+ ],
+ "simulation_rules": [
+  {
+   "rule_tr": "Tür veya çeşit değişimini tek bir sabit kalite katsayısı olarak kodlamayın; her genotip için hacim, sertlik ve hamur özelliklerini ayrı parametreler olarak tanımlayın.",
+   "functional_form": "Genotipe özgü kategorik parametreler; veri yoksa nötr başlangıç değeri ve geniş belirsizlik aralığı",
+   "param_suggestions": "Kanıt, belirli antik türlere evrensel bir katsayı vermiyor. Tür/çeşit bazında yön ve büyüklükleri deney verilerine göre kalibre edin; ekmek hacmi ve sertlik için Q39, Q12, P365 ve P369 sonuçlarını ayrı koşul kümeleri olarak kullanın.",
+   "source_ids": [
+    "Q39",
+    "Q12",
+    "P365",
+    "P369",
+    "Q110"
+   ]
+  },
+  {
+   "rule_tr": "Depolama süresini sertlik artışına bağlayın; tür veya formülasyona göre artış eğimi farklı olabilir.",
+   "functional_form": "Zamana bağlı artış: sertlik(t) = sertlik başlangıcı + türe/formülasyona özgü eğim × depolama süresi",
+   "param_suggestions": "Q39'da 24–72 saat arasında tüm ekmeklerde sertlik artışı bildirildi; bazı ekmeklerde artış %8,3–15,2 aralığındaydı. Bu aralığı yalnız bildirilen ekmek türleri ve depolama koşulları için başlangıç aralığı olarak kullanın; eksik tür değerlerini türetmeyin.",
+   "source_ids": [
+    "Q39"
+   ]
+  },
+  {
+   "rule_tr": "Einkorn oranı artırıldığında ekmek sertliğinde artış yönünü temsil edin; tüketici kabulü veya toplam kalite hedefleniyorsa doğrusal olmayan optimum olasılığına izin verin.",
+   "functional_form": "Sertlik için oranla artan ilişki; kabul/kalite için optimumlu çan eğrisi veya parabol",
+   "param_suggestions": "İncelenen oran aralığı %10–70; derlemede aktarılan bir optimizasyon çalışmasındaki optimum %65,12'dir. Bu optimumu farklı reçetelere evrensel değer olarak uygulamayın.",
+   "source_ids": [
+    "Q110"
+   ]
+  },
+  {
+   "rule_tr": "Çimlendirilmiş un etkisini çimlendirme sıcaklığı ve ikame oranına bağlı kodlayın; yumuşaklık, kabuk rengi ve hacim gibi çıktıları ayrı izleyin.",
+   "functional_form": "Sıcaklık ve ikame oranı girdili etkileşim modeli; yumuşaklık için olumlu etki, kabuk esmerleşmesi için koşullu artış",
+   "param_suggestions": "Q83'te 20 °C ve 25 °C'de 24 saat çimlendirilmiş un sourdough'u kabuk esmerleşmesini artırdı. Q13'te 24 saat depolama sonrası yumuşaklık için %200 iyileşme bildirildi; bunu yalnız ilgili derleme koşuluna bağlayın. Derlemenin önerdiği kısa çimlendirme, düşük ikame ve vital gluten seçeneklerini ayrı müdahale parametreleri olarak tutun.",
+   "source_ids": [
+    "Q13",
+    "Q83"
+   ]
+  },
+  {
+   "rule_tr": "Durum unu ikamesi için hamur direncini oranla artan, duyusal görünüşü ise doğrusal olmayan ve olası optimumlu bir yanıt olarak modelleyin.",
+   "functional_form": "R5/Rm için artan doz-yanıt; görünüş puanı için optimumlu eğri",
+   "param_suggestions": "Test edilen durum unu düzeyleri %10, %20 ve %30; görünüş puanındaki en yüksek değer %20 düzeyinde 4,54 ± 0,03 olarak raporlandı. R5 413,50–625,50 BU, Rm 471,50–692,00 BU aralıkları bu çalışmanın formülasyon ve fermantasyon koşullarına özgüdür.",
+   "source_ids": [
+    "Q108"
+   ]
+  },
+  {
+   "rule_tr": "Yüksek amilozlu un kullanımını dirençli nişastayı artıran, fakat hacim ve doku kalitesinde ödünleşme doğurabilen bir müdahale olarak kodlayın.",
+   "functional_form": "İkame oranına bağlı doz-yanıt; dirençli nişasta için artış, hacim için azalış ve sertlik için artış",
+   "param_suggestions": "Dirençli nişasta WTWF'ye göre yaklaşık 6–12 kat aralığında arttı; değerler %50 veya %100 ikameye ve %71 veya %84 amiloz içeriğine bağlıdır. Hacim azalması ve sertlik artışı için sayısal katsayı bildirilmediğinden yönsel etki ve geniş belirsizlik kullanın.",
+   "source_ids": [
+    "P1083"
+   ]
+  },
+  {
+   "rule_tr": "Protein, gluten ve ekmekçilik çıktıları arasında tek bir doğrusal ilişki varsaymayın; çeşide ve çevreye özgü ayrı özellikler kullanın.",
+   "functional_form": "Çeşit ve çevre rastgele etkileri; kalite çıktıları için çok değişkenli model",
+   "param_suggestions": "Protein aralıkları çalışmalara göre %10,7–18,7 ve %12,62–16,92 olarak bildirilmiştir; bunlar aynı deneyin ortak dağılımı değildir. Çeşit × çevre etkisini dahil edin ve kaynakta katsayı verilmeyen ilişkileri nicel olarak belirlemeyin.",
+   "source_ids": [
+    "Q136",
+    "Q137",
+    "Q138"
+   ]
+  }
+ ],
+ "gaps_tr": [
+  "Antik tür ve çeşitlerin aynı un ekstraksiyonu, hidrasyon, fermantasyon ve pişirme koşullarında doğrudan karşılaştırıldığı çalışma sayısı sınırlıdır.",
+  "Birçok kaynakta yön bildirilmiş, ancak ekmek hacmi, sertlik ve tüketici kabulü için etki büyüklükleri veya belirsizlik ölçüleri verilmemiştir.",
+  "Einkorn için bildirilen %65,12 optimum oranının hangi formülasyon ve işlem koşullarında geçerli olduğu açık değildir.",
+  "Çimlendirme süresi ve sıcaklığının ikame oranıyla etkileşimini ve depolama boyunca yumuşaklık değişimini birlikte değerlendiren nicel veriler yetersizdir.",
+  "Durum unu için bildirilen reoloji ve duyusal sonuçlar belirli Tırnaklı ekmeği yöntemine aittir; diğer ekmek türlerine genellenebilirliği bilinmemektedir.",
+  "Protein miktarı, gluten kuvveti ve somun performansı arasındaki ilişkiyi tür, çeşit ve çevre etkilerinden ayıran ortak analizler sınırlıdır.",
+  "Çeşit ıslahının verim, protein, somun hacmi ve diğer ekmekçilik ölçütleri üzerindeki uzun dönemli ödünleşmelerini aynı veri setinde sınayan kanıt eksiktir.",
+  "Fırıncı kaynaklarındaki starter kıvamı ve fermantasyon gözlemleri kontrollü deneylerle desteklenmediğinden nicel simülasyon parametresi olarak kullanılmaya uygun değildir."
+ ],
+ "tid": "T11",
+ "name": "Tahıl türü ve çeşidi (antik buğdaylar, çavdar, durum)",
+ "n_sources": 73,
+ "n_findings": 173,
+ "theme_source_ids": [
+  "P1083",
+  "P1088",
+  "P1116",
+  "P1120",
+  "P1162",
+  "P1163",
+  "P1170",
+  "P1171",
+  "P119",
+  "P1235",
+  "P126",
+  "P133",
+  "P147",
+  "P175",
+  "P235",
+  "P262",
+  "P267",
+  "P282",
+  "P283",
+  "P285",
+  "P287",
+  "P289",
+  "P290",
+  "P291",
+  "P300",
+  "P307",
+  "P326",
+  "P363",
+  "P364",
+  "P365",
+  "P368",
+  "P369",
+  "P370",
+  "P374",
+  "P426",
+  "P427",
+  "P428",
+  "P437",
+  "P439",
+  "P450",
+  "P503",
+  "P588",
+  "P611",
+  "P668",
+  "P683",
+  "P748",
+  "P754",
+  "P910",
+  "P952",
+  "P956",
+  "P97",
+  "Q1",
+  "Q108",
+  "Q110",
+  "Q12",
+  "Q13",
+  "Q130",
+  "Q133",
+  "Q134",
+  "Q135",
+  "Q136",
+  "Q137",
+  "Q138",
+  "Q39",
+  "Q69",
+  "Q83",
+  "Q93",
+  "W13",
+  "W24",
+  "W31",
+  "W32",
+  "W43",
+  "W9"
+ ]
+}

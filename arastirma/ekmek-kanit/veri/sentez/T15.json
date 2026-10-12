@@ -1,0 +1,507 @@
+{
+ "consensus": [
+  {
+   "claim_tr": "Hidrokolloid ilavesi, incelenen glutensiz un ve hamur sistemlerinde çoğunlukla su absorpsiyonunu ve hamur viskoelastik özelliklerini artırır; bazı çalışmalarda hava/gaz tutma kapasitesi de yükselmiştir.",
+   "strength": "A_güçlü",
+   "n_supporting": 7,
+   "source_ids": [
+    "Q34",
+    "P947",
+    "P972",
+    "P973",
+    "P967",
+    "P86",
+    "P902"
+   ]
+  },
+  {
+   "claim_tr": "Hidrokolloidler glutensiz ekmekte özgül hacmi artırabilir; ancak etkinin büyüklüğü ve yönü hidrokolloid türüne, un bazına ve formülasyona bağlıdır.",
+   "strength": "A_güçlü",
+   "n_supporting": 9,
+   "source_ids": [
+    "Q99",
+    "Q29",
+    "P967",
+    "P943",
+    "P963",
+    "P473",
+    "P939",
+    "P945",
+    "P962"
+   ]
+  },
+  {
+   "claim_tr": "Bazı hidrokolloid uygulamaları ekmek içi sertliğini azaltır, nemi korur veya bayatlamayı geciktirir; bu sonuç bütün hidrokolloid ve un kombinasyonları için geçerli değildir.",
+   "strength": "A_güçlü",
+   "n_supporting": 10,
+   "source_ids": [
+    "Q34",
+    "P947",
+    "P972",
+    "P973",
+    "P966",
+    "P943",
+    "P901",
+    "P304",
+    "P86",
+    "P902"
+   ]
+  },
+  {
+   "claim_tr": "Hidrokolloid türü aynı kalite ölçütünde farklı sonuçlar verebilir: örneğin pirinç unu bazında HPMC, psyllium ve ksantan özgül hacim veya sertlik bakımından birbirinin yerine geçebilir kabul edilemez.",
+   "strength": "B_orta",
+   "n_supporting": 6,
+   "source_ids": [
+    "Q29",
+    "P965",
+    "P961",
+    "P944",
+    "P86",
+    "P945"
+   ]
+  },
+  {
+   "claim_tr": "Doz ve bileşim önemlidir; bazı sistemlerde doz artırımı hacmi veya tekstürü iyileştirirken, başka sistemlerde daha fazla ikame daha düşük hacim, yoğun yapı ya da daha gummy/sert doku ile ilişkilidir.",
+   "strength": "B_orta",
+   "n_supporting": 7,
+   "source_ids": [
+    "Q101",
+    "P943",
+    "P964",
+    "P965",
+    "P968",
+    "P939",
+    "P942"
+   ]
+  },
+  {
+   "claim_tr": "Psylliumun etkisi özellikle formülasyona bağlıdır: bazı karabuğday ve pirinç bazlı sistemlerde gaz tutma, hacim veya yumuşaklık artarken, başka sistemlerde hacim düşmesi ya da gummy özellikte artış bildirilmiştir.",
+   "strength": "A_güçlü",
+   "n_supporting": 9,
+   "source_ids": [
+    "P967",
+    "P966",
+    "P962",
+    "P963",
+    "P964",
+    "P965",
+    "P968",
+    "P945",
+    "P961"
+   ]
+  },
+  {
+   "claim_tr": "Dondurulmuş hamur sistemlerinde bazı hidrokolloidler ve polisakkaritler donma kaynaklı yapısal veya fermantatif bozulmayı sınırlayabilir; etkiler bileşen ve uygulama koşuluna göre değişir.",
+   "strength": "B_orta",
+   "n_supporting": 8,
+   "source_ids": [
+    "P774",
+    "P86",
+    "P39",
+    "P578",
+    "P497",
+    "P844",
+    "P479",
+    "P38"
+   ]
+  },
+  {
+   "claim_tr": "Hidrokolloid veya hidrokolloid içeren formülasyonlar duyusal kabulü iyileştirebilir, fakat iyileşme her formülasyonda garanti değildir.",
+   "strength": "B_orta",
+   "n_supporting": 7,
+   "source_ids": [
+    "P1047",
+    "Q34",
+    "P38",
+    "P86",
+    "P943",
+    "P960",
+    "P941"
+   ]
+  }
+ ],
+ "quantitative": [
+  {
+   "quantity_tr": "Kısa ve orta zincirli inülinle özgül hacim artışı",
+   "value_or_range": "Kısa zincirli: %25–33; orta zincirli: %24–59",
+   "unit": "%",
+   "conditions_tr": "Glutensiz ekmek; uzun zincirli inülin kontrol grubundan anlamlı farklı değildir.",
+   "source_ids": [
+    "Q99",
+    "Q101"
+   ]
+  },
+  {
+   "quantity_tr": "Çin buharda pişmiş ekmeğinde inülin ikamesi %5'ten %10'a çıkarıldığında özgül hacim değişimi",
+   "value_or_range": "%7,66 azalma",
+   "unit": "%",
+   "conditions_tr": "İnülin ikamesi %5–10.",
+   "source_ids": [
+    "Q101"
+   ]
+  },
+  {
+   "quantity_tr": "%5 kısa zincirli inülinle sertlik değişimi",
+   "value_or_range": "Kontrole göre %65,86 azalma",
+   "unit": "%",
+   "conditions_tr": "Çin buharda pişmiş ekmeği.",
+   "source_ids": [
+    "Q101"
+   ]
+  },
+  {
+   "quantity_tr": "%12 inülin tipi fruktanla glisemik indeks ve glisemik yük",
+   "value_or_range": "Glisemik indeks 71'den 48'e; glisemik yük 12'den 8'e",
+   "unit": "indeks ve yük değerleri",
+   "conditions_tr": "Glutensiz ekmek.",
+   "source_ids": [
+    "Q99",
+    "Q101"
+   ]
+  },
+  {
+   "quantity_tr": "Ksantan gam ilavesiyle su absorpsiyonu, hamur gelişme süresi ve elastikiyet",
+   "value_or_range": "Su absorpsiyonu %60,5'ten %67,0'a; DDT 4'ten 2,0 dakikaya; elastikiyet 60'tan 100 BU'ya",
+   "unit": "%; dakika; BU",
+   "conditions_tr": "Pirinç unu bazlı glutensiz hamur; hidrokolloid düzeyleri %1 ve %2 olarak bildirilmiştir.",
+   "source_ids": [
+    "Q34"
+   ]
+  },
+  {
+   "quantity_tr": "Hidrokolloidlerle maksimum özgül hacim artışı",
+   "value_or_range": "Yaklaşık %50",
+   "unit": "%",
+   "conditions_tr": "Pirinç unu veya mısır nişastası bazlı glutensiz ekmek; HPMC, psyllium veya ksantan %2.",
+   "source_ids": [
+    "Q29"
+   ]
+  },
+  {
+   "quantity_tr": "Psylliumla gaz tutma kapasitesi",
+   "value_or_range": "%83,67'den %98,50'ye",
+   "unit": "%",
+   "conditions_tr": "Karabuğday unlu glutensiz hamur; psyllium düzeyleri özette verilmemiştir.",
+   "source_ids": [
+    "P967"
+   ]
+  },
+  {
+   "quantity_tr": "Psylliumla glutensiz ekmeğin özgül hacmi",
+   "value_or_range": "1,17'den 3,16'ya",
+   "unit": "mL/g",
+   "conditions_tr": "Karabuğday unlu glutensiz ekmek; psyllium düzeyleri özette verilmemiştir.",
+   "source_ids": [
+    "P967"
+   ]
+  },
+  {
+   "quantity_tr": "Ksantan gamın bamya müsilajıyla %75 ikamesiyle özgül hacim",
+   "value_or_range": "2,6'dan 4,8'e",
+   "unit": "mL/g",
+   "conditions_tr": "Glutensiz ekmek; B1 yalnız ksantan, B4 %75 müsilaj.",
+   "source_ids": [
+    "P943"
+   ]
+  },
+  {
+   "quantity_tr": "Ksantan gamın bamya müsilajıyla %75 ikamesinde nem ve hava hücresi boyutu",
+   "value_or_range": "Nem: B1 %44–46, B4 %58–60; ortalama hücre boyutu: 0,30'dan 0,15'e",
+   "unit": "%; mm²",
+   "conditions_tr": "Glutensiz ekmek; B1 yalnız ksantan, B4 %75 müsilaj.",
+   "source_ids": [
+    "P943"
+   ]
+  },
+  {
+   "quantity_tr": "Bamya müsilajı ikamesiyle 48 saatte ekmek sertliği",
+   "value_or_range": "B4: 4–5 N; B1: 14 N",
+   "unit": "N",
+   "conditions_tr": "Glutensiz ekmek; B4 %75 müsilaj, B1 yalnız ksantan.",
+   "source_ids": [
+    "P943"
+   ]
+  },
+  {
+   "quantity_tr": "Psyllium içeren glutensiz ekmekte depolama boyunca iç sertliği azalması",
+   "value_or_range": "%65–75",
+   "unit": "%",
+   "conditions_tr": "Kontrole kıyasla; psyllium %2,86, %7,14 veya %17,14; depolama 0–72 saat.",
+   "source_ids": [
+    "P966"
+   ]
+  },
+  {
+   "quantity_tr": "CMC ve yüksek metoksilli pektinle ekmek içi sertliği",
+   "value_or_range": "Referans 33,4 N; CMC ile 24,6 N; yüksek metoksilli pektinle 22,4 N",
+   "unit": "N",
+   "conditions_tr": "Manyok-mısır-buğday kompozit ekmeği; katkılar %3.",
+   "source_ids": [
+    "P901"
+   ]
+  },
+  {
+   "quantity_tr": "Pirinç ekmeği rulolarında psyllium:pirinç unu 1:1 oranında hacim indeksi",
+   "value_or_range": "98,67",
+   "unit": "mm",
+   "conditions_tr": "Psyllium tozu:pirinç unu oranı 1:1.",
+   "source_ids": [
+    "P962"
+   ]
+  },
+  {
+   "quantity_tr": "Tam tatlı patates unu:buğday unu karışımında ksantan gamlı ekmeğin özgül hacmi ve sertliği",
+   "value_or_range": "Özgül hacim 2,09; sertlik 27,95",
+   "unit": "mL/g; N",
+   "conditions_tr": "Tatlı patates unu:buğday unu 50:50; ksantan gam içeren formülasyon.",
+   "source_ids": [
+    "P904"
+   ]
+  },
+  {
+   "quantity_tr": "Karabuğday unu bazlı formülasyonda %0,14 ksantan gamla bildirilen ilave",
+   "value_or_range": "%0,14",
+   "unit": "%",
+   "conditions_tr": "Glutensiz karabuğday ekmeğinde hacim artışı ve iç dokuda yumuşama bildirilmiş, artış miktarı verilmemiştir.",
+   "source_ids": [
+    "Q99"
+   ]
+  },
+  {
+   "quantity_tr": "Mısır bazlı glutensiz ekmekte HPMC ile bildirilen ilave",
+   "value_or_range": "%1,77",
+   "unit": "%",
+   "conditions_tr": "Ekmek hacminde artış ve iç dokuda yumuşama bildirilmiş, büyüklük verilmemiştir.",
+   "source_ids": [
+    "Q99"
+   ]
+  },
+  {
+   "quantity_tr": "Mısır unlu glutensiz ekmekte CMC ile bildirilen özgül hacim",
+   "value_or_range": "3,422",
+   "unit": "cm³/g",
+   "conditions_tr": "1 g CMC.",
+   "source_ids": [
+    "P939"
+   ]
+  }
+ ],
+ "moderators_tr": [
+  "Un veya nişasta bazı: pirinç, mısır, karabuğday, sorgum ve diğer sistemlerde aynı katkı aynı sonucu vermeyebilir.",
+  "Hidrokolloid türü ve özellikleri: HPMC, ksantan, guar, CMC, psyllium, pektin, inülin ve müsilajın etkileri farklıdır; inülinde zincir uzunluğu da önemlidir.",
+  "Katkı dozu ve ikame oranı: bazı sonuçlar dozla iyileşirken bazı sistemlerde yüksek doz/ikame hacmi veya yapıyı olumsuz etkileyebilir.",
+  "Hamurun hidrasyonu ve hidrokolloidin su bağlama kapasitesi; özellikle hamur reolojisi ve ekmek hacmini etkileyebilir.",
+  "Tek başına kullanım veya kombinasyon: örneğin ksantan-bamya müsilajı ve psyllium içeren karışımların sonuçları farklıdır.",
+  "Ürün ve proses türü: somun ekmeği, ekmek rulosu, chapatti, buharda pişmiş ekmek ve dondurulmuş hamur bulguları doğrudan eşdeğer değildir.",
+  "Depolama süresi ve dondurma-çözündürme koşulları; sertlik, nem, maya aktivitesi ve yapısal bütünlüğün değerlendirilmesini değiştirir.",
+  "Karşılaştırılan çıktı ve ölçüm zamanı: özgül hacim, sertlik, gummy özellik, gaz tutma ve duyusal kabul birbirinin yerine kullanılamaz."
+ ],
+ "conflicts": [
+  {
+   "issue_tr": "Psyllium bazı çalışmalarda özgül hacmi, gaz tutmayı veya yumuşaklığı artırırken başka formülasyonlarda hacmi azaltmış ya da gummy/sert dokuyla ilişkilendirilmiştir.",
+   "likely_reason_tr": "Un bazı, psyllium dozu, su düzeyi, diğer bileşenlerle etkileşim ve ölçüm zamanı farklıdır; sonuçlar farklı ürün sistemlerinden gelmektedir.",
+   "source_ids": [
+    "P967",
+    "P966",
+    "P962",
+    "P963",
+    "P964",
+    "P965",
+    "P968",
+    "P945",
+    "P961"
+   ]
+  },
+  {
+   "issue_tr": "Hidrokolloid kullanımı çoğunlukla hacmi artırsa da bazı katkı veya ikame koşullarında hacim azalması bildirilmiştir.",
+   "likely_reason_tr": "Hidrokolloid türü ve miktarı, hamur viskoelastikliği, un bazının su ihtiyacı ve ekmeğin pişirme/dondurma prosesi farklıdır.",
+   "source_ids": [
+    "Q29",
+    "Q99",
+    "P943",
+    "P964",
+    "P968",
+    "P661"
+   ]
+  },
+  {
+   "issue_tr": "Sertlik ve doku yönünde farklı sonuçlar vardır: bazı hidrokolloidler sertliği düşürürken bazı psyllium veya β-glukan uygulamalarında gummy özellik ya da sertlik artmıştır.",
+   "likely_reason_tr": "Katkı türü, dozu, ekmek matrisi ve depolama koşulları farklıdır; yumuşaklık ile gummy/çiğnenebilirlik de ayrı doku ölçütleridir.",
+   "source_ids": [
+    "P901",
+    "P943",
+    "P966",
+    "P961",
+    "P965",
+    "P658"
+   ]
+  },
+  {
+   "issue_tr": "İnülinin zincir uzunluğu veya ikame düzeyine göre hacim sonuçları farklıdır.",
+   "likely_reason_tr": "Kısa/orta zincirli inülin ile uzun zincirli inülinin etkileri ve Çin buharda pişmiş ekmeğindeki %5–10 ikame karşılaştırması farklı ürün ve doz koşullarını temsil eder.",
+   "source_ids": [
+    "Q99",
+    "Q101"
+   ]
+  },
+  {
+   "issue_tr": "HPMC bazı glutensiz ekmeklerde hacim veya duyusal kaliteyle olumlu ilişkilendirilirken başka bir formülasyonda artırılması ekmek kalitesini değiştirmemiştir.",
+   "likely_reason_tr": "HPMC miktarı ve viskozitesi ile kullanılan un/nişasta ve diğer hidrokolloidlerin bileşimi çalışmalar arasında farklıdır.",
+   "source_ids": [
+    "Q99",
+    "P86",
+    "P944",
+    "P961"
+   ]
+  }
+ ],
+ "simulation_rules": [
+  {
+   "rule_tr": "Hamur su absorpsiyonunu hidrokolloid dozuyla artır; ancak artışı tür ve un bazına göre ayrı parametreleştir.",
+   "functional_form": "Doza bağlı artış için doyum eğrisi; çok az veri bulunan sistemlerde doğrusal ilk yaklaşım ve üst sınır.",
+   "param_suggestions": "Ksantanlı pirinç unu hamurunda bildirilen su absorpsiyonu %60,5–67,0 aralığını kalibrasyon noktası olarak kullan; diğer hidrokolloid ve un bazlarına doğrudan taşımama.",
+   "source_ids": [
+    "Q34",
+    "P902",
+    "P904"
+   ]
+  },
+  {
+   "rule_tr": "Özgül hacmi hidrokolloid dozuna bağlı, tür ve un bazıyla etkileşen bir yanıt olarak kodla; evrensel ve sürekli artış varsayma.",
+   "functional_form": "Tür/un-bazı etkileşimli optimumlu eğri (ör. kuadratik); yalnızca belirli gözlemlerde doğrusal yerel yaklaşım.",
+   "param_suggestions": "Karabuğday-ksantan %0,14 ve mısır-HPMC %1,77 olumlu nitel gözlemler; psylliumlu karabuğday ekmeğinde 1,17–3,16 mL/g ve bamya müsilajı-ksantan sisteminde 2,6–4,8 mL/g aralıkları sistem-özel kalibrasyon için kullanılabilir. Genel katsayı çıkarılamaz.",
+   "source_ids": [
+    "Q99",
+    "P967",
+    "P943",
+    "P963",
+    "P964",
+    "P968"
+   ]
+  },
+  {
+   "rule_tr": "Sertlik veya bayatlama gelişimini orta düzey hidrokolloid kullanımında yavaşlat; tür ve dozla ters etkinin mümkün olmasına izin ver.",
+   "functional_form": "Depolamayla sertlik artışı; hidrokolloid etkisi için doyum veya optimumlu doz yanıtı ve formülasyona bağlı işaret.",
+   "param_suggestions": "Psylliumlu glutensiz ekmekte kontrole göre depolama boyunca %65–75 daha düşük iç sertliği ve bamya müsilajı sisteminde 48 saatte B4 4–5 N, B1 14 N değerlerini yalnızca ilgili sistemlerin kalibrasyon hedefleri olarak kullan.",
+   "source_ids": [
+    "P966",
+    "P943",
+    "P901",
+    "P304"
+   ]
+  },
+  {
+   "rule_tr": "Psyllium etkisini tek bir sabit katsayıyla temsil etme; hacim, gaz tutma ve tekstür üzerindeki etkileri un bazı ve miktarına bağla.",
+   "functional_form": "Un-bazı ve doz etkileşimli, gerekirse optimumlu veya işaret değiştirebilen yanıt.",
+   "param_suggestions": "Karabuğday sistemindeki gaz tutma %83,67–98,50 ve hacim 1,17–3,16 mL/g gözlemleri olumlu örneklerdir; başka sistemlerde hacim düşüşü veya gummy özellik artışı için ayrı formülasyon parametreleri gerekir.",
+   "source_ids": [
+    "P967",
+    "P962",
+    "P963",
+    "P964",
+    "P965",
+    "P968"
+   ]
+  },
+  {
+   "rule_tr": "İnülin etkisini zincir uzunluğu ve ikame düzeyiyle ayrıştır; glutensiz somun ile buharda pişmiş ekmek sonuçlarını aynı parametreye zorla uydurma.",
+   "functional_form": "Zincir uzunluğuna özgü katsayılar; ikame oranında doğrusal olmayan/optimumlu hacim yanıtı.",
+   "param_suggestions": "Glutensiz ekmekte kısa zincirli inülin için özgül hacim artışı %25–33, orta zincirli için %24–59; uzun zincirli için anlamlı fark bildirilmemiştir. Çin buharda pişmiş ekmeğinde %5'ten %10'a çıkışta %7,66 hacim azalması ayrı koşul olarak kodlanmalıdır.",
+   "source_ids": [
+    "Q99",
+    "Q101"
+   ]
+  },
+  {
+   "rule_tr": "Dondurulmuş hamurda hidrokolloid/polisakkarit etkisini depolama ve donma-çözünme döngülerine bağlı koruyucu terim olarak ekle; bileşen türüne göre ayrılaştır.",
+   "functional_form": "Depolama süresi veya döngü sayısıyla azalan koruma etkisi; yeterli parametre yoksa mekanistik yönlü, nicel katsayısız kural.",
+   "param_suggestions": "Mevcut satırlarda türler arası nicel ortak katsayı yoktur. Ksantan-maltitol için beş döngü sonrası bildirilen maya canlılığı artışı %90,1, yalnız ilgili kombinasyon ve koşul için kullanılabilir.",
+   "source_ids": [
+    "P774",
+    "P86",
+    "P39",
+    "P578",
+    "P497",
+    "P844"
+   ]
+  }
+ ],
+ "gaps_tr": [
+  "Birçok bulguda hidrokolloid dozu, un ağırlığına göre ikame oranı veya hamurun toplam hidrasyonu açıkça verilmemiştir.",
+  "Derleme kaynaklarındaki genel yön bildirimleri çoğu zaman etki büyüklüğü, varyans ve istatistiksel anlamlılık bilgisi içermez.",
+  "Aynı hidrokolloid için farklı un bazlarını ve dozları doğrudan karşılaştıran standartlaştırılmış deneyler sınırlıdır.",
+  "Özgül hacim, sertlik, gummy özellik, gaz tutma ve duyusal kabul ölçümleri arasında ortak ölçüm protokolü ve zaman noktası yoktur.",
+  "Birçok glutensiz sistemde hidrokolloidlerin tek başına ve kombinasyon halinde etkisini ayrıştırmaya yetecek faktöriyel veriler bulunmamaktadır.",
+  "Dondurulmuş hamur bulgularında depolama süresi, donma-çözünme döngüsü ve bileşen dozu aynı şekilde raporlanmamıştır; sonuçlar için ortak nicel model kurmak güçtür.",
+  "Glisemik indeks veya sindirilebilirlik üzerindeki hidrokolloid etkisinin yönü ve büyüklüğü çoğu satırda belirtilmemiştir.",
+  "Duyusal sonuçlarda panelist sayısı, ölçek ve formülasyonlar arası karşılaştırma ayrıntıları sıklıkla verilmemiştir."
+ ],
+ "tid": "T15",
+ "name": "Hidrokolloidler ve glutensiz ekmek",
+ "n_sources": 62,
+ "n_findings": 227,
+ "theme_source_ids": [
+  "P1047",
+  "P16",
+  "P180",
+  "P304",
+  "P35",
+  "P38",
+  "P39",
+  "P473",
+  "P479",
+  "P497",
+  "P578",
+  "P604",
+  "P656",
+  "P658",
+  "P661",
+  "P700",
+  "P727",
+  "P774",
+  "P790",
+  "P803",
+  "P844",
+  "P846",
+  "P86",
+  "P901",
+  "P902",
+  "P904",
+  "P912",
+  "P923",
+  "P927",
+  "P933",
+  "P936",
+  "P938",
+  "P939",
+  "P941",
+  "P942",
+  "P943",
+  "P944",
+  "P945",
+  "P946",
+  "P947",
+  "P949",
+  "P960",
+  "P961",
+  "P962",
+  "P963",
+  "P964",
+  "P965",
+  "P966",
+  "P967",
+  "P968",
+  "P969",
+  "P970",
+  "P972",
+  "P973",
+  "Q101",
+  "Q13",
+  "Q29",
+  "Q34",
+  "Q74",
+  "Q87",
+  "Q99",
+  "W36"
+ ]
+}

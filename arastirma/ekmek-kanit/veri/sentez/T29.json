@@ -1,0 +1,73 @@
+{
+ "consensus": [
+  {
+   "claim_tr": "Hamurda gaz oluşumu ve gazın hamur içinde genişlemesi, kabarma ve daha hafif/gözenekli bir iç yapı oluşumuna katkı sağlar.",
+   "strength": "B_orta",
+   "n_supporting": 2,
+   "source_ids": [
+    "P709",
+    "P1243"
+   ]
+  }
+ ],
+ "quantitative": [],
+ "moderators_tr": [
+  "Natufien dönemi avcı-toplayıcıları ve kuzeydoğu Ürdün bağlamında yabani tahıl ile kök besinlerinin birlikte kullanımı bildirilmiştir.",
+  "Eski Mısır ekmek yapımında maya kullanımı bildirilmiştir; maya dozu ve diğer işlem koşulları belirtilmemiştir.",
+  "Fırın ısısının gazı genişletmesi pişirme sırasında gerçekleşir; sıcaklık ve süre düzeyi belirtilmemiştir.",
+  "Tahıl öğütme bulgusu Eski Mısır evlerinde emmer veya arpa öğütülerek un elde edilmesi bağlamındadır; öğütme düzeyi ve araç koşulları verilmemiştir."
+ ],
+ "conflicts": [],
+ "simulation_rules": [
+  {
+   "rule_tr": "Yabani tahıl ile kök besinlerinin birlikte kullanıldığı belirtilen Natufien bağlamında düz, ekmek benzeri ürün hazırlanmasını mümkün kıl.",
+   "functional_form": "Koşula bağlı kategorik kural; nicel doz-tepki fonksiyonu çıkarılamaz.",
+   "param_suggestions": "Yalnızca dönem ve bölge koşullarını kategorik girdiler olarak kullan; oran veya başarı olasılığı atamak için kanıt yok.",
+   "source_ids": [
+    "P1238"
+   ]
+  },
+  {
+   "rule_tr": "Tahılın öğütülmesi, tahıldan un elde edilmesini artırır.",
+   "functional_form": "Niteliksel artış; öğütme düzeyine bağlı fonksiyonun şekli belirlenemez.",
+   "param_suggestions": "Öğütmeyi un elde etmenin işlem girdisi olarak kodla; öğütme inceliği veya verimi için sayısal parametre kullanma.",
+   "source_ids": [
+    "P1253"
+   ]
+  },
+  {
+   "rule_tr": "Maya kullanımını karbondioksit üretimi ve ekmeğin kabarmasıyla ilişkilendir.",
+   "functional_form": "Niteliksel nedensel zincir: maya kullanımı → CO₂ üretimi → kabarma.",
+   "param_suggestions": "Maya dozu, fermantasyon süresi ve kabarma katsayısı belirtilmediğinden parametre değeri önerilemez.",
+   "source_ids": [
+    "P1243"
+   ]
+  },
+  {
+   "rule_tr": "Hamurda tutulan gazın genişlemesi iç yapıyı hafif ve gözenekli hâle getirir; fırın ısısı gazın genişlemesini artırarak kabarmayı sürdürür.",
+   "functional_form": "Gaz tutulması ve ısıtmayla genişleme üzerinden niteliksel artış; sıcaklık veya süreye bağlı fonksiyonun biçimi belirlenemez.",
+   "param_suggestions": "Gaz tutulumunu ve fırınlamayı ayrı süreç girdileri olarak kodla; sıcaklık, süre veya etki katsayısı için sayısal değer kullanma.",
+   "source_ids": [
+    "P709"
+   ]
+  }
+ ],
+ "gaps_tr": [
+  "Birden fazla kaynağın desteklediği yalnızca gaz oluşumu/genişlemesi ile kabarma arasındaki genel ilişki bulunuyor; diğer bulgular tek kaynaklı olduğundan 6–12 maddelik çok kaynaklı bir konsensüs listesi kanıtla oluşturulamıyor.",
+  "Satırlarda ölçülmüş nicel sonuç, işlem parametresi veya sayısal aralık yoktur; yayın yılları deneysel sonuç değeri değildir.",
+  "Natufien düz ürünlerinde bileşen oranları ve hazırlama/pişirme koşulları bildirilmemiştir.",
+  "Maya miktarı, karbondioksit üretim hızı, fermantasyon koşulları ve kabarma ölçümleri verilmemiştir.",
+  "Fırın sıcaklığı ve süresi ile gaz genişlemesi veya gözenekli yapı arasındaki nicel ilişki belirtilmemiştir.",
+  "Eski Mısır’da öğütme araçları ve öğütme inceliğinin un verimi ya da ekmek özellikleri üzerindeki etkisi açıklanmamıştır."
+ ],
+ "tid": "T29",
+ "name": "Tarih ve arkeoloji",
+ "n_sources": 4,
+ "n_findings": 5,
+ "theme_source_ids": [
+  "P1238",
+  "P1243",
+  "P1253",
+  "P709"
+ ]
+}

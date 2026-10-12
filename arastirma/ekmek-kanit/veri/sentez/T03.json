@@ -1,0 +1,444 @@
+{
+ "consensus": [
+  {
+   "claim_tr": "Fermantasyon süresinin uzaması bazı ekmek sistemlerinde aroma bileşiklerini ve aroma karmaşıklığını artırabilir; ancak etkinin yönü ve büyüklüğü ürün formülüne, mikroorganizmalara, sıcaklığa ve süre aralığına bağlıdır.",
+   "strength": "B_orta",
+   "n_supporting": 8,
+   "source_ids": [
+    "Q155",
+    "Q6",
+    "Q152",
+    "Q20"
+   ]
+  },
+  {
+   "claim_tr": "Uzun veya soğuk fermantasyon, uçucu bileşik profilini değiştirebilir; bu değişim her bileşik sınıfında aynı yönde gerçekleşmez.",
+   "strength": "B_orta",
+   "n_supporting": 6,
+   "source_ids": [
+    "Q14",
+    "Q6",
+    "Q7",
+    "P149"
+   ]
+  },
+  {
+   "claim_tr": "Soğuk fermantasyon bazı koşullarda aroma yoğunluğunu ve kavrulmuş, bisküvimsi, maltımsı, isli veya tereyağımsı notaları artırabilir; bildirilen duyusal sonuçlar çoğunlukla belirli ürün ve koşullara özgüdür.",
+   "strength": "B_orta",
+   "n_supporting": 3,
+   "source_ids": [
+    "Q6",
+    "P181",
+    "W2"
+   ]
+  },
+  {
+   "claim_tr": "Daha uzun fermantasyon veya soğuk bekletme her zaman daha iyi duyusal sonuç vermez: bazı karşılaştırmalarda süreyi uzatmak belirgin fark yaratmamış, bazılarında ise daha uzun süreli ürün daha az beğenilmiştir.",
+   "strength": "B_orta",
+   "n_supporting": 5,
+   "source_ids": [
+    "W8",
+    "W5",
+    "W6",
+    "Q14"
+   ]
+  },
+  {
+   "claim_tr": "Fermantasyon sıcaklığı aroma profilini değiştirebilir; sıcaklık değişimi farklı uçucu bileşik gruplarını öne çıkarabildiğinden, tek bir genel 'aroma artışı' yönü varsayılmamalıdır.",
+   "strength": "B_orta",
+   "n_supporting": 3,
+   "source_ids": [
+    "Q7",
+    "Q19",
+    "W34"
+   ]
+  },
+  {
+   "claim_tr": "Bazı buğday ekmeği çalışmalarında uzun fermantasyon maya metabolizması kaynaklı aromaları artırırken, mayalı ekmekte kabuk Maillard aromalarının oluşumunu sınırlayabilmiştir; ekşi mayalı ekmekte ise Maillard ve LAB kaynaklı aromaların desteklendiği bildirilmiştir.",
+   "strength": "C_zayıf",
+   "n_supporting": 1,
+   "source_ids": [
+    "Q152"
+   ]
+  },
+  {
+   "claim_tr": "Fermantasyon süresi ile ekşilik arasındaki ilişki tutarlı değildir: bazı fırıncı anlatılarında daha uzun soğuk bekletme daha ekşi tatla ilişkilendirilirken, başka anlatılarda 24 saatin ötesinde belirgin artış görülmemiştir.",
+   "strength": "C_zayıf",
+   "n_supporting": 4,
+   "source_ids": [
+    "W8",
+    "W34",
+    "W37",
+    "W43"
+   ]
+  },
+  {
+   "claim_tr": "Süre etkisini değerlendirmek için sıcaklık, maya/ekşi maya miktarı ve fermantasyon aşaması sabitlenmelidir; bazı uygulama karşılaştırmalarında bu değişkenler birlikte değiştiği için süreye özgü etki ayrılamamıştır.",
+   "strength": "C_zayıf",
+   "n_supporting": 2,
+   "source_ids": [
+    "W25",
+    "W30"
+   ]
+  }
+ ],
+ "quantitative": [
+  {
+   "quantity_tr": "Ekşi hamur fermantasyon süresi karşılaştırması",
+   "value_or_range": "4 ve 24",
+   "unit": "saat",
+   "conditions_tr": "Derlemede aktarılan ekşi hamur ekmeği çalışmasında 24 saatlik ekmekte tokluk algısı en yüksek ve en kısa sürede oluşmuştur.",
+   "source_ids": [
+    "Q155"
+   ]
+  },
+  {
+   "quantity_tr": "Ek fermantasyon öncesi soğuk bekletme",
+   "value_or_range": "yaklaşık 17",
+   "unit": "saat",
+   "conditions_tr": "4 saatlik fermantasyona gece boyunca 4 °C'de soğutma eklenmiştir; kontrol SD ekmeğinde 2,3-bütandion Gün 0'da 4 saat için 0,014 ppm, gece bekletmeli örnekte 0,019 ppm; Gün 5'te sırasıyla 0,003 ve 0,005 ppm olmuştur.",
+   "source_ids": [
+    "Q14"
+   ]
+  },
+  {
+   "quantity_tr": "Soğuk fermantasyonda 2,3-bütandion FD faktörü",
+   "value_or_range": "24 saatte neredeyse 4 kat; 48 saatte 8 kat; eşik aşım değerleri 1815 ve 1992; kontrolde 109",
+   "unit": "kat ve FD/eşik aşım değeri",
+   "conditions_tr": "Yüksek proteinli buğday unu (%13) ile 5 °C'de fermente edilen bagellerin kontrolle karşılaştırması.",
+   "source_ids": [
+    "Q6"
+   ]
+  },
+  {
+   "quantity_tr": "2-asetil-1-pirolin eşik aşım değeri",
+   "value_or_range": "24 saat: 2603; 48 saat: 2466; kontrol: 2329",
+   "unit": "eşik aşım değeri",
+   "conditions_tr": "Hamur 5 °C'de soğuk fermente edilmiştir.",
+   "source_ids": [
+    "Q6"
+   ]
+  },
+  {
+   "quantity_tr": "Soğuk fermantasyon süresi ve duyusal değerlendirme ölçeği",
+   "value_or_range": "24 ve 48",
+   "unit": "saat",
+   "conditions_tr": "Bagel aroma paneli 10 kişiden oluşmuş ve 0–3 ölçeği kullanılmış; soğuk fermente örnekler kontrolle benzer fakat daha yoğun kavrulmuş, bisküvimsi, maltımsı, isli ve tereyağımsı notalarla tanımlanmıştır.",
+   "source_ids": [
+    "Q6"
+   ]
+  },
+  {
+   "quantity_tr": "Tam öğütülmüş buğday ekmeği fermantasyon sıcaklıkları",
+   "value_or_range": "8, 16 ve 32",
+   "unit": "°C",
+   "conditions_tr": "32 °C'de bazı aldehit, furan ve pirazinlerin; 8 veya 16 °C'de bazı aldehitler, esterler ve 3-metil-1-bütanolün tepe alanları daha yüksek bildirilmiştir.",
+   "source_ids": [
+    "Q7"
+   ]
+  },
+  {
+   "quantity_tr": "Tam öğütülmüş buğday ekmeğinde maya düzeyleri",
+   "value_or_range": "%2, %4 ve %6",
+   "unit": "maya oranı",
+   "conditions_tr": "Maya düzeyinin %6 olması 2-feniletanol tepe alanını artırmış; önemli lipid oksidasyonu ürünlerinin tepe alanlarını azaltmıştır. 2,3-bütandionda sıcaklıkla etkileşim bildirilmiştir.",
+   "source_ids": [
+    "Q7"
+   ]
+  },
+  {
+   "quantity_tr": "Çin buharda pişmiş ekmeğinde fermantasyon süreleri",
+   "value_or_range": "20, 40 ve 60",
+   "unit": "dakika",
+   "conditions_tr": "Süre uzadıkça maya metabolizması kaynaklı uçucu bileşikler artmış; oktanal, nonanal, dekanal ve belirtilen lipid oksidasyonu bileşikleri azalmıştır.",
+   "source_ids": []
+  },
+  {
+   "quantity_tr": "Çin buharda pişmiş ekmeğinde maya düzeyleri",
+   "value_or_range": "%0,5, %1 ve %1,5",
+   "unit": "un ağırlığına göre maya",
+   "conditions_tr": "Maya düzeyindeki artışla bazı maya metabolizması kaynaklı uçucu bileşiklerin oluşumu artmıştır.",
+   "source_ids": []
+  },
+  {
+   "quantity_tr": "Ekşi maya kullanımının üçüncü gündeki ester katkısına etkisi",
+   "value_or_range": "%12 daha yüksek",
+   "unit": "artış",
+   "conditions_tr": "Kuru üzüm şurubu ekşi mayalı ekmek, ticari taze mayalı kontrolle karşılaştırılmış; ekmekler 25 °C ve %50 bağıl nemde kapalı depolanmıştır.",
+   "source_ids": [
+    "Q20"
+   ]
+  },
+  {
+   "quantity_tr": "Ekşi maya kullanımının üçüncü gündeki fenol bolluğuna etkisi",
+   "value_or_range": "%60 daha bol",
+   "unit": "artış",
+   "conditions_tr": "Kuru üzüm şurubu ekşi mayalı ekmek, ticari taze mayalı kontrolle karşılaştırılmış; ekmekler 25 °C ve %50 bağıl nemde kapalı depolanmıştır.",
+   "source_ids": [
+    "Q20"
+   ]
+  },
+  {
+   "quantity_tr": "Soğuk ekşi hamur fermantasyonunda bildirilen uçucu bileşik değişimleri",
+   "value_or_range": "Asetik asit en çok %12,75; etanol %11,95; izoamil asetat %33,33",
+   "unit": "bildirilen artış yüzdesi",
+   "conditions_tr": "Fermantasyon aşamaları ilerledikçe soğuk fermente hamurda ölçülen bileşikler için bildirilmiştir.",
+   "source_ids": []
+  },
+  {
+   "quantity_tr": "Artizan ekşi mayalı ekmekte karşılaştırılan fermantasyon süreleri",
+   "value_or_range": "6, 12 ve 18",
+   "unit": "saat",
+   "conditions_tr": "12 saatlik uygulama daha yüksek aroma yoğunluğu ve lezzet karmaşıklığıyla ilişkilendirilmiştir; diğer koşullara ait sayısal duyusal puan verilmemiştir.",
+   "source_ids": [
+    "P181"
+   ]
+  },
+  {
+   "quantity_tr": "Aynı baguette hamurunda soğuk bekletme süreleri",
+   "value_or_range": "24, 48 ve 72",
+   "unit": "saat",
+   "conditions_tr": "Fırıncı anlatısında üç ekmeğin tatları son derece benzer bulunmuş, belirgin karmaşıklık farkı gözlenmemiştir; buzdolabı sıcaklığı belirtilmemiştir.",
+   "source_ids": [
+    "W6"
+   ]
+  },
+  {
+   "quantity_tr": "T65 unlu baguette için soğuk bekletme süreleri",
+   "value_or_range": "32, 56 ve 80",
+   "unit": "saat",
+   "conditions_tr": "32 ve 56 saatlik ekmekler benzer bulunmuş; 80 saatlik ekmek önceki ikisinden daha iyi veya nüanslı bulunmamıştır.",
+   "source_ids": [
+    "W5"
+   ]
+  },
+  {
+   "quantity_tr": "Şekillendirilmiş ekşi mayalı hamurda soğuk son mayalandırma süreleri",
+   "value_or_range": "yaklaşık 12, 24 ve 48",
+   "unit": "saat",
+   "conditions_tr": "Fırıncı anlatısında süre uzadıkça tat daha derin ve ekşi olarak betimlenmiş; yaklaşık 48 saatte keskin ekşi profil bildirilmiştir.",
+   "source_ids": [
+    "W37"
+   ]
+  },
+  {
+   "quantity_tr": "Soğuk geciktirme koşulları",
+   "value_or_range": "2–4 °C'de 16–24",
+   "unit": "°C ve saat",
+   "conditions_tr": "Fırıncı rehberinde maksimum ekşilik ve kabuk gelişimiyle ilişkilendirilmiştir; kontrollü karşılaştırma değildir.",
+   "source_ids": [
+    "W34"
+   ]
+  },
+  {
+   "quantity_tr": "San Joaquin ekşi mayalı ekmekte soğuk toplu fermantasyon",
+   "value_or_range": "yaklaşık 21 saatlik yöntemin ötesinde yaklaşık 36 saat; ayrıca 24–48 saat ve 2–3 gün anlatımları",
+   "unit": "saat veya gün",
+   "conditions_tr": "Bazı fırıncılar 36 veya 24–48 saat aralıklarında belirgin ekşilik artışı bildirmemiş; başka bir yorumcu 2–3 günde az miktarda ekşilik artışı bildirmiştir. Koşullar aynı değildir.",
+   "source_ids": [
+    "W8"
+   ]
+  }
+ ],
+ "moderators_tr": [
+  "Fermantasyon sıcaklığı: 8, 16 ve 32 °C farklı uçucu bileşik gruplarıyla ilişkilendirilmiştir; soğuk fermantasyon sonuçları da ürün ve sıcaklığa özgüdür.",
+  "Fermantasyon türü ve mikroorganizma sistemi: ekşi maya, ticari maya, LAB ve maya eş-kültürleri farklı aroma yolları ve duyusal sonuçlar verebilir.",
+  "Un ve ürün matrisi: tam öğütülmüş buğday, yüksek proteinli buğday bageli, baguette, çavdar ekmeği ve buharda pişmiş ekmek bulguları birbirine doğrudan genellenemez.",
+  "Maya veya ekşi maya inokülasyon düzeyi, fermantasyon süresiyle birlikte uçucu bileşik oluşumunu değiştirebilir.",
+  "Fermantasyon aşaması: toplu fermantasyon, soğuk son mayalandırma ve ön-ferment farklı karşılaştırmalardır.",
+  "Depolama ve ölçüm günü, özellikle uçucu bileşik düzeylerinin yorumunu etkileyebilir; Q14'te 2,3-bütandion depolama boyunca azalmıştır.",
+  "Süre etkisini sıcaklık veya inokülasyon etkisinden ayıramayan uygulamalar nedensel yorumu sınırlar.",
+  "Duyusal panelin niteliği ve ölçüm biçimi: eğitimli panel, tüketici testi ve tek fırıncı anlatısı aynı kanıt gücüne sahip değildir."
+ ],
+ "conflicts": [
+  {
+   "issue_tr": "Fermantasyon süresi uzadıkça aroma ve duyusal karmaşıklığın arttığı bulgular ile süre uzatmanın fark yaratmadığı veya daha kötü sonuç verdiği bulgular çelişmektedir.",
+   "likely_reason_tr": "Ürün matrisi, maya türü ve miktarı, sıcaklık, başlangıç hamuru ve karşılaştırılan süre aralıkları farklıdır; bazı kaynaklar kontrollü deney değil fırıncı gözlemidir.",
+   "source_ids": [
+    "Q6",
+    "Q152",
+    "W5",
+    "W6",
+    "W8"
+   ]
+  },
+  {
+   "issue_tr": "Soğuk bekletmenin ekşiliği artırdığına dair anlatımlar, 24 saatten sonra ekşiliğin belirgin artmadığını bildiren anlatımlarla uyuşmamaktadır.",
+   "likely_reason_tr": "Soğuk sıcaklık, starter etkinliği, hamur formülü ve soğuk bekletmenin toplu fermantasyon mu son mayalandırma mı olduğu eşitlenmemiştir; kanıtın bir bölümü kişisel deneyimdir.",
+   "source_ids": [
+    "W8",
+    "W34",
+    "W37",
+    "W43"
+   ]
+  },
+  {
+   "issue_tr": "Uzun fermantasyonun aroma üretimine etkisi bileşik türüne göre ters yönlü olabilir; bazı maya kaynaklı bileşikler artarken lipid oksidasyonu bileşikleri azalabilir.",
+   "likely_reason_tr": "Fermantasyon farklı biyokimyasal kaynaklardan gelen uçucuları ayrı ayrı etkiler; toplam aroma veya tek bir bileşik göstergesi bütün profili temsil etmez.",
+   "source_ids": [
+    "Q7",
+    "P149",
+    "Q152"
+   ]
+  },
+  {
+   "issue_tr": "Fermantasyon süresine atfedilen duyusal ekşilik farkı bazı fırıncı karşılaştırmalarında sıcaklık ve inokülasyon miktarıyla karışmıştır.",
+   "likely_reason_tr": "Süre, sıcaklık ve starter miktarı aynı anda değiştiği için tek bir değişkenin etkisi belirlenememiştir.",
+   "source_ids": [
+    "W25"
+   ]
+  }
+ ],
+ "simulation_rules": [
+  {
+   "rule_tr": "Fermantasyon süresinin aroma gelişimine etkisini tek yönlü ve sınırsız bir artış olarak kodlamayın; ürün ve fermantasyon sistemi bazında koşullu etki kullanın.",
+   "functional_form": "Koşula bağlı, doygunlaşabilen artış; kanıtın bulunmadığı ürünlerde etki nötr veya belirsiz bırakılır.",
+   "param_suggestions": "Doğrudan nicel katsayı yoktur. Deneysel zaman noktaları olarak 4–24 saat (Q155), 6–18 saat (P181), 20–60 dakika (Q767) kullanılabilir; bunlar farklı ürün sistemleridir ve tek eğride birleştirilmemelidir.",
+   "source_ids": [
+    "Q155",
+    "P181",
+    "W6"
+   ]
+  },
+  {
+   "rule_tr": "Soğuk fermantasyonu yalnızca süre değişkeniyle değil, sıcaklık ve fermantasyon aşamasıyla birlikte temsil edin.",
+   "functional_form": "Sıcaklık × süre etkileşimi; sıcaklık etkisi için kategori veya deneysel olarak kalibre edilmiş yanıt eğrisi.",
+   "param_suggestions": "Kaynaklarda 5 °C'de 24 ve 48 saat (Q6), 4 °C'de yaklaşık 17 saat ek bekletme (Q14), 2–4 °C'de 16–24 saat fırıncı önerisi (W34) bulunur; bu değerler ayrı koşul kümeleri olarak girilmelidir.",
+   "source_ids": [
+    "Q6",
+    "Q14",
+    "W34"
+   ]
+  },
+  {
+   "rule_tr": "Uçucu bileşikleri toplam tek bir aroma çıktısı yerine bileşik sınıflarına göre izleyin.",
+   "functional_form": "Bileşik sınıfına özgü yönlü etkiler: maya metabolizması bileşikleri artabilir; lipid oksidasyonu bileşikleri azalabilir; sıcaklık bazı bileşiklerin yönünü değiştirebilir.",
+   "param_suggestions": "Q767'de 20, 40 ve 60 dakika boyunca maya metabolizması kaynaklı bileşikler artarken bazı aldehitler azalmıştır; Q7'de 8, 16 ve 32 °C bileşik gruplarını farklı yönlerde etkilemiştir. Sayısal katsayı sağlanmadığından etki büyüklüğü veriden ayrıca kalibre edilmelidir.",
+   "source_ids": [
+    "Q7",
+    "P149"
+   ]
+  },
+  {
+   "rule_tr": "Duyusal kabulü fermantasyon süresine göre evrensel biçimde artırmayın; ürün bazında optimum veya düzleşen yanıtı sınayın.",
+   "functional_form": "Optimumlu eğri veya artış sonrası plato; optimum parametresi ürün ve panel verisiyle belirlenir.",
+   "param_suggestions": "12 saatlik artizan ekşi mayalı ekmekte daha yüksek aroma yoğunluğu bildirilmiştir (P181); bu tek başına genel optimum belirlemez. Bazı baguette karşılaştırmalarında 24–72 saat arasında belirgin duyusal fark yoktur (W6).",
+   "source_ids": [
+    "P181",
+    "W6",
+    "W5"
+   ]
+  },
+  {
+   "rule_tr": "Ekşilik algısını fermantasyon süresinin doğrudan ve zorunlu sonucu olarak kodlamayın.",
+   "functional_form": "Sıcaklık, starter miktarı ve aşama ile etkileşen koşullu yanıt; kaynaklar arası belirsizlik varsa parametre aralığını geniş veya etkiyi nötr tutun.",
+   "param_suggestions": "Fırıncı anlatılarında yaklaşık 12, 24 ve 48 saat için artan ekşilik (W37), buna karşılık 24 saatten 48 saate uzatmada belirgin artış olmaması (W8) bildirilmiştir; kontrollü katsayı mevcut değildir.",
+   "source_ids": [
+    "W37",
+    "W8",
+    "W34",
+    "W43"
+   ]
+  },
+  {
+   "rule_tr": "Depolama süresince aroma bileşiklerinin değişimini fermantasyon süresinden ayrı bir durum değişkeni olarak modelleyin.",
+   "functional_form": "Depolama zamanına bağlı bileşik-özel azalma veya değişim fonksiyonu.",
+   "param_suggestions": "Q14'te kontrol SD ekmeğinde 2,3-bütandion Gün 0'dan Gün 5'e hem 4 saatlik hem gece soğuk bekletmeli uygulamada azalmıştır; diğer bileşikler için parametre çıkarımı yapılmamalıdır.",
+   "source_ids": [
+    "Q14"
+   ]
+  },
+  {
+   "rule_tr": "Sıcaklık, süre ve inokülasyon birlikte değiştiğinde model çıktısını tek faktörün etkisi olarak yorumlamayın.",
+   "functional_form": "Çok değişkenli etkileşim terimleri; ayrıştırma için diğer koşullar sabitlenemiyorsa nedensel parametre ataması yapılmaması.",
+   "param_suggestions": "W25'te süre, sıcaklık ve starter inokülasyonu eşitlenmemiştir; bu satırlar sayısal katsayı tahmininde kullanılmamalıdır.",
+   "source_ids": [
+    "W25"
+   ]
+  }
+ ],
+ "gaps_tr": [
+  "Aynı formül ve mikroorganizma sistemi içinde, sıcaklık ve inokülasyon sabit tutularak süreyi kademeli değiştiren kontrollü çalışmalar azdır.",
+  "Aroma bileşiklerinin sayısal konsantrasyonları ile duyusal yoğunluk ve tüketici kabulünü aynı deneyde ilişkilendiren veriler eksiktir.",
+  "Uzun soğuk fermantasyon için karşılaştırılabilir sıcaklık-süre matrisleri ve tekrarlı ölçümler sağlanmamıştır.",
+  "Farklı ekmek türlerinde (buğday, çavdar, glutensiz ve buharda pişmiş ürünler) süre etkisini karşılaştırmaya yetecek ortak protokoller yoktur.",
+  "Ekşilik, aroma karmaşıklığı ve genel beğeni ayrı duyusal sonuçlar olarak her çalışmada raporlanmamıştır.",
+  "Bazı nicel bulgularda etki büyüklüğü, varyans veya istatistiksel anlamlılık verilmediğinden simülasyon katsayıları doğrudan çıkarılamaz.",
+  "Fırıncı deneyimleri yararlı koşul ipuçları sunsa da kontrol grupları ve standardize edilmiş duyusal ölçümler çoğunlukla yoktur."
+ ],
+ "tid": "T03",
+ "name": "Fermantasyon süresi ve soğuk mayalanma → aroma ve duyusal",
+ "n_sources": 69,
+ "n_findings": 103,
+ "theme_source_ids": [
+  "P1024",
+  "P1027",
+  "P1035",
+  "P1036",
+  "P1038",
+  "P1046",
+  "P1058",
+  "P1141",
+  "P1142",
+  "P1144",
+  "P1145",
+  "P1149",
+  "P1151",
+  "P1168",
+  "P118",
+  "P149",
+  "P152",
+  "P170",
+  "P172",
+  "P181",
+  "P192",
+  "P218",
+  "P224",
+  "P228",
+  "P242",
+  "P248",
+  "P598",
+  "P599",
+  "P684",
+  "P686",
+  "P756",
+  "P767",
+  "P816",
+  "P834",
+  "P835",
+  "P969",
+  "Q100",
+  "Q110",
+  "Q112",
+  "Q115",
+  "Q14",
+  "Q150",
+  "Q151",
+  "Q152",
+  "Q155",
+  "Q19",
+  "Q20",
+  "Q6",
+  "Q7",
+  "Q79",
+  "Q90",
+  "Q94",
+  "Q99",
+  "W1",
+  "W16",
+  "W2",
+  "W20",
+  "W21",
+  "W25",
+  "W3",
+  "W30",
+  "W33",
+  "W34",
+  "W36",
+  "W37",
+  "W43",
+  "W5",
+  "W6",
+  "W8"
+ ]
+}

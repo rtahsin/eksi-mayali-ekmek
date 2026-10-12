@@ -1,0 +1,403 @@
+{
+ "consensus": [
+  {
+   "claim_tr": "Pişirme süresince ısı ve nem aktarımı birlikte modellenmelidir: ekmek ısınırken nem kaybı gerçekleşebilir; kayıp çevresel bölgelerde daha hızlı, merkezde ise zamanla ilerleyen biçimde görülür.",
+   "strength": "B_orta",
+   "n_supporting": 3,
+   "source_ids": [
+    "Q146",
+    "Q24"
+   ]
+  },
+  {
+   "claim_tr": "Ekmek pişirme modellerinde faz değişimleri ve gözenek açılması belirli sıcaklık aralıklarında temsil edilir; bu geçişler yerel su dağılımı ve gözenek yapısıyla bağlantılıdır.",
+   "strength": "B_orta",
+   "n_supporting": 2,
+   "source_ids": [
+    "Q24",
+    "P614"
+   ]
+  },
+  {
+   "claim_tr": "Un bileşimi veya kalite ölçümleriyle somun hacmi arasında ilişki modellenebilir; proteinle bulunan ilişkiler un türüne göre değişebilir ve çok değişkenli kalite ölçümleri tek başına proteinden daha düşük tahmin hatası sağlayabilir.",
+   "strength": "B_orta",
+   "n_supporting": 2,
+   "source_ids": [
+    "Q65",
+    "Q67"
+   ]
+  },
+  {
+   "claim_tr": "NIR, fizikokimyasal ölçüm veya görüntü verilerine dayalı makine öğrenmesi modelleri, somun hacmi ve un/hamur reolojisi gibi hedefleri tahmin etmek için kullanılmıştır; bildirilen performanslar veri türü ve hedef değişkene özgüdür.",
+   "strength": "B_orta",
+   "n_supporting": 4,
+   "source_ids": [
+    "P1202",
+    "P1206",
+    "P1209",
+    "P1216"
+   ]
+  },
+  {
+   "claim_tr": "Fırınlama ve fermantasyonda her girdiye doğrusal ve tek yönlü bir yanıt varsaymak uygun değildir: bazı koşullar için optimumlar veya eşikler bildirilmiş, bazı etkenlerin sonucu ise birden fazla değişkene bağlı bulunmuştur.",
+   "strength": "B_orta",
+   "n_supporting": 4,
+   "source_ids": [
+    "Q4",
+    "P540",
+    "P1198",
+    "P1179"
+   ]
+  },
+  {
+   "claim_tr": "Fırınlama modeli sonuçları fırın sıcaklığı, fırın yükü ve raf konumu gibi sınır ve işletim koşullarına bağlıdır; bu koşullar ısı ve hız profillerini veya pişme hızını değiştirebilir.",
+   "strength": "B_orta",
+   "n_supporting": 2,
+   "source_ids": [
+    "P640",
+    "Q146"
+   ]
+  },
+  {
+   "claim_tr": "Model indirgeme, ekmek pişirme benzetimlerinde hesaplama maliyetini azaltmak amacıyla kullanılabilir; bildirilen kanıt hesaplama maliyetinin düştüğünü gösterse de nicel bir azalma değeri vermez.",
+   "strength": "C_zayıf",
+   "n_supporting": 1,
+   "source_ids": [
+    "P1193"
+   ]
+  },
+  {
+   "claim_tr": "Sınıflandırma ve tahmin performansı, kullanılan model ailesine, hedef göreve ve veri temsiline göre değişir; tek bir performans değerini tüm ekmek kalite uygulamalarına genellemek desteklenmemektedir.",
+   "strength": "B_orta",
+   "n_supporting": 4,
+   "source_ids": [
+    "P1211",
+    "P1202",
+    "P1226",
+    "P1208"
+   ]
+  }
+ ],
+ "quantitative": [
+  {
+   "quantity_tr": "Cup bread merkez nem konsantrasyonu",
+   "value_or_range": "Başlangıç yaklaşık 313; 10 dakika sonunda simüle edilen yaklaşık 220,5",
+   "unit": "kg m⁻³",
+   "conditions_tr": "%100 beyaz buğday unlu kalıpta cup bread; önceden 200 °C'ye ısıtılmış fırın; pişirme 600 saniyeye kadar",
+   "source_ids": [
+    "Q146"
+   ]
+  },
+  {
+   "quantity_tr": "Merkez sıcaklığının patojen öldürme ve nişasta jelatinizasyonu eşiğine ulaşması",
+   "value_or_range": "Yaklaşık 510 saniyede merkez sıcaklığı ≥94; 600 saniyede deneysel 92–96, simülasyonda 95",
+   "unit": "°C",
+   "conditions_tr": "Özelleştirilmiş, kapalı ve zorlanmış konveksiyonlu fırın; fırın sıcaklığı 200 °C",
+   "source_ids": [
+    "Q146"
+   ]
+  },
+  {
+   "quantity_tr": "EDC'nin etkin ısı iletkenliğine katkısı",
+   "value_or_range": "%60'tan fazla",
+   "unit": "%",
+   "conditions_tr": "Hamur modellemesi ve 180 °C'de 30 dakika ekmek pişirme deneyi",
+   "source_ids": [
+    "Q24"
+   ]
+  },
+  {
+   "quantity_tr": "Pişirme kütle kaybı ve iç su içeriği",
+   "value_or_range": "Yaklaşık 15,0 g kütle kaybı; başlangıç sıvı su kütlesi 64,5 g; iç su içeriği yaklaşık 0,95",
+   "unit": "g; kuru bazda su içeriği",
+   "conditions_tr": "Temel pişirme koşulu 180 °C ve 30 dakika; örnekler 10, 20 veya 30 dakika pişirildi",
+   "source_ids": [
+    "Q24"
+   ]
+  },
+  {
+   "quantity_tr": "Gözenek açılma sıcaklık aralığı ve geçiş sıcaklığı",
+   "value_or_range": "71–81; geçiş 76",
+   "unit": "°C",
+   "conditions_tr": "Ekmek pişirme modelinde gözeneklerin kademeli açılıp bağlantı kurması",
+   "source_ids": [
+    "Q24",
+    "P614"
+   ]
+  },
+  {
+   "quantity_tr": "Kapalı gözenek gazındaki su buharı oranı",
+   "value_or_range": "İlk 100 saniyede %80'e; gözenekler açılmadan önce ortalama yaklaşık %70'e",
+   "unit": "%",
+   "conditions_tr": "Model sonucu; başlangıç hamur sıcaklığı 28 °C, fırın sıcaklığı 180 °C",
+   "source_ids": [
+    "Q24"
+   ]
+  },
+  {
+   "quantity_tr": "Pişirme sonrası ekmek hacminin başlangıç hacmine oranı",
+   "value_or_range": "Yaklaşık 1,9",
+   "unit": "kat",
+   "conditions_tr": "Model sonucu; pişirme sıcaklığı 180 °C, başlangıç su/un oranı 0,55",
+   "source_ids": [
+    "Q24"
+   ]
+  },
+  {
+   "quantity_tr": "Ekmek sıcaklığı aralıkları",
+   "value_or_range": "Teorik 20,00–131,69; deneysel 25,00–119,00",
+   "unit": "°C",
+   "conditions_tr": "200 °C fırında pişirme süreci boyunca",
+   "source_ids": []
+  },
+  {
+   "quantity_tr": "Modelde tahmin edilen ekmek ağırlık kaybı",
+   "value_or_range": "%0,00–40,79",
+   "unit": "%",
+   "conditions_tr": "200 °C fırında pişirme; ölçülen ağırlık kaybıyla makul uyum bildirildi",
+   "source_ids": []
+  },
+  {
+   "quantity_tr": "PLS ile somun hacmi tahmin RMSEP'si; protein-only regresyon karşılaştırması",
+   "value_or_range": "Kışlık: 74 (102); yazlık/bahar: 113 (147); karışımlar: 126 (158)",
+   "unit": "mL",
+   "conditions_tr": "Un türüne göre ayrı modeller; test kümesi örneklerin %33'ü. Parantez içi protein-only RMSEP değeridir",
+   "source_ids": [
+    "Q65",
+    "Q67"
+   ]
+  },
+  {
+   "quantity_tr": "Protein ile somun hacmi arasındaki korelasyon",
+   "value_or_range": "Yazlık/bahar buğdayı R = 0,49 (p < 0,01); un karışımları R = 0,27 (p < 0,05)",
+   "unit": "R; p",
+   "conditions_tr": "Ticari İsveç yazlık/bahar buğdayı unları ve un karışımları",
+   "source_ids": [
+    "Q65",
+    "Q67"
+   ]
+  },
+  {
+   "quantity_tr": "T10SLRE somun hacmi tahmin performansı",
+   "value_or_range": "R² = 0,74; RMSE = 22,92; karşılaştırılan modellerde R² = 0,70–0,73 ve RMSE = 23,29–25,08",
+   "unit": "R²; mL/100 g",
+   "conditions_tr": "5.003 buğday örneği; 4.002 eğitim ve 1.001 bağımsız test örneği; spektrum ön işlemi veya dalga boyu seçimi yapılmadı",
+   "source_ids": [
+    "P1202"
+   ]
+  },
+  {
+   "quantity_tr": "Un ve hamur reolojisi tahmin başarımı",
+   "value_or_range": "Farinograf ANN modelleri R² > 0,78; 3B görüntü CNN modelleri uzayabilirlik ve tokluk için R² yaklaşık 0,90",
+   "unit": "R²",
+   "conditions_tr": "Farinograf tahminlerinde fizikokimyasal ve NIR verileri; uzayabilirlik ve tokluk tahminlerinde 3B görüntü verileri",
+   "source_ids": [
+    "P1206"
+   ]
+  },
+  {
+   "quantity_tr": "Çok hedefli regresyonun tek hedefli yaklaşımlara göre bildirilmiş performans artışı",
+   "value_or_range": "En fazla %7",
+   "unit": "%",
+   "conditions_tr": "Buğday unu NIR spektrumları; MTRS, ERC ve DSTARS yaklaşımları; SVM, RF ve LR tahminleyicileri",
+   "source_ids": [
+    "P1209"
+   ]
+  },
+  {
+   "quantity_tr": "Sourdough izolatlarının sıcaklık optimumları ve büyüme olmayan üst sıcaklıklar",
+   "value_or_range": "Optimum: LTH1729 33, LTH2581 32, C. milleri 27; üst sınır: laktobasiller 41, C. milleri için kaynak metinde verilen değer tamamlanmamış",
+   "unit": "°C",
+   "conditions_tr": "mMRS besiyeri; sıcaklık deneyleri hedefin ±0,5 °C'sinde; görünür büyüme değerlendirmesi yedi gün sonunda",
+   "source_ids": [
+    "Q4"
+   ]
+  },
+  {
+   "quantity_tr": "Tuzda büyümenin durduğu veya sürdüğü düzeyler",
+   "value_or_range": "Laktobasillerde tam inhibisyon %4 NaCl'de; C. milleri %8 NaCl'ye kadar büyüyebildi",
+   "unit": "% NaCl",
+   "conditions_tr": "Test aralığı laktobasiller için %0–4, maya için %0–8",
+   "source_ids": [
+    "Q4"
+   ]
+  },
+  {
+   "quantity_tr": "Mikroorganizma büyümesi için bildirilen pH aralıkları",
+   "value_or_range": "Laktobasiller pH 3,9–6,7; LTH2581 pHmin/opt/max 3,94/5,47/6,67; LTH1729 3,90/5,53/6,64; C. milleri büyümesi pH 3,5–7 aralığında etkilenmedi",
+   "unit": "pH",
+   "conditions_tr": "mMRS besiyeri; test aralığı pH 3,5–7",
+   "source_ids": [
+    "Q4"
+   ]
+  },
+  {
+   "quantity_tr": "Katı yakıtlı fırın modeli için optimize edilmiş işletim değerleri",
+   "value_or_range": "Üfleyici gücü 50; pişirme odası toplam yüzey alanı 3; dolum faktörü 0,67",
+   "unit": "W; m²; boyutsuz oran",
+   "conditions_tr": "Gelişmekte olan ülkelerde kullanılan katı yakıtlı ekmek fırını modeli ve optimizasyonu",
+   "source_ids": [
+    "P1198"
+   ]
+  },
+  {
+   "quantity_tr": "Fuzzy Weighted Relevance Vector Machine sınıflandırma performansı",
+   "value_or_range": "Doğruluk %96,67; kesinlik %96,687; duyarlılık %96,6; F-ölçüsü %96,6; işlem süresi 8,96726",
+   "unit": "%; saniye",
+   "conditions_tr": "Ekmek kalite sınıflandırması; bildirilen karşılaştırmada SVM, RVM ve DNN'den daha iyi",
+   "source_ids": [
+    "P1211"
+   ]
+  }
+ ],
+ "moderators_tr": [
+  "Ürün türü ve formülasyonu: kalıpta cup bread, standart ekmek, un karışımları ve farklı tahıl ikameleri aynı parametrelerle temsil edilmeyebilir.",
+  "Fırın koşulları: sıcaklık, kapalı veya zorlanmış konveksiyon, pişirme süresi, yük durumu ve raf konumu model çıktısını etkileyebilir.",
+  "Başlangıç koşulları: hamur sıcaklığı, su/un oranı, pH, inokulum miktarı ve başlangıç fermentasyon sıcaklığı sonuçları değiştirebilir.",
+  "Un türü ve kalite özellikleri: kışlık/yazlık buğday, karışım, protein, gluten gücü, uzayabilirlik ve su absorpsiyonu arasındaki ilişkiler farklılaşabilir.",
+  "Ölçüm ve girdi türü: NIR spektrumu, fizikokimyasal ölçümler, farinograf verisi ve 3B görüntüleme farklı hedefler ve hata profilleri üretir.",
+  "Mikroorganizma suşu ve çevre: sıcaklık, pH, tuz ve asit yanıtları organizmaya ve asit ayrışma durumuna bağlıdır.",
+  "Modelleme tercihi: tek veya çok değişkenli regresyon, dalga boyu seçimi, ekmek türüne göre katmanlandırma ve indirgenmiş mertebe yaklaşımı tahmin başarısını veya hesaplama maliyetini değiştirebilir."
+ ],
+ "conflicts": [
+  {
+   "issue_tr": "Somun hacmi ile un özellikleri arasındaki ilişkiler aynı yönde ve büyüklükte değildir: protein bazı un gruplarında pozitif ilişkilidir; buna karşılık hamur kuvveti için negatif korelasyon ve kışlık unda yüksek hacimle ilişkili düşük gluten gücü bildirilmiştir.",
+   "likely_reason_tr": "Bunlar farklı un tipleri, kalite değişkenleri ve modelleme kümelerine aittir; protein, hamur kuvveti ve gluten gücü birbirinin yerine geçen ölçüler değildir.",
+   "source_ids": [
+    "Q65",
+    "Q67"
+   ]
+  },
+  {
+   "issue_tr": "200 °C fırınlama için bildirilen ekmek sıcaklığı aralıklarının üst sınırları farklıdır: bir model çalışmasında teorik üst değer 131,69 °C ve deneysel üst değer 119 °C iken, cup bread çalışmasında merkez için 600 saniyede simülasyon 95 °C ve deneysel aralık 92–96 °C verilmiştir.",
+   "likely_reason_tr": "Çalışmalar ürün geometrisi, ölçüm konumu, fırın ve model varsayımları bakımından farklı olabilir; verilen değerler aynı ölçüm noktası ve aynı koşullarda karşılaştırılabilir değildir.",
+   "source_ids": [
+    "Q146"
+   ]
+  }
+ ],
+ "simulation_rules": [
+  {
+   "rule_tr": "Pişirme süresince merkez nemini zamanla azalan, yüzey/çevre nem kaybını merkezden daha hızlı olabilecek biçimde modelleyin; mevcut sayısal dayanak yalnızca cup bread merkezinin başlangıç ve 10 dakika değerlerini kısıtlar.",
+   "functional_form": "Zamana bağlı azalma; iki nokta arasında doğrusal interpolasyon yalnızca yaklaşık bir başlangıç seçeneği olabilir, uzun aralığa ekstrapolasyon için kanıt yoktur.",
+   "param_suggestions": "200 °C'de %100 beyaz buğday unlu kalıpta cup bread için merkez nemini başlangıçta yaklaşık 313 kg m⁻³, 600 saniyede yaklaşık 220,5 kg m⁻³ olarak kalibre edin.",
+   "source_ids": [
+    "Q146"
+   ]
+  },
+  {
+   "rule_tr": "Merkez sıcaklığını zamanla yükselen bir ısı aktarımı durumu olarak kodlayın ve eşik sıcaklıklara erişimi ayrı bir olay/çıktı olarak izleyin.",
+   "functional_form": "Zamana bağlı ısınma eğrisi ve eşik göstergesi: T_merkez ≥ 94 °C.",
+   "param_suggestions": "Cup bread ve 200 °C'lik özelleştirilmiş kapalı zorlanmış konveksiyonlu fırında yaklaşık 510 saniyede ≥94 °C; 600 saniyede simülasyon 95 °C, deneysel aralık 92–96 °C.",
+   "source_ids": [
+    "Q146"
+   ]
+  },
+  {
+   "rule_tr": "Gözenek açılmasını sıcaklığa bağlı geçiş fonksiyonu olarak, tek bir ani geçiş yerine kademeli bir aralıkta temsil edin; yerel sıvı suyu buharlaşma ve yoğuşma cephelerine göre ayrı hesaplayın.",
+   "functional_form": "71–81 °C arasında kademeli sigmoid veya doğrusal geçiş; geçiş merkezi yaklaşık 76 °C. Yerel su için faz değişimine bağlı artış/azalış.",
+   "param_suggestions": "Gözenek açılma aralığı 71–81 °C ve geçiş sıcaklığı 76 °C; yerel sıvı su, yoğuşma cephesinde artar ve buharlaşma cephesinde azalır.",
+   "source_ids": [
+    "Q24",
+    "P614"
+   ]
+  },
+  {
+   "rule_tr": "Kapalı gözeneklerde buharlaşma–difüzyon–yoğuşma katkısını etkin ısı aktarımına ekleyin; ısı iletkenliğinin yalnız katı faz iletiminden oluştuğunu varsaymayın.",
+   "functional_form": "Etkin ısı iletkenliği = diğer katkılar + EDC katkısı; katkı büyüklüğü koşula bağlıdır.",
+   "param_suggestions": "180 °C'de 30 dakika pişirme deneyinin/modelinin koşullarında EDC'nin etkin ısı iletkenliğine katkısını %60'tan fazla olarak kullanın; farklı koşullara doğrudan genellemeyin.",
+   "source_ids": [
+    "Q24"
+   ]
+  },
+  {
+   "rule_tr": "Sourdough mikroorganizma büyümesini sıcaklığa göre optimumlu, pH'a göre sınırlı aralıklı ve tuza göre inhibisyon eşiği olan bir yanıt olarak tanımlayın; parametreleri suşa özgü tutun.",
+   "functional_form": "Sıcaklık için optimumlu çan eğrisi; pH için büyüme aralığı dışına çıkınca sıfıra inen sınırlı yanıt; tuz için eşik/azalan yanıt.",
+   "param_suggestions": "Sıcaklık optimumları LTH1729 için 33 °C, LTH2581 için 32 °C, C. milleri için 27 °C. Laktobasiller için pH yaklaşık 3,9–6,7; laktobasil büyümesi %4 NaCl'de tamamen inhibe, C. milleri %8 NaCl'ye kadar büyüyebilir.",
+   "source_ids": [
+    "Q4"
+   ]
+  },
+  {
+   "rule_tr": "Un kalitesinden somun hacmi tahmini için tek başına protein yerine çok değişkenli girdi seçeneklerini değerlendirin ve modelleri un tipine göre ayrı kalibre edin.",
+   "functional_form": "Un tipine göre katmanlandırılmış çok değişkenli PLS/regresyon; performans değerlendirmesi bağımsız test kümesinde RMSEP ile.",
+   "param_suggestions": "Bildirilen PLS RMSEP'leri kışlık 74 mL, yazlık/bahar 113 mL ve karışımlar 126 mL; karşılık gelen protein-only değerleri 102, 147 ve 158 mL. Bunları evrensel sabitler değil, çalışma koşullarına ait referanslar olarak kullanın.",
+   "source_ids": [
+    "Q65",
+    "Q67"
+   ]
+  },
+  {
+   "rule_tr": "Fırın rafı, yükü ve fırın tasarımını pişirme modelinin sınır koşullarına dahil edin; tek bir homojen fırın sıcaklığı varsayımı raf ve yük etkilerini temsil etmeyebilir.",
+   "functional_form": "Konum ve yük koşuluna bağlı sınır koşulları/ısı ve hız alanları; raf konumuna göre farklı pişme hızı.",
+   "param_suggestions": "Sayısal düzeltme katsayıları verilmediğinden raf ve yük etkilerini deneysel veya CFD kalibrasyonuyla belirleyin; kaynak yalnızca alt rafta pişmenin yavaşladığını ve kısmi/tam yük profillerinin farklılaştığını bildiriyor.",
+   "source_ids": [
+    "P640"
+   ]
+  },
+  {
+   "rule_tr": "Hesaplama maliyeti önemliyse yüksek doğruluklu ekmek pişirme modelinden indirgenmiş mertebeli bir model türetin; doğruluk kaybını ayrıca doğrulayın.",
+   "functional_form": "Uygun ortogonal ayrışım ve yapay sinir ağıyla indirgenmiş mertebeli vekil model.",
+   "param_suggestions": "Kanıt belirli bir hata toleransı veya hızlanma katsayısı vermediğinden bu parametreleri yeni doğrulama çalışmasında belirleyin; bildirilen tek sonuç hesaplama maliyetinin belirgin biçimde düşmesidir.",
+   "source_ids": [
+    "P1193"
+   ]
+  }
+ ],
+ "gaps_tr": [
+  "Pişirme süresi boyunca merkez ve çevre nemi için Q146 dışında karşılaştırılabilir, çok noktalı zaman serileri sınırlıdır; farklı ürün geometrilerine aktarım belirsizdir.",
+  "Gözenek açılması, hamur katılaşması ve nem faz değişimleri için modeller bildirilmiş olsa da parametrelerin farklı tarif ve fırın koşullarında nasıl değiştiğine ilişkin ortak kalibrasyon verisi verilmemiştir.",
+  "Fırın yükü ve raf konumu etkileri nitel olarak bildirilmiş; simülasyona aktarılabilecek sayısal düzeltme katsayıları mevcut değildir.",
+  "Somun hacmi tahminlerinde farklı un türleri ve çalışmaların veri kümeleri aynı protokolle karşılaştırılmamıştır; dış veri kümelerinde genellenebilirlik sınırlı biçimde raporlanmıştır.",
+  "Birçok makine öğrenmesi sonucu tek bir çalışma veya belirli veri temsiline dayanır; bağımsız dış doğrulama, belirsizlik aralıkları ve model kalibrasyonu eksik olabilir.",
+  "Fermantasyon sıcaklığı, pH ve inokulum etkileri bazı kaynaklarda yönü veya sayısal büyüklüğü belirtilmeden raporlanmıştır.",
+  "Bazı parametreler için model yapısı ya da optimum değer bildirilmiş olsa da amaç fonksiyonları, parametre belirsizliği ve optimum çevresindeki duyarlılık verilmemiştir.",
+  "Sıcaklık tahmin aralıkları farklı pişirme modelleri ve ölçüm konumlarından geldiğinden çalışmalar arası doğrudan kıyaslama için eşleşen geometri ve ölçüm koşulları eksiktir."
+ ],
+ "tid": "T24",
+ "name": "Matematiksel ve hesaplamalı modeller",
+ "n_sources": 40,
+ "n_findings": 99,
+ "theme_source_ids": [
+  "P1004",
+  "P1006",
+  "P1010",
+  "P1179",
+  "P1193",
+  "P1198",
+  "P1199",
+  "P1202",
+  "P1206",
+  "P1207",
+  "P1208",
+  "P1209",
+  "P1211",
+  "P1216",
+  "P1223",
+  "P1226",
+  "P221",
+  "P240",
+  "P282",
+  "P313",
+  "P321",
+  "P540",
+  "P577",
+  "P590",
+  "P599",
+  "P614",
+  "P619",
+  "P628",
+  "P632",
+  "P640",
+  "P704",
+  "P710",
+  "P793",
+  "Q146",
+  "Q24",
+  "Q4",
+  "Q65",
+  "Q67",
+  "W10",
+  "W44"
+ ]
+}

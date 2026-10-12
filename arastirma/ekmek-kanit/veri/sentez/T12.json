@@ -1,0 +1,570 @@
+{
+ "consensus": [
+  {
+   "claim_tr": "Ekşi maya özgül hacmi artırabilir veya azaltabilir; yön ve büyüklük un türüne, ekşi maya türü ve oranına ve üretim yöntemine bağlıdır. Bu nedenle tek bir genel hacim etkisi desteklenmiyor.",
+   "strength": "A_güçlü",
+   "n_supporting": 15,
+   "source_ids": [
+    "Q9",
+    "Q39",
+    "Q56",
+    "Q79",
+    "Q82",
+    "Q83",
+    "Q84",
+    "Q89",
+    "Q90",
+    "Q100",
+    "Q110",
+    "Q151",
+    "Q163",
+    "P192",
+    "P222"
+   ]
+  },
+  {
+   "claim_tr": "Ekşi maya bazı formülasyonlarda ekmek sertliğini ve depolama sırasında bayatlama hızını düşürür; ancak artan ekşi maya oranı veya belirli ekşi maya türleri sertliği yükseltebilir.",
+   "strength": "A_güçlü",
+   "n_supporting": 14,
+   "source_ids": [
+    "Q39",
+    "Q82",
+    "Q84",
+    "Q98",
+    "Q100",
+    "Q115",
+    "Q150",
+    "Q151",
+    "P177",
+    "P228",
+    "P242",
+    "P830",
+    "P834",
+    "P464"
+   ]
+  },
+  {
+   "claim_tr": "Ekşi maya ve bazı fermente ön hamurlar raf ömrünü uzatabilir; raporlanan mekanizmalar küf/maya gelişiminin baskılanması ve bayatlama ya da doku kaybının yavaşlamasıdır. Etki her formülasyonda garanti değildir.",
+   "strength": "A_güçlü",
+   "n_supporting": 15,
+   "source_ids": [
+    "P821",
+    "Q80",
+    "Q98",
+    "Q112",
+    "P1051",
+    "P218",
+    "P234",
+    "P241",
+    "P242",
+    "P825",
+    "P830",
+    "P834",
+    "P920",
+    "P160",
+    "P161"
+   ]
+  },
+  {
+   "claim_tr": "Duyusal kabul ekşi maya kullanımıyla iyileşebilir, fakat yanıt doğrusal değildir: bazı çalışmalarda orta veya düşük oranlar daha iyi sonuç verirken yüksek oranlar kabulü düşürmüştür.",
+   "strength": "B_orta",
+   "n_supporting": 7,
+   "source_ids": [
+    "Q99",
+    "Q115",
+    "Q150",
+    "Q100",
+    "Q151",
+    "P1142",
+    "P834"
+   ]
+  },
+  {
+   "claim_tr": "Glutensiz ekmeklerde ekşi maya bazı pirinç, mısır, kinoa ve karabuğday formülasyonlarında hacim, doku veya kabulü iyileştirebilir; sonuçlar kullanılan un ve starter kombinasyonuna özgüdür.",
+   "strength": "B_orta",
+   "n_supporting": 8,
+   "source_ids": [
+    "Q98",
+    "Q100",
+    "Q151",
+    "P56",
+    "P163",
+    "P207",
+    "P834",
+    "P218"
+   ]
+  },
+  {
+   "claim_tr": "Ekşi maya oranı arttıkça hacim ve tekstür yanıtı her zaman doğrusal ilerlemez; bazı bulgularda orta düzeyler daha iyi, daha yüksek düzeyler daha olumsuz sonuç vermiştir.",
+   "strength": "B_orta",
+   "n_supporting": 6,
+   "source_ids": [
+    "Q98",
+    "Q99",
+    "Q115",
+    "Q150",
+    "P248",
+    "P750"
+   ]
+  },
+  {
+   "claim_tr": "Ekşi maya ile duyusal veya fiziksel iyileşme bildiren bulgulara karşın, bazı karşılaştırmalarda anlamlı fark bulunmamıştır; etki ölçüt ve formülasyona göre değişmektedir.",
+   "strength": "B_orta",
+   "n_supporting": 5,
+   "source_ids": [
+    "Q79",
+    "P816",
+    "P172",
+    "P1142",
+    "Q156"
+   ]
+  },
+  {
+   "claim_tr": "Ön hamur/ekşi hamur tipi hacmi ve hamur reolojisini değiştirebilir; ancak tipler arasındaki yön, kullanılan tahıl ve yönteme bağlıdır.",
+   "strength": "B_orta",
+   "n_supporting": 5,
+   "source_ids": [
+    "Q9",
+    "Q77",
+    "Q78",
+    "Q89",
+    "Q90"
+   ]
+  }
+ ],
+ "quantitative": [
+  {
+   "quantity_tr": "Pirinç ekşi hamuru oranında en iyi duyusal sonuç bildirilen kullanım aralığı",
+   "value_or_range": "%10–20",
+   "unit": "%",
+   "conditions_tr": "Pirinç unlu glutensiz ekmek; taze veya liyofilize ekşi hamur.",
+   "source_ids": [
+    "Q99"
+   ]
+  },
+  {
+   "quantity_tr": "Amarant ekşi hamurunda duyusal yanıtın oranla değişimi",
+   "value_or_range": "%10'da en iyi duyusal sonuç; %20'de duyusal ret",
+   "unit": "ekşi hamur oranı",
+   "conditions_tr": "Amarant unlu glutensiz ekmek.",
+   "source_ids": [
+    "Q99"
+   ]
+  },
+  {
+   "quantity_tr": "Tip II ekşi hamurlu ekmekte Tip I'e kıyasla özgül hacim farkı",
+   "value_or_range": "%41–46 daha yüksek",
+   "unit": "%",
+   "conditions_tr": "Tip I ve Tip II ekşi hamurlu ekmek karşılaştırması.",
+   "source_ids": [
+    "Q9"
+   ]
+  },
+  {
+   "quantity_tr": "Panettonlarda özgül hacim",
+   "value_or_range": "2.521–3.243",
+   "unit": "mL/g",
+   "conditions_tr": "PC/PB/PMM/PE sırasıyla 3.243/3.050/2.521/2.767 mL/g; fark anlamlı değil.",
+   "source_ids": [
+    "Q79"
+   ]
+  },
+  {
+   "quantity_tr": "Tam buğday ekmeğinde ekşi maya oranı %0'dan %30'a çıkarken özgül hacim",
+   "value_or_range": "2.55'ten 2.42'ye",
+   "unit": "cm³/g",
+   "conditions_tr": "Un miktarı bazında %0, %10, %20 ve %30 ekşi maya; sırasıyla 2.55, 2.52, 2.47 ve 2.42 cm³/g.",
+   "source_ids": [
+    "Q82"
+   ]
+  },
+  {
+   "quantity_tr": "%20 ekşi maya ikameli ekmeklerin kontrolle özgül hacim karşılaştırması",
+   "value_or_range": "Kontrol 1.69 ± 0.04; ekşi mayalı örnekler 2.22–2.34",
+   "unit": "mL/g",
+   "conditions_tr": "Unun %20'si ekşi maya ile ikame edildi; bildirilen ekşi mayalı değerler SB SWF20, SB SWF25 ve SB USWF örneklerine aittir.",
+   "source_ids": [
+    "Q83",
+    "Q84"
+   ]
+  },
+  {
+   "quantity_tr": "Glutensiz pirinç-nohut ekmeğinde ekşi maya ilavesiyle özgül hacim",
+   "value_or_range": "Kontrol 3.69; ekşi mayalı 5.07",
+   "unit": "cm³/g",
+   "conditions_tr": "Hamura %14 ekşi maya; pirinç-nohut unu/mısır nişastası formülasyonu.",
+   "source_ids": [
+    "Q151"
+   ]
+  },
+  {
+   "quantity_tr": "Tam buğday ekmeğinde ekşi maya oranı %0'dan %30'a çıkarken sertlik",
+   "value_or_range": "1. günde 17.6–20.8; 3. günde 22.7–26.9",
+   "unit": "N",
+   "conditions_tr": "Oranlar sırasıyla %0, %10, %20 ve %30; sertlik iki depolama gününde ölçüldü.",
+   "source_ids": [
+    "Q82"
+   ]
+  },
+  {
+   "quantity_tr": "%20 ekşi maya ikameli ekmeklerde kırıntı sertliği değişimi",
+   "value_or_range": "SWF sourdough'lu ekmeklerde %20–30 azalma",
+   "unit": "%",
+   "conditions_tr": "Ekmekler 25 °C'de kapalı poşetlerde 72 saat saklandı; SB USWF için ilk kırıntı sertliği %60 olarak bildirildi.",
+   "source_ids": [
+    "Q84"
+   ]
+  },
+  {
+   "quantity_tr": "Ekşi mayalı ve kontrol glutensiz pirinç ekmeklerinde kırıntı sertliği",
+   "value_or_range": "0.83'e karşı 0.98",
+   "unit": "N",
+   "conditions_tr": "Ekşi maya ilaveli glutensiz pirinç ekmeği ile kontrol karşılaştırması.",
+   "source_ids": [
+    "Q151"
+   ]
+  },
+  {
+   "quantity_tr": "Ekşi mayalı ve kontrol glutensiz pirinç ekmeklerinde kırıntı nemi",
+   "value_or_range": "%49.57'ye karşı %46.26",
+   "unit": "%",
+   "conditions_tr": "Ekşi mayalı ve kontrol ekmeklerinin kırıntı nemi karşılaştırması.",
+   "source_ids": [
+    "Q151"
+   ]
+  },
+  {
+   "quantity_tr": "Poolish kullanımında görünür küf başlangıcı",
+   "value_or_range": "Poolish'te 10. güne kadar görünür küf yok; kontrolde 7. günde belirgin küf",
+   "unit": "gün",
+   "conditions_tr": "Arap yassı ekmeği; 25 °C'de 10 gün saklama.",
+   "source_ids": [
+    "Q80"
+   ]
+  },
+  {
+   "quantity_tr": "Fermentat A oranına göre küf gelişiminin gecikmesi",
+   "value_or_range": "%2'de 8 gün; %8'de 25 günden fazla; kontrol 4 gün",
+   "unit": "gün",
+   "conditions_tr": "Koruyucusuz ekmekte görünür küf gelişimine kadar geçen süre.",
+   "source_ids": []
+  },
+  {
+   "quantity_tr": "Fermentat F uygulamasında küf gelişimine kadar geçen süre",
+   "value_or_range": "6",
+   "unit": "gün",
+   "conditions_tr": "Koruyucusuz ekmekte %2 Fermentat F.",
+   "source_ids": []
+  },
+  {
+   "quantity_tr": "L. hammesii keten tohumu ekşi hamuruyla küfsüz raf ömrü artışı",
+   "value_or_range": "2",
+   "unit": "gün",
+   "conditions_tr": "Kimyasal koruyucu eklenmeyen ekmek; kontrolle karşılaştırma.",
+   "source_ids": [
+    "P241"
+   ]
+  },
+  {
+   "quantity_tr": "L. plantarum ve L. bulgaricus ile fermente ekşi hamurun raf ömrü katkısı",
+   "value_or_range": "1–2",
+   "unit": "gün",
+   "conditions_tr": "Somun ekmek; kontrol ekmeğinde %0.2 kalsiyum propiyonat.",
+   "source_ids": [
+    "P234"
+   ]
+  },
+  {
+   "quantity_tr": "Mısır unlu glutensiz ekmeklerde özgül hacim aralığı",
+   "value_or_range": "2.61–3.13",
+   "unit": "cm³/g",
+   "conditions_tr": "%10, %20 veya %30 ekşi maya; ekşi maya oranı yükseldikçe artış bildirildi.",
+   "source_ids": [
+    "Q100"
+   ]
+  },
+  {
+   "quantity_tr": "Mısır unlu glutensiz ekmeklerde sertlik ve genel kabul aralıkları",
+   "value_or_range": "Sertlik 4.11–4.75 N; genel kabul 3.05–4.25",
+   "unit": "N; kabul puanı",
+   "conditions_tr": "%10, %20 veya %30 ekşi maya; duyusal panel 10 yarı eğitimli değerlendiriciden oluştu.",
+   "source_ids": [
+    "Q100"
+   ]
+  },
+  {
+   "quantity_tr": "LF + KM ekşi hamurunun LV1'e göre glutensiz yassı ekmek hacmi ve doku farkı",
+   "value_or_range": "Hacim %35 arttı; sertlik %32 ve çiğnenebilirlik %28 azaldı",
+   "unit": "%",
+   "conditions_tr": "Pirinç-mısır glutensiz yassı ekmeğinde unun %10'u ekşi hamurla desteklendi.",
+   "source_ids": [
+    "P163"
+   ]
+  },
+  {
+   "quantity_tr": "Kinoa ve karabuğday ekşi mayalı glutensiz ekmeklerde kontrola göre özgül hacim",
+   "value_or_range": "Kinoa %40; karabuğday %25 daha yüksek",
+   "unit": "%",
+   "conditions_tr": "Kinoa ve karabuğday ekmekleri kendi kontrolleriyle karşılaştırıldı.",
+   "source_ids": [
+    "P834"
+   ]
+  }
+ ],
+ "moderators_tr": [
+  "Un ve tahıl türü: buğday, tam buğday, çavdar, pirinç, mısır, amarant, kinoa ve karabuğday sonuçları aynı yönde değildir.",
+  "Ekşi hamur tipi, starter mikroorganizmaları ve fermantasyon yöntemi; Tip I/II, iki aşamalı yöntem ve farklı LAB/maya kombinasyonları sonuçları değiştirebilir.",
+  "Ekşi hamur oranı ve un ikame oranı: bazı sonuçlarda orta veya düşük oranlar daha iyi, daha yüksek oranlar daha olumsuzdur.",
+  "Ekşi hamurun sıvı veya liyofilize olması ve hamur verimi/özelliği.",
+  "Formülasyondaki diğer bileşenler: nohut unu, psyllium, EPS, kepek veya tohum unları.",
+  "Depolama süresi ve koşulları; sertlik ve bayatlama sonuçları ölçüm günü ve saklama koşuluna bağlıdır.",
+  "Son ürün tipi ve proses: tava ekmeği, yassı ekmek, panettone ve buharda pişmiş ekmek sonuçları birbirine doğrudan genellenemez.",
+  "Karşılaştırma kontrolü önemlidir: ticari maya, doğrudan hamur, farklı ekşi maya tipi veya koruyuculu kontrol kullanılması etki yorumunu değiştirir."
+ ],
+ "conflicts": [
+  {
+   "issue_tr": "Özgül hacim bazı çalışmalarda artarken bazılarında azalmış veya anlamlı fark göstermemiştir.",
+   "likely_reason_tr": "Tahıl/un türü, ekşi maya oranı, starter ve proses koşulları farklıdır; bazı satırlarda farklı kontrol tipleri karşılaştırılmıştır.",
+   "source_ids": [
+    "Q9",
+    "Q39",
+    "Q79",
+    "Q82",
+    "Q83",
+    "Q89",
+    "Q90",
+    "Q100",
+    "Q151",
+    "P163",
+    "P834"
+   ]
+  },
+  {
+   "issue_tr": "Ekşi maya sertliği kimi formülasyonlarda düşürürken, artan oranlarda veya belirli starter/formülasyonlarda sertlik artışı da bildirilmiştir.",
+   "likely_reason_tr": "Oran yanıtının doğrusal olmaması, un türü ve ekşi maya bileşiminin farklılığı ve sertliğin farklı zamanlarda ölçülmesi olası açıklamalardır.",
+   "source_ids": [
+    "Q82",
+    "Q84",
+    "Q98",
+    "Q100",
+    "Q115",
+    "Q150",
+    "P1053",
+    "P151"
+   ]
+  },
+  {
+   "issue_tr": "Duyusal kabul bazı ekşi mayalı ürünlerde artarken bazı yüksek oranlı veya belirli unlu ürünlerde düşmüştür; bazı testlerde anlamlı fark da bulunmamıştır.",
+   "likely_reason_tr": "Duyusal yanıt oran, tahıl/starter türü, ürün tipi ve panelist grubuna bağlıdır; ölçüm ölçekleri ve karşılaştırmalar da farklıdır.",
+   "source_ids": [
+    "Q99",
+    "Q115",
+    "Q150",
+    "Q79",
+    "P816",
+    "P1142",
+    "P1144"
+   ]
+  },
+  {
+   "issue_tr": "Ekşi maya veya ön hamur raf ömrünü çoğunlukla uzatıyor görünse de etki büyüklükleri ve bazı doğal asit düzeylerinin yeterliliği tutarlı değildir.",
+   "likely_reason_tr": "Antimikrobiyal bileşen, starter, ekşi maya oranı, koruyucu kullanımı ve küf/bozulma sonlanım ölçütü çalışmalar arasında farklıdır.",
+   "source_ids": [
+    "P821",
+    "P240",
+    "P234",
+    "P241",
+    "P920",
+    "P825"
+   ]
+  },
+  {
+   "issue_tr": "Tip II ekşi hamur bazı derleme bulgularında Tip I'e göre hacmi artırırken iki aşamalı yöntem deneylerinde ikinci aşama hacmi düşürmüştür.",
+   "likely_reason_tr": "‘Tip II’ sınıflaması ile iki aşamalı geliştirme yöntemi aynı işlem tanımı değildir; kullanılan tahıl, starter ve karşılaştırma da farklıdır.",
+   "source_ids": [
+    "Q9",
+    "Q89",
+    "Q90"
+   ]
+  }
+ ],
+ "simulation_rules": [
+  {
+   "rule_tr": "Özgül hacim etkisini tek bir sabit ekşi maya katsayısıyla tanımlamayın; un türü, starter/proses ve ekşi maya oranına göre ayrı parametreleştirin.",
+   "functional_form": "Koşula bağlı doğrusal veya kategorik etki; mevcut karışık bulgular nedeniyle evrensel yön atanmasın.",
+   "param_suggestions": "Kanıttaki örnek etkiler −%25 ila +%46'dan geniş bir aralığa dağılabilir; bunu genel parametre aralığı olarak değil, yalnız ilgili formülasyonların sınırı olarak kullanın. Örnek: Q39'da özgül hacim 2.30'dan 1.52–1.83 mL/g'ye; Q9'da Tip II ile %41–46 artış.",
+   "source_ids": [
+    "Q9",
+    "Q39",
+    "Q79",
+    "Q82",
+    "Q83",
+    "Q100",
+    "Q151",
+    "P163",
+    "P834"
+   ]
+  },
+  {
+   "rule_tr": "Oran arttıkça sertlik ve duyusal kabul için doğrusal olmayan yanıtı, uygun olduğunda orta düzeyde optimumla kodlayın.",
+   "functional_form": "Konkav ikinci derece eğri veya parçalı eğri; optimumu çalışma koşuluna özgü seçin.",
+   "param_suggestions": "Pirinç ekmeğinde sertlik ve kabul için bildirilen optimum %20; tam buğday/elma-incir bulgularında duyusal tercih %10; amarantta %10 daha iyi, %20 reddedilmiş. Evrensel optimum varsaymayın.",
+   "source_ids": [
+    "Q98",
+    "Q99",
+    "Q115",
+    "Q150",
+    "P248"
+   ]
+  },
+  {
+   "rule_tr": "Ekşi maya bulunan formülasyonlarda depolama boyunca sertlik/bayatlama artış hızını azaltabilen bir terim kullanın; etkiyi ekmek türü ve formülasyona bağlayın.",
+   "functional_form": "Depolama zamanına bağlı sertlik artışı için daha düşük eğim; örneğin sertlik(t)=sertlik₀+k·t ve ekşi mayalı koşulda k daha küçük.",
+   "param_suggestions": "Pirinç-nohut ekmeğinde sertlik artışı 0.35'e karşı 0.61 N/gün, modern buğday sourdough'unda 24–72 saat sertlik artışı %8.3'e karşı kontrolde %10.2 bildirilmiş; bu değerler ilgili ürün koşullarıyla sınırlı tutulmalı.",
+   "source_ids": [
+    "Q39",
+    "Q151",
+    "P242",
+    "P830",
+    "P834"
+   ]
+  },
+  {
+   "rule_tr": "Raf ömrü simülasyonunda ekşi maya/fermentat etkisini küf gelişimi için gecikme veya gelişim olasılığında azalma olarak temsil edin; ürün ve doz bilgisi yoksa sayısal gecikme atamayın.",
+   "functional_form": "Küf başlangıç zamanında gecikme terimi veya zamana bağlı küf gelişimi hazard'ında azalma; doza bağlı kanıt varsa monoton artan gecikme.",
+   "param_suggestions": "Yalnız ilgili deney koşullarında Q80 için poolish'te görünür küf 10. güne kadar yok, kontrolde 7. günde belirgin; Q920'de Fermentat A %2'de 8 gün ve %8'de >25 gün, kontrolde 4 gün.",
+   "source_ids": [
+    "Q80",
+    "P160",
+    "P161",
+    "P234",
+    "P241"
+   ]
+  },
+  {
+   "rule_tr": "Ön hamur/ekşi hamur tipinin etkisini kategorik işlem değişkeni olarak kodlayın; tüm tipler arasında ortak bir hacim sıralaması dayatmayın.",
+   "functional_form": "Tip I/II veya biga/poolish/doğrudan hamur için ayrı kategorik katsayılar; formülasyona göre etkileşim terimi.",
+   "param_suggestions": "Q9'da Tip II, Tip I'e göre özgül hacimde %41–46 yüksek bildirilmiş; Q89 ve Q90'da iki aşamalı yöntem hacmi düşürmüş. Bu farklı tanımları tek bir parametreye birleştirmeyin.",
+   "source_ids": [
+    "Q9",
+    "Q77",
+    "Q78",
+    "Q79",
+    "Q89",
+    "Q90"
+   ]
+  },
+  {
+   "rule_tr": "Duyusal kabulü ekşi maya oranına bağlı ve ürün/panele özgü bir çıktı olarak modelleyin; hacim veya sertlikten doğrudan türetmeyin.",
+   "functional_form": "Orana göre kategorik tercih ya da optimumlu eğri; panel verisi mevcutsa ayrı duyusal yanıt modeli.",
+   "param_suggestions": "Kaynaklarda %10–20 aralığında iyi sonuçlar ve daha yüksek oranlarda düşüş örnekleri var; ancak optimum değer tahıl ve formülasyona göre değişiyor.",
+   "source_ids": [
+    "Q99",
+    "Q100",
+    "Q115",
+    "Q150",
+    "Q151",
+    "P1142"
+   ]
+  }
+ ],
+ "gaps_tr": [
+  "Birçok derleme bulgusunda özgül hacim, sertlik, duyusal kabul ve raf ömrü için sayısal etki büyüklüğü verilmemiştir.",
+  "Ekşi maya oranı, un ikame oranı, hamur hidrasyonu ve starter miktarı her kaynakta aynı tanımla raporlanmamıştır.",
+  "Aynı formülasyonda hacim, sertlik, duyusal kabul ve raf ömrünü birlikte ölçen karşılaştırmalı çalışmalar sınırlıdır.",
+  "Çalışmalar arası sonuçları birleştirmek için ortak depolama koşulları, ölçüm zamanları ve duyusal ölçekler yetersizdir.",
+  "Ekşi maya etkisinin starter bileşimi, asitlenme düzeyi ve fermantasyon süresi üzerinden nasıl değiştiğini ayrıştıran nicel veri eksiktir.",
+  "Fırıncı/pratisyen kaynaklarındaki duyusal ve yükselme gözlemleri çoğunlukla nicel ölçümsüzdür ve kontrollü deneylerle doğrudan karşılaştırılamaz.",
+  "Raf ömrü bulgularında görünür küf, mikrobiyal sayım, doku korunumu ve bayatlama farklı sonlanım ölçütleri olarak kullanılmıştır.",
+  "Bazı satırlar aynı veya örtüşen deney verilerini temsil edebilir; bağımsız kanıt sayısını kesinleştirmek için kaynakların tam bibliyografik ve yöntem bilgileri gerekir."
+ ],
+ "tid": "T12",
+ "name": "Ekşi maya kullanımı → hacim, sertlik, raf ömrü, duyusal",
+ "n_sources": 83,
+ "n_findings": 164,
+ "theme_source_ids": [
+  "P1024",
+  "P1027",
+  "P1048",
+  "P1051",
+  "P1053",
+  "P1141",
+  "P1142",
+  "P1144",
+  "P1145",
+  "P1149",
+  "P1151",
+  "P160",
+  "P161",
+  "P163",
+  "P170",
+  "P172",
+  "P176",
+  "P177",
+  "P190",
+  "P192",
+  "P207",
+  "P218",
+  "P222",
+  "P223",
+  "P224",
+  "P227",
+  "P228",
+  "P233",
+  "P234",
+  "P240",
+  "P241",
+  "P242",
+  "P248",
+  "P455",
+  "P464",
+  "P465",
+  "P527",
+  "P56",
+  "P750",
+  "P756",
+  "P816",
+  "P821",
+  "P825",
+  "P826",
+  "P830",
+  "P834",
+  "P835",
+  "P847",
+  "P85",
+  "P920",
+  "P969",
+  "Q100",
+  "Q110",
+  "Q112",
+  "Q115",
+  "Q119",
+  "Q14",
+  "Q143",
+  "Q150",
+  "Q151",
+  "Q156",
+  "Q17",
+  "Q26",
+  "Q39",
+  "Q50",
+  "Q51",
+  "Q52",
+  "Q77",
+  "Q78",
+  "Q79",
+  "Q80",
+  "Q81",
+  "Q82",
+  "Q83",
+  "Q84",
+  "Q89",
+  "Q9",
+  "Q90",
+  "Q98",
+  "Q99",
+  "W1",
+  "W25",
+  "W43"
+ ]
+}

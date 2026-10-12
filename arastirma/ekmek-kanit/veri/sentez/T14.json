@@ -1,0 +1,544 @@
+{
+ "consensus": [
+  {
+   "claim_tr": "L-asparaginaz, uygun gıda uygulamalarında akrilamid oluşumunu azaltabilir; derlemeler ve ekmek deneyleri bu yönde tutarlıdır. Asparajin azalması ve akrilamid azalması ayrı sonuçlardır.",
+   "strength": "A_güçlü",
+   "n_supporting": 5,
+   "source_ids": [
+    "P747",
+    "P727",
+    "P744",
+    "P739",
+    "P740"
+   ]
+  },
+  {
+   "claim_tr": "Ksilanaz uygulaması birçok ekmek sisteminde hacmi artırma ve sertlik/yumuşaklık özelliklerini iyileştirme eğilimindedir; etki doz, enzim ve un/ürün sistemine bağlıdır.",
+   "strength": "A_güçlü",
+   "n_supporting": 8,
+   "source_ids": [
+    "P877",
+    "P860",
+    "P852",
+    "P858",
+    "P603",
+    "P853",
+    "P856",
+    "P867"
+   ]
+  },
+  {
+   "claim_tr": "Amilazlar nişasta hidrolizini ve bazı formülasyonlarda bayatlamanın gecikmesini destekleyebilir; sonuçlar enzim türüne, dozuna ve ürün sistemine göre değişebilir.",
+   "strength": "B_orta",
+   "n_supporting": 7,
+   "source_ids": [
+    "Q33",
+    "P153",
+    "P802",
+    "P803",
+    "P808",
+    "P875",
+    "P467"
+   ]
+  },
+  {
+   "claim_tr": "Askorbik asit çoğu buğday ekmeği uygulamasında hamur kuvvetini veya somun hacmini artırabilir; doz ve hamur/öğütme koşulları sonucu değiştirebilir ve optimum doz aşılınca hacim düşebilir.",
+   "strength": "A_güçlü",
+   "n_supporting": 7,
+   "source_ids": [
+    "Q62",
+    "Q59",
+    "Q61",
+    "Q58",
+    "P872",
+    "P510",
+    "P339"
+   ]
+  },
+  {
+   "claim_tr": "SSL, DATEM ve başka emülgatörler hacim veya yumuşaklıkta iyileşme sağlayabilir; etki emülgatör türüne, doza ve un/formülasyona özgüdür.",
+   "strength": "B_orta",
+   "n_supporting": 6,
+   "source_ids": [
+    "Q61",
+    "P802",
+    "P109",
+    "P901",
+    "P889",
+    "P900"
+   ]
+  },
+  {
+   "claim_tr": "Enzim veya katkı kombinasyonlarının etkisi tekil bileşenlerden farklı olabilir; sinerji ve en iyi düzey un kuvvetine, ürün tipine ve birlikte kullanılan bileşenlere bağlıdır.",
+   "strength": "B_orta",
+   "n_supporting": 6,
+   "source_ids": [
+    "P918",
+    "P930",
+    "P872",
+    "P892",
+    "P903",
+    "P875"
+   ]
+  },
+  {
+   "claim_tr": "Lipaz ekmek kalitesini, hamur gücünü veya somun hacmini iyileştirebilir; ancak lipitlerin ileri hidrolizi ve kullanılan un hattı sonucu tersine çevirebilir.",
+   "strength": "B_orta",
+   "n_supporting": 4,
+   "source_ids": [
+    "P349",
+    "P878",
+    "P875",
+    "P882"
+   ]
+  },
+  {
+   "claim_tr": "Enzim uygulamalarında doz, un kuvveti, kepek/tam tahıl içeriği, su dağılımı ve işlem koşulları önemli etki değiştiricileridir; tek bir genel etki büyüklüğü çıkarılamaz.",
+   "strength": "A_güçlü",
+   "n_supporting": 7,
+   "source_ids": [
+    "P918",
+    "P930",
+    "P381",
+    "P851",
+    "Q61",
+    "Q58",
+    "P343"
+   ]
+  },
+  {
+   "claim_tr": "Fitaz, hamur veya ekmekte fitat düzeyini düşürebilir; insanlardaki demir emilimi ve ferritin sonuçları müdahale ve değerlendirme koşullarına göre farklılaşabilir.",
+   "strength": "B_orta",
+   "n_supporting": 4,
+   "source_ids": [
+    "P1031",
+    "P892",
+    "Q164",
+    "P398"
+   ]
+  },
+  {
+   "claim_tr": "Enzimlerle bayatlamanın veya depolama sırasında sertleşmenin azaltılabildiği bildirilmiştir; etki ölçütü, depolama süresi ve formülasyona bağlıdır.",
+   "strength": "A_güçlü",
+   "n_supporting": 7,
+   "source_ids": [
+    "Q129",
+    "P918",
+    "P467",
+    "P802",
+    "P803",
+    "P808",
+    "P851"
+   ]
+  }
+ ],
+ "quantitative": [
+  {
+   "quantity_tr": "L-asparaginaz uygulamasıyla asparajin miktarındaki azalma",
+   "value_or_range": "%81 tatlı ekmekte; %84 kurabiyede",
+   "unit": "%",
+   "conditions_tr": "Derlemede aktarılan tatlı ekmek ve kurabiye çalışmaları; enzim uygulaması.",
+   "source_ids": [
+    "Q74"
+   ]
+  },
+  {
+   "quantity_tr": "L-asparaginazla ekmekte akrilamid azalması",
+   "value_or_range": "%51,7",
+   "unit": "%",
+   "conditions_tr": "D60W/L211R/L310R mutantı; 100 U/g un; sıcaklık ve pH kontrol edilmemiş.",
+   "source_ids": [
+    "P744"
+   ]
+  },
+  {
+   "quantity_tr": "L-asparaginazla ekmek işleminde akrilamid azalması",
+   "value_or_range": "%42,5",
+   "unit": "%",
+   "conditions_tr": "Trichoderma reesei tarafından üretilen L-asparaginazın ekmek işleminde kullanılması.",
+   "source_ids": [
+    "P739"
+   ]
+  },
+  {
+   "quantity_tr": "Ekmek yapımında bildirilen askorbik asit kullanım aralığı",
+   "value_or_range": "20–150",
+   "unit": "ppm",
+   "conditions_tr": "Derlemede aktarılan ekmek uygulamaları.",
+   "source_ids": [
+    "Q62"
+   ]
+  },
+  {
+   "quantity_tr": "Askorbik asit için somun hacmi optimumu ve kontrola göre artış",
+   "value_or_range": "100 mg/kg unda en yüksek hacim; kontrol ekmeğinde yaklaşık %8, %10 kepekli ekmekte %10, %20 kepekli ekmekte %11 artış",
+   "unit": "mg/kg un ve %",
+   "conditions_tr": "Mekanik hamur geliştirme; L-askorbik asit 0–150 mg/kg ve kepek %0, %10 veya %20. 125 ve 150 mg/kg'da hacim 100 mg/kg düzeyine göre düşmüştür.",
+   "source_ids": [
+    "Q58"
+   ]
+  },
+  {
+   "quantity_tr": "50 ppm vitamin C ile ekmek hacmi değişimi",
+   "value_or_range": "SH: 320,4→371,4 mL; LH: 323,9→330,0 mL",
+   "unit": "mL",
+   "conditions_tr": "Ariheuk mor buğdayından elde edilen yüksek hızlı öğütme unları; ilavesiz örnekle karşılaştırma.",
+   "source_ids": [
+    "Q61"
+   ]
+  },
+  {
+   "quantity_tr": "%0,5 SSL ile ekmek hacmi ve özgül hacim değişimi",
+   "value_or_range": "Hacim: 432,48±50,01→505,25±12,83 mL; özgül hacim: 2,79±0,39→3,29±0,12 mL/g",
+   "unit": "mL ve mL/g",
+   "conditions_tr": "Buğday ununun %10 debittered lupin unu ve %10 tip içeren formülasyonunda Control 2'ye SSL eklenmesi.",
+   "source_ids": [
+    "P109"
+   ]
+  },
+  {
+   "quantity_tr": "Darı kepeğine ksilanaz ön işleminin bildirilen etkileri",
+   "value_or_range": "Serbest ferulik asit +%5; ekmek hacmi +%6; iç yumuşaklığı +%16; iç elastikiyeti +%7; çiğnenebilirlik −%15; viskozite −%20–32",
+   "unit": "%",
+   "conditions_tr": "Glutensiz ekmek; etkiler özellikle orta boyutlu darı kepeği kullanıldığında vurgulanmıştır.",
+   "source_ids": [
+    "P860"
+   ]
+  },
+  {
+   "quantity_tr": "PcXyn11A ile ekmek hacmi ve sertlik değişimi",
+   "value_or_range": "Hacim +%11,45; sertlik −%34,68",
+   "unit": "%",
+   "conditions_tr": "Tam buğday ekmeği; 4 mg/kg enzim; kontrole kıyasla.",
+   "source_ids": [
+    "P603"
+   ]
+  },
+  {
+   "quantity_tr": "TmxN3 ksilanazıyla ekmek tekstürü değişimi",
+   "value_or_range": "Sertlik −%55,2; çiğnenebilirlik −%40,11; yapışkanlık −%53,52",
+   "unit": "%",
+   "conditions_tr": "Buğday unlu ekmek; enzim dozajı belirtilmemiştir.",
+   "source_ids": [
+    "P852"
+   ]
+  },
+  {
+   "quantity_tr": "Ksilanaz ve β-glukanazın birlikte uygulanmasıyla özgül hacim ve sertlik değişimi",
+   "value_or_range": "Özgül hacim +%35; ekmek içi sertliği yaklaşık −%50",
+   "unit": "%",
+   "conditions_tr": "%40 tam tahıllı yayla arpası içeren kompozit ekmek; çift enzim uygulaması.",
+   "source_ids": [
+    "P853"
+   ]
+  },
+  {
+   "quantity_tr": "Enzim kokteyliyle beş günlük depolama sonunda ekmek sertliği",
+   "value_or_range": "Kontrol 65,13 N; %2 dozda 22,99 N; %4 dozda 23,24 N; %6 dozda 18,24 N",
+   "unit": "N ve % kokteyl ilavesi",
+   "conditions_tr": "Zayıf buğday unu; α-amilaz, ksilanaz ve selülaz içeren kokteyl; 5 günlük depolama.",
+   "source_ids": [
+    "P467"
+   ]
+  },
+  {
+   "quantity_tr": "Buğday ruşeymi fitaz ekstraktıyla ekmekte fitat fosforundaki azalma",
+   "value_or_range": "%90,6",
+   "unit": "%",
+   "conditions_tr": "Hamur karıştırılırken gerekli suyun yarısı, eşit miktarda yağsız buğday ruşeymi fitaz ekstraktıyla değiştirilmiştir.",
+   "source_ids": [
+    "P1031"
+   ]
+  },
+  {
+   "quantity_tr": "Pirinç kepeği fitaz ekstraktıyla fitat azalması",
+   "value_or_range": "10 mL: %62,7; 20 mL: %65,7; 30 mL: %77,2",
+   "unit": "% azalma",
+   "conditions_tr": "Pirinç kepeği fitaz ekstraktının hamur fermantasyonunda kullanılması.",
+   "source_ids": [
+    "P1031"
+   ]
+  },
+  {
+   "quantity_tr": "Maltogenik α-amilazlı glutensiz ekmeğin özgül hacmi",
+   "value_or_range": "2,96→3,91",
+   "unit": "cm³/g",
+   "conditions_tr": "En yüksek enzim konsantrasyonu; koruyucu içeren referans formülasyonla karşılaştırma.",
+   "source_ids": [
+    "P808"
+   ]
+  },
+  {
+   "quantity_tr": "Transglutaminaz dozlarının test aralığı",
+   "value_or_range": "0; 0,05; 0,1; 0,2",
+   "unit": "g/100 g un",
+   "conditions_tr": "Zayıf, orta ve güçlü buğday unları; özgül hacim ve tekstür anlamlı biçimde etkilenmiştir, ancak etki yönü bütün koşullar için tekdüze değildir.",
+   "source_ids": [
+    "P930"
+   ]
+  },
+  {
+   "quantity_tr": "L-asparaginaz mutantıyla ekmekte akrilamid azalması",
+   "value_or_range": "%51,7; yabani tipe göre bildirilen azalma %49,9 daha yüksek",
+   "unit": "%",
+   "conditions_tr": "D60W/L211R/L310R mutantı, 100 U/g un; sıcaklık ve pH kontrol edilmemiştir.",
+   "source_ids": [
+    "P744"
+   ]
+  }
+ ],
+ "moderators_tr": [
+  "Enzim ve katkının kimliği, aktivitesi, dozu ve tek başına ya da karışım halinde uygulanması.",
+  "Un kuvveti, buğday hattı/genotipi, öğütme yöntemi ve endojen enzim inhibitörleri.",
+  "Tam tahıl/kepek oranı ve parçacık boyutu; glutenli ve glutensiz formülasyon farkı.",
+  "Hamur hidrasyonu ve su dağılımı; oksijence zengin veya azaltılmış karıştırma atmosferi.",
+  "Ürün tipi (somun, yassı ekmek, glutensiz ekmek, kurabiye) ve üretim yöntemi.",
+  "Fermantasyon, karıştırma, pişirme, soğukta bekletme ve depolama süresi/sıcaklığı.",
+  "Enzimlerin birlikte kullanımı ve bileşen etkileşimleri; bazı sonuçlarda kombinasyonun tekil etkilerden daha önemli olması.",
+  "Askorbik asitte dozun optimumu aşması; lipazda lipit hidrolizinin kapsamı; xilanazda hidroliz derecesi.",
+  "Ölçülen sonlanımın tanımı ve zamanı: taze ekmek hacmi, depolama sertliği, nem, su aktivitesi veya duyusal puan."
+ ],
+ "conflicts": [
+  {
+   "issue_tr": "Ksilanaz ekmek hacmini bazı çalışmalarda artırırken, Ariheuk yüksek hızlı öğütme unlarında SH'de artış ve LH'de azalış bildirilmiş; enzim etkileri genel olarak anlamlı bulunmamıştır.",
+   "likely_reason_tr": "Un/öğütme hattı ve hamur koşulları farklıdır; tek bir doz ve ürün sistemi üzerinden genel hacim etkisi çıkarılamaz.",
+   "source_ids": [
+    "P877",
+    "P603",
+    "P856",
+    "Q61"
+   ]
+  },
+  {
+   "issue_tr": "Askorbik asit çoğu satırda hamur kuvveti veya hacim artışıyla ilişkilendirilirken, oksijence zengin karıştırmada ek hacim etkisi görülmemiştir.",
+   "likely_reason_tr": "Oksijen koşulları askorbik asidin etkisini değiştirmiştir; doz ve un matrisi de farklı olabilir.",
+   "source_ids": [
+    "Q59",
+    "Q61",
+    "Q58",
+    "P339"
+   ]
+  },
+  {
+   "issue_tr": "Emülgatörler çoğu uygulamada hacim artışı veya sertlik azalmasıyla ilişkilendirilirken, çok yüksek hidrasyonlu hamurlarda emülgatör ilavesi ekmek içi sertliğini artırmıştır.",
+   "likely_reason_tr": "Emülgatör türü, glutenle etkileşim ve yüksek hidrasyon koşulları farklıdır; aynı sınıftaki katkılar eşdeğer kabul edilemez.",
+   "source_ids": [
+    "P109",
+    "P901",
+    "P889",
+    "Q61"
+   ]
+  },
+  {
+   "issue_tr": "Lipaz bazı sistemlerde somun hacmini ve hamur gücünü artırırken, ileri lipit/lizolipit degradasyonu hacmi azaltabilir; ayrıca lipaz etkisi un hattına göre değişebilir.",
+   "likely_reason_tr": "Etkilerin yönü lipit substratına, hidroliz düzeyine ve puroindolin haplotipine bağlı görünmektedir.",
+   "source_ids": [
+    "P349",
+    "P878",
+    "P882"
+   ]
+  },
+  {
+   "issue_tr": "Fitaz müdahaleleri fitat azalmasını desteklerken, insan çalışmasında fitat fraksiyonları azalmasına rağmen ferritin de düşmüştür; fitazla öğüne eklemede demir emilimi artışı bildirilmiştir.",
+   "likely_reason_tr": "Ölçülen sonlanımlar, müdahale biçimleri, demir kaynakları ve çalışma tasarımları farklıdır; biyoyararlanım sonucu fitat azalmasından doğrudan çıkarılamaz.",
+   "source_ids": [
+    "Q164",
+    "P1031"
+   ]
+  }
+ ],
+ "simulation_rules": [
+  {
+   "rule_tr": "Askorbik asidin hacim etkisini düşük-orta dozlarda artırıcı, optimumdan sonra azaltıcı olacak şekilde modelle; optimumu yalnızca ilgili mekanik geliştirme çalışmasının koşulları için kullan.",
+   "functional_form": "Parçalı doğrusal veya optimumlu çan eğrisi; hacim yanıtı A(d)=A0+β1d (d≤d*) ve d* sonrasında düşüş.",
+   "param_suggestions": "Q58 için d*=100 mg/kg un; 0–100 mg/kg aralığında hacim artışı, 125–150 mg/kg'da 100 mg/kg'a göre düşüş. Kepek düzeyine göre bildirilen yaklaşık hacim artışı %8–11.",
+   "source_ids": [
+    "Q58",
+    "Q61",
+    "Q62"
+   ]
+  },
+  {
+   "rule_tr": "Ksilanazın hacim ve tekstür etkisini doz/hamur matrisiyle etkileşen, tekdüze olmayan bir yanıt olarak kodla; verisi olmayan ürünlere sabit etki atama.",
+   "functional_form": "Doz ve matrise bağlı etkileşimli model; hacim için doğrusal olmayan veya işaret değiştirebilen yanıt, sertlik için koşula bağlı azalma.",
+   "param_suggestions": "4 mg/kg PcXyn11A koşulunda hacim +%11,45 ve sertlik −%34,68; diğer belirli sistemlerde hacim artışları %6, %13,06 veya %30 olarak bildirilmiş, doğrudan aynı parametre havuzunda birleştirilmemelidir.",
+   "source_ids": [
+    "P603",
+    "P860",
+    "P856",
+    "P858",
+    "Q61"
+   ]
+  },
+  {
+   "rule_tr": "Ksilanaz/selülaz veya ksilanaz/β-glukanaz kombinasyonlarında tekstür iyileşmesini enzim türü ve ürün formülasyonuna bağla.",
+   "functional_form": "Kombinasyon terimli doğrusal model veya sınırlı etkileşim modeli: sonuç = temel etki + enzim dozları + enzim×matris etkileşimi.",
+   "param_suggestions": "Belirli deneylerde sertlikte yaklaşık %50 azalma veya 5. gün sertliğinin 65,13 N'den 18,24–23,24 N aralığına inmesi bildirilmiştir; bu değerler yalnızca ilgili sistemlere uygulanmalıdır.",
+   "source_ids": [
+    "P853",
+    "P467",
+    "P851"
+   ]
+  },
+  {
+   "rule_tr": "SSL ve DATEM etkilerini katkı türü ve dozuna bağlı ayrı parametrelerle temsil et; doğrusal ve evrensel bir katkı etkisi varsayma.",
+   "functional_form": "Doza bağlı doygunluk veya optimumlu yanıt; formülasyon/ürün türüyle etkileşim.",
+   "param_suggestions": "Bildirilen belirli örnekler: SSL %0,5'te hacim 432,48'den 505,25 mL'ye; DATEM %0,3'te iç sertliği 33,4'ten 23,0 N'ye. Bunlar farklı ürün sistemlerinden geldiğinden ayrı kalibre edilmelidir.",
+   "source_ids": [
+    "P109",
+    "P901",
+    "P802",
+    "P900"
+   ]
+  },
+  {
+   "rule_tr": "Enzimle depolama sertleşmesini zamanla değişen bir süreç olarak kodla; depolama süresi ve enzim/formülasyon etkisini ayrı tut.",
+   "functional_form": "Zamanla artan sertlik için gecikmeli büyüme veya üstel yaklaşım; enzim etkisi gecikme süresini artıran ya da sertlik artış hızını azaltan terim.",
+   "param_suggestions": "Maltogenik amilaz için depolama boyunca daha az sertleşme; ksilanaz-selülaz kompleksi için 300 U/kg'da yedi gün gecikmiş bayatlama bildirilmiştir. Ortak sayısal hız sabiti verilmediğinden parametreyi deney verisiyle kalibre et.",
+   "source_ids": [
+    "P808",
+    "P851",
+    "P802",
+    "P803"
+   ]
+  },
+  {
+   "rule_tr": "L-asparaginazı asparajin veya akrilamid sonlanımına etki eden ayrı bir işlem olarak modelle; bu iki sonlanımı birbirine eşit kabul etme.",
+   "functional_form": "Doyuma yaklaşan azalma: C(d)=C0·(1−Emax·d/(K+d)); doz ve ürün türüne özgü Emax.",
+   "param_suggestions": "Asparajin azalması için tatlı ekmekte %81 ve kurabiyede %84; ekmek akrilamid azalması için ayrı çalışmalarda %42,5 ve %51,7 bildirilmiştir. Çalışmalar arası ortak doz-tepki parametresi sağlanmamıştır.",
+   "source_ids": [
+    "Q74",
+    "P739",
+    "P744",
+    "P747",
+    "P727"
+   ]
+  },
+  {
+   "rule_tr": "Fitazı hamur/ekmek fitat miktarını azaltan doz ve ekstrakt kaynağına bağlı işlem olarak kodla; demir emilimini veya ferritini fitat yanıtından otomatik türetme.",
+   "functional_form": "Fitat için dozla artan, doygunluğa ulaşabilen azalma; biyoyararlanım ve ferritin için ayrı sonuç denklemleri.",
+   "param_suggestions": "Pirinç kepeği ekstraktında 10–30 mL aralığında fitat azalması %62,7–77,2; buğday ruşeymi ekstraktı koşulunda fitat fosforunda %90,6 azalma bildirilmiştir.",
+   "source_ids": [
+    "P1031",
+    "Q164",
+    "P892"
+   ]
+  },
+  {
+   "rule_tr": "Enzim kombinasyonlarında tekil etkileri toplamak yerine un kuvveti ve ürün matrisiyle etkileşim terimleri kullan.",
+   "functional_form": "Faktöriyel etkileşim modeli: Y=β0+ΣβiXi+ΣβijXiXj+γ·un_kategorisi; uygun olduğunda optimum arama.",
+   "param_suggestions": "TG için 0–0,2 g/100 g un ve VG için 1 g/100 g un düzeyleri test edilmiştir; yüksek hacim/düşük sertlik için seçilen TG düzeyi zayıf, orta ve güçlü una göre değişmiştir.",
+   "source_ids": [
+    "P930",
+    "P918",
+    "P872",
+    "P892"
+   ]
+  }
+ ],
+ "gaps_tr": [
+  "Birçok derleme bulgusunda enzim dozu, aktivite birimi, ekleme zamanı ve işlem koşulları verilmediğinden doz-tepki eğrileri güvenilir biçimde birleştirilemiyor.",
+  "Aynı enzim ve doz için farklı un kuvveti, genotip, öğütme ve ürün türlerinde karşılaştırılabilir kontrollü çalışmalar sınırlı.",
+  "Hacim, sertlik, bayatlama, raf ömrü ve duyusal kabul ölçütleri farklı yöntem ve zamanlarda ölçülmüş; ortak standart sonlanımlar yok.",
+  "Enzim kombinasyonlarında sinerji bildiriliyor, ancak tekil bileşen kontrolleri ve etkileşim büyüklükleri çoğu kayıtta eksik.",
+  "L-asparaginaz için ekmekte asparajin azalması ile akrilamid azalmasını aynı çalışmada ve farklı pişirme koşullarında eşleştiren nicel veri sınırlı.",
+  "Fitazla fitat azalmasının insanlarda demir emilimi, ferritin ve uzun dönem beslenme sonuçlarına etkisi tutarlı biçimde gösterilmemiş.",
+  "Depolama sırasında sertlik, nem ve su aktivitesi sonuçları bazı çalışmalarda farklı yönlerde değişiyor; depolama sıcaklığı, ambalaj ve süreler yeterince karşılaştırılabilir değil.",
+  "Enzimlerin mesleki maruziyet ve alerjenlik sonuçları ürün kalitesinden ayrı bir güvenlik boyutudur; uygulama kararlarında bu konuya ilişkin veri sınırlıdır."
+ ],
+ "tid": "T14",
+ "name": "Enzimler, oksidanlar, emülgatörler",
+ "n_sources": 89,
+ "n_findings": 246,
+ "theme_source_ids": [
+  "P1031",
+  "P1082",
+  "P1086",
+  "P1120",
+  "P1133",
+  "P1167",
+  "P199",
+  "P2",
+  "P211",
+  "P219",
+  "P221",
+  "P325",
+  "P331",
+  "P334",
+  "P339",
+  "P343",
+  "P345",
+  "P349",
+  "P357",
+  "P372",
+  "P376",
+  "P381",
+  "P398",
+  "P45",
+  "P467",
+  "P478",
+  "P507",
+  "P509",
+  "P510",
+  "P514",
+  "P582",
+  "P596",
+  "P603",
+  "P692",
+  "P727",
+  "P739",
+  "P740",
+  "P744",
+  "P747",
+  "P779",
+  "P802",
+  "P803",
+  "P806",
+  "P807",
+  "P808",
+  "P809",
+  "P841",
+  "P850",
+  "P851",
+  "P852",
+  "P853",
+  "P854",
+  "P856",
+  "P858",
+  "P860",
+  "P867",
+  "P871",
+  "P872",
+  "P875",
+  "P877",
+  "P878",
+  "P882",
+  "P885",
+  "P889",
+  "P892",
+  "P900",
+  "P901",
+  "P903",
+  "P918",
+  "P926",
+  "P930",
+  "P936",
+  "P938",
+  "P968",
+  "P970",
+  "Q108",
+  "Q109",
+  "Q129",
+  "Q130",
+  "Q153",
+  "Q164",
+  "Q33",
+  "Q58",
+  "Q59",
+  "Q61",
+  "Q62",
+  "Q74",
+  "W36",
+  "W43"
+ ]
+}
