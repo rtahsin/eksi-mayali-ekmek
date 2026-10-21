@@ -1,0 +1,452 @@
+{
+  "id": "gliserol",
+  "ad": "Gliserol",
+  "bilgiler": [
+    {
+      "id": "gliserol.nad_yenilenmesi_ve_etanol",
+      "metin": "Maya fermantasyonunda etanol pahasına da olsa gliserol üretimi, NAD+ molekülünün yeniden kazanılmasını sağlar.",
+      "kosul": "Maya fermantasyonu",
+      "kanit": "tek_kaynak",
+      "bolum": "Ne yapar",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.ijfoodmicro.2016.07.018",
+          "yer": "Yeast properties of technological relevance"
+        }
+      ]
+    },
+    {
+      "id": "gliserol.mayanin_ana_uyumlu_cozuneni",
+      "metin": "Gliserol, Saccharomyces cerevisiae mayasının hücre içinde ozmotik dengeyi korumak için biriktirdiği başlıca uyumlu çözünendir.",
+      "kosul": "",
+      "kanit": "ikincil",
+      "bolum": "Tanım",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1371/journal.pone.0119364",
+          "yer": "Abstract"
+        },
+        {
+          "kaynak": "10.1007/s00397-018-1113-9",
+          "yer": "3.4.2 Fermenting dough"
+        }
+      ]
+    },
+    {
+      "id": "gliserol.gpd1_yoksa_co2_azalir",
+      "metin": "GPD1 geni silinmiş mayalar ekmek hamurunda yabani tipe göre %30–50 daha düşük CO₂ fermantasyon kapasitesi gösterdi.",
+      "kosul": "Mayalı düz hamur (%6 sakaroz, %1,5 NaCl, %52 su, %5,3 yaş maya), 30 °C, Risograph'ta 180 dakika; S. cerevisiae laboratuvar suşu FY5 ve ticari ekmek mayası suşu.",
+      "kanit": "tek_kaynak",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1371/journal.pone.0119364",
+          "yer": "Results; Fig. 3A"
+        }
+      ]
+    },
+    {
+      "id": "gliserol.hamurda_karbon_kaybi_dengeyi_bozmaz",
+      "metin": "Yazarlara göre ekmek hamurunda karbonun bir kısmının gliserole gitmesi genel dengeyi bozmuyor gibi görünür; tersine fermantasyon hızını artırır, muhtemelen maya hamurun yüksek ozmolaritesiyle daha iyi baş ettiği için.",
+      "kosul": "Yazarların kendi hamur verilerine dayanan yorumu; GPD1 aşırı ifadesinin kazancı yalnız yüksek şekerli hamurda (%18 sakaroz) görüldü, normal hamurda (%6) fark yoktu; GPD1 silinmesi ise normal hamurda kapasiteyi düşürdü.",
+      "kanit": "tek_kaynak",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1371/journal.pone.0119364",
+          "yer": "Discussion"
+        }
+      ]
+    },
+    {
+      "id": "gliserol.sizmanin_hamur_ve_ekmege_etkisi",
+      "metin": "Hamura bir miktar gliserol sızması hamuru yumuşatıp gevşeterek karbondioksit tutma ve kabarma kapasitesini artırırken aşırı gliserolün ekmek aroması ve tadını olumsuz etkileyebileceği aktarılır.",
+      "kosul": "Aslankoohi vd. 2015 ve Olsson ve Nielsen 2000 aktarımları",
+      "kanit": "ikincil",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3389/fgene.2020.584718",
+          "yer": "Managing Osmotic Stress"
+        },
+        {
+          "kaynak": "10.1016/j.fochx.2026.104362",
+          "yer": "1. Introduction"
+        }
+      ]
+    },
+    {
+      "id": "gliserol.duz_hamurda_gliserol_suksinik_asit",
+      "metin": "Buğday düz hamur fermantasyonu sırasında 100 g un başına 10 mmol'e kadar gliserol ve 1,6 mmol'e kadar süksinik asit üretildi.",
+      "kosul": "Buğday düz hamur fermantasyonu",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.foodchem.2012.08.039",
+          "yer": "Abstract"
+        }
+      ]
+    },
+    {
+      "id": "gliserol.gluten_agi_ve_reoloji_katkisi",
+      "metin": "Makaleler, osmotik koruyucu olarak üretilen ve karbondioksit tutulmasını geliştiren gliserolün, etanol ve süksinik asitle birlikte gluten ağının oluşumuna ve hamurun reolojik özelliklerine katkıda bulunduğunu önceki çalışmalara dayanarak aktarmaktadır.",
+      "kosul": "Literatür aktarımı (maya metabolitleri ve hamur reolojisi); makalelerin kendi ölçümü değildir.",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1080/10408398.2021.1976100",
+          "yer": "Yeasts"
+        },
+        {
+          "kaynak": "10.1016/j.cofs.2019.04.001",
+          "yer": "3. Dough formulation"
+        },
+        {
+          "kaynak": "10.3136/fstr.24.509",
+          "yer": "Discussion"
+        }
+      ]
+    },
+    {
+      "id": "gliserol.hamuru_yumusatma_etkisi",
+      "metin": "Fermante olmamış hamura fermante hamur derişimlerinde eklenen gliserolün hamur üzerinde suya benzer yumuşatıcı bir etki yaptığı görüldü.",
+      "kosul": "Fermante olmamış hamura fermante hamur derişimlerinde eklenmesi",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.jcs.2018.06.006",
+          "yer": "Abstract"
+        },
+        {
+          "kaynak": "10.1016/j.jcs.2018.06.006",
+          "yer": "Abstract"
+        },
+        {
+          "kaynak": "10.1016/j.jcs.2018.06.006",
+          "yer": "3.2.3 Glycerol"
+        }
+      ]
+    },
+    {
+      "id": "gliserol.nmr_ile_fermantasyonda_glikoz_dususu_ve_gliserol_artisi",
+      "metin": "Bu çalışmada hamur fermantasyonu sırasında 1H NMR glukoz sinyali fermantasyon süresiyle azalmış, gliserol sinyali artmıştır.",
+      "kosul": "Hamur fermantasyonu; 1H NMR spektrumları üzerinde temel bileşen analizi (PCA), ilk ana bileşen fermantasyon süresiyle ilişkili.",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3136/fstr.24.509",
+          "yer": "Results"
+        }
+      ]
+    },
+    {
+      "id": "gliserol.pastacilik_hamurunda_gliserol_uretimi_ve_seker_etkisi",
+      "metin": "Bu çalışmada fermente hamur işi (pastry) üretiminde maya tarafından, esas olarak fermantasyon ve pişirme sırasında toplam %0,72 ± 0,03 gliserol üretilmiş; sakaroz eklenmeyen örneklerde son ürün gliserol içeriği (%0,51 ± 0,06), %14 sakaroz eklenen örneklere kıyasla anlamlı olarak daha düşük bulunmuştur.",
+      "kosul": "Fermente hamur işi (pastry) üretimi; sakaroz eklenmeyen ve %14 sakaroz eklenen örnekler karşılaştırılmış.",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods11101388",
+          "yer": "3.1.3. Production of Fermentation Metabolites during Fermented Pastry Making"
+        },
+        {
+          "kaynak": "10.3390/foods11101388",
+          "yer": "3.3.3. Fermentation Metabolite Production"
+        },
+        {
+          "kaynak": "10.3390/foods11101388",
+          "yer": "4.4. The Impact of Different Sucrose Concentrations on Yeast Activity and Dough and End-Product Characteristics in Pastry Making"
+        }
+      ]
+    },
+    {
+      "id": "gliserol.tatli_hamurda_gliserol_co2_ve_diger_metabolitler_korelasyonu",
+      "metin": "Bu çalışmada tatlı hamur fermantasyonunda gliserol miktarı karbondioksit (R2 = 0,94), etanol (0,92), asetik asit (0,86) ve süksinik asit (0,82) ile güçlü pozitif korelasyon göstermiştir (tüm değerler için p < 0,001).",
+      "kosul": "Tatlı hamur; 23 farklı maya suşuyla yapılan fermantasyon; çok değişkenli korelasyon tablosu.",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods12040830",
+          "yer": "3.3. Relation between Sugar Consumption and Metabolite Production"
+        },
+        {
+          "kaynak": "10.3390/foods12040830",
+          "yer": "Table 3"
+        }
+      ]
+    },
+    {
+      "id": "gliserol.baslangic_hamurundaki_organik_asit_ve_gliserol_miktari",
+      "metin": "Bu çalışmada fermantasyon öncesi tatlı hamurun başlangıç bileşimi un kuru maddesi üzerinden %0,03 gliserol, %0,02 süksinik asit ve %0,01 asetik asit olarak ölçülmüştür.",
+      "kosul": "Tatlı hamur, fermantasyon öncesi (başlangıç hamuru); değerler un kuru maddesine göre (% a/a km un).",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods12040830",
+          "yer": "Table 2"
+        }
+      ]
+    },
+    {
+      "id": "gliserol.hamura_salinan_gliserol",
+      "metin": "GPD1'i aşırı ifade eden mayalar hamura kontrollerinden %30 (ekmek mayası suşu) ile %100 (laboratuvar suşu) daha çok gliserol saldı.",
+      "kosul": "Mayalı düz hamur (%6 sakaroz, %1,5 NaCl, %52 su, %5,3 yaş maya), 30 °C, Risograph'ta 180 dakika; S. cerevisiae laboratuvar suşu FY5 ve ticari ekmek mayası suşu.",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1371/journal.pone.0119364",
+          "yer": "Results; Fig. 5A"
+        }
+      ]
+    },
+    {
+      "id": "gliserol.dusuk_sekerli_hamurda_fark_yok",
+      "metin": "Normal (az şekerli) hamurda GPD1'i aşırı ifade eden suşlarla kontrol suşlarının fermantasyon kapasitesi benzerdi.",
+      "kosul": "Mayalı düz hamur (%6 sakaroz, %1,5 NaCl, %52 su, %5,3 yaş maya), 30 °C, Risograph'ta 180 dakika; S. cerevisiae laboratuvar suşu FY5 ve ticari ekmek mayası suşu.",
+      "kanit": "tek_kaynak",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1371/journal.pone.0119364",
+          "yer": "Results; Fig. 4A"
+        }
+      ]
+    },
+    {
+      "id": "gliserol.gpd1_hog_ile_uyarilir",
+      "metin": "Yüksek ozmotik basınçta büyümek için gereken GPD1 geni, ozmotik streste HOG (Yüksek Ozmolarite Gliserol) sinyal yoluyla açılır.",
+      "kosul": "",
+      "kanit": "ikincil",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1371/journal.pone.0119364",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "gliserol.hog1_gpd1_gpp1_gpp2_uyarimi",
+      "metin": "Hücreler ozmotik stresle karşılaştığında HOG1 sinyali gliserol yolundaki GPD1, GPP1 ve GPP2 genlerinin ifadesini uyarır.",
+      "kosul": "Hamurda ozmotik stres (Albertyn vd. 1994 aktarımı)",
+      "kanit": "ikincil",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3389/fgene.2020.584718",
+          "yer": "Managing Osmotic Stress"
+        }
+      ]
+    },
+    {
+      "id": "gliserol.yuksek_sekerli_hamurda_yuzde50",
+      "metin": "Yüksek şekerli hamurda GPD1'in aşırı ifadesi laboratuvar suşunun fermantasyon kapasitesini %50 artırdı.",
+      "kosul": "Yüksek şekerli hamur (%18 sakaroz, su etkinliği 0,95), 30 °C, Risograph; S. cerevisiae laboratuvar suşu FY5.",
+      "kanit": "tek_kaynak",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1371/journal.pone.0119364",
+          "yer": "Results; Fig. 4B"
+        }
+      ]
+    },
+    {
+      "id": "gliserol.gpd2_oksijensiz",
+      "metin": "GPD2 ise oksijensiz ortamda gliserol yapımı için gereklidir ve hücre içi redoks dengesini korumaya yardım ettiği düşünülür.",
+      "kosul": "",
+      "kanit": "ikincil",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1371/journal.pone.0119364",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "gliserol.stres_yokken_disari_sizar",
+      "metin": "S. cerevisiae ozmotik stres altında değilken ürettiği gliserolün büyük bölümü hücre dışına sızar.",
+      "kosul": "",
+      "kanit": "ikincil",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1371/journal.pone.0119364",
+          "yer": "Results"
+        }
+      ]
+    },
+    {
+      "id": "gliserol.hpaec_pad_ile_seker_alkolu_analizi",
+      "metin": "Gliserol ve arabitol gibi şeker alkollerinin konsantrasyonları, CarboPac MA1 kolon ve ED-40 PAD dedektör ile donatılmış darbeli amperometrik dedeksiyonlu yüksek performanslı anyon değişim kromatografisi (HPAEC-PAD) ile belirlenmiştir.",
+      "kosul": "ekşi maya besiyerinde şeker alkolleri analizi",
+      "kanit": "tek_kaynak",
+      "bolum": "Nasıl ölçülür",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1128/aem.01325-25",
+          "yer": "Sugar alcohols"
+        }
+      ]
+    },
+    {
+      "id": "gliserol.gpd1_hiz_sinirlayici",
+      "metin": "Önceki çalışmalara göre mayada gliserol metabolizmasının hız sınırlayıcı enzimi Gpd1'dir.",
+      "kosul": "",
+      "kanit": "ikincil",
+      "bolum": "Ne yapar",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1371/journal.pone.0119364",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "gliserol.hog_mapk_yolu_ve_su_kaybi",
+      "metin": "Mayanın hücre içi ozmolariteyi dengeleyerek su kaybını önlemesi ve gliserol dengesini koruması, HOG MAPK sinyal yolu aracılığıyla yönetilir.",
+      "kosul": "Yüksek tuz veya şeker derişimli yarı katı hamur matrisi (aktarım)",
+      "kanit": "ikincil",
+      "bolum": "Ne yapar",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3389/fgene.2020.584718",
+          "yer": "Managing Osmotic Stress"
+        }
+      ]
+    },
+    {
+      "id": "gliserol.redoks_dengesi_ve_ozmotik_direnc",
+      "metin": "Mayanın ikincil metabolitleri üretmesinin hücre içi redoks dengesini korumak ve yüksek ozmotik basınca dayanmak için gerekli olduğuna inanılır.",
+      "kosul": "Björkqvist vd. 1997 aktarımı",
+      "kanit": "ikincil",
+      "bolum": "Ne yapar",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.foodchem.2012.08.039",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "gliserol.sc1_susu_yuksek_gliserol",
+      "metin": "Pişirme sırasında Sc1 ekmek mayası suşu diğer maya suşlarına kıyasla belirgin biçimde daha yüksek gliserol konsantrasyonu üretti.",
+      "kosul": "İki yönlü ANOVA modeli (R² = 0,57); pişirme sırasında farklı maya suşları",
+      "kanit": "tek_kaynak",
+      "bolum": "Ne yer, ne üretir",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.fochx.2026.104362",
+          "yer": "3.2. Yeast strains' differences in metabolite concentrations"
+        }
+      ]
+    },
+    {
+      "id": "gliserol.wssm_tekli_maya_kulturunde_gliserol",
+      "metin": "WSSM besiyerindeki Wickerhamomyces anomalus tekli kültüründe gliserol üstel büyüme evresinde birikerek 24 saatlik fermantasyon sonunda 4,0 ± 0,9 mM konsantrasyona ulaşmıştır.",
+      "kosul": "WSSM model besiyerinde W. anomalus tekli kültürü, 24 saat fermantasyon",
+      "kanit": "tek_kaynak",
+      "bolum": "Ne yer, ne üretir",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1128/aem.01325-25",
+          "yer": "Sugar alcohol concentration dynamics"
+        }
+      ]
+    },
+    {
+      "id": "gliserol.gpd1_asiri_ifade_300",
+      "metin": "GPD1'in aşırı ifadesi her iki suşta da hücre içi gliserolü %300 artırdı.",
+      "kosul": "Ekmek mayası ve laboratuvar suşu; çok kopyalı plazmit, ADH1 promotörü.",
+      "kanit": "tek_kaynak",
+      "bolum": "Ne yer, ne üretir",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1371/journal.pone.0119364",
+          "yer": "Results; Fig. 2B"
+        }
+      ]
+    },
+    {
+      "id": "gliserol.gpd1_silme_hucre_ici",
+      "metin": "GPD1'in silinmesi hücre içi gliserolü dört kopyalı (tetraploit) ekmek mayası suşunda %40, tek kopyalı (haploit) laboratuvar suşunda yalnız %20 azalttı.",
+      "kosul": "Ticari tetraploit ekmek mayası suşu ve haploit laboratuvar suşu FY5; durgun evrenin başındaki hücreler, hamur öncesi.",
+      "kanit": "tek_kaynak",
+      "bolum": "Ne yer, ne üretir",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1371/journal.pone.0119364",
+          "yer": "Results; Fig. 2A"
+        },
+        {
+          "kaynak": "10.1371/journal.pone.0119364",
+          "yer": "Results; Fig. 2A"
+        }
+      ]
+    },
+    {
+      "id": "gliserol.sarapta_co2_etanol_azalir",
+      "metin": "Şarap fermantasyonu gibi bazı endüstriyel süreçlerde gliserol üretiminin artması karbondioksit ve etanol üretiminde belirgin düşüşle birlikte görülür.",
+      "kosul": "",
+      "kanit": "ikincil",
+      "bolum": "Ne yer, ne üretir",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1371/journal.pone.0119364",
+          "yer": "Discussion"
+        }
+      ]
+    },
+    {
+      "id": "gliserol.gliserol_yapim_yolu",
+      "metin": "Gliserol, glikoliz ara ürünü dihidroksiaseton fosfatın gliserol 3-fosfata indirgenmesi ve ardından fosfatının koparılmasıyla yapılır.",
+      "kosul": "",
+      "kanit": "tek_kaynak",
+      "bolum": "Tanım",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1371/journal.pone.0119364",
+          "yer": "Introduction"
+        }
+      ]
+    }
+  ]
+}

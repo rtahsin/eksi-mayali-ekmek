@@ -1,0 +1,278 @@
+{
+  "id": "cavdar_unu_suyla_bulusunca",
+  "durak": "hamur",
+  "baslik": "Çavdar unu suyla buluşunca",
+  "soru": "Çavdar unu suyla buluşunca neden buğdaydan farklı davranır?",
+  "bayrak": false,
+  "gor": {
+    "tur": "kaydirma",
+    "adimlar": [
+      {
+        "metin": "Çavdar unu ortalama %65 nişasta, %6–8 arabinoksilan pentozanı ve %10–12 protein içerir; buğday ununa göre alfa-amilazı fazla, beta-amilazı azdır [[cavdar.un_bilesimi_nisasta_protein_arabinoksilan]]. Buğday unundaki toplam pentozanların yaklaşık %60 ila %65'ini arabinoksilanlar oluşturur [[arabinoksilan.bugday_unu_pentozan_orani_atif]]. Alfa-amilaz ve beta-amilaz, nişastayı parçalayan enzimlerdir [[cavdar.pisirme_degerini_belirleyen_bilesenler]].",
+        "gorsel": "rye_grains",
+        "vurgu": "Çavdar taneleri: unun bileşimini belirleyen hammaddenin kendisi."
+      },
+      {
+        "metin": "Su eklenince çavdar unu beklenenden fazla su kaldırır, çünkü nişasta dışı polisakkaritlerce daha zengindir [[cavdar.yuksek_su_kaldirma]]. Bu terim arabinoksilanları, beta-glukanı, selülozu ve arabinogalaktan-peptitlerini kapsar [[arabinoksilan.nisasta_disi_polisakkarit_tanim]].",
+        "gorsel": "hebei_rye_flakes",
+        "vurgu": "Çavdar ezmesi: suyu emen nişasta dışı polisakkaritlerin kaynağı."
+      },
+      {
+        "metin": "Çavdarın depo proteinleri düşük molekül ağırlıklı glutenin alt birimlerinden yoksundur [[cavdar.cavdar_proteini_gluten_kuramaz_atif]]. Bu alt birimler buğday hamurunu tutan protein ağının yapı taşlarıdır; onlar olmadan nişasta-gluten kompleksli bir hamur kurulamaz [[cavdar.cavdar_proteini_gluten_kuramaz_atif]]. Buğday hamurunda oluşan sürekli viskoelastik (hem esneyen hem biçimini koruyan) protein ağı çavdar hamurunda gözlenmez [[cavdar.hamurunda_surekli_protein_agi_olusmaz]].",
+        "gorsel": null,
+        "vurgu": "Bu adımda listede uygun bir görsel yok; vurgu çavdar hamurunda kurulamayan protein ağını anlatır."
+      },
+      {
+        "metin": "Buğday ununda %1,5–2,5 arabinoksilan bulunurken çavdar ununda bu oran doğal olarak %5–7'ye çıkar [[arabinoksilan.cavdar_ve_bugday_ax_orani_karsilastirma]]. Protein ağı kuramayan %100 çavdar ekmeğinde arabinoksilan, proteinden daha büyük rol oynayan ana su bağlayıcı maddedir [[arabinoksilan.yuzde_100_cavdar_ekmeginde_ana_su_baglayici]].",
+        "gorsel": "journal_pone_0256350_sekil_2af",
+        "vurgu": "Endosperm hücre duvarlarında arabinoksilanın dağılımı: hamuru suyla bir arada tutan iskelet."
+      },
+      {
+        "metin": "Arabinoksilan, buğday endosperminde ağırlığının altı katına kadar su emer ve hamurla ekmekteki su dağılımını etkiler [[arabinoksilan.su_tutma_kapasitesi_alti_kat]]. Aynı molekül suda çözünen ve çözünmeyen kesirlere ayrılır; kesirlerin payı unun davranışını değiştirir [[arabinoksilan.cozunur_cozunmez_ayrim_kriterleri]].",
+        "gorsel": "journal_pone_0251556_sekil_2cd",
+        "vurgu": "Buğday tane hücre duvarlarında arabinoksilan: suyu tutan bileşenin yeri."
+      },
+      {
+        "metin": "Çavdar ekmeğine ekşi maya girmesinin bir nedeni unun fazla alfa-amilazıdır: ekşi maya kullanmak gereklidir, bu alfa-amilazın etkinliğini azaltmanın yaygın yoludur [[cavdar.eksi_maya_amilazi_baskilar]]. Yüksek asitliğe ulaştırılan çavdar ekşi mayalı hamurlar, fırıncı mayası eklenmeden kabarma sağlayamaz [[cavdar.yuksek_asitlik_ekmek_mayasi_gerektirir]].",
+        "gorsel": "rye_grains",
+        "vurgu": "Çavdar taneleri: ekşi maya isteyen bir unun hammaddesi."
+      }
+    ]
+  },
+  "anla": [
+    {
+      "baslik": "Unun bileşimi farklıdır",
+      "paragraflar": [
+        "Çavdar ununun pişirme değerini en çok nişasta, pentozanlar ve bunları parçalayan enzimler belirler; proteinlerin etkisi çok daha küçüktür [[cavdar.pisirme_degerini_belirleyen_bilesenler]]. Unun bileşimi bu üçlüyü tanıtır: ortalama %65 nişasta, %6–8 arabinoksilan pentozanı ve %10–12 protein [[cavdar.un_bilesimi_nisasta_protein_arabinoksilan]]. Tane ölçümleri resmi tamamlar; nişasta %57,1–65,6, diyet lifi %14,7–20,9, protein %9,0–15,4 ve kül %1,8–2,2 aralığındadır [[cavdar.tanesinin_temel_bilesen_araliklari]].",
+        "Buna karşın protein payı ağ kurmaya yetmez: depo proteinleri düşük molekül ağırlıklı glutenin alt birimlerinden yoksundur ve un nişasta-gluten kompleksli bir hamur kuramaz [[cavdar.cavdar_proteini_gluten_kuramaz_atif]]. Buğday hamurunda oluşan sürekli viskoelastik protein ağı çavdar hamurunda gözlenmez [[cavdar.hamurunda_surekli_protein_agi_olusmaz]]. Yine de proteinler büsbütün etkisiz değildir: buğdaya benzer bir örgüyü kuramsal olarak kurabilir, ama hemiselülozlarla etkileşimler bu kuruluşu engeller [[cavdar.hemiseluloz_etkilesimi_gluten_yapisini_engeller]].",
+        "Bir deneyde çavdar proteinleri transglutaminaz (proteinleri birbirine çapraz bağlayan enzim) ile bağlanmış ve buğday hamuruna benzer bir yapıya ulaşılmış [[cavdar.transglutaminaz_ile_protein_capraz_baglanmasi]]. Seçilmiş çavdar unlarında jel fazı, yüksek molekül kütleli çözünmeyen proteinlerle hemiselülozlardan kurulu yumuşak bir viskoelastik ağdır [[arabinoksilan.jel_fazinda_viskoelastik_ag]]. Bu fazın en bol proteinleri, molekül ağırlıkları 32–90 kDa (molekül ağırlığının ölçü birimi) arasında değişen sekalin adlı depo proteinleridir [[cavdar.sekalin_depo_proteinleri_molekul_agirligi]]."
+      ]
+    },
+    {
+      "baslik": "Su emme farkı",
+      "paragraflar": [
+        "Arabinoksilan, buğday ununun %2–3'ünü oluşturan, ksiloz birimlerinden kurulu doğrusal bir ana zincire sahip nişasta dışı bir polisakkarittir [[arabinoksilan.yapi_ve_bugday_unundaki_orani]]. Buğday ununda lifin başlıca bileşenleri %1–2 fruktan (şeker zincirlerinden kurulu bir polisakkarit) ve %1,5–2,5 arabinoksilan pentozanlarıdır [[arabinoksilan.bugday_unu_lif_orani]]. Çavdar ununda aynı bileşenin payı doğal olarak %5–7'ye çıkar [[arabinoksilan.cavdar_ve_bugday_ax_orani_karsilastirma]].",
+        "Su emme farkı bu orandan doğar: buğday endosperminde arabinoksilan ağırlığının altı katına kadar su emer [[arabinoksilan.su_tutma_kapasitesi_alti_kat]]. Buğday hamurunda bu emilim viskoelastisiteyi artırır ve gaz tutulumunu iyileştirir [[arabinoksilan.hamur_viskoelastisite_gaz_tutma]]. Çavdarda %100 çavdar ekmeğinde protein elastik bir ağ oluşturamadığı için arabinoksilan, proteinden daha büyük rol oynayan ana su bağlayıcıdır [[arabinoksilan.yuzde_100_cavdar_ekmeginde_ana_su_baglayici]].",
+        "Arabinoksilan, molekül ağırlığına, arabinoz/ksiloz oranıyla tanımlanan dallanma düzenine ve çapraz bağlanma derecesine göre suda çözünen ve çözünmeyen kesirlere ayrılır [[arabinoksilan.cozunur_cozunmez_ayrim_kriterleri]]. Ölçülen bir çavdar ununda toplam arabinoksilan %8,12 çıkmış; bunun %2,11'i çözünür, %6,01'i çözünmeyen kesirde kalmıştır [[cavdar.unu_nisasta_ve_toplam_arabinoksilan]]. Çavdar ununu buğdaydan ayıran şey bu polisakkaritlerin bolluğudur; un bu yüzden daha çok su kaldırır [[cavdar.yuksek_su_kaldirma]]. Çavdar tanesi bu bileşenleriyle bir lif kaynağıdır [[cavdar.tanesi_pentozan_ve_beta_glukan_kaynagi]]."
+      ]
+    },
+    {
+      "baslik": "Ekşi maya ve sıcaklık eşiği",
+      "paragraflar": [
+        "Buğday hamurunda suda çözünen arabinoksilanlar ekmek hacmini ve dokuyu olumlu etkiler; çözünmeyenler su için rekabet ederek gluten ağını zorlaştırır [[arabinoksilan.cozunur_cozunmez_ekmek]]. Çavdarda ise çözünmeyen pentozanlar hamurda su tutulmasına, çözünür pentozanlar kabarmaya ve ekmek hacmine katkı yapar [[arabinoksilan.cavdarda_cozunur_ve_cozunmez_pentozan_etkisi]]. Bir deneyde geciktirilmiş pişirmeyle yapılan tip 720 unlu ekmeklere iki arabinoksilan preparatı eklendi; ekmek içi nemi kontrole kıyasla yaklaşık %1,7 ile %3,8 arttı [[arabinoksilan.ekmek_ici_nem_oraninda_artis]]. Yüksek su emilimi bir yandan gluten oluşumunu bozar, hamur gelişimini yavaşlatır ve ürün kalitesini olumsuz etkiler [[arabinoksilan.yuksek_su_emilimi_gluten_ve_gelisimi_bozar]].",
+        "Çavdar ekmeğinde ekşi maya kullanmak gereklidir; bu, alfa-amilazın enzim etkinliğini azaltmanın yaygın bir yoludur [[cavdar.eksi_maya_amilazi_baskilar]]. Amilazı baskılamak amacıyla yüksek asitliğe ulaştırılan çavdar ekşi mayalı hamurlar, fırıncı mayası eklenmeden kabarma sağlayamaz [[cavdar.yuksek_asitlik_ekmek_mayasi_gerektirir]]. Ekşi maya fermantasyonu çavdar pentozanlarının çözünmesini teşvik eder ve hamurun su bağlamasını artırır [[arabinoksilan.eksi_maya_cavdar_pentozan_cozunurlugu]]. pH, hamurun asit düzeyini gösteren ölçektir. Çavdar ekşi mayasının düşük pH değeri, arabinoksilanların çıkarılabilirliğini ve şişme özelliğini artırır [[cavdar.dusuk_ph_arabinoksilan_atif]].",
+        "Çavdar hamurunda 45 °C'nin altında hamur özelliklerinin gelişiminde pentozanlar ana rolü oynar; üstünde ekmek içi yapısını nişasta belirler [[arabinoksilan.pentozanlar_ve_nisasta_45c_esigi]]. Çavdar ununda pentozanlar ve amiloz, şişen nişasta granüllerinin yüzeyini kaplayan bir film kurar [[arabinoksilan.sisen_granul_yuzeyinde_film_ve_jellesme]]. Bu film suyun ve amilolitik enzimlerin (nişastayı parçalayan enzimler) erişimini sınırlar, jelleşmeyi geciktirir [[arabinoksilan.sisen_granul_yuzeyinde_film_ve_jellesme]]."
+      ]
+    }
+  ],
+  "yuzlesme": [
+    {
+      "inanc": "Çavdar unu, buğday unuyla aynı miktarda suyla yoğurulabilir.",
+      "cevap": "Çavdar unu nişasta dışı polisakkaritlerce daha zengin olduğu için daha çok su kaldırır [[cavdar.yuksek_su_kaldirma]]. Arabinoksilan oranı çavdar ununda %5–7, buğday ununda %1,5–2,5'tir [[arabinoksilan.cavdar_ve_bugday_ax_orani_karsilastirma]]."
+    },
+    {
+      "inanc": "Çavdar ekmeği de buğday ekmeği gibi fırıncı mayasıyla kabartılabilir.",
+      "cevap": "Fırıncı mayası tek başına yetmez: çavdar ekmeğinde ekşi maya kullanmak gereklidir ve bu, alfa-amilazın etkinliğini azaltmanın yaygın yoludur [[cavdar.eksi_maya_amilazi_baskilar]]. Öte yandan yüksek asitliğe ulaştırılan ekşi mayalı hamurlar kabarmayı tek başına da yapamaz; fırıncı mayası eklenmeden kabarma sağlayamaz [[cavdar.yuksek_asitlik_ekmek_mayasi_gerektirir]]."
+    },
+    {
+      "inanc": "Çavdar hamuru da buğday hamuru gibi bir protein ağıyla tutulur.",
+      "cevap": "Çavdar hamurunda buğdaya özgü sürekli viskoelastik protein ağı kurulmaz [[cavdar.hamurunda_surekli_protein_agi_olusmaz]]. %100 çavdar ekmeğinde ana su bağlayıcı protein değil, arabinoksilandır [[arabinoksilan.yuzde_100_cavdar_ekmeginde_ana_su_baglayici]]."
+    }
+  ],
+  "kanit": {
+    "cekirdek": [
+      "cavdar.un_bilesimi_nisasta_protein_arabinoksilan",
+      "cavdar.yuksek_su_kaldirma",
+      "cavdar.cavdar_proteini_gluten_kuramaz_atif",
+      "cavdar.eksi_maya_amilazi_baskilar",
+      "cavdar.hamurunda_surekli_protein_agi_olusmaz",
+      "cavdar.hemiseluloz_etkilesimi_gluten_yapisini_engeller",
+      "cavdar.yuksek_asitlik_ekmek_mayasi_gerektirir",
+      "cavdar.sekalin_depo_proteinleri_molekul_agirligi",
+      "arabinoksilan.nisasta_disi_polisakkarit_tanim",
+      "arabinoksilan.cozunur_cozunmez_ayrim_kriterleri",
+      "arabinoksilan.cavdar_ve_bugday_ax_orani_karsilastirma",
+      "arabinoksilan.yuzde_100_cavdar_ekmeginde_ana_su_baglayici",
+      "arabinoksilan.su_tutma_kapasitesi_alti_kat",
+      "arabinoksilan.yuksek_su_emilimi_gluten_ve_gelisimi_bozar",
+      "arabinoksilan.hamur_viskoelastisite_gaz_tutma"
+    ],
+    "cekmece": [
+      "cavdar.tanesinin_temel_bilesen_araliklari",
+      "cavdar.tanesi_pentozan_ve_beta_glukan_kaynagi",
+      "cavdar.transglutaminaz_ile_protein_capraz_baglanmasi",
+      "cavdar.dusuk_ph_arabinoksilan_atif",
+      "cavdar.pisirme_degerini_belirleyen_bilesenler",
+      "cavdar.ekmek_matrisi_surekli_fazi_nisasta_granulleri",
+      "cavdar.kepek_fermantasyonu_teknolojik_ozellik",
+      "cavdar.ekmek_yapimina_en_uygun_un_parametreleri",
+      "cavdar.kuru_pisirme_kavrami_amilogram_viskozitesi",
+      "cavdar.geleneksel_cavdar_ekmegi_tanimi_alman_klavuzu",
+      "cavdar.alpler_ve_hirvatistan_ekmekleri",
+      "cavdar.unu_nisasta_ve_toplam_arabinoksilan",
+      "cavdar.unu_fruktan_ve_beta_glukan_oranlari",
+      "cavdar.cavdarda_lab_sayisi_yuksek",
+      "cavdar.fermantasyonda_weissella_ve_lactobacillus_dinamigi",
+      "cavdar.bugday_cavdar_mikrobiyota_benzerligi",
+      "cavdar.eksi_mayanin_beta_glukan_korunumuna_katkisi",
+      "cavdar.asitlendirilmis_hamur_tek_asama",
+      "cavdar.dogal_likor_kutlesel_viskozite_kayma",
+      "cavdar.hamur_likoru_kopuk_stabilitesi_ksilanaz",
+      "cavdar.arpa_eksi_mayasi_kompozit_ekmek",
+      "cavdar.pfister_oeko_wilde_kruste_uretimi",
+      "cavdar.k_mo_asitlendirme_puan_diskalifiye",
+      "cavdar.s_mbo_un_ozgul_hacim",
+      "cavdar.s_mc_tam_un_ozgul_hacim",
+      "cavdar.tip_720_ekmek_ici_yapiskanligi_dusuk",
+      "cavdar.tip_720_un_tip_1150_une_gore_yuksek_hacim",
+      "cavdar.jel_fazi_protein_ve_nsps_ekmek_kalitesi",
+      "cavdar.jel_fazi_protein_ve_pentozan_oran_iliskisi",
+      "cavdar.cozunmeyen_cozunen_nsps_orani_kalite",
+      "cavdar.ticari_cavdar_unlari_protein_ve_kul_araligi",
+      "cavdar.otuzbir_un_ornegi_standart_pisirme_testi",
+      "cavdar.tam_cavdar_pca_varyans_aciklamasi",
+      "cavdar.dag_cavdari_ve_yaygin_cavdar_karsilastirma",
+      "cavdar.un_lipit_bilesimi",
+      "arabinoksilan.bugday_unu_lif_orani",
+      "arabinoksilan.bugday_ununda_oran_atif",
+      "arabinoksilan.bugday_unu_pentozan_orani_atif",
+      "arabinoksilan.bugday_ve_cavdar_ana_nsp",
+      "arabinoksilan.we_ax_ve_wu_ax_oranlari",
+      "arabinoksilan.yapi_ve_bugday_unundaki_orani",
+      "arabinoksilan.cozunur_cozunmez_ekmek",
+      "arabinoksilan.cavdarda_cozunur_ve_cozunmez_pentozan_etkisi",
+      "arabinoksilan.eksi_maya_cavdar_pentozan_cozunurlugu",
+      "arabinoksilan.cavdar_ununda_yuksek_su_emme_egilimi",
+      "arabinoksilan.cavdar_hamuru_yapiskanligi_ve_ici_nemliligi",
+      "arabinoksilan.cavdar_hamurunda_ax_su_ihtiyacini_artirir",
+      "arabinoksilan.cavdar_tanesindeki_ax_su_baglama_ve_viskozite",
+      "arabinoksilan.cavdarda_yapisal_rol_atif",
+      "arabinoksilan.capraz_bagli_ax_cavdar_ekmek_hacmini_artirir",
+      "arabinoksilan.cavdar_ekmegi_yapiminda_toplam_ax_artisi",
+      "arabinoksilan.ekmek_ici_nem_oraninda_artis",
+      "arabinoksilan.ekmek_kalitesi_optimizasyonu",
+      "arabinoksilan.nisasta_granulune_yapisan_pentozan_ve_pisirme_kalitesi",
+      "arabinoksilan.pentozanlar_ve_nisasta_45c_esigi",
+      "arabinoksilan.sisen_granul_yuzeyinde_film_ve_jellesme",
+      "arabinoksilan.jel_fazinda_viskoelastik_ag",
+      "arabinoksilan.arayuz_viskozitesi_ve_protein_etkilesimi",
+      "arabinoksilan.hava_su_arayuzunde_adsorbe_olmama",
+      "arabinoksilan.nsp_likor_viskozitesine_katki",
+      "arabinoksilan.likor_kutlesel_viskozite_degerleri",
+      "arabinoksilan.nsp_enzimatik_hidroliz_viskozite_dususu",
+      "arabinoksilan.kutlesinin_100_kati_su_emme",
+      "arabinoksilan.kepek_yogunlugu_ve_gelisme_suresi",
+      "arabinoksilan.eksi_maya_asitligi_ve_yapisal_degisim",
+      "arabinoksilan.hamur_dinlenmesinde_tahil_enzimleriyle_cozunme",
+      "arabinoksilan.hamur_likoru_viskozitesi_ve_su_baglama",
+      "arabinoksilan.ksilanaz_ile_kopuk_kapasitesi_dususu",
+      "arabinoksilan.hmxyn_ksilanaz_weax_artisi",
+      "arabinoksilan.hmxyn_ksilanaz_wuax_azalmasi",
+      "arabinoksilan.cavdar_ununda_pentozan_protein_korelasyonu",
+      "arabinoksilan.ferulik_asit_araciligiyla_protein_kompleksleri",
+      "arabinoksilan.serbest_ferulik_asit_capraz_baglanma",
+      "arabinoksilan.gaz_hucresi_sivi_suzulusunu_yavaslatma",
+      "arabinoksilan.weax_gaz_hucresi_elastikiyeti_ve_co2_difuzyonu",
+      "arabinoksilan.bugday_kepegi_karbonhidrat_bilesimi",
+      "arabinoksilan.bugday_kepegi_yulaf_kepegine_gore_zengin",
+      "arabinoksilan.endoksilanaz_substrati",
+      "arabinoksilan.s_boulardii_eksi_maya_cozunmez_ax_degisimi",
+      "arabinoksilan.arabinoz_kaynagi_ekleme_atif",
+      "arabinoksilan.ogutme_tipinin_cozunur_pentozan_oranina_etkisi",
+      "arabinoksilan.weax_ilavesinin_gluten_konformasyonuna_etkisi",
+      "arabinoksilan.izole_glutendeki_arabinoksilan_orani",
+      "arabinoksilan.firinlama_sonrasi_cozunur_ax_polimerizasyon_derecesi",
+      "arabinoksilan.ince_unda_ax_su_gocu_atif"
+    ]
+  },
+  "baglar": [
+    {
+      "kaldirac": "çavdar unundaki arabinoksilan oranı",
+      "mekanizma": "Buğday ununda arabinoksilan oranı %1,5–2,5 iken çavdar ununda %5–7'dir; çavdar unu nişasta dışı polisakkaritlerce zengin olduğu için daha çok su kaldırır.",
+      "sonuc": "Hamur daha çok su ister; suyu tutan bileşen, proteinden daha büyük rol oynar.",
+      "bilgiler": [
+        "arabinoksilan.cavdar_ve_bugday_ax_orani_karsilastirma",
+        "cavdar.yuksek_su_kaldirma",
+        "arabinoksilan.yuzde_100_cavdar_ekmeginde_ana_su_baglayici"
+      ]
+    },
+    {
+      "kaldirac": "nişasta dışı polisakkarit bolluğu",
+      "mekanizma": "Pentozanlar, beta-glukan ve lifler su için buğday unundakinden daha çok rekabet eder.",
+      "sonuc": "Gluten oluşumu zorlaşır, hamur gelişimi yavaşlar ve sürekli protein ağı kurulamaz.",
+      "bilgiler": [
+        "cavdar.yuksek_su_kaldirma",
+        "arabinoksilan.yuksek_su_emilimi_gluten_ve_gelisimi_bozar",
+        "cavdar.hamurunda_surekli_protein_agi_olusmaz"
+      ]
+    },
+    {
+      "kaldirac": "çözünen ve çözünmeyen arabinoksilan",
+      "mekanizma": "Buğday hamurunda çözünen arabinoksilanlar hacmi ve dokuyu besler; çözünmeyenler su rekabetiyle gluten ağının gelişimini zorlaştırır.",
+      "sonuc": "Çavdarda çözünmeyen pentozanlar su tutmada, çözünen pentozanlar kabarma ve hacim tarafında çalışır.",
+      "bilgiler": [
+        "arabinoksilan.cozunur_cozunmez_ekmek",
+        "arabinoksilan.cavdarda_cozunur_ve_cozunmez_pentozan_etkisi"
+      ]
+    },
+    {
+      "kaldirac": "hemiselüloz etkileşimi",
+      "mekanizma": "Çavdar proteinleri buğdaya benzer bir ağ kurabilir gibi görünse de hemiselülozlarla etkileşimler bu yapıları engeller.",
+      "sonuc": "Hamurda tipik gluten yapıları oluşmaz; yapıyı suyu tutan bileşenler kurar ve suda çözünen arabinoksilanlar bu işte önemli bir yapısal rol oynar.",
+      "bilgiler": [
+        "cavdar.hemiseluloz_etkilesimi_gluten_yapisini_engeller",
+        "arabinoksilan.cavdarda_yapisal_rol_atif"
+      ]
+    },
+    {
+      "kaldirac": "ekşi maya",
+      "mekanizma": "Ekşi maya asit üreterek alfa-amilazın etkinliğini azaltır; çavdar pentozanlarının çözünmesini de teşvik eder.",
+      "sonuc": "Alfa-amilazın etkinliği düşer, hamurun su bağlaması artar; yüksek asitlikte hamur tek başına kabaramaz.",
+      "bilgiler": [
+        "cavdar.eksi_maya_amilazi_baskilar",
+        "cavdar.yuksek_asitlik_ekmek_mayasi_gerektirir",
+        "arabinoksilan.eksi_maya_cavdar_pentozan_cozunurlugu"
+      ]
+    },
+    {
+      "kaldirac": "çapraz bağlı arabinoksilan ilavesi",
+      "mekanizma": "Geciktirilmiş pişirmede çapraz bağlı arabinoksilan eklenmesi ekmeğin hacmini ve özgül hacmini artırır.",
+      "sonuc": "Ekmek hacminde en yüksek artış yaklaşık %20, özgül hacimde (birim ağırlığa düşen hacim; tip 1150 unla) yaklaşık %23 olmuştur. Tip 720 unlu ekmeklerde ekmek içi nemi de %1,7 ile %3,8 yükselmiştir.",
+      "bilgiler": [
+        "arabinoksilan.capraz_bagli_ax_cavdar_ekmek_hacmini_artirir",
+        "arabinoksilan.ekmek_ici_nem_oraninda_artis"
+      ]
+    }
+  ],
+  "karakterler": [
+    "arabinoksilan"
+  ],
+  "ayrisan_kaynaklar": [
+    {
+      "konu": "Çavdar ununda protein ağının ekmek yapısındaki rolü",
+      "bilgiler": [
+        "cavdar.hamurunda_surekli_protein_agi_olusmaz",
+        "arabinoksilan.yuzde_100_cavdar_ekmeginde_ana_su_baglayici",
+        "cavdar.transglutaminaz_ile_protein_capraz_baglanmasi",
+        "arabinoksilan.jel_fazinda_viskoelastik_ag"
+      ]
+    },
+    {
+      "konu": "Çözünür ve çözünmeyen arabinoksilanın ekmek hacmine etkisi",
+      "bilgiler": [
+        "arabinoksilan.cozunur_cozunmez_ekmek",
+        "arabinoksilan.cavdarda_cozunur_ve_cozunmez_pentozan_etkisi",
+        "arabinoksilan.capraz_bagli_ax_cavdar_ekmek_hacmini_artirir",
+        "arabinoksilan.nisasta_granulune_yapisan_pentozan_ve_pisirme_kalitesi"
+      ]
+    },
+    {
+      "konu": "Çavdar ununda protein miktarı ile ekmek kalitesi arasındaki ilişki",
+      "bilgiler": [
+        "cavdar.jel_fazi_protein_ve_nsps_ekmek_kalitesi",
+        "cavdar.jel_fazi_protein_ve_pentozan_oran_iliskisi",
+        "arabinoksilan.cavdar_ununda_pentozan_protein_korelasyonu"
+      ]
+    }
+  ]
+}

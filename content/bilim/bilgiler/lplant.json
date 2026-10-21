@@ -1,0 +1,194 @@
+{
+  "id": "lplant",
+  "ad": "L. plantarum",
+  "bilgiler": [
+    {
+      "id": "lplant.kati_baskin",
+      "metin": "Bu çalışmada, laboratuvarda günlük yenilenen dört olgun durum buğdayı ekşi mayasının hepsinde Lactiplantibacillus plantarum katı mayalarda zamanla baskın oldu, aynı mayaların sıvı hâllerinde olmadı; MA mayasında Lactiplantibacillus plantarum ve Leuconostoc lactis suşları yalnız katı koşulda tutundu.",
+      "kosul": "Güney İtalya'dan (Matera, Altamura) 4 olgun tip I ekşi maya, Triticum durum (durum buğdayı) unu; laboratuvarda 28 gün günlük yenileme, katı (hamur verimi 160) ve sıvı (hamur verimi 280, 150 rpm karıştırma) koşullar; 25 °C'de 3–6 saat fermantasyon, yenilemeler arasında 16–19 saat 10 °C'de bekletme; gerçek hamur.",
+      "kanit": "uzlasi",
+      "bolum": "Hangi koşulda",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1128/aem.00309-14",
+          "yer": "Discussion"
+        },
+        {
+          "kaynak": "10.1128/aem.00309-14",
+          "yer": "Results; Fig. 2A"
+        },
+        {
+          "kaynak": "10.1128/aem.00309-14",
+          "yer": ""
+        },
+        {
+          "kaynak": "10.1128/aem.00309-14",
+          "yer": "DISCUSSION"
+        }
+      ]
+    },
+    {
+      "id": "lplant.bugday_yaygin",
+      "metin": "İncelenen buğday ekşi mayalarının çoğunda en azından Lactiplantibacillus plantarum ve Saccharomyces cerevisiae bulunur.",
+      "kosul": "Belçika, Çin, Fransa ve Almanya'dan kendiliğinden ekşi mayalar üzerine çalışmalar.",
+      "kanit": "ikincil",
+      "bolum": "Kimlik",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3389/fmicb.2020.01212",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "lplant.en_sik_izolat",
+      "metin": "Ekşi maya literatürünü tarayan sistematik bir derlemede Lactiplantibacillus plantarum en sık bildirilen ekşi maya izolatıydı: 142 araştırma makalesinde bildirilmişti.",
+      "kosul": "Sistematik literatür derlemesi; yayımlanmış ekşi maya çalışmalarının özeti. Türü izolat olarak bildiren makale sayısı (Fig. 3A).",
+      "kanit": "uzlasi",
+      "bolum": "Mayadaki yeri",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.tifs.2020.12.008",
+          "yer": "5. Microbiological and biochemical characteristics; Fig. 3A"
+        },
+        {
+          "kaynak": "10.1038/s41598-018-36786-2",
+          "yer": "Discussion"
+        },
+        {
+          "kaynak": "10.1038/s41598-018-36786-2",
+          "yer": "Discussion"
+        }
+      ]
+    },
+    {
+      "id": "lplant.yerini_kaptirir",
+      "metin": "Çavdar ekşi mayalarında Lactiplantibacillus plantarum gelişme döneminde çoğu partide tek başına ya da başka türle birlikte baskındı, ama 56 döngüden sonra çoğu partide yerini Companilactobacillus paralimentarius aldı.",
+      "kosul": "Laboratuvarda kendiliğinden başlatılmış yarı katı çavdar ekşi mayası; Tip 1370 çavdar unu + %0,5 tuz, hamur verimi 200, 56 gün boyunca günde bir 1:10 yenileme; 20 °C ve 30 °C.",
+      "kanit": "tek_kaynak",
+      "bolum": "Mayadaki yeri",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1371/journal.pone.0095449",
+          "yer": "Discussion"
+        },
+        {
+          "kaynak": "10.1371/journal.pone.0095449",
+          "yer": "Results, Pyrosequencing; Figure 3"
+        },
+        {
+          "kaynak": "10.1371/journal.pone.0095449",
+          "yer": "Results, Pyrosequencing; Figure 3"
+        }
+      ]
+    },
+    {
+      "id": "lplant.fst17_kuf_karsiti_ve_raf_omru",
+      "metin": "Lactiplantibacillus plantarum FST 1.7 suşu, Penicillium roqueforti hariç denenen tüm bozulma bakterileri ve küflerine karşı antimikrobiyal etkinlik göstermiş ve ekşi maya fermantasyonunda küf karşıtı bileşikler üreterek ekmek raf ömrünü uzatmıştır.",
+      "kosul": "Ekşi maya fermantasyonu ve ekmek üretimi",
+      "kanit": "tek_kaynak",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.jcs.2006.09.004",
+          "yer": "Abstract"
+        },
+        {
+          "kaynak": "10.1016/j.jcs.2006.09.004",
+          "yer": "Abstract"
+        },
+        {
+          "kaynak": "10.1016/j.jcs.2006.09.004",
+          "yer": "In vitro antimicrobial activity of L. plantarum FST 1.7"
+        }
+      ]
+    },
+    {
+      "id": "lplant.cavdar_30c_5gun",
+      "metin": "30 °C'deki çavdar ekşi mayalarında 5. günde Weissella ve Lactobacillus bantları kayboldu, yerine Lactiplantibacillus plantarum bandı çıktı.",
+      "kosul": "Laboratuvarda kendiliğinden başlatılmış yarı katı çavdar ekşi mayası; Tip 1370 çavdar unu + %0,5 tuz, hamur verimi 200, günde bir 1:10 yenileme; 30 °C, 5. gün; DGGE.",
+      "kanit": "tek_kaynak",
+      "bolum": "Mayadaki yeri",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1371/journal.pone.0095449",
+          "yer": "Results, DGGE; Figure 2A"
+        }
+      ]
+    },
+    {
+      "id": "lplant.diger_lab_ile_esit_oranda_laktik_asit_artisi",
+      "metin": "Lactiplantibacillus plantarum diğer laktik asit bakterileriyle eşit oranda kullanıldığında son asetik asit derişimi belirgin biçimde düşerken laktik asit derişimi iki katından fazla artmıştır.",
+      "kosul": "Lcb. casei veya L. acidophilus ile eşit oranda (0,5) karışım",
+      "kanit": "tek_kaynak",
+      "bolum": "Ne yer, ne üretir",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods13152318",
+          "yer": "3.2. Physicochemical Characteristics and Antifungal Activity of the Aqueous Extracts"
+        }
+      ]
+    },
+    {
+      "id": "lplant.genis_seker_fermantasyon_kapasitesi_ve_cazy_enzimleri",
+      "metin": "Lactiplantibacillus plantarum suşları glukoz, fruktoz, maltoz, sakaroz ve riboz dahil geniş bir şeker yelpazesini fermente edebilmekte ve genomunda karbonhidrat metabolizmasıyla ilişkili çok sayıda enzim taşımaktadır.",
+      "kosul": "saf kültür şeker fermantasyonu ve CAZy analizi",
+      "kanit": "tek_kaynak",
+      "bolum": "Ne yer, ne üretir",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/ijms222413452",
+          "yer": "Results - Sugar Fermentation Capacity"
+        },
+        {
+          "kaynak": "10.3390/ijms222413452",
+          "yer": "Carbohydrate Metabolism Systems Analysis"
+        },
+        {
+          "kaynak": "10.3390/ijms222413452",
+          "yer": "Rhamnose"
+        },
+        {
+          "kaynak": "10.3390/ijms222413452",
+          "yer": "Discussion"
+        }
+      ]
+    },
+    {
+      "id": "lplant.nisasta_hidrolizi_ve_eps_uretimi_orani",
+      "metin": "Bu çalışmada incelenen ekşi maya izolatları arasında tamamı Lactiplantibacillus plantarum grubuna ait olan suşların yüzde on dokuzu nişastayı hidroliz etmiş ve yaklaşık yüzde kırkı bu bileşik varlığında ekzopolisakkarit üretmiştir.",
+      "kosul": "ekşi maya LAB suşları taraması",
+      "kanit": "tek_kaynak",
+      "bolum": "Ne yer, ne üretir",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods11091278",
+          "yer": "Strains Selection"
+        }
+      ]
+    },
+    {
+      "id": "lplant.brevis_birlikte",
+      "metin": "Lactiplantibacillus plantarum ile Levilactobacillus brevis en sık birlikte görülen tür çiftiydi: 500 mayanın 177'sinde ikisi birlikteydi.",
+      "kosul": "500 ekşi maya; birlikte bulunma analizi.",
+      "kanit": "tek_kaynak",
+      "bolum": "İlişkileri",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.7554/elife.61644",
+          "yer": "Results – Diversity of sourdough starters"
+        }
+      ]
+    }
+  ]
+}

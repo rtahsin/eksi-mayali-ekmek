@@ -1,0 +1,554 @@
+{
+  "id": "seker_yolu",
+  "ad": "Şekerin yolu",
+  "bilgiler": [
+    {
+      "id": "seker_yolu.amilaz_glukoamilaz_hasarli_nisasta",
+      "metin": "Literatürde, ekşi maya fermantasyonunda buğday ve çavdar ununun amilaz ve glukoamilaz aktiviteleri hasarlı nişastadan sırasıyla maltoz ve glukoz açığa çıkarır.",
+      "kosul": "",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods7070096",
+          "yer": "3. FODMAPs in Cereals and FODMAP Metabolism in Conventional Sourdoughs"
+        },
+        {
+          "kaynak": "10.1016/bs.aambs.2017.02.003",
+          "yer": "Introduction"
+        },
+        {
+          "kaynak": "10.1016/j.foodchem.2012.08.039",
+          "yer": "Introduction"
+        },
+        {
+          "kaynak": "10.1016/j.crfs.2026.101573",
+          "yer": "1. Introduction"
+        }
+      ]
+    },
+    {
+      "id": "seker_yolu.nisasta_maltoz_glukoz",
+      "metin": "Fermantasyon sırasında nişasta, indirgen şekerler olan maltoz ve glukoza parçalanır.",
+      "kosul": "",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods8120663",
+          "yer": "3. Results and Discussion"
+        }
+      ]
+    },
+    {
+      "id": "seker_yolu.bugday_eksimaya_maltoz_en_bol",
+      "metin": "Buğday ekşi mayasında en bol şeker maltozdur ve maltoz, buğday ekşi maya ekosistemlerinin sürdürülmesi için gereklidir.",
+      "kosul": "Buğday ekşi mayası",
+      "kanit": "ikincil",
+      "bolum": "Mayadaki yeri",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1128/spectrum.00662-21",
+          "yer": "INTRODUCTION"
+        }
+      ]
+    },
+    {
+      "id": "seker_yolu.glukoz_tercihi_ve_ilk_saatten_sonra_maltoz",
+      "metin": "Bir çalışmada, düz hamur fermantasyonunda mayaların glukozu fruktoz ve maltoza göre birincil karbon kaynağı olarak tercih ettiği görüldü; literatürde ise ilk saatin ardından glukoz ve fruktozun büyük ölçüde tükendiği, yağsız hamurda maltozun ana substrat haline geldiği bildirilir.",
+      "kosul": "Mayalı hamur fermantasyonu; glukoz tercihi düz hamurda (bulgu), ilk saatten sonra maltoz yağsız hamurda (Codina vd.; Struyf vd. atfı)",
+      "kanit": "tek_kaynak",
+      "bolum": "Ne yer, ne üretir",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.foodchem.2012.08.039",
+          "yer": "Conclusion"
+        },
+        {
+          "kaynak": "10.1016/j.jcs.2017.03.013",
+          "yer": "Introduction"
+        },
+        {
+          "kaynak": "10.1111/1541-4337.13147",
+          "yer": "3.5 Contribution of sugars during fermentation"
+        },
+        {
+          "kaynak": "10.1007/s00397-018-1113-9",
+          "yer": "3.4.2 Fermenting dough"
+        },
+        {
+          "kaynak": "10.1016/j.jcs.2017.03.013",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "seker_yolu.maya_invertazi_sakaroz_ve_fruktan",
+      "metin": "Literatürde sakarozun hücre dışı maya invertazıyla, fruktanların da maya invertazıyla glukoz ve fruktoza hidrolize edildiği, bu monosakkaritlerin ardından maya hücresince alınıp metabolize edildiği bildirilir; fermantasyonun ilk evrelerinde glukoz ve fruktoz ana substratlardır.",
+      "kosul": "mayalı hamur fermantasyonu; atıflı literatür aktarımı",
+      "kanit": "ikincil",
+      "bolum": "Ne yer, ne üretir",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.foodchem.2012.08.039",
+          "yer": "Introduction"
+        },
+        {
+          "kaynak": "10.1016/j.jcs.2017.03.013",
+          "yer": "Introduction"
+        },
+        {
+          "kaynak": "10.1016/j.jcs.2017.03.013",
+          "yer": "Introduction"
+        },
+        {
+          "kaynak": "10.3390/foods11101388",
+          "yer": "1. Introduction"
+        }
+      ]
+    },
+    {
+      "id": "seker_yolu.serbest_seker_miktari_ve_gaz_yetersizligi",
+      "metin": "Literatürde (Hebeda ve Zobel), buğday ununda doğal olarak bulunan toplam serbest şekerler (%0,3–0,5; başlıca glukoz, fruktoz, sakaroz ve maltoz) mayanın en uygun gaz üretme gücünü desteklemek için yetersizdir.",
+      "kosul": "Buğday unu serbest şekerleri",
+      "kanit": "ikincil",
+      "bolum": "Ortak özellikler",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.foodchem.2012.08.039",
+          "yer": "Introduction"
+        },
+        {
+          "kaynak": "10.1016/j.jcs.2017.03.013",
+          "yer": "Introduction"
+        },
+        {
+          "kaynak": "10.1016/j.jcs.2017.03.013",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "seker_yolu.ekmek_ici_fruktoz_cavdar_karisik_bugday",
+      "metin": "Bir çalışmanın tablosuna göre ekşi mayalı ekmeklerin içinde d-fruktoz çavdar ekmeğinde 21,4 mmol/kg, karışık ekmekte 14,2 mmol/kg, buğday ekmeğinde 9,69 mmol/kg bulunmuştur.",
+      "kosul": "ekşi mayalı ekmek içi; çavdar, karışık ve buğday ekmekleri; tek çalışma, tablo verisi",
+      "kanit": "tek_kaynak",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods11152325",
+          "yer": "Table 2"
+        }
+      ]
+    },
+    {
+      "id": "seker_yolu.180_dakikada_kalan_seker_orani",
+      "metin": "%5,3 maya içeren hamur formülasyonunda 180 dakikalık fermantasyon sonrasında kolay fermente edilebilir karbonhidratların yaklaşık %18,4'ü ortamda kalmıştır.",
+      "kosul": "%5,3 maya ile 180 dakikalık buğday hamuru fermantasyonu",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.foodchem.2012.08.039",
+          "yer": "Discussion"
+        }
+      ]
+    },
+    {
+      "id": "seker_yolu.amilolitik_parcalanma_maltoz_izomaltoz",
+      "metin": "Nişastanın amilolitik parçalanmasıyla açığa çıkan maltoz ve izomaltoz, hamurda önemli bir karbon kaynağı oluşturur.",
+      "kosul": "Hamur fermantasyonunda nişasta yıkımı",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.cub.2020.11.016",
+          "yer": "Discussion"
+        }
+      ]
+    },
+    {
+      "id": "seker_yolu.basit_sekerler_once_tukenir",
+      "metin": "Literatürde, fermente olabilen şekerler (sakaroz, maltoz, glukoz, fruktoz) fermantasyonun ilk saatlerinde hızla tükenir; fruktan gibi daha uzun zincirli karbonhidratların parçalanması daha çok zaman ister.",
+      "kosul": "",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods8120663",
+          "yer": "3. Results and Discussion"
+        },
+        {
+          "kaynak": "10.3389/fmicb.2018.01972",
+          "yer": "HOW BREAD-MAKING MAY CHANGE FODMAPs LEVEL"
+        }
+      ]
+    },
+    {
+      "id": "seker_yolu.baslangicta_glukoz_fruktoz_sakaroz_fruktandan",
+      "metin": "Fermantasyonun başlangıcında glukoz ve fruktoz, unun endojen sakaroz ve fruktan hidrolizinden kaynaklanır.",
+      "kosul": "Codina vd. 2013 ve Struyf vd. 2017 aktarımı",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.jcs.2017.03.013",
+          "yer": "1 Introduction"
+        }
+      ]
+    },
+    {
+      "id": "seker_yolu.baslangicta_maltoz_baskin",
+      "metin": "Buğday unu-su karışımında başlangıçtaki başlıca karbonhidrat maltozdu (26,0 mM); onu glukoz (4,8 mM), sakaroz (2,6 mM) ve fruktoz (2,5 mM) izledi.",
+      "kosul": "Belçika buğday unu-su karışımı, hamur verimi 400.",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/microorganisms8101534",
+          "yer": "3.3.1. Substrate consumption; Figure 4"
+        }
+      ]
+    },
+    {
+      "id": "seker_yolu.dusuk_sicaklikta_maltoz_kalir",
+      "metin": "Bir çalışmada fermantasyon sıcaklıkları fırınlar arasında farklı olan ekşi mayalarda, görece düşük sıcaklık uygulandığında yüksek derişimde maltoz kalmıştır.",
+      "kosul": "üç fırının ekşi mayası, farklı fermantasyon sıcaklıkları; tek çalışma",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3389/fmicb.2018.01984",
+          "yer": "Discussion"
+        }
+      ]
+    },
+    {
+      "id": "seker_yolu.eksimaya_kalan_maltoz_en_yuksek",
+      "metin": "Bir çalışmada Altamura, Castellana Grotte ve Matera fırınlarından toplanan ekşi maya örneklerinde kalan fermente edilebilir karbonhidratlar arasında en yüksek derişimde maltoz bulunmuş, onu glukoz ve fruktoz izlemiştir.",
+      "kosul": "üç fırının ekşi maya örneklerinde kalan şekerler; tek çalışma",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3389/fmicb.2018.01984",
+          "yer": "Results - Biochemical Features of Flours and Sourdoughs"
+        }
+      ]
+    },
+    {
+      "id": "seker_yolu.eksimaya_maltoz_22_g_kg_diger_sekerler_dusuk",
+      "metin": "Bir çalışmada ekşi maya partilerinde maltoz en yüksek derişimde (ortalama 22 g/kg) kalmış; diğer şekerler ortalama 1–2 g/kg düzeyinde düşük kalmıştır.",
+      "kosul": "ekşi maya partilerinin yenileme döngülerinde şeker bileşimi; tek çalışma",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1128/spectrum.00662-21",
+          "yer": "RESULTS: Sugar compositions and predictive functions of bacteriota"
+        }
+      ]
+    },
+    {
+      "id": "seker_yolu.glukoamilaz_ilavesi_glukoz_artisi",
+      "metin": "Gram kuru madde başına 15 U glukoamilaz eklenen hamurda glukoz derişimi 3 saatlik inkübasyonun ardından %0,2 ± 0,0'dan %2,4 ± 0,2'ye yükseldi.",
+      "kosul": "15 U/g kuru madde Aspergillus niger glukoamilazı, 3 saat inkübasyon",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.jcs.2017.03.013",
+          "yer": "3.1.2 Glucoamylase"
+        }
+      ]
+    },
+    {
+      "id": "seker_yolu.glukoamilaz_ve_alfa_amilaz_fermente_sekeri_artirir",
+      "metin": "Bir çalışmada glukoamilaz ve alfa-amilaz enzimlerinin eklenmesi hamurdaki toplam fermente edilebilir şeker miktarını artırdı.",
+      "kosul": "Buğday hamuruna enzim ilavesi",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.jcs.2017.03.013",
+          "yer": "Abstract"
+        }
+      ]
+    },
+    {
+      "id": "seker_yolu.maltoz_glukoz_salinimi_eps_verimi",
+      "metin": "Fermantasyon sırasında tahıl enzimleri tarafından maltoz ve glukoz açığa çıkarılması, ekşi mayada ekzopolisakkarit verimini belirler.",
+      "kosul": "Ekşi maya fermantasyonu",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.fm.2013.04.007",
+          "yer": "Abstract"
+        },
+        {
+          "kaynak": "10.1016/j.tifs.2008.04.002",
+          "yer": "Cited by"
+        }
+      ]
+    },
+    {
+      "id": "seker_yolu.maltoz_tukenmedi_sakaroz_tukendi",
+      "metin": "Tip II buğday ekşi mayalarında hiçbir başlatıcı suş 72 saatte maltozu tüketmedi (kalan 2,2–67,6 mM); sakaroz ise asetik asit bakterisiyle başlatılanlar dışında hepsinde 24 saatte tükendi, onlarda da 2 mM'nin altında kaldı.",
+      "kosul": "Tip II buğday ekşi mayası, hamur verimi 400, 30 °C, 72 saat.",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/microorganisms8101534",
+          "yer": "3.3.1. Substrate consumption"
+        },
+        {
+          "kaynak": "10.3390/microorganisms8101534",
+          "yer": "3.3.1. Substrate consumption"
+        }
+      ]
+    },
+    {
+      "id": "seker_yolu.seker_turlerinin_fermantasyon_hizi_ve_suresine_etkisi",
+      "metin": "Yüksek glukoz-maltoz oranı fermantasyon hızını artırırken, yüksek maltoz düzeyleri yalnızca verimli fermantasyon süresini uzatır; yüksek sakaroz ise hem hızı hem de süreyi olumlu etkiler.",
+      "kosul": "Ekmek hamuru fermantasyonu",
+      "kanit": "uzlasi",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.foodchem.2016.09.004",
+          "yer": "Highlights"
+        },
+        {
+          "kaynak": "10.1016/j.jcs.2017.03.013",
+          "yer": "Highlights"
+        },
+        {
+          "kaynak": "10.1016/j.jcs.2017.03.013",
+          "yer": "Highlights"
+        }
+      ]
+    },
+    {
+      "id": "seker_yolu.tam_un_invertaz_yuzde70_seker",
+      "metin": "Tam buğday unu hamurunda tüketilen şekerlerin %70'i invertaz etkinliğiyle açığa çıkar.",
+      "kosul": "Tam buğday unu hamuru; Struyf vd. 2017 atfı",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1111/1541-4337.13147",
+          "yer": "3.5 Contribution of sugars during fermentation"
+        }
+      ]
+    },
+    {
+      "id": "seker_yolu.un_sekeri_glukan_icin_yeterli",
+      "metin": "Aktarılan bilgiye göre buğday (en çok %1,85) ve çavdar (en çok %2,0 maltoz) ununda doğal olarak bulunan çözünür karbonhidratlar bakterilerin β-D-glukan oluşturması için yeterlidir.",
+      "kosul": "Buğday unu (maltoz, sakaroz, glukoz, fruktoz toplam en çok %1,85) ve çavdar unu (maltoz en çok %2,0).",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods10030547",
+          "yer": "1. Introduction"
+        }
+      ]
+    },
+    {
+      "id": "seker_yolu.enzim_az_ise_sakaroz_fruktan",
+      "metin": "Unun enzim etkinliği ve hasarlı nişastası düşükse, mikroplar için en kolay ulaşılan karbonhidratlar sakaroz, rafinoz ve fruktanlar olur.",
+      "kosul": "",
+      "kanit": "ikincil",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods7070096",
+          "yer": "4. Concepts for Low FODMAP Sourdough Baking"
+        }
+      ]
+    },
+    {
+      "id": "seker_yolu.glukoz_maltoz_neye_bagli",
+      "metin": "Buğday ve çavdar ekşi mayalarındaki glukoz ve maltoz düzeyini undaki hasarlı nişasta miktarı ile unun β-amilaz ve amiloglukozidaz etkinliği belirler.",
+      "kosul": "",
+      "kanit": "ikincil",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods7070096",
+          "yer": "4. Concepts for Low FODMAP Sourdough Baking"
+        }
+      ]
+    },
+    {
+      "id": "seker_yolu.ph_etkisi_maltoz_tuketimi",
+      "metin": "Maltoz düzeyi pH 6,7 WSSM ortamında 4. basamakta 20 mM'ye düşerken, pH 4,5 WSSM ortamında son basamağa kadar 32 mM'nin üzerinde kaldı.",
+      "kosul": "WSSM alt kültürleri (pH 6,7 ve pH 4,5 karşılaştırması)",
+      "kanit": "tek_kaynak",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.12938/bmfh.2019-038",
+          "yer": "Effect of pH on lactic acid fermentation"
+        }
+      ]
+    },
+    {
+      "id": "seker_yolu.sanfranciscensis_mapa_operonu_induklenme",
+      "metin": "Fructilactobacillus sanfranciscensis'te mapA operonunun ifadesi maltoz varlığıyla uyarılır.",
+      "kosul": "Fructilactobacillus sanfranciscensis genetiği",
+      "kanit": "ikincil",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1128/aem.01030-26",
+          "yer": "Discussion"
+        }
+      ]
+    },
+    {
+      "id": "seker_yolu.hpaec_pad_ile_seker_analizi",
+      "metin": "Fruktoz, glukoz, maltoz ve sakaroz karbonhidratlarının derişimleri, CarboPac PA20 kolon ve ED-40 PAD detektörü takılı ICS 5000 kromatografı kullanılarak HPAEC-PAD yöntemiyle belirlenmiştir.",
+      "kosul": "Fermantasyon örneklerinde karbonhidrat analizi",
+      "kanit": "tek_kaynak",
+      "bolum": "Nasıl ölçülür",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1128/aem.01325-25",
+          "yer": "Carbohydrates"
+        }
+      ]
+    },
+    {
+      "id": "seker_yolu.hplc_ile_fermente_seker_tayini",
+      "metin": "Hamur fermantasyonu sırasında fermente edilebilir şekerlerin (sakaroz, glukoz, maltoz ve fruktoz) derişimi yüksek performanslı sıvı kromatografisi (HPLC) ile belirlenir.",
+      "kosul": "Hamur fermantasyonunda şeker analizi",
+      "kanit": "tek_kaynak",
+      "bolum": "Nasıl ölçülür",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.17221/216/2012-cjfs",
+          "yer": "Abstract"
+        }
+      ]
+    },
+    {
+      "id": "seker_yolu.maltaz_maltozu_boler",
+      "metin": "Maltoz, mayanın maltaz enzimi yardımıyla iki glukoz molekülüne parçalanabilir.",
+      "kosul": "",
+      "kanit": "ikincil",
+      "bolum": "Ne yapar",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1155/2018/8187318",
+          "yer": "2. Porous Crumb Structure Development"
+        }
+      ]
+    },
+    {
+      "id": "seker_yolu.maltoz_fosforilaz_etkisi",
+      "metin": "Literatüre göre Fructilactobacillus sanfranciscensis'in maltoz fosforilaz enzimi maltozu glukoz ve glukoz-1-fosfata parçalar.",
+      "kosul": "Fructilactobacillus sanfranciscensis metabolizması",
+      "kanit": "ikincil",
+      "bolum": "Ne yapar",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1128/aem.01030-26",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "seker_yolu.bugday_unu_bireysel_seker_oranlari",
+      "metin": "Buğday unundaki serbest şekerler glukoz, fruktoz ve maltoz için yaklaşık %0,05 düzeyindeyken sakaroz ve rafinoz için %0,2–0,3 aralığındadır; Bilux ununda sakaroz %0,31 ölçülmüştür.",
+      "kosul": "Buğday unu şeker profili",
+      "kanit": "tek_kaynak",
+      "bolum": "Ortak özellikler",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.foodchem.2016.09.004",
+          "yer": "Introduction"
+        },
+        {
+          "kaynak": "10.1016/j.foodchem.2016.09.004",
+          "yer": "Section snippets - Analysis of carbohydrates and amylolytic activity in flour and whole meal"
+        }
+      ]
+    },
+    {
+      "id": "seker_yolu.mayasiz_kontrol_hamuru_seker_duzeyleri",
+      "metin": "Mayasız kontrol hamurunda 100 g un başına 0,20 mmol glukoz, 0,16 mmol fruktoz, 17,05 mmol sakaroz ve 2,3 mmol maltoz saptanmıştır.",
+      "kosul": "Mayasız kontrol buğday hamuru",
+      "kanit": "tek_kaynak",
+      "bolum": "Ortak özellikler",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.foodchem.2012.08.039",
+          "yer": "Changes in fermentable sugar levels in dough"
+        }
+      ]
+    },
+    {
+      "id": "seker_yolu.lab_maltoz_fosforilaz_glukoz_maya",
+      "metin": "Sıkça örneklendiği üzere, ekşi maya LAB'ları maltozu hücre içinde maltoz fosforilaz ile glukoza ve glukoz 1-fosfata dönüştürür; glukoz ortama salınarak birlikte yaşayan mayaya sunulur.",
+      "kosul": "Ekşi maya LAB'ları ve birlikte yaşayan maya",
+      "kanit": "ikincil",
+      "bolum": "İlişkileri",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1128/spectrum.00662-21",
+          "yer": "DISCUSSION"
+        }
+      ]
+    },
+    {
+      "id": "seker_yolu.maltoz_s_cerevisiae_buyume_itici",
+      "metin": "Bir çalışmada ekşi maya LAB suşlarıyla bir Saccharomyces cerevisiae suşunun tüm in vitro ikili birlikte kültürlerinde maltoz, S. cerevisiae büyümesinin itici gücü olmuştur.",
+      "kosul": "LAB suşları ile S. cerevisiae suşunun in vitro ikili birlikte kültürleri; tek çalışma",
+      "kanit": "tek_kaynak",
+      "bolum": "İlişkileri",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1128/spectrum.00662-21",
+          "yer": "ABSTRACT"
+        }
+      ]
+    }
+  ]
+}

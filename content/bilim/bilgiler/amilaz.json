@@ -1,0 +1,548 @@
+{
+  "id": "amilaz",
+  "ad": "Amilazlar",
+  "bilgiler": [
+    {
+      "id": "amilaz.maltoz_salimi_dusme_sayisi_hasarli_nisasta",
+      "metin": "Fermantasyon sırasında açığa çıkan maltoz miktarı, düşme sayısı ile yansıtılan alfa-amilaz aktivitesine ve unda bulunan hasarlı nişasta miktarına bağlıdır.",
+      "kosul": "Struyf vd. 2016",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.foodchem.2016.09.004",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "amilaz.un_takviyesi_maltoz_artisi",
+      "metin": "Ekmek hamurundaki maltoz düzeylerini artırmak amacıyla buğday ununa genellikle alfa-amilaz takviyesi yapılır.",
+      "kosul": "ekmek hamuru",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.jcs.2017.03.013",
+          "yer": "Abstract"
+        }
+      ]
+    },
+    {
+      "id": "amilaz.dusme_sayisi_ve_alfa_amilaz_ters_iliskili",
+      "metin": "Düşme sayısı testi nişastayı hidroliz eden amilolitik enzimlerin ve başlıca alfa-amilazın etkinliğini değerlendirir; alfa-amilaz aktivitesi arttıkça düşme süresi kısalır.",
+      "kosul": "Düşme sayısı (Falling Number) testi",
+      "kanit": "ikincil",
+      "bolum": "Nasıl ölçülür",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.2478/aucft-2020-0024",
+          "yer": "Indirect indicators of flours baking quality"
+        },
+        {
+          "kaynak": "10.3390/foods12081610",
+          "yer": "3.2. Flour and Dough"
+        },
+        {
+          "kaynak": "10.3390/foods13193035",
+          "yer": "2.2.2. Research on Selected Quality Parameters of Mountain Rye Flour"
+        },
+        {
+          "kaynak": "10.1002/fsn3.1431",
+          "yer": "Falling number value"
+        },
+        {
+          "kaynak": "10.1002/fsn3.1431",
+          "yer": "Falling number value"
+        }
+      ]
+    },
+    {
+      "id": "amilaz.ekmeklik_un_optimum_dusme_sayisi_araligi",
+      "metin": "Ekmeklik unlar için optimum düşme sayısı aralığı 200 ile 350 saniye arası olarak tanımlanır.",
+      "kosul": "Knapowski vd. 2015 ve Krawczyk vd. 2008b aktarımı",
+      "kanit": "ikincil",
+      "bolum": "Nasıl ölçülür",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.2478/aucft-2020-0024",
+          "yer": "Indirect indicators of flours baking quality"
+        }
+      ]
+    },
+    {
+      "id": "amilaz.cavdarda_eksi_maya_amilazi_durdurur",
+      "metin": "Çavdar ekmeğinde ekşi mayanın başlıca görevlerinden biri, çavdarda buğdaydan daha etkin olan α-amilazı etkisizleştirmektir.",
+      "kosul": "Çavdar ekmeği.",
+      "kanit": "ikincil",
+      "bolum": "Ne yapar",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1002/fsn3.4050",
+          "yer": "1. INTRODUCTION"
+        },
+        {
+          "kaynak": "10.1080/10408398.2021.1976100",
+          "yer": "Flour fermentation for sourdough production"
+        }
+      ]
+    },
+    {
+      "id": "amilaz.fermantasyonda_seker_uretim_payi",
+      "metin": "Bir buğday unu hamuru çalışmasında, 2 saatlik fermantasyon sonunda tüketilen şekerlerin yaklaşık %56'sı amilazlar tarafından üretildi.",
+      "kosul": "buğday unu hamuru, 2 saat fermantasyon",
+      "kanit": "tek_kaynak",
+      "bolum": "Ne yapar",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.foodchem.2016.09.004",
+          "yer": "Abstract"
+        }
+      ]
+    },
+    {
+      "id": "amilaz.hasarli_nisastadan_seker",
+      "metin": "Amilaz hasarlı nişastayı kolayca parçalar; açığa çıkan serbest şekerler mayanın fermantasyonuna destek olur.",
+      "kosul": "",
+      "kanit": "ikincil",
+      "bolum": "Ne yapar",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods12132591",
+          "yer": "3.6. Dough Improvers"
+        },
+        {
+          "kaynak": "10.1016/j.jcs.2017.03.013",
+          "yer": "Introduction"
+        },
+        {
+          "kaynak": "10.3389/fmicb.2018.01972",
+          "yer": "HOW BREAD-MAKING MAY CHANGE FODMAPs LEVEL"
+        },
+        {
+          "kaynak": "10.1002/fsn3.2008",
+          "yer": "Results and Discussion: Effect of particle size on color and specific volume of SB"
+        },
+        {
+          "kaynak": "10.3390/molecules28041910",
+          "yer": "2.3. Contents of Individual Complex Carbohydrates and Dietary Fiber in the Sourdough Breads"
+        }
+      ]
+    },
+    {
+      "id": "amilaz.maltojenik_bayatlamayi_geciktirir",
+      "metin": "Maltojenik α-amilaz eklemek, sanayide bayatlamayı geciktirmek için kullanılan en başarılı yöntemlerden biridir.",
+      "kosul": "",
+      "kanit": "tek_kaynak",
+      "bolum": "Ne yapar",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.foodchem.2021.129478",
+          "yer": "1. Introduction"
+        }
+      ]
+    },
+    {
+      "id": "amilaz.alfa_amilaz_rastgele_keser",
+      "metin": "Sıradan α-amilazlar nişastanın α-1,4 bağlarını oldukça rastgele keser; amiloz ve amilopektinin molekül boyunu küçülterek düşük molekül ağırlıklı şekerlere, esasen glukoza kadar indirir.",
+      "kosul": "",
+      "kanit": "ikincil",
+      "bolum": "Tanım",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.foodchem.2021.129478",
+          "yer": "2.1. Experimental design"
+        },
+        {
+          "kaynak": "10.1016/j.crfs.2021.03.004",
+          "yer": "3.3. Effects of crust treatments on water migration in breads"
+        },
+        {
+          "kaynak": "10.3389/fpls.2018.01356",
+          "yer": "Introduction"
+        },
+        {
+          "kaynak": "10.1016/j.jcs.2017.03.013",
+          "yer": "Introduction"
+        },
+        {
+          "kaynak": "10.1111/1541-4337.13147",
+          "yer": "3.3 Effect of amylase on starch"
+        },
+        {
+          "kaynak": "10.1016/j.jcs.2017.03.013",
+          "yer": "Introduction"
+        },
+        {
+          "kaynak": "10.3389/fpls.2022.811728",
+          "yer": "Discussion"
+        }
+      ]
+    },
+    {
+      "id": "amilaz.beta_amilaz_ekzo_etki",
+      "metin": "Beta-amilaz, nişasta zincirinin indirgeyici olmayan ucundan maltoz birimlerini koparan ekzo etkili bir enzimdir.",
+      "kosul": "Van der Maarel vd. 2002",
+      "kanit": "ikincil",
+      "bolum": "Tanım",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.jcs.2017.03.013",
+          "yer": "Introduction"
+        },
+        {
+          "kaynak": "10.1016/j.jcs.2017.03.013",
+          "yer": "Introduction"
+        },
+        {
+          "kaynak": "10.1016/j.jcs.2017.03.013",
+          "yer": "1 Introduction"
+        }
+      ]
+    },
+    {
+      "id": "amilaz.glikozit_hidrolaz_siniflandirma",
+      "metin": "Amilolitik enzimler, nişasta polimerlerinin alfa-1,4 ve/veya alfa-1,6 bağlarına etki eden glikozit hidrolazlardır.",
+      "kosul": "",
+      "kanit": "tek_kaynak",
+      "bolum": "Tanım",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.jcs.2009.04.010",
+          "yer": "Classification"
+        }
+      ]
+    },
+    {
+      "id": "amilaz.maltojenik_tanim",
+      "metin": "Maltojenik α-amilazlar nişastadan her seferinde bir maltoz birimi koparır; G4 α-amilazlar gibi daha yüksek dereceli olanlar ise her seferinde bir maltotetraoz birimi koparır.",
+      "kosul": "",
+      "kanit": "tek_kaynak",
+      "bolum": "Tanım",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.foodchem.2021.129478",
+          "yer": "2.1. Experimental design"
+        }
+      ]
+    },
+    {
+      "id": "amilaz.dusuk_alfa_amilazli_unda_sert_hamur_ve_dusuk_hacim",
+      "metin": "Düşük alfa-amilaz aktiviteli çavdar unuyla (düşme sayısı 200 s üzeri, amilograf tepe viskozitesi 700 AU üzeri) yapılan ekmeklerde hamur sert kalır ve somun hacmi düşük olur.",
+      "kosul": "Çavdar unu; düşme sayısı > 200 s ve tepe viskozite > 700 AU (atıf)",
+      "kanit": "ikincil",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/ma14247603",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "amilaz.ekmek_hacmi_ve_ici_iyilestirme",
+      "metin": "Alfa-amilaz kullanımı ekmek hacmini artırır, ekmek içi gözenek yapısı ile kabuk ve iç rengini geliştirir, aroma gelişimine katkıda bulunur ve bayatlamayı geciktirici etki sağlar.",
+      "kosul": "Armero ve Collar 1998; Gujral vd. 2003",
+      "kanit": "ikincil",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.jcs.2008.03.006",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "amilaz.firincilikta_kullanim",
+      "metin": "Fırıncılık endüstrisi α-amilazı hamur özelliklerini ve ürün kalitesini iyileştirmek için düzenli olarak kullanır.",
+      "kosul": "",
+      "kanit": "ikincil",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3389/fpls.2018.01356",
+          "yer": "Introduction"
+        },
+        {
+          "kaynak": "10.1016/j.jcs.2008.03.006",
+          "yer": "Introduction"
+        },
+        {
+          "kaynak": "10.1016/j.jcs.2017.03.013",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "amilaz.glukoamilaz_ekmek_glukoz_dogrusal",
+      "metin": "Hebeda ve Zobel'e (1996) göre, glukoamilaz dozu ile ekmekteki nihai glukoz düzeyi arasında yaklaşık doğrusal bir ilişki vardır.",
+      "kosul": "Hebeda ve Zobel (1996) aktarımı",
+      "kanit": "ikincil",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.jcs.2017.03.013",
+          "yer": "Discussion - 4.4 Looking at sugar levels in bread"
+        }
+      ]
+    },
+    {
+      "id": "amilaz.verimli_fermantasyon_suresi",
+      "metin": "Ekmek hamurunda alfa-amilaz veya glukoamilaz ilavesiyle sağlanan yüksek amilolitik aktivite, toplam verimli fermantasyon süresini uzatır.",
+      "kosul": "Ekmek hamuru fermantasyonu; alfa-amilaz veya glukoamilaz ilavesi",
+      "kanit": "uzlasi",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.foodchem.2016.09.004",
+          "yer": "Highlights"
+        },
+        {
+          "kaynak": "10.1016/j.jcs.2017.03.013",
+          "yer": "Abstract"
+        }
+      ]
+    },
+    {
+      "id": "amilaz.yuksek_amilaz_tek_basina_zararsiz",
+      "metin": "Aktarılan çalışmalara göre, hasat öncesi çimlenmenin aksine, yüksek α-amilazın tek başına kullanım kalitesine zarar verdiğine dair doğrudan kanıt yoktur; tanede TaAMY3'ü fazla üreten transgenik buğday, düşme sayısı 60 s'ye yakın olmasına rağmen küçük ölçekli pişirme kalitesini bozmadı.",
+      "kosul": "Transgenik buğday, küçük ölçekli pişirme.",
+      "kanit": "ikincil",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3389/fpls.2018.01356",
+          "yer": "Introduction"
+        },
+        {
+          "kaynak": "10.3389/fpls.2018.01356",
+          "yer": "Discussion"
+        },
+        {
+          "kaynak": "10.3389/fpls.2018.01356",
+          "yer": "Discussion"
+        },
+        {
+          "kaynak": "10.3389/fpls.2022.811728",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "amilaz.alfa_amilaz_hamur_stabilitesini_azaltir",
+      "metin": "Buğday unu hamurunda alfa-amilaz ilavesi ya da dozunun artırılması hamur stabilitesini ve uzamaya direncini azaltır; tek bir çalışmada yumuşama da arttı.",
+      "kosul": "Buğday unu hamuru; alfa-amilaz ilavesi veya dozu; yumuşama yalnız yulaf kepeksiz (regular) hamurda ölçüldü",
+      "kanit": "uzlasi",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.17221/40/2009-cjfs",
+          "yer": "Dough development"
+        },
+        {
+          "kaynak": "10.1038/s41598-023-31591-y",
+          "yer": "Results and discussion"
+        }
+      ]
+    },
+    {
+      "id": "amilaz.alfa_glukozidaz_glukoz_artisi",
+      "metin": "Mayasız hamura 3,5 U/g km alfa-glukozidaz eklendiğinde, glukoz düzeyi 3 saatlik dinlenme sonunda %1,3 ± 0,2 seviyesine ulaşmıştır.",
+      "kosul": "mayasız Bilux buğday unu hamuru, 3,5 U/g km S. cerevisiae alfa-glukozidazı, 3 saat dinlendirme",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.jcs.2017.03.013",
+          "yer": "Results - 3.1.3 Alpha-glucosidase, Fig. 1C"
+        }
+      ]
+    },
+    {
+      "id": "amilaz.dozaj_fermente_seker_artisi",
+      "metin": "Hamura eklenen alfa-amilaz miktarı arttıkça, yüksek maltoz ve daha az oranda glukoz salımı sayesinde toplam fermente edilebilir şeker düzeyi artar.",
+      "kosul": "mayasız Bilux buğday unu hamuru",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.jcs.2017.03.013",
+          "yer": "Results - 3.1.1 Alpha-amylase, Table 1"
+        }
+      ]
+    },
+    {
+      "id": "amilaz.eksi_mayada_alfa_amilaz_inhibisyonu",
+      "metin": "Ekşi mayalı ekmek üzerine yapılan çalışmalar, kontrol ekmeğine kıyasla alfa-amilazın inhibe olduğunu ve daha az nişasta parçalanması gerçekleştiğini göstermiştir.",
+      "kosul": "Diowksz vd. 2020; ekşi mayalı ekmek",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.fbio.2023.102640",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "amilaz.glukoamilaz_glukoz_artisi_15u",
+      "metin": "Mayasız hamura 15 U/g km glukoamilaz eklendiğinde, glukoz oranı yoğurma sonrası %0,2 ± 0,0 düzeyinden 3 saatlik dinlenme sonunda %2,4 ± 0,2 düzeyine yükselmiştir.",
+      "kosul": "mayasız Bilux buğday unu hamuru, 15 U/g km Aspergillus niger glukoamilazı, 3 saat dinlendirme",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.jcs.2017.03.013",
+          "yer": "Results - 3.1.2 Glucoamylase, Fig. 1B"
+        }
+      ]
+    },
+    {
+      "id": "amilaz.glukoamilaz_glukoz_artisi_65u",
+      "metin": "Mayasız hamura 65 U/g km glukoamilaz eklendiğinde, 3 saat sonunda glukoz düzeyi %4,2 ± 0,2'ye ulaşırken maltoz hızla %0,3'ün altına düşmüştür.",
+      "kosul": "mayasız Bilux buğday unu hamuru, 65 U/g km glukoamilaz, 3 saat dinlendirme",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.jcs.2017.03.013",
+          "yer": "Results - 3.1.2 Glucoamylase, Fig. 1B"
+        }
+      ]
+    },
+    {
+      "id": "amilaz.hamur_gelisimi_ve_gaz_gucu",
+      "metin": "Alfa-amilaz ilavesi, son mayalanma sırasında hamur gelişimi ve gaz tutma parametreleri üzerinde belirgin olumlu bir etki yapar.",
+      "kosul": "Buğday hamuru; kepek içeren un karışımları: bulgu kaydı yüksek ince kepek eklemeli hamurlarda ölçüm yapmış, atıf kaydı iri buğday kepeği içeren karışımlarda su emilimini en aza indirme yolu tümü ile söz alıyor; son mayalanma (proofing)",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.jcs.2008.03.006",
+          "yer": "Abstract"
+        },
+        {
+          "kaynak": "10.1016/j.lwt.2013.12.004",
+          "yer": "4.5. Enzymatic treatment and fermentation"
+        }
+      ]
+    },
+    {
+      "id": "amilaz.hamurda_maltoz_artis_orani_004_132",
+      "metin": "Mayalı hamurda amilaz aktivitesi sayesinde maltoz derişimi %0,04'ten %1,32 düzeyine yükselmiştir.",
+      "kosul": "Fermente hamur (çörek hamuru)",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods11101388",
+          "yer": "3.1.1. Sugar Release during Fermented Pastry Production"
+        }
+      ]
+    },
+    {
+      "id": "amilaz.laktik_asit_alfa_amilaz_inhibisyonu",
+      "metin": "Fructilactobacillus sanfranciscensis 5 ile fermantasyonda üretilen organik asitlerden laktik asit, alfa-amilaz aktivitesini doğrudan engeller.",
+      "kosul": "Fructilactobacillus sanfranciscensis 5 sıvı ekşi maya fermantasyonu",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods15101745",
+          "yer": "3.6. The Analysis of In Vitro Digestion Characteristics of Starch in Different Mantou"
+        }
+      ]
+    },
+    {
+      "id": "amilaz.potus_gaz_uretimi_dususu",
+      "metin": "Potus vd. (1994) çalışmasında, alfa-amilaz ilavesi hamurdaki şeker düzeyini iki katına çıkarmasına rağmen alfa-amilaz takviyesiyle gaz üretiminin daha düşük olduğu görüldü.",
+      "kosul": "Potus vd. 1994 (atıf; Struyf vd. 2017 makalesinde aktarılıyor)",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.jcs.2017.03.013",
+          "yer": "Introduction"
+        },
+        {
+          "kaynak": "10.1016/j.jcs.2017.03.013",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "amilaz.tuz_ilavesi_amilazi_baskilar_viskoziteyi_artirir",
+      "metin": "Deniz tuzu ilavesi tuz varlığı nedeniyle amilolitik aktiviteyi baskılar ve bu durum Amilografta tepe viskozite değerinin artmasına yol açar.",
+      "kosul": "Amilograf ölçümü, deniz tuzu ilavesi",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods9101465",
+          "yer": "3.3. Dough Rheological Properties during Pasting"
+        },
+        {
+          "kaynak": "10.3390/foods9101465",
+          "yer": "3.3. Pasting Properties"
+        }
+      ]
+    },
+    {
+      "id": "amilaz.amilolitik_enzimler_65c_inaktivasyon",
+      "metin": "Amilolitik enzimler 65 °C veya üzerindeki sıcaklıklarda inaktive olur.",
+      "kosul": "Shintani vd. 2021",
+      "kanit": "ikincil",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1111/1541-4337.13147",
+          "yer": "3.3 Effect of amylase on starch"
+        }
+      ]
+    },
+    {
+      "id": "amilaz.olgun_maya_stabilitesi",
+      "metin": "Olgun bir ekşi mayanın kararlılığı, un ve fırın ortamından gelen çevre mikrobiyotasının yanı sıra unun ve mikroorganizmaların metabolik ve amilaz aktivitesine bağlıdır.",
+      "kosul": "Hammes vd. 1996; Gobbetti vd. 2005",
+      "kanit": "ikincil",
+      "bolum": "Mayadaki yeri",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.fm.2009.07.012",
+          "yer": "Introduction"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,834 @@
+{
+  "id": "sure",
+  "ad": "Süre",
+  "bilgiler": [
+    {
+      "id": "sure.uzun_fermantasyon_un_enzimleri",
+      "metin": "Ekşi mayada fermantasyon süresinin uzaması, hamur bileşenlerinin dönüştürülüp parçalanmasında un enzimlerinin payını belirgin biçimde artırır.",
+      "kosul": "",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods7070096",
+          "yer": "3. FODMAPs in Cereals and FODMAP Metabolism in Conventional Sourdoughs"
+        }
+      ]
+    },
+    {
+      "id": "sure.eksimaya_sure_araligi_8_144_saat",
+      "metin": "Ekşi maya süreçlerinde fermantasyon süresi sünger hamurlarda 8 saatten başlayıp 144 saatin üzerine kadar değişir.",
+      "kosul": "Ekşi maya süreçleri (aktarım)",
+      "kanit": "ikincil",
+      "bolum": "Hangi koşulda",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.fm.2013.04.007",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "sure.eksimayali_ekmek_toplam_fermantasyon_araligi",
+      "metin": "Derlenen literatürde pişirme öncesindeki toplam fermantasyon ve son mayalanma süresi 30 dakikadan 20 saate veya daha fazlasına kadar değişir.",
+      "kosul": "Ekşi mayalı ekmek yapımı",
+      "kanit": "tek_kaynak",
+      "bolum": "Hangi koşulda",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1146/annurev-food-110923-034834",
+          "yer": "3.2. Bread Production"
+        }
+      ]
+    },
+    {
+      "id": "sure.sicaklik_ve_maya_ile_sure",
+      "metin": "Hamurun 8 cm yüksekliğe ulaşma süresi, 5 °C'de kilogram una 20 g mayayla 21 saatten 35 °C'de 60 g mayayla 15 dakikaya kadar değişti.",
+      "kosul": "Danimarka; buğday unu (yaş gluten %28,9); ticari yaş ekmek mayası 20, 40 ve 60 g/kg un; ekşi maya yok; 5, 15 ve 35 °C; 235 g hamur 1 L'lik beherde.",
+      "kanit": "tek_kaynak",
+      "bolum": "Hangi koşulda",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.lwt.2012.08.019",
+          "yer": "2.3. Bread making; Table 1"
+        }
+      ]
+    },
+    {
+      "id": "sure.firin_mayali_ekmek_kisa_fermantasyon_sure_ve_hidroliz",
+      "metin": "Fırıncı mayasıyla kabartılan ekmek tipik olarak 0,5–3 saatlik kısa bir fermantasyonla elde edilir ve bu durum tahıl bileşenlerinin sınırlı hidrolizine yol açar.",
+      "kosul": "Fırıncı mayası ile ekmek üretimi",
+      "kanit": "tek_kaynak",
+      "bolum": "Tanım",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3389/fmicb.2018.01972",
+          "yer": "HOW BREAD-MAKING MAY CHANGE FODMAPs LEVEL"
+        }
+      ]
+    },
+    {
+      "id": "sure.alti_saatte_en_yuksek_ozgul_hacim",
+      "metin": "Ekşi mayalı ekmeklerde en yüksek özgül hacim 6 saatlik fermantasyonda elde edildi.",
+      "kosul": "Ekşi mayalı ekmek",
+      "kanit": "tek_kaynak",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1590/s1984-82502013000200005",
+          "yer": "Dough and bread evaluation"
+        },
+        {
+          "kaynak": "10.1590/s1984-82502013000200005",
+          "yer": "CONCLUSION"
+        }
+      ]
+    },
+    {
+      "id": "sure.fermantasyon_suresi_ve_firin_kabarmasi_siralamasi",
+      "metin": "Bu çalışmada fermantasyon sürelerinin sıralaması fırın kabarması performansı sıralamasıyla örtüşmedi; bu, fermantasyon süresinin tek başına suşlar arasındaki farkları açıklamasının olası olmadığını düşündürür.",
+      "kosul": "Maya suşları fermantasyon süresi ve fırın kabarması ilişkisi",
+      "kanit": "tek_kaynak",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.crfs.2026.101573",
+          "yer": "3.4. Different K. marxianus strains lead to different rates of CO2 release"
+        }
+      ]
+    },
+    {
+      "id": "sure.model_optimum_mayalanma_2_saat_11_dakika",
+      "metin": "Bir çalışmada özgül hacim modelleri, fırıncı mayası eklenmiş ekşi mayalı ekmek (YSB) için 2 saat 11 dakika, fırıncı mayalı ekmek (YB) için 2 saat 15 dakikalık, daha kısa en uygun mayalanma süreleri öngörmüştür.",
+      "kosul": "YSB ve YB için model çıktıları; deneysel ölçüm değil; tek çalışma",
+      "kanit": "tek_kaynak",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.ijfoodmicro.2023.110193",
+          "yer": "4. Discussion"
+        },
+        {
+          "kaynak": "10.1016/j.ijfoodmicro.2023.110193",
+          "yer": "Discussion"
+        }
+      ]
+    },
+    {
+      "id": "sure.sure_duyusala_etkisiz",
+      "metin": "60 ile 150 dakika arasındaki hamur fermantasyon süresi buğday ekmeklerinin duyusal özelliklerini etkilemedi.",
+      "kosul": "Polonya; ekmeklik buğday, açık renkli un (tip 450) ve tam buğday unu (tip 1650); %3,5 maya, %1 tuz; 220 °C'de 30 dakika pişirme; hamur fermantasyonu 60–150 dakika; tek aşamalı (yalnız maya) ve L. plantarum ekşi mayalı iki aşamalı yöntem birlikte değerlendirildi. Duyusal değerlendirme 9 puanlık hedonik ölçekle.",
+      "kanit": "tek_kaynak",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods8120663",
+          "yer": "3. Results and Discussion; Figure 1"
+        }
+      ]
+    },
+    {
+      "id": "sure.sure_ile_fruktan_yuzde37",
+      "metin": "Hamur fermantasyonunu 60 dakikadan 150 dakikaya uzatmak ekmekteki ortalama fruktanı 0,44'ten 0,28 g/100 g'a, yani %37 düşürdü.",
+      "kosul": "Polonya; ekmeklik buğday, açık renkli un (tip 450) ve tam buğday unu (tip 1650); %3,5 maya, %1 tuz; 220 °C'de 30 dakika pişirme; hamur fermantasyonu 60–150 dakika; tek aşamalı (yalnız maya) ve L. plantarum ekşi mayalı iki aşamalı yöntem birlikte değerlendirildi.",
+      "kanit": "tek_kaynak",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods8120663",
+          "yer": "3. Results and Discussion; Figure 2"
+        },
+        {
+          "kaynak": "10.3390/foods8120663",
+          "yer": "3. Results and Discussion"
+        }
+      ]
+    },
+    {
+      "id": "sure.sure_ile_renk",
+      "metin": "Hamur fermantasyonu 60 dakikadan 150 dakikaya uzadıkça ekmeğin kabuğu açıldı (L* 43,94'ten 48,14'e), içi ise koyulaştı (L* 60,54'ten 57,61'e).",
+      "kosul": "Polonya; ekmeklik buğday, açık renkli un (tip 450) ve tam buğday unu (tip 1650); %3,5 maya, %1 tuz; 220 °C'de 30 dakika pişirme; hamur fermantasyonu 60–150 dakika; tek aşamalı (yalnız maya) ve L. plantarum ekşi mayalı iki aşamalı yöntem birlikte değerlendirildi.",
+      "kanit": "tek_kaynak",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods8120663",
+          "yer": "3. Results and Discussion"
+        },
+        {
+          "kaynak": "10.3390/foods8120663",
+          "yer": "3. Results and Discussion"
+        }
+      ]
+    },
+    {
+      "id": "sure.tip1_eksimaya_4_saat_11_dakika_mayalanma",
+      "metin": "Bir çalışmada modellere göre, kabartma yalnızca tip 1 ekşi mayadaki tanımlı mikrobiyal konsorsiyumla yapıldığında mayalanma süresinin uzatılması (4 saat 11 dakika) gerekmiş ve bu parametre, üç deneysel faktör arasında somun özgül hacmi üzerinde en büyük etkiye sahip olmuştur.",
+      "kosul": "tip 1 ekşi maya; yalnız tanımlanan mikrobiyal konsorsiyumla kabartma; model çıktısı, tek çalışma",
+      "kanit": "tek_kaynak",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.ijfoodmicro.2023.110193",
+          "yer": "4. Discussion"
+        },
+        {
+          "kaynak": "10.1016/j.ijfoodmicro.2023.110193",
+          "yer": "Discussion"
+        }
+      ]
+    },
+    {
+      "id": "sure.uzun_fermantasyon_aroma_inanci",
+      "metin": "Uzun fermantasyonun daha hoş aromalı ekmek verdiğine genel olarak inanılır, ancak bu konuda yapılmış çalışma azdır.",
+      "kosul": "",
+      "kanit": "ikincil",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.lwt.2012.08.019",
+          "yer": "1. Introduction"
+        }
+      ]
+    },
+    {
+      "id": "sure.uzun_fermantasyon_ph_4_5",
+      "metin": "Uzun fermantasyon ve hamurun yavaş yavaş asitlenmesiyle yapılan ekşi maya ekmeğinin pH'ı yaklaşık 4,5 olur.",
+      "kosul": "",
+      "kanit": "ikincil",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.foodhyd.2025.111252",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "sure.uzun_maya_fermantasyonu_ve_fodmap",
+      "metin": "Daha uzun maya fermantasyon sürelerinin ekmekteki FODMAP bileşenlerinde kısa sürelere kıyasla daha büyük oranda azalma sağladığı aktarılmıştır.",
+      "kosul": "Ziegler vd. 2016 aktarımı",
+      "kanit": "ikincil",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.jcs.2022.103574",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "sure.model_mayalanma_parametre_etkisi",
+      "metin": "Bir çalışmanın özgül hacim modellerinde mayalanma süresinin göreli parametre tahmini, fırıncı mayası eklenmiş ekşi mayalı ekmekte (YSB) −%6,6, fırıncı mayalı ekmekte (YB) −%9,7 olmuş; bu değerler su emilimi ve yoğurma süresinin tahminlerinden daha küçük bulunmuştur.",
+      "kosul": "YSB ve YB için özgül hacim modelleri; model parametresi, deneysel ölçüm değil; tek çalışma",
+      "kanit": "tek_kaynak",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.ijfoodmicro.2023.110193",
+          "yer": "Discussion"
+        }
+      ]
+    },
+    {
+      "id": "sure.alfaglukozidaz_seker_sure_iliskisizligi",
+      "metin": "Bu çalışmada hamura alfa-glukozidaz eklendiğinde toplam fermente edilebilir şeker düzeyi ile verimli fermantasyon süresi arasında ilişki bulunmadı.",
+      "kosul": "Alfa-glukozidaz eklenmiş mayalı hamur",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.jcs.2017.03.013",
+          "yer": "Discussion - 4.3 Addition of alpha-glucosidase"
+        }
+      ]
+    },
+    {
+      "id": "sure.amilaz_glukoamilaz_seker_ve_sure_korelasyonu",
+      "metin": "Bu çalışmada hamura alfa-amilaz veya glukoamilaz eklendiğinde, toplam fermente edilebilir şeker düzeyi ile verimli fermantasyon süresi arasında pozitif korelasyon görüldü.",
+      "kosul": "Alfa-amilaz veya glukoamilaz eklenmiş mayalı buğday unu hamuru",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.jcs.2017.03.013",
+          "yer": "Discussion - 4.5 In resume"
+        }
+      ]
+    },
+    {
+      "id": "sure.maya_miktari_ve_fermantasyon_suresi",
+      "metin": "Ekmek mayası miktarını iki katına çıkarmanın fermantasyon süresini yarıya indirdiği, ancak bazı metabolit içeriklerinin farklılaştığı saptandı.",
+      "kosul": "Ekmek mayası miktarının iki katına çıkarılması",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3136/fstr.24.509",
+          "yer": "Abstract"
+        }
+      ]
+    },
+    {
+      "id": "sure.mayalanma_suresi_ve_kabarcik_boyutu",
+      "metin": "Mayalanma süresi uzadıkça ortalama kabarcık boyutunun daha büyük boyutlara doğru kaydığı aktarılmıştır.",
+      "kosul": "Mayalanma sırasında manyetik rezonans görüntüleme (aktarım)",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1002/cche.10699",
+          "yer": "5.2.2 Magnetic resonance imaging"
+        }
+      ]
+    },
+    {
+      "id": "sure.oniki_saatlik_fermantasyon_dususu",
+      "metin": "On iki saatlik daha uzun ekşi maya fermantasyon süresi fruktan, rafinoz ve ATI miktarlarında sırasıyla %69, %69 ve %41'e varan düşüş sağladı.",
+      "kosul": "12 saatlik Tip I ekşi maya fermantasyonu",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.jcs.2022.103574",
+          "yer": "Abstract"
+        }
+      ]
+    },
+    {
+      "id": "sure.tokat_ekmegi_kitle_fermantasyonu_hacim_artisi",
+      "metin": "Oda sıcaklığında 90 dakikalık kitle fermantasyonu sırasında hamur hacmi başlangıç hacmine kıyasla %30–40 oranında artar.",
+      "kosul": "Geleneksel Tokat ekmeği kitle fermantasyonu",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1002/fsn3.4468",
+          "yer": "INTRODUCTION"
+        }
+      ]
+    },
+    {
+      "id": "sure.yapisal_oturma_zamaninin_maya_turunden_bagimsizligi",
+      "metin": "Bu çalışmada yapısal oturma ve karbondioksit salınımının zamanlaması kullanılan maya suşlarından etkilenmedi (Alpers vd. ile uyumlu); K. marxianus ve S. cerevisiae suşları arasında yapısal oturma zamanlamasında istatistiksel bir fark olmadığı Vandenbosch vd. tarafından bildirilir.",
+      "kosul": "K. marxianus ve S. cerevisiae karşılaştırması; Alpers vd. 2022 ve Vandenbosch vd. 2026 aktarımı",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.crfs.2026.101573",
+          "yer": "3.4. Different K. marxianus strains lead to different rates of CO2 release"
+        },
+        {
+          "kaynak": "10.1016/j.crfs.2026.101573",
+          "yer": "3.4. Different K. marxianus strains lead to different rates of CO2 release"
+        }
+      ]
+    },
+    {
+      "id": "sure.yuksek_maltoz_fermantasyon_suresini_uzatir",
+      "metin": "Hidroliz sırasında nişastadan açığa çıkan yüksek maltoz düzeylerinin fermantasyon süresini uzattığı aktarılmıştır.",
+      "kosul": "Struyf vd. 2017 aktarımı",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1111/1541-4337.13147",
+          "yer": "Table"
+        },
+        {
+          "kaynak": "10.1016/j.jcs.2017.03.013",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "sure.oda_sicakliginda_hacim_ikiye_katlandi",
+      "metin": "Oda sıcaklığında 1,5 saatlik mayalanma sonrasında hamur örneklerinin hacmi iki katına çıktı.",
+      "kosul": "Oda sıcaklığı, 100–150 g silindirik örnekler",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.jfoodeng.2008.09.037",
+          "yer": "Bread samples"
+        }
+      ]
+    },
+    {
+      "id": "sure.on_fermantasyon_gaz_hucre_yeniden_dagilim",
+      "metin": "Bir çalışmada yazarlar, ön fermantasyonlu hamur yönteminde uzatılmış fermantasyon ve ek yoğurmanın daha uzun hidrasyon süresi ve gaz hücrelerinin yeniden dağılımını sağladığını belirtmiştir.",
+      "kosul": "ön fermantasyonlu hamur yöntemi, uzatılmış fermantasyon ve ek yoğurma; yazarların yorumu",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1590/fst.64420",
+          "yer": "3.5 Texture profile analyses"
+        }
+      ]
+    },
+    {
+      "id": "sure.arpa_eksimayasi_15_saat_37_derece",
+      "metin": "Bir çalışmada arpa unu ve Lactobacillus reuteri başlatıcısıyla hazırlanan ekşi maya, pH 4,0±0,1 değerine ulaşılana dek 37 °C'de 15 saat fermente edilmiştir.",
+      "kosul": "arpa unu; L. reuteri başlatıcısı; 37 °C; tek çalışmanın yöntemi",
+      "kanit": "tek_kaynak",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.17113/ftb.55.04.17.5344",
+          "yer": "Materials and Methods"
+        },
+        {
+          "kaynak": "10.17113/ftb.55.04.17.5344",
+          "yer": "Materials and methods · Sourdough preparation, cell count and acidity determination"
+        }
+      ]
+    },
+    {
+      "id": "sure.bison_hamuru_alti_saat_sonra_hiz_dususu",
+      "metin": "Bu çalışmada Bison buğday hamurunda 30 °C'deki fermantasyon hızı 6 saat sonra neredeyse sıfıra düştü; yazarlar bunu hazır fermente edilebilir şekerlerin tükenmesine bağlar.",
+      "kosul": "Bison buğday hamuru, 30 °C fermantasyon",
+      "kanit": "tek_kaynak",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.jcs.2018.06.006",
+          "yer": "2.2 Dough preparation"
+        }
+      ]
+    },
+    {
+      "id": "sure.gernik_hamuru_kisa_fermantasyon_45dk",
+      "metin": "Bu çalışmaya göre gernik unu hamurunun yalnızca 45 dakikaya kadar kısa bir süre fermente edilmesi önerilir.",
+      "kosul": "Gernik (emmer) hamuru ekstensograf ölçümleri",
+      "kanit": "tek_kaynak",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.2478/aucft-2021-0005",
+          "yer": "Extensograph measurements of the flours"
+        }
+      ]
+    },
+    {
+      "id": "sure.laktik_suksinik_mayalanmayi_kisaltir",
+      "metin": "Tam buğday hamuruna laktik ya da süksinik asit eklemek gereken son mayalanma süresini kısalttı.",
+      "kosul": "Belçika; tam buğday unu (kuru maddede %12,31 protein); yaş ekmek mayası; asitler hamura doğrudan eklenerek pH 4,5–5,5; I-optimal deney tasarımı (yoğurma 7,0–10,0 dakika, su kaldırma %70,0–80,0).",
+      "kanit": "tek_kaynak",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.foodhyd.2024.110884",
+          "yer": "Results: Impact of organic acids on wholemeal breadmaking"
+        }
+      ]
+    },
+    {
+      "id": "sure.sivi_eksimayada_besleme_suresi_24_6_saat",
+      "metin": "Sıvı ekşi mayada besleme süresinin 6 saat yerine 24 saate uzaması ve Saccharomyces cerevisiae varlığı suş performansını muhtemelen etkiledi.",
+      "kosul": "Sıvı ekşi maya koşulu",
+      "kanit": "tek_kaynak",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.lwt.2019.02.004",
+          "yer": "Abstract"
+        }
+      ]
+    },
+    {
+      "id": "sure.siyez_ekmeginde_kisa_karistirma_ve_mayalanma",
+      "metin": "Siyez ekmeği üretiminde hamurları aşırı zorlamaktan kaçınmak için kısa karıştırma ve mayalanma süreleri uygulanmalıdır.",
+      "kosul": "Siyez ekmeği üretim süreci",
+      "kanit": "tek_kaynak",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods12081610",
+          "yer": "4. Conclusions"
+        }
+      ]
+    },
+    {
+      "id": "sure.siyez_hamuru_optimum_sure_80dk",
+      "metin": "Bu çalışmada, fermentograf ve ekstensograf sonuçlarının karşılaştırılmasına dayanarak siyez unu hamurunda optimum fermantasyon süresinin 80 dakika olduğu varsayıldı.",
+      "kosul": "Siyez (einkorn) hamuru optimizasyonu",
+      "kanit": "tek_kaynak",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.2478/aucft-2021-0005",
+          "yer": "Fermentograph measurements of the flours"
+        }
+      ]
+    },
+    {
+      "id": "sure.spelt_hamuru_fermantasyon_90dk",
+      "metin": "Bu çalışmanın bulgularına göre spelt unu hamurlarının, enerji ve direnç oranının en yüksek değerlerini verdiği 90 dakikaya kadar fermente edilmesi önerilir.",
+      "kosul": "Spelt hamuru ekstensograf ölçümleri",
+      "kanit": "tek_kaynak",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.2478/aucft-2021-0005",
+          "yer": "Extensograph measurements of the flours"
+        }
+      ]
+    },
+    {
+      "id": "sure.starter_e75_b72_16_saat_28_derece",
+      "metin": "Bir çalışmada E75-B72 starter kültürüyle (taze ya da liyofilize hücre) hazırlanan ekşi mayada 28 °C'de 16 saatlik fermantasyonun öncesinde ve sonrasında mikrobiyal sayılar, pH ve titre edilebilir asitlik ölçülmüş; yazarlar bu suş kombinasyonunun 16 saatte sabit kaliteli ürünlerin doğrudan üretimine olanak verdiğini belirtmiştir.",
+      "kosul": "E75-B72 starter kültürü; taze ya da liyofilize hücreler; 28 °C; tek çalışma",
+      "kanit": "tek_kaynak",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods11091278",
+          "yer": "3.6. Freeze-Drying Effect on the Viability of Sourdough Bacteria"
+        },
+        {
+          "kaynak": "10.3390/foods11091278",
+          "yer": "4. Conclusions"
+        }
+      ]
+    },
+    {
+      "id": "sure.endustriyel_oranlar",
+      "metin": "Ekmek mayasıyla yapılan endüstriyel ekmekçilikte unun tipik olarak %5–20'si 12 saatten uzun, geri kalanı yaklaşık 2 saat fermente edilir.",
+      "kosul": "Ekmek mayasıyla endüstriyel ekmekçilik.",
+      "kanit": "ikincil",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods7070096",
+          "yer": "3. FODMAPs in Cereals and FODMAP Metabolism in Conventional Sourdoughs"
+        }
+      ]
+    },
+    {
+      "id": "sure.ilk_fermantasyon_15_120_dk",
+      "metin": "İlk fermantasyon, YSB ve YB ekmeklerinde 15 dakika, SB ekmeğinde 120 dakika sürdü.",
+      "kosul": "Ekşi maya ile maya kombinasyonu (YSB), yalnız maya (YB) ve ekşi maya (SB) ekmekleri; ilk fermantasyon",
+      "kanit": "tek_kaynak",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.ijfoodmicro.2023.110193",
+          "yer": "Materials and methods · 2.3 Bread production"
+        }
+      ]
+    },
+    {
+      "id": "sure.kisa_fermantasyon_fodmap_iddiasi",
+      "metin": "Menezes ve arkadaşlarına göre 30–180 dakikalık kısa fermantasyon FODMAP bileşenlerinin parçalanmasını aksatır.",
+      "kosul": "",
+      "kanit": "ikincil",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods8120663",
+          "yer": "3. Results and Discussion"
+        },
+        {
+          "kaynak": "10.1016/j.fbio.2023.102640",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "sure.liyofilize_starter_20_saat_32_derece",
+      "metin": "Bir çalışmada üç farklı undan, liyofilize starter kültürle 32 °C'de 20 saat fermente edilen ekşi mayanın pH'ı 3,8 ölçülmüştür.",
+      "kosul": "üç çeşit un; liyofilize starter kültür; 32 °C; tek çalışma",
+      "kanit": "tek_kaynak",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.17221/130/2008-cjfs",
+          "yer": "Breadmaking procedure"
+        }
+      ]
+    },
+    {
+      "id": "sure.sunger_24_saat_oda",
+      "metin": "Sünger ön hamur oda sıcaklığında 24 saat dinlendirildi.",
+      "kosul": "Sünger (ön hamur): 450 g buğday unu, 450 g su, 1,2 g taze biyolojik maya; oda sıcaklığı",
+      "kanit": "tek_kaynak",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1590/fst.64420",
+          "yer": "Bread production"
+        }
+      ]
+    },
+    {
+      "id": "sure.wga_sureyle_degismedi",
+      "metin": "Buğday germ aglütinini (WGA) miktarı yoğurma ve ilk mayalanmadan sonra, 24 saatlik fermantasyon sonundakinden farklı değildi.",
+      "kosul": "Ticari tam buğday unu ekşi mayası, un:su 1:1, 30 °C, 24 saat; F. sanfranciscensis DSM20451, ΔgshR türevi, Latilactobacillus sakei TMW1.22; WGA ELISA ile.",
+      "kanit": "tek_kaynak",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods10020340",
+          "yer": "3.3. ELISA"
+        }
+      ]
+    },
+    {
+      "id": "sure.yalniz_eksi_mayayla_oranlar",
+      "metin": "Ekşi maya tek kabartıcı olduğunda unun yaklaşık %10'u 12 saatten uzun, %20–30'u 6 saatten uzun, unun tamamı ise 2–3 saat fermente olur.",
+      "kosul": "",
+      "kanit": "ikincil",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods7070096",
+          "yer": "3. FODMAPs in Cereals and FODMAP Metabolism in Conventional Sourdoughs"
+        }
+      ]
+    },
+    {
+      "id": "sure.gaz_sensoru_10_saat_120_deger",
+      "metin": "Fermantasyonlar 10 saat sürdüğünden, her fermantasyon için 120 değerden oluşan bir başlangıç vektörü oluşturuldu.",
+      "kosul": "Gaz sensör dizisi; 5 dakikalık aralıklarla gaz ölçümü",
+      "kanit": "tek_kaynak",
+      "bolum": "Nasıl ölçülür",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/s23187681",
+          "yer": "2.2. Gas Sensor Array System"
+        }
+      ]
+    },
+    {
+      "id": "sure.gernik_hamuru_fermantograf_kritik_sure_36dk",
+      "metin": "Gernik unu hamurunun fermantograf ölçümleri 36 dakikalık bir kritik süre gösterdi.",
+      "kosul": "Gernik (emmer) fermantograf analizi",
+      "kanit": "tek_kaynak",
+      "bolum": "Nasıl ölçülür",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.2478/aucft-2021-0005",
+          "yer": "Fermentograph measurements of the flours"
+        }
+      ]
+    },
+    {
+      "id": "sure.hamur_sivisi_fermantasyon_protokolu",
+      "metin": "Hamurlar bir fermantasyon kabininde 30,0 °C sıcaklık ve %90 bağıl nemde 126 dakika fermente edildi.",
+      "kosul": "Buğday, çavdar ve yulaf hamurları laboratuvar fermantasyonu",
+      "kanit": "tek_kaynak",
+      "bolum": "Nasıl ölçülür",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.foodhyd.2020.105771",
+          "yer": "2.2.2 Dough making and dough liquor isolation"
+        }
+      ]
+    },
+    {
+      "id": "sure.hplc_ile_6_saatlik_metabolit_olcumu",
+      "metin": "Mayanın ürettiği metabolit derişimleri fermente buğday hamurunda 6 saatlik fermantasyonun ardından HPLC ile belirlendi.",
+      "kosul": "Fermente buğday hamuru, HPLC ölçümü",
+      "kanit": "tek_kaynak",
+      "bolum": "Nasıl ölçülür",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.jcs.2018.06.006",
+          "yer": "The rheological impact of yeast metabolites on the dough matrix in unfermented dough"
+        }
+      ]
+    },
+    {
+      "id": "sure.izotermal_fermantasyon_protokolu",
+      "metin": "10 dakikalık yoğurmanın ardından hamur 35 °C'de 60 dakika izotermal fermantasyona tabi tutuldu.",
+      "kosul": "Hamur hazırlama ve izotermal fermantasyon protokolü",
+      "kanit": "tek_kaynak",
+      "bolum": "Nasıl ölçülür",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods14091649",
+          "yer": "2.1. Sample Preparation"
+        }
+      ]
+    },
+    {
+      "id": "sure.spelt_hamuru_fermantograf_kritik_sure_58dk",
+      "metin": "Spelt unu hamurunda fermantograf analizinde 58 dakikalık bir kritik süre belirlendi.",
+      "kosul": "Spelt unu hamuru fermantograf analizi",
+      "kanit": "tek_kaynak",
+      "bolum": "Nasıl ölçülür",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.2478/aucft-2021-0005",
+          "yer": "Fermentograph measurements of the flours"
+        }
+      ]
+    },
+    {
+      "id": "sure.ucucu_bilesik_ornekleme_zaman_noktalari",
+      "metin": "Uçucu organik bileşik örnekleri aşılamadan hemen sonra (0) ile fermantasyonun 6, 9, 12, 24, 30 ve 48 saat sonrasında analiz edilmiştir.",
+      "kosul": "Fermantasyonda uçucu organik bileşik analizi",
+      "kanit": "tek_kaynak",
+      "bolum": "Nasıl ölçülür",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1128/aem.01325-25",
+          "yer": "Volatile organic compounds"
+        }
+      ]
+    },
+    {
+      "id": "sure.eksi_maya_baslangici_12_24_saat",
+      "metin": "Bir çalışmanın tanımına göre taze ekşi maya, un ve suyun karıştırılıp ılık sıcaklıkta mayalandırılmasıyla başlar; 12–24 saat sonra kendiliğinden fermantasyon karışımda asitli ve alkollü bir koku oluşturur.",
+      "kosul": "ılık sıcaklıkta mayalanma; bir çalışmanın genel tanımı",
+      "kanit": "tek_kaynak",
+      "bolum": "Ne yapar",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/s23187681",
+          "yer": "2.1. Sourdough Fermentation"
+        }
+      ]
+    },
+    {
+      "id": "sure.marxianus_gaz_uretim_suresi_cerevisiae_karsilastirma",
+      "metin": "Bu çalışmada 400 mL CO2 üretimine ulaşmak için Kluyveromyces marxianus suşları 110–150 dakika gerektirdi; bu, Vandenbosch vd. tarafından aktarılan Saccharomyces cerevisiae suşlarının yaklaşık 90 dakikasından belirgin biçimde uzundu.",
+      "kosul": "K. marxianus (Km7 110 dk, Km6 150 dk) ile S. cerevisiae (~90 dk) karşılaştırması",
+      "kanit": "tek_kaynak",
+      "bolum": "Ne yer, ne üretir",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.crfs.2026.101573",
+          "yer": "3.4. Different K. marxianus strains lead to different rates of CO2 release"
+        }
+      ]
+    },
+    {
+      "id": "sure.kabartici_turu_ve_sure_cesitliligi",
+      "metin": "Literatürde ekşi mayalı ekmek yapımında kullanılan kabartıcı ajanın türü, miktarı ve ekmek hamuru fermantasyon süresi büyük çeşitlilik gösterir.",
+      "kosul": "Ekşi maya literatür özeti",
+      "kanit": "tek_kaynak",
+      "bolum": "Ortak özellikler",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1146/annurev-food-110923-034834",
+          "yer": "SUMMARY POINTS"
+        }
+      ]
+    },
+    {
+      "id": "sure.sunger_hamur_tanimi_ve_suresi",
+      "metin": "Sünger hamur, ekmek mayası katıldıktan sonra 4 saatten uzun süre fermente edilen ve buğday fırıncılığında yaygın kullanılan bir hamurdur.",
+      "kosul": "Sugihara 1978 aktarımı",
+      "kanit": "ikincil",
+      "bolum": "Tanım",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.ijfoodmicro.2018.08.019",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "sure.eksimaya_ve_hamur_ayrimi_uyumlastirma",
+      "metin": "Gelecekteki araştırmaların ekşi maya üretimi ile ekmek hamuru üretimini birbirinden ayırarak ve tutarlı formülasyon tanımları kullanarak uyumlaştırılması gerektiği belirtilir.",
+      "kosul": "Ekşi maya araştırma metodolojisi",
+      "kanit": "tek_kaynak",
+      "bolum": "Tanım",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1146/annurev-food-110923-034834",
+          "yer": "5. CONCLUSIONS"
+        }
+      ]
+    },
+    {
+      "id": "sure.sunger_hamur_en_fazla_5_saat",
+      "metin": "Ön fermantasyonlu (süngerli) hamur yönteminde un, su ve mayanın bir kısmı karıştırılır ve hamur en fazla 5 saat dinlendirilerek sünger benzeri bir yapı kazanır.",
+      "kosul": "ön fermantasyonlu hamur yöntemi",
+      "kanit": "ikincil",
+      "bolum": "Tanım",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1590/fst.64420",
+          "yer": "1 Introduction"
+        }
+      ]
+    },
+    {
+      "id": "sure.eksimaya_literaturunde_kisa_fermantasyon_egilimi",
+      "metin": "Derlenen literatürde ekşi mayanın ekmek kalitesine etkisini inceleyen araştırmaların çoğunluğu (%62), 2,5 saatten daha kısa fermantasyon süreçlerine odaklanır.",
+      "kosul": "Ekşi mayalı ekmekçilik literatür taraması",
+      "kanit": "tek_kaynak",
+      "bolum": "Tarihi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1146/annurev-food-110923-034834",
+          "yer": "3.2. Bread Production"
+        },
+        {
+          "kaynak": "10.1146/annurev-food-110923-034834",
+          "yer": "SUMMARY POINTS"
+        }
+      ]
+    }
+  ]
+}

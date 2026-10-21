@@ -1,0 +1,342 @@
+{
+  "id": "yogurma_tezgahinda",
+  "durak": "hamur",
+  "baslik": "Yoğurma tezgahında",
+  "soru": "Yoğurmak hamurun içinde neyi örer?",
+  "bayrak": true,
+  "gor": {
+    "tur": "kaydirma",
+    "adimlar": [
+      {
+        "metin": "Un suyla karıştırılıp hamur oluşturulduğunda, hücrelerin içindeki proteinler bir araya gelerek kesintisiz bir ağ oluşturur [[yogurma.kesintisiz_protein_agi_olusturma]]. Buğday ununun proteininin çoğu glutendir ve gluten öbür tahıllarda yoktur [[gluten.bugdaya_ozgu_viskoelastik_atif]].",
+        "gorsel": "kneading_chapati_dough_01",
+        "vurgu": "Elle yoğrulmaya başlanan hamur: suyla karışan unun ilk hali."
+      },
+      {
+        "metin": "Yoğurma sırasında ölçülen direnç, birkaç dakika boyunca tepeye doğru yükselir [[yogurma.direnc_egrisi_tepe_ve_dusus]]. Miksograf, hamura yoğurma sırasında aktarılan mekanik enerjiyi ölçen bir cihazdır [[yogurma.miksograf_enerji_girdisi_olcer]].",
+        "gorsel": "bread_machine_kneading_dough",
+        "vurgu": "Karıştırma sırasında hamurun direnci: tepeye giden eğrinin çizildiği yer."
+      },
+      {
+        "metin": "Gluten iki protein ailesinden kurulur: gliadinler ve gluteninler [[gliadin_glutenin.gliadin_akiskanlik_glutenin_elastiklik]]. Yoğurma sırasında bu proteinler su alıp etkileşerek sürekli bir ağ oluşturur; ağ hem akar hem esner, buna viskoelastik davranış denir [[gliadin_glutenin.karistirmada_viskoelastik_ag_olusumu]].",
+        "gorsel": "gluten_and_carbon_nanotubes",
+        "vurgu": "Gluten proteinlerinin mikroskop görüntüsü: örülen ağın telleri."
+      },
+      {
+        "metin": "Tepe geçildiğinde hamur zayıflar, çöker ve yapışkan hale gelir [[yogurma.en_yuksek_gelismenin_otesinde_zayiflama]]. Bunun bir nedeni, iki kükürt atomunu birleştiren köprüler olan disülfit bağlarının parçalanmasıdır [[yogurma.asiri_yogurma_disulfit_baglarini_kirar]].",
+        "gorsel": "kneading_bread_dough",
+        "vurgu": "Tepe kıvamı geçilmiş hamur: elle yapılan yoğurmada çöküşün başladığı an."
+      },
+      {
+        "metin": "Hamur, içine nişasta tanelerinin gömüldüğü kesintisiz bir gluten iskeletinden oluşan bir gövdedir [[reoloji.kompozit_malzeme_mikroyapi]]. Yetersiz yoğurulmuş hamurdan yapılan ekmeğin içi daha mat olur; daha az ve daha iri gaz gözenekleri, daha kalın gözenek duvarları taşır [[yogurma.az_yogurma_gozenek]].",
+        "gorsel": "photomicrograph_of_wheat_starch",
+        "vurgu": "Nişasta tanelerinin mikroskop görüntüsü: gluten iskeletinin içini dolduran tanecikler."
+      }
+    ]
+  },
+  "anla": [
+    {
+      "baslik": "Hamur nasıl bir gövde kazanır",
+      "paragraflar": [
+        "Un suyla buluştuğunda proteinler suyu emer; bu emmeye hidrasyon denir ve hidrasyon, malzemelerin homojen dağılması ve glutenin gelişmesiyle birlikte ağı kuran üç işten biridir [[yogurma.bloksma_uc_temel_islev]]. Hamurun akışını ve esnemesini inceleyen bilime reoloji denir; yoğurma bu davranışı ekmek yapımında en çok belirleyen adımdır [[reoloji.reoloji_bilimi_tanimi]] [[yogurma.reolojiyi_belirler]].",
+        "Hamurda akışkan bileşen gaz hücrelerinin genişlemesine izin verir, elastik bileşen ise hamurun aşırı genişleyip çökmesini önler [[reoloji.viskoz_elastik_denge]]. İki protein ailesi bu dengeye farklı katkı verir: gluteninler hamurun sağlamlığını, elastikliğini ve uzamaya direncini, gliadinler ise akışkanlığını ve uzayabilirliğini belirler [[gliadin_glutenin.gliadin_akiskanlik_glutenin_elastiklik]]. Ağın iskeletini glutenin alt birimlerini birbirine bağlayan disülfit köprüleri kurar [[gluten.disulfit_bagli_glutenin_iskeleti]]. Bu köprüler ve öteki bağlar glutenin makropolimerini oluşturur; hamurun kesintisizliği ve elastikliği bu yapıdan gelir [[disulfit.glutenin_makropolimeri]]."
+      ]
+    },
+    {
+      "baslik": "Tepe kıvam: durak ve sınır",
+      "paragraflar": [
+        "Direnç eğrisi, birkaç dakikalık tırmanışın ardından bir tepe çizer [[yogurma.direnc_egrisi_tepe_ve_dusus]]. Gluten ağı yoğurmayla en uygun eşiğine kadar örülür; bu eşikten sonra bozulmaya başlar [[yogurma.reolojiyi_belirler]]. Aynı yoğurucuda yüksek proteinli un gelişme, tepe kıvam ve çökme evrelerine 4, 8 ve 12 dakikada ulaştı [[yogurma.evre_sureleri_una_gore]]. Düşük proteinli un ise aynı evreleri 6, 11 ve 16 dakikada geçti; 20 dakika aşırı yoğurma sayıldı [[yogurma.evre_sureleri_una_gore]].",
+        "Sınırı aşan yoğurma hamuru toparlamaz; bileşenlerin artan hareketliliği onu zayıflatır, çökertir ve yapışkan hale getirir [[yogurma.en_yuksek_gelismenin_otesinde_zayiflama]]. Bunun bir nedeni disülfit bağlarının parçalanmasıdır; 15 dakikalık yoğurma, bu bağların ya da öteki bağların bozulmasıyla proteinler arası çapraz bağları tahrip etmiştir [[yogurma.asiri_yogurma_disulfit_baglarini_kirar]] [[disulfit.uzun_karistirma_suresi_disulfit_baglarini_yikar]]. Aşırı yoğurma ayrıca hamurun gaz kabarcıklarını hapsetme yeteneğini zayıflatır [[yogurma.asiri_yogurma_gaz_tutulmasini_zayiflatir]]."
+      ]
+    },
+    {
+      "baslik": "Gövdenin ekmeğe yansıması",
+      "paragraflar": [
+        "Yoğurma hamura hava katar; bu hava hamurun reolojisini ve dokusunu etkiler [[yogurma.karistirma_viskoelastisite_ve_hava_hapsi]]. Bu gövdenin ekmeğe yansıması gözeneklerde görülür: yetersiz yoğurulmuş hamurdan yapılan ekmeğin içi, en uygun sürede yoğurulmuş olana göre daha mat olur [[yogurma.az_yogurma_gozenek]]. Bu ekmekte daha az ve daha iri gaz gözenekleri bulunur, gözenek duvarları daha kalındır [[yogurma.az_yogurma_gozenek]]. 14 buğday çeşidiyle yapılan mikro ölçekli pişirme denemesinde, en uygun kıvama kadar yoğrulan hamurda ekmek hacmi ile gluten proteini arasındaki ilişki daha yüksek çıktı [[yogurma.en_uygun_yogurma_ve_hacim_korelasyonu]]. İyi kurulmamış bir gluten ağı mayalanma gazını tutamayabilir ve ekmek hacmi düşük kalır [[gluten.elastiklik_hacim_optimum]]. Aşırı elastik gluten ise gaz hücrelerinin genişlemesini engelleyip hacmi yeniden düşürür [[gluten.elastiklik_hacim_optimum]]."
+      ]
+    },
+    {
+      "baslik": "Gövdeyi ölçmek",
+      "paragraflar": [
+        "Gövde gözle görülmediği için özel cihazlarla izlenir: miksograf, yoğurma sırasında hamura aktarılan mekanik enerji girdisini ölçer [[yogurma.miksograf_enerji_girdisi_olcer]]. Mixolab ise iki yoğurma kolu arasında oluşan torku, yani dönme kuvvetini kaydeder [[reoloji.mixolab_cihazi_calisma_ilkesi_ve_tork_olcumu]]. Bu eğriden yoğurmadaki maksimum tork ile protein zayıflaması okunur [[reoloji.mixolab_c1_c5_parametrelerinin_tanimi]]. Sünme testinde gerilim sabit tutulup zamana bağlı şekil değişimi ölçülür [[reoloji.sunme_ve_gerilim_gevsemesi_farki]]. Küçük şekil değişimleriyle çalışan doğrusal sünme testlerinin, farklı sürelerde yoğrulmuş hamurlar arasındaki belirgin farkları algılayamadığı bildirilmiştir [[reoloji.dogrusal_sunme_testleri_yogurma_farkini_algilayamaz]]. Küçük şekil değişimleriyle salınan dinamik kayma testleri, ekmekçiliğe uygun olmayan koşullarda kullanılır [[reoloji.ekmekcilikte_uygun_deformasyon_kosullari]]. Ekmekçiliğe uygun koşullara uzun süreli sünme-gevşeme ya da büyük şekil değişimli uzama testleriyle ulaşılabilir [[reoloji.ekmekcilikte_uygun_deformasyon_kosullari]]."
+      ]
+    }
+  ],
+  "yuzlesme": [
+    {
+      "inanc": "Hamuru ne kadar uzun yoğurursak ekmek o kadar iyi olur.",
+      "cevap": "Yoğurma, gluten ağını yalnızca bir eşiğe kadar örer; eşik geçildiğinde hamur zayıflar, çöker ve yapışkan hale gelir [[yogurma.en_yuksek_gelismenin_otesinde_zayiflama]]. Aşırı yoğurma disülfit bağlarını parçalar [[yogurma.asiri_yogurma_disulfit_baglarini_kirar]]. Bu yüzden uzun yoğurma, hamurun gaz kabarcıklarını hapsetme yeteneğini zayıflatır [[yogurma.asiri_yogurma_gaz_tutulmasini_zayiflatir]]."
+    },
+    {
+      "inanc": "Hamuru sabit bir süre yoğurmak, her un için aynı sonucu verir.",
+      "cevap": "Unun proteini değişince gereken süre de değişir [[yogurma.evre_sureleri_una_gore]]. Aynı yoğurucuda yüksek proteinli un 4, 8 ve 12 dakikada, düşük proteinli un ise 6, 11 ve 16 dakikada aynı üç evreye vardı [[yogurma.evre_sureleri_una_gore]]. CWRS buğdayında yoğurma süresi rafine un için 3,26 dakika, tam buğday unu için 4,36 dakika ölçüldü [[yogurma.cwrs_ekmek_icin_yogurma_suresi]]. Geleneksel Tokat ekmeği hamuru ise 25–30 °C'de 45–60 dakika yoğrulur [[yogurma.tokat_ekmegi_yogurma_sure_ve_sicakligi]]."
+    },
+    {
+      "inanc": "Ne kadar yoğurduğumuzu basit bir laboratuvar testiyle ölçebiliriz.",
+      "cevap": "Hamuru yalnızca küçük şekil değişimleriyle izleyen doğrusal sünme testlerinin, farklı sürelerde yoğrulmuş hamurlar arasındaki belirgin farkları algılayamadığı bildirilmiştir [[reoloji.dogrusal_sunme_testleri_yogurma_farkini_algilayamaz]]. Yoğurma süresinin etkisi, gluten ağının yanıtını yeterince inceleyen doğrusal olmayan sünme ve uzama testlerinde belirgin hâle gelir [[reoloji.yogurma_suresi_etkisi_dogrusal_olmayan_testlerde_belirir]]."
+    }
+  ],
+  "kanit": {
+    "cekirdek": [
+      "yogurma.bloksma_uc_temel_islev",
+      "yogurma.reolojiyi_belirler",
+      "yogurma.direnc_egrisi_tepe_ve_dusus",
+      "yogurma.en_yuksek_gelismenin_otesinde_zayiflama",
+      "yogurma.karistirma_viskoelastisite_ve_hava_hapsi",
+      "yogurma.kesintisiz_protein_agi_olusturma",
+      "yogurma.evre_sureleri_una_gore",
+      "yogurma.asiri_yogurma_disulfit_baglarini_kirar",
+      "yogurma.asiri_yogurma_gaz_tutulmasini_zayiflatir",
+      "yogurma.az_yogurma_gozenek",
+      "yogurma.en_uygun_yogurma_ve_hacim_korelasyonu",
+      "yogurma.miksograf_enerji_girdisi_olcer",
+      "gliadin_glutenin.karistirmada_viskoelastik_ag_olusumu",
+      "disulfit.uzun_karistirma_suresi_disulfit_baglarini_yikar",
+      "reoloji.yogurma_suresi_etkisi_dogrusal_olmayan_testlerde_belirir"
+    ],
+    "cekmece": [
+      "yogurma.gaz_hapsolma_evresi_ve_direnc",
+      "yogurma.kabarciklarin_lognormal_dagilimi",
+      "yogurma.sure_ile_kabarcik_alani_siralamasi",
+      "yogurma.sure_artisi_ve_yogunlukla_olculen_bosluk",
+      "yogurma.hiz_ve_is_girdisi_ile_bosluk_orani",
+      "yogurma.yuksek_is_girdisi_kucuk_kabarciklar",
+      "yogurma.sekil_verme_ve_homojen_kabarcik",
+      "yogurma.asiri_yogurmada_kabarcik_boyutu_buyur",
+      "yogurma.farkli_yogurucular_ve_kabarcik_dagilimi",
+      "yogurma.tepe_boslugu_basinci_ve_kabarcik_boyutu",
+      "yogurma.iki_farkli_yogurucuda_kabarcik_capi",
+      "yogurma.mekanik_enerji_ve_gluten_agi_olusturma",
+      "yogurma.mekanik_islemler_ve_gluten_gelisimi",
+      "yogurma.ultrasonik_olcum_gaz_hacim_payi",
+      "yogurma.yogurma_uc_asama",
+      "yogurma.kayma_ve_uzama_deformasyonlari",
+      "yogurma.kayma_kuvveti_ve_aktivasyon_enerjisi",
+      "yogurma.disulfit_kirilir_glutenin_uzar_atif",
+      "yogurma.en_uygun_evrede_disulfit_ve_ikincil_yapi",
+      "yogurma.protein_ikincil_yapisi_duzenliligi",
+      "yogurma.yogurma_sonrasi_protein_iplik_hizalanma",
+      "yogurma.hidrofobik_gruplar_acilir",
+      "yogurma.tepe_sonrasi_kumelenme",
+      "yogurma.tepeye_kadar_ayrisma",
+      "yogurma.liu_modeli_celiski",
+      "yogurma.su_hareketliligi_degisir",
+      "yogurma.depolimerizasyon_atif",
+      "yogurma.uzun_yogurma_gluten_tabaka_dagilim",
+      "yogurma.uzun_yogurma_kabarcik_ayrisma_hizi",
+      "yogurma.asiri_yogurma_glutenin_zarar",
+      "yogurma.tepe12_gozenek_hasar",
+      "yogurma.yogurmada_tiyol_degisimi_wga",
+      "yogurma.maya_yoklugunda_hava_ve_lipoksijenaz",
+      "yogurma.gelisme_suresi_ve_hmw_glutenin",
+      "yogurma.tuz_ilavesiyle_farinograf_gelisme_suresi_artisi",
+      "yogurma.ksilanaz_artisi_ve_hamur_gelisme_tepe_suresi_gecikmesi",
+      "yogurma.yulaf_kepegi_enzim_gelisme_suresi",
+      "yogurma.asidik_hamur_optimum_karistirma_kisa",
+      "yogurma.asiri_yogurma_fazla_su_farki",
+      "yogurma.gluta_ikame_karistirma_suresi",
+      "yogurma.gluten_agi_karistirma_suresinden_cok_etkilenir",
+      "yogurma.optimum_sure_3dk30sn",
+      "yogurma.kavuzlu_ve_ekmeklik_ortalama_sure",
+      "yogurma.cwrs_ekmek_icin_yogurma_suresi",
+      "yogurma.cwrs_hamur_gelisme_suresi_rafine_ve_tam",
+      "yogurma.tokat_ekmegi_yogurma_sure_ve_sicakligi",
+      "yogurma.eski_bugdaylarda_nazik_kisa_yogurma",
+      "yogurma.siyez_hamuru_nazik_isleme_4_4dk",
+      "yogurma.siyez_olgunluk_gelisme_suresi",
+      "yogurma.spelt_hamuru_yogun_karistirma_toleransi",
+      "yogurma.spelt_ekmegi_sertligi_ve_mekanik_isleme",
+      "yogurma.gernik_hamuru_el_ile_yogurma",
+      "yogurma.stabilite_cesitten_cesite",
+      "yogurma.kepek_alt_tabaka_karistirma_10_dk",
+      "yogurma.kepek_tanecik_boyu_optimum_karistirma",
+      "yogurma.tip1_eksi_maya_kisa_karistirma",
+      "yogurma.maya_ekmegi_eksi_maya_karistirma_etkisi",
+      "yogurma.yavas_yogurucular_ve_isleme_kolayligi",
+      "yogurma.tweedy_majorpin_enerji",
+      "yogurma.dikey_mikserle_16_dakika_kademeli_karistirma",
+      "yogurma.karistirma_3_11_dk",
+      "yogurma.mikro_hizli_karistirma_ve_mikro_pisirme_farki",
+      "yogurma.model_karistirma_karesel_terim",
+      "yogurma.yogurma_pc_fark_azalma",
+      "yogurma.sheeting_enerji_verimliligi",
+      "reoloji.reoloji_bilimi_tanimi",
+      "reoloji.viskoz_elastik_denge",
+      "reoloji.disulfit_baglarinin_indirgenmesi_elastiklik_kaybi",
+      "reoloji.depolama_ve_kayip_modulleri_ile_kayip_tanjanti_tanimi",
+      "reoloji.tan_delta_esigi_ve_gluten_yapisi_saglamligi",
+      "reoloji.gerinim_sertlesmesi_tanimi",
+      "reoloji.kompozit_malzeme_mikroyapi",
+      "reoloji.mixolab_c1_c5_parametrelerinin_tanimi",
+      "reoloji.mixolab_cihazi_calisma_ilkesi_ve_tork_olcumu",
+      "reoloji.dogrusal_sunme_testleri_yogurma_farkini_algilayamaz",
+      "reoloji.asiri_yogurma_gerinim_sertlesmesini_onemli_olcude_zayiflatir",
+      "reoloji.asiri_yogurmada_shi_degeri_ve_yuzde_80_dusus",
+      "reoloji.30_dk_dinlenmeyle_shi_degeri_4_8_5_0_platosu",
+      "reoloji.asiri_yogrulmus_bisonda_60_dk_dinlenmeyle_shi_artisi",
+      "reoloji.dinlenme_ile_ic_gerilimin_dagilmasi_ve_uzayabilirlik",
+      "reoloji.dinlenme_ile_gluten_gerilimi_azalmasi",
+      "reoloji.silindirleme_ve_gevsemede_gluten_polimerizasyonu",
+      "reoloji.gerinim_sertlesmesi_kabarcik_kararliligi",
+      "reoloji.kabarcik_sayisi_ve_boyutu_etkisi",
+      "reoloji.iki_eksenli_gerinim_ekmek_hacmi_ve_doku",
+      "reoloji.yogurma_suresi_esas_olarak_uzama_davranisini_etkiler",
+      "reoloji.asiri_elastiklik_ve_asiri_uzayabilirlik_kusurlari",
+      "reoloji.sunme_ve_gerilim_gevsemesi_farki",
+      "reoloji.ekmekcilikte_uygun_deformasyon_kosullari",
+      "reoloji.ekstensograf_tek_eksenli_alveograf_iki_eksenlidir",
+      "reoloji.oksijence_fakir_ortamda_15_dk_yogurma_ve_shi",
+      "gluten.disulfit_bagli_glutenin_iskeleti",
+      "gluten.ag_stabilitesi_disulfit_ve_kovalent_olmayan_baglar",
+      "gluten.tanim_hamur_iskeleti",
+      "gluten.bugdaya_ozgu_viskoelastik_atif",
+      "gluten.elastiklik_hacim_optimum",
+      "gluten.viskoelastisite_ve_hava_hucreleri_kararliligi",
+      "gluten.bes_dakika_yogurmada_iyi_gelismis_ag",
+      "gluten.d500_noktasinda_tam_gelismis_ag_ve_homojen_yapi",
+      "gluten.asiri_yogrulmus_hamurda_elastik_karakter_ve_kismi_geri_donus",
+      "gluten.asiri_yogurmada_gluten_bozulmasinda_oksijenin_rolu",
+      "gluten.dinlenmede_yeniden_agregasyon_ve_polimerlesme_mekanizmasi",
+      "gluten.dinlenmede_gmp_artisi_ve_eksik_toparlanma",
+      "gliadin_glutenin.gliadin_akiskanlik_glutenin_elastiklik",
+      "gliadin_glutenin.hidrasyonda_kumelenme",
+      "gliadin_glutenin.alfa_ve_omega_gliadinlerin_kumelenmesi_ve_ayrilmasi",
+      "gliadin_glutenin.glutenin_hizalanmasi_ve_capraz_bag",
+      "gliadin_glutenin.viskoelastisite_ve_gaz_tutma_mekanizmasi",
+      "gliadin_glutenin.farinografta_gliadin_ve_glutenin_gelisme_sureleri",
+      "gliadin_glutenin.karistirmada_gelisme_egrisi_ve_hamur_direnci",
+      "disulfit.ag_stabilitesi_karistirma",
+      "disulfit.glutenin_zincir_ici_ve_zincirler_arasi_baglar",
+      "disulfit.glutenin_makropolimeri",
+      "disulfit.glutenin_ve_gliadin_bag_ayrimi",
+      "disulfit.karistirma_surecinde_sh_once_azalir_sonra_artar",
+      "disulfit.yeterli_ve_asiri_yogurmada_sh_maruziyeti",
+      "disulfit.yogurmada_once_artar_sonra_azalir",
+      "disulfit.optimum_yogurma_raman_ggg",
+      "disulfit.bloksma_gecici_ag_modeli_sh_ss",
+      "disulfit.dinlenmede_yeniden_polimerlesme_atif"
+    ]
+  },
+  "baglar": [
+    {
+      "kaldirac": "Mekanik enerji",
+      "mekanizma": "Yoğurma, un bileşenlerini homojen biçimde dağıtıp hidrate etmek ve gluten proteinleri ağını oluşturmak için gereken mekanik enerjiyi ve deformasyonu sağlar.",
+      "sonuc": "Hamur, akışını da esnemesini de koruyan bir gövde kazanır.",
+      "bilgiler": [
+        "yogurma.mekanik_enerji_ve_gluten_agi_olusturma",
+        "yogurma.reolojiyi_belirler",
+        "gliadin_glutenin.karistirmada_viskoelastik_ag_olusumu"
+      ]
+    },
+    {
+      "kaldirac": "Disülfit bağları",
+      "mekanizma": "Yoğurma sırasında moleküller arası disülfit bağları oluşur ve glutenin alt birimleri birbirine çapraz bağlanır.",
+      "sonuc": "Gluten ağı kararlı bir iskelet kurar; bu iskelet hamurun kesintisizliğini ve elastikliğini taşır.",
+      "bilgiler": [
+        "disulfit.ag_stabilitesi_karistirma",
+        "gluten.disulfit_bagli_glutenin_iskeleti",
+        "gluten.ag_stabilitesi_disulfit_ve_kovalent_olmayan_baglar"
+      ]
+    },
+    {
+      "kaldirac": "Yoğurma süresi",
+      "mekanizma": "Direnç birkaç dakika sonra bir tepeye ulaşır; tepe geçilip karıştırma sürdürülürse direnç düşer.",
+      "sonuc": "Hamur zayıflar, çöker, yapışkan hale gelir ve disülfit bağları parçalanır.",
+      "bilgiler": [
+        "yogurma.direnc_egrisi_tepe_ve_dusus",
+        "yogurma.en_yuksek_gelismenin_otesinde_zayiflama",
+        "yogurma.asiri_yogurma_disulfit_baglarini_kirar"
+      ]
+    },
+    {
+      "kaldirac": "Unun protein içeriği",
+      "mekanizma": "Yüksek proteinli un gelişme, tepe kıvam ve çökme evrelerine 4, 8 ve 12 dakikada ulaşır; düşük proteinli un ise 6, 11 ve 16 dakikada.",
+      "sonuc": "Her un için gereken yoğurma süresi değişir.",
+      "bilgiler": [
+        "yogurma.evre_sureleri_una_gore",
+        "yogurma.gelisme_suresi_ve_hmw_glutenin",
+        "yogurma.cwrs_ekmek_icin_yogurma_suresi"
+      ]
+    },
+    {
+      "kaldirac": "Hava hapsolması",
+      "mekanizma": "Yoğurmanın ilk aşamalarında hamur henüz hidrate olurken kabarcık hapsolması yavaştır; direnç tepeye yaklaştıkça hapsolma hızı belirgin biçimde artar.",
+      "sonuc": "Hamur, içinde gaz kabarcıkları taşıyan bir gövde olarak olgunlaşır.",
+      "bilgiler": [
+        "yogurma.gaz_hapsolma_evresi_ve_direnc",
+        "yogurma.karistirma_viskoelastisite_ve_hava_hapsi",
+        "yogurma.kabarciklarin_lognormal_dagilimi"
+      ]
+    },
+    {
+      "kaldirac": "Yoğurma biçimi",
+      "mekanizma": "Yoğurma ve tabakalama gibi farklı mekanik işlemler gluten ağının gelişme derecesini belirler.",
+      "sonuc": "Aynı un, farklı işlem biçimiyle farklı bir gövde kazanır.",
+      "bilgiler": [
+        "yogurma.mekanik_islemler_ve_gluten_gelisimi",
+        "yogurma.sheeting_enerji_verimliligi",
+        "reoloji.silindirleme_ve_gevsemede_gluten_polimerizasyonu"
+      ]
+    },
+    {
+      "kaldirac": "Unun çeşidi ve sıcaklık",
+      "mekanizma": "Geleneksel Tokat ekmeği hamuru 25–30 °C'de 45–60 dakika yoğrulur; eski buğday unları düşük devirde 3–4 dakika nazikçe işlenmeyi gerektirir.",
+      "sonuc": "Süre ve şiddet, unun çeşidine göre değişir.",
+      "bilgiler": [
+        "yogurma.tokat_ekmegi_yogurma_sure_ve_sicakligi",
+        "yogurma.eski_bugdaylarda_nazik_kisa_yogurma",
+        "yogurma.siyez_hamuru_nazik_isleme_4_4dk"
+      ]
+    },
+    {
+      "kaldirac": "Yoğurma sonrası dinlenme",
+      "mekanizma": "Yoğurma hamurda depolanan enerjiyi artırır; dinlenme aşaması iç gerilimi kademeli dağıtarak çekme direncini azaltır.",
+      "sonuc": "Hamurun uzayabilme yeteneği artar; ancak dinlenmeyle toparlanma tam değildir.",
+      "bilgiler": [
+        "reoloji.dinlenme_ile_ic_gerilimin_dagilmasi_ve_uzayabilirlik",
+        "reoloji.dinlenme_ile_gluten_gerilimi_azalmasi",
+        "gluten.dinlenmede_yeniden_agregasyon_ve_polimerlesme_mekanizmasi",
+        "gluten.dinlenmede_gmp_artisi_ve_eksik_toparlanma",
+        "reoloji.30_dk_dinlenmeyle_shi_degeri_4_8_5_0_platosu"
+      ]
+    }
+  ],
+  "karakterler": [
+    "gluten"
+  ],
+  "ayrisan_kaynaklar": [
+    {
+      "konu": "En uygun yoğurmaya kadar protein kümeleri dağılıyor mu, oluşuyor mu?",
+      "bilgiler": [
+        "yogurma.liu_modeli_celiski",
+        "yogurma.tepe_sonrasi_kumelenme",
+        "yogurma.tepeye_kadar_ayrisma",
+        "gliadin_glutenin.hidrasyonda_kumelenme"
+      ]
+    },
+    {
+      "konu": "Aşırı yoğurmanın zararı oksijenden mi, disülfit bağlarının parçalanmasından mı?",
+      "bilgiler": [
+        "gluten.asiri_yogurmada_gluten_bozulmasinda_oksijenin_rolu",
+        "disulfit.uzun_karistirma_suresi_disulfit_baglarini_yikar",
+        "reoloji.oksijence_fakir_ortamda_15_dk_yogurma_ve_shi"
+      ]
+    },
+    {
+      "konu": "Yoğurma süresi arttıkça hamurdaki boşluk payı artıyor mu, azalıyor mu?",
+      "bilgiler": [
+        "yogurma.sure_artisi_ve_yogunlukla_olculen_bosluk",
+        "yogurma.sure_ile_kabarcik_alani_siralamasi",
+        "yogurma.hiz_ve_is_girdisi_ile_bosluk_orani"
+      ]
+    },
+    {
+      "konu": "Aşırı yoğurulmuş hamur hâlâ elastik davranır mı?",
+      "bilgiler": [
+        "gluten.asiri_yogrulmus_hamurda_elastik_karakter_ve_kismi_geri_donus",
+        "reoloji.asiri_yogurma_gerinim_sertlesmesini_onemli_olcude_zayiflatir",
+        "reoloji.asiri_yogurmada_shi_degeri_ve_yuzde_80_dusus"
+      ]
+    }
+  ]
+}

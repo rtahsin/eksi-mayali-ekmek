@@ -1,0 +1,600 @@
+{
+  "id": "ph_tta",
+  "ad": "pH ve asitlik",
+  "bilgiler": [
+    {
+      "id": "ph_tta.asitlenme_gluten_cozunurlugu_hacim_yumusaklik",
+      "metin": "Hamurun laktik asit bakterileriyle asitlenmesi, proteinlerin net artı yük kazanarak asidik ortamda gluten çözünürlüğünün artması sayesinde ekmek hacmini ve ekmek içi yumuşaklığını artırır.",
+      "kosul": "Asidik hamur ortamı",
+      "kanit": "tek_kaynak",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1080/10408398.2021.1976100",
+          "yer": "Flours used for sourdough production"
+        }
+      ]
+    },
+    {
+      "id": "ph_tta.asitlenme_enzim_ve_cozunurluk_modulasyonu",
+      "metin": "Asitlenme tahıl enzimlerinin etkinliğini ve başta gluten proteinleri ile fitat olmak üzere substratların çözünürlüğünü düzenler.",
+      "kosul": "Ekşi maya fermantasyonu",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.fm.2013.04.007",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "ph_tta.asitlenmenin_kaynagi",
+      "metin": "Ekşi mayada laktik asit bakterileri ve mayaların karbonhidrat metabolizması asetik, laktik ve süksinik asit derişimini artırır; böylece un-su karışımının pH'ı 3,5–4,5'e iner ve bu asitlenme fermantasyonun gidişini belirler.",
+      "kosul": "",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.foodhyd.2024.110884",
+          "yer": "Introduction"
+        },
+        {
+          "kaynak": "10.1016/j.foodhyd.2025.111252",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "ph_tta.ph_dususuyle_proteaz_aktivasyonu_ve_peptitler",
+      "metin": "Ekşi mayada pH'ın düşmesi proteaz aktivitesini etkinleştirebilir ve proteinlerin peptitlere ve amino asitlere parçalanmasını teşvik edebilir.",
+      "kosul": "ekşi maya fermantasyonunda asitlenme; atıflı aktarım",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods12030555",
+          "yer": "1. Introduction"
+        }
+      ]
+    },
+    {
+      "id": "ph_tta.sicilya_ph_araligi",
+      "metin": "Batı Sicilya fırınlarından alınan 15 ekşi mayanın pH'ı 3,81 ile 4,77 arasındaydı; çoğu 4,50'nin altındaydı.",
+      "kosul": "İtalya, batı Sicilya (Agrigento, Palermo, Trapani) fırınlarından 15 ekşi maya; beslemeden önce örneklendi.",
+      "kanit": "tek_kaynak",
+      "bolum": "Nasıl ölçülür",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.fm.2015.04.011",
+          "yer": "Results – Sourdough characteristics; Table 2"
+        }
+      ]
+    },
+    {
+      "id": "ph_tta.bugday_unu_dogal_ph",
+      "metin": "Buğday ununun doğal pH değeri 6,2–6,5 arasındadır.",
+      "kosul": "",
+      "kanit": "tek_kaynak",
+      "bolum": "Tanım",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/bs.aambs.2017.02.003",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "ph_tta.fermantasyon_katsayisi_laktik_asetik_orani",
+      "metin": "Bir derlemeye göre ekşi mayanın temel göstergelerinden olan laktik asidin asetik aside molar oranı (fermantasyon katsayısı) için uygun aralık genellikle 4:1 ile 10:1 arasında kabul edilir.",
+      "kosul": "ekşi maya fermantasyon katsayısı ve asit oranları; derlemenin atıflı aktarımı",
+      "kanit": "ikincil",
+      "bolum": "Tanım",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods13152318",
+          "yer": "1. Introduction"
+        },
+        {
+          "kaynak": "10.3390/foods13152318",
+          "yer": "1. Introduction"
+        },
+        {
+          "kaynak": "10.3390/foods13152318",
+          "yer": "3.2. Physicochemical Characteristics and Antifungal Activity of the Aqueous Extracts"
+        }
+      ]
+    },
+    {
+      "id": "ph_tta.kabartma_ve_es_zamanli_asitlendirme",
+      "metin": "Ekşi mayadaki laktik asit bakterileri ve mayalar hamuru kabartırken eş zamanlı ve kaçınılmaz olarak asitlendirir.",
+      "kosul": "Ekşi maya tanımı (aktarım)",
+      "kanit": "ikincil",
+      "bolum": "Tanım",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.ijfoodmicro.2013.11.021",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "ph_tta.olgun_eksimaya_standart_ph_araligi",
+      "metin": "İyi gelişmiş ve olgunlaşmış bir ekşi mayanın pH değerinin 3,5–4,3 aralığında olduğu belirtilmiştir.",
+      "kosul": "olgun ekşi maya kriterleri (atıf)",
+      "kanit": "ikincil",
+      "bolum": "Tanım",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods10102253",
+          "yer": "1. Introduction"
+        }
+      ]
+    },
+    {
+      "id": "ph_tta.temel_metabolik_etkinlikler_ve_ph",
+      "metin": "Asitlenme, aroma oluşumu ve kabarma gibi temel metabolik etkinlikler hamur pH'ını yaklaşık 4,0 düzeyine indirir.",
+      "kosul": "",
+      "kanit": "ikincil",
+      "bolum": "Tanım",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.fm.2009.07.012",
+          "yer": "Introduction"
+        },
+        {
+          "kaynak": "10.12938/bmfh.2019-038",
+          "yer": "INTRODUCTION"
+        }
+      ]
+    },
+    {
+      "id": "ph_tta.tta_ve_ph_farkli_kalite_gostergesi",
+      "metin": "Titre edilebilir asitlik (TTA) asidin lezzet üzerindeki etkisini pH'a göre daha iyi tahmin ederken, pH değeri hidronyum iyonu derişimine bağlı olarak gıda matrisinde mikroorganizmaların büyümesini daha iyi yansıtır.",
+      "kosul": "ekşi maya kalite parametreleri (atıf)",
+      "kanit": "ikincil",
+      "bolum": "Tanım",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/s23187681",
+          "yer": "2.1. Sourdough Fermentation"
+        }
+      ]
+    },
+    {
+      "id": "ph_tta.asiri_asitligin_ekmek_kalitesine_olumsuz_etkisi",
+      "metin": "Yüksek asitlik yabancı tat oluşumuna yol açarak, somun hacmini ve ekmek içi yumuşaklığını azaltarak ekmek kalitesini olumsuz etkileyebilir.",
+      "kosul": "ekşi mayalı ekmek kalitesi (Kaditzky vd. 2008 aktarımı)",
+      "kanit": "ikincil",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3389/fmicb.2018.00429",
+          "yer": "Discussion"
+        }
+      ]
+    },
+    {
+      "id": "ph_tta.beyaz_tamun_ve_eksimaya_ekmek_ph",
+      "metin": "Beyaz buğday ve tam buğday ekmeklerinin pH değeri 6 civarındayken ekşi maya süreci ekmek pH'ını 4,6'ya düşürdü.",
+      "kosul": "Ekmek karşılaştırması",
+      "kanit": "tek_kaynak",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.jcs.2009.11.006",
+          "yer": "Characteristics of the test breads; Table 1"
+        }
+      ]
+    },
+    {
+      "id": "ph_tta.ekmek_ici_ph_5_alti_kucuk_hacim",
+      "metin": "Ekmek içi pH'ı 5,0'ın altına düştüğünde küçük somun hacimleri bildirilmiştir (Crowley ve ark., 2002); bu ilişkinin mekanizması henüz tam anlaşılmamıştır.",
+      "kosul": "ekmek içi pH düzeyi (Crowley ve ark. 2002 aktarımı)",
+      "kanit": "ikincil",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.ijfoodmicro.2023.110193",
+          "yer": "4. Discussion"
+        },
+        {
+          "kaynak": "10.1016/j.ijfoodmicro.2023.110193",
+          "yer": "Discussion"
+        }
+      ]
+    },
+    {
+      "id": "ph_tta.ekmek_ici_ph_ve_yumusaklik_korelasyonu",
+      "metin": "Ekmek içi pH değerinin yumuşaklık (r = 0,87) ve kabarcık alanı (r = 0,89) ile anlamlı pozitif korelasyon gösterdiği saptandı.",
+      "kosul": "Vakfıkebir ekşi maya ekmeği (VB) ve standart beyaz ekmek (WB); oda sıcaklığı (~20 °C); 5 gün depolama; ekmek içi örnekleri",
+      "kanit": "tek_kaynak",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3906/tar-0901-28",
+          "yer": "Abstract"
+        }
+      ]
+    },
+    {
+      "id": "ph_tta.eksimayasiz_kontrol_ekmek_medyan_ph",
+      "metin": "Literatür derlemesinde ekşi mayasız kontrol ekmeğinin medyan pH değeri 5,78 olarak verilmiştir.",
+      "kosul": "Ekşi mayasız kontrol ekmekleri (literatür derlemesi verisi).",
+      "kanit": "tek_kaynak",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1146/annurev-food-110923-034834",
+          "yer": "3.2. Bread Production"
+        }
+      ]
+    },
+    {
+      "id": "ph_tta.laktik_starterli_ekmeklerde_hedef_ph_araligi",
+      "metin": "Farklı laktik asit bakterileriyle (Lactiplantibacillus plantarum, Lactobacillus rossiae, Lactobacillus sakei ve Fructilactobacillus sanfranciscensis gibi) fermente edilen ekşi mayaların eklenmesiyle pH değeri 3,72 ile 4,0 arasında ekmek üretilebildiği bildirilmiştir.",
+      "kosul": "LAB fermantasyonlu ekşi maya eklenen ekmekler (derleme aktarımı)",
+      "kanit": "ikincil",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods13152318",
+          "yer": "3.3. Bread Quality and Physicochemical Properties"
+        }
+      ]
+    },
+    {
+      "id": "ph_tta.tta_artisi_ve_hacim_azalmasi",
+      "metin": "Fermantasyonun 6 saatinden sonra TTA artışıyla ters orantılı bir etkiyle zaman içinde hacimde azalma gözlendi.",
+      "kosul": "Fermantasyonun 6. saatinden sonra",
+      "kanit": "tek_kaynak",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1590/s1984-82502013000200005",
+          "yer": "Dough and bread evaluation"
+        }
+      ]
+    },
+    {
+      "id": "ph_tta.hacim_etkisi_asitlenme_hipotezi",
+      "metin": "Ekşi maya eklemenin ekmek hacmine etkisinin büyük ölçüde asitlenmeden kaynaklandığı öne sürülmüştür.",
+      "kosul": "",
+      "kanit": "ikincil",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.foodhyd.2024.110884",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "ph_tta.48_saat_ph_4_alti_tum_hamurlar",
+      "metin": "Bu çalışmada, fermantasyon sırasında tüm hamurlar yüksek düzeyde asitleşti ve 48 saat sonunda pH 4,0'ın altına indi; örnekler arasında titre edilebilir asitlik (TTA) değerlerinde belirgin farklar kaydedildi.",
+      "kosul": "30 °C'de 48 saat fermantasyon; buğday, kinoa, kamut ve karışım unlarından hamurlar; L. paracasei, L. plantarum ve L. brevis suşlarıyla aşılanmış",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3389/fmicb.2018.00429",
+          "yer": "Results - Dough acidification of fermented sourdough"
+        }
+      ]
+    },
+    {
+      "id": "ph_tta.asitlenme_cozunurlugu_artirir",
+      "metin": "Asitlenme, buğday bileşenlerinin hamurun sulu fazında çözünmesini artırır.",
+      "kosul": "Belçika; buğday ekmeği hamuru asetik, laktik ya da süksinik asit eklenerek pH 4,5'e indirildi; iki beyaz un (Belçika F1, %12,7 protein; Kanada CWRS F2, %13,7 protein); hamur sıvısı ultrasantrifüjle ayrıldı.",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.foodhyd.2025.111252",
+          "yer": "Highlights"
+        }
+      ]
+    },
+    {
+      "id": "ph_tta.asitlenme_su_baglamayi_azaltir",
+      "metin": "Buğday hamurunu organik asitlerle pH 4,5'e indirmek hamurun su bağlama kapasitesini düşürür.",
+      "kosul": "Belçika; buğday ekmeği hamuru asetik, laktik ya da süksinik asit eklenerek pH 4,5'e indirildi; iki beyaz un (Belçika F1, %12,7 protein; Kanada CWRS F2, %13,7 protein); hamur sıvısı ultrasantrifüjle ayrıldı.",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.foodhyd.2025.111252",
+          "yer": "Highlights"
+        }
+      ]
+    },
+    {
+      "id": "ph_tta.asitligin_gluten_agi_reoloji_ve_dokuya_etkisi",
+      "metin": "Asidik koşullar gluten ağı oluşumunu geliştirip hamur reolojisini değiştirerek fırınlanmış ürünlerin dokusal ve duyusal özelliklerini belirler.",
+      "kosul": "asidik hamur koşulları aktarımı [31,32]",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods15101745",
+          "yer": "3.4. The Analysis of the Characteristic Spectrum of Dough Fermentation and Acidification"
+        }
+      ]
+    },
+    {
+      "id": "ph_tta.dn1_eksimayasinda_ph_ve_tta_dinamigi",
+      "metin": "Bu çalışmada DN-1 ekşi mayasında fermantasyonun ilk 3 saatinde pH yavaş düştü, 3–12. saatler arasında hızla azaldı ve yaklaşık 12. saatte dengelendi; pH 6,12'den 4,04'e inerken TTA 10,30'a ulaştı.",
+      "kosul": "DN-1 suşu ile ekşi maya fermantasyonu",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods12030555",
+          "yer": "3.5. pH and TTA Measurement in Sourdoughs"
+        },
+        {
+          "kaynak": "10.3390/foods12030555",
+          "yer": "3.5. pH and TTA Measurement in Sourdoughs"
+        }
+      ]
+    },
+    {
+      "id": "ph_tta.ekmek_ici_ph_cirislenme_ve_viskozite",
+      "metin": "Ekmek içi pH'ı çirişlenme sıcaklığı (r = -0,62) ve tepe viskozitesi (r = -0,48) ile negatif korelasyon sergiledi.",
+      "kosul": "Vakfıkebir ekşi maya ekmeği (VB) ve standart beyaz ekmek (WB); oda sıcaklığı (~20 °C); 5 gün depolama; ekmek içi örnekleri",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3906/tar-0901-28",
+          "yer": "Abstract"
+        }
+      ]
+    },
+    {
+      "id": "ph_tta.hafif_asitlenme_ve_fitat_parcalanmasi",
+      "metin": "Leenhardt ve ark. (2005) çalışmasına göre, hamurun ekşi maya veya laktik asit ilavesiyle pH 5,5'e hafifçe asitlendirilmesi belirgin fitat parçalanmasını destekler.",
+      "kosul": "ekmek hamurunun pH 5,5 seviyesine asitlendirilmesi (Leenhardt ve ark. 2005 aktarımı)",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.17221/130/2008-cjfs",
+          "yer": "Comparison of breadmaking procedures"
+        }
+      ]
+    },
+    {
+      "id": "ph_tta.matera_eksimayalarinda_ph_korelasyonlari",
+      "metin": "Ekşi maya pH'ı Weissella bağıl bolluğu (r = 0,72) ve kalıntı maltozla (r = 0,74) pozitif; laktik asit (r = -0,92), Fructilactobacillus sanfranciscensis bolluğu (r = -0,73) ve suş sayısı (r = -0,76) ile negatif korelasyon (p < 0,05) göstermiştir.",
+      "kosul": "fırın ekşi mayalarında pH ve mikrobiyota korelasyonları",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3389/fmicb.2018.01984",
+          "yer": "Results - Correlations Between Flours and Sourdough and Between Microbiological, Biochemical and Process Parameters of Sourdoughs"
+        },
+        {
+          "kaynak": "10.3389/fmicb.2018.01984",
+          "yer": "Results - Correlations Between Flours and Sourdough and Between Microbiological, Biochemical and Process Parameters of Sourdoughs"
+        }
+      ]
+    },
+    {
+      "id": "ph_tta.mayali_hamurda_ph_dususu_suksinik_asit",
+      "metin": "Mayalı hamur fermantasyonundaki pH düşüşünün karbondioksit çözünmesi ya da bakteri asitlerinden ziyade başlıca mayanın ürettiği süksinik asit birikiminden kaynaklandığı belirlendi.",
+      "kosul": "Mayalı buğday düz hamuru",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.foodchem.2012.08.039",
+          "yer": "Abstract"
+        },
+        {
+          "kaynak": "10.1016/j.jcs.2018.06.006",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "ph_tta.mayasiz_hamur_ve_suksinik_asit_ph",
+      "metin": "Fermente edilmemiş buğday hamurunun pH'ı 5,91 iken 100 g kuru una 1,5 mmol süksinik asit eklenmesi hamur pH'ını 5,25'e düşürmüştür.",
+      "kosul": "Fermente edilmemiş buğday hamuru ve süksinik asit eklemesi.",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.jcs.2018.06.006",
+          "yer": "3.2.2 Succinic acid"
+        },
+        {
+          "kaynak": "10.1016/j.jcs.2018.06.006",
+          "yer": "3.2.2 Succinic acid"
+        }
+      ]
+    },
+    {
+      "id": "ph_tta.ph_dususu_ve_protein_pozitif_yuk_degisimi",
+      "metin": "Asitlik kaynaklı pH düşüşü proteinlerin pozitif yükünü etkileyerek konformasyonlarında değişimlere yol açar.",
+      "kosul": "organik asit varlığında protein konformasyonu tanımı",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods9101465",
+          "yer": "3.2. Dough Rheological Properties during Mixing and Extension"
+        }
+      ]
+    },
+    {
+      "id": "ph_tta.soguk_fermantasyonda_maya_asitlenmesi_ve_ph",
+      "metin": "Mayanın sürekli asit üretimi hamur pH'ını 6,0 seviyesinden 4,6 seviyesine düşürerek hamurdaki amilaz ve proteaz aktivitelerini etkilemiştir.",
+      "kosul": "uzun süreli soğukta fermente edilen hamur",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods14050717",
+          "yer": "3.1. Fermentation Properties"
+        }
+      ]
+    },
+    {
+      "id": "ph_tta.suksinik_ve_asetik_asit_uretimiyle_ph_dususu",
+      "metin": "Süksinik asit (%0,16 ± 0,02) ve asetik asit (%0,05 ± 0,01) üretimi fermantasyon sürecinde pH'ın 5,75 ± 0,04 seviyesinden 5,23 ± 0,10 seviyesine düşmesine neden olmuştur.",
+      "kosul": "maya ile fermente edilen hamur (mayalı hamur), üretim süreci",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods11101388",
+          "yer": "3.1.3. Production of Fermentation Metabolites during Fermented Pastry Making"
+        }
+      ]
+    },
+    {
+      "id": "ph_tta.tahil_enzimleri_icin_cok_dusuk_ph",
+      "metin": "Ekşi maya fermantasyonu sırasındaki asitlenme, tahıl matrisinin pH'ını çoğu yerli tahıl enziminin çalışamayacağı kadar düşük seviyelere kaydırır.",
+      "kosul": "Ekşi maya fermantasyonu (aktarım)",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/bs.aambs.2017.02.003",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "ph_tta.tip1_model_ph_seyri",
+      "metin": "Model tip I buğday ekşi mayasında unun pH'ı 5,65'ten iki fermantasyon aşamasından sonra 3,72–4,39'a indi; ekşi mayalı ekmek hamurları yoğurmadan sonra pH 5,0 civarındaydı (düz hamurdan yarım birim düşük) ve dinlenme ile mayalanmada 4,4–5,0'e düştü.",
+      "kosul": "Model tip I buğday ekşi mayası: I. aşama 30 °C'de 16 saat, II. aşama 30 °C'de 2,5 saat; ekmek hamuru 1 saat dinlenme + 30 °C'de 1 saat mayalanma, 180 °C'de 25 dakika pişirme; suşlar K. humilis FUA4001, S. cerevisiae FUA4018, W. anomalus FUA4025, F. sanfranciscensis DSM20451T, Latilactobacillus sakei LS8.",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3389/fmicb.2019.02113",
+          "yer": "Results, Table 1"
+        },
+        {
+          "kaynak": "10.3389/fmicb.2019.02113",
+          "yer": "Results"
+        }
+      ]
+    },
+    {
+      "id": "ph_tta.tip2_ph_tta_72_saat",
+      "metin": "Laktik asit bakterisi ya da koagülaz negatif stafilokokla başlatılan tip II buğday ekşi mayalarında pH ortalama 24 saatte 5,90'dan 4,10'a, 72 saatte 3,90'a indi; titre edilebilir asitlik 72 saatte 0,8'den 7,4 mL'ye çıktı. Başta asetik asit eklenen asetik asit bakterisi başlatıcılı ekşi mayalarda ise 6,7'den 20,3 mL'ye yükseldi.",
+      "kosul": "Tip II buğday ekşi mayası, hamur verimi 400, 30 °C; asetik asit bakterili ekşi mayalara başlangıçta asetik asit eklendi.",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/microorganisms8101534",
+          "yer": "3.1. pH and TTA; Figure 1"
+        },
+        {
+          "kaynak": "10.3390/microorganisms8101534",
+          "yer": "3.1. pH and TTA"
+        }
+      ]
+    },
+    {
+      "id": "ph_tta.gluten_yapisi_ph_4_5_alti",
+      "metin": "Aktarılan bir çalışmada buğday-çavdar (1:1) hamurunda laktik asit bakterisi fermantasyonunun 12. saatinde görülen gluten ağı değişiklikleri, pH'ın 4,5'in altına inmesiyle ve protein ikincil yapısında β-tabaka artışı, α-sarmal azalmasıyla aynı zamana denk geldi.",
+      "kosul": "Buğday-çavdar (1:1) hamuru; laktik asit bakterisi fermantasyonu, 12 saat; Raman spektroskopisi (aktarım).",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.foodhyd.2025.111252",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "ph_tta.asitlenme_saglamligi_azaltir",
+      "metin": "Asitlenme tam buğday ekmeği yapımını işlem ayarlarına karşı daha hassas (daha az sağlam) yapar; asit eklemenin hacim artışı yalnız en uygun yoğurma süresi ve su miktarında elde edildi.",
+      "kosul": "Belçika; tam buğday unu (kuru maddede %12,31 protein); yaş (pres) ekmek mayası; ekşi maya yok, asetik, laktik ya da süksinik asit hamura doğrudan eklenerek pH 4,5, 5,0 ya da 5,5'e indirildi; I-optimal deney tasarımı (yoğurma 7,0–10,0 dakika, su kaldırma %70,0–80,0).",
+      "kanit": "tek_kaynak",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.foodhyd.2024.110884",
+          "yer": "Highlights"
+        },
+        {
+          "kaynak": "10.1016/j.foodhyd.2024.110884",
+          "yer": "Abstract"
+        }
+      ]
+    },
+    {
+      "id": "ph_tta.gluten_pozitif_yuk_itme",
+      "metin": "Asitlenince artı yük kazanan gluten proteinleri birbirini iter; bu yüzden pH 4,0 ya da altına indirilmiş seyreltik sulu çözeltilerde (%1'den az protein) protein çözünürlüğü artar.",
+      "kosul": "Seyreltik sulu çözelti (%1'den az protein, kütle/hacim); hamur değil.",
+      "kanit": "ikincil",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.foodhyd.2025.111252",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "ph_tta.ekmek_ph_tta_karsilastirma",
+      "metin": "Almanya'da yerel bir fırından alınan ekmeklerde ilk gün buğday kalıp ekmeğinin pH'ı 5,48, toplam titre edilebilir asitliği 4,18 mL; karışık tip ekşi maya ekmeğinin pH'ı 4,48, toplam titre edilebilir asitliği 9,11 mL 0,1 M NaOH'tı.",
+      "kosul": "Almanya (Freising), yerel fırın; buğday kalıp ekmeği (buğday unu, su, tuz, maya) ve karışık tip ekşi maya ekmeği (çavdar:buğday 70:30); 0. gün; n = 3.",
+      "kanit": "tek_kaynak",
+      "bolum": "Nasıl ölçülür",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods10010076",
+          "yer": "3.1. Initial Bread Characteristics; Table 1"
+        }
+      ]
+    }
+  ]
+}

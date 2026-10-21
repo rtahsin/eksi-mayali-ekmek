@@ -9,6 +9,7 @@ type ModuleName =
   | "content_editorial"
   | "editorial"
   | "learning"
+  | "bilim"
   | "catalog"
   | "ordering"
   | "ledger"
@@ -37,6 +38,7 @@ const ALLOWED_EDGES: Record<ModuleName, readonly ModuleName[]> = {
   content_editorial: ["knowledge", "editorial"],
   editorial: ["knowledge", "kernel", "content_editorial", "utils"],
   learning: ["knowledge", "kernel", "utils"],
+  bilim: ["kernel", "knowledge"],
   catalog: ["kernel", "supabase", "utils", "ordering"],
   ordering: ["catalog", "settings", "kernel", "supabase", "store", "identity", "utils"],
   ledger: ["kernel", "supabase", "identity", "utils"],
@@ -72,6 +74,7 @@ function resolveModule(filePath: string): ModuleName | null {
   if (norm.startsWith("src/lib/knowledge")) return "knowledge";
   if (norm.startsWith("src/lib/editorial") || norm.startsWith("src/components/editorial")) return "editorial";
   if (norm.startsWith("src/lib/game") || norm.startsWith("src/components/game")) return "learning";
+  if (norm.startsWith("src/lib/bilim")) return "bilim";
   if (norm.startsWith("src/lib/products")) return "catalog";
   if (
     norm.startsWith("src/lib/ordering") ||

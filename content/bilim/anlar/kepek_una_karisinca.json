@@ -1,0 +1,298 @@
+{
+  "id": "kepek_una_karisinca",
+  "durak": "degirmen",
+  "baslik": "Kepek una karışınca",
+  "soru": "Kepek una karışınca hamur neden zorlanır?",
+  "bayrak": false,
+  "gor": {
+    "tur": "kaydirma",
+    "adimlar": [
+      {
+        "metin": "Kepek, buğday tanesinin dış katmanlarından ayrılan bir değirmencilik yan ürünüdür [[kepek.lif_dis_katmanlarda]]. Öğütme çıktısının yaklaşık %23–27'sini bu yan ürünler oluşturur [[kepek.ogutme_verimi_ve_kepek_payi]]. En büyük pay, dane ağırlığının yaklaşık %25'ine karşılık gelen kepektir [[kepek.ogutme_verimi_ve_kepek_payi]]. Yılda yaklaşık 150 milyon ton buğday kepeği üretilir ve başlıca hayvan yemi olarak kullanılır [[kepek.yillik_kuresel_uretim_miktari]]. Lifin neredeyse tamamı bu dış katmanlarda toplanır [[kepek.lif_dis_katmanlarda]]. Kuru maddede iri kepekte %39,8–46,5, ince kepekte %20,7–27,9, tam tahıllı unlarda %10,2–11,9, beyaz unda %1,8–2,7 lif bulundu [[kepek.lif_dis_katmanlarda]].",
+        "gorsel": "wheat_bran_tarwe_zemelen",
+        "vurgu": "Buğday kepeği: unun dış katmanlarından ayrılan değirmencilik yan ürünü."
+      },
+      {
+        "metin": "Hamurun iskeleti, su almış gluten proteinlerinin kesintisiz bir ağıdır [[gluten.tanim_hamur_iskeleti]]. Bu ağ öbür bileşenleri bir arada tutar, hamurun kararlılığını ve ekmeğin hacmini etkiler [[gluten.tanim_hamur_iskeleti]]. Gazın tutulmasına ve hava hücrelerinin kararlı kalmasına da katkı sağlar [[gluten.viskoelastisite_ve_hava_hucreleri_kararliligi]].",
+        "gorsel": "gluten_and_carbon_nanotubes",
+        "vurgu": "Gluten proteinlerinin mikroskop görüntüsü: hamurun iskeletini kuran ağ."
+      },
+      {
+        "metin": "İlk darbe fizikseldir: kepek tanecikleri bu ağı bölerek hamurun gaz tutma kapasitesini büyük ölçüde sınırlar [[kepek.kepek_gaz_tutmayi_bozar]]. Bunun sonucu daha az kabaran hamur ve daha küçük ekmek hacmidir [[kepek.kepek_gaz_tutmayi_bozar]]. Yoğurma ölçüleri de aynı yönü gösterir: hamurun gelişmesi uzar, dayanıklılığı kısalır [[kepek.hamur_stabilitesi_ve_uzama_direnci_dusus]]. Hamurun uzamaya gösterdiği direnç ile uzayabilme kapasitesi yarı yarıya düşer [[kepek.hamur_stabilitesi_ve_uzama_direnci_dusus]].",
+        "gorsel": null,
+        "vurgu": "Bu adımda listede uygun bir görsel yok; vurgu ağın bölünmesini anlatır."
+      },
+      {
+        "metin": "İkinci darbe sudur: kepeğin su tutma kapasitesi belirgindir ve bu, lif yapısındaki hidroksil gruplarının çokluğuyla açıklanır [[kepek.yuksek_su_tutma_hidroksil_mekanizmasi]]. Kepek katılmasıyla hamurda su, bileşenler arasında yeniden dağılır [[kepek.su_yeniden_dagilimi_ve_ikincil_yapi_donusumu]]. Gluten proteinlerinin bir kısmı suyunu kaybeder [[kepek.su_yeniden_dagilimi_ve_ikincil_yapi_donusumu]]. Bu yarış hamurun akış özelliklerini bozar; düşük hacimli, düşük esneklikte ekmekler çıkar [[kepek.su_tutma_kapasitesi_reoloji_ve_hacim]].",
+        "gorsel": null,
+        "vurgu": "Bu adımda listede uygun bir görsel yok; vurgu suyun hamurda nasıl paylaşıldığını anlatır."
+      },
+      {
+        "metin": "Üçüncü darbe kimyasaldır [[kepek.bugday_kepeginin_glutene_zarar_mekanizmalari]]. Kepek, fenolik asitler (bitkilerde bulunan bir asit grubu) bakımından zengindir [[disulfit.sistein_ve_ferulik_asit_kovalent_bag_olumsuz_etki]]. Bu asitlerin en bol bulunanı ferulik asittir: bir çalışmada toplam fenolik asitlerin %80'inden fazlasını oluşturdu [[kepek.toplam_fenolik_asitlerin_yuzde_sekseni_ferulik]]. Ölçüm, durum buğdayından elde edilen farklı boyutlardaki kepek fraksiyonlarında yapıldı [[kepek.toplam_fenolik_asitlerin_yuzde_sekseni_ferulik]]. Ferulik asit ile sistein arasında kurulan bağ gluteni olumsuz etkileyebilir [[disulfit.sistein_ve_ferulik_asit_kovalent_bag_olumsuz_etki]]. Arabinoksilanlar ve glutatyon da bu kimyasal etkileşimler arasında sayılır [[kepek.bugday_kepeginin_glutene_zarar_mekanizmalari]].",
+        "gorsel": null,
+        "vurgu": "Bu adımda listede uygun bir görsel yok; vurgu kepeğin kimyasal etkisini anlatır."
+      },
+      {
+        "metin": "Kepek tek bir malzeme değildir; elek analizinde kaba, orta ve ince gruplar ayrı ayrı ölçülür [[kepek.elek_analizinde_uc_kepek_boyutu_medyan_caplari]]. Bu üç grubun medyan, yani ortanca tanecik boyutları 1262 µm, 385 µm ve 174 µm bulundu [[kepek.elek_analizinde_uc_kepek_boyutu_medyan_caplari]]. Boyut etkiyi değiştirir [[kepek.orta_boy_kepek_genlesmeye_en_az_zarar_verir]]. Genleşme (basınç altında genişleme) ve elastik geri toparlanma (basıldıktan sonra eski biçime dönme) ince kepekte en çok zarar gördü [[kepek.orta_boy_kepek_genlesmeye_en_az_zarar_verir]]. Orta boy kepek en az zarar verdi ve ince ya da kaba kepeğe göre daha büyük somun hacimleri sağladı [[kepek.orta_boy_kepek_genlesmeye_en_az_zarar_verir]]. Başka bir denemede ise kaba kepek, kontrol değerlerine en yakın somun hacmini verdi [[kepek.durum_kaba_kepeginde_kontrole_en_yakin_hacim]]. Boyut sıralaması denemeden denemeye kayıyor [[kepek.ince_kepek_hacmi_dusurur]]. Dört sert kırmızı kışlık buğday çeşidinde hacim kaybı çoğu çeşitte kepek inceltikçe arttı [[kepek.ince_kepek_hacmi_dusurur]].",
+        "gorsel": "wheatbran",
+        "vurgu": "Buğday kepeği: tanecik boyutu hamurdaki direncin şiddetini değiştirir."
+      },
+      {
+        "metin": "Sonuç ekmekte okunur: tam buğday unundan yapılan ekmeğin hacmi beyaz undan yapılandan düşüktür [[tam_bugday.hacim_dusuk]]. Polonya'da 100 g ekmekte açık renkli unla 332 cm³, tam buğday unuyla 290 cm³ ölçüldü [[tam_bugday.hacim_dusuk]]. Tam buğday ekmekleri daha sert, daha sakızımsı ve daha çok çiğneme gerektiren dokudaydı [[tam_bugday.tam_ekmek_daha_sert]]. Bu değişimler iç yapıya ve renge de yansır [[kepek.kaba_kepek_en_kaba_yapiyi_verir]]. Kaba kepek en kalın duvarlı, en kaba iç yapıyı verirken ince kepek en ince yapıyı oluşturdu [[kepek.kaba_kepek_en_kaba_yapiyi_verir]]. Bir denemede %10 durum buğdayı kepeği ilavesi ekmek içini daha az parlak yaptı; kırmızılık ve sarılık arttı [[kepek.ekmek_ici_renginde_parlaklik_kaybi_ve_renk_kaymasi]].",
+        "gorsel": null,
+        "vurgu": "Bu adımda listede uygun bir görsel yok; vurgu ekmekte ölçülen değişimleri anlatır."
+      }
+    ]
+  },
+  "anla": [
+    {
+      "baslik": "Una karışan dış katman",
+      "paragraflar": [
+        "Buğday tanesi dıştan içe doğru katmanlarla örülüdür; kepek, bu katmanların öğütmede ayrılan kısmıdır [[kepek.lif_dis_katmanlarda]]. Valsli öğütmede, yani silindirler arasından geçirilerek öğütmede, rüşeym de kepek akışlarına karışmış olarak çıkar [[kepek.ruseym_kepekle_karisir]]. Alöron (tane içinde ince bir hücre tabakası) ve embriyo, tane kuru ağırlığının yaklaşık %10'unu oluşturur [[kepek.aleron_ve_embriyo_dane_payi]].",
+        "Kepeğin kuru maddesini lif doldurur: bir örnekte toplam lif %54,0, protein %16,9, yağ %5,3 ve beta-glukan %1,7 bulundu [[kepek.bugday_kepegi_yaklasik_bilesimi]]. Kül, mineral içeriğin ölçütü olarak %5,4 düzeyindeydi [[kepek.bugday_kepegi_yaklasik_bilesimi]].",
+        "Bir aktarıma göre buğday kepeği %37–53 oranında diyet lifi içerir [[kepek.bugday_kepegi_lif_fraksiyon_oranlari]]. Bu lifin %95'i başta arabinoksilanlar, selüloz ve lignin olmak üzere çözünmeyen liftir [[kepek.bugday_kepegi_lif_fraksiyon_oranlari]]. Fitik asit de kepekte yoğunlaşır: ince kepekte tanenin %180–250'si, iri kepekte %321–534'ü kadar fitik asit bulunurken beyaz unda yalnız %9–15'i kalır [[kepek.fitik_asit_dagilimi]]. Biyoaktif bileşikler, yani tanede etkin maddeler, tanenin kepek katmanlarında yoğunlaşır [[kepek.biyoaktif_bilesenlerin_katmanlarda_yogunlasmasi]]. Bütün bu kimya, hamura karıştığında su ve gluten ağıyla aynı anda karşılaşır [[kepek.bugday_kepeginin_glutene_zarar_mekanizmalari]]."
+      ]
+    },
+    {
+      "baslik": "Üç darbe: ağ, su ve kimya",
+      "paragraflar": [
+        "Hamur, su almış gluten ağının içine gömülü nişasta tanelerinden oluşan bir yapıdır [[gluten.tanim_hamur_iskeleti]]. Kepek lifi, çoğu ekmekçilik ve hamur kalite özelliği üzerinde istatistiksel olarak anlamlı olumsuz etki gösteren başlıca bileşen olarak belirlendi [[kepek.lifin_ekmekcilik_ozelliklerine_olumsuz_etkisi]].",
+        "Önce fiziksel engel gelir: kepek tanecikleri ağın içine girip onu böler [[kepek.kepek_gaz_tutmayi_bozar]]. Sonra su için yarış başlar: kepek, lifindeki hidroksil gruplarıyla suyu kendine çeker [[kepek.yuksek_su_tutma_hidroksil_mekanizmasi]]. Bunun üzerine kepekle hamurda su yeniden dağılır ve gluten proteinlerinin bir kısmı susuz kalır [[kepek.su_yeniden_dagilimi_ve_ikincil_yapi_donusumu]]. Ağın dayanıklılığı kovalent disülfit bağlarına (kükürt üzerinden kurulan güçlü bağlar) ve kovalent olmayan etkileşimlere dayanır [[gluten.ag_stabilitesi_disulfit_ve_kovalent_olmayan_baglar]].",
+        "En son kimya devreye girer ve iki ayrı yoldan gelir [[kepek.bugday_kepeginin_glutene_zarar_mekanizmalari]]. Arabinoksilan, gluten ağının gelişimini değiştirebilen etkin maddelerden biridir [[kepek.kepekteki_etkin_maddeler]]. Aktarılan bir çalışmaya göre rüşeymdeki glutatyon (indirgeyici, yani bağları gevşeten bir bileşik) gluten ağını depolimerize edebiliyor; yani ağın zincirlerini çözebiliyor [[disulfit.ruseyim_glutatyonu_gluten_aginda_depolimerizasyon]]. Fenolik asitler de bu kimyaya girer: ferulik asit ile sistein arasında kurulan bağ gluteni olumsuz etkileyebilir [[disulfit.sistein_ve_ferulik_asit_kovalent_bag_olumsuz_etki]]."
+      ]
+    },
+    {
+      "baslik": "Ölçülen sonuç",
+      "paragraflar": [
+        "Özgül hacim, gram başına düşen hacim olarak ölçülür [[tam_bugday.ozgul_hacim_araligi]]. Dört sert kırmızı kışlık buğday çeşidinde, Tatanka dışında, en düşük özgül hacmi en ince kepekli tam buğday ekmekleri verdi [[kepek.ince_kepek_hacmi_dusurur]]. Yazarlara göre kepeği orta boya, 315–363 µm'ye indirmek tam unun ekmeklik kalitesini artırmada etkilidir [[kepek.ince_kepek_hacmi_dusurur]]. Etki çeşide göre de değişti: iri kepek Zenda'da su kaldırmayı biraz düşürürken Tatanka'da artırdı [[kepek.su_kaldirma_cesite_gore]].",
+        "Bir başka ölçüt, kepeğin içinde kalan proteindir; değirmenci kepeği, danede en yüksek gluten içeriğine sahip doku olan sub-alöronu taşır [[kepek.degirmen_kepegi_en_yuksek_glutenli_subaleuronu_tasir]]. Bir denemede maksimal somun hacmi, yani elde edilen en büyük ekmek hacmi, sub-alöron protein içeriğiyle güçlü bir ilişki gösterdi [[kepek.maksimal_somun_hacmi_ve_subaleuron_proteini_korelasyonu]]. Bu deneysel koşullarda maksimal somun hacmindeki değişkenliğin %99'u sub-alöron protein içeriğindeki değişkenlikle açıklanabildi [[kepek.maksimal_somun_hacmi_ve_subaleuron_proteini_korelasyonu]].",
+        "Sonuç önce hacimde görünür: tam buğday unundan yapılan ekmeğin hacmi beyaz undan yapılandan düşüktür [[tam_bugday.hacim_dusuk]]. Aynı karşılaştırmada 100 g ekmek için 332 cm³ ile 290 cm³ ölçüldü [[tam_bugday.hacim_dusuk]]. Doku da aynı yöne gider: tam buğday ekmekleri daha sert ve daha çok çiğneme gerektirir [[tam_bugday.tam_ekmek_daha_sert]]. Durum buğdayı kepeğiyle yapılan ayrı bir denemede fraksiyonlar sertliği ve çiğnenebilirliği artırdı; etki ince fraksiyonlarda daha büyüktü [[kepek.ince_fraksiyonlar_ekmek_sertligi_ve_cignenebilirligi_artirir]]. Renk de bu zincirin sonunda değişir: %10 kepek ilavesi ekmek içini daha az parlak yaptı [[kepek.ekmek_ici_renginde_parlaklik_kaybi_ve_renk_kaymasi]]."
+      ]
+    },
+    {
+      "baslik": "Fırıncının ayarları",
+      "paragraflar": [
+        "Oran önemlidir: una %10'dan az kepek katıldığında özgül hacim arttı ve sertlik azaldı [[kepek.yuzde_on_altinda_kepek_hacmi_artirir]]. Öğütme inceliği ayrı bir ayardır: daha ince öğütülen tam un mayalanmada daha yüksek kabaran hamur verdi, 47,7–50,3 mm'ye karşı 40,3–48,6 mm [[tam_bugday.ince_tam_un_daha_hacimli]]. Ekmek hacmi 307,8–326,8 mL'ye karşı 247,6–323,9 mL ile daha büyüktü [[tam_bugday.ince_tam_un_daha_hacimli]].",
+        "Üçüncü ayar, hamuru incelten silindirlerin aralığıdır. Hamur 12 mm yerine 6 mm aralıkta açıldığında orta boy kepekli hamurlarda somun hacmi yaklaşık %6 büyüdü [[kepek.alti_milimetre_silindirlemede_hacim_kazanci]]. Kaba kepekli hamurlarda artış %10–15 oldu, ince kepekli hamurlarda ise ihmal edilebilir kaldı [[kepek.alti_milimetre_silindirlemede_hacim_kazanci]]. Ekşi maya da bu yan ürünleri değerlendirmenin bir yoludur [[kepek.eksi_mayada_degirmen_yan_urunu_kullanimi]]. İki yargı da ölçümlerde karşılık buluyor: kepek hacmi düşürebiliyor [[kepek.ince_kepek_hacmi_dusurur]], %10'un altındaki oranda ise hacmi artırabiliyor [[kepek.yuzde_on_altinda_kepek_hacmi_artirir]]."
+      ]
+    }
+  ],
+  "yuzlesme": [
+    {
+      "inanc": "Kepekli ekmek az kabarır ve yoğun çıkar.",
+      "cevap": "Kepek tanecikleri gluten ağını kestiğinde hamur gazı tutamaz ve az kabarır [[kepek.kepek_gaz_tutmayi_bozar]]. Tam buğday unundan yapılan ekmeğin hacmi de beyaz undan yapılandan düşüktür [[tam_bugday.hacim_dusuk]]."
+    },
+    {
+      "inanc": "Kepek ne kadar ince öğütülürse o kadar iyi sonuç verir.",
+      "cevap": "İnce kepek, genleşmeye ve elastik geri toparlanmaya en çok zarar veren fraksiyon oldu; orta boy kepek en az zarar verdi [[kepek.orta_boy_kepek_genlesmeye_en_az_zarar_verir]]. Dört çeşitte en düşük özgül hacmi en ince kepekli ekmekler verdi [[kepek.ince_kepek_hacmi_dusurur]]. Tam unda ölçü ayrı: daha ince öğütülen tam un daha yüksek kabaran hamur ve daha büyük ekmek verdi [[tam_bugday.ince_tam_un_daha_hacimli]]."
+    },
+    {
+      "inanc": "Kepek, ekmeğin hacmini ve dokusunu bozan bir katkıdır.",
+      "cevap": "Una %10'dan az oranda kepek katıldığında özgül hacim arttı ve sertlik azaldı [[kepek.yuzde_on_altinda_kepek_hacmi_artirir]]. %10 durum buğdayı kepeği eklenen denemelerde ise sertlik ve çiğnenebilirlik arttı [[kepek.ince_fraksiyonlar_ekmek_sertligi_ve_cignenebilirligi_artirir]]."
+    }
+  ],
+  "kanit": {
+    "cekirdek": [
+      "kepek.lif_dis_katmanlarda",
+      "kepek.ogutme_verimi_ve_kepek_payi",
+      "kepek.su_tutma_kapasitesi_reoloji_ve_hacim",
+      "kepek.yuksek_su_tutma_hidroksil_mekanizmasi",
+      "kepek.su_yeniden_dagilimi_ve_ikincil_yapi_donusumu",
+      "kepek.lifin_ekmekcilik_ozelliklerine_olumsuz_etkisi",
+      "kepek.bugday_kepeginin_glutene_zarar_mekanizmalari",
+      "kepek.kepek_gaz_tutmayi_bozar",
+      "kepek.hamur_stabilitesi_ve_uzama_direnci_dusus",
+      "kepek.orta_boy_kepek_genlesmeye_en_az_zarar_verir",
+      "kepek.ince_kepek_hacmi_dusurur",
+      "kepek.maksimal_somun_hacmi_ve_subaleuron_proteini_korelasyonu",
+      "kepek.degirmen_kepegi_en_yuksek_glutenli_subaleuronu_tasir",
+      "kepek.ince_fraksiyonlar_ekmek_sertligi_ve_cignenebilirligi_artirir",
+      "tam_bugday.hacim_dusuk"
+    ],
+    "cekmece": [
+      "kepek.yillik_kuresel_uretim_miktari",
+      "kepek.fitik_asit_dagilimi",
+      "kepek.toplam_fenolik_asitlerin_yuzde_sekseni_ferulik",
+      "kepek.bugday_kepegi_yaklasik_bilesimi",
+      "kepek.bugday_kepegi_lif_fraksiyon_oranlari",
+      "kepek.kepek_protein_yapisi",
+      "kepek.elek_analizinde_uc_kepek_boyutu_medyan_caplari",
+      "kepek.durum_kaba_kepeginde_kontrole_en_yakin_hacim",
+      "kepek.kaba_kepek_en_kaba_yapiyi_verir",
+      "kepek.ekmek_ici_renginde_parlaklik_kaybi_ve_renk_kaymasi",
+      "kepek.yuzde_on_altinda_kepek_hacmi_artirir",
+      "kepek.alti_milimetre_silindirlemede_hacim_kazanci",
+      "kepek.sekiz_geciste_maksimum_genlesme_ve_toparlanma",
+      "kepek.iki_yuz_elli_mikron_alti_parcaciklarin_olumsuzlugu",
+      "kepek.hacim_kaybi_seyrelme",
+      "kepek.kaba_degirmen_kepeginde_subaleuron_belirleyiciligi",
+      "kepek.eksi_mayada_degirmen_yan_urunu_kullanimi",
+      "kepek.iri_kepek_gluteni_zayiflatir",
+      "kepek.kepekteki_etkin_maddeler",
+      "kepek.ince_kepek_daha_cok_gaz_hucresi_verir",
+      "kepek.farinograf_parametreleri_derisim_ve_boyut",
+      "kepek.dinlenmede_suyun_hareketsizlesmesi",
+      "kepek.cozunur_ve_cozunmez_fraksiyon_etkilesimi_ve_hacim",
+      "kepek.en_iyi_hacim_ve_duyusal_boyut_araligi",
+      "kepek.uc_yuz_yedi_yuz_mikron_orta_boy_avantaji",
+      "kepek.coda_ara_boy",
+      "kepek.tam_bugday_ununda_dusuk_aciklik_nedeni_kepek",
+      "kepek.jet_degirmen_kepeginde_yuksek_aciklik",
+      "kepek.tas_degirmende_orta_boy_partikul_homojenligi",
+      "kepek.tanecik_kuculdukce_su_baglama_azalir",
+      "kepek.buyuk_partikul_protein_etkilesim",
+      "kepek.degirmenci_kepegi_kutle_verimi_araligi",
+      "kepek.degirmen_kepegi_protein_ve_partikul_parametreleri",
+      "kepek.degirmen_turune_gore_iri_partikul_orani",
+      "kepek.cekicli_ve_jet_degirmen_tanecik_boyutlari",
+      "kepek.lazer_difraksiyonu_ile_kepek_fraksiyon_caplari",
+      "kepek.ekstrude_kepek_daha_yuksek_hacim",
+      "kepek.otoklavlanmis_kepek_ekmek_hacmi",
+      "kepek.eksi_mayada_enzim_karisimi_ile_kepek_iyilestirme",
+      "kepek.enzim_yuksekligi_ve_isil_islem",
+      "kepek.su_kaldirma_cesite_gore",
+      "kepek.onipe_su_kaldirma",
+      "kepek.stabilite_zenda",
+      "kepek.fruktan_dis_katmanda",
+      "kepek.biyoaktif_bilesenlerin_katmanlarda_yogunlasmasi",
+      "kepek.elenmemis_tahilda_iri_kepek_parcalari",
+      "kepek.shubayqa_ekmeginde_kepek_ve_kavuz_yoklugu",
+      "kepek.yulaf_kepekli_hamur_reoloji_farki",
+      "kepek.aleron_ve_embriyo_dane_payi",
+      "kepek.ruseym_kepekle_karisir",
+      "tam_bugday.tam_ekmek_daha_sert",
+      "tam_bugday.ince_tam_un_daha_hacimli",
+      "tam_bugday.kepek_ruseym_gluteni_etkiler",
+      "tam_bugday.tanecik_boyu_dogrusal_olmayabilir",
+      "tam_bugday.ozgul_hacim_araligi",
+      "tam_bugday.tam_ekmek_kusurlari",
+      "tam_bugday.kepek_su_emilimi_sertlik",
+      "tam_bugday.valsli_tam_tahil_tanimi",
+      "gluten.tanim_hamur_iskeleti",
+      "gluten.viskoelastisite_ve_hava_hucreleri_kararliligi",
+      "gluten.cam_boncuk_ile_seyreltmenin_ikincil_etkisi",
+      "gluten.ag_stabilitesi_disulfit_ve_kovalent_olmayan_baglar",
+      "disulfit.ruseyim_glutatyonu_gluten_aginda_depolimerizasyon",
+      "disulfit.sistein_ve_ferulik_asit_kovalent_bag_olumsuz_etki"
+    ]
+  },
+  "baglar": [
+    {
+      "kaldirac": "Kepeğin su tutma kapasitesi",
+      "mekanizma": "Kepek lifi, yapısındaki hidroksil grupları üzerinden suyu tutar; hamurda su bileşenler arasında yeniden dağılır ve gluten proteinlerinin bir kısmı suyunu kaybeder.",
+      "sonuc": "Hamurun akış özellikleri bozulur; düşük hacimli, düşük esneklikte ekmekler çıkar.",
+      "bilgiler": [
+        "kepek.yuksek_su_tutma_hidroksil_mekanizmasi",
+        "kepek.su_tutma_kapasitesi_reoloji_ve_hacim",
+        "kepek.su_yeniden_dagilimi_ve_ikincil_yapi_donusumu"
+      ]
+    },
+    {
+      "kaldirac": "Kepek taneciklerinin gluten ağını bölmesi",
+      "mekanizma": "Kepek tanecikleri gluten ağını keserek gaz tutma kapasitesini büyük ölçüde sınırlar; yoğurmada gelişme süresi uzar, dayanıklılık kısalır.",
+      "sonuc": "Hamur daha az kabarır, ekmek hacmi küçülür; uzama direnci ile uzayabilme kapasitesi yarı yarıya düşer.",
+      "bilgiler": [
+        "kepek.kepek_gaz_tutmayi_bozar",
+        "kepek.hamur_stabilitesi_ve_uzama_direnci_dusus"
+      ]
+    },
+    {
+      "kaldirac": "Kepeğin tanecik boyutu",
+      "mekanizma": "Literatür aktarımına göre 250 µm altındaki parçacıklar yüksek temas yüzeyleriyle protein etkileşimlerine müdahale eder; orta boy fraksiyon genleşmeye en az zarar verir.",
+      "sonuc": "Kepeği ince öğütmek ekmeği büyütmez; orta boy seçimi ekmeklik kalitesini korur.",
+      "bilgiler": [
+        "kepek.iki_yuz_elli_mikron_alti_parcaciklarin_olumsuzlugu",
+        "kepek.orta_boy_kepek_genlesmeye_en_az_zarar_verir",
+        "kepek.ince_kepek_hacmi_dusurur"
+      ]
+    },
+    {
+      "kaldirac": "Kepeğin sub-alöron protein içeriği",
+      "mekanizma": "Değirmenci kepeği, danede en yüksek gluten içeriğine sahip sub-alöron dokusunu taşır; maksimal somun hacmi bu protein içeriğiyle güçlü ilişki gösterdi.",
+      "sonuc": "Hacimde belirleyici olan kepek oranından çok, kepeğin hangi dokuyu taşıdığı olabilir.",
+      "bilgiler": [
+        "kepek.degirmen_kepegi_en_yuksek_glutenli_subaleuronu_tasir",
+        "kepek.maksimal_somun_hacmi_ve_subaleuron_proteini_korelasyonu",
+        "kepek.kaba_degirmen_kepeginde_subaleuron_belirleyiciligi"
+      ]
+    },
+    {
+      "kaldirac": "Kepeğin gluten proteinlerini seyreltmesi",
+      "mekanizma": "Bir deneyde Lai vd., kepeğin yol açtığı hacim kaybının gluten proteinlerinin seyrelmesinden beklenen kayıpla örtüştüğünü buldu [[kepek.hacim_kaybi_seyrelme]]. Cam boncuklu karşılaştırmada ise sterik engelleme ve seyrelmenin ikincil rolde kaldığı görüldü [[gluten.cam_boncuk_ile_seyreltmenin_ikincil_etkisi]].",
+      "sonuc": "Hacim kaybı yalnız kepeğin ağırlığıyla değil, glutenin seyrelmesiyle de açıklanır.",
+      "bilgiler": [
+        "kepek.hacim_kaybi_seyrelme",
+        "gluten.cam_boncuk_ile_seyreltmenin_ikincil_etkisi"
+      ]
+    },
+    {
+      "kaldirac": "Tam buğday ununda kepek ve rüşeym",
+      "mekanizma": "Tam undaki kepek ve rüşeym gluten gelişimini ve hamurun akış özelliklerini etkiler.",
+      "sonuc": "İyi bir tam buğday ekmeği yapmak daha zordur; hacim beyaz ekmekten düşük, doku daha sert kalır.",
+      "bilgiler": [
+        "tam_bugday.kepek_ruseym_gluteni_etkiler",
+        "tam_bugday.hacim_dusuk",
+        "tam_bugday.tam_ekmek_daha_sert"
+      ]
+    },
+    {
+      "kaldirac": "Hamuru silindirler arasından geçirme aralığı",
+      "mekanizma": "Hamur 12 mm yerine 6 mm silindir aralığında açıldığında orta boy kepekli hamurlarda somun hacmi yaklaşık %6, kaba kepekli hamurlarda %10–15 büyür.",
+      "sonuc": "İnce kepekli hamurlarda artış ihmal edilebilir kaldığı için bu ayar tek başına yeterli değildir.",
+      "bilgiler": [
+        "kepek.alti_milimetre_silindirlemede_hacim_kazanci",
+        "kepek.sekiz_geciste_maksimum_genlesme_ve_toparlanma"
+      ]
+    },
+    {
+      "kaldirac": "Kepeğin oranı",
+      "mekanizma": "Una %10'dan az oranda kepek katıldığında özgül hacim artmış, ekmek sertliği azalmıştır [[kepek.yuzde_on_altinda_kepek_hacmi_artirir]].",
+      "sonuc": "Az miktarda kepek, hamuru zorlamadan ekmeğin hacmini ve dokusunu değiştirebilir.",
+      "bilgiler": [
+        "kepek.yuzde_on_altinda_kepek_hacmi_artirir"
+      ]
+    }
+  ],
+  "karakterler": [
+    "gluten"
+  ],
+  "ayrisan_kaynaklar": [
+    {
+      "konu": "Kepek tanecik boyu ile ekmek hacmi arasındaki ilişki doğrusal mı?",
+      "bilgiler": [
+        "kepek.orta_boy_kepek_genlesmeye_en_az_zarar_verir",
+        "kepek.en_iyi_hacim_ve_duyusal_boyut_araligi",
+        "kepek.uc_yuz_yedi_yuz_mikron_orta_boy_avantaji",
+        "kepek.coda_ara_boy",
+        "tam_bugday.tanecik_boyu_dogrusal_olmayabilir"
+      ]
+    },
+    {
+      "konu": "İnce kepek mi, kaba kepek mi ekmeği daha çok bozar?",
+      "bilgiler": [
+        "kepek.ince_kepek_hacmi_dusurur",
+        "kepek.kaba_kepek_en_kaba_yapiyi_verir",
+        "kepek.durum_kaba_kepeginde_kontrole_en_yakin_hacim",
+        "kepek.orta_boy_kepek_genlesmeye_en_az_zarar_verir",
+        "kepek.iri_kepek_gluteni_zayiflatir"
+      ]
+    },
+    {
+      "konu": "Kepek ekmeğin rengini ve parlaklığını nasıl etkiler?",
+      "bilgiler": [
+        "kepek.tam_bugday_ununda_dusuk_aciklik_nedeni_kepek",
+        "kepek.ekmek_ici_renginde_parlaklik_kaybi_ve_renk_kaymasi",
+        "kepek.jet_degirmen_kepeginde_yuksek_aciklik",
+        "kepek.tas_degirmende_orta_boy_partikul_homojenligi"
+      ]
+    },
+    {
+      "konu": "Kepek ekmeğin hacmini gerçekten düşürür mü, bu etki başka bir bileşenden mi gelir?",
+      "bilgiler": [
+        "kepek.hacim_kaybi_seyrelme",
+        "gluten.cam_boncuk_ile_seyreltmenin_ikincil_etkisi",
+        "kepek.yuzde_on_altinda_kepek_hacmi_artirir"
+      ]
+    }
+  ]
+}

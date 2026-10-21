@@ -1,0 +1,286 @@
+{
+  "id": "unun_karsisinda_firinci",
+  "durak": "degirmen",
+  "baslik": "Unun karşısında fırıncı",
+  "soru": "Bir unun ekmek olup olmayacağı daha karıştırmadan nasıl anlaşılır?",
+  "bayrak": false,
+  "gor": {
+    "tur": "kaydirma",
+    "adimlar": [
+      {
+        "metin": "Un, fırına gelmeden önce proteinden okunur: bir buğday tanesi tipik olarak %8–15 oranında protein içerir [[un_olcum.bugday_danesi_protein_araligi]]. Türk Gıda Kodeksi'ne göre 'ekmek' unu kuru maddede, yani sudan arındırılmış ağırlıkta en az %10,5 protein içermelidir [[un_olcum.turk_gida_kodeksi_protein_10_5]].",
+        "gorsel": "flour",
+        "vurgu": "Değirmenden ayrıştırılan un: ölçümün başladığı malzeme."
+      },
+      {
+        "metin": "Protein miktarı birçok özellikle ilişkilidir: gluten miktarı, su kaldırma, yoğurma ihtiyacı ve ekmeğin özgül hacmi (ekmeğin gramı başına ölçülen hacim) onunla yüksek düzeyde ilişkilidir [[un_olcum.protein_korelasyon_atif]]. Dört Hint buğday çeşidinde protein ile özgül hacim güçlü pozitif ilişkiliydi (r = 0,826), ama korelasyon yalnız dört çeşit üzerinden hesaplandı [[un_olcum.protein_hacim]]. Kalan boşluğu kalite ölçüsü doldurur: Zeleny sedimantasyon değeri unun yapı oluşturma özelliklerini tanımlar [[un_olcum.zeleny_degeri_ve_glutenin_yapisi]]. Bu yüzden protein sayısı tek başına yetmez [[un_olcum.protein_tek_basina_yetmez]].",
+        "gorsel": null,
+        "vurgu": "Protein miktarı ile ekmeğin özgül hacmi arasındaki ilişki; dört çeşitle sınırlı bir gözlem."
+      },
+      {
+        "metin": "Şimdi sıra düşme sayısında: tanedeki nişastayı parçalayan α-amilaz arttıkça düşme sayısı düşer [[un_olcum.dusme_sayisi_viskozite]]. Test un bulamacının viskozitesini, yani akışa gösterilen direnci ölçer, ama α-amilaz etkinliğini doğrudan ölçmez [[un_olcum.dusme_sayisi_viskozite]].",
+        "gorsel": null,
+        "vurgu": "Bu adım için listede uygun bir görsel yok; vurgu metni düşme sayısının neyi ölçtüğünü anlatır."
+      },
+      {
+        "metin": "Fırında hemen okunacak sayılar ilk süzgeçtir; hamurun geleceğini gösteren cihaz ölçümleri küçük bir deneme yoğurmasıyla yapılır [[un_olcum.farinograf_300_g_yuzde14]]. Brabender Farinografı, yoğurma sırasında hamurun 500 BU (Brabender'ın kıvam birimi) çizgisine ulaşması için gereken su absorbsiyonunu, gelişim süresini ve aşırı yoğurmaya direncini ölçer [[un_olcum.farinograf_tanimi_ve_500_bu_cizgisi]]. Chopin alveografında P hamurun sertliğini (mm), L uzayabilirliğini (mm), W hamuru deforme etmek için gereken enerjiyi ve IE geri toplanma yeteneğini (%) gösterir [[un_olcum.alveograf_degerleri]].",
+        "gorsel": null,
+        "vurgu": "Bu adım için listede uygun bir görsel yok; vurgu metni farinografın hamuru nasıl tarif ettiğini anlatır."
+      },
+      {
+        "metin": "Unun tipi kâğıt üstünde, kül miktarıyla anlaşılır [[un_olcum.kul_ve_un_tipi]]. Polonya'da incelenen iki undan tip 450'nin külü %0,45, tam buğday tip 1650'ninki %1,65'ti [[un_olcum.kul_ve_un_tipi]].",
+        "gorsel": "all_purpose_flour_4107895947",
+        "vurgu": "Çok amaçlı buğday unu: tipi kül miktarıyla anlaşılan un."
+      },
+      {
+        "metin": "Sıra katkıya gelince ksilanaz öne çıkar: undaki arabinoksilanı, yani şeker birimlerinden oluşan bir polisakkariti, parçalayan bu enzim hamurun dokusunu değiştirir [[ksilanaz.arabinoksilan_hidrolizi_ve_doku_yumusamasi]].",
+        "gorsel": "fbioe_2022_1018476_sekil_6a",
+        "vurgu": "Ksilanazlı ve ksilanazsız tam buğday hamurlarının gözenek yapısını karşılaştıran elektron mikroskobu görüntüsü."
+      }
+    ]
+  },
+  "anla": [
+    {
+      "baslik": "Önce protein",
+      "paragraflar": [
+        "Ölçümün ilk adımı proteindir: bir buğday tanesi tipik olarak %8–15 oranında protein içerir [[un_olcum.bugday_danesi_protein_araligi]]. Kuru madde, sudan arındırılmış ağırlık demektir; Türk Gıda Kodeksi'ne göre 'ekmek' unu kuru maddede en az %10,5 protein içermelidir [[un_olcum.turk_gida_kodeksi_protein_10_5]]. Fırıncılık ürünleri için uygun buğday ununun protein içeriği %10,5 ile %13 arasında olmalıdır [[un_olcum.uygun_protein_10_5_13]].",
+        "Proteinin miktarı kadar kalitesi de ölçülür: Zeleny sedimantasyon testinde 3,2 g tam un 100 mililitrelik dereceli silindire konur ve çökelme hacmi okunur [[un_olcum.zeleny_tam_un_3_2_g]]. Yüksek değer, ekmekçilik kalitesinden sorumlu gluteninin, yani hamura yapı veren proteinin daha fazla olduğuna işaret eder [[un_olcum.zeleny_degeri_ve_glutenin_yapisi]]. Ulusal buğday unu standardına göre 37 ml ve üzeri birinci sınıftır [[un_olcum.ts2974_sedimantasyon_sinif_uyarini]]. Değer 31–36 ml ise ikinci, 22–30 ml ise üçüncü sınıftır ve 22 ml'nin altı düşük kaliteli undur [[un_olcum.ts2974_sedimantasyon_sinif_uyarini]]. Zeleny değeri zayıf unlarda yaklaşık 8'den, kuvvetli unlarda yaklaşık 78'e kadar değişir [[un_olcum.zeleny_sedimantasyon_zayif_ve_kuvvetli_araligi]]."
+      ]
+    },
+    {
+      "baslik": "Düşme sayısı ve hamur",
+      "paragraflar": [
+        "İkinci adım düşme sayısıdır: test un bulamacının viskozitesini, yani akışa gösterilen direnci ölçer; α-amilaz etkinliğini doğrudan ölçmez, ama tanede α-amilaz arttıkça düşme sayısı düşer [[un_olcum.dusme_sayisi_viskozite]]. Ölçüm FN1000 cihazıyla 7 g tam un ve 25 mL su kullanılarak üç tekrar halinde yapılır [[un_olcum.dusme_sayisi_fn1000_7g]].",
+        "Düşme sayısı koşula bağlıdır: LMA, yani geç olgunlaşma α-amilazı, değeri düşürür ve etkilenen örnekler 150 s ile kabul eşiği arasında kalır [[un_olcum.dusme_sayisi_esik]]. Eşik buğday sınıfına ve bölgeye göre 250–350 s arasında değişir [[un_olcum.dusme_sayisi_esik]]. Buğday hatları arasında değerler çok açılabilir: Fielder çeşidi ve iki negatif ayrışan hat 228, 297 ve 301,5 s verdi [[un_olcum.lma_hat_dusme_62]]. Bx17A1OE hatlarının ve LMA'dan etkilenen Chara'nın değeri ise cihazın ölçebildiği en düşük değer olan 62 s'ye düştü [[un_olcum.lma_hat_dusme_62]].",
+        "İtalya'da sınıfı birkaç ölçü birlikte ayırır: kuvvetli unlar W 300, en çok 1 P/L (sertliğin uzayabilirliğe oranı), %14,5 protein ve 15 dakika stabilite ister [[un_olcum.italyan_ekmeklik_un_siniflandirma_kriterleri]]. Orta unlar W 220, en çok 0,6 P/L ve %13,5 proteinle, zayıf unlar W 160, en çok 0,6 P/L ve %11,5 proteinle ayrılır [[un_olcum.italyan_ekmeklik_un_siniflandirma_kriterleri]]. Stabilite, hamurun yoğurma boyunca dayanıklılığıdır; incelenen unlarda maksimum kıvama ulaşma süresi 6,40 ile 12,78 dakika arasındaydı [[un_olcum.gelisme_suresi_araligi]]."
+      ]
+    },
+    {
+      "baslik": "Kül, katkı ve enzim",
+      "paragraflar": [
+        "Unun tipini kül miktarı belirler [[un_olcum.kul_ve_un_tipi]]. Orta İtalya'dan sekiz yumuşak buğday karışımının valsli, yani taneyi silindirler arasında öğüten değirmen ürünlerinde kül tam tahıllı unlarda %1,76–2,41, beyaz unda %0,54–0,98 idi [[un_olcum.ogutme_urunlerinde_kul_protein]]. Randıman, yani unun taneden ayrılma payı %100 olduğunda, farklı ayarlarla öğütülen tam unların külü %1,4'te kaldı [[un_olcum.tam_randimanda_kul_sabit]].",
+        "Ölçümler bitince katkı kararı gelir: katkı maddeleri un bileşenlerinin yapısal ve fizikokimyasal özelliklerini değiştirir [[un_katki.katki_maddelerinin_etki_mekanizmasi]]. Aynı maddeler plastikleştirici gibi davranır ve bileşenler arasındaki su geçişini yavaşlatır [[un_katki.katki_maddelerinin_etki_mekanizmasi]]. Vital gluten, yıkanarak ayrılan glutenin 55 °C'nin altındaki ılımlı sıcaklıklarda kurutulmasıyla elde edilen tozdur [[un_katki.vital_gluten_tanim]]. Mor renkli tam buğday ekmeğinde en etkili geliştirici vital glutendi [[un_katki.tam_unda_gelistirici_sirasi]]. Onu C vitamini, enzimler ve emülgatörler, yani yağ ile suyu bir arada tutan maddeler izledi [[un_katki.tam_unda_gelistirici_sirasi]]. İnce öğütülmüş tam unda %10 vital gluten ekmeğin hacmini 320,4 mL'den 403,5 mL'ye çıkardı [[un_katki.vital_gluten_ince_unda]]. Aynı unda milyonda 50 oranında (50 ppm) C vitamini (askorbik asit) hacmi 371,4 mL'ye taşıdı [[un_katki.askorbik_asit_ince_unda]]. C vitamini bir oksitleyicidir: uygun dozda glutenin polimerleri içinde disülfit bağı, yani protein zincirleri arasında kükürt köprüsü, oluşumunu teşvik ederek hamur dayanımını artırır [[un_katki.oksitleyici_ajanlar_glutenin_ss_bagi]].",
+        "Enzimler temiz etiketli bir yol sunar: pişirmede çoğunlukla tamamen denatüre olduklarından, yani ısıyla yapıları dağıldığından, ve etiketlenmeleri gerekmediğinden kimyasal ajanlara alternatif olurlar [[un_katki.enzimler_temiz_etiket_alternatifi]]. Aynı işi ekşi maya da görebilir; endüstriyel fırıncılıkta mayayla birlikte kullanımı, katkıların temiz etiketli bileşenlerle değiştirilmesine olanak tanır [[un_katki.eksimaya_temiz_etiket_alternatifi]]. Nişasta dışı polisakkaritler, nişasta dışındaki, çok sayıda şeker biriminin glikozit bağlarıyla bağlandığı karmaşık polisakkaritlerdir [[un_katki.nsp_tanim]]. Ksilanazlar bunlardan arabinoksilanın glikozit bağlarını kırar [[ksilanaz.tanim]]. Hidroliz, yani suyun etkisiyle bu bağların kırılması, su emilimini azaltır ve dokuyu daha yumuşak, daha az yapışkan hâle getirir [[ksilanaz.arabinoksilan_hidrolizi_ve_doku_yumusamasi]]. Derişim arttıkça sertlik, yapışkanlık ve çiğnenebilirlik anlamlı düzeyde azaldı [[ksilanaz.pismis_urunde_sertlik_ve_cignenebilirlik_dususu]]. Somun hacminde artış bildirilmiştir [[ksilanaz.ekmek_hacmi_ve_raf_omru_etkisi]]; bir çalışmada ise tam buğday ekmeğinde ksilanaz ve amilaz yüksekliği ve hacmi değiştirmedi [[ksilanaz.tam_bugday_ekmeginde_hacmi_degistirmedi]]."
+      ]
+    }
+  ],
+  "yuzlesme": [
+    {
+      "inanc": "Protein oranı yüksek un iyi ekmek verir.",
+      "cevap": "Unun protein miktarı tek başına ekmek hacmini iyi öngören bir ölçü değildir [[un_olcum.protein_tek_basina_yetmez]]. Proteini 8,48–14,61 g/100 g arasında değişen dört sert kırmızı kışlık buğday çeşidinden proteini yüksek ikisinin ekmekleri daha büyük özgül hacimliydi [[un_olcum.protein_hacim_abd]]. Yine de dört çeşitlik bu gözlem, protein sayısıyla tek başına karar vermeye yetmez [[un_olcum.protein_tek_basina_yetmez]]."
+    },
+    {
+      "inanc": "Düşük düşme sayısı, bozuk yani filizlenmiş buğdayın işaretidir.",
+      "cevap": "Her düşük düşme sayısı geç olgunlaşma α-amilazından (LMA) ya da yüksek α-amilazdan kaynaklanmaz [[un_olcum.dusme_sayisi_efsane]]. Yetiştirme ortamı ve nişasta yapısı da unun jelleşmesini, yani nişastanın suyla şişip kıvam almasını ve dolayısıyla düşme sayısını etkileyebilir [[un_olcum.dusme_sayisi_efsane]]."
+    },
+    {
+      "inanc": "Ticari vital glutende bazı örnekler zayıftır; böyle bir gluten zayıf unu kurtarmaz.",
+      "cevap": "Zayıf bir una eklenen vital gluten, fırıncılıkta proteini düşük unlara destek için yaygın kullanılır [[un_katki.vital_gluten_kullanim]]. Sabit su miktarıyla yapılan pişirmelerde örnekler arasındaki farklar, örneklerin su kaldırma kapasitelerinin farklı olmasından kaynaklandı [[un_katki.zayif_vital_gluten_yok]]. Yazarlara göre su miktarı en uygun ayarlandığı sürece 'zayıf' vital gluten yoktur [[un_katki.zayif_vital_gluten_yok]]. Zayıf bir buğday ununa %25 vital gluten eklenip su en uygun ayarlandığında ekmeklerin özgül hacmi 4,25–5,49 mL/g arasında oldu [[un_katki.vital_gluten_zayif_unda_hacim]]."
+    }
+  ],
+  "kanit": {
+    "cekirdek": [
+      "un_olcum.bugday_danesi_protein_araligi",
+      "un_olcum.protein_hacim",
+      "un_olcum.protein_tek_basina_yetmez",
+      "un_olcum.zeleny_degeri_ve_glutenin_yapisi",
+      "un_olcum.dusme_sayisi_viskozite",
+      "un_olcum.dusme_sayisi_esik",
+      "un_olcum.lma_hat_dusme_62",
+      "un_olcum.farinograf_tanimi_ve_500_bu_cizgisi",
+      "un_olcum.kul_ve_un_tipi",
+      "un_olcum.dusme_sayisi_efsane",
+      "un_katki.katki_maddelerinin_etki_mekanizmasi",
+      "un_katki.vital_gluten_tanim",
+      "un_katki.oksitleyici_ajanlar_glutenin_ss_bagi",
+      "ksilanaz.arabinoksilan_hidrolizi_ve_doku_yumusamasi",
+      "ksilanaz.tam_bugday_ekmeginde_hacmi_degistirmedi"
+    ],
+    "cekmece": [
+      "un_olcum.uygun_protein_10_5_13",
+      "un_olcum.turk_gida_kodeksi_protein_10_5",
+      "un_olcum.protein_korelasyon_atif",
+      "un_olcum.protein_hacim_abd",
+      "un_olcum.bugday_unu_protein_ve_zeleny_dagilimi_176_ornek",
+      "un_olcum.zeleny_sedimantasyon_zayif_ve_kuvvetli_araligi",
+      "un_olcum.ts2974_sedimantasyon_sinif_uyarini",
+      "un_olcum.zeleny_tam_un_3_2_g",
+      "un_olcum.zeleny_36_45_kalite",
+      "un_olcum.dusme_sayisi_tarihi",
+      "un_olcum.dusme_sayisi_fn1000_7g",
+      "un_olcum.dusme_sayisi_icc_107",
+      "un_olcum.dusme_sayisi_ceza",
+      "un_olcum.beyaz_un_dusme_sayisi",
+      "un_olcum.farinograf_300_g_yuzde14",
+      "un_olcum.gelisme_suresi_araligi",
+      "un_olcum.farinograf_parametreleri_ve_ekmek_kalitesi",
+      "un_olcum.farinograf_gluten_protein_seri",
+      "un_olcum.farinograf_hidrasyon_kapasitesi",
+      "un_olcum.farinograf_absorbsiyonu_ve_kabarcik_genlesmesi",
+      "un_olcum.karistirma_tolerans_indeksi_mti",
+      "un_olcum.italyan_ekmeklik_un_siniflandirma_kriterleri",
+      "un_olcum.alveograf_degerleri",
+      "un_olcum.alveograf_p_l_w_1_39",
+      "un_olcum.ogutme_urunlerinde_kul_protein",
+      "un_olcum.tam_randimanda_kul_sabit",
+      "un_olcum.birikimli_kul_egrisi",
+      "un_olcum.randiman_kul_artisi",
+      "un_olcum.tam_un_belirtecleri",
+      "un_olcum.eksi_maya_ekmek_ozgul_hacim_araligi",
+      "un_olcum.eksi_mayada_ticari_maya_orani_ve_hacim",
+      "un_olcum.kontrol_ekmek_medyan_ozgul_hacim",
+      "un_olcum.pisirme_performansini_belirleyen_parametreler",
+      "un_olcum.pisirme_degeri_tanim",
+      "un_olcum.yassi_ekmek_rafine_un_standartlari",
+      "un_olcum.maya_ekmegi_ideal_protein_yuzde14",
+      "un_olcum.ingiltere_hedef_verim_ve_protein",
+      "un_olcum.tam_un_protein_7_3_14",
+      "un_olcum.protein_dagilimi_59_un",
+      "un_olcum.osborne_fraksiyonlari_cozunurluk_tanimi",
+      "un_olcum.biskuvilik_un_dusuk_uzayabilirlik",
+      "un_olcum.ksilanaz_wu_ile_zayif_unda_sds_artisi",
+      "un_olcum.elek_seti_mesh_mikrometre",
+      "un_olcum.ampirik_reoloji_cihazlari_cesitliligi",
+      "un_olcum.sds_sedimantasyon_hacmi_ve_kararsizlik_egimi",
+      "un_olcum.mixolab_stabilite_zeleny_gluten",
+      "un_katki.enzimler_temiz_etiket_alternatifi",
+      "un_katki.eksimaya_temiz_etiket_alternatifi",
+      "un_katki.tam_unda_gelistirici_sirasi",
+      "un_katki.etki_polisakkarit_ozelliklerine_bagli",
+      "un_katki.nsp_tanim",
+      "un_katki.vital_gluten_ince_unda",
+      "un_katki.vital_gluten_zayif_unda_hacim",
+      "un_katki.vital_gluten_kullanim",
+      "un_katki.zayif_vital_gluten_yok",
+      "un_katki.askorbik_asit_ince_unda",
+      "un_katki.emulgatorler_ince_unda",
+      "un_katki.tam_un_amilaz_dusme_sayisi",
+      "un_katki.mtg_etiketlenme_muafiyeti",
+      "ksilanaz.endo_beta_1_4_ksilanaz_tanimi",
+      "ksilanaz.cozunur_arabinoksilani_artirir",
+      "ksilanaz.ksilan_omurgasindaki_beta_1_4_baglari_hidrolizi",
+      "ksilanaz.ekmek_hacmi_ve_raf_omru_etkisi",
+      "ksilanaz.derisim_artisiyla_su_src_degeri_dusus",
+      "ksilanaz.bugday_hamurunda_su_ve_reoloji_artisi",
+      "ksilanaz.sds_sedimantasyon_hacmi_ve_wu_etkisi",
+      "ksilanaz.pismis_urunde_sertlik_ve_cignenebilirlik_dususu",
+      "ksilanaz.nsp_hidrolazlari_sertlesmeyi_yavaslatir",
+      "ksilanaz.arabinoksilani_glutenden_ayirmiyor",
+      "ksilanaz.hamuru_yumusatir_elastikligi_azaltir",
+      "ksilanaz.selulaz_uzayabilirlik_celiskili",
+      "ksilanaz.inhibitorlerin_ekmekcilik_islevselligine_etkisi"
+    ]
+  },
+  "baglar": [
+    {
+      "kaldirac": "Unun protein oranı",
+      "mekanizma": "Protein miktarı; gluten miktarı, su kaldırma, yoğurma ihtiyacı ve ekmeğin özgül hacmi dahil unun neredeyse bütün özellikleriyle ilişkilidir.",
+      "sonuc": "Protein oranı tek başına ekmek olup olmayacağını söylemez; başka ölçümlerle birlikte okunur.",
+      "bilgiler": [
+        "un_olcum.protein_korelasyon_atif",
+        "un_olcum.protein_hacim",
+        "un_olcum.protein_tek_basina_yetmez"
+      ]
+    },
+    {
+      "kaldirac": "Tanedeki α-amilaz etkinliği",
+      "mekanizma": "Düşme sayısı testi un bulamacının viskozitesini ölçer; tanede α-amilaz arttıkça düşme sayısı düşer.",
+      "sonuc": "Düşük düşme sayısı yüksek α-amilaz etkinliğine işaret eder; kabul eşiği buğday sınıfına ve bölgeye göre 250–350 s arasında değişir.",
+      "bilgiler": [
+        "un_olcum.dusme_sayisi_viskozite",
+        "un_olcum.dusme_sayisi_esik",
+        "un_olcum.lma_hat_dusme_62"
+      ]
+    },
+    {
+      "kaldirac": "Farinograf ölçümü",
+      "mekanizma": "Brabender Farinografı, yoğurma sırasında kesme deformasyonu altındaki hamurun 500 BU çizgisine ulaşması için gereken su absorbsiyonunu, hamur gelişim süresini ve aşırı yoğurmaya direncini ölçer.",
+      "sonuc": "Fırıncı, hamuru kurmadan önce su miktarını, gelişim süresini ve yoğurma direncini görür.",
+      "bilgiler": [
+        "un_olcum.farinograf_tanimi_ve_500_bu_cizgisi",
+        "un_olcum.farinograf_300_g_yuzde14",
+        "un_olcum.gelisme_suresi_araligi"
+      ]
+    },
+    {
+      "kaldirac": "Unun kül miktarı",
+      "mekanizma": "Un tipini kül değerleri belirler; randıman %100 olduğunda farklı öğütme ayarları külü değiştirmedi.",
+      "sonuc": "Kül, unun tipini ve içeriğini gösteren bir ölçüt olarak kalır.",
+      "bilgiler": [
+        "un_olcum.kul_ve_un_tipi",
+        "un_olcum.tam_randimanda_kul_sabit",
+        "un_olcum.ogutme_urunlerinde_kul_protein"
+      ]
+    },
+    {
+      "kaldirac": "Zeleny sedimantasyon değeri",
+      "mekanizma": "Zeleny sedimantasyon değeri unun yapı oluşturma özelliklerini tanımlar; yüksek değer daha fazla glutenin içeriğine işaret eder.",
+      "sonuc": "Protein kalitesi, protein miktarı kadar belirleyicidir.",
+      "bilgiler": [
+        "un_olcum.zeleny_degeri_ve_glutenin_yapisi",
+        "un_olcum.ts2974_sedimantasyon_sinif_uyarini",
+        "un_olcum.zeleny_sedimantasyon_zayif_ve_kuvvetli_araligi"
+      ]
+    },
+    {
+      "kaldirac": "Unun öğütme inceliği",
+      "mekanizma": "Aynı tam un ince ve iri öğütüldüğünde katkıların etkisi değişir; %10 vital gluten ince unda ekmek hacmini 320,4 mL'den 403,5 mL'ye çıkarır.",
+      "sonuc": "Aynı doz, ince ve iri öğütlü unda farklı sonuç verir.",
+      "bilgiler": [
+        "un_katki.vital_gluten_ince_unda",
+        "un_katki.tam_unda_gelistirici_sirasi",
+        "un_katki.askorbik_asit_ince_unda"
+      ]
+    },
+    {
+      "kaldirac": "Ksilanaz ilavesi",
+      "mekanizma": "Ksilanazlar arabinoksilanları parçalayarak çözünür arabinoksilanı artırır; hidroliz su emilimini azaltıp gluten gelişimini etkiler.",
+      "sonuc": "Ürün dokusu daha yumuşak, daha az yapışkan ve pürüzsüz olur.",
+      "bilgiler": [
+        "ksilanaz.tanim",
+        "ksilanaz.cozunur_arabinoksilani_artirir",
+        "ksilanaz.arabinoksilan_hidrolizi_ve_doku_yumusamasi",
+        "ksilanaz.pismis_urunde_sertlik_ve_cignenebilirlik_dususu"
+      ]
+    }
+  ],
+  "karakterler": [
+    "ksilanaz"
+  ],
+  "ayrisan_kaynaklar": [
+    {
+      "konu": "Düşük düşme sayısının tek nedeni geç olgunlaşma mıdır?",
+      "bilgiler": [
+        "un_olcum.dusme_sayisi_efsane",
+        "un_olcum.lma_hat_dusme_62",
+        "un_olcum.dusme_sayisi_esik",
+        "un_olcum.beyaz_un_dusme_sayisi"
+      ]
+    },
+    {
+      "konu": "Ksilanaz ekmek hacmini artırır mı, değiştirmez mi?",
+      "bilgiler": [
+        "ksilanaz.ekmek_hacmi_ve_raf_omru_etkisi",
+        "ksilanaz.tam_bugday_ekmeginde_hacmi_degistirmedi",
+        "ksilanaz.arabinoksilan_hidrolizi_ve_doku_yumusamasi",
+        "ksilanaz.pismis_urunde_sertlik_ve_cignenebilirlik_dususu"
+      ]
+    },
+    {
+      "konu": "Zayıf una eklenen vital gluten işe yarar mı?",
+      "bilgiler": [
+        "un_katki.zayif_vital_gluten_yok",
+        "un_katki.vital_gluten_zayif_unda_hacim",
+        "un_katki.vital_gluten_kullanim"
+      ]
+    },
+    {
+      "konu": "Ksilanaz arabinoksilanları glutenden uzaklaştırır mı?",
+      "bilgiler": [
+        "ksilanaz.arabinoksilani_glutenden_ayirmiyor",
+        "ksilanaz.hamuru_yumusatir_elastikligi_azaltir",
+        "ksilanaz.selulaz_uzayabilirlik_celiskili"
+      ]
+    }
+  ]
+}

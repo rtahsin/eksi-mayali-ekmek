@@ -1,0 +1,166 @@
+{
+  "id": "aab",
+  "ad": "Asetik asit bakterileri",
+  "bilgiler": [
+    {
+      "id": "aab.baskin_olmaz",
+      "metin": "Derlemelere göre asetik asit bakterileri Tip I ekşi mayalarda genellikle laktik asit bakterilerinden daha seyrek ve daha az bol bulunur ve olgun ekşi mayada baskın hâle gelmez, bunun nedeni oksijenli metabolizmaları olabilir; güney İtalya'dan dört olgun Tip I durum buğdayı ekşi mayasıyla yapılan bir çalışmada da asetik asit bakterisi sayıları laktik asit bakterileri ve mayalar yanında önemsiz göründü.",
+      "kosul": "Tip I ekşi mayalar (PeerJ aktarımı). Birincil veri: Güney İtalya'dan (Matera, Altamura) 4 olgun Tip I ekşi maya; durum buğdayı (Triticum durum) unu; laboratuvarda 28 gün her gün yenileme, sıkı (hamur verimi 160) ve sıvı (hamur verimi 280, 150 rpm karıştırmalı) olarak; 25 °C'de 3–6 saat fermantasyon, yenilemeler arasında 10 °C'de 16–19 saat bekletme; gerçek hamur; DSM besiyeri.",
+      "kanit": "tek_kaynak",
+      "bolum": "Hangi koşulda",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3389/fmicb.2020.01212",
+          "yer": "Introduction"
+        },
+        {
+          "kaynak": "10.7717/peerj.11389",
+          "yer": "Microbial Ecology: Bacteria"
+        },
+        {
+          "kaynak": "10.1128/aem.00309-14",
+          "yer": "Discussion"
+        }
+      ]
+    },
+    {
+      "id": "aab.yuzde_29",
+      "metin": "500 ekşi mayanın 147'sinde Acetobacter, Gluconobacter ya da Komagataeibacter gibi asetik asit bakterileri %1'in üzerinde göreli bollukta bulunur.",
+      "kosul": "500 ekşi maya (çoğu ev ekşi mayası); 16S amplikon dizilemesi; eşik %1 göreli bolluk.",
+      "kanit": "tek_kaynak",
+      "bolum": "Kimlik",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.7554/elife.61644",
+          "yer": "Results – Diversity of sourdough starters"
+        }
+      ]
+    },
+    {
+      "id": "aab.oksidatif_fermantasyon_bilesikleri",
+      "metin": "Asetik asit bakterileri grubu, karbonhidratların, alkollerin ve alkollü şekerlerin organik asitlere, aldehitlere ve ketonlara dönüştüğü oksidatif fermantasyondan sorumludur.",
+      "kosul": "Halstead vd. (2015) ve Lynch vd. (2019) atıfları",
+      "kanit": "ikincil",
+      "bolum": "Ne yer, ne üretir",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1590/0001-3765202220220091",
+          "yer": "Microbial community dynamic in sourdoughs with organic or conventional flours during fermentation"
+        }
+      ]
+    },
+    {
+      "id": "aab.kultur_yanliligi",
+      "metin": "500 ekşi mayalık bir çalışmanın yazarlarına göre asetik asit bakterileri özel kültür koşulları ister ve önceki çalışmalardaki kültür yöntemi yanlılığı, bu bakterilerin ekşi maya çeşitliliği anlatımlarında çoğu zaman hiç anılmamasını açıklayabilir.",
+      "kosul": "500 ekşi maya çalışmasının yorumu; Kim vd. 2019; De Vuyst vd. 2014; Gänzle ve Ripari 2016; Van Kerrebroeck vd. 2017'ye dayanarak.",
+      "kanit": "tek_kaynak",
+      "bolum": "Efsaneler",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.7554/elife.61644",
+          "yer": "Results – Diversity of sourdough starters"
+        }
+      ]
+    },
+    {
+      "id": "aab.italya_turleri",
+      "metin": "Güney İtalya'dan dört durum buğdayı ekşi mayasından ayrılan yaklaşık 140 asetik asit bakterisi izolatı arasında Gluconobacter oxydans, Acetobacter malorum, Gluconobacter sp. ve Gluconobacter frauterii tanımlandı.",
+      "kosul": "Güney İtalya'dan (Matera, Altamura) 4 olgun Tip I ekşi maya; durum buğdayı (Triticum durum) unu; laboratuvarda 28 gün her gün yenileme, sıkı (hamur verimi 160) ve sıvı (hamur verimi 280, 150 rpm karıştırmalı) olarak; 25 °C'de 3–6 saat fermantasyon, yenilemeler arasında 10 °C'de 16–19 saat bekletme; gerçek hamur; yaklaşık 140 izolat, RAPD-PCR ile kümelendi.",
+      "kanit": "tek_kaynak",
+      "bolum": "Kimlik",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1128/aem.00309-14",
+          "yer": "Results, Typing and identification of acetic acid bacteria"
+        }
+      ]
+    },
+    {
+      "id": "aab.gluconobacter_olgun",
+      "metin": "10 un türünden 40 kendiliğinden ekşi mayalık bir çalışmada Gluconobacter, olgun ekşi mayalarda un türlerinin 7'sinde mikrop topluluğunun %12,6–45,8'ini oluşturdu ve tef ile amarant dışındaki tüm ekşi mayalarda bulundu.",
+      "kosul": "10 un türünden 40 kendiliğinden ekşi maya; oda sıcaklığı; günlük besleme (1 yemek kaşığı atılıp 1 yemek kaşığı un + 1 yemek kaşığı su eklenerek); 14. gün; 16S rRNA dizilemesi.",
+      "kanit": "tek_kaynak",
+      "bolum": "Mayadaki yeri",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.7717/peerj.16163",
+          "yer": "Discussion, Mature starters; Fig. 4"
+        },
+        {
+          "kaynak": "10.7717/peerj.16163",
+          "yer": "Discussion, Mature starters; Fig. 5B"
+        },
+        {
+          "kaynak": "10.7717/peerj.16163",
+          "yer": "Discussion, Mature starters"
+        }
+      ]
+    },
+    {
+      "id": "aab.sayi_laktik_maya_gore_onemsiz",
+      "metin": "Bu çalışmada katı ve sıvı ekşi mayalarda asetik asit bakterilerinin sayısı, laktik asit bakterileri ve mayalara kıyasla önemsiz görünmüştür.",
+      "kosul": "Bu çalışmada katı ve sıvı ekşi mayalar, 28 günlük çoğaltma; katı ile sıvı mayalar arasında tutarlı fark bulunmadı",
+      "kanit": "tek_kaynak",
+      "bolum": "Mayadaki yeri",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1128/aem.00309-14",
+          "yer": "DISCUSSION"
+        }
+      ]
+    },
+    {
+      "id": "aab.etanol_laktik_asit_oksidasyonu",
+      "metin": "Asetik asit bakterilerinin etanol ve laktik asidi oksitlemesi, asetik asit ve asetoin derişimlerini aşırı artırarak uçucu organik bileşik kompozisyonunda değişimlere yol açabilir.",
+      "kosul": "Ekşi maya fermantasyonu",
+      "kanit": "tek_kaynak",
+      "bolum": "Ne yapar",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1080/10408398.2021.1976100",
+          "yer": "Flour fermentation for sourdough production"
+        }
+      ]
+    },
+    {
+      "id": "aab.periplazmik_oksidasyon",
+      "metin": "Asetik asit bakterileri, hücre periplazmasında özel kofaktör bağımlı dehidrojenazlar aracılığıyla etanolü kısmi oksitlemeyle asetik aside ve glukozu glukonik aside dönüştürür.",
+      "kosul": "Matsushita vd. 2016",
+      "kanit": "ikincil",
+      "bolum": "Ne yer, ne üretir",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1080/10408398.2021.1976100",
+          "yer": "Acetic acid bacteria"
+        }
+      ]
+    },
+    {
+      "id": "aab.diger_taksonlarla_iliski",
+      "metin": "500 ekşi mayalık bir çalışmada asetik asit bakterileri diğer mikroplarla anlamlı bir birlikte bulunma ilişkisi göstermedi; bir derleme ise 17 ekşi mayalık başka bir çalışmanın bu bakterileri Fructilactobacillus sanfranciscensis ile ters, bazı mayalarla doğru yönde ilişkili bulduğunu aktarır.",
+      "kosul": "500 ekşi maya amplikon birlikte bulunma analizi (eLife) ve Comasio vd. 2020 (PeerJ derlemesindeki aktarım).",
+      "kanit": "tartismali",
+      "bolum": "İlişkileri",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.7554/elife.61644",
+          "yer": "Results – Ecological distributions of sourdough microbes are structured by biotic interactions"
+        },
+        {
+          "kaynak": "10.7717/peerj.11389",
+          "yer": "Microbial Ecology: Bacteria"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,360 @@
+{
+  "id": "hidrasyon",
+  "ad": "Su ve hidrasyon",
+  "bilgiler": [
+    {
+      "id": "hidrasyon.optimum_su_ornege_bagli",
+      "metin": "On vital gluten örneğinin her biri en yüksek özgül hacme kendine özgü bir su miktarında ulaştı (10 g’lık karışımda 8,95–11,60 mL); bu yüzden rutin pişirme testlerinde tüm örneklere aynı su eklenirse gluten işlevselliğinde büyük farklar görülür.",
+      "kosul": "On ticari vital gluten örneği (G1–G10); yağlı tohum içeren pişirme karışımı + %25 vital gluten; 10 g ölçekli mikro pişirme",
+      "kanit": "tek_kaynak",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods10020228",
+          "yer": "3.4.1. Microbaking Tests Using the Baking Mixture"
+        },
+        {
+          "kaynak": "10.3390/foods10020228",
+          "yer": "3.4.1. Microbaking Tests Using the Baking Mixture; Table 1"
+        },
+        {
+          "kaynak": "10.3390/foods10020228",
+          "yer": "5. Conclusions"
+        }
+      ]
+    },
+    {
+      "id": "hidrasyon.tip1_eksimaya_ile_optimum_su_kaldirmada_azalma",
+      "metin": "Ekşi mayalı ekmek (%67) ve ekşi maya-maya karışımı ekmek (%71) üretmek için gereken optimum su kaldırma yalnızca mayalı ekmeğinkinden (%74) daha düşük bulunmuştur.",
+      "kosul": "Tip 1 ekşi maya ilaveli ekmek pişirme denemesi",
+      "kanit": "tek_kaynak",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.ijfoodmicro.2023.110193",
+          "yer": "Discussion"
+        }
+      ]
+    },
+    {
+      "id": "hidrasyon.bagli_ve_serbest_suyun_plastiklestirici_rolu",
+      "metin": "Zayıf bağlı su ve serbest su hamurda plastikleştirici olarak işlev görürken, kuvvetle bağlı su hamur bileşenleri arasında çapraz bağlayıcı bir madde gibi davranır.",
+      "kosul": "Hamurda su durumlarının işlevleri (aktarım [9])",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods13070996",
+          "yer": "1. Introduction"
+        }
+      ]
+    },
+    {
+      "id": "hidrasyon.gliadin_ve_gluteninin_su_kaldirmada_sinerjisi",
+      "metin": "Gliadin ve gluteninin birlikte bulunması su tutma kapasitesi açısından tek başına gliadin veya glutenin kapasitesiyle açıklanamayan bir sinerji yaratır.",
+      "kosul": "Gliadin ve glutenin bir arada bulunması",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods13203232",
+          "yer": "3.1. Farinograph Mixing Behavior"
+        }
+      ]
+    },
+    {
+      "id": "hidrasyon.gluten_ag_yapisi_su_dagilimi",
+      "metin": "Dört ticari buğday unundan farklı karıştırma süreleri ve hidrasyon düzeylerinde hazırlanan hamurlarda gluten ağı yapısı öncelikle hamurdaki su dağılımı tarafından belirlendi.",
+      "kosul": "Dört ticari buğday unu; farklı karıştırma süreleri ve hidrasyon düzeyleri; buğday unu hamurları",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.foodhyd.2023.109214",
+          "yer": "Highlights"
+        }
+      ]
+    },
+    {
+      "id": "hidrasyon.gluten_kendi_agirliginin_iki_kati_su_baglar",
+      "metin": "Buğday hamurundan ayrıştırılan gluten, glutamin kalıntılarının su bağlama kapasitesi sayesinde çözünmez kalırken yaklaşık kendi ağırlığının iki katı kadar su bağlar.",
+      "kosul": "Schopf et al., 2021",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1002/cche.10572",
+          "yer": "7 GLUTEN CHEMISTRY AND FUNCTIONALITY"
+        }
+      ]
+    },
+    {
+      "id": "hidrasyon.kepek_ikame_orani_arttikca_artan_su_alma",
+      "metin": "Bu çalışmada kepek ikame oranı arttıkça hamurun su kaldırmasının arttığı gözlendi; yazarlar bunun kepeğin nişasta ve glutenle su için yarışmasıyla ilişkili olabileceğini belirtiyor.",
+      "kosul": "Hamura buğday kepeği ikamesi",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods9010048",
+          "yer": "3.2. Dough Characteristics by Mixolab"
+        },
+        {
+          "kaynak": "10.3390/foods9010048",
+          "yer": "3.2. Dough Characteristics by Mixolab"
+        }
+      ]
+    },
+    {
+      "id": "hidrasyon.liflerin_su_rekabeti_ve_viskoelastisite",
+      "metin": "Lifler diğer polimerlerle su için güçlü biçimde yarışarak hamurun viskoelastik özelliklerini bozar ve daha zayıf hamurlara yol açar.",
+      "kosul": "Rosell et al., 2010",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.jcs.2017.03.011",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "hidrasyon.suyun_rolu",
+      "metin": "Su, yoğurmadaki biyokimyasal tepkimeler ve fiziksel-kimyasal dönüşümler için gereklidir ve un biyopolimerlerini yumuşatan (plastikleştiren) bir maddedir; bileşenler karıştırılınca su önce un bileşenleri arasında dağılır, ardından gluten ağı örülür.",
+      "kosul": "",
+      "kanit": "ikincil",
+      "bolum": "Ne yapar",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.foodchem.2022.135329",
+          "yer": "Introduction"
+        },
+        {
+          "kaynak": "10.1016/j.foodchem.2022.135329",
+          "yer": "Introduction"
+        },
+        {
+          "kaynak": "10.1016/j.jfoodeng.2010.10.003",
+          "yer": "Cited by"
+        }
+      ]
+    },
+    {
+      "id": "hidrasyon.gluteninin_gliadinden_yuksek_su_tutmasi",
+      "metin": "Yoğurma profillerini elde etmek için kullanılan su miktarları gliadin için %68 ve glutenin için %100,6 olarak ölçülmüş, bu durum gluteninin belirgin biçimde daha yüksek su tutma kapasitesine sahip olduğunu ortaya koymuştur.",
+      "kosul": "Gliadin ve glutenin fraksiyonları farinograf profilleri",
+      "kanit": "tek_kaynak",
+      "bolum": "Tanım",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods13203232",
+          "yer": "3.1. Farinograph Mixing Behavior"
+        }
+      ]
+    },
+    {
+      "id": "hidrasyon.un_bilesenlerinin_gram_basina_su_tutma_kapasiteleri",
+      "metin": "Buğday bileşenlerinden gluten gram başına yaklaşık 2,8 g, nişasta 0,37 g, hasarlı nişasta 1,75 g ve arabinoksilanlar gram başına 10 g su tutabilir.",
+      "kosul": "Buğday unu bileşenlerinin su tutma kapasiteleri (Kweon vd. 2011 aktarımı)",
+      "kanit": "ikincil",
+      "bolum": "Tanım",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.55147/efse.1493110",
+          "yer": "3. Results and Discussion · colour and solvent retention capacity properties of flat bread flours"
+        }
+      ]
+    },
+    {
+      "id": "hidrasyon.fazla_su_gaz_tutma_atif",
+      "metin": "Suyu optimumun üzerinde olan hamurlar yumuşar, uzayabilirliğini kaybeder ve gaz tutma kapasitesi düşer.",
+      "kosul": "",
+      "kanit": "ikincil",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods10020228",
+          "yer": "4. Discussion"
+        }
+      ]
+    },
+    {
+      "id": "hidrasyon.su_kaldirmamin_kisa_prosedurlerde_belirleyiciligi",
+      "metin": "Sabit terime göre parametre tahminleri su kaldırmanın maya ve ekşi mayalı kısa prosedürlerde en belirleyici etken olduğunu göstermiştir (WASB2 = -%3,3, WAYSB2 = -%14,1, WAYB2 = -%7,4).",
+      "kosul": "Ekmek hacmi model parametre tahminleri",
+      "kanit": "tek_kaynak",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.ijfoodmicro.2023.110193",
+          "yer": "Discussion"
+        }
+      ]
+    },
+    {
+      "id": "hidrasyon.su_orani_ic_dokusu",
+      "metin": "Yaklaşık %50 su ince dokulu, hafif bir ekmek içi verir; daha yüksek su oranıyla hazırlanan hamur daha iri gözenekli bir iç verebilir.",
+      "kosul": "",
+      "kanit": "ikincil",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1155/2018/8187318",
+          "yer": "2. Porous Crumb Structure Development"
+        }
+      ]
+    },
+    {
+      "id": "hidrasyon.az_ve_fazla_su_ag_yapisi_atif",
+      "metin": "Bir çalışmada suyu optimumun altında olan hamurda yapı sıkı ve protein ağı düzensiz dağılmıştı; optimumun üzerinde suyla proteinler daha çok kümelenmiş ama birbirine daha az bağlanmıştı.",
+      "kosul": "",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods10020228",
+          "yer": "1. Introduction"
+        },
+        {
+          "kaynak": "10.3390/foods10020228",
+          "yer": "1. Introduction"
+        }
+      ]
+    },
+    {
+      "id": "hidrasyon.bagli_ve_serbest_su_kesir_araligi",
+      "metin": "Hamur hazırlamada yaygın olarak kullanılan 0,38–0,44 su kesirlerinde hamur sisteminde hem bağlı hem de serbest suyun bulunması muhtemeldir.",
+      "kosul": "Hamur hazırlamada 0,38–0,44 su kesri (Ablett vd. aktarımı)",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1007/s11483-017-9472-9",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "hidrasyon.su_artisi_gelisme_suresini_uzatir",
+      "metin": "Hamurdaki su içeriğinin artması hamur gelişme süresinde artışa yol açtığı gösterilmiştir.",
+      "kosul": "D'Appolonia & Gilles, 1971",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1002/cche.10699",
+          "yer": "6.2 The effect of water content on the gas phase of the dough"
+        }
+      ]
+    },
+    {
+      "id": "hidrasyon.su_dagilimi_karistirmada_surekli_evrilir",
+      "metin": "Hamurdaki su dağılımı yoğurma sırasında sürekli evrilir ve tek tek bileşenlerin su tutma kapasitelerinden doğrudan çıkarılamaz.",
+      "kosul": "Bushuk, 1966",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.foodhyd.2023.109214",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "hidrasyon.tuz_ilavesi_farinograf_su_kaldirma_dususu",
+      "metin": "Un örneklerinin %95'inde tuz ilavesi farinograf su kaldırmasını düşürmüş; ortalama su kaldırma tuzsuz hamurda %55,5 iken %1,5 tuzlu hamurda %54,4'e gerilemiş, değerler tuzsuzda %48,6–62,8 ve tuzluda %47,5–61,5 arasında değişmiştir.",
+      "kosul": "buğday unu farinograf analizi (%14 nem bazı), tuzsuz ve %1,5 NaCl karşılaştırması",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods9070952",
+          "yer": "3. Results"
+        },
+        {
+          "kaynak": "10.3390/foods9070952",
+          "yer": "3. Results"
+        },
+        {
+          "kaynak": "10.3390/foods9070952",
+          "yer": "Table 1"
+        }
+      ]
+    },
+    {
+      "id": "hidrasyon.yuksek_ve_dusuk_proteinli_un_su_kaldirma",
+      "metin": "Su kaldırma oranı yüksek proteinli unda %58,5, düşük proteinli unda %53 olarak belirlendi ve hamurlarda sırasıyla %46,0 ve %44,0 nihai su içeriği sağlandı.",
+      "kosul": "FSB (yüksek proteinli) ve YB (düşük proteinli) ticari unlar",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.jcs.2013.01.011",
+          "yer": "Section snippets - Effect of NaCl on dough development and microstructure"
+        }
+      ]
+    },
+    {
+      "id": "hidrasyon.nmr_ile_uc_farkli_su_grubu_tayini",
+      "metin": "Derlemeye göre hamurun su durumu düşük alanlı nükleer manyetik rezonansla (NMR) incelenebilir; enine durulma (T2) ile hamur örneklerinde bağlı su, zayıf bağlı su ve serbest su olmak üzere üç farklı su grubu ayırt edilebilir.",
+      "kosul": "Literatür derlemesi aktarımı; düşük alanlı NMR enine durulma (T2) analizi.",
+      "kanit": "tek_kaynak",
+      "bolum": "Nasıl ölçülür",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.csbj.2023.08.019",
+          "yer": "Water absorption and water state"
+        }
+      ]
+    },
+    {
+      "id": "hidrasyon.standart_su_un_orani_0_55",
+      "metin": "Ekmekçilikte su/un (W/F) oranı geleneksel olarak 0,5 ile 0,6 arasında tutulurken bu çalışmada ortanca değer olan 0,55 kullanılmış ve 100 g un başına 1 g maya eklenmiştir.",
+      "kosul": "Standart ekmek hamuru hazırlama protokolü.",
+      "kanit": "tek_kaynak",
+      "bolum": "Nasıl ölçülür",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods14091649",
+          "yer": "2.1. Sample Preparation"
+        }
+      ]
+    },
+    {
+      "id": "hidrasyon.hamur_verimi_tanim",
+      "metin": "Hamur verimi, 100 birim una hidrasyon için kullanılan su miktarının (birim olarak) eklenmesiyle tanımlanır.",
+      "kosul": "",
+      "kanit": "tek_kaynak",
+      "bolum": "Tanım",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1002/fsn3.4050",
+          "yer": "1. INTRODUCTION"
+        }
+      ]
+    }
+  ]
+}

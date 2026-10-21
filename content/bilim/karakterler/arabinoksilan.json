@@ -1,0 +1,45 @@
+{
+  "id": "arabinoksilan",
+  "ad": "Arabinoksilan",
+  "eski_ad": null,
+  "tur": "molekul",
+  "tek_cumle": "Buğday ve çavdar unundaki başlıca nişasta dışı polisakkarittir [[arabinoksilan.bugday_ve_cavdar_ana_nsp]]",
+  "bolumler": [
+    {
+      "baslik": "Nedir",
+      "cumleler": [
+        "Buğday ununun %2–3'ünü oluşturan, beta-1,4 bağlı D-ksilopiranozil birimlerinden kurulu doğrusal bir ana zincire sahip nişasta dışı bir polisakkarittir [[arabinoksilan.yapi_ve_bugday_unundaki_orani]]",
+        "Molekül ağırlığına, ikame paternine ve çapraz bağlanma derecesine bağlı olarak suda çözünen ve suda çözünmeyen fraksiyonlara ayrılır [[arabinoksilan.cozunur_cozunmez_ayrim_kriterleri]]"
+      ]
+    },
+    {
+      "baslik": "Ne yapar",
+      "cumleler": [
+        "Ağırlıklarının altı katı su emebilen arabinoksilanlar, hamur ve ekmekteki su dağılımını etkiler [[arabinoksilan.su_tutma_kapasitesi_alti_kat]]"
+      ]
+    },
+    {
+      "baslik": "Hamurda ne olur",
+      "cumleler": [
+        "Su emilimi yoluyla hamurun viskoelastisitesini artırarak ve gaz tutulumunu iyileştirerek hamur yapısına katkıda bulunur [[arabinoksilan.hamur_viskoelastisite_gaz_tutma]]",
+        "Yüksek su emilimi gluten oluşumunu bozarak hamur gelişimini yavaşlatır ve ürün kalitesini olumsuz etkiler [[arabinoksilan.yuksek_su_emilimi_gluten_ve_gelisimi_bozar]]",
+        "%100 çavdar ekmeğinde protein elastik bir ağ oluşturamadığından hamur reolojisi ve gaz tutulumunda proteinden daha büyük rol oynayan ana su bağlayıcı maddedir [[arabinoksilan.yuzde_100_cavdar_ekmeginde_ana_su_baglayici]]",
+        "Ekşi maya fermantasyonu hamur aşamasında çavdar pentozanlarının çözünmesini teşvik eder ve böylece hamurun su bağlamasını artırır [[arabinoksilan.eksi_maya_cavdar_pentozan_cozunurlugu]]"
+      ]
+    },
+    {
+      "baslik": "Ekmeğe etkisi",
+      "cumleler": [
+        "Suda çözünen arabinoksilanlar ekmek hacmini ve doku özelliklerini olumlu etkiler, suda çözünmeyenler ise su için rekabet ederek gluten ağının gelişimini zorlaştırır [[arabinoksilan.cozunur_cozunmez_ekmek]]"
+      ]
+    }
+  ],
+  "efsane": null,
+  "anlar": [
+    "cavdar_unu_suyla_bulusunca"
+  ],
+  "gorseller": [
+    "journal_pone_0251556_sekil_2cd",
+    "journal_pone_0256350_sekil_2af"
+  ]
+}

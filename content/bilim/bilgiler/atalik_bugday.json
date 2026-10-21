@@ -1,0 +1,812 @@
+{
+  "id": "atalik_bugday",
+  "ad": "Atalık buğdaylar",
+  "bilgiler": [
+    {
+      "id": "atalik_bugday.modern_bugdayda_daha_dusuk_protein_ve_gluten",
+      "metin": "Atalık buğdayların daha az gluten içerdiği yönündeki yaygın inanışın aksine, tarla denemelerinde incelenen türler arasında ekmeklik buğday en düşük toplam protein, gluten ve gliadin miktarlarına sahipti.",
+      "kosul": "Dört lokasyonda tarla denemeleri sonucu",
+      "kanit": "tek_kaynak",
+      "bolum": "Efsaneler",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods8090409",
+          "yer": "4. Conclusions"
+        }
+      ]
+    },
+    {
+      "id": "atalik_bugday.spelt_modern_kadar_iyi",
+      "metin": "Sırbistan'da yapılan bir çalışmada, köpüğe benzer hamur yapısı ve dengeli viskoelastikliğe sahip spelt ekşi mayası, modern buğday ekşi mayasıyla benzer özgül hacim ve dokuda ekmek verdi.",
+      "kosul": "Sırbistan; taş değirmen unları (modern buğday, spelt, emmer, khorasan); kendiliğinden ekşi maya ile ekmek",
+      "kanit": "tek_kaynak",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods11233927",
+          "yer": "4. Conclusions"
+        }
+      ]
+    },
+    {
+      "id": "atalik_bugday.teknolojik_performansi_artirma_yollari",
+      "metin": "Yavaş yoğurucuların seçimi, son mayalanma evresinin dikkatle izlenmesi, ekşi maya kullanımı ve un karışımlarının (blend) seçimi, atalık buğday unlarının teknolojik performansını kısmen iyileştirmek için önerilmiştir.",
+      "kosul": "atalık buğday unlarıyla fırıncılık",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.jcs.2019.02.006",
+          "yer": "Abstract"
+        }
+      ]
+    },
+    {
+      "id": "atalik_bugday.yayilabilirlik_karbondioksit_tutma_dusuk_hacim",
+      "metin": "Atalık buğday çeşitlerinden elde edilen glutenin yüksek yayılabilirliği nedeniyle karbondioksit moleküllerini tutacak kararlı bir gluten ağı oluşamaz ve bunun sonucunda düşük hacimli ekmek elde edilir.",
+      "kosul": "Siyez, gernik ve spelt unundan yapılan hamur",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.2478/aucft-2020-0024",
+          "yer": "INTRODUCTION"
+        }
+      ]
+    },
+    {
+      "id": "atalik_bugday.ekmeklik_bugday_alloheksaploid_genom",
+      "metin": "Ekmeklik buğday, yakından ilişkili AABBDD alt genomlarından oluşan bir allo-heksaploid genoma sahiptir.",
+      "kosul": "Triticum aestivum genomu",
+      "kanit": "tek_kaynak",
+      "bolum": "Kimlik",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1038/s41588-019-0393-z",
+          "yer": "INTRODUCTION"
+        }
+      ]
+    },
+    {
+      "id": "atalik_bugday.gernik_tetraploid_28_kromozom",
+      "metin": "Triticum dicoccum, 28 kromozomlu (2n = 28) ve AABB genom yapısına sahip tetraploid bir buğday türüdür.",
+      "kosul": "",
+      "kanit": "tek_kaynak",
+      "bolum": "Kimlik",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/agronomy10111763",
+          "yer": "1. Introduction"
+        },
+        {
+          "kaynak": "10.3390/foods10040761",
+          "yer": "1. Introduction"
+        },
+        {
+          "kaynak": "10.2478/aucft-2021-0005",
+          "yer": "INTRODUCTION"
+        }
+      ]
+    },
+    {
+      "id": "atalik_bugday.siyez_diploid_14_kromozom",
+      "metin": "Siyez buğdayı (Triticum monococcum), 14 kromozomlu (2n = 14) ve AA genomuna sahip en eski evcil diploid buğday türüdür.",
+      "kosul": "",
+      "kanit": "ikincil",
+      "bolum": "Kimlik",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1002/cche.10865",
+          "yer": "1 INTRODUCTION"
+        },
+        {
+          "kaynak": "10.3390/agronomy10111763",
+          "yer": "1. Introduction"
+        },
+        {
+          "kaynak": "10.3390/foods10040761",
+          "yer": "1. Introduction"
+        },
+        {
+          "kaynak": "10.24925/turjaf.v9i8.1436-1442.4251",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "atalik_bugday.spelt_heksaploid_42_kromozom",
+      "metin": "Spelt (Triticum spelta), 42 kromozomlu (2n = 42) ve ABD genom yapısına sahip heksaploid bir buğday türüdür.",
+      "kosul": "",
+      "kanit": "ikincil",
+      "bolum": "Kimlik",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1002/cche.10865",
+          "yer": "1 INTRODUCTION"
+        },
+        {
+          "kaynak": "10.3390/agronomy10111763",
+          "yer": "1. Introduction"
+        },
+        {
+          "kaynak": "10.3390/foods10040761",
+          "yer": "1. Introduction"
+        },
+        {
+          "kaynak": "10.2478/aucft-2021-0005",
+          "yer": "INTRODUCTION"
+        }
+      ]
+    },
+    {
+      "id": "atalik_bugday.atalik_verim_ve_pisirme_dezavantajlari",
+      "metin": "Atalık buğdayların yaygın ekilmemesinin temel nedenleri ekmeklik buğdaya kıyasla %30–60 daha düşük tane verimi, kavuz varlığı ve zayıf pişirme özellikleridir.",
+      "kosul": "Longin vd. 2015 aktarımı",
+      "kanit": "ikincil",
+      "bolum": "Ortak özellikler",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods8090409",
+          "yer": "1. Introduction"
+        }
+      ]
+    },
+    {
+      "id": "atalik_bugday.evcillestirme_sendromu_ozellikleri",
+      "metin": "Buğdayda evcilleşme sendromu kavuzların küçülmesi, tohum dormansisinin kaybı, başak boyutlarının değişmesi, protein ve mineral oranlarının düşmesi ile karbonhidrat depolamasının artışını kapsar.",
+      "kosul": "yabani atalardan evcil formlara geçiş",
+      "kanit": "ikincil",
+      "bolum": "Ortak özellikler",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1093/jxb/err206",
+          "yer": "Introduction"
+        },
+        {
+          "kaynak": "10.1111/1365-2435.12760",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "atalik_bugday.kavuzlu_bugdaylarin_harman_guclugu",
+      "metin": "Siyez, gernik ve spelt, harmanlamada kavuzların taneye yapışık kalması nedeniyle harmanlanma güçlüğü ve düşük verim gösteren kavuzlu buğdaylardır.",
+      "kosul": "kavuzlu buğdaylar",
+      "kanit": "ikincil",
+      "bolum": "Ortak özellikler",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/agronomy10111763",
+          "yer": "1. Introduction"
+        },
+        {
+          "kaynak": "10.3390/agronomy10111763",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "atalik_bugday.mineral_daha_fazla",
+      "metin": "Dokuz mineral birlikte değerlendirildiğinde spelt ve özellikle emmer ile einkornun tam tahıllı unları ekmeklik buğdayınkinden anlamlı derecede daha çok mineral içeriyordu.",
+      "kosul": "Deneme serisi 1; tam tahıllı un; dokuz mineral; Almanya.",
+      "kanit": "tek_kaynak",
+      "bolum": "Ortak özellikler",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/ijms24032770",
+          "yer": "2.1 The Mineral Contents of Whole Grain Flours Differ Considerably"
+        }
+      ]
+    },
+    {
+      "id": "atalik_bugday.tohum_dagilimi_ve_basak_kirilmasi_kaybi",
+      "metin": "Buğdaydaki temel evcilleşme özelliği, olgunlaşma sırasında başakçık dökülmesinin azalmasıyla tohum dağılım biçiminin değişmesidir ve bu, ürün kaybını önlemede önemli bir özellik olarak kabul edilir.",
+      "kosul": "yabani buğdaydan evcil forma geçiş",
+      "kanit": "tek_kaynak",
+      "bolum": "Ortak özellikler",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1093/jxb/err206",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "atalik_bugday.atalik_tanimi_yesil_devrim_oncesi",
+      "metin": "Kesin bir tanımı olmamakla birlikte atalık buğdaylar terimi genellikle Yeşil Devrim'in yoğun ıslah programlarından önce yetiştirilen buğday çeşitlerini ifade eder.",
+      "kosul": "",
+      "kanit": "tek_kaynak",
+      "bolum": "Tanım",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.jcs.2019.02.006",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "atalik_bugday.atalik_daha_hizli_sertlesir",
+      "metin": "Atalık buğdaylardan (spelt, emmer, khorasan) yapılan ekşi mayalı ekmekler, modern buğday ekşi mayalı ekmeğinden daha hızlı sertleşti.",
+      "kosul": "Sırbistan; taş değirmen unları (modern buğday, spelt, emmer, khorasan); kendiliğinden ekşi maya ile ekmek",
+      "kanit": "tek_kaynak",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods11233927",
+          "yer": "3.3. Bread Volume, Water Activity and Texture"
+        }
+      ]
+    },
+    {
+      "id": "atalik_bugday.ekmek_ici_ozgul_agirlik",
+      "metin": "Atalık buğday ekmeklerinin ekmek içi özgül ağırlığı spelt için 0,35, siyez ve gernik için 0,38'dir; bu değerler aralarında anlamlı fark olmadan geleneksel buğday ekmeğinden (0,22) anlamlı derecede yüksektir.",
+      "kosul": "Ekmek kırıntı analizi; tek aşamalı (Berlin) yöntemle pişirme",
+      "kanit": "tek_kaynak",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.2478/aucft-2021-0005",
+          "yer": "Determination of physical and chemical parameters of bread"
+        }
+      ]
+    },
+    {
+      "id": "atalik_bugday.ekmeklik_bugday_spelt_ustun_ekmek_potansiyeli",
+      "metin": "Ekmeklik buğday çeşitleri, anlamlı derecede daha yüksek glutenin, UPP ve HMW/LMW içeriğine sahip olarak spelt buğdayına kıyasla daha iyi ekmek yapım potansiyeli sergilemiştir.",
+      "kosul": "Macaristan ve Sırbistan'da organik ve geleneksel alanlarda yetişen ekmeklik buğday ve spelt çeşitleri",
+      "kanit": "tek_kaynak",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods10010156",
+          "yer": "PMC7828489.txt:5. Conclusions"
+        }
+      ]
+    },
+    {
+      "id": "atalik_bugday.eksi_maya_hacmi_kontrolden_dusuk",
+      "metin": "Bu çalışmada ekşi mayalı ekmeklerin hepsinin özgül hacmi, mayayla yapılan kontrol ekmeğinden düşüktü.",
+      "kosul": "Sırbistan; taş değirmen unları (modern buğday, spelt, emmer, khorasan); kendiliğinden ekşi maya ile ekmek; Tablo 1",
+      "kanit": "tek_kaynak",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods11233927",
+          "yer": "3.3. Bread Volume, Water Activity and Texture"
+        }
+      ]
+    },
+    {
+      "id": "atalik_bugday.gernik_ekmeginde_on_maya_ihtiyaci",
+      "metin": "Tek aşamalı yöntemde gernik ekmeğinin verimi düşük, hacmi küçük ve gözenek yapısı kusurludur; bu nedenle farklı bir pişirme yöntemi gerekebilir ve ön maya kullanımı iyi bir çözüm görünmektedir.",
+      "kosul": "Ekmek üretim yöntemi değerlendirmesi",
+      "kanit": "tek_kaynak",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.2478/aucft-2021-0005",
+          "yer": "CONCLUSIONS"
+        }
+      ]
+    },
+    {
+      "id": "atalik_bugday.hacim_spelt_yuksek_khorasan_dusuk",
+      "metin": "Ekşi mayalı ekmekler arasında en yüksek özgül hacim modern buğday ve speltte, en düşük khorasanda ölçüldü.",
+      "kosul": "Sırbistan; taş değirmen unları (modern buğday, spelt, emmer, khorasan); kendiliğinden ekşi maya ile ekmek",
+      "kanit": "tek_kaynak",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods11233927",
+          "yer": "3.3. Bread Volume, Water Activity and Texture"
+        }
+      ]
+    },
+    {
+      "id": "atalik_bugday.sertlik_khorasan_en_yuksek",
+      "metin": "Ekşi mayalı ekmekler arasında ekmek içi sertliği modern buğdayda en düşük, khorasanda en yüksekti.",
+      "kosul": "Sırbistan; taş değirmen unları (modern buğday, spelt, emmer, khorasan); kendiliğinden ekşi maya ile ekmek; Tablo 2",
+      "kanit": "tek_kaynak",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods11233927",
+          "yer": "3.3. Bread Volume, Water Activity and Texture"
+        }
+      ]
+    },
+    {
+      "id": "atalik_bugday.siyez_ikame_somun_hacmi",
+      "metin": "Somun hacmi buğday ekmeğinde 2300 cm³ iken %30 siyez ikameli ekşi mayalı ekmekte 1900 cm³ olarak ölçülmüştür.",
+      "kosul": "Ekmeklik buğday ekmeği ile %30 siyez ikameli ekşi mayalı ekmek (500 g un temelinde 150 g ikame)",
+      "kanit": "tek_kaynak",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.24925/turjaf.v13i5.1187-1195.7455",
+          "yer": "Table 3"
+        }
+      ]
+    },
+    {
+      "id": "atalik_bugday.siyez_monlis_ve_id331_somun_hacmi",
+      "metin": "Ekmek somun hacminde en yüksek değeri ortalama 740 cm3 ile siyez çeşidi Monlis verirken, onu 732 cm3 ile ID331 siyez çeşidi ve 671 cm3 ile Blasco ekmeklik buğday çeşidi izlemiştir.",
+      "kosul": "Kolza tohumu taşırma yöntemiyle ekmek hacmi ölçümü",
+      "kanit": "tek_kaynak",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods12081610",
+          "yer": "3.3.1. Characteristics"
+        }
+      ]
+    },
+    {
+      "id": "atalik_bugday.siyez_monlis_yuksek_ekmek_hacmi",
+      "metin": "Siyez çeşidi Monlis en yüksek glutenin miktarı ve en düşük gliadin/glutenin oranıyla en yüksek ekmek hacmini veren siyez çeşidi olarak belirlendi.",
+      "kosul": "Dört lokasyonun üçünde",
+      "kanit": "tek_kaynak",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods8090409",
+          "yer": "3.7. Identification of Cultivars with Good Baking Performance"
+        }
+      ]
+    },
+    {
+      "id": "atalik_bugday.siyez_unu_orani_ve_tuketici_begenisi",
+      "metin": "Ekmekte siyez unu oranı %75–100'e çıktıkça tüketici beğenisi azalırken, en iyi tat puanlarını %25 ve 50 siyez unu içeren ürünler aldı.",
+      "kosul": "siyez unu katkılı ekmekler",
+      "kanit": "ikincil",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/pr9112008",
+          "yer": "4.4. Flavor Development in Ancient Wheat Sourdough Bread"
+        }
+      ]
+    },
+    {
+      "id": "atalik_bugday.siyez_ve_spelt_hacim_benzerligi",
+      "metin": "Siyez ve spelt ekmeklerinin somun hacimleri ortalama 609,0 cm3 ile anlamlı bir farklılık göstermemiş, ancak gernik ekmeğinden belirgin şekilde yüksek çıkmıştır.",
+      "kosul": "Ekmek pişirme testi",
+      "kanit": "tek_kaynak",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.2478/aucft-2021-0005",
+          "yer": "Determination of physical and chemical parameters of bread"
+        }
+      ]
+    },
+    {
+      "id": "atalik_bugday.somun_hacmi_gernikte_en_dusuk",
+      "metin": "En yüksek somun hacmi kontrol ekmeğinde (862,5 cm3) elde edilirken, atalık buğday unlarından yapılan somunlarda, özellikle yalnızca 547,5 cm3 ile gernik ekmeğinde daha düşük hacimler belirlenmiştir.",
+      "kosul": "Tek aşamalı ekmek pişirme testi",
+      "kanit": "tek_kaynak",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.2478/aucft-2021-0005",
+          "yer": "Determination of physical and chemical parameters of bread"
+        }
+      ]
+    },
+    {
+      "id": "atalik_bugday.tek_asamali_pisirme_siyez_spelt",
+      "metin": "Bu çalışmada, hızlı tek aşamalı ekmek yapım sürecinin spelt ve siyez ekmeklerinde son derece etkili olduğu bulundu.",
+      "kosul": "Direkt hamur yöntemi; hızlı tek aşamalı pişirme",
+      "kanit": "tek_kaynak",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.2478/aucft-2021-0005",
+          "yer": "CONCLUSIONS"
+        }
+      ]
+    },
+    {
+      "id": "atalik_bugday.tuketici_kontrol_ve_spelt",
+      "metin": "Tüketici testinde yalnız kontrol ekmeği ve spelt ekmeği incelenen tüm özelliklerde 5 eşiğinin üzerinde puan aldı.",
+      "kosul": "Sırbistan; taş değirmen unları (modern buğday, spelt, emmer, khorasan); kendiliğinden ekşi maya ile ekmek; 72 tüketici, 9 puanlık hedonik ölçek",
+      "kanit": "tek_kaynak",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods11233927",
+          "yer": "3.6. Consumer Test"
+        }
+      ]
+    },
+    {
+      "id": "atalik_bugday.yuz_gram_un_basina_hacim_karsilastirma",
+      "metin": "Bu çalışmada, 100 g un başına en yüksek ekmek hacmi yaygın buğday ekmeğinde (555,8 cm3) elde edildi; atalık buğdaylarda değerler anlamlı derecede düşüktü ve siyez ile gernik ekmekleri kaliteli ekmek için asgari sayılan 400 cm3 hacme ulaşamadı.",
+      "kosul": "100 g un başına ekmek hacmi testi; tek aşamalı pişirme",
+      "kanit": "tek_kaynak",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.2478/aucft-2021-0005",
+          "yer": "Determination of physical and chemical parameters of bread"
+        },
+        {
+          "kaynak": "10.2478/aucft-2021-0005",
+          "yer": "Determination of physical and chemical parameters of bread"
+        },
+        {
+          "kaynak": "10.2478/aucft-2021-0005",
+          "yer": "Determination of physical and chemical parameters of bread"
+        }
+      ]
+    },
+    {
+      "id": "atalik_bugday.siyez_somun_hacmi_genis_aralik_atif",
+      "metin": "Corbellini vd. (1999)'a göre, siyez unundan yapılan ekmeklerin somun hacmi 635,0 ile 918,0 cm3 arasında geniş bir aralıkta değişmektedir.",
+      "kosul": "Corbellini vd. 1999 (atıf)",
+      "kanit": "ikincil",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.2478/aucft-2021-0005",
+          "yer": "Determination of physical and chemical parameters of bread"
+        }
+      ]
+    },
+    {
+      "id": "atalik_bugday.siyez_ekmegi_sertlik_ve_elastikiyet",
+      "metin": "Olgunlaşmamış ve olgun siyez ekmeklerinin sertlik ve elastikiyet değerleri (6,59 ve 6,61 N; 0,42 ve 0,40) ticari buğday ekmeğinden (4,78 N ve 0,36) daha yüksek bulunmuş, ancak fark istatistiksel olarak anlamlı değildir (p > 0,05).",
+      "kosul": "Siyez ekmekleri (olgunlaşmamış ve olgun) ile ticari buğday ekmeği; fiziksel doku analizi (Tablo 3)",
+      "kanit": "tek_kaynak",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.55730/1300-011x.3219",
+          "yer": "Bulgular ve Tartışma"
+        }
+      ]
+    },
+    {
+      "id": "atalik_bugday.d_genomu_eksikligi_ve_ekmek_kalitesi",
+      "metin": "Siyez ve gernik buğdaylarında D genomunun bulunmaması, spelt ve ekmeklik buğdaya kıyasla daha düşük ekmek yapım kalitesinin bir nedeni olarak değerlendirilir.",
+      "kosul": "ekmek yapım kalitesi değerlendirmesi",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/agronomy10111763",
+          "yer": "Results"
+        }
+      ]
+    },
+    {
+      "id": "atalik_bugday.farinograf_kalite_sayisi_ekmeklik_spelt",
+      "metin": "Ekmeklik buğday genotiplerinin kalite sayısı (71.5), spelt buğdayının değerinden (49.4) daha yüksek çıkmıştır.",
+      "kosul": "farinograf testi",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods10010156",
+          "yer": "PMC7828489.txt:3.1. Effect on Processing Quality"
+        }
+      ]
+    },
+    {
+      "id": "atalik_bugday.hamur_stabilitesi_spelt_ve_ekmeklik",
+      "metin": "Farinograf testinde hamur stabilitesi süresi ortalaması spelt buğdayında 3.58 dakika, ekmeklik buğdayda 11.1 dakika olarak belirlenmiştir.",
+      "kosul": "farinograf testi",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods10010156",
+          "yer": "PMC7828489.txt:3.1. Effect on Processing Quality"
+        }
+      ]
+    },
+    {
+      "id": "atalik_bugday.hamur_yuksek_viskozite_plastisite",
+      "metin": "Siyez, gernik ve spelt unundan yapılan hamur yüksek viskozite ve plastisite ile karakterize edilir ve ekmeklik buğday unundan yapılan hamura kıyasla daha az esnektir.",
+      "kosul": "Krawczyk vd. 2008a; Sobczyk vd. 2017b; Degaonkar vd. 2005 aktarımı",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.2478/aucft-2020-0024",
+          "yer": "INTRODUCTION"
+        }
+      ]
+    },
+    {
+      "id": "atalik_bugday.olgunlasmamis_siyez_unu_reolojik_ustunluk",
+      "metin": "Olgunlaşmamış siyez buğdayı unu, olgun siyez buğdayı ununa kıyasla ekmek üretiminde özellikle reolojik, dokusal ve duyusal özellikler açısından üstün nitelikler sergilemiştir.",
+      "kosul": "Olgunlaşmamış (IEWF) ve olgun (MEWF) tam siyez unlarının ekmek yapımında karşılaştırması; yazarların sonucu",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.55730/1300-011x.3219",
+          "yer": "4. Conclusion"
+        }
+      ]
+    },
+    {
+      "id": "atalik_bugday.ploidi_ve_hamur_ozellikleri",
+      "metin": "Atalık buğdaylarda ploidi düzeyinin olumlu hamur özelliklerinin belirleyeni olmadığı, protein kimyasının ise aynı buğday türündeki çeşitler arasında hamur kalitesini belirleyen temel etkenlerden biri gibi göründüğü ortaya konmuştur.",
+      "kosul": "Kanada genotipleri",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1002/cche.10865",
+          "yer": "Conclusion"
+        },
+        {
+          "kaynak": "10.1002/cche.10865",
+          "yer": "3.3 Dough mixing properties"
+        }
+      ]
+    },
+    {
+      "id": "atalik_bugday.siyez_cesitleri_zayif_gluten",
+      "metin": "İncelenen siyez çeşitleri optimumun altında fonksiyonel özellikler sergilemiş olup malzeme teknolojisi ve süreç modifikasyonu ihtiyacına işaret etmiştir.",
+      "kosul": "Kanada siyez çeşitleri",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1002/cche.10865",
+          "yer": "Conclusion"
+        }
+      ]
+    },
+    {
+      "id": "atalik_bugday.siyez_gernik_mekanik_ve_fermantasyon_toleransi",
+      "metin": "Siyez ve gernik unlarından yapılan hamurlar, mekanik işlemeye ve uzun fermantasyona düşük tolerans gösterir.",
+      "kosul": "Teknolojik değerlendirme",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.2478/aucft-2021-0005",
+          "yer": "CONCLUSIONS"
+        }
+      ]
+    },
+    {
+      "id": "atalik_bugday.siyez_gluteni_ekmeklik_karisimi",
+      "metin": "Siyez buğdayı proteinleri tek başına zayıf ekmek yapım özelliği sergilese de ekmeklik buğday formülasyonlarına katıldığında ekmek kalitesini artırabilmektedir.",
+      "kosul": "laboratuvar analizi",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.24925/turjaf.v13i5.1187-1195.7455",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "atalik_bugday.siyez_hamuru_yuksek_viskozite",
+      "metin": "Siyez hamuru, ekmeklik buğday hamuruna kıyasla anlamlı derecede daha yüksek tepe (2426 cP), kırılma (765 cP) ve nihai viskozite (2788 cP) değerleri sergiler.",
+      "kosul": "siyez ve buğday hamuru RVA viskozite analizi",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/pr9112008",
+          "yer": "Gluten and Starch Characteristics as Affecting the Baking Quality of Ancient Wheat Species"
+        }
+      ]
+    },
+    {
+      "id": "atalik_bugday.spelt_unu_dusuk_yayilma_guclu_gluten",
+      "metin": "İncelenen spelt unu, düşük gluten yayılabilirliği (6,00 mm) ve yüksek gluten indeksi (75,35) nedeniyle güçlü unlar arasında değerlendirilmiştir.",
+      "kosul": "Un teknolojik değerlendirmesi; gluten yayılabilirliği ve gluten indeksi",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.2478/aucft-2020-0024",
+          "yer": "Indirect indicators of flours baking quality"
+        }
+      ]
+    },
+    {
+      "id": "atalik_bugday.siyez_gernik_modifiye_teknik_ihtiyaci",
+      "metin": "Siyez ve gernik buğdaylarının ekmek yapım potansiyelini geliştirmek için modifiye edilmiş fırıncılık teknikleri ve formülasyon ayarlamaları gereklidir.",
+      "kosul": "Kavuzlu kadim buğdayların (siyez ve gernik) ekmeklik değerlendirmesi",
+      "kanit": "tek_kaynak",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1002/cche.10644",
+          "yer": "4 CONCLUSION"
+        }
+      ]
+    },
+    {
+      "id": "atalik_bugday.siyez_ve_emmer_gluten_indeksi_dusuk",
+      "metin": "Siyez ve gernik buğdaylarının gluten indeksi sırasıyla 14,4 ve 15,4 ile tablonun en alt sırasında yer aldı.",
+      "kosul": "buğday türleri gluten indeksi karşılaştırması",
+      "kanit": "tek_kaynak",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/agronomy10111763",
+          "yer": "Results"
+        }
+      ]
+    },
+    {
+      "id": "atalik_bugday.sut_olum_doneminde_siyez_hasadi",
+      "metin": "Siyez başaklandığında tarlanın bir kısmı süt olum döneminde olgunlaşmamış siyez buğdayı olarak hasat edilmiştir.",
+      "kosul": "Aynı tarladan farklı zamanlarda hasat edilen olgunlaşmamış (IE; süt olum dönemi) ve olgun (ME) siyez; yöntem tanımı",
+      "kanit": "tek_kaynak",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.55730/1300-011x.3219",
+          "yer": "2.1. Harvesting einkorn wheat"
+        },
+        {
+          "kaynak": "10.55730/1300-011x.3219",
+          "yer": "2.1. Harvesting einkorn wheat"
+        }
+      ]
+    },
+    {
+      "id": "atalik_bugday.un_bilesimi_sirbistan",
+      "metin": "Bu çalışmadaki taş değirmen unlarında protein speltte %15,87, emmerde %15,99, khorasanda %11,49; kül sırasıyla %1,98, %1,87 ve %1,50; toplam lif %10,1, %9,58 ve %9,85 idi.",
+      "kosul": "Sırbistan; taş değirmen unları (modern buğday, spelt, emmer, khorasan); kendiliğinden ekşi maya ile ekmek",
+      "kanit": "tek_kaynak",
+      "bolum": "Kimlik",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods11233927",
+          "yer": "2.1. Materials"
+        },
+        {
+          "kaynak": "10.3390/foods11233927",
+          "yer": "2.1. Materials"
+        },
+        {
+          "kaynak": "10.3390/foods11233927",
+          "yer": "2.1. Materials"
+        }
+      ]
+    },
+    {
+      "id": "atalik_bugday.kavuzluluk_orani_siyezde_en_yuksek",
+      "metin": "Kavuzlu kalma oranı %29,60 ile en yüksek siyez buğdayında saptanırken, bunu %20,4 ile gernik ve %5,83 ile spelt izledi.",
+      "kosul": "Harmanlanamayan kadim tahılların değerlendirilmesi",
+      "kanit": "tek_kaynak",
+      "bolum": "Ortak özellikler",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.2478/aucft-2020-0024",
+          "yer": "RESULTS AND DISCUSSION"
+        }
+      ]
+    },
+    {
+      "id": "atalik_bugday.toplam_protein_siyez_ve_gernikte_en_yuksek",
+      "metin": "Unların toplam protein içeriği kuru maddede %22,40 ile en yüksek siyezde ve %20,80 ile gernikte saptanırken, speltte %17,30 ve ekmeklik buğdayda %13,50 oldu.",
+      "kosul": "DA 7200 yakın kızılötesi spektrofotometre ölçümü",
+      "kanit": "tek_kaynak",
+      "bolum": "Ortak özellikler",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.2478/aucft-2020-0024",
+          "yer": "Table 2"
+        }
+      ]
+    },
+    {
+      "id": "atalik_bugday.yas_gluten_atalik_unlarda_ekmeklikten_yuksek",
+      "metin": "Atalık buğday çeşitlerinin unlarında yaş gluten içeriği (%39,26 siyezden %59,60 gernike kadar), ekmeklik buğday unundan (%28,50) belirgin derecede daha yüksekti.",
+      "kosul": "PN-EN ISO 21415-1:2007 standardına göre gluten ekstraksiyonu",
+      "kanit": "tek_kaynak",
+      "bolum": "Ortak özellikler",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.2478/aucft-2020-0024",
+          "yer": "Indirect indicators of flours baking quality"
+        }
+      ]
+    },
+    {
+      "id": "atalik_bugday.ekmeklik_ve_spelt_gluten_indeksi_ortalamasi",
+      "metin": "Gluten indeksi ortalama değeri incelenen ortamlarda ekmeklik buğday çeşitlerinde (95.8), spelt çeşitlerine (39.5) kıyasla belirgin derecede daha yüksek bulunmuştur (Şekil 1b).",
+      "kosul": "Üç yetiştirme ortamı (Macaristan organik ve geleneksel, Sırbistan); ekmeklik buğday ve spelt çeşitleri",
+      "kanit": "tek_kaynak",
+      "bolum": "Tanım",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods10010156",
+          "yer": "PMC7828489.txt:3.1. Effect on Processing Quality"
+        }
+      ]
+    },
+    {
+      "id": "atalik_bugday.protein_fazla_hacim_dusuk",
+      "metin": "Spelt ve emmer unlarının proteini daha yüksek olduğu halde, bu unlardan yapılan ekşi mayalı ekmeklerin özgül hacmi modern buğday ekşi mayalı ekmeğinden düşüktü.",
+      "kosul": "Sırbistan; taş değirmen unları (modern buğday, spelt, emmer, khorasan); kendiliğinden ekşi maya ile ekmek",
+      "kanit": "tek_kaynak",
+      "bolum": "İlişkileri",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods11233927",
+          "yer": "3.3. Bread Volume, Water Activity and Texture"
+        }
+      ]
+    },
+    {
+      "id": "atalik_bugday.khorasan_hacim_protein",
+      "metin": "Khorasan ekmeğinin düşük hacmi, en düşük protein miktarı (%11,49), daha düşük yaş gluten ve az CO2 üretimiyle ilişkili olabilir.",
+      "kosul": "Sırbistan; taş değirmen unları (modern buğday, spelt, emmer, khorasan); kendiliğinden ekşi maya ile ekmek",
+      "kanit": "tek_kaynak",
+      "bolum": "İlişkileri",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods11233927",
+          "yer": "3.3. Bread Volume, Water Activity and Texture"
+        }
+      ]
+    }
+  ]
+}

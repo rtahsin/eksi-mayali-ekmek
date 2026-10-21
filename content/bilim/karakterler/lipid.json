@@ -1,0 +1,49 @@
+{
+  "id": "lipid",
+  "ad": "Lipitler",
+  "eski_ad": null,
+  "tur": "molekul",
+  "tek_cumle": "Buğday karyopsis ağırlığının %2,5–3,3'ünü oluşturur ve toplam tane lipitlerinin %35–45'i endosperm dokusunda yer alır [[lipid.karyopsisteki_lipit_orani_ve_endosperm_payi]]",
+  "bolumler": [
+    {
+      "baslik": "Nedir",
+      "cumleler": [
+        "Buğday unundaki lipitler hücre zarları, organeller ve sferozomlardan köken alır ve seçici ekstraksiyondaki çözünürlüklerine göre nişasta lipitleri ile serbest ve bağlı nişasta dışı lipitler olarak sınıflandırılır [[lipid.un_lipitleri_kaynak_ve_siniflandirma]]",
+        "Buğdayda lipitler endospermin %1–2'sini, rüşeymin %8–15'ini ve kepeğin yaklaşık %6'sını oluşturur [[lipid.tanede_lipit_dagilimi_atif]]"
+      ]
+    },
+    {
+      "baslik": "Ne yapar",
+      "cumleler": [
+        "Retrogradasyon sırasında amilozla hidrofobik kuvvetlerle V tipi amiloz-lipit kompleksi oluşturabilir [[lipid.amiloz_lipit_kompleksi]]"
+      ]
+    },
+    {
+      "baslik": "Nereden gelir",
+      "cumleler": [
+        "Ekmek yapımındaki lipitler ya unun doğal yapısındaki endojen lipitlerden ya da eklenen katı yağ ve yüzey aktif maddelerden kaynaklanır [[lipid.ekmekteki_lipit_kaynaklari]]"
+      ]
+    },
+    {
+      "baslik": "Hamurda ne olur",
+      "cumleler": [
+        "Serbest polar lipitler gluten proteinleriyle etkileşime girerek hamur gaz hücrelerinin oluşumunu ve kararlılığını artırır [[lipid.serbest_polar_lipitler_gluten_ve_gaz_hucresi]]",
+        "Hamurda çözünür protein ve lipitlerin varlığı ise kabarcık arayüzey gerilimini düşürerek orantısızlaşmayı yavaşlatır, gaz tutma kapasitesini ve hamur özgül hacmini artırır [[lipid.yuzey_gerilimi_ve_gaz_tutma_kapasitesi]]"
+      ]
+    },
+    {
+      "baslik": "Ekmeğe etkisi",
+      "cumleler": [
+        "Buğday ununda %1–2 oranında bulunan lipitlerden özellikle nişastayla ilişkili olmayan glikolipitler yoğrulabilirliği, gaz tutma kapasitesini ve somun hacmini artırırken fırın kabarmasını uzatır ve nişasta retrogradasyonunu geciktirir [[lipid.glikolipitlerin_firinlama_kalitesine_katkisi]]"
+      ]
+    }
+  ],
+  "efsane": null,
+  "anlar": [
+    "ilk_hava_kabarciklari"
+  ],
+  "gorseller": [
+    "adipocytes_lipid_droplets_bodipy505_staining_rkott_2023",
+    "rg373479803_fig6a_l"
+  ]
+}

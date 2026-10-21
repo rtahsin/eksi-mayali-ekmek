@@ -1,0 +1,277 @@
+{
+  "id": "olgun_tanenin_ici",
+  "durak": "tarla",
+  "baslik": "Olgun tanenin içi",
+  "soru": "Bir buğday tanesinin içinde ekmek olacak ne birikir?",
+  "bayrak": true,
+  "gor": {
+    "tur": "kaydirma",
+    "adimlar": [
+      {
+        "metin": "Tanede rüşeym, dış kabuk katmanları ve nişastalı endosperm (tanenin nişasta deposu) olmak üzere üç ana kısım vardır [[tane_yapisi.tanenin_uc_ana_kismi_ve_tam_tahil_tanimi]]. Rüşeym, çimlenmeyi başlatan canlı kısımdır; alöron ise olgun buğday ve mısırda tek sıralı, canlılığını koruyan bir hücre tabakasıdır [[tane_yapisi.cimlenmede_giberellin_ve_hidrolaz_salinimi]] [[tane_yapisi.aleron_hucre_canliligi_ve_katman_sayisi]].",
+        "gorsel": "journal_pone_0251556_sekil_2a",
+        "vurgu": "Konfokal (odak düzlemini tarayan) floresan mikroskobunda tane kesiti: ortada nişastalı endosperm, çevrede alöron ve dış kabuk katmanları."
+      },
+      {
+        "metin": "Nişastalı endosperm, tanenin nişastayı biriktiren başlıca depo dokusudur ve dane ağırlığının yaklaşık %80'ini oluşturur [[tane_yapisi.endosperm_agirlik_payi]]. Anatomik ölçümler endospermi kabaca %80–84, botanik kepeği %6–8, alöronu %6–7 ve rüşeymi %3 oranında gösterir [[tane_yapisi.anatomik_kisim_oranlari]].",
+        "gorsel": "photomicrograph_of_wheat_starch",
+        "vurgu": "Buğday nişastasının mikroskop görüntüsü: her tanenin içinde eş merkezli halkalar."
+      },
+      {
+        "metin": "Buğday tanesinde nişasta, yarı kristal granüller (küçük nişasta taneleri) halinde birikir [[nisasta.tahillarda_yari_kristal_granul_tanimi]]. Depo nişastası genellikle ortalama 10 µm'den büyük A-tipi granüllerden ve ortalama 7 µm'nin altındaki B-tipi granüllerden oluşur [[tane_yapisi.depo_nisastasi_a_b_granul]].",
+        "gorsel": "potato_starch_polarized_light_100x",
+        "vurgu": "Polarize ışıkta nişasta taneleri: merkezden geçen haç biçimli ışıma, granüllerin yarı kristal yapısını gösterir. Görsel patates nişastasından alınmış bir örnektir."
+      },
+      {
+        "metin": "Görüntü analiziyle alöron altı protein gradyanı (protein derişiminin dıştan içe değişimi), azalan çift üstel (biexponansiyel) bir eğriyle tanımlandı; alt-alöron protein içeriği %32,0'ye kadar çıktı [[tane_yapisi.alt_aleron_protein_gradyani]]. Gradyanın sonucu, endosperm proteininin yaklaşık %30'unun alöronun altındaki 100 µm'de birikmesidir [[tane_yapisi.nisastali_endosperm_30_yuzde_protein]].",
+        "gorsel": null,
+        "vurgu": "Bu adım için listede uygun bir görsel yok; vurgu metni, gradyanın en yüksek olduğu alöron altı bölgeyi anlatır."
+      },
+      {
+        "metin": "Gluten, alkolde çözünen gliadinler ile çözünmeyen gluteninlerden oluşan depo protein kütlesidir; glutenin hamura sağlamlık ve elastiklik, gliadin akışkanlık ve uzayabilirlik verir [[gluten.osborne_fraksiyonlari_ve_gluten_tanimi]] [[gliadin_glutenin.gliadin_akiskanlik_glutenin_elastiklik]]. Nişastalı endospermde bu proteinlerin sentezi çiçeklenmeden yaklaşık 10 gün sonra başlar ve yaklaşık 20 gün sonra tamamlanır [[tane_yapisi.gluten_proteini_sentez_zamanlamasi]].",
+        "gorsel": "gluten_and_carbon_nanotubes",
+        "vurgu": "Gluten ağının mikroskop görüntüsü: farklı büyütmelerde örülmüş lifler."
+      }
+    ]
+  },
+  "anla": [
+    {
+      "baslik": "Üç katman, tek depo",
+      "paragraflar": [
+        "Tam tahıl, bu üç kısmı sağlam danedeki doğal oranlarında içerir [[tane_yapisi.tanenin_uc_ana_kismi_ve_tam_tahil_tanimi]]. Bu oranların ağırlığı endospermde toplanır: dane ağırlığının yaklaşık %80'i nişastalı endospermdir [[tane_yapisi.endosperm_agirlik_payi]]. Anatomik ölçümler geri kalanı kabaca %6–8 kepek, %6–7 alöron ve %3 rüşeym olarak paylaştırır [[tane_yapisi.anatomik_kisim_oranlari]].",
+        "Endosperm, nişastayı biriktiren başlıca depo dokusudur [[tane_yapisi.endosperm_agirlik_payi]]. Kuru madde bazında burada %56–74 nişasta birikir ve kepek %2–13 lif taşır [[tane_yapisi.tahil_danesi_temel_bilesen_dagilimi]]. Olgun buğday daneleri ise %8 ila %20 arasında protein içerir [[tane_yapisi.olgun_tanede_protein_araligi]]."
+      ]
+    },
+    {
+      "baslik": "İki boyutta granül",
+      "paragraflar": [
+        "A-tipi granüller toplam granül alanının %75'ten fazlasını kaplar, ama granül sayısının yalnızca ortalama %15'idir [[tane_yapisi.depo_nisastasi_a_b_granul]]. Boyut sınırları kaynaklarda ayrılıyor: bir sınıflama A'yı ortalama 10 µm'den büyük, B'yi 7 µm'nin altında tanımlıyor [[tane_yapisi.depo_nisastasi_a_b_granul]]. Başka bir sınıflama ise A için 23–28 µm, B için 9–11 µm ve C için 2–3 µm ölçülerini veriyor [[nisasta.granul_tipleri_ve_boyut_siniflari]].",
+        "Granüller tane büyürken iki ayrı dönemde oluşur: A-tipi granüller çiçeklenmeden sonraki ilk haftada, B-tipi granüller ise hücreleşme durduktan sonra oluşur [[tane_yapisi.granul_olusum_zamani_parker]]. A-tipi granüller çiçeklenmeden sonra 3 ile 5 arasındaki günlerde başlar ve yaklaşık 4 gün sonra son sayıya ulaşır [[tane_yapisi.nisasta_granul_baslangic_zamani]]. B-tipi granüller için çalışmalar çiçeklenmeden sonra 11, 15 veya 12 ile 16 arasındaki günlerde başlangıç bildiriyor [[tane_yapisi.nisasta_granul_baslangic_zamani]]."
+      ]
+    },
+    {
+      "baslik": "Alöronun altındaki protein yokuşu",
+      "paragraflar": [
+        "Alöronun hemen altında protein yoğunluğu dıştan içe azalır; alt-alöron protein içeriği %32,0'ye kadar çıkar ve tabakada eğrinin düzleştiği (plato) bir nokta görülmez [[tane_yapisi.alt_aleron_protein_gradyani]]. Bu gradyan, endosperm proteininin yaklaşık %30'unun alöron tabakasının altındaki 100 µm'de birikmesine yol açar [[tane_yapisi.nisastali_endosperm_30_yuzde_protein]].",
+        "Alöron ile nişastalı endosperm arasında subalöron tabakası yer alır; bu tabaka nişasta bakımından fakir, depo proteinleri açısından oldukça zengin bir geçiş dokusudur [[tane_yapisi.subaleron_tabakasi_depo_proteini]]. Alt-alöron hücreleri, çiçeklenmeden sonraki 21 güne kadar bölünen alöron hücrelerinin yeniden farklılaşmasıyla oluşur [[tane_yapisi.alt_aleron_hucre_kokeni]]. Tanedeki proteinin kabaca %80'i endospermdedir; dış katmanların una katılması proteini yalnız yaklaşık %20 artırır [[tane_yapisi.protein_endospermde]]."
+      ]
+    },
+    {
+      "baslik": "Gluten iskeleti",
+      "paragraflar": [
+        "Gluten proteinlerinin sentezi çiçeklenmeden yaklaşık 10 gün sonra başlar ve yaklaşık 20 gün sonra tamamlanarak protein cisimcikleri halinde depolanır [[tane_yapisi.gluten_proteini_sentez_zamanlamasi]]. Bu proteinler, polimerik (çok alt birimli) gluteninler ve monomerik (tek alt birimli) gliadinlerden oluşur ve toplam tane proteinlerinin %85'ini taşır [[gluten.tane_proteinlerinde_yuzde_seksen_bes_orani]].",
+        "Tane olgunlaşması sırasında nişastalı endosperm hücreleri kuruyup öldükçe protein birikintileri kaynaşarak kesintisiz bir protein matrisi (ağ) oluşturur [[tane_yapisi.endosperm_olumunde_protein_matrisi]]. Bu sırada alöron tabakası canlılığını korurken iç endosperm programlı hücre ölümüne (hücrenin kendi gen düzeniyle kurduğu ölüm) uğrar [[tane_yapisi.aleron_hucre_canliligi_ve_katman_sayisi]]. Proteinler arasında disülfit bağları kurulur; bu bağ, iki kükürt atomu arasındaki güçlü köprüdür [[disulfit.sh_oksidasyonu_ve_ss_sh_degisim_reaksiyonlari]]. Bağ kurulmadan önceki açık kükürt ucuna sülfhidril denir ve oksitlenmesi bu köprüyü oluşturur [[disulfit.sh_oksidasyonu_ve_ss_sh_degisim_reaksiyonlari]]. Gluten ağı, glutenin alt birimlerinin bu bağlarla çapraz bağlanmasıyla meydana gelen iskelet yapısıdır [[gluten.disulfit_bagli_glutenin_iskeleti]].",
+        "Yüksek molekül ağırlıklı glutenin alt birimlerinin omurgayı oluşturduğu öne sürülüyor; bu omurga, düşük molekül ağırlıklı alt birimler ve gliadinle etkileşimler için çerçeve sağlar [[gluten.hmw_omurgasi_ve_lmw_dallari]]. Tane öğütülünce bu depo unun içine döner: buğday unu ağırlıkça başlıca %70–75 nişasta, yaklaşık %14 su ve %10–12 protein içerir [[nisasta.bugday_ununun_ana_bileseni]]. Hamurda nişasta su emerek viskozitesine (akışkanlığa karşı direncine) katkıda bulunur ve gaz tutucu gluten ağına entegre olur [[nisasta.hamurdaki_islevleri_ve_maya_fermantasyonu]]. Gluten proteinleri ayrıca yüksek oranda glutamin (%35), glisin (%20) ve prolin (%10) içerir [[gluten.amino_asit_glutamin_glisin_prolin_oranlari]]."
+      ]
+    }
+  ],
+  "yuzlesme": [
+    {
+      "inanc": "Alöronun altındaki tabaka çeşitten çeşide aynı kalınlıkta ve sürekli bir protein şerididir.",
+      "cevap": "Evers ve Millar alt-alöron tabakası için 60 µm kalınlıkta tek bir tabakadan söz ederken, Shewry ve arkadaşları yaklaşık iki veya üç tabaka önermiştir [[tane_yapisi.alt_aleron_morfoloji]]. Kent (1966), alöron altında tek hücre kalınlığında, protein açısından zengin ayrı bir tabaka bulunduğunu ileri sürmüştür [[tane_yapisi.kent_sert_yumusak_tabaka]]. Kent'in önerisine göre bu tabaka sert buğdaylarda sürekli, yumuşak buğdaylarda kesiklidir [[tane_yapisi.kent_sert_yumusak_tabaka]]. Ölçülen hücreler 9–133 µm ile 6–177 µm boyutlarında gözlendi [[tane_yapisi.alt_aleron_hucre_boyutu]]. Bu düzensiz dağılım, Kent'in bildirdiği %54'e varan proteinli hücreleri makul kılıyor [[tane_yapisi.kent_54_alt_aleron]]."
+    },
+    {
+      "inanc": "Protein gradyanı doğrusaldır; protein dıştan içe düzenli azalır.",
+      "cevap": "Kaynaklar ayrılıyor: Savill ve arkadaşları, olgunlaşmamış Cadenza tanelerinde görüntü analiziyle doğrusal gradyan buldu ve dış bölgede yaklaşık %18, iç bölgede yaklaşık %8 protein bildirdi [[tane_yapisi.savill_dogrusal_gradyan]]. Farklı çeşit ve azot düzeylerini kapsayan başka bir ölçüm, 5 parametreli azalan çift üstel (biexponansiyel) bir eğriye neredeyse mükemmel uyum verdi [[tane_yapisi.gradyan_biexponansiyel_uyum]]. Uyum değerleri R² 0,974 ile 0,998 arasındaydı [[tane_yapisi.gradyan_biexponansiyel_uyum]]. İki sonucun ayrılışı olgunlaşmamış tane koşulundan mı, yöntem farkından mı kaynaklanıyor, netleşmedi [[tane_yapisi.savill_dogrusal_gradyan]] [[tane_yapisi.gradyan_biexponansiyel_uyum]]."
+    },
+    {
+      "inanc": "Endosperm hücresi yaşadıkça daha çok protein birikir.",
+      "cevap": "Protein birikim derecesi, rastgele (stokastik) programlı hücre ölümü nedeniyle endosperm hücresinin ömrüyle ilişkili değildir [[tane_yapisi.protein_birikimi_hucre_omru]]. Aynı azot gübreleme düzeyinde yetiştirilen buğday çeşitleri, tanenin yan yüzeyinin merkezinde protein birikimi bakımından farklılık göstermedi [[tane_yapisi.yanak_merkezi_cesit_benzerligi]]."
+    }
+  ],
+  "kanit": {
+    "cekirdek": [
+      "tane_yapisi.tanenin_uc_ana_kismi_ve_tam_tahil_tanimi",
+      "tane_yapisi.anatomik_kisim_oranlari",
+      "tane_yapisi.endosperm_agirlik_payi",
+      "tane_yapisi.depo_nisastasi_a_b_granul",
+      "tane_yapisi.alt_aleron_protein_gradyani",
+      "tane_yapisi.nisastali_endosperm_30_yuzde_protein",
+      "tane_yapisi.protein_endospermde",
+      "tane_yapisi.gluten_proteini_sentez_zamanlamasi",
+      "tane_yapisi.endosperm_olumunde_protein_matrisi",
+      "tane_yapisi.aleron_hucre_canliligi_ve_katman_sayisi",
+      "tane_yapisi.nisasta_granul_baslangic_zamani",
+      "gluten.disulfit_bagli_glutenin_iskeleti",
+      "gluten.hmw_omurgasi_ve_lmw_dallari",
+      "gluten.tane_proteinlerinde_yuzde_seksen_bes_orani",
+      "nisasta.bugday_ununun_ana_bileseni"
+    ],
+    "cekmece": [
+      "tane_yapisi.tahil_danesi_temel_bilesen_dagilimi",
+      "tane_yapisi.olgun_tanede_protein_araligi",
+      "tane_yapisi.granul_olusum_zamani_parker",
+      "tane_yapisi.alt_aleron_hucre_kokeni",
+      "tane_yapisi.alt_aleron_hucreleri_uc_cesit",
+      "tane_yapisi.alt_aleron_hucre_boyutu",
+      "tane_yapisi.alt_aleron_morfoloji",
+      "tane_yapisi.kent_sert_yumusak_tabaka",
+      "tane_yapisi.kent_54_alt_aleron",
+      "tane_yapisi.savill_dogrusal_gradyan",
+      "tane_yapisi.gradyan_biexponansiyel_uyum",
+      "tane_yapisi.protein_birikimi_hucre_omru",
+      "tane_yapisi.yanak_merkezi_cesit_benzerligi",
+      "tane_yapisi.periferik_protein_birikim_kaynagi",
+      "tane_yapisi.alt_aleron_mekanizma_moore",
+      "tane_yapisi.tosi_sentez_hizi",
+      "tane_yapisi.alt_aleron_azot_duyarliligi",
+      "tane_yapisi.dane_gelisiminde_azot_tasinimi",
+      "tane_yapisi.sert_ve_yumusak_bugday_endosperm_farki",
+      "tane_yapisi.cesit_secimi_azot_dis_protein",
+      "tane_yapisi.claire_akteur_fark_dis100um",
+      "tane_yapisi.claire_apache_fark_dis100um",
+      "tane_yapisi.dis100um_protein_cl0_akt300",
+      "tane_yapisi.dis100um_protein_cl150_akt150",
+      "tane_yapisi.pmax_akt_cl",
+      "tane_yapisi.akt300_dis_16_4_yuzde",
+      "tane_yapisi.akt300_ic_16_6_yuzde",
+      "tane_yapisi.rpa_akt_cl",
+      "tane_yapisi.kepek_protein_varyasyonu",
+      "tane_yapisi.sub_alf_alc_protein_nisasta",
+      "tane_yapisi.ekmeklik_bugday_genom_yapisi",
+      "tane_yapisi.dis_katmanlarin_dane_oranlari",
+      "tane_yapisi.rusey_orani_1ton",
+      "tane_yapisi.aleronda_lif_ve_fenolik_asit_yogunlugu",
+      "tane_yapisi.cimlenmede_giberellin_ve_hidrolaz_salinimi",
+      "tane_yapisi.a_tipi_nisasta_tanecik_yapisi",
+      "tane_yapisi.gernik_endosperm_ve_aleron_mikroyapisi",
+      "tane_yapisi.siyez_tane_ve_endosperm_mikroyapisi",
+      "tane_yapisi.tandoori_ekmek_renk_tat_aroma",
+      "tane_yapisi.subaleron_tabakasi_depo_proteini",
+      "nisasta.tahillarda_yari_kristal_granul_tanimi",
+      "nisasta.granul_tipleri_ve_boyut_siniflari",
+      "nisasta.polimer_yapisi_bag_turleri",
+      "nisasta.genel_amiloz_amilopektin_dagilimi",
+      "nisasta.hamurdaki_islevleri_ve_maya_fermantasyonu",
+      "nisasta.ekmek_ici_yapisi_ve_bayatlama_etkisi",
+      "gluten.osborne_fraksiyonlari_ve_gluten_tanimi",
+      "gluten.toplam_protein_orani_ve_bilesimi",
+      "gluten.amino_asit_glutamin_glisin_prolin_oranlari",
+      "gliadin_glutenin.gliadin_akiskanlik_glutenin_elastiklik",
+      "gliadin_glutenin.bugday_depo_protein_gruplari",
+      "gliadin_glutenin.gliadin_ve_glutenin_esit_orani",
+      "disulfit.glutenin_polimer_boyu_atif",
+      "disulfit.glutenin_ve_gliadin_bag_ayrimi"
+    ]
+  },
+  "baglar": [
+    {
+      "kaldirac": "Alöron altındaki protein gradyanı",
+      "mekanizma": "Protein, alöronun hemen altında yoğunlaşır ve endosperme doğru azalan bir eğri çizer; endosperm proteininin yaklaşık %30'u dış 100 µm'de birikir.",
+      "sonuc": "Tane içindeki protein dağılımı düz değil, dışa doğru yığılmıştır.",
+      "bilgiler": [
+        "tane_yapisi.alt_aleron_protein_gradyani",
+        "tane_yapisi.nisastali_endosperm_30_yuzde_protein"
+      ]
+    },
+    {
+      "kaldirac": "Çeşit seçimi ve azot gübrelemesi",
+      "mekanizma": "Çeşit seçimi ve azot gübrelemesi, iç endosperme kıyasla dış endospermde belirgin ölçüde daha fazla protein birikmesine yol açar.",
+      "sonuc": "İki çeşit arasındaki toplam protein farkının önemli bir bölümü, yazarların hesabına göre dış 100 µm'deki birikim farkına bağlanabildi.",
+      "bilgiler": [
+        "tane_yapisi.cesit_secimi_azot_dis_protein",
+        "tane_yapisi.claire_akteur_fark_dis100um",
+        "tane_yapisi.claire_apache_fark_dis100um"
+      ]
+    },
+    {
+      "kaldirac": "Alt-alöron hücrelerinin yeniden farklılaşması",
+      "mekanizma": "Çiçeklenmeden sonra 21 güne kadar süren bölünmelerin ardından alöron hücrelerinin yeniden farklılaşması alt-alöron hücrelerini oluşturur.",
+      "sonuc": "Proteinin en yoğun olduğu tabaka, alöron hücrelerinin yeniden farklılaşmasıyla oluşur.",
+      "bilgiler": [
+        "tane_yapisi.alt_aleron_hucre_kokeni",
+        "tane_yapisi.alt_aleron_hucreleri_uc_cesit"
+      ]
+    },
+    {
+      "kaldirac": "Dış katmanların una katılması",
+      "mekanizma": "Tane proteininin kabaca %80'i endospermde olduğu için dış katmanlar unu yalnız yaklaşık %20 oranında proteinle zenginleştirir.",
+      "sonuc": "Kepek proteinindeki değişim, büyük ölçüde alt-alöron protein içeriğindeki değişimden kaynaklanır.",
+      "bilgiler": [
+        "tane_yapisi.protein_endospermde",
+        "tane_yapisi.kepek_protein_varyasyonu"
+      ]
+    },
+    {
+      "kaldirac": "Endosperm hücrelerinin ölümü",
+      "mekanizma": "Nişastalı endosperm hücreleri kuruyup öldükçe protein birikintileri kaynaşarak kesintisiz bir matris oluşturur.",
+      "sonuc": "Olgun tane, toz değil, birbirine bağlı bir yapıdır.",
+      "bilgiler": [
+        "tane_yapisi.endosperm_olumunde_protein_matrisi",
+        "tane_yapisi.aleron_hucre_canliligi_ve_katman_sayisi"
+      ]
+    },
+    {
+      "kaldirac": "Gluten proteinlerinin sentez zamanlaması",
+      "mekanizma": "Gluten proteinlerinin sentezi çiçeklenmeden yaklaşık 10 gün sonra başlar ve yaklaşık 20 gün sonra tamamlanır.",
+      "sonuc": "Protein deposu, nişasta granüllerinin oluşumuyla aynı döneme yayılır.",
+      "bilgiler": [
+        "tane_yapisi.gluten_proteini_sentez_zamanlamasi",
+        "tane_yapisi.nisasta_granul_baslangic_zamani"
+      ]
+    },
+    {
+      "kaldirac": "Dış çevrede protein birikimi",
+      "mekanizma": "Yazarların önerisine göre dış çevredeki protein birikimi, yalnız protein açısından zengin alt-alöron hücrelerinden değil, prizmatik (uzun ve köşeli) endosperm hücrelerindeki artan birikimden de kaynaklanıyor.",
+      "sonuc": "Protein dağılımı yalnız hücre kökenine değil, hücreler arası taşınmaya da bağlı olabilir.",
+      "bilgiler": [
+        "tane_yapisi.periferik_protein_birikim_kaynagi",
+        "tane_yapisi.alt_aleron_mekanizma_moore",
+        "tane_yapisi.tosi_sentez_hizi"
+      ]
+    },
+    {
+      "kaldirac": "Sert ve yumuşak buğday",
+      "mekanizma": "Sert buğdaylar daha dirençli bir endosperme ve %10–15 protein içeriğine sahipken, yumuşak buğdaylar %8–11 protein içerir.",
+      "sonuc": "Sert ve yumuşak tip buğdaylar farklı protein yüküyle olgunlaşır.",
+      "bilgiler": [
+        "tane_yapisi.sert_ve_yumusak_bugday_endosperm_farki"
+      ]
+    }
+  ],
+  "karakterler": [
+    "nisasta",
+    "gluten"
+  ],
+  "ayrisan_kaynaklar": [
+    {
+      "konu": "Alt-alöron tabakasının kalınlığı ve hücre sayısı kaçtır?",
+      "bilgiler": [
+        "tane_yapisi.alt_aleron_morfoloji",
+        "tane_yapisi.kent_sert_yumusak_tabaka",
+        "tane_yapisi.kent_54_alt_aleron"
+      ]
+    },
+    {
+      "konu": "Protein gradyanı doğrusal mı, çift üstel mi?",
+      "bilgiler": [
+        "tane_yapisi.savill_dogrusal_gradyan",
+        "tane_yapisi.alt_aleron_protein_gradyani",
+        "tane_yapisi.gradyan_biexponansiyel_uyum"
+      ]
+    },
+    {
+      "konu": "Alt-alöron protein birikiminin kaynağı nedir?",
+      "bilgiler": [
+        "tane_yapisi.periferik_protein_birikim_kaynagi",
+        "tane_yapisi.alt_aleron_mekanizma_moore",
+        "tane_yapisi.tosi_sentez_hizi",
+        "tane_yapisi.alt_aleron_azot_duyarliligi"
+      ]
+    },
+    {
+      "konu": "Protein birikimi endosperm hücresinin ömrüyle ilişkili mi?",
+      "bilgiler": [
+        "tane_yapisi.protein_birikimi_hucre_omru",
+        "tane_yapisi.yanak_merkezi_cesit_benzerligi"
+      ]
+    },
+    {
+      "konu": "A ve B tipi nişasta granüllerinin boyut sınırları nedir?",
+      "bilgiler": [
+        "tane_yapisi.depo_nisastasi_a_b_granul",
+        "nisasta.granul_tipleri_ve_boyut_siniflari"
+      ]
+    }
+  ]
+}

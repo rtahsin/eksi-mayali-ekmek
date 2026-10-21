@@ -1,0 +1,470 @@
+{
+  "id": "tuz",
+  "ad": "Tuz",
+  "bilgiler": [
+    {
+      "id": "tuz.eksi_maya_ve_tuz_azaltimi",
+      "metin": "Ekşi maya fermantasyonu fırıncılık ürünlerinde tuz azaltımını desteklemek amacıyla kullanılabilir.",
+      "kosul": "Gobbetti ve ark., 2019 derleme aktarımı",
+      "kanit": "ikincil",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/bs.aambs.2017.02.003",
+          "yer": "Citing articles summary"
+        }
+      ]
+    },
+    {
+      "id": "tuz.gluten_aginin_yuzde_86_guclenmesi",
+      "metin": "Tuz ilavesi buğday gluten ağını %86'ya varan oranda güçlendirerek hamurun gaz tutma kapasitesini artırmış ve maya etkinliğini etkilemiştir.",
+      "kosul": "Yumuşak buğday hamuru",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods9070952",
+          "yer": "Abstract"
+        }
+      ]
+    },
+    {
+      "id": "tuz.gluten_hidrasyonunu_geciktirme_ve_gelisme_suresi",
+      "metin": "Literatürde, tuzun gluten proteinlerinin suyla etkileşen yüzey bölgelerini azaltıp hidrasyonu yavaşlatarak gluten ağının oluşumunu geciktirdiği ve hamurun optimum gelişmesi için gereken yoğurma süresini uzattığı bildirilir; bu çalışmada da tuzlu hamurlarda gluten ağının oluşumu gecikti.",
+      "kosul": "%0, %1 ve %2 NaCl; farklı protein düzeylerindeki unlar (FSB ve YB)",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1002/cche.10699",
+          "yer": "6.3 The effect of salt content on the gas phase of the dough"
+        },
+        {
+          "kaynak": "10.1016/j.jcs.2013.01.011",
+          "yer": "Highlights"
+        },
+        {
+          "kaynak": "10.1016/j.jcs.2013.01.011",
+          "yer": "Introduction"
+        },
+        {
+          "kaynak": "10.1016/j.jcs.2013.01.011",
+          "yer": "Section snippets - Conclusion"
+        },
+        {
+          "kaynak": "10.1111/1541-4337.13147",
+          "yer": "3.4 Relationship between starch and salt in dough rheology"
+        },
+        {
+          "kaynak": "10.1016/j.cofs.2019.04.001",
+          "yer": "3. Dough formulation"
+        },
+        {
+          "kaynak": "10.3390/foods9070952",
+          "yer": "4. Discussion"
+        }
+      ]
+    },
+    {
+      "id": "tuz.hamur_dayanimi_uzayabilirlik_ve_hacim",
+      "metin": "Literatürde, tuzun buğday hamurunun yoğurma toleransını ve gelişme süresini uzattığı; uzamaya karşı direncini, elastikliğini, uzayabilirliğini ve ekmek hacmini artırdığı bildirilir.",
+      "kosul": "Farklı protein düzeyinde buğday unları; %0, %1 ve %2 NaCl",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.jcs.2013.01.011",
+          "yer": "Highlights"
+        },
+        {
+          "kaynak": "10.1016/j.jcs.2013.01.011",
+          "yer": "Introduction"
+        },
+        {
+          "kaynak": "10.1016/j.jcs.2014.03.004",
+          "yer": "Introduction"
+        },
+        {
+          "kaynak": "10.1007/s00397-018-1113-9",
+          "yer": "3.3.2 Fermenting dough"
+        }
+      ]
+    },
+    {
+      "id": "tuz.hidrofobik_kumelenme",
+      "metin": "Literatürde (Kinsella vd.; Melnyk vd.), tuzun hamur özelliklerine etkisi çoğu kez hidrofobik etkileşimlerle gluten kümelenmesiyle açıklanır: NaCl gibi kosmotroplar glutenin su almasını azaltır ve hidrofobik etkileşimleri güçlendirir; klorür ya da florür iyonları varken proteinler kümelenmiş kalır ve su almaları zorlaşır.",
+      "kosul": "Literatür modelleri ve aktarımları (Kinsella vd., Melnyk vd., Beck vd.)",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/pr9071244",
+          "yer": "1. Introduction"
+        },
+        {
+          "kaynak": "10.3390/pr9071244",
+          "yer": "1. Introduction"
+        },
+        {
+          "kaynak": "10.3390/pr9071244",
+          "yer": "1. Introduction"
+        },
+        {
+          "kaynak": "10.1002/cche.10699",
+          "yer": "6.3 The effect of salt content on the gas phase of the dough"
+        },
+        {
+          "kaynak": "10.1016/j.jcs.2024.103895",
+          "yer": "4.3.2. Salts"
+        }
+      ]
+    },
+    {
+      "id": "tuz.lifsi_fibril_gluten_agi_yapisi",
+      "metin": "NaCl varlığı gluten proteinlerinde beta yaprak yapısını ve kovalent olmayan etkileşimleri artırarak uzamış lifsi bir protein ağı oluşmasını sağlar; tuzun azaltılması ise ağı daha az bağlantılı protein taneciklerine dönüştürür.",
+      "kosul": "Konfokal mikroskopi, TEM ve FTIR incelemeleri; Beck ve ark., 2012 aktarımı",
+      "kanit": "uzlasi",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.jcs.2013.01.011",
+          "yer": "Abstract"
+        },
+        {
+          "kaynak": "10.1016/j.jcs.2013.01.011",
+          "yer": "Introduction"
+        },
+        {
+          "kaynak": "10.1016/j.jcs.2013.01.011",
+          "yer": "Section snippets - Conclusion"
+        },
+        {
+          "kaynak": "10.1016/j.jcs.2014.03.004",
+          "yer": "Abstract"
+        }
+      ]
+    },
+    {
+      "id": "tuz.maya_ozmotik_basinc_su_kaybi",
+      "metin": "Literatürde (Hutton), tuz miktarının artması, maya hücrelerinde su kaybına yol açan ozmotik basınç artışı nedeniyle mayanın metabolik etkinliğini baskılar.",
+      "kosul": "Hutton, 2002",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1002/cche.10699",
+          "yer": "6.3 The effect of salt content on the gas phase of the dough"
+        },
+        {
+          "kaynak": "10.1007/s00397-018-1113-9",
+          "yer": "3.3.2 Fermenting dough"
+        },
+        {
+          "kaynak": "10.3390/foods6080066",
+          "yer": "3.1. Microbiology and Rheofermentometer"
+        }
+      ]
+    },
+    {
+      "id": "tuz.yuklerin_perdelenmesi_ve_iyonik_etkilesim",
+      "metin": "Literatürde, düşük derişimlerde tuz, gluten moleküllerindeki yükleri perdeleyip elektrostatik itmeyi azaltarak ve glutenin ile gliadin arasındaki düzenli iyonik etkileşimleri artırarak hamuru güçlendirir.",
+      "kosul": "Düşük tuz derişimi",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1002/cche.10572",
+          "yer": "7 GLUTEN CHEMISTRY AND FUNCTIONALITY"
+        },
+        {
+          "kaynak": "10.1016/j.jcs.2014.03.004",
+          "yer": "Introduction"
+        },
+        {
+          "kaynak": "10.1080/10408398.2021.1976100",
+          "yer": "Sourdough productions with the addition of pure chemical compounds > Salt"
+        },
+        {
+          "kaynak": "10.1016/j.cofs.2019.04.001",
+          "yer": "3. Dough formulation"
+        },
+        {
+          "kaynak": "10.1016/j.jcs.2018.06.006",
+          "yer": "3.2.2 Succinic acid"
+        }
+      ]
+    },
+    {
+      "id": "tuz.mikrobiyal_ekosistem_etkisi",
+      "metin": "Tuz ekşi mayanın mikrobiyal ekosistemi üzerinde doğrudan etkilidir; çok yüksek tuz derişimleri birçok mikroorganizmanın büyümesini engeller.",
+      "kosul": "Ekşi maya matrisi",
+      "kanit": "tek_kaynak",
+      "bolum": "Mayadaki yeri",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.ijfoodmicro.2013.11.021",
+          "yer": "Conclusions"
+        },
+        {
+          "kaynak": "10.1080/10408398.2021.1976100",
+          "yer": "Sourdough productions with the addition of pure chemical compounds > Salt"
+        }
+      ]
+    },
+    {
+      "id": "tuz.ekmek_yapiminda_nem_gluten_ve_doku_duzenleme",
+      "metin": "Tuz, ekmek yapımında nemi düzenleyip gluten ağı yapısını etkileyerek ekmeğin iyi dokusunu ve lezzetini korumada çoklu roller oynar.",
+      "kosul": "Ekmek yapımı",
+      "kanit": "tek_kaynak",
+      "bolum": "Tanım",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.fochx.2025.103160",
+          "yer": "Changes of moisture content and texture properties of bread during storage"
+        }
+      ]
+    },
+    {
+      "id": "tuz.sanayide_tuz_kullanim_duzeyi",
+      "metin": "Literatürde (Lynch vd.; McCann ve Day), ekmek hamuru formülasyonlarında sanayide yaygın kullanılan tuz düzeyinin ağırlıkça %1,2 ile %2 arasında olduğu bildirilir.",
+      "kosul": "Sanayi ekmek hamuru tarifleri; Lynch vd. 2009, McCann ve Day 2013 aktarımı",
+      "kanit": "tek_kaynak",
+      "bolum": "Tanım",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1007/s00397-018-1113-9",
+          "yer": "3.3.1 Unfermented dough"
+        },
+        {
+          "kaynak": "10.1007/s00397-018-1113-9",
+          "yer": "Results and discussion - Case study 1: Unfermented dough"
+        }
+      ]
+    },
+    {
+      "id": "tuz.asit_gluten_etkilesimi",
+      "metin": "Tuz derişimi, asitlenme düzeyi ve gluten derişimi arasında güçlü bir etkileşim tanımlanmıştır: birlikte gluten proteinleri arasındaki etkileşimi güçlendirir ve asitlendirilmiş hamurun sertliğini artırır.",
+      "kosul": "Asitlendirilmiş hamur.",
+      "kanit": "ikincil",
+      "bolum": "İlişkileri",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.foodhyd.2024.110884",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "tuz.bosluklu_tuz_ile_ekmek_ozgul_hacmi",
+      "metin": "Tuz azaltımı %10'dan %20'ye çıktıkça ekmek özgül hacmi gerilemiş; ancak %10 ve %15 tuz azaltım gruplarında özgül hacim sırasıyla 3,92 mL/g ve 3,84 mL/g ile tuz azaltımı yapılmayan kontrol grubunu (3,72 mL/g) aşmıştır.",
+      "kosul": "Boşluklu tuz ile %10, %15 ve %20 tuz azaltılmış ekmekler",
+      "kanit": "tek_kaynak",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.fochx.2025.103160",
+          "yer": "Effects of hollow salt addition on specific volume and structure of bread"
+        },
+        {
+          "kaynak": "10.1016/j.fochx.2025.103160",
+          "yer": "Effects of hollow salt addition on specific volume and structure of bread"
+        }
+      ]
+    },
+    {
+      "id": "tuz.yuzde_1_2_mayada_nacl_artisiyla_hacim_dususu",
+      "metin": "%1,2 maya düzeyinde artan NaCl miktarlarıyla birlikte ekmek özgül hacmi anlamlı derecede azalmıştır.",
+      "kosul": "%1,2 maya içeren buğday hamurunda artan NaCl",
+      "kanit": "tek_kaynak",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods6080066",
+          "yer": "3.2. Specific Bread Loaf Volume and Bake Loss"
+        }
+      ]
+    },
+    {
+      "id": "tuz.dusuk_deniz_tuzu_ile_maya_etkinligi_uyarimi",
+      "metin": "Literatürde 100 g buğday unu başına 0,30 g gibi düşük miktarda deniz tuzu bulunmasının maya etkinliğini uyardığı bildirilmiştir.",
+      "kosul": "100 g buğday unu başına 0,30 g deniz tuzu (aktarım)",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods9101465",
+          "yer": "3.5. Optimization"
+        }
+      ]
+    },
+    {
+      "id": "tuz.tuz_azaltiminda_gluten_capraz_bag_ve_elastikiyet_kaybi",
+      "metin": "Hamurdaki tuz miktarının azaltılması gluten proteinlerinin moleküller arası çapraz bağlanma derecesini zayıflatarak hamurun elastikliğini ve uzayabilirliğini düşürür.",
+      "kosul": "Fan vd. 2020; Musiienko vd. 2025 aktarımı",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.fochx.2025.103160",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "tuz.yapiskanlik_ve_kohezyon",
+      "metin": "Tuz hamur içindeki kohezyon kuvvetlerini artırarak yapışkanlığı azaltır; formülasyonda %1 NaCl içeren hamurlar %2,0 NaCl içerenlere göre daha zayıftır, daha kolay deforme olur ve daha yapışkandır.",
+      "kosul": "Avramenko ve ark. 2018; Stone ve ark., 2017 aktarımı",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1111/1541-4337.13147",
+          "yer": "Table"
+        },
+        {
+          "kaynak": "10.1111/1541-4337.13147",
+          "yer": "3.4 Relationship between starch and salt in dough rheology"
+        },
+        {
+          "kaynak": "10.3390/foods9070952",
+          "yer": "1. Introduction"
+        }
+      ]
+    },
+    {
+      "id": "tuz.fermente_olmamis_hamurda_dinamik_moduller",
+      "metin": "Bu çalışmada fermente olmamış hamurda tuzun dinamik modüller üzerindeki etkisi sınırlı kaldı; literatürdeki diğer çalışmalar ise tuz ilavesiyle küçük bir artış, hafif bir düşüş ya da hiçbir değişiklik bildirir.",
+      "kosul": "Fermente olmamış zayıf buğday unu hamuru",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1007/s00397-018-1113-9",
+          "yer": "3.3.1 Unfermented dough, Fig. 5a"
+        },
+        {
+          "kaynak": "10.1007/s00397-018-1113-9",
+          "yer": "Results and discussion - Case study 1: Unfermented dough, Fig. 5a"
+        },
+        {
+          "kaynak": "10.1007/s00397-018-1113-9",
+          "yer": "Results and discussion - Case study 1: Unfermented dough"
+        }
+      ]
+    },
+    {
+      "id": "tuz.dusuk_ve_yuksek_proteinli_unda_dayanim",
+      "metin": "NaCl düşük proteinli undan (%9,0) yapılan hamurların direncini artırmada yüksek proteinli una (%13,5) göre daha büyük bir etki göstermiş; %2 tuzlu düşük proteinli hamurun dayanımı %1 tuzlu yüksek proteinli hamurla benzer bulunmuştur.",
+      "kosul": "%9,0 ve %13,5 proteinli unlar; %0, %1 ve %2 NaCl",
+      "kanit": "tek_kaynak",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.jcs.2013.01.011",
+          "yer": "Abstract"
+        },
+        {
+          "kaynak": "10.1016/j.jcs.2013.01.011",
+          "yer": "Abstract"
+        },
+        {
+          "kaynak": "10.1016/j.jcs.2013.01.011",
+          "yer": "Highlights"
+        }
+      ]
+    },
+    {
+      "id": "tuz.su_aktivitesi_maya",
+      "metin": "GPD1 geni silinmiş, gliserol üretimi azalmış maya mutantları normal hamurda fermantasyon kapasitesini %30–50 yitirirken tuzsuz hamurda yaban tip suşlardan farklı bir fermantasyon profili göstermedi; yazarlar sorunu tuzlu hamurun yüksek ozmolaritesine ve düşük su aktivitesine (tuzsuz hamurda 0,99'a karşı 0,97) bağlar.",
+      "kosul": "Tuzsuz hamur (aw 0,99) ile normal hamur (aw 0,97); Saccharomyces cerevisiae Δgpd1 mutantları (laboratuvar ve ticari fırın suşu arka planı).",
+      "kanit": "tek_kaynak",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1371/journal.pone.0119364",
+          "yer": "Results; Fig. 3B"
+        }
+      ]
+    },
+    {
+      "id": "tuz.tuz_azaltiminda_reolojik_korunma",
+      "metin": "Literatürde (Lynch vd.), tuz düzeyinin %1,2'den %0,3'e düşürülmesinin buğday hamurunun reolojik özelliklerini ve ekmek yapım performansını anlamlı derecede etkilemediği bildirilir.",
+      "kosul": "Buğday hamuru tuz azaltımı; Lynch vd. aktarımı",
+      "kanit": "ikincil",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.cofs.2019.04.001",
+          "yer": "3. Dough formulation"
+        }
+      ]
+    },
+    {
+      "id": "tuz.yuzde_1_uzeri_tuz_maya_baskilama_esigi",
+      "metin": "Literatürde yalnızca %1'in üzerindeki tuz düzeylerinin mayanın fermantasyon etkinliğini baskılamada anlamlı bir etkiye sahip olduğu bilinmektedir.",
+      "kosul": "Maya fermantasyonu baskılama eşiği",
+      "kanit": "ikincil",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods9101465",
+          "yer": "3.4. Dough Rheological Properties during Fermentation"
+        }
+      ]
+    },
+    {
+      "id": "tuz.dusuk_iyon_derisiminde_benzer_kumelenme",
+      "metin": "Literatürde, düşük tuz derişiminde (0,1–0,3 M) tüm iyonların hamur sistemlerinde protein kümelenmesi üzerinde benzer bir etkisi olduğu bildirilir.",
+      "kosul": "Hamur sistemlerinde düşük tuz derişimi (0,1–0,3 M)",
+      "kanit": "ikincil",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.cofs.2019.04.001",
+          "yer": "3. Dough formulation"
+        }
+      ]
+    },
+    {
+      "id": "tuz.fermantasyon_hizini_denetleme",
+      "metin": "Literatürde (Miller ve Hoseney; Beck vd.), tuz ilavesinin mayanın fermantasyon hızını dengeleyip yavaşlatarak fermantasyon sürecinin daha iyi denetlenmesini sağladığı bildirilir.",
+      "kosul": "Miller ve Hoseney 2008, Beck vd. 2012 aktarımı",
+      "kanit": "ikincil",
+      "bolum": "Ne yapar",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1007/s00397-018-1113-9",
+          "yer": "3.3.2 Fermenting dough"
+        },
+        {
+          "kaynak": "10.1007/s00397-018-1113-9",
+          "yer": "Results and discussion - Case study 1: Impact of salt"
+        }
+      ]
+    }
+  ]
+}

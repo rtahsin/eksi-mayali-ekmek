@@ -1,0 +1,404 @@
+{
+  "id": "isi_aktarimi",
+  "ad": "Isı aktarımı",
+  "bilgiler": [
+    {
+      "id": "isi_aktarimi.yeterli_isi_aktarimi_hacim_ve_yogunluk",
+      "metin": "Yazarlara göre yeterli ısı aktarımı gaz hücresi genişlemesini, ekmek içi stabilizasyonunu ve somun gelişimini destekleyerek ekmek hacmini artırır ve yığın yoğunluğunu azaltır.",
+      "kosul": "Ekmek fırınlama süreci",
+      "kanit": "tek_kaynak",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1111/1750-3841.71456",
+          "yer": "Introduction/Results"
+        }
+      ]
+    },
+    {
+      "id": "isi_aktarimi.buharlasma_yogusma_hizli_isinma_mekanizmasi",
+      "metin": "Buharlaşma-yoğuşma mekanizması gözenekli matrisin hızlı ısınmasından sorumludur ve sıcaklık 100 °C'ye ulaşana kadar hem kapalı (hamur) hem de açık (ekmek içi) yapıda gerçekleşir.",
+      "kosul": "Ekmek pişirme süreci",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.jfoodeng.2008.09.037",
+          "yer": "Abstract"
+        },
+        {
+          "kaynak": "10.1016/j.jfoodeng.2008.09.037",
+          "yer": "Conclusions"
+        }
+      ]
+    },
+    {
+      "id": "isi_aktarimi.kalite_degisimleri_isi_kutle_aktarimi",
+      "metin": "Ekmek kalite özellikleri, pişirme sırasında ürün içinde gerçekleşen eş zamanlı ısı ve kütle aktarımının meydana getirdiği bir dizi fiziksel ve kimyasal değişimin sonucudur.",
+      "kosul": "Mondal ve Datta 2008, Purlis 2010 aktarımı",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.foodcont.2012.02.034",
+          "yer": "Introduction"
+        },
+        {
+          "kaynak": "10.1016/j.foodres.2009.03.007",
+          "yer": "Introduction"
+        },
+        {
+          "kaynak": "10.3136/fstr.9.219",
+          "yer": "Abstract"
+        },
+        {
+          "kaynak": "10.3136/fstr.9.219",
+          "yer": "Abstract"
+        }
+      ]
+    },
+    {
+      "id": "isi_aktarimi.merkez_100_derecede_plato",
+      "metin": "Ekmeğin merkezi 180, 200 ve 220 °C ayarlarında sırasıyla 17, 13 ve 11 dakikada 100 °C'ye ulaşıp orada sabitlendi; bunun nedeni suyun buharlaşıp yoğuşmasıdır.",
+      "kosul": "Küçük kalıp ekmeği, 60,5 g hamur, 70×70×20 mm alüminyum kalıp; 180, 200 ve 220 °C ayarında 30 dakikaya kadar pişirme; T tipi ısıl çiftler.",
+      "kanit": "tek_kaynak",
+      "bolum": "Hangi koşulda",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.foodcont.2022.108898",
+          "yer": "3.2. Bread temperature during baking; Fig. 4"
+        },
+        {
+          "kaynak": "10.1016/j.jfoodeng.2008.09.037",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "isi_aktarimi.buharlasma_yogusma_cephesi",
+      "metin": "Ekmekte ısı ve kütle taşınımı, ekmek içi hücrelerindeki buharlaşma-yoğuşmayla eş zamanlı olur; bu olay kabuğu ekmek içinden ayıran bir buharlaşma cephesiyle ilişkilidir.",
+      "kosul": "",
+      "kanit": "ikincil",
+      "bolum": "Ne yapar",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.foodcont.2022.108898",
+          "yer": "1. Introduction"
+        },
+        {
+          "kaynak": "10.1016/j.foodcont.2012.02.034",
+          "yer": "Theory"
+        },
+        {
+          "kaynak": "10.1016/j.jfoodeng.2008.09.037",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "isi_aktarimi.buharlasma_gizli_isisi_enerji_gereksinimi",
+      "metin": "Ekmek pişirme, ürün içindeki suyun buharlaşması nedeniyle yüksek enerji gerektiren bir süreçtir; 100 °C'de suyun buharlaşma gizli ısısı 2,257 MJ/kg'dır.",
+      "kosul": "100 °C'de",
+      "kanit": "tek_kaynak",
+      "bolum": "Tanım",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.foodcont.2012.02.034",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "isi_aktarimi.es_zamanli_iletkenlik_konveksiyon_ve_isinim",
+      "metin": "Fırında pişirme sırasında gıdaya ısı iletim, taşınım ve ışınım yollarıyla eş zamanlı kütle, enerji ve momentum aktarımı eşliğinde aktarılır.",
+      "kosul": "Fırında pişirme süreci",
+      "kanit": "tek_kaynak",
+      "bolum": "Tanım",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1111/1750-3841.71456",
+          "yer": "PMC13559855.txt:Introduction"
+        }
+      ]
+    },
+    {
+      "id": "isi_aktarimi.pisirme_surecinin_tanimi",
+      "metin": "Pişirme, un, su ve kabartıcı maddelerden oluşan hamurun fırında ısı uygulanarak kendine has duyusal özelliklere sahip bir gıdaya dönüştürüldüğü süreçtir.",
+      "kosul": "",
+      "kanit": "tek_kaynak",
+      "bolum": "Tanım",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.foodcont.2012.02.034",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "isi_aktarimi.uc_isil_bolge",
+      "metin": "Pişen ekmekte üç ısıl bölge oluşur: hızla 100 °C'nin üstüne çıkan dış bölge (kabuk), sıcaklığı hep 100 °C dolayında kalan hareketli bir buharlaşma cephesi ve sıcaklığı giderek 100 °C'ye yaklaşan iç bölge (ekmek içi).",
+      "kosul": "Küçük kalıp ekmeği, 60,5 g hamur, 70×70×20 mm alüminyum kalıp (unda 9,8 g/100 g protein; Purlis ve Salvadori 2007 tarifi; 38 °C, %80 bağıl nemde 45 dakika son mayalanma); sıcaklık denetimli fırın boşluğunda 180, 200 ve 220 °C ayarında 30 dakikaya kadar pişirme.",
+      "kanit": "tek_kaynak",
+      "bolum": "Tanım",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.foodcont.2022.108898",
+          "yer": "3.2. Bread temperature during baking"
+        }
+      ]
+    },
+    {
+      "id": "isi_aktarimi.pisirme_sicakligi_ve_suresinin_kabuk_ve_ic_etkisi",
+      "metin": "Pişirme sıcaklığı ve süresinin kabuk rengi ve kalınlığı ile ekmek içinin nem içeriği ve sertliği üzerinde belirgin etkiler yarattığı saptanmıştır.",
+      "kosul": "185–205 °C sıcaklık ve 25–35 dakika pişirme süresi",
+      "kanit": "tek_kaynak",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3136/fstr.19.29",
+          "yer": "Abstract"
+        }
+      ]
+    },
+    {
+      "id": "isi_aktarimi.yari_pisirmede_cekirdek_sicakligi_yetersizligi",
+      "metin": "Bu çalışmanın sonuçlarına göre yarı pişirme derecesini yalnızca çekirdek sıcaklığına göre belirlemek yetersiz kalabilir; 95 °C çekirdek sıcaklığı bazı ekmek formülasyonlarında daha düşük esneklik ve daha yüksek yapışkanlığa yol açabilir.",
+      "kosul": "Farklı ekmek formülasyonlarında yarı pişirme",
+      "kanit": "tek_kaynak",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods13020224",
+          "yer": "4. Conclusions"
+        }
+      ]
+    },
+    {
+      "id": "isi_aktarimi.gaz_hucrelerinde_buharlasma_yogusma_adimlari",
+      "metin": "Buharlaşma-yoğuşma mekanizmasında su, gaz hücrelerinin daha sıcak tarafında buharlaşma gizli ısısını alarak buharlaşır; daha soğuk tarafta yoğuşarak bu ısıyı açığa çıkarır ve ısı ile su bir sonraki hücreye iletim ve difüzyonla taşınır.",
+      "kosul": "Henry 1939; de Vries vd. 1989 aktarımı",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.jfoodeng.2008.09.037",
+          "yer": "Introduction"
+        },
+        {
+          "kaynak": "10.1016/j.jfoodeng.2008.09.037",
+          "yer": "Introduction"
+        },
+        {
+          "kaynak": "10.1016/j.jfoodeng.2008.09.037",
+          "yer": "Introduction"
+        },
+        {
+          "kaynak": "10.3390/foods14091649",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "isi_aktarimi.glutenin_polimerlesme_sicaklik_esigi",
+      "metin": "Gluteninlerin polimerleşmesi için en az 55 °C sıcaklık gerektiği, gliadinlerin gluteninlerle kopolimerleşmesi için ise daha yüksek sıcaklıklara ihtiyaç duyulduğu aktarılmaktadır.",
+      "kosul": "pişirme sırasında gluten termal denatürasyonu",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods13081277",
+          "yer": "3.5. Analysis of SDS-PAGE"
+        }
+      ]
+    },
+    {
+      "id": "isi_aktarimi.kapali_gozeneklerde_edc_katkisi_yuzde_60",
+      "metin": "Model sonuçlarına göre, kapalı gözeneklerde buharlaşma-difüzyon-yoğuşma mekanizması toplam etkin ısıl iletkenliğe yaklaşık %60 katkıda bulunur ve sıcaklık arttıkça bu pay %60'ı aşar.",
+      "kosul": "Pişirme modeli (simülasyon); kapalı gözenek bölgesi",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods14091649",
+          "yer": "Abstract"
+        },
+        {
+          "kaynak": "10.3390/foods14091649",
+          "yer": "4.2. Effect of the MPC on Heat Transfer"
+        }
+      ]
+    },
+    {
+      "id": "isi_aktarimi.merkez_ilk_dakikalarda_yavas",
+      "metin": "İlk dakikalarda ekmek içinin merkezindeki sıcaklık yalnız biraz arttı; yazarlara göre enerjiyi yüzeydeki suyun buharlaşması alıyor ve henüz bir sıcaklık farkı (ısıl gradyan) kurulmamış oluyor.",
+      "kosul": "Küçük kalıp ekmeği, 60,5 g hamur, 70×70×20 mm alüminyum kalıp; 180, 200 ve 220 °C ayarında pişirme.",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.foodcont.2022.108898",
+          "yer": "3.2. Bread temperature during baking; Fig. 4"
+        }
+      ]
+    },
+    {
+      "id": "isi_aktarimi.pisirme_suresi_ic_isi_direnciyle_sinirli",
+      "metin": "Ekmek pişirme süresinin en aza indirilmesi ürünün iç ısı aktarım direnci tarafından sınırlandırılır.",
+      "kosul": "Ekmek pişirme simülasyonu",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.jfoodeng.2010.10.003",
+          "yer": "Abstract"
+        }
+      ]
+    },
+    {
+      "id": "isi_aktarimi.su_kaybi_enerji_tuketimi_baglantisi",
+      "metin": "Ekmekten buharlaşan su pişirme sürecindeki enerji tüketimine belirgin katkı yapar ve bu kaybın azaltılması sürecin enerji verimliliği açısından önemlidir.",
+      "kosul": "Ekmek pişirme süreci",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1177/1082013218814144",
+          "yer": "Abstract"
+        }
+      ]
+    },
+    {
+      "id": "isi_aktarimi.yogusan_buhar_nisastayi_jelestirir",
+      "metin": "Su buharı ekmeğin merkezinde yoğuşur ve açığa çıkan gizli ısı, suyu emen nişastayı jelleştirir.",
+      "kosul": "Küçük kalıp ekmeği deneyi bağlamında yazarların yorumu.",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.foodcont.2022.108898",
+          "yer": "3.3. Weight loss and moisture content"
+        }
+      ]
+    },
+    {
+      "id": "isi_aktarimi.yogusma_cephesi_acik_gozeneklerde_isi_aktarimini_hizlandirir",
+      "metin": "Model sonuçlarına göre, yoğuşma cephesinin varlığı açık gözeneklerde ısı aktarımını hızlandırarak hızlı bir sıcaklık artışına yol açar.",
+      "kosul": "Pişirme modeli (simülasyon); açık gözenek bölgesi",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods14091649",
+          "yer": "4.2. Effect of MPC on Heat Transfer"
+        }
+      ]
+    },
+    {
+      "id": "isi_aktarimi.yuzey_isinma_hizi",
+      "metin": "Yüzeyin ısınma hızı pişirmenin başında en yüksekti; üç fırın sıcaklığında da yaklaşık 22,0 ± 1,0 °C/dakika ölçüldü.",
+      "kosul": "Küçük kalıp ekmeği, 60,5 g hamur, 70×70×20 mm alüminyum kalıp; 180, 200 ve 220 °C ayarında pişirme; üst yüzeyde ve ekmek içi merkezinde T tipi ısıl çiftler.",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.foodcont.2022.108898",
+          "yer": "3.2. Bread temperature during baking; Fig. 4"
+        }
+      ]
+    },
+    {
+      "id": "isi_aktarimi.merkez_isinma_hizi_tepe",
+      "metin": "Ekmek içi merkezinin ısınma hızı en yüksek değerine 180, 200 ve 220 °C'de sırasıyla 8,0, 11,7 ve 10,6 °C/dakika ile ulaştı.",
+      "kosul": "Küçük kalıp ekmeği, 60,5 g hamur, 70×70×20 mm alüminyum kalıp; 180, 200 ve 220 °C ayarında pişirme.",
+      "kanit": "tek_kaynak",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.foodcont.2022.108898",
+          "yer": "3.2. Bread temperature during baking; Fig. 4"
+        }
+      ]
+    },
+    {
+      "id": "isi_aktarimi.cekirdek_sicakligi_92_95_derece_dilimlenebilirlik",
+      "metin": "Dilimlemeye dayanıklı sert bir somun elde edildiğinde, 92 ile 95 °C arasındaki bir çekirdek sıcaklığı pişirme sürecinin tamamlandığını göstermek için sıklıkla yeterlidir.",
+      "kosul": "Cauvain, 2015 aktarımı",
+      "kanit": "ikincil",
+      "bolum": "Nasıl ölçülür",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1111/1541-4337.13147",
+          "yer": "4.6 Crumb and crust formation"
+        }
+      ]
+    },
+    {
+      "id": "isi_aktarimi.merkez_98_derece_tam_ekmek_ici",
+      "metin": "Tam gelişmiş bir ekmek içi elde etmek için gereken en kısa pişirme süresi, ekmek merkezinin 98 °C sıcaklığa ulaştığı zamana karşılık gelir.",
+      "kosul": "Beyaz buğday ekmeği pişirme denemeleri",
+      "kanit": "tek_kaynak",
+      "bolum": "Nasıl ölçülür",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.lwt.2007.01.010",
+          "yer": ""
+        }
+      ]
+    },
+    {
+      "id": "isi_aktarimi.firin_ici_sicaklik_farklari",
+      "metin": "Fırın içi sıcaklık düzgün değildi: ısıtıcılara en yakın yan duvarlar kararlı halde ayar değerinin 20 °C üstünde kaldı; fırının orta bölgesinde en soğuk noktalar 180, 200 ve 220 °C ayarlarında 138,3, 164,5 ve 200,0 °C, en sıcak noktalar 197,0, 218,5 ve 238,8 °C ölçüldü.",
+      "kosul": "Sıcaklık denetimli deney fırını boşluğu; K tipi ısıl çiftler ve termografi; kararlı hal; ayarlar 180, 200, 220 °C.",
+      "kanit": "tek_kaynak",
+      "bolum": "Nasıl ölçülür",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.foodcont.2022.108898",
+          "yer": "3.1. Cavity temperature distribution; Fig. 2a"
+        },
+        {
+          "kaynak": "10.1016/j.foodcont.2022.108898",
+          "yer": "3.1. Cavity temperature distribution; Fig. 3"
+        }
+      ]
+    },
+    {
+      "id": "isi_aktarimi.nisasta_jellesmesi_ve_esmerlesme_kinetik_modelleri",
+      "metin": "Ekmek pişirme sürecindeki kalite değişimlerini tanımlamak için nişasta jelleşmesi ve yüzey esmerleşmesi kinetik modelleri ısı ve kütle aktarım modeline bağlanmıştır.",
+      "kosul": "Zanoni vd. 1995, Purlis ve Salvadori 2009 aktarımı",
+      "kanit": "tek_kaynak",
+      "bolum": "Nasıl ölçülür",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.jfoodeng.2010.10.003",
+          "yer": "Methodology"
+        }
+      ]
+    }
+  ]
+}

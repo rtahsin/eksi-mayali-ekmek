@@ -1,0 +1,40 @@
+{
+  "id": "lbrevis",
+  "ad": "Levilactobacillus brevis",
+  "eski_ad": "Lactobacillus brevis",
+  "tur": "bakteri",
+  "tek_cumle": "Genç ekşi mayalarda çoğu zaman Levilactobacillus brevis ve Lactiplantibacillus plantarum birlikte baskındır [[lbrevis.genc_mayalar]]",
+  "bolumler": [
+    {
+      "baslik": "Kimlik",
+      "cumleler": [
+        "Model besiyerinde başlangıç pH'ı 5,5 ya da 4,5 olduğunda Weissella cibaria–confusa grubunun yerini Levilactobacillus brevis aldı, pH 6,7'de bu geçiş görülmedi [[lbrevis.ph_gecis]]"
+      ]
+    },
+    {
+      "baslik": "Ne yer, ne üretir",
+      "cumleler": [
+        "Bira fabrikası kökenli TMW 1.2112 suşu, buğday ve çavdar hamurlarını fermente ederken beta-glukan üretti [[lbrevis.beta_glukan_uretimi]]"
+      ]
+    },
+    {
+      "baslik": "İlişkileri",
+      "cumleler": [
+        "Sentetik ekşi maya ortamında tek başına yüksek yoğunluğa ulaşır ve rakip yedi laktik asit bakterisi ile maya türünün her biriyle eşleştirildiğinde de tutunur [[lbrevis.rekabet]]"
+      ]
+    },
+    {
+      "baslik": "Ekmeğe etkisi",
+      "cumleler": [
+        "AM7 suşuyla fermente edilen mürdümük unu, fermente edilmemiş karşılığına kıyasla depolama boyunca küf sayısını saptama sınırının altında tuttu [[lbrevis.am7_ile_murdumukte_kuf_onleme]]"
+      ]
+    }
+  ],
+  "efsane": null,
+  "anlar": [
+    "eksi_mayanin_ilk_10_gunu"
+  ],
+  "gorseller": [
+    "ijms23084136_sekil_2"
+  ]
+}

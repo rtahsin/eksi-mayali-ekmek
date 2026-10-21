@@ -1,0 +1,280 @@
+{
+  "id": "soguk_ferm",
+  "ad": "Soğuk fermantasyon",
+  "bilgiler": [
+    {
+      "id": "soguk_ferm.5_derecede_esterler_artar",
+      "metin": "Hamuru 5 °C'de fermente etmek, ekmek içinde etil asetat, etil hekzanoat ve etil oktanoat esterlerini 15 ve 35 °C'ye göre anlamlı derecede artırdı; bunların koku etkinlik değeri en yüksek olanı etil hekzanoattı.",
+      "kosul": "Danimarka; buğday unu (yaş gluten %28,9); ticari yaş ekmek mayası 20, 40 ve 60 g/kg un; ekşi maya yok; hamur 5, 15 ya da 35 °C'de 8 cm yüksekliğe ulaşana kadar fermente edildi; buharla 130 °C'de 31 dakika pişirildi; yalnız ekmek içi incelendi; dinamik tepe boşluğu GC-MS.",
+      "kanit": "tek_kaynak",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.lwt.2012.08.019",
+          "yer": "Abstract"
+        },
+        {
+          "kaynak": "10.1016/j.lwt.2012.08.019",
+          "yer": "3.6. Ester formation; Fig. 3B"
+        },
+        {
+          "kaynak": "10.3390/molecules30010112",
+          "yer": "1. Introduction"
+        }
+      ]
+    },
+    {
+      "id": "soguk_ferm.serin_eksimaya_sicaklik_araligi",
+      "metin": "Calvert vd. (2021) ve Minervini vd. (2014) çalışmalarına göre serin ekşi maya fermantasyonlarında (4–15 °C) Fructilactobacillus, Leuconostoc ve Weissella türleri öne çıkar.",
+      "kosul": "Calvert vd. 2021, Minervini vd. 2014 aktarımı",
+      "kanit": "ikincil",
+      "bolum": "Hangi koşulda",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1146/annurev-food-110923-034834",
+          "yer": "4.1. Breadmaking Process"
+        }
+      ]
+    },
+    {
+      "id": "soguk_ferm.15_derece_en_etkin_starter",
+      "metin": "Hamur kabarması ve uçucu bileşik profiline göre, 15 °C'de fermantasyon için en etkin starter S. cerevisiae D3 ile Levilactobacillus brevis B46 karışık kültürü seçildi.",
+      "kosul": "Polonya; tip 650 buğday unu; gerçek buğday hamuru, 15 °C; S. cerevisiae suşları (D3, D13, LOCK 0153) ile Levilactobacillus brevis B46/B48 ya da Lactiplantibacillus plantarum/pentosus B56'dan oluşan karışık kültürler.",
+      "kanit": "tek_kaynak",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/molecules30010112",
+          "yer": "Abstract"
+        }
+      ]
+    },
+    {
+      "id": "soguk_ferm.oneri_5_derece_60g_maya",
+      "metin": "Yazarlar, esterleri yüksek, heksanal ve heptanalı düşük ekmeği görece kısa sürede elde etmek için hamurun 5 °C'de, kilogram una 60 g gibi yüksek maya miktarıyla fermente edilmesini önerir.",
+      "kosul": "Danimarka; buğday unu (yaş gluten %28,9); ticari yaş ekmek mayası 20, 40 ve 60 g/kg un; ekşi maya yok; hamur 5, 15 ya da 35 °C'de 8 cm yüksekliğe ulaşana kadar fermente edildi; buharla 130 °C'de 31 dakika pişirildi; yalnız ekmek içi incelendi; dinamik tepe boşluğu GC-MS.",
+      "kanit": "tek_kaynak",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.lwt.2012.08.019",
+          "yer": "4. Conclusion"
+        }
+      ]
+    },
+    {
+      "id": "soguk_ferm.uzun_mayalanma_tazelik_lezzet",
+      "metin": "Doğrudan mayalanmaya göre uzun maya mayalanması ekmeğe daha çok tazelik ve daha iyi tat verir; bazı durumlarda hacim biraz düşer.",
+      "kosul": "",
+      "kanit": "ikincil",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/ijms24032770",
+          "yer": "2.5 The Potential of Bread Making Recipes to Maximize Bread Quality"
+        }
+      ]
+    },
+    {
+      "id": "soguk_ferm.mantou_4_derece_eps_maya_6_gun",
+      "metin": "Bir çalışmada, 4 °C'de 6 gün saklanan Mantou'da (Çin buharlı ekmeği) EPS-maya grubunun özgül hacmi 1,96 olarak ölçüldü.",
+      "kosul": "Mantou (Çin buharlı ekmeği); 4 °C buzdolabında 6 gün saklama; EPS ve maya birlikte kullanılan grup; özgül hacim (birim kaynak tabloda belirtilmemiş)",
+      "kanit": "tek_kaynak",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods13223611",
+          "yer": "Specific volume change of Mantou at 4 °C"
+        }
+      ]
+    },
+    {
+      "id": "soguk_ferm.mantou_4_derece_ls5_hacim_kaybi",
+      "metin": "Bir çalışmanın tablosuna göre mantouda 4 °C'de saklanan Ls5-maya grubunun özgül hacmi 0. günde 2,34 iken 10. günde 2,11'e düşmüştür.",
+      "kosul": "mantou; 4 °C buzdolabı saklama; Ls5-maya grubu; tek çalışma, tablo verisi",
+      "kanit": "tek_kaynak",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods13223611",
+          "yer": "Specific volume change of Mantou at 4 °C"
+        },
+        {
+          "kaynak": "10.3390/foods13223611",
+          "yer": "Specific volume change of Mantou at 4 °C"
+        },
+        {
+          "kaynak": "10.3390/foods13223611",
+          "yer": "Specific volume change of Mantou at 4 °C"
+        },
+        {
+          "kaynak": "10.3390/foods13223611",
+          "yer": "Specific volume change of Mantou at 4 °C"
+        },
+        {
+          "kaynak": "10.3390/foods13223611",
+          "yer": "Specific volume change of Mantou at 4 °C"
+        }
+      ]
+    },
+    {
+      "id": "soguk_ferm.xu_10_derece_eksi_maya",
+      "metin": "Xu ve arkadaşlarının çalışmasında maya ve laktik asit bakterisi karışık kültürüyle 10 °C'de fermente edilmiş ekşi maya katılan ekmek duyusal panelden daha iyi puan aldı.",
+      "kosul": "",
+      "kanit": "ikincil",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/molecules30010112",
+          "yer": "1. Introduction"
+        }
+      ]
+    },
+    {
+      "id": "soguk_ferm.15_derecede_maya_suslari_zamanlama",
+      "metin": "15 °C'de yalnız mayayla fermente edilen buğday hamurunda S. cerevisiae D3 hamuru en yüksek hacmine 24. saatte ulaştırdı; D13 ve LOCK 0153 suşları ise en yüksek CO₂ üretimine 36. ile 38. saatler arasında ulaştı.",
+      "kosul": "Polonya; tip 650 buğday unu hamuru; yalnız maya (S. cerevisiae D3, D13, LOCK 0153); 15 °C, 48 saat; hacim ölçülü silindirde.",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/molecules30010112",
+          "yer": "2.2.1. Carbon Dioxide Production During Yeast Fermentation; Figure 4"
+        },
+        {
+          "kaynak": "10.3390/molecules30010112",
+          "yer": "2.2.1. Carbon Dioxide Production During Yeast Fermentation; Figure 4"
+        }
+      ]
+    },
+    {
+      "id": "soguk_ferm.4_derece_18_saat_ph",
+      "metin": "Bir çalışmada 25 °C ve 35 °C'de fermente edilen ekşi maya hamurları 4 °C'de 18 saat buzdolabında tutulduktan sonra pH sırasıyla 4,18 ve 4,11 ölçülmüştür.",
+      "kosul": "4 °C'de 18 saat buzdolabı; 25 °C ve 35 °C'de fermente ekşi maya hamuru; tek çalışma",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.17221/68/2017-cjfs",
+          "yer": "Physicochemical characteristics of sourdough"
+        }
+      ]
+    },
+    {
+      "id": "soguk_ferm.uzun_soguk_mayalanma_fitik_bugday",
+      "metin": "Tam buğday ekmeğinde fitik asit una göre kısa maya fermantasyonuyla %50, 4 °C'de 18 saatlik uzun maya fermantasyonuyla yaklaşık %75 azaldı.",
+      "kosul": "Deneme serisi 2; 8 ekmeklik buğday çeşidi, tam buğday unu; kısa: 15 g maya, oda sıcaklığında 3 saat; uzun: 5 g maya, 4 °C'de 18 saat, ardından 3 saat.",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/ijms24032770",
+          "yer": "2.3 Phytic Acid Contents in Breads Prepared with Different Recipes; Figure 4B"
+        },
+        {
+          "kaynak": "10.3390/ijms24032770",
+          "yer": "2.3 Phytic Acid Contents in Breads Prepared with Different Recipes"
+        }
+      ]
+    },
+    {
+      "id": "soguk_ferm.uzun_soguk_mayalanma_fitik_spelt",
+      "metin": "Üç spelt çeşidinin hepsinde fitik asidi en çok, 8 °C'de 18 saat süren uzun maya mayalanması düşürdü: tam tahıllı una göre %50'den fazla; ekşi mayalı tarifler onu yakından izledi.",
+      "kosul": "Deneme serisi 3; 3 spelt çeşidi, tam tahıllı un; uzun mayalanma: 5 g maya, 8 °C'de 18 saat, ardından oda sıcaklığında 3 saat.",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/ijms24032770",
+          "yer": "2.3 Phytic Acid Contents in Breads Prepared with Different Recipes; Figure 4A"
+        },
+        {
+          "kaynak": "10.3390/ijms24032770",
+          "yer": "2.3 Phytic Acid Contents in Breads Prepared with Different Recipes"
+        }
+      ]
+    },
+    {
+      "id": "soguk_ferm.dusuk_sicaklik_aroma_tamamen_durmaz",
+      "metin": "Düşük sıcaklık aroma bileşiklerinin oluşumunu tamamen durdurmaz; bu yüzden geciktirilmiş hamur asıl fermantasyondan önce de tat-koku kazanabilir.",
+      "kosul": "",
+      "kanit": "ikincil",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/molecules30010112",
+          "yer": "1. Introduction"
+        }
+      ]
+    },
+    {
+      "id": "soguk_ferm.geciktirmede_0_5_derece",
+      "metin": "Ertelenmiş pişirmede hamur hazırlanıp 0–5 °C'ye soğutulur ya da dondurulur; bu, mayanın metabolik etkinliğini kısıtlayarak hamurun kabarmasını yavaşlatır.",
+      "kosul": "",
+      "kanit": "ikincil",
+      "bolum": "Ne yapar",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/molecules30010112",
+          "yer": "1. Introduction"
+        }
+      ]
+    },
+    {
+      "id": "soguk_ferm.nth1_inaktivasyonu_donma_toleransi",
+      "metin": "Nötr trehalaz NTH1 geninin hedeflenerek inaktive edilmesi hücre içi trehaloz birikimini artırarak donma toleransını ve çözünme sonrası gaz üretme gücünü geliştirir.",
+      "kosul": "donmaya dayanıklı fırıncılık suşları",
+      "kanit": "tek_kaynak",
+      "bolum": "Ne yapar",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3389/fgene.2020.584718",
+          "yer": "Trehalose and Proline Accumulation"
+        }
+      ]
+    },
+    {
+      "id": "soguk_ferm.trehaloz_tps1_tps2_kriyokoruma",
+      "metin": "TPS1 ve TPS2 enzimleri tarafından sentezlenen trehaloz, dondurulmuş hamurda mayanın gaz üretme gücünü koruyarak kriyokoruma ve ozmotolerans sağlar.",
+      "kosul": "dondurulmuş hamur ve soğuk fermantasyon rejimleri",
+      "kanit": "tek_kaynak",
+      "bolum": "Ne yapar",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3389/fgene.2020.584718",
+          "yer": "Trehalose and Proline Accumulation"
+        }
+      ]
+    },
+    {
+      "id": "soguk_ferm.soguga_dayanikli_maya_gliserol",
+      "metin": "Soğuğu seven ya da soğuğa dayanıklı maya suşları, soğuğa dayanıksız mayalardan daha çok gliserol üretir.",
+      "kosul": "Dondurulmuş hamur bağlamı.",
+      "kanit": "ikincil",
+      "bolum": "Ne yer, ne üretir",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1371/journal.pone.0119364",
+          "yer": "Discussion"
+        }
+      ]
+    }
+  ]
+}

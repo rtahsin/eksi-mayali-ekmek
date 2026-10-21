@@ -1,0 +1,546 @@
+{
+  "id": "retrogradasyon",
+  "ad": "Retrogradasyon",
+  "bilgiler": [
+    {
+      "id": "retrogradasyon.bayatlamada_amilopektin_ve_su_dagilimi",
+      "metin": "Literatürde, bayatlamada amilopektin retrogradasyonu ile polimerler arasında suyun yeniden dağılımının merkezi rolü olduğu belirtilir; ancak bu en olası hipotez olarak ele alınır ve bayatlama çok etkenli bir olgudur.",
+      "kosul": "Ekmek saklama",
+      "kanit": "tek_kaynak",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1111/1541-4337.12064",
+          "yer": "Abstract"
+        },
+        {
+          "kaynak": "10.1111/j.1541-4337.2003.tb00011.x",
+          "yer": ""
+        }
+      ]
+    },
+    {
+      "id": "retrogradasyon.amilopektin_yeniden_kristallenmesi_gec_gerceklesir",
+      "metin": "Nişasta retrogradasyonu, amilozun kısa süreli jel ağı gelişimini ve amilopektinin dış dallarının yeniden kristallenmesini içeren çok daha yavaş, uzun süreli yeniden düzenlenmesini kapsar; amilopektinin yeniden kristallenmesi çok daha geç, günler ya da haftalar boyunca depolanan ekmekte gerçekleşir.",
+      "kosul": "nişasta retrogradasyonu, ekmek depolaması (derleme aktarımı)",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods13020224",
+          "yer": "3.1. Starch Pasting Properties"
+        },
+        {
+          "kaynak": "10.1002/fsn3.326",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "retrogradasyon.depolamada_amilopektin_artar",
+      "metin": "Bir çalışmada 7 günlük saklama boyunca ekmek içinde kristal amilopektinin erime piki anlamlı biçimde büyüdü, yani yeniden kristalleşen amilopektin miktarı arttı; bu, gluten eklenmiş ve eklenmemiş bütün ekmeklerde gözlendi.",
+      "kosul": "Beyaz buğday ekmeği (unda kuru maddede %12,5 protein); unun 0, 5 ya da 15 g/100 g'ı yerine vital gluten; ev tipi ekmek makinesi; etanollü polietilen torbada oda sıcaklığında 0–7 gün saklama; DSC.",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.lwt.2014.04.057",
+          "yer": "3.4. Thermal analysis; Fig. 3C"
+        }
+      ]
+    },
+    {
+      "id": "retrogradasyon.kristallik_sertlik_ve_sinerezis",
+      "metin": "Retrogradasyon süreci nişastanın kristalliğinde ve jel sertliğinde artışa ve hapsolmuş suyun salınmasına (sinerezis) yol açar.",
+      "kosul": "Nişasta jelleri",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1111/1541-4337.13141",
+          "yer": "2 STARCH GELATINIZATION AND RETROGRADATION PROCESSES"
+        },
+        {
+          "kaynak": "10.1111/1541-4337.13141",
+          "yer": "3.4 Rheological and other macro level methods"
+        }
+      ]
+    },
+    {
+      "id": "retrogradasyon.amiloz_hizli_amilopektin_yavas",
+      "metin": "Amiloz pişirme sonrası soğumanın ilk evresinde (dakikalar–saatler içinde) hızla geri döner, nişasta jelinin iskeletini kurar ve ekmek içinin katılaşmasına katkı verir; amilopektin ise günler içinde yavaşça kristalleşerek içi daha da sertleştirir.",
+      "kosul": "",
+      "kanit": "ikincil",
+      "bolum": "Hangi koşulda",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1080/87559129.2024.2347467",
+          "yer": "Structural basis for nucleation, crystal growth and maturation"
+        },
+        {
+          "kaynak": "10.1080/87559129.2024.2347467",
+          "yer": "Structural basis for nucleation, crystal growth and maturation"
+        },
+        {
+          "kaynak": "10.3390/foods10010076",
+          "yer": "1. Introduction"
+        },
+        {
+          "kaynak": "10.1155/2018/8187318",
+          "yer": "7. Methods to Improve the Porous Crumb Structure Development and Retard Crumb Staling"
+        },
+        {
+          "kaynak": "10.1016/j.crfs.2021.03.004",
+          "yer": "3.1. Comparison of different coatings on bread staling"
+        },
+        {
+          "kaynak": "10.1111/1541-4337.13141",
+          "yer": "6.4 Hydrophobic interactions"
+        }
+      ]
+    },
+    {
+      "id": "retrogradasyon.buzdolabi_hizli",
+      "metin": "Nişasta retrogradasyonu buzdolabı sıcaklığında daha hızlıdır; 4 °C çekirdeklenme ile kristal büyümesini dengeleyen en uygun sıcaklık olarak gösterilir, bu yüzden ekmeği buzdolabında saklamak sertleşmeyi hızlandırır.",
+      "kosul": "",
+      "kanit": "ikincil",
+      "bolum": "Hangi koşulda",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods10010076",
+          "yer": "3.4. Bread Staling under Different Storage Conditions"
+        },
+        {
+          "kaynak": "10.1155/2018/8187318",
+          "yer": "6. Crumb Staling"
+        }
+      ]
+    },
+    {
+      "id": "retrogradasyon.kisa_uzun_vade",
+      "metin": "Saatler içinde olan kısa vadeli retrogradasyon genellikle amilozun, günler içinde olan uzun vadeli retrogradasyon ise amilopektinin geri dönüşünü anlatır.",
+      "kosul": "",
+      "kanit": "ikincil",
+      "bolum": "Tanım",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1080/87559129.2024.2347467",
+          "yer": "Short- and long-term retrogradation"
+        },
+        {
+          "kaynak": "10.1111/1541-4337.13147",
+          "yer": "5.1 Starch polymer crystal formation in the crumb and crust during cooling"
+        }
+      ]
+    },
+    {
+      "id": "retrogradasyon.tanim",
+      "metin": "Retrogradasyon, jelleşmiş nişasta soğurken amiloz ve amilopektin moleküllerinin birbirine dolanıp çift sarmallar kurmasıdır.",
+      "kosul": "",
+      "kanit": "ikincil",
+      "bolum": "Tanım",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1080/87559129.2024.2347467",
+          "yer": "Introduction"
+        },
+        {
+          "kaynak": "10.1111/1541-4337.13141",
+          "yer": "2 STARCH GELATINIZATION AND RETROGRADATION PROCESSES"
+        },
+        {
+          "kaynak": "10.3136/fstr.19.29",
+          "yer": "Results and Discussion - Crumb moisture content and firmness"
+        }
+      ]
+    },
+    {
+      "id": "retrogradasyon.kristallesme_ile_sertlesme_korelasyonu",
+      "metin": "Saklama sırasındaki nişasta kristalleşme derecesi, özellikle amilaz eklenmiş ekmeklerde ekmek içi sertleşmesiyle her zaman doğrudan korelasyon göstermez.",
+      "kosul": "Amilaz eklenmiş ekmekler",
+      "kanit": "ikincil",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.jcs.2009.04.010",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "retrogradasyon.molekuller_arasi_sertlik",
+      "metin": "Retrograde nişasta jelinde moleküller arası etkileşimler arttıkça jel sertleşir; molekül içi etkileşimlerin sertliğe katkısı ise çok azdır.",
+      "kosul": "Retrograde nişasta jeli (ekmek değil); derleme aktarımı.",
+      "kanit": "ikincil",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1080/87559129.2024.2347467",
+          "yer": "Intermolecular or intramolecular interactions"
+        }
+      ]
+    },
+    {
+      "id": "retrogradasyon.soya_polisakkaritlerinin_kristallik_ve_entalpi_etkisi",
+      "metin": "Çözünür soya fasulyesi polisakkaritleri, saklama sırasında ekmek içi ve kabuğundaki bağıl kristallik ile retrogradasyon entalpisini dizginleyerek su göçünü kısıtlamıştır.",
+      "kosul": "Saklama sürecinde ekmek içi ve kabuğu",
+      "kanit": "ikincil",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.fochx.2025.103160",
+          "yer": "Changes of moisture content and texture properties of bread during storage"
+        }
+      ]
+    },
+    {
+      "id": "retrogradasyon.tuz_azaltiminda_1_gunluk_retrogradasyon_entalpisi_artisi",
+      "metin": "Tuz azaltımı, 1 günlük saklama sonrasında nişasta retrogradasyon entalpisini (delta Hr) anlamlı biçimde artırmıştır.",
+      "kosul": "1 günlük saklama süresi, ekmek saklama deneyi",
+      "kanit": "tek_kaynak",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.ijgfs.2022.100486",
+          "yer": "Results and discussion / Effect of NaCl reduction and replacement on the thermal properties of bakery dough"
+        }
+      ]
+    },
+    {
+      "id": "retrogradasyon.b_tipi_kristal",
+      "metin": "Retrogradasyon ilerledikçe B tipi kristaller oluşur ve sertlik artar; B tipi kristallerin A tipine göre daha çok su molekülünü hareketsiz kıldığı bildirilir. Nişasta jellerinde bu sırada su dışarı da sızabilir.",
+      "kosul": "",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1080/87559129.2024.2347467",
+          "yer": "Introduction"
+        },
+        {
+          "kaynak": "10.3390/foods10010076",
+          "yer": "1. Introduction"
+        },
+        {
+          "kaynak": "10.1111/1541-4337.13141",
+          "yer": "3.3 Spectroscopic methods"
+        },
+        {
+          "kaynak": "10.1111/1541-4337.13147",
+          "yer": ""
+        }
+      ]
+    },
+    {
+      "id": "retrogradasyon.yan_zincir_cift_sarmal",
+      "metin": "Saklama sırasında amilopektinin yan zincirleri yeniden düzenlenerek dış dallarda çift sarmallar oluşturur ve bu ekmek içinin katılığını artırır.",
+      "kosul": "",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods10010076",
+          "yer": "3.4. Bread Staling under Different Storage Conditions"
+        },
+        {
+          "kaynak": "10.1016/j.jcs.2009.04.010",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "retrogradasyon.su_kristale_katilir",
+      "metin": "Su moleküllerinin bir kısmının retrograde amilopektin kristallerinin yapısına katılabileceği varsayılmıştır.",
+      "kosul": "",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.lwt.2010.11.021",
+          "yer": "1. Introduction"
+        }
+      ]
+    },
+    {
+      "id": "retrogradasyon.dusuk_depolama_sicakligi_sert_nisasta_agi_atif",
+      "metin": "Bosmans ve arkadaşlarına göre düşük depolama sıcaklığı daha katı bir nişasta ağına ve daha yüksek ekmek içi sertliğine yol açar.",
+      "kosul": "Bosmans vd. çalışmasının aktarımı",
+      "kanit": "ikincil",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods13020224",
+          "yer": "1. Introduction"
+        }
+      ]
+    },
+    {
+      "id": "retrogradasyon.ekmekte_daha_karmasik",
+      "metin": "Yazarlara göre sonuçları, ekmekte nişastanın yeniden kristalleşmesinin model sistemlerdekinden daha karmaşık olduğunu ve mikroyapının sınırlamaları, düşük su içeriği ve su dağılımındaki farklar gibi model sistemlerde hesaba katılmayan etkenlerden de etkilenebileceğini düşündürür.",
+      "kosul": "Beyaz buğday ekmeği (unda kuru maddede %12,5 protein); unun 0, 5 ya da 15 g/100 g'ı yerine vital gluten; ev tipi ekmek makinesi; etanollü polietilen torbada oda sıcaklığında 0–7 gün saklama; DSC.",
+      "kanit": "tek_kaynak",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.lwt.2014.04.057",
+          "yer": "3.4. Thermal analysis"
+        }
+      ]
+    },
+    {
+      "id": "retrogradasyon.gluten_ekmekte_artirdi",
+      "metin": "%15 gluten eklenen ekmeklerde amilopektin retrogradasyonu kontrol ve %5 glutenli ekmeklerden daha fazlaydı ve amilopektin erime piki taze ekmekte (0. gün) görülmeye başladı; diğerlerinde ancak 3. günde çıktı.",
+      "kosul": "Beyaz buğday ekmeği (unda kuru maddede %12,5 protein); unun 0, 5 ya da 15 g/100 g'ı yerine vital gluten; ev tipi ekmek makinesi; etanollü polietilen torbada oda sıcaklığında 0–7 gün saklama; DSC.",
+      "kanit": "tek_kaynak",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.lwt.2014.04.057",
+          "yer": "3.4. Thermal analysis"
+        },
+        {
+          "kaynak": "10.1016/j.lwt.2014.04.057",
+          "yer": "3.4. Thermal analysis"
+        },
+        {
+          "kaynak": "10.1016/j.lwt.2014.04.057",
+          "yer": "3.4. Thermal analysis; Fig. 3B"
+        }
+      ]
+    },
+    {
+      "id": "retrogradasyon.kisa_pisirme_az_retrogradasyon",
+      "metin": "Bu çalışmada kısa pişirme süresi, daha az genişlemiş bir nişasta ağına, daha az retrogradasyona ve daha düşük bir ekmek içi sertleşme hızına yol açtı; Bosmans ve ark. [6] ise depolama sırasında daha küçük sertlik ve elastikiyet değişimleri bildirmiştir.",
+      "kosul": "yarı pişirilmiş ekmek depolaması (pişirme derecesi %50–95)",
+      "kanit": "tek_kaynak",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods13020224",
+          "yer": "1. Introduction"
+        },
+        {
+          "kaynak": "10.3390/foods13020224",
+          "yer": "3.3.2. The Influence of Storage Time and Degree of Par-Baking"
+        }
+      ]
+    },
+    {
+      "id": "retrogradasyon.nem_oranina_gore_kristal_tipleri",
+      "metin": "B tipi kristalitler %43'ten yüksek nem içeriğinde oluşarak kristal birimi başına 36 su molekülü içerirken, A tipi polimorflar %29'un altındaki nem içeriklerinde tercih edilir.",
+      "kosul": "Primo-Martín vd. 2007; Qiao vd. 2017",
+      "kanit": "ikincil",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1111/1541-4337.13147",
+          "yer": "5.2.3 Moisture content"
+        },
+        {
+          "kaynak": "10.1111/1541-4337.13147",
+          "yer": "5.2.3 Moisture content"
+        }
+      ]
+    },
+    {
+      "id": "retrogradasyon.sicaklik_araligi",
+      "metin": "Ekmeğe benzer derişimdeki nişasta jellerinde retrogradasyon camsı geçiş sıcaklığının (−5 °C) üstünde ve erime sıcaklığının (60 °C) altında olur.",
+      "kosul": "",
+      "kanit": "ikincil",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods10010076",
+          "yer": "3.4. Bread Staling under Different Storage Conditions"
+        }
+      ]
+    },
+    {
+      "id": "retrogradasyon.su_icerigi_optimum",
+      "metin": "Buğday nişastası jellerinde retrogradasyon entalpisi su içeriğiyle (%20–80) parabolik bir ilişki gösterir, yani en uygun bir su düzeyi vardır; aşırı su nişasta zincirlerini birbirinden uzaklaştırıp aralarındaki etkileşimi sınırlayabilir.",
+      "kosul": "Buğday nişastası jelleri (ekmek değil); derleme aktarımı.",
+      "kanit": "ikincil",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1080/87559129.2024.2347467",
+          "yer": "Influence of food ingredients on starch retrogradation / Water content"
+        },
+        {
+          "kaynak": "10.1080/87559129.2024.2347467",
+          "yer": "Influence of food ingredients on starch retrogradation / Water content"
+        }
+      ]
+    },
+    {
+      "id": "retrogradasyon.yuksek_isitma_hizi_hizli_sertlesme",
+      "metin": "Önceki çalışmalarda bildirildiğine göre, daha yüksek ısıtma hızları amiloz sızmasını ve nişasta ağı oluşumunu artırır; bu da depolama sırasında daha çok nişasta yeniden kristallenmesine ve hızlanmış ekmek içi sertleşme hızına katkıda bulunur.",
+      "kosul": "ekmek pişirme ve depolama",
+      "kanit": "ikincil",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods13020224",
+          "yer": "3.2. Crumb Core Temperatures"
+        }
+      ]
+    },
+    {
+      "id": "retrogradasyon.4_gunluk_depolamada_dsc_bayatlama_piki",
+      "metin": "4 günlük depolamadan sonra DSC termogramında 35–70 °C aralığında, yeniden kristallenmiş amilopektinin erime entalpisinden kaynaklanan endotermik bir bayatlama piki görülür.",
+      "kosul": "DSC termogramı, 4 günlük depolama (derleme aktarımı)",
+      "kanit": "ikincil",
+      "bolum": "Nasıl ölçülür",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1002/fsn3.326",
+          "yer": "Retrogradation of starch"
+        }
+      ]
+    },
+    {
+      "id": "retrogradasyon.cift_kirilim_yeniden_kazanimi",
+      "metin": "Jelatinleşme sırasında kaybolan çift kırınımın bir kısmı, retrogradasyonun yeniden düzenlenme sürecinde geri kazanılabilir.",
+      "kosul": "Polarize ışık mikroskopisi (Hug-Iten vd. 1999; Jacobson vd. 1997)",
+      "kanit": "ikincil",
+      "bolum": "Nasıl ölçülür",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1111/1541-4337.13141",
+          "yer": "3.1 Microscopy methods"
+        }
+      ]
+    },
+    {
+      "id": "retrogradasyon.dsc_tepe_noktalari",
+      "metin": "DSC (diferansiyel taramalı kalorimetri), yeniden kristalleşen amilopektinin erime entalpisini ölçerek bayatlamayı izler; saklanmış ekmekte 50–80 °C arasındaki pik kristal amilopektinin erimesine atanır. Genel olarak yaklaşık 50, 110 ve 150 °C'deki piklerin sırasıyla amilopektin-amilopektin, amiloz-lipit ve amiloz-amiloz sarmallarının erimesiyle ilişkilendirildiği düşünülür.",
+      "kosul": "",
+      "kanit": "ikincil",
+      "bolum": "Nasıl ölçülür",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1155/2018/8187318",
+          "yer": "6. Crumb Staling"
+        },
+        {
+          "kaynak": "10.1016/j.lwt.2014.04.057",
+          "yer": "3.4. Thermal analysis"
+        },
+        {
+          "kaynak": "10.1080/87559129.2024.2347467",
+          "yer": "Characterization of starch retrogradation"
+        },
+        {
+          "kaynak": "10.1111/1541-4337.13147",
+          "yer": "5.1 Starch polymer crystal formation in the crumb and crust during cooling"
+        }
+      ]
+    },
+    {
+      "id": "retrogradasyon.kinetik_modeller",
+      "metin": "Pirinç nişastası verisinde birinci derece, Avrami ve ardışık tepkime modellerinin üçü de retrogradasyon kinetiğini çok iyi (R² > 0,999) yeniden üretti; LOS grafiklerinin doğrusallığı 7 gün boyunca tek evreli, sabit hızlı bir süreç olduğunu düşündürdü, nişastalar arasında hız farklıydı ve Avrami hız sabiti diğerlerinden saptığı için karşılaştırmada daha az kullanışlı bulundu.",
+      "kosul": "Derleme yazarının yeniden analizi: önceki bir yayındaki (Citation33) 10 pirinç nişastasının 7 günlük retrogradasyon DSC entalpi verisi; birinci derece (LOS/FOK), Avrami ve ardışık tepkime (CR) modelleri.",
+      "kanit": "tek_kaynak",
+      "bolum": "Nasıl ölçülür",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1080/87559129.2024.2347467",
+          "yer": "Kinetics modeling"
+        },
+        {
+          "kaynak": "10.1080/87559129.2024.2347467",
+          "yer": "Kinetics modeling"
+        },
+        {
+          "kaynak": "10.1080/87559129.2024.2347467",
+          "yer": "Kinetics modeling"
+        },
+        {
+          "kaynak": "10.1080/87559129.2024.2347467",
+          "yer": "Kinetics modeling"
+        }
+      ]
+    },
+    {
+      "id": "retrogradasyon.nmr_t2b",
+      "metin": "Saklama sırasında jelleşmiş nişastaya atanan proton grubunun (B) T2 durulma süresi yaklaşık 12 ms'den 9 ms'ye anlamlı biçimde indi; yazarlar bunu büyük olasılıkla nişastanın retrogradasyonuna bağlar.",
+      "kosul": "Beyaz buğday ekmeği (un %13,5 protein, W=270; un bazında su 58, şeker 4, maya 3, ayçiçek yağı 3, tuz 2); ev tipi ekmek makinesi; etanollü kapalı polietilen torbada 25 °C'de 0–14 gün; düşük çözünürlüklü 1H NMR (20 MHz, 25 °C).",
+      "kanit": "tek_kaynak",
+      "bolum": "Nasıl ölçülür",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.lwt.2010.11.021",
+          "yer": "3. Results and discussion"
+        }
+      ]
+    },
+    {
+      "id": "retrogradasyon.cekirdeklenme_buyume",
+      "metin": "Retrogradasyon, art arda gelen çekirdeklenme ve kristal büyümesi adımlarından oluşan kinetik bir süreçtir; çekirdeklerden çift sarmallar oluşur, bunlar sonra daha düzenli kristaller hâlinde kümelenir (olgunlaşma).",
+      "kosul": "",
+      "kanit": "tek_kaynak",
+      "bolum": "Tanım",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1080/87559129.2024.2347467",
+          "yer": "Kinetics modeling"
+        },
+        {
+          "kaynak": "10.1080/87559129.2024.2347467",
+          "yer": "Kinetics modeling"
+        }
+      ]
+    },
+    {
+      "id": "retrogradasyon.gluten_model_sistemler",
+      "metin": "Nişasta-gluten model sistemlerinde glutenin nişastanın yeniden kristalleşmesini azalttığı, bunun kısmen nişastayı seyreltmesinden kaynaklandığı bildirilmiştir; ancak ekstrüde buğday nişastası/gluten (10:1) karışımlarında gluten 4 günde retrograde amilopektinin ne hızını ne de miktarını değiştirdi.",
+      "kosul": "Model sistemler; ekstrüde buğday nişastası/gluten 10:1, 4 gün.",
+      "kanit": "ikincil",
+      "bolum": "İlişkileri",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.lwt.2014.04.057",
+          "yer": "1. Introduction"
+        },
+        {
+          "kaynak": "10.1016/j.lwt.2014.04.057",
+          "yer": "3.4. Thermal analysis"
+        },
+        {
+          "kaynak": "10.1016/j.lwt.2014.04.057",
+          "yer": "3.4. Thermal analysis"
+        }
+      ]
+    }
+  ]
+}

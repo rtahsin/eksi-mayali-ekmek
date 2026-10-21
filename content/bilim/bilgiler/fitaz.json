@@ -1,0 +1,202 @@
+{
+  "id": "fitaz",
+  "ad": "Fitaz",
+  "bilgiler": [
+    {
+      "id": "fitaz.asitlenme_tahil_fitazini_etkinlestirir",
+      "metin": "Ekşi maya fermantasyonu sırasında hamurun asitlenmesinin tahıl fitazlarını etkinleştirdiği aktarılmıştır.",
+      "kosul": "Fretzdorff ve Brümmer 1992 aktarımı",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.tifs.2004.02.012",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "fitaz.ekmekte_fitat_etkileyen_faktorler",
+      "metin": "Ekmek yapımı sırasında fitat miktarının azalması fitaz etkinliğine, un randımanına, mayalanma süresi ve sıcaklığına, hamur pH'sına, mayaya, eklenen enzimlere ve kalsiyum tuzlarının varlığına bağlıdır.",
+      "kosul": "Türk ve Sandberg 1992 aktarımı",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.jcs.2008.03.006",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "fitaz.lab_rolu_asitlendirme",
+      "metin": "Ekşi mayada laktik asit bakterilerinin fitat parçalanmasındaki rolünün, büyük olasılıkla ortamı asitlendirerek unun kendi fitaz etkinliğini olanaklı kılmakla sınırlı olduğu aktarılır.",
+      "kosul": "Reale vd. 2007 aktarımı",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/bs.aambs.2017.02.003",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "fitaz.mayalanmada_kismen_parcalanir",
+      "metin": "Fitik asit ekmek yapımında hamurun mayalanması sırasında kısmen parçalanır; ne kadar parçalanacağı başka etkenlerin yanında fitaz enziminin etkinliğine bağlıdır.",
+      "kosul": "",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/ijms24032770",
+          "yer": "2.2 Phytic Acid Contents and Phytase Activity in Whole Grain Flour"
+        }
+      ]
+    },
+    {
+      "id": "fitaz.enzim_tanimi_ve_reaksiyonu",
+      "metin": "Fitaz enzimi (EC 3.1.3.8), fitik asidin penta- ile mono-fosfatlar üzerinden miyo-inozitol ve fosforik aside hidrolizini katalizler.",
+      "kosul": "",
+      "kanit": "tek_kaynak",
+      "bolum": "Tanım",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/s0168-1605(03)00072-2",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "fitaz.fitik_asit_fosfat_deposu",
+      "metin": "Fitik asit tahıllarda fosfatın başlıca depolanma biçimidir; tanedeki toplam fosfatın %70'ine kadarını oluşturur.",
+      "kosul": "",
+      "kanit": "ikincil",
+      "bolum": "Tanım",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/ijms24032770",
+          "yer": "1. Introduction"
+        }
+      ]
+    },
+    {
+      "id": "fitaz.tahillarda_fitik_asit_orani",
+      "metin": "Fitik asit tahıl tanelerinin ağırlıkça %1–4'ünü oluşturur ve fosforun başlıca depolanma biçimi ile miyo-inozitol kaynağıdır.",
+      "kosul": "Tahıl taneleri",
+      "kanit": "tek_kaynak",
+      "bolum": "Tanım",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/s0168-1605(03)00072-2",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "fitaz.duz_ekmekte_fitik_asit_azalmasi",
+      "metin": "Tam tahıllı düz ekmeklerde ekşi maya fermantasyonunun fitik asit miktarını azalttığı aktarılmıştır.",
+      "kosul": "Tam tahıllı düz ekmekler (derleme aktarımı)",
+      "kanit": "ikincil",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods11152326",
+          "yer": "3.4. Leavening"
+        }
+      ]
+    },
+    {
+      "id": "fitaz.alti_saatlik_fermantasyonda_belirgin_azalma",
+      "metin": "Bu çalışmada endirekt ekmek yapımındaki 6 saatlik fermantasyon sırasında, tüm un tiplerinden yapılan hamurlarda fitik asit içeriği azalmıştır.",
+      "kosul": "Endirekt (uzun fermantasyonlu) ekmek yapımı; 6 saatlik fermantasyon; tip 500, tip 850 ve tam buğday unu hamurları.",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.17221/130/2008-cjfs",
+          "yer": "Indirect breadmaking procedure"
+        }
+      ]
+    },
+    {
+      "id": "fitaz.bugday_hamurunda_optimum_ph_ve_sicaklik",
+      "metin": "Makale, buğday hamurunda fitaz aktivitesi için en uygun pH'nin 4,5 ve en uygun sıcaklığın 55 °C olduğunu Fretzdorff ve Brümmer (1992) çalışmasına dayanarak aktarmaktadır.",
+      "kosul": "Literatür aktarımı (buğday hamurunda fitaz aktivitesi); makalenin kendi ölçümü değildir, kaynak Fretzdorff ve Brümmer 1992.",
+      "kanit": "ikincil",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.17221/130/2008-cjfs",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "fitaz.fermantasyonda_fitaz_tesvigi",
+      "metin": "Maya ya da ekşi maya fermantasyonu sırasında pH düşüşü, sıcaklık artışı ve hamurun hidrasyonu ile çeşitli endojen ve ekzojen fitaz etkinlikleri uyarılabilir.",
+      "kosul": "Lopez vd. 2001 aktarımı",
+      "kanit": "ikincil",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.lwt.2013.12.004",
+          "yer": "4.5. Enzymatic treatment and fermentation"
+        }
+      ]
+    },
+    {
+      "id": "fitaz.fsan_optimum_ph_ve_sicaklik",
+      "metin": "Saflaştırılan fitaz enzimi en yüksek etkinliği pH 4,0 ve 45 °C'de gösterdi; 2 mM PMSF, cıva ve demir ile kuvvetle baskılandı.",
+      "kosul": "F. sanfranciscensis CB1'den saflaştırılan enzim",
+      "kanit": "tek_kaynak",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/s0168-1605(03)00072-2",
+          "yer": "Abstract"
+        }
+      ]
+    },
+    {
+      "id": "fitaz.fitaz_enziminin_katalitik_islevi_tanimi",
+      "metin": "Fitazlar, fitatın daha alt inozitol fosfatlara ve serbest inorganik fosfora parçalanmasını katalizleyen enzimlerdir.",
+      "kosul": "enzimatik reaksiyon tanimi",
+      "kanit": "tek_kaynak",
+      "bolum": "Tanım",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.17221/130/2008-cjfs",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "fitaz.fitik_asit_tahillarda_baskin_fosfor_formudur",
+      "metin": "Fitik asit (miyo-inozitol hekzafosforik asit), tahıllardaki fosforun baskın formudur.",
+      "kosul": "tahil kimyasi tanimi",
+      "kanit": "tek_kaynak",
+      "bolum": "Tanım",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.17221/130/2008-cjfs",
+          "yer": "Introduction"
+        }
+      ]
+    }
+  ]
+}

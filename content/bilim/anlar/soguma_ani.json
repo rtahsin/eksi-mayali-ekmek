@@ -1,0 +1,233 @@
+{
+  "id": "soguma_ani",
+  "durak": "sonra",
+  "baslik": "Soğuma anı",
+  "soru": "Sıcak ekmek soğurken içindeki nem nereye gider?",
+  "bayrak": false,
+  "gor": {
+    "tur": "kaydirma",
+    "adimlar": [
+      {
+        "metin": "Ev tipi ekmek makinesinde yapılan beyaz buğday ekmeğinin kontrol grubunda iç 41,2, kabuk 15,0 g su/100 g ölçüldü [[nem_gocu.taze_ic_kabuk_nemi]]. Kabuk, içten belirgin biçimde daha kuruydu [[nem_gocu.taze_ic_kabuk_nemi]].",
+        "gorsel": "bread_loafs",
+        "vurgu": "Fırından çıkarılıp soğumaya bırakılmış ekmekler: dış yüzeyin kuru görünümü."
+      },
+      {
+        "metin": "Merkezdeki sıcaklık 100 °C'ye varınca su buharı merkezden kenarlara, özellikle çatlaklara göç eder [[nem_gocu.merkez_100_derece]].",
+        "gorsel": "sourdough_bread_on_cooling_rack",
+        "vurgu": "Soğutma rafındaki ekmekte kabuk çatlakları: buharın kenara ulaştığı yollardan biri."
+      },
+      {
+        "metin": "Saklama sırasında su, nemli iç kısımdan kuru kabuğa doğru göç eder [[nem_gocu.icten_kabuga]]. Soğumuş ekmekte iç %35–40 su tutarken kabuk yalnız %3–7 su tutar; bu değer önceki adımdaki ölçümle aynı koşulda değildir [[nem_gocu.sogumus_ekmek_ic_kabuk_nemi]].",
+        "gorsel": "mon_pain_au_levain_my_sourdough_bread_32659287618",
+        "vurgu": "Ev yapımı ekşi maya ekmeği: kabuk ile iç arasındaki sınır, suyun yön değiştirdiği yer."
+      },
+      {
+        "metin": "Buğday unu ağırlıkça başlıca %70–75 nişasta içerir [[nisasta.bugday_ununun_ana_bileseni]]. Nişasta, ekmek içinin yapısının ana belirleyicisidir [[nisasta.ekmek_ici_yapisi_ve_bayatlama_etkisi]].",
+        "gorsel": "photomicrograph_of_wheat_starch",
+        "vurgu": "Buğday nişastasının eş merkezli halkaları: unun büyük kısmını oluşturan taneler."
+      },
+      {
+        "metin": "Suyu seven gruplar, nişastayla ek hidrojen bağları kurarak kararlı bir protein–nişasta ağı oluşturur [[nem_gocu.protein_nisasta_agi_ile_su_gocunun_engellenmesi]].",
+        "gorsel": "potato_starch_polarized_light_100x",
+        "vurgu": "Polarize ışıkta patates nişastası: ekmek ağının görüntüsü değil, nişasta tanelerinin görünümü."
+      },
+      {
+        "metin": "Beyaz buğday ekmeğinde, kapalı polietilen torbada 25 °C'de saklanan ekmekte ilk 7 günde su–protein grubunun payı yaklaşık %28–29'dan %21–23,5'e düştü [[nem_gocu.nmr_a_azalir_b_artar]]. Aynı sürede jelleşmiş nişasta grubunun payı %67–68'den %71–73'e çıktı [[nem_gocu.nmr_a_azalir_b_artar]].",
+        "gorsel": "potato_amyloplast_granules_observed_at_200_magnification",
+        "vurgu": "Polarize mikroskopta nişasta taneleri: ölçümdeki nişasta payının görsel karşılığı değil, yalnızca tanelerin görünümü."
+      }
+    ]
+  },
+  "anla": [
+    {
+      "baslik": "Pişirmenin son nem hareketi",
+      "paragraflar": [
+        "Nem içten kabuğa doğru göçer; bu yönü ölçümlerin çoğu, soğumanın hemen ardından değil, günler süren saklamada gösterdi [[nem_gocu.icten_kabuga]]. Pişirmenin sonunda çiğ hamur kalmadığında merkezdeki su içeriği, iç sıcaklık 100 °C'ye ulaşana dek artar [[nem_gocu.merkez_100_derece]]. Merkez 100 °C'ye varınca su buharı kenarlara, özellikle çatlaklara göç eder [[nem_gocu.merkez_100_derece]].",
+        "Hava jetli ve konvansiyonel fırında yapılan denemelerde ekmeğin ortalama nemi %30–40 aralığında kaldı [[nem_gocu.uygun_pisen_ekmekte_ortalama_nem_araligi]]. Modelde nem faz değişimi, pişirmede ısıl, hidrolik ve mekanik davranışları yöneten merkezi süreçtir [[nem_gocu.faz_degisimi_merkezi_surec]]. Küçük kalıp ekmeği, alüminyum bir kalıpta pişirilen küçük bir somundur [[nem_gocu.pisirme_sicakligi_nem_kaybi]]. 180, 200 ve 220 °C'de pişirildiğinde nemin sırasıyla %11, 15 ve 17'sini kaybetti [[nem_gocu.pisirme_sicakligi_nem_kaybi]].",
+        "Fakat bu kayıp ekmeğin her yerinde aynı değildir [[nem_gocu.pisirmede_merkez_nem_kazanir]]. 200 °C'de pişirilen küçük kalıp ekmeğinde yalnız kabuk nem kaybetti [[nem_gocu.pisirmede_merkez_nem_kazanir]]. Merkez ise nem kazandı; nem içeriği %4,2'ye varan oranda arttı [[nem_gocu.pisirmede_merkez_nem_kazanir]]. Merkezin ne zaman nem kazandığı konusunda kaynaklar ayrışır [[nem_gocu.merkez_nem_artisi_65c_altinda]]. Fırınlamanın ilk dakikalarında, sıcaklık 65 °C'yi aşmadığında merkezde nem arttı [[nem_gocu.merkez_nem_artisi_65c_altinda]]. Fiber optik ölçümde ise merkez, 70 ± 5 °C'ye ulaştıktan sonra nem kazandı [[nem_gocu.core_nem_70c_esigi]]."
+      ]
+    },
+    {
+      "baslik": "Su kabuğa doğru yürür",
+      "paragraflar": [
+        "Nem göçü, suyun ekmek içinde ve dışında yer değiştirmesidir [[nem_gocu.buhar_basinci_gradyani_ile_icten_yuzeye_goc]]. Pişirmede göç, sıcaklık ve buhar basıncı farklarına bağlıdır [[nem_gocu.buhar_basinci_gradyani_ile_icten_yuzeye_goc]]. Difüzyon, bir maddenin yoğun olduğu yerden seyrek olduğu yere kendiliğinden yayılmasıdır [[nem_gocu.buhar_difuzyonu_gozinekli_yuzeye]]. Su buharı, birbirine bağlı gözeneklerden, yani ekmeğin içindeki hava boşluklarından yüzeye doğru bu yolla ilerler [[nem_gocu.buhar_difuzyonu_gozinekli_yuzeye]].",
+        "Etanollü polietilen torbada oda sıcaklığında 0–7 gün saklanan ekmekte kabuğun nemi arttı, içindeki nem azaldı [[nem_gocu.icten_kabuga]]. Bağıl nem, havadaki su buharının oranını gösterir [[nem_gocu.kabuk_bagil_nem_80_40]]. Ekmek kabuğu, Primo-Martín vd. (2006) derlemesine göre %80 bağıl nemde nem alır, %40'ta ise kurur [[nem_gocu.kabuk_bagil_nem_80_40]]."
+      ]
+    },
+    {
+      "baslik": "Ağ, tuz ve ölçüm",
+      "paragraflar": [
+        "Nişasta, birçok şeker biriminin zincirinden oluşan bir karbonhidrattır; tahıllar dahil birçok bitkide en önemli depo maddedir [[nisasta.tahillarda_yari_kristal_granul_tanimi]]. Suyu seven, yani hidrofilik gruplar nişasta molekülleriyle ilave hidrojen bağları kurar [[nem_gocu.protein_nisasta_agi_ile_su_gocunun_engellenmesi]]. Hidrojen bağı, moleküller arasında kurulan zayıf bir çekimdir [[nem_gocu.protein_nisasta_agi_ile_su_gocunun_engellenmesi]]. Bu bağlar kararlı bir protein–nişasta ağı oluşturur; bu ağın su göçünü engellediği mekanizma olarak tanımlanır [[nem_gocu.protein_nisasta_agi_ile_su_gocunun_engellenmesi]].",
+        "Tuzun etkisi konusunda kaynaklar ayrışır [[nem_gocu.tuzun_icten_kabuga_su_gocunu_yavaslatmasi]]. Bir kaynağa göre tuz, su moleküllerinin hareketliliğini azaltarak içten kabuğa göç hızını düşürür [[nem_gocu.tuzun_icten_kabuga_su_gocunu_yavaslatmasi]]. Tuzu %10 ve %15 azaltılan gruplarda su tutma kapasitesi, tuz azaldıkça düşmemiş, aksine saklama süresince artmıştır [[nem_gocu.tuz_azaltiminda_su_tutma_kapasitesi_artisi]]. Gluten, buğday proteinlerinin oluşturduğu ağdır; buğday ekmeğinde bu ağ suyun içten kabuğa göçünü yavaşlatır [[nem_gocu.glutensiz_hizli]].",
+        "NMR, ekmekteki hidrojen atomlarının hareketini ölçen bir yöntemdir [[nem_gocu.nmr_populasyon_atama]]. NMR ile ölçülen su hareketliliği, ekmek saklandıkça azalır [[nem_gocu.nmr_su_hareketliligi]]. Jelleşmede amiloz, nişasta tanelerinin dışına yayılarak kesintisiz bir ağ kurar [[nisasta.jellesmede_amilozun_disari_difuzyonu_ve_ag_olusumu]]. Aynı sürede jelleşmiş nişasta grubunun payı %67–68'den %71–73'e çıktı [[nem_gocu.nmr_a_azalir_b_artar]]. Bu gruplara yapılan atamalar bir yorumdur ve temkinle okunmalıdır [[nem_gocu.nmr_populasyon_atama]]."
+      ]
+    },
+    {
+      "baslik": "Soğutma ve kesim",
+      "paragraflar": [
+        "Soğutma yöntemi de kütleyi değiştirir [[nem_gocu.vakumlu_sogutmada_kutle_kaybi_ve_nem_degisimi]]. Fırıncılık ürünlerinde vakumlu soğutma, konvansiyonel soğutmadaki yüzde 3–5 kayba kıyasla yaklaşık yüzde 7 kütle kaybına yol açar [[nem_gocu.vakumlu_sogutmada_kutle_kaybi_ve_nem_degisimi]]. Tost ekmeğinde vakumlu soğutma, fırın sıcaklığından bağımsız olarak yaklaşık yüzde 6,91 ek ağırlık kaybına yol açtı [[nem_gocu.tost_ekmeginde_firin_sicakligiyla_su_kaybi_ve_vakum_sogutma]].",
+        "Her gün açık uçtan dilim kesilen ekmeklerin nemi, saklamanın ilk gününde basamak gibi düştü [[nem_gocu.kesince_ilk_dilim]]. Bunun nedeni, kesilince doğal bir bariyer olan uç kabuğun kalkması ve ilk dilimin kurumaya açık kalmasıdır [[nem_gocu.kesince_ilk_dilim]]."
+      ]
+    }
+  ],
+  "yuzlesme": [
+    {
+      "inanc": "Fırında pişen ekmeğin her yerinden su kaybolur.",
+      "cevap": "Küçük kalıp ekmeğinde toplam kayıp 180, 200 ve 220 °C'de %11, 15 ve 17 oldu [[nem_gocu.pisirme_sicakligi_nem_kaybi]]. Fakat 200 °C'de pişen küçük kalıp ekmeğinde merkez nem kazandı; yalnız kabuk nem kaybetti [[nem_gocu.pisirmede_merkez_nem_kazanir]]."
+    },
+    {
+      "inanc": "Soğuyan ekmek nemini doğrudan havaya verir.",
+      "cevap": "Kâğıt torbada 23 °C ve %65 bağıl nemde saklanan kaplamasız ekmek, başlangıç ağırlığının dördüncü günde %12,5'ini, on dördüncü günde %29,7'sini kaybetti [[nem_gocu.kagit_torba_agirlik_kaybi]]. Yine de saklama sırasında su iç kısımdan kabuğa da göçer [[nem_gocu.icten_kabuga]]."
+    }
+  ],
+  "kanit": {
+    "cekirdek": [
+      "nem_gocu.buhar_basinci_gradyani_ile_icten_yuzeye_goc",
+      "nem_gocu.icten_kabuga",
+      "nem_gocu.uygun_pisen_ekmekte_ortalama_nem_araligi",
+      "nem_gocu.faz_degisimi_merkezi_surec",
+      "nem_gocu.sogumus_ekmek_ic_kabuk_nemi",
+      "nem_gocu.pisirme_sicakligi_nem_kaybi",
+      "nem_gocu.pisirmede_merkez_nem_kazanir",
+      "nem_gocu.merkez_100_derece",
+      "nem_gocu.merkez_nem_artisi_65c_altinda",
+      "nem_gocu.protein_nisasta_agi_ile_su_gocunun_engellenmesi",
+      "nem_gocu.nmr_a_azalir_b_artar",
+      "nem_gocu.vakumlu_sogutmada_kutle_kaybi_ve_nem_degisimi",
+      "nisasta.bugday_ununun_ana_bileseni",
+      "nisasta.ekmek_ici_yapisi_ve_bayatlama_etkisi",
+      "nisasta.tahillarda_yari_kristal_granul_tanimi"
+    ],
+    "cekmece": [
+      "nem_gocu.kabuk_ic_bayatlamasi",
+      "nem_gocu.core_nem_70c_esigi",
+      "nem_gocu.kabuk_bagil_nem_80_40",
+      "nem_gocu.kesince_ilk_dilim",
+      "nem_gocu.buhar_difuzyonu_gozinekli_yuzeye",
+      "nem_gocu.tuzun_icten_kabuga_su_gocunu_yavaslatmasi",
+      "nem_gocu.tuz_azaltiminda_su_tutma_kapasitesi_artisi",
+      "nem_gocu.glutensiz_hizli",
+      "nem_gocu.nmr_su_hareketliligi",
+      "nem_gocu.nmr_populasyon_atama",
+      "nem_gocu.taze_ic_kabuk_nemi",
+      "nem_gocu.kabuk_28",
+      "nem_gocu.buharlasma_engellenince",
+      "nem_gocu.kagit_torba_agirlik_kaybi",
+      "nem_gocu.tost_ekmeginde_firin_sicakligiyla_su_kaybi_ve_vakum_sogutma",
+      "nem_gocu.glutenden_nisastaya_yorum",
+      "nem_gocu.donabilen_su_azalir",
+      "nem_gocu.ekmek_boyutu_ve_merkez_nem_farklari",
+      "nem_gocu.pisirme_merkez_tepe_2_5",
+      "nem_gocu.kapali_ve_acik_gozenek_buhar_gradyani",
+      "nem_gocu.kapali_acik_gozenek_yogusma_su",
+      "nem_gocu.cam_durumdan_kaucuk_gecisi",
+      "nem_gocu.80_derece_uzeri_hizli_nem_kaybi",
+      "nem_gocu.ortalama_pisirme_agirlik_kaybi_yuzde_25",
+      "nem_gocu.gluten_nem",
+      "nem_gocu.taze_nem_46",
+      "nem_gocu.pisirme_sivi_su_kaybi",
+      "nisasta.jellesmede_amilozun_disari_difuzyonu_ve_ag_olusumu",
+      "nisasta.polimer_yapisi_bag_turleri",
+      "nisasta.genel_amiloz_amilopektin_dagilimi",
+      "nisasta.hamurdaki_islevleri_ve_maya_fermantasyonu",
+      "nisasta.granul_tipleri_ve_boyut_siniflari"
+    ]
+  },
+  "baglar": [
+    {
+      "kaldirac": "Merkezin 100 °C'ye ulaşması",
+      "mekanizma": "Çiğ hamur kalmayınca merkezdeki su 100 °C'ye ulaşana dek artar; sonra su buharı merkezden kenarlara, özellikle çatlaklara göç eder.",
+      "sonuc": "Ekmeğin kuruma hızı artar.",
+      "bilgiler": [
+        "nem_gocu.merkez_100_derece"
+      ]
+    },
+    {
+      "kaldirac": "Kabuk ile iç arasındaki buhar basıncı farkı",
+      "mekanizma": "Nem, sıcaklık ve buhar basıncı farkının etkisiyle iç kısımdan kabuğa doğru göç eder.",
+      "sonuc": "Kabuğun nemi artar, içindeki nem azalır.",
+      "bilgiler": [
+        "nem_gocu.buhar_basinci_gradyani_ile_icten_yuzeye_goc",
+        "nem_gocu.icten_kabuga"
+      ]
+    },
+    {
+      "kaldirac": "Kapalı torba",
+      "mekanizma": "Su buharı birbirine bağlı gözeneklerden yüzeye difüzlenir; yüzeyden buharlaşma engellenince su ekmek içinden kabuğa göç edebilir.",
+      "sonuc": "Kapalı torbada saklanan ekmekte nem kabuğa yönelir.",
+      "bilgiler": [
+        "nem_gocu.buhar_difuzyonu_gozinekli_yuzeye",
+        "nem_gocu.buharlasma_engellenince"
+      ]
+    },
+    {
+      "kaldirac": "Protein–nişasta ağı ve tuz",
+      "mekanizma": "Hidrojen bağlarıyla kurulan protein–nişasta ağı su moleküllerini bağlar; tuz ise su moleküllerinin hareketliliğini azaltır.",
+      "sonuc": "Ağın ve tuzun, suyun içten kabuğa göç hızını düşürdüğü tanımlanır.",
+      "bilgiler": [
+        "nem_gocu.protein_nisasta_agi_ile_su_gocunun_engellenmesi",
+        "nem_gocu.tuzun_icten_kabuga_su_gocunu_yavaslatmasi"
+      ]
+    },
+    {
+      "kaldirac": "Ekmeğin kesilmesi",
+      "mekanizma": "Kesilince doğal bariyer olan uç kabuk kalkar.",
+      "sonuc": "İlk dilim kurumaya açık kalır ve nemi basamak gibi düşer.",
+      "bilgiler": [
+        "nem_gocu.kesince_ilk_dilim"
+      ]
+    },
+    {
+      "kaldirac": "Su–protein ve jelleşmiş nişasta payı",
+      "mekanizma": "Saklamanın ilk günlerinde su–protein grubunun payı azalır, jelleşmiş nişasta grubunun payı artar.",
+      "sonuc": "Ölçümler, yapının jelleşmiş nişasta yönünde değiştiğine işaret eder; bu bir yorumdur.",
+      "bilgiler": [
+        "nem_gocu.nmr_a_azalir_b_artar",
+        "nem_gocu.nmr_populasyon_atama"
+      ]
+    }
+  ],
+  "karakterler": [
+    "nisasta"
+  ],
+  "ayrisan_kaynaklar": [
+    {
+      "konu": "Pişirmede merkez ne kadar nem kazanır?",
+      "bilgiler": [
+        "nem_gocu.ekmek_boyutu_ve_merkez_nem_farklari",
+        "nem_gocu.pisirmede_merkez_nem_kazanir",
+        "nem_gocu.pisirme_merkez_tepe_2_5"
+      ]
+    },
+    {
+      "konu": "Merkezdeki nem hangi sıcaklıkta artar?",
+      "bilgiler": [
+        "nem_gocu.merkez_nem_artisi_65c_altinda",
+        "nem_gocu.core_nem_70c_esigi"
+      ]
+    },
+    {
+      "konu": "Saklamada su nereye gider?",
+      "bilgiler": [
+        "nem_gocu.glutenden_nisastaya_yorum",
+        "nem_gocu.donabilen_su_azalir"
+      ]
+    },
+    {
+      "konu": "Tuz su göçünü yavaşlatır mı?",
+      "bilgiler": [
+        "nem_gocu.tuzun_icten_kabuga_su_gocunu_yavaslatmasi",
+        "nem_gocu.tuz_azaltiminda_su_tutma_kapasitesi_artisi"
+      ]
+    },
+    {
+      "konu": "Kabuk ne kadar nem tutar?",
+      "bilgiler": [
+        "nem_gocu.taze_ic_kabuk_nemi",
+        "nem_gocu.sogumus_ekmek_ic_kabuk_nemi",
+        "nem_gocu.kabuk_28"
+      ]
+    }
+  ]
+}

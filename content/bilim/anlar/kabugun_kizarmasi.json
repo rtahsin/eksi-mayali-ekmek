@@ -1,0 +1,267 @@
+{
+  "id": "kabugun_kizarmasi",
+  "durak": "firin",
+  "baslik": "Kabuğun kızarması",
+  "soru": "Kabuğun rengi ve kokusu nereden gelir; aynı sıcaklıkta başka ne doğar?",
+  "bayrak": true,
+  "gor": {
+    "tur": "kaydirma",
+    "adimlar": [
+      {
+        "metin": "Yüzeyde renk oluşumu, hamurdaki suyun tepkimeye katılabilme ölçüsü olan su aktivitesinin 0,6'nın altına inmesi ve sıcaklığın 120 °C'yi aşmasıyla başlar [[maillard.renk_baslangic_asgari_kosullari]].",
+        "gorsel": "brown_bread_crust",
+        "vurgu": "Kahverengi ekmek kabuğunun yakın görünümü: renk yalnızca dış yüzeyde görünür."
+      },
+      {
+        "metin": "Maillard tepkimesi, indirgen şekerlerle aminik bileşiklerin ısıda girdiği tepkimenin adıdır [[maillard.maillard_asgari_substratlari]]. Bu tepkimede oluşan esmerleşme ürünlerine melanoidin denir; bunlar indirgen şekerlerle amino asitler, proteinler veya diğer azotlu bileşikler birlikte ısıtıldığında oluşur [[maillard.kabukta_melanoidin_olusumu]]. Tepkime üç aşamada ilerler; başlangıç evresinde indirgen şekerler aminik bileşiklerle birleşip renksiz Amadori ve Heyns bileşikleri oluşturur [[maillard.tepkimenin_uc_asamasi_amadori_ve_heyns_bilesikleri]].",
+        "gorsel": "sils_bread_2",
+        "vurgu": "Sils ekmeğinin koyu kabuğu: renk, şekerle proteinin birleştiği yüzeyde oluşur."
+      },
+      {
+        "metin": "Karamelleşme, karbonhidratların doğrudan ısıtılmasıyla meydana gelen bir tepkimeler grubudur [[maillard.karamellesme_tanimi]]. Ekmek sistemlerinde karamelleşme ve Maillard tepkimesi eş zamanlı gerçekleşebilir; her iki tepkime de sıcaklık, su aktivitesi ve pH'a bağlıdır [[maillard.karamellesme_ve_maillard_es_zamanli]].",
+        "gorsel": "laugenbroetchen_fcm",
+        "vurgu": "Laugen ekmeğinin koyu kabuğu: sarı-altın renk, pişirmeyle kahverengiye yürür."
+      },
+      {
+        "metin": "Kabuk kokusu, uçucu bileşiklerin pişirme sırasında oluşmasıyla belirir; Maillard tepkimeleri, Strecker yıkımı ve şekerlerin karamelleşmesi birlikte bu bileşikleri meydana getirir [[maillard.kabuk_ucucu_bilesikleri_ve_strecker_yikimi]]. Strecker yıkımı, amino asitlerin ısıyla parçalanarak aldehitlere dönüştüğü yoldur [[maillard.aldehitlerin_strecker_yikimiyla_olusumu]]. Ornitin, pişirme sırasındaki Maillard tepkimelerinde 2-oksopropanal ile tepkimeye girerek kabuk aromasından sorumlu 2-asetil-1-pirolini oluşturur [[maillard.ornitin_metilglioxal_2_asetil_1_pirolin]].",
+        "gorsel": "brown_bread_crust",
+        "vurgu": "Ekmeğin kabuğu: koku, uçucu bileşiklerin yüzeyde oluşmasıyla ortaya çıkar."
+      },
+      {
+        "metin": "Kabuğun kimyası elle de değiştirilebilir. Pretzel yapımında kullanılan NaOH, pişirmede Maillard tepkimesini destekler ve kabuğun kimyasal yapısını değiştirir [[maillard.naoh_maillardi_destekler]]. NaOH kabuktaki proteinleri parçalar; geriye amino asitler ve peptitler, yani kısa protein parçaları kalabilir [[maillard.naoh_protein_hidrolizi]]. Peki bu sırada yüzeyde başka ne doğar?",
+        "gorsel": "laugenbroetchen_fcm",
+        "vurgu": "Laugen ekmeğinin parlak ve koyu kabuğu: NaOH'un desteklediği tepkimelerin izi."
+      },
+      {
+        "metin": "Aynı ısıl işlemde başka bir bileşik daha doğar: gıdadaki akrilamid esas olarak asparajin amino asidi ile indirgeyici şekerlerin tepkimesinden oluşur [[akrilamid.ana_olusum_asparajin_seker_tepkimesi]]. Bu bileşik 2002 yılından bu yana gıda kirleticileri listesindedir [[akrilamid.seker_asparajin_ve_2002_kirlilik_listesi]].",
+        "gorsel": "sils_bread_2",
+        "vurgu": "Koyu kabuk ile açık ekmek içi: aynı fırında iki farklı sonuç bir arada."
+      }
+    ]
+  },
+  "anla": [
+    {
+      "baslik": "Rengi başlatan iki yol",
+      "paragraflar": [
+        "Ekmeğin sarı-altın rengi, enzimatik olmayan kimyasal tepkimelerden doğar; başlıca iki yol vardır, Maillard tepkimesi ve karamelleşme [[maillard.esmerlesme_maillard_ve_karamellesme]]. Maillard tepkimesi, indirgen şekerlerle aminik bileşiklerin ısıda girdiği tepkimenin adıdır [[maillard.maillard_asgari_substratlari]]. Bu tepkimede oluşan esmerleşme ürünlerine melanoidin denir; bunlar indirgen şekerlerle amino asitler, proteinler veya diğer azotlu bileşikler birlikte ısıtıldığında oluşur [[maillard.kabukta_melanoidin_olusumu]]. Tepkime üç aşamada ilerler; başlangıç evresinde indirgen şekerler aminik bileşiklerle birleşip renksiz Amadori ve Heyns bileşikleri oluşturur [[maillard.tepkimenin_uc_asamasi_amadori_ve_heyns_bilesikleri]]. Karamelleşme ise karbonhidratların, özellikle sakkaroz ve indirgen şekerlerin doğrudan ısıtılmasıyla meydana gelen karmaşık bir tepkimeler grubudur [[maillard.karamellesme_tanimi]].",
+        "Ekmek sistemlerinde karamelleşme ve Maillard tepkimesi eş zamanlı gerçekleşebilir; her iki tepkime de sıcaklık, su aktivitesi ve pH'a bağlıdır [[maillard.karamellesme_ve_maillard_es_zamanli]]. Sıcaklık 115 °C'yi aştığında hidrolize nişastadan üretilen maltoz gibi indirgen şekerler tepkimeye katılır ve kabuk rengini geliştirir [[maillard.115_derece_uzerinde_maltoz_substrati]]. Renk oluşumu ise daha yüksek bir eşik ister: hamurdaki suyun tepkimeye katılabilme ölçüsü olan su aktivitesi 0,6'nın altına inmeli, sıcaklık 120 °C'yi aşmalıdır [[maillard.renk_baslangic_asgari_kosullari]]."
+      ]
+    },
+    {
+      "baslik": "Sıcaklık ve süre rengi nasıl belirler",
+      "paragraflar": [
+        "105 °C fırında 210 saniye ısıtılan hamurun maddeler bileşimi değişmeden kaldı; 300 saniye ve üzeri ısıtma hafif esmerleşme getirdi [[maillard.105_derecede_isitmada_esmerlesme_esigi]]. Pişirme sıcaklığı ve süresi 200 °C'den 225 °C'ye çıkarıldığında kabuk kızarıklık indeksi, esmerleşme indeksi ve HMF konsantrasyonu belirgin biçimde yükseldi [[maillard.pisirme_sicakligi_ve_suresiyle_a_rengi_ve_hmf_kinetigi]]. HMF, yani hidroksimetilfurfural, Maillard tepkimesinin ikinci evresinde ve karamelleşmeyle oluşan düşük molekül ağırlıklı bir moleküldür [[maillard.hmf_ara_asama_karamellesme]]. Birikimi birinci derece kinetiği izler; belirgin düzey için su aktivitesi 0,4'ün altına inmeli [[maillard.hmf_birikimi_ve_su_aktivitesi]].",
+        "Tost ekmeğinde esmerleşme indeksi en düşük ısıl yükte, yani 200 °C fırın ve 90 °C ekmek içi sıcaklığında, 16 ölçüldü [[maillard.tost_ekmeginde_firin_ve_ic_sicaklikla_esmerlesme]]. En yüksek ısıl yükte, 240 °C fırın ve 98 °C ekmek içi sıcaklığında, indeks 55'e çıktı [[maillard.tost_ekmeginde_firin_ve_ic_sicaklikla_esmerlesme]]. Kavılca ekmeğinin kabuğu, beyaz ekmek kabuğuna kıyasla daha yüksek kızarıklık derecesi (10,79'a karşı 7,60) ve en yüksek esmerleşme indeksi (70,95'e karşı 48,15) gösterdi [[maillard.kavilca_ekmeginde_kizariklik_ve_esmerlesme_indeksi]]. Kabuktaki antioksidan kapasite artışının pişirmede oluşan Maillard ürünlerinden kaynaklanabileceği belirtiliyor [[maillard.kabukta_antioksidan_kapasite_artisi]]."
+      ]
+    },
+    {
+      "baslik": "Kabuk kokusu nereden gelir",
+      "paragraflar": [
+        "Kabuk kokusu, uçucu bileşiklerin pişirme sırasında oluşmasıyla belirir; Maillard tepkimeleri, Strecker yıkımı ve şekerlerin karamelleşmesi birlikte bu bileşikleri meydana getirir [[maillard.kabuk_ucucu_bilesikleri_ve_strecker_yikimi]]. Strecker yıkımı, amino asitlerin ısıyla parçalanarak aldehitlere dönüştüğü yoldur [[maillard.aldehitlerin_strecker_yikimiyla_olusumu]]. 2-metilpropanal, 2-metilbütanal ve 3-metilbütanal fermantasyonda Ehrlich yolağıyla, yani mayanın amino asitleri aldehitlere çevirdiği yolla, ya da pişirmede Strecker yıkımıyla oluşabilir [[maillard.aldehitlerin_strecker_yikimiyla_olusumu]]. Ornitin, pişirme sırasındaki Maillard tepkimelerinde 2-oksopropanal ile tepkimeye girerek kabuk aromasından sorumlu 2-asetil-1-pirolini oluşturur [[maillard.ornitin_metilglioxal_2_asetil_1_pirolin]].",
+        "Ekşi maya hamurun pH'ını düşürdüğü için Maillard tepkimelerinde Amadori düzenlenmeleri kolaylaşır; furanlar, pirazinler, piroller, pirolinler ve kükürtlü bileşiklerin oluşumu desteklenir [[maillard.eksi_maya_dusuk_ph_amadori_duzenlenmesi]]. Ekşi maya fermantasyonu amilaz etkinliğini artırır; oluşan maltodekstrinler, maltoz ve glukoz pişirmede esmerleşmeyi yoğunlaştırır [[maillard.eksi_maya_amilaz_esmerlesme_aktarim]]. Kabukta enzimle parçalanma sonucu açığa çıkan glukoz ek şeker sağlar ve Maillard tepkimesini hızlandırır [[maillard.enzim_glukoz_saglar]]."
+      ]
+    },
+    {
+      "baslik": "Aynı sıcaklıkta doğan başka bileşik",
+      "paragraflar": [
+        "Aynı ısıl işlemde asparajin amino asidi ile indirgeyici şekerlerin tepkimesinden akrilamid doğar [[akrilamid.ana_olusum_asparajin_seker_tepkimesi]]. Akrilamid esas olarak fırınlama ve kavurma gibi şiddetli ısıl işlemler sırasında şekerler ve asparajinden oluşur; 2002 yılından bu yana gıda kirleticileri listesindedir [[akrilamid.seker_asparajin_ve_2002_kirlilik_listesi]].",
+        "Fırınlamada yüksek sıcaklığa uzun süre maruz kalmak yüzeyi kurutur; esmerleşme yoğunlaşır ve akrilamid, HMF ve heterosiklik aminler gibi bileşikler doğar [[akrilamid.yuksek_sicaklik_uzun_sure_dehidrasyon]]. Ekmekte akrilamid oluşumu esas olarak kabukta gerçekleşir; fırınlama süresi ile sıcaklığı arttıkça kabuktaki akrilamid miktarı da artar [[akrilamid.kabukta_toplanir_sure_sicaklik]]. Kabuğun dış katmanı, iç kabuğa göre belirgin biçimde daha düşük su içeriğine sahipken daha yüksek akrilamid derişimine sahiptir [[akrilamid.dis_kabuk_kuru_ve_yuksek]]. Kalan su barındıran sistemlerde akrilamid oluşumu azalır, çünkü buharlaşma etkin sıcaklığı düşürür [[akrilamid.kalan_su_buharlasmasi_azaltir]]. Model sistemde amino asitler ve glikoz 175 °C'de ısıtıldığında akrilamid oluşurken 120 veya 140 °C'de oluşmadı [[akrilamid.esik_175c_model_sistem]].",
+        "Spelt ekmeklerinde kabuktaki akrilamid uzun maya mayalanmasıyla açık ara en düşük çıktı; ekşi mayalı tarifler ise kabukta daha yüksek akrilamid verdi [[akrilamid.uzun_maya_en_dusuk_eksi_maya_yuksek]]. Ekmek kabuğundaki akrilamidin maya mayalanma süresi uzatılınca azaldığı daha önceki bir çalışmada gösterilmişti [[akrilamid.uzun_mayalanma_onceki_calisma]]. Hamura glisin eklenmesi hem yassı ekmekte hem de ekmek kabuğunda akrilamid içeriğini belirgin biçimde düşürdü [[akrilamid.glikin_eklenmesi]]. EFSA'nın 2015 tarihli bilimsel görüş raporuna göre buğday ekmeği için gösterge akrilamid değeri 80 µg/kg'dır [[akrilamid.efsa_gosterge_degeri_80]]."
+      ]
+    }
+  ],
+  "yuzlesme": [
+    {
+      "inanc": "Kabuğun rengini yalnızca şekerin karamelleşmesi verir.",
+      "cevap": "Maillard esmerleşmesi için üç şey gerekir: bir protein olan aminik bir bileşik, indirgen şeker ve bir miktar su [[maillard.maillard_asgari_substratlari]]. Ekmek sistemlerinde karamelleşme ile Maillard tepkimesi eş zamanlı gerçekleşebilir [[maillard.karamellesme_ve_maillard_es_zamanli]]."
+    },
+    {
+      "inanc": "Aynı sıcaklıkta ekmeğe yalnızca renk ve koku eklenir, başka bir şey oluşmaz.",
+      "cevap": "Aynı ısıl işlemde asparajin amino asidiyle indirgeyici şekerler tepkimeye girerek akrilamid oluşturur [[akrilamid.ana_olusum_asparajin_seker_tepkimesi]]. Bu bileşik 2002 yılından bu yana gıda kirleticileri listesindedir [[akrilamid.seker_asparajin_ve_2002_kirlilik_listesi]]."
+    },
+    {
+      "inanc": "Akrilamid ekmeğin her yerinde aynı miktarda bulunur.",
+      "cevap": "Ekmekte akrilamid oluşumu esas olarak kabukta gerçekleşir [[akrilamid.kabukta_toplanir_sure_sicaklik]]. Kabuğun dış katmanı, iç kabuğa göre belirgin biçimde daha düşük su içeriğine sahipken daha yüksek akrilamid derişimine sahiptir [[akrilamid.dis_kabuk_kuru_ve_yuksek]]."
+    }
+  ],
+  "kanit": {
+    "cekirdek": [
+      "maillard.esmerlesme_maillard_ve_karamellesme",
+      "maillard.kabukta_melanoidin_olusumu",
+      "maillard.tepkimenin_uc_asamasi_amadori_ve_heyns_bilesikleri",
+      "maillard.renk_baslangic_asgari_kosullari",
+      "maillard.karamellesme_ve_maillard_es_zamanli",
+      "maillard.maillard_asgari_substratlari",
+      "maillard.kabuk_ucucu_bilesikleri_ve_strecker_yikimi",
+      "maillard.ornitin_metilglioxal_2_asetil_1_pirolin",
+      "maillard.pisirme_sicakligi_ve_suresiyle_a_rengi_ve_hmf_kinetigi",
+      "maillard.tost_ekmeginde_firin_ve_ic_sicaklikla_esmerlesme",
+      "maillard.hmf_birikimi_ve_su_aktivitesi",
+      "akrilamid.ana_olusum_asparajin_seker_tepkimesi",
+      "akrilamid.seker_asparajin_ve_2002_kirlilik_listesi",
+      "akrilamid.kabukta_toplanir_sure_sicaklik",
+      "akrilamid.uzun_maya_en_dusuk_eksi_maya_yuksek"
+    ],
+    "cekmece": [
+      "maillard.eksi_maya_dusuk_ph_amadori_duzenlenmesi",
+      "maillard.aldehitlerin_strecker_yikimiyla_olusumu",
+      "maillard.dusuk_sekerli_kurabiyede_aminoasit_aroma_katkisi",
+      "maillard.ekmekte_furfural_ve_2_pentilfuran_olusumu",
+      "maillard.eksi_maya_amilaz_esmerlesme_aktarim",
+      "maillard.kabuk_islemi_koyu_kabuk",
+      "maillard.kabukta_antioksidan_kapasite_artisi",
+      "maillard.kavilca_ekmeginde_kizariklik_ve_esmerlesme_indeksi",
+      "maillard.kurutulmus_eksi_maya_a_b_renk_artisi",
+      "maillard.uzun_fermantasyon_koyu_ic",
+      "maillard.cmc_datem_kombinasyonunda_esmerlesme_indeksi_artisi",
+      "maillard.firin_sicakligi_esmerlesme",
+      "maillard.tritikale_acik_renk_aktarim",
+      "maillard.kuru_eksi_maya_aminoasit_seker_ve_melanoidin",
+      "maillard.okside_fenolik_asitlerin_kinon_maillard_esmerlesmesi",
+      "maillard.sut_laktozunun_kabuk_esmerlesmesine_katkisi",
+      "maillard.tuzsuz_hamurda_seker_tukenmesi_ve_beyaz_kabuk",
+      "maillard.naoh_protein_hidrolizi",
+      "maillard.105_derecede_isitmada_esmerlesme_esigi",
+      "maillard.115_derece_uzerinde_maltoz_substrati",
+      "maillard.buharda_pisen_mantouda_dusuk_sicaklik_ve_az_urun",
+      "maillard.orta_nem_ve_yuksek_sicaklikta_hizlanma",
+      "maillard.tahil_urunlerinde_sicaklik_sure_kombinasyonu_belirleyicidir",
+      "maillard.yuksek_sicaklik_dusuk_su_aktivitesinde_hizli_esmerlesme",
+      "maillard.yuzey_esmerlesmesi_kontrol_parametresi",
+      "maillard.melanoidin_derisimi_ve_yuzey_rengi_modeli",
+      "maillard.nisasta_jellerinde_sicaklik_ve_renk",
+      "maillard.naoh_maillardi_destekler",
+      "maillard.hmf_tanim_yuksek_sicaklik_dusuk_nem",
+      "maillard.karamellesme_tanimi",
+      "maillard.hmf_ara_asama_karamellesme",
+      "maillard.enzim_glukoz_saglar",
+      "akrilamid.uzun_mayalanma_onceki_calisma",
+      "akrilamid.yuksek_sicaklik_uzun_sure_dehidrasyon",
+      "akrilamid.asgari_isi_girdisi_kabarma_duzeyi",
+      "akrilamid.dis_kabuk_kuru_ve_yuksek",
+      "akrilamid.dusuk_kul_unu",
+      "akrilamid.esik_175c_model_sistem",
+      "akrilamid.glikin_eklenmesi",
+      "akrilamid.islem_parametreleri_ve_gida_matrisi",
+      "akrilamid.kalan_su_buharlasmasi_azaltir",
+      "akrilamid.katki_maddeleri_seviyeyi_dusurur",
+      "akrilamid.kuru_sistemde_maksimum_190_210c",
+      "akrilamid.ph_dusurme_misir_cipsi",
+      "akrilamid.sicaklik_nem_profili_degisikligi_50",
+      "akrilamid.uzun_pisirme_starch_flatbread_azalir",
+      "akrilamid.firin_sicakligi_dusurulmesi",
+      "akrilamid.liyofilize_yassi_ekmek_daha_yuksek",
+      "akrilamid.modellerde_degisimle_azalma_20dk_tepe",
+      "akrilamid.sistem_siralama_nisasta_yuksek_kabuk_dusuk",
+      "akrilamid.beyaz_ve_tam_bugday_degerleri",
+      "akrilamid.alternatif_yol_amonyak_akrolein",
+      "akrilamid.efsa_gosterge_degeri_80",
+      "akrilamid.derisim_carpimi_korelasyonu",
+      "akrilamid.fruktoz_glikozun_iki_kati",
+      "akrilamid.mol_orani_05_10_en_yuksek",
+      "akrilamid.bilesim_zaman_sicaklik_bagliligi_etkilemez"
+    ]
+  },
+  "baglar": [
+    {
+      "kaldirac": "Sıcaklık ve su aktivitesi",
+      "mekanizma": "Yüzeyde renk oluşumunun başlaması için sıcaklığın 120 °C'nin üzerinde ve su aktivitesinin 0,6'nın altında olması gerekir.",
+      "sonuc": "Kabuk, bu iki koşul sağlandığında esmerleşmeye başlar; yüksek sıcaklık ve düşük su aktivitesinin yüksek esmerleşme hızlarına yol açtığı öne sürülmüştür.",
+      "bilgiler": [
+        "maillard.renk_baslangic_asgari_kosullari",
+        "maillard.yuksek_sicaklik_dusuk_su_aktivitesinde_hizli_esmerlesme"
+      ]
+    },
+    {
+      "kaldirac": "İndirgen şeker ve amino asit",
+      "mekanizma": "Maillard esmerleşmesi için gereken maddeler bir protein olan aminik bir bileşik, indirgen şeker ve bir miktar sudur.",
+      "sonuc": "Şekerle proteinin bir araya geldiği her yüzey, renk ve aroma üretiminin girdi noktası olur.",
+      "bilgiler": [
+        "maillard.maillard_asgari_substratlari",
+        "maillard.kabukta_melanoidin_olusumu"
+      ]
+    },
+    {
+      "kaldirac": "Pişirme sıcaklığı ve süresi",
+      "mekanizma": "Pişirme sıcaklığı ve süresi 200 °C'den 225 °C'ye çıkarıldığında kabuk kızarıklık indeksi, esmerleşme indeksi ve HMF konsantrasyonu belirgin biçimde yükselir.",
+      "sonuc": "Pişen tahıl ürünlerinde esmerleşme yoğunluğu öncelikle sıcaklık ve süre kombinasyonlarıyla belirlenir.",
+      "bilgiler": [
+        "maillard.pisirme_sicakligi_ve_suresiyle_a_rengi_ve_hmf_kinetigi",
+        "maillard.tahil_urunlerinde_sicaklik_sure_kombinasyonu_belirleyicidir"
+      ]
+    },
+    {
+      "kaldirac": "Ekşi mayanın pH'ı",
+      "mekanizma": "Ekşi maya hamur pH'ını düşürdüğü için Maillard tepkimelerinde Amadori düzenlenmeleri kolaylaşır.",
+      "sonuc": "Furanlar, pirazinler, piroller, pirolinler ile kükürtlü bileşiklerin oluşumu desteklenir.",
+      "bilgiler": [
+        "maillard.eksi_maya_dusuk_ph_amadori_duzenlenmesi",
+        "maillard.eksi_maya_amilaz_esmerlesme_aktarim"
+      ]
+    },
+    {
+      "kaldirac": "Maya mayalanma süresi",
+      "mekanizma": "Spelt ekmeklerinde uzun maya mayalanması kabuktaki akrilamidi açık ara en düşük seviyeye indirdi.",
+      "sonuc": "Ekşi mayalı tarifler ise kabukta daha yüksek akrilamid verdi; daha önceki bir çalışmada da mayalanma süresi uzatıldıkça akrilamid azaldı.",
+      "bilgiler": [
+        "akrilamid.uzun_maya_en_dusuk_eksi_maya_yuksek",
+        "akrilamid.uzun_mayalanma_onceki_calisma"
+      ]
+    },
+    {
+      "kaldirac": "Kabuktaki nem",
+      "mekanizma": "Kabuğun dış katmanı iç kabuğa göre belirgin biçimde daha düşük su içeriğine sahiptir; kalan su buharlaşma yoluyla etkin sıcaklığı düşürür.",
+      "sonuc": "Akrilamid, kuru sayılan dış katmanda yüksek derişime ulaşır; suyun kaldığı sistemlerde oluşumu azalır.",
+      "bilgiler": [
+        "akrilamid.dis_kabuk_kuru_ve_yuksek",
+        "akrilamid.kalan_su_buharlasmasi_azaltir"
+      ]
+    },
+    {
+      "kaldirac": "Melanoidin derişimi",
+      "mekanizma": "Pişirme sırasında ekmek yüzeyindeki renk gelişimi ile Maillard tepkimesiyle üretilen melanoidin derişimi arasında üstel bir ilişki varsayılmıştır.",
+      "sonuc": "Yüzeydeki renk gelişimi, üretilen melanoidin miktarının izi olarak okunabileceği varsayılır.",
+      "bilgiler": [
+        "maillard.melanoidin_derisimi_ve_yuzey_rengi_modeli",
+        "maillard.kabukta_melanoidin_olusumu"
+      ]
+    }
+  ],
+  "karakterler": [],
+  "ayrisan_kaynaklar": [
+    {
+      "konu": "Esmerleşme hangi sıcaklıkta başlar?",
+      "bilgiler": [
+        "maillard.renk_baslangic_asgari_kosullari",
+        "maillard.115_derece_uzerinde_maltoz_substrati",
+        "maillard.105_derecede_isitmada_esmerlesme_esigi",
+        "maillard.nisasta_jellerinde_sicaklik_ve_renk"
+      ]
+    },
+    {
+      "konu": "Pişirme süresi uzadıkça akrilamid artar mı, azalır mı?",
+      "bilgiler": [
+        "akrilamid.kabukta_toplanir_sure_sicaklik",
+        "akrilamid.uzun_pisirme_starch_flatbread_azalir",
+        "akrilamid.modellerde_degisimle_azalma_20dk_tepe",
+        "akrilamid.kuru_sistemde_maksimum_190_210c"
+      ]
+    },
+    {
+      "konu": "Ekşi maya ekmeğinde kabuk rengi ve akrilamid nasıl değişir?",
+      "bilgiler": [
+        "maillard.eksi_maya_amilaz_esmerlesme_aktarim",
+        "maillard.kurutulmus_eksi_maya_a_b_renk_artisi",
+        "akrilamid.uzun_maya_en_dusuk_eksi_maya_yuksek"
+      ]
+    },
+    {
+      "konu": "Esmerleşmeyi fırın sıcaklığı mı, ekmek içi sıcaklığı mı belirler?",
+      "bilgiler": [
+        "maillard.firin_sicakligi_esmerlesme",
+        "maillard.tost_ekmeginde_firin_ve_ic_sicaklikla_esmerlesme",
+        "maillard.tahil_urunlerinde_sicaklik_sure_kombinasyonu_belirleyicidir"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,41 @@
+{
+  "id": "wanom",
+  "ad": "Wickerhamomyces anomalus",
+  "eski_ad": null,
+  "tur": "maya",
+  "tek_cumle": "Ekşi maya fermantasyonlarında bulunan geleneksel olmayan bir maya türüdür [[wanom.geleneksel_olmayan_eksimaya_mayasi]]",
+  "bolumler": [
+    {
+      "baslik": "Kimlik",
+      "cumleler": [
+        "75 maya genomunun taranmasında, tek bir genomda en çok ester sentez geni (sekiz) Wickerhamomyces anomalus NRRL Y-0366'da bulundu [[wanom.ester_gen_sayisi]]"
+      ]
+    },
+    {
+      "baslik": "Ne yer, ne üretir",
+      "cumleler": [
+        "EAT ve IMO32 genlerinin kodladığı iki açil-KoA transferaz, Saccharomyces cerevisiae ve Wickerhamomyces anomalus'ta etil asetat sentezine katılır [[wanom.eat_imo32_etil_asetat]]"
+      ]
+    },
+    {
+      "baslik": "İlişkileri",
+      "cumleler": [
+        "Laboratuvardaki ikili rekabet deneylerinde güçlü bir rakip çıktı, ama örneklenen 500 ekşi mayada sık bulunmadı [[wanom.guclu_ama_seyrek]]"
+      ]
+    },
+    {
+      "baslik": "Ekmeğe etkisi",
+      "cumleler": [
+        "Lactiplantibacillus plantarum 1A7 ile Wickerhamomyces anomalus LCF1695 kombinasyonu, organik asit, antifungal peptit ve uçucu bileşik sinerjisiyle buğday ekmeğinde antifungal etkiyi artırır [[wanom.bugday_ekmeginde_antifungal_ikili]]"
+      ]
+    }
+  ],
+  "efsane": null,
+  "anlar": [
+    "ayni_sofrada"
+  ],
+  "gorseller": [
+    "s12934_025_02864_0_sekil_1a",
+    "s12934_025_02864_0_sekil_3a"
+  ]
+}

@@ -1,0 +1,530 @@
+{
+  "id": "gluten",
+  "ad": "Gluten",
+  "bilgiler": [
+    {
+      "id": "gluten.elastiklik_hacim_optimum",
+      "metin": "İyi kurulmamış bir gluten ağı mayalanma gazını tutamayabilir ve ekmek hacmi düşük kalır; yeterince elastik olmayan gluten de düşük hacim verir, elastiklik arttıkça hacim artar, ama aşırı elastik gluten gaz hücrelerinin genişlemesini engelleyip hacmi yeniden düşürür.",
+      "kosul": "",
+      "kanit": "ikincil",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.lwt.2012.09.011",
+          "yer": "1. Introduction"
+        },
+        {
+          "kaynak": "10.1155/2018/8187318",
+          "yer": "2. Porous Crumb Structure Development"
+        },
+        {
+          "kaynak": "10.3390/foods10071585",
+          "yer": "4. Discussion"
+        }
+      ]
+    },
+    {
+      "id": "gluten.ag_stabilitesi_disulfit_ve_kovalent_olmayan_baglar",
+      "metin": "Yoğurma sırasında oluşan gluten ağının kararlılığı, kovalent disülfit bağlarının yanı sıra hidrojen bağları, iyonik bağlar ve hidrofobik bağlar gibi kovalent olmayan etkileşimlere dayanır.",
+      "kosul": "Yoğurma sırasında oluşan gluten ağı",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1002/cche.10572",
+          "yer": "7 GLUTEN CHEMISTRY AND FUNCTIONALITY"
+        },
+        {
+          "kaynak": "10.1016/j.foodchem.2021.129916",
+          "yer": "Introduction"
+        },
+        {
+          "kaynak": "10.1016/j.cofs.2019.04.001",
+          "yer": "2. The gluten network"
+        },
+        {
+          "kaynak": "10.1080/10408398.2020.1864618",
+          "yer": "Analysis of protein-protein interactions"
+        },
+        {
+          "kaynak": "10.3390/foods13081277",
+          "yer": "3.4. Analysis of SE-HPLC"
+        },
+        {
+          "kaynak": "10.17113/ftb.58.03.20.6766",
+          "yer": "Wholewheat flour characterization"
+        }
+      ]
+    },
+    {
+      "id": "gluten.viskoelastisite_ve_hava_hucreleri_kararliligi",
+      "metin": "Gluten ağı hamurun viskoelastik özelliklerini büyük ölçüde belirler; hamur hidrasyonuna, gaz tutulmasına ve hava hücrelerinin kararlı kalmasına katkı sağlar.",
+      "kosul": "Hamur karıştırma ve hamur aşamaları",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.cofs.2022.100873",
+          "yer": "Introduction"
+        },
+        {
+          "kaynak": "10.1016/j.fm.2013.04.007",
+          "yer": "Proteolysis"
+        },
+        {
+          "kaynak": "10.1007/s00397-018-1113-9",
+          "yer": "Materials and methods - Fundamental rheological methods"
+        },
+        {
+          "kaynak": "10.1021/acs.jafc.4c06550",
+          "yer": "1. Introduction"
+        },
+        {
+          "kaynak": "10.1590/fst.64420",
+          "yer": "3.3 Specific volume"
+        },
+        {
+          "kaynak": "10.3390/foods13223611",
+          "yer": "3.4. Comparison of pH, TTA and Fermentation Capacity of Different Sourdough"
+        },
+        {
+          "kaynak": "10.3390/foods5020024",
+          "yer": "1. Introduction"
+        },
+        {
+          "kaynak": "10.1016/j.foodhyd.2017.08.020",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "gluten.amino_asit_glutamin_glisin_prolin_oranlari",
+      "metin": "Alkolde çözünen gliadinler ve çözünmeyen gluteninlerden oluşan gluten proteinleri, yüksek oranda glutamin (%35), glisin (%20) ve prolin (%10) içerir.",
+      "kosul": "Gluten proteinlerinin amino asit bileşimi",
+      "kanit": "tek_kaynak",
+      "bolum": "Kimlik",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/molecules26020508",
+          "yer": "PMC7835854.txt:2. Biochemistry and Structure"
+        }
+      ]
+    },
+    {
+      "id": "gluten.bugdaya_ozgu_viskoelastik_atif",
+      "metin": "Buğday ununun proteini çoğunlukla glutendir; gluten öbür tahıllarda yoktur ve mayalı ekmek için gerekli viskoelastik hamuru sağlar.",
+      "kosul": "",
+      "kanit": "ikincil",
+      "bolum": "Ne yapar",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1002/fsn3.4050",
+          "yer": "1. INTRODUCTION"
+        },
+        {
+          "kaynak": "10.1016/s0733-5210(03)00059-6",
+          "yer": "Rheological and polymer molecular structure–function relationships in breadmaking"
+        },
+        {
+          "kaynak": "10.1111/j.1750-3841.2007.00292.x",
+          "yer": "ABSTRACT"
+        },
+        {
+          "kaynak": "10.3390/foods13203232",
+          "yer": "1. Introduction"
+        },
+        {
+          "kaynak": "10.3390/foods11152300",
+          "yer": "1. Introduction"
+        }
+      ]
+    },
+    {
+      "id": "gluten.gliadin_ve_gluteninin_tekstur_ve_reoloji_kontrolu",
+      "metin": "Çeşitli buğday unu ürünlerinin yapısal, reolojik ve tekstürel özellikleri üzerinde gluten proteinlerinin etkisi, başlıca monomerik gliadinler ve polimerik gluteninler tarafından kontrol edilir.",
+      "kosul": "Buğday unu ürünleri",
+      "kanit": "ikincil",
+      "bolum": "Ne yapar",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods11131927",
+          "yer": "1. Introduction"
+        }
+      ]
+    },
+    {
+      "id": "gluten.glutenin_kuvvet_ve_gliadin_uzayabilirlik",
+      "metin": "Gluten proteinleri buğday hamurunun işleme kalitesinden sorumludur; özellikle gluteninler hamurun kuvvet ve elastikliğine, gliadinler ise uzayabilirliğine katkıda bulunur.",
+      "kosul": "Buğday hamuru işleme kalitesi",
+      "kanit": "ikincil",
+      "bolum": "Ne yapar",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods10010156",
+          "yer": "PMC7828489.txt:1. Introduction"
+        }
+      ]
+    },
+    {
+      "id": "gluten.disulfit_bagli_glutenin_iskeleti",
+      "metin": "Gluten ağı yapısı, glutenin alt birimlerinin disülfit bağlarıyla çapraz bağlanmasıyla meydana gelen iskelet yapısıdır.",
+      "kosul": "Gluten ağ yapısı",
+      "kanit": "tek_kaynak",
+      "bolum": "Tanım",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods14071253",
+          "yer": "3.3.1. Microstructure of Rye Bran Bread Dough"
+        }
+      ]
+    },
+    {
+      "id": "gluten.hmw_omurgasi_ve_lmw_dallari",
+      "metin": "Yüksek molekül ağırlıklı glutenin alt birimlerinin glutenin omurgasını oluşturduğu öne sürülmektedir; bu omurga, disülfit bağlarıyla bağlanan düşük molekül ağırlıklı alt birim dalları ve gliadinlerle etkileşimler için bir çerçeve sağlar.",
+      "kosul": "Gluten polimer ağı yapısı",
+      "kanit": "tek_kaynak",
+      "bolum": "Tanım",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.jcs.2024.103895",
+          "yer": "3. Glutenin polymers are stabilised by covalent disulphide"
+        },
+        {
+          "kaynak": "10.1016/s0924-2244(01)00035-8",
+          "yer": "Subunit interactions and gluten visco-elasticity"
+        }
+      ]
+    },
+    {
+      "id": "gluten.osborne_fraksiyonlari_ve_gluten_tanimi",
+      "metin": "Suda çözünen albüminler ve tuzda çözünen globülinler yapısal veya metabolik proteinler iken, alkolde çözünen gliadinler ile çözünmeyen gluteninler gluten olarak adlandırılan depo proteinleridir.",
+      "kosul": "Osborne protein sınıflandırması",
+      "kanit": "ikincil",
+      "bolum": "Tanım",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1021/acs.jafc.3c02100",
+          "yer": "Introduction"
+        },
+        {
+          "kaynak": "10.1021/acs.jafc.3c02100",
+          "yer": "Introduction"
+        },
+        {
+          "kaynak": "10.3389/fpls.2019.00642",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "gluten.tane_proteinlerinde_yuzde_seksen_bes_orani",
+      "metin": "Gluten proteinleri polimerik gluteninleri ve monomerik gliadinleri kapsayarak toplam tane proteinlerinin %85'ini oluşturur.",
+      "kosul": "Buğday tanesi proteinleri",
+      "kanit": "tek_kaynak",
+      "bolum": "Tanım",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods10010156",
+          "yer": "PMC7828489.txt:1. Introduction"
+        }
+      ]
+    },
+    {
+      "id": "gluten.tanim_hamur_iskeleti",
+      "metin": "Buğday hamuru, su almış gluten proteinlerinin kesintisiz bir ağı ile bu ağın içine gömülü nişasta taneleri ve öteki un bileşenlerinden oluşan bir yapı olarak düşünülebilir; gluten ağı hamurun iskeletidir, öbür bileşenleri bir arada tutar, hamur stabilitesini ve ekmek hacmini etkiler.",
+      "kosul": "",
+      "kanit": "ikincil",
+      "bolum": "Tanım",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.foodhyd.2025.111252",
+          "yer": "Introduction"
+        },
+        {
+          "kaynak": "10.1016/j.lwt.2012.09.011",
+          "yer": "3.1. Flour characteristics analysis"
+        },
+        {
+          "kaynak": "10.1016/j.foodhyd.2025.111252",
+          "yer": "Introduction"
+        },
+        {
+          "kaynak": "10.1016/bs.aambs.2017.02.003",
+          "yer": "Introduction"
+        },
+        {
+          "kaynak": "10.1016/j.jcs.2013.01.011",
+          "yer": "Introduction"
+        },
+        {
+          "kaynak": "10.1016/j.fbio.2023.102640",
+          "yer": "Chemical composition of sourdough bread samples"
+        },
+        {
+          "kaynak": "10.1093/jexbot/53.370.947",
+          "yer": "Gluten proteins and wheat grain quality"
+        },
+        {
+          "kaynak": "10.1093/jxb/erp058",
+          "yer": "What is the origin of gluten?"
+        },
+        {
+          "kaynak": "10.17221/40/2009-cjfs",
+          "yer": "1 Introduction"
+        },
+        {
+          "kaynak": "10.1371/journal.pone.0282670",
+          "yer": "1 Introduction"
+        }
+      ]
+    },
+    {
+      "id": "gluten.toplam_protein_orani_ve_bilesimi",
+      "metin": "Gluten depo proteinleri buğday tanesindeki proteinlerin %70–80'ini, un proteinlerinin ise %80–85'ini oluşturur; monomerik gliadinler ile disülfit bağlarıyla glutenin makropolimerlerini kuran gluteninlerden meydana gelir.",
+      "kosul": "Buğday tanesi ve buğday unu depo proteinleri",
+      "kanit": "ikincil",
+      "bolum": "Tanım",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1002/cche.10572",
+          "yer": "1 INTRODUCTION"
+        },
+        {
+          "kaynak": "10.1016/j.cofs.2019.04.001",
+          "yer": "The gluten network"
+        },
+        {
+          "kaynak": "10.1016/j.foodhyd.2020.105885",
+          "yer": "Introduction"
+        },
+        {
+          "kaynak": "10.1111/j.1750-3841.2007.00292.x",
+          "yer": "Introduction"
+        },
+        {
+          "kaynak": "10.3390/agronomy10111763",
+          "yer": "Introduction"
+        },
+        {
+          "kaynak": "10.1016/j.cofs.2019.04.001",
+          "yer": "2. The gluten network"
+        },
+        {
+          "kaynak": "10.1016/j.jcs.2024.103895",
+          "yer": "1. Introduction"
+        },
+        {
+          "kaynak": "10.1093/jxb/erp058",
+          "yer": "Wheat gluten proteins and processing properties"
+        },
+        {
+          "kaynak": "10.3390/foods13193158",
+          "yer": "1. Introduction"
+        },
+        {
+          "kaynak": "10.1016/j.foodres.2024.115230",
+          "yer": "1. Introduction"
+        },
+        {
+          "kaynak": "10.1016/j.fochx.2022.100448",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "gluten.gliadin_ve_glutenin_ekmek_ici_yapisi",
+      "metin": "Buğday gluteninde hem gluteninlerin hem de gliadinlerin bir arada bulunması, ekmekte arzu edilen gözenekli ekmek içi yapısının oluşmasını sağlar.",
+      "kosul": "Buğday ekmeği",
+      "kanit": "ikincil",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1111/1541-4337.13141",
+          "yer": "5.1 Protein structure"
+        }
+      ]
+    },
+    {
+      "id": "gluten.verim_hacim",
+      "metin": "Dört buğday çeşidiyle yapılan bir çalışmada gluten verimi ekmeğin özgül hacmiyle çok güçlü ilişkiliydi (r = 0,954); özgül hacim 1,68 ile 3,31 cm³/g arasında değişti ve en düşük hacimli çeşidin (HW 2004) gluten verimi (7,92 g/100 g) ve gluten indeksi (%56,80) düşüktü.",
+      "kosul": "Dört Hint buğday çeşidi (PBW 590, PBW 550, HW 2004, C 306); %65 öğütme randımanlı un; korelasyonlar n = 4 çeşit üzerinden; 30 g'lık deneme pişirmesi: 90 dk + 36 dk 30 °C'de mayalanma, 232 °C'de 13 dk pişirme.",
+      "kanit": "tek_kaynak",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.lwt.2012.09.011",
+          "yer": "3.6. Correlation; Table 8"
+        },
+        {
+          "kaynak": "10.1016/j.lwt.2012.09.011",
+          "yer": "3.5. Bread quality"
+        },
+        {
+          "kaynak": "10.1016/j.lwt.2012.09.011",
+          "yer": "3.5. Bread quality; Table 7"
+        }
+      ]
+    },
+    {
+      "id": "gluten.asiri_yogrulmus_hamurda_elastik_karakter_ve_kismi_geri_donus",
+      "metin": "Bu çalışmada aşırı yoğrulmuş hamur doğrusal olmayan sünme-toparlanma testlerinde hâlâ oldukça güçlü bir elastik karakter göstermiş; yazarlar ağ bütünlüğündeki kaybın en azından kısmen geri dönebilir olduğunu belirtmiştir.",
+      "kosul": "Güçlü un hamuru (bilux), farklı yoğurma süreleri; doğrusal olmayan sünme-toparlanma testleri.",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1007/s11483-017-9472-9",
+          "yer": "Results and discussion · Mixing time · Creep-recovery tests"
+        },
+        {
+          "kaynak": "10.1007/s11483-017-9472-9",
+          "yer": "Results and discussion · Resting time · Extensional tests"
+        }
+      ]
+    },
+    {
+      "id": "gluten.asiri_yogurmada_gluten_bozulmasinda_oksijenin_rolu",
+      "metin": "Bu çalışmada azot akışıyla oksijeni azaltılmış ortamda yoğrulan hamurlarda aşırı yoğurmanın etkisi belirgin biçimde daha az görülmüş; yazarlar bunu aşırı yoğurma sırasındaki gluten bozulmasında oksijenin önemli bir rol oynadığı şeklinde yorumlamış ve önceki ekstraksiyon sonuçlarıyla uyumlu bulmuştur.",
+      "kosul": "Güçlü ve zayıf un hamurları; azot akışlı (oksijenden fakir) ve ortam atmosferinde yoğurma; genleşme reolojisi (yoğurma süresi 15 dakika).",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1007/s11483-017-9472-9",
+          "yer": "Results and discussion · Mixing time · Extensional tests"
+        },
+        {
+          "kaynak": "10.1007/s11483-017-9472-9",
+          "yer": "Results and discussion · Mixing time · Extensional tests"
+        },
+        {
+          "kaynak": "10.1007/s11483-017-9472-9",
+          "yer": "Results and discussion · Mixing time · Extensional tests"
+        }
+      ]
+    },
+    {
+      "id": "gluten.bes_dakika_yogurmada_iyi_gelismis_ag",
+      "metin": "Bu çalışmada CLSM görüntülerine göre aynı hidrasyon düzeyinde 5 dakika yoğrulan hamur, 1 dakika ve 15 dakika yoğrulan örneklere kıyasla iyi gelişmiş bir gluten ağı yapısı göstermiştir.",
+      "kosul": "Farklı hidrasyon düzeylerindeki hamurlar; 1, 5 ve 15 dakika yoğurma; konfokal lazer taramalı mikroskopi (CLSM) görüntüleri.",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.fochx.2022.100448",
+          "yer": "Evolution of gluten network morphology at different hydration levels during mixing"
+        }
+      ]
+    },
+    {
+      "id": "gluten.cam_boncuk_ile_seyreltmenin_ikincil_etkisi",
+      "metin": "Bu çalışmada inert dolgu maddesi (cam boncuklar) kullanılarak yapılan karşılaştırmaya göre sterik engelleme ve gluten seyrelmesinin hamur ve ekmek kalitesinde ikincil bir rol oynadığı görülmüştür.",
+      "kosul": "Cam boncuk (inert dolgu) ile kepek fraksiyonlarının karşılaştırılması; ekmek hacmi ve doku.",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods10102311",
+          "yer": "Conclusions"
+        }
+      ]
+    },
+    {
+      "id": "gluten.d500_noktasinda_tam_gelismis_ag_ve_homojen_yapi",
+      "metin": "Bu çalışmada farinografta D500 noktasında gluten ağı tam olarak gelişmiş, nişastalar ağ içinde eşit dağılmış ve bağlı su en sıkı bağlanmış biçimde homojen bir üç boyutlu hamur ağı oluşmuştur.",
+      "kosul": "Farinografta D500 noktası (kıvam 500 BU); hamur mikroyapısı elektron mikroskobuyla (SEM) incelenmiş.",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods13070996",
+          "yer": "3.6. Network Structure Changes during Dough Development"
+        }
+      ]
+    },
+    {
+      "id": "gluten.dinlendirmenin_ag_kavsak_ve_polimer_etkisi",
+      "metin": "Kısa süreli dinlendirme işlemi büyük polimerik proteinlerin oranını artırıp monomerik proteinleri azaltırken, konfokal mikroskopide gluten alanı, kavşak sayısı ve toplam gluten uzunluğunda belirgin artışla ağın güçlenmesini sağlamıştır.",
+      "kosul": "hamur dinlendirme işlemi, CLSM ve SE-HPLC analizleri",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.fochx.2025.102366",
+          "yer": "Structural analysis of dough and gluten proteins by SEM and CLSM"
+        },
+        {
+          "kaynak": "10.1016/j.fochx.2025.102366",
+          "yer": "Molecular weight of gluten protein"
+        }
+      ]
+    },
+    {
+      "id": "gluten.dinlenmede_gmp_artisi_ve_eksik_toparlanma",
+      "metin": "Dinlenme sırasında glutenin makropolimeri (GMP) miktarının düzenli arttığı, ancak 1,5–2 saat sonra bile toparlanmanın tam olmaktan uzak kaldığı bildirilmektedir; bu çalışmada da toparlanmanın aşırı yoğurmanın yarattığı tüm hasarı gideremediği gözlendi.",
+      "kosul": "Yoğurma sonrası 1,5–2 saat dinlenme periyodu",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1007/s11483-017-9472-9",
+          "yer": "Results and discussion · Resting time · Extensional tests"
+        },
+        {
+          "kaynak": "10.1007/s11483-017-9472-9",
+          "yer": "Results and discussion · Resting time · Extensional tests"
+        }
+      ]
+    },
+    {
+      "id": "gluten.dinlenmede_iplik_kasilmasi_ve_damar_kisalmasi",
+      "metin": "Bu çalışmada, katkısız standart buğday hamuru yeterli süre (2 saat) dinlendirildiğinde protein ipliklerinin büzülmesi damar uzunluğunda %26,6 azalmaya yol açtı.",
+      "kosul": "Katkısız standart buğday hamuru, 2 saat dinlendirme",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/polym13010030",
+          "yer": "PMC7795266.txt:3.3. Linkage between Extensional Properties and PNA"
+        }
+      ]
+    },
+    {
+      "id": "gluten.dinlenmede_yeniden_agregasyon_ve_polimerlesme_mekanizmasi",
+      "metin": "Gluten proteinlerinin dinlenmede kovalent olmayan bağların yeniden kurulmasıyla yeniden kümelenebileceği ya da SH/SS değişim reaksiyonlarıyla yeniden polimerleşebileceği öne sürülüyor; mekanizmalar hâlâ tartışılıyor.",
+      "kosul": "Hamur dinlenme süreci mekanizması",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1007/s11483-017-9472-9",
+          "yer": "Results and discussion · Resting time · Extensional tests"
+        }
+      ]
+    }
+  ]
+}

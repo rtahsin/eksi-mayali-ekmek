@@ -1,0 +1,279 @@
+{
+  "id": "kesik_atilinca",
+  "durak": "sekil",
+  "baslik": "Kesik atılınca",
+  "soru": "Ekmeğin üstündeki kesik ne işe yarar?",
+  "bayrak": true,
+  "gor": {
+    "tur": "kaydirma",
+    "adimlar": [
+      {
+        "metin": "Yüzeyine kesikler açılmış ekmek fırına girer; kuru fırın ortamında beklenenden az kabarma, yani kısıtlı kabarma, bitmiş ekmekte kabuk yüzeyinin yırtılma riskini artırır [[firin_kabarmasi.kisitli_kabarma_kabuk_yirtilmasi]].",
+        "gorsel": "sourdough_bread_with_decorative_scores",
+        "vurgu": "Kesik desenli ekşi maya ekmeği: fırına girmeden önce yüzeye bırakılan izler."
+      },
+      {
+        "metin": "Ekmek pişirmenin ilk dakikalarında hızla genişler; ardından maya canlılığını yitirdikçe ve nişasta su alıp şişerek hamurun direnci arttıkça genişleme durur [[firin_kabarmasi.ilk_dakikalarda_hizli_sonra_durur]]. Genişlemenin itici gücü kapalı gözeneklerdeki gaz basıncıdır; su buharı bu gözeneklerdeki birincil gaz fazı bileşenidir [[firin_kabarmasi.kapali_gozenek_su_buhari_basinci]].",
+        "gorsel": "scored_loaves_of_rye_bread",
+        "vurgu": "Kesik desenli çavdar ekmekleri: fırının ilk dakikalarında genişleyen yüzey."
+      },
+      {
+        "metin": "Fırında yüzey kururken ekmeğin içinde bir sınır ilerler; buna buharlaşma cephesi denir, yani suyun dışarı doğru buharlaştığı sınır [[kabuk.buharlasma_cephesi_ve_iki_bolge]]. Kabuk, ısıyla yapısı bozulmuş gluten proteinlerinin ağı ile kısmen jelleşmiş, yani su alıp şişmiş, nişasta tanelerinden oluşur [[kabuk.tanim]].",
+        "gorsel": "sourdough_bread_loaf",
+        "vurgu": "Kesikli ev yapımı ekmek: dış kabuk ile iç bölge arasındaki sınır."
+      },
+      {
+        "metin": "Genişleme, buharlaşma cephesi ilerledikçe, nem azaldıkça ve kabuk kalınlaştıkça sürer; kabuklaşma genişlemeyi durdurur ve dış yüzeydeki gaz kabarcıkları çöker [[firin_kabarmasi.buharlasma_cephesi_ve_kabuklasma]]. Bu sırada hamurun içindeki gazla dolu küçük boşluklar, yani gaz hücreleri, genişleyerek açık bir gözenek ağına dönüşür [[firin_kabarmasi.gaz_hucrelerinin_gozenek_agina_donusumu]].",
+        "gorsel": "sourdough_bread_with_decorative_scores",
+        "vurgu": "Kesiklerin açıldığı, genişlemenin sona erdiği yüzey."
+      },
+      {
+        "metin": "Yüzey rengi kabuklaşmayla eşzamanlı olarak Maillard tepkimesi (şeker ve protein arasında oluşan koyu renkli bileşikler) ve şeker karamelizasyonuyla gelişir [[kabuk.kabuk_ve_renk_olusum_mekanizmasi]]. Bu karşılaştırmada, 180, 200 ve 220 °C ayarında ölçülen bütün renk değerleri yalnız kabuk sıcaklığına bağlı olarak değişti [[kabuk.renk_yalniz_kabuk_sicakligina_bagli]].",
+        "gorsel": "scored_loaves_of_rye_bread",
+        "vurgu": "Kesikli kabuk: esmerleşme, yüzeyin sıcaklığına göre gelişen bir renk."
+      }
+    ]
+  },
+  "anla": [
+    {
+      "baslik": "İlk dakikalarda genişleme",
+      "paragraflar": [
+        "Fırına girmeden önce yüzeyine ince yarıklar, yani kesikler, açılan ekmek ilk dakikalarda hızla genişler [[firin_kabarmasi.ilk_dakikalarda_hizli_sonra_durur]].",
+        "Genişlemenin itici gücü kapalı gözeneklerdeki gaz basıncıdır; su buharı bu gözeneklerdeki birincil gaz fazı bileşenidir [[firin_kabarmasi.kapali_gozenek_su_buhari_basinci]]. Hızlı genişlemeye dört olay katkıda bulunur: karbondioksit üretiminin geçici artışı, çözünürlüğünün düşmesi, gaz hücrelerinin genleşmesi ve su ile etanolün buharlaşması [[firin_kabarmasi.hizli_hacim_genlesmesinin_dort_nedeni]]. Küçük kalıp ekmeğinde hacim, pişirmenin ilk 3 dakikasında 180 °C'de %27,6, 200 °C'de %23,3, 220 °C'de %23,5 arttı [[firin_kabarmasi.hacim_artisi_ilk_3_dakika]]. Bu modelde gözenek açılma sıcaklığı yükseldikçe kapalı gözenekler daha uzun süre kalır, iç basınç artar ve genişleme daha fazla olur [[firin_kabarmasi.gozenek_acilma_sicakligi_ve_genlesme]]. Gözenekler tamamen açıldığında basınç farkı 0 değerine yaklaşır ve genişleme durur [[firin_kabarmasi.kapali_gozenek_su_buhari_basinci]]."
+      ]
+    },
+    {
+      "baslik": "Açılan yüzey nasıl kabuk olur",
+      "paragraflar": [
+        "Kabuk, pişirmenin sonuna doğru yüzey sıcaklığı 100 °C'yi aşıp su kaybı belirginleştiğinde oluşur [[kabuk.kabuk_ve_renk_olusum_mekanizmasi]]. Ekmekte iki bölge oluşur: nemi çok düşük ve sıcaklığı fırın sıcaklığına yaklaşan dış kabuk; nemi sabit kalıp sıcaklığı 100 °C'ye yaklaşan ekmek içi [[kabuk.buharlasma_cephesi_ve_iki_bolge]].",
+        "Kabuklaşma genişlemeyi durdurur ve ürünün dış yüzeyindeki gaz kabarcıkları çöker [[firin_kabarmasi.buharlasma_cephesi_ve_kabuklasma]]. Modellemede kabuk bağladıktan sonra kabuğun gaz geçirgenliği, ekmek içine kıyasla belirgin biçimde daha düşük çıktı [[kabuk.kabuklasma_ve_gaz_gecirgenligi_dusus]]. Bir pişirme ölçümünde ekmeğin kenar yüksekliği yaklaşık 450 saniyede 30 mm'de, eksen yüksekliği ise yaklaşık 900 saniyede 51 mm'de sabitlendi [[firin_kabarmasi.kenar_ve_eksen_yukseklik_kinetigi]]."
+      ]
+    },
+    {
+      "baslik": "Kabuk kalınlığı nereden gelir",
+      "paragraflar": [
+        "Kabuk kalınlığının gelişimi başlıca buharlaşan nem miktarı ve pişirme sırasında ısıyla hücrelerin yırtılma eğilimi olmak üzere iki temel etkene bağlıdır [[kabuk.kalinlik_gelisimini_belirleyen_iki_etmen]]. Kabuk kalınlığı, yüzeyin ısı altında ne kadar kuruduğunu ve kuruma hızını yansıtır [[kabuk.sertlik_ve_kabuk_kalinligi_mekanizmasi]]. 185–205 °C fırın sıcaklığında 25–35 dakikalık bir denemede pişirme sıcaklığı ve süresinin artırılması kabuk kalınlığını belirgin biçimde artırdı (p < 0,001) [[kabuk.sicaklik_ve_sure_ile_kalinlik_artisi]].",
+        "Kabuk, %5–10 oranında düşük nem içeriği ve tipik yapısal özellikleriyle ayırt edilir [[kabuk.dusuk_nem_orani_ve_ic_dehidrasyon_engeli]]. Kabuk, sıcaklığı 100 °C civarında kalan ekmek içinin daha fazla kurumasını, yani dehidrasyonunu, engeller [[kabuk.dusuk_nem_orani_ve_ic_dehidrasyon_engeli]]."
+      ]
+    },
+    {
+      "baslik": "Genişleme durduktan sonra",
+      "paragraflar": [
+        "Nihai pişmiş somun hacimce %75–85 gaz içerir [[firin_kabarmasi.pismis_ekmek_hacimce_gaz]]. Fırın sıcaklığı ayarı yükseldikçe kabuğun esmerleşme hızı arttı [[kabuk.esmerlesme_hizi_firin_sicakligi]]. Buna karşılık bu karşılaştırmada kabuğun bütün renk değerleri yalnız kabuk sıcaklığına bağlı olarak değişti [[kabuk.renk_yalniz_kabuk_sicakligina_bagli]]. Kabuğun açıklık ölçüsü (L*) 54–62 aralığında kabul edildiğinde, ideal kabuk rengi 142–160 °C yüzey sıcaklığına karşılık gelir [[kabuk.ideal_renk_142_160]].",
+        "Fermantasyon sonunda bütün ekmeklerin hacmi aynıydı, ama 220 °C'de pişirilenlerin pişirme sonundaki hacmi belirgin biçimde daha düşüktü [[firin_kabarmasi.220_derecede_son_hacim_dusuk]]. Taze kabuk kuru, gevrek ve kırılgandır; kırılırken ses çıkarır [[kabuk.taze_kabuk_gevrek]]. Saklamada kabuk gevrekliğini yitirip deri gibi yumuşar; bunun nedeni ekmek içinden kabuğa nem geçişi olarak düşünülür [[kabuk.kabuk_bayatlamasi_nem_gocu]]. Kabuktaki nem geçirmezlik özelliğindeki bir değişiklik, saklama sırasında ekmekteki su taşınımını belirgin biçimde etkileyebilir [[kabuk.nem_bariyeri_su_tasinimi]]. Kesikle açılan yüzey, fırından çıkan somunun kabuğu olur [[kabuk.tanim]]."
+      ]
+    }
+  ],
+  "yuzlesme": [
+    {
+      "inanc": "Fırın ne kadar sıcaksa ekmek o kadar iyi kabarır ve kabuğu o kadar iyi kızarır.",
+      "cevap": "Küçük kalıp ekmeğinde fırın sıcaklığı ayarı yükseldikçe kabuğun esmerleşme hızı gerçekten arttı [[kabuk.esmerlesme_hizi_firin_sicakligi]]. Buna karşılık fermantasyon sonunda hacimleri eşit olan ekmeklerden 220 °C'de pişirilenler, pişirme sonunda belirgin biçimde daha küçük hacimle bitirdi [[firin_kabarmasi.220_derecede_son_hacim_dusuk]]."
+    },
+    {
+      "inanc": "Kabuk belirli bir sıcaklıkta esmerleşmeye başlar ve bu sayı bellidir.",
+      "cevap": "Esmerleşmenin başladığı sıcaklık için kaynaklar farklı değerler bildirir: bazıları 120 °C, bazıları 105–115 °C [[kabuk.esmerlesme_baslangici]]. Açıklık değerlerine dayanarak 110 °C esas alındı [[kabuk.esmerlesme_baslangici]]. Renk oluşumunun başlaması için asgari koşul, sıcaklığın 120 °C'nin üzerinde ve su aktivitesinin (suyun buharlaşmaya elverişli oranının) 0,6'nın altında olmasıdır [[kabuk.renk_olusumu_asgari_kosullari]]."
+    },
+    {
+      "inanc": "Ekşi maya ekmeği, mayalı ekmekten daha hacimli olur.",
+      "cevap": "Kesikli bir somunda hacim, kabuğun hangi anda oluştuğuna bağlıdır [[firin_kabarmasi.buharlasma_cephesi_ve_kabuklasma]]. Ekşi maya tipi ekmeğin mayalı ekmekten daha hacimli olduğu derlemelerde yazılıdır, ancak bir araştırma makalesine göre birincil çalışmalar bu konuda pek uzlaşmaz [[firin_kabarmasi.eksi_maya_hacim_efsanesi]]. Ekşi mayalı ve kontrol ekmeklerin özgül hacimleri, yani bir gram ekmeğin kapladığı hacim, 3,46 ile 3,93 cm³/g arasında değişti [[firin_kabarmasi.eksi_maya_ve_kontrol_ozgul_hacim_araligi]]. Aralarında istatistiksel olarak anlamlı bir fark bulunmadı (P > 0,05) [[firin_kabarmasi.eksi_maya_ve_kontrol_ozgul_hacim_araligi]]."
+    }
+  ],
+  "kanit": {
+    "cekirdek": [
+      "firin_kabarmasi.ilk_dakikalarda_hizli_sonra_durur",
+      "firin_kabarmasi.kisitli_kabarma_kabuk_yirtilmasi",
+      "firin_kabarmasi.kapali_gozenek_su_buhari_basinci",
+      "firin_kabarmasi.gaz_hucrelerinin_gozenek_agina_donusumu",
+      "firin_kabarmasi.hacim_artisi_ilk_3_dakika",
+      "firin_kabarmasi.220_derecede_son_hacim_dusuk",
+      "firin_kabarmasi.buharlasma_cephesi_ve_kabuklasma",
+      "kabuk.buharlasma_cephesi_ve_iki_bolge",
+      "kabuk.kabuk_ve_renk_olusum_mekanizmasi",
+      "kabuk.tanim",
+      "kabuk.kalinlik_gelisimini_belirleyen_iki_etmen",
+      "kabuk.sertlik_ve_kabuk_kalinligi_mekanizmasi",
+      "kabuk.renk_yalniz_kabuk_sicakligina_bagli",
+      "kabuk.taze_kabuk_gevrek",
+      "firin_kabarmasi.eksi_maya_hacim_efsanesi"
+    ],
+    "cekmece": [
+      "firin_kabarmasi.pismis_ekmek_hacimce_gaz",
+      "firin_kabarmasi.ilk_6_8_dakika",
+      "firin_kabarmasi.hizli_hacim_genlesmesinin_dort_nedeni",
+      "firin_kabarmasi.kenar_ve_eksen_yukseklik_kinetigi",
+      "firin_kabarmasi.hacim_genlesme_orani_ve_cokus",
+      "firin_kabarmasi.mayanin_termal_aktivasyonu_ve_co2_salimi",
+      "firin_kabarmasi.elli_ve_altmis_derece_arasi_genlesme_mekanizmalari",
+      "firin_kabarmasi.mayali_hamurda_elli_ve_altmis_derece_kinetigi",
+      "firin_kabarmasi.altmis_derece_otesi_genlesmenin_durmasi",
+      "firin_kabarmasi.altmis_derece_uzerinde_yapisal_bozulma_baskindir",
+      "firin_kabarmasi.gozenek_acilma_sicakligi_ve_genlesme",
+      "firin_kabarmasi.maksimum_ic_basinc_ve_dususu",
+      "firin_kabarmasi.ekmek_hacmi_ve_gaz_tutma_tanimi",
+      "firin_kabarmasi.eksi_maya_ve_kontrol_ozgul_hacim_araligi",
+      "firin_kabarmasi.baslangic_genlesme_hizi_lineer_model",
+      "firin_kabarmasi.kabarma_72_dereceye_kadar_surer",
+      "firin_kabarmasi.co2_kabarcik_duvarlari_kopar",
+      "firin_kabarmasi.mayasiz_hamurda_yavas_genlesme_mekanizmasi",
+      "firin_kabarmasi.eriyen_yag_kristalleri",
+      "firin_kabarmasi.firin_nemi_genlesmeyi_destekler",
+      "firin_kabarmasi.vakumlu_sogutma_ve_kalip_koseleri",
+      "firin_kabarmasi.optimize_pisirme_kosullarinda_gozeneklilik_ve_esneklik",
+      "kabuk.dusuk_nem_orani_ve_ic_dehidrasyon_engeli",
+      "kabuk.kabuk_bayatlamasi_nem_gocu",
+      "kabuk.esmerlesme_hizi_firin_sicakligi",
+      "kabuk.renk_olusumu_asgari_kosullari",
+      "kabuk.eksimaya_ile_daha_citir_ve_kalin_kabuk",
+      "kabuk.firin_mayali_ekmekte_elastik_kabuk",
+      "kabuk.renk_esikleri",
+      "kabuk.kabuk_su_aktivitesi",
+      "kabuk.sicaklik_ve_sure_ile_kalinlik_artisi",
+      "kabuk.nem_bariyeri_su_tasinimi",
+      "kabuk.yuksek_sicaklikta_kalin_kabugun_nem_bariyeri",
+      "kabuk.alt_kabuk_daha_nemli",
+      "kabuk.ilk_dakikalarda_acilma",
+      "kabuk.taban_ve_kabuk_gozeneklilik_dususu",
+      "kabuk.kabuklasma_ve_gaz_gecirgenligi_dusus",
+      "kabuk.hizli_buharlasma_eksik_jelesme",
+      "kabuk.izotermal_olmayan_esmerlesme",
+      "kabuk.yuzey_isinmasi_kabuk_olusumu",
+      "kabuk.kabuk_ile_ic_arasi_koku_aktarimi",
+      "kabuk.kabuk_ve_ekmek_ici_aroma_bilesikleri",
+      "kabuk.peyniralti_suyu_laktoz_ile_kabuk_rengi_etkisi",
+      "kabuk.su_esmerlesmeyi_seyreltir",
+      "kabuk.camsi_kaucuksu_gecis",
+      "kabuk.morfoloji_su_tasinimi",
+      "kabuk.sigmoid_renk_profili",
+      "kabuk.agirlik_kaybi_ile_esmerlesme_dogrusal",
+      "kabuk.dis_kabuk_renk_bilesenleri_araligi",
+      "kabuk.tokat_ekmegi_kabuk_kalinligi_ve_orani",
+      "kabuk.tokat_ekmegi_kabuk_renk_degerleri",
+      "kabuk.un_tipi_kabuk_rengi",
+      "kabuk.eksi_maya_kabuk_daha_acik",
+      "kabuk.vakumlu_sogutma_ve_kabuk_gevrikligi",
+      "kabuk.mum_kaplama_en_etkili",
+      "kabuk.naoh_agirlik_kaybi",
+      "kabuk.islemsiz_kabuk_purtuklesir",
+      "kabuk.yari_pismis_dondurulmus_pullanma",
+      "kabuk.hava_jetinin_kabuk_olusumunu_hizlandirmasi",
+      "kabuk.carpmali_hava_jeti_ve_renk_gelisimi",
+      "kabuk.kabuk_kalinligi_tahmin_modeli_uyumu",
+      "kabuk.konvansiyonel_firinda_sertlik_ve_kabuk_kalinligi",
+      "kabuk.beyaz_ekmegin_citir_altin_kabuk_ozelligi",
+      "kabuk.toskana_ekmegi_kalin_citir_kabuk",
+      "kabuk.ornitin_ve_kavruk_kabuk_aromasi",
+      "kabuk.fermantasyon_sicakligi_lipid_oksidasyonu",
+      "kabuk.esmerlesme_pisirme_suresiyle_ustel_iliskili",
+      "kabuk.esmerlesme_baslangici",
+      "kabuk.ideal_renk_142_160"
+    ]
+  },
+  "baglar": [
+    {
+      "kaldirac": "Kesik",
+      "mekanizma": "Fırına girmeden önce yüzeye kesikler açılır. Ekmek ilk dakikalarda hızla genişler, ardından genişleme durur.",
+      "sonuc": "Kuru fırın ortamında kısıtlı kabarma, kabuk yüzeyinin yırtılma riskini artırır.",
+      "bilgiler": [
+        "firin_kabarmasi.ilk_dakikalarda_hizli_sonra_durur",
+        "firin_kabarmasi.kisitli_kabarma_kabuk_yirtilmasi"
+      ]
+    },
+    {
+      "kaldirac": "Kapalı gözeneklerdeki gaz basıncı",
+      "mekanizma": "Kapalı gözeneklerdeki gaz basıncı, ekmek genleşmesinin ana itici gücüdür; su buharı bu gözeneklerdeki birincil gaz fazı bileşenidir.",
+      "sonuc": "Gözenekler tamamen açıldığında basınç farkı 0 değerine yaklaşır ve genişleme durur.",
+      "bilgiler": [
+        "firin_kabarmasi.kapali_gozenek_su_buhari_basinci"
+      ]
+    },
+    {
+      "kaldirac": "Buharlaşma cephesi",
+      "mekanizma": "Buharlaşma cephesinin ilerlemesiyle ekmekte iki bölge oluşur: nemi çok düşük dış kabuk ile nemi sabit kalan ekmek içi.",
+      "sonuc": "Kabuk pişirmenin sonuna doğru oluşur, kabuklaşma genişlemeyi durdurur.",
+      "bilgiler": [
+        "kabuk.buharlasma_cephesi_ve_iki_bolge",
+        "kabuk.kabuk_ve_renk_olusum_mekanizmasi",
+        "firin_kabarmasi.buharlasma_cephesi_ve_kabuklasma"
+      ]
+    },
+    {
+      "kaldirac": "Yüzeyin kuruma hızı",
+      "mekanizma": "Kabuk kalınlığının gelişimi, buharlaşan nem miktarı ve pişirme sırasında ısıyla hücrelerin yırtılma eğilimi olmak üzere iki temel etkene bağlıdır.",
+      "sonuc": "Kabuk kalınlığı, yüzeyin kuruma derecesini ve hızını yansıtır.",
+      "bilgiler": [
+        "kabuk.kalinlik_gelisimini_belirleyen_iki_etmen",
+        "kabuk.sertlik_ve_kabuk_kalinligi_mekanizmasi"
+      ]
+    },
+    {
+      "kaldirac": "Kabuk sıcaklığı",
+      "mekanizma": "Yüzeyde renk oluşumunun başlaması için sıcaklığın 120 °C'nin üzerinde ve su aktivitesinin 0,6'nın altında olması gerekir.",
+      "sonuc": "Bu karşılaştırmada kabuğun bütün renk değerleri yalnız kabuk sıcaklığına bağlı olarak değişti.",
+      "bilgiler": [
+        "kabuk.renk_olusumu_asgari_kosullari",
+        "kabuk.renk_yalniz_kabuk_sicakligina_bagli"
+      ]
+    },
+    {
+      "kaldirac": "Fırın sıcaklığı",
+      "mekanizma": "Fırın sıcaklığı ayarı yükseldikçe kabuğun esmerleşme hızı arttı.",
+      "sonuc": "Bu denemede kabuk daha çabuk esmerleşti; renk değerleri ise yine kabuk sıcaklığına bağlıydı.",
+      "bilgiler": [
+        "kabuk.esmerlesme_hizi_firin_sicakligi",
+        "kabuk.renk_yalniz_kabuk_sicakligina_bagli"
+      ]
+    },
+    {
+      "kaldirac": "Hamurun mayası",
+      "mekanizma": "Duyusal değerlendirmede, fırıncı mayasıyla yapılan ekmekle karşılaştırıldığında ekşi mayalı ekmekler daha çıtır ve daha kalın bir kabuk ile daha yoğun bir renk gösterdi.",
+      "sonuc": "Bu karşılaştırmada ekşi mayalı ekmeğin kabuğu daha çıtır ve kalın, fırıncı mayalı ekmeğin kabuğu daha elastik göründü.",
+      "bilgiler": [
+        "kabuk.eksimaya_ile_daha_citir_ve_kalin_kabuk",
+        "kabuk.firin_mayali_ekmekte_elastik_kabuk"
+      ]
+    }
+  ],
+  "karakterler": [],
+  "ayrisan_kaynaklar": [
+    {
+      "konu": "Kabuk hangi sıcaklıkta esmerleşmeye başlar?",
+      "bilgiler": [
+        "kabuk.esmerlesme_baslangici",
+        "kabuk.renk_olusumu_asgari_kosullari",
+        "kabuk.renk_esikleri"
+      ]
+    },
+    {
+      "konu": "Kabuğun rengini fırın ayarı mı belirler, kabuk sıcaklığı mı?",
+      "bilgiler": [
+        "kabuk.esmerlesme_hizi_firin_sicakligi",
+        "kabuk.renk_yalniz_kabuk_sicakligina_bagli",
+        "kabuk.ideal_renk_142_160"
+      ]
+    },
+    {
+      "konu": "Ekşi maya ekmeği mayalı ekmekten daha hacimli mi?",
+      "bilgiler": [
+        "firin_kabarmasi.eksi_maya_hacim_efsanesi",
+        "firin_kabarmasi.eksi_maya_ve_kontrol_ozgul_hacim_araligi",
+        "firin_kabarmasi.pismis_ekmek_hacimce_gaz"
+      ]
+    },
+    {
+      "konu": "Fırın kabarması hangi sıcaklıkta durur?",
+      "bilgiler": [
+        "firin_kabarmasi.altmis_derece_otesi_genlesmenin_durmasi",
+        "firin_kabarmasi.mayali_hamurda_elli_ve_altmis_derece_kinetigi",
+        "firin_kabarmasi.elli_ve_altmis_derece_arasi_genlesme_mekanizmalari"
+      ]
+    },
+    {
+      "konu": "Kabuk kalınlığı hangi etkene bağlı?",
+      "bilgiler": [
+        "kabuk.kalinlik_gelisimini_belirleyen_iki_etmen",
+        "kabuk.sicaklik_ve_sure_ile_kalinlik_artisi",
+        "kabuk.sertlik_ve_kabuk_kalinligi_mekanizmasi"
+      ]
+    }
+  ]
+}

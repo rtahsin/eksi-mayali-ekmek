@@ -1,0 +1,58 @@
+{
+  "id": "gluten",
+  "ad": "Gluten ağı",
+  "eski_ad": null,
+  "tur": "yapi",
+  "tek_cumle": "Buğday hamurunun iskeletidir: su almış gluten proteinlerinin kesintisiz ağı, nişasta taneleri ve öteki un bileşenlerini bir arada tutar [[gluten.tanim_hamur_iskeleti]]",
+  "bolumler": [
+    {
+      "baslik": "Nedir",
+      "cumleler": [
+        "Alkolde çözünen gliadinler ve çözünmeyen gluteninler gluten olarak adlandırılan depo proteinleridir [[gluten.osborne_fraksiyonlari_ve_gluten_tanimi]]",
+        "Gluten proteinleri polimerik gluteninleri ve monomerik gliadinleri kapsayarak toplam tane proteinlerinin %85'ini oluşturur [[gluten.tane_proteinlerinde_yuzde_seksen_bes_orani]]",
+        "Bu proteinler yüksek oranda glutamin (%35), glisin (%20) ve prolin (%10) içerir [[gluten.amino_asit_glutamin_glisin_prolin_oranlari]]"
+      ]
+    },
+    {
+      "baslik": "Ne yapar",
+      "cumleler": [
+        "Gluteninler hamurun kuvvet ve elastikliğine, gliadinler ise uzayabilirliğine katkıda bulunur [[gluten.glutenin_kuvvet_ve_gliadin_uzayabilirlik]]",
+        "Glutenin alt birimleri arasındaki kovalent disülfit bağları ve kovalent olmayan bağlar glutenin makropolimerini oluşturur, hamurun kesintisizliği ve elastikliği bu yapıdan gelir [[disulfit.glutenin_makropolimeri]]"
+      ]
+    },
+    {
+      "baslik": "Hamurda ne olur",
+      "cumleler": [
+        "Gluten ağı hamurun viskoelastik özelliklerini büyük ölçüde belirler, hamur hidrasyonuna, gaz tutulmasına ve hava hücrelerinin kararlı kalmasına katkı sağlar [[gluten.viskoelastisite_ve_hava_hucreleri_kararliligi]]",
+        "Yoğurma sırasında oluşan ağın kararlılığı ise kovalent disülfit bağlarının yanı sıra hidrojen bağları, iyonik bağlar ve hidrofobik bağlar gibi kovalent olmayan etkileşimlere dayanır [[gluten.ag_stabilitesi_disulfit_ve_kovalent_olmayan_baglar]]"
+      ]
+    },
+    {
+      "baslik": "Hangi koşulda",
+      "cumleler": [
+        "Gliadin/glutenin oranı geleneksel modern buğdayda 2,6 iken siyezde 9,0, gernikte 5,2 ve spelt'te 3,5 olarak bildirilmiştir [[gliadin_glutenin.bugday_turlerinde_oran]]"
+      ]
+    },
+    {
+      "baslik": "Ekmeğe etkisi",
+      "cumleler": [
+        "İyi kurulmamış bir gluten ağı mayalanma gazını tutamayabilir ve ekmek hacmi düşük kalır [[gluten.elastiklik_hacim_optimum]]",
+        "Hem gliadin hem glutenin miktarı ekmeğin özgül hacmiyle pozitif ilişkilidir, glutenininki daha belirgindir [[gliadin_glutenin.hacme_ikisi_de_katki]]"
+      ]
+    }
+  ],
+  "efsane": null,
+  "anlar": [
+    "olgun_tanenin_ici",
+    "atalik_bugdayin_hasadi",
+    "kepek_una_karisinca",
+    "su_ve_tuz_bulusunca",
+    "yogurma_tezgahinda",
+    "hamuru_sekillendirmek",
+    "firinin_ilk_8_dakikasi",
+    "nisastanin_jellesmesi"
+  ],
+  "gorseller": [
+    "gluten_and_carbon_nanotubes"
+  ]
+}

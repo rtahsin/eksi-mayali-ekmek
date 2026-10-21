@@ -1,0 +1,364 @@
+{
+  "id": "gliadin_glutenin",
+  "ad": "Gliadin ve glutenin",
+  "bilgiler": [
+    {
+      "id": "gliadin_glutenin.hacme_ikisi_de_katki",
+      "metin": "Dört buğday çeşidiyle yapılan bir çalışmada hem gliadin hem glutenin miktarı ekmeğin özgül hacmiyle pozitif ilişkiliydi; gluteninin etkisi daha belirgindi (r = 0,939'a karşı 0,546).",
+      "kosul": "Dört Hint buğday çeşidi (PBW 590, PBW 550, HW 2004, C 306); %65 öğütme randımanlı un; korelasyonlar n = 4 çeşit üzerinden; 30 g'lık deneme pişirmesi: 90 dk + 36 dk 30 °C'de mayalanma, 232 °C'de 13 dk pişirme.",
+      "kanit": "tek_kaynak",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.lwt.2012.09.011",
+          "yer": "Abstract"
+        },
+        {
+          "kaynak": "10.1016/j.lwt.2012.09.011",
+          "yer": "4. Conclusion"
+        }
+      ]
+    },
+    {
+      "id": "gliadin_glutenin.oran_dengesi",
+      "metin": "Dört Hint buğday çeşidiyle yapılan bir çalışmada gliadin/glutenin oranı yükseldikçe ekmek hacmi olumsuz etkilendi ve ekmek içi sertleşti; yazarlar iyi ekmek için iki gluten alt grubunun dengede olması gerektiğini öne sürer.",
+      "kosul": "Dört Hint buğday çeşidi (PBW 590, PBW 550, HW 2004, C 306); %65 öğütme randımanlı un; korelasyonlar n = 4 çeşit üzerinden; 30 g'lık deneme pişirmesi.",
+      "kanit": "tek_kaynak",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.lwt.2012.09.011",
+          "yer": "Abstract"
+        },
+        {
+          "kaynak": "10.1002/cche.10865",
+          "yer": "3.5 Texture profile analysis and bread firmness"
+        }
+      ]
+    },
+    {
+      "id": "gliadin_glutenin.karistirmada_viskoelastik_ag_olusumu",
+      "metin": "Hamur yoğurma sırasında gliadin ve gluteninlerin hidrasyonu ve aralarındaki etkileşimler sürekli ve viskoelastik bir gluten ağı oluşturur.",
+      "kosul": "Hamur yoğurma",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.foodchem.2021.129916",
+          "yer": "Introduction"
+        },
+        {
+          "kaynak": "10.1016/j.jcs.2013.01.011",
+          "yer": "Introduction"
+        },
+        {
+          "kaynak": "10.1016/j.csbj.2023.08.019",
+          "yer": "Polymeric proteins"
+        }
+      ]
+    },
+    {
+      "id": "gliadin_glutenin.viskoelastisite_ve_gaz_tutma_mekanizmasi",
+      "metin": "Buğday unundaki gliadin ve glutenin proteinleri (%8–15 un proteini), su bağlama ve disülfit köprüleri kurma yoluyla hamura viskoelastisite ve gaz tutma kapasitesi kazandırır.",
+      "kosul": "",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1080/10408398.2021.1976100",
+          "yer": "Flours used for sourdough production"
+        },
+        {
+          "kaynak": "10.1093/jexbot/53.370.947",
+          "yer": "Spatial distribution of prolamins"
+        }
+      ]
+    },
+    {
+      "id": "gliadin_glutenin.gliadin_akiskanlik_glutenin_elastiklik",
+      "metin": "Kaynaklara göre gluten, tek zincirli (monomerik) gliadin ile çok zincirli (polimerik) gluteninden oluşur; glutenin hamurun sağlamlığını, elastikliğini ve uzamaya direncini, gliadin ise akışkanlığını (viskozite) ve uzayabilirliğini belirler.",
+      "kosul": "Literatür aktarımı ve derleme cümleleri (buğday hamuru reolojisi); makalelerin kendi ölçümü değildir.",
+      "kanit": "ikincil",
+      "bolum": "Ne yapar",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.lwt.2012.09.011",
+          "yer": "3.1. Flour characteristics analysis"
+        },
+        {
+          "kaynak": "10.1016/j.lwt.2012.09.011",
+          "yer": "1. Introduction"
+        },
+        {
+          "kaynak": "10.1016/j.foodhyd.2025.111252",
+          "yer": "Introduction"
+        },
+        {
+          "kaynak": "10.1002/cche.10572",
+          "yer": "7 GLUTEN CHEMISTRY AND FUNCTIONALITY"
+        },
+        {
+          "kaynak": "10.1016/j.jcs.2013.01.011",
+          "yer": "Introduction"
+        },
+        {
+          "kaynak": "10.1111/1541-4337.13141",
+          "yer": "5.1 Protein structure"
+        },
+        {
+          "kaynak": "10.1111/1541-4337.13147",
+          "yer": "3.2 Interaction of starch with proteins"
+        },
+        {
+          "kaynak": "10.1016/j.cofs.2019.04.001",
+          "yer": "2. The gluten network"
+        },
+        {
+          "kaynak": "10.3390/foods13081277",
+          "yer": "3.4. Analysis of SE-HPLC"
+        },
+        {
+          "kaynak": "10.24925/turjaf.v10i11.2173-2179.5386",
+          "yer": "Giriş"
+        },
+        {
+          "kaynak": "10.3389/fpls.2019.00642",
+          "yer": "Introduction"
+        },
+        {
+          "kaynak": "10.3390/molecules26020508",
+          "yer": "PMC7835854.txt:2. Biochemistry and Structure"
+        }
+      ]
+    },
+    {
+      "id": "gliadin_glutenin.atalik_bugdaylarda_oran_araliklari",
+      "metin": "Gliadin/glutenin oranı ekmeklik buğdayda 1,6–3,8 iken spelt'te 2,8–4,0, gernikte 3,6–6,7 ve siyezde 4,2–12,0 aralığına yükselmektedir.",
+      "kosul": "buğday türleri karşılaştırması",
+      "kanit": "ikincil",
+      "bolum": "Ortak özellikler",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/pr9112008",
+          "yer": "Gluten and Starch Characteristics as Affecting the Baking Quality of Ancient Wheat Species"
+        },
+        {
+          "kaynak": "10.3390/foods8090409",
+          "yer": "1. Introduction"
+        }
+      ]
+    },
+    {
+      "id": "gliadin_glutenin.bugday_turlerinde_oran",
+      "metin": "Gliadin/glutenin oranı geleneksel modern buğdayda 2,6 iken, siyezde 9,0, gernikte 5,2 ve spelt'te 3,5 olarak bildirilmiştir.",
+      "kosul": "",
+      "kanit": "ikincil",
+      "bolum": "Ortak özellikler",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1002/cche.10865",
+          "yer": "1 INTRODUCTION"
+        }
+      ]
+    },
+    {
+      "id": "gliadin_glutenin.ekmeklik_daha_cok_glutenin_oran",
+      "metin": "Bir çalışmada ekmeklik buğdayın glutenin içeriği spelt, emmer ve siyezden yüksekti; gliadin/glutenin oranı ekmeklik buğdayda 3,8'in altındayken bu atalık buğdaylarda 12,1'e kadar yükseldi.",
+      "kosul": "tür başına 15 çeşit, Almanya'da 4 konum",
+      "kanit": "tek_kaynak",
+      "bolum": "Ortak özellikler",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods8090409",
+          "yer": "Abstract"
+        }
+      ]
+    },
+    {
+      "id": "gliadin_glutenin.glutende_gliadin_yuzdeleri",
+      "metin": "Bir çalışmada gliadin, ekmeklik buğdayda gluten içindeki payının %61–79'unu, emmerde (gernik) %75–92'sini, siyezde %79–92'sini oluşturdu.",
+      "kosul": "tam buğday unları",
+      "kanit": "tek_kaynak",
+      "bolum": "Ortak özellikler",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods8090409",
+          "yer": "3.5. Correlations between GLIA, GLUT, Gluten and Total Protein Contents"
+        }
+      ]
+    },
+    {
+      "id": "gliadin_glutenin.turler_arasi_ortalama_oranlar",
+      "metin": "Bir çalışmada ortalama gliadin/glutenin oranı ekmeklik buğdayda 2,5 ile en düşük, siyezde 6,5 ile en yüksekti; spelt (3,3), durum buğdayı (4,0) ve emmer (4,9) bu iki değer arasındaydı.",
+      "kosul": "tam buğday unları, 15 çeşit, 4 konum",
+      "kanit": "tek_kaynak",
+      "bolum": "Ortak özellikler",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods8090409",
+          "yer": "3.2. Quantitation of GLIA, GLUT, Gluten and Total Protein Contents"
+        }
+      ]
+    },
+    {
+      "id": "gliadin_glutenin.bugday_depo_protein_gruplari",
+      "metin": "Buğday depo proteinleri gliadinler ve gluteninler olmak üzere iki temel fraksiyon grubundan oluşur.",
+      "kosul": "",
+      "kanit": "ikincil",
+      "bolum": "Tanım",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/agronomy10111763",
+          "yer": "Introduction"
+        },
+        {
+          "kaynak": "10.1098/rstb.2001.1024",
+          "yer": "THE ORIGIN OF THE WHEAT GLUTEN NETWORK"
+        },
+        {
+          "kaynak": "10.3390/foods13081277",
+          "yer": "3.4. Analysis of SE-HPLC"
+        }
+      ]
+    },
+    {
+      "id": "gliadin_glutenin.gliadin_ve_glutenin_esit_orani",
+      "metin": "Genel bir kural olarak gliadinler ve gluteninler buğday gluten proteinlerinin yaklaşık %50'şerlik kısmını oluşturur.",
+      "kosul": "",
+      "kanit": "tek_kaynak",
+      "bolum": "Tanım",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1111/j.1750-3841.2007.00292.x",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "gliadin_glutenin.alfa_ve_omega_gliadinlerin_kumelenmesi_ve_ayrilmasi",
+      "metin": "Makale, alfa-gliadinler ve omega-gliadinler gibi bazı monomerik proteinlerin en uygun yoğurma noktasına kadar hidrofobik etkileşimlerle kümelendiğini, yoğurma sürdürüldüğünde ise bu kümelerin parçalandığını önceki çalışmalara dayanarak aktarmaktadır.",
+      "kosul": "Literatür aktarımı (hamur yoğurma süreci); makalenin kendi ölçümü değildir.",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods13203232",
+          "yer": "3.1. Farinograph Mixing Behavior"
+        }
+      ]
+    },
+    {
+      "id": "gliadin_glutenin.farinografta_gliadin_ve_glutenin_gelisme_sureleri",
+      "metin": "Bu çalışmada farinografta yoğurma eğrisinin merkezinin 500 BU çizgisine ulaştığı gelişme süresi, izole gliadin için 3,3 ± 0,5 dakika, izole glutenin için 31,4 ± 0,3 dakika bulunmuştur.",
+      "kosul": "İzole gliadin ve glutenin fraksiyonları; farinograf yoğurma, 500 BU kıvam çizgisi; glutenin için 60 dakikalık yoğurma boyunca tepe noktası görülmemiş.",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods13203232",
+          "yer": "3.1. Farinograph Mixing Behavior"
+        },
+        {
+          "kaynak": "10.3390/foods13203232",
+          "yer": "4. Conclusions"
+        },
+        {
+          "kaynak": "10.3390/foods13203232",
+          "yer": "4. Conclusions"
+        }
+      ]
+    },
+    {
+      "id": "gliadin_glutenin.glutenin_hizalanmasi_ve_capraz_bag",
+      "metin": "Yoğurma sırasında gluteninler aynı doğrultuda dizilerek moleküller arasında çapraz bağlar kurar ve hamur direncini artırır.",
+      "kosul": "Hamur yoğurma",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.jcs.2013.01.011",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "gliadin_glutenin.hidrasyonda_kumelenme",
+      "metin": "Yoğurmanın ilk (su alma) evresinde çıkarılabilirliği azalan, yani kümelere katılan proteinler başlıca düşük molekül ağırlıklı glutenin, α-gliadin ve γ-gliadindi.",
+      "kosul": "İki ticari un: HF sert buğday %14,5 protein, LF yarı sert buğday %11,7 protein (kuru baz); 200 g un + farinograf suyu + 4 g NaCl, Swanson yoğurucu 120 dev/dk, 27 °C, aşırı yoğurmaya kadar 20 dk; %10 1-propanolle çıkarılan proteinler; 2D-DIGE ile protein tanımlama (n = 4, p < 0,05).",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/pr9071244",
+          "yer": "Abstract"
+        }
+      ]
+    },
+    {
+      "id": "gliadin_glutenin.karistirmada_gelisme_egrisi_ve_hamur_direnci",
+      "metin": "Bu çalışmada gliadin, yoğurmanın erken evrelerinde buğday hamuruna benzer belirgin bir gelişme zirvesi gösterirken, glutenin 60 dakikalık farinograf yoğurması boyunca zirve yapmadan kademeli olarak gelişti ve karıştırma ilerledikçe hamur direncine katkı sağladığı görünüyor.",
+      "kosul": "Gliadin ve glutenin fraksiyonları; 60 dakikalık Farinograf yoğurması",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods13203232",
+          "yer": "3.1. Farinograph Mixing Behavior"
+        },
+        {
+          "kaynak": "10.3390/foods13203232",
+          "yer": "3.1. Farinograph Mixing Behavior"
+        }
+      ]
+    },
+    {
+      "id": "gliadin_glutenin.pisirmede_polimerlesme_sirasi_ve_sicaklik",
+      "metin": "Ekmek pişirme ve makarna kurutma süreçlerinde önce glutenin polimerleşir; alfa- ve gama-gliadinler ise protein ağına daha yüksek sıcaklıklarda dahil olur.",
+      "kosul": "Ekmek pişirme ve makarna kurutma/pişirme",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.foodchem.2016.11.043",
+          "yer": "1. Introduction"
+        },
+        {
+          "kaynak": "10.1016/j.foodchem.2016.11.043",
+          "yer": "1. Introduction"
+        }
+      ]
+    },
+    {
+      "id": "gliadin_glutenin.pisirmede_sds_ekstrakte_protein_dususu",
+      "metin": "Pişirme sırasında toplam SDS'de ekstrakte edilebilir protein miktarındaki düşüş 12. dakikada glutenin kesriyle başlar ve ardından gliadin kesrindeki azalmayla devam eder.",
+      "kosul": "ekmek pişirme süreci",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.fochx.2026.104362",
+          "yer": "3.4. Yeast strains affect the gliadin fraction in the gluten network"
+        }
+      ]
+    }
+  ]
+}

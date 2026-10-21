@@ -1,0 +1,313 @@
+{
+  "id": "ilk_hava_kabarciklari",
+  "durak": "hamur",
+  "baslik": "İlk hava kabarcıkları",
+  "soru": "Hamurun içindeki ilk kabarcıklar nereden gelir?",
+  "bayrak": false,
+  "gor": {
+    "tur": "kaydirma",
+    "adimlar": [
+      {
+        "metin": "Un ve su karıştırıldığında hamurda 0,01–0,1 mm boyutunda gaz hücreleri, yani hapsedilmiş gazdan oluşan küçük boşluklar gelişir [[kabarcik.un_su_karisiminda_gaz_hucre_boyutu]]. Gaz hücrelerinin çekirdekleri (ilk küçük hâlleri), yoğurma sırasında hamura giren havanın içinde oluşabilir [[kabarcik.cekirdekler_yogurmada]].",
+        "gorsel": "batter_bread_bubbles",
+        "vurgu": "Hamurun kesitindeki ince kabarcıklar: gaz hücrelerinin ilk hâli."
+      },
+      {
+        "metin": "Gaz hapsolması, yoğurma sırasında hamur yüzeyleri birbirine yaklaşıp birleştiğinde gazın hamur içine hapsolması sürecidir [[kabarcik.gaz_hapsolmasi_tanimi]]. Yoğurma sonunda kabarcıklar hamurun toplam hacminin yaklaşık %9–20'sini oluşturur [[kabarcik.yogurma_sonu_gaz_hacim_payi]].",
+        "gorsel": "masa_fermentando",
+        "vurgu": "Hamurun yüzeyi: yüzeyler birbirine yaklaştıkça gaz içeride kalır."
+      },
+      {
+        "metin": "Kabarcık boyutları, değerlerin logaritmasının çan eğrisine uyduğu log-normal dağılımı izler [[kabarcik.sert_ve_yumusak_hamurda_lognormal_dagilim]]. Bu dağılımın geometrik ortalaması (değerlerin çarpımından alınan kök) sert hamurda 100 μm, yumuşak hamurda 109 μm'dir [[kabarcik.sert_ve_yumusak_hamurda_lognormal_dagilim]].",
+        "gorsel": null,
+        "vurgu": "Bu adım için listede uygun bir görsel yok; vurgu metni, kabarcık boyutlarının dağılımını anlatır."
+      },
+      {
+        "metin": "Ekmek mayası, hamurdaki sakaroz, glukoz, fruktoz ve maltoz gibi şekerleri karbondioksit ve etanole çevirir [[scer.glikoliz_karbonhidrat_fermantasyonu]]. Üretilen karbondioksitin bir kısmı hamurun sıvı kısmında çözünebilir ve çekirdeklere yayılır [[kabarcik.cekirdekler_yogurmada]].",
+        "gorsel": "saccharomyces_cerevisiae_sem",
+        "vurgu": "Taramalı elektron mikroskobunda maya hücreleri: boşluğu dolduracak gazı üreten canlılar."
+      },
+      {
+        "metin": "Yüzey gerilimi, sıvının yüzeyini küçültme eğilimidir; çözünür protein ve yağ benzeri lipitler bu gerilimi düşürerek gazın küçük kabarcıktan büyüğe geçişini, yani orantısızlaşmayı yavaşlatır [[lipid.yuzey_gerilimi_ve_gaz_tutma_kapasitesi]]. Kabarcık ağını destekleyen ince filmleri kararlı tutmak için polar lipitler (bir ucu suyu seven yağ molekülleri) yeterli miktarda bulunmalıdır [[kabarcik.polar_lipitler_ince_filmleri_stabilize_eder]].",
+        "gorsel": "adipocytes_lipid_droplets_bodipy505_staining_rkott_2023",
+        "vurgu": "Konfokal görüntüde yağ damlacıkları; görsel bir modeldir, ekmek lipitinden değildir."
+      },
+      {
+        "metin": "Nihai ekmek somun hacminin %70'inden fazlası gaz hücrelerinden oluşur; hücrelerin boyutu, şekli ve sayısı nihai doku ve yapıyı belirler [[kabarcik.somun_hacminin_yuzde_yetmisi_gaz_hucreleridir]]. İnce duvarlı, küçük ve eşit boyutlu gözeneklerden oluşan ekmek içi, iri ve kalın duvarlı gözenekli içten daha yumuşak ve daha esnektir [[kabarcik.ince_duvar_yumusak]].",
+        "gorsel": null,
+        "vurgu": "Bu adım için listede uygun bir görsel yok; vurgu metni, ekmek içinin gözenekli yapısını anlatır."
+      }
+    ]
+  },
+  "anla": [
+    {
+      "baslik": "Havanın hamura giriş anı",
+      "paragraflar": [
+        "Un suyla karıştığında hamurda 0,01–0,1 mm boyutunda gaz hücreleri gelişir [[kabarcik.un_su_karisiminda_gaz_hucre_boyutu]]. Yoğurma sırasında hamur yüzeyleri birbirine yaklaşıp birleşir ve gaz hamurun içine hapsolur; buna gaz hapsolması denir [[kabarcik.gaz_hapsolmasi_tanimi]].",
+        "Gaz hücrelerinin çekirdekleri, yoğurma sırasında hamura giren havanın içinde oluşabilir [[kabarcik.cekirdekler_yogurmada]]. Yoğurma sonunda gaz kabarcıkları hamurun toplam hacminin yaklaşık %9–20'sini oluşturur [[kabarcik.yogurma_sonu_gaz_hacim_payi]]. Gaz hücresinin içindeki basınç, atmosfer basıncından yalnızca biraz yüksektir: 1,01 atm [[kabarcik.hucre_basinci]]."
+      ]
+    },
+    {
+      "baslik": "Kabarcıkların ölçüsü ve dağılımı",
+      "paragraflar": [
+        "Kabarcık boyutları tek bir değerde durmaz; log-normal denen bir dağılım gösterir [[kabarcik.sert_ve_yumusak_hamurda_lognormal_dagilim]]. Sert hamurda bu dağılımın geometrik ortalaması 100 μm, yumuşak hamurda 109 μm'dir; yayılım ölçüsü olan geometrik standart sapma ise sırasıyla 1,79 ve 1,62'dir [[kabarcik.sert_ve_yumusak_hamurda_lognormal_dagilim]]. Komşu kabarcıklar arasındaki ortalama mesafe ise sert hamurda 338 μm, yumuşak hamurda 460 μm düzeyindedir [[kabarcik.kabarciklar_arasi_mesafe_dagilimi]]. Bu dağılımı, hamurun viskoelastik (hem akan hem esneyen) özellikleri ve yoğurmada aktarılan mekanik enerji belirler [[kabarcik.dagilim_viskoelastiklik_ve_enerjiye_bagli]].",
+        "Hamur içindeki gaz kabarcıkları, hamur üzerinde belirgin bir yumuşatıcı etki bırakır [[kabarcik.gaz_kabarciklarinin_hamuru_yumusatma_etkisi]]. Protein ve su oranı dengelenmiş hamurlarda, pişirme kalitesinin gaz kabarcığı oluşumuna ve kararlılığına bağlılığı artabilir [[kabarcik.protein_ve_su_normallesince_kabarcik_belirleyiciligi]]. Yoğurmada hapsedilen gaz kabarcıkları, gaz alma, silindirleme ve şekil verme gibi sonraki aşamalarda alt bölünür; böylece kabarcık sayısı ve dağılımı değişir [[kabarcik.gaz_kabarciklarinin_alt_bolunmesi]]. Şekil verme, küçük hava kabarcıklarının patlayıp çarpışmasına ve 0,5–0,8 mm büyüklüğünde kapalı boşluklar oluşmasına yol açabilir [[kabarcik.sekil_vermede_kabarciklarin_birlesmesi]].",
+        "Bu ölçümler doğrudan görülemez; hamur kırılgan ve ışığı geçirmediği (opak) için kabarcık dağılımını ölçmek oldukça güçtür [[kabarcik.boyut_dagilimi_olcum_zorlugu]]. Kesit mikroskopisinde 45 µm'den küçük kabarcıklar çözünürlük sınırı nedeniyle sayılamamış, ortalama kabarcık çapı 90 µm olarak bildirilmiştir [[kabarcik.carlson_bohlin_kesit_mikroskopisi]]. Üç boyutlu tomografi, yani ince dilimlerden üç boyutlu yapı kuran yöntem, kesit almadan 10 µm kadar küçük gaz kabarcıklarını ayrıştırabilir [[kabarcik.mikrotomografi_ile_10um_cozunurluk]]."
+      ]
+    },
+    {
+      "baslik": "Çekirdekleri dolduran gaz",
+      "paragraflar": [
+        "Ekmek mayası (Saccharomyces cerevisiae), hamurdaki sakaroz, glukoz, fruktoz ve maltoz gibi şekerleri karbondioksite ve etanole çevirir [[scer.glikoliz_karbonhidrat_fermantasyonu]]. Bu dönüşüm glikoliz denen yolla, şekerin hücre içinde adım adım parçalanmasıyla gerçekleşir [[scer.glikoliz_karbonhidrat_fermantasyonu]]. Üretilen karbondioksitin bir kısmı hamurun sıvı kısmında çözünebilir ve derişim farkıyla, yani maddenin yoğun olduğu yerden seyrek olana doğru, çekirdeklere yayılır [[kabarcik.cekirdekler_yogurmada]].",
+        "Mayanın fermantasyonu, yani bu şeker dönüşümü, hamura yapı kazandırır [[scer.hamur_reolojisi_ve_gaz_tutma]]. Hamurun yayılma eğilimi azalır ve gaz tutma yeteneği artar [[scer.hamur_reolojisi_ve_gaz_tutma]]. Maya suşunun, yani maya soyunun seçimi, gaz hücresi stabilizasyonu (kararlı tutulması) ve son ekmek içi yapısı yoluyla pişirme evresini belirgin biçimde etkiler [[scer.maya_susu_seciminin_pisirme_fazina_etkisi]].",
+        "Orantısızlaşmada, iç basıncı yüksek küçük kabarcıktan basıncı düşük büyük kabarcığa gaz yayılır; bu süreç yoğurmanın hemen ardından kabarcık sayısını belirgin biçimde azaltır [[kabarcik.orantisizlasma_kabarcik_sayisi]] [[kabarcik.orantisizlasma_tanimi]]. Gazın hamurdan ayrılması ise boşluk oranı (hamurdaki gazın hacimce payı) ile ters yönde ilişkilidir [[kabarcik.gaz_kaybi_ve_bosluk_orani]]. Son mayalanmanın sonunda ise kabarcıkların toplam gaz hacmindeki payı %70–75'e ulaşır [[kabarcik.mayalanma_sonu_gaz_hacim_payi]]."
+      ]
+    },
+    {
+      "baslik": "Gözenekli ekmek içi",
+      "paragraflar": [
+        "Ekmek içi, mayalı bir fırın ürününü dilimlediğinde görünen gözenekli yapıdır [[kabarcik.tanim_ic_dokusu]]. Somun hacminin %70'inden fazlası gaz hücrelerinden oluşur; hücrelerin boyutu, şekli ve sayısı dokuyu ve yapıyı belirler [[kabarcik.somun_hacminin_yuzde_yetmisi_gaz_hucreleridir]].",
+        "Küçük gaz hücreleri ince duvarlara karşılık gelir; büyük hücreler ve kalın duvarlar ise daha kaba bir yapı gösterir [[kabarcik.kucuk_gaz_hucreleri_ince_hucre_duvari]]. İnce duvarlı, küçük ve eşit boyutlu gözeneklerden oluşan ekmek içi, iri ve kalın duvarlı gözenekli içten daha yumuşak ve daha esnektir [[kabarcik.ince_duvar_yumusak]]. İnce duvarlar daha esnek olduğundan, kırılmadan önce daha çok eğilebilir [[kabarcik.ince_duvar_yumusak]].",
+        "Gluten, buğday proteinlerinden oluşan bir ağdır; iyi geliştiğinde mayalanma ve pişirme sırasında kabarcıkların birleşmesini geciktirmesi gerekir [[kabarcik.iyi_gluten_gelisimi_kabarcik_birlesmesini_geciktirir]] [[lipid.serbest_polar_lipitler_gluten_ve_gaz_hucresi]]. Bu gecikme, küçük çaplı ve ince duvarlı çok sayıda gaz hücresinin oluşmasına olanak verir [[kabarcik.iyi_gluten_gelisimi_kabarcik_birlesmesini_geciktirir]]. Gözeneklilik, gaz hücrelerinin miktarını, boyutunu ve dağılımını yansıtır; bu da ürün hacmini ve dokusal özellikleri belirlemede doğrudan rol oynar [[kabarcik.gozeneklilik_tanimi_ve_kaliteye_etkisi]]."
+      ]
+    }
+  ],
+  "yuzlesme": [
+    {
+      "inanc": "Gözeneklerin hepsi mayanın ürettiği gazdan gelir.",
+      "cevap": "Gaz hücrelerinin çekirdekleri, yoğurmada hamura giren havanın içinde oluşabilir [[kabarcik.cekirdekler_yogurmada]]. Mayanın ürettiği karbondioksitin bir kısmı da hamurun sıvı kısmından bu çekirdeklere yayılır [[kabarcik.cekirdekler_yogurmada]] [[scer.glikoliz_karbonhidrat_fermantasyonu]]."
+    },
+    {
+      "inanc": "Kabarcık sayısı ne kadar çoksa ekmek o kadar iyidir.",
+      "cevap": "Somun hacminin %70'inden fazlası gaz hücrelerinden oluşur; hücrelerin boyutu, şekli ve sayısı birlikte dokuyu belirler [[kabarcik.somun_hacminin_yuzde_yetmisi_gaz_hucreleridir]]. Gözenek sayısı, özgül hacimle (birim kütleye düşen hacimle) pozitif, gözenek alanıyla negatif korelasyon gösterir [[kabarcik.gozenek_sayisi_ve_ozgul_hacim_korelasyonu]]."
+    },
+    {
+      "inanc": "Büyük gözenekli ekmek daha yumuşak ve daha kalitelidir.",
+      "cevap": "Ölçümler bunun tersini söyler: ince duvarlı, küçük ve eşit boyutlu gözeneklerden oluşan ekmek içi daha yumuşak ve daha esnektir [[kabarcik.ince_duvar_yumusak]]. Sırbistan'da taş değirmen unlarından yapılan, Khorasan buğdayı dışındaki ekşi mayalı ekmeklerde gözenekler düzensiz ve iriydi [[kabarcik.eksi_maya_duzensiz_iri_gozenek]]. Yazarlar bunu ekşi mayalı ekmeğin karakteristiği olarak niteliyor [[kabarcik.eksi_maya_duzensiz_iri_gozenek]]."
+    }
+  ],
+  "kanit": {
+    "cekirdek": [
+      "kabarcik.cekirdekler_yogurmada",
+      "kabarcik.gaz_hapsolmasi_tanimi",
+      "kabarcik.un_su_karisiminda_gaz_hucre_boyutu",
+      "kabarcik.yogurma_sonu_gaz_hacim_payi",
+      "kabarcik.sert_ve_yumusak_hamurda_lognormal_dagilim",
+      "kabarcik.dagilim_viskoelastiklik_ve_enerjiye_bagli",
+      "kabarcik.hucre_basinci",
+      "kabarcik.ince_duvar_yumusak",
+      "kabarcik.iyi_gluten_gelisimi_kabarcik_birlesmesini_geciktirir",
+      "kabarcik.gozeneklilik_tanimi_ve_kaliteye_etkisi",
+      "kabarcik.kucuk_gaz_hucreleri_ince_hucre_duvari",
+      "kabarcik.somun_hacminin_yuzde_yetmisi_gaz_hucreleridir",
+      "kabarcik.tanim_ic_dokusu",
+      "scer.glikoliz_karbonhidrat_fermantasyonu",
+      "scer.maya_susu_seciminin_pisirme_fazina_etkisi"
+    ],
+    "cekmece": [
+      "kabarcik.kabarciklar_arasi_mesafe_dagilimi",
+      "kabarcik.orantisizlasma_tanimi",
+      "kabarcik.orantisizlasma_kabarcik_sayisi",
+      "kabarcik.orantisizlasma_hizi_boyut_ve_mesafeye_bagli",
+      "kabarcik.gaz_kabarciklarinin_alt_bolunmesi",
+      "kabarcik.sekil_vermede_kabarciklarin_birlesmesi",
+      "kabarcik.gaz_kabarciklarinin_hamuru_yumusatma_etkisi",
+      "kabarcik.gaz_kaybi_ve_bosluk_orani",
+      "kabarcik.protein_ve_su_normallesince_kabarcik_belirleyiciligi",
+      "kabarcik.gaz_hucresi_kararliligi_ve_kabalasmanin_onlenmesi",
+      "kabarcik.considere_kriteri_gerinim_sertlesmesi",
+      "kabarcik.polar_lipitler_ince_filmleri_stabilize_eder",
+      "kabarcik.asiri_gaz_hapsolmasi_ve_doku",
+      "kabarcik.yuzeyde_birlesme_gaz_kaybi",
+      "kabarcik.gozenek_sayisi_ve_ozgul_hacim_korelasyonu",
+      "kabarcik.gozenek_boyutu_ve_sekil_duzenliligi",
+      "kabarcik.duzgunluk_tanimi",
+      "kabarcik.eksi_maya_duzensiz_iri_gozenek",
+      "kabarcik.guclu_bugday_daha_fazla_kabarcik",
+      "kabarcik.guclu_un_daha_az_kabarcik",
+      "kabarcik.mayasiz_hamur_dinlenme_orantisizlasma",
+      "kabarcik.mikrotomografi_ile_10um_cozunurluk",
+      "kabarcik.carlson_bohlin_kesit_mikroskopisi",
+      "kabarcik.dondurulmus_kesit_mikroskopisi",
+      "kabarcik.yuksek_cozunurluklu_mikroskopi_3um",
+      "kabarcik.tamamlayici_goruntuleme_yontemleri",
+      "kabarcik.bosluk_orani_yogunluk_olcumu",
+      "kabarcik.boyut_dagilimi_olcum_zorlugu",
+      "kabarcik.kesit_hacim_duzeltme",
+      "kabarcik.siniflandirma_ve_boyut_dagilimi",
+      "kabarcik.sinkrotron_mikrotomografisi_lognormal",
+      "kabarcik.young_modulu",
+      "kabarcik.gozeneklilik_yogurma_hacim_farki",
+      "kabarcik.gozenek_alani_kesri_ile_ortalama_alan_korelasyonu",
+      "kabarcik.mikro_bt_ile_gozenek_matrisi_analizi",
+      "kabarcik.gozenek_yogunlugu_ve_firin_kabarmasi_korelasyonu",
+      "kabarcik.yumusak_hamurda_kucuk_kabarcik_deformasyonu",
+      "kabarcik.asiri_doygunluk_ve_kritik_kabarcik_boyutu",
+      "kabarcik.mayalanma_sonu_gaz_hacim_payi",
+      "kabarcik.mayalanmada_ortalama_cap_artisi",
+      "kabarcik.en_buyuk_cap_ve_ikiye_katlanma",
+      "kabarcik.uzun_mayalanma_birlesme",
+      "kabarcik.laminasyon_sayisi_ile_gaz_hucresi_artisi",
+      "kabarcik.bakteriyel_asitlerin_gaz_tutmayi_dusurmesi",
+      "kabarcik.hamur_sivisi_stabilize",
+      "kabarcik.hamur_sivisi_kopuk_cokus_orani",
+      "kabarcik.cavdar_hamur_sivisi_buydaya_gore_daha_ustun_kopurur",
+      "kabarcik.dilatasyonel_modul_kopuk_kararlilik",
+      "kabarcik.yuzey_gerilimi_ve_kararlilik",
+      "kabarcik.jr_jmax_orani_ve_zar_kopma_direnci",
+      "kabarcik.nsp_ve_gluten_sivi_film_drenajini_yavaslatir",
+      "kabarcik.puroindolinler_ve_hamur_sivisi_kopugu",
+      "kabarcik.hidroliz_olmamis_nsp_hamur_sivisi_kopugunu_artirir",
+      "kabarcik.yulaf_beta_glukan_kopuk",
+      "kabarcik.rafine_bugday_kopugu_ve_asitli_lifli_kopuk_farki",
+      "scer.hamur_reolojisi_ve_gaz_tutma",
+      "scer.ekmek_hamuruna_eklenme_oranlari_0_5_2_5",
+      "scer.firin_mayasi_tanim_dunya",
+      "scer.firin_mayasi_kokeni",
+      "scer.co2_hacim",
+      "scer.yagsiz_hamurda_maltoz_ana_kaynak",
+      "scer.maltoz_alimi_ve_katabolit_baskisi",
+      "scer.mig1_ssn6_kabartma_gucu",
+      "scer.dort_saat_maya_sayisi_sabit",
+      "scer.firin_susu_gaz_tutar",
+      "scer.referans_tatli_hamur_metabolit",
+      "scer.instant_sd_tatli_hamur",
+      "scer.pisirmede_etanol_derisimi_ve_sus_farklari",
+      "scer.sc5_susunda_hizli_gaz_salimi",
+      "lipid.yuzey_gerilimi_ve_gaz_tutma_kapasitesi",
+      "lipid.serbest_polar_lipitler_gluten_ve_gaz_hucresi",
+      "lipid.polar_galaktolipidlerin_kopuk_ve_kabarcik_stabilitesi",
+      "lipid.hamur_likoru_arayuzunde_lipit_egemenligi_ve_kopuk",
+      "lipid.polar_artisi_ve_notral_azalisi_ekmek_kalitesi",
+      "lipid.eklenen_lipitler_sivi_filmi_guclendirir",
+      "lipid.yag_kristali_kabarcik",
+      "lipid.notral_lipit_kopuk_olumsuz",
+      "lipid.serbest_yag_asidi_kopuk_olumsuz",
+      "lipid.kepek_yagi_ve_apolar_lipitler_olumsuz",
+      "lipid.tanede_lipit_dagilimi_atif",
+      "lipid.karyopsisteki_lipit_orani_ve_endosperm_payi",
+      "lipid.un_lipitleri_kaynak_ve_siniflandirma",
+      "lipid.ekmekteki_lipit_kaynaklari",
+      "lipid.glikolipitlerin_firinlama_kalitesine_katkisi",
+      "lipid.fosfatidilkolinin_kopukte_zenginlesmesi",
+      "lipid.hamur_likoru_lipit_oranlari",
+      "lipid.beyaz_bugday_ununda_polar_lipit_bilesimi"
+    ]
+  },
+  "baglar": [
+    {
+      "kaldirac": "Yoğurmada hapsolanan hava",
+      "mekanizma": "Hamur yüzeyleri yoğurma sırasında birbirine yaklaşıp birleşir; aralarına kalan gaz, gaz hücrelerinin çekirdeğini oluşturabilir.",
+      "sonuc": "Hamur, gaz hücresi çekirdekleri taşıyan bir gövde olarak yoğurmayı bitirir.",
+      "bilgiler": [
+        "kabarcik.gaz_hapsolmasi_tanimi",
+        "kabarcik.cekirdekler_yogurmada",
+        "kabarcik.un_su_karisiminda_gaz_hucre_boyutu"
+      ]
+    },
+    {
+      "kaldirac": "Yoğurmada aktarılan mekanik enerji",
+      "mekanizma": "Kabarcık boyutu dağılımı, hamurun viskoelastik özellikleri ve yoğurma sırasında aktarılan mekanik enerji miktarı tarafından belirlenir.",
+      "sonuc": "Sert ve yumuşak hamurda farklı kabarcık boyutları ve farklı komşuluk mesafeleri oluşur.",
+      "bilgiler": [
+        "kabarcik.dagilim_viskoelastiklik_ve_enerjiye_bagli",
+        "kabarcik.sert_ve_yumusak_hamurda_lognormal_dagilim",
+        "kabarcik.kabarciklar_arasi_mesafe_dagilimi"
+      ]
+    },
+    {
+      "kaldirac": "Gluten ağının gelişimi",
+      "mekanizma": "İyi gelişmiş gluten ağı, mayalanma ve pişirme sırasında kabarcıkların birleşmesini geciktirir.",
+      "sonuc": "Küçük çaplı ve ince duvarlı çok sayıda gaz hücresi oluşması beklenir; ekmek içi daha yumuşak olur.",
+      "bilgiler": [
+        "kabarcik.iyi_gluten_gelisimi_kabarcik_birlesmesini_geciktirir",
+        "kabarcik.gaz_hucresi_kararliligi_ve_kabalasmanin_onlenmesi",
+        "kabarcik.ince_duvar_yumusak"
+      ]
+    },
+    {
+      "kaldirac": "Maya tarafından üretilen karbondioksit",
+      "mekanizma": "Maya, hamurdaki karbonhidratları fermente ederek karbondioksit üretir; bu gazın bir kısmı hamurun sıvı kısmında çözünebilir ve çekirdeklere yayılır.",
+      "sonuc": "Çekirdekler büyür ve ekmek içindeki gözeneklerin hacmini oluşturur.",
+      "bilgiler": [
+        "scer.glikoliz_karbonhidrat_fermantasyonu",
+        "kabarcik.cekirdekler_yogurmada",
+        "scer.hamur_reolojisi_ve_gaz_tutma"
+      ]
+    },
+    {
+      "kaldirac": "Maya suşunun seçimi",
+      "mekanizma": "Maya suşu seçimi, karbondioksit üretiminin yanı sıra gaz hücresi kararlılığını ve fırın kabarmasını etkiler.",
+      "sonuc": "Pişirme evresi ve son ekmek içi yapısı değişir.",
+      "bilgiler": [
+        "scer.maya_susu_seciminin_pisirme_fazina_etkisi",
+        "scer.co2_hacim",
+        "scer.mig1_ssn6_kabartma_gucu"
+      ]
+    },
+    {
+      "kaldirac": "Hamurdaki lipitler",
+      "mekanizma": "Çözünür protein ve lipitler kabarcık arayüzey gerilimini düşürür; polar lipitler gaz hücresi ağını destekleyen ince filmleri güçlendirir.",
+      "sonuc": "Gaz tutma kapasitesi artar, orantısızlaşma yavaşlar ve hamurun özgül hacmi büyür.",
+      "bilgiler": [
+        "lipid.yuzey_gerilimi_ve_gaz_tutma_kapasitesi",
+        "kabarcik.polar_lipitler_ince_filmleri_stabilize_eder",
+        "lipid.polar_galaktolipidlerin_kopuk_ve_kabarcik_stabilitesi"
+      ]
+    },
+    {
+      "kaldirac": "Şekil verme ve sonraki işlemler",
+      "mekanizma": "Gaz alma, silindirleme ve şekil verme sırasında küçük kabarcıklar alt bölünür ya da 0,5–0,8 mm büyüklüğünde kapalı boşluklarda birleşir.",
+      "sonuc": "Kabarcık sayısı ve dağılımı değişir; hamur yüzeyinde birleşen kabarcıklar gaz kaybına yol açabilir.",
+      "bilgiler": [
+        "kabarcik.gaz_kabarciklarinin_alt_bolunmesi",
+        "kabarcik.sekil_vermede_kabarciklarin_birlesmesi",
+        "kabarcik.yuzeyde_birlesme_gaz_kaybi"
+      ]
+    }
+  ],
+  "karakterler": [
+    "scer",
+    "lipid"
+  ],
+  "ayrisan_kaynaklar": [
+    {
+      "konu": "Yoğurmadan hemen sonra kabarcık sayısı artar mı azalır mı?",
+      "bilgiler": [
+        "kabarcik.orantisizlasma_kabarcik_sayisi",
+        "kabarcik.gaz_kabarciklarinin_alt_bolunmesi",
+        "kabarcik.sekil_vermede_kabarciklarin_birlesmesi"
+      ]
+    },
+    {
+      "konu": "Güçlü buğday unundan yapılan hamur daha çok mu daha az mı gaz hapsolar?",
+      "bilgiler": [
+        "kabarcik.guclu_bugday_daha_fazla_kabarcik",
+        "kabarcik.guclu_un_daha_az_kabarcik"
+      ]
+    },
+    {
+      "konu": "Mayasız hamur dinlendiğinde kabarcık çapı ne kadar küçülür?",
+      "bilgiler": [
+        "kabarcik.mayasiz_hamur_dinlenme_orantisizlasma"
+      ]
+    },
+    {
+      "konu": "Hamurdaki en küçük ölçülebilir gaz hücresi ne kadar küçüktür?",
+      "bilgiler": [
+        "kabarcik.mikrotomografi_ile_10um_cozunurluk",
+        "kabarcik.carlson_bohlin_kesit_mikroskopisi",
+        "kabarcik.dondurulmus_kesit_mikroskopisi",
+        "kabarcik.yuksek_cozunurluklu_mikroskopi_3um"
+      ]
+    },
+    {
+      "konu": "Ekşi mayalı ekmekteki iri ve düzensiz gözenekler bir kusur mu, bir özellik mi?",
+      "bilgiler": [
+        "kabarcik.eksi_maya_duzensiz_iri_gozenek",
+        "kabarcik.ince_duvar_yumusak",
+        "kabarcik.kucuk_gaz_hucreleri_ince_hucre_duvari"
+      ]
+    }
+  ]
+}

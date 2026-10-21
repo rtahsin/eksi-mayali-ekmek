@@ -1,0 +1,800 @@
+{
+  "id": "tane_yapisi",
+  "ad": "Tanenin yapısı",
+  "bilgiler": [
+    {
+      "id": "tane_yapisi.ekmeklik_bugday_genom_yapisi",
+      "metin": "Ekmeklik buğday (Triticum aestivum), AABBDD genomuna ve 42 kromozoma sahip hekzaploit bir buğday türüdür.",
+      "kosul": "Buğday taksonomisi ve genom yapısı",
+      "kanit": "tek_kaynak",
+      "bolum": "Kimlik",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/agronomy10111763",
+          "yer": "1. Introduction"
+        },
+        {
+          "kaynak": "10.3390/foods10092124",
+          "yer": "2. Origin and Evolution"
+        }
+      ]
+    },
+    {
+      "id": "tane_yapisi.protein_endospermde",
+      "metin": "Bir makalenin kendi protein ölçümlerini açıklarken aktardığı genel bilgiye göre tanedeki proteinin kabaca %80'i endospermdedir, bu yüzden dış katmanların una katılması proteini yalnız yaklaşık %20 artırır.",
+      "kosul": "",
+      "kanit": "ikincil",
+      "bolum": "Kimlik",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods9010003",
+          "yer": "3.1. Proximate Composition"
+        }
+      ]
+    },
+    {
+      "id": "tane_yapisi.alt_aleron_protein_gradyani",
+      "metin": "Bir çalışmada, görüntü analiziyle buğday tanesindeki alöron altı protein gradyanı azalan çift üstel (biexponential) bir eğriyle tanımlandı; alt-alöron protein içeriği %32,0'ye kadar çıktı ve alt-alöron tabakasında plato değeri gözlenmedi.",
+      "kosul": "Görüntü analizi; alt-alöron bölgesi; farklı buğday çeşitleri ve azot gübreleme düzeyleri",
+      "kanit": "tek_kaynak",
+      "bolum": "Ne yapar",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1021/acs.jafc.1c01279",
+          "yer": "Abstract"
+        },
+        {
+          "kaynak": "10.1021/acs.jafc.1c01279",
+          "yer": "Results"
+        },
+        {
+          "kaynak": "10.1021/acs.jafc.1c01279",
+          "yer": "Results"
+        },
+        {
+          "kaynak": "10.1016/j.foodres.2024.115230",
+          "yer": "1. Introduction"
+        },
+        {
+          "kaynak": "10.1016/j.foodres.2024.115230",
+          "yer": "1. Introduction"
+        }
+      ]
+    },
+    {
+      "id": "tane_yapisi.nisastali_endosperm_30_yuzde_protein",
+      "metin": "Bir çalışmada, buğday tanesindeki protein gradyanı nedeniyle nişastalı endospermdeki proteinin yaklaşık %30'u alöron tabakasının altındaki 100 µm'de bulundu.",
+      "kosul": "Protein gradyanı; nişastalı endosperm; farklı çeşit ve azot düzeylerinde; tanenin silindir olarak yaklaştırıldığı hesap",
+      "kanit": "tek_kaynak",
+      "bolum": "Ne yapar",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1021/acs.jafc.1c01279",
+          "yer": "Results"
+        }
+      ]
+    },
+    {
+      "id": "tane_yapisi.endosperm_agirlik_payi",
+      "metin": "Nişastalı endosperm, buğday tanesinin başlıca depo dokusu olup toplam dane ağırlığının yaklaşık %80'ini oluşturur.",
+      "kosul": "Buğday karyopsisi",
+      "kanit": "tek_kaynak",
+      "bolum": "Tanım",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods10092124",
+          "yer": "5. Nutritional Value and Health Impact"
+        }
+      ]
+    },
+    {
+      "id": "tane_yapisi.endosperm_olumunde_protein_matrisi",
+      "metin": "Tane olgunlaşması sırasında nişastalı endosperm hücreleri kuruyup öldükçe protein birikintileri kaynaşarak kesintisiz bir matris oluşturur.",
+      "kosul": "Tane olgunlaşması süreci",
+      "kanit": "tek_kaynak",
+      "bolum": "Tanım",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1093/jxb/erp058",
+          "yer": "What is the origin of gluten?"
+        }
+      ]
+    },
+    {
+      "id": "tane_yapisi.sert_ve_yumusak_bugday_endosperm_farki",
+      "metin": "Sert buğdaylar daha dirençli bir endosperme ve %10–15 protein içeriğine sahipken, yumuşak buğdaylar %8–11 protein içerir.",
+      "kosul": "Sert ve yumuşak buğday karşılaştırması",
+      "kanit": "ikincil",
+      "bolum": "Tanım",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.tifs.2020.01.008",
+          "yer": "Introduction"
+        },
+        {
+          "kaynak": "10.1016/j.tifs.2020.01.008",
+          "yer": "Introduction"
+        },
+        {
+          "kaynak": "10.1016/j.tifs.2020.01.008",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "tane_yapisi.tahil_danesi_temel_bilesen_dagilimi",
+      "metin": "Tahıl daneleri %11–14 nem, kuru maddede endospermde biriken %56–74 nişasta, kepekte %2–13 lif, %8–11 protein, rüşeymde %2–7 lipit ve %1–3 mineral içerir.",
+      "kosul": "Kuru madde bazında tahıl danesi bileşen dağılımı",
+      "kanit": "ikincil",
+      "bolum": "Tanım",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/bs.aambs.2017.02.003",
+          "yer": "Introduction"
+        },
+        {
+          "kaynak": "10.1016/bs.aambs.2017.02.003",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "tane_yapisi.tanenin_uc_ana_kismi_ve_tam_tahil_tanimi",
+      "metin": "Buğday tanesi anatomik ve kimyasal açıdan birbirinden farklı üç ana kısımdan (rüşeym, dış kabuk katmanları ve nişastalı endosperm) oluşur; tam tahıl bu kısımları sağlam danedeki doğal oranlarında içerir.",
+      "kosul": "Buğday karyopsisi ve tam tahıl tanımı",
+      "kanit": "ikincil",
+      "bolum": "Tanım",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.jcs.2009.11.006",
+          "yer": "Introduction"
+        },
+        {
+          "kaynak": "10.1016/j.jcs.2017.03.011",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "tane_yapisi.tandoori_ekmek_renk_tat_aroma",
+      "metin": "Tandır tipi (tandoori) ekmeklerde renk, tat ve aromadaki farklar, buğday tanesinin sertlik/yumuşaklığına, öğütme özelliklerine ve çeşit gibi diğer etkenlere bağlanmıştır.",
+      "kosul": "Tandoori ekmeği; atıf (Farooq vd. 2001; Safdar vd. 2009)",
+      "kanit": "ikincil",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.24925/turjaf.v14i6.1618-1629.8657",
+          "yer": "Results - Sensory Properties"
+        }
+      ]
+    },
+    {
+      "id": "tane_yapisi.akt300_dis_16_4_yuzde",
+      "metin": "Bir çalışmada, Akt300 örneğinde nişastalı endospermin dış %16,4'lük kısmı endosperm proteininin %27,8'ini içeriyordu.",
+      "kosul": "Akt300 (Akteur çeşidi, yüksek azot düzeyi); dış %16,4 nişastalı endosperm (dış 100 µm); tanenin silindir olarak yaklaştırıldığı hesap",
+      "kanit": "tek_kaynak",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1021/acs.jafc.1c01279",
+          "yer": "Results"
+        }
+      ]
+    },
+    {
+      "id": "tane_yapisi.akt300_ic_16_6_yuzde",
+      "metin": "Bir çalışmada, Akt300 örneğinde nişastalı endospermin iç %16,6'lık kısmı endosperm proteininin yalnız %10,5'ini içeriyordu.",
+      "kosul": "Akt300 (Akteur çeşidi, yüksek azot düzeyi); iç %16,6 nişastalı endosperm",
+      "kanit": "tek_kaynak",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1021/acs.jafc.1c01279",
+          "yer": "Discussion"
+        }
+      ]
+    },
+    {
+      "id": "tane_yapisi.cesit_secimi_azot_dis_protein",
+      "metin": "Bir çalışmada, çeşit seçimi ve azot gübrelemesi iç endosperme kıyasla dış endospermde belirgin ölçüde daha fazla protein birikmesine yol açtı.",
+      "kosul": "Çeşit seçimi ve azot gübrelemesi; incelenen buğday çeşitleri",
+      "kanit": "tek_kaynak",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1021/acs.jafc.1c01279",
+          "yer": "Discussion"
+        }
+      ]
+    },
+    {
+      "id": "tane_yapisi.claire_akteur_fark_dis100um",
+      "metin": "Bir çalışmada, Claire ve Akteur arasındaki toplam protein içeriği farkının yaklaşık %30'u, yazarların hesabına göre nişastalı endospermin dış 100 µm'sindeki protein birikimi farkına bağlanabildi.",
+      "kosul": "Claire ve Akteur çeşitleri; Tablo 2",
+      "kanit": "tek_kaynak",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1021/acs.jafc.1c01279",
+          "yer": "Discussion"
+        }
+      ]
+    },
+    {
+      "id": "tane_yapisi.claire_apache_fark_dis100um",
+      "metin": "Bir çalışmada, azot uygulandığında Claire ile Apache arasındaki toplam protein içeriği farkının neredeyse %100'ü, nişastalı endospermin dış 100 µm'sindeki protein birikimi farkına bağlanabildi.",
+      "kosul": "Azot uygulanmış koşul; Claire ve Apache",
+      "kanit": "tek_kaynak",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1021/acs.jafc.1c01279",
+          "yer": "Discussion"
+        }
+      ]
+    },
+    {
+      "id": "tane_yapisi.dis100um_protein_cl0_akt300",
+      "metin": "Bir çalışmada, dış 100 µm'deki protein içeriği (P0–100) Cl0'da %10,7, Akt300'de %26,2 bulundu.",
+      "kosul": "Dış 100 µm; Cl0 (Claire) ve Akt300 (Akteur) örnekleri; kod sonundaki sayı azot gübre düzeyini gösterir",
+      "kanit": "tek_kaynak",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1021/acs.jafc.1c01279",
+          "yer": "Results"
+        }
+      ]
+    },
+    {
+      "id": "tane_yapisi.dis100um_protein_cl150_akt150",
+      "metin": "Bir çalışmada, dış 100 µm'deki protein içeriği (P0–100) örneğin Cl150'de %21,5, Akt150'de %32,0 idi.",
+      "kosul": "Dış 100 µm; Cl150 (Claire çeşidi) ve Akt150 (Akteur çeşidi); kod sonundaki sayı azot gübre düzeyini gösterir",
+      "kanit": "tek_kaynak",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1021/acs.jafc.1c01279",
+          "yer": "Discussion"
+        }
+      ]
+    },
+    {
+      "id": "tane_yapisi.pmax_akt_cl",
+      "metin": "Bir çalışmada, alöron altındaki ilk 10 µm'de ölçülen en yüksek protein düzeyi (Pmax) Akt300'de %31,7, Akt150'de %32,0 ve Cl0'da %14,0 idi.",
+      "kosul": "Akt (Akteur çeşidi) ve Cl (Claire çeşidi) örnekleri; kod sonundaki sayı azot gübre düzeyini gösterir; Pmax alöron altı ilk 10 µm bölgesindeki protein içeriğidir",
+      "kanit": "tek_kaynak",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1021/acs.jafc.1c01279",
+          "yer": "Results"
+        }
+      ]
+    },
+    {
+      "id": "tane_yapisi.yanak_merkezi_cesit_benzerligi",
+      "metin": "Bir çalışmada, aynı azot gübreleme düzeyinde yetiştirilen buğday çeşitleri yanağın merkezindeki protein birikiminde birbirinden farklılık göstermedi.",
+      "kosul": "Aynı azot gübreleme düzeyi; yanak merkezi",
+      "kanit": "tek_kaynak",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1021/acs.jafc.1c01279",
+          "yer": "Discussion"
+        }
+      ]
+    },
+    {
+      "id": "tane_yapisi.rpa_akt_cl",
+      "metin": "Bir çalışmada, rölatif protein birikimi (RPA) Akt150'de 2,8, Akt300'de 2,7 ve Cl150'de 1,6 idi.",
+      "kosul": "Akt (Akteur çeşidi) ve Cl (Claire çeşidi) örnekleri; kod sonundaki sayı azot gübre düzeyini gösterir",
+      "kanit": "tek_kaynak",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1021/acs.jafc.1c01279",
+          "yer": "Results"
+        }
+      ]
+    },
+    {
+      "id": "tane_yapisi.alt_aleron_hucre_kokeni",
+      "metin": "Alt-alöron hücreleri, çiçeklenmeden sonra 21 güne kadar gerçekleşen periklinal bölünmelerin ardından alöron hücrelerinin yeniden farklılaşmasıyla oluşur.",
+      "kosul": "Çiçeklenmeden sonra 21 güne kadar; atıf [7, 14]",
+      "kanit": "ikincil",
+      "bolum": "Kimlik",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1021/acs.jafc.1c01279",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "tane_yapisi.alt_aleron_hucreleri_uc_cesit",
+      "metin": "Bir çalışmada, alt-alöron hücreleri incelenen üç buğday çeşidinin hepsinde ve tüm azot gübreleme düzeylerinde bulundu.",
+      "kosul": "Üç buğday çeşidi; tüm azot gübreleme düzeyleri",
+      "kanit": "tek_kaynak",
+      "bolum": "Kimlik",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1021/acs.jafc.1c01279",
+          "yer": "Discussion"
+        }
+      ]
+    },
+    {
+      "id": "tane_yapisi.anatomik_kisim_oranlari",
+      "metin": "Buğday tanesinde nişastalı endosperm kabaca %80–84, botanik kepek %6–8, alöron %6–7 ve rüşeym %3 oranındadır.",
+      "kosul": "Buğday tanesi anatomik kısımları; atıf (Barron vd. 2007; Marion ve Saulnier 2020; Jafc makalesi aktarımı)",
+      "kanit": "ikincil",
+      "bolum": "Kimlik",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.foodres.2024.115230",
+          "yer": "1. Introduction"
+        },
+        {
+          "kaynak": "10.1021/acs.jafc.1c01279",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "tane_yapisi.kepek_protein_varyasyonu",
+      "metin": "Bir çalışmada, altı kepek örneğinde kepek protein içeriğindeki değişim büyük ölçüde alt-alöron protein içeriğindeki %10,7–26,2 arasındaki değişimden kaynaklandı; bu değişim toplam kepek proteini değişiminden daha belirgindi.",
+      "kosul": "Altı laboratuvar ölçeğinde üretilmiş kepek örneği; kepek",
+      "kanit": "tek_kaynak",
+      "bolum": "Kimlik",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1021/acs.jafc.4c06550",
+          "yer": "Abstract"
+        },
+        {
+          "kaynak": "10.1021/acs.jafc.4c06550",
+          "yer": "3.1. Characterization of bran"
+        }
+      ]
+    },
+    {
+      "id": "tane_yapisi.alt_aleron_hucre_boyutu",
+      "metin": "Bir çalışmada, alt-alöron hücreleri 9–133 µm ile 6–177 µm boyutlarında gözlendi.",
+      "kosul": "Gözlemsel boyut ölçümü (sonuçlar)",
+      "kanit": "tek_kaynak",
+      "bolum": "Kimlik",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1021/acs.jafc.1c01279",
+          "yer": "Results"
+        },
+        {
+          "kaynak": "10.1021/acs.jafc.4c06550",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "tane_yapisi.alt_aleron_morfoloji",
+      "metin": "Alt-alöron tabakasının morfolojisi için Evers ve Millar 60 µm kalınlıkta tek tabakadan söz eder; Shewry vd. ise yaklaşık iki veya üç tabaka önermiştir.",
+      "kosul": "Evers ve Millar 2002; Shewry vd. 2020 aktarımı",
+      "kanit": "ikincil",
+      "bolum": "Kimlik",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1021/acs.jafc.1c01279",
+          "yer": "Discussion"
+        }
+      ]
+    },
+    {
+      "id": "tane_yapisi.kent_sert_yumusak_tabaka",
+      "metin": "Kent (1966), alöron altında tek hücre kalınlığında, protein açısından zengin ayrı bir tabaka bulunduğunu ve bu tabakanın sert buğdaylarda sürekli, yumuşak buğdaylarda kesikli olduğunu öne sürmüştür.",
+      "kosul": "Kent (1966) aktarımı",
+      "kanit": "ikincil",
+      "bolum": "Kimlik",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1021/acs.jafc.1c01279",
+          "yer": "Discussion"
+        }
+      ]
+    },
+    {
+      "id": "tane_yapisi.rusey_orani_1ton",
+      "metin": "Buğday tanesinin yaklaşık %3'ü rüşeymdir; 1 ton buğdaydan yaklaşık 1 kg rüşeym elde edilebilir.",
+      "kosul": "Öğütme yan ürünü olarak rüşeym",
+      "kanit": "tek_kaynak",
+      "bolum": "Kimlik",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.24925/turjaf.v13i5.1187-1195.7455",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "tane_yapisi.sub_alf_alc_protein_nisasta",
+      "metin": "Bir çalışmada, değirmen kepeğinden elde edilen Sub-alF ve Sub-alC alt-alöron fraksiyonlarında birleşik protein ve nişasta içeriği sırasıyla %73,1 ve %76,9 idi.",
+      "kosul": "Kimyasal karakterizasyon (Tablo 1); değirmen kepeğinden elde edilen alt-alöron fraksiyonları (Sub-alF, Sub-alC); Akteur çeşidi unuyla kıyas",
+      "kanit": "tek_kaynak",
+      "bolum": "Kimlik",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.foodres.2024.115230",
+          "yer": "3.1. Chemical characterisation"
+        }
+      ]
+    },
+    {
+      "id": "tane_yapisi.gradyan_biexponansiyel_uyum",
+      "metin": "Bir çalışmada, protein gradyanı verisi 5 parametreli biexponansiyel bir fonksiyonla neredeyse mükemmel biçimde tanımlandı; R² değeri 0,974 ile 0,998 arasındaydı.",
+      "kosul": "Biexponansiyel model uyumu; farklı çeşit ve azot gübreleme düzeylerindeki örnekler",
+      "kanit": "tek_kaynak",
+      "bolum": "Nasıl ölçülür",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1021/acs.jafc.1c01279",
+          "yer": "Results"
+        }
+      ]
+    },
+    {
+      "id": "tane_yapisi.alt_aleron_mekanizma_moore",
+      "metin": "Alt-alöron hücrelerinin alöron kökenine bağlı olarak daha yüksek protein birikimi için programlandığı, yüksek birikimin ise amino asit çekim etkisiyle endosperm boyunca çevreye amino asit taşınımını yönlendirebileceği öne sürülmüştür.",
+      "kosul": "Moore vd. 2016 aktarımı",
+      "kanit": "ikincil",
+      "bolum": "Ne yapar",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1021/acs.jafc.1c01279",
+          "yer": "Discussion"
+        },
+        {
+          "kaynak": "10.1021/acs.jafc.1c01279",
+          "yer": "Discussion"
+        }
+      ]
+    },
+    {
+      "id": "tane_yapisi.cimlenmede_giberellin_ve_hidrolaz_salinimi",
+      "metin": "Tohumun su alması embriyodan giberellin salınmasını tetikler; bu hormon alöron tabakasını uyararak endospermdeki depo maddelerini parçalayan hidrolaz enzimlerinin salgılanmasını sağlar.",
+      "kosul": "Tohum çimlenme aşaması",
+      "kanit": "tek_kaynak",
+      "bolum": "Ne yapar",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.xplc.2025.101283",
+          "yer": "The aleurone layer and its biological significance"
+        }
+      ]
+    },
+    {
+      "id": "tane_yapisi.granul_olusum_zamani_parker",
+      "metin": "Buğday tanesi gelişiminde A-tipi granüller çiçeklenmeden sonraki ilk haftada oluşurken, B-tipi granüller ancak hücreleşme durduktan sonra, çiçeklenmeden sonraki ikinci haftadan sonra oluşur.",
+      "kosul": "Çiçeklenmeden sonra; atıf (Parker 1985)",
+      "kanit": "ikincil",
+      "bolum": "Ne yapar",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3389/fpls.2022.811728",
+          "yer": "Discussion"
+        }
+      ]
+    },
+    {
+      "id": "tane_yapisi.nisasta_granul_baslangic_zamani",
+      "metin": "Bir derlemeye göre A-tipi nişasta granülleri çiçeklenmeden sonra 3–5. günde başlar ve yaklaşık 4 gün sonra son sayıya ulaşır; B-tipi granüller için farklı çalışmalar 11, 15 veya 12–16. günde başlangıç bildirmiştir.",
+      "kosul": "Çiçeklenmeden sonra gün (DAA); atıf [15, 16, 33, 34]",
+      "kanit": "ikincil",
+      "bolum": "Ne yapar",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.csbj.2023.08.019",
+          "yer": "Biosynthesis"
+        },
+        {
+          "kaynak": "10.1016/j.csbj.2023.08.019",
+          "yer": "Biosynthesis"
+        }
+      ]
+    },
+    {
+      "id": "tane_yapisi.periferik_protein_birikim_kaynagi",
+      "metin": "Yazarlara göre periferdeki protein birikimi yalnız protein açısından zengin alt-alöron hücrelerinden değil, periferdeki prizmatik endosperm hücrelerindeki artan birikimden de kaynaklanıyor; biexponansiyel gradyan konum ve hücre kökeninden gelen çifte bir etkiye işaret ediyor (yazarların hipotezi).",
+      "kosul": "Periferik protein birikimi mekanizması; yazarların nicel ve nitel analize dayalı hipotezi",
+      "kanit": "tek_kaynak",
+      "bolum": "Ne yapar",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1021/acs.jafc.1c01279",
+          "yer": "Discussion"
+        },
+        {
+          "kaynak": "10.1021/acs.jafc.1c01279",
+          "yer": "Discussion"
+        }
+      ]
+    },
+    {
+      "id": "tane_yapisi.savill_dogrusal_gradyan",
+      "metin": "Aktarıldığına göre Savill vd., olgunlaşmamış Cadenza buğday tanelerinde görüntü analiziyle protein gradyanını doğrusal bulmuş; nişastalı endospermin en dış bölgesinde yaklaşık %18, en iç bölgesinde yaklaşık %8 protein bildirmiştir.",
+      "kosul": "Savill vd. aktarımı; olgunlaşmamış Cadenza taneleri; görüntü analizi",
+      "kanit": "ikincil",
+      "bolum": "Ne yapar",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1021/acs.jafc.1c01279",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "tane_yapisi.tosi_sentez_hizi",
+      "metin": "Tosi vd. (2011), dış endospermdeki yüksek protein birikiminin daha yüksek protein sentez hızından kaynaklanabileceğini, birikim süresinin uzamasından kaynaklanmayabileceğini öne sürmüştür.",
+      "kosul": "Tosi vd. 2011 aktarımı",
+      "kanit": "ikincil",
+      "bolum": "Ne yapar",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1021/acs.jafc.1c01279",
+          "yer": "Discussion"
+        }
+      ]
+    },
+    {
+      "id": "tane_yapisi.alt_aleron_azot_duyarliligi",
+      "metin": "Yang vd. (2019), alt-alöron hücrelerinin merkezi endosperm hücrelerine göre azot gübrelemesine daha duyarlı olduğunu bildirmiştir.",
+      "kosul": "Yang vd. 2019 aktarımı",
+      "kanit": "ikincil",
+      "bolum": "Ne yapar",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1021/acs.jafc.1c01279",
+          "yer": "Discussion"
+        }
+      ]
+    },
+    {
+      "id": "tane_yapisi.kent_54_alt_aleron",
+      "metin": "Kent'in bildirdiği, protein içeriği %54'e varan alt-alöron hücreleri heterojen dağılım nedeniyle makul görülmektedir.",
+      "kosul": "Kent (1966) aktarımı",
+      "kanit": "ikincil",
+      "bolum": "Ne yapar",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1021/acs.jafc.1c01279",
+          "yer": "Discussion"
+        }
+      ]
+    },
+    {
+      "id": "tane_yapisi.protein_birikimi_hucre_omru",
+      "metin": "Protein birikim derecesi, stokastik (rastgele) programlı hücre ölümü nedeniyle endosperm hücresinin ömrüyle ilişkili değildir.",
+      "kosul": "Programlı hücre ölümü; atıf [19, 20]",
+      "kanit": "ikincil",
+      "bolum": "Ne yapar",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1021/acs.jafc.1c01279",
+          "yer": "Discussion"
+        }
+      ]
+    },
+    {
+      "id": "tane_yapisi.dane_gelisiminde_azot_tasinimi",
+      "metin": "Literatürde, kanopi yaşlanması sırasında bitki örtüsündeki azotun önemli bir bölümünün yeniden hareketlendirilerek gelişmekte olan daneye aktarıldığı bildirilir.",
+      "kosul": "Gelişmekte olan buğday danesi ve kanopi yaşlanması",
+      "kanit": "ikincil",
+      "bolum": "Nereden gelir",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1093/jxb/erp058",
+          "yer": "Reducing inputs"
+        }
+      ]
+    },
+    {
+      "id": "tane_yapisi.a_tipi_nisasta_tanecik_yapisi",
+      "metin": "Tahıl nişastaları (A-tipi polimorf), yumru nişastalarına (B-tipi) göre daha yoğun paketlenmiş ve daha küçük boyutlu nişasta taneciklerine sahiptir.",
+      "kosul": "Tahıl ve yumru nişastası karşılaştırması",
+      "kanit": "ikincil",
+      "bolum": "Tanım",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1111/1541-4337.13141",
+          "yer": "7.1 Starch polymer and granular structure"
+        }
+      ]
+    },
+    {
+      "id": "tane_yapisi.aleron_hucre_canliligi_ve_katman_sayisi",
+      "metin": "Buğday ve mısır olgun danede tek sıralı bir alöron tabakasına sahipken arpada üç tabaka bulunur; iç nişastalı endosperm olgunlaşmada programlı hücre ölümüne uğrarken alöron hücreleri canlılığını korur.",
+      "kosul": "Tahıl endospermi farklılaşması ve olgunlaşması",
+      "kanit": "tek_kaynak",
+      "bolum": "Tanım",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.xplc.2025.101283",
+          "yer": "Abstract"
+        },
+        {
+          "kaynak": "10.1016/j.xplc.2025.101283",
+          "yer": "Development of aleurone in cereal plants"
+        }
+      ]
+    },
+    {
+      "id": "tane_yapisi.aleronda_lif_ve_fenolik_asit_yogunlugu",
+      "metin": "Buğdayın alöron tabakası danedeki toplam diyet lifinin yaklaşık %50'sini, temel mineralleri ve gluten yapısını değiştirebilen ferulik asit gibi fenolik bileşikleri yoğun biçimde barındırır.",
+      "kosul": "Buğday karyopsisi doku dağılımı",
+      "kanit": "tek_kaynak",
+      "bolum": "Tanım",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.jcs.2017.03.011",
+          "yer": "Introduction"
+        },
+        {
+          "kaynak": "10.1016/j.xplc.2025.101283",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "tane_yapisi.depo_nisastasi_a_b_granul",
+      "metin": "Depo nişastası genellikle büyük A-tipi granüllerden (ortalama 10 µm'den büyük; toplam granül alanının %75'ten fazlası, ancak granül sayısının ortalama yalnızca %15'i) ve küçük B-tipi granüllerden (ortalama 7 µm'nin altında) oluşur.",
+      "kosul": "Depo nişastası; atıf [Stoddard 1999]",
+      "kanit": "ikincil",
+      "bolum": "Tanım",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3389/fpls.2022.811728",
+          "yer": "Discussion"
+        }
+      ]
+    },
+    {
+      "id": "tane_yapisi.dis_katmanlarin_dane_oranlari",
+      "metin": "Buğday danesinde perikarp %4–5, testa %1 ve alöron tabakası %6–9 oranında paya sahiptir.",
+      "kosul": "Buğday tanesi dış katmanları",
+      "kanit": "ikincil",
+      "bolum": "Tanım",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.lwt.2013.12.004",
+          "yer": "2. Composition and health benefits"
+        }
+      ]
+    },
+    {
+      "id": "tane_yapisi.gernik_endosperm_ve_aleron_mikroyapisi",
+      "metin": "Gernik buğdayı endospermi protein matrisiyle sıkıca çimentolanmış yoğun nişasta tanelerine, alöron tabakası ise kalın hücre duvarlarına ve küresel protein cisimciklerine sahiptir.",
+      "kosul": "Taramalı elektron mikroskopisi (SEM)",
+      "kanit": "tek_kaynak",
+      "bolum": "Tanım",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods10040761",
+          "yer": "3.2. Microstructure of Hulled Wheat Kernels"
+        },
+        {
+          "kaynak": "10.3390/foods10040761",
+          "yer": "3.2. Microstructure of Hulled Wheat Kernels"
+        }
+      ]
+    },
+    {
+      "id": "tane_yapisi.gluten_proteini_sentez_zamanlamasi",
+      "metin": "Nişastalı endospermde gluten proteinlerinin sentezi çiçeklenmeden yaklaşık 10 gün sonra başlar ve yaklaşık 20 gün sonra tamamlanarak protein cisimcikleri halinde depolanır.",
+      "kosul": "Buğday danesi olgunlaşması",
+      "kanit": "tek_kaynak",
+      "bolum": "Tanım",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1002/cche.10572",
+          "yer": "2.1 Protein fractions"
+        }
+      ]
+    },
+    {
+      "id": "tane_yapisi.olgun_tanede_protein_araligi",
+      "metin": "Olgun buğday daneleri %8 ila %20 arasında protein içerir.",
+      "kosul": "Olgun buğday daneleri",
+      "kanit": "tek_kaynak",
+      "bolum": "Tanım",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1111/j.1750-3841.2007.00292.x",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "tane_yapisi.siyez_tane_ve_endosperm_mikroyapisi",
+      "metin": "Siyez buğdayının tanesi uzamış bir enine kesite, ince bir perikarpa, protein matrisine gevşek tutunmuş nişasta tanelerine ve tanenin yumuşaklığını belirleyen hava boşluklarına sahiptir.",
+      "kosul": "Taramalı elektron mikroskopisi (SEM)",
+      "kanit": "tek_kaynak",
+      "bolum": "Tanım",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods10040761",
+          "yer": "3.2. Microstructure of Hulled Wheat Kernels"
+        },
+        {
+          "kaynak": "10.3390/foods10040761",
+          "yer": "3.2. Microstructure of Hulled Wheat Kernels"
+        },
+        {
+          "kaynak": "10.3390/foods10040761",
+          "yer": "3.2. Microstructure of Hulled Wheat Kernels"
+        }
+      ]
+    },
+    {
+      "id": "tane_yapisi.subaleron_tabakasi_depo_proteini",
+      "metin": "Alöron ile nişastalı endosperm arasında yer alan subalöron tabakası nişasta bakımından fakir, fakat depo proteinleri açısından oldukça zengin bir geçiş dokusudur.",
+      "kosul": "Tahıl danesi endosperm sitokimyası",
+      "kanit": "tek_kaynak",
+      "bolum": "Tanım",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.xplc.2025.101283",
+          "yer": "The aleurone layer and its biological significance"
+        }
+      ]
+    }
+  ]
+}

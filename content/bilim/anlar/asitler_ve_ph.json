@@ -1,0 +1,381 @@
+{
+  "id": "asitler_ve_ph",
+  "durak": "fermantasyon",
+  "baslik": "Hamur ekşirken",
+  "soru": "Hamur neden ekşir ve asit neyi değiştirir?",
+  "bayrak": false,
+  "gor": {
+    "tur": "kaydirma",
+    "adimlar": [
+      {
+        "metin": "Fermantasyon başlar; laktik asit bakterileri hamurdaki şekerleri yumuşak ekşilik veren laktik aside ve keskin ekşilik veren asetik aside çevirir [[asitler.heterofermantatif_lab_zayif_organik_asit]] [[hetero.tanim_hetero]] [[asitler.laktik_ve_asetik_asit_tat_profili]]. Maya da aynı anda karbondioksit ve etanol üretirken süksinik asit bırakır; süksinik asit, fermantasyonda mayanın ürettiği ve pH'ı belirleyen başlıca bileşiklerden biridir [[asitler.lab_ve_maya_uretir]] [[asitler.suksinik_asit_ana_ph_belirleyici_ve_gelisim]].",
+        "gorsel": "lactobacillus_spp",
+        "vurgu": "MRS agar petri kabında laktik asit bakterisi kolonileri: ekşi mayanın asit üreticileri."
+      },
+      {
+        "metin": "Buğday ununun doğal pH'ı 6,2–6,5 arasındadır; pH, hamurun asitliğini gösteren bir ölçüdür [[ph_tta.bugday_unu_dogal_ph]] [[ph_tta.tta_ve_ph_farkli_kalite_gostergesi]]. Asitlenme, aroma oluşumu ve kabarma birlikte hamur pH'ını yaklaşık 4,0 düzeyine indirir [[ph_tta.temel_metabolik_etkinlikler_ve_ph]].",
+        "gorsel": "berlin_deutsches_technikmuseum_berlin_ph_meter_nik_4393",
+        "vurgu": "pH ölçer: hamurun asitliğinin sayısal göstergesi."
+      },
+      {
+        "metin": "Asetik asit, ekşi mayalı çavdar ekmeğinin hem tadını hem de aromasını temel olarak etkiler [[asitler.asetik_asit_hem_tat_hem_aromayi_etkiler]]. Değerlendirilen bakteriyel ürünler arasında mantar gelişimini en belirgin ve tutarlı biçimde engelleyen madde asetik asittir [[asitler.asetik_en_belirgin_antifungal]].",
+        "gorsel": "c0015116_acetobacter_aceti_bacteria",
+        "vurgu": "Asetik asit bakterisi Acetobacter'ın mikroskop görüntüsü."
+      },
+      {
+        "metin": "Asitlenme, gluten ve nişasta gibi yapı kuran bileşenleri etkiler [[asitler.asitlenmenin_gluten_ve_nisastaya_etkisi]]; gluten, ekmek hamurunda ağ kuran buğday proteinleridir [[ph_tta.asitlenme_enzim_ve_cozunurluk_modulasyonu]] [[ph_tta.asitligin_gluten_agi_reoloji_ve_dokuya_etkisi]]. Asitlenme, proteinlerin net yükünü artırarak gluten çözünürlüğünü yükseltir; ekmek hacmi ve yumuşaklığı artabilir [[asitler.asitlenme_protein_cozunurlugu]] [[ph_tta.asitlenme_gluten_cozunurlugu_hacim_yumusaklik]].",
+        "gorsel": "lactobacillus_gram",
+        "vurgu": "Gram pozitif boyanmış laktik asit bakterileri: asit üreten topluluk."
+      },
+      {
+        "metin": "Uzun fermantasyonda asitlenme, unun kendi proteaz enzimlerini etkinleştirebilir; proteaz, bir tepkimeyi hızlandıran ve proteinleri parçalayan enzimdir [[ph_tta.ph_dususuyle_proteaz_aktivasyonu_ve_peptitler]] [[proteoliz.asitte_un_proteinazlari]] [[proteaz.asitlik_kaynakli_proteaz_ve_su_buhari_tutunumu]] [[proteaz.proteinaz_ve_peptidaz_tanimi]]. Parçalanan proteinler daha az su bağlar; açığa çıkan su hamurun akışkanlığa direncini (viskozitesini) düşürüp hamuru yumuşatır [[proteaz.parcalanan_protein_az_su_baglar]].",
+        "gorsel": "lactobacillus_staining",
+        "vurgu": "Boyanmış laktik asit bakterisi hücreleri: ekşi mayayı asitleyen topluluk."
+      },
+      {
+        "metin": "Ekşi mayanın asidik tadını laktik asidin asetik aside oranı belirler; bu oran fermantasyon katsayısıdır (FQ) [[asitler.fermantasyon_katsayisi_orani]] [[asitler.fizikokimyasal_parametreler_ve_fq_tanimi]]. Ekşi mayalı ekmeği karakterize etmek için genellikle pH ve toplam titre edilebilir asitlik (TTA; sodyum hidroksit çözeltisiyle ölçülen toplam asit) ile birlikte FQ ölçülür [[asitler.fizikokimyasal_parametreler_ve_fq_tanimi]] [[ph_tta.ekmek_ph_tta_karsilastirma]].",
+        "gorsel": "ph_meter_2014",
+        "vurgu": "pH ölçer: ekşi mayalı ekmeğin asitliği sayısal olarak ölçülür."
+      }
+    ]
+  },
+  "anla": [
+    {
+      "baslik": "Ekşiliğin kaynağı",
+      "paragraflar": [
+        "Ekşi maya fermantasyonu sırasında heterofermentatif laktik asit bakterileri, şekeri laktik asitle birlikte asetik asit ve karbondioksit gazına da çeviren bakterilerdir [[asitler.heterofermantatif_lab_zayif_organik_asit]] [[hetero.tanim_hetero]]. Homofermentatif olanlar ise altı karbonlu şekerleri neredeyse yalnızca laktik aside çevirir [[hetero.tanim_homo]]. Bu üretimde maya da yer alır; mayalar ve laktik asit bakterileri fermente olabilen şekerleri organik asitlere, karbondioksite ve etanole çevirir [[asitler.lab_ve_maya_uretir]]. Bir derlemeye göre ekşi mayada laktik asit 15–150 mM (litrede milimol; ortanca 75), asetik asit 1–50 mM (ortanca 20) bulunur [[hetero.asit_aralik]]. Asitlenmede laktik asit baskın rol oynar [[asitler.laktik_asit_asitlenmede_baskin_rol]].",
+        "Ekşi maya fermantasyonu un-su karışımının pH'ını 3,5–4,5'e indirir ve bu asitlenme fermantasyonun gidişini belirler [[ph_tta.asitlenmenin_kaynagi]]. Beyaz buğday ve tam buğday ekmeklerinin pH değeri 6 civarındayken ekşi maya süreci ekmek pH'ını 4,6'ya düşürdü [[ph_tta.beyaz_tamun_ve_eksimaya_ekmek_ph]]. Ekşi mayasız kontrol ekmeğinin ortanca (medyan) pH değeri literatür derlemesinde 5,78 olarak verilmiştir [[ph_tta.eksimayasiz_kontrol_ekmek_medyan_ph]]."
+      ]
+    },
+    {
+      "baslik": "Asit proteini nasıl değiştirir",
+      "paragraflar": [
+        "Asitlenen hamurda proteinler net artı yük kazanır, yani elektriksel olarak pozitif tarafa meyil eder [[asitler.asitlenme_protein_cozunurlugu]] [[ph_tta.ph_dususu_ve_protein_pozitif_yuk_degisimi]]. Bu yük değişimi, ekşi mayalı hamurda glüten proteinlerinin şişmesini ve çözünürlüğünü etkiler [[asitler.ph_dususu_gluten_ve_somun_hacmi]]. Bu durum, gazı daha iyi tutabilen ve pişirme sonrası somun hacmini artırabilen daha yumuşak bir hamur doğurabilir [[asitler.ph_dususu_gluten_ve_somun_hacmi]]. Aktarılan bir çalışmada asetik asidin glutenin kısalmasına ve sertleşmesine yol açtığı, laktik asidin ise yapıyı daha elastik hâle getirebileceği bildirilmiştir [[asitler.asetik_gluten_sertlestirir_laktik_esnetir]].",
+        "Asitlenme fazlaysa ekmek kalitesi olumsuz etkilenebilir; yüksek asitlik yabancı tat oluşumuna yol açarak somun hacmini ve ekmek içi yumuşaklığını azaltabilir [[ph_tta.asiri_asitligin_ekmek_kalitesine_olumsuz_etkisi]]. Ekmek içi pH'ı 5,0'ın altına düştüğünde küçük somun hacimleri bildirilmiştir [[ph_tta.ekmek_ici_ph_5_alti_kucuk_hacim]]. Tip I buğday ekşi mayasıyla kurulan bir model çalışmada, kimyasal asitlendirilmiş hamurdan yapılan ekmek, laktik asit bakterili ekşi maya ekmeklerinden daha sertti [[asitler.kimyasal_asitli_ekmek_daha_sert]]."
+      ]
+    },
+    {
+      "baslik": "Enzimler uyanıyor",
+      "paragraflar": [
+        "Düşen pH, tahıl enzimlerinin etkinliğini ve bu enzimlerin üzerinde çalıştığı maddelerin çözünürlüğünü düzenler [[ph_tta.asitlenme_enzim_ve_cozunurluk_modulasyonu]]. Proteaz, proteinleri parçalayan bir enzimdir; proteoliz yoluyla proteinler daha küçük peptitlere (kısa protein parçalarına) ve serbest amino asitlere parçalanır [[proteaz.proteinaz_ve_peptidaz_tanimi]] [[proteoliz.protein_yikimi_tanimi]]. Ekşi mayadaki pH düşüşü proteaz aktivitesini etkinleştirip bu parçalanmayı teşvik edebilir [[ph_tta.ph_dususuyle_proteaz_aktivasyonu_ve_peptitler]]. Parçalanan proteinler daha az su bağlar; açığa çıkan su hamurun akışkanlığa direncini (viskozitesini) düşürüp hamuru yumuşatır [[proteaz.parcalanan_protein_az_su_baglar]]. Bu proteoliz ekmeğin lezzeti, hacmi ve dokusu açısından önemlidir [[proteoliz.lezzet_hacim_ve_doku_onemi]].",
+        "Fitik asit tahıllarda fosfatın başlıca depolanma biçimidir ve tanelerin ağırlıkça %1–4'ünü oluşturur [[fitaz.fitik_asit_fosfat_deposu]] [[fitaz.tahillarda_fitik_asit_orani]]. Fitaz, fitik asidi parçalayan bir enzimdir [[fitaz.fitaz_enziminin_katalitik_islevi_tanimi]] [[fitaz.enzim_tanimi_ve_reaksiyonu]]. Aktarılan bilgiye göre bu asitlenme tahıl fitazlarını etkinleştirir [[fitaz.asitlenme_tahil_fitazini_etkinlestirir]]. Ekmek yapımı sırasında fitik asit, hamurun mayalanmasında kısmen parçalanır; ne kadar parçalanacağı fitaz etkinliğine bağlıdır [[fitaz.mayalanmada_kismen_parcalanir]]."
+      ]
+    },
+    {
+      "baslik": "Tadı ne belirler",
+      "paragraflar": [
+        "Ekşi mayalı çavdar ekmeği içinde asetik asit, ekmeğin hem tadını hem de aromasını temel olarak etkiler [[asitler.asetik_asit_hem_tat_hem_aromayi_etkiler]]. Karbonhidrat yıkımının sonunda ortaya çıkan laktik asit yumuşak asitlik, asetik asit ise keskin asitlik verir [[asitler.laktik_ve_asetik_asit_tat_profili]]. Uçucu (kolay buharlaşan) asetik asit ekmeğin aromasını da destekler [[asitler.laktik_ve_asetik_asit_tat_profili]]. İncelenen ekşi mayalı çavdar ekmeği içlerinde tuza (NaCl) ek olarak asetik asit ve laktik asit başlıca tat verici bileşikler olmuştur [[asitler.ekmek_ici_ana_tatlandiricilari_nacl_laktik_asetik]]. Toplam titre edilebilir asitlik (TTA), asidin lezzet üzerindeki etkisini pH'a göre daha iyi tahmin eder [[ph_tta.tta_ve_ph_farkli_kalite_gostergesi]]."
+      ]
+    }
+  ],
+  "yuzlesme": [
+    {
+      "inanc": "Asetik asit arttıkça ekşi maya daha iyi tat verir.",
+      "cevap": "Tadı yalnızca asetik asit belirlemez: laktik asit yumuşak, asetik asit keskin asitlik verir [[asitler.laktik_ve_asetik_asit_tat_profili]]. Bir derlemeye göre bu kanı, asetik asidi artıran müdahaleleri ekşi maya işinde rutin hâle getirdi [[hetero.asetik_inanc]]."
+    },
+    {
+      "inanc": "Ekşi mayayı yalnızca Lactobacillus ve Saccharomyces cinsi mikroplar oluşturur.",
+      "cevap": "Son araştırmalar ekşi mayalar arasında beklenenden çok daha fazla çeşitlilik buldu; bazı ekşi mayalar bu iki cins dışındaki bakteri ve mayalara dayanır [[lab.cesitlilik_efsane]]."
+    }
+  ],
+  "kanit": {
+    "cekirdek": [
+      "asitler.heterofermantatif_lab_zayif_organik_asit",
+      "asitler.lab_ve_maya_uretir",
+      "asitler.suksinik_asit_ana_ph_belirleyici_ve_gelisim",
+      "ph_tta.asitlenmenin_kaynagi",
+      "asitler.asetik_asit_hem_tat_hem_aromayi_etkiler",
+      "asitler.laktik_asit_asitlenmede_baskin_rol",
+      "hetero.asit_aralik",
+      "ph_tta.asitlenme_gluten_cozunurlugu_hacim_yumusaklik",
+      "asitler.ph_dususu_gluten_ve_somun_hacmi",
+      "ph_tta.ph_dususuyle_proteaz_aktivasyonu_ve_peptitler",
+      "proteaz.asitlik_kaynakli_proteaz_ve_su_buhari_tutunumu",
+      "proteoliz.asitte_un_proteinazlari",
+      "proteoliz.lezzet_hacim_ve_doku_onemi",
+      "fitaz.asitlenme_tahil_fitazini_etkinlestirir",
+      "asitler.fizikokimyasal_parametreler_ve_fq_tanimi"
+    ],
+    "cekmece": [
+      "aab.baskin_olmaz",
+      "aab.diger_taksonlarla_iliski",
+      "aab.gluconobacter_olgun",
+      "aab.oksidatif_fermantasyon_bilesikleri",
+      "aab.sayi_laktik_maya_gore_onemsiz",
+      "aab.yuzde_29",
+      "asitler.asetik_asit_ekmekte_eksi_tattan_sorumlu",
+      "asitler.asetik_asit_pka_hucreici_asitlenme",
+      "asitler.asetik_en_belirgin_antifungal",
+      "asitler.asetik_gluten_sertlestirir_laktik_esnetir",
+      "asitler.asetik_suksinik_somun_hacmi_ph",
+      "asitler.asetik_tat_ve_doku_etkisi",
+      "asitler.asiri_organik_asit_maya_alkol_ve_co2_engellemesi",
+      "asitler.asit_eklemek_hacmi_artirabilir",
+      "asitler.asit_turleri_hamurda_farkli_etkilesir_tam",
+      "asitler.asitlenme_protein_cozunurlugu",
+      "asitler.asitlenmenin_gluten_ve_nisastaya_etkisi",
+      "asitler.ayrismamis_asetik_raf_omru",
+      "asitler.ayrismamis_fraksiyon_zar_gecirgenligi",
+      "asitler.cavdar_ekmegi_asetik_ve_laktik_dot_faktoru",
+      "asitler.ekmek_ici_ana_tatlandiricilari_nacl_laktik_asetik",
+      "asitler.ekmek_kalitesi_belirleyicileri",
+      "asitler.en_iyi_ph_asit_turune_gore",
+      "asitler.fermantasyon_katsayisi_optimum_2_ile_2_7",
+      "asitler.fermantasyon_katsayisi_orani",
+      "asitler.kimyasal_asitli_ekmek_daha_sert",
+      "asitler.kurutmada_asetik_asit_kaybi",
+      "asitler.laktik_asetik_raf_omru_uzatma",
+      "asitler.laktik_ve_asetik_asit_tat_profili",
+      "asitler.maya_engellenmesi_pka_degerleri",
+      "asitler.organik_asit_ph_araligi_lab",
+      "asitler.organik_asit_ph_ve_amilaz_azalisi",
+      "asitler.organik_asit_uzayabilirlik_mekanizmasi",
+      "asitler.organik_asitler_sulu_fazda_aktif",
+      "asitler.ph_dususu_suksinik_birikimi",
+      "asitler.suksinik_asetik_protein_yapisi",
+      "asitler.suksinik_asit_hamur_matrisini_guclendirir",
+      "asitler.tipik_phda_ayrismamis_asetik_asit",
+      "asitler.tur_ve_duzey_ayrilmamis",
+      "fitaz.alti_saatlik_fermantasyonda_belirgin_azalma",
+      "fitaz.bugday_hamurunda_optimum_ph_ve_sicaklik",
+      "fitaz.duz_ekmekte_fitik_asit_azalmasi",
+      "fitaz.ekmekte_fitat_etkileyen_faktorler",
+      "fitaz.enzim_tanimi_ve_reaksiyonu",
+      "fitaz.fermantasyonda_fitaz_tesvigi",
+      "fitaz.fitaz_enziminin_katalitik_islevi_tanimi",
+      "fitaz.fitik_asit_fosfat_deposu",
+      "fitaz.fitik_asit_tahillarda_baskin_fosfor_formudur",
+      "fitaz.fsan_optimum_ph_ve_sicaklik",
+      "fitaz.lab_rolu_asitlendirme",
+      "fitaz.mayalanmada_kismen_parcalanir",
+      "fitaz.tahillarda_fitik_asit_orani",
+      "hetero.asetik_inanc",
+      "hetero.belcika_metabolit",
+      "hetero.durum_zorunlu",
+      "hetero.fruktoz_karbon_ya_da_elektron",
+      "hetero.fruktozun_mannitole_indirgenmesi_ve_ekstra_atp",
+      "hetero.lab_ve_maya_metabolit_ayrimi",
+      "hetero.maltoz_fosforilaz_ve_oncelikli_kullanim",
+      "hetero.mannitol_dehidrojenaz_ile_fruktoz_indirgenmesi",
+      "hetero.olgun_baskin",
+      "hetero.sakaroz_eps_asetat",
+      "hetero.tanim_hetero",
+      "hetero.tanim_homo",
+      "lab.cesitlilik_efsane",
+      "lab.direkt_hamurdan_farki",
+      "lab.ekmek_uretimi_icin_secilen_bes_lab_izolati",
+      "lab.en_sik_baskin_uc_tur",
+      "lab.firincilikta_kullanim_amaclari",
+      "lab.klasik_tablo",
+      "lab.lab_asitlendirir_maya_gaz_cikarir_atif",
+      "lab.lab_maya_orani",
+      "lab.olgun_topluluk_40maya",
+      "lab.organik_asitlerin_kuf_engelleme_etkinligi",
+      "lab.stresli_ekosistem_ozellikleri",
+      "lab.tahil_enzimleri_karsilikli_etkilesim",
+      "lab.tanim_eksi_maya",
+      "lab.topluluk_bilesimi",
+      "lab.turlesme_desteklenmez",
+      "lab.yogunluk",
+      "ph_tta.48_saat_ph_4_alti_tum_hamurlar",
+      "ph_tta.asiri_asitligin_ekmek_kalitesine_olumsuz_etkisi",
+      "ph_tta.asitlenme_cozunurlugu_artirir",
+      "ph_tta.asitlenme_enzim_ve_cozunurluk_modulasyonu",
+      "ph_tta.asitlenme_saglamligi_azaltir",
+      "ph_tta.asitlenme_su_baglamayi_azaltir",
+      "ph_tta.asitligin_gluten_agi_reoloji_ve_dokuya_etkisi",
+      "ph_tta.beyaz_tamun_ve_eksimaya_ekmek_ph",
+      "ph_tta.bugday_unu_dogal_ph",
+      "ph_tta.dn1_eksimayasinda_ph_ve_tta_dinamigi",
+      "ph_tta.ekmek_ici_ph_5_alti_kucuk_hacim",
+      "ph_tta.ekmek_ici_ph_cirislenme_ve_viskozite",
+      "ph_tta.ekmek_ici_ph_ve_yumusaklik_korelasyonu",
+      "ph_tta.ekmek_ph_tta_karsilastirma",
+      "ph_tta.eksimayasiz_kontrol_ekmek_medyan_ph",
+      "ph_tta.fermantasyon_katsayisi_laktik_asetik_orani",
+      "ph_tta.gluten_pozitif_yuk_itme",
+      "ph_tta.gluten_yapisi_ph_4_5_alti",
+      "ph_tta.hacim_etkisi_asitlenme_hipotezi",
+      "ph_tta.hafif_asitlenme_ve_fitat_parcalanmasi",
+      "ph_tta.kabartma_ve_es_zamanli_asitlendirme",
+      "ph_tta.laktik_starterli_ekmeklerde_hedef_ph_araligi",
+      "ph_tta.matera_eksimayalarinda_ph_korelasyonlari",
+      "ph_tta.mayali_hamurda_ph_dususu_suksinik_asit",
+      "ph_tta.mayasiz_hamur_ve_suksinik_asit_ph",
+      "ph_tta.olgun_eksimaya_standart_ph_araligi",
+      "ph_tta.ph_dususu_ve_protein_pozitif_yuk_degisimi",
+      "ph_tta.sicilya_ph_araligi",
+      "ph_tta.soguk_fermantasyonda_maya_asitlenmesi_ve_ph",
+      "ph_tta.suksinik_ve_asetik_asit_uretimiyle_ph_dususu",
+      "ph_tta.tahil_enzimleri_icin_cok_dusuk_ph",
+      "ph_tta.temel_metabolik_etkinlikler_ve_ph",
+      "ph_tta.tip1_model_ph_seyri",
+      "ph_tta.tip2_ph_tta_72_saat",
+      "ph_tta.tta_artisi_ve_hacim_azalmasi",
+      "ph_tta.tta_ve_ph_farkli_kalite_gostergesi",
+      "proteaz.asitlenme_ve_uzayan_mayalanmada_hamur_gevsemesi",
+      "proteaz.asitlik_artisi_ve_hamur_gevsemesi",
+      "proteaz.bugday_ve_cavdarda_aspartik_ve_karboksipeptidaz",
+      "proteaz.dusuk_ph_ve_serbest_amino_asit_salinimi",
+      "proteaz.gluteni_peptit_ve_amino_aside",
+      "proteaz.hacmi_dusurebilir",
+      "proteaz.ozellikle_glutenini_etkiler",
+      "proteaz.parcalanan_protein_az_su_baglar",
+      "proteaz.proteinaz_ve_peptidaz_tanimi",
+      "proteaz.tahil_enzimleri_ve_mikrobiyal_etkilesim",
+      "proteaz.un_ic_proteazlari_ph_ve_redoks_kosullari",
+      "proteaz.uygun_endopeptidaz_kullanimi_ve_ekmek_ici_dokusu",
+      "proteoliz.12_saatte_fibril_yapilar",
+      "proteoliz.asitli_hamurda_yogun_hidroliz",
+      "proteoliz.glutamat_ve_umami_tadi",
+      "proteoliz.ikincil_proteoliz_hucresi_peptidaz",
+      "proteoliz.ikincil_proteoliz_ve_lezzet_gelisimi",
+      "proteoliz.k_humilis_ve_f_sanfranciscensis_amino_asit_besleme_dongusu",
+      "proteoliz.kokumi_tadi_peptitleri",
+      "proteoliz.lab_enzimlerinin_gluten_parcalanmasi_ve_ekmek_hacmi",
+      "proteoliz.lab_protein_hidrolizi_ve_fan_artisi",
+      "proteoliz.protein_yikimi_tanimi",
+      "proteoliz.tahil_proteazi_ve_bakteri_peptidazi_rolleri"
+    ]
+  },
+  "baglar": [
+    {
+      "kaldirac": "Laktik asit bakterileri",
+      "mekanizma": "Şekeri laktik asit ve asetik aside çevirerek zayıf organik asitler üretirler; pH düşer.",
+      "sonuc": "Hamur ekşir, ekmeğin ekşi tadı ve aroması bu asitlerden gelir.",
+      "bilgiler": [
+        "asitler.heterofermantatif_lab_zayif_organik_asit",
+        "hetero.tanim_hetero",
+        "asitler.lab_ve_maya_uretir",
+        "asitler.asetik_asit_hem_tat_hem_aromayi_etkiler"
+      ]
+    },
+    {
+      "kaldirac": "Mayanın ürettiği süksinik asit",
+      "mekanizma": "Maya, şekeri karbondioksit ve etanole çevirirken süksinik asit de biriktirir; birikim pH'ın düşmesinde başlıca rol oynar.",
+      "sonuc": "Mayalı hamurun pH'ı da düşer, ekşi maya olmadan da asitlenme görülür.",
+      "bilgiler": [
+        "asitler.suksinik_asit_ana_ph_belirleyici_ve_gelisim",
+        "asitler.ph_dususu_suksinik_birikimi",
+        "ph_tta.mayali_hamurda_ph_dususu_suksinik_asit",
+        "ph_tta.mayasiz_hamur_ve_suksinik_asit_ph"
+      ]
+    },
+    {
+      "kaldirac": "Proteinlerin artı yükü",
+      "mekanizma": "Asitlenme proteinlerin net yükünü değiştirir; glüten proteinleri daha çözünür hâle gelir.",
+      "sonuc": "Ekmek hacmi ve ekmek içi yumuşaklığı artabilir.",
+      "bilgiler": [
+        "ph_tta.ph_dususu_ve_protein_pozitif_yuk_degisimi",
+        "ph_tta.asitlenme_gluten_cozunurlugu_hacim_yumusaklik",
+        "asitler.ph_dususu_gluten_ve_somun_hacmi"
+      ]
+    },
+    {
+      "kaldirac": "Düşen pH ve proteaz",
+      "mekanizma": "Asidik ortamda unun kendi proteazları etkinleşir ve proteinleri peptitlere parçalar.",
+      "sonuc": "Hamur gevşer, ekmeğin lezzeti ve dokusu değişir.",
+      "bilgiler": [
+        "proteaz.asitlik_kaynakli_proteaz_ve_su_buhari_tutunumu",
+        "ph_tta.ph_dususuyle_proteaz_aktivasyonu_ve_peptitler",
+        "proteoliz.lab_enzimlerinin_gluten_parcalanmasi_ve_ekmek_hacmi",
+        "proteoliz.lezzet_hacim_ve_doku_onemi"
+      ]
+    },
+    {
+      "kaldirac": "Asitlenme ve fitaz",
+      "mekanizma": "Hamurun pH'ının düşmesi tahıl fitazlarını etkinleştirir; fitaz fitik asidi parçalar.",
+      "sonuc": "Ekmekte fitik asit miktarı azalır.",
+      "bilgiler": [
+        "fitaz.asitlenme_tahil_fitazini_etkinlestirir",
+        "fitaz.fitaz_enziminin_katalitik_islevi_tanimi",
+        "fitaz.ekmekte_fitat_etkileyen_faktorler",
+        "fitaz.mayalanmada_kismen_parcalanir"
+      ]
+    },
+    {
+      "kaldirac": "Ayrışmamış asetik asit",
+      "mekanizma": "Asidik pH'da asetik asidin önemli bir bölümü ayrışmamış kalır; bu form hücre zarını geçerek büyümeyi engeller.",
+      "sonuc": "Küf ve bozulma mikroorganizmalarının gelişimi zorlaşır, ekmeğin raf ömrü uzar.",
+      "bilgiler": [
+        "asitler.tipik_phda_ayrismamis_asetik_asit",
+        "asitler.ayrismamis_fraksiyon_zar_gecirgenligi",
+        "asitler.organik_asitler_sulu_fazda_aktif",
+        "lab.organik_asitlerin_kuf_engelleme_etkinligi",
+        "asitler.laktik_asetik_raf_omru_uzatma"
+      ]
+    },
+    {
+      "kaldirac": "Asit türü",
+      "mekanizma": "Asetik asit glüteni sertleştirip kısaltırken laktik asit yapıyı daha elastik hâle getirebilir.",
+      "sonuc": "Asit türünün ekmek kalitesine etkisi, asitlenme düzeyinden tam olarak ayrılamıyor.",
+      "bilgiler": [
+        "asitler.asetik_gluten_sertlestirir_laktik_esnetir",
+        "asitler.asit_turleri_hamurda_farkli_etkilesir_tam",
+        "asitler.tur_ve_duzey_ayrilmamis"
+      ]
+    },
+    {
+      "kaldirac": "Fermantasyon katsayısı",
+      "mekanizma": "Laktik asidin asetik aside oranı ekşi mayanın asidik tadını belirler.",
+      "sonuc": "Bu oran ekşi mayanın karakterini ve ekmeğin tadını şekillendirir.",
+      "bilgiler": [
+        "asitler.fermantasyon_katsayisi_orani",
+        "asitler.fizikokimyasal_parametreler_ve_fq_tanimi",
+        "asitler.laktik_ve_asetik_asit_tat_profili"
+      ]
+    }
+  ],
+  "karakterler": [
+    "lab",
+    "proteaz",
+    "aab"
+  ],
+  "ayrisan_kaynaklar": [
+    {
+      "konu": "Ekşi mayanın ideal fermantasyon katsayısı kaç olmalı?",
+      "bilgiler": [
+        "asitler.fermantasyon_katsayisi_optimum_2_ile_2_7",
+        "asitler.fermantasyon_katsayisi_orani",
+        "ph_tta.fermantasyon_katsayisi_laktik_asetik_orani",
+        "asitler.sicilya_fq_4_ustu"
+      ]
+    },
+    {
+      "konu": "Hamurdaki pH düşüşünü bakteriler mi, maya mı yapar?",
+      "bilgiler": [
+        "ph_tta.mayali_hamurda_ph_dususu_suksinik_asit",
+        "ph_tta.mayasiz_hamur_ve_suksinik_asit_ph",
+        "ph_tta.asitlenmenin_kaynagi",
+        "asitler.ph_dususu_suksinik_birikimi"
+      ]
+    },
+    {
+      "konu": "Asit ekmeğin hacmini artırır mı, düşürür mü?",
+      "bilgiler": [
+        "asitler.asit_eklemek_hacmi_artirabilir",
+        "ph_tta.asiri_asitligin_ekmek_kalitesine_olumsuz_etkisi",
+        "ph_tta.ekmek_ici_ph_5_alti_kucuk_hacim",
+        "ph_tta.hacim_etkisi_asitlenme_hipotezi",
+        "asitler.kimyasal_asitli_ekmek_daha_sert"
+      ]
+    },
+    {
+      "konu": "Asit türünün etkisi mi, asitlenme düzeyinin etkisi mi belirleyici?",
+      "bilgiler": [
+        "asitler.tur_ve_duzey_ayrilmamis",
+        "asitler.en_iyi_ph_asit_turune_gore",
+        "asitler.asetik_suksinik_somun_hacmi_ph"
+      ]
+    },
+    {
+      "konu": "Asetik asit bakterileri ekşi mayada ne kadar önemli?",
+      "bilgiler": [
+        "aab.baskin_olmaz",
+        "aab.yuzde_29",
+        "aab.diger_taksonlarla_iliski",
+        "lab.topluluk_bilesimi"
+      ]
+    }
+  ]
+}

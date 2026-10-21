@@ -1,0 +1,64 @@
+{
+  "id": "lab",
+  "ad": "Laktik asit bakterileri",
+  "eski_ad": null,
+  "tur": "bakteri",
+  "tek_cumle": "Ekşi maya, un ve su karışımıyla başlayan ve laktik asit bakterileri ile mayaların birlikte çalıştığı bir ortamdır [[lab.tanim_eksi_maya]]",
+  "bolumler": [
+    {
+      "baslik": "Kimlik",
+      "cumleler": [
+        "500 ekşi mayalık örneklemde ekşi maya başına ortanca üç LAB/AAB türü ve bir maya türü bulundu [[lab.az_baskin_tur]]",
+        "Eski Lactobacillus cinsi, 25 cinse sınıflandırılan 261 türü kapsar [[lab.yirmi_bes_cins_yeniden_siniflandirma]]"
+      ]
+    },
+    {
+      "baslik": "Ne yer, ne üretir",
+      "cumleler": [
+        "Kendi amino asit biyosentez yolaklarının kısmen kaybı nedeniyle tahıl matrisindeki amino asitlere bağımlıdır [[lab.tahil_aminoasitlerine_bagimlilik]]"
+      ]
+    },
+    {
+      "baslik": "Hangi koşulda",
+      "cumleler": [
+        "Ekşi mayada LAB sayısı çoğunlukla maya sayısının 10 ila 100 katıdır [[lab.lab_maya_orani]]",
+        "Düşük pH, yüksek karbonhidrat derişimi, oksijen sınırlaması ve mayalardan daha yüksek laktik asit bakterisi hücre sayısıyla karakterize edilen stresli bir ekosistem oluşturur [[lab.stresli_ekosistem_ozellikleri]]"
+      ]
+    },
+    {
+      "baslik": "Mayadaki yeri",
+      "cumleler": [
+        "En sık baskın olan laktik asit bakterisi türleri Fructilactobacillus sanfranciscensis, Levilactobacillus brevis ve Lactiplantibacillus plantarum'dur [[lab.en_sik_baskin_uc_tur]]"
+      ]
+    },
+    {
+      "baslik": "Hamurda ne olur",
+      "cumleler": [
+        "Mikrobiyal metabolizmanın yol açtığı asitlenme, oksijen tüketimi ve tiyol birikimi tahıl enzimlerinin etkinliğini düzenler [[lab.tahil_enzimleri_karsilikli_etkilesim]]"
+      ]
+    },
+    {
+      "baslik": "İlişkileri",
+      "cumleler": [
+        "Fermantasyon sırasında üretilen laktik asit ve asetik asit gibi organik asitler, küfler dahil bozulma mikroorganizmalarının gelişimini engelleyebilir [[lab.organik_asitlerin_kuf_engelleme_etkinligi]]"
+      ]
+    },
+    {
+      "baslik": "Ekmeğe etkisi",
+      "cumleler": [
+        "Fırıncılıkta hamuru asitlendirmek, kabartma sağlamak, ekmek kalitesini ve bayatlama direncini artırmak ve temiz etiketli katkı maddesi alternatifi sunmak amacıyla kullanılır [[lab.firincilikta_kullanim_amaclari]]"
+      ]
+    }
+  ],
+  "efsane": "Yaygın inanç, ekşi mayada yalnızca Lactobacillus ve Saccharomyces bulunduğudur; ölçümler ekşi mayalar arasında beklenenden çok daha fazla çeşitlilik buldu ve bazı ekşi mayaların başka bakterilere ve mayalara dayandığını gösterdi [[lab.cesitlilik_efsane]]",
+  "anlar": [
+    "eksi_mayanin_ilk_10_gunu",
+    "mayayi_beslerken",
+    "asitler_ve_ph",
+    "saklama_ve_kuf"
+  ],
+  "gorseller": [
+    "lactobacillus_spp",
+    "lactobacillus_gram"
+  ]
+}

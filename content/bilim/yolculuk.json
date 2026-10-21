@@ -1,0 +1,450 @@
+{
+  "duraklar": [
+    {
+      "id": "tarla",
+      "ad": "Tarla",
+      "anlar": [
+        {
+          "id": "olgun_tanenin_ici",
+          "baslik": "Olgun tanenin içi",
+          "soru": "Bir buğday tanesinin içinde ekmek olacak ne birikir?",
+          "ozet": "Olgun tanenin içi, ekmek olacağı yapıyı katman katman kurmuştur.",
+          "bayrak": true,
+          "karakterler": [
+            "nisasta",
+            "gluten"
+          ]
+        },
+        {
+          "id": "atalik_bugdayin_hasadi",
+          "baslik": "Atalık buğdayın hasadı",
+          "soru": "Atalık buğdayın unu ekmekte nasıl davranır?",
+          "ozet": "Atalık çeşidin gluteni yayılmaya yatkındır; hasat edilen tane un olunca bu fark ekmekte hacim olarak kendini gösterir.",
+          "bayrak": false,
+          "karakterler": [
+            "gluten"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "degirmen",
+      "ad": "Değirmen",
+      "anlar": [
+        {
+          "id": "degirmen_tasinda",
+          "baslik": "Değirmen taşında",
+          "soru": "Bir tane nasıl un olur, içindeki nişasta neden zedelenir?",
+          "ozet": "Değirmende tane kırılırken içindeki nişasta taneleri de iz bırakır.",
+          "bayrak": true,
+          "karakterler": [
+            "nisasta",
+            "amilaz"
+          ]
+        },
+        {
+          "id": "unun_karsisinda_firinci",
+          "baslik": "Unun karşısında fırıncı",
+          "soru": "Bir unun ekmek olup olmayacağı daha karıştırmadan nasıl anlaşılır?",
+          "ozet": "Fırıncı unu kâğıt üstünde ölçer; bu ölçüler unun geleceğini önceden söyler.",
+          "bayrak": false,
+          "karakterler": [
+            "ksilanaz"
+          ]
+        },
+        {
+          "id": "kepek_una_karisinca",
+          "baslik": "Kepek una karışınca",
+          "soru": "Kepek una karışınca hamur neden zorlanır?",
+          "ozet": "Tahılın dış katmanları una karışınca hamurun içinde yeni bir direnç doğar.",
+          "bayrak": false,
+          "karakterler": [
+            "gluten"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "hamur",
+      "ad": "Hamur",
+      "anlar": [
+        {
+          "id": "su_ve_tuz_bulusunca",
+          "baslik": "Su ve tuz buluşunca",
+          "soru": "Su miktarı ve tuz hamurun kaderini neden bu kadar değiştirir?",
+          "ozet": "Su hamuru açar, tuz onu toplar; ikisinin dengesi hamurun ilk kararını verir.",
+          "bayrak": false,
+          "karakterler": [
+            "gluten"
+          ]
+        },
+        {
+          "id": "cavdar_unu_suyla_bulusunca",
+          "baslik": "Çavdar unu suyla buluşunca",
+          "soru": "Çavdar unu suyla buluşunca neden buğdaydan farklı davranır?",
+          "ozet": "Çavdar unu suyu buğdaydan daha çok emer; bu yüzden kendi kurallarını ister.",
+          "bayrak": false,
+          "karakterler": [
+            "arabinoksilan"
+          ]
+        },
+        {
+          "id": "yogurma_tezgahinda",
+          "baslik": "Yoğurma tezgahında",
+          "soru": "Yoğurmak hamurun içinde neyi örer?",
+          "ozet": "Eller hamura girdikçe proteinler düğümlenir ve hamur ilk kez bir gövde kazanır.",
+          "bayrak": true,
+          "karakterler": [
+            "gluten"
+          ]
+        },
+        {
+          "id": "ilk_hava_kabarciklari",
+          "baslik": "İlk hava kabarcıkları",
+          "soru": "Hamurun içindeki ilk kabarcıklar nereden gelir?",
+          "ozet": "Yoğurma sırasında hamura hava girer; bu hava, gelecekteki gözeneklerin çekirdeği olur.",
+          "bayrak": false,
+          "karakterler": [
+            "scer",
+            "lipid"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "eksi_maya",
+      "ad": "Ekşi maya",
+      "anlar": [
+        {
+          "id": "eksi_mayanin_ilk_10_gunu",
+          "baslik": "Ekşi mayanın ilk 10 günü",
+          "soru": "Bir maya kurulurken içindeki topluluk günden güne nasıl değişir?",
+          "ozet": "Mayanın ilk günlerinde bir topluluk çöker, bir başkası onun yerini alır ve ortam giderek ekşir.",
+          "bayrak": true,
+          "karakterler": [
+            "entero",
+            "oncu",
+            "fsan",
+            "lplant",
+            "khum",
+            "lab",
+            "lbrevis",
+            "scer"
+          ]
+        },
+        {
+          "id": "mayayi_beslerken",
+          "baslik": "Mayayı beslerken",
+          "soru": "Maya nasıl beslenir de yıllarca yaşar?",
+          "ozet": "Un ve suyun düzenli tazelenmesi, mayanın içindeki canlılara hep aynı sofrayı kurar.",
+          "bayrak": false,
+          "karakterler": [
+            "fsan",
+            "lab",
+            "limosi"
+          ]
+        },
+        {
+          "id": "ayni_sofrada",
+          "baslik": "Aynı sofrada",
+          "soru": "Maya ve bakteriler aynı sofrada nasıl geçinir?",
+          "ozet": "Ekşi mayadaki canlılar hem birbirini besler hem de aynı yiyecek için yarışır.",
+          "bayrak": false,
+          "karakterler": [
+            "khum",
+            "scer",
+            "fsan",
+            "wanom",
+            "fruktan"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "fermantasyon",
+      "ad": "Fermantasyon",
+      "anlar": [
+        {
+          "id": "sekerin_yolu",
+          "baslik": "Nişasta şekere dönerken",
+          "soru": "Undaki nişasta mayanın sofrasına nasıl düşer?",
+          "ozet": "Enzimler nişastayı küçük şekerlere çevirir; hamura katılan maya bu şekerlerle beslenir.",
+          "bayrak": false,
+          "karakterler": [
+            "amilaz",
+            "nisasta"
+          ]
+        },
+        {
+          "id": "gaz_ve_kabarma",
+          "baslik": "Kabarırken doğan gaz ve koku",
+          "soru": "Maya şekeri neye çevirir: kabartan gazı mı, kokuyu veren lezzeti mi?",
+          "ozet": "Maya şekeri gaz ve alkole çevirirken gliserol ile aroma bileşikleri de birikir; hamurun kabarması ve kokusu bu üretimin sonucudur.",
+          "bayrak": true,
+          "karakterler": [
+            "scer",
+            "tdel",
+            "gluten"
+          ]
+        },
+        {
+          "id": "asitler_ve_ph",
+          "baslik": "Hamur ekşirken",
+          "soru": "Hamur neden ekşir ve asit neyi değiştirir?",
+          "ozet": "Bakteriler şekerden asit üretir; asit hamuru ekşitir, enzimleri etkinleştirip proteinlerin davranışını değiştirir.",
+          "bayrak": false,
+          "karakterler": [
+            "lab",
+            "proteaz",
+            "aab"
+          ]
+        },
+        {
+          "id": "gece_dolapta",
+          "baslik": "Gece dolapta",
+          "soru": "Hamur geceyi dolapta geçirince içinde ne olur?",
+          "ozet": "Serin dolapta maya yavaşlar, ama hamur sessizce lezzet biriktirir.",
+          "bayrak": true,
+          "karakterler": [
+            "fsan",
+            "khum"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "sekil",
+      "ad": "Şekil",
+      "anlar": [
+        {
+          "id": "hamuru_sekillendirmek",
+          "baslik": "Hamuru şekillendirmek",
+          "soru": "Şekil verirken hamur nasıl davranır, içindeki gaz ne olur?",
+          "ozet": "Elin altında hamur esner ve gaz yeniden dağılır; son biçim burada verilir.",
+          "bayrak": false,
+          "karakterler": [
+            "gluten"
+          ]
+        },
+        {
+          "id": "son_mayalanma",
+          "baslik": "Son mayalanma",
+          "soru": "Fırına girmeden önce hamur son kez ne yaşar?",
+          "ozet": "Şekillenen hamur fırına girmeden önce dinlenir ve gazla yeniden dolar.",
+          "bayrak": false,
+          "karakterler": [
+            "scer"
+          ]
+        },
+        {
+          "id": "kesik_atilinca",
+          "baslik": "Kesik atılınca",
+          "soru": "Ekmeğin üstündeki kesik ne işe yarar?",
+          "ozet": "Kesik, fırındaki kabarmanın hangi yöne açılacağını önceden belirler.",
+          "bayrak": true,
+          "karakterler": []
+        }
+      ]
+    },
+    {
+      "id": "firin",
+      "ad": "Fırın",
+      "anlar": [
+        {
+          "id": "firinin_ilk_8_dakikasi",
+          "baslik": "Fırının ilk 8 dakikası",
+          "soru": "Hamur fırında neden son bir kez büyür?",
+          "ozet": "Fırının kapağı kapandığında hamurun içinde birçok şey aynı anda başlar.",
+          "bayrak": true,
+          "karakterler": [
+            "scer",
+            "gluten"
+          ]
+        },
+        {
+          "id": "nisastanin_jellesmesi",
+          "baslik": "İçi pişerken",
+          "soru": "Hamur nasıl ekmek içine dönüşür?",
+          "ozet": "Isı yükseldikçe nişasta su emip jelleşir, protein pıhtılaşır; hamur katılaşır.",
+          "bayrak": false,
+          "karakterler": [
+            "nisasta",
+            "gluten"
+          ]
+        },
+        {
+          "id": "buhar_ve_kabuk",
+          "baslik": "Buhar ve kabuk",
+          "soru": "Fırındaki buhar kabuğu nasıl şekillendirir?",
+          "ozet": "Buhar kabuğu esnek ve parlak tutar; nem ise içten dışa doğru yol alır.",
+          "bayrak": false,
+          "karakterler": []
+        },
+        {
+          "id": "kabugun_kizarmasi",
+          "baslik": "Kabuğun kızarması",
+          "soru": "Kabuğun rengi ve kokusu nereden gelir; aynı sıcaklıkta başka ne doğar?",
+          "ozet": "Sıcaklık yükselince şeker ile protein kızarmaya başlar; kabuk rengini ve kokusunu alırken asparajinden akrilamid de doğar.",
+          "bayrak": true,
+          "karakterler": []
+        }
+      ]
+    },
+    {
+      "id": "sonra",
+      "ad": "Soğuma ve raf",
+      "anlar": [
+        {
+          "id": "soguma_ani",
+          "baslik": "Soğuma anı",
+          "soru": "Sıcak ekmek soğurken içindeki nem nereye gider?",
+          "ozet": "Soğurken nem içeriden kabuğa göç eder; ekmeğin yapısı bu sırada oturur.",
+          "bayrak": false,
+          "karakterler": [
+            "nisasta"
+          ]
+        },
+        {
+          "id": "rafta_ilk_hafta",
+          "baslik": "Rafta ilk hafta",
+          "soru": "Ekmek rafta neden bayatlar?",
+          "ozet": "Soğudukça nişasta yeniden kristallenir ve ekmek içi sertleşmeye başlar.",
+          "bayrak": true,
+          "karakterler": [
+            "nisasta"
+          ]
+        },
+        {
+          "id": "saklama_ve_kuf",
+          "baslik": "İlk küf lekesi",
+          "soru": "Ekmek nasıl saklanır, küf neden ve nereden gelir?",
+          "ozet": "Saklama biçimi ekmeğin kurumasını ve küfün gelişini belirler.",
+          "bayrak": false,
+          "karakterler": [
+            "lab"
+          ]
+        }
+      ]
+    }
+  ],
+  "karakterler": [
+    {
+      "id": "fsan",
+      "ad": "Fructilactobacillus sanfranciscensis",
+      "tur": "bakteri"
+    },
+    {
+      "id": "lplant",
+      "ad": "Lactiplantibacillus plantarum",
+      "tur": "bakteri"
+    },
+    {
+      "id": "lbrevis",
+      "ad": "Levilactobacillus brevis",
+      "tur": "bakteri"
+    },
+    {
+      "id": "limosi",
+      "ad": "Limosilactobacillus",
+      "tur": "bakteri"
+    },
+    {
+      "id": "aab",
+      "ad": "Asetik asit bakterileri",
+      "tur": "bakteri"
+    },
+    {
+      "id": "oncu",
+      "ad": "Öncü laktik bakteriler",
+      "tur": "bakteri"
+    },
+    {
+      "id": "entero",
+      "ad": "İlk günlerin enterobakterileri",
+      "tur": "bakteri"
+    },
+    {
+      "id": "lab",
+      "ad": "Laktik asit bakterileri",
+      "tur": "bakteri"
+    },
+    {
+      "id": "scer",
+      "ad": "Saccharomyces cerevisiae",
+      "tur": "maya"
+    },
+    {
+      "id": "khum",
+      "ad": "Kazachstania humilis",
+      "tur": "maya"
+    },
+    {
+      "id": "wanom",
+      "ad": "Wickerhamomyces anomalus",
+      "tur": "maya"
+    },
+    {
+      "id": "tdel",
+      "ad": "Torulaspora delbrueckii",
+      "tur": "maya"
+    },
+    {
+      "id": "amilaz",
+      "ad": "Amilazlar",
+      "tur": "enzim"
+    },
+    {
+      "id": "proteaz",
+      "ad": "Proteazlar",
+      "tur": "enzim"
+    },
+    {
+      "id": "ksilanaz",
+      "ad": "Ksilanaz",
+      "tur": "enzim"
+    },
+    {
+      "id": "gluten",
+      "ad": "Gluten ağı",
+      "tur": "yapi"
+    },
+    {
+      "id": "nisasta",
+      "ad": "Nişasta",
+      "tur": "yapi"
+    },
+    {
+      "id": "arabinoksilan",
+      "ad": "Arabinoksilan",
+      "tur": "molekul"
+    },
+    {
+      "id": "fruktan",
+      "ad": "Fruktan",
+      "tur": "molekul"
+    },
+    {
+      "id": "lipid",
+      "ad": "Lipitler",
+      "tur": "molekul"
+    }
+  ],
+  "zaman_seridi": [
+    {
+      "id": "en_eski_ekmek",
+      "baslik": "En eski ekmek"
+    },
+    {
+      "id": "evcillestirme",
+      "baslik": "Buğdayın evcilleşmesi"
+    },
+    {
+      "id": "anadolu",
+      "baslik": "Anadolu'da ekmek"
+    },
+    {
+      "id": "eksi_maya_tarihi",
+      "baslik": "Ekşi mayanın tarihi"
+    }
+  ]
+}

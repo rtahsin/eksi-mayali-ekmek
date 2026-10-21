@@ -1,0 +1,430 @@
+{
+  "id": "scer",
+  "ad": "S. cerevisiae",
+  "bilgiler": [
+    {
+      "id": "scer.maya_susu_seciminin_pisirme_fazina_etkisi",
+      "metin": "Maya suşu seçimi yalnızca karbondioksit üretimiyle sınırlı kalmayıp fırın kabarması, gaz hücresi stabilizasyonu ve son ekmek içi yapısındaki farklılıklar yoluyla pişirme fazını belirgin biçimde etkiler.",
+      "kosul": "ekmek pişirme fazı ve ekmek içi yapısı",
+      "kanit": "tek_kaynak",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.fochx.2026.104362",
+          "yer": "4. Conclusion"
+        }
+      ]
+    },
+    {
+      "id": "scer.mig1_ssn6_kabartma_gucu",
+      "metin": "Bir çalışmada, MIG1 ve/veya SSN6 delesyonu içeren ekmek mayası suşlarında glukoz baskılaması giderildi; şekersiz ve yağsız hamurda maltoz metabolizması ve kabartma kapasitesi arttı.",
+      "kosul": "Şekersiz ve yağsız hamur (lean dough); genetik olarak değiştirilmiş laboratuvar ekmek mayası suşları (MIG1 ve/veya SSN6 delesyonu)",
+      "kanit": "tek_kaynak",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1186/s12934-014-0093-4",
+          "yer": "Conclusion"
+        }
+      ]
+    },
+    {
+      "id": "scer.hamur_reolojisi_ve_gaz_tutma",
+      "metin": "Saccharomyces cerevisiae fermantasyonu hamura yapı kazandırır, yayılma eğilimini azaltıp daha sıkı bir hamur oluşturur ve gaz tutma yeteneğini artırır.",
+      "kosul": "Hamur fermantasyonu",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.foodchem.2012.08.039",
+          "yer": "Introduction"
+        },
+        {
+          "kaynak": "10.1590/s1984-82502013000200005",
+          "yer": "Dough and bread evaluation"
+        }
+      ]
+    },
+    {
+      "id": "scer.cogu_eksi_mayada_baskin",
+      "metin": "Ekşi maya örneklerinin %77'sinde mantar ITS okumalarının yarısından fazlası Saccharomyces cerevisiae'ye aittir.",
+      "kosul": "ITS amplikon dizilemesi (çalışma örneklemi)",
+      "kanit": "tek_kaynak",
+      "bolum": "Kimlik",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.7554/elife.61644",
+          "yer": "Results – Diversity of sourdough starters"
+        },
+        {
+          "kaynak": "10.7717/peerj.11389",
+          "yer": "Microbial Ecology: Yeast"
+        },
+        {
+          "kaynak": "10.1016/j.cub.2020.11.016",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "scer.dunya_genelinde_eksi_mayalarda_baskin_maya_turu",
+      "metin": "Saccharomyces cerevisiae, dünya genelindeki ekşi maya ekosistemlerinde en baskın maya türü olarak kabul edilir.",
+      "kosul": "Ekşi maya ekosistemleri (derleme aktarımı)",
+      "kanit": "ikincil",
+      "bolum": "Mayadaki yeri",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1007/s00203-022-03313-x",
+          "yer": "Introduction"
+        },
+        {
+          "kaynak": "10.1093/gbe/evag176",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "scer.glikoliz_karbonhidrat_fermantasyonu",
+      "metin": "Ekmek mayası suşları, hamurdaki sakaroz, glukoz, fruktoz ve maltoz gibi karbonhidratları glikoliz yoluyla karbondioksit ve etanole fermente eder.",
+      "kosul": "Hamur fermantasyonu",
+      "kanit": "ikincil",
+      "bolum": "Ne yer, ne üretir",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.ijfoodmicro.2016.07.018",
+          "yer": "Yeast properties of technological relevance"
+        },
+        {
+          "kaynak": "10.1111/1541-4337.13147",
+          "yer": "Table"
+        }
+      ]
+    },
+    {
+      "id": "scer.maltoz_alimi_ve_katabolit_baskisi",
+      "metin": "Saccharomyces cerevisiae maltozu maltoz permeazla hücre içine alıp maltazla hücre içinde parçalar; maltoz kullanımı başlangıçta glukoz ve fruktoz varlığında karbon katabolit baskısıyla engellenir.",
+      "kosul": "Karbon katabolit baskısı",
+      "kanit": "ikincil",
+      "bolum": "Ne yer, ne üretir",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.foodchem.2016.09.004",
+          "yer": "Introduction"
+        },
+        {
+          "kaynak": "10.1016/j.foodchem.2016.09.004",
+          "yer": "Introduction"
+        },
+        {
+          "kaynak": "10.1016/j.jcs.2017.03.013",
+          "yer": "Introduction"
+        },
+        {
+          "kaynak": "10.1016/j.jcs.2017.03.013",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "scer.yagsiz_hamurda_maltoz_ana_kaynak",
+      "metin": "Şekersiz ve yağsız hamurda serbest şeker az bulunur, ama hamur fermantasyonunda fermente edilebilir karbon kaynağının başlıcası maltozdur.",
+      "kosul": "Şekersiz ve yağsız hamur (lean dough)",
+      "kanit": "ikincil",
+      "bolum": "Ne yer, ne üretir",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1186/s12934-014-0093-4",
+          "yer": "Background"
+        }
+      ]
+    },
+    {
+      "id": "scer.firin_mayasi_kokeni",
+      "metin": "Ekşi mayadaki Saccharomyces cerevisiae'nin yabani suşlar mı yoksa fırında aynı anda kullanılan ekmek mayasından çapraz bulaşma mı olduğu tartışılmaktadır; önceki bir çalışma, fırın ekşi mayalarında S. cerevisiae'nin kalıcı olmasının ve birkaç suşun baskınlığının ticari ekmek mayasıyla bulaşmadan kaynaklanabileceğini, laboratuvar ekşi mayalarındaki mayaların ise yalnız undan gelebileceğini öne sürmüştür.",
+      "kosul": "Derleme değerlendirmesi; iki İtalyan çalışmasının aktardığı hipotez (Vrancken vd. 2010).",
+      "kanit": "tek_kaynak",
+      "bolum": "Nereden gelir",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.tifs.2020.12.008",
+          "yer": "5. Microbiological and biochemical characteristics"
+        },
+        {
+          "kaynak": "10.1128/aem.00572-12",
+          "yer": "Discussion"
+        },
+        {
+          "kaynak": "10.1128/aem.07721-11",
+          "yer": "Discussion"
+        }
+      ]
+    },
+    {
+      "id": "scer.asit_toleransi_ve_maltoz_adaptasyonu",
+      "metin": "Yaygın ekmek mayası Saccharomyces cerevisiae maltoz-pozitiftir ve nispeten aside dayanıklıdır; ekşi maya suşları maltozda artan büyümeleri sayesinde ekşi maya ortamına daha iyi uyum sağlamıştır.",
+      "kosul": "De Vuyst vd. 2016; Bigey vd. 2021",
+      "kanit": "ikincil",
+      "bolum": "Ortak özellikler",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1080/10408398.2021.1976100",
+          "yer": "Yeasts"
+        },
+        {
+          "kaynak": "10.1080/10408398.2021.1976100",
+          "yer": "Selection of functional starter cultures for sourdough productions"
+        }
+      ]
+    },
+    {
+      "id": "scer.ekmek_hamuruna_eklenme_oranlari_0_5_2_5",
+      "metin": "Başlıca Saccharomyces cerevisiae biyokütlesinden oluşan ekmek mayası, ekmek hamuruna düşük oranlarda (%0,5 ile %2,5 arasında) eklenir.",
+      "kosul": "endüstriyel fırıncılık",
+      "kanit": "tek_kaynak",
+      "bolum": "Tanım",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3389/fmicb.2018.01972",
+          "yer": "INTRODUCTION"
+        }
+      ]
+    },
+    {
+      "id": "scer.firin_mayasi_tanim_dunya",
+      "metin": "Ekmek ve Danish pastry gibi mayalı hamur ürünlerinde kabartıcı olarak dünya genelinde kullanılan maya çoğunlukla Saccharomyces cerevisiae'dir; fırıncı mayası olarak da bilinir.",
+      "kosul": "Ekmek ve Danish pastry; atıf [1]",
+      "kanit": "ikincil",
+      "bolum": "Tanım",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods11101388",
+          "yer": "1. Introduction"
+        }
+      ]
+    },
+    {
+      "id": "scer.alti_saat_fermantasyon_hacim",
+      "metin": "Altı saatlik fermantasyonda maya yoğunluğu SC1 için 7,18 log KOB/g ve SC2 için 7,08 log KOB/g olurken en iyi özgül ekmek hacmi 2,71 mL/g ile SC1'de elde edilmiştir.",
+      "kosul": "6 saatlik fermantasyon",
+      "kanit": "tek_kaynak",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1590/s1984-82502013000200005",
+          "yer": "Dough and bread evaluation"
+        },
+        {
+          "kaynak": "10.1590/s1984-82502013000200005",
+          "yer": "Dough and bread evaluation"
+        }
+      ]
+    },
+    {
+      "id": "scer.s4_metilbutanol_ehrlich",
+      "metin": "2- ve 3-metilbütanol S4 ekşi mayası ile ilişkiliydi; yazarlar bunu S. cerevisiae LNE10'un lösin gibi un amino asitlerini Ehrlich yoluyla bu bileşiklere dönüştürebilmesiyle açıklıyor.",
+      "kosul": "S4: laktik asit bakterisi ve S. cerevisiae LNE10 içeren ekşi maya; ekşi maya ekmeğinde uçucu bileşik analizi; yazarların açıklaması",
+      "kanit": "tek_kaynak",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.crfs.2024.100697",
+          "yer": "Discussion"
+        }
+      ]
+    },
+    {
+      "id": "scer.dort_saat_maya_sayisi_sabit",
+      "metin": "Bir çalışmada, ekşi maya ekmeği hamurunda maya sayısı 4 saatlik fermantasyonda neredeyse değişmedi: 7,62 log KOB/g'dan 7,59 log KOB/g'a geriledi.",
+      "kosul": "Ekşi maya ekmeği hamuru; 4 saat fermantasyon",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.55147/efse.1117033",
+          "yer": "Results and Discussion"
+        }
+      ]
+    },
+    {
+      "id": "scer.maya_uzama_viskozitesi",
+      "metin": "Bir çalışmada, hamurda mayanın varlığı uzama viskozitesini düşürdü; bu düşüş fermantasyon süresi ve maya düzeyi arttıkça daha belirgindi.",
+      "kosul": "Yağlanmış sıkıştırma akışı (lubricated squeezing flow)",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/polym13010030",
+          "yer": "PMC7795266.txt:3.2. Extensional Viscosity"
+        }
+      ]
+    },
+    {
+      "id": "scer.pisirmede_etanol_derisimi_ve_sus_farklari",
+      "metin": "Pişirmedeki etanol derişimi regresyon modelinde (R2 = 0,82) maya suşu ve pişirme süresi anlamlı ana faktörler olmuş; Sc4 suşunun ürettiği etanol referans Sc1 suşuna göre tüm pişirme evresi boyunca anlamlı düzeyde daha düşük kalmıştır.",
+      "kosul": "pişirme süreci etanol kinetiği, iki yönlü ANOVA",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.fochx.2026.104362",
+          "yer": "3.2. Yeast strains' differences in metabolite concentrations"
+        },
+        {
+          "kaynak": "10.1016/j.fochx.2026.104362",
+          "yer": "3.2. Yeast strains' differences in metabolite concentrations"
+        }
+      ]
+    },
+    {
+      "id": "scer.referans_tatli_hamur_metabolit",
+      "metin": "Bir çalışmada, tatlı hamurda 30 °C'de 120 dakikalık fermantasyon sonunda referans fırıncı mayası kuru un esasına göre ağırlıkça %2,61 CO2, %0,16 süksinik asit, %0,73 gliserol, %0,12 asetik asit ve %0,98 etanol üretti.",
+      "kosul": "Tatlı hamur (sakaroz ilaveli); 120 dakika fermantasyon sonrası; 30 °C; değerler kuru un esasına göre % ağırlık; üç tekrarın ortalaması",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods12040830",
+          "yer": "Table 2"
+        }
+      ]
+    },
+    {
+      "id": "scer.s4_eksi_maya_yogunluk_artisi",
+      "metin": "Bir çalışmada, S4 ekşi mayasında maya hücre yoğunluğu fermantasyon sonunda 4,4 log KOB/g'dan 6,2 log KOB/g'a yükseldi.",
+      "kosul": "S4 ekşi mayası (laktik asit bakterisi ve maya birlikte); 24 saat fermantasyon, 30 °C; fermantasyon öncesi ve sonrası sayım",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.crfs.2024.100697",
+          "yer": "Results - Sourdough characterization"
+        }
+      ]
+    },
+    {
+      "id": "scer.sc5_susunda_hizli_gaz_salimi",
+      "metin": "Sc5 suşu kullanıldığında pişirmenin ilk bölümündeki karbondioksit salım hızı diğer suşlara göre 3 ile 6 kat daha yüksek olmuştur; bu hızlar genel olarak düşük olsa da suşun matris gaz tutma üzerinde daha fazla yıkıcı etkisi olduğunu gösterir.",
+      "kosul": "Pişirmenin ilk bölümü",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.fochx.2026.104362",
+          "yer": "3.3. Yeast strains affect the rate at which CO2 is released"
+        }
+      ]
+    },
+    {
+      "id": "scer.firin_susu_gaz_tutar",
+      "metin": "%6 şekerli hamurda yabani tip ekmek mayası suşu, laboratuvar suşuna göre gazı çok iyi tutan, çok kararlı bir hamur verdi.",
+      "kosul": "%6 şekerli hamur; Rheofermentometer; S. cerevisiae ticari ekmek mayası suşu ile laboratuvar suşu karşılaştırması.",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1371/journal.pone.0119364",
+          "yer": "Results; Fig. 5B"
+        }
+      ]
+    },
+    {
+      "id": "scer.instant_sd_tatli_hamur",
+      "metin": "Bir çalışmada, tatlı hamurda fermantasyon sonunda Instant SD mayası kuru un esasına göre ağırlıkça %3,01 CO2, %0,19 süksinik asit, %0,80 gliserol, %0,10 asetik asit ve %1,26 etanol üretti.",
+      "kosul": "Tatlı hamur; 120 dakika fermantasyon, 30 °C",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods12040830",
+          "yer": "Table 2"
+        }
+      ]
+    },
+    {
+      "id": "scer.endustriyel_suslarda_poliploidi",
+      "metin": "Endüstriyel Saccharomyces cerevisiae ekmek suşlarında poliploidi ve anöploidi yaygındır; daha yüksek ploidi düzeyi sporlanma veriminin ve spor canlılığının düşmesine yol açar.",
+      "kosul": "Endüstriyel ekmek mayası suşları",
+      "kanit": "tek_kaynak",
+      "bolum": "Kimlik",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3389/fgene.2020.584718",
+          "yer": "Signatures of Domestication"
+        }
+      ]
+    },
+    {
+      "id": "scer.co2_hacim",
+      "metin": "Model bir buğday ekşi mayası denemesinde denenen suşlar içinde en çok CO2'yi S. cerevisiae üretti ve ekmek hacmi ile içi dokusunu iyileştirdi; en yüksek özgül hacim, S. cerevisiae ile Fructilactobacillus sanfranciscensis'li ekşi mayaya ekmek mayası eklenerek yapılan ekmekteydi.",
+      "kosul": "Model tip I buğday ekşi mayası: I. aşama 30 °C 16 saat, II. aşama 30 °C 2,5 saat; hamur 30 °C'de 1 saat dinlenme + 1 saat mayalanma, 180 °C 25 dk pişirme; suşlar K. humilis FUA4001, S. cerevisiae FUA4018, W. anomalus FUA4025, F. sanfranciscensis DSM20451T, L. sakei LS8.",
+      "kanit": "tek_kaynak",
+      "bolum": "Mayadaki yeri",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3389/fmicb.2019.02113",
+          "yer": "Abstract"
+        },
+        {
+          "kaynak": "10.3389/fmicb.2019.02113",
+          "yer": "Results, Figure 1B"
+        }
+      ]
+    },
+    {
+      "id": "scer.ester_enzimleri",
+      "metin": "Aktarılan çalışmalara göre Saccharomyces cerevisiae'nin ATF1 ve ATF2 asetil-KoA transferazları izoamil asetat (muz notası) ve etil asetat (tatlı nota) üretimiyle, EHT1 enzimi ise etil hekzanoat (elma notası) ve etil oktanoat (kayısı notası) üretimiyle ilişkilendirilmiştir.",
+      "kosul": "Giriş bölümünde aktarım (makalenin 35–40 ve 41–42 numaralı kaynakları).",
+      "kanit": "ikincil",
+      "bolum": "Ne yapar",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1128/aem.02216-24",
+          "yer": "INTRODUCTION"
+        },
+        {
+          "kaynak": "10.1128/aem.02216-24",
+          "yer": "INTRODUCTION"
+        }
+      ]
+    },
+    {
+      "id": "scer.sakaroz_invertaz_hucre_disi",
+      "metin": "Saccharomyces cerevisiae, invertaz etkinliğiyle sakarozu hücre dışında glukoz ve fruktoza dönüştürür.",
+      "kosul": "İnvertaz etkinliği; atıf [9]",
+      "kanit": "ikincil",
+      "bolum": "Ne yapar",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1128/spectrum.00662-21",
+          "yer": "INTRODUCTION"
+        }
+      ]
+    }
+  ]
+}

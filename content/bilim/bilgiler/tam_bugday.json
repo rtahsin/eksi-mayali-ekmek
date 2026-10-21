@@ -1,0 +1,148 @@
+{
+  "id": "tam_bugday",
+  "ad": "Tam buğday",
+  "bilgiler": [
+    {
+      "id": "tam_bugday.hacim_dusuk",
+      "metin": "Tam buğday unundan yapılan ekmeğin hacmi beyaz undan yapılandan düşüktür: Polonya'da açık renkli tip 450 unla 100 g ekmekte 332 cm³, tam buğday tip 1650 unuyla 290 cm³ ölçüldü; ABD'de dört sert kırmızı kışlık buğday çeşidinin her birinde tam buğday ekmeğinin özgül hacmi beyaz ekmeğinkinden anlamlı ölçüde düşüktü.",
+      "kosul": "Polonya: ekmeklik buğday; açık un tip 450 ile tam un tip 1650; maya %3,5, tuz %1; 220 °C'de 30 dk pişirme; hacimler tek/iki aşamalı yöntem ve mayalanma süresi düzeylerinin ortalamasıdır (faktöriyel deneme, anlamlı fark). ABD: dört sert kırmızı kışlık buğday çeşidi; tam un, ayrı öğütülen kepeğin beyaz unla birleştirilmesiyle; AACC 10-10.03 maya ekmeği.",
+      "kanit": "uzlasi",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods8120663",
+          "yer": "3. Results and Discussion; Table 3"
+        },
+        {
+          "kaynak": "10.1016/j.lwt.2023.114504",
+          "yer": "3.3. Bread volume"
+        }
+      ]
+    },
+    {
+      "id": "tam_bugday.ince_tam_un_daha_hacimli",
+      "metin": "Daha ince öğütülen tam un mayalanmada anlamlı ölçüde daha yüksek kabaran hamur (47,7–50,3 mm'ye karşı 40,3–48,6 mm) ve daha büyük hacimli ekmek (307,8–326,8 mL'ye karşı 247,6–323,9 mL) verdi.",
+      "kosul": "Mor renkli Ariheuk tam buğday unu, Kore; ultra santrifüj değirmen, 0,5 mm (S grubu) ya da 1,0 mm (L grubu) elek, 6000 / 10.000 / 14.000 dev/dk; kalıp ekmeği: 35 °C, %85 bağıl nem, 50 dk mayalanma, 215 °C'de 18 dk pişirme.",
+      "kanit": "tek_kaynak",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods12132591",
+          "yer": "3.5. Bread-Making Performance, Table 3"
+        },
+        {
+          "kaynak": "10.3390/foods12132591",
+          "yer": "3.5. Bread-Making Performance, Table 3"
+        }
+      ]
+    },
+    {
+      "id": "tam_bugday.tam_ekmek_daha_sert",
+      "metin": "Tam buğday ekmekleri beyaz ekmeklerden anlamlı ölçüde daha sert, daha sakızımsı ve daha çok çiğneme gerektiren dokudaydı.",
+      "kosul": "Dört sert kırmızı kışlık buğday çeşidi (ABD); kepek farklı boylarda öğütülüp beyaz unla özgün oranında birleştirildi; AACC 10-10.03 maya ekmeği.",
+      "kanit": "tek_kaynak",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.lwt.2023.114504",
+          "yer": "3.4. Color and texture properties of breads"
+        }
+      ]
+    },
+    {
+      "id": "tam_bugday.valsli_tam_tahil_tanimi",
+      "metin": "Valsli değirmende öğütülen bir un, kepek ve rüşeym endosperm ununa, mümkünse doğal oranlarında, geri katıldığında tam tahıllı sayılır.",
+      "kosul": "",
+      "kanit": "tek_kaynak",
+      "bolum": "Tanım",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods9010003",
+          "yer": "1. Introduction"
+        }
+      ]
+    },
+    {
+      "id": "tam_bugday.kepek_su_emilimi_sertlik",
+      "metin": "Bir çalışmada tandır ekmeği için kullanılan tam buğday unları, yazarlara göre kepek içeriği nedeniyle daha yüksek su emilimi ve daha düşük parlaklık göstermiş, genel olarak daha sert ve daha yapışkan ekmek vermiş; bu özellikle Dinç çeşidinde görülmüştür.",
+      "kosul": "tandır ekmeği için tam buğday unları (dört çeşit); kepek etkisi; tek çalışma",
+      "kanit": "tek_kaynak",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.24925/turjaf.v14i6.1618-1629.8657",
+          "yer": "Conclusion"
+        }
+      ]
+    },
+    {
+      "id": "tam_bugday.tam_ekmek_kusurlari",
+      "metin": "Beyaz ekmeğe kıyasla tam buğday ekmeğinde sert ve kumlu doku, yağın acılaşması riski, acı tat, düşük hacim ve renk değişiklikleri görülebilir.",
+      "kosul": "Beyaz ekmek ile tam buğday ekmeği karşılaştırması",
+      "kanit": "ikincil",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.lwt.2023.114504",
+          "yer": "1. Introduction"
+        },
+        {
+          "kaynak": "10.1016/j.jcs.2017.03.011",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "tam_bugday.tanecik_boyu_dogrusal_olmayabilir",
+      "metin": "Aktarılan önceki çalışmalar tanecik boyunun etkisinde ayrışır ve bazılarında orta boy en iyi sonucu verir (örneğin ortalama tanecik boyu 96,99 µm olan tam un, 50,21 ve 235,40 µm'lik unlardan daha iyi ekmek verdi); bu, tanecik boyu ile ekmeklik performans arasındaki ilişkinin doğrusal olmayabileceğini düşündürür.",
+      "kosul": "",
+      "kanit": "ikincil",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods12132591",
+          "yer": "1. Introduction"
+        },
+        {
+          "kaynak": "10.1016/j.lwt.2023.114504",
+          "yer": "3.4. Color and texture properties of breads"
+        }
+      ]
+    },
+    {
+      "id": "tam_bugday.kepek_ruseym_gluteni_etkiler",
+      "metin": "Tam undaki kepek ve rüşeym gluten gelişimini ve hamurun reolojisini etkilediği için iyi bir tam buğday ekmeği yapmak daha zordur.",
+      "kosul": "",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.lwt.2023.114504",
+          "yer": "1. Introduction"
+        }
+      ]
+    },
+    {
+      "id": "tam_bugday.ozgul_hacim_araligi",
+      "metin": "Dört sert kırmızı kışlık buğday çeşidiyle yapılan tam buğday ekmeklerinin özgül hacmi 2,54–4,00 cm³/g arasındaydı.",
+      "kosul": "Dört sert kırmızı kışlık buğday çeşidi (ABD); kepek farklı boylarda öğütülüp beyaz unla özgün oranında birleştirildi; AACC 10-10.03 maya ekmeği.",
+      "kanit": "tek_kaynak",
+      "bolum": "Kimlik",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.lwt.2023.114504",
+          "yer": "3.3. Bread volume"
+        }
+      ]
+    }
+  ]
+}

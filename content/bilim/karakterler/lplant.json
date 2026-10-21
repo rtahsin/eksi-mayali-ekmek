@@ -1,0 +1,54 @@
+{
+  "id": "lplant",
+  "ad": "Lactiplantibacillus plantarum",
+  "eski_ad": "Lactobacillus plantarum",
+  "tur": "bakteri",
+  "tek_cumle": "Suşları glukoz, fruktoz, maltoz, sakaroz ve riboz dahil geniş bir şeker yelpazesini fermente edebilen bir laktik asit bakterisidir [[lplant.genis_seker_fermantasyon_kapasitesi_ve_cazy_enzimleri]]",
+  "bolumler": [
+    {
+      "baslik": "Kimlik",
+      "cumleler": [
+        "İncelenen buğday ekşi mayalarının çoğunda Lactiplantibacillus plantarum ve Saccharomyces cerevisiae birlikte bulunur [[lplant.bugday_yaygin]]"
+      ]
+    },
+    {
+      "baslik": "Ne yer, ne üretir",
+      "cumleler": [
+        "İncelenen ekşi maya izolatları arasında tamamı Lactiplantibacillus plantarum grubuna ait olan suşların yüzde on dokuzu nişastayı hidroliz etmiştir [[lplant.nisasta_hidrolizi_ve_eps_uretimi_orani]]",
+        "Diğer laktik asit bakterileriyle eşit oranda kullanıldığında son asetik asit derişimi belirgin biçimde düşerken laktik asit derişimi iki katından fazla artmıştır [[lplant.diger_lab_ile_esit_oranda_laktik_asit_artisi]]"
+      ]
+    },
+    {
+      "baslik": "Hangi koşulda",
+      "cumleler": [
+        "Günlük yenilenen dört olgun durum buğdayı ekşi mayasının hepsinde katı mayalarda zamanla baskın oldu, aynı mayaların sıvı hâllerinde olmadı [[lplant.kati_baskin]]"
+      ]
+    },
+    {
+      "baslik": "Mayadaki yeri",
+      "cumleler": [
+        "Çavdar ekşi mayalarında gelişme döneminde çoğu partide tek başına ya da başka türle birlikte baskındı, ama 56 döngüden sonra çoğu partide yerini Companilactobacillus paralimentarius aldı [[lplant.yerini_kaptirir]]"
+      ]
+    },
+    {
+      "baslik": "İlişkileri",
+      "cumleler": [
+        "Levilactobacillus brevis ile en sık birlikte görülen tür çiftidir: 500 mayanın 177'sinde ikisi birlikteydi [[lplant.brevis_birlikte]]"
+      ]
+    },
+    {
+      "baslik": "Ekmeğe etkisi",
+      "cumleler": [
+        "FST 1.7 suşu, Penicillium roqueforti hariç denenen bütün bozulma bakterileri ve küflerine karşı antimikrobiyal etkinlik gösterir ve ekmek raf ömrünü uzatır [[lplant.fst17_kuf_karsiti_ve_raf_omru]]"
+      ]
+    }
+  ],
+  "efsane": null,
+  "anlar": [
+    "eksi_mayanin_ilk_10_gunu"
+  ],
+  "gorseller": [
+    "antifungal_activity_of_l",
+    "lactobacillus_casei_yakult"
+  ]
+}

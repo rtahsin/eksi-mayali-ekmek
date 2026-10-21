@@ -1,0 +1,256 @@
+{
+  "id": "hetero",
+  "ad": "Heterofermentatifler",
+  "bilgiler": [
+    {
+      "id": "hetero.asit_aralik",
+      "metin": "Sistematik bir derlemeye göre ekşi mayada laktik asit 15–150 mM (ortanca 75 mM), asetik asit 1–50 mM (ortanca 20 mM) arasında bulunur.",
+      "kosul": "Sistematik literatür derlemesi; yayımlanmış ekşi maya çalışmalarının özeti. Fig. 4B.",
+      "kanit": "tek_kaynak",
+      "bolum": "Ne yer, ne üretir",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.tifs.2020.12.008",
+          "yer": "5. Microbiological and biochemical characteristics; Fig. 4B"
+        }
+      ]
+    },
+    {
+      "id": "hetero.fruktoz_karbon_ya_da_elektron",
+      "metin": "Bir derlemeye göre homofermentatif laktik asit bakterileri fruktozu karbon kaynağı olarak kullanır; heterofermentatif laktobasillerin çoğu ise onu indirgenmiş kofaktörleri yenilemek için elektron alıcısı olarak kullanır.",
+      "kosul": "Derleme aktarımı (kaynak 41 ve 42).",
+      "kanit": "ikincil",
+      "bolum": "Ne yer, ne üretir",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods7070096",
+          "yer": "3. FODMAPs in Cereals and FODMAP Metabolism in Conventional Sourdoughs"
+        }
+      ]
+    },
+    {
+      "id": "hetero.lab_ve_maya_metabolit_ayrimi",
+      "metin": "Makale, fermantasyon sırasında mayanın metabolizmasının çok miktarda gaz ürettiğini, laktik asit bakterilerinin ise başlıca laktik, malik ve asetik asit ürettiğini önceki çalışmaya dayanarak aktarmaktadır.",
+      "kosul": "Literatür aktarımı (ekşi maya fermantasyonu); makalenin kendi ölçümü değildir.",
+      "kanit": "ikincil",
+      "bolum": "Ne yer, ne üretir",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods12030555",
+          "yer": "1. Introduction"
+        }
+      ]
+    },
+    {
+      "id": "hetero.maltoz_fosforilaz_ve_oncelikli_kullanim",
+      "metin": "Makaleler, buğday ve çavdar ekşi mayalarında baskın heterofermentatif laktik asit bakterilerinin öncelikle sakaroz ve maltozu metabolize ettiğini, maltozun tahıl enzimlerince fermantasyon sırasında açığa çıkarıldığını ve maltoz fermantasyonunun glukoz baskılamasına uğramayan, yapısal olarak ifade edilen maltoz fosforilazla yürütüldüğünü önceki çalışmalara dayanarak aktarmaktadır.",
+      "kosul": "Literatür aktarımı ve derleme cümleleri (buğday ve çavdar ekşi mayaları); makalelerin kendi ölçümü değildir.",
+      "kanit": "ikincil",
+      "bolum": "Ne yer, ne üretir",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.tifs.2008.04.002",
+          "yer": "Cited by"
+        },
+        {
+          "kaynak": "10.1080/10408398.2021.1976100",
+          "yer": "Lactic acid bacteria"
+        },
+        {
+          "kaynak": "10.3390/foods13132077",
+          "yer": "3.3.4. Sucrose"
+        }
+      ]
+    },
+    {
+      "id": "hetero.mannitol_dehidrojenaz_ile_fruktoz_indirgenmesi",
+      "metin": "Kaynaklara göre heterofermentatif laktik asit bakterilerinde fruktoz, elektron alıcısı olarak kullanılarak bir mannitol dehidrojenaz enzimiyle mannitole indirgenir ve bu süreç asetat oluşumuna bağlıdır.",
+      "kosul": "Literatür aktarımı (heterofermentatif LAB fruktoz metabolizması); makalelerin kendi ölçümü değildir.",
+      "kanit": "ikincil",
+      "bolum": "Ne yer, ne üretir",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods13010096",
+          "yer": "3. Mannitol Production"
+        },
+        {
+          "kaynak": "10.3390/microorganisms9081633",
+          "yer": "4. Discussion"
+        }
+      ]
+    },
+    {
+      "id": "hetero.olgun_baskin",
+      "metin": "Bir makaleye göre olgun ekşi maya starterlerinde genellikle heterofermentatif LAB baskındır; güney İtalya'da yenilenen olgun ekşi mayalarda da zanaat fırını ve laboratuvar düzeyinde neredeyse yalnız isteğe bağlı ve zorunlu heterofermentatif türler tanımlanmış, sistematik bir literatür derlemesinde ise en sık bildirilen izolatlar göçebe bir tür (Lactiplantibacillus plantarum) ile heterofermentatif türler olmuştur.",
+      "kosul": "Literatür aktarımı (olgun ekşi mayada baskın LAB); güney İtalya'dan olgun tip I ekşi mayalar zanaat fırınında ve laboratuvarda yenilenmiş; sistematik literatür derlemesi, türü izolat olarak bildiren makale sayısına göre.",
+      "kanit": "uzlasi",
+      "bolum": "Ortak özellikler",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.7717/peerj.11389",
+          "yer": "Microbial Ecology: Bacteria"
+        },
+        {
+          "kaynak": "10.1128/aem.00572-12",
+          "yer": "Discussion"
+        },
+        {
+          "kaynak": "10.1016/j.tifs.2020.12.008",
+          "yer": "5. Microbiological and biochemical characteristics"
+        },
+        {
+          "kaynak": "10.1016/j.tifs.2004.02.012",
+          "yer": "Introduction"
+        },
+        {
+          "kaynak": "10.1016/j.tifs.2004.02.012",
+          "yer": "Sourdough microorganisms"
+        },
+        {
+          "kaynak": "10.3389/fmicb.2018.01972",
+          "yer": "HOW BREAD-MAKING MAY CHANGE FODMAPs LEVEL"
+        },
+        {
+          "kaynak": "10.1002/mbo3.1009",
+          "yer": "INTRODUCTION"
+        }
+      ]
+    },
+    {
+      "id": "hetero.tanim_hetero",
+      "metin": "Heterofermentatif laktik asit bakterileri şekeri laktik asit, asetik asit, etanol ve karbondioksite çevirir; zorunlu heterofermentatif laktobasiller heksozları bunun için fosfoglukonat yolundan geçirir.",
+      "kosul": "Tanım; iki makale aktarılan kaynaklara (Gänzle 2015, Zheng ve ark. 2015 ve diğerleri) dayanarak verir.",
+      "kanit": "ikincil",
+      "bolum": "Tanım",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/microorganisms8020240",
+          "yer": "Introduction"
+        },
+        {
+          "kaynak": "10.7717/peerj.11389",
+          "yer": "Microbial Ecology: Bacteria"
+        }
+      ]
+    },
+    {
+      "id": "hetero.tanim_homo",
+      "metin": "Homofermentatif laktobasiller heksozu Embden–Meyerhof yoluyla neredeyse yalnızca laktik aside çevirir.",
+      "kosul": "Tanım; iki makale aktarılan kaynaklara (Gänzle 2015, Zheng ve ark. 2015 ve diğerleri) dayanarak verir.",
+      "kanit": "ikincil",
+      "bolum": "Tanım",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/microorganisms8020240",
+          "yer": "Introduction"
+        },
+        {
+          "kaynak": "10.7717/peerj.11389",
+          "yer": "Microbial Ecology: Bacteria"
+        }
+      ]
+    },
+    {
+      "id": "hetero.durum_zorunlu",
+      "metin": "19 geleneksel İtalyan ekşi mayasında maltoz, glukoz, fruktoz ve serbest amino asitçe zengin durum buğdayı (Triticum durum) unları, zorunlu heterofermentatif LAB'nin tek ya da ana grup olmasıyla ilişkiliydi; bu mayalarda isteğe bağlı heterofermentatif ve zorunlu homofermentatif LAB'nin payı ve maya yoğunluğu düşüktü.",
+      "kosul": "Geleneksel/yöresel İtalyan ekmekleri için kullanılan 19 olgun ekşi maya, yerel fırınlardan ardışık günlerde 3 parti örnek; Triticum durum (10) ya da Triticum aestivum (ekmeklik buğday, 9) unu; kültüre dayalı tanımlama; İtalya. Temel bileşen ve küme analizi.",
+      "kanit": "tek_kaynak",
+      "bolum": "İlişkileri",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1128/aem.07721-11",
+          "yer": "Abstract"
+        },
+        {
+          "kaynak": "10.1128/aem.07721-11",
+          "yer": "Results, Statistical correlations; Fig. 3, Fig. 4"
+        },
+        {
+          "kaynak": "10.1128/aem.00572-12",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "hetero.asetik_inanc",
+      "metin": "Bir derlemeye göre yaygın kanı, asetik asit arttıkça ekşi mayanın lezzetinin iyileştiği yönündedir; bu yüzden asetat kinaz yolunu destekleyen müdahaleler (dış elektron alıcıları, pentoz şekerler gibi) ekşi maya işlemede rutin hâle geldi.",
+      "kosul": "Derleme ifadesi (De Vuyst ve ark. 2002; Gobbetti ve ark. 2000; Korakli ve ark. 2001'e dayanarak).",
+      "kanit": "ikincil",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.tifs.2020.12.008",
+          "yer": "5. Microbiological and biochemical characteristics"
+        }
+      ]
+    },
+    {
+      "id": "hetero.belcika_metabolit",
+      "metin": "Belçika'daki 39 geleneksel ekşi maya örneğinde şekerden oluşan en önemli metabolitler laktik asit (kilogramda 13,71 grama kadar), asetik asit (1,74 g/kg'a kadar), etanol (24,38 g/kg'a kadar) ve mannitol (7,32 g/kg'a kadar) idi.",
+      "kosul": "Belçika'da 11 fırından, ticari starter ya da maya katılmadan yapılan 39 geleneksel tip I ekşi maya örneği; iki örnekleme kampanyası; kültüre dayalı yöntem ve PCR-DGGE.",
+      "kanit": "tek_kaynak",
+      "bolum": "Ne yer, ne üretir",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1128/aem.02771-07",
+          "yer": "Results: Metabolite target analysis"
+        }
+      ]
+    },
+    {
+      "id": "hetero.fruktozun_mannitole_indirgenmesi_ve_ekstra_atp",
+      "metin": "Mikrobiyal invertazın sakarozu parçalamasıyla açığa çıkan fruktoz, heterofermentatif LAB tarafından mannitole indirgenebilir; bu indirgenmeyle bakterilerin asetil-fosfatı etanol yerine asetata dönüştürerek fazladan bir mol ATP kazandığı bildirilir.",
+      "kosul": "Hamur fermantasyonu (Gänzle 2014 ve Gobbetti vd. 2005 aktarımları).",
+      "kanit": "ikincil",
+      "bolum": "Ne yer, ne üretir",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3389/fmicb.2018.01972",
+          "yer": "HOW BREAD-MAKING MAY CHANGE FODMAPs LEVEL"
+        },
+        {
+          "kaynak": "10.3389/fmicb.2018.01972",
+          "yer": "HOW BREAD-MAKING MAY CHANGE FODMAPs LEVEL"
+        }
+      ]
+    },
+    {
+      "id": "hetero.sakaroz_eps_asetat",
+      "metin": "Ekşi mayadaki heterofermentatif laktobasillerin çoğunun sakarozdan glukan ya da fruktan homopolimerleri ürettiği aktarılır; homopolisakkarit üretimi için eklenen sakaroz, açığa çıkan fruktoz elektron alıcısı olarak kullanıldığından fazladan asetata yol açabilir.",
+      "kosul": "Vogel vd. 2011 ve foods 10(3):547 makalelerinde aktarım.",
+      "kanit": "ikincil",
+      "bolum": "Ne yer, ne üretir",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1186/1475-2859-10-s1-s6",
+          "yer": "Formation of exopolysaccharides (EPS)"
+        },
+        {
+          "kaynak": "10.3390/foods10030547",
+          "yer": "1. Introduction"
+        },
+        {
+          "kaynak": "10.1016/j.fm.2013.04.007",
+          "yer": "Abstract"
+        },
+        {
+          "kaynak": "10.1016/j.tifs.2008.04.002",
+          "yer": "Cited by"
+        }
+      ]
+    }
+  ]
+}

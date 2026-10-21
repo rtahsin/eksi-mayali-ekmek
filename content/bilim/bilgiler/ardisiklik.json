@@ -1,0 +1,404 @@
+{
+  "id": "ardisiklik",
+  "ad": "Topluluğun değişimi",
+  "bilgiler": [
+    {
+      "id": "ardisiklik.uc_evre_zaman_cizelgesi",
+      "metin": "Kendiliğinden ekşi maya hazırlığında birinci evrede (1–2 günlük yenileme) Enterococcus, Lactococcus ve Leuconostoc baskınken, ikinci evrede (3–5 günlük yenileme) Lactobacillus, Pediococcus ve Weissella bu cinslerin önüne geçer; nihayetinde (6–10 günlük yenileme) Fructilactobacillus sanfranciscensis, Limosilactobacillus fermentum ve Lactiplantibacillus plantarum seçilir.",
+      "kosul": "Kendiliğinden ekşi maya hazırlığı, ardışık yenileme evreleri",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3389/fmicb.2018.01984",
+          "yer": "Discussion"
+        },
+        {
+          "kaynak": "10.3389/fmicb.2018.01984",
+          "yer": "Discussion"
+        },
+        {
+          "kaynak": "10.3389/fmicb.2018.01984",
+          "yer": "Discussion"
+        }
+      ]
+    },
+    {
+      "id": "ardisiklik.belcika_firinlari_yil_boyu_kararli",
+      "metin": "Belçika'daki geleneksel fırın ekşi mayalarının çoğunda mikrop sayısı ve tür çeşitliliği bir yıl arayla alınan iki örneklemede çok az değişti; DGGE profillerine göre bir fırın dışında aynı fırının mayaları örnekleme zamanından bağımsız olarak benzer baskın bileşim taşıdı.",
+      "kosul": "Belçika'daki 11 fırından 39 geleneksel ekşi maya örneği; bir yıl arayla iki örnekleme; kültüre dayalı tanımlama, PCR-DGGE ve metabolit analizi.",
+      "kanit": "tek_kaynak",
+      "bolum": "Hangi koşulda",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1128/aem.02771-07",
+          "yer": "Discussion"
+        },
+        {
+          "kaynak": "10.1128/aem.02771-07",
+          "yer": "Results: LAB diversity of artisan sourdoughs through cultivation"
+        },
+        {
+          "kaynak": "10.1128/aem.02771-07",
+          "yer": "Results: Microbial stability of artisan sourdoughs based on PCR-DGGE and cultivation; Fig. 1"
+        }
+      ]
+    },
+    {
+      "id": "ardisiklik.ilk_evre_asitlenme",
+      "metin": "Ekşi maya oluşurken undan gelen bakteriler şekerleri laktik aside çevirir; asitlik arttıkça pH çoğu bozulma mikrobunun dayanamayacağı düzeye iner ve aside dayanıklı bakteriler ile mayalar seçilir.",
+      "kosul": "",
+      "kanit": "ikincil",
+      "bolum": "Hangi koşulda",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.7717/peerj.16163",
+          "yer": "Introduction"
+        },
+        {
+          "kaynak": "10.7717/peerj.11389",
+          "yer": "Microbial Ecology: Succession"
+        },
+        {
+          "kaynak": "10.3390/microorganisms8010064",
+          "yer": "3.1. Genotype identification"
+        }
+      ]
+    },
+    {
+      "id": "ardisiklik.olgunlasinca_cesitlilik_azalir",
+      "metin": "Ekşi maya olgunlaştıkça, ilk günlerdeki olası artıştan sonra, içindeki bakteri çeşitliliği azalır.",
+      "kosul": "10 un türüyle oda sıcaklığında 14 günlük ekşi mayalar (16S) ve laboratuvarda 20/30 °C'de 56 gün 1:10 yenilenen çavdar ekşi mayası (piro dizileme).",
+      "kanit": "uzlasi",
+      "bolum": "Hangi koşulda",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.7717/peerj.16163",
+          "yer": "Results, Bacterial succession; Fig. 3"
+        },
+        {
+          "kaynak": "10.1371/journal.pone.0095449",
+          "yer": "Results, Pyrosequencing; Table S1"
+        },
+        {
+          "kaynak": "10.7717/peerj.11389",
+          "yer": "Microbial Ecology: Bacteria"
+        },
+        {
+          "kaynak": "10.3390/microorganisms8010064",
+          "yer": "3.1. Genotype identification"
+        },
+        {
+          "kaynak": "10.3390/microorganisms8010064",
+          "yer": "3.1. Genotype identification"
+        }
+      ]
+    },
+    {
+      "id": "ardisiklik.uc_evre_modeli",
+      "metin": "Literatürde ekşi maya ardışıklığı üç evreyle anlatılır: önce undaki çeşitli türler girer, sonra ekşi mayaya özgü cinsler artar, en sonunda ortama iyi uyum sağlamış, çoğunlukla heterofermentatif türler baskın olur.",
+      "kosul": "Önceki çalışmaların çoğu sıvı ekşi mayalarda ve en fazla iki hafta sürdü.",
+      "kanit": "tek_kaynak",
+      "bolum": "Hangi koşulda",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.7717/peerj.11389",
+          "yer": "Microbial Ecology: Succession"
+        },
+        {
+          "kaynak": "10.1371/journal.pone.0095449",
+          "yer": "Introduction"
+        },
+        {
+          "kaynak": "10.1128/aem.00572-12",
+          "yer": "Introduction"
+        },
+        {
+          "kaynak": "10.3389/fmicb.2016.01770",
+          "yer": "Introduction"
+        },
+        {
+          "kaynak": "10.3389/fmicb.2016.01770",
+          "yer": "Introduction"
+        },
+        {
+          "kaynak": "10.1128/aem.00570-10",
+          "yer": "Discussion"
+        },
+        {
+          "kaynak": "10.1002/mbo3.1009",
+          "yer": "INTRODUCTION"
+        }
+      ]
+    },
+    {
+      "id": "ardisiklik.olgun_maya_icin_surekli_besleme",
+      "metin": "Geleneksel ekşi mayalarda kararlı bir kabarma ve asitleştirme kapasitesine sahip olgun bir yapı elde etmek için kendiliğinden başlayan fermantasyonu uzun süreli ardışık besleme adımları izlemelidir.",
+      "kosul": "Sıfırdan başlatılan geleneksel ekşi mayalar",
+      "kanit": "ikincil",
+      "bolum": "Mayadaki yeri",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.ijfoodmicro.2013.11.021",
+          "yer": "Introduction"
+        },
+        {
+          "kaynak": "10.1080/10408398.2021.1976100",
+          "yer": "Sourdough productions with added non-flour ingredients"
+        },
+        {
+          "kaynak": "10.1038/s41598-018-36786-2",
+          "yer": "Methods - Sourdough preparation"
+        }
+      ]
+    },
+    {
+      "id": "ardisiklik.lab_bayrak_yarisi_cins_gruplari",
+      "metin": "Laktik asit bakterilerinin bayrak yarışı üç cins grubuyla açıklanır: (i) Enterococcus, Lactococcus, Leuconostoc ve Weissella; (ii) Pediococcus ve Latilactobacillus; (iii) Limosilactobacillus, Levilactobacillus, Lactiplantibacillus, Companilactobacillus, Fructilactobacillus ve Furfurilactobacillus.",
+      "kosul": "Ekşi maya mikrobiyotası bayrak yarışı sınıflandırması",
+      "kanit": "tek_kaynak",
+      "bolum": "Tanım",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1128/spectrum.00662-21",
+          "yer": "INTRODUCTION"
+        }
+      ]
+    },
+    {
+      "id": "ardisiklik.altinci_gunden_itibaren_kararli_topluluk",
+      "metin": "Kendiliğinden başlatılan buğday ve spelt ekşi mayalarında 6. günden itibaren temel olarak Lactiplantibacillus plantarum ve Limosilactobacillus fermentum türlerinden oluşan daha homojen bir ekosistem gözlendi.",
+      "kosul": "Kendiliğinden başlatılan buğday ve spelt ekşi mayaları; fermantasyonun 6. gününden itibaren",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1128/aem.00570-10",
+          "yer": "Results"
+        }
+      ]
+    },
+    {
+      "id": "ardisiklik.birinci_gun_lactococcus_leuconostoc_weissella",
+      "metin": "Fermantasyonun ilk gününde tüm fermente hamurlar Lactococcus lactis, Leuconostoc citreum ve Weissella confusa türlerinden oluşan bir laktik asit bakterisi topluluğu barındırmıştır.",
+      "kosul": "İlk fermantasyon (1. gün); on olgun ekşi maya örneği",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1038/s41598-018-36786-2",
+          "yer": "Results - Tap water affected the establishment and assembly of the LAB biome during sourdough preparation"
+        }
+      ]
+    },
+    {
+      "id": "ardisiklik.ucuncu_ve_besinci_gunler_arasi_degisim",
+      "metin": "Bu çalışmada 3. ile 5. günler arasında Lactococcus lactis ve Enterococcus hirae kaybolurken Leuconostoc citreum ve Latilactobacillus curvatus varlığını korumuş; ayrıca Pediococcus pentosaceus, Lactiplantibacillus plantarum ve Limosilactobacillus fermentum ortaya çıkmıştır.",
+      "kosul": "Kendiliğinden başlatılan buğday ve spelt ekşi mayaları; fermantasyonun 3-5. günleri",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1128/aem.00570-10",
+          "yer": "Results"
+        }
+      ]
+    },
+    {
+      "id": "ardisiklik.cesitlilik_tepe_3_6_gun",
+      "metin": "Bu çalışmada 10 un türünden başlatılan ekşi mayalarda bakteri çeşitliliği önce arttı, 3. ile 6. gün arasında en yükseğe çıktı, Lactobacillaceae ailesinden türler baskın hale gelip pH sabitlendikten sonra düştü.",
+      "kosul": "Kendiliğinden başlatılan 40 ekşi maya, 10 un türü; oda sıcaklığı; günlük besleme (1 yemek kaşığı atılıp 1 yemek kaşığı un + 1 yemek kaşığı su eklendi); 14 gün; 16S rRNA dizilemesi; Simpson ve Shannon çeşitlilik indeksleri.",
+      "kanit": "tek_kaynak",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.7717/peerj.16163",
+          "yer": "Results, Bacterial succession; Fig. 3"
+        }
+      ]
+    },
+    {
+      "id": "ardisiklik.dusuk_ph_ardisikligi_hizlandirir",
+      "metin": "Model besiyerinde (WSSM), başlangıç pH'ı düşük olduğunda Weissella'dan Lactobacillus'a geçiş daha hızlı oldu; yazarlar düşük pH'ın Lactobacillus baskınlığıyla biten ardışıklığı kolaylaştırdığını öne sürer.",
+      "kosul": "WSSM model besiyeri (başlangıç pH'ı 6,7, 5,5, 4,5) ve doğal buğday ekşi mayası; 10 günlük alt kültür (30 °C'de 8 saat, 4 °C'de 16 saat, %20 aktarım).",
+      "kanit": "tek_kaynak",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.12938/bmfh.2019-038",
+          "yer": "Abstract"
+        },
+        {
+          "kaynak": "10.12938/bmfh.2019-038",
+          "yer": "Discussion (conclusion)"
+        },
+        {
+          "kaynak": "10.12938/bmfh.2019-038",
+          "yer": "Bacterial community succession in WSSM subcultures"
+        }
+      ]
+    },
+    {
+      "id": "ardisiklik.ilk_gun_yuksek_degiskenlik",
+      "metin": "İlk gün ekşi mayaların her biri kendi içinde çok çeşitliydi ve aynı undan yapılanlar bile birbirinden çok farklıydı.",
+      "kosul": "Kendiliğinden başlatılan 40 ekşi maya, 10 un türü; oda sıcaklığı; günlük besleme (1 yemek kaşığı atılıp 1 yemek kaşığı un + 1 yemek kaşığı su eklendi); 14 gün; 16S rRNA dizilemesi.",
+      "kanit": "tek_kaynak",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.7717/peerj.16163",
+          "yer": "Discussion, Succession processes"
+        }
+      ]
+    },
+    {
+      "id": "ardisiklik.mayalar_erken_ya_da_gec",
+      "metin": "Mayalar (yeast) ekşi maya sürdürülürken bazen en başta bakterilerden baskın olabilir, bazen de ancak 5–7. günde ortaya çıkar.",
+      "kosul": "",
+      "kanit": "ikincil",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.7717/peerj.11389",
+          "yer": "Microbial Ecology: Yeast"
+        }
+      ]
+    },
+    {
+      "id": "ardisiklik.siki_sivi_zamanla_ayrisir",
+      "metin": "Aynı olgun ekşi mayadan ayrılan sıkı ve sıvı kollar beslemenin 1. gününde hâlâ benzer mikrobiyotaya sahipti ve temel bileşen analizinde aynı bölgedeydi; 28 gün sonra ise tür ve suşları ayrışmış, besleme yöntemine göre iki ayrı bölgeye dağılmışlardı.",
+      "kosul": "Güney İtalya'dan (Matera, Altamura) 4 olgun Tip I ekşi maya; durum buğdayı (Triticum durum) unu; laboratuvarda 28 gün her gün sıkı (hamur verimi 160) ya da sıvı (hamur verimi 280, 150 rpm karıştırma) olarak beslendi; 25 °C'de 3–6 saat, beslemeler arasında 10 °C'de 16–19 saat; gerçek hamur. Temel bileşen analizi DGGE, sayım, tür, pH, titre edilebilir asitlik, asitler, fermantasyon katsayısı ve serbest amino asit verisini içerdi.",
+      "kanit": "tek_kaynak",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1128/aem.00309-14",
+          "yer": "Results, Typing and identification of LAB; Fig. 2"
+        },
+        {
+          "kaynak": "10.1128/aem.00309-14",
+          "yer": "Results, Microbial diversity; Fig. 3"
+        }
+      ]
+    },
+    {
+      "id": "ardisiklik.dort_farkli_topluluk_donemi",
+      "metin": "Bakteri toplulukları 1. günde, 2–3. günlerde, 6. günde ve 10–14. günlerde birbirinden anlamlı biçimde farklıydı.",
+      "kosul": "Kendiliğinden başlatılan 40 ekşi maya, 10 un türü; oda sıcaklığı; günlük besleme (1 yemek kaşığı atılıp 1 yemek kaşığı un + 1 yemek kaşığı su eklendi); 14 gün; 16S rRNA dizilemesi; PERMANOVA.",
+      "kanit": "tek_kaynak",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.7717/peerj.16163",
+          "yer": "Results, Bacterial succession; Fig. 4A"
+        }
+      ]
+    },
+    {
+      "id": "ardisiklik.ilk_adim_redoks",
+      "metin": "Kendiliğinden fermantasyonun ilk adımında redoks potansiyelinin düştüğü ve bunun Enterobacteriaceae ve mayalar gibi fakültatif anaerobları ve laktik asit bakterilerini kayırdığı; ekşi maya hazırlanırken Gram-pozitif bakterilerin genellikle Gram-negatifleri geride bıraktığı aktarılır.",
+      "kosul": "Aktarım: Hammes vd. 2005; Onno ve Roussel 1994.",
+      "kanit": "ikincil",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3389/fmicb.2016.01770",
+          "yer": "Introduction"
+        },
+        {
+          "kaynak": "10.3389/fmicb.2016.01770",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "ardisiklik.ph_dususu_ardisikligi_yonlendirir",
+      "metin": "Makalede, hafif asidik ortamın Levilactobacillus brevis ve Fructilactobacillus sanfranciscensis gibi aside dayanıklı LAB için erkenden uygun bir niş açarak ardışıklığı yönlendirdiği öne sürülür; yazarlar ayrıca LAB'ın düşürdüğü pH'ın, açık parti fermantasyonlarında tutarlı topluluk değişiminin ana etkeni olabileceğini önerir.",
+      "kosul": "Yazarların yorumu; WSSM ve doğal ekşi maya alt kültürleri ile pirinç kepeği turşusu ve kimchi çalışmalarıyla karşılaştırma.",
+      "kanit": "tek_kaynak",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.12938/bmfh.2019-038",
+          "yer": "Discussion"
+        },
+        {
+          "kaynak": "10.12938/bmfh.2019-038",
+          "yer": "Discussion"
+        },
+        {
+          "kaynak": "10.12938/bmfh.2019-038",
+          "yer": "DISCUSSION"
+        },
+        {
+          "kaynak": "10.12938/bmfh.2019-038",
+          "yer": "DISCUSSION"
+        }
+      ]
+    },
+    {
+      "id": "ardisiklik.baslangicta_ozgu_olmayan_bakteriler",
+      "metin": "Ekşi maya fermantasyonunun başlangıcında unun kendi florasından gelen proteobakteriler, stafilokoklar, enterokoklar, laktokoklar ve streptokoklar gibi ekşi mayaya özgü olmayan bakteriler yer alır.",
+      "kosul": "Kendiliğinden başlatılan ekşi mayaların başlangıç aşaması",
+      "kanit": "ikincil",
+      "bolum": "Mayadaki yeri",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.fbio.2023.102640",
+          "yer": "Introduction"
+        },
+        {
+          "kaynak": "10.1080/10408398.2021.1976100",
+          "yer": "Flour fermentation for sourdough production"
+        }
+      ]
+    },
+    {
+      "id": "ardisiklik.gunluk_yenilenen_kararli_ekosistem",
+      "metin": "Bu çalışmada günlük yenilenen buğday ve spelt ekşi mayalarında, 5 günlük geçiş evresinden sonra laktik asit bakteri topluluğu, Lactiplantibacillus plantarum ve Limosilactobacillus fermentum baskınlığında kararlı bir ekosisteme oturdu.",
+      "kosul": "İki buğday ve iki spelt ekşi maya fermantasyonu, günlük yenileme, 10 gün izleme; 30 °C (yöntem bölümü); 5 günlük geçiş evresinden sonra",
+      "kanit": "tek_kaynak",
+      "bolum": "Mayadaki yeri",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1128/aem.00570-10",
+          "yer": "Abstract"
+        }
+      ]
+    },
+    {
+      "id": "ardisiklik.tahil_fermantasyonunda_yayilma_siniri",
+      "metin": "Kendiliğinden tahıl fermantasyonlarında mikrobiyota oluşumu yayılma ile sınırlıdır ve ortama ilk yerleşenler göçebe veya çevresel laktik asit bakterileridir.",
+      "kosul": "Kendiliğinden tahıl fermantasyonu",
+      "kanit": "tek_kaynak",
+      "bolum": "Tanım",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.ijfoodmicro.2018.08.019",
+          "yer": "Abstract"
+        }
+      ]
+    }
+  ]
+}

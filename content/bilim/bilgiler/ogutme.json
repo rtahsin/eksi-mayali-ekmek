@@ -1,0 +1,698 @@
+{
+  "id": "ogutme",
+  "ad": "Öğütme",
+  "bilgiler": [
+    {
+      "id": "ogutme.tavlamanin_ogutme_verimine_etkisi",
+      "metin": "Tanelerin ıslatılmasından oluşan tavlama işlemi, endospermin perikarp ve rüşeymden ayrılmasını kolaylaştırarak öğütme verimini artırır.",
+      "kosul": "tahıl öğütme öncesi tavlama",
+      "kanit": "ikincil",
+      "bolum": "Ne yapar",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1021/acsfoodscitech.5c00475",
+          "yer": "INTRODUCTION"
+        },
+        {
+          "kaynak": "10.3390/foods9081035",
+          "yer": "4. Discussion"
+        }
+      ]
+    },
+    {
+      "id": "ogutme.valsli_ogutmenin_tas_degirmene_gore_ustunlukleri",
+      "metin": "Derlemelere göre valsli öğütme verimlilik ve esneklik, düşük ısı üretimi, uygun düşme sayısı ve daha iyi hamur reolojisi açısından avantajlıdır; ancak en uygun değirmen seçimi amaca bağlıdır ve taş öğütmenin de avantajları vardır.",
+      "kosul": "Valsli ve taş değirmen karşılaştırması (derlemeler)",
+      "kanit": "tek_kaynak",
+      "bolum": "Ortak özellikler",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.lwt.2020.110067",
+          "yer": "Introduction"
+        },
+        {
+          "kaynak": "10.1016/j.tifs.2020.01.008",
+          "yer": "Highlights"
+        },
+        {
+          "kaynak": "10.1016/j.tifs.2020.01.008",
+          "yer": "Abstract - Key Findings and Conclusions"
+        }
+      ]
+    },
+    {
+      "id": "ogutme.endustriyel_un_ve_nisastali_endosperm_randimani",
+      "metin": "Endüstriyel un öğütme randımanı tane kuru ağırlığının %72 ile %80'ine ulaşırken, buğday tanesinin %80 ile %84'ü nişastalı endospermden oluşur.",
+      "kosul": "endüstriyel buğday öğütme randımanı (Delcour & Hoseney, 2010; Shewry et al., 2020 aktarımı)",
+      "kanit": "ikincil",
+      "bolum": "Tanım",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.foodres.2024.115230",
+          "yer": "1. Introduction"
+        },
+        {
+          "kaynak": "10.1021/acs.jafc.1c01279",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "ogutme.ogutme_tanimi",
+      "metin": "Öğütme, buğday tanelerinin kırılması ve ardından endospermin kepek ile rüşeymden ayrılması işlemidir.",
+      "kosul": "Campbell, 2007 aktarımı",
+      "kanit": "ikincil",
+      "bolum": "Tanım",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.tifs.2020.01.008",
+          "yer": "Introduction"
+        },
+        {
+          "kaynak": "10.1093/jexbot/53.370.947",
+          "yer": "Storage globulins"
+        }
+      ]
+    },
+    {
+      "id": "ogutme.ogutmede_uygulanan_mekanik_kuvvet_turleri",
+      "metin": "Buğdayın hedeflenen tanecik boyutuna öğütülmesi işlemi sıkıştırma, aşındırma, kesme ve çarpma kuvvetleri ile bunların kombinasyonunun uygulanmasıyla gerçekleştirilir.",
+      "kosul": "buğday öğütme mekanik ilkeleri",
+      "kanit": "ikincil",
+      "bolum": "Tanım",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods14010021",
+          "yer": "1. Introduction"
+        }
+      ]
+    },
+    {
+      "id": "ogutme.tas_degirmen_tanim",
+      "metin": "Taş değirmen buğday tanesini iki taş arasında sıkıştırma, kesme ve aşındırmayı aynı anda kullanarak öğütür; kuramsal öğütme randımanı %100'dür.",
+      "kosul": "taş değirmen, tam tahıllı un üretimi; tanım düzeyinde aktarım",
+      "kanit": "ikincil",
+      "bolum": "Tanım",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods9010003",
+          "yer": "1. Introduction"
+        },
+        {
+          "kaynak": "10.1016/j.fbio.2023.102640",
+          "yer": "Introduction"
+        },
+        {
+          "kaynak": "10.1016/j.fbio.2023.102640",
+          "yer": "Introduction"
+        },
+        {
+          "kaynak": "10.3390/foods9081035",
+          "yer": "1. Introduction"
+        }
+      ]
+    },
+    {
+      "id": "ogutme.valsli_degirmen_tanim",
+      "metin": "Valsli öğütmede buğday, aralarında eleme yapılan bir dizi oluklu ve düz metal merdaneden geçer; endosperm kepek ve rüşeymden ayrılır ve kademe kademe inceltilir.",
+      "kosul": "",
+      "kanit": "ikincil",
+      "bolum": "Tanım",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods9010003",
+          "yer": "1. Introduction"
+        },
+        {
+          "kaynak": "10.1016/j.lwt.2020.110067",
+          "yer": "Introduction"
+        },
+        {
+          "kaynak": "10.1016/j.tifs.2020.01.008",
+          "yer": "Introduction"
+        },
+        {
+          "kaynak": "10.1016/j.tifs.2020.01.008",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "ogutme.tanecik_hacim_korelasyon",
+      "metin": "Bütün tanenin öğütüldüğü bir çalışmada unun ortalama tanecik çapı (d50) küçüldükçe hamur daha çok kabardı, pişirmede daha çok ağırlık kaybetti ve ekmek daha yüksek ve hacimli oldu; en iyi sonucu 0,5 mm elek ve 14.000 dev/dk rotor hızıyla öğütülen un verdi.",
+      "kosul": "Mor renkli Ariheuk tam buğday unu, Kore; ultra santrifüj değirmen (FM200), 0,5 mm (S grubu) ya da 1,0 mm (L grubu) elek, 6000 / 10.000 / 14.000 dev/dk rotor hızı. Kalıp ekmeği (AACC 10-10.03, değiştirilmiş): 35 °C, %85 bağıl nem, 50 dk mayalanma; 215 °C'de 18 dk pişirme.",
+      "kanit": "tek_kaynak",
+      "bolum": "İlişkileri",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods12132591",
+          "yer": "3.5. Bread-Making Performance"
+        },
+        {
+          "kaynak": "10.3390/foods12132591",
+          "yer": "4. Conclusions"
+        }
+      ]
+    },
+    {
+      "id": "ogutme.tas_valsli_bilesim_ayni",
+      "metin": "Orta İtalya buğdaylarıyla yapılan bir çalışmada valsli değirmenden çıkan tüm akışlar yeniden birleştirildiğinde un ile aynı tanelerden taş değirmende ya da diskli değirmende öğütülen tam tahıllı un arasında bileşim farkı bulunmamış, tanecik boyu dağılımı farklı çıkmıştır; başka bir çalışmada da taş değirmen unlarının valsli değirmen unlarına göre daha iyi bir temel bileşim ya da biyoaktif madde düzeyi göstermediği bildirilmiştir.",
+      "kosul": "Orta İtalya buğdayları; taş, valsli (akışlar birleştirilmiş) ve diskli değirmen karşılaştırması; ikinci kanıt başka bir çalışmadan",
+      "kanit": "uzlasi",
+      "bolum": "İlişkileri",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods9010003",
+          "yer": "Abstract"
+        },
+        {
+          "kaynak": "10.3390/foods9010003",
+          "yer": "4. Discussion"
+        },
+        {
+          "kaynak": "10.3390/foods9081035",
+          "yer": "5. Conclusions"
+        }
+      ]
+    },
+    {
+      "id": "ogutme.valsli_ve_tas_degirmenin_hamur_ve_ekmege_benzer_etkisi",
+      "metin": "Valsli ve taş değirmen farklı sıcaklık ve kuvvetler üretmesine rağmen tam buğday ununun, hamurun ve ekmeğin teknolojik özellikleri üzerinde genel olarak çok az fark yaratmıştır.",
+      "kosul": "valsli ve taş değirmen tam buğday unları karşılaştırması",
+      "kanit": "tek_kaynak",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1021/acsfoodscitech.5c00475",
+          "yer": "ABSTRACT"
+        },
+        {
+          "kaynak": "10.1021/acsfoodscitech.5c00475",
+          "yer": "Results and discussion · conclusion"
+        }
+      ]
+    },
+    {
+      "id": "ogutme.tanecik_dagilimi_teknolojik_etki",
+      "metin": "Tanecik boyu dağılımındaki farkın; su kaldırmayı, enzim saldırısına duyarlılığı ve öteki bileşenlerle etkileşimi değiştirerek unun teknolojik kalitesini etkilemesi olasıdır.",
+      "kosul": "",
+      "kanit": "ikincil",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods9010003",
+          "yer": "4. Discussion"
+        }
+      ]
+    },
+    {
+      "id": "ogutme.sert_ve_yumusak_bugdayda_kirilma_farki",
+      "metin": "Sert buğdaylar güçlü bağlanan hücre içeriği nedeniyle öncelikle hücre duvarından kırılırken, yumuşak buğdayda kırılma hücre bileşenlerinin kendi içinden gerçekleşir.",
+      "kosul": "Delcour ve Hoseney, 2010 aktarımı",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1111/1541-4337.13147",
+          "yer": "2 IMPACT OF MILLING ON STARCH QUALITY"
+        }
+      ]
+    },
+    {
+      "id": "ogutme.tanecik_dagilimi_farkli",
+      "metin": "Yeniden birleştirilmiş valsli unda 363 µm'den iri ve 85–129 µm arasındaki tanecikler unun %55'ini oluştururken taş değirmen ununda bu pay %31'dir; taş değirmen ununda bütün tanecik boyları daha eşit dağılır.",
+      "kosul": "Orta İtalya'dan sekiz yumuşak buğday karışımı; ticari taş değirmen, Bühler MLU 202 pilot valsli değirmen (akışlar yeniden birleştirilmiş), Bühler MLI 204 diskli laboratuvar değirmeni. Sekiz karışımın ortalaması; 494–35 µm elekli eleme makinesi.",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods9010003",
+          "yer": "3.3. Particle Size Distribution, Figure 1"
+        },
+        {
+          "kaynak": "10.3390/foods9010003",
+          "yer": "4. Discussion"
+        }
+      ]
+    },
+    {
+      "id": "ogutme.tas_degirmen_bosluk_ve_hiz_ayari",
+      "metin": "Taş değirmende taşlar arası boşluk ve dönüş hızı ayarları, unun son tanecik boyutunu ve buna bağlı un özelliklerini doğrudan belirler.",
+      "kosul": "Taş değirmen ayarları",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.fbio.2023.102640",
+          "yer": "Abstract"
+        },
+        {
+          "kaynak": "10.1016/j.fbio.2023.102640",
+          "yer": "Conclusions"
+        }
+      ]
+    },
+    {
+      "id": "ogutme.kepek_ogutme_nem",
+      "metin": "Kepek ne kadar ince öğütüldüyse tam unun nemi o kadar anlamlı düştü; yazarlar bunu öğütmedeki kesme ve ısının buharlaşmaya yol açmasına bağlar.",
+      "kosul": "Dört sert kırmızı kışlık buğday çeşidi (ABD); kepek ayrı öğütülüp beyaz unla özgün oranında yeniden birleştirildi.",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.lwt.2023.114504",
+          "yer": "3.2. Influences of bran particle size on rheological properties of whole wheat flour"
+        }
+      ]
+    },
+    {
+      "id": "ogutme.aralik_hiz_randiman",
+      "metin": "Laboratuvar valsli değirmeninde merdane aralığını daraltmak ve merdane hızını artırmak un randımanını yükseltti; yazarlara göre dar aralıkta tanecikler daha büyük gerilim ve sıkıştırmaya uğrayıp daha çok kırılır, yüksek hızda ise kuvvet taneciklere daha iyi aktarılır.",
+      "kosul": "Laboratuvar valsli değirmeni, düz merdaneler, saflaştırılmış irmik; merdane aralığı 0,05–0,35 mm, besleme 0,15–0,35 kg/cm·dk, merdane hızı 400–800 dev/dk; 17 denemelik Box–Behnken planı; Sırbistan.",
+      "kanit": "tek_kaynak",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods13213386",
+          "yer": "3.2.2.; Figure 3"
+        },
+        {
+          "kaynak": "10.3390/foods13213386",
+          "yer": "3.2.2."
+        },
+        {
+          "kaynak": "10.3390/foods13213386",
+          "yer": "3.2.2.; Figure 3"
+        }
+      ]
+    },
+    {
+      "id": "ogutme.merdane_araligi_hasar_aktarim",
+      "metin": "Aktarılan çalışmalarda merdane aralığını daraltmak undaki hasarlı nişastayı artırdı; bunlardan biri Kansas State Üniversitesi pilot değirmenindeki inceltme sistemiydi.",
+      "kosul": "Scanlon vd. [17] (koşulları kayıtta yok); Thiele [32], Kansas State Üniversitesi pilot değirmeni (aktarım).",
+      "kanit": "ikincil",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods13213386",
+          "yer": "1. Introduction"
+        },
+        {
+          "kaynak": "10.3390/foods13213386",
+          "yer": "3.1. First Stage"
+        }
+      ]
+    },
+    {
+      "id": "ogutme.merdane_araligi_hasar_lab",
+      "metin": "Düz merdaneli bir laboratuvar denemesinde merdane aralığını daraltmak, beklentinin tersine, hasarlı nişastayı azalttı; yazarlar bunu öğütülen örneklerin başlangıçtaki hasarlı nişasta değişkenliğine bağlayabileceklerini söyler.",
+      "kosul": "Laboratuvar valsli değirmeni, düz merdaneler, saflaştırılmış irmik; merdane aralığı 0,05–0,35 mm, besleme 0,15–0,35 kg/cm·dk, merdane hızı 400–800 dev/dk; 17 denemelik Box–Behnken planı; Sırbistan.",
+      "kanit": "tek_kaynak",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods13213386",
+          "yer": "3.2.1.; Figure 2"
+        },
+        {
+          "kaynak": "10.3390/foods13213386",
+          "yer": "3.2.1."
+        }
+      ]
+    },
+    {
+      "id": "ogutme.siyez_ve_kizil_bugday_tavlama_ihtiyaci",
+      "metin": "Sert buğday çeşitleri öğütme öncesinde daha uzun süre tavlama ve şartlandırma gerektirirken, daha düşük tane sertliğine sahip siyez ve spelt çeşitleri öğütme öncesinde tavlama gerektirmez.",
+      "kosul": "Kavuzlu buğday türlerinin tane sertliği",
+      "kanit": "tek_kaynak",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods10040761",
+          "yer": "3.1. Kernel Quality of Hulled Wheat"
+        }
+      ]
+    },
+    {
+      "id": "ogutme.valsli_kuvvet_az_tas_isi",
+      "metin": "Bir makalenin girişinde bilinen bilgi olarak aktarıldığına göre valsli öğütmede endospermin maruz kaldığı kesme ve sıkıştırma kuvvetleri azdır, taş değirmende ise ısı ve sürtünme oluşur.",
+      "kosul": "",
+      "kanit": "ikincil",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods11030339",
+          "yer": "1. Introduction"
+        }
+      ]
+    },
+    {
+      "id": "ogutme.besleme_randiman",
+      "metin": "Besleme hızını artırmak un randımanını düşürdü: en yüksek randıman (%27,61) en dar aralık ve en düşük beslemede 600 dev/dk'da elde edildi, aynı ayarlarda besleme en yükseğe çıkınca randıman %14,72'ye indi.",
+      "kosul": "Laboratuvar valsli değirmeni, düz merdaneler, saflaştırılmış irmik; merdane aralığı 0,05–0,35 mm, besleme 0,15–0,35 kg/cm·dk, merdane hızı 400–800 dev/dk; 17 denemelik Box–Behnken planı; Sırbistan. <150 µm elek.",
+      "kanit": "tek_kaynak",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods13213386",
+          "yer": "3.2.2. Influence of Milling Parameters on the Flour Yield"
+        },
+        {
+          "kaynak": "10.3390/foods13213386",
+          "yer": "3.2.2.; Figure 3"
+        },
+        {
+          "kaynak": "10.3390/foods13213386",
+          "yer": "3.2.2.; Table 2"
+        }
+      ]
+    },
+    {
+      "id": "ogutme.hiz_hasar",
+      "metin": "Aynı laboratuvar denemesinde hasarlı nişastayı yalnız merdane aralığı ve merdane hızı anlamlı etkiledi; hız arttıkça hasarlı nişasta azaldı.",
+      "kosul": "Laboratuvar valsli değirmeni, düz merdaneler, saflaştırılmış irmik; merdane aralığı 0,05–0,35 mm, besleme 0,15–0,35 kg/cm·dk, merdane hızı 400–800 dev/dk; 17 denemelik Box–Behnken planı; Sırbistan.",
+      "kanit": "tek_kaynak",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods13213386",
+          "yer": "4. Conclusions"
+        },
+        {
+          "kaynak": "10.3390/foods13213386",
+          "yer": "3.2.1.; Figure 2"
+        }
+      ]
+    },
+    {
+      "id": "ogutme.ogutme_oncesi_tavlama_ve_dengeleme",
+      "metin": "Öğütme öncesinde buğday taneleri 24 saat ortam sıcaklığında ve %11–12 nem oranında dengelenir.",
+      "kosul": "Öğütme öncesi hazırlık",
+      "kanit": "tek_kaynak",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.fbio.2023.102640",
+          "yer": "Materials"
+        }
+      ]
+    },
+    {
+      "id": "ogutme.kepek_ogutme_boyutlari",
+      "metin": "Laboratuvar değirmeninden çıkan iri kepeğin ortalama tanecik boyu 438,3–590,4 µm idi; pimli değirmenden 1, 3 ve 6 kez geçirilen kepek sırasıyla 315,3–367,7, 224,8–273,7 ve 156,7–187,1 µm'ye indi.",
+      "kosul": "Dört sert kırmızı kışlık buğday çeşidi (ABD); kepek ayrı öğütülüp beyaz unla özgün oranında yeniden birleştirildi.",
+      "kanit": "tek_kaynak",
+      "bolum": "Nasıl ölçülür",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.lwt.2023.114504",
+          "yer": "3.1. Particle size of wheat brans"
+        },
+        {
+          "kaynak": "10.1016/j.lwt.2023.114504",
+          "yer": "3.1. Particle size of wheat brans"
+        }
+      ]
+    },
+    {
+      "id": "ogutme.surtunme_taneleri_kirar",
+      "metin": "Öğütmede malzemeye binen sürtünme, ısı ve mekanik kuvvetler nişasta tanelerini kırıp yapısını değiştirebilir.",
+      "kosul": "Tahıl öğütme işlemleri (valsli, taşlı veya rotorlu değirmenler)",
+      "kanit": "ikincil",
+      "bolum": "Ne yapar",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods13213386",
+          "yer": "1. Introduction"
+        },
+        {
+          "kaynak": "10.1002/star.201200224",
+          "yer": "Abstract"
+        },
+        {
+          "kaynak": "10.1016/j.foodchem.2020.126267",
+          "yer": "Generation of MDS"
+        }
+      ]
+    },
+    {
+      "id": "ogutme.tane_neminin_un_verimi_ve_nisasta_hasarina_etkisi",
+      "metin": "Öğütülecek tahıl tanesinin nem içeriği, un ekstraksiyon randımanını ve nişasta hasarı derecesini etkiler.",
+      "kosul": "tahıl öğütme koşulları",
+      "kanit": "ikincil",
+      "bolum": "Ne yapar",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods13193035",
+          "yer": "3.2. Granulation of the Tested Rye Flours"
+        }
+      ]
+    },
+    {
+      "id": "ogutme.geleneksel_tas_degirmende_ogutme_suresi_ve_tanecik_boyutu",
+      "metin": "Bir çalışmada, yerel üreticilerden alınan kavılca buğdayı geleneksel taş değirmende yaklaşık 25–30 dakikada öğütülmüş ve ortalama tanecik boyutu 250–300 mikron olan un elde edilmiştir.",
+      "kosul": "kavılca buğdayı, yerel üreticiler, geleneksel taş değirmen; tek çalışma",
+      "kanit": "tek_kaynak",
+      "bolum": "Ortak özellikler",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.24925/turjaf.v13i11.3249-3257.7930",
+          "yer": "Material and Methods · Raw Materials"
+        },
+        {
+          "kaynak": "10.24925/turjaf.v13i11.3249-3257.7930",
+          "yer": "Material and Methods · Raw Materials"
+        }
+      ]
+    },
+    {
+      "id": "ogutme.tas_degirmen_mineral_kaybi_yok",
+      "metin": "Taş değirmende öğütmenin makro element kayıpları üzerinde çok az etkisi varken, mikro element kayıpları üzerinde hiçbir etkisi yoktur.",
+      "kosul": "Taş değirmende tam buğday öğütme",
+      "kanit": "ikincil",
+      "bolum": "Ortak özellikler",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.fbio.2023.102640",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "ogutme.tas_degirmenin_duzgun_valsli_degirmenin_uc_tanecik_yapisi",
+      "metin": "Taş değirmen daha homojen bir tanecik boyutu dağılımı sağlarken, valsli değirmen 1400 µm üzerindeki kaba tanecikleri daha fazla üretmiş; 53 µm altındaki çok ince taneciklerdeki fark ise istatistiksel olarak anlamlı bulunmuştur.",
+      "kosul": "valsli ve taş değirmen tam un tanecik fraksiyonları",
+      "kanit": "tek_kaynak",
+      "bolum": "Ortak özellikler",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1021/acsfoodscitech.5c00475",
+          "yer": "RESULTS AND DISCUSSION"
+        },
+        {
+          "kaynak": "10.1021/acsfoodscitech.5c00475",
+          "yer": "Results and discussion · Flour Characterization"
+        }
+      ]
+    },
+    {
+      "id": "ogutme.tas_ve_valsli_tam_unlarda_bimodal_ve_tek_tepe_dagilimi",
+      "metin": "Buğday türünden bağımsız olarak taş değirmen 315 ile 710 µm aralığında yoğunlaşan tanecikler üretirken, valsli değirmen 1000 µm üzeri ve 250 µm altı taneciklerle bimodal dağılım sergilemiştir.",
+      "kosul": "taş ve valsli değirmen tam un tanecik dağılımı karşılaştırması",
+      "kanit": "tek_kaynak",
+      "bolum": "Ortak özellikler",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods9081035",
+          "yer": "Abstract"
+        }
+      ]
+    },
+    {
+      "id": "ogutme.valsli_degirmen_calisma_sicakliklari",
+      "metin": "Valsli değirmenlerde öğütme sıcaklığı R1 değirmeninde 41,5 °C'ye, R2 değirmeninde ise 28,4 °C'ye ulaşmıştır.",
+      "kosul": "valsli değirmen işletim sıcaklığı ölçümü (Tablo 1)",
+      "kanit": "tek_kaynak",
+      "bolum": "Ortak özellikler",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1021/acsfoodscitech.5c00475",
+          "yer": "RESULTS AND DISCUSSION"
+        }
+      ]
+    },
+    {
+      "id": "ogutme.valsli_ve_tas_degirmen_sure_karsilastirmasi",
+      "metin": "Tavlama süresi 13 ile 39 saat arasında değişirken, toplam öğütme süresi valsli değirmenlerde yaklaşık 10 ile 60 dakika, taş değirmenlerde ise yalnızca 10–15 saniye sürmüştür.",
+      "kosul": "valsli ve taş değirmen proses süreleri karşılaştırması",
+      "kanit": "tek_kaynak",
+      "bolum": "Ortak özellikler",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1021/acsfoodscitech.5c00475",
+          "yer": "Materials and methods · Wheat Sample Collection and Processing"
+        }
+      ]
+    },
+    {
+      "id": "ogutme.degirmen_kepegi_ogutme_fraksiyon_boyutlari",
+      "metin": "Değirmen kepeğinin kademeli öğütülmesiyle d50 değeri 1330 µm olan iri, 562 µm olan orta ve 77 µm olan ince kepek fraksiyonları elde edilmiştir.",
+      "kosul": "Akt300 değirmen kepeği laboratuvar öğütmesi",
+      "kanit": "tek_kaynak",
+      "bolum": "Ortak özellikler",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1021/acs.jafc.4c06550",
+          "yer": "3.3. Effect of particle size reduction"
+        },
+        {
+          "kaynak": "10.1021/acs.jafc.4c06550",
+          "yer": "Results and discussion · 3.3 The effect of particle size reduction on sub-aleurone protein availability in bread-making"
+        }
+      ]
+    },
+    {
+      "id": "ogutme.el_degirmeni_calisma_prensibi",
+      "metin": "Döner el değirmeninde alt taş sabit kalırken üstteki yatay taş döner.",
+      "kosul": "Walker ve Eustace, 2016 aktarımı",
+      "kanit": "ikincil",
+      "bolum": "Tanım",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.tifs.2020.01.008",
+          "yer": "Introduction"
+        },
+        {
+          "kaynak": "10.3390/foods9081035",
+          "yer": "1. Introduction"
+        }
+      ]
+    },
+    {
+      "id": "ogutme.izole_nisasta_ve_tane_ogutme_farki",
+      "metin": "İzole nişasta tanelerinin öğütülmesi tahıldaki nişasta dışı bileşenlerin etkisini dışarıda bıraktığından, bütün tanenin öğütülmesini doğru biçimde temsil etmez.",
+      "kosul": "Öğütme mekanizması modellemeleri",
+      "kanit": "tek_kaynak",
+      "bolum": "Tanım",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1002/star.201200224",
+          "yer": "Abstract"
+        },
+        {
+          "kaynak": "10.1002/star.201200224",
+          "yer": "Abstract"
+        }
+      ]
+    },
+    {
+      "id": "ogutme.un_randimani_genel_aralik",
+      "metin": "Buğday ununun öğütme randımanı öğütme işlemine, buğday çeşidine ve yetiştirme koşullarına bağlı olarak %73–77 arasında değişir.",
+      "kosul": "Buğday ununda ekstraksiyon randımanı",
+      "kanit": "ikincil",
+      "bolum": "Tanım",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.lwt.2013.12.004",
+          "yer": "1. Introduction"
+        }
+      ]
+    },
+    {
+      "id": "ogutme.valsli_degirmen_ve_yeniden_birlestirilmis_un_randimani",
+      "metin": "Valsli değirmende beyaz un randımanı genellikle %70 civarındayken, endosperm, rüşeym ve kepeğin doğal oranında buluştuğu yeniden birleştirilmiş tam unda randıman yaklaşık %100 olmalıdır.",
+      "kosul": "valsli değirmen ekstraksiyon ve tam un rekombinasyonu (aktarımlar)",
+      "kanit": "tek_kaynak",
+      "bolum": "Tanım",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods9081035",
+          "yer": "1. Introduction"
+        },
+        {
+          "kaynak": "10.3390/foods9081035",
+          "yer": "1. Introduction"
+        }
+      ]
+    },
+    {
+      "id": "ogutme.tam_un_ticari_ayrim",
+      "metin": "Bir çalışmada tam tahıllı un doğrudan taneden öğütüldü; ticari tam buğday ununun ise beyaz un, rüşeym ve kepeğe ayrıldıktan sonra beyaz un ile kepeğin yeniden birleştirilmesiyle, rüşeym dışarıda bırakılarak üretilmiş olacağı belirtilir.",
+      "kosul": "Avustralya; ticari un.",
+      "kanit": "tek_kaynak",
+      "bolum": "Tanım",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1002/fsn3.4050",
+          "yer": "2. MATERIALS AND METHODS"
+        }
+      ]
+    },
+    {
+      "id": "ogutme.tas_degirmen_agirlik_ve_donus_hizlari",
+      "metin": "İtalya'nın Marche bölgesindeki bir çalışmada iki taş değirmenin üst taş ağırlığı S1'de 500 kg, S2'de 1600 kg, çalışma dönüş hızları ise sırasıyla 120 ve 90–100 devir/dakika olarak bildirilmiştir.",
+      "kosul": "İtalya Marche bölgesindeki iki taş değirmen (S1 ve S2), her değirmenin kendi standart öğütme yöntemi; tek çalışma",
+      "kanit": "tek_kaynak",
+      "bolum": "Tanım",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1021/acsfoodscitech.5c00475",
+          "yer": "Materials and methods · Wheat Sample Collection and Processing"
+        }
+      ]
+    },
+    {
+      "id": "ogutme.tanecik_dagilimini_etkileyenler",
+      "metin": "Öğütmede oluşan tanecik boyu dağılımını buğdayın kalitesi, elek açıklığı, değirmen akış şeması, merdane türü ve ayarları birlikte etkiler.",
+      "kosul": "",
+      "kanit": "ikincil",
+      "bolum": "İlişkileri",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.lwt.2023.114504",
+          "yer": "3.1. Particle size of wheat brans"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,227 @@
+{
+  "id": "son_mayalanma",
+  "durak": "sekil",
+  "baslik": "Son mayalanma",
+  "soru": "Fırına girmeden önce hamur son kez ne yaşar?",
+  "bayrak": false,
+  "gor": {
+    "tur": "kaydirma",
+    "adimlar": [
+      {
+        "metin": "Şekillenen hamur fırına girmeden önce bir süre dinlenir; bu bekleyişe son mayalanma denir [[sure.eksimayali_ekmek_toplam_fermantasyon_araligi]].",
+        "gorsel": "banneton",
+        "vurgu": "Mayalanma sepeti (banneton): şekillenen hamurun dinlendiği kap."
+      },
+      {
+        "metin": "Hamurdaki maya, şekeri gaza ve etanole (alkole) çevirir; bu süreç fermantasyondur [[gaz.alkol_fermantasyonunda_sekerlerin_co2_ve_etanole_donusumu]]. Ortaya çıkan karbondioksit hamurun her yanına yayılır ve onu kabartır [[gaz.co2_kabartir]].",
+        "gorsel": "saccharomyces_cerevisiae_sem",
+        "vurgu": "Taramalı elektron mikroskobu: Saccharomyces cerevisiae hücreleri."
+      },
+      {
+        "metin": "Dünya genelinde kabartıcı olarak kullanılan maya çoğunlukla Saccharomyces cerevisiae'dir; fırıncı mayası olarak da bilinir [[scer.firin_mayasi_tanim_dunya]]. Endüstriyel fırıncılıkta ekmek mayası hamura düşük oranlarda, %0,5 ile %2,5 arasında eklenir [[scer.ekmek_hamuruna_eklenme_oranlari_0_5_2_5]].",
+        "gorsel": "saccharomyces_cerevisiae_100x_phase_contrast_microscopy",
+        "vurgu": "Faz-kontrast mikroskobunda 100 kat büyütülmüş maya hücreleri."
+      },
+      {
+        "metin": "Ekmek mayası, hamurdaki şekerleri glikoliz yoluyla karbondioksit ve etanole çevirir [[scer.glikoliz_karbonhidrat_fermantasyonu]]. Glikoliz, şekerin parçalanma yoludur [[scer.glikoliz_karbonhidrat_fermantasyonu]].",
+        "gorsel": "s_cerevisiae_under_dic_microscopy",
+        "vurgu": "DIC mikroskobunda, yeni hücre çıkaran (tomurcuklanan) maya hücreleri."
+      },
+      {
+        "metin": "Hamurdaki gluten ağı, hem akan hem geri esneyen bir yapıdır ve gazı tutmaya aracılık eder [[gaz.gluten_agi_gaz_tutma]]. Hamurun esnekliği ve gerildiğinde uzayabilme gücü, gazı ne kadar tutabileceğini belirler [[gaz.gaz_tutma_reolojiye_bagli]].",
+        "gorsel": "saccharomyces_cerevisiae_100x_phase_contrast_microscopy2",
+        "vurgu": "Faz-kontrast 100x: gazı üreten maya hücreleri."
+      },
+      {
+        "metin": "Küçük kalıp ekmeği denemesinde, 38 °C ve %80 nemde 45 dakikalık son mayalanmada hamurun hacmi başlangıca göre %66,25 arttı [[gaz.hamur_hacmi_yuzde_66]].",
+        "gorsel": "bread_dough_in_baskets_02",
+        "vurgu": "Sepetlerdeki hamurlar: son mayalanmanın görünümü."
+      },
+      {
+        "metin": "30 °C ve %90 nemde 400 mL karbondioksit üretilene kadar mayalanan hamur en az 4 cm yüksekliğe ulaştı [[gaz.standart_fermantasyonda_400_ml_co2_ve_4_cm_yukseklik]].",
+        "gorsel": "saccharomyces_cerevisiae_loeffler_s_methylene_blue_stain",
+        "vurgu": "Metilen mavisiyle boyanmış maya hücreleri, 400 kat büyütmede."
+      }
+    ]
+  },
+  "anla": [
+    {
+      "baslik": "Son bekleyişin süresi",
+      "paragraflar": [
+        "Ekşi mayalı ekmekte, derlenen literatürde pişirme öncesi toplam fermantasyon ve son mayalanma süresi 30 dakikadan 20 saate veya daha fazlasına kadar değişir [[sure.eksimayali_ekmek_toplam_fermantasyon_araligi]]. Bu aralık, sıcaklığa ve maya miktarına göre büyük ölçüde değişir [[sure.sicaklik_ve_maya_ile_sure]]. Fırıncı mayasıyla kabartılan ekmekte süre tipik olarak 0,5–3 saattir [[sure.firin_mayali_ekmek_kisa_fermantasyon_sure_ve_hidroliz]]. Enzim, bir kimyasal tepkimeyi hızlandıran proteindir [[sure.uzun_fermantasyon_un_enzimleri]]. Ekşi mayada süre uzadıkça, un enzimlerinin hamur bileşenlerini dönüştürmedeki payı belirgin biçimde artar [[sure.uzun_fermantasyon_un_enzimleri]].",
+        "Ekşi maya kullanılmayan bir Danimarka denemesinde, kilogram una 20 gram ticari yaş maya katılan hamur 5 °C'de 21 saatte 8 cm yüksekliğe ulaştı [[sure.sicaklik_ve_maya_ile_sure]]. Aynı deneyin en sıcak ve en çok mayalı koşulunda ise süre 15 dakikaya kadar değişti [[sure.sicaklik_ve_maya_ile_sure]].",
+        "Maya miktarı da süreyi değiştirir: ekmek mayasını iki katına çıkarmak fermantasyon süresini yarıya indirdi, ancak bazı metabolit (mayanın ürettiği kimyasal maddeler) içerikleri farklılaştı [[sure.maya_miktari_ve_fermantasyon_suresi]].",
+        "Belçika'da yapılan bir denemede hamur, tam buğday unuyla ve asitle pH 4,5–5,5'e ayarlanarak hazırlandı [[gaz.yogurma_su_co2_etkilemedi]]. Bu koşulda, denenen aralıkta 7,0–10,0 dakika yoğurma ve %70,0–80,0 su, son mayalanmadaki karbondioksit üretim hızını etkilemedi [[gaz.yogurma_su_co2_etkilemedi]]."
+      ]
+    },
+    {
+      "baslik": "Mayanın gazı",
+      "paragraflar": [
+        "Karbondioksit, hamurdaki karbonhidratlardan (şeker ve nişasta gibi maddelerden) glikolizle oluşur; hamurun her yanına yayılarak gözenekli bir yapı verir [[gaz.co2_kabartir]].",
+        "Aktarılan bilgiye göre maya sayısı düşük değilse karbondioksit esas olarak mayadan gelir; çünkü mayanın hücre başına yüzey alanı ve metabolik etkinliği yüksektir [[gaz.co2_esas_mayadan]].",
+        "Ekşi mayada karbondioksit üretimine hem mayalar hem de gaz üreten (heterofermentatif) laktik asit bakterileri, yani hamuru ekşiten bakteriler aracılık eder [[gaz.co2_maya_ve_heterofermentatif_lab]]. Genel olarak mayalar, gaz da üreten (heterofermentatif) laktik asit bakterilerine kıyasla daha yüksek bir kabartma kapasitesine sahiptir [[gaz.mayalar_heterofermentatif_labdan_daha_fazla_kabartir]].",
+        "Kazachstania humilis, ekşi mayadan ayrılan bir maya türüdür [[gaz.khumilis_erken_baslar_vmax_yuzde34_yuksek]]. Un ve su 4:5 oranında, 30 °C'de hazırlanan hamurda bu maya 3 saatte %72,19 maksimum hacim artışına ulaşırken, ticari Saccharomyces cerevisiae 2,5 saatte %82,20 maksimum hacim artışına ulaştı [[gaz.khumilis_ve_scerevisiae_hacim_artisi_karsilastirmasi]]."
+      ]
+    },
+    {
+      "baslik": "Gluten ağı gazı tutar",
+      "paragraflar": [
+        "Saccharomyces cerevisiae fermantasyonu hamura yapı kazandırır, yayılma eğilimini azaltıp daha sıkı bir hamur oluşturur ve gaz tutma yeteneğini artırır [[scer.hamur_reolojisi_ve_gaz_tutma]].",
+        "Literatürde, iyi kurulmuş gluten ağının gaz tutma kapasitesini artırdığı ve daha yumuşak bir ekmek dokusu verdiği aktarılıyor [[gaz.gelismis_gluten_agi_gaz_tutma_ve_gozenek_yapisi]].",
+        "Daha kuvvetli, yani gluten ağı güçlü olan buğday unundan yapılan hamurlar, ekmek yapımı sırasında üretilen gazı daha iyi tutar ve daha yüksek somun hacmi sağlar [[gaz.guclu_un_gaz_tutma_ve_hacim]].",
+        "Reofermentometre ölçümlerinde tuz gaz üretimini azalttı [[gaz.tuz_orani_ve_gaz_tutma_katsayisi]]. Gaz tutma katsayısı, hamurun ürettiği gazdan ne kadarını tuttuğunu gösterir [[gaz.tuz_orani_ve_gaz_tutma_katsayisi]]. Aubusson çeşidinde bu katsayı, tuzsuz hamurda %81,9 iken %1,5 tuzla %85,4'e çıktı [[gaz.tuz_orani_ve_gaz_tutma_katsayisi]].",
+        "İki saatlik fermantasyonda tuzsuz hamur 1203 ± 27 ml, %1,5 tuzlu hamur 987 ± 36 ml karbondioksit üretti [[gaz.tuz_eklenmesi_co2_uretimini_ve_gaz_hacmini_azaltir]]. Gaz tutma oranı iki durumda da yaklaşık %93 olduğundan, tuzsuz hamur %20 daha fazla gaz içerdi [[gaz.tuz_eklenmesi_co2_uretimini_ve_gaz_hacmini_azaltir]]."
+      ]
+    },
+    {
+      "baslik": "Hacim ve yapı",
+      "paragraflar": [
+        "Hamurun gelişimi ve gaz üretme kapasitesi, Chopin Reofermentometre gibi bir cihazla birlikte izlenebilir [[gaz.reofermentometre_ile_olcum]].",
+        "30 °C ve %90 nemde 400 mL karbondioksit üretilene kadar mayalanan hamur en az 4 cm yüksekliğe ulaştı [[gaz.standart_fermantasyonda_400_ml_co2_ve_4_cm_yukseklik]]. Bu yükseklik, hacim için güvenilir bir gösterge sağladı [[gaz.standart_fermantasyonda_400_ml_co2_ve_4_cm_yukseklik]].",
+        "Küçük kalıp ekmeği denemesi, 38 °C ve %80 nemde 45 dakikalık son mayalanma kullandı; hamurun hacmi başlangıca göre %66,25 arttı [[gaz.hamur_hacmi_yuzde_66]].",
+        "Aşırı mayalanmada hamur zayıflayabilir ve yapısı çökebilir; bir çalışma bunu bildirdi, ancak sonuçlar kaynakta ayrıntılı gösterilmedi [[gaz.asiri_mayalanma_cokme]]."
+      ]
+    }
+  ],
+  "yuzlesme": [
+    {
+      "inanc": "Uzun mayalanma ekmeğe daha hoş bir aroma verir.",
+      "cevap": "Bu genel bir inançtır, ancak bu konuda yapılmış çalışma azdır [[sure.uzun_fermantasyon_aroma_inanci]]. Polonya'da, ekmeklik buğdayla yapılan bir denemede 60 ile 150 dakika arasındaki hamur fermantasyonu, ekmeğin duyusal özelliklerini etkilemedi [[sure.sure_duyusala_etkisiz]]."
+    }
+  ],
+  "kanit": {
+    "cekirdek": [
+      "sure.eksimayali_ekmek_toplam_fermantasyon_araligi",
+      "sure.sicaklik_ve_maya_ile_sure",
+      "sure.uzun_fermantasyon_aroma_inanci",
+      "gaz.co2_kabartir",
+      "gaz.gluten_agi_gaz_tutma",
+      "gaz.gaz_tutma_reolojiye_bagli",
+      "gaz.tuz_eklenmesi_co2_uretimini_ve_gaz_hacmini_azaltir",
+      "gaz.tuz_orani_ve_gaz_tutma_katsayisi",
+      "gaz.hamur_hacmi_yuzde_66",
+      "gaz.standart_fermantasyonda_400_ml_co2_ve_4_cm_yukseklik",
+      "gaz.asiri_mayalanma_cokme",
+      "gaz.khumilis_ve_scerevisiae_hacim_artisi_karsilastirmasi",
+      "scer.glikoliz_karbonhidrat_fermantasyonu",
+      "scer.firin_mayasi_tanim_dunya",
+      "scer.hamur_reolojisi_ve_gaz_tutma"
+    ],
+    "cekmece": [
+      "sure.maya_miktari_ve_fermantasyon_suresi",
+      "sure.firin_mayali_ekmek_kisa_fermantasyon_sure_ve_hidroliz",
+      "sure.uzun_fermantasyon_un_enzimleri",
+      "sure.sure_duyusala_etkisiz",
+      "gaz.alkol_fermantasyonunda_sekerlerin_co2_ve_etanole_donusumu",
+      "gaz.khumilis_erken_baslar_vmax_yuzde34_yuksek",
+      "sure.alti_saatte_en_yuksek_ozgul_hacim",
+      "sure.model_optimum_mayalanma_2_saat_11_dakika",
+      "gaz.yogurma_su_co2_etkilemedi",
+      "gaz.co2_esas_mayadan",
+      "gaz.co2_maya_ve_heterofermentatif_lab",
+      "gaz.mayalar_heterofermentatif_labdan_daha_fazla_kabartir",
+      "gaz.gelismis_gluten_agi_gaz_tutma_ve_gozenek_yapisi",
+      "gaz.guclu_un_gaz_tutma_ve_hacim",
+      "gaz.reofermentometre_ile_olcum",
+      "gaz.maya_gaz_kapasitesi_neye_bagli",
+      "gaz.deniz_tuzu_ve_eksi_maya_gaz_uretimi",
+      "gaz.lab_co2_uretimini_etkilemedi",
+      "gaz.lab_ve_maya_kabarma_hacmini_artirir",
+      "gaz.lab_etkisi_maya_susuna_bagli",
+      "scer.ekmek_hamuruna_eklenme_oranlari_0_5_2_5"
+    ]
+  },
+  "baglar": [
+    {
+      "kaldirac": "Maya şekeri gaza çevirir",
+      "mekanizma": "Ekmek mayası, hamurdaki şekerleri glikoliz yoluyla karbondioksit ve etanole çevirir.",
+      "sonuc": "Hamurun her yanına yayılan karbondioksit gözenekli bir yapı verir.",
+      "bilgiler": [
+        "scer.glikoliz_karbonhidrat_fermantasyonu",
+        "gaz.co2_kabartir"
+      ]
+    },
+    {
+      "kaldirac": "Gluten ağının tutuşu",
+      "mekanizma": "Gluten ağı, hem akan hem geri esneyen bir yapıdır ve gazı tutmaya aracılık eder.",
+      "sonuc": "Gaz hücreleri hamurda kalır ve hamur kabarır.",
+      "bilgiler": [
+        "gaz.gluten_agi_gaz_tutma",
+        "gaz.gaz_tutma_reolojiye_bagli"
+      ]
+    },
+    {
+      "kaldirac": "Tuz",
+      "mekanizma": "Tuz gaz üretimini azaltır; bazı deneylerde gaz tutma katsayısını artırır.",
+      "sonuc": "Tuzlu hamur daha az gaz üretir; tutulan gazın oranı deneye göre değişir.",
+      "bilgiler": [
+        "gaz.tuz_eklenmesi_co2_uretimini_ve_gaz_hacmini_azaltir",
+        "gaz.tuz_orani_ve_gaz_tutma_katsayisi"
+      ]
+    },
+    {
+      "kaldirac": "Sıcaklık ve maya miktarı",
+      "mekanizma": "Sıcaklık ve maya miktarı, hamurun 8 cm yüksekliğe ulaşma süresini değiştirir.",
+      "sonuc": "Denemede süre 15 dakikadan 21 saate kadar değişti.",
+      "bilgiler": [
+        "sure.sicaklik_ve_maya_ile_sure",
+        "sure.eksimayali_ekmek_toplam_fermantasyon_araligi"
+      ]
+    },
+    {
+      "kaldirac": "Mayalanmanın ölçüsü",
+      "mekanizma": "30 °C ve %90 nemde 400 mL karbondioksit üretilene kadar mayalanan hamur en az 4 cm yükselir.",
+      "sonuc": "Bu yükseklik, hacim için güvenilir bir gösterge olarak kullanılabilir.",
+      "bilgiler": [
+        "gaz.standart_fermantasyonda_400_ml_co2_ve_4_cm_yukseklik"
+      ]
+    },
+    {
+      "kaldirac": "Aşırı mayalanma",
+      "mekanizma": "Hamur fazla mayalandığında zayıflayabilir ve yapısı çökebilir.",
+      "sonuc": "Uzun bekleyiş, hamurun yapısını bozabilir.",
+      "bilgiler": [
+        "gaz.asiri_mayalanma_cokme"
+      ]
+    },
+    {
+      "kaldirac": "Maya türü",
+      "mekanizma": "Maya gaz kapasitesi; tarife, koşula ve suşun kendi özelliklerine bağlıdır.",
+      "sonuc": "Aynı sürede farklı mayalar farklı hacim artışı verebilir.",
+      "bilgiler": [
+        "gaz.maya_gaz_kapasitesi_neye_bagli",
+        "gaz.khumilis_ve_scerevisiae_hacim_artisi_karsilastirmasi"
+      ]
+    }
+  ],
+  "karakterler": [
+    "scer"
+  ],
+  "ayrisan_kaynaklar": [
+    {
+      "konu": "Tuz gaz üretimini artırır mı, azaltır mı?",
+      "bilgiler": [
+        "gaz.tuz_eklenmesi_co2_uretimini_ve_gaz_hacmini_azaltir",
+        "gaz.tuz_orani_ve_gaz_tutma_katsayisi",
+        "gaz.deniz_tuzu_ve_eksi_maya_gaz_uretimi"
+      ]
+    },
+    {
+      "konu": "Gaz üretiminde maya mı, laktik asit bakterisi mi öne çıkar?",
+      "bilgiler": [
+        "gaz.co2_esas_mayadan",
+        "gaz.lab_co2_uretimini_etkilemedi",
+        "gaz.lab_ve_maya_kabarma_hacmini_artirir",
+        "gaz.lab_etkisi_maya_susuna_bagli"
+      ]
+    },
+    {
+      "konu": "Mayalanma ne kadar sürmeli?",
+      "bilgiler": [
+        "sure.eksimayali_ekmek_toplam_fermantasyon_araligi",
+        "sure.alti_saatte_en_yuksek_ozgul_hacim",
+        "sure.model_optimum_mayalanma_2_saat_11_dakika"
+      ]
+    }
+  ]
+}

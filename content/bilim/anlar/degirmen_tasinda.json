@@ -1,0 +1,322 @@
+{
+  "id": "degirmen_tasinda",
+  "durak": "degirmen",
+  "baslik": "Değirmen taşında",
+  "soru": "Bir tane nasıl un olur, içindeki nişasta neden hasar görür?",
+  "bayrak": true,
+  "gor": {
+    "tur": "kaydirma",
+    "adimlar": [
+      {
+        "metin": "Taş değirmen, buğday tanesini iki taş arasında sıkıştırma, kesme ve aşındırmayı aynı anda kullanarak öğütür [[ogutme.tas_degirmen_tanim]]. Buğday tanesinin %80 ile %84'ü nişastalı endospermden, yani tanenin nişasta taşıyan iç dokusundan oluşur [[ogutme.endustriyel_un_ve_nisastali_endosperm_randimani]].",
+        "gorsel": "the_grinding_of_flour",
+        "vurgu": "Taşların arasından çıkan un: öğütme, taneyi kırarak başlar."
+      },
+      {
+        "metin": "Öğütmeden önce taneler ıslatılır; tavlama işlemi öğütme verimini artırır [[ogutme.tavlamanin_ogutme_verimine_etkisi]]. Sert buğday çeşitleri daha uzun tavlama ve şartlandırma gerektirirken siyez ve spelt çeşitleri tavlama gerektirmez [[ogutme.siyez_ve_kizil_bugday_tavlama_ihtiyaci]].",
+        "gorsel": "114821_kfar_yanoh_grinding_wheat_grains_into_flour_pikiw",
+        "vurgu": "Buğday tanelerinin geleneksel yöntemle una öğütülmesi: kırılan tane, değirmenin çıkışı olan una dönüşür."
+      },
+      {
+        "metin": "Taneye sıkıştırma, aşındırma, kesme ve çarpma kuvvetleri birlikte uygulanır [[ogutme.ogutmede_uygulanan_mekanik_kuvvet_turleri]]. Bu kuvvetler nişasta tanelerini kırar, yüzey alanını artırır ve kristal düzenini bozar [[hasarli_nisasta.mekanik_kuvvetler_ve_mikroyapi]].",
+        "gorsel": "hattem_windkorenmolen_de_fortuin_13_09_2021_actm_01",
+        "vurgu": "Yel değirmeninin değirmen taşı: bütün kuvvetlerin doğduğu yüzey."
+      },
+      {
+        "metin": "Hasarlı nişasta, öğütme sırasında fiziksel olarak kırılan ya da parçalanan nişasta tanelerinin miktarıdır; miktarı tane sertliğine ve öğütmenin şiddetine bağlıdır [[hasarli_nisasta.tanim]]. Öğütme sonrası tanelerin yüzeyi pürüzsüz ve parlak bir görünümden pürüzlü ve pullu bir görünüme dönüşür [[hasarli_nisasta.ogutmede_puruzsuzden_pullu_yuzeye_donusum]].",
+        "gorsel": "photomicrograph_of_wheat_starch",
+        "vurgu": "Buğday nişastasının mikroskop görüntüsü: tanelerin kırılmadan önceki düzenli halkaları."
+      },
+      {
+        "metin": "Kırılan nişasta tanesi artık eskisi gibi davranmaz: çift kırılımını, yani kutuplanmış ışıkta parlak iki alana bölünme özelliğini, kısmen yitirir [[hasarli_nisasta.cift_kirilim_kaybi_ve_enzim_duyarliligi]]. Oda sıcaklığında doğal buğday nişasta taneleri ağırlıklarının %39 ile %87'si kadar su emerken hasarlı taneler ağırlıklarının %200 ile %430'u kadar su emer [[hasarli_nisasta.dogal_ve_hasarli_nisasta_su_tutma_orani]].",
+        "gorsel": "potato_starch_polarized_light_100x",
+        "vurgu": "Polarize ışıkta bir nişasta tanesi: öğütmenin bozduğu kristal düzen."
+      },
+      {
+        "metin": "Hasarlı nişastanın miktarı ölçülebilir: enzimatik yöntemde taneler saflaştırılmış α-amilazla, yani nişastayı parçalayan enzimle, parçalanır [[hasarli_nisasta.enzimatik_olcum]]. Ticari değirmenlerde öğütme aşamalarından çıkan unlarda hasar iyotla ölçülür [[hasarli_nisasta.pasajlarda_artar]].",
+        "gorsel": "testing_seed_for_starch",
+        "vurgu": "İyot çözeltisiyle nişasta testi: ölçümün tanedeki görünür izi."
+      },
+      {
+        "metin": "Hasarlı nişasta, amilaz için kolayca parçalanan bir substrattır, yani enzimin üzerinde çalıştığı maddedir; açığa çıkan serbest şekerler mayanın fermantasyonuna destek olur [[amilaz.hasarli_nisastadan_seker]]. Bir buğday unu hamuru çalışmasında 2 saatlik fermantasyon sonunda tüketilen şekerlerin yaklaşık %56'sı amilazlar tarafından üretildi [[amilaz.fermantasyonda_seker_uretim_payi]].",
+        "gorsel": "potato_amyloplast_granules_observed_at_200_magnification",
+        "vurgu": "Nişasta tanelerinin büyük büyütmedeki görünümü: enzimin hedefi olan granüller."
+      }
+    ]
+  },
+  "anla": [
+    {
+      "baslik": "Tane taşın arasında",
+      "paragraflar": [
+        "Bir buğday tanesi değirmene girer girmez kırılır; beyaz un öğütmesinin amacı endospermi kepek ile rüşeymden ayırmaktır [[ogutme.ogutme_tanimi]]. Endosperm tanenin nişastalı iç dokusudur; kepek dış katmanı, rüşeym ise tohumun embriyosunu oluşturur [[ogutme.ogutme_tanimi]]. Buğday tanesinin %80 ile %84'ü nişastalı endospermden oluşur [[ogutme.endustriyel_un_ve_nisastali_endosperm_randimani]]. Taş değirmen bu işi iki taş arasında yapar: sıkıştırma, kesme ve aşındırma aynı anda uygulanır [[ogutme.tas_degirmen_tanim]]. Tam buğdaylı unda tanelerin tamamı unda kalır; kuramsal randıman %100'dür [[ogutme.tas_degirmen_tanim]].",
+        "Öğütme, hedeflenen tanecik boyutuna ulaşmak için kuvvetlerin uygulanmasıyla yapılır [[ogutme.ogutmede_uygulanan_mekanik_kuvvet_turleri]]. Tane önce ıslatılır: tavlama, endospermin ayrılmasını kolaylaştırarak öğütme verimini artırır [[ogutme.tavlamanin_ogutme_verimine_etkisi]]. Sert buğday çeşitleri daha uzun tavlama gerektirirken siyez ve spelt çeşitleri tavlama gerektirmez [[ogutme.siyez_ve_kizil_bugday_tavlama_ihtiyaci]]."
+      ]
+    },
+    {
+      "baslik": "Nişasta da kırılır",
+      "paragraflar": [
+        "Tane kırılırken içindeki nişasta taneleri de iz bırakır: öğütmede binen sürtünme, ısı ve mekanik kuvvetler onları kırıp yapısını değiştirebilir [[ogutme.surtunme_taneleri_kirar]]. Öğütmede taneye binen kesme, çarpma ve sürtünme kuvvetleri taneleri daha küçük parçacıklara böler [[hasarli_nisasta.mekanik_kuvvetler_ve_mikroyapi]]. Böylece yüzey alanı ve tanecik içi gözenekler artar, kristal düzeni bozulur [[hasarli_nisasta.mekanik_kuvvetler_ve_mikroyapi]]. Öğütme sonrası tanelerin yüzeyi pürüzsüz ve parlak görünümden pürüzlü ve pullu bir görünüme dönüşür [[hasarli_nisasta.ogutmede_puruzsuzden_pullu_yuzeye_donusum]].",
+        "Hasarlı nişasta, öğütme sırasında fiziksel olarak kırılan ya da parçalanan nişasta tanelerinin miktarıdır; miktarı tane sertliğine ve öğütmenin şiddetine bağlıdır [[hasarli_nisasta.tanim]]. Hasar derecesini üç ana etken belirler: nişastanın amiloz ile amilopektin bileşimi, tanenin sertliği ve öğütme koşulları [[hasarli_nisasta.hasar_derecesini_belirleyen_uc_ana_etken]]."
+      ]
+    },
+    {
+      "baslik": "Hasarlı nişasta hamuru değiştirir",
+      "paragraflar": [
+        "Hasarlı nişasta taneleri çift kırılımını kısmen yitirir; çift kırılım, nişasta tanesini kutuplanmış ışıkta parlak iki alana bölme özelliğidir [[hasarli_nisasta.cift_kirilim_kaybi_ve_enzim_duyarliligi]]. Bu taneler daha çok su emer ve enzimlerle parçalanmaya daha açık hâle gelir [[hasarli_nisasta.cift_kirilim_kaybi_ve_enzim_duyarliligi]]. Oda sıcaklığında doğal buğday nişasta taneleri ağırlıklarının %39 ile %87'si kadar su emerken hasarlı taneler ağırlıklarının %200 ile %430'u kadar su emer [[hasarli_nisasta.dogal_ve_hasarli_nisasta_su_tutma_orani]].",
+        "Su farkı hamurda da görünür: hasarlı nişasta sağlam nişastadan daha çok su emer ve enzimlerle daha hızlı parçalanır [[hasarli_nisasta.su_emer_enzime_acik]]. Korelasyon iki ölçünün birlikte değişme eğilimidir; r değeri bu eğilimin yönünü ve gücünü verir [[hasarli_nisasta.su_absorpsiyon_kapasitesi_korelasyonu]]. Tek bir ölçümde unun su emme kapasitesi ile hasarlı nişasta miktarı arasında güçlü bir pozitif ilişki görüldü (r = 0,729) [[hasarli_nisasta.su_absorpsiyon_kapasitesi_korelasyonu]]."
+      ]
+    },
+    {
+      "baslik": "Ölçüm, maya ve ekmek",
+      "paragraflar": [
+        "Un ağırlığının %70–75'i nişastadır [[nisasta.bugday_ununun_ana_bileseni]]. Hasarlı nişastanın miktarı ölçülebilir: enzimatik yöntemde taneler α-amilazla parçalanır, oluşan dekstrinler, yani nişastanın küçük parçaları, glikoza çevrilir ve glikoz ölçülür [[hasarli_nisasta.enzimatik_olcum]]. Çözücü tutma kapasitesi (SRC) testi, unun bir çözücüde ne kadar su tuttuğunu ölçer [[hasarli_nisasta.src_tanim]]. Sudaki değer unun su kaldırmasını yansıtır; sodyum karbonattaki değer ise hasarlı nişastanın katkısını ayrı gösterir [[hasarli_nisasta.src_tanim]].",
+        "Hasarlı nişasta, amilaz için kolayca parçalanan bir substrattır; açığa çıkan serbest şekerler mayanın fermantasyonuna destek olur [[amilaz.hasarli_nisastadan_seker]]. Bir buğday unu hamuru çalışmasında 2 saatlik fermantasyon sonunda tüketilen şekerlerin yaklaşık %56'sı amilazlar tarafından üretildi [[amilaz.fermantasyonda_seker_uretim_payi]]. Düşme sayısı testi, nişastayı parçalayan enzimlerin ve başlıca α-amilazın etkinliğini değerlendirir [[amilaz.dusme_sayisi_ve_alfa_amilaz_ters_iliskili]]. Ekmeklik unlarda bu sayı için en uygun aralık 200 ile 350 saniye arasıdır [[amilaz.ekmeklik_un_optimum_dusme_sayisi_araligi]]. Fermantasyon sırasında açığa çıkan maltoz miktarı, düşme sayısıyla yansıtılan α-amilaz etkinliğine ve undaki hasarlı nişasta miktarına bağlıdır [[amilaz.maltoz_salimi_dusme_sayisi_hasarli_nisasta]]. Nişasta ekmek içinin yapısını belirler; nişasta zincirlerinin yeniden dizilmesi bayatlamanın başlıca nedenidir [[nisasta.ekmek_ici_yapisi_ve_bayatlama_etkisi]].",
+        "Aşırı hasar hamuru yapışkan yapar ve gluten proteinlerinin su almasını geciktirir [[hasarli_nisasta.olculu_iyi_fazlasi_yapiskan]]. Gluten, hamuru gaz tutan esnek bir ağa çeviren proteindir; geciken gelişme ekmek kalitesini düşürebilir [[hasarli_nisasta.olculu_iyi_fazlasi_yapiskan]]. Yapılan karşılaştırmada farklı değirmenlerde öğütülmüş unlarla yapılan ekmeklerde daha yüksek hasarlı nişasta, daha düşük özgül hacimle ilişkili bulundu (r = -0,866) [[hasarli_nisasta.artan_hasarla_ekmek_ozgul_hacim_kaybi]]. Özgül hacim, ekmek ağırlığına düşen hacimdir [[hasarli_nisasta.artan_hasarla_ekmek_ozgul_hacim_kaybi]]. Önceki çalışmaların derlemesine göre uygun miktarda hasarlı nişasta (%12,2–21,9) ekmek kalitesini artırabilir; çok yüksek düzeyler ise kaliteyi düşürür [[hasarli_nisasta.olculu_hasar_araligi_ve_ekmek_kalitesi]]."
+      ]
+    }
+  ],
+  "yuzlesme": [
+    {
+      "inanc": "Taş değirmende öğütülen un, valsli değirmendekinden daha çok hasarlı nişasta içerir.",
+      "cevap": "Orta İtalya buğdaylarıyla yapılan bir çalışmada ticari taş değirmen unları kuru maddede, yani nemi hariç tutarak hesaplanan oranda, %6,83–9,21 hasarlı nişasta içerdi [[hasarli_nisasta.tas_valsli_hasar_italya]]. Aynı tanelerin yeniden birleştirilmiş pilot valsli unlarında bu oran %3,82–4,76'ydı [[hasarli_nisasta.tas_valsli_hasar_italya]]. Aktarılan bir çalışmada Kihlberg ve arkadaşları valsli unda daha çok hasar bulmuştur [[hasarli_nisasta.tas_valsli_hasar_literatur]]. Valsli ile taş değirmen arasında hasarlı nişasta açısından anlamlı fark bulunmayan ölçümler de vardır [[hasarli_nisasta.degirmen_tipleri_arasi_hasar_farksizligi]]."
+    },
+    {
+      "inanc": "Değirmen seçimi ekmeğin hacmini ve kalitesini doğrudan belirler.",
+      "cevap": "Valsli ve taş değirmen farklı sıcaklık ve kuvvetler üretir [[ogutme.valsli_ve_tas_degirmenin_hamur_ve_ekmege_benzer_etkisi]]. Buna rağmen bir karşılaştırmada tam buğday ununun, hamurun ve ekmeğin teknolojik özellikleri üzerinde çok az fark yaratmıştır [[ogutme.valsli_ve_tas_degirmenin_hamur_ve_ekmege_benzer_etkisi]]. Bileşim bakımından da valsli akışlar yeniden birleştirildiğinde taş değirmen ya da diskli değirmen unuyla fark çıkmadı [[ogutme.tas_valsli_bilesim_ayni]]. Fark daha çok tanecik boyu dağılımında görünür: taş değirmen ununda bütün tanecik boyları daha eşit dağılır [[ogutme.tanecik_dagilimi_farkli]]. Ekmeği belirleyen ise değirmenin türü değil, öğütmede açığa çıkan hasarlı nişasta düzeyi ve unun tanecik boyudur [[hasarli_nisasta.tam_un_kalitesinde_anahtar]]."
+    },
+    {
+      "inanc": "Taş değirmende öğütmek unun mineral içeriğini korur ve bileşimini zenginleştirir.",
+      "cevap": "Taş değirmende öğütmenin makro element kayıpları üzerinde çok az etkisi varken mikro element kayıpları üzerinde etkisi görülmemiştir [[ogutme.tas_degirmen_mineral_kaybi_yok]]. Başka bir çalışmada taş değirmen unlarının valsli değirmen unlarına göre daha iyi bir temel bileşim ya da biyoaktif madde düzeyi göstermediği bildirilmiştir [[ogutme.tas_valsli_bilesim_ayni]]."
+    }
+  ],
+  "kanit": {
+    "cekirdek": [
+      "ogutme.tas_degirmen_tanim",
+      "ogutme.ogutme_tanimi",
+      "ogutme.endustriyel_un_ve_nisastali_endosperm_randimani",
+      "ogutme.ogutmede_uygulanan_mekanik_kuvvet_turleri",
+      "ogutme.tavlamanin_ogutme_verimine_etkisi",
+      "ogutme.surtunme_taneleri_kirar",
+      "hasarli_nisasta.tanim",
+      "hasarli_nisasta.mekanik_kuvvetler_ve_mikroyapi",
+      "hasarli_nisasta.cift_kirilim_kaybi_ve_enzim_duyarliligi",
+      "hasarli_nisasta.dogal_ve_hasarli_nisasta_su_tutma_orani",
+      "hasarli_nisasta.su_absorpsiyon_kapasitesi_korelasyonu",
+      "hasarli_nisasta.enzimatik_olcum",
+      "hasarli_nisasta.src_tanim",
+      "amilaz.hasarli_nisastadan_seker",
+      "amilaz.fermantasyonda_seker_uretim_payi"
+    ],
+    "cekmece": [
+      "ogutme.valsli_ogutmenin_tas_degirmene_gore_ustunlukleri",
+      "ogutme.valsli_degirmen_tanim",
+      "ogutme.tanecik_hacim_korelasyon",
+      "ogutme.tas_valsli_bilesim_ayni",
+      "ogutme.valsli_ve_tas_degirmenin_hamur_ve_ekmege_benzer_etkisi",
+      "ogutme.tanecik_dagilimi_farkli",
+      "ogutme.siyez_ve_kizil_bugday_tavlama_ihtiyaci",
+      "ogutme.sert_ve_yumusak_bugdayda_kirilma_farki",
+      "ogutme.tas_degirmen_mineral_kaybi_yok",
+      "ogutme.tas_degirmen_bosluk_ve_hiz_ayari",
+      "ogutme.tas_degirmen_agirlik_ve_donus_hizlari",
+      "ogutme.el_degirmeni_calisma_prensibi",
+      "ogutme.valsli_kuvvet_az_tas_isi",
+      "ogutme.valsli_degirmen_calisma_sicakliklari",
+      "ogutme.valsli_ve_tas_degirmen_sure_karsilastirmasi",
+      "ogutme.geleneksel_tas_degirmende_ogutme_suresi_ve_tanecik_boyutu",
+      "ogutme.kepek_ogutme_nem",
+      "ogutme.kepek_ogutme_boyutlari",
+      "ogutme.degirmen_kepegi_ogutme_fraksiyon_boyutlari",
+      "ogutme.izole_nisasta_ve_tane_ogutme_farki",
+      "ogutme.tane_neminin_un_verimi_ve_nisasta_hasarina_etkisi",
+      "ogutme.ogutme_oncesi_tavlama_ve_dengeleme",
+      "ogutme.tanecik_dagilimi_teknolojik_etki",
+      "ogutme.tanecik_dagilimini_etkileyenler",
+      "ogutme.merdane_araligi_hasar_aktarim",
+      "ogutme.merdane_araligi_hasar_lab",
+      "ogutme.hiz_hasar",
+      "ogutme.aralik_hiz_randiman",
+      "ogutme.besleme_randiman",
+      "ogutme.un_randimani_genel_aralik",
+      "ogutme.valsli_degirmen_ve_yeniden_birlestirilmis_un_randimani",
+      "ogutme.tam_un_ticari_ayrim",
+      "ogutme.tas_ve_valsli_tam_unlarda_bimodal_ve_tek_tepe_dagilimi",
+      "ogutme.tas_degirmenin_duzgun_valsli_degirmenin_uc_tanecik_yapisi",
+      "hasarli_nisasta.hasar_derecesini_belirleyen_uc_ana_etken",
+      "hasarli_nisasta.su_emer_enzime_acik",
+      "hasarli_nisasta.olculu_iyi_fazlasi_yapiskan",
+      "hasarli_nisasta.olculu_hasar_araligi_ve_ekmek_kalitesi",
+      "hasarli_nisasta.optimum_urune_gore",
+      "hasarli_nisasta.artan_hasarla_ekmek_ozgul_hacim_kaybi",
+      "hasarli_nisasta.tam_un_kalitesinde_anahtar",
+      "hasarli_nisasta.tanecik_boyutu_azaldikca_hasar_artisi",
+      "hasarli_nisasta.incelik_hasar_korelasyon",
+      "hasarli_nisasta.pasajlarda_artar",
+      "hasarli_nisasta.sert_bugdayda_yuzde_sekiz_uzeri_hasar",
+      "hasarli_nisasta.sert_tane_fazla_hasar",
+      "hasarli_nisasta.tas_valsli_hasar_italya",
+      "hasarli_nisasta.tas_valsli_hasar_literatur",
+      "hasarli_nisasta.degirmen_tipleri_arasi_hasar_farksizligi",
+      "hasarli_nisasta.ticari_unlarda_ortusur",
+      "hasarli_nisasta.bagimsiz_degirmenler_arasi_hasar_farki",
+      "hasarli_nisasta.nereden_gelir",
+      "hasarli_nisasta.artan_hasarla_kristalinite_derecesi_dususu",
+      "hasarli_nisasta.ogutmede_puruzsuzden_pullu_yuzeye_donusum",
+      "hasarli_nisasta.amilaz_hidroliziyle_dekstrin_uretimi",
+      "hasarli_nisasta.fermantasyon_sekeri_ve_maltoz",
+      "hasarli_nisasta.tepe_viskozitesini_artirir",
+      "hasarli_nisasta.nihai_viskoziteyi_etkileyen_baskin_etken",
+      "hasarli_nisasta.artan_hasarla_nisasta_cozunurlugu_artisi",
+      "hasarli_nisasta.alfa_bir_dort_glikozidik_bag_bozunmasi",
+      "hasarli_nisasta.soguk_suda_kendiliginden_jellesme",
+      "hasarli_nisasta.su_kaldirma_ve_gaz_gucu_artisi",
+      "nisasta.bugday_ununun_ana_bileseni",
+      "nisasta.ekmek_ici_yapisi_ve_bayatlama_etkisi",
+      "nisasta.granul_tipleri_ve_boyut_siniflari",
+      "nisasta.polimer_yapisi_bag_turleri",
+      "nisasta.tahillarda_yari_kristal_granul_tanimi",
+      "nisasta.genel_amiloz_amilopektin_dagilimi",
+      "nisasta.bugday_ununda_amiloz_amilopektin_orani",
+      "nisasta.hamurdaki_islevleri_ve_maya_fermantasyonu",
+      "nisasta.ogutmede_amilopektin_bozunmasi",
+      "amilaz.glikozit_hidrolaz_siniflandirma",
+      "amilaz.alfa_amilaz_rastgele_keser",
+      "amilaz.beta_amilaz_ekzo_etki",
+      "amilaz.un_takviyesi_maltoz_artisi",
+      "amilaz.maltojenik_tanim",
+      "amilaz.maltojenik_bayatlamayi_geciktirir",
+      "amilaz.cavdarda_eksi_maya_amilazi_durdurur",
+      "amilaz.maltoz_salimi_dusme_sayisi_hasarli_nisasta",
+      "amilaz.dusme_sayisi_ve_alfa_amilaz_ters_iliskili",
+      "amilaz.ekmeklik_un_optimum_dusme_sayisi_araligi"
+    ]
+  },
+  "baglar": [
+    {
+      "kaldirac": "Taşlar arasındaki mekanik kuvvet",
+      "mekanizma": "Öğütmede binen kesme, çarpma ve sürtünme kuvvetleri nişasta tanelerini kırar, yüzey alanını ve gözenekleri artırır, kristal düzenini bozar.",
+      "sonuc": "Unda ölçülen hasarlı nişasta miktarı artar.",
+      "bilgiler": [
+        "ogutme.ogutmede_uygulanan_mekanik_kuvvet_turleri",
+        "ogutme.surtunme_taneleri_kirar",
+        "hasarli_nisasta.mekanik_kuvvetler_ve_mikroyapi",
+        "hasarli_nisasta.tanim"
+      ]
+    },
+    {
+      "kaldirac": "Tanecik boyutu",
+      "mekanizma": "Tanecik boyutu kademeli olarak küçüldükçe nişasta hasarı belirgin biçimde artar.",
+      "sonuc": "İnce öğütülmüş un, ince olmayan una göre daha çok hasarlı nişasta taşır.",
+      "bilgiler": [
+        "hasarli_nisasta.tanecik_boyutu_azaldikca_hasar_artisi",
+        "hasarli_nisasta.incelik_hasar_korelasyon",
+        "hasarli_nisasta.ince_tam_un_daha_cok_hasar",
+        "ogutme.tanecik_hacim_korelasyon"
+      ]
+    },
+    {
+      "kaldirac": "Tane sertliği",
+      "mekanizma": "Sert buğdaylar güçlü bağlanan hücre içeriği nedeniyle öncelikle hücre duvarından kırılır, yumuşak buğdayda kırılma hücre bileşenlerinin kendi içinden gerçekleşir.",
+      "sonuc": "Sert buğday ununda hasarlı nişasta oranı daha yüksek çıkar.",
+      "bilgiler": [
+        "ogutme.sert_ve_yumusak_bugdayda_kirilma_farki",
+        "hasarli_nisasta.sert_bugdayda_yuzde_sekiz_uzeri_hasar",
+        "hasarli_nisasta.sert_tane_fazla_hasar"
+      ]
+    },
+    {
+      "kaldirac": "Hasarlı nişastanın su emmesi",
+      "mekanizma": "Kırılan nişasta taneleri çift kırılımını kısmen yitirir ve doğal tanelerden çok daha fazla su emer.",
+      "sonuc": "Unun su kaldırması artar, hamurun yapışkanlığı değişir.",
+      "bilgiler": [
+        "hasarli_nisasta.dogal_ve_hasarli_nisasta_su_tutma_orani",
+        "hasarli_nisasta.su_absorpsiyon_kapasitesi_korelasyonu",
+        "hasarli_nisasta.su_emer_enzime_acik",
+        "hasarli_nisasta.olculu_iyi_fazlasi_yapiskan"
+      ]
+    },
+    {
+      "kaldirac": "Amilazın hasarlı nişastayı parçalaması",
+      "mekanizma": "Hasarlı nişasta amilaz için kolayca parçalanan bir substrattır; dekstrin ve serbest şekerler açığa çıkar.",
+      "sonuc": "Mayanın kullanabileceği fermente edilebilir şeker miktarı artar.",
+      "bilgiler": [
+        "amilaz.hasarli_nisastadan_seker",
+        "hasarli_nisasta.amilaz_hidroliziyle_dekstrin_uretimi",
+        "amilaz.fermantasyonda_seker_uretim_payi",
+        "hasarli_nisasta.fermantasyon_sekeri_ve_maltoz"
+      ]
+    },
+    {
+      "kaldirac": "Hasarın ekmek hacmine etkisi",
+      "mekanizma": "Aşırı hasar hamuru yapışkanlaştırır, gluten proteinlerinin su almasını geciktirir ve gluten gelişimini engeller.",
+      "sonuc": "Ekmek özgül hacmi düşer.",
+      "bilgiler": [
+        "hasarli_nisasta.artan_hasarla_ekmek_ozgul_hacim_kaybi",
+        "hasarli_nisasta.olculu_iyi_fazlasi_yapiskan",
+        "hasarli_nisasta.olculu_hasar_araligi_ve_ekmek_kalitesi"
+      ]
+    },
+    {
+      "kaldirac": "Değirmen tipi",
+      "mekanizma": "Taş ve valsli öğütme farklı kuvvet ve sıcaklık profilleri üretir. Valsli öğütmede kesme ve sıkıştırma azdır, taş değirmende ısı ve sürtünme oluşur.",
+      "sonuc": "Bileşimde anlamlı fark çıkmadığı görülürken tanecik boyu dağılımı değişir.",
+      "bilgiler": [
+        "ogutme.valsli_kuvvet_az_tas_isi",
+        "ogutme.valsli_ogutmenin_tas_degirmene_gore_ustunlukleri",
+        "ogutme.tas_valsli_bilesim_ayni",
+        "ogutme.valsli_ve_tas_degirmenin_hamur_ve_ekmege_benzer_etkisi",
+        "ogutme.tas_ve_valsli_tam_unlarda_bimodal_ve_tek_tepe_dagilimi"
+      ]
+    },
+    {
+      "kaldirac": "Tavlama",
+      "mekanizma": "Tavlama, endospermin kepek ve rüşeymden ayrılmasını kolaylaştırarak öğütme verimini artırır; hasar oluşumu da tavlama ile öğütme sürecine bağlıdır.",
+      "sonuc": "Öğütme verimi ve hasar düzeyi birlikte değişir.",
+      "bilgiler": [
+        "ogutme.tavlamanin_ogutme_verimine_etkisi",
+        "hasarli_nisasta.nereden_gelir",
+        "ogutme.siyez_ve_kizil_bugday_tavlama_ihtiyaci"
+      ]
+    }
+  ],
+  "karakterler": [
+    "nisasta",
+    "amilaz"
+  ],
+  "ayrisan_kaynaklar": [
+    {
+      "konu": "Taş mı valsli mi daha çok hasarlı nişasta üretir?",
+      "bilgiler": [
+        "hasarli_nisasta.tas_valsli_hasar_italya",
+        "hasarli_nisasta.tas_valsli_hasar_literatur",
+        "hasarli_nisasta.degirmen_tipleri_arasi_hasar_farksizligi",
+        "hasarli_nisasta.ticari_unlarda_ortusur",
+        "hasarli_nisasta.bagimsiz_degirmenler_arasi_hasar_farki"
+      ]
+    },
+    {
+      "konu": "Merdane aralığını daraltmak hasarlı nişastayı artırır mı azaltır mı?",
+      "bilgiler": [
+        "ogutme.merdane_araligi_hasar_aktarim",
+        "ogutme.merdane_araligi_hasar_lab",
+        "ogutme.hiz_hasar"
+      ]
+    },
+    {
+      "konu": "Değirmen tipi ekmeğin hacmini ve teknolojik özelliklerini etkiler mi?",
+      "bilgiler": [
+        "ogutme.valsli_ve_tas_degirmenin_hamur_ve_ekmege_benzer_etkisi",
+        "ogutme.tas_valsli_bilesim_ayni",
+        "hasarli_nisasta.artan_hasarla_ekmek_ozgul_hacim_kaybi"
+      ]
+    },
+    {
+      "konu": "Hasarlı nişasta ekmek kalitesini artırır mı düşürür mü?",
+      "bilgiler": [
+        "hasarli_nisasta.olculu_hasar_araligi_ve_ekmek_kalitesi",
+        "hasarli_nisasta.artan_hasarla_ekmek_ozgul_hacim_kaybi",
+        "hasarli_nisasta.olculu_iyi_fazlasi_yapiskan"
+      ]
+    }
+  ]
+}

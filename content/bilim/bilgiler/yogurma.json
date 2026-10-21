@@ -1,0 +1,1176 @@
+{
+  "id": "yogurma",
+  "ad": "Yoğurma",
+  "bilgiler": [
+    {
+      "id": "yogurma.direnc_egrisi_tepe_ve_dusus",
+      "metin": "Yoğurma sırasında ölçülen direnç düzenli bir artış göstererek birkaç dakika sonra bir tepeye ulaşır; tepe noktasından sonra karıştırmaya devam edilirse direnç düşer.",
+      "kosul": "Miksograf (kaydedici hamur yoğurma) direnci",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.jcs.2024.103895",
+          "yer": "7. Effects of sample preparation and processing on interactions"
+        },
+        {
+          "kaynak": "10.1016/j.jcs.2024.103895",
+          "yer": "7. Effects of sample preparation and processing on interactions"
+        }
+      ]
+    },
+    {
+      "id": "yogurma.en_yuksek_gelismenin_otesinde_zayiflama",
+      "metin": "Yoğurma en yüksek hamur gelişme eşiğinin ötesine geçtiğinde, bileşenlerin artan hareketliliği nedeniyle hamur zayıflar, çöker ve yapışkan hale gelir.",
+      "kosul": "Sadot vd. 2017, Schiraldi ve Fessas 2012 aktarımı",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.foodchem.2021.129916",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "yogurma.mekanik_islemler_ve_gluten_gelisimi",
+      "metin": "Hamur yapımı sırasındaki yoğurma ve tabakalama gibi farklı mekanik işlemler gluten ağının gelişme derecesini belirler.",
+      "kosul": "Buğday unu hamurunun mekanik işlenmesi",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.cofs.2019.04.001",
+          "yer": "Impacting gluten network formation"
+        },
+        {
+          "kaynak": "10.3390/foods13203232",
+          "yer": "1. Introduction"
+        }
+      ]
+    },
+    {
+      "id": "yogurma.reolojiyi_belirler",
+      "metin": "Yoğurma, ekmek yapımında hamurun akış ve esneme davranışını (reolojisini) en çok belirleyen adımdır; gluten ağı yoğurmayla en uygun bir eşiğe kadar örülür, bu eşikten sonra bozulmaya başlar.",
+      "kosul": "",
+      "kanit": "ikincil",
+      "bolum": "Ne yapar",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.foodchem.2022.135329",
+          "yer": "Introduction"
+        },
+        {
+          "kaynak": "10.1016/j.foodchem.2022.135329",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "yogurma.bloksma_uc_temel_islev",
+      "metin": "Bloksma'ya göre hamur geliştirmede yoğurmanın üç temel işlevi malzemeleri homojen dağıtmak, un bileşenlerini hidrate etmek ve gluten ağını geliştirmektir.",
+      "kosul": "Bloksma 1990 aktarımı",
+      "kanit": "ikincil",
+      "bolum": "Tanım",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.foodhyd.2023.109214",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "yogurma.karistirma_viskoelastisite_ve_hava_hapsi",
+      "metin": "Karıştırma işlemi glutenin viskoelastik özelliklerini geliştirir ve hamura hava katarak hamurun reolojisini ve dokusunu büyük ölçüde etkiler.",
+      "kosul": "Hamur hazırlama aşaması",
+      "kanit": "tek_kaynak",
+      "bolum": "Tanım",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/s0733-5210(03)00059-6",
+          "yer": "Mixing"
+        },
+        {
+          "kaynak": "10.1021/acs.jafc.1c01279",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "yogurma.kesintisiz_protein_agi_olusturma",
+      "metin": "Buğday unu suyla karıştırılıp hamur oluşturulduğunda, hücrelerdeki protein matrisleri bir araya gelerek kesintisiz bir ağ oluşturur.",
+      "kosul": "Hamur yoğurma aşaması",
+      "kanit": "tek_kaynak",
+      "bolum": "Tanım",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1093/jexbot/53.370.947",
+          "yer": "Gluten proteins and wheat grain quality"
+        },
+        {
+          "kaynak": "10.1007/s11483-017-9472-9",
+          "yer": "Introduction"
+        },
+        {
+          "kaynak": "10.1007/s11483-017-9472-9",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "yogurma.mekanik_enerji_ve_gluten_agi_olusturma",
+      "metin": "Yoğurma, un bileşenlerini homojen biçimde dağıtıp hidrate etmek ve gluten proteinleri ağını oluşturmak için gereken mekanik enerjiyi ve deformasyonu sağlar.",
+      "kosul": "Hamur hazırlama aşaması",
+      "kanit": "ikincil",
+      "bolum": "Tanım",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.cofs.2022.100873",
+          "yer": "Introduction"
+        },
+        {
+          "kaynak": "10.1111/j.1750-3841.2007.00292.x",
+          "yer": "ABSTRACT"
+        },
+        {
+          "kaynak": "10.3390/foods13203232",
+          "yer": "1. Introduction"
+        }
+      ]
+    },
+    {
+      "id": "yogurma.az_yogurma_gozenek",
+      "metin": "Yetersiz yoğrulmuş hamurdan yapılan ekmeğin içi, en uygun sürede yoğrulmuş olana göre daha mat, daha az ve daha iri gaz gözenekli, gözenek duvarları daha kalındı.",
+      "kosul": "",
+      "kanit": "ikincil",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1155/2018/8187318",
+          "yer": "7. Methods to Improve the Porous Crumb Structure Development and Retard Crumb Staling"
+        }
+      ]
+    },
+    {
+      "id": "yogurma.en_uygun_yogurma_ve_hacim_korelasyonu",
+      "metin": "Hamur en uygun kıvama kadar yoğrulduğunda ekmek hacmi ile gluten proteini miktarı arasındaki korelasyonun daha yüksek olduğu belirlendi.",
+      "kosul": "14 buğday çeşidiyle mikro ölçekli pişirme denemesi",
+      "kanit": "tek_kaynak",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1006/jcrs.2000.0385",
+          "yer": "Abstract"
+        }
+      ]
+    },
+    {
+      "id": "yogurma.maya_ekmegi_eksi_maya_karistirma_etkisi",
+      "metin": "Bu çalışmada uzun yoğurma süresi maya ekmeğinin (YB) özgül hacmini ekşi mayalı ekmeğe (YSB) göre daha olumlu etkiledi.",
+      "kosul": "tam buğday unu; maya ekmeği (YB) ve ekşi mayalı ekmek (YSB)",
+      "kanit": "tek_kaynak",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.ijfoodmicro.2023.110193",
+          "yer": "4. Discussion"
+        }
+      ]
+    },
+    {
+      "id": "yogurma.spelt_ekmegi_sertligi_ve_mekanik_isleme",
+      "metin": "Spelt ekmeğindeki belirgin sertliğin, pişirme öncesinde hamura uygulanan mekanik işlemlerden kaynaklandığı bildirilmiştir.",
+      "kosul": "Gambuś vd. 2018 aktarımı; spelt ekmeği doku profili analizi",
+      "kanit": "ikincil",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.2478/aucft-2021-0005",
+          "yer": "Texture Profile Analysis (TPA)"
+        }
+      ]
+    },
+    {
+      "id": "yogurma.tip1_eksi_maya_kisa_karistirma",
+      "metin": "Üç kabartma stratejisi karşılaştırıldığında, maksimum tahmini özgül hacmi veren yoğurma süresi tip 1 ekşi maya kullanıldığında daha kısaydı.",
+      "kosul": "tam buğday unu; üç kabartma stratejisi; tip 1 ekşi maya",
+      "kanit": "tek_kaynak",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.ijfoodmicro.2023.110193",
+          "yer": "Discussion"
+        }
+      ]
+    },
+    {
+      "id": "yogurma.kepek_alt_tabaka_karistirma_10_dk",
+      "metin": "Yüksek alt-aleuron proteinli kepeklerle (Ap300 ve Akt300) yapılan ekmeklerde hacim, 10 dakikaya kadar karıştırma süresiyle artmaya devam etti.",
+      "kosul": "Ap300 ve Akt300 kepekleri; %30 kepek (WAmax)",
+      "kanit": "tek_kaynak",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1021/acs.jafc.4c06550",
+          "yer": "3.2. Effect of sub-aleurone in bread-making"
+        },
+        {
+          "kaynak": "10.1021/acs.jafc.4c06550",
+          "yer": "Results and discussion · 3.2 The effect of sub-aleurone proteins on the functionality of lab-scale-produced miller's bran in bread-making"
+        }
+      ]
+    },
+    {
+      "id": "yogurma.asiri_yogurma_disulfit_baglarini_kirar",
+      "metin": "Danno ve Hoseney'e göre aşırı yoğurma, disülfit bağlarının parçalanmasına yol açar.",
+      "kosul": "Danno ve Hoseney [120] aktarımı",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.cofs.2019.04.001",
+          "yer": "3. Energy-input"
+        }
+      ]
+    },
+    {
+      "id": "yogurma.asiri_yogurma_gaz_tutulmasini_zayiflatir",
+      "metin": "Aşırı yoğurma hamurun gaz kabarcıklarını hapsetme yeteneğini zayıflatır ve yoğurma sonunda daha düşük gaz hacim payına yol açar.",
+      "kosul": "Chin ve Campbell 2005b aktarımı",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1002/cche.10699",
+          "yer": "7.2 The effect of mixing work input on the gas phase of the dough"
+        }
+      ]
+    },
+    {
+      "id": "yogurma.asiri_yogurmada_kabarcik_boyutu_buyur",
+      "metin": "Yoğurma koşulları yetersiz yoğurmadan aşırı yoğurmaya doğru değiştikçe ortalama kabarcık boyutunun daha büyük boyutlara kaydığı gösterilmiştir.",
+      "kosul": "Kokawa vd. 2012 aktarımı",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1002/cche.10699",
+          "yer": "7.1 The effect of mixing time on the gas phase of the dough"
+        }
+      ]
+    },
+    {
+      "id": "yogurma.disulfit_kirilir_glutenin_uzar_atif",
+      "metin": "Yoğurma enerjisi disülfit bağlarını kırarak büyük glutenin moleküllerinin denge biçimlerinin ötesine uzamasını sağlar.",
+      "kosul": "",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods10020228",
+          "yer": "1. Introduction"
+        }
+      ]
+    },
+    {
+      "id": "yogurma.en_uygun_evrede_disulfit_ve_ikincil_yapi",
+      "metin": "En uygun yoğurma evresinde moleküller arası disülfit bağlarında, anti-paralel beta-tabaka ve alfa-sarmal yapılarında artış görüldü.",
+      "kosul": "Kontrol ekmek hamuru",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.foodchem.2021.129916",
+          "yer": "Abstract"
+        }
+      ]
+    },
+    {
+      "id": "yogurma.farkli_yogurucular_ve_kabarcik_dagilimi",
+      "metin": "Aynı malzemelerle hazırlanan hamurlarda farklı yoğurucuların boşluk oranını ve kabarcık boyutu dağılımını değiştirdiği gösterilmiştir.",
+      "kosul": "Whitworth ve Alava 1999 aktarımı; aynı malzemeli hamurlar",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.foodres.2006.07.020",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "yogurma.gaz_hapsolma_evresi_ve_direnc",
+      "metin": "Yoğurmanın ilk aşamalarında hamur henüz hidrate olurken gaz kabarcığı hapsolması yavaştır, ardından hamur en yüksek yoğurma direncine ulaşana kadar kabarcık hapsolma hızı belirgin biçimde artar.",
+      "kosul": "Chin ve Campbell 2005a aktarımı",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1002/cche.10699",
+          "yer": "2 GAS BUBBLE ENTRAINMENT AND VOID FRACTION IN THE DOUGH"
+        }
+      ]
+    },
+    {
+      "id": "yogurma.gelisme_suresi_ve_hmw_glutenin",
+      "metin": "Hamur gelişme süresi en yüksek korelasyonu toplam yüksek molekül ağırlıklı glutenin alt birimleri ve x-tipi yüksek molekül ağırlıklı glutenin alt birimleriyle gösterdi.",
+      "kosul": "14 buğday çeşidi un örnekleri",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1006/jcrs.2000.0385",
+          "yer": "Abstract"
+        }
+      ]
+    },
+    {
+      "id": "yogurma.hidrofobik_gruplar_acilir",
+      "metin": "Yoğurma sırasında gluten proteinlerinin hidrofobik grupları belirgin biçimde açığa çıktı ve floresan yoğunluğu arttı; yüksek proteinli sert buğday ununda hamur yüzeyinin hidrofobikliği tepe kıvama kadar arttı, yüzeydeki kümeler önce biraz artıp sonra azaldı. Yazarlar bunu protein yapısının gevşemesine ve grupların açığa çıkmasıyla kümelenme arasında bir gecikme olmasına yorar.",
+      "kosul": "HF unu (sert buğday, %14,5 protein, kuru baz); 200 g un + farinograf suyu + 4 g NaCl, Swanson yoğurucu 120 dev/dk, 27 °C, 20 dk; 8-ANS ya da tiyoflavin T ile ön yüz floresansı (n = 6, p < 0,1).",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/pr9071244",
+          "yer": "Abstract"
+        },
+        {
+          "kaynak": "10.3390/pr9071244",
+          "yer": "3.4. Changes in the Hydrophobicity of the Dough Surface; Figure 8a"
+        },
+        {
+          "kaynak": "10.3390/pr9071244",
+          "yer": "3.4. Changes in the Hydrophobicity of the Dough Surface"
+        },
+        {
+          "kaynak": "10.3390/pr9071244",
+          "yer": "3.4. Changes in the Hydrophobicity of the Dough Surface; Figure 8c"
+        }
+      ]
+    },
+    {
+      "id": "yogurma.hiz_ve_is_girdisi_ile_bosluk_orani",
+      "metin": "Hamurun boşluk hacim payı, yoğurma hızı ve mekanik iş girdisi arttıkça artar.",
+      "kosul": "Chin ve Campbell 2005b aktarımı",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1002/cche.10699",
+          "yer": "2 GAS BUBBLE ENTRAINMENT AND VOID FRACTION IN THE DOUGH"
+        }
+      ]
+    },
+    {
+      "id": "yogurma.kayma_ve_uzama_deformasyonlari",
+      "metin": "Yoğurucunun sağladığı mekanik enerji, gluten ağını oluşturmak için gereken kayma ve uzama deformasyonlarının bir birleşimini sunar.",
+      "kosul": "Belton 2005 aktarımı",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.foodhyd.2023.109214",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "yogurma.ksilanaz_artisi_ve_hamur_gelisme_tepe_suresi_gecikmesi",
+      "metin": "Literatürde ksilanaz derişimi arttıkça artan su mevcudiyeti nedeniyle hamur gelişiminin tepe süresinin geciktiği bildirilmiştir.",
+      "kosul": "Miksograf hamur gelişimi (aktarım)",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods13193158",
+          "yer": "3.3. Dough Mixing Property of Flours Treated with Xylanases"
+        }
+      ]
+    },
+    {
+      "id": "yogurma.maya_yoklugunda_hava_ve_lipoksijenaz",
+      "metin": "Mayanın bulunmadığı koşullarda yoğurma sırasında hava hapsolması olumsuzdur; un lipoksijenazı oksijeni kullanarak un lipitlerini ekmek hamurunda istenmeyen aldehitlere oksitler.",
+      "kosul": "Mayasız hamur koşulu",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1080/10408398.2021.1976100",
+          "yer": "Yeasts"
+        }
+      ]
+    },
+    {
+      "id": "yogurma.protein_ikincil_yapisi_duzenliligi",
+      "metin": "Hamur yoğurmanın gluten proteinlerinde alfa-sarmal, beta-dönüş ve beta-tabaka ikincil yapılarını artırarak daha düzenli bir konformasyon oluşturduğu aktarılmıştır.",
+      "kosul": "Ait Kaddour vd. ve Seabourn vd. 2008 aktarımları",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1002/cche.10572",
+          "yer": "7 GLUTEN CHEMISTRY AND FUNCTIONALITY"
+        },
+        {
+          "kaynak": "10.3390/molecules26020508",
+          "yer": "PMC7835854.txt:4.1. Dough Mixing"
+        }
+      ]
+    },
+    {
+      "id": "yogurma.sekil_verme_ve_homojen_kabarcik",
+      "metin": "Manyetik rezonans görüntüleme ve dijital görüntü analizi, şekil verme ve yoğurma işlemlerinin hamurda daha homojen bir kabarcık boyutu dağılımı ürettiğini gösterdi.",
+      "kosul": "van Duynhoven vd. 2003 aktarımı; MRG ve dijital görüntü analizi",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1002/cche.10699",
+          "yer": "5.2.2 Magnetic resonance imaging"
+        }
+      ]
+    },
+    {
+      "id": "yogurma.sure_ile_kabarcik_alani_siralamasi",
+      "metin": "Kokawa vd. aktarımına göre hamur yoğurma süresi 1 dakika (az), 2 dakika 30 saniye (en uygun) ve 7 dakika (aşırı) olarak denendiğinde toplam kabarcık alanının hamur hacmine oranı az < uygun < aşırı yoğrulmuş şeklinde sıralandı.",
+      "kosul": "Kokawa vd. 2012 aktarımı; 2D görüntü analizi",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1002/cche.10699",
+          "yer": "7.1 The effect of mixing time on the gas phase of the dough"
+        }
+      ]
+    },
+    {
+      "id": "yogurma.tepe_sonrasi_kumelenme",
+      "metin": "Tepe kıvamdan sonra tek moleküller azaldı, kümeler arttı, çıkarılamayan protein değişmedi; yani bu evrede hidrofobik kümelenme dağılmaya ağır bastı.",
+      "kosul": "İki ticari un: HF %14,5, LF %11,7 protein (kuru baz); 200 g un + farinograf suyu + 4 g NaCl, 27 °C, aşırı yoğurmaya kadar 20 dk; SE-HPLC (n = 6, p < 0,05).",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/pr9071244",
+          "yer": "3.2. Changes in Hydrophobic Interactions during Mixing; Figure 4"
+        }
+      ]
+    },
+    {
+      "id": "yogurma.tepeye_kadar_ayrisma",
+      "metin": "Yoğurmanın başından tepe kıvama kadar çıkarılabilen tek moleküller ve kümeler arttı, çıkarılamayan protein azaldı; yoğurma boyunca çıkarılabilir kümelerde yüksek proteinli unda yüksek ve düşük molekül ağırlıklı glutenin ile α- ve γ-gliadin, düşük proteinli unda yalnız yüksek molekül ağırlıklı glutenin arttı. Yazarlar bunu sıkı kümelenmiş proteinler arasındaki güçlü hidrofobik etkileşimlerin zayıflayıp kümelerin dağılmasına bağlar.",
+      "kosul": "İki ticari un: HF sert buğday %14,5, LF yarı sert buğday %11,7 protein (kuru baz); 200 g un + farinograf suyu + 4 g NaCl, Swanson yoğurucu 120 dev/dk, 27 °C, aşırı yoğurmaya kadar 20 dk; %30 ya da %10 1-propanolle çıkarma, SE-HPLC (n = 6, p < 0,05); 2D-DIGE (n = 4, p < 0,05).",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/pr9071244",
+          "yer": "Abstract"
+        },
+        {
+          "kaynak": "10.3390/pr9071244",
+          "yer": "3.2. Changes in Hydrophobic Interactions during Mixing; Figure 4"
+        },
+        {
+          "kaynak": "10.3390/pr9071244",
+          "yer": "3.3. Identification of Monomeric Proteins; Figure 6, Tables 1, 3"
+        }
+      ]
+    },
+    {
+      "id": "yogurma.tuz_ilavesiyle_farinograf_gelisme_suresi_artisi",
+      "metin": "Farinograf hamur gelişme süresi tuzsuz hamurda ortalama 5,6 dakika iken tuzlu hamurda 8,0 dakikaya yükselmiştir.",
+      "kosul": "176 buğday unu örneğinde tuzlu ve tuzsuz Farinograf gelişme süresi",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods9070952",
+          "yer": "Table 1"
+        }
+      ]
+    },
+    {
+      "id": "yogurma.yuksek_is_girdisi_kucuk_kabarciklar",
+      "metin": "Modelleme çalışmaları, yoğurmada daha yüksek mekanik iş girdisinin daha fazla sayıda küçük boyutlu kabarcığın hapsedilmesini ve daha homojen bir boyut dağılımını sağladığını gösterdi.",
+      "kosul": "Kansou vd. 2013 aktarımı",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1002/cche.10699",
+          "yer": "7.2 The effect of mixing work input on the gas phase of the dough"
+        }
+      ]
+    },
+    {
+      "id": "yogurma.asidik_hamur_optimum_karistirma_kisa",
+      "metin": "Farinograf deneylerinde, daha asidik hamurlarda optimum yoğurma süresinin kısaldığı önceki çalışmalarda bildirilmiştir.",
+      "kosul": "farinograf deneyleri; asidik hamurlar",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.ijfoodmicro.2023.110193",
+          "yer": "Discussion"
+        }
+      ]
+    },
+    {
+      "id": "yogurma.asiri_yogurma_fazla_su_farki",
+      "metin": "Uzama reolojisi testlerinde, aşırı yoğrulmuş hamur, fazla su ile hazırlanmış hamurun özelliklerini göstermedi.",
+      "kosul": "uzama reolojisi; Bilux ve Bison hamurları",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1007/s11483-017-9472-9",
+          "yer": "Results and discussion - Mixing time"
+        }
+      ]
+    },
+    {
+      "id": "yogurma.asiri_yogurma_glutenin_zarar",
+      "metin": "Aşırı uzun yoğurma, Peak12 noktasında gluten ağını depolimerize edip zarar verdi ve zayıf bağlı suyun bir kısmını salıverdi.",
+      "kosul": "aşırı uzun yoğurma; Peak12 (atıf [25])",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods13070996",
+          "yer": "3.2.2. The Relaxation Time of Weakly Bound Water"
+        }
+      ]
+    },
+    {
+      "id": "yogurma.depolimerizasyon_atif",
+      "metin": "Yoğurma sırasında glutenin makropolimerinin, SDS ile çıkarılamayan polimerik proteinin ve bu proteinin molekül ağırlığının azaldığı, kovalent olmayan bağların zayıfladığı bildirilmiştir; aynı yazarların önceki çalışmasında bu sırada ω-gliadinin öteki proteinlerle kovalent olmayan bağlarla kümelendiği görülmüştü.",
+      "kosul": "",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/pr9071244",
+          "yer": "1. Introduction"
+        },
+        {
+          "kaynak": "10.3390/pr9071244",
+          "yer": "1. Introduction"
+        },
+        {
+          "kaynak": "10.3390/foods13070996",
+          "yer": "1. Introduction"
+        }
+      ]
+    },
+    {
+      "id": "yogurma.gluta_ikame_karistirma_suresi",
+      "metin": "UNO ununun bir kısmı GluA ile ikame edildiğinde optimum yoğurma süresi, Sub-alF, Sub-alC ya da GluB ile ikameye göre anlamlı derecede kısaldı.",
+      "kosul": "UNO unu; GluA, GluB, Sub-alF, Sub-alC ikameleri",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.foodres.2024.115230",
+          "yer": "3.2. Bread-making functionality"
+        }
+      ]
+    },
+    {
+      "id": "yogurma.gluten_agi_karistirma_suresinden_cok_etkilenir",
+      "metin": "Büyük gerinimlerde hamur davranışı öncelikle gluten ağı tarafından belirlendiğinden, gluten ağı karıştırma süresinden nişasta taneleri etkileşimlerine göre çok daha fazla etkilendi.",
+      "kosul": "büyük gerinim testleri; Bilux ve Bison hamurları",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1007/s11483-017-9472-9",
+          "yer": "Results and discussion - Mixing time"
+        }
+      ]
+    },
+    {
+      "id": "yogurma.kabarciklarin_lognormal_dagilimi",
+      "metin": "Hamur yoğurma sırasında gaz kabarcıklarının tekrarlayan biçimde alt bölümlere ayrılması kabarcık boyutlarını geometrik olarak orantılı hale getirerek log-normal bir boyut dağılımı oluşturur.",
+      "kosul": "Bellido vd. 2006, Shimiya ve Nakamura 1997 aktarımı",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1002/cche.10699",
+          "yer": "5.1 Characterization of BSD"
+        }
+      ]
+    },
+    {
+      "id": "yogurma.kayma_kuvveti_ve_aktivasyon_enerjisi",
+      "metin": "Kayma kuvvetlerinin viskoz etkiler yoluyla reaksiyonun enerji bariyerini düşürmesi, kaymanın proteinler arasındaki etkileşimleri kolaylaştırdığını düşündürür.",
+      "kosul": "Reolojik kayma akışı ve viskoz kuvvetler",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1080/10408398.2020.1864618",
+          "yer": "Off-line rheological characterization"
+        },
+        {
+          "kaynak": "10.1080/10408398.2020.1864618",
+          "yer": "Off-line rheological characterization"
+        }
+      ]
+    },
+    {
+      "id": "yogurma.kepek_tanecik_boyu_optimum_karistirma",
+      "metin": "Kepek tanecik boyutu küçüldükçe optimum yoğurma süresi kısaldı.",
+      "kosul": "değirmenci kepeği; %30 kepek; WAmax",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1021/acs.jafc.4c06550",
+          "yer": "3.3. Effect of particle size reduction"
+        }
+      ]
+    },
+    {
+      "id": "yogurma.liu_modeli_celiski",
+      "metin": "Bir modele göre proteinler en uygun yoğurmaya kadar hidrofobik etkileşimle kümelenir, sonra bu kümeler dağılır; iki unla yapılan bir çalışmada ise tersine, tepe kıvama kadar kümeler dağıldı, tepeden sonra hidrofobik kümelenme ağır bastı. Yazarlar farkın örnek, çıkarma ve analiz yöntemlerinin farklı olmasından kaynaklanabileceğini belirtir.",
+      "kosul": "Çalışma verisi: iki ticari un (HF %14,5, LF %11,7 protein), 27 °C, Swanson yoğurucu, 20 dk; SE-HPLC.",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/pr9071244",
+          "yer": "3.4. Changes in the Hydrophobicity of the Dough Surface"
+        },
+        {
+          "kaynak": "10.3390/pr9071244",
+          "yer": "3.2. Changes in Hydrophobic Interactions during Mixing; Figure 4"
+        },
+        {
+          "kaynak": "10.3390/pr9071244",
+          "yer": "3.2. Changes in Hydrophobic Interactions during Mixing; Figure 4"
+        }
+      ]
+    },
+    {
+      "id": "yogurma.sheeting_enerji_verimliligi",
+      "metin": "Sheeting (haddeleme) işlemi, yüksek hızlı mekanik hamur geliştirmesinin enerjisinin yalnızca bir kısmıyla hamuru geliştirebilir ve ince, düzgün bir kırıntı yapısı sağlar.",
+      "kosul": "sheeting ve yüksek hızlı mekanik geliştirme karşılaştırması; atıflar",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods11152300",
+          "yer": "1. Introduction"
+        }
+      ]
+    },
+    {
+      "id": "yogurma.su_hareketliligi_degisir",
+      "metin": "Hamurdaki suyun hareketlilik dağılımı yoğurma koşullarıyla değişti.",
+      "kosul": "14 Fransız ticari rafine buğday unundan seçilen 4 un; farklı yoğurma süreleri ve su oranlarında hamurların TD NMR (T2) ölçümü; makalenin yalnız özet, giriş ve bölüm parçalarına erişildi.",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.foodchem.2022.135329",
+          "yer": "Highlights"
+        }
+      ]
+    },
+    {
+      "id": "yogurma.tepe12_gozenek_hasar",
+      "metin": "Peak12 noktasında çok sayıda büyük gözenek içeren hasarlı bir gluten ağı görüldü; bu durum, uzun yoğurmada gluten ağının yırtılıp parçalandığını bildiren önceki bir çalışmayla uyumluydu.",
+      "kosul": "mikroskop görüntülemesi (1000×); uzatılmış yoğurma",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods13070996",
+          "yer": "3.6. Network Structure Changes during Dough Development"
+        }
+      ]
+    },
+    {
+      "id": "yogurma.uzun_yogurma_gluten_tabaka_dagilim",
+      "metin": "Uzun süreli yoğurmada gluten protein tabakaları dağılır; kısmi ayrışma ya da depolimerizasyon görülebilir.",
+      "kosul": "uzun süreli yoğurma (atıflar)",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1007/s11483-017-9472-9",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "yogurma.uzun_yogurma_kabarcik_ayrisma_hizi",
+      "metin": "Sinkrotron X-ışını mikrotomografisi incelemesi, hamur daha uzun süre yoğrulduğunda kabarcıklar arasındaki orantısız büyümenin daha hızlı ilerlediğini gösterdi.",
+      "kosul": "Sun vd. 2020 aktarımı; sinkrotron X-ışını mikrotomografisi",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1002/cche.10699",
+          "yer": "7.1 The effect of mixing time on the gas phase of the dough"
+        }
+      ]
+    },
+    {
+      "id": "yogurma.yogurma_sonrasi_protein_iplik_hizalanma",
+      "metin": "Yoğurmadan sonra protein iplikleri yüksek düzeyde hizalı bir konformasyonda bulunur; kayma, uzama ve dönme deformasyon kuvvetlerinin yüksek düzeyde hizalı bir protein mikroyapısı oluşturduğu aktarılmıştır.",
+      "kosul": "yoğurma sonrası; kayma, uzama ve dönme deformasyonları",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/polym13010030",
+          "yer": "PMC7795266.txt:3.1. Network Characterisation"
+        },
+        {
+          "kaynak": "10.3390/polym13010030",
+          "yer": "PMC7795266.txt:3.3. Linkage between Extensional Properties and PNA"
+        }
+      ]
+    },
+    {
+      "id": "yogurma.yogurmada_tiyol_degisimi_wga",
+      "metin": "Bu çalışmada WGA'nın yüksek molekül ağırlıklı floresan tepesi yoğurmadan hemen sonra alınan örneklerde de (15–30 dakikalık fermantasyona karşılık gelen) görüldü; yazarlara göre yoğurma ve ilk mayalanma tiyol değişim tepkimelerine yetecek, protein yıkımına yetmeyecek kadar süre sağlar.",
+      "kosul": "Ticari tam buğday unu ekşi mayası, un:su 1:1, 30 °C 24 saat; F. sanfranciscensis DSM20451; WGA floresanla işaretli; SEC-HPLC",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods10020340",
+          "yer": "3.2. SEC-HPLC"
+        },
+        {
+          "kaynak": "10.3390/foods10020340",
+          "yer": "3.2. SEC-HPLC"
+        }
+      ]
+    },
+    {
+      "id": "yogurma.yulaf_kepegi_enzim_gelisme_suresi",
+      "metin": "Yulaf kepeği hamurunda 10, 120 ve 60 ppm karışık enzim eklenmesi hamur gelişme süresini 9,5 dakikadan 7,1 dakikaya düşürdü.",
+      "kosul": "yulaf kepeği hamuru; 10 ppm alfa-amilaz, 120 ppm ksilanaz, 60 ppm selülaz",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1038/s41598-023-31591-y",
+          "yer": "Results and discussion"
+        }
+      ]
+    },
+    {
+      "id": "yogurma.cwrs_ekmek_icin_yogurma_suresi",
+      "metin": "CWRS buğdayı için hamur yoğurma süresi rafine un için 3,26 dakika, tam buğday unu için ise 4,36 dakika olarak ölçüldü.",
+      "kosul": "Standart pişirme yoğurma koşulları",
+      "kanit": "tek_kaynak",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1002/cche.10865",
+          "yer": "3.4 Baking quality and bread characteristics"
+        }
+      ]
+    },
+    {
+      "id": "yogurma.cwrs_hamur_gelisme_suresi_rafine_ve_tam",
+      "metin": "CWRS buğday ununun hamur gelişme süresi rafine unda 4,53 dakika iken tam buğday ununda 6,93 dakikaya çıktı.",
+      "kosul": "CWRS buğday unu",
+      "kanit": "tek_kaynak",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1002/cche.10865",
+          "yer": "3.3 Dough mixing properties"
+        }
+      ]
+    },
+    {
+      "id": "yogurma.eski_bugdaylarda_nazik_kisa_yogurma",
+      "metin": "Eski buğday çeşitlerinden yapılan hamurlar, düşük kanca devrinde ve 3–4 dakikalık kısa bir süre boyunca nazikçe işlenmeyi gerektirmiştir.",
+      "kosul": "Eski buğday unları (siyez, gernik, spelt)",
+      "kanit": "tek_kaynak",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.2478/aucft-2021-0005",
+          "yer": "CONCLUSIONS"
+        },
+        {
+          "kaynak": "10.3390/foods12081610",
+          "yer": "1. Introduction"
+        }
+      ]
+    },
+    {
+      "id": "yogurma.evre_sureleri_una_gore",
+      "metin": "Aynı yoğurucuda yüksek proteinli un gelişme, tepe kıvam ve çökme evrelerine 4, 8 ve 12. dakikada, düşük proteinli un 6, 11 ve 16. dakikada ulaştı; 20. dakika aşırı yoğurma kabul edildi.",
+      "kosul": "İki ticari un: HF sert buğday %14,5, LF yarı sert buğday %11,7 protein (kuru baz); 200 g un + farinograf suyu + 4 g NaCl, Swanson yoğurucu 120 dev/dk, 27 °C.",
+      "kanit": "tek_kaynak",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/pr9071244",
+          "yer": "2.2. Dough Sampling during Mixing; Figure 1"
+        }
+      ]
+    },
+    {
+      "id": "yogurma.gernik_hamuru_el_ile_yogurma",
+      "metin": "Gernik hamuru viskozitesi nedeniyle endüstriyel yoğurucular için uygun değildir; ancak ön denemelere göre el ile yoğurma tatmin edici bir kalite sağlamaktadır.",
+      "kosul": "Gernik (emmer) hamuru işleme",
+      "kanit": "tek_kaynak",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.2478/aucft-2021-0005",
+          "yer": "Extensograph measurements of the flours"
+        }
+      ]
+    },
+    {
+      "id": "yogurma.kavuzlu_ve_ekmeklik_ortalama_sure",
+      "metin": "En uygun hamura ulaşmak için gereken ortalama yoğurma süresi sert kırmızı ilkbahar buğdayı ununda 3,75 dakika iken kavuzlu buğday unlarında 2,31 dakikaydı.",
+      "kosul": "%100 tam buğday ekmeği",
+      "kanit": "tek_kaynak",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1002/cche.10644",
+          "yer": "3.3 Baking quality of einkorn, emmer, spelt, and hard red spring wheat; Table 3"
+        }
+      ]
+    },
+    {
+      "id": "yogurma.siyez_hamuru_nazik_isleme_4_4dk",
+      "metin": "Yüksek yumuşama derecesi ve düşük direnç, siyez hamurunun 4,4 dakikaya kadar nazik mekanik işlem gerektirdiğini düşündürür.",
+      "kosul": "Siyez buğdayı farinograf ölçümleri",
+      "kanit": "tek_kaynak",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.2478/aucft-2021-0005",
+          "yer": "Farinograph measurements of the flours"
+        }
+      ]
+    },
+    {
+      "id": "yogurma.spelt_hamuru_yogun_karistirma_toleransi",
+      "metin": "Daha uzun hamur gelişme ve stabilite süreleri, spelt unu hamurunun diğer eski buğdaylara kıyasla daha yoğun yoğurmaya tabi tutulmasına olanak tanır.",
+      "kosul": "Spelt unu hamuru farinograf özellikleri",
+      "kanit": "tek_kaynak",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.2478/aucft-2021-0005",
+          "yer": "Farinograph measurements of the flours"
+        }
+      ]
+    },
+    {
+      "id": "yogurma.stabilite_cesitten_cesite",
+      "metin": "Dört buğday çeşidi arasında hamur stabilitesi 6,5 dakikadan (PBW 590) 1,5 dakikaya (HW 2004 ve C 306) kadar düştü; bu, son ikisinin unlarının yoğurmaya dayanıklılığının düşük olduğunu düşündürür.",
+      "kosul": "Dört Hint buğday çeşidi (PBW 590, PBW 550, HW 2004, C 306); %65 öğütme randımanlı un; Chopin Mixolab (Chopin S protokolü, 30 °C).",
+      "kanit": "tek_kaynak",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.lwt.2012.09.011",
+          "yer": "3.4. Dough rheological characteristics; Table 4"
+        }
+      ]
+    },
+    {
+      "id": "yogurma.tokat_ekmegi_yogurma_sure_ve_sicakligi",
+      "metin": "Geleneksel Tokat ekmeği hamuru homojen, elastik ve viskoz özellikler elde edilene kadar 25–30 °C'de 45–60 dakika yoğrulur.",
+      "kosul": "Geleneksel Tokat ekmeği hamur hazırlığı",
+      "kanit": "tek_kaynak",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1002/fsn3.4468",
+          "yer": "INTRODUCTION"
+        }
+      ]
+    },
+    {
+      "id": "yogurma.yavas_yogurucular_ve_isleme_kolayligi",
+      "metin": "Yavaş yoğurucular ve yüksek canlılıktaki ekşi maya kullanımı, unların işlenebilirliğini iyileştirir.",
+      "kosul": "Fırıncılarla yapılan yarı yapılandırılmış görüşmeler",
+      "kanit": "tek_kaynak",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.jcs.2019.02.006",
+          "yer": "Highlights"
+        }
+      ]
+    },
+    {
+      "id": "yogurma.dikey_mikserle_16_dakika_kademeli_karistirma",
+      "metin": "Tüm bileşenler dikey mikserde 4 dakika düşük hızda ve 12 dakika yüksek hızda olmak üzere toplam 16 dakika karıştırılmıştır.",
+      "kosul": "Dikey mikserde hamur hazırlama",
+      "kanit": "tek_kaynak",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3136/fstr.19.29",
+          "yer": "Materials and Methods - Dough preparation"
+        }
+      ]
+    },
+    {
+      "id": "yogurma.optimum_sure_3dk30sn",
+      "metin": "Bir çalışmada, her iki un için optimum karıştırma süresi, ilgili optimum su içeriklerinde 3 dakika 30 saniye olarak belirlendi.",
+      "kosul": "10 g pin bowl karıştırıcı; optimum su içeriği; iki un örneği",
+      "kanit": "tek_kaynak",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1007/s11483-017-9472-9",
+          "yer": "Materials and methods - Dough preparation"
+        }
+      ]
+    },
+    {
+      "id": "yogurma.tepe_boslugu_basinci_ve_kabarcik_boyutu",
+      "metin": "Basınçlı yoğurma çalışmalarında yoğurucu tepe boşluğu basıncı arttıkça kabarcık boyutunun bir miktar büyüdüğü gösterilmiştir.",
+      "kosul": "Martin vd. 2004 aktarımı; basınçlı yoğurma",
+      "kanit": "ikincil",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.foodres.2006.07.020",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "yogurma.miksograf_enerji_girdisi_olcer",
+      "metin": "Miksograf cihazı, hamur yoğurma sırasında aktarılan mekanik enerji girdisini ölçer.",
+      "kosul": "Hamur mekanik testi; Popineau vd. (2001) aktarımı",
+      "kanit": "tek_kaynak",
+      "bolum": "Nasıl ölçülür",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1093/jexbot/53.370.947",
+          "yer": "Manipulating HMW subunit composition"
+        }
+      ]
+    },
+    {
+      "id": "yogurma.sure_artisi_ve_yogunlukla_olculen_bosluk",
+      "metin": "Hamur yoğunluğuyla ölçüldüğünde yoğurma süresindeki artışın hamur boşluk payında artışa yol açtığı gösterilmiştir.",
+      "kosul": "Köksel ve Scanlon 2012 aktarımı",
+      "kanit": "ikincil",
+      "bolum": "Nasıl ölçülür",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1002/cche.10699",
+          "yer": "2 GAS BUBBLE ENTRAINMENT AND VOID FRACTION IN THE DOUGH"
+        }
+      ]
+    },
+    {
+      "id": "yogurma.iki_farkli_yogurucuda_kabarcik_capi",
+      "metin": "Dondurulmuş hamur kesitlerinin mikroskobik incelemesinde iki farklı yoğurucu türünde ortalama 71 ve 89 mikrometre çapında kabarcık çekirdeklerinin oluştuğu aktarılmıştır.",
+      "kosul": "Campbell vd. 1991 aktarımı; dondurulmuş hamur kesitleri",
+      "kanit": "ikincil",
+      "bolum": "Nasıl ölçülür",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.foodres.2006.07.020",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "yogurma.karistirma_3_11_dk",
+      "metin": "Bir çalışmada, ekmek hamuru karıştırma süreleri 3 ile 11 dakika arasında değiştirildi.",
+      "kosul": "100 g ölçekli pin karıştırıcı; ekmek yapımı; karıştırma süresi denemesi",
+      "kanit": "tek_kaynak",
+      "bolum": "Nasıl ölçülür",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1021/acs.jafc.4c06550",
+          "yer": "Materials and methods · 2.7 Bread-making"
+        }
+      ]
+    },
+    {
+      "id": "yogurma.mikro_hizli_karistirma_ve_mikro_pisirme_farki",
+      "metin": "Mikro hızlı karıştırma testinde hamur yüksek hızda sabit bir süre yoğrulurken, mikro pişirme testinde hamur mikrofarinografta en uygun kıvama kadar yoğrulur.",
+      "kosul": "Mikro ölçekli yoğurma test protokolleri karşılaştırması",
+      "kanit": "tek_kaynak",
+      "bolum": "Nasıl ölçülür",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1094/cchem-09-13-0194-cesi",
+          "yer": "ABSTRACT"
+        }
+      ]
+    },
+    {
+      "id": "yogurma.model_karistirma_karesel_terim",
+      "metin": "Modelde maya ekmeği (YB) için karesel karıştırma terimi göreli parametresi (%-10,4), ekşi mayalı ekmeklerdeki (SB %-5,4, YSB %-5,8) değerlerden mutlak değerce daha büyük çıktı.",
+      "kosul": "özgül hacim modeli; YB, SB, YSB",
+      "kanit": "tek_kaynak",
+      "bolum": "Nasıl ölçülür",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.ijfoodmicro.2023.110193",
+          "yer": "Discussion"
+        }
+      ]
+    },
+    {
+      "id": "yogurma.siyez_olgunluk_gelisme_suresi",
+      "metin": "Olgunlaşmamış siyez tam tane unu hamurunun gelişme süresi 4,75 dakika, olgun unun ise 2,60 dakika idi.",
+      "kosul": "siyez tam tane unu; olgunluk aşamasına göre",
+      "kanit": "tek_kaynak",
+      "bolum": "Nasıl ölçülür",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.55730/1300-011x.3219",
+          "yer": "Bulgular ve Tartışma"
+        }
+      ]
+    },
+    {
+      "id": "yogurma.tweedy_majorpin_enerji",
+      "metin": "Tweedy 1 mikseri, MajorPin mikserine göre yaklaşık beş kat hızda hamura enerji aktarır.",
+      "kosul": "karıştırıcı karşılaştırması (Tweedy 1, MajorPin)",
+      "kanit": "tek_kaynak",
+      "bolum": "Nasıl ölçülür",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods11152300",
+          "yer": "2.2. Dough Preparation and Sheeting"
+        }
+      ]
+    },
+    {
+      "id": "yogurma.ultrasonik_olcum_gaz_hacim_payi",
+      "metin": "Düşük frekanslı (50 kHz) ultrasonik incelemeler, daha uzun yoğurma süresi kullanıldığında hamurun sönümleme katsayısının ve dolayısıyla gaz hacim payının arttığını göstermiştir.",
+      "kosul": "Mehta vd. 2009 aktarımı; 50 kHz ultrasonik ölçüm",
+      "kanit": "ikincil",
+      "bolum": "Nasıl ölçülür",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1002/cche.10699",
+          "yer": "7.1 The effect of mixing time on the gas phase of the dough"
+        }
+      ]
+    },
+    {
+      "id": "yogurma.yogurma_pc_fark_azalma",
+      "metin": "Yoğurma süresi arttıkça %50 ve %62 hidrasyon düzeyindeki örnekler, PC1 ve PC2 skorlarında daha az fark gösterdi.",
+      "kosul": "yoğurma süresi 15 dakikaya kadar; %50 ve %62 hidrasyon düzeyi",
+      "kanit": "tek_kaynak",
+      "bolum": "Nasıl ölçülür",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.fochx.2022.100448",
+          "yer": "Correlation analysis (CA) and principal component analysis (PCA)"
+        }
+      ]
+    },
+    {
+      "id": "yogurma.yogurma_uc_asama",
+      "metin": "Yoğurma süreci üç ayrı aşamaya ayrılır: malzemelerin dağılımı, hidrasyon ve enerji girdisi.",
+      "kosul": "farinograf yoğurma",
+      "kanit": "ikincil",
+      "bolum": "Nasıl ölçülür",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods13203232",
+          "yer": "3.1. Farinograph Mixing Behavior"
+        }
+      ]
+    }
+  ]
+}

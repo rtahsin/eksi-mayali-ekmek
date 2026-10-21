@@ -1,0 +1,198 @@
+{
+  "id": "oncu",
+  "ad": "Öncü bakteriler",
+  "bilgiler": [
+    {
+      "id": "oncu.leuconostoc_weissella_kosullari",
+      "metin": "Heterofermantatif Leuconostoc ve Weissella türleri genellikle yüksek pH (> 4,0), düşük sıcaklık (< 30 °C) ve düşük hamur verimi (< 200) koşullarında fermente edilen ekşi mayalarda bulunur.",
+      "kosul": "527 yenilenen ekşi maya analizi",
+      "kanit": "ikincil",
+      "bolum": "Hangi koşulda",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1080/10408398.2021.1976100",
+          "yer": "Lactic acid bacteria"
+        }
+      ]
+    },
+    {
+      "id": "oncu.sivi_leuconostoc",
+      "metin": "Laboratuvarda 28 gün sıvı (hamur verimi 280) yenilenen dört olgun durum buğdayı ekşi mayasının hepsinde topluluk neredeyse yalnız Leuconostoc türlerinden oluşan bir yapıya kaydı; MA mayasında 14. ve 21. günlerden itibaren yalnız sıvı mayada yeni Leuconostoc citreum suşları ortaya çıktı.",
+      "kosul": "Güney İtalya'dan (Matera, Altamura) 4 olgun tip I ekşi maya, Triticum durum (durum buğdayı) unu; laboratuvarda 28 gün günlük yenileme, katı (hamur verimi 160) ve sıvı (hamur verimi 280, 150 rpm karıştırma) koşullar; 25 °C'de 3–6 saat fermantasyon, yenilemeler arasında 16–19 saat 10 °C'de bekletme; gerçek hamur.",
+      "kanit": "tek_kaynak",
+      "bolum": "Hangi koşulda",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1128/aem.00309-14",
+          "yer": "Discussion"
+        },
+        {
+          "kaynak": "10.1128/aem.00309-14",
+          "yer": "Results; Fig. 2A"
+        }
+      ]
+    },
+    {
+      "id": "oncu.erken_oncu",
+      "metin": "Üç ayrı çalışmada kendiliğinden başlatılan ekşi mayalarda Weissella ve Leuconostoc gibi LAB'ler ilk günlerde öne çıktı, sonraki yenilemelerde geriledi.",
+      "kosul": "Üç ayrı düzen: 10 un türünden 40 kendiliğinden ekşi maya (oda sıcaklığı, günlük besleme, 14 gün, 16S rRNA); laboratuvarda çavdar ekşi mayası (Tip 1370 çavdar unu, hamur verimi 200, 20 °C ve 30 °C, günde bir 1:10 yenileme); WSSM model besiyeri alt kültürleri.",
+      "kanit": "uzlasi",
+      "bolum": "Mayadaki yeri",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.7717/peerj.16163",
+          "yer": "Results, Bacterial succession; Figs. 4 and S5A"
+        },
+        {
+          "kaynak": "10.12938/bmfh.2019-038",
+          "yer": "Results: Bacterial community succession in WSSM subcultures; Fig. 3"
+        },
+        {
+          "kaynak": "10.1371/journal.pone.0095449",
+          "yer": "Results, Pyrosequencing; Figure 3"
+        },
+        {
+          "kaynak": "10.1371/journal.pone.0095449",
+          "yer": "Results, DGGE; Figure 2A"
+        }
+      ]
+    },
+    {
+      "id": "oncu.un_kokenli_leuconostoc_citreum_mayaya_gecisi",
+      "metin": "Unlardan izole edilen Leuconostoc citreum suşlarının neredeyse tamamı, o unları kullanan fırınların ekşi mayalarında da tespit edilmiştir.",
+      "kosul": "Altamura (AM) ve Castellana Grotte (CG) fırınlarının unları ve ekşi mayaları, bir yıllık izleme",
+      "kanit": "tek_kaynak",
+      "bolum": "Nereden gelir",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3389/fmicb.2018.01984",
+          "yer": "Results - Lactic Acid Bacterium Biota in Sourdoughs, Flour and Bakery Environment"
+        },
+        {
+          "kaynak": "10.3389/fmicb.2018.01984",
+          "yer": "Results - Lactic Acid Bacterium Biota in Sourdoughs, Flour and Bakery Environment"
+        }
+      ]
+    },
+    {
+      "id": "oncu.weissella_cinsi_tanimi",
+      "metin": "Weissella cinsi, fermantatif metabolizmaya sahip Gram-pozitif fakültatif anaerop bakterilerden oluşan bir gruptur.",
+      "kosul": "taksonomik tanımlama",
+      "kanit": "tek_kaynak",
+      "bolum": "Tanım",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3389/fmicb.2021.629449",
+          "yer": "Abstract"
+        }
+      ]
+    },
+    {
+      "id": "oncu.leuconostoc_morfolojik_ve_genomik_ozellikleri",
+      "metin": "Gram-pozitif bakterilerin düşük G+C dalına ait olan Leuconostoc suşları, genellikle çiftler veya kısa zincirler hâlinde bulunan, hareketsiz ve spor oluşturmayan koklardır.",
+      "kosul": "morfolojik ve taksonomik tanımlama",
+      "kanit": "tek_kaynak",
+      "bolum": "Kimlik",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods13010096",
+          "yer": "1.1. Leuconostoc—History, Morphology and General Importance"
+        }
+      ]
+    },
+    {
+      "id": "oncu.cavdar_20c_3gun",
+      "metin": "20 °C'de üçüncü yenilemeden sonra (3. gün) enterobakterilerin yerini tamamen Weissella cibaria, Weissella paramesenteroides/confusa, Lactococcus lactis, Leuconostoc citreum ve Latilactobacillus graminis/sakei/curvatus aldı.",
+      "kosul": "Laboratuvarda kendiliğinden başlatılmış yarı katı çavdar ekşi mayası; Tip 1370 çavdar unu + %0,5 tuz, hamur verimi 200, günde bir 1:10 yenileme; 20 °C, 3. gün; pirodizileme.",
+      "kanit": "tek_kaynak",
+      "bolum": "Mayadaki yeri",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1371/journal.pone.0095449",
+          "yer": "Results, Pyrosequencing; Figure 3"
+        }
+      ]
+    },
+    {
+      "id": "oncu.fermantasyonun_24_saatinde_kok_sayisi_zirvesi",
+      "metin": "Tüm örneklerde 24 saatlik fermantasyon sonrasındaki asit üreten kok sayısı (4.8 × 108 ile 1.4 × 109 CFU/ml), 48 ve 72 saat sonrakine kıyasla bir mertebe daha yüksek bulunmuştur.",
+      "kosul": "30 °C'de buğday, kavılca/spelt ve çavdar ekşi mayası yenilemesi",
+      "kanit": "tek_kaynak",
+      "bolum": "Mayadaki yeri",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1002/mbo3.1009",
+          "yer": "Dynamics of LAB and yeast counts"
+        }
+      ]
+    },
+    {
+      "id": "oncu.ilk_yedi_gunde_oncu_bakterilerin_azalisi",
+      "metin": "Ekşi mayanın ilk yedi günlük besleme sürecinde Pantoea, Weissella, Kosakonia ve Cutibacterium cinslerinin bolluğu azalmıştır.",
+      "kosul": "ekşi mayanın ilk yedi günlük yenileme süreci",
+      "kanit": "tek_kaynak",
+      "bolum": "Mayadaki yeri",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1128/spectrum.02380-25",
+          "yer": "Flour type affects bacterial but not fungal communities"
+        }
+      ]
+    },
+    {
+      "id": "oncu.lactococcus_lactis_olgun_mayada_tutunamaz",
+      "metin": "Lactococcus lactis tahıl mikrobiyotasının yerli bir türü olmasına karşın olgun ekşi maya ekosisteminde varlığını sürdürememiştir.",
+      "kosul": "tahıl mikrobiyotası ve olgun ekşi maya ekosistemi",
+      "kanit": "ikincil",
+      "bolum": "Mayadaki yeri",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1128/aem.00570-10",
+          "yer": "Discussion"
+        }
+      ]
+    },
+    {
+      "id": "oncu.pediococcus_pentosaceus_transkript_zirvesi",
+      "metin": "Bir çalışmada ekşi maya fermantasyonlarında esas olarak Pediococcus pentosaceus ile ilişkili 26 oligonükleotitten oluşan küme 4. ile 6. günler arasında en yüksek değerlere ulaşmış, ardından düşmüştür.",
+      "kosul": "ekşi maya fermantasyonlarında mikrodizi gen anlatım analizi; tek çalışma",
+      "kanit": "tek_kaynak",
+      "bolum": "Mayadaki yeri",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1128/aem.00570-10",
+          "yer": "Results"
+        }
+      ]
+    },
+    {
+      "id": "oncu.citreum_ve_mesenteroides_mannitol_verimi",
+      "metin": "Leuconostoc citreum ve Leuconostoc mesenteroides %70 ile %90 arasında değişen verimlerle mannitol üretir ve antifungal bileşikler oluşturabilir.",
+      "kosul": "Leuconostoc mannitol üretimi ve antifungal aktivite",
+      "kanit": "tek_kaynak",
+      "bolum": "Ne yer, ne üretir",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods13010096",
+          "yer": "4. Conclusions"
+        },
+        {
+          "kaynak": "10.3390/foods13010096",
+          "yer": "1.1. Leuconostoc—History, Morphology and General Importance"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,1436 @@
+{
+  "id": "gaz",
+  "ad": "Gaz üretimi",
+  "bilgiler": [
+    {
+      "id": "gaz.gluten_agi_gaz_tutma",
+      "metin": "Viskoelastik gluten ağı, fermantasyon ve pişirme sırasında hamurun gaz tutma kapasitesine aracılık eder.",
+      "kosul": "Fermantasyon ve pişirme sırasındaki buğday hamuru",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1002/cche.10572",
+          "yer": "7 GLUTEN CHEMISTRY AND FUNCTIONALITY"
+        },
+        {
+          "kaynak": "10.1016/j.foodchem.2021.129916",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "gaz.sicaklik_artisiyla_gaz_hucrelerinde_hacim_genlesmesi",
+      "metin": "Pişirme sırasında sıcaklık yükseldikçe gaz hücrelerindeki karbondioksitin hacimsel genleşmesi, fermantasyon evresindekinden çok daha büyüktür.",
+      "kosul": "Pişirme sıcaklık artışı altında ekmek hamuru.",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.crfs.2026.101573",
+          "yer": "3.4. Different K. marxianus strains lead to different rates of CO2 release"
+        }
+      ]
+    },
+    {
+      "id": "gaz.mayalar_heterofermentatif_labdan_daha_fazla_kabartir",
+      "metin": "Genel olarak mayalar, heterofermentatif laktik asit bakterisi türlerine kıyasla daha yüksek bir kabartma kapasitesine sahiptir.",
+      "kosul": "Ekşi mayalı hamur fermantasyonu",
+      "kanit": "tek_kaynak",
+      "bolum": "Ortak özellikler",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1080/10408398.2021.1976100",
+          "yer": "Selection of functional starter cultures for sourdough productions"
+        }
+      ]
+    },
+    {
+      "id": "gaz.alkol_fermantasyonunda_sekerlerin_co2_ve_etanole_donusumu",
+      "metin": "Alkollü fermantasyon sırasında maya şekerleri karbondioksit ve etanole dönüştürürken gliserol, organik asitler ve aroma bileşikleri gibi ikincil metabolitler üretir.",
+      "kosul": "Alkollü fermantasyon",
+      "kanit": "ikincil",
+      "bolum": "Tanım",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods11101388",
+          "yer": "1. Introduction"
+        }
+      ]
+    },
+    {
+      "id": "gaz.co2_kabartir",
+      "metin": "Hamurdaki karbonhidratlardan glikolizle oluşan karbondioksit hamurun her yanına yayılır ve ona gözenekli bir yapı vererek kabarmasını sağlar.",
+      "kosul": "",
+      "kanit": "ikincil",
+      "bolum": "Tanım",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/molecules30010112",
+          "yer": "2.2.1. Carbon Dioxide Production During Yeast Fermentation"
+        },
+        {
+          "kaynak": "10.1016/j.ijfoodmicro.2016.07.018",
+          "yer": "Yeast properties of technological relevance"
+        },
+        {
+          "kaynak": "10.1016/j.jcs.2017.03.013",
+          "yer": "Introduction"
+        },
+        {
+          "kaynak": "10.3390/foods15101745",
+          "yer": "3.2. The Analysis of Physiological Functional Characteristics of Strains"
+        },
+        {
+          "kaynak": "10.1007/s00203-022-03313-x",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "gaz.ekmekte_son_gaz_hacmi_yuzde70i_asabilir",
+      "metin": "Pişmiş ekmeğin son gaz hacminin somun hacminin %70'inin üzerine rahatlıkla çıkabildiği aktarılır.",
+      "kosul": "Scanlon ve Zghal 2001 aktarımı.",
+      "kanit": "ikincil",
+      "bolum": "Tanım",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1007/s00397-018-1113-9",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "gaz.gaz_tutma_reolojiye_bagli",
+      "metin": "Ekmek hamurunun esnekliği, uzayabilirliği ve akışkanlığa direnci (viskozitesi) ekmek yapımı sırasında gazı ne kadar tutabileceğini belirler.",
+      "kosul": "",
+      "kanit": "ikincil",
+      "bolum": "İlişkileri",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.foodhyd.2025.111252",
+          "yer": "Introduction"
+        },
+        {
+          "kaynak": "10.1016/j.fochx.2025.103160",
+          "yer": "Results and discussion, Effects of hollow salt addition on tensile properties of dough"
+        }
+      ]
+    },
+    {
+      "id": "gaz.dusuk_hacim_gluten_gaz_tutamaz",
+      "metin": "Dört Hint buğday çeşidiyle yapılan deneme pişirmesinde yazarlar, ekmeğin özgül hacmindeki belirgin düşüşü gluten ağının fermantasyonda oluşan karbondioksiti daha az tutabilmesiyle açıklar.",
+      "kosul": "Hindistan; dört buğday çeşidi (PBW 590, PBW 550, HW 2004, C 306); %65 randımanlı un; 30 g deneme pişirmesi: 30 °C'de 90 + 36 dakika mayalanma, 232 °C'de 13 dakika pişirme; korelasyonlar n = 4 çeşit üzerinden.",
+      "kanit": "tek_kaynak",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.lwt.2012.09.011",
+          "yer": "3.5. Bread quality"
+        }
+      ]
+    },
+    {
+      "id": "gaz.e75_b72_kombinasyonu_ile_en_yuksek_hamur_kabarma_yuksekligi",
+      "metin": "Bu çalışmada en yüksek aşılama düzeyinde E75-B72 kombinasyonunu içeren ekşi mayada 5,5 cm ile en yüksek hamur yüksekliği kaydedilmiştir.",
+      "kosul": "E75-B72 starter kombinasyonlu ekşi maya; 16 saat fermantasyon; en yüksek aşılama düzeyi (H).",
+      "kanit": "tek_kaynak",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods11091278",
+          "yer": "Fermentation Abilities of Selected Starters"
+        }
+      ]
+    },
+    {
+      "id": "gaz.ekmek_mayasiz_eksi_maya_ekmegi",
+      "metin": "Bir model çalışmasında ekmek mayası eklenmeden yapılan ekşi maya ekmeklerinin hacmi düşük, iç sertliği yüksekti.",
+      "kosul": "Model tip I buğday ekşi mayası: I. aşama 30 °C'de 16 saat, II. aşama 30 °C'de 2,5 saat; ekmek hamuru 1 saat dinlenme + 30 °C'de 1 saat mayalanma, 180 °C'de 25 dakika pişirme.",
+      "kanit": "tek_kaynak",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3389/fmicb.2019.02113",
+          "yer": "Results, Figure 1B,C"
+        }
+      ]
+    },
+    {
+      "id": "gaz.katmanli_hamurda_co2_ve_doku_olusumu",
+      "metin": "Üretilen karbondioksit, katmanlı yapıyla birlikte, fermente pastry ürünlerinin karakteristik yapraklı dokusundan sorumludur.",
+      "kosul": "Katmanlı fermente hamur ürünleri",
+      "kanit": "tek_kaynak",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods11101388",
+          "yer": "5. Conclusions"
+        }
+      ]
+    },
+    {
+      "id": "gaz.mayali_eksi_maya_kabarmayi_artirir",
+      "metin": "Bir model çalışmasında ekşi maya, ekmek mayasının kabartmasını yalnız kendisi de maya içerdiğinde artırdı; gaz üretimi ekşi maya ve ekmek mayası birlikteyken, özellikle ekşi maya S. cerevisiae ile fermente edildiğinde en yüksekti. Mayalı ekşi mayalarla yapılan ekmeklerin özgül hacmi CO2 üretimiyle uyumluydu, iç sertliği ise CO2 ve hacimle ters ilişkiliydi.",
+      "kosul": "Model tip I buğday ekşi mayası: I. aşama 30 °C'de 16 saat, II. aşama 30 °C'de 2,5 saat; ekmek hamuru 1 saat dinlenme + 30 °C'de 1 saat mayalanma, 180 °C'de 25 dakika pişirme; suşlar K. humilis FUA4001, S. cerevisiae FUA4018, W. anomalus FUA4025, F. sanfranciscensis DSM20451T, Latilactobacillus sakei LS8.",
+      "kanit": "tek_kaynak",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3389/fmicb.2019.02113",
+          "yer": "Discussion"
+        },
+        {
+          "kaynak": "10.3389/fmicb.2019.02113",
+          "yer": "Results, Figure 1A"
+        },
+        {
+          "kaynak": "10.3389/fmicb.2019.02113",
+          "yer": "Results, Figure 1B,C"
+        }
+      ]
+    },
+    {
+      "id": "gaz.tek_asamali_daha_hacimli",
+      "metin": "Bir çalışmada yalnız mayayla (tek aşamalı) yapılan ekmeklerin hacmi (100 g ekmekte 336 cm³), Lactiplantibacillus plantarum ekşi mayasıyla iki aşamalı yapılanlardan (287 cm³) yüksekti.",
+      "kosul": "Polonya; ekmeklik buğday, açık renkli un (tip 450) ve tam buğday unu (tip 1650); %3,5 maya, %1 tuz; 220 °C'de 30 dakika pişirme; iki aşamalı yöntemde L. plantarum (tip suşu 20174) ile 1:1 Tip I ekşi maya, 30 °C'de 24 saat, unun %50'si, üstüne maya.",
+      "kanit": "tek_kaynak",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods8120663",
+          "yer": "3. Results and Discussion; Table 3"
+        }
+      ]
+    },
+    {
+      "id": "gaz.diger_calismalarda_hacim_etkisi_yok",
+      "metin": "Başka araştırmacıların çalışmalarında Lactiplantibacillus plantarum içeren ekşi maya eklemenin ekmek hacmine etkisi görülmedi.",
+      "kosul": "",
+      "kanit": "ikincil",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods8120663",
+          "yer": "3. Results and Discussion"
+        }
+      ]
+    },
+    {
+      "id": "gaz.alfa_amilaz_asiri_doz_co2_hizi",
+      "metin": "Aşırı dozda (3075 AU/g km) alfa-amilaz eklendiğinde, CO2 üretim hızı yaklaşık 240 dakikaya kadar görece yüksek kalmıştır.",
+      "kosul": "mayalı Bilux buğday unu hamuru, 3075 AU/g km alfa-amilaz",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.jcs.2017.03.013",
+          "yer": "3.2 CO2 production rate"
+        }
+      ]
+    },
+    {
+      "id": "gaz.alfa_amilaz_optimal_doz_co2_hizi",
+      "metin": "Optimal dozda (39 AU/g km) alfa-amilaz takviyesiyle, CO2 üretim hızı yaklaşık 180 dakikaya kadar yüksek kalmıştır.",
+      "kosul": "mayalı Bilux buğday unu hamuru, 39 AU/g km alfa-amilaz",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.jcs.2017.03.013",
+          "yer": "3.2 CO2 production rate"
+        }
+      ]
+    },
+    {
+      "id": "gaz.arabinoksilanlarin_gaz_kabarciklarini_guclendirmesi",
+      "metin": "Makale, arabinoksilanların hamurdaki gaz kabarcıklarını güçlendirerek daha fazla büyümelerine izin verdiğini ve bunun pişmiş ekmekte daha yüksek hacme yol açtığını önceki çalışmalara dayanarak aktarmaktadır [41,42,45].",
+      "kosul": "Literatür aktarımı (çavdar unu ekmeği, arabinoksilan); makalenin kendi ölçümü değildir, kaynaklar [41,42,45].",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods13162482",
+          "yer": "3. Results and Discussion"
+        }
+      ]
+    },
+    {
+      "id": "gaz.asiri_mayalanma_cokme",
+      "metin": "Bu çalışmada aşırı mayalanma olduğunda hamurun zayıflaması, mayalanma ve pişirme sırasında yapının çökmesine yol açtı (sonuçlar kaynakta gösterilmemiş).",
+      "kosul": "Aşırı mayalanma (over-proofing); ekşi mayalı ekmek yapımı, uzun mayalanma; mayalanma ve pişirme; sonuçlar kaynakta gösterilmemiş",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.ijfoodmicro.2023.110193",
+          "yer": "4. Discussion"
+        }
+      ]
+    },
+    {
+      "id": "gaz.co2_cozunurluk_siniri_ve_gaz_hucrelerinin_genlesmesi",
+      "metin": "Makale, önceki bir çalışmaya dayanarak hamurun sıvı fazının çözünürlük sınırına ulaşıldıktan sonra karbondioksitin hapsolmuş gaz hücrelerine yayıldığını ve artan gaz oranının hücrelerin genleşmesine yol açtığını aktarmaktadır.",
+      "kosul": "Mayalı hamur fermantasyonunun büyüme evresi; literatür aktarımı, makalenin kendi ölçümü değildir.",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1371/journal.pone.0282670",
+          "yer": "3.4 Oven rise behavior and macroscopic quantification of extension processes"
+        }
+      ]
+    },
+    {
+      "id": "gaz.co2_uretimi_ile_seker_tuketimi_korelasyonu",
+      "metin": "Bu çalışmada fermente hamur işi (pastry) yapımı sırasında üretilen toplam karbondioksit miktarı ile tüketilen şeker miktarı arasında korelasyon bulunmuştur (R2 = 0,97).",
+      "kosul": "Fermente hamur işi (pastry) yapımı; fermantasyon süresi üretim süresine eşit; sakkaroz ilavesi farklı oranlarda.",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods11101388",
+          "yer": "4.4. The Impact of Different Sucrose Concentrations on Yeast Activity and Dough and End-Product Characteristics in Pastry Making"
+        }
+      ]
+    },
+    {
+      "id": "gaz.deniz_tuzu_ve_eksi_maya_gaz_uretimi",
+      "metin": "Fermantasyon sırasında hamur sistemine deniz tuzu ve kuru ekşi maya ilavesi hamur gelişimini ve gaz üretimini artırmıştır.",
+      "kosul": "fermantasyon sırasında deniz tuzu ve kuru ekşi maya ilavesi",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods9101465",
+          "yer": "Abstract"
+        }
+      ]
+    },
+    {
+      "id": "gaz.duz_hamur_etanol_co2_konsantrasyonu",
+      "metin": "Buğdaylı düz hamur fermantasyonunda etanol ve karbondioksit konsantrasyonları 100 g un başına 60 mmol düzeyine kadar ulaşır.",
+      "kosul": "S. cerevisiae ile buğdaylı düz hamur fermantasyonu",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.foodchem.2012.08.039",
+          "yer": "Abstract"
+        }
+      ]
+    },
+    {
+      "id": "gaz.enzim_ilavesiyle_fermantasyon_gazi_artisi",
+      "metin": "Bu çalışmada fermantasyon sırasında oluşan gaz hacmi, enzim eklenen örneklerde kör örneğe (1309 cm3) kıyasla 1413–1486 cm3 düzeyine yükselmiştir.",
+      "kosul": "Enzim eklenmiş ve eklenmememiş (kör) hamurlar; fermantasyon sırasında oluşan toplam gaz hacmi (reofermentometre) ölçülmüş.",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.17221/40/2009-cjfs",
+          "yer": "Enzymatic activity"
+        }
+      ]
+    },
+    {
+      "id": "gaz.enzimlerle_gaz_tutma_kapasitesi_artisi",
+      "metin": "Bu çalışmada hamurun gaz tutma kapasitesi, enzim eklendiğinde kör örnekteki %88,4 değerinden %96,5–97,7 düzeyine çıkmıştır.",
+      "kosul": "Enzim eklenmiş ve eklenmemiş (kör) hamurlar; reofermentometre analizi.",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.17221/40/2009-cjfs",
+          "yer": "Enzymatic activity"
+        }
+      ]
+    },
+    {
+      "id": "gaz.eps_varliginda_kompakt_capraz_baglanma_ve_gaz_tutma",
+      "metin": "Bu çalışmada EPS-Maya grubunda EPS'nin varlığına bağlı olarak daha sıkı nişasta çapraz bağlanması görüldüğü, bunun gaz tutma kapasitesini artırdığı ve özgül hacimde anlamlı bir artışla sonuçlandığı belirtilmiştir.",
+      "kosul": "Mantou hamuru; EPS ve maya birlikte kullanılan grup; yazarların yorumu.",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods13223611",
+          "yer": "3.4. Comparison of pH, TTA and Fermentation Capacity of Different Sourdough"
+        }
+      ]
+    },
+    {
+      "id": "gaz.etanol_gluten_agini_ve_uzayabilirligi_azaltir",
+      "metin": "Fermantasyon konsantrasyonlarındaki etanol, gluten ağının yapısını değiştirerek hamurun uzama viskozitesini ve uzayabilirliğini düşürür.",
+      "kosul": "Fermantasyon düzeyinde etanol eklenmiş mayasız hamur",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.jcs.2018.06.006",
+          "yer": "Abstract"
+        }
+      ]
+    },
+    {
+      "id": "gaz.fermantasyon_evresinde_hamur_genlesme_hizi",
+      "metin": "Fermantasyon evresi boyunca hamurun genleşme hızı 0,027 dak–1 olarak ölçülmüştür.",
+      "kosul": "30 °C'de 60 dakika fermantasyon",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1371/journal.pone.0282670",
+          "yer": "3.4 Oven rise behavior and macroscopic quantification of extension processes"
+        }
+      ]
+    },
+    {
+      "id": "gaz.fermantasyon_sonunda_hacim_4_katindan_fazla_artar",
+      "metin": "Fermantasyon sonundaki hamur hacmi, fermantasyon başlangıcındaki ilk hamur hacminin neredeyse 4,4 katına ulaştı.",
+      "kosul": "32 °C'de genişleyen aralıklı paralel plakalı reometre; mayalı zayıf buğday hamuru (%1,5 NaCl, %6 sakkaroz).",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1007/s00397-018-1113-9",
+          "yer": "Results and discussion - Calibration curve for V(t), Fig. 3b"
+        }
+      ]
+    },
+    {
+      "id": "gaz.fermantasyondaki_etanolun_pisirmede_buharlasmasi",
+      "metin": "Bu çalışmada mayalı fermente hamur işi (pastry) örneklerinde fermantasyon sonrasında %1,23 ± 0,03 etanol ölçülmüş, pişirme sırasında neredeyse tamamı buharlaşarak son üründe %0,11 ± 0,03 düzeyine inmiştir.",
+      "kosul": "Mayalı fermente hamur işi (pastry) üretim süreci; fermantasyon sonrası ve pişirme sonrası etanol ölçümü.",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods11101388",
+          "yer": "3.1.3. Production of Fermentation Metabolites during Fermented Pastry Making"
+        }
+      ]
+    },
+    {
+      "id": "gaz.fermente_hamurda_gaz_bosluk_orani_artisi",
+      "metin": "Yazarların şematik modelinde, fermente edilmemiş hamurun gaz boşluk oranı 0,1, fermente hamurun ise 0,75'e yükselmiş ve gaz hücre boyutu artmış olarak ele alınır [42].",
+      "kosul": "fermente vs fermente edilmemis hamur; 0.1; 0.75; 42",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/polym13010030",
+          "yer": "PMC7795266.txt:4. Discussion"
+        }
+      ]
+    },
+    {
+      "id": "gaz.fruktoz_120_dakikada_negatif_iliskili",
+      "metin": "Hamur fermantasyonunun 120. dakikasında gaz üretimi, fruktoz miktarıyla negatif korelasyon gösterdi.",
+      "kosul": "Buğday unu hamurunda 120 dakikalık fermantasyon",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.17221/216/2012-cjfs",
+          "yer": "Abstract"
+        }
+      ]
+    },
+    {
+      "id": "gaz.gaz_halindeki_co2_frekans_bagimliligini_artirir",
+      "metin": "Bu çalışmada, fermente hamur miktarlarında gaz halindeki CO2 varlığıyla frekans bağımlılığı arttı ve kıvam mayalı hamurdakine benzer biçimde düştü (Şekil 1).",
+      "kosul": "Maya metabolitleriyle (spiking) yeniden oluşturulan model hamurlar; kayma reolojisi; Şekil 1",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/polym13010030",
+          "yer": "PMC7795266.txt:3.1. Network Characterisation"
+        }
+      ]
+    },
+    {
+      "id": "gaz.gelismis_gluten_agi_gaz_tutma_ve_gozenek_yapisi",
+      "metin": "Literatürde, gelişmiş gluten ağının gaz tutma kapasitesini artırdığı, gözenek oluşumunu azalttığı ve daha homojen, narin ve yumuşak bir ekmek dokusu verdiği aktarılıyor.",
+      "kosul": "mikroyapi analizi",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods14071253",
+          "yer": "3.3.1. Microstructure of Rye Bran Bread Dough"
+        }
+      ]
+    },
+    {
+      "id": "gaz.genlesen_co2_hucreleri_gluten_stres_hafizasini_bozar",
+      "metin": "Yazarlara göre, fermentasyon aktivitesi ve genişleyen CO2 hücrelerinin yer talebi gluten ipliklerinin ön uzamasına ve kopmasına yol açarak gluten ağının stres hafızasını saptırıyor olabilir.",
+      "kosul": "Hamur fermantasyonu",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/polym13010030",
+          "yer": "PMC7795266.txt:4. Discussion"
+        }
+      ]
+    },
+    {
+      "id": "gaz.genlesen_gaz_kabarciklarinin_mekanik_kuvvetleri",
+      "metin": "Fermente olan hamurdaki yapısal değişikliklerin, genleşen gaz hücrelerinin uyguladığı mekanik kuvvetler nedeniyle hücreyi çevreleyen lamellerdeki protein ipliklerinin kopmasından kaynaklandığı varsayılmaktadır [26].",
+      "kosul": "fermantasyon reolojisi literaturu; 26",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/polym13010030",
+          "yer": "PMC7795266.txt:3.1. Network Characterisation"
+        }
+      ]
+    },
+    {
+      "id": "gaz.genlesen_gaz_matris_destabilize",
+      "metin": "Bu çalışmada genleşen CO2 gaz hücreleri hamur matrisini destabilize etti; gaz boşluk oranının artan sterik talebi nedeniyle tüm yapısal düzeylerdeki etkileşimlerin kapsamı ve gücü azaldı.",
+      "kosul": "Mayalı hamur; CO2 kaynaklı gaz boşluk oranı artışı",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/polym13010030",
+          "yer": "PMC7795266.txt:5. Conclusions"
+        }
+      ]
+    },
+    {
+      "id": "gaz.glukoz_60_dakikada_gaz_uretimiyle_iliskili",
+      "metin": "Hamur fermantasyonunun 60. dakikasında gaz üretimi, glukoz miktarıyla pozitif korelasyon gösterdi.",
+      "kosul": "Buğday unu hamurunda 60 dakikalık fermantasyon",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.17221/216/2012-cjfs",
+          "yer": "Abstract"
+        }
+      ]
+    },
+    {
+      "id": "gaz.guclu_un_gaz_tutma_ve_hacim",
+      "metin": "Daha kuvvetli buğday unundan yapılan hamurlar, ekmek yapımı sırasında üretilen gazı daha iyi tutarak daha yüksek somun hacmi sağlar.",
+      "kosul": "Kuvvetli buğday unu hamurları",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1002/cche.10699",
+          "yer": "Section 4 / Figure 3"
+        }
+      ]
+    },
+    {
+      "id": "gaz.hamur_hacmi_yuzde_66",
+      "metin": "Küçük kalıp ekmeği denemesinde hamurun hacmi fermantasyon sırasında başlangıç hacmine göre %66,25 arttı.",
+      "kosul": "Küçük kalıp ekmeği, 60,5 g hamur, 70×70×20 mm alüminyum kalıp (unda 9,8 g/100 g protein; Purlis ve Salvadori 2007 tarifi; 38 °C, %80 bağıl nemde 45 dakika son mayalanma).",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.foodcont.2022.108898",
+          "yer": "3.4. Volume; Fig. 8"
+        }
+      ]
+    },
+    {
+      "id": "gaz.hamur_zayiflamasi_ve_gaz_tutma_katsayisi_korelasyonu",
+      "metin": "Bu çalışmada, Mixolab eğrisinde kaydedilen hamur zayıflaması (C1-C2) ile reofermentogramdaki gaz tutma katsayısı (Cr) arasında anlamlı bir negatif korelasyon bulundu.",
+      "kosul": "Mixolab ve reofermentogram ölçümleri; korelasyon analizi (C1-C2 ve Cr)",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.17221/40/2009-cjfs",
+          "yer": "Proteins weakening"
+        }
+      ]
+    },
+    {
+      "id": "gaz.hanseniaspora_uvarum_24_saatte_kabartma_kapasitesi",
+      "metin": "Bu çalışmada, model buğday hamurunda 24 saatlik fermantasyon sonunda Hanseniaspora uvarum L8 ve L13 suşlarının kabartma kapasitesi, Saccharomyces cerevisiae suşları ve ticari kontrol mayasıyla karşılaştırılabilir düzeydeydi.",
+      "kosul": "Model buğday hamuru, 28 °C'de 24 saat",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/microorganisms10091849",
+          "yer": "3. Results and Discussion"
+        }
+      ]
+    },
+    {
+      "id": "gaz.iki_kat_maya_miktari_ile_gaz_uretimi_katlanmasi",
+      "metin": "Bu çalışmada, iki kat maya ile hazırlanan hamur (DY), gaz giderme (punching) yapılmayan hamura (DP) kıyasla neredeyse iki kat fazla gaz üretti.",
+      "kosul": "Fermograph II olcumu",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3136/fstr.24.509",
+          "yer": "Results"
+        }
+      ]
+    },
+    {
+      "id": "gaz.kapali_gozenekler_acilinca_co2_cevreye_tahliye_olur",
+      "metin": "Bu simülasyona göre, pişirme sırasında karbondioksit kapalı gözeneklerde yoğunlaşır ve gözenekler açıldığında hızla çevreye taşınarak gözenekler tamamen açıldığında ekmekte karbondioksit kalmaz.",
+      "kosul": "Ekmek pişirme simülasyonu ve gözenek açılma süreci.",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods14091649",
+          "yer": "4.3. Effect of the MPC on Mass Transfer"
+        }
+      ]
+    },
+    {
+      "id": "gaz.khumilis_ve_scerevisiae_hacim_artisi_karsilastirmasi",
+      "metin": "Kazachstania humilis 3 saatte %72,19 maksimum hacim artışına ulaşırken, ticari Saccharomyces cerevisiae 2,5 saatte %82,20 maksimum hamur hacmi artışı sağlamıştır.",
+      "kosul": "un:su 4:5, 30 °C, hamur fermantasyonu",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods15101745",
+          "yer": "Abstract"
+        },
+        {
+          "kaynak": "10.3390/foods15101745",
+          "yer": "3.2. The Analysis of Physiological Functional Characteristics of Strains"
+        }
+      ]
+    },
+    {
+      "id": "gaz.kucuk_deformasyonda_co2_en_buyuk_etkiye_sahiptir",
+      "metin": "Bu çalışmada, maya ile fermente edilen hamurda küçük deformasyon altındaki reolojik davranış üzerinde en büyük işlevsel etkiyi CO2 gösterdi; gazın kararsızlaştırıcı etkisi asidin güçlendirici etkisine baskın geldi.",
+      "kosul": "Maya ile fermente edilen hamur; küçük deformasyon reolojisi",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/polym13010030",
+          "yer": "PMC7795266.txt:3.1. Network Characterisation"
+        }
+      ]
+    },
+    {
+      "id": "gaz.lab_ve_maya_kabarma_hacmini_artirir",
+      "metin": "Hem laktik asit bakterisi hem de maya içeren hamurların fermantasyon katsayısı ve kabarma hacmi, laktik asit bakterisi içermeyen hamurlardan daha yüksek çıktı.",
+      "kosul": "Ekmek hamuru fermantasyonu",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.foodcont.2008.03.005",
+          "yer": "Abstract"
+        }
+      ]
+    },
+    {
+      "id": "gaz.maya_etkinligi_hamurun_yayilmasini_azaltir",
+      "metin": "Hoseney vd.'ye göre, basit bir yayılma testinde maya etkinliği hamurun yayılmasını azalttı.",
+      "kosul": "60 dakika boyunca serbest duran hamur örneklerinde genişlik/yükseklik oranı (Hoseney vd. 1979 aktarımı).",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1007/s00397-018-1113-9",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "gaz.mayali_hamurda_3_saatte_co2_uretimi",
+      "metin": "Bu çalışmada, margarinsiz pastry hamurunda (10 g un) 30 °C'de 3 saatlik fermantasyon sonunda toplam 157,7 ± 0,4 mL karbondioksit üretildi.",
+      "kosul": "10 g un hamuru, margarinsiz pastry hamuru, 30 °C'de 3 saat",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods11101388",
+          "yer": "3.1.3. Production of Fermentation Metabolites during Fermented Pastry Making"
+        }
+      ]
+    },
+    {
+      "id": "gaz.mayali_hamurun_kendini_guclendiren_sistem_niteligi",
+      "metin": "Bu çalışmada, mayalı hamurun kendini güçlendiren bir sistem olduğu sonucuna varıldı: gaz tutma kapasitesi gerinim sertleşmesi gerektirirken hızlı gaz oluşumu gerinim sertleşmesini artırıyor.",
+      "kosul": "mayali hamur reolojisi",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/polym13010030",
+          "yer": "PMC7795266.txt:3.4. Strain Hardening Behaviour"
+        }
+      ]
+    },
+    {
+      "id": "gaz.pisirmede_co2_salimi_dogrusal_ve_ustel_iki_evre",
+      "metin": "Pişirme sırasında karbondioksit salımı sigmoidal bir eğri izler: önce gaz hücrelerinin birleşmesinden kaynaklanan doğrusal bir artış görülür, ardından nişasta jelatinleşmesi ve gluten polimerleşmesiyle tetiklenen üstel bir artış evresine geçilir.",
+      "kosul": "Ekmek pişirme aşaması ve fırın kabarması (Grenier vd. 2021 aktarımı).",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.fochx.2026.104362",
+          "yer": "3.3. Yeast strains affect the rate at which CO2 is released"
+        },
+        {
+          "kaynak": "10.1016/j.crfs.2026.101573",
+          "yer": "Table 2 caption"
+        }
+      ]
+    },
+    {
+      "id": "gaz.sakkaroz_oranina_gore_3_saatte_co2_uretimi",
+      "metin": "%7, %14 veya %21 ilave sakkaroz içeren örneklerde 30 °C'de 3 saatlik fermantasyon sonrasında sırasıyla 203,7 ± 2,9 mL, 157,7 ± 0,4 mL veya 94,3 ± 4,8 mL karbondioksit üretilmiştir.",
+      "kosul": "Farklı sakkaroz oranlarında fermente hamur, 30 °C'de 3 saat",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods11101388",
+          "yer": "3.3.3. Fermentation Metabolite Production"
+        }
+      ]
+    },
+    {
+      "id": "gaz.sakkarozsuz_hamurda_co2_uretim_kinetigi_ve_seker_tukelmesi",
+      "metin": "İlave sakkaroz içermeyen hamurda glukoz ve fruktozun tükenmesiyle 60. dakikada gaz üretimi azalmış, şekerlerin tükenmesiyle 85–90. dakikalardan sonra belirgin düşüş göstererek 3 saat sonunda 107,9 ± 1,0 mL karbondioksit üretilmiştir.",
+      "kosul": "%0 ilave sakkarozlu hamur, 30 °C'de 3 saat fermantasyon",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods11101388",
+          "yer": "3.3.3. Fermentation Metabolite Production"
+        },
+        {
+          "kaynak": "10.3390/foods11101388",
+          "yer": "4.4. The Impact of Different Sucrose Concentrations on Yeast Activity and Dough and End-Product Characteristics in Pastry Making"
+        }
+      ]
+    },
+    {
+      "id": "gaz.siyez_reofermentometre_gelisim_ve_gaz_tutma",
+      "metin": "Reofermentometre testlerinde siyez hamurları standart buğdaya göre daha kısa gelişme süresi (120,8'e karşı 175,0 dakika), daha yüksek maksimum yükseklik (73,0'a karşı 63,0 mm) ve üstün gaz tutma katsayısı (%99,1'e karşı %88,7) sergilemiş, ancak daha düşük toplam CO2 üretmiştir (1152'ye karşı 1713 mL).",
+      "kosul": "Chopin F3 Reofermentometre testi, siyez ve kontrol buğdayı karşılaştırması",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods12081610",
+          "yer": "Abstract"
+        }
+      ]
+    },
+    {
+      "id": "gaz.tatli_hamurda_co2_uretimi_ve_diger_metabolitlerle_korelasyon",
+      "metin": "Tatlı hamurda en yüksek CO2 üretimi SD suşunda %3,01 ± 0,11 olarak ölçülmüş; CO2 üretimi etanol (R2 = 0,95) ve gliserolle (0,94) güçlü, şeker tüketimiyle (0,74) daha zayıf korelasyon göstermiştir.",
+      "kosul": "Tatlı hamur, 23 maya suşu, 120 dakikalık fermantasyon (p < 0,001)",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods12040830",
+          "yer": "3.2. Metabolite Production"
+        },
+        {
+          "kaynak": "10.3390/foods12040830",
+          "yer": "3.3. Relation between Sugar Consumption and Metabolite Production"
+        },
+        {
+          "kaynak": "10.3390/foods12040830",
+          "yer": "Table 3"
+        }
+      ]
+    },
+    {
+      "id": "gaz.tuz_orani_ve_gaz_tutma_katsayisi",
+      "metin": "Hamura tuz ilavesi fermantasyonda gaz üretimini azaltırken gaz tutma katsayısını artırmış; Aubusson çeşidinde gaz tutma katsayısı tuzsuz hamurda %81,9 iken %1,5 NaCl ile %85,4'e ve %3,0 NaCl ile %89,8'e yükselmiştir.",
+      "kosul": "Aubusson ve Blasco buğday çeşitlerinde reofermentometre analizi, %0, %1,5 ve %3,0 NaCl",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods9070952",
+          "yer": "3. Results"
+        },
+        {
+          "kaynak": "10.3390/foods9070952",
+          "yer": "3. Results"
+        },
+        {
+          "kaynak": "10.3390/foods9070952",
+          "yer": "Figure captions"
+        }
+      ]
+    },
+    {
+      "id": "gaz.yuksek_co2_kinetigi_gaz_tutma",
+      "metin": "Verheyen vd.'ye göre, CO2 oluşum kinetiği yükseldikçe mayalı hamurda tutulan CO2 hacmi arttı.",
+      "kosul": "Mayalı hamur; maya miktarına bağlı CO2 oluşum kinetiği (Verheyen vd. [13] atfı)",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/polym13010030",
+          "yer": "PMC7795266.txt:3.4. Strain Hardening Behaviour"
+        }
+      ]
+    },
+    {
+      "id": "gaz.gpd1_gaz_tutma",
+      "metin": "Gliserolü fazla üreten (GPD1 aşırı ifade eden) mayayla fermente edilen hamur gazı daha iyi tuttu; en yüksek düzeye ulaştıktan sonra daha kararlı kaldı ve yüksekliğini (gazını) daha yavaş kaybetti.",
+      "kosul": "%6 şekerli hamur; Rheofermentometer F3, 30 °C, 6 saat; genetiği değiştirilmiş S. cerevisiae suşları.",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1371/journal.pone.0119364",
+          "yer": "Results; Fig. 5B"
+        },
+        {
+          "kaynak": "10.1371/journal.pone.0119364",
+          "yer": "Results; Fig. 5B"
+        }
+      ]
+    },
+    {
+      "id": "gaz.alfa_glukozidaz_fermantasyon_hizi_seyri",
+      "metin": "Bu çalışmada, alfa-glukozidaz eklenmiş mayalı buğday hamurunda fermantasyon hızı ilk 60–80 dakikada artarken 70–90 dakikadan sonra düşüşe geçti.",
+      "kosul": "Mayalı Bilux buğday unu hamuru; alfa-glukozidaz ilavesi.",
+      "kanit": "tek_kaynak",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.jcs.2017.03.013",
+          "yer": "Discussion - 4.3 Addition of alpha-glucosidase"
+        },
+        {
+          "kaynak": "10.1016/j.jcs.2017.03.013",
+          "yer": "Discussion - 4.3 Addition of alpha-glucosidase"
+        }
+      ]
+    },
+    {
+      "id": "gaz.duz_hamur_iki_saatte",
+      "metin": "Düz hamur yönteminde una %1–2 oranında (gram başına yaklaşık 10⁸ hücre) ekmek mayası katmak, hamuru 2 saat ya da daha kısa sürede kabartır.",
+      "kosul": "Mayalı düz hamur yöntemi.",
+      "kanit": "ikincil",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods7070096",
+          "yer": "3. FODMAPs in Cereals and FODMAP Metabolism in Conventional Sourdoughs"
+        }
+      ]
+    },
+    {
+      "id": "gaz.maya_gaz_kapasitesi_neye_bagli",
+      "metin": "Mayanın gaz üretme kapasitesi hamur tarifine, fermantasyon koşullarına, mayanın fizyolojik evresine ve özellikle her ekmek mayası suşunun kendi özelliklerine bağlıdır.",
+      "kosul": "",
+      "kanit": "ikincil",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1371/journal.pone.0119364",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "gaz.sakkaroz_eklenmesi_co2_uretimini_artirir",
+      "metin": "Hamura fazladan sakkaroz eklenmesiyle iki saatte üretilen toplam karbondioksit 783 ± 13 ml'den 987 ± 36 ml'ye belirgin biçimde arttı.",
+      "kosul": "Reofermentometre analizi; 2 saat; sakkarozsuz ve sakkarozlu buğday hamuru.",
+      "kanit": "tek_kaynak",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1007/s00397-018-1113-9",
+          "yer": "3.4.2 Fermenting dough, Fig. 6"
+        }
+      ]
+    },
+    {
+      "id": "gaz.tuz_eklenmesi_co2_uretimini_ve_gaz_hacmini_azaltir",
+      "metin": "İki saatlik fermantasyonda üretilen toplam karbondioksit tuzsuz hamurda 1203 ± 27 ml iken tuzlu hamurda 987 ± 36 ml'ye geriledi; her iki koşulda da gaz tutma oranı yaklaşık %93 olduğundan tuzsuz hamur %20 daha fazla gaz içerdi.",
+      "kosul": "Reofermentometre analizi; 2 saat; tuzsuz ve %1,5 tuzlu buğday hamuru.",
+      "kanit": "tek_kaynak",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1007/s00397-018-1113-9",
+          "yer": "3.3.2 Fermenting dough, Fig. 6"
+        },
+        {
+          "kaynak": "10.1007/s00397-018-1113-9",
+          "yer": "3.3.2 Fermenting dough"
+        },
+        {
+          "kaynak": "10.1007/s00397-018-1113-9",
+          "yer": "3.3.2 Fermenting dough"
+        }
+      ]
+    },
+    {
+      "id": "gaz.gpd1_ozmotik_uyum",
+      "metin": "Yüksek şekerli hamurda GPD1'i aşırı ifade eden laboratuvar suşunun fermantasyon kazancı, yüksek ozmotik basınca daha hızlı uyum sağlamasından ve fermantasyona daha kısa gecikmeyle başlamasından geldi.",
+      "kosul": "Yüksek şekerli hamur (%18 sakaroz, su etkinliği 0,95), 30 °C, Risograph; laboratuvar suşu.",
+      "kanit": "tek_kaynak",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1371/journal.pone.0119364",
+          "yer": "Results; Fig. 4C"
+        }
+      ]
+    },
+    {
+      "id": "gaz.km7_susu_en_yavas_gaz_salimi_ve_canlilik",
+      "metin": "Km7 suşu pişirmede en yavaş karbondioksit salımına yol açtı ve pişirme sırasında nispeten yüksek canlılık korudu (9. dakikada %80,2 ± 0,7 ve 12. dakikada %23,4 ± 3,2), ancak en yüksek fırın kabarmasına ulaşamadı.",
+      "kosul": "Kluyveromyces marxianus Km7 suşuyla pişirme testi.",
+      "kanit": "tek_kaynak",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.crfs.2026.101573",
+          "yer": "3.4. Different K. marxianus strains lead to different rates of CO2 release"
+        }
+      ]
+    },
+    {
+      "id": "gaz.ktenioudaki_100_dakika",
+      "metin": "Ktenioudaki ve arkadaşları geleneksel ekmek mayasıyla 35 °C'de en yüksek gaz üretimini fermantasyonun yaklaşık 100. dakikasında gözledi.",
+      "kosul": "",
+      "kanit": "ikincil",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/molecules30010112",
+          "yer": "2.2.1. Carbon Dioxide Production During Yeast Fermentation"
+        }
+      ]
+    },
+    {
+      "id": "gaz.yogurma_su_co2_etkilemedi",
+      "metin": "Denenen aralıkta yoğurma süresi (7,0–10,0 dakika) ve su kaldırma (%70,0–80,0), mayanın son mayalanmadaki CO₂ üretim hızını etkilemedi.",
+      "kosul": "Belçika; tam buğday unu (kuru maddede %12,31 protein); yaş ekmek mayası; asetik, laktik ya da süksinik asitle pH 4,5–5,5; I-optimal deney tasarımı.",
+      "kanit": "tek_kaynak",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.foodhyd.2024.110884",
+          "yer": "Results: Impact of organic acids on wholemeal breadmaking"
+        }
+      ]
+    },
+    {
+      "id": "gaz.co2_maya_ve_heterofermentatif_lab",
+      "metin": "Ekşi mayada karbondioksit üretimine mayalar ile heterofermentatif laktobasiller aracılık eder ve bu süreç asitlenmeyle birlikte yürür.",
+      "kosul": "Ekşi maya fermantasyonu",
+      "kanit": "ikincil",
+      "bolum": "Mayadaki yeri",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.ijfoodmicro.2018.08.019",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "gaz.eksi_mayada_co2_secim_olcutudur",
+      "metin": "Ekşi mayanın kabartıcı olarak kullanıldığı durumlarda, fermantasyon mikrobiyotasının karbondioksit üretimi belirleyici bir kültür seçim ölçütüdür.",
+      "kosul": "Kabartıcı olarak ekşi maya kullanımı",
+      "kanit": "ikincil",
+      "bolum": "Mayadaki yeri",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1080/10408398.2021.1976100",
+          "yer": "Selection of functional starter cultures for sourdough productions"
+        }
+      ]
+    },
+    {
+      "id": "gaz.kefirin_dusuk_kabartma_etkisi_nedeniyle_maya_ilavesi",
+      "metin": "Literatürde aktarılan bir çalışmada, kefirin kabartma etkisinin düşük olması nedeniyle ekmekler maya ilave edilerek hazırlanmıştır.",
+      "kosul": "Literatür aktarımı; kefir eklenen ekmek",
+      "kanit": "ikincil",
+      "bolum": "Mayadaki yeri",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.58625/jfng-2059",
+          "yer": "Kefirin ekmek yapımında kullanımı"
+        }
+      ]
+    },
+    {
+      "id": "gaz.khumilis_erken_baslar_vmax_yuzde34_yuksek",
+      "metin": "Ekşi mayadan izole edilen Kazachstania humilis suşları fermantasyona diğerlerine göre iki saat önce başladı, en yüksek gaz hızına (Vmax) üç saat önce ulaştı ve ortalama %34 daha yüksek Vmax sergiledi.",
+      "kosul": "Ekşi maya Kazachstania humilis suşları ile diğer izolatların fermantasyon kinetiği karşılaştırması.",
+      "kanit": "tek_kaynak",
+      "bolum": "Mayadaki yeri",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.24072/pcjournal.237",
+          "yer": "Phenotypic signatures of domestication"
+        }
+      ]
+    },
+    {
+      "id": "gaz.kmarxianus_suslarinda_gaz_salim_hizi_ve_ekmek_performansi",
+      "metin": "Bu çalışmada, Kluyveromyces marxianus suşlarında fırında daha yavaş karbondioksit salımı ile yüksek canlılığı birleştiren suşlar en iyi performansı gösterirken, gazı daha hızlı salan suşlar daha zayıf ekmek performansı sergiledi.",
+      "kosul": "Kluyveromyces marxianus suşlarıyla (Km5, Km7, Km8) ekmek pişirme testleri.",
+      "kanit": "tek_kaynak",
+      "bolum": "Mayadaki yeri",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.crfs.2026.101573",
+          "yer": "3.4. Different K. marxianus strains lead to different rates of CO2 release"
+        },
+        {
+          "kaynak": "10.1016/j.crfs.2026.101573",
+          "yer": "3.4. Different K. marxianus strains lead to different rates of CO2 release"
+        },
+        {
+          "kaynak": "10.1016/j.crfs.2026.101573",
+          "yer": "4. Conclusions"
+        }
+      ]
+    },
+    {
+      "id": "gaz.plodi_duzeyi_gecikme_evresini_etkiler_toplam_co2yi_etkilemez",
+      "metin": "Fırıncılık Saccharomyces cerevisiae suşlarında plodi düzeyinin fermantasyon sonunda salınan en yüksek kümülatif karbondioksit üretimine anlamlı bir etkisi olmazken, karbondioksit üretiminin gecikme evresi üzerinde anlamlı bir etkisi görüldü (1 g karbondioksit salımı için gereken süre; F = 7,01, P = 0,01).",
+      "kosul": "Sentetik ekşi maya besiyerinde fermente edilen fırıncılık S. cerevisiae suşları.",
+      "kanit": "tek_kaynak",
+      "bolum": "Mayadaki yeri",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.cub.2020.11.016",
+          "yer": "Results - Prevalent tetraploidy and aneuploidy in commercial bakery strains"
+        },
+        {
+          "kaynak": "10.1016/j.cub.2020.11.016",
+          "yer": "Results - Prevalent tetraploidy and aneuploidy in commercial bakery strains"
+        }
+      ]
+    },
+    {
+      "id": "gaz.durham_tupu_ve_fermograph_ile_co2_olcum_protokolleri",
+      "metin": "Bu çalışmada maya suşlarının karbondioksit üretimi, besiyerinde Durham tüpünde 26 °C'de 6 saatlik inkübasyonla, hamurda ise Fermograph cihazıyla 37 °C'de 24 saat boyunca her 5 dakikada bir ölçülerek izlenmiştir.",
+      "kosul": "Gül mayası suşları; besiyerinde Durham tüpü testi (26 °C, 6 saat) ve hamurda Fermograph ölçümü (37 °C, 5 dakikada bir, 24 saat).",
+      "kanit": "tek_kaynak",
+      "bolum": "Nasıl ölçülür",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.47371/mycosci.2021.10.003",
+          "yer": "2.3. Examination of fermentation abilities via the Durham method"
+        },
+        {
+          "kaynak": "10.47371/mycosci.2021.10.003",
+          "yer": "2.8. Fermentation profiles of bread dough by rose yeasts using Fermograph equipment"
+        }
+      ]
+    },
+    {
+      "id": "gaz.fermantasyon_gecikme_evresi_ve_co2_salim_hiz_parametreleri",
+      "metin": "Bu çalışmada fermantasyon gecikme süresi 1 g/L CO2 salımına ulaşmak için gereken süre olarak tanımlanmış; en yüksek CO2 salımı, en yüksek üretim hızı ve bu hıza ulaşma süresi CO2 birikim eğrisinden polinom düzeltmesiyle kestirilmiştir.",
+      "kosul": "Maya suşlarının fermantasyonu; ağırlık kaybı ölçümüyle CO2 salımı; polinom düzeltmeli eğri modeli.",
+      "kanit": "tek_kaynak",
+      "bolum": "Nasıl ölçülür",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1093/gbe/evag176",
+          "yer": "Assessing Fermentation Performance"
+        }
+      ]
+    },
+    {
+      "id": "gaz.fermograph_ii_ile_toplam_gaz_olcum_protokolu",
+      "metin": "Dinlenme süresi sonrasında 20 g hamur ile toplam gaz üretme gücü (GP) Fermograph II cihazında 30 ℃ sıcaklıkta 1, 2 ve 3 saat boyunca ölçülmüştür.",
+      "kosul": "Fermograph II olcum protokolu; 20; 30; 1; 2; 3",
+      "kanit": "tek_kaynak",
+      "bolum": "Nasıl ölçülür",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3136/fstr.20.1071",
+          "yer": "Materials and Methods · Dough properties and bread evaluation"
+        }
+      ]
+    },
+    {
+      "id": "gaz.reofermentometre_ile_olcum",
+      "metin": "Chopin Reofermentometre cihazı, fermantasyon sırasında hamurun hem gelişimi hem de gaz üretme kapasitesi hakkında bilgi sağlar.",
+      "kosul": "Fermantasyon sırasında hamur ölçümü",
+      "kanit": "tek_kaynak",
+      "bolum": "Nasıl ölçülür",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.jcs.2008.03.006",
+          "yer": "Introduction"
+        },
+        {
+          "kaynak": "10.17221/216/2012-cjfs",
+          "yer": "Abstract"
+        }
+      ]
+    },
+    {
+      "id": "gaz.ssm_besiyerinde_robotik_co2_salinim_takibi",
+      "metin": "Hücre konsantrasyonu SSM besiyerinin 15 mL'sinde 106 hücre/mL'ye ayarlanıp CO2 salımına izin veren filtreli cam tüplere aktarılmış; fermantasyon 24 °C'de 350 rpm sabit karıştırmayla 27 saat boyunca otomatik robotik sistemle izlenmiştir.",
+      "kosul": "SSM besiyeri (15 mL), 24 °C, 350 rpm, 27 saat; otomatik robotik sistem",
+      "kanit": "tek_kaynak",
+      "bolum": "Nasıl ölçülür",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1093/gbe/evag176",
+          "yer": "Assessing Fermentation Performance"
+        }
+      ]
+    },
+    {
+      "id": "gaz.vakumda_genlesme_ile_gaz_tutma_olcum_yontemi",
+      "metin": "Hamurun vakum altında genleşmesiyle ölçülen gaz tutma kapasitesi (GRD), kabarma sonrası 20 g hamur gerektiren Yamauchi vd. (2000) yöntemiyle belirlenmiştir.",
+      "kosul": "Yamauchi vd. (2000) vakum genleşme yöntemi; kabarma sonrası 20 g hamur",
+      "kanit": "tek_kaynak",
+      "bolum": "Nasıl ölçülür",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3136/fstr.20.1071",
+          "yer": "Materials and Methods · Dough properties and bread evaluation"
+        }
+      ]
+    },
+    {
+      "id": "gaz.yagsiz_sekersiz_hamurda_fermantograf_protokolu",
+      "metin": "Kabarma testi için yağsız hamur 280 g un, 150 mL su, 4 g tuz ve 8 g yaş mayadan oluşturulmuş; hamur 5 dakika yoğurulup 30 °C'deki fermantograf kutusuna konmuş ve CO2 üretimi kaydedilmiştir.",
+      "kosul": "Yağsız hamur (280 g un, 150 mL su, 4 g tuz, 8 g yaş maya), 5 dakika yoğurma, 30 °C fermantograf ölçümü",
+      "kanit": "tek_kaynak",
+      "bolum": "Nasıl ölçülür",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1186/s12934-014-0093-4",
+          "yer": "Materials and methods"
+        }
+      ]
+    },
+    {
+      "id": "gaz.fermantor_gaz_kromatografisi_co2_olcum_yontemi",
+      "metin": "Fermantör çıkışındaki karbondioksit konsantrasyonu her 30 dakikada bir termal iletkenlik dedektörlü gaz kromatografisi (CompactGC) ile çevrim içi ölçülmüş; 60 °C kolon ve 110 °C dedektör sıcaklığında 20 µL örnek enjekte edilmiştir.",
+      "kosul": "CompactGC ve termal iletkenlik dedektörü ile fermantör gaz izleme",
+      "kanit": "tek_kaynak",
+      "bolum": "Nasıl ölçülür",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1128/aem.01325-25",
+          "yer": "Carbon dioxide"
+        },
+        {
+          "kaynak": "10.1128/aem.01325-25",
+          "yer": "Carbon dioxide"
+        },
+        {
+          "kaynak": "10.1128/aem.01325-25",
+          "yer": "Carbon dioxide"
+        },
+        {
+          "kaynak": "10.1128/aem.01325-25",
+          "yer": "Carbon dioxide"
+        }
+      ]
+    },
+    {
+      "id": "gaz.khumilis_durham_tupu_gaz_uretim_hizi",
+      "metin": "Yedi Kazachstania humilis suşu orta düzeyde gaz üretim hızı sergileyerek Durham tüplerini 12–24 saat içinde doldurmuştur.",
+      "kosul": "YPD sıvı besiyeri, 30 °C, Durham tüpü fermantasyon testi",
+      "kanit": "tek_kaynak",
+      "bolum": "Nasıl ölçülür",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods15101745",
+          "yer": "3.1. The Analysis of Gas Production Characteristics and Biomass Accumulation"
+        }
+      ]
+    },
+    {
+      "id": "gaz.sc1_referans_ekmek_mayasi_pisirmede_gaz_salimi",
+      "metin": "Referans ekmek mayası Sc1 için toplu karbondioksit salımı pişirmenin 10,8 ± 0,4 dakikasında gerçekleşerek fırın tepe boşluğunda 141,4 ± 8,9 mL CO2/L derişime ulaştı.",
+      "kosul": "Standart pişirme testi; referans Saccharomyces cerevisiae Sc1 suşu.",
+      "kanit": "tek_kaynak",
+      "bolum": "Nasıl ölçülür",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.fochx.2026.104362",
+          "yer": "3.3. Yeast strains affect the rate at which CO2 is released"
+        }
+      ]
+    },
+    {
+      "id": "gaz.standart_fermantasyonda_400_ml_co2_ve_4_cm_yukseklik",
+      "metin": "Hamur 30 °C ve %90 bağıl nemde 400 mL karbondioksit üretilinceye kadar fermente edildiğinde en az 4 cm yüksekliğe ulaşarak hacim için güvenilir bir gösterge sağlamıştır.",
+      "kosul": "30 °C ve %90 bağıl nemde standart hamur fermantasyonu.",
+      "kanit": "tek_kaynak",
+      "bolum": "Nasıl ölçülür",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.crfs.2026.101573",
+          "yer": "2.5. Dough preparation and electrical resistance baking"
+        }
+      ]
+    },
+    {
+      "id": "gaz.etanol_pisirmede_ucar",
+      "metin": "Fermantasyonda oluşan etanolün neredeyse tamamı pişirmede buharlaşır; yine de fermantasyondan sonra hamurun dokusunu etkiler.",
+      "kosul": "",
+      "kanit": "ikincil",
+      "bolum": "Ne yapar",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/molecules30010112",
+          "yer": "2.2.3. Fermentation Activity"
+        }
+      ]
+    },
+    {
+      "id": "gaz.lab_co2_uretimini_etkilemedi",
+      "metin": "Bir model çalışmasında ne heterofermentatif F. sanfranciscensis ne de homofermentatif Latilactobacillus sakei ekmek hamurundaki CO2 üretimini etkiledi; yazarlar bundan CO2'nin esas olarak maya ile laktik asit bakterisi birlikteliğinden geldiği sonucunu çıkarır.",
+      "kosul": "Model tip I buğday ekşi mayası: I. aşama 30 °C'de 16 saat, II. aşama 30 °C'de 2,5 saat; ekmek hamuru 1 saat dinlenme + 30 °C'de 1 saat mayalanma.",
+      "kanit": "tek_kaynak",
+      "bolum": "Ne yapar",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3389/fmicb.2019.02113",
+          "yer": "Results, Figure 1A"
+        }
+      ]
+    },
+    {
+      "id": "gaz.nisasta_parcalayan_enzimler_gaz_hizini_yonlendirir",
+      "metin": "Bu çalışmada, glukoamilaz ve alfa-glukozidaz glukoz üreterek maya hücrelerinin başlangıç fermantasyon hızını artırdı; farklı nişasta parçalayıcı enzimler fermantasyon hızını farklı biçimlerde etkileyerek maya yönetiminde kullanılabilir.",
+      "kosul": "Mayalı buğday unu hamuru.",
+      "kanit": "tek_kaynak",
+      "bolum": "Ne yapar",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.jcs.2017.03.013",
+          "yer": "Discussion - 4.5 In resume"
+        },
+        {
+          "kaynak": "10.1016/j.jcs.2017.03.013",
+          "yer": "Discussion - 4.5 In resume"
+        }
+      ]
+    },
+    {
+      "id": "gaz.co2_esas_mayadan",
+      "metin": "Aktarılan bilgiye göre mayaların hücre başına yüzey alanı ve metabolik etkinliği çok daha yüksek olduğundan, maya sayısı düşük olmadıkça CO2 esas olarak mayadan gelir.",
+      "kosul": "",
+      "kanit": "ikincil",
+      "bolum": "Ne yapar",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3389/fmicb.2019.02113",
+          "yer": "Discussion"
+        }
+      ]
+    },
+    {
+      "id": "gaz.ekmek_mayasi_hizli_guclu_co2",
+      "metin": "Ekmek mayası, hızlı ve güçlü CO2 üretim kapasitesi nedeniyle ekmek endüstrisinde yaygın olarak kullanılır.",
+      "kosul": "Ekmek endüstrisinde kullanılan ekmek mayası; Struyf vd. 2017 atfı",
+      "kanit": "ikincil",
+      "bolum": "Ne yapar",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.ijfoodmicro.2023.110193",
+          "yer": "4. Discussion"
+        }
+      ]
+    },
+    {
+      "id": "gaz.mayasiz_hamurda_maya_sirasi",
+      "metin": "Ekmek mayası eklenmediğinde hamurdaki CO2 üretimi S. cerevisiae, Kazachstania humilis, Wickerhamomyces anomalus sırasıyla azaldı.",
+      "kosul": "Model tip I buğday ekşi mayası (I. aşama 30 °C'de 16 saat, II. aşama 30 °C'de 2,5 saat); suşlar S. cerevisiae FUA4018, K. humilis FUA4001, W. anomalus FUA4025; Rheofermentometer F3, 30 °C, 2 saat.",
+      "kanit": "tek_kaynak",
+      "bolum": "Ne yapar",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3389/fmicb.2019.02113",
+          "yer": "Results, Figure 1A"
+        },
+        {
+          "kaynak": "10.3390/foods15101745",
+          "yer": "3.2. The Analysis of Physiological Functional Characteristics of Strains"
+        }
+      ]
+    },
+    {
+      "id": "gaz.co2_teorik_yuzde_70",
+      "metin": "Hamurda şeker fermantasyonuyla oluşan karbondioksit, kimyasal denklemin öngördüğü miktarın yaklaşık %70'i kadar olabilir; çünkü şekerin bir kısmı mayanın enerjisine ve çoğalmasına gider.",
+      "kosul": "",
+      "kanit": "ikincil",
+      "bolum": "Ne yer, ne üretir",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1155/2018/8187318",
+          "yer": "2. Porous Crumb Structure Development"
+        }
+      ]
+    },
+    {
+      "id": "gaz.geleneksel_olmayan_mayalarin_hamur_fermantasyon_kapasitesi",
+      "metin": "Bu çalışmada S. bayanus (Y156), T. delbrueckii (Y273) ve P. anomala (Y494), ticari kontrol suşuna benzer bir kapasiteyle hamuru fermente etti; S. pastorianus (Y17) ise hamuru kabartamadı.",
+      "kosul": "Risograf CO2 ölçümü; Şekil 1C",
+      "kanit": "tartismali",
+      "bolum": "Ne yer, ne üretir",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1371/journal.pone.0165126",
+          "yer": "Results"
+        },
+        {
+          "kaynak": "10.1371/journal.pone.0165126",
+          "yer": "Supporting Information"
+        }
+      ]
+    },
+    {
+      "id": "gaz.yuksek_gaz_tutma_kapasitesi_ve_gerinim_sertlesmesi",
+      "metin": "Hamur matrisinin yüksek gaz tutma kapasitesi, glutenin işlevselliği ve iki eksenli uzama kuvvetlerine karşı sergilediği gerinim sertleşmesi özellikleriyle güçlü bir korelasyona sahiptir.",
+      "kosul": "iki eksenli uzama mekanizmasi",
+      "kanit": "tek_kaynak",
+      "bolum": "Tanım",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/polym13010030",
+          "yer": "PMC7795266.txt:1. Introduction"
+        }
+      ]
+    },
+    {
+      "id": "gaz.lab_etkisi_maya_susuna_bagli",
+      "metin": "15 °C'deki buğday hamurunda laktik asit bakterisi eklemenin CO₂ üretimine etkisi maya suşuna bağlıydı: en yüksek CO₂ verimi S. cerevisiae D3 ile Lactiplantibacillus plantarum/pentosus B56 karışımında (yaklaşık 140 mL hamur hacmi) elde edildi, D13 ve LOCK 0153 suşlarında ise bakteri varlığı CO₂ üretimini düşürüp kabarmayı sınırladı.",
+      "kosul": "Polonya; tip 650 buğday unu; gerçek buğday hamuru, 15 °C; S. cerevisiae suşları (D3, D13, LOCK 0153) ile Levilactobacillus brevis B46/B48 ya da Lactiplantibacillus plantarum/pentosus B56'dan oluşan karışık kültürler.",
+      "kanit": "tek_kaynak",
+      "bolum": "İlişkileri",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/molecules30010112",
+          "yer": "Abstract"
+        },
+        {
+          "kaynak": "10.3390/molecules30010112",
+          "yer": "2.2.2. Carbon Dioxide Production During Mixed Culture Fermentation; Figure 5"
+        },
+        {
+          "kaynak": "10.3390/molecules30010112",
+          "yer": "2.2.2. Carbon Dioxide Production During Mixed Culture Fermentation"
+        }
+      ]
+    }
+  ]
+}

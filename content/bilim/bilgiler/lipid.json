@@ -1,0 +1,344 @@
+{
+  "id": "lipid",
+  "ad": "Lipitler",
+  "bilgiler": [
+    {
+      "id": "lipid.glikolipitlerin_firinlama_kalitesine_katkisi",
+      "metin": "Derlemeye göre, buğday ununda %1–2 oranında bulunan lipitlerden özellikle nişastayla ilişkili olmayan glikolipitler yoğrulabilirliği, gaz tutma kapasitesini ve somun hacmini artırırken fırın kabarmasını uzatır ve nişasta retrogradasyonunu geciktirir.",
+      "kosul": "buğday unu",
+      "kanit": "tek_kaynak",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1080/10408398.2021.1976100",
+          "yer": "Flours used for sourdough production"
+        }
+      ]
+    },
+    {
+      "id": "lipid.polar_artisi_ve_notral_azalisi_ekmek_kalitesi",
+      "metin": "Bu çalışmada, doğal polar lipit içeriğinin artırılması ve nötral lipitlerin azaltılmasının gaz kabarcığı ağının kararlılığını artırıp birleşmeyi önleyerek ekmek kalitesini iyileştirebileceği öne sürülmektedir.",
+      "kosul": "mayalanma ve erken pişirme evresi; Hereward buğday unu lipit bileşimi",
+      "kanit": "tek_kaynak",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.foodhyd.2017.08.020",
+          "yer": "Discussion"
+        },
+        {
+          "kaynak": "10.1016/j.foodhyd.2017.08.020",
+          "yer": "Conclusions"
+        }
+      ]
+    },
+    {
+      "id": "lipid.polar_galaktolipidlerin_kopuk_ve_kabarcik_stabilitesi",
+      "metin": "Bir çalışmada, galaktolipitlerce (DGDG ve MGDG) zengin olan 2013 hasadı hamur likörünün köpüğü daha kararlı çıkmış; yazarlar galaktolipitlerin hava-su arayüzeyinde zenginleştiğini ve gaz kabarcığı kararlılığına katkı verdiğini bildirmiştir.",
+      "kosul": "Hereward buğdayı 2011-2013 hasat yılı unlarından hamur likörü ve köpük, laboratuvar polar lipit analizi",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.foodhyd.2017.08.020",
+          "yer": "Abstract"
+        },
+        {
+          "kaynak": "10.1016/j.foodhyd.2017.08.020",
+          "yer": "Lipid analysis of dough liquor and foam"
+        },
+        {
+          "kaynak": "10.1016/j.foodhyd.2017.08.020",
+          "yer": "Conclusions"
+        }
+      ]
+    },
+    {
+      "id": "lipid.serbest_polar_lipitler_gluten_ve_gaz_hucresi",
+      "metin": "Serbest polar lipitler, gluten proteinleriyle etkileşime girerek hamur gaz hücrelerinin oluşumunu ve kararlılığını artırır ve unun ekmek yapım kalitesini iyileştirir.",
+      "kosul": "hamur yapısı",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.jcs.2017.03.011",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "lipid.yuzey_gerilimi_ve_gaz_tutma_kapasitesi",
+      "metin": "Hamurda çözünür protein ve lipitlerin varlığı kabarcık arayüzey gerilimini düşürerek orantısızlaşmayı yavaşlatır, gaz tutma kapasitesini ve hamur özgül hacmini artırır.",
+      "kosul": "hamur fermantasyonu ve kabarma süreci",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1002/cche.10699",
+          "yer": "6.1 The effect of flour quality on the gas phase of the dough"
+        },
+        {
+          "kaynak": "10.1002/cche.10699",
+          "yer": "6.1 The effect of flour quality on the gas phase of the dough"
+        },
+        {
+          "kaynak": "10.1002/cche.10699",
+          "yer": "3.1 Disproportionation"
+        }
+      ]
+    },
+    {
+      "id": "lipid.tanede_lipit_dagilimi_atif",
+      "metin": "Buğdayda lipitler endospermin %1–2’sini, rüşeymin %8–15’ini ve kepeğin yaklaşık %6’sını oluşturur; tüm tanede ortalama %2–4’tür.",
+      "kosul": "Buğday tanesi.",
+      "kanit": "ikincil",
+      "bolum": "Kimlik",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods9010003",
+          "yer": "3.1. Proximate Composition"
+        }
+      ]
+    },
+    {
+      "id": "lipid.amiloz_lipit_kompleksi",
+      "metin": "Lipitler retrogradasyon sırasında amilozla hidrofobik kuvvetlerle V tipi amiloz-lipit kompleksi oluşturabilir; bu kompleksi yalnız monogliseritler ve serbest yağ asitleri kurar, kurma yeteneği karbon zinciri uzunluğuna ve doymuşluk derecesine bağlıdır.",
+      "kosul": "",
+      "kanit": "ikincil",
+      "bolum": "Ne yapar",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1080/87559129.2024.2347467",
+          "yer": "Influence of food ingredients on starch retrogradation / Protein, lipids, and polyphenols"
+        },
+        {
+          "kaynak": "10.1080/87559129.2024.2347467",
+          "yer": "Influence of food ingredients on starch retrogradation / Protein, lipids, and polyphenols"
+        },
+        {
+          "kaynak": "10.1111/1541-4337.13141",
+          "yer": "3.3 Spectroscopic methods"
+        },
+        {
+          "kaynak": "10.1111/1541-4337.13141",
+          "yer": "6 MECHANISMS OF PROTEIN–STARCH INTERACTIONS AND THEIR EFFECT ON STARCH RETROGRADATION"
+        },
+        {
+          "kaynak": "10.1111/1541-4337.13147",
+          "yer": "Table"
+        },
+        {
+          "kaynak": "10.1111/1541-4337.13147",
+          "yer": "4.4 Starch–lipid interactions during baking"
+        }
+      ]
+    },
+    {
+      "id": "lipid.ekmekteki_lipit_kaynaklari",
+      "metin": "Ekmek yapımındaki lipitler ya unun doğal yapısındaki endojen lipitlerden ya da eklenen katı yağ ve yüzey aktif maddelerden kaynaklanır.",
+      "kosul": "ekmek yapımı",
+      "kanit": "ikincil",
+      "bolum": "Nereden gelir",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.jcs.2009.04.010",
+          "yer": "Cited by"
+        }
+      ]
+    },
+    {
+      "id": "lipid.karyopsisteki_lipit_orani_ve_endosperm_payi",
+      "metin": "Lipitler buğday karyopsis ağırlığının %2,5–3,3'ünü oluşturur ve toplam tane lipitlerinin %35–45'i endosperm dokusunda yer alır.",
+      "kosul": "buğday tanesi",
+      "kanit": "ikincil",
+      "bolum": "Tanım",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods10092124",
+          "yer": "5. Nutritional Value and Health Impact"
+        }
+      ]
+    },
+    {
+      "id": "lipid.un_lipitleri_kaynak_ve_siniflandirma",
+      "metin": "Buğday unundaki lipitler hücre zarları, organeller ve sferozomlardan köken alır ve seçici ekstraksiyondaki çözünürlüklerine göre nişasta lipitleri ile serbest ve bağlı nişasta dışı lipitler olarak sınıflandırılır.",
+      "kosul": "buğday unu",
+      "kanit": "ikincil",
+      "bolum": "Tanım",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.tifs.2004.02.011",
+          "yer": "Classification"
+        },
+        {
+          "kaynak": "10.1016/j.tifs.2004.02.011",
+          "yer": "Classification"
+        }
+      ]
+    },
+    {
+      "id": "lipid.kepek_yagi_ve_apolar_lipitler_olumsuz",
+      "metin": "Sert kırmızı ilkbahar buğdayı kepeği üzerine bir çalışmada kepek yağı ekmekçilik özelliklerinin çoğuna zararlı görünmüş; ayrıca kepekteki baskın lipit sınıfı olan apolar lipitlerin ekmek kalitesine zararlı olduğu ve gaz hücrelerini kararsızlaştırıp somun hacmini düşürdüğü literatürde bildirilmektedir.",
+      "kosul": "sert kırmızı ilkbahar buğdayı kepeği bileşenleri (tek çalışma); apolar lipit kısmı atıflardan",
+      "kanit": "tek_kaynak",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.jcs.2017.03.011",
+          "yer": "Abstract"
+        },
+        {
+          "kaynak": "10.1016/j.jcs.2017.03.011",
+          "yer": "Introduction"
+        },
+        {
+          "kaynak": "10.3390/foods9060828",
+          "yer": "4.2. Bread Characteristics"
+        },
+        {
+          "kaynak": "10.17113/ftb.58.03.20.6766",
+          "yer": "INTRODUCTION"
+        },
+        {
+          "kaynak": "10.3390/foods10030489",
+          "yer": "4.2. Impact of Bran Fractions on Bread Quality"
+        }
+      ]
+    },
+    {
+      "id": "lipid.eklenen_lipitler_sivi_filmi_guclendirir",
+      "metin": "Hamura eklenen lipit miktarının artırılması, kabarcıkları çevreleyen sıvı filmi güçlendirerek genişleyen kabarcıkları kararlı kılar ve ekmek yapım performansını geliştirir.",
+      "kosul": "lipit eklenmiş hamur",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1002/cche.10699",
+          "yer": "4 EVOLUTION OF GAS BUBBLES IN DOUGH DURING PROVING AND BAKING"
+        }
+      ]
+    },
+    {
+      "id": "lipid.fosfatidilkolinin_kopukte_zenginlesmesi",
+      "metin": "Bir çalışmada, 2013 hasadı hamur likörü fosfatidilkolini 228 nmol/g undan köpükte 366 nmol/g una çıkmış; yazarlar bunu yüzde 38 zenginleşme olarak bildirmiştir.",
+      "kosul": "2013 hasadı unundan hamur likörü ve köpük analizi",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.foodhyd.2017.08.020",
+          "yer": "Lipid analysis of dough liquor and foam"
+        }
+      ]
+    },
+    {
+      "id": "lipid.hamur_likoru_arayuzunde_lipit_egemenligi_ve_kopuk",
+      "metin": "Bir çalışmada, hamur likörünün hava-su arayüzeyinde hem proteinler hem lipitler etkin bulunmuş, ancak arayüzey lipitlerin egemenliğinde olmuştur.",
+      "kosul": "Hereward buğdayı 2011-2013 hasat yılı unlarından hamur likörü, hava-su arayüzü",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.foodhyd.2017.08.020",
+          "yer": "Abstract"
+        },
+        {
+          "kaynak": "10.1016/j.foodhyd.2017.08.020",
+          "yer": "Highlights"
+        },
+        {
+          "kaynak": "10.1016/j.foodhyd.2017.08.020",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "lipid.hamur_likoru_lipit_oranlari",
+      "metin": "Hamur liköründeki lipit oranları yulafta yüksek çıkarken (%30,2), çavdar (%1,5) ve buğdayda (%0,5) çok daha düşük düzeyde kaldı.",
+      "kosul": "Hamur likörü kuru maddesi analizi",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.foodhyd.2020.105771",
+          "yer": "3.1 Dough liquor composition"
+        },
+        {
+          "kaynak": "10.1016/j.foodhyd.2020.105771",
+          "yer": "3.1 Dough liquor composition"
+        }
+      ]
+    },
+    {
+      "id": "lipid.notral_lipit_kopuk_olumsuz",
+      "metin": "Değiştirilmemiş undan elde edilen tam hamur likörünün köpürmediği, bunun trigliserit gibi nötr lipitlerden kaynaklandığı düşünülüyor; bu lipitlerin köpük kararlılığı ve ekmek hacmi üzerinde olumsuz etkisi olduğu belirtiliyor.",
+      "kosul": "Değiştirilmemiş undan hamur likörü; trigliseritler; Sroan ve MacRitchie 2009 atfı",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.foodhyd.2017.08.020",
+          "yer": "Dough liquor foam stability"
+        }
+      ]
+    },
+    {
+      "id": "lipid.serbest_yag_asidi_kopuk_olumsuz",
+      "metin": "Serbest yağ asitleri az çözünür ve küçük baş grubuna sahiptir; küçük miktarlarının bile köpük yapısını hızla bozarak köpük kararlılığını olumsuz etkilediği bilinir.",
+      "kosul": "Serbest yağ asitleri; Pareyt vd. 2011 ve Wilde vd. 2003 atfı",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.foodhyd.2017.08.020",
+          "yer": "Discussion"
+        }
+      ]
+    },
+    {
+      "id": "lipid.yag_kristali_kabarcik",
+      "metin": "Yoğurma sırasında katı yağdan (shortening) ayrılan yağ kristalleri yağ-su arayüzüyle sarılır ve çok sayıda küçük hava kabarcığının yüzeyine tutunarak onları kararlı kılar.",
+      "kosul": "Katı yağ (shortening) içeren hamur.",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1155/2018/8187318",
+          "yer": "2. Porous Crumb Structure Development"
+        }
+      ]
+    },
+    {
+      "id": "lipid.beyaz_bugday_ununda_polar_lipit_bilesimi",
+      "metin": "Beyaz buğday unu, fosfatidilkolin başta olmak üzere fosfolipitler, MGDG ve DGDG galaktolipidleri ile lizofosfatidilkolin içerir.",
+      "kosul": "beyaz buğday unu polar lipitleri aktarımı",
+      "kanit": "ikincil",
+      "bolum": "Nereden gelir",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.foodhyd.2017.08.020",
+          "yer": "Introduction"
+        }
+      ]
+    }
+  ]
+}

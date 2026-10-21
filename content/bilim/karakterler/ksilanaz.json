@@ -1,0 +1,43 @@
+{
+  "id": "ksilanaz",
+  "ad": "Ksilanaz",
+  "eski_ad": null,
+  "tur": "enzim",
+  "tek_cumle": "Ksilan omurgasındaki beta-1,4 bağlarının yarılmasını katalizleyen hidrolitik enzimlerdir [[ksilanaz.ksilan_omurgasindaki_beta_1_4_baglari_hidrolizi]]",
+  "bolumler": [
+    {
+      "baslik": "Ne yapar",
+      "cumleler": [
+        "Arabinoksilanlardaki glikozit bağlarını kırarak onları daha küçük parçalara ayırır [[ksilanaz.tanim]]",
+        "Suda çözünmeyen arabinoksilanları suda çözünür hâle getirip gaz tutmayı iyileştirerek ekmek hacmini artırabilir [[ksilanaz.hacmi_artirabilir_aktarim]]",
+        "Hmxyn enzimi ksilopentoz, ksilotetraoz ve ksilotriozu ana ürün olarak ksilobiyoza hidroliz etmiş ancak ksilobiyozu hidroliz etmemiştir [[ksilanaz.hmxyn_ksilooligosakkarit_hidroliz_urunu_ksilobiyoz]]"
+      ]
+    },
+    {
+      "baslik": "Hangi koşulda çalışır",
+      "cumleler": [
+        "Rekombinant Hmxyn ksilanazı 45 °C sıcaklıkta ve pH 6,5 değerinde maksimum aktivite gösterdi [[ksilanaz.rekombinant_hmxyn_optimum_ve_kararlilik]]"
+      ]
+    },
+    {
+      "baslik": "Hamurda ne olur",
+      "cumleler": [
+        "Ekmekçilikte dışarıdan eklenen ksilanazlar, ekmek özelliklerini iyileştirmek için çözünür arabinoksilan miktarını artırır [[ksilanaz.cozunur_arabinoksilani_artirir]]"
+      ]
+    },
+    {
+      "baslik": "Ekmeğe etkisi",
+      "cumleler": [
+        "Somun hacminde artış, ekmekçilik puanlarında iyileşme, daha ince ve yumuşak ekmek içi yapısı ile uzatılmış raf ömrü, ekmek kalitesine olumlu etkileri arasındadır [[ksilanaz.ekmek_hacmi_ve_raf_omru_etkisi]]",
+        "Endo-beta-1,4-ksilanazlar ekmekçilik süreçlerinde hamur işlenebilirliğini ve ekmek kalitesini geliştirmek amacıyla yaygın olarak kullanılır [[ksilanaz.endo_beta_1_4_ksilanaz_tanimi]]"
+      ]
+    }
+  ],
+  "efsane": null,
+  "anlar": [
+    "unun_karsisinda_firinci"
+  ],
+  "gorseller": [
+    "fbioe_2022_1018476_sekil_6a"
+  ]
+}

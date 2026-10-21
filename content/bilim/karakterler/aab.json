@@ -1,0 +1,46 @@
+{
+  "id": "aab",
+  "ad": "Asetik asit bakterileri",
+  "eski_ad": null,
+  "tur": "bakteri",
+  "tek_cumle": "Karbonhidratların, alkollerin ve alkollü şekerlerin organik asitlere, aldehitlere ve ketonlara dönüştüğü oksidatif fermantasyondan sorumlu bir bakteri grubudur [[aab.oksidatif_fermantasyon_bilesikleri]]",
+  "bolumler": [
+    {
+      "baslik": "Kimlik",
+      "cumleler": [
+        "500 ekşi mayanın 147'sinde Acetobacter, Gluconobacter ya da Komagataeibacter gibi asetik asit bakterileri %1'in üzerinde göreli bollukta bulunur [[aab.yuzde_29]]"
+      ]
+    },
+    {
+      "baslik": "Ne yer, ne üretir",
+      "cumleler": [
+        "Hücre periplazmasındaki özel kofaktör bağımlı dehidrojenazlar aracılığıyla etanolü kısmi oksitlemeyle asetik aside, glukozu ise glukonik aside dönüştürür [[aab.periplazmik_oksidasyon]]"
+      ]
+    },
+    {
+      "baslik": "Ne yapar",
+      "cumleler": [
+        "Etanolü ve laktik asidi oksitlemesi, asetik asit ve asetoin derişimlerini aşırı artırarak uçucu organik bileşik kompozisyonunda değişimlere yol açabilir [[aab.etanol_laktik_asit_oksidasyonu]]"
+      ]
+    },
+    {
+      "baslik": "Hangi koşulda",
+      "cumleler": [
+        "Tip I ekşi mayalarda laktik asit bakterilerinden daha seyrek ve daha az bol bulunur, olgun ekşi mayada baskın hâle gelmez [[aab.baskin_olmaz]]"
+      ]
+    },
+    {
+      "baslik": "Mayadaki yeri",
+      "cumleler": [
+        "Güney İtalya'dan dört durum buğdayı ekşi mayasından ayrılan yaklaşık 140 izolat arasında Gluconobacter oxydans, Acetobacter malorum, Gluconobacter frauterii ve türü belirlenmemiş bir Gluconobacter tanımlandı [[aab.italya_turleri]]"
+      ]
+    }
+  ],
+  "efsane": "Yaygın inanç, asetik asit bakterilerinin ekşi maya çeşitliliği anlatımlarında neredeyse hiç anılmadığıdır; ölçümler bu bakterilerin özel kültür koşulları istediğini ve kültür yöntemi yanlılığının anlatımlarda çoğu zaman hiç anılmamasını açıklayabileceğini gösteriyor [[aab.kultur_yanliligi]]",
+  "anlar": [
+    "asitler_ve_ph"
+  ],
+  "gorseller": [
+    "c0015116_acetobacter_aceti_bacteria"
+  ]
+}

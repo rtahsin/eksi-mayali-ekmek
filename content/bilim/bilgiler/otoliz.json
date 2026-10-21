@@ -1,0 +1,56 @@
+{
+  "id": "otoliz",
+  "ad": "Otoliz",
+  "bilgiler": [
+    {
+      "id": "otoliz.maya_lizisi_lab_ve_aroma",
+      "metin": "Maya hücresi lizisi, amino asitler, peptitler ve vitaminlerin serbest bırakılması sayesinde LAB büyümesini destekleyebilir ve ekşi maya aromasını güçlendirebilir; ayrıca lize olmuş maya hücreleri ornitin ve glutatyon salgılayarak ekmeğin tadını ve aromasını etkiler.",
+      "kosul": "Maya hücre lizisi; Gobbetti 1998, Vrancken ve ark. 2011, Yan ve ark. 2018 aktarımı",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1080/10408398.2021.1976100",
+          "yer": "Sourdough productions with added non-flour ingredients"
+        },
+        {
+          "kaynak": "10.1080/10408398.2021.1976100",
+          "yer": "Sourdough productions with added non-flour ingredients"
+        }
+      ]
+    },
+    {
+      "id": "otoliz.tip1_eksi_mayada_sinirli",
+      "metin": "Yazarların tartışmadaki çıkarımına göre hücre içi peptidazların otolizle salınmasının, 24 saatten kısa fermente edildikleri için hücre parçalanmasının sınırlı kaldığı tip I ekşi mayalarda büyük katkı yapması olası değildir.",
+      "kosul": "Tip I ekşi maya (24 saatten kısa fermantasyon).",
+      "kanit": "ikincil",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods10020340",
+          "yer": "4.1. Proteolysis in Sourdough"
+        }
+      ]
+    },
+    {
+      "id": "otoliz.bugday_kepegi_otolizi_aminoasit",
+      "metin": "Buğday kepeğinde 50 mM sodyum fosfat içinde yürütülen otoliz tepkimeleri ve ardından %16 trikloroasetik asitle özütleme serbest amino asitler ile gama-aminobütirik asit üretimini sağlar.",
+      "kosul": "Buğday kepeği; Nogata ve Nagamine, 2009",
+      "kanit": "ikincil",
+      "bolum": "Ne yer, ne üretir",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.lwt.2013.12.004",
+          "yer": "4.3. Extraction"
+        },
+        {
+          "kaynak": "10.1016/j.lwt.2013.12.004",
+          "yer": "References"
+        }
+      ]
+    }
+  ]
+}

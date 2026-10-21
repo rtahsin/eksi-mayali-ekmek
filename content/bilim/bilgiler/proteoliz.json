@@ -1,0 +1,204 @@
+{
+  "id": "proteoliz",
+  "ad": "Proteoliz",
+  "bilgiler": [
+    {
+      "id": "proteoliz.ikincil_proteoliz_ve_lezzet_gelisimi",
+      "metin": "Ekşi maya laktik asit bakterilerinin gerçekleştirdiği ikincil proteoliz, tipik ekşi mayalı fırın ürünleri lezzetlerinin gelişimine katkıda bulunan bir diğer metabolik faaliyettir.",
+      "kosul": "",
+      "kanit": "ikincil",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1128/aem.00309-14",
+          "yer": "DISCUSSION"
+        }
+      ]
+    },
+    {
+      "id": "proteoliz.lab_enzimlerinin_gluten_parcalanmasi_ve_ekmek_hacmi",
+      "metin": "Laktik asit bakterisi enzimlerinin yol açtığı gluten proteini parçalanması hamur reolojisinde değişimlere, hamur kabarma kapasitesi ile ekmek hacmi ve dokusunda gelişmeye yol açar.",
+      "kosul": "fırıncılık uygulamaları",
+      "kanit": "tek_kaynak",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/molecules28041910",
+          "yer": "4. Conclusions"
+        }
+      ]
+    },
+    {
+      "id": "proteoliz.lezzet_hacim_ve_doku_onemi",
+      "metin": "Buğday ve çavdar proteinlerinin parçalanması ekmeğin lezzeti, hacmi ve dokusu açısından kritik bir öneme sahiptir.",
+      "kosul": "buğday ve çavdar ekmeği",
+      "kanit": "tek_kaynak",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.tifs.2008.04.002",
+          "yer": "Cereal proteins and bread quality"
+        }
+      ]
+    },
+    {
+      "id": "proteoliz.lab_protein_hidrolizi_ve_fan_artisi",
+      "metin": "Fermantasyon sırasında laktik asit bakterilerinin proteinleri hidroliz etmesi sonucunda serbest amino azotu (FAN) derişimleri artar.",
+      "kosul": "fermantasyonda proteoliz",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/microorganisms8111689",
+          "yer": "3.3.2. Determination of Acidification Parameters"
+        }
+      ]
+    },
+    {
+      "id": "proteoliz.tahil_proteazi_ve_bakteri_peptidazi_rolleri",
+      "metin": "Proteoliz tahıl proteazlarına bağlıyken, ekşi maya laktik asit bakterilerinin peptidaz etkinlikleri hamur ve ekmekte peptitlerin, amino asitlerin ve amino asit metabolitlerinin birikmesini belirler.",
+      "kosul": "ekşi maya fermantasyonu",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.fm.2013.04.007",
+          "yer": "Abstract"
+        },
+        {
+          "kaynak": "10.1016/j.tifs.2008.04.002",
+          "yer": "Cited by"
+        }
+      ]
+    },
+    {
+      "id": "proteoliz.asitte_un_proteinazlari",
+      "metin": "Uzun ekşi maya fermantasyonunda asitli ortamda buğdayın kendi proteinaz enzimlerinin etkinliği artar ve bu enzimler gluten proteinlerini parçalar.",
+      "kosul": "",
+      "kanit": "ikincil",
+      "bolum": "Hangi koşulda",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.foodhyd.2024.110884",
+          "yer": "Introduction"
+        },
+        {
+          "kaynak": "10.3390/foods9070943",
+          "yer": "1. Introduction"
+        }
+      ]
+    },
+    {
+      "id": "proteoliz.ikincil_proteoliz_hucresi_peptidaz",
+      "metin": "Laktik asit bakterileri optimum etkinliği pH 6,0–8,0 civarında olan hücre içi peptidazlarıyla oligopeptitleri hidrolize ederek ekşi maya matrisinde serbest amino asitlerin birikmesini sağlayan ikincil bir proteoliz gerçekleştirir.",
+      "kosul": "",
+      "kanit": "ikincil",
+      "bolum": "Ne yer, ne üretir",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1080/10408398.2021.1976100",
+          "yer": "Flour fermentation for sourdough production"
+        }
+      ]
+    },
+    {
+      "id": "proteoliz.protein_yikimi_tanimi",
+      "metin": "Literatürde, proteoliz yoluyla protein yıkımı proteinlerin peptitlere ve/veya amino asitlere parçalanmasını içerir.",
+      "kosul": "",
+      "kanit": "ikincil",
+      "bolum": "Tanım",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/pr9112008",
+          "yer": "4.2. Nutritional Value and Health-Promoting Compounds"
+        }
+      ]
+    },
+    {
+      "id": "proteoliz.k_humilis_ve_f_sanfranciscensis_amino_asit_besleme_dongusu",
+      "metin": "Kazachstania humilis öncelikle serbest amino asitleri tüketirken, Fructilactobacillus sanfranciscensis un proteazlarını asitle etkinleştirerek gluten parçalanması yoluyla amino asit havuzunu yenilemiştir.",
+      "kosul": "Ekşi mayada maya-bakteri çapraz besleme modeli",
+      "kanit": "ikincil",
+      "bolum": "İlişkileri",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods15101745",
+          "yer": "3.5.1. The Analysis of Differential Metabolites and Metabolic Pathways Between Single-Strain and Mixed-Strain Fermentation"
+        }
+      ]
+    },
+    {
+      "id": "proteoliz.glutamat_ve_umami_tadi",
+      "metin": "Buğday unu proteoliziyle yüksek derişimlerde açığa çıkan glutaminden glutamat gibi belirli amino asitlerin birikmesi ekşi mayanın umami tadına katkıda bulunur.",
+      "kosul": "",
+      "kanit": "ikincil",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1080/10408398.2021.1976100",
+          "yer": "Sourdough productions with added non-flour ingredients"
+        }
+      ]
+    },
+    {
+      "id": "proteoliz.kokumi_tadi_peptitleri",
+      "metin": "Proteoliz yoluyla glutatyon ve bazı gama-glutamil dipeptitleri ile tripeptitleri gibi tat açısından aktif peptitlerin oluşumu kokumi tadına yol açar.",
+      "kosul": "",
+      "kanit": "ikincil",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1080/10408398.2021.1976100",
+          "yer": "Lactic acid bacteria"
+        }
+      ]
+    },
+    {
+      "id": "proteoliz.12_saatte_fibril_yapilar",
+      "metin": "Buğday-çavdar (1:1) hamurunda 12 saatlik laktik asit bakterisi fermantasyonundan sonra protein parçalanması ve yeniden düzenlenme, gluten ağında lif (fibril) ve film benzeri yapılar oluşturdu.",
+      "kosul": "Buğday-çavdar 1:1 hamuru; 12 saat laktik asit bakterisi fermantasyonu; taramalı elektron mikroskobu.",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.foodhyd.2025.111252",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "proteoliz.asitli_hamurda_yogun_hidroliz",
+      "metin": "Bir çalışmada pH 3,5–3,7'ye inen ekşi maya ve asitlendirilmiş hamurlarda albümin/globülin proteinleri daha yoğun parçalandı: mayalı hamurda kalan yaklaşık 60 kDa'lık β-amilazlar yıkıldı ve 14 kDa civarında daha çok küçük protein ürünü oluştu; pH 5,4–5,6'daki mayalı hamurlar ise unla aynı bant desenini gösterdi.",
+      "kosul": "Finlandiya; hamur verimi 200, 30 °C'de 17 saat; mayalı hamur, kimyasal olarak asitlendirilmiş hamur (pH 3,5) ve çavdar başlatıcılı buğday ekşi mayası karşılaştırıldı; albümin/globülin kesri.",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods9070943",
+          "yer": "3.1. Albumin/Globulin Fraction, Figure 1A"
+        },
+        {
+          "kaynak": "10.3390/foods9070943",
+          "yer": "3.1. Albumin/Globulin Fraction, Figure 1B"
+        },
+        {
+          "kaynak": "10.3390/foods9070943",
+          "yer": "3.1. Albumin/Globulin Fraction"
+        }
+      ]
+    }
+  ]
+}

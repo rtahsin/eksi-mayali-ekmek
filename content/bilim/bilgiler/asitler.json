@@ -1,0 +1,624 @@
+{
+  "id": "asitler",
+  "ad": "Asitler",
+  "bilgiler": [
+    {
+      "id": "asitler.asetik_asit_ekmekte_eksi_tattan_sorumlu",
+      "metin": "Asetik asit ekmeğin ekşi tadından sorumludur ve daha güçlü antimikrobiyal özellikleri nedeniyle mantar gelişimine karşı özellikle etkilidir.",
+      "kosul": "Ekmek matrisi",
+      "kanit": "tek_kaynak",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods13152318",
+          "yer": "1. Introduction"
+        },
+        {
+          "kaynak": "10.3390/foods13152318",
+          "yer": "1. Introduction"
+        }
+      ]
+    },
+    {
+      "id": "asitler.asetik_asit_hem_tat_hem_aromayi_etkiler",
+      "metin": "Sonuç olarak asetik asit, ekşi mayalı çavdar ekmeği içinin hem tadını hem de aromasını temel olarak etkiler.",
+      "kosul": "Ekşi mayalı çavdar ekmeği içi",
+      "kanit": "tek_kaynak",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods11152325",
+          "yer": "3.2. Sensory-Directed Decoding of Key Odorants in Bread Crumb"
+        }
+      ]
+    },
+    {
+      "id": "asitler.asetik_tat_ve_doku_etkisi",
+      "metin": "Birincil karbonhidrat metabolizmasında üretilen asetik asit antifungal etki göstermesinin yanı sıra ekmeğin lezzet ve dokusunu da etkiler.",
+      "kosul": "",
+      "kanit": "ikincil",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.ijfoodmicro.2018.09.007",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "asitler.asit_eklemek_hacmi_artirabilir",
+      "metin": "Hamura asetik, laktik ya da süksinik asit eklemek, işlem ayarları (yoğurma süresi, su miktarı) iyi seçildiğinde tam buğday ekmeğinin özgül hacmini artırabilir.",
+      "kosul": "Belçika; tam buğday unu (kuru maddede %12,31 protein); yaş (pres) ekmek mayası; ekşi maya yok, asetik, laktik ya da süksinik asit hamura doğrudan eklenerek pH 4,5, 5,0 ya da 5,5'e indirildi; I-optimal deney tasarımı (yoğurma 7,0–10,0 dakika, su kaldırma %70,0–80,0); tek eksenli uzama reolojisi.",
+      "kanit": "tek_kaynak",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.foodhyd.2024.110884",
+          "yer": "Highlights"
+        },
+        {
+          "kaynak": "10.1016/j.foodhyd.2024.110884",
+          "yer": "Conclusion"
+        },
+        {
+          "kaynak": "10.1016/j.foodhyd.2024.110884",
+          "yer": "Results: Impact of organic acids on wholemeal breadmaking; Table 1"
+        }
+      ]
+    },
+    {
+      "id": "asitler.ekmek_ici_ana_tatlandiricilari_nacl_laktik_asetik",
+      "metin": "İncelenen ekşi mayalı ekmek içlerinde NaCl'ye ek olarak asetik asit ve laktik asit başlıca tat verici bileşikler olmuştur.",
+      "kosul": "Ekşi mayalı çavdar ekmeği içi (tat bileşenleri analizi)",
+      "kanit": "tek_kaynak",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods11152325",
+          "yer": "3.1. Sensory-Directed Decoding and Reconstitution of Bread Crumb Taste"
+        }
+      ]
+    },
+    {
+      "id": "asitler.ekmek_kalitesi_belirleyicileri",
+      "metin": "Asitlenme, kabarma ve elektron alıcılarının kullanımıyla desteklenen asetat oluşumu ekmek kalitesinin önemli belirleyicileridir.",
+      "kosul": "",
+      "kanit": "ikincil",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.ijfoodmicro.2016.05.004",
+          "yer": "Concepts in community assembly and bread quality: is there an association?"
+        }
+      ]
+    },
+    {
+      "id": "asitler.laktik_ve_asetik_asit_tat_profili",
+      "metin": "Karbonhidrat yıkımının son metabolitleri olan laktik asit yumuşak asitlik, asetik asit ise keskin asitlik vererek ekşi mayanın tadına katkıda bulunur; ayrıca uçucu asetik asit aromayı destekler.",
+      "kosul": "",
+      "kanit": "ikincil",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1080/10408398.2021.1976100",
+          "yer": "Sourdough productions with added non-flour ingredients"
+        }
+      ]
+    },
+    {
+      "id": "asitler.ph_dususu_gluten_ve_somun_hacmi",
+      "metin": "Laktik asit bakterilerinin ürettiği organik asitlerle pH değerinin düşmesi glüten proteinlerinin şişmesini ve çözünürlüğünü etkileyerek daha iyi gaz tutma ve pişirme sonrası daha yüksek somun hacmi sağlayan daha yumuşak bir hamur oluşturur.",
+      "kosul": "",
+      "kanit": "ikincil",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/pr9112008",
+          "yer": "4.3. Textural Properties of Dough and Bread as Affected by Ancient Wheat Sourdough"
+        }
+      ]
+    },
+    {
+      "id": "asitler.asetik_gluten_sertlestirir_laktik_esnetir",
+      "metin": "Heterofermentatif laktik asit bakterilerinin ürettiği asetik asidin glutenin kısalmasına ve sertleşmesine yol açtığı, laktik asidin ise gluten yapısını daha elastik hâle getirebileceği bildirilmiştir (Komlenić vd. 2012).",
+      "kosul": "Komlenić et al. 2012 aktarımı",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.17221/68/2017-cjfs",
+          "yer": "Influence of sourdough on sensorial properties of bread"
+        }
+      ]
+    },
+    {
+      "id": "asitler.suksinik_asit_ana_ph_belirleyici_ve_gelisim",
+      "metin": "Süksinik asit, fermantasyon sırasında maya tarafından üretilen başlıca pH belirleyici metabolitlerden biridir ve hamur gelişimini artırdığı bildirilmiştir (Jayaram vd.).",
+      "kosul": "Jayaram et al. 2013, 2014a aktarımı",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3136/fstr.24.509",
+          "yer": "Discussion"
+        }
+      ]
+    },
+    {
+      "id": "asitler.fizikokimyasal_parametreler_ve_fq_tanimi",
+      "metin": "Ekşi mayalı ekmek içindeki uçucu olmayan maddeleri karakterize etmek için genellikle pH ve toplam titre edilebilir asitliğin (TTA) yanı sıra fermantasyon katsayısı (FQ, laktik asidin asetik aside molar oranı) ölçülür.",
+      "kosul": "Ekşi mayalı ekmek içi analitiği (atıf)",
+      "kanit": "ikincil",
+      "bolum": "Nasıl ölçülür",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods11152325",
+          "yer": "1. Introduction"
+        }
+      ]
+    },
+    {
+      "id": "asitler.asetik_asit_pka_hucreici_asitlenme",
+      "metin": "Asetik asidin daha yüksek pKa değeri nedeniyle asidik pH'de laktik aside kıyasla daha fazla ayrışmamış asetik asit maya zarından geçerek hücre içinde ayrışır ve hücre içi pH'yi düşürür (Narendranath vd. 2001).",
+      "kosul": "Asidik pH; Narendranath vd. 2001 aktarımı",
+      "kanit": "ikincil",
+      "bolum": "Ne yapar",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1007/s11274-021-03027-0",
+          "yer": "Discussion"
+        }
+      ]
+    },
+    {
+      "id": "asitler.laktik_asit_asitlenmede_baskin_rol",
+      "metin": "Laktik asit, asetik asidin 4,76 pKa değerine kıyasla daha düşük olan 3,86 pKa değeri ve daha yüksek proton verme kapasitesi sayesinde ekşi mayanın asitlenmesinde baskın rol oynar.",
+      "kosul": "[33] aktarımı",
+      "kanit": "ikincil",
+      "bolum": "Ne yapar",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods15101745",
+          "yer": "3.4. The Analysis of the Characteristic Spectrum of Dough Fermentation and Acidification"
+        }
+      ]
+    },
+    {
+      "id": "asitler.tipik_phda_ayrismamis_asetik_asit",
+      "metin": "Tipik ekşi maya pH koşullarında (3,5–4,5), pKa değeri 4,76 olan asetik asidin önemli bir bölümü ayrışmamış halde kalarak antimikrobiyal etkinliğini artırır.",
+      "kosul": "Tipik ekşi maya pH koşulları (3,5–4,5); [18] aktarımı",
+      "kanit": "ikincil",
+      "bolum": "Ne yapar",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods15101745",
+          "yer": "3.4. The Analysis of the Characteristic Spectrum of Dough Fermentation and Acidification"
+        }
+      ]
+    },
+    {
+      "id": "asitler.heterofermantatif_lab_zayif_organik_asit",
+      "metin": "Ekşi maya fermantasyonu sırasında asitlenme, heterofermantatif laktik asit bakterilerinin başta laktik ve asetik asit olmak üzere zayıf organik asitler üretmesiyle sağlanır.",
+      "kosul": "ekşi maya fermantasyonu sırasında",
+      "kanit": "ikincil",
+      "bolum": "Ne yer, ne üretir",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.ijfoodmicro.2020.108551",
+          "yer": "Introduction"
+        },
+        {
+          "kaynak": "10.1128/aem.00570-10",
+          "yer": "Introduction"
+        },
+        {
+          "kaynak": "10.3390/foods13010096",
+          "yer": "3. Mannitol Production"
+        }
+      ]
+    },
+    {
+      "id": "asitler.lab_ve_maya_uretir",
+      "metin": "Ekşi maya ve ekmek hamuru fermantasyonunda laktik asit bakterileri ve mayalar fermente olabilen şekerleri organik asitlere, karbondioksite ve etanole çevirir; asetik, laktik ve süksinik asit ekşi maya yapımı sırasında bu yolla birikir.",
+      "kosul": "",
+      "kanit": "ikincil",
+      "bolum": "Nereden gelir",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.foodhyd.2025.111252",
+          "yer": "Abstract"
+        },
+        {
+          "kaynak": "10.1016/j.foodhyd.2025.111252",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "asitler.fermantasyon_katsayisi_optimum_2_ile_2_7",
+      "metin": "Ekşi mayalı ekmek kalitesi ve tüketiciler tarafından duyusal algılanabilirlik açısından önemli olan fermantasyon katsayısı (laktat/asetat oranı) için optimum değer 2 ile 2,7 aralığı olarak kabul edilmektedir.",
+      "kosul": "Hammes ve Gänzle 1998; Gül et al. aktarımları",
+      "kanit": "ikincil",
+      "bolum": "Tanım",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.55147/efse.1117033",
+          "yer": "Results and Discussion"
+        },
+        {
+          "kaynak": "10.3390/foods13152318",
+          "yer": "3.3. Bread Quality and Physicochemical Properties"
+        }
+      ]
+    },
+    {
+      "id": "asitler.fermantasyon_katsayisi_orani",
+      "metin": "Ekşi mayaların asidik tadını belirleyen fermantasyon katsayısı, laktik asidin asetik aside molar oranını temsil eder ve tercihen 3,0–5,0 aralığında olmalıdır.",
+      "kosul": "",
+      "kanit": "ikincil",
+      "bolum": "Tanım",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1080/10408398.2021.1976100",
+          "yer": "Lactic acid bacteria"
+        }
+      ]
+    },
+    {
+      "id": "asitler.asetik_suksinik_somun_hacmi_ph",
+      "metin": "Verdonck vd. (2025)'e göre, asetik ve süksinik asit hamur pH'sını sırasıyla 5,0 ve 4,5'e düşürecek derişimlerde eklendiğinde somun hacminde artış oldu.",
+      "kosul": "Verdonck et al. (2025) aktarımı; pH 5,0 ve 4,5",
+      "kanit": "ikincil",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.fochx.2026.104362",
+          "yer": "1. Introduction"
+        }
+      ]
+    },
+    {
+      "id": "asitler.ayrismamis_asetik_raf_omru",
+      "metin": "Ekmek sulu fazında litre başına 150–200 mmol ayrışmamış asetik asit bulunduğunda ekmeğin raf ömrü uzamıştır.",
+      "kosul": "ekmek içi sulu faz",
+      "kanit": "tek_kaynak",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.ijfoodmicro.2020.108551",
+          "yer": "Highlights"
+        },
+        {
+          "kaynak": "10.1016/j.ijfoodmicro.2020.108551",
+          "yer": "Abstract"
+        }
+      ]
+    },
+    {
+      "id": "asitler.cavdar_ekmegi_asetik_ve_laktik_dot_faktoru",
+      "metin": "Çavdar ekmeği içinde asetik asit derişimi 41,5 ± 2,0 mmol/kg ve DoT faktörü (tat eşiğine oranı) 20,8; laktik asit derişimi 78,5 ± 1,6 mmol/kg ve DoT faktörü 5,6 olarak saptanmıştır.",
+      "kosul": "Ekşi mayalı çavdar ekmeği içi (referans ekmek)",
+      "kanit": "tek_kaynak",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods11152325",
+          "yer": "Table 2"
+        },
+        {
+          "kaynak": "10.3390/foods11152325",
+          "yer": "Table 2"
+        }
+      ]
+    },
+    {
+      "id": "asitler.kimyasal_asitli_ekmek_daha_sert",
+      "metin": "Bir model çalışmasında kimyasal olarak asitlendirilmiş hamurdan yapılan ekmek, gaz üretimi benzer olmasına rağmen laktobasilli ekşi maya ekmeklerinden ve düz hamur ekmeğinden daha sertti.",
+      "kosul": "Model tip I buğday ekşi mayası (I. aşama 30 °C'de 16 saat, II. aşama 30 °C'de 2,5 saat); ekmek hamuru 1 saat dinlenme + 30 °C'de 1 saat mayalanma, 180 °C'de 25 dakika pişirme; kimyasal asitlendirme laktik:asetik 4:1 ile pH 3,80.",
+      "kanit": "tek_kaynak",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3389/fmicb.2019.02113",
+          "yer": "Results, Figure 1C"
+        }
+      ]
+    },
+    {
+      "id": "asitler.kurutmada_asetik_asit_kaybi",
+      "metin": "Yüksek sıcaklıkta yapılan kurutma yöntemlerinde asetik asit buharlaşır; kuru ekşi mayada derişim düşer ve bunun tat ile rope inhibisyonunu olumsuz etkileyebileceği belirtilir.",
+      "kosul": "Kuru ekşi maya üretiminde yüksek sıcaklıklı kurutma; Brandt 2007 ve Brandt 2019 atfı",
+      "kanit": "ikincil",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.4322/biori.202203",
+          "yer": "Technological characteristics in the use of type III sourdough"
+        }
+      ]
+    },
+    {
+      "id": "asitler.laktik_asetik_raf_omru_uzatma",
+      "metin": "Laktik asit ve asetik asit ekmeğin mikrobiyolojik raf ömrünün uzatılmasından sorumlu tutulmaktadır.",
+      "kosul": "",
+      "kanit": "ikincil",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.ijfoodmicro.2020.108551",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "asitler.asiri_organik_asit_maya_alkol_ve_co2_engellemesi",
+      "metin": "Laktik asit bakterileri tarafından yüksek miktarda organik asit üretilmesi pH'yi düşürerek mayanın alkol fermantasyonunu ve CO2 üretimini engelleyebilir.",
+      "kosul": "Çavdar kepeği ekşi mayalı ekmekler; özgül hacim azalmasının olası açıklaması (yazarların yorumu)",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods14071253",
+          "yer": "3.4.2. Baking Loss Rate and Specific Volume of Rye Bran Bread"
+        }
+      ]
+    },
+    {
+      "id": "asitler.asitlenme_protein_cozunurlugu",
+      "metin": "Hamurun asitlenmesi net protein yükünü artırarak protein çözünürlüğünün yükselmesine ve proteinlerin açılmasının kolaylaşmasına yol açar.",
+      "kosul": "",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.foodchem.2012.08.039",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "asitler.asitlenmenin_gluten_ve_nisastaya_etkisi",
+      "metin": "Ekşi mayanın asitlenmesi ve ekmek hamurunun kısmi asitlenmesi, glüten ve nişasta gibi yapı oluşturan bileşenler üzerinde etkili olur.",
+      "kosul": "",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1590/s1984-82502013000200005",
+          "yer": "Dough and bread evaluation"
+        }
+      ]
+    },
+    {
+      "id": "asitler.organik_asit_ph_ve_amilaz_azalisi",
+      "metin": "Fermente şekerdeki organik asitlerin hamur pH'sini düşürmesi alfa-amilaz aktivitesini azaltabilir ve maya etkinliği için fermente edilebilir şeker düzeylerinin düşmesine yol açabilir.",
+      "kosul": "Fermente şeker içeren hamur ortamı",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods9101465",
+          "yer": "3.4. Dough Rheological Properties during Fermentation"
+        }
+      ]
+    },
+    {
+      "id": "asitler.organik_asit_uzayabilirlik_mekanizmasi",
+      "metin": "Asetik ve süksinik gibi organik asitler, hamur pH'sini düşürüp gluten proteinleri arasındaki zincir itimini artırarak hamurun uzayabilirliğini azaltır.",
+      "kosul": "pH düşüşü ve elektrostatik itim mekanizması",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.fochx.2026.104362",
+          "yer": "1. Introduction"
+        }
+      ]
+    },
+    {
+      "id": "asitler.ph_dususu_suksinik_birikimi",
+      "metin": "Fermantasyon sırasında pH düşüşü yalnızca CO2 çözünmesinden değil, esas olarak süksinik asit birikiminden kaynaklanır.",
+      "kosul": "Jayaram et al. (2013) aktarımı",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.jcs.2018.06.006",
+          "yer": "1 Introduction"
+        }
+      ]
+    },
+    {
+      "id": "asitler.suksinik_asit_hamur_matrisini_guclendirir",
+      "metin": "Bu çalışmada süksinik asit, hamur matrisi işlevselliği üzerinde pekiştirici bir etki göstererek daha yüksek ağ bağlantılılığı ve mukavemeti sağladı.",
+      "kosul": "Kayma reolojisi analizi",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/polym13010030",
+          "yer": "PMC7795266.txt:3.1. Network Characterisation"
+        }
+      ]
+    },
+    {
+      "id": "asitler.en_iyi_ph_asit_turune_gore",
+      "metin": "Modele göre tam buğday ekmeğinde en yüksek özgül hacim süksinik asitle pH 4,5'te (3,3 mL/g, kontrolden %22'ye kadar fazla), laktik asitle yine pH 4,5'te (3,1 mL/g), asetik asitle ise pH 5,5'te (3,0 mL/g) öngörüldü; asitsiz kontrol 2,7 mL/g idi.",
+      "kosul": "Belçika; tam buğday unu (kuru maddede %12,31 protein); yaş (pres) ekmek mayası; ekşi maya yok, asetik, laktik ya da süksinik asit hamura doğrudan eklenerek pH 4,5, 5,0 ya da 5,5'e indirildi; I-optimal deney tasarımı (yoğurma 7,0–10,0 dakika, su kaldırma %70,0–80,0); tek eksenli uzama reolojisi.",
+      "kanit": "tek_kaynak",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.foodhyd.2024.110884",
+          "yer": "Abstract"
+        },
+        {
+          "kaynak": "10.1016/j.foodhyd.2024.110884",
+          "yer": "Abstract"
+        }
+      ]
+    },
+    {
+      "id": "asitler.maya_engellenmesi_pka_degerleri",
+      "metin": "Maya büyümesinin engellenmesi, ortam pH değerlerinin mevcut organik asitlerin pKa değerlerine (laktik asit için 3,8 ve asetik asit için 4,7) yaklaştığında ya da bu değerlerin altına indiğinde gerçekleşti.",
+      "kosul": "WSSM ve mWSSM besiyerleri; pH'nin pKa (laktik asit 3,8; asetik asit 4,7) düzeyine veya altına inmesi",
+      "kanit": "tek_kaynak",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1128/aem.01325-25",
+          "yer": "DISCUSSION"
+        }
+      ]
+    },
+    {
+      "id": "asitler.organik_asit_ph_araligi_lab",
+      "metin": "Organik asit üretimi, ekşi mayada pH 5,0 ile 3,5 aralığında laktik ve asetik asit üreten laktik asit bakterileri için uygun bir büyüme ortamı sağlar.",
+      "kosul": "ekşi maya fermantasyonu, pH 5,0–3,5",
+      "kanit": "ikincil",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1590/0001-3765202220220091",
+          "yer": "pH and TTA in sourdough prepared with organic and conventional whole soft wheat flour"
+        }
+      ]
+    },
+    {
+      "id": "asitler.tur_ve_duzey_ayrilmamis",
+      "metin": "Bazı çalışmalar asitlendirmenin hamura ve ekmek hacmine etkisinin asit türüne bağlı olduğunu öne sürer, ancak asit türünün etkisini asitlenme düzeyinin etkisinden ayırmaz.",
+      "kosul": "",
+      "kanit": "ikincil",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.foodhyd.2024.110884",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "asitler.sicilya_fq_4_ustu",
+      "metin": "Batı Sicilya fırınlarından alınan ekşi mayaların çoğunda fermantasyon katsayısı (FQ) asetik asit düşük olduğu için 4,0'ın üzerindeydi.",
+      "kosul": "İtalya, batı Sicilya (Agrigento, Palermo, Trapani) fırınlarından 15 ekşi maya; beslemeden önce örneklendi; asitler HPLC ile ölçüldü.",
+      "kanit": "tek_kaynak",
+      "bolum": "Nasıl ölçülür",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.fm.2015.04.011",
+          "yer": "Abstract"
+        }
+      ]
+    },
+    {
+      "id": "asitler.asetik_en_belirgin_antifungal",
+      "metin": "Değerlendirilen bakteriyel metabolitler arasında asetik asit en belirgin ve tutarlı antifungal aktiviteyi göstermiştir.",
+      "kosul": "in vitro MIC ve in situ pişirme denemeleri",
+      "kanit": "tek_kaynak",
+      "bolum": "Ne yapar",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.ijfoodmicro.2018.09.007",
+          "yer": "Abstract"
+        },
+        {
+          "kaynak": "10.3390/microorganisms9081633",
+          "yer": "4. Discussion"
+        }
+      ]
+    },
+    {
+      "id": "asitler.ayrismamis_fraksiyon_zar_gecirgenligi",
+      "metin": "Mikrobiyal hücre zarına yalnızca ayrışmamış asit fraksiyonu nüfuz edebilmekte ve büyüme engellemesine yol açabilmektedir.",
+      "kosul": "",
+      "kanit": "ikincil",
+      "bolum": "Ne yapar",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.ijfoodmicro.2020.108551",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "asitler.organik_asitler_sulu_fazda_aktif",
+      "metin": "Organik asitler ekmek gıda matrisinde yalnızca sulu fazda bulunmakta ve antimikrobiyal olarak yalnızca bu fazda aktif olmaktadır.",
+      "kosul": "",
+      "kanit": "ikincil",
+      "bolum": "Ne yapar",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.ijfoodmicro.2020.108551",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "asitler.asit_turleri_hamurda_farkli_etkilesir_tam",
+      "metin": "Tam buğday hamurunda sonuçlar, her asit türünün hamurla kendine özgü biçimde etkileştiğini düşündürdü.",
+      "kosul": "Belçika; tam buğday unu (kuru maddede %12,31 protein); yaş (pres) ekmek mayası; ekşi maya yok, asetik, laktik ya da süksinik asit hamura doğrudan eklenerek pH 4,5, 5,0 ya da 5,5'e indirildi; I-optimal deney tasarımı (yoğurma 7,0–10,0 dakika, su kaldırma %70,0–80,0); tek eksenli uzama reolojisi.",
+      "kanit": "tek_kaynak",
+      "bolum": "İlişkileri",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.foodhyd.2024.110884",
+          "yer": "Abstract"
+        }
+      ]
+    },
+    {
+      "id": "asitler.suksinik_asetik_protein_yapisi",
+      "metin": "Süksinik ve asetik asit, hamurdaki proteinlerin ikincil yapısını laktik asitten daha çok etkiledi.",
+      "kosul": "Belçika; buğday ekmeği hamuru asetik, laktik ya da süksinik asit eklenerek pH 4,5'e indirildi; iki beyaz un (Belçika F1, %12,7 protein; Kanada CWRS F2, %13,7 protein); hamur sıvısı ultrasantrifüjle ayrıldı; FTIR (amid I bandı).",
+      "kanit": "tek_kaynak",
+      "bolum": "İlişkileri",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.foodhyd.2025.111252",
+          "yer": "Abstract"
+        }
+      ]
+    }
+  ]
+}

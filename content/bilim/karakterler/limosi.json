@@ -1,0 +1,44 @@
+{
+  "id": "limosi",
+  "ad": "Limosilactobacillus",
+  "eski_ad": null,
+  "tur": "bakteri",
+  "tek_cumle": "Uzun fermantasyonlarda Lactiplantibacillus plantarum, Limosilactobacillus fermentum ve Limosilactobacillus reuteri gibi aside daha dayanıklı türlerden biri olarak bulunması olasıdır [[limosi.uzun_fermantasyon]]",
+  "bolumler": [
+    {
+      "baslik": "Ne yer, ne üretir",
+      "cumleler": [
+        "Arginin deiminaz yolu arginini ornitine dönüştürerek pH'yı hafifçe yükselten amonyak açığa çıkarır ve ek ATP oluşumunu sağlar [[limosi.arginin_deiminaz_yolu]]",
+        "Ester öncülleri eklenmiş besiyerinde incelenen 10 ekşi maya laktik asit bakterisi suşu içinde en çok esteri Limosilactobacillus fermentum IMDO 130101 üretti [[limosi.fermentum_ester]]",
+        "Limosilactobacillus reuteri ise Gram-pozitif laktik asit bakterilerine ve mayalara karşı etkin, düşük molekül ağırlıklı bir antibiyotik olan reutericyclin'i etkin derişimlerde salgılar [[limosi.reutericyclin]]"
+      ]
+    },
+    {
+      "baslik": "Hangi koşulda",
+      "cumleler": [
+        "Dondurarak kurutma sonrasında Limosilactobacillus reuteri'nin en yüksek canlı kalma oranı (%80) glutamatın koruyucu etkisine bağlanmıştır [[limosi.reuteri_dondurarak_kurutmada_glutamat_korumasi]]"
+      ]
+    },
+    {
+      "baslik": "Mayadaki yeri",
+      "cumleler": [
+        "Kakao fermantasyonundan izole edilen Limosilactobacillus fermentum IMDO 222, tip II buğday ekşi mayasında rekabet güçleri nedeniyle umut veren bir başlatıcı adayı oldu ve ekşi mayada baskın kaldı [[limosi.kakao_fermentum]]",
+        "Belçika'daki geleneksel ekşi maya örneklerinde Limosilactobacillus panis kültürle izole edilmedi, ama PCR-DGGE'de türün Belçika ekşi mayalarındaki varlığını ilk kez gösterdi [[limosi.panis_belcika]]"
+      ]
+    },
+    {
+      "baslik": "Hamurda ne olur",
+      "cumleler": [
+        "Bal eklenmiş ekşi mayada Limosilactobacillus fermentum ile oluşan daha ılımlı asitlik, glukoz oksidaz etkinliğini korur, glutatyon indirgenmesini en aza indirir ve daha güçlü bir gluten ağı kurulmasını sağlar [[limosi.fermentum_bal_glukoz_oksidaz]]"
+      ]
+    }
+  ],
+  "efsane": null,
+  "anlar": [
+    "mayayi_beslerken"
+  ],
+  "gorseller": [
+    "lactobacillus_lb",
+    "lactobacillus_delbrueckii_subsp_bulgaricus_in_yogurt"
+  ]
+}

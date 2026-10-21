@@ -1,0 +1,362 @@
+{
+  "id": "khum",
+  "ad": "K. humilis",
+  "bilgiler": [
+    {
+      "id": "khum.maltoz_negatif_ph_sicaklik",
+      "metin": "Kazachstania humilis maltoz-negatif fermantasyon özelliği, pH 3,5 ile 7,0 arasında büyümesi etkilenmeyen aside dayanıklılığı ve 36 °C'ye kadar nispeten sıcaklığa toleranslı olmasıyla öne çıkar.",
+      "kosul": "",
+      "kanit": "ikincil",
+      "bolum": "Hangi koşulda",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1080/10408398.2021.1976100",
+          "yer": "Yeasts"
+        },
+        {
+          "kaynak": "10.1128/aem.01030-26",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "khum.ekmek_mayasindan_sonra_en_yaygin_ikinci_maya",
+      "metin": "Kazachstania humilis, ekşi maya başlatıcılarında Saccharomyces cerevisiae'den sonra en sık rastlanan ikinci maya türüdür.",
+      "kosul": "ekşi maya başlatıcıları",
+      "kanit": "ikincil",
+      "bolum": "Mayadaki yeri",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1128/aem.01030-26",
+          "yer": "Introduction"
+        },
+        {
+          "kaynak": "10.1093/gbe/evag176",
+          "yer": "Discussion"
+        }
+      ]
+    },
+    {
+      "id": "khum.ortak_kabartma",
+      "metin": "Bu çalışmada denenen Kazachstania humilis suşları tek başına hamuru Saccharomyces cerevisiae kadar kabartmadı, ama zorunlu heterofermentatif laktik asit bakterileriyle (ör. Fructilactobacillus sanfranciscensis) birlikteyken S. cerevisiae–bakteri çiftleri kadar kabarttı.",
+      "kosul": "Laboratuvar buğday ekşi hamuru; 28 °C; ortak kültür 6 saat; Fransız ekşi maya izolatları (K. humilis yB5-AC1 ve yB6-15).",
+      "kanit": "tek_kaynak",
+      "bolum": "Mayadaki yeri",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/microorganisms8020240",
+          "yer": "Results 3.3.2"
+        },
+        {
+          "kaynak": "10.3390/microorganisms8020240",
+          "yer": "Abstract"
+        }
+      ]
+    },
+    {
+      "id": "khum.tum_mayalarda_kazachstania_hizla_baskinlasir",
+      "metin": "Bu çalışmada, bir aylık süreçte, un türünden ve besleme programından bağımsız olarak Kazachstania cinsi sıklığını hızla artırarak tüm ekşi maya başlatıcılarında en bol bulunan maya oldu.",
+      "kosul": "1 aylık ekşi maya oluşumu, 3 un tipi ve 2 besleme rejimi",
+      "kanit": "tek_kaynak",
+      "bolum": "Mayadaki yeri",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1128/spectrum.02380-25",
+          "yer": "ABSTRACT"
+        }
+      ]
+    },
+    {
+      "id": "khum.cins_tur_sayisi_ve_eksi_maya_turleri",
+      "metin": "Kazachstania cinsi 40'tan fazla türden oluşmakta olup bunların 11 tanesi ekşi mayada bulunmaktadır.",
+      "kosul": "taksonomik derleme",
+      "kanit": "ikincil",
+      "bolum": "Tanım",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.24072/pcjournal.237",
+          "yer": "Discussion"
+        },
+        {
+          "kaynak": "10.1128/spectrum.02380-25",
+          "yer": "DISCUSSION"
+        }
+      ]
+    },
+    {
+      "id": "khum.fsan_birlikte_bulunma",
+      "metin": "Kazachstania humilis, Fructilactobacillus sanfranciscensis ile aynı ekşi mayalarda birlikte bulunma eğilimindedir.",
+      "kosul": "500 ekşi maya (çoğu ev ekşi mayası), birlikte bulunma analizi; ayrıca Belçika, Fransa, Birleşik Krallık ve ABD'den 17 ekşi maya.",
+      "kanit": "uzlasi",
+      "bolum": "İlişkileri",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.7554/elife.61644",
+          "yer": "Results – Diversity of sourdough starters"
+        },
+        {
+          "kaynak": "10.3389/fmicb.2020.01212",
+          "yer": "Discussion"
+        },
+        {
+          "kaynak": "10.7717/peerj.11389",
+          "yer": "Sourdough Starter Maintenance: Flour"
+        }
+      ]
+    },
+    {
+      "id": "khum.ho_geni_ve_sessiz_kasetlerin_tam_delesyonu",
+      "metin": "Bu çalışmada Millerozyma humilis'in HO geninin ve sessiz kasetlerin tam delesyonunu taşıdığı, heterotallik olduğu ve ağırlıklı olarak eşeysiz çoğaldığı bulundu.",
+      "kosul": "Çiftleşme tipi lokusu ve HO endonükleaz gen analizi",
+      "kanit": "tek_kaynak",
+      "bolum": "Kimlik",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1093/gbe/evag176",
+          "yer": "M. humilis, a Domesticated Species?"
+        }
+      ]
+    },
+    {
+      "id": "khum.cins_duzeyinde_baskinlik_ve_okuma_orani",
+      "metin": "İncelenen ekşi mayalarda Kazachstania cinsi toplam okumaların %57'sini oluşturup ekşi mayaların %54'ünde baskın olurken, Saccharomyces cinsi toplam okumaların %26'sını oluşturmuş ve mayaların yalnızca %27'sinde baskın olmuştur.",
+      "kosul": "ekşi maya mantar topluluğu analizi",
+      "kanit": "tek_kaynak",
+      "bolum": "Mayadaki yeri",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.24072/pcjournal.237",
+          "yer": "Sourdough yeast species mostly belong to the Kazachstania genus"
+        },
+        {
+          "kaynak": "10.24072/pcjournal.237",
+          "yer": "Sourdough yeast species mostly belong to the Kazachstania genus"
+        },
+        {
+          "kaynak": "10.24072/pcjournal.237",
+          "yer": "Conclusion"
+        }
+      ]
+    },
+    {
+      "id": "khum.en_sik_karsilasilan_turler_wickerhamomyces_ve_khumilis",
+      "metin": "Ekşi mayada en sık karşılaşılan maya türleri arasında Wickerhamomyces anomalus ve Kazachstania humilis yer alır.",
+      "kosul": "yazın verisi derlemesi",
+      "kanit": "ikincil",
+      "bolum": "Mayadaki yeri",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.24072/pcjournal.237",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "khum.fransa_en_sik",
+      "metin": "Fransız organik ekşi mayalarında Kazachstania humilis en sık bulunan mayaydı: 14 mayanın 12'sinde saptandı ve beşinde okumaların %50'sinden fazlasıyla baskındı; kültürle ayrılan 519 maya izolatının %45,9'u K. humilis, %22,9'u K. bulderi idi.",
+      "kosul": "Fransa, organik buğday ekşi mayaları; ITS1 metabarkodlama (14 maya) ve kültür (13 maya, 519 izolat).",
+      "kanit": "tek_kaynak",
+      "bolum": "Mayadaki yeri",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3389/fmicb.2019.00201",
+          "yer": "Results, Natural sourdoughs"
+        },
+        {
+          "kaynak": "10.3389/fmicb.2019.00201",
+          "yer": "Results, culture-based method; Table 2"
+        }
+      ]
+    },
+    {
+      "id": "khum.humilis_ve_bulderi_baskinlik_orani",
+      "metin": "Kazachstania humilis ve Kazachstania bulderi sırasıyla ekşi mayaların %21 ve %15'inde baskın olarak en sık rastlanan baskın Kazachstania türleri olmuştur.",
+      "kosul": "Fransız ekşi mayaları",
+      "kanit": "tek_kaynak",
+      "bolum": "Mayadaki yeri",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.24072/pcjournal.237",
+          "yer": "Sourdough yeast species mostly belong to the Kazachstania genus"
+        }
+      ]
+    },
+    {
+      "id": "khum.italya_bazi_eksi_mayalar",
+      "metin": "İtalya'daki iki çalışmada Kazachstania humilis bazı ekşi mayalarda bulundu: yöresel ekmekler için kullanılan 19 ekşi mayanın 3'ünde (Pane di Terni, Pane di Cappelli, Pagnotta del Dittaino PDO) ve laboratuvarda sürdürülen dört durum buğdayı ekşi mayasının ikisinde Saccharomyces cerevisiae ile birlikte (MA'nın sıvı örneği; A'nın sıkı ve sıvı örnekleri).",
+      "kosul": "(1) İtalya'da yöresel/geleneksel ekmekler için kullanılan 19 olgun ekşi maya; yerel fırınlardan ardışık günlerde 3 parti örneklendi; durum buğdayı (Triticum durum, 10 ekşi maya) ya da ekmeklik buğday (Triticum aestivum, 9 ekşi maya) unu; kültüre dayalı tanımlama. (2) Güney İtalya'dan (Matera, Altamura) 4 olgun Tip I ekşi maya; durum buğdayı (Triticum durum) unu; laboratuvarda 28 gün her gün yenileme, sıkı (hamur verimi 160) ve sıvı (hamur verimi 280, 150 rpm karıştırmalı) olarak; 25 °C'de 3–6 saat fermantasyon, yenilemeler arasında 10 °C'de 16–19 saat bekletme; gerçek hamur.",
+      "kanit": "uzlasi",
+      "bolum": "Mayadaki yeri",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1128/aem.07721-11",
+          "yer": "Results, Typing and identification of yeasts"
+        },
+        {
+          "kaynak": "10.1128/aem.00309-14",
+          "yer": "Results, Typing and identification of yeasts"
+        },
+        {
+          "kaynak": "10.1128/aem.07721-11",
+          "yer": "Discussion"
+        }
+      ]
+    },
+    {
+      "id": "khum.italya_firinci_baskin_mayalar",
+      "metin": "Kazachstania humilis, K. barnettii, Kazachstania exigua ve Saccharomyces cerevisiae İtalyan fırın ekşi mayalarında baskın mayalar arasında yer alır.",
+      "kosul": "İtalyan fırın ekşi mayaları",
+      "kanit": "ikincil",
+      "bolum": "Mayadaki yeri",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1128/aem.00309-14",
+          "yer": "DISCUSSION"
+        }
+      ]
+    },
+    {
+      "id": "khum.maya_okuma_paylari_fransiz_mayalari",
+      "metin": "Fransız ekşi mayalarında Kazachstania humilis, Kazachstania bulderi ve Saccharomyces cerevisiae sırasıyla maya okumalarının %28,1, %23,7 ve %18,2'sini oluşturmuştur.",
+      "kosul": "Fransız ekşi mayaları maya okumaları",
+      "kanit": "tek_kaynak",
+      "bolum": "Mayadaki yeri",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.24072/pcjournal.237",
+          "yer": "Composition of sourdough fungal communities"
+        }
+      ]
+    },
+    {
+      "id": "khum.dgge_baskin_italya",
+      "metin": "Güney İtalya'dan yedi olgun ekşi mayalık bir çalışmada ana DGGE bantlarının dizilenmesi, iki ekşi mayada Kazachstania humilis/Kazachstania barnettii ile Saccharomyces bayanus/Kazachstania sp. baskınlığını gösterdi.",
+      "kosul": "Güney İtalya'dan (Matera, Altamura, Valenzano) 7 olgun Tip I ekşi maya; çoğunlukla durum buğdayı (Triticum durum) unu; 80 gün boyunca her gün yenileme, zanaat fırınında ve laboratuvarda paralel; 24–28 °C; gerçek hamur; ana DGGE bantlarının dizilenmesi.",
+      "kanit": "tek_kaynak",
+      "bolum": "Mayadaki yeri",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1128/aem.00572-12",
+          "yer": "Discussion; Fig. 3"
+        }
+      ]
+    },
+    {
+      "id": "khum.estonya_tek_maya",
+      "metin": "Estonya'daki iki fırının Tip I çavdar ekşi mayalarında saptanan tek maya Kazachstania humilis oldu; bunlardan birinin kullandığı ticari başlatıcıda ise hiç maya saptanmadı.",
+      "kosul": "Estonya; fırın C: Tip I, oda sıcaklığı (28 °C'ye kadar), aşı oranı ~%33, ~4 saat, hamur verimi ~200, ticari dondurularak kurutulmuş başlatıcıdan; fırın D: Tip I, oda sıcaklığı (19–30 °C), aşı oranı ~%33, ~4 saat, hamur verimi ~200; çavdar unu Tip 1370 (öğütme randımanı %85); 28S rRNA DGGE.",
+      "kanit": "tek_kaynak",
+      "bolum": "Mayadaki yeri",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1371/journal.pone.0148325",
+          "yer": "Results, Analysis of yeast communities; S2 Fig"
+        }
+      ]
+    },
+    {
+      "id": "khum.kazachstania_bozae_baskinligi",
+      "metin": "Kazachstania bozae beş ekşi mayada tanımlanmış ve bunların üçünde baskın bulunmuştur.",
+      "kosul": "ekşi mayalar",
+      "kanit": "tek_kaynak",
+      "bolum": "Mayadaki yeri",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.24072/pcjournal.237",
+          "yer": "Sourdough yeast species mostly belong to the Kazachstania genus"
+        }
+      ]
+    },
+    {
+      "id": "khum.maltoz_tuketmeyip_glikozu_tuketir",
+      "metin": "Buğday unu ortamında Kazachstania humilis hiç maltoz tüketmeyip büyümek için glikoza bağımlı kalmış ve mayayı içeren her 2 uygulamada da glikoz tükenmiştir.",
+      "kosul": "buğday unu fermantasyon ortamı (WSSM)",
+      "kanit": "tek_kaynak",
+      "bolum": "Ne yer, ne üretir",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1128/aem.01030-26",
+          "yer": "Results"
+        },
+        {
+          "kaynak": "10.1128/aem.01030-26",
+          "yer": "Discussion"
+        }
+      ]
+    },
+    {
+      "id": "khum.insan_iliskili_nislerde_bulunan_turler",
+      "metin": "Ekşi mayada bulunan Kazachstania türlerinden beşi (K. saulgeensis, K. barnettii, K. bozae, K. bulderi ve K. humilis) şimdiye kadar yalnızca insanla ilişkili nişlerde tespit edilmiştir.",
+      "kosul": "filogenetik analiz",
+      "kanit": "ikincil",
+      "bolum": "Nereden gelir",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.24072/pcjournal.237",
+          "yer": "Discussion"
+        }
+      ]
+    },
+    {
+      "id": "khum.gida_ve_zeytinyagi_atik_suyu_klad_4_uyeligi",
+      "metin": "Salata sosundan izole edilen CBS 7754 ile zeytinyağı atık suyundan izole edilen CBS 2664 suşları, ekşi maya suşu MTF 3948 ile birlikte Klad 4'te yer almıştır.",
+      "kosul": "Filogenomik klad analizi",
+      "kanit": "tek_kaynak",
+      "bolum": "Nereden gelir",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1093/gbe/evag176",
+          "yer": "Population Structure Within an Anthropogenic Niche"
+        }
+      ]
+    },
+    {
+      "id": "khum.k_humilis_ve_lab_sinerjisi_ile_fenolik_artis",
+      "metin": "K. humilis 3-8 ve laktik asit bakterisi ile fermente edilen ekşi mayalı ekmek, hem toplam fenolik maddeler hem de ABTS radikal süpürme kapasitesi bakımından yalnız bakteri içeren ekmeği geride bırakmıştır (p < 0,05).",
+      "kosul": "sıvı ekşi maya ortak fermantasyonu (K. humilis 3-8 ve F. sanfranciscensis 5)",
+      "kanit": "tek_kaynak",
+      "bolum": "İlişkileri",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods15101745",
+          "yer": "3.7. The Analysis of the Antioxidant Properties of Different Mantou"
+        }
+      ]
+    },
+    {
+      "id": "khum.karbon_ve_azot_metabolizmasinda_fsan_sinerjisi",
+      "metin": "Kazachstania humilis 3-8 ve Fructilactobacillus sanfranciscensis 5 suşları, karbon ve azot metabolizmasındaki etkileşimlerle sıvı ekşi maya ortak fermantasyonunda belirgin sinerji sergiler.",
+      "kosul": "sıvı ekşi mayada ortak fermantasyon",
+      "kanit": "tek_kaynak",
+      "bolum": "İlişkileri",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods15101745",
+          "yer": "4. Conclusions"
+        }
+      ]
+    }
+  ]
+}

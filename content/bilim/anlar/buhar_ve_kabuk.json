@@ -1,0 +1,187 @@
+{
+  "id": "buhar_ve_kabuk",
+  "durak": "firin",
+  "baslik": "Buhar ve kabuk",
+  "soru": "Fırındaki buhar kabuğu nasıl şekillendirir?",
+  "bayrak": false,
+  "gor": {
+    "tur": "kaydirma",
+    "adimlar": [
+      {
+        "metin": "Pişirmenin başında fırına buhar verilir; buhar, kabuk dokusunu ve rengini geliştirmek ve ısıyı somunun içine daha hızlı iletmek amacıyla uygulanır [[buhar.pisirme_baslangicinda_buhar_etkisi]].",
+        "gorsel": "sils_bread_2",
+        "vurgu": "Sils ekmeğinin koyu kabuğu: kabuğun rengi ve yüzeyi bu adımın konusudur."
+      },
+      {
+        "metin": "Kuru fırında yüzeyden su hızla buharlaşır ve esnek olmayan kuru bir kabuk vaktinden önce oluşur [[buhar.kuru_firinda_erken_kabuk_olur]]. Ekmeğin fırında hacim kazandığı fırın kabarması evresinde ise buhar hamur yüzeyinin esnekliğini korur ve kabuğa parlaklık kazandırır [[buhar.firin_kabarmasinda_yuzey_esnekligi]].",
+        "gorsel": "laugenbroetchen_fcm",
+        "vurgu": "Laugen ekmeği: koyu ve parlak kabuğun yüzeyi; parlaklık bu adımda anlatılan etkidir."
+      },
+      {
+        "metin": "100, 200 ve 400 ml buhar uygulamasında buhar miktarı arttıkça kabuk rengi, kırılma kuvveti (kabuğu kırmak için gereken kuvvet) ve sertlik azalır; parlaklık artar [[buhar.buhar_artisi_kabuk_ozellikleri]].",
+        "gorsel": "sils_bread_2",
+        "vurgu": "Sils ekmeğinin koyu kabuğu: renk, bu adımda konu edilen ölçülerden biridir."
+      },
+      {
+        "metin": "Küçük alüminyum kalıpta, 200 °C'de pişirilen deney ekmeğinde yalnız kabuk nem kaybetti; merkezin nem içeriği %4,2'ye varan oranda arttı [[nem_gocu.pisirmede_merkez_nem_kazanir]]. Merkez 100 °C'ye varınca su buharı kenarlara, özellikle çatlaklara göç eder [[nem_gocu.merkez_100_derece]].",
+        "gorsel": "laugenbroetchen_fcm",
+        "vurgu": "Laugen ekmeğinin koyu ve parlak kabuğu; nem hareketi bu görselde görülmez, metinde anlatılır."
+      },
+      {
+        "metin": "Pişirmenin sonuna doğru yüzey sıcaklığı 100 °C'yi aşıp su kaybı belirginleşince kabuk oluşur [[kabuk.kabuk_ve_renk_olusum_mekanizmasi]]. Su aktivitesi, kabuğun nemli havadan su alıp almayacağını gösteren ölçüdür [[kabuk.kabuk_su_aktivitesi]]. Kinetik modelleme, yani tepkime hızına dayanan bir çalışmada renk oluşumu için asgari koşul 120 °C'nin üzerinde ve su aktivitesinin 0,6'nın altında olmasıdır [[kabuk.renk_olusumu_asgari_kosullari]].",
+        "gorsel": "sils_bread_2",
+        "vurgu": "Sils ekmeğinin koyu kabuğu: pişirme sonunda oluşan dış tabaka bu fotoğrafta görülebilir."
+      }
+    ]
+  },
+  "anla": [
+    {
+      "baslik": "Kabuk ve buhar",
+      "paragraflar": [
+        "Kabuk, ekmeğin pişirme sırasında oluşan dış kısmıdır [[kabuk.tanim]]. Isıyla yapısı bozulmuş (denatüre) gluten proteinlerinin ağı ile kısmen jelleşmiş nişasta taneleri bu tabakayı kurar [[kabuk.tanim]]. Taze kabuk kuru, gevrek ve kırılgandır; kırılırken ses çıkarır [[kabuk.taze_kabuk_gevrek]].",
+        "Pişirmenin başında fırına buhar verilir; buharın görevi kabuk dokusunu ve rengini geliştirmek ve ısıyı somunun içine daha hızlı iletmektir [[buhar.pisirme_baslangicinda_buhar_etkisi]]. Buharsız kuru bir fırında yüzeyden su hızla buharlaşır ve esnek olmayan kuru bir kabuk vaktinden önce oluşur [[buhar.kuru_firinda_erken_kabuk_olur]]. Fırın kabarması, yani ekmeğin fırında hacim kazandığı evrede buhar hamur yüzeyinin esnekliğini korur ve kabuğa parlaklık verir [[buhar.firin_kabarmasinda_yuzey_esnekligi]] [[kabuk.ilk_dakikalarda_acilma]].",
+        "100, 200 ve 400 ml buhar uygulamasında buhar miktarı arttıkça kabuk rengi, kabuğu kırmak için gereken kuvvet ve sertlik azaldı; parlaklık arttı [[buhar.buhar_artisi_kabuk_ozellikleri]]. Düşük miktarda buhar verildiğinde ise su buharının geçiş hızı ve geçirgenliği (buharın geçebilme kolaylığı) yüksek, daha ince bir kabuk oluşur [[buhar.dusuk_buharda_ince_kabuk]]."
+      ]
+    },
+    {
+      "baslik": "İki bölge, bir cephe",
+      "paragraflar": [
+        "Model sonuçlarına göre ekmek pişerken içeri doğru ilerleyen bir buharlaşma cephesi oluşur [[buhar.buharlasma_ve_yogunlasma_cephesi_ice_ilerler]]. Bu cephenin ilerlemesiyle ekmekte iki bölge oluşur [[kabuk.buharlasma_cephesi_ve_iki_bolge]].",
+        "Dış kabukta nem çok düşük, sıcaklık fırın sıcaklığına yakındır; ekmek içinde ise nem sabit kalır ve sıcaklık 100 °C'ye yaklaşır [[kabuk.buharlasma_cephesi_ve_iki_bolge]]. Kaynağın ifadesine göre kabuk, %5–10 oranında düşük nem içeriğiyle ayrılır ve sıcaklığın 100 °C civarında kaldığı ekmek içinin daha fazla kurumasını engeller [[kabuk.dusuk_nem_orani_ve_ic_dehidrasyon_engeli]]. Kabuk kalınlığının, ısıl maruziyet altındaki yüzey kuruma derecesini ve hızını yansıttığı belirtiliyor [[kabuk.sertlik_ve_kabuk_kalinligi_mekanizmasi]].",
+        "Küçük kalıp ekmeğinde 180, 200 ve 220 °C ayarında fırın sıcaklığı yükseldikçe kabuğun esmerleşme, yani kahverengileşme, hızı arttı [[kabuk.esmerlesme_hizi_firin_sicakligi]]. Bu çalışmada kabuğun renk değerleri, fırın ayarı ne olursa olsun, yalnız kabuk sıcaklığına bağlı değişti [[kabuk.renk_yalniz_kabuk_sicakligina_bagli]]. Yüzey rengi, kabuklaşmayla eşzamanlı olarak Maillard tepkimesi ve şekerin ısıyla kararması olan karamelizasyonla gelişir [[kabuk.kabuk_ve_renk_olusum_mekanizmasi]]."
+      ]
+    },
+    {
+      "baslik": "Nem içten dışa",
+      "paragraflar": [
+        "Pişirmede nemin merkezden yüzeye göçü, sıcaklık ve buhar basıncı farklarına bağlıdır [[nem_gocu.buhar_basinci_gradyani_ile_icten_yuzeye_goc]]. Buna karşın, küçük kalıp ekmeğinde 200 °C'de pişirildiğinde merkezin nem içeriği %4,2'ye varan oranda arttı; yalnız kabuk nem kaybetti [[nem_gocu.pisirmede_merkez_nem_kazanir]]. Model sonuçlarına göre, gözenekler açıldıktan sonra su buharı yoğuşarak su içeriğini hızla artırır [[nem_gocu.kapali_acik_gozenek_yogusma_su]].",
+        "Merkez 100 °C'ye varınca su buharı kenarlara, özellikle çatlaklara göç eder ve ekmeğin kuruma hızı artar [[nem_gocu.merkez_100_derece]]. Saklama sırasında da su, nemli ekmek içinden daha kuru kabuğa doğru geçer [[nem_gocu.icten_kabuga]]. Kabuk bayatlaması, kabuğun gevrekliğini yitirip deri gibi yumuşamasıdır; bunun nedeninin ekmek içinden kabuğa nem geçişi olduğu düşünülür [[kabuk.kabuk_bayatlamasi_nem_gocu]]."
+      ]
+    }
+  ],
+  "yuzlesme": [
+    {
+      "inanc": "Fırında buhar yalnızca kabuğu parlatır.",
+      "cevap": "100, 200 ve 400 ml buhar uygulamasında buhar arttıkça parlaklık arttı, ama kabuk rengi, kırılma kuvveti ve sertlik azaldı [[buhar.buhar_artisi_kabuk_ozellikleri]]. Buhar yalnız parlaklık vermez; kabuğun kalınlığını ve su buharı geçirgenliğini de etkiler [[buhar.dusuk_buharda_ince_kabuk]]."
+    },
+    {
+      "inanc": "Pişen ekmeğin merkezi de dışı gibi kurur.",
+      "cevap": "Küçük alüminyum kalıpta, 200 °C'de pişirilen deney ekmeğinde yalnız kabuk nem kaybetti; merkezin nem içeriği arttı [[nem_gocu.pisirmede_merkez_nem_kazanir]]. Merkezdeki su içeriği, iç sıcaklık 100 °C'ye ulaşana dek artar [[nem_gocu.merkez_100_derece]]. Kaynaklar, merkez nemin hangi sıcaklıkta arttığında ayrılır [[nem_gocu.merkez_nem_artisi_65c_altinda]] [[nem_gocu.core_nem_70c_esigi]]."
+    }
+  ],
+  "kanit": {
+    "cekirdek": [
+      "buhar.pisirme_baslangicinda_buhar_etkisi",
+      "buhar.kuru_firinda_erken_kabuk_olur",
+      "buhar.firin_kabarmasinda_yuzey_esnekligi",
+      "buhar.buhar_artisi_kabuk_ozellikleri",
+      "buhar.buharlasma_ve_yogunlasma_cephesi_ice_ilerler",
+      "kabuk.tanim",
+      "kabuk.taze_kabuk_gevrek",
+      "kabuk.buharlasma_cephesi_ve_iki_bolge",
+      "kabuk.dusuk_nem_orani_ve_ic_dehidrasyon_engeli",
+      "kabuk.kabuk_ve_renk_olusum_mekanizmasi",
+      "kabuk.renk_yalniz_kabuk_sicakligina_bagli",
+      "kabuk.renk_olusumu_asgari_kosullari",
+      "nem_gocu.buhar_basinci_gradyani_ile_icten_yuzeye_goc",
+      "nem_gocu.pisirmede_merkez_nem_kazanir",
+      "nem_gocu.merkez_100_derece"
+    ],
+    "cekmece": [
+      "buhar.dusuk_buharda_ince_kabuk",
+      "buhar.kapali_gozeneklerde_su_buhari_ve_deformasyon",
+      "buhar.nemlendirilmis_pisirme_kabuk_kalinligini_azaltir",
+      "kabuk.ilk_dakikalarda_acilma",
+      "kabuk.esmerlesme_hizi_firin_sicakligi",
+      "kabuk.sicaklik_ve_sure_ile_kalinlik_artisi",
+      "kabuk.sertlik_ve_kabuk_kalinligi_mekanizmasi",
+      "kabuk.kabuk_su_aktivitesi",
+      "kabuk.kabuk_bayatlamasi_nem_gocu",
+      "kabuk.camsi_kaucuksu_gecis",
+      "kabuk.esmerlesme_baslangici",
+      "kabuk.eksimaya_ile_daha_citir_ve_kalin_kabuk",
+      "kabuk.eksi_maya_kabuk_daha_acik",
+      "kabuk.teff_eksimayali_ekmekte_koyu_kabuk",
+      "nem_gocu.icten_kabuga",
+      "nem_gocu.kapali_acik_gozenek_yogusma_su",
+      "nem_gocu.merkez_nem_artisi_65c_altinda",
+      "nem_gocu.core_nem_70c_esigi",
+      "nem_gocu.pisirme_merkez_tepe_2_5"
+    ]
+  },
+  "baglar": [
+    {
+      "kaldirac": "Buharın yokluğu",
+      "mekanizma": "Kuru fırında hamur yüzeyinden su hızla buharlaşır.",
+      "sonuc": "Esnek olmayan kuru bir kabuk vaktinden önce oluşur.",
+      "bilgiler": [
+        "buhar.kuru_firinda_erken_kabuk_olur",
+        "buhar.firin_kabarmasinda_yuzey_esnekligi"
+      ]
+    },
+    {
+      "kaldirac": "Buhar miktarı",
+      "mekanizma": "100, 200 ve 400 ml buhar uygulamasında buhar miktarı arttıkça kabuğun rengi, kırılma kuvveti ve sertliği azalır.",
+      "sonuc": "Kabuk parlaklaşır; düşük buharda ise daha ince bir kabuk oluşur.",
+      "bilgiler": [
+        "buhar.buhar_artisi_kabuk_ozellikleri",
+        "buhar.dusuk_buharda_ince_kabuk"
+      ]
+    },
+    {
+      "kaldirac": "Fırın sıcaklığı",
+      "mekanizma": "Pişirme sıcaklığı arttırıldığında buharlaşma hızlanır (hava jetli ve konvansiyonel fırında); küçük kalıp ekmeğinde 180, 200 ve 220 °C'de esmerleşme hızı artar.",
+      "sonuc": "185–205 °C fırın sıcaklığında ve 25–35 dakikalık pişirmede sıcaklık ve süre arttıkça kabuk kalınlaşır.",
+      "bilgiler": [
+        "nem_gocu.buhar_basinci_gradyani_ile_icten_yuzeye_goc",
+        "kabuk.sicaklik_ve_sure_ile_kalinlik_artisi",
+        "kabuk.esmerlesme_hizi_firin_sicakligi"
+      ]
+    },
+    {
+      "kaldirac": "Yüzey sıcaklığı 100 °C'yi aşması",
+      "mekanizma": "Su kaybı belirginleştiğinde kabuk oluşur; Maillard tepkimesi ve şeker karamelizasyonu renk verir.",
+      "sonuc": "Renk, kabuklaşmayla eşzamanlı olarak gelişir.",
+      "bilgiler": [
+        "kabuk.kabuk_ve_renk_olusum_mekanizmasi",
+        "kabuk.renk_olusumu_asgari_kosullari"
+      ]
+    },
+    {
+      "kaldirac": "Merkezin 100 °C'ye ulaşması",
+      "mekanizma": "Merkezdeki su içeriği 100 °C'ye kadar artar; sonra su buharı çatlaklara doğru kenara göçer.",
+      "sonuc": "Ekmeğin kuruma hızı artar.",
+      "bilgiler": [
+        "nem_gocu.merkez_100_derece",
+        "kabuk.buharlasma_cephesi_ve_iki_bolge"
+      ]
+    },
+    {
+      "kaldirac": "Saklama",
+      "mekanizma": "Su, nemli ekmek içinden daha kuru kabuğa doğru geçer.",
+      "sonuc": "Kabuk gevrekliğini yitirip yumuşar.",
+      "bilgiler": [
+        "nem_gocu.icten_kabuga",
+        "kabuk.kabuk_bayatlamasi_nem_gocu"
+      ]
+    }
+  ],
+  "karakterler": [],
+  "ayrisan_kaynaklar": [
+    {
+      "konu": "Pişirmede merkez nemi hangi sıcaklıkta artmaya başlar?",
+      "bilgiler": [
+        "nem_gocu.merkez_nem_artisi_65c_altinda",
+        "nem_gocu.core_nem_70c_esigi"
+      ]
+    },
+    {
+      "konu": "Ekşi mayalı ekmeğin kabuğu daha koyu mu, yoksa daha açık mı?",
+      "bilgiler": [
+        "kabuk.eksimaya_ile_daha_citir_ve_kalin_kabuk",
+        "kabuk.eksi_maya_kabuk_daha_acik",
+        "kabuk.teff_eksimayali_ekmekte_koyu_kabuk"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,212 @@
+{
+  "id": "jelesme",
+  "ad": "Nişastanın jelleşmesi",
+  "bilgiler": [
+    {
+      "id": "jelesme.erken_jelesme_kabarmayi_kisitlar",
+      "metin": "Yüksek sıcaklıkta nişasta daha erken jelleşir; bu, kabuğun mekanik direncini artırır ve ekmek yapısının genişlemesini zorlaştırır.",
+      "kosul": "",
+      "kanit": "ikincil",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.foodcont.2022.108898",
+          "yer": "3.4. Volume"
+        }
+      ]
+    },
+    {
+      "id": "jelesme.ekmek_icine_donusum_etkenleri",
+      "metin": "Pişirme sırasında hamurun ekmek içine dönüşmesi nişasta jelleşmesi, protein denatürasyonu ve karbondioksit ile su buharının ısıl genleşmesiyle gerçekleşir.",
+      "kosul": "Ekmek pişirme",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.jfoodeng.2010.10.003",
+          "yer": "Introduction"
+        },
+        {
+          "kaynak": "10.3390/foods14091649",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "jelesme.gluten_ile_yari_sert_yapi",
+      "metin": "Isıtmada gluten ağıyla bağlantılı, nemlenmiş nişasta jelleşir ve pıhtılaşmış glutenle birlikte ürüne yarı sert bir yapı verir.",
+      "kosul": "",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1155/2018/8187318",
+          "yer": "2. Porous Crumb Structure Development"
+        }
+      ]
+    },
+    {
+      "id": "jelesme.60_85_derece_hamurdan_ice",
+      "metin": "Derlemeye göre, protein denatürasyonu ve nişasta jelleşmesi genellikle 60–85 °C arasında olur ve hamurun ekmek içine dönüşümüne katkı sağlar.",
+      "kosul": "",
+      "kanit": "ikincil",
+      "bolum": "Hangi koşulda",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1155/2018/8187318",
+          "yer": "2. Porous Crumb Structure Development"
+        },
+        {
+          "kaynak": "10.1016/j.fochx.2026.104362",
+          "yer": "1. Introduction"
+        }
+      ]
+    },
+    {
+      "id": "jelesme.gluten_jelesmeyi_geciktirir",
+      "metin": "Gluten, polimerler arasındaki su için yarış ve nişasta tanelerini çevreleyen bariyer etkisi nedeniyle nişasta jelleşmesinin başlangıcını geciktirir.",
+      "kosul": "Jekle vd. 2016 aktarımı",
+      "kanit": "ikincil",
+      "bolum": "Hangi koşulda",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1111/1541-4337.13147",
+          "yer": "Table"
+        }
+      ]
+    },
+    {
+      "id": "jelesme.pisirmede_amilopektin_erir",
+      "metin": "Pişirmede nişasta jelleşmesi, doğal amilopektin kristallerinin erimesidir; pişirmeden sonra amilopektin düzensiz (amorf) haldedir.",
+      "kosul": "",
+      "kanit": "tek_kaynak",
+      "bolum": "Tanım",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods10010076",
+          "yer": "3.4. Bread Staling under Different Storage Conditions"
+        }
+      ]
+    },
+    {
+      "id": "jelesme.tanim",
+      "metin": "Nişastanın jelleşmesi, nişasta yapısında geri dönüşsüz değişikliklerdir: taneler şişer, amiloz çözünüp taneden dışarı sızar, çift kırılma (polarize ışıkta parlama) kaybolur, viskozite değişir ve düzenli yapı düzensiz hale geçer.",
+      "kosul": "",
+      "kanit": "ikincil",
+      "bolum": "Tanım",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.48130/fia-2023-0029",
+          "yer": "Introduction"
+        },
+        {
+          "kaynak": "10.48130/fia-2023-0029",
+          "yer": "Effect of NSPs on starch gelatinization > Starch gelatinization"
+        },
+        {
+          "kaynak": "10.1111/1541-4337.13141",
+          "yer": "2 STARCH GELATINIZATION AND RETROGRADATION PROCESSES"
+        },
+        {
+          "kaynak": "10.1111/1541-4337.13141",
+          "yer": "2 STARCH GELATINIZATION AND RETROGRADATION PROCESSES"
+        },
+        {
+          "kaynak": "10.1111/1541-4337.13147",
+          "yer": "Table"
+        }
+      ]
+    },
+    {
+      "id": "jelesme.220_derecede_gozenek",
+      "metin": "Yazarlara göre 220 °C'de ekmeğin merkezi mayanın etkisizleştiği sıcaklığa hızla ulaşır, bu yüzden yeni küçük gözenekler açılmaz; nişasta da çok hızlı jelleştiği için var olan gözenekler genişleyemez.",
+      "kosul": "Küçük kalıp ekmeği, 60,5 g hamur, 70×70×20 mm alüminyum kalıp (unda 9,8 g/100 g protein; Purlis ve Salvadori 2007 tarifi; 38 °C, %80 bağıl nemde 45 dakika son mayalanma); sıcaklık denetimli fırın boşluğunda 180, 200 ve 220 °C ayarında 30 dakikaya kadar pişirme.",
+      "kanit": "tek_kaynak",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.foodcont.2022.108898",
+          "yer": "3.5. Crumb structure"
+        }
+      ]
+    },
+    {
+      "id": "jelesme.doksan_sekiz_derece_cekirdek_sicakligi_ve_yapi",
+      "metin": "Ekmek çekirdek sıcaklığı ve maruz kalma süresi yeterli bir jelleşme derecesi sağlayarak ekmek içini stabilize eder; pişirme sonunda yalnız 98 °C'lik bir çekirdek sıcaklığı iyi şekillenmiş tost ekmeği somunları sağlamıştır.",
+      "kosul": "Tost ekmeği pişirme denemesi; pişirme sonu çekirdek sıcaklığı ve maruz kalma süresi",
+      "kanit": "tek_kaynak",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1007/s13197-020-04945-x",
+          "yer": "Results and discussion: Toast bread resilience and shape"
+        }
+      ]
+    },
+    {
+      "id": "jelesme.maksimum_jelesme_sicakligi_ile_ekmek_sertligi_baglantisi",
+      "metin": "Bu çalışmada maksimum jelleşme sıcaklığı ile ekmek içi sertliği arasında anlamlı pozitif bir korelasyon bulunmuştur (r = 0,64, p < 0,01).",
+      "kosul": "Süt ve asit peynir altı suyu ile hazırlanan hamurlar ve ekmekler (kontrol ile birlikte); sıcaklık tarama testi ve doku analizi; korelasyon nedensellik göstermez.",
+      "kanit": "tek_kaynak",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods9060828",
+          "yer": "3.6. Correlations Analysis between Dough Rheology and Bread Characteristics"
+        }
+      ]
+    },
+    {
+      "id": "jelesme.artan_su_hacim_payiyla_dusuk_sicaklikta_jelesme",
+      "metin": "Artan su hacim payıyla glutenin ısıyla sertleşmesi ve nişasta jelleşmesi daha düşük sıcaklıklarda gerçekleşmiş; yulaf kepekleri de buğday muadillerine kıyasla aynı davranışı göstermiştir.",
+      "kosul": "Dinamik mekanik termal analiz (DMTA) sıcaklık taraması",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods10102311",
+          "yer": "Discussion"
+        }
+      ]
+    },
+    {
+      "id": "jelesme.kirk_bes_derecede_baslangic_yetmiste_tepe_viskozite",
+      "metin": "Bu çalışmada standart buğday hamurunda nişastanın çirişlenmesi ve jelleşmesi yaklaşık 45 °C civarında ilk viskozite artışını başlatmış ve jelleşmenin büyük ölçüde tamamlandığı yaklaşık 70 °C civarında en yüksek tepe viskozitesine yol açmıştır.",
+      "kosul": "Mayasız standart buğday hamuru; ısıl işlem sırasında kayma reolojisi (viskozite).",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1371/journal.pone.0282670",
+          "yer": "4 Strain-dependent functionality of the dough’s polymers during the baking process: A structural model"
+        }
+      ]
+    },
+    {
+      "id": "jelesme.nisasta_65_derecede_jellesir_amilaz_75",
+      "metin": "Ekmek pişirmede nişasta yaklaşık 65 °C civarında jelleşir ve somun içi sıcaklığı 75 °C civarına ulaştığında fungal alfa-amilaz inaktive olur.",
+      "kosul": "Hebeda ve Zobel 1996 aktarımı",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.jcs.2017.03.013",
+          "yer": "4.1 α-Amylase addition"
+        }
+      ]
+    }
+  ]
+}

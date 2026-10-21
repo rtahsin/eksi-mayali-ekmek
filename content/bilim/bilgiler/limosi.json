@@ -1,0 +1,122 @@
+{
+  "id": "limosi",
+  "ad": "Limosilactobacillus",
+  "bilgiler": [
+    {
+      "id": "limosi.fermentum_bal_glukoz_oksidaz",
+      "metin": "Bal eklenmiş ekşi mayada Limosilactobacillus fermentum ile oluşan daha ılımlı asitlik glukoz oksidaz etkinliğini korur, glutatyon indirgenmesini en aza indirir ve daha güçlü bir gluten ağı kurulmasını sağlar.",
+      "kosul": "Bal ve L. fermentum içeren ekşi maya",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1080/10408398.2021.1976100",
+          "yer": "Honey"
+        }
+      ]
+    },
+    {
+      "id": "limosi.uzun_fermantasyon",
+      "metin": "Aktarılan bir çalışmaya göre uzun fermantasyonlarda Lactiplantibacillus plantarum, Limosilactobacillus fermentum ve Limosilactobacillus reuteri gibi aside daha dayanıklı türlerin bulunması olasıdır.",
+      "kosul": "Aktarılan çalışma (De Vuyst ve ark. 2014), derleme içinde.",
+      "kanit": "ikincil",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.7717/peerj.11389",
+          "yer": "Sourdough Starter Maintenance: Time"
+        }
+      ]
+    },
+    {
+      "id": "limosi.reuteri_dondurarak_kurutmada_glutamat_korumasi",
+      "metin": "De Valdez ve Diekmann'a göre, Limosilactobacillus reuteri'nin dondurarak kurutma sonrasındaki en yüksek canlı kalma oranı (%80) glutamatın koruyucu etkisine bağlanmış; altı ay depolamadan sonra da hücre sayısı -20 ve 4 °C'de 8,0 log KOB/g üzerinde kalmıştır.",
+      "kosul": "dondurarak kurutma ve altı ay depolama (-20 ve 4 °C), De Valdez ve Diekmann (1993) aktarımı",
+      "kanit": "ikincil",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.4322/biori.202203",
+          "yer": "Technological characteristics in the use of type III sourdough"
+        }
+      ]
+    },
+    {
+      "id": "limosi.kakao_fermentum",
+      "metin": "Kakao fermantasyonundan izole edilen Limosilactobacillus fermentum IMDO 222 ve fermente sucuktan izole edilen Latilactobacillus sakei CTC 494, tip II buğday ekşi mayasında rekabet güçleri nedeniyle umut veren başlatıcı adayları oldu; Limosilactobacillus fermentum IMDO 222 ekşi mayada baskın kaldı ve yazarlar bunu maltozu maltoz fosforilazla kullanmasına ve fruktozu elektron alıcısı olarak kullanmasına bağlar.",
+      "kosul": "Kakao ve sucuk izolatları; tip II buğday ekşi mayası, hamur verimi 400, 30 °C, 72 saat, laboratuvar fermentörü.",
+      "kanit": "tek_kaynak",
+      "bolum": "Mayadaki yeri",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/microorganisms8101534",
+          "yer": "Abstract"
+        },
+        {
+          "kaynak": "10.3390/microorganisms8101534",
+          "yer": "4. Discussion"
+        }
+      ]
+    },
+    {
+      "id": "limosi.panis_belcika",
+      "metin": "Belçika'daki geleneksel ekşi maya örneklerinde Limosilactobacillus panis kültürle izole edilmedi, ama PCR-DGGE'de Limosilactobacillus panis ile Limosilactobacillus pontis'in oluşturduğu bir heterodupleks bant, türün Belçika ekşi mayalarındaki varlığını ilk kez gösterdi.",
+      "kosul": "Belçika, 11 fırından 39 geleneksel ekşi maya örneği; PCR-DGGE (Fig. 1, bant I); kültüre dayalı yöntem L. panis'i bulmadı.",
+      "kanit": "tek_kaynak",
+      "bolum": "Mayadaki yeri",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1128/aem.02771-07",
+          "yer": "Results: Interpretation of PCR-DGGE population fingerprints; Fig. 1 band I"
+        }
+      ]
+    },
+    {
+      "id": "limosi.arginin_deiminaz_yolu",
+      "metin": "Arginin deiminaz yolu arginini ornitine dönüştürerek pH'yı hafifçe yükselten amonyak açığa çıkarır ve ek ATP oluşumunu sağlar.",
+      "kosul": "Asit stresine yanıt",
+      "kanit": "ikincil",
+      "bolum": "Ne yer, ne üretir",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1080/10408398.2021.1976100",
+          "yer": "Lactic acid bacteria"
+        }
+      ]
+    },
+    {
+      "id": "limosi.fermentum_ester",
+      "metin": "Ester öncülleri eklenmiş laboratuvar besiyerinde, incelenen 10 ekşi maya LAB suşu içinde en çok esteri (yedi) Limosilactobacillus fermentum IMDO 130101 üretti: allil asetat, heksil asetat, etil heksanoat, etil oktanoat, etil piruvat, izoamil asetat ve izobütil asetat.",
+      "kosul": "Laboratuvar besiyeri: buğday ekşi mayası benzetim besiyeri (WSSM) ve ester öncülleri eklenmiş mWSSM (etanol %1, asetik asit %0,5, organik asitler ve yüksek alkoller her biri 5 mg/L); 30 °C, 28–48 saat; 10 ekşi maya LAB suşu; Belçika.",
+      "kanit": "tek_kaynak",
+      "bolum": "Ne yer, ne üretir",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1128/aem.02216-24",
+          "yer": "RESULTS: Ester biosynthesis by LAB strains; Fig 3B"
+        }
+      ]
+    },
+    {
+      "id": "limosi.reutericyclin",
+      "metin": "Limosilactobacillus reuteri'nin, Gram-pozitif laktik asit bakterilerine ve mayalara karşı etkin, düşük molekül ağırlıklı bir antibiyotik olan reutericyclin'i etkin derişimlerde salgıladığı aktarılır.",
+      "kosul": "Derleme aktarımı (ekşi maya ve raf ömrü bölümü).",
+      "kanit": "ikincil",
+      "bolum": "Ne yer, ne üretir",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/fermentation4010009",
+          "yer": "3.2.3. Sourdough"
+        }
+      ]
+    }
+  ]
+}

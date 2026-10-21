@@ -1,0 +1,50 @@
+{
+  "id": "proteaz",
+  "ad": "Proteazlar",
+  "eski_ad": null,
+  "tur": "enzim",
+  "tek_cumle": "Proteinazlar proteinleri daha küçük peptit fraksiyonlarına parçalar, peptidazlar ise belirli peptit bağlarını hidroliz eder [[proteaz.proteinaz_ve_peptidaz_tanimi]]",
+  "bolumler": [
+    {
+      "baslik": "Ne yapar",
+      "cumleler": [
+        "Buğday glutenini daha küçük, suyu daha çok seven peptitlere ve serbest amino asitlere parçalarlar [[proteaz.gluteni_peptit_ve_amino_aside]]"
+      ]
+    },
+    {
+      "baslik": "Hangi koşulda çalışır",
+      "cumleler": [
+        "Unun içsel proteazları, un proteinlerinin birincil proteolizini yürütür ve optimum etkinliği pH 4,2–5,5 aralığında olan düşük redoks potansiyelindedir [[proteaz.un_ic_proteazlari_ph_ve_redoks_kosullari]]"
+      ]
+    },
+    {
+      "baslik": "Nereden gelir",
+      "cumleler": [
+        "Buğday ve çavdar unlarındaki proteolitik etkinlik başlıca aspartik proteinazlar ve karboksipeptidazlardan kaynaklanır ve her iki enzim grubu da asidik koşullarda etkindir [[proteaz.bugday_ve_cavdarda_aspartik_ve_karboksipeptidaz]]"
+      ]
+    },
+    {
+      "baslik": "Hamurda ne olur",
+      "cumleler": [
+        "Proteaz etkinliği özellikle gluteninleri etkiler, proteazla işlenen gluten örneklerinde glutenin polimerleri belirgin biçimde küçülür [[proteaz.ozellikle_glutenini_etkiler]]"
+      ]
+    },
+    {
+      "baslik": "İlişkileri",
+      "cumleler": [
+        "Mikrobiyal metabolizmanın sağladığı asitlenme, oksijen tüketimi ve tiyol birikimi tahıl enzimlerinin etkinliğini düzenler [[proteaz.tahil_enzimleri_ve_mikrobiyal_etkilesim]]"
+      ]
+    },
+    {
+      "baslik": "Ekmeğe etkisi",
+      "cumleler": [
+        "Bazı durumlarda proteolitik enzimler gluten ağını, özellikle glutenin alt birimlerini bozarak ekmek hacmini düşürür [[proteaz.hacmi_dusurebilir]]"
+      ]
+    }
+  ],
+  "efsane": null,
+  "anlar": [
+    "asitler_ve_ph"
+  ],
+  "gorseller": []
+}

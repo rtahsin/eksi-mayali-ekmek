@@ -1,0 +1,334 @@
+{
+  "id": "ayni_sofrada",
+  "durak": "eksi_maya",
+  "baslik": "Aynı sofrada",
+  "soru": "Maya ve bakteriler aynı sofrada nasıl geçinir?",
+  "bayrak": false,
+  "gor": {
+    "tur": "kaydirma",
+    "adimlar": [
+      {
+        "metin": "Ekşi mayada maya ve bakteriler aynı hamurda yan yana çalışır: tipik bir ekşi mayada her maya hücresine karşılık yaklaşık 100 bakteri hücresi vardır [[mayalar.bakteri_maya_orani]]. Laktik asit bakterisi–maya oranı, yani laktik asit üreten bakteri sayısının maya sayısına oranı, 1:1 ile 1000:1 arasında değişebilir [[mayalar.bakteri_maya_orani]].",
+        "gorsel": "bacteria_yeast_and_fungi_03",
+        "vurgu": "Bakteri, maya ve mantar hücreleri: aynı sofranın paylaşanları."
+      },
+      {
+        "metin": "Ekşi maya örneklerinin %77'sinde DNA dizilemesiyle (ITS bölgesi) bakılan mantar DNA parçalarının yarısından fazlası Saccharomyces cerevisiae'ye aittir [[scer.cogu_eksi_mayada_baskin]]. Teknolojik açıdan maya metabolizması, öncelikle ekşi maya ürünlerinin kabarmasına ve lezzetine katkıda bulunur [[mayalar.teknolojik_katki_kabarma_ve_lezzet]].",
+        "gorsel": "saccharomyces_cerevisiae_sem",
+        "vurgu": "Taramalı elektron mikroskobunda Saccharomyces cerevisiae hücreleri: sofranın maya tarafı."
+      },
+      {
+        "metin": "Bakteri tarafının öne çıkan türü Fructilactobacillus sanfranciscensis'tir; ekşi maya fermantasyonu için önemli, zorunlu heterofermentatif bir laktik asit bakterisidir [[fsan.zorunlu_heterofermentatif_tanim]]. Heterofermentatif bakteriler, fruktoz ve sakkarozu laktik asidin yanında asetik asit, etanol ve karbondioksite dönüştürür [[fruktan.lab_fruktan_metabolizma_yollari]].",
+        "gorsel": "s00284_025_04673_5_sekil_5a",
+        "vurgu": "Elektron mikroskobunda Fructilactobacillus sanfranciscensis hücreleri: sofranın asit tarafı."
+      },
+      {
+        "metin": "Ortak tabakta maltoz vardır; bakteri bu şekeri tek başına da tüketir [[besin.kokultur_maltoz]]. Yaygın açıklamaya göre bakteri maltozu parçalayıp glukozu, özellikle stres koşullarında, ortama bırakır; maltozu kullanamayan Maudiozyma humilis (eski adıyla Kazachstania humilis) bu glukozu fermente edebilir [[besin.maltoz_glukoz_mekanizmasi]].",
+        "gorsel": "s_cerevisiae_under_dic_microscopy",
+        "vurgu": "Tomurcuklanan Saccharomyces cerevisiae hücreleri."
+      },
+      {
+        "metin": "Aynı tabakta yarış vardır: laboratuvar buğday hamurunda, 28 °C'de denenen her maya suşu, bakterilerle birlikteyken tek başına olduğundan anlamlı ölçüde daha az yoğunluğa ulaştı [[rekabet.maya_kokulturde_azalir]]. Ortalama düşüş 1,87 kat oldu [[rekabet.maya_kokulturde_azalir]].",
+        "gorsel": "saccharomyces_cerevisiae_100x_phase_contrast_microscopy",
+        "vurgu": "Faz-kontrast mikroskobunda Saccharomyces cerevisiae hücreleri."
+      },
+      {
+        "metin": "Gramdaki koloni oluşturan birimlerin logaritmasıyla (log KOB/g) ölçülünce, seçilmiş suşlarla kurulan model buğday ekşi mayalarında laktobasil sayısı (8,12–9,37) maya sayısının (6,70–7,98) üstündeydi [[besin.model_sayimlar]]. İtalya'daki 19 ekşi mayada laktik asit bakterisi–maya oranı, iki istisna dışında, 100:1 ile 10:1 arasındaydı [[mayalar.italya_lab_maya_orani]].",
+        "gorsel": "saccharomyces_cerevisiae_loeffler_s_methylene_blue_stain",
+        "vurgu": "Metilen mavisiyle boyanmış Saccharomyces cerevisiae hücreleri."
+      }
+    ]
+  },
+  "anla": [
+    {
+      "baslik": "Sofranın iki tarafı",
+      "paragraflar": [
+        "Ekşi mayanın sofrasında iki halk oturur: mayalar ve laktik asit bakterileri [[besin.maya_ve_lab_ortak_ortamlarda_birlikte_bulunur]]. Mayalar tomurcuklanma ya da bölünmeyle büyüyen, meyve gövdesi oluşturmaksızın eşeyli üreyen tek hücreli mantarlardır [[mayalar.biyolojik_tanim]]. Ekşi mayadaki fermantatif mayalar genellikle Ascomycota şubesinin Saccharomycotina alt şubesine aittir; fermantasyon yetenekleri sayesinde bu ortamda yer alırlar [[mayalar.askomiset_saccharomycotina_uyumu]]. Ekşi mayaya uyum sağlamış mayalar, büyüme sırasında besin kıtlığının yanı sıra asit, oksijen, sıcaklık ve tuz ya da şeker yoğunluğu kaynaklı stres koşullarına dayanıklıdır [[mayalar.stres_kosullarina_dayaniklilik]].",
+        "Masa tarafında Saccharomyces cerevisiae, dünya genelindeki ekşi maya ekosistemlerinde en baskın maya türü olarak kabul edilir [[scer.dunya_genelinde_eksi_mayalarda_baskin_maya_turu]]. Maudiozyma humilis ise ekşi maya ekmeklerinde, dünya genelinde en sık izole edilen ve en bol bulunan ikinci maya türüdür [[mayalar.m_humilis_eksimayada_ikinci_en_sik_ve_bol_tur]]. Düzenli yenilenen bir ekşi mayada genellikle en fazla üç laktik asit bakterisi türü ve bir–iki maya türü bulunduğu aktarılır [[rekabet.tur_sayisi]].",
+        "Bakteri tarafının başlıca temsilcisi Fructilactobacillus sanfranciscensis'tir; zorunlu heterofermentatif bir laktik asit bakterisidir [[fsan.zorunlu_heterofermentatif_tanim]]. Bu tür, Belçika'daki 39 geleneksel ekşi mayanın 18'inde ve İtalya'daki 19 mayanın 12'sinde bulundu [[fsan.tarama_en_sik]]. İki çalışmada en sık izole edilen laktik asit bakterisi türü oldu [[fsan.tarama_en_sik]]."
+      ]
+    },
+    {
+      "baslik": "Ortak tabak",
+      "paragraflar": [
+        "Aynı sofrada oturmak, sık sık alışveriş demektir [[besin.lab_maya_etkilesim_alanlari]]. Geleneksel ekşi mayada laktik asit bakterileri ile mayalar başlıca karbonhidrat ve azot metabolizması üzerinden, uyarıcı ya da engelleyici bileşiklerin üretimiyle etkileşir [[besin.lab_maya_etkilesim_alanlari]].",
+        "Ekşi maya fermantasyonunda mayaların serbest amino asitleri tükettiği aktarılır [[besin.maya_serbest_amino_asit_tuketimi]]. Maya tarafından salınan azotlu bileşikler, özellikle amino asitler, bakterilerin desteklenmesinde temel bir mekanizma olarak belirlenmiştir [[besin.azotlu_bilesik_ve_amino_asit_akisi_lab_destegi]].",
+        "Sofranın tatlı tarafı da fruktanlardır; bunlar fruktoz birimlerinden oluşan, düşük molekül ağırlıklı ve çoğu zaman dallanmış, çok birimli moleküllerdir [[fruktan.tanim]]. Derlemeye göre, ekmek yapımında un fruktanlarının bir kısmı, Saccharomyces cerevisiae ve Maudiozyma humilis'in fruktanları parçalayan invertaz enzimiyle kısmen parçalanır [[fruktan.maya_invertazi_kismen_parcalar]]. Oluşan fruktoz ve sakkaroz, heterofermentatif bakterilerce laktik asit, asetik asit, etanol ve karbondioksite dönüştürülür [[fruktan.lab_fruktan_metabolizma_yollari]]."
+      ]
+    },
+    {
+      "baslik": "Aynı tabakta yarış",
+      "paragraflar": [
+        "Fransız ekşi maya izolatlarıyla yapılan bir laboratuvar çalışmasında, 24 saatlik sayımda denenen tüm maya–bakteri birleşimleri, tek başına olduğundan anlamlı ölçüde daha düşük yoğunluğa ulaştı [[rekabet.maya_kokulturde_azalir]]. Altı saatlik fermantasyon sonunda, 28 °C'de, Maudiozyma humilis ile bakterinin ortak kültüründe maltoz, mayanın tek başına olduğu hamurdakinden anlamlı ölçüde düşüktü [[besin.kokultur_maltoz]].",
+        "Bir laboratuvar besiyesi çalışmasının yorumuna ve derlemelere göre, bakterilerin ürettiği asitler ve düşürdükleri pH, aside dayanıksız bakterilerin ekşi mayada tutunmasını zorlaştırabilir [[rekabet.asit_dislar]]. Ancak bir çalışmada, 28 °C'de 24 saat sonra, Maudiozyma humilis ortak kültürlü 48 hamurun %58'inde pH 4'ün üzerindeydi; maya azalması yalnız hamur pH'ıyla açıklanamadı [[rekabet.ph_aciklamaz]].",
+        "Rekabetten kaçmanın bir yolu da vardır: maltozu fermente edemeyen bir maya, karbon kaynağı rekabeti olmadığı için bakterilerle daha kararlı topluluklar kurabilir [[rekabet.maltoz_negatif_mayalarin_lab_ile_kararli_birlikteligi]]. Maltozu fermente edemeyen Kazachstania unispora suşlarının, maltoz kullanan bakterilerle besinsel karşılıklı yarar ve kararlı birliktelikler kurduğu aktarılır [[besin.kunispora_maltoz_negatif_besinsel_mutualizm]]. Uzun süre yenilenen ekşi mayalarda mikrobiyota, rekabet gücü en yüksek uyumlu mikropların seçilimiyle şekillenir [[rekabet.uzun_sureli_yenilemede_ekolojik_secilim]]."
+      ]
+    },
+    {
+      "baslik": "Kim tutunuyor?",
+      "paragraflar": [
+        "Laboratuvar ortak kültüründe Maudiozyma humilis ile bakteriler arasında popülasyon avantajı görülmedi ve büyümeleri anlamlı ölçüde etkilenmedi [[rekabet.khumilis_ve_lab_ortak_kulturunde_rekabetci_etkilesim]]. Bu bulgu, ekşi mayada mikrobiyal bir arada yaşamanın katı bir besinsel karşılıklı yarardan ziyade rekabetçi etkileşimlerle yönetildiği görüşünü destekler [[rekabet.khumilis_ve_lab_ortak_kulturunde_rekabetci_etkilesim]]. Bir laboratuvar çalışmasında, 28 °C'de altı saat sonra ortak kültürde glukoz, mayanın tek başına olduğu hamurdakinden yüksek bulundu [[besin.glukoz_tuketimi_kanitsiz]]. Bu yüzden mayanın bakterinin bıraktığı glukozu tükettiğine dair açık kanıt elde edilmedi [[besin.glukoz_tuketimi_kanitsiz]].",
+        "Bir çavdar ekşi mayası çalışmasında maya–bakteri ilişkisi açık çıkmadı; yazarlar yine de besin ilişkisi olabileceğinden kuşkulandı [[besin.trofik_etkilesim_suphesi]].",
+        "Ancak sofrada görünmeyen bir katman daha vardır: maya hücresinin lizisi, yani parçalanması, bakterilerin büyümesini destekleyebilir [[otoliz.maya_lizisi_lab_ve_aroma]]. Yazarların çıkarımına göre, geleneksel tip I ekşi mayalarda, 24 saatten kısa fermantasyonda hücre parçalanması sınırlı kalır; bu katmanın büyük katkısı olası değildir [[otoliz.tip1_eksi_mayada_sinirli]]. Sofra yalnız iki kişilik de değildir: Wickerhamomyces anomalus laboratuvardaki ikili rekabet deneylerinde güçlü bir rakip çıktı, ama 500 ekşi mayada sık bulunmadı [[wanom.guclu_ama_seyrek]]."
+      ]
+    }
+  ],
+  "yuzlesme": [
+    {
+      "inanc": "Önceki çalışmaların anlatısına göre, ekşi mayada maya ile bakteriler birbirini besler.",
+      "cevap": "Bu anlatıda Fructilactobacillus sanfranciscensis ile Maudiozyma humilis ortaklığı, besinsel karşılıklı yarar (mutualizm) olarak aktarılır [[besin.karsilikli_yarar_tartismasi]]. Bu anlatıya göre maya, bakteriyi fruktoz, amino asit ve vitaminle besler [[besin.khum_fsan_besin_saglama]]. Fransız fırın izolatlarıyla yapılan bir laboratuvar çalışmasında, 28 °C'de, maya–bakteri çiftlerinde olumlu etkileşim görülmedi [[besin.karsilikli_yarar_tartismasi]]. Yalnız nötr ya da tek yönlü olumsuz sonuçlar çıktı [[besin.karsilikli_yarar_tartismasi]]. Maudiozyma humilis ile bakterilerin ortak kültüründe popülasyon avantajı görülmemesi de bu yöndeki bulgularla örtüşüyor [[rekabet.khumilis_ve_lab_ortak_kulturunde_rekabetci_etkilesim]]."
+    },
+    {
+      "inanc": "Saccharomyces cerevisiae ile Fructilactobacillus sanfranciscensis aynı ekşi mayada birbirini dışlar.",
+      "cevap": "Bu ilişki kaynaklar arasında tartışmalıdır [[rekabet.scer_fsan]]. Bir tarafta, çoğu ev ekşi mayası olan 500 ekşi mayada DNA dizilemesiyle birlikte bulunma analizi yapıldı [[rekabet.scer_fsan]]. Öbür tarafta Belçika, Fransa, Birleşik Krallık ve ABD'den 17 ekşi maya incelendi [[rekabet.scer_fsan]]. 500 ekşi mayada bulunan 16 anlamlı birlikte bulunma ilişkisinin 14'ü aynı krallık içindeydi [[rekabet.krallik_ici_iliskiler]]. Bakteri ile maya arasında iki ilişki çıktı: Saccharomyces cerevisiae ile Fructilactobacillus sanfranciscensis arasında negatif, bir başka çiftte pozitif [[rekabet.krallik_ici_iliskiler]]. Bu türün baskın olduğu ekşi mayalarda, yaygın türlerle ters yönde ilişki bulundu [[rekabet.fsan_baskin_dislar]]."
+    },
+    {
+      "inanc": "Ekşi mayada en yaygın tür Fructilactobacillus sanfranciscensis'tir.",
+      "cevap": "Kaynaklar bu konuda ayrılıyor; tür, ekşi mayada en sık bulunan ve mayalar arasında en yaygın, sıkça baskın olan laktobasil türü olarak bildirilir [[fsan.en_yaygin]]. İki tarama çalışmasında ise en sık izole edilen laktik asit bakterisi türüydü [[fsan.tarama_en_sik]]. 17 ekşi mayada bu tür, öteki laktik asit ve asetik asit bakterisi türleriyle olumsuz, maya türleriyle olumlu yönde ilişkiliydi [[fsan.korelasyon]]."
+    }
+  ],
+  "kanit": {
+    "cekirdek": [
+      "besin.karsilikli_yarar_tartismasi",
+      "besin.maltoz_glukoz_mekanizmasi",
+      "besin.lab_maya_etkilesim_alanlari",
+      "besin.khum_fsan_besin_saglama",
+      "besin.kunispora_maltoz_negatif_besinsel_mutualizm",
+      "besin.azotlu_bilesik_ve_amino_asit_akisi_lab_destegi",
+      "besin.glukoz_tuketimi_kanitsiz",
+      "besin.kokultur_maltoz",
+      "rekabet.maya_kokulturde_azalir",
+      "rekabet.khumilis_ve_lab_ortak_kulturunde_rekabetci_etkilesim",
+      "rekabet.asit_dislar",
+      "rekabet.maltoz_negatif_mayalarin_lab_ile_kararli_birlikteligi",
+      "mayalar.bakteri_maya_orani",
+      "otoliz.maya_lizisi_lab_ve_aroma",
+      "scer.cogu_eksi_mayada_baskin"
+    ],
+    "cekmece": [
+      "besin.cmd35_laktoz_mutualistik_ortak_kultur",
+      "besin.harcanmis_besiyerinde_seker_karisimi_ve_maya_buyumesi",
+      "besin.karbonhidrat_sinirli_lab_amino_asit",
+      "besin.mikrobiyal_substrat_varligi",
+      "besin.maya_ve_lab_ortak_ortamlarda_birlikte_bulunur",
+      "besin.smetana_araci_metabolik_eslesme_skoru",
+      "besin.asparajin_sistein_lizin_iki_turde_de_tukenir",
+      "besin.bakteri_kulturunde_bes_amino_asit_yuksek",
+      "besin.fsan_amino_asit_biriktirir_khum_tuketir",
+      "besin.serin_treonin_fsan_zenginlestirir_khum_tuketir",
+      "besin.maya_tarafindan_salinan_amino_asitler",
+      "besin.dort_seker",
+      "besin.fsan_elektron_alici",
+      "besin.gliserol_mannitol",
+      "besin.kalan_maltoz_hacim",
+      "besin.olu_hucre_amino_asit_korelasyon_dusuk",
+      "besin.az_maya_cok_amino_asit",
+      "besin.canli_hucreler_arasi_capraz_besleme",
+      "besin.fruktoz_asetik_asit",
+      "besin.galaktoz_negatif_mutant_maya_birlikte_yasam",
+      "besin.glukozdan_laktoza_gecis_komensalizm_mutualizm",
+      "besin.lab_ve_maya_yogunlugu_korelasyonsuz",
+      "besin.maya_stres_ve_maltoz_paylasimi",
+      "besin.trofik_etkilesim_suphesi",
+      "besin.model_sayimlar",
+      "besin.cavdar_nisastasi",
+      "besin.durum_unu_seker_amino_asit",
+      "rekabet.ekosistemde_tur_kaliciligini_etkileyen_etmenler",
+      "rekabet.laktobasil_rekabet_ozellikleri_ve_surec_etkisi",
+      "rekabet.uzun_sureli_yenilemede_ekolojik_secilim",
+      "rekabet.tur_sayisi",
+      "rekabet.bakteriyosin",
+      "rekabet.scer_fsan",
+      "rekabet.ph_aciklamaz",
+      "rekabet.ayni_eksi_maya_suslari",
+      "rekabet.capraz_krallik_birlikte",
+      "rekabet.fsan_baskin_dislar",
+      "rekabet.fsan_khumilis_uyumunu_ve_canliligini_baskilar",
+      "rekabet.krallik_ici_iliskiler",
+      "rekabet.maya_laktati_dusurur",
+      "rekabet.tek_basina_buyume",
+      "rekabet.kalicilik_siklik",
+      "rekabet.glukan_mutant_rekabet",
+      "rekabet.allelokimyasal",
+      "rekabet.aminoasit_yollari",
+      "rekabet.co2_anaeroblar",
+      "mayalar.bir_iki_tur",
+      "mayalar.biyolojik_tanim",
+      "mayalar.stres_kosullarina_dayaniklilik",
+      "mayalar.m_humilis_eksimayada_ikinci_en_sik_ve_bol_tur",
+      "mayalar.italya_lab_maya_orani",
+      "mayalar.co2_kabartma",
+      "mayalar.teknolojik_katki_kabarma_ve_lezzet",
+      "mayalar.yaygin_turler",
+      "mayalar.tek_baskin_tur_yuzde_50_uzeri",
+      "mayalar.askomiset_saccharomycotina_uyumu",
+      "mayalar.sivi_eksi_mayada_daha_cok",
+      "khum.maltoz_negatif_ph_sicaklik",
+      "khum.ekmek_mayasindan_sonra_en_yaygin_ikinci_maya",
+      "khum.ortak_kabartma",
+      "khum.fsan_birlikte_bulunma",
+      "khum.karbon_ve_azot_metabolizmasinda_fsan_sinerjisi",
+      "scer.glikoliz_karbonhidrat_fermantasyonu",
+      "scer.dunya_genelinde_eksi_mayalarda_baskin_maya_turu",
+      "scer.maltoz_alimi_ve_katabolit_baskisi",
+      "scer.asit_toleransi_ve_maltoz_adaptasyonu",
+      "fsan.tarama_en_sik",
+      "fsan.zorunlu_heterofermentatif_tanim",
+      "fsan.en_yaygin",
+      "fsan.korelasyon",
+      "fsan.asit_duyarliligi_ve_duzenli_besleme",
+      "fsan.ekolojik_uyum_maltoz_sakaroz",
+      "fsan.k_humilis_ile_capraz_etkilesim_ve_asitlesme",
+      "wanom.guclu_ama_seyrek",
+      "wanom.geleneksel_olmayan_eksimaya_mayasi",
+      "fruktan.tanim",
+      "fruktan.maya_invertazi_kismen_parcalar",
+      "fruktan.lab_fruktan_metabolizma_yollari",
+      "fruktan.dp4_ustu_hucre_disi_fruktanaz",
+      "fruktan.ilk_saatte_invertaz_sonra_amilaz",
+      "fruktan.eksi_maya_ekmekte_yuzde33_az",
+      "besin.maya_serbest_amino_asit_tuketimi",
+      "otoliz.tip1_eksi_mayada_sinirli",
+      "otoliz.bugday_kepegi_otolizi_aminoasit"
+    ]
+  },
+  "baglar": [
+    {
+      "kaldirac": "Maltozun paylaşılması",
+      "mekanizma": "Yaygın açıklamaya göre bakteri maltozu parçalayıp glukozu, özellikle stres koşullarında, ortama bırakır; maltozu kullanamayan maya bu glukozu fermente edebilir.",
+      "sonuc": "Bu anlatıya göre iki taraf arasında besin akışı oluşur; ancak bir laboratuvar çalışmasında ortak kültürde glukozun yüksek bulunması, bu akışa dair açık kanıt çıkmadığını gösteriyor.",
+      "bilgiler": [
+        "besin.maltoz_glukoz_mekanizmasi",
+        "besin.khum_fsan_besin_saglama",
+        "besin.glukoz_tuketimi_kanitsiz"
+      ]
+    },
+    {
+      "kaldirac": "Ortak kültürde maya yoğunluğunun düşmesi",
+      "mekanizma": "Laboratuvar buğday hamurunda maya, bakteriyle birlikteyken tek başına olduğundan anlamlı ölçüde daha düşük yoğunluğa ulaştı; ortalama düşüş 1,87 kat oldu.",
+      "sonuc": "Bu laboratuvar ortak kültürü, mayanın tek başına yetiştiğinden daha düşük bir maya yoğunluğuyla sonuçlandı.",
+      "bilgiler": [
+        "rekabet.maya_kokulturde_azalir",
+        "besin.kokultur_maltoz",
+        "rekabet.ph_aciklamaz"
+      ]
+    },
+    {
+      "kaldirac": "Bakterilerin ürettiği asit",
+      "mekanizma": "Laktik asit bakterilerinin ürettiği asitler ve düşürdükleri pH, aside dayanıksız türlerin tutunmasını zorlaştırabilir.",
+      "sonuc": "Ekşi mayada kimlerin kalacağı, birkaç etmenin karışımıyla belirlenebilir.",
+      "bilgiler": [
+        "rekabet.asit_dislar",
+        "rekabet.laktobasil_rekabet_ozellikleri_ve_surec_etkisi",
+        "rekabet.bakteriyosin",
+        "rekabet.ekosistemde_tur_kaliciligini_etkileyen_etmenler"
+      ]
+    },
+    {
+      "kaldirac": "Maltoz kullanamayan maya",
+      "mekanizma": "Maltozu kullanamayan mayalar bu şekerde bakterilerle yarışmaz; karbon kaynağı rekabeti olmadığı için birliktelik daha kararlı olabilir.",
+      "sonuc": "Bu mayalar bakterilerle daha kararlı topluluklar kurabilir.",
+      "bilgiler": [
+        "rekabet.maltoz_negatif_mayalarin_lab_ile_kararli_birlikteligi",
+        "besin.kunispora_maltoz_negatif_besinsel_mutualizm",
+        "khum.maltoz_negatif_ph_sicaklik"
+      ]
+    },
+    {
+      "kaldirac": "Maya hücresinin parçalanması",
+      "mekanizma": "Maya hücresi lizisiyle amino asit, peptit ve vitaminler serbest kalır; bu, bakteriler için ek bir besin kaynağı olabilir.",
+      "sonuc": "Tip I ekşi mayalarda hücre parçalanması sınırlı olduğundan bu katmanın katkısı büyük görünmez; ortak kültürlerde ölü hücre oranının asgari düzeyde bildirildiği ve metabolit paylaşımının canlı hücrelerde olduğu da belirtiliyor.",
+      "bilgiler": [
+        "otoliz.maya_lizisi_lab_ve_aroma",
+        "otoliz.tip1_eksi_mayada_sinirli",
+        "besin.canli_hucreler_arasi_capraz_besleme"
+      ]
+    },
+    {
+      "kaldirac": "Fruktozun sofraya girişi",
+      "mekanizma": "Maya invertazı fruktanları kısmen parçalar; oluşan fruktoz ve sakkaroz heterofermentatif bakterilerce laktik asit, asetik asit, etanol ve karbondioksite dönüştürülür.",
+      "sonuc": "Aynı şeker, iki taraf için farklı sonuçlar doğurur.",
+      "bilgiler": [
+        "fruktan.maya_invertazi_kismen_parcalar",
+        "fruktan.lab_fruktan_metabolizma_yollari",
+        "fruktan.dp4_ustu_hucre_disi_fruktanaz",
+        "besin.dort_seker"
+      ]
+    },
+    {
+      "kaldirac": "Amino asit akışı",
+      "mekanizma": "Maya tarafından salınan azotlu bileşikler, özellikle amino asitler, laktik asit bakterilerinin desteklenmesinde temel bir mekanizma olarak belirlenmiştir.",
+      "sonuc": "Beslenme ilişkisi iki yönlü bir alışverişe benziyor: maya amino asit salar, ama mayalar serbest amino asitleri de tüketir.",
+      "bilgiler": [
+        "besin.azotlu_bilesik_ve_amino_asit_akisi_lab_destegi",
+        "besin.serin_treonin_fsan_zenginlestirir_khum_tuketir",
+        "besin.maya_tarafindan_salinan_amino_asitler",
+        "besin.maya_serbest_amino_asit_tuketimi"
+      ]
+    }
+  ],
+  "karakterler": [
+    "khum",
+    "scer",
+    "fsan",
+    "wanom",
+    "fruktan"
+  ],
+  "ayrisan_kaynaklar": [
+    {
+      "konu": "Maya ile bakteri arasındaki ilişki besinsel karşılıklı yarar mı, rekabet mi?",
+      "bilgiler": [
+        "besin.karsilikli_yarar_tartismasi",
+        "besin.glukoz_tuketimi_kanitsiz",
+        "rekabet.khumilis_ve_lab_ortak_kulturunde_rekabetci_etkilesim",
+        "besin.kokultur_maltoz"
+      ]
+    },
+    {
+      "konu": "Saccharomyces cerevisiae ile Fructilactobacillus sanfranciscensis birbirini dışlıyor mu?",
+      "bilgiler": [
+        "rekabet.scer_fsan",
+        "rekabet.krallik_ici_iliskiler",
+        "rekabet.fsan_baskin_dislar",
+        "rekabet.capraz_krallik_birlikte"
+      ]
+    },
+    {
+      "konu": "Ekşi mayada en yaygın tür hangisidir?",
+      "bilgiler": [
+        "fsan.en_yaygin",
+        "fsan.tarama_en_sik",
+        "fsan.korelasyon",
+        "rekabet.fsan_baskin_dislar",
+        "mayalar.tek_baskin_tur_yuzde_50_uzeri"
+      ]
+    },
+    {
+      "konu": "Maltoz gerçekten ortak sofranın merkezinde mi?",
+      "bilgiler": [
+        "besin.maltoz_glukoz_mekanizmasi",
+        "besin.glukoz_tuketimi_kanitsiz",
+        "besin.kokultur_maltoz",
+        "rekabet.maya_kokulturde_azalir",
+        "besin.trofik_etkilesim_suphesi"
+      ]
+    },
+    {
+      "konu": "Mutualizm mi, tek yönlü komensalizm mi? Karbon kaynağına göre ilişki değişiyor mu?",
+      "bilgiler": [
+        "besin.glukozdan_laktoza_gecis_komensalizm_mutualizm",
+        "besin.cmd35_laktoz_mutualistik_ortak_kultur",
+        "besin.galaktoz_negatif_mutant_maya_birlikte_yasam",
+        "besin.karsilikli_yarar_tartismasi"
+      ]
+    },
+    {
+      "konu": "Maya yoğunluğu hamur türüne göre değişir mi?",
+      "bilgiler": [
+        "mayalar.sivi_eksi_mayada_daha_cok",
+        "besin.az_maya_cok_amino_asit",
+        "rekabet.maya_kokulturde_azalir"
+      ]
+    }
+  ]
+}

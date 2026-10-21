@@ -1,0 +1,400 @@
+{
+  "id": "disulfit",
+  "ad": "Disülfit bağları",
+  "bilgiler": [
+    {
+      "id": "disulfit.glutenin_polimer_boyu_atif",
+      "metin": "Gluteninler moleküller arası disülfit bağları kurabildiği için molekül kütlesi 80 000 ile birkaç milyon arasında değişen polimerler oluşturur.",
+      "kosul": "",
+      "kanit": "ikincil",
+      "bolum": "Kimlik",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods10020228",
+          "yer": "1. Introduction"
+        },
+        {
+          "kaynak": "10.1111/j.1750-3841.2007.00292.x",
+          "yer": "Table 1"
+        },
+        {
+          "kaynak": "10.1111/j.1750-3841.2007.00292.x",
+          "yer": "Structure and Molecular Characterization"
+        }
+      ]
+    },
+    {
+      "id": "disulfit.glutenin_makropolimeri",
+      "metin": "Glutenin alt birimleri arasındaki kovalent disülfit bağları ve kovalent olmayan bağlar glutenin makropolimerini oluşturur; hamurun kesintisizliği ve elastikliği bu yapıdan gelir.",
+      "kosul": "",
+      "kanit": "ikincil",
+      "bolum": "Ne yapar",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.foodhyd.2025.111252",
+          "yer": "Introduction"
+        },
+        {
+          "kaynak": "10.1016/j.cofs.2019.04.001",
+          "yer": "2. The gluten network"
+        },
+        {
+          "kaynak": "10.1016/j.jcs.2024.103895",
+          "yer": "3. Glutenin polymers are stabilised by covalent disulphide"
+        },
+        {
+          "kaynak": "10.1016/s0924-2244(01)00035-8",
+          "yer": "Subunit interactions and gluten visco-elasticity"
+        },
+        {
+          "kaynak": "10.1093/jexbot/53.370.947",
+          "yer": "Gluten proteins and wheat grain quality"
+        },
+        {
+          "kaynak": "10.1093/jxb/erp058",
+          "yer": "The biochemical and molecular basis for gluten functionality"
+        },
+        {
+          "kaynak": "10.1098/rstb.2001.1024",
+          "yer": "HMM SUBUNIT STRUCTURE AND GLUTEN ELASTICITY"
+        }
+      ]
+    },
+    {
+      "id": "disulfit.glutenin_ve_gliadin_bag_ayrimi",
+      "metin": "Gluteninler hem zincir içi hem moleküller arası disülfit bağlarıyla polimerik bir ağ kurarken, gliadinler yalnızca zincir içi disülfit bağlarına sahiptir ve yapıya kovalent olmayan bağlarla katılır.",
+      "kosul": "",
+      "kanit": "ikincil",
+      "bolum": "Tanım",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.jcs.2014.03.004",
+          "yer": "Introduction"
+        },
+        {
+          "kaynak": "10.3390/foods13081277",
+          "yer": "3.5. Analysis of SDS-PAGE"
+        }
+      ]
+    },
+    {
+      "id": "disulfit.tiyol_ve_ekmek_hacmi",
+      "metin": "Bu çalışmada maya CO2 üretimi eşit olduğu halde ekşi mayalar, tiyolün en düşük olduğu kimyasal asitlendirilmiş hamurdan daha yüksek ekmek hacmi verdi; yazarlar bunu uzun fermantasyonlarda düşük molekül ağırlıklı tiyol bileşiklerinin hacme katkısını destekleyen bir bulgu olarak yorumluyor.",
+      "kosul": "Model tip I buğday ekşi mayası: 1. aşama 30 °C 16 saat, 2. aşama 30 °C 2,5 saat; ekmek hamuru 1 saat dinlenme + 1 saat mayalanma (30 °C), 180 °C 25 dk pişirme; suşlar K. humilis FUA4001, S. cerevisiae FUA4018, W. anomalus FUA4025, F. sanfranciscensis DSM20451T, L. sakei LS8; kimyasal asitlendirilmiş karşılaştırma hamuru",
+      "kanit": "tek_kaynak",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3389/fmicb.2019.02113",
+          "yer": "Discussion"
+        }
+      ]
+    },
+    {
+      "id": "disulfit.90c_ye_kadar_gliadin_glutenin_baglanmasi",
+      "metin": "90 °C'ye kadar yüksek sıcaklık koşullarında gliadin, sülfhidril-disülfit değişim mekanizması yoluyla glutenine bağlanır.",
+      "kosul": "Yüksek sıcaklık (90 °C'ye kadar); [31] aktarımı",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods13081277",
+          "yer": "3.4. Analysis of SE-HPLC"
+        },
+        {
+          "kaynak": "10.3390/foods13081277",
+          "yer": "1. Introduction"
+        }
+      ]
+    },
+    {
+      "id": "disulfit.ag_stabilitesi_karistirma",
+      "metin": "Bu çalışmada, hamur yoğurma sırasında moleküller arası disülfit bağlarının oluşumunun gluten ağının kararlılığı için belirleyici olduğu bulundu.",
+      "kosul": "Hamur yoğurma aşaması; hamur içinde Raman spektroskopisi; tiyol bloke edici indirgeyici ajan",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.foodchem.2021.129916",
+          "yer": "Highlights"
+        },
+        {
+          "kaynak": "10.1111/1541-4337.13141",
+          "yer": "8.1 Bread"
+        },
+        {
+          "kaynak": "10.1016/j.cofs.2019.04.001",
+          "yer": "2. The gluten network"
+        },
+        {
+          "kaynak": "10.1016/j.fochx.2025.102366",
+          "yer": "Covalent bonds"
+        }
+      ]
+    },
+    {
+      "id": "disulfit.bloksma_gecici_ag_modeli_sh_ss",
+      "metin": "Bloksma modeline göre disülfit bağlarının oda sıcaklığında tiyol-disülfit değişimleriyle tersinir çapraz bağlar gibi davrandığı ve geçici bir protein ağına katkı sağlayabileceği öne sürülmektedir.",
+      "kosul": "Oda sıcaklığında hamur deformasyonu (Bloksma 1975 aktarımı).",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1080/10408398.2020.1864618",
+          "yer": "Wheat gluten and the fate of the disulfide bond"
+        },
+        {
+          "kaynak": "10.1080/10408398.2020.1864618",
+          "yer": "Wheat gluten and the fate of the disulfide bond"
+        }
+      ]
+    },
+    {
+      "id": "disulfit.dinlenmede_yeniden_polimerlesme_atif",
+      "metin": "Dinlenme sırasında yeni disülfit bağları oluşur ve glutenin makropolimeri yeniden polimerleşir.",
+      "kosul": "",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods10020228",
+          "yer": "1. Introduction"
+        }
+      ]
+    },
+    {
+      "id": "disulfit.ditiyotreitol_ag_olusmaz",
+      "metin": "Bu çalışmada DTT ile işlenen gluten örnekleri ağ oluşturmadı; viskoz bir sıvı gibi davrandı ve gevşeme modülü neredeyse sıfıra indi.",
+      "kosul": "Hidrate gluten; %2 (v/v) DTT ile indirgenmiş örnekler; stres gevşeme reolojisi (20 °C üzerinde örnekler jelleşmeye başladı)",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1007/s00397-015-0901-8",
+          "yer": "Results and discussion · Stress relaxation measurements"
+        },
+        {
+          "kaynak": "10.1007/s00397-015-0901-8",
+          "yer": "Results and discussion · Stress relaxation measurements"
+        }
+      ]
+    },
+    {
+      "id": "disulfit.firin_urunlerinde_ekstraksiyon_kalintisi_proteini",
+      "metin": "Fırın ürünlerinin ekstraksiyon kalıntıları (3–6/100 g), un ve hamur kalıntılarına (<1/100 g) kıyasla daha yüksek protein içermiş; bu, agregasyon ve çapraz bağlanma nedeniyle protein çözünürlüğünün azaldığına işaret etmektedir.",
+      "kosul": "Un, hamur ve fırın ürünlerinin protein ekstraksiyonu sonrası kalıntıları; membran ve lipit proteinleri dışındaki proteinler",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1021/acs.jafc.3c02100",
+          "yer": "Results and Discussion"
+        }
+      ]
+    },
+    {
+      "id": "disulfit.glutenin_55c_gliadin_70c_tiyol_reaksiyonu",
+      "metin": "Gluteninler 55 °C'nin veya gliadinler 70 °C'nin üzerine ısıtıldığında başlıca sülfhidril yükseltgenme ve tiyol-disülfit değişim tepkimeleri gerçekleşir.",
+      "kosul": "Gluten proteinlerinin ısıl işlemi (55 °C ve 70 °C üzeri); [29] aktarımı",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods13081277",
+          "yer": "3.4. Analysis of SE-HPLC"
+        },
+        {
+          "kaynak": "10.3390/foods13081277",
+          "yer": "1. Introduction"
+        }
+      ]
+    },
+    {
+      "id": "disulfit.glutenin_zincir_ici_ve_zincirler_arasi_baglar",
+      "metin": "Glutenindeki sistein kalıntılarının zincir içi ve zincirler arası disülfit bağları oluşturabildiği ve bunun yüksek derecede ağsı bir yapı oluşumuna yol açtığı bildirilmiştir.",
+      "kosul": "Glutenin; literatür aktarımı [33]",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods13203232",
+          "yer": "3.1. Farinograph Mixing Behavior"
+        }
+      ]
+    },
+    {
+      "id": "disulfit.isil_capraz_baglanmada_lmw_gs_baskinligi",
+      "metin": "Glutende ısıyla tetiklenen disülfit bağı çapraz bağlanması başlıca 30–50 kDa aralığındaki B/C tipi LMW-GS glutenin alt birimlerini kapsarken, 90 °C'nin altında gliadindeki değişiklikler daha sınırlı kalmıştır.",
+      "kosul": "Çimlenmiş buğday gluteninin 90 °C altında mikrodalga ısıl işlemi",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods13081277",
+          "yer": "4. Conclusions"
+        }
+      ]
+    },
+    {
+      "id": "disulfit.karistirma_surecinde_sh_once_azalir_sonra_artar",
+      "metin": "Yoğurma sürecinde serbest -SH içeriği 5 dakikada azalmış, karıştırma süresinin uzamasıyla 15 dakikada tekrar artmıştır.",
+      "kosul": "Un hidrasyon seviyeleri (%34, %50, %62) ile hamur yoğurma süresi; serbest -SH ölçümü",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.fochx.2022.100448",
+          "yer": "Changes in free sulfhydryl (-SH) contents"
+        }
+      ]
+    },
+    {
+      "id": "disulfit.ruseyim_glutatyonu_gluten_aginda_depolimerizasyon",
+      "metin": "Every vd. (8), buğday ruşeyminin gluten ağını depolimerize eden glutatyon gibi indirgeyici bileşikler içerdiğini doğrulamıştır.",
+      "kosul": "Every vd. literatur aktarimi; 8",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.17113/ftb.58.03.20.6766",
+          "yer": "INTRODUCTION"
+        }
+      ]
+    },
+    {
+      "id": "disulfit.sh_oksidasyonu_ve_ss_sh_degisim_reaksiyonlari",
+      "metin": "Gluten ağı oluşumu temel olarak SH oksidasyonu ve SS-SH değişim reaksiyonlarını içererek gluten proteinleri arasında disülfit çapraz bağlarına yol açar.",
+      "kosul": "Delcour vd. literatür aktarımı (kaynak [47])",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1021/acs.jafc.3c02100",
+          "yer": "Results and Discussion"
+        }
+      ]
+    },
+    {
+      "id": "disulfit.silindirleme_dinlendirme_sh_ss_degisimi",
+      "metin": "Hamurda serbest sülfhidril miktarı 2,67 µmol/g'dan kademeli olarak düşerken, disülfit bağı içeriği kısa dinlenmeyle 2,60 µmol/g'dan anlamlı şekilde artmış (P < 0,05) ve 35 °C'de üç döngü sonunda en yüksek disülfit (2,95 µmol/g) ile en düşük serbest sülfhidril (2,48 µmol/g) düzeyine ulaşmıştır.",
+      "kosul": "Silindirleme ve dinlendirme döngüleri; 35 °C ve kısa dinlenme; P < 0,05",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.fochx.2025.102366",
+          "yer": "Covalent bonds"
+        },
+        {
+          "kaynak": "10.1016/j.fochx.2025.102366",
+          "yer": "Covalent bonds"
+        }
+      ]
+    },
+    {
+      "id": "disulfit.sistein_ve_ferulik_asit_kovalent_bag_olumsuz_etki",
+      "metin": "Kepek fenolik asitler açısından zengin olduğundan sistein ile ferulik asit gibi fenolik asitler arasında kovalent bağ oluşumunun gluteni olumsuz etkilediği öne sürülmektedir [11,27].",
+      "kosul": "Literatür aktarımı (kaynak [11,27])",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods10030489",
+          "yer": "4.2. Impact of Bran Fractions on Bread Quality"
+        }
+      ]
+    },
+    {
+      "id": "disulfit.tuz_yukleri_notrler_disulfit_ve_beta_yaprak_artar",
+      "metin": "Tuz (NaCl) protein yüklerini nötralize edip elektrostatik itmeyi azaltarak protein zincirlerinin etkileşmesini, serbest sülfhidril içeriğinin azalmasını ve disülfit köprüleri ile hidrofobik etkileşimler kurarak beta-yaprak yapılarının artmasını sağlar.",
+      "kosul": "Tuz varlığında buğday unu hamuru; Wellner vd. 2003 aktarımı",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods9070952",
+          "yer": "4. Discussion"
+        },
+        {
+          "kaynak": "10.1016/j.ijgfs.2022.100486",
+          "yer": "Results and discussion / Effect of NaCl reduction and replacement on dough rheological behavior"
+        }
+      ]
+    },
+    {
+      "id": "disulfit.uzun_karistirma_suresi_disulfit_baglarini_yikar",
+      "metin": "Daha uzun yoğurma süresi (15 dakika), disülfit bağlarının veya diğer kovalent olmayan bağların bozulması nedeniyle proteinler arası çapraz bağları tahrip etmiştir.",
+      "kosul": "Buğday hamuru; 15 dakika yoğurma; yazarların yorumu",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.fochx.2022.100448",
+          "yer": "Evolution of gluten network morphology at different hydration levels during mixing"
+        }
+      ]
+    },
+    {
+      "id": "disulfit.yeterli_ve_asiri_yogurmada_sh_maruziyeti",
+      "metin": "Yeterli yoğurma iyonik ve hidrojen bağlarında artış sağlarken aşırı yoğurma serbest -SH gruplarının daha fazla açığa çıkmasına neden olmuştur.",
+      "kosul": "Farklı hidrasyonlu buğday hamurları; yeterli ve aşırı yoğurma karşılaştırması",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.fochx.2022.100448",
+          "yer": "Conclusion"
+        }
+      ]
+    },
+    {
+      "id": "disulfit.yogurmada_once_artar_sonra_azalir",
+      "metin": "Son çalışmalara göre yoğurma boyunca disülfit bağları sürekli artmaz ya da azalmaz: ilk evrede artar, yoğurma şiddeti arttıkça belirgin ya da hafif biçimde azalır.",
+      "kosul": "",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/pr9071244",
+          "yer": "1. Introduction"
+        }
+      ]
+    },
+    {
+      "id": "disulfit.optimum_yogurma_raman_ggg",
+      "metin": "Doğrudan hamurda yapılan Raman spektroskopisi ölçümleri optimum yoğurma süresinde moleküller arası g-g-g disülfit bağı konformasyonunda belirgin bir artış olduğunu doğrulamıştır.",
+      "kosul": "Hamurda doğrudan Raman spektroskopisi ölçümü",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.foodchem.2021.129916",
+          "yer": "Conclusion"
+        }
+      ]
+    }
+  ]
+}

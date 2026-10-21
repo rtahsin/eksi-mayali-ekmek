@@ -1,0 +1,554 @@
+{
+  "id": "besin",
+  "ad": "Besin ortaklığı",
+  "bilgiler": [
+    {
+      "id": "besin.karsilikli_yarar_tartismasi",
+      "metin": "Fructilactobacillus sanfranciscensis ile Kazachstania humilis ortaklığı önceki çalışmalarda besinsel karşılıklı yarar (mutualizm) olarak anlatılır, ama Fransız fırın izolatlarıyla yapılan bir laboratuvar çalışmasında maya–bakteri çiftlerinde olumlu etkileşim görülmedi, yalnız nötr ya da tek yönlü olumsuz sonuçlar çıktı.",
+      "kosul": "Bir taraf: geleneksel ekşi mayalar ve San Francisco ekşi mayası üzerine aktarımlar. Öbür taraf: laboratuvar buğday ekşi hamuru, 28 °C, Fransız ekşi maya izolatlarıyla maya–bakteri çiftleri, 24 saatte nüfus yoğunluğu.",
+      "kanit": "tartismali",
+      "bolum": "İlişkileri",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1371/journal.pone.0148325",
+          "yer": "Discussion"
+        },
+        {
+          "kaynak": "10.3389/fmicb.2020.01212",
+          "yer": "Introduction"
+        },
+        {
+          "kaynak": "10.3390/microorganisms8020240",
+          "yer": "Abstract"
+        },
+        {
+          "kaynak": "10.3390/microorganisms8020240",
+          "yer": "Abstract"
+        }
+      ]
+    },
+    {
+      "id": "besin.khum_fsan_besin_saglama",
+      "metin": "Kazachstania humilis ile Fructilactobacillus sanfranciscensis arasındaki besin ilişkisi, mayanın invertaz etkinliğiyle fruktoz, amino asit ve vitamin sağlamasını da kapsar.",
+      "kosul": "Vogel vd. 2011 ve Vogel 2015 aktarımı",
+      "kanit": "ikincil",
+      "bolum": "İlişkileri",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1080/10408398.2021.1976100",
+          "yer": "Yeasts"
+        }
+      ]
+    },
+    {
+      "id": "besin.kunispora_maltoz_negatif_besinsel_mutualizm",
+      "metin": "Kazachstania unispora suşlarının maltozu fermente edememesi, ekşi mayada mayanın fermantasyon için kullandığı fermente edilebilir şekerleri sağlayan maltoz pozitif laktik asit bakterileriyle besinsel karşılıklı yarar (mutualizm) ve kararlı birliktelikler oluşturmasını sağlar.",
+      "kosul": "Ekşi maya ekosistemi; maltoz negatif Kazachstania unispora suşları",
+      "kanit": "ikincil",
+      "bolum": "İlişkileri",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1007/s11274-021-03027-0",
+          "yer": "Graphic abstract"
+        },
+        {
+          "kaynak": "10.1007/s11274-021-03027-0",
+          "yer": "Discussion"
+        }
+      ]
+    },
+    {
+      "id": "besin.lab_maya_etkilesim_alanlari",
+      "metin": "Geleneksel ekşi mayada laktik asit bakterileri ile mayalar sık sık, başlıca karbonhidrat ve azot metabolizması ile uyarıcı ya da engelleyici bileşiklerin üretimi üzerinden etkileşir.",
+      "kosul": "Geleneksel ekşi maya",
+      "kanit": "tek_kaynak",
+      "bolum": "İlişkileri",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.ijfoodmicro.2013.11.021",
+          "yer": "Interactions between lactic acid bacteria and yeasts"
+        }
+      ]
+    },
+    {
+      "id": "besin.maltoz_glukoz_mekanizmasi",
+      "metin": "Yaygın açıklamaya göre Fructilactobacillus sanfranciscensis maltozu hücre içinde maltoz fosforilazla parçalar ve glukozu, özellikle stres koşullarında, ortama bırakır; maltozu kullanamayan Kazachstania humilis bu glukozu fermente edebilir.",
+      "kosul": "Aktarım (önceki çalışmalar); glukoz salımı özellikle stres koşullarında bildirilmiş.",
+      "kanit": "ikincil",
+      "bolum": "İlişkileri",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1371/journal.pone.0148325",
+          "yer": "Discussion"
+        },
+        {
+          "kaynak": "10.3390/microorganisms8020240",
+          "yer": "Introduction"
+        },
+        {
+          "kaynak": "10.7717/peerj.11389",
+          "yer": "Sourdough Starter Maintenance: Flour"
+        }
+      ]
+    },
+    {
+      "id": "besin.glukoz_tuketimi_kanitsiz",
+      "metin": "Bir laboratuvar çalışmasında Kazachstania humilis ile zorunlu heterofermentatif laktik asit bakterilerinin ortak kültüründe glukoz, mayanın tek başına olduğu hamurdakinden yüksek bulundu; bu yüzden mayanın bakterinin bıraktığı glukozu tükettiğine dair açık kanıt elde edilmedi.",
+      "kosul": "Laboratuvar buğday ekşi hamuru; 28 °C; 6 saat; Fransa'daki fırınlardan ayrılmış maya ve LAB suşları; karşılaştırma: maya tek kültürü.",
+      "kanit": "tek_kaynak",
+      "bolum": "Efsaneler",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/microorganisms8020240",
+          "yer": "Discussion"
+        }
+      ]
+    },
+    {
+      "id": "besin.cmd35_laktoz_mutualistik_ortak_kultur",
+      "metin": "CMD35-laktoz besiyeri daha az amino asit içerir, tek başına L. lactis büyümesini desteklemez ve hiçbir türün tek başına büyüyemediği mutualistik ortak kültür oluşturur.",
+      "kosul": "CMD35-laktoz besiyeri (CDM42-laktoz ile karşılaştırma); maya-L. lactis ortak kültür deneyleri",
+      "kanit": "tek_kaynak",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.15252/msb.202211501",
+          "yer": "Composition of CDM42- and CDM35-lactose media"
+        }
+      ]
+    },
+    {
+      "id": "besin.harcanmis_besiyerinde_seker_karisimi_ve_maya_buyumesi",
+      "metin": "Kullanılmış besiyerine S. cerevisiae aşılamalarında şeker karışımı ilavesi S. cerevisiae büyümesini artırmıştır.",
+      "kosul": "harcanmis besiyeri deneyi",
+      "kanit": "tek_kaynak",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1128/spectrum.00662-21",
+          "yer": "RESULTS: Isolation and identification of sourdough LAB and yeast"
+        }
+      ]
+    },
+    {
+      "id": "besin.karbonhidrat_sinirli_lab_amino_asit",
+      "metin": "Karbonhidratın sınırlı olduğu koşullarda laktik asit bakterisi metabolizmasının, transaminasyon ve deaminasyon yollarıyla peptid ve amino asitleri alternatif enerji ve azot kaynağı olarak kullanmaya kaydığı bilinmektedir.",
+      "kosul": "Karbonhidrat sınırlı fermantasyon ortamı; derleme atfı (kaynak 31, 32)",
+      "kanit": "ikincil",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods15193368",
+          "yer": "3.1. Set-Up and Monitoring of the Fermentation Process"
+        }
+      ]
+    },
+    {
+      "id": "besin.mikrobiyal_substrat_varligi",
+      "metin": "Ekşi mayada mikroorganizmaların canlı kalması ve çoğalması, eklenen bileşenlerle taşınmış olsun ya da olmasın, uygun substratların ortamda bulunmasına bağlıdır.",
+      "kosul": "Ekşi maya fermantasyonu",
+      "kanit": "tek_kaynak",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1080/10408398.2021.1976100",
+          "yer": "Conclusions"
+        }
+      ]
+    },
+    {
+      "id": "besin.model_sayimlar",
+      "metin": "Seçilmiş suşlarla kurulan model buğday ekşi mayalarında maya sayıları 6,70–7,98, laktobasil sayıları 8,12–9,37 log KOB/g idi.",
+      "kosul": "Model tip I buğday ekşi mayası: I. aşama 30 °C 16 saat, II. aşama 30 °C 2,5 saat; suşlar K. humilis FUA4001, S. cerevisiae FUA4018, W. anomalus FUA4025, F. sanfranciscensis DSM20451T, L. sakei LS8.",
+      "kanit": "tek_kaynak",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3389/fmicb.2019.02113",
+          "yer": "Results, Table 2"
+        }
+      ]
+    },
+    {
+      "id": "besin.maya_ve_lab_ortak_ortamlarda_birlikte_bulunur",
+      "metin": "Maya Saccharomyces cerevisiae ve laktik asit bakterisi Lactococcus lactis; ekşi maya, kefir ve şarap gibi pek çok fermente gıda ortamında birlikte bulunur.",
+      "kosul": "fermente gida ortamlari literatur aktarimi",
+      "kanit": "ikincil",
+      "bolum": "Mayadaki yeri",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.15252/msb.202211501",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "besin.smetana_araci_metabolik_eslesme_skoru",
+      "metin": "Smetana aracı (Zelezniak vd., 2015) tüm türler arası metabolik alışverişleri haritalamak ve metabolik eşleşme gücünü tahmin eden SMETANA skorunu hesaplamak için kullanılmıştır.",
+      "kosul": "Zelezniak vd. (2015) yöntemi; değiştirilmiş CDM35-laktoz ortamı ile metabolik model simülasyonu",
+      "kanit": "tek_kaynak",
+      "bolum": "Nasıl ölçülür",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.15252/msb.202211501",
+          "yer": "Construction and models simulations"
+        }
+      ]
+    },
+    {
+      "id": "besin.azotlu_bilesik_ve_amino_asit_akisi_lab_destegi",
+      "metin": "Maya tarafından salınan azotlu bileşiklerin, özellikle amino asitlerin taşması, laktik asit bakterilerinin desteklenmesinde temel bir mekanizma olarak belirlenmiştir.",
+      "kosul": "Ponomarova vd. 2017 literatur aktarimi",
+      "kanit": "ikincil",
+      "bolum": "Ne yapar",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.15252/msb.202211501",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "besin.asparajin_sistein_lizin_iki_turde_de_tukenir",
+      "metin": "Asparajin, sistein ve lizin hem Kazachstania humilis hem de Fructilactobacillus sanfranciscensis tekli kültürlerinde tükendi.",
+      "kosul": "WSSM tekli kültürleri.",
+      "kanit": "tek_kaynak",
+      "bolum": "Ne yer, ne üretir",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1128/aem.01030-26",
+          "yer": "Results"
+        }
+      ]
+    },
+    {
+      "id": "besin.bakteri_kulturunde_bes_amino_asit_yuksek",
+      "metin": "Fructilactobacillus sanfranciscensis bakteri tekli kültüründe, WSSM besiyerine kıyasla arjinin, glutamik asit, histidin, serin ve treonin düzeyleri anlamlı derecede daha yüksekti.",
+      "kosul": "WSSM tekli kültürleri.",
+      "kanit": "tek_kaynak",
+      "bolum": "Ne yer, ne üretir",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1128/aem.01030-26",
+          "yer": "Results"
+        }
+      ]
+    },
+    {
+      "id": "besin.cavdar_nisastasi",
+      "metin": "Aktarılan eski bir çalışmaya göre çavdar nişastası amilazla buğday nişastasından daha kolay parçalanır; yazarlar bunun, tam tahıl unlarındaki besin çeşitliliğiyle birlikte, çavdar ekşi mayalarında olgunlaştıktan sonra da yüksek kalan bakteri çeşitliliğini açıklayabileceğini öne sürer.",
+      "kosul": "Aktarım (Perten 1964); çeşitlilik gözlemi: 10 un türünden 40 kendiliğinden ekşi maya, 14 gün, 16S rRNA dizileme.",
+      "kanit": "ikincil",
+      "bolum": "Ne yer, ne üretir",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.7717/peerj.16163",
+          "yer": "Discussion, Succession processes"
+        }
+      ]
+    },
+    {
+      "id": "besin.durum_unu_seker_amino_asit",
+      "metin": "İtalya'da 19 ekşi mayanın unlarını karşılaştıran bir çalışmada durum buğdayı unları ekmeklik buğday unlarından daha çok maltoz (ortanca %0,61'e karşı %0,21), glukoz (%0,47'ye karşı %0,25), fruktoz (%0,43'e karşı %0,26) ve toplam serbest amino asit (0,95'e karşı 0,58 g/kg) içeriyordu.",
+      "kosul": "İtalya'da yöresel/geleneksel ekmekler için kullanılan 19 olgun ekşi maya; yerel fırınlardan ardışık günlerde 3 parti örneklendi; durum buğdayı (Triticum durum, 10 ekşi maya) ya da ekmeklik buğday (Triticum aestivum, 9 ekşi maya) unu; kültüre dayalı tanımlama; unların ortanca değerleri.",
+      "kanit": "tek_kaynak",
+      "bolum": "Ne yer, ne üretir",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1128/aem.07721-11",
+          "yer": "Results, Biochemical characteristics; Table S1"
+        }
+      ]
+    },
+    {
+      "id": "besin.fsan_amino_asit_biriktirir_khum_tuketir",
+      "metin": "Kullanılmış buğday ekşi mayası besiyerinde (WSSM) amino asit birikimi başlıca Fructilactobacillus sanfranciscensis varlığıyla ilişkiliydi; Kazachstania humilis tekli kültürlerinde ise amino asitler büyük ölçüde tükendi.",
+      "kosul": "WSSM tekli kültürleri ve kullanılmış WSSM besiyeri.",
+      "kanit": "tek_kaynak",
+      "bolum": "Ne yer, ne üretir",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1128/aem.01030-26",
+          "yer": "Discussion"
+        },
+        {
+          "kaynak": "10.1128/aem.01030-26",
+          "yer": "Discussion"
+        }
+      ]
+    },
+    {
+      "id": "besin.maya_serbest_amino_asit_tuketimi",
+      "metin": "Ekşi maya fermantasyonu sırasında mayaların serbest amino asitleri tükettiği aktarılmıştır.",
+      "kosul": "Ekşi maya fermantasyonu (aktarım)",
+      "kanit": "ikincil",
+      "bolum": "Ne yer, ne üretir",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1128/aem.00309-14",
+          "yer": "DISCUSSION"
+        }
+      ]
+    },
+    {
+      "id": "besin.maya_tarafindan_salinan_amino_asitler",
+      "metin": "Maya tarafından salınan glisin, alanin, glutamat, glutamin, serin, treonin ve aspartat en yüksek işaretleme katkısına sahip olmuştur.",
+      "kosul": "Ponomarova vd., 2017 aktarimi",
+      "kanit": "ikincil",
+      "bolum": "Ne yer, ne üretir",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.15252/msb.202211501",
+          "yer": "Results"
+        }
+      ]
+    },
+    {
+      "id": "besin.serin_treonin_fsan_zenginlestirir_khum_tuketir",
+      "metin": "Serin ve treonin, Fructilactobacillus sanfranciscensis bakteri tekli kültüründe zenginleşirken Kazachstania humilis içeren iki kültür tipinde tükendi.",
+      "kosul": "WSSM tekli ve ortak kültürleri.",
+      "kanit": "tek_kaynak",
+      "bolum": "Ne yer, ne üretir",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1128/aem.01030-26",
+          "yer": "Discussion"
+        },
+        {
+          "kaynak": "10.1128/aem.01030-26",
+          "yer": "Discussion"
+        }
+      ]
+    },
+    {
+      "id": "besin.dort_seker",
+      "metin": "Laboratuvar çavdar ekşi mayasından ayrılan bir Lactiplantibacillus plantarum ve bir Companilactobacillus paralimentarius suşu, tahıldaki dört ana şekerin (glukoz, fruktoz, maltoz, sakkaroz) hepsini fermente edebildi.",
+      "kosul": "Laboratuvar çavdar ekşi mayası (Tip 1370 + %0,5 NaCl, hamur verimi 200, her gün 1:10 yenileme, 20 °C ve 30 °C partileri); 56. gün izolatları M30I-1 ve M30I-3; API 50 CH.",
+      "kanit": "tek_kaynak",
+      "bolum": "Ne yer, ne üretir",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1371/journal.pone.0095449",
+          "yer": "Results, Isolation of dominant bacteria; Table 3"
+        }
+      ]
+    },
+    {
+      "id": "besin.fsan_elektron_alici",
+      "metin": "Fructilactobacillus sanfranciscensis'in maltoz üzerindeki büyümesinin, fruktoz, sitrat ya da alfa-ketoglutarat alternatif elektron alıcısı olarak bulunduğunda genellikle hızlandığı aktarılır.",
+      "kosul": "Vogel vd. 2011'de aktarım (kaynak 21, 22).",
+      "kanit": "ikincil",
+      "bolum": "Ne yer, ne üretir",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1186/1475-2859-10-s1-s6",
+          "yer": "Carbohydrate metabolism"
+        }
+      ]
+    },
+    {
+      "id": "besin.gliserol_mannitol",
+      "metin": "17 ekşi mayalık bir çalışmada gliserol ve mannitol düzeyleri, Saccharomyces cerevisiae ve/veya Fructilactobacillus sanfranciscensis varlığıyla pozitif ilişkili çıktı.",
+      "kosul": "17 ekşi maya (Belçika, Fransa, Birleşik Krallık, ABD); Spearman korelasyonu.",
+      "kanit": "tek_kaynak",
+      "bolum": "Ne yer, ne üretir",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3389/fmicb.2020.01212",
+          "yer": "Results; Figure 5"
+        }
+      ]
+    },
+    {
+      "id": "besin.kalan_maltoz_hacim",
+      "metin": "Bir çalışmada durum buğdayı ekşi mayalarında kalan maltoz miktarı, hamurun hacim artışı ve etanol ile güçlü biçimde ters yönde ilişkiliydi: maltoz ne kadar azsa hacim artışı ve etanol o kadar yüksekti.",
+      "kosul": "Işınlanmış ve ışınlanmamış durum buğdayı unuyla yapılan laboratuvar ekşi mayaları; temel bileşen analizi (PCA).",
+      "kanit": "tek_kaynak",
+      "bolum": "Ne yer, ne üretir",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3389/fmicb.2016.01770",
+          "yer": "Results, Correlations; Figure 5"
+        }
+      ]
+    },
+    {
+      "id": "besin.olu_hucre_amino_asit_korelasyon_dusuk",
+      "metin": "Ölü Fructilactobacillus sanfranciscensis hücre sayıları ile toplam amino asit içeriği arasında yalnızca zayıf bir korelasyon görüldü (R2 = 0,10).",
+      "kosul": "WSSM ortak kültürü.",
+      "kanit": "tek_kaynak",
+      "bolum": "Ne yer, ne üretir",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1128/aem.01030-26",
+          "yer": "Results"
+        }
+      ]
+    },
+    {
+      "id": "besin.az_maya_cok_amino_asit",
+      "metin": "Güney İtalya ekşi mayalarıyla yapılan iki çalışmada maya sayısı düşük olan ekşi mayalarda serbest amino asit derişimi en yüksekti: sıkı ekşi mayalar (daha az maya) en çok serbest amino asidi içerirken sıvılarda tersi görüldü, laboratuvarda mayası en çok azalan ekşi mayalar da serbest amino asitte en büyük artışı gösterdi.",
+      "kosul": "(1) Güney İtalya'dan (Matera, Altamura) 4 olgun Tip I ekşi maya; durum buğdayı (Triticum durum) unu; laboratuvarda 28 gün her gün yenileme, sıkı (hamur verimi 160) ve sıvı (hamur verimi 280, 150 rpm karıştırmalı) olarak; 25 °C'de 3–6 saat fermantasyon, yenilemeler arasında 10 °C'de 16–19 saat bekletme; gerçek hamur. (2) Güney İtalya'dan (Matera, Altamura, Valenzano) 7 olgun Tip I ekşi maya; çoğunlukla durum buğdayı (Triticum durum) unu; 80 gün boyunca her gün yenileme, zanaat fırınında ve laboratuvarda paralel; 24–28 °C; gerçek hamur.",
+      "kanit": "uzlasi",
+      "bolum": "İlişkileri",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1128/aem.00309-14",
+          "yer": "Discussion"
+        },
+        {
+          "kaynak": "10.1128/aem.00572-12",
+          "yer": "Results, Technology and biochemical and microbiological characteristics"
+        },
+        {
+          "kaynak": "10.1128/aem.00572-12",
+          "yer": "Discussion"
+        },
+        {
+          "kaynak": "10.3389/fmicb.2016.01770",
+          "yer": "Discussion"
+        }
+      ]
+    },
+    {
+      "id": "besin.canli_hucreler_arasi_capraz_besleme",
+      "metin": "Maya-LAB ortak kültürlerinde ölü hücre oranı asgari düzeyde bildirilmiştir (Ponomarova vd. 2017); bu çalışmada metabolit paylaşımının ölü hücrelerden kaynaklanmadığı, izotop etiketlenmesinin canlı hücrelerde gerçekleştiği belirtiliyor.",
+      "kosul": "Maya-LAB ortak kültürleri; ölü hücre oranı Ponomarova vd. 2017 atfı; canlı hücre yorumu bu çalışmanın izotop verisine dayanıyor",
+      "kanit": "ikincil",
+      "bolum": "İlişkileri",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.15252/msb.202211501",
+          "yer": "Discussion"
+        }
+      ]
+    },
+    {
+      "id": "besin.fruktoz_asetik_asit",
+      "metin": "Bir derlemeye göre pek çok araştırmacı asetik asidi artan maya etkinliğiyle ilişkilendirir; gerekçe, mayaların fruktoz açığa çıkarması ve heterofermentatif laktik asit bakterilerinin bu fruktozdan asetik asit üretmesidir.",
+      "kosul": "",
+      "kanit": "ikincil",
+      "bolum": "İlişkileri",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.7717/peerj.11389",
+          "yer": "Microbial Ecology: Organic acids produced by bacteria"
+        }
+      ]
+    },
+    {
+      "id": "besin.galaktoz_negatif_mutant_maya_birlikte_yasam",
+      "metin": "Galaktoz negatif mutant maya ile L. lactis ortak kültüründe uyum azalmış ancak büyüme tamamen ortadan kalkmamıştır (Şekil 5C).",
+      "kosul": "gal1δgal3δ mutant maya ve L. lactis ortak kültürü",
+      "kanit": "tek_kaynak",
+      "bolum": "İlişkileri",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.15252/msb.202211501",
+          "yer": "Results"
+        }
+      ]
+    },
+    {
+      "id": "besin.glukozdan_laktoza_gecis_komensalizm_mutualizm",
+      "metin": "Maya ile laktik asit bakterisi arasındaki tek yönlü komensal ilişki, besin ortamında glukoz yerine laktoz kullanılmasıyla mutualizme dönüşebilmektedir.",
+      "kosul": "besiyeri karbon kaynagi degisimi",
+      "kanit": "tek_kaynak",
+      "bolum": "İlişkileri",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.15252/msb.202211501",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "besin.kokultur_maltoz",
+      "metin": "Bir laboratuvar çalışmasında 6 saatlik fermantasyon sonunda Kazachstania humilis ile zorunlu heterofermentatif laktik asit bakterilerinin ortak kültüründe maltoz, mayanın tek başına olduğu hamurdakinden anlamlı ölçüde düşüktü ve bakterinin tek başına tükettiğinden daha fazla maltoz tükenmişti.",
+      "kosul": "Laboratuvar buğday ekşi hamuru; 28 °C; 6 saat.",
+      "kanit": "tek_kaynak",
+      "bolum": "İlişkileri",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/microorganisms8020240",
+          "yer": "Results 3.4"
+        }
+      ]
+    },
+    {
+      "id": "besin.lab_ve_maya_yogunlugu_korelasyonsuz",
+      "metin": "Laktik asit bakterisi ile maya yoğunlukları arasında anlamlı bir korelasyon bulunamadı; topluluk ilişkilerinin tür ve suş düzeyine bağlı olabileceği öne sürülür.",
+      "kosul": "Ekşi maya örnekleri; r = -0,15, p = 0,45.",
+      "kanit": "tek_kaynak",
+      "bolum": "İlişkileri",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.24072/pcjournal.237",
+          "yer": "Fungal community composition was partly related to sourdough acidity, maltose concentration and hydration"
+        }
+      ]
+    },
+    {
+      "id": "besin.maya_stres_ve_maltoz_paylasimi",
+      "metin": "Ekşi mayada mayalar düşük pH, düşük oksijen gerilimi ve laktik asit bakterisi topluluklarıyla paylaşılan karbonhidratlarla (başlıca maltoz) belirlenen stresli bir mikrobiyal çevreye dayanmak zorundadır.",
+      "kosul": "Ekşi maya ortamı (De Vuyst vd. 2014 aktarımı)",
+      "kanit": "ikincil",
+      "bolum": "İlişkileri",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.ijfoodmicro.2016.07.018",
+          "yer": "Sourdough yeasts and their diversity"
+        }
+      ]
+    },
+    {
+      "id": "besin.trofik_etkilesim_suphesi",
+      "metin": "Bir laboratuvar çavdar ekşi mayası çalışmasında maya ile laktik asit bakterileri arasında açık bir ilişki bulunmadı, ama ayrılan mayaların çoğu maltozu kullanamadığı için yazarlar aralarında besin ilişkisi olabileceğinden kuşkulandı.",
+      "kosul": "Laboratuvar; kendiliğinden yarı katı çavdar ekşi mayası; çavdar unu Tip 1370 + %0,5 NaCl; hamur verimi 200; her gün 1:10 yenileme; 20 °C ve 30 °C fermantasyon; 56. gün izolatları.",
+      "kanit": "tek_kaynak",
+      "bolum": "İlişkileri",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1371/journal.pone.0095449",
+          "yer": "Discussion"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,428 @@
+{
+  "id": "akrilamid",
+  "ad": "Akrilamid",
+  "bilgiler": [
+    {
+      "id": "akrilamid.uzun_maya_en_dusuk_eksi_maya_yuksek",
+      "metin": "Spelt ekmeklerinde kabuktaki akrilamid uzun maya mayalanmasıyla açık ara en düşük çıktı; ekşi mayalı tarifler ise kabukta daha yüksek akrilamid verdi.",
+      "kosul": "Deneme serisi 3; spelt, tam tahıllı un; 2 maya ve 3 ekşi maya tarifi; uzun maya mayalanması: 5 g maya, 8 °C'de 18 saat, ardından oda sıcaklığında 3 saat; kabuk analizi (Tablo 1).",
+      "kanit": "tek_kaynak",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/ijms24032770",
+          "yer": "2.5 The Potential of Bread Making Recipes to Maximize Bread Quality; Table 1"
+        }
+      ]
+    },
+    {
+      "id": "akrilamid.ana_olusum_asparajin_seker_tepkimesi",
+      "metin": "Gıdadaki akrilamid esas olarak asparajin amino asidi ile indirgeyici şekerlerin tepkimesinden oluşur.",
+      "kosul": "Becalski ve ark., 2003; Mottram ve ark., 2002; Stadler ve ark., 2002; Weisshaar ve Gutsche, 2002 (derleme aktarımı)",
+      "kanit": "ikincil",
+      "bolum": "Nereden gelir",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.foodchem.2004.08.030",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "akrilamid.seker_asparajin_ve_2002_kirlilik_listesi",
+      "metin": "Akrilamid esas olarak fırınlama ve kavurma gibi şiddetli ısıl işlemler sırasında şekerler ve asparajinden oluşur ve 2002 yılından bu yana gıda kirleticileri listesinde yer almaktadır.",
+      "kosul": "Şiddetli ısıl işlem (fırınlama, kavurma, kızartma)",
+      "kanit": "tek_kaynak",
+      "bolum": "Tanım",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods10020417",
+          "yer": "PMC7918450.txt:1. Introduction"
+        }
+      ]
+    },
+    {
+      "id": "akrilamid.uzun_mayalanma_onceki_calisma",
+      "metin": "Daha önceki bir çalışmada ekmek kabuğundaki akrilamidin maya mayalanma süresi uzatılınca azaldığı gösterilmiştir.",
+      "kosul": "",
+      "kanit": "ikincil",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/ijms24032770",
+          "yer": "2.5 The Potential of Bread Making Recipes to Maximize Bread Quality"
+        }
+      ]
+    },
+    {
+      "id": "akrilamid.yuksek_sicaklik_uzun_sure_dehidrasyon",
+      "metin": "Fırınlamada yüksek sıcaklığa uzun süre maruz kalınması yüzey dehidrasyonuna, esmerleşmenin yoğunlaşmasına ve akrilamid, hidroksimetilfurfural ile heterosiklik aminler gibi bileşiklerin oluşumuna yol açabilir.",
+      "kosul": "Fırınlama (yüksek sıcaklık ve uzun süre)",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1111/1750-3841.71456",
+          "yer": "PMC13559855.txt:Introduction"
+        }
+      ]
+    },
+    {
+      "id": "akrilamid.asgari_isi_girdisi_kabarma_duzeyi",
+      "metin": "Belirli bir kahverengileşme (browning) düzeyi için kullanılabilecek asgari ısı girdisi, fırınlama sırasında akrilamid oluşumunun azalmasına katkı sağlar.",
+      "kosul": "Konvansiyonel ekmek fırınlama simülasyonu",
+      "kanit": "tek_kaynak",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.foodcont.2012.02.034",
+          "yer": "Abstract"
+        },
+        {
+          "kaynak": "10.1016/j.jfoodeng.2010.10.003",
+          "yer": "Cited by"
+        }
+      ]
+    },
+    {
+      "id": "akrilamid.dis_kabuk_kuru_ve_yuksek",
+      "metin": "Kabuğun dış katmanı, iç kabuğa göre belirgin biçimde daha düşük su içerirken daha yüksek akrilamid derişimine sahiptir.",
+      "kosul": "Mayalı beyaz buğday ekmeği",
+      "kanit": "tek_kaynak",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.lwt.2007.01.010",
+          "yer": ""
+        }
+      ]
+    },
+    {
+      "id": "akrilamid.dusuk_kul_unu",
+      "metin": "Daha düşük kül içeriğine sahip un kullanıldığında, benzer kabuk rengiyle birlikte daha düşük akrilamid içeriği elde edildiği aktarılmıştır.",
+      "kosul": "Surdyk, Rosen, Andersson ve Aman (2004)",
+      "kanit": "ikincil",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.lwt.2007.01.010",
+          "yer": ""
+        }
+      ]
+    },
+    {
+      "id": "akrilamid.esik_175c_model_sistem",
+      "metin": "Model sistemde amino asitler ve glikoz 175 °C'de ısıtıldığında akrilamid oluşurken 120 veya 140 °C'de oluşmadı.",
+      "kosul": "Becalski ve ark. (2003); amino asit + glikoz model sistemi",
+      "kanit": "ikincil",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.foodchem.2004.08.030",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "akrilamid.glikin_eklenmesi",
+      "metin": "Hamura glisin eklenmesinin hem yassı ekmekte hem de ekmek kabuğunda akrilamid içeriğini belirgin biçimde düşürdüğü bildirilmiştir.",
+      "kosul": "Brathen, Kita, Knutsen ve Wicklund (2005); Fink, Andersson, Rosen ve Aman (2006); yassı ekmek ve ekmek kabuğu",
+      "kanit": "ikincil",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.lwt.2007.01.010",
+          "yer": ""
+        }
+      ]
+    },
+    {
+      "id": "akrilamid.islem_parametreleri_ve_gida_matrisi",
+      "metin": "Akrilamid 2002'de gıda güvenliği sorunu olarak belirlenmiştir; oluşumunun sıcaklık, süre, nem içeriği ve gıda matrisinin özelliklerinden güçlü biçimde etkilendiği daha önceki çalışmalarda bildirilmiştir.",
+      "kosul": "Isıl işlem ve gıda matrisi parametreleri",
+      "kanit": "ikincil",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1111/1750-3841.71456",
+          "yer": "PMC13559855.txt:Introduction"
+        }
+      ]
+    },
+    {
+      "id": "akrilamid.kabukta_toplanir_sure_sicaklik",
+      "metin": "Ekmekte akrilamid oluşumu esas olarak kabukta gerçekleşir ve fırınlama süresi ile sıcaklığı arttıkça kabuktaki akrilamid miktarı da artar.",
+      "kosul": "Mayalı buğday ekmeği ve ekmek kabuğu",
+      "kanit": "uzlasi",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.lwt.2023.114504",
+          "yer": "3.5. Effect of bran particle size on acrylamide formation in bread"
+        },
+        {
+          "kaynak": "10.1016/j.foodchem.2004.08.030",
+          "yer": "Abstract"
+        },
+        {
+          "kaynak": "10.1016/j.lwt.2007.01.010",
+          "yer": ""
+        }
+      ]
+    },
+    {
+      "id": "akrilamid.kalan_su_buharlasmasi_azaltir",
+      "metin": "Kalan su barındıran sistemlerde akrilamid oluşumu azalır, çünkü buharlaşma etkin sıcaklığı düşürür; bu kabuğun kuru sayılabilecek bölgelerinde bile geçerlidir.",
+      "kosul": "Kalan su içeren sistemler (kabuk dahil)",
+      "kanit": "tek_kaynak",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.foodchem.2004.08.030",
+          "yer": "Conclusion"
+        }
+      ]
+    },
+    {
+      "id": "akrilamid.katki_maddeleri_seviyeyi_dusurur",
+      "metin": "Bazı sonuçlara göre biberiye, amino asitler veya proteinler gibi katkılar akrilamid düzeyini düşürür.",
+      "kosul": "Becalski ve ark., 2003; Rydberg ve ark., 2003 ('bazı sonuçlara göre' nitelemesi korunmalı)",
+      "kanit": "ikincil",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.foodchem.2004.08.030",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "akrilamid.kuru_sistemde_maksimum_190_210c",
+      "metin": "Kuru sistemlerde akrilamid düzeyi, sisteme göre yaklaşık 190–210 °C'de bir tepe noktasına ulaşır.",
+      "kosul": "Nişasta sistemi; liyofilize yassı ekmek hamurları ve yassı ekmekler",
+      "kanit": "tek_kaynak",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.foodchem.2004.08.030",
+          "yer": "Abstract"
+        },
+        {
+          "kaynak": "10.1016/j.foodchem.2004.08.030",
+          "yer": "Conclusion"
+        }
+      ]
+    },
+    {
+      "id": "akrilamid.ph_dusurme_misir_cipsi",
+      "metin": "Mısır cipslerinin kızartmada ve fırınlamada pH'ı düşürüldüğünde akrilamid oluşumunun dramatik biçimde azaldığı bildirilmiştir.",
+      "kosul": "Jung, Choi ve Ju (2003); mısır cipsi; kızartma ve fırınlama",
+      "kanit": "ikincil",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.foodchem.2004.08.030",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "akrilamid.sicaklik_nem_profili_degisikligi_50",
+      "metin": "Fırınlama sürecinde sıcaklık/nem profili değiştirilerek ekmeğin akrilamid içeriğinde %50 azalma sağlandığı bildirilmiştir.",
+      "kosul": "Springer, Fischer, Lehrack ve Freund (2003)",
+      "kanit": "ikincil",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.lwt.2007.01.010",
+          "yer": ""
+        }
+      ]
+    },
+    {
+      "id": "akrilamid.uzun_pisirme_starch_flatbread_azalir",
+      "metin": "Nişasta sistemi ve yassı ekmeklerde akrilamid miktarı uzun pişirme sürelerinde azalır.",
+      "kosul": "Nişasta sistemi ve yassı ekmekler",
+      "kanit": "tek_kaynak",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.foodchem.2004.08.030",
+          "yer": "Abstract"
+        }
+      ]
+    },
+    {
+      "id": "akrilamid.firin_sicakligi_dusurulmesi",
+      "metin": "Yassı ekmekler geçmişte yalnız 300 °C üzerindeki odun ateşli fırınlarda pişerken, ısısal kirleticilerin (PAH) ve akrilamidin oluşum riskine dair bilinç arttığı için çağdaş uygulamada pişirme sıcaklığı 250 °C altına inmiştir.",
+      "kosul": "Yassı ekmek; geleneksel odun fırını >300 °C, çağdaş fırın <250 °C",
+      "kanit": "ikincil",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods11152326",
+          "yer": "3.5. Baking"
+        }
+      ]
+    },
+    {
+      "id": "akrilamid.liyofilize_yassi_ekmek_daha_yuksek",
+      "metin": "Liyofilize (dondurarak kurutulmuş) yassı ekmeklerde normal yassı ekmeklere göre daha fazla akrilamid oluştu.",
+      "kosul": "Çavdar bazlı yassı ekmekler",
+      "kanit": "tek_kaynak",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.foodchem.2004.08.030",
+          "yer": "Results"
+        }
+      ]
+    },
+    {
+      "id": "akrilamid.modellerde_degisimle_azalma_20dk_tepe",
+      "metin": "10–30 dakika ısıtılan model sistemlerde akrilamid miktarının zamanla azaldığı, en düşük sıcaklıkta ise 20 dakika sonra tepe noktasına ulaştığı bildirilmiştir.",
+      "kosul": "Becalski ve ark. (2003); 10–30 dakika ısıtılan model sistemler",
+      "kanit": "ikincil",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.foodchem.2004.08.030",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "akrilamid.sistem_siralama_nisasta_yuksek_kabuk_dusuk",
+      "metin": "Denenen sistemler arasında akrilamid içeriği nişasta model sisteminde en yüksek, ekmek kabuklarında en düşük çıktı.",
+      "kosul": "Nişasta model sistemi karşısında gerçek ekmek kabukları",
+      "kanit": "tek_kaynak",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.foodchem.2004.08.030",
+          "yer": "Results"
+        }
+      ]
+    },
+    {
+      "id": "akrilamid.beyaz_ve_tam_bugday_degerleri",
+      "metin": "Dört ABD buğday çeşidiyle yapılan bir çalışmada akrilamid beyaz ekmekte 27,9–32,2 µg/kg, tam buğday unu ekmeğinde çeşide göre 23–40,1 µg/kg arasındaydı; tam buğday ekmeği genellikle daha yüksekti.",
+      "kosul": "ABD; dört sert kırmızı kışlık buğday çeşidi; AACC 10-10.03 mayalı ekmek; liyofilize ekmekte GC-MS.",
+      "kanit": "tek_kaynak",
+      "bolum": "Kimlik",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.lwt.2023.114504",
+          "yer": "3.5. Effect of bran particle size on acrylamide formation in bread"
+        }
+      ]
+    },
+    {
+      "id": "akrilamid.alternatif_yol_amonyak_akrolein",
+      "metin": "Lipid bakımından zengin gıdalarda akrilamidin amonyak ve akrolein tepkimesiyle de oluşabileceği öne sürülmüştür.",
+      "kosul": "Yasuhara, Tanaka, Hengel ve Shibamoto, 2003; lipid bakımından zengin gıdalar",
+      "kanit": "ikincil",
+      "bolum": "Nereden gelir",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.foodchem.2004.08.030",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "akrilamid.efsa_gosterge_degeri_80",
+      "metin": "EFSA (2015) bilimsel görüş raporuna göre buğday ekmeği için gösterge akrilamid değeri 80 µg/kg'dır.",
+      "kosul": "EFSA (2015) bilimsel görüş raporu; buğday ekmeği",
+      "kanit": "ikincil",
+      "bolum": "Tanım",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1111/1750-3841.71456",
+          "yer": "Evaluation of Acrylamide Content and Porosity"
+        }
+      ]
+    },
+    {
+      "id": "akrilamid.derisim_carpimi_korelasyonu",
+      "metin": "Patates örnekleriyle yapılan bir çalışmada, akrilamid oluşturma potansiyelindeki değişkenliğin asparajin ve indirgeyici şeker derişimlerinin çarpımıyla korelasyon gösterdiği aktarılmıştır.",
+      "kosul": "Amrein ve ark. (2003); 74 patates örneği",
+      "kanit": "ikincil",
+      "bolum": "İlişkileri",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.foodchem.2004.08.030",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "akrilamid.fruktoz_glikozun_iki_kati",
+      "metin": "Patates örneklerinde fruktozun akrilamid oluşumunu desteklemede glikoza kıyasla iki kat daha etkili olduğu bildirilmiştir.",
+      "kosul": "Amrein ve ark. (2003); patates örnekleri",
+      "kanit": "ikincil",
+      "bolum": "İlişkileri",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.foodchem.2004.08.030",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "akrilamid.mol_orani_05_10_en_yuksek",
+      "metin": "Asparajin ve glikoz karışımında 0,5–1,0 mol oranı en yüksek akrilamid miktarını verdi.",
+      "kosul": "Becalski ve ark. (2003); asparajin:glikoz mol oranı 0,5–1,0",
+      "kanit": "ikincil",
+      "bolum": "İlişkileri",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.foodchem.2004.08.030",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "akrilamid.bilesim_zaman_sicaklik_bagliligi_etkilemez",
+      "metin": "İncelenen sistemlerde sistem bileşimi, akrilamid düzeyinin pişirme zamanına ve sıcaklığına bağlılığını etkilememiştir.",
+      "kosul": "Fırınlanan kuru model sistemler ve yassı ekmekler",
+      "kanit": "tek_kaynak",
+      "bolum": "İlişkileri",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.foodchem.2004.08.030",
+          "yer": "Conclusion"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,49 @@
+{
+  "id": "oncu",
+  "ad": "Öncü laktik bakteriler",
+  "eski_ad": null,
+  "tur": "bakteri",
+  "tek_cumle": "Ekşi mayanın ilk günlerinde topluluğa hâkim olan, sonraki yenilemelerde gerileyen laktik asit bakterileridir [[oncu.erken_oncu]]",
+  "bolumler": [
+    {
+      "baslik": "Kimlik",
+      "cumleler": [
+        "Weissella cinsi, fermantatif metabolizmaya sahip Gram-pozitif fakültatif anaerop bakterilerden oluşan bir gruptur [[oncu.weissella_cinsi_tanimi]]",
+        "Leuconostoc suşları ise Gram-pozitif bakterilerin düşük G+C dalına ait olup genellikle çiftler veya kısa zincirler hâlinde bulunan, hareketsiz ve spor oluşturmayan koklardır [[oncu.leuconostoc_morfolojik_ve_genomik_ozellikleri]]"
+      ]
+    },
+    {
+      "baslik": "Hangi koşulda",
+      "cumleler": [
+        "Heterofermantatif Leuconostoc ve Weissella türleri genellikle yüksek pH (> 4,0), düşük sıcaklık (< 30 °C) ve düşük hamur verimi (< 200) koşullarında fermente edilen ekşi mayalarda bulunur [[oncu.leuconostoc_weissella_kosullari]]"
+      ]
+    },
+    {
+      "baslik": "Ne yer, ne üretir",
+      "cumleler": [
+        "Leuconostoc citreum ve Leuconostoc mesenteroides %70 ile %90 arasında değişen verimlerle mannitol üretir ve antifungal bileşikler oluşturabilir [[oncu.citreum_ve_mesenteroides_mannitol_verimi]]"
+      ]
+    },
+    {
+      "baslik": "Mayadaki yeri",
+      "cumleler": [
+        "Laboratuvarda 28 gün sıvı yenilenen dört olgun durum buğdayı ekşi mayasının hepsinde topluluk neredeyse yalnız Leuconostoc türlerinden oluşan bir yapıya kaydı [[oncu.sivi_leuconostoc]]"
+      ]
+    },
+    {
+      "baslik": "Nereden gelir",
+      "cumleler": [
+        "Unlardan izole edilen Leuconostoc citreum suşlarının neredeyse tamamı, o unları kullanan fırınların ekşi mayalarında da tespit edilmiştir [[oncu.un_kokenli_leuconostoc_citreum_mayaya_gecisi]]"
+      ]
+    }
+  ],
+  "efsane": null,
+  "anlar": [
+    "eksi_mayanin_ilk_10_gunu"
+  ],
+  "gorseller": [
+    "microscopy_of_weissella_viridescens_cells_stained_with_t",
+    "leuconostoc_mesenteroides_in_wet_mount",
+    "leuconostoc_mesenteroides_growth_on_cled_agar"
+  ]
+}

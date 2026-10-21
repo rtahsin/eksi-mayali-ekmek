@@ -1,0 +1,494 @@
+{
+  "id": "reoloji",
+  "ad": "Hamurun akışı (reoloji)",
+  "bilgiler": [
+    {
+      "id": "reoloji.iki_eksenli_gerinim_ekmek_hacmi_ve_doku",
+      "metin": "Bu çalışma, yüksek ekmek hacmi ve ince ekmek içi yapısı için hamurun asgari bir düzeyin üzerinde iki eksenli gerinim sertleşmesi ve uzayabilirlik göstermesi gerektiğini düşündürür.",
+      "kosul": "Buğday unu hamurları; dört farklı reolojik yöntem (iki eksenli gerinim dahil)",
+      "kanit": "tek_kaynak",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1006/jcrs.1996.0004",
+          "yer": "Abstract"
+        },
+        {
+          "kaynak": "10.1006/jcrs.1996.0004",
+          "yer": "Cited by"
+        }
+      ]
+    },
+    {
+      "id": "reoloji.asiri_elastiklik_ve_asiri_uzayabilirlik_kusurlari",
+      "metin": "Aşırı elastiklik hamuru germek için gereken gaz basıncı çok yüksek olduğundan yetersiz kabarmaya yol açarken, yeterli kuvvet olmaksızın aşırı uzayabilirlik gaz hücrelerinin yırtılmasına ve pişirmede çökmeye neden olur.",
+      "kosul": "",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods10071585",
+          "yer": "4. Discussion"
+        }
+      ]
+    },
+    {
+      "id": "reoloji.disulfit_baglarinin_indirgenmesi_elastiklik_kaybi",
+      "metin": "Disülfit bağları indirgendiğinde gluten yapısı bozularak elastiklik kaybına yol açar.",
+      "kosul": "Gluten yapısında disülfit bağlarının indirgenmesi.",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.jcs.2024.103895",
+          "yer": "3. Glutenin polymers are stabilised by covalent disulphide"
+        }
+      ]
+    },
+    {
+      "id": "reoloji.yogurma_suresi_esas_olarak_uzama_davranisini_etkiler",
+      "metin": "Yoğurma süresinin esas olarak hamurun uzama davranışı üzerinde derin bir etkiye sahip olduğu gözlenmiştir.",
+      "kosul": "hamur yoğurma süreci",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1007/s11483-017-9472-9",
+          "yer": "Conclusions"
+        }
+      ]
+    },
+    {
+      "id": "reoloji.ekstensograf_tek_eksenli_alveograf_iki_eksenlidir",
+      "metin": "Ekstensograf yönteminde hamur tek eksenli deformasyona tabi tutulurken, alveograf yönteminde iki eksenli deformasyona maruz bırakılır.",
+      "kosul": "hamur deformasyon yöntemleri (aktarım)",
+      "kanit": "ikincil",
+      "bolum": "Nasıl ölçülür",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.17221/40/2009-cjfs",
+          "yer": "1 Introduction"
+        }
+      ]
+    },
+    {
+      "id": "reoloji.mixolab_c1_c5_parametrelerinin_tanimi",
+      "metin": "Mixolab parametrelerinden C1 yoğurmadaki maksimum torku, C2 protein zayıflamasını, C3 nişasta çirişlenmesini, C4 oluşan nişasta jelinin stabilitesini ve C5 nişasta retrogradasyonunu ölçer.",
+      "kosul": "Mixolab parametreleri tanımı",
+      "kanit": "tek_kaynak",
+      "bolum": "Nasıl ölçülür",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.17221/40/2009-cjfs",
+          "yer": "Evaluation of rheological properties"
+        }
+      ]
+    },
+    {
+      "id": "reoloji.viskoz_elastik_denge",
+      "metin": "Hamurun akışkan (viskoz) bileşenleri gaz hücrelerinin basıncı dengeleyecek kadar genişlemesine izin verir, elastik bileşenleri ise hamurun aşırı genişleyip çökmesini önleyecek dayanımı sağlar.",
+      "kosul": "",
+      "kanit": "ikincil",
+      "bolum": "Ne yapar",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1155/2018/8187318",
+          "yer": "2. Porous Crumb Structure Development"
+        }
+      ]
+    },
+    {
+      "id": "reoloji.depolama_ve_kayip_modulleri_ile_kayip_tanjanti_tanimi",
+      "metin": "Depolama modülü (G′) ve kayıp modülü (G″) sırasıyla hamurun elastikliğini ve viskozitesini yansıtır; kayıp tanjantı (tan δ) ise G″/G′ oranı olup viskozite ile elastikliğin bağıl büyüklüğünü gösterir.",
+      "kosul": "hamur reolojik özellikleri tanımı",
+      "kanit": "tek_kaynak",
+      "bolum": "Tanım",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.csbj.2023.08.019",
+          "yer": "Dough rheological properties"
+        }
+      ]
+    },
+    {
+      "id": "reoloji.ekmek_elastikligi_ve_yumusaklik_tanimi",
+      "metin": "Elastiklik, bir örneğin kuvvetle deforme edildikten sonra ilk şekline geri dönme yeteneğini ifade eder; ekmek ne kadar elastik olursa dokusu o kadar yumuşak olur.",
+      "kosul": "",
+      "kanit": "tek_kaynak",
+      "bolum": "Tanım",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.fochx.2025.103160",
+          "yer": "Changes of moisture content and texture properties of bread during storage"
+        }
+      ]
+    },
+    {
+      "id": "reoloji.gerinim_sertlesmesi_tanimi",
+      "metin": "Gerinim sertleşmesi, bir malzemeyi sabit gerinim hızında deforme etmek için gereken gerilimin gerinimle orantılı olandan daha fazla artması olgusudur.",
+      "kosul": "Polimer bilimi ve ekmek hamuru",
+      "kanit": "tek_kaynak",
+      "bolum": "Tanım",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1371/journal.pone.0282670",
+          "yer": "1 Introduction"
+        }
+      ]
+    },
+    {
+      "id": "reoloji.hamur_matrisinin_genlesme_ve_sekil_koruma_rolu",
+      "metin": "Hamur matrisinin reolojisi, hamurun son mayalanma ve pişirme sırasında genişleme ve ardından şeklini koruma yeteneğini belirler.",
+      "kosul": "",
+      "kanit": "tek_kaynak",
+      "bolum": "Tanım",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.jcs.2018.06.006",
+          "yer": "Introduction"
+        },
+        {
+          "kaynak": "10.1093/jexbot/53.370.947",
+          "yer": "Gluten proteins and wheat grain quality"
+        }
+      ]
+    },
+    {
+      "id": "reoloji.kompozit_malzeme_mikroyapi",
+      "metin": "Buğday hamuru mikroskobik düzeyde, nişasta tanelerinin dolgu tanecikleri olarak gömüldüğü kesintisiz ağsı bir gluten iskeletinden oluşan ve pentozanlar ile lipidlerin de katkıda bulunduğu kompozit bir malzemedir.",
+      "kosul": "Hamur mikro yapısı",
+      "kanit": "ikincil",
+      "bolum": "Tanım",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.cofs.2022.100873",
+          "yer": "Structural changes during mixing"
+        },
+        {
+          "kaynak": "10.1016/j.foodhyd.2020.105885",
+          "yer": "Introduction"
+        },
+        {
+          "kaynak": "10.1016/j.foodhyd.2023.109214",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "reoloji.reoloji_bilimi_tanimi",
+      "metin": "Reoloji, malzemelerin akış ve deformasyonunun incelenmesidir.",
+      "kosul": "",
+      "kanit": "tek_kaynak",
+      "bolum": "Tanım",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/s0733-5210(03)00059-6",
+          "yer": "Introduction—what is rheology?"
+        }
+      ]
+    },
+    {
+      "id": "reoloji.tan_delta_esigi_ve_gluten_yapisi_saglamligi",
+      "metin": "Kayıp tanjantının 1 değerinin altında olması elastik özelliklerin, 1 değerinin üstünde olması ise viskoz özelliklerin baskın olduğunu gösterir; tan δ büyüdükçe gluten yapısı zayıflar, küçüldükçe daha sağlam hâle gelir.",
+      "kosul": "dinamik reoloji frekans taraması (aktarım [37-39])",
+      "kanit": "ikincil",
+      "bolum": "Tanım",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods14050717",
+          "yer": "3.2.3. Rheological Properties"
+        },
+        {
+          "kaynak": "10.3390/foods9060828",
+          "yer": "4.1. Dough Rheological Properties"
+        },
+        {
+          "kaynak": "10.3390/foods9060828",
+          "yer": "4.1. Dough Rheological Properties"
+        }
+      ]
+    },
+    {
+      "id": "reoloji.30_dk_dinlenmeyle_shi_degeri_4_8_5_0_platosu",
+      "metin": "Bir çalışmada aşırı yoğrulmuş güçlü Bilux hamurunun SHI değeri 30 dakikalık dinlenmenin ardından 4,8–5,0 platosuna ulaşmış görünmüş, ancak 3,5 dakikalık optimum yoğurma süresine karşılık gelen 10,1 değerinin oldukça altında kalmıştır.",
+      "kosul": "aşırı yoğrulmuş güçlü Bilux hamurunda 30 dakika dinlenme, 3,5 dakika optimum yoğurma süresi; tek çalışma",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1007/s11483-017-9472-9",
+          "yer": "Results and discussion · Resting time · Extensional tests"
+        }
+      ]
+    },
+    {
+      "id": "reoloji.asiri_yogrulmus_bisonda_60_dk_dinlenmeyle_shi_artisi",
+      "metin": "Bir çalışmada aşırı yoğrulmuş zayıf Bison hamurunun SHI değeri 60 dakikalık dinlenme boyunca başlangıç değerinin iki katına (0,9'dan 1,9'a) çıkmış, ancak optimum yoğurma süresine karşılık gelen 7,5 değerine ulaşamamıştır.",
+      "kosul": "aşırı yoğrulmuş zayıf Bison hamuru, 60 dakika dinlenme; tek çalışma",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1007/s11483-017-9472-9",
+          "yer": "Results and discussion · Resting time · Extensional tests"
+        }
+      ]
+    },
+    {
+      "id": "reoloji.asiri_yogurma_gerinim_sertlesmesini_onemli_olcude_zayiflatir",
+      "metin": "Bir çalışmada aşırı yoğurma, gerinim sertleşmesi indeksiyle nicelendirilen gerinim sertleşmesi davranışında belirgin bir zayıflamaya yol açmıştır.",
+      "kosul": "aşırı yoğrulmuş buğday hamuru; tek çalışma",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1007/s11483-017-9472-9",
+          "yer": "Conclusions"
+        }
+      ]
+    },
+    {
+      "id": "reoloji.asiri_yogurmada_shi_degeri_ve_yuzde_80_dusus",
+      "metin": "Bir çalışmada 15 dakikalık yoğurma sonrasında zayıf Bison hamurunun SHI değeri 7,5'ten 1,5'in altına inerek %80'den fazla düşmüş, güçlü Bilux hamuru ise orijinal değerinin yaklaşık yarısını korumuştur (en uygun süredeki 10,1 değerine karşı 4,75).",
+      "kosul": "15 dakikalık aşırı yoğurma, zayıf Bison ve güçlü Bilux hamuru; tek çalışma",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1007/s11483-017-9472-9",
+          "yer": "Results and discussion · Mixing time · Extensional tests"
+        }
+      ]
+    },
+    {
+      "id": "reoloji.dinlenme_ile_gluten_gerilimi_azalmasi",
+      "metin": "Mekanik kuvvetlere maruz kalan hamur, gerilmiş gluten matrisini rahatlatmak ve daha düzgün bir gluten ağı dağılımı sağlamak için dinlenme sürelerine ihtiyaç duyar.",
+      "kosul": "Mekanik işleme tabi tutulan hamur (aktarım Feng vd., 2021)",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.fochx.2025.102366",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "reoloji.dinlenme_ile_ic_gerilimin_dagilmasi_ve_uzayabilirlik",
+      "metin": "Yoğurma sırasında mekanik kuvvetler hamurda depolanan enerjiyi artırırken, ardından gelen dinlenme aşaması iç gerilimin kademeli olarak dağılmasını sağlayarak çekme direncini azaltır ve uzayabilirliği artırır.",
+      "kosul": "Yoğurma sonrası hamur dinlenmesi (aktarım Obadi vd., 2023)",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.fochx.2025.102366",
+          "yer": "Rheological properties of dough with large deformation"
+        }
+      ]
+    },
+    {
+      "id": "reoloji.dinlenme_surelerine_gore_ekstensograf_uzayabilirlik_araligi",
+      "metin": "Bu çalışmada un örneklerinin 45, 90 ve 135 dakikalık dinlenme sürelerindeki uzayabilirlik değerleri sırasıyla 80,00 ile 142,00 mm, 77,00 ile 125,00 mm ve 74,00 ile 113,00 mm arasında değişti.",
+      "kosul": "farklı dinlenme sürelerinde ekstensograf analizi",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.24925/turjaf.v14i6.1618-1629.8657",
+          "yer": "Results and Discussion · Rheological properties"
+        }
+      ]
+    },
+    {
+      "id": "reoloji.gerinim_sertlesmesi_kabarcik_kararliligi",
+      "metin": "Hamurun daha yüksek gerinim sertleşmesi değeri ve iki eksenli uzama viskozitesi, kabarcık büyüme hızını düşürerek orantısızlaşma ve birleşmeye karşı kabarcık kararlılığına katkıda bulunur.",
+      "kosul": "Ekmek yapımı; Dobraszczyk ve Roberts, 1994; Huang ve Kokini, 1999; Kokelaar ve ark., 1996",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1002/cche.10699",
+          "yer": "6.1 The effect of flour quality on the gas phase of the dough"
+        },
+        {
+          "kaynak": "10.1002/cche.10699",
+          "yer": "3.2 Bubble growth"
+        },
+        {
+          "kaynak": "10.1002/cche.10699",
+          "yer": "3.2 Bubble growth"
+        }
+      ]
+    },
+    {
+      "id": "reoloji.kabarcik_sayisi_ve_boyutu_etkisi",
+      "metin": "Hamurdaki gaz kabarcıklarının sayısı, sayısal yoğunluğu ve boyutları hamurun karmaşık reolojik özellikleri üzerinde belirgin bir etkiye sahiptir.",
+      "kosul": "Bloksma, 1990; Chin ve ark., 2005; Elmehdi ve ark., 2004 aktarımı",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.foodres.2006.07.020",
+          "yer": "Introduction"
+        },
+        {
+          "kaynak": "10.1016/j.foodres.2006.07.020",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "reoloji.silindirleme_ve_gevsemede_gluten_polimerizasyonu",
+      "metin": "Silindirleme ve gevşeme sırasında gluten ağının daha fazla polimerleşmesi ve çapraz bağlanması, yapısal kararlılığı ve mekanik gücü artırarak çekme özelliklerini geliştirir.",
+      "kosul": "Çoklu silindirleme-dinlendirme döngüleri (aktarım Obadi vd., 2023; Song vd., 2019)",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.fochx.2025.102366",
+          "yer": "Rheological properties of dough with large deformation"
+        }
+      ]
+    },
+    {
+      "id": "reoloji.silindirleme_geri_esneme_tanimi_atif",
+      "metin": "Ekmek hamurları ayarlı silindir aralığından geçirildiğinde, viskoelastik hamur gerilip sıkıştırıldıktan sonra geri çekildiği için hamur aralıktan daha kalın çıkar.",
+      "kosul": "Silindirleme; aktarım [10,26]",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods11152300",
+          "yer": "2.4. Springback"
+        }
+      ]
+    },
+    {
+      "id": "reoloji.oksijence_fakir_ortamda_15_dk_yogurma_ve_shi",
+      "metin": "Bu çalışmada oksijence fakir ortamda 15 dakika yoğurmanın ardından Bilux ve Bison hamurları, ortam koşullarına kıyasla belirgin biçimde yüksek olan 7,1 ve 3,0 SHI değerlerini korudu.",
+      "kosul": "oksijence fakir ortamda 15 dakika yoğurma",
+      "kanit": "tek_kaynak",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1007/s11483-017-9472-9",
+          "yer": "Results and discussion · Mixing time · Extensional tests"
+        }
+      ]
+    },
+    {
+      "id": "reoloji.dogrusal_sunme_testleri_yogurma_farkini_algilayamaz",
+      "metin": "Bu çalışmada, doğrusal osilasyon testlerinde olduğu gibi doğrusal sünme testlerinin de farklı sürelerde yoğrulmuş hamurlar arasındaki belirgin farkları algılayamadığı bildirilmiştir (sonuçlar makalede gösterilmemiştir); yoğurma süresinin etkisi yalnızca doğrusal olmayan sünme testlerinde görülmüştür.",
+      "kosul": "farklı sürelerde yoğrulmuş hamurlarda doğrusal sünme testleri (sonuçlar gösterilmemiş)",
+      "kanit": "tek_kaynak",
+      "bolum": "Nasıl ölçülür",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1007/s11483-017-9472-9",
+          "yer": "Results and discussion · Mixing time · Creep-recovery tests"
+        }
+      ]
+    },
+    {
+      "id": "reoloji.ekmekcilikte_uygun_deformasyon_kosullari",
+      "metin": "Dinamik kayma osilasyonu ekmekçilik için uygun olmayan deformasyon koşullarında kullanılırken, ekmekçiliğe uygun deformasyon koşullarına uzun süreli sünme-gevşeme ölçümleri veya düşük gerinim hızlarındaki büyük deformasyonlu uzama testleriyle ulaşılabilir.",
+      "kosul": "Buğday unu hamuru; ekmek yapımı süreçleri (karıştırma, açma, fermantasyon, pişirme)",
+      "kanit": "tek_kaynak",
+      "bolum": "Nasıl ölçülür",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/s0733-5210(03)00059-6",
+          "yer": "Abstract"
+        },
+        {
+          "kaynak": "10.1016/s0733-5210(03)00059-6",
+          "yer": "Abstract"
+        }
+      ]
+    },
+    {
+      "id": "reoloji.mixolab_cihazi_calisma_ilkesi_ve_tork_olcumu",
+      "metin": "Mixolab cihazı, hamurun ikili yoğurma ve sıcaklık kısıtlamalarına tabi tutulduğu iki yoğurma kolu arasında oluşturduğu torku (Nm) ölçer.",
+      "kosul": "Mixolab çalışma ilkesi (aktarım)",
+      "kanit": "ikincil",
+      "bolum": "Nasıl ölçülür",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.17221/40/2009-cjfs",
+          "yer": "1 Introduction"
+        }
+      ]
+    },
+    {
+      "id": "reoloji.sunme_ve_gerilim_gevsemesi_farki",
+      "metin": "Gerilim gevşemesi ölçümlerinde deformasyon sabit tutulup kuvvet yanıtı ölçülürken, sünme testinde gerilim sabit tutulup zamana bağlı deformasyon ölçülür.",
+      "kosul": "",
+      "kanit": "tek_kaynak",
+      "bolum": "Nasıl ölçülür",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/s0733-5210(03)00059-6",
+          "yer": "Creep and relaxation measurements"
+        }
+      ]
+    },
+    {
+      "id": "reoloji.yogurma_suresi_etkisi_dogrusal_olmayan_testlerde_belirir",
+      "metin": "Yoğurma süresinin etkisi, gluten ağının yanıtını yeterince inceleyen doğrusal olmayan sünme ve uzama testlerinde belirgin hâle gelir.",
+      "kosul": "doğrusal olmayan sünme ve uzama testleri",
+      "kanit": "tek_kaynak",
+      "bolum": "Nasıl ölçülür",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1007/s11483-017-9472-9",
+          "yer": "Results and discussion · Mixing time · Creep-recovery tests"
+        }
+      ]
+    },
+    {
+      "id": "reoloji.uc_faz_atif",
+      "metin": "Hamur üç fazlı olarak tanımlanabilir: gaz fazı, protein ağı ve içinde nişasta taneleriyle suda çözünen bileşenlerin bulunduğu serbest sudan oluşan sürekli faz.",
+      "kosul": "",
+      "kanit": "ikincil",
+      "bolum": "Tanım",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods10020228",
+          "yer": "4. Discussion"
+        }
+      ]
+    }
+  ]
+}

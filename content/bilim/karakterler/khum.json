@@ -1,0 +1,48 @@
+{
+  "id": "khum",
+  "ad": "Kazachstania humilis",
+  "eski_ad": null,
+  "tur": "maya",
+  "tek_cumle": "Ekşi maya başlatıcılarında Saccharomyces cerevisiae'den sonra en sık rastlanan ikinci maya türüdür [[khum.ekmek_mayasindan_sonra_en_yaygin_ikinci_maya]]",
+  "bolumler": [
+    {
+      "baslik": "Kimlik",
+      "cumleler": [
+        "Kazachstania cinsi 40'tan fazla türden oluşmakta olup bunların 11 tanesi ekşi mayada bulunmaktadır [[khum.cins_tur_sayisi_ve_eksi_maya_turleri]]",
+        "Suşlarının heterotallik olduğu ve ağırlıklı olarak eşeysiz çoğaldığı bulundu [[khum.ho_geni_ve_sessiz_kasetlerin_tam_delesyonu]]"
+      ]
+    },
+    {
+      "baslik": "Hangi koşulda",
+      "cumleler": [
+        "Maltoz-negatif fermantasyon özelliği, pH 3,5 ile 7,0 arasında büyümesi etkilenmeyen aside dayanıklılığı ve 36 °C'ye kadar nispeten sıcaklığa toleranslı olmasıyla öne çıkar [[khum.maltoz_negatif_ph_sicaklik]]"
+      ]
+    },
+    {
+      "baslik": "Ne yer, ne üretir",
+      "cumleler": [
+        "Buğday unu ortamında hiç maltoz tüketmeyip büyümek için glikoza bağımlı kalmıştır [[khum.maltoz_tuketmeyip_glikozu_tuketir]]"
+      ]
+    },
+    {
+      "baslik": "Mayadaki yeri",
+      "cumleler": [
+        "Bir aylık süreçte, un türünden ve besleme programından bağımsız olarak Kazachstania cinsi sıklığını hızla artırarak tüm ekşi maya başlatıcılarında en bol bulunan maya oldu [[khum.tum_mayalarda_kazachstania_hizla_baskinlasir]]",
+        "Denenen suşları tek başına hamuru Saccharomyces cerevisiae kadar kabartmadı, ama zorunlu heterofermentatif laktik asit bakterileriyle birlikteyken ikili eşleşmeler kadar kabarttı [[khum.ortak_kabartma]]"
+      ]
+    },
+    {
+      "baslik": "İlişkileri",
+      "cumleler": [
+        "Fructilactobacillus sanfranciscensis ile aynı ekşi mayalarda birlikte bulunma eğilimindedir [[khum.fsan_birlikte_bulunma]]"
+      ]
+    }
+  ],
+  "efsane": null,
+  "anlar": [
+    "eksi_mayanin_ilk_10_gunu",
+    "ayni_sofrada",
+    "gece_dolapta"
+  ],
+  "gorseller": []
+}
