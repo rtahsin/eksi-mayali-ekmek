@@ -1,5 +1,13 @@
 // Bilim odası içeriğinin saf, izomorfik API'si. Dosya okuma: ./server.
-export { KANIT_ETIKETI, cumleEtiketi, findAtiflar, splitCumleler, type Cumle, type EtiketDurumu } from "./metin";
+export {
+  KANIT_ETIKETI,
+  cumleEtiketi,
+  findAtiflar,
+  splitCumleler,
+  type AtifKarti,
+  type Cumle,
+  type EtiketDurumu,
+} from "./metin";
 export { KANIT_DURUMLARI } from "./schema";
 export type {
   An,

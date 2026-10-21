@@ -144,6 +144,15 @@ Her adımın sonunda Tahsin'e görebileceği bir çıktı gelir. ⏸ işaretli a
 - Telefonda akıcı çalışır, erişilebilirdir ve hareket azaltma ayarına uyar.
 - Tahsin "ton tamam" demiştir.
 
+## Tasarım: monografi levhası (22 Eki)
+
+Argon'un T-01 üç yönünden (`arastirma/bilim_isler/tasarim/`) **Yön 3** temel alındı; Tahsin seçimi Claude'a bıraktı. Yön 1'den karakter kartlarının "tip örnek föyü" biçimi, Yön 2'den numaralı levha dizini alındı.
+- **Renk:** beyaz levha `#FFFFFF`, porselen kenar `#ECEFF1`, grafit mürekkep `#101418`, ikincil `#4A5560`, çizgi `#C9D1D6`, tek vurgu kobalt `#0047AB` (kanıt etiketi, işaretleme, bağlantı). Koyu zemin ve krem zemin yok.
+- **Yazı:** Crimson Pro (başlık, tür adları), Plus Jakarta Sans (gövde), Azeret Mono yalnız şekil numarası, DOI ve kaynak satırında. Büyük harfli sıkışık başlık yok.
+- **Düzen:** sola yaslı asimetrik ızgara, ince çizgiler; yuvarlak köşe ve gölge yok. An görüntüyle açılır; Gör katmanında görüntü sabit kalır, metin kayar (telefonda üstte, masaüstünde solda). Şekil numarası `Şek. <levha>.<adım>`.
+- **Kanıt:** cümle sonunda küçük kobalt kelime ("tek çalışma"); dokununca kaynak kartı (telefonda alttan, masaüstünde yandan).
+- Bilim odası yayına kadar arama motorlarına kapalıdır (`noindex`).
+
 ## Değişmez ilkeler
 
 - Kütüphanede olmayan hiçbir sayı ya da iddia yayına çıkmaz; bu bir betikle denetlenir.

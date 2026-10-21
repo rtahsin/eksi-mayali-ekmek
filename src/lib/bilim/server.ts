@@ -2,6 +2,7 @@ import "server-only";
 import * as fs from "node:fs";
 import * as path from "node:path";
 import type { z } from "zod";
+import type { AtifKarti } from "./metin";
 import {
   anSchema,
   bilgiDugumuSchema,
@@ -78,4 +79,25 @@ export function resolveAtif(id: string): CozulmusAtif | undefined {
   }
   const bilgi = getBilgi(id);
   return bilgi ? { tur: "bilgi", bilgi } : undefined;
+}
+
+/** Bir sayfada geçen atıfların kaynak kartları; istemciye yalnız bunlar gider. */
+export function getAtifKartlari(ids: Iterable<string>): Record<string, AtifKarti> {
+  const kaynaklar = getKaynaklar();
+  const kartlar: Record<string, AtifKarti> = {};
+  for (const id of ids) {
+    const a = resolveAtif(id);
+    if (!a || kartlar[id]) continue;
+    kartlar[id] =
+      a.tur === "sozluk"
+        ? { id, durum: "sozluk", metin: a.metin, kosul: "", kaynaklar: [] }
+        : {
+            id,
+            durum: a.bilgi.kanit,
+            metin: a.bilgi.metin,
+            kosul: a.bilgi.kosul,
+            kaynaklar: a.bilgi.kaynaklar.map((k) => ({ ...kaynaklar[k.kaynak], yer: k.yer })),
+          };
+  }
+  return kartlar;
 }

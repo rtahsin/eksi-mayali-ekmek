@@ -20,6 +20,15 @@ export const KANIT_ETIKETI: Record<EtiketDurumu, string> = {
 /** Bir cümlenin bilgileri farklı düzeydeyse gösterilecek etiket; çelişki her zaman öne çıkar. */
 const ONCELIK: readonly EtiketDurumu[] = ["tartismali", "uzlasi", "tek_kaynak", "ikincil", "belirsiz", "sozluk"];
 
+/** Kaynak kartında gösterilen, sayfaya gömülen çözülmüş atıf. */
+export interface AtifKarti {
+  id: string;
+  durum: EtiketDurumu;
+  metin: string;
+  kosul: string;
+  kaynaklar: { baslik: string; yil: number | null; dergi: string; doi: string | null; yer: string }[];
+}
+
 export interface Cumle {
   govde: string;
   atiflar: string[];
