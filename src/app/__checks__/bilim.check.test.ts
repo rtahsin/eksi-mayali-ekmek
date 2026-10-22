@@ -15,6 +15,7 @@ import {
 } from "@/lib/bilim/server";
 import {
   DURAK_ZEMIN,
+  FIRIN_DENEYI,
   ILK_ON_GUN,
   findAtiflar,
   splitCumleler,
@@ -147,6 +148,27 @@ describe("content/bilim bütünlüğü", () => {
     expect(splitHamCumleler(an.gor.adimlar[4].metin).length).toBeGreaterThanOrEqual(2);
     const metin = anMetinleri(an).join(" ");
     expect(ILK_ON_GUN.durumlar.filter((d) => !metin.includes(`[[${d.bilgi}]]`)).map((d) => d.bilgi)).toEqual([]);
+  });
+
+  it("fırın sahnesinin her sayısı dayandığı bilgide geçiyor", () => {
+    const B = FIRIN_DENEYI.bilgiler;
+    const metin = (id: string) => resolveAtif(id)?.tur === "bilgi" ? (resolveAtif(id) as { bilgi: { metin: string } }).bilgi.metin : "";
+    const eksik: string[] = [];
+    for (const f of FIRIN_DENEYI.firinlar) {
+      if (!metin(B.hacim).includes(`${f.c} °C'de %${f.hacim3}`)) eksik.push(`hacim ${f.c}/${f.hacim3}`);
+      if (!metin(B.merkez).includes(String(f.merkez100))) eksik.push(`merkez ${f.merkez100}`);
+    }
+    if (!metin(B.hacim).includes("3 dakikada") || !metin(B.hacim).includes("6. dakika")) eksik.push("durma dakikaları");
+    if (!metin(B.maya).includes("50 °C")) eksik.push("maya 50");
+    if (!metin(B.gluten).includes("90 °C")) eksik.push("gluten 90");
+    if (!metin(B.bolge).includes("100 °C")) eksik.push("bölge 100");
+    expect(eksik).toEqual([]);
+    const gorseller = getGorseller();
+    expect(Object.values(FIRIN_DENEYI.gorseller).filter((g) => !gorseller[g])).toEqual([]);
+    // sahneler adımların cümlelerine göre bölünür (FirinSekizDakika: firinVerisi)
+    const enAz = [2, 4, 2, 1, 4, 4, 5];
+    const ad = getAn(FIRIN_DENEYI.an).gor.adimlar.map((a) => splitHamCumleler(a.metin).length);
+    expect(enAz.filter((n, i) => (ad[i] ?? 0) < n)).toEqual([]);
   });
 
   it("metinlerde sağlık sözcüğü yok", () => {

@@ -36,6 +36,38 @@ export function asitlikZemini(gun: number): string {
   return ASITLIK_ZEMIN[ASITLIK_ZEMIN.length - 1][1];
 }
 
+/**
+ * "Fırının ilk 8 dakikası" bayrak sahnesi: okur fırın sıcaklığını seçer, kesit o deneyin ölçümleriyle büyür.
+ * Her sayı `bilgiler` içindeki kimliklerin metninde geçer (bilim.check.test.ts denetler).
+ */
+export const FIRIN_DENEYI = {
+  an: "firinin_ilk_8_dakikasi",
+  bilgiler: {
+    hacim: "firin_kabarmasi.hacim_artisi_ilk_3_dakika",
+    merkez: "isi_aktarimi.merkez_100_derecede_plato",
+    maya: "firin_kabarmasi.maya_50_derecede_olur",
+    gluten: "disulfit.90c_ye_kadar_gliadin_glutenin_baglanmasi",
+    bolge: "isi_aktarimi.uc_isil_bolge",
+  },
+  firinlar: [
+    { c: 180, hacim3: "27,6", durdu: 6, merkez100: 17 },
+    { c: 200, hacim3: "23,3", durdu: 3, merkez100: 13 },
+    { c: 220, hacim3: "23,5", durdu: 3, merkez100: 11 },
+  ],
+  esikler: [
+    { c: 50, ad: "maya canlı değil" },
+    { c: 90, ad: "gliadin glutenine bağlanıyor" },
+    { c: 100, ad: "buharlaşma cephesi" },
+  ],
+  gorseller: {
+    kapak: "prince_djehutymes_baking_bread_e_2749_img_4510_gradient",
+    kesit: "home_made_sour_dough_bread",
+    maya: "saccharomyces_cerevisiae_sem",
+    gluten: "gluten_and_carbon_nanotubes",
+    nisasta: "photomicrograph_of_wheat_starch",
+  },
+} as const;
+
 /** "Ekşi mayanın ilk 10 günü" bayrak sahnesi: hangi gün hangi cümle ve görsel. Cümle, içindeki bilgi kimliğiyle seçilir. */
 export const ILK_ON_GUN = {
   an: "eksi_mayanin_ilk_10_gunu",

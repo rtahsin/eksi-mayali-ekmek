@@ -964,3 +964,353 @@
     transform: none;
   }
 }
+
+/* ══ Fırının ilk 8 dakikası ══ */
+
+/* Açılış: fırın kadranı */
+.firinSec {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 16px 0 12px;
+  padding: 0;
+  border: 0;
+}
+
+.firinSec legend {
+  margin-bottom: 8px;
+  padding: 0;
+  font: 500 15px/1.3 var(--bas);
+}
+
+.firinSec button {
+  min-width: 88px;
+  min-height: 44px;
+  padding: 0 14px;
+  border: 1.5px solid var(--murekkep);
+  background: transparent;
+  color: var(--murekkep);
+  font: 500 16px var(--bas);
+  cursor: pointer;
+}
+
+.firinSec button.secili {
+  background: var(--murekkep);
+  color: #1a0d09;
+}
+
+.firinSec button:focus-visible {
+  outline: 2px solid var(--murekkep);
+  outline-offset: 3px;
+}
+
+/* Isı üç yoldan: sözcükler sırayla gelir */
+.kinetik {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 2vh;
+  padding: 0 var(--kenar);
+}
+
+.kelime {
+  font: 500 clamp(40px, 13vw, 120px)/1 var(--bas);
+  opacity: clamp(0, (var(--p, 0) - var(--i) * 0.18) * 5, 1);
+  transform: translateX(calc((1 - clamp(0, (var(--p, 0) - var(--i) * 0.18) * 5, 1)) * -12vw));
+}
+
+.kelime:nth-child(2) {
+  align-self: center;
+}
+
+.kelime:nth-child(3) {
+  align-self: flex-end;
+}
+
+/* Kesit: dakika saati ve büyüyen somun */
+.kesitCerceve {
+  display: grid;
+  grid-template-rows: auto auto minmax(0, 1fr) auto auto;
+  align-content: start;
+  gap: 8px;
+  padding: 56px var(--kenar) 12px;
+}
+
+.kesitCerceve > :not(.dolgu) {
+  position: relative;
+  z-index: 1;
+}
+
+.soluk {
+  opacity: 0.22;
+}
+
+.okumalar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 14px;
+  font-size: 14px;
+  color: var(--soluk);
+}
+
+.dakika {
+  width: 100%;
+  font: 500 clamp(30px, 8vw, 56px)/1 var(--bas);
+  color: var(--murekkep);
+}
+
+.kesitSvg {
+  width: 100%;
+  height: 100%;
+  max-height: 34svh;
+  align-self: start;
+  overflow: visible;
+}
+
+@media (min-width: 900px) {
+  .kesitSvg {
+    max-height: 52svh;
+  }
+}
+
+.somun {
+  transform: scale(var(--olcek, 1));
+  transform-origin: 200px 240px;
+}
+
+.disBolge {
+  fill: #c4532e;
+}
+
+.cephe {
+  transform: scale(calc(0.9 - var(--t8, 0) * 0.22));
+  transform-origin: 200px 170px;
+}
+
+.cephe path {
+  fill: color-mix(in srgb, #f0c27a calc(var(--t8, 0) * 100%), #e9dcc0);
+  stroke: #ffe2a6;
+  stroke-width: 3;
+  stroke-dasharray: 6 5;
+}
+
+.lejant {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 14px;
+  font-size: 13px;
+}
+
+.lejant span::before {
+  content: "";
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  margin-right: 6px;
+  vertical-align: -1px;
+}
+
+.lejDis::before {
+  background: #c4532e;
+}
+
+.lejCephe::before {
+  border: 2px dashed #ffe2a6;
+}
+
+.lejIc::before {
+  background: #e9dcc0;
+}
+
+.dakikaCubuk {
+  position: relative;
+  height: 18px;
+}
+
+.dakikaCubuk::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 8px;
+  height: 2px;
+  background: var(--cizgi);
+}
+
+.pencere {
+  position: absolute;
+  top: 4px;
+  left: 75%;
+  right: 0;
+  height: 10px;
+  background: rgba(242, 238, 230, 0.18);
+}
+
+.durma {
+  position: absolute;
+  top: 0;
+  left: calc(var(--d) / 8 * 100%);
+  width: 2px;
+  height: 18px;
+  background: var(--murekkep);
+}
+
+.dolum {
+  position: absolute;
+  left: 0;
+  top: 7px;
+  height: 4px;
+  width: calc(var(--t8, 0) * 100%);
+  background: #f0c27a;
+}
+
+.sema {
+  font-size: 12px;
+  line-height: 1.45;
+  color: var(--soluk);
+}
+
+/* Maya ve 50 °C: termometre dolar, eşiği geçince görüntü renksizleşir */
+.grilesen img {
+  filter: grayscale(clamp(0, (var(--p, 0) - 0.5) * 5, 1)) brightness(calc(1 - clamp(0, (var(--p, 0) - 0.5) * 1.2, 0.4)));
+}
+
+.termometre {
+  position: absolute;
+  top: 12svh;
+  bottom: 12svh;
+  right: var(--kenar);
+  width: 10px;
+  background: rgba(242, 238, 230, 0.25);
+}
+
+.termoDolgu {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: calc(var(--p, 0) * 100%);
+  background: linear-gradient(to top, #e0942e, #c8303a);
+}
+
+.esik {
+  position: absolute;
+  right: 26px;
+  bottom: calc(var(--c) * 1%);
+  transform: translateY(50%);
+  padding: 3px 6px;
+  white-space: nowrap;
+  font: 500 12px var(--bas);
+  background: var(--kartzemin);
+}
+
+.esik::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  right: -26px;
+  width: 26px;
+  height: 1px;
+  background: var(--murekkep);
+}
+
+/* Gluten ve 90 °C: yakınlaşma */
+.yakin .dolgu img {
+  transform: scale(calc(1 + var(--p, 0) * 0.7));
+}
+
+/* Buhar zinciri: damla hücreden hücreye */
+.hucreler {
+  position: absolute;
+  top: 14svh;
+  left: var(--kenar);
+  width: calc(100% - 2 * var(--kenar));
+  max-width: 720px;
+  overflow: visible;
+}
+
+.hucreler circle {
+  fill: rgba(242, 238, 230, 0.08);
+  stroke: var(--murekkep);
+  stroke-width: 1.5;
+}
+
+.hucreler .damla {
+  fill: #9fd3ff;
+  stroke: none;
+  transform: translateX(calc(var(--p, 0) * 320px));
+}
+
+.hucreler text {
+  font: 500 12px var(--bas);
+  fill: var(--murekkep);
+}
+
+/* Karar: üç fırın, senin seçimin */
+.karar {
+  padding: 48px var(--kenar) 40px;
+}
+
+.karar h2 {
+  margin: 0 0 16px;
+  font: 500 clamp(26px, 6vw, 44px)/1.1 var(--bas);
+}
+
+.kararTablo {
+  width: 100%;
+  max-width: 44rem;
+  margin-bottom: 20px;
+  border-collapse: collapse;
+  font-size: 15px;
+}
+
+.kararTablo caption {
+  margin-bottom: 8px;
+  text-align: left;
+  font-size: 13px;
+  color: var(--soluk);
+}
+
+.kararTablo th,
+.kararTablo td {
+  padding: 10px 8px;
+  border-top: 1px solid var(--cizgi);
+  text-align: left;
+  vertical-align: top;
+}
+
+.kararTablo thead th {
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--soluk);
+}
+
+.seciliSatir {
+  background: rgba(242, 238, 230, 0.12);
+}
+
+.seciliSatir th {
+  font-weight: 600;
+}
+
+.kararTablo tbody th {
+  white-space: nowrap;
+}
+
+.kararCumle {
+  max-width: 40rem;
+  margin: 8px 0 14px !important;
+  font: 500 clamp(20px, 4.6vw, 30px)/1.3 var(--bas);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .kelime {
+    opacity: 1;
+    transform: none;
+  }
+
+  .yakin .dolgu img,
+  .hucreler .damla {
+    transform: none;
+  }
+}

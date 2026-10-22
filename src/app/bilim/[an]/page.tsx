@@ -4,6 +4,7 @@ import type { Metadata } from "next";
 import type { CSSProperties } from "react";
 import {
   DURAK_ZEMIN,
+  FIRIN_DENEYI,
   ILK_ON_GUN,
   KANIT_ETIKETI,
   asitlikZemini,
@@ -28,6 +29,7 @@ import { Foy } from "@/components/bilim/Foy";
 import { KaynakPaneli } from "@/components/bilim/KaynakPaneli";
 import { Sahne, type SahneAdimi, type SahneSekli } from "@/components/bilim/Sahne";
 import { IlkOnGun, type Gorselli, type IlkOnGunProps } from "@/components/bilim/IlkOnGun";
+import { FirinSekizDakika, type FirinSekizDakikaProps } from "@/components/bilim/FirinSekizDakika";
 import s from "@/components/bilim/bilim.module.css";
 
 export const dynamicParams = false;
@@ -115,6 +117,40 @@ function ilkOnGunVerisi(an: An, kartlar: Record<string, AtifKarti>, ust: string)
       metin: yaz(tum.filter((c) => c.includes(`[[${d.bilgi}]]`)).slice(0, 1)),
       gorsel: gorselli(d.gorsel),
     })),
+  };
+}
+
+/** Fırın sahnesinin metinleri: adımların cümleleri sahnelere bölünür (sıra: kapak, tanım, bölgeler, maya, gözenek, gluten, buhar, hacim). */
+function firinVerisi(an: An, kartlar: Record<string, AtifKarti>, ust: string): Omit<FirinSekizDakikaProps, "children"> {
+  const ad = an.gor.adimlar.map((a) => splitHamCumleler(a.metin));
+  const yaz = (cs: string[]) => <Metin metin={cs.join(" ")} kartlar={kartlar} />;
+  const G = FIRIN_DENEYI.gorseller;
+  return {
+    ust,
+    baslik: an.baslik,
+    soru: an.soru,
+    gorsel: {
+      kapak: gorselli(G.kapak),
+      kesit: gorselli(G.kesit),
+      maya: gorselli(G.maya),
+      gluten: gorselli(G.gluten),
+      nisasta: gorselli(G.nisasta),
+    },
+    metin: {
+      isi: yaz(ad[0]),
+      bolgeler: yaz(ad[1].slice(0, 3)),
+      yuzey: yaz(ad[1].slice(3)),
+      tanim: yaz(ad[2].slice(0, 1)),
+      maya: yaz(ad[2].slice(1)),
+      gozenek: yaz(ad[3]),
+      gluten1: yaz(ad[4].slice(0, 3)),
+      gluten2: yaz(ad[4].slice(3)),
+      buhar1: yaz(ad[5].slice(0, 3)),
+      buhar2: yaz(ad[5].slice(3)),
+      hacim: yaz(ad[6].slice(0, 2)),
+      karar: yaz(ad[6].slice(2, 3)),
+      durma: yaz(ad[6].slice(3)),
+    },
   };
 }
 
@@ -275,6 +311,8 @@ export default async function AnSayfasi({ params }: PageProps) {
   let govde;
   if (bayrak) {
     govde = <IlkOnGun {...ilkOnGunVerisi(an, kartlar, ust)}>{okuma}</IlkOnGun>;
+  } else if (an.id === FIRIN_DENEYI.an) {
+    govde = <FirinSekizDakika {...firinVerisi(an, kartlar, ust)}>{okuma}</FirinSekizDakika>;
   } else {
     // Şekiller adım sırasıyla numaralanır; görseli olmayan adım önceki şekli tutar.
     const sekiller: SahneSekli[] = [];
