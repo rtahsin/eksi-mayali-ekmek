@@ -13,7 +13,15 @@ import {
   getYolculuk,
   resolveAtif,
 } from "@/lib/bilim/server";
-import { findAtiflar, splitCumleler, type An, type Karakter } from "@/lib/bilim";
+import {
+  DURAK_ZEMIN,
+  ILK_ON_GUN,
+  findAtiflar,
+  splitCumleler,
+  splitHamCumleler,
+  type An,
+  type Karakter,
+} from "@/lib/bilim";
 import { findHealthTerms } from "@/lib/knowledge/lint";
 
 // content/bilim/ bütünlüğü: bilim hattının kapısı (arastirma/bilim_isler/kontrol.py) üretirken uygular, bu test sitede korur.
@@ -123,6 +131,22 @@ describe("content/bilim bütünlüğü", () => {
     for (const d of dosyalar) expect(fs.existsSync(path.join(process.cwd(), "public", d)), d).toBe(true);
     const klasor = fs.readdirSync(path.join(process.cwd(), "public", "bilim", "gorsel"));
     expect(klasor.filter((f) => !dosyalar.has(`/bilim/gorsel/${f}`))).toEqual([]);
+  });
+
+  it("her durağın zemin rengi var", () => {
+    expect(getYolculuk().duraklar.filter((d) => !DURAK_ZEMIN[d.id]).map((d) => d.id)).toEqual([]);
+  });
+
+  it("ilk 10 gün sahnesinin dayandığı görseller ve cümleler yerinde", () => {
+    const gorseller = getGorseller();
+    const ids = [...Object.values(ILK_ON_GUN.gorseller), ...ILK_ON_GUN.serit, ...ILK_ON_GUN.durumlar.map((d) => d.gorsel)];
+    expect(ids.filter((g) => !gorseller[g])).toEqual([]);
+    const an = getAn(ILK_ON_GUN.an);
+    // sahneler adımlara göre bölünür: 6 adım, 5. adımda en az iki cümle (sahte kabarma + devir)
+    expect(an.gor.adimlar.length).toBeGreaterThanOrEqual(6);
+    expect(splitHamCumleler(an.gor.adimlar[4].metin).length).toBeGreaterThanOrEqual(2);
+    const metin = anMetinleri(an).join(" ");
+    expect(ILK_ON_GUN.durumlar.filter((d) => !metin.includes(`[[${d.bilgi}]]`)).map((d) => d.bilgi)).toEqual([]);
   });
 
   it("metinlerde sağlık sözcüğü yok", () => {

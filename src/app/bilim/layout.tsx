@@ -1,26 +1,17 @@
 import type { Metadata } from "next";
-import Link from "next/link";
-import { Azeret_Mono, Crimson_Pro, Plus_Jakarta_Sans } from "next/font/google";
-import s from "@/components/bilim/bilim.module.css";
+import { Onest, Unbounded } from "next/font/google";
 
-const crimson = Crimson_Pro({
+const unbounded = Unbounded({
   subsets: ["latin", "latin-ext"],
-  weight: ["400", "600"],
-  style: ["normal", "italic"],
-  variable: "--font-crimson",
+  weight: ["400", "500", "600"],
+  variable: "--font-unbounded",
   display: "swap",
 });
 
-const jakarta = Plus_Jakarta_Sans({
+const onest = Onest({
   subsets: ["latin", "latin-ext"],
-  variable: "--font-jakarta",
-  display: "swap",
-});
-
-const azeret = Azeret_Mono({
-  subsets: ["latin", "latin-ext"],
-  weight: ["400", "500"],
-  variable: "--font-azeret",
+  weight: ["400", "500", "600"],
+  variable: "--font-onest",
   display: "swap",
 });
 
@@ -31,15 +22,5 @@ export const metadata: Metadata = {
 };
 
 export default function BilimLayout({ children }: { children: React.ReactNode }) {
-  return (
-    <div className={`${s.oda} ${crimson.variable} ${jakarta.variable} ${azeret.variable}`}>
-      <header className={s.serit}>
-        <Link href="/bilim" className={s.marka}>
-          EkmekLab · Bilim odası
-        </Link>
-        <Link href="/">Fırına dön</Link>
-      </header>
-      {children}
-    </div>
-  );
+  return <div className={`${unbounded.variable} ${onest.variable}`}>{children}</div>;
 }

@@ -1,7 +1,19 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
-import { KANIT_ETIKETI, cumleEtiketi, findAtiflar, type AtifKarti, type Gorsel } from "@/lib/bilim";
+import type { CSSProperties } from "react";
+import {
+  DURAK_ZEMIN,
+  ILK_ON_GUN,
+  KANIT_ETIKETI,
+  asitlikZemini,
+  cumleEtiketi,
+  findAtiflar,
+  splitHamCumleler,
+  type An,
+  type AtifKarti,
+  type Gorsel,
+} from "@/lib/bilim";
 import {
   getAn,
   getAnKimlikleri,
@@ -15,6 +27,7 @@ import { Metin } from "@/components/bilim/Metin";
 import { Foy } from "@/components/bilim/Foy";
 import { KaynakPaneli } from "@/components/bilim/KaynakPaneli";
 import { Sahne, type SahneAdimi, type SahneSekli } from "@/components/bilim/Sahne";
+import { IlkOnGun, type Gorselli, type IlkOnGunProps } from "@/components/bilim/IlkOnGun";
 import s from "@/components/bilim/bilim.module.css";
 
 export const dynamicParams = false;
@@ -36,14 +49,20 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 function Kunye({ g }: { g: Gorsel }) {
   const yazar = g.makale ? `${g.yazar.split(",")[0]} vd.` : g.yazar;
   return (
-    <span className={s.kunye}>
+    <>
       {g.makale ? "makale şekli" : "gerçek görüntü"} · {yazar} ·{" "}
-      {g.lisans_url ? <a href={g.lisans_url}>{g.lisans}</a> : g.lisans} ·{" "}
-      <a href={g.kaynak_sayfa}>{g.makale ? `${g.makale.dergi} ${g.makale.yil}` : "Wikimedia Commons"}</a>
+      <a href={g.kaynak_sayfa}>{g.makale ? `${g.makale.dergi} ${g.makale.yil}` : "Wikimedia Commons"}</a> ·{" "}
+      {g.lisans_url ? <a href={g.lisans_url}>{g.lisans}</a> : g.lisans}
       {g.panel && ` · panel ${g.panel}`}
       {g.renk_haritasi && " · gri tonlar renklendirildi, renk bilgi taşımaz"}
-    </span>
+    </>
   );
+}
+
+function gorselli(id: string): Gorselli {
+  const g = getGorsel(id);
+  if (!g) throw new Error(`Bilim odası: görsel kaydı yok: ${id}`);
+  return { src: g.dosya, alt: g.alt, kunye: <Kunye g={g} /> };
 }
 
 function KanitDugmesi({ ids, kartlar, metin }: { ids: string[]; kartlar: Record<string, AtifKarti>; metin?: string }) {
@@ -61,6 +80,44 @@ function KanitDugmesi({ ids, kartlar, metin }: { ids: string[]; kartlar: Record<
   );
 }
 
+/** İlk 10 gün sahnesinin metinleri anın kendi cümleleridir: adımlar sahnelere bölünür, kapanış durumları bilgi kimliğiyle bulunur. */
+function ilkOnGunVerisi(an: An, kartlar: Record<string, AtifKarti>, ust: string): Omit<IlkOnGunProps, "children"> {
+  const ad = an.gor.adimlar.map((a) => splitHamCumleler(a.metin));
+  const tum = [...ad.flat(), ...an.anla.flatMap((b) => b.paragraflar.flatMap(splitHamCumleler))];
+  const yaz = (cs: string[]) => <Metin metin={cs.join(" ")} kartlar={kartlar} />;
+  const G = ILK_ON_GUN.gorseller;
+  return {
+    ust,
+    baslik: an.baslik,
+    soru: an.soru,
+    gorsel: {
+      kase: gorselli(G.kase),
+      mercek: gorselli(G.mercek),
+      gun1: gorselli(G.gun1),
+      kabarma: gorselli(G.kabarma),
+      devirSol: gorselli(G.devirSol),
+      devirSag: gorselli(G.devirSag),
+    },
+    metin: {
+      mercek: yaz(ad[0]),
+      gun1a: yaz(ad[1]),
+      gun1b: yaz(ad[2]),
+      kabarma: yaz(ad[4].slice(0, 1)),
+      devirA: yaz(ad[4].slice(1)),
+      devirB: yaz(ad[3]),
+      denge: yaz(ad[5]),
+    },
+    serit: ILK_ON_GUN.serit.map(gorselli),
+    olaylar: ILK_ON_GUN.olaylar,
+    durumlar: ILK_ON_GUN.durumlar.map((d) => ({
+      gun: d.gun,
+      ad: d.ad,
+      metin: yaz(tum.filter((c) => c.includes(`[[${d.bilgi}]]`)).slice(0, 1)),
+      gorsel: gorselli(d.gorsel),
+    })),
+  };
+}
+
 export default async function AnSayfasi({ params }: PageProps) {
   const { an: id } = await params;
   const sira = getAnKimlikleri();
@@ -69,7 +126,7 @@ export default async function AnSayfasi({ params }: PageProps) {
 
   const an = getAn(id);
   const durak = getYolculuk().duraklar.find((d) => d.id === an.durak);
-  const levha = String(idx + 1).padStart(2, "0");
+  const ust = `Levha ${String(idx + 1).padStart(2, "0")} · ${durak?.ad ?? ""}`;
   const kartKimlikleri = new Set(getKarakterKimlikleri());
   const karakterler = an.karakterler.filter((k) => kartKimlikleri.has(k)).map(getKarakter);
 
@@ -87,52 +144,12 @@ export default async function AnSayfasi({ params }: PageProps) {
     ...an.ayrisan_kaynaklar.flatMap((k) => k.bilgiler),
   ]);
 
-  // Şekiller adım sırasıyla numaralanır; görseli olmayan adım önceki şekli tutar.
-  const sekiller: SahneSekli[] = [];
-  const adimlar: SahneAdimi[] = an.gor.adimlar.map((a) => {
-    const g = a.gorsel ? getGorsel(a.gorsel) : undefined;
-    if (a.gorsel && g && !sekiller.some((x) => x.id === a.gorsel)) {
-      sekiller.push({
-        id: a.gorsel,
-        no: `Şek. ${idx + 1}.${sekiller.length + 1}`,
-        dosya: g.dosya,
-        w: g.w,
-        h: g.h,
-        alt: g.alt,
-        kunye: <Kunye g={g} />,
-      });
-    }
-    const sekil = a.gorsel ? sekiller.findIndex((x) => x.id === a.gorsel) : -1;
-    return { govde: <Metin metin={a.metin} kartlar={kartlar} />, sekil, vurgu: a.vurgu };
-  });
-  adimlar.forEach((a, i) => {
-    if (a.sekil < 0) a.sekil = i > 0 ? adimlar[i - 1].sekil : 0;
-  });
-
   const onceki = idx > 0 ? getAn(sira[idx - 1]) : null;
   const sonraki = idx < sira.length - 1 ? getAn(sira[idx + 1]) : null;
 
-  return (
-    <main className={s.levha}>
-      <div className={s.baslik}>
-        <p className={s.ust}>
-          <b>Levha {levha}</b> · {durak?.ad}
-        </p>
-        <h1 className={s.h1}>{an.baslik}</h1>
-        <p className={s.soru}>{an.soru}</p>
-      </div>
-
-      {sekiller.length > 0 ? (
-        <Sahne sekiller={sekiller} adimlar={adimlar} />
-      ) : (
-        <section className={s.bolum}>
-          {adimlar.map((a, i) => (
-            <p key={i}>{a.govde}</p>
-          ))}
-        </section>
-      )}
-
-      <section className={s.bolum} aria-labelledby="anla">
+  const okuma = (
+    <>
+      <section className={s.oku} aria-labelledby="anla">
         <h2 id="anla" className={s.bolumAd}>
           Anla
         </h2>
@@ -151,17 +168,16 @@ export default async function AnSayfasi({ params }: PageProps) {
       </section>
 
       {an.yuzlesme.length > 0 && (
-        <section className={s.bolum} aria-labelledby="yuzlesme">
+        <section className={s.oku} aria-labelledby="yuzlesme">
           <h2 id="yuzlesme" className={s.bolumAd}>
             Yüzleşme
             <small>Yaygın bir inanç ve ölçümlerin söyledikleri</small>
           </h2>
           <div className={s.govde}>
             {an.yuzlesme.map((y) => (
-              <div key={y.inanc} className={s.yuzlesme}>
+              <div key={y.inanc}>
                 <p className={s.inanc}>“{y.inanc}”</p>
-                <p className={s.olcum}>
-                  <span className={s.kucukBaslik}>Ölçümler</span>
+                <p>
                   <Metin metin={y.cevap} kartlar={kartlar} />
                 </p>
               </div>
@@ -171,33 +187,23 @@ export default async function AnSayfasi({ params }: PageProps) {
       )}
 
       {an.baglar.length > 0 && (
-        <section className={s.bolum} aria-labelledby="baglar">
+        <section className={s.oku} aria-labelledby="baglar">
           <h2 id="baglar" className={s.bolumAd}>
-            Neden → sonuç
+            Neden, sonuç
             <small>Neyi değiştirirsen ne olur</small>
           </h2>
-          <div>
+          <div className={s.govde}>
             {an.baglar.map((b) => (
               <div key={b.kaldirac} className={s.bag}>
                 <dl>
-                  <div>
-                    <dt>Kaldıraç</dt>
-                    <dd className={s.kaldirac}>{b.kaldirac}</dd>
-                  </div>
-                  <div>
-                    <dt>
-                      <span className={s.oku}>→</span> Mekanizma
-                    </dt>
-                    <dd>{b.mekanizma}</dd>
-                  </div>
-                  <div>
-                    <dt>
-                      <span className={s.oku}>→</span> Sonuç
-                    </dt>
-                    <dd>
-                      {b.sonuc} <KanitDugmesi ids={b.bilgiler} kartlar={kartlar} />
-                    </dd>
-                  </div>
+                  <dt>Kaldıraç</dt>
+                  <dd className={s.kaldirac}>{b.kaldirac}</dd>
+                  <dt>Mekanizma</dt>
+                  <dd>{b.mekanizma}</dd>
+                  <dt>Sonuç</dt>
+                  <dd>
+                    {b.sonuc} <KanitDugmesi ids={b.bilgiler} kartlar={kartlar} />
+                  </dd>
                 </dl>
               </div>
             ))}
@@ -206,7 +212,7 @@ export default async function AnSayfasi({ params }: PageProps) {
       )}
 
       {an.ayrisan_kaynaklar.length > 0 && (
-        <section className={s.bolum} aria-labelledby="ayrisan">
+        <section className={s.oku} aria-labelledby="ayrisan">
           <h2 id="ayrisan" className={s.bolumAd}>
             Kaynakların ayrıldığı yerler
           </h2>
@@ -221,7 +227,7 @@ export default async function AnSayfasi({ params }: PageProps) {
       )}
 
       {karakterler.length > 0 && (
-        <section className={s.bolum} aria-labelledby="karakterler">
+        <section className={s.oku} aria-labelledby="karakterler">
           <h2 id="karakterler" className={s.bolumAd}>
             Bu anın canlıları ve molekülleri
           </h2>
@@ -233,7 +239,7 @@ export default async function AnSayfasi({ params }: PageProps) {
         </section>
       )}
 
-      <section className={s.bolum} aria-labelledby="kanit">
+      <section className={s.oku} aria-labelledby="kanit">
         <h2 id="kanit" className={s.bolumAd}>
           Kanıt
           <small>Bu anın dayandığı bilgiler ve kaynakları</small>
@@ -253,31 +259,52 @@ export default async function AnSayfasi({ params }: PageProps) {
       </section>
 
       <nav className={s.gezinti} aria-label="Levhalar arasında">
-        {onceki ? (
-          <Link href={`/bilim/${onceki.id}`}>
-            <span className={s.levhaNo}>← Levha {String(idx).padStart(2, "0")}</span>
-            <span className={s.levhaAd}>{onceki.baslik}</span>
-          </Link>
-        ) : (
-          <Link href="/bilim">
-            <span className={s.levhaNo}>←</span>
-            <span className={s.levhaAd}>Levha dizini</span>
-          </Link>
-        )}
-        {sonraki ? (
-          <Link href={`/bilim/${sonraki.id}`}>
-            <span className={s.levhaNo}>Levha {String(idx + 2).padStart(2, "0")} →</span>
-            <span className={s.levhaAd}>{sonraki.baslik}</span>
-          </Link>
-        ) : (
-          <Link href="/bilim">
-            <span className={s.levhaNo}>→</span>
-            <span className={s.levhaAd}>Levha dizini</span>
-          </Link>
-        )}
+        <Link href={onceki ? `/bilim/${onceki.id}` : "/bilim"}>
+          <span className={s.levhaNo}>← {onceki ? `Levha ${String(idx).padStart(2, "0")}` : "Dizin"}</span>
+          <span className={s.levhaAd}>{onceki?.baslik ?? "Ekmeğin yolculuğu"}</span>
+        </Link>
+        <Link href={sonraki ? `/bilim/${sonraki.id}` : "/bilim"}>
+          <span className={s.levhaNo}>{sonraki ? `Levha ${String(idx + 2).padStart(2, "0")}` : "Dizin"} →</span>
+          <span className={s.levhaAd}>{sonraki?.baslik ?? "Ekmeğin yolculuğu"}</span>
+        </Link>
       </nav>
+    </>
+  );
 
+  const bayrak = an.id === ILK_ON_GUN.an;
+  let govde;
+  if (bayrak) {
+    govde = <IlkOnGun {...ilkOnGunVerisi(an, kartlar, ust)}>{okuma}</IlkOnGun>;
+  } else {
+    // Şekiller adım sırasıyla numaralanır; görseli olmayan adım önceki şekli tutar.
+    const sekiller: SahneSekli[] = [];
+    const adimlar: SahneAdimi[] = an.gor.adimlar.map((a) => {
+      if (a.gorsel && !sekiller.some((x) => x.id === a.gorsel)) {
+        const g = gorselli(a.gorsel);
+        sekiller.push({ id: a.gorsel, no: `Şek. ${idx + 1}.${sekiller.length + 1}`, dosya: g.src, alt: g.alt, kunye: g.kunye });
+      }
+      const sekil = a.gorsel ? sekiller.findIndex((x) => x.id === a.gorsel) : -1;
+      return { govde: <Metin metin={a.metin} kartlar={kartlar} />, sekil, vurgu: a.vurgu };
+    });
+    adimlar.forEach((a, i) => {
+      if (a.sekil < 0) a.sekil = i > 0 ? adimlar[i - 1].sekil : 0;
+    });
+    govde = (
+      <>
+        <Sahne ust={ust} baslik={an.baslik} soru={an.soru} sekiller={sekiller} adimlar={adimlar} />
+        {okuma}
+      </>
+    );
+  }
+
+  return (
+    <div
+      className={s.oda}
+      data-oda
+      style={{ "--zemin": bayrak ? asitlikZemini(0) : DURAK_ZEMIN[an.durak] } as CSSProperties}
+    >
+      {govde}
       <KaynakPaneli kartlar={kartlar} />
-    </main>
+    </div>
   );
 }

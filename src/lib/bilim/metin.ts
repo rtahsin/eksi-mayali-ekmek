@@ -38,14 +38,16 @@ export function findAtiflar(metin: string): string[] {
   return [...metin.matchAll(ATIF)].map((m) => m[1]);
 }
 
-export function splitCumleler(metin: string): Cumle[] {
+/** Cümleleri atıflarıyla birlikte, ham metin olarak verir (bir anın cümlelerini sahnelere bölmek için). */
+export function splitHamCumleler(metin: string): string[] {
   // "…birimidir. [[sozluk.kob]] Sonra…" → atıf önceki cümleye bağlanır
   const bagli = metin.trim().replace(/([.!?…])((?:\s*\[\[[^\]]+\]\])+)/g, "$2$1");
   // "10. gün" gibi sıra sayılarında bölme
-  return bagli
-    .split(/(?<![0-9]\.)(?<=[.!?…])\s+/)
-    .filter((c) => c.length > 0)
-    .map((c) => ({ govde: c.replace(/\s*\[\[[^\]]+\]\]/g, ""), atiflar: findAtiflar(c) }));
+  return bagli.split(/(?<![0-9]\.)(?<=[.!?…])\s+/).filter((c) => c.length > 0);
+}
+
+export function splitCumleler(metin: string): Cumle[] {
+  return splitHamCumleler(metin).map((c) => ({ govde: c.replace(/\s*\[\[[^\]]+\]\]/g, ""), atiflar: findAtiflar(c) }));
 }
 
 export function cumleEtiketi(durumlar: Iterable<EtiketDurumu>): EtiketDurumu | null {

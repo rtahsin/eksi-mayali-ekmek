@@ -144,14 +144,14 @@ Her adımın sonunda Tahsin'e görebileceği bir çıktı gelir. ⏸ işaretli a
 - Telefonda akıcı çalışır, erişilebilirdir ve hareket azaltma ayarına uyar.
 - Tahsin "ton tamam" demiştir.
 
-## Tasarım: monografi levhası (22 Eki)
+## Tasarım: zaman cetveli (22 Eki)
 
-Argon'un T-01 üç yönünden (`arastirma/bilim_isler/tasarim/`) **Yön 3** temel alındı; Tahsin seçimi Claude'a bıraktı. Yön 1'den karakter kartlarının "tip örnek föyü" biçimi, Yön 2'den numaralı levha dizini alındı.
-- **Renk:** beyaz levha `#FFFFFF`, porselen kenar `#ECEFF1`, grafit mürekkep `#101418`, ikincil `#4A5560`, çizgi `#C9D1D6`, tek vurgu kobalt `#0047AB` (kanıt etiketi, işaretleme, bağlantı). Koyu zemin ve krem zemin yok.
-- **Yazı:** Crimson Pro (başlık, tür adları), Plus Jakarta Sans (gövde), Azeret Mono yalnız şekil numarası, DOI ve kaynak satırında. Büyük harfli sıkışık başlık yok.
-- **Düzen:** sola yaslı asimetrik ızgara, ince çizgiler; yuvarlak köşe ve gölge yok. An görüntüyle açılır; Gör katmanında görüntü sabit kalır, metin kayar (telefonda üstte, masaüstünde solda). Şekil numarası `Şek. <levha>.<adım>`.
-- **Kanıt:** cümle sonunda küçük kobalt kelime ("tek çalışma"); dokununca kaynak kartı (telefonda alttan, masaüstünde yandan).
-- Bilim odası yayına kadar arama motorlarına kapalıdır (`noindex`).
+Beyaz monografi levhası denendi, beğenilmedi ("ilk yaptığın daha iyiydi"). Isı'nın sinematik havası korunur, Claude'un tanıdık kalıpları (sıkışık büyük harf başlık, mono küçük etiket, serif gövde, tek turuncu vurgu) kullanılmaz. Tahsin yönü onayladı. Prototip ve brif: `arastirma/sahne/ilk10/` (BRIEF.md).
+- **Renk bilgi taşır:** zemin, anın durağının sıcaklığıdır (tarla ve hamur serin, fırın en sıcak, soğuma yine serin; `src/lib/bilim/gorunum.ts`). Bayrak anda zemin anın kendi değişkenini gösterir: ilk 10 günde asitliğin yönü (indikatör şeridi gibi yeşilden kırmızıya; "ölçülmüş pH değil" notuyla).
+- **Yazı:** Unbounded (başlık, normal harf), Onest (gövde).
+- **Kaydırma:** her sahne farklı hareket eder (mercek açılışı, sabit görüntü üstünde akan kartlar, paralaks, ayırıcıyla devir, yatay şerit). Bayrak anda imza: sabit gün cetveli kaydırmayla ilerler, olayları damgalar, kapanışta okura geçer (gün kaydırıcısı). Diğer anlar ortak sahneyi kullanır (açılış görüntüsü + adım adım değişen şekil).
+- **Kanıt:** cümle sonunda küçük kelime ("tek çalışma"); dokununca kaynak kartı (telefonda alttan, masaüstünde yandan).
+- Hareket azaltma tercihinde sahneler durağan, cetvel ve renk çalışır. Bilim odası yayına kadar arama motorlarına kapalıdır (`noindex`).
 
 ## Değişmez ilkeler
 

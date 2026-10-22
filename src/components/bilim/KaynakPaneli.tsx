@@ -39,8 +39,8 @@ export function KaynakPaneli({ kartlar }: { kartlar: Record<string, AtifKarti> }
   return (
     <>
       <div className={s.perde} onClick={() => setAcik(null)} aria-hidden="true" />
-      <div className={s.kart} role="dialog" aria-modal="true" aria-labelledby="kaynak-karti-baslik">
-        <div className={s.kartUst}>
+      <div className={s.panel} role="dialog" aria-modal="true" aria-labelledby="kaynak-karti-baslik">
+        <div className={s.panelUst}>
           <strong id="kaynak-karti-baslik">Kaynak kartı</strong>
           <button ref={kapat} type="button" className={s.kapat} onClick={() => setAcik(null)}>
             Kapat
