@@ -17,6 +17,8 @@ import {
   DURAK_ZEMIN,
   FIRIN_DENEYI,
   ILK_ON_GUN,
+  KABUK,
+  virgullu,
   findAtiflar,
   splitCumleler,
   splitHamCumleler,
@@ -169,6 +171,35 @@ describe("content/bilim bütünlüğü", () => {
     const enAz = [2, 4, 2, 1, 4, 4, 5];
     const ad = getAn(FIRIN_DENEYI.an).gor.adimlar.map((a) => splitHamCumleler(a.metin).length);
     expect(enAz.filter((n, i) => (ad[i] ?? 0) < n)).toEqual([]);
+  });
+
+  it("kabuk sahnesinin eşikleri ve ölçümleri dayandığı bilgide geçiyor", () => {
+    const B = KABUK.bilgiler;
+    const metin = (id: string) => {
+      const a = resolveAtif(id);
+      return a?.tur === "bilgi" ? a.bilgi.metin : "";
+    };
+    const beklenen: [string, string][] = [
+      [B.renk, virgullu(KABUK.renkAw)],
+      [B.renk, `${KABUK.renkC} °C`],
+      [B.maltoz, `${KABUK.maltozC} °C`],
+      [B.hmf, virgullu(KABUK.hmfAw)],
+      [B.akrilamid, `${KABUK.akrilamidC} °C`],
+      ...KABUK.tost.flatMap((t): [string, string][] => [
+        [B.tost, `${t.firin} °C`],
+        [B.tost, `${t.ic} °C`],
+        [B.tost, String(t.indeks)],
+      ]),
+      [B.kavilca, KABUK.kavilca.kavilca],
+      [B.kavilca, KABUK.kavilca.beyaz],
+    ];
+    expect(beklenen.filter(([id, s]) => !metin(id).includes(s)).map(([id, s]) => `${id}: ${s}`)).toEqual([]);
+    expect(getAn(KABUK.an).gor.adimlar.length).toBeGreaterThanOrEqual(6); // kabukVerisi 6 adımı sahnelere böler
+    const an = anMetinleri(getAn(KABUK.an)).join(" ");
+    expect(KABUK.kokular.filter((k) => !an.includes(k))).toEqual([]);
+    expect(Object.values(B).filter((id) => !an.includes(`[[${id}]]`))).toEqual([]);
+    const gorseller = getGorseller();
+    expect(Object.values(KABUK.gorseller).filter((g) => !gorseller[g])).toEqual([]);
   });
 
   it("metinlerde sağlık sözcüğü yok", () => {

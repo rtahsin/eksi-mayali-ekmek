@@ -68,6 +68,42 @@ export const FIRIN_DENEYI = {
   },
 } as const;
 
+/**
+ * "Kabuğun kızarması" bayrak sahnesi: iki kilit (sıcaklık ve su aktivitesi) birlikte açılınca renk başlar.
+ * Eşikler ve ölçümler `bilgiler` içindeki kimliklerin metninde geçer (bilim.check.test.ts denetler).
+ */
+export const KABUK = {
+  an: "kabugun_kizarmasi",
+  bilgiler: {
+    renk: "maillard.renk_baslangic_asgari_kosullari",
+    maltoz: "maillard.115_derece_uzerinde_maltoz_substrati",
+    hmf: "maillard.hmf_birikimi_ve_su_aktivitesi",
+    akrilamid: "akrilamid.esik_175c_model_sistem",
+    tost: "maillard.tost_ekmeginde_firin_ve_ic_sicaklikla_esmerlesme",
+    kavilca: "maillard.kavilca_ekmeginde_kizariklik_ve_esmerlesme_indeksi",
+    disKabuk: "akrilamid.dis_kabuk_kuru_ve_yuksek",
+    kabukta: "akrilamid.kabukta_toplanir_sure_sicaklik",
+    kalanSu: "akrilamid.kalan_su_buharlasmasi_azaltir",
+    koku: "maillard.aldehitlerin_strecker_yikimiyla_olusumu",
+  },
+  /** Renk: aw 0,6'nın altı VE 120 °C'nin üstü. */
+  renkC: 120,
+  renkAw: 0.6,
+  maltozC: 115,
+  hmfAw: 0.4,
+  akrilamidC: 175,
+  tost: [
+    { firin: 200, ic: 90, indeks: 16 },
+    { firin: 240, ic: 98, indeks: 55 },
+  ],
+  kavilca: { kavilca: "70,95", beyaz: "48,15" },
+  kokular: ["2-metilpropanal", "2-metilbütanal", "3-metilbütanal", "2-asetil-1-pirolin", "furanlar", "pirazinler", "piroller"],
+  gorseller: { kapak: "brown_bread_crust", sils: "sils_bread_2", laugen: "laugenbroetchen_fcm" },
+} as const;
+
+/** Ondalık sayıyı Türkçe yazar: 0.6 → "0,6". */
+export const virgullu = (n: number) => String(n).replace(".", ",");
+
 /** "Ekşi mayanın ilk 10 günü" bayrak sahnesi: hangi gün hangi cümle ve görsel. Cümle, içindeki bilgi kimliğiyle seçilir. */
 export const ILK_ON_GUN = {
   an: "eksi_mayanin_ilk_10_gunu",

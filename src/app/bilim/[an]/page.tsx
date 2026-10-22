@@ -6,6 +6,7 @@ import {
   DURAK_ZEMIN,
   FIRIN_DENEYI,
   ILK_ON_GUN,
+  KABUK,
   KANIT_ETIKETI,
   asitlikZemini,
   cumleEtiketi,
@@ -30,6 +31,7 @@ import { KaynakPaneli } from "@/components/bilim/KaynakPaneli";
 import { Sahne, type SahneAdimi, type SahneSekli } from "@/components/bilim/Sahne";
 import { IlkOnGun, type Gorselli, type IlkOnGunProps } from "@/components/bilim/IlkOnGun";
 import { FirinSekizDakika, type FirinSekizDakikaProps } from "@/components/bilim/FirinSekizDakika";
+import { KabukKizarmasi, type KabukKizarmasiProps } from "@/components/bilim/KabukKizarmasi";
 import s from "@/components/bilim/bilim.module.css";
 
 export const dynamicParams = false;
@@ -151,6 +153,33 @@ function firinVerisi(an: An, kartlar: Record<string, AtifKarti>, ust: string): O
       karar: yaz(ad[6].slice(2, 3)),
       durma: yaz(ad[6].slice(3)),
     },
+  };
+}
+
+/** Kabuk sahnesinin metinleri: adımlar sahnelere, kilit ve katman cümleleri bilgi kimliğiyle bulunur. */
+function kabukVerisi(an: An, kartlar: Record<string, AtifKarti>, ust: string): Omit<KabukKizarmasiProps, "children"> {
+  const ad = an.gor.adimlar.map((a) => splitHamCumleler(a.metin));
+  const tum = [...ad.flat(), ...an.anla.flatMap((b) => b.paragraflar.flatMap(splitHamCumleler))];
+  const yaz = (cs: string[]) => <Metin metin={cs.join(" ")} kartlar={kartlar} />;
+  const bul = (id: string) => yaz(tum.filter((c) => c.includes(`[[${id}]]`)).slice(0, 1));
+  const B = KABUK.bilgiler;
+  const G = KABUK.gorseller;
+  return {
+    ust,
+    baslik: an.baslik,
+    soru: an.soru,
+    gorsel: { kapak: gorselli(G.kapak), sils: gorselli(G.sils), laugen: gorselli(G.laugen) },
+    metin: {
+      renk: yaz(ad[0]),
+      maillard: yaz(ad[1]),
+      karamel: yaz(ad[2]),
+      koku: yaz(ad[3]),
+      naoh: yaz(ad[4]),
+      akrilamid: yaz(ad[5]),
+    },
+    kilit: { renk: bul(B.renk), maltoz: bul(B.maltoz), hmf: bul(B.hmf), akrilamid: bul(B.akrilamid) },
+    katman: { dis: bul(B.disKabuk), kabukta: bul(B.kabukta), kalanSu: bul(B.kalanSu) },
+    olcum: { tost: yaz(tum.filter((c) => c.includes(`[[${B.tost}]]`)).slice(0, 2)), kavilca: bul(B.kavilca) },
   };
 }
 
@@ -313,6 +342,8 @@ export default async function AnSayfasi({ params }: PageProps) {
     govde = <IlkOnGun {...ilkOnGunVerisi(an, kartlar, ust)}>{okuma}</IlkOnGun>;
   } else if (an.id === FIRIN_DENEYI.an) {
     govde = <FirinSekizDakika {...firinVerisi(an, kartlar, ust)}>{okuma}</FirinSekizDakika>;
+  } else if (an.id === KABUK.an) {
+    govde = <KabukKizarmasi {...kabukVerisi(an, kartlar, ust)}>{okuma}</KabukKizarmasi>;
   } else {
     // Şekiller adım sırasıyla numaralanır; görseli olmayan adım önceki şekli tutar.
     const sekiller: SahneSekli[] = [];

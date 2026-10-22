@@ -10,7 +10,7 @@ export {
   type EtiketDurumu,
 } from "./metin";
 export { KANIT_DURUMLARI } from "./schema";
-export { ASITLIK_ZEMIN, DURAK_ZEMIN, FIRIN_DENEYI, ILK_ON_GUN, asitlikZemini } from "./gorunum";
+export { ASITLIK_ZEMIN, DURAK_ZEMIN, FIRIN_DENEYI, ILK_ON_GUN, KABUK, asitlikZemini, virgullu } from "./gorunum";
 export type {
   An,
   Bilgi,
