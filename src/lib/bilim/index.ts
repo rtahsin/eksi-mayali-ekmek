@@ -19,6 +19,7 @@ export {
   GECE,
   ILK_ON_GUN,
   KABUK,
+  KESIK,
   RAF,
   TANE,
   YOGURMA,

@@ -21,6 +21,7 @@ import {
   GECE,
   ILK_ON_GUN,
   KABUK,
+  KESIK,
   RAF,
   TANE,
   YOGURMA,
@@ -380,6 +381,40 @@ describe("content/bilim bütünlüğü", () => {
     expect(Object.values(B).filter((id) => !cumleler.some((c) => c.includes(`[[${id}]]`)))).toEqual([]);
     const gorseller = getGorseller();
     expect(Object.values(GECE.gorseller).filter((g) => !gorseller[g])).toEqual([]);
+  });
+
+  it("kesik sahnesinin sayıları bilgide geçiyor", () => {
+    const metin = (id: string) => {
+      const a = resolveAtif(id);
+      return a?.tur === "bilgi" ? a.bilgi.metin : "";
+    };
+    const B = KESIK.bilgiler;
+    const { esmerlesme: e, ideal } = KESIK;
+    const beklenen: [string, string][] = [
+      [B.kinetik, `${KESIK.kenar.sn} saniyede yaklaşık ${KESIK.kenar.mm} mm`],
+      [B.kinetik, `${KESIK.eksen.sn} saniyede yaklaşık ${KESIK.eksen.mm} mm`],
+      [B.nem, `%${KESIK.kabukNem.en}–${KESIK.kabukNem.cok}`],
+      [B.nem, `${KESIK.icSicaklik} °C civarında`],
+      [B.olusum, `${KESIK.icSicaklik} °C'yi aşıp`],
+      [B.baslangic, `bazıları ${e.bazi} °C, bazıları ${e.digerleri.en}–${e.digerleri.cok} °C`],
+      [B.baslangic, `${e.esas} °C'yi esas`],
+      [B.kosul, `${KESIK.renkKosul.sicaklik} °C'nin üzerinde`],
+      [B.kosul, `${KESIK.renkKosul.aw}'nın altında`],
+      [B.ideal, `${ideal.acik} (L*)`],
+      [B.ideal, `${ideal.en}–${ideal.cok} °C`],
+      [B.sonHacim, `${KESIK.ayarlar[2]} °C`],
+      [B.gaz, `%${KESIK.gazPay.en}–${KESIK.gazPay.cok} gaz`],
+      [B.ozgul, `${KESIK.ozgul.en} ile ${KESIK.ozgul.cok}`],
+    ];
+    expect(beklenen.filter(([id, s]) => !metin(id).includes(s)).map(([id, s]) => `${id}: ${s}`)).toEqual([]);
+    const an = getAn(KESIK.an);
+    expect(an.gor.adimlar.length).toBeGreaterThanOrEqual(5); // kesikVerisi 5 adımı kullanır
+    const cumleler = anMetinleri(an).flatMap(splitHamCumleler);
+    expect(cumleler.some((c) => c.startsWith("Kesikle açılan yüzey") && c.includes(`[[${B.tanim}]]`))).toBe(true);
+    expect(cumleler.some((c) => c.includes(KESIK.ayarlar.map((a) => `${a}`).join(", ").replace(/, (\d+)$/, " ve $1")))).toBe(true);
+    expect(Object.values(B).filter((id) => !cumleler.some((c) => c.includes(`[[${id}]]`)))).toEqual([]);
+    const gorseller = getGorseller();
+    expect(Object.values(KESIK.gorseller).filter((g) => !gorseller[g])).toEqual([]);
   });
 
   it("metinlerde sağlık sözcüğü yok", () => {

@@ -346,6 +346,52 @@ export const GECE = {
   },
 } as const;
 
+/**
+ * "Kesik atılınca" bayrak sahnesi: kesiği at (çiz, fırına ver), basınç, kabuk bağlar, yüzeyin sıcaklık cetveli.
+ * Her sayı ilgili bilginin metninde geçer (bilim.check.test.ts).
+ */
+export const KESIK = {
+  an: "kesik_atilinca",
+  bilgiler: {
+    kisitli: "firin_kabarmasi.kisitli_kabarma_kabuk_yirtilmasi",
+    hizli: "firin_kabarmasi.ilk_dakikalarda_hizli_sonra_durur",
+    basinc: "firin_kabarmasi.kapali_gozenek_su_buhari_basinci",
+    dortOlay: "firin_kabarmasi.hizli_hacim_genlesmesinin_dort_nedeni",
+    acilma: "firin_kabarmasi.gozenek_acilma_sicakligi_ve_genlesme",
+    agi: "firin_kabarmasi.gaz_hucrelerinin_gozenek_agina_donusumu",
+    kinetik: "firin_kabarmasi.kenar_ve_eksen_yukseklik_kinetigi",
+    tanim: "kabuk.tanim",
+    ikiBolge: "kabuk.buharlasma_cephesi_ve_iki_bolge",
+    nem: "kabuk.dusuk_nem_orani_ve_ic_dehidrasyon_engeli",
+    kalinlik: "kabuk.kalinlik_gelisimini_belirleyen_iki_etmen",
+    olusum: "kabuk.kabuk_ve_renk_olusum_mekanizmasi",
+    baslangic: "kabuk.esmerlesme_baslangici",
+    kosul: "kabuk.renk_olusumu_asgari_kosullari",
+    ideal: "kabuk.ideal_renk_142_160",
+    hiz: "kabuk.esmerlesme_hizi_firin_sicakligi",
+    sonHacim: "firin_kabarmasi.220_derecede_son_hacim_dusuk",
+    gaz: "firin_kabarmasi.pismis_ekmek_hacimce_gaz",
+    efsane: "firin_kabarmasi.eksi_maya_hacim_efsanesi",
+    ozgul: "firin_kabarmasi.eksi_maya_ve_kontrol_ozgul_hacim_araligi",
+  },
+  /** Pişirmede yüksekliklerin sabitlendiği an ve değer. */
+  kenar: { sn: 450, mm: 30 },
+  eksen: { sn: 900, mm: 51 },
+  kabukNem: { en: 5, cok: 10 },
+  icSicaklik: 100,
+  esmerlesme: { bazi: 120, digerleri: { en: 105, cok: 115 }, esas: 110 },
+  renkKosul: { sicaklik: 120, aw: "0,6" },
+  ideal: { en: 142, cok: 160, acik: "54–62" },
+  ayarlar: [180, 200, 220],
+  gazPay: { en: 75, cok: 85 },
+  ozgul: { en: "3,46", cok: "3,93" },
+  gorseller: {
+    kapak: "sourdough_bread_with_decorative_scores",
+    cavdar: "scored_loaves_of_rye_bread",
+    somun: "sourdough_bread_loaf",
+  },
+} as const;
+
 /** Ondalık sayıyı Türkçe yazar: 0.6 → "0,6". */
 export const virgullu = (n: number) => String(n).replace(".", ",");
 

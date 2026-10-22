@@ -10,6 +10,7 @@ import {
   GECE,
   ILK_ON_GUN,
   KABUK,
+  KESIK,
   KANIT_ETIKETI,
   RAF,
   TANE,
@@ -44,6 +45,7 @@ import { DegirmenTasinda, type DegirmenTasindaProps } from "@/components/bilim/D
 import { YogurmaTezgahi, type YogurmaTezgahiProps } from "@/components/bilim/YogurmaTezgahi";
 import { GazVeKabarma, type GazVeKabarmaProps } from "@/components/bilim/GazVeKabarma";
 import { GeceDolapta, type GeceDolaptaProps } from "@/components/bilim/GeceDolapta";
+import { KesikAtilinca, type KesikAtilincaProps } from "@/components/bilim/KesikAtilinca";
 import s from "@/components/bilim/bilim.module.css";
 
 export const dynamicParams = false;
@@ -417,6 +419,44 @@ function geceVerisi(an: An, kartlar: Record<string, AtifKarti>, ust: string): Om
   };
 }
 
+/** Kesik sahnesinin metinleri: adımlar sahnelere; basınç, kabuk ve cetvel cümleleri bilgi kimliğiyle bulunur. */
+function kesikVerisi(an: An, kartlar: Record<string, AtifKarti>, ust: string): Omit<KesikAtilincaProps, "children"> {
+  const ad = an.gor.adimlar.map((a) => splitHamCumleler(a.metin));
+  const anla = an.anla.flatMap((b) => b.paragraflar.flatMap(splitHamCumleler));
+  const yuz = an.yuzlesme.flatMap((y) => splitHamCumleler(y.cevap));
+  const yaz = (cs: string[]) => <Metin metin={cs.join(" ")} kartlar={kartlar} />;
+  const hepsi = (id: string, cs = anla) => cs.filter((c) => c.includes(`[[${id}]]`));
+  const B = KESIK.bilgiler;
+  const G = KESIK.gorseller;
+  return {
+    ust,
+    baslik: an.baslik,
+    soru: an.soru,
+    gorsel: {
+      kapak: gorselli(G.kapak),
+      cavdar: gorselli(G.cavdar),
+      somun: gorselli(G.somun),
+    },
+    metin: {
+      kisitli: yaz(ad[0]),
+      hizli: yaz(ad[1]),
+      dortOlay: yaz(hepsi(B.dortOlay)),
+      acilma: yaz(hepsi(B.acilma)),
+      sifir: yaz([...hepsi(B.basinc).slice(-1), ...ad[3].slice(1)]),
+      kinetik: yaz(hepsi(B.kinetik)),
+      kabukOlur: yaz(anla.filter((c) => c.startsWith("Kesikle açılan yüzey"))),
+      cephe: yaz(ad[2]),
+      ikiBolge: yaz([...hepsi(B.ikiBolge), ...ad[3].slice(0, 1)]),
+      nem: yaz(hepsi(B.nem)),
+      kalinlik: yaz(hepsi(B.kalinlik)),
+      renk: yaz([...hepsi(B.olusum).slice(0, 1), ...hepsi(B.baslangic, yuz), ...hepsi(B.kosul, yuz), ...hepsi(B.ideal)]),
+      sonHacim: yaz([...hepsi(B.hiz).slice(0, 1), ...hepsi(B.sonHacim)]),
+      gaz: yaz(hepsi(B.gaz)),
+      efsane: yaz([...hepsi(B.efsane, yuz).slice(-1), ...hepsi(B.ozgul, yuz)]),
+    },
+  };
+}
+
 export default async function AnSayfasi({ params }: PageProps) {
   const { an: id } = await params;
   const sira = getAnKimlikleri();
@@ -590,6 +630,8 @@ export default async function AnSayfasi({ params }: PageProps) {
     govde = <GazVeKabarma {...gazVerisi(an, kartlar, ust)}>{okuma}</GazVeKabarma>;
   } else if (an.id === GECE.an) {
     govde = <GeceDolapta {...geceVerisi(an, kartlar, ust)}>{okuma}</GeceDolapta>;
+  } else if (an.id === KESIK.an) {
+    govde = <KesikAtilinca {...kesikVerisi(an, kartlar, ust)}>{okuma}</KesikAtilinca>;
   } else {
     // Şekiller adım sırasıyla numaralanır; görseli olmayan adım önceki şekli tutar.
     const sekiller: SahneSekli[] = [];
