@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import type { CSSProperties } from "react";
 import {
+  DEGIRMEN,
   DURAK_ZEMIN,
   FIRIN_DENEYI,
   ILK_ON_GUN,
@@ -36,6 +37,7 @@ import { FirinSekizDakika, type FirinSekizDakikaProps } from "@/components/bilim
 import { KabukKizarmasi, type KabukKizarmasiProps } from "@/components/bilim/KabukKizarmasi";
 import { RaftaIlkHafta, type RaftaIlkHaftaProps } from "@/components/bilim/RaftaIlkHafta";
 import { OlgunTane, type OlgunTaneProps } from "@/components/bilim/OlgunTane";
+import { DegirmenTasinda, type DegirmenTasindaProps } from "@/components/bilim/DegirmenTasinda";
 import s from "@/components/bilim/bilim.module.css";
 
 export const dynamicParams = false;
@@ -256,6 +258,41 @@ function taneVerisi(an: An, kartlar: Record<string, AtifKarti>, ust: string): Om
   };
 }
 
+/** Değirmen sahnesinin metinleri: adımlar sahnelere; su, ilişki ve aralık cümleleri bilgi kimliğiyle bulunur. */
+function degirmenVerisi(an: An, kartlar: Record<string, AtifKarti>, ust: string): Omit<DegirmenTasindaProps, "children"> {
+  const ad = an.gor.adimlar.map((a) => splitHamCumleler(a.metin));
+  const tum = [...ad.flat(), ...an.anla.flatMap((b) => b.paragraflar.flatMap(splitHamCumleler))];
+  const yaz = (cs: string[]) => <Metin metin={cs.join(" ")} kartlar={kartlar} />;
+  const ilk = (id: string) => tum.filter((c) => c.includes(`[[${id}]]`)).slice(0, 1);
+  const B = DEGIRMEN.bilgiler;
+  const G = DEGIRMEN.gorseller;
+  return {
+    ust,
+    baslik: an.baslik,
+    soru: an.soru,
+    gorsel: {
+      kapak: gorselli(G.kapak),
+      tavlama: gorselli(G.tavlama),
+      tas: gorselli(G.tas),
+      polarize: gorselli(G.polarize),
+      iyot: gorselli(G.iyot),
+    },
+    metin: {
+      tas: yaz(ad[0]),
+      tavlama: yaz(ad[1]),
+      kuvvet: yaz(ad[2]),
+      hasar: yaz(ad[3]),
+      kristal: yaz(ad[4].slice(0, 1)),
+      su: yaz(ilk(B.su)),
+      suKorelasyon: yaz(ilk(B.suKorelasyon)),
+      olcum: yaz(ad[5]),
+      seker: yaz(ad[6]),
+      olculu: yaz([...ilk(B.hacim), ...ilk(B.olculu)]),
+      dusme: yaz(ilk(B.dusme)),
+    },
+  };
+}
+
 export default async function AnSayfasi({ params }: PageProps) {
   const { an: id } = await params;
   const sira = getAnKimlikleri();
@@ -421,6 +458,8 @@ export default async function AnSayfasi({ params }: PageProps) {
     govde = <RaftaIlkHafta {...rafVerisi(an, kartlar, ust)}>{okuma}</RaftaIlkHafta>;
   } else if (an.id === TANE.an) {
     govde = <OlgunTane {...taneVerisi(an, kartlar, ust)}>{okuma}</OlgunTane>;
+  } else if (an.id === DEGIRMEN.an) {
+    govde = <DegirmenTasinda {...degirmenVerisi(an, kartlar, ust)}>{okuma}</DegirmenTasinda>;
   } else {
     // Şekiller adım sırasıyla numaralanır; görseli olmayan adım önceki şekli tutar.
     const sekiller: SahneSekli[] = [];

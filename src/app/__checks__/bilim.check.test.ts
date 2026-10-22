@@ -14,6 +14,7 @@ import {
   resolveAtif,
 } from "@/lib/bilim/server";
 import {
+  DEGIRMEN,
   DURAK_ZEMIN,
   FIRIN_DENEYI,
   ILK_ON_GUN,
@@ -258,6 +259,30 @@ describe("content/bilim bütünlüğü", () => {
     expect(metinler.some((c) => c.includes("[[tane_yapisi.granul_olusum_zamani_parker]]"))).toBe(true);
     const gorseller = getGorseller();
     expect(Object.values(TANE.gorseller).filter((g) => !gorseller[g])).toEqual([]);
+  });
+
+  it("değirmen sahnesinin sayıları bilgide geçiyor", () => {
+    const metin = (id: string) => {
+      const a = resolveAtif(id);
+      return a?.tur === "bilgi" ? a.bilgi.metin : "";
+    };
+    const B = DEGIRMEN.bilgiler;
+    const beklenen: [string, string][] = [
+      [B.su, `%${DEGIRMEN.saglam.en} ile %${DEGIRMEN.saglam.cok}`],
+      [B.su, `%${DEGIRMEN.kirik.en} ile %${DEGIRMEN.kirik.cok}`],
+      [B.suKorelasyon, "0,729"],
+      [B.hacim, "-0,866"],
+      [B.olculu, `%${DEGIRMEN.olculu.en}–${DEGIRMEN.olculu.cok}`],
+      [B.seker, `%${DEGIRMEN.sekerPay}`],
+      [B.dusme, `${DEGIRMEN.dusme.en} ile ${DEGIRMEN.dusme.cok} saniye`],
+    ];
+    expect(beklenen.filter(([id, s]) => !metin(id).includes(s)).map(([id, s]) => `${id}: ${s}`)).toEqual([]);
+    const an = getAn(DEGIRMEN.an);
+    expect(an.gor.adimlar.length).toBeGreaterThanOrEqual(7); // degirmenVerisi 7 adımı kullanır
+    const cumleler = anMetinleri(an).join(" ");
+    expect(Object.values(B).filter((id) => !cumleler.includes(`[[${id}]]`))).toEqual([]);
+    const gorseller = getGorseller();
+    expect(Object.values(DEGIRMEN.gorseller).filter((g) => !gorseller[g])).toEqual([]);
   });
 
   it("metinlerde sağlık sözcüğü yok", () => {

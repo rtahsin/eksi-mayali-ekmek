@@ -1930,3 +1930,230 @@
     clip-path: none;
   }
 }
+
+/* ══ Değirmen taşında ══ */
+
+/* Taş döner */
+.tasSahne {
+  display: grid;
+  place-items: center;
+  padding-bottom: 28svh;
+}
+
+.tasDaire {
+  position: relative;
+  width: min(86vw, 70svh);
+  aspect-ratio: 1;
+  overflow: hidden;
+  border-radius: 50%;
+  border: 2px solid var(--murekkep);
+  transform: rotate(calc(var(--p, 0) * 540deg));
+}
+
+.tasDaire img {
+  object-fit: cover;
+}
+
+/* Kristal düzen söner, çatlaklar çizilir */
+.sonenKristal img {
+  filter: saturate(calc(1 - min(1, var(--p, 0) * 1.4) * 0.85)) brightness(calc(1 - min(1, var(--p, 0) * 1.4) * 0.35));
+}
+
+.catlak {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.catlak path {
+  fill: none;
+  stroke: var(--murekkep);
+  stroke-width: 2;
+  stroke-dasharray: 1;
+  stroke-dashoffset: calc(1 - clamp(0, (var(--p, 0) * 1.6 - var(--i) * 0.12) * 2, 1));
+  vector-effect: non-scaling-stroke;
+}
+
+/* Su dök */
+.suDok {
+  padding: 56px var(--kenar) 48px;
+  border-top: 1px solid var(--cizgi);
+  border-bottom: 1px solid var(--cizgi);
+}
+
+.suDok > * {
+  max-width: 44rem;
+}
+
+.suDok h2 {
+  margin: 0 0 10px;
+  font: 500 clamp(28px, 7vw, 52px)/1.05 var(--bas);
+}
+
+.bardaklar {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin: 16px 0;
+}
+
+.bardak {
+  display: grid;
+  justify-items: center;
+  gap: 10px;
+}
+
+.taneSema {
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #f3ead6, #cdbb93);
+  transform: scale(var(--s, 1));
+  transition: transform 0.15s linear;
+}
+
+.taneSema[data-kirik] {
+  border-radius: 0;
+  clip-path: polygon(50% 0, 64% 18%, 92% 12%, 84% 42%, 100% 60%, 74% 72%, 70% 100%, 46% 84%, 18% 96%, 20% 66%, 0 48%, 22% 30%, 14% 6%, 38% 16%);
+}
+
+.olcek {
+  position: relative;
+  width: 64px;
+  height: min(42svh, 300px);
+  border: 1.5px solid var(--murekkep);
+  border-top: 0;
+  background: rgba(242, 238, 230, 0.05);
+}
+
+.bant {
+  position: absolute;
+  left: -8px;
+  right: -8px;
+  bottom: calc(var(--a) * 100%);
+  height: calc((var(--b) - var(--a)) * 100%);
+  border-top: 1px dashed var(--murekkep);
+  border-bottom: 1px dashed var(--murekkep);
+  background: rgba(242, 238, 230, 0.1);
+}
+
+.su {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: calc(var(--h) * 100%);
+  background: linear-gradient(to top, #2f6f9f, #7fb6dc);
+}
+
+.bardakAd {
+  text-align: center;
+  font: 500 14px/1.3 var(--bas);
+}
+
+.bardakAd b {
+  display: block;
+  font-weight: 600;
+  font-size: 18px;
+}
+
+.dokDugmeler {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+}
+
+.dokDugmeler .gosterDugme {
+  margin: 0;
+  padding: 0 16px;
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+}
+
+.ikincilDugme {
+  min-height: 44px;
+  padding: 0 14px;
+  border: 1.5px solid var(--murekkep);
+  background: transparent;
+  color: var(--murekkep);
+  font: 500 14px var(--bas);
+  cursor: pointer;
+}
+
+.ikincilDugme:focus-visible {
+  outline: 2px solid var(--murekkep);
+  outline-offset: 3px;
+}
+
+/* Mayanın şekeri: halka %56'ya dolar */
+.sekerSahne {
+  display: grid;
+  place-items: center;
+  align-content: center;
+  gap: 14px;
+  padding: 0 var(--kenar) 30svh;
+  text-align: center;
+}
+
+.halkaGrafik {
+  display: grid;
+  place-items: center;
+  width: min(64vw, 300px);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle, var(--zemin) 58%, transparent 59%),
+    conic-gradient(var(--murekkep) calc(min(1, var(--p, 0) * 1.6) * var(--hedef) * 360deg), rgba(242, 238, 230, 0.12) 0);
+}
+
+.halkaGrafik span {
+  font: 500 clamp(40px, 12vw, 72px)/1 var(--bas);
+}
+
+/* Ölçülüsü iyi: bantlar */
+.bantSatir {
+  display: grid;
+  gap: 6px;
+  max-width: 40rem;
+  margin: 14px 0 8px;
+  font-size: 14px;
+}
+
+.bantHat {
+  position: relative;
+  height: 30px;
+  background: rgba(242, 238, 230, 0.08);
+}
+
+.bantDolu {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: calc(var(--a) * 100%);
+  width: calc((var(--b) - var(--a)) * 100%);
+  display: grid;
+  place-items: center;
+  min-width: 6.5rem;
+  background: var(--murekkep);
+  color: #1d1b16;
+  font: 600 13px var(--bas);
+  white-space: nowrap;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tasDaire {
+    transform: none;
+  }
+
+  .catlak path {
+    stroke-dashoffset: 0;
+  }
+
+  .taneSema {
+    transition: none;
+  }
+}

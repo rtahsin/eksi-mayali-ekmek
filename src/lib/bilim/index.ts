@@ -12,6 +12,7 @@ export {
 export { KANIT_DURUMLARI } from "./schema";
 export {
   ASITLIK_ZEMIN,
+  DEGIRMEN,
   DURAK_ZEMIN,
   FIRIN_DENEYI,
   ILK_ON_GUN,

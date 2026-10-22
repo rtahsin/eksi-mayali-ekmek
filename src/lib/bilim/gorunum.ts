@@ -191,6 +191,35 @@ export const TANE = {
   },
 } as const;
 
+/**
+ * "Değirmen taşında" bayrak sahnesi: su dök (basılı tut), dönen taş, kristal kaybı, mayanın şekeri, ölçülü hasar.
+ * Her sayı ilgili bilginin metninde geçer (bilim.check.test.ts).
+ */
+export const DEGIRMEN = {
+  an: "degirmen_tasinda",
+  bilgiler: {
+    su: "hasarli_nisasta.dogal_ve_hasarli_nisasta_su_tutma_orani",
+    suKorelasyon: "hasarli_nisasta.su_absorpsiyon_kapasitesi_korelasyonu",
+    hacim: "hasarli_nisasta.artan_hasarla_ekmek_ozgul_hacim_kaybi",
+    olculu: "hasarli_nisasta.olculu_hasar_araligi_ve_ekmek_kalitesi",
+    seker: "amilaz.fermantasyonda_seker_uretim_payi",
+    dusme: "amilaz.ekmeklik_un_optimum_dusme_sayisi_araligi",
+  },
+  /** Ağırlığının yüzdesi olarak emilen su. */
+  saglam: { en: 39, cok: 87 },
+  kirik: { en: 200, cok: 430 },
+  sekerPay: 56,
+  olculu: { en: "12,2", cok: "21,9" },
+  dusme: { en: 200, cok: 350 },
+  gorseller: {
+    kapak: "the_grinding_of_flour",
+    tavlama: "114821_kfar_yanoh_grinding_wheat_grains_into_flour_pikiw",
+    tas: "hattem_windkorenmolen_de_fortuin_13_09_2021_actm_01",
+    polarize: "potato_starch_polarized_light_100x",
+    iyot: "testing_seed_for_starch",
+  },
+} as const;
+
 /** Ondalık sayıyı Türkçe yazar: 0.6 → "0,6". */
 export const virgullu = (n: number) => String(n).replace(".", ",");
 
