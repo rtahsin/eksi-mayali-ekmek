@@ -101,6 +101,58 @@ export const KABUK = {
   gorseller: { kapak: "brown_bread_crust", sils: "sils_bread_2", laugen: "laugenbroetchen_fcm" },
 } as const;
 
+/**
+ * "Rafta ilk hafta" bayrak sahnesi: "Kim bayatlattı?" Her cümle `{ bilgi, sira }` ile bulunur:
+ * anın metninde o bilgiye atıf yapan `sira`ncı cümle. Sayılar bilgi metninde geçer (bilim.check.test.ts).
+ */
+export const RAF = {
+  an: "rafta_ilk_hafta",
+  bilgiler: {
+    ilk24: "bayatlama.ilk_24_saat",
+    hiz: "bayatlama.sertlesme_hizlari",
+    dsc: "retrogradasyon.dsc_tepe_noktalari",
+    yuzElli: "bayatlama.yuz_elli_yil",
+  },
+  hizlar: [
+    { ad: "Karışık çavdar-buğday ekşi mayalı", en: "0,92", cok: "1,38" },
+    { ad: "Kalıp buğday ekmeği", en: "0,27", cok: "0,51" },
+  ],
+  dscAralik: "50–80 °C",
+  supheliler: [
+    {
+      ad: "Nişastanın yeniden kristalleşmesi",
+      lehine: [
+        { bilgi: "bayatlama.retrogradasyon_payi_tartismali", sira: 1 },
+        { bilgi: "retrogradasyon.depolamada_amilopektin_artar", sira: 0 },
+      ],
+      ama: [{ bilgi: "bayatlama.retrogradasyon_payi_tartismali", sira: 2 }],
+    },
+    {
+      ad: "Nem kaybı",
+      lehine: [
+        { bilgi: "bayatlama.nem_plastiklestirici", sira: 0 },
+        { bilgi: "bayatlama.nem_kaybi_sertlik", sira: 0 },
+      ],
+      ama: [{ bilgi: "bayatlama.iki_sertlesme_yolu", sira: 0 }],
+    },
+    {
+      ad: "Suyun yeniden dağılımı",
+      lehine: [
+        { bilgi: "retrogradasyon.bayatlamada_amilopektin_ve_su_dagilimi", sira: 0 },
+        { bilgi: "retrogradasyon.bayatlamada_amilopektin_ve_su_dagilimi", sira: 1 },
+      ],
+      ama: [{ bilgi: "bayatlama.yuz_elli_yil", sira: 0 }],
+    },
+  ],
+  karar: { bilgi: "bayatlama.cok_etkenli", sira: 2 },
+  gorseller: {
+    kapak: "breadcrumb",
+    nisasta1: "potato_starch_polarized_light_100x",
+    nisasta2: "potato_amyloplast_granules_observed_at_200_magnification",
+    panko: "panko_paprika_3",
+  },
+} as const;
+
 /** Ondalık sayıyı Türkçe yazar: 0.6 → "0,6". */
 export const virgullu = (n: number) => String(n).replace(".", ",");
 

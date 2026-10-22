@@ -1526,3 +1526,184 @@
     transition: none;
   }
 }
+
+/* ══ Rafta ilk hafta ══ */
+
+/* Saat: fırından çıkıştan bu yana geçen süre */
+.saatSahne {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 0 var(--kenar) 30svh;
+}
+
+.saatSayi {
+  font: 500 clamp(64px, 22vw, 200px)/1 var(--bas);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Nişasta: iki görüntü arasında geçiş */
+.gecis {
+  opacity: var(--p, 0);
+}
+
+/* İki hız: amiloz hızlı, amilopektin yavaş */
+.ikiHiz {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 22px;
+  padding: 0 var(--kenar) 34svh;
+}
+
+.hizSatir {
+  display: grid;
+  gap: 8px;
+  font: 500 clamp(18px, 4.6vw, 30px)/1.2 var(--bas);
+}
+
+.hizDolu {
+  display: block;
+  height: 14px;
+  width: calc(var(--h) * 100%);
+  background: linear-gradient(to right, #e9dcc0, #b9a27a);
+}
+
+/* Sertleşme hızı: ölçülmüş aralıklar */
+.araliklar {
+  position: absolute;
+  left: var(--kenar);
+  right: var(--kenar);
+  top: 12svh;
+  max-width: 40rem;
+  margin: 0;
+  padding: 16px;
+  background: var(--kartzemin);
+}
+
+.araliklar figcaption {
+  margin-bottom: 10px;
+  font-size: 13px;
+  color: var(--soluk);
+}
+
+.aralik {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 4px 10px;
+  margin-bottom: 12px;
+  font-size: 14px;
+}
+
+.aralik b {
+  font: 600 15px var(--bas);
+}
+
+.aralikHat {
+  grid-column: 1 / -1;
+  position: relative;
+  height: 10px;
+  background: rgba(242, 238, 230, 0.15);
+}
+
+.aralikDolu {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: calc(var(--a) * 100%);
+  width: calc((var(--b) - var(--a)) * 100%);
+  background: var(--murekkep);
+}
+
+/* Kim bayatlattı? */
+.dava {
+  padding: 56px var(--kenar) 48px;
+  border-top: 1px solid var(--cizgi);
+  border-bottom: 1px solid var(--cizgi);
+}
+
+.dava h2 {
+  margin: 0 0 6px;
+  font: 500 clamp(28px, 7vw, 52px)/1.05 var(--bas);
+}
+
+.supheliler {
+  display: grid;
+  gap: 8px;
+  margin: 18px 0;
+}
+
+@media (min-width: 900px) {
+  .supheliler {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.supheliler button {
+  min-height: 56px;
+  padding: 10px 14px;
+  border: 1.5px solid var(--murekkep);
+  background: transparent;
+  color: var(--murekkep);
+  font: 500 16px/1.25 var(--bas);
+  text-align: left;
+  cursor: pointer;
+}
+
+.supheliler button.bakildi {
+  border-style: dashed;
+}
+
+.supheliler button.secili {
+  border-style: solid;
+  background: var(--murekkep);
+  color: #12161f;
+}
+
+.supheliler button:focus-visible {
+  outline: 2px solid var(--murekkep);
+  outline-offset: 3px;
+}
+
+.dosya {
+  max-width: 40rem;
+  min-height: 8rem;
+}
+
+.dosya p + p {
+  margin-top: 6px;
+}
+
+.hukum {
+  max-width: 40rem;
+  margin-top: 22px;
+  padding-top: 14px;
+  border-top: 1px solid var(--cizgi);
+}
+
+.hukumAcik {
+  border-top: 2px solid var(--murekkep);
+}
+
+/* Bayatlık nasıl ölçülür */
+.dscBant {
+  position: relative;
+  max-width: 40rem;
+  height: 44px;
+  margin: 30px 0 16px;
+  background: linear-gradient(to right, rgba(242, 238, 230, 0.08) 0 30%, rgba(242, 238, 230, 0.55) 30% 60%, rgba(242, 238, 230, 0.08) 60%);
+}
+
+.dscBant span {
+  position: absolute;
+  left: 0;
+  bottom: calc(100% + 4px);
+  font: 500 13px var(--bas);
+  white-space: nowrap;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .gecis {
+    opacity: 0.5;
+  }
+}

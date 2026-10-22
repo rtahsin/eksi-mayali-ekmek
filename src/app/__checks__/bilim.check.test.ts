@@ -18,6 +18,7 @@ import {
   FIRIN_DENEYI,
   ILK_ON_GUN,
   KABUK,
+  RAF,
   virgullu,
   findAtiflar,
   splitCumleler,
@@ -200,6 +201,33 @@ describe("content/bilim bütünlüğü", () => {
     expect(Object.values(B).filter((id) => !an.includes(`[[${id}]]`))).toEqual([]);
     const gorseller = getGorseller();
     expect(Object.values(KABUK.gorseller).filter((g) => !gorseller[g])).toEqual([]);
+  });
+
+  it("raf sahnesinin sayıları bilgide, şüpheli cümleleri anın metninde", () => {
+    const metin = (id: string) => {
+      const a = resolveAtif(id);
+      return a?.tur === "bilgi" ? a.bilgi.metin : "";
+    };
+    const B = RAF.bilgiler;
+    const beklenen: [string, string][] = [
+      [B.ilk24, "24 saat"],
+      [B.dsc, RAF.dscAralik.replace(" °C", "")],
+      [B.yuzElli, "150"],
+      ...RAF.hizlar.flatMap((h): [string, string][] => [
+        [B.hiz, h.en],
+        [B.hiz, h.cok],
+      ]),
+    ];
+    expect(beklenen.filter(([id, s]) => !metin(id).includes(s)).map(([id, s]) => `${id}: ${s}`)).toEqual([]);
+    const an = getAn(RAF.an);
+    expect(an.gor.adimlar.length).toBeGreaterThanOrEqual(6); // rafVerisi 6 adımı ve 2. Anla bölümünü kullanır
+    expect(an.anla.length).toBeGreaterThanOrEqual(2);
+    const tum =[...an.gor.adimlar.map((a) => a.metin), ...an.anla.flatMap((b) => b.paragraflar)].flatMap(splitHamCumleler);
+    const secimler = [...RAF.supheliler.flatMap((s) => [...s.lehine, ...s.ama]), RAF.karar];
+    const eksik = secimler.filter((x) => tum.filter((c) => c.includes(`[[${x.bilgi}]]`)).length <= x.sira);
+    expect(eksik).toEqual([]);
+    const gorseller = getGorseller();
+    expect(Object.values(RAF.gorseller).filter((g) => !gorseller[g])).toEqual([]);
   });
 
   it("metinlerde sağlık sözcüğü yok", () => {

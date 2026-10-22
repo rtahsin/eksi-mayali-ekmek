@@ -8,6 +8,7 @@ import {
   ILK_ON_GUN,
   KABUK,
   KANIT_ETIKETI,
+  RAF,
   asitlikZemini,
   cumleEtiketi,
   findAtiflar,
@@ -32,6 +33,7 @@ import { Sahne, type SahneAdimi, type SahneSekli } from "@/components/bilim/Sahn
 import { IlkOnGun, type Gorselli, type IlkOnGunProps } from "@/components/bilim/IlkOnGun";
 import { FirinSekizDakika, type FirinSekizDakikaProps } from "@/components/bilim/FirinSekizDakika";
 import { KabukKizarmasi, type KabukKizarmasiProps } from "@/components/bilim/KabukKizarmasi";
+import { RaftaIlkHafta, type RaftaIlkHaftaProps } from "@/components/bilim/RaftaIlkHafta";
 import s from "@/components/bilim/bilim.module.css";
 
 export const dynamicParams = false;
@@ -180,6 +182,45 @@ function kabukVerisi(an: An, kartlar: Record<string, AtifKarti>, ust: string): O
     kilit: { renk: bul(B.renk), maltoz: bul(B.maltoz), hmf: bul(B.hmf), akrilamid: bul(B.akrilamid) },
     katman: { dis: bul(B.disKabuk), kabukta: bul(B.kabukta), kalanSu: bul(B.kalanSu) },
     olcum: { tost: yaz(tum.filter((c) => c.includes(`[[${B.tost}]]`)).slice(0, 2)), kavilca: bul(B.kavilca) },
+  };
+}
+
+/** Raf sahnesinin metinleri: şüpheli cümleleri { bilgi, sira } ile anın metninden bulunur. */
+function rafVerisi(an: An, kartlar: Record<string, AtifKarti>, ust: string): Omit<RaftaIlkHaftaProps, "children"> {
+  const ad = an.gor.adimlar.map((a) => splitHamCumleler(a.metin));
+  const anla = an.anla.map((b) => b.paragraflar.flatMap(splitHamCumleler));
+  const tum = [...ad.flat(), ...anla.flat()];
+  const yaz = (cs: string[]) => <Metin metin={cs.join(" ")} kartlar={kartlar} />;
+  const bul = (x: { bilgi: string; sira: number }) =>
+    yaz(tum.filter((c) => c.includes(`[[${x.bilgi}]]`)).slice(x.sira, x.sira + 1));
+  const B = RAF.bilgiler;
+  const G = RAF.gorseller;
+  return {
+    ust,
+    baslik: an.baslik,
+    soru: an.soru,
+    gorsel: {
+      kapak: gorselli(G.kapak),
+      nisasta1: gorselli(G.nisasta1),
+      nisasta2: gorselli(G.nisasta2),
+      panko: gorselli(G.panko),
+    },
+    metin: {
+      basla: yaz(ad[0]),
+      ilk24: bul({ bilgi: B.ilk24, sira: 0 }),
+      nisasta: yaz(ad[1]),
+      retro: yaz(ad[2]),
+      ikiHiz: yaz(anla[1].slice(0, 3)),
+      sertlesme: yaz([...ad[3], ...ad[4]]),
+      hiz: bul({ bilgi: B.hiz, sira: 0 }),
+      olcum: yaz(ad[5]),
+    },
+    supheliler: RAF.supheliler.map((sp) => ({
+      ad: sp.ad,
+      lehine: <>{sp.lehine.map((x, i) => <span key={i}>{bul(x)} </span>)}</>,
+      ama: <>{sp.ama.map((x, i) => <span key={i}>{bul(x)} </span>)}</>,
+    })),
+    karar: bul(RAF.karar),
   };
 }
 
@@ -344,6 +385,8 @@ export default async function AnSayfasi({ params }: PageProps) {
     govde = <FirinSekizDakika {...firinVerisi(an, kartlar, ust)}>{okuma}</FirinSekizDakika>;
   } else if (an.id === KABUK.an) {
     govde = <KabukKizarmasi {...kabukVerisi(an, kartlar, ust)}>{okuma}</KabukKizarmasi>;
+  } else if (an.id === RAF.an) {
+    govde = <RaftaIlkHafta {...rafVerisi(an, kartlar, ust)}>{okuma}</RaftaIlkHafta>;
   } else {
     // Şekiller adım sırasıyla numaralanır; görseli olmayan adım önceki şekli tutar.
     const sekiller: SahneSekli[] = [];
