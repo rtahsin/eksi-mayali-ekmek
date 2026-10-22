@@ -19,6 +19,7 @@ import {
   ILK_ON_GUN,
   KABUK,
   RAF,
+  TANE,
   virgullu,
   findAtiflar,
   splitCumleler,
@@ -228,6 +229,35 @@ describe("content/bilim bütünlüğü", () => {
     expect(eksik).toEqual([]);
     const gorseller = getGorseller();
     expect(Object.values(RAF.gorseller).filter((g) => !gorseller[g])).toEqual([]);
+  });
+
+  it("tane sahnesinin sayıları bilgide geçiyor", () => {
+    const metin = (id: string) => {
+      const a = resolveAtif(id);
+      return a?.tur === "bilgi" ? a.bilgi.metin : "";
+    };
+    const B = TANE.bilgiler;
+    const beklenen: [string, string][] = [
+      ...TANE.oranlar.map((o): [string, string] => [B.oran, `%${o.yazi}`]),
+      [B.protein, `%${TANE.protein.tepe}`],
+      [B.yuzMikron, `%${TANE.protein.pay}`],
+      [B.yuzMikron, `${TANE.protein.mikron} µm`],
+      [B.granul, `%${TANE.granul.alan}`],
+      [B.granul, `%${TANE.granul.sayi}`],
+      [B.zaman, "3–5. gün"],
+      [B.zaman, "11, 15 veya 12–16"],
+      [B.gluten, "10 gün"],
+      [B.gluten, "20 gün"],
+      [B.aleron, "21 gün"],
+    ];
+    expect(beklenen.filter(([id, s]) => !metin(id).includes(s)).map(([id, s]) => `${id}: ${s}`)).toEqual([]);
+    const an = getAn(TANE.an);
+    expect(an.gor.adimlar.length).toBeGreaterThanOrEqual(5); // taneVerisi 5 adımı kullanır
+    const metinler = anMetinleri(an).flatMap(splitHamCumleler);
+    expect(metinler.some((c) => c.includes(`[[${B.granul}]]`) && c.includes(`%${TANE.granul.alan}`))).toBe(true);
+    expect(metinler.some((c) => c.includes("[[tane_yapisi.granul_olusum_zamani_parker]]"))).toBe(true);
+    const gorseller = getGorseller();
+    expect(Object.values(TANE.gorseller).filter((g) => !gorseller[g])).toEqual([]);
   });
 
   it("metinlerde sağlık sözcüğü yok", () => {

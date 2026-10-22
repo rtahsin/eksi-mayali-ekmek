@@ -9,6 +9,7 @@ import {
   KABUK,
   KANIT_ETIKETI,
   RAF,
+  TANE,
   asitlikZemini,
   cumleEtiketi,
   findAtiflar,
@@ -34,6 +35,7 @@ import { IlkOnGun, type Gorselli, type IlkOnGunProps } from "@/components/bilim/
 import { FirinSekizDakika, type FirinSekizDakikaProps } from "@/components/bilim/FirinSekizDakika";
 import { KabukKizarmasi, type KabukKizarmasiProps } from "@/components/bilim/KabukKizarmasi";
 import { RaftaIlkHafta, type RaftaIlkHaftaProps } from "@/components/bilim/RaftaIlkHafta";
+import { OlgunTane, type OlgunTaneProps } from "@/components/bilim/OlgunTane";
 import s from "@/components/bilim/bilim.module.css";
 
 export const dynamicParams = false;
@@ -224,6 +226,36 @@ function rafVerisi(an: An, kartlar: Record<string, AtifKarti>, ust: string): Omi
   };
 }
 
+/** Tane sahnesinin metinleri: adımlar sahnelere; iki sayım ve takvim cümleleri bilgi kimliğiyle bulunur. */
+function taneVerisi(an: An, kartlar: Record<string, AtifKarti>, ust: string): Omit<OlgunTaneProps, "children"> {
+  const ad = an.gor.adimlar.map((a) => splitHamCumleler(a.metin));
+  const tum = [...ad.flat(), ...an.anla.flatMap((b) => b.paragraflar.flatMap(splitHamCumleler))];
+  const yaz = (cs: string[]) => <Metin metin={cs.join(" ")} kartlar={kartlar} />;
+  const atifli = (id: string) => tum.filter((c) => c.includes(`[[${id}]]`));
+  const B = TANE.bilgiler;
+  const G = TANE.gorseller;
+  return {
+    ust,
+    baslik: an.baslik,
+    soru: an.soru,
+    gorsel: {
+      kapak: gorselli(G.kapak),
+      nisasta: gorselli(G.nisasta),
+      polarize: gorselli(G.polarize),
+      gluten: gorselli(G.gluten),
+    },
+    metin: {
+      kisimlar: yaz(ad[0]),
+      endosperm: yaz(ad[1]),
+      granul: yaz(ad[2]),
+      protein: yaz(ad[3]),
+      gluten: yaz(ad[4]),
+      ikiSayim: yaz(atifli(B.granul).filter((c) => c.includes(`%${TANE.granul.alan}`)).slice(0, 1)),
+      takvim: yaz([...atifli("tane_yapisi.granul_olusum_zamani_parker").slice(0, 1), ...atifli(B.zaman).slice(0, 2)]),
+    },
+  };
+}
+
 export default async function AnSayfasi({ params }: PageProps) {
   const { an: id } = await params;
   const sira = getAnKimlikleri();
@@ -387,6 +419,8 @@ export default async function AnSayfasi({ params }: PageProps) {
     govde = <KabukKizarmasi {...kabukVerisi(an, kartlar, ust)}>{okuma}</KabukKizarmasi>;
   } else if (an.id === RAF.an) {
     govde = <RaftaIlkHafta {...rafVerisi(an, kartlar, ust)}>{okuma}</RaftaIlkHafta>;
+  } else if (an.id === TANE.an) {
+    govde = <OlgunTane {...taneVerisi(an, kartlar, ust)}>{okuma}</OlgunTane>;
   } else {
     // Şekiller adım sırasıyla numaralanır; görseli olmayan adım önceki şekli tutar.
     const sekiller: SahneSekli[] = [];

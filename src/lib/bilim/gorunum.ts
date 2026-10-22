@@ -153,6 +153,44 @@ export const RAF = {
   },
 } as const;
 
+/**
+ * "Olgun tanenin içi" bayrak sahnesi: tahmin et sonra bak, iki sayım (sayı ↔ alan), tane takvimi.
+ * Her sayı ilgili bilginin metninde geçer (bilim.check.test.ts).
+ */
+export const TANE = {
+  an: "olgun_tanenin_ici",
+  bilgiler: {
+    oran: "tane_yapisi.anatomik_kisim_oranlari",
+    protein: "tane_yapisi.alt_aleron_protein_gradyani",
+    yuzMikron: "tane_yapisi.nisastali_endosperm_30_yuzde_protein",
+    granul: "tane_yapisi.depo_nisastasi_a_b_granul",
+    zaman: "tane_yapisi.nisasta_granul_baslangic_zamani",
+    gluten: "tane_yapisi.gluten_proteini_sentez_zamanlamasi",
+    aleron: "tane_yapisi.alt_aleron_hucre_kokeni",
+  },
+  oranlar: [
+    { ad: "nişastalı endosperm", yazi: "80–84", orta: 82 },
+    { ad: "botanik kepek", yazi: "6–8", orta: 7 },
+    { ad: "alöron", yazi: "6–7", orta: 6.5 },
+    { ad: "rüşeym", yazi: "3", orta: 3 },
+  ],
+  protein: { tepe: "32,0", pay: "30", mikron: "100" },
+  /** A-tipi: alanın %75'ten fazlası, sayının ortalama %15'i. */
+  granul: { alan: "75", sayi: "15" },
+  takvim: [
+    { ad: "A-tipi granüller başlar", bas: 3, son: 5, yazi: "3–5. gün" },
+    { ad: "gluten proteini yapılır", bas: 10, son: 20, yazi: "~10–20. gün" },
+    { ad: "B-tipi granüller başlar", bas: 11, son: 16, yazi: "11–16. gün, çalışmalar ayrılıyor" },
+    { ad: "alöron hücreleri bölünür", bas: 0, son: 21, yazi: "21. güne kadar", acikBaslangic: true },
+  ],
+  gorseller: {
+    kapak: "journal_pone_0251556_sekil_2a",
+    nisasta: "photomicrograph_of_wheat_starch",
+    polarize: "potato_starch_polarized_light_100x",
+    gluten: "gluten_and_carbon_nanotubes",
+  },
+} as const;
+
 /** Ondalık sayıyı Türkçe yazar: 0.6 → "0,6". */
 export const virgullu = (n: number) => String(n).replace(".", ",");
 

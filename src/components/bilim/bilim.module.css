@@ -1707,3 +1707,226 @@
     opacity: 0.5;
   }
 }
+
+/* ══ Olgun tanenin içi ══ */
+
+/* Tahmin et, sonra bak */
+.tahmin,
+.ikiSayim {
+  padding: 56px var(--kenar) 48px;
+  border-top: 1px solid var(--cizgi);
+}
+
+.tahmin h2,
+.ikiSayim h2 {
+  margin: 0 0 10px;
+  font: 500 clamp(28px, 7vw, 52px)/1.05 var(--bas);
+}
+
+.tahmin > *,
+.ikiSayim > * {
+  max-width: 44rem;
+}
+
+.gosterDugme {
+  min-width: 120px;
+  min-height: 44px;
+  margin: 8px 0 18px;
+  border: 1.5px solid var(--murekkep);
+  background: var(--murekkep);
+  color: #11161a;
+  font: 500 16px var(--bas);
+  cursor: pointer;
+}
+
+.gosterDugme:focus-visible {
+  outline: 2px solid var(--murekkep);
+  outline-offset: 3px;
+}
+
+.oranCubuk {
+  position: relative;
+  display: flex;
+  height: 56px;
+  margin-bottom: 14px;
+  background: rgba(242, 238, 230, 0.08);
+}
+
+.oranCubuk span {
+  display: block;
+  width: calc(var(--w) * 100%);
+  clip-path: inset(0 100% 0 0);
+  transition: clip-path 0.8s ease;
+}
+
+.oranListe {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 16px;
+  margin: 0 0 14px;
+  padding: 0;
+  list-style: none;
+  font-size: 14px;
+}
+
+.oranListe i {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  margin-right: 6px;
+  vertical-align: -1px;
+}
+
+.oranAcik span {
+  clip-path: inset(0 0 0 0);
+}
+
+.tahminIsaret {
+  position: absolute;
+  top: -8px;
+  bottom: -8px;
+  left: calc(var(--t) * 100%);
+  width: 3px;
+  background: var(--murekkep);
+  box-shadow: 0 0 0 2px var(--zemin);
+}
+
+/* Protein yokuşu: alöronun altındaki ilk 100 µm */
+.yokus {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 64px var(--kenar) 30svh;
+}
+
+.yokusSerit {
+  position: relative;
+  flex: 1;
+  max-width: 34rem;
+  background: linear-gradient(to bottom, #e7c46a 0%, #c99a48 12%, #7d6a4a 34%, #3b3a33 70%, #2a2b28 100%);
+  clip-path: inset(0 0 calc((1 - min(1, var(--p, 0) * 1.6)) * 100%) 0);
+}
+
+.yokusSerit span {
+  position: absolute;
+  left: 12px;
+  padding: 3px 7px;
+  font: 500 13px/1.25 var(--bas);
+  background: var(--kartzemin);
+}
+
+.yokusAleron {
+  top: 6px;
+}
+
+.yokusTepe {
+  top: 40px;
+}
+
+.yokusBant {
+  top: 74px;
+}
+
+.yokusIc {
+  bottom: 10px;
+}
+
+/* İki sayım */
+.granulAlani {
+  display: block;
+  width: 100%;
+  max-width: 44rem;
+  height: auto;
+  margin: 8px 0 12px;
+  background: rgba(242, 238, 230, 0.05);
+}
+
+.granulAlani circle {
+  transform-box: fill-box;
+  transform-origin: center;
+  transform: scale(var(--k));
+  transition: transform 0.7s ease;
+}
+
+.alanModu circle {
+  transform: scale(1);
+}
+
+.granulA {
+  fill: #e7c46a;
+}
+
+.granulB {
+  fill: #cfe3f2;
+}
+
+.lejA::before {
+  background: #e7c46a;
+  border-radius: 50%;
+}
+
+.lejB::before {
+  background: #cfe3f2;
+  border-radius: 50%;
+}
+
+/* Tane takvimi */
+.takvim {
+  max-width: 44rem;
+  margin: 8px 0 18px;
+}
+
+.takvimEksen {
+  position: relative;
+  height: 18px;
+  margin-left: 0;
+  font: 400 11px var(--bas);
+  color: var(--soluk);
+}
+
+.takvimEksen span {
+  position: absolute;
+  left: calc(var(--g) * 100%);
+  transform: translateX(-50%);
+}
+
+.takvimSatir {
+  display: grid;
+  gap: 4px;
+  margin-bottom: 10px;
+  font-size: 14px;
+}
+
+.takvimSatir small {
+  color: var(--soluk);
+}
+
+.takvimHat {
+  position: relative;
+  height: 10px;
+  background: rgba(242, 238, 230, 0.1);
+}
+
+.takvimDolu {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: calc(var(--a) * 100%);
+  width: calc((var(--b) - var(--a)) * 100%);
+  background: var(--murekkep);
+}
+
+.acikBas {
+  background: linear-gradient(to right, transparent, var(--murekkep) 40%);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .oranCubuk span,
+  .granulAlani circle {
+    transition: none;
+  }
+
+  .yokusSerit {
+    clip-path: none;
+  }
+}
