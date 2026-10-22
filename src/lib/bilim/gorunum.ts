@@ -298,6 +298,54 @@ export const GAZ = {
   },
 } as const;
 
+/**
+ * "Gece dolapta" bayrak sahnesi: geceyi çevir (saat kolu), soğuyan sahne, topluluk bantları, sabaha kalan koku.
+ * Her sayı ve ad ilgili bilginin metninde geçer (bilim.check.test.ts).
+ */
+export const GECE = {
+  an: "gece_dolapta",
+  bilgiler: {
+    sicaklik: "sicaklik.endustriyel_35_ve_maya_optimumu",
+    dolap: "soguk_ferm.geciktirmede_0_5_derece",
+    deney: "sure.sicaklik_ve_maya_ile_sure",
+    ph: "soguk_ferm.4_derece_18_saat_ph",
+    fitik: "soguk_ferm.uzun_soguk_mayalanma_fitik_bugday",
+    serin: "soguk_ferm.serin_eksimaya_sicaklik_araligi",
+    labOptimum: "sicaklik.lactobacillaceae_optimum_buyume_sicakligi",
+    ikiTur: "sicaklik.khumilis_ve_fsanfranciscensis_optimum_sicakliklari",
+    birlikte: "khum.fsan_birlikte_bulunma",
+    ester: "soguk_ferm.5_derecede_esterler_artar",
+    esterYok: "fsan.ester_uretmez",
+    durmaz: "soguk_ferm.dusuk_sicaklik_aroma_tamamen_durmaz",
+    tazelik: "soguk_ferm.uzun_mayalanma_tazelik_lezzet",
+    inanc: "sure.uzun_fermantasyon_aroma_inanci",
+    duyusal: "sure.sure_duyusala_etkisiz",
+  },
+  endustriyel: 35,
+  mayaOptimum: "25–30",
+  geciktirme: 5,
+  dolap: "0–5",
+  /** Aynı deneyde iki koşul: hamurun 8 cm yüksekliğe ulaşma süresi. */
+  deney: {
+    yukseklik: 8,
+    soguk: { sicaklik: 5, maya: 20, saat: 21 },
+    sicak: { sicaklik: 35, maya: 60, dakika: 15 },
+  },
+  ph: { dolap: 4, saat: 18, once: [25, 35], degerler: ["4,18", "4,11"] },
+  fitikAzalma: 75,
+  serin: { en: 4, cok: 15 },
+  labOptimum: { en: 30, cok: 40 },
+  fsanOptimum: { en: 32, cok: 33 },
+  khumOptimum: { en: 27, cok: 28 },
+  esterler: ["etil asetat", "etil hekzanoat", "etil oktanoat"],
+  esterKarsi: [15, 35],
+  gorseller: {
+    kapak: "bread_dough_in_baskets_01",
+    soguk: "proofing_bread",
+    topluluk: "s00284_025_04673_5_sekil_5a",
+  },
+} as const;
+
 /** Ondalık sayıyı Türkçe yazar: 0.6 → "0,6". */
 export const virgullu = (n: number) => String(n).replace(".", ",");
 

@@ -18,6 +18,7 @@ import {
   DURAK_ZEMIN,
   FIRIN_DENEYI,
   GAZ,
+  GECE,
   ILK_ON_GUN,
   KABUK,
   RAF,
@@ -342,6 +343,43 @@ describe("content/bilim bütünlüğü", () => {
     expect(Object.values(B).filter((id) => !cumleler.some((c) => c.includes(`[[${id}]]`)))).toEqual([]);
     const gorseller = getGorseller();
     expect(Object.values(GAZ.gorseller).filter((g) => !gorseller[g])).toEqual([]);
+  });
+
+  it("gece sahnesinin sayıları ve adları bilgide geçiyor", () => {
+    const metin = (id: string) => {
+      const a = resolveAtif(id);
+      return a?.tur === "bilgi" ? a.bilgi.metin : "";
+    };
+    const B = GECE.bilgiler;
+    const { soguk, sicak, yukseklik } = GECE.deney;
+    const beklenen: [string, string][] = [
+      [B.sicaklik, `tipik sıcaklık ${GECE.endustriyel} °C`],
+      [B.sicaklik, `${GECE.mayaOptimum} °C`],
+      [B.sicaklik, `${GECE.geciktirme} °C gibi düşük`],
+      [B.dolap, `${GECE.dolap} °C`],
+      [B.deney, `${yukseklik} cm yüksekliğe`],
+      [B.deney, `${soguk.sicaklik} °C'de kilogram una ${soguk.maya} g mayayla ${soguk.saat} saatten`],
+      [B.deney, `${sicak.sicaklik} °C'de ${sicak.maya} g mayayla ${sicak.dakika} dakikaya`],
+      [B.ph, `${GECE.ph.once[0]} °C ve ${GECE.ph.once[1]} °C`],
+      [B.ph, `${GECE.ph.dolap} °C'de ${GECE.ph.saat} saat`],
+      [B.ph, `${GECE.ph.degerler[0]} ve ${GECE.ph.degerler[1]}`],
+      [B.fitik, `${GECE.ph.dolap} °C'de ${GECE.ph.saat} saatlik`],
+      [B.fitik, `%${GECE.fitikAzalma} azaldı`],
+      [B.serin, `${GECE.serin.en}–${GECE.serin.cok} °C`],
+      [B.labOptimum, `${GECE.labOptimum.en} ile ${GECE.labOptimum.cok} °C`],
+      [B.ikiTur, `${GECE.khumOptimum.en}–${GECE.khumOptimum.cok} °C`],
+      [B.ikiTur, `${GECE.fsanOptimum.en}–${GECE.fsanOptimum.cok} °C`],
+      [B.ester, `${GECE.esterler[0]}, ${GECE.esterler[1]} ve ${GECE.esterler[2]}`],
+      [B.ester, `${GECE.esterKarsi[0]} ve ${GECE.esterKarsi[1]} °C'ye göre`],
+      [B.ester, `en yüksek olanı ${GECE.esterler[1]}`],
+    ];
+    expect(beklenen.filter(([id, s]) => !metin(id).includes(s)).map(([id, s]) => `${id}: ${s}`)).toEqual([]);
+    const an = getAn(GECE.an);
+    expect(an.gor.adimlar.length).toBeGreaterThanOrEqual(6); // geceVerisi 6 adımı kullanır
+    const cumleler = anMetinleri(an).flatMap(splitHamCumleler);
+    expect(Object.values(B).filter((id) => !cumleler.some((c) => c.includes(`[[${id}]]`)))).toEqual([]);
+    const gorseller = getGorseller();
+    expect(Object.values(GECE.gorseller).filter((g) => !gorseller[g])).toEqual([]);
   });
 
   it("metinlerde sağlık sözcüğü yok", () => {
