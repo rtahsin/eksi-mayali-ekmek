@@ -17,6 +17,7 @@ import {
   DEGIRMEN,
   DURAK_ZEMIN,
   FIRIN_DENEYI,
+  GAZ,
   ILK_ON_GUN,
   KABUK,
   RAF,
@@ -311,6 +312,36 @@ describe("content/bilim bütünlüğü", () => {
     expect(Object.values(B).filter((id) => !cumleler.includes(`[[${id}]]`))).toEqual([]);
     const gorseller = getGorseller();
     expect(Object.values(YOGURMA.gorseller).filter((g) => !gorseller[g])).toEqual([]);
+  });
+
+  it("gaz sahnesinin sayıları ve adları bilgide geçiyor", () => {
+    const metin = (id: string) => {
+      const a = resolveAtif(id);
+      return a?.tur === "bilgi" ? a.bilgi.metin : "";
+    };
+    const B = GAZ.bilgiler;
+    const [v, i, l] = GAZ.ehrlich;
+    const beklenen: [string, string][] = [
+      [B.hacim, `${GAZ.hacimKat} katına`],
+      [B.sonGaz, `%${GAZ.sonGazPay}'inin üzerine`],
+      [B.gpd1, `%${GAZ.gpd1.en}–${GAZ.gpd1.cok} daha düşük`],
+      [B.etanol, `ilk ${GAZ.etanolDakika} dakikaya`],
+      [B.ehrlich, `${v.bilesik}, ${i.bilesik} ve ${l.bilesik} sırasıyla mayanın ${v.amino}, ${i.amino} ve ${l.amino}`],
+      [B.ester, `${GAZ.esterler.slice(0, 3).join(", ")} ve ${GAZ.esterler[3]}`],
+      [B.baski, "glukoz ve fruktoz varlığında"],
+    ];
+    const bulunamayan = beklenen.filter(([id, s]) => !metin(id).toLowerCase().includes(s.toLowerCase()));
+    expect(bulunamayan.map(([id, s]) => `${id}: ${s}`)).toEqual([]);
+    const an = getAn(GAZ.an);
+    expect(an.gor.adimlar.length).toBeGreaterThanOrEqual(6); // gazVerisi 6 adımı kullanır
+    const cumleler = anMetinleri(an).flatMap(splitHamCumleler);
+    const donusum = cumleler.find((c) => c.includes(`[[${B.donusum}]]`)) ?? "";
+    expect(GAZ.urunler.filter((u) => !donusum.includes(u))).toEqual([]);
+    expect(cumleler.some((c) => c.includes(`${GAZ.hacimSicaklik} °C`) && c.includes(`[[${B.hacim}]]`))).toBe(true);
+    expect(cumleler.some((c) => c.startsWith("Gazın da kokunun da kaynağı aynı dönüşümdür"))).toBe(true);
+    expect(Object.values(B).filter((id) => !cumleler.some((c) => c.includes(`[[${id}]]`)))).toEqual([]);
+    const gorseller = getGorseller();
+    expect(Object.values(GAZ.gorseller).filter((g) => !gorseller[g])).toEqual([]);
   });
 
   it("metinlerde sağlık sözcüğü yok", () => {

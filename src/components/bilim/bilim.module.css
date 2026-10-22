@@ -2222,17 +2222,20 @@
 }
 
 /* İmza: yoğur */
-.yogur {
+.yogur,
+.imza {
   padding: 56px var(--kenar) 48px;
   border-top: 1px solid var(--cizgi);
   border-bottom: 1px solid var(--cizgi);
 }
 
-.yogur > * {
+.yogur > *,
+.imza > * {
   max-width: 44rem;
 }
 
-.yogur h2 {
+.yogur h2,
+.imza h2 {
   margin: 0 0 10px;
   font: 500 clamp(28px, 7vw, 52px)/1.05 var(--bas);
 }
@@ -2597,4 +2600,369 @@
     transform: none;
   }
 
+}
+
+/* ══ Kabarırken doğan gaz ve koku ══ */
+
+.hucreYakin img {
+  transform: scale(calc(1.6 - var(--p, 0) * 0.6));
+}
+
+/* İmza: şekeri ver */
+.sekerMasa {
+  display: grid;
+  grid-template-columns: 1fr 34%;
+  gap: 16px;
+  align-items: end;
+  margin: 16px 0 12px;
+}
+
+.mayaHucre {
+  display: grid;
+  justify-items: center;
+  gap: 8px;
+  font: 500 13px var(--bas);
+}
+
+.mayaResim {
+  position: relative;
+  width: min(100%, 220px);
+  aspect-ratio: 1;
+  overflow: hidden;
+  border-radius: 50%;
+  border: 2px dashed var(--murekkep);
+  animation: hucreAl 0.5s ease-out;
+}
+
+.mayaResim img {
+  object-fit: cover;
+}
+
+.mayaHucre[data-geri] .mayaResim {
+  border-color: #e0a85a;
+}
+
+@keyframes hucreAl {
+  40% {
+    transform: scale(1.06);
+  }
+}
+
+.kavanoz {
+  display: grid;
+  justify-items: center;
+  gap: 8px;
+  font: 500 13px var(--bas);
+}
+
+.kavanoz::before {
+  content: "";
+  grid-area: 1 / 1;
+  width: 100%;
+  height: min(46svh, 260px);
+  border: 2px solid var(--murekkep);
+  border-top: 0;
+  border-radius: 0 0 14px 14px;
+}
+
+.kavanozHamur {
+  grid-area: 1 / 1;
+  align-self: end;
+  width: calc(100% - 8px);
+  height: calc(var(--h) * min(46svh, 260px) - 4px);
+  margin-bottom: 4px;
+  overflow: hidden;
+  border-radius: 40% 40% 10px 10px / 18% 18% 10px 10px;
+  background: #e6d8bb;
+  transition: height 0.5s ease-out;
+}
+
+.kavanozHamur svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.kavanozHamur ellipse {
+  fill: #b59f78;
+  animation: kabarcik 0.5s ease-out;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+@keyframes kabarcik {
+  from {
+    transform: scale(0);
+  }
+}
+
+.sekerler {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0 0 12px;
+  padding: 0;
+  list-style: none;
+}
+
+.sekerler li {
+  min-width: 84px;
+  min-height: 44px;
+}
+
+.seker {
+  width: 100%;
+  min-height: 44px;
+  padding: 0 12px;
+  border: 1.5px solid var(--murekkep);
+  border-radius: 22px;
+  background: var(--murekkep);
+  color: #1d1b16;
+  font: 600 14px var(--bas);
+  cursor: grab;
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.seker[data-tur="maltoz"] {
+  background: #e0a85a;
+  border-color: #e0a85a;
+}
+
+.seker[data-surukleniyor] {
+  position: relative;
+  z-index: 5;
+  transform: translate(var(--dx), var(--dy)) scale(1.08);
+  cursor: grabbing;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.45);
+}
+
+.seker[data-geri] {
+  animation: sekerGeri 0.5s ease-in-out;
+}
+
+@keyframes sekerGeri {
+  20%,
+  60% {
+    transform: translateX(-8px);
+  }
+  40%,
+  80% {
+    transform: translateX(8px);
+  }
+}
+
+.seker:focus-visible {
+  outline: 2px solid var(--murekkep);
+  outline-offset: 3px;
+}
+
+.sekerBos {
+  border: 1.5px dashed rgba(242, 238, 230, 0.25);
+  border-radius: 22px;
+}
+
+.urunler {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 0 0 10px;
+  padding: 0;
+  list-style: none;
+}
+
+.urunler li {
+  padding: 4px 10px;
+  border: 1px solid rgba(242, 238, 230, 0.3);
+  color: var(--soluk);
+  font: 500 13px var(--bas);
+}
+
+.urunler li[data-acik] {
+  border-color: var(--murekkep);
+  color: var(--murekkep);
+  animation: urunYan 0.6s ease-out;
+}
+
+@keyframes urunYan {
+  from {
+    background: rgba(242, 238, 230, 0.3);
+  }
+}
+
+.sekerHukum {
+  margin-top: 14px !important;
+  font: 500 clamp(22px, 5.6vw, 34px)/1.2 var(--bas);
+}
+
+/* Gazı tutan ağ: hacim sütunu 4,4 kata yükselir, sonra 100 karelik ızgaranın 70'i dolar */
+.gazSahne {
+  --q: clamp(0, (var(--p, 0) - 0.55) * 3, 1);
+  display: grid;
+  align-content: start;
+  justify-items: center;
+  padding: 10svh var(--kenar) 0;
+}
+
+.katSutun,
+.izgara {
+  grid-area: 1 / 1;
+}
+
+.katSutun {
+  position: relative;
+  width: 96px;
+  height: min(30svh, 260px);
+  border: 2px solid var(--murekkep);
+  border-top: 0;
+  opacity: calc(1 - clamp(0, (var(--p, 0) - 0.48) * 6, 1));
+}
+
+.katDolu {
+  position: absolute;
+  inset: auto 0 0;
+  height: calc((1 + clamp(0, var(--p, 0) * 2.4, 1) * (var(--kat) - 1)) / var(--kat) * 100%);
+  background: #e6d8bb;
+}
+
+.katCizgi {
+  position: absolute;
+  left: 100%;
+  bottom: calc(var(--a) * 100%);
+  padding-left: 8px;
+  border-bottom: 1px dashed var(--soluk);
+  font: 400 12px var(--bas);
+  color: var(--soluk);
+  white-space: nowrap;
+  transform: translateY(50%);
+}
+
+.katUst {
+  position: absolute;
+  bottom: calc(100% + 6px);
+  left: 50%;
+  transform: translateX(-50%);
+  font: 600 18px var(--bas);
+  white-space: nowrap;
+  opacity: clamp(0, var(--p, 0) * 2.4 - 0.9, 1);
+}
+
+.izgara {
+  display: grid;
+  grid-template-columns: repeat(10, 1fr);
+  gap: 3px;
+  width: min(80vw, 34svh, 300px);
+  opacity: clamp(0, (var(--p, 0) - 0.48) * 6, 1);
+}
+
+.izgara span {
+  aspect-ratio: 1;
+  background: var(--murekkep);
+  opacity: calc(0.12 + 0.88 * clamp(0, var(--q) * 70 - var(--i), 1));
+}
+
+/* Ehrlich yolu: amino asit kartı döner, arkasından uçucu bileşik çıkar */
+.ehrlichSahne {
+  display: grid;
+  align-content: start;
+  justify-items: center;
+  gap: 10px;
+  padding: 9svh var(--kenar) 0;
+  perspective: 900px;
+}
+
+.ehrlichBaslik {
+  font: 500 15px var(--bas);
+  color: var(--soluk);
+}
+
+.cevir {
+  --f: clamp(0, (var(--p, 0) - 0.12 - var(--i) * 0.2) * 4, 1);
+  width: min(84vw, 360px);
+  height: 64px;
+}
+
+.cevirIc {
+  position: relative;
+  height: 100%;
+  transform-style: preserve-3d;
+  transform: rotateX(calc(var(--f) * 180deg));
+}
+
+.cevirOn,
+.cevirArka {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  align-content: center;
+  padding: 0 16px;
+  backface-visibility: hidden;
+  font: 600 20px var(--bas);
+}
+
+.cevirOn small,
+.cevirArka small {
+  font: 400 11px var(--bas);
+  opacity: 0.75;
+}
+
+.cevirOn {
+  border: 1.5px solid var(--murekkep);
+  background: var(--kartzemin);
+}
+
+.cevirArka {
+  background: #e0a85a;
+  color: #1d1b16;
+  transform: rotateX(180deg);
+}
+
+/* Her maya başka kokar */
+.torula {
+  margin: 0 0 14px;
+  max-width: 40rem;
+}
+
+.torulaResim {
+  position: relative;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+}
+
+.torulaResim img {
+  object-fit: cover;
+}
+
+.esterler {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 6px 0 12px;
+  padding: 0;
+  list-style: none;
+}
+
+.esterler li {
+  padding: 5px 12px;
+  background: #e0a85a;
+  color: #1d1b16;
+  font: 600 13px var(--bas);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hucreYakin img {
+    transform: none;
+  }
+
+  .mayaResim,
+  .kavanozHamur ellipse,
+  .seker[data-geri],
+  .urunler li[data-acik] {
+    animation: none;
+  }
+
+  .kavanozHamur {
+    transition: none;
+  }
 }

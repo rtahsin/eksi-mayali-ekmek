@@ -6,6 +6,7 @@ import {
   DEGIRMEN,
   DURAK_ZEMIN,
   FIRIN_DENEYI,
+  GAZ,
   ILK_ON_GUN,
   KABUK,
   KANIT_ETIKETI,
@@ -40,6 +41,7 @@ import { RaftaIlkHafta, type RaftaIlkHaftaProps } from "@/components/bilim/Rafta
 import { OlgunTane, type OlgunTaneProps } from "@/components/bilim/OlgunTane";
 import { DegirmenTasinda, type DegirmenTasindaProps } from "@/components/bilim/DegirmenTasinda";
 import { YogurmaTezgahi, type YogurmaTezgahiProps } from "@/components/bilim/YogurmaTezgahi";
+import { GazVeKabarma, type GazVeKabarmaProps } from "@/components/bilim/GazVeKabarma";
 import s from "@/components/bilim/bilim.module.css";
 
 export const dynamicParams = false;
@@ -333,6 +335,49 @@ function yogurmaVerisi(an: An, kartlar: Record<string, AtifKarti>, ust: string):
   };
 }
 
+/** Gaz sahnesinin metinleri: adımlar sahnelere; baskı, hacim, Ehrlich ve ester cümleleri bilgi kimliğiyle bulunur. */
+function gazVerisi(an: An, kartlar: Record<string, AtifKarti>, ust: string): Omit<GazVeKabarmaProps, "children"> {
+  const ad = an.gor.adimlar.map((a) => splitHamCumleler(a.metin));
+  const anla = an.anla.flatMap((b) => b.paragraflar.flatMap(splitHamCumleler));
+  const tum = [...anla, ...an.yuzlesme.flatMap((y) => splitHamCumleler(y.cevap))];
+  const yaz = (cs: string[]) => <Metin metin={cs.join(" ")} kartlar={kartlar} />;
+  const hepsi = (id: string, cs = tum) => cs.filter((c) => c.includes(`[[${id}]]`));
+  const ilk = (id: string) => hepsi(id).slice(0, 1);
+  const B = GAZ.bilgiler;
+  const G = GAZ.gorseller;
+  return {
+    ust,
+    baslik: an.baslik,
+    soru: an.soru,
+    gorsel: {
+      kapak: gorselli(G.kapak),
+      hucre: gorselli(G.hucre),
+      tasan: gorselli(G.tasan),
+      torula: gorselli(G.torula),
+    },
+    metin: {
+      hucre: yaz(ad[0].slice(0, 2)),
+      gliserol: yaz([...ad[0].slice(2), ...ilk(B.gpd1)]),
+      kabarma: yaz(ad[2].slice(0, 1)),
+      baski: yaz(ad[1].slice(0, 1)),
+      tukenme: yaz(ad[2].slice(1)),
+      maltoz: yaz(ad[1].slice(1, 2)),
+      ayni: yaz(anla.filter((c) => c.startsWith("Gazın da kokunun da kaynağı aynı dönüşümdür"))),
+      ag: yaz(ad[3].slice(0, 2)),
+      reoloji: yaz(ad[3].slice(2)),
+      hacim: yaz([...ad[4].slice(0, 1), ...hepsi(B.hacim, anla).filter((c) => c.includes(`${GAZ.hacimSicaklik} °C`))]),
+      genlesme: yaz(ad[4].slice(1)),
+      sonGaz: yaz(ilk(B.sonGaz)),
+      ehrlich: yaz([...ilk(B.ehrlichYol), ...ilk(B.oncul)]),
+      ehrlichUc: yaz(ilk(B.ehrlich)),
+      etkin: yaz([...ilk(B.etkin), ...ilk(B.asetoin)]),
+      tdel: yaz([...ad[5].slice(0, 1), ...ilk(B.tdelFark)]),
+      ester: yaz(ad[5].slice(1)),
+      pisirme: yaz([...ilk(B.esterKayip), ...ilk(B.etanol)]),
+    },
+  };
+}
+
 export default async function AnSayfasi({ params }: PageProps) {
   const { an: id } = await params;
   const sira = getAnKimlikleri();
@@ -502,6 +547,8 @@ export default async function AnSayfasi({ params }: PageProps) {
     govde = <DegirmenTasinda {...degirmenVerisi(an, kartlar, ust)}>{okuma}</DegirmenTasinda>;
   } else if (an.id === YOGURMA.an) {
     govde = <YogurmaTezgahi {...yogurmaVerisi(an, kartlar, ust)}>{okuma}</YogurmaTezgahi>;
+  } else if (an.id === GAZ.an) {
+    govde = <GazVeKabarma {...gazVerisi(an, kartlar, ust)}>{okuma}</GazVeKabarma>;
   } else {
     // Şekiller adım sırasıyla numaralanır; görseli olmayan adım önceki şekli tutar.
     const sekiller: SahneSekli[] = [];

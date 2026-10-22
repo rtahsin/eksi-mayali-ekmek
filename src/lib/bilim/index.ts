@@ -15,6 +15,7 @@ export {
   DEGIRMEN,
   DURAK_ZEMIN,
   FIRIN_DENEYI,
+  GAZ,
   ILK_ON_GUN,
   KABUK,
   RAF,

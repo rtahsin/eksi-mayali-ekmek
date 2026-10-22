@@ -252,6 +252,52 @@ export const YOGURMA = {
   },
 } as const;
 
+/**
+ * "Kabarırken doğan gaz ve koku" bayrak sahnesi: şekeri ver (sürükle), hacim sütunu, gaz ızgarası, Ehrlich kartları, esterler.
+ * Her sayı ve ad ilgili bilginin metninde geçer (bilim.check.test.ts).
+ */
+export const GAZ = {
+  an: "gaz_ve_kabarma",
+  bilgiler: {
+    donusum: "gaz.alkol_fermantasyonunda_sekerlerin_co2_ve_etanole_donusumu",
+    baski: "scer.maltoz_alimi_ve_katabolit_baskisi",
+    maltoz: "scer.yagsiz_hamurda_maltoz_ana_kaynak",
+    tukenme: "gaz.sakkarozsuz_hamurda_co2_uretim_kinetigi_ve_seker_tukelmesi",
+    hacim: "gaz.fermantasyon_sonunda_hacim_4_katindan_fazla_artar",
+    sonGaz: "gaz.ekmekte_son_gaz_hacmi_yuzde70i_asabilir",
+    gpd1: "gliserol.gpd1_yoksa_co2_azalir",
+    ehrlichYol: "aroma.ehrlich_yolu_ve_fuzel_alkoller",
+    oncul: "aroma_onculleri.aminoasitler_ehrlich_ucucu_oncul",
+    ehrlich: "aroma.ehrlich_valin_izolosin_losin_donusumu",
+    etkin: "aroma.ic_en_aktif_bilesikler",
+    asetoin: "aroma.asetoin_ve_diasetil_tereyagimsi_koku",
+    tdelFark: "aroma.torulaspora_ve_s_bayanus_farkli_aroma",
+    ester: "tdel.ester_artisi_bayanus_delbrueckii",
+    esterKayip: "aroma.esterler_pisirmede_kaybolur",
+    etanol: "aroma_onculleri.etanol_pisirmede_12_dakika",
+  },
+  /** Mayanın hücreye aldığı şekerler; maltoz, glukoz ve fruktoz bitince alınır. */
+  sekerler: ["glukoz", "fruktoz", "maltoz"],
+  urunler: ["karbondioksit", "etanol", "gliserol", "organik asitler", "aroma bileşikleri"],
+  hacimKat: "4,4",
+  hacimSicaklik: 32,
+  sonGazPay: 70,
+  gpd1: { en: 30, cok: 50 },
+  etanolDakika: 12,
+  ehrlich: [
+    { amino: "valin", bilesik: "2-metilpropanal" },
+    { amino: "izolösin", bilesik: "2-metilbutanal" },
+    { amino: "lösin", bilesik: "3-metilbutanal" },
+  ],
+  esterler: ["etil oktanoat", "2-feniletil asetat", "etil dekanoat", "etil dodekanoat"],
+  gorseller: {
+    kapak: "dough_rising_33376211891",
+    hucre: "saccharomyces_cerevisiae_sem",
+    tasan: "rising_dough_overflowing_its_container",
+    torula: "torulaspora_delbrueckii_s_spores",
+  },
+} as const;
+
 /** Ondalık sayıyı Türkçe yazar: 0.6 → "0,6". */
 export const virgullu = (n: number) => String(n).replace(".", ",");
 
