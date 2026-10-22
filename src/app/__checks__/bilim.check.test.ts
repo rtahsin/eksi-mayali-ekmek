@@ -21,6 +21,7 @@ import {
   KABUK,
   RAF,
   TANE,
+  YOGURMA,
   virgullu,
   findAtiflar,
   splitCumleler,
@@ -283,6 +284,33 @@ describe("content/bilim bütünlüğü", () => {
     expect(Object.values(B).filter((id) => !cumleler.includes(`[[${id}]]`))).toEqual([]);
     const gorseller = getGorseller();
     expect(Object.values(DEGIRMEN.gorseller).filter((g) => !gorseller[g])).toEqual([]);
+  });
+
+  it("yoğurma sahnesinin sayıları bilgide geçiyor", () => {
+    const metin = (id: string) => {
+      const a = resolveAtif(id);
+      return a?.tur === "bilgi" ? a.bilgi.metin : "";
+    };
+    const B = YOGURMA.bilgiler;
+    const { yuksek: y, dusuk: d } = YOGURMA;
+    const beklenen: [string, string][] = [
+      [B.evre, `${y.gelisme}, ${y.tepe} ve ${y.cokme}. dakikada`],
+      [B.evre, `${d.gelisme}, ${d.tepe} ve ${d.cokme}. dakikada`],
+      [B.evre, `${YOGURMA.asiri}. dakika aşırı yoğurma`],
+      [B.uzun, `(${YOGURMA.uzunDakika} dakika)`],
+      [B.cwrs, `${YOGURMA.cwrs.rafine} dakika`],
+      [B.cwrs, `${YOGURMA.cwrs.tam} dakika`],
+      [B.tokat, `${YOGURMA.tokat.sicaklik} °C'de ${YOGURMA.tokat.en}–${YOGURMA.tokat.cok} dakika`],
+    ];
+    expect(beklenen.filter(([id, s]) => !metin(id).includes(s)).map(([id, s]) => `${id}: ${s}`)).toEqual([]);
+    const an = getAn(YOGURMA.an);
+    expect(an.gor.adimlar.length).toBeGreaterThanOrEqual(5); // yogurmaVerisi 5 adımı kullanır
+    const anla = an.anla.flatMap((b) => b.paragraflar).flatMap(splitHamCumleler);
+    expect(anla.filter((c) => c.includes(`[[${B.evre}]]`)).length).toBe(2); // iki unun evre cümlesi
+    const cumleler = anMetinleri(an).join(" ");
+    expect(Object.values(B).filter((id) => !cumleler.includes(`[[${id}]]`))).toEqual([]);
+    const gorseller = getGorseller();
+    expect(Object.values(YOGURMA.gorseller).filter((g) => !gorseller[g])).toEqual([]);
   });
 
   it("metinlerde sağlık sözcüğü yok", () => {

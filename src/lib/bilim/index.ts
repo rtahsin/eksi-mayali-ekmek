@@ -19,6 +19,7 @@ export {
   KABUK,
   RAF,
   TANE,
+  YOGURMA,
   asitlikZemini,
   virgullu,
 } from "./gorunum";

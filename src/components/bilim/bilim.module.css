@@ -2157,3 +2157,444 @@
     transition: none;
   }
 }
+
+/* ══ Yoğurma tezgahında ══ */
+
+/* Ağ örülür: çözgü yukarıdan iner, atkı iki yandan geçer, gözlere nişasta oturur */
+.orguFon img {
+  opacity: 0.42;
+}
+
+.orguIkinci {
+  opacity: clamp(0, (var(--p, 0) - 0.66) * 5, 1);
+}
+
+.orgu {
+  position: absolute;
+  top: 7svh;
+  left: 50%;
+  width: min(88vw, 54svh);
+  height: auto;
+  transform: translateX(-50%);
+}
+
+.orguZemin {
+  fill: rgba(15, 20, 22, 0.55);
+  stroke: rgba(242, 238, 230, 0.4);
+}
+
+.cozgu,
+.atki path {
+  fill: none;
+  stroke: var(--murekkep);
+  stroke-width: 2.4;
+  stroke-linecap: round;
+}
+
+.cozgu {
+  transform-box: fill-box;
+  transform-origin: top;
+  transform: scaleY(clamp(0, var(--p, 0) * 4 - var(--i) * 0.1, 1));
+}
+
+.atki {
+  transform-box: fill-box;
+  transform-origin: left;
+  transform: scaleX(clamp(0, var(--p, 0) * 4 - 1.2 - var(--j) * 0.12, 1));
+}
+
+.atki[data-ters] {
+  transform-origin: right;
+}
+
+.atki .atkiGolge {
+  stroke: rgba(10, 14, 16, 0.75);
+  stroke-width: 6;
+}
+
+.orguTane {
+  fill: rgba(242, 238, 230, 0.78);
+  stroke: rgba(10, 14, 16, 0.6);
+  stroke-width: 1;
+  transform-box: fill-box;
+  transform-origin: center;
+  transform: scale(clamp(0, (var(--p, 0) - 0.7 - var(--k) * 0.004) * 8, 1));
+}
+
+/* İmza: yoğur */
+.yogur {
+  padding: 56px var(--kenar) 48px;
+  border-top: 1px solid var(--cizgi);
+  border-bottom: 1px solid var(--cizgi);
+}
+
+.yogur > * {
+  max-width: 44rem;
+}
+
+.yogur h2 {
+  margin: 0 0 10px;
+  font: 500 clamp(28px, 7vw, 52px)/1.05 var(--bas);
+}
+
+.tezgah {
+  position: relative;
+  margin: 16px 0 10px;
+  padding: 34px 10px 12px;
+  background:
+    repeating-linear-gradient(90deg, rgba(242, 238, 230, 0.05) 0 2px, transparent 2px 26px),
+    linear-gradient(#3a2f25, #2c241d);
+  border: 1.5px solid var(--murekkep);
+  cursor: grab;
+  touch-action: pan-y;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.tezgah:active {
+  cursor: grabbing;
+}
+
+.tezgah:focus-visible {
+  outline: 2px solid var(--murekkep);
+  outline-offset: 3px;
+}
+
+.tezgahDakika {
+  position: absolute;
+  top: 8px;
+  left: 10px;
+  font: 400 13px var(--bas);
+  color: var(--soluk);
+}
+
+.tezgahDakika b {
+  margin-left: 4px;
+  font: 600 18px var(--bas);
+  color: var(--murekkep);
+  font-variant-numeric: tabular-nums;
+}
+
+.hamurlar {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.hamurKutu {
+  margin: 0;
+  text-align: center;
+}
+
+.hamurKutu figcaption {
+  font: 500 13px/1.3 var(--bas);
+}
+
+.hamurSema {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+  transform-origin: 50% 90%;
+  transform: translateX(calc(var(--dx, 0) * 0.22px)) skewX(calc(var(--dx, 0) * -0.12deg)) scale(var(--sx, 1), var(--sy, 1));
+  transition: transform 0.18s ease-out;
+}
+
+.hamurGovde {
+  fill: #e6d8bb;
+  stroke: #b59f78;
+  stroke-width: 1.5;
+}
+
+.tel,
+.telKopuk {
+  stroke: #5b3d26;
+  stroke-width: 1.2;
+  stroke-linecap: round;
+  fill: none;
+}
+
+.telKopuk {
+  opacity: 0.45;
+}
+
+.surtIpucu {
+  position: absolute;
+  inset: auto 0 44%;
+  text-align: center;
+  font: 600 15px var(--bas);
+  color: #2c241d;
+  pointer-events: none;
+  animation: surtIpucu 1.4s ease-in-out infinite alternate;
+}
+
+@keyframes surtIpucu {
+  from {
+    transform: translateX(-10px);
+  }
+  to {
+    transform: translateX(10px);
+  }
+}
+
+.kayit {
+  display: block;
+  width: 100%;
+  height: auto;
+  margin: 4px 0 6px;
+  font: 400 10px var(--bas);
+  fill: var(--soluk);
+}
+
+.kayitIzgara {
+  stroke: rgba(242, 238, 230, 0.12);
+}
+
+.kayitBaslik {
+  font-size: 11px;
+}
+
+.kayitImlec {
+  stroke: var(--murekkep);
+  stroke-dasharray: 2 3;
+}
+
+.kayitIz path {
+  fill: none;
+  stroke: var(--murekkep);
+  stroke-width: 2.2;
+}
+
+.kayitIz circle {
+  fill: var(--murekkep);
+}
+
+.kayitIz text {
+  fill: var(--murekkep);
+  font-weight: 600;
+  paint-order: stroke;
+  stroke: var(--zemin);
+  stroke-width: 3px;
+}
+
+.kayitIz[data-dusuk] path {
+  stroke: #e0a85a;
+  stroke-dasharray: 5 3;
+}
+
+.kayitIz[data-dusuk] circle,
+.kayitIz[data-dusuk] text {
+  fill: #e0a85a;
+}
+
+.evreListe {
+  display: grid;
+  gap: 6px;
+  margin: 0 0 12px;
+  padding: 0;
+  list-style: none;
+  font-size: 14px;
+}
+
+.evreListe li {
+  display: flex;
+  gap: 8px;
+  align-items: baseline;
+}
+
+.izOrnek {
+  flex: none;
+  width: 22px;
+  height: 0;
+  border-top: 2.5px solid var(--murekkep);
+  transform: translateY(-3px);
+}
+
+.izOrnek[data-dusuk] {
+  border-top: 2.5px dashed #e0a85a;
+}
+
+/* Köprüler kopar: bağ çizgisi söner, her kükürt kendi alt birimine çekilir */
+.kopruFon img {
+  opacity: 0.3;
+  filter: grayscale(0.4);
+}
+
+.kopru {
+  position: absolute;
+  top: 7svh;
+  left: 50%;
+  width: min(94vw, 560px);
+  transform: translateX(-50%);
+  overflow: visible;
+}
+
+.altBirim {
+  fill: rgba(242, 238, 230, 0.16);
+  stroke: var(--murekkep);
+  stroke-width: 1.6;
+}
+
+.kukurt {
+  --k: clamp(0, (var(--p, 0) - 0.36 - var(--i) * 0.035) * 7, 1);
+}
+
+.kukurt line {
+  stroke: #e0a85a;
+  stroke-width: 2;
+  opacity: calc(1 - var(--k));
+}
+
+.kukurt circle {
+  fill: #e0a85a;
+}
+
+.kukurt circle[data-yon="-1"] {
+  transform: translateX(calc(var(--k) * -5px));
+}
+
+.kukurt circle[data-yon="1"] {
+  transform: translateX(calc(var(--k) * 5px));
+}
+
+.kukurt[data-dik] circle[data-yon="-1"] {
+  transform: translateY(calc(var(--k) * -7px));
+}
+
+.kukurt[data-dik] circle[data-yon="1"] {
+  transform: translateY(calc(var(--k) * 7px));
+}
+
+.kopruEtiket {
+  fill: var(--soluk);
+  font: 400 11px var(--bas);
+}
+
+/* Gözenek: az yoğrulmuş içten en uygun sürede yoğrulmuş içe */
+.gozenekSahne {
+  display: grid;
+  align-content: start;
+  justify-items: center;
+  gap: 8px;
+  padding: 12svh var(--kenar) 0;
+}
+
+.gozenekEtiket {
+  display: grid;
+  font: 500 clamp(20px, 5.4vw, 32px)/1.15 var(--bas);
+  text-align: center;
+}
+
+.gozenekEtiket span {
+  grid-area: 1 / 1;
+}
+
+.gozenekEtiket [data-a],
+.kesitA {
+  opacity: calc(1 - clamp(0, (var(--p, 0) - 0.35) * 4, 1));
+}
+
+.gozenekEtiket [data-b],
+.kesitB {
+  opacity: clamp(0, (var(--p, 0) - 0.35) * 4, 1);
+}
+
+.kesit {
+  width: min(92vw, 520px);
+  height: auto;
+}
+
+.kesitKabuk {
+  fill: #8a5a2e;
+}
+
+.kesitIc {
+  fill: #eadcbf;
+}
+
+.kesitA circle,
+.kesitB circle {
+  fill: #4a3a28;
+}
+
+/* Süre una göre */
+.sureler {
+  display: grid;
+  gap: 14px;
+  max-width: 40rem;
+  margin: 8px 0 12px;
+}
+
+.sureSatir {
+  display: grid;
+  gap: 6px;
+  font-size: 14px;
+}
+
+.sureSatir > span:first-child {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 2px 12px;
+}
+
+.sureSatir b {
+  font: 600 14px var(--bas);
+  white-space: nowrap;
+}
+
+.sureHat {
+  position: relative;
+  height: 14px;
+  background: rgba(242, 238, 230, 0.08);
+}
+
+.sureDolu {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: calc(var(--a) * 100%);
+  width: max(3px, calc((var(--b) - var(--a)) * 100%));
+  background: var(--murekkep);
+}
+
+.sureDolu[data-dusuk] {
+  background: #e0a85a;
+}
+
+.sureCentik {
+  position: absolute;
+  top: -3px;
+  bottom: -3px;
+  left: calc(var(--a) * 100%);
+  width: 2px;
+  background: var(--zemin);
+}
+
+.sureEksen {
+  display: flex;
+  justify-content: space-between;
+  font: 400 12px var(--bas);
+  color: var(--soluk);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cozgu,
+  .atki,
+  .orguTane {
+    transform: none;
+  }
+
+  .hamurSema {
+    transition: none;
+  }
+
+  .surtIpucu {
+    animation: none;
+  }
+
+  .kukurt circle {
+    transform: none;
+  }
+
+}

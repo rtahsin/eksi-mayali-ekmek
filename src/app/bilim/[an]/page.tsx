@@ -11,6 +11,7 @@ import {
   KANIT_ETIKETI,
   RAF,
   TANE,
+  YOGURMA,
   asitlikZemini,
   cumleEtiketi,
   findAtiflar,
@@ -38,6 +39,7 @@ import { KabukKizarmasi, type KabukKizarmasiProps } from "@/components/bilim/Kab
 import { RaftaIlkHafta, type RaftaIlkHaftaProps } from "@/components/bilim/RaftaIlkHafta";
 import { OlgunTane, type OlgunTaneProps } from "@/components/bilim/OlgunTane";
 import { DegirmenTasinda, type DegirmenTasindaProps } from "@/components/bilim/DegirmenTasinda";
+import { YogurmaTezgahi, type YogurmaTezgahiProps } from "@/components/bilim/YogurmaTezgahi";
 import s from "@/components/bilim/bilim.module.css";
 
 export const dynamicParams = false;
@@ -293,6 +295,44 @@ function degirmenVerisi(an: An, kartlar: Record<string, AtifKarti>, ust: string)
   };
 }
 
+/** Yoğurma sahnesinin metinleri: adımlar sahnelere; evre, köprü, gözenek ve süre cümleleri bilgi kimliğiyle bulunur. */
+function yogurmaVerisi(an: An, kartlar: Record<string, AtifKarti>, ust: string): Omit<YogurmaTezgahiProps, "children"> {
+  const ad = an.gor.adimlar.map((a) => splitHamCumleler(a.metin));
+  const anla = an.anla.flatMap((b) => b.paragraflar.flatMap(splitHamCumleler));
+  const tum = [...anla, ...an.yuzlesme.flatMap((y) => splitHamCumleler(y.cevap))];
+  const yaz = (cs: string[]) => <Metin metin={cs.join(" ")} kartlar={kartlar} />;
+  const hepsi = (id: string, cs = tum) => cs.filter((c) => c.includes(`[[${id}]]`));
+  const ilk = (id: string) => hepsi(id).slice(0, 1);
+  const B = YOGURMA.bilgiler;
+  const G = YOGURMA.gorseller;
+  return {
+    ust,
+    baslik: an.baslik,
+    soru: an.soru,
+    gorsel: {
+      kapak: gorselli(G.kapak),
+      gluten: gorselli(G.gluten),
+      nisasta: gorselli(G.nisasta),
+      tepe: gorselli(G.tepe),
+    },
+    metin: {
+      ag: yaz(ad[0]),
+      aile: yaz(ad[2]),
+      denge: yaz(ilk(B.denge)),
+      kompozit: yaz(ad[4].slice(0, 1)),
+      direnc: yaz(ad[1]),
+      evre: yaz(hepsi(B.evre, anla)),
+      iskelet: yaz([...ilk(B.iskelet), ...ilk(B.makro)]),
+      kopma: yaz([...ad[3].slice(0, 1), ...ilk(B.uzun)]),
+      gaz: yaz(ilk(B.gaz)),
+      gozenek: yaz(ad[4].slice(1)),
+      hacim: yaz(hepsi(B.hacim)),
+      cwrs: yaz(ilk(B.cwrs)),
+      tokat: yaz(ilk(B.tokat)),
+    },
+  };
+}
+
 export default async function AnSayfasi({ params }: PageProps) {
   const { an: id } = await params;
   const sira = getAnKimlikleri();
@@ -460,6 +500,8 @@ export default async function AnSayfasi({ params }: PageProps) {
     govde = <OlgunTane {...taneVerisi(an, kartlar, ust)}>{okuma}</OlgunTane>;
   } else if (an.id === DEGIRMEN.an) {
     govde = <DegirmenTasinda {...degirmenVerisi(an, kartlar, ust)}>{okuma}</DegirmenTasinda>;
+  } else if (an.id === YOGURMA.an) {
+    govde = <YogurmaTezgahi {...yogurmaVerisi(an, kartlar, ust)}>{okuma}</YogurmaTezgahi>;
   } else {
     // Şekiller adım sırasıyla numaralanır; görseli olmayan adım önceki şekli tutar.
     const sekiller: SahneSekli[] = [];

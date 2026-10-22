@@ -220,6 +220,38 @@ export const DEGIRMEN = {
   },
 } as const;
 
+/**
+ * "Yoğurma tezgahında" bayrak sahnesi: yoğur (sürt), örülen ağ, kopan köprüler, gözenek, una göre süre.
+ * Her sayı ilgili bilginin metninde geçer (bilim.check.test.ts).
+ */
+export const YOGURMA = {
+  an: "yogurma_tezgahinda",
+  bilgiler: {
+    evre: "yogurma.evre_sureleri_una_gore",
+    iskelet: "gluten.disulfit_bagli_glutenin_iskeleti",
+    makro: "disulfit.glutenin_makropolimeri",
+    uzun: "disulfit.uzun_karistirma_suresi_disulfit_baglarini_yikar",
+    gaz: "yogurma.asiri_yogurma_gaz_tutulmasini_zayiflatir",
+    denge: "reoloji.viskoz_elastik_denge",
+    hacim: "gluten.elastiklik_hacim_optimum",
+    cwrs: "yogurma.cwrs_ekmek_icin_yogurma_suresi",
+    tokat: "yogurma.tokat_ekmegi_yogurma_sure_ve_sicakligi",
+  },
+  /** Aynı yoğurucuda evrelere ulaşılan dakika. */
+  yuksek: { gelisme: 4, tepe: 8, cokme: 12 },
+  dusuk: { gelisme: 6, tepe: 11, cokme: 16 },
+  asiri: 20,
+  uzunDakika: 15,
+  cwrs: { rafine: "3,26", tam: "4,36" },
+  tokat: { en: 45, cok: 60, sicaklik: "25–30" },
+  gorseller: {
+    kapak: "kneading_chapati_dough_01",
+    gluten: "gluten_and_carbon_nanotubes",
+    nisasta: "photomicrograph_of_wheat_starch",
+    tepe: "kneading_bread_dough",
+  },
+} as const;
+
 /** Ondalık sayıyı Türkçe yazar: 0.6 → "0,6". */
 export const virgullu = (n: number) => String(n).replace(".", ",");
 
