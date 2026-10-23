@@ -416,7 +416,7 @@ export function KesikAtilinca({
             />
             <path
               d="M20 160C20 60 80 20 150 20S280 60 280 160"
-              className={s.cephe}
+              className={s.buharCephesi}
             />
             <text x="150" y="112" textAnchor="middle" className={s.kesitYazi}>
               iç · ~{KESIK.icSicaklik} °C
@@ -457,9 +457,9 @@ export function KesikAtilinca({
 
       <section className={s.karar} aria-labelledby="cetvel-baslik">
         <h2 id="cetvel-baslik">Yüzeyin sıcaklık cetveli</h2>
-        <div className={s.cetvel}>
+        <div className={s.isiCetvel}>
           <span
-            className={s.cetvelBant}
+            className={s.isiCetvelBant}
             style={
               {
                 "--a": konum(KESIK.esmerlesme.digerleri.en),
@@ -468,7 +468,7 @@ export function KesikAtilinca({
             }
           />
           <span
-            className={s.cetvelBant}
+            className={s.isiCetvelBant}
             data-ideal
             style={
               {
@@ -484,7 +484,7 @@ export function KesikAtilinca({
             { t: (KESIK.ideal.en + KESIK.ideal.cok) / 2, etiket: `${KESIK.ideal.en}–${KESIK.ideal.cok} °C`, ad: "ideal kabuk rengi" },
             ...KESIK.ayarlar.map((a) => ({ t: a, ad: "fırın ayarı" })),
           ].map((m: { t: number; ad: string; etiket?: string }) => (
-            <span key={`${m.t}-${m.ad}`} className={s.cetvelIsaret} style={{ "--a": konum(m.t) } as CSSProperties}>
+            <span key={`${m.t}-${m.ad}`} className={s.isiCetvelIsaret} style={{ "--a": konum(m.t) } as CSSProperties}>
               <b>{m.etiket ?? `${m.t} °C`}</b>
               {m.ad}
             </span>

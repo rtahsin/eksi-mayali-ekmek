@@ -10,6 +10,7 @@ export function KaynakPaneli({ kartlar }: { kartlar: Record<string, AtifKarti> }
   const [acik, setAcik] = useState<string[] | null>(null);
   const tetik = useRef<HTMLElement | null>(null);
   const kapat = useRef<HTMLButtonElement>(null);
+  const kart = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     function tikla(e: MouseEvent) {
@@ -25,8 +26,21 @@ export function KaynakPaneli({ kartlar }: { kartlar: Record<string, AtifKarti> }
   useEffect(() => {
     if (!acik) return;
     kapat.current?.focus();
+    // Kart açıkken Tab odağı kartın içinde döndürür; arkadaki sayfaya kaçmaz.
     function tus(e: KeyboardEvent) {
       if (e.key === "Escape") setAcik(null);
+      if (e.key !== "Tab" || !kart.current) return;
+      const odaklar = [...kart.current.querySelectorAll<HTMLElement>("button, a[href]")];
+      const ilk = odaklar[0];
+      const son = odaklar[odaklar.length - 1];
+      const icerde = kart.current.contains(document.activeElement);
+      if (!icerde || (e.shiftKey && document.activeElement === ilk)) {
+        e.preventDefault();
+        (e.shiftKey ? son : ilk)?.focus();
+      } else if (!e.shiftKey && document.activeElement === son) {
+        e.preventDefault();
+        ilk?.focus();
+      }
     }
     document.addEventListener("keydown", tus);
     return () => {
@@ -39,7 +53,7 @@ export function KaynakPaneli({ kartlar }: { kartlar: Record<string, AtifKarti> }
   return (
     <>
       <div className={s.perde} onClick={() => setAcik(null)} aria-hidden="true" />
-      <div className={s.panel} role="dialog" aria-modal="true" aria-labelledby="kaynak-karti-baslik">
+      <div ref={kart} className={s.panel} role="dialog" aria-modal="true" aria-labelledby="kaynak-karti-baslik">
         <div className={s.panelUst}>
           <strong id="kaynak-karti-baslik">Kaynak kartı</strong>
           <button ref={kapat} type="button" className={s.kapat} onClick={() => setAcik(null)}>

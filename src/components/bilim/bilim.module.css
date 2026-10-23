@@ -76,6 +76,8 @@
 
 .akis {
   position: relative;
+  /* Kartlar, sabit katmanın z-index taşıyan öğelerinin (fırın kesiti gibi) de üstünden geçer. */
+  z-index: 1;
   margin-top: -100svh;
   pointer-events: none;
 }
@@ -88,6 +90,15 @@
   min-height: 100svh;
   display: flex;
   padding: 0 var(--kenar);
+}
+
+/* Adım ekranı boydan boya kaplar ama saydamdır; tıklama ve dokunma alttaki sabit katmana (künye, şekil) geçer. */
+.akis > .adim {
+  pointer-events: none;
+}
+
+.adim > * {
+  pointer-events: auto;
 }
 
 .dolgu {
@@ -465,6 +476,13 @@
 .gizli {
   opacity: 0;
   pointer-events: none;
+}
+
+/* Gizli şeride klavyeyle gelinirse görünür olur; odak görünmez düğmeye düşmez. */
+.gizli:focus-within {
+  opacity: 1;
+  pointer-events: auto;
+  transition: none;
 }
 
 .okuma {
@@ -3505,7 +3523,7 @@
   stroke-linejoin: round;
 }
 
-.cephe {
+.buharCephesi {
   fill: none;
   stroke: #2f6f9f;
   stroke-width: 2;
@@ -3525,7 +3543,7 @@
 }
 
 /* Yüzeyin sıcaklık cetveli */
-.cetvel {
+.isiCetvel {
   position: relative;
   height: 600px;
   max-width: 40rem;
@@ -3533,7 +3551,7 @@
   border-left: 2px solid var(--murekkep);
 }
 
-.cetvelBant {
+.isiCetvelBant {
   position: absolute;
   left: -7px;
   width: 12px;
@@ -3542,11 +3560,11 @@
   background: rgba(242, 238, 230, 0.35);
 }
 
-.cetvelBant[data-ideal] {
+.isiCetvelBant[data-ideal] {
   background: #e0a85a;
 }
 
-.cetvelIsaret {
+.isiCetvelIsaret {
   position: absolute;
   left: 0;
   right: 0;
@@ -3560,7 +3578,7 @@
   transform: translateY(50%);
 }
 
-.cetvelIsaret::before {
+.isiCetvelIsaret::before {
   content: "";
   position: absolute;
   left: 0;
@@ -3569,7 +3587,7 @@
   border-top: 1.5px solid var(--murekkep);
 }
 
-.cetvelIsaret b {
+.isiCetvelIsaret b {
   flex: none;
   min-width: 52px;
   font: 600 14px var(--bas);
@@ -3583,7 +3601,7 @@
 @media (prefers-reduced-motion: reduce) {
   .gozenekAg circle,
   .basincIgne,
-  .cephe {
+  .buharCephesi {
     transform: none;
   }
 }
