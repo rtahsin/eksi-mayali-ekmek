@@ -125,7 +125,7 @@ Her adımın sonunda Tahsin'e görebileceği bir çıktı gelir. ⏸ işaretli a
 15. Bilim odası iskeleti Next.js içinde, telefon önce kurulur; yanında yolculuk haritasının ilk hâli. *Claude.* ⏸ Tasarım yönü (T-01, Argon'un üç önerisinden Tahsin seçer).
 16. Kaydırmalı sahne ve simülasyon: on günde topluluğun değişimi ve pH'ın düşüşü, okurun oynattığı gün kaydırıcısı. *Claude.*
 17. Kanıt katmanı, çekmece, Yüzleşme bölümü ve karakter kartları. *Claude.*
-18. Telefon ve masaüstü testi.
+18. ½ Telefon ve masaüstü testi. 23 Eki: 26 an ve dizin masaüstünde (1440×900), hareket azaltma açıkken ve klavyeyle otomatik denetlendi (`arastirma/araclar/denetim/`); konsol hatası, taşma, kırık görsel, azaltmada süren hareket yok; odak her durakta görünür ve örtülmüyor, kaynak kartı odağı içinde tutuyor. Gerçek telefonda bakış Tahsin'de.
 
 **A5 · Ses** (A2–A4 ile paralel yürür)
 19. Claude okuma metnini hazırlar; Tahsin yaklaşık bir saat kaydeder.
