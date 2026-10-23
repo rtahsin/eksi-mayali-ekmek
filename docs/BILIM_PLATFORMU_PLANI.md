@@ -125,7 +125,7 @@ Her adımın sonunda Tahsin'e görebileceği bir çıktı gelir. ⏸ işaretli a
 15. Bilim odası iskeleti Next.js içinde, telefon önce kurulur; yanında yolculuk haritasının ilk hâli. *Claude.* ⏸ Tasarım yönü (T-01, Argon'un üç önerisinden Tahsin seçer).
 16. Kaydırmalı sahne ve simülasyon: on günde topluluğun değişimi ve pH'ın düşüşü, okurun oynattığı gün kaydırıcısı. *Claude.*
 17. Kanıt katmanı, çekmece, Yüzleşme bölümü ve karakter kartları. *Claude.*
-18. ½ Telefon ve masaüstü testi. 23 Eki: 26 an ve dizin masaüstünde (1440×900), hareket azaltma açıkken ve klavyeyle otomatik denetlendi (`arastirma/araclar/denetim/`); konsol hatası, taşma, kırık görsel, azaltmada süren hareket yok; odak her durakta görünür ve örtülmüyor, kaynak kartı odağı içinde tutuyor. Gerçek telefonda bakış Tahsin'de.
+18. ✔ Telefon ve masaüstü testi. 23 Eki: 26 an ve dizin masaüstünde (1440×900), hareket azaltma açıkken ve klavyeyle otomatik denetlendi (`arastirma/araclar/denetim/`); konsol hatası, taşma, kırık görsel, azaltmada süren hareket yok; odak her durakta görünür ve örtülmüyor, kaynak kartı odağı içinde tutuyor. 23 Eki: Tahsin on bayrak sahnesini kendi telefonunda (ev ağından, yayın sürümü) gezdi: "gayet güzel olmuş". Ton onaylandı.
 
 **A5 · Ses** (A2–A4 ile paralel yürür)
 19. Claude okuma metnini hazırlar; Tahsin yaklaşık bir saat kaydeder.
@@ -163,6 +163,7 @@ Beyaz monografi levhası denendi, beğenilmedi ("ilk yaptığın daha iyiydi"). 
 
 ## Bilinen veri işleri (yayından önce)
 
-- 23 bilgi bozuk kaynak anahtarına bağlı (`request username`; Güney İtalya, katı ve sıvı Tip I ekşi maya çalışması). Gerçek DOI bulunup yeniden eşlenecek.
-- `ekmege_etkisi` ve `ekmek_dokusu` düğümleri tek kayıtlı; birleştirilecek.
+- ✔ 23 bilgi bozuk kaynak anahtarına bağlıydı (`request username`); A0'da yeniden eşlendi. 23 Eki denetimi: `content/bilim/kaynaklar.json` içinde kalmadı.
+- ✔ `ekmege_etkisi` ve `ekmek_dokusu` düğümleri birleştirildi; içerikte artık yoklar.
+- ✔ (23 Eki) Düşük çözünürlüklü görseller: küflü ekmek, banneton ve yoğurma fotoğrafları aynı konunun büyük ve serbest lisanslı fotoğraflarıyla değişti; Acetobacter, gluten, iyot testi ve L. plantarum görsellerinin özgünü indirildi (Commons'taki en büyük boyutları 600–860 px; gluten için daha büyük açık görüntü bulunamadı).
 - Bilgiler arası bağlar yarım: 1.049 kaydın notunda başka bir bilgiye atıf var. Anlar ve teşhis için bağ katmanı gerekiyor (2. aşamada karar verilecek).

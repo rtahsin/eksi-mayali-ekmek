@@ -51,8 +51,8 @@
     "dosya": "/bilim/gorsel/antifungal_activity_of_l.webp",
     "alt": "Lactobacillus plantarum'un antifungal etkinlik plakası",
     "tur": "foto",
-    "w": 500,
-    "h": 480,
+    "w": 600,
+    "h": 576,
     "renk_haritasi": false,
     "lisans": "CC BY 4.0",
     "lisans_url": "https://creativecommons.org/licenses/by/4.0",
@@ -70,18 +70,6 @@
     "lisans_url": "https://creativecommons.org/licenses/by/4.0",
     "yazar": "Korinna",
     "kaynak_sayfa": "https://commons.wikimedia.org/wiki/File:Bacteria_yeast_and_fungi_03.jpg"
-  },
-  "banneton": {
-    "dosya": "/bilim/gorsel/banneton.webp",
-    "alt": "Mayalanma sepeti (banneton)",
-    "tur": "foto",
-    "w": 330,
-    "h": 454,
-    "renk_haritasi": false,
-    "lisans": "CC BY-SA 2.5",
-    "lisans_url": "https://creativecommons.org/licenses/by-sa/2.5",
-    "yazar": "The original uploader was Nleamy at English Wikipedia .",
-    "kaynak_sayfa": "https://commons.wikimedia.org/wiki/File:Banneton.jpg"
   },
   "batter_bread_bubbles": {
     "dosya": "/bilim/gorsel/batter_bread_bubbles.webp",
@@ -195,8 +183,8 @@
     "dosya": "/bilim/gorsel/c0015116_acetobacter_aceti_bacteria.webp",
     "alt": "Asetik asit bakterisi Acetobacter",
     "tur": "mikroskop",
-    "w": 500,
-    "h": 374,
+    "w": 800,
+    "h": 599,
     "renk_haritasi": false,
     "lisans": "CC0",
     "lisans_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
@@ -334,8 +322,8 @@
     "dosya": "/bilim/gorsel/gluten_and_carbon_nanotubes.webp",
     "alt": "Gluten, farklı büyütmelerde mikroskop görüntüsü",
     "tur": "mikroskop",
-    "w": 500,
-    "h": 234,
+    "w": 817,
+    "h": 383,
     "renk_haritasi": true,
     "lisans": "CC BY 3.0",
     "lisans_url": "https://creativecommons.org/licenses/by/3.0",
@@ -409,6 +397,18 @@
     "yazar": "Mezhenskyj",
     "kaynak_sayfa": "https://commons.wikimedia.org/wiki/File:Iodine-starch_test_for_apples.jpg"
   },
+  "jaskorgarny": {
+    "dosya": "/bilim/gorsel/jaskorgarny.webp",
+    "alt": "Mayalanma sepetleri (banneton)",
+    "tur": "foto",
+    "w": 1600,
+    "h": 1200,
+    "renk_haritasi": false,
+    "lisans": "CC BY-SA 3.0",
+    "lisans_url": "https://creativecommons.org/licenses/by-sa/3.0",
+    "yazar": "Solblomma5",
+    "kaynak_sayfa": "https://commons.wikimedia.org/wiki/File:J%C3%A4skorgarny.jpg"
+  },
   "journal_pone_0251556_sekil_2a": {
     "dosya": "/bilim/gorsel/journal_pone_0251556_sekil_2.webp",
     "alt": "Tam buğday tanesinin enine kesiti: kabuk, aleuron tabakası ve nişastalı endosperm, konfokal floresan mikroskobu",
@@ -478,17 +478,17 @@
     "yazar": "Petar Milošević",
     "kaynak_sayfa": "https://commons.wikimedia.org/wiki/File:Kifli_made_with_spelt_flour_(Serbian_cuisine).jpg"
   },
-  "kneading_bread_dough": {
-    "dosya": "/bilim/gorsel/kneading_bread_dough.webp",
-    "alt": "Ekmek hamurunun yoğrulması",
+  "kneading_bread_by_hand": {
+    "dosya": "/bilim/gorsel/kneading_bread_by_hand.webp",
+    "alt": "Ekmek hamurunun elle yoğrulması",
     "tur": "foto",
-    "w": 500,
-    "h": 435,
+    "w": 1600,
+    "h": 1385,
     "renk_haritasi": false,
-    "lisans": "Public domain",
-    "lisans_url": null,
-    "yazar": "Man vyi",
-    "kaynak_sayfa": "https://commons.wikimedia.org/wiki/File:Kneading_bread_dough.jpg"
+    "lisans": "CC BY 4.0",
+    "lisans_url": "https://creativecommons.org/licenses/by/4.0",
+    "yazar": "Anna.Massini",
+    "kaynak_sayfa": "https://commons.wikimedia.org/wiki/File:Kneading_bread_by_hand.jpg"
   },
   "kneading_chapati_dough_01": {
     "dosya": "/bilim/gorsel/kneading_chapati_dough_01.webp",
@@ -660,15 +660,15 @@
   },
   "moldy_bread": {
     "dosya": "/bilim/gorsel/moldy_bread.webp",
-    "alt": "Küflenmiş ekmek",
+    "alt": "Küflenmiş ekmek dilimi",
     "tur": "foto",
-    "w": 330,
-    "h": 248,
+    "w": 1600,
+    "h": 1068,
     "renk_haritasi": false,
-    "lisans": "CC BY 3.0",
-    "lisans_url": "https://creativecommons.org/licenses/by/3.0",
-    "yazar": "Once in a Blue Moon",
-    "kaynak_sayfa": "https://commons.wikimedia.org/wiki/File:Moldy_Bread.jpg"
+    "lisans": "CC BY-SA 4.0",
+    "lisans_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "yazar": "Jan Myšák",
+    "kaynak_sayfa": "https://commons.wikimedia.org/wiki/File:Moldy_bread.jpg"
   },
   "moldy_old_bread": {
     "dosya": "/bilim/gorsel/moldy_old_bread.webp",
@@ -1067,8 +1067,8 @@
     "dosya": "/bilim/gorsel/testing_seed_for_starch.webp",
     "alt": "Tohumda nişasta testi (iyot çözeltisiyle)",
     "tur": "foto",
-    "w": 500,
-    "h": 386,
+    "w": 860,
+    "h": 664,
     "renk_haritasi": false,
     "lisans": "CC BY 2.0",
     "lisans_url": "https://creativecommons.org/licenses/by/2.0",

@@ -248,7 +248,7 @@ export const YOGURMA = {
     kapak: "kneading_chapati_dough_01",
     gluten: "gluten_and_carbon_nanotubes",
     nisasta: "photomicrograph_of_wheat_starch",
-    tepe: "kneading_bread_dough",
+    tepe: "kneading_bread_by_hand",
   },
 } as const;
 
