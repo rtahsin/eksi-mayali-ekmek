@@ -343,7 +343,7 @@ export default async function ProductDetailPage({ params }: ProductPageProps) {
           </div>
 
           {(product.category === "bread" || product.category === "specialty") && (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             {/* Spec 1: Hydration */}
             <div className="p-5 rounded-2xl bg-cream-surface border border-line space-y-1">
               <div className="flex items-center gap-2 text-accent text-xs font-bold uppercase tracking-wider">
@@ -355,20 +355,6 @@ export default async function ProductDetailPage({ params }: ProductPageProps) {
               </div>
               <p className="text-xs text-ink-muted">
                 Yüksek su oranı ile yumuşak, geniş gözenekli ve nemli iç doku.
-              </p>
-            </div>
-
-            {/* Spec 2: Fermentation */}
-            <div className="p-5 rounded-2xl bg-cream-surface border border-line space-y-1">
-              <div className="flex items-center gap-2 text-accent text-xs font-bold uppercase tracking-wider">
-                <Clock className="w-4 h-4" />
-                <span>Soğuk Fermantasyon</span>
-              </div>
-              <div className="font-mono text-2xl font-bold text-ink pt-1">
-                36 - 40 Saat
-              </div>
-              <p className="text-xs text-ink-muted">
-                +4°C'de yavaş olgunlaşma.
               </p>
             </div>
 
