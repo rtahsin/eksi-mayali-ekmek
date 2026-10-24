@@ -136,6 +136,11 @@ Her adımın sonunda Tahsin'e görebileceği bir çıktı gelir. ⏸ işaretli a
 
 **Sonra:** kalan anlar ve karakterler, efsane dosyası, QR köprüsü, üretici masası (yerel araç, kalıp oturduktan sonra) ve açılış.
 
+- ✔ (24 Eki) Efsane dosyası: `/bilim/efsaneler`. 26 anın Yüzleşme bölümleri (69 inanç), föylerdeki inançlar ve kaynakların ayrıldığı 105 konu tek kapıda; metinler anların kendisidir, her inancın paylaşılabilir bağlantısı var. Kapısı dizinde ve her anın Yüzleşme bölümünde.
+- ✔ (24 Eki) QR köprüsü: ürün sayfasında "Bu ekmekte ne oluyor?". Anlar ürünün kaydından (içindekiler, un cinsi) seçilir (`src/lib/bilim/kopru.ts`); kayıtta geçmeyen yöntem (gece dolapta bekletme, kesik) varsayılmaz, ekşi maya geçmeyen ürüne köprü kurulmaz. Açılışa kadar kapalı (`FEATURES.bilimOdasi`).
+- ✔ (24 Eki) Açılış, Tahsin'in kararıyla: `FEATURES.bilimOdasi` açıldı; ürün sayfalarında köprü görünür, `noindex` kalktı; menüde (Kütüphane'nin yanında), mobil menüde ve alt bilgide "Bilim odası" bağlantısı; site haritasında dizin, efsane dosyası ve 26 an.
+- Açılış sonrasına ertelendi (24 Eki, Tahsin): ses (A5), işaretleme katmanı (A3-14), segmentasyon (A3-13), üretici masası, bilgiler arası bağ katmanı.
+
 ### Bir an ne zaman "hazır" sayılır
 
 - Betik kapısı temiz geçmiştir.

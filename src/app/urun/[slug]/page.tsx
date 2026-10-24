@@ -28,6 +28,10 @@ import {
 } from "lucide-react";
 import { articleIndex } from "@/lib/editorial";
 import { SITE_URL } from "@/lib/site";
+import { FEATURES } from "@/lib/features";
+import { ekmeginAnlari } from "@/lib/bilim";
+import { getAn, getAnKimlikleri, getGorsel } from "@/lib/bilim/server";
+import { BilimKoprusu, type KopruAni } from "@/components/bilim/Kopru";
 
 export const revalidate = 60; // ISR: Revalidate product page every 60 seconds
 
@@ -110,6 +114,23 @@ export async function generateMetadata({ params }: ProductPageProps): Promise<Me
       canonical: url,
     },
   };
+}
+
+// QR köprüsü: bilim odası açılana kadar kapalı (FEATURES.bilimOdasi).
+function bilimAnlari(product: ExtendedProduct): KopruAni[] {
+  if (!FEATURES.bilimOdasi) return [];
+  try {
+    const sira = getAnKimlikleri();
+    return ekmeginAnlari(product).map((id) => {
+      const an = getAn(id);
+      const ilk = an.gor.adimlar.find((a) => a.gorsel)?.gorsel;
+      return { id, no: sira.indexOf(id) + 1, baslik: an.baslik, soru: an.soru, resim: ilk ? getGorsel(ilk)?.dosya : undefined };
+    });
+  } catch (e) {
+    // köprü ürün sayfasını bozmaz
+    console.error("bilim köprüsü:", e);
+    return [];
+  }
 }
 
 export default async function ProductDetailPage({ params }: ProductPageProps) {
@@ -293,7 +314,7 @@ export default async function ProductDetailPage({ params }: ProductPageProps) {
             </div>
 
             {/* Client Interactive Add-to-Cart & Stepper */}
-            <ProductDetailClientActions product={product} />
+            <ProductDetailClientActions product={{ ...product, masterclass: undefined }} />
 
             {/* Delivery Guarantee Info Box */}
             <div className="p-4 rounded-2xl bg-cream-surface border border-line space-y-2 text-xs font-sans text-ink-muted">
@@ -321,6 +342,7 @@ export default async function ProductDetailPage({ params }: ProductPageProps) {
             </p>
           </div>
 
+          {(product.category === "bread" || product.category === "specialty") && (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
             {/* Spec 1: Hydration */}
             <div className="p-5 rounded-2xl bg-cream-surface border border-line space-y-1">
@@ -343,12 +365,10 @@ export default async function ProductDetailPage({ params }: ProductPageProps) {
                 <span>Soğuk Fermantasyon</span>
               </div>
               <div className="font-mono text-2xl font-bold text-ink pt-1">
-                {product.category === "bread" || product.category === "specialty"
-                  ? "36 - 40 Saat"
-                  : "Geleneksel"}
+                36 - 40 Saat
               </div>
               <p className="text-xs text-ink-muted">
-                +4°C'de yavaş olgunlaşma; fitik asit sıfırlanır, gluten yumuşar.
+                +4°C'de yavaş olgunlaşma.
               </p>
             </div>
 
@@ -364,7 +384,7 @@ export default async function ProductDetailPage({ params }: ProductPageProps) {
                   : "Atalık Taş Değirmen"}
               </div>
               <p className="text-xs text-ink-muted">
-                Ruşeymi ve kepeği ayrıştırılmamış yerli taş değirmen unu.
+                Bu ekmekte kullanılan un ve tahıllar.
               </p>
             </div>
 
@@ -382,6 +402,7 @@ export default async function ProductDetailPage({ params }: ProductPageProps) {
               </p>
             </div>
           </div>
+          )}
 
           {/* Ingredients list */}
           {product.ingredients && product.ingredients.length > 0 && (
@@ -403,6 +424,8 @@ export default async function ProductDetailPage({ params }: ProductPageProps) {
             </div>
           )}
         </section>
+
+        <BilimKoprusu anlar={bilimAnlari(product)} />
 
         {/* 3. Deep Dive Masterclass: Ustanın Notu & Biyoloji */}
         {masterclass && (

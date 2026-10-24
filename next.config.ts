@@ -30,6 +30,11 @@ const securityHeaders = [
 ];
 
 const nextConfig: NextConfig = {
+  // Ürün sayfası (QR köprüsü) ve site haritası ISR'da bilim odasının kayıtlarını okur; dosyalar sunucu paketine girsin.
+  outputFileTracingIncludes: {
+    "/urun/*": ["./content/bilim/yolculuk.json", "./content/bilim/gorseller.json", "./content/bilim/anlar/*.json"],
+    "/sitemap.xml": ["./content/bilim/yolculuk.json"],
+  },
   pageExtensions: ["js", "jsx", "md", "mdx", "ts", "tsx"],
   reactStrictMode: true,
   images: {

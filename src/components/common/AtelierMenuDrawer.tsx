@@ -22,9 +22,11 @@ import {
   User,
   LogOut,
   Package,
+  Wheat,
 } from "lucide-react";
 import Link from "next/link";
 import { CONTACT, whatsappLink } from "@/lib/site";
+import { FEATURES } from "@/lib/features";
 import { useAuth } from "@/components/auth/AuthProvider";
 import { useTheme } from "@/lib/theme/useTheme";
 
@@ -333,6 +335,28 @@ export function AtelierMenuDrawer({ isOpen, onClose }: AtelierMenuDrawerProps) {
                   <ArrowRight className="w-4 h-4 text-ink-muted group-hover:text-accent group-hover:translate-x-1 transition-all shrink-0" />
                 </Link>
               </li>
+
+              {/* Bilim odası */}
+              {FEATURES.bilimOdasi && (
+                <li>
+                  <Link
+                    href="/bilim"
+                    onClick={handleLinkClick}
+                    className="min-h-[48px] py-3 px-3.5 rounded-xl bg-bg/50 hover:bg-bg border border-transparent hover:border-line flex items-center justify-between group transition-colors"
+                  >
+                    <div className="flex items-center gap-3">
+                      <div className="w-8 h-8 rounded-lg bg-cream-surface border border-line flex items-center justify-center text-accent shrink-0">
+                        <Wheat className="w-4 h-4" />
+                      </div>
+                      <div>
+                        <div className="font-serif text-base font-bold text-ink">Bilim odası</div>
+                        <div className="text-xs text-ink-muted">Tarladan dilime, ekmeğin yolculuğu</div>
+                      </div>
+                    </div>
+                    <ArrowRight className="w-4 h-4 text-ink-muted group-hover:text-accent group-hover:translate-x-1 transition-all shrink-0" />
+                  </Link>
+                </li>
+              )}
 
               {/* Laboratuvar */}
               <li>

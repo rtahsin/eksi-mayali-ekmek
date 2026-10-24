@@ -3,6 +3,7 @@
 import React from "react";
 import { Phone, Mail, MapPin, MessageSquare, BookOpen } from "lucide-react";
 import { CONTACT } from "@/lib/site";
+import { FEATURES } from "@/lib/features";
 
 function InstagramIcon({ className = "w-4 h-4" }: { className?: string }) {
   return (
@@ -67,6 +68,13 @@ export function Footer() {
                   <span>Kütüphane</span>
                 </a>
               </li>
+              {FEATURES.bilimOdasi && (
+                <li>
+                  <a href="/bilim" className="hover:text-ink transition-colors">
+                    Bilim odası
+                  </a>
+                </li>
+              )}
               <li>
                 <a href="/laboratuvar" className="hover:text-ink transition-colors">
                   Laboratuvar Simülasyonu
