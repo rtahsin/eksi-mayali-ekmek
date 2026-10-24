@@ -314,7 +314,7 @@ export default async function ProductDetailPage({ params }: ProductPageProps) {
             </div>
 
             {/* Client Interactive Add-to-Cart & Stepper */}
-            <ProductDetailClientActions product={product} />
+            <ProductDetailClientActions product={{ ...product, masterclass: undefined }} />
 
             {/* Delivery Guarantee Info Box */}
             <div className="p-4 rounded-2xl bg-cream-surface border border-line space-y-2 text-xs font-sans text-ink-muted">
@@ -342,6 +342,7 @@ export default async function ProductDetailPage({ params }: ProductPageProps) {
             </p>
           </div>
 
+          {(product.category === "bread" || product.category === "specialty") && (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
             {/* Spec 1: Hydration */}
             <div className="p-5 rounded-2xl bg-cream-surface border border-line space-y-1">
@@ -364,12 +365,10 @@ export default async function ProductDetailPage({ params }: ProductPageProps) {
                 <span>Soğuk Fermantasyon</span>
               </div>
               <div className="font-mono text-2xl font-bold text-ink pt-1">
-                {product.category === "bread" || product.category === "specialty"
-                  ? "36 - 40 Saat"
-                  : "Geleneksel"}
+                36 - 40 Saat
               </div>
               <p className="text-xs text-ink-muted">
-                +4°C'de yavaş olgunlaşma; fitik asit sıfırlanır, gluten yumuşar.
+                +4°C'de yavaş olgunlaşma.
               </p>
             </div>
 
@@ -385,7 +384,7 @@ export default async function ProductDetailPage({ params }: ProductPageProps) {
                   : "Atalık Taş Değirmen"}
               </div>
               <p className="text-xs text-ink-muted">
-                Ruşeymi ve kepeği ayrıştırılmamış yerli taş değirmen unu.
+                Bu ekmekte kullanılan un ve tahıllar.
               </p>
             </div>
 
@@ -403,6 +402,7 @@ export default async function ProductDetailPage({ params }: ProductPageProps) {
               </p>
             </div>
           </div>
+          )}
 
           {/* Ingredients list */}
           {product.ingredients && product.ingredients.length > 0 && (
