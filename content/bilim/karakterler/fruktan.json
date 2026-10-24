@@ -1,0 +1,44 @@
+{
+  "id": "fruktan",
+  "ad": "Fruktan",
+  "eski_ad": null,
+  "tur": "molekul",
+  "tek_cumle": "Ekmek yapımı sırasında un fruktanlarının bir kısmı ekmek mayasının invertaz enzimiyle parçalanır [[fruktan.maya_invertazi_kismen_parcalar]]",
+  "bolumler": [
+    {
+      "baslik": "Nedir",
+      "cumleler": [
+        "D-fruktoz birimlerinden oluşan, düşük molekül ağırlıklı ve çoğu zaman dallanmış polimerlerdir [[fruktan.tanim]]"
+      ]
+    },
+    {
+      "baslik": "Ne yapar",
+      "cumleler": [
+        "Polimerleşme derecesi dördün üzerindeki fruktanları parçalamak için hücre dışına salınan fruktanaz enzimleri gerekir, bu enzimler laktobasillerde nadirdir [[fruktan.dp4_ustu_hucre_disi_fruktanaz]]"
+      ]
+    },
+    {
+      "baslik": "Ne yer, ne üretir",
+      "cumleler": [
+        "Fruktoz ve sakaroza dönüştürülür, bu şekerler homofermentatif laktik asit bakterilerince laktik aside, heterofermentatif bakterilerce ise laktik asit, asetik asit, etanol ve karbondioksite metabolize edilir [[fruktan.lab_fruktan_metabolizma_yollari]]"
+      ]
+    },
+    {
+      "baslik": "Hamurda ne olur",
+      "cumleler": [
+        "Fermantasyonun ilk saatinde invertaz aracılı şeker salınımı belirleyici görünürken, sonraki evrelerde amilaz aracılı salınım baskındır [[fruktan.ilk_saatte_invertaz_sonra_amilaz]]"
+      ]
+    },
+    {
+      "baslik": "Ekmeğe etkisi",
+      "cumleler": [
+        "Lactiplantibacillus plantarum ile hazırlanmış ekşi mayanın kullanıldığı iki aşamalı yöntemde ekmekteki fruktan, yalnız mayayla yapılan kontrol ekmeğinden %33 daha düşük çıktı [[fruktan.eksi_maya_ekmekte_yuzde33_az]]"
+      ]
+    }
+  ],
+  "efsane": null,
+  "anlar": [
+    "ayni_sofrada"
+  ],
+  "gorseller": []
+}

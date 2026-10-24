@@ -1,0 +1,1258 @@
+{
+  "id": "besleme",
+  "ad": "Besleme",
+  "bilgiler": [
+    {
+      "id": "besleme.olgunluk_yaklasik_10_gun",
+      "metin": "Fırıncıların «10 gün kuralı» iki çalışmada desteklendi: 10 farklı unla başlatılan ekşi mayalar 10. güne kadar işlevce olgunlaşıp kararlı hale geldi, laboratuvardaki çavdar ekşi mayaları da 10–12 besleme döngüsünde olgunluğa ulaştı.",
+      "kosul": "1) Kendiliğinden başlatılan 40 ekşi maya, 10 un türü; oda sıcaklığı; günlük besleme (1 yemek kaşığı atılıp 1 yemek kaşığı un + 1 yemek kaşığı su eklendi); 14 gün. 2) Laboratuvarda yarı katı çavdar ekşi mayası; Type 1370 çavdar unu + %0,5 NaCl; hamur verimi 200; her gün 1:10 yenileme; 20 °C ve 30 °C; 56 gün.",
+      "kanit": "uzlasi",
+      "bolum": "Efsaneler",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.7717/peerj.16163",
+          "yer": "Discussion, Succession processes; Fig. 2"
+        },
+        {
+          "kaynak": "10.1371/journal.pone.0095449",
+          "yer": "Discussion"
+        }
+      ]
+    },
+    {
+      "id": "besleme.hamur_verimi_sicaklik_ph_ana_etkenler",
+      "metin": "Hamur verimi (su oranı), pH ve fermantasyon sıcaklığı, ekşi mayada hangi LAB türlerinin bulunacağını doğrudan etkileyen başlıca etkenler olarak bildirilir.",
+      "kosul": "",
+      "kanit": "ikincil",
+      "bolum": "Hangi koşulda",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1371/journal.pone.0095449",
+          "yer": "Introduction"
+        },
+        {
+          "kaynak": "10.3389/fmicb.2020.01212",
+          "yer": "Discussion"
+        },
+        {
+          "kaynak": "10.1128/aem.00309-14",
+          "yer": "Introduction"
+        },
+        {
+          "kaynak": "10.1016/j.fm.2009.07.012",
+          "yer": "Introduction"
+        },
+        {
+          "kaynak": "10.1016/j.fm.2013.06.002",
+          "yer": "Abstract"
+        },
+        {
+          "kaynak": "10.1016/j.ijfoodmicro.2013.11.021",
+          "yer": "Highlights"
+        },
+        {
+          "kaynak": "10.1016/j.ijfoodmicro.2013.11.021",
+          "yer": "Abstract"
+        },
+        {
+          "kaynak": "10.1016/j.ijfoodmicro.2016.05.004",
+          "yer": "Abstract"
+        },
+        {
+          "kaynak": "10.1016/j.tifs.2004.02.012",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "besleme.olgun_maya_un_turune_gore",
+      "metin": "Aynı koşulda 10 farklı unla başlatılan ekşi mayalar arasında, 14. gündeki olgun mayaların farkını en çok un türü belirledi; asitlik, kabarma yüksekliği ve LAB oranı bakımından aynı undan yapılan mayalar farklı unlardan yapılanlardan çok daha benzerdi, genç mayalar ise hem aynı un içinde hem unlar arasında değişkendi.",
+      "kosul": "Kendiliğinden başlatılan 40 ekşi maya, 10 un türü; oda sıcaklığı; günlük besleme (1 yemek kaşığı atılıp 1 yemek kaşığı un + 1 yemek kaşığı su eklendi); 14 gün; 16S rRNA dizilemesi.",
+      "kanit": "tek_kaynak",
+      "bolum": "Hangi koşulda",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.7717/peerj.16163",
+          "yer": "Results, Differences among mature starters; Table 2, Fig. 5"
+        },
+        {
+          "kaynak": "10.7717/peerj.16163",
+          "yer": "Discussion, Mature starters"
+        }
+      ]
+    },
+    {
+      "id": "besleme.siki_sividan_gecis_mikrobiyota",
+      "metin": "Dört olgun ekşi mayayı sıkı beslemeden sıvı beslemeye geçirmek, mikrobiyotanın bileşimini, özellikle laktik asit bakterilerini ve bunlarla ilişkili biyokimyasal özellikleri tutarlı biçimde değiştirmiş göründü.",
+      "kosul": "Güney İtalya'dan (Matera, Altamura) 4 olgun Tip I ekşi maya; durum buğdayı (Triticum durum) unu; laboratuvarda 28 gün her gün sıkı (hamur verimi 160) ya da sıvı (hamur verimi 280, 150 rpm karıştırma) olarak beslendi; 25 °C'de 3–6 saat, beslemeler arasında 10 °C'de 16–19 saat; gerçek hamur.",
+      "kanit": "tek_kaynak",
+      "bolum": "Hangi koşulda",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1128/aem.00309-14",
+          "yer": "Discussion"
+        }
+      ]
+    },
+    {
+      "id": "besleme.surec_degiskenleri_zayif",
+      "metin": "Mayanın yaşı, saklandığı yer, besleme sıklığı, kullanılan tahıl ve iklim dahil 33 değişken birlikte, bakteri ve mantar topluluk bileşimindeki farkların %10'undan azını açıkladı.",
+      "kosul": "500 ekşi maya, çoğu ABD'deki ev mayaları, dört kıta; PERMANOVA; küresel ve ABD veri setleri; değişkenler sahiplerin bildirdiği bilgilerdir.",
+      "kanit": "tek_kaynak",
+      "bolum": "Hangi koşulda",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.7554/elife.61644",
+          "yer": "Results – Geography, process parameters, and abiotic factors are poor predictors of sourdough starter microbiome composition"
+        }
+      ]
+    },
+    {
+      "id": "besleme.firinlarda_surekli_yenileme",
+      "metin": "Zanaat ve sanayi fırınlarında ekşi maya fermantasyonu, genellikle bir önceki hamurun aşı olarak kullanıldığı sürekli yenileme döngüsüyle sürdürülür.",
+      "kosul": "Zanaat ve sanayi fırınları",
+      "kanit": "ikincil",
+      "bolum": "Tanım",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.ijfoodmicro.2016.05.004",
+          "yer": "Introduction"
+        },
+        {
+          "kaynak": "10.1016/j.ijfoodmicro.2016.05.025",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "besleme.hamur_verimi_tanimi",
+      "metin": "Hamur verimi, hamur kütlesinin un kütlesine oranının 100 ile çarpımıdır; 17 ekşi mayanın incelendiği bir çalışmada tüm mayaların hamur verimi 250'nin altındaydı.",
+      "kosul": "Belçika, Fransa, Birleşik Krallık ve ABD'den 17 ekşi maya.",
+      "kanit": "tek_kaynak",
+      "bolum": "Tanım",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3389/fmicb.2020.01212",
+          "yer": "Materials and Methods: Collection of Sourdoughs"
+        },
+        {
+          "kaynak": "10.1128/aem.00309-14",
+          "yer": "Introduction"
+        },
+        {
+          "kaynak": "10.3390/microorganisms8010064",
+          "yer": "2.2. Spontaneous rye sourdough preparation"
+        },
+        {
+          "kaynak": "10.1016/j.ijfoodmicro.2020.108551",
+          "yer": "Sourdough characteristics"
+        },
+        {
+          "kaynak": "10.1016/j.lwt.2019.02.004",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "besleme.olgunlugun_firinci_tanimi",
+      "metin": "Fırıncıların gözünden ekşi maya, pH'ı ve kabarması oturduğunda ve güvenilir biçimde ekmek yapılabildiğinde olgundur; bu genellikle 7 ile 14 gün sürer.",
+      "kosul": "",
+      "kanit": "ikincil",
+      "bolum": "Tanım",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.7717/peerj.16163",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "besleme.ussel_buyume_icin_sik_besleme",
+      "metin": "Ekşi mayanın tek kabartıcı olarak kullanıldığı geleneksel süreçlerde mikrobiyotayı üssel büyüme evresinde tutabilmek için sık besleme yapılması gerekir.",
+      "kosul": "Tek kabartıcı olarak ekşi maya kullanımı",
+      "kanit": "tek_kaynak",
+      "bolum": "Tanım",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.ijfoodmicro.2018.08.019",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "besleme.yenileme_tanimi",
+      "metin": "Ekşi mayanın yenilenmesi (geri aşılama), geleneksel olarak oda sıcaklığında, önceki ana hamurdan alınan bir kısımla yeni un ve suyun döngüsel olarak yeniden aşılanması işlemidir.",
+      "kosul": "Geleneksel oda sıcaklığı",
+      "kanit": "tek_kaynak",
+      "bolum": "Tanım",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.fm.2013.06.002",
+          "yer": "Types of sourdough fermentation processes"
+        },
+        {
+          "kaynak": "10.1016/j.cub.2020.11.016",
+          "yer": "Introduction"
+        },
+        {
+          "kaynak": "10.1146/annurev-food-110923-034834",
+          "yer": "3.1. Sourdough Production"
+        },
+        {
+          "kaynak": "10.24072/pcjournal.237",
+          "yer": "Two groups of bread making practices"
+        }
+      ]
+    },
+    {
+      "id": "besleme.sivi_siki_yedinci_yenilemede_kararlilik",
+      "metin": "Beş farklı laktik asit bakterisi suşuyla kurulan sıvı (hamur verimi 330) ve sıkı (hamur verimi 154) buğday ekşi mayalarında mikrop toplulukları yedinci yenilemeden itibaren kararlılığa ulaştı.",
+      "kosul": "Sıvı ve sıkı buğday ekşi mayaları, 5 laktik asit bakterisi suşu",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.lwt.2019.02.004",
+          "yer": "Abstract"
+        },
+        {
+          "kaynak": "10.1016/j.lwt.2019.02.004",
+          "yer": "Abstract"
+        }
+      ]
+    },
+    {
+      "id": "besleme.surekli_yenileme_ilk_asiyi_siler",
+      "metin": "Sürekli yenileme uygulaması, ilk aşının ekşi maya mikrobiyotası üzerindeki etkisini zamanla azaltır veya tamamen ortadan kaldırır.",
+      "kosul": "Geleneksel ekşi mayalar",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.ijfoodmicro.2016.05.025",
+          "yer": "Highlights"
+        }
+      ]
+    },
+    {
+      "id": "besleme.uzun_sureli_yenileme_evrim",
+      "metin": "Ekşi mayaların uzun süreler boyunca kesintisiz yenilenmesi, suşların binlerce veya milyonlarca bakteri nesli boyunca çoğalarak ekşi maya ortamına uyum sağlayıp evrilmesine olanak tanır.",
+      "kosul": "Uzun süreli sürekli yenileme",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.ijfoodmicro.2016.05.004",
+          "yer": "Speciation and diversification"
+        }
+      ]
+    },
+    {
+      "id": "besleme.30c_hizli_yerlesme",
+      "metin": "Çavdar ekşi mayasında mikrop topluluğu 30 °C'de daha hızlı yerleşti; LAB daha ilk fermantasyon döngüsünden sonra baskındı.",
+      "kosul": "Laboratuvarda kendiliğinden başlatılan yarı katı çavdar ekşi mayası; Type 1370 çavdar unu + %0,5 NaCl; hamur verimi 200; her gün 1:10 yenileme; 20 °C ve 30 °C.",
+      "kanit": "tek_kaynak",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1371/journal.pone.0095449",
+          "yer": "Discussion"
+        },
+        {
+          "kaynak": "10.1371/journal.pone.0095449",
+          "yer": "Discussion"
+        }
+      ]
+    },
+    {
+      "id": "besleme.30c_ustu_bakteri_ve_asit",
+      "metin": "30 °C'nin üzerindeki fermantasyonların bakteri etkinliğini ve organik asit üretimini artırdığı sık söylenir, ama bu genelleme yeterince incelenmemiştir.",
+      "kosul": "",
+      "kanit": "ikincil",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.7717/peerj.11389",
+          "yer": "Sourdough Starter Maintenance: Temperature"
+        }
+      ]
+    },
+    {
+      "id": "besleme.ampirik_kontrol_tutarliligi_aksatir",
+      "metin": "Ekşi maya fermantasyonunun ampirik kontrolü, kararlı bir fermantasyon mikrobiyotası ve ürün kalitesi sağlamakta çoğu zaman yetersiz kalır.",
+      "kosul": "",
+      "kanit": "ikincil",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.ijfoodmicro.2016.05.025",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "besleme.asetik_asit_sikida_artar",
+      "metin": "28 günlük besleme boyunca asetik asit derişimi arttı ve en çok sıkı mayalarda yükseldi; sıvı koşulların asetik asit üretimini olumsuz etkilediği önceki çalışmalardan da aktarılır.",
+      "kosul": "Güney İtalya'dan (Matera, Altamura) 4 olgun Tip I ekşi maya; durum buğdayı (Triticum durum) unu; laboratuvarda 28 gün her gün sıkı (hamur verimi 160) ya da sıvı (hamur verimi 280, 150 rpm karıştırma) olarak beslendi; 25 °C'de 3–6 saat, beslemeler arasında 10 °C'de 16–19 saat; gerçek hamur.",
+      "kanit": "tek_kaynak",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1128/aem.00309-14",
+          "yer": "Discussion"
+        },
+        {
+          "kaynak": "10.1128/aem.00309-14",
+          "yer": "Discussion"
+        }
+      ]
+    },
+    {
+      "id": "besleme.besleme_sikligini_asit_toleransi_belirler",
+      "metin": "Geleneksel ekşi mayalarda besleme düzeninin sıklığını esas olarak ortamdaki mikroorganizmaların asit toleransı belirler.",
+      "kosul": "Geleneksel yenilenen ekşi mayalar",
+      "kanit": "ikincil",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1080/10408398.2021.1976100",
+          "yer": "Starter cultures"
+        }
+      ]
+    },
+    {
+      "id": "besleme.buyuk_firinlar_kararli",
+      "metin": "Kontrollü yüksek sıcaklıkta çalışan iki büyük fırının mayaları sıkı ve ayrı kümeler oluşturarak kararlılık gösterdi; oda sıcaklığındaki iki fırının, özellikle D fırınının, toplulukları daha gevşek kümelendi ve daha az kararlıydı.",
+      "kosul": "Estonya fırınları, Type 1370 çavdar unu (öğütme randımanı %85); A: Tip II, 32 °C; B: Tip II, 42–44 °C; C: Tip I, oda sıcaklığı (en çok 28 °C); D: Tip I, oda sıcaklığı 19–30 °C; piro dizileme verisinde NMDS.",
+      "kanit": "tek_kaynak",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1371/journal.pone.0148325",
+          "yer": "Results, Beta-diversity; Fig 4"
+        },
+        {
+          "kaynak": "10.1371/journal.pone.0148325",
+          "yer": "Results, Beta-diversity; Fig 4"
+        },
+        {
+          "kaynak": "10.1371/journal.pone.0148325",
+          "yer": "Discussion"
+        }
+      ]
+    },
+    {
+      "id": "besleme.buzdolabi_kabarmayi_azaltir",
+      "metin": "Kendiliğinden oluşmuş fırın ekşi mayalarında buzdolabı sıcaklıkları azalmış kabarma etkinliğiyle ilişkilendirilmiştir.",
+      "kosul": "Kendiliğinden oluşmuş fırın ekşi mayaları.",
+      "kanit": "ikincil",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.7717/peerj.11389",
+          "yer": "Microbial Ecology: Organic acids produced by bacteria"
+        }
+      ]
+    },
+    {
+      "id": "besleme.eksi_mayali_un_orani_araligi",
+      "metin": "Literatürdeki ekmek tariflerinde ekşi maya olarak fermente edilen un oranı toplam un bazında %0,5 ile %100 arasında değişmektedir.",
+      "kosul": "toplam un bazında literatür verisi",
+      "kanit": "tek_kaynak",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1146/annurev-food-110923-034834",
+          "yer": "3.2. Bread Production"
+        }
+      ]
+    },
+    {
+      "id": "besleme.fermantasyon_suresi_nicel_dagilim",
+      "metin": "Belçika fırın mayalarıyla yapılan bir çalışmada, mayalarını 4 ve 30 saatlik fermantasyonla yapan bir fırının örneklerinde LAB tür bileşimi benzer kaldığı hâlde PCA'da örnekler belirgin farklıydı; yazarlar fermantasyon süresinin mikrop bileşimini değil, LAB türlerinin nicel dağılımını ve böylece metabolik etkinliği değiştirmiş olabileceğini öne sürer.",
+      "kosul": "Belçika'daki 11 fırından 39 geleneksel ekşi maya örneği; bir yıl arayla iki örnekleme; kültüre dayalı tanımlama, PCR-DGGE ve metabolit analizi. D03 fırını: 4 ve 30 saatlik fermantasyon.",
+      "kanit": "tek_kaynak",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1128/aem.02771-07",
+          "yer": "Discussion"
+        },
+        {
+          "kaynak": "10.1128/aem.02771-07",
+          "yer": "Results: PCA-based analysis"
+        }
+      ]
+    },
+    {
+      "id": "besleme.firin_laboratuvar_ayni_asitlik",
+      "metin": "Aynı ekşi mayanın 80 gün boyunca zanaat fırınında ya da laboratuvarda yenilenmesi olası LAB hücre yoğunluğunu ve ilgili biyokimyasal özellikleri etkilemedi; pH, titre edilebilir asitlik ve olası LAB sayısı iki ortamda neredeyse aynıydı.",
+      "kosul": "Güney İtalya'dan (Matera, Altamura, Valenzano) 7 olgun Tip I ekşi maya; çoğunlukla durum buğdayı (Triticum durum) unu; 80 gün boyunca her gün, aynı mayanın bir kolu zanaat fırınında, öteki laboratuvarda yenilendi; 24–28 °C; gerçek hamur.",
+      "kanit": "tek_kaynak",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1128/aem.00572-12",
+          "yer": "Abstract"
+        },
+        {
+          "kaynak": "10.1128/aem.00572-12",
+          "yer": "Results, Technology and biochemical and microbiological characteristics"
+        }
+      ]
+    },
+    {
+      "id": "besleme.gunluk_ve_iki_gunluk_besleme_topluluk_etkisi",
+      "metin": "Uygulanan iki farklı besleme programının (günlük ve iki günde bir) ekşi maya mikrobiyal topluluk kompozisyonu üzerinde etkisi olmamıştır.",
+      "kosul": "Üç farklı unla (tam buğday, çok amaçlı, ekmeklik) hazırlanan 18 ekşi maya başlangıcı; günlük (yaklaşık 24 saat) ve iki günde bir (yaklaşık 48 saat) besleme",
+      "kanit": "tek_kaynak",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1128/spectrum.02380-25",
+          "yer": "DISCUSSION"
+        }
+      ]
+    },
+    {
+      "id": "besleme.kontrollu_protokol_kararlilik",
+      "metin": "Oda sıcaklığında çalışan bir fırın sabit 30 °C, daha küçük aşı oranı ve daha uzun fermantasyona geçince mikrop topluluğu kararlı hale geldi, asit üretimi ve LAB yoğunluğu dengelendi, L. helveticus ile Limosilactobacillus pontis'in payı arttı.",
+      "kosul": "Estonya'daki D fırını, Type 1370 çavdar unu (öğütme randımanı %85). Önce: Tip I, oda sıcaklığı 19–30 °C, ~%33 aşı oranı, ~4 saat, hamur verimi ~200. Sonra: 30 °C, 12 saat, %10 aşı oranı; 5 ay izleme.",
+      "kanit": "tek_kaynak",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1371/journal.pone.0148325",
+          "yer": "Abstract"
+        },
+        {
+          "kaynak": "10.1371/journal.pone.0148325",
+          "yer": "Discussion"
+        }
+      ]
+    },
+    {
+      "id": "besleme.literatur_asi_orani",
+      "metin": "Yayımlanmış yöntemlerde ekşi maya aşı oranı genellikle %10 ile %25 arasındadır (ortanca %20); bazı aykırı yöntemler %5'in altında ya da %50'ye kadar oran kullanır.",
+      "kosul": "Ekşi maya araştırma makalelerinin sistematik derlemesi; değerler yayımlanmış çalışmalardan derlendi. Şekil 2B.",
+      "kanit": "tek_kaynak",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.tifs.2020.12.008",
+          "yer": "4. Using conditions; Fig. 2B"
+        }
+      ]
+    },
+    {
+      "id": "besleme.literatur_fermantasyon_suresi",
+      "metin": "Yayımlanmış Tip I ekşi maya çalışmalarında ekşi maya fermantasyon süresinin ortancası 4 saattir; uç değerler 1 ve 8 saattir.",
+      "kosul": "Ekşi maya araştırma makalelerinin sistematik derlemesi; değerler yayımlanmış çalışmalardan derlendi. Şekil 2A.",
+      "kanit": "tek_kaynak",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.tifs.2020.12.008",
+          "yer": "4. Using conditions; Fig. 2A"
+        }
+      ]
+    },
+    {
+      "id": "besleme.literatur_sicaklik",
+      "metin": "Yayımlanmış çalışmalarda ekşi maya fermantasyonu için en sık kullanılan sıcaklık 30 °C'dir; değerler 22 ile 40 °C arasında değişir.",
+      "kosul": "Ekşi maya araştırma makalelerinin sistematik derlemesi; değerler yayımlanmış çalışmalardan derlendi. Şekil 2A.",
+      "kanit": "tek_kaynak",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.tifs.2020.12.008",
+          "yer": "4. Using conditions; Fig. 2A"
+        }
+      ]
+    },
+    {
+      "id": "besleme.oda_sicakligi_mevsimsel_degisim",
+      "metin": "Oda sıcaklığında ekşi maya sürdüren fırınlarda LAB türlerinin oranı mevsime göre değişti: D fırınında kışın Levilactobacillus zymae öne çıktı, sıcak aylarda Limosilactobacillus pontis ve Lactobacillus helveticus baskındı; ortam sıcaklığında çalışmak ısı seven L. helveticus'un kalıcı baskınlığını engelledi.",
+      "kosul": "Estonya fırınları, Type 1370 çavdar unu (öğütme randımanı %85). C fırını: Tip I, oda sıcaklığı (en çok 28 °C), ~%33 aşı oranı, ~4 saat, hamur verimi ~200, ticari kurutulmuş başlatıcıdan. D fırını: Tip I, oda sıcaklığı 19–30 °C, ~%33 aşı oranı, ~4 saat, hamur verimi ~200.",
+      "kanit": "tek_kaynak",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1371/journal.pone.0148325",
+          "yer": "Abstract"
+        },
+        {
+          "kaynak": "10.1371/journal.pone.0148325",
+          "yer": "Results, Analysis of the LAB community; Figs 1 and 2"
+        },
+        {
+          "kaynak": "10.1371/journal.pone.0148325",
+          "yer": "Discussion"
+        }
+      ]
+    },
+    {
+      "id": "besleme.optimizasyon_asama_un_su_oranlari_ve_sure",
+      "metin": "Çıplak arpa ekşi mayasının üç aşamalı kendiliğinden yenileme fermantasyonu için optimize edilen parametreler, 1. aşamada 1:1,13 un:su oranı, 30 °C ve 24 saat; 2. aşamada ise 1:1:1,3 aşı:un:su oranı, 31 °C ve 14 saat olarak belirlenmiştir.",
+      "kosul": "Çıplak (kavuzsuz) arpa ekşi mayası; kendiliğinden yenileme (backslopping); Box-Behnken optimizasyon tasarımı",
+      "kanit": "tek_kaynak",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods10102253",
+          "yer": "Abstract"
+        }
+      ]
+    },
+    {
+      "id": "besleme.organik_asit_turu_uygulamaya_bagli",
+      "metin": "Ekşi mayada baskın olan organik asit türü, fermantasyon süresi, sıcaklık ve hamur verimi gibi bakım uygulamalarına da bağlıdır.",
+      "kosul": "",
+      "kanit": "ikincil",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.7717/peerj.11389",
+          "yer": "Microbial Ecology: Organic acids produced by bacteria"
+        }
+      ]
+    },
+    {
+      "id": "besleme.sabit_parametreler_kararliligi_garantilemez",
+      "metin": "Ekşi mayada sabit teknolojik parametrelerin uygulanması mikrobiyal kararlılığı tek başına garanti etmez.",
+      "kosul": "",
+      "kanit": "tek_kaynak",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.ijfoodmicro.2013.11.021",
+          "yer": "Highlights"
+        }
+      ]
+    },
+    {
+      "id": "besleme.sanfranciscensis_kosullari",
+      "metin": "Fructilactobacillus sanfranciscensis, sık ve hızlı yenileme, ortam sıcaklığı ve orta derecede asidik pH gibi koşullar uygulandığında ekşi mayaya yerleşir.",
+      "kosul": "",
+      "kanit": "ikincil",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3389/fmicb.2020.01212",
+          "yer": "Discussion"
+        }
+      ]
+    },
+    {
+      "id": "besleme.sicak_soguk_cinsler",
+      "metin": "Daha sıcak fermantasyonların (yaklaşık 20–37 °C) Lactobacillaceae ailesini, daha soğuk fermantasyonların (yaklaşık 4–15 °C) ise Fructilactobacillus, Leuconostoc ve Weissella türlerini kayırabileceğine dair kanıt vardır.",
+      "kosul": "",
+      "kanit": "ikincil",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.7717/peerj.11389",
+          "yer": "Sourdough Starter Maintenance: Temperature"
+        }
+      ]
+    },
+    {
+      "id": "besleme.sicaklik_oranlari_kaydirir",
+      "metin": "Bu çalışmada fermantasyon sıcaklığı farklı türler seçmedi; topluluktaki sınırlı sayıda LAB türünün birbirine oranını değiştirdi.",
+      "kosul": "Laboratuvarda kendiliğinden başlatılan yarı katı çavdar ekşi mayası; Type 1370 çavdar unu + %0,5 NaCl; hamur verimi 200; 56 gün her gün 1:10 yenileme; 20 °C ile 30 °C karşılaştırması.",
+      "kanit": "tek_kaynak",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1371/journal.pone.0095449",
+          "yer": "Discussion"
+        }
+      ]
+    },
+    {
+      "id": "besleme.siki_ve_yari_sivi_hamur_verimi",
+      "metin": "Yayımlanmış çalışmalardaki sıkı ekşi mayaların çoğunun hamur verimi 150–160'tır; yarı sıvı mayalarınki ise büyük ölçüde 200–300 arasında değişir.",
+      "kosul": "Ekşi maya araştırma makalelerinin sistematik derlemesi; değerler yayımlanmış çalışmalardan derlendi.",
+      "kanit": "tek_kaynak",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.tifs.2020.12.008",
+          "yer": "4. Using conditions"
+        },
+        {
+          "kaynak": "10.1016/j.lwt.2019.02.004",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "besleme.sivi_ve_siki_maya",
+      "metin": "Genel kanıya göre sıvı ekşi maya LAB'ın, sıkı ekşi maya ise mayaların (yeast) etkinliğini artırır; ama bu model her maya için geçerli değildir, örneğin Lactiplantibacillus plantarum ve Fructilactobacillus sanfranciscensis gibi LAB'ın sıkı mayalarda baskın olduğu da görülmüştür.",
+      "kosul": "",
+      "kanit": "ikincil",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.7717/peerj.11389",
+          "yer": "Sourdough Starter Maintenance: Hydration"
+        },
+        {
+          "kaynak": "10.7717/peerj.11389",
+          "yer": "Sourdough Starter Maintenance: Hydration"
+        }
+      ]
+    },
+    {
+      "id": "besleme.tepe_kabarma_gunu_un_turu",
+      "metin": "Tef, amarant, sorgum, karabuğday, darı ve siyez (einkorn) mayaları en yüksek kabarmaya 10. günde ulaşırken, çavdar, gernik buğdayı (emmer) ve çok amaçlı un mayaları ancak 14. günde ulaştı.",
+      "kosul": "Kendiliğinden başlatılan 40 ekşi maya, 10 un türü; oda sıcaklığı; günlük besleme (1 yemek kaşığı atılıp 1 yemek kaşığı un + 1 yemek kaşığı su eklendi); 14 gün.",
+      "kanit": "tek_kaynak",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.7717/peerj.16163",
+          "yer": "Conclusions; Fig. 2D"
+        },
+        {
+          "kaynak": "10.7717/peerj.16163",
+          "yer": "Conclusions; Fig. 2D"
+        }
+      ]
+    },
+    {
+      "id": "besleme.tip1_besleme_suresi",
+      "metin": "Tip I ekşi maya topluluğu 5–15 gün boyunca un ve suyla sürekli yenilenerek, her seferinde karışımın bir kısmı atılarak kurulur.",
+      "kosul": "",
+      "kanit": "ikincil",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.7717/peerj.11389",
+          "yer": "Background"
+        }
+      ]
+    },
+    {
+      "id": "besleme.tip1_surekli_yenileme_ozellikleri",
+      "metin": "Tip I ekşi mayaların sürekli yenilenmesinde fermantasyon sıcaklığı daha düşüktür ve yeniden aşılama oranı sıklıkla %30'u aşarak maya gelişimini destekleyen daha düşük bir başlangıç pH'ı sağlar.",
+      "kosul": "Tip I ekşi mayaların sürekli yenilenmesi",
+      "kanit": "tek_kaynak",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.tifs.2004.02.012",
+          "yer": "Type 0 doughs and the use of starter cultures"
+        }
+      ]
+    },
+    {
+      "id": "besleme.uygulama_maya_toplulugu",
+      "metin": "Bir çalışmada Fransız organik ekşi mayalarında maya toplulukları arasındaki uzaklıklar, fırıncı uygulamalarına benzeyen grup ile çiftçi-fırıncı uygulamalarına benzeyen grup arasında farklıydı; maya topluluğu grupları uygulamadan bağımsız değildi.",
+      "kosul": "Fransa, organik ekşi mayalar; uygulama grupları (fırıncı / çiftçi-fırıncı); maya topluluğu uzaklıkları.",
+      "kanit": "tek_kaynak",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3389/fmicb.2019.00201",
+          "yer": "Results, Pattern of fungal species diversity"
+        }
+      ]
+    },
+    {
+      "id": "besleme.yenileme_secer",
+      "metin": "Yenileme (geri aşılama) yoluyla uygulanan süreç koşullarına uyum sağlamış kararlı bir mikrobiyotanın seçildiği aktarılır.",
+      "kosul": "microorganisms 8(10):1534 makalesinin girişinde aktarım.",
+      "kanit": "ikincil",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/microorganisms8101534",
+          "yer": "1. Introduction"
+        }
+      ]
+    },
+    {
+      "id": "besleme.yuksek_sicaklik_turleri",
+      "metin": "Yüksek sıcaklıkta sürdürülen fırın ekşi mayalarında 32 °C'de Lactobacillus amylovorus ve Limosilactobacillus frumenti, 42–44 °C'de ise Lactobacillus helveticus, Limosilactobacillus pontis ve Limosilactobacillus panis baskındı; 42–44 °C'deki fırının mayası diğer tüm mayalardan anlamlı biçimde farklıydı.",
+      "kosul": "Estonya fırınları, Type 1370 çavdar unu (öğütme randımanı %85). A fırını: Tip II, 32 °C, %10 aşı oranı, 10 saat, hamur verimi 250, dondurularak kurutulmuş ekşi mayadan başlatılmış. B fırını: Tip II, 42–44 °C, %6 aşı oranı, 16 saat, hamur verimi 400.",
+      "kanit": "tek_kaynak",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1371/journal.pone.0148325",
+          "yer": "Abstract"
+        },
+        {
+          "kaynak": "10.1371/journal.pone.0148325",
+          "yer": "Results, Beta-diversity; Fig 4"
+        }
+      ]
+    },
+    {
+      "id": "besleme.zanaatkar_firincilikta_gunluk_eklenen_un_orani",
+      "metin": "Bir çalışmada incelenen zanaatkâr fırın ekşi mayalarına günlük olarak hamur ağırlığının yaklaşık %54 ile %61'i oranında un eklendiği bildirilmiştir.",
+      "kosul": "Çalışmada incelenen artisan fırınların ekşi mayaları; günlük yenileme",
+      "kanit": "tek_kaynak",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3389/fmicb.2018.01984",
+          "yer": "Discussion"
+        }
+      ]
+    },
+    {
+      "id": "besleme.30c_ilk_dongulerde_cesitlilik",
+      "metin": "İlk üç besleme döngüsünde tür çeşitliliği 30 °C'deki çavdar ekşi mayalarında 20 °C'dekilerden yüksekti.",
+      "kosul": "Laboratuvarda kendiliğinden başlatılan yarı katı çavdar ekşi mayası; Type 1370 çavdar unu + %0,5 NaCl; hamur verimi 200; her gün 1:10 yenileme; 20 °C ve 30 °C; piro dizileme.",
+      "kanit": "tek_kaynak",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1371/journal.pone.0095449",
+          "yer": "Results, Pyrosequencing; Table S1"
+        }
+      ]
+    },
+    {
+      "id": "besleme.asi_orani_eps",
+      "metin": "Bir çalışmada daha yüksek hücre sayısıyla aşılanan ekşi mayalar beta-glukan (ekzopolisakkarit) tepesine daha erken ulaştı ve daha yüksek değere çıktı, son hücre sayıları ve pH ise benzerdi; aşı oranının fermantasyon hızını da etkilediği yalnız aktarılır.",
+      "kosul": "L. brevis TMW 1.2112 / P. claussenii TMW 2.340 ile aşılanan ekşi mayalar; en çok 6,6 × 10^6 ve en çok 1,6 × 10^6 KOB/g aşı.",
+      "kanit": "tek_kaynak",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.tifs.2020.12.008",
+          "yer": "4. Using conditions"
+        },
+        {
+          "kaynak": "10.3390/foods10030547",
+          "yer": "4. Discussion"
+        }
+      ]
+    },
+    {
+      "id": "besleme.beslenen_maya_kendine_benzer",
+      "metin": "Yeni beslenmiş ekşi maya, bileşimce herhangi bir başka mayadan çok beslemeden önceki kendisine benziyordu.",
+      "kosul": "Aynı mayanın beslenmemiş ve yeni beslenmiş örnekleri; kısa zaman aralığı; 18 fırıncının mayaları; Mann-Whitney U testi.",
+      "kanit": "tek_kaynak",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1128/msphere.00950-19",
+          "yer": "Materials and Methods; Fig. S5"
+        }
+      ]
+    },
+    {
+      "id": "besleme.bir_iki_iki_besleme_orani",
+      "metin": "Ekşi maya yenilemesi önceki fermente hamur, su ve unun 1:2:2 oranında karıştırılması ve 25 °C'de inkübe edilmesiyle yürütülmüştür.",
+      "kosul": "FD2-FD7 ekşi maya çoğaltması; 25 °C",
+      "kanit": "tek_kaynak",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1590/0001-3765202220220091",
+          "yer": "Sourdough preparation and propagation"
+        }
+      ]
+    },
+    {
+      "id": "besleme.dort_gelenek_sert_sivi_hamur_verimi",
+      "metin": "Dört geleneksel Tip I ekşi maya, sert (hamur verimi 160) ve sıvı (hamur verimi 280) koşullarda karşılaştırmalı olarak yenilendi.",
+      "kosul": "Dört geleneksel Tip I ekşi maya; sert (hamur verimi 160) ve sıvı (hamur verimi 280) yenileme",
+      "kanit": "tek_kaynak",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1128/aem.00309-14",
+          "yer": "DISCUSSION"
+        }
+      ]
+    },
+    {
+      "id": "besleme.dort_gunde_seker_tukenir",
+      "metin": "Fırınlarda yenilemenin aşağı yukarı her gün yapılmasının bir nedeni, dört gün sonra karbonhidratların tükenmesidir.",
+      "kosul": "Fırın uygulaması.",
+      "kanit": "ikincil",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/microorganisms8020240",
+          "yer": "Discussion"
+        }
+      ]
+    },
+    {
+      "id": "besleme.firin_ici_teknoloji_farklari",
+      "metin": "Aynı fırının bakteri çeşitliliği farklı çıkan mayaları un bileşimi, hamurun yaşı, fermantasyon ve soğutma koşulları bakımından da farklıydı; yazarlara göre bu teknolojik değişkenlerin her biri farka katkıda bulunmuş olabilir.",
+      "kosul": "Belçika'da 7 numaralı fırın (D07): D07WR01T01/T02 ile D07WR01T03 örnekleri; Tablo 2.",
+      "kanit": "tek_kaynak",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1128/aem.02771-07",
+          "yer": "Results: Microbial stability of artisan sourdoughs based on PCR-DGGE and cultivation; Table 2"
+        }
+      ]
+    },
+    {
+      "id": "besleme.firinci_calismasi_besleme_semasi",
+      "metin": "18 fırıncı çalışmasında maya ilk gün eşit miktar un ve klorsuz suyla kuruldu, sonraki günlerde 120 ml maya alınıp 240 ml un ve 180 ml su eklenerek beslendi; gece boyunca iki katına çıkana kadar her gün beslendi, sonra buzdolabında tutulup haftada bir beslendi.",
+      "kosul": "1. gün: 1:1 un ve klorsuz su, oda sıcaklığı, üstü örtülü; aynı taş değirmen buğday unu (T65).",
+      "kanit": "tek_kaynak",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1128/msphere.00950-19",
+          "yer": "Materials and Methods: Making the sourdough starter"
+        },
+        {
+          "kaynak": "10.1128/msphere.00950-19",
+          "yer": "Materials and Methods: Making the sourdough starter"
+        }
+      ]
+    },
+    {
+      "id": "besleme.fq_siki_sivi_benzer",
+      "metin": "Asit farklarına rağmen beslemenin sonunda laktik asidin asetik aside molar oranı (fermantasyon katsayısı) sıkı ve sıvı mayalarda benzerdi.",
+      "kosul": "Güney İtalya'dan (Matera, Altamura) 4 olgun Tip I ekşi maya; durum buğdayı (Triticum durum) unu; laboratuvarda 28 gün her gün sıkı (hamur verimi 160) ya da sıvı (hamur verimi 280, 150 rpm karıştırma) olarak beslendi; 25 °C'de 3–6 saat, beslemeler arasında 10 °C'de 16–19 saat; gerçek hamur.",
+      "kanit": "tek_kaynak",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1128/aem.00309-14",
+          "yer": "Discussion"
+        }
+      ]
+    },
+    {
+      "id": "besleme.fruktoz_eklenince_degisim",
+      "metin": "İkinci örneklemede ekşi mayasına fruktoz eklemeye başlayan bir Belçika fırınında mikrop bileşimi iki örnekleme arasında çarpıcı biçimde farklıydı; yazarlar bu değişikliğin farka katkıda bulunmuş olabileceğini düşünür.",
+      "kosul": "Belçika'da 7 numaralı fırın (D07); birinci ve ikinci örnekleme kampanyası karşılaştırması.",
+      "kanit": "tek_kaynak",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1128/aem.02771-07",
+          "yer": "Results: Microbial stability of artisan sourdoughs based on PCR-DGGE and cultivation"
+        }
+      ]
+    },
+    {
+      "id": "besleme.gunluk_yenileme_on_gun_yuzde_10",
+      "metin": "Ekşi maya, 10 gün boyunca her gün taze un-su karışımına olgun ekşi mayanın ağırlıkça %10'u eklenerek yenilendi.",
+      "kosul": "Kendiliğinden başlatılan buğday ve spelt ekşi mayaları; biyoreaktörde 30 °C; günlük yenileme, 10 gün; olgun ekşi maya ağırlıkça %10 aşı",
+      "kanit": "tek_kaynak",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1128/aem.00570-10",
+          "yer": "Materials and Methods"
+        }
+      ]
+    },
+    {
+      "id": "besleme.hamur_kabarma_suresi",
+      "metin": "Uygulamada hamurun kabarması üç ile on iki saat sürer, ama genellikle beş saati geçmez.",
+      "kosul": "Fırın uygulaması.",
+      "kanit": "tek_kaynak",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/microorganisms8020240",
+          "yer": "Discussion"
+        }
+      ]
+    },
+    {
+      "id": "besleme.kurutulmus_toz_yuzde_10_asi",
+      "metin": "Dondurularak kurutulmuş ekşi maya tozları, fermantasyonu başlatmak için %10 aşı olarak kullanıldı.",
+      "kosul": "Olgun ekşi mayadan dondurarak kurutma ile elde edilen toz aşı; hesap tabanı kaynakta belirtilmemiş",
+      "kanit": "tek_kaynak",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods11091278",
+          "yer": "3.6. Freeze-Drying Effect on the Viability of Sourdough Bacteria"
+        }
+      ]
+    },
+    {
+      "id": "besleme.literatur_tek_asama",
+      "metin": "Tip I ekşi maya çalışmalarında pişirmeden önceki son fermantasyondan önce değişen sayıda (2–10) besleme yapılabilir, ama en yaygın uygulama tek aşamalı süreçtir.",
+      "kosul": "Ekşi maya araştırma makalelerinin sistematik derlemesi; değerler yayımlanmış çalışmalardan derlendi. Tip I ekşi maya çalışmaları.",
+      "kanit": "tek_kaynak",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.tifs.2020.12.008",
+          "yer": "4. Using conditions"
+        }
+      ]
+    },
+    {
+      "id": "besleme.makalelerin_cogu_besleme_oranini_yazmiyor",
+      "metin": "İncelenen 83 deneysel makalenin %66,2'si (55'i) yeniden beslemede ne kadar ekşi maya kullandığını bildirmemişti.",
+      "kosul": "Derleme yazarlarının 83 deneysel makaleyi incelemesi.",
+      "kanit": "tek_kaynak",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.7717/peerj.11389",
+          "yer": "Calls for Future Work: Defining traditional sourdough methods"
+        }
+      ]
+    },
+    {
+      "id": "besleme.maya_orani_ve_etanol",
+      "metin": "Ekmek tarifinde kullanılan ekşi maya oranı arttıkça maya (yeast) hücre yoğunluğu ve etanol üretiminin de arttığı gözlenmiştir.",
+      "kosul": "",
+      "kanit": "ikincil",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.7717/peerj.11389",
+          "yer": "Sourdough Starter Maintenance: Re-feeding practices"
+        }
+      ]
+    },
+    {
+      "id": "besleme.otuz_yil_surdurme",
+      "metin": "Ekşi maya toplulukları yenilemeyle 30 yıldan uzun süre sürdürülebilir.",
+      "kosul": "",
+      "kanit": "ikincil",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/microorganisms8020240",
+          "yer": "Introduction"
+        },
+        {
+          "kaynak": "10.1016/j.ijfoodmicro.2013.11.021",
+          "yer": "Factors influencing microbial stability of traditional sourdough"
+        }
+      ]
+    },
+    {
+      "id": "besleme.seker_6_saatte_tukenmez",
+      "metin": "28 °C'de altı saatlik fermantasyondan sonra buğday ekşi hamurunda glikoz, maltoz ve fruktozun hiçbiri tükenmedi; yazarlar bunu büyük olasılıkla un amilazının sürekli çalışmasına bağlar.",
+      "kosul": "Laboratuvar buğday ekşi hamuru, 28 °C, 6 saat.",
+      "kanit": "tek_kaynak",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/microorganisms8020240",
+          "yer": "Discussion"
+        }
+      ]
+    },
+    {
+      "id": "besleme.sicaklik_yuzde_44",
+      "metin": "Mayanın fermantasyon ve saklama sıcaklığının, ekşi mayalı ekmeğin fiziksel, kimyasal ve uçucu bileşen özelliklerinin %44'ünü açıkladığı bildirilir.",
+      "kosul": "",
+      "kanit": "ikincil",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.7717/peerj.11389",
+          "yer": "Sourdough Starter Maintenance: Temperature"
+        }
+      ]
+    },
+    {
+      "id": "besleme.ssm_besiyeri_bilesimi",
+      "metin": "Bu çalışmada kullanılan sentetik ekşi maya besiyeri (SSM) son derişimlerde litrede 24 g buğday peptonu, 200 mg MgSO4·7H2O, 50 mg MnSO4·H2O, 4 g KH2PO4 ve 4 g K2HPO4 içeriyordu; pH sitrik asitle 4,5'e ayarlandı.",
+      "kosul": "Bu çalışmada kullanılan sentetik ekşi maya besiyeri (SSM, önceki bir çalışmadan uyarlanmış); glukoz ve diğer çözeltiler sterilizasyondan sonra eklenir",
+      "kanit": "tek_kaynak",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1093/gbe/evag176",
+          "yer": "Sourdough Synthetic Medium"
+        }
+      ]
+    },
+    {
+      "id": "besleme.tip1_asi_orani",
+      "metin": "Tip I ekşi mayalar için bildirilen aşı oranı bir derlemede %5–20 (m/v), başka bir derlemede %10–40 (m/v)'dir.",
+      "kosul": "",
+      "kanit": "ikincil",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.7717/peerj.11389",
+          "yer": "Calls for Future Work: Defining traditional sourdough methods"
+        }
+      ]
+    },
+    {
+      "id": "besleme.turjaf_besleme_cizelgesi",
+      "metin": "Bu protokolde ekşi maya 50 g un ve 50 ml suyla başlatıldı; ilk günlerdeki beslemenin ardından 48 saatte bir 50 g un ve 45 ml suyla 12. güne kadar, sonra 35 ml suyla 15. güne kadar beslendi ve 16. günde buzdolabına kondu.",
+      "kosul": "Çağlar (2020) yönteminin revizyonu; buğday unu, kapağı kapalı kapta kendiliğinden fermantasyon, oda sıcaklığı, ardından buzdolabı; ilk 3 gün 24 saat aralıkla 50 g un ve 50 ml su eklendi",
+      "kanit": "tek_kaynak",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.24925/turjaf.v13i5.1187-1195.7455",
+          "yer": "Sour Dough Production"
+        },
+        {
+          "kaynak": "10.24925/turjaf.v13i5.1187-1195.7455",
+          "yer": "Sour Dough Production"
+        }
+      ]
+    },
+    {
+      "id": "besleme.un_yuzde_50_su_25_35c_72_saat",
+      "metin": "Ekşi maya partileri, un miktarına göre ağırlıkça %25 hamur, %50 su ve %2 tuz eklenerek hazırlandı ve 25 °C ile 35 °C'de 72 saat fermente edildi.",
+      "kosul": "Endüstriyel fırından alınan hamurdan dört ekşi maya partisi; 25 °C (SD25) ve 35 °C (SD35), 72 saat",
+      "kanit": "tek_kaynak",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.17221/68/2017-cjfs",
+          "yer": "Sourdough production"
+        }
+      ]
+    },
+    {
+      "id": "besleme.yari_sivi_250_g_un_750_ml",
+      "metin": "Yarı sıvı ekşi maya, 250 g un, 5 g sakkaroz, 12,5 g yağsız süt ve 750 mL suyun karıştırılmasıyla hazırlandı ve yaklaşık 7 log KOB/g LAB ile aşılandı.",
+      "kosul": "32 °C'de 16 saat fermantasyon",
+      "kanit": "tek_kaynak",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.55147/efse.1117033",
+          "yer": "Materials and methods"
+        }
+      ]
+    },
+    {
+      "id": "besleme.yedi_italyan_firini_kosullari",
+      "metin": "Güney İtalya'daki yedi zanaat fırınında yenilemede kullanılan ekşi maya oranı yaklaşık %6 ile %30 arasındaydı; biri yarı sıvı olanlar dışında mayalar sıkıydı (hamur verimi 150–169), yenileme fermantasyonu biri (13 saat) dışında 3–6 saat sürdü ve sıcaklık 24–28 °C arasındaydı.",
+      "kosul": "Güney İtalya'dan (Matera, Altamura, Valenzano) 7 olgun Tip I ekşi maya; çoğunlukla durum buğdayı (Triticum durum) unu; 80 gün boyunca her gün, aynı mayanın bir kolu zanaat fırınında, öteki laboratuvarda yenilendi; 24–28 °C; gerçek hamur.",
+      "kanit": "tek_kaynak",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1128/aem.00572-12",
+          "yer": "Results; Table 1"
+        },
+        {
+          "kaynak": "10.1128/aem.00572-12",
+          "yer": "Results; Table 1"
+        },
+        {
+          "kaynak": "10.1128/aem.00572-12",
+          "yer": "Results; Table 1"
+        },
+        {
+          "kaynak": "10.1128/aem.00572-12",
+          "yer": "Results"
+        }
+      ]
+    },
+    {
+      "id": "besleme.sik_yenileme_maya_vejetatif_polimorfizm",
+      "metin": "Ekmek üretim sıklığına bağlı olarak ekşi mayanın çok sık yenilenmesi (geri aşılanması), mayozun nadir görüldüğü vejetatif çoğalma evresinde maya genomunda polimorfizmin gelişmesine olanak tanır.",
+      "kosul": "Ekşi mayanın sık yenilenmesi; vejetatif evre",
+      "kanit": "tek_kaynak",
+      "bolum": "Mayadaki yeri",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1007/s00203-022-03313-x",
+          "yer": "Results and discussion"
+        }
+      ]
+    },
+    {
+      "id": "besleme.cam_kavanozda_starter_ve_hafta_sonu_soguk_depolama",
+      "metin": "Bir çalışmada ekşi maya başlangıçları 100 g un ve 100 g deiyonize suyun steril cam kavanozda karıştırılmasıyla başlatılmış, günlük ya da iki günde bir beslenmiş ve hafta sonları 4 °C buzdolabında saklanmıştır.",
+      "kosul": "Bir çalışmanın yöntemi: steril 250 mL cam kavanozlar; tam buğday, beyaz ve ekmeklik unlar",
+      "kanit": "tek_kaynak",
+      "bolum": "Nasıl ölçülür",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1128/spectrum.02380-25",
+          "yer": "Sourdough starter setup and passaging"
+        }
+      ]
+    },
+    {
+      "id": "besleme.laboratuvar_on_kultur_hazirlama",
+      "metin": "Fermantasyon süreçlerinin başlangıcında 0,2 mL ön kültür 20 mL besiyerine aktarılarak 30 °C'de laktik asit bakterisi suşu için 12 saat, maya suşu için ise 18 saat inkübe edilmiştir.",
+      "kosul": "Laboratuvar fermantasyon besiyeri; suş aşı hazırlığı",
+      "kanit": "tek_kaynak",
+      "bolum": "Nasıl ölçülür",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1128/aem.01325-25",
+          "yer": "Strains and inoculum build-up"
+        }
+      ]
+    },
+    {
+      "id": "besleme.wssm_benzetim_besiyeri_bilesimi",
+      "metin": "Buğday ekşi mayası benzetim besiyeri litrede 0,5 g glukoz, 0,5 g fruktoz, 10 g maltoz, 2 g sakkaroz ve 12 g buğday peptonu içerir.",
+      "kosul": "WSSM laboratuvar benzetim besiyeri formülasyonu",
+      "kanit": "tek_kaynak",
+      "bolum": "Nasıl ölçülür",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.12938/bmfh.2019-038",
+          "yer": "Subculture experiments with media at three different pH levels"
+        }
+      ]
+    },
+    {
+      "id": "besleme.laktobasil_davranisi_etkenleri",
+      "metin": "Ekşi mayanın yenilenmesi sırasında laktobasillerin davranışı hamur verimine, besleme süresine ve birlikte bulunduğu maya türüne bağlıdır.",
+      "kosul": "Sıvı ve sıkı buğday ekşi mayalarında 10 ardışık yenileme",
+      "kanit": "tek_kaynak",
+      "bolum": "Ne yapar",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.lwt.2019.02.004",
+          "yer": "Highlights"
+        }
+      ]
+    },
+    {
+      "id": "besleme.besleme_dongusu_buyume_ve_gecikme",
+      "metin": "Hücre süspansiyonlarının taze besiyerine aktarılmasında besleme döngüsünün büyüme hızını ve gecikme fazını etkilediği belirlenmiştir.",
+      "kosul": "Altilia vd. aktarımı (yıl kanıtta yok, teyit gerekli); ortak kültürde 24 saat sonrası iki ek yenileme",
+      "kanit": "ikincil",
+      "bolum": "Ne yapar",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1128/aem.01030-26",
+          "yer": "Discussion"
+        }
+      ]
+    },
+    {
+      "id": "besleme.maya_edinme_yollari",
+      "metin": "Ekşi maya, un ve su fermente edilerek sıfırdan yapılabilir ya da başkalarından veya ticari kaynaklardan yerleşik bir maya olarak edinilebilir.",
+      "kosul": "",
+      "kanit": "tek_kaynak",
+      "bolum": "Tanım",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.7554/elife.61644",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "besleme.psodotahillarla_fermantasyon",
+      "metin": "Ekşi maya fermantasyonunda geleneksel tahılların yanı sıra karabuğday, amarant ve kinoa gibi yalancı tahıllar da hammadde olarak kullanılabilir.",
+      "kosul": "",
+      "kanit": "tek_kaynak",
+      "bolum": "Tanım",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.fm.2013.06.002",
+          "yer": "Influence of flour"
+        }
+      ]
+    },
+    {
+      "id": "besleme.yuz_yili_asan_surdurme",
+      "metin": "Kayıtlara geçmiş bazı ekşi mayaların 100 yılı ve 100.000 yenileme adımını aşan süreler boyunca kesintisiz sürdürüldüğü belgelenmiştir.",
+      "kosul": "",
+      "kanit": "ikincil",
+      "bolum": "Tarihi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.ijfoodmicro.2018.08.019",
+          "yer": "Introduction"
+        },
+        {
+          "kaynak": "10.1080/10408398.2021.1976100",
+          "yer": "Sourdough productions with added non-flour ingredients"
+        }
+      ]
+    }
+  ]
+}

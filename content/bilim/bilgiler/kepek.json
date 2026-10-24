@@ -1,0 +1,1010 @@
+{
+  "id": "kepek",
+  "ad": "Kepek",
+  "bilgiler": [
+    {
+      "id": "kepek.ince_kepek_hacmi_dusurur",
+      "metin": "Kepeğin hacmi düşüren etkisi çoğu çeşitte kepek inceltildikçe arttı ve Tatanka dışında en düşük özgül hacmi en ince kepekli tam buğday ekmekleri verdi; yazarlara göre kepeği orta boya (315–363 µm) indirmek tam unun ekmeklik kalitesini artırmada etkilidir.",
+      "kosul": "Dört sert kırmızı kışlık buğday çeşidi (Ag Gallant, Turkey Red, Tatanka, Zenda), ABD; kepek iri (438–590 µm), orta (315–368 µm), orta-ince (225–274 µm) ve ince (157–187 µm) öğütülüp beyaz unla özgün oranında birleştirildi; AACC 10-10.03 maya ekmeği.",
+      "kanit": "tek_kaynak",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.lwt.2023.114504",
+          "yer": "3.3. Bread volume"
+        },
+        {
+          "kaynak": "10.1016/j.lwt.2023.114504",
+          "yer": "3.3. Bread volume"
+        },
+        {
+          "kaynak": "10.1016/j.lwt.2023.114504",
+          "yer": "4. Conclusion"
+        },
+        {
+          "kaynak": "10.1016/j.lwt.2013.12.004",
+          "yer": "4.1. Milling"
+        }
+      ]
+    },
+    {
+      "id": "kepek.lifin_ekmekcilik_ozelliklerine_olumsuz_etkisi",
+      "metin": "Kepek lifi, çoğu ekmekçilik ve hamur kalite özelliği üzerinde istatistiksel olarak anlamlı düzeyde olumsuz etki gösteren başlıca bileşen olarak belirlendi.",
+      "kosul": "Sert kırmızı ilkbahar buğdayı un rekonstitüsyonu; P < 0,05",
+      "kanit": "tek_kaynak",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.jcs.2017.03.011",
+          "yer": "Highlights"
+        },
+        {
+          "kaynak": "10.1016/j.jcs.2017.03.011",
+          "yer": "Abstract"
+        }
+      ]
+    },
+    {
+      "id": "kepek.bugday_kepeginin_glutene_zarar_mekanizmalari",
+      "metin": "Makale, buğday kepeğinin olumsuz etki mekanizmalarının fiziksel engelleme, su için yarış ve glutenin ferulik asit, arabinoksilanlar ve glutatyonla kimyasal etkileşimi olarak özetlendiğini önceki bir kaynağa dayanarak aktarmaktadır [6].",
+      "kosul": "Literatür aktarımı (buğday kepeği etkileşim mekanizmaları); makalenin kendi ölçümü değildir, kaynak [6].",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods10102311",
+          "yer": "Discussion"
+        }
+      ]
+    },
+    {
+      "id": "kepek.su_tutma_kapasitesi_reoloji_ve_hacim",
+      "metin": "Su tutma kapasitesi belirgin olan kepek, hamurun reolojik özelliklerini olumsuz etkiler ve düşük hacimli, düşük esneklikte ekmeklere yol açar.",
+      "kosul": "",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.lwt.2013.12.004",
+          "yer": "5. Conclusion"
+        }
+      ]
+    },
+    {
+      "id": "kepek.fitik_asit_dagilimi",
+      "metin": "Fitik asit kepekte yoğunlaşır: ince kepekte bütün tanenin %180–250'si, iri kepekte %321–534'ü kadar fitik asit varken beyaz unda yalnız %9–15'i kalır; üç yöntemle öğütülen tam tahıllı unlar tanenin fitik asidinin neredeyse tamamını (kuru maddede yaklaşık 1–1,6 g/100 g) taşır.",
+      "kosul": "Orta İtalya'dan sekiz yumuşak buğday karışımı; Bühler MLU 202 pilot valsli değirmen ürünleri (iri kepek, ince kepek, beyaz un), ticari taş değirmen ve diskli değirmen tam unları. K-PHYT (Megazyme).",
+      "kanit": "tek_kaynak",
+      "bolum": "Kimlik",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods11030339",
+          "yer": "3. Results, Table 1"
+        },
+        {
+          "kaynak": "10.3390/foods11030339",
+          "yer": "3. Results, Table 1"
+        },
+        {
+          "kaynak": "10.3390/foods11030339",
+          "yer": "3. Results, Table 1"
+        }
+      ]
+    },
+    {
+      "id": "kepek.lif_dis_katmanlarda",
+      "metin": "Diyet lifi neredeyse yalnız tanenin dış katmanlarındadır: kuru maddede iri kepekte %39,8–46,5, ince kepekte %20,7–27,9, tam tahıllı unlarda %10,2–11,9, beyaz unda %1,8–2,7 bulundu.",
+      "kosul": "Orta İtalya'dan sekiz yumuşak buğday karışımı; Bühler MLU 202 pilot valsli değirmen ürünleri (iri kepek, ince kepek, beyaz un), ticari taş değirmen ve diskli değirmen tam unları.",
+      "kanit": "tek_kaynak",
+      "bolum": "Kimlik",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods9010003",
+          "yer": "3.1. Proximate Composition"
+        }
+      ]
+    },
+    {
+      "id": "kepek.eksi_mayada_degirmen_yan_urunu_kullanimi",
+      "metin": "Ekşi maya fermantasyonu, kepek ve rüşeym gibi değirmencilik yan ürünlerinin ekmekçilikte değerlendirilmesine olanak tanır.",
+      "kosul": "Gobbetti et al., 2019",
+      "kanit": "ikincil",
+      "bolum": "Mayadaki yeri",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/bs.aambs.2017.02.003",
+          "yer": "Citing articles summary"
+        }
+      ]
+    },
+    {
+      "id": "kepek.biyoaktif_bilesenlerin_katmanlarda_yogunlasmasi",
+      "metin": "Tam tahıllardaki biyoaktif bileşikler tanenin kepek katmanlarında yoğunlaşır.",
+      "kosul": "Liukkonen et al., 2003",
+      "kanit": "ikincil",
+      "bolum": "Nereden gelir",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.jcs.2009.11.006",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "kepek.bugday_kepegi_yaklasik_bilesimi",
+      "metin": "Kuru maddede buğday kepeği örneği %7,7 nem, %16,9 protein, %5,4 kül, %5,3 yağ, %1,7 beta-glukan ve %54,0 toplam lif içerdi.",
+      "kosul": "North Dakota sert kırmızı ilkbahar buğday kepeği",
+      "kanit": "tek_kaynak",
+      "bolum": "Nereden gelir",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.jcs.2017.03.011",
+          "yer": "Bran characteristics"
+        }
+      ]
+    },
+    {
+      "id": "kepek.yillik_kuresel_uretim_miktari",
+      "metin": "Değirmencilik endüstrisinin bir yan ürünü olarak yılda yaklaşık 150 milyon ton buğday kepeği üretilmekte ve başlıca hayvan yemi olarak kullanılmaktadır.",
+      "kosul": "",
+      "kanit": "tek_kaynak",
+      "bolum": "Nereden gelir",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.lwt.2013.12.004",
+          "yer": "5. Conclusion"
+        }
+      ]
+    },
+    {
+      "id": "kepek.bugday_kepegi_lif_fraksiyon_oranlari",
+      "metin": "Makale, buğday kepeğinin %37–53 oranında diyet lifi içerdiğini ve bunun %95'inin başta arabinoksilanlar, selüloz ve lignin olmak üzere çözünmeyen lif olduğunu önceki bir kaynağa dayanarak aktarmaktadır [2].",
+      "kosul": "Literatür aktarımı (buğday kepeği lif kompozisyonu); makalenin kendi ölçümü değildir, kaynak [2].",
+      "kanit": "ikincil",
+      "bolum": "Tanım",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods10102311",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "kepek.degirmen_kepegi_en_yuksek_glutenli_subaleuronu_tasir",
+      "metin": "Buğday değirmenci kepeği gluten ağını olumsuz etkiler, ancak dane içinde en yüksek gluten içeriğine sahip doku olan sub-alöronu içerir.",
+      "kosul": "Buğday değirmenci kepeği morfolojisi",
+      "kanit": "tek_kaynak",
+      "bolum": "Tanım",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1021/acs.jafc.4c06550",
+          "yer": "Abstract"
+        }
+      ]
+    },
+    {
+      "id": "kepek.ogutme_verimi_ve_kepek_payi",
+      "metin": "Değirmencilik yan ürünleri öğütme çıktısının yaklaşık %23–27'sini oluştururken, bu yan ürünlerin en önemli kısmı dane ağırlığının yaklaşık %25'ine karşılık gelen kepektir.",
+      "kosul": "Buğday değirmenciliği çıktısı",
+      "kanit": "ikincil",
+      "bolum": "Tanım",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.lwt.2013.12.004",
+          "yer": "1. Introduction"
+        }
+      ]
+    },
+    {
+      "id": "kepek.toplam_fenolik_asitlerin_yuzde_sekseni_ferulik",
+      "metin": "Bu çalışmada incelenen altı fenolik asit arasında ana fenolik asit, toplam fenolik asitlerin %80'inden fazlasını oluşturan ferulik asit olmuştur.",
+      "kosul": "Durum buğdayından elde edilen farklı boyutlarda kepek fraksiyonları; altı fenolik asit (p-hidroksibenzoik, siringik, vanilik, p-kumarik, sinapik, ferulik asit) analizi.",
+      "kanit": "tek_kaynak",
+      "bolum": "Tanım",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods10030489",
+          "yer": "3.4. Phenolic Acids"
+        }
+      ]
+    },
+    {
+      "id": "kepek.alti_milimetre_silindirlemede_hacim_kazanci",
+      "metin": "Bu çalışmada hamur 12 mm yerine 6 mm silindir aralığında açıldığında somun hacmi orta boy kepekli hamurlarda yaklaşık %6, kaba kepekli hamurlarda ise %10–15 oranında daha büyük olmuş; ince kepekli hamurlarda artış ihmal edilebilir düzeyde kalmıştır.",
+      "kosul": "Kepeksiz ve kepekli (ince, orta, kaba) hamurlar; 6 mm ve 12 mm silindir aralığında hamur inceltme.",
+      "kanit": "tek_kaynak",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods11152300",
+          "yer": "3.3. Effects of Bran Particle Size, Sheeting Roll Gap and Number of Roll Passes on Baked Loaf Volume and Structure"
+        },
+        {
+          "kaynak": "10.3390/foods11152300",
+          "yer": "3.3. Effects of Bran Particle Size, Sheeting Roll Gap and Number of Roll Passes on Baked Loaf Volume and Structure"
+        }
+      ]
+    },
+    {
+      "id": "kepek.cozunur_ve_cozunmez_fraksiyon_etkilesimi_ve_hacim",
+      "metin": "Bu çalışmada yazarlar, çözünmeyen fraksiyonun sağladığı su bağlama ile çözünür kepek fraksiyonunun plastikleştirici özellikleri arasındaki etkileşimin, kepeğin ekmek hacmi ve dokusu üzerindeki olumsuz etkilerini kontrol ettiğini belirtmiştir.",
+      "kosul": "Buğday ve yulaf kepeği ile çözünür ve çözünmeyen fraksiyonları eklenmiş hamurlar ve ekmekler; sistematik karşılaştırma.",
+      "kanit": "tek_kaynak",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods10102311",
+          "yer": "Conclusions"
+        }
+      ]
+    },
+    {
+      "id": "kepek.durum_kaba_kepeginde_kontrole_en_yakin_hacim",
+      "metin": "Bu çalışmada durum buğdayı kaba kepeği (CB) eklenen ekmeklerde somun hacmi ve fırın kabarması kontrol değerlerine en yakın bulunmuş, en olumsuz etkiyi en ince kepek fraksiyonu (<180) yapmıştır.",
+      "kosul": "Ekmeklik unun yerine durum buğdayı kepek fraksiyonları (kaba, ince ve elenmiş fraksiyonlar) %10 oranında eklenmiş ekmek karışımı.",
+      "kanit": "tek_kaynak",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods10030489",
+          "yer": "3.6. Effects of Bran Level and Particle Size on Bread-Making Properties"
+        }
+      ]
+    },
+    {
+      "id": "kepek.ekmek_ici_renginde_parlaklik_kaybi_ve_renk_kaymasi",
+      "metin": "Bu çalışmada kepek ilavesi ekmek içi rengini daha az parlak (daha düşük L*) yapmış, kırmızılığı ve sarılığı (daha yüksek a* ve b*) artırmıştır (Tablo 4).",
+      "kosul": "Ekmeklik unun yerine %10 durum buğdayı kepek fraksiyonları eklenmiş ekmek içi; renk analizi.",
+      "kanit": "tek_kaynak",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods10030489",
+          "yer": "3.6. Effects of Bran Level and Particle Size on Bread-Making Properties"
+        }
+      ]
+    },
+    {
+      "id": "kepek.ekstrude_kepek_daha_yuksek_hacim",
+      "metin": "İşlem görmemiş kepeğe kıyasla ekstrüde edilmiş kepek, fermantasyonda daha fazla gaz üretimi sağlar ve hamur yüksekliği kaybını azaltır; ticari ekmek iyileştiricisi eklendiğinde işlem görmüş kepekli ekmekler, işlem görmemiş kepekli ekmeğe göre daha yüksek hacim ve daha düşük başlangıç sertliği göstermiştir.",
+      "kosul": "Ekstrüzyon işlemi görmüş buğday kepeği",
+      "kanit": "ikincil",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.lwt.2013.12.004",
+          "yer": "3. Effect of wheat bran on cereal bakery products and other food products"
+        }
+      ]
+    },
+    {
+      "id": "kepek.en_iyi_hacim_ve_duyusal_boyut_araligi",
+      "metin": "415 µm tanecik boyutundaki kepek en yüksek özgül somun hacmini verirken, en küçük tanecik boyutuna (278 µm) sahip ekmekler en yüksek duyusal puanları aldı.",
+      "kosul": "Zhang and Moore, 1999",
+      "kanit": "ikincil",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.lwt.2013.12.004",
+          "yer": "4.1. Milling"
+        },
+        {
+          "kaynak": "10.1016/j.lwt.2013.12.004",
+          "yer": "3. Effect of wheat bran on cereal bakery products and other food products"
+        },
+        {
+          "kaynak": "10.1016/j.lwt.2013.12.004",
+          "yer": "Table 3"
+        }
+      ]
+    },
+    {
+      "id": "kepek.ince_fraksiyonlar_ekmek_sertligi_ve_cignenebilirligi_artirir",
+      "metin": "Bu çalışmada farklı kepek fraksiyonlarının eklenmesi ekmek sertliğini ve çiğnenebilirliğini anlamlı biçimde artırmış, özellikle ince fraksiyonlarda etki daha büyük olmuş; geri toparlanma (resilience) ve kohezyon tüm fraksiyonlarda azalmıştır.",
+      "kosul": "Ekmeklik unun yerine %10 durum buğdayı kepek fraksiyonları eklenmiş ekmek; doku profil analizi (Tablo 4).",
+      "kanit": "tek_kaynak",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods10030489",
+          "yer": "3.6. Effects of Bran Level and Particle Size on Bread-Making Properties"
+        },
+        {
+          "kaynak": "10.3390/foods10030489",
+          "yer": "3.6. Effects of Bran Level and Particle Size on Bread-Making Properties"
+        }
+      ]
+    },
+    {
+      "id": "kepek.ince_kepek_daha_cok_gaz_hucresi_verir",
+      "metin": "Bu çalışmada ince kepek, orta kepeğe göre daha fazla sayıda gaz hücresi oluşturmuş, en düşük gaz hücresi sayısını kaba kepek vermiştir.",
+      "kosul": "%10 kaba, orta ve ince kepek eklenmiş, 6 mm ve 12 mm silindir aralığında inceltilmiş hamurlardan yapılan ekmeklerde gaz hücresi sayısı.",
+      "kanit": "tek_kaynak",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods11152300",
+          "yer": "3.3. Effects of Bran Particle Size, Sheeting Roll Gap and Number of Roll Passes on Baked Loaf Volume and Structure"
+        }
+      ]
+    },
+    {
+      "id": "kepek.kaba_degirmen_kepeginde_subaleuron_belirleyiciligi",
+      "metin": "Bu çalışmada, nispeten kaba değirmenci kepeğinde (d50 > 77 µm), ekmek yapımında kepeğin işlevselliği açısından en önemli faktörün sub-alöron protein içeriği olduğu gösterildi.",
+      "kosul": "Kaba değirmenci kepeği (d50 > 77 µm)",
+      "kanit": "tek_kaynak",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1021/acs.jafc.4c06550",
+          "yer": "Results and discussion · 3.5 The potential and prospects of miller's bran selection based on the sub-aleurone protein content"
+        }
+      ]
+    },
+    {
+      "id": "kepek.kaba_kepek_en_kaba_yapiyi_verir",
+      "metin": "Bu çalışmada, önceki çalışmalarla uyumlu olarak, kaba kepek en az sayıda gaz hücresi, en büyük ortalama çap ve en kalın duvarlarla en kaba iç yapıyı verirken ince kepek en ince yapıyı oluşturdu.",
+      "kosul": "Ekmek içi gözenek analizi (aktarım ref 16,17,18,19,34)",
+      "kanit": "tek_kaynak",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods11152300",
+          "yer": "3.3. Effects of Bran Particle Size, Sheeting Roll Gap and Number of Roll Passes on Baked Loaf Volume and Structure"
+        }
+      ]
+    },
+    {
+      "id": "kepek.maksimal_somun_hacmi_ve_subaleuron_proteini_korelasyonu",
+      "metin": "Bu çalışmada maksimal somun hacmi sub-alöron protein içeriği ile güçlü bir korelasyon (R² = 0,99) gösterdi; bu deneysel koşullarda maksimal somun hacmindeki değişkenliğin %99'u sub-alöron protein içeriğindeki değişkenlikle açıklanabildi.",
+      "kosul": "Kepekli ekmek pişirme denemeleri",
+      "kanit": "tek_kaynak",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1021/acs.jafc.4c06550",
+          "yer": "Results and discussion · 3.2 The effect of sub-aleurone proteins on the functionality of lab-scale-produced miller's bran in bread-making"
+        },
+        {
+          "kaynak": "10.1021/acs.jafc.4c06550",
+          "yer": "Results and discussion · 3.2 The effect of sub-aleurone proteins on the functionality of lab-scale-produced miller's bran in bread-making"
+        }
+      ]
+    },
+    {
+      "id": "kepek.orta_boy_kepek_genlesmeye_en_az_zarar_verir",
+      "metin": "Bu çalışmada ince kepek genleşme ve elastik geri toparlanmaya sürekli en çok zarar veren fraksiyon olurken orta boy kepek en az zarar verdi ve ince veya kaba kepeğe kıyasla daha büyük somun hacimleri sağladı.",
+      "kosul": "%5 ve %10 kepek ikamesi ekmek pişirme denemeleri",
+      "kanit": "tek_kaynak",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods11152300",
+          "yer": "3.2. Effects of Bran Particle Size, Level, Sheeting Roll Gap and Number of Roll Passes on Dough Expansion and Springback"
+        },
+        {
+          "kaynak": "10.3390/foods11152300",
+          "yer": "3.3. Effects of Bran Particle Size, Sheeting Roll Gap and Number of Roll Passes on Baked Loaf Volume and Structure"
+        },
+        {
+          "kaynak": "10.3390/foods11152300",
+          "yer": "4. Conclusions"
+        },
+        {
+          "kaynak": "10.3390/foods11152300",
+          "yer": "4. Conclusions"
+        }
+      ]
+    },
+    {
+      "id": "kepek.otoklavlanmis_kepek_ekmek_hacmi",
+      "metin": "Kavurma, buharlama veya mikrodalga gibi ısıl basamaklar kimyasal bileşimi pek değiştirmezken, otoklavlanmış kepek ekmeğin somun hacmini artırabilir.",
+      "kosul": "De Kock et al., 1999",
+      "kanit": "ikincil",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.lwt.2013.12.004",
+          "yer": "4.2. Thermal treatments"
+        },
+        {
+          "kaynak": "10.1016/j.lwt.2013.12.004",
+          "yer": "Table 3"
+        }
+      ]
+    },
+    {
+      "id": "kepek.tam_bugday_ununda_dusuk_aciklik_nedeni_kepek",
+      "metin": "Bu çalışmada tam buğday unlarının L* değeri kepek nedeniyle en düşük bulundu; ekmek kabuğu verilerinde ise rafine un kullanımıyla L* ve a* değerleri azalırken b* değeri arttı.",
+      "kosul": "Tam buğday ve rafine buğday unları renk analizi",
+      "kanit": "tartismali",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.24925/turjaf.v14i6.1618-1629.8657",
+          "yer": "Results - Sensory Properties"
+        },
+        {
+          "kaynak": "10.24925/turjaf.v14i6.1618-1629.8657",
+          "yer": "Results and Discussion · Colour values (L*, a*, b*)"
+        },
+        {
+          "kaynak": "10.24925/turjaf.v14i6.1618-1629.8657",
+          "yer": "Results and Discussion · Crust colour values (L*, a*, b*)"
+        }
+      ]
+    },
+    {
+      "id": "kepek.uc_yuz_yedi_yuz_mikron_orta_boy_avantaji",
+      "metin": "Doblado-Maldonado ve ark.'na göre, taş değirmenin ürettiği 300 ila 700 µm arasındaki orta-kaba tanecikler ekmek üretimi için en avantajlı boyut aralığı olarak değerlendirilebilir.",
+      "kosul": "Tam buğday ekmeği üretimi (Doblado-Maldonado vd. 2012 aktarımı [15])",
+      "kanit": "ikincil",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods9081035",
+          "yer": "4. Discussion"
+        }
+      ]
+    },
+    {
+      "id": "kepek.yuzde_on_altinda_kepek_hacmi_artirir",
+      "metin": "Bu çalışmada una %10'dan az oranda kepek katıldığında, öğütme yönteminden bağımsız olarak, özgül hacim artmış ve ekmek sertliği azalmıştır.",
+      "kosul": "Buğday ununun yerine çekiçli veya jet değirmende öğütülmüş buğday kepeği ikamesi (%10'un altındaki oranlar); özgül hacim ve ekmek sertliği.",
+      "kanit": "tek_kaynak",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods9010048",
+          "yer": "4. Conclusions"
+        }
+      ]
+    },
+    {
+      "id": "kepek.coda_ara_boy",
+      "metin": "Coda vd., 50–750 µm aralığında incelenen kepek boylarından ara boyun (170 µm) yumuşak bir tat ve en yüksek ekmek hacmini verdiğini buldu.",
+      "kosul": "",
+      "kanit": "ikincil",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.lwt.2023.114504",
+          "yer": "1. Introduction"
+        }
+      ]
+    },
+    {
+      "id": "kepek.dinlenmede_suyun_hareketsizlesmesi",
+      "metin": "Hamur dinlenmesi sırasında kepek varlığı, kepeksiz hamurlarda görülmeyen biçimde suyun köklü olarak hareketsizleşmesine yol açar.",
+      "kosul": "Kepek içeren tam buğday hamurunun dinlenmesi",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1111/1541-4337.13147",
+          "yer": "3.1.2 Amylose leaching"
+        }
+      ]
+    },
+    {
+      "id": "kepek.farinograf_parametreleri_derisim_ve_boyut",
+      "metin": "Kepek derişimi ve tanecik boyutu tüm farinograf parametrelerini anlamlı şekilde etkiledi.",
+      "kosul": "Fungal fitaz ve fungal alfa-amilaz içeren buğday hamuru",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.jcs.2008.03.006",
+          "yer": "Abstract"
+        }
+      ]
+    },
+    {
+      "id": "kepek.hamur_stabilitesi_ve_uzama_direnci_dusus",
+      "metin": "Buğday kepeği ilavesi gluten ağını bölerek hamur gelişme süresini artırır, stabilitesini kısaltır, aşırı yoğurmaya duyarlılığı artırır ve uzama direnci ile uzayabilirliği yarı yarıya düşürür.",
+      "kosul": "Buğday hamuruna kepek ikamesi",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.lwt.2013.12.004",
+          "yer": "3. Effect of wheat bran on cereal bakery products and other food products"
+        },
+        {
+          "kaynak": "10.1016/j.lwt.2013.12.004",
+          "yer": "3. Effect of wheat bran on cereal bakery products and other food products"
+        },
+        {
+          "kaynak": "10.1016/j.lwt.2013.12.004",
+          "yer": "3. Effect of wheat bran on cereal bakery products and other food products"
+        }
+      ]
+    },
+    {
+      "id": "kepek.iki_yuz_elli_mikron_alti_parcaciklarin_olumsuzlugu",
+      "metin": "Makale, 250 µm altındaki küçük parçacıkların yüksek temas yüzeyleri nedeniyle protein-protein etkileşimlerine hızla müdahale ederek ekmek özellikleri üzerinde olumsuz etki yapabileceğini önceki bir çalışmaya dayanarak aktarmaktadır [43].",
+      "kosul": "Literatür aktarımı (tam buğday unu parçacık boyutu); makalenin kendi ölçümü değildir, kaynak [43].",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods9081035",
+          "yer": "4. Discussion"
+        }
+      ]
+    },
+    {
+      "id": "kepek.iri_kepek_gluteni_zayiflatir",
+      "metin": "İri kepek tanecikleri gluten gelişimine yardım etmek yerine gluten ağını zayıflatabilir; bu yüzden iri öğütülmüş tam una vital gluten eklemek bile az etki gösterdi.",
+      "kosul": "Mor renkli Ariheuk tam buğday unu, Kore; SH (0,5 mm elek) ile LH (1,0 mm elek), 14.000 dev/dk; kalıp ekmeği.",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods12132591",
+          "yer": "3.6. Dough Improvers"
+        }
+      ]
+    },
+    {
+      "id": "kepek.kepek_gaz_tutmayi_bozar",
+      "metin": "Kepek tanecikleri gluten ağını bölerek hamurun gaz tutma kapasitesini büyük ölçüde sınırlar; bu da daha az kabaran hamur ve daha küçük ekmek hacmi demektir.",
+      "kosul": "",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.lwt.2023.114504",
+          "yer": "3.4. Color and texture properties of breads"
+        },
+        {
+          "kaynak": "10.1002/cche.10865",
+          "yer": "3.4 Baking quality and bread characteristics"
+        },
+        {
+          "kaynak": "10.1016/j.lwt.2013.12.004",
+          "yer": "3. Effect of wheat bran on cereal bakery products and other food products"
+        }
+      ]
+    },
+    {
+      "id": "kepek.sekiz_geciste_maksimum_genlesme_ve_toparlanma",
+      "metin": "Bu çalışmada kepekli hamur formülasyonlarında maksimum genleşme ve elastik geri toparlanma 4 geçişten 8 silindir geçişine kadar arttı, 12 geçişte ise azaldı.",
+      "kosul": "Kepekli hamur silindirleme aşaması (4, 8, 12 geçiş)",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods11152300",
+          "yer": "4. Conclusions"
+        }
+      ]
+    },
+    {
+      "id": "kepek.su_yeniden_dagilimi_ve_ikincil_yapi_donusumu",
+      "metin": "Hamura buğday kepeği eklenmesi bileşenler arasında suyun yeniden dağılmasına, gluten proteinlerinin kısmen dehidrasyonuna ve beta-dönüş yapılarının beta-tabakalara dönüşmesine yol açar.",
+      "kosul": "Buğday hamuruna kepek ilavesi (aktarım)",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/molecules26020508",
+          "yer": "PMC7835854.txt:4.5.1. Dietary Fibre Preparations"
+        },
+        {
+          "kaynak": "10.3390/molecules26020508",
+          "yer": "PMC7835854.txt:4.5.1. Dietary Fibre Preparations"
+        }
+      ]
+    },
+    {
+      "id": "kepek.tanecik_kuculdukce_su_baglama_azalir",
+      "metin": "Kepeğin tanecik boyutu küçüldükçe, farinograf ölçümünde belirgin şekilde ayırt edilemese de liflerin su bağlaması azalır.",
+      "kosul": "Noort et al., 2010",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.lwt.2013.12.004",
+          "yer": "4.1. Milling"
+        },
+        {
+          "kaynak": "10.1016/j.lwt.2013.12.004",
+          "yer": "Table 3"
+        }
+      ]
+    },
+    {
+      "id": "kepek.yuksek_su_tutma_hidroksil_mekanizmasi",
+      "metin": "Buğday kepeğinin yüksek su absorbsiyonu, lif yapısındaki hidrojen bağları yoluyla daha fazla su etkileşimine izin veren hidroksil gruplarının çokluğuyla açıklanır.",
+      "kosul": "Buğday kepeği lif yapısı",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.lwt.2013.12.004",
+          "yer": "3. Effect of wheat bran on cereal bakery products and other food products"
+        }
+      ]
+    },
+    {
+      "id": "kepek.yulaf_kepekli_hamur_reoloji_farki",
+      "metin": "Bu çalışmada yulaf kepeği ikameli hamur, normal hamura göre daha yüksek su emilimi (%67,76), gelişme süresi (9,47 dk), ayrılma süresi (16,13 dk) ve MTI (22,2 FU) ile daha düşük uzama direnci (21,55 g) ve uzayabilirlik (11,43 mm) gösterdi.",
+      "kosul": "Buğday unu hamuru (normal) ile buğday ununun %15'inin yulaf kepeğiyle değiştirildiği hamurun karşılaştırması",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1038/s41598-023-31591-y",
+          "yer": "Results and discussion"
+        }
+      ]
+    },
+    {
+      "id": "kepek.buyuk_partikul_protein_etkilesim",
+      "metin": "Valsli değirmende öğütülmüş Bolero, Bona Vita ve Skorpion tam buğday unlarında ağırlıkça %15'ten fazla büyük partikül (1000 µm üzeri) bulunması, fiziksel mekanizmalarla protein-protein etkileşimlerini olumsuz etkilemiş olabilir.",
+      "kosul": "Bolero, Bona Vita ve Skorpion buğday çeşitlerinin valsli değirmen tam unları; yazarların yorumu, kaynak [42] atıflı",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods9081035",
+          "yer": "4. Discussion"
+        }
+      ]
+    },
+    {
+      "id": "kepek.kepek_protein_yapisi",
+      "metin": "Hamura kepek katılması yüksek molekül ağırlıklı proteinlerin kaybı, disülfit bağlarının azalması ve β-tabaka ile β-dönüş yapılarının artmasıyla ilişkili bulundu.",
+      "kosul": "",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.lwt.2023.114504",
+          "yer": "3.3. Bread volume"
+        }
+      ]
+    },
+    {
+      "id": "kepek.onipe_su_kaldirma",
+      "metin": "Onipe vd.'nin çalışmasında su kaldırma kepek iriden ortaya inceltildikçe %66,03'ten %67,30'a çıktı, daha ince kepekte %65,87'ye düştü.",
+      "kosul": "",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.lwt.2023.114504",
+          "yer": "3.2. Influences of bran particle size on rheological properties of whole wheat flour"
+        }
+      ]
+    },
+    {
+      "id": "kepek.stabilite_zenda",
+      "metin": "Yalnız Zenda çeşidinde ince kepekli tam unun hamur stabilitesi beyaz undan ve öteki kepek boylarından anlamlı ölçüde yüksekti; öteki çeşitlerde fark yoktu.",
+      "kosul": "Dört sert kırmızı kışlık buğday çeşidi (Ag Gallant, Turkey Red, Tatanka, Zenda), ABD; kepek iri (438–590 µm), orta (315–368 µm), orta-ince (225–274 µm) ve ince (157–187 µm) öğütülüp beyaz unla özgün oranında birleştirildi; AACC 10-10.03 maya ekmeği.",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.lwt.2023.114504",
+          "yer": "3.2. Influences of bran particle size on rheological properties of whole wheat flour"
+        }
+      ]
+    },
+    {
+      "id": "kepek.su_kaldirma_cesite_gore",
+      "metin": "Kepek boyunun tam unun su kaldırmasına etkisi çeşide göre değişti: iri kepek Zenda'da su kaldırmayı biraz düşürürken Tatanka'da artırdı.",
+      "kosul": "Dört sert kırmızı kışlık buğday çeşidi (Ag Gallant, Turkey Red, Tatanka, Zenda), ABD; kepek iri (438–590 µm), orta (315–368 µm), orta-ince (225–274 µm) ve ince (157–187 µm) öğütülüp beyaz unla özgün oranında birleştirildi; AACC 10-10.03 maya ekmeği.",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.lwt.2023.114504",
+          "yer": "3.2. Influences of bran particle size on rheological properties of whole wheat flour"
+        }
+      ]
+    },
+    {
+      "id": "kepek.fruktan_dis_katmanda",
+      "metin": "Öğütme ürünleri arasında fruktan miktarı en yüksek kepekte bulunmuştur; bu, fruktanların tanenin dış kısımlarında biriktiğini gösterir.",
+      "kosul": "Buğday öğütme ürünleri.",
+      "kanit": "ikincil",
+      "bolum": "Kimlik",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods8120663",
+          "yer": "3. Results and Discussion"
+        }
+      ]
+    },
+    {
+      "id": "kepek.ruseym_kepekle_karisir",
+      "metin": "Valsli öğütmede rüşeym kepek akışlarına karışmış olarak çıkar.",
+      "kosul": "Bühler MLU 202 pilot valsli değirmen.",
+      "kanit": "tek_kaynak",
+      "bolum": "Kimlik",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods9010003",
+          "yer": "2.1. Sampling, Milling"
+        }
+      ]
+    },
+    {
+      "id": "kepek.eksi_mayada_enzim_karisimi_ile_kepek_iyilestirme",
+      "metin": "Ekşi maya fermantasyonuna alfa-amilaz, ksilanaz ve lipazdan oluşan bir enzim karışımı eklenmesi, %20 kepek içeren ekmeğin hacmini, dokusunu ve raf ömrünü iyileştirdi.",
+      "kosul": "Katina et al., 2006; %20 kepek içeren ekmek",
+      "kanit": "ikincil",
+      "bolum": "Mayadaki yeri",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.lwt.2013.12.004",
+          "yer": "4.5. Enzymatic treatment and fermentation"
+        }
+      ]
+    },
+    {
+      "id": "kepek.degirmen_turune_gore_iri_partikul_orani",
+      "metin": "Bu çalışmada iri tanecikler valsli değirmen tam unlarında (CWRS hariç) %15 ile %25 arasında yer alırken, taş değirmen tam unlarında %8'i aşmamıştır.",
+      "kosul": "Dört buğday çeşidinin taş ve valsli değirmende öğütülmüş tam unları; elek parçacık boyutu analizi (CWRS valsli unu hariç).",
+      "kanit": "tek_kaynak",
+      "bolum": "Nasıl ölçülür",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods9081035",
+          "yer": "3.1. Particle Size Distribution"
+        }
+      ]
+    },
+    {
+      "id": "kepek.tas_degirmende_orta_boy_partikul_homojenligi",
+      "metin": "Taş değirmende öğütülmüş tam unlardaki tanecikler tane sertliğinden bağımsız olarak yaklaşık 300 ila 700 µm arasındaki orta boy sınıflarda daha homojen dağılmıştır.",
+      "kosul": "Taş değirmende öğütülmüş tam buğday unları",
+      "kanit": "tek_kaynak",
+      "bolum": "Nasıl ölçülür",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods9081035",
+          "yer": "4. Discussion"
+        }
+      ]
+    },
+    {
+      "id": "kepek.cekicli_ve_jet_degirmen_tanecik_boyutlari",
+      "metin": "Bu çalışmada çekiçli değirmende öğütülen kepeğin tanecik boyutu (119,71 µm) hava jeti değirmeninde öğütülen kepeğinkinden (25,78 µm) anlamlı biçimde daha büyük bulunmuştur (p ≤ 0,05).",
+      "kosul": "Buğday kepeğinin çekiçli ve hava jeti değirmeninde öğütülmesi; tanecik boyutu ölçümü.",
+      "kanit": "tek_kaynak",
+      "bolum": "Nasıl ölçülür",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods9010048",
+          "yer": "Abstract"
+        },
+        {
+          "kaynak": "10.3390/foods9010048",
+          "yer": "3.1. Composition of Wheat Bran Pulverized by a Hammer Mill or Jet Mill"
+        }
+      ]
+    },
+    {
+      "id": "kepek.degirmen_kepegi_protein_ve_partikul_parametreleri",
+      "metin": "Bu çalışmada laboratuvar ölçeğinde üretilen altı değirmenci kepeği örneğinin protein içeriği %10,8 ile %18,6 arasında değişirken, tanecik boyutları (d50) 1266–1330 µm ve güçlü su tutma kapasiteleri (SWRC) 0,71–0,80 mL su/g kuru madde aralığında benzer bulunmuştur.",
+      "kosul": "Laboratuvar ölçeğinde üretilmiş altı değirmenci kepeği örneği; protein, d50 ve SWRC (mL su/g kuru madde).",
+      "kanit": "tek_kaynak",
+      "bolum": "Nasıl ölçülür",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1021/acs.jafc.4c06550",
+          "yer": "Abstract"
+        },
+        {
+          "kaynak": "10.1021/acs.jafc.4c06550",
+          "yer": "3.1. Characterization of bran"
+        }
+      ]
+    },
+    {
+      "id": "kepek.degirmenci_kepegi_kutle_verimi_araligi",
+      "metin": "Bu çalışmada laboratuvar ölçeğinde üretilen değirmenci kepeği örneklerinin kütle verimi %25,9 ile %31,9 arasında değişmiştir.",
+      "kosul": "Laboratuvar ölçeğinde üretilmiş değirmenci kepeği örnekleri; kütle verimi (Tablo 1).",
+      "kanit": "tek_kaynak",
+      "bolum": "Nasıl ölçülür",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1021/acs.jafc.4c06550",
+          "yer": "3.1. Characterization of bran"
+        }
+      ]
+    },
+    {
+      "id": "kepek.elek_analizinde_uc_kepek_boyutu_medyan_caplari",
+      "metin": "Bu çalışmada elek analizine göre kaba, orta ve ince kepeklerin medyan tanecik boyutları sırasıyla 1262 µm, 385 µm ve 174 µm bulunmuştur.",
+      "kosul": "Hamura eklenen kaba, orta ve ince buğday kepeği; elek analizi.",
+      "kanit": "tek_kaynak",
+      "bolum": "Nasıl ölçülür",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods11152300",
+          "yer": "3.2. Effects of Bran Particle Size, Level, Sheeting Roll Gap and Number of Roll Passes on Dough Expansion and Springback"
+        }
+      ]
+    },
+    {
+      "id": "kepek.jet_degirmen_kepeginde_yuksek_aciklik",
+      "metin": "Bu çalışmada hava jeti değirmeninde öğütülen kepeğin L (açıklık) değeri çekiçli değirmende öğütülen kepeğinkinden daha yüksek bulunmuştur (Tablo 1).",
+      "kosul": "Buğday kepeğinin çekiçli ve hava jeti değirmeninde öğütülmesi; kepek renk değeri (L, a, b) analizi.",
+      "kanit": "tek_kaynak",
+      "bolum": "Nasıl ölçülür",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods9010048",
+          "yer": "3.1. Composition of Wheat Bran Pulverized by a Hammer Mill or Jet Mill"
+        }
+      ]
+    },
+    {
+      "id": "kepek.lazer_difraksiyonu_ile_kepek_fraksiyon_caplari",
+      "metin": "Bu çalışmada lazer difraksiyonuna göre kaba kepek (CB) 1497 µm ile en yüksek medyan çapa, <180 fraksiyonu 115 µm ile en düşük medyan boyuta sahip olmuş; diğer fraksiyonlar 247 ile 641 µm arasında yer almıştır.",
+      "kosul": "Durum buğdayından elde edilen kepek fraksiyonları (CB, FB, 425, 315, 250, 180, <180); lazer difraksiyonu ile parçacık boyutu.",
+      "kanit": "tek_kaynak",
+      "bolum": "Nasıl ölçülür",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods10030489",
+          "yer": "3.1. Bran Particle Size Distribution"
+        }
+      ]
+    },
+    {
+      "id": "kepek.hacim_kaybi_seyrelme",
+      "metin": "Lai vd., kepeğin yol açtığı hacim kaybının gluten proteinlerinin seyrelmesinden beklenen kayıpla örtüştüğünü buldu.",
+      "kosul": "",
+      "kanit": "ikincil",
+      "bolum": "Ne yapar",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.lwt.2023.114504",
+          "yer": "3.3. Bread volume"
+        },
+        {
+          "kaynak": "10.1016/j.jcs.2008.03.006",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "kepek.kepekteki_etkin_maddeler",
+      "metin": "Buğday kepeği arabinoksilan, pentozan ve enzimler gibi gluten ağının gelişimini ve yapısını değiştirebilecek etkin maddeler içerir.",
+      "kosul": "",
+      "kanit": "ikincil",
+      "bolum": "Ne yapar",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.lwt.2023.114504",
+          "yer": "3.2. Influences of bran particle size on rheological properties of whole wheat flour"
+        }
+      ]
+    },
+    {
+      "id": "kepek.aleron_ve_embriyo_dane_payi",
+      "metin": "Buğday gibi küçük daneli tahıllarda alöron tabakası ve embriyo, tane kuru ağırlığının yaklaşık %10'unu oluşturur.",
+      "kosul": "Buğday tanesi kuru ağırlığı",
+      "kanit": "tek_kaynak",
+      "bolum": "Tanım",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1093/jexbot/53.370.947",
+          "yer": "Storage globulins"
+        }
+      ]
+    },
+    {
+      "id": "kepek.enzim_yuksekligi_ve_isil_islem",
+      "metin": "Yüksek enzim içeriği nedeniyle buğday kepeği orta süreli bir raf ömrüne sahiptir ve lipolitik enzimleri etkisizleştirmek için sıklıkla ısıl işlemler uygulanır.",
+      "kosul": "",
+      "kanit": "tek_kaynak",
+      "bolum": "Tanım",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.lwt.2013.12.004",
+          "yer": "4.2. Thermal treatments"
+        }
+      ]
+    },
+    {
+      "id": "kepek.elenmemis_tahilda_iri_kepek_parcalari",
+      "metin": "Arkeolojik yorum kriterine göre elenmemiş öğütülmüş tahılda 500 µm uzunluk ve üzeri büyük kepek parçalarının görünür kalması beklenir; Küllüoba ekmeğindeki kepek ve iri öğütülmüş parçalar, tanenin elenmeden öğütülüp kullanıldığı ve yüksek lifli bir hamur yapısının oluştuğu şeklindeki okumayı desteklemiştir.",
+      "kosul": "Tahılın elenmeden öğütülmesi ve Erken Tunç Çağı hamur mikromorfolojisi",
+      "kanit": "uzlasi",
+      "bolum": "Tarihi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1371/journal.pone.0344705",
+          "yer": "Discussion"
+        },
+        {
+          "kaynak": "10.1007/s00334-017-0602-6",
+          "yer": "Food preparation processes"
+        }
+      ]
+    },
+    {
+      "id": "kepek.shubayqa_ekmeginde_kepek_ve_kavuz_yoklugu",
+      "metin": "Shubayqa 1 yerleşimindeki ekmek benzeri kalıntılarda kavuz, tam dane ve diğer iri katılmaların bulunmaması, unun modern unlara benzer tutarlılık elde etmek için titizlikle öğütülüp dikkatlice elenmiş olabileceği olasılığını taşır.",
+      "kosul": "Shubayqa 1 arkeolojik ekmek kalıntıları",
+      "kanit": "tek_kaynak",
+      "bolum": "Tarihi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1073/pnas.1801071115",
+          "yer": "The Chaîne Opératoire for the Production of Bread-Like Products in Shubayqa 1"
+        }
+      ]
+    }
+  ]
+}

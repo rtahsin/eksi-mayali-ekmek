@@ -1,0 +1,158 @@
+{
+  "id": "tdel",
+  "ad": "T. delbrueckii",
+  "bilgiler": [
+    {
+      "id": "tdel.bayanus_delbrueckii_duyusal_karmasiklik",
+      "metin": "Bir çalışmada yazarlar, T. delbrueckii ve S. bayanus suşlarının ekmeğin duyusal profiline fındık benzeri ve meyvemsi tonlar ekleyerek karmaşıklık kattığını bildirmiştir.",
+      "kosul": "T. delbrueckii ve S. bayanus ile ekmek fermantasyonu; ekmek duyusal profili; tek çalışma",
+      "kanit": "tek_kaynak",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1371/journal.pone.0165126",
+          "yer": "Conclusion"
+        },
+        {
+          "kaynak": "10.1371/journal.pone.0165126",
+          "yer": "Conclusion"
+        },
+        {
+          "kaynak": "10.3390/microorganisms10091849",
+          "yer": "3. Results and Discussion"
+        }
+      ]
+    },
+    {
+      "id": "tdel.ekmek_hacmi_kontrole_yakin",
+      "metin": "Bir çalışmada T. delbrueckii Y273 ile fermente edilen ekmeğin boyutu kontrol ekmeğine benzer, S. bayanus Y156 ile yapılan ekmek ise referans ticari mayayla yapılana göre biraz daha küçük bulunmuştur.",
+      "kosul": "ekmek somun hacmi; Y273 ve Y156 suşları; kontrol (referans ticari maya); tek çalışma",
+      "kanit": "tek_kaynak",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1371/journal.pone.0165126",
+          "yer": "Results"
+        }
+      ]
+    },
+    {
+      "id": "tdel.ekmek_mayasi_tarama_lezzet",
+      "metin": "Bir çalışmada ekmek fermantasyonu için on konvansiyonel olmayan maya denenmiş; bunlar arasında Torulaspora delbrueckii ve Saccharomyces bayanus tatmin edici hamur fermantasyonunu ilginç bir aroma profiliyle birleştirmiştir.",
+      "kosul": "konvansiyonel olmayan mayaların ekmek fermantasyonu taraması; tek çalışma",
+      "kanit": "tek_kaynak",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1371/journal.pone.0165126",
+          "yer": "Abstract"
+        }
+      ]
+    },
+    {
+      "id": "tdel.y273_duyusal_profil_findik_orman",
+      "metin": "Bir çalışmada panelistler, T. delbrueckii Y273 ile yapılan ekmeği kontrol ekmeğine göre daha karmaşık, fındık benzeri ve orman benzeri bir lezzette tanımlamış; bu lezzet bazı kendiliğinden fermantasyonla yapılan ekmeklere benzetilmiştir.",
+      "kosul": "duyusal panel; Y273 suşu; kontrol ekmeği; tek çalışma",
+      "kanit": "tek_kaynak",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1371/journal.pone.0165126",
+          "yer": "Sensory analysis"
+        },
+        {
+          "kaynak": "10.3390/foods12040830",
+          "yer": "1. Introduction"
+        }
+      ]
+    },
+    {
+      "id": "tdel.ester_artisi_bayanus_delbrueckii",
+      "metin": "Bir çalışmada S. bayanus ve T. delbrueckii ile yapılan ekmek içinde etil oktanoat, 2-feniletil asetat, etil dekanoat ve etil dodekanoat, ticari maya kontrolüne göre anlamlı biçimde daha yüksek derişimlerde bulunmuştur.",
+      "kosul": "S. bayanus ve T. delbrueckii ile ekmek içi uçucu analizi; kontrole göre; tek çalışma",
+      "kanit": "tek_kaynak",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1371/journal.pone.0165126",
+          "yer": "Characterization of differentially produced aroma compounds"
+        }
+      ]
+    },
+    {
+      "id": "tdel.y273_9_aroma_bilesigi",
+      "metin": "Bir çalışmada T. delbrueckii Y273 ile yapılan ekmekte dokuz aroma bileşiğinin göreli derişimi kontrol ekmeğine göre anlamlı biçimde yüksek bulunmuştur.",
+      "kosul": "T. delbrueckii Y273 ile ekmek içi uçucu analizi; kontrole göre; tek çalışma",
+      "kanit": "tek_kaynak",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1371/journal.pone.0165126",
+          "yer": "Characterization of differentially produced aroma compounds"
+        }
+      ]
+    },
+    {
+      "id": "tdel.birlikte_kultur_co2_hacim",
+      "metin": "Bir çalışmanın aktardığına göre Li ve arkadaşlarının (2019) çalışmasında S. cerevisiae ile T. delbrueckii karışımının model hamurlarda CO2 üretimini ve hacmi artırdığı düşünülmüştür.",
+      "kosul": "model hamurlar; S. cerevisiae ve T. delbrueckii birlikte kültürü; atıflı aktarım",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/microorganisms10091849",
+          "yer": "3. Results and Discussion"
+        }
+      ]
+    },
+    {
+      "id": "tdel.birlikte_kultur_organik_asit_amino_asit",
+      "metin": "S. cerevisiae ile T. delbrueckii'nin birlikte kültürlenmesi, mayalı hamurda organik asit ve amino asit üretimini artırdı (Liu ve arkadaşları).",
+      "kosul": "mayalı hamur; S. cerevisiae ve T. delbrueckii birlikte kültürü",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/microorganisms10091849",
+          "yer": "3. Results and Discussion"
+        }
+      ]
+    },
+    {
+      "id": "tdel.wp_tatli_hamur_metabolit",
+      "metin": "Bir çalışmada, tatlı hamurda fermantasyon sonunda Torulaspora delbrueckii (W&P) kuru un esasına göre ağırlıkça %1,09 CO2, %0,06 süksinik asit, %0,27 gliserol, %0,03 asetik asit ve %0,53 etanol üretti.",
+      "kosul": "Tatlı hamur; 120 dakika fermantasyon, 30 °C",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods12040830",
+          "yer": "Table 2"
+        }
+      ]
+    },
+    {
+      "id": "tdel.italya_durum_siki_sivi",
+      "metin": "Güney İtalya'dan bir durum buğdayı ekşi mayası (MC) laboratuvarda hem sıkı hem sıvı olarak sürdürüldüğünde, ikisinde de Saccharomyces cerevisiae'nin yanında Torulaspora delbrueckii tanımlandı.",
+      "kosul": "Güney İtalya'dan (Matera, Altamura) 4 olgun Tip I ekşi maya; durum buğdayı (Triticum durum) unu; laboratuvarda 28 gün her gün yenileme, sıkı (hamur verimi 160) ve sıvı (hamur verimi 280, 150 rpm karıştırmalı) olarak; 25 °C'de 3–6 saat fermantasyon, yenilemeler arasında 10 °C'de 16–19 saat bekletme; gerçek hamur; ekşi maya MC; izolatlar RAPD-PCR ve 26S rDNA dizilemesiyle tanımlandı.",
+      "kanit": "tek_kaynak",
+      "bolum": "Kimlik",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1128/aem.00309-14",
+          "yer": "Results, Typing and identification of yeasts"
+        }
+      ]
+    }
+  ]
+}

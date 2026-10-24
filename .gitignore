@@ -61,3 +61,6 @@ local_llm_bridge/
 __pycache__/
 *.pyc
 scripts/__pycache__/
+
+# Bilgi sentezi araştırma kayıtları (özel, yayımlanmaz)
+/arastirma/

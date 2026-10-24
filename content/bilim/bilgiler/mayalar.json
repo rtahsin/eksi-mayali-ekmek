@@ -1,0 +1,306 @@
+{
+  "id": "mayalar",
+  "ad": "Ekşi mayadaki mayalar",
+  "bilgiler": [
+    {
+      "id": "mayalar.sivi_eksi_mayada_daha_cok",
+      "metin": "Güney İtalya'dan dört durum buğdayı ekşi mayasıyla yapılan bir çalışmada çoğu sıvı ekşi mayada maya yoğunluğu sıkı ekşi mayalardakinden belirgin biçimde yüksekti; 28 gün sonra üç sıvı ekşi mayada 6,5–7,2 log KOB/g maya vardı, bu da karşılık gelen sıkı ekşi mayalardan yaklaşık 2 log (yaklaşık 100 kat) fazlaydı.",
+      "kosul": "Güney İtalya'dan (Matera, Altamura) 4 olgun Tip I ekşi maya; durum buğdayı (Triticum durum) unu; laboratuvarda 28 gün her gün yenileme, sıkı (hamur verimi 160) ve sıvı (hamur verimi 280, 150 rpm karıştırmalı) olarak; 25 °C'de 3–6 saat fermantasyon, yenilemeler arasında 10 °C'de 16–19 saat bekletme; gerçek hamur; fark P < 0,05.",
+      "kanit": "tartismali",
+      "bolum": "Hangi koşulda",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1128/aem.00309-14",
+          "yer": "Discussion"
+        },
+        {
+          "kaynak": "10.1128/aem.00309-14",
+          "yer": "Results; Fig. 1"
+        },
+        {
+          "kaynak": "10.1128/aem.00309-14",
+          "yer": "DISCUSSION"
+        }
+      ]
+    },
+    {
+      "id": "mayalar.askomiset_saccharomycotina_uyumu",
+      "metin": "Ekşi maya ekosistemine uyum sağlamış fermantatif mayalar genellikle Ascomycota şubesine (Saccharomycotina alt şubesi) ait olup bazidiyomisetli mayaların aksine fermantasyon yetenekleri sayesinde bu ortamda yer alır.",
+      "kosul": "Ekşi maya ekosistemi",
+      "kanit": "tek_kaynak",
+      "bolum": "Kimlik",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.fm.2013.06.002",
+          "yer": "Sourdough microbiota"
+        },
+        {
+          "kaynak": "10.1016/j.ijfoodmicro.2016.07.018",
+          "yer": "Sourdough yeasts and their diversity"
+        }
+      ]
+    },
+    {
+      "id": "mayalar.yaygin_turler",
+      "metin": "Ekşi maya derlemelerinde sık geçen mayalar arasında Saccharomyces cerevisiae, Kazachstania humilis, Kazachstania exigua, Pichia kudriavzevii, Torulaspora delbrueckii ve Wickerhamomyces anomalus sayılır; derlemelerin listeleri birbirinden farklıdır.",
+      "kosul": "",
+      "kanit": "ikincil",
+      "bolum": "Kimlik",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/microorganisms8020240",
+          "yer": "Introduction"
+        },
+        {
+          "kaynak": "10.7717/peerj.11389",
+          "yer": "Microbial Ecology: Yeast"
+        },
+        {
+          "kaynak": "10.1128/aem.07721-11",
+          "yer": "Introduction"
+        },
+        {
+          "kaynak": "10.3389/fmicb.2019.00201",
+          "yer": "Introduction"
+        },
+        {
+          "kaynak": "10.1590/0001-3765202220220091",
+          "yer": "Fungal community structure in sourdoughs made with organic or conventional flours"
+        },
+        {
+          "kaynak": "10.3389/fmicb.2018.01972",
+          "yer": "HOW BREAD-MAKING MAY CHANGE FODMAPs LEVEL"
+        },
+        {
+          "kaynak": "10.1002/fsn3.690",
+          "yer": "INTRODUCTION"
+        }
+      ]
+    },
+    {
+      "id": "mayalar.m_humilis_eksimayada_ikinci_en_sik_ve_bol_tur",
+      "metin": "Maudiozyma humilis (eski adıyla Kazachstania humilis), ekşi maya ekmeklerinde Saccharomyces cerevisiae'den sonra dünya genelinde en sık izole edilen ve en bol bulunan ikinci maya türüdür.",
+      "kosul": "dünya genelinde ekşi mayalar",
+      "kanit": "tek_kaynak",
+      "bolum": "Mayadaki yeri",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1093/gbe/evag176",
+          "yer": "Abstract"
+        },
+        {
+          "kaynak": "10.1093/gbe/evag176",
+          "yer": "Graphical Abstract"
+        },
+        {
+          "kaynak": "10.1093/gbe/evag176",
+          "yer": "Introduction"
+        },
+        {
+          "kaynak": "10.1093/gbe/evag176",
+          "yer": "Introduction"
+        },
+        {
+          "kaynak": "10.1093/gbe/evag176",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "mayalar.teknolojik_katki_kabarma_ve_lezzet",
+      "metin": "Teknolojik açıdan maya metabolizması öncelikle ekşi maya ürünlerinin kabarmasına ve lezzetine katkıda bulunur.",
+      "kosul": "ekşi maya ürünleri (ekşi mayalı ekmek fermantasyonu), maya metabolizması",
+      "kanit": "tek_kaynak",
+      "bolum": "Ne yapar",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.ijfoodmicro.2016.07.018",
+          "yer": "Abstract"
+        },
+        {
+          "kaynak": "10.47371/mycosci.2021.10.003",
+          "yer": "1. Introduction"
+        },
+        {
+          "kaynak": "10.47371/mycosci.2021.10.003",
+          "yer": "1. Introduction"
+        },
+        {
+          "kaynak": "10.47371/mycosci.2021.10.003",
+          "yer": "1. Introduction"
+        },
+        {
+          "kaynak": "10.47371/mycosci.2021.10.003",
+          "yer": "3.2. Morphology of the four rose yeasts exhibiting the ability to make bread"
+        },
+        {
+          "kaynak": "10.47371/mycosci.2021.10.003",
+          "yer": "4. Discussion"
+        }
+      ]
+    },
+    {
+      "id": "mayalar.co2_kabartma",
+      "metin": "Ekşi mayadaki mayalar, laktik asit bakterileri ve asetik asit bakterileri ekmeği kabartan karbondioksiti üretir.",
+      "kosul": "",
+      "kanit": "ikincil",
+      "bolum": "Ne yer, ne üretir",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.7554/elife.61644",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "mayalar.bakteri_maya_orani",
+      "metin": "Tipik bir ekşi mayada her maya hücresine yaklaşık 100 bakteri hücresi düşer, ancak laktik asit bakterisi–maya oranı 1:1 ile 1000:1 arasında değişebilir.",
+      "kosul": "",
+      "kanit": "ikincil",
+      "bolum": "Ortak özellikler",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.7717/peerj.11389",
+          "yer": "Microbial Ecology: Yeast"
+        },
+        {
+          "kaynak": "10.3389/fmicb.2019.02113",
+          "yer": "Discussion"
+        },
+        {
+          "kaynak": "10.3390/microorganisms8010064",
+          "yer": "1. Introduction"
+        },
+        {
+          "kaynak": "10.1016/j.cub.2020.11.016",
+          "yer": "Introduction"
+        },
+        {
+          "kaynak": "10.3389/fmicb.2018.01984",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "mayalar.bir_iki_tur",
+      "metin": "17 ekşi mayanın incelendiği bir çalışmada kültürle her ekşi mayada yalnız bir ya da iki maya türü bulundu ve DNA dizilemesi de bakterideki geniş tür çeşitliliğine karşın sınırlı bir maya çeşitliliği gösterdi.",
+      "kosul": "17 ekşi maya (Belçika, Fransa, Birleşik Krallık, ABD); YPD izolatları M13-PCR parmak izi ve ITS dizilemesi; toplam DNA'dan ITS1 amplikon dizilemesi.",
+      "kanit": "tek_kaynak",
+      "bolum": "Ortak özellikler",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3389/fmicb.2020.01212",
+          "yer": "Results: Yeast identifications; Figure 1C"
+        },
+        {
+          "kaynak": "10.3389/fmicb.2020.01212",
+          "yer": "Results: Fungal species diversity"
+        },
+        {
+          "kaynak": "10.7717/peerj.11389",
+          "yer": "Microbial Ecology: Yeast"
+        },
+        {
+          "kaynak": "10.3389/fmicb.2018.01984",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "mayalar.stres_kosullarina_dayaniklilik",
+      "metin": "Ekşi mayaya uyarlanmış mayalar büyüme sırasında besin kıtlığının yanı sıra asidik, oksidatif, ısıl ve ozmotik stres koşullarına dayanıklıdır.",
+      "kosul": "Ekşi mayada büyüme süreci",
+      "kanit": "tek_kaynak",
+      "bolum": "Ortak özellikler",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.ijfoodmicro.2016.07.018",
+          "yer": "Abstract"
+        }
+      ]
+    },
+    {
+      "id": "mayalar.biyolojik_tanim",
+      "metin": "Mayalar tomurcuklanma veya bölünmeyle vejetatif olarak büyüyen ve bir meyve gövdesi oluşturmaksızın eşeyli üreyen tek hücreli mantarlardır.",
+      "kosul": "",
+      "kanit": "tek_kaynak",
+      "bolum": "Tanım",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.ijfoodmicro.2016.07.018",
+          "yer": "Sourdough yeasts and their diversity"
+        },
+        {
+          "kaynak": "10.47371/mycosci.2021.10.003",
+          "yer": "1. Introduction"
+        }
+      ]
+    },
+    {
+      "id": "mayalar.kabartma_esigi",
+      "metin": "Bir derlemeye göre ekşi mayada maya sayısı gram başına log 5,0 KOB'un (10⁵ KOB/g) altına düşünce ekşi mayanın kabartma gücü zayıflar.",
+      "kosul": "Otuz yıllık ekşi maya literatürünü tarayan sistematik derleme; literatür özeti.",
+      "kanit": "tek_kaynak",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.tifs.2020.12.008",
+          "yer": "4. Using conditions"
+        }
+      ]
+    },
+    {
+      "id": "mayalar.sivi_eksi_maya_yogunluk",
+      "metin": "Bu çalışmada çoğaltma sonrasında maya hücre yoğunluğu, sıkı ekşi mayalara kıyasla sıvı ekşi mayalarda en yüksek bulundu.",
+      "kosul": "Dört geleneksel Tip I ekşi maya; sıvı (hamur verimi 280) ve sıkı ekşi maya karşılaştırması; 28 günlük çoğaltma",
+      "kanit": "tek_kaynak",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1128/aem.00309-14",
+          "yer": ""
+        }
+      ]
+    },
+    {
+      "id": "mayalar.tek_baskin_tur_yuzde_50_uzeri",
+      "metin": "İncelenen Fransız ekşi mayalarının ikisi hariç hepsinde göreli bolluğu %50'nin üzerinde olan tek bir baskın maya türü bulunmuştur.",
+      "kosul": "38 Fransız ekşi mayası",
+      "kanit": "tek_kaynak",
+      "bolum": "Mayadaki yeri",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.24072/pcjournal.237",
+          "yer": "Fungal species diversity within and between sourdoughs"
+        }
+      ]
+    },
+    {
+      "id": "mayalar.italya_lab_maya_orani",
+      "metin": "İtalya'da yöresel ekmekler için kullanılan 19 ekşi mayada laktik asit bakterisi–maya oranı 100:1 ile 10:1 arasındaydı; yalnız iki istisna vardı: Pane di Matera PGI (yaklaşık 1.000:1) ve Pane Casareccio di Genzano PGI (yaklaşık 1:1).",
+      "kosul": "İtalya'da yöresel/geleneksel ekmekler için kullanılan 19 olgun ekşi maya; yerel fırınlardan ardışık günlerde 3 parti örneklendi; durum buğdayı (Triticum durum, 10 ekşi maya) ya da ekmeklik buğday (Triticum aestivum, 9 ekşi maya) unu; kültüre dayalı tanımlama.",
+      "kanit": "tek_kaynak",
+      "bolum": "Ortak özellikler",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1128/aem.07721-11",
+          "yer": "Results, Enumeration"
+        }
+      ]
+    }
+  ]
+}

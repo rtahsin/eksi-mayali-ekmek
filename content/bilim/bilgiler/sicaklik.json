@@ -1,0 +1,718 @@
+{
+  "id": "sicaklik",
+  "ad": "Sıcaklık",
+  "bilgiler": [
+    {
+      "id": "sicaklik.lactobacillaceae_optimum_buyume_sicakligi",
+      "metin": "Ekşi maya Lactobacillaceae familyasının tipik en uygun büyüme sıcaklığı 30 ile 40 °C arasındadır.",
+      "kosul": "ekşi maya laktik asit bakterileri büyümesi",
+      "kanit": "tek_kaynak",
+      "bolum": "Hangi koşulda",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1146/annurev-food-110923-034834",
+          "yer": "4.1. Breadmaking Process"
+        }
+      ]
+    },
+    {
+      "id": "sicaklik.laktobasil_metabolizmasi_ve_populasyon_dinamigi",
+      "metin": "Sıcaklık, laktobasillerin metabolik etkinliğinde kritik bir rol oynayan ve ekşi maya mikrobiyal popülasyon dinamiklerini etkileyen dışsal bir etkendir.",
+      "kosul": "De Vuyst et al., 2014",
+      "kanit": "ikincil",
+      "bolum": "Mayadaki yeri",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/pr9112008",
+          "yer": "4.1. Selected Lactic Acid Bacteria Used for Ancient Wheat Sourdough Bread Production"
+        }
+      ]
+    },
+    {
+      "id": "sicaklik.endustriyel_35_ve_maya_optimumu",
+      "metin": "Bir aroma çalışmasının yazarlarına göre endüstriyel hamur fermantasyonunda tipik sıcaklık 35 °C'dir ve Saccharomyces cerevisiae için en uygun fermantasyon sıcaklığı 25–30 °C'dir; hamuru geciktirmek için 5 °C gibi düşük sıcaklık da yaygın kullanılır.",
+      "kosul": "",
+      "kanit": "ikincil",
+      "bolum": "Tanım",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.lwt.2012.08.019",
+          "yer": "3.5. Effect of fermentation temperature"
+        }
+      ]
+    },
+    {
+      "id": "sicaklik.firin_ilk_genislemesi_maya_50_derece",
+      "metin": "Fırında hamurun ilk genişlemesi mayanın CO2 üretimiyle olur; maya hücreleri yaklaşık 50 °C'de ölmeye başlar.",
+      "kosul": "pişirmenin başlangıcında",
+      "kanit": "ikincil",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1371/journal.pone.0282670",
+          "yer": "3.4 Oven rise behavior and macroscopic quantification of extension processes"
+        }
+      ]
+    },
+    {
+      "id": "sicaklik.maya_canliligi_ve_firin_kabarmasi_korelasyonu",
+      "metin": "Kluyveromyces marxianus suşlarında erken pişirme sırasındaki maya canlılığı ile fırın kabarması arasında R2 = 0,77 düzeyinde pozitif bir korelasyon saptanmıştır.",
+      "kosul": "fırın kabarması ve maya canlılığı korelasyonu",
+      "kanit": "tek_kaynak",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.crfs.2026.101573",
+          "yer": "Abstract"
+        }
+      ]
+    },
+    {
+      "id": "sicaklik.sicaklik_lipit_oksidasyonu",
+      "metin": "Fermantasyon sıcaklığını 5 °C'den 15 ya da 35 °C'ye çıkarmak ekmek içinde birçok lipit oksidasyonu ürününü (heksanal, heptanal, oktanal, 2-pentilfuran) artırdı; bunların en yüksek koku etkinlik değerlerine sahip olanları heksanal ve heptanaldi.",
+      "kosul": "Danimarka; buğday unu (yaş gluten %28,9); ticari yaş ekmek mayası 20, 40 ve 60 g/kg un; ekşi maya yok; hamur 5, 15 ya da 35 °C'de 8 cm yüksekliğe ulaşana kadar fermente edildi; buharla 130 °C'de 31 dakika pişirildi; yalnız ekmek içi incelendi; dinamik tepe boşluğu GC-MS.",
+      "kanit": "tek_kaynak",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.lwt.2012.08.019",
+          "yer": "Abstract"
+        },
+        {
+          "kaynak": "10.1016/j.lwt.2012.08.019",
+          "yer": "3.5. Effect of fermentation temperature"
+        }
+      ]
+    },
+    {
+      "id": "sicaklik.30_derecede_ekosistem_hizli_kararlilasma",
+      "metin": "Ekşi maya ekosistemi 30 °C'de daha düşük sıcaklıklara göre daha hızlı kararlı hâle gelir; laktik asit bakterileri ilk döngüde (24 saat sonra) yaygın hâle gelir.",
+      "kosul": "30 °C, geri aşılama (backslopping)",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1002/mbo3.1009",
+          "yer": "DISCUSSION"
+        }
+      ]
+    },
+    {
+      "id": "sicaklik.30_ve_23_derecede_yenileme_dongusu",
+      "metin": "Ekşi mayada laktik asit bakterilerini zenginleştirmek için 30 °C'de bir fermantasyon döngüsü yeter; 23 °C'de ise üç döngüye kadar gerekebilir.",
+      "kosul": "30 °C ve 23 °C karşılaştırması; geri aşılama",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1002/mbo3.1009",
+          "yer": "DISCUSSION"
+        }
+      ]
+    },
+    {
+      "id": "sicaklik.35_derecede_gluten_zincir_yuksekligi_artisi",
+      "metin": "35 °C'de silindirleme ve dinlendirme işlemleri gluten zincirlerinin yüksekliğini 9,38 ile 10,19 nm aralığına yükseltmiş ve büyük parçacıklı polimerlerin oluşumuna katkıda bulunmuştur.",
+      "kosul": "35 °C ortamında silindirleme ve dinlendirme işlemi",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.fochx.2025.102366",
+          "yer": "Molecular morphology of gluten chains"
+        }
+      ]
+    },
+    {
+      "id": "sicaklik.59_derecede_kmarxianus_suslarinin_canlilik_farklari",
+      "metin": "Pişirmenin 9. dakikasında (59 °C) Km5 (%71,4 ± 4,2) ve Km7 (%80,2 ± 2,8) suşları, Km1 (%102,5 ± 11,0) ve Km6 (%101,7 ± 4,1) suşlarına kıyasla anlamlı derecede daha düşük canlılık göstermiştir.",
+      "kosul": "9 dk pişirme, 59 °C hamur sıcaklığı",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.crfs.2026.101573",
+          "yer": "3.3. Yeast viability in dough and oven rise performance"
+        }
+      ]
+    },
+    {
+      "id": "sicaklik.cekirdek_sicakliginin_93_dereceyi_asmasi",
+      "metin": "Ekmeğin merkez sıcaklığının yaklaşık 1020 saniyede 93 °C'yi aşması ekmeğin tamamen piştiğini gösterir.",
+      "kosul": "ekmek pişme kriteri",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods14091649",
+          "yer": "4.1. Determination of Key Parameters"
+        }
+      ]
+    },
+    {
+      "id": "sicaklik.dusuk_sicaklikta_dinlendirme_stres_ve_geri_kazanim",
+      "metin": "Düşük sıcaklıkta dinlendirme azami gerilimi ve iç viskoziteyi artırmış ve polimer zincir segmentlerinin hareketliliğini azaltarak deformasyon geri kazanımını düşürmüş; geri kazanım oranı %81,89 olmuştur.",
+      "kosul": "4 °C ortamda 30 dakika dinlendirme",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.fochx.2025.102366",
+          "yer": "Rheological properties of dough with large deformation"
+        }
+      ]
+    },
+    {
+      "id": "sicaklik.dusuk_sicaklikta_surekli_hidrojen_bagi_azalisi",
+      "metin": "Düşük sıcaklık ortamında hidrojen bağları sürekli baskılanarak 0,86 mg/g seviyesine kadar gerilemiştir.",
+      "kosul": "4 °C ortam sıcaklığı, dört döngü dinlendirme (4SR-4)",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.fochx.2025.102366",
+          "yer": "Solubility of gluten proteins in different solvents"
+        }
+      ]
+    },
+    {
+      "id": "sicaklik.dusuk_ve_yuksek_sicaklik_bag_ve_oksidasyon_mekanizmasi",
+      "metin": "Düşük sıcaklık ortamları gevşeme etkilerini baskılayarak sülfhidril oksidasyonunu yavaşlatırken, yüksek sıcaklıklar su değişimini teşvik ederek hidrojen bağlarını ve hidrofobik etkileşimleri güçlendirmiştir.",
+      "kosul": "4 °C ile 35 °C dinlendirme ortamları karşılaştırması",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.fochx.2025.102366",
+          "yer": "Conclusion"
+        }
+      ]
+    },
+    {
+      "id": "sicaklik.gerinim_sertlesmesi_ve_kabarcik_kararliligi",
+      "metin": "Hamurlarda gerinim sertleşmesi, ekmekçilik kalitesi daha iyi olan çeşitlerde daha yüksek sıcaklıklarda kararsızlık eşiğine ulaşır ve doğrudan kabarcık kararlılığı ile pişirme performansıyla ilişkilidir.",
+      "kosul": "Ekmek yapımı sırasında yüksek sıcaklıklar",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/s0733-5210(03)00059-6",
+          "yer": "Abstract"
+        }
+      ]
+    },
+    {
+      "id": "sicaklik.iki_dongude_hidrojen_bagi_sicaklik_farki",
+      "metin": "İki döngü silindirleme ve dinlendirme sonrasında yüksek sıcaklıkta işlenen hamur 1,46 mg/g ile daha düşük hidrojen bağı katkısı sergilerken, düşük sıcaklıktaki hamur 2,05 mg/g katkı göstermiştir.",
+      "kosul": "İki döngü silindirleme ve dinlendirme sonrası yüksek (35 °C) ve düşük (4 °C) sıcaklık karşılaştırması",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.fochx.2025.102366",
+          "yer": "Solubility of gluten proteins in different solvents"
+        }
+      ]
+    },
+    {
+      "id": "sicaklik.kabarcik_buyume_hizi_ve_boyutu",
+      "metin": "Daha yüksek sıcaklıklar Henry Yasası sabitini artırarak aşırı doymuş hamurlarda kabarcık büyüme hızını artırıp kritik kabarcık boyutunu küçültür ve doymamış sistemlerde nihai kabarcık boyutunu büyütür.",
+      "kosul": "",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1205/096030898531828",
+          "yer": ""
+        },
+        {
+          "kaynak": "10.1205/096030898531828",
+          "yer": ""
+        }
+      ]
+    },
+    {
+      "id": "sicaklik.km8_susunun_77_derecede_ustun_canliligi_ve_firin_kabarmasi",
+      "metin": "77 °C hamur sıcaklığında (12. dakikada) Km8 suşu %37,1 ± 3,0 canlılık koruyarak Km1'in %7,1 ± 1,6 canlılığına kıyasla üstünlük sağlamış ve en yüksek fırın kabarmasına yol açmıştır.",
+      "kosul": "12 dk pişirme, 77 °C hamur sıcaklığı",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.crfs.2026.101573",
+          "yer": "3.3. Yeast viability in dough and oven rise performance"
+        },
+        {
+          "kaynak": "10.1016/j.crfs.2026.101573",
+          "yer": "3.4. Different K. marxianus strains lead to different rates of CO2 release"
+        }
+      ]
+    },
+    {
+      "id": "sicaklik.pisirmede_12_dakikada_maya_canliligi_ve_etanol_sonlanmasi",
+      "metin": "Pişirmenin 12. dakikasından sonra maya canlılığı hızla düşüp etanol üretimi durur ve yüksek sıcaklıklarda serbest etanol buharlaşır.",
+      "kosul": "fırında pişirme süreci",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.fochx.2026.104362",
+          "yer": "3.2. Yeast strains' differences in metabolite concentrations"
+        }
+      ]
+    },
+    {
+      "id": "sicaklik.pisirmede_scerevisiae_canlilik_dususu_59_77_derece",
+      "metin": "59 ile 77 °C hamur sıcaklığı aralığında (pişirmenin 12. dakikasında) Saccharomyces cerevisiae suşlarının bağıl canlılığı %42,1 ile %5,8 arasında değişmiştir.",
+      "kosul": "59–77 °C hamur sıcaklığı, pişirmenin 12. dakikası",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.fochx.2026.104362",
+          "yer": "3.4. Yeast strains affect the gliadin fraction in the gluten network"
+        },
+        {
+          "kaynak": "10.1016/j.crfs.2026.101573",
+          "yer": "3.3. Yeast viability in dough and oven rise performance"
+        }
+      ]
+    },
+    {
+      "id": "sicaklik.pisirmenin_ilk_6_dakikasinda_42_derecede_tam_canlilik",
+      "metin": "Bütün maya suşları pişirmenin ilk 6 dakikasında (42 °C hamur sıcaklığında) canlı kalmış, 9. dakikada (59 °C) bazı suşların canlılığı düşüş göstermiştir.",
+      "kosul": "pişirme esnasında hamur sıcaklık artışı",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.crfs.2026.101573",
+          "yer": "3.3. Yeast viability in dough and oven rise performance"
+        }
+      ]
+    },
+    {
+      "id": "sicaklik.ucuncu_dongude_hidrojen_bagi_ani_artisi",
+      "metin": "Yüksek sıcaklıkta üç döngü işlem sonrasında hidrojen bağı düzeylerinde %71,96 oranına varan ani bir artış gözlenmiştir.",
+      "kosul": "35 °C ortam, 3 döngü (35SR-3), p < 0,05",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.fochx.2025.102366",
+          "yer": "Solubility of gluten proteins in different solvents"
+        }
+      ]
+    },
+    {
+      "id": "sicaklik.yuksek_sicaklik_buyuk_molekullu_agrega_proteinler",
+      "metin": "Yüksek sıcaklık ortamındaki işlemler gluten agregasyonunu ve büyük molekül ağırlıklı maddelerin oluşumunu en çok 23,58 mg/g düzeyine ulaştırarak desteklerken, düşük sıcaklıklar küçük moleküllü agrega proteinleri öne çıkarmıştır.",
+      "kosul": "35 °C ile 4 °C ortamında dinlendirme ve SE-HPLC analizi",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.fochx.2025.102366",
+          "yer": "Abstract"
+        },
+        {
+          "kaynak": "10.1016/j.fochx.2025.102366",
+          "yer": "Molecular weight of gluten protein"
+        }
+      ]
+    },
+    {
+      "id": "sicaklik.yuksek_sicaklik_on_islem_nem_kaybi_ve_uzama",
+      "metin": "Literatürde yüksek sıcaklık ön işleminin hamurda nem kaybına ve protein molekülleri içindeki hidrojen bağlarının bozulmasına yol açarak daha güçlü çekme direnci fakat azalmış uzama sağladığı bildirilmiştir.",
+      "kosul": "Hamur yüksek sıcaklık ön işlemi (Litvinov vd. 2012; Yang vd. 2023 aktarımı)",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.fochx.2025.102366",
+          "yer": "Rheological properties of dough with large deformation"
+        }
+      ]
+    },
+    {
+      "id": "sicaklik.yuksek_sicaklik_ph_asitlik_hizi_28_32",
+      "metin": "Bir çalışmada pirinç ve buğday unlarıyla yapılan ekşi mayalarda 32 °C'de fermantasyon, 28 °C'ye göre pH ve titre edilebilir asitlikte daha hızlı bir seyre yol açmıştır.",
+      "kosul": "hamur verimi 200; 28 °C ve 32 °C karşılaştırması; pirinç ve buğday unlu ekşi mayalar, tek çalışma",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/s23187681",
+          "yer": "2.3. Experiment Design"
+        },
+        {
+          "kaynak": "10.3390/s23187681",
+          "yer": "4.1. Offline Data of Sourdough Fermentation"
+        }
+      ]
+    },
+    {
+      "id": "sicaklik.yuksek_sicaklik_sulfhidril_ve_disulfid_baglari",
+      "metin": "Yüksek ortam sıcaklığı oksidasyon reaksiyonlarını belirgin biçimde hızlandırarak serbest sülfhidril düzeyini 2,83 μmol/g ve disülfit bağı içeriğini 2,85 μmol/g seviyesine ulaştırmıştır.",
+      "kosul": "35 °C ortam sıcaklığı, dört döngülü dinlendirme (35SR-4)",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.fochx.2025.102366",
+          "yer": "Covalent bonds"
+        }
+      ]
+    },
+    {
+      "id": "sicaklik.30_derecede_kovalent_gluten_baglari",
+      "metin": "Hamurda gluten ağı 30 °C'de ağırlıklı olarak kovalent bağlarla oluşur; 4 ve 15 °C'de ise hidrofobik etkileşimler baskındır.",
+      "kosul": "hamur yoğurma; 30 °C ile 4 ve 15 °C karşılaştırması",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/molecules26020508",
+          "yer": "PMC7835854.txt:4.1. Dough Mixing"
+        }
+      ]
+    },
+    {
+      "id": "sicaklik.dusuk_sicaklik_maltotrioz",
+      "metin": "Maya sıcaklıktan bağımsız olarak glukoz, fruktoz ve maltozu kullandı; sıcaklık düşürüldüğünde maltotriozu da daha çok kullandı.",
+      "kosul": "Polonya; tip 650 buğday unu süngeri (ön hamur), 15 °C'de 5 gün, S. cerevisiae suşları; sonuç Codină vd.'nin daha yüksek sıcaklıktaki çalışmasıyla karşılaştırılarak çıkarıldı.",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/molecules30010112",
+          "yer": "2.1.1. Changes in Sugar Content After Fermentation of Sponge"
+        }
+      ]
+    },
+    {
+      "id": "sicaklik.35_derecede_ph_daha_hizli_duser",
+      "metin": "Bir çalışmada fermantasyon sıcaklığını 25 °C'den 35 °C'ye çıkarmak hamur pH'ının daha hızlı düşmesini sağladı; buğday ekşi mayasında 24 saat sonra pH 25 °C'de 3,85, 35 °C'de 3,56'ydı.",
+      "kosul": "Buğday (tip 550) ve çavdar (tip 1150) ekşi mayaları, hamur verimi 200; Levilactobacillus brevis ya da Pediococcus claussenii; 24 saat.",
+      "kanit": "tek_kaynak",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods10030547",
+          "yer": "3.3. Parameters influencing β-glucan; Table 1"
+        }
+      ]
+    },
+    {
+      "id": "sicaklik.chevallier_35_derece_co2",
+      "metin": "Chevallier ve arkadaşları 25, 30 ve 35 °C'nin her birinde CO₂ üretiminin zamanla arttığını ve en yüksek değere 35 °C'de ulaştığını buldu.",
+      "kosul": "",
+      "kanit": "ikincil",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/molecules30010112",
+          "yer": "2.2.1. Carbon Dioxide Production During Yeast Fermentation"
+        }
+      ]
+    },
+    {
+      "id": "sicaklik.dusuk_sicaklikta_kendiliginden_zor",
+      "metin": "Bir makalenin girişine göre düşük sıcaklıkta kendiliğinden fermantasyon baskılanır, çünkü sıcaklık mikropların gelişmesine uygun değildir; bu yüzden ortamı hızla denetim altına alabilecek bir starter kültür gerekir.",
+      "kosul": "",
+      "kanit": "ikincil",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/molecules30010112",
+          "yer": "1. Introduction"
+        }
+      ]
+    },
+    {
+      "id": "sicaklik.ekmek_yapiminda_30_derece_sikligi",
+      "metin": "İncelenen ekmek yapım süreçlerinin %61'inde 30 °C fermantasyon sıcaklığı bildirilmiştir.",
+      "kosul": "ekmek yapım süreçleri taraması",
+      "kanit": "tek_kaynak",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1146/annurev-food-110923-034834",
+          "yer": "3.2. Bread Production"
+        }
+      ]
+    },
+    {
+      "id": "sicaklik.k_unispora_37_ve_45_derece_buyume_sinirlari",
+      "metin": "Kazachstania unispora suşlarında 37 °C'de artık büyüme %4 ile %12 arasında kalmış, 45 °C'de 48 saat sonra hiçbir büyüme kaydedilmemiştir.",
+      "kosul": "Kazachstania unispora suşları sıcaklık tolerans testi",
+      "kanit": "tek_kaynak",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1007/s11274-021-03027-0",
+          "yer": "Results / Tolerance to different environmental factors"
+        }
+      ]
+    },
+    {
+      "id": "sicaklik.khumilis_ve_fsanfranciscensis_optimum_sicakliklari",
+      "metin": "Kazachstania humilis için en uygun büyüme sıcaklığı 27–28 °C iken, Fructilactobacillus sanfranciscensis'in en uygun sıcaklığı 32–33 °C'dir.",
+      "kosul": "en uygun büyüme sıcaklığı",
+      "kanit": "ikincil",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1128/aem.01030-26",
+          "yer": "Discussion"
+        },
+        {
+          "kaynak": "10.1128/aem.01030-26",
+          "yer": "Discussion"
+        }
+      ]
+    },
+    {
+      "id": "sicaklik.kmarxianus_termo_toleransi_40_ve_52_derece",
+      "metin": "Kluyveromyces marxianus doğası gereği termotolerant olup 40 °C'nin üzerinde etanol üretebilmekte ve 52 °C'ye kadar büyüyebilmektedir.",
+      "kosul": "Fonseca vd. (2008)",
+      "kanit": "ikincil",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.crfs.2026.101573",
+          "yer": "1. Introduction"
+        }
+      ]
+    },
+    {
+      "id": "sicaklik.tokat_ekmegi_pisirme_kosullari",
+      "metin": "Geleneksel Tokat ekmeği özel fırınlarda 200–220 °C'de 90 dakika pişirilir.",
+      "kosul": "Geleneksel Tokat ekmeği fırınlama süreci",
+      "kanit": "tek_kaynak",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1002/fsn3.4468",
+          "yer": "INTRODUCTION"
+        }
+      ]
+    },
+    {
+      "id": "sicaklik.dort_bilesik_sicakliga_bagli",
+      "metin": "Ekmek içinde koku etkinlik değeri 0,1 ya da üstü olan 19 bileşikten dördünün (3-metilbutanal, oktanal, 2-oktanon, etil hekzanoat) oluşumu fermantasyon sıcaklığından anlamlı etkilendi.",
+      "kosul": "Danimarka; buğday unu (yaş gluten %28,9); ticari yaş ekmek mayası 20, 40 ve 60 g/kg un; ekşi maya yok; hamur 5, 15 ya da 35 °C'de 8 cm yüksekliğe ulaşana kadar fermente edildi; buharla 130 °C'de 31 dakika pişirildi; yalnız ekmek içi incelendi; dinamik tepe boşluğu GC-MS.",
+      "kanit": "tek_kaynak",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.lwt.2012.08.019",
+          "yer": "3.5. Effect of fermentation temperature"
+        }
+      ]
+    },
+    {
+      "id": "sicaklik.fermantasyon_bilesikleri_cogu_etkilenmedi",
+      "metin": "3-Metilbutanal ve etil hekzanoat dışında, mayanın fermantasyonundan gelen bileşikler sıcaklıktan anlamlı etkilenmedi; etil 3-metilbutanoat ve feniletil asetatta da belirgin bir sıcaklık etkisi görülmedi.",
+      "kosul": "Danimarka; buğday unu (yaş gluten %28,9); ticari yaş ekmek mayası 20, 40 ve 60 g/kg un; ekşi maya yok; hamur 5, 15 ya da 35 °C'de 8 cm yüksekliğe ulaşana kadar fermente edildi; buharla 130 °C'de 31 dakika pişirildi; yalnız ekmek içi incelendi; dinamik tepe boşluğu GC-MS.",
+      "kanit": "tek_kaynak",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.lwt.2012.08.019",
+          "yer": "3.5. Effect of fermentation temperature"
+        },
+        {
+          "kaynak": "10.1016/j.lwt.2012.08.019",
+          "yer": "3.6. Ester formation; Fig. 3B"
+        }
+      ]
+    },
+    {
+      "id": "sicaklik.fermantor_30_derece_ve_100_rpm_kosulu",
+      "metin": "Tekli ve birlikte kültür fermantasyon süreçleri, sıcaklığı 30 °C ve çalkalaması 100 rpm olarak ayarlanan fermentörlerde 48 saat boyunca yürütülmüştür.",
+      "kosul": "WSSM ve mWSSM besiyerlerinde Biostat B-DCU fermentörleri",
+      "kanit": "tek_kaynak",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1128/aem.01325-25",
+          "yer": "Mono- and co-culture fermentation processes and sampling"
+        }
+      ]
+    },
+    {
+      "id": "sicaklik.gassenmeier_35_derece",
+      "metin": "Gassenmeier ve Schieberle, 25–40 °C'de 8 saat bekletilen sıvı bir ön hamurda 3-metil-1-bütanol ve 2-feniletanolün en yüksek derişimini 35 °C'de buldu.",
+      "kosul": "",
+      "kanit": "ikincil",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.lwt.2012.08.019",
+          "yer": "3.5. Effect of fermentation temperature"
+        }
+      ]
+    },
+    {
+      "id": "sicaklik.hidrofobik_etkilesim_artar",
+      "metin": "van Dijk vd.'ye göre proteinlerde hidrofobik etkileşimler sıcaklıkla artabilir.",
+      "kosul": "Proteinlerde sıcaklık artışı; van Dijk vd. 2015 atfı",
+      "kanit": "ikincil",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1080/10408398.2020.1864618",
+          "yer": "Thermo-mechanical treatment"
+        }
+      ]
+    },
+    {
+      "id": "sicaklik.hidrojen_bag_sicaklik_zayiflar",
+      "metin": "Cordier ve Grzesiek'e göre sıcaklık arttıkça hidrojen bağları zayıflar.",
+      "kosul": "Sıcaklık artışı; protein yapısı; Cordier ve Grzesiek 2002 atfı",
+      "kanit": "ikincil",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1080/10408398.2020.1864618",
+          "yer": "Thermo-mechanical treatment"
+        }
+      ]
+    },
+    {
+      "id": "sicaklik.izolatlarin_10_45_derecede_uremesi",
+      "metin": "Laboratuvar besiyerinde izolatlardan yalnız Lacticaseibacillus casei No. 210 10 °C'de zayıf üredi; 45 °C'de Lactobacillus farraginis No. 206 orta düzeyde üredi.",
+      "kosul": "Laboratuvar besiyeri (MRS sıvı besiyeri), 24 saat.",
+      "kanit": "tek_kaynak",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/microorganisms8010064",
+          "yer": "3.2. Carbohydrate metabolism; Table 3"
+        },
+        {
+          "kaynak": "10.3390/microorganisms8010064",
+          "yer": "3.2. Carbohydrate metabolism; Table 3"
+        }
+      ]
+    },
+    {
+      "id": "sicaklik.metilbutanal_15_derecede",
+      "metin": "3-Metilbutanal 15 °C'de, 5 ve 35 °C'ye göre anlamlı derecede fazla oluştu.",
+      "kosul": "Danimarka; buğday unu (yaş gluten %28,9); ticari yaş ekmek mayası 20, 40 ve 60 g/kg un; ekşi maya yok; hamur 5, 15 ya da 35 °C'de 8 cm yüksekliğe ulaşana kadar fermente edildi; buharla 130 °C'de 31 dakika pişirildi; yalnız ekmek içi incelendi; dinamik tepe boşluğu GC-MS.",
+      "kanit": "tek_kaynak",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.lwt.2012.08.019",
+          "yer": "3.5. Effect of fermentation temperature"
+        }
+      ]
+    },
+    {
+      "id": "sicaklik.sicaklik_beta_glukan_en_etkili",
+      "metin": "Bir çalışmada ekşi mayada bakteriyel β-D-glukan oluşumunu en çok fermantasyon sıcaklığındaki değişiklik etkiledi (aşılama miktarı ve birlikte kültürlemeye göre); β-glukan bağışıklık temelli bir yöntemle nicelenebildi.",
+      "kosul": "Buğday (tip 550) ve çavdar (tip 1150) ekşi mayaları, hamur verimi 200; aşılama miktarı ve birlikte kültürlemeyle karşılaştırma.",
+      "kanit": "tek_kaynak",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods10030547",
+          "yer": "4. Discussion"
+        },
+        {
+          "kaynak": "10.3390/foods10030547",
+          "yer": "Abstract"
+        }
+      ]
+    },
+    {
+      "id": "sicaklik.alt_kultur_fermantasyon_ve_saklama_sicakliklari",
+      "metin": "Her bir alt kültür aşamasında fermantasyon 30 °C'de 8 saat yürütülmüş, ardından karışım 4 °C'de 16 saat saklanmıştır.",
+      "kosul": "WSSM ve ekşi maya alt kültür protokolü",
+      "kanit": "tek_kaynak",
+      "bolum": "Nasıl ölçülür",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.12938/bmfh.2019-038",
+          "yer": "Subculture experiments with media at three different pH levels"
+        }
+      ]
+    },
+    {
+      "id": "sicaklik.fermantasyon_sicakligi_gaz_sensor_sinyali",
+      "metin": "Bir çalışmada yazarlar, fermantasyon sıcaklığının egzoz gazı bileşimini ve dolayısıyla gaz sensörlerinin sinyal yanıtını değiştirdiğinin hesaba katılması gerektiğini belirtmiştir.",
+      "kosul": "ekşi maya fermantasyonunun gaz sensörü ile izlenmesi; yazarların uyarısı",
+      "kanit": "tek_kaynak",
+      "bolum": "Nasıl ölçülür",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/s23187681",
+          "yer": "4.2. Process Models"
+        }
+      ]
+    },
+    {
+      "id": "sicaklik.kalip_ekmegi_180_derece_pisirme_kosulu",
+      "metin": "Yaklaşık 20 mm yüksekliğindeki hamur 180 °C'ye ayarlanmış fırında 30 dakika pişirilmiştir.",
+      "kosul": "Cam kalıpta (100 mm çap), önceden ısıtılmış ev tipi fırın",
+      "kanit": "tek_kaynak",
+      "bolum": "Nasıl ölçülür",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods14091649",
+          "yer": "2.2. Experimental Protocols and Measurement Methods"
+        }
+      ]
+    }
+  ]
+}

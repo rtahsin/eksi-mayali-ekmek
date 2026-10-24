@@ -1,0 +1,872 @@
+{
+  "id": "kabuk",
+  "ad": "Kabuk",
+  "bilgiler": [
+    {
+      "id": "kabuk.eksimaya_ile_daha_citir_ve_kalin_kabuk",
+      "metin": "Duyusal değerlendirmede, bu çalışmada yalnızca fırıncı mayasıyla yapılan ekmekle karşılaştırıldığında ekşi mayayla üretilen ekmekler daha çıtır ve daha kalın bir kabuk ile daha yoğun bir renk gösterdi.",
+      "kosul": "Ekşi mayalı ve fırıncı mayalı ekmek karşılaştırması (p < 0,05)",
+      "kanit": "tek_kaynak",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods11091278",
+          "yer": "Sensory Evaluation"
+        },
+        {
+          "kaynak": "10.3390/foods11091278",
+          "yer": "Sensory Analysis"
+        }
+      ]
+    },
+    {
+      "id": "kabuk.buharlasma_cephesi_ve_iki_bolge",
+      "metin": "Buharlaşma cephesinin ilerlemesiyle ekmekte iki bölge oluşur: nemi çok düşük ve sıcaklığı fırın sıcaklığına yaklaşan dış kabuk ile nemi sabit kalıp sıcaklığı 100 °C'ye yaklaşan ekmek içi.",
+      "kosul": "Pişirme sırasında buharlaşma cephesinin ilerlemesi",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.jfoodeng.2008.09.037",
+          "yer": "Introduction"
+        },
+        {
+          "kaynak": "10.1016/j.jfoodeng.2008.09.037",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "kabuk.dusuk_nem_orani_ve_ic_dehidrasyon_engeli",
+      "metin": "Kabuk %5–10 oranında düşük nem içeriği ve tipik yapısal özellikleriyle ayırt edilir ve sıcaklığın 100 °C civarında kaldığı ekmek içinin daha fazla dehidrasyona uğramasını engeller.",
+      "kosul": "Ekmek kabuğu yapısı (Purlis aktarımı [1])",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods10020417",
+          "yer": "PMC7918450.txt:1. Introduction"
+        }
+      ]
+    },
+    {
+      "id": "kabuk.kabuk_bayatlamasi_nem_gocu",
+      "metin": "Saklamada kabuk gevrekliğini yitirip deri gibi yumuşar (kabuk bayatlaması); bunun nedeninin ekmek içinden kabuğa nem geçişi olduğu düşünülür, bu geçiş ekmek içinin toplam nemini de düşürür.",
+      "kosul": "",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.crfs.2021.03.004",
+          "yer": "1. Introduction"
+        },
+        {
+          "kaynak": "10.1155/2018/8187318",
+          "yer": "6. Crumb Staling"
+        }
+      ]
+    },
+    {
+      "id": "kabuk.kabuk_ve_renk_olusum_mekanizmasi",
+      "metin": "Ekmek kabuğu pişirmenin sonuna doğru yüzey sıcaklığı 100 °C'yi aşıp su kaybı belirginleştiğinde oluşur; yüzey rengi de kabuklaşmayla eşzamanlı olarak Maillard tepkimesi ve şeker karamelizasyonuyla gelişir.",
+      "kosul": "Pişirmenin son aşaması",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.lwt.2007.01.010",
+          "yer": ""
+        },
+        {
+          "kaynak": "10.1016/j.lwt.2007.01.010",
+          "yer": ""
+        },
+        {
+          "kaynak": "10.3390/foods14091649",
+          "yer": "3.3. Parameters"
+        }
+      ]
+    },
+    {
+      "id": "kabuk.sertlik_ve_kabuk_kalinligi_mekanizmasi",
+      "metin": "Ekmek sertliğinin genellikle azalan nem içeriği, artan nişasta jelleşmesi ve gluten-protein ağının pekişmesiyle ilişkili olduğu; kabuk kalınlığının ise ısıl maruziyet altındaki yüzey kuruma derecesini ve hızını yansıttığı belirtiliyor.",
+      "kosul": "Ekmek pişirme ve kabuk gelişimi süreci (aktarım)",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1111/1750-3841.71456",
+          "yer": "Hardness (N) and Crust Thickness (Mm)"
+        }
+      ]
+    },
+    {
+      "id": "kabuk.esmerlesme_hizi_firin_sicakligi",
+      "metin": "Fırın sıcaklığı ayarı yükseldikçe kabuğun esmerleşme hızı arttı.",
+      "kosul": "Küçük kalıp ekmeği, 60,5 g hamur, 70×70×20 mm alüminyum kalıp; 180, 200 ve 220 °C ayarında 30 dakikaya kadar pişirme; bilgisayarlı görüyle CIELab renk ölçümü.",
+      "kanit": "tek_kaynak",
+      "bolum": "Hangi koşulda",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.foodcont.2022.108898",
+          "yer": "3.6. Color change modeling during baking; Fig. 10a"
+        }
+      ]
+    },
+    {
+      "id": "kabuk.renk_olusumu_asgari_kosullari",
+      "metin": "Bir kinetik modelleme çalışmasında, ekmek yüzeyinde renk oluşumunun başlaması için asgari koşul olarak sıcaklığın 120 °C'nin üzerinde ve su aktivitesinin 0,6'nın altında olduğu belirlendi.",
+      "kosul": "Ekmek pişirme sırasında kabuk esmerleşmesi",
+      "kanit": "tek_kaynak",
+      "bolum": "Hangi koşulda",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.foodres.2009.03.007",
+          "yer": "Abstract"
+        }
+      ]
+    },
+    {
+      "id": "kabuk.taze_kabuk_gevrek",
+      "metin": "Taze kabuk kuru, gevrek ve kırılgandır; kırılırken ses çıkarır.",
+      "kosul": "",
+      "kanit": "ikincil",
+      "bolum": "Kimlik",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.crfs.2021.03.004",
+          "yer": "1. Introduction"
+        }
+      ]
+    },
+    {
+      "id": "kabuk.tanim",
+      "metin": "Kabuk, ekmeğin pişirme sırasında oluşan dış kısmıdır; ısıyla yapısı bozulmuş (denatüre) gluten proteinlerinin ağı ile kısmen jelleşmiş nişasta tanelerinden oluşur: protein sürekli bir faz, nişasta ise kesintili bir faz halindedir.",
+      "kosul": "",
+      "kanit": "ikincil",
+      "bolum": "Tanım",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.crfs.2021.03.004",
+          "yer": "1. Introduction"
+        },
+        {
+          "kaynak": "10.1016/j.crfs.2021.03.004",
+          "yer": "3.3. Effects of crust treatments on water migration in breads"
+        },
+        {
+          "kaynak": "10.1016/j.jfoodeng.2011.07.015",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "kabuk.renk_yalniz_kabuk_sicakligina_bagli",
+      "metin": "Bu çalışmada kabuğun bütün renk değerleri, fırın hangi sıcaklığa ayarlanmış olursa olsun, yalnız kabuk sıcaklığına bağlı olarak değişti.",
+      "kosul": "Küçük kalıp ekmeği, 60,5 g hamur, 70×70×20 mm alüminyum kalıp (unda 9,8 g/100 g protein; Purlis ve Salvadori 2007 tarifi; 38 °C, %80 bağıl nemde 45 dakika son mayalanma); sıcaklık denetimli fırın boşluğunda 180, 200 ve 220 °C ayarında 30 dakikaya kadar pişirme.",
+      "kanit": "tek_kaynak",
+      "bolum": "İlişkileri",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.foodcont.2022.108898",
+          "yer": "3.6. Color change modeling during baking; Fig. 11"
+        },
+        {
+          "kaynak": "10.1016/j.foodres.2009.03.007",
+          "yer": "Introduction"
+        },
+        {
+          "kaynak": "10.1016/j.jfoodeng.2006.09.007",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "kabuk.dis_kabuk_renk_bilesenleri_araligi",
+      "metin": "Farklı pişirme sıcaklık ve sürelerinde dış kabuk renk bileşenleri 29,41 < L < 48,66, 8,78 < a < 14,66 ve 5,80 < b < 26,65 aralıkları içinde kalmıştır.",
+      "kosul": "üç farklı pişirme sıcaklığı ve süresi; Mohd. Jusoh vd. 2009 aktarımı",
+      "kanit": "ikincil",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3136/fstr.19.29",
+          "yer": "Results and Discussion - Crust color"
+        }
+      ]
+    },
+    {
+      "id": "kabuk.eksi_maya_kabuk_daha_acik",
+      "metin": "Lactiplantibacillus plantarum ekşi mayasıyla yapılan (iki aşamalı) ekmeklerin kabuğu, tek aşamalı mayalı ekmeklerinkinden daha açıktı (L* 47,62'ye karşı 43,84).",
+      "kosul": "Polonya; ekmeklik buğday, tip 450 ve tip 1650 un; %3,5 maya, %1 tuz; 220 °C'de 30 dakika pişirme; iki aşamalı yöntem: L. plantarum (tip suşu 20174) ile tip I ekşi maya, un:su 1:1, 30 °C'de 24 saat, unun %50'si ekşi mayada, ayrıca maya eklendi.",
+      "kanit": "tek_kaynak",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods8120663",
+          "yer": "3. Results and Discussion; Table 3"
+        }
+      ]
+    },
+    {
+      "id": "kabuk.firin_mayali_ekmekte_elastik_kabuk",
+      "metin": "Duyusal değerlendirmede fırıncı mayasıyla üretilen ekmeğin daha elastik bir kabuğu olduğu bulundu.",
+      "kosul": "Fırıncı mayasıyla üretilen kontrol ekmeği",
+      "kanit": "tek_kaynak",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods11091278",
+          "yer": "Sensory Analysis"
+        }
+      ]
+    },
+    {
+      "id": "kabuk.ideal_renk_142_160",
+      "metin": "Kabul edilebilir ekmek açıklığı 54–62 (L*) alındığında, ideal kabuk rengi 142–160 °C yüzey sıcaklığına karşılık gelir; bu aralık kabuk sarılığının (b*) en yüksek olduğu bölgedir.",
+      "kosul": "Küçük kalıp ekmeği, 60,5 g hamur, 70×70×20 mm alüminyum kalıp; 180, 200 ve 220 °C ayarında 30 dakikaya kadar pişirme; kabul edilebilir açıklık aralığı Therdthai, Zhou ve Adamczak 2002'den alındı.",
+      "kanit": "tek_kaynak",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.foodcont.2022.108898",
+          "yer": "3.6. Color change modeling during baking"
+        },
+        {
+          "kaynak": "10.1016/j.foodcont.2022.108898",
+          "yer": "3.6. Color change modeling during baking"
+        }
+      ]
+    },
+    {
+      "id": "kabuk.nem_bariyeri_su_tasinimi",
+      "metin": "Kabuk ekmeğin küçük bir kısmı olsa da, nem geçirmezlik özelliğindeki bir değişiklik saklama sırasında ekmekteki su taşınımını belirgin biçimde etkileyebilir.",
+      "kosul": "İsviçre; beyaz buğday ekmeği küçük somunları (tip 550 un 1000 g, maya 25 g, tuz 22 g, su 616 g; 100 g'lık dondurulmuş hamur, çözülüp 32 °C'de 30 dakika mayalandı, buharla 210 °C'de 10 dakika pişirildi); kâğıt torba, 23 °C, %65 bağıl nem, 14 güne kadar.",
+      "kanit": "tek_kaynak",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.crfs.2021.03.004",
+          "yer": "3.3. Effects of crust treatments on water migration in breads"
+        }
+      ]
+    },
+    {
+      "id": "kabuk.teff_eksimayali_ekmekte_koyu_kabuk",
+      "metin": "Duyusal tanımlayıcı değerlendirmeye göre, kullanılan ekşi mayalardan bağımsız olarak teff ekşi mayalı ekmekler daha koyu bir kabuk ve ekmek içi gösterdi.",
+      "kosul": "Un bazında %20 teff ekşi mayası ilaveli ekmek",
+      "kanit": "tek_kaynak",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1002/fsn3.690",
+          "yer": "RESULTS - Bread production and evaluation"
+        }
+      ]
+    },
+    {
+      "id": "kabuk.tokat_ekmegi_kabuk_kalinligi_ve_orani",
+      "metin": "Geleneksel Tokat ekmeği kalın ve sert kabuk yapısıyla öne çıkmakta olup ortalama 6,79 mm kabuk kalınlığına ve %43 kabuk/ekmek içi oranına sahiptir.",
+      "kosul": "odun ateşli taş fırında pişirilen geleneksel Tokat ekmeği",
+      "kanit": "tek_kaynak",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1002/fsn3.4468",
+          "yer": "RESULTS AND DISCUSSION"
+        },
+        {
+          "kaynak": "10.1002/fsn3.4468",
+          "yer": "Conclusions"
+        }
+      ]
+    },
+    {
+      "id": "kabuk.tokat_ekmegi_kabuk_renk_degerleri",
+      "metin": "Ekmek örneklerinin kabuk L* değeri 46,77, a* değeri 8,73 ve b* değeri 25,08 olarak ölçülmüştür.",
+      "kosul": "odun ateşli taş fırında pişirilen ekmek; Hunter L* a* b* ölçeği",
+      "kanit": "tek_kaynak",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1002/fsn3.4468",
+          "yer": "RESULTS AND DISCUSSION"
+        }
+      ]
+    },
+    {
+      "id": "kabuk.un_tipi_kabuk_rengi",
+      "metin": "Açık renkli undan (tip 450) yapılan ekmeğin kabuğu tam buğday unundan (tip 1650) yapılanınkinden belirgin biçimde daha açıktı (L* 51,88'e karşı 39,59).",
+      "kosul": "Polonya; ekmeklik buğday, tip 450 açık renkli un ve tip 1650 tam buğday unu; %3,5 maya, %1 tuz; 220 °C'de 30 dakika pişirme; Minolta CR 410 ile ölçüm.",
+      "kanit": "tek_kaynak",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods8120663",
+          "yer": "3. Results and Discussion; Table 3"
+        }
+      ]
+    },
+    {
+      "id": "kabuk.vakumlu_sogutma_ve_kabuk_gevrikligi",
+      "metin": "Primo-Martin ve ark.'na (2008) göre vakumlu soğutma kabuk gevrekliğini olumlu etkileyebilir; ancak daha yüksek su kaybı gözlendiğinden su kaybını telafi etmek için daha kısa pişirme süresi önerilir.",
+      "kosul": "Vakumlu soğutma uygulanan ekmek (Primo-Martin vd. 2008 aktarımı)",
+      "kanit": "ikincil",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1007/s13197-020-04945-x",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "kabuk.yuksek_sicaklikta_kalin_kabugun_nem_bariyeri",
+      "metin": "205 °C'de pişirilen ekmeğin kalın kabuğu, 96 saatlik saklama boyunca nemin çevreye göç etmesini de engellemiş olabilir.",
+      "kosul": "205 °C'de pişirilmiş ekmek, 96 saatlik saklama",
+      "kanit": "tek_kaynak",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3136/fstr.19.29",
+          "yer": "Results and Discussion - Crumb moisture content and firmness"
+        }
+      ]
+    },
+    {
+      "id": "kabuk.mum_kaplama_en_etkili",
+      "metin": "Kabuğa uygulanan enzimatik ve kimyasal işlemler kabuğun yapısını değiştirdi ama saklamada su kaybını azaltmada %20 kandelilla mumu kaplamasından daha az etkili oldu; mum kaplı kabuk saklama boyunca oldukça pürüzsüz kaldı.",
+      "kosul": "İsviçre; beyaz buğday ekmeği küçük somunları (tip 550 un; 100 g dondurulmuş hamur, buharla 210 °C'de 10 dakika pişirme); kâğıt torba, 23 °C, %65 bağıl nem, 14 güne kadar; kaplama pişirmeden hemen sonra sıcak ekmeğe fırçayla sürüldü; mikro-BT.",
+      "kanit": "tek_kaynak",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.crfs.2021.03.004",
+          "yer": "4. Conclusion"
+        },
+        {
+          "kaynak": "10.1016/j.crfs.2021.03.004",
+          "yer": "3.3. Effects of crust treatments on water migration in breads; Fig. 9"
+        }
+      ]
+    },
+    {
+      "id": "kabuk.naoh_agirlik_kaybi",
+      "metin": "Kabuğa NaOH uygulaması, işlem görmemiş ekmeğe göre ağırlık kaybını hem 4. hem 14. günde belirgin biçimde azalttı.",
+      "kosul": "İsviçre; beyaz buğday ekmeği küçük somunları (tip 550 un 1000 g, maya 25 g, tuz 22 g, su 616 g; 100 g dondurulmuş hamur, çözülüp 32 °C'de 30 dakika mayalandı, buharla 210 °C'de 10 dakika pişirildi); kâğıt torba, 23 °C, %65 bağıl nem; son mayalanmadan önce çözülmüş hamur yüzeyine %4,9 NaOH püskürtüldü.",
+      "kanit": "tek_kaynak",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.crfs.2021.03.004",
+          "yer": "3.3. Effects of crust treatments on water migration in breads; Fig. 8"
+        }
+      ]
+    },
+    {
+      "id": "kabuk.yari_pismis_dondurulmus_pullanma",
+      "metin": "Yarı pişirilip dondurulmuş ekmeğin başlıca sorunlarından biri kabuğun pul pul dökülmesidir; nedeni dondurma ve son pişirmedeki ısıl-mekanik şoktur.",
+      "kosul": "",
+      "kanit": "ikincil",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1155/2018/8187318",
+          "yer": "6. Crumb Staling"
+        }
+      ]
+    },
+    {
+      "id": "kabuk.hava_jetinin_kabuk_olusumunu_hizlandirmasi",
+      "metin": "Hava jeti çarpmalı fırınlarda yüksek hızlı hava jetlerinin yarattığı yoğun konvektif ısı aktarımı yüzey neminin buharlaşmasını hızlandırarak daha erken kabuk oluşumunu teşvik eder ve yapısal sertliği değiştirir.",
+      "kosul": "Hava jeti çarpmalı fırın pişirme sistemi (aktarım)",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1111/1750-3841.71456",
+          "yer": "Hardness (N) and Crust Thickness (Mm)"
+        }
+      ]
+    },
+    {
+      "id": "kabuk.hizli_buharlasma_eksik_jelesme",
+      "metin": "Pişirmede kabuktan suyun hızla buharlaşması, kabuktaki nişasta tanelerinin tam jelleşmesini engeller; bu yüzden kabukta jelleşme derecesi daha düşüktür.",
+      "kosul": "",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.crfs.2021.03.004",
+          "yer": "1. Introduction"
+        },
+        {
+          "kaynak": "10.1111/1541-4337.13147",
+          "yer": "4.6 Crumb and crust formation"
+        }
+      ]
+    },
+    {
+      "id": "kabuk.izotermal_olmayan_esmerlesme",
+      "metin": "Pişirme sırasında sıcaklık ve su içeriğinin sürekli değişmesi nedeniyle kabuk oluşumu ve esmerleşme izotermal olmayan karmaşık bir süreçtir.",
+      "kosul": "Ekmek pişirme süreci",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.foodres.2009.03.007",
+          "yer": "Abstract"
+        }
+      ]
+    },
+    {
+      "id": "kabuk.kabuk_ile_ic_arasi_koku_aktarimi",
+      "metin": "Kabuk oluşumu sırasında koku maddeleri ekmek içinden kabuğa ve kabuktan ekmek içine doğru karşılıklı geçiş yapabilir.",
+      "kosul": "Kabuk oluşumu süreci",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.foodres.2015.05.051",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "kabuk.kabuklasma_ve_gaz_gecirgenligi_dusus",
+      "metin": "Kabuklaşma fonksiyonu 1 ile 0,1 arasında değişir; bu durum ekmek kabuk bağladıktan sonra kabuktaki gaz geçirgenliğinin ekmek içine kıyasla yaklaşık bir büyüklük mertebesi daha düşük olduğunu yansıtır.",
+      "kosul": "Kabuklaşma fonksiyonu modellemesi; Purlis ve Salvadori aktarımı",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods14091649",
+          "yer": "3.3. Parameters"
+        }
+      ]
+    },
+    {
+      "id": "kabuk.kalinlik_gelisimini_belirleyen_iki_etmen",
+      "metin": "Kabuk kalınlığı gelişimi başlıca buharlaşan nem miktarı ve pişirme sırasında ısıyla hücrelerin yırtılma eğilimi olmak üzere iki temel etkene bağlıdır.",
+      "kosul": "ekmek pişirme süreci; Wiggins 1999 ve Jefferson vd. 2006, 2007 aktarımı",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3136/fstr.19.29",
+          "yer": "Results and Discussion - Crust thickness"
+        }
+      ]
+    },
+    {
+      "id": "kabuk.peyniralti_suyu_laktoz_ile_kabuk_rengi_etkisi",
+      "metin": "Peynir altı suyu sütten daha yüksek laktoz içeriğine sahip olduğundan kabuk rengi üzerinde süte kıyasla daha büyük bir etki yaratır.",
+      "kosul": "Hamur formülasyonunda süt ve peynir altı suyu ikamesi (aktarım ref 24)",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods9060828",
+          "yer": "1. Introduction"
+        }
+      ]
+    },
+    {
+      "id": "kabuk.sicaklik_ve_sure_ile_kalinlik_artisi",
+      "metin": "Pişirme sıcaklığı ve süresinin artırılması ekmek kabuk kalınlığında belirgin bir artışa yol açmıştır (p < 0,001).",
+      "kosul": "185–205 °C fırın sıcaklığı, 25–35 dakika pişirme süresi",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3136/fstr.19.29",
+          "yer": "Results and Discussion - Crust thickness"
+        }
+      ]
+    },
+    {
+      "id": "kabuk.taban_ve_kabuk_gozeneklilik_dususu",
+      "metin": "Pişirme sırasında kabuğun gözenekliliği hafifçe azalırken, gözenekler tamamen açıldıktan sonra yerçekimi etkisiyle oluşan hafif çökme nedeniyle ekmeğin taban bölgesi daha düşük bir gözenekliliğe sahip oldu.",
+      "kosul": "Pişirme sırasında kabuk ve taban gözeneklilik dinamikleri",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods14091649",
+          "yer": "4.3. Effect of the MPC on Mass Transfer"
+        }
+      ]
+    },
+    {
+      "id": "kabuk.alt_kabuk_daha_nemli",
+      "metin": "Pişirme boyunca alt kabuğun nemi üst kabuğunkinden yüksek kaldı; yazarlar bunu buharın hamurla kalıp arasından kolayca kaçamayıp sıkıştığı 'pan lock' olayına bağlar.",
+      "kosul": "Küçük kalıp ekmeği, 60,5 g hamur, 70×70×20 mm alüminyum kalıp; 180, 200 ve 220 °C ayarında 30 dakikaya kadar pişirme.",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.foodcont.2022.108898",
+          "yer": "3.3. Weight loss and moisture content; Fig. 7"
+        }
+      ]
+    },
+    {
+      "id": "kabuk.ilk_dakikalarda_acilma",
+      "metin": "Pişirmenin ilk dakikalarında kabuğun sarılığı azaldı, açıklığı biraz arttı; yazarlar bu açılmayı ekmeğin hacimce genişlemesine bağlar.",
+      "kosul": "Küçük kalıp ekmeği, 60,5 g hamur, 70×70×20 mm alüminyum kalıp; 180, 200 ve 220 °C ayarında 30 dakikaya kadar pişirme.",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.foodcont.2022.108898",
+          "yer": "3.6. Color change modeling during baking"
+        }
+      ]
+    },
+    {
+      "id": "kabuk.islemsiz_kabuk_purtuklesir",
+      "metin": "İşlem görmemiş kabuk 1. günde oldukça pürüzsüzdü, zamanla pürüzlü ve engebeli hale geldi; yazarlar bunu büyük olasılıkla hacim küçülmesine bağlar.",
+      "kosul": "İsviçre; beyaz buğday ekmeği küçük somunları; kâğıt torba, 23 °C, %65 bağıl nem, 14 güne kadar; 1., 4. ve 14. günlerde mikro-BT.",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.crfs.2021.03.004",
+          "yer": "3.3. Effects of crust treatments on water migration in breads; Fig. 9"
+        }
+      ]
+    },
+    {
+      "id": "kabuk.esmerlesme_baslangici",
+      "metin": "Kabukta esmerleşmenin başladığı sıcaklık için kaynaklar farklı değerler bildirir: bazıları 120 °C, bazıları 105–115 °C; bu çalışma açıklık değerine dayanarak 110 °C'yi esas aldı.",
+      "kosul": "",
+      "kanit": "ikincil",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.foodcont.2022.108898",
+          "yer": "3.6. Color change modeling during baking"
+        },
+        {
+          "kaynak": "10.1016/j.foodcont.2022.108898",
+          "yer": "3.6. Color change modeling during baking"
+        },
+        {
+          "kaynak": "10.1016/j.jfoodeng.2006.09.007",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "kabuk.renk_esikleri",
+      "metin": "Kabuk sıcaklığına göre kurulan modelde açıklık (L*) en hızlı yaklaşık 152 °C'de düştü; toplam renk farkı (ΔE*) yaklaşık 128 °C'de değişmeye başlayıp en yüksek hızına 129 °C'de ulaştı; kırmızılık (a*) kabuk 180 °C'ye varınca azalmaya başladı; sarılık (b*) yaklaşık 163 °C'lik kritik yüzey sıcaklığının üstünde doğrusal davrandı.",
+      "kosul": "Küçük kalıp ekmeği, 60,5 g hamur, 70×70×20 mm alüminyum kalıp; 180, 200 ve 220 °C ayarında 30 dakikaya kadar pişirme; renk değerlerine kabuk sıcaklığına karşı sigmoid ve bölmeli modeller uyduruldu.",
+      "kanit": "tek_kaynak",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.foodcont.2022.108898",
+          "yer": "3.6. Color change modeling; Table 1"
+        },
+        {
+          "kaynak": "10.1016/j.foodcont.2022.108898",
+          "yer": "3.6. Color change modeling; Fig. 11d"
+        },
+        {
+          "kaynak": "10.1016/j.foodcont.2022.108898",
+          "yer": "3.6. Color change modeling; Table 1"
+        },
+        {
+          "kaynak": "10.1016/j.foodcont.2022.108898",
+          "yer": "2.5. Data analysis and color modeling"
+        }
+      ]
+    },
+    {
+      "id": "kabuk.fermantasyon_sicakligi_lipid_oksidasyonu",
+      "metin": "Zehentbauer ve Grosch, fermantasyon sıcaklığı 4 °C'den 26 °C'ye çıkınca kabukta yağ oksidasyonu ürünlerinin ((E)-2-nonenal ve 1-okten-3-on) daha çok oluştuğunu buldu.",
+      "kosul": "",
+      "kanit": "ikincil",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.lwt.2012.08.019",
+          "yer": "3.5. Effect of fermentation temperature"
+        }
+      ]
+    },
+    {
+      "id": "kabuk.kabuk_su_aktivitesi",
+      "metin": "Ekmek kabuğunun su aktivitesi yaklaşık 0,8'dir; bundan daha nemli havada kabuk ortamdan su alır.",
+      "kosul": "",
+      "kanit": "tek_kaynak",
+      "bolum": "Kimlik",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.crfs.2021.03.004",
+          "yer": "2.6. Storage of bread samples"
+        }
+      ]
+    },
+    {
+      "id": "kabuk.agirlik_kaybi_ile_esmerlesme_dogrusal",
+      "metin": "Dehidrasyon pişirme sırasında yalnızca ekmek dış bölgelerini (kabuk) etkilediğinden ağırlık kaybı ürün yüzeyindeki nem değişiminin iyi bir göstergesi sayılır; bu yaklaşımla toplam renk değişimi ile ağırlık kaybı arasında doğrusal bir eğilim bulunduğu saptanmıştır.",
+      "kosul": "180, 200 ve 220 °C'de doğal ve zorlanmış taşınım altında pişirme",
+      "kanit": "tek_kaynak",
+      "bolum": "Nasıl ölçülür",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.jfoodeng.2006.09.007",
+          "yer": "Abstract"
+        },
+        {
+          "kaynak": "10.1016/j.jfoodeng.2006.09.007",
+          "yer": "Introduction"
+        },
+        {
+          "kaynak": "10.1016/j.jfoodeng.2006.09.007",
+          "yer": "Introduction"
+        },
+        {
+          "kaynak": "10.1016/j.jfoodeng.2006.09.007",
+          "yer": "Conclusion"
+        }
+      ]
+    },
+    {
+      "id": "kabuk.esmerlesme_pisirme_suresiyle_ustel_iliskili",
+      "metin": "Pişirme sırasında esmerleşme gelişimi renk ölçümüyle etkili biçimde değerlendirilebilir ve pişirme süresiyle üstel olarak ilişkilidir.",
+      "kosul": "Pişirme sırasında renk ölçümü",
+      "kanit": "ikincil",
+      "bolum": "Nasıl ölçülür",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.foodres.2009.03.007",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "kabuk.kabuk_kalinligi_tahmin_modeli_uyumu",
+      "metin": "Bu çalışmada kabuk kalınlığı modeli 0,7707 R² ve 0,6992 düzeltilmiş R² değerleriyle tatmin edici bir tahmin performansı gösterdi.",
+      "kosul": "Pişirme koşullarına dayalı regresyon modelleme analizi",
+      "kanit": "tek_kaynak",
+      "bolum": "Nasıl ölçülür",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1111/1750-3841.71456",
+          "yer": "Determination of Optimum Baking Conditions"
+        }
+      ]
+    },
+    {
+      "id": "kabuk.konvansiyonel_firinda_sertlik_ve_kabuk_kalinligi",
+      "metin": "Bu çalışmada konvansiyonel fırında 200 °C'de 45 dakika pişirme 19,18 ± 2,97 N sertlik ve yaklaşık 4,92 ± 0,90 mm kabuk kalınlığı üretti.",
+      "kosul": "Konvansiyonel fırın referans pişirme (200 °C, 45 dakika)",
+      "kanit": "tek_kaynak",
+      "bolum": "Nasıl ölçülür",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1111/1750-3841.71456",
+          "yer": "Hardness (N) and Crust Thickness (Mm)"
+        }
+      ]
+    },
+    {
+      "id": "kabuk.sigmoid_renk_profili",
+      "metin": "Fotoğrafla ölçülen kabuk kırmızılığı (a*), sarılığı (b*) ve toplam renk farkı (ΔE*) pişirme süresi boyunca S biçimli (sigmoid) bir eğri izledi.",
+      "kosul": "Küçük kalıp ekmeği, 60,5 g hamur, 70×70×20 mm alüminyum kalıp; 180, 200 ve 220 °C ayarında 30 dakikaya kadar pişirme; bilgisayarlı görüyle CIELab ölçümü.",
+      "kanit": "tek_kaynak",
+      "bolum": "Nasıl ölçülür",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.foodcont.2022.108898",
+          "yer": "3.6. Color change modeling during baking; Fig. 10"
+        }
+      ]
+    },
+    {
+      "id": "kabuk.camsi_kaucuksu_gecis",
+      "metin": "Su, kabukta yumuşatıcı (plastikleştirici) gibi davranır: su içeriği arttıkça kabuk maddelerinin camsı geçiş sıcaklığı düşer; su emen camsı kabuk kauçuksu hale geçer ve gevrekliğini yitirir.",
+      "kosul": "",
+      "kanit": "ikincil",
+      "bolum": "Ne yapar",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.crfs.2021.03.004",
+          "yer": "1. Introduction"
+        },
+        {
+          "kaynak": "10.1016/j.crfs.2021.03.004",
+          "yer": "1. Introduction"
+        }
+      ]
+    },
+    {
+      "id": "kabuk.yuzey_isinmasi_kabuk_olusumu",
+      "metin": "Pişirmenin başında yüzeyin hızlı ısınması, kabuğun hızla oluşmasıyla ilişkilidir.",
+      "kosul": "",
+      "kanit": "ikincil",
+      "bolum": "Ne yapar",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.foodcont.2022.108898",
+          "yer": "3.2. Bread temperature during baking"
+        }
+      ]
+    },
+    {
+      "id": "kabuk.su_esmerlesmeyi_seyreltir",
+      "metin": "Aktarılan bilgiye göre hamura su eklemek esmerleşme bileşiklerini seyrelterek esmerleşmeyi azaltır; tam buğday ekmeğinde %80–105 gibi yüksek su düzeylerinde kabuk esmerlik indeksi düştü.",
+      "kosul": "Tam buğday ekmeği, %80–105 su (ikinci aktarım için).",
+      "kanit": "ikincil",
+      "bolum": "Ne yapar",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1002/fsn3.4050",
+          "yer": "3.3. Color parameters"
+        },
+        {
+          "kaynak": "10.1002/fsn3.4050",
+          "yer": "3.3. Color parameters"
+        }
+      ]
+    },
+    {
+      "id": "kabuk.ornitin_ve_kavruk_kabuk_aromasi",
+      "metin": "Bu çalışmada L. brevis IC9 ve L. plantarum 1MR20 birlikteliği ornitinin en yüksek miktarda üretilmesini sağladı; ornitinin buğday ekmeği kabuğundaki kavruk nota sorumlu olduğu Thiele ve ark. tarafından belirtiliyor.",
+      "kosul": "Ekşi mayalı buğday ekmeği fermantasyonu",
+      "kanit": "tek_kaynak",
+      "bolum": "Ne yer, ne üretir",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.crfs.2024.100697",
+          "yer": "Discussion"
+        }
+      ]
+    },
+    {
+      "id": "kabuk.beyaz_ekmegin_citir_altin_kabuk_ozelligi",
+      "metin": "Beyaz veya Fransız ekmeği, çıtır altın sarısı ya da kahverengi bir kabuk ile yumuşak dokulu ve gözenekli hafif bir ekmek içi yapısıyla ayırt edilir.",
+      "kosul": "Beyaz veya Fransız ekmeği",
+      "kanit": "tek_kaynak",
+      "bolum": "Tanım",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.foodcont.2012.02.034",
+          "yer": "Introduction"
+        },
+        {
+          "kaynak": "10.1016/j.foodres.2009.03.007",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "kabuk.carpmali_hava_jeti_ve_renk_gelisimi",
+      "metin": "Çarpmalı hava jeti ısı aktarımının kabuk oluşumunu ve renk gelişimini hızlandırabileceği, işlem süresini kısaltabileceği ve daha homojen ısıtma sağlayabileceği belirtiliyor.",
+      "kosul": "Hava jeti çarpmalı pişirme mekanizması",
+      "kanit": "tek_kaynak",
+      "bolum": "Tanım",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1111/1750-3841.71456",
+          "yer": "PMC13559855.txt:Introduction"
+        }
+      ]
+    },
+    {
+      "id": "kabuk.kabuk_ve_ekmek_ici_aroma_bilesikleri",
+      "metin": "Buğday ekmeği ekmek içi aromasında alkoller, aldehitler, ketonlar, asitler ve esterler öne çıkarken, kabuk aromasını furanlar, pirazinler, piroller, pirolinler, piridinler, oksazoller, tiyofenler ve sülfürlü bileşikler karakterize eder.",
+      "kosul": "Buğday ekmeği kabuk ve iç aroması",
+      "kanit": "tek_kaynak",
+      "bolum": "Tanım",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.foodres.2015.05.051",
+          "yer": "Conclusions"
+        }
+      ]
+    },
+    {
+      "id": "kabuk.toskana_ekmegi_kalin_citir_kabuk",
+      "metin": "Kadim buğday unlarıyla yapılan Toskana ekmeği, 0,5–2 kg ağırlığa, ince gözenekli ekmek içine ve kalın, çıtır ela rengi bir kabuğa sahiptir.",
+      "kosul": "Kadim buğday unlarıyla yapılan Toskana ekmeği",
+      "kanit": "tek_kaynak",
+      "bolum": "Tanım",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.jcs.2019.02.006",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "kabuk.morfoloji_su_tasinimi",
+      "metin": "Ekmekte su taşınımını malzeme özelliklerinden çok yapısal (morfolojik) özellikler belirler.",
+      "kosul": "",
+      "kanit": "ikincil",
+      "bolum": "İlişkileri",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.crfs.2021.03.004",
+          "yer": "3.3. Effects of crust treatments on water migration in breads"
+        }
+      ]
+    }
+  ]
+}

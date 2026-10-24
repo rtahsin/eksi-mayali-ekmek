@@ -101,6 +101,7 @@ Modüller mevcut `src/lib/<modül>/` dizinlerinde kalır (dosya taşıma yok). H
 | knowledge | `src/lib/knowledge/` (yeni) | Kaynak/İddia/Kavram tipleri, `define*`, grafik doğrulayıcı, `ContentRef` sözleşmesi, sorgular, sağlık terimi listesi | `content/{sources,claims,concepts}` |
 | editorial | `src/lib/editorial/` (yeni) + `src/components/editorial/` | Yazı metadatası, statik indeks, MDX bileşenleri, arama indeksi, gezinme verisi | `content/{articles,media,nav,gelen}` |
 | learning | `src/lib/game/` (mevcut) | Saf motor, kart görünümleri, tahminler, ilerleme v4 | localStorage `ekmeklab_lab_v4` |
+| bilim | `src/lib/bilim/` (yeni) | Bilim odası içeriği (BILIM_PLATFORMU_PLANI): an, karakter, bilgi, sözlük, kaynak ve görsel şeması; `[[…]]` atıf çözümü, cümle ve kanıt etiketi | `content/bilim/`, `public/bilim/gorsel/` |
 | catalog | `src/lib/products/` | Ürün, kategori | `products`, `categories`, `product_sale_dates`, `capacity_days` |
 | ordering | `src/lib/ordering/`, `src/lib/order/`, `src/lib/orders/` | Uygunluk, sepet kuralları, sipariş yaşam döngüsü | `orders`, `order_items`, `payments`, `order_status_history` |
 | ledger | `src/lib/cari/` | Cari defter | `current_accounts`, `account_transactions` |
@@ -117,6 +118,7 @@ flowchart TB
   subgraph Egitim[Eğitim]
     ED[editorial]
     LE[learning]
+    BI[bilim]
   end
   KN[knowledge]
   subgraph Ticaret
@@ -130,9 +132,10 @@ flowchart TB
   ST[settings]
   NO[notify]
   KE[kernel]
-  APP --> ED & LE & CA & OR & LG & DE & ID & EN & ST & NO
+  APP --> ED & LE & BI & CA & OR & LG & DE & ID & EN & ST & NO
   ED --> KN
   LE --> KN
+  BI --> KN
   OR --> CA & ST
   DE --> OR
   KN --> KE
@@ -158,6 +161,8 @@ content/                              # Bilgi düzlemi (git)
   media/     registry.ts              # defineMedia({...})
   nav/       links.ts                 # nötr gezinme verisi (etiket + bağlantı)
   gelen/     <tarih>-<konu>.md        # Tahsin'in dökümü/notu → ajan taslağa çevirir
+  bilim/     yolculuk.json · anlar/<id>.json · karakterler/<id>.json · bilgiler/<düğüm>.json
+             sozluk.json · kaynaklar.json · gorseller.json   # bilim hattından üretilir (siteye_aktar.py), elle düzenlenmez
   experiments/<slug>/data.csv + meta.ts   # P2-01
   additives/ <grup>.ts                # P2-05
 src/
@@ -168,6 +173,7 @@ src/
     kernel/    env.ts log.ts result.ts enums.ts migrations.ts arch.test.ts
     knowledge/ types.ts define.ts registry.ts refs.ts validate.ts lint.ts query.ts
     editorial/ define.ts index.ts search.ts
+    bilim/     schema.ts metin.ts index.ts server.ts
     engagement/ events.ts client.ts server.ts
   app/__checks__/content.check.test.ts   # grafik + yazı + medya + kart + ürün yüzeyi bütünlüğü
   types/database.ts                   # supabase gen types (üretilen)

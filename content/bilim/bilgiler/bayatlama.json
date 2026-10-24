@@ -1,0 +1,928 @@
+{
+  "id": "bayatlama",
+  "ad": "Bayatlama",
+  "bilgiler": [
+    {
+      "id": "bayatlama.arpa_eksi_maya_reuteri_yumusaklik",
+      "metin": "Bu çalışmada Limosilactobacillus reuteri ile fermente edilmiş arpa ekşi mayası eklenen kısmen pişirilmiş ekmekte, çevre sıcaklığında saklamada iç yumuşaklığı en az 15 gün, küfsüz ve bakterisiz saklama ise 30 gün sağlandı.",
+      "kosul": "Arpa ekşi mayası (L. reuteri ile fermente) katkılı kompozit ekmek; kısmen pişirilmiş ekmek; modifiye atmosferli ambalajda (MAP) çevre sıcaklığında saklama; 15 ve 30 gün",
+      "kanit": "tek_kaynak",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.17113/ftb.55.04.17.5344",
+          "yer": "Conclusions"
+        }
+      ]
+    },
+    {
+      "id": "bayatlama.esneklik_kaybi",
+      "metin": "Bir çalışmada yedi günlük saklama boyunca bütün ekmeklerin içi yaylanmasını (esnekliğini) ve bütünlüğünü (kohezyonunu) belirgin biçimde yitirdi; kayıp en çok kontrol ekmeğinde oldu.",
+      "kosul": "Beyaz buğday ekmeği (unda kuru maddede %12,5 protein); unun 0, 5 ya da 15 g/100 g'ı yerine vital gluten; ev tipi ekmek makinesi; etanollü polietilen torbada oda sıcaklığında 0–7 gün saklama.",
+      "kanit": "tek_kaynak",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.lwt.2014.04.057",
+          "yer": "3.3. Texture"
+        },
+        {
+          "kaynak": "10.1016/j.foodchem.2021.129478",
+          "yer": "1. Introduction"
+        }
+      ]
+    },
+    {
+      "id": "bayatlama.ic_sertlesir",
+      "metin": "Saklama süresince ekmek içi sertleşir; bu, farklı ekmek tiplerinde ve denenen bütün saklama yöntemlerinde gözlendi.",
+      "kosul": "Kalıp buğday ekmeği ve karışık çavdar-buğday ekşi mayalı ekmek, kâğıt torba / ekmek kutusu / plastik torba / buzdolabı, 10 gün (Almanya); vital gluten eklenmiş ve eklenmemiş beyaz ekmek, etanollü polietilen torba, oda sıcaklığı, 7 gün; maltojenik amilazlı ve amilazsız beyaz ekmek, kapalı plastik torba, oda sıcaklığı, 21 gün. Ayrıca kontrol (mayalı) ekmek ile buğday, emmer, horasan ve spelt ekşi maya ekmekleri, polietilen torba, 24–72 saat.",
+      "kanit": "uzlasi",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods10010076",
+          "yer": "3.4. Bread Staling under Different Storage Conditions; Figure 1"
+        },
+        {
+          "kaynak": "10.1016/j.lwt.2014.04.057",
+          "yer": "3.3. Texture"
+        },
+        {
+          "kaynak": "10.1016/j.foodchem.2021.129478",
+          "yer": "3.3. Determination of hardness in the surface of the bread by partial least squares; Fig. 6a"
+        },
+        {
+          "kaynak": "10.3390/foods11233927",
+          "yer": "3.3. Bread Volume, Water Activity and Texture"
+        },
+        {
+          "kaynak": "10.3390/foods11233927",
+          "yer": "3.3. Bread Volume, Water Activity and Texture"
+        },
+        {
+          "kaynak": "10.1016/j.fochx.2025.103160",
+          "yer": "Changes of moisture content and texture properties of bread during storage"
+        }
+      ]
+    },
+    {
+      "id": "bayatlama.kabuk_aroma_ufalanma",
+      "metin": "Bayatlamaya kabuğun çıtırlığını yitirip yumuşaması, içinin sertleşip daha kolay ufalanması ve taze ekmeğe özgü tat ve kokunun kaybolması ya da değişmesi eşlik eder.",
+      "kosul": "",
+      "kanit": "ikincil",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/fermentation4010009",
+          "yer": "3.1.1. Bread Staling"
+        },
+        {
+          "kaynak": "10.1016/j.lwt.2014.04.057",
+          "yer": "1. Introduction"
+        },
+        {
+          "kaynak": "10.1016/j.jcs.2009.04.010",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "bayatlama.retrogradasyon_payi_tartismali",
+      "metin": "Derlemelerde aktarılan yaygın görüşe göre bayatlamanın ana nedeni amilopektin retrogradasyonudur (nişastanın yeniden kristalleşmesi); başka kaynaklar ise onun yalnızca kısmen ya da dolaylı sorumlu olduğunu, suyun ve gluten ağının değişiminin de katkı verdiğini aktarır.",
+      "kosul": "",
+      "kanit": "ikincil",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1080/87559129.2024.2347467",
+          "yer": "Short- and long-term retrogradation"
+        },
+        {
+          "kaynak": "10.1080/87559129.2024.2347467",
+          "yer": "Introduction"
+        },
+        {
+          "kaynak": "10.1080/87559129.2024.2347467",
+          "yer": "Effects of retrogradation on nutritional and sensory properties of foods"
+        },
+        {
+          "kaynak": "10.1155/2018/8187318",
+          "yer": "6. Crumb Staling"
+        },
+        {
+          "kaynak": "10.1016/j.lwt.2010.11.021",
+          "yer": "1. Introduction"
+        },
+        {
+          "kaynak": "10.1016/j.lwt.2014.04.057",
+          "yer": "1. Introduction"
+        },
+        {
+          "kaynak": "10.3390/fermentation4010009",
+          "yer": "3.1.1. Bread Staling"
+        },
+        {
+          "kaynak": "10.1111/1541-4337.13147",
+          "yer": "5.1 Starch polymer crystal formation in the crumb and crust during cooling"
+        }
+      ]
+    },
+    {
+      "id": "bayatlama.cok_etkenli",
+      "metin": "Bayatlama tek bir olay değildir; amilopektin retrogradasyonu, su kaybı ve suyun ekmek içinde yeniden dağılması gibi birden çok fizikokimyasal olaydan doğar ve bu olaylar henüz tam aydınlatılmış değildir.",
+      "kosul": "",
+      "kanit": "ikincil",
+      "bolum": "Tanım",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.lwt.2010.11.021",
+          "yer": "Abstract"
+        },
+        {
+          "kaynak": "10.1016/j.tifs.2004.02.011",
+          "yer": "Conclusions"
+        },
+        {
+          "kaynak": "10.1111/1541-4337.12064",
+          "yer": "Abstract"
+        },
+        {
+          "kaynak": "10.1111/j.1541-4337.2003.tb00011.x",
+          "yer": ""
+        }
+      ]
+    },
+    {
+      "id": "bayatlama.firindan_cikinca_baslar",
+      "metin": "Ekmek içi, gluten ağının bir arada tuttuğu, biçimi bozulmuş nişasta tanelerinden oluşur; ekmek fırından çıkar çıkmaz bayatlama denen bir dizi değişiklikle bozulmaya başlar.",
+      "kosul": "",
+      "kanit": "tek_kaynak",
+      "bolum": "Tanım",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.foodchem.2021.129478",
+          "yer": "1. Introduction"
+        },
+        {
+          "kaynak": "10.1155/2018/8187318",
+          "yer": "6. Crumb Staling"
+        }
+      ]
+    },
+    {
+      "id": "bayatlama.tanim",
+      "metin": "Bayatlama, saklama sırasında ekmeğin kabuğunda ve içinde olan, tüketicinin ekmeği beğenmesini yavaş yavaş azaltan kimyasal ve fiziksel değişikliklerin tümüdür; bozulma yapan mikroorganizmaların yol açtığı değişiklikler bu tanıma girmez.",
+      "kosul": "",
+      "kanit": "ikincil",
+      "bolum": "Tanım",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/fermentation4010009",
+          "yer": "3.1.1. Bread Staling"
+        },
+        {
+          "kaynak": "10.1155/2018/8187318",
+          "yer": "6. Crumb Staling"
+        },
+        {
+          "kaynak": "10.1016/j.jcs.2006.09.004",
+          "yer": "Introduction"
+        },
+        {
+          "kaynak": "10.3390/pr9112008",
+          "yer": ""
+        }
+      ]
+    },
+    {
+      "id": "bayatlama.nem_kaybi_sertlik",
+      "metin": "İki saklama çalışmasında ekmek ne kadar çok nem (ağırlık) kaybettiyse içi o kadar hızlı ve çok sertleşti; yazarlar nem kaybını azaltmanın sertleşmeyi azaltabileceği sonucuna vardı.",
+      "kosul": "Mikro delikli, PE katmanlı kâğıt torbada 21,3 °C'de saklanan kalıp buğday ve karışık çavdar-buğday ekmekleri (Almanya, 10 gün); kâğıt torbada 23 °C ve %65 bağıl nemde saklanan kaplamalı ve kaplamasız küçük buğday ekmekleri (İsviçre, 14 gün).",
+      "kanit": "uzlasi",
+      "bolum": "İlişkileri",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods10010076",
+          "yer": "3.4. Bread Staling under Different Storage Conditions"
+        },
+        {
+          "kaynak": "10.1016/j.crfs.2021.03.004",
+          "yer": "3.1. Comparison of different coatings on bread staling; Fig. 3"
+        },
+        {
+          "kaynak": "10.1016/j.crfs.2021.03.004",
+          "yer": "3.2. Comparison of different wax-based coatings; Fig. 5"
+        }
+      ]
+    },
+    {
+      "id": "bayatlama.amiloz_lipit_kompleksi_yag_ikamesi",
+      "metin": "Beyaz ekmekte katı yağın yaklaşık %50'si amiloz-lipit kompleksleriyle ikame edildiğinde somun hacmi korunurken retrogradasyon ve bayatlama süreci gecikmiştir.",
+      "kosul": "Lee vd. 2020; beyaz ekmek",
+      "kanit": "ikincil",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1111/1541-4337.13147",
+          "yer": "4.4 Starch–lipid interactions during baking"
+        }
+      ]
+    },
+    {
+      "id": "bayatlama.cavdarda_amilaz_durdurulunca_yavas_bayatlar",
+      "metin": "Aktarılan bilgiye göre ekşi maya fermantasyonuyla α-amilazın etkisizleştirilmesi, çavdar ekmeğinin normal mayalı buğday ekmeğinden daha yavaş bayatlamasını sağlar.",
+      "kosul": "Çavdar ekmeği.",
+      "kanit": "ikincil",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1002/fsn3.4050",
+          "yer": "1. INTRODUCTION"
+        }
+      ]
+    },
+    {
+      "id": "bayatlama.eksi_maya_30_gun_sertlesme",
+      "metin": "Bu çalışmada vakumla ve havayla soğutulmuş arpa ekşi mayalı ekmeklerde 30 günlük saklamada içte sertleşme %42-47 oldu (veriler kaynakta gösterilmemiş).",
+      "kosul": "Arpa ekşi mayalı ekmek; vakumla ve havayla soğutma; modifiye atmosferli ambalajda çevre sıcaklığında 30 gün saklama",
+      "kanit": "tek_kaynak",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.17113/ftb.55.04.17.5344",
+          "yer": "Results and Discussion · Crumb firmness during storage"
+        }
+      ]
+    },
+    {
+      "id": "bayatlama.eksi_maya_ekmek_taze_yumusak",
+      "metin": "Bu çalışmada taze arpa ekşi mayalı ekmek örnekleri, soğutma tekniğine bakılmaksızın en yumuşak olarak nitelendi (temel bileşen analizinde).",
+      "kosul": "Arpa ekşi mayalı ekmek; vakumla ya da havayla soğutma; temel bileşen analizi",
+      "kanit": "tek_kaynak",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.17113/ftb.55.04.17.5344",
+          "yer": "Results and Discussion"
+        }
+      ]
+    },
+    {
+      "id": "bayatlama.eksi_maya_sertlesmeyi_yavaslatir_bugday",
+      "metin": "Bu çalışmada buğday ekşi mayası, mayayla fermente edilen ekmeğe göre daha düşük bir iç sertleşme hızı verdi: 24 ile 72 saat arasında iç sertliği kontrolde %10,2, buğday ekşi maya ekmeğinde %8,3, emmerde %15,2, horasanda %19,2, speltte %39,2 arttı.",
+      "kosul": "Mayalı kontrol ekmeği ile buğday, emmer, horasan ve spelt ekşi maya ekmekleri; polietilen torbada saklama, 24–72 saat.",
+      "kanit": "tek_kaynak",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods11233927",
+          "yer": "3.3. Bread Volume, Water Activity and Texture"
+        },
+        {
+          "kaynak": "10.3390/foods11233927",
+          "yer": "3.3. Bread Volume, Water Activity and Texture"
+        }
+      ]
+    },
+    {
+      "id": "bayatlama.eksi_maya_taze_yumusaklik_farki",
+      "metin": "Bu çalışmada taze arpa ekşi mayalı ekmeğin içi, kontrol ekmeğine göre ortalama %20 daha yumuşaktı; 22 gün saklamadan sonra bu fark %8'e indi.",
+      "kosul": "Arpa ekşi mayalı ekmek ve taze kontrol ekmeği; vakumla ve havayla soğutma; 22 gün saklama",
+      "kanit": "tek_kaynak",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.17113/ftb.55.04.17.5344",
+          "yer": "Results and Discussion · Crumb firmness during storage"
+        }
+      ]
+    },
+    {
+      "id": "bayatlama.ekzopolisakkaritler_bayatlamayi_geciktirir",
+      "metin": "Fruktanların kısmi hidrolizinden oluşan sakkaroz ve fruktozdan bakterilerin üretebildiği ekzopolisakkaritlerin, Ketabi vd. ve Dertli vd.'ye göre ekmek dokusunu iyileştirdiği ve bayatlamayı geciktirdiği bildirilir.",
+      "kosul": "Ketabi et al. 2008, Dertli et al. 2016 aktarımı; bakteriyel ekzopolisakkaritler",
+      "kanit": "ikincil",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3389/fmicb.2018.01972",
+          "yer": "FUTURE ASPECTS"
+        }
+      ]
+    },
+    {
+      "id": "bayatlama.gluten_saklamada_yumusak",
+      "metin": "Bir çalışmada kontrol ve %5 gluten eklenen ekmeklerin içi saklamada belirgin biçimde sertleşirken %15 gluten eklenenler 7 gün boyunca daha yumuşak, daha yaylanır ve daha bütünlüklü kaldı; bu, içlerinde daha çok retrograde amilopektin bulunmasına ve iç nemlerinin diğerleriyle benzer olmasına karşın gerçekleşti.",
+      "kosul": "Beyaz buğday ekmeği (unda kuru maddede %12,5 protein); unun 0, 5 ya da 15 g/100 g'ı yerine vital gluten; ev tipi ekmek makinesi; etanollü polietilen torbada oda sıcaklığında 0–7 gün saklama.",
+      "kanit": "tek_kaynak",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.lwt.2014.04.057",
+          "yer": "3.3. Texture"
+        },
+        {
+          "kaynak": "10.1016/j.lwt.2014.04.057",
+          "yer": "4. Conclusions"
+        },
+        {
+          "kaynak": "10.1016/j.lwt.2014.04.057",
+          "yer": "3.3. Texture"
+        },
+        {
+          "kaynak": "10.1016/j.lwt.2014.04.057",
+          "yer": "3.3. Texture"
+        }
+      ]
+    },
+    {
+      "id": "bayatlama.glutensiz_ekmekte_proteinler",
+      "metin": "Glutensiz ekmeklerde sığır plazması, süt ürünleri, soya ve bezelye proteinleri dahil olmak üzere gluten dışı proteinlerin çoğunun bayatlama hızını ve ekmek içi sertleşmesini artırdığı bulunmuştur.",
+      "kosul": "Glutensiz ekmek",
+      "kanit": "ikincil",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1111/1541-4337.13141",
+          "yer": "8.2 Gluten-free bread"
+        }
+      ]
+    },
+    {
+      "id": "bayatlama.jelatinlesme_entalpisi_sertlik_negatif_korelasyon",
+      "metin": "Jelatinleşme entalpisi ile 24 ve 72 saatlik ekmek içi sertlikleri arasındaki korelasyon katsayıları istatistiksel olarak anlamlı bulunmuştur (−0,701, p < 0,05 ve −0,803, p < 0,01; Tablo 2).",
+      "kosul": "Çavdar unu ekmekleri; 24 ve 72 saatlik bayatlama; korelasyon analizi (Tablo 2)",
+      "kanit": "tek_kaynak",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/ma14247603",
+          "yer": "Bread Quality Parameters"
+        }
+      ]
+    },
+    {
+      "id": "bayatlama.protein_ilavesi_ve_nisasta_sismesi",
+      "metin": "Buğday ekmeğine %15'e kadar protein eklenmesinin ekmek içi sertleşmesi üzerinde belirgin bir etkisi görülmemiş, ancak %10 ve %15 protein düzeylerinde nişastanın şişmesi etkilenmiştir.",
+      "kosul": "Every vd. 1998; 40 °C'de 46 dk mayalama, 218 °C'de 26 dk pişirme, 20 °C'de 6 gün saklama",
+      "kanit": "ikincil",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1111/1541-4337.13141",
+          "yer": "Table 2"
+        }
+      ]
+    },
+    {
+      "id": "bayatlama.protein_orani_ve_bayatlama_hizi",
+      "metin": "Daha yüksek protein içeriğine (%10,4'e kıyasla %13,1) sahip buğday ekmekleri, düşük proteinli ekmeklere göre daha düşük bayatlama hızları göstermiştir.",
+      "kosul": "Maleki vd. 1980",
+      "kanit": "ikincil",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1111/1541-4337.13141",
+          "yer": "8.1 Bread"
+        }
+      ]
+    },
+    {
+      "id": "bayatlama.siyez_ekmegi_daha_yavas_sertlesir",
+      "metin": "52 saatlik raf ömrü denemesinde ekmek içi sertleşme hızı kontrol ekmeklik buğdayda 0,24 N/saat iken siyez örneklerinde 0,12–0,14 N/saat olarak ölçülmüş, siyez ekmekleri yumuşaklığını daha uzun süre koruyarak daha yavaş retrogradasyon göstermiştir.",
+      "kosul": "25 °C ve %60 bağıl nemde 52 saatlik raf ömrü denemesi; TPA analizi",
+      "kanit": "tek_kaynak",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods12081610",
+          "yer": "Abstract"
+        },
+        {
+          "kaynak": "10.3390/foods12081610",
+          "yer": "3.3.2. Changes during Storage"
+        }
+      ]
+    },
+    {
+      "id": "bayatlama.yudane_ekmekleri_yumusaklik_ve_gecikme",
+      "metin": "Pişirme sonrasında Yudane ekmekleri, özellikle de %40 Yudane içerenler kontrole göre daha yumuşak olmuş ve bayatlama gecikmiştir.",
+      "kosul": "Yudane (haşlama hamuru) katkılı ekmekler, özellikle %40 Yudane; kontrol ekmeğiyle karşılaştırma; sertlik ve bayatlama",
+      "kanit": "tek_kaynak",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3136/fstr.20.1071",
+          "yer": "Results and Discussion · Staling and texture of Yudane bread and starch retrogradation"
+        }
+      ]
+    },
+    {
+      "id": "bayatlama.gliserol",
+      "metin": "Gliserolün ekmeğin duyusal özelliklerini ve saklama sonrası sertliğini etkileyebildiği bildirilmiştir.",
+      "kosul": "",
+      "kanit": "ikincil",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1371/journal.pone.0119364",
+          "yer": "Discussion"
+        }
+      ]
+    },
+    {
+      "id": "bayatlama.gluten_taze_yumusak",
+      "metin": "Una vital gluten eklenen ekmeklerin içi taze hâlde (0. gün) kontrol ekmeğinden daha yumuşak, daha yaylanır ve daha bütünlüklüydü; %15 gluten %5'ten daha yumuşak bir iç verdi.",
+      "kosul": "Beyaz buğday ekmeği (unda kuru maddede %12,5 protein); unun 0, 5 ya da 15 g/100 g'ı yerine vital gluten; ev tipi ekmek makinesi; etanollü polietilen torbada oda sıcaklığında 0–7 gün saklama.",
+      "kanit": "tek_kaynak",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.lwt.2014.04.057",
+          "yer": "3.3. Texture"
+        },
+        {
+          "kaynak": "10.1016/j.lwt.2014.04.057",
+          "yer": "3.3. Texture"
+        },
+        {
+          "kaynak": "10.1016/j.lwt.2014.04.057",
+          "yer": "3.3. Texture"
+        }
+      ]
+    },
+    {
+      "id": "bayatlama.gozenekler",
+      "metin": "Bayatlama sırasında ekmek içinin gözenekleri küçülüp yuvarlaklaşabilir.",
+      "kosul": "",
+      "kanit": "ikincil",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1155/2018/8187318",
+          "yer": "6. Crumb Staling"
+        }
+      ]
+    },
+    {
+      "id": "bayatlama.ince_un_daha_yavas_sertlesir",
+      "metin": "Daha ince öğütülmüş tam buğday unundan yapılan kalıp ekmek 4 °C'de saklamada daha yumuşaktı ve daha az sertleşti; yazarlar bunu daha yavaş bayatlamanın işareti sayar.",
+      "kosul": "Kore; mor renkli Ariheuk tam buğday unu; ultra santrifüj değirmen, 0,5 mm (ince) ve 1,0 mm (kaba) elek, 6000/10.000/14.000 dev/dk; kalıp ekmek; 4 °C'de saklama.",
+      "kanit": "tek_kaynak",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods12132591",
+          "yer": "3.5. Bread-Making Performance, Figure 6"
+        }
+      ]
+    },
+    {
+      "id": "bayatlama.dusuk_baslangic_nemi_hizli_sertlesme",
+      "metin": "Başlangıç nem içeriği düşük olan ekmekler saklama sırasında daha hızlı sertleşme eğilimi gösterir.",
+      "kosul": "Özkoç vd. 2009 ve Pateras 1999 aktarımı",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3136/fstr.19.29",
+          "yer": "Results and Discussion - Crumb moisture content and firmness"
+        }
+      ]
+    },
+    {
+      "id": "bayatlama.ekmek_ici_sertligi_akis_davranis_indeks_korelasyonu",
+      "metin": "Ekmek içi sertliği ile akış davranış indeksleri n' (r = 0,75) ve n* (r = 0,61) arasında p < 0,01 düzeyinde anlamlı pozitif korelasyon bulundu.",
+      "kosul": "Hamur ve ekmek özellikleri arasında korelasyon analizi (reolojik akış davranış indeksleri)",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods9060828",
+          "yer": "3.6. Correlations Analysis between Dough Rheology and Bread Characteristics"
+        }
+      ]
+    },
+    {
+      "id": "bayatlama.gelistirici_taze_ekmek_ici_sertligini_dusurur",
+      "metin": "Taze referans kompozit ekmeğin ekmek içi sertliği 6,9 N iken pişirme geliştiricileri içeren tüm ekmekler 3,7 ile 6,0 N arasında anlamlı derecede daha düşük ekmek içi sertliği sergilemiştir.",
+      "kosul": "taze kompozit ekmek ici sertlik olcumu; Tablo 3",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1002/fsn3.326",
+          "yer": "Results and Discussion"
+        }
+      ]
+    },
+    {
+      "id": "bayatlama.nir_disaridan_iceri",
+      "metin": "Hiperspektral NIR görüntülemede bayatlama dilimin kabuğa yakın dış kısmından içe doğru ilerledi; kontrol ekmeğinde tahmin edilen sertlik, maltojenik amilaz eklenmiş ekmeklerdekinden çok farklı bir düzeye ulaştı.",
+      "kosul": "Standart tarifli beyaz buğday ekmeği: kontrol ve iki deneysel maltojenik α-amilazlı ekmek; kapalı plastik torbada oda sıcaklığında 1–21 gün; orta dilimler; 938–1630 nm hiperspektral NIR görüntüleme ve kemometri.",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.foodchem.2021.129478",
+          "yer": "3.1. Principal component analysis; Fig. 3a"
+        },
+        {
+          "kaynak": "10.1016/j.foodchem.2021.129478",
+          "yer": "3.1. Principal component analysis"
+        },
+        {
+          "kaynak": "10.1016/j.foodchem.2021.129478",
+          "yer": "3.3. Determination of hardness in the surface of the bread by partial least squares; Fig. 6a"
+        },
+        {
+          "kaynak": "10.1016/j.foodchem.2021.129478",
+          "yer": "3.2. Multivariate curve resolution; Fig. 5g"
+        }
+      ]
+    },
+    {
+      "id": "bayatlama.nisastaya_bagli_lipitler",
+      "metin": "Nişastaya bağlı lipitlerin, nişasta polimerlerinin birleşmesini ve nişasta-su etkileşimini azaltarak ekmek bayatlamasını yavaşlattığı gösterilmiştir.",
+      "kosul": "Collar vd. 2001",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1111/1541-4337.13141",
+          "yer": "Section 7.3"
+        }
+      ]
+    },
+    {
+      "id": "bayatlama.nmr_hareketlilik_azalir",
+      "metin": "Aynı araştırma grubunun iki çalışmasında saklama boyunca ekmek içindeki protonların hareketliliği azaldı: 1H NMR sinyali daha hızlı söndü, çok katı (rijit) proton grubunun payı büyüdü ve T2 durulma süresi dağılımları daha kısa sürelere kaydı.",
+      "kosul": "Beyaz buğday ekmeği (un %13,5 protein, W=270; un bazında su 58, şeker 4, maya 3, ayçiçek yağı 3, tuz 2); ev tipi ekmek makinesi; etanollü kapalı polietilen torbada 25 °C'de 0–14 gün; düşük çözünürlüklü 1H NMR (20 MHz, 25 °C). / Beyaz buğday ekmeği (unda kuru maddede %12,5 protein); unun 0, 5 ya da 15 g/100 g'ı yerine vital gluten; ev tipi ekmek makinesi; etanollü polietilen torbada oda sıcaklığında 0–7 gün saklama.",
+      "kanit": "uzlasi",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.lwt.2010.11.021",
+          "yer": "3. Results and discussion; Fig. 1"
+        },
+        {
+          "kaynak": "10.1016/j.lwt.2010.11.021",
+          "yer": "3. Results and discussion; Fig. 2"
+        },
+        {
+          "kaynak": "10.1016/j.lwt.2014.04.057",
+          "yer": "3.5. Molecular mobility; Fig. 4"
+        },
+        {
+          "kaynak": "10.1016/j.lwt.2014.04.057",
+          "yer": "3.5. Molecular mobility; Fig. 5"
+        },
+        {
+          "kaynak": "10.1016/j.lwt.2010.11.021",
+          "yer": "1. Introduction"
+        }
+      ]
+    },
+    {
+      "id": "bayatlama.protein_nisasta_seyrelmesi",
+      "metin": "Proteinlerin nişastayı seyreltici rol oynayarak bayatlamayı geciktirdiği bildirilmiştir.",
+      "kosul": "Kim ve D'Appolonia 1977",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1111/1541-4337.13141",
+          "yer": "Table 2"
+        }
+      ]
+    },
+    {
+      "id": "bayatlama.tutunurluk_jelatinlesme_gluten_agregasyonu",
+      "metin": "Ekmek içi tutunurluğu ve esnekliği gluten agregasyonundan ziyade nişasta jelatinleşmesi ve şişmesine daha fazla bağımlıdır [56].",
+      "kosul": "literatur aktarimi ref 56",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods10102311",
+          "yer": "Discussion"
+        }
+      ]
+    },
+    {
+      "id": "bayatlama.dort_gun_depolama_ve_nem_kaybi_sertlik",
+      "metin": "Dört günlük depolamanın ardından bayatlama süreci ve nem kaybı sonucunda referans ekmeğin ekmek içi sertliği 33,4 N düzeyine yükselmiştir.",
+      "kosul": "Referans kompozit (kasava-mısır-buğday) ekmek; 4 gün depolama sonrası sertlik",
+      "kanit": "tek_kaynak",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1002/fsn3.326",
+          "yer": "Results and Discussion"
+        }
+      ]
+    },
+    {
+      "id": "bayatlama.ilk_24_saat",
+      "metin": "Ekmek içi zamanla esnekliğini yitirir; en büyük kayıp pişirmeden sonraki ilk 24 saatte olur.",
+      "kosul": "",
+      "kanit": "ikincil",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1155/2018/8187318",
+          "yer": "6. Crumb Staling"
+        }
+      ]
+    },
+    {
+      "id": "bayatlama.isitma_hizi_ekmek_ici_ve_kinetik",
+      "metin": "Isıtma hızı ile hem ekmek içi sertliğindeki artış hem de daha hızlı bayatlama kinetiği arasında korelasyon olduğu bildirilmiştir [36,37,38,39].",
+      "kosul": "yeniden pisirme kinetigi",
+      "kanit": "ikincil",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods13020224",
+          "yer": "3.2. Crumb Core Temperatures"
+        }
+      ]
+    },
+    {
+      "id": "bayatlama.on_pisirme_derecesi_ve_yeniden_pisirme_sertligi",
+      "metin": "Ön pişirme derecesinin %95'ten %50'ye düşürülmesi, yeniden pişirilen buğday ekmeklerinde zamanla %19,4 daha az sertleşme ve %8,6 daha fazla tutunurluk sağlamıştır.",
+      "kosul": "Kısmen pişirilip yeniden pişirilen buğday ekmekleri; depolama süresince",
+      "kanit": "tek_kaynak",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods13020224",
+          "yer": "Abstract"
+        }
+      ]
+    },
+    {
+      "id": "bayatlama.sertlesme_hizlari",
+      "metin": "On günlük ev saklamasında (PE katmanlı kâğıt torba, ekmek kutusu, oda sıcaklığında ve buzdolabında plastik torba) karışık çavdar-buğday ekşi mayalı ekmeğin içi günde 0,92–1,38 N, kalıp buğday ekmeğininki 0,27–0,51 N hızla sertleşti.",
+      "kosul": "Almanya (Freising), yerel fırından kalıp buğday ekmeği ve %70 çavdar–%30 buğday karışık ekşi mayalı ekmek; evde 10 gün saklama, her gün açık uçtan bir dilim kesildi. Doku profili analizi (TPA), doğrusal model.",
+      "kanit": "tek_kaynak",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods10010076",
+          "yer": "3.4. Bread Staling under Different Storage Conditions; Table 3"
+        }
+      ]
+    },
+    {
+      "id": "bayatlama.tam_pismis_ve_yari_pismis_depolama_sertligi",
+      "metin": "Genel olarak, depolama sırasında tam pişmiş ekmeğin sertliği yarı pişmiş muadiline kıyasla anlamlı biçimde artmış; bu artış büyük ölçüde bayatlama sürecine bağlanmıştır.",
+      "kosul": "Depolama boyunca yarı pişmiş ve tam pişmiş ekmek karşılaştırması",
+      "kanit": "tek_kaynak",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods13152318",
+          "yer": "3.3. Bread Quality and Physicochemical Properties"
+        }
+      ]
+    },
+    {
+      "id": "bayatlama.yuz_elli_yil",
+      "metin": "Ekmek bayatlaması 150 yılı aşkın süredir incelenmesine karşın moleküler temeli bugün de tam anlaşılmış değildir.",
+      "kosul": "",
+      "kanit": "ikincil",
+      "bolum": "Kimlik",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.lwt.2010.11.021",
+          "yer": "1. Introduction"
+        }
+      ]
+    },
+    {
+      "id": "bayatlama.en_yaygin_gosterge",
+      "metin": "Bayatlamanın en yaygın kullanılan göstergesi ekmek içinin sertliğindeki artıştır.",
+      "kosul": "",
+      "kanit": "ikincil",
+      "bolum": "Nasıl ölçülür",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1155/2018/8187318",
+          "yer": "6. Crumb Staling"
+        }
+      ]
+    },
+    {
+      "id": "bayatlama.olcum_sertlik_kohezyon_yamauchi",
+      "metin": "Bayatlama, ekmek içinin sertliği ve kohezyonu ölçülerek Yamauchi vd. (2001) yöntemiyle değerlendirildi.",
+      "kosul": "Yöntem tanımı; Yamauchi vd. 2001 yöntemi",
+      "kanit": "tek_kaynak",
+      "bolum": "Nasıl ölçülür",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3136/fstr.20.1071",
+          "yer": "Materials and Methods · Bread staling and starch retrogradation"
+        }
+      ]
+    },
+    {
+      "id": "bayatlama.olcum_sertlik_siniri_4_7c",
+      "metin": "Sertlik sınır değeri, kesilmiş ekmek içlerinin 4,7 °C'de 10 gün saklanmasıyla elde edilen sertlikten belirlendi.",
+      "kosul": "Yöntem; Axford vd. 1968 atfı",
+      "kanit": "tek_kaynak",
+      "bolum": "Nasıl ölçülür",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3136/fstr.20.1071",
+          "yer": "Materials and Methods · Bread staling and starch retrogradation"
+        }
+      ]
+    },
+    {
+      "id": "bayatlama.amilaz_amilopektin_hidrolizi_mekanizma",
+      "metin": "Amilazların bayatlamayı geciktirici etkisi, amilopektini hidroliz ederek retrogradasyona daha az eğilimli olan ve su hareketini etkileyen çözünür düşük molekül ağırlıklı dallı zincirli polimerler üretmeleriyle ilişkilidir.",
+      "kosul": "[54] aktarımı",
+      "kanit": "ikincil",
+      "bolum": "Ne yapar",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods12081610",
+          "yer": "3.3.2. Changes during Storage"
+        }
+      ]
+    },
+    {
+      "id": "bayatlama.bayatlama_geciktiriciler",
+      "metin": "Amilazlar ve dal kesici (debranching) enzimler, lipazlar, lipoksijenazlar, nişasta dışı polisakkaritleri değiştiren enzimler, proteazlar ve yüzey aktif lipitler bayatlamayı geciktirici maddeler arasında sayılır.",
+      "kosul": "",
+      "kanit": "ikincil",
+      "bolum": "Ne yapar",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/fermentation4010009",
+          "yer": "3.1.1. Bread Staling"
+        }
+      ]
+    },
+    {
+      "id": "bayatlama.erime_entalpisi_ve_sertlik_korelasyonu",
+      "metin": "Tüm kompozit ekmek örneklerinde erime entalpisindeki artışla birlikte ekmek içi sertliği artmış ve korelasyon katsayısı R2 = 0,82 olarak belirlenmiştir.",
+      "kosul": "Kompozit (kasava-mısır-buğday) ekmek; 4 gün depolama sonrası korelasyon analizi",
+      "kanit": "tek_kaynak",
+      "bolum": "Ne yapar",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1002/fsn3.326",
+          "yer": "Retrogradation of starch"
+        }
+      ]
+    },
+    {
+      "id": "bayatlama.etanol_plastiklestirir",
+      "metin": "Etanol ekmek içindeki protein ağını plastikleştirdiği (yumuşattığı) için bayatlamayı yavaşlatır.",
+      "kosul": "",
+      "kanit": "ikincil",
+      "bolum": "Ne yapar",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/fermentation4010009",
+          "yer": "3.3.2. Active Packaging with Releasers: Antimicrobial Releasing Systems"
+        }
+      ]
+    },
+    {
+      "id": "bayatlama.iki_sertlesme_yolu",
+      "metin": "Bayatlamadaki sertleşmenin iki kaynağı vardır: nemin ekmek içinden kabuğa geçmesi ve nişastanın yeniden kristalleşmesine bağlı olarak gözenek duvarlarının kendi içinde sertleşmesi.",
+      "kosul": "",
+      "kanit": "ikincil",
+      "bolum": "Ne yapar",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/fermentation4010009",
+          "yer": "3.1.1. Bread Staling"
+        },
+        {
+          "kaynak": "10.3136/fstr.19.29",
+          "yer": "Results and Discussion - Crumb moisture content and firmness"
+        },
+        {
+          "kaynak": "10.1016/j.ijgfs.2022.100486",
+          "yer": "Results and discussion / Effect of NaCl reduction and replacement on bread quality"
+        },
+        {
+          "kaynak": "10.1016/j.fochx.2025.103160",
+          "yer": "Changes of moisture content and texture properties of bread during storage"
+        }
+      ]
+    },
+    {
+      "id": "bayatlama.nem_plastiklestirici",
+      "metin": "Ekmek içindeki nem bir plastikleştirici (yumuşatıcı) gibi davranır; nem azalınca nişasta zincirleri arasında ya da nişasta ile proteinler arasında hidrojen bağları kurulabilir ve iç sertleşir.",
+      "kosul": "",
+      "kanit": "ikincil",
+      "bolum": "Ne yapar",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1155/2018/8187318",
+          "yer": "6. Crumb Staling"
+        },
+        {
+          "kaynak": "10.1016/j.jcs.2009.04.010",
+          "yer": "Abstract"
+        }
+      ]
+    },
+    {
+      "id": "bayatlama.yuzey_aktif",
+      "metin": "Monogliseritler ve SSL gibi yüzey aktif maddeler, amilopektin retrogradasyonunu yavaşlatarak ve nemin glutenden nişastaya göçünü engelleyerek bayatlamayı geciktirir.",
+      "kosul": "",
+      "kanit": "ikincil",
+      "bolum": "Ne yapar",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1155/2018/8187318",
+          "yer": "6. Crumb Staling"
+        },
+        {
+          "kaynak": "10.1111/1541-4337.13147",
+          "yer": "4.4 Starch–lipid interactions during baking"
+        }
+      ]
+    },
+    {
+      "id": "bayatlama.kaplama_sertlik_sayilari",
+      "metin": "Kâğıt torbada 14 gün saklanan kaplamasız ekmeğin içi cihazın ölçüm sınırını (616 N) aştı; ağırlık kaybı yaklaşık %29,7'den yaklaşık %24'e inen kaplamalı ekmeklerde sertlik yaklaşık 150 N'a, yaklaşık %17'ye inenlerde 35 N dolayına indi; bu son değer plastik torbada 5 gün saklanan ekmeğinkine yakındır.",
+      "kosul": "İsviçre; 100 g'lık küçük beyaz buğday ekmekleri (tip 550 un 1000 g, maya 25 g, tuz 22 g, su 616 g; dondurulmuş hamur çözülüp 32 °C'de 30 dk mayalandı, buharla 210 °C'de 10 dk pişti); kâğıt torbada 23 °C ve %65 bağıl nemde 14 güne dek; kaplama pişer pişmez sıcak ekmeğe fırçayla sürüldü.",
+      "kanit": "tek_kaynak",
+      "bolum": "İlişkileri",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.crfs.2021.03.004",
+          "yer": "3.1. Comparison of different coatings on bread staling; Fig. 3"
+        },
+        {
+          "kaynak": "10.1016/j.crfs.2021.03.004",
+          "yer": "3.1. Comparison of different coatings on bread staling"
+        },
+        {
+          "kaynak": "10.1016/j.crfs.2021.03.004",
+          "yer": "3.1. Comparison of different coatings on bread staling"
+        }
+      ]
+    }
+  ]
+}

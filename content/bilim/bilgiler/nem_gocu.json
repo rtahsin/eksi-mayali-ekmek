@@ -1,0 +1,692 @@
+{
+  "id": "nem_gocu",
+  "ad": "Nemin göçü",
+  "bilgiler": [
+    {
+      "id": "nem_gocu.buhar_basinci_gradyani_ile_icten_yuzeye_goc",
+      "metin": "Pişirmede nemin merkezden yüzeye göçü sıcaklık ve buhar basıncı farklarına bağlıdır; bir çalışmada pişirme sıcaklığının artırılması, ekmek içi ile çevre hava arasındaki buhar basıncı farkını büyütüp buharlaşmayı hızlandırdı.",
+      "kosul": "ekmek pişirme; hava jetli ve konvansiyonel fırın, farklı pişirme sıcaklığı ve süresi",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1111/1750-3841.71456",
+          "yer": "PMC13559855.txt:Introduction"
+        },
+        {
+          "kaynak": "10.1111/1750-3841.71456",
+          "yer": "PMC13559855.txt:Moisture Content"
+        },
+        {
+          "kaynak": "10.1111/1750-3841.71456",
+          "yer": "PMC13559855.txt:Moisture Content"
+        },
+        {
+          "kaynak": "10.3390/foods10020417",
+          "yer": "PMC7918450.txt:1. Introduction"
+        }
+      ]
+    },
+    {
+      "id": "nem_gocu.icten_kabuga",
+      "metin": "Saklama sırasında su, nemli ekmek içinden daha kuru kabuğa doğru göç eder: kapalı torbada saklanan ekmeklerle yapılan bir çalışmada kabuğun nemi arttı, içinki azaldı; başka bir çalışmada NIR görüntüleme de su göçünü dilimin içinden dışına doğru ana etki olarak gösterdi.",
+      "kosul": "Beyaz buğday ekmeği (unda kuru maddede %12,5 protein); unun 0, 5 ya da 15 g/100 g'ı yerine vital gluten; ev tipi ekmek makinesi; etanollü polietilen torbada oda sıcaklığında 0–7 gün saklama. / Standart tarifli beyaz buğday ekmeği: kontrol ve iki deneysel maltojenik α-amilazlı ekmek; kapalı plastik torbada oda sıcaklığında 1–21 gün; orta dilimler; 938–1630 nm hiperspektral NIR görüntüleme ve kemometri.",
+      "kanit": "uzlasi",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.lwt.2014.04.057",
+          "yer": "3.2. Moisture content"
+        },
+        {
+          "kaynak": "10.1016/j.foodchem.2021.129478",
+          "yer": "3.2. Multivariate curve resolution"
+        },
+        {
+          "kaynak": "10.1016/j.lwt.2014.04.057",
+          "yer": "1. Introduction"
+        },
+        {
+          "kaynak": "10.3390/foods10010076",
+          "yer": "1. Introduction"
+        },
+        {
+          "kaynak": "10.1016/j.jfoodeng.2011.07.015",
+          "yer": "Introduction"
+        },
+        {
+          "kaynak": "10.1016/j.jfoodeng.2011.07.015",
+          "yer": "Introduction"
+        },
+        {
+          "kaynak": "10.1111/1541-4337.13147",
+          "yer": "5.2.4 Moisture migration"
+        }
+      ]
+    },
+    {
+      "id": "nem_gocu.uygun_pisen_ekmekte_ortalama_nem_araligi",
+      "metin": "Bu çalışmadaki tüm pişirme denemelerinde ekmek örneklerinin ortalama nem içeriği yüzde 30–40 aralığında kaldı; bu aralık, düzgün pişirilmiş ekmekler için bildirilen değerlerle uyumludur.",
+      "kosul": "hava jetli ve konvansiyonel fırında yapılan tüm pişirme denemeleri",
+      "kanit": "tek_kaynak",
+      "bolum": "Ortak özellikler",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1111/1750-3841.71456",
+          "yer": "PMC13559855.txt:Moisture Content"
+        }
+      ]
+    },
+    {
+      "id": "nem_gocu.faz_degisimi_merkezi_surec",
+      "metin": "Bu model çalışmasına göre nem faz değişimi, ekmek pişirme sırasında ısıl, hidrolik ve mekanik davranışları yöneten merkezi süreçtir.",
+      "kosul": "Ekmek pişirme termodinamiği modeli; sabit termofiziksel özellikler varsayımıyla",
+      "kanit": "tek_kaynak",
+      "bolum": "Tanım",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods14091649",
+          "yer": "5. Conclusions"
+        }
+      ]
+    },
+    {
+      "id": "nem_gocu.kabuk_ic_bayatlamasi",
+      "metin": "Bir kaynakta kabuk bayatlaması kuru kabuk ile nemli iç arasındaki su alışverişi, iç bayatlaması ise yeniden kristalleşme yüzünden suyun ekmek içinde glutenden nişastaya geçmesi olarak tanımlanır.",
+      "kosul": "",
+      "kanit": "tek_kaynak",
+      "bolum": "Tanım",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods10010076",
+          "yer": "3.4. Bread Staling under Different Storage Conditions"
+        },
+        {
+          "kaynak": "10.1016/j.jcs.2009.04.010",
+          "yer": "Abstract"
+        },
+        {
+          "kaynak": "10.1111/j.1541-4337.2003.tb00011.x",
+          "yer": ""
+        }
+      ]
+    },
+    {
+      "id": "nem_gocu.sogumus_ekmek_ic_kabuk_nemi",
+      "metin": "Aktarılan bilgiye göre soğuduktan sonra ekmek içi %35–40 su tutarken kabuk yalnız %3–7 su tutar.",
+      "kosul": "Soğumuş ekmek.",
+      "kanit": "ikincil",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods10020228",
+          "yer": "1. Introduction"
+        }
+      ]
+    },
+    {
+      "id": "nem_gocu.tuz_azaltiminda_su_tutma_kapasitesi_artisi",
+      "metin": "%10 ve %15 tuz azaltımı gruplarında ekmeğin su tutma kapasitesi tuz içeriği azaldıkça düşmemiş, aksine saklama süresince artmıştır.",
+      "kosul": "%10 ve %15 tuz azaltılmış ekmek grupları (HS-10 ve HS-15)",
+      "kanit": "tek_kaynak",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.fochx.2025.103160",
+          "yer": "Changes of moisture content and texture properties of bread during storage"
+        }
+      ]
+    },
+    {
+      "id": "nem_gocu.gluten_nem",
+      "metin": "%5 gluten eklenen taze ekmeğin içi kontrolden daha nemli (42,6 g/100 g), kabuğu daha kuruydu (12,9 g/100 g); saklama sonunda iç nemleri bütün ekmeklerde benzerken kabuk nemi %15 glutenli ekmeklerde daha yüksekti.",
+      "kosul": "Beyaz buğday ekmeği (unda kuru maddede %12,5 protein); unun 0, 5 ya da 15 g/100 g'ı yerine vital gluten; ev tipi ekmek makinesi; etanollü polietilen torbada oda sıcaklığında 0–7 gün saklama.",
+      "kanit": "tek_kaynak",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.lwt.2014.04.057",
+          "yer": "3.2. Moisture content"
+        },
+        {
+          "kaynak": "10.1016/j.lwt.2014.04.057",
+          "yer": "3.2. Moisture content"
+        }
+      ]
+    },
+    {
+      "id": "nem_gocu.80_derece_uzeri_hizli_nem_kaybi",
+      "metin": "Literatürde, pişirmenin ikinci aşamasında hamur sıcaklığı 80 °C'yi aştığında maya etkisizleşir, buharlaşma hızlanır ve nemin daha sert düşmesi beklenir.",
+      "kosul": "Pişirme sıcaklığının 80 °C'yi aşması; Delcour ve Hoseney aktarımı",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.fochx.2026.104362",
+          "yer": "2.5.1. Dough preparation for electrical resistance oven baking"
+        }
+      ]
+    },
+    {
+      "id": "nem_gocu.donabilen_su_azalir",
+      "metin": "Bir çalışmada saklama boyunca ekmek içindeki donabilen su miktarı bütün ekmeklerde benzer biçimde azaldı; yazarlar bunu büyük olasılıkla suyun bir kısmının jelleşmiş nişastadan daha katı amorf ve kristal bölgelere geçmesine bağlar.",
+      "kosul": "Beyaz buğday ekmeği (unda kuru maddede %12,5 protein); unun 0, 5 ya da 15 g/100 g'ı yerine vital gluten; ev tipi ekmek makinesi; etanollü polietilen torbada oda sıcaklığında 0–7 gün saklama. DSC.",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.lwt.2014.04.057",
+          "yer": "3.4. Thermal analysis"
+        }
+      ]
+    },
+    {
+      "id": "nem_gocu.ekmek_boyutu_ve_merkez_nem_farklari",
+      "metin": "Literatürde, ekmek merkezine su taşınımının itici gücünün daha büyük ekmeklerde daha yoğun ve sürekli olduğu belirtilir; pişirmede merkez nem artışı çalışmalara göre %1,3 ile %18,7 arasında bildirilmiştir (ölçüm süresi ve hamur boyutu farklıydı).",
+      "kosul": "Wagner vd., Vries ve Thorvaldsson aktarımları; ekmek boyutu etkisi",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods14091649",
+          "yer": "4.3. Effect of the MPC on Mass Transfer"
+        },
+        {
+          "kaynak": "10.3390/foods14091649",
+          "yer": "4.3. Effect of the MPC on Mass Transfer"
+        },
+        {
+          "kaynak": "10.3390/foods14091649",
+          "yer": "4.3. Effect of the MPC on Mass Transfer"
+        }
+      ]
+    },
+    {
+      "id": "nem_gocu.glutenden_nisastaya_yorum",
+      "metin": "Saklamada suyun ekmek içinde gluten bölgesinden nişasta bölgesine göçtüğü ve bunun içteki sürekli fazın esnekliğini azalttığı öne sürülür; ama başka bir görüşe göre pişirmede glutenden nişastaya geçen su saklamada glutene geri dönebilir.",
+      "kosul": "beyaz ekmek; saklama sırasında (7 ve 14 gün) NMR ölçümü",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.lwt.2010.11.021",
+          "yer": "3. Results and discussion"
+        },
+        {
+          "kaynak": "10.1016/j.lwt.2010.11.021",
+          "yer": "1. Introduction"
+        },
+        {
+          "kaynak": "10.3390/foods10010076",
+          "yer": "1. Introduction"
+        },
+        {
+          "kaynak": "10.1155/2018/8187318",
+          "yer": "6. Crumb Staling"
+        },
+        {
+          "kaynak": "10.1002/fsn3.326",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "nem_gocu.kabuk_28",
+      "metin": "Kabuk, nemi yaklaşık %45 olan ekmek içinden kolayca nem çeker; 100 saatlik saklamada kabuğun nemi %28'e kadar çıkabilir.",
+      "kosul": "",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/fermentation4010009",
+          "yer": "3.1.1. Bread Staling"
+        }
+      ]
+    },
+    {
+      "id": "nem_gocu.kapali_ve_acik_gozenek_buhar_gradyani",
+      "metin": "Bu modelde, kapalı gözeneklerde su buharı derişimi doymuş halde kalırken, açık gözeneklerde çevreye doğru kademeli olarak azalan bir su buharı derişim gradyanı oluşur.",
+      "kosul": "Pişirme sırasında kapalı ve açık gözenek termodinamiği; model sonucu",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods14091649",
+          "yer": "4.3. Effect of the MPC on Mass Transfer"
+        }
+      ]
+    },
+    {
+      "id": "nem_gocu.nmr_a_azalir_b_artar",
+      "metin": "Saklamanın ilk 7 gününde ekmek içinde su–proteine atanan proton grubunun (A) payı yaklaşık %28–29'dan %21–23,5'e düşerken jelleşmiş nişastaya atanan grubun (B) payı %67–68'den %71–73'e çıktı.",
+      "kosul": "Beyaz buğday ekmeği (un %13,5 protein, W=270; un bazında su 58, şeker 4, maya 3, ayçiçek yağı 3, tuz 2); ev tipi ekmek makinesi; etanollü kapalı polietilen torbada 25 °C'de 0–14 gün; düşük çözünürlüklü 1H NMR (20 MHz, 25 °C). / Beyaz buğday ekmeği (unda kuru maddede %12,5 protein); unun 0, 5 ya da 15 g/100 g'ı yerine vital gluten; ev tipi ekmek makinesi; etanollü polietilen torbada oda sıcaklığında 0–7 gün saklama. (kontrol ve %5 gluten).",
+      "kanit": "uzlasi",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.lwt.2010.11.021",
+          "yer": "3. Results and discussion; Fig. 2B"
+        },
+        {
+          "kaynak": "10.1016/j.lwt.2014.04.057",
+          "yer": "3.5. Molecular mobility"
+        }
+      ]
+    },
+    {
+      "id": "nem_gocu.pisirme_sivi_su_kaybi",
+      "metin": "Bu çalışmada sıvı suyun başlangıç kütlesi 64,5 g iken pişirme işleminin sonuna kadar yaklaşık 15,0 g kaybedildi.",
+      "kosul": "180 °C'de 30 dakika küçük kalıp ekmeği pişirme",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods14091649",
+          "yer": "4.1. Determination of Key Parameters"
+        }
+      ]
+    },
+    {
+      "id": "nem_gocu.pisirmede_merkez_nem_kazanir",
+      "metin": "Bu çalışmada 200 °C'de pişirilen küçük kalıp ekmeğinde yalnız kabuk nem kaybetti; ekmeğin merkezi ise nem kazandı ve nem içeriği %4,2'ye varan oranda arttı.",
+      "kosul": "Küçük kalıp ekmeği: 70×70×20 mm alüminyum kalıpta 60,5 g hamur (un %9,8 protein; Purlis & Salvadori 2007 tarifi); 38 °C ve %80 bağıl nemde 45 dk mayalandırma; sıcaklığı denetlenen fırın boşluğunda 180, 200 ve 220 °C'de 30 dakikaya dek pişirme.",
+      "kanit": "uzlasi",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.foodcont.2022.108898",
+          "yer": "Abstract; 3.3; Fig. 7"
+        },
+        {
+          "kaynak": "10.3390/foods14091649",
+          "yer": "5. Conclusions"
+        }
+      ]
+    },
+    {
+      "id": "nem_gocu.protein_nisasta_agi_ile_su_gocunun_engellenmesi",
+      "metin": "Hidrofilik grupların nişasta molekülleriyle kurduğu ilave hidrojen bağları kararlı bir protein-nişasta ağı oluşturarak su moleküllerinin bağlanmasını güçlendirir ve su göçünü engeller.",
+      "kosul": "kararlı protein-nişasta ağı mekanizması tanımı",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.fochx.2025.103160",
+          "yer": "Changes of moisture content and texture properties of bread during storage"
+        }
+      ]
+    },
+    {
+      "id": "nem_gocu.tuzun_icten_kabuga_su_gocunu_yavaslatmasi",
+      "metin": "Tuz, su moleküllerinin hareketliliğini azaltarak ekmek içinden kabuğa su göçü hızını düşürür ve bayatlamayı yavaşlatır.",
+      "kosul": "ekmek saklama ve bayatlama süreci; Lynch vd. 2009 aktarımı",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.ijgfs.2022.100486",
+          "yer": "Results and discussion / Effect of NaCl reduction and replacement on bread quality"
+        }
+      ]
+    },
+    {
+      "id": "nem_gocu.merkez_100_derece",
+      "metin": "Pişirmede çiğ hamur kalmayınca merkezdeki su içeriği iç sıcaklık 100 °C'ye ulaşana dek artar; merkez 100 °C'ye varınca su buharı merkezden ekmeğin kenarlarına, özellikle çatlaklara göç eder ve ekmeğin kuruma hızı artar.",
+      "kosul": "",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.foodcont.2022.108898",
+          "yer": "3.3. Weight loss and moisture content"
+        },
+        {
+          "kaynak": "10.1016/j.foodcont.2022.108898",
+          "yer": "3.2. Bread temperature during baking"
+        }
+      ]
+    },
+    {
+      "id": "nem_gocu.buharlasma_engellenince",
+      "metin": "Kabuktan buharlaşma engellendiğinde su ekmek içinden kabuğa göç edebilir.",
+      "kosul": "",
+      "kanit": "ikincil",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1155/2018/8187318",
+          "yer": "6. Crumb Staling"
+        }
+      ]
+    },
+    {
+      "id": "nem_gocu.core_nem_70c_esigi",
+      "metin": "Bir çalışmada fiber optik ölçümle ekmek merkezinin su içeriğinin, merkez sıcaklığı 70 ± 5 °C'ye ulaştıktan sonra arttığı ölçüldü ve suyun, gözenek yapısı açılıp süreklileşinceye dek serbestçe hareket edemediği ileri sürüldü (Thorvaldsson ve Skjöldebrand, 1998).",
+      "kosul": "Thorvaldsson ve Skjöldebrand (1998); fiber optik ölçüm; 70 ± 5 °C eşiği",
+      "kanit": "ikincil",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.jfoodeng.2008.09.037",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "nem_gocu.kabuk_bagil_nem_80_40",
+      "metin": "Bir derlemeye göre (Primo-Martín vd.) ekmek kabuğu %80 bağıl nemde ortamdan nem almış, %40 bağıl nemde ise kurumuştur.",
+      "kosul": "Ekmek kabuğu; bağıl nem %80 ve %40 koşulları; Primo-Martín vd. 2006 atfı",
+      "kanit": "ikincil",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1111/1541-4337.13147",
+          "yer": "5.2.6 Storage temperature and relative humidity"
+        }
+      ]
+    },
+    {
+      "id": "nem_gocu.kagit_torba_agirlik_kaybi",
+      "metin": "Kâğıt torbada 23 °C ve %65 bağıl nemde saklanan kaplamasız ekmek 4. günde başlangıç ağırlığının %12,5'ini, 14. günde %29,7'sini kaybetti.",
+      "kosul": "İsviçre; 100 g'lık küçük beyaz buğday ekmekleri (tip 550 un 1000 g, maya 25 g, tuz 22 g, su 616 g; dondurulmuş hamur çözülüp 32 °C'de 30 dk mayalandı, buharla 210 °C'de 10 dk pişti); kâğıt torbada 23 °C ve %65 bağıl nemde 14 güne dek.",
+      "kanit": "tek_kaynak",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.crfs.2021.03.004",
+          "yer": "3.1. Comparison of different coatings on bread staling; Fig. 1"
+        },
+        {
+          "kaynak": "10.1016/j.crfs.2021.03.004",
+          "yer": "3.1. Comparison of different coatings on bread staling; Fig. 1"
+        }
+      ]
+    },
+    {
+      "id": "nem_gocu.kesince_ilk_dilim",
+      "metin": "Saklanan ekmeklerin nemi 0. günden 1. güne basamak gibi düştü; çünkü kesilince doğal bir bariyer olan uç kabuk kalktı ve ilk dilim kurumaya açık kaldı.",
+      "kosul": "Almanya (Freising), yerel fırından kalıp buğday ekmeği ve %70 çavdar–%30 buğday karışık ekşi mayalı ekmek; evde 10 gün saklama, her gün açık uçtan bir dilim kesildi.",
+      "kanit": "tek_kaynak",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods10010076",
+          "yer": "3.4. Bread Staling under Different Storage Conditions"
+        }
+      ]
+    },
+    {
+      "id": "nem_gocu.pisirme_merkez_tepe_2_5",
+      "metin": "Fırınlama sırasında kabuk ve iç bölgelerinde yerel ölçümle merkezin su içeriğinin arttığı gözlemlendi; merkez su içeriği yaklaşık %2,5'te tepe yaptı, buna fırın sıcaklığının etkisi görülmedi ve ileri pişirme sürelerinde yavaşça azaldı.",
+      "kosul": "Konveksiyon fırını; üç fırın sıcaklığı ve farklı pişirme süreleri; kabuk ve iç bölgelerinde yerel su ve sıcaklık ölçümü",
+      "kanit": "tek_kaynak",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1177/1082013218814144",
+          "yer": "Abstract"
+        },
+        {
+          "kaynak": "10.1177/1082013218814144",
+          "yer": "Abstract"
+        },
+        {
+          "kaynak": "10.1177/1082013218814144",
+          "yer": "Abstract"
+        }
+      ]
+    },
+    {
+      "id": "nem_gocu.pisirme_sicakligi_nem_kaybi",
+      "metin": "Küçük kalıp ekmeği 180, 200 ve 220 °C'de pişirildiğinde sırasıyla nemin %11, 15 ve 17'sini kaybetti; son nem içeriği kuru bazda 0,50, 0,45 ve 0,40 g/g oldu.",
+      "kosul": "Küçük kalıp ekmeği: 70×70×20 mm alüminyum kalıpta 60,5 g hamur (un %9,8 protein; Purlis & Salvadori 2007 tarifi); 38 °C ve %80 bağıl nemde 45 dk mayalandırma; sıcaklığı denetlenen fırın boşluğunda 180, 200 ve 220 °C'de 30 dakikaya dek pişirme.",
+      "kanit": "tek_kaynak",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.foodcont.2022.108898",
+          "yer": "Abstract; 3.3 Weight loss and moisture content; Fig. 6"
+        },
+        {
+          "kaynak": "10.1016/j.foodcont.2022.108898",
+          "yer": "3.3. Weight loss and moisture content; Fig. 7"
+        },
+        {
+          "kaynak": "10.1016/j.foodcont.2022.108898",
+          "yer": "3.3. Weight loss and moisture content"
+        }
+      ]
+    },
+    {
+      "id": "nem_gocu.tost_ekmeginde_firin_sicakligiyla_su_kaybi_ve_vakum_sogutma",
+      "metin": "Bu çalışmada tost ekmeğinde pişirme sırasındaki ağırlık kaybı, fırın ve iç sıcaklığına bağlı olarak yüzde 4 ile 12 arasında değişti; vakumlu soğutma ise fırın sıcaklığından bağımsız olarak yaklaşık yüzde 6,91 ek ağırlık kaybına yol açtı.",
+      "kosul": "tost ekmeği pişirme (200–240 °C) ve vakumlu soğutma",
+      "kanit": "tek_kaynak",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1007/s13197-020-04945-x",
+          "yer": "Results and discussion: Weight loss during baking and vacuum cooling"
+        },
+        {
+          "kaynak": "10.1007/s13197-020-04945-x",
+          "yer": "Results and discussion: Weight loss during baking and vacuum cooling"
+        },
+        {
+          "kaynak": "10.1007/s13197-020-04945-x",
+          "yer": "Results and discussion: Weight loss during baking and vacuum cooling"
+        },
+        {
+          "kaynak": "10.1007/s13197-020-04945-x",
+          "yer": "Results and discussion: Weight loss during baking and vacuum cooling"
+        }
+      ]
+    },
+    {
+      "id": "nem_gocu.vakumlu_sogutmada_kutle_kaybi_ve_nem_degisimi",
+      "metin": "Fırıncılık ürünlerinde vakumlu soğutma, konvansiyonel soğutmadaki yüzde 3–5 kayba kıyasla yaklaşık yüzde 7 kütle kaybına yol açar. Bu çalışmada kısmen pişirilmiş arpa ekşi mayalı ekmeğin nemi, taze haldeki yüzde 35,6'dan depolamanın 15. gününde yüzde 33,9'a düştü ve 30. güne kadar bu düzeyde kaldı.",
+      "kosul": "kısmen pişirilmiş arpa ekşi mayalı ekmek; vakumlu soğutma; PA/PE film ambalajda depolama",
+      "kanit": "tek_kaynak",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.17113/ftb.55.04.17.5344",
+          "yer": "Results and Discussion"
+        },
+        {
+          "kaynak": "10.17113/ftb.55.04.17.5344",
+          "yer": "Bread quality during storage"
+        },
+        {
+          "kaynak": "10.17113/ftb.55.04.17.5344",
+          "yer": "Bread quality during storage"
+        },
+        {
+          "kaynak": "10.17113/ftb.55.04.17.5344",
+          "yer": "Results and Discussion · Mass loss during cooling and baking"
+        },
+        {
+          "kaynak": "10.17113/ftb.55.04.17.5344",
+          "yer": "Results and Discussion · Moisture content"
+        }
+      ]
+    },
+    {
+      "id": "nem_gocu.merkez_nem_artisi_65c_altinda",
+      "metin": "Fırınlamanın ilk dakikalarında, sıcaklık 65 °C'yi aşmadığında ekmek merkezinde nem içeriği arttı; bu gözlem, kapalı gözenekli hamur yapısında bile buharlaşma-yoğuşma mekanizmasının olabilirliğini destekledi (Wagner vd., 2007).",
+      "kosul": "Wagner ve ark. (2007); fırınlamanın ilk dakikaları; merkez sıcaklığı 65 °C altı",
+      "kanit": "ikincil",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.jfoodeng.2008.09.037",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "nem_gocu.taze_ic_kabuk_nemi",
+      "metin": "Taze kontrol ekmeğinin iç nemi 41,2, kabuk nemi 15,0 g su/100 g idi.",
+      "kosul": "Beyaz buğday ekmeği (unda kuru maddede %12,5 protein); unun 0, 5 ya da 15 g/100 g'ı yerine vital gluten; ev tipi ekmek makinesi; etanollü polietilen torbada oda sıcaklığında 0–7 gün saklama.",
+      "kanit": "tek_kaynak",
+      "bolum": "Kimlik",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.lwt.2014.04.057",
+          "yer": "3.2. Moisture content"
+        }
+      ]
+    },
+    {
+      "id": "nem_gocu.taze_nem_46",
+      "metin": "Kaplama çalışmasındaki taze küçük buğday ekmeklerinin (1. gün) başlangıç nemi yaklaşık %46 idi.",
+      "kosul": "İsviçre; 100 g'lık küçük beyaz buğday ekmekleri (tip 550 un 1000 g, maya 25 g, tuz 22 g, su 616 g; dondurulmuş hamur çözülüp 32 °C'de 30 dk mayalandı, buharla 210 °C'de 10 dk pişti); kâğıt torbada 23 °C ve %65 bağıl nemde 14 güne dek.",
+      "kanit": "tek_kaynak",
+      "bolum": "Kimlik",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.crfs.2021.03.004",
+          "yer": "3.1. Comparison of different coatings on bread staling"
+        }
+      ]
+    },
+    {
+      "id": "nem_gocu.nmr_su_hareketliligi",
+      "metin": "NMR ile ölçülen su molekülü hareketliliği ekmek saklandıkça azalır.",
+      "kosul": "",
+      "kanit": "ikincil",
+      "bolum": "Nasıl ölçülür",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.lwt.2014.04.057",
+          "yer": "1. Introduction"
+        }
+      ]
+    },
+    {
+      "id": "nem_gocu.nmr_populasyon_atama",
+      "metin": "Ekmek içindeki üç T2 proton grubu, kesin olmamakla birlikte, su–protein fazına (A), jelleşmiş nişasta fazına (B) ve daha hareketli, alışveriş yapan protonlara (C) atanmıştır.",
+      "kosul": "Beyaz buğday ekmeği (un %13,5 protein, W=270; un bazında su 58, şeker 4, maya 3, ayçiçek yağı 3, tuz 2); ev tipi ekmek makinesi; etanollü kapalı polietilen torbada 25 °C'de 0–14 gün; düşük çözünürlüklü 1H NMR (20 MHz, 25 °C).",
+      "kanit": "tek_kaynak",
+      "bolum": "Nasıl ölçülür",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.lwt.2010.11.021",
+          "yer": "3. Results and discussion"
+        },
+        {
+          "kaynak": "10.1016/j.lwt.2014.04.057",
+          "yer": "3.5. Molecular mobility"
+        }
+      ]
+    },
+    {
+      "id": "nem_gocu.buhar_difuzyonu_gozinekli_yuzeye",
+      "metin": "Su buharı, su buharı derişim gradyanının etkisi altında birbirine bağlantılı gözeneklerden ekmeğin yüzeyine doğru difüzlenir.",
+      "kosul": "Derleme mekanizma tanımı",
+      "kanit": "tek_kaynak",
+      "bolum": "Ne yapar",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.jfoodeng.2011.07.015",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "nem_gocu.cam_durumdan_kaucuk_gecisi",
+      "metin": "Nem göçü, amorf bölgelerde camsı durumdan kauçuğumsu duruma geçişe yol açar.",
+      "kosul": "Saklama; derleme tanımı",
+      "kanit": "tek_kaynak",
+      "bolum": "Ne yapar",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1111/1541-4337.13147",
+          "yer": ""
+        }
+      ]
+    },
+    {
+      "id": "nem_gocu.glutensiz_hizli",
+      "metin": "Buğday ekmeğinde gluten ağı suyun içten kabuğa göçünü ve nem kaybını yavaşlatır; bu yüzden glutensiz ekmek daha hızlı bayatlar.",
+      "kosul": "",
+      "kanit": "ikincil",
+      "bolum": "Ne yapar",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/fermentation4010009",
+          "yer": "3.1.3. Gluten-Free Bread Shelf-Life"
+        }
+      ]
+    },
+    {
+      "id": "nem_gocu.kapali_acik_gozenek_yogusma_su",
+      "metin": "Bu çalışmanın modelinde, kapalı gözeneklerde su içeriği başlangıçta görece sabit kaldı ve bu, az nem taşınımına işaret etti; gözenekler açıldıktan sonra su buharı yoğuşarak tüm noktalarda su içeriğinde hızlı bir artışa yol açtı ve açık gözeneklerde sıvı su içeriği başlangıç değerini aştı.",
+      "kosul": "Ekmek içi; kapalı ve açık gözenekler; su buharı yoğuşması; ısı ve kütle aktarımı model çalışması (benzetim sonuçları)",
+      "kanit": "tek_kaynak",
+      "bolum": "Ne yapar",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods14091649",
+          "yer": "4.3. Effect of the MPC on Mass Transfer"
+        },
+        {
+          "kaynak": "10.3390/foods14091649",
+          "yer": "4.3. Effect of the MPC on Mass Transfer"
+        }
+      ]
+    },
+    {
+      "id": "nem_gocu.ortalama_pisirme_agirlik_kaybi_yuzde_25",
+      "metin": "Ekmek pişirmede ortalama ağırlık kaybı yaklaşık yüzde yirmi beştir ve İtalyan mevzuatına göre 70 grama kadar olan somunlarda ekmek nemi yüzde yirmi dokuzu aşamaz.",
+      "kosul": "ekmek pişirme ve mevzuat aktarımı",
+      "kanit": "ikincil",
+      "bolum": "Ortak özellikler",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods10020417",
+          "yer": "PMC7918450.txt:3.1. Bread Characterization"
+        }
+      ]
+    }
+  ]
+}

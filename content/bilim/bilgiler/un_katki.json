@@ -1,0 +1,250 @@
+{
+  "id": "un_katki",
+  "ad": "Un katkıları",
+  "bilgiler": [
+    {
+      "id": "un_katki.eksimaya_temiz_etiket_alternatifi",
+      "metin": "Endüstriyel fırıncılıkta ekşi mayanın ekmek mayasıyla birlikte bir ekmek geliştirici olarak kullanılması, katkı maddelerinin temiz etiketli bileşenlerle değiştirilmesine olanak tanır.",
+      "kosul": "Endüstriyel fırıncılık",
+      "kanit": "ikincil",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.ijfoodmicro.2016.05.004",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "un_katki.tam_unda_gelistirici_sirasi",
+      "metin": "Mor renkli tam buğday ekmeğinde en etkili hamur geliştirici vital gluten oldu, onu C vitamini (askorbik asit), enzimler (amilaz ve ksilanaz) ve emülgatörler (DATEM ve SSL) izledi; etkiler ince öğütülmüş unda daha güçlüydü.",
+      "kosul": "Mor renkli Ariheuk tam buğday unu, Kore; SH: 0,5 mm elek, 14.000 dev/dk (ince); LH: 1,0 mm elek, 14.000 dev/dk (iri); kalıp ekmeği.",
+      "kanit": "tek_kaynak",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods12132591",
+          "yer": "3.6. Dough Improvers"
+        }
+      ]
+    },
+    {
+      "id": "un_katki.oksitleyici_ajanlar_glutenin_ss_bagi",
+      "metin": "Oksitleyici maddeler uygun dozlarda glutenin polimerleri içinde disülfit bağı oluşumunu teşvik ederek hamur dayanımını artırır.",
+      "kosul": "Hamurda redoks reaksiyonları",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.cofs.2019.04.001",
+          "yer": "3. Use of redox agents"
+        }
+      ]
+    },
+    {
+      "id": "un_katki.enzimler_temiz_etiket_alternatifi",
+      "metin": "Enzimler pişirme sırasında çoğunlukla tamamen denatüre olduklarından ve etiketlenmeleri gerekmediğinden, kimyasal ajanlara temiz etiketli bir alternatif sunar.",
+      "kosul": "Fırıncılıkta enzim kullanımı",
+      "kanit": "ikincil",
+      "bolum": "Tanım",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.cofs.2019.04.001",
+          "yer": "3. Use of enzymes"
+        }
+      ]
+    },
+    {
+      "id": "un_katki.katki_maddelerinin_etki_mekanizmasi",
+      "metin": "Fırıncılıkta katkı maddeleri, un bileşenlerinin yapısal ve fizikokimyasal özelliklerini değiştirip işlevselliğini optimize etmek, plastikleştirici olarak davranmak, nişasta-protein etkileşimlerini düzenlemek ve bileşenler arasındaki su geçişini yavaşlatmak amacıyla kullanılır.",
+      "kosul": "Fırıncılık uygulamaları",
+      "kanit": "tek_kaynak",
+      "bolum": "Tanım",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.tifs.2004.02.011",
+          "yer": "Introduction"
+        },
+        {
+          "kaynak": "10.1111/j.1541-4337.2003.tb00011.x",
+          "yer": ""
+        }
+      ]
+    },
+    {
+      "id": "un_katki.vital_gluten_tanim",
+      "metin": "Vital gluten, yıkanarak ayrılan glutenin 55 °C'nin altındaki ılımlı sıcaklıklarda kurutulmasıyla elde edilen tozdur.",
+      "kosul": "",
+      "kanit": "tek_kaynak",
+      "bolum": "Tanım",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods10020228",
+          "yer": "1. Introduction"
+        }
+      ]
+    },
+    {
+      "id": "un_katki.etki_polisakkarit_ozelliklerine_bagli",
+      "metin": "Bir polisakkaritin nişasta jelleşmesine etkisi kökenine, yapısına, molekül ağırlığına, iyonik yüküne ve esnekliğine bağlıdır.",
+      "kosul": "Çoğunlukla ayrıştırılmış nişasta-hidrokolloid model sistemlerinde DSC çalışmaları; ekmek hamuru değil (derleme aktarımı).",
+      "kanit": "ikincil",
+      "bolum": "İlişkileri",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.48130/fia-2023-0029",
+          "yer": "Effect of NSPs on starch gelatinization"
+        }
+      ]
+    },
+    {
+      "id": "un_katki.zayif_vital_gluten_yok",
+      "metin": "Sabit su miktarıyla yapılan pişirmelerde vital gluten örnekleri arasındaki farklar örneklerin su kaldırma kapasitelerinin farklı olmasından kaynaklandı; yazarlara göre su miktarı en uygun ayarlandığı sürece 'zayıf' vital gluten yoktur.",
+      "kosul": "Mikro pişirme denemeleri; ticari vital gluten örnekleri.",
+      "kanit": "tek_kaynak",
+      "bolum": "Efsaneler",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods10020228",
+          "yer": "4. Discussion"
+        },
+        {
+          "kaynak": "10.3390/foods10020228",
+          "yer": "4. Discussion"
+        }
+      ]
+    },
+    {
+      "id": "un_katki.askorbik_asit_ince_unda",
+      "metin": "50 ppm C vitamini (askorbik asit) ince öğütülmüş tam undan yapılan ekmeğin hacmini 320,4 mL'den 371,4 mL'ye çıkardı; iri öğütülmüş unda değişim azdı.",
+      "kosul": "Mor renkli Ariheuk tam buğday unu, Kore; SH: 0,5 mm elek, 14.000 dev/dk (ince); LH: 1,0 mm elek, 14.000 dev/dk (iri); kalıp ekmeği.",
+      "kanit": "tek_kaynak",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods12132591",
+          "yer": "3.6. Dough Improvers, Table 4"
+        }
+      ]
+    },
+    {
+      "id": "un_katki.tam_un_amilaz_dusme_sayisi",
+      "metin": "Tam tahıllı unlardan ekmek pişirirken, düşme sayısının 250 ± 25 saniye olması için uygun miktarda amilaz eklenmesi önerilir.",
+      "kosul": "tam tahıllı un; ekmek pişirme; düşme sayısı hedefi",
+      "kanit": "tek_kaynak",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.18016/ksutarimdoga.vi.1317966",
+          "yer": "RESULTS AND DISCUSSION"
+        }
+      ]
+    },
+    {
+      "id": "un_katki.vital_gluten_ince_unda",
+      "metin": "%10 vital gluten ince öğütülmüş tam undan yapılan ekmeğin hacmini 320,4 mL'den 403,5 mL'ye, yüksekliğini 41,6 mm'den 50,4 mm'ye çıkardı; iri öğütülmüş unda artış küçüktü.",
+      "kosul": "Mor renkli Ariheuk tam buğday unu, Kore; SH: 0,5 mm elek, 14.000 dev/dk (ince); LH: 1,0 mm elek, 14.000 dev/dk (iri); kalıp ekmeği.",
+      "kanit": "tek_kaynak",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods12132591",
+          "yer": "3.6. Dough Improvers, Table 4"
+        }
+      ]
+    },
+    {
+      "id": "un_katki.emulgatorler_ince_unda",
+      "metin": "%1 SSL ince öğütülmüş tam unun ekmek hacmini 320,4 mL'den 357,5 mL'ye, %1 DATEM ise yalnız 340,4 mL'ye çıkardı; iki emülgatörün de iri öğütülmüş unda etkisi az ya da yoktu.",
+      "kosul": "Mor renkli Ariheuk tam buğday unu, Kore; SH: 0,5 mm elek, 14.000 dev/dk (ince); LH: 1,0 mm elek, 14.000 dev/dk (iri); kalıp ekmeği.",
+      "kanit": "tek_kaynak",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods12132591",
+          "yer": "3.6. Dough Improvers, Table 5"
+        },
+        {
+          "kaynak": "10.3390/foods12132591",
+          "yer": "3.6. Dough Improvers, Table 5"
+        }
+      ]
+    },
+    {
+      "id": "un_katki.vital_gluten_zayif_unda_hacim",
+      "metin": "Zayıf bir buğday ununa %25 vital gluten eklenip su miktarı en uygun ayarlandığında ekmeklerin özgül hacmi 4,25–5,49 mL/g arasında oldu; %20, %25 ve %30 arasından gaz kabarcıklarının en düzgün dağıldığı içi %25 verdi.",
+      "kosul": "10 g ölçekli mikro pişirme; zayıf buğday çeşidi Elixer (Alman C sınıfı, yemlik), kuru maddede %8,7 protein; en uygun su miktarı.",
+      "kanit": "tek_kaynak",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods10020228",
+          "yer": "3.4.2. Microbaking Tests Using Weak Wheat Flour"
+        },
+        {
+          "kaynak": "10.3390/foods10020228",
+          "yer": "3.4. Microbaking Tests"
+        },
+        {
+          "kaynak": "10.3390/foods10020228",
+          "yer": "3.4.2. Microbaking Tests Using Weak Wheat Flour"
+        }
+      ]
+    },
+    {
+      "id": "un_katki.vital_gluten_kullanim",
+      "metin": "Fırıncılıkta vital gluten, proteini düşük zayıf unları desteklemek ve pişirme performanslarını artırmak için yaygın kullanılır.",
+      "kosul": "",
+      "kanit": "ikincil",
+      "bolum": "Ne yapar",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods10020228",
+          "yer": "1. Introduction"
+        }
+      ]
+    },
+    {
+      "id": "un_katki.mtg_etiketlenme_muafiyeti",
+      "metin": "Mikrobiyal transglutaminaz, gıda katkı maddesi tanımı dışına çıkan bir işlem yardımcısı olarak kabul edildiğinden etiket üzerinde belirtilmez.",
+      "kosul": "Mevzuat ve etiketleme tanımı",
+      "kanit": "tek_kaynak",
+      "bolum": "Tanım",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3389/fped.2018.00389",
+          "yer": "ACADEMICAL AND AUTHORITATIVE WARNINGS"
+        }
+      ]
+    },
+    {
+      "id": "un_katki.nsp_tanim",
+      "metin": "Nişasta dışı polisakkaritler, nişasta dışındaki, çok sayıda şeker biriminin glikozit bağlarıyla bağlandığı karmaşık polisakkaritlerdir.",
+      "kosul": "",
+      "kanit": "tek_kaynak",
+      "bolum": "Tanım",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.48130/fia-2023-0029",
+          "yer": "Introduction"
+        }
+      ]
+    }
+  ]
+}

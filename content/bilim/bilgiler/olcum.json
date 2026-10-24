@@ -1,0 +1,562 @@
+{
+  "id": "olcum",
+  "ad": "Fermantasyonu ölçmek",
+  "bilgiler": [
+    {
+      "id": "olcum.gaz_uretimi_ve_reofermentometre",
+      "metin": "Hamurda karbondioksit üretimi genellikle gazograf, rizograf veya reofermentometre gibi özel cihazlarla izlenir; reofermentometre hamurun gaz salım özelliklerini de ölçer.",
+      "kosul": "Hamur fermantasyonu izleme",
+      "kanit": "tek_kaynak",
+      "bolum": "Nasıl ölçülür",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.foodchem.2012.08.039",
+          "yer": "Introduction"
+        },
+        {
+          "kaynak": "10.1016/j.jcs.2006.09.004",
+          "yer": "Abstract"
+        }
+      ]
+    },
+    {
+      "id": "olcum.mayanin_kaynagi_aroma_ve_kabarma",
+      "metin": "Aynı un ve suyla yapılan hamurlarda, aşılanan mayanın hangi kaynaktan geldiği uçucu bileşen profillerindeki farkın çoğunu (%91), en yüksek hamur yüksekliğindeki farkın %22'sini ve kabarma hızındaki farkın %42'sini açıkladı.",
+      "kosul": "500 mayadan seçilen 40 maya; sterilize un ve su; tekrar hamurlar.",
+      "kanit": "tek_kaynak",
+      "bolum": "Ne yer, ne üretir",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.7554/elife.61644",
+          "yer": "Results – Microbial composition influences dough rise and aroma profiles"
+        }
+      ]
+    },
+    {
+      "id": "olcum.ozgul_hacim_tanimi_ve_hesabi",
+      "metin": "Ekmekte özgül hacim, somun hacminin somun ağırlığına bölünmesiyle santimetreküp bölü gram cinsinden hesaplanır.",
+      "kosul": "ekmek fiziksel kalite ölçümü",
+      "kanit": "uzlasi",
+      "bolum": "Tanım",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1021/acsfoodscitech.5c00475",
+          "yer": "Materials and methods · Bread Production and Characterization"
+        },
+        {
+          "kaynak": "10.3390/foods13193035",
+          "yer": "2.2.4. Mountain Rye Bread Quality Assessment"
+        }
+      ]
+    },
+    {
+      "id": "olcum.pisirme_agirlik_kaybi_tanimi_ve_orani",
+      "metin": "Bir çalışmada, pişirme sırasında su buharlaşması ve gaz çıkışı nedeniyle kaybedilen kütle yüzdesi olan pişirme ağırlık kaybı hem kavılca ekmeğinde hem beyaz ekmekte %8,72 bulunmuş, iki tür arasında anlamlı fark çıkmamıştır (p > 0,05).",
+      "kosul": "kavılca ekmeği ve beyaz ekmek, pişirme ağırlık kaybı ölçümü; tek çalışma",
+      "kanit": "tek_kaynak",
+      "bolum": "Tanım",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.24925/turjaf.v13i11.3249-3257.7930",
+          "yer": "Results and Discussion"
+        }
+      ]
+    },
+    {
+      "id": "olcum.temel_metabolik_etkinlikler",
+      "metin": "Ekşi maya mikrobiyotasının temel metabolik etkinlikleri bakterilerin asitlendirmesi, bakteri ve mayaların aroma oluşturması ve maya ile heterofermentatif türlerin kabartmasıdır; bunlar tahıl enzimleriyle birlikte ürün kalitesini belirler.",
+      "kosul": "Ekşi maya fermantasyonu",
+      "kanit": "ikincil",
+      "bolum": "Tanım",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.ijfoodmicro.2016.05.004",
+          "yer": "Introduction"
+        },
+        {
+          "kaynak": "10.1016/j.ijfoodmicro.2016.07.018",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "olcum.eksi_maya_ilavesinin_ekmek_formuna_ve_sogumaya_etkisi",
+      "metin": "Bir çalışmada ekşi maya ilavesi ekmeğin yükseklik/genişlik form oranını olumlu etkilemiş (p=0,006); depolama sırasında ortalama form oranı 0,58'den 0,56'ya gerilemiştir (p=0,048).",
+      "kosul": "ekşi mayalı ve ekşi mayasız ekmeğin fiziksel form ve yapı analizi, depolama; tek çalışma",
+      "kanit": "tek_kaynak",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.17113/ftb.55.04.17.5344",
+          "yer": "Results and Discussion · Physical properties of fresh bread"
+        },
+        {
+          "kaynak": "10.17113/ftb.55.04.17.5344",
+          "yer": "Results and Discussion · Crumb structure during storage"
+        }
+      ]
+    },
+    {
+      "id": "olcum.eksi_maya_katkisinin_ozgul_hacim_ve_yumusakliga_etkisi",
+      "metin": "Bir çalışmada dört ekşi mayalı ekmeğin özgül hacmi (1,66–1,68 mL/g) kontrol ekmeğinden (1,5 mL/g) anlamlı derecede yüksek bulunmuş; yazarlar ekşi maya katılımının %11,3 daha yüksek özgül hacim ve yaklaşık %17,5 daha yumuşak ekmek içi sağladığını bildirmiştir.",
+      "kosul": "yulaf içeren ekşi mayalı ekmekler ve kontrol ekmeği; fiziksel ve doku analizi; tek çalışma",
+      "kanit": "tek_kaynak",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.crfs.2024.100697",
+          "yer": "Bread characterization: specific volume, hardness, and total titratable acidity (TTA)"
+        },
+        {
+          "kaynak": "10.1016/j.crfs.2024.100697",
+          "yer": "Discussion"
+        }
+      ]
+    },
+    {
+      "id": "olcum.eksi_maya_ve_hibrit_ekmekte_ozgul_hacim",
+      "metin": "Bir çalışmada yüzey yanıt modellerine göre tam buğday unlu ekmekte öngörülen en yüksek özgül hacim saf ekşi mayalı ekmekte 2,13 mL/g, fırıncı mayası eklenmiş ekşi mayalı ekmekte 3,35 mL/g, fırıncı mayalı ekmekte 3,26 mL/g olmuştur.",
+      "kosul": "I-optimal yüzey yanıt tasarımı; tam buğday unlu ekmek, üç mayalama stratejisi; tek çalışma",
+      "kanit": "tek_kaynak",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.ijfoodmicro.2023.110193",
+          "yer": "Abstract"
+        },
+        {
+          "kaynak": "10.1016/j.ijfoodmicro.2023.110193",
+          "yer": "Results and discussion · 3.2 Effect of process parameters on the specific volume"
+        },
+        {
+          "kaynak": "10.1016/j.ijfoodmicro.2023.110193",
+          "yer": "Results and discussion · 3.2 Effect of process parameters on the specific volume"
+        },
+        {
+          "kaynak": "10.1016/j.ijfoodmicro.2023.110193",
+          "yer": "Results and discussion · 3.2 Effect of process parameters on the specific volume"
+        },
+        {
+          "kaynak": "10.1016/j.ijfoodmicro.2023.110193",
+          "yer": "Results and discussion · 3.2 (validation, Table 4)"
+        }
+      ]
+    },
+    {
+      "id": "olcum.fermantasyon_kinetik_parametreleri",
+      "metin": "Bir çalışmada karbondioksit üretim eğrisinden dört kinetik parametre hesaplanmıştır: azami CO2 salınımı, 1 g CO2 salınımına kadar geçen gecikme fazı süresi, azami üretim hızı ve bu hıza ulaşma zamanı.",
+      "kosul": "SSM besiyeri (kaynak kısaltması), 24 °C; diploid ve tetraploid maya suşları; birikimli CO2 üretim eğrisi",
+      "kanit": "tek_kaynak",
+      "bolum": "Nasıl ölçülür",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.cub.2020.11.016",
+          "yer": "Methods, Fitness and fermentation analysis, Statistical analysis"
+        }
+      ]
+    },
+    {
+      "id": "olcum.gc_ms_kutle_spektrometrisiyle_polar_metabolit_tayini",
+      "metin": "Bir çalışmada bakteri ve maya ortamlarındaki polar metabolitler, 100 μl örneğe 200 μl metanol eklenip 72 °C'de 15 dakika bekletilerek ekstre edilmiş, derişimi 50 μg/ml olan ribitol iç standart olarak eklenmiş ve GC-MS ile ölçülmüştür.",
+      "kosul": "bakteri-maya ortak kültürü ortamlarının GC-MS hedeflenmiş metabolomik analizi; tek çalışmanın yöntemi",
+      "kanit": "tek_kaynak",
+      "bolum": "Nasıl ölçülür",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.15252/msb.202211501",
+          "yer": "Conditioned medium assay"
+        },
+        {
+          "kaynak": "10.15252/msb.202211501",
+          "yer": "Conditioned medium assay"
+        },
+        {
+          "kaynak": "10.15252/msb.202211501",
+          "yer": "Targeted metabolomics analysis of extracellular spent growth media with GC-MS"
+        },
+        {
+          "kaynak": "10.15252/msb.202211501",
+          "yer": "Targeted metabolomics analysis of extracellular spent growth media with GC-MS"
+        }
+      ]
+    },
+    {
+      "id": "olcum.hamur_reolojisi_uzama_ve_yapiskanlik_olcum_cihazlari",
+      "metin": "Bir çalışmada hamurun reolojik özellikleri AACC 54-21.02 yöntemine göre DoughLAB ile, uzama direnci ve uzayabilirlik Kieffer aparatıyla donatılmış doku analizörüyle, yapışkanlık ise Chen-Hoseney hücreli doku analizörüyle ölçülmüştür.",
+      "kosul": "AACC 54-21.02 standardı ve doku analizörü cihaz yapılandırması; tek çalışmanın yöntemi",
+      "kanit": "tek_kaynak",
+      "bolum": "Nasıl ölçülür",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1038/s41598-023-31591-y",
+          "yer": "Materials and methods"
+        },
+        {
+          "kaynak": "10.1038/s41598-023-31591-y",
+          "yer": "Materials and methods"
+        },
+        {
+          "kaynak": "10.1038/s41598-023-31591-y",
+          "yer": "Materials and methods"
+        }
+      ]
+    },
+    {
+      "id": "olcum.karbon13_izotop_izleme_ve_gc_ms_yontemi",
+      "metin": "Bu çalışmada ortak kültür ekstreleri kurutulup 40 °C'de 90 dakika metoksiamin hidroklorürle türevlendirildi ve gaz kromatografisi-kütle spektrometresinde (GC-MS) tek iyon izleme (SIM) modunda ölçüldü.",
+      "kosul": "13C kararlı izotop izleme; ortak kültür ekstreleri; GC-MS (SIM modu)",
+      "kanit": "tek_kaynak",
+      "bolum": "Nasıl ölçülür",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.15252/msb.202211501",
+          "yer": "Targeted metabolomics analysis of extracellular spent growth media with GC-MS"
+        },
+        {
+          "kaynak": "10.15252/msb.202211501",
+          "yer": "Targeted metabolomics analysis of extracellular spent growth media with GC-MS"
+        },
+        {
+          "kaynak": "10.15252/msb.202211501",
+          "yer": "Targeted metabolomics analysis of extracellular spent growth media with GC-MS"
+        }
+      ]
+    },
+    {
+      "id": "olcum.kolza_tohumu_hacim_olcum_yontemi",
+      "metin": "Pişirme sonrası 1 saat oda sıcaklığında soğutulan ekmeğin özgül somun hacmi kolza tohumu yer değiştirme yöntemiyle ölçülür; yöntem Hallén ve ark. (2004) çalışmasına dayanır.",
+      "kosul": "pişirme sonrası 1 saat oda sıcaklığında soğutulmuş ekmek",
+      "kanit": "tek_kaynak",
+      "bolum": "Nasıl ölçülür",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1590/s1984-82502013000200005",
+          "yer": "Specific volume"
+        },
+        {
+          "kaynak": "10.3136/fstr.20.1071",
+          "yer": "Materials and Methods · Dough properties and bread evaluation"
+        }
+      ]
+    },
+    {
+      "id": "olcum.metabolit_profili_ve_ozgul_hacim",
+      "metin": "Fermantasyon sırasında hamur metabolit profilindeki değişimlerin incelenmesi ekmek kalitesiyle ilişki kurmayı sağlamış, bazı metabolitler ekmeğin özgül hacmiyle orta-güçlü korelasyon göstermiştir.",
+      "kosul": "Hamur fermantasyonu ve pişmiş ekmek",
+      "kanit": "tek_kaynak",
+      "bolum": "Nasıl ölçülür",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3136/fstr.24.509",
+          "yer": "Abstract"
+        },
+        {
+          "kaynak": "10.3136/fstr.24.509",
+          "yer": "Abstract"
+        }
+      ]
+    },
+    {
+      "id": "olcum.ptr_ms_ile_maya_artisinda_2_feniletanol_izlenmesi",
+      "metin": "Hamur tepe boşluğunda PTR-MS analiziyle m/z 105'teki 2-feniletanol derişimi, maya miktarı %0,3'ten %1,5'e çıktıkça artış göstermiştir.",
+      "kosul": "ekmek hamuru tepe boşluğunda PTR-MS analizi",
+      "kanit": "tek_kaynak",
+      "bolum": "Nasıl ölçülür",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods6080066",
+          "yer": "3.4. PTR-MS Analyses of Bread Dough during Fermentation"
+        }
+      ]
+    },
+    {
+      "id": "olcum.ptr_ms_ucucu_bilesen_tayini",
+      "metin": "Proton transfer reaksiyonu kütle spektrometrisi (PTR-MS), ekmeklerde örnek ekstraksiyonu ihtiyacını ortadan kaldıran hızlı bir uçucu organik bileşen analiz yöntemidir.",
+      "kosul": "Heenan vd. 2009; ekmekte uçucu bileşen analizi",
+      "kanit": "ikincil",
+      "bolum": "Nasıl ölçülür",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.foodres.2022.111885",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "olcum.shogren_finney_yontemi_ve_kontrol_somun_hacmi",
+      "metin": "Bu çalışmada Shogren ve Finney direkt hamur yöntemine göre 86,0 g kuru maddeye eşdeğer 100 g un ölçeğinde pişirilen kontrol ekmeklerinin gün boyu ortalama somun hacmi 585 ± 19 mL oldu.",
+      "kosul": "Shogren ve Finney 100 g ölçekli direkt hamur yöntemi; %100 Crousti unu, 4 dk, su absorpsiyonu %57",
+      "kanit": "tek_kaynak",
+      "bolum": "Nasıl ölçülür",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1021/acs.jafc.4c06550",
+          "yer": "Materials and methods · 2.7 Bread-making"
+        },
+        {
+          "kaynak": "10.1021/acs.jafc.4c06550",
+          "yer": "Materials and methods · 2.7 Bread-making"
+        }
+      ]
+    },
+    {
+      "id": "olcum.nmr_metabolit_profillerinde_temel_bilesenler_varyansi",
+      "metin": "Bu çalışmada fermantasyon sırasında alınan hamur örneklerinin suda çözünür metabolit profillerinin 1H NMR ile yapılan PCA analizinde birinci ve ikinci temel bileşenler toplam varyansın sırasıyla %85,3 ve %7,0'sini açıkladı.",
+      "kosul": "1H NMR suda çözünür metabolit profili; fermantasyon sırasında alınan hamur örnekleri; PCA",
+      "kanit": "tek_kaynak",
+      "bolum": "Nasıl ölçülür",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3136/fstr.24.509",
+          "yer": "Results"
+        }
+      ]
+    },
+    {
+      "id": "olcum.robotik_agirlik_kaybiyla_fermantasyon_izleme",
+      "metin": "Fermantasyonlar 24 °C'de sürekli manyetik karıştırmayla (300 dev/dk) 20 mL'lik tüplerde yürütülmüş ve 24 saat boyunca her 40 dakikada bir otomatik robotik sistemle ağırlık kaybı ölçülerek karbondioksit salınımı izlenmiştir.",
+      "kosul": "15 mL SSM besiyeri (kaynak kısaltması), 24 °C; tek suş ve yarışma deneyleri; başlangıç 10^6 hücre/mL",
+      "kanit": "tek_kaynak",
+      "bolum": "Nasıl ölçülür",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.cub.2020.11.016",
+          "yer": "Methods, Competition and Fermentation conditions"
+        },
+        {
+          "kaynak": "10.1016/j.cub.2020.11.016",
+          "yer": "Methods, Competition and Fermentation conditions"
+        }
+      ]
+    },
+    {
+      "id": "olcum.koku_tahildan_meyveye",
+      "metin": "Birinci gün, un ve bitkiyle ilişkili bakterilerin baskın olduğu mayalar çoğunlukla kavrulmuş, tahıl ve hububat gibi kokuyordu; 14. günde olgun mayalar ekşi, fermente meyve gibi kokuyordu.",
+      "kosul": "Kendiliğinden başlatılan 40 ekşi maya, 10 un türü; oda sıcaklığı; günlük besleme; 14 gün; koku tanımlamaları.",
+      "kanit": "tek_kaynak",
+      "bolum": "Ne yer, ne üretir",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.7717/peerj.16163",
+          "yer": "Results, Bacterial succession; Fig. 4"
+        },
+        {
+          "kaynak": "10.7717/peerj.16163",
+          "yer": "Results, Bacterial succession; Fig. 4B"
+        }
+      ]
+    },
+    {
+      "id": "olcum.maya_turleri_ve_tatlar",
+      "metin": "Saccharomyces cerevisiae balzamik, malt, bal, gül ve tereyağı tatlarıyla, Kazachstania humilis ise meyvemsi ve yeşil tatlarla ilişkilendirilmiştir.",
+      "kosul": "",
+      "kanit": "ikincil",
+      "bolum": "Ne yer, ne üretir",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.7717/peerj.11389",
+          "yer": "Sourdough Sensory Quality: Influence of microorganisms"
+        }
+      ]
+    },
+    {
+      "id": "olcum.siki_sivi_uculu_bilesenler",
+      "metin": "28 gün beslenen mayalarda toplam 197 uçucu bileşen tanımlandı; aldehitler, bazı alkoller ve bazı esterler en yüksek düzeyde sıvı mayalardaydı, sıkı mayalar ise başlıca etil asetat, asetik asit, bazı kükürtlü bileşikler ve terpenler içeriyordu ve uçucu serbest yağ asitlerinden asetik ve kaproik asit en çok sıkı mayalarda bulundu.",
+      "kosul": "Güney İtalya'dan (Matera, Altamura) 4 olgun Tip I ekşi maya; durum buğdayı (Triticum durum) unu; laboratuvarda 28 gün her gün sıkı (hamur verimi 160) ya da sıvı (hamur verimi 280, 150 rpm karıştırma) olarak beslendi; 25 °C'de 3–6 saat, beslemeler arasında 10 °C'de 16–19 saat; gerçek hamur. PT-/SPME-GC-MS.",
+      "kanit": "tek_kaynak",
+      "bolum": "Ne yer, ne üretir",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1128/aem.00309-14",
+          "yer": "Results, VOC"
+        },
+        {
+          "kaynak": "10.1128/aem.00309-14",
+          "yer": "Abstract; Table 3"
+        },
+        {
+          "kaynak": "10.1128/aem.00309-14",
+          "yer": "Abstract; Table 3"
+        },
+        {
+          "kaynak": "10.1128/aem.00309-14",
+          "yer": "Results, VOC; Table 3"
+        }
+      ]
+    },
+    {
+      "id": "olcum.uculu_bilesen_ture_ozgu",
+      "metin": "Bir sistematik derlemenin 47 araştırma makalesinin verisinden çizdiği, uçucu bileşenleri baskın LAB ve maya türleriyle eşleştiren ısı haritasına göre ekşi mayadaki uçucu organik bileşen üretimi açıkça türe özgüdür.",
+      "kosul": "Ekşi maya araştırma makalelerinin sistematik derlemesi; değerler yayımlanmış çalışmalardan derlendi. 47 makaleden ısı haritası (Şekil 6).",
+      "kanit": "tek_kaynak",
+      "bolum": "Ne yer, ne üretir",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.tifs.2020.12.008",
+          "yer": "7.2. Sensory attributes; Fig. 6"
+        }
+      ]
+    },
+    {
+      "id": "olcum.zenginlik_degil_bilesim",
+      "metin": "Bakteri ve maya tür sayısı (zenginlik) uçucu bileşen çeşitliliğiyle ilişkili değildi, ama topluluğun bileşimi uçucu bileşen profilleriyle anlamlı biçimde ilişkiliydi.",
+      "kosul": "500 mayadan seçilen 40 maya, sterilize un-su ortamında yeniden canlandırıldı.",
+      "kanit": "tek_kaynak",
+      "bolum": "Ne yer, ne üretir",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.7554/elife.61644",
+          "yer": "Results – Microbial composition influences dough rise and aroma profiles"
+        }
+      ]
+    },
+    {
+      "id": "olcum.123_uculu_bilesen",
+      "metin": "40 mayada toplam 123 uçucu bileşen saptandı (maya başına ortanca 85); bunlar arasında ekşi mayadan bilinen 3-metil-1-bütanol, etil alkol, asetik asit ve etil asetat vardı.",
+      "kosul": "500 mayadan seçilen 40 maya, sterilize un-su ortamında yeniden canlandırıldı; GC/MS.",
+      "kanit": "tek_kaynak",
+      "bolum": "Ne yer, ne üretir",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.7554/elife.61644",
+          "yer": "Results – Microbial composition influences dough rise and aroma profiles"
+        }
+      ]
+    },
+    {
+      "id": "olcum.aab_uculu_bilesenler_sirke",
+      "metin": "AAB'nin toplam oranı, mayaların uçucu organik bileşen profillerindeki ve duyusal notlarındaki farklarla güçlü biçimde ilişkiliydi; en güçlü ilişki sirke notasıyla görüldü.",
+      "kosul": "500 mayadan seçilen 40 maya, sterilize un-su ortamında yeniden canlandırıldı; GC/MS tepe boşluğu analizi.",
+      "kanit": "tek_kaynak",
+      "bolum": "Ne yer, ne üretir",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.7554/elife.61644",
+          "yer": "Results – Microbial composition influences dough rise and aroma profiles"
+        }
+      ]
+    },
+    {
+      "id": "olcum.belcika_uculu",
+      "metin": "Tepe boşluğu gaz kromatografisine göre Belçika fırın mayalarında en önemli uçucu bileşenler etanol ve etil asetattı; 2-metil-1-propanol, 3-metil-1-bütanol ve 1-propanol de yaygındı.",
+      "kosul": "Belçika'daki 11 fırından 39 ekşi maya örneği; tepe boşluğu GC.",
+      "kanit": "tek_kaynak",
+      "bolum": "Ne yer, ne üretir",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1128/aem.02771-07",
+          "yer": "Results: Metabolite target analysis"
+        },
+        {
+          "kaynak": "10.1128/aem.02771-07",
+          "yer": "Results: Metabolite target analysis"
+        }
+      ]
+    },
+    {
+      "id": "olcum.bilesim_duyusal_notla_iliskisiz",
+      "metin": "Maya topluluğunun bileşimi, eğitimli duyusal panelin her mayaya verdiği baskın nota ile ilişkili değildi.",
+      "kosul": "500 mayadan seçilen 40 maya; eğitimli duyusal panel; PERMANOVA.",
+      "kanit": "tek_kaynak",
+      "bolum": "Ne yer, ne üretir",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.7554/elife.61644",
+          "yer": "Results – Microbial composition influences dough rise and aroma profiles"
+        }
+      ]
+    },
+    {
+      "id": "olcum.etanol_araligi",
+      "metin": "Etanol 17 ekşi mayanın hepsinde bulundu; en yüksek A-UK-R mayasında (555,33 mM), en düşük lambik bira üreticisinin mayalarında (8,07 ve 10,24 mM) ölçüldü.",
+      "kosul": "Belçika, Fransa, Birleşik Krallık ve ABD'den 17 ekşi maya; GC-FID.",
+      "kanit": "tek_kaynak",
+      "bolum": "Ne yer, ne üretir",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3389/fmicb.2020.01212",
+          "yer": "Results: Substrate and Metabolite Profiles; Figure 7C"
+        }
+      ]
+    },
+    {
+      "id": "olcum.gliserol_mannitol",
+      "metin": "17 ekşi maya içinde en yüksek gliserol (47,91 mM) ve mannitol (43,39 mM) derişimi ABD'deki bir çavdar ekşi mayasında (F-NY-R) ölçüldü.",
+      "kosul": "Belçika, Fransa, Birleşik Krallık ve ABD'den 17 ekşi maya; HPAEC-PAD.",
+      "kanit": "tek_kaynak",
+      "bolum": "Ne yer, ne üretir",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3389/fmicb.2020.01212",
+          "yer": "Results: Substrate and Metabolite Profiles"
+        }
+      ]
+    },
+    {
+      "id": "olcum.kabarma_hizi_araligi",
+      "metin": "Aynı sterilize un ve suya aşılanan 40 mayanın hamur kabarma hızları saatte 0,1 ile 1,5 mm arasında değişti.",
+      "kosul": "40 mayayla aşılanmış sterilize un ve su; 36 saat izleme.",
+      "kanit": "tek_kaynak",
+      "bolum": "Ne yer, ne üretir",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.7554/elife.61644",
+          "yer": "Video 1"
+        }
+      ]
+    },
+    {
+      "id": "olcum.metabolitler_lab_ile_iliskisiz",
+      "metin": "Belçika fırın mayalarında, tür verisinin aksine metabolit profilleri örnekleri fırına göre tutarlı biçimde gruplamadı; şeker ve amino asit metabolitlerinin büyük çoğunluğu LAB çeşitliliğinden bağımsız olarak tüm örneklerde bulundu ve LAB ile metabolitler arasında ilişki bulunmadı.",
+      "kosul": "Belçika'daki 11 fırından 39 ekşi maya örneği; hedeflenmiş metabolit analizi (şekerler, organik asitler, amino asitler) ve tepe boşluğu GC uçucuları; kümeleme.",
+      "kanit": "tek_kaynak",
+      "bolum": "İlişkileri",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1128/aem.02771-07",
+          "yer": "Results: Metabolite target analysis; Fig. S1"
+        },
+        {
+          "kaynak": "10.1128/aem.02771-07",
+          "yer": "Results: Metabolite target analysis"
+        },
+        {
+          "kaynak": "10.1128/aem.02771-07",
+          "yer": "Results: Metabolite target analysis"
+        }
+      ]
+    }
+  ]
+}

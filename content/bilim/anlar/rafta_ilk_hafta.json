@@ -1,0 +1,281 @@
+{
+  "id": "rafta_ilk_hafta",
+  "durak": "sonra",
+  "baslik": "Rafta ilk hafta",
+  "soru": "Ekmek rafta neden bayatlar?",
+  "bayrak": true,
+  "gor": {
+    "tur": "kaydirma",
+    "adimlar": [
+      {
+        "metin": "Ekmek fırından çıkar çıkmaz bayatlama denen bir dizi değişiklik başlar [[bayatlama.firindan_cikinca_baslar]]. Bayatlama, saklama sırasında kabukta ve içte olan, ekmeğin beğenilmesini yavaş yavaş azaltan kimyasal ve fiziksel değişikliklerin tümüdür [[bayatlama.tanim]]. Ekmek içi, gluten ağının (hamuru bir arada tutan protein örgüsünün) tuttuğu, biçimi bozulmuş nişasta tanelerinden oluşur [[bayatlama.firindan_cikinca_baslar]].",
+        "gorsel": "photomicrograph_of_wheat_starch",
+        "vurgu": "Buğday nişastasının mikroskop görüntüsü: eş merkezli halkalar hâlindeki taneler."
+      },
+      {
+        "metin": "Doğal nişasta genellikle doğrusal ya da az dallanmış amiloz ile çok dallanmış amilopektinden oluşur [[nisasta.polimer_yapisi_bag_turleri]]. Buğday ve çavdar yaklaşık %60–70 nişasta içerir; nişasta ekmek içi yapısının ana belirleyicisidir [[nisasta.ekmek_ici_yapisi_ve_bayatlama_etkisi]].",
+        "gorsel": "potato_starch_polarized_light_100x",
+        "vurgu": "Polarize ışıkta nişasta taneleri: ekmeğin içini dolduran malzeme."
+      },
+      {
+        "metin": "Soğuyan jelleşmiş nişastada amiloz ve amilopektin molekülleri birbirine dolanıp çift sarmallar kurar; bu dönüşe retrogradasyon denir [[retrogradasyon.tanim]].",
+        "gorsel": "potato_amyloplast_granules_observed_at_200_magnification",
+        "vurgu": "Nişasta taneleri 200x büyütmede: soğumayla yeniden düzenlenen yapı."
+      },
+      {
+        "metin": "Sertleşmenin iki kaynağı vardır: nemin ekmek içinden kabuğa geçmesi ve nişastanın yeniden kristalleşmesiyle gözenek duvarlarının kendi içinde sertleşmesi [[bayatlama.iki_sertlesme_yolu]].",
+        "gorsel": "breadcrumb",
+        "vurgu": "Ekmek kırıntısı: gözenekli iç yapı ve duvarları sertleşen ekmek."
+      },
+      {
+        "metin": "Kabuk çıtırlığını yitirip yumuşar; iç sertleşip daha kolay ufalanır [[bayatlama.kabuk_aroma_ufalanma]]. Taze ekmeğe özgü tat ve koku da kaybolur ya da değişir [[bayatlama.kabuk_aroma_ufalanma]].",
+        "gorsel": "panko_paprika_3",
+        "vurgu": "Panko ekmek kırıntısı: sertleşmiş, kolay ufalanan iç."
+      },
+      {
+        "metin": "Bayatlamanın en yaygın kullanılan göstergesi ekmek içinin sertliğindeki artıştır [[bayatlama.en_yaygin_gosterge]]. DSC, yani diferansiyel taramalı kalorimetri, yeniden kristalleşen amilopektinin erime entalpisini (kristalleri eritmek için gereken enerji miktarını) ölçer [[retrogradasyon.dsc_tepe_noktalari]]. Saklanmış ekmekte 50–80 °C arasındaki pik, kristal amilopektinin erimesine atanır [[retrogradasyon.dsc_tepe_noktalari]].",
+        "gorsel": null,
+        "vurgu": "Bu adım için listede uygun bir görsel yok; vurgu metni, sertlik ölçümüyle bayatlamanın izlenmesini anlatır."
+      }
+    ]
+  },
+  "anla": [
+    {
+      "baslik": "Bayatlama fırından çıkar çıkmaz başlar",
+      "paragraflar": [
+        "Bayatlama tanımı, bozulma yapan mikroorganizmaların yol açtığı değişiklikleri dışarıda bırakır [[bayatlama.tanim]]. Geriye kalan değişiklikler saklama boyunca kabukta ve içte olur [[bayatlama.tanim]].",
+        "Bu değişiklikler fırından çıkışla başlar [[bayatlama.firindan_cikinca_baslar]]. Esneklik kaybının en büyüğü pişirmeden sonraki ilk 24 saatte olur [[bayatlama.ilk_24_saat]]."
+      ]
+    },
+    {
+      "baslik": "Soğuyan nişasta iki hızda geri döner",
+      "paragraflar": [
+        "Soğuma başladığında retrogradasyon iki hızda ilerler: saatler içindeki kısa vadeli dönüş amilozun, günler içindeki uzun vadeli dönüş amilopektinindir [[retrogradasyon.kisa_uzun_vade]].",
+        "Amiloz bu ilk evrede nişasta jelinin iskeletini kurar ve ekmek içinin katılaşmasına katkı verir [[retrogradasyon.amiloz_hizli_amilopektin_yavas]]. Amilopektinin kristalleşmesi çok daha geç başlar ve günler ya da haftalar boyunca sürer [[retrogradasyon.amilopektin_yeniden_kristallenmesi_gec_gerceklesir]]. Beyaz buğday ekmeğiyle yapılan yedi günlük bir saklama denemesinde kristal amilopektinin erime piki anlamlı biçimde büyüdü [[retrogradasyon.depolamada_amilopektin_artar]]."
+      ]
+    },
+    {
+      "baslik": "Sertleşme nereden gelir",
+      "paragraflar": [
+        "Nem kaybı, sertleşmenin iki kaynağından biridir [[bayatlama.iki_sertlesme_yolu]]. Ekmek içindeki nem bir plastikleştirici, yani yumuşatıcı gibi davranır [[bayatlama.nem_plastiklestirici]].",
+        "İki saklama çalışmasında ekmek ne kadar çok nem kaybettiyse içi o kadar hızlı ve çok sertleşti [[bayatlama.nem_kaybi_sertlik]]. Bu yalnız bir torba tipine özgü değildir: ekmek içi, farklı ekmek tiplerinde ve denenen bütün saklama yöntemlerinde sertleşti [[bayatlama.ic_sertlesir]]. On günlük ev saklamasında hız iki ekmek tipinde ayrıldı: karışık çavdar-buğday ekşi mayalı ekmek günde 0,92–1,38 N, kalıp buğday ekmeği 0,27–0,51 N hızla sertleşti [[bayatlama.sertlesme_hizlari]].",
+        "Aynı yönde, beyaz buğday ekmeğiyle yapılan yedi günlük bir saklama denemesinde bütün ekmeklerin içi yaylanmasını ve bütünlüğünü belirgin biçimde yitirdi [[bayatlama.esneklik_kaybi]]. Kayıp en çok kontrol ekmeğinde oldu [[bayatlama.esneklik_kaybi]]. Bayatlama tek bir olay değildir; amilopektin retrogradasyonu, su kaybı ve suyun ekmek içinde yeniden dağılması gibi birden çok olaydan doğar [[bayatlama.cok_etkenli]]. Bu olaylar henüz tam aydınlatılmış değildir [[bayatlama.cok_etkenli]]."
+      ]
+    },
+    {
+      "baslik": "Neden tartışılıyor",
+      "paragraflar": [
+        "Bayatlamanın nedeni, kayıtların aynı hikâyeyi anlatmadığı bir konudur [[bayatlama.retrogradasyon_payi_tartismali]]. Derlemelerde amilopektin retrogradasyonu ana neden olarak gösterilir [[bayatlama.retrogradasyon_payi_tartismali]]. Başka kaynaklar ise onun yalnızca kısmen ya da dolaylı sorumlu olduğunu söyler; suyun ve gluten ağının değişimi de katkı verir [[bayatlama.retrogradasyon_payi_tartismali]].",
+        "Literatürde merkez rol, amilopektin retrogradasyonuyla birlikte polimerler (zincir biçiminde birleşmiş moleküller) arasında suyun yeniden dağılımına veriliyor [[retrogradasyon.bayatlamada_amilopektin_ve_su_dagilimi]]. Bu, en olası hipotez olarak ele alınıyor [[retrogradasyon.bayatlamada_amilopektin_ve_su_dagilimi]]. Bu tartışma 150 yılı aşkın bir incelemeye dayanır; moleküler temel bugün de tam anlaşılmış değildir [[bayatlama.yuz_elli_yil]]. Tek bir mekanizmaya bağlanamayan bayatlama, çok etkenli bir olgu olarak kalır [[bayatlama.cok_etkenli]]."
+      ]
+    }
+  ],
+  "yuzlesme": [
+    {
+      "inanc": "Ekmeği buzdolabında saklamak bayatlamayı yavaşlatır.",
+      "cevap": "Nişasta retrogradasyonu buzdolabı sıcaklığında daha hızlıdır [[retrogradasyon.buzdolabi_hizli]]. 4 °C, çekirdeklenme ile kristal büyümesini dengeleyen en uygun sıcaklık olarak gösterilir [[retrogradasyon.buzdolabi_hizli]]. Bu yüzden ekmeği buzdolabında saklamak sertleşmeyi hızlandırır [[retrogradasyon.buzdolabi_hizli]]."
+    },
+    {
+      "inanc": "Ekmek sadece kuruduğu için bayatlar; torbada tutulan ekmek bayatlamaz.",
+      "cevap": "Bayatlama yalnızca su kaybından doğmaz [[bayatlama.cok_etkenli]]. Sertleşmenin iki kaynağı vardır: nemin ekmek içinden kabuğa geçmesi ve nişastanın yeniden kristalleşmesiyle gözenek duvarlarının sertleşmesi [[bayatlama.iki_sertlesme_yolu]]. Nem kaybı azalsa bile nişastanın yeniden kristalleşmesi ikinci kaynak olarak kalır [[bayatlama.iki_sertlesme_yolu]]."
+    },
+    {
+      "inanc": "Bayatlamış ekmek bozulmuştur.",
+      "cevap": "Bayatlama, saklama sırasında kabukta ve içte olan kimyasal ve fiziksel değişikliklerin tümüdür [[bayatlama.tanim]]. Bozulma yapan mikroorganizmaların yol açtığı değişiklikler bu tanıma girmez [[bayatlama.tanim]]. Bayat ekmek bu nedenle mikroorganizma bozulmasıyla aynı şey değildir [[bayatlama.tanim]]."
+    }
+  ],
+  "kanit": {
+    "cekirdek": [
+      "bayatlama.tanim",
+      "bayatlama.firindan_cikinca_baslar",
+      "bayatlama.kabuk_aroma_ufalanma",
+      "bayatlama.ilk_24_saat",
+      "bayatlama.iki_sertlesme_yolu",
+      "bayatlama.nem_plastiklestirici",
+      "bayatlama.nem_kaybi_sertlik",
+      "bayatlama.cok_etkenli",
+      "bayatlama.retrogradasyon_payi_tartismali",
+      "nisasta.ekmek_ici_yapisi_ve_bayatlama_etkisi",
+      "retrogradasyon.tanim",
+      "retrogradasyon.amiloz_hizli_amilopektin_yavas",
+      "retrogradasyon.depolamada_amilopektin_artar",
+      "retrogradasyon.buzdolabi_hizli",
+      "retrogradasyon.bayatlamada_amilopektin_ve_su_dagilimi"
+    ],
+    "cekmece": [
+      "bayatlama.arpa_eksi_maya_reuteri_yumusaklik",
+      "bayatlama.esneklik_kaybi",
+      "bayatlama.ic_sertlesir",
+      "bayatlama.isitma_hizi_ekmek_ici_ve_kinetik",
+      "bayatlama.amiloz_lipit_kompleksi_yag_ikamesi",
+      "bayatlama.cavdarda_amilaz_durdurulunca_yavas_bayatlar",
+      "bayatlama.eksi_maya_30_gun_sertlesme",
+      "bayatlama.eksi_maya_ekmek_taze_yumusak",
+      "bayatlama.eksi_maya_sertlesmeyi_yavaslatir_bugday",
+      "bayatlama.eksi_maya_taze_yumusaklik_farki",
+      "bayatlama.ekzopolisakkaritler_bayatlamayi_geciktirir",
+      "bayatlama.gluten_saklamada_yumusak",
+      "bayatlama.gluten_taze_yumusak",
+      "bayatlama.glutensiz_ekmekte_proteinler",
+      "bayatlama.gozenekler",
+      "bayatlama.ince_un_daha_yavas_sertlesir",
+      "bayatlama.protein_orani_ve_bayatlama_hizi",
+      "bayatlama.sertlesme_hizlari",
+      "bayatlama.siyez_ekmegi_daha_yavas_sertlesir",
+      "bayatlama.yudane_ekmekleri_yumusaklik_ve_gecikme",
+      "bayatlama.yuz_elli_yil",
+      "bayatlama.olcum_sertlik_kohezyon_yamauchi",
+      "bayatlama.olcum_sertlik_siniri_4_7c",
+      "bayatlama.nmr_hareketlilik_azalir",
+      "bayatlama.nir_disaridan_iceri",
+      "bayatlama.kaplama_sertlik_sayilari",
+      "bayatlama.dort_gun_depolama_ve_nem_kaybi_sertlik",
+      "bayatlama.jelatinlesme_entalpisi_sertlik_negatif_korelasyon",
+      "bayatlama.erime_entalpisi_ve_sertlik_korelasyonu",
+      "bayatlama.tutunurluk_jelatinlesme_gluten_agregasyonu",
+      "bayatlama.protein_ilavesi_ve_nisasta_sismesi",
+      "bayatlama.gliserol",
+      "bayatlama.etanol_plastiklestirir",
+      "bayatlama.bayatlama_geciktiriciler",
+      "bayatlama.amilaz_amilopektin_hidrolizi_mekanizma",
+      "bayatlama.yuzey_aktif",
+      "bayatlama.nisastaya_bagli_lipitler",
+      "bayatlama.protein_nisasta_seyrelmesi",
+      "bayatlama.dusuk_baslangic_nemi_hizli_sertlesme",
+      "bayatlama.on_pisirme_derecesi_ve_yeniden_pisirme_sertligi",
+      "bayatlama.tam_pismis_ve_yari_pismis_depolama_sertligi",
+      "bayatlama.ekmek_ici_sertligi_akis_davranis_indeks_korelasyonu",
+      "bayatlama.gelistirici_taze_ekmek_ici_sertligini_dusurur",
+      "bayatlama.en_yaygin_gosterge",
+      "retrogradasyon.amilopektin_yeniden_kristallenmesi_gec_gerceklesir",
+      "retrogradasyon.kristallik_sertlik_ve_sinerezis",
+      "retrogradasyon.kisa_uzun_vade",
+      "retrogradasyon.cekirdeklenme_buyume",
+      "retrogradasyon.yan_zincir_cift_sarmal",
+      "retrogradasyon.b_tipi_kristal",
+      "retrogradasyon.su_kristale_katilir",
+      "retrogradasyon.nmr_t2b",
+      "retrogradasyon.dsc_tepe_noktalari",
+      "retrogradasyon.4_gunluk_depolamada_dsc_bayatlama_piki",
+      "retrogradasyon.cift_kirilim_yeniden_kazanimi",
+      "retrogradasyon.ekmekte_daha_karmasik",
+      "retrogradasyon.gluten_ekmekte_artirdi",
+      "retrogradasyon.kristallesme_ile_sertlesme_korelasyonu",
+      "retrogradasyon.molekuller_arasi_sertlik",
+      "retrogradasyon.su_icerigi_optimum",
+      "retrogradasyon.nem_oranina_gore_kristal_tipleri",
+      "retrogradasyon.dusuk_depolama_sicakligi_sert_nisasta_agi_atif",
+      "retrogradasyon.sicaklik_araligi",
+      "retrogradasyon.gluten_model_sistemler",
+      "retrogradasyon.kinetik_modeller",
+      "retrogradasyon.tuz_azaltiminda_1_gunluk_retrogradasyon_entalpisi_artisi",
+      "retrogradasyon.kisa_pisirme_az_retrogradasyon",
+      "retrogradasyon.yuksek_isitma_hizi_hizli_sertlesme",
+      "retrogradasyon.soya_polisakkaritlerinin_kristallik_ve_entalpi_etkisi",
+      "nisasta.bugday_ununda_amiloz_amilopektin_orani",
+      "nisasta.genel_amiloz_amilopektin_dagilimi",
+      "nisasta.granul_tipleri_ve_boyut_siniflari",
+      "nisasta.polimer_yapisi_bag_turleri",
+      "nisasta.tahillarda_yari_kristal_granul_tanimi",
+      "nisasta.hamurdaki_islevleri_ve_maya_fermantasyonu",
+      "nisasta.bugday_ununun_ana_bileseni",
+      "nisasta.jellesmede_amilozun_disari_difuzyonu_ve_ag_olusumu",
+      "nisasta.b_tipi_granuller_yogun_hamur"
+    ]
+  },
+  "baglar": [
+    {
+      "kaldirac": "Ekmeğin soğuması",
+      "mekanizma": "Pişirme sonrası ekmek soğurken jelleşmiş nişastada amiloz ve amilopektin molekülleri birbirine dolanıp çift sarmallar kurar.",
+      "sonuc": "Amiloz ilk evrede hızlı geri döner, amilopektin ise günler içinde kristalleşerek ekmek içini sertleştirir.",
+      "bilgiler": [
+        "retrogradasyon.tanim",
+        "retrogradasyon.amiloz_hizli_amilopektin_yavas"
+      ]
+    },
+    {
+      "kaldirac": "Saklamada geçen süre",
+      "mekanizma": "Beyaz buğday ekmeğiyle yapılan yedi günlük bir saklama denemesinde kristal amilopektinin erime piki anlamlı biçimde büyür.",
+      "sonuc": "Ekmek içi sertleşir; en büyük esneklik kaybı ise ilk 24 saatte olur.",
+      "bilgiler": [
+        "retrogradasyon.depolamada_amilopektin_artar",
+        "bayatlama.ic_sertlesir",
+        "bayatlama.ilk_24_saat"
+      ]
+    },
+    {
+      "kaldirac": "Ekmeğin nem kaybı",
+      "mekanizma": "Nem ekmek içinden kabuğa geçer; ekmek içindeki nem yumuşatıcı gibi davranır, nem azalınca nişasta zincirleri arasında bağlar kurulabilir.",
+      "sonuc": "Ekmek ne kadar çok nem kaybettiyse içi o kadar hızlı ve çok sertleşir.",
+      "bilgiler": [
+        "bayatlama.iki_sertlesme_yolu",
+        "bayatlama.nem_plastiklestirici",
+        "bayatlama.nem_kaybi_sertlik"
+      ]
+    },
+    {
+      "kaldirac": "Saklama sıcaklığı",
+      "mekanizma": "Nişasta retrogradasyonu buzdolabı sıcaklığında daha hızlıdır; 4 °C, çekirdeklenme ile kristal büyümesini dengeleyen en uygun sıcaklık olarak gösterilir.",
+      "sonuc": "Ekmeği buzdolabında saklamak sertleşmeyi hızlandırır.",
+      "bilgiler": [
+        "retrogradasyon.buzdolabi_hizli"
+      ]
+    },
+    {
+      "kaldirac": "Nişastanın ekmek içindeki payı",
+      "mekanizma": "Buğday ve çavdar yaklaşık %60–70 nişasta içerir; nişasta ekmek içi yapısının ana belirleyicisidir.",
+      "sonuc": "Derlemelerde amilopektin retrogradasyonu başlıca neden olarak gösterilir; suyun ve gluten ağının değişiminin de katkı verdiği aktarılır.",
+      "bilgiler": [
+        "nisasta.ekmek_ici_yapisi_ve_bayatlama_etkisi",
+        "bayatlama.retrogradasyon_payi_tartismali"
+      ]
+    },
+    {
+      "kaldirac": "Ölçüm yöntemi",
+      "mekanizma": "Bayatlama, ekmek içinin sertliği ve kohezyonu (bütünlüğü) ölçülerek değerlendirilir; sertlik artışı en yaygın kullanılan göstergedir.",
+      "sonuc": "Sertlik ve kohezyon ölçümü, bayatlamayı değerlendirmenin yoludur.",
+      "bilgiler": [
+        "bayatlama.en_yaygin_gosterge",
+        "bayatlama.olcum_sertlik_kohezyon_yamauchi"
+      ]
+    },
+    {
+      "kaldirac": "Kaynakların ayrılması",
+      "mekanizma": "Derlemelerde ana neden amilopektin retrogradasyonu olarak aktarılır; başka kaynaklar suyun ve gluten ağının değişiminin de katkı verdiğini belirtir.",
+      "sonuc": "Bayatlama çok etkenli bir olgudur; tek bir mekanizmaya bağlanmaz.",
+      "bilgiler": [
+        "bayatlama.retrogradasyon_payi_tartismali",
+        "bayatlama.cok_etkenli"
+      ]
+    }
+  ],
+  "karakterler": [
+    "nisasta"
+  ],
+  "ayrisan_kaynaklar": [
+    {
+      "konu": "Bayatlamanın ana nedeni amilopektin retrogradasyonu mu?",
+      "bilgiler": [
+        "bayatlama.retrogradasyon_payi_tartismali",
+        "retrogradasyon.bayatlamada_amilopektin_ve_su_dagilimi",
+        "bayatlama.cok_etkenli"
+      ]
+    },
+    {
+      "konu": "Nişasta kristalleşmesi ekmek içi sertleşmesiyle birlikte mi ilerler?",
+      "bilgiler": [
+        "retrogradasyon.kristallesme_ile_sertlesme_korelasyonu",
+        "retrogradasyon.depolamada_amilopektin_artar",
+        "bayatlama.sertlesme_hizlari"
+      ]
+    },
+    {
+      "konu": "Ekmeği buzdolabında saklamak sertleşmeyi yavaşlatır mı?",
+      "bilgiler": [
+        "retrogradasyon.buzdolabi_hizli",
+        "retrogradasyon.dusuk_depolama_sicakligi_sert_nisasta_agi_atif",
+        "retrogradasyon.sicaklik_araligi"
+      ]
+    }
+  ]
+}

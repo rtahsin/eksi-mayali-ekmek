@@ -1,0 +1,932 @@
+{
+  "id": "arabinoksilan",
+  "ad": "Arabinoksilan",
+  "bilgiler": [
+    {
+      "id": "arabinoksilan.cozunur_cozunmez_ekmek",
+      "metin": "Derleme aktarımlarına göre suda çözünen arabinoksilanlar ekmek hacmini ve doku özelliklerini olumlu etkiler; suda çözünmeyen arabinoksilanlar ise su için rekabet ederek gluten ağının gelişimini zorlaştırır ve ürün kalitesini düşürür.",
+      "kosul": "Buğday ekmeği hamuru; Sun vd. (2019) ve diğer çalışmalara atıf",
+      "kanit": "tek_kaynak",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1002/fsn3.2344",
+          "yer": "1.10 Pentosanase"
+        },
+        {
+          "kaynak": "10.1016/j.lwt.2013.12.004",
+          "yer": "3. Effect of wheat bran on cereal bakery products and other food products"
+        },
+        {
+          "kaynak": "10.1111/1541-4337.13147",
+          "yer": "4.5 Effect of arabinoxylans on starch behavior and loaf quality"
+        },
+        {
+          "kaynak": "10.1021/jf0724724",
+          "yer": "Introduction"
+        },
+        {
+          "kaynak": "10.17113/ftb.58.03.20.6766",
+          "yer": "Specific bread volume"
+        },
+        {
+          "kaynak": "10.3389/fbioe.2022.1018476",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "arabinoksilan.hamur_viskoelastisite_gaz_tutma",
+      "metin": "Arabinoksilanlar su emilimi yoluyla hamurun viskoelastisitesini artırarak ve gaz tutulumunu iyileştirerek hamur yapısına katkıda bulunur.",
+      "kosul": "Buğday hamuru",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1080/10408398.2021.1976100",
+          "yer": "Flours used for sourdough production"
+        }
+      ]
+    },
+    {
+      "id": "arabinoksilan.su_tutma_kapasitesi_alti_kat",
+      "metin": "Arabinoksilanlar yüksek su tutma kapasiteleriyle ağırlıklarının altı katı su emerek hamur ve ekmekteki su dağılımını etkiler.",
+      "kosul": "Buğday endospermi; Avramenko et al., 2018; Cauvain, 2015",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1111/1541-4337.13147",
+          "yer": "4.5 Effect of arabinoxylans on starch behavior and loaf quality"
+        }
+      ]
+    },
+    {
+      "id": "arabinoksilan.yuksek_su_emilimi_gluten_ve_gelisimi_bozar",
+      "metin": "Arabinoksilanın yüksek su emilimi gluten oluşumunu bozarak hamur gelişimini yavaşlatır ve ürün kalitesini olumsuz etkiler.",
+      "kosul": "Hamur (genel; buğday ve çavdar hamuru üzerine derleme ifadeleri)",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods13193158",
+          "yer": "1. Introduction"
+        },
+        {
+          "kaynak": "10.3390/foods8080331",
+          "yer": "1. Introduction"
+        }
+      ]
+    },
+    {
+      "id": "arabinoksilan.yuzde_100_cavdar_ekmeginde_ana_su_baglayici",
+      "metin": "%100 çavdar ekmeğinde protein elastik bir ağ oluşturamadığından arabinoksilan hamur reolojisi ve gaz tutulumunda proteinden daha büyük rol oynayan ana su bağlayıcı maddedir.",
+      "kosul": "%100 çavdar ekmeği reolojisi (atıf)",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods5020024",
+          "yer": "1. Introduction"
+        }
+      ]
+    },
+    {
+      "id": "arabinoksilan.eksi_maya_cavdar_pentozan_cozunurlugu",
+      "metin": "Ekşi maya fermantasyonu hamur aşamasında çavdar pentozanlarının çözünmesini teşvik eder ve böylece hamurun su bağlamasını artırır.",
+      "kosul": "Çavdar hamuru; Martinez-Anaya & Devesa, 2000",
+      "kanit": "ikincil",
+      "bolum": "Mayadaki yeri",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.tifs.2004.02.012",
+          "yer": "Introduction"
+        },
+        {
+          "kaynak": "10.3390/foods5020024",
+          "yer": "4.2. Microstructural Aspects"
+        }
+      ]
+    },
+    {
+      "id": "arabinoksilan.bugday_unu_lif_orani",
+      "metin": "Buğday unundaki lif başlıca %1–2 fruktan ve %1,5–2,5 arabinoksilan pentozanlarından oluşur.",
+      "kosul": "Buğday unu",
+      "kanit": "tek_kaynak",
+      "bolum": "Nereden gelir",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1080/10408398.2021.1976100",
+          "yer": "Flours used for sourdough production"
+        }
+      ]
+    },
+    {
+      "id": "arabinoksilan.bugday_ununda_oran_atif",
+      "metin": "Buğday unu %2–3 nişasta dışı polisakkarit (özellikle %1,5–2,0 arabinoksilan ve %2'den az beta-glukan) ve %2 lipit içerir.",
+      "kosul": "Goesaert et al., 2005",
+      "kanit": "ikincil",
+      "bolum": "Nereden gelir",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/bs.aambs.2017.02.003",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "arabinoksilan.bugday_ve_cavdar_ana_nsp",
+      "metin": "Arabinoksilan, buğday ve çavdar unundaki başlıca nişasta dışı polisakkarittir.",
+      "kosul": "Buğday ve çavdar unu",
+      "kanit": "ikincil",
+      "bolum": "Tanım",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.foodhyd.2020.105771",
+          "yer": "1. Introduction"
+        },
+        {
+          "kaynak": "10.24925/turjaf.v13i5.1187-1195.7455",
+          "yer": "Introduction"
+        },
+        {
+          "kaynak": "10.3390/foods9121900",
+          "yer": "PMC7765839.txt:4. Conclusions"
+        }
+      ]
+    },
+    {
+      "id": "arabinoksilan.cozunur_cozunmez_ayrim_kriterleri",
+      "metin": "Arabinoksilanlar molekül ağırlığına, ikame paternine (arabinoz/ksiloz oranına) ve çapraz bağlanma derecesine bağlı olarak suda çözünen ve suda çözünmeyen fraksiyonlara ayrılır.",
+      "kosul": "Arabinoksilan yapısal fraksiyonları (atıf)",
+      "kanit": "ikincil",
+      "bolum": "Tanım",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/molecules28041910",
+          "yer": "1. Introduction"
+        }
+      ]
+    },
+    {
+      "id": "arabinoksilan.nisasta_disi_polisakkarit_tanim",
+      "metin": "Tahıl biliminde nişasta dışı polisakkaritler; arabinoksilanlar, beta-glukan, selüloz ve arabinogalaktan-peptitleri kapsayan genel bir terimdir.",
+      "kosul": "",
+      "kanit": "tek_kaynak",
+      "bolum": "Tanım",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.tifs.2004.02.011",
+          "yer": "Non-starch polysaccharides"
+        }
+      ]
+    },
+    {
+      "id": "arabinoksilan.we_ax_ve_wu_ax_oranlari",
+      "metin": "Buğday arabinoksilanının yaklaşık %70–75'ini suda ekstrakte edilemeyen arabinoksilan, %25–30'unu ise suda ekstrakte edilebilen arabinoksilan oluşturur.",
+      "kosul": "Buğday arabinoksilan fraksiyonları, aktarım",
+      "kanit": "ikincil",
+      "bolum": "Tanım",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods13193158",
+          "yer": "3.1. Water SRC of Flour Treated with Xylanases"
+        }
+      ]
+    },
+    {
+      "id": "arabinoksilan.yapi_ve_bugday_unundaki_orani",
+      "metin": "Arabinoksilan buğday ununun %2–3'ünü oluşturan, beta-1,4 bağlı D-ksilopiranozil birimlerinden kurulu doğrusal bir ana zincire sahip nişasta dışı bir polisakkarittir.",
+      "kosul": "Buğday unu biyokimyasal bileşimi, aktarım",
+      "kanit": "ikincil",
+      "bolum": "Tanım",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods13193158",
+          "yer": "1. Introduction"
+        }
+      ]
+    },
+    {
+      "id": "arabinoksilan.capraz_bagli_ax_cavdar_ekmek_hacmini_artirir",
+      "metin": "Geciktirilmiş pişirme yöntemiyle yapılan çavdar ekmeklerinde çapraz bağlı arabinoksilan eklenmesiyle ekmek hacminde en yüksek artış yaklaşık %20, özgül hacimde ise (tip 1150 unla) yaklaşık %23 olmuştur.",
+      "kosul": "Geciktirilmiş pişirme; çavdar ekmeği (tip 720 ve tip 1150 un); arabinoksilansız ekmeğe kıyasla",
+      "kanit": "tek_kaynak",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods13162482",
+          "yer": "3. Results and Discussion"
+        },
+        {
+          "kaynak": "10.3390/foods13162482",
+          "yer": "3. Results and Discussion"
+        }
+      ]
+    },
+    {
+      "id": "arabinoksilan.cavdar_ekmegi_yapiminda_toplam_ax_artisi",
+      "metin": "Ekmek yapımı sırasında çavdar ununda %8,12 olan toplam arabinoksilan miktarı ekmeklerde %8,61–10,54 aralığına yükselmiştir.",
+      "kosul": "Çavdar ekmeği yapımı (farklı üretim yöntemleri)",
+      "kanit": "tek_kaynak",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/molecules28041910",
+          "yer": "2.3. Contents of Individual Complex Carbohydrates and Dietary Fiber in the Sourdough Breads"
+        }
+      ]
+    },
+    {
+      "id": "arabinoksilan.cavdarda_cozunur_ve_cozunmez_pentozan_etkisi",
+      "metin": "Çavdar ekmeğinde, çözünmeyen pentozanların hamurda su tutulmasına katkı sağladığı, çözünür pentozanların ise hamurun kabarmasına, gözenek yapısına ve ekmek hacmine olumlu katkı yaptığı aktarılmaktadır.",
+      "kosul": "Çavdar ekmeği fermantasyonu ve pişirme",
+      "kanit": "tek_kaynak",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods9121900",
+          "yer": "PMC7765839.txt:Introduction"
+        },
+        {
+          "kaynak": "10.3390/foods9121900",
+          "yer": "PMC7765839.txt:Introduction"
+        },
+        {
+          "kaynak": "10.3390/foods9121900",
+          "yer": "PMC7765839.txt:Conclusions"
+        },
+        {
+          "kaynak": "10.3390/foods9121900",
+          "yer": "PMC7765839.txt:4. Conclusions"
+        },
+        {
+          "kaynak": "10.3390/molecules28041910",
+          "yer": "2.2. Contents of Individual Complex Carbohydrates in the Sourdoughs"
+        }
+      ]
+    },
+    {
+      "id": "arabinoksilan.ekmek_ici_nem_oraninda_artis",
+      "metin": "Geciktirilmiş pişirme yöntemiyle tip 720 çavdar unundan yapılan ekmeklerde iki arabinoksilan preparatı, ekmek içi nemini kontrole kıyasla sırasıyla yaklaşık %1,7 ve %3,8 oranında artırdı.",
+      "kosul": "Tip 720 çavdar unu ekmeği; geciktirilmiş pişirme",
+      "kanit": "tek_kaynak",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods13162482",
+          "yer": "3. Results and Discussion"
+        }
+      ]
+    },
+    {
+      "id": "arabinoksilan.ekmek_kalitesi_optimizasyonu",
+      "metin": "Ekmek yapımı ve ekmek kalitesi başlıca nişasta ve arabinoksilan özelliklerinin değiştirilmesiyle optimize edilir.",
+      "kosul": "",
+      "kanit": "tek_kaynak",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.tifs.2004.02.011",
+          "yer": "Conclusions"
+        }
+      ]
+    },
+    {
+      "id": "arabinoksilan.nisasta_granulune_yapisan_pentozan_ve_pisirme_kalitesi",
+      "metin": "Nişasta granüllerine yapışan yüksek miktardaki pentozan ve glukan varlığı çavdarda düşük ekmek pişirme kalitesiyle ilişkilendirilmiştir.",
+      "kosul": "Çavdar unu nişasta fazı",
+      "kanit": "tek_kaynak",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods9121900",
+          "yer": "PMC7765839.txt:4. Conclusions"
+        }
+      ]
+    },
+    {
+      "id": "arabinoksilan.arayuz_viskozitesi_ve_protein_etkilesimi",
+      "metin": "Buğday hamur liköründe hidroliz olmamış arabinoksilanın arayüzdeki protein-protein etkileşimlerini zayıflatıyor göründüğü, çavdarda ise proteinlerin birincil, hidroliz olmamış arabinoksilanın ise ikincil tabaka oluşturduğu çok katmanlı bir yapının arayüz filmini güçlendirmiş olabileceği ileri sürülmüştür.",
+      "kosul": "Buğday ve çavdar hamur likörleri; 1,50 mg protein/mL; arayüz kayma reometrisi",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.foodhyd.2020.105771",
+          "yer": "Results - 3.4.2 Stress-controlled interfacial shear rheometry, Fig. 5"
+        },
+        {
+          "kaynak": "10.1016/j.foodhyd.2020.105771",
+          "yer": "Results - 3.4.2 Stress-controlled interfacial shear rheometry"
+        },
+        {
+          "kaynak": "10.1016/j.foodhyd.2020.105771",
+          "yer": "Results - 3.4.2 Stress-controlled interfacial shear rheometry"
+        },
+        {
+          "kaynak": "10.1016/j.foodhyd.2020.105771",
+          "yer": "Results - 3.4.2 Stress-controlled interfacial shear rheometry"
+        },
+        {
+          "kaynak": "10.1016/j.foodhyd.2020.105771",
+          "yer": "Results - 3.4.2 Stress-controlled interfacial shear rheometry"
+        },
+        {
+          "kaynak": "10.1016/j.foodhyd.2020.105771",
+          "yer": "Results - 3.4.2 Stress-controlled interfacial shear rheometry"
+        },
+        {
+          "kaynak": "10.1016/j.foodhyd.2020.105771",
+          "yer": "Results - 3.5 Defatted dough liquor interfacial shear rheometry"
+        }
+      ]
+    },
+    {
+      "id": "arabinoksilan.cavdar_hamuru_yapiskanligi_ve_ici_nemliligi",
+      "metin": "Pentozan ve glukan gibi hemiselülozların yüksek su bağlama özelliğinin, çavdar hamurlarının tipik yapışkanlığından sorumlu olduğu ve ekmek içinin tipik 'sulu' yapısı için ön koşul sayıldığı belirtilmiştir.",
+      "kosul": "Çavdar hamuru ve ekmek içi (atıf)",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods9121900",
+          "yer": "PMC7765839.txt:Introduction"
+        }
+      ]
+    },
+    {
+      "id": "arabinoksilan.cavdar_hamurunda_ax_su_ihtiyacini_artirir",
+      "metin": "Tip 720 çavdar ununa %1 oranında çapraz bağlı arabinoksilan eklenmesi, 150 BU kıvama ulaşmak için hamura katılan su miktarını kontrole göre %18 artırmıştır.",
+      "kosul": "Çavdar unu tip 720; %1 çapraz bağlı arabinoksilan (LP_CR); kontrole kıyasla; 150 BU kıvam (tip 1150'de artış daha küçük)",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods13162482",
+          "yer": "3. Results and Discussion"
+        },
+        {
+          "kaynak": "10.3390/foods13162482",
+          "yer": "3. Results and Discussion"
+        }
+      ]
+    },
+    {
+      "id": "arabinoksilan.cavdar_tanesindeki_ax_su_baglama_ve_viskozite",
+      "metin": "Çavdar tanesindeki arabinoksilan, früktan ve β-glukan miktarı hamurun su bağlama kapasitesini ve viskozitesini etkiler.",
+      "kosul": "Çavdar hamuru (atıf)",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/molecules28041910",
+          "yer": "1. Introduction"
+        }
+      ]
+    },
+    {
+      "id": "arabinoksilan.cavdar_ununda_yuksek_su_emme_egilimi",
+      "metin": "Çavdar unu içerdiği arabinoksilanlar nedeniyle buğday ununa kıyasla daha yüksek su emme eğilimine sahiptir.",
+      "kosul": "Çavdar unu su emilimi (atıf)",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods13020224",
+          "yer": "3.1. Starch Pasting Properties"
+        }
+      ]
+    },
+    {
+      "id": "arabinoksilan.cavdar_ve_bugday_ax_orani_karsilastirma",
+      "metin": "Çavdarın protein ağı oluşturamamasının bir nedeni, buğdaya (%1,5–2,5) kıyasla doğal olarak çok daha yüksek arabinoksilan konsantrasyonuna (%5–7) sahip olması olabilir.",
+      "kosul": "Çavdar ve buğday unu karşılaştırması (atıf)",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods9121900",
+          "yer": "PMC7765839.txt:3.4. Composition of the Gel Phase"
+        }
+      ]
+    },
+    {
+      "id": "arabinoksilan.cavdarda_yapisal_rol_atif",
+      "metin": "Çavdar unundaki suda çözünen arabinoksilanlar su bağlayıp akışkanlığa dirençli (viskoz) bir hamur oluşturarak önemli bir yapısal rol oynar.",
+      "kosul": "Çavdar unu.",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1002/fsn3.4050",
+          "yer": "1. INTRODUCTION"
+        },
+        {
+          "kaynak": "10.1016/bs.aambs.2017.02.003",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "arabinoksilan.eksi_maya_asitligi_ve_yapisal_degisim",
+      "metin": "Ekşi maya fermantasyonunun yarattığı asidik ortam arabinoksilan, nişasta ve gluten gibi temel hamur bileşenlerinin yapısını değiştirmektedir.",
+      "kosul": "Buğday ekşi maya fermantasyonu",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods13010096",
+          "yer": "3. Leuconostoc Citreum and Its Influence in Sourdough"
+        }
+      ]
+    },
+    {
+      "id": "arabinoksilan.gaz_hucresi_sivi_suzulusunu_yavaslatma",
+      "metin": "Suda çözünen arabinoksilanların bitişik gaz hücrelerini ayıran ince sıvı filmlerinden sıvı süzülüşünü yavaşlatabileceği öne sürülmüştür.",
+      "kosul": "Courtin and Delcour, 2002",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.foodhyd.2020.105771",
+          "yer": "1. Introduction"
+        }
+      ]
+    },
+    {
+      "id": "arabinoksilan.hamur_dinlenmesinde_tahil_enzimleriyle_cozunme",
+      "metin": "Arabinoksilan hamur dinlenmesi sırasında tahıl enzimleri tarafından parçalanarak çözünürleşmesine katkı sağlanır.",
+      "kosul": "Hamur dinlenmesi (atıf)",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/molecules28041910",
+          "yer": "2.2. Contents of Individual Complex Carbohydrates in the Sourdoughs"
+        }
+      ]
+    },
+    {
+      "id": "arabinoksilan.hamur_likoru_viskozitesi_ve_su_baglama",
+      "metin": "Courtin vd. (2001)'e göre, suda ekstrakte edilebilir arabinoksilan büyük miktarda su bağladığı için buğday hamur likörünün kütlesel viskozitesini belirler.",
+      "kosul": "Courtin vd. 2001 (atıf); buğday hamur likörü",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.foodhyd.2020.105771",
+          "yer": "1. Introduction"
+        }
+      ]
+    },
+    {
+      "id": "arabinoksilan.hava_su_arayuzunde_adsorbe_olmama",
+      "metin": "Bu koşullarda, hidroliz olmamış arabinoksilan molekülleri hava-su arayüzünde kendiliğinden adsorbe olmadı ve diğer bileşenlerin adsorpsiyonunu etkilemedi; yazarlar bunu hidrofilik yapıya ve yüksek moleküler ağırlığa bağlamaktadır.",
+      "kosul": "Buğday, çavdar ve yulaf hamur likörleri; 5,00 mg protein/mL",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.foodhyd.2020.105771",
+          "yer": "Results - 3.4.1 Pendant drop tensiometry"
+        },
+        {
+          "kaynak": "10.1016/j.foodhyd.2020.105771",
+          "yer": "Results - 3.4.1 Pendant drop tensiometry"
+        }
+      ]
+    },
+    {
+      "id": "arabinoksilan.hmxyn_ksilanaz_weax_artisi",
+      "metin": "Hmxyn ksilanaz ile işlenmiş tam buğday hamurunda suda ekstrakte edilebilir arabinoksilan içeriği %1,51 olan kontrole kıyasla %31,7 artışla %1,99 düzeyine yükselmiştir.",
+      "kosul": "Hmxyn ksilanaz muamelesi görmüş tam buğday hamuru",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3389/fbioe.2022.1018476",
+          "yer": "Solubilization of arabinoxylan in wholewheat dough by Hmxyn"
+        }
+      ]
+    },
+    {
+      "id": "arabinoksilan.hmxyn_ksilanaz_wuax_azalmasi",
+      "metin": "Hmxyn ksilanaz uygulaması tam buğday hamurundaki suda ekstrakte edilemeyen arabinoksilan içeriğini kontroldeki %2,69 düzeyinden %2,21 seviyesine düşürmüştür.",
+      "kosul": "Hmxyn ksilanaz muamelesi görmüş tam buğday hamuru",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3389/fbioe.2022.1018476",
+          "yer": "Solubilization of arabinoxylan in wholewheat dough by Hmxyn"
+        }
+      ]
+    },
+    {
+      "id": "arabinoksilan.kepek_yogunlugu_ve_gelisme_suresi",
+      "metin": "Arabinoksilanlar başlıca buğdayın kepek kısmında yoğunlaşır ve hamur gelişme süresini artırabilir.",
+      "kosul": "Messia et al., 2016",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1002/cche.10644",
+          "yer": "3.2 Dough quality of hulled wheat flour by farinograph"
+        },
+        {
+          "kaynak": "10.3390/foods13193035",
+          "yer": "3.4. Baking Process and Quality of the Tested Mountain Rye Breads"
+        }
+      ]
+    },
+    {
+      "id": "arabinoksilan.ksilanaz_ile_kopuk_kapasitesi_dususu",
+      "metin": "Bu çalışmada, buğday ve çavdar hamur likörlerinde arabinoksilanın ksilanaz ile enzimatik hidrolizi köpük kapasitesini olumsuz etkiledi; enzimli buğday likörünün köpüğü karıştırma başladıktan sonraki 5 dakika içinde söndü.",
+      "kosul": "5,00 mg protein/mL; ksilanaz muamelesi",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.foodhyd.2020.105771",
+          "yer": "3.2 Dough liquor foaming properties, Fig. 2"
+        },
+        {
+          "kaynak": "10.1016/j.foodhyd.2020.105771",
+          "yer": "3.2 Dough liquor foaming properties, Fig. 2"
+        },
+        {
+          "kaynak": "10.1016/j.foodhyd.2020.105771",
+          "yer": "3.2 Dough liquor foaming properties"
+        }
+      ]
+    },
+    {
+      "id": "arabinoksilan.kutlesinin_100_kati_su_emme",
+      "metin": "Pentozanlar ve glukanlar gibi hemiselülozlar kendi kütlelerinin 100 katına kadar su emebilme kapasiteleriyle hamurda su bağlamada kilit rol oynarlar.",
+      "kosul": "Hemiselülozlar (pentozan ve glukan) su bağlama kapasitesi (atıf)",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods9121900",
+          "yer": "PMC7765839.txt:Introduction"
+        }
+      ]
+    },
+    {
+      "id": "arabinoksilan.nsp_enzimatik_hidroliz_viskozite_dususu",
+      "metin": "Bu çalışmada nişasta dışı polisakkaritlerin enzimatik hidrolizi, çavdar, yulaf ve buğday hamur likörlerinin kütlesel viskozitesini belirgin biçimde düşürdü.",
+      "kosul": "Ksilanazla işlenmiş buğday ve çavdar hamur likörleri; lichenaz ve beta-D-glukozidazla işlenmiş yulaf hamur likörü",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.foodhyd.2020.105771",
+          "yer": "Conclusions"
+        }
+      ]
+    },
+    {
+      "id": "arabinoksilan.nsp_likor_viskozitesine_katki",
+      "metin": "Bu çalışmada nişasta dışı polisakkaritler, buğday, çavdar ve yulaf hamur likörlerinin kütlesel viskozitesine önemli ölçüde katkı yaptı.",
+      "kosul": "1,50 mg protein/mL ve doğal derişimlerde hamur likörleri; kontrol ve enzimle işlenmiş örnekler",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.foodhyd.2020.105771",
+          "yer": "Results - 3.3 Dough liquor bulk viscosity"
+        }
+      ]
+    },
+    {
+      "id": "arabinoksilan.pentozanlar_ve_nisasta_45c_esigi",
+      "metin": "Çavdar hamurunda 45 °C'nin altındaki sıcaklıklarda hamur özelliklerinin gelişiminde pentozanlar ana rolü oynarken 45 °C'nin üzerinde ekmek içi yapısını nişasta belirler.",
+      "kosul": "Çavdar hamuru sıcaklık aşamaları (atıf)",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods8080331",
+          "yer": "1. Introduction"
+        }
+      ]
+    },
+    {
+      "id": "arabinoksilan.serbest_ferulik_asit_capraz_baglanma",
+      "metin": "Serbest ferulik asit, arabinoksilanlar arasındaki çapraz bağlanmayı önler ve bu, hamur uzayabilirliğini artırıyor gibi görünmektedir.",
+      "kosul": "Wang et al., 2004",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.jcs.2017.03.011",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "arabinoksilan.sisen_granul_yuzeyinde_film_ve_jellesme",
+      "metin": "Çavdar ununda pentozanlar ve amiloz şişen nişasta granüllerinin yüzeyini kaplayan bir film oluşturarak su ve amilolitik enzimlerin erişimini sınırlar ve jelleşmeyi geciktirir.",
+      "kosul": "Çavdar hamuru nişasta jelleşmesi",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/ma14247603",
+          "yer": "Differential Scanning Calorimetry"
+        }
+      ]
+    },
+    {
+      "id": "arabinoksilan.weax_gaz_hucresi_elastikiyeti_ve_co2_difuzyonu",
+      "metin": "Suda ekstrakte edilebilir arabinoksilan, gaz hücrelerini çevreleyen gluten-nişasta filmlerinin elastikiyetini ve mukavemetini artırabilir ve yüksek viskozitesi sayesinde hamurdan CO2 difüzyonunu yavaşlatabilir.",
+      "kosul": "Hamur fermantasyonu (Marta et al., 1995; Koegelenberg and Chimphango, 2017 aktarımı)",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3389/fbioe.2022.1018476",
+          "yer": "Effect of Hmxyn addition on dough fermentation"
+        }
+      ]
+    },
+    {
+      "id": "arabinoksilan.firinlama_sonrasi_cozunur_ax_polimerizasyon_derecesi",
+      "metin": "Pişirme sonrasında çözünür arabinoksilanın ortalama polimerizasyon derecesi, ksilanaz XBS eklenen ekmeklerde arttı (Crousti ekmeğine yabanıl tip XBS eklenmesi dışında); kontrol ekmeklerinde ise azaldı.",
+      "kosul": "Buğday ekmeği (Crousti ve Claire unları); XBS ksilanazı eklenmiş ve kontrol ekmekleri",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1021/acs.jafc.6b01473",
+          "yer": "3.2.2.2 avDP of soluble AX"
+        },
+        {
+          "kaynak": "10.1021/acs.jafc.6b01473",
+          "yer": "3.2.2.2 avDP of soluble AX"
+        }
+      ]
+    },
+    {
+      "id": "arabinoksilan.ince_unda_ax_su_gocu_atif",
+      "metin": "Bir MRI çalışmasına göre tam buğday ununun tanecik boyu küçüldükçe (50,21 µm) arabinoksilan jellerinin su alması büyük ölçüde arttı ve su gluten ağından bu jellere göç etti.",
+      "kosul": "Tam buğday unu; MRI.",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.lwt.2023.114504",
+          "yer": "3.3. Bread volume"
+        }
+      ]
+    },
+    {
+      "id": "arabinoksilan.izole_glutendeki_arabinoksilan_orani",
+      "metin": "İzole gluten fraksiyonlarında arabinoksilan içeriği standart unda %0,41, subalöron fraksiyonlarında %0,98 ile %1,50 olarak bulunmuş; yazarlar standart undaki düşük değeri beklenmedik bulmuştur.",
+      "kosul": "Buğday unu ve subalöron fraksiyonlarından izole edilen gluten",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.foodres.2024.115230",
+          "yer": "3.1. Chemical characterisation"
+        }
+      ]
+    },
+    {
+      "id": "arabinoksilan.jel_fazinda_viskoelastik_ag",
+      "metin": "Çavdar unlarının jel fazının temel bileşenleri, yüksek molekül kütleli çözünmeyen proteinler ve hemiselülozlardır; bunlar yumuşak bir viskoelastik ağ oluşturur.",
+      "kosul": "Seçilmiş çavdar unlarının jel fazı",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods9121900",
+          "yer": "PMC7765839.txt:3.4. Composition of the Gel Phase"
+        }
+      ]
+    },
+    {
+      "id": "arabinoksilan.likor_kutlesel_viskozite_degerleri",
+      "metin": "Enzimle işlenmiş buğday, çavdar ve yulaf hamur likörlerinin kütlesel viskozitesi, 0,1 ve 100 s⁻¹ kayma hızlarında 252 ve 6, 18.460 ve 274, 16 ve 2 mPa·s olarak ölçüldü.",
+      "kosul": "Doğal derişimlerinde enzimle işlenmiş buğday, çavdar ve yulaf hamur likörleri; 0,1 ve 100 s⁻¹ kayma hızları",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.foodhyd.2020.105771",
+          "yer": "3.3 Dough liquor bulk shear rheometry"
+        }
+      ]
+    },
+    {
+      "id": "arabinoksilan.ogutme_tipinin_cozunur_pentozan_oranina_etkisi",
+      "metin": "Tam buğday ununda çözünür pentozan oranı öğütme tipine bağlı olmuş ve çekiçli değirmende en düşük çıkmıştır; yazarlar siklonik değirmendeki sürtünmenin kovalent bağları kırarak çözünmeyen pentozanı çözünür hâle getirmiş olabileceğini düşünmektedir.",
+      "kosul": "Tam buğday unu; çekiçli, siklonik ve valsli değirmen karşılaştırması",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.17113/ftb.58.03.20.6766",
+          "yer": "Wholewheat flour characterization"
+        },
+        {
+          "kaynak": "10.17113/ftb.58.03.20.6766",
+          "yer": "Wholewheat flour characterization"
+        }
+      ]
+    },
+    {
+      "id": "arabinoksilan.weax_ilavesinin_gluten_konformasyonuna_etkisi",
+      "metin": "Buğday hamurunda %5 WEAX ilavesinin gluten proteinlerinde alfa-sarmal yapıları azalttığı, beta-yaprak oranını artırdığı; %1 ve %2 düzeylerinde ise değişimlerin farklı yönde olduğu aktarılmaktadır.",
+      "kosul": "Buğday hamuru; yüksek ve düşük molekül ağırlıklı WEAX; FT-IR gluten konformasyon analizi (atıf)",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/molecules26020508",
+          "yer": "PMC7835854.txt:4.5.2. Polysaccharides"
+        },
+        {
+          "kaynak": "10.3390/molecules26020508",
+          "yer": "PMC7835854.txt:4.5.2. Polysaccharides"
+        }
+      ]
+    },
+    {
+      "id": "arabinoksilan.s_boulardii_eksi_maya_cozunmez_ax_degisimi",
+      "metin": "Saccharomyces boulardii ile aşılanan ekşi mayada çözünmeyen arabinoksilan içeriği 24 saat fermantasyon sonrasında en düşük (%4,52), 48 saat sonrasında ise en yüksek (%5,21) seviyede saptanmıştır.",
+      "kosul": "Saccharomyces boulardii aşılanmış ekşi maya fermantasyonu",
+      "kanit": "tek_kaynak",
+      "bolum": "Mayadaki yeri",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/molecules28041910",
+          "yer": "2.2. Contents of Individual Complex Carbohydrates in the Sourdoughs"
+        }
+      ]
+    },
+    {
+      "id": "arabinoksilan.arabinoz_kaynagi_ekleme_atif",
+      "metin": "Ksilan ana zincirindeki dallarda bulunan arabinozun kaynağı olarak arabinoksilanlar un-su karışımına eklenebilir.",
+      "kosul": "Michlmayr et al., 2013; Linares-Pastén et al., 2017; ekşi maya fermantasyonu",
+      "kanit": "ikincil",
+      "bolum": "Mayadaki yeri",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1080/10408398.2021.1976100",
+          "yer": "Sourdough productions with the addition of pure chemical compounds > Pentoses and pentosans"
+        }
+      ]
+    },
+    {
+      "id": "arabinoksilan.bugday_kepegi_karbonhidrat_bilesimi",
+      "metin": "Buğday kepeğinin karbonhidrat bileşimi %0,6 mannoz, %0,9 galaktoz, %12,5 glukoz ve 0,7 arabinoz-ksiloz oranına sahip %18,1 arabinoksilan içerir.",
+      "kosul": "Buğday kepeği; GC-FID analizi",
+      "kanit": "tek_kaynak",
+      "bolum": "Nereden gelir",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.jcs.2017.03.011",
+          "yer": "Bran characteristics"
+        }
+      ]
+    },
+    {
+      "id": "arabinoksilan.bugday_kepegi_yulaf_kepegine_gore_zengin",
+      "metin": "Bir çalışmada buğday kepeği fraksiyonları, yulaf kepeği fraksiyonlarına kıyasla arabinoksilan bakımından anlamlı biçimde (p < 0,05) daha zengin bulunmuştur.",
+      "kosul": "Buğday ve yulaf kepeği fraksiyonları",
+      "kanit": "tek_kaynak",
+      "bolum": "Nereden gelir",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods10102311",
+          "yer": "Results - Chemical Composition"
+        }
+      ]
+    },
+    {
+      "id": "arabinoksilan.bugday_unu_pentozan_orani_atif",
+      "metin": "Buğday unundaki toplam pentozanların yaklaşık %60 ila %65'ini arabinoksilanlar oluşturur.",
+      "kosul": "Avramenko et al., 2018; Cauvain, 2015; Wang et al., 2019",
+      "kanit": "ikincil",
+      "bolum": "Nereden gelir",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1111/1541-4337.13147",
+          "yer": "4.5 Effect of arabinoxylans on starch behavior and loaf quality"
+        }
+      ]
+    },
+    {
+      "id": "arabinoksilan.cavdar_ununda_pentozan_protein_korelasyonu",
+      "metin": "Çavdar unu örneklerinde pentozan içeriği %4,9–7,2 arasında bulunmuş ve protein içeriği ile pozitif korelasyon (r = 0,724) göstermiştir.",
+      "kosul": "Ticari çavdar unları",
+      "kanit": "tek_kaynak",
+      "bolum": "İlişkileri",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/ma14247603",
+          "yer": "Basic Chemical Composition"
+        }
+      ]
+    },
+    {
+      "id": "arabinoksilan.endoksilanaz_substrati",
+      "metin": "Arabinoksilan, buğday unu ekmek yapımında endoksilanaz enziminin substratıdır.",
+      "kosul": "Buğday unu ekmek yapımı",
+      "kanit": "tek_kaynak",
+      "bolum": "İlişkileri",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1006/jcrs.2001.0433",
+          "yer": "Abstract"
+        }
+      ]
+    },
+    {
+      "id": "arabinoksilan.ferulik_asit_araciligiyla_protein_kompleksleri",
+      "metin": "Çavdarda, ferulik asit köprüleriyle oluştuğu öne sürülen protein-arabinoksilan kompleksleri daha yüksek ekmek hacmiyle ilişkilendirilmektedir.",
+      "kosul": "Çavdar hamuru arabinoksilan-protein kompleksleri (atıf)",
+      "kanit": "ikincil",
+      "bolum": "İlişkileri",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods9121900",
+          "yer": "PMC7765839.txt:3.4. Composition of the Gel Phase"
+        },
+        {
+          "kaynak": "10.3390/foods9121900",
+          "yer": "PMC7765839.txt:3.4. Composition of the Gel Phase"
+        },
+        {
+          "kaynak": "10.3390/foods9121900",
+          "yer": "PMC7765839.txt:3.4. Composition of the Gel Phase"
+        },
+        {
+          "kaynak": "10.3390/foods9121900",
+          "yer": "PMC7765839.txt:3.4. Composition of the Gel Phase"
+        }
+      ]
+    }
+  ]
+}

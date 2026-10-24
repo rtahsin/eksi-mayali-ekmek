@@ -1,0 +1,636 @@
+{
+  "id": "cavdar",
+  "ad": "Çavdar",
+  "bilgiler": [
+    {
+      "id": "cavdar.cavdar_proteini_gluten_kuramaz_atif",
+      "metin": "Çavdarın depo proteinleri düşük molekül ağırlıklı glutenin alt birimlerinden yoksun olduğu için nişasta-gluten kompleksli bir hamur yapısı kuramaz; yine de bu proteinler arasında moleküller arası disülfit bağları oluşabilir.",
+      "kosul": "",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1002/fsn3.4050",
+          "yer": "1. INTRODUCTION"
+        },
+        {
+          "kaynak": "10.1002/fsn3.4050",
+          "yer": "1. INTRODUCTION"
+        }
+      ]
+    },
+    {
+      "id": "cavdar.yuksek_su_kaldirma",
+      "metin": "Çavdar unu nişasta dışı polisakkaritlerce (pentozanlar, β-glukan, lignin, selüloz, arabinoksilan) daha zengin olduğu için daha çok su kaldırır.",
+      "kosul": "Çavdar unu.",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods10010076",
+          "yer": "3.1. Initial Bread Characteristics"
+        }
+      ]
+    },
+    {
+      "id": "cavdar.eksi_maya_amilazi_baskilar",
+      "metin": "Çavdar ekmeği yapmak için ekşi maya kullanmak gereklidir; bu, α-amilazın enzim etkinliğini azaltmanın yaygın bir yoludur.",
+      "kosul": "Çavdar ekmeği.",
+      "kanit": "ikincil",
+      "bolum": "Ne yapar",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods10010076",
+          "yer": "3.1. Initial Bread Characteristics"
+        },
+        {
+          "kaynak": "10.1016/bs.aambs.2017.02.003",
+          "yer": "Introduction"
+        },
+        {
+          "kaynak": "10.1016/j.fm.2009.07.012",
+          "yer": "Introduction"
+        },
+        {
+          "kaynak": "10.1016/j.tifs.2004.02.012",
+          "yer": "Introduction"
+        },
+        {
+          "kaynak": "10.1080/10408398.2021.1976100",
+          "yer": "Introduction / Sourdough properties"
+        }
+      ]
+    },
+    {
+      "id": "cavdar.un_bilesimi_nisasta_protein_arabinoksilan",
+      "metin": "Buğday ununa kıyasla çavdar unu ortalama %65 nişasta, %6–8 arabinoksilan pentozanı, %10–12 protein (sekalin ve sekalinin) ile daha fazla alfa-amilaz ve daha az beta-amilaz içerir.",
+      "kosul": "Buğday ununa kıyasla çavdar unu",
+      "kanit": "ikincil",
+      "bolum": "Tanım",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/bs.aambs.2017.02.003",
+          "yer": "Introduction"
+        },
+        {
+          "kaynak": "10.1080/10408398.2021.1976100",
+          "yer": "Flours used for sourdough production"
+        }
+      ]
+    },
+    {
+      "id": "cavdar.arpa_eksi_mayasi_kompozit_ekmek",
+      "metin": "Yaklaşık %24 oranında arpa ekşi mayası kullanımının, ekmeğin teknolojik ve duyusal kalitesini iyileştirdiği bildirilmiştir (kaynak 6).",
+      "kosul": "Arpa ekşi mayası; kompozit (buğday-arpa) ekmek; literatür aktarımı",
+      "kanit": "ikincil",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.17113/ftb.55.04.17.5344",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "cavdar.jel_fazi_protein_ve_nsps_ekmek_kalitesi",
+      "metin": "Jel fazındaki daha yüksek protein ve nişasta dışı polisakkarit (NSPS) içerikleri daha zayıf çavdar ekmeği kalitesiyle bağlantılı bulunmuştur.",
+      "kosul": "jel fazi bilesimi ve ekmek kalitesi",
+      "kanit": "tek_kaynak",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods9121900",
+          "yer": "PMC7765839.txt:3.4. Composition of the Gel Phase"
+        }
+      ]
+    },
+    {
+      "id": "cavdar.k_mo_asitlendirme_puan_diskalifiye",
+      "metin": "Klimatize edilmiş tanenin laktik asit asitlendirmesiyle öğütülmesinden elde edilen un ve kepekten yapılan ekmek (K MO) toplamda -7,4 puan alarak değerlendirme dışı kalmıştır.",
+      "kosul": "Laktik asit asitlendirmesi; K MO; duyusal ve fizikokimyasal puanlama",
+      "kanit": "tek_kaynak",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods13193035",
+          "yer": "Scoring assessment results and quality classification of the tested rye breads"
+        }
+      ]
+    },
+    {
+      "id": "cavdar.s_mbo_un_ozgul_hacim",
+      "metin": "Kondisyonlanmamış tanenin ekstrakt ve kepek karışımı unuyla ve laktik asit asitlendirmesiyle yapılan ekmeğin (S MBO) özgül hacmi 1,93 cm³/g olmuştur.",
+      "kosul": "Kondisyonlanmamış tane; ekstrakt ve kepek karışımı un; laktik asit asitlendirmesi",
+      "kanit": "tek_kaynak",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods13193035",
+          "yer": "Quality parameters of the tested mountain rye breads"
+        }
+      ]
+    },
+    {
+      "id": "cavdar.s_mc_tam_un_ozgul_hacim",
+      "metin": "Kondisyonlanmamış taneden elde edilen tam un ve laktik asit asitlendirmesiyle yapılan ekmeğin (S MC) özgül hacmi 1,51 cm³/g olarak ölçülmüştür.",
+      "kosul": "Kondisyonlanmamış tane tam unu; laktik asit asitlendirmesi",
+      "kanit": "tek_kaynak",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods13193035",
+          "yer": "Quality parameters of the tested mountain rye breads"
+        }
+      ]
+    },
+    {
+      "id": "cavdar.tip_720_ekmek_ici_yapiskanligi_dusuk",
+      "metin": "Geciktirilmiş pişirme yöntemiyle pişirilen tip 720 unlu çavdar ekmeği, tip 1150 unlu ekmeğe göre 3,5 kattan fazla düşük ekmek içi yapışkanlığı göstermiştir.",
+      "kosul": "Geciktirilmiş pişirme; çavdar unu tip 720 ve tip 1150; TPA ekmek içi yapışkanlığı",
+      "kanit": "tek_kaynak",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods13162482",
+          "yer": "3. Results and Discussion"
+        }
+      ]
+    },
+    {
+      "id": "cavdar.tip_720_un_tip_1150_une_gore_yuksek_hacim",
+      "metin": "Geciktirilmiş pişirme yöntemiyle tip 720 undan yapılan çavdar ekmeği tip 1150 undan yapılan ekmeğe kıyasla yaklaşık %24 daha yüksek somun hacmine sahip olmuştur (Tablo 4).",
+      "kosul": "geciktirilmis pisirme yontemi; 24",
+      "kanit": "tek_kaynak",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods13162482",
+          "yer": "3. Results and Discussion"
+        }
+      ]
+    },
+    {
+      "id": "cavdar.dogal_likor_kutlesel_viskozite_kayma",
+      "metin": "Bu çalışmada, doğal derişimdeki kontrol çavdar hamur likörünün kütlesel viskozitesi 0,1 s−1 kayma hızında 631.272 mPa s iken 100 s−1 hızında 5511 mPa s'ye azaldı.",
+      "kosul": "Doğal derişimdeki kontrol çavdar hamur likörü; kayma hızı 0,1 ile 100 s−1",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.foodhyd.2020.105771",
+          "yer": "3.3 Dough liquor bulk shear rheometry, Fig. 3"
+        }
+      ]
+    },
+    {
+      "id": "cavdar.hamur_likoru_kopuk_stabilitesi_ksilanaz",
+      "metin": "Bu çalışmada, çavdar hamur liköründe 60 dakika sonra kontrol örneğinde köpüğün %31'i kalırken ksilanaz muamelesi görmüş örnekte %17'si kaldı.",
+      "kosul": "5,00 mg protein/mL; ksilanaz muamelesi; hamur likörü köpük stabilitesi",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.foodhyd.2020.105771",
+          "yer": "3.2 Dough liquor foaming properties, Fig. 2"
+        }
+      ]
+    },
+    {
+      "id": "cavdar.hamurunda_surekli_protein_agi_olusmaz",
+      "metin": "Tipik gluten proteinlerine dayalı sürekli viskoelastik protein ağı buğday hamurunda oluşurken çavdar hamurunda böyle bir protein ağının oluşumu gözlenemez [13,14].",
+      "kosul": "cavdar ve bugday hamuru karsilastirmasi; 13; 14",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods9121900",
+          "yer": "PMC7765839.txt:Introduction"
+        },
+        {
+          "kaynak": "10.3390/foods9121900",
+          "yer": "PMC7765839.txt:Introduction"
+        }
+      ]
+    },
+    {
+      "id": "cavdar.hemiseluloz_etkilesimi_gluten_yapisini_engeller",
+      "metin": "Çavdar proteinleri prensipte buğday glutenine benzer bir ağ oluştursa da hemiselülozlarla etkileşimler tipik gluten yapılarının oluşmasını engeller [22,23].",
+      "kosul": "cavdar proteini ve hemiseluloz etkilesimi; 22; 23",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods9121900",
+          "yer": "PMC7765839.txt:Introduction"
+        }
+      ]
+    },
+    {
+      "id": "cavdar.kepek_fermantasyonu_teknolojik_ozellik",
+      "metin": "Kepek fermantasyonu, çavdarın teknolojik özelliklerini geliştirir ve buğday kepeğinin fermente edilmesi için bir model sunar.",
+      "kosul": "Çavdar kepeği fermantasyonu",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.lwt.2013.12.004",
+          "yer": "Annotated References"
+        }
+      ]
+    },
+    {
+      "id": "cavdar.pisirme_degerini_belirleyen_bilesenler",
+      "metin": "Çavdar ununun pişirme değerini en çok nişasta, pentozanlar ve bunları parçalayan enzimler belirlerken proteinlerin etkisi çok daha küçüktür [2].",
+      "kosul": "pisirme degeri literatur aktarimi ref 2",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/ma14247603",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "cavdar.transglutaminaz_ile_protein_capraz_baglanmasi",
+      "metin": "Beck vd. (2011), çavdar proteinlerini transglutaminaz ile çapraz bağlayarak çavdar hamurlarında buğday hamuruna benzer bir yapı oluşturabilmiştir [26].",
+      "kosul": "Çavdar proteinlerinin transglutaminazla çapraz bağlanması; Beck vd. (2011) atfı",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods9121900",
+          "yer": "PMC7765839.txt:Introduction"
+        }
+      ]
+    },
+    {
+      "id": "cavdar.yuksek_asitlik_ekmek_mayasi_gerektirir",
+      "metin": "Çavdar amilazlarını baskılamak amacıyla yüksek asitliğe ulaştırılan çavdar ekşi mayalı hamurları, fırıncı mayası eklenmeden kabarma sağlayamaz.",
+      "kosul": "Yüksek asitlikteki çavdar ekşi mayaları",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.ijfoodmicro.2018.08.019",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "cavdar.cavdarda_lab_sayisi_yuksek",
+      "metin": "Aynı suşlarla çavdar ekşi mayalarında, buğday ekşi mayalarına göre Levilactobacillus brevis suşlarında üç-altı kat, Pediococcus claussenii suşlarında iki-üç kat daha yüksek hücre sayısına ulaşıldı.",
+      "kosul": "Tek suşla aşılanmış çavdar ve buğday ekşi mayaları; L. brevis ve P. claussenii suşları; koloni sayımı (KOB).",
+      "kanit": "tek_kaynak",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods10030547",
+          "yer": "3.1. Growth characteristics"
+        }
+      ]
+    },
+    {
+      "id": "cavdar.dusuk_ph_arabinoksilan_atif",
+      "metin": "Çavdar ekşi mayasının düşük pH değeri arabinoksilanların çıkarılabilirliğini ve şişme özelliğini artırır.",
+      "kosul": "Çavdar ekşi mayası.",
+      "kanit": "ikincil",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1002/fsn3.4050",
+          "yer": "1. INTRODUCTION"
+        }
+      ]
+    },
+    {
+      "id": "cavdar.asitlendirilmis_hamur_tek_asama",
+      "metin": "Hamur verimi %178 olan çavdar hamurları, 1000 g çavdar unu, 15 g tuz, 30 g maya, 8 cm³ %88 laktik asit ve 780 cm³ suyla hazırlanarak tek aşamalı pişirme ile işlendi.",
+      "kosul": "Tek aşamalı pişirme; çavdar unu (%14 nem standardına göre); kimyasal laktik asit eklemesi (ekşi maya değil)",
+      "kanit": "tek_kaynak",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/ma14247603",
+          "yer": "Baking Trial"
+        }
+      ]
+    },
+    {
+      "id": "cavdar.sekalin_depo_proteinleri_molekul_agirligi",
+      "metin": "Jel fazındaki en bol proteinler, molekül ağırlıkları 32 ile 90 kDa arasında değişen sekalin adlı çavdar depo proteinleridir [42].",
+      "kosul": "Çavdar jel fazı; sekalin depo proteinleri (atıf)",
+      "kanit": "ikincil",
+      "bolum": "Kimlik",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods9121900",
+          "yer": "PMC7765839.txt:3.4. Composition of the Gel Phase"
+        }
+      ]
+    },
+    {
+      "id": "cavdar.un_lipit_bilesimi",
+      "metin": "Bu çalışmada kullanılan Dukato çeşidi çavdar unu, kuru madde bazında %0,9 toplam lipit içeriyordu; toplam lipitin %36'sı serbest lipitti.",
+      "kosul": "Dukato çeşidi çavdar unu; kuru madde bazında",
+      "kanit": "tek_kaynak",
+      "bolum": "Kimlik",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.foodhyd.2020.105771",
+          "yer": "2.1.2 Flours"
+        }
+      ]
+    },
+    {
+      "id": "cavdar.eksi_mayanin_beta_glukan_korunumuna_katkisi",
+      "metin": "Çavdar ekmeklerinde en düşük beta-glukan içeriği kontrol ekmeğinde (%0,30) saptanmış; ekşi maya kullanımı, türünden bağımsız olarak ekmeklerde beta-glukanların daha fazla korunmasına katkı sağlamıştır.",
+      "kosul": "Çavdar ekmekleri; farklı ekşi mayalarla ve ekşi mayasız kontrol ekmeği",
+      "kanit": "tek_kaynak",
+      "bolum": "Mayadaki yeri",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/molecules28041910",
+          "yer": "2.3. Contents of Individual Complex Carbohydrates and Dietary Fiber in the Sourdough Breads"
+        }
+      ]
+    },
+    {
+      "id": "cavdar.fermantasyonda_weissella_ve_lactobacillus_dinamigi",
+      "metin": "Çavdar ekşi mayası yenilemelerinde fermantasyon ilerledikçe Weissella bolluğu 48 saatte %11'e ve 72 saatte %5'e düşerken Lactobacillus cinsi lehine (48 saatte %52, 72 saatte %67) değişim olmuştur.",
+      "kosul": "Tam çavdar unuyla kendiliğinden ekşi maya; 3 günlük yenileme (backslopping) boyunca bakteri topluluğu",
+      "kanit": "tek_kaynak",
+      "bolum": "Mayadaki yeri",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1002/mbo3.1009",
+          "yer": "Dynamics of the sourdough bacterial community based on culture-independent analysis"
+        }
+      ]
+    },
+    {
+      "id": "cavdar.otuzbir_un_ornegi_standart_pisirme_testi",
+      "metin": "Bileşenler ile ekmek kalitesi arasındaki ilişkiyi incelemek amacıyla 2012 hasadından 31 çavdar unu örneği geleneksel standart pişirme testine göre üç farklı kalite sınıfına ayrılmıştır.",
+      "kosul": "Geleneksel standart pişirme testi; 2012 hasadı çavdar unları",
+      "kanit": "tek_kaynak",
+      "bolum": "Nasıl ölçülür",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods9121900",
+          "yer": "PMC7765839.txt:4. Conclusions"
+        }
+      ]
+    },
+    {
+      "id": "cavdar.tam_cavdar_pca_varyans_aciklamasi",
+      "metin": "Tam çavdar unu verilerinin temel bileşen analizinde ilk iki temel bileşen (PC1, PC2) toplam varyasyonun %73,09'unu açıklamıştır.",
+      "kosul": "Tam çavdar unu örnekleri; temel bileşen analizi (PC1, PC2)",
+      "kanit": "tek_kaynak",
+      "bolum": "Nasıl ölçülür",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods8080331",
+          "yer": "3. Results and Discussion - 3.4. Principal Component Analysis (PCA)"
+        }
+      ]
+    },
+    {
+      "id": "cavdar.alpler_ve_hirvatistan_ekmekleri",
+      "metin": "Soğuk iklimlere daha uyumlu olan çavdar unu, Alplerde ve Hırvatistan'da yumuşak buğday unuyla karıştırılarak Puccia ladina ve Schüttelbrot gibi geleneksel ekmeklerin yapımında kullanılır.",
+      "kosul": "İtalyan Alpleri ve Hırvatistan",
+      "kanit": "tek_kaynak",
+      "bolum": "Ortak özellikler",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods11152326",
+          "yer": "3.2. Flour Type and Quality"
+        }
+      ]
+    },
+    {
+      "id": "cavdar.bugday_cavdar_mikrobiyota_benzerligi",
+      "metin": "Buğday ve çavdar ekşi mayaları, fermantasyon mikrobiyotası veya metabolik etkinlikleri bakımından belirgin bir farklılık göstermez.",
+      "kosul": "Buğday ve çavdar ekşi mayaları",
+      "kanit": "ikincil",
+      "bolum": "Ortak özellikler",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.fm.2013.04.007",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "cavdar.cozunmeyen_cozunen_nsps_orani_kalite",
+      "metin": "Çözünmeyen nişasta dışı polisakkaritlerin çözünenlere oranı, pişirme kalitesi zayıf sınıftaki çavdar unlarında anlamlı derecede daha yüksek bulunmuştur; iyi ve orta sınıf unlar bu ölçütle ayrılamamıştır.",
+      "kosul": "Çavdar unları; pişirme testine göre iyi, orta ve zayıf kalite sınıfları",
+      "kanit": "tek_kaynak",
+      "bolum": "Tanım",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods9121900",
+          "yer": "PMC7765839.txt:Results and Discussion"
+        }
+      ]
+    },
+    {
+      "id": "cavdar.dag_cavdari_ve_yaygin_cavdar_karsilastirma",
+      "metin": "Dağ çavdarı unu yaygın çavdar ununa benzer pişirme değerine sahip olup tanesi daha fazla protein, serbest fenolik ve kül, daha az nişasta içerir.",
+      "kosul": "tane karsilastirmasi literaturu",
+      "kanit": "ikincil",
+      "bolum": "Tanım",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods13193035",
+          "yer": "1. Introduction"
+        }
+      ]
+    },
+    {
+      "id": "cavdar.ekmek_matrisi_surekli_fazi_nisasta_granulleri",
+      "metin": "Genel olarak buğday ekmeğinde ekmek matrisinin sürekli fazını gluten, çavdar ekmeklerinde ise nişasta granülleri oluşturur.",
+      "kosul": "Ekmek matrisi mikroyapısı; atıflı genel bilgi",
+      "kanit": "ikincil",
+      "bolum": "Tanım",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods5020024",
+          "yer": "4.2. Microstructural Aspects"
+        }
+      ]
+    },
+    {
+      "id": "cavdar.ekmek_yapimina_en_uygun_un_parametreleri",
+      "metin": "Ekmek yapımına en uygun çavdar unu 125–200 s düşme sayısı (FN), 400–600 AU amilograf tepe viskozitesi (APV) ve 63–68 °C jelatinleşme tepe sıcaklığı ile karakterizedir.",
+      "kosul": "literatur aktarimi ref 7 ve 8; 125; 200; 400; 600; 63; 68",
+      "kanit": "ikincil",
+      "bolum": "Tanım",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/ma14247603",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "cavdar.geleneksel_cavdar_ekmegi_tanimi_alman_klavuzu",
+      "metin": "Resmi Alman gıda kılavuzuna göre geleneksel çavdar ekmeği %50'den fazla çavdar unu fraksiyonundan oluşan ve genellikle ekşi mayayla üretilen ekmekleri tanımlar [1].",
+      "kosul": "Resmi Alman gıda kılavuzundaki (Leitsätze) geleneksel çavdar ekmeği tanımı",
+      "kanit": "tek_kaynak",
+      "bolum": "Tanım",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods9121900",
+          "yer": "PMC7765839.txt:Introduction"
+        }
+      ]
+    },
+    {
+      "id": "cavdar.jel_fazi_protein_ve_pentozan_oran_iliskisi",
+      "metin": "Zayıf kalite sınıfı diğer kalite sınıflarına kıyasla jel fazında artmış protein ve pentozan oranı göstermiştir.",
+      "kosul": "jel fazi bilesimi karsilastirmasi",
+      "kanit": "tek_kaynak",
+      "bolum": "Tanım",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods9121900",
+          "yer": "PMC7765839.txt:3.4. Composition of the Gel Phase"
+        }
+      ]
+    },
+    {
+      "id": "cavdar.kuru_pisirme_kavrami_amilogram_viskozitesi",
+      "metin": "Amilogramlarında sürekli yüksek viskozite maksimumu gösteren unların yetersiz pişirme sonuçları için literatürde 'kuru pişirme' (dry-baking) terimi yerleşmiştir [2,3,4].",
+      "kosul": "Çavdar ekmeği kusurları literatürü (atıf)",
+      "kanit": "ikincil",
+      "bolum": "Tanım",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods9121900",
+          "yer": "PMC7765839.txt:Introduction"
+        }
+      ]
+    },
+    {
+      "id": "cavdar.tanesi_pentozan_ve_beta_glukan_kaynagi",
+      "metin": "Çavdar tanesi, pentozanlar ve β-glukan gibi bileşenleri içeren bir lif kaynağıdır.",
+      "kosul": "Çavdar tanesi; atıflı giriş bilgisi",
+      "kanit": "ikincil",
+      "bolum": "Tanım",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods13193035",
+          "yer": "1. Introduction"
+        }
+      ]
+    },
+    {
+      "id": "cavdar.tanesinin_temel_bilesen_araliklari",
+      "metin": "Çavdar tanesinin ana bileşenleri nişasta (%57,1–65,6), diyet lifi (%14,7–20,9), protein (%9,0–15,4) ve kül (%1,8–2,2) olarak bildirilmiştir [1].",
+      "kosul": "Çavdar tanesi; literatür aktarımı",
+      "kanit": "ikincil",
+      "bolum": "Tanım",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/molecules28041910",
+          "yer": "1. Introduction"
+        }
+      ]
+    },
+    {
+      "id": "cavdar.ticari_cavdar_unlari_protein_ve_kul_araligi",
+      "metin": "İncelenen ticari çavdar unlarında protein içeriği kuru maddede %9,2 ile %14,0 arasında, kül içeriği ise %1,43 ile %2,42 arasında değişmiştir.",
+      "kosul": "Ticari çavdar unu örnekleri (RF kodlu); kuru madde",
+      "kanit": "tek_kaynak",
+      "bolum": "Tanım",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods8080331",
+          "yer": "3. Results and Discussion - 3.1. Flour Properties"
+        }
+      ]
+    },
+    {
+      "id": "cavdar.unu_fruktan_ve_beta_glukan_oranlari",
+      "metin": "Çalışmada kullanılan çavdar ununun bileşiminde fruktanlar %3,82, β-glukanlar %1,07 oranında bulunmuştur.",
+      "kosul": "Çalışmada kullanılan çavdar unu bileşimi",
+      "kanit": "tek_kaynak",
+      "bolum": "Tanım",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/molecules28041910",
+          "yer": "2.1. Rye Flour Composition"
+        }
+      ]
+    },
+    {
+      "id": "cavdar.unu_nisasta_ve_toplam_arabinoksilan",
+      "metin": "Çalışmada kullanılan çavdar ununun bileşiminde nişasta %58,67, toplam arabinoksilan %8,12 (bunun %2,11'i çözünür, %6,01'i çözünmeyen fraksiyon) olarak bulunmuştur.",
+      "kosul": "Çalışmada kullanılan çavdar unu bileşimi",
+      "kanit": "tek_kaynak",
+      "bolum": "Tanım",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/molecules28041910",
+          "yer": "2.1. Rye Flour Composition"
+        }
+      ]
+    },
+    {
+      "id": "cavdar.pfister_oeko_wilde_kruste_uretimi",
+      "metin": "Saf çavdar ekmeği 'Pfister Öko-Wilde Kruste', dışarıdan laktik asit bakterisi veya maya eklenmeksizin geleneksel üç aşamalı ekşi maya sürecinde üretilmiştir.",
+      "kosul": "uc asamali geleneksel surec",
+      "kanit": "tek_kaynak",
+      "bolum": "Tarihi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods11152325",
+          "yer": "2.2. Bread Samples"
+        }
+      ]
+    }
+  ]
+}

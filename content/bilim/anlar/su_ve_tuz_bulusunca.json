@@ -1,0 +1,236 @@
+{
+  "id": "su_ve_tuz_bulusunca",
+  "durak": "hamur",
+  "baslik": "Su ve tuz buluşunca",
+  "soru": "Su miktarı ve tuz hamurun kaderini neden bu kadar değiştirir?",
+  "bayrak": false,
+  "gor": {
+    "tur": "kaydirma",
+    "adimlar": [
+      {
+        "metin": "Su, un biyopolimerlerini (nişasta ve protein gibi büyük molekülleri) yumuşatan bir maddedir [[hidrasyon.suyun_rolu]]. Karıştırma başlayınca su un bileşenleri arasında dağılır, ardından gluten ağı, yani hamurun iskeleti, örülür [[hidrasyon.suyun_rolu]].",
+        "gorsel": "casatiello_mixing_dough_3617955916",
+        "vurgu": "Un ile suyun birleştiği an: karıştırma başlar, hamur kıvam kazanır."
+      },
+      {
+        "metin": "Yağlı tohumlu karışımda on ticari vital gluten örneği (una eklenen gluten katkısı) denendi [[hidrasyon.optimum_su_ornege_bagli]]. Her örnek en yüksek özgül hacme (birim ağırlığa düşen hacme) kendine özgü bir su dozunda ulaştı; doz 10 g'lık karışımda 8,95–11,60 mL arasında kaldı [[hidrasyon.optimum_su_ornege_bagli]].",
+        "gorsel": "dough_mixing_machine_flickr_al_jazeera_english",
+        "vurgu": "Su miktarı değiştikçe hamurun kıvamı ve ağ dokusu değişir."
+      },
+      {
+        "metin": "Tuz eklenince buğday gluten ağı %86'ya varan oranda güçlendi ve hamurun gaz tutma kapasitesi arttı [[tuz.gluten_aginin_yuzde_86_guclenmesi]]. Tuz, protein yüklerini perdeleyip zincirleri birbirine yaklaştırır [[disulfit.tuz_yukleri_notrler_disulfit_ve_beta_yaprak_artar]].",
+        "gorsel": "gluten_and_carbon_nanotubes",
+        "vurgu": "Gluten ağının mikroskopta görünen örgüsü: tuz zincirleri birbirine yaklaştırır."
+      },
+      {
+        "metin": "Tuz ağın kurulma hızını da değiştirir; proteinlerin suyla etkileşen yüzeylerini azaltıp ağın oluşumunu geciktirir ve yoğurma süresini uzatır [[tuz.gluten_hidrasyonunu_geciktirme_ve_gelisme_suresi]]. Un örneklerinin %95'inde tuz, farinograf su kaldırmasını (hamurun standart kıvama gelmesi için unun emdiği su yüzdesini) düşürdü [[hidrasyon.tuz_ilavesi_farinograf_su_kaldirma_dususu]].",
+        "gorsel": null,
+        "vurgu": ""
+      },
+      {
+        "metin": "Tuz miktarı arttıkça ozmotik basınç (daha yoğun çözeltinin sudan su çekme gücü) yükselir ve maya hücreleri su kaybeder [[tuz.maya_ozmotik_basinc_su_kaybi]]. Tuzlu hamurda su aktivitesi (mayanın kullanabildiği suyun payı) 0,97 ölçüldü; tuzsuz hamurda 0,99'du [[tuz.su_aktivitesi_maya]].",
+        "gorsel": null,
+        "vurgu": ""
+      },
+      {
+        "metin": "Su fazla olduğunda hamur yumuşar, uzayabilirliğini kaybeder ve gaz tutması düşer [[hidrasyon.fazla_su_gaz_tutma_atif]]. Tuz ise yoğurma toleransını, uzamaya direnci ve ekmek hacmini artırır [[tuz.hamur_dayanimi_uzayabilirlik_ve_hacim]].",
+        "gorsel": null,
+        "vurgu": ""
+      }
+    ]
+  },
+  "anla": [
+    {
+      "baslik": "Su hamuru nasıl açar",
+      "paragraflar": [
+        "Gluten ağı hamurun iskeletidir; hamurun öbür bileşenlerini bir arada tutar ve ekmek hacmini etkiler [[gluten.tanim_hamur_iskeleti]]. Ağı gliadin ve gluteninlerin su alması ile aralarındaki etkileşimler örer [[gliadin_glutenin.karistirmada_viskoelastik_ag_olusumu]]. Su bu örgüyü yumuşatır, un biyopolimerlerini plastikleştirir [[hidrasyon.suyun_rolu]]. Farklı yoğurma süreleri ve su düzeyleriyle hazırlanan dört ticari buğday unu hamurunda ağ yapısını öncelikle su dağılımı belirledi [[hidrasyon.gluten_ag_yapisi_su_dagilimi]]. Su dağılımı sabit değildir; yoğurma boyunca sürekli evrilir [[hidrasyon.su_dagilimi_karistirmada_surekli_evrilir]].",
+        "Düşük alanlı NMR ölçümleri (suyun bağlanma durumunu manyetik sinyalden okuyan yöntem) hamurdaki suyu üç gruba ayırır [[hidrasyon.nmr_ile_uc_farkli_su_grubu_tayini]]. Zayıf bağlı ve serbest su plastikleştirici gibi çalışır; kuvvetle bağlı su çapraz bağlayıcı rol üstlenir [[hidrasyon.bagli_ve_serbest_suyun_plastiklestirici_rolu]]. Hamur hazırlamada yaygın kullanılan 0,38–0,44 su kesirlerinde (hamurun toplam ağırlığındaki su oranı) hem bağlı hem serbest su bulunması muhtemeldir [[hidrasyon.bagli_ve_serbest_su_kesir_araligi]].",
+        "Örneklerin her biri kendi su dozunu istediği için tek bir oran bütün örneklerde aynı sonucu vermiyor [[hidrasyon.optimum_su_ornege_bagli]]. Rutin pişirme testinde bütün örneklere aynı su eklenirse gluten işlevselliğinde büyük farklar görülür [[hidrasyon.optimum_su_ornege_bagli]]. Standart hamur protokolünde geleneksel 0,5–0,6 aralığından ortanca değer olan 0,55 seçilir [[hidrasyon.standart_su_un_orani_0_55]]. Fırıncılık hesabında bu su hamur verimi adıyla ölçülür: 100 birim una eklenen su miktarı [[hidrasyon.hamur_verimi_tanim]]."
+      ]
+    },
+    {
+      "baslik": "Tuz ağı nasıl toplar",
+      "paragraflar": [
+        "Tuzun işi yalnız tadı biçimlendirmek değildir; nemi düzenler ve gluten ağı yapısını etkiler [[tuz.ekmek_yapiminda_nem_gluten_ve_doku_duzenleme]]. Ağın gücü %86'ya varan oranda artınca hamurun gaz tutma kapasitesi de yükseldi [[tuz.gluten_aginin_yuzde_86_guclenmesi]]. Bu güçlenmenin bir yüzü yüklerdedir: tuz, protein yüklerini nötralize edip elektrostatik itmeyi, yani aynı işaretli yüklerin birbirini itmesini, azaltır [[disulfit.tuz_yukleri_notrler_disulfit_ve_beta_yaprak_artar]]. Zincirler böylece disülfit köprüleri ve hidrofobik etkileşimlerle birbirine geçer, beta-yaprak yapıları (protein zincirinin kurdele gibi katlandığı düzenler) artar [[disulfit.tuz_yukleri_notrler_disulfit_ve_beta_yaprak_artar]]. Mikroskop ve FTIR incelemelerinde NaCl varlığında uzamış, lifsi bir protein ağı görülür; tuz azalınca ağ daha az bağlantılı taneciklere döner [[tuz.lifsi_fibril_gluten_agi_yapisi]].",
+        "Ağın güçlenmesi suyun işini değiştirir; tuz, proteinlerin suyla etkileşen yüzeylerini azaltıp ağın oluşumunu geciktirir ve yoğurma süresini uzatır [[tuz.gluten_hidrasyonunu_geciktirme_ve_gelisme_suresi]]. Un örneklerinin %95'inde tuz farinograf su kaldırmasını düşürdü; ortalama değer tuzsuz hamurda %55,5 iken %1,5 tuzlu hamurda %54,4 oldu [[hidrasyon.tuz_ilavesi_farinograf_su_kaldirma_dususu]]. Etki unun protein düzeyine göre de değişir: tuz, %9,0 proteinli unun direncini %13,5 proteinli una göre daha çok artırdı [[tuz.dusuk_ve_yuksek_proteinli_unda_dayanim]]. Yani zayıf unda tuzun katkısı daha belirgin olur [[tuz.dusuk_ve_yuksek_proteinli_unda_dayanim]]."
+      ]
+    },
+    {
+      "baslik": "Maya da dengeye girer",
+      "paragraflar": [
+        "Tuz mayayı da etkiler: ozmotik basınç yükselince hücreler su kaybeder ve metabolik etkinlik baskılanır [[tuz.maya_ozmotik_basinc_su_kaybi]]. Gliserol (mayanın ürettiği bir alkol) üretimi azaltılmış maya soyları bir denemede tuzlu normal hamurda fermantasyon kapasitesinin %30–50'sini yitirdi [[tuz.su_aktivitesi_maya]]. Yazarlar bu kaybı tuzlu hamurun daha düşük su aktivitesine bağladı; değer tuzsuzda 0,99, tuzluda 0,97'ydi [[tuz.su_aktivitesi_maya]]. Anlamlı baskılama %1'in üzerindeki tuz düzeylerinde görünür [[tuz.yuzde_1_uzeri_tuz_maya_baskilama_esigi]]. Bu yavaşlama fırıncıya denetim verir; tuz fermantasyon hızını dengeleyip süreci izlenebilir kılar [[tuz.fermantasyon_hizini_denetleme]]."
+      ]
+    },
+    {
+      "baslik": "Denge somunda görünür",
+      "paragraflar": [
+        "İkisi aynı hamurda birlikte ayarlanır: su, kıvamı ve ağın kuruluşunu; tuz ise ağın sağlamlığını belirler [[tuz.ekmek_yapiminda_nem_gluten_ve_doku_duzenleme]]. Sabit terime göre yapılan parametre tahminleri, su kaldırmanın mayalı ve ekşi mayalı kısa prosedürlerde en belirleyici etken olduğunu gösterdi [[hidrasyon.su_kaldirmamin_kisa_prosedurlerde_belirleyiciligi]]. İyi kurulmamış bir gluten ağı mayalanma gazını tutamayabilir ve ekmek hacmi düşük kalır [[gluten.elastiklik_hacim_optimum]]."
+      ]
+    }
+  ],
+  "yuzlesme": [
+    {
+      "inanc": "Tuz sadece lezzet için eklenir; hamurun yapısına dokunmaz.",
+      "cevap": "Tuz, ekmek yapımında nemi düzenleyip gluten ağı yapısını etkileyerek ekmeğin iyi dokusunu ve lezzetini korumada çoklu roller oynar [[tuz.ekmek_yapiminda_nem_gluten_ve_doku_duzenleme]]. Tuz ilavesi gluten ağını %86'ya varan oranda güçlendirmiştir [[tuz.gluten_aginin_yuzde_86_guclenmesi]]. Hacimde ise kaynaklar ayrılıyor: derleme tuzun ekmek hacmini artırdığını bildirir [[tuz.hamur_dayanimi_uzayabilirlik_ve_hacim]]. %1,2 mayalı hamurda ise artan NaCl ile özgül hacim düşmüş [[tuz.yuzde_1_2_mayada_nacl_artisiyla_hacim_dususu]]."
+    },
+    {
+      "inanc": "Hamura bol su vermek ekmeği havadar yapar.",
+      "cevap": "Suyu optimumun üzerinde olan hamurlar yumuşar, uzayabilirliğini kaybeder ve gaz tutma kapasitesi düşer [[hidrasyon.fazla_su_gaz_tutma_atif]]. Su optimumun altında kaldığında ise protein ağı sıkı ve düzensiz dağılan bir yapı gösteriyor [[hidrasyon.az_ve_fazla_su_ag_yapisi_atif]]. Optimumun üzerinde suyla proteinler daha çok kümeleniyor ama birbirine daha az bağlanıyor [[hidrasyon.az_ve_fazla_su_ag_yapisi_atif]]."
+    },
+    {
+      "inanc": "Her un için aynı su miktarı yeter.",
+      "cevap": "Su kaldırma yüksek proteinli unda %58,5, düşük proteinli unda %53 ölçüldü [[hidrasyon.yuksek_ve_dusuk_proteinli_un_su_kaldirma]]. Ticari vital gluten örneklerinde de her örnek en yüksek özgül hacme kendine özgü bir su dozunda ulaştı [[hidrasyon.optimum_su_ornege_bagli]]."
+    }
+  ],
+  "kanit": {
+    "cekirdek": [
+      "hidrasyon.suyun_rolu",
+      "hidrasyon.optimum_su_ornege_bagli",
+      "hidrasyon.gluten_ag_yapisi_su_dagilimi",
+      "hidrasyon.nmr_ile_uc_farkli_su_grubu_tayini",
+      "hidrasyon.bagli_ve_serbest_suyun_plastiklestirici_rolu",
+      "hidrasyon.tuz_ilavesi_farinograf_su_kaldirma_dususu",
+      "hidrasyon.fazla_su_gaz_tutma_atif",
+      "tuz.gluten_aginin_yuzde_86_guclenmesi",
+      "tuz.gluten_hidrasyonunu_geciktirme_ve_gelisme_suresi",
+      "tuz.hamur_dayanimi_uzayabilirlik_ve_hacim",
+      "tuz.maya_ozmotik_basinc_su_kaybi",
+      "tuz.su_aktivitesi_maya",
+      "tuz.ekmek_yapiminda_nem_gluten_ve_doku_duzenleme",
+      "gluten.tanim_hamur_iskeleti",
+      "gluten.elastiklik_hacim_optimum"
+    ],
+    "cekmece": [
+      "hidrasyon.hamur_verimi_tanim",
+      "hidrasyon.standart_su_un_orani_0_55",
+      "hidrasyon.bagli_ve_serbest_su_kesir_araligi",
+      "hidrasyon.su_dagilimi_karistirmada_surekli_evrilir",
+      "hidrasyon.gliadin_ve_gluteninin_su_kaldirmada_sinerjisi",
+      "hidrasyon.gluten_kendi_agirliginin_iki_kati_su_baglar",
+      "hidrasyon.gluteninin_gliadinden_yuksek_su_tutmasi",
+      "hidrasyon.un_bilesenlerinin_gram_basina_su_tutma_kapasiteleri",
+      "hidrasyon.az_ve_fazla_su_ag_yapisi_atif",
+      "hidrasyon.su_artisi_gelisme_suresini_uzatir",
+      "hidrasyon.su_kaldirmamin_kisa_prosedurlerde_belirleyiciligi",
+      "hidrasyon.kepek_ikame_orani_arttikca_artan_su_alma",
+      "hidrasyon.liflerin_su_rekabeti_ve_viskoelastisite",
+      "hidrasyon.tip1_eksimaya_ile_optimum_su_kaldirmada_azalma",
+      "hidrasyon.su_orani_ic_dokusu",
+      "hidrasyon.yuksek_ve_dusuk_proteinli_un_su_kaldirma",
+      "tuz.hidrofobik_kumelenme",
+      "tuz.yuklerin_perdelenmesi_ve_iyonik_etkilesim",
+      "tuz.sanayide_tuz_kullanim_duzeyi",
+      "tuz.tuz_azaltiminda_gluten_capraz_bag_ve_elastikiyet_kaybi",
+      "tuz.dusuk_ve_yuksek_proteinli_unda_dayanim",
+      "tuz.bosluklu_tuz_ile_ekmek_ozgul_hacmi",
+      "tuz.tuz_azaltiminda_reolojik_korunma",
+      "tuz.eksi_maya_ve_tuz_azaltimi",
+      "tuz.fermantasyon_hizini_denetleme",
+      "tuz.asit_gluten_etkilesimi",
+      "tuz.dusuk_iyon_derisiminde_benzer_kumelenme",
+      "tuz.lifsi_fibril_gluten_agi_yapisi",
+      "tuz.mikrobiyal_ekosistem_etkisi",
+      "tuz.dusuk_deniz_tuzu_ile_maya_etkinligi_uyarimi",
+      "tuz.yuzde_1_uzeri_tuz_maya_baskilama_esigi",
+      "tuz.yuzde_1_2_mayada_nacl_artisiyla_hacim_dususu",
+      "gluten.ag_stabilitesi_disulfit_ve_kovalent_olmayan_baglar",
+      "gluten.viskoelastisite_ve_hava_hucreleri_kararliligi",
+      "gluten.glutenin_kuvvet_ve_gliadin_uzayabilirlik",
+      "gliadin_glutenin.karistirmada_viskoelastik_ag_olusumu",
+      "gliadin_glutenin.gliadin_akiskanlik_glutenin_elastiklik",
+      "gliadin_glutenin.viskoelastisite_ve_gaz_tutma_mekanizmasi",
+      "disulfit.tuz_yukleri_notrler_disulfit_ve_beta_yaprak_artar",
+      "disulfit.glutenin_makropolimeri",
+      "disulfit.ag_stabilitesi_karistirma"
+    ]
+  },
+  "baglar": [
+    {
+      "kaldirac": "su miktarı",
+      "mekanizma": "Su dağılımı, gluten ağının hangi biçimde kurulacağını öncelikle belirler.",
+      "sonuc": "Az suda ağ sıkı ve düzensiz dağılıyor; çok suda zincirler kümeleniyor ama birbirine daha az bağlanıyor.",
+      "bilgiler": [
+        "hidrasyon.gluten_ag_yapisi_su_dagilimi",
+        "hidrasyon.az_ve_fazla_su_ag_yapisi_atif"
+      ]
+    },
+    {
+      "kaldirac": "optimum su miktarı",
+      "mekanizma": "Optimumun üstünde su hamuru yumuşatır, uzayabilirliğini ve gaz tutmasını düşürür.",
+      "sonuc": "İç dokusu iri gözenekli bir hâl alabilir; gazı tutamayan ağdan hacmi düşük ekmek çıkar.",
+      "bilgiler": [
+        "hidrasyon.fazla_su_gaz_tutma_atif",
+        "hidrasyon.su_orani_ic_dokusu",
+        "gluten.elastiklik_hacim_optimum"
+      ]
+    },
+    {
+      "kaldirac": "tuz derişimi",
+      "mekanizma": "Tuz, yükleri perdeler ve hidrofobik etkileşimleri güçlendirir.",
+      "sonuc": "Gluten ağı güçlenir, hamurun dayanımı ve ekmek hacmi artar.",
+      "bilgiler": [
+        "tuz.hidrofobik_kumelenme",
+        "tuz.yuklerin_perdelenmesi_ve_iyonik_etkilesim",
+        "tuz.hamur_dayanimi_uzayabilirlik_ve_hacim"
+      ]
+    },
+    {
+      "kaldirac": "tuz ve su kaldırma",
+      "mekanizma": "Tuz, proteinlerin suyla etkileşen yüzey bölgelerini daraltır.",
+      "sonuc": "Aynı kıvam için daha az su gerekir, yoğurma süresi uzar.",
+      "bilgiler": [
+        "hidrasyon.tuz_ilavesi_farinograf_su_kaldirma_dususu",
+        "tuz.gluten_hidrasyonunu_geciktirme_ve_gelisme_suresi"
+      ]
+    },
+    {
+      "kaldirac": "tuz ve maya",
+      "mekanizma": "Ozmotik basınç artar, su aktivitesi düşer.",
+      "sonuc": "Maya etkinliği baskılanır, fermantasyon daha iyi denetlenir.",
+      "bilgiler": [
+        "tuz.maya_ozmotik_basinc_su_kaybi",
+        "tuz.su_aktivitesi_maya",
+        "tuz.fermantasyon_hizini_denetleme"
+      ]
+    },
+    {
+      "kaldirac": "tuz azaltımı",
+      "mekanizma": "Moleküller arası çapraz bağlanma derecesi zayıflar.",
+      "sonuc": "Elastikiyet ve uzayabilirlik düşer, ekmek özgül hacmi gerileyebilir.",
+      "bilgiler": [
+        "tuz.tuz_azaltiminda_gluten_capraz_bag_ve_elastikiyet_kaybi",
+        "tuz.bosluklu_tuz_ile_ekmek_ozgul_hacmi"
+      ]
+    },
+    {
+      "kaldirac": "su ve tuz dengesi",
+      "mekanizma": "Su ağı kurar, tuz ağı toplar; ikisi aynı hamurda birlikte ayarlanır.",
+      "sonuc": "Hamurun ilk kararı bu dengede verilir.",
+      "bilgiler": [
+        "tuz.ekmek_yapiminda_nem_gluten_ve_doku_duzenleme",
+        "hidrasyon.su_kaldirmamin_kisa_prosedurlerde_belirleyiciligi"
+      ]
+    }
+  ],
+  "karakterler": [
+    "gluten"
+  ],
+  "ayrisan_kaynaklar": [
+    {
+      "konu": "Artan tuzun ekmek hacmine etkisi",
+      "bilgiler": [
+        "tuz.hamur_dayanimi_uzayabilirlik_ve_hacim",
+        "tuz.yuzde_1_2_mayada_nacl_artisiyla_hacim_dususu",
+        "tuz.bosluklu_tuz_ile_ekmek_ozgul_hacmi"
+      ]
+    },
+    {
+      "konu": "Tuzun hamur reolojisine etkisi",
+      "bilgiler": [
+        "tuz.fermente_olmamis_hamurda_dinamik_moduller",
+        "tuz.yapiskanlik_ve_kohezyon",
+        "tuz.tuz_azaltiminda_reolojik_korunma"
+      ]
+    }
+  ]
+}

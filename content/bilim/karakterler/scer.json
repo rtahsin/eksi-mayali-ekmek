@@ -1,0 +1,73 @@
+{
+  "id": "scer",
+  "ad": "Saccharomyces cerevisiae",
+  "eski_ad": null,
+  "tur": "maya",
+  "tek_cumle": "Ekmek ve Danish pastry gibi mayalı hamur ürünlerinde kabartıcı olarak dünya genelinde kullanılan maya çoğunlukla Saccharomyces cerevisiae'dir ve fırıncı mayası olarak da bilinir [[scer.firin_mayasi_tanim_dunya]]",
+  "bolumler": [
+    {
+      "baslik": "Kimlik",
+      "cumleler": [
+        "Ekşi maya örneklerinin %77'sinde mantar ITS okumalarının yarısından fazlası Saccharomyces cerevisiae'ye aittir [[scer.cogu_eksi_mayada_baskin]]",
+        "Endüstriyel ekmek suşlarında poliploidi ve anöploidi yaygındır [[scer.endustriyel_suslarda_poliploidi]]"
+      ]
+    },
+    {
+      "baslik": "Ne yer, ne üretir",
+      "cumleler": [
+        "Hamurdaki sakaroz, glukoz, fruktoz ve maltoz gibi karbonhidratları glikoliz yoluyla karbondioksit ve etanole fermente eder [[scer.glikoliz_karbonhidrat_fermantasyonu]]",
+        "ATF1 ve ATF2 asetil-KoA transferazları ise izoamil asetat ve etil asetat üretimiyle ilişkilendirilmiştir [[scer.ester_enzimleri]]"
+      ]
+    },
+    {
+      "baslik": "Ne yapar",
+      "cumleler": [
+        "İnvertaz etkinliğiyle sakarozu hücre dışında glukoz ve fruktoza dönüştürür [[scer.sakaroz_invertaz_hucre_disi]]"
+      ]
+    },
+    {
+      "baslik": "Hamurda ne olur",
+      "cumleler": [
+        "Fermantasyonu hamura yapı kazandırır, yayılma eğilimini azaltıp daha sıkı bir hamur oluşturur ve gaz tutma yeteneğini artırır [[scer.hamur_reolojisi_ve_gaz_tutma]]"
+      ]
+    },
+    {
+      "baslik": "Hangi koşulda",
+      "cumleler": [
+        "Yaygın ekmek mayası maltoz-pozitiftir ve nispeten aside dayanıklıdır [[scer.asit_toleransi_ve_maltoz_adaptasyonu]]"
+      ]
+    },
+    {
+      "baslik": "Mayadaki yeri",
+      "cumleler": [
+        "Dünya genelindeki ekşi maya ekosistemlerinde en baskın maya türü olarak kabul edilir [[scer.dunya_genelinde_eksi_mayalarda_baskin_maya_turu]]"
+      ]
+    },
+    {
+      "baslik": "Nereden gelir",
+      "cumleler": [
+        "Ekşi mayadaki suşların yabani suşlar mı yoksa fırında aynı anda kullanılan ekmek mayasından çapraz bulaşma mı olduğu tartışılmaktadır [[scer.firin_mayasi_kokeni]]"
+      ]
+    },
+    {
+      "baslik": "Ekmeğe etkisi",
+      "cumleler": [
+        "Bu yüzden maya suşu seçimi yalnızca karbondioksit üretimiyle sınırlı kalmayıp fırın kabarması, gaz hücresi stabilizasyonu ve son ekmek içi yapısındaki farklılıklar yoluyla pişirme fazını belirgin biçimde etkiler [[scer.maya_susu_seciminin_pisirme_fazina_etkisi]]"
+      ]
+    }
+  ],
+  "efsane": null,
+  "anlar": [
+    "ilk_hava_kabarciklari",
+    "eksi_mayanin_ilk_10_gunu",
+    "ayni_sofrada",
+    "gaz_ve_kabarma",
+    "son_mayalanma",
+    "firinin_ilk_8_dakikasi"
+  ],
+  "gorseller": [
+    "saccharomyces_cerevisiae_sem",
+    "saccharomyces_cerevisiae_100x_phase_contrast_microscopy",
+    "s_cerevisiae_under_dic_microscopy"
+  ]
+}

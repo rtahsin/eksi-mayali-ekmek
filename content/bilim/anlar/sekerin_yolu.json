@@ -1,0 +1,252 @@
+{
+  "id": "sekerin_yolu",
+  "durak": "fermantasyon",
+  "baslik": "Nişasta şekere dönerken",
+  "soru": "Undaki nişasta mayanın sofrasına nasıl düşer?",
+  "bayrak": false,
+  "gor": {
+    "tur": "kaydirma",
+    "adimlar": [
+      {
+        "metin": "Unun ağırlığının büyük bölümünü nişasta oluşturur; buğday ununda bu oran %70–75 arasındadır [[nisasta.bugday_ununun_ana_bileseni]]. Nişasta, unun yaklaşık %70–80'ini oluşturan granüller hâlinde durur ve A, B, C olmak üzere üç tipe ayrılır [[nisasta.granul_tipleri_ve_boyut_siniflari]].",
+        "gorsel": "wheat_starch_granules",
+        "vurgu": "Buğday nişasta taneleri, iyotla boyanmış ışık mikroskobunda."
+      },
+      {
+        "metin": "Nişasta granülü genellikle iki tür molekülden oluşur: doğrusal zincirli amiloz ve yüksek oranda dallanmış amilopektin [[nisasta.polimer_yapisi_bag_turleri]]. Buğday unundaki nişastanın %72–75'i amilopektin, %25–28'i amilozdur [[nisasta.bugday_ununda_amiloz_amilopektin_orani]].",
+        "gorsel": "photomicrograph_of_wheat_starch",
+        "vurgu": "Buğday nişastasının mikroskop görüntüsü: tanelerin merkezinde eş merkezli halkalar."
+      },
+      {
+        "metin": "Nişasta yalnız hamuru dolduran bir madde değildir; suyu emer, viskozitesine katkıda bulunduğu hamurun gaz tutucu gluten ağına entegre olur [[nisasta.hamurdaki_islevleri_ve_maya_fermantasyonu]]. Enzimler onu parçaladıktan sonra nişasta, maya fermantasyonu için birincil enerji kaynağı hâline gelir [[nisasta.hamurdaki_islevleri_ve_maya_fermantasyonu]].",
+        "gorsel": "starch_granules_of_potato01",
+        "vurgu": "Nişasta taneleri, ışık mikroskobunda, 400 kat büyütmede."
+      },
+      {
+        "metin": "Nişastayı parçalayan enzimler amilazlardır; amilolitik enzimler, nişasta zincirindeki alfa-1,4 ve/veya alfa-1,6 bağlarına etki eden enzimlerdir [[amilaz.glikozit_hidrolaz_siniflandirma]]. Amilaz, hasarlı nişastayı kolayca parçalar ve açığa çıkan serbest şekerler mayanın fermantasyonuna destek olur [[amilaz.hasarli_nisastadan_seker]]. Peki açığa çıkan şeker kime gider?",
+        "gorsel": "potato_starch_microscope_20240525",
+        "vurgu": "Patates nişastası taneleri: enzimin hedefi olan granüller ışık mikroskobunda."
+      },
+      {
+        "metin": "Enzimlerin çalışma biçimi farklıdır: sıradan alfa-amilazlar nişastanın alfa-1,4 bağlarını oldukça rastgele keser ve amiloz ile amilopektinin molekül boyunu düşük molekül ağırlıklı şekerlere indirir [[amilaz.alfa_amilaz_rastgele_keser]]. Beta-amilaz ise nişasta zincirinin indirgeyici olmayan ucundan maltoz birimlerini, yani iki glukoz molekülüne ayrılabilen şekerleri koparır [[amilaz.beta_amilaz_ekzo_etki]] [[seker_yolu.maltaz_maltozu_boler]]. Buğday unu hamurunda iki saatlik fermantasyon sonunda tüketilen şekerlerin yaklaşık %56'sını amilazlar üretmişti [[amilaz.fermantasyonda_seker_uretim_payi]].",
+        "gorsel": "iodine_starch_test_for_apples",
+        "vurgu": "Elmada iyot-nişasta testi: iyotla boyanan bölge işaretlenir."
+      },
+      {
+        "metin": "Nişastanın parçalanmasıyla maltoz ve glukoz açığa çıkar [[seker_yolu.nisasta_maltoz_glukoz]]. İlk saatin ardından glukoz ve fruktozun büyük ölçüde tükendiği, yağsız hamurda ise maltozun mikroorganizmaların başlıca besini (substratı) hâline geldiği bildirilir [[seker_yolu.glukoz_tercihi_ve_ilk_saatten_sonra_maltoz]].",
+        "gorsel": "potato_starch_polarized_light_100x",
+        "vurgu": "Patates nişastası taneleri, polarize ışık mikroskobunda, 100x büyütmede."
+      }
+    ]
+  },
+  "anla": [
+    {
+      "baslik": "Unun çoğunluğu nişasta",
+      "paragraflar": [
+        "Buğday unu ağırlıkça başlıca %70–75 nişasta, yaklaşık %14 su, %10–12 protein, %2–3 nişasta dışı polisakkarit ve %2 lipitten oluşur [[nisasta.bugday_ununun_ana_bileseni]]. Nişasta, unun yaklaşık %70–80'ini oluşturan granüller (küçük tanecikler) hâlinde durur [[nisasta.granul_tipleri_ve_boyut_siniflari]]. Bu granüller A (23–28 µm), B (9–11 µm) ve C (2–3 µm) olmak üzere üç tipe ayrılır [[nisasta.granul_tipleri_ve_boyut_siniflari]]. Bu nişastanın %72–75'i amilopektin, %25–28'i amilozdur [[nisasta.bugday_ununda_amiloz_amilopektin_orani]]. Peki bu nişasta nasıl şekere dönüşür?"
+      ]
+    },
+    {
+      "baslik": "Nişastayı açan enzimler",
+      "paragraflar": [
+        "Amilolitik enzimler, nişasta zincirindeki alfa-1,4 ve/veya alfa-1,6 bağlarına etki eden enzimlerdir [[amilaz.glikozit_hidrolaz_siniflandirma]]. Sıradan alfa-amilazlar nişastanın alfa-1,4 bağlarını oldukça rastgele keser ve amiloz ile amilopektinin molekül boyunu düşük molekül ağırlıklı şekerlere indirir [[amilaz.alfa_amilaz_rastgele_keser]]. Beta-amilaz ise nişasta zincirinin indirgeyici olmayan ucundan maltoz birimlerini koparır [[amilaz.beta_amilaz_ekzo_etki]].",
+        "Amilazın kolayca parçaladığı madde hasarlı nişastadır; açığa çıkan serbest şekerler mayanın fermantasyonuna destek olur [[amilaz.hasarli_nisastadan_seker]]. Ekşi maya fermantasyonunda buğday ve çavdar ununun amilaz ve glukoamilaz aktiviteleri hasarlı nişastadan sırasıyla maltoz ve glukoz açığa çıkarır [[seker_yolu.amilaz_glukoamilaz_hasarli_nisasta]]. Glukoamilaz, hamurda glukoz artışına yol açan enzimdir [[seker_yolu.glukoamilaz_ilavesi_glukoz_artisi]].",
+        "Mayasız bir hamurda, eklenen alfa-amilaz miktarı arttıkça yüksek maltoz ve daha az glukoz salımı sayesinde toplam fermente edilebilir şeker düzeyi artar [[amilaz.dozaj_fermente_seker_artisi]]. Düşme sayısı testi, nişastayı parçalayan enzimlerin etkinliğini değerlendirir; alfa-amilaz etkinliği arttıkça düşme süresi kısalır [[amilaz.dusme_sayisi_ve_alfa_amilaz_ters_iliskili]]. Ekmeklik unlar için optimum düşme sayısı aralığı 200 ile 350 saniye arası olarak tanımlanır [[amilaz.ekmeklik_un_optimum_dusme_sayisi_araligi]]. Peki bu şeker kime gider?"
+      ]
+    },
+    {
+      "baslik": "Maya sofra hazırlıyor",
+      "paragraflar": [
+        "Fermantasyon sırasında nişasta, maltoz ve glukoza parçalanır [[seker_yolu.nisasta_maltoz_glukoz]]. Düz hamur fermantasyonunda mayalar glukozu fruktoz ve maltoza göre birincil karbon kaynağı olarak tercih etti [[seker_yolu.glukoz_tercihi_ve_ilk_saatten_sonra_maltoz]]. Belçika'da bir buğday unu-su karışımında başlangıçtaki başlıca karbonhidrat maltozdu: 26,0 milimolar (mM) [[seker_yolu.baslangicta_maltoz_baskin]]. Onu glukoz (4,8 mM), sakaroz (2,6 mM) ve fruktoz (2,5 mM) izledi [[seker_yolu.baslangicta_maltoz_baskin]].",
+        "Buğday ekşi mayasında en bol şeker maltozdur ve maltoz, buğday ekşi maya ekosistemlerinin sürdürülmesi için gereklidir [[seker_yolu.bugday_eksimaya_maltoz_en_bol]]. Sıkça örneklendiği üzere, ekşi maya laktik asit bakterileri (LAB) maltozu hücre içinde maltoz fosforilaz enzimiyle glukoza ve glukoz 1-fosfata dönüştürür [[seker_yolu.lab_maltoz_fosforilaz_glukoz_maya]]. Açığa çıkan glukoz, birlikte yaşayan mayaya sunulur [[seker_yolu.lab_maltoz_fosforilaz_glukoz_maya]]. Laboratuvardaki ikili kültürlerde, LAB suşlarıyla birlikte kültürlenen bir maya suşunun büyümesinde maltoz itici güç olmuştur [[seker_yolu.maltoz_s_cerevisiae_buyume_itici]].",
+        "Bu şekerler nasıl ölçülür? Hamur fermantasyonunda, mayanın kullanabildiği şekerlerin miktarı yüksek performanslı sıvı kromatografi (HPLC) ile belirlenir [[seker_yolu.hplc_ile_fermente_seker_tayini]]. Buğday hamurunda %5,3 maya ile 180 dakika fermantasyonun sonunda, kolay fermente edilebilir karbonhidratların yaklaşık %18,4'ü ortamda kalmıştır [[seker_yolu.180_dakikada_kalan_seker_orani]]. Yenilenen ekşi maya partilerinde maltoz en yüksek düzeyde, ortalama 22 g/kg kalmış; diğer şekerler 1–2 g/kg düzeyinde düşük kalmıştır [[seker_yolu.eksimaya_maltoz_22_g_kg_diger_sekerler_dusuk]]."
+      ]
+    }
+  ],
+  "yuzlesme": [
+    {
+      "inanc": "Ekşi maya ve hamurdaki şekerler fermantasyon sırasında tamamen tükenir.",
+      "cevap": "Tip II buğday ekşi mayalarında, 30 °C'de 72 saat boyunca ekşi mayayı başlatmak için eklenen hiçbir suş maltozu tüketmedi; kalan maltoz 2,2–67,6 mM aralığındaydı [[seker_yolu.maltoz_tukenmedi_sakaroz_tukendi]]. Öte yandan basit şekerler fermantasyonun ilk saatlerinde hızla tükenir; kaynaklar maltozun bu hızla tükenip tükenmediği konusunda ayrışıyor [[seker_yolu.basit_sekerler_once_tukenir]]."
+    }
+  ],
+  "kanit": {
+    "cekirdek": [
+      "nisasta.hamurdaki_islevleri_ve_maya_fermantasyonu",
+      "amilaz.hasarli_nisastadan_seker",
+      "seker_yolu.amilaz_glukoamilaz_hasarli_nisasta",
+      "seker_yolu.nisasta_maltoz_glukoz",
+      "seker_yolu.glukoz_tercihi_ve_ilk_saatten_sonra_maltoz",
+      "seker_yolu.bugday_eksimaya_maltoz_en_bol",
+      "seker_yolu.lab_maltoz_fosforilaz_glukoz_maya",
+      "amilaz.fermantasyonda_seker_uretim_payi",
+      "amilaz.glikozit_hidrolaz_siniflandirma",
+      "nisasta.bugday_ununun_ana_bileseni",
+      "amilaz.dusme_sayisi_ve_alfa_amilaz_ters_iliskili",
+      "seker_yolu.180_dakikada_kalan_seker_orani",
+      "seker_yolu.maltoz_tukenmedi_sakaroz_tukendi",
+      "amilaz.alfa_amilaz_rastgele_keser",
+      "seker_yolu.hplc_ile_fermente_seker_tayini"
+    ],
+    "cekmece": [
+      "nisasta.granul_tipleri_ve_boyut_siniflari",
+      "nisasta.polimer_yapisi_bag_turleri",
+      "nisasta.bugday_ununda_amiloz_amilopektin_orani",
+      "nisasta.genel_amiloz_amilopektin_dagilimi",
+      "nisasta.tahillarda_yari_kristal_granul_tanimi",
+      "nisasta.ekmek_ici_yapisi_ve_bayatlama_etkisi",
+      "nisasta.baslica_endustriyel_kaynaklari",
+      "nisasta.a_b_granul_orani_ve_en_yuksek_ekmek_hacmi",
+      "nisasta.b_tipi_granuller_yogun_hamur",
+      "nisasta.jellesmede_amilozun_disari_difuzyonu_ve_ag_olusumu",
+      "amilaz.beta_amilaz_ekzo_etki",
+      "amilaz.maltojenik_tanim",
+      "amilaz.ekmeklik_un_optimum_dusme_sayisi_araligi",
+      "amilaz.maltoz_salimi_dusme_sayisi_hasarli_nisasta",
+      "amilaz.dozaj_fermente_seker_artisi",
+      "amilaz.glukoamilaz_glukoz_artisi_15u",
+      "amilaz.glukoamilaz_glukoz_artisi_65u",
+      "amilaz.alfa_glukozidaz_glukoz_artisi",
+      "amilaz.hamurda_maltoz_artis_orani_004_132",
+      "amilaz.potus_gaz_uretimi_dususu",
+      "amilaz.alfa_amilaz_hamur_stabilitesini_azaltir",
+      "amilaz.dusuk_alfa_amilazli_unda_sert_hamur_ve_dusuk_hacim",
+      "amilaz.tuz_ilavesi_amilazi_baskilar_viskoziteyi_artirir",
+      "amilaz.laktik_asit_alfa_amilaz_inhibisyonu",
+      "amilaz.eksi_mayada_alfa_amilaz_inhibisyonu",
+      "amilaz.glukoamilaz_ekmek_glukoz_dogrusal",
+      "amilaz.un_takviyesi_maltoz_artisi",
+      "amilaz.firincilikta_kullanim",
+      "amilaz.olgun_maya_stabilitesi",
+      "seker_yolu.basit_sekerler_once_tukenir",
+      "seker_yolu.baslangicta_glukoz_fruktoz_sakaroz_fruktandan",
+      "seker_yolu.baslangicta_maltoz_baskin",
+      "seker_yolu.maltoz_s_cerevisiae_buyume_itici",
+      "seker_yolu.hpaec_pad_ile_seker_analizi",
+      "seker_yolu.eksimaya_maltoz_22_g_kg_diger_sekerler_dusuk",
+      "seker_yolu.eksimaya_kalan_maltoz_en_yuksek",
+      "seker_yolu.serbest_seker_miktari_ve_gaz_yetersizligi",
+      "seker_yolu.glukoz_maltoz_neye_bagli",
+      "seker_yolu.enzim_az_ise_sakaroz_fruktan",
+      "seker_yolu.glukoamilaz_ve_alfa_amilaz_fermente_sekeri_artirir",
+      "seker_yolu.glukoamilaz_ilavesi_glukoz_artisi",
+      "seker_yolu.dusuk_sicaklikta_maltoz_kalir",
+      "seker_yolu.seker_turlerinin_fermantasyon_hizi_ve_suresine_etkisi",
+      "seker_yolu.bugday_unu_bireysel_seker_oranlari",
+      "seker_yolu.mayasiz_kontrol_hamuru_seker_duzeyleri",
+      "seker_yolu.amilolitik_parcalanma_maltoz_izomaltoz",
+      "seker_yolu.maya_invertazi_sakaroz_ve_fruktan",
+      "seker_yolu.tam_un_invertaz_yuzde70_seker",
+      "seker_yolu.ekmek_ici_fruktoz_cavdar_karisik_bugday",
+      "seker_yolu.maltoz_glukoz_salinimi_eps_verimi",
+      "seker_yolu.ph_etkisi_maltoz_tuketimi",
+      "seker_yolu.sanfranciscensis_mapa_operonu_induklenme",
+      "seker_yolu.maltoz_fosforilaz_etkisi",
+      "seker_yolu.maltaz_maltozu_boler",
+      "seker_yolu.un_sekeri_glukan_icin_yeterli"
+    ]
+  },
+  "baglar": [
+    {
+      "kaldirac": "Unun hasarlı nişasta miktarı",
+      "mekanizma": "Amilaz hasarlı nişastayı kolayca parçalar; açığa çıkan serbest şekerler mayanın fermantasyonuna destek olur.",
+      "sonuc": "Buğday ve çavdar ekşi mayalarındaki maltoz ve glukoz düzeyini, undaki hasarlı nişasta miktarı ile unun amilaz ve glukoamilaz etkinliği belirler.",
+      "bilgiler": [
+        "amilaz.hasarli_nisastadan_seker",
+        "amilaz.maltoz_salimi_dusme_sayisi_hasarli_nisasta",
+        "seker_yolu.glukoz_maltoz_neye_bagli"
+      ]
+    },
+    {
+      "kaldirac": "Unun amilaz aktivitesi",
+      "mekanizma": "Düşme sayısı testi, nişastayı parçalayan amilolitik enzimlerin ve başlıca alfa-amilazın etkinliğini değerlendirir; alfa-amilaz aktivitesi arttıkça düşme süresi kısalır.",
+      "sonuc": "Ekmeklik unlar için optimum düşme sayısı aralığı 200 ile 350 saniye arasındadır. Çavdar unlarında düşme sayısı 200 saniyenin üzerindeyse hamur sert kalır ve somun hacmi düşük olur.",
+      "bilgiler": [
+        "amilaz.dusme_sayisi_ve_alfa_amilaz_ters_iliskili",
+        "amilaz.ekmeklik_un_optimum_dusme_sayisi_araligi",
+        "amilaz.dusuk_alfa_amilazli_unda_sert_hamur_ve_dusuk_hacim"
+      ]
+    },
+    {
+      "kaldirac": "Fermantasyonun ilk saatleri",
+      "mekanizma": "Sakaroz, maltoz, glukoz ve fruktoz gibi fermente olabilen şekerler ilk saatlerde hızla tükenir. Fermantasyonun başında glukoz ve fruktoz, unun kendi sakaroz ve fruktanlarının parçalanmasından gelir.",
+      "sonuc": "İlk saatin ardından glukoz ve fruktozun büyük ölçüde tükendiği, yağsız hamurda maltozun ana substrat hâline geldiği aktarılır. Maltozun tükenip tükenmediği kaynaklarda ayrışır.",
+      "bilgiler": [
+        "seker_yolu.basit_sekerler_once_tukenir",
+        "seker_yolu.baslangicta_glukoz_fruktoz_sakaroz_fruktandan",
+        "seker_yolu.glukoz_tercihi_ve_ilk_saatten_sonra_maltoz"
+      ]
+    },
+    {
+      "kaldirac": "Unun başlangıçtaki şeker bileşimi",
+      "mekanizma": "Belçika buğday unu-su karışımında başlangıçtaki başlıca karbonhidrat maltozdu; onu glukoz, sakaroz ve fruktoz izledi.",
+      "sonuc": "Belçika karışımında başlangıçta maltoz baskındı; buğday ununun kendi şeker profilinde ise sakaroz daha yüksek bulundu. Kaynaklar bu konuda ayrışıyor.",
+      "bilgiler": [
+        "seker_yolu.baslangicta_maltoz_baskin",
+        "seker_yolu.bugday_unu_bireysel_seker_oranlari"
+      ]
+    },
+    {
+      "kaldirac": "Ekşi maya ekosistemi",
+      "mekanizma": "Buğday ekşi mayasında en bol şeker maltozdur ve maltoz, ekşi maya ekosistemlerinin sürdürülmesi için gereklidir.",
+      "sonuc": "Sıkça örneklendiği üzere, ekşi maya LAB'ları maltozu maltoz fosforilazla parçalar ve açığa çıkan glukozu birlikte yaşayan mayaya sunar.",
+      "bilgiler": [
+        "seker_yolu.bugday_eksimaya_maltoz_en_bol",
+        "seker_yolu.lab_maltoz_fosforilaz_glukoz_maya",
+        "seker_yolu.maltoz_s_cerevisiae_buyume_itici"
+      ]
+    },
+    {
+      "kaldirac": "Fermantasyon süresi ve sıcaklığı",
+      "mekanizma": "Görece düşük sıcaklıkta, farklı fırınlardan alınan ekşi mayalarda maltoz yüksek derişimde kalmıştır. Ayrıca %5,3 maya içeren buğday hamurunda 180 dakikalık fermantasyondan sonra, kolay fermente edilebilir karbonhidratların yaklaşık %18,4'ü ortamda kalmıştır.",
+      "sonuc": "Düşük sıcaklık, ekşi mayada maltozun yüksek kalmasıyla ilişkili görünüyor; yüksek maltoz düzeyleri verimli fermantasyon süresini uzatır.",
+      "bilgiler": [
+        "seker_yolu.dusuk_sicaklikta_maltoz_kalir",
+        "seker_yolu.180_dakikada_kalan_seker_orani",
+        "seker_yolu.seker_turlerinin_fermantasyon_hizi_ve_suresine_etkisi"
+      ]
+    },
+    {
+      "kaldirac": "Hamura enzim ilavesi",
+      "mekanizma": "Glukoamilaz ve alfa-amilaz eklenmesi hamurdaki toplam fermente edilebilir şeker miktarını artırır; alfa-amilaz ilavesi ise hamur gelişimi ve gaz tutma parametreleri üzerinde belirgin olumlu etki yapar.",
+      "sonuc": "Potus vd. (1994) atfedilen çalışmada alfa-amilaz, şeker düzeyini iki katına çıkarmasına rağmen gaz üretimini düşürdü. Yüksek amilolitik aktivite ise toplam verimli fermantasyon süresini uzatır.",
+      "bilgiler": [
+        "seker_yolu.glukoamilaz_ve_alfa_amilaz_fermente_sekeri_artirir",
+        "amilaz.hamur_gelisimi_ve_gaz_gucu",
+        "amilaz.potus_gaz_uretimi_dususu",
+        "amilaz.verimli_fermantasyon_suresi"
+      ]
+    }
+  ],
+  "karakterler": [
+    "amilaz",
+    "nisasta"
+  ],
+  "ayrisan_kaynaklar": [
+    {
+      "konu": "Fermantasyonun başlangıcında hangi şeker baskın?",
+      "bilgiler": [
+        "seker_yolu.baslangicta_glukoz_fruktoz_sakaroz_fruktandan",
+        "seker_yolu.baslangicta_maltoz_baskin",
+        "seker_yolu.basit_sekerler_once_tukenir",
+        "seker_yolu.bugday_unu_bireysel_seker_oranlari"
+      ]
+    },
+    {
+      "konu": "Fermantasyonda maltoz tükenir mi, kalır mı?",
+      "bilgiler": [
+        "seker_yolu.maltoz_tukenmedi_sakaroz_tukendi",
+        "seker_yolu.eksimaya_kalan_maltoz_en_yuksek",
+        "seker_yolu.eksimaya_maltoz_22_g_kg_diger_sekerler_dusuk",
+        "seker_yolu.basit_sekerler_once_tukenir"
+      ]
+    },
+    {
+      "konu": "Yüksek amilaz gaz üretimini artırır mı?",
+      "bilgiler": [
+        "amilaz.potus_gaz_uretimi_dususu",
+        "amilaz.yuksek_amilaz_tek_basina_zararsiz",
+        "amilaz.hamur_gelisimi_ve_gaz_gucu"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,144 @@
+{
+  "id": "tipler",
+  "ad": "Ekşi maya tipleri",
+  "bilgiler": [
+    {
+      "id": "tipler.tip1_zanaat_parametreleri",
+      "metin": "Zanaat fırınlarındaki Tip I ekşi mayalar ortam sıcaklığında (< 30 °C) ve düşük hamur veriminde (< 200) günlük %5–20 oranında beslenir ve ekmek mayası ilavesi gerektirmez.",
+      "kosul": "zanaat fırınları",
+      "kanit": "ikincil",
+      "bolum": "Hangi koşulda",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.ijfoodmicro.2016.07.018",
+          "yer": "Influence of yeast on the acetate flavor of sourdoughs"
+        }
+      ]
+    },
+    {
+      "id": "tipler.tip1_dusuk_sicaklik_ve_ph_3_4_araligi",
+      "metin": "Tip I ekşi mayalar, düşük inkübasyon sıcaklıkları, sürekli yenileme ve laktik asit bakterilerinin büyümesiyle ulaşılan 3–4 arasındaki pH değeriyle nitelendirilir.",
+      "kosul": "Tip I ekşi maya karakterizasyonu",
+      "kanit": "tek_kaynak",
+      "bolum": "Tanım",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1007/s11274-021-03027-0",
+          "yer": "Results / Tolerance to different environmental factors"
+        }
+      ]
+    },
+    {
+      "id": "tipler.tip1_gunluk_yenileme",
+      "metin": "Tip I (geleneksel) ekşi mayalar, ortam sıcaklığında (20–30 °C) her gün ya da neredeyse her gün yapılan yenilemeyle sürdürülür; amaç mikropları etkin metabolik durumda tutmaktır.",
+      "kosul": "Tanım; dört makalenin giriş/derleme bölümlerinde başka kaynaklardan aktarım.",
+      "kanit": "ikincil",
+      "bolum": "Tanım",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1371/journal.pone.0148325",
+          "yer": "Introduction"
+        },
+        {
+          "kaynak": "10.1128/aem.00572-12",
+          "yer": "Introduction"
+        },
+        {
+          "kaynak": "10.1016/j.tifs.2020.12.008",
+          "yer": "4. Using conditions"
+        },
+        {
+          "kaynak": "10.3390/microorganisms8101534",
+          "yer": "1. Introduction"
+        },
+        {
+          "kaynak": "10.1016/j.fm.2013.06.002",
+          "yer": "Influence of process parameters"
+        },
+        {
+          "kaynak": "10.1016/j.ijfoodmicro.2020.108551",
+          "yer": "Introduction"
+        },
+        {
+          "kaynak": "10.1016/j.lwt.2019.02.004",
+          "yer": "Introduction"
+        },
+        {
+          "kaynak": "10.1080/10408398.2021.1976100",
+          "yer": "Process technology-based classification"
+        },
+        {
+          "kaynak": "10.1590/0001-3765202220220091",
+          "yer": "INTRODUCTION"
+        }
+      ]
+    },
+    {
+      "id": "tipler.tip1_kendiliginden_ardisiklik",
+      "metin": "Tip I ekşi maya topluluğu, un-su karışımında ortamdan gelen mikropların kendiliğinden birbirini izlemesiyle oluşur.",
+      "kosul": "İki makalenin tanımı (PMC8117929 Background, PMC6387954 Introduction); ölçüm değil.",
+      "kanit": "tek_kaynak",
+      "bolum": "Tanım",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.7717/peerj.11389",
+          "yer": "Background"
+        },
+        {
+          "kaynak": "10.3389/fmicb.2019.00201",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "tipler.tip1_sik_besleme_ve_ph_korumasi",
+      "metin": "Tip I fermantasyon süreçleri mikrobiyotayı sık beslemelerle sürekli metabolik olarak aktif durumda tutar ve bu durum ekşi maya mikrobiyotasının aşırı düşük pH değerlerine maruz kalmasını önler.",
+      "kosul": "Tip I fermantasyon",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.ijfoodmicro.2018.08.019",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "tipler.tip1_stabilizasyon_bes_on_gun",
+      "metin": "Literatürde (Brandt), Tip I ekşi mayanın çoğaltılmasında mikrobiyotanın, asitliğin, aromanın ve gluten yapısının asgari düzeyde kararlı hale gelmesi beş ile on gün sürer.",
+      "kosul": "Tip I ekşi maya çoğaltma ve kurma süreci (Brandt 2019 aktarımı).",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.4322/biori.202203",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "tipler.tip1_siki_hamur",
+      "metin": "Tip I ya da geleneksel ekşi maya genellikle hamur verimi yaklaşık 150–160 olan sıkı hamurdan yapılır.",
+      "kosul": "Geleneksel Tip I ekşi maya tanımı",
+      "kanit": "tek_kaynak",
+      "bolum": "Tanım",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1128/aem.00309-14",
+          "yer": "Introduction"
+        },
+        {
+          "kaynak": "10.1128/aem.00309-14",
+          "yer": ""
+        }
+      ]
+    }
+  ]
+}

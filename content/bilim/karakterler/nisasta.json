@@ -1,0 +1,41 @@
+{
+  "id": "nisasta",
+  "ad": "Nişasta",
+  "eski_ad": null,
+  "tur": "yapi",
+  "tek_cumle": "Birçok bitkide en önemli depo polisakkarit olan nişasta, yarı kristal granüller halinde bulunur [[nisasta.tahillarda_yari_kristal_granul_tanimi]]",
+  "bolumler": [
+    {
+      "baslik": "Nedir",
+      "cumleler": [
+        "Doğal nişasta genellikle, α-(1,4) bağlarıyla bağlanmış doğrusal veya az dallanmış amiloz ile hem α-(1,4) hem de α-(1,6) bağları içeren yüksek oranda dallanmış amilopektinden oluşur [[nisasta.polimer_yapisi_bag_turleri]]",
+        "Buğday ununun yaklaşık %70–80'ini oluşturan nişasta granülleri A (23–28 µm), B (9–11 µm) ve C (2–3 µm) olmak üzere üç tipe ayrılır [[nisasta.granul_tipleri_ve_boyut_siniflari]]",
+        "Buğday unu ortalama %14 su ve %70–75 nişasta içerir, bu nişastanın %72–75'i amilopektin, %25–28'i amilozdur [[nisasta.bugday_ununda_amiloz_amilopektin_orani]]"
+      ]
+    },
+    {
+      "baslik": "Hamurda ne olur",
+      "cumleler": [
+        "Nişasta su emer, viskozitesine katkıda bulunduğu hamurun gaz tutucu gluten ağına entegre olur ve enzimatik hidroliz sonrasında maya fermantasyonu için birincil enerji kaynağı olarak hizmet eder [[nisasta.hamurdaki_islevleri_ve_maya_fermantasyonu]]"
+      ]
+    },
+    {
+      "baslik": "Ekmeğe etkisi",
+      "cumleler": [
+        "Nişasta ekmek içi yapısının ana belirleyicisidir ve amilopektin retrogradasyonu ekmeğin bayatlamasının başlıca nedenidir [[nisasta.ekmek_ici_yapisi_ve_bayatlama_etkisi]]"
+      ]
+    }
+  ],
+  "efsane": null,
+  "anlar": [
+    "olgun_tanenin_ici",
+    "degirmen_tasinda",
+    "sekerin_yolu",
+    "nisastanin_jellesmesi",
+    "soguma_ani",
+    "rafta_ilk_hafta"
+  ],
+  "gorseller": [
+    "photomicrograph_of_wheat_starch"
+  ]
+}

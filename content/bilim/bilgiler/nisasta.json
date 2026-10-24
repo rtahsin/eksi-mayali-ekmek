@@ -1,0 +1,232 @@
+{
+  "id": "nisasta",
+  "ad": "Nişasta",
+  "bilgiler": [
+    {
+      "id": "nisasta.ekmek_ici_yapisi_ve_bayatlama_etkisi",
+      "metin": "Bir derlemeye göre buğday ve çavdar yaklaşık %60–70 nişasta içerir; nişasta ekmek içi yapısının ana belirleyicisidir ve amilopektin retrogradasyonu ekmeğin bayatlamasının başlıca nedenidir.",
+      "kosul": "buğday ve çavdar unu; derleme cümlesi (ekşi maya ve fermantasyon derlemesi)",
+      "kanit": "tek_kaynak",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.fm.2013.04.007",
+          "yer": "Starch degradation and metabolism"
+        },
+        {
+          "kaynak": "10.3390/foods13132077",
+          "yer": "1. Introduction"
+        },
+        {
+          "kaynak": "10.3390/foods13193035",
+          "yer": "1. Introduction"
+        }
+      ]
+    },
+    {
+      "id": "nisasta.hamurdaki_islevleri_ve_maya_fermantasyonu",
+      "metin": "Nişasta su emer, viskozitesine katkıda bulunduğu hamurun gaz tutucu gluten ağına entegre olur ve enzimatik hidroliz sonrasında maya fermantasyonu için birincil enerji kaynağı olarak hizmet eder.",
+      "kosul": "Buğday hamuru",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1080/10408398.2021.1976100",
+          "yer": "Flours used for sourdough production"
+        },
+        {
+          "kaynak": "10.1111/1541-4337.13147",
+          "yer": "3 ROLE OF STARCH IN DOUGH FORMATION AND FERMENTATION"
+        },
+        {
+          "kaynak": "10.1016/j.csbj.2023.08.019",
+          "yer": "Effect of starch morphology on dough physicochemical and rheological properties"
+        }
+      ]
+    },
+    {
+      "id": "nisasta.bugday_ununda_amiloz_amilopektin_orani",
+      "metin": "Buğday unu ortalama %14 su ve %70–75 nişasta içerir; bu nişastanın %72–75'i amilopektin, %25–28'i amilozdur.",
+      "kosul": "Goesaert et al., 2005",
+      "kanit": "ikincil",
+      "bolum": "Nereden gelir",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/bs.aambs.2017.02.003",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "nisasta.bugday_ununun_ana_bileseni",
+      "metin": "Buğday unu ağırlıkça başlıca %70–75 nişasta, yaklaşık %14 su, %10–12 protein, %2–3 nişasta dışı polisakkarit ve %2 lipitten oluşur.",
+      "kosul": "Buğday unu ağırlıkça bileşimi",
+      "kanit": "ikincil",
+      "bolum": "Nereden gelir",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.jcs.2009.04.010",
+          "yer": "Wheat flour constituents"
+        },
+        {
+          "kaynak": "10.1080/10408398.2021.1976100",
+          "yer": "Flours used for sourdough production"
+        }
+      ]
+    },
+    {
+      "id": "nisasta.genel_amiloz_amilopektin_dagilimi",
+      "metin": "Çoğu türde doğal nişasta granülü, doğrusal zincirli amiloz (%20–30) ve yüksek oranda dallanmış amilopektinden (%70–80) oluşan bir karışım içerir; waxy nişasta gibi birkaç istisna dışında.",
+      "kosul": "Genel doğal nişasta granülü; Hoover'un çalışmasına atıf",
+      "kanit": "ikincil",
+      "bolum": "Ortak özellikler",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1111/1541-4337.13141",
+          "yer": "2 STARCH GELATINIZATION AND RETROGRADATION PROCESSES"
+        },
+        {
+          "kaynak": "10.1093/jxb/erp058",
+          "yer": "New beneﬁts to consumers"
+        },
+        {
+          "kaynak": "10.1093/jxb/erp058",
+          "yer": "New beneﬁts to consumers"
+        }
+      ]
+    },
+    {
+      "id": "nisasta.granul_tipleri_ve_boyut_siniflari",
+      "metin": "Buğday ununun yaklaşık %70–80'ini oluşturan nişasta granülleri A (23–28 µm), B (9–11 µm) ve C (2–3 µm) olmak üzere üç tipe ayrılır.",
+      "kosul": "Buğday unu",
+      "kanit": "tek_kaynak",
+      "bolum": "Tanım",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.foodhyd.2020.105885",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "nisasta.polimer_yapisi_bag_turleri",
+      "metin": "Doğal nişasta genellikle, α-(1,4) bağlarıyla bağlanmış doğrusal veya az dallanmış amiloz ile hem α-(1,4) hem de α-(1,6) bağları içeren yüksek oranda dallanmış amilopektinden oluşur.",
+      "kosul": "doğal nişasta; tanım düzeyinde aktarım",
+      "kanit": "tek_kaynak",
+      "bolum": "Tanım",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.foodchem.2020.126267",
+          "yer": "Introduction"
+        },
+        {
+          "kaynak": "10.3390/foods14010021",
+          "yer": "1. Introduction"
+        },
+        {
+          "kaynak": "10.3389/fmicb.2012.00340",
+          "yer": "Metabolism of α-Glucans"
+        }
+      ]
+    },
+    {
+      "id": "nisasta.tahillarda_yari_kristal_granul_tanimi",
+      "metin": "Nişasta, birçok bitkide (tahıllar dahil) en önemli depo polisakkarittir ve en bol bulunan bileşenlerden biridir; yarı kristal granüller halinde bulunur ve özgün özellikleri ekmek yapımındaki işlevselliğini belirler.",
+      "kosul": "",
+      "kanit": "tek_kaynak",
+      "bolum": "Tanım",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.tifs.2004.02.011",
+          "yer": "Structural and physicochemical aspects"
+        },
+        {
+          "kaynak": "10.1016/j.tifs.2004.02.011",
+          "yer": "Structural and physicochemical aspects"
+        }
+      ]
+    },
+    {
+      "id": "nisasta.a_b_granul_orani_ve_en_yuksek_ekmek_hacmi",
+      "metin": "Bir derlemeye göre, A ve B tipi nişasta oranı 3:1 olan ekmek en yüksek özgül hacmi göstermiş; ağırlıkça %25–35 B tipi içeren ekmeklerin hacmi de daha yüksek bulunmuştur.",
+      "kosul": "rekonstitüe unlarla ekmek yapımı; derlemenin atıflı aktarımı",
+      "kanit": "ikincil",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.csbj.2023.08.019",
+          "yer": "Effect of different-sized starch granules on quality of final products"
+        },
+        {
+          "kaynak": "10.1016/j.csbj.2023.08.019",
+          "yer": "Effect of different-sized starch granules on quality of final products"
+        }
+      ]
+    },
+    {
+      "id": "nisasta.b_tipi_granuller_yogun_hamur",
+      "metin": "Küçük B tipi nişasta granülleri gluten ağı boyunca eşit dağılabilir ve kompakt bir hamur yapısı oluşturur.",
+      "kosul": "Gao'nun çalışmasına atıf",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1111/1541-4337.13147",
+          "yer": "Table"
+        }
+      ]
+    },
+    {
+      "id": "nisasta.jellesmede_amilozun_disari_difuzyonu_ve_ag_olusumu",
+      "metin": "Jelleşme sırasında amiloz granüllerin dışına difüze olarak kesintisiz bir ağ yapısı oluşturur.",
+      "kosul": "nişasta jelleşmesi süreci",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods9121900",
+          "yer": "PMC7765839.txt:Results and Discussion"
+        }
+      ]
+    },
+    {
+      "id": "nisasta.ogutmede_amilopektin_bozunmasi",
+      "metin": "Öğütme sırasında amilopektin molekülleri mekanik bozunmaya amiloz moleküllerinden daha duyarlıdır.",
+      "kosul": "Öğütme işlemi",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1002/star.201200224",
+          "yer": "Abstract"
+        }
+      ]
+    },
+    {
+      "id": "nisasta.baslica_endustriyel_kaynaklari",
+      "metin": "Nişastanın başlıca endüstriyel kaynakları mısır, manyok (tapyoka), patates ve buğdaydır.",
+      "kosul": "",
+      "kanit": "tek_kaynak",
+      "bolum": "Nereden gelir",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/s0168-1656(01)00407-2",
+          "yer": "Introduction"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,110 @@
+{
+  "id": "fruktan",
+  "ad": "Fruktan",
+  "bilgiler": [
+    {
+      "id": "fruktan.eksi_maya_ekmekte_yuzde33_az",
+      "metin": "Bir çalışmada Lactiplantibacillus plantarum ile hazırlanmış ekşi mayanın kullanıldığı iki aşamalı yöntemde ekmekteki fruktan, yalnız mayayla yapılan kontrol ekmeğinden %33 daha düşük çıktı.",
+      "kosul": "Polonya; ekmeklik buğday, açık renkli un (tip 450) ve tam buğday unu (tip 1650); %3,5 maya, %1 tuz; 220 °C'de 30 dakika pişirme. İki aşamalı yöntem: L. plantarum (tip suşu 20174) ile un:su 1:1 Tip I ekşi maya, 30 °C'de 24 saat; unun %50'si ekşi mayada, üstüne maya eklendi. Kontrol: tek aşamalı (yalnız maya) hamur.",
+      "kanit": "tek_kaynak",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods8120663",
+          "yer": "3. Results and Discussion; Figure 2"
+        }
+      ]
+    },
+    {
+      "id": "fruktan.ilk_saatte_invertaz_sonra_amilaz",
+      "metin": "Bir buğday unu hamuru çalışmasında, fermantasyonun ilk saatinde invertaz aracılı şeker salınımı belirleyici görünürken, sonraki evrelerde amilaz aracılı salınım baskındı.",
+      "kosul": "Ekmek hamuru fermantasyonu",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.foodchem.2016.09.004",
+          "yer": "Abstract"
+        },
+        {
+          "kaynak": "10.1016/j.jcs.2017.03.013",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "fruktan.maya_invertazi_kismen_parcalar",
+      "metin": "Derlemeye göre ekmek yapımı sırasında un fruktanlarının bir kısmı ekmek mayasının invertaz enzimiyle parçalanır; Saccharomyces cerevisiae ve Kazachstania humilis'in invertazı fruktanları kısmen hidrolize eder.",
+      "kosul": "",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods7070096",
+          "yer": "3. FODMAPs in Cereals and FODMAP Metabolism in Conventional Sourdoughs"
+        },
+        {
+          "kaynak": "10.3390/foods7070096",
+          "yer": "3. FODMAPs in Cereals and FODMAP Metabolism in Conventional Sourdoughs"
+        },
+        {
+          "kaynak": "10.1016/j.jcs.2017.03.013",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "fruktan.dp4_ustu_hucre_disi_fruktanaz",
+      "metin": "Polimerleşme derecesi dördün üzerindeki fruktanları parçalamak için hücre dışına salınan fruktanaz enzimleri gerekir; bu enzimler laktobasillerde nadirdir.",
+      "kosul": "",
+      "kanit": "ikincil",
+      "bolum": "Ne yapar",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods7070096",
+          "yer": "4. Concepts for Low FODMAP Sourdough Baking"
+        },
+        {
+          "kaynak": "10.1186/s12934-020-01438-6",
+          "yer": "Discussion"
+        }
+      ]
+    },
+    {
+      "id": "fruktan.lab_fruktan_metabolizma_yollari",
+      "metin": "Muller ve Lier (1994)'e göre, fruktanlar fruktoz ve sakaroza dönüştürülür; bu şekerler homofermentatif laktik asit bakterilerince laktik aside, heterofermentatif bakterilerce ise laktik asit, asetik asit, etanol ve karbondioksite metabolize edilir.",
+      "kosul": "Muller ve Lier (1994) aktarımı; LAB fermantasyon yolları",
+      "kanit": "ikincil",
+      "bolum": "Ne yer, ne üretir",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3389/fmicb.2018.01972",
+          "yer": "HOW BREAD-MAKING MAY CHANGE FODMAPs LEVEL"
+        }
+      ]
+    },
+    {
+      "id": "fruktan.tanim",
+      "metin": "Fruktanlar, D-fruktoz birimlerinden oluşan, düşük molekül ağırlıklı ve çoğu zaman dallanmış polimerlerdir.",
+      "kosul": "",
+      "kanit": "ikincil",
+      "bolum": "Tanım",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods8120663",
+          "yer": "1. Introduction"
+        },
+        {
+          "kaynak": "10.3389/fmicb.2018.01972",
+          "yer": "INTRODUCTION"
+        }
+      ]
+    }
+  ]
+}

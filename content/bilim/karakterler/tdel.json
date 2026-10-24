@@ -1,0 +1,28 @@
+{
+  "id": "tdel",
+  "ad": "Torulaspora delbrueckii",
+  "eski_ad": null,
+  "tur": "maya",
+  "tek_cumle": "Y273 suşuyla yapılan ekmek, kontrol ekmeğine göre daha karmaşık, fındık benzeri ve orman benzeri bir lezzette tanımlandı [[tdel.y273_duyusal_profil_findik_orman]]",
+  "bolumler": [
+    {
+      "baslik": "Kimlik",
+      "cumleler": [
+        "Güney İtalya'dan bir durum buğdayı ekşi mayası laboratuvarda hem sıkı hem sıvı olarak sürdürüldüğünde, ikisinde de Saccharomyces cerevisiae'nin yanında Torulaspora delbrueckii tanımlandı [[tdel.italya_durum_siki_sivi]]"
+      ]
+    },
+    {
+      "baslik": "Ekmeğe etkisi",
+      "cumleler": [
+        "Torulaspora delbrueckii ve Saccharomyces bayanus suşları ekmeğin duyusal profiline fındık benzeri ve meyvemsi tonlar ekleyerek karmaşıklık katar [[tdel.bayanus_delbrueckii_duyusal_karmasiklik]]"
+      ]
+    }
+  ],
+  "efsane": null,
+  "anlar": [
+    "gaz_ve_kabarma"
+  ],
+  "gorseller": [
+    "torulaspora_delbrueckii_s_spores"
+  ]
+}

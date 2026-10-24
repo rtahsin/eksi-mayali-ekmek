@@ -1,0 +1,528 @@
+{
+  "id": "firin_kabarmasi",
+  "ad": "Fırın kabarması",
+  "bilgiler": [
+    {
+      "id": "firin_kabarmasi.220_derecede_son_hacim_dusuk",
+      "metin": "Fermantasyon sonunda bütün ekmeklerin hacmi aynıydı, ama 220 °C'de pişirilenlerin pişirme sonundaki hacmi belirgin biçimde daha düşüktü.",
+      "kosul": "Küçük kalıp ekmeği, 60,5 g hamur, 70×70×20 mm alüminyum kalıp; 180, 200 ve 220 °C ayarında 30 dakikaya kadar pişirme.",
+      "kanit": "tek_kaynak",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.foodcont.2022.108898",
+          "yer": "3.4. Volume"
+        }
+      ]
+    },
+    {
+      "id": "firin_kabarmasi.gaz_hucrelerinin_gozenek_agina_donusumu",
+      "metin": "Hamur mikroyapısındaki en belirgin değişim pişirme sırasında gaz hücrelerinin genişleyerek açık bir gözenek ağına dönüşmesiyle gerçekleşir.",
+      "kosul": "pişirme sırasında hamurdan ekmeğe geçiş",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1073/pnas.1801071115",
+          "yer": "The Identification of Prehistoric Bread"
+        }
+      ]
+    },
+    {
+      "id": "firin_kabarmasi.kapali_gozenek_su_buhari_basinci",
+      "metin": "Bu çalışmanın termodinamik modeline göre, ekmek genleşmesinin ana itici gücü kapalı gözeneklerdeki gaz basıncıdır; su buharı kapalı gözeneklerdeki birincil gaz fazı bileşenidir ve gözenekler tamamen açıldığında basınç farkı 0 değerine yaklaşarak genişleme durur.",
+      "kosul": "Pişirme sırasında kapalı ve açık gözenek basınç dinamikleri",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods14091649",
+          "yer": "4.4. Effects of MPC on Deformation"
+        },
+        {
+          "kaynak": "10.3390/foods14091649",
+          "yer": "4.4. Effects of MPC on Deformation"
+        },
+        {
+          "kaynak": "10.3390/foods14091649",
+          "yer": "4.4. Effects of MPC on Deformation"
+        },
+        {
+          "kaynak": "10.3390/foods14091649",
+          "yer": "4.4. Effects of MPC on Deformation"
+        }
+      ]
+    },
+    {
+      "id": "firin_kabarmasi.pismis_ekmek_hacimce_gaz",
+      "metin": "Pişirme sırasında sıcaklık arttıkça kabarcıklardaki gaz genişler ve nihai pişmiş somun hacimce %75–85 gaz içerir.",
+      "kosul": "ekmek pişirme süreci",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1002/cche.10699",
+          "yer": "1 INTRODUCTION"
+        }
+      ]
+    },
+    {
+      "id": "firin_kabarmasi.hacim_artisi_ilk_3_dakika",
+      "metin": "Küçük kalıp ekmeğinde hacim pişirmenin ilk 3 dakikasında 180 °C'de %27,6, 200 °C'de %23,3, 220 °C'de %23,5 arttı; ekmek 200 ve 220 °C'de 3 dakikada en büyük hacmine ulaştı, 180 °C'de ise genişleme 6. dakikaya kadar sürdü.",
+      "kosul": "Küçük kalıp ekmeği, 60,5 g hamur, 70×70×20 mm alüminyum kalıp (unda 9,8 g/100 g protein; Purlis ve Salvadori 2007 tarifi; 38 °C, %80 bağıl nemde 45 dakika son mayalanma); sıcaklık denetimli fırın boşluğunda 180, 200 ve 220 °C ayarında 30 dakikaya kadar pişirme.",
+      "kanit": "tek_kaynak",
+      "bolum": "Hangi koşulda",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.foodcont.2022.108898",
+          "yer": "3.4. Volume; Fig. 8"
+        },
+        {
+          "kaynak": "10.1016/j.foodcont.2022.108898",
+          "yer": "3.4. Volume; Fig. 8"
+        }
+      ]
+    },
+    {
+      "id": "firin_kabarmasi.ilk_6_8_dakika",
+      "metin": "Fırın kabarması, pişirmenin ilk 6–8 dakikasında somunun hacmini artırır.",
+      "kosul": "",
+      "kanit": "ikincil",
+      "bolum": "Hangi koşulda",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1155/2018/8187318",
+          "yer": "2. Porous Crumb Structure Development"
+        }
+      ]
+    },
+    {
+      "id": "firin_kabarmasi.ilk_dakikalarda_hizli_sonra_durur",
+      "metin": "Ekmek pişirmenin ilk dakikalarında hızla genişler; ardından maya canlılığını yitirdikçe ve nişasta jelleşip mekanik direnci artırdıkça genişleme durur.",
+      "kosul": "Küçük kalıp ekmeği, 60,5 g hamur, 70×70×20 mm alüminyum kalıp (unda 9,8 g/100 g protein; Purlis ve Salvadori 2007 tarifi; 38 °C, %80 bağıl nemde 45 dakika son mayalanma); sıcaklık denetimli fırın boşluğunda 180, 200 ve 220 °C ayarında 30 dakikaya kadar pişirme.",
+      "kanit": "tek_kaynak",
+      "bolum": "Ne yapar",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.foodcont.2022.108898",
+          "yer": "4. Conclusion"
+        }
+      ]
+    },
+    {
+      "id": "firin_kabarmasi.hizli_hacim_genlesmesinin_dort_nedeni",
+      "metin": "Janssen vd. (2021)'e göre, pişirme sırasında hızlı hamur hacmi genişlemesine dört olay katkıda bulunur: mayanın karbondioksit üretiminin geçici olarak artması, karbondioksit çözünürlüğünün düşmesi, gaz hücrelerinin genleşmesi ve su ile etanolün buharlaşması.",
+      "kosul": "Pişirme sırasında hamur içi sıcaklık artışı; Janssen vd. 2021 aktarımı",
+      "kanit": "ikincil",
+      "bolum": "Tanım",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.fochx.2026.104362",
+          "yer": "1. Introduction"
+        },
+        {
+          "kaynak": "10.1016/j.crfs.2026.101573",
+          "yer": "3.3. Yeast viability in dough and oven rise performance"
+        }
+      ]
+    },
+    {
+      "id": "firin_kabarmasi.eksi_maya_hacim_efsanesi",
+      "metin": "Derlemeler ekşi maya tipi ekmeğin mayalı ekmekten daha hacimli olduğunu yazar, ama bir araştırma makalesine göre birincil çalışmalar bu konuda pek uzlaşmaz.",
+      "kosul": "",
+      "kanit": "ikincil",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.foodhyd.2024.110884",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "firin_kabarmasi.eksi_maya_ve_kontrol_ozgul_hacim_araligi",
+      "metin": "Ekşi mayalı ve kontrol ekmeklerin özgül hacimleri 3,46 ile 3,93 cm³/g arasında değişmiş ve aralarında istatistiksel olarak anlamlı bir fark bulunmamıştır (P > 0,05).",
+      "kosul": "Buğday ekmeği; ekşi mayalı ekmekler ile kontrol ekmekleri; özgül hacim karşılaştırması",
+      "kanit": "tek_kaynak",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.55147/efse.1117033",
+          "yer": "Results and Discussion"
+        }
+      ]
+    },
+    {
+      "id": "firin_kabarmasi.kisitli_kabarma_kabuk_yirtilmasi",
+      "metin": "Kısıtlı fırın kabarması, bitmiş ekmekte kabuk yüzeyinin yırtılma riskini artırır.",
+      "kosul": "kuru fırın ortamı",
+      "kanit": "ikincil",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.jfoodeng.2011.07.015",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "firin_kabarmasi.maya_susu_kabarma_farki",
+      "metin": "Bu çalışmada, referans fırıncı mayası %23,3 fırın kabarması sağlarken farklı maya suşları belirgin biçimde daha yüksek veya düşük kabarma gösterdi; en yüksek kabarmayı sağlayan suşun hamur yapısını stabilize ederek daha çok sayıda küçük gaz hücresi oluşturduğu görünmektedir.",
+      "kosul": "Farklı Saccharomyces cerevisiae suşları ile pişirme denemesi",
+      "kanit": "tek_kaynak",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.fochx.2026.104362",
+          "yer": "3.1. Yeast strains affect gas cell distribution in the crumb differently"
+        },
+        {
+          "kaynak": "10.1016/j.fochx.2026.104362",
+          "yer": "3.1. Yeast strains affect gas cell distribution in the crumb differently"
+        }
+      ]
+    },
+    {
+      "id": "firin_kabarmasi.optimize_pisirme_kosullarinda_gozeneklilik_ve_esneklik",
+      "metin": "Optimize koşullar altında (195 °C, 13,32 m/s hava hızı, 35 dakika, alt tepsi) ekmek daha yüksek gözeneklilik (%64), daha geniş homojen gözenek dağılımı ve gelişmiş ekmek içi elastikiyeti sergilemiştir.",
+      "kosul": "Hava jetli (impingement) fırında optimizasyon: 195 °C, 13,32 m/s hava hızı, 35 dk, alt tepsi; ekmek içi gözeneklilik ölçümü",
+      "kanit": "tek_kaynak",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1111/1750-3841.71456",
+          "yer": "Conclusion"
+        }
+      ]
+    },
+    {
+      "id": "firin_kabarmasi.dis_hucreler_kabuga_paralel_uzar",
+      "metin": "Fırın kabarmasının yarattığı gerilme ısıyla sertleşmiş dış yapıyı sıkıştırır; bu yüzden dıştaki hücreler uzun eksenleri kabuğa paralel olacak biçimde uzayabilir.",
+      "kosul": "",
+      "kanit": "ikincil",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1155/2018/8187318",
+          "yer": "2. Porous Crumb Structure Development"
+        }
+      ]
+    },
+    {
+      "id": "firin_kabarmasi.altmis_derece_otesi_genlesmenin_durmasi",
+      "metin": "Bu çalışmada mayalı buğday hamurunda 60 °C'nin ötesinde başka genleşme gözlenmedi; yazarlar bunu mayalı hamurun sınırlı ağ bağlanırlığı ve artan gerinim sertleşmesi davranışıyla ilişkilendirdi.",
+      "kosul": "Mayalı buğday hamuru; pişirme sırasında hacim genleşmesi ölçümü, 60 °C üzeri sıcaklıklar.",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1371/journal.pone.0282670",
+          "yer": "3.4 Oven rise behavior and macroscopic quantification of extension processes"
+        },
+        {
+          "kaynak": "10.1371/journal.pone.0282670",
+          "yer": "Abstract"
+        }
+      ]
+    },
+    {
+      "id": "firin_kabarmasi.altmis_derece_uzerinde_yapisal_bozulma_baskindir",
+      "metin": "Bu çalışmada mayalı hamurda 60 °C üzerindeki pişirme evresinde başka genleşme gözlenmemiş; yazarlar bunu yapısal değişimlere bakarak yapısal bozulmanın baskın hale gelmesiyle açıklamıştır.",
+      "kosul": "Mayalı buğday hamuru; pişirmenin 60 °C üzerindeki evresi.",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1371/journal.pone.0282670",
+          "yer": "4 Strain-dependent functionality of the dough’s polymers during the baking process: A structural model"
+        }
+      ]
+    },
+    {
+      "id": "firin_kabarmasi.co2_kabarcik_duvarlari_kopar",
+      "metin": "Pişirmede karbondioksit, kabarcık duvarları basınç altında kopmaya başladığında hamurdan çıkarak kabarcıkların genişlemesinde önemli rol oynar.",
+      "kosul": "Pişirme sırasında kabarcık duvarlarının kopması (atıf)",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1155/2018/8187318",
+          "yer": "2. Porous Crumb Structure Development"
+        },
+        {
+          "kaynak": "10.3390/foods14091649",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "firin_kabarmasi.elli_ve_altmis_derece_arasi_genlesme_mekanizmalari",
+      "metin": "50 °C ile 60 °C arasında ortaya çıkan genleşme; mevcut gaz fazının genleşmesi, su ve etanolün buharlaşması, CO2 çözünmesi ve sıvı hamur fazının termal genleşmesiyle doğrudan ilişkilidir.",
+      "kosul": "Mayalı hamur; 50 °C ile 60 °C sıcaklık aralığında genleşme",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1371/journal.pone.0282670",
+          "yer": "3.4 Oven rise behavior and macroscopic quantification of extension processes"
+        }
+      ]
+    },
+    {
+      "id": "firin_kabarmasi.gozenek_acilma_sicakligi_ve_genlesme",
+      "metin": "Bu çalışmanın termodinamik modelinde gözenek açılma sıcaklığı ne kadar yüksekse, kapalı gözeneklerin süresi uzayıp iç basınç arttığından ekmek genişlemesi de o kadar fazla olmaktadır.",
+      "kosul": "Pişirme sırasındaki gözenek termodinamiği modeli",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods14091649",
+          "yer": "4.1. Determination of Key Parameters"
+        }
+      ]
+    },
+    {
+      "id": "firin_kabarmasi.hacim_genlesme_orani_ve_cokus",
+      "metin": "Ekmeğin son hacmi başlangıç durumunun yaklaşık 1,9 katına kadar genişleyebilir; gözeneklerin tamamen açılmasından sonra yerçekimine bağlı çökme nedeniyle hacimde hafif bir azalma görülür.",
+      "kosul": "Pişirme genleşme ve çökme kinetiği",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods14091649",
+          "yer": "4.4. Effects of MPC on Deformation"
+        }
+      ]
+    },
+    {
+      "id": "firin_kabarmasi.mayali_hamurda_elli_ve_altmis_derece_kinetigi",
+      "metin": "Mayalı hamurda 50 °C'ye kadar dik bir başlangıç fırın kabarması gözlenmekte, maksimum bağıl hacme 60 °C'de ulaşılmakta ve pişirme sonuna kadar korunmaktadır.",
+      "kosul": "Mayalı hamur; pişirme sırasında bağıl hacim takibi (50-60 °C)",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1371/journal.pone.0282670",
+          "yer": "3.4 Oven rise behavior and macroscopic quantification of extension processes"
+        }
+      ]
+    },
+    {
+      "id": "firin_kabarmasi.mayanin_termal_aktivasyonu_ve_co2_salimi",
+      "metin": "Mayalı hamurda ilk pişirme aşamasında gözlenen güçlü fırın kabarması temel olarak mayanın termal aktivasyonunun daha hızlı CO2 üretimi ve çözünmesine yol açmasıyla ilişkilidir.",
+      "kosul": "Mayalı hamur; pişirmenin ilk aşaması",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1371/journal.pone.0282670",
+          "yer": "4 Strain-dependent functionality of the dough’s polymers during the baking process: A structural model"
+        }
+      ]
+    },
+    {
+      "id": "firin_kabarmasi.mayasiz_hamurda_yavas_genlesme_mekanizmasi",
+      "metin": "Mayasız hamurda genleşme süreçleri oldukça yavaştır; çünkü gaz hücresi genleşmesi temel olarak buharlaşma ve termal genleşme süreçlerine dayanır.",
+      "kosul": "mayasiz bugday hamuru pisirimi",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1371/journal.pone.0282670",
+          "yer": "4 Strain-dependent functionality of the dough’s polymers during the baking process: A structural model"
+        }
+      ]
+    },
+    {
+      "id": "firin_kabarmasi.kenar_ve_eksen_yukseklik_kinetigi",
+      "metin": "Pişirme sırasında ekmeğin kenar yüksekliği yaklaşık 450 saniyede yaklaşık 30 mm seviyesinde sabitlenirken, eksen yüksekliği yaklaşık 900 saniyede yaklaşık 51 mm seviyesinde sabitlendi.",
+      "kosul": "Ekmek pişirme yükseklik kinetiği",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods14091649",
+          "yer": "4.1. Determination of Key Parameters"
+        }
+      ]
+    },
+    {
+      "id": "firin_kabarmasi.maksimum_ic_basinc_ve_dususu",
+      "metin": "Ekmek içi maksimum basınç 1100 Pa değerine ulaşarak yaklaşık 750 saniyede zirveye çıktı ve ardından gözeneklerin açılmasıyla hızla ortam basıncına düştü.",
+      "kosul": "Hamur içi basınç kinetiği",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods14091649",
+          "yer": "4.4. Effects of MPC on Deformation"
+        }
+      ]
+    },
+    {
+      "id": "firin_kabarmasi.firin_nemi_genlesmeyi_destekler",
+      "metin": "Fırın atmosferindeki yüksek nemin pişirme sırasındaki hacim genişlemesini (fırın kabarmasını) desteklemesi beklenir.",
+      "kosul": "fırın içi nem düzeyi",
+      "kanit": "ikincil",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.jfoodeng.2011.07.015",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "firin_kabarmasi.firin_ve_merkez_sicakligi_ozgul_hacmi_artirir",
+      "metin": "Tost ekmeğinde fırın ve merkez sıcaklığı ne kadar yüksek olursa elde edilen özgül hacim o kadar yüksek olmuştur (Şekil 5).",
+      "kosul": "Tost ekmeği pişirme denemeleri (vakumlu soğutma uygulaması); fırın ve merkez sıcaklığı",
+      "kanit": "tek_kaynak",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1007/s13197-020-04945-x",
+          "yer": "Results and discussion: Specific volume and concavity"
+        }
+      ]
+    },
+    {
+      "id": "firin_kabarmasi.kabarma_72_dereceye_kadar_surer",
+      "metin": "Janssen vd. (2021)'e göre, maya suşundan bağımsız olarak yapının yaklaşık 11. dakikada açılması, fırın kabarmasının hamur sıcaklığı 72 °C değerine ulaşana kadar devam ettiği görüşünü destekler.",
+      "kosul": "Janssen vd. (2021) aktarımı; maya suşundan bağımsız pişirme kinetiği",
+      "kanit": "ikincil",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.fochx.2026.104362",
+          "yer": "3.3. Yeast strains affect the rate at which CO2 is released"
+        }
+      ]
+    },
+    {
+      "id": "firin_kabarmasi.maya_50_derecede_olur",
+      "metin": "Yüksek sıcaklık mayanın etkin kalabildiği süreyi kısaltır, çünkü maya 50 °C'de artık canlı değildir.",
+      "kosul": "",
+      "kanit": "ikincil",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.foodcont.2022.108898",
+          "yer": "3.4. Volume"
+        }
+      ]
+    },
+    {
+      "id": "firin_kabarmasi.vakumlu_sogutma_ve_kalip_koseleri",
+      "metin": "Standart soğutma yuvarlak köşeler verirken vakumlu soğutmada, düşük basınç altında kalıp içinde hacim maksimizasyonunun kalıba benzer keskin somun köşelerine yol açtığı öne sürülmüştür.",
+      "kosul": "Tost ekmeği; vakumlu ve standart soğutma denemesi",
+      "kanit": "tek_kaynak",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1007/s13197-020-04945-x",
+          "yer": "Results and discussion: Toast bread resilience and shape"
+        }
+      ]
+    },
+    {
+      "id": "firin_kabarmasi.baslangic_genlesme_hizi_lineer_model",
+      "metin": "Bu çalışmada mayalı hamurun ilk pişirme evresindeki genleşme hızı, doğrusal modelle (bağıl hacim–pişirme süresi) 0,104 min-1 bulunmuş; bu hız fermantasyon evresindeki gaz üretim hızından belirgin biçimde yüksektir.",
+      "kosul": "Mayalı buğday hamuru; ilk pişirme evresi, bağıl hacim–pişirme süresi verisine doğrusal model uyarlanmış.",
+      "kanit": "tek_kaynak",
+      "bolum": "Nasıl ölçülür",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1371/journal.pone.0282670",
+          "yer": "3.4 Oven rise behavior and macroscopic quantification of extension processes"
+        }
+      ]
+    },
+    {
+      "id": "firin_kabarmasi.standart_hamurda_buharlasma_kaynakli_genlesme_hizi",
+      "metin": "Standart buğday hamurunda buharlaşma süreçleriyle tetiklenen fırın kabarması 0,035 dk⁻¹ genleşme hızı vermiştir.",
+      "kosul": "Mayasız standart buğday hamuru; pişirme sırasında fırın kabarması ölçümü",
+      "kanit": "tek_kaynak",
+      "bolum": "Nasıl ölçülür",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1371/journal.pone.0282670",
+          "yer": "3.4 Oven rise behavior and macroscopic quantification of extension processes"
+        }
+      ]
+    },
+    {
+      "id": "firin_kabarmasi.buharlasma_cephesi_ve_kabuklasma",
+      "metin": "Genişleme, buharlaşma cephesi ilerledikçe, nem azaldıkça ve kabuk kalınlaştıkça sürer; ardından kabuklaşma genişlemeyi durdurur ve ürünün dış yüzeyindeki gaz kabarcıkları çöker.",
+      "kosul": "",
+      "kanit": "ikincil",
+      "bolum": "Ne yapar",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.foodcont.2022.108898",
+          "yer": "3.4. Volume"
+        }
+      ]
+    },
+    {
+      "id": "firin_kabarmasi.eriyen_yag_kristalleri",
+      "metin": "Pişirmede eriyen yağ kristalleri kabarcık yüzeyine ek malzeme sağlar; böylece hava kabarcıkları yırtılmadan genişleyebilir.",
+      "kosul": "Yağ içeren hamur.",
+      "kanit": "ikincil",
+      "bolum": "Ne yapar",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1155/2018/8187318",
+          "yer": "2. Porous Crumb Structure Development"
+        }
+      ]
+    },
+    {
+      "id": "firin_kabarmasi.ekmek_hacmi_ve_gaz_tutma_tanimi",
+      "metin": "Ekmek hacmi, hamurun pişirme sırasında fermantasyon gazlarını ve buharı tutma yeteneğini yansıtan ve somunun genişlemesini belirleyen temel bir kalite parametresidir.",
+      "kosul": "ekmek hacmi tanimi",
+      "kanit": "tek_kaynak",
+      "bolum": "Tanım",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1111/1750-3841.71456",
+          "yer": "PMC13559855.txt:Bread Volume"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,642 @@
+{
+  "id": "hasarli_nisasta",
+  "ad": "Hasarlı nişasta",
+  "bilgiler": [
+    {
+      "id": "hasarli_nisasta.olculu_hasar_araligi_ve_ekmek_kalitesi",
+      "metin": "Makale, uygun miktarda hasarlı nişastanın (%12,2–21,9) ekmek kalitesini artırabileceğini, çok yüksek düzeylerin ise kaliteyi düşürebileceğini önceki çalışmalara dayanarak aktarmaktadır.",
+      "kosul": "Literatür aktarımı (ekmek kalitesi ve hasarlı nişasta); makalenin kendi ölçümü değildir.",
+      "kanit": "ikincil",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1002/fsn3.2008",
+          "yer": "Results and Discussion: Effect of particle size on DS content and dough uniaxial extension of wheat flour"
+        }
+      ]
+    },
+    {
+      "id": "hasarli_nisasta.tas_valsli_hasar_italya",
+      "metin": "Orta İtalya buğdaylarıyla yapılan bir çalışmada ticari taş değirmen unları (kuru maddede %6,83–9,21) aynı tanelerin yeniden birleştirilmiş pilot valsli unlarından (%3,82–4,76) anlamlı ölçüde daha çok hasarlı nişasta içerdi ve her tane karışımında iki yöntemin aralıkları tamamen ayrıydı.",
+      "kosul": "Orta İtalya'dan sekiz yumuşak buğday karışımı; ticari taş değirmen, Bühler MLU 202 pilot valsli değirmen (akışlar yeniden birleştirilmiş), Bühler MLI 204 diskli laboratuvar değirmeni; AACC 76-31.01.",
+      "kanit": "tek_kaynak",
+      "bolum": "Hangi koşulda",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods11030339",
+          "yer": "3. Results, Figure 2"
+        },
+        {
+          "kaynak": "10.3390/foods11030339",
+          "yer": "3. Results, Figure 2"
+        }
+      ]
+    },
+    {
+      "id": "hasarli_nisasta.cift_kirilim_kaybi_ve_enzim_duyarliligi",
+      "metin": "Makale, hasarlı nişasta tanelerinin çift kırılımı kısmen yitirdiğini, daha yüksek su absorpsiyonu ve enzimatik hidrolize karşı daha yüksek duyarlılık gösterdiğini giriş bölümünde literatür bilgisi olarak aktarmaktadır.",
+      "kosul": "Literatür aktarımı (hasarlı nişasta taneleri); makalenin kendi ölçümü değildir.",
+      "kanit": "ikincil",
+      "bolum": "Kimlik",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods14010021",
+          "yer": "1. Introduction"
+        }
+      ]
+    },
+    {
+      "id": "hasarli_nisasta.dogal_ve_hasarli_nisasta_su_tutma_orani",
+      "metin": "Makaleler, önceki çalışmalara dayanarak doğal buğday nişastası tanelerinin oda sıcaklığında ağırlıklarının %39 ile %87'si kadar su emdiğini, hasarlı nişasta tanelerinin ise ağırlıklarının %200 ile %430'u kadar su absorbe ettiğini aktarmaktadır.",
+      "kosul": "Literatür aktarımı; oda sıcaklığında nişasta su tutma kapasitesi; makalelerin kendi ölçümü değildir.",
+      "kanit": "ikincil",
+      "bolum": "Ne yapar",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods13070996",
+          "yer": "3.2.3. The Relaxation Time of Free Water"
+        },
+        {
+          "kaynak": "10.3390/foods14010021",
+          "yer": "1. Introduction"
+        }
+      ]
+    },
+    {
+      "id": "hasarli_nisasta.su_emer_enzime_acik",
+      "metin": "Hasarlı nişasta sağlam nişastadan daha çok su emer ve enzimlerle daha hızlı parçalanır; bu yüzden unun su alımını, hamurun yapışkanlığını, kabuk rengini ve mayalanmadaki maya etkinliğini etkiler.",
+      "kosul": "",
+      "kanit": "ikincil",
+      "bolum": "Ne yapar",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods12132591",
+          "yer": "3.2. SRC"
+        },
+        {
+          "kaynak": "10.3390/foods13213386",
+          "yer": "1. Introduction"
+        },
+        {
+          "kaynak": "10.3390/foods11030339",
+          "yer": "4. Discussion"
+        },
+        {
+          "kaynak": "10.1111/1541-4337.13141",
+          "yer": "7.2 Starch integrity"
+        }
+      ]
+    },
+    {
+      "id": "hasarli_nisasta.hasar_derecesini_belirleyen_uc_ana_etken",
+      "metin": "Makale, öğütme sırasındaki nişasta hasarı derecesinin üç ana etkenden etkilendiğini literatür bilgisi olarak aktarmaktadır: nişastanın amiloz/amilopektin bileşimi, tanenin sertliği ve öğütme koşulları.",
+      "kosul": "Literatür aktarımı (öğütme sırasında nişasta hasarı); makalenin kendi ölçümü değildir.",
+      "kanit": "ikincil",
+      "bolum": "Tanım",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods14010021",
+          "yer": "1. Introduction"
+        }
+      ]
+    },
+    {
+      "id": "hasarli_nisasta.tanim",
+      "metin": "Hasarlı nişasta, öğütme sırasında fiziksel olarak kırılan ya da parçalanan nişasta tanelerinin miktarıdır; miktarı tane sertliğine ve öğütmenin şiddetine bağlıdır.",
+      "kosul": "",
+      "kanit": "ikincil",
+      "bolum": "Tanım",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods11030339",
+          "yer": "4. Discussion"
+        },
+        {
+          "kaynak": "10.3390/foods13213386",
+          "yer": "1. Introduction"
+        },
+        {
+          "kaynak": "10.1002/star.201200224",
+          "yer": "Abstract"
+        },
+        {
+          "kaynak": "10.3390/foods14010021",
+          "yer": "1. Introduction"
+        },
+        {
+          "kaynak": "10.1002/fsn3.2008",
+          "yer": "Results and Discussion: Effect of particle size on DS content and dough uniaxial extension of wheat flour"
+        }
+      ]
+    },
+    {
+      "id": "hasarli_nisasta.artan_hasarla_ekmek_ozgul_hacim_kaybi",
+      "metin": "Bu çalışmada farklı değirmenlerde öğütülmüş unlarla yapılan ekmeklerde daha yüksek hasarlı nişasta içeriği daha düşük ekmek özgül hacmi ile ilişkili bulunmuştur (r = -0,866).",
+      "kosul": "Taş ve valsli değirmenlerde öğütülmüş tam buğday unlarıyla ekmek pişirme denemesi; hasarlı nişasta ile özgül hacim arasında korelasyon (Şekil 2C).",
+      "kanit": "tek_kaynak",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1021/acsfoodscitech.5c00475",
+          "yer": "RESULTS AND DISCUSSION"
+        }
+      ]
+    },
+    {
+      "id": "hasarli_nisasta.optimum_urune_gore",
+      "metin": "En uygun hasarlı nişasta miktarı unun kullanım amacına ve ekmeğin türüne göre değişir; aktarılan yaklaşık değerler kurabiye için 13,7–16,4, erişte için 15–17,5, kalıp ekmeği için 19–23 UCD'dir.",
+      "kosul": "",
+      "kanit": "ikincil",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods11030339",
+          "yer": "4. Discussion"
+        },
+        {
+          "kaynak": "10.3390/foods13213386",
+          "yer": "1. Introduction; Table 4"
+        },
+        {
+          "kaynak": "10.1111/1541-4337.13147",
+          "yer": "2 IMPACT OF MILLING ON STARCH QUALITY"
+        }
+      ]
+    },
+    {
+      "id": "hasarli_nisasta.tam_un_kalitesinde_anahtar",
+      "metin": "Kore'de mor tam buğday unuyla yapılan bir çalışmada tam buğday ekmeğinin kalitesini etkileyen ana etkenler olarak hasarlı nişasta ve unun tanecik boyu belirlendi.",
+      "kosul": "Mor renkli Ariheuk tam buğday unu, Kore; ultra santrifüj değirmen (FM200), 0,5 mm (S grubu) ya da 1,0 mm (L grubu) elek, 6000 / 10.000 / 14.000 dev/dk rotor hızı. Kalıp ekmeği: 35 °C, %85 bağıl nem, 50 dk mayalanma; 215 °C'de 18 dk pişirme.",
+      "kanit": "tek_kaynak",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods12132591",
+          "yer": "3.5. Bread-Making Performance"
+        }
+      ]
+    },
+    {
+      "id": "hasarli_nisasta.amilaz_hidroliziyle_dekstrin_uretimi",
+      "metin": "Makale, hasarlı nişasta tanelerinin doğal olanlara kıyasla amilaz hidrolizine daha açık olmasının dekstrin üretimiyle sonuçlandığını literatür bilgisi olarak aktarmaktadır.",
+      "kosul": "Literatür aktarımı (amilaz hidrolizi); makalenin kendi ölçümü değildir.",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods14010021",
+          "yer": "1. Introduction"
+        }
+      ]
+    },
+    {
+      "id": "hasarli_nisasta.mekanik_kuvvetler_ve_mikroyapi",
+      "metin": "Öğütme sırasındaki kesme, çarpma ve sürtünme kuvvetleri nişasta tanelerini daha küçük parçacıklara bölerek yüzey alanını ve tanecik içi gözenekleri artırır, kristalin yapıyı bozar.",
+      "kosul": "Valsli ya da taş değirmende mekanik aktivasyon",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.foodchem.2020.126267",
+          "yer": "Introduction"
+        },
+        {
+          "kaynak": "10.1016/j.foodchem.2020.126267",
+          "yer": "Conclusions and prospects"
+        }
+      ]
+    },
+    {
+      "id": "hasarli_nisasta.olculu_iyi_fazlasi_yapiskan",
+      "metin": "Ölçülü bir nişasta hasarı ekmek hamurunun kalitesini artırabilir; aşırısı hamuru yapışkan yapar ve gluten proteinlerinin su almasını geciktirip gluten gelişimini engelleyerek ekmek kalitesini düşürebilir.",
+      "kosul": "",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods13213386",
+          "yer": "1. Introduction"
+        },
+        {
+          "kaynak": "10.3390/foods12132591",
+          "yer": "3.2. SRC"
+        },
+        {
+          "kaynak": "10.1016/j.foodchem.2020.126267",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "hasarli_nisasta.soguk_suda_kendiliginden_jellesme",
+      "metin": "Morrison ve ark.'na (1994) göre hasarlı nişasta soğuk suda dahi kendiliğinden şişip jelleşir ve böylece hamur oluşumu sırasında elastikliği ve mekanik kuvveti artırır.",
+      "kosul": "Soğuk suda hidrasyon ve hamur oluşumu (Morrison vd. 1994)",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1002/fsn3.2008",
+          "yer": "Results and Discussion: Effect of particle size on dynamic rheological characteristics of dough"
+        }
+      ]
+    },
+    {
+      "id": "hasarli_nisasta.su_kaldirma_ve_gaz_gucu_artisi",
+      "metin": "Bazı çalışmalara göre belirli bir düzeyde hasarlı nişasta içeriği, hamurun fırınlama su kaldırmasını ve gaz oluşturma gücünü artırdığı için yararlı olabilir.",
+      "kosul": "Hamur hidrasyonu ve fermantasyonu (Morrison ve Tester 1994)",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1002/fsn3.1431",
+          "yer": "Damaged starch content"
+        }
+      ]
+    },
+    {
+      "id": "hasarli_nisasta.tepe_viskozitesini_artirir",
+      "metin": "Unun hasarlı nişasta miktarı arttıkça RVA tepe viskozitesi de arttı; yazarlar bunu hasarlı nişastanın sağlam nişasta tanelerinden çok daha fazla su emmesiyle açıklamayı önerir.",
+      "kosul": "Dört Hint buğday çeşidi (PBW 590, PBW 550, HW 2004, C 306); %65 öğütme randımanlı un; korelasyonlar n = 4 çeşit üzerinden; Rapid Visco Analyser ile un yapışkanlaşma ölçümü.",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.lwt.2012.09.011",
+          "yer": "3.3. Flour pasting characteristics"
+        }
+      ]
+    },
+    {
+      "id": "hasarli_nisasta.ince_tam_un_daha_cok_hasar",
+      "metin": "Bir çalışmada daha ince öğütülen tam unun sodyum karbonat çözücü tutma kapasitesi (SRC) anlamlı ölçüde yüksekti, bu da daha çok hasarlı nişastaya işaret eder; yazarlara göre aynı elekte düşük rotor hızı öğütmeyi uzatıp hasarı artırdı ve benzer tanecik boylarında hasar çok değişebildiğinden onu yalnız tanecik boyundan öngörmek zor olabilir.",
+      "kosul": "Mor renkli Ariheuk tam buğday unu, Kore; ultra santrifüj değirmen (FM200), 0,5 mm (S grubu) ya da 1,0 mm (L grubu) elek, 6000 / 10.000 / 14.000 dev/dk rotor hızı.",
+      "kanit": "tek_kaynak",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods12132591",
+          "yer": "3.2. SRC, Figure 2"
+        },
+        {
+          "kaynak": "10.3390/foods12132591",
+          "yer": "3.2. SRC"
+        },
+        {
+          "kaynak": "10.3390/foods12132591",
+          "yer": "3.2. SRC"
+        }
+      ]
+    },
+    {
+      "id": "hasarli_nisasta.pasajlarda_artar",
+      "metin": "Sırbistan'daki üç ticari değirmende hasarlı nişasta kırma, irmik sınıflandırma ve inceltme sistemlerinde ilk pasajlardan son pasajlara doğru giderek arttı; kırma sisteminde artış hafifti, inceltmede en az C1, CL1, CL2'de, en çok C5 ve C6'da görüldü.",
+      "kosul": "Sırbistan'da üç ticari değirmen (A, B, C); pasaj unları; iyot absorpsiyonu (Ai %) ile ölçüm.",
+      "kanit": "tek_kaynak",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods13213386",
+          "yer": "3.1. First Stage"
+        },
+        {
+          "kaynak": "10.3390/foods13213386",
+          "yer": "3.1. First Stage"
+        },
+        {
+          "kaynak": "10.3390/foods13213386",
+          "yer": "4. Conclusions"
+        },
+        {
+          "kaynak": "10.3390/foods13213386",
+          "yer": "3.1. First Stage; Figures A1–A3"
+        }
+      ]
+    },
+    {
+      "id": "hasarli_nisasta.sert_bugdayda_yuzde_sekiz_uzeri_hasar",
+      "metin": "Sert buğdayda hasarlı nişasta, undaki toplam nişastanın %8'ini veya daha fazlasını oluşturabilir.",
+      "kosul": "Sert buğday unu",
+      "kanit": "tek_kaynak",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods14010021",
+          "yer": "1. Introduction"
+        }
+      ]
+    },
+    {
+      "id": "hasarli_nisasta.sert_tane_fazla_hasar",
+      "metin": "Dört çeşit içinde HW 2004'ün unu öbürlerinden çok daha fazla hasarlı nişasta içeriyordu; yazarlar bunu bu çeşidin tanesinin daha sert olmasına bağlar.",
+      "kosul": "Dört Hint buğday çeşidi (PBW 590, PBW 550, HW 2004, C 306); %65 öğütme randımanlı un; Chopin SDmatic ile hasarlı nişasta ölçümü.",
+      "kanit": "tek_kaynak",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.lwt.2012.09.011",
+          "yer": "3.1. Flour characteristics analysis"
+        },
+        {
+          "kaynak": "10.3390/foods10092124",
+          "yer": "6.1. Grain Hardness"
+        }
+      ]
+    },
+    {
+      "id": "hasarli_nisasta.tanecik_boyutu_azaldikca_hasar_artisi",
+      "metin": "İki ayrı çalışmada, un tanecik boyutu kademeli olarak küçüldükçe nişasta hasarı belirgin biçimde arttı.",
+      "kosul": "Jet öğütme ve merdane aralığı ayarlı değirmen ile farklı tanecik boyutları",
+      "kanit": "uzlasi",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1002/fsn3.1431",
+          "yer": "Damaged starch content"
+        },
+        {
+          "kaynak": "10.1002/fsn3.2008",
+          "yer": "Abstract"
+        }
+      ]
+    },
+    {
+      "id": "hasarli_nisasta.tas_valsli_hasar_literatur",
+      "metin": "Aktarılan çalışmalarda taş ve valsli değirmen arasındaki hasarlı nişasta farkının yönü ayrışır: birçok yazar taş değirmende daha çok hasar bulup bunu taşın daha yüksek sıcaklığına (60–90 °C'ye karşı valste 35–40 °C) bağlarken Kihlberg vd. valsli unda daha çok hasar buldu; ayrışmanın çeşitlerden ve değirmen ayarlarından kaynaklanabileceği belirtilir.",
+      "kosul": "Aktarım; asıl çalışmaların koşulları kayıtlarda yok.",
+      "kanit": "ikincil",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods11030339",
+          "yer": "4. Discussion"
+        },
+        {
+          "kaynak": "10.3390/foods9010003",
+          "yer": "1. Introduction"
+        },
+        {
+          "kaynak": "10.3390/foods11030339",
+          "yer": "4. Discussion"
+        },
+        {
+          "kaynak": "10.3390/foods11030339",
+          "yer": "4. Discussion"
+        }
+      ]
+    },
+    {
+      "id": "hasarli_nisasta.ticari_unlarda_ortusur",
+      "metin": "Marketten alınan tam tahıllı unlarda taş değirmen (kuru maddede %4,00–5,50) ve valsli (%3,19–5,33) unların hasarlı nişasta aralıkları kısmen örtüştü ve anlamlı fark yoktu; çalışmanın kendi taş değirmen unları bu ticari unların hepsinden daha çok hasarlı nişasta içeriyordu.",
+      "kosul": "7 ticari tam tahıllı un, 6 marka (3 taş değirmen, 4 valsli), İtalya.",
+      "kanit": "tek_kaynak",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods11030339",
+          "yer": "3. Results, Figure 2"
+        },
+        {
+          "kaynak": "10.3390/foods11030339",
+          "yer": "3. Results"
+        },
+        {
+          "kaynak": "10.3390/foods11030339",
+          "yer": "4. Discussion"
+        }
+      ]
+    },
+    {
+      "id": "hasarli_nisasta.alfa_bir_dort_glikozidik_bag_bozunmasi",
+      "metin": "Makale, öğütmeyle nişasta moleküllerinin bozunmasının başlıca kristalin çift sarmal içindeki alfa-(1→4) glikozidik bağlarında meydana geldiğini literatür bilgisi olarak aktarmaktadır.",
+      "kosul": "Literatür aktarımı (öğütme kaynaklı nişasta molekül bozunması); makalenin kendi ölçümü değildir.",
+      "kanit": "ikincil",
+      "bolum": "Kimlik",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods14010021",
+          "yer": "1. Introduction"
+        }
+      ]
+    },
+    {
+      "id": "hasarli_nisasta.artan_hasarla_kristalinite_derecesi_dususu",
+      "metin": "Bu çalışmada farklı hasarlı nişasta içeriğine sahip örneklerde toplam kristalinite derecesi, doğal nişastadaki %34,1 değerinden DS1, DS2 ve DS4 örneklerinde sırasıyla %32,3, %30,4 ve %28,9 değerlerine kademeli olarak düşmüştür (p < 0,05).",
+      "kosul": "Doğal nişasta (NS) ve farklı derecelerde hasarlandırılmış nişasta örnekleri (DS1, DS2, DS4); XRD ile toplam kristalinite derecesi.",
+      "kanit": "tek_kaynak",
+      "bolum": "Kimlik",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods14010021",
+          "yer": "3.3. X-Ray Diffraction (XRD)"
+        }
+      ]
+    },
+    {
+      "id": "hasarli_nisasta.ogutmede_puruzsuzden_pullu_yuzeye_donusum",
+      "metin": "Bu çalışmada DS1, DS2 ve DS4 örneklerinin SEM görüntülerinde, öğütme sonrası nişasta tanelerinin yüzeyi pürüzsüz ve parlak bir görünümden pürüzlü ve pullu bir görünüme dönüşmüştü.",
+      "kosul": "SEM mikroyapı gözlemi",
+      "kanit": "tek_kaynak",
+      "bolum": "Kimlik",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods14010021",
+          "yer": "3.4. Scanning Electron Microscopy (SEM)"
+        }
+      ]
+    },
+    {
+      "id": "hasarli_nisasta.fermantasyon_sekeri_ve_maltoz",
+      "metin": "Hamur fermantasyonunda tüketilen şekerlerin büyük bölümünün hasarlı nişasta ve fruktanın enzimatik hidrolizi ile sağlandığı bildirilmektedir (Cauvain ve Young, 2007; Hebeda ve Zobel, 1996); hasarlı nişasta ise amilazlarla maltoza dönüştürülebilir (Van der Maarel ve ark., 2002).",
+      "kosul": "Hamur fermantasyonu",
+      "kanit": "ikincil",
+      "bolum": "Mayadaki yeri",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.foodchem.2016.09.004",
+          "yer": "Introduction"
+        },
+        {
+          "kaynak": "10.1016/j.jcs.2017.03.013",
+          "yer": "Introduction"
+        },
+        {
+          "kaynak": "10.1016/j.jcs.2017.03.013",
+          "yer": "Introduction"
+        },
+        {
+          "kaynak": "10.1016/j.jcs.2017.03.013",
+          "yer": "1 Introduction"
+        },
+        {
+          "kaynak": "10.3390/foods11091278",
+          "yer": "Wet Granulation Process"
+        }
+      ]
+    },
+    {
+      "id": "hasarli_nisasta.bagimsiz_degirmenler_arasi_hasar_farki",
+      "metin": "Bu çalışmada taş ve valsli değirmen türleri arasında hasarlı nişasta içeriğinde anlamlı fark bulunmamış; aynı türdeki değirmenler arasında ise taş değirmenlerden S2 ve S3 %4'ün üzerinde, S1 ve S4 %3,5'in altında hasarlı nişasta üretmiştir.",
+      "kosul": "Valsli (R1, R2) ve taş (S1–S4) değirmenlerde öğütülmüş tam buğday unları; hasarlı nişasta içeriği (Tablo 3).",
+      "kanit": "tek_kaynak",
+      "bolum": "Nasıl ölçülür",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1021/acsfoodscitech.5c00475",
+          "yer": "RESULTS AND DISCUSSION"
+        }
+      ]
+    },
+    {
+      "id": "hasarli_nisasta.degirmen_tipleri_arasi_hasar_farksizligi",
+      "metin": "Valsli öğütme ile taş değirmende öğütme arasında hasarlı nişasta içeriği açısından anlamlı bir fark bulunmamıştır (p > 0,05).",
+      "kosul": "Valsli ve taş değirmende öğütme karşılaştırması (p > 0,05)",
+      "kanit": "tek_kaynak",
+      "bolum": "Nasıl ölçülür",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1021/acsfoodscitech.5c00475",
+          "yer": "RESULTS AND DISCUSSION"
+        }
+      ]
+    },
+    {
+      "id": "hasarli_nisasta.enzimatik_olcum",
+      "metin": "Enzimatik yöntemde hasarlı nişasta taneleri saflaştırılmış fungal α-amilazla parçalanır, oluşan dekstrinler amiloglukozidazla glikoza çevrilir ve glikoz ölçülür.",
+      "kosul": "Megazyme K-SDAM kiti.",
+      "kanit": "ikincil",
+      "bolum": "Nasıl ölçülür",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods11030339",
+          "yer": "2.2. Analyses"
+        },
+        {
+          "kaynak": "10.1016/j.foodchem.2020.126267",
+          "yer": "Measurement of MDS"
+        }
+      ]
+    },
+    {
+      "id": "hasarli_nisasta.src_tanim",
+      "metin": "Çözücü tutma kapasitesi (SRC) testinde sudaki değer unun su kaldırmasını, sodyum karbonattaki değer hasarlı nişastanın katkısını yansıtır.",
+      "kosul": "AACC 56-11.02.",
+      "kanit": "tek_kaynak",
+      "bolum": "Nasıl ölçülür",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods12132591",
+          "yer": "3.2. SRC"
+        }
+      ]
+    },
+    {
+      "id": "hasarli_nisasta.artan_hasarla_nisasta_cozunurlugu_artisi",
+      "metin": "Bir çalışmada atıfla aktarıldığına göre öğütmenin şiddeti ve buna bağlı olarak hasarlı nişasta içeriği arttıkça nişastanın çözünürlüğü de artar.",
+      "kosul": "artan öğütme şiddeti ve hasarlı nişasta içeriği; atıflı aktarım",
+      "kanit": "ikincil",
+      "bolum": "Ne yapar",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods14010021",
+          "yer": "3.5. Water Absorption Capacity (WAC)"
+        }
+      ]
+    },
+    {
+      "id": "hasarli_nisasta.nihai_viskoziteyi_etkileyen_baskin_etken",
+      "metin": "Bu çalışmada nişasta tanelerindeki hasar, un ve nişastanın nihai viskozitesini etkileyen en baskın etken olarak bulundu.",
+      "kosul": "RVA viskozite analizi",
+      "kanit": "tek_kaynak",
+      "bolum": "Ne yapar",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1002/fsn3.1431",
+          "yer": "Abstract"
+        }
+      ]
+    },
+    {
+      "id": "hasarli_nisasta.su_absorpsiyon_kapasitesi_korelasyonu",
+      "metin": "Bu çalışmada hasarlı nişasta, su absorpsiyon kapasitesi ile güçlü bir pozitif korelasyon gösterdi (r = 0,729).",
+      "kosul": "Un örneklerinde su absorpsiyon kapasitesi analizi",
+      "kanit": "tek_kaynak",
+      "bolum": "Ne yapar",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1021/acsfoodscitech.5c00475",
+          "yer": "RESULTS AND DISCUSSION"
+        }
+      ]
+    },
+    {
+      "id": "hasarli_nisasta.nereden_gelir",
+      "metin": "Un öğütmede hasarlı nişasta oluşumunu başlıca buğdayın türü, tavlama ve en çok da öğütme süreci belirler.",
+      "kosul": "",
+      "kanit": "ikincil",
+      "bolum": "Nereden gelir",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods13213386",
+          "yer": "1. Introduction"
+        },
+        {
+          "kaynak": "10.1016/j.tifs.2020.01.008",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "hasarli_nisasta.incelik_hasar_korelasyon",
+      "metin": "Ticari değirmenlerin pasaj unlarında un ne kadar inceyse o kadar çok hasarlı nişasta içeriyordu (ortalama tanecik boyu ile hasar arasında r = −0,88).",
+      "kosul": "Sırbistan'da üç ticari değirmen (A, B, C); pasaj unları; iyot absorpsiyonu (Ai %) ile ölçüm.",
+      "kanit": "tek_kaynak",
+      "bolum": "İlişkileri",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods13213386",
+          "yer": "3.1. First Stage; Tables A1–A3"
+        },
+        {
+          "kaynak": "10.3390/foods11030339",
+          "yer": "4. Discussion"
+        }
+      ]
+    }
+  ]
+}

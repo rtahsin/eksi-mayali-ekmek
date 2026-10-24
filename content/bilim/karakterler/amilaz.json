@@ -1,0 +1,54 @@
+{
+  "id": "amilaz",
+  "ad": "Amilazlar",
+  "eski_ad": null,
+  "tur": "enzim",
+  "tek_cumle": "Sıradan α-amilazlar nişastanın α-1,4 bağlarını oldukça rastgele keser ve amiloz ile amilopektinin molekül boyunu küçülterek düşük molekül ağırlıklı şekerlere, esasen glukoza kadar indirir [[amilaz.alfa_amilaz_rastgele_keser]]",
+  "bolumler": [
+    {
+      "baslik": "Ne yapar",
+      "cumleler": [
+        "Hasarlı nişastayı kolayca parçalar, açığa çıkan serbest şekerler mayanın fermantasyonuna destek olur [[amilaz.hasarli_nisastadan_seker]]",
+        "Beta-amilaz ise nişasta zincirinin indirgeyici olmayan ucundan maltoz birimlerini koparan ekzo etkili bir enzimdir [[amilaz.beta_amilaz_ekzo_etki]]",
+        "Maltojenik α-amilazlar nişastadan her seferinde bir maltoz birimi koparır [[amilaz.maltojenik_tanim]]"
+      ]
+    },
+    {
+      "baslik": "Hangi koşulda çalışır",
+      "cumleler": [
+        "Amilolitik enzimler 65 °C veya üzerindeki sıcaklıklarda inaktive olur [[amilaz.amilolitik_enzimler_65c_inaktivasyon]]",
+        "Çavdar ekmeğinde ekşi mayanın başlıca görevlerinden biri, çavdarda buğdaydan daha etkin olan α-amilazı etkisizleştirmektir [[amilaz.cavdarda_eksi_maya_amilazi_durdurur]]"
+      ]
+    },
+    {
+      "baslik": "Hamurda ne olur",
+      "cumleler": [
+        "Fermantasyon sırasında açığa çıkan maltoz miktarı, düşme sayısı ile yansıtılan alfa-amilaz aktivitesine ve unda bulunan hasarlı nişasta miktarına bağlıdır [[amilaz.maltoz_salimi_dusme_sayisi_hasarli_nisasta]]",
+        "Ekmek hamurundaki maltoz düzeylerini artırmak amacıyla buğday ununa genellikle alfa-amilaz takviyesi yapılır [[amilaz.un_takviyesi_maltoz_artisi]]"
+      ]
+    },
+    {
+      "baslik": "Nasıl ölçülür",
+      "cumleler": [
+        "Düşme sayısı testi nişastayı hidroliz eden amilolitik enzimlerin ve başlıca alfa-amilazın etkinliğini değerlendirir [[amilaz.dusme_sayisi_ve_alfa_amilaz_ters_iliskili]]",
+        "Ekmeklik unlar için optimum düşme sayısı aralığı 200 ile 350 saniye arası olarak tanımlanır [[amilaz.ekmeklik_un_optimum_dusme_sayisi_araligi]]"
+      ]
+    },
+    {
+      "baslik": "Ekmeğe etkisi",
+      "cumleler": [
+        "Alfa-amilaz kullanımı ekmek hacmini artırır, ekmek içi gözenek yapısı ile kabuk ve iç rengini geliştirir, aroma gelişimine katkıda bulunur ve bayatlamayı geciktirici etki sağlar [[amilaz.ekmek_hacmi_ve_ici_iyilestirme]]",
+        "Maltojenik α-amilaz eklemek ise sanayide bayatlamayı geciktirmek için kullanılan en başarılı yöntemlerden biridir [[amilaz.maltojenik_bayatlamayi_geciktirir]]"
+      ]
+    }
+  ],
+  "efsane": null,
+  "anlar": [
+    "degirmen_tasinda",
+    "sekerin_yolu"
+  ],
+  "gorseller": [
+    "iodine_starch_test_for_apples",
+    "testing_seed_for_starch"
+  ]
+}

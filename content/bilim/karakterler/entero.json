@@ -1,0 +1,44 @@
+{
+  "id": "entero",
+  "ad": "İlk günlerin enterobakterileri",
+  "eski_ad": null,
+  "tur": "bakteri",
+  "tek_cumle": "Kendiliğinden başlatılan ekşi mayaların ilk gününde bakteri topluluğuna Pantoea, Enterobacter, Klebsiella ve adı belirlenemeyen bir Enterobacteriaceae cinsi gibi bakteriler hâkimdir [[entero.ilk_gun_baskin]]",
+  "bolumler": [
+    {
+      "baslik": "Mayadaki yeri",
+      "cumleler": [
+        "İlk fermantasyonun başlangıcında undan gelen mikrop gruplarının her birinin hücre sayısı genellikle 5 log KOB/g değerini aşmaz [[entero.baslangicta_hucre_sayisi_siniri]]"
+      ]
+    },
+    {
+      "baslik": "Hangi koşulda",
+      "cumleler": [
+        "Durum buğdayı ekşi mayalarının yenilenmesi sırasında Enterobacteriaceae azalır ve çoğu durumda ikinci yenilemeden sonraki fermantasyondan itibaren saptanamaz [[entero.durum_ikinci_yenileme]]",
+        "Laboratuvarda yenilenen çavdar ekşi mayalarında enterobakteriler 30 °C'de 20 °C'dekinden daha fazla dönem boyunca kalır [[entero.sicaklik_kalicilik]]"
+      ]
+    },
+    {
+      "baslik": "Nereden gelir",
+      "cumleler": [
+        "Belçika ekşi mayalarında PCR-DGGE iki örnekte Erwinia/Enterobacter/Pantoea grubundan bir bakteri saptandı [[entero.belcika_undan_gelir]]",
+        "Enterobacteriaceae, tam buğday unlarında ve ilk fermantasyon günü hamur örneklerinde baskın bakteri familyasıydı [[entero.un_ve_ilk_gun_baskinligi]]"
+      ]
+    },
+    {
+      "baslik": "İlişkileri",
+      "cumleler": [
+        "Ekşi maya hazırlığı sırasında Proteobacteria'nın baskın olması, fermantasyonun başarısız olmasının nedenlerinden biri olabilir [[entero.proteobacteria_basarisizlik]]"
+      ]
+    }
+  ],
+  "efsane": null,
+  "anlar": [
+    "eksi_mayanin_ilk_10_gunu"
+  ],
+  "gorseller": [
+    "pantoea_agglomerans",
+    "pantoea_allii_400x",
+    "enterobacter_listeria_monocitogenes"
+  ]
+}

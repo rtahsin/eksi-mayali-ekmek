@@ -1,0 +1,1884 @@
+{
+  "id": "aroma",
+  "ad": "Aroma",
+  "bilgiler": [
+    {
+      "id": "aroma.eksilik_disinda_katki",
+      "metin": "Ekşi maya ekmeğe yalnız ekşilik değil, tazelik, meyvemsilik ve kavrulmuşluk notaları da katar.",
+      "kosul": "",
+      "kanit": "ikincil",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1128/aem.02216-24",
+          "yer": "INTRODUCTION"
+        }
+      ]
+    },
+    {
+      "id": "aroma.ic_en_aktif_bilesikler",
+      "metin": "Mayalı buğday ekmeğinin içinde en etkin aroma bileşikleri 3-metilbutanal, (E)-2-nonenal, 3-metil-1-bütanol ve 2,3-bütandion (diasetil) idi.",
+      "kosul": "Danimarka; buğday unu (yaş gluten %28,9); ticari yaş (pres) ekmek mayası 20, 40 ve 60 g/kg un (mayada gram başına 2,0×10⁹ laktik asit bakterisi de vardı); ekşi maya yok; hamur 5, 15 ya da 35 °C'de 8 cm yüksekliğe ulaşana kadar fermente edildi, bu yüzden süre 15 dakika (35 °C, 60 g) ile 21 saat (5 °C, 20 g) arasında değişti; kabuk oluşumunu azaltmak için buharla 130 °C'de 31 dakika pişirildi; yalnız ekmek içi incelendi; dinamik tepe boşluğu ekstraksiyonu ve GC-MS, çoklu tepe boşluğu ekstraksiyonuyla nicelendirme; duyusal panel yok, duyusal önem sudaki koku eşiğinden hesaplanan koku etkinlik değerine dayanır.",
+      "kanit": "tek_kaynak",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.lwt.2012.08.019",
+          "yer": "Abstract"
+        }
+      ]
+    },
+    {
+      "id": "aroma.maya_bilesikleri_ekmek_ici_flavour_katkisi",
+      "metin": "Birkaç çalışmaya göre, aroma bileşiklerinin pişirme sırasında tamamen buharlaştığı yönündeki yaygın ama yanlış inancın aksine, maya kaynaklı bileşikler ekmek içinin lezzet profiline önemli katkı sağlamaktadır.",
+      "kosul": "Ekmek içi aroma profili literatür verisi (atıf)",
+      "kanit": "ikincil",
+      "bolum": "Mayadaki yeri",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1371/journal.pone.0165126",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "aroma.mayanin_aroma_katkisi_alkol_ester",
+      "metin": "Ekşi mayadaki mayalar, karbon dioksit üretimiyle kabartmanın yanı sıra 3-metil-1-bütanol gibi yüksek alkoller ve etil asetat gibi esterler üreterek kapsamlı aroma oluşumundan sorumludur.",
+      "kosul": "ekşi maya fermantasyonu",
+      "kanit": "ikincil",
+      "bolum": "Mayadaki yeri",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1080/10408398.2021.1976100",
+          "yer": "Flour fermentation for sourdough production"
+        },
+        {
+          "kaynak": "10.1007/s00203-022-03313-x",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "aroma.ucucu_bilesik_sentezi_maya_ve_lab",
+      "metin": "Genel olarak uçucu organik bileşiklerin sentezi esas olarak mayaların ve laktik asit bakterilerinin metabolik faaliyetlerinden kaynaklanır.",
+      "kosul": "ekşi maya fermantasyonu",
+      "kanit": "ikincil",
+      "bolum": "Mayadaki yeri",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1128/aem.00309-14",
+          "yer": "DISCUSSION"
+        }
+      ]
+    },
+    {
+      "id": "aroma.ehrlich_valin_izolosin_losin_donusumu",
+      "metin": "2-Metilpropanal, 2-metilbutanal ve 3-metilbutanal sırasıyla mayanın valin, izolösin ve lösin amino asitlerini dönüştürmesinden kaynaklanır.",
+      "kosul": "Ehrlich yolu amino asit dönüşümü (atıf)",
+      "kanit": "ikincil",
+      "bolum": "Ne yer, ne üretir",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods11091278",
+          "yer": "VOCs Determination in Sourdoughs and Bread"
+        }
+      ]
+    },
+    {
+      "id": "aroma.ehrlich_yolu_ve_fuzel_alkoller",
+      "metin": "Ehrlich yolu mayanın ekmekte aroma bileşikleri üretmesinden sorumlu başlıca yollardan biridir ve özellikle füzel alkolleri ile asitler gibi güçlü bileşiklerin oluşumunu sağlar.",
+      "kosul": "Mayanın amino asit dönüşümü",
+      "kanit": "tek_kaynak",
+      "bolum": "Ne yer, ne üretir",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods6080066",
+          "yer": "1. Introduction"
+        }
+      ]
+    },
+    {
+      "id": "aroma.ic_aroma_maya_ve_lipit",
+      "metin": "Ekmek içinde tanımlanan aroma bileşikleri çoğunlukla fermantasyon sırasında mayanın metabolizmasından ve un lipitlerinin oksidasyonundan oluştu.",
+      "kosul": "Danimarka; buğday unu (yaş gluten %28,9); ticari yaş (pres) ekmek mayası 20, 40 ve 60 g/kg un (mayada gram başına 2,0×10⁹ laktik asit bakterisi de vardı); ekşi maya yok; hamur 5, 15 ya da 35 °C'de 8 cm yüksekliğe ulaşana kadar fermente edildi, bu yüzden süre 15 dakika (35 °C, 60 g) ile 21 saat (5 °C, 20 g) arasında değişti; kabuk oluşumunu azaltmak için buharla 130 °C'de 31 dakika pişirildi; yalnız ekmek içi incelendi; dinamik tepe boşluğu ekstraksiyonu ve GC-MS, çoklu tepe boşluğu ekstraksiyonuyla nicelendirme; duyusal panel yok, duyusal önem sudaki koku eşiğinden hesaplanan koku etkinlik değerine dayanır.",
+      "kanit": "tek_kaynak",
+      "bolum": "Nereden gelir",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.lwt.2012.08.019",
+          "yer": "3.1. Identification and quantification"
+        },
+        {
+          "kaynak": "10.1016/j.lwt.2012.08.019",
+          "yer": "1. Introduction"
+        }
+      ]
+    },
+    {
+      "id": "aroma.kabuk_aromasi_maillard",
+      "metin": "Ekmek kabuğunun aroması, yüksek sıcaklıkta ve düşük su etkinliğinde indirgen şekerlerle amino asitler arasında gerçekleşen Maillard tepkimelerinden gelir.",
+      "kosul": "",
+      "kanit": "ikincil",
+      "bolum": "Nereden gelir",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.lwt.2012.08.019",
+          "yer": "1. Introduction"
+        }
+      ]
+    },
+    {
+      "id": "aroma.alkol_uretim_yollari_ve_otsu_notalar",
+      "metin": "Alkoller hem şeker fermantasyonu (kısa zincirli alkoller) hem de amino asit metabolizması (uzun zincirli alkoller) yoluyla üretilebilir ve genellikle yeşil ile otsu koku notalarıyla karakterize edilir.",
+      "kosul": "Ekşi maya fermantasyonu (atıf)",
+      "kanit": "ikincil",
+      "bolum": "Tanım",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/molecules27113588",
+          "yer": "3.2.1. Alcohols"
+        }
+      ]
+    },
+    {
+      "id": "aroma.asetoin_ve_diasetil_tereyagimsi_koku",
+      "metin": "Asetoin ve diasetil, hoş tereyağımsı ve yağlı koku notalarıyla karakterize edilen bileşiklerdir.",
+      "kosul": "Aroma bileşikleri duyusal tanımı",
+      "kanit": "tek_kaynak",
+      "bolum": "Tanım",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3389/fmicb.2018.00429",
+          "yer": "Discussion"
+        }
+      ]
+    },
+    {
+      "id": "aroma.ekmek_icinde_600_ucucu_bilesik",
+      "metin": "Ekmek içinin uçucu fraksiyonu oldukça karmaşıktır ve ekmek içinde yaklaşık 600 uçucu bileşiğin bulunduğu bildirilmiştir.",
+      "kosul": "Ekmek içi uçucu bileşikleri, aktarım",
+      "kanit": "ikincil",
+      "bolum": "Tanım",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods6080066",
+          "yer": "1. Introduction"
+        },
+        {
+          "kaynak": "10.3136/fstr.24.509",
+          "yer": "Discussion"
+        }
+      ]
+    },
+    {
+      "id": "aroma.ekmekte_3_metilbutanal_koku_esigi",
+      "metin": "Maltımsı kokuya sahip 3-metilbutanalin literatürde bildirilen koku algılama eşiği 0,1–17 µg/kg aralığındadır.",
+      "kosul": "Fermente hamurda bulunan uçucu bileşikler tablosu; eşik değerleri literatürden aktarılmış",
+      "kanit": "ikincil",
+      "bolum": "Tanım",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods12040830",
+          "yer": "Table 4"
+        }
+      ]
+    },
+    {
+      "id": "aroma.ekmekte_diasetil_koku_esigi_ve_profili",
+      "metin": "Tatlı, tereyağımsı, kremsi ve sütsü kokuya sahip 2,3-bütandionun literatürde bildirilen koku algılama eşiği 0,05–6,5 µg/kg düzeyindedir.",
+      "kosul": "Fermente hamurda bulunan uçucu bileşikler tablosu; eşik değerleri literatürden aktarılmış",
+      "kanit": "ikincil",
+      "bolum": "Tanım",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods12040830",
+          "yer": "Table 4"
+        }
+      ]
+    },
+    {
+      "id": "aroma.ekmekte_heksanal_koku_esigi",
+      "metin": "Yeşil ve otsu kokuya sahip heksanalin literatürde bildirilen koku algılama eşiği 0,28–25,5 µg/kg arasındadır.",
+      "kosul": "Fermente hamurda bulunan uçucu bileşikler tablosu; eşik değerleri literatürden aktarılmış",
+      "kanit": "ikincil",
+      "bolum": "Tanım",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods12040830",
+          "yer": "Table 4"
+        }
+      ]
+    },
+    {
+      "id": "aroma.ekmekte_izoamil_asetat_koku_esigi",
+      "metin": "Tatlı, muz ve meyvemsi kokuya sahip izoamil asetatın literatürde bildirilen koku algılama eşiği 30–94 µg/kg aralığındadır.",
+      "kosul": "Fermente hamurda bulunan uçucu bileşikler tablosu; eşik değerleri literatürden aktarılmış",
+      "kanit": "ikincil",
+      "bolum": "Tanım",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods12040830",
+          "yer": "Table 4"
+        }
+      ]
+    },
+    {
+      "id": "aroma.eksi_maya_aromasi_tek_bilesik_degil",
+      "metin": "Bir çalışmanın yazarlarına göre koku panelinin hamurda 'ekşi maya benzeri' diye betimlediği koku tek bir bileşikten değil, birkaç bileşiğin uygun oranlarda bir araya gelmesinden doğar.",
+      "kosul": "Polonya; tip 650 buğday unu; S. cerevisiae ile laktik asit bakterisi karışık kültürleriyle 15 °C'de fermente edilmiş (pişirilmemiş) buğday hamuru; 10 kişilik betimleyici koku değerlendirmesi (Tablo 4).",
+      "kanit": "tek_kaynak",
+      "bolum": "Tanım",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/molecules30010112",
+          "yer": "2.2.4. Formation of Volatile Organic Compounds"
+        }
+      ]
+    },
+    {
+      "id": "aroma.eksi_mayali_ekmek_ucucu_surecleri",
+      "metin": "Ekşi mayalı ekmekte uçucu bileşiklerin oluşumuna karamelizasyon, Maillard tepkimeleri, lipit oksidasyonu ve fermantasyon gibi çeşitli süreçlerin neden olduğu bildirilmiştir.",
+      "kosul": "ekşi mayalı ekmek",
+      "kanit": "ikincil",
+      "bolum": "Tanım",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/pr9112008",
+          "yer": "4.4. Flavor Development in Ancient Wheat Sourdough Bread"
+        }
+      ]
+    },
+    {
+      "id": "aroma.kabuk_pisirme_ic_fermantasyon_kaynakli",
+      "metin": "Ekmek kabuğu aroması esas olarak pişirme sürecinden, ekmek içi aroması ise hamur fermantasyonundan ve özellikle ekşi mayanın uzun fermantasyonundan etkilenir.",
+      "kosul": "Ekşi mayalı ekmek (Corsetti ve Settanni 2007 vd. atfı)",
+      "kanit": "ikincil",
+      "bolum": "Tanım",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.foodres.2022.111885",
+          "yer": "Introduction"
+        },
+        {
+          "kaynak": "10.3390/foods11152325",
+          "yer": "1. Introduction"
+        }
+      ]
+    },
+    {
+      "id": "aroma.ucucu_esterler_arzu_edilen_meyvemsi_aroma",
+      "metin": "Uçucu esterler, fermantasyon ürünlerinde çokça arzu edilen meyvemsi aromadan sorumlu olan maya kaynaklı moleküller olup özellikle önemli bir bileşik sınıfıdır.",
+      "kosul": "Fermantasyon ürünü uçucu esterler (atıf)",
+      "kanit": "ikincil",
+      "bolum": "Tanım",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1371/journal.pone.0165126",
+          "yer": "Characterization of differentially produced aroma compounds"
+        },
+        {
+          "kaynak": "10.3390/foods8100443",
+          "yer": "3. Results and Discussion - 3.2. Bread Samples Textural and Nutritional Characteristics, Aromatic and Sensory Profile"
+        }
+      ]
+    },
+    {
+      "id": "aroma.3_metil_1_butanol_ve_asetoin_olumlu",
+      "metin": "3-Metil-1-bütanol ve asetoin gibi bileşikler buğday ekmeğinin aromasıyla olumlu yönde ilişkilidir.",
+      "kosul": "buğday ekmeği",
+      "kanit": "ikincil",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.foodres.2015.05.051",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "aroma.aktif_inaktif_aroma_tasiyici",
+      "metin": "Hem aktif hem de inaktif ekşi maya preparatları, mayalı ekmek üretiminde aroma taşıyıcı veya ekmek kalitesini artırıcı olarak kullanılır.",
+      "kosul": "",
+      "kanit": "tek_kaynak",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.fm.2009.07.012",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "aroma.b56_meyvemsi_elma",
+      "metin": "Lactiplantibacillus plantarum/pentosus B56 eklenen buğday hamurlarının kokusu panelce meyvemsi diye betimlendi (S. cerevisiae D3 ile 'meyvemsi, elma'); yazarlar bunu etil asetat gibi esterlere ve 2-feniletanol gibi bileşiklere bağlar.",
+      "kosul": "Polonya; tip 650 buğday unu; pişirilmemiş buğday hamuru, 15 °C; S. cerevisiae suşları (D3, D13, LOCK 0153) ile Levilactobacillus brevis B46/B48 ya da Lactiplantibacillus plantarum/pentosus B56'dan oluşan karışık kültürler; 10 kişilik betimleyici koku değerlendirmesi (istatistik yok).",
+      "kanit": "tek_kaynak",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/molecules30010112",
+          "yer": "2.2.4. Formation of Volatile Organic Compounds; Table 4"
+        }
+      ]
+    },
+    {
+      "id": "aroma.diasetil_mayayla_artar",
+      "metin": "2,3-Bütandion (diasetil) koku etkinlik değeri 9–33 olan önemli bir aroma bileşiğiydi ve derişimi maya miktarıyla arttı; 3-hidroksi-2-bütanon da ham pik alanlarına göre maya miktarıyla anlamlı arttı.",
+      "kosul": "Danimarka; buğday unu (yaş gluten %28,9); ticari yaş (pres) ekmek mayası 20, 40 ve 60 g/kg un (mayada gram başına 2,0×10⁹ laktik asit bakterisi de vardı); ekşi maya yok; hamur 5, 15 ya da 35 °C'de 8 cm yüksekliğe ulaşana kadar fermente edildi, bu yüzden süre 15 dakika (35 °C, 60 g) ile 21 saat (5 °C, 20 g) arasında değişti; kabuk oluşumunu azaltmak için buharla 130 °C'de 31 dakika pişirildi; yalnız ekmek içi incelendi; dinamik tepe boşluğu ekstraksiyonu ve GC-MS, çoklu tepe boşluğu ekstraksiyonuyla nicelendirme; duyusal panel yok, duyusal önem sudaki koku eşiğinden hesaplanan koku etkinlik değerine dayanır.",
+      "kanit": "tek_kaynak",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.lwt.2012.08.019",
+          "yer": "3.4. Effect of yeast concentration; Table 3"
+        },
+        {
+          "kaynak": "10.1016/j.lwt.2012.08.019",
+          "yer": "3.4. Effect of yeast concentration"
+        }
+      ]
+    },
+    {
+      "id": "aroma.diasetil_ve_pentilfuran_ekmek_aromasi_gostergesi",
+      "metin": "Ekşi mayalı ekmeğin karakteristik bileşenleri olan 2,3-bütandion ve 2-pentilfuran derişiminin yüksek olması starter kültürün ekmeğin duyusal profili üzerinde olumlu bir etki yarattığına işaret eder.",
+      "kosul": "Ekşi mayalı ekmek aroma profili (atıf)",
+      "kanit": "ikincil",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods11091278",
+          "yer": "VOCs Determination in Sourdoughs and Bread"
+        }
+      ]
+    },
+    {
+      "id": "aroma.dogal_eksi_mayaya_ozgu_koku_tanimlayicisi",
+      "metin": "Koku açısından, 'ekşi maya' tanımlayıcısı yalnızca doğal ekşi mayayla yapılan ekmeklerde algılanabilmiştir.",
+      "kosul": "Duyusal koku değerlendirmesi",
+      "kanit": "tek_kaynak",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods11091278",
+          "yer": "Sensory Analysis"
+        }
+      ]
+    },
+    {
+      "id": "aroma.duyusal_degerlendirmede_kontrol_ve_eksi_maya_benzerligi",
+      "metin": "Duyusal değerlendirmede ekşi mayalı ekmekler ile kontroller arasında kabuk rengi, kabuk yapısı, iç rengi, gözenek yapısı, doku, koku, tat ve genel kabul edilebilirlik özellikleri bakımından anlamlı bir fark görülmemiştir.",
+      "kosul": "13 eğitimli panelist, p>0,05",
+      "kanit": "tek_kaynak",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.55147/efse.1117033",
+          "yer": "Results and Discussion"
+        }
+      ]
+    },
+    {
+      "id": "aroma.ekmek_ucucu_mayalanma_pisirme_degisim",
+      "metin": "Bu çalışmada yulaf ekmeklerinde tespit edilen uçucu bileşikler, mayalanma ve pişirme sırasında değişiklikler gösterdi.",
+      "kosul": "Yulaf ekşi mayası ve yulaf ekmekleri (kontrol ekmek ile ekşi mayalı ekmekler); mayalanma ve pişirme aşamaları; uçucu bileşik analizi",
+      "kanit": "tek_kaynak",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.crfs.2024.100697",
+          "yer": "Volatile compounds profile of sourdoughs and breads"
+        }
+      ]
+    },
+    {
+      "id": "aroma.eksi_maya_bugday_82_bilesik",
+      "metin": "Ekşi mayalı buğday ekmeğinde 82 uçucu bileşik tanımlandı; bu sayı yalnız fırıncı mayasıyla fermente edilen ekmektekinden 10 bileşik fazlaydı.",
+      "kosul": "ekşi mayalı buğday ekmeği vs yalnız fırıncı mayalı ekmek",
+      "kanit": "ikincil",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/pr9112008",
+          "yer": "4.4. Flavor Development in Ancient Wheat Sourdough Bread"
+        }
+      ]
+    },
+    {
+      "id": "aroma.eksi_maya_ekmegi_daha_karmasik_duyusal",
+      "metin": "Bir çalışmada eğitimli panel, ekşi maya ekmeklerinde mayayla fermente edilen kontrol ekmeğinden daha karmaşık bir koku ve lezzet profili buldu.",
+      "kosul": "Eğitimli duyusal panel, n = 10.",
+      "kanit": "tek_kaynak",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods11233927",
+          "yer": "3.5. Sensory Analysis of Bread"
+        }
+      ]
+    },
+    {
+      "id": "aroma.esterler_ekmek_icinde_dusuk",
+      "metin": "Mayalı ekmeğin içinde esterlerin koku etkinlik değerleri genelde düşüktü; etil 3-metilbutanoat ve etil hekzanoat dışındakiler 0,1'in altında kaldı.",
+      "kosul": "Danimarka; buğday unu (yaş gluten %28,9); ticari yaş (pres) ekmek mayası 20, 40 ve 60 g/kg un (mayada gram başına 2,0×10⁹ laktik asit bakterisi de vardı); ekşi maya yok; hamur 5, 15 ya da 35 °C'de 8 cm yüksekliğe ulaşana kadar fermente edildi, bu yüzden süre 15 dakika (35 °C, 60 g) ile 21 saat (5 °C, 20 g) arasında değişti; kabuk oluşumunu azaltmak için buharla 130 °C'de 31 dakika pişirildi; yalnız ekmek içi incelendi; dinamik tepe boşluğu ekstraksiyonu ve GC-MS, çoklu tepe boşluğu ekstraksiyonuyla nicelendirme; duyusal panel yok, duyusal önem sudaki koku eşiğinden hesaplanan koku etkinlik değerine dayanır.",
+      "kanit": "tek_kaynak",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.lwt.2012.08.019",
+          "yer": "Abstract"
+        },
+        {
+          "kaynak": "10.1016/j.lwt.2012.08.019",
+          "yer": "3.6. Ester formation; Table 3"
+        }
+      ]
+    },
+    {
+      "id": "aroma.esterler_pisirmede_kaybolur",
+      "metin": "Esterlerin ekmeğe katkı yapabilmesi için pişirmeden sağ çıkmaları gerekir; yüksek uçuculukları yüzünden pişirmede buharlaşma kayıpları olur.",
+      "kosul": "",
+      "kanit": "ikincil",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1128/aem.02216-24",
+          "yer": "DISCUSSION"
+        }
+      ]
+    },
+    {
+      "id": "aroma.heksanal_heptanal_istenmeyen",
+      "metin": "Fermantasyon sıcaklığı 5 °C'den 15 ya da 35 °C'ye çıkınca artan lipit oksidasyonu ürünleri arasında koku etkinlik değeri en yüksek olanlar heksanal ve heptanaldi; yazarlar bu bileşiklerin çoğu zaman istenmeyen koku (off-flavor) olarak nitelendiğini belirtir.",
+      "kosul": "Danimarka; buğday unu (yaş gluten %28,9); ticari yaş (pres) ekmek mayası 20, 40 ve 60 g/kg un (mayada gram başına 2,0×10⁹ laktik asit bakterisi de vardı); ekşi maya yok; hamur 5, 15 ya da 35 °C'de 8 cm yüksekliğe ulaşana kadar fermente edildi, bu yüzden süre 15 dakika (35 °C, 60 g) ile 21 saat (5 °C, 20 g) arasında değişti; kabuk oluşumunu azaltmak için buharla 130 °C'de 31 dakika pişirildi; yalnız ekmek içi incelendi; dinamik tepe boşluğu ekstraksiyonu ve GC-MS, çoklu tepe boşluğu ekstraksiyonuyla nicelendirme; duyusal panel yok, duyusal önem sudaki koku eşiğinden hesaplanan koku etkinlik değerine dayanır.",
+      "kanit": "tek_kaynak",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.lwt.2012.08.019",
+          "yer": "4. Conclusion"
+        }
+      ]
+    },
+    {
+      "id": "aroma.heksanal_ve_butirik_asit_olumsuz",
+      "metin": "Heksanal ve bütirik asit gibi bileşikler tüketicilerin buğday ekmeği aromasını beğenisiyle olumsuz yönde ilişkilidir.",
+      "kosul": "buğday ekmeği",
+      "kanit": "ikincil",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.foodres.2015.05.051",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "aroma.karisik_starter_daha_karmasik_ucucu",
+      "metin": "Bir model çalışmasında hem laktobasil hem mayayla fermente edilen ekşi mayadan yapılan ekmeklerin uçucu bileşik profili, özellikle esterler bakımından daha karmaşıktı; 2-okten-1-ol, benzil alkol ve 2-etil-1-heksanol yalnız karışık başlatıcılı ekmeklerde bulundu.",
+      "kosul": "Model tip I buğday ekşi mayası: I. aşama 30 °C'de 16 saat, II. aşama 30 °C'de 2,5 saat; ekmek hamuru 1 saat dinlenme + 30 °C'de 1 saat mayalanma, 180 °C'de 25 dakika pişirme; suşlar K. humilis FUA4001, S. cerevisiae FUA4018, W. anomalus FUA4025, F. sanfranciscensis DSM20451T, Latilactobacillus sakei LS8; ekmek içi.",
+      "kanit": "tek_kaynak",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3389/fmicb.2019.02113",
+          "yer": "Abstract"
+        },
+        {
+          "kaynak": "10.3389/fmicb.2019.02113",
+          "yer": "Results, Figure 3"
+        }
+      ]
+    },
+    {
+      "id": "aroma.kimyasal_asitlendirmeye_gore",
+      "metin": "Karşılaştırmalarda ekşi mayalı ekmeklerin duyusal kalitesi, kimyasal olarak asitlendirilmiş ekmeklerinkinden yüksek bulunmuştur.",
+      "kosul": "",
+      "kanit": "ikincil",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1128/aem.02216-24",
+          "yer": "INTRODUCTION"
+        }
+      ]
+    },
+    {
+      "id": "aroma.lipit_bes_en_yuksek",
+      "metin": "Ekmek içinde koku etkinlik değeri en yüksek beş lipit oksidasyonu ürünü 1-okten-3-ol, heksanal, heptanal, nonanal ve (E)-2-nonenal idi.",
+      "kosul": "Danimarka; buğday unu (yaş gluten %28,9); ticari yaş (pres) ekmek mayası 20, 40 ve 60 g/kg un (mayada gram başına 2,0×10⁹ laktik asit bakterisi de vardı); ekşi maya yok; hamur 5, 15 ya da 35 °C'de 8 cm yüksekliğe ulaşana kadar fermente edildi, bu yüzden süre 15 dakika (35 °C, 60 g) ile 21 saat (5 °C, 20 g) arasında değişti; kabuk oluşumunu azaltmak için buharla 130 °C'de 31 dakika pişirildi; yalnız ekmek içi incelendi; dinamik tepe boşluğu ekstraksiyonu ve GC-MS, çoklu tepe boşluğu ekstraksiyonuyla nicelendirme; duyusal panel yok, duyusal önem sudaki koku eşiğinden hesaplanan koku etkinlik değerine dayanır.",
+      "kanit": "tek_kaynak",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.lwt.2012.08.019",
+          "yer": "3.4. Effect of yeast concentration; Table 3"
+        }
+      ]
+    },
+    {
+      "id": "aroma.panel_tarafindan_eksi_maya_tercihi",
+      "metin": "Değerlendirme paneli ekmek türleri arasındaki farkları belirlemiş ve ekşi mayalı ekmek 15'e karşı 11 oyla daha kabul edilebilir bulunmuştur.",
+      "kosul": "Duyusal panel; ekşi mayalı ve ekşi mayasız ekmeğin karşılaştırması",
+      "kanit": "tek_kaynak",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.17221/68/2017-cjfs",
+          "yer": "Influence of sourdough on sensorial properties of bread"
+        }
+      ]
+    },
+    {
+      "id": "aroma.plantarum_eksi_maya_aroma_daha_az_begenildi",
+      "metin": "Bu çalışmada yalnız mayayla (tek aşamalı) yapılan ekmeklerin aroması, Lactiplantibacillus plantarum ekşi mayasıyla iki aşamalı yapılanlardan daha çok beğenildi; iki aşamalı yöntem buğday ekmeğinin duyusal özelliklerini kötüleştirdi.",
+      "kosul": "Polonya; ekmeklik buğday, açık renkli un (tip 450) ve tam buğday unu (tip 1650); %3,5 maya, %1 tuz; 220 °C'de 30 dakika pişirme; iki aşamalı yöntemde L. plantarum (tip suşu 20174) ile 1:1 Tip I ekşi maya, 30 °C'de 24 saat, unun %50'si; duyusal değerlendirme 9 puanlık hedonik ölçek, 10 yarı eğitimli panelist.",
+      "kanit": "tek_kaynak",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods8120663",
+          "yer": "3. Results and Discussion; Figure 1"
+        },
+        {
+          "kaynak": "10.3390/foods8120663",
+          "yer": "4. Conclusions"
+        }
+      ]
+    },
+    {
+      "id": "aroma.asetaldehit_yalniz_eksi_mayali",
+      "metin": "Bir model çalışmasında asetaldehit yalnız ekşi mayalı ekmeklerde bulundu ve S. cerevisiae ile fermente edilen ekşi mayada en yüksekti.",
+      "kosul": "Model tip I buğday ekşi mayası (I. aşama 30 °C'de 16 saat, II. aşama 30 °C'de 2,5 saat); 180 °C'de 25 dakika pişirme; ekmek içi.",
+      "kanit": "tek_kaynak",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3389/fmicb.2019.02113",
+          "yer": "Results, Table 5"
+        }
+      ]
+    },
+    {
+      "id": "aroma.brevis_cavdar_daha_eksi",
+      "metin": "Eğitimsiz bir panelde Levilactobacillus brevis ile fermente edilen çavdar ekmeği, Pediococcus claussenii ekmeğinden (3) ve kontrolden (2,1) daha ekşi bulundu (ortalama 4).",
+      "kosul": "Çavdar ekmeği; eğitimsiz panel n = 16, 5 puanlık ölçek.",
+      "kanit": "tek_kaynak",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods10030547",
+          "yer": "3.4. Bread characteristics; Figure 4B"
+        }
+      ]
+    },
+    {
+      "id": "aroma.eksi_maya_ekmek_aroma_atif",
+      "metin": "Ekşi maya üzerine yapılan araştırmalarda ekmek kalitesinin arttığı ve tat ile aromanın güçlendiği aktarılır.",
+      "kosul": "Axel vd. 2015 ve Arend vd. 2007 atfı; derleme aktarımı",
+      "kanit": "ikincil",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods13010096",
+          "yer": "3. Mannitol Production"
+        }
+      ]
+    },
+    {
+      "id": "aroma.etil_asetat_en_bol_ester",
+      "metin": "Ekmek içinde en bol bulunan ester etil asetattı.",
+      "kosul": "Danimarka; buğday unu (yaş gluten %28,9); ticari yaş (pres) ekmek mayası 20, 40 ve 60 g/kg un (mayada gram başına 2,0×10⁹ laktik asit bakterisi de vardı); ekşi maya yok; hamur 5, 15 ya da 35 °C'de 8 cm yüksekliğe ulaşana kadar fermente edildi, bu yüzden süre 15 dakika (35 °C, 60 g) ile 21 saat (5 °C, 20 g) arasında değişti; kabuk oluşumunu azaltmak için buharla 130 °C'de 31 dakika pişirildi; yalnız ekmek içi incelendi; dinamik tepe boşluğu ekstraksiyonu ve GC-MS, çoklu tepe boşluğu ekstraksiyonuyla nicelendirme; duyusal panel yok, duyusal önem sudaki koku eşiğinden hesaplanan koku etkinlik değerine dayanır.",
+      "kanit": "tek_kaynak",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.lwt.2012.08.019",
+          "yer": "3.6. Ester formation; Table 2"
+        }
+      ]
+    },
+    {
+      "id": "aroma.feniletanol_300",
+      "metin": "2-Feniletanol ekmek içinde yaklaşık 300 µg/kg bulundu ama koku etkinlik değeri yalnız 0,2–0,4 olduğundan duyusal açıdan en önemli bileşiklerden olmayabilir.",
+      "kosul": "Danimarka; buğday unu (yaş gluten %28,9); ticari yaş (pres) ekmek mayası 20, 40 ve 60 g/kg un (mayada gram başına 2,0×10⁹ laktik asit bakterisi de vardı); ekşi maya yok; hamur 5, 15 ya da 35 °C'de 8 cm yüksekliğe ulaşana kadar fermente edildi, bu yüzden süre 15 dakika (35 °C, 60 g) ile 21 saat (5 °C, 20 g) arasında değişti; kabuk oluşumunu azaltmak için buharla 130 °C'de 31 dakika pişirildi; yalnız ekmek içi incelendi; dinamik tepe boşluğu ekstraksiyonu ve GC-MS, çoklu tepe boşluğu ekstraksiyonuyla nicelendirme; duyusal panel yok, duyusal önem sudaki koku eşiğinden hesaplanan koku etkinlik değerine dayanır.",
+      "kanit": "tek_kaynak",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.lwt.2012.08.019",
+          "yer": "3.4. Effect of yeast concentration"
+        }
+      ]
+    },
+    {
+      "id": "aroma.gluconobacter_donut_aromasi",
+      "metin": "48 ve 72 saat havalandırılan Gluconobacter oxydans ekşi mayalarıyla yapılan ekmeklerde diğer ekmeklerde bulunmayan bir donut aroması vardı.",
+      "kosul": "Tip II buğday ekşi mayası; un-su karışımından hava geçirildi; 48 ve 72 saat.",
+      "kanit": "tek_kaynak",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/microorganisms8101534",
+          "yer": "3.4.1. Volatile organic compounds"
+        }
+      ]
+    },
+    {
+      "id": "aroma.kimyasal_asitli_ekmek_ucuculari",
+      "metin": "Kimyasal olarak asitlendirilmiş ekmekte (E,E)-2,4-dekadienal, bütanoik asit ve 2-metilbütanoik asit diğer ekmeklerden fazlaydı.",
+      "kosul": "Model tip I buğday ekşi mayası çalışması; kimyasal asitlendirme laktik:asetik 4:1 ile pH 3,80; 180 °C'de 25 dakika pişirme; ekmek içi.",
+      "kanit": "tek_kaynak",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3389/fmicb.2019.02113",
+          "yer": "Results, Figure 3B"
+        }
+      ]
+    },
+    {
+      "id": "aroma.metilpropanol_onemsiz",
+      "metin": "2-Metil-1-propanol maya miktarıyla arttı, ancak koku etkinlik değeri 1'e yakın olduğundan duyusal önemi küçük beklenir.",
+      "kosul": "Danimarka; buğday unu (yaş gluten %28,9); ticari yaş (pres) ekmek mayası 20, 40 ve 60 g/kg un (mayada gram başına 2,0×10⁹ laktik asit bakterisi de vardı); ekşi maya yok; hamur 5, 15 ya da 35 °C'de 8 cm yüksekliğe ulaşana kadar fermente edildi, bu yüzden süre 15 dakika (35 °C, 60 g) ile 21 saat (5 °C, 20 g) arasında değişti; kabuk oluşumunu azaltmak için buharla 130 °C'de 31 dakika pişirildi; yalnız ekmek içi incelendi; dinamik tepe boşluğu ekstraksiyonu ve GC-MS, çoklu tepe boşluğu ekstraksiyonuyla nicelendirme; duyusal panel yok, duyusal önem sudaki koku eşiğinden hesaplanan koku etkinlik değerine dayanır.",
+      "kanit": "tek_kaynak",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.lwt.2012.08.019",
+          "yer": "3.4. Effect of yeast concentration"
+        }
+      ]
+    },
+    {
+      "id": "aroma.3_metil_1_butanol_ve_2_metil_1_propanol_dagilimi",
+      "metin": "3-Metil-1-bütanol tüm ekşi mayalarda saptanırken, 2-metil-1-propanol yalnızca belirli suş kombinasyonlarıyla (E75-B72 ve C710-B72) yapılan ekşi maya ve ekmeklerde bulunmuştur; her iki bileşiğin homofermentatif fermantasyonla ilişkili olduğu aktarılmıştır.",
+      "kosul": "Ekşi maya ve ekmek uçucu analizleri; belirli suş kombinasyonları (E75-B72, C710-B72)",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods11091278",
+          "yer": "VOCs Determination in Sourdoughs and Bread"
+        }
+      ]
+    },
+    {
+      "id": "aroma.asetik_asit_pisirme_sonrasi_azalir",
+      "metin": "Asetik asit ekşi mayalarda bulunmasına karşın ekmeklerin tümünde saptanan pik alanı pişirme sonrasında büyük ölçüde azalmıştır.",
+      "kosul": "Ekşi mayadan ekmek fırınlamaya geçiş; uçucu bileşik pik alanı (GC-MS)",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.crfs.2024.100697",
+          "yer": "Volatile compounds profile of sourdoughs and breads"
+        }
+      ]
+    },
+    {
+      "id": "aroma.asetoin_ve_2_undekanon_keton_payi",
+      "metin": "Tüm örneklerde toplam uçucu fraksiyonların %1'ini temsil eden ve nicelenen ketonlar asetoin ile 2-undekanon olmuş; asetoin tüm örneklerde tanımlanan ana keton olarak öne çıkmıştır.",
+      "kosul": "Buğday ekşi mayası; kava tortusu (cava lees) katkılı ve katkısız örnekler",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/molecules27113588",
+          "yer": "2.2.3. Aldehydes and Ketones"
+        }
+      ]
+    },
+    {
+      "id": "aroma.birlikte_fermantasyonda_asetoin_artisi",
+      "metin": "Tekli kültür fermantasyonlarında asetoin 10,8 ve 14,7 mM derişime ulaşırken, birlikte fermantasyonda 69,5 mM düzeyine çıkmıştır.",
+      "kosul": "Tekli ve birlikte kültür fermantasyonları",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1128/aem.01325-25",
+          "yer": "Volatile organic compounds"
+        }
+      ]
+    },
+    {
+      "id": "aroma.bugday_eksi_mayasinda_bilesik_siniflari_siralamasi",
+      "metin": "İncelenen ekşi mayalarda nicelenen en yaygın bileşiklerin asitler ve esterler olduğu, bunları alkoller, aldehitler ve ketonların izlediği saptanmıştır.",
+      "kosul": "Buğday ekşi mayası (tortulu ve tortusuz)",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/molecules27113588",
+          "yer": "5. Conclusions"
+        }
+      ]
+    },
+    {
+      "id": "aroma.bugday_eksi_mayasinda_en_yaygin_bes_ucucu",
+      "metin": "Belirli bileşikler açısından bütil bütirat, etil oktanoat, etil dekanoat, oktanoik asit ve 1-heksanol en yaygın nicelenen uçucu maddeler olmuştur.",
+      "kosul": "Buğday ekşi mayası",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/molecules27113588",
+          "yer": "5. Conclusions"
+        }
+      ]
+    },
+    {
+      "id": "aroma.co2_ve_ester_konsantrasyonlari_pozitif_korelasyon",
+      "metin": "Tatlı hamur fermantasyonunda CO2 üretimi ile etil asetat (R2 = 0,73), izoamil asetat (R2 = 0,76), etil hekzanoat (R2 = 0,81) ve etil oktanoat (R2 = 0,76) derişimleri arasında pozitif korelasyon (p < 0,001) belirlenmiştir.",
+      "kosul": "Farklı mayalarla hazırlanan tatlı hamurlar",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods12040830",
+          "yer": "3.4. Volatile Compounds in Sweet Dough"
+        }
+      ]
+    },
+    {
+      "id": "aroma.e_2_nonenal_maya_indirgenme_kapasitesi",
+      "metin": "(E)-2-nonenal ile görülen negatif korelasyon, artan maya aktivitesiyle birlikte mayanın indirgeme kapasitesinin arttığını ve doymamış aldehitin karşılık gelen alkole indirgendiğini gösterir.",
+      "kosul": "Artan maya aktivitesi koşulu",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods6080066",
+          "yer": "3.3. Analyses of Volatile Aroma Compounds in Bread Crumb"
+        }
+      ]
+    },
+    {
+      "id": "aroma.e_2_nonenal_ve_tuz_derisimi",
+      "metin": "Ekmek içindeki (E)-2-nonenal derişimleri %3 ve %4 NaCl içeren hamurlarda, %0 ile %0,6 arasındaki en düşük NaCl düzeylerine kıyasla anlamlı derecede farklılık göstermiştir.",
+      "kosul": "Ekmek içi, %0–%4 NaCl aralığı",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods6080066",
+          "yer": "3.3. Analyses of Volatile Aroma Compounds in Bread Crumb"
+        }
+      ]
+    },
+    {
+      "id": "aroma.feniletanol_tuz_ve_maya_konsantrasyonu",
+      "metin": "Ekmek içinde 2-feniletanol derişimi artan NaCl miktarıyla üstel olarak azalırken, artan maya miktarıyla yükselmiş ancak en yüksek maya derişimlerinde (%0,9, %1,2 ve %1,5) bu artış görülmemiştir.",
+      "kosul": "Ekmek içi aroması, NaCl ve maya derişimi denemeleri",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods6080066",
+          "yer": "3.3. Analyses of Volatile Aroma Compounds in Bread Crumb"
+        }
+      ]
+    },
+    {
+      "id": "aroma.fermantasyon_ilerledikce_feniletanol_ve_etilbenzen",
+      "metin": "Fermantasyonun ilerlemesiyle birlikte 2-feniletanol seviyeleri artarken etilbenzen derişimi zamanla azalmıştır.",
+      "kosul": "Ekmek mayası ile hamur fermantasyonu; NMR ve GC/MS profilleri",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3136/fstr.24.509",
+          "yer": "Results"
+        }
+      ]
+    },
+    {
+      "id": "aroma.fermantasyon_temel_ucucu_siniflari",
+      "metin": "Hamur fermantasyonu temel olarak alkoller, aldehitler, asitler, esterler ve ketonlar üretir.",
+      "kosul": "hamur fermantasyonu",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.foodres.2015.05.051",
+          "yer": "Fermentation processes"
+        }
+      ]
+    },
+    {
+      "id": "aroma.fermantasyonda_dusuk_aldehit_uretimi",
+      "metin": "Bu çalışmada hamur fermantasyonu sırasında aldehit üretimi genel olarak düşük kaldı; yalnızca kamut unuyla ve iki belirli laktik asit bakterisiyle fermente edilen örneklerde bazı aldehitler yüksek bulundu.",
+      "kosul": "Hamur fermantasyonu; 48 saat; çeşitli unlar ve laktik asit bakterileri",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3389/fmicb.2018.00429",
+          "yer": "Discussion"
+        }
+      ]
+    },
+    {
+      "id": "aroma.gama_nonalakton_opls_vip_en_yuksek",
+      "metin": "Hamur uçucu bileşiklerini ekmek özgül hacmiyle ilişkilendiren OPLS modelinde gama-nonalakton en yüksek izdüşüm değişken önem puanına (VIP) sahip bileşik olmuştur.",
+      "kosul": "Hamur uçucuları ve ekmek özgül hacmi OPLS modeli",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3136/fstr.24.509",
+          "yer": "Results"
+        }
+      ]
+    },
+    {
+      "id": "aroma.lab_etil_asetat_baskinligi",
+      "metin": "Fermente hamurlarda, laktik asit bakterisi metabolizmasından kaynaklanan etil asetat derişimi yüksek olduğunda bu bileşik baskın hale gelmiştir.",
+      "kosul": "Cossignani et al. 1996; fermente hamurlar",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.4322/biori.202203",
+          "yer": "Technological characteristics in the use of type III sourdough"
+        }
+      ]
+    },
+    {
+      "id": "aroma.model_bugday_hamurunda_ana_alkoller",
+      "metin": "Mayalarla aşılanan model buğday hamurlarında saptanan başlıca alkol bileşikleri etanol ve izoamil alkol olmuş; fenetil alkol, izobütanol ve 1-heksanol ise daha az miktarlarda belirlenmiştir.",
+      "kosul": "Mayalarla aşılanan model buğday hamurları",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/microorganisms10091849",
+          "yer": "3. Results and Discussion"
+        }
+      ]
+    },
+    {
+      "id": "aroma.organik_asitler_ve_serbest_aminoasitler_duyusal_etki",
+      "metin": "Organik asitler ve serbest amino asitler fırıncılık ürünlerinin duyusal yönlerini doğrudan veya dolaylı olarak etkiler.",
+      "kosul": "Fırıncılık ürünleri (Cavallo et al. 2017, Pétel et al. 2017 aktarımı)",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3389/fmicb.2018.01984",
+          "yer": "Discussion"
+        }
+      ]
+    },
+    {
+      "id": "aroma.paracasei_ve_brevis_ile_diasetil_asetoin_artisi",
+      "metin": "Diasetil ve asetoin başlangıçta saptanamazken tüm örneklerde fermantasyon sırasında artmış; bu artış özellikle Lacticaseibacillus paracasei I1 ve Levilactobacillus brevis T4 ile fermente edilen kinoa hamurlarında en yüksek olmuştur.",
+      "kosul": "Hamur fermantasyonu, kinoa unu ve LAB suşları",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3389/fmicb.2018.00429",
+          "yer": "Results - Volatile organic compounds formation"
+        }
+      ]
+    },
+    {
+      "id": "aroma.tam_bugday_ici_102_bilesik",
+      "metin": "Tam buğday ekşi mayalı ekmek içinde gaz kromatografisi-kütle spektrometrisi ile 10 asit, 34 alkol, 16 aldehit, 15 ester, 5 furan, 7 keton, 4 lakton, 2 kükürt bileşiği ve 9 hidrokarbon olmak üzere toplam 102 bileşik tanımlandı.",
+      "kosul": "tam buğday ekşi mayalı ekmek içi",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.foodres.2022.111885",
+          "yer": "Section snippets - VOCs present in bread crumb using GC-MS"
+        }
+      ]
+    },
+    {
+      "id": "aroma.tam_bugday_ici_sinif_oranlari",
+      "metin": "Tam buğday ekşi mayalı ekmek içinde bağıl bolluk açısından alkoller %31,56–64,57 ile en bol gruptur; bunu asitler (%3,41–37,67), aldehitler (%8,45–18,46), esterler (%2,99–12,24) ve furanlar (%2,85–4,61) izler.",
+      "kosul": "tam buğday ekşi mayalı ekmek içi",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.foodres.2022.111885",
+          "yer": "Section snippets - VOCs present in bread crumb using GC-MS"
+        }
+      ]
+    },
+    {
+      "id": "aroma.esterlesme_sulu_fazda",
+      "metin": "Ekşi maya ve ekmek üretiminde ester biyosentezinin sulu fazda serbest açil-KoA ile alkol gruplarının esterleşmesi yoluyla gerçekleştiği ve bu nedenle esterazlar tarafından katalizlendiği öngörülmektedir.",
+      "kosul": "Ekşi mayalı ekmek fermantasyonunda sulu faz ester biyosentezi hipotezi",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1128/aem.02216-24",
+          "yer": "INTRODUCTION"
+        }
+      ]
+    },
+    {
+      "id": "aroma.etanol_ekmeklerde_s2b_ile_iliskili",
+      "metin": "Etanol tüm ekmeklerde bulunmakla birlikte esas olarak S2B ekşi mayalı ekmekle ilişkilendirilmiştir.",
+      "kosul": "Yulaf ekşi mayalı ekmekler",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.crfs.2024.100697",
+          "yer": "Discussion"
+        }
+      ]
+    },
+    {
+      "id": "aroma.etil_asetat_karisik_kultur",
+      "metin": "Karışık kültürlü hamurlar arasında etil asetat en yüksek S. cerevisiae D3 + Lactiplantibacillus plantarum/pentosus B56'da, en düşük S. cerevisiae D13 + Levilactobacillus brevis B46'da ölçüldü.",
+      "kosul": "Polonya; tip 650 buğday unu; gerçek buğday hamuru, 15 °C; S. cerevisiae suşları (D3, D13, LOCK 0153) ile Levilactobacillus brevis B46/B48 ya da Lactiplantibacillus plantarum/pentosus B56'dan oluşan karışık kültürler.",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/molecules30010112",
+          "yer": "2.2.4. Formation of Volatile Organic Compounds; Table 5"
+        },
+        {
+          "kaynak": "10.3390/molecules30010112",
+          "yer": "2.2.4. Formation of Volatile Organic Compounds; Table 5"
+        }
+      ]
+    },
+    {
+      "id": "aroma.etil_hekzanoat_d3_lab",
+      "metin": "Etil hekzanoat, S. cerevisiae D3'ün laktik asit bakterileriyle birlikte fermente ettiği hamurlarda kayda değer miktarda bulundu.",
+      "kosul": "Polonya; tip 650 buğday unu; gerçek buğday hamuru, 15 °C; S. cerevisiae suşları (D3, D13, LOCK 0153) ile Levilactobacillus brevis B46/B48 ya da Lactiplantibacillus plantarum/pentosus B56'dan oluşan karışık kültürler.",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/molecules30010112",
+          "yer": "2.2.4. Formation of Volatile Organic Compounds; Table 5"
+        }
+      ]
+    },
+    {
+      "id": "aroma.ester_uretimi_durgun_faz",
+      "metin": "Laktik asit bakterilerinde ester üretimi çoğunlukla üstel büyüme evresinin sonunda ve durgun evrede gerçekleşti.",
+      "kosul": "Belçika; laboratuvar besiyeri: buğday ekşi maya benzetim besiyeri (WSSM) ve ester öncülleri eklenmiş biçimi (mWSSM: %1 etanol, %0,5 asetik asit, diğer organik asitler ve yüksek alkoller her biri 5 mg/L); 30 °C, 28–48 saat; 10 ekşi maya laktik asit bakterisi suşu.",
+      "kanit": "tek_kaynak",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1128/aem.02216-24",
+          "yer": "RESULTS: Ester biosynthesis by LAB strains"
+        }
+      ]
+    },
+    {
+      "id": "aroma.kabukta_maya_miktari_etkisi",
+      "metin": "Ekmek kabuğunda yüksek maya miktarı 3-metil-1-bütanol, 2-metil-1-propanol ve 3-(metilsülfanil)-propanal oluşumunu artırırken, düşük maya miktarı heksanal oluşumunu teşvik etti.",
+      "kosul": "tam buğday ekmeği kabuğu",
+      "kanit": "ikincil",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.jfoodeng.2010.10.003",
+          "yer": "Cited by"
+        }
+      ]
+    },
+    {
+      "id": "aroma.lipit_oksidasyonu_mayadan_bagimsiz",
+      "metin": "Lipit oksidasyonu ürünlerinin çoğunun (1-okten-3-ol, 1-heptanol, heksanal, (E)-2-nonenal, dekanal) düzeyi maya miktarına bağlı değildi.",
+      "kosul": "Danimarka; buğday unu (yaş gluten %28,9); ticari yaş (pres) ekmek mayası 20, 40 ve 60 g/kg un (mayada gram başına 2,0×10⁹ laktik asit bakterisi de vardı); ekşi maya yok; hamur 5, 15 ya da 35 °C'de 8 cm yüksekliğe ulaşana kadar fermente edildi, bu yüzden süre 15 dakika (35 °C, 60 g) ile 21 saat (5 °C, 20 g) arasında değişti; kabuk oluşumunu azaltmak için buharla 130 °C'de 31 dakika pişirildi; yalnız ekmek içi incelendi; dinamik tepe boşluğu ekstraksiyonu ve GC-MS, çoklu tepe boşluğu ekstraksiyonuyla nicelendirme; duyusal panel yok, duyusal önem sudaki koku eşiğinden hesaplanan koku etkinlik değerine dayanır.",
+      "kanit": "tek_kaynak",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.lwt.2012.08.019",
+          "yer": "3.4. Effect of yeast concentration"
+        }
+      ]
+    },
+    {
+      "id": "aroma.maya_esteri_kosullara_bagli",
+      "metin": "Mayanın ester üretimi, kullanılabilir karbonhidrat ve azot, oksijen düzeyi ve fermantasyon sıcaklığı gibi koşullardan etkilenebilir.",
+      "kosul": "",
+      "kanit": "ikincil",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1128/aem.02216-24",
+          "yer": "DISCUSSION"
+        }
+      ]
+    },
+    {
+      "id": "aroma.maya_miktari_maya_kaynakli_bilesikler",
+      "metin": "Bu çalışmada maya miktarını artırmak mayadan gelen bileşiklerin çoğunun oluşumunu artırdı ve bunların koku açısından en etkinleri 2,3-bütandion ile fenilasetaldehitti; koku etkinlik değeri 0,1 ya da üzeri olan 19 bileşikten dördü (2-metil-1-propanol, oktanal, fenilasetaldehit, 2-oktanon) maya miktarıyla anlamlı arttı.",
+      "kosul": "Danimarka; buğday unu (yaş gluten %28,9); ticari yaş (pres) ekmek mayası 20, 40 ve 60 g/kg un (mayada gram başına 2,0×10⁹ laktik asit bakterisi de vardı); ekşi maya yok; hamur 5, 15 ya da 35 °C'de 8 cm yüksekliğe ulaşana kadar fermente edildi, bu yüzden süre 15 dakika (35 °C, 60 g) ile 21 saat (5 °C, 20 g) arasında değişti; kabuk oluşumunu azaltmak için buharla 130 °C'de 31 dakika pişirildi; yalnız ekmek içi incelendi; dinamik tepe boşluğu ekstraksiyonu ve GC-MS, çoklu tepe boşluğu ekstraksiyonuyla nicelendirme; duyusal panel yok, duyusal önem sudaki koku eşiğinden hesaplanan koku etkinlik değerine dayanır.",
+      "kanit": "tek_kaynak",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.lwt.2012.08.019",
+          "yer": "Abstract"
+        },
+        {
+          "kaynak": "10.1016/j.lwt.2012.08.019",
+          "yer": "3.4. Effect of yeast concentration"
+        }
+      ]
+    },
+    {
+      "id": "aroma.esterler_mayayla_artar",
+      "metin": "Tanımlanan esterlerin (etil asetat, etil 3-metilbutanoat, etil hekzanoat, etil oktanoat, feniletil asetat) oluşumu maya miktarıyla arttı; artış etil asetat ve etil hekzanoatta anlamlı değildi.",
+      "kosul": "Danimarka; buğday unu (yaş gluten %28,9); ticari yaş (pres) ekmek mayası 20, 40 ve 60 g/kg un (mayada gram başına 2,0×10⁹ laktik asit bakterisi de vardı); ekşi maya yok; hamur 5, 15 ya da 35 °C'de 8 cm yüksekliğe ulaşana kadar fermente edildi, bu yüzden süre 15 dakika (35 °C, 60 g) ile 21 saat (5 °C, 20 g) arasında değişti; kabuk oluşumunu azaltmak için buharla 130 °C'de 31 dakika pişirildi; yalnız ekmek içi incelendi; dinamik tepe boşluğu ekstraksiyonu ve GC-MS, çoklu tepe boşluğu ekstraksiyonuyla nicelendirme; duyusal panel yok, duyusal önem sudaki koku eşiğinden hesaplanan koku etkinlik değerine dayanır.",
+      "kanit": "tek_kaynak",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.lwt.2012.08.019",
+          "yer": "3.6. Ester formation; Fig. 3A"
+        }
+      ]
+    },
+    {
+      "id": "aroma.fenilasetaldehit_60g",
+      "metin": "Fenilasetaldehit, kilogram una 60 g mayayla yapılan ekmekte 20 ve 40 g'lık mayayla yapılanlardan anlamlı derecede fazla oluştu.",
+      "kosul": "Danimarka; buğday unu (yaş gluten %28,9); ticari yaş (pres) ekmek mayası 20, 40 ve 60 g/kg un (mayada gram başına 2,0×10⁹ laktik asit bakterisi de vardı); ekşi maya yok; hamur 5, 15 ya da 35 °C'de 8 cm yüksekliğe ulaşana kadar fermente edildi, bu yüzden süre 15 dakika (35 °C, 60 g) ile 21 saat (5 °C, 20 g) arasında değişti; kabuk oluşumunu azaltmak için buharla 130 °C'de 31 dakika pişirildi; yalnız ekmek içi incelendi; dinamik tepe boşluğu ekstraksiyonu ve GC-MS, çoklu tepe boşluğu ekstraksiyonuyla nicelendirme; duyusal panel yok, duyusal önem sudaki koku eşiğinden hesaplanan koku etkinlik değerine dayanır.",
+      "kanit": "tek_kaynak",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.lwt.2012.08.019",
+          "yer": "3.4. Effect of yeast concentration"
+        }
+      ]
+    },
+    {
+      "id": "aroma.izoamil_mayadan_bagimsiz",
+      "metin": "3-Metil-1-bütanol ve 3-metilbutanalin koku etkinlik değerleri yüksekti ama maya miktarından anlamlı etkilenmediler.",
+      "kosul": "Danimarka; buğday unu (yaş gluten %28,9); ticari yaş (pres) ekmek mayası 20, 40 ve 60 g/kg un (mayada gram başına 2,0×10⁹ laktik asit bakterisi de vardı); ekşi maya yok; hamur 5, 15 ya da 35 °C'de 8 cm yüksekliğe ulaşana kadar fermente edildi, bu yüzden süre 15 dakika (35 °C, 60 g) ile 21 saat (5 °C, 20 g) arasında değişti; kabuk oluşumunu azaltmak için buharla 130 °C'de 31 dakika pişirildi; yalnız ekmek içi incelendi; dinamik tepe boşluğu ekstraksiyonu ve GC-MS, çoklu tepe boşluğu ekstraksiyonuyla nicelendirme; duyusal panel yok, duyusal önem sudaki koku eşiğinden hesaplanan koku etkinlik değerine dayanır.",
+      "kanit": "tek_kaynak",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.lwt.2012.08.019",
+          "yer": "3.4. Effect of yeast concentration"
+        }
+      ]
+    },
+    {
+      "id": "aroma.lipit_oksidasyonu_15_35",
+      "metin": "Heksanal, (E)-2-nonenal ve 2-pentilfuran, kilogram una 40 ve 60 g mayayla 15 ve 35 °C'de fermente edilen örneklerde artmış görünüyordu.",
+      "kosul": "Danimarka; buğday unu (yaş gluten %28,9); ticari yaş (pres) ekmek mayası 20, 40 ve 60 g/kg un (mayada gram başına 2,0×10⁹ laktik asit bakterisi de vardı); ekşi maya yok; hamur 5, 15 ya da 35 °C'de 8 cm yüksekliğe ulaşana kadar fermente edildi, bu yüzden süre 15 dakika (35 °C, 60 g) ile 21 saat (5 °C, 20 g) arasında değişti; kabuk oluşumunu azaltmak için buharla 130 °C'de 31 dakika pişirildi; yalnız ekmek içi incelendi; dinamik tepe boşluğu ekstraksiyonu ve GC-MS, çoklu tepe boşluğu ekstraksiyonuyla nicelendirme; duyusal panel yok, duyusal önem sudaki koku eşiğinden hesaplanan koku etkinlik değerine dayanır.",
+      "kanit": "tek_kaynak",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.lwt.2012.08.019",
+          "yer": "3.5. Effect of fermentation temperature"
+        }
+      ]
+    },
+    {
+      "id": "aroma.etil_3_metilbutanoat_ilk",
+      "metin": "Etil 3-metilbutanoat bu çalışmadan önce ekmek içinde saptanmamıştı; alkollü maya fermantasyonunda ise bilinen bir bileşiktir.",
+      "kosul": "Danimarka; buğday unu (yaş gluten %28,9); ticari yaş (pres) ekmek mayası 20, 40 ve 60 g/kg un (mayada gram başına 2,0×10⁹ laktik asit bakterisi de vardı); ekşi maya yok; hamur 5, 15 ya da 35 °C'de 8 cm yüksekliğe ulaşana kadar fermente edildi, bu yüzden süre 15 dakika (35 °C, 60 g) ile 21 saat (5 °C, 20 g) arasında değişti; kabuk oluşumunu azaltmak için buharla 130 °C'de 31 dakika pişirildi; yalnız ekmek içi incelendi; dinamik tepe boşluğu ekstraksiyonu ve GC-MS, çoklu tepe boşluğu ekstraksiyonuyla nicelendirme; duyusal panel yok, duyusal önem sudaki koku eşiğinden hesaplanan koku etkinlik değerine dayanır.",
+      "kanit": "tek_kaynak",
+      "bolum": "Kimlik",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.lwt.2012.08.019",
+          "yer": "3.6. Ester formation"
+        }
+      ]
+    },
+    {
+      "id": "aroma.brevis_plantarum_cerevisiae_koku_ve_malt_lezzeti",
+      "metin": "Tam tahıl yulaf ekşi mayasında, Levilactobacillus brevis, Lactiplantibacillus plantarum ve Saccharomyces cerevisiae konsorsiyumuyla (S4) yapılan fermantasyon, laktik asit bakterilerinin tek başına ya da üçlü bakteri konsorsiyumuyla yapılan fermantasyonlara kıyasla daha yoğun toplam koku, taze maya aroması ve lezzeti ile malt lezzeti vermiştir.",
+      "kosul": "Tam tahıl yulaf ekşi mayası; duyusal analiz; L. brevis, L. plantarum ve S. cerevisiae konsorsiyumu (S4)",
+      "kanit": "tek_kaynak",
+      "bolum": "Mayadaki yeri",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.crfs.2024.100697",
+          "yer": "Discussion"
+        }
+      ]
+    },
+    {
+      "id": "aroma.cerevisiae_l12_etil_asetat_oktanoat_uretimi",
+      "metin": "Saccharomyces cerevisiae L12 ile aşılanan hamur, başta etil asetat ve etil oktanoat olmak üzere en yüksek miktarda ester ve asetat kaydetmiştir.",
+      "kosul": "Model buğday hamuru fermantasyonu",
+      "kanit": "tek_kaynak",
+      "bolum": "Mayadaki yeri",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/microorganisms10091849",
+          "yer": "3. Results and Discussion"
+        }
+      ]
+    },
+    {
+      "id": "aroma.firin_mayasinda_bira_ve_sarap_mayasina_gore_ester_alkol",
+      "metin": "Tatlı hamurda etil asetat derişimi fırıncı mayası içeren hamurlarda bira mayasına kıyasla anlamlı derecede yüksek (p < 0,014) bulunmuş; izobütanol konsantrasyonu da şarap mayasına kıyasla fırıncı mayasında daha yüksek (p < 0,031) ölçülmüştür.",
+      "kosul": "Tatlı hamur fermantasyonu",
+      "kanit": "tek_kaynak",
+      "bolum": "Mayadaki yeri",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods12040830",
+          "yer": "3.4. Volatile Compounds in Sweet Dough"
+        },
+        {
+          "kaynak": "10.3390/foods12040830",
+          "yer": "3.4. Volatile Compounds in Sweet Dough"
+        }
+      ]
+    },
+    {
+      "id": "aroma.maya_ve_lab_farkli_roller",
+      "metin": "Buğday unu ekşi mayası fermantasyonunda mayalar ve laktik asit bakterileri aroma oluşumunu destekleyen farklı işlevler üstlenir.",
+      "kosul": "buğday unu ekşi mayası",
+      "kanit": "tek_kaynak",
+      "bolum": "Mayadaki yeri",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.cofs.2020.09.007",
+          "yer": "Increases in flavor"
+        }
+      ]
+    },
+    {
+      "id": "aroma.torulaspora_ve_s_bayanus_farkli_aroma",
+      "metin": "Torulaspora delbrueckii Y273 ve Saccharomyces bayanus Y156 ile saf kültür olarak fermente edilen ekmekler, ticari ekmek mayasıyla üretilen kontrole kıyasla belirgin derecede farklı bir aromaya sahip bulunmuştur.",
+      "kosul": "Duyusal üçgen testi; saf kültürle fermente edilen ekmekler, ticari ekmek mayası kontrolüne karşı (p < 0,01)",
+      "kanit": "tek_kaynak",
+      "bolum": "Mayadaki yeri",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1371/journal.pone.0165126",
+          "yer": "Sensory analysis"
+        }
+      ]
+    },
+    {
+      "id": "aroma.kati_ve_sivi_eksi_mayada_197_bilesik",
+      "metin": "Katı ve sıvı ekşi mayalarda gaz kromatografisi-kütle spektrometrisi ile çeşitli kimyasal sınıflara ait toplam 197 uçucu bileşen tanımlandı.",
+      "kosul": "28 günlük katı ve sıvı ekşi mayalar",
+      "kanit": "tek_kaynak",
+      "bolum": "Nasıl ölçülür",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1128/aem.00309-14",
+          "yer": "RESULTS"
+        }
+      ]
+    },
+    {
+      "id": "aroma.ucucu_etkisi_oav_degerine_bagli",
+      "metin": "Uçucu bileşiklerin nihai buğday ekmeği aroması üzerindeki etki derecesi büyük ölçüde koku etkinlik değerine (OAV) bağlıdır.",
+      "kosul": "buğday ekmeği",
+      "kanit": "ikincil",
+      "bolum": "Nasıl ölçülür",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.foodres.2015.05.051",
+          "yer": "The impact of volatile compounds on the final aroma of wheat bread"
+        }
+      ]
+    },
+    {
+      "id": "aroma.ekmek_ici_orneklemesinde_kabuk_uzaklastirma",
+      "metin": "Ekmek içi analizine ulaşmak için ekmek kabuğunun en az 10 milimetrelik kısmı kesilerek uzaklaştırılmıştır.",
+      "kosul": "Ekmek içi analiz numunesi hazırlığı",
+      "kanit": "tek_kaynak",
+      "bolum": "Nasıl ölçülür",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods11152325",
+          "yer": "2.2. Bread Samples"
+        }
+      ]
+    },
+    {
+      "id": "aroma.etil_asetat_algi_esigi",
+      "metin": "Etil asetat şarapta 7,5 mg/L, birada 30,0 mg/L'nin üzerinde algılanır; ekşi mayalı unlu mamuller için bir algı eşiği bilinmiyor.",
+      "kosul": "",
+      "kanit": "ikincil",
+      "bolum": "Nasıl ölçülür",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1128/aem.02216-24",
+          "yer": "DISCUSSION"
+        }
+      ]
+    },
+    {
+      "id": "aroma.oav_esigi_19_bilesik",
+      "metin": "Koku etkinlik değeri (derişimin sudaki koku eşiğine oranı) 0,1 ya da üzerinde olan 19 bileşik, ekmek içi aroması için önemli olabilecek bileşikler sayıldı.",
+      "kosul": "Danimarka; buğday unu (yaş gluten %28,9); ticari yaş (pres) ekmek mayası 20, 40 ve 60 g/kg un (mayada gram başına 2,0×10⁹ laktik asit bakterisi de vardı); ekşi maya yok; hamur 5, 15 ya da 35 °C'de 8 cm yüksekliğe ulaşana kadar fermente edildi, bu yüzden süre 15 dakika (35 °C, 60 g) ile 21 saat (5 °C, 20 g) arasında değişti; kabuk oluşumunu azaltmak için buharla 130 °C'de 31 dakika pişirildi; yalnız ekmek içi incelendi; dinamik tepe boşluğu ekstraksiyonu ve GC-MS, çoklu tepe boşluğu ekstraksiyonuyla nicelendirme; duyusal panel yok, duyusal önem sudaki koku eşiğinden hesaplanan koku etkinlik değerine dayanır.",
+      "kanit": "tek_kaynak",
+      "bolum": "Nasıl ölçülür",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.lwt.2012.08.019",
+          "yer": "3.3. Odor activity value (OAV); Table 3"
+        }
+      ]
+    },
+    {
+      "id": "aroma.opls_modelinde_ozgul_hacim_belirleme_katsayisi",
+      "metin": "Ekmek özgül hacmini modelleyen OPLS regresyonunda kümülatif belirleme katsayısı (R2) 0,772 ve kümülatif çapraz doğrulama katsayısı (Q2) 0,612 bulunmuştur.",
+      "kosul": "Uçucu bileşik profillerine dayalı OPLS regresyon modeli",
+      "kanit": "tek_kaynak",
+      "bolum": "Nasıl ölçülür",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3136/fstr.24.509",
+          "yer": "Results"
+        }
+      ]
+    },
+    {
+      "id": "aroma.spme_gcms_ile_yetmisten_fazla_bilesik",
+      "metin": "SPME-GC/MS tepe boşluğu analizi ile hamurlarda farklı kimyasal sınıflara ait 70'ten fazla uçucu bileşen tanımlanmıştır.",
+      "kosul": "SPME-GC/MS tepe boşluğu örneklemesi",
+      "kanit": "tek_kaynak",
+      "bolum": "Nasıl ölçülür",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3389/fmicb.2018.00429",
+          "yer": "Results - Volatile organic compounds formation"
+        }
+      ]
+    },
+    {
+      "id": "aroma.spme_termal_desorpsiyon_ve_firini_kosullari",
+      "metin": "SPME fiberi 260 °C'de 2,5 dakika termal olarak desorbe edilmiş; fırın başlangıç sıcaklığı 40 °C'de 5 dakika tutulduktan sonra 4 °C/dakika artışla 250 °C'ye yükseltilmiş ve kütle taraması 70 eV iyonlaşma voltajında 40–350 amu aralığında gerçekleştirilmiştir.",
+      "kosul": "DB Wax kolonu, splitless enjeksiyon, 70 eV iyonlaşma",
+      "kanit": "tek_kaynak",
+      "bolum": "Nasıl ölçülür",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/molecules27113588",
+          "yer": "4.3. Analysis of Volatile Compounds by Gas Chromatography–Mass Spectrometry (GC-MS)"
+        },
+        {
+          "kaynak": "10.3390/molecules27113588",
+          "yer": "4.3. Analysis of Volatile Compounds by Gas Chromatography–Mass Spectrometry (GC-MS)"
+        },
+        {
+          "kaynak": "10.3390/molecules27113588",
+          "yer": "4.3. Analysis of Volatile Compounds by Gas Chromatography–Mass Spectrometry (GC-MS)"
+        }
+      ]
+    },
+    {
+      "id": "aroma.sulu_esik_yaklasik",
+      "metin": "Sudaki koku eşiğine dayanarak hesaplanan koku etkinlik değeri, karmaşık bir gıda olan ekmek içinde yalnız yaklaşık bir değer verir.",
+      "kosul": "Ekmek içi aroma bileşikleri koku aktivite değeri (OAV) hesabı",
+      "kanit": "tek_kaynak",
+      "bolum": "Nasıl ölçülür",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.lwt.2012.08.019",
+          "yer": "3.3. Odor activity value (OAV)"
+        }
+      ]
+    },
+    {
+      "id": "aroma.strecker_yikimi_orta_ve_son_asama_aroma",
+      "metin": "Strecker yıkımı yoluyla Maillard tepkimesinin orta ve son aşamalarında oluşan ürünler lezzet ve aroma gelişiminden sorumludur.",
+      "kosul": "Maillard tepkimesi aşamaları (atıf)",
+      "kanit": "ikincil",
+      "bolum": "Ne yapar",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods10020417",
+          "yer": "PMC7918450.txt:1. Introduction"
+        }
+      ]
+    },
+    {
+      "id": "aroma.asetoin_sitrat_piruvat_redoks_dengesi",
+      "metin": "Tereyağımsı ve kremsi kokulu asetoinin, hücre metabolizmasının redoks dengesini sağlamak amacıyla bakterilerin sitratı piruvata dönüştürmesi ve bunun asetoinle sonuçlanması yoluyla oluştuğu bildirilmiştir.",
+      "kosul": "Fermantasyon metabolizması (atıf)",
+      "kanit": "ikincil",
+      "bolum": "Ne yer, ne üretir",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/molecules27113588",
+          "yer": "3.2.3. Aldehydes and Ketones"
+        }
+      ]
+    },
+    {
+      "id": "aroma.brevis_t4_etil_asetat_baskinligi",
+      "metin": "Esterler ve asetatlar arasında, hamur fermantasyonu sırasında kayda değer miktarda bulunan tek bileşik etil asetat olmuş ve en yüksek derişim Levilactobacillus brevis T4 ile fermente edilen hamurlarda kaydedilmiştir.",
+      "kosul": "Buğday, kamut ve kinoa unlarıyla hazırlanan hamurların fermantasyonu; Levilactobacillus brevis T4",
+      "kanit": "tek_kaynak",
+      "bolum": "Ne yer, ne üretir",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3389/fmicb.2018.00429",
+          "yer": "Results - Volatile organic compounds formation"
+        }
+      ]
+    },
+    {
+      "id": "aroma.eksi_maya_uc_sinif_cesitliligi",
+      "metin": "Bu çalışmada yulaf ekşi mayalarında ve ekmeklerinde uçucu bileşikler alkoller, aldehitler, karboksilik asitler, esterler, furanlar, pirazinler, terpenler ve diğer organik bileşik sınıflarında saptandı.",
+      "kosul": "Yulaf ekşi mayaları ve ekmekleri; uçucu bileşik profili (GC/MS)",
+      "kanit": "tek_kaynak",
+      "bolum": "Ne yer, ne üretir",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.crfs.2024.100697",
+          "yer": "Volatile compounds profile of sourdoughs and breads"
+        }
+      ]
+    },
+    {
+      "id": "aroma.esterlerin_heterofermentatif_lab_ile_olusumu",
+      "metin": "Meyvemsi bir kokuyla tanımlanan esterler alkollerin yağ asitlerinin asetil-KoA türevleriyle tepkimesinden meydana gelir ve üretimleri ağırlıklı olarak heterofermentatif laktik asit bakterilerinden kaynaklanır.",
+      "kosul": "Fermantasyon (atıf)",
+      "kanit": "ikincil",
+      "bolum": "Ne yer, ne üretir",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/molecules27113588",
+          "yer": "3.2.4. Esters"
+        }
+      ]
+    },
+    {
+      "id": "aroma.etil_asetat_laktat_fsan_haric",
+      "metin": "Öncül eklenmiş besiyerinde etil asetat ve etil laktat, Fructilactobacillus sanfranciscensis dışındaki bütün denenen laktik asit bakterisi suşlarıyla aşılanmamış kontrolden yüksek düzeye ulaştı; F. sanfranciscensis'li fermantasyonlar kontrol düzeyinde kaldı.",
+      "kosul": "Belçika; laboratuvar besiyeri: buğday ekşi maya benzetim besiyeri (WSSM) ve ester öncülleri eklenmiş biçimi (mWSSM: %1 etanol, %0,5 asetik asit, diğer organik asitler ve yüksek alkoller her biri 5 mg/L); 30 °C, 28–48 saat; 10 ekşi maya laktik asit bakterisi suşu.",
+      "kanit": "tek_kaynak",
+      "bolum": "Ne yer, ne üretir",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1128/aem.02216-24",
+          "yer": "Abstract"
+        }
+      ]
+    },
+    {
+      "id": "aroma.izoamil_asetat_etil_asetat_laktat_yuksek_derisim",
+      "metin": "İzoamil asetat (muz notası), etil asetat (tatlı nota) ve etil laktat (kremsi nota) lezzet eşik değerlerinin üzerindeki en yüksek derişimlerde üretilmiştir.",
+      "kosul": "Kokteyl fermantasyonları, lezzet eşiği üstü derişimler",
+      "kanit": "tek_kaynak",
+      "bolum": "Ne yer, ne üretir",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1128/aem.01325-25",
+          "yer": "Volatile organic compounds"
+        }
+      ]
+    },
+    {
+      "id": "aroma.l_citreum_tr116_asetolaktat_uzerinden_diasetil",
+      "metin": "Leuconostoc citreum TR116 suşunun arpa ve yulaf malt şırasında fermantasyon sırasında asetolaktat üzerinden diasetil oluşturduğu bildirilmiştir.",
+      "kosul": "Leuconostoc citreum TR116, arpa ve yulaf malt şırası fermantasyonu",
+      "kanit": "ikincil",
+      "bolum": "Ne yer, ne üretir",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods13010096",
+          "yer": "2.2. Citrate Metabolism in Leuconostoc ssp. and Leuconostoc citreum"
+        }
+      ]
+    },
+    {
+      "id": "aroma.lab_ester_oncul_sinirli",
+      "metin": "Öncül eklenmiş buğday ekşi maya benzetim besiyerinde 10 ekşi maya laktik asit bakterisi suşunun ester üretme kapasitesi öncül derişimleriyle sınırlı göründü.",
+      "kosul": "Belçika; laboratuvar besiyeri: buğday ekşi maya benzetim besiyeri (WSSM) ve ester öncülleri eklenmiş biçimi (mWSSM: %1 etanol, %0,5 asetik asit, diğer organik asitler ve yüksek alkoller her biri 5 mg/L); 30 °C, 28–48 saat; 10 ekşi maya laktik asit bakterisi suşu.",
+      "kanit": "tek_kaynak",
+      "bolum": "Ne yer, ne üretir",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1128/aem.02216-24",
+          "yer": "Abstract"
+        }
+      ]
+    },
+    {
+      "id": "aroma.lab_peptit_aminoasit_yikimi",
+      "metin": "Proteolizi izleyen peptit ya da amino asit katabolizması, ekşi mayada laktik asit bakterilerinin ekmek aroması oluşumundaki temel yollarından biridir.",
+      "kosul": "L. plantarum, L. sanfranciscensis ve L. pontis ile hamur fermantasyonu",
+      "kanit": "tek_kaynak",
+      "bolum": "Ne yer, ne üretir",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.fm.2006.07.006",
+          "yer": "Abstract"
+        }
+      ]
+    },
+    {
+      "id": "aroma.losinden_3_metil_1_butanol",
+      "metin": "Mayalar, amino asitlerden yüksek alkoller üreterek ekmek aromasına katkıda bulunur; ekmek içi aromasının önemli bir bileşeni olan 3-metil-1-bütanol L-lösinden sentezlenir.",
+      "kosul": "ekmek içi fermantasyonu",
+      "kanit": "ikincil",
+      "bolum": "Ne yer, ne üretir",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1080/10408398.2021.1976100",
+          "yer": "Yeasts"
+        }
+      ]
+    },
+    {
+      "id": "aroma.sitrat_metabolizmasi_aromatik_ucucular",
+      "metin": "Sitrat ekşi maya fermantasyonunda aromatik özelliklere sahip uçucu organik bileşiklerin oluşumunu sağlayarak önemli bir rol oynayabilir.",
+      "kosul": "Ekşi maya fermantasyonunda sitrat metabolizması",
+      "kanit": "tek_kaynak",
+      "bolum": "Ne yer, ne üretir",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods13010096",
+          "yer": "2.2. Citrate Metabolism in Leuconostoc ssp. and Leuconostoc citreum"
+        }
+      ]
+    },
+    {
+      "id": "aroma.etil_asetat_companilactobacillus",
+      "metin": "Öncül eklenmiş besiyerinde 48 saatin sonunda Companilactobacillus türlerinin suşları ve Limosilactobacillus fermentum IMDO 130101 ortalama 38,4 mg/L etil asetat üretti.",
+      "kosul": "Belçika; laboratuvar besiyeri: buğday ekşi maya benzetim besiyeri (WSSM) ve ester öncülleri eklenmiş biçimi (mWSSM: %1 etanol, %0,5 asetik asit, diğer organik asitler ve yüksek alkoller her biri 5 mg/L); 30 °C, 28–48 saat; 10 ekşi maya laktik asit bakterisi suşu.",
+      "kanit": "tek_kaynak",
+      "bolum": "Ne yer, ne üretir",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1128/aem.02216-24",
+          "yer": "RESULTS: Ester biosynthesis by LAB strains; Fig 4A"
+        }
+      ]
+    },
+    {
+      "id": "aroma.etil_asetat_crustorum_en_yuksek",
+      "metin": "Companilactobacillus crustorum LMG 23699, öncül eklenmiş besiyerinde 13 saat sonra en yüksek 57,6 mg/L etil asetata ulaştı.",
+      "kosul": "Belçika; laboratuvar besiyeri: buğday ekşi maya benzetim besiyeri (WSSM) ve ester öncülleri eklenmiş biçimi (mWSSM: %1 etanol, %0,5 asetik asit, diğer organik asitler ve yüksek alkoller her biri 5 mg/L); 30 °C, 28–48 saat; 10 ekşi maya laktik asit bakterisi suşu.",
+      "kanit": "tek_kaynak",
+      "bolum": "Ne yer, ne üretir",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1128/aem.02216-24",
+          "yer": "RESULTS: Ester biosynthesis by LAB strains; Fig 4A"
+        }
+      ]
+    },
+    {
+      "id": "aroma.etil_asetat_fsan_asilanmamis",
+      "metin": "Aşılanmamış ve F. sanfranciscensis suşlarıyla yapılan fermantasyonlarda etil asetat ortalama 9,8 mg/L'ye ulaştı (sırasıyla 24 ve 18 saat sonra).",
+      "kosul": "Belçika; laboratuvar besiyeri: buğday ekşi maya benzetim besiyeri (WSSM) ve ester öncülleri eklenmiş biçimi (mWSSM: %1 etanol, %0,5 asetik asit, diğer organik asitler ve yüksek alkoller her biri 5 mg/L); 30 °C, 28–48 saat; 10 ekşi maya laktik asit bakterisi suşu.",
+      "kanit": "tek_kaynak",
+      "bolum": "Ne yer, ne üretir",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1128/aem.02216-24",
+          "yer": "RESULTS: Ester biosynthesis by LAB strains; Fig 4A"
+        }
+      ]
+    },
+    {
+      "id": "aroma.etil_laktat_companilactobacillus",
+      "metin": "Companilactobacillus suşları öncül eklenmiş besiyerinde ortalama 11,6 mg/L etil laktat üretti; aşılanmamış ve F. sanfranciscensis fermantasyonlarında bu değer 2,9 mg/L idi.",
+      "kosul": "Belçika; laboratuvar besiyeri: buğday ekşi maya benzetim besiyeri (WSSM) ve ester öncülleri eklenmiş biçimi (mWSSM: %1 etanol, %0,5 asetik asit, diğer organik asitler ve yüksek alkoller her biri 5 mg/L); 30 °C, 28–48 saat; 10 ekşi maya laktik asit bakterisi suşu.",
+      "kanit": "tek_kaynak",
+      "bolum": "Ne yer, ne üretir",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1128/aem.02216-24",
+          "yer": "RESULTS: Ester biosynthesis by LAB strains; Fig 4B"
+        }
+      ]
+    },
+    {
+      "id": "aroma.paracasei_i1_ozel_keton_uretimi",
+      "metin": "Lacticaseibacillus paracasei I1 suşu, L. brevis T4 ve L. plantarum M4 suşlarına kıyasla en yüksek miktarda 2,6-dimetil-4-heptanon, 5-metil-3-heksanon ve 4-metil-3-penten-2-on uçucu bileşiklerini üretmiştir.",
+      "kosul": "Hamur fermantasyonu (48 saat); buğday, kamut ve kinoa unları; L. paracasei I1, L. brevis T4, L. plantarum M4",
+      "kanit": "tek_kaynak",
+      "bolum": "Ne yer, ne üretir",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3389/fmicb.2018.00429",
+          "yer": "Results - Volatile organic compounds formation"
+        }
+      ]
+    },
+    {
+      "id": "aroma.dusuk_sicaklik_maya_kaynakli",
+      "metin": "Aktaran bir makaleye göre düşük sıcaklıkta oluşumu artan uçucu bileşikler çoğunlukla mayanın metabolizmasından gelir; etil asetat, etil hekzanoat ve etil oktanoat gibi esterler bunlardandır.",
+      "kosul": "",
+      "kanit": "ikincil",
+      "bolum": "Nereden gelir",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/molecules30010112",
+          "yer": "1. Introduction"
+        }
+      ]
+    },
+    {
+      "id": "aroma.ic_aromasi_fermantasyondan",
+      "metin": "Ekmek içinin tadı-kokusu çoğunlukla ekşi maya ve ekmek hamuru aşamalarındaki fermantasyonun sonucudur.",
+      "kosul": "",
+      "kanit": "ikincil",
+      "bolum": "Nereden gelir",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1128/aem.02216-24",
+          "yer": "INTRODUCTION"
+        },
+        {
+          "kaynak": "10.3389/fmicb.2019.02113",
+          "yer": "Discussion"
+        },
+        {
+          "kaynak": "10.1016/j.foodres.2015.05.051",
+          "yer": "Introduction"
+        },
+        {
+          "kaynak": "10.1016/j.foodres.2015.05.051",
+          "yer": "Fermentation processes"
+        }
+      ]
+    },
+    {
+      "id": "aroma.gama_nonalakton_lipitten",
+      "metin": "Gama-nonalakton maya miktarından ve sıcaklıktan etkilenmedi; yazarlar bunu, bileşiğin maya fermantasyonundan değil oleik ve linoleik asidin oksidasyonundan gelebilmesiyle açıklar.",
+      "kosul": "Danimarka; buğday unu (yaş gluten %28,9); ticari yaş (pres) ekmek mayası 20, 40 ve 60 g/kg un (mayada gram başına 2,0×10⁹ laktik asit bakterisi de vardı); ekşi maya yok; hamur 5, 15 ya da 35 °C'de 8 cm yüksekliğe ulaşana kadar fermente edildi, bu yüzden süre 15 dakika (35 °C, 60 g) ile 21 saat (5 °C, 20 g) arasında değişti; kabuk oluşumunu azaltmak için buharla 130 °C'de 31 dakika pişirildi; yalnız ekmek içi incelendi; dinamik tepe boşluğu ekstraksiyonu ve GC-MS, çoklu tepe boşluğu ekstraksiyonuyla nicelendirme; duyusal panel yok, duyusal önem sudaki koku eşiğinden hesaplanan koku etkinlik değerine dayanır.",
+      "kanit": "tek_kaynak",
+      "bolum": "Nereden gelir",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.lwt.2012.08.019",
+          "yer": "3.6. Ester formation"
+        }
+      ]
+    },
+    {
+      "id": "aroma.eksi_mayada_ucucu_siniflari_petel",
+      "metin": "Pétel vd. (2017) derlemesine göre ekşi maya fermantasyonundan kaynaklanan çok sayıda uçucu bileşik arasında 43 aldehit, 35 alkol, 33 ester, 19 keton ve 14 asit bulunur.",
+      "kosul": "Pétel et al. 2017 derlemesi",
+      "kanit": "ikincil",
+      "bolum": "Ortak özellikler",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.4322/biori.202203",
+          "yer": "Technological characteristics in the use of type III sourdough"
+        }
+      ]
+    },
+    {
+      "id": "aroma.bugday_ekmegi_ucucu_kimyasal_siniflar",
+      "metin": "Buğday ekmeğinde alkoller, aldehitler, esterler, eterler, ketonlar, asitler, hidrokarbonlar, pirazinler, pirolinler, furanlar, laktonlar ve kükürtlü bileşiklerin de aralarında bulunduğu uzun bir uçucu bileşik listesi bildirilmiştir.",
+      "kosul": "buğday ekmeği",
+      "kanit": "ikincil",
+      "bolum": "Tanım",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.foodres.2015.05.051",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "aroma.bugday_ekmeginde_326_ucucu",
+      "metin": "Buğday ekmeği iç ve kabuğu için literatürden derlenen veri tabanında toplam 326 uçucu bileşik bulunmaktadır.",
+      "kosul": "buğday ekmeği literatür veri tabanı",
+      "kanit": "ikincil",
+      "bolum": "Tanım",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.foodres.2015.05.051",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "aroma.butanoik_asit_peynirimsi_koku_notasi",
+      "metin": "Bütanoik asit mayanın peynirimsi koku notasına sahip iyi bilinen uçucu bir metabolik bileşiğidir.",
+      "kosul": "Maya metabolitleri",
+      "kanit": "tek_kaynak",
+      "bolum": "Tanım",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods6080066",
+          "yer": "3.5. Descriptive Sensory Evaluation"
+        }
+      ]
+    },
+    {
+      "id": "aroma.ekmekte_1_okten_3_ol_koku_esigi",
+      "metin": "Mantar, topraksı ve umami koku notalarına sahip 1-okten-3-ol bileşiğinin koku algılama eşiği (suda belirlenmiş literatür değeri) 3–4,8 µg/kg aralığındadır.",
+      "kosul": "Su matrisi (literatür eşik değeri; ekmek matrisinde değil)",
+      "kanit": "tek_kaynak",
+      "bolum": "Tanım",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods12040830",
+          "yer": "Table 4"
+        }
+      ]
+    },
+    {
+      "id": "aroma.ekmekte_500_eksi_mayada_200_alti_bilesik",
+      "metin": "Ekmekte 500'den fazla uçucu bileşik bildirilmişken, ekşi maya ve ekşi mayalı ekmek uçucuları daha az incelenmiş olup 200'den az bileşik tanımlanmıştır.",
+      "kosul": "Literatür karşılaştırması (atıf)",
+      "kanit": "ikincil",
+      "bolum": "Tanım",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/molecules27113588",
+          "yer": "1. Introduction"
+        }
+      ]
+    },
+    {
+      "id": "aroma.ekmekte_etil_hekzanoat_koku_esigi",
+      "metin": "Meyvemsi koku veren etil hekzanoatın koku algılama eşiği (suda belirlenmiş literatür değeri) 1–55,3 µg/kg düzeyindedir.",
+      "kosul": "Su matrisi (literatür eşik değeri; ekmek matrisinde değil)",
+      "kanit": "tek_kaynak",
+      "bolum": "Tanım",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods12040830",
+          "yer": "Table 4"
+        }
+      ]
+    },
+    {
+      "id": "aroma.ekmekte_nonanal_koku_esigi",
+      "metin": "Sabunsu ve narenciye koku notaları taşıyan nonanalin koku algılama eşiği (suda belirlenmiş literatür değeri) 0,08–0,19 µg/kg olarak verilmektedir.",
+      "kosul": "Su matrisi (literatür eşik değeri; ekmek matrisinde değil)",
+      "kanit": "tek_kaynak",
+      "bolum": "Tanım",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods12040830",
+          "yer": "Table 4"
+        }
+      ]
+    },
+    {
+      "id": "aroma.fermente_bugday_gida_aroma_etmenleri",
+      "metin": "Fermente buğday unu ürünlerinde aroma oluşumu fermantasyon süreci, yağ oksidasyonu ve pişirme aşamalarından kaynaklanır.",
+      "kosul": "fermente buğday unu gıdaları",
+      "kanit": "ikincil",
+      "bolum": "Tanım",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.cofs.2020.09.007",
+          "yer": "Increases in flavor"
+        }
+      ]
+    },
+    {
+      "id": "aroma.meyvemsi_ester_tanimi",
+      "metin": "Meyvemsi esterler bir açil-KoA parçasıyla bir alkolün birleşmesinden (kondenzasyon) oluşur; sonuç asetat esterleri ya da etil esterleridir.",
+      "kosul": "",
+      "kanit": "tek_kaynak",
+      "bolum": "Tanım",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1128/aem.02216-24",
+          "yer": "INTRODUCTION"
+        }
+      ]
+    },
+    {
+      "id": "aroma.en_cesitli_profil_ve_co2",
+      "metin": "D3 + Levilactobacillus brevis B46 ve D3 + Lactiplantibacillus plantarum/pentosus B56 karışık kültürleri buğday hamuruna en çeşitli aroma profilini verdi ve en etkin CO₂ üretimini sağladı.",
+      "kosul": "Polonya; tip 650 buğday unu; gerçek buğday hamuru, 15 °C; S. cerevisiae suşları (D3, D13, LOCK 0153) ile Levilactobacillus brevis B46/B48 ya da Lactiplantibacillus plantarum/pentosus B56'dan oluşan karışık kültürler.",
+      "kanit": "tek_kaynak",
+      "bolum": "İlişkileri",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/molecules30010112",
+          "yer": "2.2.4. Formation of Volatile Organic Compounds"
+        }
+      ]
+    },
+    {
+      "id": "aroma.karisik_suslu_starter_ester",
+      "metin": "Tek suşlu yerine karışık suşlu starter kültürler kullanıldığında ekşi mayada ve ekşi mayalı ürünlerde farklı ester profilleri ortaya çıkar.",
+      "kosul": "",
+      "kanit": "ikincil",
+      "bolum": "İlişkileri",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1128/aem.02216-24",
+          "yer": "DISCUSSION"
+        }
+      ]
+    },
+    {
+      "id": "aroma.maya_sicaklik_etkilesimi",
+      "metin": "Sekiz bileşikte (2-feniletanol, heksanal ve 2,3-bütandion dahil) maya miktarıyla fermantasyon sıcaklığı arasında anlamlı etkileşim vardı: birinin etkisi diğerinin düzeyine göre değişti.",
+      "kosul": "Danimarka; buğday unu (yaş gluten %28,9); ticari yaş (pres) ekmek mayası 20, 40 ve 60 g/kg un (mayada gram başına 2,0×10⁹ laktik asit bakterisi de vardı); ekşi maya yok; hamur 5, 15 ya da 35 °C'de 8 cm yüksekliğe ulaşana kadar fermente edildi, bu yüzden süre 15 dakika (35 °C, 60 g) ile 21 saat (5 °C, 20 g) arasında değişti; kabuk oluşumunu azaltmak için buharla 130 °C'de 31 dakika pişirildi; yalnız ekmek içi incelendi; dinamik tepe boşluğu ekstraksiyonu ve GC-MS, çoklu tepe boşluğu ekstraksiyonuyla nicelendirme; duyusal panel yok, duyusal önem sudaki koku eşiğinden hesaplanan koku etkinlik değerine dayanır.",
+      "kanit": "tek_kaynak",
+      "bolum": "İlişkileri",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.lwt.2012.08.019",
+          "yer": "3.5. Effect of fermentation temperature; Table 2"
+        }
+      ]
+    },
+    {
+      "id": "aroma.heksanal_lab_tutarsiz",
+      "metin": "Hamurda en yüksek heksanal S. cerevisiae D3 + Lactiplantibacillus plantarum/pentosus B56 kombinasyonunda ölçüldü; ancak laktik asit bakterilerinin heksanal üretimine tutarlı bir etkisi yoktu.",
+      "kosul": "Polonya; tip 650 buğday unu; gerçek buğday hamuru, 15 °C; S. cerevisiae suşları (D3, D13, LOCK 0153) ile Levilactobacillus brevis B46/B48 ya da Lactiplantibacillus plantarum/pentosus B56'dan oluşan karışık kültürler.",
+      "kanit": "tek_kaynak",
+      "bolum": "İlişkileri",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/molecules30010112",
+          "yer": "2.2.4. Formation of Volatile Organic Compounds; Table 5"
+        },
+        {
+          "kaynak": "10.3390/molecules30010112",
+          "yer": "2.2.4. Formation of Volatile Organic Compounds"
+        }
+      ]
+    }
+  ]
+}

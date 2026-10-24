@@ -1,0 +1,312 @@
+{
+  "id": "ksilanaz",
+  "ad": "Ksilanaz",
+  "bilgiler": [
+    {
+      "id": "ksilanaz.ekmek_hacmi_ve_raf_omru_etkisi",
+      "metin": "Ksilanazların ekmek kalitesine olumlu etkileri arasında somun hacminde artış, ekmekçilik puanlarında iyileşme, daha ince ve yumuşak ekmek içi yapısı ile uzatılmış raf ömrü bildirilmiştir.",
+      "kosul": "ekmek kalitesi iyileştirme uygulamaları aktarımı",
+      "kanit": "ikincil",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods13193158",
+          "yer": "3.5. Quality Characteristics of Cooked Noodles"
+        }
+      ]
+    },
+    {
+      "id": "ksilanaz.cozunur_arabinoksilani_artirir",
+      "metin": "Ekmekçilikte dışarıdan eklenen ksilanazlar, ekmek özelliklerini iyileştirmek için çözünür arabinoksilan (pentozan) miktarını artırır; bu sırada düşük polimerleşme dereceli arabinoksilan oligosakkaritleri de oluşabilir.",
+      "kosul": "Tam buğday ekmeği hamuru, eksojen ksilanaz ilavesi",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods7070096",
+          "yer": "Figure 1"
+        },
+        {
+          "kaynak": "10.1016/j.jcs.2009.11.006",
+          "yer": "Characteristics of the test breads; Table 1"
+        }
+      ]
+    },
+    {
+      "id": "ksilanaz.endo_beta_1_4_ksilanaz_tanimi",
+      "metin": "Endo-beta-1,4-ksilanazlar (EC 3.2.1.8), ekmekçilik süreçlerinde hamur işlenebilirliğini ve ekmek kalitesini geliştirmek amacıyla yaygın olarak kullanılır.",
+      "kosul": "Ekmekçilik enzim uygulamaları",
+      "kanit": "tek_kaynak",
+      "bolum": "Tanım",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1021/acs.jafc.6b01473",
+          "yer": "1. INTRODUCTION"
+        }
+      ]
+    },
+    {
+      "id": "ksilanaz.ksilan_omurgasindaki_beta_1_4_baglari_hidrolizi",
+      "metin": "Ksilanazlar, ksilan omurgasındaki beta-1,4 bağlarının yarılmasını katalizleyen hidrolitik enzimlerdir.",
+      "kosul": "ekmekçilik enzimleri aktarımı",
+      "kanit": "ikincil",
+      "bolum": "Tanım",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3389/fbioe.2022.1018476",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "ksilanaz.tanim",
+      "metin": "Ksilanazlar (EC 3.2.1.8) arabinoksilanlardaki glikozit bağlarını kırarak onları daha küçük parçalara ayıran enzimlerdir.",
+      "kosul": "",
+      "kanit": "ikincil",
+      "bolum": "Tanım",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1002/fsn3.2344",
+          "yer": "1.8 Xylanase"
+        },
+        {
+          "kaynak": "10.1016/j.foodhyd.2020.105771",
+          "yer": "1. Introduction"
+        },
+        {
+          "kaynak": "10.3390/foods13193158",
+          "yer": "1. Introduction"
+        },
+        {
+          "kaynak": "10.1038/s41598-023-31591-y",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "ksilanaz.inhibitorlerin_ekmekcilik_islevselligine_etkisi",
+      "metin": "Ksilanaz inhibitörleri ekmek yapımı ve gluten-nişasta ayrımı gibi tahıl bazlı uygulamalarda ksilanazların işlevselliğini belirgin biçimde etkiler.",
+      "kosul": "Tahıl biyoteknolojisi uygulamaları (aktarım ref 4, 5, 6)",
+      "kanit": "ikincil",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1021/jf0724724",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "ksilanaz.nsp_hidrolazlari_sertlesmeyi_yavaslatir",
+      "metin": "Haros, Rosell ve Benedito'nun çalışmasında nişasta dışı polisakkarit parçalayan enzimler (selülaz, ksilanaz, β-glukanaz) ekmek içinin sertliğini, sakızımsılığını ve çiğnenme direncini düşürdü; başlangıç sertliğini azaltıp saklamada sertleşmenin hızını yavaşlatarak bayatlama etkisini azalttı.",
+      "kosul": "",
+      "kanit": "ikincil",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1155/2018/8187318",
+          "yer": "7. Methods to Improve the Porous Crumb Structure Development and Retard Crumb Staling"
+        }
+      ]
+    },
+    {
+      "id": "ksilanaz.pismis_urunde_sertlik_ve_cignenebilirlik_dususu",
+      "metin": "Ksilanaz derişimi arttıkça arabinoksilan hidrolizine bağlı olarak ürünlerin sertlik, yapışkanlık ve çiğnenebilirlik değerleri anlamlı düzeyde azalmıştır (p < 0,05).",
+      "kosul": "pişmiş ürün doku profil analizi (TPA, Tablo 6)",
+      "kanit": "tek_kaynak",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods13193158",
+          "yer": "3.5. Quality Characteristics of Cooked Noodles"
+        },
+        {
+          "kaynak": "10.3390/foods13193158",
+          "yer": "3.5. Quality Characteristics of Cooked Noodles"
+        }
+      ]
+    },
+    {
+      "id": "ksilanaz.tam_bugday_ekmeginde_hacmi_degistirmedi",
+      "metin": "Bir çalışmada tam buğday ekmeğine eklenen ksilanaz (50–150 ppm) ve amilaz (5–15 ppm) ekmek yüksekliğini ve hacmini anlamlı biçimde değiştirmedi.",
+      "kosul": "Ariheuk tam buğday unu; iki öğütme inceliği (0,5 mm ve 1,0 mm elek, 14.000 dev/dk); ksilanaz 50–150 ppm, amilaz 5–15 ppm.",
+      "kanit": "tek_kaynak",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods12132591",
+          "yer": "3.6. Dough Improvers, Table 6"
+        }
+      ]
+    },
+    {
+      "id": "ksilanaz.arabinoksilan_hidrolizi_ve_doku_yumusamasi",
+      "metin": "Undaki arabinoksilanların ksilanazla hidrolizi su emilimini azaltıp gluten gelişimini etkileyerek ürün dokusunu daha yumuşak, daha az yapışkan ve pürüzsüz hale getirir.",
+      "kosul": "farklı gluten kuvvetindeki unlarda arabinoksilan hidrolizi",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods13193158",
+          "yer": "3.5. Quality Characteristics of Cooked Noodles"
+        },
+        {
+          "kaynak": "10.3390/foods13193158",
+          "yer": "3.5. Quality Characteristics of Cooked Noodles"
+        },
+        {
+          "kaynak": "10.3390/foods13193158",
+          "yer": "4. Conclusions"
+        }
+      ]
+    },
+    {
+      "id": "ksilanaz.bugday_hamurunda_su_ve_reoloji_artisi",
+      "metin": "Standart buğday unu hamuruna ksilanaz eklenmesi su kaldırmayı, gelişme süresini, stabiliteyi, uzayabilirliği, yapışkanlığı ve yoğurma tolerans indeksini anlamlı derecede artırmıştır.",
+      "kosul": "Standart buğday unu hamuru (p < 0,05)",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1038/s41598-023-31591-y",
+          "yer": "Results and discussion"
+        }
+      ]
+    },
+    {
+      "id": "ksilanaz.derisim_artisiyla_su_src_degeri_dusus",
+      "metin": "Ksilanaz derişimi arttıkça, arabinoksilanların hidrolizinin molekül ağırlığını ve su tutma kapasitesini düşürmesi nedeniyle unların su SRC değerleri azalmıştır (p < 0,05).",
+      "kosul": "%0,01 ila %0,2 ksilanaz derişimi ile un muamelesi; su SRC analizi",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods13193158",
+          "yer": "3.1. Water SRC of Flour Treated with Xylanases"
+        }
+      ]
+    },
+    {
+      "id": "ksilanaz.sds_sedimantasyon_hacmi_ve_wu_etkisi",
+      "metin": "Ksilanaz derişimi arttıkça unların SDS sedimantasyon hacimleri artmış ve WU-ksilanaz, WE-ksilanaza kıyasla SDS sedimantasyon hacminde belirgin biçimde daha yüksek artış sağlamıştır.",
+      "kosul": "buğday unu örneklerinde ksilanaz WE ve WU muamelesi; SDS sedimantasyon testi",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods13193158",
+          "yer": "3.2. SDS Sedimentation Volume of Flours Treated with Xylanases"
+        }
+      ]
+    },
+    {
+      "id": "ksilanaz.arabinoksilani_glutenden_ayirmiyor",
+      "metin": "Bazı araştırmacılar ksilanazın arabinoksilanları glutenden uzaklaştırdığına dair bir kanıt bulmadı.",
+      "kosul": "",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1002/fsn3.2344",
+          "yer": "1.8 Xylanase"
+        }
+      ]
+    },
+    {
+      "id": "ksilanaz.hamuru_yumusatir_elastikligi_azaltir",
+      "metin": "Aktarılan bazı çalışmalarda una yüksek dozda ksilanaz eklemek hamur sertliğini açıkça azalttı; ksilanaz ayrıca depolama modülünü (G′) düşürme ve kayıp faktörünü (tan δ) artırma eğilimi gösterdi.",
+      "kosul": "Derleme aktarımı; G′ ve tan δ karşılaştırması kontrol gluten örneklerine göredir; doz değeri aktarımda yok.",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1002/fsn3.2344",
+          "yer": "1.9 Effects on rheological properties"
+        },
+        {
+          "kaynak": "10.1002/fsn3.2344",
+          "yer": "1.9 Effects on rheological properties"
+        }
+      ]
+    },
+    {
+      "id": "ksilanaz.selulaz_uzayabilirlik_celiskili",
+      "metin": "Selülazın buğday hamurunun uzayabilirliğine etkisi aktarılan çalışmalarda çelişkilidir: bir çalışmaya göre selülaz lifleri parçalayıp uzayabilirliği azaltabilir; başka bir çalışmada ise normal hamurun gelişme süresini, stabilitesini, yoğurma toleransı indeksini, uzayabilirliğini ve yapışkanlığını anlamlı derecede artırdı.",
+      "kosul": "",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1002/fsn3.2344",
+          "yer": "1.12 Cellulase"
+        },
+        {
+          "kaynak": "10.1002/fsn3.2344",
+          "yer": "1.12 Cellulase"
+        }
+      ]
+    },
+    {
+      "id": "ksilanaz.rekombinant_hmxyn_optimum_ve_kararlilik",
+      "metin": "Bu çalışmada rekombinant Hmxyn ksilanazı 45 °C sıcaklıkta ve pH 6,5 değerinde maksimum aktivite gösterdi; 55 °C altındaki sıcaklıklarda ve pH 5,5–8,0 koşullarında kararlı kaldı.",
+      "kosul": "in vitro enzim karakterizasyon deneyi",
+      "kanit": "tek_kaynak",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3389/fbioe.2022.1018476",
+          "yer": "Abstract"
+        }
+      ]
+    },
+    {
+      "id": "ksilanaz.hacmi_artirabilir_aktarim",
+      "metin": "Aktarılan bilgiye göre ksilanaz, suda çözünmeyen arabinoksilanları suda çözünür hâle getirip gaz tutmayı iyileştirerek ekmek hacmini artırabilir.",
+      "kosul": "",
+      "kanit": "ikincil",
+      "bolum": "Ne yapar",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods12132591",
+          "yer": "3.6. Dough Improvers"
+        },
+        {
+          "kaynak": "10.3390/foods13193158",
+          "yer": "1. Introduction"
+        }
+      ]
+    },
+    {
+      "id": "ksilanaz.hmxyn_ksilooligosakkarit_hidroliz_urunu_ksilobiyoz",
+      "metin": "Hmxyn enzimi ksilopentoz (X5), ksilotetraoz (X4) ve ksilotriozu (X3) ana ürün olarak ksilobiyoza (X2) hidroliz etmiş ancak ksilobiyozu hidroliz etmemiştir.",
+      "kosul": "standart ksilooligosakkaritler substrat analizi",
+      "kanit": "tek_kaynak",
+      "bolum": "Ne yapar",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3389/fbioe.2022.1018476",
+          "yer": "Substrate specificity and hydrolysis property of Hmxyn"
+        }
+      ]
+    }
+  ]
+}

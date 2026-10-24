@@ -1,0 +1,200 @@
+{
+  "id": "proteaz",
+  "ad": "Proteazlar",
+  "bilgiler": [
+    {
+      "id": "proteaz.ozellikle_glutenini_etkiler",
+      "metin": "Proteaz etkinliği özellikle gluteninleri etkiler: proteazla işlenen gluten örneklerinde glutenin polimerleri belirgin biçimde küçüldü ve uzamaya karşı en yüksek direnç düştü; bunun gluten ağının esnekliğini değiştireceği belirtilir.",
+      "kosul": "Derleme aktarımı; Rmax düşüşü proteazla işlenmiş gluten örneklerinde (Koga vd. 2019).",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1002/fsn3.2344",
+          "yer": "1.4 Effect on rheological properties"
+        },
+        {
+          "kaynak": "10.1002/fsn3.2344",
+          "yer": "1.4 Effect on rheological properties"
+        }
+      ]
+    },
+    {
+      "id": "proteaz.un_ic_proteazlari_ph_ve_redoks_kosullari",
+      "metin": "Unun içsel proteazları, un proteinlerinin birincil proteolizini yürütür ve optimum etkinliği pH 4,2–5,5 aralığında olan düşük redoks potansiyelindedir.",
+      "kosul": "Ekşi mayalı un fermantasyonu",
+      "kanit": "tek_kaynak",
+      "bolum": "Hangi koşulda",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1080/10408398.2021.1976100",
+          "yer": "Flour fermentation for sourdough production"
+        }
+      ]
+    },
+    {
+      "id": "proteaz.gluteni_peptit_ve_amino_aside",
+      "metin": "Proteaz ve peptidaz enzimleri buğday glutenini daha küçük, suyu daha çok seven peptitlere ve serbest amino asitlere parçalar.",
+      "kosul": "",
+      "kanit": "ikincil",
+      "bolum": "Ne yapar",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1002/fsn3.2344",
+          "yer": "1.1 Protease and peptidase"
+        }
+      ]
+    },
+    {
+      "id": "proteaz.bugday_ve_cavdarda_aspartik_ve_karboksipeptidaz",
+      "metin": "Buğday ve çavdar unlarındaki proteolitik etkinlik başlıca aspartik proteinazlar ve karboksipeptidazlardan kaynaklanır ve her iki enzim grubu da asidik koşullarda etkindir.",
+      "kosul": "Brijs vd., 1999; Mikola, 1986 aktarımı",
+      "kanit": "ikincil",
+      "bolum": "Nereden gelir",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.tifs.2008.04.002",
+          "yer": "Proteases of wheat and rye flours, Table 2"
+        }
+      ]
+    },
+    {
+      "id": "proteaz.proteinaz_ve_peptidaz_tanimi",
+      "metin": "Proteinazlar proteinlerin daha küçük peptit fraksiyonlarına parçalanmasını katalizlerken, peptidazlar belirli peptit bağlarını hidroliz eder veya peptitleri tamamen amino asitlere yıkar.",
+      "kosul": "",
+      "kanit": "tek_kaynak",
+      "bolum": "Tanım",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.tifs.2008.04.002",
+          "yer": "Proteases of wheat and rye flours"
+        }
+      ]
+    },
+    {
+      "id": "proteaz.tahil_enzimleri_ve_mikrobiyal_etkilesim",
+      "metin": "Gänzle'nin derlemesine göre mikrobiyal metabolizmanın sağladığı asitlenme, oksijen tüketimi ve tiyol birikimi tahıl enzimlerinin etkinliğini düzenler; tahıl enzimleri de bakterilerin çoğalması için substrat sağlar.",
+      "kosul": "Gänzle, 2014 aktarımı; ekşi maya fermantasyonu",
+      "kanit": "ikincil",
+      "bolum": "İlişkileri",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.tifs.2008.04.002",
+          "yer": "Cited by"
+        },
+        {
+          "kaynak": "10.1590/0001-3765202220220091",
+          "yer": "pH and TTA in sourdough prepared with organic and conventional whole soft wheat flour"
+        }
+      ]
+    },
+    {
+      "id": "proteaz.asitlik_kaynakli_proteaz_ve_su_buhari_tutunumu",
+      "metin": "Laktik asit bakterisi fermantasyonuyla düşen pH buğday proteazlarını aktive ederek glüten ağını ve nişasta granüllerini etkiler; bu da pişirme sırasında su buharı tutulmasını azaltır.",
+      "kosul": "ekşi maya fermantasyonunda asitlenme ve proteaz aktivasyonu",
+      "kanit": "ikincil",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods13152318",
+          "yer": "3.3. Bread Quality and Physicochemical Properties"
+        }
+      ]
+    },
+    {
+      "id": "proteaz.hacmi_dusurebilir",
+      "metin": "Bazı çalışmalarda proteolitik enzimler gluten ağını, özellikle glutenin alt birimlerini bozarak ekmek hacmini düşürdü.",
+      "kosul": "",
+      "kanit": "ikincil",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1002/fsn3.2344",
+          "yer": "1.1 Protease and peptidase"
+        }
+      ]
+    },
+    {
+      "id": "proteaz.uygun_endopeptidaz_kullanimi_ve_ekmek_ici_dokusu",
+      "metin": "Yoğurma ve fermantasyon sırasında gluteni belirli ölçüde hidroliz eden endopeptidazların uygun kullanımı ekmek içinin tekstürel özelliklerini geliştirebilir.",
+      "kosul": "hamur yoğurma ve fermantasyon süreci",
+      "kanit": "ikincil",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.cofs.2019.04.001",
+          "yer": "3. Use of enzymes"
+        }
+      ]
+    },
+    {
+      "id": "proteaz.asitlenme_ve_uzayan_mayalanmada_hamur_gevsemesi",
+      "metin": "Bu çalışmaya göre ekşi maya kaynaklı belirgin asitlenme ve uzayan mayalanma süresi proteaz aktivitesini artırabilir ve hamur bütünlüğünü zayıflatabilir.",
+      "kosul": "ekşi maya ve uzayan hamur mayalanma süresi",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.ijfoodmicro.2023.110193",
+          "yer": "4. Discussion"
+        }
+      ]
+    },
+    {
+      "id": "proteaz.asitlik_artisi_ve_hamur_gevsemesi",
+      "metin": "Literatürde, ekşi mayalı hamurda asitliğin artması ve pH'ın düşmesi proteinazların aktivitesini artırarak hamur reolojisini değiştirir ve hamurun gevşemesini sağlar.",
+      "kosul": "ekşi maya fermantasyonu, Verheyen vd. (2014), Brandt (2019)",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1007/s00397-018-1113-9",
+          "yer": "Results and discussion - Time-dependent rheology of fermenting dough"
+        },
+        {
+          "kaynak": "10.4322/biori.202203",
+          "yer": "Technological characteristics in the use of type III sourdough"
+        }
+      ]
+    },
+    {
+      "id": "proteaz.dusuk_ph_ve_serbest_amino_asit_salinimi",
+      "metin": "Bu çalışmada ekşi maya pH'ı ile serbest amino asit düzeyi arasında negatif bir ilişki gözlendi; yazarlara göre düşük pH, un içsel proteazlarının aktivitesini destekleyerek serbest amino asit salınımını artırabilir.",
+      "kosul": "ekşi maya fermantasyonu; AM ekşi mayaları",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3389/fmicb.2018.01984",
+          "yer": "Discussion"
+        }
+      ]
+    },
+    {
+      "id": "proteaz.parcalanan_protein_az_su_baglar",
+      "metin": "Parçalanmış proteinler daha az su bağlar; açığa çıkan su hamurun akışkanlığa direncini (viskozitesini) düşürüp hamuru yumuşatır.",
+      "kosul": "",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1002/fsn3.2344",
+          "yer": "1.4 Effect on rheological properties"
+        }
+      ]
+    }
+  ]
+}

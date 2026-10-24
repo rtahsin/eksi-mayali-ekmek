@@ -1,0 +1,361 @@
+{
+  "id": "mayayi_beslerken",
+  "durak": "eksi_maya",
+  "baslik": "Mayayı beslerken",
+  "soru": "Maya nasıl beslenir de yıllarca yaşar?",
+  "bayrak": false,
+  "gor": {
+    "tur": "kaydirma",
+    "adimlar": [
+      {
+        "metin": "Ekşi mayayı beslemek, onu yenilemektir: geleneksel olarak oda sıcaklığında, önceki ana hamurdan alınan bir parçayla yeni un ve su yeniden aşılanır [[besleme.yenileme_tanimi]]. Zanaat ve sanayi fırınlarında ekşi maya genellikle bir önceki hamurun aşısıyla, sürekli yenileme döngüsünde sürdürülür [[besleme.firinlarda_surekli_yenileme]].",
+        "gorsel": "132555_masada_pikiwiki_israel",
+        "vurgu": "Masanın üzerindeki ekşi maya üretim düzeneği: kap ve hazırlık malzemeleri birlikte."
+      },
+      {
+        "metin": "İncelenen zanaatkâr fırınların ekşi mayalarına günlük olarak, hamur ağırlığının yaklaşık %54 ile %61'i oranında un eklendi [[besleme.zanaatkar_firincilikta_gunluk_eklenen_un_orani]]. Aynı mayanın beslenmeden önceki ve yeni beslenmiş örnekleri kısa bir aralıkla karşılaştırıldığında, yeni beslenmiş olan, bileşimce başka herhangi bir mayadan çok önceki hâline benziyordu [[besleme.beslenen_maya_kendine_benzer]].",
+        "gorsel": "lactobacillus_spp",
+        "vurgu": "MRS agar Petri kabındaki Lactobacillus kolonileri."
+      },
+      {
+        "metin": "Ekşi mayanın bakteri kısmında laktik asit bakterileri, mantar kısmında mayalar hâkimdir [[lab.topluluk_bilesimi]]. Laktik asit bakterileri, kendi amino asit yapım yollarının bir kısmını yitirdikleri için tahıldaki amino asitlere bağımlıdır [[lab.tahil_aminoasitlerine_bagimlilik]].",
+        "gorsel": "s00284_025_04673_5_sekil_5a",
+        "vurgu": "Taramalı elektron mikroskobu görüntüsü: ekşi maya kökenli bir Fructilactobacillus sanfranciscensis hücresi."
+      },
+      {
+        "metin": "Belçika ve İtalya'da geleneksel ekşi mayaları inceleyen iki çalışmada en sık ayrılan laktik asit bakterisi türü Fructilactobacillus sanfranciscensis oldu [[fsan.tarama_en_sik]]. Bu tür düşük pH'a, yani ortamın asitlik ölçüsüne duyarlıdır ve düzenli beslemeye yüksek derecede bağımlıdır [[fsan.asit_duyarliligi_ve_duzenli_besleme]].",
+        "gorsel": "lactobacillus_staining",
+        "vurgu": "Lactobacillus boyaması: mikroskopta görünen laktik asit bakterileri."
+      },
+      {
+        "metin": "Hamur verimi, hamur kütlesinin un kütlesine oranının 100 ile çarpımıdır; yayımlanmış çalışmalarda sıkı ekşi mayaların çoğu 150–160, yarı sıvı olanlar büyük ölçüde 200–300 arasındaydı [[besleme.hamur_verimi_tanimi]] [[besleme.siki_ve_yari_sivi_hamur_verimi]]. Güney İtalya'dan dört olgun ekşi mayayı, 28 gün süren laboratuvar beslemesinde sıkıdan sıvıya geçirmek, topluluğun bileşimini, özellikle laktik asit bakterilerini, tutarlı biçimde değiştirmiş göründü [[besleme.siki_sividan_gecis_mikrobiyota]].",
+        "gorsel": "lactobacillus_lb",
+        "vurgu": "Limosilactobacillus fermentum hücreleri, mikroskopta."
+      },
+      {
+        "metin": "Yayımlanmış çalışmalarda en sık kullanılan fermantasyon sıcaklığı 30 °C'dir; değerler 22 ile 40 °C arasında değişir [[besleme.literatur_sicaklik]]. Çavdar ekşi mayasıyla yapılan 56 günlük laboratuvar karşılaştırmasında 20 ve 30 °C farklı türleri öne çıkarmadı; sınırlı sayıdaki laktik asit bakterisinin birbirine oranını değiştirdi [[besleme.sicaklik_oranlari_kaydirir]].",
+        "gorsel": "lacto2",
+        "vurgu": "Lactobacillus hücreleri, canlı ve ölü ayrımıyla mikroskopta."
+      },
+      {
+        "metin": "Yenilemeyle ekşi maya toplulukları 30 yıldan uzun süre sürdürülebilir [[besleme.otuz_yil_surdurme]]. Kayıtlara geçmiş bazı mayaların 100 yılı ve 100.000 yenileme adımını aşan süreler boyunca kesintisiz sürdüğü belgelenmiştir [[besleme.yuz_yili_asan_surdurme]].",
+        "gorsel": "sourdough_home_baked_6508619755",
+        "vurgu": "Evde yetiştirilmiş ekşi mayadan yapılan ekmek."
+      }
+    ]
+  },
+  "anla": [
+    {
+      "baslik": "Her gün aynı sofra",
+      "paragraflar": [
+        "Ekşi maya, un ve suyun karışımıdır; içinde başta laktik asit bakterileri ve mayalar olmak üzere karışık bir mikrop topluluğu metabolik olarak etkindir [[lab.tanim_eksi_maya]]. Onu beslemek, geleneksel olarak oda sıcaklığında, topluluğa düzenli olarak aynı sofrayı kurmaktır [[besleme.yenileme_tanimi]].",
+        "Ekşi mayada asidi başlıca laktik asit bakterileri üretir; karbondioksiti, yani hamuru kabartan gazı ise mayalar çıkarır [[lab.lab_asitlendirir_maya_gaz_cikarir_atif]]. Tahıl enzimleri bu bakterilere büyüme için besin sağlar; asitlenme de enzimlerin etkinliğini düzenler [[lab.tahil_enzimleri_karsilikli_etkilesim]].",
+        "Dışarıdan maya eklenmeden başlatılan 40 ekşi mayada, on farklı un türü denendi; oda sıcaklığında, her gün beslenerek 14 gün izlendi [[besleme.olgun_maya_un_turune_gore]]. Olgun mayalar arasındaki farkı en çok un türü belirledi; aynı undan yapılan mayalar asitlik, kabarma ve laktik asit bakterisi oranında birbirine daha çok benzerdi [[besleme.olgun_maya_un_turune_gore]]."
+      ]
+    },
+    {
+      "baslik": "Ne kadar, ne sıklıkta",
+      "paragraflar": [
+        "Beslemede yeni hamura devredilen olgun mayanın payına aşı oranı denir [[besleme.literatur_asi_orani]]. Bir sistematik derlemede, yayımlanmış yöntemlerdeki aşı oranı genellikle %10 ile %25 arasında çıktı; ortanca değer %20'ydi [[besleme.literatur_asi_orani]]. Tek kabartıcı olarak ekşi maya kullanılan geleneksel süreçlerde, topluluğu üssel büyüme, yani hızla çoğalma evresinde tutmak için sık besleme gerekir [[besleme.ussel_buyume_icin_sik_besleme]]. Geleneksel ekşi mayalarda besleme sıklığını esas olarak mikroorganizmaların asit toleransı, yani asitli ortama dayanma gücü belirler [[besleme.besleme_sikligini_asit_toleransi_belirler]].",
+        "Hamur verimi (yani su oranı), asitlik ve sıcaklık, hangi laktik asit bakterilerinin bulunacağını doğrudan etkileyen başlıca etkenler olarak bildirilir [[besleme.hamur_verimi_sicaklik_ph_ana_etkenler]]. Güney İtalya'dan dört olgun maya 28 günlük beslemede asetik asit (sirke asidi) arttı; en çok sıkı beslenen mayalarda yükseldi [[besleme.asetik_asit_sikida_artar]]. Asit miktarları farklı olsa da, laktik asidin asetik aside oranı, yani fermantasyon katsayısı, sıkı ve sıvı mayalarda benzerdi [[besleme.fq_siki_sivi_benzer]].",
+        "Genel kanıya göre sıvı ekşi maya laktik asit bakterilerinin, sıkı ekşi maya ise mayaların, yani tek hücreli mantarların, etkinliğini artırır [[besleme.sivi_ve_siki_maya]]. Bu model her maya için geçerli değildir; Lactiplantibacillus plantarum ve Fructilactobacillus sanfranciscensis gibi laktik asit bakterileri sıkı mayalarda da baskın olarak görüldü [[besleme.sivi_ve_siki_maya]]."
+      ]
+    },
+    {
+      "baslik": "Sıcaklık ve yıllarca yaşamak",
+      "paragraflar": [
+        "Estonya'da oda sıcaklığında ekşi maya sürdüren bir fırında türlerin oranı mevsime göre değişti; sıcak aylarda Limosilactobacillus pontis ile Lactobacillus helveticus baskın oldu [[besleme.oda_sicakligi_mevsimsel_degisim]]. Oda sıcaklığında çalışmak, ısı seven bir türün kalıcı baskınlığını engelledi [[besleme.oda_sicakligi_mevsimsel_degisim]]. Kontrollü yüksek sıcaklıkta çalışan Estonya'daki iki büyük fırında mayalar sıkı ve ayrı kümeler oluşturarak kararlılık gösterdi [[besleme.buyuk_firinlar_kararli]].",
+        "Uzun süreli yenileme, suşların binlerce veya milyonlarca bakteri nesli boyunca çoğalarak ortama uyum sağlamasına, yani evrilmesine olanak tanır [[besleme.uzun_sureli_yenileme_evrim]]. Geleneksel ekşi mayalarda sürekli yenileme, ilk aşının mikrop topluluğu üzerindeki etkisini zamanla azaltır ya da tamamen ortadan kaldırır [[besleme.surekli_yenileme_ilk_asiyi_siler]].",
+        "Sabit sıcaklık, aşı oranı ve süre uygulamak, topluluğun kendiliğinden kararlı kalacağını garanti etmez [[besleme.sabit_parametreler_kararliligi_garantilemez]]. Güney İtalya'dan yedi olgun ekşi mayanın her birinde bir kol 80 gün zanaat fırınında, öteki kol laboratuvarda yenilendi [[besleme.firin_laboratuvar_ayni_asitlik]]. İki kolda pH, asitlik ve laktik asit bakterisi sayısı neredeyse aynıydı [[besleme.firin_laboratuvar_ayni_asitlik]]. Ekşi maya fermantasyonunun ampirik, yani deneyime dayalı kontrolü de kararlı bir mikrop topluluğu ve ürün kalitesi sağlamakta çoğu zaman yetersiz kalır [[besleme.ampirik_kontrol_tutarliligi_aksatir]]. Mayanın yaşı, saklandığı yer, besleme sıklığı, tahıl ve iklim dahil 33 değişken birlikte, topluluk bileşimindeki farkların %10'undan azını açıkladı [[besleme.surec_degiskenleri_zayif]]. Bu sonuçlar dört kıtadan 500 ekşi mayaya dayanıyor; çoğu ABD'deki ev mayasıydı ve değişkenler sahiplerinin bildirdiği bilgilerdi [[besleme.surec_degiskenleri_zayif]]."
+      ]
+    }
+  ],
+  "yuzlesme": [
+    {
+      "inanc": "Ekşi maya on günde olgunlaşır; fırıncılar buna «10 gün kuralı» der.",
+      "cevap": "Bu kural iki çalışmada desteklendi: oda sıcaklığında, günlük beslenen on farklı unlu mayalar 10'uncu güne kadar fırında işe yarar biçimde olgunlaşıp kararlı hâle geldi [[besleme.olgunluk_yaklasik_10_gun]]. Laboratuvardaki çavdar mayaları ise 10 ile 12 besleme döngüsünde olgunluğa ulaştı [[besleme.olgunluk_yaklasik_10_gun]]. En yüksek kabarmaya ulaşılan gün de un türüne göre değişti: bazı unlarda 10'uncu gün, çavdar ve çok amaçlı unda 14'üncü gündü [[besleme.tepe_kabarma_gunu_un_turu]]. Fırıncılar, pH'ı ve kabarması oturup ekmek güvenle yapılabildiğinde mayanın olgun olduğunu söyler; bu genellikle 7 ile 14 gün sürer [[besleme.olgunlugun_firinci_tanimi]]."
+    },
+    {
+      "inanc": "Ekşi maya her gün beslenmezse topluluğu bozulur.",
+      "cevap": "Fırınlarda yenilemenin neredeyse her gün yapılmasının bir nedeni, dört gün sonra karbonhidratların, yani şeker ve nişasta gibi enerji veren maddelerin tükenmesidir [[besleme.dort_gunde_seker_tukenir]]. Üç farklı unla hazırlanan 18 ekşi mayada günlük ve iki günde bir besleme, topluluğun bileşimini değiştirmedi [[besleme.gunluk_ve_iki_gunluk_besleme_topluluk_etkisi]]. Bu sonuç tek bir çalışmadan geliyor; her ortam için aynı olduğu söylenemez [[besleme.gunluk_ve_iki_gunluk_besleme_topluluk_etkisi]]."
+    },
+    {
+      "inanc": "Sıcaklığı 30 °C'nin üstüne çıkarmak ekşi mayayı daha ekşi yapar.",
+      "cevap": "30 °C'nin üzerindeki fermantasyonların bakteri etkinliğini ve asit üretimini artırdığı sık söylenir; ancak bu genelleme yeterince incelenmemiştir [[besleme.30c_ustu_bakteri_ve_asit]]. Laboratuvardaki çavdar mayasında 30 °C'de topluluk daha hızlı yerleşti; laktik asit bakterileri ilk fermantasyon döngüsünden sonra baskındı [[besleme.30c_hizli_yerlesme]]."
+    }
+  ],
+  "kanit": {
+    "cekirdek": [
+      "besleme.yenileme_tanimi",
+      "besleme.firinlarda_surekli_yenileme",
+      "besleme.zanaatkar_firincilikta_gunluk_eklenen_un_orani",
+      "besleme.beslenen_maya_kendine_benzer",
+      "besleme.hamur_verimi_tanimi",
+      "besleme.hamur_verimi_sicaklik_ph_ana_etkenler",
+      "besleme.siki_ve_yari_sivi_hamur_verimi",
+      "besleme.siki_sividan_gecis_mikrobiyota",
+      "besleme.sivi_ve_siki_maya",
+      "besleme.literatur_sicaklik",
+      "besleme.sicaklik_oranlari_kaydirir",
+      "besleme.otuz_yil_surdurme",
+      "besleme.yuz_yili_asan_surdurme",
+      "besleme.olgunluk_yaklasik_10_gun",
+      "fsan.asit_duyarliligi_ve_duzenli_besleme"
+    ],
+    "cekmece": [
+      "besleme.olgun_maya_un_turune_gore",
+      "besleme.surec_degiskenleri_zayif",
+      "besleme.olgunlugun_firinci_tanimi",
+      "besleme.ussel_buyume_icin_sik_besleme",
+      "besleme.sivi_siki_yedinci_yenilemede_kararlilik",
+      "besleme.surekli_yenileme_ilk_asiyi_siler",
+      "besleme.uzun_sureli_yenileme_evrim",
+      "besleme.30c_hizli_yerlesme",
+      "besleme.30c_ustu_bakteri_ve_asit",
+      "besleme.ampirik_kontrol_tutarliligi_aksatir",
+      "besleme.asetik_asit_sikida_artar",
+      "besleme.besleme_sikligini_asit_toleransi_belirler",
+      "besleme.buyuk_firinlar_kararli",
+      "besleme.buzdolabi_kabarmayi_azaltir",
+      "besleme.eksi_mayali_un_orani_araligi",
+      "besleme.fermantasyon_suresi_nicel_dagilim",
+      "besleme.firin_laboratuvar_ayni_asitlik",
+      "besleme.gunluk_ve_iki_gunluk_besleme_topluluk_etkisi",
+      "besleme.kontrollu_protokol_kararlilik",
+      "besleme.literatur_asi_orani",
+      "besleme.literatur_fermantasyon_suresi",
+      "besleme.oda_sicakligi_mevsimsel_degisim",
+      "besleme.optimizasyon_asama_un_su_oranlari_ve_sure",
+      "besleme.organik_asit_turu_uygulamaya_bagli",
+      "besleme.sabit_parametreler_kararliligi_garantilemez",
+      "besleme.sanfranciscensis_kosullari",
+      "besleme.sicak_soguk_cinsler",
+      "besleme.tepe_kabarma_gunu_un_turu",
+      "besleme.tip1_besleme_suresi",
+      "besleme.tip1_surekli_yenileme_ozellikleri",
+      "besleme.uygulama_maya_toplulugu",
+      "besleme.yenileme_secer",
+      "besleme.yuksek_sicaklik_turleri",
+      "besleme.30c_ilk_dongulerde_cesitlilik",
+      "besleme.asi_orani_eps",
+      "besleme.bir_iki_iki_besleme_orani",
+      "besleme.dort_gelenek_sert_sivi_hamur_verimi",
+      "besleme.dort_gunde_seker_tukenir",
+      "besleme.firin_ici_teknoloji_farklari",
+      "besleme.firinci_calismasi_besleme_semasi",
+      "besleme.fq_siki_sivi_benzer",
+      "besleme.fruktoz_eklenince_degisim",
+      "besleme.gunluk_yenileme_on_gun_yuzde_10",
+      "besleme.hamur_kabarma_suresi",
+      "besleme.kurutulmus_toz_yuzde_10_asi",
+      "besleme.literatur_tek_asama",
+      "besleme.makalelerin_cogu_besleme_oranini_yazmiyor",
+      "besleme.maya_orani_ve_etanol",
+      "besleme.seker_6_saatte_tukenmez",
+      "besleme.sicaklik_yuzde_44",
+      "besleme.ssm_besiyeri_bilesimi",
+      "besleme.tip1_asi_orani",
+      "besleme.turjaf_besleme_cizelgesi",
+      "besleme.un_yuzde_50_su_25_35c_72_saat",
+      "besleme.yari_sivi_250_g_un_750_ml",
+      "besleme.yedi_italyan_firini_kosullari",
+      "besleme.sik_yenileme_maya_vejetatif_polimorfizm",
+      "besleme.cam_kavanozda_starter_ve_hafta_sonu_soguk_depolama",
+      "besleme.laboratuvar_on_kultur_hazirlama",
+      "besleme.wssm_benzetim_besiyeri_bilesimi",
+      "besleme.laktobasil_davranisi_etkenleri",
+      "besleme.besleme_dongusu_buyume_ve_gecikme",
+      "besleme.maya_edinme_yollari",
+      "besleme.psodotahillarla_fermantasyon",
+      "fsan.yasli_mayalar",
+      "fsan.en_yaygin",
+      "fsan.anahtar_kararli_tur",
+      "fsan.tarama_en_sik",
+      "fsan.zorunlu_heterofermentatif_tanim",
+      "fsan.ekolojik_uyum_maltoz_sakaroz",
+      "fsan.tip1_30c_en_onemli",
+      "fsan.altamura_eksi_mayasinda_baskinlik",
+      "fsan.vz_cesitlilik",
+      "fsan.firin_lab_suslar",
+      "fsan.dusuk_cesitlilik",
+      "fsan.korelasyon",
+      "fsan.tek_basina_daha_kalabalik",
+      "fsan.tek_basina_zayif",
+      "fsan.sivi_eksimayada_populasyon_ve_artis_kati",
+      "lab.cesitlilik_efsane",
+      "lab.firincilikta_kullanim_amaclari",
+      "lab.tahil_enzimleri_karsilikli_etkilesim",
+      "lab.az_baskin_tur",
+      "lab.topluluk_bilesimi",
+      "lab.en_sik_baskin_uc_tur",
+      "lab.olgun_topluluk_40maya",
+      "lab.ortak_tur_yok",
+      "lab.tahil_aminoasitlerine_bagimlilik",
+      "lab.klasik_tablo",
+      "lab.lab_maya_orani",
+      "lab.stresli_ekosistem_ozellikleri",
+      "lab.tur_sayisi",
+      "lab.turlesme_desteklenmez",
+      "lab.yogunluk",
+      "lab.direkt_hamurdan_farki",
+      "lab.tanim_eksi_maya",
+      "lab.lab_asitlendirir_maya_gaz_cikarir_atif",
+      "lab.dokuz_gun_cogaltmada_suslarin_cogu_korundu",
+      "lab.en_cok_bakteri_turu_birinci_yenileme_sonunda",
+      "lab.birinci_yenilemede_en_yuksek_bakteri_tur_cesitliligi",
+      "lab.cavdar_56_dort_tur",
+      "lab.cavdar_30c_56gun",
+      "lab.cavdar_20c_latilacto",
+      "lab.gec_asama_40maya",
+      "lab.amarant",
+      "limosi.fermentum_bal_glukoz_oksidaz",
+      "limosi.kakao_fermentum",
+      "limosi.panis_belcika"
+    ]
+  },
+  "baglar": [
+    {
+      "kaldirac": "Günlük yenileme",
+      "mekanizma": "Önceki ana hamurdan alınan parça, taze un ve suyla yeniden karıştırılır; topluluk her gün aynı besine döner.",
+      "sonuc": "Geleneksel ekşi mayada ilk aşının etkisi zamanla azalır.",
+      "bilgiler": [
+        "besleme.yenileme_tanimi",
+        "besleme.firinlarda_surekli_yenileme",
+        "besleme.zanaatkar_firincilikta_gunluk_eklenen_un_orani",
+        "besleme.beslenen_maya_kendine_benzer",
+        "besleme.tip1_besleme_suresi",
+        "besleme.surekli_yenileme_ilk_asiyi_siler"
+      ]
+    },
+    {
+      "kaldirac": "Hamur verimi",
+      "mekanizma": "Sıkı beslemede asetik asit en çok arttı; topluluğun bileşimi kıvama göre değişti.",
+      "sonuc": "Aynı olgun maya, sıkı ve sıvı beslemede farklı bileşimlere kaydı.",
+      "bilgiler": [
+        "besleme.hamur_verimi_tanimi",
+        "besleme.siki_ve_yari_sivi_hamur_verimi",
+        "besleme.siki_sividan_gecis_mikrobiyota",
+        "besleme.sivi_siki_yedinci_yenilemede_kararlilik",
+        "besleme.asetik_asit_sikida_artar"
+      ]
+    },
+    {
+      "kaldirac": "Sıcaklık",
+      "mekanizma": "Çavdar ekşi mayasında 20 ve 30 °C farklı türleri öne çıkarmadı; sınırlı sayıdaki laktik asit bakterisinin birbirine oranını değiştirdi.",
+      "sonuc": "Çavdar ekşi mayasında aynı türler, 20 ve 30 °C'de farklı oranlarda bulundu.",
+      "bilgiler": [
+        "besleme.literatur_sicaklik",
+        "besleme.sicaklik_oranlari_kaydirir",
+        "besleme.buyuk_firinlar_kararli",
+        "besleme.oda_sicakligi_mevsimsel_degisim",
+        "besleme.hamur_verimi_sicaklik_ph_ana_etkenler"
+      ]
+    },
+    {
+      "kaldirac": "Asit toleransı",
+      "mekanizma": "Fructilactobacillus sanfranciscensis düşük pH'a duyarlı ve düzenli beslemeye yüksek derecede bağımlıdır.",
+      "sonuc": "Geleneksel ekşi mayada besleme sıklığını esas olarak asit toleransı belirler.",
+      "bilgiler": [
+        "fsan.asit_duyarliligi_ve_duzenli_besleme",
+        "besleme.besleme_sikligini_asit_toleransi_belirler",
+        "besleme.ussel_buyume_icin_sik_besleme",
+        "besleme.gunluk_ve_iki_gunluk_besleme_topluluk_etkisi",
+        "besleme.sanfranciscensis_kosullari"
+      ]
+    },
+    {
+      "kaldirac": "Sürekli yenileme",
+      "mekanizma": "Geleneksel mayalarda sürekli yenileme ilk aşının etkisini azaltır ya da ortadan kaldırır; uzun süreli yenileme suşların kuşaklar boyunca ortama uyum sağlamasına olanak tanır.",
+      "sonuc": "Yenilemeyle ekşi maya toplulukları 30 yıldan uzun süre sürdürülebilir.",
+      "bilgiler": [
+        "besleme.uzun_sureli_yenileme_evrim",
+        "besleme.surekli_yenileme_ilk_asiyi_siler",
+        "besleme.otuz_yil_surdurme",
+        "besleme.yuz_yili_asan_surdurme",
+        "besleme.sik_yenileme_maya_vejetatif_polimorfizm"
+      ]
+    },
+    {
+      "kaldirac": "Sabit protokolün sınırı",
+      "mekanizma": "Sabit sıcaklık, aşı oranı ve süre uygulamak, topluluğun kendiliğinden kararlı kalacağını garanti etmez.",
+      "sonuc": "Tek bir parametre ayarı, topluluğun kararlılığını güvence altına almaz.",
+      "bilgiler": [
+        "besleme.sabit_parametreler_kararliligi_garantilemez",
+        "besleme.ampirik_kontrol_tutarliligi_aksatir",
+        "besleme.surec_degiskenleri_zayif",
+        "besleme.firin_laboratuvar_ayni_asitlik",
+        "besleme.olgunluk_yaklasik_10_gun",
+        "besleme.olgunlugun_firinci_tanimi"
+      ]
+    },
+    {
+      "kaldirac": "Un türü",
+      "mekanizma": "Aynı koşulda beslenen mayalarda, 14. gündeki olgunluk farkını en çok un türü belirledi.",
+      "sonuc": "Olgun mayalar arasındaki farkı en çok un türü açıkladı.",
+      "bilgiler": [
+        "besleme.olgun_maya_un_turune_gore",
+        "besleme.tepe_kabarma_gunu_un_turu"
+      ]
+    }
+  ],
+  "karakterler": [
+    "fsan",
+    "lab",
+    "limosi"
+  ],
+  "ayrisan_kaynaklar": [
+    {
+      "konu": "Besleme sıklığı ekşi mayanın topluluğunu belirler mi?",
+      "bilgiler": [
+        "besleme.gunluk_ve_iki_gunluk_besleme_topluluk_etkisi",
+        "besleme.besleme_sikligini_asit_toleransi_belirler",
+        "besleme.ussel_buyume_icin_sik_besleme"
+      ]
+    },
+    {
+      "konu": "Sıvı ekşi maya sıkı ekşi mayadan daha mı iyi tutulur?",
+      "bilgiler": [
+        "besleme.sivi_ve_siki_maya",
+        "besleme.asetik_asit_sikida_artar",
+        "besleme.fq_siki_sivi_benzer",
+        "besleme.siki_sividan_gecis_mikrobiyota"
+      ]
+    },
+    {
+      "konu": "Sabit bir protokol ekşi mayayı yıllarca yaşatır mı?",
+      "bilgiler": [
+        "besleme.sabit_parametreler_kararliligi_garantilemez",
+        "besleme.ampirik_kontrol_tutarliligi_aksatir",
+        "besleme.surec_degiskenleri_zayif",
+        "besleme.firin_laboratuvar_ayni_asitlik"
+      ]
+    },
+    {
+      "konu": "Ekşi mayanın yaşı topluluğunun değişmesinde belirleyici mi?",
+      "bilgiler": [
+        "fsan.yasli_mayalar",
+        "besleme.otuz_yil_surdurme",
+        "besleme.yuz_yili_asan_surdurme",
+        "besleme.surekli_yenileme_ilk_asiyi_siler"
+      ]
+    },
+    {
+      "konu": "Fructilactobacillus sanfranciscensis ekşi mayada en yaygın tür mü?",
+      "bilgiler": [
+        "fsan.en_yaygin",
+        "fsan.tarama_en_sik",
+        "fsan.yasli_mayalar",
+        "lab.en_sik_baskin_uc_tur"
+      ]
+    },
+    {
+      "konu": "Yüksek sıcaklıkta bakteri etkinliği ve asit üretimi artar mı?",
+      "bilgiler": [
+        "besleme.30c_ustu_bakteri_ve_asit",
+        "besleme.literatur_sicaklik",
+        "besleme.yuksek_sicaklik_turleri",
+        "besleme.kontrollu_protokol_kararlilik"
+      ]
+    }
+  ]
+}

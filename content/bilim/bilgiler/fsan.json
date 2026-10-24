@@ -1,0 +1,784 @@
+{
+  "id": "fsan",
+  "ad": "F. sanfranciscensis",
+  "bilgiler": [
+    {
+      "id": "fsan.asit_duyarliligi_ve_duzenli_besleme",
+      "metin": "Glutaminaz, glutamat dekarboksilaz ve ADI yolu etkinliğinin bulunmaması nedeniyle Fructilactobacillus sanfranciscensis düşük pH'a duyarlıdır ve düzenli ekşi maya beslemelerine yüksek derecede bağımlıdır.",
+      "kosul": "Vogel et al. 2011; Zheng et al. 2015; Gänzle and Zheng 2019; Rogalski et al. 2021",
+      "kanit": "ikincil",
+      "bolum": "Hangi koşulda",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1080/10408398.2021.1976100",
+          "yer": "Lactic acid bacteria"
+        }
+      ]
+    },
+    {
+      "id": "fsan.yasli_mayalar",
+      "metin": "Yaşlı ekşi mayalarda Fructilactobacillus sanfranciscensis (ve Pediococcus parvulus) daha sık bulundu; yazarlara göre bu, türün kuşaklar boyu ekşi maya yapımında fırıncılar tarafından seçildiği fikrini destekler.",
+      "kosul": "500 ekşi maya; gösterge tür analizi.",
+      "kanit": "tek_kaynak",
+      "bolum": "Hangi koşulda",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.7554/elife.61644",
+          "yer": "Results – Geography, process parameters, and abiotic factors are poor predictors of sourdough starter microbiome composition"
+        },
+        {
+          "kaynak": "10.7554/elife.61644",
+          "yer": "Discussion"
+        }
+      ]
+    },
+    {
+      "id": "fsan.en_yaygin",
+      "metin": "Fructilactobacillus sanfranciscensis ekşi mayada en sık bulunan ve mayalar arasında en yaygın, sıkça baskın olan laktobasil türü olarak bildirilir.",
+      "kosul": "Aktarılan çalışmalar (microorganisms makalesinin 6, 7, 8, 12, 13 numaralı kaynakları; PeerJ derlemesinde Landis ve ark. 2021).",
+      "kanit": "tartismali",
+      "bolum": "Kimlik",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/microorganisms8020240",
+          "yer": "Introduction"
+        },
+        {
+          "kaynak": "10.7717/peerj.11389",
+          "yer": "Microbial Ecology: Bacteria"
+        },
+        {
+          "kaynak": "10.4322/biori.202203",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "fsan.anahtar_kararli_tur",
+      "metin": "Fructilactobacillus sanfranciscensis'in geleneksel yöntemlerle üretilen ekşi mayalarda anahtar rol oynayan ve kararlı bir öğe olan tür sayıldığı aktarılır.",
+      "kosul": "Tartışma bölümünde Vogel vd. (2011)'e atıfla.",
+      "kanit": "ikincil",
+      "bolum": "Mayadaki yeri",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.fm.2015.04.011",
+          "yer": "Discussion"
+        },
+        {
+          "kaynak": "10.1186/1475-2859-10-s1-s6",
+          "yer": "Abstract"
+        },
+        {
+          "kaynak": "10.1186/1475-2859-10-s1-s6",
+          "yer": "Background"
+        }
+      ]
+    },
+    {
+      "id": "fsan.tarama_en_sik",
+      "metin": "Belçika ve İtalya'da geleneksel ekşi mayaları tarayan iki çalışmada en sık izole edilen LAB türü Fructilactobacillus sanfranciscensis'ti: Belçika'da 39 örneğin 18'inde bulundu ve LAB izolatlarının üçte birini oluşturdu, İtalya'da 19 mayanın 12'sinde bulundu ve izolatların yaklaşık %28'ini oluşturdu.",
+      "kosul": "Belçika: 11 fırından, ticari starter ya da maya katılmadan yapılan 39 geleneksel tip I ekşi maya örneği, iki örnekleme kampanyası. İtalya: geleneksel/yöresel ekmekler için 19 olgun ekşi maya, durum (10) ya da ekmeklik buğday (9) unu. İkisinde de kültüre dayalı tanımlama.",
+      "kanit": "uzlasi",
+      "bolum": "Mayadaki yeri",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1128/aem.02771-07",
+          "yer": "Results: LAB diversity of artisan sourdoughs through cultivation; Table 1"
+        },
+        {
+          "kaynak": "10.1128/aem.02771-07",
+          "yer": "Discussion"
+        },
+        {
+          "kaynak": "10.1128/aem.07721-11",
+          "yer": "Discussion; Table 3"
+        }
+      ]
+    },
+    {
+      "id": "fsan.ester_uretmez",
+      "metin": "Bir çalışmada kamu veri tabanlarındaki Fructilactobacillus sanfranciscensis genomlarının hiçbirinde hedeflenen üç esteraz geni bulunmadı; ester öncülleri eklenmiş laboratuvar besiyerinde de test edilen iki F. sanfranciscensis suşu hiç ester üretmedi (Levilactobacillus zymae LMG 22198 de üretmedi).",
+      "kosul": "In silico genom taraması (tblastn, >%80 sorgu kapsamı, >%30 özdeşlik); ester ölçümü: Laboratuvar besiyeri: buğday ekşi mayası benzetim besiyeri (WSSM) ve ester öncülleri eklenmiş mWSSM (etanol %1, asetik asit %0,5, organik asitler ve yüksek alkoller her biri 5 mg/L); 30 °C, 28–48 saat; 10 ekşi maya LAB suşu; Belçika. Ölçüm HS/SPME-GC-TOF-MS.",
+      "kanit": "tek_kaynak",
+      "bolum": "Ne yer, ne üretir",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1128/aem.02216-24",
+          "yer": "RESULTS: In silico genome mining"
+        },
+        {
+          "kaynak": "10.1128/aem.02216-24",
+          "yer": "RESULTS: Ester biosynthesis by LAB strains; Fig 3B"
+        }
+      ]
+    },
+    {
+      "id": "fsan.ticari_kaynak",
+      "metin": "Ev fırıncılarının bir fırından ya da başka ticari kaynaktan aldığı 73 ekşi mayada Fructilactobacillus sanfranciscensis boldu; yazarlara göre tür ticari üretim koşullarında iyi gelişiyor, fırıncılar arasında yayılmış ve evde de kalıcı oluyor.",
+      "kosul": "500 ekşi maya içinden bir fırından ya da ticari kaynaktan edinilmiş 73 maya; gösterge tür analizi.",
+      "kanit": "tek_kaynak",
+      "bolum": "Nereden gelir",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.7554/elife.61644",
+          "yer": "Results – Geography, process parameters, and abiotic factors are poor predictors of sourdough starter microbiome composition"
+        },
+        {
+          "kaynak": "10.7554/elife.61644",
+          "yer": "Results – Geography, process parameters, and abiotic factors are poor predictors of sourdough starter microbiome composition"
+        }
+      ]
+    },
+    {
+      "id": "fsan.zorunlu_heterofermentatif_tanim",
+      "metin": "Fructilactobacillus sanfranciscensis, ekşi maya fermantasyonu için önemli olan zorunlu heterofermentatif bir laktik asit bakterisidir.",
+      "kosul": "",
+      "kanit": "tek_kaynak",
+      "bolum": "Tanım",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.fbio.2023.102640",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "fsan.cift_starter_asitlik_aroma",
+      "metin": "Gunduz vd.'ye göre Lactiplantibacillus plantarum ve Fructilactobacillus sanfranciscensis, endüstriyel ekşi maya üretiminde kısa fermantasyonlarda istenen asitlik ve aroma düzeyine ulaşmak için ikili starter kültür olarak kullanılabilir.",
+      "kosul": "Endüstriyel ekşi maya üretimi; kısa fermantasyon; ikili starter (Gunduz vd. atfı)",
+      "kanit": "ikincil",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods13152318",
+          "yer": "3.3. Bread Quality and Physicochemical Properties"
+        }
+      ]
+    },
+    {
+      "id": "fsan.hetero_homofermentatif_ekleme_ve_ozgul_hacim",
+      "metin": "Xu ve ark. tarafından bildirildiği gibi, tanımlanmış hetero- ve homofermentatif suşlarla hazırlanan ve katkı olarak kullanılan ekşi mayanın, YSB'nin özgül hacmi (3,18 ve 3,32 mL/g) üzerindeki etkisi sınırlıdır.",
+      "kosul": "Xu ve ark. aktarımı; tanımlanmış hetero- ve homofermentatif suşlu ekşi maya katkısı; YSB özgül hacmi (YB 3,18 mL/g ile karşılaştırma)",
+      "kanit": "ikincil",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.ijfoodmicro.2023.110193",
+          "yer": "Discussion"
+        }
+      ]
+    },
+    {
+      "id": "fsan.ls5_maya_grubu_mantou_ozgul_hacim_seyri",
+      "metin": "Bu çalışmada oda sıcaklığında bekletilen Ls5-Maya grubu Mantou'nun özgül hacmi 0. saatte 2,34 iken 12. saatte 2,22, 24. saatte 2,09, 36. saatte 2,2, 48. saatte 2,06 ve 60. saatte 2,22 olarak ölçülmüştür.",
+      "kosul": "Mantou; Ls5 ve maya birlikte kullanılan grup; oda sıcaklığında saklama; 0, 12, 24, 36, 48 ve 60. saatte özgül hacim ölçümü.",
+      "kanit": "tek_kaynak",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods13223611",
+          "yer": "Specific volume changes of Mantou at room temperature"
+        },
+        {
+          "kaynak": "10.3390/foods13223611",
+          "yer": "Specific volume changes of Mantou at room temperature"
+        },
+        {
+          "kaynak": "10.3390/foods13223611",
+          "yer": "Specific volume changes of Mantou at room temperature"
+        },
+        {
+          "kaynak": "10.3390/foods13223611",
+          "yer": "Specific volume changes of Mantou at room temperature"
+        },
+        {
+          "kaynak": "10.3390/foods13223611",
+          "yer": "Specific volume changes of Mantou at room temperature"
+        },
+        {
+          "kaynak": "10.3390/foods13223611",
+          "yer": "Specific volume changes of Mantou at room temperature"
+        }
+      ]
+    },
+    {
+      "id": "fsan.sus_1001_yuksek_eps_ve_mantou_kalitesi",
+      "metin": "Makale, Zhang vd.'nin [3] Lactobacillus sanfranciscensis 1001 suşunun yüksek EPS ürettiğini, Mantou'nun nemini düşürebildiğini, özgül hacmini artırdığını ve duyusal özelliklerini belirgin biçimde iyileştirdiğini bulduğunu aktarmaktadır.",
+      "kosul": "Literatür aktarımı (Zhang vd. [3]); Mantou; makalenin kendi ölçümü değildir.",
+      "kanit": "ikincil",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods13223611",
+          "yer": "1. Introduction"
+        }
+      ]
+    },
+    {
+      "id": "fsan.mini_hamur_sisteminde_ati_parcalanmasi",
+      "metin": "Makale, iki F. sanfranciscensis suşuyla mini hamur sistemlerinde yapılan fermantasyonun ATI (amilaz-tripsin inhibitörü) miktarını boyut eleme kromatografisiyle ölçüldüğüne göre yaklaşık %40 oranında parçaladığını önceki bir çalışmaya dayanarak aktarmaktadır.",
+      "kosul": "Literatür aktarımı; mini hamur sistemi; ATI parçalanması boyut eleme kromatografisiyle ölçülmüş.",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/microorganisms8111689",
+          "yer": "4. Conclusions"
+        }
+      ]
+    },
+    {
+      "id": "fsan.sivi_eksimayada_populasyon_ve_artis_kati",
+      "metin": "Sıvı ekşi mayada Fructilactobacillus sanfranciscensis popülasyonu 12. saatte 1:1 aşılama oranında 8,4 log KOB/g ve 1:100 oranında 8,8 log KOB/g değerine ulaşarak başlangıç aşılamasına göre 100 kat artış sergilemiştir.",
+      "kosul": "sıvı ekşi mayada eşli fermantasyon, 12 saat",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods15101745",
+          "yer": "3.3. Changes in Yeast and LAB Counts During Fermentation"
+        }
+      ]
+    },
+    {
+      "id": "fsan.ilk_tanim",
+      "metin": "Tür ilk kez 1971'de Kline ve Sugihara tarafından, 100 yılı aşkın süredir beslenen San Francisco ekşi mayalarından izole edilen zorunlu heterofermentatif laktobasiller olarak tanımlandı.",
+      "kosul": "Vogel vd. 2011'in giriş bölümünde aktarım.",
+      "kanit": "ikincil",
+      "bolum": "Kimlik",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1186/1475-2859-10-s1-s6",
+          "yer": "Background"
+        },
+        {
+          "kaynak": "10.1186/1475-2859-10-s1-s6",
+          "yer": "Background"
+        }
+      ]
+    },
+    {
+      "id": "fsan.altamura_eksi_mayasinda_baskinlik",
+      "metin": "Bu çalışmada Altamura (AM) fırınının ekşi mayasında baskın tür olarak L. sanfranciscensis bulunmuştur (Tablo 2).",
+      "kosul": "Altamura (AM) fırınının geleneksel ekşi mayası; laktik asit bakterisi izolatları RAPD-PCR ile tanımlanmış (Tablo 2).",
+      "kanit": "tek_kaynak",
+      "bolum": "Mayadaki yeri",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3389/fmicb.2018.01984",
+          "yer": "Results - Lactic Acid Bacterium Biota in Sourdoughs, Flour and Bakery Environment"
+        }
+      ]
+    },
+    {
+      "id": "fsan.am_ve_cg_eksi_mayalarinda_yuzde_98_baskinlik",
+      "metin": "Bu çalışmada 16S metagenetik analizinde L. sanfranciscensis, AM ve CG fırınlarından alınan ekşi mayaların bakteri mikrobiyotasında %98 ve üzeri bağıl bollukla baskın bulunmuştur (Şekil 2).",
+      "kosul": "AM ve CG fırınlarından alınan ekşi mayalar; 16S metagenetik (OTU) analizi; bağıl bolluk (Şekil 2).",
+      "kanit": "tek_kaynak",
+      "bolum": "Mayadaki yeri",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3389/fmicb.2018.01984",
+          "yer": "Results - Microbial Community of Flour, Bakery Environment and Sourdough Described by 16S Metagenetic Analysis"
+        }
+      ]
+    },
+    {
+      "id": "fsan.belcika_dort_tur",
+      "metin": "Belçika'daki geleneksel tip I ekşi mayalarda hem kültür hem DGGE, LAB topluluğuna Fructilactobacillus sanfranciscensis, Companilactobacillus paralimentarius, Lactiplantibacillus plantarum ve Limosilactobacillus pontis'in hâkim olduğunu gösterdi; ilk örnekleme kampanyasında en sık izole edilen tür C. paralimentarius, ikincisinde F. sanfranciscensis'ti.",
+      "kosul": "Belçika'da 11 fırından, ticari starter ya da maya katılmadan yapılan 39 geleneksel tip I ekşi maya örneği; iki örnekleme kampanyası; kültüre dayalı yöntem ve PCR-DGGE.",
+      "kanit": "tek_kaynak",
+      "bolum": "Mayadaki yeri",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1128/aem.02771-07",
+          "yer": "Abstract"
+        },
+        {
+          "kaynak": "10.1128/aem.02771-07",
+          "yer": "Results: LAB diversity of artisan sourdoughs through cultivation"
+        }
+      ]
+    },
+    {
+      "id": "fsan.cg_eksi_mayasinda_sus_degisimi",
+      "metin": "Bu çalışmada T1 zamanında alınan CG ekşi mayası, T3'teki CG ekşi mayasıyla yalnızca bir L. sanfranciscensis suşunu (CG3) paylaşmış, bu suş T6'da CG ekşi mayasında bulunamamıştır.",
+      "kosul": "Castellana Grotte (CG) fırınının ekşi mayası; T1, T3 ve T6 zamanlarında örnekleme; suşlar RAPD-PCR ile ayırt edilmiş.",
+      "kanit": "tek_kaynak",
+      "bolum": "Mayadaki yeri",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3389/fmicb.2018.01984",
+          "yer": "Results - Lactic Acid Bacterium Biota in Sourdoughs, Flour and Bakery Environment"
+        }
+      ]
+    },
+    {
+      "id": "fsan.ekolojik_uyum_maltoz_sakaroz",
+      "metin": "Fructilactobacillus sanfranciscensis'in ekşi mayadaki ekolojik uyumu, maltoz ve sakarozdan hızlı büyüme ile karbondioksit üretimini sağlayan nişe özgü metabolik özelliklerine bağlıdır.",
+      "kosul": "Tip I ekşi maya ekolojisi",
+      "kanit": "tek_kaynak",
+      "bolum": "Mayadaki yeri",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.ijfoodmicro.2018.08.019",
+          "yer": "Conclusions and perspectives"
+        }
+      ]
+    },
+    {
+      "id": "fsan.eski_starterlerle_iliskisi_ve_aktarim_dinamigi",
+      "metin": "Makale, L. sanfranciscensis'in daha eski starter kültürlerle ilişkili olduğunu ve büyük olasılıkla bir starterden diğerine aktarıldığını önceki çalışmaya dayanarak belirtmektedir (11).",
+      "kosul": "Literatür aktarımı (ekşi maya starterleri); makalenin kendi ölçümü değildir, kaynak (11).",
+      "kanit": "ikincil",
+      "bolum": "Mayadaki yeri",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1128/spectrum.02380-25",
+          "yer": "DISCUSSION"
+        }
+      ]
+    },
+    {
+      "id": "fsan.firin_lab_suslar",
+      "metin": "Yedi olgun ekşi maya 80 gün hem zanaat fırınında hem laboratuvarda yenilendiğinde Fructilactobacillus sanfranciscensis suşlarının seyri mayaya göre değişti: MT.A mayasında bir suş iki ortamda da baştan sona baskındı, MT.D mayasında üç suş ise yalnız ilk 40 günde bulundu.",
+      "kosul": "Güney İtalya'dan (Matera, Altamura, Valenzano) 7 olgun tip I ekşi maya, çoğu Triticum durum unu; 80 gün günlük yenileme, aynı anda zanaat fırınında ve laboratuvarda; 24–28 °C; gerçek hamur. MT.A (13 saat fermantasyon) ve MT.D ekşi mayaları.",
+      "kanit": "tek_kaynak",
+      "bolum": "Mayadaki yeri",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1128/aem.00572-12",
+          "yer": "Results; Fig. 4A"
+        },
+        {
+          "kaynak": "10.1128/aem.00572-12",
+          "yer": "Results; Fig. 4D"
+        }
+      ]
+    },
+    {
+      "id": "fsan.fransa_baskin",
+      "metin": "Fransa'da incelenen 45 ekşi mayanın 41'inde baskın bakteri türü Fructilactobacillus sanfranciscensis'ti; bunlardan 14 mayalık bir alt kümede tür hepsinde bulundu ve kültürle ikisi dışında hepsinde, 16S dizilemesiyle hepsinde baskındı.",
+      "kosul": "Fransa, fırın ekşi mayaları; Lhomme vd. 2015a,b, 2016 ve Michel vd. 2016 verilerinin aktarımı; baskınlık ölçütü: sıklık > 0,5.",
+      "kanit": "ikincil",
+      "bolum": "Mayadaki yeri",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3389/fmicb.2019.00201",
+          "yer": "Results, Pattern of yeast and bacterial species diversity; Table 2"
+        },
+        {
+          "kaynak": "10.3389/fmicb.2019.00201",
+          "yer": "Discussion"
+        },
+        {
+          "kaynak": "10.24072/pcjournal.237",
+          "yer": "Composition of sourdough fungal communities"
+        }
+      ]
+    },
+    {
+      "id": "fsan.kendiliginden_mayalarda_gocmen_bakteriler_ve_yokluk",
+      "metin": "Makale, Gänzle ve Zheng (2019) derlemesine dayanarak kendiliğinden gelişen ekşi mayaların çevresel veya göçebe mikroorganizmaları, özellikle Lb. fermentum, Lb. plantarum ve Lb. brevis'i barındırdığını ve Lb. sanfranciscensis içermediğini aktarmaktadır.",
+      "kosul": "Literatür derlemesi aktarımı (Gänzle ve Zheng 2019); makalenin kendi ölçümü değildir.",
+      "kanit": "ikincil",
+      "bolum": "Mayadaki yeri",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1002/mbo3.1009",
+          "yer": "DISCUSSION"
+        }
+      ]
+    },
+    {
+      "id": "fsan.olgun_eksi_mayada_l_plantarum_ile_birlikte_baskinlik",
+      "metin": "Bu çalışmada çoğaltma öncesinde geleneksel olgun ekşi mayada iki Fructilactobacillus sanfranciscensis suşu ve iki Lactiplantibacillus plantarum suşu baskın bulunmuştur (Ek Şekil S1a).",
+      "kosul": "Geleneksel olgun ekşi maya, çoğaltma öncesi; laktik asit bakterisi izolatları RAPD-PCR ile tanımlanmış (Ek Şekil S1a).",
+      "kanit": "tek_kaynak",
+      "bolum": "Mayadaki yeri",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1038/s41598-018-36786-2",
+          "yer": "Results - Tap water hardly affected the microbiological features during propagation of a traditional and mature Apulian sourdough"
+        }
+      ]
+    },
+    {
+      "id": "fsan.teff_eksi_mayasindan_ilk_izolasyon",
+      "metin": "Yazarlara göre ekşi mayayla ilişkili Fructilactobacillus sanfranciscensis, yenilenen (backslopped) kendiliğinden teff ekşi mayalarından ilk kez izole edilmiştir.",
+      "kosul": "Kendiliğinden fermente olan, yenilenen teff ekşi mayaları; fırın ve laboratuvar koşulları.",
+      "kanit": "tek_kaynak",
+      "bolum": "Mayadaki yeri",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1002/fsn3.690",
+          "yer": "Abstract"
+        }
+      ]
+    },
+    {
+      "id": "fsan.tip1_30c_en_onemli",
+      "metin": "Fructilactobacillus sanfranciscensis gibi zorunlu heterofermentatif laktobasillerin, özellikle 30 °C'de her gün yenilenen Tip I ekşi mayalarda en önemli LAB olarak bildirildiği aktarılır.",
+      "kosul": "Giriş bölümünde aktarım (Gobbetti ve Corsetti 1997; Böcker vd. 1995); her gün yenilenen Tip I ekşi maya, 30 °C.",
+      "kanit": "ikincil",
+      "bolum": "Mayadaki yeri",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.fm.2015.04.011",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "fsan.vz_cesitlilik",
+      "metin": "Aynı yedi maya içinde ekmeklik buğday (Triticum aestivum) unuyla yapılan tek maya olan VZ'de Lactiplantibacillus plantarum yalnız geçici olarak bulundu, Fructilactobacillus sanfranciscensis suşlarının çeşitliliği çok büyüktü ve fırında ile laboratuvarda yenilenen hâlleri en çok benzeşen maya buydu.",
+      "kosul": "Güney İtalya'dan (Matera, Altamura, Valenzano) 7 olgun tip I ekşi maya, çoğu Triticum durum unu; 80 gün günlük yenileme, aynı anda zanaat fırınında ve laboratuvarda; 24–28 °C; gerçek hamur. VZ ekşi mayası, Triticum aestivum unu.",
+      "kanit": "tek_kaynak",
+      "bolum": "Mayadaki yeri",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1128/aem.00572-12",
+          "yer": "Discussion"
+        }
+      ]
+    },
+    {
+      "id": "fsan.amino_asit_bagimli",
+      "metin": "Genom analizine göre Fructilactobacillus sanfranciscensis yalnız birkaç amino asidi kendisi üretebilir, kalan 12 amino asit için dışarıya bağımlıdır; buğdayda az bulunan aspartat, asparajin ve glutamatın üretim yollarını ise korumuştur ve yazarlar bunu ekşi mayaya uyum olarak yorumlar.",
+      "kosul": "TMW 1.1304; in silico genom analizi.",
+      "kanit": "tek_kaynak",
+      "bolum": "Ne yer, ne üretir",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1186/1475-2859-10-s1-s6",
+          "yer": "Amino acid metabolism, Table 2"
+        },
+        {
+          "kaynak": "10.1186/1475-2859-10-s1-s6",
+          "yer": "Amino acid metabolism"
+        }
+      ]
+    },
+    {
+      "id": "fsan.fruktozu_karbon_kaynagi_yapmaz",
+      "metin": "Fructilactobacillus sanfranciscensis suşlarının çoğunun fruktozu karbon kaynağı olarak kullanamadığı, ama genellikle mannitol dehidrogenaz etkinliğiyle fruktozu mannitole indirgediği aktarılır.",
+      "kosul": "Tartışma bölümünde aktarım (kaynak 25 ve 26).",
+      "kanit": "ikincil",
+      "bolum": "Ne yer, ne üretir",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1186/s12934-020-01438-6",
+          "yer": "Discussion"
+        }
+      ]
+    },
+    {
+      "id": "fsan.bocek_diskilariyla_bulasma_olasiligi",
+      "metin": "Makale, L. sanfranciscensis'in böcek dışkısından elde edilmesini, ekşi mayalar için tipik ama başka yerlerde nadiren bulunan bu türün teff ununa olası bir bulaşma yolu olarak değerlendirmekte ve bunu Boiocchi vd. (2017) ile De Vuyst vd. (2017) çalışmalarına dayandırmaktadır.",
+      "kosul": "Teff unu ve teff ekşi mayası çalışmasında yorum; bulaşma yolu varsayımdır, makalenin kendi ölçümü değildir (Boiocchi vd. 2017; De Vuyst vd. 2017).",
+      "kanit": "ikincil",
+      "bolum": "Nereden gelir",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1002/fsn3.690",
+          "yer": "DISCUSSION"
+        }
+      ]
+    },
+    {
+      "id": "fsan.cavdar_ve_kizilbugdayda_bulunma",
+      "metin": "Başlangıçta yalnızca buğday ekşi mayalarıyla ilişkilendirilmiş olsa da Fructilactobacillus sanfranciscensis çavdar ve spelt ekşi mayalarında da bulunmuştur.",
+      "kosul": "Picozzi et al., 2006; Spicher and Schröder, 1978; Scheirlinck et al., 2007c, 2008",
+      "kanit": "ikincil",
+      "bolum": "Nereden gelir",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.fm.2013.06.002",
+          "yer": "Region-specific considerations"
+        }
+      ]
+    },
+    {
+      "id": "fsan.dutsu_meyveler_ve_ciceklerin_tasiyici_olma_ihtimali",
+      "metin": "Makale, meyvelerin ve çiçeklerin L. sanfranciscensis için taşıyıcı olabileceğini Ripari, Gänzle ve Berardi (2016) çalışmasına dayanarak öne sürmektedir.",
+      "kosul": "Teff ekşi mayası çalışmasında yorum; makalenin kendi ölçümü değildir (Ripari, Gänzle ve Berardi 2016).",
+      "kanit": "ikincil",
+      "bolum": "Nereden gelir",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1002/fsn3.690",
+          "yer": "DISCUSSION"
+        }
+      ]
+    },
+    {
+      "id": "fsan.firincilik_ekipman_yuzeylerinde_aktif_varlik",
+      "metin": "Makale, dört zanaatkâr fırının hamur yoğurma makinesi ve saklama kutusu yüzeylerinde metabolik olarak aktif L. sanfranciscensis bulunduğunu ve ekşi mayada baskın laktik asit bakterilerinin fırın mikrobiyotasını yoğun biçimde kirlettiğini Minervini vd. (2015b) çalışmasına dayanarak aktarmaktadır.",
+      "kosul": "Literatür aktarımı (fırın çevresi mikrobiyotası); makalenin kendi ölçümü değildir (Minervini vd. 2015b).",
+      "kanit": "ikincil",
+      "bolum": "Nereden gelir",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3389/fmicb.2018.01984",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "fsan.un_ve_ekipman_orneklerinin_hepsinden_izolasyon",
+      "metin": "Bu çalışmada Fructilactobacillus sanfranciscensis, incelenen tüm unlardan ve çevresel ekipman örneklerinden (hamur yoğurucu ve saklama kutusu) izole edilmiştir.",
+      "kosul": "Üç geleneksel fırının unları ve çevre örnekleri (hamur yoğurucu, saklama kutusu); laktik asit bakterisi izolasyonu.",
+      "kanit": "tek_kaynak",
+      "bolum": "Nereden gelir",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3389/fmicb.2018.01984",
+          "yer": "Results - Lactic Acid Bacterium Biota in Sourdoughs, Flour and Bakery Environment"
+        }
+      ]
+    },
+    {
+      "id": "fsan.undan_eksi_mayaya_sus_gecisi",
+      "metin": "Bu çalışmada, bir yıl boyunca her örnekleme zamanında undan izole edilen en az bir F. sanfranciscensis suşu ekşi mayada da bulundu.",
+      "kosul": "bir yillik mikrobiyota izlemi",
+      "kanit": "tek_kaynak",
+      "bolum": "Nereden gelir",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3389/fmicb.2018.01984",
+          "yer": "Results - Lactic Acid Bacterium Biota in Sourdoughs, Flour and Bakery Environment"
+        }
+      ]
+    },
+    {
+      "id": "fsan.yalniz_eksi_mayada",
+      "metin": "Meyve sineklerinden elde edilen tek bir bildirim dışında Fructilactobacillus sanfranciscensis yalnız ekşi mayalardan izole edildi; ekşi mayadaki diğer türler başka ortamlarda da bulunur.",
+      "kosul": "Vogel vd. 2011'in giriş bölümündeki literatür özeti; meyve sineği izolatlarının rDNA benzerliği %97 (Groeneveld vd.).",
+      "kanit": "ikincil",
+      "bolum": "Nereden gelir",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1186/1475-2859-10-s1-s6",
+          "yer": "Background"
+        }
+      ]
+    },
+    {
+      "id": "fsan.bocek",
+      "metin": "Fructilactobacillus sanfranciscensis'in mayalarda bu kadar yaygın olmasının bir nedeni, sık sık böceklerle (sinekler, tahıl böcekleri) ve bitkilerle birlikte bulunması olabilir.",
+      "kosul": "Derleme yorumu (Gänzle ve Zheng 2019; Yu, Leveau ve Marco 2020'ye dayanarak).",
+      "kanit": "ikincil",
+      "bolum": "Nereden gelir",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.7717/peerj.11389",
+          "yer": "Microbial Ecology: Bacteria"
+        }
+      ]
+    },
+    {
+      "id": "fsan.dusuk_cesitlilik",
+      "metin": "Fructilactobacillus sanfranciscensis'in baskın olduğu ekşi mayalarda bakteri çeşitliliği öteki mayalardan düşüktü.",
+      "kosul": "17 ekşi maya; Simpson ve Pielou indeksleri.",
+      "kanit": "tek_kaynak",
+      "bolum": "İlişkileri",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3389/fmicb.2020.01212",
+          "yer": "Discussion; Table 2"
+        },
+        {
+          "kaynak": "10.3390/microorganisms8020240",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "fsan.k_exigua_ile_mutualizm_maltoz_paylasimi",
+      "metin": "Makale, maltoz negatif Kazachstania exigua'nın kararlı ekşi mayalarda maltoz pozitif L. sanfranciscensis ve/veya L. brevis ile mutualistik etkileşim içinde olduğunu, S. cerevisiae için ise bunun geçerli kabul edilmediğini önceki çalışmalara dayanarak belirtmektedir.",
+      "kosul": "Literatür aktarımı (ekşi maya ekolojisi); makalenin kendi ölçümü değildir.",
+      "kanit": "ikincil",
+      "bolum": "İlişkileri",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1002/fsn3.690",
+          "yer": "DISCUSSION"
+        }
+      ]
+    },
+    {
+      "id": "fsan.k_humilis_ile_capraz_etkilesim_ve_asitlesme",
+      "metin": "Fructilactobacillus sanfranciscensis hamur asitleşmesini domine etmiş ve metabolik çapraz etkileşim yoluyla Kazachstania humilis mayasının karbon metabolizmasını yönlendirmiştir.",
+      "kosul": "Kazachstania humilis ile eşli fermantasyon",
+      "kanit": "tek_kaynak",
+      "bolum": "İlişkileri",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods15101745",
+          "yer": "4. Conclusions"
+        }
+      ]
+    },
+    {
+      "id": "fsan.korelasyon",
+      "metin": "17 ekşi mayada Fructilactobacillus sanfranciscensis öteki LAB ve asetik asit bakterisi türleriyle olumsuz, Saccharomyces cerevisiae ve Kazachstania humilis mayalarıyla olumlu yönde ilişkiliydi.",
+      "kosul": "17 ekşi maya; metagenetik veri üzerinde Spearman korelasyonu.",
+      "kanit": "tek_kaynak",
+      "bolum": "İlişkileri",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3389/fmicb.2020.01212",
+          "yer": "Results; Figure 5"
+        },
+        {
+          "kaynak": "10.3389/fmicb.2020.01212",
+          "yer": "Abstract"
+        }
+      ]
+    },
+    {
+      "id": "fsan.proteaz_yok",
+      "metin": "Fructilactobacillus sanfranciscensis DSM20451 suşunun proteolitik etkinliği olmadığı ve buğdayın aspartik proteazları baskılandığında ekşi mayada büyümediği aktarılır.",
+      "kosul": "DSM20451 suşu; foods 10(2):340 makalesinin 38 numaralı kaynağından aktarım.",
+      "kanit": "ikincil",
+      "bolum": "İlişkileri",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods10020340",
+          "yer": "4.1. Proteolysis in Sourdough"
+        }
+      ]
+    },
+    {
+      "id": "fsan.sakkaroz_negatif_suslar_ve_diger_bakterilerin_levansukrazi",
+      "metin": "Derlemeye göre ekşi mayadaki sakkaroz negatif L. sanfranciscensis suşları genellikle sakkaroz pozitif laktobasillerle birlikte bulunur ve diğer suşların hücre dışı levansükraz aktivitesinden yararlanır (Tieking vd., 2003).",
+      "kosul": "Literatür derlemesi aktarımı (Tieking vd. 2003); makalenin kendi ölçümü değildir.",
+      "kanit": "ikincil",
+      "bolum": "İlişkileri",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3389/fmicb.2012.00340",
+          "yer": "Metabolism of Sucrose and Fructo-Oligosaccharides"
+        }
+      ]
+    },
+    {
+      "id": "fsan.tek_basina_daha_kalabalik",
+      "metin": "Model bir buğday ekşi mayasında Fructilactobacillus sanfranciscensis tek başınayken, mayalarla birlikte olduğundan yaklaşık 1 log KOB/g daha yüksek sayıya ulaştı; laktik asit bakterisi eşliği ise maya sayılarını etkilemedi.",
+      "kosul": "Model tip I buğday ekşi mayası: I. aşama 30 °C 16 saat, II. aşama 30 °C 2,5 saat; hamur 30 °C'de 1 saat dinlenme + 1 saat mayalanma, 180 °C 25 dk pişirme; suşlar: L. sanfranciscensis DSM20451T, L. sakei LS8, K. humilis FUA4001, S. cerevisiae FUA4018, W. anomalus FUA4025.",
+      "kanit": "tek_kaynak",
+      "bolum": "İlişkileri",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3389/fmicb.2019.02113",
+          "yer": "Results"
+        }
+      ]
+    },
+    {
+      "id": "fsan.tek_basina_zayif",
+      "metin": "Sentetik ekşi maya ortamında Fructilactobacillus sanfranciscensis tek başına en düşük yoğunluklardan birine ulaştı ve yalnız Kazachstania humilis mayasıyla birlikte büyütüldüğünde tutunabildi.",
+      "kosul": "Sentetik ekşi maya ortamı (CBFM), ikili rekabet deneyleri, tek izolat.",
+      "kanit": "tek_kaynak",
+      "bolum": "İlişkileri",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.7554/elife.61644",
+          "yer": "Results – Ecological distributions of sourdough microbes are structured by biotic interactions"
+        }
+      ]
+    },
+    {
+      "id": "fsan.faj_az",
+      "metin": "Ekşi mayadan çok az laktobasil fajı izole edildiği ve Fructilactobacillus sanfranciscensis'e etkili yalnız bir fajın tanımlandığı aktarılır.",
+      "kosul": "Vogel vd. 2011'de literatür aktarımı.",
+      "kanit": "ikincil",
+      "bolum": "İlişkileri",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1186/1475-2859-10-s1-s6",
+          "yer": "Phage defense/restriction/modification systems"
+        }
+      ]
+    },
+    {
+      "id": "fsan.k_humilis_esli_kultur_antioksidan_kapasite",
+      "metin": "Sıvı ekşi mayada Kazachstania humilis ve Fructilactobacillus sanfranciscensis suşlarının birlikte kültürlenmesinin antioksidan kapasiteyi artırdığı aktarılmaktadır.",
+      "kosul": "sıvı ekşi mayada eşli kültür",
+      "kanit": "ikincil",
+      "bolum": "İlişkileri",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods15101745",
+          "yer": "3.7. The Analysis of the Antioxidant Properties of Different Mantou"
+        }
+      ]
+    },
+    {
+      "id": "fsan.tmw_12138_zayif_maltoz_rekabeti_atif",
+      "metin": "İlgili bir çalışmaya göre, Fructilactobacillus sanfranciscensis suşu TMW 1.2138, zayıf maltoz fermantasyonu nedeniyle diğer suşlarla rekabette başarısız olmuştur.",
+      "kosul": "Maltoz besiyeri rekabet çalışması",
+      "kanit": "ikincil",
+      "bolum": "İlişkileri",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1128/aem.01030-26",
+          "yer": "Discussion"
+        },
+        {
+          "kaynak": "10.1128/aem.01030-26",
+          "yer": "Discussion"
+        }
+      ]
+    }
+  ]
+}

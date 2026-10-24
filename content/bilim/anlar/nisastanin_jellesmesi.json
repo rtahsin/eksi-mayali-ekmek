@@ -1,0 +1,176 @@
+{
+  "id": "nisastanin_jellesmesi",
+  "durak": "firin",
+  "baslik": "İçi pişerken",
+  "soru": "Hamur nasıl ekmek içine dönüşür?",
+  "bayrak": false,
+  "gor": {
+    "tur": "kaydirma",
+    "adimlar": [
+      {
+        "metin": "Hamur ekmek içine dönüşürken üç olay birlikte işler: nişasta jelleşir, protein denatüre olur, karbondioksit ve su buharı ısıyla genleşir [[jelesme.ekmek_icine_donusum_etkenleri]].",
+        "gorsel": "photomicrograph_of_wheat_starch",
+        "vurgu": "Buğday nişastasının taneleri, eş merkezli halkalarıyla görünür."
+      },
+      {
+        "metin": "Jelleşme, nişasta yapısında geri dönüşsüz değişikliklerdir: taneler şişer ve amiloz taneden dışarı sızar [[jelesme.tanim]].",
+        "gorsel": "potato_starch_polarized_light_100x",
+        "vurgu": "Polarize ışıkta parlayan patates nişastası taneleri, 100x büyütmede; bu parlama çift kırılmadır."
+      },
+      {
+        "metin": "Yaklaşık 50 °C'de proteinler denatüre olur; yaklaşık 60 °C'de nişasta şişer [[protein_pihtilasmasi.protein_50_derecede_nisasta_60_derecede]].",
+        "gorsel": "gluten_and_carbon_nanotubes",
+        "vurgu": "Farklı büyütmelerde gluten: hamurun iskeletini oluşturan protein ağı."
+      },
+      {
+        "metin": "Gluten, su için yarışıp nişasta tanelerini çevrelediği için jelleşmenin başlangıcını geciktirir [[jelesme.gluten_jelesmeyi_geciktirir]]. Pişen ekmekte gluten ve nemlenmiş nişasta ürüne yarı sert bir yapı verir [[jelesme.gluten_ile_yari_sert_yapi]].",
+        "gorsel": "raisin_bread_crumb_shot_6274216810",
+        "vurgu": "Üzümlü ekmeğin kırıntı kesiti: pişmiş ekmeğin içi kesit üzerinde görünür."
+      },
+      {
+        "metin": "Isıtılan nişasta taneleri şişer ve düzenli yapıları düzensizleşir [[jelesme.tanim]].",
+        "gorsel": "potato_amyloplast_granules_observed_at_200_magnification",
+        "vurgu": "Polarize mikroskopta nişasta taneleri, 200x büyütmede; kabuk bu görüntüde yer almaz."
+      },
+      {
+        "metin": "Tek bir tost ekmeği denemesinde pişirme sonunda 98 °C çekirdek sıcaklığı, iyi şekillenmiş somunlar sağlamıştır [[jelesme.doksan_sekiz_derece_cekirdek_sicakligi_ve_yapi]].",
+        "gorsel": "kifli_made_with_spelt_flour_serbian_cuisine",
+        "vurgu": "Spelt unundan kifli; bu görsel tost ekmeği değildir, yalnızca kesit örneğidir."
+      }
+    ]
+  },
+  "anla": [
+    {
+      "baslik": "Isıyla açılan proteinler",
+      "paragraflar": [
+        "Hamur ekmek içine dönüşürken üç olay birlikte işler; bu anlatı nişasta jelleşmesi ile protein denatürasyonuna odaklanır [[jelesme.ekmek_icine_donusum_etkenleri]]. Denatürasyon, ısının proteini açmasıdır; bu açılma su sevmeyen kalıntıları ortaya çıkarır [[protein_pihtilasmasi.isitmayla_hidrofobik_baglar_ve_stabilizasyon]]. Disülfit bağı, glutenin alt birimlerini birbirine bağlayan bir bağdır [[gluten.disulfit_bagli_glutenin_iskeleti]]. Isıtmada gluten proteinleri denatüre olur ve disülfit bağlarıyla proteinler arasında çapraz bağlar kurulur [[protein_pihtilasmasi.gluten_disulfit_capraz_bag]]."
+      ]
+    },
+    {
+      "baslik": "Nişasta şişer, sonra jelleşir",
+      "paragraflar": [
+        "Nişasta, doğrusal ya da az dallanmış amiloz ile yüksek oranda dallanmış amilopektinden oluşur [[nisasta.polimer_yapisi_bag_turleri]]. Buğday unu ağırlıkça başlıca %70–75 nişasta içerir [[nisasta.bugday_ununun_ana_bileseni]]. Pişirmede jelleşme, doğal amilopektinin düzenli yapılı kristallerinin erimesidir [[jelesme.pisirmede_amilopektin_erir]]. Erimenin ardından amilopektin düzensiz hale geçer [[jelesme.pisirmede_amilopektin_erir]]. Polarize ışıkta parlama, yani çift kırılma, jelleşmede kaybolur [[jelesme.tanim]].",
+        "Mayasız standart buğday hamurunda viskozite, yani kıvam, yaklaşık 45 °C'de artmaya başlar ve yaklaşık 70 °C'de en yüksek noktasına çıkar [[jelesme.kirk_bes_derecede_baslangic_yetmiste_tepe_viskozite]]. Derlemeye göre protein denatürasyonu ve nişasta jelleşmesi genellikle 60–85 °C arasında olur [[jelesme.60_85_derece_hamurdan_ice]]. Bu değerler farklı hamur ve ölçümlerden gelir; her biri kendi koşulunda verilmiştir [[jelesme.kirk_bes_derecede_baslangic_yetmiste_tepe_viskozite]]. Bir sıcaklık taramasında, hamurun mekanik özellikleri ölçülerek, su oranı arttıkça jelleşmenin daha düşük sıcaklıkta görüldüğü bulundu [[jelesme.artan_su_hacim_payiyla_dusuk_sicaklikta_jelesme]]."
+      ]
+    },
+    {
+      "baslik": "Gluten ve protein, yapıyı kurar",
+      "paragraflar": [
+        "Gluten ağı, su almış gluten proteinlerinin kesintisiz bir ağıdır ve hamurun iskeletini oluşturur [[gluten.tanim_hamur_iskeleti]]. Gluten, polimerler arasında su için yarışır ve nişasta tanelerini bariyer gibi çevreleyerek jelleşmenin başlangıcını geciktirir [[jelesme.gluten_jelesmeyi_geciktirir]]. Isıtmada gluten ağıyla bağlantılı nişasta jelleşir; bu iki bileşen birlikte ürüne yarı sert bir yapı verir [[jelesme.gluten_ile_yari_sert_yapi]].",
+        "Sc1 referans suşuyla yapılan pişirmede, SDS ile özütlenebilir protein 12’nci dakikadan sonra düşmeye başlar; bu düşüş 77 °C hamur sıcaklığına karşılık gelir [[protein_pihtilasmasi.77_derecede_polimerizasyon_baslangici]]. Özütlenebilir protein, başlangıçtaki %92,4'ten 24’üncü dakikada %43,6'ya iner; bu düşüş proteinlerin birbirine bağlanmaya başladığı andır [[protein_pihtilasmasi.77_derecede_polimerizasyon_baslangici]]. Literatürde, pişirmede karbondioksit (CO2) salımındaki iki aşamanın kesiştiği nokta, köpük benzeri hamurun sünger benzeri ekmek yapısına dönüştüğü an olarak tanımlanır [[protein_pihtilasmasi.kopukten_sungere_yapi_sabitlenmesi]]."
+      ]
+    },
+    {
+      "baslik": "Sıcaklık ne kadar yükselirse",
+      "paragraflar": [
+        "Yüksek sıcaklıkta nişasta daha erken jelleşir; kabuğun mekanik direnci artar ve ekmek yapısının genişlemesi zorlaşır [[jelesme.erken_jelesme_kabarmayi_kisitlar]]. Tek bir küçük kalıp ekmeği denemesinde, yazarlara göre merkez 220 °C'de mayanın etkisizleştiği sıcaklığa hızla ulaşır; bu yüzden yeni küçük gözenekler açılmaz [[jelesme.220_derecede_gozenek]]. Nişasta da çok hızlı jelleştiği için var olan gözenekler genişleyemez [[jelesme.220_derecede_gozenek]]. Tek bir tost ekmeği denemesinde pişirme sonunda 98 °C çekirdek sıcaklığı, iyi şekillenmiş somunlar sağlamıştır [[jelesme.doksan_sekiz_derece_cekirdek_sicakligi_ve_yapi]]. Süt ve asit peynir altı suyu ile hazırlanan hamur sisteminde, maksimum jelleşme sıcaklığı ile ekmek içi sertliği arasında r = 0,64 bulundu [[jelesme.maksimum_jelesme_sicakligi_ile_ekmek_sertligi_baglantisi]]. Bu bir korelasyondur; genel bir kural değildir ve nedensellik göstermez [[jelesme.maksimum_jelesme_sicakligi_ile_ekmek_sertligi_baglantisi]]."
+      ]
+    }
+  ],
+  "yuzlesme": [
+    {
+      "inanc": "Nişasta jelleşmesi tek bir sıcaklıkta başlar.",
+      "cevap": "Derlemeye göre genel aralık 60–85 °C'dir [[jelesme.60_85_derece_hamurdan_ice]]. Mayasız standart buğday hamurunda ilk viskozite artışı yaklaşık 45 °C'de başlar [[jelesme.kirk_bes_derecede_baslangic_yetmiste_tepe_viskozite]]. Su oranı arttığında jelleşme daha düşük sıcaklıkta görülmüştür [[jelesme.artan_su_hacim_payiyla_dusuk_sicaklikta_jelesme]]."
+    }
+  ],
+  "kanit": {
+    "cekirdek": [
+      "jelesme.tanim",
+      "jelesme.ekmek_icine_donusum_etkenleri",
+      "protein_pihtilasmasi.protein_50_derecede_nisasta_60_derecede",
+      "jelesme.gluten_jelesmeyi_geciktirir",
+      "jelesme.gluten_ile_yari_sert_yapi",
+      "jelesme.erken_jelesme_kabarmayi_kisitlar",
+      "jelesme.doksan_sekiz_derece_cekirdek_sicakligi_ve_yapi",
+      "jelesme.220_derecede_gozenek",
+      "jelesme.maksimum_jelesme_sicakligi_ile_ekmek_sertligi_baglantisi",
+      "protein_pihtilasmasi.gluten_disulfit_capraz_bag",
+      "protein_pihtilasmasi.77_derecede_polimerizasyon_baslangici",
+      "jelesme.60_85_derece_hamurdan_ice",
+      "gluten.tanim_hamur_iskeleti",
+      "jelesme.pisirmede_amilopektin_erir",
+      "protein_pihtilasmasi.kopukten_sungere_yapi_sabitlenmesi"
+    ],
+    "cekmece": [
+      "protein_pihtilasmasi.isitmayla_hidrofobik_baglar_ve_stabilizasyon",
+      "gluten.disulfit_bagli_glutenin_iskeleti",
+      "nisasta.polimer_yapisi_bag_turleri",
+      "nisasta.bugday_ununun_ana_bileseni",
+      "jelesme.kirk_bes_derecede_baslangic_yetmiste_tepe_viskozite",
+      "jelesme.artan_su_hacim_payiyla_dusuk_sicaklikta_jelesme",
+      "jelesme.nisasta_65_derecede_jellesir_amilaz_75",
+      "disulfit.90c_ye_kadar_gliadin_glutenin_baglanmasi",
+      "protein_pihtilasmasi.polimerlesme_baslangic_65_70c",
+      "protein_pihtilasmasi.mayali_hamurda_70_derece_uzeri_polimerizasyon_sinirlidir",
+      "protein_pihtilasmasi.mayali_hamurda_80_derece_uzeri_polimerizasyon_siniri"
+    ]
+  },
+  "baglar": [
+    {
+      "kaldirac": "Sıcaklık",
+      "mekanizma": "Yüksek sıcaklık nişastanın jelleşmesini daha erkene çeker.",
+      "sonuc": "Kabuğun mekanik direnci artar ve ekmek yapısının genişlemesi zorlaşır.",
+      "bilgiler": [
+        "jelesme.erken_jelesme_kabarmayi_kisitlar"
+      ]
+    },
+    {
+      "kaldirac": "Gluten ağı",
+      "mekanizma": "Gluten su için yarışır ve nişasta tanelerini bariyer gibi çevreler.",
+      "sonuc": "Nişastanın jelleşmesi geç başlar.",
+      "bilgiler": [
+        "jelesme.gluten_jelesmeyi_geciktirir"
+      ]
+    },
+    {
+      "kaldirac": "Su oranı",
+      "mekanizma": "Su oranı arttıkça gluten ve nişasta daha düşük sıcaklıklarda değişir.",
+      "sonuc": "Jelleşme daha düşük sıcaklıkta görülür.",
+      "bilgiler": [
+        "jelesme.artan_su_hacim_payiyla_dusuk_sicaklikta_jelesme"
+      ]
+    },
+    {
+      "kaldirac": "Protein ve nişasta",
+      "mekanizma": "Proteinler yaklaşık 50 °C'de denatüre olur, nişasta yaklaşık 60 °C'de şişer.",
+      "sonuc": "İki değişim farklı sıcaklıklarda başlar.",
+      "bilgiler": [
+        "protein_pihtilasmasi.protein_50_derecede_nisasta_60_derecede"
+      ]
+    },
+    {
+      "kaldirac": "Disülfit bağları",
+      "mekanizma": "Isıtılan gluten proteinleri disülfit bağlarıyla birbirine çapraz bağlanır.",
+      "sonuc": "Gluten ağının yapısı pişirme sırasında değişir.",
+      "bilgiler": [
+        "protein_pihtilasmasi.gluten_disulfit_capraz_bag",
+        "disulfit.90c_ye_kadar_gliadin_glutenin_baglanmasi"
+      ]
+    }
+  ],
+  "karakterler": [
+    "nisasta",
+    "gluten"
+  ],
+  "ayrisan_kaynaklar": [
+    {
+      "konu": "Nişasta jelleşmesi hangi sıcaklıkta başlar?",
+      "bilgiler": [
+        "protein_pihtilasmasi.protein_50_derecede_nisasta_60_derecede",
+        "jelesme.60_85_derece_hamurdan_ice",
+        "jelesme.kirk_bes_derecede_baslangic_yetmiste_tepe_viskozite",
+        "jelesme.nisasta_65_derecede_jellesir_amilaz_75",
+        "jelesme.artan_su_hacim_payiyla_dusuk_sicaklikta_jelesme"
+      ]
+    },
+    {
+      "konu": "Protein polimerleşmesi hangi sıcaklıkta başlar?",
+      "bilgiler": [
+        "protein_pihtilasmasi.77_derecede_polimerizasyon_baslangici",
+        "protein_pihtilasmasi.polimerlesme_baslangic_65_70c",
+        "protein_pihtilasmasi.mayali_hamurda_70_derece_uzeri_polimerizasyon_sinirlidir",
+        "protein_pihtilasmasi.mayali_hamurda_80_derece_uzeri_polimerizasyon_siniri"
+      ]
+    }
+  ]
+}

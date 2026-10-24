@@ -1,0 +1,426 @@
+{
+  "id": "kuf",
+  "ad": "Küf",
+  "bilgiler": [
+    {
+      "id": "kuf.eksi_maya_kuf_hizini_dusurur_atif",
+      "metin": "Ekşi maya kullanımının küflerin üreme hızını düşürdüğü ve böylece unlu mamullerin raf ömrünü uzattığı bildirilmiştir.",
+      "kosul": "",
+      "kanit": "ikincil",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods10010076",
+          "yer": "1. Introduction"
+        },
+        {
+          "kaynak": "10.3390/microorganisms8010064",
+          "yer": "3.4. Antifungal activity"
+        },
+        {
+          "kaynak": "10.1016/j.foodcont.2008.03.005",
+          "yer": "Introduction"
+        },
+        {
+          "kaynak": "10.1016/j.ijfoodmicro.2020.108551",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "kuf.karisik_eksi_maya_ekmegi_daha_dayanikli",
+      "metin": "Evde saklama denemesinde karışık tip ekşi maya ekmeği 10 gün boyunca buğday kalıp ekmeğinden daha dayanıklı çıktı: hiçbir saklama yönteminde 10. güne kadar görünür küf olmadı, yalnız plastik torbada 10. ya da 13. günden sonra bozuldu.",
+      "kosul": "Almanya (Freising), yerel fırından ekmekler; karışık tip ekşi maya ekmeği (çavdar:buğday 70:30, ekşi maya + Saccharomyces cerevisiae) ve buğday kalıp ekmeği (buğday unu, su, tuz, maya); evde saklama 10 gün, açık uçtan her gün dilim kesilerek; plastik torba (LDPE) 21,9 °C.",
+      "kanit": "tek_kaynak",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods10010076",
+          "yer": "3.2. Microbial Stability of Breads under Different Storage Conditions"
+        },
+        {
+          "kaynak": "10.3390/foods10010076",
+          "yer": "3.2. Microbial Stability of Breads under Different Storage Conditions"
+        }
+      ]
+    },
+    {
+      "id": "kuf.buzdolabi_8_derece",
+      "metin": "Aynı plastik torbada 8 °C'de (buzdolabı) 10 gün saklanan buğday ekmeğinde, torba içi nem oda sıcaklığındakine benzer olduğu halde ne gözle ne plaka sayımıyla küf üremesi saptandı.",
+      "kosul": "Almanya, yerel fırından buğday kalıp ekmeği (buğday unu, su, tuz, maya); plastik torba (LDPE), 8,2 °C (buzdolabı); 10 gün.",
+      "kanit": "tek_kaynak",
+      "bolum": "Hangi koşulda",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods10010076",
+          "yer": "3.2. Microbial Stability of Breads under Different Storage Conditions"
+        }
+      ]
+    },
+    {
+      "id": "kuf.ekmegin_yuksek_nem_ve_nisasta_icerigi_kuflenme",
+      "metin": "Makale, ekmeğin yüksek nem ve nişasta içeriğinin onu mantar kontaminasyonuna duyarlı hale getirdiğini, en yaygın cinsler arasında Aspergillus, Penicillium ve Fusarium bulunduğunu önceki çalışmalara dayanarak aktarmaktadır.",
+      "kosul": "Literatür aktarımı (ekmek yapısı ve baskın küf cinsleri); makalenin kendi ölçümü değildir.",
+      "kanit": "ikincil",
+      "bolum": "Hangi koşulda",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods14071253",
+          "yer": "1. Introduction"
+        }
+      ]
+    },
+    {
+      "id": "kuf.plastik_torba_oda_sicakligi",
+      "metin": "Oda sıcaklığında plastik torbada saklanan buğday kalıp ekmeğinde görünür küf 4. ya da 5. günde başladı; torbadaki çok nemli hava (%89,9 bağıl nem) küf üremesini belirgin biçimde hızlandırdı.",
+      "kosul": "Almanya, yerel fırından buğday kalıp ekmeği (buğday unu, su, tuz, maya); plastik torba (LDPE), 21,9 °C; açık uçtan her gün dilim kesilerek.",
+      "kanit": "tek_kaynak",
+      "bolum": "Hangi koşulda",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods10010076",
+          "yer": "3.2. Microbial Stability of Breads under Different Storage Conditions"
+        },
+        {
+          "kaynak": "10.3390/foods10010076",
+          "yer": "3.2. Microbial Stability of Breads under Different Storage Conditions"
+        }
+      ]
+    },
+    {
+      "id": "kuf.su_aktivitesi_belirleyici",
+      "metin": "Ekmeğin su içeriği bayatlamayı etkiler ama bozulmayı belirlemez; bozulmada belirleyici etken su aktivitesidir.",
+      "kosul": "",
+      "kanit": "tek_kaynak",
+      "bolum": "Hangi koşulda",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods10010076",
+          "yer": "3.1. Initial Bread Characteristics"
+        }
+      ]
+    },
+    {
+      "id": "kuf.en_sik_bozulma",
+      "metin": "Makaleler, ekmeğin mikrobiyal bozulmasında en sık nedenin küf gelişimi olduğunu önceki çalışmalara dayanarak aktarmaktadır.",
+      "kosul": "Literatür aktarımı ve giriş cümleleri (ekmek ve unlu mamul bozulması); makalelerin kendi ölçümü değildir.",
+      "kanit": "tek_kaynak",
+      "bolum": "Kimlik",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/fermentation4010009",
+          "yer": "3.1.2. Bread Spoilage"
+        },
+        {
+          "kaynak": "10.1016/j.foodcont.2008.03.005",
+          "yer": "Introduction"
+        },
+        {
+          "kaynak": "10.1016/j.foodcont.2008.03.005",
+          "yer": "Discussion"
+        },
+        {
+          "kaynak": "10.1016/j.jcs.2006.09.004",
+          "yer": "Introduction"
+        },
+        {
+          "kaynak": "10.3390/foods13152318",
+          "yer": "3.2. Physicochemical Characteristics and Antifungal Activity of the Aqueous Extracts"
+        },
+        {
+          "kaynak": "10.3389/fmicb.2021.678406",
+          "yer": "Abstract"
+        }
+      ]
+    },
+    {
+      "id": "kuf.penicillium_bugday_ekmegi",
+      "metin": "Buğday ekmeğinde en sık görülen küf Penicillium türleridir; ekmek üzerinde mavi-yeşil, düz ve oldukça yavaş yayılan koloniler oluştururlar.",
+      "kosul": "Derleme; tablo 1 (ekmeğin mikrobiyal bozulmasında başlıca etkenler).",
+      "kanit": "ikincil",
+      "bolum": "Kimlik",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/fermentation4010009",
+          "yer": "3.1.2. Bread Spoilage"
+        },
+        {
+          "kaynak": "10.3390/fermentation4010009",
+          "yer": "Table 1. Major causative agents of bread microbial spoilage"
+        }
+      ]
+    },
+    {
+      "id": "kuf.bulasma_pisirmeden_sonra",
+      "metin": "Makaleler, küfün ekmeğe çoğunlukla pişirmeden sonra bulaştığını, soğuma, dilimleme, paketleme ve saklama sırasında havadan, makinelerden, çalışanlardan, tüketiciden ya da saklama ortamından geldiğini önceki çalışmalara dayanarak aktarmaktadır.",
+      "kosul": "Literatür aktarımı (ekmekte küf bulaşması, fırın ortamı steril değil); makalelerin kendi ölçümü değildir.",
+      "kanit": "ikincil",
+      "bolum": "Nereden gelir",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/fermentation4010009",
+          "yer": "3.1.2. Bread Spoilage"
+        },
+        {
+          "kaynak": "10.3390/foods10010076",
+          "yer": "1. Introduction"
+        },
+        {
+          "kaynak": "10.3390/microorganisms9081633",
+          "yer": "4. Discussion"
+        }
+      ]
+    },
+    {
+      "id": "kuf.firindan_cikan_ekmek_kufsuz",
+      "metin": "Derlemelere göre fırından yeni çıkan ekmekte küf ve küf sporu bulunmaz; pişirme ısısının onları etkisiz bıraktığı genel olarak kabul edilir.",
+      "kosul": "",
+      "kanit": "ikincil",
+      "bolum": "Nereden gelir",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/fermentation4010009",
+          "yer": "3.1.2. Bread Spoilage"
+        },
+        {
+          "kaynak": "10.3390/foods10010076",
+          "yer": "1. Introduction"
+        }
+      ]
+    },
+    {
+      "id": "kuf.op1_eksi_mayali_ekmekte_28_gunde_kuf_orani",
+      "metin": "Bu çalışmada 28 günlük soğuk depolamanın ardından, ekşi mayalı OP1 ekmeklerinin yalnızca %30'unun yüzeyinde küf gelişimi saptandı.",
+      "kosul": "4 °C depolama, OP1 ekşi mayalı ekmek",
+      "kanit": "tek_kaynak",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods13152318",
+          "yer": "3.5. Antifungal Activity of Sourdough Fermented with Optimized Mixtures"
+        }
+      ]
+    },
+    {
+      "id": "kuf.organik_asitlerle_kuf_bozulmasi_14_gun_sonraya_gecikir",
+      "metin": "Oda sıcaklığında saklanan ekmeklerde küf bozulmasının ancak 14. günden sonra ortaya çıktığı ve bunun başta asetik asit olmak üzere organik asitlere bağlandığı aktarılır.",
+      "kosul": "Oda sıcaklığında ekmek saklama (Mantzourani vd. 2019 aktarımı).",
+      "kanit": "ikincil",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.4322/biori.202203",
+          "yer": "Technological characteristics in the use of type III sourdough"
+        }
+      ]
+    },
+    {
+      "id": "kuf.bagil_nem_90_alti",
+      "metin": "Bir derlemeye göre ortam havasının bağıl nemi %90'ın altındayken küfler ekmekte üremez; oysa Almanya'da yapılan bir evde saklama denemesinde oda sıcaklığında iç nemi %89,9 olan plastik torbada ve %89,0 olan ekmek kutusunda buğday ekmeği 4–6 gün içinde küflendi.",
+      "kosul": "Bir taraf: derleme, koşul belirtilmemiş. Öbür taraf: Almanya (Freising), yerel fırından buğday kalıp ekmeği; LDPE plastik torba 21,9 °C ve metal ekmek kutusu 22,0 °C; kap içi nem kayıt cihazıyla sürekli ölçüldü.",
+      "kanit": "tartismali",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/fermentation4010009",
+          "yer": "3.1.2. Bread Spoilage"
+        },
+        {
+          "kaynak": "10.3390/foods10010076",
+          "yer": "3.2. Microbial Stability of Breads under Different Storage Conditions"
+        },
+        {
+          "kaynak": "10.3390/foods10010076",
+          "yer": "3.2. Microbial Stability of Breads under Different Storage Conditions"
+        },
+        {
+          "kaynak": "10.3390/foods10010076",
+          "yer": "3.2. Microbial Stability of Breads under Different Storage Conditions"
+        },
+        {
+          "kaynak": "10.3390/foods10010076",
+          "yer": "3.2. Microbial Stability of Breads under Different Storage Conditions"
+        }
+      ]
+    },
+    {
+      "id": "kuf.dusuk_ph_tek_basina_kufu_engellemez",
+      "metin": "Küf bozulması, ekşi mayalı ekmeğe özgü düşük pH değerlerinden (4,8–6,0) doğrudan etkilenmez.",
+      "kosul": "Ekşi mayalı ekmek pH aralığı (4,8–6,0)",
+      "kanit": "ikincil",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.ijfoodmicro.2020.108551",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "kuf.ekmek_bilesimi_kufe_elverisli",
+      "metin": "Ekmeğin kendi bileşimi (yaklaşık %40 su, pH 5,5–6,0 ve 0,94–0,97 su aktivitesi) küf üremesini kolaylaştırır.",
+      "kosul": "",
+      "kanit": "ikincil",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods10010076",
+          "yer": "1. Introduction"
+        },
+        {
+          "kaynak": "10.1016/j.ijfoodmicro.2018.09.007",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "kuf.ekmek_kutusu",
+      "metin": "Metal ekmek kutusunda buğday ekmeğinde ilk görünür miselyum 4., 5. ya da 6. günde çıktı; küf çoğunlukla altta hava dolaşımının kısıtlı olduğu ve nemin en çok biriktiği yüzeyde üredi.",
+      "kosul": "Almanya, yerel fırından buğday kalıp ekmeği (buğday unu, su, tuz, maya); metal ekmek kutusu, 22,0 °C.",
+      "kanit": "tek_kaynak",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods10010076",
+          "yer": "3.2. Microbial Stability of Breads under Different Storage Conditions"
+        },
+        {
+          "kaynak": "10.3390/foods10010076",
+          "yer": "3.2. Microbial Stability of Breads under Different Storage Conditions"
+        }
+      ]
+    },
+    {
+      "id": "kuf.kabukta_baslar",
+      "metin": "Plastik torbadaki buğday ekmeğinde küf kabukta üredi; ekmek içinde 10. güne kadar miselyum görülmedi.",
+      "kosul": "Almanya, yerel fırından buğday kalıp ekmeği (buğday unu, su, tuz, maya); plastik torba (LDPE), 21,9 °C; havaya açık dilim yüzeyi her 24 saatte bir kesilerek yenilendi.",
+      "kanit": "tek_kaynak",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods10010076",
+          "yer": "3.2. Microbial Stability of Breads under Different Storage Conditions"
+        }
+      ]
+    },
+    {
+      "id": "kuf.kagit_torba",
+      "metin": "Kâğıt torbada saklanan buğday ekmeğinde miselyum 5. ya da 6. günden itibaren görülebildi.",
+      "kosul": "Almanya, yerel fırından buğday kalıp ekmeği (buğday unu, su, tuz, maya); iç yüzü polietilen kaplı, mikro delikli kâğıt torba, 21,3 °C.",
+      "kanit": "tek_kaynak",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods10010076",
+          "yer": "3.2. Microbial Stability of Breads under Different Storage Conditions"
+        }
+      ]
+    },
+    {
+      "id": "kuf.kuf_engellemede_eksi_maya_orani",
+      "metin": "Ekmek yapımında bakteriyel bozulmayı önlemek için %10 ekşi maya yeterliyken, küf bozulmasını engellemek için bu oranın %15–20'ye çıkarılması gerekir.",
+      "kosul": "Ekmek yapımında ekşi maya ilavesi",
+      "kanit": "ikincil",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/pr9112008",
+          "yer": ""
+        }
+      ]
+    },
+    {
+      "id": "kuf.soguk_depolamada_kontrol_ekmeginde_kuf_gelisimi",
+      "metin": "Soğukta depolanan kısmen pişmiş kontrol ekmeğinde 14 gün sonra %50, 21 gün sonra ise %100 oranında yüzeyde belirgin küf gelişimi gözlenmiştir.",
+      "kosul": "4 °C soğuk depolama, kısmen pişmiş kontrol ekmeği",
+      "kanit": "tek_kaynak",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods13152318",
+          "yer": "3.5. Antifungal Activity of Sourdough Fermented with Optimized Mixtures"
+        }
+      ]
+    },
+    {
+      "id": "kuf.plaka_sayimi_gozden_once",
+      "metin": "Plaka sayımı küfü gözle görünür hale gelmeden önce saptadı; gözle kontrol, ekmekteki mikrobiyal üremeyi saptamada plaka sayımından daha az duyarlı çıktı.",
+      "kosul": "Almanya (Freising), yerel fırından buğday kalıp ekmeği ve karışık tip ekşi maya ekmeği (çavdar:buğday 70:30); evde saklama 10 gün.",
+      "kanit": "tek_kaynak",
+      "bolum": "Nasıl ölçülür",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods10010076",
+          "yer": "3.2. Microbial Stability of Breads under Different Storage Conditions"
+        },
+        {
+          "kaynak": "10.3390/foods10010076",
+          "yer": "3.2. Microbial Stability of Breads under Different Storage Conditions"
+        }
+      ]
+    },
+    {
+      "id": "kuf.capraz_bulasma_saklamada",
+      "metin": "Plastik torbada küflü bir buğday dilimiyle birlikte saklanan karışık tip ekşi maya ekmeğine 4–5 gün içinde küf bulaştı.",
+      "kosul": "Almanya, yerel fırından karışık tip ekşi maya ekmeği (çavdar:buğday 70:30, ekşi maya + Saccharomyces cerevisiae); oda sıcaklığında plastik torba, içinde küflü buğday dilimi.",
+      "kanit": "tek_kaynak",
+      "bolum": "Nereden gelir",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods10010076",
+          "yer": "3.2. Microbial Stability of Breads under Different Storage Conditions"
+        }
+      ]
+    },
+    {
+      "id": "kuf.su_aktivitesi_tanimi",
+      "metin": "Su aktivitesi, bir maddenin üzerindeki su buharı basıncının, aynı sıcaklık ve basınçta saf suyun üzerindeki buhar basıncına oranıdır.",
+      "kosul": "",
+      "kanit": "tek_kaynak",
+      "bolum": "Tanım",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods10010076",
+          "yer": "3.1. Initial Bread Characteristics"
+        }
+      ]
+    },
+    {
+      "id": "kuf.asidik_kosullarda_organik_asit_sinerjisi_hipotezi",
+      "metin": "Makale, başka yazarların asidik koşullarda küf engellemesinden organik asitlerin sinerjik etkilerinin sorumlu olduğunu varsaydığını aktarmaktadır [40].",
+      "kosul": "Literatür aktarımı (asidik koşullarda küf inhibisyonu); hipotez makalenin kendisine ait değildir, kaynak [40].",
+      "kanit": "ikincil",
+      "bolum": "İlişkileri",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/microorganisms9081633",
+          "yer": "4. Discussion"
+        }
+      ]
+    }
+  ]
+}

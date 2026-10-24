@@ -1,0 +1,434 @@
+{
+  "id": "rekabet",
+  "ad": "Rekabet",
+  "bilgiler": [
+    {
+      "id": "rekabet.ekosistemde_tur_kaliciligini_etkileyen_etmenler",
+      "metin": "Ekşi mayadaki tipik tür ve suş birlikteliklerinin kalıcılığına birkaç etmen karışabilir: ekşi mayanın stres koşullarına metabolik uyum yeteneği, mikroorganizmalar arasındaki besinsel ve antagonistik etkileşimler, mikroorganizmaların içsel direnci ve istikrarlı bir fırün içi (house) mikrobiyotasının varlığı.",
+      "kosul": "ekşi maya ekosistemi",
+      "kanit": "tek_kaynak",
+      "bolum": "Hangi koşulda",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.ijfoodmicro.2013.11.021",
+          "yer": "Abstract"
+        }
+      ]
+    },
+    {
+      "id": "rekabet.laktobasil_rekabet_ozellikleri_ve_surec_etkisi",
+      "metin": "Laktobasillerin ekşi mayadaki rekabet gücü türe ve suşa özgüdür; maltoz ve sükroz kullanımı, elektron alıcıları ve asit direnci gibi metabolik özellikler ile pH ve sıcaklığa bağlı büyüme hızı tarafından belirlenir.",
+      "kosul": "ekşi mayada laktobasillerin rekabeti",
+      "kanit": "ikincil",
+      "bolum": "Hangi koşulda",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.ijfoodmicro.2016.05.025",
+          "yer": "Introduction"
+        },
+        {
+          "kaynak": "10.1016/j.ijfoodmicro.2016.05.025",
+          "yer": "Introduction"
+        },
+        {
+          "kaynak": "10.1016/j.ijfoodmicro.2016.05.025",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "rekabet.uzun_sureli_yenilemede_ekolojik_secilim",
+      "metin": "Uzun süre yenilenen ekşi mayaların mikrobiyotası, ekolojik uyumu daha düşük bulaşanlara karşı rekabet gücü en yüksek uyumlu mikroorganizmaların seçilimiyle şekillenir.",
+      "kosul": "uzun süreli ekşi maya yenilemesi",
+      "kanit": "tek_kaynak",
+      "bolum": "Hangi koşulda",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.ijfoodmicro.2016.05.004",
+          "yer": "Abstract"
+        },
+        {
+          "kaynak": "10.1016/j.ijfoodmicro.2016.05.004",
+          "yer": "Selection and ecological fitness"
+        },
+        {
+          "kaynak": "10.1016/j.ijfoodmicro.2018.08.019",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "rekabet.tur_sayisi",
+      "metin": "Düzenli yenilenen bir ekşi mayanın genellikle en fazla üç laktik asit bakterisi türü ve bir–iki maya türü barındırdığı aktarılır.",
+      "kosul": "",
+      "kanit": "ikincil",
+      "bolum": "Ortak özellikler",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3389/fmicb.2020.01212",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "rekabet.asit_dislar",
+      "metin": "Bir laboratuvar besiyeri çalışmasının yorumuna ve literatür derlemelerine göre, laktik asit bakterilerinin ürettiği asitler ve düşürdükleri pH, aside dayanıksız bakterilerin ekşi mayada tutunmasını zorlaştırabilir.",
+      "kosul": "Birincil veri: WSSM besiyerinde alt kültürler (Bacillus düşük pH'ta görülmedi).",
+      "kanit": "tek_kaynak",
+      "bolum": "İlişkileri",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.7717/peerj.16163",
+          "yer": "Introduction"
+        },
+        {
+          "kaynak": "10.7717/peerj.11389",
+          "yer": "Microbial Ecology: Bacteria"
+        },
+        {
+          "kaynak": "10.12938/bmfh.2019-038",
+          "yer": "DISCUSSION"
+        },
+        {
+          "kaynak": "10.1590/0001-3765202220220091",
+          "yer": "Microbial community dynamic in sourdoughs with organic or conventional flours during fermentation"
+        }
+      ]
+    },
+    {
+      "id": "rekabet.bakteriyosin",
+      "metin": "Laktik asit bakterilerinin bakteriyosinler ve mantar karşıtı peptitler üreterek başka mikropların büyümesini engelleyebildiği aktarılır.",
+      "kosul": "Derleme ve giriş aktarımları (De Vuyst ve Leroy 2007; Vogel vd. 2011'in 47–49 numaralı kaynakları); ekşi mayaya özgü ölçüm yok.",
+      "kanit": "ikincil",
+      "bolum": "İlişkileri",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.7717/peerj.11389",
+          "yer": "Microbial Ecology: Bacteria"
+        },
+        {
+          "kaynak": "10.1186/1475-2859-10-s1-s6",
+          "yer": "Bacteriocins"
+        }
+      ]
+    },
+    {
+      "id": "rekabet.khumilis_ve_lab_ortak_kulturunde_rekabetci_etkilesim",
+      "metin": "Kazachstania humilis'in laktik asit bakterileriyle ortak kültürde bir popülasyon avantajı sağlamaması ve büyümelerini anlamlı ölçüde etkilememesi, ekşi mayada mikrobiyal bir arada yaşamanın katı bir mutualizmden ziyade rekabetçi etkileşimlerle yönetildiği görüşünü destekler.",
+      "kosul": "Ekşi mayada K. humilis ve LAB ortak kültürü",
+      "kanit": "ikincil",
+      "bolum": "İlişkileri",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods15101745",
+          "yer": "3.3. Changes in Yeast and LAB Counts During Fermentation"
+        }
+      ]
+    },
+    {
+      "id": "rekabet.maltoz_negatif_mayalarin_lab_ile_kararli_birlikteligi",
+      "metin": "Maltoz-negatif mayalar, karbon kaynağı için rekabet bulunmaması sayesinde ekşi mayalarda laktik asit bakterileriyle daha kararlı topluluklar oluşturabilir.",
+      "kosul": "Karbon kaynağı rekabeti olmaması (De Vuyst ve Neysens 2005; Venturi vd. 2012 aktarımı)",
+      "kanit": "ikincil",
+      "bolum": "İlişkileri",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1007/s11274-021-03027-0",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "rekabet.maya_kokulturde_azalir",
+      "metin": "Bir çalışmada laboratuvar buğday hamurunda denenen her maya suşu, laktik asit bakterileriyle birlikteyken tek başına olduğundan anlamlı ölçüde daha düşük yoğunluğa ulaştı (ortalama 1,87 kat düşüş); bu, maltozu kullanabilen ve kullanamayan mayaların ikisi için de geçerliydi.",
+      "kosul": "Laboratuvar buğday ekşi hamuru; 28 °C; 24 saatte KOB sayımı; denenen tüm maya–bakteri birleşimleri; Fransız ekşi maya izolatları.",
+      "kanit": "tek_kaynak",
+      "bolum": "İlişkileri",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/microorganisms8020240",
+          "yer": "Results 3.2.1"
+        },
+        {
+          "kaynak": "10.3390/microorganisms8020240",
+          "yer": "Results 3.2.1"
+        }
+      ]
+    },
+    {
+      "id": "rekabet.scer_fsan",
+      "metin": "Saccharomyces cerevisiae ile Fructilactobacillus sanfranciscensis'in aynı ekşi mayada birbirini dışlayıp dışlamadığı kaynaklar arasında tartışmalıdır.",
+      "kosul": "Bir taraf: 500 ekşi maya (çoğu ev ekşi mayası), amplikon birlikte bulunma analizi. Öbür taraf: Belçika, Fransa, Birleşik Krallık ve ABD'den 17 ekşi maya.",
+      "kanit": "tartismali",
+      "bolum": "İlişkileri",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.7554/elife.61644",
+          "yer": "Results – Diversity of sourdough starters"
+        },
+        {
+          "kaynak": "10.7554/elife.61644",
+          "yer": "Results – Ecological distributions of sourdough microbes are structured by biotic interactions"
+        },
+        {
+          "kaynak": "10.3389/fmicb.2020.01212",
+          "yer": "Discussion"
+        }
+      ]
+    },
+    {
+      "id": "rekabet.disaridan_gelen_mikroplarin_tutunmasi",
+      "metin": "Malzemelerden fermente olan hamura geçen mikroorganizmaların hayatta kalabilmesi, ekşi maya ekosisteminin zorlu koşullarında mevcut mikrobiyal türlerin suşlarına karşı rekabet edebilirliklerine bağlıdır.",
+      "kosul": "un dışı malzemelerle ekşi maya fermantasyonu",
+      "kanit": "tek_kaynak",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1080/10408398.2021.1976100",
+          "yer": "Conclusions"
+        }
+      ]
+    },
+    {
+      "id": "rekabet.ayni_eksi_maya_suslari",
+      "metin": "Bir çalışmada laktik asit bakterilerinin mayalar üzerindeki olumsuz etkisi, aynı ekşi mayadan birlikte ayrılmış suşlar arasında bile görüldü.",
+      "kosul": "Laboratuvar buğday ekşi hamuru; 28 °C; aynı Fransız ekşi mayasından (B5) ayrılmış suşlar.",
+      "kanit": "tek_kaynak",
+      "bolum": "İlişkileri",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/microorganisms8020240",
+          "yer": "Discussion"
+        }
+      ]
+    },
+    {
+      "id": "rekabet.capraz_krallik_birlikte",
+      "metin": "Sekiz izolatla yapılan laboratuvar rekabet deneylerinde maya–bakteri çiftleri yarı yarıya (16 çiftin 8'inde) birlikte kaldı, aynı krallıktan çiftler ise 12'nin yalnız 3'ünde birlikte kaldı.",
+      "kosul": "8 izolat; tahıl bazlı sıvı fermantasyon besiyeri (CBFM); ikili rekabet; 24 °C'de 48 saatlik altı aktarım.",
+      "kanit": "tek_kaynak",
+      "bolum": "İlişkileri",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.7554/elife.61644",
+          "yer": "Results – Ecological distributions of sourdough microbes are structured by biotic interactions"
+        }
+      ]
+    },
+    {
+      "id": "rekabet.co2_anaeroblar",
+      "metin": "Mayaların ürettiği karbondioksitin zorunlu anaerobları dezavantajlı duruma düşürerek ekşi mayaya yeni mikropların yerleşmesini zorlaştırdığı aktarılır.",
+      "kosul": "",
+      "kanit": "ikincil",
+      "bolum": "İlişkileri",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.7717/peerj.16163",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "rekabet.fsan_bakteriyosin_yok",
+      "metin": "Fructilactobacillus sanfranciscensis TMW 1.1304 genomunda işleyen bir bakteriyosin geni yoktur (yalnız iki kısaltılmış papA benzeri gen bulundu), bu yüzden türün uzun süreli rekabet gücü bakteriyosin üretimiyle açıklanamaz; yazarlar, yüksek rRNA operon yoğunluğunun türün uygun koşullara hızla yanıt verip bulaşan bakterileri geride bırakmasına yardım edebileceğini öne sürer.",
+      "kosul": "TMW 1.1304 suşu, genom analizi; ikinci kısım yazarların varsayımı.",
+      "kanit": "tek_kaynak",
+      "bolum": "İlişkileri",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1186/1475-2859-10-s1-s6",
+          "yer": "Bacteriocins"
+        },
+        {
+          "kaynak": "10.1186/1475-2859-10-s1-s6",
+          "yer": "Stable RNA gene density and codon usage bias"
+        }
+      ]
+    },
+    {
+      "id": "rekabet.fsan_baskin_dislar",
+      "metin": "500 ekşi mayalık bir taramada Fructilactobacillus sanfranciscensis bulunduğu ekşi mayaların çoğunda baskın bakteriydi ve yaygın türler olan Lactiplantibacillus plantarum ve Levilactobacillus brevis ile ters yönde ilişkiliydi.",
+      "kosul": "500 ekşi maya (çoğu ev ekşi mayası); birlikte bulunma analizi.",
+      "kanit": "tek_kaynak",
+      "bolum": "İlişkileri",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.7554/elife.61644",
+          "yer": "Results – Diversity of sourdough starters"
+        }
+      ]
+    },
+    {
+      "id": "rekabet.fsan_khumilis_uyumunu_ve_canliligini_baskilar",
+      "metin": "Bu çalışmada Fructilactobacillus sanfranciscensis suşları maya uyumunu engelleme yeteneğinde farklılık gösterdi; Kazachstania humilis'in ortak kültürdeki canlı hücre sayısı tek başına büyümeye göre Aus_KbB1 suşuyla yaklaşık 1 log basamağı daha düşüktü.",
+      "kosul": "WSSM ortamında sentetik ekşi maya ortak kültürü",
+      "kanit": "tek_kaynak",
+      "bolum": "İlişkileri",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1128/aem.01030-26",
+          "yer": "Abstract"
+        },
+        {
+          "kaynak": "10.1128/aem.01030-26",
+          "yer": "Results"
+        },
+        {
+          "kaynak": "10.1128/aem.01030-26",
+          "yer": "Results"
+        }
+      ]
+    },
+    {
+      "id": "rekabet.krallik_ici_iliskiler",
+      "metin": "500 ekşi mayada bulunan 16 anlamlı birlikte bulunma ilişkisinin 14'ü aynı krallık içindedir (bakteri–bakteri ya da maya–maya); bakteri ile maya arasındaki yalnız iki ilişki vardır: S. cerevisiae–F. sanfranciscensis (negatif) ve Kazachstania servazzii–Pediococcus damnosus (pozitif).",
+      "kosul": "500 ekşi maya (çoğu ev ekşi mayası); amplikon birlikte bulunma analizi.",
+      "kanit": "tek_kaynak",
+      "bolum": "İlişkileri",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.7554/elife.61644",
+          "yer": "Results – Ecological distributions of sourdough microbes are structured by biotic interactions"
+        }
+      ]
+    },
+    {
+      "id": "rekabet.pediococcus_negatif",
+      "metin": "40 ekşi mayalık bir çalışmada olgun ekşi mayalarda Pediococcus'un göreli bolluğu diğer Lactobacillaceae cinsleriyle (Companilactobacillus, Latilactobacillus, Lactiplantibacillus, Levilactobacillus, Loigolactobacillus) ters yönde ilişkiliydi; yazarlar bunun olası bir besin rekabetine işaret edebileceğini önerir.",
+      "kosul": "10 un türünden 40 kendiliğinden ekşi maya; oda sıcaklığı; günlük besleme (1 yemek kaşığı atılıp 1 yemek kaşığı un + 1 yemek kaşığı su eklenerek); 14. gün; 16S rRNA dizilemesi.",
+      "kanit": "tek_kaynak",
+      "bolum": "İlişkileri",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.7717/peerj.16163",
+          "yer": "Discussion, Mature starters"
+        }
+      ]
+    },
+    {
+      "id": "rekabet.ph_aciklamaz",
+      "metin": "Bir çalışmada laktik asit bakterileriyle birlikte mayaların azalması yalnız hamur pH'ıyla açıklanamadı: Kazachstania humilis içeren ortak kültür hamurlarının %58'inde pH 4'ün üzerindeydi ve 24 saatteki maya sayısıyla hamur pH'ı arasında anlamlı ilişki saptanmadı.",
+      "kosul": "Laboratuvar buğday ekşi hamuru; 28 °C; 24 saat; K. humilis ortak kültürlü 48 hamur.",
+      "kanit": "tek_kaynak",
+      "bolum": "İlişkileri",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/microorganisms8020240",
+          "yer": "Results 3.2.1"
+        },
+        {
+          "kaynak": "10.3390/microorganisms8020240",
+          "yer": "Results 3.2.1"
+        }
+      ]
+    },
+    {
+      "id": "rekabet.allelokimyasal",
+      "metin": "Mayaların ekşi mayada hayatta kalmak için başka mikropları engelleyen maddeler (allelokimyasallar) üreterek rekabet ettiği aktarılır.",
+      "kosul": "",
+      "kanit": "ikincil",
+      "bolum": "İlişkileri",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.7717/peerj.11389",
+          "yer": "Microbial Ecology: Yeast"
+        }
+      ]
+    },
+    {
+      "id": "rekabet.aminoasit_yollari",
+      "metin": "Amino asit transaminasyonunun ve/veya arginin deiminaz yolunun enerji üretimini, kofaktör geri dönüşümünü ve/veya asit stresine dayanıklılığı desteklediği ve bunun bazı ekşi maya laktik asit bakterisi türlerinin baskınlığına katkıda bulunduğu aktarılır.",
+      "kosul": "İtalya'daki 19 ekşi mayalık çalışmanın tartışmasındaki aktarım.",
+      "kanit": "ikincil",
+      "bolum": "İlişkileri",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1128/aem.07721-11",
+          "yer": "Discussion"
+        },
+        {
+          "kaynak": "10.1016/j.fm.2009.07.012",
+          "yer": "Abstract"
+        }
+      ]
+    },
+    {
+      "id": "rekabet.glukan_mutant_rekabet",
+      "metin": "Bir çalışmada ekşi mayada ortak kültürde beta-glukan üretemeyen mutant suşların sayısı yabanıl tiplerden düşük kaldı; Pediococcus claussenii mutantı Lactiplantibacillus plantarum tarafından neredeyse tümüyle yerinden edildi.",
+      "kosul": "Ekşi mayada ortak kültür; L. brevis TMW 1.2112 ve P. claussenii TMW 2.340 ile glukan üretmeyen mutantları.",
+      "kanit": "tek_kaynak",
+      "bolum": "İlişkileri",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods10030547",
+          "yer": "4. Discussion"
+        }
+      ]
+    },
+    {
+      "id": "rekabet.kalicilik_siklik",
+      "metin": "Bir çalışmada sekiz taksonun laboratuvardaki ikili rekabetlerde kalıcı olabilmesiyle ekşi mayalarda ne sıklıkla bulunduğu arasında anlamlı ilişki saptanmadı.",
+      "kosul": "8 izolat; ikili rekabet (tahıl bazlı sıvı besiyeri) ile 500 ekşi maya amplikon verisindeki sıklık karşılaştırması.",
+      "kanit": "tek_kaynak",
+      "bolum": "İlişkileri",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.7554/elife.61644",
+          "yer": "Results – Ecological distributions of sourdough microbes are structured by biotic interactions"
+        }
+      ]
+    },
+    {
+      "id": "rekabet.maya_laktati_dusurur",
+      "metin": "Laboratuvar buğday hamurunda iki maya suşuyla birlikteyken bir Fructilactobacillus sanfranciscensis suşunun ürettiği laktat tek başına olduğundan daha düşüktü; yani bu çiftlerde maya bakterinin laktik asit üretimini olumsuz etkiledi.",
+      "kosul": "Laboratuvar buğday ekşi hamuru; 6 saat; ortak kültürler bB5-sf/yB6-15 (K. humilis) ve bB5-sf/yB10F-9 (S. cerevisiae).",
+      "kanit": "tek_kaynak",
+      "bolum": "İlişkileri",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/microorganisms8020240",
+          "yer": "Results 3.4"
+        }
+      ]
+    },
+    {
+      "id": "rekabet.tek_basina_buyume",
+      "metin": "Sekiz izolatla yapılan laboratuvar deneylerinde tek başına daha yüksek yoğunluğa ulaşan izolatlar ikili rekabetlerin daha çoğunda varlığını sürdürdü.",
+      "kosul": "8 izolat; tahıl bazlı sıvı fermantasyon besiyeri; 24 °C'de 48 saatlik altı aktarım.",
+      "kanit": "tek_kaynak",
+      "bolum": "İlişkileri",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.7554/elife.61644",
+          "yer": "Results – Ecological distributions of sourdough microbes are structured by biotic interactions"
+        }
+      ]
+    }
+  ]
+}

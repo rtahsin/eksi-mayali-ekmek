@@ -1,0 +1,383 @@
+{
+  "id": "eksi_mayanin_ilk_10_gunu",
+  "durak": "eksi_maya",
+  "baslik": "Ekşi mayanın ilk 10 günü",
+  "soru": "Un ve sudan nasıl canlı bir maya doğar?",
+  "bayrak": true,
+  "gor": {
+    "tur": "kaydirma",
+    "adimlar": [
+      {
+        "metin": "Ekşi mayaların bakteri ve mantar toplulukları fırıncıların ellerinden, fırın tozundan ya da sudan çok una benziyordu [[kaynak.maya_una_en_benzer]]. İlk günün bakteri bileşimini un ve diğer girdilerle gelen bakteriler belirler [[kaynak.ilk_gun_unla_gelen_bakteriler]]. Pantoea ve bilinmeyen bir Enterobacteriaceae cinsi hem unda hem birinci gün mayasında baskındı [[kaynak.ilk_gun_unla_gelen_bakteriler]].",
+        "gorsel": "mixing_sourdough_starter_into_the_flour",
+        "vurgu": "Ekşi maya başlangıcının una karıştırıldığı an: bütün canlıların aynı kasede buluştuğu ilk sahne."
+      },
+      {
+        "metin": "İlk günde bakteri topluluğuna Pantoea ve Klebsiella gibi enterobakteriler hâkimdi [[entero.ilk_gun_baskin]]. KOB/g, bir gram hamurda koloni oluşturan canlı hücre sayısını gösteren ölçü birimidir. [[sozluk.kob]] İlk fermantasyonun başlangıcında undan gelen bu mikrop gruplarının her birinin hücre sayısı genellikle 5 log KOB/g değerini aşmaz [[entero.baslangicta_hucre_sayisi_siniri]].",
+        "gorsel": "pantoea_agglomerans",
+        "vurgu": "Gram boyamada bakterilerin mor renkli kalması: ilk günün baskınları Gram-negatif."
+      },
+      {
+        "metin": "Fermantasyonun ilk gününde tüm hamurlar, şekeri laktik aside çeviren laktik asit bakterilerinden oluşan bir topluluk barındırmıştı [[ardisiklik.birinci_gun_lactococcus_leuconostoc_weissella]]. Kendiliğinden başlatılan ekşi mayalarda Weissella ve Leuconostoc gibi öncü laktik asit bakterileri ilk günlerde öne çıktı [[oncu.erken_oncu]]. Ancak bu öncü cinsler sonraki yenilemelerde geriledi [[oncu.erken_oncu]].",
+        "gorsel": "leuconostoc_mesenteroides_in_wet_mount",
+        "vurgu": "Taze preparatta hücrelerin birbirine yapışarak zincirler oluşturması."
+      },
+      {
+        "metin": "Undan gelen bakteriler şekerleri laktik aside çevirir [[ardisiklik.ilk_evre_asitlenme]]. pH, ortamın asitlik derecesini gösteren ve sayı küçüldükçe asitliğin arttığı ölçüttür. [[sozluk.ph]] Asitlik arttıkça pH çoğu bozulma mikrobunun dayanamayacağı düzeye iner ve aside dayanıklı bakteriler ile mayalar seçilir [[ardisiklik.ilk_evre_asitlenme]].",
+        "gorsel": "lactobacillus_spp",
+        "vurgu": "MRS agar'da büyüyen koloniler: aside dayanıklı laktik asit bakterilerinin seçildiği evre."
+      },
+      {
+        "metin": "İkinci ya da üçüncü günde kabarmanın birden artıp yaklaşık yedinci güne kadar duraklaması, on un türünün izlendiği çalışmada doğrulandı [[sahte_kabarma.gun2_3_sicrama_sonra_durgunluk]]. Üçüncü ile beşinci günler arasında ilk günün öncü bakterileri kaybolurken Lactiplantibacillus plantarum ve Limosilactobacillus fermentum ortaya çıkmıştır [[ardisiklik.ucuncu_ve_besinci_gunler_arasi_degisim]].",
+        "gorsel": "carl_griffith_sourdough_starter_stiff_13_hours_above",
+        "vurgu": "Besleme sonrası yüzeyin kabarması ve yüzeyde kalan gaz boşlukları."
+      },
+      {
+        "metin": "Mayalar ekşi maya sürdürülürken bazen en başta bakterilerden baskın olabilir, bazen de ancak 5–7. günde ortaya çıkar [[ardisiklik.mayalar_erken_ya_da_gec]]. Altıncı günden itibaren Lactiplantibacillus plantarum ve Limosilactobacillus fermentum türlerinden oluşan daha homojen bir ekosistem gözlendi [[ardisiklik.altinci_gunden_itibaren_kararli_topluluk]]. On farklı unla başlatılan ekşi mayalar 10. güne kadar işlevce olgunlaşıp kararlı hale geldi [[besleme.olgunluk_yaklasik_10_gun]].",
+        "gorsel": "s00284_025_04673_5_sekil_5a",
+        "vurgu": "Sıralı dizilmiş, birbirine yapışmış hücreler: olgun ekşi mayanın uzmanlaşmış bakterisi."
+      }
+    ]
+  },
+  "anla": [
+    {
+      "baslik": "Unun ekibi",
+      "paragraflar": [
+        "Redoks potansiyeli, ortamın elektron alışveriş eğilimini ve oksijen varlığını gösteren kimyasal ölçüttür. [[sozluk.redoks]] Kendiliğinden fermantasyonun ilk adımında redoks potansiyeli düşer; bu durum oksijenli ve oksijensiz yaşayabilen fakültatif anaerobları ve laktik asit bakterilerini kayırır [[ardisiklik.ilk_adim_redoks]]. Ekşi maya hazırlanırken Gram-pozitif bakteriler genellikle Gram-negatifleri geride bırakır [[ardisiklik.ilk_adim_redoks]]. İlk gün ekşi mayaların her biri kendi içinde çok çeşitliydi ve aynı undan yapılanlar bile birbirinden çok farklıydı [[ardisiklik.ilk_gun_yuksek_degiskenlik]].",
+        "İncelenen unlarda en bol bakteri cinsi Pantoea'ydı ve undaki bakteri dizilerinin yaklaşık üçte birini oluşturdu [[kaynak.unda_pantoea_baskin]]. Oda sıcaklığında ve günlük beslemeyle 10 farklı unla başlatılan mayalar arasında, 14. gündeki olgun mayaların farkını en çok un türü belirledi [[besleme.olgun_maya_un_turune_gore]]."
+      ]
+    },
+    {
+      "baslik": "Asitlenme: seçilim bir eleme işidir",
+      "paragraflar": [
+        "Amilaz, nişastayı parçalayarak mikropların tüketebileceği şekerlere dönüştüren enzimdir. [[sozluk.amilaz]] Tahıl ve undaki amilaz enzimleri karmaşık karbonhidratları mayalanabilir şekerlere parçalar [[kaynak.amilaz_hizli_asitlenme]]. Bu süreç bakteri fermantasyonunu hızlandırır ve aside dayanıklı türlerin daha kısa sürede yerleşmesini kolaylaştırır [[kaynak.amilaz_hizli_asitlenme]]. Leuconostoc ve Weissella gibi öncü cinsler tahıl ve unla ilişkilidir, ancak uzun süreli asitlenme sürecinde canlı kalamazlar [[kaynak.tahilda_bulunup_asitlenmede_kaybolan_cinsler]].",
+        "Kendiliğinden başlatılan ekşi mayada topluluk üç evrede ilerler [[ardisiklik.uc_evre_zaman_cizelgesi]]. İlk iki günlük birinci evrede Enterococcus ve Lactococcus baskınken, üçüncü ile beşinci günler arasındaki ikinci evrede Pediococcus ve Weissella öne geçer [[ardisiklik.uc_evre_zaman_cizelgesi]]. Altıncı ile onuncu günler arasındaki üçüncü evrede ise Fructilactobacillus sanfranciscensis ve Lactiplantibacillus plantarum gibi aside dayanıklı türler seçilir [[ardisiklik.uc_evre_zaman_cizelgesi]].",
+        "On un türünden başlatılan ekşi mayalarda bakteri çeşitliliği önce arttı ve 3. ile 6. gün arasında en yükseğe çıktı [[ardisiklik.cesitlilik_tepe_3_6_gun]]. Lactobacillaceae ailesinden türler baskın hale gelip pH sabitlendikten sonra çeşitlilik düştü [[ardisiklik.cesitlilik_tepe_3_6_gun]]. Ekşi maya olgunlaştıkça, ilk günlerdeki olası artıştan sonra, içindeki bakteri çeşitliliği azalır [[ardisiklik.olgunlasinca_cesitlilik_azalir]]."
+      ]
+    },
+    {
+      "baslik": "Besleme ritmi",
+      "paragraflar": [
+        "Yenileme, önceki ana hamurdan alınan bir kısımla yeni un ve suyun döngüsel olarak yeniden aşılanması işlemidir [[besleme.yenileme_tanimi]]. Hamur verimi, 100 birim una eklenen su miktarıyla belirlenen toplam hamur ağırlığı oranıdır [[besleme.hamur_verimi_tanimi]]. Hamur verimi, pH ve sıcaklık, ekşi mayada hangi laktik asit bakterilerinin bulunacağını doğrudan etkileyen başlıca etkenlerdir [[besleme.hamur_verimi_sicaklik_ph_ana_etkenler]]. Yayımlanmış yöntemlerde ekşi maya aşı oranı genellikle %10 ile %25 arasındadır ve ortanca değer %20'dir [[besleme.literatur_asi_orani]].",
+        "Oda sıcaklığında günlük yenilenen geleneksel ekşi mayalar Tip I olarak adlandırılır [[tipler.tip1_gunluk_yenileme]]. Tip I süreçleri mikrobiyotayı sık beslemelerle metabolik olarak aktif tutar ve aşırı düşük pH değerlerine maruz kalmasını önler [[tipler.tip1_sik_besleme_ve_ph_korumasi]]. Fructilactobacillus sanfranciscensis düşük pH'a duyarlıdır ve düzenli beslemelere yüksek derecede bağımlıdır [[fsan.asit_duyarliligi_ve_duzenli_besleme]]. Bu türün ekolojik uyumu, maltoz ve sakarozdan hızlı büyüyüp karbondioksit üretmesini sağlayan metabolik özelliklerine dayanır [[fsan.ekolojik_uyum_maltoz_sakaroz]]."
+      ]
+    },
+    {
+      "baslik": "Rekabet ve ortak sofra",
+      "paragraflar": [
+        "Laktik asit bakterilerinin ürettiği asitler ve düşürdükleri pH, aside dayanıksız bakterilerin ekşi mayada tutunmasını zorlaştırabilir [[rekabet.asit_dislar]]. Laktobasillerin rekabet gücü türe ve suşa özgüdür [[rekabet.laktobasil_rekabet_ozellikleri_ve_surec_etkisi]]. Bu güç; şeker kullanımı, asit direnci ve sıcaklığa bağlı büyüme hızı tarafından belirlenir [[rekabet.laktobasil_rekabet_ozellikleri_ve_surec_etkisi]].",
+        "Ekmeği kabartan karbondioksiti ekşi mayadaki mayalar, laktik asit bakterileri ve asetik asit bakterileri üretir [[mayalar.co2_kabartma]]. Tipik bir ekşi mayada her maya hücresine yaklaşık 100 bakteri hücresi düşer, ancak bu oran 1:1 ile 1000:1 arasında değişebilir [[mayalar.bakteri_maya_orani]]. Geleneksel ekşi mayada bakteriler ile mayalar başlıca karbonhidrat ve azot metabolizması ile uyarıcı ya da engelleyici bileşikler üzerinden etkileşir [[besin.lab_maya_etkilesim_alanlari]].",
+        "Bu etkileşim rekabetçi olabilir: laboratuvar buğday hamurunda her maya suşu, bakterilerle birlikteyken 24 saatte ortalama 1,87 kat yoğunluk düşüşü yaşadı [[rekabet.maya_kokulturde_azalir]]. Zorunlu heterofermentatif laktik asit bakterileri, şekeri laktik asit yanında asetik asit, etanol ve karbondioksite parçalayan gruptur [[sozluk.heterofermentatif]]. Altı saatlik fermantasyon sonunda Kazachstania humilis ile bu bakterilerin ortak kültüründe maltoz, mayanın tek başına olduğu hamurdakinden anlamlı ölçüde düşüktü [[besin.kokultur_maltoz]]. Ayrıca ortak kültürde, bakterinin tek başına tükettiğinden daha fazla maltoz tükenmişti [[besin.kokultur_maltoz]]."
+      ]
+    }
+  ],
+  "yuzlesme": [
+    {
+      "inanc": "Ekşi maya ikinci ya da üçüncü günde birden kabarmaya başlar ve bu erken kabarma, mayanın olgunlaştığının işaretidir.",
+      "cevap": "Erken kabarma tepesi on un türünün tamamında doğrulandı, ama tepenin neden kaynaklandığı doğrudan test edilmedi [[sahte_kabarma.gun2_3_sicrama_sonra_durgunluk]]. Yazarlar, gaz üretiminin göstergesi olan bu erken kabarma tepesinin, genç mayalarda baskın olan ve undan gelen mayaların çoğalmasından kaynaklandığını varsayar [[sahte_kabarma.erken_tepe_un_mayalari_hipotezi]]."
+    },
+    {
+      "inanc": "Ekşi maya bakterileri ile mayalar birbirini besler; ikisi arasındaki ilişki karşılıklı yarardır.",
+      "cevap": "Mutualizm, iki canlının birbirine karşılıklı yarar sağladığı ortak yaşam biçimidir. [[sozluk.mutualizm]] Önceki çalışmalarda Fructilactobacillus sanfranciscensis ile Kazachstania humilis ortaklığı besinsel mutualizm olarak anlatılır [[besin.karsilikli_yarar_tartismasi]]. Ancak Fransız fırın izolatlarıyla yapılan bir laboratuvar çalışmasında maya–bakteri çiftlerinde yalnız nötr ya da tek yönlü olumsuz sonuçlar çıktı [[besin.karsilikli_yarar_tartismasi]]. Aynı çalışmada ortak kültürdeki glukoz, mayanın tek başına olduğu hamurdakinden yüksek bulundu [[besin.glukoz_tuketimi_kanitsiz]]. Bu yüzden mayanın bakterinin bıraktığı glukozu tükettiğine dair açık kanıt elde edilmedi [[besin.glukoz_tuketimi_kanitsiz]]."
+    },
+    {
+      "inanc": "On günlük kural her ekşi mayada aynı şekilde işler.",
+      "cevap": "On gün kuralı iki çalışmada desteklendi: 10 farklı unla başlatılan mayalar 10. güne kadar işlevce olgunlaşıp kararlı hale geldi [[besleme.olgunluk_yaklasik_10_gun]]. Laboratuvardaki çavdar ekşi mayaları da 10–12 besleme döngüsünde olgunluğa ulaştı [[besleme.olgunluk_yaklasik_10_gun]]. Yine de ekşi mayada sabit teknolojik parametrelerin uygulanması mikrobiyal kararlılığı tek başına garanti etmez [[besleme.sabit_parametreler_kararliligi_garantilemez]]. Fırıncıların gözünden olgunluk, pH ve kabarma oturduğunda ve güvenilir biçimde ekmek yapılabildiğinde başlar; bu süreç genellikle 7–14 gün sürer [[besleme.olgunlugun_firinci_tanimi]]."
+    }
+  ],
+  "kanit": {
+    "cekirdek": [
+      "kaynak.ilk_gun_unla_gelen_bakteriler",
+      "kaynak.maya_una_en_benzer",
+      "entero.ilk_gun_baskin",
+      "ardisiklik.ilk_adim_redoks",
+      "ardisiklik.birinci_gun_lactococcus_leuconostoc_weissella",
+      "oncu.erken_oncu",
+      "ardisiklik.ilk_evre_asitlenme",
+      "ardisiklik.uc_evre_zaman_cizelgesi",
+      "ardisiklik.ucuncu_ve_besinci_gunler_arasi_degisim",
+      "ardisiklik.altinci_gunden_itibaren_kararli_topluluk",
+      "ardisiklik.cesitlilik_tepe_3_6_gun",
+      "ardisiklik.mayalar_erken_ya_da_gec",
+      "sahte_kabarma.gun2_3_sicrama_sonra_durgunluk",
+      "besleme.olgunluk_yaklasik_10_gun",
+      "besleme.hamur_verimi_sicaklik_ph_ana_etkenler"
+    ],
+    "cekmece": [
+      "kaynak.unda_pantoea_baskin",
+      "kaynak.amilaz_hizli_asitlenme",
+      "kaynak.tahilda_bulunup_asitlenmede_kaybolan_cinsler",
+      "kaynak.olasi_kaynaklar_ve_tasiyicilar",
+      "kaynak.musluk_suyunun_yeni_ve_kararli_mayaya_etkisi",
+      "kaynak.turlesme_yok_birincil_habitat",
+      "entero.baslangicta_hucre_sayisi_siniri",
+      "entero.genc_eksi_maya_oranlari",
+      "entero.proteobacteria_basarisizlik",
+      "ardisiklik.ilk_gun_yuksek_degiskenlik",
+      "ardisiklik.olgunlasinca_cesitlilik_azalir",
+      "ardisiklik.uc_evre_modeli",
+      "ardisiklik.lab_bayrak_yarisi_cins_gruplari",
+      "ardisiklik.dort_farkli_topluluk_donemi",
+      "ardisiklik.gunluk_yenilenen_kararli_ekosistem",
+      "ardisiklik.dusuk_ph_ardisikligi_hizlandirir",
+      "ardisiklik.ph_dususu_ardisikligi_yonlendirir",
+      "ardisiklik.olgun_maya_icin_surekli_besleme",
+      "ardisiklik.belcika_firinlari_yil_boyu_kararli",
+      "ardisiklik.siki_sivi_zamanla_ayrisir",
+      "ardisiklik.tahil_fermantasyonunda_yayilma_siniri",
+      "ardisiklik.baslangicta_ozgu_olmayan_bakteriler",
+      "oncu.cavdar_20c_3gun",
+      "oncu.un_kokenli_leuconostoc_citreum_mayaya_gecisi",
+      "oncu.ilk_yedi_gunde_oncu_bakterilerin_azalisi",
+      "oncu.sivi_leuconostoc",
+      "oncu.weissella_cinsi_tanimi",
+      "oncu.fermantasyonun_24_saatinde_kok_sayisi_zirvesi",
+      "oncu.lactococcus_lactis_olgun_mayada_tutunamaz",
+      "oncu.pediococcus_pentosaceus_transkript_zirvesi",
+      "oncu.leuconostoc_weissella_kosullari",
+      "besleme.yenileme_tanimi",
+      "besleme.hamur_verimi_tanimi",
+      "besleme.literatur_asi_orani",
+      "besleme.literatur_sicaklik",
+      "besleme.siki_ve_yari_sivi_hamur_verimi",
+      "besleme.sicaklik_oranlari_kaydirir",
+      "besleme.gunluk_ve_iki_gunluk_besleme_topluluk_etkisi",
+      "besleme.olgun_maya_un_turune_gore",
+      "besleme.olgunlugun_firinci_tanimi",
+      "besleme.sabit_parametreler_kararliligi_garantilemez",
+      "besleme.surec_degiskenleri_zayif",
+      "besleme.tepe_kabarma_gunu_un_turu",
+      "besleme.sivi_siki_yedinci_yenilemede_kararlilik",
+      "besleme.siki_sividan_gecis_mikrobiyota",
+      "besleme.dort_gelenek_sert_sivi_hamur_verimi",
+      "tipler.tip1_sik_besleme_ve_ph_korumasi",
+      "tipler.tip1_gunluk_yenileme",
+      "tipler.tip1_kendiliginden_ardisiklik",
+      "tipler.tip1_dusuk_sicaklik_ve_ph_3_4_araligi",
+      "tipler.tip1_zanaat_parametreleri",
+      "tipler.tip1_stabilizasyon_bes_on_gun",
+      "fsan.asit_duyarliligi_ve_duzenli_besleme",
+      "fsan.ekolojik_uyum_maltoz_sakaroz",
+      "fsan.zorunlu_heterofermentatif_tanim",
+      "fsan.en_yaygin",
+      "fsan.yasli_mayalar",
+      "fsan.anahtar_kararli_tur",
+      "fsan.tarama_en_sik",
+      "fsan.tek_basina_daha_kalabalik",
+      "fsan.k_humilis_ile_capraz_etkilesim_ve_asitlesme",
+      "fsan.dusuk_cesitlilik",
+      "fsan.korelasyon",
+      "rekabet.asit_dislar",
+      "rekabet.laktobasil_rekabet_ozellikleri_ve_surec_etkisi",
+      "rekabet.uzun_sureli_yenilemede_ekolojik_secilim",
+      "rekabet.bakteriyosin",
+      "rekabet.tur_sayisi",
+      "rekabet.maya_kokulturde_azalir",
+      "rekabet.ph_aciklamaz",
+      "rekabet.fsan_baskin_dislar",
+      "rekabet.fsan_bakteriyosin_yok",
+      "rekabet.disaridan_gelen_mikroplarin_tutunmasi",
+      "rekabet.ekosistemde_tur_kaliciligini_etkileyen_etmenler",
+      "rekabet.co2_anaeroblar",
+      "rekabet.pediococcus_negatif",
+      "rekabet.scer_fsan",
+      "rekabet.krallik_ici_iliskiler",
+      "besin.lab_maya_etkilesim_alanlari",
+      "besin.kokultur_maltoz",
+      "besin.karsilikli_yarar_tartismasi",
+      "besin.glukoz_tuketimi_kanitsiz",
+      "besin.khum_fsan_besin_saglama",
+      "besin.kunispora_maltoz_negatif_besinsel_mutualizm",
+      "besin.maltoz_glukoz_mekanizmasi",
+      "besin.mikrobiyal_substrat_varligi",
+      "besin.maya_serbest_amino_asit_tuketimi",
+      "besin.trofik_etkilesim_suphesi",
+      "besin.model_sayimlar",
+      "mayalar.co2_kabartma",
+      "mayalar.bakteri_maya_orani",
+      "mayalar.bir_iki_tur",
+      "mayalar.m_humilis_eksimayada_ikinci_en_sik_ve_bol_tur",
+      "mayalar.yaygin_turler",
+      "mayalar.teknolojik_katki_kabarma_ve_lezzet",
+      "mayalar.kabartma_esigi",
+      "mayalar.sivi_eksi_mayada_daha_cok",
+      "mayalar.italya_lab_maya_orani",
+      "mayalar.askomiset_saccharomycotina_uyumu",
+      "khum.tum_mayalarda_kazachstania_hizla_baskinlasir",
+      "lplant.kati_baskin",
+      "lplant.en_sik_izolat",
+      "lplant.bugday_yaygin",
+      "lplant.yerini_kaptirir",
+      "lplant.cavdar_30c_5gun",
+      "lplant.brevis_birlikte",
+      "lbrevis.genc_mayalar",
+      "lbrevis.ph_gecis",
+      "lbrevis.cavdar_30c_56gun",
+      "khum.maltoz_negatif_ph_sicaklik",
+      "khum.ortak_kabartma",
+      "khum.ekmek_mayasindan_sonra_en_yaygin_ikinci_maya",
+      "khum.fsan_birlikte_bulunma",
+      "khum.cins_tur_sayisi_ve_eksi_maya_turleri",
+      "lab.tanim_eksi_maya",
+      "lab.stresli_ekosistem_ozellikleri",
+      "lab.lab_maya_orani",
+      "lab.az_baskin_tur",
+      "lab.turlesme_desteklenmez",
+      "lab.klasik_tablo",
+      "lab.birinci_yenilemede_en_yuksek_bakteri_tur_cesitliligi",
+      "lab.tahil_enzimleri_karsilikli_etkilesim",
+      "lab.yogunluk"
+    ]
+  },
+  "baglar": [
+    {
+      "kaldirac": "Unun kendi florası",
+      "mekanizma": "Un ve diğer girdilerle gelen bakteriler ilk günün topluluğunu belirler; unun Pantoea ağırlıklı florası mayanın başlangıç bileşimini oluşturur.",
+      "sonuc": "İlk gün topluluğu kendi içinde çok çeşitli, değişken ve aynı undan yapılanlar arasında bile birbirinden çok farklıdır.",
+      "bilgiler": [
+        "kaynak.ilk_gun_unla_gelen_bakteriler",
+        "kaynak.unda_pantoea_baskin",
+        "ardisiklik.ilk_gun_yuksek_degiskenlik"
+      ]
+    },
+    {
+      "kaldirac": "Asitlenme",
+      "mekanizma": "Laktik asit bakterileri şekerleri aside çevirir, pH düşer ve aside dayanıksız türler tutunamaz.",
+      "sonuc": "Topluluk üç evrede sıralanır ve uzun vadede daralır.",
+      "bilgiler": [
+        "ardisiklik.ilk_evre_asitlenme",
+        "ardisiklik.uc_evre_zaman_cizelgesi",
+        "ardisiklik.olgunlasinca_cesitlilik_azalir",
+        "kaynak.tahilda_bulunup_asitlenmede_kaybolan_cinsler"
+      ]
+    },
+    {
+      "kaldirac": "Günlük besleme",
+      "mekanizma": "Sık besleme topluluğu metabolik olarak aktif durumda tutar ve aşırı düşük pH değerlerine maruz kalmayı önler.",
+      "sonuc": "Aside duyarlı türler ekşide kalıcı olur.",
+      "bilgiler": [
+        "besleme.yenileme_tanimi",
+        "besleme.hamur_verimi_sicaklik_ph_ana_etkenler",
+        "tipler.tip1_sik_besleme_ve_ph_korumasi",
+        "fsan.asit_duyarliligi_ve_duzenli_besleme"
+      ]
+    },
+    {
+      "kaldirac": "Hamur verimi",
+      "mekanizma": "Sıkı beslemeden sıvı beslemeye geçmek laktik asit bakterilerini ve biyokimyasal özellikleri tutarlı biçimde değiştirir.",
+      "sonuc": "Aynı olgun maya, sıkı ve sıvı beslemede farklı topluluklara evrilir.",
+      "bilgiler": [
+        "besleme.hamur_verimi_tanimi",
+        "besleme.siki_ve_yari_sivi_hamur_verimi",
+        "besleme.siki_sividan_gecis_mikrobiyota",
+        "tipler.tip1_siki_hamur"
+      ]
+    },
+    {
+      "kaldirac": "Rekabet",
+      "mekanizma": "Türlerin rekabet gücü maltoz ve sükroz kullanımı, asit direnci, büyüme hızı ve bakteriyosin üretimiyle belirlenir.",
+      "sonuc": "En fazla üç laktik asit bakterisi ve bir–iki maya türünden oluşan topluluk oturur.",
+      "bilgiler": [
+        "rekabet.laktobasil_rekabet_ozellikleri_ve_surec_etkisi",
+        "rekabet.uzun_sureli_yenilemede_ekolojik_secilim",
+        "rekabet.bakteriyosin",
+        "rekabet.tur_sayisi"
+      ]
+    },
+    {
+      "kaldirac": "Maya ile bakterinin ortak sofrası",
+      "mekanizma": "Karbondioksiti mayalar, laktik ve asetik asit bakterileri üretir; ortak kültürde maltoz bakterinin tek başına tükettiğinden fazla tükenir ve maya yoğunluğu bakteriyle birliktelikte düşer.",
+      "sonuc": "Karşılıklı yarardan çok rekabetçi bir denge kurulur.",
+      "bilgiler": [
+        "mayalar.co2_kabartma",
+        "rekabet.maya_kokulturde_azalir",
+        "besin.kokultur_maltoz",
+        "rekabet.ph_aciklamaz"
+      ]
+    },
+    {
+      "kaldirac": "Fermantasyon sıcaklığı",
+      "mekanizma": "Sıcaklık, topluluğun tür bileşimini değiştirmekten çok türlerin birbirine oranını değiştirir.",
+      "sonuc": "Aynı türler farklı sıcaklıklarda farklı oranlarda bulunur.",
+      "bilgiler": [
+        "besleme.sicaklik_oranlari_kaydirir",
+        "besleme.literatur_sicaklik",
+        "oncu.leuconostoc_weissella_kosullari"
+      ]
+    },
+    {
+      "kaldirac": "Un türü",
+      "mekanizma": "Olgun mayalarda asitlik, kabarma ve laktik asit bakterisi oranı bakımından aynı undan yapılanlar birbirine çok daha benzerdir.",
+      "sonuc": "Un, ekşi mayanın karakterini olgunluğa vardığında belirler.",
+      "bilgiler": [
+        "besleme.olgun_maya_un_turune_gore",
+        "besleme.tepe_kabarma_gunu_un_turu"
+      ]
+    }
+  ],
+  "karakterler": [
+    "entero",
+    "oncu",
+    "lab",
+    "fsan",
+    "lplant",
+    "lbrevis",
+    "khum",
+    "scer"
+  ],
+  "ayrisan_kaynaklar": [
+    {
+      "konu": "Fructilactobacillus sanfranciscensis ile Kazachstania humilis arasındaki ilişki karşılıklı yarar mı, rekabet mi?",
+      "bilgiler": [
+        "besin.karsilikli_yarar_tartismasi",
+        "besin.glukoz_tuketimi_kanitsiz",
+        "besin.kokultur_maltoz",
+        "rekabet.khumilis_ve_lab_ortak_kulturunde_rekabetci_etkilesim"
+      ]
+    },
+    {
+      "konu": "Erken kabarma tepesinin kaynağı nedir?",
+      "bilgiler": [
+        "sahte_kabarma.gun2_3_sicrama_sonra_durgunluk",
+        "sahte_kabarma.erken_tepe_un_mayalari_hipotezi"
+      ]
+    },
+    {
+      "konu": "Fructilactobacillus sanfranciscensis ekşi mayada gerçekten en yaygın tür müdür?",
+      "bilgiler": [
+        "fsan.en_yaygin",
+        "fsan.tarama_en_sik",
+        "lab.az_baskin_tur"
+      ]
+    },
+    {
+      "konu": "Sıvı ekşi mayada maya yoğunluğu sıkı ekşi mayadan yüksek midir?",
+      "bilgiler": [
+        "mayalar.sivi_eksi_mayada_daha_cok",
+        "mayalar.sivi_eksi_maya_yogunluk"
+      ]
+    },
+    {
+      "konu": "Saccharomyces cerevisiae ile Fructilactobacillus sanfranciscensis birbirini dışlıyor mu?",
+      "bilgiler": [
+        "rekabet.scer_fsan",
+        "rekabet.krallik_ici_iliskiler"
+      ]
+    },
+    {
+      "konu": "Ekşi maya fermantasyonu türleşmeyi destekler mi?",
+      "bilgiler": [
+        "lab.turlesme_desteklenmez",
+        "kaynak.turlesme_yok_birincil_habitat"
+      ]
+    },
+    {
+      "konu": "On gün kuralı gerçek bir eşik midir?",
+      "bilgiler": [
+        "besleme.olgunluk_yaklasik_10_gun",
+        "besleme.olgunlugun_firinci_tanimi",
+        "besleme.sabit_parametreler_kararliligi_garantilemez"
+      ]
+    }
+  ]
+}

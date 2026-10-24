@@ -1,0 +1,624 @@
+{
+  "id": "lab",
+  "ad": "Laktik asit bakterileri",
+  "bilgiler": [
+    {
+      "id": "lab.cesitlilik_efsane",
+      "metin": "Son araştırmalar ekşi mayalar arasında beklenenden çok daha fazla çeşitlilik buldu; bazı ekşi mayalar Lactobacillus ve Saccharomyces dışındaki bakterilere ve mayalara dayanır.",
+      "kosul": "",
+      "kanit": "ikincil",
+      "bolum": "Efsaneler",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1128/msphere.00950-19",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "lab.firincilikta_kullanim_amaclari",
+      "metin": "Laktik asit bakterileri fırıncılıkta hamuru asitlendirmek, kabartma sağlamak, ekmek kalitesini ve bayatlama direncini artırmak ve temiz etiketli katkı maddesi alternatifi sunmak amacıyla kullanılır.",
+      "kosul": "Fırıncılık uygulamaları",
+      "kanit": "tek_kaynak",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.ijfoodmicro.2016.05.025",
+          "yer": "Introduction"
+        },
+        {
+          "kaynak": "10.1016/j.ijfoodmicro.2018.09.007",
+          "yer": "Introduction"
+        },
+        {
+          "kaynak": "10.1016/j.jcs.2006.09.004",
+          "yer": "Introduction"
+        },
+        {
+          "kaynak": "10.3390/foods14071253",
+          "yer": "1. Introduction"
+        }
+      ]
+    },
+    {
+      "id": "lab.tahil_enzimleri_karsilikli_etkilesim",
+      "metin": "Mikrobiyal metabolizmanın yol açtığı asitlenme, oksijen tüketimi ve tiyol birikimi tahıl enzimlerinin etkinliğini düzenler; tahıl enzimleri de bakterilerin büyümesi için substrat sağlar.",
+      "kosul": "",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.fm.2013.04.007",
+          "yer": "Abstract"
+        }
+      ]
+    },
+    {
+      "id": "lab.az_baskin_tur",
+      "metin": "500 ekşi mayalık bir çalışmada ekşi maya başına ortanca üç LAB/AAB türü ve bir maya türü bulundu; birçok toplulukta tek bir maya ve/veya bakteri türü baskındı.",
+      "kosul": "500 ekşi maya, amplikon dizileme.",
+      "kanit": "tek_kaynak",
+      "bolum": "Kimlik",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.7554/elife.61644",
+          "yer": "Results – Diversity of sourdough starters"
+        },
+        {
+          "kaynak": "10.7717/peerj.11389",
+          "yer": "Microbial Ecology: Bacteria"
+        },
+        {
+          "kaynak": "10.1371/journal.pone.0148325",
+          "yer": "Introduction"
+        },
+        {
+          "kaynak": "10.3390/microorganisms8020240",
+          "yer": "Introduction"
+        },
+        {
+          "kaynak": "10.1016/j.ijfoodmicro.2016.05.004",
+          "yer": "Microbial ecology of sourdough: α-diversity follows fermentation technology"
+        }
+      ]
+    },
+    {
+      "id": "lab.topluluk_bilesimi",
+      "metin": "Birkaç çalışmada ekşi maya topluluklarının bakteri tarafında laktik asit bakterileri (LAB), mantar tarafında mayalar hâkimdi; bir dizileme çalışmasında LAB ile asetik asit bakterileri bakteri okumalarının %97'sinden fazlasını, mayalar ise mantar okumalarının %70'inden fazlasını oluşturdu. Belçika'daki geleneksel ekşi mayalarda da LAB mikrobiyotanın ana kısmıydı.",
+      "kosul": "18 ekşi maya, takım düzeyinde amplikon dizileme (aynı un ve tarif); 500 ekşi maya, 16S ve ITS amplikon dizileme, örnek başına ortalama. 39 Belçika geleneksel ekşi maya örneği (11 fırın, ticari starter ya da maya katılmadan), plaka sayımı.",
+      "kanit": "uzlasi",
+      "bolum": "Kimlik",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1128/msphere.00950-19",
+          "yer": "Results; Fig. 1"
+        },
+        {
+          "kaynak": "10.7554/elife.61644",
+          "yer": "Results – Diversity of sourdough starters"
+        },
+        {
+          "kaynak": "10.1128/aem.02771-07",
+          "yer": "Results: Sourdough sampling and enumeration of LAB and yeasts"
+        },
+        {
+          "kaynak": "10.1016/j.tifs.2008.04.002",
+          "yer": "Introduction"
+        },
+        {
+          "kaynak": "10.3390/foods11091278",
+          "yer": "4. Conclusions"
+        }
+      ]
+    },
+    {
+      "id": "lab.yirmi_bes_cins_yeniden_siniflandirma",
+      "metin": "Eski Lactobacillus cinsi, 25 cinse sınıflandırılan 261 türü kapsar.",
+      "kosul": "2020 taksonomik yeniden sınıflandırması",
+      "kanit": "ikincil",
+      "bolum": "Kimlik",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.cofs.2020.09.007",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "lab.en_sik_baskin_uc_tur",
+      "metin": "Literatüre göre ekşi mayada en sık baskın olan laktik asit bakterisi türleri Fructilactobacillus sanfranciscensis, Levilactobacillus brevis ve Lactiplantibacillus plantarum'dur.",
+      "kosul": "Frontiers in Microbiology 2019 (Fransız ekşi mayaları) makalesinin girişinde literatür aktarımı.",
+      "kanit": "ikincil",
+      "bolum": "Mayadaki yeri",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3389/fmicb.2019.00201",
+          "yer": "Introduction"
+        },
+        {
+          "kaynak": "10.3389/fmicb.2018.01984",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "lab.olgun_topluluk_40maya",
+      "metin": "Bir çalışmada 14 gün beslenen 40 kendiliğinden ekşi mayanın olgun (doruk) toplulukları ortak işaretler taşıyordu: pH 4 ya da altındaydı ve Lactobacillus (ortalama %48,1), Pediococcus (%22,7) ve/veya Gluconobacter (%19,1) bakımından zenginleşmişti.",
+      "kosul": "10 un türünden 40 kendiliğinden ekşi maya, oda sıcaklığı, günlük besleme (1 yemek kaşığı atılıp 1 yemek kaşığı un + 1 yemek kaşığı su eklenerek), 14 gün, 16S rRNA dizileme.",
+      "kanit": "tek_kaynak",
+      "bolum": "Mayadaki yeri",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.7717/peerj.16163",
+          "yer": "Abstract"
+        }
+      ]
+    },
+    {
+      "id": "lab.ortak_tur_yok",
+      "metin": "19 olgun İtalyan ekşi mayasının hepsinde ortak bulunan tek bir LAB türü yoktu; maya başına LAB suşu sayısı 5 ile 17 arasındaydı.",
+      "kosul": "Geleneksel/yöresel İtalyan ekmekleri için kullanılan 19 olgun ekşi maya, yerel fırınlardan ardışık günlerde 3 parti örnek; Triticum durum (10) ya da Triticum aestivum (ekmeklik buğday, 9) unu; kültüre dayalı tanımlama; İtalya.",
+      "kanit": "tek_kaynak",
+      "bolum": "Mayadaki yeri",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1128/aem.07721-11",
+          "yer": "Discussion"
+        },
+        {
+          "kaynak": "10.1128/aem.07721-11",
+          "yer": "Discussion"
+        }
+      ]
+    },
+    {
+      "id": "lab.tahil_aminoasitlerine_bagimlilik",
+      "metin": "Laktik asit bakterileri, kendi amino asit biyosentez yolaklarının kısmen kaybı nedeniyle tahıl matrisindeki amino asitlere bağımlıdır.",
+      "kosul": "Gänzle vd. 2008; Vogel vd. 2011; tahıl matrisi",
+      "kanit": "ikincil",
+      "bolum": "Ne yer, ne üretir",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/bs.aambs.2017.02.003",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "lab.klasik_tablo",
+      "metin": "Klasik tabloya göre ekşi mayada asidi bir ya da birkaç Lactobacillus türü, karbondioksiti ise mayalar üretir.",
+      "kosul": "",
+      "kanit": "ikincil",
+      "bolum": "Ortak özellikler",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1128/msphere.00950-19",
+          "yer": "Introduction"
+        },
+        {
+          "kaynak": "10.3390/foods10102253",
+          "yer": "1. Introduction"
+        }
+      ]
+    },
+    {
+      "id": "lab.lab_maya_orani",
+      "metin": "Ekşi mayada LAB sayısı çoğunlukla maya sayısının 10 ila 100 katıdır: bir çalışmada oran iki istisna (1.000:1 ve 10.000:1) dışında bu aralıktaydı; sistematik bir derlemede ortanca hücre yoğunluklarından yaklaşık 100:1 oran çıktı ve bazı ekşi mayalarda bu oran 10:1'e daraldı.",
+      "kosul": "17 ekşi maya, plaka sayımı; sistematik literatür derlemesi, fermantasyon sonrası ortanca LAB ve maya yoğunlukları.",
+      "kanit": "uzlasi",
+      "bolum": "Ortak özellikler",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3389/fmicb.2020.01212",
+          "yer": "Results: Enumerations"
+        },
+        {
+          "kaynak": "10.3389/fmicb.2020.01212",
+          "yer": "Introduction"
+        },
+        {
+          "kaynak": "10.1016/j.tifs.2020.12.008",
+          "yer": "4. Using conditions"
+        },
+        {
+          "kaynak": "10.1016/bs.aambs.2017.02.003",
+          "yer": "Introduction"
+        },
+        {
+          "kaynak": "10.1016/j.ijfoodmicro.2016.07.018",
+          "yer": "Introduction"
+        },
+        {
+          "kaynak": "10.1016/j.tifs.2004.02.012",
+          "yer": "Sourdough microorganisms"
+        },
+        {
+          "kaynak": "10.1002/mbo3.1009",
+          "yer": "Dynamics of LAB and yeast counts"
+        }
+      ]
+    },
+    {
+      "id": "lab.stresli_ekosistem_ozellikleri",
+      "metin": "Ekşi maya; düşük pH, yüksek karbonhidrat derişimi, oksijen sınırlaması ve mayalardan daha yüksek laktik asit bakterisi hücre sayısıyla karakterize edilen stresli bir ekosistemdir.",
+      "kosul": "",
+      "kanit": "tek_kaynak",
+      "bolum": "Ortak özellikler",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.fm.2013.06.002",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "lab.tur_sayisi",
+      "metin": "Ekşi mayalardan dünya genelinde onlarca LAB türü izole edildi; literatürde 60'tan fazla, 70'ten fazla ve 90'dan fazla tür sayımı bulunur, ama tek bir mayada bunların hepsi bulunmaz.",
+      "kosul": "Literatür sayımları (derleme ve literatür taramaları aktarımı); tek mayada tür sayısı sınırlıdır",
+      "kanit": "uzlasi",
+      "bolum": "Ortak özellikler",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1371/journal.pone.0148325",
+          "yer": "Introduction"
+        },
+        {
+          "kaynak": "10.7717/peerj.11389",
+          "yer": "Microbial Ecology: Bacteria"
+        },
+        {
+          "kaynak": "10.12938/bmfh.2019-038",
+          "yer": "Introduction"
+        },
+        {
+          "kaynak": "10.3389/fmicb.2020.01212",
+          "yer": "Introduction"
+        },
+        {
+          "kaynak": "10.1016/j.tifs.2020.12.008",
+          "yer": "5. Microbiological and biochemical characteristics; Fig. 3A"
+        },
+        {
+          "kaynak": "10.1128/aem.02216-24",
+          "yer": "RESULTS: Genome retrieval"
+        },
+        {
+          "kaynak": "10.1016/j.cofs.2020.09.007",
+          "yer": "Introduction"
+        },
+        {
+          "kaynak": "10.1016/j.tifs.2004.02.012",
+          "yer": "Abstract"
+        }
+      ]
+    },
+    {
+      "id": "lab.turlesme_desteklenmez",
+      "metin": "Bir derlemeye göre ekşi maya dahil gıda fermantasyonları türleşmeyi veya tür altı düzeyde adaptasyonu desteklemez ve laktobasiller ekşi mayalara birincil habitatlarından bulaşır; ancak başka bir çalışma, yardımcı gen içeriğinin suş düzeyinde ekşi mayaya adaptasyona işaret ettiğini bildirir.",
+      "kosul": "Ekşi maya fermantasyonu",
+      "kanit": "tartismali",
+      "bolum": "Ortak özellikler",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.ijfoodmicro.2018.08.019",
+          "yer": "Section snippets / Lifestyles of sourdough lactobacilli"
+        },
+        {
+          "kaynak": "10.1128/spectrum.02380-25",
+          "yer": "DISCUSSION"
+        }
+      ]
+    },
+    {
+      "id": "lab.yogunluk",
+      "metin": "Ekşi mayada LAB sayısı çeşitli çalışmalarda yüksek düzeylerde bildirilmiştir: bir derlemede fermantasyon sonrası ortanca 8,5 log KOB/g (mayalar için 6,5 log KOB/g) ve bir çalışmada olgun ekşi mayalarda ortanca 9,01 log KOB/g.",
+      "kosul": "Sistematik literatür derlemesi (protokolden bağımsız ortanca, Fig. 2B); İtalya: 19 olgun geleneksel ekşi maya, dört besiyerinden her maya için en yüksek sayım; Belçika: 11 fırından 39 ekşi maya örneği, MRS-5 agar. Sicilya: Batı Sicilya'daki (Agrigento, Palermo, Trapani) fırınlardan 15 ekşi maya, yenilemeden önce örneklendi. Durum buğdayı: beş yenilemeden sonra olgun ekşi mayalar, SDB besiyerinde sayım.",
+      "kanit": "uzlasi",
+      "bolum": "Ortak özellikler",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.tifs.2020.12.008",
+          "yer": "4. Using conditions; Fig. 2B"
+        },
+        {
+          "kaynak": "10.1128/aem.07721-11",
+          "yer": "Results, Enumeration; Fig. 1"
+        },
+        {
+          "kaynak": "10.1128/aem.02771-07",
+          "yer": "Results: Sourdough sampling and enumeration of LAB and yeasts"
+        },
+        {
+          "kaynak": "10.1128/aem.07721-11",
+          "yer": "Introduction"
+        },
+        {
+          "kaynak": "10.1016/j.fm.2015.04.011",
+          "yer": "Abstract"
+        },
+        {
+          "kaynak": "10.3389/fmicb.2016.01770",
+          "yer": "Results, Biochemical and microbiological characteristics"
+        },
+        {
+          "kaynak": "10.1038/s41598-018-36786-2",
+          "yer": "Results - Tap water hardly affected the microbiological features during propagation of a traditional and mature Apulian sourdough"
+        },
+        {
+          "kaynak": "10.3390/foods11091278",
+          "yer": "3.6. Freeze-Drying Effect on the Viability of Sourdough Bacteria"
+        }
+      ]
+    },
+    {
+      "id": "lab.direkt_hamurdan_farki",
+      "metin": "Ekşi mayalı süreçleri doğrudan mayalanan hamur süreçlerinden ayıran temel fark, hamur aşamasındaki metabolik dönüşüme laktik asit bakterilerinin ekşi mayada belirgin, doğrudan hamurda ise ihmal edilebilir katkı yapmasıdır.",
+      "kosul": "Ekşi mayalı ve doğrudan mayalı hamur karşılaştırması",
+      "kanit": "tek_kaynak",
+      "bolum": "Tanım",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.ijfoodmicro.2016.05.004",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "lab.tanim_eksi_maya",
+      "metin": "Ekşi maya temelde un ve su karışımıdır; içinde başta laktik asit bakterileri ve mayalar olmak üzere karışık bir mikrop topluluğu metabolik olarak etkindir.",
+      "kosul": "Giriş bölümünde tanım (De Vuyst vd. 2009'a atıfla).",
+      "kanit": "ikincil",
+      "bolum": "Tanım",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.fm.2015.04.011",
+          "yer": "Introduction"
+        },
+        {
+          "kaynak": "10.1016/j.cofs.2020.09.007",
+          "yer": "Abstract"
+        },
+        {
+          "kaynak": "10.1016/j.cofs.2020.09.007",
+          "yer": "Introduction"
+        },
+        {
+          "kaynak": "10.1016/j.fbio.2023.102640",
+          "yer": "Introduction"
+        },
+        {
+          "kaynak": "10.1016/j.fm.2009.07.012",
+          "yer": "Abstract"
+        },
+        {
+          "kaynak": "10.1016/j.fm.2013.06.002",
+          "yer": "Introduction"
+        },
+        {
+          "kaynak": "10.1016/j.ijfoodmicro.2013.11.021",
+          "yer": "Highlights"
+        },
+        {
+          "kaynak": "10.1016/j.ijfoodmicro.2016.05.004",
+          "yer": "Introduction"
+        },
+        {
+          "kaynak": "10.1016/j.ijfoodmicro.2016.05.025",
+          "yer": "Introduction"
+        },
+        {
+          "kaynak": "10.1016/j.ijfoodmicro.2020.108551",
+          "yer": "Introduction"
+        },
+        {
+          "kaynak": "10.3390/foods13010096",
+          "yer": "1.2. Role in Fermented Plant-Origin Food Products"
+        },
+        {
+          "kaynak": "10.3390/foods13223611",
+          "yer": "1. Introduction"
+        },
+        {
+          "kaynak": "10.3390/foods14071253",
+          "yer": "1. Introduction"
+        },
+        {
+          "kaynak": "10.3390/foods11091278",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "lab.organik_asitlerin_kuf_engelleme_etkinligi",
+      "metin": "Ekşi maya fermantasyonu sırasında laktik asit bakterileri tarafından üretilen laktik asit ve asetik asit gibi organik asitler, küfler dahil bozulma mikroorganizmalarının gelişimini engelleyebilir; bu etki kullanılan laktik asit bakterisine bağlıdır.",
+      "kosul": "ekşi mayada organik asit antifungal aktivitesi aktarımı",
+      "kanit": "tek_kaynak",
+      "bolum": "İlişkileri",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods13152318",
+          "yer": "Abstract"
+        },
+        {
+          "kaynak": "10.3390/foods13152318",
+          "yer": "1. Introduction"
+        },
+        {
+          "kaynak": "10.3390/foods13152318",
+          "yer": "1. Introduction"
+        }
+      ]
+    },
+    {
+      "id": "lab.dokuz_gun_cogaltmada_suslarin_cogu_korundu",
+      "metin": "Bu çalışmada dokuz günlük laboratuvar çoğaltmasından sonra ekşi mayalardaki LAB suşlarının yaklaşık %60–80'i çoğaltmadan önce saptananlarla aynıydı.",
+      "kosul": "dokuz günlük laboratuvar çoğaltması, olgun ekşi maya",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1038/s41598-018-36786-2",
+          "yer": "Discussion"
+        }
+      ]
+    },
+    {
+      "id": "lab.en_cok_bakteri_turu_birinci_yenileme_sonunda",
+      "metin": "En çok bakteri türü (70'ten fazla) birinci yenileme adımının sonundaki ekşi mayada belirlendi.",
+      "kosul": "kabuksuz arpa unu, 16S rRNA amplikon dizileme, birinci yenileme adımı sonu",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods10102253",
+          "yer": "3.3. Identification of Microorganisms in the Hull-Less Barley Sourdough"
+        }
+      ]
+    },
+    {
+      "id": "lab.birinci_yenilemede_en_yuksek_bakteri_tur_cesitliligi",
+      "metin": "Bu çalışmada çıplak (hull-less) arpa unundan yapılan ekşi mayada en yüksek bakteri türü sayısı (yetmişten fazla) birinci yenileme adımının sonunda saptandı; sonraki aşamalarda tür sayısı azaldı.",
+      "kosul": "16S rRNA amplikon dizileme analizi",
+      "kanit": "tek_kaynak",
+      "bolum": "Mayadaki yeri",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods10102253",
+          "yer": "3.3. Identification of Microorganisms in the Hull-Less Barley Sourdough"
+        }
+      ]
+    },
+    {
+      "id": "lab.cavdar_30c_56gun",
+      "metin": "30 °C'de 56. günde üç çavdar partisinin hepsinde Companilactobacillus paralimentarius baskındı (%70'ten fazla); Lactiplantibacillus plantarum ve Levilactobacillus brevis %7'nin altında kaldı, 30-I partisinde C. crustorum %15'e ulaştı.",
+      "kosul": "Laboratuvarda kendiliğinden başlatılmış yarı katı çavdar ekşi mayası; Tip 1370 çavdar unu + %0,5 tuz, hamur verimi 200, 56 gün boyunca günde bir 1:10 yenileme; 30 °C, 56. gün; pirodizileme ve DGGE.",
+      "kanit": "tek_kaynak",
+      "bolum": "Mayadaki yeri",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1371/journal.pone.0095449",
+          "yer": "Results, Pyrosequencing; Figure 3"
+        },
+        {
+          "kaynak": "10.1371/journal.pone.0095449",
+          "yer": "Results, DGGE; Figure 2C"
+        },
+        {
+          "kaynak": "10.1371/journal.pone.0095449",
+          "yer": "Results, Pyrosequencing; Figure 3"
+        }
+      ]
+    },
+    {
+      "id": "lab.cavdar_56_dort_tur",
+      "metin": "Laboratuvardaki çavdar ekşi mayalarının hepsinde 56 yenileme döngüsünden sonra şu dört türün farklı birleşimleri bulundu: Levilactobacillus brevis, Companilactobacillus crustorum, Lactiplantibacillus plantarum ve Companilactobacillus paralimentarius.",
+      "kosul": "Laboratuvarda kendiliğinden başlatılmış yarı katı çavdar ekşi mayası; Tip 1370 çavdar unu + %0,5 tuz, hamur verimi 200, 56 gün boyunca günde bir 1:10 yenileme; 20 °C ve 30 °C.",
+      "kanit": "tek_kaynak",
+      "bolum": "Mayadaki yeri",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1371/journal.pone.0095449",
+          "yer": "Abstract"
+        }
+      ]
+    },
+    {
+      "id": "lab.ekmek_uretimi_icin_secilen_bes_lab_izolati",
+      "metin": "Ekmek üretimi için Weissella cibaria 908, Leuconostoc pseudomesenteroides 2619, Fructilactobacillus sanfranciscensis 2709, Levilactobacillus brevis 2216Y ve Lactiplantibacillus plantarum Y201 izolatları seçilmiştir.",
+      "kosul": "asitlik ve kabarma kapasitesi taraması",
+      "kanit": "tek_kaynak",
+      "bolum": "Mayadaki yeri",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.55147/efse.1117033",
+          "yer": "ABSTRACT"
+        }
+      ]
+    },
+    {
+      "id": "lab.gec_asama_40maya",
+      "metin": "Aynı 40 mayada Levilactobacillus, Gluconobacter ve Pediococcus 10 günlük ve daha yaşlı mayalarda daha boldu; 14. günde baskın cinsler Pediococcus, Gluconobacter, Levilactobacillus ve Latilactobacillus'tu.",
+      "kosul": "10 un türünden 40 kendiliğinden ekşi maya, oda sıcaklığı, günlük besleme, 14 gün, 16S rRNA dizileme.",
+      "kanit": "tek_kaynak",
+      "bolum": "Mayadaki yeri",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.7717/peerj.16163",
+          "yer": "Results, Bacterial succession; Figs. 4 and S5A"
+        },
+        {
+          "kaynak": "10.7717/peerj.16163",
+          "yer": "Results, Table 1 (Dominant bacteria, stage 6)"
+        }
+      ]
+    },
+    {
+      "id": "lab.lab_asitlendirir_maya_gaz_cikarir_atif",
+      "metin": "Laktik asit bakterilerinin başlıca rolü asitlendirmedir; mayalar ise CO2 çıkararak kabarmayı sağlar.",
+      "kosul": "derleme girişinde literatür aktarımı",
+      "kanit": "ikincil",
+      "bolum": "Mayadaki yeri",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods10102253",
+          "yer": "1. Introduction"
+        }
+      ]
+    },
+    {
+      "id": "lab.amarant",
+      "metin": "Amarant unuyla başlatılan olgun ekşi mayalarda Latilactobacillus baskındı (%70,3).",
+      "kosul": "10 un türünden 40 kendiliğinden ekşi maya, oda sıcaklığı, günlük besleme, 14 gün, 16S rRNA dizileme; amarant unu, 14. gün.",
+      "kanit": "tek_kaynak",
+      "bolum": "Mayadaki yeri",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.7717/peerj.16163",
+          "yer": "Results, Differences among mature starters; Fig. 5B"
+        }
+      ]
+    },
+    {
+      "id": "lab.cavdar_20c_latilacto",
+      "metin": "20 °C'deki iki çavdar partisinde (20-I, 20-II) Latilactobacillus graminis/sakei/curvatus grubu 8. güne kadar baskın kaldı ve bakteri topluluğunun %80'inden fazlasını oluşturdu.",
+      "kosul": "Laboratuvarda kendiliğinden başlatılmış yarı katı çavdar ekşi mayası; Tip 1370 çavdar unu + %0,5 tuz, hamur verimi 200, günde bir 1:10 yenileme; 20 °C, 20-I ve 20-II partileri; pirodizileme.",
+      "kanit": "tek_kaynak",
+      "bolum": "Mayadaki yeri",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1371/journal.pone.0095449",
+          "yer": "Results, Pyrosequencing; Figure 3"
+        }
+      ]
+    }
+  ]
+}

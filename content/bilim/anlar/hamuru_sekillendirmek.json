@@ -1,0 +1,198 @@
+{
+  "id": "hamuru_sekillendirmek",
+  "durak": "sekil",
+  "baslik": "Hamuru şekillendirmek",
+  "soru": "Şekil verirken hamur nasıl davranır, içindeki gaz ne olur?",
+  "bayrak": false,
+  "gor": {
+    "tur": "kaydirma",
+    "adimlar": [
+      {
+        "metin": "Ekmek hamuru ayarlı bir silindir aralığından geçirildiğinde gerilip sıkışır ve geri çekildiği için aralıktan daha kalın çıkar [[reoloji.silindirleme_geri_esneme_tanimi_atif]].",
+        "gorsel": "boule_de_campagne_01",
+        "vurgu": "Kırsal ekmek topu (boule): şekillendirilmiş hamurun son biçimi."
+      },
+      {
+        "metin": "Viskoelastik hamur, hem akışkan hem elastik bileşenler taşıyan hamurdur [[reoloji.viskoz_elastik_denge]]. Gluten ağı, hamurun viskoelastik özelliklerini büyük ölçüde belirler [[gluten.viskoelastisite_ve_hava_hucreleri_kararliligi]].",
+        "gorsel": "gluten_and_carbon_nanotubes",
+        "vurgu": "Gluten, farklı büyütmelerde mikroskop görüntüsü: hamuru bir arada tutan ağ."
+      },
+      {
+        "metin": "Gaz alma, silindirleme ve şekil verme sırasında kabarcıklar alt bölünür ve sayıları ile dağılımları değişir [[kabarcik.gaz_kabarciklarinin_alt_bolunmesi]]. Şekil verme, küçük hava kabarcıklarının birleşip kapalı boşluklar oluşturmasına yol açabilir [[kabarcik.sekil_vermede_kabarciklarin_birlesmesi]].",
+        "gorsel": null,
+        "vurgu": ""
+      },
+      {
+        "metin": "Bir derlemeye göre yoğurmadan sonra gelen dinlenme, hamurda biriken iç gerilimi kademeli olarak dağıtır; bu da hamurun uzayabilirliğini, yani ne kadar uzayabildiğini artırır [[reoloji.dinlenme_ile_ic_gerilimin_dagilmasi_ve_uzayabilirlik]]. Katkısız buğday hamuru iki saat dinlendirildiğinde protein iplikleri büzüldü; ölçülen damar uzunluğunda %26,6 azalma oldu [[gluten.dinlenmede_iplik_kasilmasi_ve_damar_kisalmasi]].",
+        "gorsel": null,
+        "vurgu": ""
+      },
+      {
+        "metin": "Yeterli kuvveti olmayan hamurda aşırı uzayabilirlik, gaz hücrelerinin yırtılmasına ve pişirmede çökmeye neden olur [[reoloji.asiri_elastiklik_ve_asiri_uzayabilirlik_kusurlari]]. Yeterince elastik olmayan gluten da düşük ekmek hacmi verir [[gluten.elastiklik_hacim_optimum]].",
+        "gorsel": null,
+        "vurgu": ""
+      },
+      {
+        "metin": "Gazın dışındaki sürekli yapının, yani hamur matrisinin reolojisi, son mayalanma ve pişirmede genişleyip şeklini koruyabilmesini belirler [[reoloji.hamur_matrisinin_genlesme_ve_sekil_koruma_rolu]].",
+        "gorsel": "forms_of_bread_from_tt8",
+        "vurgu": "Eski Mısır'dan çeşitli ekmek biçimleri (Theban Mezarı 8)."
+      }
+    ]
+  },
+  "anla": [
+    {
+      "baslik": "Gerilip geri çekilen hamur",
+      "paragraflar": [
+        "Reoloji, malzemelerin akış ve deformasyonunun incelenmesidir [[reoloji.reoloji_bilimi_tanimi]]. Hamurun akışkan (viskoz) bileşenleri gaz hücrelerinin basıncı dengeleyecek kadar genişlemesine izin verir; elastik bileşenler ise hamurun aşırı genişleyip çökmesini engelleyecek dayanımı sağlar [[reoloji.viskoz_elastik_denge]]. Elastiklik, kuvvetle deforme edilen hamurun ilk şekline geri dönme yeteneğidir [[reoloji.ekmek_elastikligi_ve_yumusaklik_tanimi]].",
+        "Mekanik kuvvete maruz kalan hamur, gerilmiş gluten ağını rahatlatmak için dinlenmeye ihtiyaç duyar [[reoloji.dinlenme_ile_gluten_gerilimi_azalmasi]]. Birden çok silindirleme ve dinlendirme döngüsünde gluten ağı daha fazla polimerleşir ve çapraz bağlanır [[reoloji.silindirleme_ve_gevsemede_gluten_polimerizasyonu]]. Disülfit bağları, glutenin alt birimleri arasında kurulan kovalent bağlardır [[disulfit.glutenin_makropolimeri]]. 35 °C'de yapılan silindirleme ve kısa dinlenme döngüleri, hamurdaki disülfit bağı içeriğini anlamlı biçimde artırdı [[disulfit.silindirleme_dinlendirme_sh_ss_degisimi]]."
+      ]
+    },
+    {
+      "baslik": "Kabarcıklar bölünür ve birleşir",
+      "paragraflar": [
+        "Yoğurma sonunda gaz kabarcıkları hamur hacminin yaklaşık %9–20'sini oluşturur [[kabarcik.yogurma_sonu_gaz_hacim_payi]]. Karşılaştırma için kullanılan kontrol hamurunda, silindirden geçirme sayısı arttıkça gaz hücresi sayısı da arttı [[kabarcik.laminasyon_sayisi_ile_gaz_hucresi_artisi]]. Bu artış, 4, 8 ve 12 geçişte, hem 6 hem de 12 mm silindir aralıklarında görüldü [[kabarcik.laminasyon_sayisi_ile_gaz_hucresi_artisi]].",
+        "Şekil verme işlemi, küçük hava kabarcıklarının patlayıp çarpışarak birleşmesine ve 0,5–0,8 mm büyüklüğünde kapalı boşluklar oluşmasına yol açabilir [[kabarcik.sekil_vermede_kabarciklarin_birlesmesi]]. Orantısızlaşma, iç basıncı yüksek küçük kabarcıklardan iç basıncı düşük büyük kabarcıklara doğru olan, basınç kaynaklı gaz geçişidir [[kabarcik.orantisizlasma_tanimi]]. İyi bir gluten gelişiminin, mayalanma ve pişirmede kabarcıkların birleşmesini geciktirerek küçük ve ince duvarlı çok sayıda gaz hücresi oluşmasını sağlaması gerektiği bildirilir [[kabarcik.iyi_gluten_gelisimi_kabarcik_birlesmesini_geciktirir]].",
+        "Gazın hamurdan ayrılması, hamurdaki gazın uzaklaşmasına yol açar ve boşluk oranıyla negatif ilişkilidir [[kabarcik.gaz_kaybi_ve_bosluk_orani]]. Kabarcıklar yüzeyde birleştiğinde gaz atmosfere kaçar ve bu, ekmek hacminin düşmesiyle sonuçlanır [[kabarcik.yuzeyde_birlesme_gaz_kaybi]]."
+      ]
+    },
+    {
+      "baslik": "Gerilmenin sınırı",
+      "paragraflar": [
+        "Gerinim sertleşmesi, hamuru germek için gereken kuvvetin gerdikçe orantılı olandan daha fazla artmasıdır [[reoloji.gerinim_sertlesmesi_tanimi]]. Bu özellik, gaz hücrelerinin ekmek yapımı boyunca düzgün genişlemesini ve somunun birim ağırlık başına hacmini, yani özgül hacmini belirler [[kabarcik.gerinim_sertlesmesi]]. Gerinim sertleşmesi değeri yüksek hamur, kabarcık büyüme hızını düşürerek orantısızlaşmaya ve birleşmeye karşı kararlılığa katkıda bulunur [[reoloji.gerinim_sertlesmesi_kabarcik_kararliligi]].",
+        "Considère ölçütü, polimerlerdeki uzama kararsızlığı için tanımlanmış bir kırılma kriteridir [[kabarcik.considere_kriteri_gerinim_sertlesmesi]]. Kaynak bu ölçütü hamura da uygular: gerinim sertleşmesi yaklaşık 1 değerinin altına düştüğünde kabarcık duvarları kararsızlaşır, hızla birleşir ve gaz tutma kaybına yol açar [[kabarcik.considere_kriteri_gerinim_sertlesmesi]]."
+      ]
+    },
+    {
+      "baslik": "Şeklin korunması",
+      "paragraflar": [
+        "Hamur üç fazdan oluşur: gaz fazı, protein ağı ve sürekli faz [[reoloji.uc_faz_atif]]. Sürekli faz, içinde nişasta taneleri ve suda çözünen bileşenler bulunan, serbest sudan oluşan fazdır [[reoloji.uc_faz_atif]]. Bu sürekli yapının, yani hamur matrisinin reolojisi, son mayalanma ve pişirmede hamurun genişleyip şeklini koruyabilmesini belirler [[reoloji.hamur_matrisinin_genlesme_ve_sekil_koruma_rolu]].",
+        "Gluten ağının kararlılığı, disülfit bağlarının yanı sıra hidrojen, iyonik ve hidrofobik gibi kovalent olmayan etkileşimlere dayanır [[gluten.ag_stabilitesi_disulfit_ve_kovalent_olmayan_baglar]]. Son mayalanma sonunda, kabarcıkların toplam gaz hacmindeki payı %70–75'e ulaşır [[kabarcik.mayalanma_sonu_gaz_hacim_payi]]."
+      ]
+    }
+  ],
+  "yuzlesme": [
+    {
+      "inanc": "Dinlenme hamuru daha uzayabilir kılar.",
+      "cevap": "Bir derlemeye göre dinlenme, iç gerilimi dağıtarak uzayabilirliği artırır [[reoloji.dinlenme_ile_ic_gerilimin_dagilmasi_ve_uzayabilirlik]]. Ekstensograf ölçümlerinde ise un örneklerinin uzayabilirliği 45 dakikalık dinlenmede 80,00 ile 142,00 mm, 135 dakikalık dinlenmede 74,00 ile 113,00 mm arasında değişti [[reoloji.dinlenme_surelerine_gore_ekstensograf_uzayabilirlik_araligi]]."
+    },
+    {
+      "inanc": "Hamuru ne kadar çok yoğurup germek, ekmeği o kadar iyi yapar.",
+      "cevap": "Yeterli kuvveti olmayan hamurda aşırı uzayabilirlik, gaz hücrelerinin yırtılmasına ve pişirmede çökmeye neden olur [[reoloji.asiri_elastiklik_ve_asiri_uzayabilirlik_kusurlari]]. Tek bir çalışmada aşırı yoğurma, gerinim sertleşmesi davranışını belirgin biçimde zayıflattı [[reoloji.asiri_yogurma_gerinim_sertlesmesini_onemli_olcude_zayiflatir]]."
+    },
+    {
+      "inanc": "Hamur ne kadar elastik olursa, ekmek o kadar hacimli olur.",
+      "cevap": "Elastiklik arttıkça hacim artar, ama aşırı elastik gluten gaz hücrelerinin genişlemesini engeller [[gluten.elastiklik_hacim_optimum]]. Aşırı elastik hamuru germek için gereken gaz basıncı çok yüksektir ve somun yetersiz kabarır [[reoloji.asiri_elastiklik_ve_asiri_uzayabilirlik_kusurlari]]."
+    }
+  ],
+  "kanit": {
+    "cekirdek": [
+      "reoloji.asiri_elastiklik_ve_asiri_uzayabilirlik_kusurlari",
+      "reoloji.hamur_matrisinin_genlesme_ve_sekil_koruma_rolu",
+      "reoloji.viskoz_elastik_denge",
+      "gluten.elastiklik_hacim_optimum",
+      "kabarcik.sekil_vermede_kabarciklarin_birlesmesi",
+      "kabarcik.gaz_kabarciklarinin_alt_bolunmesi",
+      "kabarcik.laminasyon_sayisi_ile_gaz_hucresi_artisi",
+      "reoloji.silindirleme_geri_esneme_tanimi_atif",
+      "reoloji.dinlenme_ile_ic_gerilimin_dagilmasi_ve_uzayabilirlik",
+      "reoloji.dinlenme_ile_gluten_gerilimi_azalmasi",
+      "gluten.dinlenmede_iplik_kasilmasi_ve_damar_kisalmasi",
+      "reoloji.gerinim_sertlesmesi_tanimi",
+      "kabarcik.gerinim_sertlesmesi",
+      "reoloji.gerinim_sertlesmesi_kabarcik_kararliligi",
+      "gluten.viskoelastisite_ve_hava_hucreleri_kararliligi"
+    ],
+    "cekmece": [
+      "reoloji.reoloji_bilimi_tanimi",
+      "reoloji.uc_faz_atif",
+      "reoloji.ekmek_elastikligi_ve_yumusaklik_tanimi",
+      "kabarcik.orantisizlasma_tanimi",
+      "kabarcik.considere_kriteri_gerinim_sertlesmesi",
+      "reoloji.asiri_yogurma_gerinim_sertlesmesini_onemli_olcude_zayiflatir",
+      "reoloji.dinlenme_surelerine_gore_ekstensograf_uzayabilirlik_araligi",
+      "gluten.dinlendirmenin_ag_kavsak_ve_polimer_etkisi",
+      "gluten.ag_stabilitesi_disulfit_ve_kovalent_olmayan_baglar",
+      "kabarcik.mayalanma_sonu_gaz_hacim_payi",
+      "kabarcik.yogurma_sonu_gaz_hacim_payi",
+      "kabarcik.iyi_gluten_gelisimi_kabarcik_birlesmesini_geciktirir",
+      "reoloji.silindirleme_ve_gevsemede_gluten_polimerizasyonu",
+      "disulfit.glutenin_makropolimeri",
+      "disulfit.silindirleme_dinlendirme_sh_ss_degisimi",
+      "kabarcik.gaz_kaybi_ve_bosluk_orani",
+      "kabarcik.yuzeyde_birlesme_gaz_kaybi"
+    ]
+  },
+  "baglar": [
+    {
+      "kaldirac": "Silindirleme",
+      "mekanizma": "Hamur gerilip sıkıştırıldıktan sonra geri çekilir.",
+      "sonuc": "Hamur, geçtiği silindir aralığından daha kalın çıkar.",
+      "bilgiler": [
+        "reoloji.silindirleme_geri_esneme_tanimi_atif"
+      ]
+    },
+    {
+      "kaldirac": "Silindirden geçirme sayısı",
+      "mekanizma": "Gaz kabarcıkları silindirleme sırasında alt bölünerek sayı ve dağılımları değişir.",
+      "sonuc": "Kontrol hamurunda geçirme sayısı arttıkça gaz hücresi sayısı arttı.",
+      "bilgiler": [
+        "kabarcik.gaz_kabarciklarinin_alt_bolunmesi",
+        "kabarcik.laminasyon_sayisi_ile_gaz_hucresi_artisi"
+      ]
+    },
+    {
+      "kaldirac": "Dinlenme",
+      "mekanizma": "Yoğurmadan sonra biriken iç gerilim kademeli olarak dağılır.",
+      "sonuc": "Bir derlemeye göre hamur daha uzayabilir hâle gelir; aynı konuda ekstensograf ölçümleri farklı bir eğilim gösterir.",
+      "bilgiler": [
+        "reoloji.dinlenme_ile_ic_gerilimin_dagilmasi_ve_uzayabilirlik",
+        "reoloji.dinlenme_ile_gluten_gerilimi_azalmasi",
+        "reoloji.dinlenme_surelerine_gore_ekstensograf_uzayabilirlik_araligi"
+      ]
+    },
+    {
+      "kaldirac": "Aşırı uzama",
+      "mekanizma": "Yeterli kuvveti olmayan hamurda aşırı uzayabilirlik gaz hücrelerinin yırtılmasına neden olur.",
+      "sonuc": "Pişirmede somun çöker.",
+      "bilgiler": [
+        "reoloji.asiri_elastiklik_ve_asiri_uzayabilirlik_kusurlari"
+      ]
+    },
+    {
+      "kaldirac": "Gerinim sertleşmesi",
+      "mekanizma": "Gerildikçe direnç orantılı olandan fazla artar ve bu kabarcık büyüme hızını düşürür.",
+      "sonuc": "Kabarcıklar birleşmeye karşı daha kararlı kalır.",
+      "bilgiler": [
+        "reoloji.gerinim_sertlesmesi_tanimi",
+        "reoloji.gerinim_sertlesmesi_kabarcik_kararliligi"
+      ]
+    },
+    {
+      "kaldirac": "Elastiklik",
+      "mekanizma": "Elastiklik arttıkça hacim artar; aşırı elastik gluten gaz hücrelerinin genişlemesini engeller.",
+      "sonuc": "Hacim için elastikliğin bir optimumu vardır.",
+      "bilgiler": [
+        "gluten.elastiklik_hacim_optimum"
+      ]
+    }
+  ],
+  "karakterler": [
+    "gluten"
+  ],
+  "ayrisan_kaynaklar": [
+    {
+      "konu": "Dinlenme hamuru daha uzayabilir mi?",
+      "bilgiler": [
+        "reoloji.dinlenme_ile_ic_gerilimin_dagilmasi_ve_uzayabilirlik",
+        "reoloji.dinlenme_surelerine_gore_ekstensograf_uzayabilirlik_araligi"
+      ]
+    },
+    {
+      "konu": "Dinlenme ağı güçlendirir mi, yoksa protein iplikleri büzülür mü?",
+      "bilgiler": [
+        "gluten.dinlendirmenin_ag_kavsak_ve_polimer_etkisi",
+        "gluten.dinlenmede_iplik_kasilmasi_ve_damar_kisalmasi"
+      ]
+    }
+  ]
+}

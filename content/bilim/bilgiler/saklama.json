@@ -1,0 +1,110 @@
+{
+  "id": "saklama",
+  "ad": "Saklama",
+  "bilgiler": [
+    {
+      "id": "saklama.bariyer_sertlesmeyi_geciktirir",
+      "metin": "Ekmek içinin kurumasını uygun bariyer malzemeleriyle önlemek sertleşmeyi geciktirebilir.",
+      "kosul": "Almanya (Freising): yerel fırından kalıp buğday ekmeği ve %70 çavdar–%30 buğday karışık ekşi mayalı ekmek, evde 10 gün, ambalaj bariyerleri (plastik torba, ekmek kutusu, kâğıt torba). İsviçre: 100 g'lık küçük beyaz buğday ekmekleri, kâğıt torbada 23 °C ve %65 bağıl nemde 14 gün, sıcak ekmeğe sürülen %20 kandelila mumu kaplaması.",
+      "kanit": "uzlasi",
+      "bolum": "Hangi koşulda",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods10010076",
+          "yer": "3.4. Bread Staling under Different Storage Conditions"
+        },
+        {
+          "kaynak": "10.1016/j.crfs.2021.03.004",
+          "yer": "Abstract"
+        }
+      ]
+    },
+    {
+      "id": "saklama.buzdolabi_daha_cok_sertlesir",
+      "metin": "Plastik torbada buzdolabında saklanan ekmeğin sertliği 10 günde başlangıcın %398'ine (karışık ekşi mayalı) ve %424'üne (kalıp buğday) çıktı; oda sıcaklığında plastik torbada ise sertleşme yöntemler içinde en azdı (%330 ve %390).",
+      "kosul": "Almanya (Freising), yerel fırından kalıp buğday ekmeği ve %70 çavdar–%30 buğday karışık ekşi mayalı ekmek; evde 10 gün saklama, her gün açık uçtan bir dilim kesildi. LDPE plastik torba, oda (21,9 °C) ve buzdolabı (8,2 °C).",
+      "kanit": "tek_kaynak",
+      "bolum": "Hangi koşulda",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods10010076",
+          "yer": "3.4. Bread Staling under Different Storage Conditions"
+        },
+        {
+          "kaynak": "10.3390/foods10010076",
+          "yer": "3.4. Bread Staling under Different Storage Conditions"
+        }
+      ]
+    },
+    {
+      "id": "saklama.plastik_torba_kurumayi_onler",
+      "metin": "Ekmeğin kurumasını en iyi plastik torba önledi; en çok nem kaybı oda sıcaklığında mikro delikli kâğıt torbada oldu, ekmek kutusu ikisinin arasında kaldı.",
+      "kosul": "Almanya (Freising), yerel fırından kalıp buğday ekmeği ve %70 çavdar–%30 buğday karışık ekşi mayalı ekmek; evde 10 gün saklama, her gün açık uçtan bir dilim kesildi.",
+      "kanit": "tek_kaynak",
+      "bolum": "Hangi koşulda",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods10010076",
+          "yer": "3.4. Bread Staling under Different Storage Conditions"
+        },
+        {
+          "kaynak": "10.3390/foods10010076",
+          "yer": "3.4. Bread Staling under Different Storage Conditions; Table 2"
+        },
+        {
+          "kaynak": "10.3390/foods10010076",
+          "yer": "3.4. Bread Staling under Different Storage Conditions"
+        }
+      ]
+    },
+    {
+      "id": "saklama.sicak_sarma",
+      "metin": "Ekmek fırından sıcak çıkar çıkmaz sarılırsa ambalajın iç yüzünde su damlacıkları yoğuşur ve bu küf gelişimini kolaylaştırır.",
+      "kosul": "",
+      "kanit": "ikincil",
+      "bolum": "Hangi koşulda",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/fermentation4010009",
+          "yer": "3.1.2. Bread Spoilage"
+        }
+      ]
+    },
+    {
+      "id": "saklama.ekmek_ici_su_aktivitesi_kabuktan_yuksek",
+      "metin": "Tüm örneklerde ekmek içinin su aktivitesi kabuğunkinden yüksekti (0,85 ile 0,96 aralığında); OP2 örneği en düşük değeri (0,855) gösterdi.",
+      "kosul": "tam pişirilmiş ekmek analizi, kabuk ve ekmek içi karşılaştırması",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods13152318",
+          "yer": "3.3. Bread Quality and Physicochemical Properties"
+        }
+      ]
+    },
+    {
+      "id": "saklama.ekmek_kutusu_nemli",
+      "metin": "Ekmek kutusunun genellikle en kararlı saklama yolu sanıldığı belirtilir; ama bir çalışmada metal ekmek kutusunun içinde bağıl nem %89,0'a ulaştı, PE katmanlı mikro delikli kâğıt torbada ise su geçirgenliği yüksek olduğundan nem anlamlı olarak daha düşüktü (%80,5).",
+      "kosul": "Almanya, yerel fırından kalıp buğday ekmeği (buğday unu, su, tuz, maya); metal ekmek kutusu 22,0 °C; PE katmanlı mikro delikli kâğıt torba 21,3 °C.",
+      "kanit": "tek_kaynak",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods10010076",
+          "yer": "3.2. Microbial Stability of Breads under Different Storage Conditions"
+        },
+        {
+          "kaynak": "10.3390/foods10010076",
+          "yer": "3.2. Microbial Stability of Breads under Different Storage Conditions"
+        }
+      ]
+    }
+  ]
+}

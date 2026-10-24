@@ -1,0 +1,207 @@
+{
+  "id": "saklama_ve_kuf",
+  "durak": "sonra",
+  "baslik": "İlk küf lekesi",
+  "soru": "Ekmek nasıl saklanır, küf neden ve nereden gelir?",
+  "bayrak": false,
+  "gor": {
+    "tur": "kaydirma",
+    "adimlar": [
+      {
+        "metin": "Fırından yeni çıkan ekmekte küf bulunmadığı genel olarak kabul edilir [[kuf.firindan_cikan_ekmek_kufsuz]]. Küf çoğunlukla sonradan bulaşır; soğuma ve paketleme sırasında havadan, makinelerden ya da çalışanlardan geçer [[kuf.bulasma_pisirmeden_sonra]].",
+        "gorsel": "moldy_bread",
+        "vurgu": "Küflenmiş bir ekmek: fırın çıkışından sonra görülen küfün bir örneği."
+      },
+      {
+        "metin": "Ekmek sıcakken sarılırsa ambalajın iç yüzünde su damlacıkları yoğuşur ve bu küf gelişimini kolaylaştırır [[saklama.sicak_sarma]].",
+        "gorsel": "moldy_old_bread",
+        "vurgu": "Pide ekmeğinde küf."
+      },
+      {
+        "metin": "Su aktivitesi, bir maddenin üzerindeki su buharı basıncının, aynı sıcaklık ve basınçta saf suyun üzerindeki buhar basıncına oranıdır [[kuf.su_aktivitesi_tanimi]]. Ekmeğin su içeriği bayatlamayı etkiler, ama bozulmayı belirleyen şey su aktivitesidir [[kuf.su_aktivitesi_belirleyici]].",
+        "gorsel": "food_waste_with_moldy_bread",
+        "vurgu": "Küflenmiş ekmek içeren gıda atığı."
+      },
+      {
+        "metin": "Almanya'da, oda sıcaklığında plastik torbada tutulan buğday ekmeğinde görünür küf dördüncü ya da beşinci günde başladı [[kuf.plastik_torba_oda_sicakligi]]. Küf kabukta üredi; ekmeğin içinde ise 10 güne kadar küf görülmedi [[kuf.kabukta_baslar]].",
+        "gorsel": "moldy_bread",
+        "vurgu": "Küflenmiş bir ekmek."
+      },
+      {
+        "metin": "Almanya'da, metal ekmek kutusunda ilk görünür küf dördüncü, beşinci ya da altıncı günde çıktı [[kuf.ekmek_kutusu]]. İç yüzü polietilen kaplı kâğıt torbada ise görünür küf beşinci ya da altıncı günden itibaren görülebildi [[kuf.kagit_torba]].",
+        "gorsel": "moldy_old_bread",
+        "vurgu": "Pide ekmeğinde küf; bu görsel kutuyu ya da kâğıt torbayı değil, küfün genel görünümünü gösterir."
+      },
+      {
+        "metin": "Almanya'da, aynı plastik torbada 8 °C'de 10 gün tutulan buğday ekmeğinde, torba içi nem oda sıcaklığındakine benzer olduğu halde, ne gözle ne laboratuvar sayımıyla küf saptandı [[kuf.buzdolabi_8_derece]]. Soğuğun öbür yüzünde sertleşme vardı: buzdolabında kalıp buğday ekmeğinin sertliği 10 günde başlangıcın %424'üne çıktı [[saklama.buzdolabi_daha_cok_sertlesir]].",
+        "gorsel": "food_waste_with_moldy_bread",
+        "vurgu": "Küflenmiş ekmek içeren gıda atığı; bu görsel buzdolabı denemesini değil, genel bir küf örneğini gösterir."
+      },
+      {
+        "metin": "Ekşi mayada laktik asit bakterileri organik asitler üretir; bu asitler küfler dahil bozulma mikroplarını engelleyebilir [[lab.organik_asitlerin_kuf_engelleme_etkinligi]]. Almanya'da evde yapılan 10 günlük denemede çavdar ve buğday karışımından yapılan ekşi maya ekmeği, buğday kalıp ekmeğinden daha dayanıklı çıktı [[kuf.karisik_eksi_maya_ekmegi_daha_dayanikli]].",
+        "gorsel": "lactobacillus_spp",
+        "vurgu": "Lactobacillus spp. kolonileri, Petri kabında."
+      }
+    ]
+  },
+  "anla": [
+    {
+      "baslik": "Fırından sonra gelen bulaşma",
+      "paragraflar": [
+        "Makaleler, ekmekte mikropların neden olduğu bozulmanın en sık nedeninin küf gelişimi olduğunu aktarır [[kuf.en_sik_bozulma]].",
+        "Fırından yeni çıkan ekmekte küf bulunmadığı genel olarak kabul edilir [[kuf.firindan_cikan_ekmek_kufsuz]]. Küf çoğunlukla sonradan bulaşır; soğuma, dilimleme ve paketleme sırasında havadan, makinelerden ya da çalışanlardan geçer [[kuf.bulasma_pisirmeden_sonra]].",
+        "Ekmek sıcakken sarılırsa ambalajın iç yüzünde su damlacıkları yoğuşur ve bu, küf gelişimini kolaylaştırır [[saklama.sicak_sarma]]."
+      ]
+    },
+    {
+      "baslik": "Ekmeğin kendi nemi",
+      "paragraflar": [
+        "Su aktivitesi, bir maddenin üzerindeki su buharı basıncının, aynı sıcaklık ve basınçta saf suyun üzerindeki buhar basıncına oranıdır [[kuf.su_aktivitesi_tanimi]]. Ekmeğin su içeriği bayatlamayı etkiler, ama bozulmayı belirleyen şey su aktivitesidir [[kuf.su_aktivitesi_belirleyici]].",
+        "Ekmeğin kendi bileşimi de küf üremesini kolaylaştırır: yaklaşık %40 su ve 0,94–0,97 su aktivitesi, küf için elverişli bir ortam kurar [[kuf.ekmek_bilesimi_kufe_elverisli]]. Makale, yüksek nem ve nişasta içeriğinin ekmeği mantar kontaminasyonuna duyarlı kıldığını aktarır [[kuf.ekmegin_yuksek_nem_ve_nisasta_icerigi_kuflenme]]."
+      ]
+    },
+    {
+      "baslik": "Torba, kutu ve ilk leke",
+      "paragraflar": [
+        "Almanya'da evde yapılan bir denemede, oda sıcaklığında, her gün açık uçtan dilim kesilerek plastik torbada tutulan buğday ekmeğinde görünür küf dördüncü ya da beşinci günde başladı [[kuf.plastik_torba_oda_sicakligi]]. Torbadaki hava %89,9 oranında nemliydi ve bu, küf üremesini belirgin biçimde hızlandırdı [[kuf.plastik_torba_oda_sicakligi]].",
+        "Bu denemede dilimin açık yüzeyi düzenli olarak kesilerek yenilendi [[kuf.kabukta_baslar]]. Küf kabukta üredi; ekmeğin içinde ise 10 güne kadar küf görülmedi [[kuf.kabukta_baslar]].",
+        "Almanya'da evde yapılan bir denemede metal ekmek kutusunda ilk görünür küf dördüncü, beşinci ya da altıncı günde çıktı [[kuf.ekmek_kutusu]]. Küf çoğunlukla altta, hava dolaşımının kısıtlı olduğu ve nemin en çok biriktiği yüzeyde üredi [[kuf.ekmek_kutusu]]. İç yüzü polietilen kaplı kâğıt torbada görünür küf beşinci ya da altıncı günden itibaren görülebildi [[kuf.kagit_torba]].",
+        "Buğday ekmeğinde en sık görülen küf Penicillium türleridir; mavi-yeşil, düz ve oldukça yavaş yayılan koloniler oluştururlar [[kuf.penicillium_bugday_ekmegi]]. Laboratuvar sayımı küfü gözle görünmeden önce yakaladı; gözle kontrol ise bu üremeyi daha az duyarlı biçimde gördü [[kuf.plaka_sayimi_gozden_once]]."
+      ]
+    },
+    {
+      "baslik": "Soğuk, ekşi maya ve sertlik",
+      "paragraflar": [
+        "Almanya'da, aynı plastik torbada 8 °C'de 10 gün tutulan buğday ekmeğinde, torba içi nem oda sıcaklığındakine benzer olduğu halde, ne gözle ne laboratuvar sayımıyla küf saptandı [[kuf.buzdolabi_8_derece]]. Soğukta depolanan kısmen pişmiş kontrol ekmeğinde ise 14 gün sonra %50, 21 gün sonra %100 oranında yüzeyde belirgin küf gelişimi gözlendi [[kuf.soguk_depolamada_kontrol_ekmeginde_kuf_gelisimi]]. Soğuğun öbür yüzünde sertleşme vardı: buzdolabında kalıp buğday ekmeğinin sertliği 10 günde başlangıcın %424'üne çıktı [[saklama.buzdolabi_daha_cok_sertlesir]].",
+        "Ekşi maya, un ve sudan oluşur; içinde başta laktik asit bakterileri ve mayalar olmak üzere mikroplar etkindir [[lab.tanim_eksi_maya]]. Laktik asit bakterilerinin başlıca rolü asitlendirmektir [[lab.lab_asitlendirir_maya_gaz_cikarir_atif]]. Bu bakteriler laktik asit ve asetik asit gibi organik asitler üretir; bu asitler küfler dahil bozulma mikroplarının gelişimini engelleyebilir [[lab.organik_asitlerin_kuf_engelleme_etkinligi]].",
+        "Almanya'da evde yapılan 10 günlük denemede çavdar ve buğday karışımından yapılan ekşi maya ekmeği, buğday kalıp ekmeğinden daha dayanıklı çıktı [[kuf.karisik_eksi_maya_ekmegi_daha_dayanikli]]. Yalnız plastik torbada bu ekmek 10 ya da 13 günden sonra bozuldu [[kuf.karisik_eksi_maya_ekmegi_daha_dayanikli]]."
+      ]
+    }
+  ],
+  "yuzlesme": [
+    {
+      "inanc": "Ekmek kutusu ekmeği en iyi koruyan yoldur.",
+      "cevap": "Ekmek kutusunun genellikle en kararlı saklama yolu sanıldığı belirtilir; ama Almanya'da yapılan bir çalışmada metal kutunun içindeki havanın nemi %89,0'a ulaştı [[saklama.ekmek_kutusu_nemli]]. Polietilen kaplı, mikro delikli kâğıt torbada su geçirgenliği yüksek olduğu için nem anlamlı olarak daha düşük kaldı (%80,5) [[saklama.ekmek_kutusu_nemli]]. Aynı çalışmanın metal kutusunda ilk görünür küf dördüncü, beşinci ya da altıncı günde çıktı [[kuf.ekmek_kutusu]]."
+    },
+    {
+      "inanc": "Hava nemi %90'ın altındayken ekmekte küf üremez.",
+      "cevap": "Kaynaklar bu konuda ayrılıyor; bir derleme böyle bildirir [[kuf.bagil_nem_90_alti]]. Almanya'da evde yapılan bir denemede, oda sıcaklığında %89,9 nemli plastik torbada ve %89,0 nemli ekmek kutusunda buğday ekmeği 4–6 gün içinde küflendi [[kuf.bagil_nem_90_alti]]."
+    },
+    {
+      "inanc": "Ekşi maya ekmeği asidi sayesinde küflenmez.",
+      "cevap": "Küf bozulması, ekşi mayalı ekmeğin düşük asitlik düzeyinden (pH 4,8–6,0) doğrudan etkilenmez [[kuf.dusuk_ph_tek_basina_kufu_engellemez]]. Organik asitler küfü engelleyebilir; ama bu etki kullanılan laktik asit bakterisine bağlıdır [[lab.organik_asitlerin_kuf_engelleme_etkinligi]]. Başka yazarlar, asidik koşullardaki küf engellemesinin organik asitlerin sinerjisinden geldiğini varsaymıştır [[kuf.asidik_kosullarda_organik_asit_sinerjisi_hipotezi]]."
+    }
+  ],
+  "kanit": {
+    "cekirdek": [
+      "kuf.firindan_cikan_ekmek_kufsuz",
+      "kuf.bulasma_pisirmeden_sonra",
+      "saklama.sicak_sarma",
+      "kuf.su_aktivitesi_tanimi",
+      "kuf.su_aktivitesi_belirleyici",
+      "kuf.ekmek_bilesimi_kufe_elverisli",
+      "kuf.plastik_torba_oda_sicakligi",
+      "kuf.kabukta_baslar",
+      "kuf.ekmek_kutusu",
+      "kuf.buzdolabi_8_derece",
+      "saklama.buzdolabi_daha_cok_sertlesir",
+      "lab.organik_asitlerin_kuf_engelleme_etkinligi",
+      "kuf.karisik_eksi_maya_ekmegi_daha_dayanikli",
+      "kuf.plaka_sayimi_gozden_once",
+      "kuf.en_sik_bozulma"
+    ],
+    "cekmece": [
+      "kuf.kagit_torba",
+      "kuf.penicillium_bugday_ekmegi",
+      "kuf.ekmegin_yuksek_nem_ve_nisasta_icerigi_kuflenme",
+      "kuf.bagil_nem_90_alti",
+      "saklama.ekmek_kutusu_nemli",
+      "saklama.plastik_torba_kurumayi_onler",
+      "kuf.dusuk_ph_tek_basina_kufu_engellemez",
+      "lab.tanim_eksi_maya",
+      "lab.lab_asitlendirir_maya_gaz_cikarir_atif",
+      "kuf.soguk_depolamada_kontrol_ekmeginde_kuf_gelisimi",
+      "kuf.organik_asitlerle_kuf_bozulmasi_14_gun_sonraya_gecikir",
+      "kuf.eksi_maya_kuf_hizini_dusurur_atif",
+      "kuf.capraz_bulasma_saklamada",
+      "kuf.kuf_engellemede_eksi_maya_orani",
+      "saklama.bariyer_sertlesmeyi_geciktirir",
+      "saklama.ekmek_ici_su_aktivitesi_kabuktan_yuksek",
+      "kuf.op1_eksi_mayali_ekmekte_28_gunde_kuf_orani",
+      "kuf.asidik_kosullarda_organik_asit_sinerjisi_hipotezi"
+    ]
+  },
+  "baglar": [
+    {
+      "kaldirac": "Ekmeğin su aktivitesi",
+      "mekanizma": "Su aktivitesi bozulmayı belirleyen değerdir; yüksek olduğunda küf üremesi kolaylaşır.",
+      "sonuc": "Nemli havalı plastik torbada görünür küf 4. ya da 5. günde başladı.",
+      "bilgiler": [
+        "kuf.su_aktivitesi_belirleyici",
+        "kuf.plastik_torba_oda_sicakligi"
+      ]
+    },
+    {
+      "kaldirac": "Ambalajın nemi",
+      "mekanizma": "Plastik torba ekmeğin kurumasını engeller, ama içindeki havayı çok nemli tutar.",
+      "sonuc": "Küf kabukta başladı; ekmeğin iç kısmında 10. güne kadar küf görülmedi.",
+      "bilgiler": [
+        "saklama.plastik_torba_kurumayi_onler",
+        "kuf.kabukta_baslar"
+      ]
+    },
+    {
+      "kaldirac": "Soğuk",
+      "mekanizma": "8 °C'de 10 gün tutulan ekmekte küf görülmedi; aynı süreçte sertlik arttı.",
+      "sonuc": "Buzdolabında sertleşme, oda sıcaklığındaki torbadan daha fazla oldu.",
+      "bilgiler": [
+        "kuf.buzdolabi_8_derece",
+        "saklama.buzdolabi_daha_cok_sertlesir"
+      ]
+    },
+    {
+      "kaldirac": "Ekşi maya asitleri",
+      "mekanizma": "Laktik asit bakterileri organik asitler üretir; bu asitler küfleri engelleyebilir ve etki bakteri türüne bağlıdır.",
+      "sonuc": "Karışık tip ekşi maya ekmeği, 10 güne kadar görünür küf göstermedi.",
+      "bilgiler": [
+        "lab.organik_asitlerin_kuf_engelleme_etkinligi",
+        "kuf.karisik_eksi_maya_ekmegi_daha_dayanikli"
+      ]
+    },
+    {
+      "kaldirac": "Fırın çıkışı",
+      "mekanizma": "Fırından yeni çıkan ekmekte küf bulunmaz; küf sonradan havadan, makinelerden ya da çalışanlardan bulaşır.",
+      "sonuc": "Bulaşma çoğunlukla soğuma, dilimleme ve paketleme aşamalarında olur.",
+      "bilgiler": [
+        "kuf.firindan_cikan_ekmek_kufsuz",
+        "kuf.bulasma_pisirmeden_sonra"
+      ]
+    }
+  ],
+  "karakterler": [
+    "lab"
+  ],
+  "ayrisan_kaynaklar": [
+    {
+      "konu": "Ekmek kutusu ekmeği nemden korur mu?",
+      "bilgiler": [
+        "saklama.ekmek_kutusu_nemli",
+        "kuf.ekmek_kutusu"
+      ]
+    },
+    {
+      "konu": "Hava nemi %90'ın altındayken küf çıkmaz mı?",
+      "bilgiler": [
+        "kuf.bagil_nem_90_alti",
+        "kuf.plastik_torba_oda_sicakligi"
+      ]
+    },
+    {
+      "konu": "Soğukta saklamak küfü geciktirir mi?",
+      "bilgiler": [
+        "kuf.buzdolabi_8_derece",
+        "kuf.soguk_depolamada_kontrol_ekmeginde_kuf_gelisimi"
+      ]
+    }
+  ]
+}

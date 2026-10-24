@@ -1,0 +1,700 @@
+{
+  "id": "maillard",
+  "ad": "Maillard tepkimesi",
+  "bilgiler": [
+    {
+      "id": "maillard.ornitin_metilglioxal_2_asetil_1_pirolin",
+      "metin": "Ornitin, ekmek pişirme sırasındaki Maillard tepkimelerinde 2-oksopropanal ile tepkimeye girerek ekmek kabuğu aromasından sorumlu olan 2-asetil-1-pirolini oluşturur.",
+      "kosul": "Ekmek pişirme aşaması",
+      "kanit": "ikincil",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1080/10408398.2021.1976100",
+          "yer": "Lactic acid bacteria"
+        },
+        {
+          "kaynak": "10.1080/10408398.2021.1976100",
+          "yer": "Sourdough productions with the addition of pure chemical compounds > Arginine"
+        }
+      ]
+    },
+    {
+      "id": "maillard.kabukta_melanoidin_olusumu",
+      "metin": "Ekmek kabuğunda olduğu gibi indirgen şekerler ile amino asitler, proteinler veya diğer azotlu bileşikler birlikte ısıtıldığında Maillard esmerleşme ürünleri olan melanoidinler oluşur.",
+      "kosul": "Fennema, 1996 aktarımı",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.foodres.2009.03.007",
+          "yer": "Introduction"
+        },
+        {
+          "kaynak": "10.4322/biori.202203",
+          "yer": "Discussion"
+        },
+        {
+          "kaynak": "10.3390/foods10020417",
+          "yer": "PMC7918450.txt:1. Introduction"
+        }
+      ]
+    },
+    {
+      "id": "maillard.renk_baslangic_asgari_kosullari",
+      "metin": "Ekmek yüzeyinde renk oluşumunun başlaması için asgari gereksinimler sıcaklığın 120 °C'nin üzerinde ve su aktivitesinin 0,6'nın altında olmasıdır.",
+      "kosul": "Purlis ve Salvadori, 2009 aktarımı",
+      "kanit": "ikincil",
+      "bolum": "Hangi koşulda",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.jfoodeng.2008.09.037",
+          "yer": "Cited by: Modelling the browning of bread during baking"
+        },
+        {
+          "kaynak": "10.1111/1750-3841.71456",
+          "yer": "Color Development (a*) and Browning Index (BI)"
+        },
+        {
+          "kaynak": "10.3390/foods10020417",
+          "yer": "PMC7918450.txt:3.2. Colour Development"
+        }
+      ]
+    },
+    {
+      "id": "maillard.tepkimenin_uc_asamasi_amadori_ve_heyns_bilesikleri",
+      "metin": "Üç aşamada gerçekleşen Maillard tepkimesinin başlangıç evresinde indirgen şekerler ile aminik bileşiklerin birleşmesinden renksiz Amadori ve Heyns bileşikleri oluşur.",
+      "kosul": "Maillard tepkimesi aşamaları",
+      "kanit": "tek_kaynak",
+      "bolum": "Kimlik",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods10020417",
+          "yer": "PMC7918450.txt:1. Introduction"
+        },
+        {
+          "kaynak": "10.3390/foods10020417",
+          "yer": "PMC7918450.txt:1. Introduction"
+        }
+      ]
+    },
+    {
+      "id": "maillard.eksi_maya_dusuk_ph_amadori_duzenlenmesi",
+      "metin": "Ekşi maya hamur pH'ını düşürdüğü için Maillard tepkimelerinde Amadori düzenlenmeleri kolaylaşır ve furanlar, pirazinler, piroller, pirolinler ile kükürtlü bileşiklerin oluşumu desteklenir.",
+      "kosul": "Ekşi mayalı ekmek hamuru",
+      "kanit": "ikincil",
+      "bolum": "Mayadaki yeri",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1080/10408398.2021.1976100",
+          "yer": "Lactic acid bacteria"
+        },
+        {
+          "kaynak": "10.4322/biori.202203",
+          "yer": "Discussion"
+        }
+      ]
+    },
+    {
+      "id": "maillard.esmerlesme_maillard_ve_karamellesme",
+      "metin": "Ekmek pişirme sırasında esmerleşme olarak adlandırılan sarı-altın rengin oluşumu, renkli bileşikler üreten enzimatik olmayan kimyasal tepkimelerden, özellikle Maillard tepkimesi ve karamelleşmeden kaynaklanır.",
+      "kosul": "Ekmek pişirme süreci",
+      "kanit": "ikincil",
+      "bolum": "Tanım",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.foodres.2009.03.007",
+          "yer": "Introduction"
+        },
+        {
+          "kaynak": "10.1016/j.jfoodeng.2006.09.007",
+          "yer": "Introduction"
+        },
+        {
+          "kaynak": "10.3390/foods14091649",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "maillard.maillard_asgari_substratlari",
+      "metin": "Maillard esmerleşmesi için asgari substrat gereksinimleri genellikle bir protein olan aminik bir bileşik, indirgen bir şeker ve bir miktar suyun bulunmasıdır.",
+      "kosul": "",
+      "kanit": "tek_kaynak",
+      "bolum": "Tanım",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.jfoodeng.2006.09.007",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "maillard.aldehitlerin_strecker_yikimiyla_olusumu",
+      "metin": "2-metilpropanal, 2-metilbütanal ve 3-metilbütanal gibi aldehitler fermantasyon aşamasında Ehrlich yolağıyla veya pişirme sırasında Strecker yıkımıyla oluşabilir.",
+      "kosul": "ekmek aroması aktarımı",
+      "kanit": "ikincil",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods11091278",
+          "yer": "VOCs Determination in Sourdoughs and Bread"
+        }
+      ]
+    },
+    {
+      "id": "maillard.dusuk_sekerli_kurabiyede_aminoasit_aroma_katkisi",
+      "metin": "Şahin ve ark.'na göre düşük şekerli ekşi mayalı kurabiyeler, muhtemelen hamura katılan organik asitler ve serbest amino asitler nedeniyle zengin aromayı korudu; bunların Maillard tepkimesini ve sonraki aroma bileşiklerinin oluşumunu desteklemiş olabileceği belirtiliyor.",
+      "kosul": "%5 şekerli ekşi mayalı kurabiye",
+      "kanit": "ikincil",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods13010096",
+          "yer": "3. Leuconostoc Citreum and Its Influence in Sourdough"
+        }
+      ]
+    },
+    {
+      "id": "maillard.ekmekte_furfural_ve_2_pentilfuran_olusumu",
+      "metin": "Bu çalışmada tam yulaf ekmeklerinde pişirme sırasındaki karamelleşme ve Maillard tepkimesi, furan ve pirazinlerin, özellikle furfural ve 2-pentilfuran oluşumuna yol açtı; furfural ve 2-pentilfuran tüm ekmeklerde saptandı.",
+      "kosul": "ekmek pişirme süreci",
+      "kanit": "tek_kaynak",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.crfs.2024.100697",
+          "yer": "Volatile compounds profile of sourdoughs and breads"
+        },
+        {
+          "kaynak": "10.1016/j.crfs.2024.100697",
+          "yer": "Discussion"
+        }
+      ]
+    },
+    {
+      "id": "maillard.eksi_maya_amilaz_esmerlesme_aktarim",
+      "metin": "Aktarılan bilgiye göre buğday ve çavdarın ekşi maya fermantasyonu amilaz etkinliğini artırır; oluşan maltodekstrinler, maltoz ve glukoz pişirmede esmerleşmeyi yoğunlaştırır.",
+      "kosul": "",
+      "kanit": "ikincil",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods11233927",
+          "yer": "3.4. Bread Colour and Appearance"
+        }
+      ]
+    },
+    {
+      "id": "maillard.kabuk_islemi_koyu_kabuk",
+      "metin": "Kabuk yüzeyine enzim (α-amilaz) ya da NaOH uygulanan ekmeklerin kabuğu belirgin biçimde daha koyuydu; yazarlar bunu büyük olasılıkla Maillard tepkimesine bağlar.",
+      "kosul": "İsviçre; beyaz buğday ekmeği küçük somunları (tip 550 un 1000 g, maya 25 g, tuz 22 g, su 616 g; 100 g dondurulmuş hamur, çözülüp 32 °C'de 30 dakika mayalandı, buharla 210 °C'de 10 dakika pişirildi); son mayalanmadan önce çözülmüş hamur yüzeyine %4,9 NaOH ya da %10 α-amilaz püskürtüldü.",
+      "kanit": "tek_kaynak",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.crfs.2021.03.004",
+          "yer": "3.3. Effects of crust treatments on water migration in breads"
+        }
+      ]
+    },
+    {
+      "id": "maillard.kabukta_antioksidan_kapasite_artisi",
+      "metin": "Ekmek kabuğunda gözlenen antioksidan kapasite artışının, pişirme sürecinde yeni oluşan Maillard tepkimesi ürünlerinden kaynaklanabileceği belirtiliyor.",
+      "kosul": "ekmek kabuğu antioksidan kapasitesi aktarımı",
+      "kanit": "ikincil",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods9081035",
+          "yer": "4. Discussion"
+        }
+      ]
+    },
+    {
+      "id": "maillard.kavilca_ekmeginde_kizariklik_ve_esmerlesme_indeksi",
+      "metin": "Bu çalışmada Kavılca ekmeği kabuğu beyaz ekmek kabuğuna kıyasla daha yüksek kızarıklık derecesi (10,79'a karşı 7,60) ve en yüksek esmerleşme indeksi (70,95'e karşı 48,15) gösterdi.",
+      "kosul": "kavılca ve beyaz ekmek kabukları karşılaştırması",
+      "kanit": "tek_kaynak",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.24925/turjaf.v13i11.3249-3257.7930",
+          "yer": "Results and Discussion"
+        },
+        {
+          "kaynak": "10.24925/turjaf.v13i11.3249-3257.7930",
+          "yer": "Results and Discussion"
+        }
+      ]
+    },
+    {
+      "id": "maillard.kurutulmus_eksi_maya_a_b_renk_artisi",
+      "metin": "36–38 °C sıcaklıkta 6 saat fırında kurutulmuş ekşi mayayla üretilen ekmeklerde kolorimetrik a* ve b* parametreleri arttı.",
+      "kosul": "36–38 °C'de 6 saat fırında kurutulmuş ekşi maya; Ertop vd. (2018) aktarımı",
+      "kanit": "ikincil",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.4322/biori.202203",
+          "yer": "Discussion"
+        }
+      ]
+    },
+    {
+      "id": "maillard.uzun_fermantasyon_koyu_ic",
+      "metin": "Yazarlar, uzun fermantasyondan sonra ekmek içinin koyulaşmasını hamurda daha çok indirgen şeker birikmesine ve bunların pişirmede karamelleşmesine bağlar.",
+      "kosul": "Polonya; ekmeklik buğday, tip 450 ve tip 1650 un; tek aşamalı maya ya da iki aşamalı maya + ekşi maya (Lactobacillus plantarum saf kültürü) yöntemi; hamur fermantasyonu 60, 90, 120 ve 150 dakika; 220 °C'de 30 dakika pişirme. Yazarların yorumu; indirgen şeker ölçülmedi.",
+      "kanit": "tek_kaynak",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods8120663",
+          "yer": "3. Results and Discussion"
+        }
+      ]
+    },
+    {
+      "id": "maillard.cmc_datem_kombinasyonunda_esmerlesme_indeksi_artisi",
+      "metin": "Bir çalışmada karboksimetil selüloz ve DATEM kombinasyonu içeren taze kompozit ekmeğin esmerleşme indeksi 63,4 olmuş ve katkısız referans ekmeğe göre anlamlı derecede yüksek çıkmıştır.",
+      "kosul": "hidrokoloit ve emülgatör katkılı taze kompozit ekmek, tek çalışma",
+      "kanit": "tek_kaynak",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1002/fsn3.326",
+          "yer": "Table 2"
+        }
+      ]
+    },
+    {
+      "id": "maillard.firin_sicakligi_esmerlesme",
+      "metin": "Bu çalışmada tost ekmeğinde esmerleşme indeksi üzerinde fırın sıcaklığının etkisi, son ekmek iç çekirdek sıcaklığının etkisinden biraz daha güçlüydü.",
+      "kosul": "Tost ekmeği; renk indeksi (L-a*-b* renk sistemi); fırın sıcaklığı ve son ekmek çekirdek sıcaklığı karşılaştırması",
+      "kanit": "tek_kaynak",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1007/s13197-020-04945-x",
+          "yer": "Results and discussion: Browning index"
+        }
+      ]
+    },
+    {
+      "id": "maillard.tritikale_acik_renk_aktarim",
+      "metin": "Aktarılan bir yoruma göre tritikale ekmeğinin daha koyu (düşük açıklık) olması, hamurdaki bol monosakkaritin Maillard tepkimesini beslemesinden kaynaklanır.",
+      "kosul": "Tritikale ekmeği.",
+      "kanit": "ikincil",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1002/fsn3.4050",
+          "yer": "3.3. Color parameters"
+        }
+      ]
+    },
+    {
+      "id": "maillard.hmf_birikimi_ve_su_aktivitesi",
+      "metin": "Pişirme sırasında 5-hidroksimetil-2-furfural birikimi birinci derece kinetiği izler ve belirgin düzeyde oluşabilmesi için su aktivitesinin 0,4 seviyesinin altına düşmesi gerekir.",
+      "kosul": "Ameur vd., 2006 aktarımı",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.foodres.2009.03.007",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "maillard.kabuk_ucucu_bilesikleri_ve_strecker_yikimi",
+      "metin": "Ekmek kabuğunda uçucu bileşen fraksiyonu, pişirme sırasındaki enzimatik olmayan Maillard tepkimeleri, Strecker yıkımı ve şekerlerin karamelleşmesi gibi ısıl tepkimelerle oluşur.",
+      "kosul": "Bianchi vd., 2008; Cho ve Peterson, 2010 aktarımı",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.foodres.2015.05.051",
+          "yer": "Introduction"
+        },
+        {
+          "kaynak": "10.3389/fmicb.2018.00429",
+          "yer": "Discussion"
+        },
+        {
+          "kaynak": "10.3390/foods12040830",
+          "yer": "4. Discussion"
+        }
+      ]
+    },
+    {
+      "id": "maillard.karamellesme_ve_maillard_es_zamanli",
+      "metin": "İndirgen şeker ve amino grupları içeren ekmek sistemleri ısıtıldığında karamelleşme ve Maillard tepkimesi eş zamanlı gerçekleşebilir; her iki tepkime de sıcaklık, su aktivitesi ve pH'a bağlıdır.",
+      "kosul": "Villota ve Hawkes, 2007; Zanoni vd., 1995 aktarımı",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.foodres.2009.03.007",
+          "yer": "Introduction"
+        },
+        {
+          "kaynak": "10.3390/foods11101388",
+          "yer": "1. Introduction"
+        },
+        {
+          "kaynak": "10.3390/foods11101388",
+          "yer": "4.3. Fermentation Characteristics and Their Impact on End-Product Quality in Pastry Making"
+        }
+      ]
+    },
+    {
+      "id": "maillard.kuru_eksi_maya_aminoasit_seker_ve_melanoidin",
+      "metin": "Hafif amilolitik ve proteolitik etkinlik gösterebilen kuru ekşi maya, amino asit ve fermente edilebilir şeker miktarını artırarak pişirme sırasında melanoidin oluşumunu ve daha koyu ekmek rengini destekler.",
+      "kosul": "kuru ekşi maya ilaveli ekmek hamuru",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods9101465",
+          "yer": "3.6. Quality Characteristics for Bread Samples"
+        }
+      ]
+    },
+    {
+      "id": "maillard.okside_fenolik_asitlerin_kinon_maillard_esmerlesmesi",
+      "metin": "Okside olan fenolik asitler kinonları oluşturur ve bu bileşikler amino asitler ve proteinlerle Maillard tepkimesine girerek ürünün koyulaşmasına yol açar.",
+      "kosul": "kepekli ekmekte fenolik asit oksidasyonu aktarımı",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods10030489",
+          "yer": "4.2. Impact of Bran Fractions on Bread Quality"
+        }
+      ]
+    },
+    {
+      "id": "maillard.sut_laktozunun_kabuk_esmerlesmesine_katkisi",
+      "metin": "Süt ürünlerindeki laktoz ekmek mayaları tarafından fermente edilemediğinden fermantasyon sonrası hamurda kalarak pişirme sırasında Maillard tepkimesine katılır ve kabuk esmerleşmesini destekler.",
+      "kosul": "süt bileşenli ekmek hamuru aktarımı",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods9060828",
+          "yer": "1. Introduction"
+        }
+      ]
+    },
+    {
+      "id": "maillard.tuzsuz_hamurda_seker_tukenmesi_ve_beyaz_kabuk",
+      "metin": "Tuzsuz hamurda görülen aşırı fermantasyonda, artan maya metabolizması sonucu şeker içeriğinin düşmesi, Maillard ve karamelleşme tepkimelerindeki azalmaya bağlı olarak daha beyaz kabuklu ekmek oluşmasına yol açıyor olabilir.",
+      "kosul": "tuzsuz hamur fermantasyonu; Ariño 2018 aktarımı",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.ijgfs.2022.100486",
+          "yer": "Results and discussion / Effect of NaCl reduction and replacement on bread quality"
+        }
+      ]
+    },
+    {
+      "id": "maillard.naoh_protein_hidrolizi",
+      "metin": "NaOH kabuktaki proteinleri daha küçük peptitlere ve amino asitlere parçalayabilir; bunlar pişirmede Maillard tepkimesiyle moleküller arası ve molekül içi bağlar kurar.",
+      "kosul": "",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.crfs.2021.03.004",
+          "yer": "3.3. Effects of crust treatments on water migration in breads"
+        }
+      ]
+    },
+    {
+      "id": "maillard.105_derecede_isitmada_esmerlesme_esigi",
+      "metin": "Bu çalışmada hamur fermantasyonu 105 °C fırında 210 saniye ısıtıldığında metabolomik profilde değişiklik olmadan durduruldu, 300 saniye ve üzeri ısıtma ise hafif esmerleşmeye yol açtı.",
+      "kosul": "105 °C fırında ısıtma",
+      "kanit": "tek_kaynak",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3136/fstr.24.509",
+          "yer": "Results"
+        }
+      ]
+    },
+    {
+      "id": "maillard.115_derece_uzerinde_maltoz_substrati",
+      "metin": "Sıcaklık 115 °C'nin üzerine çıktığında hidrolize nişastadan üretilen maltoz gibi indirgen şekerler Maillard tepkimesinde substrat görevi görerek kabuk rengini geliştirir.",
+      "kosul": "115 °C üzeri sıcaklık",
+      "kanit": "ikincil",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1111/1541-4337.13147",
+          "yer": "4.6 Crumb and crust formation"
+        }
+      ]
+    },
+    {
+      "id": "maillard.buharda_pisen_mantouda_dusuk_sicaklik_ve_az_urun",
+      "metin": "Fırında pişen ekmeğe kıyasla buharda pişen mantou daha düşük üretim sıcaklığında hazırlandığından daha az Maillard tepkimesi ürünü içerir.",
+      "kosul": "buharda pişirme (mantou)",
+      "kanit": "tek_kaynak",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods13223611",
+          "yer": "1. Introduction"
+        }
+      ]
+    },
+    {
+      "id": "maillard.orta_nem_ve_yuksek_sicaklikta_hizlanma",
+      "metin": "Maillard tepkimesi sıcaklık, pH, nem içeriği, metalik katyonlar ve şeker yapısından etkilenir; özellikle orta nem düzeylerinde ve yüksek sıcaklıklarda hızlanır.",
+      "kosul": "Fennema, 1993 aktarımı",
+      "kanit": "ikincil",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.jfoodeng.2006.09.007",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "maillard.pisirme_sicakligi_ve_suresiyle_a_rengi_ve_hmf_kinetigi",
+      "metin": "Bu çalışmada pişirme süresi ve sıcaklığının 200 °C'den 225 °C'ye çıkarılmasıyla kabuk kızarıklık indeksi (a*), esmerleşme indeksi ve HMF konsantrasyonu belirgin şekilde yükseldi.",
+      "kosul": "200 °C ve 225 °C fırında pişirme",
+      "kanit": "tek_kaynak",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods10020417",
+          "yer": "PMC7918450.txt:3.2. Colour Development"
+        },
+        {
+          "kaynak": "10.3390/foods10020417",
+          "yer": "PMC7918450.txt:3.2. Colour Development"
+        },
+        {
+          "kaynak": "10.3390/foods10020417",
+          "yer": "PMC7918450.txt:3.3. Maillard Reaction Products"
+        },
+        {
+          "kaynak": "10.3390/foods10020417",
+          "yer": "PMC7918450.txt:3.3. Maillard Reaction Products"
+        },
+        {
+          "kaynak": "10.3390/foods10020417",
+          "yer": "PMC7918450.txt:3.4. HMF Formation"
+        },
+        {
+          "kaynak": "10.3390/foods10020417",
+          "yer": "PMC7918450.txt:3.4. HMF Formation"
+        }
+      ]
+    },
+    {
+      "id": "maillard.tahil_urunlerinde_sicaklik_sure_kombinasyonu_belirleyicidir",
+      "metin": "Bir çalışma, Gökmen ve arkadaşlarının (2008) pişen tahıl ürünlerinde esmerleşme yoğunluğunun öncelikle sıcaklık ve süre kombinasyonlarıyla belirlendiğini, hava akımı yoğunluğunun ise daha az belirleyici olduğunu bildirdiğini aktarmıştır.",
+      "kosul": "pişirilen tahıl ürünleri; hava jeti çarpmalı pişirme çalışmasının tartışmasında Gökmen vd. (2008) atfı",
+      "kanit": "ikincil",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1111/1750-3841.71456",
+          "yer": "Color Development (a*) and Browning Index (BI)"
+        }
+      ]
+    },
+    {
+      "id": "maillard.tost_ekmeginde_firin_ve_ic_sicaklikla_esmerlesme",
+      "metin": "Bir tost ekmeği çalışmasında esmerleşme indeksi, en düşük ısıl yükte (200 °C fırın, 90 °C ekmek içi sıcaklığı) 16, en yüksek ısıl yükte (240 °C fırın, 98 °C ekmek içi sıcaklığı) 55 ölçülmüştür.",
+      "kosul": "200 °C fırın / 90 °C ekmek içi sıcaklığından 240 °C fırın / 98 °C ekmek içi sıcaklığına",
+      "kanit": "tek_kaynak",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1007/s13197-020-04945-x",
+          "yer": "Results and discussion: Browning index"
+        }
+      ]
+    },
+    {
+      "id": "maillard.yuksek_sicaklik_dusuk_su_aktivitesinde_hizli_esmerlesme",
+      "metin": "Yüksek sıcaklık ve düşük su aktivitesi gibi zorlayıcı koşulların, özellikle karamelleşmenin de gerçekleştiği durumda yüksek esmerleşme hızlarına yol açtığı öne sürülmüştür.",
+      "kosul": "Ekmek pişirme süreci",
+      "kanit": "tek_kaynak",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.foodres.2009.03.007",
+          "yer": "Conclusions"
+        }
+      ]
+    },
+    {
+      "id": "maillard.yuzey_esmerlesmesi_kontrol_parametresi",
+      "metin": "Yüzey esmerleşmesi, süreç sırasında hat içi sensörlerle izlenebildiği için pişirme ilerlemesinin pratik bir göstergesidir ve bir denetim parametresi olarak kullanılabilir.",
+      "kosul": "McFarlane, 1990 aktarımı",
+      "kanit": "ikincil",
+      "bolum": "Nasıl ölçülür",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.foodcont.2012.02.034",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "maillard.melanoidin_derisimi_ve_yuzey_rengi_modeli",
+      "metin": "Pişirme sırasında ekmek yüzeyindeki renk gelişimi ile Maillard tepkimesiyle üretilen melanoidin derişimi arasında üstel bir ilişki olduğu varsayılmıştır.",
+      "kosul": "Hadiyanto vd., 2007 aktarımı",
+      "kanit": "ikincil",
+      "bolum": "Nasıl ölçülür",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.foodres.2009.03.007",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "maillard.nisasta_jellerinde_sicaklik_ve_renk",
+      "metin": "Pişirilen nişasta jellerinin rengi 120 °C pişirme sıcaklığında neredeyse beyaza yakınken, yüksek sıcaklıklarda veya uzun pişirme sürelerinde neredeyse siyaha kadar değişir.",
+      "kosul": "Pişirilmiş nişasta jelleri",
+      "kanit": "tek_kaynak",
+      "bolum": "Nasıl ölçülür",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.foodchem.2004.08.030",
+          "yer": "Results"
+        }
+      ]
+    },
+    {
+      "id": "maillard.naoh_maillardi_destekler",
+      "metin": "Fırıncılıkta pretzel yapımında kullanılan NaOH, pişirmede Maillard tepkimesini destekler ve kabuğun kimyasal yapısını değiştirir.",
+      "kosul": "",
+      "kanit": "tek_kaynak",
+      "bolum": "Ne yapar",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.crfs.2021.03.004",
+          "yer": "3.3. Effects of crust treatments on water migration in breads"
+        }
+      ]
+    },
+    {
+      "id": "maillard.hmf_tanim_yuksek_sicaklik_dusuk_nem",
+      "metin": "HMF, pH, sıcaklık, su aktivitesi ve reaktan bileşimiyle etkilenen Maillard tepkimesinin bir ürünüdür; ağırlıklı olarak ileri Maillard tepkimeleri ve şeker dehidrasyonundan oluşur ve yüksek sıcaklık ile düşük nemde artar.",
+      "kosul": "Termal işlem; yüksek sıcaklık ve düşük su aktivitesi koşulları",
+      "kanit": "tek_kaynak",
+      "bolum": "Tanım",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1111/1750-3841.71456",
+          "yer": "HMF (mg/Kg Product)"
+        },
+        {
+          "kaynak": "10.1111/1750-3841.71456",
+          "yer": "PMC13559855.txt:Introduction"
+        }
+      ]
+    },
+    {
+      "id": "maillard.karamellesme_tanimi",
+      "metin": "Karamelleşme, karbonhidratların, özellikle sakkaroz ve indirgen şekerlerin doğrudan ısıtılmasıyla meydana gelen karmaşık bir tepkimeler grubudur.",
+      "kosul": "Fennema, 1996 aktarımı",
+      "kanit": "ikincil",
+      "bolum": "Tanım",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.foodres.2009.03.007",
+          "yer": "Introduction"
+        },
+        {
+          "kaynak": "10.1016/j.jfoodeng.2006.09.007",
+          "yer": "Introduction"
+        },
+        {
+          "kaynak": "10.3390/foods10020417",
+          "yer": "PMC7918450.txt:1. Introduction"
+        }
+      ]
+    },
+    {
+      "id": "maillard.hmf_ara_asama_karamellesme",
+      "metin": "HMF, Maillard tepkimesinin ikinci evresinde ve karamelleşmeyle oluşan düşük molekül ağırlıklı bir moleküldür.",
+      "kosul": "Esmerleşme tepkimeleri; Maillard ikinci evresi ve karamelleşme; derleme atfı",
+      "kanit": "ikincil",
+      "bolum": "Tanım",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods10020417",
+          "yer": "PMC7918450.txt:1. Introduction"
+        }
+      ]
+    },
+    {
+      "id": "maillard.enzim_glukoz_saglar",
+      "metin": "Kabukta enzimle parçalanma sonucu açığa çıkan glukoz ek şeker sağlar ve Maillard tepkimesini hızlandırır.",
+      "kosul": "",
+      "kanit": "ikincil",
+      "bolum": "İlişkileri",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.crfs.2021.03.004",
+          "yer": "3.3. Effects of crust treatments on water migration in breads"
+        }
+      ]
+    }
+  ]
+}

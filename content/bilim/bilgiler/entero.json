@@ -1,0 +1,142 @@
+{
+  "id": "entero",
+  "ad": "İlk günlerin bakterileri",
+  "bilgiler": [
+    {
+      "id": "entero.ilk_gun_baskin",
+      "metin": "İki ayrı çalışmada kendiliğinden başlatılan ekşi mayaların ilk gününde bakteri topluluğuna Pantoea, Enterobacter, Klebsiella ve adı belirlenemeyen bir Enterobacteriaceae cinsi gibi bakteriler hâkimdi.",
+      "kosul": "İki ayrı çalışma: (1) laboratuvar, kendiliğinden yarı katı çavdar ekşi mayası, çavdar unu Tip 1370 + %0,5 NaCl, hamur verimi 200, 20 °C, ilk 24 saat, 16S rRNA pirodizileme ve DGGE; (2) 10 un türünden 40 kendiliğinden ekşi maya, oda sıcaklığı, günlük besleme (1 yemek kaşığı atılıp 1 yemek kaşığı un + 1 yemek kaşığı su eklenerek), 1. gün, 16S rRNA dizilemesi.",
+      "kanit": "uzlasi",
+      "bolum": "Mayadaki yeri",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1371/journal.pone.0095449",
+          "yer": "Results, Pyrosequencing; Table S2"
+        },
+        {
+          "kaynak": "10.1371/journal.pone.0095449",
+          "yer": "Results, DGGE; Table 2"
+        },
+        {
+          "kaynak": "10.7717/peerj.16163",
+          "yer": "Results, Table 1 (Dominant bacteria, stage 1)"
+        },
+        {
+          "kaynak": "10.3389/fmicb.2016.01770",
+          "yer": "Results, Bacteria associated to doughs and sourdoughs; Figure 4"
+        }
+      ]
+    },
+    {
+      "id": "entero.durum_ikinci_yenileme",
+      "metin": "Durum buğdayı ekşi mayalarının yenilenmesi sırasında Enterobacteriaceae azaldı ve çoğu durumda ikinci yenilemeden sonraki fermantasyondan itibaren saptanamadı.",
+      "kosul": "Durum buğdayı ekşi mayaları, hamur verimi 160, 30 °C, laboratuvarda günlük yenileme.",
+      "kanit": "tek_kaynak",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3389/fmicb.2016.01770",
+          "yer": "Results, Biochemical and microbiological characteristics"
+        }
+      ]
+    },
+    {
+      "id": "entero.sicaklik_kalicilik",
+      "metin": "Bu çalışmada laboratuvarda yenilenen çavdar ekşi mayalarında enterobakteriler 30 °C'de (en çok üç döngü) 20 °C'dekinden daha fazla döngü boyunca kaldı.",
+      "kosul": "Laboratuvar; kendiliğinden başlatılmış yarı katı çavdar ekşi mayası; çavdar unu Tip 1370 + %0,5 NaCl; hamur verimi 200; her gün 1:10 yenileme; 20 °C ve 30 °C.",
+      "kanit": "tek_kaynak",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1371/journal.pone.0095449",
+          "yer": "Discussion"
+        }
+      ]
+    },
+    {
+      "id": "entero.baslangicta_hucre_sayisi_siniri",
+      "metin": "İlk fermantasyonun başlangıcında undan gelen mikrop gruplarının her birinin hücre sayısı genellikle 5 log KOB/g değerini aşmaz.",
+      "kosul": "İlk fermantasyon başlangıcı",
+      "kanit": "ikincil",
+      "bolum": "Mayadaki yeri",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.ijfoodmicro.2013.11.021",
+          "yer": "Microbial dynamics from flour to mature sourdough"
+        }
+      ]
+    },
+    {
+      "id": "entero.genc_eksi_maya_oranlari",
+      "metin": "40 kendiliğinden ekşi mayalık bir çalışmada Pantoea (1. gün %21,3), Erwinia (1. gün %11,5), Klebsiella (%11,2–13,2), Pseudomonas (%12,8–18,2) ve adı belirlenemeyen bir Enterobacteriaceae cinsi (%16,3–28,5), 3 günlük ve daha genç ekşi mayalarda 10 günlük ve daha yaşlı olanlardakinden daha boldu.",
+      "kosul": "10 un türünden 40 kendiliğinden ekşi maya; oda sıcaklığı; günlük besleme (1 yemek kaşığı atılıp 1 yemek kaşığı un + 1 yemek kaşığı su eklenerek); 14 gün; 16S rRNA dizilemesi. Bilinmeyen Enterobacteriaceae cinsi için karşılaştırma: 3 güne kadar olan ve 10 gün ve üzeri ekşi mayalar.",
+      "kanit": "tek_kaynak",
+      "bolum": "Mayadaki yeri",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.7717/peerj.16163",
+          "yer": "Results, Bacterial succession; Figs. 4 and S5A"
+        },
+        {
+          "kaynak": "10.7717/peerj.16163",
+          "yer": "Results, Bacterial succession; Figs. 4 and S5A"
+        }
+      ]
+    },
+    {
+      "id": "entero.belcika_undan_gelir",
+      "metin": "Belçika ekşi mayalarında PCR-DGGE iki örnekte Erwinia/Enterobacter/Pantoea grubundan bir bakteri saptadı; yazarlara göre bu enterobakteri büyük olasılıkla ekşi mayayı yapmakta kullanılan undan geldi, çünkü Enterobacter cowanii ve Pantoea agglomerans gibi enterobakteriler daha önce sterilize edilmemiş undan ayrılmıştı.",
+      "kosul": "Belçika ekşi mayaları; PCR-DGGE (DGGE bandı D), örnekler D07WR01T01 ve D07WR01T02; undan gelme yorumu önceki bir çalışmaya dayanır.",
+      "kanit": "tek_kaynak",
+      "bolum": "Nereden gelir",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1128/aem.02771-07",
+          "yer": "Results: Interpretation of PCR-DGGE population fingerprints; Fig. 1"
+        },
+        {
+          "kaynak": "10.1128/aem.02771-07",
+          "yer": "Discussion"
+        },
+        {
+          "kaynak": "10.1128/aem.02771-07",
+          "yer": "Discussion"
+        }
+      ]
+    },
+    {
+      "id": "entero.un_ve_ilk_gun_baskinligi",
+      "metin": "Enterobacteriaceae, tam buğday unlarında ve ilk fermantasyon günü (FD1) hamur örneklerinde baskın bakteri familyasıydı.",
+      "kosul": "Organik ve konvansiyonel tam buğday unları ile ilk fermantasyon günü (FD1) hamurları",
+      "kanit": "tek_kaynak",
+      "bolum": "Nereden gelir",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1590/0001-3765202220220091",
+          "yer": "Bacterial community structure in sourdoughs prepared with organic or conventional flours"
+        }
+      ]
+    },
+    {
+      "id": "entero.proteobacteria_basarisizlik",
+      "metin": "Ekşi maya hazırlığı sırasında Proteobacteria'nın baskın olmasının fermantasyonun başarısız olmasının nedenlerinden biri olabileceği aktarılır.",
+      "kosul": "Frontiers in Microbiology 2016 makalesinin girişinde aktarım.",
+      "kanit": "ikincil",
+      "bolum": "İlişkileri",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3389/fmicb.2016.01770",
+          "yer": "Introduction"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,870 @@
+{
+  "id": "un_olcum",
+  "ad": "Unu ölçmek",
+  "bilgiler": [
+    {
+      "id": "un_olcum.dusme_sayisi_efsane",
+      "metin": "Bir çalışmanın yazarlarına göre α-amilazı yüksek her un düşük düşme sayısı verir, ama her düşük düşme sayısı geç olgunlaşma α-amilazından (LMA) ya da yüksek α-amilazdan kaynaklanmaz; aktarılan çalışmalara göre yetiştirme ortamı ve nişasta yapısı da unun jelleşmesini ve dolayısıyla düşme sayısını etkileyebilir.",
+      "kosul": "Tam buğday unu LMA ve düşme sayısı (eFN) korelasyon çalışması",
+      "kanit": "tek_kaynak",
+      "bolum": "Efsaneler",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3389/fpls.2018.01356",
+          "yer": "Discussion"
+        },
+        {
+          "kaynak": "10.3389/fpls.2018.01356",
+          "yer": "Discussion"
+        }
+      ]
+    },
+    {
+      "id": "un_olcum.eksi_mayada_ticari_maya_orani_ve_hacim",
+      "metin": "%0,2'den az fırıncı mayası içeren ekşi mayalı ekmeklerin medyan özgül hacmi 2,2 mL/g iken, %0,2'den fazla maya eklendiğinde medyan değer 3,23 mL/g'a ulaşır.",
+      "kosul": "Ekşi mayalı ekmekte fırıncı mayası ilave oranı (<%0,2 ve >%0,2)",
+      "kanit": "tek_kaynak",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1146/annurev-food-110923-034834",
+          "yer": "3.2. Bread Production"
+        },
+        {
+          "kaynak": "10.1146/annurev-food-110923-034834",
+          "yer": "3.2. Bread Production"
+        }
+      ]
+    },
+    {
+      "id": "un_olcum.dusme_sayisi_viskozite",
+      "metin": "Düşme sayısı (Falling Number) testi un bulamacının viskozitesini ölçer, α-amilaz etkinliğini doğrudan ölçmez; tanede α-amilaz arttıkça düşme sayısı düşer.",
+      "kosul": "Düşme sayısı standart test yöntemi",
+      "kanit": "ikincil",
+      "bolum": "Nasıl ölçülür",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3389/fpls.2018.01356",
+          "yer": "Discussion"
+        },
+        {
+          "kaynak": "10.3389/fpls.2018.01356",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "un_olcum.farinograf_tanimi_ve_500_bu_cizgisi",
+      "metin": "Brabender Farinografı, yoğurma sırasında kesme deformasyonu altındaki hamurun 500 BU çizgisine ulaşması için gereken su absorbsiyonunu, hamur gelişim süresini ve aşırı yoğurmaya direncini ölçer.",
+      "kosul": "Farinograf ölçümü",
+      "kanit": "tek_kaynak",
+      "bolum": "Nasıl ölçülür",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1002/cche.10644",
+          "yer": "3.2 Dough quality of hulled wheat flour by farinograph"
+        },
+        {
+          "kaynak": "10.1016/j.jcs.2008.03.006",
+          "yer": "Introduction"
+        },
+        {
+          "kaynak": "10.1016/j.jcs.2008.03.006",
+          "yer": "Effect of wheat bran and enzyme addition on dough mixing properties"
+        },
+        {
+          "kaynak": "10.1021/acsfoodscitech.5c00475",
+          "yer": "Materials and methods · Dough Development Time and Stability of Dough Consistency"
+        }
+      ]
+    },
+    {
+      "id": "un_olcum.kul_ve_un_tipi",
+      "metin": "Polonya'da incelenen iki undan açık renkli tip 450 unun kül miktarı %0,45, tam buğday tip 1650 ununki %1,65'ti; un tipini bu kül değerleri belirler.",
+      "kosul": "Ekmeklik buğday; açık un tip 450 ile tam un tip 1650; Polonya.",
+      "kanit": "tek_kaynak",
+      "bolum": "Nasıl ölçülür",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods8120663",
+          "yer": "3. Results and Discussion; Table 1"
+        }
+      ]
+    },
+    {
+      "id": "un_olcum.bugday_danesi_protein_araligi",
+      "metin": "Buğday tanesi tipik olarak %8–15 oranında protein içerir.",
+      "kosul": "Buğday tanesi genel protein içeriği",
+      "kanit": "tek_kaynak",
+      "bolum": "Tanım",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1093/jxb/erp058",
+          "yer": "Wheat in nutrition and health"
+        }
+      ]
+    },
+    {
+      "id": "un_olcum.italyan_ekmeklik_un_siniflandirma_kriterleri",
+      "metin": "İtalyan sınıflandırmasında kuvvetli unlar Alveograf W 300, en çok 1 P/L, %14,5 protein ve 15 dakika stabilite gerektirirken, orta unlar W 220, en çok 0,6 P/L ve %13,5 protein; zayıf unlar ise W 160, en çok 0,6 P/L ve %11,5 protein gerektirir.",
+      "kosul": "İtalyan ekmeklik buğday unu yasal/teknik sınıflandırması",
+      "kanit": "tek_kaynak",
+      "bolum": "Tanım",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods9070952",
+          "yer": "Table 2, Classification of Italian soft wheat flours"
+        },
+        {
+          "kaynak": "10.3390/foods9070952",
+          "yer": "Table 2, Classification of Italian soft wheat flours"
+        }
+      ]
+    },
+    {
+      "id": "un_olcum.osborne_fraksiyonlari_cozunurluk_tanimi",
+      "metin": "Osborne protein fraksiyonları çözünürlüklerine göre sınıflandırılır: albüminler suda, globülinler 0,5 M tuz çözeltisinde, prolaminler %70–90 etanollü suda, gluteninler ise seyreltik asit veya alkali çözeltilerde çözünür.",
+      "kosul": "Osborne protein fraksiyonlaması",
+      "kanit": "ikincil",
+      "bolum": "Tanım",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1111/1541-4337.13141",
+          "yer": "5.2 Protein solubility"
+        },
+        {
+          "kaynak": "10.3390/agronomy10111763",
+          "yer": "1. Introduction"
+        }
+      ]
+    },
+    {
+      "id": "un_olcum.kontrol_ekmek_medyan_ozgul_hacim",
+      "metin": "Ekşi maya içermeyen fırıncı mayalı kontrol ekmekleri 2,85 mL/g medyan özgül hacim sergiler.",
+      "kosul": "Fırıncı mayalı ekşi mayasız kontrol ekmekleri",
+      "kanit": "tek_kaynak",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1146/annurev-food-110923-034834",
+          "yer": "3.2. Bread Production"
+        }
+      ]
+    },
+    {
+      "id": "un_olcum.lma_hat_dusme_62",
+      "metin": "Fielder çeşidi ve iki negatif ayrışan hattın düşme sayısı sırasıyla 228, 297 ve 301,5 s idi; Bx17A1OE hatlarının ve LMA'dan etkilenen Chara'nın değeri cihazın ölçebildiği en düşük değer olan 62 s'ye düştü.",
+      "kosul": "FN1000 cihazında düşme sayısı; buğday hatları",
+      "kanit": "tek_kaynak",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3389/fpls.2022.811728",
+          "yer": "Impact on Starch Properties"
+        }
+      ]
+    },
+    {
+      "id": "un_olcum.protein_hacim",
+      "metin": "Dört buğday çeşidiyle yapılan bir çalışmada unun protein miktarı ekmeğin özgül hacmiyle güçlü pozitif ilişkiliydi (r = 0,826).",
+      "kosul": "Dört Hint buğday çeşidi (PBW 590, PBW 550, HW 2004, C 306); %65 öğütme randımanlı un; korelasyonlar n = 4 çeşit üzerinden; 30 g'lık deneme pişirmesi: 90 dk + 36 dk 30 °C'de mayalanma, 232 °C'de 13 dk pişirme.",
+      "kanit": "tek_kaynak",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.lwt.2012.09.011",
+          "yer": "3.6. Correlation; Table 8"
+        }
+      ]
+    },
+    {
+      "id": "un_olcum.eksi_maya_ekmek_ozgul_hacim_araligi",
+      "metin": "Bir literatür taramasında, ekşi mayalı ekmek somunlarının özgül hacmi 1,0–6,4 mL/g arasında değişiyordu.",
+      "kosul": "Literatür taraması; ekşi mayalı ekmek somunları",
+      "kanit": "tek_kaynak",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1146/annurev-food-110923-034834",
+          "yer": "3.2. Bread Production"
+        }
+      ]
+    },
+    {
+      "id": "un_olcum.biskuvilik_un_dusuk_uzayabilirlik",
+      "metin": "Ampirik reolojik testlerde bisküvilik un hamuru, diğer buğday hamurlarına kıyasla daha düşük uzayabilirlik göstermiştir.",
+      "kosul": "Brabender Ekstensograf ve Chopin Alveograf ampirik testleri",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1006/jcrs.1996.0004",
+          "yer": "Abstract"
+        }
+      ]
+    },
+    {
+      "id": "un_olcum.farinograf_absorbsiyonu_ve_kabarcik_genlesmesi",
+      "metin": "Mayalanma boyunca artan su miktarının kabarcık genleşmesini geciktirici etkisi, farinograf su absorbsiyonu daha yüksek olan unlardan yapılan hamurlarda daha belirgindir.",
+      "kosul": "Hamur mayalanması",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1002/cche.10699",
+          "yer": "6.2 The effect of water content on the gas phase of the dough"
+        }
+      ]
+    },
+    {
+      "id": "un_olcum.ksilanaz_wu_ile_zayif_unda_sds_artisi",
+      "metin": "Ksilanaz WU uygulamasıyla SDS sedimantasyon hacmindeki artış zayıf unda (W) en yüksek, kuvvetli unda (S) en düşük düzeyde kalmış; enzim zayıf glutenli unlarda gluten gelişimini daha belirgin etkilemiştir.",
+      "kosul": "Farklı gluten kuvvetindeki unlarda ksilanaz WU uygulaması",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods13193158",
+          "yer": "4. Conclusions"
+        }
+      ]
+    },
+    {
+      "id": "un_olcum.dusme_sayisi_esik",
+      "metin": "LMA'dan etkilenen örneklerin düşme sayısı 150 s ile kabul eşiği (buğday sınıfına ve bölgeye göre 250–350 s) arasında kalır; α-amilaz etkinliğinin iki-üç kat artması düşme sayısını Avustralya'daki 300 s sınırının altına indirmeye yeter.",
+      "kosul": "",
+      "kanit": "ikincil",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3389/fpls.2018.01356",
+          "yer": "Discussion"
+        },
+        {
+          "kaynak": "10.3389/fpls.2018.01356",
+          "yer": "Discussion"
+        }
+      ]
+    },
+    {
+      "id": "un_olcum.maya_ekmegi_ideal_protein_yuzde14",
+      "metin": "Ekmeklik buğdayda maya ile mayalanan ekmek için %14 protein oranı ideal kabul edilir.",
+      "kosul": "Ekmeklik buğday; maya ile mayalanan ekmek; Stone ve Savin 1999 atfı",
+      "kanit": "ikincil",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.24925/turjaf.v10i11.2173-2179.5386",
+          "yer": "Giriş"
+        }
+      ]
+    },
+    {
+      "id": "un_olcum.beyaz_un_dusme_sayisi",
+      "metin": "Öğütme kepeği ve aleurona özgü enzimleri ayırdığı için beyaz unun düşme sayısının genellikle tam undan yüksek olduğu aktarılır; ancak bir çalışmada beyaz unların eşdeğer düşme sayısı (yaklaşık 157–234 s) Yanco tam un alt örneklerinden beklenmedik biçimde düşük çıktı.",
+      "kosul": "Avustralya; MAGIC popülasyonundan uzun boylu (Rht'siz) hatlar; eşdeğer düşme sayısı (eFN) RVA karıştırma sayısından hesaplandı. Beyaz un, üç saha (Yanco, Narrabri, Wongan Hills).",
+      "kanit": "tek_kaynak",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3389/fpls.2018.01356",
+          "yer": "Discussion"
+        },
+        {
+          "kaynak": "10.3389/fpls.2018.01356",
+          "yer": "Results; Baking Trait Measurements and Correlations"
+        },
+        {
+          "kaynak": "10.3389/fpls.2018.01356",
+          "yer": "Discussion"
+        }
+      ]
+    },
+    {
+      "id": "un_olcum.dusme_sayisi_ceza",
+      "metin": "Avustralya'da düşme sayısı düşük çıkan ekmeklik buğday yem sınıfına düşürülebilir ve bu üreticiye ton başına 20–50 Avustralya doları kayıp getirebilir.",
+      "kosul": "Avustralya.",
+      "kanit": "ikincil",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3389/fpls.2018.01356",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "un_olcum.tam_randimanda_kul_sabit",
+      "metin": "Randıman %100 olduğu için farklı ayarlarla öğütülen tam unların hepsinin külü %1,4 idi; öğütme koşulları külü değiştirmedi.",
+      "kosul": "Mor renkli Ariheuk tam buğday unu, Kore; ultra santrifüj değirmen, 0,5 ya da 1,0 mm elek, farklı rotor hızları.",
+      "kanit": "tek_kaynak",
+      "bolum": "Kimlik",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods12132591",
+          "yer": "3.2. SRC"
+        }
+      ]
+    },
+    {
+      "id": "un_olcum.ampirik_reoloji_cihazlari_cesitliligi",
+      "metin": "Tahıl sanayisinde hamur reolojisini tanımlamak için Penetrometre, Tekstürometre, Konsistometre, Amilograf, Farinograf, Miksograf, Ekstensigraf ve Alveograf gibi çok çeşitli ampirik cihazlar kullanılır.",
+      "kosul": "Tahıl sanayisi reolojik ölçümleri",
+      "kanit": "ikincil",
+      "bolum": "Nasıl ölçülür",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/s0733-5210(03)00059-6",
+          "yer": "Descriptive rheological measurements"
+        }
+      ]
+    },
+    {
+      "id": "un_olcum.farinograf_gluten_protein_seri",
+      "metin": "Gluten protein içeriği %10'dan %26'ya çıktığında farinografta gelişme süresi 0,5 dakikadan 6,0 dakikaya çıktı, su absorbsiyonu %55,1'den %64,4'e yükseldi ve yumuşama derecesi 198 BU'dan 16 BU'ya düştü.",
+      "kosul": "farinograf testi; gluten protein içeriği serisi",
+      "kanit": "tek_kaynak",
+      "bolum": "Nasıl ölçülür",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods13070996",
+          "yer": "3.1. Effects of Gluten Content on the Farinograph Parameters"
+        }
+      ]
+    },
+    {
+      "id": "un_olcum.farinograf_parametreleri_ve_ekmek_kalitesi",
+      "metin": "Kavuzlu buğday unlarında farinograf parametreleri (su absorbsiyonu, tepe süresi ve hamur stabilitesi); pişirme suyu absorbsiyonu, yoğurma süresi, fırın sıçraması ve somun hacmiyle pozitif korelasyon gösterir.",
+      "kosul": "Kavuzlu kadim buğday unları farinograf ve pişirme korelasyonu",
+      "kanit": "tek_kaynak",
+      "bolum": "Nasıl ölçülür",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1002/cche.10644",
+          "yer": "3.3 Baking quality of einkorn, emmer, spelt, and hard red spring wheat; Table 4"
+        }
+      ]
+    },
+    {
+      "id": "un_olcum.karistirma_tolerans_indeksi_mti",
+      "metin": "Unun Karıştırma Tolerans İndeksi (MTI), hamurun aşırı yoğurmaya karşı direncini ve yoğurma sırasında gluten yapısının bozulma hızını gösteren bir ölçüttür.",
+      "kosul": "Hamur yoğurma kalite testi",
+      "kanit": "tek_kaynak",
+      "bolum": "Nasıl ölçülür",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1002/cche.10865",
+          "yer": "3.3 Dough mixing properties"
+        }
+      ]
+    },
+    {
+      "id": "un_olcum.ogutme_urunlerinde_kul_protein",
+      "metin": "Valsli öğütme ürünlerinde kül, iri kepekte kuru maddede %6,03–7,23, ince kepekte %3,38–4,15, tam tahıllı unlarda %1,76–2,41, beyaz unda yalnız %0,54–0,98 idi; protein ürünler arasında daha az değişti (iri kepekte %16,8–18,5, beyaz unda %11,3–13,1).",
+      "kosul": "Orta İtalya'dan sekiz yumuşak buğday karışımı; ticari taş değirmen, Bühler MLU 202 pilot valsli değirmen, Bühler MLI 204 diskli laboratuvar değirmeni.",
+      "kanit": "tek_kaynak",
+      "bolum": "Nasıl ölçülür",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods9010003",
+          "yer": "3.1. Proximate Composition"
+        },
+        {
+          "kaynak": "10.3390/foods9010003",
+          "yer": "3.1. Proximate Composition"
+        }
+      ]
+    },
+    {
+      "id": "un_olcum.pisirme_performansini_belirleyen_parametreler",
+      "metin": "Buğday çeşitlerinin pişirme performansı; gluten miktarı, gluten indeksi, Zeleny sedimantasyon testi, hamur stabilitesi, gelişme süresi ve gliadin miktarı parametreleriyle belirlenir.",
+      "kosul": "Temel bileşen analizi (PCA) un kalite ölçümleri",
+      "kanit": "tek_kaynak",
+      "bolum": "Nasıl ölçülür",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/agronomy10111763",
+          "yer": "Abstract"
+        }
+      ]
+    },
+    {
+      "id": "un_olcum.protein_tek_basina_yetmez",
+      "metin": "Unun protein miktarı tek başına ekmek hacmini iyi öngören bir ölçü değildir.",
+      "kosul": "",
+      "kanit": "ikincil",
+      "bolum": "Nasıl ölçülür",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.lwt.2012.09.011",
+          "yer": "1. Introduction"
+        }
+      ]
+    },
+    {
+      "id": "un_olcum.tam_un_belirtecleri",
+      "metin": "Toplam diyet lifi, toplam yağ ve alkilrezorsinoller unda kepek ve rüşeymin bulunduğunun olası belirteçleridir; fitik asit aralıkları da tam tahıllı (kuru maddede yaklaşık 1,0–1,6 g/100 g) ve beyaz unda (0,10–0,17 g/100 g) keskin biçimde ayrıldığından tam unu tanımlamaya yardım edebilir.",
+      "kosul": "Orta İtalya'dan sekiz yumuşak buğday karışımı; ticari taş değirmen, Bühler MLU 202 pilot valsli değirmen, Bühler MLI 204 diskli laboratuvar değirmeni.",
+      "kanit": "tek_kaynak",
+      "bolum": "Nasıl ölçülür",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods9010003",
+          "yer": "4. Discussion"
+        },
+        {
+          "kaynak": "10.3390/foods11030339",
+          "yer": "4. Discussion"
+        }
+      ]
+    },
+    {
+      "id": "un_olcum.ts2974_sedimantasyon_sinif_uyarini",
+      "metin": "Ulusal buğday unu standardına göre çökelme değeri 37 ml ve üzeri 1. sınıf sayılırken, değer 31–36 ml ise 2. sınıf, 22–30 ml ise 3. sınıf ve 22 ml'nin altında ise düşük kaliteli buğday unu sayılmaktadır.",
+      "kosul": "TS 2974 buğday unu standardı (TSE, 2018)",
+      "kanit": "tek_kaynak",
+      "bolum": "Nasıl ölçülür",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.18016/ksutarimdoga.vi.1317966",
+          "yer": "Results and Discussion · Physicochemical properties"
+        }
+      ]
+    },
+    {
+      "id": "un_olcum.yassi_ekmek_rafine_un_standartlari",
+      "metin": "Yassı ekmek yapımında kullanılan rafine buğday unu için genel teknik şartnameler en az %9 protein, en az %25 yaş gluten, Alveograf W değeri en az 180 ve P/L oranı en fazla 1 olmasını gerektirir.",
+      "kosul": "Ticari yassı ekmek rafine un standartları",
+      "kanit": "tek_kaynak",
+      "bolum": "Nasıl ölçülür",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods11152326",
+          "yer": "3.2. Flour Type and Quality"
+        }
+      ]
+    },
+    {
+      "id": "un_olcum.alveograf_p_l_w_1_39",
+      "metin": "Un örneğinin alveogram parametreleri P 85,00 mm, L 62,00 mm, W 189,5 ve P/L oranı 1,39 idi.",
+      "kosul": "Alveograf analizi",
+      "kanit": "tek_kaynak",
+      "bolum": "Nasıl ölçülür",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods9060828",
+          "yer": "2.1. Materials"
+        }
+      ]
+    },
+    {
+      "id": "un_olcum.birikimli_kul_egrisi",
+      "metin": "Birikimli kül eğrisi, unun birikimli kül miktarı ile birikimli un randımanı arasındaki ilişkiyi gösterir; değirmen verimliliğinin ana göstergesi sayılır ve düşük randıman bölgesinde eğrinin az yükselmesi iyi verimliliğe işaret eder.",
+      "kosul": "",
+      "kanit": "ikincil",
+      "bolum": "Nasıl ölçülür",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods13213386",
+          "yer": "3.1. First Stage"
+        },
+        {
+          "kaynak": "10.3390/foods13213386",
+          "yer": "3.1. First Stage"
+        }
+      ]
+    },
+    {
+      "id": "un_olcum.dusme_sayisi_fn1000_7g",
+      "metin": "Düşme sayısı, FN1000 cihazıyla 7 g tam un ve 25 mL su kullanılarak üç tekrar halinde ölçüldü.",
+      "kosul": "tam un; FN1000 cihazı",
+      "kanit": "tek_kaynak",
+      "bolum": "Nasıl ölçülür",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3389/fpls.2022.811728",
+          "yer": "Falling Number"
+        }
+      ]
+    },
+    {
+      "id": "un_olcum.dusme_sayisi_icc_107",
+      "metin": "Düşme sayısı, Hagberg-Perten ilkesine ve ICC 107 yöntemine göre belirlendi.",
+      "kosul": "Hagberg-Perten ilkesi; ICC 107",
+      "kanit": "tek_kaynak",
+      "bolum": "Nasıl ölçülür",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods9121900",
+          "yer": "PMC7765839.txt:Materials and Methods"
+        }
+      ]
+    },
+    {
+      "id": "un_olcum.dusme_sayisi_tarihi",
+      "metin": "Düşme sayısı testi 1960'ta Hagberg tarafından tanenin α-amilaz etkinliğini hızlıca belirlemek için geliştirildi, sonra sanayide filizlenme hasarlı taneyi saptama testi olarak benimsendi.",
+      "kosul": "",
+      "kanit": "ikincil",
+      "bolum": "Nasıl ölçülür",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3389/fpls.2018.01356",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "un_olcum.elek_seti_mesh_mikrometre",
+      "metin": "Un elek analizinde eşdeğer elek çapları 132, 150, 180, 265 ve 315 μm olan bir elek seti kullanıldı.",
+      "kosul": "un elek analizi",
+      "kanit": "tek_kaynak",
+      "bolum": "Nasıl ölçülür",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods13193035",
+          "yer": "2.2.2. Research on Selected Quality Parameters of Mountain Rye Flour"
+        }
+      ]
+    },
+    {
+      "id": "un_olcum.farinograf_300_g_yuzde14",
+      "metin": "Farinograf ölçümleri, yüzde 14 neme sahip 300 g un ile yapıldı ve test iki kez yürütüldü.",
+      "kosul": "300 g un, %14 nem; su absorbsiyonu ve tam test",
+      "kanit": "tek_kaynak",
+      "bolum": "Nasıl ölçülür",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1590/fst.2014.0038",
+          "yer": "Rheological tests"
+        }
+      ]
+    },
+    {
+      "id": "un_olcum.gelisme_suresi_araligi",
+      "metin": "Bu çalışmadaki unlarda hamurun maksimum kıvama ulaşma süresi (geliştirme süresi) 6,40 ile 12,78 dakika arasındaydı.",
+      "kosul": "bu çalışmadaki un örnekleri; hamur geliştirme süresi",
+      "kanit": "tek_kaynak",
+      "bolum": "Nasıl ölçülür",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1021/acsfoodscitech.5c00475",
+          "yer": "Results and discussion · Flour Characterization"
+        }
+      ]
+    },
+    {
+      "id": "un_olcum.mixolab_stabilite_zeleny_gluten",
+      "metin": "Mixolab hamur stabilitesi, Zeleny testi ve yaş gluten miktarıyla anlamlı biçimde ilişkiliydi.",
+      "kosul": "Mixolab; Zeleny ve yaş gluten korelasyonu",
+      "kanit": "tek_kaynak",
+      "bolum": "Nasıl ölçülür",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.17221/40/2009-cjfs",
+          "yer": "RESULTS AND DISCUSSION"
+        }
+      ]
+    },
+    {
+      "id": "un_olcum.zeleny_tam_un_3_2_g",
+      "metin": "Zeleny sedimantasyon testinde 3,2 g tam buğday unu 100 ml'lik dereceli silindire konur; sediman hacmi, %14 neme göre düzeltme faktörüyle hesaplanır.",
+      "kosul": "AACC 56-60.01; tam buğday unu",
+      "kanit": "tek_kaynak",
+      "bolum": "Nasıl ölçülür",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.18016/ksutarimdoga.vi.1317966",
+          "yer": "Material and Methods · Analysis of the physicochemical properties"
+        },
+        {
+          "kaynak": "10.18016/ksutarimdoga.vi.1317966",
+          "yer": "Material and Methods · Analysis of the physicochemical properties"
+        }
+      ]
+    },
+    {
+      "id": "un_olcum.bugday_unu_protein_ve_zeleny_dagilimi_176_ornek",
+      "metin": "İncelenen 176 ekmeklik buğday unu örneğinde kuru maddede protein içeriği %8,2 ile %15,0 arasında (ortalama %11,4) değişirken, Zeleny sedimantasyon değerleri 18 ile 68 mL arasında (ortalama 35 mL) dağılım göstermiştir.",
+      "kosul": "41 çeşide ait 176 ekmeklik buğday unu örneği",
+      "kanit": "tek_kaynak",
+      "bolum": "Ortak özellikler",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods9070952",
+          "yer": "Table 1"
+        },
+        {
+          "kaynak": "10.3390/foods9070952",
+          "yer": "Table 1"
+        }
+      ]
+    },
+    {
+      "id": "un_olcum.sds_sedimantasyon_hacmi_ve_kararsizlik_egimi",
+      "metin": "Sedimantasyon süresi ilerledikçe SDS hacimleri azalmış; gluten kararsızlığını gösteren 20 ile 60 dakika arasındaki düşüş eğimi S (0,16) < W (0,19) < M (0,26) sırasını izlemiştir.",
+      "kosul": "AACC 56-71.01 yöntemiyle SDS sedimantasyon kinetiği ve eğim analizi",
+      "kanit": "tek_kaynak",
+      "bolum": "Ortak özellikler",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods13193158",
+          "yer": "3.2. SDS Sedimentation Volume of Flours Treated with Xylanases"
+        },
+        {
+          "kaynak": "10.3390/foods13193158",
+          "yer": "3.2. SDS Sedimentation Volume of Flours Treated with Xylanases"
+        }
+      ]
+    },
+    {
+      "id": "un_olcum.ingiltere_hedef_verim_ve_protein",
+      "metin": "Derlemede, Birleşik Krallık'ta Chorleywood ekmekçiliği için gereken %13 protein oranına sahip hektar başına 10 tonluk bir buğday ürünü örnek alınır.",
+      "kosul": "Birleşik Krallık ekmeklik buğday verimi",
+      "kanit": "tek_kaynak",
+      "bolum": "Ortak özellikler",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1093/jxb/erp058",
+          "yer": "Reducing inputs"
+        }
+      ]
+    },
+    {
+      "id": "un_olcum.zeleny_36_45_kalite",
+      "metin": "Ekmeklik buğdayda Zeleny sedimantasyon değerinin 36 ml ve üzeri kaliteli, 45 ml ve üzeri ekstra kaliteli sayıldığı aktarılır.",
+      "kosul": "Ekmeklik buğday; Aydoğan ve ark. 2010, 2012 atfı",
+      "kanit": "ikincil",
+      "bolum": "Ortak özellikler",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.24925/turjaf.v10i11.2173-2179.5386",
+          "yer": "Giriş"
+        }
+      ]
+    },
+    {
+      "id": "un_olcum.alveograf_degerleri",
+      "metin": "Chopin alveografında P hamurun sertliğini (mm), L uzayabilirliğini (mm), W hamuru deforme etmek için gereken enerjiyi, IE ise hamurun deformasyondan sonra geri toplanma yeteneğini (%) gösterir.",
+      "kosul": "",
+      "kanit": "tek_kaynak",
+      "bolum": "Tanım",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.foodchem.2022.135329",
+          "yer": "Abbreviations"
+        },
+        {
+          "kaynak": "10.1016/j.foodchem.2022.135329",
+          "yer": "Abbreviations"
+        }
+      ]
+    },
+    {
+      "id": "un_olcum.pisirme_degeri_tanim",
+      "metin": "Pişirme değeri, unun ve hamurun özelliklerini tanımlayan ve bu undan yapılacak ekmeğin kalitesini öngörmeye imkân veren bir özellikler kümesidir.",
+      "kosul": "",
+      "kanit": "tek_kaynak",
+      "bolum": "Tanım",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods13193035",
+          "yer": "3.1. Quality Parameters of the Tested Mountain Rye Flours"
+        }
+      ]
+    },
+    {
+      "id": "un_olcum.zeleny_degeri_ve_glutenin_yapisi",
+      "metin": "Zeleny sedimantasyon değeri unun yapı oluşturma özelliklerini tanımlar; bu parametrenin yüksek olması ekmekçilik kalitesinden sorumlu glutenin içeriğinin daha fazla olduğuna işaret eder.",
+      "kosul": "Dąbkowska 2009 aktarımı",
+      "kanit": "ikincil",
+      "bolum": "Tanım",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.2478/aucft-2020-0024",
+          "yer": "Indirect indicators of flours baking quality"
+        }
+      ]
+    },
+    {
+      "id": "un_olcum.zeleny_sedimantasyon_zayif_ve_kuvvetli_araligi",
+      "metin": "Zeleny sedimantasyon değerinin çok düşük proteinli zayıf glutenli unlar için yaklaşık 8'den çok yüksek proteinli kuvvetli glutenli unlar için yaklaşık 78'e kadar değiştiği kabul edilir.",
+      "kosul": "Zeleny sedimantasyon ölçeği tanımı",
+      "kanit": "tek_kaynak",
+      "bolum": "Tanım",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods9070952",
+          "yer": "2.2. Chemical and Technological Analyses"
+        }
+      ]
+    },
+    {
+      "id": "un_olcum.farinograf_hidrasyon_kapasitesi",
+      "metin": "Hidrasyon kapasitesi, Brabender farinografıyla belirlenen, 100 g yaş una düşen su miktarıdır (g).",
+      "kosul": "",
+      "kanit": "tek_kaynak",
+      "bolum": "Tanım",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.foodchem.2022.135329",
+          "yer": "Abbreviations"
+        }
+      ]
+    },
+    {
+      "id": "un_olcum.protein_dagilimi_59_un",
+      "metin": "59 buğday unu örneğinde protein içeriği %6,56 ile %15,40 arasında değişti; ortalama %11,14 idi.",
+      "kosul": "59 buğday unu örneği",
+      "kanit": "tek_kaynak",
+      "bolum": "Tanım",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1590/fst.2014.0038",
+          "yer": "3.1 Protein content"
+        }
+      ]
+    },
+    {
+      "id": "un_olcum.randiman_kul_artisi",
+      "metin": "Orth ve Mander'e (1975) göre un randımanı %66'dan %80'e çıktığında kül içeriği %0,40–0,44'ten %0,50–0,52'ye yükseldi.",
+      "kosul": "un randımanı %66'dan %80'e",
+      "kanit": "ikincil",
+      "bolum": "Tanım",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.foodres.2024.115230",
+          "yer": "1. Introduction"
+        }
+      ]
+    },
+    {
+      "id": "un_olcum.tam_un_protein_7_3_14",
+      "metin": "Tam buğday unu örneklerinin protein içeriği; çeşit, bölge ve çevre koşullarına bağlı olarak %7,3 ile %14 arasında değişti.",
+      "kosul": "Türkiye'nin yedi bölgesinden kışlık buğday çeşitleri; tam buğday unu",
+      "kanit": "tek_kaynak",
+      "bolum": "Tanım",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods11131927",
+          "yer": "3. Results"
+        }
+      ]
+    },
+    {
+      "id": "un_olcum.turk_gida_kodeksi_protein_10_5",
+      "metin": "Türk Gıda Kodeksi'ne göre 'ekmek' unu kuru maddede en az %10,5 protein içermelidir.",
+      "kosul": "Türk Gıda Kodeksi (TFC); kuru madde",
+      "kanit": "tek_kaynak",
+      "bolum": "Tanım",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.55147/efse.1493110",
+          "yer": "3.2. Physicochemical and technological properties of flat bread flours"
+        }
+      ]
+    },
+    {
+      "id": "un_olcum.uygun_protein_10_5_13",
+      "metin": "Fırıncılık ürünleri için uygun buğday unu protein içeriği %10,5 ile %13 arasında olmalıdır (Schiller, 1984 atfı).",
+      "kosul": "fırıncılık ürünleri",
+      "kanit": "ikincil",
+      "bolum": "Tanım",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1590/fst.2014.0038",
+          "yer": "3.1 Protein content"
+        }
+      ]
+    },
+    {
+      "id": "un_olcum.protein_hacim_abd",
+      "metin": "Proteini 8,48–14,61 g/100 g arasında değişen dört sert kırmızı kışlık buğday çeşidinden, proteini yüksek olan ikisinin (12,54 ve 14,61 g/100 g) beyaz ekmekleri daha büyük özgül hacimliydi.",
+      "kosul": "Dört sert kırmızı kışlık buğday çeşidi (Ag Gallant, Turkey Red, Tatanka, Zenda), ABD; AACC 10-10.03 maya ekmeği.",
+      "kanit": "tek_kaynak",
+      "bolum": "İlişkileri",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.lwt.2023.114504",
+          "yer": "3.3. Bread volume"
+        },
+        {
+          "kaynak": "10.1016/j.lwt.2023.114504",
+          "yer": "3.1. Particle size of wheat brans"
+        }
+      ]
+    },
+    {
+      "id": "un_olcum.protein_korelasyon_atif",
+      "metin": "Gluten miktarı, su kaldırma, yoğurma ihtiyacı ve ekmeğin özgül hacmi dahil unun neredeyse bütün özellikleri protein miktarıyla yüksek düzeyde ilişkilidir.",
+      "kosul": "Beş buğday türünde tam un analizleri ve literatür aktarımı (Tohver 2005)",
+      "kanit": "tek_kaynak",
+      "bolum": "İlişkileri",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1002/fsn3.4050",
+          "yer": "3.2. Moisture content, Aw, pH, and specific volume"
+        },
+        {
+          "kaynak": "10.3390/foods8090409",
+          "yer": "3.5. Correlations between GLIA, GLUT, Gluten and Total Protein Contents"
+        }
+      ]
+    }
+  ]
+}

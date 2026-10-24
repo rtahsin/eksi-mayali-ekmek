@@ -1,0 +1,138 @@
+{
+  "id": "protein_pihtilasmasi",
+  "ad": "Proteinin pıhtılaşması",
+  "bilgiler": [
+    {
+      "id": "protein_pihtilasmasi.77_derecede_polimerizasyon_baslangici",
+      "metin": "Sc1 referans suşuyla yapılan pişirmede toplam SDS ile özütlenebilir protein, başlangıçtaki %92,4 değerinden 12. dakikadan sonra düşmeye başlar, %83,7'ye iner ve 24. dakikada %43,6'ya ulaşır; 12. dakikadaki düşüş 77 °C hamur sıcaklığına karşılık gelir.",
+      "kosul": "Pişirme süresince protein özütlenebilirlik kinetiği; Sc1 referans suşu",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.fochx.2026.104362",
+          "yer": "3.4. Yeast strains affect the gliadin fraction in the gluten network"
+        },
+        {
+          "kaynak": "10.1016/j.fochx.2026.104362",
+          "yer": "3.4. Yeast strains affect the gliadin fraction in the gluten network"
+        },
+        {
+          "kaynak": "10.1016/j.fochx.2026.104362",
+          "yer": "3.4. Yeast strains affect the gliadin fraction in the gluten network"
+        }
+      ]
+    },
+    {
+      "id": "protein_pihtilasmasi.gluten_disulfit_capraz_bag",
+      "metin": "Isıtmada gluten proteinleri denatüre olur ve disülfit bağları oluşarak proteinler arasında çapraz bağlar kurulur.",
+      "kosul": "",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1155/2018/8187318",
+          "yer": "2. Porous Crumb Structure Development"
+        },
+        {
+          "kaynak": "10.1002/cche.10572",
+          "yer": "6 DISULFIDE STRUCTURE"
+        },
+        {
+          "kaynak": "10.1016/j.fochx.2026.104362",
+          "yer": "3.3. Yeast strains affect the rate at which CO2 is released"
+        }
+      ]
+    },
+    {
+      "id": "protein_pihtilasmasi.protein_50_derecede_nisasta_60_derecede",
+      "metin": "Hamurdaki proteinlerin yaklaşık 50 °C'de denatüre olduğu, nişastanın ise yaklaşık 60 °C'de şişip çirişlendiği bildirilmiştir.",
+      "kosul": "hamur bileşenlerinin ısıl geçişleri (aktarım)",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3136/fstr.20.1071",
+          "yer": "Results and Discussion · Dough properties and bread making quality using the Yudane method"
+        }
+      ]
+    },
+    {
+      "id": "protein_pihtilasmasi.isitmayla_hidrofobik_baglar_ve_stabilizasyon",
+      "metin": "Isıl işlemin proteinleri açarak su sevmeyen kalıntıları açığa çıkardığı; pişirme sırasında hamurun ısıtıldığı koşullarda fenilalanin, lösin, izolösin ve valin yan zincirlerinin kurduğu hidrofobik bağların gluten protein yapısının dengelenmesine önemli katkı yapabildiği belirtilmiştir.",
+      "kosul": "Pişirme sırasındaki ısıl işlem",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1002/cche.10572",
+          "yer": "7 GLUTEN CHEMISTRY AND FUNCTIONALITY"
+        },
+        {
+          "kaynak": "10.1111/1541-4337.13141",
+          "yer": "6.4 Hydrophobic interactions"
+        }
+      ]
+    },
+    {
+      "id": "protein_pihtilasmasi.kopukten_sungere_yapi_sabitlenmesi",
+      "metin": "Pişirmede CO2 salımındaki iki aşama arasındaki kesişim noktası, köpük benzeri hamur yapısının sabitlenmiş sünger benzeri ekmek yapısına dönüştüğü an olarak tanımlanır.",
+      "kosul": "Pişirmede CO2 salım kinetiği (Grenier vd. 2021; Janssen vd. 2021; Monterde vd. 2025 aktarımı)",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.crfs.2026.101573",
+          "yer": "3.4. Different K. marxianus strains lead to different rates of CO2 release"
+        }
+      ]
+    },
+    {
+      "id": "protein_pihtilasmasi.mayali_hamurda_70_derece_uzeri_polimerizasyon_sinirlidir",
+      "metin": "Bir çalışmada büyük deformasyon reolojisiyle ölçülen gluten işlevselliğinde, mayalı hamurda polimerizasyonun özellikle 70 °C üzerinde sınırlı kaldığı görülmüştür.",
+      "kosul": "mayalı hamur sisteminde büyük deformasyon reolojisi; tek çalışma",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1371/journal.pone.0282670",
+          "yer": "4 Strain-dependent functionality of the dough’s polymers during the baking process: A structural model"
+        }
+      ]
+    },
+    {
+      "id": "protein_pihtilasmasi.mayali_hamurda_80_derece_uzeri_polimerizasyon_siniri",
+      "metin": "Bir çalışmada mayalı hamurda 80 °C'nin üzerindeki sıcaklıklarda ağ bağlanırlığında olağandışı bir düşüş gözlenmiş; bu sıcaklıkların üzerinde protein polimerizasyonu sınırlı kalıyor gibi görünmektedir.",
+      "kosul": "mayalı hamurda 80 °C üzerindeki sıcaklıklar; tek çalışma",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1371/journal.pone.0282670",
+          "yer": "3.1 Impact of thermal treatment on the shear rheological behavior of dough"
+        }
+      ]
+    },
+    {
+      "id": "protein_pihtilasmasi.polimerlesme_baslangic_65_70c",
+      "metin": "Önceki çalışmalara göre buğday hamurunda protein polimerleşmesi, protein ekstrakte edilebilirliği ölçümlerinde 65 °C veya 70 °C'nin üzerindeki sıcaklıklarda başlıyordu.",
+      "kosul": "Buğday hamuru; protein ekstrakte edilebilirliği ölçümleri; ısıl işlem; önceki çalışmalardan aktarma (kaynak [21,30])",
+      "kanit": "ikincil",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1371/journal.pone.0282670",
+          "yer": "3.2 Impact of thermal treatment on the extensional rheological behavior of dough"
+        }
+      ]
+    }
+  ]
+}

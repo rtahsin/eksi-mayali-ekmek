@@ -1,0 +1,298 @@
+{
+  "id": "firinin_ilk_8_dakikasi",
+  "durak": "firin",
+  "baslik": "Fırının ilk 8 dakikası",
+  "soru": "Hamur fırında neden son bir kez büyür?",
+  "bayrak": true,
+  "gor": {
+    "tur": "kaydirma",
+    "adimlar": [
+      {
+        "metin": "Fırının kapağı kapandığında pişirme başlar: hamur, ısı uygulanarak kendine has duyusal özelliklere sahip bir gıdaya dönüştürülür [[isi_aktarimi.pisirme_surecinin_tanimi]]. Isı üç yolla birden gelir: iletim, taşınım ve ışınım [[isi_aktarimi.es_zamanli_iletkenlik_konveksiyon_ve_isinim]].",
+        "gorsel": "prince_djehutymes_baking_bread_e_2749_img_4510_gradient",
+        "vurgu": "Ekmek pişiren eski Mısır heykelciği: kapağın kapanmasıyla başlayan pişirme anının tasviri."
+      },
+      {
+        "metin": "Küçük kalıp ekmeğinde üç ısıl bölge oluşur: dış bölge, buharlaşma cephesi ve iç bölge [[isi_aktarimi.uc_isil_bolge]]. Buharlaşma cephesi, kabuğu ekmek içinden ayıran ve ısının suyla taşındığı sınırdır [[isi_aktarimi.buharlasma_yogusma_cephesi]]. Dış bölge hızla 100 °C'nin üstüne çıkar; cephe 100 °C dolayında kalırken iç bölge giderek 100 °C'ye yaklaşır [[isi_aktarimi.uc_isil_bolge]]. Yüzeyin ısınma hızı pişirmenin başında en yüksekti; üç fırın sıcaklığında da yaklaşık 22,0 ± 1,0 °C/dakika ölçüldü [[isi_aktarimi.yuzey_isinma_hizi]]. İlk dakikalarda somunun ortasındaki sıcaklık yalnız biraz arttı [[isi_aktarimi.merkez_ilk_dakikalarda_yavas]].",
+        "gorsel": "home_made_sour_dough_bread",
+        "vurgu": "Ev yapımı ekmek: ısınmayla öne geçen dış yüzey ile ısınmakta yavaşlayan iç bölge."
+      },
+      {
+        "metin": "Fırın kabarması, pişirmenin ilk 6–8 dakikasında somunun hacmini artıran genişlemedir [[firin_kabarmasi.ilk_6_8_dakika]]. Bu genişlemenin ilk aşaması temel olarak mayanın termal aktivasyonuyla, yani ısının mayayı uyandırmasıyla ilişkilidir [[firin_kabarmasi.mayanin_termal_aktivasyonu_ve_co2_salimi]]. Yüksek sıcaklık mayanın etkin kalabildiği süreyi kısaltır, çünkü maya 50 °C'de artık canlı değildir [[firin_kabarmasi.maya_50_derecede_olur]].",
+        "gorsel": "saccharomyces_cerevisiae_sem",
+        "vurgu": "Taramalı elektron mikroskobu görüntüsü: Saccharomyces cerevisiae hücreleri."
+      },
+      {
+        "metin": "Gözenek, gaz hücresinin pişirme sırasında genişleyip açılmasıyla ortaya çıkan boşluktur [[firin_kabarmasi.gaz_hucrelerinin_gozenek_agina_donusumu]]. Hızlı genişlemeye dört olay katkıda bulunur: karbondioksit üretiminin geçici artışı, karbondioksidin çözünürlüğünün düşmesi, gaz hücrelerinin genleşmesi ve su ile etanolün buharlaşması [[firin_kabarmasi.hizli_hacim_genlesmesinin_dort_nedeni]]. Bu genişlemeyi kapalı gözeneklerde biriken gaz basıncı iter; su buharı bu gözeneklerdeki birincil gaz fazı bileşenidir [[firin_kabarmasi.kapali_gozenek_su_buhari_basinci]]. Gözenekler tamamen açıldığında basınç farkı 0 değerine yaklaşır ve genişleme durur [[firin_kabarmasi.kapali_gozenek_su_buhari_basinci]].",
+        "gorsel": "saccharomyces_cerevisiae_100x_phase_contrast_microscopy",
+        "vurgu": "Faz-kontrast mikroskobunda 100x büyütmede seçilebilen maya hücreleri."
+      },
+      {
+        "metin": "Buğday hamuru, su almış gluten proteinlerinin kesintisiz bir ağı ile bu ağın içine gömülü nişasta tanelerinden oluşur [[gluten.tanim_hamur_iskeleti]]. Gluten ağı hamurun iskeletidir; öbür bileşenleri bir arada tutar, hamurun stabilitesini ve ekmek hacmini etkiler [[gluten.tanim_hamur_iskeleti]]. Gluten, alkolde çözünen gliadinler ile çözünmeyen gluteninlerden oluşan depo proteinleridir [[gluten.osborne_fraksiyonlari_ve_gluten_tanimi]]. Disülfit bağları, protein zincirleri arasında kurulan kovalent bağlardır [[disulfit.glutenin_makropolimeri]]. Pişirme sırasında gliadin, 90 °C'ye kadar sülfhidril-disülfit değişimi yoluyla glutenine bağlanır [[disulfit.90c_ye_kadar_gliadin_glutenin_baglanmasi]]. Bu değişimde sülfhidril grupları oksitlenip disülfit köprülerine dönüşür ve zincirler birbirine bağlanır [[disulfit.sh_oksidasyonu_ve_ss_sh_degisim_reaksiyonlari]].",
+        "gorsel": "gluten_and_carbon_nanotubes",
+        "vurgu": "Glutenin farklı büyütmelerde mikroskop görüntüsü: hamuru bir arada tutan ağ."
+      },
+      {
+        "metin": "Buharlaşma-yoğuşma mekanizması, gözenekli matrisin hızlı ısınmasından sorumludur [[isi_aktarimi.buharlasma_yogusma_hizli_isinma_mekanizmasi]]. Bu mekanizmada su, gaz hücrelerinin daha sıcak tarafında buharlaşma gizli ısısını alarak buharlaşır [[isi_aktarimi.gaz_hucrelerinde_buharlasma_yogusma_adimlari]]. Daha soğuk tarafta yoğuşarak bu ısıyı açığa çıkarır ve ısı ile su bir sonraki hücreye taşınır [[isi_aktarimi.gaz_hucrelerinde_buharlasma_yogusma_adimlari]]. 100 °C'de suyun buharlaşma gizli ısısı 2,257 MJ/kg'dır; bu yüzden pişirme yüksek enerji gerektirir [[isi_aktarimi.buharlasma_gizli_isisi_enerji_gereksinimi]]. Su buharı ekmeğin merkezinde yoğuşur ve açığa çıkan gizli ısı, suyu emen nişastayı jelleştirir [[isi_aktarimi.yogusan_buhar_nisastayi_jelestirir]].",
+        "gorsel": "photomicrograph_of_wheat_starch",
+        "vurgu": "Buğday nişastasının mikroskop görüntüsü: eş merkezli halkalarıyla nişasta taneleri."
+      },
+      {
+        "metin": "Küçük kalıp ekmeğinde hacim, pişirmenin ilk 3 dakikasında 180 °C'de %27,6, 200 °C'de %23,3, 220 °C'de %23,5 arttı [[firin_kabarmasi.hacim_artisi_ilk_3_dakika]]. Ekmek 200 ve 220 °C'de 3 dakikada en büyük hacmine ulaştı; 180 °C'de ise genişleme altıncı dakikaya kadar sürdü [[firin_kabarmasi.hacim_artisi_ilk_3_dakika]]. Yani en sıcak fırın ilk dakikalarda en büyük artışı vermedi [[firin_kabarmasi.hacim_artisi_ilk_3_dakika]]. Genişleme, maya canlılığını yitirdikçe ve nişasta jelleşip mekanik direnci artırdıkça durur [[firin_kabarmasi.ilk_dakikalarda_hizli_sonra_durur]]. Genişleme ilk dakikalarda biter; merkezin 100 °C'ye ulaşması ise 180, 200 ve 220 °C'de sırasıyla 17, 13 ve 11 dakika sürer [[isi_aktarimi.merkez_100_derecede_plato]].",
+        "gorsel": "saccharomyces_cerevisiae_loeffler_s_methylene_blue_stain",
+        "vurgu": "Metilen mavisiyle boyanmış Saccharomyces cerevisiae hücreleri, 400x büyütmede."
+      }
+    ]
+  },
+  "anla": [
+    {
+      "baslik": "Kapağın kapanması",
+      "paragraflar": [
+        "Fırının kapağı kapandığında pişirme başlar: hamur, ısı uygulanarak kendine has duyusal özelliklere sahip bir gıdaya dönüştürülür [[isi_aktarimi.pisirme_surecinin_tanimi]]. Isı, iletim, taşınım ve ışınım yollarıyla eş zamanlı olarak hamura ulaşır [[isi_aktarimi.es_zamanli_iletkenlik_konveksiyon_ve_isinim]]. Ekmek kalitesi, bu eş zamanlı ısı ve kütle aktarımının yarattığı fiziksel ve kimyasal değişimlerin sonucudur [[isi_aktarimi.kalite_degisimleri_isi_kutle_aktarimi]].",
+        "Küçük kalıp ekmeğinde üç ısıl bölge oluşur: dış bölge, buharlaşma cephesi ve iç bölge [[isi_aktarimi.uc_isil_bolge]]. Buharlaşma cephesi, kabuğu ekmek içinden ayıran sınırdır; ısı ve su bu sınırda buharlaşma ile yoğuşmayla taşınır [[isi_aktarimi.buharlasma_yogusma_cephesi]]. Dış bölge hızla 100 °C'nin üstüne çıkar; cephe 100 °C dolayında kalırken iç bölge giderek 100 °C'ye yaklaşır [[isi_aktarimi.uc_isil_bolge]]. Yüzeyin ısınma hızı pişirmenin başında en yüksekti; üç fırın sıcaklığında da yaklaşık 22,0 ± 1,0 °C/dakika ölçüldü [[isi_aktarimi.yuzey_isinma_hizi]]. İlk dakikalarda somunun ortasındaki sıcaklık yalnız biraz arttı; enerjiyi yüzeydeki suyun buharlaşması alıyor [[isi_aktarimi.merkez_ilk_dakikalarda_yavas]]."
+      ]
+    },
+    {
+      "baslik": "Mayanın son işi",
+      "paragraflar": [
+        "Fırın kabarması, pişirmenin ilk 6–8 dakikasında somunun hacmini artıran genişlemedir [[firin_kabarmasi.ilk_6_8_dakika]]. İlk aşamadaki genişleme temel olarak mayanın termal aktivasyonuyla, yani ısının mayayı uyandırmasıyla ilişkilidir; ısı mayayı uyandırır ve daha hızlı karbondioksit üretimi sağlar [[firin_kabarmasi.mayanin_termal_aktivasyonu_ve_co2_salimi]]. Yüksek sıcaklık, mayanın etkin kalabildiği süreyi kısaltır, çünkü maya 50 °C'de artık canlı değildir [[firin_kabarmasi.maya_50_derecede_olur]].",
+        "Maya suşu, aynı türün küçük kalıtsal farklar taşıyan hattıdır ve hangi suşun kullanıldığı fırın kabarmasını değiştirir [[firin_kabarmasi.maya_susu_kabarma_farki]]. Referans fırıncı mayası %23,3 fırın kabarması sağlarken farklı suşlar belirgin biçimde daha yüksek ya da düşük kabarma gösterdi [[firin_kabarmasi.maya_susu_kabarma_farki]]. En yüksek kabarmayı sağlayan suş, hamur yapısını stabilize ederek daha çok sayıda küçük gaz hücresi oluşturmuş görünüyor [[firin_kabarmasi.maya_susu_kabarma_farki]]. Maya bu işi hamurdaki sakaroz, glukoz, fruktoz ve maltoz gibi karbonhidratları glikoliz yoluyla karbondioksit ve etanole fermente ederek yapar [[scer.glikoliz_karbonhidrat_fermantasyonu]]. Glikoliz, şekerin parçalanıp enerjiye çevrildiği yoldur; açığa çıkan karbondioksit kabarmayı besler [[scer.glikoliz_karbonhidrat_fermantasyonu]]."
+      ]
+    },
+    {
+      "baslik": "Gazın ittiği, buharın taşıdığı büyüme",
+      "paragraflar": [
+        "Gözenek, gaz hücresinin pişirme sırasında genişleyip açılmasıyla ortaya çıkan boşluktur [[firin_kabarmasi.gaz_hucrelerinin_gozenek_agina_donusumu]]. Hızlı genişlemeye dört olay katkıda bulunur: karbondioksit üretiminin geçici artışı, karbondioksidin çözünürlüğünün düşmesi, gaz hücrelerinin genleşmesi ve su ile etanolün buharlaşması [[firin_kabarmasi.hizli_hacim_genlesmesinin_dort_nedeni]]. Kapalı gözeneklerde biriken gaz basıncı, ekmek genleşmesinin ana itici gücüdür; su buharı bu gözeneklerdeki birincil gaz fazı bileşenidir [[firin_kabarmasi.kapali_gozenek_su_buhari_basinci]]. Gözenekler tamamen açıldığında basınç farkı 0 değerine yaklaşır ve genişleme durur [[firin_kabarmasi.kapali_gozenek_su_buhari_basinci]].",
+        "Buharlaşma-yoğuşma mekanizması, gözenekli matrisin hızlı ısınmasından sorumludur [[isi_aktarimi.buharlasma_yogusma_hizli_isinma_mekanizmasi]]. Kapalı gözeneklerde buharlaşma-difüzyon-yoğuşma mekanizması, toplam etkin ısıl iletkenliğe yaklaşık %60 katkıda bulunur [[isi_aktarimi.kapali_gozeneklerde_edc_katkisi_yuzde_60]]. Model sonuçlarına göre yoğuşma cephesinin varlığı, açık gözeneklerde ısı aktarımını hızlandırarak hızlı sıcaklık artışına yol açar [[isi_aktarimi.yogusma_cephesi_acik_gozeneklerde_isi_aktarimini_hizlandirir]]. Yeterli ısı aktarımı gaz hücresi genişlemesini destekler, ekmek hacmini artırır ve yığın yoğunluğunu azaltır [[isi_aktarimi.yeterli_isi_aktarimi_hacim_ve_yogunluk]]."
+      ]
+    },
+    {
+      "baslik": "Büyüme durduğunda",
+      "paragraflar": [
+        "Küçük kalıp ekmeğinde hacim, pişirmenin ilk 3 dakikasında 180 °C'de %27,6, 200 °C'de %23,3, 220 °C'de %23,5 arttı [[firin_kabarmasi.hacim_artisi_ilk_3_dakika]]. Ekmek 200 ve 220 °C'de 3 dakikada en büyük hacmine ulaştı; 180 °C'de ise genişleme altıncı dakikaya kadar sürdü [[firin_kabarmasi.hacim_artisi_ilk_3_dakika]]. Üç ayar yan yana konduğunda en sıcak fırının en büyük artışı vermediği görülüyor [[firin_kabarmasi.hacim_artisi_ilk_3_dakika]]. Genişleme, maya canlılığını yitirdikçe ve nişasta jelleşip mekanik direnci artırdıkça durur [[firin_kabarmasi.ilk_dakikalarda_hizli_sonra_durur]].",
+        "Gluten ağı, hamurun viskoelastik davranışını belirler; bu davranış hamurun hem akıp yayılmasını hem de biçimini korumasını sağlar [[gluten.viskoelastisite_ve_hava_hucreleri_kararliligi]]. Aynı ağ hamur hidrasyonuna, gaz tutulmasına ve hava hücrelerinin kararlı kalmasına katkı sağlar [[gluten.viskoelastisite_ve_hava_hucreleri_kararliligi]]. Pişirme sırasında gliadin, 90 °C'ye kadar sülfhidril-disülfit değişimiyle glutenine bağlanır [[disulfit.90c_ye_kadar_gliadin_glutenin_baglanmasi]]. Nihai pişmiş somun hacimce %75–85 gaz içerir [[firin_kabarmasi.pismis_ekmek_hacimce_gaz]]."
+      ]
+    }
+  ],
+  "yuzlesme": [
+    {
+      "inanc": "Fırın kabarması, hamurdaki gazın ısıyla genişlemesinden ibarettir.",
+      "cevap": "Hızlı genişlemeye dört olay katkıda bulunur: karbondioksit üretiminin geçici artışı, karbondioksidin çözünürlüğünün düşmesi, gaz hücrelerinin genleşmesi ve su ile etanolün buharlaşması [[firin_kabarmasi.hizli_hacim_genlesmesinin_dort_nedeni]]. Kapalı gözeneklerde biriken gaz basıncı, ekmek genleşmesinin ana itici gücüdür [[firin_kabarmasi.kapali_gozenek_su_buhari_basinci]]. İlk aşamada genişleme temel olarak mayanın termal aktivasyonuyla, yani ısının mayayı uyandırmasıyla ilişkilidir [[firin_kabarmasi.mayanin_termal_aktivasyonu_ve_co2_salimi]]."
+    },
+    {
+      "inanc": "Fırını daha sıcak yapmak ekmeği daha hacimli yapar.",
+      "cevap": "Küçük kalıp ekmeğinde fermantasyon sonunda bütün ekmeklerin hacmi aynıydı, ama 220 °C'de pişirilenlerin pişirme sonundaki hacmi belirgin biçimde daha düşüktü [[firin_kabarmasi.220_derecede_son_hacim_dusuk]]. Bu deneyde hacim, ilk 3 dakikada 180 °C'de %27,6, 200 °C'de %23,3, 220 °C'de %23,5 arttı [[firin_kabarmasi.hacim_artisi_ilk_3_dakika]]. Tost ekmeğinde ise fırın ve merkez sıcaklığı yükseldikçe özgül hacim, yani birim ağırlık başına hacim artmış [[firin_kabarmasi.firin_ve_merkez_sicakligi_ozgul_hacmi_artirir]]. Yani sıcaklığın etkisi ekmek türüne ve deneye göre değişiyor [[firin_kabarmasi.220_derecede_son_hacim_dusuk]]."
+    },
+    {
+      "inanc": "Ekşi maya ekmeği, mayalı ekmekten daha hacimli olur.",
+      "cevap": "Derlemeler ekşi maya tipi ekmeğin mayalı ekmekten daha hacimli olduğunu yazar, ama bir araştırma makalesine göre birincil çalışmalar bu konuda pek uzlaşmaz [[firin_kabarmasi.eksi_maya_hacim_efsanesi]]. Ekşi mayalı ve kontrol ekmeklerin özgül hacimleri 3,46 ile 3,93 cm³/g arasında değişmiş [[firin_kabarmasi.eksi_maya_ve_kontrol_ozgul_hacim_araligi]]. Aralarında istatistiksel olarak anlamlı bir fark bulunmamıştır [[firin_kabarmasi.eksi_maya_ve_kontrol_ozgul_hacim_araligi]]."
+    }
+  ],
+  "kanit": {
+    "cekirdek": [
+      "firin_kabarmasi.ilk_6_8_dakika",
+      "firin_kabarmasi.hacim_artisi_ilk_3_dakika",
+      "firin_kabarmasi.ilk_dakikalarda_hizli_sonra_durur",
+      "firin_kabarmasi.kapali_gozenek_su_buhari_basinci",
+      "firin_kabarmasi.hizli_hacim_genlesmesinin_dort_nedeni",
+      "firin_kabarmasi.gaz_hucrelerinin_gozenek_agina_donusumu",
+      "firin_kabarmasi.mayanin_termal_aktivasyonu_ve_co2_salimi",
+      "isi_aktarimi.uc_isil_bolge",
+      "isi_aktarimi.yuzey_isinma_hizi",
+      "isi_aktarimi.merkez_100_derecede_plato",
+      "isi_aktarimi.buharlasma_yogusma_hizli_isinma_mekanizmasi",
+      "isi_aktarimi.buharlasma_yogusma_cephesi",
+      "isi_aktarimi.yeterli_isi_aktarimi_hacim_ve_yogunluk",
+      "gluten.viskoelastisite_ve_hava_hucreleri_kararliligi",
+      "disulfit.90c_ye_kadar_gliadin_glutenin_baglanmasi"
+    ],
+    "cekmece": [
+      "isi_aktarimi.pisirme_surecinin_tanimi",
+      "isi_aktarimi.es_zamanli_iletkenlik_konveksiyon_ve_isinim",
+      "isi_aktarimi.kalite_degisimleri_isi_kutle_aktarimi",
+      "isi_aktarimi.merkez_ilk_dakikalarda_yavas",
+      "isi_aktarimi.buharlasma_gizli_isisi_enerji_gereksinimi",
+      "isi_aktarimi.yogusan_buhar_nisastayi_jelestirir",
+      "isi_aktarimi.gaz_hucrelerinde_buharlasma_yogusma_adimlari",
+      "isi_aktarimi.kapali_gozeneklerde_edc_katkisi_yuzde_60",
+      "isi_aktarimi.yogusma_cephesi_acik_gozeneklerde_isi_aktarimini_hizlandirir",
+      "isi_aktarimi.pisirme_suresi_ic_isi_direnciyle_sinirli",
+      "isi_aktarimi.su_kaybi_enerji_tuketimi_baglantisi",
+      "isi_aktarimi.merkez_isinma_hizi_tepe",
+      "isi_aktarimi.yari_pisirmede_cekirdek_sicakligi_yetersizligi",
+      "isi_aktarimi.merkez_98_derece_tam_ekmek_ici",
+      "isi_aktarimi.cekirdek_sicakligi_92_95_derece_dilimlenebilirlik",
+      "isi_aktarimi.firin_ici_sicaklik_farklari",
+      "isi_aktarimi.glutenin_polimerlesme_sicaklik_esigi",
+      "isi_aktarimi.nisasta_jellesmesi_ve_esmerlesme_kinetik_modelleri",
+      "isi_aktarimi.pisirme_sicakligi_ve_suresinin_kabuk_ve_ic_etkisi",
+      "firin_kabarmasi.maya_50_derecede_olur",
+      "firin_kabarmasi.220_derecede_son_hacim_dusuk",
+      "firin_kabarmasi.pismis_ekmek_hacimce_gaz",
+      "firin_kabarmasi.eksi_maya_hacim_efsanesi",
+      "firin_kabarmasi.eksi_maya_ve_kontrol_ozgul_hacim_araligi",
+      "firin_kabarmasi.altmis_derece_otesi_genlesmenin_durmasi",
+      "firin_kabarmasi.kabarma_72_dereceye_kadar_surer",
+      "firin_kabarmasi.gozenek_acilma_sicakligi_ve_genlesme",
+      "firin_kabarmasi.maksimum_ic_basinc_ve_dususu",
+      "firin_kabarmasi.kenar_ve_eksen_yukseklik_kinetigi",
+      "firin_kabarmasi.hacim_genlesme_orani_ve_cokus",
+      "firin_kabarmasi.baslangic_genlesme_hizi_lineer_model",
+      "firin_kabarmasi.standart_hamurda_buharlasma_kaynakli_genlesme_hizi",
+      "firin_kabarmasi.mayasiz_hamurda_yavas_genlesme_mekanizmasi",
+      "firin_kabarmasi.elli_ve_altmis_derece_arasi_genlesme_mekanizmalari",
+      "firin_kabarmasi.mayali_hamurda_elli_ve_altmis_derece_kinetigi",
+      "firin_kabarmasi.firin_ve_merkez_sicakligi_ozgul_hacmi_artirir",
+      "firin_kabarmasi.ekmek_hacmi_ve_gaz_tutma_tanimi",
+      "firin_kabarmasi.buharlasma_cephesi_ve_kabuklasma",
+      "firin_kabarmasi.firin_nemi_genlesmeyi_destekler",
+      "firin_kabarmasi.eriyen_yag_kristalleri",
+      "firin_kabarmasi.dis_hucreler_kabuga_paralel_uzar",
+      "firin_kabarmasi.co2_kabarcik_duvarlari_kopar",
+      "firin_kabarmasi.maya_susu_kabarma_farki",
+      "firin_kabarmasi.kisitli_kabarma_kabuk_yirtilmasi",
+      "scer.maya_susu_seciminin_pisirme_fazina_etkisi",
+      "scer.ekmek_hamuruna_eklenme_oranlari_0_5_2_5",
+      "scer.glikoliz_karbonhidrat_fermantasyonu",
+      "scer.hamur_reolojisi_ve_gaz_tutma",
+      "scer.firin_mayasi_tanim_dunya",
+      "scer.pisirmede_etanol_derisimi_ve_sus_farklari",
+      "scer.sc5_susunda_hizli_gaz_salimi",
+      "scer.co2_hacim",
+      "scer.firin_susu_gaz_tutar",
+      "gluten.tanim_hamur_iskeleti",
+      "gluten.osborne_fraksiyonlari_ve_gluten_tanimi",
+      "gluten.elastiklik_hacim_optimum",
+      "gluten.ag_stabilitesi_disulfit_ve_kovalent_olmayan_baglar",
+      "gluten.disulfit_bagli_glutenin_iskeleti",
+      "gluten.gliadin_ve_glutenin_ekmek_ici_yapisi",
+      "gliadin_glutenin.viskoelastisite_ve_gaz_tutma_mekanizmasi",
+      "gliadin_glutenin.karistirmada_viskoelastik_ag_olusumu",
+      "gliadin_glutenin.gliadin_akiskanlik_glutenin_elastiklik",
+      "gliadin_glutenin.pisirmede_polimerlesme_sirasi_ve_sicaklik",
+      "gliadin_glutenin.pisirmede_sds_ekstrakte_protein_dususu",
+      "disulfit.glutenin_makropolimeri",
+      "disulfit.sh_oksidasyonu_ve_ss_sh_degisim_reaksiyonlari",
+      "disulfit.ag_stabilitesi_karistirma",
+      "disulfit.glutenin_55c_gliadin_70c_tiyol_reaksiyonu",
+      "disulfit.isil_capraz_baglanmada_lmw_gs_baskinligi",
+      "disulfit.firin_urunlerinde_ekstraksiyon_kalintisi_proteini",
+      "disulfit.tiyol_ve_ekmek_hacmi",
+      "disulfit.ditiyotreitol_ag_olusmaz"
+    ]
+  },
+  "baglar": [
+    {
+      "kaldirac": "Maya ısısı",
+      "mekanizma": "Isı mayayı termal olarak aktive eder; karbondioksit üretimi ve çözünmesi hızlanır.",
+      "sonuc": "İlk dakikalarda güçlü bir fırın kabarması görülür.",
+      "bilgiler": [
+        "firin_kabarmasi.mayanin_termal_aktivasyonu_ve_co2_salimi",
+        "firin_kabarmasi.maya_50_derecede_olur"
+      ]
+    },
+    {
+      "kaldirac": "Kapalı gözeneklerdeki gaz basıncı",
+      "mekanizma": "Kapalı gözeneklerde biriken gaz basıncı, su buharıyla birlikte ekmeğin genişlemesini iter.",
+      "sonuc": "Gözenekler tamamen açıldığında basınç farkı 0 değerine yaklaşır ve genişleme durur.",
+      "bilgiler": [
+        "firin_kabarmasi.kapali_gozenek_su_buhari_basinci",
+        "firin_kabarmasi.gozenek_acilma_sicakligi_ve_genlesme"
+      ]
+    },
+    {
+      "kaldirac": "Buharlaşma-yoğuşma",
+      "mekanizma": "Su sıcak tarafta buharlaşma gizli ısısını alarak buharlaşır, soğuk tarafta yoğuşarak bu ısıyı bırakır.",
+      "sonuc": "Gözenekli matris hızla ısınır; kapalı gözeneklerde bu mekanizma etkin ısıl iletkenliğe yaklaşık %60 katkı verir.",
+      "bilgiler": [
+        "isi_aktarimi.gaz_hucrelerinde_buharlasma_yogusma_adimlari",
+        "isi_aktarimi.kapali_gozeneklerde_edc_katkisi_yuzde_60"
+      ]
+    },
+    {
+      "kaldirac": "Gluten ağının dayanıklılığı",
+      "mekanizma": "Gluten ağı hamurun viskoelastik davranışını belirler; pişirmede gliadin 90 °C'ye kadar glutenine bağlanır.",
+      "sonuc": "Gaz hücreleri kararlı kalır, ekmek hacmi korunur.",
+      "bilgiler": [
+        "gluten.viskoelastisite_ve_hava_hucreleri_kararliligi",
+        "disulfit.90c_ye_kadar_gliadin_glutenin_baglanmasi",
+        "disulfit.glutenin_makropolimeri"
+      ]
+    },
+    {
+      "kaldirac": "Fırın sıcaklığı",
+      "mekanizma": "Küçük kalıp ekmeği deneyinde 220 °C'de pişirilenlerin son hacmi düşük kaldı; tost ekmeğinde ise fırın ve merkez sıcaklığı yükseldikçe özgül hacim arttı.",
+      "sonuc": "Sıcaklığın etkisi ekmek türüne ve koşula göre değişir; tek deneyden genel kural çıkmaz.",
+      "bilgiler": [
+        "firin_kabarmasi.220_derecede_son_hacim_dusuk",
+        "firin_kabarmasi.hacim_artisi_ilk_3_dakika",
+        "firin_kabarmasi.firin_ve_merkez_sicakligi_ozgul_hacmi_artirir"
+      ]
+    },
+    {
+      "kaldirac": "Maya canlılığı",
+      "mekanizma": "Maya 50 °C'de artık canlı değildir; nişasta jelleşip mekanik direnci arttıkça genişleme durur.",
+      "sonuc": "Fırın kabarması, pişirmenin ilk 6–8 dakikasında tamamlanır.",
+      "bilgiler": [
+        "firin_kabarmasi.maya_50_derecede_olur",
+        "firin_kabarmasi.ilk_dakikalarda_hizli_sonra_durur",
+        "firin_kabarmasi.ilk_6_8_dakika"
+      ]
+    },
+    {
+      "kaldirac": "Merkezdeki 100 °C platosu",
+      "mekanizma": "Merkezdeki sıcaklık 100 °C'ye ulaşıp orada sabitlenir; bunun nedeni suyun buharlaşıp yoğuşmasıdır.",
+      "sonuc": "İç bölge yavaş ısınır; pişirme süresinin alt sınırı ürünün iç ısı aktarım direnciyle belirlenir.",
+      "bilgiler": [
+        "isi_aktarimi.merkez_100_derecede_plato",
+        "isi_aktarimi.pisirme_suresi_ic_isi_direnciyle_sinirli"
+      ]
+    }
+  ],
+  "karakterler": [
+    "scer",
+    "gluten"
+  ],
+  "ayrisan_kaynaklar": [
+    {
+      "konu": "Fırını daha sıcak yapmak ekmeğin hacmini artırıyor mu?",
+      "bilgiler": [
+        "firin_kabarmasi.220_derecede_son_hacim_dusuk",
+        "firin_kabarmasi.hacim_artisi_ilk_3_dakika",
+        "firin_kabarmasi.firin_ve_merkez_sicakligi_ozgul_hacmi_artirir"
+      ]
+    },
+    {
+      "konu": "Genişleme hangi sıcaklıkta duruyor?",
+      "bilgiler": [
+        "firin_kabarmasi.altmis_derece_otesi_genlesmenin_durmasi",
+        "firin_kabarmasi.kabarma_72_dereceye_kadar_surer",
+        "firin_kabarmasi.ilk_dakikalarda_hizli_sonra_durur"
+      ]
+    },
+    {
+      "konu": "Ekşi maya ekmeği mayalı ekmekten daha hacimli mi?",
+      "bilgiler": [
+        "firin_kabarmasi.eksi_maya_hacim_efsanesi",
+        "firin_kabarmasi.eksi_maya_ve_kontrol_ozgul_hacim_araligi"
+      ]
+    },
+    {
+      "konu": "Fırın kabarmasını gaz basıncı mı, yoksa buhar mı itiyor?",
+      "bilgiler": [
+        "firin_kabarmasi.kapali_gozenek_su_buhari_basinci",
+        "firin_kabarmasi.standart_hamurda_buharlasma_kaynakli_genlesme_hizi",
+        "firin_kabarmasi.baslangic_genlesme_hizi_lineer_model",
+        "firin_kabarmasi.gozenek_acilma_sicakligi_ve_genlesme"
+      ]
+    },
+    {
+      "konu": "Çekirdek sıcaklığı tek başına pişirmenin bittiğini gösterir mi?",
+      "bilgiler": [
+        "isi_aktarimi.yari_pisirmede_cekirdek_sicakligi_yetersizligi",
+        "isi_aktarimi.merkez_98_derece_tam_ekmek_ici",
+        "isi_aktarimi.cekirdek_sicakligi_92_95_derece_dilimlenebilirlik"
+      ]
+    }
+  ]
+}

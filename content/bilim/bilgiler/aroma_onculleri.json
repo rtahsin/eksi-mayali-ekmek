@@ -1,0 +1,356 @@
+{
+  "id": "aroma_onculleri",
+  "ad": "Aroma öncülleri",
+  "bilgiler": [
+    {
+      "id": "aroma_onculleri.aminoasitler_ehrlich_ucucu_oncul",
+      "metin": "Amino asitler uçucu bileşiklerin temel öncülleri olarak işlev görür ve Ehrlich yolu gibi yolaklarla aldehit, alkol, keton ve kükürt içeren bileşiklere dönüştürülebilir.",
+      "kosul": "",
+      "kanit": "tek_kaynak",
+      "bolum": "Ne yapar",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods15101745",
+          "yer": "3.5.1. The Analysis of Differential Metabolites and Metabolic Pathways Between Single-Strain and Mixed-Strain Fermentation"
+        }
+      ]
+    },
+    {
+      "id": "aroma_onculleri.fenilalaninden_fenilasetaldehit_ve_feniletanol",
+      "metin": "Fenilasetaldehit ve 2-feniletanol, un kaynaklı fenilalaninin maya hücresi içinde Ehrlich yoluyla parçalanması sonucu oluşur.",
+      "kosul": "Mayada fenilalanin amino asit bozunumu (atıf)",
+      "kanit": "ikincil",
+      "bolum": "Ne yer, ne üretir",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1371/journal.pone.0165126",
+          "yer": "Characterization of differentially produced aroma compounds"
+        }
+      ]
+    },
+    {
+      "id": "aroma_onculleri.maya_aroma_metabolitleri",
+      "metin": "Mayalar etanol ve karbondioksitin yanı sıra, aromayı doğrudan etkileyebilen organik asitler, diasetil, dallı zincirli amino asitlerden türeyen yüksek alkoller ve esterler gibi metabolitler de üretebilir.",
+      "kosul": "",
+      "kanit": "tek_kaynak",
+      "bolum": "Ne yer, ne üretir",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.ijfoodmicro.2016.07.018",
+          "yer": "Abstract"
+        }
+      ]
+    },
+    {
+      "id": "aroma_onculleri.tahil_fenolik_bilesikleri",
+      "metin": "Tahıllardaki fenolik bileşikler, ekmek yapımı sırasında aroma oluşumunda öncül bileşik olarak işlev görür.",
+      "kosul": "Czerny ve Schieberle, 2002; Opperer vd., 2012 aktarımı",
+      "kanit": "ikincil",
+      "bolum": "Nereden gelir",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.fm.2013.04.007",
+          "yer": "Phenolic compounds and feruloyl-esterase activity in cereals"
+        }
+      ]
+    },
+    {
+      "id": "aroma_onculleri.maya_ve_lab_ester_oncul_farki",
+      "metin": "Mayalar ester öncüllerini kendi karbonhidrat, lipit ve amino asit metabolizmalarından sağlar; laktik asit bakterilerinin ester oluşturması ise ortamdaki öncül derişimleriyle sınırlı görünür.",
+      "kosul": "Yazarların laboratuvar besiyeri sonuçlarına dayanan tartışması (mayalar için kaynak (20)).",
+      "kanit": "tek_kaynak",
+      "bolum": "İlişkileri",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1128/aem.02216-24",
+          "yer": "DISCUSSION"
+        }
+      ]
+    },
+    {
+      "id": "aroma_onculleri.arjinin_metabolizmasi_kavruk_aroma",
+      "metin": "Ekşi maya laktik asit bakterilerinin arjinin metabolizması ekmeğin kavruk aromasını belirginleştirir.",
+      "kosul": "De Angelis vd., 2002 aktarımı",
+      "kanit": "ikincil",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.tifs.2004.02.012",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "aroma_onculleri.diasetil_tereyagimsi_aroma_esigi",
+      "metin": "Tereyağımsı aromadan sorumlu olan diasetil, doğal olarak bulunan düzeylerin ve lezzet eşiğinin üzerinde üretildiğinde ekmek ürünlerinde ilginç uygulama potansiyeli taşır.",
+      "kosul": "Van Kerrebroeck vd. 2018a, 2018b; Comasio vd. 2019, 2021 aktarımı",
+      "kanit": "ikincil",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1080/10408398.2021.1976100",
+          "yer": "Sourdough productions with the addition of pure chemical compounds > Citrate"
+        }
+      ]
+    },
+    {
+      "id": "aroma_onculleri.diasetilin_2_3_butandiole_donusumu",
+      "metin": "Ekmeklerde diasetilin genellikle düşük derişimlerde kalması, yaygın ekmek mayası tarafından lezzet eşiği daha yüksek olan 2,3-bütandiole dönüştürülmesinden kaynaklanabilir.",
+      "kosul": "Birch vd., 2013; Ripari vd., 2016 aktarımı",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1080/10408398.2021.1976100",
+          "yer": "Sourdough productions with the addition of pure chemical compounds > Citrate"
+        }
+      ]
+    },
+    {
+      "id": "aroma_onculleri.ehrlich_feniletanol",
+      "metin": "2-Feniletanol derişimi özellikle S. cerevisiae D13 ile Levilactobacillus brevis B48 hamurunda yüksekti; yazarlar bunu aromatik amino asitlerin yüksek alkollere çevrildiği Ehrlich yolunun güçlü çalıştığına bağlar.",
+      "kosul": "Polonya; tip 650 buğday unu; gerçek buğday hamuru, 15 °C; S. cerevisiae suşları (D3, D13, LOCK 0153) ile Levilactobacillus brevis B46/B48 ya da Lactiplantibacillus plantarum/pentosus B56'dan oluşan karışık kültürler.",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/molecules30010112",
+          "yer": "2.2.4. Formation of Volatile Organic Compounds; Table 5"
+        }
+      ]
+    },
+    {
+      "id": "aroma_onculleri.etanol_pisirmede_12_dakika",
+      "metin": "Bu çalışmada, ekmek pişirme sırasında hamurdaki etanol derişimi ilk 12 dakikaya kadar arttı, ardından hızla düştü.",
+      "kosul": "Ekmek pişirme süreci; farklı maya suşları; üç dakikada bir örnekleme; nem değişimine göre düzeltilmiş dm bazlı derişim",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.fochx.2026.104362",
+          "yer": "3.2. Yeast strains' differences in metabolite concentrations"
+        }
+      ]
+    },
+    {
+      "id": "aroma_onculleri.linoleik_asit_oksidasyonu_aldehitler",
+      "metin": "Linoleik asit oksidasyonundan türeyen (E)-2-nonenal ve 2,4-(E,E)-dekadienal gibi doymamış aldehitler, buğday ekmeğinde yağsı kokulara katkıda bulunur.",
+      "kosul": "Buğday ekmeği; kaynak [11] aktarımı",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods6080066",
+          "yer": "1. Introduction"
+        }
+      ]
+    },
+    {
+      "id": "aroma_onculleri.maya_ehrlich_yolu_aldehitler",
+      "metin": "Un kaynaklı amino asitlerin maya hücresi içinde Ehrlich yoluyla parçalanması sonucu bazı aldehitler oluşabilir.",
+      "kosul": "Birch vd., 2013 aktarımı",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.foodres.2015.05.051",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "aroma_onculleri.sinirli_proteoliz_aroma_dengesi",
+      "metin": "Ekşi mayalı ekmek yapımında, gluteni aşırı parçalamadan aroma öncülü amino asitleri yeterince açığa çıkarabilmek için sınırlı düzeyde proteoliz gereklidir.",
+      "kosul": "Buğday ekşi mayalı ekmek yapımı",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.tifs.2008.04.002",
+          "yer": "Strategies to increase the proteolysis in wheat sourdoughs"
+        }
+      ]
+    },
+    {
+      "id": "aroma_onculleri.d3_b56_en_cok_3_metilbutanol",
+      "metin": "En çok 3-metilbütanol S. cerevisiae D3 ile Lactiplantibacillus plantarum/pentosus B56 birlikteliğinde üretildi.",
+      "kosul": "Polonya; tip 650 buğday unu; gerçek buğday hamuru, 15 °C; S. cerevisiae suşları (D3, D13, LOCK 0153) ile Levilactobacillus brevis B46/B48 ya da Lactiplantibacillus plantarum/pentosus B56'dan oluşan karışık kültürler.",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/molecules30010112",
+          "yer": "2.2.4. Formation of Volatile Organic Compounds; Table 5"
+        }
+      ]
+    },
+    {
+      "id": "aroma_onculleri.proteoliz_tat_aktif_peptitler",
+      "metin": "Gıda fermantasyonlarında proteoliz, umami tadı veren alfa-glutamil peptitler veya acı tat veren hidrofobik prolin içeren peptitler gibi tat aktif amino asitler ve peptitler oluşturur.",
+      "kosul": "Zhao vd., 2016 aktarımı",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.tifs.2008.04.002",
+          "yer": "Cited by"
+        }
+      ]
+    },
+    {
+      "id": "aroma_onculleri.bagli_fenolik_asit_salinimi",
+      "metin": "Bazı ekşi maya laktobasilleri, bağlı fenolik asitlerin serbest kalmasını sağlayarak mikrobiyal dönüşümlerle aroma öncüllerine çevrilmesine aracılık eder.",
+      "kosul": "Fritsch vd., 2016; Gobbetti vd., 2014 aktarımı",
+      "kanit": "ikincil",
+      "bolum": "Ne yapar",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/bs.aambs.2017.02.003",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "aroma_onculleri.lab_kendi_oncullerini_yetirmez",
+      "metin": "Yazarlar, laktik asit bakterileri fermantasyonda az ATP ve az biyokütle ürettiği için kendi sentezledikleri ester öncüllerinin derişiminin kayda değer ester oluşumuna yetmeyecek kadar düşük kalacağını öne sürer.",
+      "kosul": "Laboratuvar besiyeri (WSSM/mWSSM) sonuçlarına dayanan tartışma; hamurda ölçülmedi.",
+      "kanit": "tek_kaynak",
+      "bolum": "Ne yapar",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1128/aem.02216-24",
+          "yer": "DISCUSSION"
+        }
+      ]
+    },
+    {
+      "id": "aroma_onculleri.proteoliz_ehrlich_yolunu_artirir",
+      "metin": "Aktarılan bilgiye göre ekşi maya fermantasyonu Ehrlich yoluyla aroma oluşumunu belirgin biçimde artırır, çünkü ekşi mayadaki proteoliz öncül amino asitleri açığa çıkarır.",
+      "kosul": "",
+      "kanit": "ikincil",
+      "bolum": "Ne yapar",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3389/fmicb.2019.02113",
+          "yer": "Discussion"
+        }
+      ]
+    },
+    {
+      "id": "aroma_onculleri.arilamidazlar_yuksek_alkol",
+      "metin": "Lösin, valin ve sistin arilamidaz etkinlikleri, bir mikrobun amino asitleri izoamil alkol ve 2-metil-1-propanol gibi yüksek alkollere çevirebildiğini gösterir.",
+      "kosul": "Polonya; düşük sıcaklığa (15 °C) uyarlanmış maya ve laktik asit bakterisi suşlarının enzim profili.",
+      "kanit": "tek_kaynak",
+      "bolum": "Ne yapar",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/molecules30010112",
+          "yer": "2. Results and Discussion"
+        }
+      ]
+    },
+    {
+      "id": "aroma_onculleri.sanfranciscensis_aminoasit_cesitliligi",
+      "metin": "Fructilactobacillus sanfranciscensis ekşi maya fermantasyonunda yüksek miktarda alifatik, dikarboksilik ve hidroksil amino asit üreterek ürün aromasına katkıda bulunur.",
+      "kosul": "Ekşi maya fermantasyonu",
+      "kanit": "tek_kaynak",
+      "bolum": "Ne yer, ne üretir",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.fbio.2023.102640",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "aroma_onculleri.maya_etanol_derisimi_farki",
+      "metin": "Bu çalışmada, pişirme başlangıcında suşlar arasındaki etanol derişimi, fermantasyon 400 mL CO2 üretimine standartlaştırılmasına rağmen 100 g un kuru maddesinde en fazla 0,16 g farklılık gösterdi.",
+      "kosul": "pişirme başlangıcı; 400 mL CO2 standartlaştırması; Sc1 ve Sc3 suşları",
+      "kanit": "tek_kaynak",
+      "bolum": "Ne yer, ne üretir",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.fochx.2026.104362",
+          "yer": "3.2. Yeast strains' differences in metabolite concentrations"
+        }
+      ]
+    },
+    {
+      "id": "aroma_onculleri.diasetil_asetoin_ortak_oncul",
+      "metin": "2,3-Bütandion (diasetil) ve 3-hidroksi-2-bütanonun (asetoin) maya miktarından benzer biçimde etkilenmesi, ikisinin de aynı öncülden, 2-asetolaktattan (sırasıyla oksidatif dekarboksilasyon ve dekarboksilasyonla) oluşmasıyla açıklanabilir.",
+      "kosul": "Danimarka; buğday unu, ticari yaş ekmek mayası 20, 40 ve 60 g/kg un; ekşi maya yok; ekmek içi.",
+      "kanit": "tek_kaynak",
+      "bolum": "Nereden gelir",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.lwt.2012.08.019",
+          "yer": "3.4. Effect of yeast concentration"
+        }
+      ]
+    },
+    {
+      "id": "aroma_onculleri.2_pentilfuran_ekmek_ici_ve_olusum_yollari",
+      "metin": "2-pentilfuran ekmek içindeki en önemli furan olarak bildirilmiş olup lipit bozunumu, maya fermantasyonu ve Maillard tepkimelerinden kaynaklanır.",
+      "kosul": "Ekmek içi furan oluşumu (atıf)",
+      "kanit": "ikincil",
+      "bolum": "Tanım",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1371/journal.pone.0165126",
+          "yer": "Characterization of differentially produced aroma compounds"
+        }
+      ]
+    },
+    {
+      "id": "aroma_onculleri.ornitin_losin_fenilalanin",
+      "metin": "Aktarılan bilgiye göre ornitin, lösin ve fenilalanin aroma öncülleridir; sırasıyla 2-asetil-pirolin, 3-metil-bütanol ve 2-feniletanole dönüşürler.",
+      "kosul": "",
+      "kanit": "ikincil",
+      "bolum": "Tanım",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3389/fmicb.2019.02113",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "aroma_onculleri.lab_kimyasal_esterlesmeyi_hizlandirir",
+      "metin": "Öncül eklenmiş besiyerinde etil laktat, laktik asit bakterisi aşılanmış fermantasyonlarda aşılanmamışlara göre aynı düzeye (ortalama 2,9 mg/L) daha çabuk ulaştı; yazarlara göre bu, bakterilerin ürettiği etanol ve laktik asidin kimyasal ester oluşumunu kolaylaştırdığını gösterir.",
+      "kosul": "Belçika; laboratuvar besiyeri: buğday ekşi maya benzetim besiyeri (WSSM) ve ester öncülleri eklenmiş biçimi (mWSSM: %1 etanol, %0,5 asetik asit, diğer organik asitler ve yüksek alkoller her biri 5 mg/L); 30 °C, 28–48 saat; 10 ekşi maya laktik asit bakterisi suşu.",
+      "kanit": "tek_kaynak",
+      "bolum": "İlişkileri",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1128/aem.02216-24",
+          "yer": "RESULTS: Ester biosynthesis by LAB strains"
+        }
+      ]
+    }
+  ]
+}

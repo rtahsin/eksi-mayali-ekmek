@@ -1,0 +1,134 @@
+{
+  "id": "buhar",
+  "ad": "Buhar",
+  "bilgiler": [
+    {
+      "id": "buhar.pisirme_baslangicinda_buhar_etkisi",
+      "metin": "Buhar, kabuk dokusunu ve rengini geliştirmek ve somunun içine ısı iletimini hızlandırmak amacıyla pişirme sürecinin başında uygulanır.",
+      "kosul": "Pişirmenin başlangıcı",
+      "kanit": "ikincil",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.jfoodeng.2011.07.015",
+          "yer": "Introduction"
+        },
+        {
+          "kaynak": "10.1016/j.jfoodeng.2011.07.015",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "buhar.firin_kabarmasinda_yuzey_esnekligi",
+      "metin": "Buhar, fırın kabarması evresinde hamur yüzeyinin esnekliğini korur ve kabuğa parlaklık kazandırır.",
+      "kosul": "Fırın kabarması evresi",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.jfoodeng.2011.07.015",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "buhar.buhar_artisi_kabuk_ozellikleri",
+      "metin": "Pişirmede buhar miktarının artırılması kabuk rengini, kırılma kuvvetini, sertliğini ve su buharı geçirgenliğini azaltırken kabuk parlaklığını artırır.",
+      "kosul": "100, 200 ve 400 ml buhar uygulaması",
+      "kanit": "tek_kaynak",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.jfoodeng.2011.07.015",
+          "yer": "Abstract"
+        },
+        {
+          "kaynak": "10.1016/j.jfoodeng.2011.07.015",
+          "yer": "Abstract"
+        },
+        {
+          "kaynak": "10.1016/j.jfoodeng.2011.07.015",
+          "yer": "Abstract"
+        }
+      ]
+    },
+    {
+      "id": "buhar.dusuk_buharda_ince_kabuk",
+      "metin": "Pişirme sırasında düşük miktarda buhar verilmesi, su buharı iletim hızı ve geçirgenliği yüksek daha ince kabuklar oluşturur.",
+      "kosul": "Pişirmede düşük buhar miktarı",
+      "kanit": "tek_kaynak",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.jfoodeng.2011.07.015",
+          "yer": "Conclusion"
+        }
+      ]
+    },
+    {
+      "id": "buhar.nemlendirilmis_pisirme_kabuk_kalinligini_azaltir",
+      "metin": "Nemlendirilmiş pişirme ekmek kabuğu rengi üzerinde anlamlı bir etki göstermezken (P > 0,05), kabuk kalınlığını belirgin derecede azaltmıştır (P < 0,001).",
+      "kosul": "Kalıpsız açık buğday ekmekleri; nemlendirilmiş pişirme",
+      "kanit": "tek_kaynak",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3136/fstr.19.29",
+          "yer": "Abstract"
+        }
+      ]
+    },
+    {
+      "id": "buhar.buharlasma_ve_yogunlasma_cephesi_ice_ilerler",
+      "metin": "Model sonuçlarına göre, ekmek pişerken yüksek güç yoğunluğuna sahip bir buharlaşma cephesi oluşarak içeri doğru ilerler; aynı zamanda açık gözenekli bölgedeki yoğunlaşma cephesi de içeriye doğru hareket eder.",
+      "kosul": "Ekmek pişirme sırasında nem faz değişimi (MPC) ve ısı transferini modelleyen simülasyon",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods14091649",
+          "yer": "4.2. Effect of the MPC on Heat Transfer"
+        }
+      ]
+    },
+    {
+      "id": "buhar.kapali_gozeneklerde_su_buhari_ve_deformasyon",
+      "metin": "Model sonuçlarına göre, kapalı gözeneklerde su buharı oranı 100 s içinde hızla %80'e ulaşarak açılmadan önce ortalama yaklaşık %70 olur; su buharının kısmi basıncı deformasyonun temel itici gücüdür.",
+      "kosul": "Ekmek pişirme simülasyonu (model) ve gözenek deformasyon analizi",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods14091649",
+          "yer": "Abstract"
+        },
+        {
+          "kaynak": "10.3390/foods14091649",
+          "yer": "4.4. Effects of MPC on Deformation"
+        }
+      ]
+    },
+    {
+      "id": "buhar.kuru_firinda_erken_kabuk_olur",
+      "metin": "Kuru fırın koşullarında hamur yüzeyinden su hızla buharlaşarak yüzeyde esnek olmayan kuru bir kabuk tabakasının vaktinden önce oluşmasına yol açar.",
+      "kosul": "Kuru fırın ortamı (buharsız)",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.jfoodeng.2011.07.015",
+          "yer": "Introduction"
+        }
+      ]
+    }
+  ]
+}

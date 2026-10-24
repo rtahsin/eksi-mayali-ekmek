@@ -1,0 +1,378 @@
+{
+  "id": "gece_dolapta",
+  "durak": "fermantasyon",
+  "baslik": "Gece dolapta",
+  "soru": "Hamur geceyi dolapta geçirince içinde ne olur?",
+  "bayrak": true,
+  "gor": {
+    "tur": "kaydirma",
+    "adimlar": [
+      {
+        "metin": "Endüstriyel hamur fermantasyonunda tipik sıcaklık 35 °C'dir; hamuru geciktirmek için 5 °C gibi düşük sıcaklık da yaygın kullanılır [[sicaklik.endustriyel_35_ve_maya_optimumu]]. Gece dolabına konan hamur 0–5 °C'ye soğutulur ya da dondurulur; bu soğutma mayanın metabolik etkinliğini (çalışma gücünü) kısıtlar [[soguk_ferm.geciktirmede_0_5_derece]].",
+        "gorsel": "bread_dough_in_baskets_01",
+        "vurgu": "Sepetlerde dinlenen hamurlar: gecenin başında bekleyen hamurun hâli."
+      },
+      {
+        "metin": "Bir deneyde 5 °C'de kilogram una 20 g maya, hamuru 8 cm yüksekliğe 21 saatte çıkardı [[sure.sicaklik_ve_maya_ile_sure]]. 35 °C'de 60 g maya aynı işi 15 dakikada yaptı [[sure.sicaklik_ve_maya_ile_sure]].",
+        "gorsel": "proofing_bread",
+        "vurgu": "Yavaşça kabaran hamur: sabaha uzanan gece boyunca büyüyen ekmek."
+      },
+      {
+        "metin": "Serin ekşi maya fermantasyonlarında, yani 4–15 °C'de, Fructilactobacillus ve Leuconostoc gibi bakteri türleri öne çıkar [[soguk_ferm.serin_eksimaya_sicaklik_araligi]]. Ekşi maya bakterilerinin tipik en uygun büyüme sıcaklığı ise 30 ile 40 °C arasındadır [[sicaklik.lactobacillaceae_optimum_buyume_sicakligi]].",
+        "gorsel": "s00284_025_04673_5_sekil_5a",
+        "vurgu": "Elektron mikroskobunda görülen ekşi maya bakterileri: dolaptaki topluluğun bir üyesi."
+      },
+      {
+        "metin": "Ekşi mayasız buğday hamurunu 5 °C'de fermente etmek, ekmek içindeki esterleri (kokuyu taşıyan bileşikleri) 15 ve 35 °C'ye göre artırdı [[soguk_ferm.5_derecede_esterler_artar]]. Bu esterler içinde koku etkinlik değeri (koku gücü) en yüksek olan etil hekzanoattı [[soguk_ferm.5_derecede_esterler_artar]].",
+        "gorsel": null,
+        "vurgu": "Bu adım için listede uygun bir görsel yok; vurgu metni, ekmeğin kokusunu taşıyan ester bileşiklerini anlatır."
+      },
+      {
+        "metin": "Ekşi maya hamuru önce 25 ya da 35 °C'de fermente edildi, sonra 4 °C'de 18 saat dolapta bekledi [[soguk_ferm.4_derece_18_saat_ph]]. Bu beklemenin sonunda asitlik derecesi (pH) sırasıyla 4,18 ve 4,11'di [[soguk_ferm.4_derece_18_saat_ph]].",
+        "gorsel": null,
+        "vurgu": "Bu adım için listede uygun bir görsel yok; vurgu metni, gece boyunca yavaşlayan ekşiliği anlatır."
+      },
+      {
+        "metin": "4 °C'de 18 saat bekleyen tam buğday hamurunun ekmeğinde fitik asit (tam buğdayda bulunan bir bileşen), una göre yaklaşık %75 azaldı [[soguk_ferm.uzun_soguk_mayalanma_fitik_bugday]]. Soğuk, tat-koku oluşumunu tamamen durdurmaz; hamur asıl fermantasyondan önce de koku kazanabilir [[soguk_ferm.dusuk_sicaklik_aroma_tamamen_durmaz]].",
+        "gorsel": "bread_dough_in_baskets_01",
+        "vurgu": "Dolaptan çıkan hamur: gece boyunca sessizce değişen gövde."
+      }
+    ]
+  },
+  "anla": [
+    {
+      "baslik": "Gece bir hız ayarı",
+      "paragraflar": [
+        "Endüstriyel hamur fermantasyonunda tipik sıcaklık 35 °C'dir [[sicaklik.endustriyel_35_ve_maya_optimumu]]. Ekmek mayası Saccharomyces cerevisiae için en uygun fermantasyon sıcaklığı 25–30 °C'dir; hamuru geciktirmek için 5 °C gibi düşük sıcaklık da yaygın kullanılır [[sicaklik.endustriyel_35_ve_maya_optimumu]]. Soğuk dolapta mayanın metabolik etkinliği kısıtlanır ve kabarma yavaşlatılır [[soguk_ferm.geciktirmede_0_5_derece]].",
+        "Bir deneyde sıcaklık ve maya miktarı süreyi değiştirdi [[sure.sicaklik_ve_maya_ile_sure]]. 5 °C'de kilogram una 20 g mayayla hamur 8 cm yüksekliğe 21 saatte ulaştı [[sure.sicaklik_ve_maya_ile_sure]]. 35 °C'de 60 g mayayla aynı yüksekliğe 15 dakikada ulaşıldı [[sure.sicaklik_ve_maya_ile_sure]]. Ekşi mayada ise süre 8 saatten 144 saatin üzerine kadar uzayabilir [[sure.eksimaya_sure_araligi_8_144_saat]]. Pişirme öncesindeki toplam fermantasyon ve son mayalanma, ekşi mayalı ekmekte 30 dakikadan 20 saate veya daha fazlasına kadar değişir [[sure.eksimayali_ekmek_toplam_fermantasyon_araligi]]. Sünger hamur, ekmek mayası katıldıktan sonra 4 saatten uzun süre fermente edilen bir hamurdur [[sure.sunger_hamur_tanimi_ve_suresi]]."
+      ]
+    },
+    {
+      "baslik": "Dolaptaki topluluk",
+      "paragraflar": [
+        "Serin ekşi maya fermantasyonlarında, yani 4–15 °C'de, Fructilactobacillus ve Leuconostoc gibi bakteri türleri öne çıkar [[soguk_ferm.serin_eksimaya_sicaklik_araligi]]. Ekşi maya bakterilerinin tipik en uygun büyüme sıcaklığı ise 30 ile 40 °C arasındadır [[sicaklik.lactobacillaceae_optimum_buyume_sicakligi]]. Sıcaklık, bu bakterilerin metabolik etkinliğinde ve ekşi mayadaki topluluğun değişiminde etkilidir [[sicaklik.laktobasil_metabolizmasi_ve_populasyon_dinamigi]].",
+        "Fructilactobacillus sanfranciscensis'in en uygun büyüme sıcaklığı 32–33 °C'dir [[sicaklik.khumilis_ve_fsanfranciscensis_optimum_sicakliklari]]. Bu bakteri, ekşi maya fermantasyonu için önemli olan zorunlu heterofermentatif bir laktik asit bakterisidir; yani laktik asit yanında karbondioksit de üretir [[fsan.zorunlu_heterofermentatif_tanim]]. Kazachstania humilis'in en uygun sıcaklığı 27–28 °C'dir [[sicaklik.khumilis_ve_fsanfranciscensis_optimum_sicakliklari]]. Bu maya undaki şekerlerden maltozu kullanmaz; pH 3,5 ile 7,0 arasında büyümesi etkilenmez ve 36 °C'ye kadar nispeten sıcaklığa toleranslıdır [[khum.maltoz_negatif_ph_sicaklik]]. İki tür aynı ekşi mayalarda birlikte bulunma eğilimindedir [[khum.fsan_birlikte_bulunma]]."
+      ]
+    },
+    {
+      "baslik": "Koku ve ekşilik birikir",
+      "paragraflar": [
+        "Ekşi maya içermeyen buğday hamurunun 5 °C'de fermantasyonu, ekmek içindeki etil asetat, etil hekzanoat ve etil oktanoat esterlerini 15 ve 35 °C'ye göre artırdı [[soguk_ferm.5_derecede_esterler_artar]]. Bu esterlerden koku etkinlik değeri (koku gücü) en yüksek olanı etil hekzanoattı [[soguk_ferm.5_derecede_esterler_artar]]. Bu deneyde ekşi maya yoktu, yalnız ticari maya vardı; bakterilerle yapılan ölçümlerde ise ester üretimi görülmedi [[fsan.ester_uretmez]].",
+        "Kamu veri tabanlarındaki Fructilactobacillus sanfranciscensis genomlarının hiçbirinde hedeflenen üç esteraz (esteri parçalayan enzim) geni bulunmadı [[fsan.ester_uretmez]]. Laboratuvar besiyerinde test edilen iki suş ise ester üretimine elverişli bileşikler eklenmiş ortamda bile ester üretmedi [[fsan.ester_uretmez]].",
+        "25 °C ve 35 °C'de fermente edilen ekşi maya hamurları, 4 °C'de 18 saat buzdolabında tutuldu [[soguk_ferm.4_derece_18_saat_ph]]. Bu hamurların pH'ı (asitlik derecesi) sırasıyla 4,18 ve 4,11 ölçüldü [[soguk_ferm.4_derece_18_saat_ph]]. Tam buğday ekmeğinde fitik asit (tam buğdayda bulunan bir bileşen) ise 4 °C'de 18 saatlik uzun maya fermantasyonuyla una göre yaklaşık %75 azaldı [[soguk_ferm.uzun_soguk_mayalanma_fitik_bugday]]. Bu ekşilikte Fructilactobacillus sanfranciscensis düşük pH'a duyarlıdır ve düzenli ekşi maya beslemelerine yüksek derecede bağımlıdır [[fsan.asit_duyarliligi_ve_duzenli_besleme]]."
+      ]
+    },
+    {
+      "baslik": "Sabaha kalan",
+      "paragraflar": [
+        "Doğrudan mayalanmaya göre uzun maya mayalanması ekmeğe daha çok tazelik ve daha iyi tat verir [[soguk_ferm.uzun_mayalanma_tazelik_lezzet]]. Buna karşılık bazı durumlarda hacim biraz düşer [[soguk_ferm.uzun_mayalanma_tazelik_lezzet]].",
+        "Ekşi mayada fermantasyon süresinin uzaması, hamur bileşenlerinin dönüştürülüp parçalanmasında un enzimlerinin payını belirgin biçimde artırır [[sure.uzun_fermantasyon_un_enzimleri]]. Fırıncı mayasıyla kabartılan ekmek ise tipik olarak 0,5–3 saatlik kısa bir fermantasyonla elde edilir [[sure.firin_mayali_ekmek_kisa_fermantasyon_sure_ve_hidroliz]]. Bu kısa süre, tahıl bileşenlerinin sınırlı hidrolizine (suda parçalanmasına) yol açar [[sure.firin_mayali_ekmek_kisa_fermantasyon_sure_ve_hidroliz]]."
+      ]
+    }
+  ],
+  "yuzlesme": [
+    {
+      "inanc": "Dolapta bekletilen hamur, oda sıcaklığında bekletilenden daha az lezzetli olur.",
+      "cevap": "Ekşi maya içermeyen buğday hamurunun 5 °C'de fermantasyonu, ekmek içindeki etil asetat, etil hekzanoat ve etil oktanoat esterlerini 15 ve 35 °C'ye göre artırdı [[soguk_ferm.5_derecede_esterler_artar]]. Düşük sıcaklık aroma bileşiklerinin oluşumunu tamamen durdurmaz; geciktirilmiş hamur asıl fermantasyondan önce de tat-koku kazanabilir [[soguk_ferm.dusuk_sicaklik_aroma_tamamen_durmaz]]."
+    },
+    {
+      "inanc": "Gece dolapta bekleme, hamura sabaha yeterince kabarma sağlar.",
+      "cevap": "Deneyde hamur iki sıcaklıkta da 8 cm yüksekliğe ulaştı; soğuk yalnızca süreyi uzattı [[sure.sicaklik_ve_maya_ile_sure]]. 5 °C'de 20 g mayayla bu 21 saat, 35 °C'de 60 g mayayla 15 dakika sürdü [[sure.sicaklik_ve_maya_ile_sure]]. Bir çalışmanın tablosunda ise 4 °C'de 10 gün saklanan mantouda (Çin buharlı ekmeği) özgül hacim (birim ağırlık başına hacim) 2,34'ten 2,11'e düştü [[soguk_ferm.mantou_4_derece_ls5_hacim_kaybi]]."
+    },
+    {
+      "inanc": "Uzun fermantasyon, ekmeğin lezzetini artırır.",
+      "cevap": "Uzun fermantasyonun daha hoş aromalı ekmek verdiğine genel olarak inanılır, ancak bu konuda yapılmış çalışma azdır [[sure.uzun_fermantasyon_aroma_inanci]]. Hamur fermantasyon süresinin 60 ile 150 dakika arasında değişmesi buğday ekmeklerinin duyusal (tat, koku ve doku) özelliklerini etkilemedi [[sure.sure_duyusala_etkisiz]]. Uzun mayalanma daha çok tazelik ve iyi tat verirken bazı durumlarda hacmi biraz düşürür [[soguk_ferm.uzun_mayalanma_tazelik_lezzet]]."
+    }
+  ],
+  "kanit": {
+    "cekirdek": [
+      "soguk_ferm.geciktirmede_0_5_derece",
+      "soguk_ferm.5_derecede_esterler_artar",
+      "soguk_ferm.serin_eksimaya_sicaklik_araligi",
+      "soguk_ferm.dusuk_sicaklik_aroma_tamamen_durmaz",
+      "soguk_ferm.uzun_mayalanma_tazelik_lezzet",
+      "soguk_ferm.uzun_soguk_mayalanma_fitik_bugday",
+      "soguk_ferm.4_derece_18_saat_ph",
+      "sure.sicaklik_ve_maya_ile_sure",
+      "sure.eksimaya_sure_araligi_8_144_saat",
+      "sure.eksimayali_ekmek_toplam_fermantasyon_araligi",
+      "sure.uzun_fermantasyon_un_enzimleri",
+      "sure.firin_mayali_ekmek_kisa_fermantasyon_sure_ve_hidroliz",
+      "sicaklik.lactobacillaceae_optimum_buyume_sicakligi",
+      "sicaklik.endustriyel_35_ve_maya_optimumu",
+      "fsan.ester_uretmez"
+    ],
+    "cekmece": [
+      "soguk_ferm.15_derece_en_etkin_starter",
+      "soguk_ferm.oneri_5_derece_60g_maya",
+      "soguk_ferm.mantou_4_derece_eps_maya_6_gun",
+      "soguk_ferm.mantou_4_derece_ls5_hacim_kaybi",
+      "soguk_ferm.xu_10_derece_eksi_maya",
+      "soguk_ferm.15_derecede_maya_suslari_zamanlama",
+      "soguk_ferm.uzun_soguk_mayalanma_fitik_spelt",
+      "soguk_ferm.nth1_inaktivasyonu_donma_toleransi",
+      "soguk_ferm.trehaloz_tps1_tps2_kriyokoruma",
+      "soguk_ferm.soguga_dayanikli_maya_gliserol",
+      "sure.alti_saatte_en_yuksek_ozgul_hacim",
+      "sure.fermantasyon_suresi_ve_firin_kabarmasi_siralamasi",
+      "sure.model_optimum_mayalanma_2_saat_11_dakika",
+      "sure.sure_duyusala_etkisiz",
+      "sure.sure_ile_fruktan_yuzde37",
+      "sure.sure_ile_renk",
+      "sure.tip1_eksimaya_4_saat_11_dakika_mayalanma",
+      "sure.uzun_fermantasyon_ph_4_5",
+      "sure.uzun_fermantasyon_aroma_inanci",
+      "sure.uzun_maya_fermantasyonu_ve_fodmap",
+      "sure.model_mayalanma_parametre_etkisi",
+      "sure.alfaglukozidaz_seker_sure_iliskisizligi",
+      "sure.amilaz_glukoamilaz_seker_ve_sure_korelasyonu",
+      "sure.maya_miktari_ve_fermantasyon_suresi",
+      "sure.mayalanma_suresi_ve_kabarcik_boyutu",
+      "sure.oniki_saatlik_fermantasyon_dususu",
+      "sure.tokat_ekmegi_kitle_fermantasyonu_hacim_artisi",
+      "sure.yapisal_oturma_zamaninin_maya_turunden_bagimsizligi",
+      "sure.yuksek_maltoz_fermantasyon_suresini_uzatir",
+      "sure.oda_sicakliginda_hacim_ikiye_katlandi",
+      "sure.on_fermantasyon_gaz_hucre_yeniden_dagilim",
+      "sure.arpa_eksimayasi_15_saat_37_derece",
+      "sure.bison_hamuru_alti_saat_sonra_hiz_dususu",
+      "sure.gernik_hamuru_kisa_fermantasyon_45dk",
+      "sure.laktik_suksinik_mayalanmayi_kisaltir",
+      "sure.sivi_eksimayada_besleme_suresi_24_6_saat",
+      "sure.siyez_ekmeginde_kisa_karistirma_ve_mayalanma",
+      "sure.siyez_hamuru_optimum_sure_80dk",
+      "sure.spelt_hamuru_fermantasyon_90dk",
+      "sure.starter_e75_b72_16_saat_28_derece",
+      "sure.endustriyel_oranlar",
+      "sure.ilk_fermantasyon_15_120_dk",
+      "sure.kisa_fermantasyon_fodmap_iddiasi",
+      "sure.liyofilize_starter_20_saat_32_derece",
+      "sure.sunger_24_saat_oda",
+      "sure.wga_sureyle_degismedi",
+      "sure.yalniz_eksi_mayayla_oranlar",
+      "sure.gaz_sensoru_10_saat_120_deger",
+      "sure.gernik_hamuru_fermantograf_kritik_sure_36dk",
+      "sure.hamur_sivisi_fermantasyon_protokolu",
+      "sure.hplc_ile_6_saatlik_metabolit_olcumu",
+      "sure.izotermal_fermantasyon_protokolu",
+      "sure.spelt_hamuru_fermantograf_kritik_sure_58dk",
+      "sure.ucucu_bilesik_ornekleme_zaman_noktalari",
+      "sure.eksi_maya_baslangici_12_24_saat",
+      "sure.marxianus_gaz_uretim_suresi_cerevisiae_karsilastirma",
+      "sure.kabartici_turu_ve_sure_cesitliligi",
+      "sure.sunger_hamur_tanimi_ve_suresi",
+      "sure.eksimaya_ve_hamur_ayrimi_uyumlastirma",
+      "sure.sunger_hamur_en_fazla_5_saat",
+      "sure.eksimaya_literaturunde_kisa_fermantasyon_egilimi",
+      "sicaklik.laktobasil_metabolizmasi_ve_populasyon_dinamigi",
+      "sicaklik.khumilis_ve_fsanfranciscensis_optimum_sicakliklari",
+      "sicaklik.firin_ilk_genislemesi_maya_50_derece",
+      "sicaklik.maya_canliligi_ve_firin_kabarmasi_korelasyonu",
+      "sicaklik.sicaklik_lipit_oksidasyonu",
+      "sicaklik.30_derecede_ekosistem_hizli_kararlilasma",
+      "sicaklik.30_ve_23_derecede_yenileme_dongusu",
+      "sicaklik.35_derecede_gluten_zincir_yuksekligi_artisi",
+      "sicaklik.59_derecede_kmarxianus_suslarinin_canlilik_farklari",
+      "sicaklik.cekirdek_sicakliginin_93_dereceyi_asmasi",
+      "sicaklik.dusuk_sicaklikta_dinlendirme_stres_ve_geri_kazanim",
+      "sicaklik.dusuk_sicaklikta_surekli_hidrojen_bagi_azalisi",
+      "sicaklik.dusuk_ve_yuksek_sicaklik_bag_ve_oksidasyon_mekanizmasi",
+      "sicaklik.gerinim_sertlesmesi_ve_kabarcik_kararliligi",
+      "sicaklik.iki_dongude_hidrojen_bagi_sicaklik_farki",
+      "sicaklik.kabarcik_buyume_hizi_ve_boyutu",
+      "sicaklik.km8_susunun_77_derecede_ustun_canliligi_ve_firin_kabarmasi",
+      "sicaklik.pisirmede_12_dakikada_maya_canliligi_ve_etanol_sonlanmasi",
+      "sicaklik.pisirmede_scerevisiae_canlilik_dususu_59_77_derece",
+      "sicaklik.pisirmenin_ilk_6_dakikasinda_42_derecede_tam_canlilik",
+      "sicaklik.ucuncu_dongude_hidrojen_bagi_ani_artisi",
+      "sicaklik.yuksek_sicaklik_buyuk_molekullu_agrega_proteinler",
+      "sicaklik.yuksek_sicaklik_on_islem_nem_kaybi_ve_uzama",
+      "sicaklik.yuksek_sicaklik_ph_asitlik_hizi_28_32",
+      "sicaklik.yuksek_sicaklik_sulfhidril_ve_disulfid_baglari",
+      "sicaklik.30_derecede_kovalent_gluten_baglari",
+      "sicaklik.dusuk_sicaklik_maltotrioz",
+      "sicaklik.35_derecede_ph_daha_hizli_duser",
+      "sicaklik.chevallier_35_derece_co2",
+      "sicaklik.dusuk_sicaklikta_kendiliginden_zor",
+      "sicaklik.ekmek_yapiminda_30_derece_sikligi",
+      "sicaklik.k_unispora_37_ve_45_derece_buyume_sinirlari",
+      "sicaklik.kmarxianus_termo_toleransi_40_ve_52_derece",
+      "sicaklik.tokat_ekmegi_pisirme_kosullari",
+      "sicaklik.dort_bilesik_sicakliga_bagli",
+      "sicaklik.fermantasyon_bilesikleri_cogu_etkilenmedi",
+      "sicaklik.fermantor_30_derece_ve_100_rpm_kosulu",
+      "sicaklik.gassenmeier_35_derece",
+      "sicaklik.hidrofobik_etkilesim_artar",
+      "sicaklik.hidrojen_bag_sicaklik_zayiflar",
+      "sicaklik.izolatlarin_10_45_derecede_uremesi",
+      "sicaklik.metilbutanal_15_derecede",
+      "sicaklik.sicaklik_beta_glukan_en_etkili",
+      "sicaklik.alt_kultur_fermantasyon_ve_saklama_sicakliklari",
+      "sicaklik.fermantasyon_sicakligi_gaz_sensor_sinyali",
+      "sicaklik.kalip_ekmegi_180_derece_pisirme_kosulu",
+      "fsan.asit_duyarliligi_ve_duzenli_besleme",
+      "fsan.yasli_mayalar",
+      "fsan.en_yaygin",
+      "fsan.anahtar_kararli_tur",
+      "fsan.tarama_en_sik",
+      "fsan.ticari_kaynak",
+      "fsan.zorunlu_heterofermentatif_tanim",
+      "fsan.cift_starter_asitlik_aroma",
+      "fsan.hetero_homofermentatif_ekleme_ve_ozgul_hacim",
+      "fsan.ls5_maya_grubu_mantou_ozgul_hacim_seyri",
+      "fsan.sus_1001_yuksek_eps_ve_mantou_kalitesi",
+      "fsan.mini_hamur_sisteminde_ati_parcalanmasi",
+      "fsan.sivi_eksimayada_populasyon_ve_artis_kati",
+      "fsan.altamura_eksi_mayasinda_baskinlik",
+      "fsan.am_ve_cg_eksi_mayalarinda_yuzde_98_baskinlik",
+      "fsan.belcika_dort_tur",
+      "fsan.cg_eksi_mayasinda_sus_degisimi",
+      "fsan.ekolojik_uyum_maltoz_sakaroz",
+      "fsan.eski_starterlerle_iliskisi_ve_aktarim_dinamigi",
+      "fsan.firin_lab_suslar",
+      "fsan.fransa_baskin",
+      "fsan.kendiliginden_mayalarda_gocmen_bakteriler_ve_yokluk",
+      "fsan.olgun_eksi_mayada_l_plantarum_ile_birlikte_baskinlik",
+      "fsan.teff_eksi_mayasindan_ilk_izolasyon",
+      "fsan.tip1_30c_en_onemli",
+      "fsan.vz_cesitlilik",
+      "fsan.bocek_diskilariyla_bulasma_olasiligi",
+      "fsan.cavdar_ve_kizilbugdayda_bulunma",
+      "fsan.dutsu_meyveler_ve_ciceklerin_tasiyici_olma_ihtimali",
+      "fsan.firincilik_ekipman_yuzeylerinde_aktif_varlik",
+      "fsan.un_ve_ekipman_orneklerinin_hepsinden_izolasyon",
+      "fsan.undan_eksi_mayaya_sus_gecisi",
+      "fsan.yalniz_eksi_mayada",
+      "fsan.bocek",
+      "fsan.dusuk_cesitlilik",
+      "fsan.k_exigua_ile_mutualizm_maltoz_paylasimi",
+      "fsan.k_humilis_ile_capraz_etkilesim_ve_asitlesme",
+      "fsan.korelasyon",
+      "fsan.proteaz_yok",
+      "fsan.sakkaroz_negatif_suslar_ve_diger_bakterilerin_levansukrazi",
+      "fsan.tek_basina_daha_kalabalik",
+      "fsan.tek_basina_zayif",
+      "fsan.faj_az",
+      "fsan.k_humilis_esli_kultur_antioksidan_kapasite",
+      "fsan.tmw_12138_zayif_maltoz_rekabeti_atif",
+      "khum.maltoz_negatif_ph_sicaklik",
+      "khum.ekmek_mayasindan_sonra_en_yaygin_ikinci_maya",
+      "khum.ortak_kabartma",
+      "khum.tum_mayalarda_kazachstania_hizla_baskinlasir",
+      "khum.cins_tur_sayisi_ve_eksi_maya_turleri",
+      "khum.fsan_birlikte_bulunma",
+      "khum.cins_duzeyinde_baskinlik_ve_okuma_orani",
+      "khum.en_sik_karsilasilan_turler_wickerhamomyces_ve_khumilis",
+      "khum.fransa_en_sik",
+      "khum.humilis_ve_bulderi_baskinlik_orani",
+      "khum.italya_bazi_eksi_mayalar",
+      "khum.italya_firinci_baskin_mayalar",
+      "khum.maya_okuma_paylari_fransiz_mayalari",
+      "khum.dgge_baskin_italya",
+      "khum.estonya_tek_maya",
+      "khum.kazachstania_bozae_baskinligi",
+      "khum.insan_iliskili_nislerde_bulunan_turler",
+      "khum.gida_ve_zeytinyagi_atik_suyu_klad_4_uyeligi",
+      "khum.k_humilis_ve_lab_sinerjisi_ile_fenolik_artis",
+      "khum.karbon_ve_azot_metabolizmasinda_fsan_sinerjisi"
+    ]
+  },
+  "baglar": [
+    {
+      "kaldirac": "Dolabın soğuğu",
+      "mekanizma": "Hamur 0–5 °C'ye soğutulunca ya da dondurulunca mayanın metabolik etkinliği kısıtlanır ve hamurun kabarması yavaşlar.",
+      "sonuc": "Kabarma yavaşlar; ekşi mayada süreler 8 saatten 144 saatin üzerine uzayabilir.",
+      "bilgiler": [
+        "soguk_ferm.geciktirmede_0_5_derece",
+        "sure.eksimaya_sure_araligi_8_144_saat"
+      ]
+    },
+    {
+      "kaldirac": "Sıcaklık ve maya miktarı",
+      "mekanizma": "5 °C'de kilogram una 20 g mayayla hamur 8 cm yüksekliğe 21 saatte, 35 °C'de 60 g mayayla 15 dakikada ulaşır.",
+      "sonuc": "Fermantasyon süresi, sıcaklık ve maya miktarıyla birlikte belirlenir.",
+      "bilgiler": [
+        "sure.sicaklik_ve_maya_ile_sure",
+        "sure.maya_miktari_ve_fermantasyon_suresi"
+      ]
+    },
+    {
+      "kaldirac": "Ekşi maya bakterilerinin optimum sıcaklığı",
+      "mekanizma": "Lactobacillaceae familyasının tipik en uygun büyüme sıcaklığı 30–40 °C, Fructilactobacillus sanfranciscensis'in en uygun sıcaklığı ise 32–33 °C'dir.",
+      "sonuc": "Serin dolapta bu topluluk yavaşlar; buna karşılık 4–15 °C'de bazı türler öne çıkar.",
+      "bilgiler": [
+        "sicaklik.lactobacillaceae_optimum_buyume_sicakligi",
+        "sicaklik.khumilis_ve_fsanfranciscensis_optimum_sicakliklari",
+        "soguk_ferm.serin_eksimaya_sicaklik_araligi"
+      ]
+    },
+    {
+      "kaldirac": "Fermantasyon süresi",
+      "mekanizma": "Süre uzadıkça hamur bileşenlerinin dönüştürülüp parçalanmasında un enzimlerinin payı belirgin biçimde artar.",
+      "sonuc": "Gece boyunca bekleyen hamurda un enzimlerinin payı artar.",
+      "bilgiler": [
+        "sure.uzun_fermantasyon_un_enzimleri",
+        "sure.firin_mayali_ekmek_kisa_fermantasyon_sure_ve_hidroliz"
+      ]
+    },
+    {
+      "kaldirac": "Aroma bileşiklerinin sıcaklığa duyarlılığı",
+      "mekanizma": "Fermantasyon sıcaklığını 5 °C'den 15 ya da 35 °C'ye çıkarmak ekmek içinde lipit oksidasyonu (yağların oksijenle bozunması) ürünlerini artırır; 5 °C'de ise esterler artar.",
+      "sonuc": "Soğuk hamurun koku profili, sıcak hamurunkinden farklıdır.",
+      "bilgiler": [
+        "sicaklik.sicaklik_lipit_oksidasyonu",
+        "soguk_ferm.5_derecede_esterler_artar",
+        "sicaklik.dort_bilesik_sicakliga_bagli"
+      ]
+    },
+    {
+      "kaldirac": "Gece boyunca bekleyen hamurun hacmi",
+      "mekanizma": "4 °C'de saklanan mantouda özgül hacim 0. günde 2,34 iken 10. günde 2,11'e düşmüştür.",
+      "sonuc": "Uzun bekleme lezzet kazandırırken hacmi bir miktar düşürebilir.",
+      "bilgiler": [
+        "soguk_ferm.mantou_4_derece_ls5_hacim_kaybi",
+        "soguk_ferm.uzun_mayalanma_tazelik_lezzet"
+      ]
+    },
+    {
+      "kaldirac": "Maya ile bakterinin ortak işi",
+      "mekanizma": "Kazachstania humilis tek başına hamuru Saccharomyces cerevisiae kadar kabartmadı; zorunlu heterofermentatif laktik asit bakterileriyle birlikteyken ise maya–bakteri çiftleri kadar kabarttı.",
+      "sonuc": "Ekşi mayada kabarma, maya ile bakterinin birlikte yürüttüğü bir iştir; bu deneme 28 °C'de yapıldı.",
+      "bilgiler": [
+        "khum.ortak_kabartma",
+        "khum.fsan_birlikte_bulunma"
+      ]
+    }
+  ],
+  "karakterler": [
+    "fsan",
+    "khum"
+  ],
+  "ayrisan_kaynaklar": [
+    {
+      "konu": "Uzun fermantasyon ekmeğe gerçekten daha çok tazelik ve tat veriyor mu?",
+      "bilgiler": [
+        "soguk_ferm.uzun_mayalanma_tazelik_lezzet",
+        "sure.uzun_fermantasyon_aroma_inanci",
+        "sure.sure_duyusala_etkisiz"
+      ]
+    },
+    {
+      "konu": "Uzun süren fermantasyon ekmek hacmini artırıyor mu, azaltıyor mu?",
+      "bilgiler": [
+        "soguk_ferm.uzun_mayalanma_tazelik_lezzet",
+        "sure.alti_saatte_en_yuksek_ozgul_hacim",
+        "sure.fermantasyon_suresi_ve_firin_kabarmasi_siralamasi",
+        "soguk_ferm.mantou_4_derece_ls5_hacim_kaybi"
+      ]
+    },
+    {
+      "konu": "Soğuk fermantasyon aroma oluşumunu gerçekten durduruyor mu?",
+      "bilgiler": [
+        "soguk_ferm.dusuk_sicaklik_aroma_tamamen_durmaz",
+        "soguk_ferm.5_derecede_esterler_artar",
+        "sicaklik.sicaklik_lipit_oksidasyonu"
+      ]
+    }
+  ]
+}

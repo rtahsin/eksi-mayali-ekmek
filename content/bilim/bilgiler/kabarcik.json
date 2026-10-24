@@ -1,0 +1,1088 @@
+{
+  "id": "kabarcik",
+  "ad": "Kabarcıklar",
+  "bilgiler": [
+    {
+      "id": "kabarcik.ince_duvar_yumusak",
+      "metin": "İnce duvarlı, küçük ve eşit boyutlu gözeneklerden oluşan ekmek içi, iri ve kalın duvarlı gözenekli içten daha yumuşak ve daha esnektir; ince gözenek duvarları daha esnek olduğundan kırılmadan önce daha çok eğilebilir.",
+      "kosul": "",
+      "kanit": "ikincil",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1155/2018/8187318",
+          "yer": "5. Mechanical and Sensorial Properties of the Porous Crumb Structure"
+        },
+        {
+          "kaynak": "10.1155/2018/8187318",
+          "yer": "3. Evaluating Crumb Cellular Structure"
+        },
+        {
+          "kaynak": "10.1016/j.fochx.2025.103160",
+          "yer": "Effects of hollow salt addition on specific volume and structure of bread"
+        }
+      ]
+    },
+    {
+      "id": "kabarcik.iyi_gluten_gelisimi_kabarcik_birlesmesini_geciktirir",
+      "metin": "İyi bir gluten gelişimi büyük bir somun hacmi sağlamanın yanı sıra mayalanma ve pişirme sırasında kabarcıkların birleşmesini geciktirerek küçük çaplı ve ince duvarlı çok sayıda gaz hücresinin oluşmasını sağlamalıdır.",
+      "kosul": "Hamur mayalanma ve pişirme aşamaları",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods11152300",
+          "yer": "3.3. Effects of Bran Particle Size, Sheeting Roll Gap and Number of Roll Passes on Baked Loaf Volume and Structure"
+        }
+      ]
+    },
+    {
+      "id": "kabarcik.cekirdekler_yogurmada",
+      "metin": "Gaz hücrelerinin çekirdekleri yoğurma sırasında hamura giren hava içinde oluşabilir; fermantasyonda üretilen karbondioksitin bir kısmı hamurun sıvı fazında çözünebilir ve derişim farkıyla bu çekirdeklere yayılır.",
+      "kosul": "",
+      "kanit": "ikincil",
+      "bolum": "Nereden gelir",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1155/2018/8187318",
+          "yer": "2. Porous Crumb Structure Development"
+        },
+        {
+          "kaynak": "10.1155/2018/8187318",
+          "yer": "2. Porous Crumb Structure Development"
+        },
+        {
+          "kaynak": "10.1016/j.foodres.2006.07.020",
+          "yer": "Introduction"
+        },
+        {
+          "kaynak": "10.1007/s00397-018-1113-9",
+          "yer": "Results and discussion - Calibration curve for V(t)"
+        }
+      ]
+    },
+    {
+      "id": "kabarcik.gozeneklilik_tanimi_ve_kaliteye_etkisi",
+      "metin": "Gözeneklilik ekmek içi matrisinde oluşan gaz hücrelerinin miktarını, boyutunu ve uzamsal dağılımını yansıtır ve ürün hacmini, iç yapısını, dokusal özelliklerini belirlemede doğrudan rol oynar.",
+      "kosul": "Ekmek içi gaz hücresi morfolojisi analizi (Scanlon ve Zghal 2001 aktarımı)",
+      "kanit": "ikincil",
+      "bolum": "Tanım",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1111/1750-3841.71456",
+          "yer": "Evaluation of Acrylamide Content and Porosity"
+        }
+      ]
+    },
+    {
+      "id": "kabarcik.kucuk_gaz_hucreleri_ince_hucre_duvari",
+      "metin": "Daha küçük gaz hücreleri daha ince hücre duvarlarına ve daha ince bir iç yapıya karşılık gelirken, daha büyük gaz hücreleri ve daha kalın hücre duvarları daha kaba bir yapıyı gösterir.",
+      "kosul": "C-Cell görüntü analizi parametreleri",
+      "kanit": "tek_kaynak",
+      "bolum": "Tanım",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods11152300",
+          "yer": "3.3. Effects of Bran Particle Size, Sheeting Roll Gap and Number of Roll Passes on Baked Loaf Volume and Structure"
+        }
+      ]
+    },
+    {
+      "id": "kabarcik.somun_hacminin_yuzde_yetmisi_gaz_hucreleridir",
+      "metin": "Nihai ekmek somun hacminin %70'inden fazlası gaz hücrelerinden oluşur ve bu hücrelerin boyutu, şekli ile sayısı nihai doku ve yapıyı belirler.",
+      "kosul": "Ekmek somun yapısı",
+      "kanit": "tek_kaynak",
+      "bolum": "Tanım",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.foodhyd.2017.08.020",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "kabarcik.tanim_ic_dokusu",
+      "metin": "Ekmek içi dokusu (crumb grain), mayalı bir fırın ürünü dilimlendiğinde görünen gözenek yapısıdır.",
+      "kosul": "",
+      "kanit": "tek_kaynak",
+      "bolum": "Tanım",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1155/2018/8187318",
+          "yer": "1. Introduction"
+        },
+        {
+          "kaynak": "10.1590/fst.64420",
+          "yer": "3.4 Crumb porosity"
+        }
+      ]
+    },
+    {
+      "id": "kabarcik.asiri_gaz_hapsolmasi_ve_doku",
+      "metin": "Hamura aşırı gaz kabarcığı girmesinin ekmek içinde yetersiz ve bozuk bir gözenek yapısına neden olduğu bildirilmiştir.",
+      "kosul": "Williams, 1975",
+      "kanit": "ikincil",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1002/cche.10699",
+          "yer": "2 GAS BUBBLE ENTRAINMENT AND VOID FRACTION IN THE DOUGH"
+        }
+      ]
+    },
+    {
+      "id": "kabarcik.eksi_maya_duzensiz_iri_gozenek",
+      "metin": "Khorasan dışındaki ekşi mayalı ekmeklerde gözenek yapısı düzensiz ve gözenekler iriydi; yazarlar bunu ekşi mayalı ekmeğin karakteristiği olarak niteliyor.",
+      "kosul": "Sırbistan; taş değirmen unlarından (modern buğday, spelt, emmer, khorasan) kendiliğinden ekşi maya ve ekmek; Şekil 3",
+      "kanit": "tek_kaynak",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods11233927",
+          "yer": "3.4. Bread Colour and Appearance"
+        }
+      ]
+    },
+    {
+      "id": "kabarcik.gaz_hucresi_kararliligi_ve_kabalasmanin_onlenmesi",
+      "metin": "Gaz hücresi kararlılığı yüksek özgül hacimli ve homojen gözenekli ekmekler için ön koşuldur; gluten ağı kararsızlaştığında hücre birleşmesi (koalesans) artarak gözenek yapısının kabalaşmasına, daha az homojen bir ekmek içine ve düşük somun hacmine yol açar.",
+      "kosul": "Buğday ekmeği ve kararsızlaşan gluten ağı (Babin vd. 2006 ve Turbin-Orger vd. 2012 aktarımı).",
+      "kanit": "ikincil",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.foodhyd.2020.105771",
+          "yer": "Abstract"
+        },
+        {
+          "kaynak": "10.1016/j.fochx.2026.104362",
+          "yer": "3.1. Yeast strains affect gas cell distribution in the crumb differently"
+        }
+      ]
+    },
+    {
+      "id": "kabarcik.gozenek_boyutu_ve_sekil_duzenliligi",
+      "metin": "En küçük ekmek içi gözenekleri en düzenli şekle (1,78–1,89 aralığı) sahipken iri gözeneklerin şekil değeri 2,34 ila 2,60 arasında değişerek boyut arttıkça gözenek formu daha düzensiz hale gelmiştir.",
+      "kosul": "Image Pro-Plus ile ekmek içi gözenek geometrisi analizi",
+      "kanit": "tek_kaynak",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods12081610",
+          "yer": "3.3.1. Characteristics"
+        }
+      ]
+    },
+    {
+      "id": "kabarcik.gozenek_sayisi_ve_ozgul_hacim_korelasyonu",
+      "metin": "Ekmekteki gözenek sayısı özgül hacimle pozitif, gözenek alanı ile negatif korelasyon gösterir.",
+      "kosul": "ekmek içi gözenek dağılımı analizi",
+      "kanit": "tek_kaynak",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.fochx.2025.103160",
+          "yer": "Effects of hollow salt addition on specific volume and structure of bread"
+        }
+      ]
+    },
+    {
+      "id": "kabarcik.yuzeyde_birlesme_gaz_kaybi",
+      "metin": "Kabarcıklar hamur yüzeyinde birleştiğinde ekmek yapımı sırasında atmosfere gaz kaçışı olur ve bu durum ekmek hacminin düşmesiyle sonuçlanır.",
+      "kosul": "Vliet ve ark., 1992",
+      "kanit": "ikincil",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1002/cche.10699",
+          "yer": "3.3 Coalescence"
+        }
+      ]
+    },
+    {
+      "id": "kabarcik.asiri_doygunluk_ve_kritik_kabarcik_boyutu",
+      "metin": "Hamur aşırı doygun olduğunda kritik bir kabarcık boyutu öngörülür; bu boyutun üzerindeki kabarcıklar süresiz büyürken altındakiler sınır bir boyuta ulaşıp durur; kritik boyut artan karbondioksit derişimiyle küçülür, artan yüzey gerilimiyle büyür.",
+      "kosul": "Hamurda gaz difüzyonu ve kabarcık büyüme modeli",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1205/096030898531828",
+          "yer": ""
+        },
+        {
+          "kaynak": "10.1205/096030898531828",
+          "yer": ""
+        },
+        {
+          "kaynak": "10.1205/096030898531828",
+          "yer": ""
+        }
+      ]
+    },
+    {
+      "id": "kabarcik.bakteriyel_asitlerin_gaz_tutmayi_dusurmesi",
+      "metin": "Gluten ağı laktik asit bakterileri tarafından üretilen asitlerden olumsuz etkilenebilir; bu durum mayalanma aşamasında gaz tutulmasının azalmasına ve dolayısıyla daha düşük ekmek gözenekliliğine yol açar.",
+      "kosul": "Laktik asit bakterisi fermantasyonu ve mayalanma (aktarım [90])",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods9060828",
+          "yer": "4.2. Bread Characteristics"
+        }
+      ]
+    },
+    {
+      "id": "kabarcik.considere_kriteri_gerinim_sertlesmesi",
+      "metin": "Considère kırılma ölçütüne göre gerinim sertleşmesi yaklaşık 1 değerinin altına düştüğünde, kabarcık duvarları kararsızlaşarak hızla birleşir ve gaz tutma kaybına yol açar.",
+      "kosul": "Polimer uzama kararsızlığı için Considère ölçütü",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/s0733-5210(03)00059-6",
+          "yer": "Abstract"
+        }
+      ]
+    },
+    {
+      "id": "kabarcik.dagilim_viskoelastiklik_ve_enerjiye_bagli",
+      "metin": "Hamurdaki kabarcık boyutu dağılımı, hamurun viskoelastik özellikleri ve yoğurma sırasında aktarılan mekanik enerji miktarı tarafından belirlenir.",
+      "kosul": "Yoğurma aşaması",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1111/1541-4337.13147",
+          "yer": "3 ROLE OF STARCH IN DOUGH FORMATION AND FERMENTATION"
+        }
+      ]
+    },
+    {
+      "id": "kabarcik.en_buyuk_cap_ve_ikiye_katlanma",
+      "metin": "Yoğurma sonunda en fazla 2500 µm olarak bildirilen en büyük kabarcık çapının, son mayalanma boyunca kabarcık genleşmesiyle iki katına çıktığı gözlenmiştir.",
+      "kosul": "Yoğurma ve son mayalanma; Whitworth ve Alava, 1999",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1002/cche.10699",
+          "yer": "5.2.1 Microscopy"
+        },
+        {
+          "kaynak": "10.1002/cche.10699",
+          "yer": "5.2.1 Microscopy"
+        }
+      ]
+    },
+    {
+      "id": "kabarcik.gaz_kabarciklarinin_alt_bolunmesi",
+      "metin": "Yoğurmada hapsedilen gaz kabarcıkları gaz alma, silindirleme ve şekil verme gibi sonraki aşamalarda alt bölünmeye uğrayarak kabarcık sayısını ve dağılımını değiştirir.",
+      "kosul": "Gaz alma, silindirleme ve şekil verme aşamaları",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1002/cche.10699",
+          "yer": "1 INTRODUCTION"
+        },
+        {
+          "kaynak": "10.1016/j.jcs.2018.06.006",
+          "yer": "2.2 Dough preparation"
+        }
+      ]
+    },
+    {
+      "id": "kabarcik.gaz_kabarciklarinin_hamuru_yumusatma_etkisi",
+      "metin": "Hamur içerisindeki gaz kabarcıklarının hamur üzerinde belirgin bir yumuşatıcı etkisi bulunmaktadır.",
+      "kosul": "Hamur reolojisi",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.jcs.2018.06.006",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "kabarcik.gaz_kaybi_ve_bosluk_orani",
+      "metin": "Gazın hamurdan ayrılması hamurdaki gazın uzaklaşmasına yol açar ve boşluk oranıyla negatif ilişkilidir.",
+      "kosul": "Campbell, 1999; Chin ve ark., 2004",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1002/cche.10699",
+          "yer": "1 INTRODUCTION"
+        }
+      ]
+    },
+    {
+      "id": "kabarcik.gozenek_yogunlugu_ve_firin_kabarmasi_korelasyonu",
+      "metin": "Ekmek içinde cm2 başına gaz hücresi sayısı ortalama hücre yüzey alanıyla negatif (R2 = 0,87), somunun fırın kabarmasıyla ise pozitif korelasyon (R2 = 0,78, p < 0,0001) gösterdi; referans maya Sc1 ile 289 ± 22 hücre/cm2 elde edilirken Sc4 suşu 424 ± 19 hücre/cm2 üretmiştir.",
+      "kosul": "Konvansiyonel fırında ekmek pişirme; Sc1 ve Sc4 maya suşları karşılaştırması.",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.fochx.2026.104362",
+          "yer": "3.1. Yeast strains affect gas cell distribution in the crumb differently"
+        },
+        {
+          "kaynak": "10.1016/j.fochx.2026.104362",
+          "yer": "3.1. Yeast strains affect gas cell distribution in the crumb differently"
+        }
+      ]
+    },
+    {
+      "id": "kabarcik.guclu_bugday_daha_fazla_kabarcik",
+      "metin": "Hamur yoğunluğu ölçümlerine göre güçlü buğday çeşitlerinden yapılan hamurların daha yüksek hacimde gaz kabarcığı hapsettiği gözlenmiştir.",
+      "kosul": "Hamur yoğunluğu ölçümleri; Chin ve Campbell, 2005b",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1002/cche.10699",
+          "yer": "6.1 The effect of flour quality on the gas phase of the dough"
+        }
+      ]
+    },
+    {
+      "id": "kabarcik.guclu_un_daha_az_kabarcik",
+      "metin": "Hamur yoğunluğu ölçümlerine göre güçlü undan yapılan hamurlar daha yüksek yoğunluğa ve dolayısıyla daha düşük hapsedilmiş gaz kabarcığı hacmine sahiptir.",
+      "kosul": "Hamur yoğunluğu ölçümleri; Campbell ve ark., 2001",
+      "kanit": "uzlasi",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1002/cche.10699",
+          "yer": "2 GAS BUBBLE ENTRAINMENT AND VOID FRACTION IN THE DOUGH"
+        },
+        {
+          "kaynak": "10.1016/j.foodres.2006.07.020",
+          "yer": "Abstract"
+        },
+        {
+          "kaynak": "10.1094/cchem.2001.78.3.272",
+          "yer": "ABSTRACT"
+        }
+      ]
+    },
+    {
+      "id": "kabarcik.hidroliz_olmamis_nsp_hamur_sivisi_kopugunu_artirir",
+      "metin": "Hidroliz olmamış nişasta dışı polisakkaritler buğday, çavdar ve yulaf hamur sıvılarının köpürme kapasitesini olumlu etkiler; buğday hamur sıvısında ksilanazla enzim muamelesi köpürme kapasitesini anlamlı derecede düşürdü.",
+      "kosul": "Ksilanaz veya likenaz muamelesi görmüş ve kontrol hamur sıvıları; P < 0,05.",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.foodhyd.2020.105771",
+          "yer": "Results - Conclusions of 3.4, Fig. 2"
+        },
+        {
+          "kaynak": "10.1016/j.foodhyd.2020.105771",
+          "yer": "Conclusions"
+        }
+      ]
+    },
+    {
+      "id": "kabarcik.jr_jmax_orani_ve_zar_kopma_direnci",
+      "metin": "Daha yüksek bir Jr/Jmax oranı gözenekler arasındaki hamur filminin yırtılmaya karşı daha iyi direnç göstermesini sağlar ve elastikiyet yerçekimi altında gaz hücrelerinin tahrip olmasını önler.",
+      "kosul": "Hamurda gaz tutma dinamikleri (aktarım [21, 67])",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods9060828",
+          "yer": "4.1. Dough Rheological Properties"
+        }
+      ]
+    },
+    {
+      "id": "kabarcik.laminasyon_sayisi_ile_gaz_hucresi_artisi",
+      "metin": "Kontrol hamurunda silindirden geçirme sayısı arttıkça hem 6 hem de 12 mm silindir aralıklarında gaz hücresi sayısı artmıştır.",
+      "kosul": "Hamur silindirleme aşaması (4, 8, 12 geçiş; 6 ve 12 mm aralık)",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods11152300",
+          "yer": "3.3. Effects of Bran Particle Size, Sheeting Roll Gap and Number of Roll Passes on Baked Loaf Volume and Structure"
+        }
+      ]
+    },
+    {
+      "id": "kabarcik.mayalanma_sonu_gaz_hacim_payi",
+      "metin": "Mayanın karbondioksit üretimiyle kabarcıkların şişmesiyle bu kabarcıkların toplam gaz hacmindeki payı ekmeğe yönelik işlemlerin sonuna doğru artar ve son mayalanma sonunda %70–75'e ulaşır.",
+      "kosul": "Son mayalanma sonu; Campbell ve Shah, 1999; Sroan ve ark., 2009",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1002/cche.10699",
+          "yer": "1 INTRODUCTION"
+        }
+      ]
+    },
+    {
+      "id": "kabarcik.mayalanmada_ortalama_cap_artisi",
+      "metin": "Hamurun 140 dakikalık son mayalanması boyunca ortalama kabarcık çapı 410 μm'den 675 μm'ye yükselir.",
+      "kosul": "140 dakikalık son mayalanma",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1002/cche.10699",
+          "yer": "5.2.3 X-ray microtomography"
+        }
+      ]
+    },
+    {
+      "id": "kabarcik.nsp_ve_gluten_sivi_film_drenajini_yavaslatir",
+      "metin": "Yazarlar, nişasta dışı polisakkaritlerin (NSP) komşu gaz hücrelerini ayıran sulu filmden sıvı drenajını yavaşlatıp birleşmeye (koalesans) direnç sağlamasının çok olası olduğunu öne sürer; buğday hamurunda gluten ağının yüksek viskoelastisitesi nedeniyle bu drenajın çok daha yavaş olacağı beklenir.",
+      "kosul": "Buğday, çavdar ve yulaf hamuru sulu fazı (hamur sıvısı).",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.foodhyd.2020.105771",
+          "yer": "3.3 Dough liquor bulk shear rheometry"
+        },
+        {
+          "kaynak": "10.1016/j.foodhyd.2020.105771",
+          "yer": "Results - 3.3 Dough liquor bulk viscosity"
+        },
+        {
+          "kaynak": "10.1016/j.foodhyd.2020.105771",
+          "yer": "Results - 3.3 Dough liquor bulk viscosity"
+        }
+      ]
+    },
+    {
+      "id": "kabarcik.orantisizlasma_hizi_boyut_ve_mesafeye_bagli",
+      "metin": "Hamurdaki hava kabarcıklarının orantısızlaşma hızı, kabarcıkların boyutlarından ve aralarındaki ayrılma mesafesinden etkilenir.",
+      "kosul": "Hamurda kabarcık orantısızlaşması",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.foodres.2006.07.020",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "kabarcik.orantisizlasma_kabarcik_sayisi",
+      "metin": "Hamur sisteminde yoğurmanın hemen ardından orantısızlaşma nedeniyle kabarcık sayısında belirgin bir azalma meydana gelir.",
+      "kosul": "Yoğurma sonrası; Koksel ve ark., 2016; Vliet ve ark., 1992",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1002/cche.10699",
+          "yer": "3.1 Disproportionation"
+        }
+      ]
+    },
+    {
+      "id": "kabarcik.polar_lipitler_ince_filmleri_stabilize_eder",
+      "metin": "Hamurda gaz kabarcığı ağını destekleyen ince filmleri stabilize etmek için polar lipitlerin yeterli miktarda bulunması gerekir.",
+      "kosul": "Hamur gaz hücresi ince sıvı filmleri",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.foodhyd.2017.08.020",
+          "yer": "Conclusions"
+        }
+      ]
+    },
+    {
+      "id": "kabarcik.protein_ve_su_normallesince_kabarcik_belirleyiciligi",
+      "metin": "Yazarlara göre hamurların protein ve su içeriklerinin normalize edilmesi, ortaya çıkan pişirme kalitesinin yoğurma ve mayalanma sırasındaki gaz kabarcığı oluşumu ile kararlılığına olan bağımlılığını artırabilir.",
+      "kosul": "Un protein ve su oranı dengelenmiş hamurlar",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.foodhyd.2017.08.020",
+          "yer": "Test baking"
+        }
+      ]
+    },
+    {
+      "id": "kabarcik.puroindolinler_ve_hamur_sivisi_kopugu",
+      "metin": "Puroindolinler hamur sıvısının köpürme özellikleri için vazgeçilmezdir ve hamur sıvısı köpüğünün ince yapısı ekmekte ince gözenekli dokunun oluşumuyla yakından ilişkilidir.",
+      "kosul": "Puroindolin içeren rekonstitüe buğday unları",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1094/cchem.1998.75.2.222",
+          "yer": "ABSTRACT"
+        }
+      ]
+    },
+    {
+      "id": "kabarcik.rafine_bugday_kopugu_ve_asitli_lifli_kopuk_farki",
+      "metin": "Standart rafine buğday ununa dayalı katı köpük yapıları oldukça gözenekli bir yapıya ve düşük yoğunluğa sahipken, asidik veya lifle zenginleştirilmiş katı köpük yapıları yüksek yoğunluk sergiler.",
+      "kosul": "Buğday ve çavdar katı köpük yapıları (aktarım [8])",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods5020024",
+          "yer": "1. Introduction"
+        }
+      ]
+    },
+    {
+      "id": "kabarcik.sekil_vermede_kabarciklarin_birlesmesi",
+      "metin": "Hamura şekil verme işlemi küçük hava kabarcıklarının patlayıp çarpışarak 0,5–0,8 mm büyüklüğünde kapalı boşluklar halinde birleşmesine yol açabilir.",
+      "kosul": "Hamura şekil verme aşaması",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1073/pnas.1801071115",
+          "yer": "The Identification of Prehistoric Bread"
+        }
+      ]
+    },
+    {
+      "id": "kabarcik.sert_ve_yumusak_hamurda_lognormal_dagilim",
+      "metin": "Sola çarpık log-normal dağılım gösteren kabarcık boyutu dağılımlarının geometrik ortalaması sert hamurda 100 μm (geometrik standart sapma 1,79), yumuşak hamurda ise 109 μm (geometrik standart sapma 1,62) olarak ölçülmüştür.",
+      "kosul": "Mayasız sert ve yumuşak ekmeklik buğday unu hamurları",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.foodres.2006.07.020",
+          "yer": "Abstract"
+        },
+        {
+          "kaynak": "10.1016/j.foodres.2006.07.020",
+          "yer": "Bubble size distributions"
+        }
+      ]
+    },
+    {
+      "id": "kabarcik.un_su_karisiminda_gaz_hucre_boyutu",
+      "metin": "Un ve suyun karıştırılmasından sonra hamurda 0,01–0,1 mm boyutunda hapsedilmiş gaz hücreleri gelişir.",
+      "kosul": "Tahıl hamuru hazırlama",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1073/pnas.1801071115",
+          "yer": "The Identification of Prehistoric Bread"
+        }
+      ]
+    },
+    {
+      "id": "kabarcik.yogurma_sonu_gaz_hacim_payi",
+      "metin": "Gaz kabarcıkları yoğurma sonunda ekmek hamuru toplam hacminin yaklaşık %9–20'sini oluşturur.",
+      "kosul": "Yoğurma sonu; Whitworth ve Alava, 1999",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1002/cche.10699",
+          "yer": "1 INTRODUCTION"
+        },
+        {
+          "kaynak": "10.1016/j.cofs.2022.100873",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "kabarcik.yulaf_beta_glukan_kopuk",
+      "metin": "Bu çalışmada yulaf hamur likörünün beta-D-glukanları, hava-su arayüzü kayma modülleri ölçüm sınırının altında kaldığı için, köpük kararlılığına yalnızca kütlesel viskoziteyi artırarak katkı yapıyor görünmüştür.",
+      "kosul": "Yulaf hamur likörü; hava-su arayüzünün kayma modülleri DWR tespit sınırının altında",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.foodhyd.2020.105771",
+          "yer": "Results - Conclusions of 3.4"
+        }
+      ]
+    },
+    {
+      "id": "kabarcik.yuzey_gerilimi_ve_kararlilik",
+      "metin": "Kabarcık arayüzeyinin yüzey gerilimi düştüğünde gaz kabarcıklarının kararlılığı artar.",
+      "kosul": "Kokelaar ve Prins, 1995",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1002/cche.10699",
+          "yer": "6.1 The effect of flour quality on the gas phase of the dough"
+        }
+      ]
+    },
+    {
+      "id": "kabarcik.dilatasyonel_modul_kopuk_kararlilik",
+      "metin": "Yüksek dilatasyonel modül, gaz hücrelerinin birleşmesini ve orantısızlaşmayı geciktirdiği için çoğu zaman yüksek köpük kararlılığıyla ilişkilendirilir.",
+      "kosul": "Pendant drop tensiyometri ölçümü; Murray 2007 atfı",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.foodhyd.2020.105771",
+          "yer": "Results - 3.4.1 Pendant drop tensiometry"
+        }
+      ]
+    },
+    {
+      "id": "kabarcik.hucre_basinci",
+      "metin": "Hamurdaki gaz hücrelerinin içindeki basınç atmosfer basıncından yalnız biraz yüksektir (1,01 atm olarak bildirilmiştir); bu küçük fazla (0,01 atm), gaz-hamur yüzeyindeki yüzey geriliminden ve hamurun genişlemeye karşı viskoz direncinden gelir.",
+      "kosul": "",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1155/2018/8187318",
+          "yer": "2. Porous Crumb Structure Development"
+        },
+        {
+          "kaynak": "10.1155/2018/8187318",
+          "yer": "2. Porous Crumb Structure Development"
+        }
+      ]
+    },
+    {
+      "id": "kabarcik.kabarciklar_arasi_mesafe_dagilimi",
+      "metin": "Komşu kabarcıklar arası mesafe normal dağılım gösterir; ortalama mesafe sert hamurda 338 μm (standart sapma 88 μm), yumuşak hamurda ise 460 μm (standart sapma 156 μm) düzeyindedir.",
+      "kosul": "Sert ve yumuşak buğday unu hamurları",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.foodres.2006.07.020",
+          "yer": "Abstract"
+        }
+      ]
+    },
+    {
+      "id": "kabarcik.mayasiz_hamur_dinlenme_orantisizlasma",
+      "metin": "Bir derleme, mayasız hamurda yoğurmanın hemen ardından 15 µm ölçülen ortanca kabarcık çapının 160 dakikalık dinlenme boyunca orantısızlaşma nedeniyle 38 µm'ye çıktığını bildirir; öteki derleme ise aynı çalışmaya dayanarak bu çapın 100 dakikalık dinlenme sonunda 35 µm'ye çıktığını aktarır.",
+      "kosul": "Mayasız hamurda 160 dakika dinlenme; Shimiya ve Nakamura, 1997",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1002/cche.10699",
+          "yer": "5.2.1 Microscopy"
+        },
+        {
+          "kaynak": "10.1002/cche.10699",
+          "yer": "5.2.1 Microscopy"
+        },
+        {
+          "kaynak": "10.1016/j.foodres.2006.07.020",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "kabarcik.yumusak_hamurda_kucuk_kabarcik_deformasyonu",
+      "metin": "Yumuşak hamura hapsolmuş 180 μm boyuta kadar olan küçük kabarcıklar, numune hazırlama sırasında sert hamurdakilere kıyasla daha büyük ölçüde deformasyona uğrar.",
+      "kosul": "10 μm kalınlığındaki kabarcık kesitlerinin anizotropi analizi",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.foodres.2006.07.020",
+          "yer": "Abstract"
+        }
+      ]
+    },
+    {
+      "id": "kabarcik.cavdar_hamur_sivisi_buydaya_gore_daha_ustun_kopurur",
+      "metin": "Çavdar hamur sıvısı proteinleri buğday hamur sıvısı proteinlerine göre daha yüksek yüzey aktivitesine sahiptir ve daha yüksek kompleks kayma viskozitesine sahip hava-su arayüzey filmleri oluşturarak buğdaydan daha üstün köpürme özellikleri sergiler.",
+      "kosul": "Yağı alınmış ve enzimli buğday ve çavdar hamur sıvıları (1,50 mg protein/mL).",
+      "kanit": "tek_kaynak",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.foodhyd.2020.105771",
+          "yer": "Results - Conclusions of 3.4"
+        },
+        {
+          "kaynak": "10.1016/j.foodhyd.2020.105771",
+          "yer": "Results - 3.5 Defatted dough liquor interfacial shear rheometry, Fig. 7"
+        }
+      ]
+    },
+    {
+      "id": "kabarcik.uzun_mayalanma_birlesme",
+      "metin": "Mayalanma süresi uzadıkça gaz hücreleri birleşebilir; kaybolan hücre duvarları yoğunluğu düzensizleştirir ve ekmek içinin dayanımını zayıflatabilir.",
+      "kosul": "",
+      "kanit": "ikincil",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1155/2018/8187318",
+          "yer": "3. Evaluating Crumb Cellular Structure"
+        }
+      ]
+    },
+    {
+      "id": "kabarcik.bosluk_orani_yogunluk_olcumu",
+      "metin": "Hamurun gaz boşluk oranı hamur yoğunluğu ölçümlerinden kolayca belirlenebilir.",
+      "kosul": "Campbell ve ark., 2001; Leroy ve ark., 2008",
+      "kanit": "ikincil",
+      "bolum": "Nasıl ölçülür",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1002/cche.10699",
+          "yer": "5 BUBBLE SIZE DISTRIBUTION (BSD) AND ITS EVOLUTION IN BREAD DOUGH"
+        }
+      ]
+    },
+    {
+      "id": "kabarcik.boyut_dagilimi_olcum_zorlugu",
+      "metin": "Hamurun kırılganlığı ve opaklığı nedeniyle hamurdaki kabarcık boyutu dağılımını elde etmek oldukça güçtür.",
+      "kosul": "Bellido ve ark., 2006; Campbell ve ark., 1991",
+      "kanit": "ikincil",
+      "bolum": "Nasıl ölçülür",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1002/cche.10699",
+          "yer": "5 BUBBLE SIZE DISTRIBUTION (BSD) AND ITS EVOLUTION IN BREAD DOUGH"
+        }
+      ]
+    },
+    {
+      "id": "kabarcik.mikro_bt_ile_gozenek_matrisi_analizi",
+      "metin": "Mikro bilgisayarlı tomografi ile üç boyutlu rekonstrüksiyon; gözenek şekli, duvar kalınlığı, sıklığı ve dağılımı dahil olmak üzere gözenekli matrisin nicel analizine olanak tanır.",
+      "kosul": "arkeolojik gözenekli matris ve ekmek kalıntısı analizi",
+      "kanit": "ikincil",
+      "bolum": "Nasıl ölçülür",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1007/s00334-026-01130-6",
+          "yer": "SEM vs. μCT-scan"
+        },
+        {
+          "kaynak": "10.1007/s00334-026-01130-6",
+          "yer": "Preparation of ACOs"
+        }
+      ]
+    },
+    {
+      "id": "kabarcik.mikrotomografi_ile_10um_cozunurluk",
+      "metin": "Fiziksel kesit almaya gerek kalmadan 10 μm kalınlığındaki 200 mikrotomografi diliminden yapılan üç boyutlu rekonstrüksiyon, hamurda 10 μm kadar küçük gaz kabarcıklarını ayrıştırmayı mümkün kılar.",
+      "kosul": "Buğday unu hamurunda 10 μm³ voksel çözünürlüklü μCT",
+      "kanit": "tek_kaynak",
+      "bolum": "Nasıl ölçülür",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.foodres.2006.07.020",
+          "yer": "Abstract"
+        },
+        {
+          "kaynak": "10.1016/j.foodres.2006.07.020",
+          "yer": "Conclusions"
+        }
+      ]
+    },
+    {
+      "id": "kabarcik.carlson_bohlin_kesit_mikroskopisi",
+      "metin": "30 µm kalınlığındaki hamur kesitlerinde yapılan ışık mikroskopisi incelemesinde 45 µm'den küçük kabarcıklar çözünürlük sınırı nedeniyle sayılamamış ve ortalama kabarcık çapı 90 µm olarak bildirilmiştir.",
+      "kosul": "30 µm hamur kesitleri; Carlson ve Bohlin, 1978",
+      "kanit": "ikincil",
+      "bolum": "Nasıl ölçülür",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1002/cche.10699",
+          "yer": "5.2.1 Microscopy"
+        },
+        {
+          "kaynak": "10.1002/cche.10699",
+          "yer": "5.2.1 Microscopy"
+        },
+        {
+          "kaynak": "10.1002/cche.10699",
+          "yer": "5.2.1 Microscopy"
+        }
+      ]
+    },
+    {
+      "id": "kabarcik.dondurulmus_kesit_mikroskopisi",
+      "metin": "30 µm kalınlığındaki dondurulmuş hamur kesitlerinde ışık mikroskopisi 39 µm gibi küçük çaptaki kabarcıkların ölçülmesine olanak tanımıştır.",
+      "kosul": "30 µm dondurulmuş hamur kesitleri; Campbell ve ark., 1991",
+      "kanit": "ikincil",
+      "bolum": "Nasıl ölçülür",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1002/cche.10699",
+          "yer": "5.2.1 Microscopy"
+        }
+      ]
+    },
+    {
+      "id": "kabarcik.duzgunluk_tanimi",
+      "metin": "Ekmek içi gözenek düzgünlüğü, çapı 1 mm'den küçük gözeneklerin sayısının 1 mm'den büyüklerin sayısına oranıdır.",
+      "kosul": "",
+      "kanit": "tek_kaynak",
+      "bolum": "Nasıl ölçülür",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1155/2018/8187318",
+          "yer": "3. Evaluating Crumb Cellular Structure"
+        }
+      ]
+    },
+    {
+      "id": "kabarcik.gozenek_alani_kesri_ile_ortalama_alan_korelasyonu",
+      "metin": "Bu çalışmada ekmek içi gözenek alanı kesri ortalama gözenek alanı ile pozitif ve güçlü bir korelasyon göstermiştir (R = 0,93; p = 0,001).",
+      "kosul": "Ekşi maya ilavesi ve vakumlu soğutma uygulanan ekmekler; ekmek içi görüntü analizi.",
+      "kanit": "tek_kaynak",
+      "bolum": "Nasıl ölçülür",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.17113/ftb.55.04.17.5344",
+          "yer": "Results and Discussion · Physical properties of fresh bread"
+        }
+      ]
+    },
+    {
+      "id": "kabarcik.gozeneklilik_yogurma_hacim_farki",
+      "metin": "Çavdar ekmeklerinin gözeneklilik yüzdesi, bozulmamış ekmek içi hacmi ile yoğurularak gözenekleri giderilmiş ekmek içi hacmi arasındaki farktan belirlendi.",
+      "kosul": "Çavdar ekmekleri; gözeneklilik yüzdesi ölçümü (ekmek içi yoğurma yöntemi)",
+      "kanit": "tek_kaynak",
+      "bolum": "Nasıl ölçülür",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods13193035",
+          "yer": "2.2.4. Mountain Rye Bread Quality Assessment"
+        }
+      ]
+    },
+    {
+      "id": "kabarcik.hamur_sivisi_kopuk_cokus_orani",
+      "metin": "Bu çalışmada incelenen bir buğday örneğinin hamur sıvısı köpüğünün hacmi 30 dakikada 1,5 mL'ye gerilemiş ve 60 dakikaya kadar bu hacimde kalarak köpük yapısında %92,5'lik bir kayba yol açmıştır.",
+      "kosul": "Hamur sıvısından (dough liquor) elde edilen köpük; köpük hacmi zaman içinde ölçülmüş.",
+      "kanit": "tek_kaynak",
+      "bolum": "Nasıl ölçülür",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.foodhyd.2017.08.020",
+          "yer": "Dough liquor foam stability"
+        }
+      ]
+    },
+    {
+      "id": "kabarcik.kesit_hacim_duzeltme",
+      "metin": "Dilim yüzeyindeki gözenek boyutundan hesaplanan hücre hacmi gerçek hacimden ortalama %41 düşük çıktığı için ortalama gözenek alanı ve boşluk oranı 1,5 düzeltme katsayısıyla çarpılmalıdır.",
+      "kosul": "Hücrelerin küresel olduğu ve rastgele kesildiği varsayımı.",
+      "kanit": "ikincil",
+      "bolum": "Nasıl ölçülür",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1155/2018/8187318",
+          "yer": "3. Evaluating Crumb Cellular Structure"
+        }
+      ]
+    },
+    {
+      "id": "kabarcik.siniflandirma_ve_boyut_dagilimi",
+      "metin": "Kabarcık boyutu dağılımı, çapların artan sırayla frekanslarının tablolara dökülmesi ve ardından 10 µm genişliğindeki boyut sınıflarında gruplanmasıyla elde edilmiştir.",
+      "kosul": "Eşodaklı lazer taramalı mikroskopi (CLSM); Upadhyay ve ark., 2012",
+      "kanit": "ikincil",
+      "bolum": "Nasıl ölçülür",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1002/cche.10699",
+          "yer": "5.2.1 Microscopy"
+        }
+      ]
+    },
+    {
+      "id": "kabarcik.sinkrotron_mikrotomografisi_lognormal",
+      "metin": "Sinkrotron X-ışını mikrotomografisiyle piksel başına 6,5 ve 8,75 μm çözünürlükte ölçülen mayasız hamurlardaki kabarcık boyutu dağılımları log-normal dağılıma iyi uyum sağlar.",
+      "kosul": "Sinkrotron X-ışını mikrotomografisi",
+      "kanit": "ikincil",
+      "bolum": "Nasıl ölçülür",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1002/cche.10699",
+          "yer": "5.2.3 X-ray microtomography"
+        }
+      ]
+    },
+    {
+      "id": "kabarcik.tamamlayici_goruntuleme_yontemleri",
+      "metin": "Işık mikroskopisi (20–1500 µm), SEM (50–3500 µm) ve X-ışını mikrotomografisinin (> 1000 µm) birlikte kullanımı geniş bir kabarcık boyutu aralığının incelenmesine olanak tanır.",
+      "kosul": "Whitworth ve Alava, 1999",
+      "kanit": "ikincil",
+      "bolum": "Nasıl ölçülür",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1002/cche.10699",
+          "yer": "Table 3"
+        },
+        {
+          "kaynak": "10.1002/cche.10699",
+          "yer": "5.2.1 Microscopy"
+        }
+      ]
+    },
+    {
+      "id": "kabarcik.young_modulu",
+      "metin": "Ekmek içinin sertliğini gösteren Young modülü yoğunluk, iç parlaklığı, birim alandaki gözenek sayısı ve duvar kalınlığının düzgünlüğüyle pozitif, boşluk oranıyla negatif ilişkilidir.",
+      "kosul": "",
+      "kanit": "ikincil",
+      "bolum": "Nasıl ölçülür",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1155/2018/8187318",
+          "yer": "5. Mechanical and Sensorial Properties of the Porous Crumb Structure"
+        }
+      ]
+    },
+    {
+      "id": "kabarcik.yuksek_cozunurluklu_mikroskopi_3um",
+      "metin": "Daha yüksek çözünürlüklü ışık mikroskopisi ile hamurda çapı 3 µm kadar küçük olan kabarcıklar ölçülebilmiştir.",
+      "kosul": "Shimiya ve Nakamura, 1997",
+      "kanit": "ikincil",
+      "bolum": "Nasıl ölçülür",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1002/cche.10699",
+          "yer": "5.2.1 Microscopy"
+        }
+      ]
+    },
+    {
+      "id": "kabarcik.gerinim_sertlesmesi",
+      "metin": "Ekmek hamurunun gerildikçe sertleşme (gerinim sertleşmesi) davranışı, gaz hücrelerinin ekmek yapımı boyunca düzgün genişlemesini ve ekmeğin özgül hacmini belirler.",
+      "kosul": "",
+      "kanit": "ikincil",
+      "bolum": "Ne yapar",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.foodhyd.2024.110884",
+          "yer": "Introduction"
+        },
+        {
+          "kaynak": "10.1016/j.foodhyd.2023.109214",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "kabarcik.hamur_sivisi_stabilize",
+      "metin": "Hamur sıvısının, özellikle fermantasyonun ve pişirmenin son evrelerinde gaz hücrelerini kararlı tuttuğuna dair kanıtlar vardır.",
+      "kosul": "",
+      "kanit": "ikincil",
+      "bolum": "Ne yapar",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.foodhyd.2025.111252",
+          "yer": "Introduction"
+        }
+      ]
+    },
+    {
+      "id": "kabarcik.gaz_hapsolmasi_tanimi",
+      "metin": "Gaz hapsolması, yoğurma sırasında hamur yüzeyleri birbirine yaklaşıp birleştiğinde belirli bir hacimdeki gazın hamur içine hapsedilmesi sürecidir.",
+      "kosul": "Chin ve ark., 2004",
+      "kanit": "tek_kaynak",
+      "bolum": "Tanım",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1002/cche.10699",
+          "yer": "1 INTRODUCTION"
+        }
+      ]
+    },
+    {
+      "id": "kabarcik.orantisizlasma_tanimi",
+      "metin": "Orantısızlaşma, iç basıncı yüksek küçük kabarcıklardan iç basıncı daha düşük büyük kabarcıklara doğru basınç kaynaklı gaz difüzyonudur.",
+      "kosul": "Stevenson, 2010; Vliet ve ark., 1992",
+      "kanit": "tek_kaynak",
+      "bolum": "Tanım",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1002/cche.10699",
+          "yer": "3 FACTORS AFFECTING GAS BUBBLE STABILIZATION"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,134 @@
+{
+  "id": "kaynak",
+  "ad": "Mikroplar nereden gelir",
+  "bilgiler": [
+    {
+      "id": "kaynak.musluk_suyunun_yeni_ve_kararli_mayaya_etkisi",
+      "metin": "Musluk suyunun türü yeni hazırlanan ekşi mayalarda laktik asit bakterisi topluluğunun kurulumunu yönlendirirken, kararlı olgun ekşi mayanın mikrobiyotasını neredeyse hiç etkilemez.",
+      "kosul": "Yeni hazırlanan ve olgun ekşi mayaların karşılaştırması",
+      "kanit": "tek_kaynak",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1038/s41598-018-36786-2",
+          "yer": "Discussion"
+        }
+      ]
+    },
+    {
+      "id": "kaynak.ilk_gun_unla_gelen_bakteriler",
+      "metin": "Birinci günün ekşi mayasındaki bakteri bileşimini un ve diğer girdilerle gelen bakteriler belirler; Pantoea ve bilinmeyen bir Enterobacteriaceae cinsi hem unda hem birinci gün mayasında baskındı.",
+      "kosul": "Kendiliğinden başlatılan 40 ekşi maya, 10 un türü; oda sıcaklığı; günlük besleme (1 yemek kaşığı atılıp 1 yemek kaşığı un + 1 yemek kaşığı su eklendi); 14 gün; 16S rRNA dizilemesi.",
+      "kanit": "tek_kaynak",
+      "bolum": "Nereden gelir",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.7717/peerj.16163",
+          "yer": "Results, Bacterial succession"
+        },
+        {
+          "kaynak": "10.7717/peerj.16163",
+          "yer": "Results, Bacterial succession; Fig. S2"
+        }
+      ]
+    },
+    {
+      "id": "kaynak.maya_una_en_benzer",
+      "metin": "Ekşi mayaların bakteri ve mantar toplulukları, fırıncıların ellerinden, fırın tozundan ya da sudan çok una benziyordu.",
+      "kosul": "14 ülkeden 18 profesyonel fırıncı; aynı taş değirmen buğday unu (T65) ve standart tarif; 16S/ITS amplikon dizilemesi; Bray-Curtis farklılığı.",
+      "kanit": "tek_kaynak",
+      "bolum": "Nereden gelir",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1128/msphere.00950-19",
+          "yer": "Results; Fig. 5"
+        }
+      ]
+    },
+    {
+      "id": "kaynak.turlesme_yok_birincil_habitat",
+      "metin": "Yazarların varsayımına göre ekşi maya fermantasyonu türleşmeyi desteklemediğinden, ekşi mayadaki mikroorganizmalar başlatıcı kültürlerden ya da birincil habitattan gelen bulaşmadan kaynaklanır.",
+      "kosul": "Ekşi maya fermantasyonu",
+      "kanit": "tek_kaynak",
+      "bolum": "Nereden gelir",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.ijfoodmicro.2016.05.004",
+          "yer": "Dispersal and dispersal limitation"
+        }
+      ]
+    },
+    {
+      "id": "kaynak.unda_pantoea_baskin",
+      "metin": "İki ayrı çalışmada incelenen unlarda en bol bakteri cinsi Pantoea'ydı ve undaki bakteri dizilerinin yaklaşık üçte birini oluşturdu.",
+      "kosul": "1) 10 farklı un (16S, ortalama göreli bolluk); 2) Type 1370 çavdar unu, 0. gün, yalnız 60 kaliteli bakteri dizisi (piro dizileme).",
+      "kanit": "uzlasi",
+      "bolum": "Nereden gelir",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.7717/peerj.16163",
+          "yer": "Results, Bacterial succession; Fig. S2"
+        },
+        {
+          "kaynak": "10.1371/journal.pone.0095449",
+          "yer": "Results, Pyrosequencing; Table S2"
+        }
+      ]
+    },
+    {
+      "id": "kaynak.tahilda_bulunup_asitlenmede_kaybolan_cinsler",
+      "metin": "Lactococcus, Enterococcus, Leuconostoc ve Weissella tipik olarak tahıl taneleri ve unla ilişkilidir, ancak uzun süreli bir ekşi maya asitlenme sürecinde canlı kalamazlar.",
+      "kosul": "Ekşi maya uzun süreli asitlenme süreci (aktarım ref 10, 11, 33)",
+      "kanit": "ikincil",
+      "bolum": "Hamurda ne olur",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1128/aem.00570-10",
+          "yer": "Discussion"
+        }
+      ]
+    },
+    {
+      "id": "kaynak.amilaz_hizli_asitlenme",
+      "metin": "Tahıl ve undaki amilaz enzimleri karmaşık karbonhidratları mayalanabilir şekerlere parçalar; bu, bakteri fermantasyonunu hızlandırır ve aside dayanıklı türlerin daha kısa sürede yerleşmesini kolaylaştırır.",
+      "kosul": "",
+      "kanit": "ikincil",
+      "bolum": "Hangi koşulda",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.7717/peerj.11389",
+          "yer": "Sourdough Starter Maintenance: Flour"
+        }
+      ]
+    },
+    {
+      "id": "kaynak.olasi_kaynaklar_ve_tasiyicilar",
+      "metin": "Ekşi mayaya mikroplar unun kendisinden, saklama kabından, mayanın tutulduğu evden, insan bedeninden, hayvanlardan, havadan ve böceklerden gelebilir; karıştırma gereçleri ve fırıncının elleri bunların taşınmasına aracılık eder; yeni bir maya başta yüzlerce (binlerce değil) bakteri türü barındırır.",
+      "kosul": "",
+      "kanit": "ikincil",
+      "bolum": "Nereden gelir",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.7717/peerj.16163",
+          "yer": "Introduction"
+        },
+        {
+          "kaynak": "10.7717/peerj.11389",
+          "yer": "Microbial Ecology: Bacteria"
+        },
+        {
+          "kaynak": "10.24072/pcjournal.237",
+          "yer": "Discussion"
+        }
+      ]
+    }
+  ]
+}

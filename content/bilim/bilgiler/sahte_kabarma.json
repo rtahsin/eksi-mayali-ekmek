@@ -1,0 +1,34 @@
+{
+  "id": "sahte_kabarma",
+  "ad": "Sahte kabarma",
+  "bilgiler": [
+    {
+      "id": "sahte_kabarma.gun2_3_sicrama_sonra_durgunluk",
+      "metin": "Ekşi maya yapanların sık anlattığı örüntü, yani 2. ya da 3. günde kabarmanın birden artması, ardından yaklaşık 7. güne kadar duraklaması ya da azalması, bu çalışmada tüm un türlerinde doğrulandı.",
+      "kosul": "Kendiliğinden başlatılan 40 ekşi maya, 10 un türü; oda sıcaklığı; günlük besleme (1 yemek kaşığı atılıp 1 yemek kaşığı un + 1 yemek kaşığı su eklendi); 14 gün; 16S rRNA dizilemesi; yükseklik ölçümü.",
+      "kanit": "tek_kaynak",
+      "bolum": "Efsaneler",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.7717/peerj.16163",
+          "yer": "Discussion, Succession processes"
+        }
+      ]
+    },
+    {
+      "id": "sahte_kabarma.erken_tepe_un_mayalari_hipotezi",
+      "metin": "Yazarlar, gaz üretiminin göstergesi olan bu erken kabarma tepesinin, genç ekşi mayalarda baskın olduğu bilinen ve undan gelen mayaların (yeast) çoğalmasından kaynaklandığını varsayar; bunu test etmemişlerdir.",
+      "kosul": "Kendiliğinden başlatılan 40 ekşi maya, 10 un türü; oda sıcaklığı; 14 gün; yalnız 16S (bakteri) dizilemesi yapıldı, mayalar ölçülmedi.",
+      "kanit": "tek_kaynak",
+      "bolum": "Mayadaki yeri",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.7717/peerj.16163",
+          "yer": "Discussion, Succession processes"
+        }
+      ]
+    }
+  ]
+}

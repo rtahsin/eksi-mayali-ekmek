@@ -1,0 +1,65 @@
+{
+  "id": "fsan",
+  "ad": "Fructilactobacillus sanfranciscensis",
+  "eski_ad": "Lactobacillus sanfranciscensis",
+  "tur": "bakteri",
+  "tek_cumle": "Ekşi maya fermantasyonu için önemli olan zorunlu heterofermentatif bir laktik asit bakterisidir [[fsan.zorunlu_heterofermentatif_tanim]]",
+  "bolumler": [
+    {
+      "baslik": "Kimlik",
+      "cumleler": [
+        "Tür ilk kez 1971'de Kline ve Sugihara tarafından, 100 yılı aşkın süredir beslenen San Francisco ekşi mayalarından izole edilen zorunlu heterofermentatif laktobasiller olarak tanımlandı [[fsan.ilk_tanim]]",
+        "Genomu incelendiğinde türün yalnız birkaç amino asidi kendisi üretebildiği, kalan 12 amino asit için dışarıya bağımlı olduğu görüldü [[fsan.amino_asit_bagimli]]"
+      ]
+    },
+    {
+      "baslik": "Ne yer, ne üretir",
+      "cumleler": [
+        "Türün kamu veri tabanlarındaki genomlarında hedeflenen üç esteraz geni bulunmadı [[fsan.ester_uretmez]]",
+        "Türün suşlarının çoğu fruktozu karbon kaynağı olarak kullanamaz [[fsan.fruktozu_karbon_kaynagi_yapmaz]]"
+      ]
+    },
+    {
+      "baslik": "Hangi koşulda",
+      "cumleler": [
+        "Tür düşük pH'a duyarlıdır ve düzenli ekşi maya beslemelerine yüksek derecede bağımlıdır [[fsan.asit_duyarliligi_ve_duzenli_besleme]]",
+        "Yaşlı ekşi mayalarda tür, Pediococcus parvulus ile birlikte daha sık bulunur [[fsan.yasli_mayalar]]"
+      ]
+    },
+    {
+      "baslik": "Mayadaki yeri",
+      "cumleler": [
+        "Geleneksel yöntemlerle üretilen ekşi mayalarda anahtar rol oynayan ve kararlı bir öğe olan türdür [[fsan.anahtar_kararli_tur]]"
+      ]
+    },
+    {
+      "baslik": "Nereden gelir",
+      "cumleler": [
+        "Ev fırıncılarının aldığı 73 ekşi mayada tür bol bulunur ve ticari üretim koşullarında iyi gelişir [[fsan.ticari_kaynak]]"
+      ]
+    },
+    {
+      "baslik": "İlişkileri",
+      "cumleler": [
+        "Hamur asitleşmesini domine eder ve metabolik çapraz etkileşim yoluyla Kazachstania humilis mayasının karbon metabolizmasını yönlendirir [[fsan.k_humilis_ile_capraz_etkilesim_ve_asitlesme]]",
+        "Model bir buğday ekşi mayasında tek başınayken mayalarla birlikte olduğundan yaklaşık 1 log KOB/g daha yüksek sayıya ulaşır [[fsan.tek_basina_daha_kalabalik]]"
+      ]
+    },
+    {
+      "baslik": "Ekmeğe etkisi",
+      "cumleler": [
+        "Lactiplantibacillus plantarum ile birlikte ikili starter kültür olarak kullanıldığında endüstriyel ekşi maya üretiminde kısa fermantasyonlarda istenen asitlik ve aroma düzeyine ulaşılabilir [[fsan.cift_starter_asitlik_aroma]]"
+      ]
+    }
+  ],
+  "efsane": null,
+  "anlar": [
+    "eksi_mayanin_ilk_10_gunu",
+    "mayayi_beslerken",
+    "ayni_sofrada",
+    "gece_dolapta"
+  ],
+  "gorseller": [
+    "s00284_025_04673_5_sekil_5a"
+  ]
+}

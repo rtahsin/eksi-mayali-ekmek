@@ -1,0 +1,76 @@
+{
+  "id": "wanom",
+  "ad": "W. anomalus",
+  "bilgiler": [
+    {
+      "id": "wanom.geleneksel_olmayan_eksimaya_mayasi",
+      "metin": "Wickerhamomyces anomalus, ekşi maya fermantasyonlarında bulunan geleneksel olmayan bir maya türüdür.",
+      "kosul": "Ekşi maya mayaları sınıflandırması; Pradal vd. aktarımı",
+      "kanit": "ikincil",
+      "bolum": "Tanım",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1016/j.crfs.2026.101573",
+          "yer": "3.3. Yeast viability in dough and oven rise performance"
+        }
+      ]
+    },
+    {
+      "id": "wanom.guclu_ama_seyrek",
+      "metin": "Wickerhamomyces anomalus laboratuvardaki ikili rekabet deneylerinde güçlü bir rakip çıktı, ama bu çalışmada örneklenen 500 ekşi mayada sık bulunmadı.",
+      "kosul": "Sentetik ikili topluluklar (tahıl bazlı sıvı fermantasyon besiyeri) ile 500 ekşi maya (çoğu ev ekşi mayası) karşılaştırması.",
+      "kanit": "tek_kaynak",
+      "bolum": "İlişkileri",
+      "cekirdek": true,
+      "kaynaklar": [
+        {
+          "kaynak": "10.7554/elife.61644",
+          "yer": "Discussion"
+        }
+      ]
+    },
+    {
+      "id": "wanom.bugday_ekmeginde_antifungal_ikili",
+      "metin": "Lactiplantibacillus plantarum 1A7 ile Wickerhamomyces anomalus LCF1695 kombinasyonunun, organik asit, antifungal peptit ve uçucu bileşik sinerjisiyle buğday ekmeğinde antifungal etkiyi artırdığı gösterilmiştir.",
+      "kosul": "buğday ekmeği starter kombinasyonu; literatür verisi",
+      "kanit": "ikincil",
+      "bolum": "Ekmeğe etkisi",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.3390/foods15193368",
+          "yer": "3.1. Set-Up and Monitoring of the Fermentation Process"
+        }
+      ]
+    },
+    {
+      "id": "wanom.ester_gen_sayisi",
+      "metin": "75 maya genomunun bilgisayar ortamında taranmasında, tek bir genomda en çok ester sentez geni (sekiz) Wickerhamomyces anomalus NRRL Y-0366'da bulundu.",
+      "kosul": "In silico genom taraması (tblastn, >%80 sorgu kapsamı, >%30 özdeşlik); 75 maya genomu.",
+      "kanit": "tek_kaynak",
+      "bolum": "Kimlik",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1128/aem.02216-24",
+          "yer": "RESULTS: In silico genome mining; Fig 1"
+        }
+      ]
+    },
+    {
+      "id": "wanom.eat_imo32_etil_asetat",
+      "metin": "EAT ve IMO32 genlerinin kodladığı iki açil-CoA transferazın Saccharomyces cerevisiae ve Wickerhamomyces anomalus'ta etil asetat sentezine katıldığı aktarılır.",
+      "kosul": "Makalenin girişinde başka kaynaklardan (43, 44) aktarım.",
+      "kanit": "ikincil",
+      "bolum": "Ne yer, ne üretir",
+      "cekirdek": false,
+      "kaynaklar": [
+        {
+          "kaynak": "10.1128/aem.02216-24",
+          "yer": "INTRODUCTION"
+        }
+      ]
+    }
+  ]
+}
