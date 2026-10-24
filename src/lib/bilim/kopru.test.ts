@@ -47,6 +47,12 @@ describe("ekmeginAnlari", () => {
     expect(ekmeginAnlari({ ingredients: ["Karabuğday Unu", "Ekşi Maya"] })).not.toContain("olgun_tanenin_ici");
   });
 
+  it("admin'deki yazım farklarını aynı sayar", () => {
+    expect(ekmeginAnlari({ ingredients: ["Tam buğday unu", "EKŞİMAYA", "Tuz"], flourTypes: ["Taşdeğirmen"] })).toEqual(
+      expect.arrayContaining(["olgun_tanenin_ici", "degirmen_tasinda", "kepek_una_karisinca", "su_ve_tuz_bulusunca"])
+    );
+  });
+
   it("kayıtta olmayan yöntemi varsaymaz", () => {
     for (const u of [KOY, SIYEZ, CEVIZLI]) {
       expect(ekmeginAnlari(u)).not.toContain("gece_dolapta");
