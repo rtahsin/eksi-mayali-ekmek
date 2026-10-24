@@ -22,6 +22,7 @@ import {
   ILK_ON_GUN,
   KABUK,
   KESIK,
+  KOPRU_ADAYLARI,
   RAF,
   TANE,
   YOGURMA,
@@ -428,6 +429,17 @@ describe("content/bilim bütünlüğü", () => {
         .filter((c) => SAGLIK.test(c) || findHealthTerms(c).some((t) => !GENEL_FIIL.includes(t)))
         .map((c) => `${yer}: ${c.slice(0, 70)}`)
     );
+    expect(bulunan).toEqual([]);
+  });
+
+  it("QR köprüsünün adayları yolculukta var; ürün sayfasına giden başlık ve sorularda sağlık terimi yok", () => {
+    // Ürün sayfalarında sağlık terimi hiç geçmez (AGENTS.md §7); köprü oraya anın başlığını ve sorusunu taşır.
+    const kimlikler = new Set(getAnKimlikleri());
+    expect(KOPRU_ADAYLARI.filter((id) => !kimlikler.has(id))).toEqual([]);
+    const SAGLIK = /sağlık|şifa|sindirim|bağırsak|kan şekeri|glisemik|kanser|faydalı|bağışıklık|detoks/i;
+    const bulunan = KOPRU_ADAYLARI.map(getAn)
+      .flatMap((an) => [an.baslik, an.soru])
+      .filter((m) => SAGLIK.test(m) || findHealthTerms(m).length > 0);
     expect(bulunan).toEqual([]);
   });
 });

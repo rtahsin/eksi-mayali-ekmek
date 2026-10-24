@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Onest, Unbounded } from "next/font/google";
+import { FEATURES } from "@/lib/features";
 
 const unbounded = Unbounded({
   subsets: ["latin", "latin-ext"],
@@ -15,10 +16,10 @@ const onest = Onest({
   display: "swap",
 });
 
-// Yayına kadar arama motorlarına kapalı (BILIM_PLATFORMU_PLANI: tek seferde açılış).
+// Açılışa kadar arama motorlarına kapalı (BILIM_PLATFORMU_PLANI: tek seferde açılış; FEATURES.bilimOdasi).
 export const metadata: Metadata = {
   title: "Bilim odası | EkmekLab",
-  robots: { index: false, follow: false },
+  ...(FEATURES.bilimOdasi ? {} : { robots: { index: false, follow: false } }),
 };
 
 export default function BilimLayout({ children }: { children: React.ReactNode }) {

@@ -28,6 +28,10 @@ import {
 } from "lucide-react";
 import { articleIndex } from "@/lib/editorial";
 import { SITE_URL } from "@/lib/site";
+import { FEATURES } from "@/lib/features";
+import { ekmeginAnlari } from "@/lib/bilim";
+import { getAn, getAnKimlikleri, getGorsel } from "@/lib/bilim/server";
+import { BilimKoprusu, type KopruAni } from "@/components/bilim/Kopru";
 
 export const revalidate = 60; // ISR: Revalidate product page every 60 seconds
 
@@ -110,6 +114,23 @@ export async function generateMetadata({ params }: ProductPageProps): Promise<Me
       canonical: url,
     },
   };
+}
+
+// QR köprüsü: bilim odası açılana kadar kapalı (FEATURES.bilimOdasi).
+function bilimAnlari(product: ExtendedProduct): KopruAni[] {
+  if (!FEATURES.bilimOdasi) return [];
+  try {
+    const sira = getAnKimlikleri();
+    return ekmeginAnlari(product).map((id) => {
+      const an = getAn(id);
+      const ilk = an.gor.adimlar.find((a) => a.gorsel)?.gorsel;
+      return { id, no: sira.indexOf(id) + 1, baslik: an.baslik, soru: an.soru, resim: ilk ? getGorsel(ilk)?.dosya : undefined };
+    });
+  } catch (e) {
+    // köprü ürün sayfasını bozmaz
+    console.error("bilim köprüsü:", e);
+    return [];
+  }
 }
 
 export default async function ProductDetailPage({ params }: ProductPageProps) {
@@ -403,6 +424,8 @@ export default async function ProductDetailPage({ params }: ProductPageProps) {
             </div>
           )}
         </section>
+
+        <BilimKoprusu anlar={bilimAnlari(product)} />
 
         {/* 3. Deep Dive Masterclass: Ustanın Notu & Biyoloji */}
         {masterclass && (

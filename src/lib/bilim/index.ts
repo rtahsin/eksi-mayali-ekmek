@@ -10,6 +10,7 @@ export {
   type EtiketDurumu,
 } from "./metin";
 export { KANIT_DURUMLARI } from "./schema";
+export { KOPRU_ADAYLARI, ekmeginAnlari, type KopruUrunu } from "./kopru";
 export {
   ASITLIK_ZEMIN,
   DEGIRMEN,

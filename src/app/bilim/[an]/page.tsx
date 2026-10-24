@@ -11,12 +11,10 @@ import {
   ILK_ON_GUN,
   KABUK,
   KESIK,
-  KANIT_ETIKETI,
   RAF,
   TANE,
   YOGURMA,
   asitlikZemini,
-  cumleEtiketi,
   findAtiflar,
   splitHamCumleler,
   type An,
@@ -35,6 +33,7 @@ import {
 import { Metin } from "@/components/bilim/Metin";
 import { Foy } from "@/components/bilim/Foy";
 import { KaynakPaneli } from "@/components/bilim/KaynakPaneli";
+import { KanitDugmesi } from "@/components/bilim/KanitDugmesi";
 import { Sahne, type SahneAdimi, type SahneSekli } from "@/components/bilim/Sahne";
 import { IlkOnGun, type Gorselli, type IlkOnGunProps } from "@/components/bilim/IlkOnGun";
 import { FirinSekizDakika, type FirinSekizDakikaProps } from "@/components/bilim/FirinSekizDakika";
@@ -81,21 +80,6 @@ function gorselli(id: string): Gorselli {
   const g = getGorsel(id);
   if (!g) throw new Error(`Bilim odası: görsel kaydı yok: ${id}`);
   return { src: g.dosya, alt: g.alt, kunye: <Kunye g={g} /> };
-}
-
-function KanitDugmesi({ ids, kartlar, metin }: { ids: string[]; kartlar: Record<string, AtifKarti>; metin?: string }) {
-  const durum = cumleEtiketi(ids.filter((id) => kartlar[id]).map((id) => kartlar[id].durum));
-  if (!durum) return null;
-  return (
-    <button
-      type="button"
-      className={`${s.etiket} ${durum === "tartismali" ? s.celisiyor : ""}`}
-      data-atif={ids.join(" ")}
-      aria-haspopup="dialog"
-    >
-      {metin ?? KANIT_ETIKETI[durum]}
-    </button>
-  );
 }
 
 /** İlk 10 gün sahnesinin metinleri anın kendi cümleleridir: adımlar sahnelere bölünür, kapanış durumları bilgi kimliğiyle bulunur. */
@@ -521,6 +505,9 @@ export default async function AnSayfasi({ params }: PageProps) {
                 </p>
               </div>
             ))}
+            <Link href={`/bilim/efsaneler#${an.id}`} className={s.dosyaBag}>
+              Bütün inançlar: Efsane dosyası →
+            </Link>
           </div>
         </section>
       )}

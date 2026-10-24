@@ -3605,3 +3605,140 @@
     transform: none;
   }
 }
+
+/* ══ Efsane dosyası ══ */
+.kapi {
+  display: grid;
+  gap: 2px;
+  max-width: 40rem;
+  margin-top: 24px;
+  padding: 16px 18px;
+  border: 1px solid var(--cizgi);
+  border-left: 3px solid var(--g5);
+  text-decoration: none;
+}
+
+.kapi:hover .levhaAd,
+.dosyaAnBaslik:hover .levhaAd {
+  text-decoration: underline;
+}
+
+.dosyaBag {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  margin-top: 8px;
+  font: 500 14px/1.3 var(--bas);
+}
+
+.dosyaSekme {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 24px;
+}
+
+.dosyaSekme a {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 0 14px;
+  border: 1px solid var(--cizgi);
+  background: var(--durak, transparent);
+  font: 500 13px/1 var(--bas);
+  text-decoration: none;
+}
+
+.dosyaSekme a span {
+  color: var(--soluk);
+  font-weight: 400;
+}
+
+.dosyaSekme a:hover {
+  border-color: var(--murekkep);
+}
+
+.dosyaDurak {
+  padding-bottom: 32px;
+  scroll-margin-top: 8px;
+}
+
+.dosyaAn {
+  padding-top: 20px;
+  border-top: 1px solid var(--cizgi);
+  scroll-margin-top: 8px;
+}
+
+.dosyaAnBaslik {
+  display: grid;
+  gap: 2px;
+  min-height: 44px;
+  text-decoration: none;
+}
+
+.dosyaListe {
+  display: grid;
+  gap: 12px;
+  margin: 14px 0 8px;
+  padding: 0;
+  list-style: none;
+}
+
+@media (min-width: 900px) {
+  .dosyaListe {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+.efsane {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 16px 16px 6px;
+  background: var(--kartzemin);
+  border-top: 3px solid var(--murekkep);
+  scroll-margin-top: 16px;
+}
+
+.efsane:target {
+  outline: 2px solid var(--g5);
+  outline-offset: 2px;
+}
+
+.efsane .inanc {
+  margin: 0 0 6px !important;
+}
+
+.efsaneNo,
+.efsaneEtiket {
+  font: 400 12px/1.2 var(--bas);
+  color: var(--soluk);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.paylas {
+  align-self: flex-start;
+  min-height: 44px;
+  margin-top: auto;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--soluk);
+  font: 500 13px/1 var(--bas);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+}
+
+.paylas:hover {
+  color: var(--murekkep);
+}
+
+.paylas:focus-visible,
+.dosyaSekme a:focus-visible,
+.kapi:focus-visible {
+  outline: 2px solid var(--murekkep);
+  outline-offset: 2px;
+}

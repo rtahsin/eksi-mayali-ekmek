@@ -8,6 +8,7 @@ import s from "@/components/bilim/bilim.module.css";
 export default function BilimDizini() {
   const yolculuk = getYolculuk();
   const toplam = yolculuk.duraklar.reduce((n, d) => n + d.anlar.length, 0);
+  const inancSayisi = yolculuk.duraklar.reduce((n, d) => n + d.anlar.reduce((m, a) => m + getAn(a.id).yuzlesme.length, 0), 0);
   let no = 0;
   return (
     <div className={s.oda} data-oda>
@@ -21,6 +22,11 @@ export default function BilimDizini() {
           Tarladan dilime, ekmeğin içinde olan {toplam} an. Her durağın rengi, ekmeğin o duraktaki sıcaklığını anlatır:
           serin tarla, sıcak fırın, yeniden serin raf.
         </p>
+        <Link href="/bilim/efsaneler" className={s.kapi}>
+          <span className={s.levhaNo}>Ayrı kapı</span>
+          <span className={s.levhaAd}>Efsane dosyası →</span>
+          <span className={s.levhaSoru}>{inancSayisi} yaygın inanç ve ölçümlerin söyledikleri</span>
+        </Link>
       </header>
       {yolculuk.duraklar.map((durak) => (
         <section
