@@ -1,0 +1,426 @@
+/* Dergi taslağının grafikleri. Yön, kapsayıcısında şu değişkenleri tanımlar:
+   --y-zemin --y-murekkep --y-ikincil --y-cizgi --y-ic --y-kabuk --y-vurgu --y-etiket (yazı ailesi) --y-sayi (yazı ailesi) */
+
+.sekil {
+  margin: 0;
+  color: var(--y-murekkep);
+}
+
+.ust {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 4px 12px;
+  margin-bottom: 18px;
+}
+
+.no {
+  font: 500 12px/1.2 var(--y-etiket);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--y-ikincil);
+}
+
+.baslik {
+  font: var(--y-sekil-baslik, 600 18px/1.25 var(--y-etiket));
+}
+
+.govde {
+  max-width: 640px;
+}
+
+.alt {
+  margin: 14px 0 0;
+  font: 400 13px/1.5 var(--y-etiket);
+  color: var(--y-ikincil);
+  max-width: 44em;
+}
+
+.gizli {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* ── Satırlı ölçek (nokta ve bant) ── */
+.lejant {
+  display: flex;
+  gap: 18px;
+  margin: 0 0 14px 104px;
+  font: 400 12px/1 var(--y-etiket);
+  color: var(--y-ikincil);
+}
+
+.lejant span {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.lejantNokta {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--y-ikincil);
+}
+
+.lejantBant {
+  width: 18px;
+  height: 8px;
+  border-radius: 2px;
+  background: color-mix(in srgb, var(--y-ikincil) 45%, transparent);
+}
+
+.satir {
+  display: grid;
+  grid-template-columns: 104px minmax(0, 1fr);
+  align-items: center;
+  min-height: 58px;
+}
+
+.satirAd {
+  font: 500 13px/1.2 var(--y-etiket);
+}
+
+.iz {
+  position: relative;
+  height: 58px;
+}
+
+.izgara {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: var(--y-cizgi);
+}
+
+.bant {
+  position: absolute;
+  top: 25px;
+  height: 8px;
+  border-radius: 2px;
+  background: color-mix(in srgb, var(--renk) 55%, transparent);
+}
+
+.bantEtiket,
+.noktaEtiket {
+  position: absolute;
+  white-space: nowrap;
+  font: 600 13px/1 var(--y-sayi);
+  font-variant-numeric: tabular-nums;
+  color: var(--y-murekkep);
+}
+
+.bantEtiket {
+  top: 14px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.nokta {
+  position: absolute;
+  top: 29px;
+  width: 12px;
+  height: 12px;
+  margin: -6px 0 0 -6px;
+  border-radius: 50%;
+  background: var(--renk);
+  box-shadow: 0 0 0 2px var(--y-zemin);
+}
+
+.noktaEtiket {
+  bottom: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.eksen {
+  position: relative;
+  height: 22px;
+  font: 400 11px/1 var(--y-etiket);
+  color: var(--y-ikincil);
+  font-variant-numeric: tabular-nums;
+}
+
+.eksen span {
+  position: absolute;
+  top: 6px;
+  transform: translateX(-50%);
+  white-space: nowrap;
+}
+
+.eksen span:last-child {
+  transform: translateX(-100%);
+}
+
+/* ── Sütunlar ── */
+.sutunlar {
+  display: flex;
+  align-items: flex-end;
+  gap: clamp(28px, 8vw, 72px);
+  height: 200px;
+  padding-left: 8px;
+  border-bottom: 1px solid var(--y-murekkep);
+}
+
+.sutun {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100%;
+}
+
+.sutunAlan {
+  position: relative;
+  flex: 1;
+  display: flex;
+  align-items: flex-end;
+}
+
+.sutunCubuk {
+  position: relative;
+  display: block;
+  width: 24px;
+  border-radius: 4px 4px 0 0;
+  background: var(--y-vurgu);
+}
+
+.sutunCubuk b {
+  position: absolute;
+  bottom: calc(100% + 6px);
+  left: 50%;
+  transform: translateX(-50%);
+  font: 600 15px/1 var(--y-sayi);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.sutunAd {
+  position: relative;
+  top: 24px;
+  height: 0;
+  font: 400 12px/1 var(--y-etiket);
+  color: var(--y-ikincil);
+  white-space: nowrap;
+}
+
+.sutunlar {
+  margin-bottom: 44px;
+}
+
+/* ── Termometre ölçeği ── */
+.termo {
+  display: grid;
+  gap: 2px;
+}
+
+.termoSatir {
+  display: grid;
+  grid-template-columns: minmax(90px, 30%) minmax(0, 1fr);
+  align-items: center;
+  gap: 12px;
+}
+
+.termoAd {
+  font: 500 12px/1.3 var(--y-etiket);
+}
+
+.termoIz {
+  position: relative;
+  height: 46px;
+  background: linear-gradient(var(--y-cizgi), var(--y-cizgi)) 0 50% / 100% 1px no-repeat;
+}
+
+.termoBant {
+  position: absolute;
+  top: 19px;
+  height: 8px;
+  border-radius: 2px;
+  background: color-mix(in srgb, var(--y-vurgu) 55%, transparent);
+}
+
+.termoUc,
+.termoNokta,
+.termoKaynama {
+  position: absolute;
+  top: 23px;
+}
+
+.termoUc::before,
+.termoKaynama::before {
+  content: "";
+  position: absolute;
+  top: -11px;
+  left: -1px;
+  width: 2px;
+  height: 22px;
+  background: var(--y-vurgu);
+}
+
+.termoKaynama::before {
+  background: var(--y-murekkep);
+}
+
+.termoNokta::before {
+  content: "";
+  position: absolute;
+  top: -6px;
+  left: -6px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--y-vurgu);
+  box-shadow: 0 0 0 2px var(--y-zemin);
+}
+
+.termoUc b,
+.termoNokta b,
+.termoKaynama b {
+  position: absolute;
+  bottom: 12px;
+  left: 0;
+  transform: translateX(-50%);
+  white-space: nowrap;
+  font: 600 12px/1 var(--y-sayi);
+  font-variant-numeric: tabular-nums;
+}
+
+.termoKaynama b {
+  transform: translateX(-100%);
+}
+
+.termoHata {
+  position: absolute;
+  top: 22px;
+  height: 2px;
+  background: var(--y-vurgu);
+}
+
+.termoOk {
+  position: absolute;
+  top: 22px;
+  height: 2px;
+  background: repeating-linear-gradient(90deg, var(--y-vurgu) 0 6px, transparent 6px 10px);
+}
+
+/* ── SVG grafikler ── */
+.paneller {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 28px;
+}
+
+.panelAd {
+  margin: 0 0 4px !important;
+  font: 500 12px/1.3 var(--y-etiket);
+  max-width: 150px;
+}
+
+.cizgiSvg {
+  display: block;
+  width: 100%;
+  max-width: 460px;
+  height: auto;
+  overflow: visible;
+}
+
+.svgIzgara {
+  stroke: var(--y-cizgi);
+  stroke-width: 1;
+}
+
+.svgEksen {
+  font: 400 11px var(--y-etiket);
+  fill: var(--y-ikincil);
+}
+
+.svgDeger {
+  font: 600 12px var(--y-sayi);
+  fill: var(--y-murekkep);
+}
+
+.svgBant {
+  fill: color-mix(in srgb, var(--y-vurgu) 22%, transparent);
+}
+
+.svgAlan {
+  fill: color-mix(in srgb, var(--y-vurgu) 12%, transparent);
+}
+
+.svgCizgi {
+  fill: none;
+  stroke: var(--y-vurgu);
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.svgNokta {
+  fill: var(--y-vurgu);
+  stroke: var(--y-zemin);
+  stroke-width: 2;
+}
+
+/* ── Şematik kesit ── */
+.kesitSvg {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+
+.kabukDolgu {
+  fill: color-mix(in srgb, var(--y-kabuk) 30%, var(--y-zemin));
+}
+
+.tarama {
+  stroke: var(--y-kabuk);
+  stroke-width: 1.3;
+}
+
+.icDolgu {
+  fill: color-mix(in srgb, var(--y-ic) 14%, var(--y-zemin));
+}
+
+.gozenek {
+  fill: var(--y-zemin);
+  stroke: color-mix(in srgb, var(--y-ic) 40%, transparent);
+  stroke-width: 1;
+}
+
+.taban {
+  stroke: var(--y-murekkep);
+  stroke-width: 1;
+}
+
+.ok,
+.okGuclu {
+  fill: none;
+  stroke: var(--y-murekkep);
+  stroke-width: 1.5;
+  stroke-dasharray: 5 4;
+}
+
+.okGuclu {
+  stroke-width: 2.2;
+  stroke-dasharray: none;
+}
+
+.okUcu {
+  fill: var(--y-murekkep);
+}
+
+.merkez {
+  fill: var(--y-murekkep);
+  stroke: var(--y-zemin);
+  stroke-width: 2;
+}
+
+.kesitEtiket {
+  font: 500 12px var(--y-etiket);
+  fill: var(--y-murekkep);
+}

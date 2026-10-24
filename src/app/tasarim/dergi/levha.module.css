@@ -1,0 +1,416 @@
+/* Yön 1 · Levha: bilim atlası baskısı. */
+
+.sayfa {
+  --y-zemin: #f1eee7;
+  --y-murekkep: #1b1a17;
+  --y-ikincil: #5d5a52;
+  --y-cizgi: #d6d0c3;
+  --y-ic: #2559a8;
+  --y-kabuk: #b4532a;
+  --y-vurgu: #b4532a;
+  --y-etiket: var(--f-mono), ui-monospace, monospace;
+  --y-sayi: var(--f-mono), ui-monospace, monospace;
+  --y-sekil-baslik: italic 400 21px/1.25 var(--f-serif), Georgia, serif;
+  --vurgu-yazi: #8f3d1c;
+  --kenar: 20px;
+  min-height: 100vh;
+  padding: 0 var(--kenar) 64px;
+  background: var(--y-zemin);
+  color: var(--y-murekkep);
+  font: 400 19px/1.62 var(--f-serif), Georgia, serif;
+  font-optical-sizing: auto;
+  hyphens: auto;
+}
+
+@media (min-width: 900px) {
+  .sayfa {
+    --kenar: 56px;
+  }
+}
+
+.sayfa > * {
+  max-width: 1240px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.sayfa a {
+  color: inherit;
+}
+
+.sayfa p {
+  margin: 0;
+}
+
+.sayfa :global(.dn) {
+  font: 500 0.6em/0 var(--f-mono), monospace;
+  margin-left: 2px;
+}
+
+.sayfa :global(.dn) a {
+  color: var(--vurgu-yazi);
+  text-decoration: none;
+}
+
+.sayfa :global(.dn) a:hover {
+  text-decoration: underline;
+}
+
+/* ── Künye ── */
+.kunye {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 18px 0 10px;
+  border-bottom: 4px double var(--y-murekkep);
+  font: 500 11px/1.3 var(--f-mono), monospace;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.kunye a {
+  text-decoration: none;
+}
+
+/* ── Açılış ── */
+.acilis {
+  display: grid;
+  gap: 40px;
+  padding: 44px 0 48px;
+}
+
+@media (min-width: 900px) {
+  .acilis {
+    grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+    gap: 64px;
+    align-items: end;
+    padding: 72px 0 64px;
+  }
+}
+
+.ust {
+  font: 500 12px/1 var(--f-mono), monospace;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--y-ikincil);
+  margin-bottom: 18px !important;
+}
+
+.baslik {
+  margin: 0;
+  font-size: clamp(64px, 13vw, 160px);
+  font-weight: 300;
+  line-height: 0.86;
+  letter-spacing: -0.03em;
+}
+
+.soru {
+  margin-top: 22px !important;
+  max-width: 19em;
+  font-size: clamp(22px, 2.6vw, 30px);
+  font-style: italic;
+  line-height: 1.3;
+  color: var(--y-ikincil);
+}
+
+.giris {
+  margin-top: 32px !important;
+  max-width: 30em;
+  font-size: 21px;
+  line-height: 1.55;
+}
+
+.giris::first-letter {
+  float: left;
+  margin: 0.06em 0.1em 0 0;
+  font-size: 3.6em;
+  font-weight: 400;
+  line-height: 0.82;
+  color: var(--vurgu-yazi);
+}
+
+.acilisSekil {
+  padding-top: 14px;
+  border-top: 1px solid var(--y-murekkep);
+}
+
+/* ── Rakamlar ── */
+.rakamlar {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  margin-block: 0;
+  border-top: 1px solid var(--y-murekkep);
+  border-bottom: 1px solid var(--y-murekkep);
+}
+
+@media (min-width: 900px) {
+  .rakamlar {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.rakam {
+  display: flex;
+  flex-direction: column-reverse;
+  justify-content: flex-end;
+  gap: 8px;
+  padding: 22px 16px 20px;
+  border-left: 1px solid var(--y-cizgi);
+}
+
+.rakam:nth-child(odd) {
+  border-left: 0;
+  padding-left: 0;
+}
+
+@media (min-width: 900px) {
+  .rakam:nth-child(odd) {
+    border-left: 1px solid var(--y-cizgi);
+    padding-left: 20px;
+  }
+
+  .rakam:first-child {
+    border-left: 0;
+    padding-left: 0;
+  }
+}
+
+.rakam dt {
+  display: flex;
+  gap: 8px;
+  font: 400 12px/1.4 var(--f-mono), monospace;
+  color: var(--y-ikincil);
+}
+
+.rakam dt::before {
+  content: "";
+  flex: none;
+  width: 8px;
+  height: 8px;
+  margin-top: 4px;
+  background: var(--y-vurgu);
+}
+
+.rakam[data-renk="ic"] dt::before {
+  background: var(--y-ic);
+}
+
+.rakam[data-renk="kabuk"] dt::before {
+  background: var(--y-kabuk);
+}
+
+.rakam dd {
+  margin: 0;
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 4px 8px;
+}
+
+.rakamDeger {
+  font-size: clamp(44px, 6vw, 68px);
+  font-weight: 300;
+  line-height: 1;
+  font-variant-numeric: lining-nums;
+  letter-spacing: -0.02em;
+}
+
+.rakamBirim {
+  font: 400 12px/1 var(--f-mono), monospace;
+  color: var(--y-ikincil);
+}
+
+/* ── Bölümler ── */
+.bolum {
+  display: grid;
+  gap: 18px 56px;
+  padding: 56px 0;
+  border-bottom: 1px solid var(--y-cizgi);
+}
+
+@media (min-width: 900px) {
+  .bolum {
+    grid-template-columns: 72px minmax(0, 6fr) minmax(0, 5fr);
+    grid-template-areas:
+      "no baslik baslik"
+      "no metin sekil";
+    padding: 80px 0;
+  }
+
+  .bolumNo {
+    grid-area: no;
+  }
+
+  .bolumBaslik {
+    grid-area: baslik;
+  }
+
+  .bolumMetin {
+    grid-area: metin;
+  }
+
+  .bolumSekil {
+    grid-area: sekil;
+  }
+}
+
+.bolumNo {
+  font-size: 40px;
+  font-style: italic;
+  line-height: 1;
+  color: var(--y-ikincil);
+}
+
+.bolumBaslik {
+  margin: 0;
+  font-size: clamp(30px, 3.6vw, 44px);
+  font-weight: 400;
+  line-height: 1.08;
+  letter-spacing: -0.015em;
+}
+
+.bolumMetin p + p {
+  margin-top: 1em;
+}
+
+.bolumMetin {
+  max-width: 34em;
+}
+
+.bolumSekil {
+  display: grid;
+  gap: 48px;
+  align-content: start;
+}
+
+.bolumSekil > figure {
+  padding-top: 14px;
+  border-top: 1px solid var(--y-murekkep);
+}
+
+/* ── Yüzleşme ── */
+.yuzlesme {
+  padding: 72px 0;
+  border-bottom: 1px solid var(--y-murekkep);
+}
+
+.yuzAlt {
+  margin: 8px 0 36px !important;
+  font-style: italic;
+  color: var(--y-ikincil);
+}
+
+.inanclar {
+  display: grid;
+  gap: 48px;
+}
+
+@media (min-width: 900px) {
+  .inanclar {
+    grid-template-columns: 1fr 1fr;
+    gap: 64px;
+  }
+}
+
+.inancKutu {
+  padding-top: 16px;
+  border-top: 1px solid var(--y-murekkep);
+}
+
+.etiket {
+  font: 500 11px/1 var(--f-mono), monospace;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--y-ikincil);
+}
+
+.inanc {
+  position: relative;
+  margin: 14px 0 26px;
+  font-size: clamp(26px, 3vw, 34px);
+  font-style: italic;
+  line-height: 1.22;
+}
+
+.inanc::before {
+  content: "“";
+  position: absolute;
+  left: -0.45em;
+  top: -0.08em;
+  color: var(--vurgu-yazi);
+}
+
+.cevap {
+  margin-top: 10px !important;
+}
+
+.inancSekil {
+  margin-top: 36px;
+  padding-top: 14px;
+  border-top: 1px solid var(--y-cizgi);
+}
+
+/* ── Notlar ── */
+.notlar {
+  padding-top: 40px;
+}
+
+.notBaslik {
+  margin: 0 0 20px;
+  font: 500 12px/1 var(--f-mono), monospace;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.notListe {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: 14px;
+  line-height: 1.45;
+}
+
+@media (min-width: 900px) {
+  .notListe {
+    columns: 2;
+    column-gap: 56px;
+  }
+}
+
+.notListe li {
+  display: grid;
+  grid-template-columns: 28px minmax(0, 1fr);
+  gap: 2px 8px;
+  padding: 8px 0;
+  border-top: 1px solid var(--y-cizgi);
+  break-inside: avoid;
+  scroll-margin-top: 24px;
+}
+
+.notListe li:target {
+  background: color-mix(in srgb, var(--y-kabuk) 12%, transparent);
+}
+
+.notNo {
+  grid-row: span 3;
+  font: 500 12px/1.6 var(--f-mono), monospace;
+  color: var(--vurgu-yazi);
+}
+
+.notEtiket {
+  font: 400 11px/1.6 var(--f-mono), monospace;
+  color: var(--y-ikincil);
+}
+
+.notKaynak cite {
+  font-style: italic;
+}
+
+.notEtiket,
+.notKaynak {
+  display: block;
+}
+
+.notKaynak + .notKaynak {
+  margin-top: 4px;
+}
