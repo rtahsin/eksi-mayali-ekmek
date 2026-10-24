@@ -5,6 +5,7 @@ import { ShoppingBag, MessageSquare, BookOpen, User, LogOut, Package, Shield, Ch
 import { useCartStore } from "@/lib/store/useCartStore";
 import { useAuth } from "@/components/auth/AuthProvider";
 import { AtelierMenuDrawer } from "./AtelierMenuDrawer";
+import { FEATURES } from "@/lib/features";
 
 export function Navbar() {
   const storedItemCount = useCartStore((state) => state.getItemCount());
@@ -104,6 +105,14 @@ export function Navbar() {
           >
             Kütüphane
           </a>
+          {FEATURES.bilimOdasi && (
+            <a
+              href="/bilim"
+              className="text-ink-muted hover:text-ink transition-colors font-medium tracking-wide whitespace-nowrap"
+            >
+              Bilim odası
+            </a>
+          )}
           <a
             href="/laboratuvar"
             className="text-ink-muted hover:text-ink transition-colors font-medium tracking-wide"

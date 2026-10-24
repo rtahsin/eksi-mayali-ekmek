@@ -5,5 +5,5 @@
 export const FEATURES = {
   courierManagement: false,
   /** Bilim odasının açılışı: ürün sayfalarındaki QR köprüsü ve arama motorlarına açılma. Karar Tahsin'in. */
-  bilimOdasi: false,
+  bilimOdasi: true,
 } as const;
