@@ -888,8 +888,333 @@ const KUF: LevhaTanimi = {
   ],
 };
 
-/** Bayrak sahnesi olmayan anlar; anahtar anın kimliği. */
+// ── Bayrak anlar: deney levhasının yanında rakamlar ve kapanış ölçümleri (sayılar gorunum.ts ile aynı bilgilerden) ──
+
+const FIRIN: LevhaTanimi = {
+  rakamlar: [
+    { deger: "+%27,6", birim: "3. dakika", aciklama: "180 °C fırında hacim artışı", bilgi: "firin_kabarmasi.hacim_artisi_ilk_3_dakika" },
+    { deger: "11", birim: "dakika", aciklama: "220 °C fırında merkezin 100 °C'ye vardığı an", bilgi: "isi_aktarimi.merkez_100_derecede_plato" },
+    { deger: "50 °C", birim: "", aciklama: "maya canlılığını yitirir", bilgi: "firin_kabarmasi.maya_50_derecede_olur" },
+  ],
+  grafikler: [
+    {
+      tur: "sutun",
+      baslik: "İlk 3 dakikada hacim artışı",
+      birim: "%",
+      bilgi: "firin_kabarmasi.hacim_artisi_ilk_3_dakika",
+      not: "Küçük kalıp ekmeği.",
+      yer: { bolum: 0 },
+      ogeler: [
+        { ad: "180 °C", deger: 27.6, etiket: "%27,6" },
+        { ad: "200 °C", deger: 23.3, etiket: "%23,3" },
+        { ad: "220 °C", deger: 23.5, etiket: "%23,5" },
+      ],
+    },
+    {
+      tur: "sutun",
+      baslik: "Merkezin 100 °C'ye vardığı dakika",
+      birim: "dk",
+      bilgi: "isi_aktarimi.merkez_100_derecede_plato",
+      yer: { bolum: 3 },
+      ogeler: [
+        { ad: "180 °C", deger: 17, etiket: "17. dk" },
+        { ad: "200 °C", deger: 13, etiket: "13. dk" },
+        { ad: "220 °C", deger: 11, etiket: "11. dk" },
+      ],
+    },
+    {
+      tur: "olcek",
+      baslik: "Isınan hamurda eşikler",
+      birim: "°C",
+      alt: 20,
+      ust: 120,
+      adim: 20,
+      bilgi: "firin_kabarmasi.maya_50_derecede_olur",
+      yer: { bolum: 1 },
+      satirlar: [
+        { ad: "Maya canlılığını yitirir", cizgi: 50, etiket: "50 °C" },
+        { ad: "Gliadin glutenine bağlanır", cizgi: 90, etiket: "90 °C", bilgi: "disulfit.90c_ye_kadar_gliadin_glutenin_baglanmasi" },
+        { ad: "Merkez platosu", cizgi: 100, etiket: "100 °C", bilgi: "isi_aktarimi.merkez_100_derecede_plato", renk: "ic" },
+      ],
+    },
+  ],
+};
+
+const KABUK_KIZARMA: LevhaTanimi = {
+  rakamlar: [
+    { deger: "120 °C", birim: "üzeri", aciklama: "rengin başlaması için asgari sıcaklık", bilgi: "maillard.renk_baslangic_asgari_kosullari", renk: "kabuk" },
+    { deger: "0,6", birim: "altı", aciklama: "rengin başlaması için su aktivitesi", bilgi: "maillard.renk_baslangic_asgari_kosullari", renk: "ic" },
+    { deger: "175 °C", birim: "", aciklama: "model sistemde akrilamid eşiği", bilgi: "akrilamid.esik_175c_model_sistem" },
+  ],
+  grafikler: [
+    {
+      tur: "olcek",
+      baslik: "Kilitler ve eşikler",
+      birim: "°C",
+      alt: 80,
+      ust: 200,
+      adim: 20,
+      bilgi: "maillard.renk_baslangic_asgari_kosullari",
+      yer: { bolum: 0 },
+      satirlar: [
+        { ad: "Maltoz tepkimeye girer", den: 115, etiket: "115 °C üstü", bilgi: "maillard.115_derece_uzerinde_maltoz_substrati", renk: "notr" },
+        { ad: "Renk başlar", den: 120, etiket: "120 °C üstü", renk: "kabuk" },
+        { ad: "Akrilamid, model sistem", den: 175, etiket: "175 °C", bilgi: "akrilamid.esik_175c_model_sistem" },
+      ],
+    },
+    {
+      tur: "sutun",
+      baslik: "Tost ekmeğinde esmerleşme indeksi",
+      birim: "",
+      bilgi: "maillard.tost_ekmeginde_firin_ve_ic_sicaklikla_esmerlesme",
+      yer: { bolum: 1 },
+      ogeler: [
+        { ad: "200 °C fırın, iç 90 °C", deger: 16, etiket: "16" },
+        { ad: "240 °C fırın, iç 98 °C", deger: 55, etiket: "55" },
+      ],
+    },
+    {
+      tur: "sutun",
+      baslik: "Kavılca ve beyaz un ekmeği",
+      birim: "",
+      bilgi: "maillard.kavilca_ekmeginde_kizariklik_ve_esmerlesme_indeksi",
+      yer: { bolum: 1 },
+      ogeler: [
+        { ad: "Kavılca", deger: 70.95, etiket: "70,95" },
+        { ad: "Beyaz un", deger: 48.15, etiket: "48,15" },
+      ],
+    },
+  ],
+};
+
+const RAF_HAFTA: LevhaTanimi = {
+  rakamlar: [
+    { deger: "50–80 °C", birim: "", aciklama: "bayat ekmekte geri dönen nişastanın erime aralığı", bilgi: "retrogradasyon.dsc_tepe_noktalari" },
+    { deger: "0,92–1,38", birim: "", aciklama: "karışık çavdar-buğday ekşi mayalı ekmekte sertleşme hızı", bilgi: "bayatlama.sertlesme_hizlari" },
+    { deger: "0,27–0,51", birim: "", aciklama: "kalıp buğday ekmeğinde sertleşme hızı", bilgi: "bayatlama.sertlesme_hizlari" },
+  ],
+  grafikler: [
+    {
+      tur: "olcek",
+      baslik: "Sertleşme hızı",
+      birim: "",
+      ust: 1.5,
+      adim: 0.5,
+      bilgi: "bayatlama.sertlesme_hizlari",
+      yer: { bolum: 2 },
+      satirlar: [
+        { ad: "Karışık çavdar-buğday ekşi mayalı", aralik: [0.92, 1.38], etiket: "0,92–1,38", renk: "kabuk" },
+        { ad: "Kalıp buğday ekmeği", aralik: [0.27, 0.51], etiket: "0,27–0,51", renk: "ic" },
+      ],
+    },
+  ],
+};
+
+const TANE_ICI: LevhaTanimi = {
+  rakamlar: [
+    { deger: "%80–84", birim: "", aciklama: "nişastalı endosperm, tane ağırlığında", bilgi: "tane_yapisi.anatomik_kisim_oranlari", renk: "ic" },
+    { deger: "%32,0", birim: "protein", aciklama: "alöronun altında, tepe değer", bilgi: "tane_yapisi.alt_aleron_protein_gradyani" },
+    { deger: "%75", birim: "üzeri", aciklama: "A-tipi granüllerin kapladığı alan", bilgi: "tane_yapisi.depo_nisastasi_a_b_granul", renk: "kabuk" },
+  ],
+  grafikler: [
+    {
+      tur: "olcek",
+      baslik: "Tanenin kısımları, ağırlık payı",
+      birim: "%",
+      ust: 100,
+      adim: 20,
+      bilgi: "tane_yapisi.anatomik_kisim_oranlari",
+      yer: { bolum: 0 },
+      satirlar: [
+        { ad: "Nişastalı endosperm", aralik: [80, 84], etiket: "%80–84", renk: "ic" },
+        { ad: "Botanik kepek", aralik: [6, 8], etiket: "%6–8", renk: "kabuk" },
+        { ad: "Alöron", aralik: [6, 7], etiket: "%6–7" },
+        { ad: "Rüşeym", nokta: 3, etiket: "%3", renk: "notr" },
+      ],
+    },
+  ],
+};
+
+const DEGIRMEN_TASI: LevhaTanimi = {
+  rakamlar: [
+    { deger: "%39–87", birim: "su", aciklama: "sağlam nişasta tanesinin tuttuğu", bilgi: "hasarli_nisasta.dogal_ve_hasarli_nisasta_su_tutma_orani", renk: "ic" },
+    { deger: "%200–430", birim: "su", aciklama: "hasarlı nişasta tanesinin tuttuğu", bilgi: "hasarli_nisasta.dogal_ve_hasarli_nisasta_su_tutma_orani", renk: "kabuk" },
+    { deger: "%56", birim: "şeker", aciklama: "fermantasyonda tüketilenlerden amilazların ürettiği", bilgi: "amilaz.fermantasyonda_seker_uretim_payi" },
+  ],
+  grafikler: [
+    {
+      tur: "olcek",
+      baslik: "Nişasta tanesinin tuttuğu su",
+      birim: "%",
+      ust: 450,
+      adim: 150,
+      bilgi: "hasarli_nisasta.dogal_ve_hasarli_nisasta_su_tutma_orani",
+      not: "Ağırlığının yüzdesi olarak.",
+      yer: { bolum: 1 },
+      satirlar: [
+        { ad: "Sağlam tane", aralik: [39, 87], etiket: "%39–87", renk: "ic" },
+        { ad: "Hasarlı tane", aralik: [200, 430], etiket: "%200–430", renk: "kabuk" },
+      ],
+    },
+    {
+      tur: "olcek",
+      baslik: "Ekmeklik unda düşme sayısı",
+      birim: "s",
+      ust: 400,
+      adim: 100,
+      bilgi: "amilaz.ekmeklik_un_optimum_dusme_sayisi_araligi",
+      yer: { bolum: 3 },
+      satirlar: [{ ad: "En uygun aralık", aralik: [200, 350], etiket: "200–350 s" }],
+    },
+  ],
+};
+
+const YOGURMA_TEZGAH: LevhaTanimi = {
+  rakamlar: [
+    { deger: "8", birim: "dk", aciklama: "yüksek proteinli unda tepe kıvam", bilgi: "yogurma.evre_sureleri_una_gore", renk: "ic" },
+    { deger: "11", birim: "dk", aciklama: "düşük proteinli unda tepe kıvam", bilgi: "yogurma.evre_sureleri_una_gore", renk: "kabuk" },
+    { deger: "45–60", birim: "dk", aciklama: "geleneksel Tokat ekmeğinin yoğurma süresi, 25–30 °C", bilgi: "yogurma.tokat_ekmegi_yogurma_sure_ve_sicakligi" },
+  ],
+  grafikler: [
+    {
+      tur: "olcek",
+      baslik: "Gelişme, tepe ve çökme",
+      birim: "dk",
+      ust: 20,
+      adim: 5,
+      bilgi: "yogurma.evre_sureleri_una_gore",
+      not: "Aynı yoğurucuda; bant gelişmeden çökmeye.",
+      yer: { bolum: 1 },
+      satirlar: [
+        { ad: "Yüksek proteinli un", aralik: [4, 12], etiket: "4 · 8 · 12. dk", renk: "ic" },
+        { ad: "Düşük proteinli un", aralik: [6, 16], etiket: "6 · 11 · 16. dk", renk: "kabuk" },
+        { ad: "Aşırı yoğurma", cizgi: 20, etiket: "20. dk", renk: "notr" },
+      ],
+    },
+    {
+      tur: "sutun",
+      baslik: "CWRS buğdayında yoğurma süresi",
+      birim: "dk",
+      bilgi: "yogurma.cwrs_ekmek_icin_yogurma_suresi",
+      yer: { bolum: 3 },
+      ogeler: [
+        { ad: "Rafine un", deger: 3.26, etiket: "3,26 dk" },
+        { ad: "Tam buğday unu", deger: 4.36, etiket: "4,36 dk" },
+      ],
+    },
+  ],
+};
+
+const GAZ_KOKU: LevhaTanimi = {
+  rakamlar: [
+    { deger: "4,4", birim: "kat", aciklama: "fermantasyon sonunda hamur hacmi, 32 °C", bilgi: "gaz.fermantasyon_sonunda_hacim_4_katindan_fazla_artar" },
+    { deger: "%70", birim: "üzeri", aciklama: "ekmekte son gaz hacminin payı", bilgi: "gaz.ekmekte_son_gaz_hacmi_yuzde70i_asabilir" },
+    { deger: "12", birim: "dk", aciklama: "pişirmede etanolün buharlaştığı süre", bilgi: "aroma_onculleri.etanol_pisirmede_12_dakika" },
+  ],
+  grafikler: [
+    {
+      tur: "olcek",
+      baslik: "Gaz, yüzde olarak",
+      birim: "%",
+      ust: 100,
+      adim: 20,
+      bilgi: "gaz.ekmekte_son_gaz_hacmi_yuzde70i_asabilir",
+      yer: { bolum: 2 },
+      satirlar: [
+        { ad: "Ekmekte son gaz hacmi", den: 70, etiket: "%70'i aşabilir" },
+        { ad: "GPD1 olmadan karbondioksitte azalma", aralik: [30, 50], etiket: "%30–50", bilgi: "gliserol.gpd1_yoksa_co2_azalir", renk: "ic" },
+      ],
+    },
+  ],
+};
+
+const GECE_DOLAP: LevhaTanimi = {
+  rakamlar: [
+    { deger: "35 °C", birim: "", aciklama: "endüstriyel fermantasyon sıcaklığı", bilgi: "sicaklik.endustriyel_35_ve_maya_optimumu" },
+    { deger: "0–5 °C", birim: "", aciklama: "geciktirmede gece dolabı", bilgi: "soguk_ferm.geciktirmede_0_5_derece", renk: "ic" },
+    { deger: "%75", birim: "azalma", aciklama: "uzun soğuk mayalanmada fitik asit, yaklaşık", bilgi: "soguk_ferm.uzun_soguk_mayalanma_fitik_bugday" },
+  ],
+  grafikler: [
+    {
+      tur: "olcek",
+      baslik: "Sıcaklık bantları",
+      birim: "°C",
+      ust: 45,
+      adim: 5,
+      bilgi: "soguk_ferm.geciktirmede_0_5_derece",
+      yer: { bolum: 1 },
+      satirlar: [
+        { ad: "Gece dolabı", aralik: [0, 5], etiket: "0–5 °C", renk: "ic" },
+        { ad: "Serin ekşi maya fermantasyonu", aralik: [4, 15], etiket: "4–15 °C", bilgi: "soguk_ferm.serin_eksimaya_sicaklik_araligi", renk: "ic" },
+        { ad: "Kazachstania humilis, en uygun", aralik: [27, 28], etiket: "27–28 °C", bilgi: "sicaklik.khumilis_ve_fsanfranciscensis_optimum_sicakliklari" },
+        { ad: "Ekşi maya bakterileri, en uygun büyüme", aralik: [30, 40], etiket: "30–40 °C", bilgi: "sicaklik.lactobacillaceae_optimum_buyume_sicakligi", renk: "kabuk" },
+        { ad: "F. sanfranciscensis, en uygun", aralik: [32, 33], etiket: "32–33 °C", bilgi: "sicaklik.khumilis_ve_fsanfranciscensis_optimum_sicakliklari", renk: "kabuk" },
+        { ad: "Endüstriyel fermantasyon", cizgi: 35, etiket: "35 °C", bilgi: "sicaklik.endustriyel_35_ve_maya_optimumu", renk: "notr" },
+      ],
+    },
+  ],
+};
+
+const KESIK_AN: LevhaTanimi = {
+  rakamlar: [
+    { deger: "%75–85", birim: "gaz", aciklama: "pişmiş ekmeğin hacminde", bilgi: "firin_kabarmasi.pismis_ekmek_hacimce_gaz" },
+    { deger: "142–160 °C", birim: "", aciklama: "ideal kabuk rengi için yüzey sıcaklığı", bilgi: "kabuk.ideal_renk_142_160", renk: "kabuk" },
+    { deger: "%5–10", birim: "nem", aciklama: "kabuğun düşük nem içeriği", bilgi: "kabuk.dusuk_nem_orani_ve_ic_dehidrasyon_engeli" },
+  ],
+  grafikler: [
+    {
+      tur: "olcek",
+      baslik: "Yükseklik ne zaman sabitlenir?",
+      birim: "sn",
+      ust: 1000,
+      adim: 250,
+      bilgi: "firin_kabarmasi.kenar_ve_eksen_yukseklik_kinetigi",
+      yer: { bolum: 0 },
+      satirlar: [
+        { ad: "Kenar, 30 mm", cizgi: 450, etiket: "450 sn" },
+        { ad: "Eksen, 51 mm", cizgi: 900, etiket: "900 sn" },
+      ],
+    },
+    {
+      tur: "olcek",
+      baslik: "Yüzeyin sıcaklık cetveli",
+      birim: "°C",
+      alt: 80,
+      ust: 240,
+      adim: 40,
+      bilgi: "kabuk.esmerlesme_baslangici",
+      yer: { bolum: 1 },
+      satirlar: [
+        { ad: "Ekmek içi", nokta: 100, etiket: "100 °C", bilgi: "kabuk.buharlasma_cephesi_ve_iki_bolge", renk: "ic" },
+        { ad: "Esmerleşme başlar, kaynaklara göre", aralik: [105, 120], etiket: "105–115, bazılarına göre 120 °C" },
+        { ad: "Renk koşulu", den: 120, etiket: "120 °C üstü", bilgi: "kabuk.renk_olusumu_asgari_kosullari", renk: "kabuk" },
+        { ad: "İdeal renk", aralik: [142, 160], etiket: "142–160 °C", bilgi: "kabuk.ideal_renk_142_160", renk: "kabuk" },
+        { ad: "Denenen fırın ayarları", aralik: [180, 220], etiket: "180, 200 ve 220 °C", bilgi: "kabuk.esmerlesme_hizi_firin_sicakligi", renk: "notr" },
+      ],
+    },
+  ],
+};
+
+const ILK_ON: LevhaTanimi = {
+  rakamlar: [
+    { deger: "6.", birim: "gün", aciklama: "kararlı topluluk", bilgi: "ardisiklik.altinci_gunden_itibaren_kararli_topluluk" },
+    { deger: "10.", birim: "gün", aciklama: "günlük beslemeyle olgunluk, oda sıcaklığı", bilgi: "besleme.olgunluk_yaklasik_10_gun" },
+  ],
+  grafikler: [],
+};
+
+/** Bütün anlar; anahtar anın kimliği. Bayrak anlarda deney levhası ayrıca gelir (components/bilim/levha/deney). */
 export const LEVHALAR: Record<string, LevhaTanimi> = {
+  eksi_mayanin_ilk_10_gunu: ILK_ON,
+  firinin_ilk_8_dakikasi: FIRIN,
+  kabugun_kizarmasi: KABUK_KIZARMA,
+  rafta_ilk_hafta: RAF_HAFTA,
+  olgun_tanenin_ici: TANE_ICI,
+  degirmen_tasinda: DEGIRMEN_TASI,
+  yogurma_tezgahinda: YOGURMA_TEZGAH,
+  gaz_ve_kabarma: GAZ_KOKU,
+  gece_dolapta: GECE_DOLAP,
+  kesik_atilinca: KESIK_AN,
   atalik_bugdayin_hasadi: ATALIK,
   unun_karsisinda_firinci: UN,
   kepek_una_karisinca: KEPEK,

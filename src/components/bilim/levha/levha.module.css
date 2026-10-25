@@ -862,3 +862,18 @@
   outline: 2px solid var(--y-murekkep);
   outline-offset: 2px;
 }
+
+/* ── Deney levhası ── */
+.deney {
+  padding: 56px 0 64px;
+  border-bottom: 1px solid var(--y-murekkep);
+  scroll-margin-top: 16px;
+}
+
+.deney .bolumBaslik {
+  margin-top: 10px;
+}
+
+.deney .yuzAlt {
+  margin-bottom: 28px !important;
+}

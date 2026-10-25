@@ -30,7 +30,8 @@ import { articleIndex } from "@/lib/editorial";
 import { SITE_URL } from "@/lib/site";
 import { FEATURES } from "@/lib/features";
 import { ekmeginAnlari } from "@/lib/bilim";
-import { getAn, getAnKimlikleri, getGorsel } from "@/lib/bilim/server";
+import { getAn, getAnKimlikleri } from "@/lib/bilim/server";
+import { LEVHALAR } from "@/lib/bilim/levhalar";
 import { BilimKoprusu, type KopruAni } from "@/components/bilim/Kopru";
 
 export const revalidate = 60; // ISR: Revalidate product page every 60 seconds
@@ -123,8 +124,8 @@ function bilimAnlari(product: ExtendedProduct): KopruAni[] {
     const sira = getAnKimlikleri();
     return ekmeginAnlari(product).map((id) => {
       const an = getAn(id);
-      const ilk = an.gor.adimlar.find((a) => a.gorsel)?.gorsel;
-      return { id, no: sira.indexOf(id) + 1, baslik: an.baslik, soru: an.soru, resim: ilk ? getGorsel(ilk)?.dosya : undefined };
+      const r = LEVHALAR[id]?.rakamlar[0];
+      return { id, no: sira.indexOf(id) + 1, baslik: an.baslik, soru: an.soru, rakam: r ? `${r.deger} ${r.birim}`.trim() : undefined };
     });
   } catch (e) {
     // köprü ürün sayfasını bozmaz

@@ -165,7 +165,7 @@ Tahsin'in eleştirisi (24 Eki): internetten bulunan görseller zayıf, düz zemi
 
 - Bayrak sahnesi olmayan 16 an levha düzeninde (`src/components/bilim/levha/`): açılış ve içindekiler, rakamlar, adım adım (sahne cümleleri, okumada geçenler çıkarılarak), bölümler ve şekiller, Yüzleşme, neden-sonuç, ayrışan kaynaklar, föyler, numaralı notlar ve kanıt çekmecesi. Dizin ve Efsane dosyası da levha düzeninde.
 - Grafikler anın sayılarından çizilir (`src/lib/bilim/levhalar.ts`, 16 an, 54 şekil): sütun, ölçek (nokta, aralık, eşik; doğrusal ya da logaritmik), pay, çizgi, önce-sonra ve bir şematik kesit. Ekrandaki her sayı bağlı bilginin metninde ya da koşulunda geçer, çizilen değer kendi etiketinden gelir (`src/app/__checks__/levha.check.test.ts`). Renkler renk körlüğü denetiminden geçti: iç mavi, kabuk turuncu.
-- Sıradaki: on bayrak sahnesinin levha diline uyarlanması (etkileşimler korunur, koyu zemin ve fotoğraflar kalkar).
+- ✔ (25 Eki, Tahsin "deney levhası" yolunu seçti) On bayrak an da levha düzeninde: imza etkileşimi sayfanın başında kâğıt üstünde bir deney levhası (`src/components/bilim/levha/deney/`: fırını ayarla, iki kilit, kim bayatlattı, tahmin ve iki sayım, su dök, yoğur, şekeri ver, geceyi çevir, kesiği at, on günü oynat); deneyin gösterdiği cümleler anın kendi cümleleri, sayılar `gorunum.ts` sabitleri. Kayan fotoğraflı sahneler, koyu tema ve eski bileşenler kaldırıldı; ürün sayfasındaki köprü de fotoğrafsız. Bütün 26 an `LEVHALAR`'da (70 şekil).
 
 ## Değişmez ilkeler
 

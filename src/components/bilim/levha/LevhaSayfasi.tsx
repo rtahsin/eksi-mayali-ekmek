@@ -18,7 +18,16 @@ const TUR_ADI: Record<string, string> = { bakteri: "Bakteri", maya: "Maya", enzi
 const yalin = (c: string) => splitCumleler(c)[0]?.govde ?? c;
 const atif = (id: string) => `[[${id}]]`;
 
-export function LevhaSayfasi({ anId }: { anId: string }) {
+/** Bayrak anların imza etkileşimi: sayfanın başında kâğıt üstünde bir deney levhası. */
+export interface LevhaDeneyi {
+  baslik: string;
+  yonerge: string;
+  /** Deneyin gösterdiği anın cümleleri; dipnot sırasına bunlar da girer. */
+  metinler?: string[];
+  icerik: (metin: (m: string) => ReactNode) => ReactNode;
+}
+
+export function LevhaSayfasi({ anId, deney }: { anId: string; deney?: LevhaDeneyi }) {
   const an = getAn(anId);
   const tanim = LEVHALAR[anId];
   const sira = getAnKimlikleri();
@@ -49,6 +58,7 @@ export function LevhaSayfasi({ anId }: { anId: string }) {
   const numara = numaralandir([
     giris,
     ...(tanim?.rakamlar.map((r) => atif(r.bilgi)) ?? []),
+    ...(deney?.metinler ?? []),
     ...adimlar,
     ...bolumler.flatMap((b, i) => [...b.paragraflar, bolumGrafikleri(i).flatMap(grafikBilgileri).map(atif).join(" ")]),
     ...an.yuzlesme.flatMap((y, i) => [y.cevap, yuzGrafikleri(i).flatMap(grafikBilgileri).map(atif).join(" ")]),
@@ -91,6 +101,7 @@ export function LevhaSayfasi({ anId }: { anId: string }) {
   };
 
   const icindekiler = [
+    ...(deney ? [{ yer: "deney", ad: `Deney: ${deney.baslik}` }] : []),
     ...(adimlar.length ? [{ yer: "adim", ad: "Adım adım" }] : []),
     ...bolumler.map((b, i) => ({ yer: `b${i}`, ad: `${ROMA[i]}. ${b.baslik}` })),
     ...(an.yuzlesme.length ? [{ yer: "yuzlesme", ad: "Yüzleşme" }] : []),
@@ -142,6 +153,17 @@ export function LevhaSayfasi({ anId }: { anId: string }) {
             </div>
           ))}
         </dl>
+      )}
+
+      {deney && (
+        <section id="deney" className={s.deney} aria-labelledby="deney-b">
+          <p className={s.etiket}>Deney levhası</p>
+          <h2 id="deney-b" className={s.bolumBaslik}>
+            {deney.baslik}
+          </h2>
+          <p className={s.yuzAlt}>{deney.yonerge}</p>
+          {deney.icerik(metin)}
+        </section>
       )}
 
       {adimlar.length > 0 && (

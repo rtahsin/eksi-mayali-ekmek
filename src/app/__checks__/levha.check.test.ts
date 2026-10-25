@@ -89,8 +89,8 @@ function yazilar(g: Grafik): string[] {
 describe("levha düzeni: rakamlar ve grafikler", () => {
   const anlar = getYolculuk().duraklar.flatMap((d) => d.anlar);
 
-  it("bayrak sahnesi olmayan her anın bir levhası var", () => {
-    expect(Object.keys(LEVHALAR).sort()).toEqual(anlar.filter((a) => !a.bayrak).map((a) => a.id).sort());
+  it("her anın bir levhası var", () => {
+    expect(Object.keys(LEVHALAR).sort()).toEqual(anlar.map((a) => a.id).sort());
   });
 
   it("rakamların ve grafiklerin bilgileri anın metninde atıflı", () => {
