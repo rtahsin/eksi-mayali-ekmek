@@ -24,9 +24,7 @@ import {
   Droplets,
   Award,
   BookOpen,
-  ArrowRight,
 } from "lucide-react";
-import { articleIndex } from "@/lib/editorial";
 import { SITE_URL } from "@/lib/site";
 import { FEATURES } from "@/lib/features";
 import { ekmeginAnlari } from "@/lib/bilim";
@@ -149,16 +147,6 @@ export default async function ProductDetailPage({ params }: ProductPageProps) {
 
   const masterclass = product.masterclass;
   const canonicalSlug = getProductSlug(product);
-
-  // İlgili Kütüphane Yazıları (P1-08)
-  const allArticles = articleIndex();
-  const relatedArticles = allArticles.filter(
-    (art) =>
-      art.status !== "arsiv" &&
-      (art.products?.includes(product.id) ||
-       art.products?.includes(canonicalSlug) ||
-       (canonicalSlug.includes("karakilcik") && art.slug.includes("karakilcik")))
-  );
 
   // Schema.org Product + Offer JSON-LD structured data (P2-3)
   const productJsonLd = {
@@ -480,59 +468,6 @@ export default async function ProductDetailPage({ params }: ProductPageProps) {
                   </p>
                 </div>
               )}
-            </div>
-          </section>
-        )}
-
-        {/* 3.5. İlgili Kütüphane Yazıları & Bilimsel Araştırma Notları (P1-08) */}
-        {relatedArticles.length > 0 && (
-          <section className="pt-6 border-t border-line space-y-6">
-            <div className="flex items-center justify-between">
-              <div>
-                <div className="inline-flex items-center gap-1.5 font-mono text-xs text-accent uppercase tracking-wider mb-1">
-                  <BookOpen className="w-4 h-4 text-accent" />
-                  <span>BİLİM & ZANAAT KÜTÜPHANESİ</span>
-                </div>
-                <h3 className="font-serif text-2xl font-bold text-ink">
-                  Bu Ekmeğin Bilimi & Araştırma Notları
-                </h3>
-                <p className="text-xs text-ink-muted font-sans mt-0.5">
-                  Hamur biyolojisi, ata tohumları ve fermantasyon süreçlerine dair kütüphane incelemelerimiz.
-                </p>
-              </div>
-              <Link
-                href="/kutuphane"
-                className="text-xs text-accent hover:underline font-serif flex items-center gap-1"
-              >
-                <span>Tüm Kütüphaneyi Gör</span>
-                <ChevronRight className="w-3.5 h-3.5" />
-              </Link>
-            </div>
-
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-              {relatedArticles.map((art) => (
-                <Link
-                  key={art.slug}
-                  href={`/kutuphane/${art.slug}`}
-                  className="group rounded-2xl bg-cream-surface border border-line hover:border-accent/40 p-5 transition-all flex flex-col justify-between space-y-3"
-                >
-                  <div className="space-y-2">
-                    <span className="text-xs font-mono uppercase px-2 py-0.5 rounded-full bg-accent/15 text-accent border border-accent/30">
-                      Araştırma Yazısı · {art.readingMinutes} dk okuma
-                    </span>
-                    <h4 className="font-serif font-bold text-base text-ink group-hover:text-accent transition-colors">
-                      {art.title}
-                    </h4>
-                    <p className="text-xs text-ink-muted font-sans line-clamp-2 leading-relaxed">
-                      {art.summary}
-                    </p>
-                  </div>
-                  <div className="pt-2 border-t border-line flex items-center justify-between text-xs font-mono text-accent group-hover:underline">
-                    <span>Yazıyı Oku</span>
-                    <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
-                  </div>
-                </Link>
-              ))}
             </div>
           </section>
         )}

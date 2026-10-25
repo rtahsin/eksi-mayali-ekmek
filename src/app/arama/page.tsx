@@ -8,7 +8,7 @@ import { ArrowLeft, Sparkles } from "lucide-react";
 export const metadata: Metadata = {
   title: "Arama | EkmekLab Bilim & Zanaat",
   description:
-    "EkmekLab Kütüphanesi ve Kavramlar sözlüğünde arama yapın. Ata buğdayları, fermantasyon biyolojisi ve ekmek bilimi.",
+    "EkmekLab Kavramlar sözlüğünde ve efsanelerde arama yapın. Ata buğdayları, fermantasyon biyolojisi ve ekmek bilimi.",
 };
 
 export default function SearchPage() {
@@ -20,11 +20,11 @@ export default function SearchPage() {
         {/* Navigation Breadcrumb */}
         <div>
           <Link
-            href="/kutuphane"
+            href="/bilim"
             className="inline-flex items-center gap-1.5 text-xs text-foreground/60 hover:text-artisan-gold transition-colors font-mono"
           >
             <ArrowLeft className="w-3.5 h-3.5" />
-            <span>Kütüphane'ye Dön</span>
+            <span>Bilim odasına dön</span>
           </Link>
         </div>
 
@@ -35,7 +35,7 @@ export default function SearchPage() {
             <span>EKMEKLAB BİLGİ MERKEZİ</span>
           </div>
           <h1 className="font-serif text-3xl sm:text-4xl font-bold text-foreground tracking-tight">
-            Kütüphane ve Kavram Arama
+            Kavram ve efsane arama
           </h1>
           <p className="text-sm text-foreground/70 font-sans max-w-xl leading-relaxed">
             Ata tohumları, fermantasyon biyolojisi, doğru bilinen yanlışlar ve artisan fırıncılık teknikleri arasında arama yapın.

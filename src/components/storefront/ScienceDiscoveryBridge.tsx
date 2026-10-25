@@ -2,25 +2,17 @@
 
 import React from "react";
 import Link from "next/link";
-import { Microscope, BookOpen, Calculator, ArrowRight, Sparkles } from "lucide-react";
+import { BookOpen, Calculator, ArrowRight, Sparkles } from "lucide-react";
 
 export function ScienceDiscoveryBridge() {
   const cards = [
     {
-      href: "/laboratuvar",
-      icon: Microscope,
-      tag: "İnteraktif Simülasyon",
-      title: "Laboratuvar & Mikroskop",
-      desc: "Hamurun mikroskobik dünyasına inin. Sıcaklık, fermantasyon süresi ve un kalitesinin gluten ağına etkisini interaktif deneyimleyin.",
-      actionText: "Simülasyonu Başlat",
-    },
-    {
-      href: "/kutuphane",
+      href: "/bilim",
       icon: BookOpen,
-      tag: "Akademik Literatür & Kavramlar",
-      title: "Bilim Kütüphanesi & Sözlük",
-      desc: "Karakılçık ve siyez gibi ata tohumlarının genetik mirası, nişasta hasarı ve laktik asit bakterileri üzerine bağımsız araştırmalar.",
-      actionText: "Yazıları Oku",
+      tag: "Kaynaklı açıklamalar",
+      title: "Bilim odası",
+      desc: "Tarladan dilime, ekmeğin içindeki 26 an: ölçümler, grafikler ve her cümlenin kaynağı. Yaygın inançlar için Efsane dosyası.",
+      actionText: "Bilim odasına gir",
     },
     {
       href: "/arac",
@@ -49,7 +41,7 @@ export function ScienceDiscoveryBridge() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
           {cards.map((c) => {
             const Icon = c.icon;
             return (

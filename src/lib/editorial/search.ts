@@ -1,5 +1,4 @@
 import { GRAPH } from "@/lib/knowledge/registry";
-import { articleIndex } from "./index";
 
 export type SearchDocKind = "yazi" | "kavram" | "efsane";
 
@@ -130,26 +129,13 @@ export function buildIndex(docs: SearchDocument[]): InvertedIndex {
 }
 
 /**
- * Bilgi grafiği (kavramlar + efsaneler) ve kütüphane yazılarından
+ * Bilgi grafiğindeki (kavramlar + efsaneler)
  * tüm belgeleri toplayarak tam statik indeks oluşturur.
  */
 export function buildSearchIndex(): InvertedIndex {
   const docs: SearchDocument[] = [];
 
-  // 1. Yazılar
-  const articles = articleIndex();
-  for (const a of articles) {
-    docs.push({
-      id: `yazi:${a.slug}`,
-      kind: "yazi",
-      title: a.title,
-      snippet: a.summary,
-      url: `/kutuphane/${a.slug}`,
-      tags: [...a.concepts],
-    });
-  }
-
-  // 2. Kavramlar
+  // 1. Kavramlar
   for (const [id, concept] of Object.entries(GRAPH.concepts)) {
     const title = concept.nick ? `${concept.name} (${concept.nick})` : concept.name;
     const snippet = concept.layers?.neden || concept.layers?.usta || concept.layers?.bilim || "";
@@ -167,7 +153,7 @@ export function buildSearchIndex(): InvertedIndex {
     });
   }
 
-  // 3. Efsaneler
+  // 2. Efsaneler
   for (const [id, claim] of Object.entries(GRAPH.claims)) {
     if (claim.status === "efsane") {
       const targetConcept = claim.about[0];

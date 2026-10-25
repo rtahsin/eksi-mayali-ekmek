@@ -45,7 +45,7 @@ export default async function HomePage() {
         {/* Nasıl Üretiyoruz? & Ekmek Anatomisi */}
         <HowWeBake />
 
-        {/* Bilim & Zanaat Otoritesi Köprüsü (Laboratuvar, Kütüphane, Fırıncı Araçları) */}
+        {/* Bilim & Zanaat köprüsü (Bilim odası, Fırıncı Araçları) */}
         <ScienceDiscoveryBridge />
       </main>
 

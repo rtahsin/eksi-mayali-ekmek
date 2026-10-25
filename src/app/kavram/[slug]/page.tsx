@@ -6,17 +6,14 @@ import {
   ArrowLeft,
   BookOpen,
   Sparkles,
-  ExternalLink,
   Layers,
   FlaskConical,
   GraduationCap,
   Hammer,
   ShieldCheck,
-  Gamepad2,
 } from "lucide-react";
 import { GRAPH, type ConceptId, type ClaimId } from "@/lib/knowledge/registry";
 import { claimsAbout, sourcesFor } from "@/lib/knowledge/query";
-import { articleIndex } from "@/lib/editorial";
 import { SITE_URL } from "@/lib/site";
 import { Navbar } from "@/components/common/Navbar";
 import { Footer } from "@/components/common/Footer";
@@ -61,9 +58,6 @@ export default async function ConceptDetailPage({ params }: PageProps) {
     }
   }
   const sources = sourcesFor(claimIds);
-  const relatedArticles = articleIndex().filter((a) =>
-    a.concepts.includes(slug)
-  );
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -284,50 +278,6 @@ export default async function ConceptDetailPage({ params }: PageProps) {
           </section>
         )}
 
-        {/* Related Articles */}
-        {relatedArticles.length > 0 && (
-          <section className="space-y-4">
-            <h2 className="font-serif text-xl font-bold text-ink">
-              İlgili Kütüphane Yazıları
-            </h2>
-            <div className="grid grid-cols-1 gap-3">
-              {relatedArticles.map((art) => (
-                <Link
-                  key={art.slug}
-                  href={`/kutuphane/${art.slug}`}
-                  className="group p-5 rounded-2xl bg-cream-surface hover:border-accent/50 border border-line transition-all shadow-xs"
-                >
-                  <div className="font-serif text-base font-bold text-ink group-hover:text-accent transition-colors">
-                    {art.title}
-                  </div>
-                  <p className="text-xs text-ink-muted mt-1 line-clamp-2">
-                    {art.summary}
-                  </p>
-                </Link>
-              ))}
-            </div>
-          </section>
-        )}
-
-        {/* "Oyunda Gör" CTA */}
-        <section className="p-6 rounded-2xl bg-cream-surface border border-line flex flex-col sm:flex-row sm:items-center justify-between gap-4 shadow-xs">
-          <div className="space-y-1">
-            <div className="flex items-center gap-2 font-serif font-bold text-ink text-base">
-              <Gamepad2 className="w-5 h-5 text-accent" />
-              <span>Atölye Laboratuvarında Dene</span>
-            </div>
-            <p className="text-xs text-ink-muted">
-              Bu kavramın fermantasyon sürecine ve ekmek yapısına etkisini simülasyonda interaktif olarak gözlemle.
-            </p>
-          </div>
-          <Link
-            href="/laboratuvar"
-            className="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-accent hover:bg-accent/90 text-white font-medium text-xs transition-colors shrink-0 font-sans shadow-md"
-          >
-            <span>Laboratuvara Git</span>
-            <ExternalLink className="w-3.5 h-3.5" />
-          </Link>
-        </section>
       </main>
 
       <Footer />

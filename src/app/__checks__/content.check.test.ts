@@ -3,7 +3,6 @@ import fs from "node:fs";
 import path from "node:path";
 import { GRAPH, type ConceptId } from "@/lib/knowledge/registry";
 import { validateGraph } from "@/lib/knowledge/validate";
-import { toContentRefs, articleIndex } from "@/lib/editorial";
 import { generateStaticParams as generateConceptParams } from "../kavram/[slug]/page";
 import { generateStaticParams as generateSourceParams } from "../kaynak/[id]/page";
 import { MAIN_NAV_LINKS, FOOTER_NAV_LINKS } from "@content/nav/links";
@@ -11,9 +10,8 @@ import { MAIN_NAV_LINKS, FOOTER_NAV_LINKS } from "@content/nav/links";
 import { MEDIA } from "@/lib/editorial/media";
 
 describe("Content Graph Integrity Check", () => {
-  it("validates the content knowledge graph, article refs, and media registry without errors", () => {
-    const refs = toContentRefs();
-    const issues = validateGraph(GRAPH, refs, MEDIA);
+  it("validates the content knowledge graph and media registry without errors", () => {
+    const issues = validateGraph(GRAPH, [], MEDIA);
     const errors = issues.filter((i) => i.severity === "error");
     expect(errors).toEqual([]);
   });
@@ -114,19 +112,6 @@ describe("Content Graph Integrity Check", () => {
     expect(issuesWarn.some((i) => i.code === "K010" && i.severity === "warn")).toBe(true);
   });
 
-  it("verifies published articles have fromInbox and valid source file", () => {
-    const articles = articleIndex();
-    const published = articles.filter((a) => a.status === "yayinda");
-    expect(published.length).toBeGreaterThanOrEqual(1);
-
-    for (const art of published) {
-      expect(art.fromInbox).toBeDefined();
-      expect(art.fromInbox!.length).toBeGreaterThan(0);
-      const filePath = path.resolve(process.cwd(), art.fromInbox!);
-      expect(fs.existsSync(filePath)).toBe(true);
-    }
-  });
-
   it("ensures every concept with >=1 reviewed claim has a static page", () => {
     const conceptParams = generateConceptParams();
     const availableSlugs = new Set(conceptParams.map((p) => p.slug));
@@ -159,12 +144,12 @@ describe("Content Graph Integrity Check", () => {
     }
   });
 
-  it("ensures neutral navigation links include Kütüphane, Kavramlar, and Laboratuvar", () => {
-    expect(MAIN_NAV_LINKS.some((l) => l.href === "/kutuphane")).toBe(true);
-    expect(MAIN_NAV_LINKS.some((l) => l.href === "/kavram")).toBe(true);
-    expect(MAIN_NAV_LINKS.some((l) => l.href === "/laboratuvar")).toBe(true);
-    expect(FOOTER_NAV_LINKS.some((l) => l.href === "/kutuphane")).toBe(true);
-    expect(FOOTER_NAV_LINKS.some((l) => l.href === "/kavram")).toBe(true);
-    expect(FOOTER_NAV_LINKS.some((l) => l.href === "/laboratuvar")).toBe(true);
+  it("ensures navigation links lead to Bilim odası and Kavramlar, not the removed Kütüphane or unlinked Laboratuvar", () => {
+    for (const links of [MAIN_NAV_LINKS, FOOTER_NAV_LINKS]) {
+      expect(links.some((l) => l.href === "/bilim")).toBe(true);
+      expect(links.some((l) => l.href === "/kavram")).toBe(true);
+      expect(links.some((l) => l.href.startsWith("/kutuphane"))).toBe(false);
+      expect(links.some((l) => l.href.startsWith("/laboratuvar"))).toBe(false);
+    }
   });
 });

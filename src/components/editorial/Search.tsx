@@ -74,7 +74,7 @@ export function Search({ initialQuery = "", autoFocus = false, className = "" }:
           type="text"
           value={query}
           onChange={(e) => setQuery(e.target.value)}
-          placeholder="Kütüphanede ara (yazı, kavram, efsane, ata buğdayı...)"
+          placeholder="Kavram ya da efsane ara (otoliz, ata buğdayı...)"
           autoFocus={autoFocus}
           className="w-full pl-12 pr-11 py-3.5 bg-surface-panel/80 hover:bg-surface-panel focus:bg-surface-panel text-foreground placeholder:text-foreground/40 text-sm sm:text-base rounded-2xl border border-surface-border focus:border-artisan-gold/60 focus:outline-none focus:ring-2 focus:ring-artisan-gold/20 transition-all font-sans"
         />

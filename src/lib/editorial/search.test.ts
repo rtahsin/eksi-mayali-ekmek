@@ -119,19 +119,14 @@ describe("Static Search Engine (P1-07)", () => {
   describe("Real Production Search Index", () => {
     const prodIndex = getSearchIndex();
 
-    it("contains articles, concepts, and myths from the content graph", () => {
-      expect(prodIndex.docs.length).toBeGreaterThanOrEqual(40);
+    it("contains concepts and myths from the content graph", () => {
+      expect(prodIndex.docs.length).toBeGreaterThanOrEqual(30);
       const kinds = new Set(prodIndex.docs.map((d) => d.kind));
-      expect(kinds.has("yazi")).toBe(true);
       expect(kinds.has("kavram")).toBe(true);
       expect(kinds.has("efsane")).toBe(true);
     });
 
-    it("successfully searches real concepts and articles", () => {
-      const resKarakilcik = searchIndex(prodIndex, "karakılçık");
-      expect(resKarakilcik.length).toBeGreaterThanOrEqual(1);
-      expect(resKarakilcik[0].doc.url).toContain("karakilcik");
-
+    it("successfully searches real concepts", () => {
       const resGluten = searchIndex(prodIndex, "gluten");
       expect(resGluten.length).toBeGreaterThanOrEqual(1);
 
