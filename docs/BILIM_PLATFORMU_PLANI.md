@@ -159,6 +159,14 @@ Beyaz monografi levhası denendi, beğenilmedi ("ilk yaptığın daha iyiydi"). 
 - **Kanıt:** cümle sonunda küçük kelime ("tek çalışma"); dokununca kaynak kartı (telefonda alttan, masaüstünde yandan).
 - Hareket azaltma tercihinde sahneler durağan, cetvel ve renk çalışır. Bilim odası yayına kadar arama motorlarına kapalıdır (`noindex`).
 
+## Tasarım: levha düzeni (25 Eki)
+
+Tahsin'in eleştirisi (24 Eki): internetten bulunan görseller zayıf, düz zemin ve düz yazılar eski görünüyor. Kararı: fotoğrafsız, yazı ve veri grafikleriyle kurulan dergi düzeni; fotoğraf, çizim ya da kendi çektiği görseller gerekirse sonradan eklenir. Üç taslaktan (Levha, Gece baskısı, Bilim eki) **Levha**'yı seçti: bilim atlası baskısı, kâğıt zemin, Newsreader + IBM Plex Mono, numaralı şekiller ve dipnotlar.
+
+- Bayrak sahnesi olmayan 16 an levha düzeninde (`src/components/bilim/levha/`): açılış ve içindekiler, rakamlar, adım adım (sahne cümleleri, okumada geçenler çıkarılarak), bölümler ve şekiller, Yüzleşme, neden-sonuç, ayrışan kaynaklar, föyler, numaralı notlar ve kanıt çekmecesi. Dizin ve Efsane dosyası da levha düzeninde.
+- Grafikler anın sayılarından çizilir (`src/lib/bilim/levhalar.ts`, 16 an, 54 şekil): sütun, ölçek (nokta, aralık, eşik; doğrusal ya da logaritmik), pay, çizgi, önce-sonra ve bir şematik kesit. Ekrandaki her sayı bağlı bilginin metninde ya da koşulunda geçer, çizilen değer kendi etiketinden gelir (`src/app/__checks__/levha.check.test.ts`). Renkler renk körlüğü denetiminden geçti: iç mavi, kabuk turuncu.
+- ✔ (25 Eki, Tahsin "deney levhası" yolunu seçti) On bayrak an da levha düzeninde: imza etkileşimi sayfanın başında kâğıt üstünde bir deney levhası (`src/components/bilim/levha/deney/`: fırını ayarla, iki kilit, kim bayatlattı, tahmin ve iki sayım, su dök, yoğur, şekeri ver, geceyi çevir, kesiği at, on günü oynat); deneyin gösterdiği cümleler anın kendi cümleleri, sayılar `gorunum.ts` sabitleri. Kayan fotoğraflı sahneler, koyu tema ve eski bileşenler kaldırıldı; ürün sayfasındaki köprü de fotoğrafsız. Bütün 26 an `LEVHALAR`'da (70 şekil).
+
 ## Değişmez ilkeler
 
 - Kütüphanede olmayan hiçbir sayı ya da iddia yayına çıkmaz; bu bir betikle denetlenir.

@@ -1,0 +1,228 @@
+/* Deney levhaları: bayrak anların imza etkileşimi, kâğıt üstünde. Renkler sayfanın --y-… değişkenlerinden. */
+
+.duzen {
+  display: grid;
+  gap: 28px 56px;
+  align-items: start;
+}
+
+@media (min-width: 900px) {
+  .duzen {
+    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+  }
+}
+
+.denetim {
+  display: grid;
+  gap: 22px;
+  align-content: start;
+}
+
+.levha {
+  position: relative;
+  padding: 18px;
+  border: 1px solid var(--y-murekkep);
+  background: color-mix(in srgb, var(--y-murekkep) 3%, var(--y-zemin));
+}
+
+.levhaNo {
+  position: absolute;
+  top: -9px;
+  left: 14px;
+  padding: 0 6px;
+  background: var(--y-zemin);
+  font: 500 11px/1.4 var(--f-mono), monospace;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--y-ikincil);
+}
+
+.svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+  touch-action: none;
+}
+
+.secim {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.secim legend,
+.etiket {
+  width: 100%;
+  margin-bottom: 8px;
+  padding: 0;
+  font: 500 11px/1.3 var(--f-mono), monospace;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--y-ikincil);
+}
+
+.dugme {
+  min-width: 44px;
+  min-height: 44px;
+  padding: 0 16px;
+  border: 1px solid var(--y-murekkep);
+  background: transparent;
+  color: var(--y-murekkep);
+  font: 500 15px/1 var(--f-mono), monospace;
+  cursor: pointer;
+}
+
+.dugme[aria-pressed="true"],
+.dugmeAna {
+  background: var(--y-murekkep);
+  color: var(--y-zemin);
+}
+
+.dugme:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.dugme:focus-visible,
+.kaydirici input:focus-visible,
+.odak:focus-visible {
+  outline: 2px solid var(--y-kabuk);
+  outline-offset: 3px;
+}
+
+.kaydirici {
+  display: grid;
+  gap: 8px;
+}
+
+.kaydirici span {
+  display: flex;
+  justify-content: space-between;
+  font: 500 11px/1.3 var(--f-mono), monospace;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--y-ikincil);
+}
+
+.kaydirici output {
+  font: 400 26px/1 var(--f-serif), Georgia, serif;
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--y-murekkep);
+}
+
+.kaydirici input {
+  width: 100%;
+  min-height: 44px;
+  accent-color: var(--y-kabuk);
+}
+
+.okumalar {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  margin: 0;
+  border-top: 1px solid var(--y-murekkep);
+}
+
+.okumalar div {
+  padding: 10px 0;
+  border-bottom: 1px solid var(--y-cizgi);
+}
+
+.okumalar div:nth-child(odd) {
+  padding-right: 12px;
+}
+
+.okumalar dt {
+  font: 500 10.5px/1.3 var(--f-mono), monospace;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--y-ikincil);
+}
+
+.okumalar dd {
+  margin: 2px 0 0;
+  font-size: 19px;
+  line-height: 1.25;
+}
+
+.sema {
+  margin-top: 10px !important;
+  font: 400 12px/1.5 var(--f-mono), monospace;
+  color: var(--y-ikincil);
+}
+
+.tablo {
+  width: 100%;
+  border-collapse: collapse;
+  font: 400 13px/1.4 var(--f-mono), monospace;
+  font-variant-numeric: tabular-nums;
+}
+
+.tablo caption {
+  margin-bottom: 8px;
+  font: italic 400 17px/1.3 var(--f-serif), Georgia, serif;
+  text-align: left;
+}
+
+.tablo th,
+.tablo td {
+  padding: 8px 6px;
+  border-bottom: 1px solid var(--y-cizgi);
+  text-align: left;
+}
+
+.tablo thead th {
+  border-bottom: 1px solid var(--y-murekkep);
+  font-weight: 500;
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--y-ikincil);
+}
+
+.tablo tr[data-secili="true"] th,
+.tablo tr[data-secili="true"] td {
+  background: color-mix(in srgb, var(--y-kabuk) 12%, transparent);
+}
+
+.durum {
+  font-size: 19px;
+  line-height: 1.4;
+}
+
+.durum b {
+  font-weight: 500;
+}
+
+.cumle {
+  margin-top: 6px !important;
+  font-size: 17px;
+  line-height: 1.55;
+}
+
+.ince {
+  stroke: var(--y-murekkep);
+  stroke-width: 1;
+  fill: none;
+}
+
+.svgYazi {
+  font: 500 11px var(--f-mono), monospace;
+  fill: var(--y-murekkep);
+}
+
+.svgSoluk {
+  font: 400 10.5px var(--f-mono), monospace;
+  fill: var(--y-ikincil);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .gecis {
+    transition: all 0.25s ease-out;
+  }
+}
