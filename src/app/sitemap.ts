@@ -1,6 +1,5 @@
 import { MetadataRoute } from "next";
 import { getCatalog } from "@/lib/products/server";
-import { articleIndex } from "@/lib/editorial";
 import { GRAPH } from "@/lib/knowledge/registry";
 import { getProductSlug } from "@/lib/utils/slugify";
 import { SITE_URL } from "@/lib/site";
@@ -22,12 +21,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 1.0,
     },
     {
-      url: `${baseUrl}/kutuphane`,
-      lastModified: now,
-      changeFrequency: "weekly",
-      priority: 0.8,
-    },
-    {
       url: `${baseUrl}/kavram`,
       lastModified: now,
       changeFrequency: "weekly",
@@ -44,12 +37,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       lastModified: now,
       changeFrequency: "monthly",
       priority: 0.6,
-    },
-    {
-      url: `${baseUrl}/laboratuvar`,
-      lastModified: now,
-      changeFrequency: "weekly",
-      priority: 0.8,
     },
     {
       url: `${baseUrl}/arac`,
@@ -95,16 +82,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     },
   ];
 
-  // 2. Journal Library Articles (from articleIndex)
-  const journalRoutes: MetadataRoute.Sitemap = articleIndex()
-    .filter((art) => art.status !== "arsiv")
-    .map((art) => ({
-      url: `${baseUrl}/kutuphane/${art.slug}`,
-      lastModified: art.publishedAt ? new Date(art.publishedAt) : now,
-      changeFrequency: "monthly",
-      priority: 0.7,
-    }));
-
   // 3. Concepts Pages (from GRAPH.concepts)
   const conceptRoutes: MetadataRoute.Sitemap = Object.keys(GRAPH.concepts).map((slug) => ({
     url: `${baseUrl}/kavram/${slug}`,
@@ -143,5 +120,5 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       }))
     : [];
 
-  return [...staticRoutes, ...productRoutes, ...bilimRoutes, ...journalRoutes, ...conceptRoutes, ...sourceRoutes];
+  return [...staticRoutes, ...productRoutes, ...bilimRoutes, ...conceptRoutes, ...sourceRoutes];
 }

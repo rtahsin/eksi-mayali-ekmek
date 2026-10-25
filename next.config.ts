@@ -57,6 +57,13 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+  // Kütüphane kaldırıldı (25 Eki); bilgi tarafının tek kapısı Bilim odası. Eski bağlantılar kırılmasın.
+  async redirects() {
+    return [
+      { source: "/kutuphane", destination: "/bilim", permanent: true },
+      { source: "/kutuphane/:path*", destination: "/bilim", permanent: true },
+    ];
+  },
   async headers() {
     return [
       {

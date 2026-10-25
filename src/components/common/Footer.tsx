@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { Phone, Mail, MapPin, MessageSquare, BookOpen } from "lucide-react";
+import { Phone, Mail, MapPin, MessageSquare } from "lucide-react";
 import { CONTACT } from "@/lib/site";
 import { FEATURES } from "@/lib/features";
 
@@ -62,12 +62,6 @@ export function Footer() {
                   Nasıl Üretiyoruz?
                 </a>
               </li>
-              <li>
-                <a href="/kutuphane" className="hover:text-ink transition-colors flex items-center gap-1">
-                  <BookOpen className="w-3 h-3 text-accent" />
-                  <span>Kütüphane</span>
-                </a>
-              </li>
               {FEATURES.bilimOdasi && (
                 <li>
                   <a href="/bilim" className="hover:text-ink transition-colors">
@@ -75,11 +69,6 @@ export function Footer() {
                   </a>
                 </li>
               )}
-              <li>
-                <a href="/laboratuvar" className="hover:text-ink transition-colors">
-                  Laboratuvar Simülasyonu
-                </a>
-              </li>
               <li>
                 <a href="/arac" className="hover:text-ink transition-colors">
                   Profesyonel Fırıncı Araçları

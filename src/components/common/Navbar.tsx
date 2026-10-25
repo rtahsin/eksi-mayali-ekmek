@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useRef, useEffect } from "react";
-import { ShoppingBag, MessageSquare, BookOpen, User, LogOut, Package, Shield, ChevronDown, Menu, Search } from "lucide-react";
+import { ShoppingBag, MessageSquare, User, LogOut, Package, Shield, ChevronDown, Menu, Search } from "lucide-react";
 import { useCartStore } from "@/lib/store/useCartStore";
 import { useAuth } from "@/components/auth/AuthProvider";
 import { AtelierMenuDrawer } from "./AtelierMenuDrawer";
@@ -43,7 +43,7 @@ export function Navbar() {
   return (
     <>
       <header className="sticky top-0 z-40 bg-cream-surface/90 backdrop-blur-md border-b border-line shadow-xs">
-      <div className="max-w-6xl xl:max-w-7xl 2xl:max-w-[88rem] mx-auto px-2 sm:px-6 lg:px-8 h-14 sm:h-[72px] flex items-center justify-between gap-4">
+      <div className="max-w-6xl xl:max-w-7xl mx-auto px-2 sm:px-6 lg:px-8 h-14 sm:h-[72px] flex items-center justify-between gap-4">
         {/* Brand Logo & Name + Atelier Menu Toggle */}
         <div className="flex items-center gap-1.5 sm:gap-3.5 min-w-0 shrink">
           <button
@@ -71,7 +71,7 @@ export function Navbar() {
               <div className="font-serif text-base sm:text-xl font-bold tracking-wide text-ink flex items-center gap-1 truncate">
                 Ekmek<span className="text-accent font-normal italic">Lab</span>
               </div>
-              <div className="hidden sm:block xl:hidden 2xl:block text-xs font-sans text-ink-muted tracking-wider uppercase font-semibold whitespace-nowrap">
+              <div className="hidden sm:block text-xs font-sans text-ink-muted tracking-wider uppercase font-semibold whitespace-nowrap">
                 Artisan Fırın · Beylikdüzü
               </div>
             </div>
@@ -99,12 +99,6 @@ export function Navbar() {
           >
             Nasıl Üretiyoruz?
           </a>
-          <a
-            href="/kutuphane"
-            className="text-ink-muted hover:text-ink transition-colors font-medium tracking-wide whitespace-nowrap"
-          >
-            Kütüphane
-          </a>
           {FEATURES.bilimOdasi && (
             <a
               href="/bilim"
@@ -113,12 +107,6 @@ export function Navbar() {
               Bilim odası
             </a>
           )}
-          <a
-            href="/laboratuvar"
-            className="text-ink-muted hover:text-ink transition-colors font-medium tracking-wide whitespace-nowrap"
-          >
-            Laboratuvar
-          </a>
           <a
             href="/arac"
             className="text-accent hover:text-ink flex items-center gap-1.5 font-semibold transition-colors tracking-wide bg-bg px-3 py-1.5 rounded-xl border border-line whitespace-nowrap"
@@ -131,7 +119,7 @@ export function Navbar() {
         <div className="flex items-center gap-1.5 sm:gap-3 shrink-0">
           <a
             href="/arama"
-            aria-label="Kütüphanede Ara"
+            aria-label="Sitede ara"
             className="touch-target-44 p-1.5 sm:p-2 rounded-xl text-ink-muted hover:text-ink hover:bg-bg border border-transparent hover:border-line transition-colors flex items-center justify-center"
           >
             <Search className="w-4 h-4 text-accent" />

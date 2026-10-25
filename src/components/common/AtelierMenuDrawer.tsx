@@ -5,8 +5,6 @@ import { createPortal } from "react-dom";
 import {
   X,
   ArrowRight,
-  BookOpen,
-  Microscope,
   Calculator,
   MapPin,
   Mail,
@@ -336,26 +334,6 @@ export function AtelierMenuDrawer({ isOpen, onClose }: AtelierMenuDrawerProps) {
                 </button>
               </li>
 
-              {/* Kütüphane */}
-              <li>
-                <Link
-                  href="/kutuphane"
-                  onClick={handleLinkClick}
-                  className="min-h-[48px] py-3 px-3.5 rounded-xl bg-bg/50 hover:bg-bg border border-transparent hover:border-line flex items-center justify-between group transition-colors"
-                >
-                  <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 rounded-lg bg-cream-surface border border-line flex items-center justify-center text-accent shrink-0">
-                      <BookOpen className="w-4 h-4" />
-                    </div>
-                    <div>
-                      <div className="font-serif text-base font-bold text-ink">Kütüphane</div>
-                      <div className="text-xs text-ink-muted">Fermantasyon bilimi, un biyolojisi ve araştırmalar</div>
-                    </div>
-                  </div>
-                  <ArrowRight className="w-4 h-4 text-ink-muted group-hover:text-accent group-hover:translate-x-1 transition-all shrink-0" />
-                </Link>
-              </li>
-
               {/* Bilim odası */}
               {FEATURES.bilimOdasi && (
                 <li>
@@ -378,25 +356,6 @@ export function AtelierMenuDrawer({ isOpen, onClose }: AtelierMenuDrawerProps) {
                 </li>
               )}
 
-              {/* Laboratuvar */}
-              <li>
-                <Link
-                  href="/laboratuvar"
-                  onClick={handleLinkClick}
-                  className="min-h-[48px] py-3 px-3.5 rounded-xl bg-bg/50 hover:bg-bg border border-transparent hover:border-line flex items-center justify-between group transition-colors"
-                >
-                  <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 rounded-lg bg-cream-surface border border-line flex items-center justify-center text-accent shrink-0">
-                      <Microscope className="w-4 h-4" />
-                    </div>
-                    <div>
-                      <div className="font-serif text-base font-bold text-ink">Laboratuvar</div>
-                      <div className="text-xs text-ink-muted">Mikroskobik hamur simülasyonu ve ekşi maya motoru</div>
-                    </div>
-                  </div>
-                  <ArrowRight className="w-4 h-4 text-ink-muted group-hover:text-accent group-hover:translate-x-1 transition-all shrink-0" />
-                </Link>
-              </li>
 
               {/* Fırıncı Araçları */}
               <li>

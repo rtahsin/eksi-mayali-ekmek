@@ -115,7 +115,7 @@ export default function KvkkPage() {
               2.2. Anonim Eğitim ve Ziyaret Ölçümleri (Kişisel Veri İçermeyen Analitik)
             </h2>
             <p>
-              EkmekLab platformunda sunulan ekşi maya simülatörü (/laboratuvar) ve araştırma kütüphanemizde pedagojik deneyimi iyileştirmek amacıyla tamamen anonim, kişisel veri (ad, telefon, IP adresi veya hesap kimliği) barındırmayan kullanım metrikleri (%20 rastgele örnekleme yöntemiyle) toplanmaktadır. Bu metrikler yalnızca etkileşim süresi ve incelenen kavram kartı adetlerini kapsar; üçüncü taraf analitik veya reklam ağlarıyla paylaşılmaz ve en fazla 13 ay süreyle saklanır.
+              EkmekLab platformunda sunulan ekşi maya simülatöründe (/laboratuvar) pedagojik deneyimi iyileştirmek amacıyla tamamen anonim, kişisel veri (ad, telefon, IP adresi veya hesap kimliği) barındırmayan kullanım metrikleri (%20 rastgele örnekleme yöntemiyle) toplanmaktadır. Bu metrikler yalnızca etkileşim süresi ve incelenen kavram kartı adetlerini kapsar; üçüncü taraf analitik veya reklam ağlarıyla paylaşılmaz ve en fazla 13 ay süreyle saklanır.
             </p>
           </section>
 
