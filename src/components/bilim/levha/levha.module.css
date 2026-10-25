@@ -14,7 +14,7 @@
   --y-sekil-baslik: italic 400 21px/1.25 var(--f-serif), Georgia, serif;
   --vurgu-yazi: #8f3d1c;
   --kenar: 20px;
-  min-height: 100vh;
+  flex: 1;
   padding: 0 var(--kenar) 64px;
   background: var(--y-zemin);
   color: var(--y-murekkep);
