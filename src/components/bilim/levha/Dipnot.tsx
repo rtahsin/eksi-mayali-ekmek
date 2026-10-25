@@ -24,10 +24,12 @@ export function Dipnotlu({ metin, no, sinif }: { metin: string; no: Map<string, 
             {sayilar.length > 0 && (
               <sup className={sinif}>
                 {sayilar.map((n, j) => (
-                  <a key={n} href={`#dn-${n}`} aria-label={`Not ${n}`}>
+                  <span key={n}>
                     {j > 0 && ","}
-                    {n}
-                  </a>
+                    <a href={`#dn-${n}`} aria-label={`Not ${n}`}>
+                      {n}
+                    </a>
+                  </span>
                 ))}
               </sup>
             )}

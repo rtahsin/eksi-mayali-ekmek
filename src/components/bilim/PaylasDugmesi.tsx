@@ -4,7 +4,7 @@ import { useState } from "react";
 import s from "./bilim.module.css";
 
 // Efsane dosyasında tek bir inancın bağlantısı: telefonda paylaşma menüsü, yoksa panoya kopyalama.
-export function PaylasDugmesi({ yer, baslik }: { yer: string; baslik: string }) {
+export function PaylasDugmesi({ yer, baslik, sinif }: { yer: string; baslik: string; sinif?: string }) {
   const [kopyalandi, setKopyalandi] = useState(false);
 
   async function paylas() {
@@ -23,7 +23,7 @@ export function PaylasDugmesi({ yer, baslik }: { yer: string; baslik: string }) 
   }
 
   return (
-    <button type="button" className={s.paylas} onClick={paylas}>
+    <button type="button" className={sinif ?? s.paylas} onClick={paylas}>
       <span aria-live="polite">{kopyalandi ? "Bağlantı kopyalandı" : "Bağlantıyı paylaş"}</span>
     </button>
   );

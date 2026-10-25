@@ -34,7 +34,8 @@ import { Metin } from "@/components/bilim/Metin";
 import { Foy } from "@/components/bilim/Foy";
 import { KaynakPaneli } from "@/components/bilim/KaynakPaneli";
 import { KanitDugmesi } from "@/components/bilim/KanitDugmesi";
-import { Sahne, type SahneAdimi, type SahneSekli } from "@/components/bilim/Sahne";
+import { LevhaSayfasi } from "@/components/bilim/levha/LevhaSayfasi";
+import { LEVHALAR } from "@/lib/bilim/levhalar";
 import { IlkOnGun, type Gorselli, type IlkOnGunProps } from "@/components/bilim/IlkOnGun";
 import { FirinSekizDakika, type FirinSekizDakikaProps } from "@/components/bilim/FirinSekizDakika";
 import { KabukKizarmasi, type KabukKizarmasiProps } from "@/components/bilim/KabukKizarmasi";
@@ -446,6 +447,8 @@ export default async function AnSayfasi({ params }: PageProps) {
   const sira = getAnKimlikleri();
   const idx = sira.indexOf(id);
   if (idx < 0) notFound();
+  // Bayrak sahnesi olmayan anlar levha düzeninde (fotoğrafsız, grafikli, dipnotlu).
+  if (LEVHALAR[id]) return <LevhaSayfasi anId={id} />;
 
   const an = getAn(id);
   const durak = getYolculuk().duraklar.find((d) => d.id === an.durak);
@@ -620,25 +623,8 @@ export default async function AnSayfasi({ params }: PageProps) {
   } else if (an.id === KESIK.an) {
     govde = <KesikAtilinca {...kesikVerisi(an, kartlar, ust)}>{okuma}</KesikAtilinca>;
   } else {
-    // Şekiller adım sırasıyla numaralanır; görseli olmayan adım önceki şekli tutar.
-    const sekiller: SahneSekli[] = [];
-    const adimlar: SahneAdimi[] = an.gor.adimlar.map((a) => {
-      if (a.gorsel && !sekiller.some((x) => x.id === a.gorsel)) {
-        const g = gorselli(a.gorsel);
-        sekiller.push({ id: a.gorsel, no: `Şek. ${idx + 1}.${sekiller.length + 1}`, dosya: g.src, alt: g.alt, kunye: g.kunye });
-      }
-      const sekil = a.gorsel ? sekiller.findIndex((x) => x.id === a.gorsel) : -1;
-      return { govde: <Metin metin={a.metin} kartlar={kartlar} />, sekil, vurgu: a.vurgu };
-    });
-    adimlar.forEach((a, i) => {
-      if (a.sekil < 0) a.sekil = i > 0 ? adimlar[i - 1].sekil : 0;
-    });
-    govde = (
-      <>
-        <Sahne ust={ust} baslik={an.baslik} soru={an.soru} sekiller={sekiller} adimlar={adimlar} />
-        {okuma}
-      </>
-    );
+    // Her an ya bir bayrak sahnesidir ya da LEVHALAR'da tanımlıdır (levha.check.test.ts).
+    notFound();
   }
 
   return (
