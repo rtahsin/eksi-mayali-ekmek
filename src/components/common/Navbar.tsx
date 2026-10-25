@@ -43,7 +43,7 @@ export function Navbar() {
   return (
     <>
       <header className="sticky top-0 z-40 bg-cream-surface/90 backdrop-blur-md border-b border-line shadow-xs">
-      <div className="max-w-6xl mx-auto px-2 sm:px-6 lg:px-8 h-14 sm:h-[72px] flex items-center justify-between">
+      <div className="max-w-6xl xl:max-w-7xl 2xl:max-w-[88rem] mx-auto px-2 sm:px-6 lg:px-8 h-14 sm:h-[72px] flex items-center justify-between gap-4">
         {/* Brand Logo & Name + Atelier Menu Toggle */}
         <div className="flex items-center gap-1.5 sm:gap-3.5 min-w-0 shrink">
           <button
@@ -71,7 +71,7 @@ export function Navbar() {
               <div className="font-serif text-base sm:text-xl font-bold tracking-wide text-ink flex items-center gap-1 truncate">
                 Ekmek<span className="text-accent font-normal italic">Lab</span>
               </div>
-              <div className="hidden sm:block text-xs font-sans text-ink-muted tracking-wider uppercase font-semibold">
+              <div className="hidden sm:block xl:hidden 2xl:block text-xs font-sans text-ink-muted tracking-wider uppercase font-semibold whitespace-nowrap">
                 Artisan Fırın · Beylikdüzü
               </div>
             </div>
@@ -79,7 +79,7 @@ export function Navbar() {
         </div>
 
         {/* Center Nav Links */}
-        <nav className="hidden md:flex items-center gap-5 text-xs font-sans">
+        <nav className="hidden xl:flex items-center gap-5 text-xs font-sans">
           <a
             href="/#ekmekler"
             onClick={(e) => {
@@ -89,19 +89,19 @@ export function Navbar() {
                 window.dispatchEvent(new HashChangeEvent("hashchange"));
               }
             }}
-            className="text-ink-muted hover:text-ink transition-colors font-medium tracking-wide"
+            className="text-ink-muted hover:text-ink transition-colors font-medium tracking-wide whitespace-nowrap"
           >
             Ekmeklerimiz
           </a>
           <a
             href="/#nasil-uretiyoruz"
-            className="text-ink-muted hover:text-ink transition-colors font-medium tracking-wide"
+            className="text-ink-muted hover:text-ink transition-colors font-medium tracking-wide whitespace-nowrap"
           >
             Nasıl Üretiyoruz?
           </a>
           <a
             href="/kutuphane"
-            className="text-ink-muted hover:text-ink transition-colors font-medium tracking-wide"
+            className="text-ink-muted hover:text-ink transition-colors font-medium tracking-wide whitespace-nowrap"
           >
             Kütüphane
           </a>
@@ -115,13 +115,13 @@ export function Navbar() {
           )}
           <a
             href="/laboratuvar"
-            className="text-ink-muted hover:text-ink transition-colors font-medium tracking-wide"
+            className="text-ink-muted hover:text-ink transition-colors font-medium tracking-wide whitespace-nowrap"
           >
             Laboratuvar
           </a>
           <a
             href="/arac"
-            className="text-accent hover:text-ink flex items-center gap-1.5 font-semibold transition-colors tracking-wide bg-bg px-3 py-1.5 rounded-xl border border-line"
+            className="text-accent hover:text-ink flex items-center gap-1.5 font-semibold transition-colors tracking-wide bg-bg px-3 py-1.5 rounded-xl border border-line whitespace-nowrap"
           >
             <span>Fırıncı Araçları</span>
           </a>
