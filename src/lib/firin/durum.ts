@@ -1,7 +1,9 @@
 import { istanbulTime } from "@/lib/time/istanbul";
 
-// Kapı: fırının o anki hâli, İstanbul saatine göre. Çizelge örnektir; gerçek günü Tahsin düzeltecek
-// (saat ve cümleler yalnız burada). Sıra önemlidir: her an, başlangıcı geçmiş son satırdır.
+// Kapı: fırının o anki hâli, İstanbul saatine göre. Gün Tahsin'in anlattığı gibi (26 Eki): 8'de fırın açılır,
+// 9'da ilk ekmekler girer, 10–12 arası çıkar, 12'de hepsi pişmiştir; sonra şarküteri ve kapı teslimatları.
+// Kapanış 18:00 teslimat penceresinin sonundan alındı (Tahsin onaylamadı). Sıra önemlidir: her an,
+// başlangıcı geçmiş son satırdır; gece yarısından 8'e kadar son satır (kapalı) sürer.
 
 export interface FirinAni {
   /** "HH:MM", İstanbul saati */
@@ -15,11 +17,11 @@ export interface FirinAni {
 }
 
 export const FIRIN_CIZELGESI: readonly FirinAni[] = [
-  { bas: "04:00", ad: "ateş", baslik: "Ateş yandı.", not: "Fırın ısınıyor; hamurlar dolaptan çıktı, oda sıcaklığına geliyor.", gorsel: "video · ateş, odun" },
-  { bas: "07:00", ad: "çıkış", baslik: "Ekmek çıktı.", not: "Bugünün ekmekleri raflarda soğuyor.", gorsel: "video · fırın ağzı, kürek" },
-  { bas: "11:00", ad: "hamur", baslik: "Yarının hamuru yoğruluyor.", not: "Un, su, tuz ve ekşi maya; uzun bekleyiş şimdi başlıyor.", gorsel: "fotoğraf · eller, hamur" },
-  { bas: "14:00", ad: "dağıtım", baslik: "Ekmekler yolda.", not: "Ayrılan ekmekler kapılara gidiyor.", gorsel: "fotoğraf · kese kâğıtları" },
-  { bas: "22:00", ad: "dinlenme", baslik: "Hamur dinleniyor.", not: "Fırın kapandı. Hamurlar gece boyunca serin dolapta.", gorsel: "fotoğraf · bezle örtülü sepetler" },
+  { bas: "08:00", ad: "açılış", baslik: "Fırın açıldı.", not: "Fırın ısınıyor; birazdan ilk ekmekler girecek.", gorsel: "video · ısınan fırın" },
+  { bas: "09:00", ad: "fırında", baslik: "İlk ekmekler fırında.", not: "Somunlar taşın üstünde pişiyor.", gorsel: "video · fırına giren somunlar" },
+  { bas: "10:00", ad: "çıkış", baslik: "Ekmekler çıkıyor.", not: "Öğlene kadar sırayla fırından çıkıyorlar.", gorsel: "video · kürekle çıkış" },
+  { bas: "12:00", ad: "teslimat", baslik: "Bütün ekmekler pişti.", not: "Şarküterilere ve kapılara teslimat başladı.", gorsel: "fotoğraf · teslimata hazır ekmekler" },
+  { bas: "18:00", ad: "kapalı", baslik: "Fırın kapalı.", not: "Yarın sabah 8'de yeniden açılıyor; ayırmalar açık.", gorsel: "fotoğraf · kapalı fırın" },
 ];
 
 function dakika(saat: string): number {

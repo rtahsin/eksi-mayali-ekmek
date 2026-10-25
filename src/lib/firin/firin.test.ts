@@ -23,15 +23,16 @@ const gunler = (...d: string[]) => d.map((date) => ({ date, label: date }));
 
 describe("fırın anı", () => {
   it("saate göre doğru anı seçer", () => {
-    expect(FIRIN_CIZELGESI[firinAniSirasi(ist("2026-10-26", "04:30"))].ad).toBe("ateş");
-    expect(FIRIN_CIZELGESI[firinAniSirasi(ist("2026-10-26", "07:00"))].ad).toBe("çıkış");
-    expect(FIRIN_CIZELGESI[firinAniSirasi(ist("2026-10-26", "13:00"))].ad).toBe("hamur");
-    expect(FIRIN_CIZELGESI[firinAniSirasi(ist("2026-10-26", "15:30"))].ad).toBe("dağıtım");
-    expect(FIRIN_CIZELGESI[firinAniSirasi(ist("2026-10-26", "23:10"))].ad).toBe("dinlenme");
+    expect(FIRIN_CIZELGESI[firinAniSirasi(ist("2026-10-26", "08:00"))].ad).toBe("açılış");
+    expect(FIRIN_CIZELGESI[firinAniSirasi(ist("2026-10-26", "09:30"))].ad).toBe("fırında");
+    expect(FIRIN_CIZELGESI[firinAniSirasi(ist("2026-10-26", "11:59"))].ad).toBe("çıkış");
+    expect(FIRIN_CIZELGESI[firinAniSirasi(ist("2026-10-26", "15:30"))].ad).toBe("teslimat");
+    expect(FIRIN_CIZELGESI[firinAniSirasi(ist("2026-10-26", "23:10"))].ad).toBe("kapalı");
   });
 
-  it("gece yarısından ilk ateşe kadar dinlenme sürer", () => {
-    expect(FIRIN_CIZELGESI[firinAniSirasi(ist("2026-10-26", "02:15"))].ad).toBe("dinlenme");
+  it("gece yarısından sabah 8'e kadar fırın kapalı", () => {
+    expect(FIRIN_CIZELGESI[firinAniSirasi(ist("2026-10-26", "02:15"))].ad).toBe("kapalı");
+    expect(FIRIN_CIZELGESI[firinAniSirasi(ist("2026-10-26", "07:59"))].ad).toBe("kapalı");
   });
 
   it("selam saate göre değişir", () => {
