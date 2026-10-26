@@ -1,12 +1,26 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import { Truck, Sparkles, ShieldCheck } from "lucide-react";
 import { useStoreSettings } from "@/hooks/useStoreSettings";
+import { firinDurumu, type DurumGirdisi, type FirinDurumu } from "@/lib/bake/durum";
 
-export function AtelierThresholdHero() {
+/** Rozet sunucuda hesaplanan durumla açılır (hydration aynı kalsın), sonra her dakika tazelenir. */
+function useFirinDurumu(takvim: DurumGirdisi, ilk: FirinDurumu): FirinDurumu {
+  const [durum, setDurum] = useState(ilk);
+  useEffect(() => {
+    const tazele = () => setDurum(firinDurumu(takvim));
+    tazele();
+    const id = window.setInterval(tazele, 60_000);
+    return () => window.clearInterval(id);
+  }, [takvim]);
+  return durum;
+}
+
+export function AtelierThresholdHero({ takvim, ilkDurum }: { takvim: DurumGirdisi; ilkDurum: FirinDurumu }) {
   const { settings } = useStoreSettings();
+  const durum = useFirinDurumu(takvim, ilkDurum);
   const threshold = settings.freeShippingThreshold || 1000;
   const fee = settings.shippingFee || 150;
 
@@ -16,9 +30,12 @@ export function AtelierThresholdHero() {
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-0 sm:pt-14 pb-12 sm:pb-16 grid md:grid-cols-12 gap-6 md:gap-8 lg:gap-12 items-center">
         {/* Text & CTAs: mobilde görselin altında, masaüstünde solda */}
         <div className="md:col-span-6 space-y-6 order-2 md:order-1">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-line bg-cream-surface text-xs font-mono text-ink-muted">
-            <span className="w-2 h-2 rounded-full bg-accent animate-pulse" />
-            <span>Beylikdüzü · Ekşi Mayalı Taş Fırın</span>
+          <div
+            className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-line bg-cream-surface text-xs font-mono text-ink-muted"
+            role="status"
+          >
+            <span className={`w-2 h-2 rounded-full shrink-0 ${durum.acik ? "bg-accent animate-pulse" : "bg-ink-muted/50"}`} />
+            <span>{durum.yazi}</span>
           </div>
 
           <h1 className="font-serif text-3xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-ink leading-[1.08] text-balance">
