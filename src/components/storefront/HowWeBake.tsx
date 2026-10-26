@@ -1,7 +1,6 @@
 "use client";
 
 import React from "react";
-import Image from "next/image";
 
 export function HowWeBake() {
   return (
@@ -55,94 +54,6 @@ export function HowWeBake() {
                 </p>
               </div>
             ))}
-          </div>
-        </div>
-
-        {/* 2. Ekmek Anatomisi & Zanaat İlkeleri */}
-        <div className="space-y-8 pt-4">
-          <div className="text-center max-w-xl mx-auto space-y-2">
-            <span className="text-xs font-mono uppercase tracking-[0.2em] text-accent font-semibold">
-              EKMEK ANATOMİSİ · KÖY EKMEĞİ
-            </span>
-            <h2 className="font-serif text-3xl sm:text-4xl font-bold text-ink">
-              Bir ekmeğin dört kararı.
-            </h2>
-            <p className="text-sm text-ink-muted">
-              Standart endüstriyel fırıncılığın hızlandırdığı her adımı, biz olması gerektiği gibi yavaşlatıyoruz.
-            </p>
-          </div>
-
-          {/* Blueprint Canvas */}
-          <div className="relative w-full aspect-[4/3] md:aspect-[16/9] max-h-[75vh] bg-bg rounded-2xl sm:rounded-3xl border border-line overflow-hidden shadow-sm flex items-center justify-center">
-            <Image
-              src="/atelier/bread_anatomy_real.webp"
-              alt="Ekmek Anatomisi ve Kesit Yapısı"
-              fill
-              className="object-cover opacity-95 filter brightness-100 contrast-105"
-              sizes="(max-width: 1280px) 100vw, 1280px"
-            />
-
-            {/* Central Overlay Vignette */}
-            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/30 pointer-events-none" />
-
-            {/* Annotations */}
-            <div className="absolute inset-0 w-full h-full p-4 md:p-8">
-              {/* Annotation 1: Kültür */}
-              <div className="absolute top-[12%] left-[4%] md:top-[16%] md:left-[8%] flex flex-col items-start">
-                <div className="text-amber-200 font-serif text-xs md:text-sm tracking-widest flex items-center gap-2 mb-1.5 font-bold">
-                  <span className="w-6 md:w-12 h-[1px] bg-amber-200/60" />
-                  01. KÜLTÜR
-                </div>
-                <div className="font-mono text-white text-xs md:text-xs bg-black/70 backdrop-blur-md px-3 py-1 border border-white/20 rounded-lg">
-                  MAYA: CANLI KÜLTÜR
-                </div>
-                <p className="font-serif italic text-white/90 text-xs md:text-sm mt-1.5 max-w-[150px] md:max-w-[200px] leading-snug">
-                  Her gün aynı saatte beslenir; endüstriyel maya girmez.
-                </p>
-              </div>
-
-              {/* Annotation 2: Hidrasyon */}
-              <div className="absolute top-[12%] right-[4%] md:top-[16%] md:right-[8%] flex flex-col items-end text-right">
-                <div className="text-amber-200 font-serif text-xs md:text-sm tracking-widest flex items-center gap-2 mb-1.5 font-bold justify-end">
-                  02. HİDRASYON
-                  <span className="w-6 md:w-12 h-[1px] bg-amber-200/60" />
-                </div>
-                <div className="font-mono text-white text-xs md:text-xs bg-black/70 backdrop-blur-md px-3 py-1 border border-white/20 rounded-lg">
-                  SU ORANI: %78 - %82
-                </div>
-                <p className="font-serif italic text-white/90 text-xs md:text-sm mt-1.5 max-w-[150px] md:max-w-[200px] leading-snug">
-                  Yüksek su tutma kapasitesi sayesinde içi nemli ve yumuşak.
-                </p>
-              </div>
-
-              {/* Annotation 3: Zaman */}
-              <div className="absolute bottom-[14%] left-[4%] md:bottom-[16%] md:left-[8%] flex flex-col items-start">
-                <div className="text-amber-200 font-serif text-xs md:text-sm tracking-widest flex items-center gap-2 mb-1.5 font-bold">
-                  <span className="w-6 md:w-12 h-[1px] bg-amber-200/60" />
-                  03. ZAMAN
-                </div>
-                <div className="font-mono text-white text-xs md:text-xs bg-black/70 backdrop-blur-md px-3 py-1 border border-white/20 rounded-lg">
-                  UZUN SOĞUK MAYALAMA
-                </div>
-                <p className="font-serif italic text-white/90 text-xs md:text-sm mt-1.5 max-w-[160px] md:max-w-[220px] leading-snug">
-                  Enzimatik aktivite ve derin aroma gelişimi için 24-36 saat.
-                </p>
-              </div>
-
-              {/* Annotation 4: Ateş */}
-              <div className="absolute bottom-[14%] right-[4%] md:bottom-[16%] md:right-[8%] flex flex-col items-end text-right">
-                <div className="text-amber-200 font-serif text-xs md:text-sm tracking-widest flex items-center gap-2 mb-1.5 font-bold justify-end">
-                  04. ATEŞ
-                  <span className="w-6 md:w-12 h-[1px] bg-amber-200/60" />
-                </div>
-                <div className="font-mono text-white text-xs md:text-xs bg-black/70 backdrop-blur-md px-3 py-1 border border-white/20 rounded-lg">
-                  TAŞ TABAN: 240°C
-                </div>
-                <p className="font-serif italic text-white/90 text-xs md:text-sm mt-1.5 max-w-[160px] md:max-w-[220px] leading-snug">
-                  Buhar şokuyla mühürlenen çıtır karamelize kabuk.
-                </p>
-              </div>
-            </div>
           </div>
         </div>
 
