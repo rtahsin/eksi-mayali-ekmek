@@ -6,6 +6,7 @@ import type { ProductionDay } from "@/types/production";
 import { useIstanbulToday } from "@/hooks/useIstanbulToday";
 import { addDays, formatTrDate } from "@/lib/time/istanbul";
 import { getErrorMessage } from "@/lib/utils/error";
+import { FirindanCikti } from "@/components/admin/uretim/FirindanCikti";
 
 const inputCls =
   "bg-stone-950 border border-stone-800 rounded-xl px-3 py-2 text-sm text-stone-100 focus:outline-none focus:border-amber-500";
@@ -71,6 +72,8 @@ export default function ProductionPage() {
 
   return (
     <div className="space-y-5 max-w-4xl mx-auto pb-16 print:max-w-none print:text-black">
+      <FirindanCikti />
+
       <div className="bg-stone-900/80 p-5 sm:p-6 rounded-2xl border border-stone-800 flex flex-col sm:flex-row sm:items-center justify-between gap-4 print:bg-white print:border-0 print:p-0">
         <div>
           <h1 className="text-2xl font-bold text-stone-100 font-serif print:text-black">Üretim — {formatTrDate(date, "long")}</h1>
