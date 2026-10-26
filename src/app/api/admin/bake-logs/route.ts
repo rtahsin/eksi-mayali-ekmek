@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { revalidatePath } from "next/cache";
 import { requireAdmin } from "@/lib/security/apiAuth";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { getErrorMessage } from "@/lib/utils/error";
@@ -123,6 +124,8 @@ export async function POST(request: Request) {
       .single();
     if (error) throw error;
 
+    // Ana sayfadaki rozet "fırından çıktı" saatini hemen göstersin.
+    revalidatePath("/");
     const publicUrl = (p: string) => supabase.storage.from(MEDIA_BUCKET).getPublicUrl(p).data.publicUrl;
     return NextResponse.json({ log: rowToBakeLog(data as BakeLogRow, publicUrl) }, { status: 201 });
   } catch (err: unknown) {

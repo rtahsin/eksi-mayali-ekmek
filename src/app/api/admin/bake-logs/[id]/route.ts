@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { revalidatePath } from "next/cache";
 import { z } from "zod";
 import { requireAdmin } from "@/lib/security/apiAuth";
 import { createAdminClient } from "@/lib/supabase/admin";
@@ -28,6 +29,7 @@ export async function PATCH(request: Request, { params }: { params: Promise<{ id
       .maybeSingle();
     if (error) throw error;
     if (!data) return NextResponse.json({ error: "Kayıt bulunamadı" }, { status: 404 });
+    revalidatePath("/");
     return NextResponse.json({ ok: true });
   } catch (err: unknown) {
     logError("bake-logs PATCH failed", err, { id });

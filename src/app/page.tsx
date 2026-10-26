@@ -10,6 +10,9 @@ import { MobileCartBar } from "@/components/cart/MobileCartBar";
 import { OrderSuccessModal } from "@/components/cart/OrderSuccessModal";
 import { Footer } from "@/components/common/Footer";
 import { getCatalog } from "@/lib/products/server";
+import { getStoreSettings } from "@/lib/settings/server";
+import { getSonCikis } from "@/lib/bake/server";
+import { firinDurumu } from "@/lib/bake/durum";
 
 export const revalidate = 60; // ISR: Revalidate catalog every 60 seconds
 
@@ -27,7 +30,8 @@ export const metadata: Metadata = {
 };
 
 export default async function HomePage() {
-  const { products, categories } = await getCatalog();
+  const [{ products, categories }, settings, sonCikis] = await Promise.all([getCatalog(), getStoreSettings(), getSonCikis()]);
+  const takvim = { sonCikis, openWeekdays: settings.openWeekdays, closedDates: settings.closedDates };
 
   return (
     <div className="min-h-screen flex flex-col bg-bg text-ink selection:bg-accent/20 selection:text-ink font-sans">
@@ -37,7 +41,7 @@ export default async function HomePage() {
       {/* 2. Main Storefront Flow */}
       <main className="flex-1 space-y-0">
         {/* Atölyenin Eşiği & Karşılama */}
-        <AtelierThresholdHero />
+        <AtelierThresholdHero takvim={takvim} ilkDurum={firinDurumu(takvim)} />
 
         {/* Ekmekler & Gurme Şarküteri Kataloğu */}
         <ProductCatalog initialProducts={products} categories={categories} />
