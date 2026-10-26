@@ -11,16 +11,6 @@ export const media = defineMedia({
     kind: "image",
     notes: "Atölye eşiği atmosfer arka planı",
   },
-  med_bread_anatomy: {
-    url: "/atelier/bread_anatomy_real.webp",
-    alt: "Gerçek ekşi mayalı ekmek iç yapısı, gözenek ve kabuk anatomisi",
-    license: "own",
-    credit: "Tahsin / EkmekLab",
-    dimensions: { width: 1376, height: 768 },
-    aspectRatio: "16:9",
-    kind: "image",
-    notes: "Atölye gerçek ekmek anatomisi fotoğrafı",
-  },
   med_atelier_panorama: {
     url: "/atelier/atelier_panorama.webp",
     alt: "EkmekLab unlu mamuller üretim alanı ve taş değirmen tezgâhı",
