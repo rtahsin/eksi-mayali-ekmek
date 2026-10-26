@@ -3,36 +3,10 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { Camera, Eye, EyeOff, Flame, Loader2, Minus, Plus, X } from "lucide-react";
 import type { BakeLog, BakeLogDay } from "@/types/bake";
-import { bakeClock, fitWithin, totalLoaves } from "@/lib/bake/log";
+import { bakeClock, totalLoaves } from "@/lib/bake/log";
+import { shrinkPhoto } from "@/lib/media/shrinkPhoto";
 import { getErrorMessage } from "@/lib/utils/error";
 import { useIstanbulToday } from "@/hooks/useIstanbulToday";
-
-function toBlob(canvas: HTMLCanvasElement, type: string, quality: number): Promise<Blob | null> {
-  return new Promise((resolve) => canvas.toBlob(resolve, type, quality));
-}
-
-/** Telefon fotoğrafını küçültür: uzun kenar 1600 px, webp (desteklemeyen tarayıcıda jpeg). */
-async function shrinkPhoto(file: File): Promise<File> {
-  const src = URL.createObjectURL(file);
-  try {
-    const img = new Image();
-    img.src = src;
-    await img.decode();
-    const { width, height } = fitWithin(img.naturalWidth, img.naturalHeight);
-    const canvas = document.createElement("canvas");
-    canvas.width = width;
-    canvas.height = height;
-    const ctx = canvas.getContext("2d");
-    if (!ctx) throw new Error("Fotoğraf işlenemedi");
-    ctx.drawImage(img, 0, 0, width, height);
-    let blob = await toBlob(canvas, "image/webp", 0.82);
-    if (!blob || blob.type !== "image/webp") blob = await toBlob(canvas, "image/jpeg", 0.85);
-    if (!blob) throw new Error("Fotoğraf işlenemedi");
-    return new File([blob], blob.type === "image/webp" ? "firin.webp" : "firin.jpg", { type: blob.type });
-  } finally {
-    URL.revokeObjectURL(src);
-  }
-}
 
 /**
  * Fırından çıktı: her fırın çıkışında ürün adetleri ve isteğe bağlı fotoğraf. Saat otomatik.
@@ -80,7 +54,7 @@ export function FirindanCikti() {
     setBusy("photo");
     setError(null);
     try {
-      setPhoto(await shrinkPhoto(file));
+      setPhoto(await shrinkPhoto(file, "firin"));
     } catch (err: unknown) {
       setError(getErrorMessage(err));
     } finally {

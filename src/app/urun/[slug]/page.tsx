@@ -28,6 +28,9 @@ import {
 import { SITE_URL } from "@/lib/site";
 import { FEATURES } from "@/lib/features";
 import { ekmeginAnlari } from "@/lib/bilim";
+import { getProductStory, mediaBaseUrl } from "@/lib/hikaye/storyServer";
+import type { StoryStep } from "@/lib/hikaye/story";
+import { NasilYapiliyor, type AnBaglantisi } from "@/components/storefront/NasilYapiliyor";
 import { getAn, getAnKimlikleri } from "@/lib/bilim/server";
 import { LEVHALAR } from "@/lib/bilim/levhalar";
 import { BilimKoprusu, type KopruAni } from "@/components/bilim/Kopru";
@@ -132,6 +135,20 @@ function bilimAnlari(product: ExtendedProduct): KopruAni[] {
   }
 }
 
+// Adımlarda seçilen Bilim anlarının başlıkları; okunamayan an bağlantısız kalır.
+function adimAnlari(steps: StoryStep[]): Record<string, AnBaglantisi> {
+  const out: Record<string, AnBaglantisi> = {};
+  for (const s of steps) {
+    if (!s.anId || out[s.anId]) continue;
+    try {
+      out[s.anId] = { id: s.anId, baslik: getAn(s.anId).baslik };
+    } catch (e) {
+      console.error("adım anı:", e);
+    }
+  }
+  return out;
+}
+
 export default async function ProductDetailPage({ params }: ProductPageProps) {
   const { slug } = await params;
   const product = await getProductBySlugOrId(slug);
@@ -140,7 +157,7 @@ export default async function ProductDetailPage({ params }: ProductPageProps) {
     notFound();
   }
 
-  const allProducts = await getAllProducts();
+  const [allProducts, steps] = await Promise.all([getAllProducts(), getProductStory(product.id)]);
   const relatedProducts = allProducts
     .filter((p) => p.id !== product.id && p.isActive !== false)
     .slice(0, 4);
@@ -413,6 +430,8 @@ export default async function ProductDetailPage({ params }: ProductPageProps) {
             </div>
           )}
         </section>
+
+        <NasilYapiliyor name={product.name} steps={steps} mediaBase={mediaBaseUrl()} anlar={adimAnlari(steps)} />
 
         <BilimKoprusu anlar={bilimAnlari(product)} />
 

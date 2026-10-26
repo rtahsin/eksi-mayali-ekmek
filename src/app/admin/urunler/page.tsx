@@ -1,7 +1,9 @@
 "use client";
 
 import React, { useMemo, useState } from "react";
+import Link from "next/link";
 import {
+  ListOrdered,
   Plus,
   Search,
   Pencil,
@@ -189,6 +191,14 @@ export default function AdminProductsPage() {
                         <RotateCcw className="w-3.5 h-3.5" /> Geri al
                       </button>
                     )}
+                    <Link
+                      href={`/admin/urunler/${encodeURIComponent(p.id)}/adimlar`}
+                      aria-label={`${p.name} yapılış adımları`}
+                      title="Nasıl yapılıyor adımları"
+                      className="p-2.5 rounded-xl bg-stone-800 hover:bg-stone-700 text-stone-200"
+                    >
+                      <ListOrdered className="w-4 h-4" />
+                    </Link>
                     <button
                       type="button"
                       onClick={() => setEditing(productToForm(p))}
