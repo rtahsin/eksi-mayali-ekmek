@@ -110,7 +110,7 @@ export function FirindanCikti() {
   const logs = data?.logs ?? [];
 
   return (
-    <section className="bg-stone-900/70 border border-amber-500/30 rounded-2xl p-5 space-y-4 print:hidden">
+    <section id="firindan-cikti" className="scroll-mt-20 bg-stone-900/70 border border-amber-500/30 rounded-2xl p-5 space-y-4 print:hidden">
       <div>
         <h2 className="font-serif text-lg font-bold text-stone-100 flex items-center gap-2">
           <Flame className="w-5 h-5 text-amber-500" /> Bugün fırından çıktı

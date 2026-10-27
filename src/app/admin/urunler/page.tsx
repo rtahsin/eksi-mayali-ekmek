@@ -21,7 +21,12 @@ import {
   EyeOff,
   AlertCircle,
   ChevronDown,
+  Camera,
+  ImageIcon,
 } from "lucide-react";
+import { createClient } from "@/lib/supabase/client";
+import { MEDIA_BUCKET } from "@/lib/bake/log";
+import { shrinkPhoto } from "@/lib/media/shrinkPhoto";
 import type { ExtendedProduct, ProductCategoryInfo } from "@/types";
 import { emptyProductForm, productToForm, useAdminCatalog, type ProductForm } from "@/hooks/useAdminCatalog";
 import { formatTrDate, istanbulToday } from "@/lib/time/istanbul";
@@ -344,8 +349,8 @@ function ProductEditor({
                   </select>
                 </div>
               </Field>
-              <Field label="Görsel adresi" hint="Şimdilik bağlantı; yükleme Faz 4'te">
-                <input value={form.imageUrl ?? ""} onChange={(e) => set("imageUrl", e.target.value || null)} placeholder="https://…" className={inputCls} />
+              <Field label="Fotoğraf" hint="Telefonda küçültülüp yüklenir; kaydedince ürüne bağlanır">
+                <PhotoField value={form.imageUrl ?? null} onChange={(url) => set("imageUrl", url)} />
               </Field>
             </div>
           </Section>
@@ -827,6 +832,78 @@ function CategoryManager({
 }
 
 /* ─────────────────────────── küçük parçalar ─────────────────────────── */
+
+/** Kapak fotoğrafı: çek/seç → telefonda küçült → imzalı bağlantıyla media bucket'ına yükle. */
+function PhotoField({ value, onChange }: { value: string | null; onChange: (url: string | null) => void }) {
+  const [busy, setBusy] = useState(false);
+  const [err, setErr] = useState<string | null>(null);
+
+  const upload = async (picked: File | undefined) => {
+    if (!picked) return;
+    setBusy(true);
+    setErr(null);
+    try {
+      const file = await shrinkPhoto(picked, "urun");
+      const res = await fetch("/api/admin/products/image-upload", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ type: file.type, size: file.size }),
+      });
+      const body = (await res.json().catch(() => ({}))) as { path?: string; token?: string; url?: string; error?: string };
+      if (!res.ok || !body.path || !body.token || !body.url) throw new Error(body.error || "Yükleme başlatılamadı");
+      const supabase = createClient();
+      if (!supabase) throw new Error("Supabase bağlantısı yok");
+      const { error } = await supabase.storage
+        .from(MEDIA_BUCKET)
+        .uploadToSignedUrl(body.path, body.token, file, { contentType: file.type });
+      if (error) throw error;
+      onChange(body.url);
+    } catch (error: unknown) {
+      setErr(getErrorMessage(error));
+    } finally {
+      setBusy(false);
+    }
+  };
+
+  return (
+    <div className="space-y-2">
+      <div className="flex items-center gap-3">
+        {value ? (
+          // eslint-disable-next-line @next/next/no-img-element -- yüklenen kapak önizlemesi
+          <img src={value} alt="" className="w-20 h-20 rounded-xl object-cover bg-stone-800 shrink-0" />
+        ) : (
+          <div className="w-20 h-20 rounded-xl bg-stone-800 border border-dashed border-stone-700 flex items-center justify-center shrink-0">
+            <ImageIcon className="w-6 h-6 text-stone-500" />
+          </div>
+        )}
+        <div className="flex flex-wrap gap-2">
+          <label
+            className={`h-11 px-4 rounded-xl bg-amber-500 text-stone-950 text-sm font-bold flex items-center gap-2 ${busy ? "opacity-60" : "cursor-pointer"}`}
+          >
+            {busy ? <Loader2 className="w-4 h-4 animate-spin" /> : <Camera className="w-4 h-4" />}
+            {busy ? "Yükleniyor…" : value ? "Değiştir" : "Fotoğraf ekle"}
+            <input
+              type="file"
+              accept="image/*"
+              className="hidden"
+              disabled={busy}
+              onChange={(e) => {
+                void upload(e.target.files?.[0]);
+                e.target.value = "";
+              }}
+            />
+          </label>
+          {value && !busy && (
+            <button type="button" onClick={() => onChange(null)} className="h-11 px-3 rounded-xl bg-stone-800 text-stone-300 text-sm">
+              Kaldır
+            </button>
+          )}
+        </div>
+      </div>
+      {err && <p className="text-xs text-red-400">{err}</p>}
+    </div>
+  );
+}
 
 function Section({ title, icon, children }: { title: string; icon?: React.ReactNode; children: React.ReactNode }) {
   return (
