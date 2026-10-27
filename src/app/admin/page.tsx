@@ -168,7 +168,7 @@ export default function TodayPage() {
     { label: "Sipariş ekle", href: "/admin/siparisler/yeni", icon: PlusCircle },
     { label: "Teslimat", href: "/kurye", icon: Truck },
     { label: "Fiş kes / tahsilat", href: "/admin/cariler", icon: Wallet },
-    { label: "Üretim", href: "/admin/uretim", icon: Flame },
+    { label: "Fırından çıktı", href: "/admin/uretim#firindan-cikti", icon: Flame },
   ];
 
   return (
