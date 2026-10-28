@@ -82,3 +82,14 @@ describe("yardımcılar", () => {
     expect(pub.wholesaleDailyLoaves).toBeUndefined();
   });
 });
+
+describe("fırın saatleri", () => {
+  it("sırasız saatleri reddeder", () => {
+    const bad = { ...DEFAULT_STORE_SETTINGS, bakeHours: { open: "09:00", oven: "08:00", dispatch: "12:00", close: "19:00" } };
+    expect(StoreSettingsSchema.safeParse(bad).success).toBe(false);
+  });
+
+  it("eski kayıtta saat yoksa varsayılana düşer", () => {
+    expect(parseStoredSettings({ shippingFee: 100 }).bakeHours).toEqual(DEFAULT_STORE_SETTINGS.bakeHours);
+  });
+});

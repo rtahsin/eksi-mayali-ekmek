@@ -1,3 +1,15 @@
+/** Fırının günlük saatleri ("HH:mm", İstanbul): girişteki "fırın şu an" rozeti bunlara göre konuşur. */
+export interface BakeHours {
+  /** Fırın açılır */
+  open: string;
+  /** İlk ekmekler fırına girer */
+  oven: string;
+  /** Ekmekler teslimata çıkar */
+  dispatch: string;
+  /** Teslimatlar biter, rozet "kapalı" der */
+  close: string;
+}
+
 /** Fırının işletme ayarları (`bakery_settings.operational_settings`). Hepsi admin panelinden değiştirilebilir. */
 export interface StoreSettings {
   /** Teslimat ücreti (₺), ücretsiz eşiğin altındaki siparişlere eklenir. */
@@ -28,10 +40,12 @@ export interface StoreSettings {
   dailyBreadCapacity: number | null;
   /** Şarküterilere günlük toptan ekmek adedi (üretim planı için, Faz 2). */
   wholesaleDailyLoaves: number;
+  /** Fırının günlük saatleri (rozet). */
+  bakeHours: BakeHours;
 }
 
 /** Herkese açık alt küme (`/api/settings`). */
-export type PublicStoreSettings = Omit<StoreSettings, "dailyBreadCapacity" | "wholesaleDailyLoaves">;
+export type PublicStoreSettings = Omit<StoreSettings, "dailyBreadCapacity" | "wholesaleDailyLoaves" | "bakeHours">;
 
 export interface DeliveryDateOption {
   /** `YYYY-MM-DD` */

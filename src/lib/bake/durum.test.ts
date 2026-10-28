@@ -38,4 +38,13 @@ describe("girişteki fırın durumu", () => {
     // Salı kapalı
     expect(durum("20:00", null, [0, 1, 3, 4, 5, 6]).yazi).toBe("Fırın kapalı · Çarşamba 08:00'de açılıyor");
   });
+
+  it("ayardaki saatleri kullanır", () => {
+    const saatler = { open: "07:00", oven: "08:00", dispatch: "11:00", close: "18:00" };
+    const d = (saat: string) => firinDurumu({ now: ist("2026-10-26", saat), sonCikis: null, openWeekdays: hepsi, closedDates: [], saatler });
+    expect(d("06:30").yazi).toBe("Fırın bugün 07:00'de açılıyor");
+    expect(d("08:10").yazi).toBe("İlk ekmekler fırında");
+    expect(d("11:30").yazi).toBe("Bugünün ekmekleri teslimatta");
+    expect(d("18:30").yazi).toBe("Fırın kapalı · yarın 07:00'de açılıyor");
+  });
 });

@@ -259,6 +259,32 @@ export default function AdminSettingsPage() {
         </div>
       </Section>
 
+      {/* Fırın saatleri: girişteki "fırın şu an" rozeti */}
+      <Section icon={<Clock className="w-5 h-5" />} title="Fırın Saatleri">
+        <p className="text-xs text-stone-400 -mt-2">
+          Ana sayfadaki rozet bu saatlere göre konuşur: açılış, fırına giriş, teslimata çıkış ve kapanış. Kapalı günler yukarıdaki takvimden gelir.
+        </p>
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+          {(
+            [
+              ["open", "Açılış", "Fırın açık · ısınıyor"],
+              ["oven", "Fırına giriş", "İlk ekmekler fırında"],
+              ["dispatch", "Teslimata çıkış", "Ekmekler teslimatta"],
+              ["close", "Kapanış", "Fırın kapalı"],
+            ] as const
+          ).map(([key, label, hint]) => (
+            <Field key={key} label={label} hint={hint}>
+              <input
+                type="time"
+                value={form.bakeHours[key]}
+                onChange={(e) => set("bakeHours", { ...form.bakeHours, [key]: e.target.value })}
+                className={inputCls}
+              />
+            </Field>
+          ))}
+        </div>
+      </Section>
+
       {/* Mahalleler */}
       <Section icon={<MapPin className="w-5 h-5" />} title="Teslimat Mahalleleri (Beylikdüzü)">
         <div className="flex flex-wrap gap-2">
