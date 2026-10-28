@@ -97,7 +97,7 @@ export function PaymentRecordModal({
             </div>
           </div>
 
-          <button
+          <button aria-label="Kapat"
             onClick={onClose}
             className="p-1.5 text-stone-400 hover:text-stone-200 hover:bg-[#261E17] rounded-lg transition-colors"
           >

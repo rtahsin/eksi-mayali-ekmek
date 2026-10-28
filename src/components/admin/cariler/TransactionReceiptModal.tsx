@@ -254,7 +254,7 @@ export default function TransactionReceiptModal({ tx, cari, onClose }: Transacti
         
         {/* Close button outside receiptRef so html2canvas NEVER captures it */}
         <div className="absolute top-4 right-4 z-20" data-html2canvas-ignore="true">
-          <button
+          <button aria-label="Kapat"
             onClick={onClose}
             className="p-2 bg-stone-900/80 rounded-full text-stone-400 hover:text-white transition-colors shadow-lg"
           >
