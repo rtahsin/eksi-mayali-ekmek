@@ -3,6 +3,7 @@
 import React from "react";
 import { useAdminOrders } from "@/hooks/useAdminOrders";
 import { OrderCard } from "@/components/admin/OrderCard";
+import { FEATURES } from "@/lib/features";
 import {
   ShoppingBag,
   Clock,
@@ -93,7 +94,7 @@ export default function AdminOrdersPage() {
             Sipariş Komuta Merkezi
           </h1>
           <p className="text-xs sm:text-sm text-foreground/60 font-sans mt-0.5">
-            Canlı Fırın & Kurye Dağıtım Akışı
+            Onay, fırın ve teslimat akışı
           </p>
         </div>
 
@@ -152,10 +153,10 @@ export default function AdminOrdersPage() {
         <div className="bg-[#18130F] border border-[#261E17] p-4 rounded-2xl space-y-1">
           <div className="flex items-center gap-2 text-xs font-sans text-foreground/60">
             <Truck className="w-3.5 h-3.5 text-blue-400" />
-            <span>Kurye Dağıtımında</span>
+            <span>Yolda</span>
           </div>
           <div className="font-serif text-2xl font-bold text-blue-400">{stats.courierCount}</div>
-          <div className="text-xs text-foreground/50 font-sans">Yoldaki paketler</div>
+          <div className="text-xs text-foreground/50 font-sans">Teslimata çıkan</div>
         </div>
       </div>
 
@@ -252,6 +253,7 @@ export default function AdminOrdersPage() {
             </span>
           </button>
 
+          {FEATURES.courierManagement && (
           <button
             onClick={() => setExtraFilter(extraFilter === "unassigned_courier" ? "none" : "unassigned_courier")}
             className={`px-2.5 py-1 rounded-lg text-xs transition-colors flex items-center gap-1.5 ${
@@ -265,6 +267,7 @@ export default function AdminOrdersPage() {
               {unassignedCourierCount}
             </span>
           </button>
+          )}
         </div>
       </div>
 

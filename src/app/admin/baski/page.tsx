@@ -25,7 +25,9 @@ interface PrinterOffset {
 }
 
 export default function AdminPrintPage() {
-  const { products, loading: catalogLoading } = useAdminCatalog();
+  const { products: allProducts, loading: catalogLoading } = useAdminCatalog();
+  // Arşivlenmiş ürünün sayfası 404 verir; etiketteki QR ölü kalmasın.
+  const products = useMemo(() => allProducts.filter((p) => p.isActive !== false), [allProducts]);
 
   // Selected product & custom overrides
   const [selectedProductId, setSelectedProductId] = useState<string>("custom");
