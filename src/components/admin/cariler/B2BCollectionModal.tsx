@@ -62,7 +62,7 @@ export default function B2BCollectionModal({ cariId, cariName, onClose, onSucces
               <p className="text-xs text-stone-400">{cariName}</p>
             </div>
           </div>
-          <button onClick={onClose} disabled={loading} className="text-stone-400 hover:text-white">
+          <button aria-label="Kapat" onClick={onClose} disabled={loading} className="text-stone-400 hover:text-white">
             <X className="w-5 h-5" />
           </button>
         </div>

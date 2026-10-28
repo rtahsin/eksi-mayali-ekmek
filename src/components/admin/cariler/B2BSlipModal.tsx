@@ -214,7 +214,7 @@ export default function B2BSlipModal({
               <p className="text-xs text-stone-400">{cariName}</p>
             </div>
           </div>
-          <button
+          <button aria-label="Kapat"
             onClick={onClose}
             disabled={loading}
             className="p-2 bg-stone-800 rounded-xl text-stone-400 hover:text-white min-h-[44px] min-w-[44px] flex items-center justify-center transition-colors"

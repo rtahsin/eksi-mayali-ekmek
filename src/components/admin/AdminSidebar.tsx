@@ -96,7 +96,7 @@ export function AdminSidebar({ isOpen, onClose, pendingOrderCount = 0 }: AdminSi
           </Link>
 
           {/* Close button for mobile */}
-          <button
+          <button aria-label="Menüyü kapat"
             type="button"
             onClick={onClose}
             className="lg:hidden p-1.5 rounded-lg text-foreground/60 hover:text-foreground hover:bg-[#201812]"

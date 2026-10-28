@@ -79,7 +79,7 @@ export default function BalanceAdjustModal({
               <p className="text-xs text-stone-400">{cari.businessName}</p>
             </div>
           </div>
-          <button
+          <button aria-label="Kapat"
             onClick={onClose}
             className="p-2 bg-stone-900 rounded-xl text-stone-400 hover:text-white transition-colors"
           >

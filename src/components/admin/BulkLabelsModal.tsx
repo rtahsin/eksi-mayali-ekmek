@@ -78,7 +78,7 @@ export function BulkLabelsModal({ orders, date, isOpen, onClose }: BulkLabelsMod
               <span>Yazdır</span>
             </button>
 
-            <button
+            <button aria-label="Kapat"
               type="button"
               onClick={onClose}
               className="p-2 rounded-xl text-stone-400 hover:text-stone-100 hover:bg-stone-800 transition-colors"

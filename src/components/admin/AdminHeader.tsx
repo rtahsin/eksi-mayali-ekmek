@@ -51,7 +51,7 @@ export function AdminHeader({
       {/* Left: Mobile Toggle & Page Indicator */}
       <div className="flex items-center gap-3">
         {/* We hide the hamburger on mobile because we use MobileBottomNav now */}
-        <button
+        <button aria-label="Menüyü aç"
           type="button"
           onClick={onToggleSidebar}
           className="hidden p-2 rounded-xl bg-[#1E1712] border border-[#2E231B] text-foreground/80 hover:text-foreground"
@@ -95,7 +95,7 @@ export function AdminHeader({
 
         {/* Audio Chime Toggle */}
         {onToggleSound && (
-          <button
+          <button aria-label={soundEnabled ? "Sipariş sesini kapat" : "Sipariş sesini aç"}
             type="button"
             onClick={onToggleSound}
             title={soundEnabled ? "Fırın Zili Açık (Yeni siparişte çalar)" : "Fırın Zili Sessizde"}

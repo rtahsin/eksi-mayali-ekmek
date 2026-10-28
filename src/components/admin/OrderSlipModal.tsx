@@ -232,7 +232,7 @@ export function OrderSlipModal({ order, isOpen, onClose, cari: propCari }: Order
             </div>
           </div>
 
-          <button
+          <button aria-label="Kapat"
             onClick={onClose}
             className="p-1.5 text-stone-400 hover:text-white rounded-xl hover:bg-stone-800 transition-colors"
           >
