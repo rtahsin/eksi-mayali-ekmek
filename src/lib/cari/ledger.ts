@@ -73,6 +73,18 @@ export function parseLegacyItems(description: string | null): LedgerItem[] {
   return out;
 }
 
+/**
+ * Hareket listesinde görünen satır: fişin kalemleri ("20× Köy Ekmeği, 5× Siyez") + varsa not.
+ * Eski kayıtlarda kalemler zaten açıklamada yazılı; onlar olduğu gibi kalır.
+ */
+export function ledgerLine(tx: Pick<CariTransaction, "description" | "items">): string {
+  const items = tx.items ?? [];
+  const description = tx.description ?? "";
+  if (items.length === 0 || parseLegacyItems(description).length > 0) return description;
+  const summary = items.map((i) => `${i.quantity.toLocaleString("tr-TR")}× ${i.name}`).join(", ");
+  return description ? `${summary} · ${description}` : summary;
+}
+
 export function mapLedgerRow(row: LedgerRow, reversedById: string | null = null): CariTransaction {
   const delta = Number(row.delta ?? 0);
   const type = (LEDGER_TYPES.has(row.type) ? row.type : delta < 0 ? "tahsilat" : "satis") as LedgerType;

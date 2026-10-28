@@ -1,84 +1,64 @@
 "use client";
 
 import React, { useState, useEffect, useMemo } from "react";
-import {
-  Users,
-  Search,
-  Phone,
-  MessageCircle,
-  MapPin,
-  TrendingUp,
-  Award,
-  Clock,
-  Sparkles,
-  ShoppingBag,
-  Download,
-  ChevronDown,
-  ChevronUp,
-  UserCheck,
-  Mail,
-  RefreshCw,
-  ExternalLink,
-} from "lucide-react";
+import Link from "next/link";
+import { Search, Phone, MessageCircle, MapPin, ShoppingBag, Download, ChevronDown, ChevronUp, RefreshCw } from "lucide-react";
 import { useAdminOrders } from "@/hooks/useAdminOrders";
 import { AdminOrder } from "@/types/admin";
 import { createClient } from "@/lib/supabase/client";
-import Link from "next/link";
+import { addDays, formatTrDate, istanbulToday } from "@/lib/time/istanbul";
+import { toWhatsAppNumber } from "@/lib/settings/schema";
+import { whatsappLink } from "@/lib/site";
+
+// Müşteriler: sipariş verenler (telefona göre birleşir) + siteye Google ile giriş yapanlar.
 
 interface RegisteredProfile {
   id: string;
   email: string | null;
   full_name?: string | null;
   phone?: string | null;
-  role?: string | null;
   avatar_url?: string | null;
   created_at: string;
 }
 
-interface CustomerProfile {
-  id?: string;
+interface Customer {
+  key: string;
   phone: string;
   name: string;
   email?: string;
-  avatarUrl?: string;
-  isMudavim: boolean; // Registered user
+  hasAccount: boolean;
   neighborhood: string;
   address: string;
   orderCount: number;
   totalSpent: number;
-  firstOrderDate: string;
-  lastOrderDate: string;
+  lastOrderDate: string | null;
   favoriteItems: Record<string, number>;
-  status: "vip" | "aktif" | "yeni" | "pasif" | "kayitli";
   orders: AdminOrder[];
 }
 
+type Filter = "all" | "ordered" | "away";
+
+/** 30 günden uzun süredir sipariş vermeyen. */
+const AWAY_DAYS = 30;
+
+const tl = (v: number) => `${v.toLocaleString("tr-TR")} ₺`;
+
 export default function AdminCustomersPage() {
   const { allOrders, loading: ordersLoading } = useAdminOrders();
-  const [registeredProfiles, setRegisteredProfiles] = useState<RegisteredProfile[]>([]);
+  const [profiles, setProfiles] = useState<RegisteredProfile[]>([]);
   const [profilesLoading, setProfilesLoading] = useState(true);
-
   const [searchQuery, setSearchQuery] = useState("");
-  const [filterStatus, setFilterStatus] = useState<string>("all");
-  const [expandedPhone, setExpandedPhone] = useState<string | null>(null);
+  const [filter, setFilter] = useState<Filter>("all");
+  const [expanded, setExpanded] = useState<string | null>(null);
 
-  // Fetch registered profiles from Supabase
   const fetchProfiles = async () => {
     try {
       setProfilesLoading(true);
       const supabase = createClient();
       if (!supabase) return;
-
-      const { data, error } = await supabase
-        .from("profiles")
-        .select("*")
-        .order("created_at", { ascending: false });
-
-      if (error) {
-        console.warn("Profiles fetch error:", error);
-      } else if (data) {
-        setRegisteredProfiles(data);
-      }
+      const { data, error } = await supabase.from("profiles").select("*").order("created_at", { ascending: false });
+      if (error) console.warn("Profiles fetch error:", error);
+      else if (data) setProfiles(data);
     } catch (err) {
       console.warn("Profiles catch error:", err);
     } finally {
@@ -90,579 +70,293 @@ export default function AdminCustomersPage() {
     fetchProfiles();
   }, []);
 
-  // Aggregate Customer Profiles from Both Orders and Registered Profiles
   const customers = useMemo(() => {
-    const map: Record<string, CustomerProfile> = {};
+    const map: Record<string, Customer> = {};
 
-    // 1. Process all orders
-    const sortedOrders = [...allOrders].sort((a, b) => {
-      const dateA = a.deliveryDate || a.createdAt || "";
-      const dateB = b.deliveryDate || b.createdAt || "";
-      return dateA.localeCompare(dateB);
-    });
+    const sortedOrders = [...allOrders].sort((a, b) =>
+      (a.deliveryDate || a.createdAt || "").localeCompare(b.deliveryDate || b.createdAt || "")
+    );
 
     sortedOrders.forEach((order) => {
       const cleanPhone = (order.phone || "").replace(/\D/g, "");
-      const key = cleanPhone && cleanPhone.length >= 7 ? cleanPhone : (order.customerName || "Bilinmeyen");
-
+      const key = cleanPhone.length >= 7 ? cleanPhone : order.customerName || "Bilinmeyen";
       if (!map[key]) {
         map[key] = {
+          key,
           phone: order.phone || "",
           name: order.customerName || "İsimsiz",
-          neighborhood: order.neighborhood || "Beylikdüzü",
+          hasAccount: false,
+          neighborhood: order.neighborhood || "",
           address: order.deliveryAddress || "",
-          isMudavim: false,
           orderCount: 0,
           totalSpent: 0,
-          firstOrderDate: order.deliveryDate || "",
-          lastOrderDate: order.deliveryDate || "",
+          lastOrderDate: null,
           favoriteItems: {},
-          status: "yeni",
           orders: [],
         };
       }
-
       const c = map[key];
-      c.orderCount += 1;
-      c.totalSpent += Number(order.totalAmount) || 0;
+      if (order.status !== "iptal") {
+        c.orderCount += 1;
+        c.totalSpent += Number(order.totalAmount) || 0;
+      }
       c.lastOrderDate = order.deliveryDate || c.lastOrderDate;
       if (order.neighborhood) c.neighborhood = order.neighborhood;
       if (order.deliveryAddress) c.address = order.deliveryAddress;
-      if (order.customerName && (!c.name || c.name === "İsimsiz")) c.name = order.customerName;
+      if (order.customerName && c.name === "İsimsiz") c.name = order.customerName;
       c.orders.unshift(order);
-
-      // Favorite products
       (order.items || []).forEach((it) => {
         c.favoriteItems[it.productName] = (c.favoriteItems[it.productName] || 0) + it.quantity;
       });
     });
 
-    // 2. Link registered profiles
-    registeredProfiles.forEach((prof) => {
-      const profCleanPhone = (prof.phone || "").replace(/\D/g, "");
-      const matchKey = profCleanPhone && map[profCleanPhone] ? profCleanPhone : null;
-
-      if (matchKey) {
-        map[matchKey].isMudavim = true;
-        map[matchKey].email = prof.email || undefined;
-        map[matchKey].avatarUrl = prof.avatar_url || undefined;
-        map[matchKey].id = prof.id;
-        if (!map[matchKey].name || map[matchKey].name === "İsimsiz") {
-          map[matchKey].name = prof.full_name || (prof.email ? prof.email.split("@")[0] : "Kayıtlı Müşteri");
-        }
-      } else {
-        // Registered profile without orders yet
-        const profKey = profCleanPhone || prof.email || prof.id;
-        if (!map[profKey]) {
-          map[profKey] = {
-            id: prof.id,
-            phone: prof.phone || "",
-            name: prof.full_name || (prof.email ? prof.email.split("@")[0] : "Kayıtlı Müşteri"),
-            email: prof.email || undefined,
-            avatarUrl: prof.avatar_url || undefined,
-            isMudavim: true,
-            neighborhood: "Kayıtlı Üye",
-            address: "Adres girilmedi",
-            orderCount: 0,
-            totalSpent: 0,
-            firstOrderDate: prof.created_at.split("T")[0],
-            lastOrderDate: "—",
-            favoriteItems: {},
-            status: "kayitli",
-            orders: [],
-          };
-        }
-      }
-    });
-
-    // 3. Compute status
-    const now = new Date().getTime();
-    Object.values(map).forEach((c) => {
-      if (c.orderCount === 0) {
-        c.status = "kayitli";
+    profiles.forEach((prof) => {
+      const profPhone = (prof.phone || "").replace(/\D/g, "");
+      const fallbackName = prof.full_name || (prof.email ? prof.email.split("@")[0] : "Kayıtlı müşteri");
+      const existing = profPhone ? map[profPhone] : undefined;
+      if (existing) {
+        existing.hasAccount = true;
+        existing.email = prof.email || undefined;
+        if (existing.name === "İsimsiz") existing.name = fallbackName;
         return;
       }
-
-      const lastDate = c.lastOrderDate && c.lastOrderDate !== "—" ? new Date(c.lastOrderDate).getTime() : now;
-      const diffDays = Math.floor((now - lastDate) / (1000 * 60 * 60 * 24));
-
-      if (c.orderCount >= 4 || c.totalSpent >= 1500) {
-        c.status = "vip";
-      } else if (diffDays > 30) {
-        c.status = "pasif";
-      } else if (c.orderCount === 1) {
-        c.status = "yeni";
-      } else {
-        c.status = "aktif";
-      }
+      const key = profPhone || prof.email || prof.id;
+      if (map[key]) return;
+      map[key] = {
+        key,
+        phone: prof.phone || "",
+        name: fallbackName,
+        email: prof.email || undefined,
+        hasAccount: true,
+        neighborhood: "",
+        address: "",
+        orderCount: 0,
+        totalSpent: 0,
+        lastOrderDate: null,
+        favoriteItems: {},
+        orders: [],
+      };
     });
 
-    return Object.values(map).sort((a, b) => {
-      if (b.totalSpent !== a.totalSpent) return b.totalSpent - a.totalSpent;
-      return b.orderCount - a.orderCount;
-    });
-  }, [allOrders, registeredProfiles]);
+    return Object.values(map).sort(
+      (a, b) => (b.lastOrderDate || "").localeCompare(a.lastOrderDate || "") || b.orderCount - a.orderCount
+    );
+  }, [allOrders, profiles]);
 
-  // Filtered List
-  const filteredCustomers = useMemo(() => {
-    return customers.filter((c) => {
-      if (filterStatus === "vip" && c.status !== "vip") return false;
-      if (filterStatus === "aktif" && c.status !== "aktif") return false;
-      if (filterStatus === "yeni" && c.status !== "yeni") return false;
-      if (filterStatus === "pasif" && c.status !== "pasif") return false;
-      if (filterStatus === "kayitli" && !c.isMudavim) return false;
+  const awaySince = addDays(istanbulToday(), -AWAY_DAYS);
+  const isAway = (c: Customer) => c.orderCount > 0 && !!c.lastOrderDate && c.lastOrderDate < awaySince;
+  const orderedCount = customers.filter((c) => c.orderCount > 0).length;
+  const awayCount = customers.filter(isAway).length;
 
-      if (searchQuery.trim()) {
-        const q = searchQuery.toLowerCase();
-        const matchName = (c.name || "").toLowerCase().includes(q);
-        const matchPhone = (c.phone || "").includes(q);
-        const matchEmail = (c.email || "").toLowerCase().includes(q);
-        const matchNeighborhood = (c.neighborhood || "").toLowerCase().includes(q);
-        if (!matchName && !matchPhone && !matchEmail && !matchNeighborhood) return false;
-      }
+  const filtered = customers.filter((c) => {
+    if (filter === "ordered" && c.orderCount === 0) return false;
+    if (filter === "away" && !isAway(c)) return false;
+    const q = searchQuery.trim().toLowerCase();
+    if (!q) return true;
+    return [c.name, c.phone, c.email ?? "", c.neighborhood].some((v) => v.toLowerCase().includes(q));
+  });
 
-      return true;
-    });
-  }, [customers, filterStatus, searchQuery]);
-
-  // KPIs
-  const totalCustomers = customers.length;
-  const vipCount = customers.filter((c) => c.status === "vip").length;
-  const mudavimCount = customers.filter((c) => c.isMudavim).length;
-  const passiveCount = customers.filter((c) => c.status === "pasif").length;
-  const payingCustomers = customers.filter((c) => c.orderCount > 0);
-  const avgSpend =
-    payingCustomers.length > 0
-      ? Math.round(payingCustomers.reduce((s, c) => s + c.totalSpent, 0) / payingCustomers.length)
-      : 0;
-
-  // Export CSV
   const handleExportCSV = () => {
+    const cell = (v: string) => `"${v.replace(/"/g, '""')}"`;
     const rows = [
-      ["Müşteri Adı", "Telefon", "E-posta", "Müdavim Mi", "Durum", "Mahalle", "Sipariş Sayısı", "Toplam Harcama (TL)", "Son Sipariş"],
+      ["Ad", "Telefon", "E-posta", "Hesabı var", "Mahalle", "Sipariş", "Toplam (TL)", "Son sipariş"],
       ...customers.map((c) => [
         c.name,
         c.phone,
         c.email || "",
-        c.isMudavim ? "Evet" : "Hayır",
-        c.status,
+        c.hasAccount ? "Evet" : "Hayır",
         c.neighborhood,
-        c.orderCount.toString(),
-        c.totalSpent.toString(),
-        c.lastOrderDate,
+        String(c.orderCount),
+        String(c.totalSpent),
+        c.lastOrderDate || "",
       ]),
     ];
-
-    const csvContent = "data:text/csv;charset=utf-8,\uFEFF" + rows.map((e) => e.join(";")).join("\n");
-    const encodedUri = encodeURI(csvContent);
+    const csv = "﻿" + rows.map((r) => r.map(cell).join(";")).join("\n");
+    const url = URL.createObjectURL(new Blob([csv], { type: "text/csv;charset=utf-8;" }));
     const link = document.createElement("a");
-    link.setAttribute("href", encodedUri);
-    link.setAttribute("download", `ekmeklab_musteri_listesi_${new Date().toISOString().split("T")[0]}.csv`);
+    link.href = url;
+    link.download = `ekmeklab_musteriler_${istanbulToday()}.csv`;
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
-  };
-
-  // WhatsApp Reactivation Message
-  const openReactivationWhatsApp = (c: CustomerProfile) => {
-    const cleanPhone = c.phone.replace(/\D/g, "");
-    if (!cleanPhone) {
-      alert("Bu müşteriye ait kayıtlı telefon numarası bulunmuyor.");
-      return;
-    }
-    const formatted = cleanPhone.startsWith("90")
-      ? cleanPhone
-      : cleanPhone.startsWith("0")
-      ? `9${cleanPhone}`
-      : `90${cleanPhone}`;
-
-    const text = `Merhaba ${c.name} Hanım/Bey, EkmekLab taş fırınımızdan sıcacık selamlar! 🌾 36 saatlik soğuk fermantasyonla hazırladığımız taze ekşi mayalı ekmeklerimiz fırından yeni çıktı. Beylikdüzü kuryemiz bugün sizin mahallenize de uğrayacak. Tekrar sipariş oluşturmak ister misiniz? Afiyetle kalın! 🍞`;
-    window.open(`https://wa.me/${formatted}?text=${encodeURIComponent(text)}`, "_blank");
+    URL.revokeObjectURL(url);
   };
 
   const loading = ordersLoading || profilesLoading;
+  const filters: { key: Filter; label: string }[] = [
+    { key: "all", label: `Tümü (${customers.length})` },
+    { key: "ordered", label: `Sipariş verenler (${orderedCount})` },
+    { key: "away", label: `${AWAY_DAYS}+ gündür yok (${awayCount})` },
+  ];
 
   return (
-    <div className="space-y-8 max-w-7xl mx-auto pb-16">
-      {/* Top Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-gradient-to-r from-stone-900 via-stone-900/90 to-amber-950/40 p-6 rounded-2xl border border-stone-800 shadow-xl">
+    <div className="space-y-5 max-w-4xl mx-auto pb-24">
+      <div className="flex items-start justify-between gap-3">
         <div>
-          <div className="flex items-center gap-2 text-xs font-semibold text-amber-500 uppercase tracking-widest mb-1">
-            <Users className="w-3.5 h-3.5" />
-            <span>Müşteri Sadakati & CRM</span>
-          </div>
-          <h1 className="text-2xl md:text-3xl font-bold text-stone-100 font-serif">
-            Müşteri Masası & Müdavim Kulübü
-          </h1>
-          <p className="text-stone-400 text-xs mt-1">
-            Kayıtlı üyeler, sipariş geçmişi, LTV harcama analizleri ve WhatsApp iletişimi.
-          </p>
+          <h1 className="font-serif text-2xl sm:text-3xl font-bold text-stone-100">Müşteriler</h1>
+          <p className="text-xs text-stone-400 mt-0.5">Sipariş verenler ve siteye giriş yapanlar</p>
         </div>
-
-        <div className="flex items-center gap-2 self-start sm:self-auto">
+        <div className="flex items-center gap-2 shrink-0">
           <button
             onClick={fetchProfiles}
-            className="flex items-center gap-1.5 px-3 py-2 bg-stone-800 hover:bg-stone-700 text-stone-300 rounded-xl text-xs font-medium transition-all"
-            title="Yenile"
+            aria-label="Yenile"
+            className="h-11 w-11 flex items-center justify-center rounded-xl bg-stone-800 text-stone-300 hover:bg-stone-700"
           >
-            <RefreshCw className="w-3.5 h-3.5" />
-            <span>Yenile</span>
+            <RefreshCw className="w-4 h-4" />
           </button>
-
           <button
             onClick={handleExportCSV}
-            className="flex items-center gap-1.5 px-4 py-2 bg-amber-500/10 hover:bg-amber-500/20 text-amber-400 border border-amber-500/30 rounded-xl text-xs font-bold transition-all active:scale-95"
+            className="h-11 px-3 flex items-center gap-1.5 rounded-xl bg-stone-800 text-stone-200 text-xs font-semibold hover:bg-stone-700"
           >
-            <Download className="w-3.5 h-3.5" />
-            <span>Excel / CSV İndir</span>
+            <Download className="w-4 h-4" /> CSV
           </button>
         </div>
       </div>
 
-      {/* KPI Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        <div className="bg-stone-900/80 border border-stone-800 p-5 rounded-2xl">
-          <div className="flex items-center justify-between text-xs text-stone-400 font-semibold uppercase tracking-wider">
-            <span>Toplam Tekil Müşteri</span>
-            <Users className="w-4 h-4 text-amber-500" />
-          </div>
-          <div className="text-2xl md:text-3xl font-bold text-stone-100 font-serif mt-2">
-            {totalCustomers} <span className="text-sm font-normal text-stone-400">kişi</span>
-          </div>
-          <p className="text-xs text-stone-500 mt-1">Beylikdüzü ve çevresi</p>
-        </div>
-
-        <div className="bg-stone-900/80 border border-stone-800 p-5 rounded-2xl">
-          <div className="flex items-center justify-between text-xs text-stone-400 font-semibold uppercase tracking-wider">
-            <span>Müdavim Kulübü Üyesi</span>
-            <UserCheck className="w-4 h-4 text-sky-400" />
-          </div>
-          <div className="text-2xl md:text-3xl font-bold text-sky-400 font-serif mt-2">
-            {mudavimCount} <span className="text-sm font-normal text-stone-400">kayıtlı</span>
-          </div>
-          <p className="text-xs text-sky-500/80 mt-1">Google / E-posta ile giriş yapanlar</p>
-        </div>
-
-        <div className="bg-stone-900/80 border border-stone-800 p-5 rounded-2xl">
-          <div className="flex items-center justify-between text-xs text-stone-400 font-semibold uppercase tracking-wider">
-            <span>VIP Sadık Alıcılar</span>
-            <Award className="w-4 h-4 text-amber-400" />
-          </div>
-          <div className="text-2xl md:text-3xl font-bold text-amber-400 font-serif mt-2">
-            {vipCount} <span className="text-sm font-normal text-stone-400">müşteri</span>
-          </div>
-          <p className="text-xs text-amber-500/80 mt-1">4+ sipariş veya 1.500 ₺ üzeri</p>
-        </div>
-
-        <div className="bg-stone-900/80 border border-stone-800 p-5 rounded-2xl">
-          <div className="flex items-center justify-between text-xs text-stone-400 font-semibold uppercase tracking-wider">
-            <span>Ortalama Müşteri Harcaması</span>
-            <TrendingUp className="w-4 h-4 text-emerald-400" />
-          </div>
-          <div className="text-2xl md:text-3xl font-bold text-emerald-400 font-serif mt-2">
-            {avgSpend.toLocaleString("tr-TR")} ₺
-          </div>
-          <p className="text-xs text-emerald-500/80 mt-1">Sipariş veren müşteri ortalaması</p>
-        </div>
-      </div>
-
-      {/* Filter and Search */}
-      <div className="bg-stone-900/60 border border-stone-800 p-4 rounded-2xl flex flex-col md:flex-row gap-4 justify-between items-center">
-        <div className="relative w-full md:w-96">
+      <div className="space-y-3">
+        <div className="relative">
           <Search className="w-4 h-4 text-stone-500 absolute left-3.5 top-1/2 -translate-y-1/2" />
           <input
             type="text"
-            placeholder="İsim, telefon, e-posta veya mahalle ile ara..."
+            placeholder="İsim, telefon, e-posta veya mahalle"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full bg-stone-950 border border-stone-800 rounded-xl pl-10 pr-4 py-2 text-sm text-stone-200 placeholder-stone-500 focus:outline-none focus:border-amber-500/60 transition-colors"
+            className="w-full bg-stone-950 border border-stone-800 rounded-xl pl-10 pr-4 py-3 text-sm text-stone-200 placeholder-stone-500 focus:outline-none focus:border-amber-500/60"
           />
         </div>
-
-        <div className="flex items-center gap-2 overflow-x-auto w-full md:w-auto">
-          <button
-            onClick={() => setFilterStatus("all")}
-            className={`px-3.5 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap transition-all ${
-              filterStatus === "all"
-                ? "bg-amber-500 text-stone-950 font-bold"
-                : "bg-stone-800 text-stone-400 hover:text-stone-200"
-            }`}
-          >
-            Tüm Müşteriler ({totalCustomers})
-          </button>
-          <button
-            onClick={() => setFilterStatus("kayitli")}
-            className={`px-3.5 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap transition-all ${
-              filterStatus === "kayitli"
-                ? "bg-sky-500 text-stone-950 font-bold"
-                : "bg-stone-800 text-stone-400 hover:text-stone-200"
-            }`}
-          >
-            Müdavim Üyeler ({mudavimCount})
-          </button>
-          <button
-            onClick={() => setFilterStatus("vip")}
-            className={`px-3.5 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap transition-all ${
-              filterStatus === "vip"
-                ? "bg-amber-500 text-stone-950 font-bold"
-                : "bg-stone-800 text-stone-400 hover:text-stone-200"
-            }`}
-          >
-            ⭐ VIP ({vipCount})
-          </button>
-          <button
-            onClick={() => setFilterStatus("aktif")}
-            className={`px-3.5 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap transition-all ${
-              filterStatus === "aktif"
-                ? "bg-amber-500 text-stone-950 font-bold"
-                : "bg-stone-800 text-stone-400 hover:text-stone-200"
-            }`}
-          >
-            Aktif
-          </button>
-          <button
-            onClick={() => setFilterStatus("pasif")}
-            className={`px-3.5 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap transition-all ${
-              filterStatus === "pasif"
-                ? "bg-amber-500 text-stone-950 font-bold"
-                : "bg-stone-800 text-stone-400 hover:text-stone-200"
-            }`}
-          >
-            💤 Pasif ({passiveCount})
-          </button>
+        <div className="flex gap-2 overflow-x-auto pb-1">
+          {filters.map((f) => (
+            <button
+              key={f.key}
+              onClick={() => setFilter(f.key)}
+              className={`px-3.5 py-2 rounded-xl text-xs font-semibold whitespace-nowrap ${
+                filter === f.key ? "bg-amber-500 text-stone-950" : "bg-stone-800 text-stone-400 hover:text-stone-200"
+              }`}
+            >
+              {f.label}
+            </button>
+          ))}
         </div>
       </div>
 
-      {/* Customer List Table */}
-      <div className="bg-stone-900/70 border border-stone-800 rounded-2xl overflow-hidden shadow-xl">
-        {loading ? (
-          <div className="p-16 text-center text-stone-400 text-xs">
-            <div className="w-8 h-8 border-2 border-amber-500 border-t-transparent rounded-full animate-spin mx-auto mb-3" />
-            Müşteri ve Müdavim veritabanı taranıyor...
-          </div>
-        ) : filteredCustomers.length === 0 ? (
-          <div className="p-16 text-center text-stone-400 text-xs">
-            Kriterlere uygun müşteri veya üye bulunamadı.
-          </div>
-        ) : (
-          <div className="overflow-x-auto">
-            <table className="w-full text-left border-collapse">
-              <thead>
-                <tr className="border-b border-stone-800 text-xs font-semibold text-stone-400 uppercase tracking-wider bg-stone-950/40">
-                  <th className="py-3 px-4">Müşteri / Üye</th>
-                  <th className="py-3 px-4">Durum</th>
-                  <th className="py-3 px-4">Mahalle / Konum</th>
-                  <th className="py-3 px-4">Sipariş Sayısı</th>
-                  <th className="py-3 px-4">Toplam Harcama</th>
-                  <th className="py-3 px-4">Son Sipariş</th>
-                  <th className="py-3 px-4 text-right">İşlemler</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-stone-800/70 text-xs">
-                {filteredCustomers.map((c) => {
-                  const isPassive = c.status === "pasif";
-                  const isVip = c.status === "vip";
-                  const isExpanded = expandedPhone === (c.phone || c.email || c.name);
-
-                  return (
-                    <React.Fragment key={c.phone || c.email || c.name}>
-                      <tr className="hover:bg-stone-800/30 transition-colors">
-                        <td className="py-3.5 px-4">
-                          <div className="flex items-center gap-3">
-                            <div className="w-9 h-9 rounded-full bg-stone-800 border border-stone-700 flex items-center justify-center text-stone-300 font-bold shrink-0">
-                              {c.name ? c.name.charAt(0).toUpperCase() : "M"}
-                            </div>
-                            <div className="space-y-0.5">
-                              <div className="flex items-center gap-1.5">
-                                <span className="font-bold text-stone-100">{c.name}</span>
-                                {c.isMudavim && (
-                                  <span className="text-xs px-1.5 py-0.2 rounded bg-sky-500/15 text-sky-400 border border-sky-500/30 font-semibold" title="Müdavim Kulübü Üyesi">
-                                    Müdavim
-                                  </span>
-                                )}
-                              </div>
-                              <div className="font-mono text-xs text-stone-400">
-                                {c.phone || (c.email ? c.email : "Telefon yok")}
-                              </div>
-                            </div>
-                          </div>
-                        </td>
-
-                        <td className="py-3.5 px-4">
-                          {isVip && (
-                            <span className="px-2 py-0.5 rounded-full bg-amber-500/15 text-amber-400 font-bold border border-amber-500/30">
-                              ⭐ VIP Müşteri
-                            </span>
-                          )}
-                          {c.status === "aktif" && (
-                            <span className="px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 font-semibold border border-emerald-500/20">
-                              Aktif
-                            </span>
-                          )}
-                          {c.status === "yeni" && (
-                            <span className="px-2 py-0.5 rounded-full bg-blue-500/10 text-blue-400 font-semibold border border-blue-500/20">
-                              Yeni Müşteri
-                            </span>
-                          )}
-                          {c.status === "kayitli" && (
-                            <span className="px-2 py-0.5 rounded-full bg-stone-800 text-stone-300 font-medium border border-stone-700">
-                              Kayıtlı (Siparişsiz)
-                            </span>
-                          )}
-                          {isPassive && (
-                            <span className="px-2 py-0.5 rounded-full bg-orange-500/10 text-orange-400 font-semibold border border-orange-500/20">
-                              💤 Pasif (30+ gün)
-                            </span>
-                          )}
-                        </td>
-
-                        <td className="py-3.5 px-4">
-                          <span className="flex items-center gap-1 text-stone-300">
-                            <MapPin className="w-3.5 h-3.5 text-amber-500 shrink-0" />
-                            <span className="truncate max-w-[140px]">{c.neighborhood}</span>
-                          </span>
-                        </td>
-
-                        <td className="py-3.5 px-4 font-mono font-bold text-stone-200">
-                          {c.orderCount} sipariş
-                        </td>
-
-                        <td className="py-3.5 px-4 font-mono font-bold text-amber-400">
-                          {c.totalSpent.toLocaleString("tr-TR")} ₺
-                        </td>
-
-                        <td className="py-3.5 px-4 text-stone-400 font-mono text-xs">
-                          {c.lastOrderDate}
-                        </td>
-
-                        <td className="py-3.5 px-4 text-right">
-                          <div className="flex items-center justify-end gap-1.5">
-                            {c.phone && (
-                              <a
-                                href={`tel:${c.phone}`}
-                                className="p-1.5 rounded-lg bg-stone-800 hover:bg-stone-700 text-stone-300 hover:text-white transition-colors"
-                                title="Müşteriyi Ara"
-                              >
-                                <Phone className="w-3.5 h-3.5" />
-                              </a>
-                            )}
-
-                            {c.phone && (
-                              <button
-                                onClick={() => openReactivationWhatsApp(c)}
-                                className="flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-400 text-xs font-semibold border border-emerald-500/20 transition-all"
-                                title="WhatsApp Mesajı Aç"
-                              >
-                                <MessageCircle className="w-3.5 h-3.5" />
-                                <span className="hidden sm:inline">{isPassive ? "Geri Kazan" : "WhatsApp"}</span>
-                              </button>
-                            )}
-
-                            {c.phone && (
-                              <Link
-                                href={`/admin/siparisler/yeni?phone=${encodeURIComponent(c.phone)}`}
-                                className="p-1.5 rounded-lg bg-amber-500/10 hover:bg-amber-500/20 text-amber-400 transition-colors"
-                                title="Hızlı Sipariş Aç"
-                              >
-                                <ShoppingBag className="w-3.5 h-3.5" />
-                              </Link>
-                            )}
-
-                            <button
-                              onClick={() => setExpandedPhone(isExpanded ? null : (c.phone || c.email || c.name))}
-                              className="p-1.5 rounded-lg bg-stone-800 hover:bg-stone-700 text-stone-400 hover:text-stone-200 transition-colors"
-                              title="Detayları Göster"
-                            >
-                              {isExpanded ? <ChevronUp className="w-3.5 h-3.5" /> : <ChevronDown className="w-3.5 h-3.5" />}
-                            </button>
-                          </div>
-                        </td>
-                      </tr>
-
-                      {/* Expanded Details Row */}
-                      {isExpanded && (
-                        <tr className="bg-stone-950/60 border-b border-stone-800">
-                          <td colSpan={7} className="p-4">
-                            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
-                              {/* Address & Contact */}
-                              <div className="bg-stone-900/60 p-3.5 rounded-xl border border-stone-800 space-y-2">
-                                <h4 className="font-bold text-stone-200 flex items-center gap-1.5">
-                                  <MapPin className="w-3.5 h-3.5 text-amber-500" />
-                                  <span>Teslimat & İletişim Bilgileri</span>
-                                </h4>
-                                <div className="text-stone-400 space-y-1">
-                                  <div><strong>Adres:</strong> {c.address || "Belirtilmemiş"}</div>
-                                  <div><strong>Mahalle:</strong> {c.neighborhood}</div>
-                                  {c.email && <div><strong>E-posta:</strong> {c.email}</div>}
-                                  {c.phone && <div><strong>Telefon:</strong> {c.phone}</div>}
-                                </div>
-                              </div>
-
-                              {/* Favorite Items */}
-                              <div className="bg-stone-900/60 p-3.5 rounded-xl border border-stone-800 space-y-2">
-                                <h4 className="font-bold text-stone-200 flex items-center gap-1.5">
-                                  <Sparkles className="w-3.5 h-3.5 text-amber-400" />
-                                  <span>Favori Ürünler</span>
-                                </h4>
-                                {Object.keys(c.favoriteItems).length === 0 ? (
-                                  <div className="text-stone-500">Henüz ürün geçmişi yok</div>
-                                ) : (
-                                  <div className="space-y-1">
-                                    {Object.entries(c.favoriteItems)
-                                      .sort(([, a], [, b]) => b - a)
-                                      .slice(0, 5)
-                                      .map(([name, qty]) => (
-                                        <div key={name} className="flex justify-between text-stone-300">
-                                          <span>{name}</span>
-                                          <span className="font-mono text-amber-400 font-bold">{qty} adet</span>
-                                        </div>
-                                      ))}
-                                  </div>
-                                )}
-                              </div>
-
-                              {/* Recent Orders List */}
-                              <div className="bg-stone-900/60 p-3.5 rounded-xl border border-stone-800 space-y-2">
-                                <h4 className="font-bold text-stone-200 flex items-center gap-1.5">
-                                  <ShoppingBag className="w-3.5 h-3.5 text-emerald-400" />
-                                  <span>Son Siparişler ({c.orders.length})</span>
-                                </h4>
-                                {c.orders.length === 0 ? (
-                                  <div className="text-stone-500">Henüz sipariş vermedi</div>
-                                ) : (
-                                  <div className="space-y-1.5 max-h-36 overflow-y-auto pr-1">
-                                    {c.orders.slice(0, 4).map((o) => (
-                                      <div key={o.id} className="flex items-center justify-between p-1.5 rounded-lg bg-stone-950/60 border border-stone-800/80">
-                                        <div>
-                                          <div className="font-mono font-bold text-stone-200 text-xs">{o.id}</div>
-                                          <div className="text-xs text-stone-400">{o.deliveryDate}</div>
-                                        </div>
-                                        <div className="text-right">
-                                          <div className="font-mono font-bold text-amber-400 text-xs">{o.totalAmount} ₺</div>
-                                          <Link
-                                            href={`/admin/siparisler/${o.id}`}
-                                            className="text-xs text-sky-400 hover:underline flex items-center gap-0.5 justify-end"
-                                          >
-                                            Detay <ExternalLink className="w-2.5 h-2.5" />
-                                          </Link>
-                                        </div>
-                                      </div>
-                                    ))}
-                                  </div>
-                                )}
-                              </div>
-                            </div>
-                          </td>
-                        </tr>
+      {loading ? (
+        <div className="p-12 text-center text-stone-400 text-xs">Yükleniyor…</div>
+      ) : filtered.length === 0 ? (
+        <div className="p-12 text-center text-stone-400 text-xs bg-stone-900/60 border border-stone-800 rounded-2xl">
+          Bu süzgece uyan müşteri yok.
+        </div>
+      ) : (
+        <ul className="space-y-2.5">
+          {filtered.map((c) => {
+            const open = expanded === c.key;
+            const favorites = Object.entries(c.favoriteItems).sort(([, a], [, b]) => b - a).slice(0, 5);
+            return (
+              <li key={c.key} className="bg-stone-900/70 border border-stone-800 rounded-2xl">
+                <button
+                  type="button"
+                  onClick={() => setExpanded(open ? null : c.key)}
+                  aria-expanded={open}
+                  className="w-full text-left p-4 flex items-start gap-3"
+                >
+                  <div className="flex-1 min-w-0 space-y-1">
+                    <div className="flex items-center gap-2 flex-wrap">
+                      <span className="font-bold text-stone-100">{c.name}</span>
+                      {c.hasAccount && (
+                        <span className="text-xs px-1.5 rounded bg-sky-500/10 text-sky-400 border border-sky-500/20">Hesabı var</span>
                       )}
-                    </React.Fragment>
-                  );
-                })}
-              </tbody>
-            </table>
-          </div>
-        )}
-      </div>
+                      {isAway(c) && (
+                        <span className="text-xs px-1.5 rounded bg-orange-500/10 text-orange-400 border border-orange-500/20">
+                          {AWAY_DAYS}+ gündür yok
+                        </span>
+                      )}
+                    </div>
+                    <div className="text-xs text-stone-400 font-mono truncate">{c.phone || c.email || "İletişim yok"}</div>
+                    <div className="text-xs text-stone-400">
+                      {c.orderCount > 0 ? (
+                        <>
+                          {c.orderCount} sipariş · <span className="text-amber-400 font-semibold">{tl(c.totalSpent)}</span>
+                          {c.lastOrderDate && <> · son {formatTrDate(c.lastOrderDate)}</>}
+                        </>
+                      ) : (
+                        "Henüz sipariş yok"
+                      )}
+                      {c.neighborhood && <> · {c.neighborhood}</>}
+                    </div>
+                  </div>
+                  {open ? <ChevronUp className="w-4 h-4 text-stone-500 mt-1" /> : <ChevronDown className="w-4 h-4 text-stone-500 mt-1" />}
+                </button>
+
+                {c.phone && (
+                  <div className="px-4 pb-4 flex gap-2">
+                    <a href={`tel:${c.phone}`} className="h-11 px-3 flex items-center gap-1.5 rounded-xl bg-stone-800 text-stone-200 text-xs font-semibold">
+                      <Phone className="w-4 h-4" /> Ara
+                    </a>
+                    <a
+                      href={whatsappLink(`Merhaba ${c.name}, EkmekLab'dan yazıyorum.`, toWhatsAppNumber(c.phone))}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="h-11 px-3 flex items-center gap-1.5 rounded-xl bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 text-xs font-semibold"
+                    >
+                      <MessageCircle className="w-4 h-4" /> WhatsApp
+                    </a>
+                    <Link
+                      href={`/admin/siparisler/yeni?phone=${encodeURIComponent(c.phone)}`}
+                      className="h-11 px-3 flex items-center gap-1.5 rounded-xl bg-amber-500/10 text-amber-400 border border-amber-500/20 text-xs font-semibold"
+                    >
+                      <ShoppingBag className="w-4 h-4" /> Sipariş
+                    </Link>
+                  </div>
+                )}
+
+                {open && (
+                  <div className="border-t border-stone-800 p-4 space-y-4 text-xs">
+                    <div className="space-y-1 text-stone-400">
+                      {c.address && (
+                        <div className="flex gap-1.5">
+                          <MapPin className="w-3.5 h-3.5 text-amber-500 shrink-0 mt-0.5" />
+                          <span>{c.address}</span>
+                        </div>
+                      )}
+                      {c.email && <div>E-posta: {c.email}</div>}
+                    </div>
+
+                    {favorites.length > 0 && (
+                      <div className="space-y-1">
+                        <h3 className="font-bold text-stone-300">En çok aldıkları</h3>
+                        {favorites.map(([name, qty]) => (
+                          <div key={name} className="flex justify-between text-stone-400">
+                            <span>{name}</span>
+                            <span className="font-mono text-stone-200">{qty} adet</span>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+
+                    {c.orders.length > 0 && (
+                      <div className="space-y-1.5">
+                        <h3 className="font-bold text-stone-300">Son siparişler</h3>
+                        {c.orders.slice(0, 5).map((o) => (
+                          <Link
+                            key={o.id}
+                            href={`/admin/siparisler/${o.id}`}
+                            className="flex items-center justify-between p-2.5 rounded-xl bg-stone-950/60 border border-stone-800 hover:border-stone-700"
+                          >
+                            <span className="text-stone-300">
+                              {o.deliveryDate ? formatTrDate(o.deliveryDate) : "—"}
+                              {o.status === "iptal" && <span className="text-stone-500"> · iptal</span>}
+                            </span>
+                            <span className="font-mono text-amber-400">{tl(Number(o.totalAmount) || 0)}</span>
+                          </Link>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                )}
+              </li>
+            );
+          })}
+        </ul>
+      )}
     </div>
   );
 }

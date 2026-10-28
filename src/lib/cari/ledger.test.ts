@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { mapLedger, parseLegacyItems, type LedgerRow } from "./ledger";
+import { ledgerLine, mapLedger, parseLegacyItems, type LedgerRow } from "./ledger";
 
 const row = (over: Partial<LedgerRow>): LedgerRow => ({
   id: "t1",
@@ -43,5 +43,31 @@ describe("cari defter eşleme", () => {
     const [tx] = mapLedger([row({ items: [{ name: "Baget", quantity: 2, unitPrice: 30 }], description: "Not" })]);
     expect(tx.items).toEqual([{ name: "Baget", quantity: 2, unitPrice: 30 }]);
     expect(tx.description).toBe("Not");
+  });
+});
+
+describe("ledgerLine", () => {
+  const items = [
+    { name: "Taş Fırın Ekşi Mayalı Köy Ekmeği", quantity: 10, unitPrice: 110 },
+    { name: "%100 Taş Değirmen Siyez Ekmeği", quantity: 2, unitPrice: 150 },
+  ];
+
+  it("kalemleri adet ve adla yazar", () => {
+    expect(ledgerLine({ description: "", items })).toBe("10× Taş Fırın Ekşi Mayalı Köy Ekmeği, 2× %100 Taş Değirmen Siyez Ekmeği");
+  });
+
+  it("notu kalemlerin arkasına ekler", () => {
+    expect(ledgerLine({ description: "kapıya bırakıldı", items: items.slice(0, 1) })).toBe(
+      "10× Taş Fırın Ekşi Mayalı Köy Ekmeği · kapıya bırakıldı",
+    );
+  });
+
+  it("eski kayıtta açıklamayı olduğu gibi bırakır", () => {
+    const legacy = "20x Taş Fırın Ekşi Mayalı Köy Ekmeği (110₺)";
+    expect(ledgerLine({ description: legacy, items: parseLegacyItems(legacy) })).toBe(legacy);
+  });
+
+  it("kalemsiz harekette açıklamayı gösterir", () => {
+    expect(ledgerLine({ description: "Nakit", items: [] })).toBe("Nakit");
   });
 });

@@ -28,7 +28,7 @@ import CariEditModal from "@/components/admin/cariler/CariEditModal";
 import BalanceAdjustModal from "@/components/admin/cariler/BalanceAdjustModal";
 import TransactionReceiptModal from "@/components/admin/cariler/TransactionReceiptModal";
 import { CariTransaction } from "@/types/admin";
-import { LEDGER_TYPE_LABELS, PAYMENT_METHOD_LABELS } from "@/lib/cari/ledger";
+import { LEDGER_TYPE_LABELS, PAYMENT_METHOD_LABELS, ledgerLine } from "@/lib/cari/ledger";
 import { addDays, istanbulToday } from "@/lib/time/istanbul";
 
 export default function IsolatedCariDetailPage() {
@@ -101,7 +101,7 @@ export default function IsolatedCariDetailPage() {
       const dateStr = tx.date.split("-").reverse().join(".");
       const slip = tx.slipNumber || "-";
       const typeStr = LEDGER_TYPE_LABELS[tx.type] + (tx.reversedById ? " (iptal edildi)" : "");
-      const desc = (tx.description || "").replace(/[;"\n]/g, " ");
+      const desc = ledgerLine(tx).replace(/[;"\n]/g, " ");
       const payMethod = tx.paymentMethod ? PAYMENT_METHOD_LABELS[tx.paymentMethod] || tx.paymentMethod : "-";
       const money = (n: number) => n.toFixed(2).replace(".", ",");
       const debtAmount = tx.delta > 0 ? money(tx.delta) : "0,00";
@@ -505,7 +505,7 @@ export default function IsolatedCariDetailPage() {
                         )}
                       </div>
                       <div className="text-xs text-stone-400 mt-0.5 line-clamp-2">
-                        {tx.description}
+                        {ledgerLine(tx)}
                       </div>
                       <div className="text-xs text-stone-500 mt-1 font-mono">
                         {tx.date.split("-").reverse().join(".")}
