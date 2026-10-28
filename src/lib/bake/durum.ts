@@ -1,14 +1,11 @@
 import { addDays, istanbulTime, istanbulToday, istanbulWeekday } from "@/lib/time/istanbul";
 import { bakeClock } from "@/lib/bake/log";
+import { DEFAULT_STORE_SETTINGS } from "@/lib/settings/schema";
+import type { BakeHours } from "@/types/settings";
 
-// Girişteki rozet: fırının o anki hâli, İstanbul saatine göre (Tahsin, 26 Eki): 08:00 açılır,
-// 09:00 ilk ekmekler girer, 10–12 çıkar, öğleden sonra teslimat. Sabit kapanış yok ("teslimatlar
-// bitince"); rozet 19:00'dan sonra kapalı der. "Fırından çıktı" saati admin kaydından (bake_logs) gelir.
-
-export const ACILIS = "08:00";
-export const FIRINA_GIRIS = "09:00";
-export const TESLIMAT = "12:00";
-export const KAPANIS = "19:00";
+// Girişteki rozet: fırının o anki hâli, İstanbul saatine göre. Saatler Ayarlar'dan gelir (bakeHours;
+// varsayılan Tahsin, 26 Eki: 08:00 açılır, 09:00 ilk ekmekler girer, 12:00 teslimat, 19:00 sonrası kapalı).
+// "Fırından çıktı" saati admin kaydından (bake_logs) gelir.
 
 const GUNLER = ["Pazar", "Pazartesi", "Salı", "Çarşamba", "Perşembe", "Cuma", "Cumartesi"];
 
@@ -25,6 +22,12 @@ export interface DurumGirdisi {
   /** 0 = Pazar … 6 = Cumartesi */
   openWeekdays: readonly number[];
   closedDates: readonly string[];
+  /** Ayarlardaki fırın saatleri; verilmezse varsayılan */
+  saatler?: BakeHours;
+}
+
+function saatlerOf(g: DurumGirdisi): BakeHours {
+  return g.saatler ?? DEFAULT_STORE_SETTINGS.bakeHours;
 }
 
 function dk(saat: string): number {
@@ -47,7 +50,7 @@ function siradakiGun(bugun: string, openWeekdays: readonly number[], closedDates
 
 function kapali(bas: string, bugun: string, g: DurumGirdisi): FirinDurumu {
   const sira = siradakiGun(bugun, g.openWeekdays, g.closedDates);
-  return { yazi: sira ? `${bas} · ${sira} ${ACILIS}'de açılıyor` : bas, acik: false };
+  return { yazi: sira ? `${bas} · ${sira} ${saatlerOf(g).open}'de açılıyor` : bas, acik: false };
 }
 
 export function firinDurumu(g: DurumGirdisi): FirinDurumu {
@@ -55,16 +58,17 @@ export function firinDurumu(g: DurumGirdisi): FirinDurumu {
   const bugun = istanbulToday(now);
   const { hour, minute } = istanbulTime(now);
   const simdi = hour * 60 + minute;
+  const { open, oven, dispatch, close } = saatlerOf(g);
   const cikis = g.sonCikis && istanbulToday(new Date(g.sonCikis)) === bugun ? bakeClock(g.sonCikis) : null;
 
   if (!acikGun(bugun, g.openWeekdays, g.closedDates)) return kapali("Bugün fırın kapalı", bugun, g);
-  if (simdi < dk(ACILIS)) return { yazi: `Fırın bugün ${ACILIS}'de açılıyor`, acik: false };
-  if (simdi >= dk(KAPANIS)) return kapali("Fırın kapalı", bugun, g);
+  if (simdi < dk(open)) return { yazi: `Fırın bugün ${open}'de açılıyor`, acik: false };
+  if (simdi >= dk(close)) return kapali("Fırın kapalı", bugun, g);
 
-  if (simdi >= dk(TESLIMAT)) {
+  if (simdi >= dk(dispatch)) {
     return { yazi: cikis ? `Ekmekler teslimatta · fırından çıkış ${cikis}` : "Bugünün ekmekleri teslimatta", acik: true };
   }
   if (cikis) return { yazi: `Bugün fırından çıktı · ${cikis}`, acik: true };
-  if (simdi >= dk(FIRINA_GIRIS)) return { yazi: "İlk ekmekler fırında", acik: true };
+  if (simdi >= dk(oven)) return { yazi: "İlk ekmekler fırında", acik: true };
   return { yazi: "Fırın açık · ısınıyor", acik: true };
 }

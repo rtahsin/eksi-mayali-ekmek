@@ -30,6 +30,7 @@ export const DEFAULT_STORE_SETTINGS: StoreSettings = {
   maxDaysAhead: 7,
   dailyBreadCapacity: null,
   wholesaleDailyLoaves: 0,
+  bakeHours: { open: "08:00", oven: "09:00", dispatch: "12:00", close: "19:00" },
 };
 
 const money = z.coerce.number().finite().min(0).max(100000);
@@ -41,6 +42,17 @@ const neighborhoodName = z
   .max(60)
   // Eski kayıtlardaki " Mah." sonekini at: tek biçim "Barış"
   .transform((v) => v.replace(/\s+Mah(\.|allesi)?$/i, "").trim());
+
+/** Saatler gün içinde sıralı olmalı: açılış < fırın < teslimat < kapanış. */
+const bakeHours = z
+  .object({ open: clock, oven: clock, dispatch: clock, close: clock })
+  .refine(
+    (h) => {
+      const [a, b, c, d] = [h.open, h.oven, h.dispatch, h.close].map((v) => parseClock(v) ?? -1);
+      return a < b && b < c && c < d;
+    },
+    { message: "Fırın saatleri sıralı olmalı: açılış, fırına giriş, teslimat, kapanış" }
+  );
 
 /** Admin formundan gelen (katı) şema. */
 export const StoreSettingsSchema = z.object({
@@ -58,6 +70,7 @@ export const StoreSettingsSchema = z.object({
   maxDaysAhead: z.coerce.number().int().min(0).max(30),
   dailyBreadCapacity: z.coerce.number().int().min(0).max(10000).nullable(),
   wholesaleDailyLoaves: z.coerce.number().int().min(0).max(10000),
+  bakeHours,
 });
 
 /**

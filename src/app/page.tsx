@@ -31,7 +31,7 @@ export const metadata: Metadata = {
 
 export default async function HomePage() {
   const [{ products, categories }, settings, sonCikis] = await Promise.all([getCatalog(), getStoreSettings(), getSonCikis()]);
-  const takvim = { sonCikis, openWeekdays: settings.openWeekdays, closedDates: settings.closedDates };
+  const takvim = { sonCikis, openWeekdays: settings.openWeekdays, closedDates: settings.closedDates, saatler: settings.bakeHours };
 
   return (
     <div className="min-h-screen flex flex-col bg-bg text-ink selection:bg-accent/20 selection:text-ink font-sans">
