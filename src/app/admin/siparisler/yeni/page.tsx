@@ -6,7 +6,6 @@ import { useProducts } from "@/hooks/useProducts";
 import { useCariler } from "@/hooks/useCariler";
 import { useRouter, useSearchParams } from "next/navigation";
 import {
-  BEYLIKDUZU_NEIGHBORHOODS,
   AdminPaymentMethod,
   OrderItem,
   OrderSource,
@@ -261,7 +260,7 @@ function ManualOrderForm() {
             <option value="">— Bireysel / Perakende Müşteri —</option>
             {cariler.map((c) => (
               <option key={c.id} value={c.id}>
-                {c.businessName} ({c.neighborhood})
+                {c.neighborhood ? `${c.businessName} (${c.neighborhood})` : c.businessName}
               </option>
             ))}
           </select>
@@ -323,7 +322,11 @@ function ManualOrderForm() {
                   onChange={(e) => setNeighborhood(e.target.value)}
                   className="w-full bg-stone-950 border border-stone-800 rounded-xl px-3 py-2.5 text-xs text-stone-100 focus:outline-none focus:border-amber-500"
                 >
-                  {BEYLIKDUZU_NEIGHBORHOODS.map((n) => (
+                  {/* Mahalleler Ayarlar'dan; seçili değer listede yoksa (eski sipariş, elle teslimat) yine görünür. */}
+                  {(storeSettings.neighborhoods.includes(neighborhood)
+                    ? storeSettings.neighborhoods
+                    : [neighborhood, ...storeSettings.neighborhoods]
+                  ).map((n) => (
                     <option key={n} value={n}>
                       {n} Mahallesi
                     </option>

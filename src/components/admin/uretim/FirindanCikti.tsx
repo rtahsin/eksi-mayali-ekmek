@@ -116,7 +116,7 @@ export function FirindanCikti() {
           <Flame className="w-5 h-5 text-amber-500" /> Bugün fırından çıktı
         </h2>
         <p className="text-xs text-stone-500 mt-1">
-          Her çıkışta adetleri gir, istersen fotoğraf ekle; saati sistem yazar. Kayıtlar şimdilik sitede görünmüyor.
+          Her çıkışta adetleri gir, istersen fotoğraf ekle; saati sistem yazar. Son çıkış saati ana sayfadaki rozette görünür; fotoğraflar henüz sitede yok.
         </p>
       </div>
 
