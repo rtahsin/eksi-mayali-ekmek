@@ -8,7 +8,7 @@ import { addDays, istanbulToday, normalizeDeliveryDate } from "@/lib/time/istanb
 import { computeShippingFee } from "@/lib/settings/schema";
 import { useStoreSettings } from "@/hooks/useStoreSettings";
 import { useIstanbulToday } from "@/hooks/useIstanbulToday";
-import { defaultDeliveryPayment, deliverOrder } from "@/lib/orders/delivery";
+import { defaultDeliveryPayment, deliverOrder, type DeliveryPayment } from "@/lib/orders/delivery";
 
 export function normalizeOrderStatus(rawStatus?: string): AdminOrderStatus {
   if (!rawStatus) return "bekliyor";
@@ -51,6 +51,7 @@ interface RawOrderRow {
   neighborhood?: string | null;
   delivery_method?: string | null;
   delivery_date?: string | null;
+  delivery_time_window?: string | null;
   subtotal?: number | string | null;
   shipping_fee?: number | string | null;
   total_amount?: number | string | null;
@@ -146,7 +147,7 @@ export function useAdminOrders(options: UseAdminOrdersOptions = {}) {
             neighborhood: o.neighborhood || extractNeighborhood(o.delivery_address || ""),
             deliveryMethod: o.delivery_method === "pickup" ? "pickup" : "courier",
             deliveryDate: d,
-            deliveryTimeWindow: "14:00 - 18:00",
+            deliveryTimeWindow: o.delivery_time_window || undefined,
             items,
             subtotal: Number(o.subtotal) || 0,
             shippingFee: Number(o.shipping_fee) || 0,
@@ -217,18 +218,17 @@ export function useAdminOrders(options: UseAdminOrdersOptions = {}) {
   }, [supabase, fetchSupabaseOrders]);
 
   // Durum değişikliği sunucuda: ara durumlar /status, teslim /deliver (ödeme + cari tek işlem), iptal /cancel.
+  // Teslimde ödeme şekli verilmezse siparişin ödeme yöntemi tahsil edilmiş sayılır.
   const updateOrderStatus = async (
     orderId: string,
     newStatus: AdminOrderStatus,
-    _courierNotes?: string,
-    _changedByRole: "system" | "admin" | "courier" | "customer" = "admin",
-    _changedById?: string,
-    note?: string
-  ) => {
+    opts: { note?: string; payment?: DeliveryPayment } = {}
+  ): Promise<{ success: boolean; error?: string }> => {
     const currentOrder = orders.find((o) => o.id === orderId);
+    const note = opts.note;
     try {
       if (newStatus === "teslim_edildi") {
-        const payment = defaultDeliveryPayment(currentOrder?.paymentMethod, Boolean(currentOrder?.cariId));
+        const payment = opts.payment ?? defaultDeliveryPayment(currentOrder?.paymentMethod, Boolean(currentOrder?.cariId));
         const res = await deliverOrder(orderId, payment, note);
         if (!res.ok) throw new Error(res.error || "Teslim kaydedilemedi");
       } else {
@@ -301,13 +301,8 @@ export function useAdminOrders(options: UseAdminOrdersOptions = {}) {
   };
 
   // Cancel order flow
-  const cancelOrder = async (
-    orderId: string,
-    reason: string,
-    cancelledBy: "admin" | "customer" | "system" = "admin",
-    userId?: string
-  ) => {
-    return updateOrderStatus(orderId, "iptal", undefined, cancelledBy, userId, reason);
+  const cancelOrder = async (orderId: string, reason: string) => {
+    return updateOrderStatus(orderId, "iptal", { note: reason });
   };
 
   // Manuel sipariş: sunucuda tek atomik RPC (numara, kalemler, geçmiş). Cari borcu teslimde yazılır.
@@ -371,11 +366,12 @@ export function useAdminOrders(options: UseAdminOrdersOptions = {}) {
 
       // Search query
       if (searchQuery.trim()) {
-        const q = searchQuery.toLowerCase().trim();
-        const matchesName = order.customerName.toLowerCase().includes(q);
-        const matchesPhone = order.phone.includes(q);
-        const matchesOrderNo = order.orderNumber?.toLowerCase().includes(q);
-        const matchesNeighborhood = order.neighborhood?.toLowerCase().includes(q);
+        const q = searchQuery.toLocaleLowerCase("tr").trim();
+        const digits = q.replace(/\D/g, "");
+        const matchesName = order.customerName.toLocaleLowerCase("tr").includes(q);
+        const matchesPhone = digits.length >= 3 && order.phone.replace(/\D/g, "").includes(digits);
+        const matchesOrderNo = order.orderNumber?.toLocaleLowerCase("tr").includes(q);
+        const matchesNeighborhood = order.neighborhood?.toLocaleLowerCase("tr").includes(q);
         if (!matchesName && !matchesPhone && !matchesOrderNo && !matchesNeighborhood) return false;
       }
 
@@ -383,28 +379,12 @@ export function useAdminOrders(options: UseAdminOrdersOptions = {}) {
     });
   }, [orders, statusFilter, dateFilter, searchQuery, todayStr, tomorrowStr]);
 
-  // Statistics
-  const stats = useMemo(() => {
-    const todayOrders = orders.filter((o) => o.deliveryDate === todayStr && o.status !== "iptal");
-    const todayRevenue = todayOrders.reduce((sum, o) => sum + o.totalAmount, 0);
-
-    return {
-      totalToday: todayOrders.length,
-      todayRevenue,
-      pendingCount: orders.filter((o) => o.status === "bekliyor").length,
-      processingCount: orders.filter((o) => o.status === "hazirlaniyor").length,
-      bakingCount: orders.filter((o) => o.status === "firinda").length,
-      courierCount: orders.filter((o) => o.status === "kuryede").length,
-      completedTodayCount: todayOrders.filter((o) => o.status === "teslim_edildi").length,
-    };
-  }, [orders, todayStr]);
 
   return {
     orders: filteredOrders,
     allOrders: orders,
     loading,
     error,
-    stats,
     statusFilter,
     setStatusFilter,
     dateFilter,
