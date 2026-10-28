@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useCallback, useEffect, useRef, useState } from "react";
-import { Camera, Eye, EyeOff, Flame, Loader2, Minus, Plus, X } from "lucide-react";
+import { Camera, ChevronDown, Eye, EyeOff, Flame, Loader2, Minus, Plus, X } from "lucide-react";
 import type { BakeLog, BakeLogDay } from "@/types/bake";
 import { bakeClock, totalLoaves } from "@/lib/bake/log";
 import { shrinkPhoto } from "@/lib/media/shrinkPhoto";
@@ -22,6 +22,7 @@ export function FirindanCikti() {
   const [preview, setPreview] = useState<string | null>(null);
   const [busy, setBusy] = useState<"photo" | "save" | null>(null);
   const [saved, setSaved] = useState<string | null>(null);
+  const [showOthers, setShowOthers] = useState(false);
   const fileRef = useRef<HTMLInputElement>(null);
 
   const load = useCallback(async () => {
@@ -116,7 +117,7 @@ export function FirindanCikti() {
           <Flame className="w-5 h-5 text-amber-500" /> Bugün fırından çıktı
         </h2>
         <p className="text-xs text-stone-500 mt-1">
-          Her çıkışta adetleri gir, istersen fotoğraf ekle; saati sistem yazar. Son çıkış saati ana sayfadaki rozette görünür; fotoğraflar henüz sitede yok.
+          Her çıkışta adetleri gir, istersen fotoğraf ekle; saati sistem yazar. Liste bugün satılan ekmeklerle başlar. Son çıkış saati ana sayfadaki rozette görünür; fotoğraflar henüz sitede yok.
         </p>
       </div>
 
@@ -125,11 +126,14 @@ export function FirindanCikti() {
       {data && (
         <div className="space-y-3">
           <ul className="divide-y divide-stone-800">
-            {data.products.map((p) => {
+            {data.products.filter((p) => p.soldToday || showOthers || (counts[p.id] ?? 0) > 0).map((p) => {
               const n = counts[p.id] ?? 0;
               return (
                 <li key={p.id} className="flex items-center gap-3 py-2">
-                  <span className="flex-1 text-sm text-stone-200">{p.name}</span>
+                  <span className="flex-1 text-sm text-stone-200">
+                    {p.name}
+                    {!p.soldToday && <span className="block text-xs text-stone-500">bugün satış günü değil</span>}
+                  </span>
                   <button
                     type="button"
                     onClick={() => bump(p.id, -1)}
@@ -162,6 +166,15 @@ export function FirindanCikti() {
               );
             })}
           </ul>
+          {!showOthers && data.products.some((p) => !p.soldToday) && (
+            <button
+              type="button"
+              onClick={() => setShowOthers(true)}
+              className="h-11 w-full rounded-xl border border-dashed border-stone-700 text-sm text-stone-400 flex items-center justify-center gap-1.5"
+            >
+              <ChevronDown className="w-4 h-4" /> Bugün satılmayan {data.products.filter((p) => !p.soldToday).length} ürün
+            </button>
+          )}
 
           <div className="flex flex-wrap items-center gap-3">
             <input

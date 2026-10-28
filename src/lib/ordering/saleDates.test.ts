@@ -5,6 +5,7 @@ import {
   formatTrDayMonth,
   getSaleScheduleBadge,
   ensureSaleDatesWindow,
+  isSoldOn,
 } from "./saleDates";
 
 describe("weekdayLabel pure function (I-06)", () => {
@@ -145,5 +146,15 @@ describe("ensureSaleDatesWindow async helper", () => {
       ]),
       { onConflict: "product_id, sale_date", ignoreDuplicates: true }
     );
+  });
+});
+
+describe("isSoldOn", () => {
+  it("boş liste her gün, Pazar 7 sayılır", () => {
+    expect(isSoldOn(null, "2026-10-28")).toBe(true);
+    expect(isSoldOn([], "2026-10-28")).toBe(true);
+    expect(isSoldOn([6], "2026-10-31")).toBe(true); // Cumartesi
+    expect(isSoldOn([6], "2026-10-30")).toBe(false); // Cuma
+    expect(isSoldOn([7], "2026-11-01")).toBe(true); // Pazar
   });
 });
