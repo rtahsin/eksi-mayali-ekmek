@@ -15,6 +15,7 @@ import {
   rowToBakeLog,
   type BakeLogRow,
 } from "@/lib/bake/log";
+import { isSoldOn } from "@/lib/ordering/saleDates";
 import type { BakeLogDay, BakeProduct } from "@/types/bake";
 
 const COLUMNS = "id, baked_at, day, items, photo_path, note, hidden";
@@ -35,7 +36,7 @@ export async function GET(request: Request) {
       supabase.from("bake_logs").select(COLUMNS).eq("day", day).order("baked_at", { ascending: false }),
       supabase
         .from("products")
-        .select("id, name")
+        .select("id, name, sale_weekdays")
         .eq("is_active", true)
         .gt("capacity_units", 0)
         .order("display_order", { ascending: true }),
@@ -47,7 +48,9 @@ export async function GET(request: Request) {
     const body: BakeLogDay = {
       day,
       logs: ((logsRes.data ?? []) as BakeLogRow[]).map((r) => rowToBakeLog(r, publicUrl)),
-      products: (productsRes.data ?? []) as BakeProduct[],
+      products: ((productsRes.data ?? []) as { id: string; name: string; sale_weekdays: number[] | null }[]).map(
+        (p): BakeProduct => ({ id: p.id, name: p.name, soldToday: isSoldOn(p.sale_weekdays, day) })
+      ),
     };
     return NextResponse.json(body);
   } catch (err: unknown) {
@@ -102,7 +105,7 @@ export async function POST(request: Request) {
         .select("id, name")
         .in("id", items.map((it) => it.productId));
       if (error) throw error;
-      const names = new Map(((known ?? []) as BakeProduct[]).map((p) => [p.id, p.name]));
+      const names = new Map(((known ?? []) as { id: string; name: string }[]).map((p) => [p.id, p.name]));
       const unknown = items.filter((it) => !names.has(it.productId));
       if (unknown.length) return NextResponse.json({ error: "Bilinmeyen ürün" }, { status: 400 });
       for (const it of items) it.name = names.get(it.productId) ?? it.name;

@@ -26,6 +26,13 @@ const MONTH_SHORT = [
   "Tem", "Ağu", "Eyl", "Eki", "Kas", "Ara",
 ];
 
+/** Ürün o gün satılıyor mu? Gün listesi boşsa her gün (1=Pzt..7=Paz). */
+export function isSoldOn(weekdays: readonly number[] | null | undefined, isoDate: string): boolean {
+  if (!weekdays || weekdays.length === 0) return true;
+  const jsDay = istanbulWeekday(isoDate);
+  return weekdays.includes(jsDay === 0 ? 7 : jsDay);
+}
+
 /**
  * ISO tarihini "10 Eki" şeklinde biçimlendirir.
  */

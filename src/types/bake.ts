@@ -22,6 +22,8 @@ export interface BakeLog {
 export interface BakeProduct {
   id: string;
   name: string;
+  /** O gün satış günü mü (ürünün satış günlerine göre) */
+  soldToday: boolean;
 }
 
 export interface BakeLogDay {
