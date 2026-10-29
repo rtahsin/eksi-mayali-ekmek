@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import type { AdminOrder } from "@/types/admin";
-import { canCancel, compareForWork, inStatusGroup, isUncollected, nextStep, orderMessage, statusLabel } from "./adminFlow";
+import { canCancel, compareForWork, inStatusGroup, isUncollected, nextStep, orderMessage, paymentLabel, statusLabel } from "./adminFlow";
 
 function order(over: Partial<AdminOrder> = {}): AdminOrder {
   return {
@@ -89,5 +89,14 @@ describe("WhatsApp metni", () => {
   it("siparişteki aralık ayardakinden önce gelir", () => {
     const text = orderMessage("yolda", order({ deliveryTimeWindow: "15:00 - 17:00" }), { window: "14:00 - 18:00", dateLabel: "Bugün" });
     expect(text).toContain("15:00 - 17:00");
+  });
+});
+
+describe("paymentLabel", () => {
+  it("does not say 'kapıda' for pickup orders", () => {
+    expect(paymentLabel("cash_on_delivery")).toBe("Kapıda nakit");
+    expect(paymentLabel("cash_on_delivery", "pickup")).toBe("Nakit");
+    expect(paymentLabel("pos_at_door", "pickup")).toBe("Kart");
+    expect(paymentLabel("transfer", "pickup")).toBe("Havale");
   });
 });
