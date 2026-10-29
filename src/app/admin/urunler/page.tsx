@@ -152,11 +152,13 @@ export default function AdminProductsPage() {
           ) : (
             <ul className="space-y-2">
               {visible.map((p) => (
-                <li key={p.id} className="p-3 rounded-2xl bg-stone-900/70 border border-stone-800 flex items-center gap-3">
+                // Telefonda düğmeler alt satıra iner; ürün adı kesilmeden okunur
+                <li key={p.id} className="p-3 rounded-2xl bg-stone-900/70 border border-stone-800 flex flex-col sm:flex-row sm:items-center gap-3">
+                  <div className="flex items-center gap-3 flex-1 min-w-0">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img src={p.imageUrl} alt="" className="w-14 h-14 rounded-xl object-cover bg-stone-800 shrink-0" />
                   <div className="flex-1 min-w-0">
-                    <div className="font-semibold text-stone-100 text-sm truncate">{p.name}</div>
+                    <div className="font-semibold text-stone-100 text-sm leading-snug">{p.name}</div>
                     <div className="text-xs text-stone-400 flex flex-wrap items-center gap-x-2 gap-y-1 mt-0.5">
                       <span>{categoryName(p.category)}</span>
                       <span className="font-mono text-stone-200">{tl(p.price)}</span>
@@ -171,7 +173,8 @@ export default function AdminProductsPage() {
                       )}
                     </div>
                   </div>
-                  <div className="flex items-center gap-1.5 shrink-0">
+                  </div>
+                  <div className="flex items-center justify-end gap-1.5 shrink-0">
                     {p.isActive !== false ? (
                       <button
                         type="button"

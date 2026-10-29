@@ -4,6 +4,7 @@ import React, { createContext, useContext, useEffect } from "react";
 import { useCustomerAuth, UserProfile, SavedAddress } from "@/hooks/useCustomerAuth";
 import { AuthModal } from "./AuthModal";
 import { User } from "@supabase/supabase-js";
+import { usePathname } from "next/navigation";
 import { readDeviceOrders } from "@/lib/orders/deviceOrders";
 
 interface AuthContextType {
@@ -26,7 +27,10 @@ interface AuthContextType {
 const AuthContext = createContext<AuthContextType | null>(null);
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
-  const auth = useCustomerAuth();
+  // Admin ve teslimat ekranları müşteri hesabını kullanmaz; orada profil/adres sorgusu atılmaz
+  const pathname = usePathname() ?? "";
+  const staffArea = pathname.startsWith("/admin") || pathname.startsWith("/kurye");
+  const auth = useCustomerAuth({ enabled: !staffArea });
   const userId = auth.user?.id ?? null;
 
   // Giriş yapıldığında bu cihazdan misafir olarak verilen siparişleri hesaba bağla (oturum başına bir kez)

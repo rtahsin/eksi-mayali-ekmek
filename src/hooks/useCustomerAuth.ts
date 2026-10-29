@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import type { User, Session, AuthChangeEvent } from "@supabase/supabase-js";
 import { createClient, isSupabaseConfigured } from "@/lib/supabase/client";
 import { getErrorMessage } from "@/lib/utils/error";
@@ -25,7 +25,8 @@ export interface SavedAddress {
   isDefault: boolean;
 }
 
-export function useCustomerAuth() {
+/** `enabled: false` (admin ve teslimat ekranları): müşteri profili ve adresleri hiç çekilmez. */
+export function useCustomerAuth({ enabled = true }: { enabled?: boolean } = {}) {
   const [user, setUser] = useState<User | null>(null);
   const [profile, setProfile] = useState<UserProfile | null>(null);
   const [addresses, setAddresses] = useState<SavedAddress[]>([]);
@@ -93,7 +94,23 @@ export function useCustomerAuth() {
     [supabase]
   );
 
+  // Profil ve adresler kullanıcı başına bir kez çekilir (ilk oturum + token yenileme tekrar sorgulamaz)
+  const fetchedFor = useRef<string | null>(null);
+  const loadUser = useCallback(
+    (currentUser: User) => {
+      setUser(currentUser);
+      if (fetchedFor.current === currentUser.id || !currentUser.email) return Promise.resolve();
+      fetchedFor.current = currentUser.id;
+      return fetchProfileAndAddresses(currentUser.id, currentUser.email);
+    },
+    [fetchProfileAndAddresses]
+  );
+
   useEffect(() => {
+    if (!enabled) {
+      setLoading(false);
+      return;
+    }
     // 1. Check local session cache for instant UI rendering
     if (typeof window !== "undefined") {
       try {
@@ -112,10 +129,7 @@ export function useCustomerAuth() {
     if (supabase && isSupabaseConfigured()) {
       supabase.auth.getSession().then(({ data: { session } }) => {
         const currentUser = session?.user ?? null;
-        if (currentUser && currentUser.email) {
-          setUser(currentUser);
-          fetchProfileAndAddresses(currentUser.id, currentUser.email);
-        }
+        if (currentUser && currentUser.email) void loadUser(currentUser);
         setLoading(false);
       });
 
@@ -124,9 +138,9 @@ export function useCustomerAuth() {
       } = supabase.auth.onAuthStateChange(async (_event: AuthChangeEvent, session: Session | null) => {
         const currentUser = session?.user ?? null;
         if (currentUser && currentUser.email) {
-          setUser(currentUser);
-          await fetchProfileAndAddresses(currentUser.id, currentUser.email);
+          await loadUser(currentUser);
         } else {
+          fetchedFor.current = null;
           setUser(null);
           setProfile(null);
           setAddresses([]);
@@ -143,7 +157,7 @@ export function useCustomerAuth() {
     }
 
     setLoading(false);
-  }, [supabase, fetchProfileAndAddresses]);
+  }, [enabled, supabase, loadUser]);
 
   // Update localStorage when user/profile changes
   useEffect(() => {
