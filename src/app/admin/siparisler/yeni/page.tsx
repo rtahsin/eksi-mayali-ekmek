@@ -5,40 +5,44 @@ import { useAdminOrders } from "@/hooks/useAdminOrders";
 import { useProducts } from "@/hooks/useProducts";
 import { useCariler } from "@/hooks/useCariler";
 import { useRouter, useSearchParams } from "next/navigation";
-import {
-  AdminPaymentMethod,
-  OrderItem,
-  OrderSource,
-  CariAccount,
-} from "@/types/admin";
-import {
-  ArrowLeft,
-  Plus,
-  Minus,
-  Check,
-  MessageSquare,
-  Truck,
-  Store,
-  User,
-  Phone,
-  MapPin,
-  Calendar,
-  DollarSign,
-  AlertCircle,
-  Loader2,
-  Building2,
-  Tag,
-} from "lucide-react";
+import { AdminPaymentMethod, OrderItem, OrderSource } from "@/types/admin";
+import { ArrowLeft, Plus, Minus, Check, MessageCircle, Truck, Store, Phone, MapPin, AlertCircle, Loader2, Building2 } from "lucide-react";
 import Link from "next/link";
-import { istanbulToday } from "@/lib/time/istanbul";
-import { computeShippingFee } from "@/lib/settings/schema";
+import { addDays, relativeTrDate } from "@/lib/time/istanbul";
+import { useIstanbulToday } from "@/hooks/useIstanbulToday";
+import { computeShippingFee, toWhatsAppNumber } from "@/lib/settings/schema";
 import { useStoreSettings } from "@/hooks/useStoreSettings";
-import { SITE_URL } from "@/lib/site";
+import { trackingUrl, whatsappLink } from "@/lib/site";
+import { isSoldOn } from "@/lib/ordering/saleDates";
+import { orderMessage } from "@/lib/orders/adminFlow";
+import { manualOrderProblem, type DeliveryMethod } from "@/lib/orders/manualOrder";
+
+const SOURCES: { value: OrderSource; label: string }[] = [
+  { value: "whatsapp", label: "WhatsApp" },
+  { value: "phone", label: "Telefon" },
+  { value: "in_store", label: "Dükkân" },
+];
+
+const card = "bg-[#18130F] border border-[#261E17] rounded-2xl p-4 sm:p-5 space-y-4";
+const label = "text-xs font-semibold text-stone-300";
+const field =
+  "w-full h-11 px-3 rounded-xl bg-[#1A1410] border border-[#2A201A] text-sm text-foreground placeholder:text-stone-600 focus:outline-none focus:border-artisan-gold";
+const chip = (on: boolean) =>
+  `h-10 px-3 rounded-xl border text-sm font-semibold transition-colors ${
+    on ? "bg-artisan-terracotta/15 border-artisan-terracotta text-foreground" : "bg-[#1A1410] border-[#2A201A] text-stone-400 hover:text-stone-200"
+  }`;
+
+interface Saved {
+  id: string;
+  orderNumber?: string;
+  message: string;
+  phone: string;
+}
 
 function ManualOrderForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const initialCariId = searchParams.get("cariId") || "";
+  const today = useIstanbulToday();
 
   const { createManualOrder, allOrders } = useAdminOrders();
   const { products } = useProducts("all");
@@ -47,30 +51,34 @@ function ManualOrderForm() {
   // Aynı formun çift gönderimi tek sipariş olur (sunucu idempotency anahtarı)
   const [idempotencyKey] = useState(() => crypto.randomUUID());
 
-  // Selected Cari
-  const [selectedCariId, setSelectedCariId] = useState<string>(initialCariId);
+  const [selectedCariId, setSelectedCariId] = useState<string>(searchParams.get("cariId") || "");
   const selectedCari = cariler.find((c) => c.id === selectedCariId) || null;
 
-  // WhatsApp Parser Modal
-
-  // Form State
   const [customerName, setCustomerName] = useState("");
   const [phone, setPhone] = useState("");
+  const [deliveryMethod, setDeliveryMethod] = useState<DeliveryMethod>("courier");
   const [deliveryAddress, setDeliveryAddress] = useState("");
-  const [neighborhood, setNeighborhood] = useState<string>("Adnan Kahveci");
-  const [deliveryDate, setDeliveryDate] = useState<string>(() => istanbulToday());
-  const [deliveryTimeWindow, setDeliveryTimeWindow] = useState("14:00 - 18:00");
+  const [neighborhoodChoice, setNeighborhood] = useState("");
+  const [deliveryDate, setDeliveryDate] = useState<string>(today);
+  // Boşsa ayardaki teslimat aralığı kullanılır
+  const [timeWindowChoice, setTimeWindow] = useState<string | null>(null);
   const [paymentMethod, setPaymentMethod] = useState<AdminPaymentMethod>("cash_on_delivery");
   const [source, setSource] = useState<OrderSource>("whatsapp");
   const [orderNotes, setOrderNotes] = useState("");
-  const [autoOpenWhatsApp, setAutoOpenWhatsApp] = useState(true);
+  const [sendWhatsApp, setSendWhatsApp] = useState(true);
+  // null = ayardan hesaplanan ücret; elle yazılırsa o
+  const [feeOverride, setFeeOverride] = useState<string | null>(null);
 
-  // Selected quantities: productId -> quantity
   const [quantities, setQuantities] = useState<Record<string, number>>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
+  const [saved, setSaved] = useState<Saved | null>(null);
 
-  // When initialCariId is set or changed, autofill Cari information
+  const neighborhood = neighborhoodChoice || storeSettings.neighborhoods[0] || "";
+  const timeWindow = timeWindowChoice ?? storeSettings.deliveryWindow;
+  const isPickup = deliveryMethod === "pickup";
+
+  // Cari seçilince bilgileri doldur; cari kaldırılınca "cariye yaz" ödemesi de kalkar
   useEffect(() => {
     if (selectedCari) {
       setCustomerName(selectedCari.businessName);
@@ -78,103 +86,93 @@ function ManualOrderForm() {
       if (selectedCari.address) setDeliveryAddress(selectedCari.address);
       if (selectedCari.neighborhood) setNeighborhood(selectedCari.neighborhood);
       setPaymentMethod("cari");
+    } else {
+      setPaymentMethod((p) => (p === "cari" ? "cash_on_delivery" : p));
     }
   }, [selectedCari]);
 
-  // When phone query param is provided, autofill customer
-  useEffect(() => {
-    const qPhone = searchParams.get("phone");
-    if (qPhone && !selectedCariId) {
-      handlePhoneChange(qPhone);
-    }
-  }, [searchParams, allOrders, selectedCariId]);
-
-  // Auto-fill from past orders when phone matches (if not cari)
+  // Daha önce sipariş vermiş numara yazılınca ad ve adres dolar (cari seçiliyken dokunmaz)
   const handlePhoneChange = (val: string) => {
     setPhone(val);
-    if (selectedCariId) return; // Don't overwrite if Cari selected
+    if (selectedCariId) return;
     const clean = val.replace(/\D/g, "");
-    if (clean.length >= 10) {
-      const past = allOrders.find((o) => o.phone.replace(/\D/g, "").includes(clean));
-      if (past) {
-        if (!customerName) setCustomerName(past.customerName);
-        if (!deliveryAddress) setDeliveryAddress(past.deliveryAddress);
-        if (past.neighborhood) setNeighborhood(past.neighborhood);
-      }
-    }
+    if (clean.length < 10) return;
+    const past = allOrders.find((o) => o.phone.replace(/\D/g, "").includes(clean.slice(-10)));
+    if (!past) return;
+    setCustomerName((n) => n || past.customerName);
+    setDeliveryAddress((a) => a || past.deliveryAddress);
+    if (past.neighborhood) setNeighborhood(past.neighborhood);
   };
+
+  useEffect(() => {
+    const qPhone = searchParams.get("phone");
+    if (qPhone && !selectedCariId) handlePhoneChange(qPhone);
+  }, [searchParams, allOrders.length]);
 
   const updateQuantity = (productId: string, delta: number) => {
     setQuantities((prev) => {
-      const current = prev[productId] || 0;
-      const next = Math.max(0, current + delta);
-      if (next === 0) {
-        const copy = { ...prev };
-        delete copy[productId];
-        return copy;
-      }
-      return { ...prev, [productId]: next };
+      const next = Math.max(0, (prev[productId] || 0) + delta);
+      const copy = { ...prev };
+      if (next === 0) delete copy[productId];
+      else copy[productId] = next;
+      return copy;
     });
   };
 
-  // Calculate order items using custom agreed Cari prices or retail prices
-  const selectedItems: OrderItem[] = Object.entries(quantities)
-    .map(([pId, qty]) => {
-      const prod = products.find((p) => p.id === pId);
-      if (!prod || qty <= 0) return null;
+  const activeProducts = products.filter((p) => p.isActive !== false);
 
-      // Check if Cari has negotiated custom wholesale price
-      const customPrice = selectedCari?.customPrices?.[pId];
-      const unitPrice = customPrice !== undefined ? customPrice : prod.price;
-
-      return {
-        productId: prod.id,
-        productName: prod.name,
-        quantity: qty,
-        unitPrice,
-        totalPrice: unitPrice * qty,
-        weight: prod.weight,
-        imageUrl: prod.imageUrl,
-      };
-    })
-    .filter(Boolean) as OrderItem[];
+  // Cari anlaşmalı fiyat varsa o, yoksa satış fiyatı
+  const priceOf = (productId: string, retail: number) => selectedCari?.customPrices?.[productId] ?? retail;
+  const selectedItems: OrderItem[] = activeProducts
+    .filter((p) => (quantities[p.id] || 0) > 0)
+    .map((p) => {
+      const unitPrice = priceOf(p.id, p.price);
+      const quantity = quantities[p.id];
+      return { productId: p.id, productName: p.name, quantity, unitPrice, totalPrice: unitPrice * quantity, weight: p.weight, imageUrl: p.imageUrl };
+    });
 
   const subtotal = selectedItems.reduce((sum, it) => sum + it.totalPrice, 0);
-  // Teslimat ücreti ayarlardan; cari (toptan) siparişte ücret yok
-  const shippingFee = selectedCariId ? 0 : computeShippingFee(subtotal, storeSettings);
-  const totalAmount = subtotal + shippingFee;
+  // Fırından alımda ve cari siparişte ücret yok; adrese teslimde ayardaki kural, istenirse elle değişir
+  const suggestedFee = isPickup || selectedCariId ? 0 : computeShippingFee(subtotal, storeSettings);
+  const shippingFee = feeOverride === null || feeOverride.trim() === "" ? suggestedFee : Number(feeOverride.replace(",", "."));
+  const totalAmount = subtotal + (Number.isFinite(shippingFee) ? shippingFee : 0);
+  const fmt = (n: number) => `${n.toLocaleString("tr-TR")} ₺`;
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!customerName.trim()) {
-      setErrorMsg("Lütfen müşteri veya firma adını girin.");
-      return;
-    }
-    if (!deliveryAddress.trim()) {
-      setErrorMsg("Lütfen kurye teslimat adresini girin.");
-      return;
-    }
-    if (selectedItems.length === 0) {
-      setErrorMsg("Lütfen siparişe en az bir ürün ekleyin.");
+    const problem = manualOrderProblem({
+      customerName,
+      phone,
+      deliveryMethod,
+      deliveryAddress,
+      neighborhood,
+      itemCount: selectedItems.length,
+      shippingFee,
+    });
+    if (problem) {
+      setErrorMsg(problem);
       return;
     }
 
     setIsSubmitting(true);
     setErrorMsg(null);
 
-    const res = await createManualOrder({
-      idempotencyKey,
+    const order = {
       customerName: customerName.trim(),
-      phone: phone.trim(),
-      deliveryAddress: deliveryAddress.trim(),
-      neighborhood: neighborhood,
-      deliveryMethod: "courier",
-      deliveryDate,
-      deliveryTimeWindow,
       items: selectedItems,
+      deliveryDate,
+      deliveryMethod,
+      deliveryTimeWindow: isPickup ? undefined : timeWindow,
+      totalAmount,
+    };
+    const res = await createManualOrder({
+      ...order,
+      idempotencyKey,
+      phone: phone.trim(),
+      deliveryAddress: isPickup ? "" : deliveryAddress.trim(),
+      neighborhood: isPickup ? "" : neighborhood,
       subtotal,
       shippingFee,
-      totalAmount,
       status: "hazirlaniyor",
       paymentMethod,
       source,
@@ -182,371 +180,330 @@ function ManualOrderForm() {
       orderNotes: orderNotes.trim(),
     });
 
-    if (res.success) {
-      // Cari siparişte teslimat fişi teslimde otomatik kesilir (018 mark_order_delivered)
-
-      // If WhatsApp pre-confirmation requested
-      if (autoOpenWhatsApp && phone.trim()) {
-        const cleanPhone = phone.replace(/\D/g, "");
-        const formatted = cleanPhone.startsWith("90")
-          ? cleanPhone
-          : cleanPhone.startsWith("0")
-          ? `9${cleanPhone}`
-          : `90${cleanPhone}`;
-        const itemsSummary = selectedItems
-          .map((it) => `${it.quantity}x ${it.productName}`)
-          .join(", ");
-        const trackingUrl = `${SITE_URL}/siparis-takip/${res.id || ""}`;
-        const text = `Merhaba ${customerName},\nEkmekLab taş fırın siparişiniz kaydedildi: ${itemsSummary}.\n\n📅 Teslimat Günü: ${deliveryDate} (${deliveryTimeWindow})\n💰 Toplam Tutar: ${totalAmount} ₺\n\n🔗 Siparişinizi canlı takip etmek için:\n${trackingUrl}\n\nTeşekkür ederiz! 🍞🌾`;
-        window.open(`https://wa.me/${formatted}?text=${encodeURIComponent(text)}`, "_blank");
-      }
-
-      router.push("/admin/siparisler");
-    } else {
+    if (!res.success || !res.id) {
       setErrorMsg(res.error || "Sipariş kaydedilemedi.");
       setIsSubmitting(false);
+      return;
     }
+
+    // Kayıttan sonra açılan pencereyi tarayıcı engelleyebilir; mesaj bağlantısı dokunarak açılsın
+    if (sendWhatsApp && phone.trim()) {
+      const message = orderMessage("alindi", order, {
+        window: storeSettings.deliveryWindow,
+        dateLabel: relativeTrDate(deliveryDate),
+        trackingUrl: trackingUrl(res.orderNumber || res.id),
+      });
+      setSaved({ id: res.id, orderNumber: res.orderNumber, message, phone: phone.trim() });
+      setIsSubmitting(false);
+      return;
+    }
+    router.push("/admin/siparisler");
   };
 
+  if (saved) {
+    return (
+      <div className="max-w-md mx-auto pt-6 pb-16 space-y-4">
+        <div className={`${card} text-center`}>
+          <div className="w-12 h-12 mx-auto rounded-full bg-emerald-500/15 text-emerald-400 flex items-center justify-center">
+            <Check className="w-6 h-6" />
+          </div>
+          <h1 className="font-serif text-xl font-bold text-foreground">Sipariş kaydedildi</h1>
+          {saved.orderNumber && <p className="text-xs font-mono text-stone-400">#{saved.orderNumber}</p>}
+          <p className="text-sm text-stone-300 whitespace-pre-line text-left rounded-xl bg-[#1A1410] border border-[#2A201A] p-3">{saved.message}</p>
+          <a
+            href={whatsappLink(saved.message, toWhatsAppNumber(saved.phone))}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="w-full h-12 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-sm font-bold flex items-center justify-center gap-2"
+          >
+            <MessageCircle className="w-4 h-4" /> Müşteriye WhatsApp'tan gönder
+          </a>
+          <div className="flex gap-2">
+            <Link href={`/admin/siparisler/${saved.id}`} className="flex-1 h-11 rounded-xl bg-[#201812] border border-[#2A201A] text-stone-300 text-sm flex items-center justify-center">
+              Siparişi aç
+            </Link>
+            <Link href="/admin/siparisler" className="flex-1 h-11 rounded-xl bg-[#201812] border border-[#2A201A] text-stone-300 text-sm flex items-center justify-center">
+              Siparişlere dön
+            </Link>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  const tomorrow = addDays(today, 1);
+
   return (
-    <div className="space-y-6 max-w-5xl mx-auto pb-16">
-      {/* Breadcrumb & Title */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-        <div className="flex items-center gap-3">
-          <Link
-            href="/admin/siparisler"
-            className="p-2 rounded-xl bg-stone-900 border border-stone-800 text-stone-300 hover:text-amber-400 transition-colors"
-          >
-            <ArrowLeft className="w-4 h-4" />
-          </Link>
-          <div>
-            <h1 className="font-serif text-2xl sm:text-3xl font-bold text-stone-100 tracking-tight">
-              Hızlı Sipariş Girişi
-            </h1>
-            <p className="text-xs text-stone-400 font-sans mt-0.5">
-              WhatsApp, telefon veya kurumsal cari siparişini anında Beylikdüzü kurye rota listesine ekleyin.
-            </p>
-          </div>
+    <div className="space-y-4 max-w-5xl mx-auto pb-16">
+      <div className="flex items-center gap-3">
+        <Link
+          href="/admin/siparisler"
+          aria-label="Siparişlere dön"
+          className="w-10 h-10 rounded-xl bg-[#201812] border border-[#2A201A] text-stone-300 hover:text-foreground flex items-center justify-center"
+        >
+          <ArrowLeft className="w-4 h-4" />
+        </Link>
+        <div>
+          <h1 className="font-serif text-2xl font-bold text-foreground">Yeni sipariş</h1>
+          <p className="text-xs text-stone-400 mt-0.5">Telefon, WhatsApp ya da dükkân siparişi.</p>
         </div>
       </div>
 
-      {errorMsg && (
-        <div className="p-4 rounded-2xl bg-red-950/60 border border-red-500/40 text-red-300 text-xs flex items-center gap-3">
-          <AlertCircle className="w-5 h-5 text-red-400 shrink-0" />
-          <span>{errorMsg}</span>
-        </div>
-      )}
-
-      {/* Cari Selection Banner */}
-      <div className="bg-stone-900/80 border border-stone-800 p-4 rounded-2xl flex flex-col sm:flex-row sm:items-center justify-between gap-3 shadow-lg">
-        <div className="flex items-center gap-3">
-          <div className="w-9 h-9 rounded-xl bg-amber-500/10 flex items-center justify-center text-amber-500 shrink-0">
-            <Building2 className="w-5 h-5" />
-          </div>
-          <div>
-            <div className="text-xs font-bold text-stone-200">Kurumsal Müşteri / Cari Seçimi</div>
-            <div className="text-xs text-stone-400">
-              Toptan cari seçilirse ikili anlaşmalı özel fiyatlar otomatik uygulanır.
-            </div>
-          </div>
-        </div>
-
-        <div className="w-full sm:w-64">
-          <select
-            value={selectedCariId}
-            onChange={(e) => setSelectedCariId(e.target.value)}
-            className="w-full bg-stone-950 border border-stone-700 rounded-xl px-3 py-2 text-xs font-semibold text-amber-400 focus:outline-none focus:border-amber-500"
-          >
-            <option value="">— Bireysel / Perakende Müşteri —</option>
-            {cariler.map((c) => (
-              <option key={c.id} value={c.id}>
-                {c.neighborhood ? `${c.businessName} (${c.neighborhood})` : c.businessName}
-              </option>
-            ))}
-          </select>
-        </div>
-      </div>
-
-      <form onSubmit={handleSubmit} className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Left 2 Cols: Customer & Delivery Info + Items */}
-        <div className="lg:col-span-2 space-y-6">
-          {/* Customer & Address Details */}
-          <div className="bg-stone-900/80 border border-stone-800 rounded-2xl p-5 space-y-4 shadow-xl">
-            <h2 className="text-sm font-bold text-amber-500 font-serif flex items-center gap-2">
-              <User className="w-4 h-4" />
-              <span>Müşteri & Teslimat Bilgileri</span>
-            </h2>
-
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+      <form onSubmit={handleSubmit} noValidate className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+        <div className="lg:col-span-2 space-y-4">
+          {/* Müşteri */}
+          <section className={card}>
+            {cariler.length > 0 && (
               <div className="space-y-1">
-                <label className="text-xs font-semibold text-stone-300">
-                  {selectedCari ? "Firma / Cari Adı" : "Müşteri Adı Soyadı"}
+                <label htmlFor="cari" className={`${label} flex items-center gap-1.5`}>
+                  <Building2 className="w-3.5 h-3.5" /> Cari
                 </label>
-                <input
-                  type="text"
-                  required
-                  placeholder="Örn: Ahmet Yılmaz"
-                  value={customerName}
-                  onChange={(e) => setCustomerName(e.target.value)}
-                  className="w-full bg-stone-950 border border-stone-800 rounded-xl px-3 py-2.5 text-xs text-stone-100 placeholder-stone-600 focus:outline-none focus:border-amber-500"
-                />
-              </div>
-
-              <div className="space-y-1">
-                <label className="text-xs font-semibold text-stone-300">Telefon Numarası</label>
-                <div className="relative">
-                  <Phone className="w-3.5 h-3.5 text-stone-500 absolute left-3 top-1/2 -translate-y-1/2" />
-                  <input
-                    type="tel"
-                    required
-                    placeholder="0532..."
-                    value={phone}
-                    onChange={(e) => handlePhoneChange(e.target.value)}
-                    className="w-full pl-9 pr-3 py-2.5 bg-stone-950 border border-stone-800 rounded-xl text-xs font-mono text-stone-100 placeholder-stone-600 focus:outline-none focus:border-amber-500"
-                  />
-                </div>
-              </div>
-
-              <div className="space-y-1">
-                <label className="text-xs font-semibold text-stone-300">Teslimat Yöntemi</label>
-                <div className="flex items-center gap-2 p-2.5 rounded-xl bg-stone-950 border border-stone-800 text-xs text-amber-400 font-bold">
-                  <Truck className="w-4 h-4 text-amber-400" />
-                  <span>Beylikdüzü Fırın Kuryesi (Kapıya Teslimat)</span>
-                </div>
-              </div>
-
-              <div className="space-y-1">
-                <label className="text-xs font-semibold text-stone-300">Beylikdüzü Mahallesi</label>
-                <select
-                  value={neighborhood}
-                  onChange={(e) => setNeighborhood(e.target.value)}
-                  className="w-full bg-stone-950 border border-stone-800 rounded-xl px-3 py-2.5 text-xs text-stone-100 focus:outline-none focus:border-amber-500"
-                >
-                  {/* Mahalleler Ayarlar'dan; seçili değer listede yoksa (eski sipariş, elle teslimat) yine görünür. */}
-                  {(storeSettings.neighborhoods.includes(neighborhood)
-                    ? storeSettings.neighborhoods
-                    : [neighborhood, ...storeSettings.neighborhoods]
-                  ).map((n) => (
-                    <option key={n} value={n}>
-                      {n} Mahallesi
+                <select id="cari" value={selectedCariId} onChange={(e) => setSelectedCariId(e.target.value)} className={field}>
+                  <option value="">Cari değil (perakende)</option>
+                  {cariler.map((c) => (
+                    <option key={c.id} value={c.id}>
+                      {c.neighborhood ? `${c.businessName} (${c.neighborhood})` : c.businessName}
                     </option>
                   ))}
                 </select>
+                {selectedCari && <p className="text-xs text-stone-500">Anlaşmalı fiyatlar uygulanır, teslimat ücreti yok.</p>}
               </div>
+            )}
 
-              <div className="sm:col-span-2 space-y-1">
-                <label className="text-xs font-semibold text-stone-300">Açık Adres</label>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div className="space-y-1">
+                <label htmlFor="ad" className={label}>{selectedCari ? "Firma adı" : "Ad soyad"}</label>
+                <input id="ad" type="text" value={customerName} onChange={(e) => setCustomerName(e.target.value)} placeholder="Ahmet Yılmaz" className={field} />
+              </div>
+              <div className="space-y-1">
+                <label htmlFor="tel" className={label}>
+                  Telefon <span className="font-normal text-stone-500">(isteğe bağlı)</span>
+                </label>
                 <div className="relative">
-                  <MapPin className="w-3.5 h-3.5 text-stone-500 absolute left-3 top-3" />
-                  <textarea
-                    rows={2}
-                    required
-                    placeholder="Sokak, site adı, blok, daire no..."
-                    value={deliveryAddress}
-                    onChange={(e) => setDeliveryAddress(e.target.value)}
-                    className="w-full pl-9 pr-3 py-2 bg-stone-950 border border-stone-800 rounded-xl text-xs text-stone-100 placeholder-stone-600 focus:outline-none focus:border-amber-500"
+                  <Phone className="w-4 h-4 text-stone-500 absolute left-3 top-1/2 -translate-y-1/2" />
+                  <input
+                    id="tel"
+                    type="tel"
+                    inputMode="tel"
+                    value={phone}
+                    onChange={(e) => handlePhoneChange(e.target.value)}
+                    placeholder="0532 …"
+                    className={`${field} pl-9 font-mono`}
                   />
                 </div>
               </div>
             </div>
-          </div>
 
-          {/* Product Selection */}
-          <div className="bg-stone-900/80 border border-stone-800 rounded-2xl p-5 space-y-4 shadow-xl">
-            <div className="flex items-center justify-between">
-              <h2 className="text-sm font-bold text-amber-500 font-serif flex items-center gap-2">
-                <Store className="w-4 h-4" />
-                <span>Ürün Seçimi & Adetler</span>
-              </h2>
-              {selectedCari && (
-                <span className="text-xs text-amber-400 font-semibold bg-amber-500/10 px-2.5 py-0.5 rounded-full border border-amber-500/20">
-                  {selectedCari.businessName} Anlaşmalı Fiyatları Aktif
-                </span>
-              )}
+            <div className="space-y-1">
+              <span className={label}>Teslim</span>
+              <div className="grid grid-cols-2 gap-2">
+                <button type="button" onClick={() => setDeliveryMethod("courier")} className={`${chip(!isPickup)} flex items-center justify-center gap-2`}>
+                  <Truck className="w-4 h-4" /> Adrese teslim
+                </button>
+                <button type="button" onClick={() => setDeliveryMethod("pickup")} className={`${chip(isPickup)} flex items-center justify-center gap-2`}>
+                  <Store className="w-4 h-4" /> Fırından alacak
+                </button>
+              </div>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 max-h-[420px] overflow-y-auto pr-1">
-              {products.map((prod) => {
-                const qty = quantities[prod.id] || 0;
-                const customPrice = selectedCari?.customPrices?.[prod.id];
-                const activePrice = customPrice !== undefined ? customPrice : prod.price;
+            {!isPickup && (
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                <div className="space-y-1">
+                  <label htmlFor="mahalle" className={label}>Mahalle</label>
+                  <select id="mahalle" value={neighborhood} onChange={(e) => setNeighborhood(e.target.value)} className={field}>
+                    {/* Mahalleler Ayarlar'dan; seçili değer listede yoksa (cari, eski sipariş) yine görünür. */}
+                    {(neighborhood && !storeSettings.neighborhoods.includes(neighborhood)
+                      ? [neighborhood, ...storeSettings.neighborhoods]
+                      : storeSettings.neighborhoods
+                    ).map((n) => (
+                      <option key={n} value={n}>{n}</option>
+                    ))}
+                  </select>
+                </div>
+                <div className="sm:col-span-2 space-y-1">
+                  <label htmlFor="adres" className={label}>Adres</label>
+                  <div className="relative">
+                    <MapPin className="w-4 h-4 text-stone-500 absolute left-3 top-3.5" />
+                    <textarea
+                      id="adres"
+                      rows={2}
+                      value={deliveryAddress}
+                      onChange={(e) => setDeliveryAddress(e.target.value)}
+                      placeholder="Sokak, site, blok, daire"
+                      className={`${field} h-auto py-2.5 pl-9`}
+                    />
+                  </div>
+                </div>
+              </div>
+            )}
+          </section>
 
+          {/* Ürünler */}
+          <section className={card}>
+            <h2 className="font-serif text-base font-bold text-foreground">Ürünler</h2>
+            {activeProducts.length === 0 && <p className="text-sm text-stone-500">Satışta ürün yok ya da liste yüklenemedi.</p>}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+              {activeProducts.map((prod) => {
+                const qty = quantities[prod.id] || 0;
+                const price = priceOf(prod.id, prod.price);
+                const soldThatDay = isSoldOn(prod.saleWeekdays, deliveryDate);
                 return (
                   <div
                     key={prod.id}
-                    className={`p-3 rounded-xl border flex items-center justify-between gap-2 transition-colors ${
-                      qty > 0
-                        ? "bg-amber-500/10 border-amber-500/40"
-                        : "bg-stone-950/60 border-stone-800 hover:border-stone-700"
+                    className={`p-3 rounded-xl border flex items-center justify-between gap-3 ${
+                      qty > 0 ? "bg-artisan-terracotta/10 border-artisan-terracotta/60" : "bg-[#1A1410] border-[#2A201A]"
                     }`}
                   >
-                    <div className="space-y-0.5">
-                      <div className="text-xs font-bold text-stone-200 line-clamp-1">
-                        {prod.name}
+                    <div className="min-w-0">
+                      <div className="text-sm font-semibold text-stone-200 leading-snug">{prod.name}</div>
+                      <div className="text-xs text-stone-400 font-mono mt-0.5">
+                        {fmt(price)}
+                        {price !== prod.price && <span className="ml-1.5 line-through text-stone-600">{fmt(prod.price)}</span>}
                       </div>
-                      <div className="text-xs flex items-center gap-1.5 font-mono">
-                        <span className="text-amber-400 font-bold">{activePrice} ₺</span>
-                        {customPrice !== undefined && (
-                          <span className="text-xs text-stone-500 line-through">
-                            {prod.price} ₺
-                          </span>
-                        )}
-                        <span className="text-stone-500">/ {prod.weight ? `${prod.weight}g` : "adet"}</span>
-                      </div>
+                      {!soldThatDay && <div className="text-xs text-amber-400/80 mt-0.5">O gün satış günü değil</div>}
                     </div>
-
-                    <div className="flex items-center gap-2 shrink-0">
+                    <div className="flex items-center gap-1 shrink-0">
                       <button
                         type="button"
+                        aria-label={`${prod.name} azalt`}
                         onClick={() => updateQuantity(prod.id, -1)}
                         disabled={qty === 0}
-                        className="w-7 h-7 rounded-lg bg-stone-800 hover:bg-stone-700 text-stone-300 flex items-center justify-center disabled:opacity-30 disabled:cursor-not-allowed"
+                        className="w-10 h-10 rounded-xl bg-[#201812] border border-[#2A201A] text-stone-300 flex items-center justify-center disabled:opacity-30"
                       >
-                        <Minus className="w-3.5 h-3.5" />
+                        <Minus className="w-4 h-4" />
                       </button>
-                      <span className="w-6 text-center font-bold text-sm text-stone-100 font-mono">
-                        {qty}
-                      </span>
+                      <span className="w-7 text-center font-bold text-base text-foreground font-mono">{qty}</span>
                       <button
                         type="button"
+                        aria-label={`${prod.name} ekle`}
                         onClick={() => updateQuantity(prod.id, 1)}
-                        className="w-7 h-7 rounded-lg bg-amber-500 hover:bg-amber-400 text-stone-950 font-bold flex items-center justify-center shadow"
+                        className="w-10 h-10 rounded-xl bg-artisan-terracotta hover:bg-artisan-terracotta/90 text-foreground flex items-center justify-center"
                       >
-                        <Plus className="w-3.5 h-3.5" />
+                        <Plus className="w-4 h-4" />
                       </button>
                     </div>
                   </div>
                 );
               })}
             </div>
-          </div>
+          </section>
         </div>
 
-        {/* Right Col: Summary, Payment & Submission */}
-        <div className="space-y-6">
-          <div className="bg-stone-900/80 border border-stone-800 rounded-2xl p-5 space-y-4 shadow-xl">
-            <h3 className="text-sm font-bold text-stone-200 font-serif">
-              Tarih, Ödeme & Kaynak
-            </h3>
-
-            <div className="space-y-3 text-xs">
-              <div className="space-y-1">
-                <label className="text-stone-300 font-medium">Teslimat Tarihi</label>
+        <div className="space-y-4">
+          <section className={card}>
+            <div className="space-y-1">
+              <span className={label}>{isPickup ? "Alacağı gün" : "Teslim günü"}</span>
+              <div className="grid grid-cols-3 gap-2">
+                <button type="button" onClick={() => setDeliveryDate(today)} className={chip(deliveryDate === today)}>Bugün</button>
+                <button type="button" onClick={() => setDeliveryDate(tomorrow)} className={chip(deliveryDate === tomorrow)}>Yarın</button>
                 <input
                   type="date"
-                  required
+                  aria-label="Başka gün"
                   value={deliveryDate}
-                  onChange={(e) => setDeliveryDate(e.target.value)}
-                  className="w-full bg-stone-950 border border-stone-800 rounded-xl px-3 py-2 text-stone-100 focus:outline-none focus:border-amber-500"
-                />
-              </div>
-
-              <div className="space-y-1">
-                <label className="text-stone-300 font-medium">Teslimat Saat Aralığı</label>
-                <input
-                  type="text"
-                  value={deliveryTimeWindow}
-                  onChange={(e) => setDeliveryTimeWindow(e.target.value)}
-                  placeholder="14:00 - 18:00"
-                  className="w-full bg-stone-950 border border-stone-800 rounded-xl px-3 py-2 text-stone-100 focus:outline-none focus:border-amber-500"
-                />
-              </div>
-
-              <div className="space-y-1">
-                <label className="text-stone-300 font-medium">Ödeme Yöntemi</label>
-                <select
-                  value={paymentMethod}
-                  onChange={(e) => setPaymentMethod(e.target.value as AdminPaymentMethod)}
-                  className="w-full bg-stone-950 border border-stone-800 rounded-xl px-3 py-2 text-stone-100 focus:outline-none focus:border-amber-500"
-                >
-                  <option value="cash_on_delivery">Kapıda Nakit</option>
-                  <option value="pos_at_door">Kapıda Mobil POS (Kart)</option>
-                  <option value="transfer">Havale / EFT</option>
-                  <option value="cari">Kurumsal Cari Hesaba Yaz</option>
-                </select>
-              </div>
-
-              <div className="space-y-1">
-                <label className="text-stone-300 font-medium">Sipariş Kaynağı</label>
-                <select
-                  value={source}
-                  onChange={(e) => setSource(e.target.value as OrderSource)}
-                  className="w-full bg-stone-950 border border-stone-800 rounded-xl px-3 py-2 text-stone-100 focus:outline-none focus:border-amber-500"
-                >
-                  <option value="whatsapp">WhatsApp Hattı</option>
-                  <option value="phone">Telefon Araması</option>
-                  <option value="in_store">Atölye Yüz Yüze</option>
-                  <option value="web">Web Sitesi</option>
-                </select>
-              </div>
-
-              <div className="space-y-1">
-                <label className="text-stone-300 font-medium">Özel Sipariş / Kurye Notu</label>
-                <textarea
-                  rows={2}
-                  placeholder="Zil çalmasın, kapıya asın vb..."
-                  value={orderNotes}
-                  onChange={(e) => setOrderNotes(e.target.value)}
-                  className="w-full bg-stone-950 border border-stone-800 rounded-xl px-3 py-2 text-stone-100 focus:outline-none focus:border-amber-500"
+                  min={today}
+                  onChange={(e) => e.target.value && setDeliveryDate(e.target.value)}
+                  className={`${chip(deliveryDate !== today && deliveryDate !== tomorrow)} px-2 text-xs`}
                 />
               </div>
             </div>
 
-            {/* Total Calculation */}
-            <div className="pt-4 border-t border-stone-800 space-y-2 text-xs">
-              <div className="flex justify-between text-stone-400">
-                <span>Ara Toplam:</span>
-                <span className="font-mono font-bold text-stone-200">{subtotal} ₺</span>
+            {!isPickup && (
+              <div className="space-y-1">
+                <label htmlFor="saat" className={label}>Saat aralığı</label>
+                <input id="saat" type="text" value={timeWindow} onChange={(e) => setTimeWindow(e.target.value)} className={field} />
               </div>
-              <div className="flex justify-between text-stone-400">
-                <span>Kurye Teslimatı:</span>
-                <span className="font-mono">
-                  {shippingFee === 0 ? (
-                    <span className="text-emerald-400 font-semibold">Ücretsiz</span>
-                  ) : (
-                    `${shippingFee} ₺`
-                  )}
-                </span>
-              </div>
-              <div className="flex justify-between text-base font-bold text-amber-400 pt-2 border-t border-stone-800/80 font-serif">
-                <span>Genel Toplam:</span>
-                <span>{totalAmount} ₺</span>
+            )}
+
+            <div className="space-y-1">
+              <label htmlFor="odeme" className={label}>Ödeme</label>
+              <select id="odeme" value={paymentMethod} onChange={(e) => setPaymentMethod(e.target.value as AdminPaymentMethod)} className={field}>
+                <option value="cash_on_delivery">Nakit</option>
+                <option value="pos_at_door">Kart (POS)</option>
+                <option value="transfer">Havale / EFT</option>
+                {selectedCari && <option value="cari">Cariye yaz</option>}
+              </select>
+            </div>
+
+            <div className="space-y-1">
+              <span className={label}>Nereden geldi</span>
+              <div className="grid grid-cols-3 gap-2">
+                {SOURCES.map((s) => (
+                  <button key={s.value} type="button" onClick={() => setSource(s.value)} className={chip(source === s.value)}>
+                    {s.label}
+                  </button>
+                ))}
               </div>
             </div>
 
-            {/* Auto WhatsApp Option */}
-            <label className="flex items-center gap-2 text-xs text-stone-300 cursor-pointer pt-2">
-              <input
-                type="checkbox"
-                checked={autoOpenWhatsApp}
-                onChange={(e) => setAutoOpenWhatsApp(e.target.checked)}
-                className="rounded border-stone-700 text-amber-500 focus:ring-amber-500"
+            <div className="space-y-1">
+              <label htmlFor="not" className={label}>Not</label>
+              <textarea
+                id="not"
+                rows={2}
+                value={orderNotes}
+                onChange={(e) => setOrderNotes(e.target.value)}
+                placeholder={isPickup ? "Örn. öğlen uğrayacak" : "Örn. zili çalmayın"}
+                className={`${field} h-auto py-2.5`}
               />
-              <span>Kaydedince WhatsApp Onay Mesajını Aç</span>
-            </label>
+            </div>
 
-            {/* Submit Button */}
+            <div className="pt-3 border-t border-[#2A201A] space-y-2 text-sm">
+              <div className="flex justify-between text-stone-400">
+                <span>Ürünler</span>
+                <span className="font-mono text-stone-200">{fmt(subtotal)}</span>
+              </div>
+              {!isPickup && (
+                <div className="flex items-center justify-between gap-3 text-stone-400">
+                  <label htmlFor="ucret">Teslimat ücreti</label>
+                  <div className="relative w-28">
+                    <input
+                      id="ucret"
+                      type="text"
+                      inputMode="decimal"
+                      value={feeOverride ?? String(suggestedFee)}
+                      onChange={(e) => setFeeOverride(e.target.value)}
+                      className="w-full h-9 pl-3 pr-7 rounded-lg bg-[#1A1410] border border-[#2A201A] text-right font-mono text-stone-200 focus:outline-none focus:border-artisan-gold"
+                    />
+                    <span className="absolute right-2.5 top-1/2 -translate-y-1/2 text-stone-500">₺</span>
+                  </div>
+                </div>
+              )}
+              {!isPickup && !selectedCari && storeSettings.freeShippingThreshold > 0 && (
+                <p className="text-xs text-stone-500">
+                  {fmt(storeSettings.freeShippingThreshold)} ve üstü ücretsiz (Ayarlar). Gerekirse elle değiştir.
+                </p>
+              )}
+              <div className="flex justify-between text-lg font-bold text-foreground pt-2 border-t border-[#2A201A] font-serif">
+                <span>Toplam</span>
+                <span>{fmt(totalAmount)}</span>
+              </div>
+            </div>
+
+            {phone.trim() && (
+              <label className="flex items-center gap-2 text-sm text-stone-300 cursor-pointer">
+                <input type="checkbox" checked={sendWhatsApp} onChange={(e) => setSendWhatsApp(e.target.checked)} className="w-4 h-4 accent-[#B4532A]" />
+                Kaydedince müşteriye WhatsApp mesajı hazırla
+              </label>
+            )}
+
+            {errorMsg && (
+              <div role="alert" className="p-3 rounded-xl bg-red-950/60 border border-red-500/40 text-red-300 text-sm flex items-center gap-2">
+                <AlertCircle className="w-4 h-4 shrink-0" />
+                <span>{errorMsg}</span>
+              </div>
+            )}
+
             <button
               type="submit"
-              disabled={isSubmitting || selectedItems.length === 0}
-              className="w-full py-3 bg-amber-500 hover:bg-amber-400 text-stone-950 font-bold rounded-xl text-xs transition-all shadow-lg shadow-amber-500/20 active:scale-95 disabled:opacity-50 flex items-center justify-center gap-2"
+              disabled={isSubmitting}
+              className="w-full h-12 bg-artisan-terracotta hover:bg-artisan-terracotta/90 text-foreground font-bold rounded-xl text-sm disabled:opacity-50 flex items-center justify-center gap-2"
             >
-              {isSubmitting ? (
-                <>
-                  <Loader2 className="w-4 h-4 animate-spin" />
-                  <span>Sipariş Kaydediliyor...</span>
-                </>
-              ) : (
-                <>
-                  <Check className="w-4 h-4" />
-                  <span>Siparişi Kaydet & Rotaya Ekle</span>
-                </>
-              )}
+              {isSubmitting ? <Loader2 className="w-4 h-4 animate-spin" /> : <Check className="w-4 h-4" />}
+              {isSubmitting ? "Kaydediliyor…" : "Siparişi kaydet"}
             </button>
-          </div>
+          </section>
         </div>
       </form>
-
     </div>
   );
 }
@@ -556,8 +513,8 @@ export default function NewManualOrderPageWrapper() {
     <Suspense
       fallback={
         <div className="p-16 text-center text-stone-400">
-          <Loader2 className="w-8 h-8 text-amber-500 animate-spin mx-auto mb-3" />
-          <p className="text-xs">Yükleniyor...</p>
+          <Loader2 className="w-8 h-8 animate-spin mx-auto mb-3" />
+          <p className="text-xs">Yükleniyor…</p>
         </div>
       }
     >

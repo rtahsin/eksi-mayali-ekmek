@@ -319,6 +319,7 @@ export function useAdminOrders(options: UseAdminOrdersOptions = {}) {
           phone: orderData.phone || "",
           deliveryAddress: orderData.deliveryAddress || "",
           neighborhood: orderData.neighborhood || "",
+          deliveryMethod: orderData.deliveryMethod === "pickup" ? "pickup" : "courier",
           deliveryDate: orderData.deliveryDate || istanbulToday(),
           deliveryTimeWindow: orderData.deliveryTimeWindow || undefined,
           items: (orderData.items || []).map((it) => ({
