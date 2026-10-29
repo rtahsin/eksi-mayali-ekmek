@@ -7,7 +7,7 @@ import { AdminOrder, AdminOrderStatus } from "@/types/admin";
 import { OrderStatusBadge } from "./OrderStatusBadge";
 import { OrderSlipModal } from "./OrderSlipModal";
 import { CancelDialog, DeliverDialog, MessageDialog } from "./siparisler/OrderActionDialogs";
-import { canCancel, nextStep } from "@/lib/orders/adminFlow";
+import { canCancel, nextStep, paymentLabel } from "@/lib/orders/adminFlow";
 import type { DeliveryPayment } from "@/lib/orders/delivery";
 import { relativeTrDate } from "@/lib/time/istanbul";
 import { CONTACT } from "@/lib/site";
@@ -19,14 +19,6 @@ interface OrderCardProps {
   order: AdminOrder;
   onUpdateStatus: (orderId: string, status: AdminOrderStatus, opts?: { note?: string; payment?: DeliveryPayment }) => Promise<Result>;
 }
-
-const PAYMENT_LABELS: Record<string, string> = {
-  cash_on_delivery: "Kapıda nakit",
-  pos_at_door: "Kapıda kart",
-  online: "Online",
-  transfer: "Havale",
-  cari: "Cari",
-};
 
 /** Adres metnindeki GPS işaretinden ya da adresten harita bağlantısı. */
 export function mapsLink(order: Pick<AdminOrder, "deliveryAddress" | "customerLat" | "customerLng">): string {
@@ -79,7 +71,7 @@ export function OrderCard({ order, onUpdateStatus }: OrderCardProps) {
         <div className="text-right shrink-0">
           <div className="font-mono text-base font-bold text-foreground">{order.totalAmount.toLocaleString("tr-TR")} ₺</div>
           <div className={`text-xs ${order.paymentStatus === "paid" ? "text-emerald-400" : "text-stone-400"}`}>
-            {order.paymentStatus === "paid" ? "Ödendi" : PAYMENT_LABELS[order.paymentMethod] || "Ödenecek"}
+            {order.paymentStatus === "paid" ? "Ödendi" : paymentLabel(order.paymentMethod, order.deliveryMethod)}
           </div>
         </div>
       </div>

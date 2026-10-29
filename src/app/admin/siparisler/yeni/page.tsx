@@ -91,6 +91,18 @@ function ManualOrderForm() {
     }
   }, [selectedCari]);
 
+  // Cari değişince önceki carinin doldurduğu (elle değiştirilmemiş) alanlar boşalır
+  const changeCari = (id: string) => {
+    if (selectedCari) {
+      const prev = selectedCari;
+      setCustomerName((v) => (v === prev.businessName ? "" : v));
+      setPhone((v) => (prev.phone && v === prev.phone ? "" : v));
+      setDeliveryAddress((v) => (prev.address && v === prev.address ? "" : v));
+      setNeighborhood((v) => (prev.neighborhood && v === prev.neighborhood ? "" : v));
+    }
+    setSelectedCariId(id);
+  };
+
   // Daha önce sipariş vermiş numara yazılınca ad ve adres dolar (cari seçiliyken dokunmaz)
   const handlePhoneChange = (val: string) => {
     setPhone(val);
@@ -258,7 +270,7 @@ function ManualOrderForm() {
                 <label htmlFor="cari" className={`${label} flex items-center gap-1.5`}>
                   <Building2 className="w-3.5 h-3.5" /> Cari
                 </label>
-                <select id="cari" value={selectedCariId} onChange={(e) => setSelectedCariId(e.target.value)} className={field}>
+                <select id="cari" value={selectedCariId} onChange={(e) => changeCari(e.target.value)} className={field}>
                   <option value="">Cari değil (perakende)</option>
                   {cariler.map((c) => (
                     <option key={c.id} value={c.id}>

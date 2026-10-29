@@ -34,7 +34,7 @@ import { CancelDialog, DeliverDialog, MessageDialog } from "@/components/admin/s
 import { AdminOrder, AdminOrderStatus } from "@/types/admin";
 import { Payment } from "@/types/payment";
 import { OrderStatusHistoryEntry } from "@/types/orderStatusHistory";
-import { canCancel, statusLabel } from "@/lib/orders/adminFlow";
+import { canCancel, paymentLabel, statusLabel } from "@/lib/orders/adminFlow";
 import { formatTrDate } from "@/lib/time/istanbul";
 
 const FLOW: AdminOrderStatus[] = ["bekliyor", "hazirlaniyor", "firinda", "kuryede", "teslim_edildi"];
@@ -45,14 +45,6 @@ const PAYMENT_ROW_LABELS: Record<string, string> = {
   transfer: "Havale / EFT",
   online_card: "Online kart",
   cari: "Cari",
-};
-
-const PAYMENT_METHOD_LABELS: Record<string, string> = {
-  cash_on_delivery: "Kapıda nakit",
-  pos_at_door: "Kapıda kart",
-  online: "Online",
-  transfer: "Havale",
-  cari: "Cariye yazılacak",
 };
 
 function historyLabel(raw: string | null, method: AdminOrder["deliveryMethod"]): string {
@@ -266,7 +258,7 @@ export default function SingleOrderDetailPage() {
               </span>
             </div>
             <p className="text-xs text-stone-400">
-              Yöntem: {PAYMENT_METHOD_LABELS[order.paymentMethod] || order.paymentMethod}
+              Yöntem: {order.paymentMethod === "cari" ? "Cariye yazılacak" : paymentLabel(order.paymentMethod, order.deliveryMethod)}
               {order.cariId ? " · cari sipariş: borç teslimde cariye yazılır" : ""}
             </p>
             {payments.length > 0 && (

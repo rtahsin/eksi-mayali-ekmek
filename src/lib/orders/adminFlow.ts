@@ -52,7 +52,7 @@ export const STATUS_GROUP_LABELS: Record<StatusGroup, string> = {
   acik: "Açık",
   yeni: "Yeni",
   hazirlik: "Hazırlık",
-  yolda: "Yolda",
+  yolda: "Yolda / Hazır",
   teslim: "Teslim",
   iptal: "İptal",
   hepsi: "Hepsi",
@@ -74,6 +74,26 @@ export function inStatusGroup(status: AdminOrderStatus, group: StatusGroup): boo
       return status === "iptal";
     case "hepsi":
       return true;
+  }
+}
+
+/** Ödeme yöntemi etiketi; fırından alımda "kapıda" denmez. */
+export function paymentLabel(method: string, deliveryMethod: AdminOrder["deliveryMethod"] = "courier"): string {
+  const atDoor = deliveryMethod !== "pickup";
+  switch (method) {
+    case "cash_on_delivery":
+      return atDoor ? "Kapıda nakit" : "Nakit";
+    case "pos_at_door":
+      return atDoor ? "Kapıda kart" : "Kart";
+    case "transfer":
+      return "Havale";
+    case "online":
+    case "online_card":
+      return "Online";
+    case "cari":
+      return "Cari";
+    default:
+      return "Ödenecek";
   }
 }
 
