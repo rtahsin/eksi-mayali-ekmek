@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useCallback, useMemo } from "react";
 import Link from "next/link";
-import { useCustomerAuth } from "@/hooks/useCustomerAuth";
+import { useAuth } from "@/components/auth/AuthProvider";
 import { useOrderHistory } from "@/hooks/useOrderHistory";
 import { OrderHistoryCard } from "@/components/customer/OrderHistoryCard";
 import { Order } from "@/types";
@@ -14,7 +14,7 @@ import {
 } from "lucide-react";
 
 export default function MusteriSiparislerPage() {
-  const { user, loading: authLoading, openAuthModal } = useCustomerAuth();
+  const { user, loading: authLoading, openAuthModal } = useAuth();
   const { fetchMyOrders, loading: ordersLoading } = useOrderHistory();
 
   const [orders, setOrders] = useState<Order[]>([]);
