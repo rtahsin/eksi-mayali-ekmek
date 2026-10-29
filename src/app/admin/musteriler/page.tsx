@@ -44,7 +44,7 @@ const AWAY_DAYS = 30;
 const tl = (v: number) => `${v.toLocaleString("tr-TR")} ₺`;
 
 export default function AdminCustomersPage() {
-  const { allOrders, loading: ordersLoading } = useAdminOrders();
+  const { allOrders, loading: ordersLoading } = useAdminOrders({ history: true });
   const [profiles, setProfiles] = useState<RegisteredProfile[]>([]);
   const [profilesLoading, setProfilesLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
