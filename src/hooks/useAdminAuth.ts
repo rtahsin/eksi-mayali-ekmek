@@ -1,6 +1,7 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
+import { create } from "zustand";
 import type { Session } from "@supabase/supabase-js";
 import { createClient, isSupabaseConfigured } from "@/lib/supabase/client";
 import { AdminRole, AdminUser } from "@/types/admin";
@@ -34,76 +35,85 @@ export function safeRedirectPath(target: string | null | undefined, fallback = "
   return target;
 }
 
-export function useAdminAuth() {
-  const [adminUser, setAdminUser] = useState<AdminUser | null>(null);
-  const [loading, setLoading] = useState<boolean>(true);
-  const [authError, setAuthError] = useState<string | null>(null);
+interface AdminAuthState {
+  adminUser: AdminUser | null;
+  loading: boolean;
+  authError: string | null;
+}
 
+/**
+ * Tek paylaşılan durum: kapı, üst başlık ve yan menü aynı oturumu okur; profil sorgusu
+ * kullanıcı başına bir kez atılır (eskiden her bileşen ayrı ayrı, iki kez soruyordu).
+ */
+const useAdminAuthStore = create<AdminAuthState>()(() => ({ adminUser: null, loading: true, authError: null }));
+
+let started = false;
+/** Rolü çözülen (ya da çözülmekte olan) kullanıcı; null = oturum yok, undefined = henüz bakılmadı. */
+let resolvedFor: string | null | undefined;
+
+async function resolveAdmin(session: Session | null) {
   const supabase = createClient();
+  const user = session?.user;
+  const id = user && user.email ? user.id : null;
+  // Token yenileme vb. aynı kullanıcı için tekrar sorgulamaz
+  if (id === resolvedFor) return;
+  resolvedFor = id;
 
-  useEffect(() => {
-    clearLegacyAdminStorage();
+  if (!supabase || !user || !user.email || !id) {
+    useAdminAuthStore.setState({ adminUser: null, loading: false });
+    return;
+  }
 
-    if (!supabase || !isSupabaseConfigured()) {
-      setLoading(false);
-      return;
-    }
+  const { data: profile } = await supabase.from("profiles").select("role, full_name").eq("id", id).maybeSingle();
+  if (resolvedFor !== id) return; // bu arada kullanıcı değişti
 
-    let cancelled = false;
-
-    const resolveAdmin = async (session: Session | null) => {
-      const user = session?.user;
-      if (!user || !user.email) {
-        if (!cancelled) setAdminUser(null);
-        return;
-      }
-
-      const { data: profile } = await supabase
-        .from("profiles")
-        .select("role, full_name")
-        .eq("id", user.id)
-        .maybeSingle();
-
-      if (cancelled) return;
-
-      const role: unknown = profile?.role;
-      if (isAdminRole(role)) {
-        const fullName: unknown = profile?.full_name;
-        setAdminUser({
-          uid: user.id,
+  const role: unknown = profile?.role;
+  const fullName: unknown = profile?.full_name;
+  useAdminAuthStore.setState({
+    loading: false,
+    adminUser: isAdminRole(role)
+      ? {
+          uid: id,
           email: user.email,
           displayName: typeof fullName === "string" && fullName ? fullName : user.email.split("@")[0],
           role,
           isActive: true,
-        });
-      } else {
-        setAdminUser(null);
-      }
-    };
+        }
+      : null,
+  });
+}
 
-    supabase.auth
-      .getSession()
-      .then(({ data }) => resolveAdmin(data.session))
-      .catch((err: unknown) => console.warn("Admin session check warning:", err))
-      .finally(() => {
-        if (!cancelled) setLoading(false);
+/** Oturum dinleyicisi uygulama boyunca bir kez kurulur (sayfa değişse de açık kalır). */
+function startAdminAuth() {
+  if (started || typeof window === "undefined") return;
+  started = true;
+  clearLegacyAdminStorage();
+
+  const supabase = createClient();
+  if (!supabase || !isSupabaseConfigured()) {
+    useAdminAuthStore.setState({ loading: false });
+    return;
+  }
+
+  // Abonelik ilk oturumu (INITIAL_SESSION) hemen bildirir; ayrıca getSession gerekmez.
+  // Supabase geri çağrısının içinde sorgu beklenmez (kilit), bir sonraki tura bırakılır.
+  supabase.auth.onAuthStateChange((_event, session) => {
+    setTimeout(() => {
+      resolveAdmin(session).catch((err: unknown) => {
+        console.warn("Admin session check warning:", err);
+        resolvedFor = undefined;
+        useAdminAuthStore.setState({ adminUser: null, loading: false });
       });
+    }, 0);
+  });
+}
 
-    const {
-      data: { subscription },
-    } = supabase.auth.onAuthStateChange((_event, session) => {
-      resolveAdmin(session)
-        .catch((err: unknown) => console.warn("Admin session update warning:", err))
-        .finally(() => {
-          if (!cancelled) setLoading(false);
-        });
-    });
-
-    return () => {
-      cancelled = true;
-      subscription.unsubscribe();
-    };
-  }, [supabase]);
+export function useAdminAuth() {
+  useEffect(startAdminAuth, []);
+  const { adminUser, loading, authError } = useAdminAuthStore();
+  const supabase = createClient();
+  const setLoading = (value: boolean) => useAdminAuthStore.setState({ loading: value });
+  const setAuthError = (value: string | null) => useAdminAuthStore.setState({ authError: value });
 
   const loginWithGoogle = async (redirectPath = "/admin") => {
     setLoading(true);
@@ -136,7 +146,8 @@ export function useAdminAuth() {
         await supabase.auth.signOut();
       }
       clearLegacyAdminStorage();
-      setAdminUser(null);
+      resolvedFor = null;
+      useAdminAuthStore.setState({ adminUser: null });
     } catch (e) {
       console.error("Logout error:", e);
     }
