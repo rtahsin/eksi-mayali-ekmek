@@ -1,11 +1,12 @@
 "use client";
 
 import React, { useState } from "react";
-import { useCustomerAuth, SavedAddress } from "@/hooks/useCustomerAuth";
+import { useAuth } from "@/components/auth/AuthProvider";
+import type { SavedAddress } from "@/hooks/useCustomerAuth";
 import { MapPin, Plus, Check, Trash2, Home, Building } from "lucide-react";
 
 export default function AdreslerimPage() {
-  const { user, addresses, saveAddress, loading } = useCustomerAuth();
+  const { user, addresses, saveAddress, loading } = useAuth();
   const [isAdding, setIsAdding] = useState(false);
   const [title, setTitle] = useState("Ev");
   const [district, setDistrict] = useState("Beylikdüzü");

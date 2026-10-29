@@ -1,11 +1,11 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { useCustomerAuth } from "@/hooks/useCustomerAuth";
+import { useAuth } from "@/components/auth/AuthProvider";
 import { MessageSquare, Check, Phone, ShieldCheck } from "lucide-react";
 
 export default function TercihlerPage() {
-  const { user, profile } = useCustomerAuth();
+  const { user, profile } = useAuth();
   const [whatsappConsent, setWhatsappConsent] = useState(true);
   const [savedNotice, setSavedNotice] = useState(false);
 

@@ -4,7 +4,7 @@ import React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Package, MapPin, MessageSquare, LogOut, ArrowLeft } from "lucide-react";
-import { useCustomerAuth } from "@/hooks/useCustomerAuth";
+import { useAuth } from "@/components/auth/AuthProvider";
 
 export default function HesabimLayout({
   children,
@@ -12,7 +12,7 @@ export default function HesabimLayout({
   children: React.ReactNode;
 }) {
   const pathname = usePathname();
-  const { user, profile, signOut } = useCustomerAuth();
+  const { user, profile, signOut } = useAuth();
 
   const navItems = [
     { href: "/hesabim/siparisler", label: "Siparişlerim", icon: Package },

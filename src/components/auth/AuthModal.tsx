@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import { X, Sparkles, Mail, ArrowRight, KeyRound } from "lucide-react";
-import { useCustomerAuth } from "@/hooks/useCustomerAuth";
+import { useAuth } from "@/components/auth/AuthProvider";
 import { getErrorMessage } from "@/lib/utils/error";
 
 interface AuthModalProps {
@@ -20,7 +20,7 @@ export function AuthModal({ isOpen, onClose }: AuthModalProps) {
   const [submitting, setSubmitting] = useState(false);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
 
-  const { signInWithGoogle, sendEmailCode, verifyEmailCode, isConfigured } = useCustomerAuth();
+  const { signInWithGoogle, sendEmailCode, verifyEmailCode, isConfigured } = useAuth();
 
   if (!isOpen) return null;
 
