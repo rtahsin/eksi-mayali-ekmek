@@ -163,6 +163,8 @@ export default async function ProductDetailPage({ params }: ProductPageProps) {
     .slice(0, 4);
 
   const masterclass = product.masterclass;
+  // Fırın iddiaları (taş taban, ekşi maya, ~24 saat) yalnız ekmeklerde; süt/yoğurt sayfasında görünmez.
+  const isBread = product.category === "bread" || product.category === "specialty";
   const canonicalSlug = getProductSlug(product);
 
   // Schema.org Product + Offer JSON-LD structured data (P2-3)
@@ -253,43 +255,42 @@ export default async function ProductDetailPage({ params }: ProductPageProps) {
                     Günlük Taş Fırın Üretimi
                   </span>
                 )}
-                {product.isPopular && (
-                  <span className="px-3 py-1 rounded-full bg-accent text-white text-xs font-sans font-bold uppercase shadow-md">
-                    Çok Sevilen
-                  </span>
-                )}
               </div>
 
               {/* Bottom Quick Tag */}
+              {isBread && (
               <div className="absolute bottom-4 left-4 right-4 flex items-center justify-between text-xs text-ink bg-cream-surface/90 backdrop-blur-md px-4 py-2.5 rounded-xl border border-line shadow-xs">
                 <div className="flex items-center gap-2">
                   <Flame className="w-4 h-4 text-accent" />
-                  <span>Meşe Odunu ve Taş Taban Pişimi</span>
+                  <span>Taş tabanlı fırında pişer</span>
                 </div>
                 <div className="font-mono text-accent font-bold">
                   {product.weight} {product.weightUnit || "g"}
                 </div>
               </div>
+              )}
             </div>
 
             {/* Quick Guarantees */}
+            {isBread && (
             <div className="grid grid-cols-3 gap-3 pt-2 text-center text-xs">
               <div className="p-3 rounded-xl bg-cream-surface border border-line">
                 <Clock className="w-4 h-4 text-accent mx-auto mb-1" />
-                <span className="font-bold text-ink block">Uzun</span>
-                <span className="text-ink-muted text-xs">Soğuk Mayalanma</span>
+                <span className="font-bold text-ink block">~24 Saat</span>
+                <span className="text-ink-muted text-xs">Yapım Süreci</span>
               </div>
               <div className="p-3 rounded-xl bg-cream-surface border border-line">
                 <Wheat className="w-4 h-4 text-accent mx-auto mb-1" />
-                <span className="font-bold text-ink block">Atalık Un</span>
-                <span className="text-ink-muted text-xs">Taş Değirmen</span>
+                <span className="font-bold text-ink block">Ekşi Maya</span>
+                <span className="text-ink-muted text-xs">Hazır Maya Yok</span>
               </div>
               <div className="p-3 rounded-xl bg-cream-surface border border-line">
                 <ShieldCheck className="w-4 h-4 text-good mx-auto mb-1" />
-                <span className="font-bold text-ink block">Taş Fırın</span>
-                <span className="text-ink-muted text-xs">Günlük Pişim</span>
+                <span className="font-bold text-ink block">Taş Taban</span>
+                <span className="text-ink-muted text-xs">Fırında Pişim</span>
               </div>
             </div>
+            )}
           </div>
 
           {/* Right Column: Information, Pricing & Interactive Add-to-Cart */}
@@ -348,7 +349,7 @@ export default async function ProductDetailPage({ params }: ProductPageProps) {
             </p>
           </div>
 
-          {(product.category === "bread" || product.category === "specialty") && (
+          {isBread && (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
             {/* Spec 1: Hydration */}
             <div className="p-5 rounded-2xl bg-cream-surface border border-line space-y-1">
@@ -368,13 +369,13 @@ export default async function ProductDetailPage({ params }: ProductPageProps) {
             <div className="p-5 rounded-2xl bg-cream-surface border border-line space-y-1">
               <div className="flex items-center gap-2 text-accent text-xs font-bold uppercase tracking-wider">
                 <Clock className="w-4 h-4" />
-                <span>Soğuk Fermantasyon</span>
+                <span>Yapım Süreci</span>
               </div>
               <div className="font-mono text-2xl font-bold text-ink pt-1">
-                36 - 40 Saat
+                ~24 Saat
               </div>
               <p className="text-xs text-ink-muted">
-                +4°C'de yavaş olgunlaşma.
+                Ekşi mayanın hamuru yavaşça olgunlaştırdığı süre.
               </p>
             </div>
 
@@ -387,7 +388,7 @@ export default async function ProductDetailPage({ params }: ProductPageProps) {
               <div className="font-serif text-lg font-bold text-ink pt-1 truncate">
                 {product.flourTypes && product.flourTypes.length > 0
                   ? product.flourTypes.join(", ")
-                  : "Atalık Taş Değirmen"}
+                  : product.ingredients?.[0] ?? "Ekşi maya"}
               </div>
               <p className="text-xs text-ink-muted">
                 Bu ekmekte kullanılan un ve tahıllar.
@@ -401,10 +402,10 @@ export default async function ProductDetailPage({ params }: ProductPageProps) {
                 <span>Temiz İçerik</span>
               </div>
               <div className="font-mono text-2xl font-bold text-good pt-1">
-                %100 Katkısız
+                Ekşi Maya
               </div>
               <p className="text-xs text-ink-muted">
-                Ticari maya, endüstriyel enzim veya koruyucu kimyasal içermez.
+                Hazır (ticari) maya kullanılmaz.
               </p>
             </div>
           </div>

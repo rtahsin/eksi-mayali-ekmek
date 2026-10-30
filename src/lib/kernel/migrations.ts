@@ -18,6 +18,7 @@ export const EXPECTED_MIGRATIONS: readonly string[] = [
   "027_bake_logs",
   "028_product_stories",
   "029_deliver_remaining_due",
+  "030_product_copy_facts",
 ] as const;
 
 export interface MigrationDiffResult {

@@ -27,6 +27,7 @@ import { CONTACT, whatsappLink } from "@/lib/site";
 import { FEATURES } from "@/lib/features";
 import { useAuth } from "@/components/auth/AuthProvider";
 import { useTheme } from "@/lib/theme/useTheme";
+import { useStoreSettings } from "@/hooks/useStoreSettings";
 
 interface AtelierMenuDrawerProps {
   isOpen: boolean;
@@ -40,6 +41,9 @@ export function AtelierMenuDrawer({ isOpen, onClose }: AtelierMenuDrawerProps) {
   const [activeModal, setActiveModal] = useState<ModalType>(null);
   const { user, profile, isLoggedIn, openAuthModal, signOut } = useAuth();
   const { preference, resolvedTheme, setPreference } = useTheme();
+  const { settings } = useStoreSettings();
+  const fee = settings.shippingFee;
+  const freeFrom = settings.freeShippingThreshold;
 
   useEffect(() => {
     setMounted(true);
@@ -610,7 +614,7 @@ export function AtelierMenuDrawer({ isOpen, onClose }: AtelierMenuDrawerProps) {
               <div className="p-4 rounded-2xl bg-bg border border-line space-y-2">
                 <div className="font-serif font-bold text-ink text-base">Ücretsiz Teslimat Eşiği</div>
                 <p>
-                  <strong className="text-ink">1000 ₺ ve üzeri</strong> siparişlerde Beylikdüzü geneline teslimat tamamen ücretsizdir. Altındaki siparişlerde standart 150 ₺ teslimat ücreti uygulanır.
+                  <strong className="text-ink">{freeFrom.toLocaleString("tr-TR")} ₺ ve üzeri</strong> siparişlerde Beylikdüzü geneline teslimat ücretsizdir. Altındaki siparişlerde {fee.toLocaleString("tr-TR")} ₺ teslimat ücreti uygulanır.
                 </p>
               </div>
 
