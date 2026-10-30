@@ -77,17 +77,26 @@ export default function AdminCustomersPage() {
       (a.deliveryDate || a.createdAt || "").localeCompare(b.deliveryDate || b.createdAt || "")
     );
 
+    const cancelledOrders: [string, AdminOrder][] = [];
     sortedOrders.forEach((order) => {
       const cleanPhone = (order.phone || "").replace(/\D/g, "");
       const key = cleanPhone.length >= 7 ? cleanPhone : order.customerName || "Bilinmeyen";
+      const cancelled = order.status === "iptal";
+      // Yalnız iptal siparişi olan (deneme vb.) müşteri listelenmez; var olanın geçmişinde görünür
+      if (cancelled) {
+        cancelledOrders.push([key, order]);
+        return;
+      }
+      // Fırından alımda adres yok: mahalle/adres yalnız adrese teslimden
+      const courier = order.deliveryMethod !== "pickup";
       if (!map[key]) {
         map[key] = {
           key,
           phone: order.phone || "",
           name: order.customerName || "İsimsiz",
           hasAccount: false,
-          neighborhood: order.neighborhood || "",
-          address: order.deliveryAddress || "",
+          neighborhood: courier ? order.neighborhood || "" : "",
+          address: courier ? order.deliveryAddress || "" : "",
           orderCount: 0,
           totalSpent: 0,
           lastOrderDate: null,
@@ -96,19 +105,26 @@ export default function AdminCustomersPage() {
         };
       }
       const c = map[key];
-      if (order.status !== "iptal") {
-        c.orderCount += 1;
-        c.totalSpent += Number(order.totalAmount) || 0;
-      }
+      c.orderCount += 1;
+      c.totalSpent += Number(order.totalAmount) || 0;
       c.lastOrderDate = order.deliveryDate || c.lastOrderDate;
-      if (order.neighborhood) c.neighborhood = order.neighborhood;
-      if (order.deliveryAddress) c.address = order.deliveryAddress;
+      if (courier && order.neighborhood) c.neighborhood = order.neighborhood;
+      if (courier && order.deliveryAddress) c.address = order.deliveryAddress;
       if (order.customerName && c.name === "İsimsiz") c.name = order.customerName;
       c.orders.unshift(order);
       (order.items || []).forEach((it) => {
         c.favoriteItems[it.productName] = (c.favoriteItems[it.productName] || 0) + it.quantity;
       });
     });
+
+    for (const [key, order] of cancelledOrders) {
+      const c = map[key];
+      if (!c) continue;
+      c.orders.push(order);
+      c.orders.sort((a, b) =>
+        (b.deliveryDate || b.createdAt || "").localeCompare(a.deliveryDate || a.createdAt || "")
+      );
+    }
 
     profiles.forEach((prof) => {
       const profPhone = (prof.phone || "").replace(/\D/g, "");
