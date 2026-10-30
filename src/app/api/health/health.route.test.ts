@@ -26,6 +26,7 @@ vi.mock("@/lib/supabase/admin", () => ({
           { id: "027_bake_logs" },
           { id: "028_product_stories" },
           { id: "029_deliver_remaining_due" },
+          { id: "030_product_copy_facts" },
         ],
         error: null,
       }),
