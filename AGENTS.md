@@ -21,7 +21,7 @@ Bu kurallar, EkmekLab projesinde kod yazarken, hata ayıklarken ve yeni modül e
 - **Çekirdek**: Next.js 16 (App Router, Turbopack, React 19, Node.js).
 - **Stil & Tasarım**: Tailwind CSS + Vanilla CSS.
 - **Backend & Veritabanı**: **Supabase** (PostgreSQL, Auth, Realtime). Giriş: admin ve müşteri için Google OAuth (Supabase Auth); admin PIN'i yoktur. Tablolar: `orders`, `order_items`, `products`, `current_accounts` ve cari defteri `account_transactions`. İstemci fabrikaları `src/lib/supabase/` altında (env yoksa `null` döner: her zaman null kontrolü yap).
-- **Firebase**: Artık backend değildir. `src/lib/firebase/*` ve `firebase`/`firebase-admin` paketleri yalnızca eski kalıntıdır (src içinde onları import eden yok; P0-01 sonrası ayrı küçük PR'da silinecek). Yeni kodda Firebase kullanma.
+- **Firebase**: Kaldırıldı (kod ve paketler silindi). Yeni kodda Firebase kullanma.
 - **Bildirim**: Yeni sipariş bildirimi Telegram ile (`src/lib/notify/telegram.ts`), `after()` içinde gönderilir; mesajda kişisel veri (ad/telefon/adres) olmaz (KVKK). Hata siparişi asla bozmaz.
 - **Yasaklı Teknolojiler**: Bu repo içinde kesinlikle **Dart / Flutter** kodu yazılamaz, çalıştırılamaz veya önerilemez. Proje %100 Web/Next.js tabanlıdır.
 
