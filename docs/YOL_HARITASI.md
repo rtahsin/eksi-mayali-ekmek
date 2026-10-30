@@ -1,6 +1,6 @@
 # EkmekLab Yol Haritası ve Uygulama Planı
 
-> **Tek kaynak.** Bu dosya Tahsin'in ve tüm Claude oturumlarının ortak planıdır. Her oturum başında okunur; bir faz bitince aşağıdaki durum tablosu güncellenir. Plan 4 Ekim 2026'da Tahsin tarafından onaylandı; Mimari v1 (§10) 6 Ekim'de eklendi. Son güncelleme: 2026-10-06.
+> **Tek kaynak.** Bu dosya Tahsin'in ve tüm Claude oturumlarının ortak planıdır. Her oturum başında okunur; bir faz bitince aşağıdaki durum tablosu güncellenir. Plan 4 Ekim 2026'da Tahsin tarafından onaylandı; Mimari v1 (§10) 6 Ekim'de eklendi. Son güncelleme: 2026-10-31 (güncel sıra: Durum tablosunun altında).
 
 ## Durum
 | Faz | Konu | Tahmini süre | Durum |
@@ -21,6 +21,18 @@
 | P2 | Genişleme: P2-06 Profesyonel Araçlar (✅ tamamlandı: fırıncı yüzdesi, DDT, maya planlayıcı /arac/*); diğerleri tetikleyiciyle | tetikleyiciye bağlı | P2-06 tamamlandı; diğerleri koşulunu bekliyor |
 | I | Mevcut yapıyı mükemmelleştirme (7 Eki): I-02 menü + gece teması (✅ PR #35), I-04 mobil düzeltmeler (✅ PR #36), I-05 sipariş üzerine özel ekmek eşik çubuğu (✅ PR #37), I-01 ürün listesi (✅ PR #38), I-03 profil (✅ PR #39) | ~5–7 ajan oturumu | ✅ tamamlandı (I-01..I-05 tüm Faz I paketleri tamamlandı ve main'e birleştirildi) |
 | I-06 | Eşik/çubuk/kaydırma kaldırılır; ürün başına satış günleri (ör. Gece Yarısı = Cuma), kartta "Her Cuma" rozeti. 026 canlıda hiç çalışmadı; yeniden yazılır. Ayrıntı IS_PAKETLERI I-06 | ~1 ajan oturumu | ✅ tamamlandı (PR #41) |
+
+### Güncel sıra (31 Eki 2026, Tahsin onayı) — yukarıdaki tablonun önüne geçer
+Uygulama tarafı (sipariş, teslim, cari, admin) PR #63–#70 ile canlıda ve tutarlı. Bundan sonra yeni özellik yalnız gerçek kullanımdan çıkan ihtiyaçla eklenir.
+
+| Adım | İş | Kim | Durum |
+|---|---|---|---|
+| 0 | Kapanış: 028 (ürün adımları) çalıştırılır ya da özellik kaldırılır (Tahsin'in kararı); repo temizliği | Claude + Tahsin | sürüyor |
+| 1 | Gerçek günlerle sınama (1 hafta): siparişler admin'den, teslim `/kurye`'den, her pişirmede "Fırından çıktı"; takılan her şey Claude'a | Tahsin | bekliyor |
+| 2a | `content/gelen/` araştırma dosyaları (80) kütüphaneyle karşılaştırılır; DOI'si Crossref'te doğrulanan bilgi girer, gerisi atılır. Toplu iş diğer modellerde, Claude denetler | Claude | 1 ile paralel |
+| 2b | 26 an kalite kapısından geçer (her sayı kaynaklı, sade dil, çelişki yok); ilk an "Ekşi mayanın ilk 10 günü" | Claude | 2a'dan sonra |
+| 2c | Her an için Tahsin'in okuyacağı kısa video metni (kaynaklar ekranda) | Claude → Tahsin | 2b'den sonra |
+| 3 | Kendi fotoğraflar (ürün + ana sayfa); bake_logs birikince ana sayfada "bugün fırından çıktı" | Tahsin → Claude | acelesi yok |
 
 Toplam: odaklı ~3-4 hafta (oturumlar halinde). Faz 4, tasarım yönü seçilince Faz 3 ile paralel yürüyebilir.
 
