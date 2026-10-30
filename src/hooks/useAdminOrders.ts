@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useMemo, useCallback } from "react";
+import { useState, useEffect, useMemo, useCallback, useRef } from "react";
 import { createClient, isSupabaseConfigured } from "@/lib/supabase/client";
 import { AdminOrder, AdminOrderStatus, AdminPaymentMethod, OrderSource } from "@/types/admin";
 import { getErrorMessage } from "@/lib/utils/error";
@@ -9,6 +9,7 @@ import { computeShippingFee } from "@/lib/settings/schema";
 import { useStoreSettings } from "@/hooks/useStoreSettings";
 import { useIstanbulToday } from "@/hooks/useIstanbulToday";
 import { defaultDeliveryPayment, deliverOrder, type DeliveryPayment } from "@/lib/orders/delivery";
+import { mergeOrders, OPEN_STATUSES, orderSearchFilter } from "@/lib/orders/orderQueries";
 
 export function normalizeOrderStatus(rawStatus?: string): AdminOrderStatus {
   if (!rawStatus) return "bekliyor";
@@ -83,13 +84,78 @@ interface RawOrderRow {
 }
 
 interface UseAdminOrdersOptions {
+  /** Son kaç sipariş (varsayılan 300). Açık ve tahsil edilmemiş siparişler bu sınırdan bağımsız hep yüklenir. */
   limit?: number;
+  /** Tüm geçmiş (Müşteriler): sayfa sayfa hepsi yüklenir. */
+  history?: boolean;
 }
+
+/** Veritabanı satırı → AdminOrder */
+function toAdminOrder(o: RawOrderRow): AdminOrder {
+    const items = (o.order_items || []).map((it) => ({
+      productId: it.product_id || "",
+      productName: it.product_name || "Ürün",
+      quantity: Number(it.quantity) || 1,
+      unitPrice: Number(it.unit_price) || 0,
+      totalPrice: Number(it.total_price) || 0,
+      imageUrl: it.image_url || undefined,
+      weight: it.weight || undefined,
+    }));
+
+    // Eski "today"/"tomorrow"/"custom:" kayıtları sipariş anına göre ISO tarihe çevrilir (K1)
+    const d = normalizeDeliveryDate(o.delivery_date, o.created_at);
+
+    return {
+      id: o.id,
+      orderNumber: o.order_number || o.id.replace("ORD-", "").toUpperCase(),
+      customerName: o.customer_name || "İsimsiz Müşteri",
+      phone: o.phone || "",
+      deliveryAddress: o.delivery_address || "",
+      neighborhood: o.neighborhood || extractNeighborhood(o.delivery_address || ""),
+      deliveryMethod: o.delivery_method === "pickup" ? "pickup" : "courier",
+      deliveryDate: d,
+      deliveryTimeWindow: o.delivery_time_window || undefined,
+      items,
+      subtotal: Number(o.subtotal) || 0,
+      shippingFee: Number(o.shipping_fee) || 0,
+      totalAmount: Number(o.total_amount) || 0,
+      status: normalizeOrderStatus(o.status || undefined),
+      paymentMethod: normalizePaymentMethod(o.payment_method || undefined),
+      paymentStatus: (o.payment_status as "paid" | "pending" | "on_delivery") || (o.status === "teslim_edildi" ? "paid" : "pending"),
+      source: (o.source as OrderSource) || "web",
+      courierId: o.courier_id || null,
+      assignedAt: o.assigned_at || null,
+      deliveredAt: o.delivered_at || null,
+      cancelledAt: o.cancelled_at || null,
+      cancelReason: o.cancel_reason || null,
+      cancelledBy: o.cancelled_by || null,
+      customerLat: o.customer_lat ?? null,
+      customerLng: o.customer_lng ?? null,
+      locationShared: !!o.location_shared,
+      locationConsentAt: o.location_consent_at || null,
+      deliveryLat: o.delivery_lat ?? null,
+      deliveryLng: o.delivery_lng ?? null,
+      estimatedDelivery: o.estimated_delivery || null,
+      userId: o.user_id || null,
+      idempotencyKey: o.idempotency_key || null,
+      cariId: o.cari_id || undefined,
+      orderNotes: o.order_notes || "",
+      courierNotes: o.courier_notes || "",
+      createdAt: o.created_at,
+      updatedAt: o.updated_at || undefined,
+    };
+}
+
+const PAGE = 1000;
+const HISTORY_MAX = 20000;
 
 export function useAdminOrders(options: UseAdminOrdersOptions = {}) {
   const [orders, setOrders] = useState<AdminOrder[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  // Arama ve detay için sunucudan ayrıca getirilen (son N'in dışındaki) siparişler
+  const [extra, setExtra] = useState<AdminOrder[]>([]);
+  const extraIds = useRef<string[]>([]);
 
   // Filters
   const [statusFilter, setStatusFilter] = useState<string>("all");
@@ -105,88 +171,105 @@ export function useAdminOrders(options: UseAdminOrdersOptions = {}) {
       return;
     }
 
+    const select = "*, order_items(*)";
     try {
-      let query = supabase
-        .from("orders")
-        .select("*, order_items(*)")
-        .order("created_at", { ascending: false });
-
-      if (options.limit) {
-        query = query.limit(options.limit);
+      let recent: RawOrderRow[];
+      if (options.history) {
+        recent = [];
+        for (let from = 0; from < HISTORY_MAX; from += PAGE) {
+          const { data, error } = await supabase
+            .from("orders")
+            .select(select)
+            .order("created_at", { ascending: false })
+            .range(from, from + PAGE - 1);
+          if (error) throw error;
+          const rows = (data ?? []) as unknown as RawOrderRow[];
+          recent.push(...rows);
+          if (rows.length < PAGE) break;
+        }
       } else {
-        query = query.limit(300);
+        const { data, error } = await supabase
+          .from("orders")
+          .select(select)
+          .order("created_at", { ascending: false })
+          .limit(options.limit ?? 300);
+        if (error) throw error;
+        recent = (data ?? []) as unknown as RawOrderRow[];
       }
 
-      const { data, error } = await query;
+      // Son N'in dışında kalsa da kaybolmaması gerekenler: açık işler ve parası alınmamış teslimler
+      const [open, uncollected, again] = await Promise.all([
+        supabase.from("orders").select(select).in("status", [...OPEN_STATUSES]),
+        supabase
+          .from("orders")
+          .select(select)
+          .eq("status", "teslim_edildi")
+          .is("cari_id", null)
+          .or("payment_status.is.null,payment_status.neq.paid"),
+        extraIds.current.length
+          ? supabase.from("orders").select(select).in("id", extraIds.current)
+          : Promise.resolve({ data: [], error: null }),
+      ]);
+      const err = open.error || uncollected.error || again.error;
+      if (err) throw err;
 
-      if (error) {
-        console.error("Supabase orders error:", error);
-        setError("Siparişler yüklenirken hata oluştu.");
-      } else if (data) {
-        const rawList = data as unknown as RawOrderRow[];
-        const list: AdminOrder[] = rawList.map((o) => {
-          const items = (o.order_items || []).map((it) => ({
-            productId: it.product_id || "",
-            productName: it.product_name || "Ürün",
-            quantity: Number(it.quantity) || 1,
-            unitPrice: Number(it.unit_price) || 0,
-            totalPrice: Number(it.total_price) || 0,
-            imageUrl: it.image_url || undefined,
-            weight: it.weight || undefined,
-          }));
-
-          // Eski "today"/"tomorrow"/"custom:" kayıtları sipariş anına göre ISO tarihe çevrilir (K1)
-          const d = normalizeDeliveryDate(o.delivery_date, o.created_at);
-
-          return {
-            id: o.id,
-            orderNumber: o.order_number || o.id.replace("ORD-", "").toUpperCase(),
-            customerName: o.customer_name || "İsimsiz Müşteri",
-            phone: o.phone || "",
-            deliveryAddress: o.delivery_address || "",
-            neighborhood: o.neighborhood || extractNeighborhood(o.delivery_address || ""),
-            deliveryMethod: o.delivery_method === "pickup" ? "pickup" : "courier",
-            deliveryDate: d,
-            deliveryTimeWindow: o.delivery_time_window || undefined,
-            items,
-            subtotal: Number(o.subtotal) || 0,
-            shippingFee: Number(o.shipping_fee) || 0,
-            totalAmount: Number(o.total_amount) || 0,
-            status: normalizeOrderStatus(o.status || undefined),
-            paymentMethod: normalizePaymentMethod(o.payment_method || undefined),
-            paymentStatus: (o.payment_status as "paid" | "pending" | "on_delivery") || (o.status === "teslim_edildi" ? "paid" : "pending"),
-            source: (o.source as OrderSource) || "web",
-            courierId: o.courier_id || null,
-            assignedAt: o.assigned_at || null,
-            deliveredAt: o.delivered_at || null,
-            cancelledAt: o.cancelled_at || null,
-            cancelReason: o.cancel_reason || null,
-            cancelledBy: o.cancelled_by || null,
-            customerLat: o.customer_lat ?? null,
-            customerLng: o.customer_lng ?? null,
-            locationShared: !!o.location_shared,
-            locationConsentAt: o.location_consent_at || null,
-            deliveryLat: o.delivery_lat ?? null,
-            deliveryLng: o.delivery_lng ?? null,
-            estimatedDelivery: o.estimated_delivery || null,
-            userId: o.user_id || null,
-            idempotencyKey: o.idempotency_key || null,
-            cariId: o.cari_id || undefined,
-            orderNotes: o.order_notes || "",
-            courierNotes: o.courier_notes || "",
-            createdAt: o.created_at,
-            updatedAt: o.updated_at || undefined,
-          };
-        });
-        setOrders(list);
-      }
+      const map = (rows: unknown) => ((rows ?? []) as RawOrderRow[]).map(toAdminOrder);
+      setOrders(mergeOrders(map(recent), map(open.data), map(uncollected.data)));
+      setExtra(map(again.data));
+      setError(null);
     } catch (e: unknown) {
-      console.warn("Supabase orders exception:", e);
-      setError(getErrorMessage(e));
+      console.error("Supabase orders error:", e);
+      setError("Siparişler yüklenirken hata oluştu.");
     } finally {
       setLoading(false);
     }
-  }, [supabase]);
+  }, [supabase, options.history, options.limit]);
+
+  // Son N'in dışındaki siparişleri sunucudan getirip listeye katar (sonraki yenilemelerde de güncel tutulur)
+  const addExtra = useCallback((rows: unknown) => {
+    const found = ((rows ?? []) as RawOrderRow[]).map(toAdminOrder);
+    if (found.length === 0) return 0;
+    extraIds.current = [...new Set([...extraIds.current, ...found.map((o) => o.id)])];
+    setExtra((prev) => mergeOrders(prev, found));
+    return found.length;
+  }, []);
+
+  /** Aramada eşleşen eski siparişler (ad, sipariş no, telefon). */
+  const searchOrders = useCallback(
+    async (query: string) => {
+      const filter = orderSearchFilter(query);
+      if (!supabase || !filter) return 0;
+      const { data, error } = await supabase
+        .from("orders")
+        .select("*, order_items(*)")
+        .or(filter)
+        .order("created_at", { ascending: false })
+        .limit(50);
+      if (error) {
+        console.warn("Sipariş araması:", error.message);
+        return 0;
+      }
+      return addExtra(data);
+    },
+    [supabase, addExtra]
+  );
+
+  /** Detay sayfası: listede olmayan siparişi kimlik ya da sipariş numarasıyla getirir. */
+  const loadOrder = useCallback(
+    async (idOrNumber: string) => {
+      if (!supabase || !/^[\w-]{1,80}$/.test(idOrNumber)) return false;
+      const { data, error } = await supabase
+        .from("orders")
+        .select("*, order_items(*)")
+        .or(`id.eq.${idOrNumber},order_number.eq.${idOrNumber}`)
+        .limit(1);
+      if (error) return false;
+      return addExtra(data) > 0;
+    },
+    [supabase, addExtra]
+  );
+
+  const allOrders = useMemo(() => mergeOrders(extra, orders), [extra, orders]);
 
   useEffect(() => {
     fetchSupabaseOrders();
@@ -357,10 +440,11 @@ export function useAdminOrders(options: UseAdminOrdersOptions = {}) {
 
   // Filtered orders
   const filteredOrders = useMemo(() => {
-    return orders.filter((order) => {
-      // Date filter
-      if (dateFilter === "bugun" && order.deliveryDate !== todayStr) return false;
-      if (dateFilter === "yarin" && order.deliveryDate !== tomorrowStr) return false;
+    const searching = searchQuery.trim().length > 0;
+    return allOrders.filter((order) => {
+      // Tarih filtresi; arama tüm tarihlerde yapılır
+      if (!searching && dateFilter === "bugun" && order.deliveryDate !== todayStr) return false;
+      if (!searching && dateFilter === "yarin" && order.deliveryDate !== tomorrowStr) return false;
 
       // Status filter
       if (statusFilter !== "all" && order.status !== statusFilter) return false;
@@ -378,12 +462,12 @@ export function useAdminOrders(options: UseAdminOrdersOptions = {}) {
 
       return true;
     });
-  }, [orders, statusFilter, dateFilter, searchQuery, todayStr, tomorrowStr]);
+  }, [allOrders, statusFilter, dateFilter, searchQuery, todayStr, tomorrowStr]);
 
 
   return {
     orders: filteredOrders,
-    allOrders: orders,
+    allOrders,
     loading,
     error,
     statusFilter,
@@ -397,6 +481,8 @@ export function useAdminOrders(options: UseAdminOrdersOptions = {}) {
     cancelOrder,
     createManualOrder,
     refetch: fetchSupabaseOrders,
+    searchOrders,
+    loadOrder,
   };
 }
 

@@ -13,7 +13,8 @@ const GROUPS: StatusGroup[] = ["acik", "yeni", "hazirlik", "yolda", "teslim", "i
 const PAGE_SIZE = 30;
 
 export default function AdminOrdersPage() {
-  const { orders, allOrders, loading, error, dateFilter, setDateFilter, searchQuery, setSearchQuery, updateOrderStatus } = useAdminOrders();
+  const { orders, allOrders, loading, error, dateFilter, setDateFilter, searchQuery, setSearchQuery, updateOrderStatus, searchOrders } =
+    useAdminOrders();
   const today = useIstanbulToday();
   const tomorrow = addDays(today, 1);
 
@@ -22,6 +23,13 @@ export default function AdminOrdersPage() {
   const [shown, setShown] = React.useState(PAGE_SIZE);
 
   React.useEffect(() => setShown(PAGE_SIZE), [group, dateFilter, searchQuery, onlyUncollected]);
+
+  // Eski siparişler yüklü listede olmayabilir: aramayı sunucuya da sor (yazmayı bitirince)
+  React.useEffect(() => {
+    if (searchQuery.trim().length < 3) return;
+    const t = setTimeout(() => void searchOrders(searchQuery), 350);
+    return () => clearTimeout(t);
+  }, [searchQuery, searchOrders]);
 
   const uncollected = React.useMemo(() => allOrders.filter(isUncollected), [allOrders]);
 

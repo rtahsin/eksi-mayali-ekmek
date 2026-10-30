@@ -56,13 +56,20 @@ export default function SingleOrderDetailPage() {
   const params = useParams();
   const orderId = params?.id as string;
 
-  const { allOrders, updateOrderStatus, assignCourier, loading } = useAdminOrders();
+  const { allOrders, updateOrderStatus, assignCourier, loading, loadOrder } = useAdminOrders();
   const { couriers } = useCouriers();
   const { fetchPaymentsByOrder } = usePayments();
   const { fetchStatusHistory } = useOrderHistory();
   const { settings } = useStoreSettings();
 
   const order: AdminOrder | null = allOrders.find((o) => o.id === orderId || o.orderNumber === orderId) ?? null;
+  // Yüklü listede yoksa (eski sipariş) sunucudan bir kez getir
+  const [lookup, setLookup] = useState<"idle" | "loading" | "done">("idle");
+  useEffect(() => {
+    if (loading || order || lookup !== "idle" || !orderId) return;
+    setLookup("loading");
+    void loadOrder(orderId).finally(() => setLookup("done"));
+  }, [loading, order, lookup, orderId, loadOrder]);
   const [payments, setPayments] = useState<Payment[]>([]);
   const [statusHistory, setStatusHistory] = useState<OrderStatusHistoryEntry[]>([]);
   const [dialog, setDialog] = useState<"slip" | "payment" | "cancel" | "deliver" | "message" | null>(null);
@@ -83,7 +90,7 @@ export default function SingleOrderDetailPage() {
     if (order?.id) void loadOrderExtraData(order.id);
   }, [order?.id, order?.status, order?.paymentStatus, loadOrderExtraData]);
 
-  if (loading) {
+  if (loading || (!order && lookup !== "done")) {
     return (
       <div className="flex items-center justify-center min-h-[50vh] text-sm text-stone-400 gap-2">
         <Loader2 className="w-4 h-4 animate-spin" /> Sipariş yükleniyor…
@@ -96,7 +103,7 @@ export default function SingleOrderDetailPage() {
       <div className="max-w-md mx-auto my-12 p-6 bg-[#18130F] border border-[#261E17] rounded-3xl text-center space-y-4">
         <AlertCircle className="w-10 h-10 text-amber-400 mx-auto" />
         <h2 className="text-lg font-bold text-stone-100 font-serif">Sipariş bulunamadı</h2>
-        <p className="text-stone-400 text-sm">#{orderId} numaralı sipariş yok ya da son 300 siparişin dışında.</p>
+        <p className="text-stone-400 text-sm">#{orderId} numaralı sipariş bulunamadı.</p>
         <Link href="/admin/siparisler" className="inline-flex items-center gap-2 h-11 px-5 bg-[#261E17] text-stone-200 font-bold rounded-xl text-sm">
           <ArrowLeft className="w-4 h-4" /> Siparişler
         </Link>
