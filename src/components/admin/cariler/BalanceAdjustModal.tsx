@@ -129,7 +129,7 @@ export default function BalanceAdjustModal({
                 value={targetBalanceStr}
                 onChange={(e) => setTargetBalanceStr(e.target.value)}
                 placeholder="Örn: 10000"
-                className="w-full bg-stone-950 border border-stone-800 rounded-xl px-4 py-3 text-lg font-mono font-bold text-stone-100 focus:outline-none focus:border-amber-500/50"
+                className="w-full bg-stone-950 border border-stone-800 rounded-xl px-4 py-3 text-lg font-mono font-bold text-stone-100 focus:outline-none focus:border-artisan-terracotta/50"
               />
               <span className="absolute right-4 top-1/2 -translate-y-1/2 text-sm font-mono text-stone-500">
                 TL
@@ -168,7 +168,7 @@ export default function BalanceAdjustModal({
               value={reason}
               onChange={(e) => setReason(e.target.value)}
               placeholder="Örn: Eski defterden devir, nakit mutabakatı..."
-              className="w-full bg-stone-950 border border-stone-800 rounded-xl px-4 py-3 text-xs text-stone-200 focus:outline-none focus:border-amber-500/50"
+              className="w-full bg-stone-950 border border-stone-800 rounded-xl px-4 py-3 text-xs text-stone-200 focus:outline-none focus:border-artisan-terracotta/50"
             />
             <p className="text-xs text-stone-500">
               Bu açıklama hesap hareketlerine şeffaf bir devir kaydı olarak işlenecektir.
@@ -188,7 +188,7 @@ export default function BalanceAdjustModal({
             <button
               type="submit"
               disabled={loading}
-              className="flex-1 py-3 bg-amber-500 hover:bg-amber-400 text-stone-950 font-bold rounded-xl text-sm transition-all shadow-lg shadow-amber-500/20 active:scale-95 disabled:opacity-50 flex items-center justify-center gap-2"
+              className="flex-1 py-3 bg-artisan-terracotta hover:bg-artisan-terracotta-dark text-white font-bold rounded-xl text-sm transition-all shadow-lg shadow-artisan-terracotta/20 active:scale-95 disabled:opacity-50 flex items-center justify-center gap-2"
             >
               {loading ? (
                 <>

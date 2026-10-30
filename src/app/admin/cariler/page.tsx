@@ -157,7 +157,7 @@ export default function FinansCarilerPage() {
           </div>
           <button
             onClick={openNewCariModal}
-            className="flex items-center gap-2 px-4 py-3 bg-amber-500 hover:bg-amber-400 text-stone-950 font-bold rounded-2xl transition-all shadow-lg shadow-amber-500/20 active:scale-95 text-sm"
+            className="flex items-center gap-2 px-4 py-3 bg-artisan-terracotta hover:bg-artisan-terracotta-dark text-white font-bold rounded-2xl transition-all shadow-lg shadow-artisan-terracotta/20 active:scale-95 text-sm"
           >
             <Plus className="w-5 h-5" />
             <span className="hidden sm:inline">Yeni Müşteri</span>
@@ -191,7 +191,7 @@ export default function FinansCarilerPage() {
             placeholder="Müşteri adı, yetkili veya telefon ara..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full bg-stone-900 border border-stone-800 text-stone-100 text-sm rounded-2xl pl-10 pr-4 py-3.5 focus:outline-none focus:border-amber-500/50 shadow-inner"
+            className="w-full bg-stone-900 border border-stone-800 text-stone-100 text-sm rounded-2xl pl-10 pr-4 py-3.5 focus:outline-none focus:border-artisan-terracotta/50 shadow-inner"
           />
         </div>
         <div className="flex items-center gap-2 overflow-x-auto pb-1 no-scrollbar">
@@ -224,7 +224,7 @@ export default function FinansCarilerPage() {
             <p className="text-sm font-semibold">Arama kriterlerine uygun cari hesap bulunamadı.</p>
             <button
               onClick={openNewCariModal}
-              className="mt-4 px-4 py-2 bg-amber-500 text-stone-950 font-bold text-xs rounded-xl"
+              className="mt-4 px-4 py-2 bg-artisan-terracotta text-white font-bold text-xs rounded-xl"
             >
               + İlk Müşteriyi Ekle
             </button>
@@ -357,15 +357,15 @@ export default function FinansCarilerPage() {
 
               <Link
                 href={`/admin/cariler/${activeActionSheet.id}`}
-                className="flex flex-col items-center justify-center p-4 bg-stone-800/50 hover:bg-blue-500/20 border border-stone-700 hover:border-blue-500/50 rounded-2xl transition-all text-center group min-h-[88px] active:scale-95"
+                className="flex flex-col items-center justify-center p-4 bg-stone-800/50 hover:bg-artisan-gold/15 border border-stone-700 hover:border-artisan-gold/50 rounded-2xl transition-all text-center group min-h-[88px] active:scale-95"
               >
-                <ExternalLink className="w-6 h-6 text-blue-400 mb-2 group-hover:scale-110 transition-transform" />
+                <ExternalLink className="w-6 h-6 text-artisan-gold mb-2 group-hover:scale-110 transition-transform" />
                 <span className="text-xs font-bold text-stone-200">Ekstre</span>
               </Link>
 
               <button
                 onClick={() => openEditCariModal(activeActionSheet)}
-                className="flex flex-col items-center justify-center p-4 bg-stone-800/50 hover:bg-amber-500/20 border border-stone-700 hover:border-amber-500/50 rounded-2xl transition-all text-center group min-h-[88px] active:scale-95"
+                className="flex flex-col items-center justify-center p-4 bg-stone-800/50 hover:bg-artisan-terracotta/20 border border-stone-700 hover:border-artisan-terracotta/50 rounded-2xl transition-all text-center group min-h-[88px] active:scale-95"
               >
                 <Edit className="w-6 h-6 text-amber-400 mb-2 group-hover:scale-110 transition-transform" />
                 <span className="text-xs font-bold text-stone-200">Düzenle</span>
@@ -432,7 +432,7 @@ export default function FinansCarilerPage() {
                   value={editingCari.businessName || ""}
                   onChange={(e) => setEditingCari({ ...editingCari, businessName: e.target.value })}
                   placeholder="Örn: Beylikdüzü Cafe Restaurant"
-                  className="w-full bg-stone-950 border border-stone-800 rounded-xl px-4 py-3 text-sm text-stone-100 focus:outline-none focus:border-amber-500/50"
+                  className="w-full bg-stone-950 border border-stone-800 rounded-xl px-4 py-3 text-sm text-stone-100 focus:outline-none focus:border-artisan-terracotta/50"
                 />
               </div>
 
@@ -445,7 +445,7 @@ export default function FinansCarilerPage() {
                     value={editingCari.contactPerson || ""}
                     onChange={(e) => setEditingCari({ ...editingCari, contactPerson: e.target.value })}
                     placeholder="Ahmet Bey"
-                    className="w-full bg-stone-950 border border-stone-800 rounded-xl px-4 py-3 text-sm text-stone-100 focus:outline-none focus:border-amber-500/50"
+                    className="w-full bg-stone-950 border border-stone-800 rounded-xl px-4 py-3 text-sm text-stone-100 focus:outline-none focus:border-artisan-terracotta/50"
                   />
                 </div>
                 <div className="space-y-1.5">
@@ -455,7 +455,7 @@ export default function FinansCarilerPage() {
                     value={editingCari.phone || ""}
                     onChange={(e) => setEditingCari({ ...editingCari, phone: e.target.value })}
                     placeholder="0501 012 66 53"
-                    className="w-full bg-stone-950 border border-stone-800 rounded-xl px-4 py-3 text-sm text-stone-100 focus:outline-none focus:border-amber-500/50"
+                    className="w-full bg-stone-950 border border-stone-800 rounded-xl px-4 py-3 text-sm text-stone-100 focus:outline-none focus:border-artisan-terracotta/50"
                   />
                 </div>
               </div>
@@ -466,7 +466,7 @@ export default function FinansCarilerPage() {
                 <select
                   value={editingCari.neighborhood || ""}
                   onChange={(e) => setEditingCari({ ...editingCari, neighborhood: e.target.value })}
-                  className="w-full bg-stone-950 border border-stone-800 rounded-xl px-4 py-3 text-sm text-stone-100 focus:outline-none focus:border-amber-500/50 appearance-none"
+                  className="w-full bg-stone-950 border border-stone-800 rounded-xl px-4 py-3 text-sm text-stone-100 focus:outline-none focus:border-artisan-terracotta/50 appearance-none"
                 >
                   <option value="">Seçiniz...</option>
                   {BEYLIKDUZU_NEIGHBORHOODS.map((n) => (
@@ -485,7 +485,7 @@ export default function FinansCarilerPage() {
                   value={editingCari.address || ""}
                   onChange={(e) => setEditingCari({ ...editingCari, address: e.target.value })}
                   placeholder="Cadde, sokak, bina no..."
-                  className="w-full bg-stone-950 border border-stone-800 rounded-xl px-4 py-3 text-sm text-stone-100 focus:outline-none focus:border-amber-500/50 resize-none"
+                  className="w-full bg-stone-950 border border-stone-800 rounded-xl px-4 py-3 text-sm text-stone-100 focus:outline-none focus:border-artisan-terracotta/50 resize-none"
                 />
               </div>
 
@@ -498,7 +498,7 @@ export default function FinansCarilerPage() {
                     value={editingCari.taxOffice || ""}
                     onChange={(e) => setEditingCari({ ...editingCari, taxOffice: e.target.value })}
                     placeholder="Beylikdüzü VD"
-                    className="w-full bg-stone-950 border border-stone-800 rounded-xl px-4 py-3 text-sm text-stone-100 focus:outline-none focus:border-amber-500/50"
+                    className="w-full bg-stone-950 border border-stone-800 rounded-xl px-4 py-3 text-sm text-stone-100 focus:outline-none focus:border-artisan-terracotta/50"
                   />
                 </div>
                 <div className="space-y-1.5">
@@ -508,7 +508,7 @@ export default function FinansCarilerPage() {
                     value={editingCari.taxNumber || ""}
                     onChange={(e) => setEditingCari({ ...editingCari, taxNumber: e.target.value })}
                     placeholder="1234567890"
-                    className="w-full bg-stone-950 border border-stone-800 rounded-xl px-4 py-3 text-sm text-stone-100 focus:outline-none focus:border-amber-500/50"
+                    className="w-full bg-stone-950 border border-stone-800 rounded-xl px-4 py-3 text-sm text-stone-100 focus:outline-none focus:border-artisan-terracotta/50"
                   />
                 </div>
               </div>
@@ -522,7 +522,7 @@ export default function FinansCarilerPage() {
                     onClick={() => setEditingCari({ ...editingCari, accountType: "musteri" })}
                     className={`flex-1 py-3 rounded-xl text-xs font-bold transition-all ${
                       editingCari.accountType !== "gider"
-                        ? "bg-amber-500 text-stone-950"
+                        ? "bg-artisan-terracotta text-white"
                         : "bg-stone-800 text-stone-400 border border-stone-700"
                     }`}
                   >
@@ -552,7 +552,7 @@ export default function FinansCarilerPage() {
                   value={editingCari.notes || ""}
                   onChange={(e) => setEditingCari({ ...editingCari, notes: e.target.value })}
                   placeholder="Özel anlaşma detayları, teslimat notları..."
-                  className="w-full bg-stone-950 border border-stone-800 rounded-xl px-4 py-3 text-sm text-stone-100 focus:outline-none focus:border-amber-500/50 resize-none"
+                  className="w-full bg-stone-950 border border-stone-800 rounded-xl px-4 py-3 text-sm text-stone-100 focus:outline-none focus:border-artisan-terracotta/50 resize-none"
                 />
               </div>
 
@@ -568,7 +568,7 @@ export default function FinansCarilerPage() {
                 <button
                   type="submit"
                   disabled={formSubmitting || !editingCari.businessName}
-                  className="flex-1 py-3 bg-amber-500 hover:bg-amber-400 text-stone-950 rounded-xl text-sm font-bold transition-all shadow-lg shadow-amber-500/20 active:scale-95 disabled:opacity-50"
+                  className="flex-1 py-3 bg-artisan-terracotta hover:bg-artisan-terracotta-dark text-white rounded-xl text-sm font-bold transition-all shadow-lg shadow-artisan-terracotta/20 active:scale-95 disabled:opacity-50"
                 >
                   {formSubmitting
                     ? "Kaydediliyor..."

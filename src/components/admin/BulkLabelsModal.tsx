@@ -50,7 +50,7 @@ export function BulkLabelsModal({ orders, date, isOpen, onClose }: BulkLabelsMod
                 onClick={() => setLabelFormat("a4")}
                 className={`px-2.5 py-1 rounded-lg font-medium transition-all ${
                   labelFormat === "a4"
-                    ? "bg-amber-500 text-stone-950 font-bold"
+                    ? "bg-artisan-terracotta text-white font-bold"
                     : "text-stone-400 hover:text-stone-200"
                 }`}
               >
@@ -61,7 +61,7 @@ export function BulkLabelsModal({ orders, date, isOpen, onClose }: BulkLabelsMod
                 onClick={() => setLabelFormat("thermal")}
                 className={`px-2.5 py-1 rounded-lg font-medium transition-all ${
                   labelFormat === "thermal"
-                    ? "bg-amber-500 text-stone-950 font-bold"
+                    ? "bg-artisan-terracotta text-white font-bold"
                     : "text-stone-400 hover:text-stone-200"
                 }`}
               >
@@ -72,7 +72,7 @@ export function BulkLabelsModal({ orders, date, isOpen, onClose }: BulkLabelsMod
             <button
               type="button"
               onClick={handlePrint}
-              className="px-4 py-2 rounded-xl bg-amber-500 hover:bg-amber-400 text-stone-950 font-bold text-xs flex items-center gap-1.5 shadow-lg shadow-amber-500/20 active:scale-95 transition-all"
+              className="px-4 py-2 rounded-xl bg-artisan-terracotta hover:bg-artisan-terracotta-dark text-white font-bold text-xs flex items-center gap-1.5 shadow-lg shadow-artisan-terracotta/20 active:scale-95 transition-all"
             >
               <Printer className="w-4 h-4" />
               <span>Yazdır</span>

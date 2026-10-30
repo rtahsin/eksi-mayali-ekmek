@@ -192,7 +192,7 @@ export default function SingleOrderDetailPage() {
                     aria-current={i === current ? "step" : undefined}
                     className={`w-full min-h-12 px-1 py-2 rounded-xl text-xs font-bold border leading-tight flex flex-col items-center justify-center gap-0.5 ${
                       i === current
-                        ? "bg-amber-500 text-black border-amber-500"
+                        ? "bg-artisan-terracotta text-white border-artisan-terracotta"
                         : done
                         ? "bg-[#120E0B] border-[#261E17] text-stone-500"
                         : isNext

@@ -35,7 +35,7 @@ import { productBadges } from "@/lib/products/badges";
 import { getErrorMessage } from "@/lib/utils/error";
 
 const inputCls =
-  "w-full bg-stone-950 border border-stone-800 rounded-xl px-3 py-2 text-sm text-stone-100 focus:outline-none focus:border-amber-500";
+  "w-full bg-stone-950 border border-stone-800 rounded-xl px-3 py-2 text-sm text-stone-100 focus:outline-none focus:border-artisan-terracotta";
 const tl = (v: number) => `${v.toLocaleString("tr-TR")} ₺`;
 
 export default function AdminProductsPage() {
@@ -94,7 +94,7 @@ export default function AdminProductsPage() {
             <button
               type="button"
               onClick={() => setEditing(emptyProductForm(categories[0]?.id ?? "bread"))}
-              className="px-4 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-stone-950 text-sm font-bold flex items-center gap-2"
+              className="px-4 py-2.5 rounded-xl bg-artisan-terracotta hover:bg-artisan-terracotta-dark text-white text-sm font-bold flex items-center gap-2"
             >
               <Plus className="w-4 h-4" /> Yeni ürün
             </button>
@@ -372,7 +372,7 @@ function ProductEditor({
                   type="button"
                   onClick={() => set("availability", v)}
                   className={`py-3 rounded-xl text-sm font-bold border ${
-                    form.availability === v ? "bg-amber-500 text-stone-950 border-amber-500" : "bg-stone-950 text-stone-400 border-stone-800"
+                    form.availability === v ? "bg-artisan-terracotta text-white border-artisan-terracotta" : "bg-stone-950 text-stone-400 border-stone-800"
                   }`}
                 >
                   {label}
@@ -461,7 +461,7 @@ function ProductEditor({
                 }}
                 className={`py-3 px-3 rounded-xl text-xs sm:text-sm font-bold border transition-colors min-h-[44px] ${
                   !form.saleWeekdays || form.saleWeekdays.length === 0
-                    ? "bg-amber-500 text-stone-950 border-amber-500"
+                    ? "bg-artisan-terracotta text-white border-artisan-terracotta"
                     : "bg-stone-950 text-stone-400 border-stone-800 hover:border-stone-700"
                 }`}
               >
@@ -476,7 +476,7 @@ function ProductEditor({
                 }}
                 className={`py-3 px-3 rounded-xl text-xs sm:text-sm font-bold border transition-colors min-h-[44px] ${
                   form.saleWeekdays && form.saleWeekdays.length > 0
-                    ? "bg-amber-500 text-stone-950 border-amber-500"
+                    ? "bg-artisan-terracotta text-white border-artisan-terracotta"
                     : "bg-stone-950 text-stone-400 border-stone-800 hover:border-stone-700"
                 }`}
               >
@@ -518,7 +518,7 @@ function ProductEditor({
                           }}
                           className={`min-w-[44px] min-h-[44px] px-3.5 py-2.5 rounded-xl text-xs font-bold border transition-colors flex items-center justify-center ${
                             selected
-                              ? "bg-amber-500 text-stone-950 border-amber-500 shadow-sm"
+                              ? "bg-artisan-terracotta text-white border-artisan-terracotta shadow-sm"
                               : "bg-stone-900 text-stone-300 border-stone-800 hover:border-stone-700"
                           }`}
                         >
@@ -716,7 +716,7 @@ function ProductEditor({
           )}
           <div className="flex items-center gap-2">
             {err && <span className="text-xs text-red-300 max-w-[220px]">{err}</span>}
-            <button type="submit" disabled={saving} className="px-5 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-stone-950 font-bold text-sm flex items-center gap-2 disabled:opacity-50">
+            <button type="submit" disabled={saving} className="px-5 py-2.5 rounded-xl bg-artisan-terracotta hover:bg-artisan-terracotta-dark text-white font-bold text-sm flex items-center gap-2 disabled:opacity-50">
               {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />} Kaydet
             </button>
           </div>
@@ -796,7 +796,7 @@ function CategoryManager({
               type="button"
               disabled={!dirty || busy === c.id}
               onClick={() => run(c.id, () => onSave(d))}
-              className="px-3 py-2.5 rounded-xl bg-amber-500 text-stone-950 text-xs font-bold disabled:opacity-30"
+              className="px-3 py-2.5 rounded-xl bg-artisan-terracotta text-white text-xs font-bold disabled:opacity-30"
             >
               {busy === c.id ? <Loader2 className="w-4 h-4 animate-spin" /> : "Kaydet"}
             </button>
@@ -825,7 +825,7 @@ function CategoryManager({
               setNewName("");
             })
           }
-          className="px-4 rounded-xl bg-amber-500 text-stone-950 text-sm font-bold flex items-center gap-1 disabled:opacity-40"
+          className="px-4 rounded-xl bg-artisan-terracotta text-white text-sm font-bold flex items-center gap-1 disabled:opacity-40"
         >
           <Plus className="w-4 h-4" /> Ekle
         </button>
@@ -881,7 +881,7 @@ function PhotoField({ value, onChange }: { value: string | null; onChange: (url:
         )}
         <div className="flex flex-wrap gap-2">
           <label
-            className={`h-11 px-4 rounded-xl bg-amber-500 text-stone-950 text-sm font-bold flex items-center gap-2 ${busy ? "opacity-60" : "cursor-pointer"}`}
+            className={`h-11 px-4 rounded-xl bg-artisan-terracotta text-white text-sm font-bold flex items-center gap-2 ${busy ? "opacity-60" : "cursor-pointer"}`}
           >
             {busy ? <Loader2 className="w-4 h-4 animate-spin" /> : <Camera className="w-4 h-4" />}
             {busy ? "Yükleniyor…" : value ? "Değiştir" : "Fotoğraf ekle"}

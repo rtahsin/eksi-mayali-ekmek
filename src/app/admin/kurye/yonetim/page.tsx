@@ -89,7 +89,7 @@ export default function AdminCourierManagementPage() {
 
           <button
             onClick={handleCreateNew}
-            className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-gradient-to-r from-[#F59E0B] to-[#C85A32] text-black text-xs font-serif font-bold shadow-lg shadow-amber-500/10 hover:brightness-110 active:scale-95 transition-all"
+            className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-gradient-to-r from-[#F59E0B] to-[#C85A32] text-black text-xs font-serif font-bold shadow-lg shadow-artisan-terracotta/10 hover:brightness-110 active:scale-95 transition-all"
           >
             <Plus className="w-4 h-4" />
             <span>Yeni Kurye Ekle</span>

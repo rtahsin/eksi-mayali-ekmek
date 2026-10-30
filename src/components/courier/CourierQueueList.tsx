@@ -41,7 +41,7 @@ export function CourierQueueList({
               key={order.id}
               className={`p-3.5 rounded-2xl border transition-all ${
                 isCurrent
-                  ? "bg-amber-500/10 border-amber-500/60 shadow-md shadow-amber-500/10"
+                  ? "bg-amber-500/10 border-amber-500/60 shadow-md shadow-artisan-terracotta/10"
                   : "bg-stone-900/80 border-stone-800 hover:border-stone-700"
               }`}
             >
@@ -72,7 +72,7 @@ export function CourierQueueList({
                   <span
                     className={`w-7 h-7 rounded-xl flex items-center justify-center text-xs font-mono font-bold shrink-0 ${
                       isCurrent
-                        ? "bg-amber-500 text-stone-950 font-bold"
+                        ? "bg-artisan-terracotta text-white font-bold"
                         : "bg-stone-800 text-stone-400"
                     }`}
                   >

@@ -40,7 +40,7 @@ export default function CourierError({
 
         <button
           onClick={() => reset()}
-          className="w-full flex items-center justify-center gap-2 py-3 px-4 bg-amber-500 hover:bg-amber-400 text-stone-950 font-bold text-xs rounded-xl transition-colors"
+          className="w-full flex items-center justify-center gap-2 py-3 px-4 bg-artisan-terracotta hover:bg-artisan-terracotta-dark text-white font-bold text-xs rounded-xl transition-colors"
         >
           <RefreshCw className="w-4 h-4" />
           <span>Konsolu Yeniden Başlat</span>

@@ -25,7 +25,7 @@ import { MAX_STEPS, mediaUrl, youtubeId, type StoryStep } from "@/lib/hikaye/sto
 import { getErrorMessage } from "@/lib/utils/error";
 
 const inputCls =
-  "w-full bg-stone-950 border border-stone-800 rounded-xl px-3 py-2.5 text-sm text-stone-100 focus:outline-none focus:border-amber-500";
+  "w-full bg-stone-950 border border-stone-800 rounded-xl px-3 py-2.5 text-sm text-stone-100 focus:outline-none focus:border-artisan-terracotta";
 
 interface AnSecenegi {
   id: string;
@@ -336,7 +336,7 @@ export default function ProductStoryPage() {
           type="button"
           onClick={() => void save()}
           disabled={!dirty || saving || uploading !== null}
-          className="w-full h-14 rounded-2xl bg-amber-500 text-stone-950 text-base font-bold flex items-center justify-center gap-2 shadow-lg disabled:opacity-50"
+          className="w-full h-14 rounded-2xl bg-artisan-terracotta text-white text-base font-bold flex items-center justify-center gap-2 shadow-lg disabled:opacity-50"
         >
           {saving ? <Loader2 className="w-5 h-5 animate-spin" /> : <Save className="w-5 h-5" />}
           {dirty ? "Kaydet" : saved ? "Kaydedildi" : "Değişiklik yok"}
