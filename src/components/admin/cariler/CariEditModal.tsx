@@ -136,7 +136,7 @@ export default function CariEditModal({
             onClick={() => setActiveTab("prices")}
             className={`flex-1 py-2.5 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-1.5 ${
               activeTab === "prices"
-                ? "bg-amber-500 text-stone-950 font-black shadow"
+                ? "bg-artisan-terracotta text-white font-black shadow"
                 : "text-stone-400 hover:text-stone-200"
             }`}
           >
@@ -165,7 +165,7 @@ export default function CariEditModal({
                   value={formData.businessName}
                   onChange={(e) => setFormData({ ...formData, businessName: e.target.value })}
                   placeholder="Örn: Beylikdüzü Cafe"
-                  className="w-full bg-stone-950 border border-stone-800 rounded-xl px-4 py-3 text-sm text-stone-100 focus:outline-none focus:border-amber-500/50"
+                  className="w-full bg-stone-950 border border-stone-800 rounded-xl px-4 py-3 text-sm text-stone-100 focus:outline-none focus:border-artisan-terracotta/50"
                 />
               </div>
 
@@ -178,7 +178,7 @@ export default function CariEditModal({
                     value={formData.contactPerson}
                     onChange={(e) => setFormData({ ...formData, contactPerson: e.target.value })}
                     placeholder="Serkan Bey"
-                    className="w-full bg-stone-950 border border-stone-800 rounded-xl px-4 py-3 text-sm text-stone-100 focus:outline-none focus:border-amber-500/50"
+                    className="w-full bg-stone-950 border border-stone-800 rounded-xl px-4 py-3 text-sm text-stone-100 focus:outline-none focus:border-artisan-terracotta/50"
                   />
                 </div>
                 <div className="space-y-1.5">
@@ -188,7 +188,7 @@ export default function CariEditModal({
                     value={formData.phone}
                     onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                     placeholder="0535 000 00 00"
-                    className="w-full bg-stone-950 border border-stone-800 rounded-xl px-4 py-3 text-sm text-stone-100 focus:outline-none focus:border-amber-500/50"
+                    className="w-full bg-stone-950 border border-stone-800 rounded-xl px-4 py-3 text-sm text-stone-100 focus:outline-none focus:border-artisan-terracotta/50"
                   />
                 </div>
               </div>
@@ -199,7 +199,7 @@ export default function CariEditModal({
                 <select
                   value={formData.neighborhood}
                   onChange={(e) => setFormData({ ...formData, neighborhood: e.target.value })}
-                  className="w-full bg-stone-950 border border-stone-800 rounded-xl px-4 py-3 text-sm text-stone-100 focus:outline-none focus:border-amber-500/50 appearance-none"
+                  className="w-full bg-stone-950 border border-stone-800 rounded-xl px-4 py-3 text-sm text-stone-100 focus:outline-none focus:border-artisan-terracotta/50 appearance-none"
                 >
                   <option value="">Mahalle Seçiniz...</option>
                   {BEYLIKDUZU_NEIGHBORHOODS.map((n) => (
@@ -218,7 +218,7 @@ export default function CariEditModal({
                   value={formData.address}
                   onChange={(e) => setFormData({ ...formData, address: e.target.value })}
                   placeholder="Cadde, sokak, bina no..."
-                  className="w-full bg-stone-950 border border-stone-800 rounded-xl px-4 py-3 text-sm text-stone-100 focus:outline-none focus:border-amber-500/50 resize-none"
+                  className="w-full bg-stone-950 border border-stone-800 rounded-xl px-4 py-3 text-sm text-stone-100 focus:outline-none focus:border-artisan-terracotta/50 resize-none"
                 />
               </div>
 
@@ -231,7 +231,7 @@ export default function CariEditModal({
                     value={formData.taxOffice}
                     onChange={(e) => setFormData({ ...formData, taxOffice: e.target.value })}
                     placeholder="Beylikdüzü VD"
-                    className="w-full bg-stone-950 border border-stone-800 rounded-xl px-4 py-3 text-sm text-stone-100 focus:outline-none focus:border-amber-500/50"
+                    className="w-full bg-stone-950 border border-stone-800 rounded-xl px-4 py-3 text-sm text-stone-100 focus:outline-none focus:border-artisan-terracotta/50"
                   />
                 </div>
                 <div className="space-y-1.5">
@@ -241,7 +241,7 @@ export default function CariEditModal({
                     value={formData.taxNumber}
                     onChange={(e) => setFormData({ ...formData, taxNumber: e.target.value })}
                     placeholder="1234567890"
-                    className="w-full bg-stone-950 border border-stone-800 rounded-xl px-4 py-3 text-sm text-stone-100 focus:outline-none focus:border-amber-500/50"
+                    className="w-full bg-stone-950 border border-stone-800 rounded-xl px-4 py-3 text-sm text-stone-100 focus:outline-none focus:border-artisan-terracotta/50"
                   />
                 </div>
               </div>
@@ -255,7 +255,7 @@ export default function CariEditModal({
                     onClick={() => setFormData({ ...formData, accountType: "musteri" })}
                     className={`flex-1 py-3 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-2 ${
                       formData.accountType !== "gider"
-                        ? "bg-amber-500 text-stone-950 font-black"
+                        ? "bg-artisan-terracotta text-white font-black"
                         : "bg-stone-800 text-stone-400 border border-stone-700"
                     }`}
                   >
@@ -285,7 +285,7 @@ export default function CariEditModal({
                   value={formData.notes}
                   onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
                   placeholder="Müşteriyle ilgili operasyonel notlar..."
-                  className="w-full bg-stone-950 border border-stone-800 rounded-xl px-4 py-3 text-sm text-stone-100 focus:outline-none focus:border-amber-500/50 resize-none"
+                  className="w-full bg-stone-950 border border-stone-800 rounded-xl px-4 py-3 text-sm text-stone-100 focus:outline-none focus:border-artisan-terracotta/50 resize-none"
                 />
               </div>
             </div>
@@ -342,7 +342,7 @@ export default function CariEditModal({
             <button
               type="submit"
               disabled={loading}
-              className="flex-1 py-3 bg-amber-500 hover:bg-amber-400 text-stone-950 rounded-xl text-sm font-black transition-all shadow-lg shadow-amber-500/20 active:scale-95 flex items-center justify-center gap-2"
+              className="flex-1 py-3 bg-artisan-terracotta hover:bg-artisan-terracotta-dark text-white rounded-xl text-sm font-black transition-all shadow-lg shadow-artisan-terracotta/20 active:scale-95 flex items-center justify-center gap-2"
             >
               {loading ? <Loader2 className="w-5 h-5 animate-spin" /> : "Değişiklikleri Kaydet"}
             </button>

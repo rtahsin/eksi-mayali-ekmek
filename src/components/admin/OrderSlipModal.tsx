@@ -257,7 +257,7 @@ export function OrderSlipModal({ order, isOpen, onClose, cari: propCari }: Order
             <select
               value={selectedCariId}
               onChange={(e) => setSelectedCariId(e.target.value)}
-              className="w-full bg-stone-900 border border-stone-700 rounded-xl px-3 py-2 text-xs font-bold text-amber-400 focus:outline-none focus:border-amber-500"
+              className="w-full bg-stone-900 border border-stone-700 rounded-xl px-3 py-2 text-xs font-bold text-amber-400 focus:outline-none focus:border-artisan-terracotta"
             >
               <option value="">— Bireysel / Cari Bağlantısız ({order.customerName}) —</option>
               {cariler.map((c) => (

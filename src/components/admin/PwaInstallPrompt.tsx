@@ -135,7 +135,7 @@ export function PwaInstallPrompt() {
               <button
                 onClick={handleInstallClick}
                 disabled={installing}
-                className="flex items-center justify-center gap-2 w-full py-2 px-3 bg-amber-500 hover:bg-amber-400 text-stone-950 font-bold rounded-xl text-xs transition-all shadow-md shadow-amber-500/20 active:scale-95 disabled:opacity-50"
+                className="flex items-center justify-center gap-2 w-full py-2 px-3 bg-artisan-terracotta hover:bg-artisan-terracotta-dark text-white font-bold rounded-xl text-xs transition-all shadow-md shadow-artisan-terracotta/20 active:scale-95 disabled:opacity-50"
               >
                 <Download className="w-3.5 h-3.5" />
                 <span>{installing ? "Yükleniyor..." : "Uygulamayı Telefona Yükle"}</span>

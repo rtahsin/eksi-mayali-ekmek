@@ -257,7 +257,7 @@ export default function B2BSlipModal({
                       <select
                         value={item.productId || (item.name ? "__manual__" : "")}
                         onChange={(e) => handleProductSelect(item.id, e.target.value)}
-                        className="w-full bg-stone-900 border border-stone-800 rounded-xl px-3 py-2 text-xs text-stone-100 focus:outline-none focus:border-amber-500/50 appearance-none font-medium"
+                        className="w-full bg-stone-900 border border-stone-800 rounded-xl px-3 py-2 text-xs text-stone-100 focus:outline-none focus:border-artisan-terracotta/50 appearance-none font-medium"
                       >
                         <option value="">Fırından Ürün Seçiniz...</option>
                         {allProducts.map((p) => {
@@ -279,7 +279,7 @@ export default function B2BSlipModal({
                           placeholder="Ürün adı (Örn: Ekşi Mayalı Köy Ekmeği)"
                           value={item.name}
                           onChange={(e) => updateItemField(item.id, "name", e.target.value)}
-                          className="w-full bg-stone-900/60 border border-stone-800 rounded-xl px-3 py-2 text-xs text-stone-200 focus:outline-none focus:border-amber-500/50 mt-1.5"
+                          className="w-full bg-stone-900/60 border border-stone-800 rounded-xl px-3 py-2 text-xs text-stone-200 focus:outline-none focus:border-artisan-terracotta/50 mt-1.5"
                           required
                         />
                       )}
@@ -294,7 +294,7 @@ export default function B2BSlipModal({
                           min="1"
                           value={item.qty || ""}
                           onChange={(e) => updateItemField(item.id, "qty", e.target.value)}
-                          className="w-full bg-stone-900 border border-stone-800 rounded-xl px-3 py-2 text-sm text-center font-mono font-bold text-stone-100 focus:outline-none focus:border-amber-500/50"
+                          className="w-full bg-stone-900 border border-stone-800 rounded-xl px-3 py-2 text-sm text-center font-mono font-bold text-stone-100 focus:outline-none focus:border-artisan-terracotta/50"
                           required
                         />
                       </div>
@@ -318,7 +318,7 @@ export default function B2BSlipModal({
                           min="0"
                           value={item.price !== undefined ? item.price : ""}
                           onChange={(e) => updateItemField(item.id, "price", e.target.value)}
-                          className="w-full bg-stone-900 border border-stone-800 rounded-xl px-3 py-2 text-sm text-center font-mono font-bold text-stone-100 focus:outline-none focus:border-amber-500/50"
+                          className="w-full bg-stone-900 border border-stone-800 rounded-xl px-3 py-2 text-sm text-center font-mono font-bold text-stone-100 focus:outline-none focus:border-artisan-terracotta/50"
                           required
                         />
                       </div>
@@ -355,7 +355,7 @@ export default function B2BSlipModal({
                 placeholder="Örn: Sabah 08:30 teslimatı..."
                 value={notes}
                 onChange={(e) => setNotes(e.target.value)}
-                className="w-full bg-stone-950 border border-stone-800 rounded-xl px-4 py-2.5 text-xs text-stone-200 focus:outline-none focus:border-amber-500/50"
+                className="w-full bg-stone-950 border border-stone-800 rounded-xl px-4 py-2.5 text-xs text-stone-200 focus:outline-none focus:border-artisan-terracotta/50"
               />
             </div>
 
@@ -383,7 +383,7 @@ export default function B2BSlipModal({
               <button
                 type="submit"
                 disabled={loading || totalAmount <= 0}
-                className="flex-2 py-3.5 bg-amber-500 hover:bg-amber-400 disabled:bg-stone-800 disabled:text-stone-600 text-stone-950 rounded-xl text-sm font-black transition-all shadow-lg shadow-amber-500/20 active:scale-95 flex items-center justify-center gap-2"
+                className="flex-2 py-3.5 bg-artisan-terracotta hover:bg-artisan-terracotta-dark disabled:bg-stone-800 disabled:text-stone-600 text-white rounded-xl text-sm font-black transition-all shadow-lg shadow-artisan-terracotta/20 active:scale-95 flex items-center justify-center gap-2"
               >
                 {loading ? (
                   <Loader2 className="w-5 h-5 animate-spin" />

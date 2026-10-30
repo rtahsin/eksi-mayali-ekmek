@@ -54,7 +54,7 @@ export function CourierActiveStopCard({ currentStop, stopIndex, totalStops, onOp
             <div className="flex items-center gap-2 shrink-0">
               <a
                 href={`tel:${currentStop.phone}`}
-                className="flex items-center justify-center w-12 h-12 rounded-2xl bg-amber-500 text-stone-950 active:scale-95 transition-transform"
+                className="flex items-center justify-center w-12 h-12 rounded-2xl bg-artisan-terracotta text-white active:scale-95 transition-transform"
                 aria-label="Müşteriyi ara"
               >
                 <Phone className="w-5 h-5" />

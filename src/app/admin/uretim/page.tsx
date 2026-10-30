@@ -9,7 +9,7 @@ import { getErrorMessage } from "@/lib/utils/error";
 import { FirindanCikti } from "@/components/admin/uretim/FirindanCikti";
 
 const inputCls =
-  "bg-stone-950 border border-stone-800 rounded-xl px-3 py-2 text-sm text-stone-100 focus:outline-none focus:border-amber-500";
+  "bg-stone-950 border border-stone-800 rounded-xl px-3 py-2 text-sm text-stone-100 focus:outline-none focus:border-artisan-terracotta";
 
 /**
  * Üretim: seçilen gün için siparişlerden ne pişirilecek (paketler içindeki ürünlere açılır),
@@ -88,7 +88,7 @@ export default function ProductionPage() {
                 type="button"
                 onClick={() => setDate(d)}
                 className={`px-3 py-2 rounded-xl text-xs font-bold border ${
-                  date === d ? "bg-amber-500 text-stone-950 border-amber-500" : "bg-stone-950 text-stone-300 border-stone-800"
+                  date === d ? "bg-artisan-terracotta text-white border-artisan-terracotta" : "bg-stone-950 text-stone-300 border-stone-800"
                 }`}
               >
                 {offset === 0 ? "Bugün" : offset === 1 ? "Yarın" : formatTrDate(d)}
@@ -187,7 +187,7 @@ export default function ProductionPage() {
                 type="button"
                 disabled={savingCap || capInput === ""}
                 onClick={() => void saveCapacity(Number(capInput))}
-                className="px-4 py-2 rounded-xl bg-amber-500 text-stone-950 text-sm font-bold disabled:opacity-40"
+                className="px-4 py-2 rounded-xl bg-artisan-terracotta text-white text-sm font-bold disabled:opacity-40"
               >
                 Bu güne kapasite koy
               </button>

@@ -147,7 +147,7 @@ export default function DeliveryConsolePage() {
                 onClick={() => setSelectedDate(d.value)}
                 className={`px-3.5 py-2 rounded-xl text-xs font-bold border ${
                   selectedDate === d.value
-                    ? "bg-amber-500 text-stone-950 border-amber-500"
+                    ? "bg-artisan-terracotta text-white border-artisan-terracotta"
                     : "bg-stone-900 text-stone-300 border-stone-800"
                 }`}
               >

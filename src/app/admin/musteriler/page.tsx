@@ -237,7 +237,7 @@ export default function AdminCustomersPage() {
             placeholder="İsim, telefon, e-posta veya mahalle"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full bg-stone-950 border border-stone-800 rounded-xl pl-10 pr-4 py-3 text-sm text-stone-200 placeholder-stone-500 focus:outline-none focus:border-amber-500/60"
+            className="w-full bg-stone-950 border border-stone-800 rounded-xl pl-10 pr-4 py-3 text-sm text-stone-200 placeholder-stone-500 focus:outline-none focus:border-artisan-terracotta/60"
           />
         </div>
         <div className="flex gap-2 overflow-x-auto pb-1">
@@ -246,7 +246,7 @@ export default function AdminCustomersPage() {
               key={f.key}
               onClick={() => setFilter(f.key)}
               className={`px-3.5 py-2 rounded-xl text-xs font-semibold whitespace-nowrap ${
-                filter === f.key ? "bg-amber-500 text-stone-950" : "bg-stone-800 text-stone-400 hover:text-stone-200"
+                filter === f.key ? "bg-artisan-terracotta text-white" : "bg-stone-800 text-stone-400 hover:text-stone-200"
               }`}
             >
               {f.label}

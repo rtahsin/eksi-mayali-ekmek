@@ -96,11 +96,11 @@ export function CourierPaymentModal({
               type="button"
               disabled={isSubmitting}
               onClick={() => onConfirmDelivery("pos")}
-              className="p-4 rounded-2xl bg-blue-500/10 hover:bg-blue-500/25 border border-blue-500/30 text-blue-300 hover:text-blue-200 font-bold text-sm flex flex-col items-center justify-center gap-2 active:scale-95 transition-all text-center"
+              className="p-4 rounded-2xl bg-stone-800/60 hover:bg-stone-700/60 border border-stone-600 text-stone-200 hover:text-stone-100 font-bold text-sm flex flex-col items-center justify-center gap-2 active:scale-95 transition-all text-center"
             >
-              <CreditCard className="w-6 h-6 text-blue-400" />
+              <CreditCard className="w-6 h-6 text-stone-300" />
               <span>Mobil POS</span>
-              <span className="text-xs font-normal text-blue-400/80 font-mono">
+              <span className="text-xs font-normal text-stone-400 font-mono">
                 {order.totalAmount} ₺ Kart
               </span>
             </button>

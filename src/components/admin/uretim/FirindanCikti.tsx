@@ -152,7 +152,7 @@ export function FirindanCikti() {
                     placeholder="0"
                     onChange={(e) => setCounts((c) => ({ ...c, [p.id]: Math.max(0, Math.min(500, Number(e.target.value) || 0)) }))}
                     aria-label={`${p.name} adedi`}
-                    className="w-16 h-12 text-center font-mono text-xl font-bold rounded-xl bg-stone-950 border border-stone-800 text-amber-300 focus:outline-none focus:border-amber-500"
+                    className="w-16 h-12 text-center font-mono text-xl font-bold rounded-xl bg-stone-950 border border-stone-800 text-amber-300 focus:outline-none focus:border-artisan-terracotta"
                   />
                   <button
                     type="button"
@@ -212,7 +212,7 @@ export function FirindanCikti() {
               value={note}
               onChange={(e) => setNote(e.target.value.slice(0, 140))}
               placeholder="Not (ops.), ör. ilk çıkış"
-              className="flex-1 min-w-[160px] h-12 bg-stone-950 border border-stone-800 rounded-xl px-3 text-sm text-stone-100 focus:outline-none focus:border-amber-500"
+              className="flex-1 min-w-[160px] h-12 bg-stone-950 border border-stone-800 rounded-xl px-3 text-sm text-stone-100 focus:outline-none focus:border-artisan-terracotta"
             />
           </div>
 
@@ -220,7 +220,7 @@ export function FirindanCikti() {
             type="button"
             onClick={() => void save()}
             disabled={!canSave}
-            className="w-full h-14 rounded-xl bg-amber-500 text-stone-950 text-base font-bold flex items-center justify-center gap-2 disabled:opacity-40"
+            className="w-full h-14 rounded-xl bg-artisan-terracotta text-white text-base font-bold flex items-center justify-center gap-2 disabled:opacity-40"
           >
             {busy === "save" ? <Loader2 className="w-5 h-5 animate-spin" /> : <Flame className="w-5 h-5" />}
             {total > 0 ? `Fırından çıktı · ${total} ekmek` : "Fırından çıktı"}

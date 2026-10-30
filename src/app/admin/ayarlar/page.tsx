@@ -35,7 +35,7 @@ const WEEKDAYS: { value: number; label: string }[] = [
 ];
 
 const inputCls =
-  "w-full bg-stone-950 border border-stone-800 rounded-xl px-3 py-2 text-sm text-stone-100 focus:outline-none focus:border-amber-500";
+  "w-full bg-stone-950 border border-stone-800 rounded-xl px-3 py-2 text-sm text-stone-100 focus:outline-none focus:border-artisan-terracotta";
 
 export default function AdminSettingsPage() {
   const [form, setForm] = useState<StoreSettings>(DEFAULT_STORE_SETTINGS);
@@ -213,7 +213,7 @@ export default function AdminSettingsPage() {
                   onClick={() => toggleWeekday(d.value)}
                   aria-pressed={on}
                   className={`w-14 py-2.5 rounded-xl text-sm font-bold border ${
-                    on ? "bg-amber-500 text-stone-950 border-amber-500" : "bg-stone-950 text-stone-500 border-stone-800"
+                    on ? "bg-artisan-terracotta text-white border-artisan-terracotta" : "bg-stone-950 text-stone-500 border-stone-800"
                   }`}
                 >
                   {d.label}
@@ -365,7 +365,7 @@ export default function AdminSettingsPage() {
           <button
             type="submit"
             disabled={saving}
-            className="flex items-center gap-2 px-6 py-3 bg-amber-500 hover:bg-amber-400 text-stone-950 font-bold rounded-xl text-sm shadow-lg shadow-black/40 disabled:opacity-50"
+            className="flex items-center gap-2 px-6 py-3 bg-artisan-terracotta hover:bg-artisan-terracotta-dark text-white font-bold rounded-xl text-sm shadow-lg shadow-black/40 disabled:opacity-50"
           >
             {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
             {saving ? "Kaydediliyor…" : "Ayarları Kaydet"}
