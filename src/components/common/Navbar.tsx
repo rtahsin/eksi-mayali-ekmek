@@ -43,7 +43,7 @@ export function Navbar() {
   return (
     <>
       <header className="sticky top-0 z-40 bg-cream-surface/90 backdrop-blur-md border-b border-line shadow-xs">
-      <div className="max-w-6xl xl:max-w-7xl mx-auto px-2 sm:px-6 lg:px-8 h-14 sm:h-[72px] flex items-center justify-between gap-4">
+      <div className="max-w-6xl xl:max-w-7xl mx-auto px-2 sm:px-6 lg:px-8 h-14 sm:h-[72px] flex items-center justify-between gap-2 sm:gap-4">
         {/* Brand Logo & Name + Atelier Menu Toggle */}
         <div className="flex items-center gap-1.5 sm:gap-3.5 min-w-0 shrink">
           <button
@@ -130,7 +130,8 @@ export function Navbar() {
               <button
                 type="button"
                 onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                className="inline-flex items-center gap-2 px-3 py-1.5 rounded-xl bg-bg hover:bg-cream-surface text-ink border border-line font-sans text-xs transition-all"
+                aria-label="Hesabım"
+                className="inline-flex items-center gap-2 px-1.5 sm:px-3 py-1.5 rounded-xl bg-bg hover:bg-cream-surface text-ink border border-line font-sans text-xs transition-all"
               >
                 <div className="w-6 h-6 rounded-full bg-accent/15 flex items-center justify-center text-xs font-bold text-accent border border-accent/30">
                   {initials || "E"}
@@ -138,7 +139,7 @@ export function Navbar() {
                 <span className="hidden sm:inline max-w-[100px] truncate font-medium">
                   {displayName}
                 </span>
-                <ChevronDown className="w-3.5 h-3.5 text-ink-muted" />
+                <ChevronDown className="hidden sm:block w-3.5 h-3.5 text-ink-muted" />
               </button>
 
               {isDropdownOpen && (

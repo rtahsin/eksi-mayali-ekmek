@@ -162,8 +162,8 @@ export function CheckoutActions({
   const disabled = loadingMethod !== null || items.length === 0;
 
   return (
-    <div className="space-y-2.5">
-      <label className="flex items-start gap-2.5 text-xs leading-snug font-sans text-espresso-wheat cursor-pointer select-none">
+    <div className="space-y-2">
+      <label className="flex items-start gap-2.5 text-xs leading-snug font-sans text-ink-muted cursor-pointer select-none">
         <input
           id="checkout-terms"
           type="checkbox"
@@ -172,31 +172,24 @@ export function CheckoutActions({
             setTermsAccepted(e.target.checked);
             if (e.target.checked) onErrors({ ...errors, terms: undefined });
           }}
-          className="mt-0.5 h-5 w-5 shrink-0 accent-artisan-terracotta [color-scheme:light]"
+          className="mt-0.5 h-5 w-5 shrink-0 accent-accent"
+          aria-describedby={errors.terms ? "checkout-terms-error" : undefined}
         />
         <span>
-          <Link href="/mesafeli-satis" target="_blank" className="underline text-espresso hover:text-artisan-terracotta">
+          <Link href="/mesafeli-satis" target="_blank" className="underline text-ink hover:text-accent">
             Mesafeli Satış Sözleşmesi
           </Link>
           {"'ni okudum, onaylıyorum."}
         </span>
       </label>
       {errors.terms && (
-        <p role="alert" className="text-xs text-red-700 font-sans -mt-1">
+        <p id="checkout-terms-error" role="alert" className="text-xs text-bad font-sans -mt-1">
           {errors.terms}
         </p>
       )}
 
-      <p className="text-xs font-sans text-espresso-wheat">
-        Kişisel verileriniz{" "}
-        <Link href="/kvkk" target="_blank" className="underline text-espresso hover:text-artisan-terracotta">
-          KVKK Aydınlatma Metni
-        </Link>{" "}
-        kapsamında işlenir.
-      </p>
-
       {errorMessage && (
-        <div role="alert" className="p-2.5 rounded-xl bg-red-500/10 border border-red-500/25 text-red-700 text-xs font-sans flex items-center gap-2">
+        <div role="alert" className="p-2.5 rounded-xl bg-red-500/10 border border-red-500/25 text-bad text-xs font-sans flex items-center gap-2">
           <AlertCircle className="w-4 h-4 shrink-0" />
           <span>{errorMessage}</span>
         </div>
@@ -211,20 +204,24 @@ export function CheckoutActions({
         {loadingMethod === paymentMethod && <Loader2 className="w-4 h-4 animate-spin" />}
         <span>Siparişi onayla · {totalAmount.toLocaleString("tr-TR")} ₺</span>
       </button>
-      <p className="text-center text-xs font-sans text-espresso-wheat">
-        Sipariş vermek ödeme yükümlülüğü doğurur; ödeme teslimatta yapılır.
+      <p className="text-center text-xs leading-snug font-sans text-ink-muted">
+        Sipariş vermek ödeme yükümlülüğü doğurur; ödeme teslimatta. Verileriniz{" "}
+        <Link href="/kvkk" target="_blank" className="underline text-ink hover:text-accent">
+          KVKK
+        </Link>{" "}
+        kapsamında işlenir.
       </p>
 
       <button
         type="button"
         onClick={() => handleOrder("whatsapp")}
         disabled={disabled}
-        className="touch-target-44 w-full py-2 text-xs font-sans font-medium text-espresso underline underline-offset-2 flex items-center justify-center gap-1.5 disabled:opacity-50"
+        className="touch-target-44 w-full py-1 text-xs font-sans font-medium text-ink underline underline-offset-2 flex items-center justify-center gap-1.5 disabled:opacity-50"
       >
         {loadingMethod === "whatsapp" ? (
-          <Loader2 className="w-3.5 h-3.5 animate-spin text-artisan-terracotta" />
+          <Loader2 className="w-3.5 h-3.5 animate-spin text-accent" />
         ) : (
-          <MessageSquare className="w-3.5 h-3.5 text-artisan-terracotta" />
+          <MessageSquare className="w-3.5 h-3.5 text-accent" />
         )}
         <span>Ödemeyi WhatsApp&apos;ta konuşarak sipariş ver</span>
       </button>
