@@ -71,11 +71,11 @@
     },
     {
       "inanc": "Kabuk belirli bir sıcaklıkta esmerleşmeye başlar ve bu sayı bellidir.",
-      "cevap": "Esmerleşmenin başladığı sıcaklık için kaynaklar farklı değerler bildirir: bazıları 120 °C, bazıları 105–115 °C [[kabuk.esmerlesme_baslangici]]. Açıklık değerlerine dayanarak 110 °C esas alındı [[kabuk.esmerlesme_baslangici]]. Renk oluşumunun başlaması için asgari koşul, sıcaklığın 120 °C'nin üzerinde ve su aktivitesinin (suyun buharlaşmaya elverişli oranının) 0,6'nın altında olmasıdır [[kabuk.renk_olusumu_asgari_kosullari]]."
+      "cevap": "Esmerleşmenin başladığı sıcaklık için kaynaklar farklı değerler bildirir: bazıları 120 °C, bazıları 105–115 °C [[kabuk.esmerlesme_baslangici]]. Açıklık değerlerine dayanarak 110 °C esas alındı [[kabuk.esmerlesme_baslangici]]. Renk oluşumunun başlaması için asgari koşul, sıcaklığın 120 °C'nin üzerinde ve su aktivitesinin (suyun ne kadar serbest olduğunun ölçüsünün) 0,6'nın altında olmasıdır [[kabuk.renk_olusumu_asgari_kosullari]]."
     },
     {
       "inanc": "Ekşi maya ekmeği, mayalı ekmekten daha hacimli olur.",
-      "cevap": "Kesikli bir somunda hacim, kabuğun hangi anda oluştuğuna bağlıdır [[firin_kabarmasi.buharlasma_cephesi_ve_kabuklasma]]. Ekşi maya tipi ekmeğin mayalı ekmekten daha hacimli olduğu derlemelerde yazılıdır, ancak bir araştırma makalesine göre birincil çalışmalar bu konuda pek uzlaşmaz [[firin_kabarmasi.eksi_maya_hacim_efsanesi]]. Ekşi mayalı ve kontrol ekmeklerin özgül hacimleri, yani bir gram ekmeğin kapladığı hacim, 3,46 ile 3,93 cm³/g arasında değişti [[firin_kabarmasi.eksi_maya_ve_kontrol_ozgul_hacim_araligi]]. Aralarında istatistiksel olarak anlamlı bir fark bulunmadı (P > 0,05) [[firin_kabarmasi.eksi_maya_ve_kontrol_ozgul_hacim_araligi]]."
+      "cevap": "Yani ekmek, kabuk bağlayana kadar genişleyebilir [[firin_kabarmasi.buharlasma_cephesi_ve_kabuklasma]]. Ekşi maya tipi ekmeğin mayalı ekmekten daha hacimli olduğu derlemelerde yazılıdır, ancak bir araştırma makalesine göre birincil çalışmalar bu konuda pek uzlaşmaz [[firin_kabarmasi.eksi_maya_hacim_efsanesi]]. Ekşi mayalı ve kontrol ekmeklerin özgül hacimleri, yani bir gram ekmeğin kapladığı hacim, 3,46 ile 3,93 cm³/g arasında değişti [[firin_kabarmasi.eksi_maya_ve_kontrol_ozgul_hacim_araligi]]. Aralarında istatistiksel olarak anlamlı bir fark bulunmadı (P > 0,05) [[firin_kabarmasi.eksi_maya_ve_kontrol_ozgul_hacim_araligi]]."
     }
   ],
   "kanit": {
