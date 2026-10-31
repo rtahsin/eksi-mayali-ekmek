@@ -44,7 +44,7 @@
       "baslik": "Gece bir hız ayarı",
       "paragraflar": [
         "Endüstriyel hamur fermantasyonunda tipik sıcaklık 35 °C'dir [[sicaklik.endustriyel_35_ve_maya_optimumu]]. Ekmek mayası Saccharomyces cerevisiae için en uygun fermantasyon sıcaklığı 25–30 °C'dir; hamuru geciktirmek için 5 °C gibi düşük sıcaklık da yaygın kullanılır [[sicaklik.endustriyel_35_ve_maya_optimumu]]. Soğuk dolapta mayanın metabolik etkinliği kısıtlanır ve kabarma yavaşlatılır [[soguk_ferm.geciktirmede_0_5_derece]].",
-        "Bir deneyde sıcaklık ve maya miktarı süreyi değiştirdi [[sure.sicaklik_ve_maya_ile_sure]]. 5 °C'de kilogram una 20 g mayayla hamur 8 cm yüksekliğe 21 saatte ulaştı [[sure.sicaklik_ve_maya_ile_sure]]. 35 °C'de 60 g mayayla aynı yüksekliğe 15 dakikada ulaşıldı [[sure.sicaklik_ve_maya_ile_sure]]. Ekşi mayada ise süre 8 saatten 144 saatin üzerine kadar uzayabilir [[sure.eksimaya_sure_araligi_8_144_saat]]. Pişirme öncesindeki toplam fermantasyon ve son mayalanma, ekşi mayalı ekmekte 30 dakikadan 20 saate veya daha fazlasına kadar değişir [[sure.eksimayali_ekmek_toplam_fermantasyon_araligi]]. Sünger hamur, ekmek mayası katıldıktan sonra 4 saatten uzun süre fermente edilen bir hamurdur [[sure.sunger_hamur_tanimi_ve_suresi]]."
+        "Bir deneyde sıcaklık ve maya miktarı süreyi değiştirdi [[sure.sicaklik_ve_maya_ile_sure]]. 5 °C'de kilogram una 20 g mayayla hamur 8 cm yüksekliğe 21 saatte ulaştı [[sure.sicaklik_ve_maya_ile_sure]]. 35 °C'de 60 g mayayla aynı yüksekliğe 15 dakikada ulaşıldı [[sure.sicaklik_ve_maya_ile_sure]]. Ekşi mayalı sünger hamurlarda ise süre 8 saatten 144 saatin üzerine kadar uzayabilir [[sure.eksimaya_sure_araligi_8_144_saat]]. Pişirme öncesindeki toplam fermantasyon ve son mayalanma, ekşi mayalı ekmekte 30 dakikadan 20 saate veya daha fazlasına kadar değişir [[sure.eksimayali_ekmek_toplam_fermantasyon_araligi]]. Sünger hamur, ekmek mayası katıldıktan sonra 4 saatten uzun süre fermente edilen bir hamurdur [[sure.sunger_hamur_tanimi_ve_suresi]]."
       ]
     },
     {
@@ -57,7 +57,7 @@
     {
       "baslik": "Koku ve ekşilik birikir",
       "paragraflar": [
-        "Ekşi maya içermeyen buğday hamurunun 5 °C'de fermantasyonu, ekmek içindeki etil asetat, etil hekzanoat ve etil oktanoat esterlerini 15 ve 35 °C'ye göre artırdı [[soguk_ferm.5_derecede_esterler_artar]]. Bu esterlerden koku etkinlik değeri (koku gücü) en yüksek olanı etil hekzanoattı [[soguk_ferm.5_derecede_esterler_artar]]. Bu deneyde ekşi maya yoktu, yalnız ticari maya vardı; bakterilerle yapılan ölçümlerde ise ester üretimi görülmedi [[fsan.ester_uretmez]].",
+        "Ekşi maya içermeyen buğday hamurunun 5 °C'de fermantasyonu, ekmek içindeki etil asetat, etil hekzanoat ve etil oktanoat esterlerini 15 ve 35 °C'ye göre artırdı [[soguk_ferm.5_derecede_esterler_artar]]. Bu esterlerden koku etkinlik değeri (koku gücü) en yüksek olanı etil hekzanoattı [[soguk_ferm.5_derecede_esterler_artar]]. Bu deneyde ekşi maya yoktu, yalnız ticari maya vardı; Fructilactobacillus sanfranciscensis'in test edilen iki suşu da laboratuvar besiyerinde hiç ester üretmedi [[fsan.ester_uretmez]].",
         "Kamu veri tabanlarındaki Fructilactobacillus sanfranciscensis genomlarının hiçbirinde hedeflenen üç esteraz (esteri parçalayan enzim) geni bulunmadı [[fsan.ester_uretmez]]. Laboratuvar besiyerinde test edilen iki suş ise ester üretimine elverişli bileşikler eklenmiş ortamda bile ester üretmedi [[fsan.ester_uretmez]].",
         "25 °C ve 35 °C'de fermente edilen ekşi maya hamurları, 4 °C'de 18 saat buzdolabında tutuldu [[soguk_ferm.4_derece_18_saat_ph]]. Bu hamurların pH'ı (asitlik derecesi) sırasıyla 4,18 ve 4,11 ölçüldü [[soguk_ferm.4_derece_18_saat_ph]]. Tam buğday ekmeğinde fitik asit (tam buğdayda bulunan bir bileşen) ise 4 °C'de 18 saatlik uzun maya fermantasyonuyla una göre yaklaşık %75 azaldı [[soguk_ferm.uzun_soguk_mayalanma_fitik_bugday]]. Bu ekşilikte Fructilactobacillus sanfranciscensis düşük pH'a duyarlıdır ve düzenli ekşi maya beslemelerine yüksek derecede bağımlıdır [[fsan.asit_duyarliligi_ve_duzenli_besleme]]."
       ]
@@ -77,7 +77,7 @@
     },
     {
       "inanc": "Gece dolapta bekleme, hamura sabaha yeterince kabarma sağlar.",
-      "cevap": "Deneyde hamur iki sıcaklıkta da 8 cm yüksekliğe ulaştı; soğuk yalnızca süreyi uzattı [[sure.sicaklik_ve_maya_ile_sure]]. 5 °C'de 20 g mayayla bu 21 saat, 35 °C'de 60 g mayayla 15 dakika sürdü [[sure.sicaklik_ve_maya_ile_sure]]. Bir çalışmanın tablosunda ise 4 °C'de 10 gün saklanan mantouda (Çin buharlı ekmeği) özgül hacim (birim ağırlık başına hacim) 2,34'ten 2,11'e düştü [[soguk_ferm.mantou_4_derece_ls5_hacim_kaybi]]."
+      "cevap": "Deneyde hamur iki sıcaklıkta da 8 cm yüksekliğe ulaştı; soğuk yalnızca süreyi uzattı [[sure.sicaklik_ve_maya_ile_sure]]. 5 °C'de 20 g mayayla bu 21 saat, 35 °C'de 60 g mayayla 15 dakika sürdü [[sure.sicaklik_ve_maya_ile_sure]]. Bir çalışmanın tablosunda ise 4 °C'de 10 gün saklanan, Ls5 mayasıyla yapılmış mantouda (Çin buharlı ekmeği) özgül hacim (birim ağırlık başına hacim) 2,34'ten 2,11'e düştü [[soguk_ferm.mantou_4_derece_ls5_hacim_kaybi]]."
     },
     {
       "inanc": "Uzun fermantasyon, ekmeğin lezzetini artırır.",

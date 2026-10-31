@@ -18,7 +18,7 @@
         "vurgu": "Siyez buğdayı (Triticum monococcum) taneleri: her tane kavuzla sarılı olduğu için taneyle birlikte taşınır."
       },
       {
-        "metin": "Gluten, una su karışıp yoğurulurken buğday proteinlerinin kurduğu ağa verilen addır [[gluten.tanim_hamur_iskeleti]]. Bu ağ hamurun iskeletidir ve nişasta taneleri ağın içine gömülüdür [[gluten.tanim_hamur_iskeleti]]. Bu tarladan çıkan unun ekmekteki davranışını da bu ağ belirler [[gluten.tanim_hamur_iskeleti]]. Viskoelastik, hem akışkan hem yaylanır davranış demektir; ağın bu özellikleri hamur hidrasyonuna ve gaz tutulmasına katkı sağlar [[gluten.viskoelastisite_ve_hava_hucreleri_kararliligi]].",
+        "metin": "Gluten, una su karışıp yoğurulurken buğday proteinlerinin kurduğu ağa verilen addır [[gluten.tanim_hamur_iskeleti]]. Bu ağ hamurun iskeletidir ve nişasta taneleri ağın içine gömülüdür [[gluten.tanim_hamur_iskeleti]]. Bu tarladan çıkan unun ekmekteki davranışını da bu ağ büyük ölçüde etkiler [[gluten.tanim_hamur_iskeleti]]. Viskoelastik, hem akışkan hem yaylanır davranış demektir; ağın bu özellikleri hamur hidrasyonuna ve gaz tutulmasına katkı sağlar [[gluten.viskoelastisite_ve_hava_hucreleri_kararliligi]].",
         "gorsel": "photomicrograph_of_wheat_starch",
         "vurgu": "Buğday nişastasının mikroskop görüntüsü: her granülde eş merkezli halkalar; bu taneler gluten ağının içine gömülüdür."
       },
@@ -73,7 +73,7 @@
     },
     {
       "inanc": "Spelt buğdayı, ekmeklik buğdayın yerini rahatça tutabilir.",
-      "cevap": "Sırbistan'da yapılan bir çalışmada köpüğe benzer hamur yapısına sahip spelt ekşi mayası, modern buğday ekşi mayasıyla benzer özgül hacim ve dokuda ekmek verdi [[atalik_bugday.spelt_modern_kadar_iyi]]. Öte yandan ekmeklik buğday çeşitleri, anlamlı derecede yüksek gluten ve UPP (çözünmeyen polimerik protein) içeriğiyle spelt'ten daha iyi ekmek yapım potansiyeli sergiledi [[atalik_bugday.ekmeklik_bugday_spelt_ustun_ekmek_potansiyeli]]. Hamur stabilitesi de ayrışır: spelt'te 3.58 dakika, ekmeklik buğdayda 11.1 dakika [[atalik_bugday.hamur_stabilitesi_spelt_ve_ekmeklik]]."
+      "cevap": "Sırbistan'da yapılan bir çalışmada köpüğe benzer hamur yapısına sahip spelt ekşi mayası, modern buğday ekşi mayasıyla benzer özgül hacim ve dokuda ekmek verdi [[atalik_bugday.spelt_modern_kadar_iyi]]. Öte yandan ekmeklik buğday çeşitleri, anlamlı derecede yüksek glutenin ve UPP (çözünmeyen polimerik protein) içeriğiyle spelt'ten daha iyi ekmek yapım potansiyeli sergiledi [[atalik_bugday.ekmeklik_bugday_spelt_ustun_ekmek_potansiyeli]]. Hamur stabilitesi de ayrışır: spelt'te 3.58 dakika, ekmeklik buğdayda 11.1 dakika [[atalik_bugday.hamur_stabilitesi_spelt_ve_ekmeklik]]."
     },
     {
       "inanc": "Siyez ekmeğinin somunları küçük ve sık çıkar.",

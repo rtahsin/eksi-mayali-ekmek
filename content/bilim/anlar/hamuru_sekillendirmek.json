@@ -58,7 +58,7 @@
     {
       "baslik": "Gerilmenin sınırı",
       "paragraflar": [
-        "Gerinim sertleşmesi, hamuru germek için gereken kuvvetin gerdikçe orantılı olandan daha fazla artmasıdır [[reoloji.gerinim_sertlesmesi_tanimi]]. Bu özellik, gaz hücrelerinin ekmek yapımı boyunca düzgün genişlemesini ve somunun birim ağırlık başına hacmini, yani özgül hacmini belirler [[kabarcik.gerinim_sertlesmesi]]. Gerinim sertleşmesi değeri yüksek hamur, kabarcık büyüme hızını düşürerek orantısızlaşmaya ve birleşmeye karşı kararlılığa katkıda bulunur [[reoloji.gerinim_sertlesmesi_kabarcik_kararliligi]].",
+        "Gerinim sertleşmesi, hamuru sabit hızla germek için gereken gerilimin gerdikçe orantılı olandan daha fazla artmasıdır [[reoloji.gerinim_sertlesmesi_tanimi]]. Bu özellik, gaz hücrelerinin ekmek yapımı boyunca düzgün genişlemesini ve somunun birim ağırlık başına hacmini, yani özgül hacmini belirler [[kabarcik.gerinim_sertlesmesi]]. Gerinim sertleşmesi değeri yüksek hamur, kabarcık büyüme hızını düşürerek orantısızlaşmaya ve birleşmeye karşı kararlılığa katkıda bulunur [[reoloji.gerinim_sertlesmesi_kabarcik_kararliligi]].",
         "Considère ölçütü, polimerlerdeki uzama kararsızlığı için tanımlanmış bir kırılma kriteridir [[kabarcik.considere_kriteri_gerinim_sertlesmesi]]. Kaynak bu ölçütü hamura da uygular: gerinim sertleşmesi yaklaşık 1 değerinin altına düştüğünde kabarcık duvarları kararsızlaşır, hızla birleşir ve gaz tutma kaybına yol açar [[kabarcik.considere_kriteri_gerinim_sertlesmesi]]."
       ]
     },
