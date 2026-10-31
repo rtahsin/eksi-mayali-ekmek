@@ -28,12 +28,12 @@
         "vurgu": "Gluten proteinlerinin mikroskop görüntüsü: gaz hücrelerini çevreleyen ağ."
       },
       {
-        "metin": "Fermantasyon sonundaki hamur hacmi, başlangıçtaki ilk hamur hacminin neredeyse 4,4 katına ulaştı [[gaz.fermantasyon_sonunda_hacim_4_katindan_fazla_artar]]. Pişirme sırasında sıcaklık yükseldikçe gaz hücrelerindeki karbondioksitin hacimsel genleşmesi, fermantasyon evresindekinden çok daha büyüktür [[gaz.sicaklik_artisiyla_gaz_hucrelerinde_hacim_genlesmesi]].",
+        "metin": "32 °C'de yapılan bir ölçümde fermantasyon sonundaki hamur hacmi, başlangıçtaki ilk hamur hacminin neredeyse 4,4 katına ulaştı [[gaz.fermantasyon_sonunda_hacim_4_katindan_fazla_artar]]. Pişirme sırasında sıcaklık yükseldikçe gaz hücrelerindeki karbondioksitin hacimsel genleşmesi, fermantasyon evresindekinden çok daha büyüktür [[gaz.sicaklik_artisiyla_gaz_hucrelerinde_hacim_genlesmesi]].",
         "gorsel": "rising_dough_overflowing_its_container",
         "vurgu": "Kabından taşan hamur: gazın hücrelerde büyüdüğü son an."
       },
       {
-        "metin": "Torulaspora delbrueckii ile yapılan ekmek, kontrol ekmeğine göre fındıksı ve orman benzeri bir lezzette tanımlandı [[tdel.y273_duyusal_profil_findik_orman]]. Bu mayaların her biriyle ayrı ayrı yapılan ekmekte etil oktanoat, 2-feniletil asetat, etil dekanoat ve etil dodekanoat ticari maya kontrolünden yüksekti [[tdel.ester_artisi_bayanus_delbrueckii]].",
+        "metin": "Bir çalışmada Torulaspora delbrueckii'nin bir suşuyla yapılan ekmek, kontrol ekmeğine göre fındıksı ve orman benzeri bir lezzette tanımlandı [[tdel.y273_duyusal_profil_findik_orman]]. Bu mayaların her biriyle ayrı ayrı yapılan ekmekte etil oktanoat, 2-feniletil asetat, etil dekanoat ve etil dodekanoat ticari maya kontrolünden yüksekti [[tdel.ester_artisi_bayanus_delbrueckii]].",
         "gorsel": "torulaspora_delbrueckii_s_spores",
         "vurgu": "Torulaspora delbrueckii sporları: ekmeğe fındıksı ve meyvemsi notalar katan maya."
       }
