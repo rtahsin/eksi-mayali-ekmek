@@ -64,7 +64,7 @@
     {
       "baslik": "Denge somunda görünür",
       "paragraflar": [
-        "İkisi aynı hamurda birlikte ayarlanır: su, kıvamı ve ağın kuruluşunu; tuz ise ağın sağlamlığını belirler [[tuz.ekmek_yapiminda_nem_gluten_ve_doku_duzenleme]]. Sabit terime göre yapılan parametre tahminleri, su kaldırmanın mayalı ve ekşi mayalı kısa prosedürlerde en belirleyici etken olduğunu gösterdi [[hidrasyon.su_kaldirmamin_kisa_prosedurlerde_belirleyiciligi]]. İyi kurulmamış bir gluten ağı mayalanma gazını tutamayabilir ve ekmek hacmi düşük kalır [[gluten.elastiklik_hacim_optimum]]."
+        "İkisi aynı hamurda birlikte çalışır: tuz nemi düzenler ve gluten ağının yapısını etkiler [[tuz.ekmek_yapiminda_nem_gluten_ve_doku_duzenleme]]. Sabit terime göre yapılan parametre tahminleri, su kaldırmanın mayalı ve ekşi mayalı kısa prosedürlerde en belirleyici etken olduğunu gösterdi [[hidrasyon.su_kaldirmamin_kisa_prosedurlerde_belirleyiciligi]]. İyi kurulmamış bir gluten ağı mayalanma gazını tutamayabilir ve ekmek hacmi düşük kalır [[gluten.elastiklik_hacim_optimum]]."
       ]
     }
   ],
