@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Fraunces, Lora, Caveat, JetBrains_Mono, Inter } from "next/font/google";
 import { AuthProvider } from "@/components/auth/AuthProvider";
 import "./globals.css";
-import { SITE_URL } from "@/lib/site";
+import { SITE_URL, SOCIAL_LIST } from "@/lib/site";
 
 const fraunces = Fraunces({
   subsets: ["latin", "latin-ext"],
@@ -87,7 +87,7 @@ const bakeryJsonLd = {
   "description":
     "Beylikdüzü'nde ata tohumu unlar ve canlı ekşi mayayla, uzun fermantasyonla hazırlanan katkısız artisan ekmekler ve doğal şarküteri lezzetleri.",
   "areaServed": "Beylikdüzü, İstanbul",
-  "sameAs": ["https://www.instagram.com/ekmeklabtr"],
+  "sameAs": SOCIAL_LIST.map((s) => s.url),
 };
 
 export default function RootLayout({

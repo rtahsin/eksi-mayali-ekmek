@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { LEVHALAR } from "@/lib/bilim/levhalar";
+import { resolveGazeteSayi } from "@/lib/bilim/sayi";
 import { getAn, getYolculuk } from "@/lib/bilim/server";
 import { LEVHA_FONTLARI } from "@/components/bilim/levha/fontlar";
 import s from "@/components/bilim/levha/levha.module.css";
@@ -9,7 +10,13 @@ import s from "@/components/bilim/levha/levha.module.css";
 
 const ROMA = ["I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X"];
 
-export default function BilimDizini() {
+interface BilimDiziniProps {
+  searchParams: Promise<{ sayi?: string | string[] }>;
+}
+
+export default async function BilimDizini({ searchParams }: BilimDiziniProps) {
+  const params = await searchParams;
+  const gazeteSayi = resolveGazeteSayi(params?.sayi);
   const yolculuk = getYolculuk();
   const toplam = yolculuk.duraklar.reduce((n, d) => n + d.anlar.length, 0);
   const inancSayisi = yolculuk.duraklar.reduce((n, d) => n + d.anlar.reduce((m, a) => m + getAn(a.id).yuzlesme.length, 0), 0);
@@ -20,6 +27,22 @@ export default function BilimDizini() {
         <Link href="/">← Fırına dön</Link>
         <span>EkmekLab · Bilim odası</span>
       </header>
+
+      {gazeteSayi && (
+        <section className={s.gazeteKart} aria-label={`Taş Fırın Gazetesi Sayı ${gazeteSayi.kod}`}>
+          <p className={s.gazeteUst}>Taş Fırın Gazetesi · Sayı #{gazeteSayi.kod}</p>
+          <h2 className={s.gazeteBaslik}>{gazeteSayi.baslik}</h2>
+          <p className={s.gazeteAlt}>{gazeteSayi.alt}</p>
+          <div className={s.gazeteAksiyonlar}>
+            <Link href={`/bilim/${gazeteSayi.anId}`} className={s.gazeteBirincil}>
+              Sayı #{gazeteSayi.kod} levhasını oku →
+            </Link>
+            <Link href="/" className={s.gazeteIkincil}>
+              Sıcak Fırın &amp; Eşlikçi Sepetini Gör →
+            </Link>
+          </div>
+        </section>
+      )}
 
       <section className={s.acilis}>
         <div>

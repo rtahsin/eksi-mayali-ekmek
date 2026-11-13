@@ -23,7 +23,7 @@ import {
   Wheat,
 } from "lucide-react";
 import Link from "next/link";
-import { CONTACT, whatsappLink } from "@/lib/site";
+import { CONTACT, SOCIAL_LIST, whatsappLink, type SOCIAL } from "@/lib/site";
 import { FEATURES } from "@/lib/features";
 import { useAuth } from "@/components/auth/AuthProvider";
 import { useTheme } from "@/lib/theme/useTheme";
@@ -32,6 +32,33 @@ import { useStoreSettings } from "@/hooks/useStoreSettings";
 interface AtelierMenuDrawerProps {
   isOpen: boolean;
   onClose: () => void;
+}
+
+type SocialId = (typeof SOCIAL)[keyof typeof SOCIAL]["id"];
+
+function DrawerSocialIcon({ id }: { id: SocialId }) {
+  if (id === "instagram") {
+    return (
+      <svg className="w-4 h-4 text-accent shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+        <rect width="20" height="20" x="2" y="2" rx="5" ry="5" />
+        <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
+        <line x1="17.5" x2="17.51" y1="6.5" y2="6.5" />
+      </svg>
+    );
+  }
+  if (id === "youtube") {
+    return (
+      <svg className="w-4 h-4 text-accent shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+        <path d="M2.5 17a24.12 24.12 0 0 1 0-10 2 2 0 0 1 1.4-1.4 49.56 49.56 0 0 1 16.2 0A2 2 0 0 1 21.5 7a24.12 24.12 0 0 1 0 10 2 2 0 0 1-1.4 1.4 49.55 49.55 0 0 1-16.2 0A2 2 0 0 1 2.5 17" />
+        <path d="m10 15 5-3-5-3v6Z" />
+      </svg>
+    );
+  }
+  return (
+    <svg className="w-4 h-4 text-accent shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5" />
+    </svg>
+  );
 }
 
 type ModalType = "manifesto" | "corporate" | "delivery" | "whereToFind" | null;
@@ -500,6 +527,22 @@ export function AtelierMenuDrawer({ isOpen, onClose }: AtelierMenuDrawerProps) {
             <a href={`mailto:${CONTACT.email}`} className="hover:text-ink transition-colors">
               {CONTACT.email}
             </a>
+          </div>
+          <div className="pt-1 flex flex-wrap gap-2">
+            {SOCIAL_LIST.map((item) => (
+              <a
+                key={item.id}
+                href={item.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1.5 min-h-[44px] px-3 py-2 rounded-xl bg-cream-surface border border-line text-xs text-ink hover:text-accent hover:border-accent/40 transition-colors font-sans"
+                title={`${item.label} ${item.handle}`}
+                aria-label={`${item.label} ${item.handle}`}
+              >
+                <DrawerSocialIcon id={item.id} />
+                <span className="font-medium">{item.handle}</span>
+              </a>
+            ))}
           </div>
           <div className="pt-1 text-xs text-ink-muted font-mono">
             © {new Date().getFullYear()} EkmekLab Atölye
