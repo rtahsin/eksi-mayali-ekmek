@@ -1,10 +1,10 @@
 "use client";
 
-import React, { createContext, useContext, useEffect } from "react";
-import { useCustomerAuth, UserProfile, SavedAddress } from "@/hooks/useCustomerAuth";
+import React, { Suspense, createContext, useContext, useEffect } from "react";
+import { sanitizeAuthRedirectPath, useCustomerAuth, UserProfile, SavedAddress } from "@/hooks/useCustomerAuth";
 import { AuthModal } from "./AuthModal";
 import { User } from "@supabase/supabase-js";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { readDeviceOrders } from "@/lib/orders/deviceOrders";
 
 interface AuthContextType {
@@ -14,7 +14,7 @@ interface AuthContextType {
   loading: boolean;
   isLoggedIn: boolean;
   isConfigured: boolean;
-  openAuthModal: () => void;
+  openAuthModal: (redirectPath?: string) => void;
   closeAuthModal: () => void;
   signInWithGoogle: () => Promise<{ success: boolean; data?: unknown; error?: string }>;
   sendEmailCode: (email: string) => Promise<{ success: boolean; error?: string }>;
@@ -66,9 +66,57 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   return (
     <AuthContext.Provider value={auth}>
       {children}
+      {!staffArea && (
+        <Suspense fallback={null}>
+          <AuthQueryTrigger
+            loading={auth.loading}
+            isLoggedIn={auth.isLoggedIn}
+            openAuthModal={auth.openAuthModal}
+          />
+        </Suspense>
+      )}
       <AuthModal isOpen={auth.isAuthModalOpen} onClose={auth.closeAuthModal} />
     </AuthContext.Provider>
   );
+}
+
+function AuthQueryTrigger({
+  loading,
+  isLoggedIn,
+  openAuthModal,
+}: {
+  loading: boolean;
+  isLoggedIn: boolean;
+  openAuthModal: (redirectPath?: string) => void;
+}) {
+  const searchParams = useSearchParams();
+  const pathname = usePathname() ?? "/";
+  const router = useRouter();
+
+  useEffect(() => {
+    if (loading) return;
+    if (searchParams.get("auth") !== "login") return;
+
+    const target = sanitizeAuthRedirectPath(searchParams.get("redirect"));
+
+    if (typeof window !== "undefined") {
+      const cleanParams = new URLSearchParams(window.location.search);
+      cleanParams.delete("auth");
+      cleanParams.delete("redirect");
+      const qs = cleanParams.toString();
+      window.history.replaceState(window.history.state, "", `${pathname}${qs ? `?${qs}` : ""}`);
+    }
+
+    if (isLoggedIn) {
+      if (target && target !== "/") {
+        router.replace(target);
+      }
+    } else {
+      openAuthModal(target ?? undefined);
+    }
+  }, [loading, isLoggedIn, searchParams, pathname, router, openAuthModal]);
+
+  return null;
 }
 
 export function useAuth() {

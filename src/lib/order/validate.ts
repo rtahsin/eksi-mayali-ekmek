@@ -5,9 +5,19 @@ export const stripMah = (value: string) => value.replace(/\s+Mah(\.|allesi)?$/i,
 
 /** Telefonu tek biçime getirir: 05XXXXXXXXX; geçersizse null. */
 export function normalizePhone(raw: string): string | null {
-  let digits = raw.replace(/\D/g, "");
-  if (digits.startsWith("90") && digits.length === 12) digits = digits.slice(2);
-  if (digits.length === 10 && digits.startsWith("5")) digits = `0${digits}`;
+  const cleaned = raw.replace(/[\u200B-\u200F\u202A-\u202E\u2066-\u2069\uFEFF\u00A0]/g, "");
+  let digits = cleaned.replace(/\D/g, "");
+  if (digits.startsWith("00900") && digits.length === 15) {
+    digits = digits.slice(4);
+  } else if (digits.startsWith("0090") && digits.length === 14) {
+    digits = `0${digits.slice(4)}`;
+  } else if (digits.startsWith("900") && digits.length === 13) {
+    digits = digits.slice(2);
+  } else if (digits.startsWith("90") && digits.length === 12) {
+    digits = `0${digits.slice(2)}`;
+  } else if (digits.startsWith("5") && digits.length === 10) {
+    digits = `0${digits}`;
+  }
   return /^05\d{9}$/.test(digits) ? digits : null;
 }
 

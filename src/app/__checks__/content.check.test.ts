@@ -144,10 +144,11 @@ describe("Content Graph Integrity Check", () => {
     }
   });
 
-  it("ensures navigation links lead to Bilim odası and Kavramlar, not the removed Kütüphane or unlinked Laboratuvar", () => {
+  it("ensures navigation links lead to canonical /bilim and not legacy /kavram, /arama, /kutuphane, or /laboratuvar", () => {
     for (const links of [MAIN_NAV_LINKS, FOOTER_NAV_LINKS]) {
       expect(links.some((l) => l.href === "/bilim")).toBe(true);
-      expect(links.some((l) => l.href === "/kavram")).toBe(true);
+      expect(links.some((l) => l.href.startsWith("/kavram"))).toBe(false);
+      expect(links.some((l) => l.href.startsWith("/arama"))).toBe(false);
       expect(links.some((l) => l.href.startsWith("/kutuphane"))).toBe(false);
       expect(links.some((l) => l.href.startsWith("/laboratuvar"))).toBe(false);
     }

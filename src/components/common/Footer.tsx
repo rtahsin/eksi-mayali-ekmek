@@ -99,25 +99,27 @@ export function Footer() {
                 </a>
               </li>
               {FEATURES.bilimOdasi && (
-                <li>
-                  <a href="/bilim" className="hover:text-ink transition-colors">
-                    Bilim odası
-                  </a>
-                </li>
+                <>
+                  <li>
+                    <a href="/bilim" className="hover:text-ink transition-colors">
+                      Ekmeğin Bilimi
+                    </a>
+                  </li>
+                  <li>
+                    <a href="/bilim/efsaneler" className="hover:text-ink transition-colors">
+                      Efsane Dosyası
+                    </a>
+                  </li>
+                </>
               )}
               <li>
                 <a href="/arac" className="hover:text-ink transition-colors">
-                  Profesyonel Fırıncı Araçları
+                  Fırıncı Araçları
                 </a>
               </li>
               <li>
-                <a href="/kavram" className="hover:text-ink transition-colors">
-                  Kavramlar Sözlüğü
-                </a>
-              </li>
-              <li>
-                <a href="/arama" className="hover:text-ink transition-colors">
-                  Arama
+                <a href="/siparislerim" className="hover:text-ink transition-colors">
+                  Sipariş Sorgula
                 </a>
               </li>
             </ul>

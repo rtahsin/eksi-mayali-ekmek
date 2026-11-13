@@ -1,6 +1,7 @@
 import type { CanonicalOrderStatus } from "@/lib/orders/normalize";
 
 export interface TrackingItem {
+  productId: string | null;
   name: string;
   quantity: number;
   /** Maskeli görünümde yok */

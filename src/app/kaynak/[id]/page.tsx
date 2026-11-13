@@ -33,6 +33,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   return {
     title: `${source.title} (${source.year}) | EkmekLab Bilimsel Kaynaklar`,
     description: `${source.authors.join(", ")}. ${source.venue || ""} (${source.year}).`,
+    robots: { index: false, follow: true },
     openGraph: {
       title: `${source.title} — EkmekLab`,
       description: `${source.authors.join(", ")} (${source.year})`,
@@ -71,22 +72,25 @@ export default async function SourceDetailPage({ params }: PageProps) {
       <Navbar />
 
       {/* Breadcrumb Navigation */}
-      <nav className="border-b border-line bg-cream-surface/60 py-3.5">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 flex items-center justify-between text-xs text-ink-muted">
+      <nav aria-label="Kaynak gezinme" className="border-b border-line bg-cream-surface/60 py-3.5">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 flex items-center justify-between gap-3 text-xs text-ink-muted">
           <Link
-            href="/kavram"
+            href="/bilim"
             className="inline-flex items-center gap-1.5 hover:text-accent transition-colors font-medium"
           >
-            <ArrowLeft className="w-3.5 h-3.5" />
-            <span>Kavramlar ve Kaynaklar</span>
+            <ArrowLeft aria-hidden="true" className="w-3.5 h-3.5" />
+            <span>Bilim Odasına Dön</span>
           </Link>
-          <div className="flex items-center gap-2">
-            <span className="uppercase tracking-wider text-xs px-2.5 py-0.5 rounded-full bg-cream-surface border border-line text-ink font-medium">
-              {source.kind}
+          <div className="flex items-center gap-3">
+            <span className="hidden sm:inline uppercase tracking-wider text-xs px-2.5 py-0.5 rounded-full bg-cream-surface border border-line text-ink font-medium">
+              {source.kind} · {source.year}
             </span>
-            <span className="font-mono text-accent text-xs">
-              {source.year}
-            </span>
+            <Link
+              href="/#ekmekler"
+              className="inline-flex items-center gap-1 font-semibold text-accent hover:text-ink transition-colors"
+            >
+              <span>Fırın &amp; Sipariş →</span>
+            </Link>
           </div>
         </div>
       </nav>
@@ -206,13 +210,12 @@ export default async function SourceDetailPage({ params }: PageProps) {
                         {claim.about.map((cptId) => {
                           const concept = GRAPH.concepts[cptId as keyof typeof GRAPH.concepts];
                           return (
-                            <Link
+                            <span
                               key={cptId}
-                              href={`/kavram/${cptId}`}
-                              className="px-2 py-0.5 rounded-md bg-bg hover:bg-cream-surface text-ink hover:text-accent border border-line transition-colors text-xs"
+                              className="px-2 py-0.5 rounded-md bg-bg text-ink border border-line text-xs"
                             >
                               {concept ? concept.name : cptId}
-                            </Link>
+                            </span>
                           );
                         })}
                       </div>

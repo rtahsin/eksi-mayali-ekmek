@@ -4,7 +4,7 @@ import { createAdminClient } from "@/lib/supabase/admin";
 import { logError } from "@/lib/kernel/log";
 import { verifyApiAuth } from "@/lib/security/apiAuth";
 import { verifyOrderToken } from "@/lib/security/linkToken";
-import { checkRateLimit } from "@/lib/security/rateLimiter";
+import { checkRateLimit, ipRateLimitKey } from "@/lib/security/rateLimiter";
 
 const ClaimSchema = z.object({
   orders: z
@@ -19,6 +19,11 @@ const ClaimSchema = z.object({
  * Yalnızca sahibi olmayan (`user_id IS NULL`) siparişler bağlanır.
  */
 export async function POST(req: Request) {
+  const ipLimit = await checkRateLimit(ipRateLimitKey("order_claim_ip", req), 20, 600000);
+  if (!ipLimit.allowed) {
+    return NextResponse.json({ error: "Çok fazla istek. Lütfen biraz sonra tekrar deneyin." }, { status: 429 });
+  }
+
   const auth = await verifyApiAuth(req);
   if (!auth.isAuthenticated || !auth.userId) {
     return NextResponse.json({ error: "Giriş yapmalısınız" }, { status: 401 });

@@ -8,7 +8,6 @@ export const MAIN_NAV_LINKS: readonly NavLink[] = [
   { href: "/#ekmekler", label: "Ekmeklerimiz" },
   { href: "/#gurme-lezzetler", label: "Gurme Lezzetler" },
   { href: "/bilim", label: "Bilim odası" },
-  { href: "/kavram", label: "Kavramlar" },
   { href: "/arac", label: "Fırıncı Araçları" },
 ];
 
@@ -33,10 +32,9 @@ export const DRAWER_DISCOVERY_LINKS: readonly NavLink[] = [
 
 export const FOOTER_NAV_LINKS: readonly NavLink[] = [
   { href: "/#ekmekler", label: "Taze Ekmeklerimiz" },
-  { href: "/#gurme-lezzetler", label: "Gurme Lezzetler" },
-  { href: "/bilim", label: "Bilim odası" },
-  { href: "/kavram", label: "Kavramlar Sözlüğü" },
-  { href: "/arac", label: "Profesyonel Araçlar" },
-  { href: "/arama", label: "Arama" },
   { href: "/#nasil-uretiyoruz", label: "Nasıl Üretiyoruz?" },
+  { href: "/bilim", label: "Ekmeğin Bilimi" },
+  { href: "/bilim/efsaneler", label: "Efsane Dosyası" },
+  { href: "/arac", label: "Fırıncı Araçları" },
+  { href: "/siparislerim", label: "Sipariş Sorgula" },
 ];

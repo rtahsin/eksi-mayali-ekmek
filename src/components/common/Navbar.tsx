@@ -1,7 +1,8 @@
 "use client";
 
 import React, { useState, useRef, useEffect } from "react";
-import { ShoppingBag, MessageSquare, User, LogOut, Package, Shield, ChevronDown, Menu, Search } from "lucide-react";
+import Link from "next/link";
+import { ShoppingBag, User, LogOut, Package, MapPin, Shield, ChevronDown, Menu } from "lucide-react";
 import { useCartStore } from "@/lib/store/useCartStore";
 import { useAuth } from "@/components/auth/AuthProvider";
 import { AtelierMenuDrawer } from "./AtelierMenuDrawer";
@@ -19,15 +20,24 @@ export function Navbar() {
   const [isAtelierMenuOpen, setIsAtelierMenuOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
-  // Close dropdown on outside click
+  // Close dropdown on outside click or Escape
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
         setIsDropdownOpen(false);
       }
     }
+    function handleKeyDown(event: KeyboardEvent) {
+      if (event.key === "Escape") {
+        setIsDropdownOpen(false);
+      }
+    }
     document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
+    document.addEventListener("keydown", handleKeyDown);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener("keydown", handleKeyDown);
+    };
   }, []);
 
   const displayName = profile?.fullName || user?.user_metadata?.full_name || user?.email?.split("@")[0] || "Müdavim";
@@ -79,7 +89,7 @@ export function Navbar() {
         </div>
 
         {/* Center Nav Links */}
-        <nav className="hidden xl:flex items-center gap-5 text-xs font-sans">
+        <nav aria-label="Ana gezinme" className="hidden xl:flex items-center gap-5 text-xs font-sans">
           <a
             href="/#ekmekler"
             onClick={(e) => {
@@ -117,13 +127,6 @@ export function Navbar() {
 
         {/* Right CTA Actions */}
         <div className="flex items-center gap-1.5 sm:gap-3 shrink-0">
-          <a
-            href="/arama"
-            aria-label="Sitede ara"
-            className="touch-target-44 p-1.5 sm:p-2 rounded-xl text-ink-muted hover:text-ink hover:bg-bg border border-transparent hover:border-line transition-colors flex items-center justify-center"
-          >
-            <Search className="w-4 h-4 text-accent" />
-          </a>
           {/* Customer Auth Button / Menu */}
           {isLoggedIn ? (
             <div className="relative" ref={dropdownRef}>
@@ -131,7 +134,9 @@ export function Navbar() {
                 type="button"
                 onClick={() => setIsDropdownOpen(!isDropdownOpen)}
                 aria-label="Hesabım"
-                className="inline-flex items-center gap-2 px-1.5 sm:px-3 py-1.5 rounded-xl bg-bg hover:bg-cream-surface text-ink border border-line font-sans text-xs transition-all"
+                aria-expanded={isDropdownOpen}
+                aria-controls="navbar-account-menu"
+                className="touch-target-44 inline-flex items-center gap-2 px-1.5 sm:px-3 py-1.5 rounded-xl bg-bg hover:bg-cream-surface text-ink border border-line font-sans text-xs transition-all"
               >
                 <div className="w-6 h-6 rounded-full bg-accent/15 flex items-center justify-center text-xs font-bold text-accent border border-accent/30">
                   {initials || "E"}
@@ -139,11 +144,14 @@ export function Navbar() {
                 <span className="hidden sm:inline max-w-[100px] truncate font-medium">
                   {displayName}
                 </span>
-                <ChevronDown className="hidden sm:block w-3.5 h-3.5 text-ink-muted" />
+                <ChevronDown aria-hidden="true" className="hidden sm:block w-3.5 h-3.5 text-ink-muted" />
               </button>
 
               {isDropdownOpen && (
-                <div className="absolute right-0 mt-2 w-52 bg-cream-surface border border-line rounded-2xl shadow-xl py-2 z-50">
+                <div
+                  id="navbar-account-menu"
+                  className="absolute right-0 mt-2 w-52 bg-cream-surface border border-line rounded-2xl shadow-xl py-2 z-50"
+                >
                   <div className="px-4 py-2 border-b border-line">
                     <div className="text-xs font-bold text-ink truncate">{displayName}</div>
                     <div className="text-xs text-ink-muted truncate">{user?.email}</div>
@@ -154,10 +162,28 @@ export function Navbar() {
                       href="/admin"
                       className="flex items-center gap-2 px-4 py-2 text-xs text-accent hover:bg-bg transition-colors font-medium"
                     >
-                      <Shield className="w-3.5 h-3.5" />
+                      <Shield aria-hidden="true" className="w-3.5 h-3.5" />
                       <span>Fırın Yönetim Paneli</span>
                     </a>
                   )}
+
+                  <Link
+                    href="/hesabim/siparisler"
+                    onClick={() => setIsDropdownOpen(false)}
+                    className="flex items-center gap-2 px-4 py-2 text-xs text-ink hover:bg-bg transition-colors font-medium"
+                  >
+                    <Package aria-hidden="true" className="w-3.5 h-3.5 text-accent" />
+                    <span>Siparişlerim</span>
+                  </Link>
+
+                  <Link
+                    href="/hesabim/adresler"
+                    onClick={() => setIsDropdownOpen(false)}
+                    className="flex items-center gap-2 px-4 py-2 text-xs text-ink hover:bg-bg transition-colors font-medium"
+                  >
+                    <MapPin aria-hidden="true" className="w-3.5 h-3.5 text-accent" />
+                    <span>Adreslerim</span>
+                  </Link>
 
                   <button
                     type="button"
@@ -165,9 +191,9 @@ export function Navbar() {
                       setIsDropdownOpen(false);
                       signOut();
                     }}
-                    className="w-full flex items-center gap-2 px-4 py-2 text-xs text-bad hover:bg-bg transition-colors text-left"
+                    className="w-full flex items-center gap-2 px-4 py-2 mt-1 pt-2 border-t border-line text-xs text-bad hover:bg-bg transition-colors text-left"
                   >
-                    <LogOut className="w-3.5 h-3.5" />
+                    <LogOut aria-hidden="true" className="w-3.5 h-3.5" />
                     <span>Çıkış Yap</span>
                   </button>
                 </div>

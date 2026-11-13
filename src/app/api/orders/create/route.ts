@@ -3,8 +3,7 @@ import { z } from "zod";
 import * as Sentry from "@sentry/nextjs";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { Order, OrderItem } from "@/types";
-import { checkRateLimit, sanitizeInput } from "@/lib/security/rateLimiter";
-import { getErrorMessage } from "@/lib/utils/error";
+import { checkRateLimit, hashIp, ipRateLimitKey, sanitizeInput } from "@/lib/security/rateLimiter";
 import { logError } from "@/lib/kernel/log";
 import { verifyApiAuth } from "@/lib/security/apiAuth";
 import { getStoreSettings } from "@/lib/settings/server";
@@ -27,7 +26,7 @@ const OrderItemSchema = z.object({
 
 const CustomerInfoSchema = z.object({
   name: z.string().trim().min(2, "Geçerli bir ad ve soyad giriniz").max(80, "Ad soyad çok uzun"),
-  phone: z.string().min(10, "Geçerli bir telefon numarası giriniz").max(20, "Telefon numarası çok uzun"),
+  phone: z.string().min(10, "Geçerli bir telefon numarası giriniz").max(40, "Telefon numarası çok uzun"),
   neighborhood: z.string().trim().min(2, "Mahalle bilgisi gereklidir").max(100),
   addressDetail: z.string().trim().min(5, "Açık adres bilgisi gereklidir").max(250),
   deliveryDate: z.string().refine(isIsoDate, "Teslim tarihi geçersiz"),
@@ -45,7 +44,11 @@ const CreateOrderRequestSchema = z.object({
   customerInfo: CustomerInfoSchema,
   deliveryMethod: z.literal("courier"),
   paymentMethod: z.enum(["whatsapp", "cash_on_delivery", "pos_at_door"]),
-  idempotencyKey: z.string().min(8).max(100),
+  idempotencyKey: z
+    .string()
+    .min(20, "Geçersiz işlem anahtarı")
+    .max(100, "Geçersiz işlem anahtarı")
+    .regex(/^[A-Za-z0-9_-]+$/, "Geçersiz işlem anahtarı"),
   termsAccepted: z.literal(true, { message: "Mesafeli satış sözleşmesi ve KVKK metni onaylanmalıdır" }),
 });
 
@@ -142,12 +145,8 @@ function mapRpcError(message: string): { status: number; error: string; code: st
 
 export async function POST(req: Request) {
   try {
-    // 0. IP bazlı istek sınırı
-    const forwarded = req.headers.get("x-forwarded-for");
-    const realIp = req.headers.get("x-real-ip");
-    const clientIp = forwarded ? forwarded.split(",")[0].trim() : realIp || "127.0.0.1";
-
-    const ipLimit = await checkRateLimit(`order_ip_${clientIp}`, 10, 600000);
+    // 0. IP bazlı istek sınırı (KVKK uyumlu hash'lenmiş IP)
+    const ipLimit = await checkRateLimit(ipRateLimitKey("order_ip", req), 10, 600000);
     if (!ipLimit.allowed) {
       return fail(429, `Geçici olarak engellendiniz. Lütfen ${ipLimit.retryAfterSeconds} saniye sonra tekrar deneyiniz.`);
     }
@@ -159,20 +158,33 @@ export async function POST(req: Request) {
     }
     const { items, customerInfo, paymentMethod, idempotencyKey } = validation.data;
 
+    const cleanPhone = normalizePhone(customerInfo.phone);
+    if (!cleanPhone) {
+      return fail(400, "Lütfen geçerli bir cep telefonu numarası giriniz (05XX XXX XX XX).");
+    }
+
     const supabaseAdmin = createAdminClient();
     if (!supabaseAdmin) {
       Sentry.captureMessage("Supabase admin client unavailable in /api/orders/create", "error");
       return fail(500, "Sunucu veritabanı bağlantısı kurulamadı.");
     }
 
-    // 1. İdempotency: aynı ödeme denemesi tekrar gelirse mevcut siparişi döndür
+    // 1. İdempotency: aynı ödeme denemesi tekrar gelirse (ve telefon numarası eşleşiyorsa) mevcut siparişi döndür
     const { data: existingData } = await supabaseAdmin
       .from("orders")
       .select("*, order_items(*)")
       .eq("idempotency_key", idempotencyKey)
       .maybeSingle();
     if (existingData) {
-      const existing = mapExistingOrder(existingData as unknown as DBOrderRow);
+      const existingRow = existingData as unknown as DBOrderRow;
+      if (normalizePhone(existingRow.phone || "") !== cleanPhone) {
+        return fail(
+          409,
+          "Bu işlem anahtarı başka bir siparişe ait. Lütfen sayfayı yenileyip tekrar deneyin.",
+          "IDEMPOTENCY_CONFLICT"
+        );
+      }
+      const existing = mapExistingOrder(existingRow);
       return NextResponse.json({
         success: true,
         order: existing,
@@ -205,13 +217,8 @@ export async function POST(req: Request) {
       return fail(409, `${chosen.reason ?? "Sepetiniz seçilen gün için uygun değil"}. Lütfen sepetten başka bir gün seçin.`, "DATE_NOT_AVAILABLE");
     }
 
-    const cleanPhone = normalizePhone(customerInfo.phone);
-    if (!cleanPhone) {
-      return fail(400, "Lütfen geçerli bir cep telefonu numarası giriniz (05XX XXX XX XX).");
-    }
-
-    // 3. Telefon bazlı istek sınırı
-    const phoneLimit = await checkRateLimit(`order_phone_${cleanPhone}`, 5, 600000);
+    // 3. Telefon bazlı istek sınırı (hash'lenmiş)
+    const phoneLimit = await checkRateLimit(`order_phone_${hashIp(cleanPhone)}`, 5, 600000);
     if (!phoneLimit.allowed) {
       return fail(429, `Bu telefon numarası ile çok fazla sipariş denemesi yapıldı. Lütfen ${phoneLimit.retryAfterSeconds} saniye sonra tekrar deneyiniz.`);
     }
@@ -363,21 +370,34 @@ export async function POST(req: Request) {
     const finalOrderNumber: string = rpcRes.order_number || finalOrderId;
 
     // RPC v3: aynı idempotency anahtarıyla eşzamanlı gelen istek kazanan siparişe yönlendirilir.
-    // Bu durumda kayıtlı siparişi döndür ve ikinci "yeni sipariş" bildirimi GÖNDERME.
+    // Bu durumda telefon sahipliğini doğrulayıp kayıtlı siparişi döndür ve ikinci "yeni sipariş" bildirimi GÖNDERME.
     if (rpcRes.is_existing === true) {
       const { data: persisted } = await supabaseAdmin
         .from("orders")
         .select("*, order_items(*)")
         .eq("id", finalOrderId)
         .maybeSingle();
-      if (persisted) {
-        return NextResponse.json({
-          success: true,
-          order: mapExistingOrder(persisted as unknown as DBOrderRow),
-          trackingToken: signOrderToken(finalOrderId),
-          isExisting: true,
-        });
+      if (!persisted) {
+        return fail(
+          409,
+          "Bu işlem anahtarı başka bir siparişe ait. Lütfen sayfayı yenileyip tekrar deneyin.",
+          "IDEMPOTENCY_CONFLICT"
+        );
       }
+      const persistedRow = persisted as unknown as DBOrderRow;
+      if (normalizePhone(persistedRow.phone || "") !== cleanPhone) {
+        return fail(
+          409,
+          "Bu işlem anahtarı başka bir siparişe ait. Lütfen sayfayı yenileyip tekrar deneyin.",
+          "IDEMPOTENCY_CONFLICT"
+        );
+      }
+      return NextResponse.json({
+        success: true,
+        order: mapExistingOrder(persistedRow),
+        trackingToken: signOrderToken(finalOrderId),
+        isExisting: true,
+      });
     }
 
     const completedOrder: Order = {

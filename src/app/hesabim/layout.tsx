@@ -5,6 +5,8 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Package, MapPin, MessageSquare, LogOut, ArrowLeft } from "lucide-react";
 import { useAuth } from "@/components/auth/AuthProvider";
+import { CartDrawer } from "@/components/cart/CartDrawer";
+import { OrderSuccessModal } from "@/components/cart/OrderSuccessModal";
 
 export default function HesabimLayout({
   children,
@@ -93,6 +95,9 @@ export default function HesabimLayout({
 
         {children}
       </div>
+
+      <CartDrawer />
+      <OrderSuccessModal />
     </div>
   );
 }

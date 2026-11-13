@@ -57,9 +57,10 @@ export function CartDrawer() {
   const unavailableReasons = Array.from(new Set(dates.filter((d) => !d.available && d.reason).map((d) => d.reason as string)));
   const { profile, addresses, isLoggedIn, openAuthModal, saveAddress } = useAuth();
   const [saveThisAddress, setSaveThisAddress] = useState(false);
-  const [paymentMethod, setPaymentMethod] = useState<Exclude<CheckoutPaymentMethod, "whatsapp">>("cash_on_delivery");
+  const [paymentMethod, setPaymentMethod] = useState<CheckoutPaymentMethod>("cash_on_delivery");
   const [errors, setErrors] = useState<CheckoutErrors>({});
   const startedRef = React.useRef(false);
+  const autoFilledAddrUserRef = React.useRef<string | null>(null);
   const markCheckoutStart = () => {
     if (startedRef.current) return;
     startedRef.current = true;
@@ -98,6 +99,38 @@ export function CartDrawer() {
     if (!customerInfo.phone && profile.phone) patch.phone = profile.phone;
     if (Object.keys(patch).length > 0) setCustomerInfo(patch);
   }, [isLoggedIn, profile, customerInfo.name, customerInfo.phone, setCustomerInfo]);
+
+  // Giriş yapmış müşterinin kayıtlı adresi varsa boş mahalle/adres alanlarını varsayılan (veya ilk) adresle doldur
+  useEffect(() => {
+    if (!isLoggedIn) {
+      autoFilledAddrUserRef.current = null;
+      return;
+    }
+    if (addresses.length === 0 || settings.neighborhoods.length === 0) return;
+    const userKey = profile?.id ?? addresses[0].userId;
+    if (autoFilledAddrUserRef.current === userKey) return;
+    autoFilledAddrUserRef.current = userKey;
+
+    const preferred = addresses.find((a) => a.isDefault) ?? addresses[0];
+    const matchedNh =
+      settings.neighborhoods.find(
+        (n) => stripMah(n).toLocaleLowerCase("tr-TR") === stripMah(preferred.neighborhood).toLocaleLowerCase("tr-TR")
+      ) ?? "";
+    const patch: Partial<typeof customerInfo> = {};
+    if (!customerInfo.neighborhood && matchedNh) patch.neighborhood = matchedNh;
+    if (!customerInfo.addressDetail && preferred.addressDetail.trim()) {
+      patch.addressDetail = preferred.addressDetail.trim();
+    }
+    if (Object.keys(patch).length > 0) setCustomerInfo(patch);
+  }, [
+    isLoggedIn,
+    profile?.id,
+    addresses,
+    settings.neighborhoods,
+    customerInfo.neighborhood,
+    customerInfo.addressDetail,
+    setCustomerInfo,
+  ]);
 
   useEffect(() => {
     if (isOpen) trackEvent("cart_open", { once: true });
@@ -204,6 +237,7 @@ export function CartDrawer() {
             </div>
           </div>
           <button
+            type="button"
             onClick={closeCart}
             aria-label="Sepeti kapat"
             className="p-2 rounded-lg touch-target-44 text-ink-muted hover:text-ink hover:bg-line/40 transition-colors"
@@ -233,6 +267,7 @@ export function CartDrawer() {
                 </p>
               </div>
               <button
+                type="button"
                 onClick={closeCart}
                 className="mt-2 px-6 py-2.5 rounded-xl touch-target-44 bg-artisan-terracotta text-white font-sans text-xs font-semibold hover:bg-artisan-terracotta-dark transition-colors shadow-xs"
               >
@@ -473,12 +508,20 @@ export function CartDrawer() {
                         <button
                           key={addr.id}
                           type="button"
-                          onClick={() =>
+                          onClick={() => {
+                            const matchedNh =
+                              settings.neighborhoods.find(
+                                (n) =>
+                                  stripMah(n).toLocaleLowerCase("tr-TR") ===
+                                  stripMah(addr.neighborhood).toLocaleLowerCase("tr-TR")
+                              ) ?? "";
                             setCustomerInfo({
-                              neighborhood: stripMah(addr.neighborhood),
+                              neighborhood: matchedNh,
                               addressDetail: addr.addressDetail,
-                            })
-                          }
+                            });
+                            if (matchedNh) clearError("neighborhood");
+                            if (addr.addressDetail.trim().length >= 5) clearError("addressDetail");
+                          }}
                           className={`px-2.5 py-1 rounded-lg text-xs font-sans border transition-all flex items-center gap-1 ${
                             customerInfo.addressDetail === addr.addressDetail
                               ? "bg-accent/10 text-accent border-accent/40 font-bold shadow-2xs"

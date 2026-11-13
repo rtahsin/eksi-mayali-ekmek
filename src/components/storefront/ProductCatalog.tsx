@@ -5,6 +5,7 @@ import { useProducts } from "@/hooks/useProducts";
 import type { ExtendedProduct, ProductCategoryInfo } from "@/types";
 import { ProductCard } from "./ProductCard";
 import { ProductModal } from "./ProductModal";
+import { QuickReorderCard } from "./QuickReorderCard";
 import { Truck } from "lucide-react";
 import { ShippingPolicyNote } from "./ShippingPolicyNote";
 import { groupCatalog, sortProductsWithinGroup } from "@/lib/products/grouping";
@@ -105,6 +106,9 @@ export function ProductCatalog({ initialProducts, categories = [] }: ProductCata
         {/* Anchor targets for direct navigation */}
         <div id="gurme-lezzetler" className="scroll-mt-28" />
         <div id="sarkuteri" className="scroll-mt-28" />
+
+        {/* Müdavim & Misafir Tek Tıkla Son Siparişi Tekrarla Kartı */}
+        <QuickReorderCard products={allProducts} />
 
         {/* Section Header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-6 md:mb-10 gap-4 md:gap-6">

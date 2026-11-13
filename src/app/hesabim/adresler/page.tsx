@@ -2,11 +2,13 @@
 
 import React, { useState } from "react";
 import { useAuth } from "@/components/auth/AuthProvider";
-import type { SavedAddress } from "@/hooks/useCustomerAuth";
-import { MapPin, Plus, Check, Trash2, Home, Building } from "lucide-react";
+import { useStoreSettings } from "@/hooks/useStoreSettings";
+import { stripMah } from "@/lib/order/validate";
+import { MapPin, Plus, Check } from "lucide-react";
 
 export default function AdreslerimPage() {
-  const { user, addresses, saveAddress, loading } = useAuth();
+  const { addresses, saveAddress, loading } = useAuth();
+  const { settings } = useStoreSettings();
   const [isAdding, setIsAdding] = useState(false);
   const [title, setTitle] = useState("Ev");
   const [district, setDistrict] = useState("Beylikdüzü");
@@ -17,8 +19,17 @@ export default function AdreslerimPage() {
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  const selectedNeighborhood =
+    settings.neighborhoods.find(
+      (nh) => stripMah(nh).toLocaleLowerCase("tr-TR") === stripMah(neighborhood).toLocaleLowerCase("tr-TR")
+    ) ?? "";
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!selectedNeighborhood) {
+      setError("Lütfen teslimat bölgemizdeki bir mahalleyi seçin.");
+      return;
+    }
     if (!addressDetail.trim()) {
       setError("Lütfen açık adresinizi girin.");
       return;
@@ -30,8 +41,8 @@ export default function AdreslerimPage() {
       const { error: saveErr } = await saveAddress({
         title,
         district,
-        neighborhood,
-        addressDetail,
+        neighborhood: selectedNeighborhood,
+        addressDetail: addressDetail.trim(),
         directions,
         isDefault,
       });
@@ -104,69 +115,91 @@ export default function AdreslerimPage() {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <label className="block text-xs font-semibold text-ink-muted mb-1">
+              <label htmlFor="addr-title" className="block text-xs font-semibold text-ink-muted mb-1">
                 Adres Başlığı
               </label>
               <input
+                id="addr-title"
+                name="title"
                 type="text"
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
                 placeholder="Ör. Ev, İş, Bahçe"
-                className="w-full px-3.5 py-2.5 rounded-xl bg-bg border border-line text-xs text-ink focus:outline-none focus:border-accent"
+                className="w-full px-3.5 py-2.5 rounded-xl bg-bg border border-line text-base sm:text-xs text-ink focus:outline-none focus:border-accent"
                 required
               />
             </div>
 
             <div>
-              <label className="block text-xs font-semibold text-ink-muted mb-1">
+              <label htmlFor="addr-district" className="block text-xs font-semibold text-ink-muted mb-1">
                 İlçe
               </label>
               <input
+                id="addr-district"
+                name="district"
                 type="text"
+                autoComplete="address-level2"
                 value={district}
                 onChange={(e) => setDistrict(e.target.value)}
-                className="w-full px-3.5 py-2.5 rounded-xl bg-bg border border-line text-xs text-ink focus:outline-none focus:border-accent"
+                className="w-full px-3.5 py-2.5 rounded-xl bg-bg border border-line text-base sm:text-xs text-ink focus:outline-none focus:border-accent"
                 required
               />
             </div>
 
             <div className="sm:col-span-2">
-              <label className="block text-xs font-semibold text-ink-muted mb-1">
-                Mahalle
+              <label htmlFor="addr-neighborhood" className="block text-xs font-semibold text-ink-muted mb-1">
+                Mahalle *
               </label>
-              <input
-                type="text"
-                value={neighborhood}
-                onChange={(e) => setNeighborhood(e.target.value)}
-                placeholder="Ör. Barış Mahallesi, Yakuplu"
-                className="w-full px-3.5 py-2.5 rounded-xl bg-bg border border-line text-xs text-ink focus:outline-none focus:border-accent"
-              />
+              <select
+                id="addr-neighborhood"
+                name="neighborhood"
+                autoComplete="address-level3"
+                value={selectedNeighborhood}
+                onChange={(e) => {
+                  setNeighborhood(e.target.value);
+                  if (error) setError(null);
+                }}
+                className="w-full px-3.5 py-2.5 rounded-xl bg-bg border border-line text-base sm:text-xs text-ink focus:outline-none focus:border-accent"
+                required
+              >
+                <option value="">Mahalle seçin…</option>
+                {settings.neighborhoods.map((nh) => (
+                  <option key={nh} value={nh}>
+                    {nh} Mah.
+                  </option>
+                ))}
+              </select>
             </div>
 
             <div className="sm:col-span-2">
-              <label className="block text-xs font-semibold text-ink-muted mb-1">
-                Açık Adres (Sokak, Bina No, Daire)
+              <label htmlFor="addr-detail" className="block text-xs font-semibold text-ink-muted mb-1">
+                Açık Adres (Sokak, Bina No, Daire) *
               </label>
               <textarea
+                id="addr-detail"
+                name="addressDetail"
+                autoComplete="street-address"
                 value={addressDetail}
                 onChange={(e) => setAddressDetail(e.target.value)}
                 rows={2}
                 placeholder="Cadde, sokak, bina, kat ve daire bilgisi..."
-                className="w-full px-3.5 py-2.5 rounded-xl bg-bg border border-line text-xs text-ink focus:outline-none focus:border-accent"
+                className="w-full px-3.5 py-2.5 rounded-xl bg-bg border border-line text-base sm:text-xs text-ink focus:outline-none focus:border-accent"
                 required
               />
             </div>
 
             <div className="sm:col-span-2">
-              <label className="block text-xs font-semibold text-ink-muted mb-1">
+              <label htmlFor="addr-directions" className="block text-xs font-semibold text-ink-muted mb-1">
                 Kurye İçin Tarif / Not (İsteğe bağlı)
               </label>
               <input
+                id="addr-directions"
+                name="directions"
                 type="text"
                 value={directions}
                 onChange={(e) => setDirections(e.target.value)}
                 placeholder="Ör. Zili çalmayın, kapıya bırakın"
-                className="w-full px-3.5 py-2.5 rounded-xl bg-bg border border-line text-xs text-ink focus:outline-none focus:border-accent"
+                className="w-full px-3.5 py-2.5 rounded-xl bg-bg border border-line text-base sm:text-xs text-ink focus:outline-none focus:border-accent"
               />
             </div>
           </div>

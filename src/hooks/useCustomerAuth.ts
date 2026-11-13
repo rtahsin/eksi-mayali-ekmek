@@ -25,6 +25,24 @@ export interface SavedAddress {
   isDefault: boolean;
 }
 
+/** Yalnızca uygulama içi güvenli göreli yolları kabul eder; ?auth ve ?redirect parametrelerini temizler. */
+export function sanitizeAuthRedirectPath(raw: string | null | undefined): string | null {
+  if (!raw || typeof raw !== "string") return null;
+  const trimmed = raw.trim();
+  if (!trimmed.startsWith("/") || trimmed.startsWith("//") || trimmed.startsWith("/\\")) {
+    return null;
+  }
+  try {
+    const u = new URL(trimmed, "http://localhost");
+    u.searchParams.delete("auth");
+    u.searchParams.delete("redirect");
+    const qs = u.searchParams.toString();
+    return `${u.pathname}${qs ? `?${qs}` : ""}`;
+  } catch {
+    return null;
+  }
+}
+
 /** `enabled: false` (admin ve teslimat ekranları): müşteri profili ve adresleri hiç çekilmez. */
 export function useCustomerAuth({ enabled = true }: { enabled?: boolean } = {}) {
   const [user, setUser] = useState<User | null>(null);
@@ -32,6 +50,7 @@ export function useCustomerAuth({ enabled = true }: { enabled?: boolean } = {}) 
   const [addresses, setAddresses] = useState<SavedAddress[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [isAuthModalOpen, setIsAuthModalOpen] = useState<boolean>(false);
+  const pendingRedirectRef = useRef<string | null>(null);
 
   const supabase = createClient();
 
@@ -178,13 +197,19 @@ export function useCustomerAuth({ enabled = true }: { enabled?: boolean } = {}) 
     }
 
     try {
+      let redirectTo: string | undefined;
+      if (typeof window !== "undefined") {
+        const currentPath = sanitizeAuthRedirectPath(`${window.location.pathname}${window.location.search}`);
+        const targetNext = pendingRedirectRef.current ?? currentPath;
+        redirectTo = `${window.location.origin}/auth/callback${
+          targetNext && targetNext !== "/" ? `?next=${encodeURIComponent(targetNext)}` : ""
+        }`;
+      }
+
       const { data, error } = await supabase.auth.signInWithOAuth({
         provider: "google",
         options: {
-          redirectTo:
-            typeof window !== "undefined"
-              ? `${window.location.origin}/auth/callback`
-              : undefined,
+          redirectTo,
         },
       });
 
@@ -248,6 +273,11 @@ export function useCustomerAuth({ enabled = true }: { enabled?: boolean } = {}) 
     if (error || !data.user) {
       return { success: false, error: "Kod hatalı veya süresi dolmuş. Yeni kod isteyebilirsiniz." };
     }
+    const targetNext = pendingRedirectRef.current;
+    pendingRedirectRef.current = null;
+    if (typeof window !== "undefined" && targetNext && targetNext !== "/") {
+      window.location.assign(targetNext);
+    }
     return { success: true };
   };
 
@@ -288,6 +318,16 @@ export function useCustomerAuth({ enabled = true }: { enabled?: boolean } = {}) 
     return { data, error };
   };
 
+  const openAuthModal = useCallback((redirectPath?: string) => {
+    pendingRedirectRef.current = sanitizeAuthRedirectPath(redirectPath);
+    setIsAuthModalOpen(true);
+  }, []);
+
+  const closeAuthModal = useCallback(() => {
+    pendingRedirectRef.current = null;
+    setIsAuthModalOpen(false);
+  }, []);
+
   return {
     user,
     profile,
@@ -296,8 +336,8 @@ export function useCustomerAuth({ enabled = true }: { enabled?: boolean } = {}) 
     isLoggedIn: Boolean(user),
     isConfigured: isSupabaseConfigured(),
     isAuthModalOpen,
-    openAuthModal: () => setIsAuthModalOpen(true),
-    closeAuthModal: () => setIsAuthModalOpen(false),
+    openAuthModal,
+    closeAuthModal,
     signInWithGoogle,
     sendEmailCode,
     verifyEmailCode,

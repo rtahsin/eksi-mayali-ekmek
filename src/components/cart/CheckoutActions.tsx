@@ -5,9 +5,9 @@ import Link from "next/link";
 import { useCartStore } from "@/lib/store/useCartStore";
 import { CheckoutPaymentMethod, OrderSubmitError, submitOrder } from "@/lib/order/createOrder";
 import { rememberDeviceOrder } from "@/lib/orders/deviceOrders";
-import { CHECKOUT_FIELD_ORDER, CheckoutErrors, validateCheckout } from "@/lib/order/validate";
+import { CHECKOUT_FIELD_ORDER, CheckoutErrors, normalizePhone, validateCheckout } from "@/lib/order/validate";
 import { trackEvent } from "@/lib/track";
-import { MessageSquare, Loader2, AlertCircle } from "lucide-react";
+import { Loader2, AlertCircle } from "lucide-react";
 
 interface CheckoutActionsProps {
   /** Seçili ödeme yöntemi (formdaki 2'li seçim) */
@@ -60,13 +60,14 @@ export function CheckoutActions({
 }: CheckoutActionsProps) {
   const items = useCartStore((s) => s.items);
   const customerInfo = useCartStore((s) => s.customerInfo);
+  const termsAccepted = useCartStore((s) => s.termsAccepted);
+  const setTermsAccepted = useCartStore((s) => s.setTermsAccepted);
   const clearCart = useCartStore((s) => s.clearCart);
   const closeCart = useCartStore((s) => s.closeCart);
   const showSuccess = useCartStore((s) => s.showSuccess);
 
-  const [loadingMethod, setLoadingMethod] = useState<CheckoutPaymentMethod | null>(null);
+  const [submitting, setSubmitting] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
-  const [termsAccepted, setTermsAccepted] = useState(false);
 
   // Ödeme denemesi başına tek anahtar; sepet, bilgi veya ödeme yöntemi değişince yeni deneme sayılır.
   const attemptKeyRef = useRef<string>("");
@@ -75,7 +76,7 @@ export function CheckoutActions({
     customerInfo.deliveryDate,
     customerInfo.neighborhood,
     customerInfo.addressDetail,
-    customerInfo.phone,
+    normalizePhone(customerInfo.phone) ?? customerInfo.phone.trim(),
     paymentMethod,
   ]);
   useEffect(() => {
@@ -91,7 +92,7 @@ export function CheckoutActions({
     if ("focus" in el && first !== "deliveryDate") (el as HTMLElement).focus({ preventScroll: true });
   };
 
-  const handleOrder = async (method: CheckoutPaymentMethod) => {
+  const handleOrder = async () => {
     setErrorMessage(null);
     if (orderingBlockedReason) {
       setErrorMessage(orderingBlockedReason);
@@ -115,13 +116,13 @@ export function CheckoutActions({
       setErrorMessage(`Minimum sipariş tutarına ${minBasketShortfall.toLocaleString("tr-TR")} ₺ kaldı.`);
       return;
     }
-    setLoadingMethod(method);
+    setSubmitting(true);
 
     try {
       const { order, trackingToken } = await submitOrder({
         items,
         customerInfo,
-        paymentMethod: method,
+        paymentMethod,
         idempotencyKey: attemptKeyRef.current || newAttemptKey(),
         termsAccepted,
       });
@@ -134,6 +135,11 @@ export function CheckoutActions({
           deliveryDate: order.deliveryDate || customerInfo.deliveryDate,
           totalAmount: order.totalAmount,
           createdAt: order.createdAt,
+          items: items.map((i) => ({
+            productId: i.productId,
+            name: i.name,
+            quantity: i.quantity,
+          })),
         });
       }
 
@@ -155,15 +161,18 @@ export function CheckoutActions({
         setErrorMessage("Bağlantı hatası. Lütfen tekrar deneyin; aynı sipariş iki kez oluşmaz.");
       }
     } finally {
-      setLoadingMethod(null);
+      setSubmitting(false);
     }
   };
 
-  const disabled = loadingMethod !== null || items.length === 0;
+  const disabled = submitting || items.length === 0;
 
   return (
     <div className="space-y-2">
-      <label className="flex items-start gap-2.5 text-xs leading-snug font-sans text-ink-muted cursor-pointer select-none">
+      <label
+        htmlFor="checkout-terms"
+        className="touch-target-44 min-h-[44px] py-2 px-3 rounded-xl bg-bg/60 border border-line hover:border-accent/40 flex items-center gap-3 text-xs leading-snug font-sans text-ink-muted cursor-pointer select-none transition-colors"
+      >
         <input
           id="checkout-terms"
           type="checkbox"
@@ -172,11 +181,17 @@ export function CheckoutActions({
             setTermsAccepted(e.target.checked);
             if (e.target.checked) onErrors({ ...errors, terms: undefined });
           }}
-          className="mt-0.5 h-5 w-5 shrink-0 accent-accent"
+          className="h-5 w-5 shrink-0 accent-accent"
+          aria-invalid={Boolean(errors.terms)}
           aria-describedby={errors.terms ? "checkout-terms-error" : undefined}
         />
         <span>
-          <Link href="/mesafeli-satis" target="_blank" className="underline text-ink hover:text-accent">
+          <Link
+            href="/mesafeli-satis"
+            target="_blank"
+            onClick={(e) => e.stopPropagation()}
+            className="underline text-ink hover:text-accent"
+          >
             Mesafeli Satış Sözleşmesi
           </Link>
           {"'ni okudum, onaylıyorum."}
@@ -197,34 +212,20 @@ export function CheckoutActions({
 
       <button
         type="button"
-        onClick={() => handleOrder(paymentMethod)}
+        onClick={handleOrder}
         disabled={disabled}
         className="touch-target-44 w-full py-3.5 px-4 rounded-xl bg-artisan-terracotta-dark hover:bg-artisan-terracotta active:scale-[0.99] text-white font-sans text-sm font-semibold flex items-center justify-center gap-2 transition-all disabled:opacity-50 shadow-xs"
       >
-        {loadingMethod === paymentMethod && <Loader2 className="w-4 h-4 animate-spin" />}
+        {submitting && <Loader2 className="w-4 h-4 animate-spin" />}
         <span>Siparişi onayla · {totalAmount.toLocaleString("tr-TR")} ₺</span>
       </button>
       <p className="text-center text-xs leading-snug font-sans text-ink-muted">
-        Sipariş vermek ödeme yükümlülüğü doğurur; ödeme teslimatta. Verileriniz{" "}
+        Sipariş vermek ödeme yükümlülüğü doğurur; ödeme teslimatta kapıda nakit veya kredi/banka kartı ile yapılır. Verileriniz{" "}
         <Link href="/kvkk" target="_blank" className="underline text-ink hover:text-accent">
           KVKK
         </Link>{" "}
         kapsamında işlenir.
       </p>
-
-      <button
-        type="button"
-        onClick={() => handleOrder("whatsapp")}
-        disabled={disabled}
-        className="touch-target-44 w-full py-1 text-xs font-sans font-medium text-ink underline underline-offset-2 flex items-center justify-center gap-1.5 disabled:opacity-50"
-      >
-        {loadingMethod === "whatsapp" ? (
-          <Loader2 className="w-3.5 h-3.5 animate-spin text-accent" />
-        ) : (
-          <MessageSquare className="w-3.5 h-3.5 text-accent" />
-        )}
-        <span>Ödemeyi WhatsApp&apos;ta konuşarak sipariş ver</span>
-      </button>
     </div>
   );
 }

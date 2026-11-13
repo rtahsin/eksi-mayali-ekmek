@@ -1,14 +1,13 @@
 import { NextResponse } from "next/server";
 import { createAdminClient } from "@/lib/supabase/admin";
-import { getErrorMessage } from "@/lib/utils/error";
 import { logError } from "@/lib/kernel/log";
 import { verifyApiAuth } from "@/lib/security/apiAuth";
-import { checkRateLimit, getClientIp } from "@/lib/security/rateLimiter";
+import { checkRateLimit, ipRateLimitKey } from "@/lib/security/rateLimiter";
 import { parseOrderLookup } from "@/lib/orders/orderId";
 import { verifyOrderToken } from "@/lib/security/linkToken";
+import { CUSTOMER_CANCELLABLE, normalizeOrderStatus } from "@/lib/orders/normalize";
+import { normalizePhone } from "@/lib/order/validate";
 import { CONTACT } from "@/lib/site";
-
-const CUSTOMER_CANCELLABLE_STATUSES = new Set(["bekliyor"]);
 
 
 export async function PATCH(
@@ -67,7 +66,7 @@ export async function PATCH(
       }
 
       // Yalnızca 'bekliyor' durumunda iptal edilebilir
-      if (!CUSTOMER_CANCELLABLE_STATUSES.has(currentStatus)) {
+      if (!CUSTOMER_CANCELLABLE.has(normalizeOrderStatus(currentStatus))) {
         return NextResponse.json(
           {
             error:
@@ -77,7 +76,7 @@ export async function PATCH(
         );
       }
 
-      // Yetki: sipariş sahibi oturumu, imzalı takip linki veya (misafir) telefonun son 4 hanesi
+      // Yetki: sipariş sahibi oturumu, imzalı takip linki veya (misafir) tam cep telefonu numarası
       const isOwner = Boolean(actorId && orderData.user_id && actorId === orderData.user_id);
       const hasValidToken = verifyOrderToken(
         orderData.id,
@@ -93,9 +92,9 @@ export async function PATCH(
       }
 
       if (!isOwner && !hasValidToken) {
-        // Misafir siparişi: telefonun TAM OLARAK son 4 hanesi + kaba kuvvet sınırı
+        // Misafir siparişi: tam normalize edilmiş telefon numarası + ortak kaba kuvvet sınırı
         const verifyLimit = await checkRateLimit(
-          `cancel_verify_${getClientIp(req)}_${orderData.id}`,
+          ipRateLimitKey(`order_phone_verify_${orderData.id}`, req),
           5,
           600000
         );
@@ -106,11 +105,12 @@ export async function PATCH(
           );
         }
 
-        const last4 = typeof bodyRecord.phone === "string" ? bodyRecord.phone.replace(/\D/g, "") : "";
-        const orderPhone = (orderData.phone || "").replace(/\D/g, "");
-        if (last4.length !== 4 || orderPhone.length < 4 || !orderPhone.endsWith(last4)) {
+        const rawInput = typeof bodyRecord.phone === "string" ? bodyRecord.phone : "";
+        const cleanInput = normalizePhone(rawInput);
+        const cleanOrderPhone = orderData.phone ? normalizePhone(orderData.phone) : null;
+        if (cleanInput === null || cleanInput !== cleanOrderPhone) {
           return NextResponse.json(
-            { error: "Misafir siparişini iptal etmek için telefon numaranızın son 4 hanesini doğru girmelisiniz." },
+            { error: "Misafir siparişini iptal etmek için siparişte verdiğiniz cep telefonu numarasını doğru girmelisiniz." },
             { status: 403 }
           );
         }

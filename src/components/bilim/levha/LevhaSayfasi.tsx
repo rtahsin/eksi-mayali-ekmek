@@ -322,6 +322,12 @@ export function LevhaSayfasi({ anId, deney }: { anId: string; deney?: LevhaDeney
           <span className={s.gezintiAd}>{sonraki?.baslik ?? "Ekmeğin yolculuğu"}</span>
         </Link>
       </nav>
+
+      <Link href="/#ekmekler" className={s.kapi}>
+        <span className={s.gazeteUst}>Atölyeden Sıcak Çıkış</span>
+        <span className={s.kapiAd}>Sıcak Fırın &amp; Günlük Mandıra Seçkisini Gör →</span>
+        <span className={s.kapiAlt}>Taş değirmen ekşi mayalı somunlar ve günlük eşlikçiler</span>
+      </Link>
     </div>
   );
 }

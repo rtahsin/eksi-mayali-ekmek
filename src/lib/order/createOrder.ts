@@ -1,8 +1,9 @@
 import { Order, PaymentMethod } from "@/types";
 import { CartItem, CustomerInfo } from "@/lib/store/useCartStore";
 import { formatTrDate } from "@/lib/time/istanbul";
+import { normalizePhone } from "@/lib/order/validate";
 
-export type CheckoutPaymentMethod = Extract<PaymentMethod, "whatsapp" | "cash_on_delivery" | "pos_at_door">;
+export type CheckoutPaymentMethod = Extract<PaymentMethod, "cash_on_delivery" | "pos_at_door">;
 
 export interface CreateOrderParams {
   items: CartItem[];
@@ -35,7 +36,7 @@ export async function submitOrder(params: CreateOrderParams): Promise<CreateOrde
       items: items.map((item) => ({ productId: item.productId, quantity: item.quantity })),
       customerInfo: {
         name: customerInfo.name,
-        phone: customerInfo.phone,
+        phone: normalizePhone(customerInfo.phone) ?? customerInfo.phone.trim(),
         neighborhood: customerInfo.neighborhood,
         addressDetail: customerInfo.addressDetail,
         deliveryDate: customerInfo.deliveryDate,

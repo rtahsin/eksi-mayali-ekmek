@@ -171,6 +171,12 @@ export default function EfsaneDosyasi() {
           <span className={s.gezintiAd}>{anlar[0].baslik}</span>
         </Link>
       </nav>
+
+      <Link href="/#ekmekler" className={s.kapi}>
+        <span className={s.gazeteUst}>Atölyeden Sıcak Çıkış</span>
+        <span className={s.kapiAd}>Sıcak Fırın &amp; Günlük Mandıra Seçkisini Gör →</span>
+        <span className={s.kapiAlt}>Taş değirmen ekşi mayalı somunlar ve günlük eşlikçiler</span>
+      </Link>
     </div>
   );
 }

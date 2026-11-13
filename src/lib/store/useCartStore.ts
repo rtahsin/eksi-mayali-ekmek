@@ -1,7 +1,18 @@
 import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
-import { Product, ProductionBatch, Order } from "@/types";
+import { Product, ExtendedProduct, ProductionBatch, Order } from "@/types";
 import { isIsoDate } from "@/lib/time/istanbul";
+
+export interface ReorderRequestItem {
+  productId?: string | null;
+  name: string;
+  quantity: number;
+}
+
+export interface ApplyReorderResult {
+  addedCount: number;
+  unavailableNames: string[];
+}
 
 export interface CartItem {
   productId: string;
@@ -44,14 +55,21 @@ interface CartStore {
   isOpen: boolean;
   deliveryMethod: DeliveryMethod;
   customerInfo: CustomerInfo;
+  /** Yalnızca mevcut sekme oturumunda tutulur (localStorage'a yazılmaz); sipariş tamamlanınca sıfırlanır. */
+  termsAccepted: boolean;
   isSuccessModalOpen: boolean;
   lastCompleted: CompletedOrder | null;
 
   addItem: (product: Product, batch?: ProductionBatch | null, quantity?: number) => boolean;
+  applyReorder: (
+    catalogProducts: ExtendedProduct[],
+    requestedItems: ReorderRequestItem[]
+  ) => ApplyReorderResult;
   removeItem: (productId: string) => void;
   updateQuantity: (productId: string, quantity: number) => void;
   clearCart: () => void;
   setCustomerInfo: (info: Partial<CustomerInfo>) => void;
+  setTermsAccepted: (accepted: boolean) => void;
   setLocation: (lat: number | null, lng: number | null) => void;
   toggleCart: () => void;
   openCart: () => void;
@@ -88,6 +106,7 @@ export const useCartStore = create<CartStore>()(
       isOpen: false,
       deliveryMethod: "courier",
       customerInfo: DEFAULT_CUSTOMER_INFO,
+      termsAccepted: false,
       isSuccessModalOpen: false,
       lastCompleted: null,
 
@@ -123,6 +142,58 @@ export const useCartStore = create<CartStore>()(
         return true;
       },
 
+      applyReorder: (catalogProducts, requestedItems) => {
+        const catalogById = new Map<string, ExtendedProduct>(
+          catalogProducts.map((p) => [p.id, p])
+        );
+        const unavailableNames: string[] = [];
+        const merged = new Map<string, CartItem>();
+
+        for (const req of requestedItems) {
+          const trimmedId = req.productId?.trim() || "";
+          let matched = trimmedId ? catalogById.get(trimmedId) : undefined;
+          if (!matched && !trimmedId && req.name.trim()) {
+            const targetName = req.name.trim().toLocaleLowerCase("tr-TR");
+            matched = catalogProducts.find(
+              (p) => p.name.trim().toLocaleLowerCase("tr-TR") === targetName
+            );
+          }
+
+          if (matched && matched.isActive !== false && matched.isAvailable !== false) {
+            const qty = Math.max(1, Math.floor(req.quantity) || 1);
+            const prev = merged.get(matched.id);
+            if (prev) {
+              merged.set(matched.id, {
+                ...prev,
+                quantity: Math.min(100, prev.quantity + qty),
+              });
+            } else {
+              merged.set(matched.id, {
+                productId: matched.id,
+                name: matched.name,
+                price: matched.price,
+                quantity: Math.min(100, qty),
+                maxStock: 100,
+                imageUrl: matched.imageUrl,
+                weight: matched.weight,
+                flourTypes: matched.flourTypes,
+                hydration: matched.hydration,
+              });
+            }
+          } else {
+            unavailableNames.push(req.name || matched?.name || "Ürün");
+          }
+        }
+
+        const nextItems = Array.from(merged.values());
+        if (nextItems.length === 0) {
+          return { addedCount: 0, unavailableNames };
+        }
+
+        set({ items: nextItems, isOpen: true, termsAccepted: false });
+        return { addedCount: nextItems.length, unavailableNames };
+      },
+
       removeItem: (productId) => {
         set({ items: get().items.filter((item) => item.productId !== productId) });
       },
@@ -143,6 +214,8 @@ export const useCartStore = create<CartStore>()(
 
       setCustomerInfo: (info) => set({ customerInfo: { ...get().customerInfo, ...info } }),
 
+      setTermsAccepted: (accepted) => set({ termsAccepted: accepted }),
+
       setLocation: (lat, lng) => {
         const has = lat !== null && lng !== null;
         set({
@@ -159,7 +232,7 @@ export const useCartStore = create<CartStore>()(
       openCart: () => set({ isOpen: true }),
       closeCart: () => set({ isOpen: false }),
 
-      showSuccess: (completed) => set({ isSuccessModalOpen: true, lastCompleted: completed }),
+      showSuccess: (completed) => set({ isSuccessModalOpen: true, lastCompleted: completed, termsAccepted: false }),
       hideSuccess: () => set({ isSuccessModalOpen: false }),
 
       getItemCount: () => get().items.reduce((acc, item) => acc + item.quantity, 0),

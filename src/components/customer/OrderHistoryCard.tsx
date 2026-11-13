@@ -12,7 +12,7 @@ import {
   AlertTriangle,
   RotateCcw,
 } from "lucide-react";
-import { getOrderProgress, buildReorderItems, extractPostponedNotice } from "@/lib/order/progression";
+import { getOrderProgress, extractPostponedNotice } from "@/lib/order/progression";
 import { useOrderHistory } from "@/hooks/useOrderHistory";
 import { useProducts } from "@/hooks/useProducts";
 import { useCartStore } from "@/lib/store/useCartStore";
@@ -32,8 +32,8 @@ export function OrderHistoryCard({ order, onOrderCancelled }: OrderHistoryCardPr
   const [reorderNotice, setReorderNotice] = useState<string | null>(null);
 
   const { fetchStatusHistory } = useOrderHistory();
-  const { allProducts } = useProducts("all");
-  const addItem = useCartStore((state) => state.addItem);
+  const { allProducts, loading: catalogLoading } = useProducts("all");
+  const applyReorder = useCartStore((state) => state.applyReorder);
 
   const progression = getOrderProgress(order.status);
   const canCancel = order.status === "bekliyor";
@@ -79,23 +79,27 @@ export function OrderHistoryCard({ order, onOrderCancelled }: OrderHistoryCardPr
   };
 
   const handleReorder = () => {
-    const plan = buildReorderItems(order.items, allProducts);
-    if (plan.availableItems.length === 0) {
+    const result = applyReorder(
+      allProducts,
+      order.items.map((it) => ({
+        productId: it.productId,
+        name: it.productName,
+        quantity: it.quantity,
+      }))
+    );
+
+    if (result.addedCount === 0) {
       setReorderNotice("Bu siparişteki ürünler şu anda satışta bulunmuyor.");
       setTimeout(() => setReorderNotice(null), 3500);
       return;
     }
 
-    for (const item of plan.availableItems) {
-      addItem(item.product, null, item.quantity);
-    }
-
-    if (plan.unavailableItems.length > 0) {
+    if (result.unavailableNames.length > 0) {
       setReorderNotice(
-        `${plan.availableItems.length} ürün sepete eklendi (${plan.unavailableItems.length} ürün tükendi).`
+        `${result.addedCount} ürün sepete eklendi (${result.unavailableNames.join(", ")} şu an satışta değil).`
       );
     } else {
-      setReorderNotice("Tüm ürünler güncel fiyatlarıyla sepete eklendi!");
+      setReorderNotice("Ürünler güncel fiyatlarıyla sepete eklendi!");
     }
     setTimeout(() => setReorderNotice(null), 3500);
   };
@@ -244,9 +248,10 @@ export function OrderHistoryCard({ order, onOrderCancelled }: OrderHistoryCardPr
           <button
             type="button"
             onClick={handleReorder}
-            className="touch-target-44 px-3.5 py-2 rounded-xl bg-accent text-white hover:bg-accent/90 text-xs font-semibold inline-flex items-center gap-1.5 transition-all shadow-xs"
+            disabled={catalogLoading && allProducts.length === 0}
+            className="touch-target-44 px-3.5 py-2 rounded-xl bg-accent text-white hover:bg-accent/90 disabled:opacity-50 text-xs font-semibold inline-flex items-center gap-1.5 transition-all shadow-xs"
           >
-            <RotateCcw className="w-3.5 h-3.5" />
+            <RotateCcw className="w-3.5 h-3.5" aria-hidden="true" />
             <span>Tekrar Sipariş Ver</span>
           </button>
 

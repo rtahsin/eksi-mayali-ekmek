@@ -555,6 +555,7 @@ export function AtelierMenuDrawer({ isOpen, onClose }: AtelierMenuDrawerProps) {
         <div className="fixed inset-0 z-[110] flex items-center justify-center p-4 bg-black/60 backdrop-blur-xs animate-fadeIn">
           <div className="relative w-full max-w-2xl bg-cream-surface border border-line rounded-3xl p-6 sm:p-8 text-ink max-h-[90vh] overflow-y-auto space-y-6 shadow-2xl">
             <button
+              type="button"
               onClick={() => setActiveModal(null)}
               aria-label="Kapat"
               className="absolute top-4 right-4 z-10 min-w-[44px] min-h-[44px] flex items-center justify-center rounded-xl bg-bg/90 hover:bg-cream-surface text-ink-muted hover:text-ink border border-line transition-colors shadow-xs"
@@ -595,6 +596,7 @@ export function AtelierMenuDrawer({ isOpen, onClose }: AtelierMenuDrawerProps) {
         <div className="fixed inset-0 z-[110] flex items-center justify-center p-4 bg-black/60 backdrop-blur-xs animate-fadeIn">
           <div className="relative w-full max-w-xl bg-cream-surface border border-line rounded-3xl p-6 sm:p-8 text-ink max-h-[90vh] overflow-y-auto space-y-6 shadow-2xl">
             <button
+              type="button"
               onClick={() => setActiveModal(null)}
               aria-label="Kapat"
               className="absolute top-4 right-4 z-10 min-w-[44px] min-h-[44px] flex items-center justify-center rounded-xl bg-bg/90 hover:bg-cream-surface text-ink-muted hover:text-ink border border-line transition-colors shadow-xs"
@@ -637,6 +639,7 @@ export function AtelierMenuDrawer({ isOpen, onClose }: AtelierMenuDrawerProps) {
         <div className="fixed inset-0 z-[110] flex items-center justify-center p-4 bg-black/60 backdrop-blur-xs animate-fadeIn">
           <div className="relative w-full max-w-xl bg-cream-surface border border-line rounded-3xl p-6 sm:p-8 text-ink max-h-[90vh] overflow-y-auto space-y-6 shadow-2xl">
             <button
+              type="button"
               onClick={() => setActiveModal(null)}
               aria-label="Kapat"
               className="absolute top-4 right-4 z-10 min-w-[44px] min-h-[44px] flex items-center justify-center rounded-xl bg-bg/90 hover:bg-cream-surface text-ink-muted hover:text-ink border border-line transition-colors shadow-xs"
@@ -662,9 +665,9 @@ export function AtelierMenuDrawer({ isOpen, onClose }: AtelierMenuDrawerProps) {
               </div>
 
               <div className="p-4 rounded-2xl bg-bg border border-line space-y-2">
-                <div className="font-serif font-bold text-ink text-base">Teslimat Saatleri</div>
+                <div className="font-serif font-bold text-ink text-base">Teslimat Saatleri & Ödeme</div>
                 <p>
-                  Siparişleriniz fırından yeni çıkmış tazelikte her gün <strong className="text-ink">14:00 – 18:00</strong> saatleri arasında doğrudan atölyemizden kapınıza ulaştırılır.
+                  Siparişleriniz fırından yeni çıkmış tazelikte her gün <strong className="text-ink">14:00 – 18:00</strong> saatleri arasında doğrudan atölyemizden kapınıza ulaştırılır. Ödeme yalnızca teslimatta <strong className="text-ink">kapıda nakit veya kredi/banka kartı</strong> ile yapılır.
                 </p>
               </div>
 
@@ -684,6 +687,7 @@ export function AtelierMenuDrawer({ isOpen, onClose }: AtelierMenuDrawerProps) {
         <div className="fixed inset-0 z-[110] flex items-center justify-center p-4 bg-black/60 backdrop-blur-xs animate-fadeIn">
           <div className="relative w-full max-w-xl bg-cream-surface border border-line rounded-3xl p-6 sm:p-8 text-ink max-h-[90vh] overflow-y-auto space-y-6 shadow-2xl">
             <button
+              type="button"
               onClick={() => setActiveModal(null)}
               aria-label="Kapat"
               className="absolute top-4 right-4 z-10 min-w-[44px] min-h-[44px] flex items-center justify-center rounded-xl bg-bg/90 hover:bg-cream-surface text-ink-muted hover:text-ink border border-line transition-colors shadow-xs"
@@ -704,7 +708,7 @@ export function AtelierMenuDrawer({ isOpen, onClose }: AtelierMenuDrawerProps) {
               <div className="p-4 rounded-2xl bg-bg border border-line space-y-1.5">
                 <div className="font-serif font-bold text-ink text-base">1. Doğrudan Kapınıza Teslim</div>
                 <p>
-                  Web sitemiz üzerinden seçtiğiniz ekmek ve eşlikçileri sepetinize ekleyerek kapıda nakit, POS veya WhatsApp onayıyla sipariş verebilirsiniz.
+                  Web sitemiz üzerinden seçtiğiniz ekmek ve eşlikçileri sepetinize ekleyerek sipariş verebilir; ödemenizi teslimatta kapıda nakit veya kredi/banka kartı ile yapabilirsiniz.
                 </p>
               </div>
 

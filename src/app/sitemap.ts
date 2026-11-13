@@ -1,6 +1,5 @@
 import { MetadataRoute } from "next";
 import { getCatalog } from "@/lib/products/server";
-import { GRAPH } from "@/lib/knowledge/registry";
 import { getProductSlug } from "@/lib/utils/slugify";
 import { SITE_URL } from "@/lib/site";
 import { FEATURES } from "@/lib/features";
@@ -12,31 +11,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = SITE_URL;
   const now = new Date();
 
-  // 1. Core Static Routes
+  // 1. Core Static Routes (Vitrin, Fırıncı Araçları ve Yasal Sayfalar)
   const staticRoutes: MetadataRoute.Sitemap = [
     {
       url: baseUrl,
       lastModified: now,
       changeFrequency: "daily",
       priority: 1.0,
-    },
-    {
-      url: `${baseUrl}/kavram`,
-      lastModified: now,
-      changeFrequency: "weekly",
-      priority: 0.8,
-    },
-    {
-      url: `${baseUrl}/arama`,
-      lastModified: now,
-      changeFrequency: "weekly",
-      priority: 0.7,
-    },
-    {
-      url: `${baseUrl}/kaynak`,
-      lastModified: now,
-      changeFrequency: "monthly",
-      priority: 0.6,
     },
     {
       url: `${baseUrl}/arac`,
@@ -82,23 +63,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     },
   ];
 
-  // 3. Concepts Pages (from GRAPH.concepts)
-  const conceptRoutes: MetadataRoute.Sitemap = Object.keys(GRAPH.concepts).map((slug) => ({
-    url: `${baseUrl}/kavram/${slug}`,
-    lastModified: now,
-    changeFrequency: "monthly",
-    priority: 0.6,
-  }));
-
-  // 4. Sources Pages (from GRAPH.sources)
-  const sourceRoutes: MetadataRoute.Sitemap = Object.keys(GRAPH.sources).map((id) => ({
-    url: `${baseUrl}/kaynak/${id}`,
-    lastModified: now,
-    changeFrequency: "monthly",
-    priority: 0.5,
-  }));
-
-  // 5. Dynamic Products
+  // 2. Dynamic Products
   const { products } = await getCatalog();
   const productSlugs = products.map((p) => getProductSlug(p));
 
@@ -110,7 +75,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.9,
   }));
 
-  // 6. Bilim odası (açılışla birlikte; FEATURES.bilimOdasi)
+  // 3. Kanonik Bilim Odası (/bilim, /bilim/efsaneler, /bilim/[an])
   const bilimRoutes: MetadataRoute.Sitemap = FEATURES.bilimOdasi
     ? ["", "/efsaneler", ...getAnKimlikleri().map((an) => `/${an}`)].map((yol) => ({
         url: `${baseUrl}/bilim${yol}`,
@@ -120,5 +85,5 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       }))
     : [];
 
-  return [...staticRoutes, ...productRoutes, ...bilimRoutes, ...conceptRoutes, ...sourceRoutes];
+  return [...staticRoutes, ...productRoutes, ...bilimRoutes];
 }

@@ -2,22 +2,11 @@
 
 import React, { useState, useEffect } from "react";
 import { createPortal } from "react-dom";
-import Link from "next/link";
 import type { ExtendedProduct } from "@/types";
 import { productBadges } from "@/lib/products/badges";
 import { useCartStore } from "@/lib/store/useCartStore";
 import { useIstanbulToday } from "@/hooks/useIstanbulToday";
 import { getSaleScheduleBadge } from "@/lib/ordering/saleDates";
-
-function getFlourConceptSlug(flour: string): string | null {
-  const f = flour.toLowerCase();
-  if (f.includes("karakılçık") || f.includes("karakilcik")) return "karakilcik";
-  if (f.includes("siyez")) return "siyez";
-  if (f.includes("çavdar") || f.includes("cavdar")) return "cavdar_unu";
-  if (f.includes("dinkel") || f.includes("kavulca")) return "dinkel_kavulca";
-  if (f.includes("tam buğday") || f.includes("tam bugday")) return "tam_bugday";
-  return null;
-}
 import {
   X,
   ShoppingBag,
@@ -69,12 +58,13 @@ export function ProductModal({ product, onClose }: ProductModalProps) {
       <div className="relative w-full max-w-3xl rounded-3xl bg-cream-surface border border-line overflow-hidden shadow-2xl flex flex-col md:flex-row max-h-[92vh] text-ink">
         {/* Close Button */}
         <button
+          type="button"
           onClick={onClose}
-          className="absolute top-3.5 right-3.5 z-30 w-9 h-9 flex items-center justify-center rounded-xl bg-bg/90 hover:bg-cream-surface text-ink-muted hover:text-ink border border-line transition-colors shadow-xs"
+          className="touch-target-44 absolute top-3.5 right-3.5 z-30 w-9 h-9 flex items-center justify-center rounded-xl bg-bg/90 hover:bg-cream-surface text-ink-muted hover:text-ink border border-line transition-colors shadow-xs"
           title="Kapat"
           aria-label="Kapat"
         >
-          <X className="w-4 h-4" />
+          <X aria-hidden="true" className="w-4 h-4" />
         </button>
 
         {/* Left: Product Visual */}
@@ -229,26 +219,14 @@ export function ProductModal({ product, onClose }: ProductModalProps) {
                 {product.flourTypes && product.flourTypes.length > 0 && (
                   <div className="flex flex-wrap gap-1.5 pt-1">
                     <span className="text-xs font-sans text-ink-muted self-center mr-1">Un Seçkisi:</span>
-                    {product.flourTypes.map((flour, idx) => {
-                      const conceptSlug = getFlourConceptSlug(flour);
-                      if (conceptSlug) {
-                        return (
-                          <Link
-                            key={idx}
-                            href={`/kavram/${conceptSlug}`}
-                            className="px-2 py-0.5 rounded-md bg-bg hover:bg-cream-surface border border-line hover:border-accent/40 text-xs font-sans text-ink hover:text-accent transition-colors inline-flex items-center gap-1"
-                          >
-                            <span>{flour}</span>
-                            <span className="text-xs text-accent">↗</span>
-                          </Link>
-                        );
-                      }
-                      return (
-                        <span key={idx} className="px-2 py-0.5 rounded-md bg-bg border border-line text-xs font-sans text-ink">
-                          {flour}
-                        </span>
-                      );
-                    })}
+                    {product.flourTypes.map((flour, idx) => (
+                      <span
+                        key={idx}
+                        className="px-2.5 py-0.5 rounded-md bg-bg border border-line text-xs font-sans font-medium text-ink"
+                      >
+                        {flour}
+                      </span>
+                    ))}
                   </div>
                 )}
               </div>

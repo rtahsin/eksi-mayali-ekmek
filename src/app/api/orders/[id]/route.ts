@@ -1,13 +1,13 @@
 import { NextResponse } from "next/server";
 import { createAdminClient } from "@/lib/supabase/admin";
-import { getErrorMessage } from "@/lib/utils/error";
 import { logError } from "@/lib/kernel/log";
 import { verifyApiAuth } from "@/lib/security/apiAuth";
-import { checkRateLimit, getClientIp } from "@/lib/security/rateLimiter";
+import { checkRateLimit, ipRateLimitKey } from "@/lib/security/rateLimiter";
 import { parseOrderLookup } from "@/lib/orders/orderId";
 import { verifyOrderToken } from "@/lib/security/linkToken";
 import { CUSTOMER_CANCELLABLE, normalizeOrderStatus } from "@/lib/orders/normalize";
 import { normalizeDeliveryDate } from "@/lib/time/istanbul";
+import { normalizePhone } from "@/lib/order/validate";
 import type { TrackingOrder } from "@/types/tracking";
 
 interface OrderRow {
@@ -30,7 +30,13 @@ interface OrderRow {
   order_notes: string | null;
   cancel_reason: string | null;
   created_at: string;
-  order_items: { product_name: string | null; quantity: number | null; unit_price: number | string | null; total_price: number | string | null }[] | null;
+  order_items: {
+    product_id: string | null;
+    product_name: string | null;
+    quantity: number | null;
+    unit_price: number | string | null;
+    total_price: number | string | null;
+  }[] | null;
 }
 
 const maskName = (name: string) =>
@@ -42,7 +48,7 @@ const maskName = (name: string) =>
 
 const maskPhone = (phone: string) => {
   const clean = phone.replace(/\D/g, "");
-  return clean.length < 7 ? "***" : `${clean.slice(0, 3)} *** ** ${clean.slice(-2)}`;
+  return clean.length < 7 ? "***" : "05** *** ** **";
 };
 
 const num = (v: number | string | null) => (v === null || v === undefined ? null : Number(v));
@@ -55,8 +61,7 @@ export async function GET(req: Request, props: { params: Promise<{ id: string }>
       return NextResponse.json({ error: "Geçersiz sipariş numarası", code: "INVALID_ID" }, { status: 400 });
     }
 
-    const clientIp = getClientIp(req);
-    const ipLimit = await checkRateLimit(`order_get_${clientIp}`, 30, 60000);
+    const ipLimit = await checkRateLimit(ipRateLimitKey("order_get", req), 30, 60000);
     if (!ipLimit.allowed) {
       return NextResponse.json(
         { error: `Çok fazla istek yapıldı. Lütfen ${ipLimit.retryAfterSeconds} saniye sonra tekrar deneyin.`, code: "RATE_LIMITED" },
@@ -72,7 +77,7 @@ export async function GET(req: Request, props: { params: Promise<{ id: string }>
     const { data, error: orderErr } = await supabase
       .from("orders")
       .select(
-        "id, order_number, user_id, courier_id, cari_id, customer_name, phone, neighborhood, address_detail, delivery_date, delivery_time_window, status, payment_method, subtotal, shipping_fee, total_amount, order_notes, cancel_reason, created_at, order_items(product_name, quantity, unit_price, total_price)"
+        "id, order_number, user_id, courier_id, cari_id, customer_name, phone, neighborhood, address_detail, delivery_date, delivery_time_window, status, payment_method, subtotal, shipping_fee, total_amount, order_notes, cancel_reason, created_at, order_items(product_id, product_name, quantity, unit_price, total_price)"
       )
       .eq(lookup.column, lookup.value)
       .maybeSingle();
@@ -82,31 +87,41 @@ export async function GET(req: Request, props: { params: Promise<{ id: string }>
     }
     const order = data as unknown as OrderRow;
 
-    // Yetki: admin, atanmış kurye, sipariş sahibi, imzalı takip linki ya da telefonun son 4 hanesi
+    // Yetki: admin, atanmış kurye, sipariş sahibi, imzalı takip linki ya da tam cep telefonu numarası
     const url = new URL(req.url);
     const auth = await verifyApiAuth(req);
     const isOwner = Boolean(auth.isAuthenticated && order.user_id && auth.userId === order.user_id);
+    const hasValidToken = verifyOrderToken(order.id, url.searchParams.get("t"));
+    let isPhoneVerified = false;
     let isAuthorized =
       auth.isAdmin ||
       (auth.isCourier && Boolean(auth.courierDbId) && auth.courierDbId === order.courier_id) ||
       isOwner ||
-      verifyOrderToken(order.id, url.searchParams.get("t"));
+      hasValidToken;
 
     const phoneParam = url.searchParams.get("phone");
     if (!isAuthorized && phoneParam) {
-      const verifyLimit = await checkRateLimit(`phone_verify_${clientIp}_${order.id}`, 5, 600000);
+      const verifyLimit = await checkRateLimit(
+        ipRateLimitKey(`order_phone_verify_${order.id}`, req),
+        5,
+        600000
+      );
       if (!verifyLimit.allowed) {
         return NextResponse.json(
           { error: "Çok fazla hatalı deneme yapıldı. Lütfen bir süre bekleyin.", code: "TOO_MANY_VERIFY_ATTEMPTS" },
           { status: 429 }
         );
       }
-      const last4 = phoneParam.replace(/\D/g, "");
-      const orderPhone = (order.phone || "").replace(/\D/g, "");
-      if (last4.length === 4 && orderPhone.length >= 4 && orderPhone.endsWith(last4)) {
+      const cleanInput = normalizePhone(phoneParam);
+      const cleanOrderPhone = order.phone ? normalizePhone(order.phone) : null;
+      if (cleanInput !== null && cleanInput === cleanOrderPhone) {
         isAuthorized = true;
+        isPhoneVerified = true;
       } else {
-        return NextResponse.json({ error: "Telefon numarasının son 4 hanesi eşleşmedi.", code: "PHONE_MISMATCH" }, { status: 403 });
+        return NextResponse.json(
+          { error: "Cep telefonu numarası sipariş kaydıyla eşleşmedi.", code: "PHONE_MISMATCH" },
+          { status: 403 }
+        );
       }
     }
 
@@ -118,6 +133,8 @@ export async function GET(req: Request, props: { params: Promise<{ id: string }>
 
     const status = normalizeOrderStatus(order.status);
     const items = order.order_items ?? [];
+    const canCancelByCaller =
+      auth.isAdmin || isOwner || hasValidToken || (!order.user_id && isPhoneVerified);
 
     const result: TrackingOrder = {
       id: order.id,
@@ -127,6 +144,7 @@ export async function GET(req: Request, props: { params: Promise<{ id: string }>
       deliveryTimeWindow: order.delivery_time_window,
       neighborhood: order.neighborhood,
       items: items.map((it) => ({
+        productId: it.product_id ?? null,
         name: it.product_name || "Ürün",
         quantity: Number(it.quantity) || 1,
         unitPrice: isAuthorized ? num(it.unit_price) : null,
@@ -146,7 +164,7 @@ export async function GET(req: Request, props: { params: Promise<{ id: string }>
         status: normalizeOrderStatus(h.to_status),
         at: h.created_at,
       })),
-      canCancel: isAuthorized && !order.cari_id && CUSTOMER_CANCELLABLE.has(status),
+      canCancel: isAuthorized && canCancelByCaller && !order.cari_id && CUSTOMER_CANCELLABLE.has(status),
       isMasked: !isAuthorized,
     };
 

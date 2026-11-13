@@ -12,12 +12,20 @@ import {
   XCircle,
   AlertCircle,
   Phone,
+  RotateCcw,
 } from "lucide-react";
 import type { TrackingOrder } from "@/types/tracking";
 import { ORDER_STATUS_FLOW, ORDER_STATUS_LABELS, isFinalStatus } from "@/lib/orders/normalize";
 import { formatTrDate } from "@/lib/time/istanbul";
 import { paymentLabel } from "@/lib/order/createOrder";
+import { normalizePhone } from "@/lib/order/validate";
 import { useStoreSettings } from "@/hooks/useStoreSettings";
+import { useAuth } from "@/components/auth/AuthProvider";
+import { useProducts } from "@/hooks/useProducts";
+import { useCartStore } from "@/lib/store/useCartStore";
+import { updateDeviceOrderItems } from "@/lib/orders/deviceOrders";
+import { CartDrawer } from "@/components/cart/CartDrawer";
+import { OrderSuccessModal } from "@/components/cart/OrderSuccessModal";
 import { toWhatsAppNumber } from "@/lib/settings/schema";
 import { whatsappLink } from "@/lib/site";
 
@@ -34,26 +42,31 @@ export default function OrderTrackingPage({ params, searchParams }: PageProps) {
   const { id } = use(params);
   const { t: token } = use(searchParams);
   const { settings } = useStoreSettings();
+  const { isLoggedIn } = useAuth();
+  const { allProducts, loading: productsLoading } = useProducts();
+  const applyReorder = useCartStore((s) => s.applyReorder);
 
   const [order, setOrder] = useState<TrackingOrder | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [reorderNotice, setReorderNotice] = useState<string | null>(null);
 
-  const [last4, setLast4] = useState("");
-  const [verifiedLast4, setVerifiedLast4] = useState<string | null>(null);
+  const [phoneInput, setPhoneInput] = useState("");
+  const [verifiedPhone, setVerifiedPhone] = useState<string | null>(null);
   const [verifyError, setVerifyError] = useState<string | null>(null);
   const [verifying, setVerifying] = useState(false);
 
   const [cancelOpen, setCancelOpen] = useState(false);
+  const [cancelPhone, setCancelPhone] = useState("");
   const [cancelReason, setCancelReason] = useState("");
   const [cancelling, setCancelling] = useState(false);
   const [cancelError, setCancelError] = useState<string | null>(null);
 
   const load = useCallback(
-    async (phone4: string | null) => {
+    async (phoneValue: string | null) => {
       const qs = new URLSearchParams();
       if (token) qs.set("t", token);
-      if (phone4) qs.set("phone", phone4);
+      if (phoneValue) qs.set("phone", phoneValue);
       const res = await fetch(`/api/orders/${encodeURIComponent(id)}${qs.size ? `?${qs}` : ""}`, { cache: "no-store" });
       const data: { order?: TrackingOrder; error?: string; code?: string } = await res.json().catch(() => ({}));
       return { ok: res.ok, status: res.status, data };
@@ -66,8 +79,21 @@ export default function OrderTrackingPage({ params, searchParams }: PageProps) {
     let cancelled = false;
     load(null).then(({ ok, data }) => {
       if (cancelled) return;
-      if (ok && data.order) setOrder(data.order);
-      else setError(data.error || "Sipariş bulunamadı.");
+      if (ok && data.order) {
+        setOrder(data.order);
+        if (data.order.items.length > 0) {
+          updateDeviceOrderItems(
+            data.order.id,
+            data.order.items.map((it) => ({
+              productId: it.productId ?? "",
+              name: it.name || "Ürün",
+              quantity: Math.max(1, Math.floor(it.quantity) || 1),
+            }))
+          );
+        }
+      } else {
+        setError(data.error || "Sipariş bulunamadı.");
+      }
       setLoading(false);
     });
     return () => {
@@ -75,37 +101,71 @@ export default function OrderTrackingPage({ params, searchParams }: PageProps) {
     };
   }, [load]);
 
-  // Son durum değilse 60 sn'de bir yenile (sekme görünürken)
+  // Son durum değilse 60 sn'de bir yenile (sekme görünürken; telefon kotasını tüketmeden durum/tarihçe güncellenir)
   useEffect(() => {
     if (!order || isFinalStatus(order.status)) return;
     const timer = setInterval(() => {
       if (document.visibilityState !== "visible") return;
-      load(verifiedLast4).then(({ ok, data }) => ok && data.order && setOrder(data.order));
+      load(null).then(({ ok, data }) => {
+        if (!ok || !data.order) return;
+        const latest = data.order;
+        setOrder((prev) => {
+          if (!prev) return latest;
+          if (!latest.isMasked || prev.isMasked) return latest;
+          return {
+            ...prev,
+            status: latest.status,
+            history: latest.history,
+            cancelReason: latest.cancelReason,
+            deliveryDate: latest.deliveryDate,
+            deliveryTimeWindow: latest.deliveryTimeWindow,
+            canCancel: prev.canCancel && latest.status === "bekliyor",
+          };
+        });
+      });
     }, 60000);
     return () => clearInterval(timer);
-  }, [order, load, verifiedLast4]);
+  }, [order, load]);
 
   const handleVerify = async (e: React.FormEvent) => {
     e.preventDefault();
-    const digits = last4.replace(/\D/g, "");
-    if (digits.length !== 4) {
-      setVerifyError("Lütfen telefonunuzun son 4 hanesini girin.");
+    const clean = normalizePhone(phoneInput);
+    if (!clean) {
+      setVerifyError("Lütfen siparişte verdiğiniz cep telefonu numarasını girin (05XX XXX XX XX).");
       return;
     }
     setVerifying(true);
     setVerifyError(null);
-    const { ok, data } = await load(digits);
+    const { ok, data } = await load(clean);
     setVerifying(false);
     if (ok && data.order) {
       setOrder(data.order);
-      setVerifiedLast4(digits);
+      setVerifiedPhone(clean);
+      setCancelPhone(clean);
     } else {
       setVerifyError(data.error || "Doğrulanamadı.");
     }
   };
 
+  const needsPhoneForCancel = !token && (verifiedPhone !== null || !isLoggedIn);
+
+  const openCancelModal = () => {
+    setCancelPhone(verifiedPhone ?? phoneInput);
+    setCancelError(null);
+    setCancelOpen(true);
+  };
+
   const handleCancel = async () => {
     if (!order) return;
+    let phoneToSend: string | undefined;
+    if (needsPhoneForCancel) {
+      const clean = normalizePhone(cancelPhone);
+      if (!clean) {
+        setCancelError("Lütfen siparişte verdiğiniz cep telefonu numarasını girin (05XX XXX XX XX).");
+        return;
+      }
+      phoneToSend = clean;
+    }
     setCancelling(true);
     setCancelError(null);
     try {
@@ -115,13 +175,13 @@ export default function OrderTrackingPage({ params, searchParams }: PageProps) {
         body: JSON.stringify({
           reason: cancelReason.trim() || "Müşteri takip ekranından iptal etti",
           token: token || undefined,
-          phone: verifiedLast4 || undefined,
+          phone: phoneToSend,
         }),
       });
       const data: { success?: boolean; error?: string } = await res.json().catch(() => ({}));
       if (!res.ok || !data.success) throw new Error(data.error || "İptal edilemedi.");
       setCancelOpen(false);
-      const refreshed = await load(verifiedLast4);
+      const refreshed = await load(phoneToSend ?? verifiedPhone);
       if (refreshed.ok && refreshed.data.order) setOrder(refreshed.data.order);
     } catch (err: unknown) {
       setCancelError(err instanceof Error ? err.message : "İptal edilemedi.");
@@ -233,23 +293,29 @@ export default function OrderTrackingPage({ params, searchParams }: PageProps) {
             <div className="flex items-center gap-2 text-sm font-bold text-foreground">
               <ShieldCheck className="w-4 h-4 text-artisan-gold" /> Ayrıntıları görmek için doğrulayın
             </div>
-            <label htmlFor="track-last4" className="block text-xs text-foreground/60">
-              Siparişte verdiğiniz telefonun son 4 hanesi ({order.phone})
+            <label htmlFor="track-phone" className="block text-xs text-foreground/60">
+              Siparişte verdiğiniz cep telefonu numarası ({order.phone})
             </label>
             <div className="flex gap-2">
               <input
-                id="track-last4"
-                inputMode="numeric"
-                maxLength={4}
-                value={last4}
-                onChange={(e) => setLast4(e.target.value.replace(/\D/g, ""))}
-                placeholder="1234"
-                className="flex-1 min-w-0 px-4 py-3 rounded-xl bg-surface border border-surface-border text-lg tracking-[0.4em] font-mono text-foreground text-center focus:border-artisan-gold outline-none"
+                id="track-phone"
+                name="phone"
+                type="tel"
+                inputMode="tel"
+                autoComplete="tel"
+                value={phoneInput}
+                onChange={(e) => {
+                  setPhoneInput(e.target.value);
+                  if (verifyError) setVerifyError(null);
+                }}
+                placeholder="05XX XXX XX XX"
+                aria-invalid={Boolean(verifyError)}
+                className="flex-1 min-w-0 px-4 py-3 rounded-xl bg-surface border border-surface-border text-base font-mono text-foreground focus:border-artisan-gold outline-none"
               />
               <button
                 type="submit"
                 disabled={verifying}
-                className="shrink-0 px-5 py-3 rounded-xl bg-artisan-gold text-stone-950 font-bold text-sm disabled:opacity-50"
+                className="touch-target-44 shrink-0 px-5 py-3 rounded-xl bg-artisan-gold text-stone-950 font-bold text-sm disabled:opacity-50"
               >
                 {verifying ? <Loader2 className="w-4 h-4 animate-spin" /> : "Göster"}
               </button>
@@ -298,6 +364,46 @@ export default function OrderTrackingPage({ params, searchParams }: PageProps) {
               {order.neighborhood} Mah.{order.addressDetail ? `, ${order.addressDetail}` : ""}
             </div>
           )}
+          {order.items.length > 0 && (
+            <div className="pt-3 border-t border-surface-border space-y-2">
+              <button
+                type="button"
+                onClick={() => {
+                  const result = applyReorder(
+                    allProducts,
+                    order.items.map((it) => ({
+                      productId: it.productId,
+                      name: it.name,
+                      quantity: it.quantity,
+                    }))
+                  );
+                  if (result.addedCount === 0) {
+                    setReorderNotice("Bu siparişteki ürünler şu anda satışta bulunmuyor.");
+                    setTimeout(() => setReorderNotice(null), 4000);
+                    return;
+                  }
+                  if (result.unavailableNames.length > 0) {
+                    setReorderNotice(
+                      `${result.addedCount} ürün sepete eklendi (${result.unavailableNames.join(", ")} şu an satışta değil).`
+                    );
+                    setTimeout(() => setReorderNotice(null), 4000);
+                  } else {
+                    setReorderNotice(null);
+                  }
+                }}
+                disabled={productsLoading && allProducts.length === 0}
+                className="touch-target-44 w-full py-3 px-4 rounded-xl bg-artisan-terracotta hover:bg-artisan-terracotta-dark active:scale-[0.99] text-white font-bold text-sm flex items-center justify-center gap-2 transition-all disabled:opacity-50"
+              >
+                <RotateCcw className="w-4 h-4 shrink-0" aria-hidden="true" />
+                <span>Aynı Sepeti Tekrar Oluştur</span>
+              </button>
+              {reorderNotice && (
+                <p role="status" className="text-xs text-foreground/70 text-center">
+                  {reorderNotice}
+                </p>
+              )}
+            </div>
+          )}
         </section>
 
         {/* İşlemler */}
@@ -319,8 +425,8 @@ export default function OrderTrackingPage({ params, searchParams }: PageProps) {
           {order.canCancel && (
             <button
               type="button"
-              onClick={() => setCancelOpen(true)}
-              className="w-full py-3 rounded-xl text-red-400 border border-red-500/30 hover:bg-red-500/10 font-semibold text-sm"
+              onClick={openCancelModal}
+              className="touch-target-44 w-full py-3 rounded-xl text-red-400 border border-red-500/30 hover:bg-red-500/10 font-semibold text-sm"
             >
               Siparişi İptal Et
             </button>
@@ -341,6 +447,27 @@ export default function OrderTrackingPage({ params, searchParams }: PageProps) {
             <h2 id="cancel-title" className="font-serif text-lg font-bold text-foreground">
               Siparişi iptal et
             </h2>
+            {needsPhoneForCancel && (
+              <div className="space-y-1">
+                <label htmlFor="cancel-phone" className="block text-xs text-foreground/60">
+                  Siparişte verdiğiniz cep telefonu numarası
+                </label>
+                <input
+                  id="cancel-phone"
+                  name="cancelPhone"
+                  type="tel"
+                  inputMode="tel"
+                  autoComplete="tel"
+                  value={cancelPhone}
+                  onChange={(e) => {
+                    setCancelPhone(e.target.value);
+                    if (cancelError) setCancelError(null);
+                  }}
+                  placeholder="05XX XXX XX XX"
+                  className="w-full px-3 py-2.5 rounded-xl bg-surface border border-surface-border text-base font-mono text-foreground focus:border-artisan-gold outline-none"
+                />
+              </div>
+            )}
             <label htmlFor="cancel-reason" className="block text-xs text-foreground/60">
               İptal nedeni (isteğe bağlı)
             </label>
@@ -350,11 +477,11 @@ export default function OrderTrackingPage({ params, searchParams }: PageProps) {
               maxLength={300}
               value={cancelReason}
               onChange={(e) => setCancelReason(e.target.value)}
-              className="w-full px-3 py-2 rounded-xl bg-surface border border-surface-border text-sm text-foreground focus:border-artisan-gold outline-none resize-none"
+              className="w-full px-3 py-2 rounded-xl bg-surface border border-surface-border text-base text-foreground focus:border-artisan-gold outline-none resize-none"
             />
             {cancelError && (
               <p role="alert" className="text-xs text-red-400 flex items-center gap-1.5">
-                <AlertCircle className="w-3.5 h-3.5" /> {cancelError}
+                <AlertCircle className="w-3.5 h-3.5 shrink-0" /> {cancelError}
               </p>
             )}
             <div className="flex gap-2">
@@ -362,7 +489,7 @@ export default function OrderTrackingPage({ params, searchParams }: PageProps) {
                 type="button"
                 onClick={() => setCancelOpen(false)}
                 disabled={cancelling}
-                className="flex-1 py-3 rounded-xl border border-surface-border text-foreground text-sm"
+                className="touch-target-44 flex-1 py-3 rounded-xl border border-surface-border text-foreground text-sm"
               >
                 Vazgeç
               </button>
@@ -370,7 +497,7 @@ export default function OrderTrackingPage({ params, searchParams }: PageProps) {
                 type="button"
                 onClick={handleCancel}
                 disabled={cancelling}
-                className="flex-1 py-3 rounded-xl bg-red-600 text-white font-bold text-sm disabled:opacity-50"
+                className="touch-target-44 flex-1 py-3 rounded-xl bg-red-600 text-white font-bold text-sm disabled:opacity-50"
               >
                 {cancelling ? "İptal ediliyor…" : "Evet, iptal et"}
               </button>
@@ -378,6 +505,9 @@ export default function OrderTrackingPage({ params, searchParams }: PageProps) {
           </div>
         </div>
       )}
+
+      <CartDrawer />
+      <OrderSuccessModal />
     </main>
   );
 }

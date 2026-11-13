@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { Navbar } from "@/components/common/Navbar";
 import { Footer } from "@/components/common/Footer";
 import { CartDrawer } from "@/components/cart/CartDrawer";
+import { MobileCartBar } from "@/components/cart/MobileCartBar";
+import { OrderSuccessModal } from "@/components/cart/OrderSuccessModal";
 import { FEATURES } from "@/lib/features";
 
 // Bilim odası levha düzenindedir; yazıları levha bileşenleri yükler (components/bilim/levha/fontlar.ts).
@@ -18,7 +20,9 @@ export default function BilimLayout({ children }: { children: React.ReactNode })
       <Navbar />
       <main className="flex-1 flex flex-col">{children}</main>
       <Footer />
+      <MobileCartBar />
       <CartDrawer />
+      <OrderSuccessModal />
     </div>
   );
 }
