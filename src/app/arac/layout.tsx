@@ -25,7 +25,7 @@ export default function AracLayout({
       {/* Üst Başlık & Gezinme Sekmeleri */}
       <header className="border-b border-line bg-cream-surface/80 backdrop-blur-md sticky top-0 z-20">
         <div className="max-w-6xl mx-auto px-4 py-3 sm:py-4">
-          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+          <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-3">
             <div>
               <div className="flex items-center gap-2 text-xs text-ink-muted uppercase tracking-wider font-mono">
                 <Link href="/" className="hover:text-accent transition-colors">
@@ -41,37 +41,46 @@ export default function AracLayout({
               </h1>
             </div>
 
-            {/* Hızlı Araç Geçiş Butonları */}
-            <nav className="flex items-center gap-1 sm:gap-2 overflow-x-auto pb-1 sm:pb-0 scrollbar-none text-xs sm:text-sm font-medium">
+            {/* Hızlı Araç Geçiş Butonları & Dönüşüm Köprüsü */}
+            <div className="flex items-center gap-2">
+              <nav className="flex items-center gap-1 sm:gap-2 overflow-x-auto pb-1 lg:pb-0 scrollbar-none text-xs sm:text-sm font-medium flex-1 min-w-0">
+                <Link
+                  href="/arac"
+                  className="px-3 py-1.5 rounded-lg border border-line hover:border-accent hover:bg-bg transition-colors flex items-center gap-1.5 whitespace-nowrap text-ink-muted hover:text-ink"
+                >
+                  <Sparkles className="w-3.5 h-3.5 text-accent" />
+                  <span>Genel Bakış</span>
+                </Link>
+                <Link
+                  href="/arac/firinci-yuzdesi"
+                  className="px-3 py-1.5 rounded-lg border border-line hover:border-accent hover:bg-bg transition-colors flex items-center gap-1.5 whitespace-nowrap text-ink-muted hover:text-ink"
+                >
+                  <Calculator className="w-3.5 h-3.5 text-accent" />
+                  <span>Fırıncı Yüzdesi</span>
+                </Link>
+                <Link
+                  href="/arac/ddt"
+                  className="px-3 py-1.5 rounded-lg border border-line hover:border-accent hover:bg-bg transition-colors flex items-center gap-1.5 whitespace-nowrap text-ink-muted hover:text-ink"
+                >
+                  <Thermometer className="w-3.5 h-3.5 text-accent" />
+                  <span>DDT (Hamur Isısı)</span>
+                </Link>
+                <Link
+                  href="/arac/maya-planlayici"
+                  className="px-3 py-1.5 rounded-lg border border-line hover:border-accent hover:bg-bg transition-colors flex items-center gap-1.5 whitespace-nowrap text-ink-muted hover:text-ink"
+                >
+                  <Clock className="w-3.5 h-3.5 text-accent" />
+                  <span>Maya Planlayıcı</span>
+                </Link>
+              </nav>
+
               <Link
-                href="/arac"
-                className="px-3 py-1.5 rounded-lg border border-line hover:border-accent hover:bg-bg transition-colors flex items-center gap-1.5 whitespace-nowrap text-ink-muted hover:text-ink"
+                href="/#ekmekler"
+                className="order-first lg:order-last shrink-0 px-3.5 py-1.5 rounded-lg bg-accent text-white hover:bg-accent/90 active:scale-[0.98] transition-all text-xs sm:text-sm font-sans font-semibold whitespace-nowrap shadow-xs inline-flex items-center gap-1"
               >
-                <Sparkles className="w-3.5 h-3.5 text-accent" />
-                <span>Genel Bakış</span>
+                <span>← Fırın & Sipariş</span>
               </Link>
-              <Link
-                href="/arac/firinci-yuzdesi"
-                className="px-3 py-1.5 rounded-lg border border-line hover:border-accent hover:bg-bg transition-colors flex items-center gap-1.5 whitespace-nowrap text-ink-muted hover:text-ink"
-              >
-                <Calculator className="w-3.5 h-3.5 text-accent" />
-                <span>Fırıncı Yüzdesi</span>
-              </Link>
-              <Link
-                href="/arac/ddt"
-                className="px-3 py-1.5 rounded-lg border border-line hover:border-accent hover:bg-bg transition-colors flex items-center gap-1.5 whitespace-nowrap text-ink-muted hover:text-ink"
-              >
-                <Thermometer className="w-3.5 h-3.5 text-accent" />
-                <span>DDT (Hamur Isısı)</span>
-              </Link>
-              <Link
-                href="/arac/maya-planlayici"
-                className="px-3 py-1.5 rounded-lg border border-line hover:border-accent hover:bg-bg transition-colors flex items-center gap-1.5 whitespace-nowrap text-ink-muted hover:text-ink"
-              >
-                <Clock className="w-3.5 h-3.5 text-accent" />
-                <span>Maya Planlayıcı</span>
-              </Link>
-            </nav>
+            </div>
           </div>
         </div>
       </header>

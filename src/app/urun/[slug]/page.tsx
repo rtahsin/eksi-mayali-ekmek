@@ -7,7 +7,10 @@ import { Footer } from "@/components/common/Footer";
 import { CartDrawer } from "@/components/cart/CartDrawer";
 import { OrderSuccessModal } from "@/components/cart/OrderSuccessModal";
 import { ProductDetailClientActions } from "@/components/storefront/ProductDetailClientActions";
-import type { ExtendedProduct } from "@/types";
+import { SafeProductImage } from "@/components/storefront/SafeProductImage";
+import type { ExtendedProduct, MasterclassDetail } from "@/types";
+import { isAccompaniment, isSpecialtyBread } from "@/lib/products/grouping";
+import { getProductPlaceholder } from "@/lib/products/map";
 import { getCatalog, getProductBySlugOrId as getProductBySlugOrIdServer } from "@/lib/products/server";
 import { slugify, getProductSlug, getProductUrl } from "@/lib/utils/slugify";
 import { ShippingPolicyNote } from "@/components/storefront/ShippingPolicyNote";
@@ -72,11 +75,17 @@ export async function generateMetadata({ params }: ProductPageProps): Promise<Me
     };
   }
 
-  const title = `${product.name} | EkmekLab Taş Fırın`;
+  const isBreadProduct = !isAccompaniment(product);
+  const title = isBreadProduct
+    ? `${product.name} | EkmekLab Taş Fırın`
+    : `${product.name} | EkmekLab Mandıra & Şarküteri`;
   const description =
     product.description ||
-    `${product.name} - Canlı ekşi maya ve uzun fermantasyonla taş fırında pişen artisan ekmek.`;
+    (isBreadProduct
+      ? `${product.name} - Canlı ekşi maya ve uzun fermantasyonla taş fırında pişen artisan ekmek.`
+      : "EkmekLab doğal mandıra ve şarküteri seçkisi — günlük taze tedarik ile Beylikdüzü'nde kapınızda.");
   const url = `${SITE_URL}/urun/${getProductSlug(product)}`;
+  const metaImage = product.imageUrl || getProductPlaceholder(product.category);
 
   return {
     title,
@@ -85,9 +94,9 @@ export async function generateMetadata({ params }: ProductPageProps): Promise<Me
       product.name,
       ...(product.flourTypes || []),
       ...(product.ingredients || []),
-      "ekşi mayalı ekmek",
-      "artisan fırın",
-      "Beylikdüzü ekmek",
+      ...(isBreadProduct
+        ? ["ekşi mayalı ekmek", "artisan fırın", "Beylikdüzü ekmek"]
+        : ["doğal mandıra", "gurme şarküteri", "Beylikdüzü doğal ürünler"]),
       "EkmekLab",
     ],
     openGraph: {
@@ -99,7 +108,7 @@ export async function generateMetadata({ params }: ProductPageProps): Promise<Me
       type: "website",
       images: [
         {
-          url: product.imageUrl,
+          url: metaImage,
           width: 900,
           height: 600,
           alt: product.name,
@@ -110,7 +119,7 @@ export async function generateMetadata({ params }: ProductPageProps): Promise<Me
       card: "summary_large_image",
       title,
       description,
-      images: [product.imageUrl],
+      images: [metaImage],
     },
     alternates: {
       canonical: url,
@@ -162,9 +171,25 @@ export default async function ProductDetailPage({ params }: ProductPageProps) {
     .filter((p) => p.id !== product.id && p.isActive !== false)
     .slice(0, 4);
 
-  const masterclass = product.masterclass;
-  // Fırın iddiaları (taş taban, ekşi maya, ~24 saat) yalnız ekmeklerde; süt/yoğurt sayfasında görünmez.
-  const isBread = product.category === "bread" || product.category === "specialty";
+  type ExtendedMasterclass = MasterclassDetail & {
+    sensory?: string;
+    storage?: string;
+  };
+
+  // Fırın iddiaları (taş taban, ekşi maya, ~24 saat) yalnız ekmeklerde; süt/yoğurt/şarküteri sayfasında görünmez.
+  const isBread = !isAccompaniment(product);
+  const isSpecialty = isSpecialtyBread(product);
+  const masterclass: ExtendedMasterclass | undefined = product.masterclass;
+  const storageText = masterclass?.pairingStorage || masterclass?.storage;
+  const hasMasterclassContent = Boolean(
+    masterclass &&
+      (masterclass.flourHeritage ||
+        masterclass.technique ||
+        masterclass.sensory ||
+        storageText)
+  );
+  const hasIngredients = Boolean(product.ingredients && product.ingredients.length > 0);
+  const showIdentitySection = isBread || hasIngredients;
   const canonicalSlug = getProductSlug(product);
 
   // Schema.org Product + Offer JSON-LD structured data (P2-3)
@@ -217,14 +242,14 @@ export default async function ProductDetailPage({ params }: ProductPageProps) {
           </Link>
           <ChevronRight className="w-3.5 h-3.5 text-ink-muted" />
           <Link
-            href="/#ekmekler"
-            className="hover:text-accent transition-colors capitalize"
+            href={isBread ? "/#ekmekler" : "/#sarkuteri"}
+            className="hover:text-accent transition-colors"
           >
-            {product.category === "bread"
-              ? "Taş Fırın Ekmekleri"
-              : product.category === "specialty"
+            {!isBread
+              ? "Mandıra & Şarküteri"
+              : isSpecialty
               ? "Özel Ekmekler"
-              : "Gurme Lezzetler"}
+              : "Taş Fırın Ekmekleri"}
           </Link>
           <ChevronRight className="w-3.5 h-3.5 text-ink-muted" />
           <span className="text-ink font-medium truncate max-w-[200px] sm:max-w-none">
@@ -237,22 +262,25 @@ export default async function ProductDetailPage({ params }: ProductPageProps) {
           {/* Left Column: Visual Showcase */}
           <div className="lg:col-span-6 space-y-4">
             <div className="relative rounded-3xl overflow-hidden bg-cream-surface border border-line shadow-2xl aspect-[16/10] sm:aspect-[1/1] group">
-              <img
+              <SafeProductImage
                 src={product.imageUrl}
+                fallbackSrc={getProductPlaceholder(product.category)}
                 alt={product.name}
+                priority={true}
+                isAccompanimentItem={!isBread}
                 className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 filter brightness-95"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-60" />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-60 pointer-events-none" />
 
               {/* Badges on Image */}
               <div className="absolute top-4 left-4 flex flex-wrap gap-2 pointer-events-none">
                 {product.madeToOrder ? (
                   <span className="px-3 py-1 rounded-full bg-accent text-white text-xs font-sans font-bold uppercase shadow-md">
-                    Ön Siparişle Taze Pişer
+                    {isBread ? "Ön Siparişle Taze Pişer" : "Sipariş Üzerine Hazırlanır"}
                   </span>
                 ) : (
                   <span className="px-3 py-1 rounded-full bg-cream-surface text-good border border-line text-xs font-sans font-bold uppercase shadow-md">
-                    Günlük Taş Fırın Üretimi
+                    {isBread ? "Günlük Taş Fırın Üretimi" : "Günlük Taze Mandıra & Şarküteri"}
                   </span>
                 )}
               </div>
@@ -298,13 +326,13 @@ export default async function ProductDetailPage({ params }: ProductPageProps) {
             <div>
               <div className="flex items-center gap-2 mb-2">
                 <span className="px-2.5 py-0.5 rounded-md bg-bg border border-line text-accent text-xs font-mono font-medium">
-                  {product.category === "bread"
-                    ? "EKŞİ MAYALI EKMEK"
-                    : product.category === "specialty"
+                  {!isBread
+                    ? "MANDIRA & ŞARKÜTERİ"
+                    : isSpecialty
                     ? "ÖZEL SERİ"
-                    : "GURME ŞARKÜTERİ"}
+                    : "EKŞİ MAYALI EKMEK"}
                 </span>
-                {product.hydration && (
+                {isBread && product.hydration && (
                   <span className="px-2.5 py-0.5 rounded-md bg-bg border border-line text-ink-muted text-xs font-mono">
                     %{product.hydration} Hidrasyon
                   </span>
@@ -337,125 +365,139 @@ export default async function ProductDetailPage({ params }: ProductPageProps) {
           </div>
         </div>
 
-        {/* 2. Artisan DNA Specifications Table */}
-        <section className="pt-6 border-t border-line">
-          <div className="mb-6">
-            <h2 className="font-serif text-2xl sm:text-3xl font-bold text-ink flex items-center gap-2.5">
-              <Sparkles className="w-6 h-6 text-accent" />
-              <span>Ürün Kimliği & Zanaat Özellikleri</span>
-            </h2>
-            <p className="text-xs sm:text-sm text-ink-muted mt-1 font-sans">
-              EkmekLab mutfağında her somunun ardında şeffaf ve tavizsiz bir zanaat yatar.
-            </p>
-          </div>
-
-          {isBread && (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-            {/* Spec 1: Hydration */}
-            <div className="p-5 rounded-2xl bg-cream-surface border border-line space-y-1">
-              <div className="flex items-center gap-2 text-accent text-xs font-bold uppercase tracking-wider">
-                <Droplets className="w-4 h-4" />
-                <span>Hidrasyon (Su Oranı)</span>
-              </div>
-              <div className="font-mono text-2xl font-bold text-ink pt-1">
-                {product.hydration ? `%${product.hydration}` : "Doğal Kıvam"}
-              </div>
-              <p className="text-xs text-ink-muted">
-                Yüksek su oranı ile yumuşak, geniş gözenekli ve nemli iç doku.
+        {/* 2. Artisan DNA Specifications / Ingredients */}
+        {showIdentitySection && (
+          <section className="pt-6 border-t border-line">
+            <div className="mb-6">
+              <h2 className="font-serif text-2xl sm:text-3xl font-bold text-ink flex items-center gap-2.5">
+                <Sparkles className="w-6 h-6 text-accent" />
+                <span>
+                  {isBread
+                    ? "Ürün Kimliği & Zanaat Özellikleri"
+                    : "İçindekiler & Değerler"}
+                </span>
+              </h2>
+              <p className="text-xs sm:text-sm text-ink-muted mt-1 font-sans">
+                {isBread
+                  ? "EkmekLab mutfağında her somunun ardında şeffaf ve tavizsiz bir zanaat yatar."
+                  : "Katkısız, koruyucusuz ve günlük taze tedarik edilen doğal üretici seçkisi."}
               </p>
             </div>
 
-            {/* Spec 2: Fermentation */}
-            <div className="p-5 rounded-2xl bg-cream-surface border border-line space-y-1">
-              <div className="flex items-center gap-2 text-accent text-xs font-bold uppercase tracking-wider">
-                <Clock className="w-4 h-4" />
-                <span>Yapım Süreci</span>
-              </div>
-              <div className="font-mono text-2xl font-bold text-ink pt-1">
-                ~24 Saat
-              </div>
-              <p className="text-xs text-ink-muted">
-                Ekşi mayanın hamuru yavaşça olgunlaştırdığı süre.
-              </p>
-            </div>
+            {isBread && (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                {/* Spec 1: Hydration */}
+                <div className="p-5 rounded-2xl bg-cream-surface border border-line space-y-1">
+                  <div className="flex items-center gap-2 text-accent text-xs font-bold uppercase tracking-wider">
+                    <Droplets className="w-4 h-4" />
+                    <span>Hidrasyon (Su Oranı)</span>
+                  </div>
+                  <div className="font-mono text-2xl font-bold text-ink pt-1">
+                    {product.hydration ? `%${product.hydration}` : "Doğal Kıvam"}
+                  </div>
+                  <p className="text-xs text-ink-muted">
+                    Yüksek su oranı ile yumuşak, geniş gözenekli ve nemli iç doku.
+                  </p>
+                </div>
 
-            {/* Spec 3: Flour Types */}
-            <div className="p-5 rounded-2xl bg-cream-surface border border-line space-y-1">
-              <div className="flex items-center gap-2 text-accent text-xs font-bold uppercase tracking-wider">
-                <Wheat className="w-4 h-4" />
-                <span>Un & Tahıl Cinsi</span>
-              </div>
-              <div className="font-serif text-lg font-bold text-ink pt-1 truncate">
-                {product.flourTypes && product.flourTypes.length > 0
-                  ? product.flourTypes.join(", ")
-                  : product.ingredients?.[0] ?? "Ekşi maya"}
-              </div>
-              <p className="text-xs text-ink-muted">
-                Bu ekmekte kullanılan un ve tahıllar.
-              </p>
-            </div>
+                {/* Spec 2: Fermentation */}
+                <div className="p-5 rounded-2xl bg-cream-surface border border-line space-y-1">
+                  <div className="flex items-center gap-2 text-accent text-xs font-bold uppercase tracking-wider">
+                    <Clock className="w-4 h-4" />
+                    <span>Yapım Süreci</span>
+                  </div>
+                  <div className="font-mono text-2xl font-bold text-ink pt-1">
+                    ~24 Saat
+                  </div>
+                  <p className="text-xs text-ink-muted">
+                    Ekşi mayanın hamuru yavaşça olgunlaştırdığı süre.
+                  </p>
+                </div>
 
-            {/* Spec 4: Clean Label */}
-            <div className="p-5 rounded-2xl bg-cream-surface border border-line space-y-1">
-              <div className="flex items-center gap-2 text-accent text-xs font-bold uppercase tracking-wider">
-                <ShieldCheck className="w-4 h-4" />
-                <span>Temiz İçerik</span>
-              </div>
-              <div className="font-mono text-2xl font-bold text-good pt-1">
-                Ekşi Maya
-              </div>
-              <p className="text-xs text-ink-muted">
-                Hazır (ticari) maya kullanılmaz.
-              </p>
-            </div>
-          </div>
-          )}
+                {/* Spec 3: Flour Types */}
+                <div className="p-5 rounded-2xl bg-cream-surface border border-line space-y-1">
+                  <div className="flex items-center gap-2 text-accent text-xs font-bold uppercase tracking-wider">
+                    <Wheat className="w-4 h-4" />
+                    <span>Un & Tahıl Cinsi</span>
+                  </div>
+                  <div className="font-serif text-lg font-bold text-ink pt-1 truncate">
+                    {product.flourTypes && product.flourTypes.length > 0
+                      ? product.flourTypes.join(", ")
+                      : product.ingredients?.[0] ?? "Ekşi maya"}
+                  </div>
+                  <p className="text-xs text-ink-muted">
+                    Bu ekmekte kullanılan un ve tahıllar.
+                  </p>
+                </div>
 
-          {/* Ingredients list */}
-          {product.ingredients && product.ingredients.length > 0 && (
-            <div className="mt-4 p-5 rounded-2xl bg-cream-surface border border-line flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs">
-              <div className="flex items-center gap-2 text-ink font-serif text-sm font-bold shrink-0">
-                <Award className="w-4 h-4 text-accent" />
-                <span>İçindekiler Listesi:</span>
+                {/* Spec 4: Clean Label */}
+                <div className="p-5 rounded-2xl bg-cream-surface border border-line space-y-1">
+                  <div className="flex items-center gap-2 text-accent text-xs font-bold uppercase tracking-wider">
+                    <ShieldCheck className="w-4 h-4" />
+                    <span>Temiz İçerik</span>
+                  </div>
+                  <div className="font-mono text-2xl font-bold text-good pt-1">
+                    Ekşi Maya
+                  </div>
+                  <p className="text-xs text-ink-muted">
+                    Hazır (ticari) maya kullanılmaz.
+                  </p>
+                </div>
               </div>
-              <div className="flex flex-wrap gap-2">
-                {product.ingredients.map((ing, idx) => (
-                  <span
-                    key={idx}
-                    className="px-3 py-1 rounded-lg bg-bg border border-line text-ink font-sans"
-                  >
-                    {ing}
-                  </span>
-                ))}
+            )}
+
+            {/* Ingredients list */}
+            {hasIngredients && product.ingredients && (
+              <div className="mt-4 p-5 rounded-2xl bg-cream-surface border border-line flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs">
+                <div className="flex items-center gap-2 text-ink font-serif text-sm font-bold shrink-0">
+                  <Award className="w-4 h-4 text-accent" />
+                  <span>İçindekiler Listesi:</span>
+                </div>
+                <div className="flex flex-wrap gap-2">
+                  {product.ingredients.map((ing, idx) => (
+                    <span
+                      key={idx}
+                      className="px-3 py-1 rounded-lg bg-bg border border-line text-ink font-sans"
+                    >
+                      {ing}
+                    </span>
+                  ))}
+                </div>
               </div>
-            </div>
-          )}
-        </section>
+            )}
+          </section>
+        )}
 
         <NasilYapiliyor name={product.name} steps={steps} mediaBase={mediaBaseUrl()} anlar={adimAnlari(steps)} />
 
         <BilimKoprusu anlar={bilimAnlari(product)} />
 
-        {/* 3. Deep Dive Masterclass: Ustanın Notu & Biyoloji */}
-        {masterclass && (
+        {/* 3. Deep Dive Masterclass: Zanaat & Lezzet Hikayesi */}
+        {hasMasterclassContent && masterclass && (
           <section className="pt-6 border-t border-line">
             <div className="mb-6">
               <div className="inline-flex items-center gap-2 font-serif text-xs font-bold text-accent uppercase tracking-wider mb-2">
                 <BookOpen className="w-4 h-4" />
-                <span>USTANIN NOTU & BİYOLOJİ</span>
+                <span>
+                  {isBread ? "USTANIN NOTU & BİYOLOJİ" : "ÜRETİCİ NOTU & SEÇKİ"}
+                </span>
               </div>
               <h2 className="font-serif text-2xl sm:text-3xl font-bold text-ink">
-                Zanaatın Perde Arkası ve Fermantasyon Biyolojisi
+                {isBread
+                  ? "Zanaatın Perde Arkası ve Fermantasyon Biyolojisi"
+                  : "Zanaat & Lezzet Hikâyesi"}
               </h2>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {/* Card 1: Flour & Yeast Heritage */}
+              {/* Card 1: Flour & Yeast / Producer & Source Heritage */}
               {masterclass.flourHeritage && (
                 <div className="p-6 rounded-3xl bg-cream-surface border border-line space-y-3">
                   <div className="flex items-center gap-2.5 text-accent font-serif font-bold text-base">
                     <Wheat className="w-5 h-5 text-accent shrink-0" />
-                    <span>Unun ve Mayanın Kökeni</span>
+                    <span>
+                      {isBread ? "Unun ve Mayanın Kökeni" : "Üretici & Kaynak Hikâyesi"}
+                    </span>
                   </div>
                   <p className="text-xs sm:text-sm text-ink-muted leading-relaxed font-sans">
                     {masterclass.flourHeritage}
@@ -463,12 +505,16 @@ export default async function ProductDetailPage({ params }: ProductPageProps) {
                 </div>
               )}
 
-              {/* Card 2: Fermentation Technique */}
+              {/* Card 2: Fermentation / Production Technique */}
               {masterclass.technique && (
                 <div className="p-6 rounded-3xl bg-cream-surface border border-line space-y-3">
                   <div className="flex items-center gap-2.5 text-accent font-serif font-bold text-base">
                     <Activity className="w-5 h-5 text-accent shrink-0" />
-                    <span>Fermantasyon ve Zanaat Tekniği</span>
+                    <span>
+                      {isBread
+                        ? "Fermantasyon ve Zanaat Tekniği"
+                        : "Üretim & Hazırlık Yöntemi"}
+                    </span>
                   </div>
                   <p className="text-xs sm:text-sm text-ink-muted leading-relaxed font-sans">
                     {masterclass.technique}
@@ -476,15 +522,30 @@ export default async function ProductDetailPage({ params }: ProductPageProps) {
                 </div>
               )}
 
+              {/* Card 3: Sensory & Flavor Notes */}
+              {masterclass.sensory && (
+                <div className="p-6 rounded-3xl bg-cream-surface border border-line space-y-3">
+                  <div className="flex items-center gap-2.5 text-accent font-serif font-bold text-base">
+                    <Award className="w-5 h-5 text-accent shrink-0" />
+                    <span>Doku & Lezzet Notları</span>
+                  </div>
+                  <p className="text-xs sm:text-sm text-ink-muted leading-relaxed font-sans">
+                    {masterclass.sensory}
+                  </p>
+                </div>
+              )}
+
               {/* Card 4: Pairing & Storage */}
-              {masterclass.pairingStorage && (
+              {storageText && (
                 <div className="p-6 rounded-3xl bg-cream-surface border border-line space-y-3">
                   <div className="flex items-center gap-2.5 text-accent font-serif font-bold text-base">
                     <Sparkles className="w-5 h-5 text-accent shrink-0" />
-                    <span>Nasıl Tüketilmeli & Saklanmalı?</span>
+                    <span>
+                      {isBread ? "Nasıl Tüketilmeli & Saklanmalı?" : "Tüketim & Saklama"}
+                    </span>
                   </div>
                   <p className="text-xs sm:text-sm text-ink-muted leading-relaxed font-sans">
-                    {masterclass.pairingStorage}
+                    {storageText}
                   </p>
                 </div>
               )}
@@ -498,10 +559,12 @@ export default async function ProductDetailPage({ params }: ProductPageProps) {
             <div className="flex items-center justify-between">
               <div>
                 <h3 className="font-serif text-2xl font-bold text-ink">
-                  Fırından Birlikte İyi Gidenler
+                  {isBread ? "Fırından Birlikte İyi Gidenler" : "Yanına Çok Yakışır"}
                 </h3>
                 <p className="text-xs text-ink-muted font-sans mt-0.5">
-                  Bu lezzete eşlik eden diğer ekmeklerimiz ve mandıra gurme seçkisi.
+                  {isBread
+                    ? "Bu lezzete eşlik eden diğer ekmeklerimiz ve mandıra gurme seçkisi."
+                    : "Taş fırın ekmeklerimiz ve doğal mandıra seçkimizden diğer lezzetler."}
                 </p>
               </div>
               <Link
@@ -521,9 +584,12 @@ export default async function ProductDetailPage({ params }: ProductPageProps) {
                   className="group rounded-2xl bg-cream-surface border border-line hover:border-accent/40 p-4 transition-all duration-300 flex flex-col justify-between space-y-3"
                 >
                   <div className="relative h-40 w-full rounded-xl overflow-hidden bg-bg">
-                    <img
+                    <SafeProductImage
                       src={rel.imageUrl}
+                      fallbackSrc={getProductPlaceholder(rel.category)}
                       alt={rel.name}
+                      priority={false}
+                      isAccompanimentItem={isAccompaniment(rel)}
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 filter brightness-95"
                     />
                   </div>

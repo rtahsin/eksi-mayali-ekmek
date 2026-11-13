@@ -21,6 +21,10 @@ import Link from "next/link";
 import { CONTACT } from "@/lib/site";
 import { LEDGER_DOCUMENT_TITLES, PAYMENT_METHOD_LABELS } from "@/lib/cari/ledger";
 import { getShareUrl } from "@/hooks/useCariler";
+import {
+  ACCOMPANIMENT_IMAGE_PLACEHOLDER,
+  PRODUCT_IMAGE_PLACEHOLDER,
+} from "@/lib/products/map";
 
 interface TransactionReceiptModalProps {
   tx: CariTransaction;
@@ -28,9 +32,58 @@ interface TransactionReceiptModalProps {
   onClose: () => void;
 }
 
+function isAccompanimentItemName(lower: string): boolean {
+  if (
+    lower.includes("ekmek") ||
+    lower.includes("ekmeği") ||
+    lower.includes("somun") ||
+    lower.includes("baget") ||
+    lower.includes("ekşi maya")
+  ) {
+    return false;
+  }
+  if (
+    lower.includes("süt") ||
+    lower.includes("sut") ||
+    lower.includes("yoğurt") ||
+    lower.includes("yogurt") ||
+    lower.includes("peynir") ||
+    lower.includes("tereyağ") ||
+    lower.includes("tereyag") ||
+    lower.includes("yumurta") ||
+    lower.includes("sucuk") ||
+    lower.includes("yufka") ||
+    lower.includes("kavurma") ||
+    lower.includes("zeytin")
+  ) {
+    return true;
+  }
+  return /(?:^|\s)bal(?:ı|i)?(?:\s|$|[.,()-])/u.test(lower);
+}
+
 function getItemFallbackImage(name: string): string {
-  const lower = name.toLowerCase();
-  if (lower.includes("köy") || lower.includes("ekşi maya")) return "/images/products/koy-ekmegi.jpg";
+  const lower = name.toLocaleLowerCase("tr-TR");
+  const isAccompaniment = isAccompanimentItemName(lower);
+
+  if (isAccompaniment) {
+    if (lower.includes("jersey") || lower.includes("süt") || lower.includes("sut")) {
+      return "/images/products/jersey-sut-3l.jpg";
+    }
+    if (lower.includes("yoğurt") || lower.includes("yogurt")) {
+      return "/images/products/dogal-yogurt.jpg";
+    }
+    if (lower.includes("tereyağ") || lower.includes("tereyag")) {
+      return "/images/products/koy-tereyagi.jpg";
+    }
+    if (lower.includes("peynir") || lower.includes("mihaliç")) {
+      return "/images/products/mihalic-peyniri.jpg";
+    }
+    if (lower.includes("kavurma")) {
+      return "/images/products/dana-kavurma.jpg";
+    }
+    return ACCOMPANIMENT_IMAGE_PLACEHOLDER;
+  }
+
   if (lower.includes("karakılçık") && lower.includes("un")) return "/images/products/karakilcik-unu.jpg";
   if (lower.includes("karakılçık")) return "/images/products/karakilcik.jpg";
   if (lower.includes("siyez") && lower.includes("kavılca")) return "/images/products/kavilca-siyez.jpg";
@@ -38,13 +91,17 @@ function getItemFallbackImage(name: string): string {
   if (lower.includes("yudane") || lower.includes("tost")) return "/images/products/yudane.jpg";
   if (lower.includes("özel") || lower.includes("cevizli")) return "/images/products/ekmeklab-ozel.jpg";
   if (lower.includes("incir")) return "/images/products/ceviz-incir.jpg";
-  if (lower.includes("jersey") || lower.includes("süt")) return "/images/products/jersey-sut-3l.jpg";
-  if (lower.includes("yoğurt")) return "/images/products/dogal-yogurt.jpg";
-  if (lower.includes("tereyağ")) return "/images/products/koy-tereyagi.jpg";
-  if (lower.includes("peynir") || lower.includes("mihaliç")) return "/images/products/mihalic-peyniri.jpg";
-  if (lower.includes("kavurma")) return "/images/products/dana-kavurma.jpg";
-  if (lower.includes("ekmek") || lower.includes("somun") || lower.includes("baget")) return "/images/products/koy-ekmegi.jpg";
-  return "/images/categories/bread.jpg";
+  if (
+    lower.includes("köy") ||
+    lower.includes("ekşi maya") ||
+    lower.includes("ekmek") ||
+    lower.includes("ekmeği") ||
+    lower.includes("somun") ||
+    lower.includes("baget")
+  ) {
+    return "/images/products/koy-ekmegi.jpg";
+  }
+  return PRODUCT_IMAGE_PLACEHOLDER;
 }
 
 interface ParsedItem {
@@ -436,10 +493,25 @@ export default function TransactionReceiptModal({ tx, cari, onClose }: Transacti
                 <div className="space-y-3">
                   {items.map((it, idx) => {
                     const fallback = getItemFallbackImage(it.name);
+                    const placeholder = isAccompanimentItemName(
+                      it.name.toLocaleLowerCase("tr-TR")
+                    )
+                      ? ACCOMPANIMENT_IMAGE_PLACEHOLDER
+                      : PRODUCT_IMAGE_PLACEHOLDER;
                     return (
                       <div key={idx} className="flex items-center gap-3">
                         <div className="w-14 h-14 rounded-xl overflow-hidden shrink-0 border border-[#EAE2D6] shadow-sm bg-[#F5EFE6]">
-                          <img src={fallback} alt={it.name} className="w-full h-full object-cover" />
+                          <img
+                            src={fallback}
+                            alt={it.name}
+                            onError={(e) => {
+                              const el = e.currentTarget;
+                              if (!el.src.endsWith(placeholder)) {
+                                el.src = placeholder;
+                              }
+                            }}
+                            className="w-full h-full object-cover"
+                          />
                         </div>
                         <div className="flex-1 min-w-0">
                           <div className="text-xs font-bold text-[#B45309] leading-normal pb-0.5">

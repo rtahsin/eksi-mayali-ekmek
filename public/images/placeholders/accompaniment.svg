@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600" role="img" aria-label="EkmekLab Mandıra ve Şarküteri">
+  <defs>
+    <radialGradient id="creamGlow" cx="50%" cy="44%" r="58%">
+      <stop offset="0%" stop-color="#FBF6EC" />
+      <stop offset="100%" stop-color="#EFE4CE" />
+    </radialGradient>
+  </defs>
+  <rect width="800" height="600" fill="url(#creamGlow)" />
+  <rect x="28" y="28" width="744" height="544" rx="24" fill="none" stroke="#E2D3BD" stroke-width="2" />
+  <rect x="40" y="40" width="720" height="520" rx="18" fill="none" stroke="#E2D3BD" stroke-width="1" stroke-dasharray="6 6" opacity="0.7" />
+
+  <!-- Artisan Dairy Bottle & Earthenware Crock Motif -->
+  <g transform="translate(400, 262)" fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="0" cy="-4" r="108" fill="#F6EEDF" stroke="#E2D3BD" stroke-width="1.5" />
+    <!-- Glass Milk Bottle (Left) -->
+    <path d="M-52,-68 L-24,-68 L-20,-42 C-10,-28 -8,-12 -8,10 L-8,44 C-8,50 -13,54 -19,54 L-57,54 C-63,54 -68,50 -68,44 L-68,10 C-68,-12 -66,-28 -56,-42 Z" fill="#FBF6EC" stroke="#3B1E1A" stroke-width="3.2" />
+    <path d="M-56,-74 L-20,-74" stroke="#B4532A" stroke-width="4" />
+    <path d="M-63,6 C-50,2 -26,10 -13,6 L-13,46 L-63,46 Z" fill="#EAD3A2" fill-opacity="0.4" />
+
+    <!-- Clay Yogurt / Deli Crock (Right) -->
+    <path d="M6,-8 L66,-8 C72,8 74,28 66,46 C63,52 57,54 50,54 L22,54 C15,54 9,52 6,46 C-2,28 0,8 6,-8 Z" fill="#B4532A" fill-opacity="0.16" stroke="#3B1E1A" stroke-width="3.2" />
+    <path d="M2,-8 L70,-8" stroke="#3B1E1A" stroke-width="3.5" />
+    <path d="M12,-14 C24,-24 48,-24 60,-14" fill="#FBF6EC" stroke="#B4532A" stroke-width="2.6" />
+    <!-- Handles -->
+    <path d="M4,6 C-6,6 -8,22 2,24" stroke="#6E5148" stroke-width="2.5" />
+    <path d="M68,6 C78,6 80,22 70,24" stroke="#6E5148" stroke-width="2.5" />
+  </g>
+
+  <text x="400" y="438" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="26" font-weight="700" fill="#3B1E1A" letter-spacing="0.5">
+    EkmekLab Mandıra &amp; Şarküteri
+  </text>
+  <text x="400" y="468" text-anchor="middle" font-family="system-ui, -apple-system, sans-serif" font-size="14" font-weight="500" fill="#6E5148" letter-spacing="2.5">
+    DOĞAL SEÇKİ · GÜNLÜK TAZE TEDARİK
+  </text>
+</svg>

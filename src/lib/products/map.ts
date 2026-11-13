@@ -1,5 +1,6 @@
 import type { BundleItem, ExtendedProduct, MasterclassDetail, ProductCategoryInfo, ProductSaleDate } from "@/types";
 import { slugify } from "@/lib/utils/slugify";
+import { isAccompanimentCategory } from "@/lib/products/grouping";
 
 /** `products` tablosunun okunan sütunları. */
 export interface ProductRow {
@@ -41,8 +42,22 @@ export interface CategoryRow {
   is_visible?: boolean | null;
 }
 
-/** Ürün görseli yoksa gösterilen yer tutucu (yerel dosya; harici alan adına bağımlılık yok). */
-export const PRODUCT_IMAGE_PLACEHOLDER = "/images/categories/bread.jpg";
+/** Ürün görseli yoksa gösterilen yer tutucular (yerel SVG; harici alan adına bağımlılık yok). */
+export const PRODUCT_IMAGE_PLACEHOLDER = "/images/placeholders/bread.svg";
+export const ACCOMPANIMENT_IMAGE_PLACEHOLDER = "/images/placeholders/accompaniment.svg";
+
+/** Verilen görsel yolunun sahte/yer tutucu veya eski bozuk kategori görseli olup olmadığını döner. */
+export function isPlaceholderImageUrl(url?: string | null): boolean {
+  if (!url) return true;
+  const trimmed = url.trim();
+  if (!trimmed) return true;
+  return trimmed.startsWith("/images/categories/") || trimmed.startsWith("/images/placeholders/");
+}
+
+/** Kategoriye uygun yerel yer tutucu görsel yolunu döner. */
+export function getProductPlaceholder(category?: string | null): string {
+  return isAccompanimentCategory(category) ? ACCOMPANIMENT_IMAGE_PLACEHOLDER : PRODUCT_IMAGE_PLACEHOLDER;
+}
 
 const toNumberOrNull = (v: unknown): number | null => {
   if (v === null || v === undefined || v === "") return null;
@@ -80,7 +95,9 @@ export function mapProductRow(row: ProductRow, saleDates: ProductSaleDate[] = []
     description: row.description || "",
     price,
     compareAtPrice: compareAt !== null && compareAt > price ? compareAt : null,
-    imageUrl: row.image_url || PRODUCT_IMAGE_PLACEHOLDER,
+    imageUrl: !isPlaceholderImageUrl(row.image_url) && row.image_url
+      ? row.image_url
+      : getProductPlaceholder(row.category),
     category: row.category || "bread",
     stock: 0,
     weight: Number(row.weight) || 0,

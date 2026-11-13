@@ -10,7 +10,9 @@ import { getProductUrl } from "@/lib/utils/slugify";
 import { useIstanbulToday } from "@/hooks/useIstanbulToday";
 import { getSaleScheduleBadge } from "@/lib/ordering/saleDates";
 
-import { PRODUCT_IMAGE_PLACEHOLDER } from "@/lib/products/map";
+import { getProductPlaceholder } from "@/lib/products/map";
+import { isAccompaniment } from "@/lib/products/grouping";
+import { SafeProductImage } from "@/components/storefront/SafeProductImage";
 
 interface ProductCardProps {
   product: ExtendedProduct;
@@ -19,11 +21,10 @@ interface ProductCardProps {
 
 export function ProductCard({ product, onOpenDetails }: ProductCardProps) {
   const [isAdded, setIsAdded] = useState<boolean>(false);
-  const [imgSrc, setImgSrc] = useState<string>(product.imageUrl || PRODUCT_IMAGE_PLACEHOLDER);
-  const [imgLoaded, setImgLoaded] = useState<boolean>(false);
   const addItem = useCartStore((state) => state.addItem);
   const today = useIstanbulToday();
   const scheduleBadge = getSaleScheduleBadge(product, today);
+  const accompaniment = isAccompaniment(product);
 
   const handleAddToCart = (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -49,21 +50,12 @@ export function ProductCard({ product, onOpenDetails }: ProductCardProps) {
     >
       {/* Product Image */}
       <div className="relative w-full aspect-square sm:aspect-auto sm:h-56 bg-cream-surface/70 overflow-hidden border-b border-line/60">
-        {!imgLoaded && (
-          <div className="absolute inset-0 bg-cream-surface/80 animate-pulse flex items-center justify-center">
-            <span className="text-2xl opacity-40">🍞</span>
-          </div>
-        )}
-        <img
-          src={imgSrc}
+        <SafeProductImage
+          src={product.imageUrl}
+          fallbackSrc={getProductPlaceholder(product.category)}
           alt={product.name}
-          onError={() => setImgSrc(PRODUCT_IMAGE_PLACEHOLDER)}
-          onLoad={() => setImgLoaded(true)}
-          className={`w-full h-full object-cover group-hover:scale-105 transition-all duration-700 ${
-            imgLoaded ? "opacity-100" : "opacity-0"
-          }`}
-          loading="lazy"
-          decoding="async"
+          isAccompanimentItem={accompaniment}
+          className="w-full h-full object-cover group-hover:scale-105 transition-all duration-700"
         />
 
         {badges.length > 0 && (

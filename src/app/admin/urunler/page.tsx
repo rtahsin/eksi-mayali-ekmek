@@ -28,7 +28,9 @@ import { createClient } from "@/lib/supabase/client";
 import { MEDIA_BUCKET } from "@/lib/bake/log";
 import { shrinkPhoto } from "@/lib/media/shrinkPhoto";
 import type { ExtendedProduct, ProductCategoryInfo } from "@/types";
-import { emptyProductForm, productToForm, useAdminCatalog, type ProductForm } from "@/hooks/useAdminCatalog";
+import { applyCategoryChange, emptyProductForm, productToForm, useAdminCatalog, type ProductForm } from "@/hooks/useAdminCatalog";
+import { isAccompanimentCategory } from "@/lib/products/grouping";
+import { isPlaceholderImageUrl } from "@/lib/products/map";
 import { formatTrDate, istanbulToday } from "@/lib/time/istanbul";
 import { upcomingSaleDates } from "@/lib/ordering/saleDates";
 import { productBadges } from "@/lib/products/badges";
@@ -37,6 +39,22 @@ import { getErrorMessage } from "@/lib/utils/error";
 const inputCls =
   "w-full bg-stone-950 border border-stone-800 rounded-xl px-3 py-2 text-sm text-stone-100 focus:outline-none focus:border-artisan-terracotta";
 const tl = (v: number) => `${v.toLocaleString("tr-TR")} ₺`;
+
+const QUICK_WEIGHT_CHIPS: ReadonlyArray<{ label: string; weight: number; weightUnit: ProductForm["weightUnit"] }> = [
+  { label: "500 g", weight: 500, weightUnit: "g" },
+  { label: "850 g", weight: 850, weightUnit: "g" },
+  { label: "1 kg", weight: 1, weightUnit: "kg" },
+  { label: "3 L", weight: 3, weightUnit: "l" },
+  { label: "5 L", weight: 5, weightUnit: "l" },
+  { label: "10 adet", weight: 10, weightUnit: "adet" },
+  { label: "1 adet", weight: 1, weightUnit: "adet" },
+];
+
+const CATEGORY_PRESETS: ReadonlyArray<{ id: string; name: string }> = [
+  { id: "mandira", name: "Mandıra & Süt Ürünleri" },
+  { id: "sarkuteri", name: "Şarküteri & Kahvaltılık" },
+  { id: "gurme", name: "Gurme Kiler" },
+];
 
 export default function AdminProductsPage() {
   const { products, categories, loading, error, saveProduct, archiveProduct, quickUpdate, saveCategory, deleteCategory } =
@@ -93,7 +111,7 @@ export default function AdminProductsPage() {
           {tab === "products" && (
             <button
               type="button"
-              onClick={() => setEditing(emptyProductForm(categories[0]?.id ?? "bread"))}
+              onClick={() => setEditing(emptyProductForm(categoryFilter !== "all" ? categoryFilter : (categories[0]?.id ?? "bread")))}
               className="px-4 py-2.5 rounded-xl bg-artisan-terracotta hover:bg-artisan-terracotta-dark text-white text-sm font-bold flex items-center gap-2"
             >
               <Plus className="w-4 h-4" /> Yeni ürün
@@ -151,18 +169,34 @@ export default function AdminProductsPage() {
             </div>
           ) : (
             <ul className="space-y-2">
-              {visible.map((p) => (
+              {visible.map((p) => {
+                const needsPhoto = isPlaceholderImageUrl(p.imageUrl);
+                return (
                 // Telefonda düğmeler alt satıra iner; ürün adı kesilmeden okunur
                 <li key={p.id} className="p-3 rounded-2xl bg-stone-900/70 border border-stone-800 flex flex-col sm:flex-row sm:items-center gap-3">
                   <div className="flex items-center gap-3 flex-1 min-w-0">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src={p.imageUrl} alt="" className="w-14 h-14 rounded-xl object-cover bg-stone-800 shrink-0" />
+                  {needsPhoto ? (
+                    <div
+                      className="w-14 h-14 rounded-xl bg-stone-950 border border-dashed border-stone-700 flex items-center justify-center shrink-0 text-stone-500"
+                      title="Fotoğraf bekliyor"
+                    >
+                      <Camera className="w-5 h-5" />
+                    </div>
+                  ) : (
+                    /* eslint-disable-next-line @next/next/no-img-element */
+                    <img src={p.imageUrl} alt="" className="w-14 h-14 rounded-xl object-cover bg-stone-800 shrink-0" />
+                  )}
                   <div className="flex-1 min-w-0">
                     <div className="font-semibold text-stone-100 text-sm leading-snug">{p.name}</div>
                     <div className="text-xs text-stone-400 flex flex-wrap items-center gap-x-2 gap-y-1 mt-0.5">
                       <span>{categoryName(p.category)}</span>
                       <span className="font-mono text-stone-200">{tl(p.price)}</span>
                       {p.compareAtPrice ? <span className="line-through text-stone-500">{tl(p.compareAtPrice)}</span> : null}
+                      {needsPhoto && (
+                        <span className="px-1.5 py-0.5 rounded-md bg-stone-800 text-stone-300 border border-stone-700 text-xs inline-flex items-center gap-1">
+                          <Camera className="w-3 h-3 text-amber-400" /> Fotoğraf bekliyor
+                        </span>
+                      )}
                       {productBadges(p).map((b) => (
                         <span key={b.label} className="px-1.5 py-0.5 rounded-md bg-amber-500/10 text-amber-300 border border-amber-500/20 text-xs">
                           {b.label}
@@ -217,7 +251,8 @@ export default function AdminProductsPage() {
                     </button>
                   </div>
                 </li>
-              ))}
+                );
+              })}
             </ul>
           )}
         </>
@@ -272,6 +307,7 @@ function ProductEditor({
   const [bundlePick, setBundlePick] = useState("");
   const [showDetails, setShowDetails] = useState(false);
   const today = istanbulToday();
+  const isAccomp = isAccompanimentCategory(form.category);
 
   const set = <K extends keyof ProductForm>(key: K, value: ProductForm[K]) => setForm((f) => ({ ...f, [key]: value }));
   const others = products.filter((p) => p.id !== form.id && p.isActive !== false);
@@ -310,12 +346,29 @@ function ProductEditor({
             <Field label="Ürün adı">
               <input required value={form.name} onChange={(e) => set("name", e.target.value)} className={inputCls} />
             </Field>
-            <Field label="Açıklama">
-              <textarea rows={3} value={form.description} onChange={(e) => set("description", e.target.value)} className={inputCls} />
+            <Field label={isAccomp ? "Açıklama · Doku, Kıvam & Lezzet Notları" : "Açıklama"}>
+              <textarea
+                rows={3}
+                value={form.description}
+                onChange={(e) => set("description", e.target.value)}
+                placeholder={
+                  isAccomp
+                    ? "Örn: Üstü kalın kaymak tabakalı, kaşıkta dağılmayan sıkı dokulu ve hafif ekşimsi aromalı geleneksel yoğurt."
+                    : "Örn: Kalın karamelize kabuklu, nemli gözenekli iç dokuya ve dengeli ekşi maya aromasına sahip taş fırın somunu."
+                }
+                className={inputCls}
+              />
             </Field>
             <div className="grid grid-cols-2 gap-3">
               <Field label="Kategori">
-                <select value={form.category} onChange={(e) => set("category", e.target.value)} className={inputCls}>
+                <select
+                  value={form.category}
+                  onChange={(e) => setForm(applyCategoryChange(form, e.target.value))}
+                  className={inputCls}
+                >
+                  {!categories.some((c) => c.id === form.category) && (
+                    <option value={form.category}>{form.category}</option>
+                  )}
                   {categories.map((c) => (
                     <option key={c.id} value={c.id}>
                       {c.name}
@@ -340,21 +393,45 @@ function ProductEditor({
                   className={inputCls}
                 />
               </Field>
-              <Field label="Ağırlık / miktar">
-                <div className="flex gap-2">
-                  <input type="number" min={0} value={form.weight} onChange={(e) => set("weight", Number(e.target.value))} className={inputCls} />
-                  <select value={form.weightUnit} onChange={(e) => set("weightUnit", e.target.value as ProductForm["weightUnit"])} className={`${inputCls} w-24`}>
-                    {(["g", "kg", "ml", "l", "adet"] as const).map((u) => (
-                      <option key={u} value={u}>
-                        {u}
-                      </option>
-                    ))}
-                  </select>
+              <div className="col-span-2 sm:col-span-1 space-y-2">
+                <Field label="Ağırlık / miktar">
+                  <div className="flex gap-2">
+                    <input type="number" min={0} value={form.weight} onChange={(e) => set("weight", Number(e.target.value))} className={inputCls} />
+                    <select value={form.weightUnit} onChange={(e) => set("weightUnit", e.target.value as ProductForm["weightUnit"])} className={`${inputCls} w-24`}>
+                      {(["g", "kg", "ml", "l", "adet"] as const).map((u) => (
+                        <option key={u} value={u}>
+                          {u}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                </Field>
+                <div className="flex flex-wrap gap-1.5" role="group" aria-label="Hızlı gramaj ve birim seçimi">
+                  {QUICK_WEIGHT_CHIPS.map((chip) => {
+                    const active = form.weight === chip.weight && form.weightUnit === chip.weightUnit;
+                    return (
+                      <button
+                        key={chip.label}
+                        type="button"
+                        aria-pressed={active}
+                        onClick={() => setForm((f) => ({ ...f, weight: chip.weight, weightUnit: chip.weightUnit }))}
+                        className={`px-2.5 py-1.5 rounded-lg text-xs font-semibold border transition-colors ${
+                          active
+                            ? "bg-artisan-terracotta text-white border-artisan-terracotta"
+                            : "bg-stone-950 text-stone-300 border-stone-800 hover:border-stone-700"
+                        }`}
+                      >
+                        {chip.label}
+                      </button>
+                    );
+                  })}
                 </div>
-              </Field>
-              <Field label="Fotoğraf" hint="Telefonda küçültülüp yüklenir; kaydedince ürüne bağlanır">
+              </div>
+              <div className="col-span-2 sm:col-span-1 space-y-1">
+                <span className="text-xs font-semibold text-stone-300 block">Fotoğraf</span>
                 <PhotoField value={form.imageUrl ?? null} onChange={(url) => set("imageUrl", url)} />
-              </Field>
+                <span className="block text-xs text-stone-500">Telefonda küçültülüp yüklenir; kaydedince ürüne bağlanır</span>
+              </div>
             </div>
           </Section>
 
@@ -448,6 +525,11 @@ function ProductEditor({
                 <input type="number" min={0} max={100} value={form.capacityUnits} onChange={(e) => set("capacityUnits", Number(e.target.value))} className={inputCls} />
               </Field>
             </div>
+            {isAccomp && (
+              <div className="px-3 py-2 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-xs text-emerald-300 font-medium">
+                Eşlikçi ürün: Taş fırın somun kapasitesini tüketmez (Kapasite payı = 0)
+              </div>
+            )}
           </Section>
 
           {/* Satış Günleri (I-06) */}
@@ -642,48 +724,88 @@ function ProductEditor({
           </Section>
 
           {/* Detay */}
-          <button type="button" onClick={() => setShowDetails(!showDetails)} className="text-xs text-stone-400 flex items-center gap-1">
-            <ChevronDown className={`w-4 h-4 transition-transform ${showDetails ? "rotate-180" : ""}`} /> Ürün sayfası detayları (içerik, un, hikâye)
+          <button
+            type="button"
+            aria-expanded={showDetails}
+            onClick={() => setShowDetails(!showDetails)}
+            className="text-xs text-stone-400 flex items-center gap-1"
+          >
+            <ChevronDown className={`w-4 h-4 transition-transform ${showDetails ? "rotate-180" : ""}`} />{" "}
+            {isAccomp ? "Ürün sayfası detayları (içindekiler, üretici, saklama)" : "Ürün sayfası detayları (içerik, un, hikâye)"}
           </button>
           {showDetails && (
             <Section title="Ürün sayfası detayları">
               <Field label="İçindekiler" hint="Virgülle ayırın">
                 <input
                   value={form.ingredients.join(", ")}
+                  placeholder={isAccomp ? "Örn: Çiğ inek sütü, yoğurt mayası" : "Örn: Atalık buğday unu, içme suyu, kaya tuzu, ekşi maya"}
                   onChange={(e) => set("ingredients", e.target.value.split(",").map((s) => s.trim()).filter(Boolean))}
                   className={inputCls}
                 />
               </Field>
-              <div className="grid grid-cols-2 gap-3">
-                <Field label="Un türleri" hint="Virgülle ayırın">
-                  <input
-                    value={form.flourTypes.join(", ")}
-                    onChange={(e) => set("flourTypes", e.target.value.split(",").map((s) => s.trim()).filter(Boolean))}
-                    className={inputCls}
-                  />
-                </Field>
-                <Field label="Hidrasyon (%)">
-                  <input
-                    type="number"
-                    min={0}
-                    max={200}
-                    value={form.hydration ?? ""}
-                    onChange={(e) => set("hydration", e.target.value === "" ? null : Number(e.target.value))}
-                    className={inputCls}
-                  />
-                </Field>
-              </div>
+              {!isAccomp && (
+                <div className="grid grid-cols-2 gap-3">
+                  <Field label="Un türleri" hint="Virgülle ayırın">
+                    <input
+                      value={form.flourTypes.join(", ")}
+                      onChange={(e) => set("flourTypes", e.target.value.split(",").map((s) => s.trim()).filter(Boolean))}
+                      className={inputCls}
+                    />
+                  </Field>
+                  <Field label="Hidrasyon (%)">
+                    <input
+                      type="number"
+                      min={0}
+                      max={200}
+                      value={form.hydration ?? ""}
+                      onChange={(e) => set("hydration", e.target.value === "" ? null : Number(e.target.value))}
+                      className={inputCls}
+                    />
+                  </Field>
+                </div>
+              )}
               {(
-                [
-                  ["flourHeritage", "Unun ve mayanın hikâyesi"],
-                  ["technique", "Teknik"],
-                  ["pairingStorage", "Nasıl tüketilir, saklanır"],
-                ] as const
-              ).map(([key, label]) => (
+                isAccomp
+                  ? ([
+                      [
+                        "flourHeritage",
+                        "Üretici & Kaynak Hikâyesi",
+                        "Örn: Çatalca meralarında açık otlayan Jersey ineklerinden sabah sağımıyla gelen günlük çiğ süt.",
+                      ],
+                      [
+                        "technique",
+                        "Üretim & Hazırlık Yöntemi",
+                        "Örn: Katkısız şirden mayası ile bakır kazanda yavaş pıhtılaştırma ve soğuk odada dinlendirme.",
+                      ],
+                      [
+                        "pairingStorage",
+                        "Nasıl Tüketilir & Saklanır?",
+                        "Örn: +4°C buzdolabında cam kapta saklayın; kızarmış ekşi mayalı ekmek dilimiyle servis edin.",
+                      ],
+                    ] as const)
+                  : ([
+                      [
+                        "flourHeritage",
+                        "Unun ve mayanın hikâyesi",
+                        "Örn: Kastamonu taş değirmen siyez unu ve atölyemizin 8 yıllık canlı ekşi mayası.",
+                      ],
+                      [
+                        "technique",
+                        "Fermantasyon & Pişirme Tekniği",
+                        "Örn: +4°C'de 24 saat soğuk fermantasyon, 250°C taş tabanlı fırında buharlı pişirim.",
+                      ],
+                      [
+                        "pairingStorage",
+                        "Nasıl Tüketilir & Saklanır?",
+                        "Örn: Oda sıcaklığında pamuklu bez torbada 4–5 gün; dilimleyerek dondurucuda 2 ay saklanabilir.",
+                      ],
+                    ] as const)
+              ).map(([key, label, placeholder]) => (
                 <Field key={key} label={label}>
                   <textarea
                     rows={2}
                     value={form.masterclass?.[key] ?? ""}
+                    placeholder={placeholder}
                     onChange={(e) => set("masterclass", { ...(form.masterclass ?? {}), [key]: e.target.value })}
                     className={inputCls}
                   />
@@ -756,6 +878,8 @@ function CategoryManager({
     }
   };
 
+  const missingPresets = CATEGORY_PRESETS.filter((preset) => !categories.some((c) => c.id === preset.id));
+
   return (
     <div className="space-y-3">
       {err && (
@@ -769,6 +893,7 @@ function CategoryManager({
         const dirty = d.name !== c.name || d.displayOrder !== c.displayOrder || d.isVisible !== c.isVisible;
         return (
           <div key={c.id} className="p-3 rounded-2xl bg-stone-900/70 border border-stone-800 flex flex-wrap items-center gap-2">
+            <span className="text-xs font-mono text-stone-500 px-2 py-1 rounded-lg bg-stone-950 border border-stone-800">{c.id}</span>
             <input
               value={d.name}
               onChange={(e) => setDrafts({ ...drafts, [c.id]: { ...d, name: e.target.value } })}
@@ -830,6 +955,42 @@ function CategoryManager({
           <Plus className="w-4 h-4" /> Ekle
         </button>
       </div>
+
+      {missingPresets.length > 0 && (
+        <div className="p-3 rounded-2xl bg-stone-900/60 border border-stone-800 space-y-2">
+          <span className="text-xs font-semibold text-stone-300 block">
+            Hızlı eşlikçi kategorileri (tek tıkla standart kategori koduyla eklenir):
+          </span>
+          <div className="flex flex-wrap gap-2">
+            {missingPresets.map((preset) => (
+              <button
+                key={preset.id}
+                type="button"
+                disabled={busy !== null}
+                onClick={() =>
+                  run(`preset-${preset.id}`, () =>
+                    onSave({
+                      id: preset.id,
+                      name: preset.name,
+                      displayOrder: categories.length + 1,
+                      isVisible: true,
+                    })
+                  )
+                }
+                className="px-3 py-2 rounded-xl bg-stone-950 hover:bg-stone-800 border border-stone-700 text-xs font-semibold text-stone-200 flex items-center gap-1.5 disabled:opacity-40"
+              >
+                {busy === `preset-${preset.id}` ? (
+                  <Loader2 className="w-3.5 h-3.5 animate-spin text-amber-400" />
+                ) : (
+                  <Plus className="w-3.5 h-3.5 text-amber-400" />
+                )}
+                <span>{preset.name}</span>
+                <span className="font-mono text-stone-500">({preset.id})</span>
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
     </div>
   );
 }
@@ -840,6 +1001,7 @@ function CategoryManager({
 function PhotoField({ value, onChange }: { value: string | null; onChange: (url: string | null) => void }) {
   const [busy, setBusy] = useState(false);
   const [err, setErr] = useState<string | null>(null);
+  const hasRealPhoto = Boolean(value && !isPlaceholderImageUrl(value));
 
   const upload = async (picked: File | undefined) => {
     if (!picked) return;
@@ -871,7 +1033,7 @@ function PhotoField({ value, onChange }: { value: string | null; onChange: (url:
   return (
     <div className="space-y-2">
       <div className="flex items-center gap-3">
-        {value ? (
+        {hasRealPhoto && value ? (
           // eslint-disable-next-line @next/next/no-img-element -- yüklenen kapak önizlemesi
           <img src={value} alt="" className="w-20 h-20 rounded-xl object-cover bg-stone-800 shrink-0" />
         ) : (
@@ -884,7 +1046,7 @@ function PhotoField({ value, onChange }: { value: string | null; onChange: (url:
             className={`h-11 px-4 rounded-xl bg-artisan-terracotta text-white text-sm font-bold flex items-center gap-2 ${busy ? "opacity-60" : "cursor-pointer"}`}
           >
             {busy ? <Loader2 className="w-4 h-4 animate-spin" /> : <Camera className="w-4 h-4" />}
-            {busy ? "Yükleniyor…" : value ? "Değiştir" : "Fotoğraf ekle"}
+            {busy ? "Yükleniyor…" : hasRealPhoto ? "Değiştir" : "Fotoğraf ekle"}
             <input
               type="file"
               accept="image/*"
@@ -896,7 +1058,7 @@ function PhotoField({ value, onChange }: { value: string | null; onChange: (url:
               }}
             />
           </label>
-          {value && !busy && (
+          {hasRealPhoto && !busy && (
             <button type="button" onClick={() => onChange(null)} className="h-11 px-3 rounded-xl bg-stone-800 text-stone-300 text-sm">
               Kaldır
             </button>

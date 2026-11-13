@@ -27,15 +27,30 @@ const ACCOMPANIMENT_CATEGORIES = new Set([
   "recel",
   "zeytin",
   "tereyag",
+  "sut",
+  "yogurt",
+  "yoğurt",
+  "yumurta",
+  "sucuk",
+  "yufka",
+  "kavurma",
 ]);
+
+/**
+ * Kategori kodunun eşlikçi (mandıra/şarküteri/kiler) olup olmadığını belirler.
+ */
+export function isAccompanimentCategory(category: string | null | undefined): boolean {
+  const cat = (category || "").trim().toLowerCase();
+  return ACCOMPANIMENT_CATEGORIES.has(cat);
+}
 
 /**
  * Ürünün eşlikçi (ekmek dışı mandıra/kiler/gurme) olup olmadığını belirler.
  */
 export function isAccompaniment(product: ExtendedProduct): boolean {
-  const cat = (product.category || "").toLowerCase();
-  if (ACCOMPANIMENT_CATEGORIES.has(cat)) return true;
-  if (product.capacityUnits === 0 && cat !== "bread" && cat !== "ekmek") return true;
+  const cat = (product.category || "").trim().toLowerCase();
+  if (isAccompanimentCategory(cat)) return true;
+  if (product.capacityUnits === 0 && cat !== "bread" && cat !== "ekmek" && cat !== "specialty") return true;
   return false;
 }
 

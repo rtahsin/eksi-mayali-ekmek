@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600" role="img" aria-label="EkmekLab Taş Fırın">
+  <defs>
+    <radialGradient id="warmGlow" cx="50%" cy="44%" r="58%">
+      <stop offset="0%" stop-color="#FBF6EC" />
+      <stop offset="100%" stop-color="#EFE4CE" />
+    </radialGradient>
+  </defs>
+  <rect width="800" height="600" fill="url(#warmGlow)" />
+  <rect x="28" y="28" width="744" height="544" rx="24" fill="none" stroke="#E2D3BD" stroke-width="2" />
+  <rect x="40" y="40" width="720" height="520" rx="18" fill="none" stroke="#E2D3BD" stroke-width="1" stroke-dasharray="6 6" opacity="0.7" />
+
+  <!-- Artisan Sourdough Loaf & Wheat Motif -->
+  <g transform="translate(400, 265)" fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <!-- Subtle Halo -->
+    <circle cx="0" cy="-6" r="108" fill="#F6EEDF" stroke="#E2D3BD" stroke-width="1.5" />
+    <!-- Loaf Dome -->
+    <path d="M-78,28 C-82,-34 -46,-68 0,-68 C46,-68 82,-34 78,28 Z" fill="#EAD3A2" fill-opacity="0.45" stroke="#3B1E1A" stroke-width="3.5" />
+    <!-- Base Crust -->
+    <path d="M-84,28 L84,28 C84,40 72,46 58,46 L-58,46 C-72,46 -84,40 -84,28 Z" fill="#B4532A" fill-opacity="0.18" stroke="#3B1E1A" stroke-width="3" />
+    <!-- Scoring / Grigne Marks -->
+    <path d="M-36,-32 C-18,-46 6,-46 28,-28" stroke="#B4532A" stroke-width="3.5" />
+    <path d="M-46,-6 C-22,-22 8,-20 38,-2" stroke="#B4532A" stroke-width="3" />
+    <path d="M-24,14 C-4,4 18,6 34,14" stroke="#6E5148" stroke-width="2.2" />
+    <!-- Steam / Aroma -->
+    <path d="M-26,-84 C-32,-96 -20,-104 -26,-116" stroke="#B4532A" stroke-width="2" opacity="0.65" />
+    <path d="M0,-90 C-6,-102 6,-110 0,-122" stroke="#B4532A" stroke-width="2" opacity="0.8" />
+    <path d="M26,-84 C20,-96 32,-104 26,-116" stroke="#B4532A" stroke-width="2" opacity="0.65" />
+  </g>
+
+  <text x="400" y="438" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="26" font-weight="700" fill="#3B1E1A" letter-spacing="0.5">
+    EkmekLab Taş Fırın
+  </text>
+  <text x="400" y="468" text-anchor="middle" font-family="system-ui, -apple-system, sans-serif" font-size="14" font-weight="500" fill="#6E5148" letter-spacing="2.5">
+    CANLI EKŞİ MAYA · GÜNLÜK TAZE ÜRETİM
+  </text>
+</svg>

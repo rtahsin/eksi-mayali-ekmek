@@ -2,6 +2,8 @@
 
 import { useCallback, useEffect, useState } from "react";
 import type { BundleItem, ExtendedProduct, MasterclassDetail, ProductCategoryInfo, ProductSaleDate } from "@/types";
+import { isAccompanimentCategory } from "@/lib/products/grouping";
+import { isPlaceholderImageUrl } from "@/lib/products/map";
 
 /** Admin ürün formu (`POST /api/admin/products` gövdesi). */
 export interface ProductForm {
@@ -45,7 +47,7 @@ export function productToForm(p: ExtendedProduct): ProductForm {
     description: p.description,
     price: p.price,
     compareAtPrice: p.compareAtPrice ?? null,
-    imageUrl: p.imageUrl?.startsWith("/images/categories/") ? null : p.imageUrl || null,
+    imageUrl: isPlaceholderImageUrl(p.imageUrl) ? null : p.imageUrl || null,
     category: p.category,
     weight: p.weight,
     weightUnit: (UNITS as string[]).includes(p.weightUnit || "") ? (p.weightUnit as ProductForm["weightUnit"]) : "g",
@@ -58,7 +60,7 @@ export function productToForm(p: ExtendedProduct): ProductForm {
     saleDates: p.saleDates ?? [],
     dailyLimit: p.dailyLimit ?? null,
     leadTimeDays: p.leadTimeDays ?? 0,
-    capacityUnits: p.capacityUnits ?? 1,
+    capacityUnits: p.capacityUnits ?? (isAccompanimentCategory(p.category) ? 0 : 1),
     bundleItems: p.bundleItems ?? [],
     crossSell: p.crossSell ?? [],
     displayOrder: p.displayOrder ?? 0,
@@ -89,7 +91,7 @@ export function emptyProductForm(category: string): ProductForm {
     saleDates: [],
     dailyLimit: null,
     leadTimeDays: 0,
-    capacityUnits: 1,
+    capacityUnits: isAccompanimentCategory(category) ? 0 : 1,
     bundleItems: [],
     crossSell: [],
     displayOrder: 0,
@@ -98,6 +100,26 @@ export function emptyProductForm(category: string): ProductForm {
     hydration: null,
     masterclass: null,
     saleWeekdays: null,
+  };
+}
+
+/**
+ * Kategori değiştiğinde taş fırın somun kapasitesi (`capacityUnits`) ve ekmek-özel alanları senkronize eder.
+ */
+export function applyCategoryChange(form: ProductForm, nextCategory: string): ProductForm {
+  const prevWasAccomp = isAccompanimentCategory(form.category);
+  const nextIsAccomp = isAccompanimentCategory(nextCategory);
+  const prevDefaultCapacity = prevWasAccomp ? 0 : 1;
+  const nextDefaultCapacity = nextIsAccomp ? 0 : 1;
+  const shouldSyncCapacity = !form.id || form.capacityUnits === prevDefaultCapacity;
+  const clearBreadFields = !form.id && !prevWasAccomp && nextIsAccomp;
+
+  return {
+    ...form,
+    category: nextCategory,
+    capacityUnits: shouldSyncCapacity ? nextDefaultCapacity : form.capacityUnits,
+    hydration: clearBreadFields ? null : form.hydration,
+    flourTypes: clearBreadFields ? [] : form.flourTypes,
   };
 }
 

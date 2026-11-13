@@ -2,6 +2,32 @@ import { fitWithin } from "@/lib/bake/log";
 
 // Tarayıcıda çalışır: telefon fotoğrafını yüklemeden önce küçültür.
 
+const HEIC_MIME_TYPES = new Set([
+  "image/heic",
+  "image/heif",
+  "image/heic-sequence",
+  "image/heif-sequence",
+]);
+
+export const HEIC_DECODE_ERROR_MESSAGE =
+  "HEIC/HEIF fotoğrafı tarayıcıda açılamadı. Samsung S24 Kamera > Ayarlar > Gelişmiş resim seçenekleri altından HEIF resimleri kapatıp JPG çekin veya JPEG/PNG yükleyin.";
+
+export const GENERIC_PHOTO_DECODE_ERROR_MESSAGE =
+  "Fotoğraf okunamadı. Lütfen geçerli bir JPG, PNG veya WebP görseli seçin.";
+
+/** Dosya uzantısı veya MIME türüne göre HEIC/HEIF olup olmadığını belirler. */
+export function isHeicLikeFile(file: Pick<File, "name" | "type">): boolean {
+  const mime = (file.type || "").trim().toLowerCase();
+  if (HEIC_MIME_TYPES.has(mime)) return true;
+  const name = (file.name || "").trim();
+  return /\.(heic|heif)$/i.test(name);
+}
+
+/** Tarayıcı görseli çözemediğinde (`img.decode()` hatası) kullanıcıya gösterilecek Türkçe mesajı üretir. */
+export function getPhotoDecodeErrorMessage(file: Pick<File, "name" | "type">): string {
+  return isHeicLikeFile(file) ? HEIC_DECODE_ERROR_MESSAGE : GENERIC_PHOTO_DECODE_ERROR_MESSAGE;
+}
+
 function toBlob(canvas: HTMLCanvasElement, type: string, quality: number): Promise<Blob | null> {
   return new Promise((resolve) => canvas.toBlob(resolve, type, quality));
 }
@@ -12,7 +38,11 @@ export async function shrinkPhoto(file: File, name = "foto"): Promise<File> {
   try {
     const img = new Image();
     img.src = src;
-    await img.decode();
+    try {
+      await img.decode();
+    } catch {
+      throw new Error(getPhotoDecodeErrorMessage(file));
+    }
     const { width, height } = fitWithin(img.naturalWidth, img.naturalHeight);
     const canvas = document.createElement("canvas");
     canvas.width = width;
