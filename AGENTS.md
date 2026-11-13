@@ -10,20 +10,25 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 
 # 🍞 EkmekLab - Geliştirici & Agent Çalışma Kuralları
 
-> **Aktif plan:** [`docs/YOL_HARITASI.md`](docs/YOL_HARITASI.md). Her oturum başında oku; faz durumunu orada güncelle. Çelişki olursa yol haritası geçerlidir; çelişkiyi Tahsin'e bildir.
-> **Mimari:** [`docs/MIMARI.md`](docs/MIMARI.md) (modüller, veri, sözleşmeler) · iş paketleri [`docs/IS_PAKETLERI.md`](docs/IS_PAKETLERI.md) (ajan brifingleri) · kararlar [`docs/adr/`](docs/adr/). Bir paket üzerinde çalışıyorsan önce o paketin brifingini ve "Ortak kurallar"ı oku; yazma kapsamının dışına çıkma.
+> **Tek Canlı Giriş Noktası (3 Şerit):** [`MERKEZ.md`](MERKEZ.md) (Şerit 1: Bilim/Kitap · Şerit 2: Medya/Ses/Video · Şerit 3: Web/Pazarlama/Satış).
+> **Aktif Özet Plan:** [`docs/YOL_HARITASI.md`](docs/YOL_HARITASI.md) · **Kitap/Video Omurgası:** [`docs/ICERIK_PLANI.md`](docs/ICERIK_PLANI.md).
+> **Mimari & Sözleşmeler:** [`docs/MIMARI.md`](docs/MIMARI.md) · **İş Emri Şablonu:** [`docs/IS_PAKETLERI.md`](docs/IS_PAKETLERI.md) · **Kararlar:** [`docs/adr/`](docs/adr/).
 
-Bu kurallar, EkmekLab projesinde kod yazarken, hata ayıklarken ve yeni modül eklerken uyulması zorunlu teknik ve mimari standartları belirler.
+---
+
+## 0. 🎯 Komuta Merkezi ve İşçi Ajan Rol Ayrımı
+- **Komuta Merkezi (Ana Sohbet):** Strateji, pazarlama/operasyon kurgusu, önceliklendirme, iş emri üretimi ve kalite/`git diff` denetimi merkezidir. Tahsin'e proaktif olarak en kârlı, en hızlı ve en yalın seçenekleri sunar; nihai karar ve onay Tahsin'dedir.
+- **İşçi Ajanlar (Diğer Sohbetler / Alt-Ajanlar):** Yalnızca kendilerine verilen **İş Emri** kapsamındaki dosyalara (`Yazma kapsamı`) dokunur. Kapsam dışına çıkmaz; kendi başına menü, tema, ürün stratejisi veya şema kararı vermez; belirsizlikte durup sorar.
 
 ---
 
 ## 1. 🏗️ Teknoloji Yığını ve İzolasyon Kuralları
 - **Çekirdek**: Next.js 16 (App Router, Turbopack, React 19, Node.js).
 - **Stil & Tasarım**: Tailwind CSS + Vanilla CSS.
-- **Backend & Veritabanı**: **Supabase** (PostgreSQL, Auth, Realtime). Giriş: admin ve müşteri için Google OAuth (Supabase Auth); admin PIN'i yoktur. Tablolar: `orders`, `order_items`, `products`, `current_accounts` ve cari defteri `account_transactions`. İstemci fabrikaları `src/lib/supabase/` altında (env yoksa `null` döner: her zaman null kontrolü yap).
-- **Firebase**: Kaldırıldı (kod ve paketler silindi). Yeni kodda Firebase kullanma.
+- **Backend & Veritabanı**: **Supabase** (PostgreSQL, Auth, Realtime). Giriş: admin ve müşteri için Google OAuth (Supabase Auth); admin PIN'i yoktur. Ana tablolar: `orders`, `order_items`, `payments`, `order_status_history`, `products`, `current_accounts`, `account_transactions`. İstemci fabrikaları `src/lib/supabase/` altında (env yoksa `null` döner: her zaman null kontrolü yap).
+- **Firebase**: Kaldırıldı. Yeni kodda Firebase kullanma.
 - **Bildirim**: Yeni sipariş bildirimi Telegram ile (`src/lib/notify/telegram.ts`), `after()` içinde gönderilir; mesajda kişisel veri (ad/telefon/adres) olmaz (KVKK). Hata siparişi asla bozmaz.
-- **Yasaklı Teknolojiler**: Bu repo içinde kesinlikle **Dart / Flutter** kodu yazılamaz, çalıştırılamaz veya önerilemez. Proje %100 Web/Next.js tabanlıdır.
+- **Yasaklı Teknolojiler**: Bu repo içinde kesinlikle **Dart / Flutter** kodu yazılamaz, çalıştırılamaz veya önerilemez. Proje %100 Web/Next.js + yerel Python medya/bilim hattı tabanlıdır.
 
 ---
 
@@ -36,7 +41,7 @@ Bu kurallar, EkmekLab projesinde kod yazarken, hata ayıklarken ve yeni modül e
 ---
 
 ## 3. 🎨 Tasarım Sistemi & Artisan Bakery Estetiği
-- **Renk Paleti**: Karar verilmiş ve canlıya alınmış yön **"Atölye Kremi"** ([`docs/MARKA.md`](docs/MARKA.md) §8: zemin `#F6EEDF`, kâğıt `#FBF6EC`, mürekkep `#3B1E1A`, ikincil `#6E5148`, çizgi `#E2D3BD`, vurgu terakota `#B4532A`; Fraunces + Inter). Canlı site ve vitrin Atölye Kremi'ne geçirilmiştir (IS_PAKETLERI D1 & T-01). `docs/DESIGN_SYSTEM.md`'deki eski palet geçerli değildir.
+- **Renk Paleti**: Canlı yön **"Atölye Kremi"** ([`docs/MARKA.md`](docs/MARKA.md) §8: zemin `#F6EEDF`, kâğıt `#FBF6EC`, mürekkep `#3B1E1A`, ikincil `#6E5148`, çizgi `#E2D3BD`, vurgu terakota `#B4532A`; gece teması token tabanlı; Fraunces + Inter).
   - `#B4532A` krem zemin üzerinde gövde metni için yeterli kontrastı vermez (~4,3:1); yalnız büyük metin ve arayüz öğelerinde kullan.
   - Jenerik düz parlak renkler (varsayılan mavi, kırmızı) yerine her zaman fırın kimliğiyle uyumlu sıcak taş tonları kullanılmalıdır.
 - **Tipografi**: Marka kimliği ve başlıklar için `font-serif`, metinler ve veri tabloları için modern sans-serif ve `font-mono`.
@@ -63,45 +68,35 @@ Bu kurallar, EkmekLab projesinde kod yazarken, hata ayıklarken ve yeni modül e
 
 ---
 
-## 5. 🧪 Derleme & Doğrulama Zorunluluğu
-- Her kod değişikliği sonrasında sırasıyla **`npm run typecheck`**, **`npm test`** (vitest, `src/**/*.test.ts`) ve **`npm run build`** çalıştırılarak 0 hata doğrulanmalıdır. CI ([`.github/workflows/ci.yml`](.github/workflows/ci.yml)) aynı üçünü her PR'da Supabase env'siz çalıştırır; kırmızı CI birleştirilmez.
-- Saf mantık (tarih, ayar şeması, uygunluk/kapasite vb.) için yanına `*.test.ts` yaz.
+## 5. 🧪 Şerit Bazlı Derleme & Doğrulama Zorunluluğu
+- **Şerit 3 — Canlı Web Uygulaması (`src/`, `content/`, `public/`, `supabase/`):** Her kod veya içerik değişikliği sonrasında sırasıyla **`npm run typecheck`**, **`npm test`** (vitest, `src/**/*.test.ts`) ve **`npm run build`** çalıştırılarak 0 hata doğrulanmalıdır. CI ([`.github/workflows/ci.yml`](.github/workflows/ci.yml)) aynı üçünü her PR'da Supabase env'siz çalıştırır; kırmızı CI birleştirilmez. Saf mantık için yanına `*.test.ts` yazılır.
+- **Şerit 1 & 2 — Bilim, Kitap, Ses ve Medya Mutfağı (`arastirma/`):** `.gitignore` altındadır; web derlemesi (`npm run build`) çalıştırılmaz. Doğrulama kapısı deterministik doğrulayıcı `python -X utf8 arastirma/bilgi_sentezi_v2/araclar/paket_dogrula.py` (`--konu KONU-XX` veya `--hepsi`) ve ilgili medya/ses/Remotion betiğinin hatasız çıktısıdır.
 
 ---
 
 ## 6. 🔐 Güvenlik, API Yetkilendirme & Eşzamanlılık (Concurrency) Kuralları
 - **Service Role'e Doğrudan Güvenilemez**: `createAdminClient()` kullanan tüm API rotalarında kimlik/rol doğrulaması [`src/lib/security/apiAuth.ts`](src/lib/security/apiAuth.ts) üzerinden yapılmalıdır. `verifyApiAuth(req)` önce çerez oturumunu, sonra Bearer token'ı okur. İstemci body'sinde gelen `isAdmin`, `cancelledBy: "admin"`, `userId`, `cariId` vb. alanlara asla güvenilmez.
-- **Admin Rotaları**: `src/app/api/admin/**` altındaki her handler şu iki satırla başlar (PIN yoktur; middleware'e ek savunma):
+- **Admin Rotaları**: `src/app/api/admin/**` altındaki her handler şu iki satırla başlar (PIN yoktur; `proxy.ts`'e ek savunma):
   ```ts
   const guard = await requireAdmin(req);
   if (!guard.ok) return guard.response;
   ```
-- **Atomik Cari Finans Yönetimi**: Tüm cari yazımları `POST /api/admin/cari/transactions` → `record_cari_transaction_atomic` (016/017: kanonik türler `satis/tahsilat/devir/storno`, açık `delta`, hesap kilidi, kilit altında `FİŞ-YYMM-NNN`, `p_target_balance` ile kilit altında bakiye düzeltme). Bakiye her zaman `SUM(delta)`'ya eşittir. Tarayıcı rolleri `account_transactions` ve `current_accounts` tablolarına yazamaz (yalnız okur); müşteri ekstre/fiş linkleri imzalıdır (`src/lib/security/linkToken.ts`, `/api/admin/cari/share`).
-- **Sipariş Yaşam Döngüsü**: Ara durumlar `PATCH /api/orders/[id]/status`; teslim yalnız `POST /api/orders/[id]/deliver` → `mark_order_delivered` (durum + tek ödeme satırı + cari siparişte teslimat fişi ve tahsilat tek işlemde; tekrar çağrı güvenli, kurye çevrimdışı kuyruğu buna dayanır); iptal `PATCH /api/orders/[id]/cancel` → `cancel_order_atomic` (cari hareketlerine storno). Manuel sipariş `POST /api/admin/orders` → `create_order_atomic`. Cari borcu sipariş anında değil teslimde yazılır.
+- **Atomik Cari Finans Yönetimi**: Tüm cari yazımları `POST /api/admin/cari/transactions` → `record_cari_transaction_atomic` (kanonik türler `satis/tahsilat/devir/storno`, açık `delta`, hesap kilidi, kilit altında `FİŞ-YYMM-NNN`, `p_target_balance` ile kilit altında bakiye düzeltme). Bakiye her zaman `SUM(delta)`'ya eşittir. Tarayıcı rolleri `account_transactions` ve `current_accounts` tablolarına yazamaz; müşteri ekstre/fiş linkleri imzalıdır (`src/lib/security/linkToken.ts`, `/api/admin/cari/share`).
+- **Sipariş Yaşam Döngüsü & Tek Yazar**: `orders`, `payments`, `order_status_history` yalnız sunucu (RPC / API rotası) tarafından yazılır (`024_single_writer.sql` canlıda aktiftir; tarayıcıdan doğrudan yazım yasaktır). Ara durumlar `PATCH /api/orders/[id]/status`; teslim yalnız `POST /api/orders/[id]/deliver` → `mark_order_delivered` (idempotent); ek ödeme `POST /api/admin/orders/[id]/payments` → `record_order_payment`; iptal `PATCH /api/orders/[id]/cancel` → `cancel_order_atomic` (cari hareketlerine storno). Manuel sipariş `POST /api/admin/orders` → `create_order_atomic`. Cari borcu sipariş anında değil teslimde yazılır.
 - **Zaman = İstanbul**: Tarih/saat için daima [`src/lib/time/istanbul.ts`](src/lib/time/istanbul.ts) (`istanbulToday`, `addDays`, `isPastCutoff`, `formatTrDate`…); istemci bileşenlerinde `useIstanbulToday()` hook'u. `new Date().toISOString().split("T")[0]` (UTC) kullanılmaz; `delivery_date` daima `YYYY-MM-DD`.
 - **Ayarlar & Sabitler**: Ayarlar [`src/lib/settings/schema.ts`](src/lib/settings/schema.ts) (zod) + sunucuda `getStoreSettings()` ile okunur; sipariş oluşturma ve admin yazımlarında `getStoreSettings(client, { failClosed: true })` (okunamazsa hata, sessiz varsayılan yok). Site sabitleri `src/lib/site.ts` içindedir (`SITE_URL`, `CONTACT`, `whatsappLink`); telefon numarası veya alan adı koda gömülmez.
-- **Sipariş & Katalog**: Siparişler yalnızca `POST /api/orders/create` → `create_order_atomic` (v4, migration 015) ile oluşur. Tarih/uygunluk/kapasite tek kaynağı `src/lib/ordering/availability.ts` (saf, testli) + `getCartAvailability` (`loadAvailability.ts`); katalog `src/lib/products/server.ts` içindeki `getCatalog()` ile okunur (statik katalog yedeği veya `stock || 25` gibi hileler yok).
-- **Optimistic Locking (İyimser Kilitleme)**: Sipariş durumu güncellemelerinde TOCTOU (Time-of-check to time-of-use) ve yarış durumlarını önlemek için UPDATE sorgusuna `.eq("status", currentStatus)` koşulu eklenmeli ve 0 satır güncellendiğinde 409 Conflict dönülmelidir.
-- **Teslimat Ekranı (`/kurye`)**: Kurye GPS izleme/yayını yoktur (Faz 3a-2'de kaldırıldı); kurye kadrosu yönetimi `src/lib/features.ts` bayrağıyla kapalıdır. Rota sırası `src/lib/delivery/maps.ts` (`sortStops`, mahalle sırası + elle sıra, cihazda saklanır). Teslim yalnız `deliverOrder()` → `/api/orders/[id]/deliver`; bağlantı yoksa çevrimdışı kuyruk.
+- **Sipariş & Katalog**: Siparişler yalnızca `POST /api/orders/create` → `create_order_atomic` ile oluşur. Tarih/uygunluk/kapasite tek kaynağı `src/lib/ordering/availability.ts` + `getCartAvailability` (`loadAvailability.ts`); katalog `src/lib/products/server.ts` içindeki `getCatalog()` ile okunur.
+- **Optimistic Locking (İyimser Kilitleme)**: Sipariş durumu güncellemelerinde TOCTOU ve yarış durumlarını önlemek için UPDATE sorgusuna `.eq("status", currentStatus)` koşulu eklenmeli ve 0 satır güncellendiğinde 409 Conflict dönülmelidir.
+- **Teslimat Ekranı (`/kurye`)**: Kurye GPS izleme/yayını yoktur; kurye kadrosu yönetimi `src/lib/features.ts` bayrağıyla kapalıdır. Rota sırası `src/lib/delivery/maps.ts` (`sortStops`). Teslim yalnız `deliverOrder()` → `/api/orders/[id]/deliver`; bağlantı yoksa çevrimdışı kuyruk. `/kurye` yalnızca `courier`, `staff`, `admin` veya `superadmin` rollerine açıktır.
 - **Halka Açık Takip ve Veri Minimizasyonu**: Misafir ve halka açık sipariş takibinde (`/api/orders/[id]`), yetkisiz sorgularda finansal toplamlar (`total_amount`, `subtotal`, `shipping_fee`) `null` olarak maskelenmeli, ürün fiyatları yanıttan soyulmalı ve IP/telefon rate limiting uygulanmalıdır.
 - **Ardışık Sipariş Numaralandırma**: Manuel ve otomatik siparişlerde `Date.now()` veya `Math.random()` kullanılmaz; ID için `crypto.randomUUID()`, sipariş numarası için veritabanı `generate_order_number()` RPC fonksiyonu kullanılır (`SIP-YYMM-XXX`).
-- **Atomik RPC ve Asla Soft-Fail / Non-Atomic Fallback Kuralı**: `create_order_atomic`, `record_cari_transaction_atomic` veya benzeri finans/sipariş RPC fonksiyonları başarısız olduğunda ASLA sıralı insert'lerden oluşan sahte veya parçalı bir fallback'e (soft-fail) düşülemez; sistem derhal açıkça `500` (Hard Fail) dönmelidir. Finansal ve operasyonel bütünlükte sessiz veri bozulmasındansa (silent corruption/phantom records) açık hata fırlatmak mecburidir.
-- **Kurye Konsolu Rol İzolasyonu**: `/kurye` rotası ve kurye API'leri yalnızca `courier`, `staff`, `admin` veya `superadmin` rollerine açıktır. Giriş yapmış olsa dahi standart müşteri oturumları (`customer`) kurye konsoluna asla erişemez.
-- **Veritabanı Migration Bütünlüğü & Ad-hoc Konsolide Script Yasağı**: Eksik tablo veya kolon tespit edildiğinde, ASLA elle yeni bir "ad-hoc konsolide" şema script'i yazılmaz (RLS politikalarının, kısıtların ve trigger'ların atlanmaması için). Öncelikle repodaki numaralı migration dosyalarının (`supabase/migrations/NNN_...`) sırasıyla çalıştırılıp çalıştırılmadığı (`app_migrations` tablosu) kontrol edilir ve eksik migration'lar numara sırasına göre uygulanır.
-- **Migration Kuralları**: Her migration kendini `app_migrations` tablosuna yazar ve `supabase/tests/NNN_*.sql` (BEGIN…ROLLBACK) duman testi içerir. Her yeni/değişen fonksiyon `SET search_path = public, pg_temp` taşır ve açık `REVOKE ALL ... FROM PUBLIC, anon, authenticated` + `GRANT EXECUTE ... TO service_role` içerir (`CREATE OR REPLACE` yetkileri sıfırlar; her seferinde yeniden yaz).
-- **Migration ↔ Yayın Sırası**: Tahsin SQL'i kendisi Supabase SQL Editor'de çalıştırır (önce sonu `ROLLBACK` olan kuru deneme, sonra `COMMIT`). Sıra önemlidir: eklemeli migration'lar (yeni sütun/tablo, geriye uyumlu RPC) uygulamadan ÖNCE; tip değiştiren veya eski kodu bozan migration'lar uygulamadan SONRA. Her PR açıklamasında sırayı açıkça yaz (bkz. `docs/YOL_HARITASI.md` §7).
-- **SQL'i Script ile Düzenleme**: SQL dosyalarını JS/Node script'iyle değiştirirken `String.replace`'e `$$` içeren değiştirme dizesi verme; `$$` tek `$`'a çöker ve dolar-tırnaklı fonksiyon gövdelerini bozar (015'te yaşandı). Fonksiyonlu değiştirme (`replace(x, () => yeni)`) veya doğrudan dosya düzenleme kullan.
-- **Migration Numarası Birleşme Anında**: Yeni migration'a numara PR birleşirken verilir (sıradaki boş numara); önceden numara ayırma. 019 ve 020 hiç oluşturulmadı (YOL_HARITASI §7).
-- **Tek Yazar**: `orders`, `payments`, `order_status_history` yalnız sunucu (RPC / API rotası) tarafından yazılır; tarayıcıdan doğrudan yazım ekleme (ADR-0007). Mevcut tarayıcı yazımları P1-09'da kalkar.
-- **Önizleme = Canlı Veritabanı**: Staging yok (ADR-0005). Vercel önizlemeleri canlı Supabase'e yazar. Ajanlar service-role anahtarıyla script çalıştırmaz ve canlı veritabanına bağlanmaz; canlı veri silen script/test `ALLOW_PROD_WRITES=1` + `TEST` öneki olmadan çalışmamalı; test kayıtları "TEST" önekli.
+- **Atomik RPC ve Asla Soft-Fail / Non-Atomic Fallback Kuralı**: `create_order_atomic`, `record_cari_transaction_atomic`, `mark_order_delivered` veya benzeri finans/sipariş RPC fonksiyonları başarısız olduğunda ASLA sıralı insert'lerden oluşan parçalı bir fallback'e düşülemez; sistem derhal açıkça `500` (Hard Fail) dönmelidir.
+- **Migration Kuralları (`001`–`030` mevcut; yeni numara `031+`)**: Ad-hoc konsolide şema script'i yazılmaz. Yeni migration'a numara birleşme anında sıradaki boş numara olarak verilir; kendini `app_migrations` tablosuna yazar ve `supabase/tests/NNN_*.sql` (BEGIN…ROLLBACK) duman testi içerir. Her yeni/değişen fonksiyon `SET search_path = public, pg_temp` ve açık `REVOKE ALL ... FROM PUBLIC, anon, authenticated` + `GRANT EXECUTE ... TO service_role` taşır. SQL dosyalarını JS ile düzenlerken `String.replace`'e düz `$$` verme (fonksiyonlu `replace` veya doğrudan düzenleme kullan). Tahsin SQL'i Supabase SQL Editor'de önce `ROLLBACK`, sonra `COMMIT` ile çalıştırır; uygulama ↔ migration sırası (ÖNCE / SONRA) her iş emrinde açıkça belirtilir.
+- **Önizleme = Canlı Veritabanı**: Staging yok (ADR-0005). Ajanlar service-role anahtarıyla script çalıştırmaz ve canlı veritabanına bağlanmaz; canlı veri silen script/test `ALLOW_PROD_WRITES=1` + `TEST` öneki olmadan çalışmamalıdır.
 
 ---
 
-## 7. 📚 İçerik ve Kanıt Kuralları (Mimari v1)
-- **İçerik git'te**: Kaynak, iddia, kavram, yazı, medya kaydı ve gezinme verisi `content/` altında (ADR-0002). Admin'de yazı editörü yok; localStorage veritabanı gibi kullanılmaz. Tahsin'in kendi malzemesi `content/gelen/`'e gelir; ajan taslağa çevirir.
-- **Her bilimsel cümle bir iddiaya bağlı**: Yazı gövdesinde bilimsel bilgi `<Claim id="…"/>` ile verilir; kimlikler literal string. İddia metni tek cümle, "ne olur" dili; kanıtta alıntı kopyalanmaz (telif), yalnız `locator`.
-- **İnceleme iki adımlı** (ADR-0003): kanıt ajanı NotebookLM'den "destekliyor mu, nerede?" kontrolünü `supportCheck` olarak yazar, DOI'yi Crossref'te doğrular; Tahsin ifadeyi ve yazının çerçevesini onaylar. `review` alanını **yalnız Tahsin'in açık onayından sonra**, güncel `claimHash` ile yaz. Onaylı bir iddiayı değiştirirsen onay geçersiz olur (K011); PR'da "değişen iddialar" olarak listele.
-- **Sağlık beyanı yok** (MARKA §3, BILIM.md): "sağlıklı, şifa, önler, iyileştirir, sindirimi kolay…" gibi fayda iddiaları yazılmaz. Sağlık terimi yalnız bir efsaneyi düzeltirken geçebilir; ürün sayfalarında (`/urun`, `/e`, ürüne bağlı yazılar) hiç geçmez. Doğrulayıcı kuralları MIMARI.md §2.5 (K001–K011).
-- **Ham kanıt havuzu**: [`arastirma/ekmek-kanit/`](arastirma/ekmek-kanit/README.md) — 1.048 kaynak, 3.913 bulgu, 29 tema; simülasyon kalibrasyonu (`MOTOR_ESLEME.md`) ve iddia adayları için. Doğrulanmamış; siteye yalnız `content/claims` + ADR-0003 incelemesiyle girer. Önce README'yi oku.
-- **Kararları ajan vermez**: site iskeleti/menü, ana sayfa, tema geçişi, içerik kapsamı (ekmek dışı konular), pilot konu Tahsin'in kararıdır.
-
+## 7. 📚 İçerik, Bilim ve Pazarlama Kuralları
+- **Canlı Web İçeriği (`content/`):** Sitedeki canlı bilim anlatıları `/bilim` rotasında (`content/bilim/` altında 26 an ve `content/video/` senaryoları), kavram/kaynak grafiği ise `content/{sources,claims,concepts}/` altında git'te tutulur (ADR-0002). Admin'de yazı editörü yoktur. Onaylı bir iddiada (`content/claims`) metin değişirse `claimHash` onayı geçersiz olur (K011); `review` alanı yalnız Tahsin'in açık onayından sonra yazılır.
+- **Bilim, Kitap ve Medya Stüdyosu (`arastirma/`):** `.gitignore` altındadır. Birincil tam metin arama ve doğrulama motoru `arastirma/bilgi_sentezi_v2/` (`bilgi_sentezi.sqlite` FTS5 — 2.541 tam metin kaydı + `paket_dogrula.py`), dergi/gazete hattı `arastirma/medya_hatti/`, gerçek ses kurgusu `arastirma/ses/` ve 60fps video stüdyosu `arastirma/video_studyosu/` dizinindedir. Detaylı akış [`MERKEZ.md`](MERKEZ.md) içindedir.
+- **Sağlık Beyanı Yok (`K006` — MARKA §3):** Web sitesinde, kitapta, videolarda, Instagram dergisinde ve kese kâğıdı gazetesinde *"sağlıklı, şifa, önler, iyileştirir, sindirimi kolay, bağırsak dostu…"* gibi fizyolojik/tıbbi fayda iddiaları **kesinlikle yazılmaz**. Bilim her zaman *"hamurda, fırında ve sofrada fizikokimyasal olarak ne olur?"* diliyle anlatılır. Ürün sayfalarında (`/urun`, `/e`, paket ve eşlikçi açıklamaları) sağlık terimi hiç geçmez.

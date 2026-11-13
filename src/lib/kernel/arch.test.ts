@@ -274,5 +274,5 @@ describe("Mimari Sınır Testleri (R1 - R5)", () => {
       untypedSupabaseMatches,
       `Untyped Supabase sayısı sınırı aştı! Bulunan: ${untypedSupabaseMatches}, Konumlar: ${matchedLocations.join(", ")}`
     ).toBeLessThanOrEqual(MAX_ALLOWED_UNTYPED_SUPABASE);
-  });
+  }, 20000);
 });

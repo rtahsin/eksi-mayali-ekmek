@@ -51,6 +51,10 @@ supabase/.temp/
 /playwright-report/
 /test-results/
 /scratch/
+/scratchpad/
+/.scratch/
+/tmp/
+.claude/worktrees/
 
 # Firebase & local bridge legacy
 .firebase/
@@ -62,5 +66,8 @@ __pycache__/
 *.pyc
 scripts/__pycache__/
 
-# Bilgi sentezi araştırma kayıtları (özel, yayımlanmaz)
+# Bilgi sentezi araştırma kayıtları ve yerel arşivler (özel, yayımlanmaz)
 /arastirma/
+/docs/_arsiv/
+*.rar
+.codex/

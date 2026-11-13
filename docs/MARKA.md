@@ -52,6 +52,14 @@ Fiyat **ucuz** görünmemeli, **adil** görünmeli. Fark ambalajla, isimle ve hi
 
 - **İmza ekmeğinin adı ve hikâyesi olmalı** (ör. "Lab No.1", "Mavi Haşhaşlı Çavdar"). İki gün sürmesi zaten doğal bir kıtlık; haftada belirli günlerde ön siparişle satmak hem değeri hem kâr marjını korur.
 - **Kargoya en uygun ürün de bu.** Yoğun çavdar ekmeği günlerce dayanır; kargo hedefine çavdarla başlamak mantıklı.
+- **Taş Fırın Kapasite Avantajı (12 Kasım ✅):** `120 × 80 cm` taş fırında açık `1000 g` ekşi mayalı ekmekten tek pişirimde **16 adet/saat** çıkarken, kalıpta pişen özel ekmeklerden (ör. %100 Çavdar, Yudane Tost) tek pişirimde **30 adede kadar** çıkabiliyor. Pazartesi fırından ekmek çıkmaz (Salı hamuru başlar), **Salı–Pazar** pişirim yapılır (şarküteri tabanı: 32 ekmek/gün).
+
+### 5.2 Perakende Sepet ve Sofralık Eşlikçi Stratejisi ✅ (Tahsin, 12 Kasım 2026)
+
+Motor veya araçla Beylikdüzü içinde tek somun ekmek dağıtmak lojistik maliyeti kurtarmaz. Bu yüzden EkmekLab perakendede "market" olmadan, **2018 gece yarısı sucuklu yumurta hikâyesiyle de birebir örtüşen** seçilmiş, kalitesi kanıtlanmış sofralık eşlikçilerle sepet büyütür:
+
+- **Eşlikçi Ailesi:** Günlük/çiğ süt, doğal yoğurt, gezen tavuk yumurtası, katkısız sucuk ve kavurma.
+- **Pazarlama Çerçevesi:** Eşlikçiler rastgele market ürünü gibi değil, *"İyi ekmeğin yanına yakışan, kendi soframıza koyduğumuz üreticilerden seçilmiş eşlikçiler"* diliyle ve ekmek eşleşmeleriyle (ör. *"Kalıp Çavdar + Tereyağı/Kavurma"*, *"Taş Fırın Köy Ekmeği + Hafta Sonu Sucuklu Yumurta Paketi"*) sunulur. Minimum sepet tutarı teslimat lojistiğini kârlı tutar.
 ### 5.1 İmza ekmeği için isim önerileri ❓
 
 | İsim | Neden |
@@ -125,6 +133,13 @@ Köy ekmeğindeki beyaz unu saklamak yerine söylemek güven verir ve "Lab" kiml
 - **"Komşu soruyor":** müşteri sorularına cevaplar.
 - **Kısa videolar:** bıçak atma, fırından çıkış, kabuğun çıtırtı sesi, kesit.
 - Her uzun video → Kütüphane'de bir yazı → ilgili ürün (birbirine bağlı).
+
+### 10.1 Resmi Sosyal Medya Kanalları ve Çekim Ekipmanı ✅ (12 Kasım 2026)
+
+- **YouTube (`16:9` Uzun + Shorts):** `@ekmeklab` (sıfırdan temiz kurulum; derin bilimsel anlatı ve atölye deneyleri).
+- **Instagram (`9:16` Reels + Vitrin):** `@ekmeklabtr` (profil/grid yenilenecek; hem 45 sn bilim kancaları hem fırından çıkan ekmek + sofralık eşlikçi paketleri).
+- **TikTok (`9:16`):** `@ekmek.lab` (Reels ile eşzamanlı dikey bilim/fırın videoları).
+- **Kayıt Donanımı:** Samsung Galaxy S24 (4K B-roll) + DJI Osmo mikrofon (48 kHz referans ses ve kabuk çıtırtısı/fırın sesi).
 
 ## 11. Bir yıllık hedef (Tahsin)
 
