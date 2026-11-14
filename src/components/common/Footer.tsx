@@ -95,10 +95,17 @@ export function Footer() {
                 </a>
               </li>
               <li>
-                <a href="/#nasil-uretiyoruz" className="hover:text-ink transition-colors">
-                  Nasıl Üretiyoruz?
+                <a href="/#sarkuteri" className="hover:text-ink transition-colors">
+                  Mandıra &amp; Şarküteri
                 </a>
               </li>
+              {FEATURES.nasilUretiyoruz && (
+                <li>
+                  <a href="/#nasil-uretiyoruz" className="hover:text-ink transition-colors">
+                    Nasıl Üretiyoruz?
+                  </a>
+                </li>
+              )}
               {FEATURES.bilimOdasi && (
                 <>
                   <li>

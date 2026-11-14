@@ -104,11 +104,26 @@ export function Navbar() {
             Ekmeklerimiz
           </a>
           <a
-            href="/#nasil-uretiyoruz"
+            href="/#sarkuteri"
+            onClick={(e) => {
+              if (typeof window !== "undefined" && window.location.pathname === "/") {
+                e.preventDefault();
+                window.location.hash = "sarkuteri";
+                window.dispatchEvent(new HashChangeEvent("hashchange"));
+              }
+            }}
             className="text-ink-muted hover:text-ink transition-colors font-medium tracking-wide whitespace-nowrap"
           >
-            Nasıl Üretiyoruz?
+            Mandıra &amp; Şarküteri
           </a>
+          {FEATURES.nasilUretiyoruz && (
+            <a
+              href="/#nasil-uretiyoruz"
+              className="text-ink-muted hover:text-ink transition-colors font-medium tracking-wide whitespace-nowrap"
+            >
+              Nasıl Üretiyoruz?
+            </a>
+          )}
           {FEATURES.bilimOdasi && (
             <a
               href="/bilim"

@@ -215,7 +215,7 @@ export function describePairingChemistry(
   ) {
     return {
       label: "Tava Isısında Lipit & Protein Uyumu",
-      note: "2018 gece yarısı klasiği: tavada eriyen fermente sucuk yağı, yumurta proteinleriyle birleşerek sıcak taş fırın ekmeği için yoğun bir sos tabanı kurar.",
+      note: "Tavada eriyen fermente sucuk yağı, yumurta proteinleriyle birleşerek sıcak taş fırın ekmeği için yoğun bir sos tabanı kurar.",
     };
   }
 

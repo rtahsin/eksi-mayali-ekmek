@@ -5,30 +5,30 @@ import { ArrowRight } from "lucide-react";
 const EDITORIAL_COLUMNS = [
   {
     no: "№ 01",
-    rubric: "CANLI DENEY LEVHASI",
-    title: "Canlı Nişasta & Bayatlama Simülatörü",
+    rubric: "TAŞ FIRIN DERGİSİ · SAYI #05",
+    title: "Sıcak Somun, Tereyağı, Yoğurt ve Sucuk: Sofranın Kimyası",
     excerpt:
-      "+4°C buzdolabı somunu neden oda sıcaklığından 3 kat hızlı sertleştirir? 200°C fırında 4 dakikalık ısıtma >60°C DSC eşiğinde amilopektin kristallerini nasıl çözer?",
-    href: "/bilim/rafta_ilk_hafta",
-    cta: "Simülatörü ve Levhayı Aç",
+      "34 °C'de eriyen köy tereyağı açık ekmek gözeneklerinde neden göl olmaz, ekşi maya doğal yoğurdun sulanmasını nasıl durdurur ve fermente sucukla ekmek neden aynı bakterilerin kardeşidir?",
+    href: "/bilim/sayi/05",
+    cta: "Sayı #05 Dergisini Oku",
   },
   {
     no: "№ 02",
-    rubric: "KAYNAKLI BİLİM ATLASI",
-    title: "Bilim Odası: Tarladan Dilime 26 An",
+    rubric: "CANLI DENEY · SAYI #02",
+    title: "Çavdar Fiziği & +4 °C Buzdolabı Bayatlama Simülatörü",
     excerpt:
-      "Buğday tanesinin anatomisinden ekşi maya bakterilerine, fırının ilk 8 dakikasından Efsane Dosyası'na kadar her cümlesi akademik kaynağa bağlı açık kütüphane.",
-    href: "/bilim",
-    cta: "Bilim Odasına Gir",
+      "%100 çavdar hamuru neden yoğrulmaz, fırından çıkınca neden 24 saat bıçak vurulmaz ve +4 °C buzdolabı ekmeği oda sıcaklığından nasıl katbekat hızlı sertleştirir?",
+    href: "/bilim/sayi/02#deney",
+    cta: "Sayı #02 ve Simülatörü Aç",
   },
   {
     no: "№ 03",
-    rubric: "ATÖLYE TEZGÂH MATEMATİĞİ",
-    title: "Fırıncı Hesaplayıcıları & DDT",
+    rubric: "TÜM SAYILAR & TEZGÂH ARAÇLARI",
+    title: "Taş Fırın Dergisi (Sayı #01–#05) ve Hesaplayıcılar",
     excerpt:
-      "Un = %100 fırıncı yüzdesi ölçekleyici, yoğurma sürtünmesi dahil istenen hamur sıcaklığı (DDT), Q10 ekşi maya besleme zamanlayıcısı ve tazelik eğrisi.",
-    href: "/arac",
-    cta: "Hesaplayıcıları Kullan",
+      "Ekşi mayanın ilk 10 gününden 100:1 maltoz ortaklığına, pencere testi yanılsamasından fırıncı yüzdesi ve DDT su sıcaklığı hesaplayıcılarına kadar tek çatıda açık mutfak kütüphanesi.",
+    href: "/bilim",
+    cta: "Bilim Odası & Tüm Sayılar",
   },
 ] as const;
 
@@ -42,8 +42,8 @@ export function ScienceDiscoveryBridge() {
         <div className="border-y-4 border-double border-line bg-cream-surface text-ink">
           {/* Üst Gazete Künyesi (Masthead) */}
           <div className="px-5 sm:px-8 py-3.5 border-b border-line flex flex-wrap items-center justify-between gap-2 font-mono text-[11px] uppercase tracking-[0.14em] text-ink-muted">
-            <span>EKMEKLAB · TAŞ FIRIN GAZETESİ &amp; AÇIK MUTFAK LABORATUVARI</span>
-            <span>BEYLİKDÜZÜ ATÖLYE BASKISI · ÖLÇÜM &amp; KAYNAK</span>
+            <span>EKMEKLAB · TAŞ FIRIN DERGİSİ &amp; AÇIK MUTFAK LABORATUVARI</span>
+            <span>WEB · KESE KÂĞIDI GAZETESİ · 45 SN VİDEO</span>
           </div>
 
           {/* Ana Gazete Manşeti */}
@@ -58,8 +58,8 @@ export function ScienceDiscoveryBridge() {
             </div>
             <p className="lg:col-span-5 text-xs sm:text-sm text-ink-muted leading-relaxed font-sans">
               Kulaktan dolma fırıncılık mitleri yerine tahıl kimyası, fermantasyon
-              mikrobiyolojisi ve açık tezgâh ölçümleri. Öğrendiğimiz her şeyi kese
-              kâğıdından ekrana şeffafça paylaşıyoruz.
+              mikrobiyolojisi ve açık tezgâh ölçümleri. Kese kâğıdı gazetesinden ekrana
+              aynı sayıları paylaşıyoruz.
             </p>
           </div>
 

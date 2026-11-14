@@ -2,9 +2,10 @@
 
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
-import { Truck, Sparkles, ShieldCheck } from "lucide-react";
+import { Truck, Flame, ShieldCheck } from "lucide-react";
 import { useStoreSettings } from "@/hooks/useStoreSettings";
 import { firinDurumu, type DurumGirdisi, type FirinDurumu } from "@/lib/bake/durum";
+import { FEATURES } from "@/lib/features";
 
 /** Rozet sunucuda hesaplanan durumla açılır (hydration aynı kalsın), sonra her dakika tazelenir. */
 function useFirinDurumu(takvim: DurumGirdisi, ilk: FirinDurumu): FirinDurumu {
@@ -54,12 +55,21 @@ export function AtelierThresholdHero({ takvim, ilkDurum }: { takvim: DurumGirdis
             >
               Taze Ekmekleri İncele
             </a>
-            <a
-              href="#nasil-uretiyoruz"
-              className="px-6 py-3.5 rounded-full bg-cream-surface border border-line text-ink font-semibold text-sm hover:border-accent hover:bg-bg transition-all"
-            >
-              Nasıl Üretiyoruz?
-            </a>
+            {FEATURES.nasilUretiyoruz ? (
+              <a
+                href="#nasil-uretiyoruz"
+                className="px-6 py-3.5 rounded-full bg-cream-surface border border-line text-ink font-semibold text-sm hover:border-accent hover:bg-bg transition-all"
+              >
+                Nasıl Üretiyoruz?
+              </a>
+            ) : (
+              <a
+                href="#sarkuteri"
+                className="px-6 py-3.5 rounded-full bg-cream-surface border border-line text-ink font-semibold text-sm hover:border-accent hover:bg-bg transition-all"
+              >
+                Mandıra &amp; Şarküteri
+              </a>
+            )}
           </div>
         </div>
 
@@ -91,7 +101,7 @@ export function AtelierThresholdHero({ takvim, ilkDurum }: { takvim: DurumGirdis
             <span>Beylikdüzü içi kendi teslimatımız</span>
           </div>
           <div className="flex items-center gap-2">
-            <Sparkles className="w-4 h-4 text-accent shrink-0" />
+            <Flame className="w-4 h-4 text-accent shrink-0" />
             <span>
               <strong>{threshold.toLocaleString("tr-TR")} ₺</strong> üzeri teslimat ücretsiz
               (altında {fee.toLocaleString("tr-TR")} ₺)

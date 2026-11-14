@@ -70,10 +70,22 @@ export function ProductCatalog({ initialProducts, categories = [] }: ProductCata
         hash === "#gurme" ||
         hash === "#sarkuteri"
       ) {
-        setSelectedCategory("gurme");
-        const el = document.getElementById("gurme-lezzetler");
-        if (el) {
-          el.scrollIntoView({ behavior: "smooth", block: "start" });
+        if (usedCategories.has("gurme")) {
+          setSelectedCategory("gurme");
+          const el = document.getElementById("gurme-lezzetler");
+          if (el) {
+            el.scrollIntoView({ behavior: "smooth", block: "start" });
+          }
+        } else {
+          setSelectedCategory("all");
+          const shelf =
+            document.getElementById("eslikci-rafi-masaustu")?.offsetParent !== null
+              ? document.getElementById("eslikci-rafi-masaustu")
+              : document.getElementById("eslikci-rafi-mobil") ??
+                document.getElementById("sarkuteri");
+          if (shelf) {
+            shelf.scrollIntoView({ behavior: "smooth", block: "start" });
+          }
         }
       } else if (hash === "#ekmekler") {
         const el = document.getElementById("ekmekler");
@@ -179,7 +191,7 @@ export function ProductCatalog({ initialProducts, categories = [] }: ProductCata
 
               {/* Raf 2: Eşlikçiler (Mandıra, gurme, kiler) */}
               {grouped.accompaniments.length > 0 && (
-                <div>
+                <div id="eslikci-rafi-mobil" className="scroll-mt-28">
                   <div className="flex items-center justify-between mb-3 px-0.5">
                     <div className="flex items-baseline gap-2">
                       <h3 className="font-serif text-lg font-bold text-ink">Eşlikçiler</h3>
@@ -262,7 +274,7 @@ export function ProductCatalog({ initialProducts, categories = [] }: ProductCata
 
               {/* Eşlikçiler Izgarası */}
               {grouped.accompaniments.length > 0 && (
-                <div>
+                <div id="eslikci-rafi-masaustu" className="scroll-mt-28">
                   <div className="flex items-baseline justify-between mb-5 border-b border-line pb-2.5">
                     <div className="flex items-baseline gap-2.5">
                       <h3 className="font-serif text-2xl font-bold text-ink">Eşlikçiler & Kiler</h3>

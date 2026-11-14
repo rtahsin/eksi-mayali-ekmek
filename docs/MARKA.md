@@ -5,11 +5,11 @@
 
 ---
 
-## 1. Hikâye (temel)
+## 1. Hikâye ve Kimlik (temel)
 
-**2018, gece yarısı.** Tahsin kendine sucuklu yumurta yapmış, tam yiyecekken bakmış ki evde ekmek yok, açık bir yer de yok. Soba yanıyor, mutfakta un var: un, su, tuz; ince bir lavaş açıp sobada pişirmiş ve yumurtasını onunla yemiş. Sonra internetten araştıra araştıra, deneye deneye evde ekmek yapmayı öğrenmiş; komşulara vere vere atölyeye, oradan bugüne gelmiş.
+**Evdeki mutfak tartısından Beylikdüzü'ndeki 22 m² bahçe taş fırınına.** Makale okuya okuya, tartıyla ve sıcaklıkla deneye deneye ekşi mayayı ve taş değirmen unlarını çalışan bir mahalle fırıncısının açık mutfak defteri. Komşulara ve şarküterilere giden somunlarla büyüyen atölye; "Lab" adı şef gösterisinden değil, her partiyi ölçerek öğrenmekten ve öğrendiğini şeffafça paylaşmaktan geliyor.
 
-**Neden güçlü:** Gerçek, komik, mütevazı ve herkesin yaşadığı bir an ("evde ekmek yok"). Lüks bir şef hikâyesi değil; merakla başlayan bir mahalle hikâyesi. "Lab" adını da açıklıyor: **mutfak laboratuvarı**, deneye deneye öğrenmek.
+**Neden güçlü:** Lüks bir şef kurgusu değil; merak, ölçüm ve komşulukla kurulan gerçek bir mahalle taş fırını.
 
 ## 2. Konumlandırma
 
@@ -36,7 +36,6 @@
 
 Diğer seçenekler (yedek / başlık olarak):
 
-- Bir gece ekmek yoktu. *(hikâye başlığı olarak; site ve ilk video için)*
 - Deneye deneye, paylaşa paylaşa.
 - Un, su, tuz ve sabır.
 
@@ -56,15 +55,15 @@ Fiyat **ucuz** görünmemeli, **adil** görünmeli. Fark ambalajla, isimle ve hi
 
 ### 5.2 Perakende Sepet ve Sofralık Eşlikçi Stratejisi ✅ (Tahsin, 12 Kasım 2026)
 
-Motor veya araçla Beylikdüzü içinde tek somun ekmek dağıtmak lojistik maliyeti kurtarmaz. Bu yüzden EkmekLab perakendede "market" olmadan, **2018 gece yarısı sucuklu yumurta hikâyesiyle de birebir örtüşen** seçilmiş, kalitesi kanıtlanmış sofralık eşlikçilerle sepet büyütür:
+Motor veya araçla Beylikdüzü içinde tek somun ekmek dağıtmak lojistik maliyeti kurtarmaz. Bu yüzden EkmekLab perakendede "market" olmadan, seçilmiş ve kalitesi kanıtlanmış sofralık eşlikçilerle sepet büyütür:
 
 - **Eşlikçi Ailesi:** Günlük/çiğ süt, doğal yoğurt, gezen tavuk yumurtası, katkısız sucuk ve kavurma.
-- **Pazarlama Çerçevesi:** Eşlikçiler rastgele market ürünü gibi değil, *"İyi ekmeğin yanına yakışan, kendi soframıza koyduğumuz üreticilerden seçilmiş eşlikçiler"* diliyle ve ekmek eşleşmeleriyle (ör. *"Kalıp Çavdar + Tereyağı/Kavurma"*, *"Taş Fırın Köy Ekmeği + Hafta Sonu Sucuklu Yumurta Paketi"*) sunulur. Minimum sepet tutarı teslimat lojistiğini kârlı tutar.
+- **Pazarlama Çerçevesi:** Eşlikçiler rastgele market ürünü gibi değil, *"İyi ekmeğin yanına yakışan, kendi soframıza koyduğumuz üreticilerden seçilmiş eşlikçiler"* diliyle ve ekmek eşleşmeleriyle (ör. *"Kalıp Çavdar + Tereyağı/Kavurma"*, *"Taş Fırın Köy Ekmeği + Hafta Sonu Mandıra & Şarküteri Paketi"*) sunulur. Minimum sepet tutarı teslimat lojistiğini kârlı tutar.
 ### 5.1 İmza ekmeği için isim önerileri ❓
 
 | İsim | Neden |
 |---|---|
-| **Gece Yarısı** | Çavdarın koyu rengi + markanın gece yarısı başlayan hikâyesi. *Öneri.* |
+| **Gece Yarısı** | Mavi haşhaşlı %100 çavdarın koyu iç ve kabuk rengi. |
 | Lab No.1 | Laboratuvarın ilk ve en emek isteyen formülü; seri devam edebilir (No.2…). |
 | Sabır | İki gün dinlenmesini anlatır; kısa ve akılda kalır. |
 | Mavi Haşhaşlı Kara | Ne olduğunu doğrudan söyler; sade. |
@@ -116,17 +115,16 @@ Köy ekmeğindeki beyaz unu saklamak yerine söylemek güven verir ve "Lab" kiml
 ## 9. Ana sayfa akışı (krem)
 
 1. **Açılış:** gerçek ekmek fotoğrafı · "Mahallenin ekmek laboratuvarı." · teslimat bilgisi · "Ekmek seç".
-2. **Fırında bu hafta:** Günlük / Ata tohumu / İmza (imza ekmeği öne çıkan kartta).
-3. **Bir gece ekmek yoktu:** kısa hikâye + fotoğraf (sonra video).
-4. **Laboratuvar:** 24 saatin adımları (gerçek bilgiler) + formül kartları.
+2. **Fırında bu hafta:** Günlük / Ata tohumu / İmza + Mandıra & Şarküteri eşlikçileri.
+3. **Taş fırın üretim videoları:** gerçek çekimler hazır olduğunda açılır (`FEATURES.nasilUretiyoruz`).
+4. **Bilim Odası & Taş Fırın Dergisi:** yayınlanan sayılar, interaktif deneyler ve hesaplayıcılar.
 5. **Nerede bulunur:** şarküteriler.
-6. **Kütüphane ve videolar:** son yazılar / YouTube.
-7. **İşletmenize ekmek:** kafe, şarküteri, restoran için toptan.
-8. **Sık sorulanlar:** teslimat günleri, saklama, dondurma, kargo.
+6. **İşletmenize ekmek:** kafe, şarküteri, restoran için toptan.
+7. **Sık sorulanlar:** teslimat günleri, saklama, dondurma, kargo.
 
 ## 10. İçerik planı (YouTube + kısa video)
 
-- **İlk video: "Bir gece ekmek yoktu."** 2018'deki sobada lavaşı yeniden yap, bugünkü ekmeğe kadar gel. Hikâyeyi bir kerede anlatır.
+- **"Taş Fırın Dergisi" video serisi:** webdeki `Sayı #01..#05` konularıyla birebir örtüşen 45 sn S24 Reels ve YouTube bölümleri.
 - **"Laboratuvar notları" serisi:** aynı hamur dört farklı un; su oranı denemesi; mayanın bakımı (yaşını söylemeden).
 - **"Bir ekmeğin 24 saati":** hızlandırılmış çekim.
 - **"Çavdar neden iki gün bekler?":** imza ekmeğinin hikâyesi.

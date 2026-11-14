@@ -4,6 +4,7 @@ import { getProductSlug } from "@/lib/utils/slugify";
 import { SITE_URL } from "@/lib/site";
 import { FEATURES } from "@/lib/features";
 import { getAnKimlikleri } from "@/lib/bilim/server";
+import { DERGI_SAYILARI } from "@/lib/bilim/dergi";
 
 export const revalidate = 3600; // 1 hour cache
 
@@ -75,13 +76,18 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.9,
   }));
 
-  // 3. Kanonik Bilim Odası (/bilim, /bilim/efsaneler, /bilim/[an])
+  // 3. Kanonik Bilim Odası (/bilim, /bilim/sayi/[kod], /bilim/efsaneler, /bilim/[an])
   const bilimRoutes: MetadataRoute.Sitemap = FEATURES.bilimOdasi
-    ? ["", "/efsaneler", ...getAnKimlikleri().map((an) => `/${an}`)].map((yol) => ({
+    ? [
+        "",
+        ...DERGI_SAYILARI.map((d) => `/sayi/${d.kod}`),
+        "/efsaneler",
+        ...getAnKimlikleri().map((an) => `/${an}`),
+      ].map((yol) => ({
         url: `${baseUrl}/bilim${yol}`,
         lastModified: now,
         changeFrequency: "monthly",
-        priority: yol === "" ? 0.8 : 0.7,
+        priority: yol === "" || yol.startsWith("/sayi/") ? 0.85 : 0.7,
       }))
     : [];
 

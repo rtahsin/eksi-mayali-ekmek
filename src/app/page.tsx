@@ -13,6 +13,7 @@ import { getCatalog } from "@/lib/products/server";
 import { getStoreSettings } from "@/lib/settings/server";
 import { getSonCikis } from "@/lib/bake/server";
 import { firinDurumu } from "@/lib/bake/durum";
+import { FEATURES } from "@/lib/features";
 
 export const revalidate = 60; // ISR: Revalidate catalog every 60 seconds
 
@@ -46,8 +47,8 @@ export default async function HomePage() {
         {/* Ekmekler & Gurme Şarküteri Kataloğu */}
         <ProductCatalog initialProducts={products} categories={categories} />
 
-        {/* Nasıl Üretiyoruz? & Ekmek Anatomisi */}
-        <HowWeBake />
+        {/* Nasıl Üretiyoruz? (Gerçek fırın videoları çekilene kadar kapalı) */}
+        {FEATURES.nasilUretiyoruz && <HowWeBake />}
 
         {/* Bilim & Zanaat köprüsü (Bilim odası, Fırıncı Araçları) */}
         <ScienceDiscoveryBridge />

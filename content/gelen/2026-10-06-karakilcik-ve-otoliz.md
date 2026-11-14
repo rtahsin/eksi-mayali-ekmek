@@ -8,7 +8,7 @@
 
 ## Ham Notlar & Ses Dökümü
 
-2018'de o gece evde ekmek kalmadığında sucuklu yumurtanın yanına sobada ilk lavaşı pişirdiğim günden beri aynı soru aklımda: Neden bazı ekmekler taş gibi ağır olur da bazısı hafifçe kabarır, içi lokum gibi açılır?
+İlk deneme somunlarından beri aynı soru aklımda: Neden bazı ekmekler taş gibi ağır olur da bazısı hafifçe kabarır, içi lokum gibi açılır?
 
 Beylikdüzü'ndeki atölyede bu hafta Seferihisar ve Menemen tarafından gelen karakılçık buğdayını çalıştık. Başakları simsiyah, kılçıkları sert; Anadolu'nun bin yıllık mirası. Ama bunu alıp doğrudan normal beyaz un gibi yoğurmaya kalkarsan hamur elinde çamur olur, dağılır gider.
 

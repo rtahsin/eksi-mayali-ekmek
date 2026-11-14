@@ -302,8 +302,8 @@ export function BatchPassport({ product, latestBake }: BatchPassportProps) {
                 </div>
                 <p className="text-xs sm:text-sm text-ink-muted leading-relaxed">
                   Hamur bir gün önceden yoğrulup +4°C dolapta gece boyu olgunlaşır; sabah
-                  120 × 80 cm taş tabanlı bahçe fırınında buharla pişer. Öğleden sonra
-                  Beylikdüzü içinde kendi kuryemizle kapına ulaşır.
+                  120 × 80 cm taş tabanlı bahçe fırınında buharla pişer. Seçtiğin teslimat
+                  gününde Beylikdüzü içinde kendi kuryemizle kapına ulaşır.
                 </p>
               </div>
             )}

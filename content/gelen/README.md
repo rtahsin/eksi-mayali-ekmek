@@ -10,7 +10,7 @@ Tahsin bu dizine markdown dosyası formatında (`YYYY-MM-DD-<konu>.md`) ham içe
 
 1. **Video dökümleri**: YouTube çekimleri, reels konuşmaları veya atölyede kaydedilmiş ses kayıtlarının dökümleri.
 2. **Atölye defteri & notlar**: Karışım oranları, ortam sıcaklıkları, mayalanma süreleri, fermantasyon gözlemleri veya defter fotoğraflarının metin aktarımı.
-3. **Mutfak laboratuvarı deneyimleri**: "2018'deki o gece sucuklu yumurta yerken başlayan merak", unun kokusu, taş değirmende unun ısınması, mahalledeki komşuların ve müşterilerin soruları.
+3. **Mutfak laboratuvarı deneyimleri**: unun kokusu, taş değirmende unun ısınması, fermantasyon denemeleri, mahalledeki komşuların ve müşterilerin soruları.
 
 ---
 

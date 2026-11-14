@@ -6,4 +6,6 @@ export const FEATURES = {
   courierManagement: false,
   /** Bilim odasının açılışı: ürün sayfalarındaki QR köprüsü ve arama motorlarına açılma. Karar Tahsin'in. */
   bilimOdasi: true,
+  /** "Nasıl Üretiyoruz?" vitrin bölümü ve menü bağlantıları: Tahsin gerçek fırın videolarını çekene kadar kapalı. */
+  nasilUretiyoruz: false,
 } as const;
