@@ -19,11 +19,19 @@ function useFirinDurumu(takvim: DurumGirdisi, ilk: FirinDurumu): FirinDurumu {
   return durum;
 }
 
-export function AtelierThresholdHero({ takvim, ilkDurum }: { takvim: DurumGirdisi; ilkDurum: FirinDurumu }) {
+export function AtelierThresholdHero({
+  takvim,
+  ilkDurum,
+  hasAccompaniments = false,
+}: {
+  takvim: DurumGirdisi;
+  ilkDurum: FirinDurumu;
+  hasAccompaniments?: boolean;
+}) {
   const { settings } = useStoreSettings();
   const durum = useFirinDurumu(takvim, ilkDurum);
-  const threshold = settings.freeShippingThreshold || 1000;
-  const fee = settings.shippingFee || 150;
+  const threshold = settings.freeShippingThreshold;
+  const fee = settings.shippingFee;
 
   return (
     <section className="relative w-full bg-bg text-ink overflow-hidden border-b border-line">
@@ -62,14 +70,14 @@ export function AtelierThresholdHero({ takvim, ilkDurum }: { takvim: DurumGirdis
               >
                 Nasıl Üretiyoruz?
               </a>
-            ) : (
+            ) : hasAccompaniments ? (
               <a
                 href="#sarkuteri"
                 className="px-6 py-3.5 rounded-full bg-cream-surface border border-line text-ink font-semibold text-sm hover:border-accent hover:bg-bg transition-all"
               >
                 Mandıra &amp; Şarküteri
               </a>
-            )}
+            ) : null}
           </div>
         </div>
 
@@ -102,10 +110,18 @@ export function AtelierThresholdHero({ takvim, ilkDurum }: { takvim: DurumGirdis
           </div>
           <div className="flex items-center gap-2">
             <Flame className="w-4 h-4 text-accent shrink-0" />
-            <span>
-              <strong>{threshold.toLocaleString("tr-TR")} ₺</strong> üzeri teslimat ücretsiz
-              (altında {fee.toLocaleString("tr-TR")} ₺)
-            </span>
+            {fee === 0 ? (
+              <span>
+                Beylikdüzü geneline kapıya ücretsiz teslimat · Minimum sepet sınırı yok
+              </span>
+            ) : threshold > 0 ? (
+              <span>
+                <strong>{threshold.toLocaleString("tr-TR")} ₺</strong> üzeri teslimat ücretsiz
+                (altında {fee.toLocaleString("tr-TR")} ₺)
+              </span>
+            ) : (
+              <span>Teslimat ücreti {fee.toLocaleString("tr-TR")} ₺</span>
+            )}
           </div>
           <div className="flex items-center gap-2">
             <ShieldCheck className="w-4 h-4 text-accent shrink-0" />

@@ -16,8 +16,8 @@ export const DEFAULT_NEIGHBORHOODS = [
 ];
 
 export const DEFAULT_STORE_SETTINGS: StoreSettings = {
-  shippingFee: 150,
-  freeShippingThreshold: 1000,
+  shippingFee: 0,
+  freeShippingThreshold: 0,
   minBasketAmount: 0,
   deliveryWindow: "14:00 - 18:00",
   whatsappPhone: "0501 012 66 53",
@@ -108,9 +108,9 @@ export function parseStoredSettings(raw: unknown, legacyCutoff?: unknown): Store
 
 export function toPublicSettings(settings: StoreSettings): PublicStoreSettings {
   return {
-    shippingFee: settings.shippingFee,
-    freeShippingThreshold: settings.freeShippingThreshold,
-    minBasketAmount: settings.minBasketAmount,
+    shippingFee: 0,
+    freeShippingThreshold: 0,
+    minBasketAmount: 0,
     deliveryWindow: settings.deliveryWindow,
     whatsappPhone: settings.whatsappPhone,
     orderAcceptanceOpen: settings.orderAcceptanceOpen,
@@ -123,11 +123,12 @@ export function toPublicSettings(settings: StoreSettings): PublicStoreSettings {
   };
 }
 
-/** Ara toplama göre teslimat ücreti (sunucu ve sepet aynı fonksiyonu kullanır). */
-export function computeShippingFee(subtotal: number, settings: Pick<StoreSettings, "shippingFee" | "freeShippingThreshold">): number {
-  if (subtotal <= 0) return 0;
-  if (settings.freeShippingThreshold > 0 && subtotal >= settings.freeShippingThreshold) return 0;
-  return settings.shippingFee;
+/** Beylikdüzü içi kapıya teslimat ücretsizdir; sunucu ve sepet aynı fonksiyonu kullanır. */
+export function computeShippingFee(
+  _subtotal: number,
+  _settings: Pick<StoreSettings, "shippingFee" | "freeShippingThreshold">
+): number {
+  return 0;
 }
 
 /** "0501 012 66 53" → "905010126653" (wa.me biçimi). */

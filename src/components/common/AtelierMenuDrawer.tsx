@@ -315,7 +315,11 @@ export function AtelierMenuDrawer({ isOpen, onClose }: AtelierMenuDrawerProps) {
                     </div>
                     <div>
                       <div className="font-serif text-base font-bold text-ink">Teslimat Bölgesi ve Ücret</div>
-                      <div className="text-xs text-ink-muted">Beylikdüzü geneli saatler ve ücretsiz eşik</div>
+                      <div className="text-xs text-ink-muted">
+                        {fee === 0
+                          ? "Beylikdüzü geneli saatler ve ücretsiz teslimat"
+                          : "Beylikdüzü geneli saatler ve ücretsiz eşik"}
+                      </div>
                     </div>
                   </div>
                   <ArrowRight className="w-4 h-4 text-ink-muted group-hover:text-accent group-hover:translate-x-1 transition-all shrink-0" />
@@ -664,10 +668,18 @@ export function AtelierMenuDrawer({ isOpen, onClose }: AtelierMenuDrawerProps) {
 
             <div className="space-y-4 text-sm text-ink-muted leading-relaxed font-sans">
               <div className="p-4 rounded-2xl bg-bg border border-line space-y-2">
-                <div className="font-serif font-bold text-ink text-base">Ücretsiz Teslimat Eşiği</div>
-                <p>
-                  <strong className="text-ink">{freeFrom.toLocaleString("tr-TR")} ₺ ve üzeri</strong> siparişlerde Beylikdüzü geneline teslimat ücretsizdir. Altındaki siparişlerde {fee.toLocaleString("tr-TR")} ₺ teslimat ücreti uygulanır.
-                </p>
+                <div className="font-serif font-bold text-ink text-base">
+                  {fee === 0 ? "Ücretsiz Kapıya Teslimat" : "Ücretsiz Teslimat Eşiği"}
+                </div>
+                {fee === 0 ? (
+                  <p>
+                    Beylikdüzü geneline tüm siparişlerde kapıya teslimat ücretsizdir; minimum sepet alt sınırı yoktur.
+                  </p>
+                ) : (
+                  <p>
+                    <strong className="text-ink">{freeFrom.toLocaleString("tr-TR")} ₺ ve üzeri</strong> siparişlerde Beylikdüzü geneline teslimat ücretsizdir. Altındaki siparişlerde {fee.toLocaleString("tr-TR")} ₺ teslimat ücreti uygulanır.
+                  </p>
+                )}
               </div>
 
               <div className="p-4 rounded-2xl bg-bg border border-line space-y-2">

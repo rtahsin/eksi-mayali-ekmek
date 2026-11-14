@@ -54,7 +54,9 @@ Ultra abonelik limitlerini ve ana sohbet hafızasını korumak için her görev 
 ---
 
 ## 5. Demir İş Sınırları (Tahsin Onaylı Kurallar)
-- **Özellik Dondurma (Feature Freeze):** İlk 1.000 gerçek siparişe ulaşana kadar `/laboratuvar` oyun motoruna (`src/components/game`, `src/lib/game`) ve yerel içerik stüdyosuna (`arastirma/studyo/`) yeni özellik eklenmez; yalnızca doğrudan siparişi, sepet ortalamasını (AOV), tekrar siparişi ve operasyonel hızı artıran işler yapılır.
-- **Ödeme Sınırı:** Yalnızca **Kapıda Nakit** ve **Kapıda Kart** (+ WhatsApp sipariş hattı) aktiftir; sanal POS veya IBAN akışı eklenmez.
+- **Sıfır Teslimat Ücreti & Sıfır Minimum Sepet (Komşu Kümeleme İlkesi):** Beylikdüzü dağıtım bölgesinde müşteriye **minimum sepet sınırı (`0 ₺`) veya teslimat/kurye ücreti (`0 ₺`) uygulanmaz**; kimse yüksek tutara zorlanmaz. Apartman/site içi komşu kümelemesiyle doğal sepet ve çoklu daire teslimatı hedeflenir.
+- **Ödeme & Hızlı WhatsApp Sepet Köprüsü:** Ödeme seçenekleri yalnızca **Kapıda Nakit** ve **Kapıda Kart**'tır (sanal POS / IBAN eklenmez). Web sepet çekmecesinde (`CartDrawer`) adres formu doldurmak istemeyen müşteriler için **"Formla Uğraşma: Sepetimi WhatsApp'tan Gönder"** ikincil tek-tık köprüsü daima açık tutulur.
+- **Şarküteri Kraft Pencereli Paket Etiketi (`/?etiket=1`):** Şarküterilere giden günlük ekmekler pencereli kraft kâğıda konur ve üzerine QR kodlu (`ekmeklab.tr/?etiket=1`) + saklama/ücretsiz kapı teslimatı mesajlı yapışkanlı taş fırın etiketi (`arastirma/medya_hatti/kraft_etiket_uret.py`) uygulanır.
+- **Özellik Dondurma (Feature Freeze):** İlk 1.000 gerçek siparişe ulaşana kadar `/laboratuvar` oyun motoruna (`src/components/game`, `src/lib/game`) ve yerel içerik stüdyosuna (`arastirma/studyo/`) yeni özellik eklenmez; yalnızca doğrudan siparişi, eşlikçi çapraz satışını, tekrar siparişi ve operasyonel hızı artıran işler yapılır.
 - **Sıfır Sağlık Beyanı (`K006`):** Hiçbir metinde tıbbi/fizyolojik sağlık vaadi yer alamaz (`src/lib/knowledge/lint.ts`).
 - **Windows Kabuk Notu:** PowerShell'de `rg` kurulu değildir; aramalarda `git grep` kullanılır.

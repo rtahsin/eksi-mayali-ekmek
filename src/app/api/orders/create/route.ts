@@ -270,14 +270,7 @@ export async function POST(req: Request) {
       });
     }
 
-    // 5. Minimum sepet, teslimat ücreti (ayarlardan)
-    if (settings.minBasketAmount > 0 && serverSubtotal < settings.minBasketAmount) {
-      return fail(
-        409,
-        `Minimum sipariş tutarı ${settings.minBasketAmount.toLocaleString("tr-TR")} ₺'dir.`,
-        "MIN_BASKET_NOT_MET"
-      );
-    }
+    // 5. Teslimat ücreti ve minimum sepet (Beylikdüzü içi ücretsiz, alt sınır yok)
     const shippingFee = computeShippingFee(serverSubtotal, settings);
     const totalAmount = serverSubtotal + shippingFee;
 

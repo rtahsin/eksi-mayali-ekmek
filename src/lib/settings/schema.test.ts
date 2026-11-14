@@ -57,16 +57,13 @@ describe("StoreSettingsSchema (admin formu)", () => {
 });
 
 describe("computeShippingFee", () => {
-  const s = { shippingFee: 150, freeShippingThreshold: 1000 };
-  it("eşik altı ücretli, eşik ve üstü ücretsiz", () => {
-    expect(computeShippingFee(999, s)).toBe(150);
-    expect(computeShippingFee(1000, s)).toBe(0);
-  });
-  it("boş sepet 0", () => {
-    expect(computeShippingFee(0, s)).toBe(0);
-  });
-  it("eşik 0 → her zaman ücret", () => {
-    expect(computeShippingFee(5000, { shippingFee: 100, freeShippingThreshold: 0 })).toBe(100);
+  it("Beylikdüzü içi kapıya teslimat her tutarda ücretsizdir (0 ₺)", () => {
+    const legacy = { shippingFee: 150, freeShippingThreshold: 1000 };
+    expect(computeShippingFee(0, legacy)).toBe(0);
+    expect(computeShippingFee(150, legacy)).toBe(0);
+    expect(computeShippingFee(999, legacy)).toBe(0);
+    expect(computeShippingFee(1000, legacy)).toBe(0);
+    expect(computeShippingFee(5000, { shippingFee: 100, freeShippingThreshold: 0 })).toBe(0);
   });
 });
 
@@ -76,10 +73,22 @@ describe("yardımcılar", () => {
     expect(toWhatsAppNumber("+90 501 012 66 53")).toBe("905010126653");
     expect(toWhatsAppNumber("5010126653")).toBe("905010126653");
   });
-  it("toPublicSettings iç alanları gizler", () => {
-    const pub = toPublicSettings(DEFAULT_STORE_SETTINGS) as Record<string, unknown>;
+  it("toPublicSettings iç alanları gizler ve eski ücret kayıtlarını 0 ₺ olarak döndürür", () => {
+    expect(DEFAULT_STORE_SETTINGS.shippingFee).toBe(0);
+    expect(DEFAULT_STORE_SETTINGS.freeShippingThreshold).toBe(0);
+    expect(DEFAULT_STORE_SETTINGS.minBasketAmount).toBe(0);
+
+    const legacyStored = parseStoredSettings({
+      shippingFee: 150,
+      freeShippingThreshold: 1000,
+      minBasketAmount: 500,
+    });
+    const pub = toPublicSettings(legacyStored) as unknown as Record<string, unknown>;
     expect(pub.dailyBreadCapacity).toBeUndefined();
     expect(pub.wholesaleDailyLoaves).toBeUndefined();
+    expect(pub.shippingFee).toBe(0);
+    expect(pub.freeShippingThreshold).toBe(0);
+    expect(pub.minBasketAmount).toBe(0);
   });
 });
 

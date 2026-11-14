@@ -12,8 +12,8 @@
 - **Taş Fırın ve Haftalık Ritim:**
   - **Fırın:** `120 × 80 cm` taş taban. Tek pişirimde **16 adet** `1000 g` açık ekşi mayalı somun/saat; **kalıp özel ekmeklerde** (ör. %100 Çavdar, Tost, Siyez Kalıp) tek pişirimde **30 adede kadar**.
   - **Takvim:** Pazartesi fırından ekmek çıkmaz (Salı hamuru yoğrulur); **Salı–Pazar (6 gün)** pişirim yapılır. Şarküterilere günlük sabit **32 adet** üretilir; perakende talebe göre ek fırın partileri açılır.
-- **Perakende Lojistik & Eşlikçi Sepet Stratejisi:**
-  - Motor veya araçla tek somun teslimatı lojistik olarak kârlı olmadığından perakende sipariş kurgusu **Ekmek + Kanıtlanmış Sofralık Eşlikçiler** (**yumurta, süt, yoğurt, sucuk, kavurma**) + minimum sepet tutarı üzerine kuruludur.
+- **Perakende Lojistik & Komşu Apartman Stratejisi:**
+  - Beylikdüzü dağıtım bölgesinde **minimum sepet sınırı ve teslimat ücreti yoktur (`0 ₺`)**. Apartman/site içi komşu tavsiyesiyle çoklu daire teslimatı ve **Ekmek + Günlük Mandıra/Şarküteri Eşlikçileri** (**yumurta, süt, yoğurt, sucuk, peynir, yufka, kavurma**) doğal olarak büyütülür. Şarküterilere giden günlük 32 ekmek pencereli kraft torbada, üzerinde QR kodlu (`ekmeklab.tr/?etiket=1`) bilgilendirme etiketiyle sunulur.
 - **Ekipman & Resmi Kanallar:**
   - **Kayıt:** Samsung Galaxy S24 (4K B-roll + Prompter Okuma) + DJI Osmo kablosuz mikrofon (`48 kHz` doğal gerçek ses anlatımı ve fırın ASMR; yapay ses klonlama askıya alındı ve `_arsiv_klon_ses/` altında arşivlendi).
   - **Kanallar:** YouTube **`@ekmeklab`** (`16:9` + Shorts) · Instagram **`@ekmeklabtr`** (`9:16` Reels) · TikTok **`@ekmek.lab`** (`9:16`) · Web **`ekmeklab.tr`**.

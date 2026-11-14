@@ -95,9 +95,11 @@ export function ProductCard({ product, onOpenDetails }: ProductCardProps) {
             </Link>
           </h3>
 
-          <p className="hidden sm:block text-xs text-ink-muted line-clamp-2 mt-1.5 font-sans leading-relaxed">
-            {product.description}
-          </p>
+          {product.description ? (
+            <p className="block text-xs text-ink-muted line-clamp-2 mt-1.5 font-sans leading-relaxed">
+              {product.description}
+            </p>
+          ) : null}
         </div>
 
         {/* Sale Schedule Badge */}

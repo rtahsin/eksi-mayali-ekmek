@@ -5,9 +5,28 @@ import Link from "next/link";
 import { useCartStore } from "@/lib/store/useCartStore";
 import { CheckoutPaymentMethod, OrderSubmitError, submitOrder } from "@/lib/order/createOrder";
 import { rememberDeviceOrder } from "@/lib/orders/deviceOrders";
+import { buildCartWhatsappUrl } from "@/lib/orders/whatsappCart";
 import { CHECKOUT_FIELD_ORDER, CheckoutErrors, normalizePhone, validateCheckout } from "@/lib/order/validate";
 import { trackEvent } from "@/lib/track";
 import { Loader2, AlertCircle } from "lucide-react";
+
+function WhatsAppHandsetIcon({ className }: { className?: string }) {
+  return (
+    <svg
+      className={className}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.9"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      <path d="M3 21l1.65-3.8a9 9 0 1 1 3.4 2.9L3 21" />
+      <path d="M9 10a.5.5 0 0 0 1 0V9a.5.5 0 0 0-1 0v1Zm0 0a5 5 0 0 0 5 5m0 0h1a.5.5 0 0 0 0-1h-1a.5.5 0 0 0 0 1Z" />
+    </svg>
+  );
+}
 
 interface CheckoutActionsProps {
   /** Seçili ödeme yöntemi (formdaki 2'li seçim) */
@@ -25,6 +44,10 @@ interface CheckoutActionsProps {
   onErrors: (errors: CheckoutErrors) => void;
   /** Sipariş başarıyla kaydedildikten sonra (sepet temizlenmeden önce) çağrılır */
   onOrderPlaced?: () => void;
+  /** Seçili teslim gününün okunur etiketi (WhatsApp mesajı için) */
+  deliveryDateLabel?: string | null;
+  /** İşletme WhatsApp hattı (ayarlardan) */
+  whatsappPhone?: string | null;
 }
 
 const newAttemptKey = () => `IDEM-${crypto.randomUUID()}`;
@@ -57,6 +80,8 @@ export function CheckoutActions({
   errors,
   onErrors,
   onOrderPlaced,
+  deliveryDateLabel,
+  whatsappPhone,
 }: CheckoutActionsProps) {
   const items = useCartStore((s) => s.items);
   const customerInfo = useCartStore((s) => s.customerInfo);
@@ -166,6 +191,13 @@ export function CheckoutActions({
   };
 
   const disabled = submitting || items.length === 0;
+  const whatsappHref = buildCartWhatsappUrl({
+    items,
+    customerInfo,
+    deliveryDateLabel,
+    paymentMethod,
+    whatsappPhone,
+  });
 
   return (
     <div className="space-y-2">
@@ -220,6 +252,20 @@ export function CheckoutActions({
         {submitting && <Loader2 aria-hidden="true" className="w-4 h-4 animate-spin" />}
         <span>Siparişi onayla · {totalAmount.toLocaleString("tr-TR")} ₺</span>
       </button>
+
+      {items.length > 0 && (
+        <a
+          href={whatsappHref}
+          target="_blank"
+          rel="noopener noreferrer"
+          onClick={() => trackEvent("checkout_start", { code: "whatsapp_cart" })}
+          className="touch-target-44 min-h-[44px] w-full py-2.5 px-4 rounded-xl bg-bg hover:bg-cream-surface border border-accent/40 hover:border-accent text-ink font-sans text-xs sm:text-sm font-semibold flex items-center justify-center gap-2 transition-all shadow-2xs"
+        >
+          <WhatsAppHandsetIcon className="w-4 h-4 text-accent shrink-0" />
+          <span>Formla uğraşma · Sepetimi WhatsApp&apos;tan gönder</span>
+        </a>
+      )}
+
       <p className="text-center text-xs leading-snug font-sans text-ink-muted">
         Sipariş vermek ödeme yükümlülüğü doğurur; ödeme teslimatta kapıda nakit veya kapıda kredi/banka kartı (POS) ile yapılır. Kişisel verileriniz{" "}
         <Link

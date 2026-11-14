@@ -1,7 +1,8 @@
-import React from "react";
+import React, { Suspense } from "react";
 import type { Metadata } from "next";
 import { Navbar } from "@/components/common/Navbar";
 import { AtelierThresholdHero } from "@/components/atelier/AtelierThresholdHero";
+import { EtiketWelcomeBanner } from "@/components/storefront/EtiketWelcomeBanner";
 import { ProductCatalog } from "@/components/storefront/ProductCatalog";
 import { HowWeBake } from "@/components/storefront/HowWeBake";
 import { ScienceDiscoveryBridge } from "@/components/storefront/ScienceDiscoveryBridge";
@@ -10,6 +11,7 @@ import { MobileCartBar } from "@/components/cart/MobileCartBar";
 import { OrderSuccessModal } from "@/components/cart/OrderSuccessModal";
 import { Footer } from "@/components/common/Footer";
 import { getCatalog } from "@/lib/products/server";
+import { isAccompaniment } from "@/lib/products/grouping";
 import { getStoreSettings } from "@/lib/settings/server";
 import { getSonCikis } from "@/lib/bake/server";
 import { firinDurumu } from "@/lib/bake/durum";
@@ -33,6 +35,7 @@ export const metadata: Metadata = {
 export default async function HomePage() {
   const [{ products, categories }, settings, sonCikis] = await Promise.all([getCatalog(), getStoreSettings(), getSonCikis()]);
   const takvim = { sonCikis, openWeekdays: settings.openWeekdays, closedDates: settings.closedDates, saatler: settings.bakeHours };
+  const hasAccompaniments = products.some((p) => isAccompaniment(p));
 
   return (
     <div className="min-h-screen flex flex-col bg-bg text-ink selection:bg-accent/20 selection:text-ink font-sans">
@@ -41,8 +44,17 @@ export default async function HomePage() {
 
       {/* 2. Main Storefront Flow */}
       <main className="flex-1 space-y-0">
+        {/* Kraft Paket Etiketi QR Karşılama Şeridi (?etiket=1) */}
+        <Suspense fallback={null}>
+          <EtiketWelcomeBanner />
+        </Suspense>
+
         {/* Atölyenin Eşiği & Karşılama */}
-        <AtelierThresholdHero takvim={takvim} ilkDurum={firinDurumu(takvim)} />
+        <AtelierThresholdHero
+          takvim={takvim}
+          ilkDurum={firinDurumu(takvim)}
+          hasAccompaniments={hasAccompaniments}
+        />
 
         {/* Ekmekler & Gurme Şarküteri Kataloğu */}
         <ProductCatalog initialProducts={products} categories={categories} />

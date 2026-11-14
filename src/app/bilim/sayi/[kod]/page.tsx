@@ -2,7 +2,7 @@ import React from "react";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ArrowLeft, ArrowRight, ExternalLink, BookOpen, Film, Flame } from "lucide-react";
+import { ArrowLeft, ArrowRight, ExternalLink, BookOpen, Flame } from "lucide-react";
 import { Navbar } from "@/components/common/Navbar";
 import { Footer } from "@/components/common/Footer";
 import { StalingSimulator } from "@/components/bilim/StalingSimulator";
@@ -315,68 +315,16 @@ export default async function DergiSayiPage({
             </div>
           </section>
 
-          {/* 10. Birleşik Video & Kese Kâğıdı Mutfak Kartı (Native <details>) */}
-          <details className="group rounded-2xl border border-line bg-cream-surface overflow-hidden">
-            <summary className="min-h-12 px-5 sm:px-6 py-4 cursor-pointer flex items-center justify-between gap-3 font-mono text-xs uppercase tracking-wider text-ink hover:text-accent transition-colors list-none">
-              <span className="inline-flex items-center gap-2 font-semibold">
-                <Film className="w-4 h-4 text-accent shrink-0" aria-hidden="true" />
-                <span>
-                  Bu Sayının 45 Saniyelik Video Senaryosu &amp; Teknik Levha Bağlantısı ({sayi.reels.toplamSure})
-                </span>
-              </span>
-              <span className="text-ink-muted group-open:rotate-180 transition-transform" aria-hidden="true">
-                ▾
-              </span>
-            </summary>
-
-            <div className="px-5 sm:px-6 pb-6 pt-2 border-t border-line space-y-5">
-              <div className="flex flex-wrap items-center justify-between gap-2 text-xs text-ink-muted">
-                <p className="font-serif font-bold text-base text-ink">
-                  {sayi.reels.baslik}
-                </p>
-                <span className="font-mono">
-                  Kese Kâğıdı QR Hedefi: {SITE_URL}/bilim?sayi={sayi.kod}
-                </span>
-              </div>
-
-              <div className="space-y-2.5">
-                {sayi.reels.sahneler.map((sahne) => (
-                  <div
-                    key={sahne.sure}
-                    className="p-3.5 rounded-xl bg-bg border border-line grid grid-cols-1 md:grid-cols-12 gap-2.5 text-xs sm:text-sm"
-                  >
-                    <div className="md:col-span-2 font-mono text-xs font-bold text-accent">
-                      {sahne.sure}
-                    </div>
-                    <div className="md:col-span-4 text-ink-muted">
-                      <span className="font-mono text-[10px] uppercase tracking-wider block text-ink/70">
-                        Kamera / Sahne
-                      </span>
-                      {sahne.cekim}
-                    </div>
-                    <div className="md:col-span-6 space-y-1">
-                      <span className="font-mono text-[10px] uppercase tracking-wider block text-accent font-semibold">
-                        [{sahne.ekranYazisi}]
-                      </span>
-                      <p className="text-ink font-medium leading-relaxed">
-                        &ldquo;{sahne.metin}&rdquo;
-                      </p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-
-              <div className="pt-2 flex flex-wrap items-center justify-between gap-3 border-t border-line text-xs font-mono">
-                <Link
-                  href={`/bilim/${sayi.anId}`}
-                  className="inline-flex items-center gap-1.5 text-ink hover:text-accent underline underline-offset-4"
-                >
-                  <BookOpen className="w-3.5 h-3.5" aria-hidden="true" />
-                  <span>Bu konunun grafikli teknik referans fişini aç (/bilim/{sayi.anId}) →</span>
-                </Link>
-              </div>
-            </div>
-          </details>
+          {/* 10. Derin Okuma: Teknik Referans Fişi */}
+          <div className="rounded-2xl border border-line bg-cream-surface px-5 sm:px-6 py-4 flex flex-wrap items-center justify-between gap-3">
+            <Link
+              href={`/bilim/${sayi.anId}`}
+              className="min-h-11 inline-flex items-center gap-2 font-mono text-xs sm:text-sm font-semibold text-ink hover:text-accent transition-colors"
+            >
+              <BookOpen className="w-4 h-4 text-accent shrink-0" aria-hidden="true" />
+              <span>Derin Okuma: Bu sayının teknik referans fişi →</span>
+            </Link>
+          </div>
 
           {/* 11. Hakemli Kaynakça */}
           <section aria-labelledby="kaynakca-baslik" className="space-y-3 pt-4 border-t border-line">

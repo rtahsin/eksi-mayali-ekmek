@@ -343,9 +343,13 @@ export function CartDrawer() {
                     <Truck className="w-4 h-4" />
                   </div>
                   <div>
-                    <div className="font-bold text-xs text-ink">Beylikdüzü içi kapıya teslim</div>
+                    <div className="font-bold text-xs text-ink">
+                      {shippingFee === 0
+                        ? "Beylikdüzü içi kapıya ücretsiz teslim"
+                        : "Beylikdüzü içi kapıya teslim"}
+                    </div>
                     <div className="text-xs text-ink-muted">
-                      Teslimat saati: {settings.deliveryWindow}
+                      Teslimat saati: {settings.deliveryWindow} · Minimum sepet sınırı yok
                     </div>
                   </div>
                 </div>
@@ -835,6 +839,10 @@ export function CartDrawer() {
               orderingBlockedReason={orderingBlockedReason}
               onDatesStale={() => void reloadDates()}
               onOrderPlaced={handleOrderPlaced}
+              deliveryDateLabel={
+                dates.find((d) => d.date === customerInfo.deliveryDate)?.label ?? null
+              }
+              whatsappPhone={settings.whatsappPhone}
             />
           </div>
         )}
