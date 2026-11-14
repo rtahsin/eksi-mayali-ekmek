@@ -1,85 +1,109 @@
-"use client";
-
 import React from "react";
 import Link from "next/link";
-import { BookOpen, Calculator, ArrowRight, Sparkles } from "lucide-react";
+import { ArrowRight } from "lucide-react";
+
+const EDITORIAL_COLUMNS = [
+  {
+    no: "№ 01",
+    rubric: "CANLI DENEY LEVHASI",
+    title: "Canlı Nişasta & Bayatlama Simülatörü",
+    excerpt:
+      "+4°C buzdolabı somunu neden oda sıcaklığından 3 kat hızlı sertleştirir? 200°C fırında 4 dakikalık ısıtma >60°C DSC eşiğinde amilopektin kristallerini nasıl çözer?",
+    href: "/bilim/rafta_ilk_hafta",
+    cta: "Simülatörü ve Levhayı Aç",
+  },
+  {
+    no: "№ 02",
+    rubric: "KAYNAKLI BİLİM ATLASI",
+    title: "Bilim Odası: Tarladan Dilime 26 An",
+    excerpt:
+      "Buğday tanesinin anatomisinden ekşi maya bakterilerine, fırının ilk 8 dakikasından Efsane Dosyası'na kadar her cümlesi akademik kaynağa bağlı açık kütüphane.",
+    href: "/bilim",
+    cta: "Bilim Odasına Gir",
+  },
+  {
+    no: "№ 03",
+    rubric: "ATÖLYE TEZGÂH MATEMATİĞİ",
+    title: "Fırıncı Hesaplayıcıları & DDT",
+    excerpt:
+      "Un = %100 fırıncı yüzdesi ölçekleyici, yoğurma sürtünmesi dahil istenen hamur sıcaklığı (DDT), Q10 ekşi maya besleme zamanlayıcısı ve tazelik eğrisi.",
+    href: "/arac",
+    cta: "Hesaplayıcıları Kullan",
+  },
+] as const;
 
 export function ScienceDiscoveryBridge() {
-  const cards = [
-    {
-      href: "/bilim",
-      icon: BookOpen,
-      tag: "Kaynaklı açıklamalar",
-      title: "Bilim odası",
-      desc: "Tarladan dilime, ekmeğin içindeki 26 an: ölçümler, grafikler ve her cümlenin kaynağı. Yaygın inançlar için Efsane dosyası.",
-      actionText: "Bilim odasına gir",
-    },
-    {
-      href: "/arac",
-      icon: Calculator,
-      tag: "Atölye Standartları",
-      title: "Profesyonel Fırıncı Araçları",
-      desc: "Zanaatkar ekmek yapımında tahminle değil, ölçümle fırıncılık. Fırıncı yüzdesi, DDT su sıcaklığı ve maya besleme zamanlayıcısı.",
-      actionText: "Araçları Kullan",
-    },
-  ];
-
   return (
-    <section className="py-16 md:py-20 bg-bg text-ink border-b border-line">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
-        <div className="text-center max-w-2xl mx-auto space-y-3">
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full border border-line bg-cream-surface text-xs font-mono text-ink-muted">
-            <Sparkles className="w-3.5 h-3.5 text-accent" />
-            <span>Zanaatın Arkasındaki Bilim</span>
+    <section
+      aria-labelledby="tas-firin-gazetesi-baslik"
+      className="py-16 md:py-20 bg-bg text-ink border-b border-line"
+    >
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="border-y-4 border-double border-line bg-cream-surface text-ink">
+          {/* Üst Gazete Künyesi (Masthead) */}
+          <div className="px-5 sm:px-8 py-3.5 border-b border-line flex flex-wrap items-center justify-between gap-2 font-mono text-[11px] uppercase tracking-[0.14em] text-ink-muted">
+            <span>EKMEKLAB · TAŞ FIRIN GAZETESİ &amp; AÇIK MUTFAK LABORATUVARI</span>
+            <span>BEYLİKDÜZÜ ATÖLYE BASKISI · ÖLÇÜM &amp; KAYNAK</span>
           </div>
-          <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-ink">
-            Daha derin merak edenler için.
-          </h2>
-          <p className="text-sm sm:text-base text-ink-muted leading-relaxed font-sans">
-            EkmekLab yalnızca bir taş fırın değil; fermantasyon biyolojisi, buğday genetiği ve zanaat matematiğini
-            şeffafça paylaşan açık bir fırıncılık atölyesidir.
-          </p>
-        </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
-          {cards.map((c) => {
-            const Icon = c.icon;
-            return (
-              <div
-                key={c.href}
-                className="group flex flex-col justify-between p-6 sm:p-7 rounded-2xl border border-line bg-cream-surface hover:border-accent/60 transition-all duration-200 shadow-xs hover:shadow-md"
+          {/* Ana Gazete Manşeti */}
+          <div className="px-5 sm:px-8 py-7 sm:py-9 border-b border-line grid grid-cols-1 lg:grid-cols-12 gap-4 lg:gap-8 items-end">
+            <div className="lg:col-span-7 space-y-2">
+              <h2
+                id="tas-firin-gazetesi-baslik"
+                className="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-ink leading-[1.08]"
               >
-                <div className="space-y-4">
-                  <div className="w-12 h-12 rounded-xl bg-bg border border-line flex items-center justify-center text-accent group-hover:scale-105 transition-transform">
-                    <Icon className="w-6 h-6" />
+                Hamurda, fırında ve sofrada ne oluyor?
+              </h2>
+            </div>
+            <p className="lg:col-span-5 text-xs sm:text-sm text-ink-muted leading-relaxed font-sans">
+              Kulaktan dolma fırıncılık mitleri yerine tahıl kimyası, fermantasyon
+              mikrobiyolojisi ve açık tezgâh ölçümleri. Öğrendiğimiz her şeyi kese
+              kâğıdından ekrana şeffafça paylaşıyoruz.
+            </p>
+          </div>
+
+          {/* 3 Numaralı Editoryal Sütun */}
+          <div className="grid grid-cols-1 md:grid-cols-3 divide-y md:divide-y-0 md:divide-x divide-line">
+            {EDITORIAL_COLUMNS.map((col) => (
+              <article
+                key={col.href}
+                className="p-5 sm:p-8 flex flex-col justify-between space-y-6 hover:bg-bg/50 transition-colors"
+              >
+                <div className="space-y-3">
+                  <div className="flex items-baseline justify-between gap-2">
+                    <span className="font-serif italic text-2xl sm:text-3xl text-accent font-normal">
+                      {col.no}
+                    </span>
+                    <span className="font-mono text-[10px] uppercase tracking-wider text-ink-muted">
+                      {col.rubric}
+                    </span>
                   </div>
 
-                  <div>
-                    <span className="text-xs font-mono uppercase tracking-wider text-accent font-semibold">
-                      {c.tag}
-                    </span>
-                    <h3 className="font-serif text-xl font-bold text-ink mt-1 group-hover:text-accent transition-colors">
-                      {c.title}
-                    </h3>
-                  </div>
+                  <h3 className="font-serif text-xl sm:text-2xl font-bold text-ink leading-snug">
+                    {col.title}
+                  </h3>
 
                   <p className="text-xs sm:text-sm text-ink-muted leading-relaxed font-sans">
-                    {c.desc}
+                    {col.excerpt}
                   </p>
                 </div>
 
-                <div className="pt-6 mt-6 border-t border-line/60">
+                <div className="pt-4 border-t border-line">
                   <Link
-                    href={c.href}
-                    className="w-full inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-bg hover:bg-accent text-ink hover:text-white border border-line hover:border-accent text-xs font-semibold transition-all shadow-xs"
+                    href={col.href}
+                    className="group min-h-11 inline-flex items-center justify-between w-full font-mono text-xs sm:text-sm font-semibold text-ink hover:text-accent transition-colors"
                   >
-                    <span>{c.actionText}</span>
-                    <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5" />
+                    <span className="underline underline-offset-4">{col.cta}</span>
+                    <ArrowRight
+                      className="w-4 h-4 transition-transform group-hover:translate-x-1"
+                      aria-hidden="true"
+                    />
                   </Link>
                 </div>
-              </div>
-            );
-          })}
+              </article>
+            ))}
+          </div>
         </div>
       </div>
     </section>

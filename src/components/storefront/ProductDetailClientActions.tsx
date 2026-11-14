@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from "react";
 import { ExtendedProduct } from "@/hooks/useProducts";
 import { useCartStore } from "@/lib/store/useCartStore";
+import { isAccompaniment } from "@/lib/products/grouping";
 import { ShoppingBag, Plus, Minus, Check, MessageCircle, ArrowRight } from "lucide-react";
 import { CONTACT } from "@/lib/site";
 import { captureRef } from "@/lib/track";
@@ -17,6 +18,7 @@ export function ProductDetailClientActions({ product }: ProductDetailClientActio
   const addItem = useCartStore((state) => state.addItem);
   const openCart = useCartStore((state) => state.openCart);
   const [mounted, setMounted] = useState(false);
+
   useEffect(() => {
     setMounted(true);
     captureRef();
@@ -46,12 +48,13 @@ export function ProductDetailClientActions({ product }: ProductDetailClientActio
   };
 
   const isAvailable = product.isAvailable !== false;
+  const isAccompanimentItem = isAccompaniment(product);
   const whatsappMessage = encodeURIComponent(
     `Merhaba EkmekLab! "${product.name}" ürünü hakkında bilgi almak ve sipariş vermek istiyorum.`
   );
 
   return (
-    <div className="space-y-4 pt-2">
+    <div id="siparis" className="space-y-4 pt-2 scroll-mt-24">
       {/* Mobil yapışkan sipariş çubuğu: her zaman (ürün sayfasında alt sepet barı yok) */}
       {mounted && isAvailable && (
         <div
@@ -61,13 +64,14 @@ export function ProductDetailClientActions({ product }: ProductDetailClientActio
           <button
             type="button"
             onClick={handleBuyNow}
-            className="pointer-events-auto w-full flex items-center justify-between gap-3 px-4 py-3.5 rounded-2xl bg-accent text-white font-sans font-semibold text-sm shadow-lg shadow-black/30 active:scale-[0.99] transition-transform"
+            className="pointer-events-auto w-full min-h-11 flex items-center justify-between gap-3 px-4 py-3.5 rounded-2xl bg-accent text-white font-sans font-semibold text-sm shadow-lg shadow-black/30 active:scale-[0.99] transition-transform"
           >
             <span>Evine getirelim</span>
             <span className="font-serif text-base">{product.price} ₺</span>
           </button>
         </div>
       )}
+
       {/* Price & Quantity & Add To Cart Box */}
       <div className="p-4 sm:p-5 rounded-2xl bg-cream-surface border border-line space-y-4 shadow-xl text-ink">
         <div className="flex items-baseline justify-between">
@@ -90,8 +94,8 @@ export function ProductDetailClientActions({ product }: ProductDetailClientActio
             <span className="text-xs font-sans text-ink-muted block">Stok Durumu</span>
             {isAvailable ? (
               <span className="inline-flex items-center gap-1.5 text-xs text-good font-semibold mt-0.5">
-                <span className="w-2 h-2 rounded-full bg-good animate-pulse" />
-                Taze Üretimde / Mevcut
+                <span className="w-2 h-2 rounded-full bg-good animate-pulse" aria-hidden="true" />
+                {isAccompanimentItem ? "Günlük Taze Tedarik" : "Taze Üretimde / Mevcut"}
               </span>
             ) : (
               <span className="text-xs text-bad font-semibold mt-0.5 block">
@@ -109,22 +113,22 @@ export function ProductDetailClientActions({ product }: ProductDetailClientActio
               type="button"
               onClick={handleDecrement}
               disabled={quantity <= 1 || !isAvailable}
-              className="p-2.5 rounded-lg hover:bg-cream-surface text-ink-muted hover:text-ink disabled:opacity-40 transition-colors"
+              className="min-w-11 min-h-11 inline-flex items-center justify-center rounded-lg hover:bg-cream-surface text-ink-muted hover:text-ink disabled:opacity-40 transition-colors"
               aria-label="Adet azalt"
             >
-              <Minus className="w-4 h-4" />
+              <Minus className="w-4 h-4" aria-hidden="true" />
             </button>
-            <span className="w-12 text-center font-mono font-bold text-sm text-ink">
+            <span className="w-12 text-center font-mono font-bold text-sm text-ink tabular-nums">
               {quantity}
             </span>
             <button
               type="button"
               onClick={handleIncrement}
               disabled={!isAvailable}
-              className="p-2.5 rounded-lg hover:bg-cream-surface text-ink-muted hover:text-ink disabled:opacity-40 transition-colors"
+              className="min-w-11 min-h-11 inline-flex items-center justify-center rounded-lg hover:bg-cream-surface text-ink-muted hover:text-ink disabled:opacity-40 transition-colors"
               aria-label="Adet artır"
             >
-              <Plus className="w-4 h-4" />
+              <Plus className="w-4 h-4" aria-hidden="true" />
             </button>
           </div>
 
@@ -133,7 +137,7 @@ export function ProductDetailClientActions({ product }: ProductDetailClientActio
             type="button"
             onClick={handleAddToCart}
             disabled={!isAvailable}
-            className={`flex-1 flex items-center justify-center gap-2 py-3 px-6 rounded-xl font-sans font-bold text-sm transition-all duration-300 shadow-md ${
+            className={`flex-1 min-h-11 flex items-center justify-center gap-2 py-3 px-6 rounded-xl font-sans font-bold text-sm transition-all duration-300 shadow-md ${
               isAdded
                 ? "bg-good text-white"
                 : "bg-accent text-white hover:bg-accent/90"
@@ -141,12 +145,12 @@ export function ProductDetailClientActions({ product }: ProductDetailClientActio
           >
             {isAdded ? (
               <>
-                <Check className="w-4 h-4" />
+                <Check className="w-4 h-4" aria-hidden="true" />
                 <span>Sepete Eklendi ({quantity} Adet)</span>
               </>
             ) : (
               <>
-                <ShoppingBag className="w-4 h-4" />
+                <ShoppingBag className="w-4 h-4" aria-hidden="true" />
                 <span>Sepete Ekle ({product.price * quantity} TL)</span>
               </>
             )}
@@ -158,10 +162,10 @@ export function ProductDetailClientActions({ product }: ProductDetailClientActio
           type="button"
           onClick={handleBuyNow}
           disabled={!isAvailable}
-          className="w-full flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl bg-bg hover:bg-cream-surface border border-line hover:border-accent/40 text-xs font-sans text-ink font-medium transition-all disabled:opacity-50"
+          className="w-full min-h-11 flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl bg-bg hover:bg-cream-surface border border-line hover:border-accent/40 text-xs font-sans text-ink font-medium transition-all disabled:opacity-50"
         >
-          <span>Hemen Sipariş Ver & Sepeti İncele</span>
-          <ArrowRight className="w-3.5 h-3.5 text-accent" />
+          <span>Hemen Sipariş Ver &amp; Sepeti İncele</span>
+          <ArrowRight className="w-3.5 h-3.5 text-accent" aria-hidden="true" />
         </button>
       </div>
 
@@ -170,10 +174,14 @@ export function ProductDetailClientActions({ product }: ProductDetailClientActio
         href={`https://wa.me/${CONTACT.phoneE164}?text=${whatsappMessage}`}
         target="_blank"
         rel="noopener noreferrer"
-        className="flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl bg-cream-surface hover:bg-bg border border-line text-xs text-ink-muted hover:text-ink font-sans transition-all"
+        className="min-h-11 flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl bg-cream-surface hover:bg-bg border border-line text-xs text-ink-muted hover:text-ink font-sans transition-all"
       >
-        <MessageCircle className="w-4 h-4 text-good" />
-        <span>Özel Gramaj & Toplu Sipariş İçin Fırın Ustasına Yazın</span>
+        <MessageCircle className="w-4 h-4 text-good shrink-0" aria-hidden="true" />
+        <span>
+          {isAccompanimentItem
+            ? "Toplu Sipariş & Teslimat Günü İçin Atölyeye Yazın"
+            : "Özel Gramaj & Toplu Sipariş İçin Fırın Ustasına Yazın"}
+        </span>
       </a>
     </div>
   );
