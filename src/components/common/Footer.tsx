@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import Link from "next/link";
 import { Phone, Mail, MapPin } from "lucide-react";
 import { CONTACT, SOCIAL_LIST, type SOCIAL } from "@/lib/site";
 import { FEATURES } from "@/lib/features";
@@ -178,21 +179,34 @@ export function Footer() {
         </div>
 
         {/* Bottom Bar: Legal Documents */}
-        <div className="pt-6 border-t border-line flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-sans text-ink-muted/80">
+        <div className="pt-6 border-t border-line flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-sans text-ink-muted">
           <div>© {new Date().getFullYear()} EkmekLab. Tüm hakları saklıdır.</div>
-          <div className="flex flex-wrap items-center gap-4">
-            <a href="/kvkk" className="hover:text-ink transition-colors">
-              KVKK Aydınlatma Metni
-            </a>
-            <span className="text-line">·</span>
-            <a href="/gizlilik" className="hover:text-ink transition-colors">
-              Gizlilik & Çerez Politikası
-            </a>
-            <span className="text-line">·</span>
-            <a href="/mesafeli-satis" className="hover:text-ink transition-colors">
-              Mesafeli Satış Sözleşmesi
-            </a>
-          </div>
+          <nav aria-label="Hukuki metinler" className="flex flex-wrap items-center justify-center gap-x-4 gap-y-2">
+            <Link
+              href="/mesafeli-satis"
+              className="py-1.5 text-ink hover:text-accent underline underline-offset-4 decoration-line hover:decoration-accent transition-colors font-medium"
+            >
+              Ön Bilgilendirme & Mesafeli Satış
+            </Link>
+            <span aria-hidden="true" className="text-line">
+              ·
+            </span>
+            <Link
+              href="/kvkk"
+              className="py-1.5 text-ink hover:text-accent underline underline-offset-4 decoration-line hover:decoration-accent transition-colors font-medium"
+            >
+              KVKK Aydınlatma
+            </Link>
+            <span aria-hidden="true" className="text-line">
+              ·
+            </span>
+            <Link
+              href="/gizlilik"
+              className="py-1.5 text-ink hover:text-accent underline underline-offset-4 decoration-line hover:decoration-accent transition-colors font-medium"
+            >
+              Gizlilik & Çerez
+            </Link>
+          </nav>
         </div>
       </div>
     </footer>

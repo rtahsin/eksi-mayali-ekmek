@@ -49,7 +49,9 @@ const CreateOrderRequestSchema = z.object({
     .min(20, "Geçersiz işlem anahtarı")
     .max(100, "Geçersiz işlem anahtarı")
     .regex(/^[A-Za-z0-9_-]+$/, "Geçersiz işlem anahtarı"),
-  termsAccepted: z.literal(true, { message: "Mesafeli satış sözleşmesi ve KVKK metni onaylanmalıdır" }),
+  termsAccepted: z.literal(true, {
+    message: "Ön Bilgilendirme Formu ve Mesafeli Satış Sözleşmesi onaylanmalıdır",
+  }),
 });
 
 interface DBOrderRow {

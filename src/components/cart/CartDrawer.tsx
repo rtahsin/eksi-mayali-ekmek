@@ -1,9 +1,11 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
+import Link from "next/link";
 import { useCartStore } from "@/lib/store/useCartStore";
 import { useDeliveryDates, useStoreSettings } from "@/hooks/useStoreSettings";
 import { computeShippingFee } from "@/lib/settings/schema";
+import { FoodComplianceNotice } from "@/components/storefront/FoodComplianceNotice";
 import { CheckoutActions } from "./CheckoutActions";
 import {
   X,
@@ -28,6 +30,24 @@ import type { CheckoutPaymentMethod } from "@/lib/order/createOrder";
 import { trackEvent } from "@/lib/track";
 
 const formatTl = (value: number) => `${value.toLocaleString("tr-TR")} ₺`;
+
+function mergeDirectionsIntoNote(
+  currentNote: string | undefined,
+  directions: string | undefined
+): string | undefined {
+  const cleanDirections = (directions || "").trim();
+  if (!cleanDirections) return undefined;
+  const existing = (currentNote || "").trim();
+  if (
+    existing
+      .toLocaleLowerCase("tr-TR")
+      .includes(cleanDirections.toLocaleLowerCase("tr-TR"))
+  ) {
+    return undefined;
+  }
+  const combined = existing ? `${existing} · ${cleanDirections}` : cleanDirections;
+  return combined.slice(0, 300);
+}
 
 export function CartDrawer() {
   const items = useCartStore((s) => s.items);
@@ -121,6 +141,10 @@ export function CartDrawer() {
     if (!customerInfo.addressDetail && preferred.addressDetail.trim()) {
       patch.addressDetail = preferred.addressDetail.trim();
     }
+    const mergedNote = mergeDirectionsIntoNote(customerInfo.note, preferred.directions);
+    if (!customerInfo.note && mergedNote) {
+      patch.note = mergedNote;
+    }
     if (Object.keys(patch).length > 0) setCustomerInfo(patch);
   }, [
     isLoggedIn,
@@ -129,6 +153,7 @@ export function CartDrawer() {
     settings.neighborhoods,
     customerInfo.neighborhood,
     customerInfo.addressDetail,
+    customerInfo.note,
     setCustomerInfo,
   ]);
 
@@ -400,57 +425,78 @@ export function CartDrawer() {
                   Seçilen Ürünler
                 </div>
                 <div className="space-y-2.5">
-                  {items.map((item) => (
-                    <div
-                      key={item.productId}
-                      className="p-3 rounded-2xl bg-cream-surface border border-line flex gap-3 items-center justify-between shadow-2xs"
-                    >
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img
-                        src={item.imageUrl}
-                        alt={item.name}
-                        className="w-14 h-14 rounded-xl object-cover bg-line/40 shrink-0"
-                      />
-                      <div className="flex-1 min-w-0">
-                        <div className="font-serif font-bold text-xs sm:text-sm text-ink truncate">{item.name}</div>
-                        <div className="text-xs font-sans text-ink-muted mt-0.5">
-                          {item.weight}gr · {formatTl(item.price)}
+                  {items.map((item) => {
+                    const catalogProduct = allProducts.find(
+                      (p) => p.id === item.productId
+                    );
+                    return (
+                      <div
+                        key={item.productId}
+                        className="p-3 rounded-2xl bg-cream-surface border border-line space-y-2.5 shadow-2xs"
+                      >
+                        <div className="flex gap-3 items-center justify-between">
+                          {/* eslint-disable-next-line @next/next/no-img-element */}
+                          <img
+                            src={item.imageUrl}
+                            alt={item.name}
+                            className="w-14 h-14 rounded-xl object-cover bg-line/40 shrink-0"
+                          />
+                          <div className="flex-1 min-w-0">
+                            <div className="font-serif font-bold text-xs sm:text-sm text-ink truncate">
+                              {item.name}
+                            </div>
+                            <div className="text-xs font-sans text-ink-muted mt-0.5">
+                              {item.weight}gr · {formatTl(item.price)}
+                            </div>
+                            <div className="font-serif text-sm font-bold text-ink mt-1">
+                              {formatTl(item.price * item.quantity)}
+                            </div>
+                          </div>
+                          <div className="flex flex-col items-end gap-1.5">
+                            <button
+                              type="button"
+                              onClick={() => removeItem(item.productId)}
+                              aria-label={`${item.name} ürününü sepetten çıkar`}
+                              className="touch-target-44 text-ink-muted hover:text-bad transition-colors p-1"
+                            >
+                              <Trash2 aria-hidden="true" className="w-3.5 h-3.5" />
+                            </button>
+                            <div className="flex items-center rounded-lg bg-line/40 border border-line">
+                              <button
+                                type="button"
+                                onClick={() =>
+                                  updateQuantity(item.productId, item.quantity - 1)
+                                }
+                                aria-label="Azalt"
+                                className="touch-target-44 w-8 h-8 flex items-center justify-center text-ink-muted hover:text-ink"
+                              >
+                                <Minus aria-hidden="true" className="w-3 h-3" />
+                              </button>
+                              <span className="w-8 text-center font-serif text-xs font-bold text-ink">
+                                {item.quantity}
+                              </span>
+                              <button
+                                type="button"
+                                onClick={() =>
+                                  updateQuantity(item.productId, item.quantity + 1)
+                                }
+                                aria-label="Artır"
+                                className="touch-target-44 w-8 h-8 flex items-center justify-center text-ink-muted hover:text-ink"
+                              >
+                                <Plus aria-hidden="true" className="w-3 h-3" />
+                              </button>
+                            </div>
+                          </div>
                         </div>
-                        <div className="font-serif text-sm font-bold text-ink mt-1">
-                          {formatTl(item.price * item.quantity)}
+                        <div className="pt-2 border-t border-line/70">
+                          <FoodComplianceNotice
+                            product={catalogProduct ?? item}
+                            variant="compact"
+                          />
                         </div>
                       </div>
-                      <div className="flex flex-col items-end gap-1.5">
-                        <button
-                          type="button"
-                          onClick={() => removeItem(item.productId)}
-                          aria-label={`${item.name} ürününü sepetten çıkar`}
-                          className="touch-target-44 text-ink-muted hover:text-bad transition-colors p-1"
-                        >
-                          <Trash2 className="w-3.5 h-3.5" />
-                        </button>
-                        <div className="flex items-center rounded-lg bg-line/40 border border-line">
-                          <button
-                            type="button"
-                            onClick={() => updateQuantity(item.productId, item.quantity - 1)}
-                            aria-label="Azalt"
-                            className="touch-target-44 w-8 h-8 flex items-center justify-center text-ink-muted hover:text-ink"
-                          >
-                            <Minus className="w-3 h-3" />
-                          </button>
-                          <span className="w-8 text-center font-serif text-xs font-bold text-ink">{item.quantity}</span>
-                          <button
-                            type="button"
-                            onClick={() => updateQuantity(item.productId, item.quantity + 1)}
-                            aria-label="Artır"
-                            className="touch-target-44 w-8 h-8 flex items-center justify-center text-ink-muted hover:text-ink"
-                          >
-                            <Plus className="w-3 h-3" />
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-                  ))}
+                    );
+                  })}
                 </div>
               </div>
 
@@ -515,9 +561,14 @@ export function CartDrawer() {
                                   stripMah(n).toLocaleLowerCase("tr-TR") ===
                                   stripMah(addr.neighborhood).toLocaleLowerCase("tr-TR")
                               ) ?? "";
+                            const mergedNote = mergeDirectionsIntoNote(
+                              customerInfo.note,
+                              addr.directions
+                            );
                             setCustomerInfo({
                               neighborhood: matchedNh,
                               addressDetail: addr.addressDetail,
+                              ...(mergedNote !== undefined ? { note: mergedNote } : {}),
                             });
                             if (matchedNh) clearError("neighborhood");
                             if (addr.addressDetail.trim().length >= 5) clearError("addressDetail");
@@ -647,10 +698,10 @@ export function CartDrawer() {
                         {errors.addressDetail}
                       </p>
                     )}
-                    <div className="mt-1.5 flex items-center justify-between gap-2">
+                    <div className="mt-1.5 flex flex-wrap items-center justify-between gap-2">
                       {hasLocation ? (
                         <span className="text-xs text-good flex items-center gap-1">
-                          <CheckCircle2 className="w-3 h-3" /> Konumunuz kuryeye iletilecek
+                          <CheckCircle2 aria-hidden="true" className="w-3 h-3" /> Konumunuz kuryeye iletilecek
                           <button
                             type="button"
                             onClick={() => setLocation(null, null)}
@@ -667,10 +718,22 @@ export function CartDrawer() {
                           className="text-xs font-semibold text-accent flex items-center gap-1 disabled:opacity-50"
                           title="Kuryenin kapınızı kolay bulması için konumunuzu siparişe ekler (isteğe bağlı)"
                         >
-                          {locating ? <Loader2 className="w-3 h-3 animate-spin" /> : <Navigation className="w-3 h-3" />}
+                          {locating ? (
+                            <Loader2 aria-hidden="true" className="w-3 h-3 animate-spin" />
+                          ) : (
+                            <Navigation aria-hidden="true" className="w-3 h-3" />
+                          )}
                           <span>{locating ? "Konum alınıyor…" : "Konumumu ekle (isteğe bağlı)"}</span>
                         </button>
                       )}
+                      <Link
+                        href="/kvkk#konum-verisi"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-xs underline text-ink-muted hover:text-accent transition-colors"
+                      >
+                        Konum aydınlatması
+                      </Link>
                     </div>
                     {!hasLocation && (
                       <p className="text-xs text-ink-muted mt-1">
