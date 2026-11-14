@@ -7,6 +7,7 @@ import { Footer } from "@/components/common/Footer";
 import { CartDrawer } from "@/components/cart/CartDrawer";
 import { OrderSuccessModal } from "@/components/cart/OrderSuccessModal";
 import { ProductDetailClientActions } from "@/components/storefront/ProductDetailClientActions";
+import { FoodComplianceNotice } from "@/components/storefront/FoodComplianceNotice";
 import { SafeProductImage } from "@/components/storefront/SafeProductImage";
 import {
   BatchPassport,
@@ -14,6 +15,10 @@ import {
 } from "@/components/storefront/BatchPassport";
 import { StalingSimulator } from "@/components/bilim/StalingSimulator";
 import type { ExtendedProduct, MasterclassDetail } from "@/types";
+import {
+  getDefaultStorageGuidance,
+  isRawMilkProduct,
+} from "@/lib/products/foodCompliance";
 import { isAccompaniment, isSpecialtyBread } from "@/lib/products/grouping";
 import { getProductPlaceholder } from "@/lib/products/map";
 import { getSmartPairings } from "@/lib/products/pairingChemistry";
@@ -193,6 +198,7 @@ export default async function ProductDetailPage({
   // Fırın iddiaları (taş taban, ekşi maya, ~24 saat) yalnız ekmeklerde; süt/yoğurt/şarküteri sayfasında görünmez.
   const isBread = !isAccompaniment(product);
   const isSpecialty = isSpecialtyBread(product);
+  const isRawMilk = isRawMilkProduct(product);
 
   const [allProducts, steps, latestBake] = await Promise.all([
     getAllProducts(),
@@ -211,7 +217,10 @@ export default async function ProductDetailPage({
   };
 
   const masterclass: ExtendedMasterclass | undefined = product.masterclass;
-  const storageText = masterclass?.pairingStorage || masterclass?.storage;
+  const storageText =
+    masterclass?.pairingStorage ||
+    masterclass?.storage ||
+    getDefaultStorageGuidance(product);
   const masterclassEntries = [
     masterclass?.flourHeritage
       ? {
@@ -390,8 +399,16 @@ export default async function ProductDetailPage({
               </p>
             </div>
 
+            {isRawMilk && (
+              <FoodComplianceNotice product={product} variant="full" />
+            )}
+
             {/* Client Interactive Add-to-Cart & Stepper */}
             <ProductDetailClientActions product={{ ...product, masterclass: undefined }} />
+
+            {!isRawMilk && (
+              <FoodComplianceNotice product={product} variant="full" />
+            )}
 
             {/* Delivery Guarantee Info Box */}
             <div className="p-4 rounded-2xl bg-cream-surface border border-line space-y-2 text-xs font-sans text-ink-muted">
