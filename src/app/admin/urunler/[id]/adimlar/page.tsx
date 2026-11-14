@@ -331,7 +331,7 @@ export default function ProductStoryPage() {
         <Plus className="w-4 h-4" /> Adım ekle {steps.length >= MAX_STEPS && `(en fazla ${MAX_STEPS})`}
       </button>
 
-      <div className="fixed bottom-16 md:bottom-4 inset-x-4 md:left-auto md:right-6 md:w-80 z-30">
+      <div className="fixed bottom-24 lg:bottom-6 inset-x-4 md:left-auto md:right-6 md:w-80 z-30">
         <button
           type="button"
           onClick={() => void save()}

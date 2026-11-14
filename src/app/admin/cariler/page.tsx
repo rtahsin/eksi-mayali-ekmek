@@ -17,7 +17,8 @@ import {
   Edit,
   TrendingUp,
   Building2,
-  Filter,
+  Archive,
+  RotateCcw,
 } from "lucide-react";
 import { useCariler } from "@/hooks/useCariler";
 import { CariAccount, BEYLIKDUZU_NEIGHBORHOODS } from "@/types/admin";
@@ -26,15 +27,21 @@ import { shareViaWhatsApp, ekstreMessage } from "@/lib/cari/whatsapp";
 export default function FinansCarilerPage() {
   const {
     cariler,
+    archivedCariler,
     loading: carilerLoading,
     totalReceivable,
     addCari,
     updateCari,
+    archiveCari,
   } = useCariler();
 
   const [searchQuery, setSearchQuery] = useState("");
-  const [balanceFilter, setBalanceFilter] = useState<"all" | "debtor" | "balanced" | "gider">("all");
+  const [balanceFilter, setBalanceFilter] = useState<
+    "all" | "debtor" | "balanced" | "gider" | "archived"
+  >("all");
   const [activeActionSheet, setActiveActionSheet] = useState<CariAccount | null>(null);
+  const [unarchivingId, setUnarchivingId] = useState<string | null>(null);
+  const [statusError, setStatusError] = useState<string | null>(null);
 
   // New/Edit modal state
   const [formModalOpen, setFormModalOpen] = useState(false);
@@ -43,19 +50,36 @@ export default function FinansCarilerPage() {
   const [formSubmitting, setFormSubmitting] = useState(false);
 
   const filteredCariler = useMemo(() => {
-    return cariler.filter((cari) => {
+    const source = balanceFilter === "archived" ? archivedCariler : cariler;
+    const q = searchQuery.toLocaleLowerCase("tr-TR").trim();
+    return source.filter((cari) => {
       const searchMatch =
-        cari.businessName.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        cari.contactPerson.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        cari.phone.includes(searchQuery);
+        !q ||
+        cari.businessName.toLocaleLowerCase("tr-TR").includes(q) ||
+        cari.contactPerson.toLocaleLowerCase("tr-TR").includes(q) ||
+        cari.phone.includes(searchQuery.trim());
 
+      if (balanceFilter === "archived") return searchMatch;
       if (balanceFilter === "debtor") return searchMatch && cari.balance > 0 && cari.accountType !== "gider";
       if (balanceFilter === "balanced") return searchMatch && cari.balance <= 0 && cari.accountType !== "gider";
       if (balanceFilter === "gider") return searchMatch && cari.accountType === "gider";
 
       return searchMatch && cari.accountType !== "gider";
     });
-  }, [cariler, searchQuery, balanceFilter]);
+  }, [cariler, archivedCariler, searchQuery, balanceFilter]);
+
+  const handleUnarchive = async (cari: CariAccount) => {
+    setUnarchivingId(cari.id);
+    setStatusError(null);
+    try {
+      const res = await archiveCari(cari.id, false);
+      if (!res.success) {
+        setStatusError(res.error || "Cari arşivden çıkarılamadı.");
+      }
+    } finally {
+      setUnarchivingId(null);
+    }
+  };
 
   const debtorCount = cariler.filter((c) => c.balance > 0 && c.accountType !== "gider").length;
 
@@ -156,8 +180,9 @@ export default function FinansCarilerPage() {
             </p>
           </div>
           <button
+            type="button"
             onClick={openNewCariModal}
-            className="flex items-center gap-2 px-4 py-3 bg-artisan-terracotta hover:bg-artisan-terracotta-dark text-white font-bold rounded-2xl transition-all shadow-lg shadow-artisan-terracotta/20 active:scale-95 text-sm"
+            className="flex items-center gap-2 px-4 py-3 min-h-[44px] bg-artisan-terracotta hover:bg-artisan-terracotta-dark text-white font-bold rounded-2xl transition-all shadow-lg shadow-artisan-terracotta/20 active:scale-95 text-sm"
           >
             <Plus className="w-5 h-5" />
             <span className="hidden sm:inline">Yeni Müşteri</span>
@@ -169,7 +194,11 @@ export default function FinansCarilerPage() {
         <div className="grid grid-cols-2 gap-3">
           <div className="bg-stone-900 border border-stone-800 rounded-2xl p-4 shadow-lg">
             <div className="text-xs font-bold text-stone-500 uppercase mb-1">Toplam Alacak</div>
-            <div className="text-lg sm:text-xl font-black font-mono text-emerald-400">
+            <div
+              className={`text-lg sm:text-xl font-black font-mono ${
+                totalReceivable > 0 ? "text-amber-400" : "text-emerald-400"
+              }`}
+            >
               {totalReceivable.toLocaleString("tr-TR")} ₺
             </div>
           </div>
@@ -181,6 +210,18 @@ export default function FinansCarilerPage() {
           </div>
         </div>
       </div>
+
+      {statusError && (
+        <div
+          role="alert"
+          className="p-3 rounded-xl bg-rose-950/50 border border-rose-500/40 text-xs text-rose-200 flex items-center justify-between gap-2"
+        >
+          <span>{statusError}</span>
+          <button type="button" aria-label="Kapat" onClick={() => setStatusError(null)}>
+            <X className="w-4 h-4" />
+          </button>
+        </div>
+      )}
 
       {/* Search & Filter */}
       <div className="space-y-3">
@@ -200,17 +241,20 @@ export default function FinansCarilerPage() {
             { key: "debtor" as const, label: "Borçlular" },
             { key: "balanced" as const, label: "Bakiye Kapalı" },
             { key: "gider" as const, label: "Gider/Tedarikçi" },
+            { key: "archived" as const, label: `Arşivlenenler (${archivedCariler.length})` },
           ].map((f) => (
             <button
               key={f.key}
+              type="button"
               onClick={() => setBalanceFilter(f.key)}
-              className={`px-3.5 py-2 rounded-xl text-xs font-bold whitespace-nowrap transition-all ${
+              className={`min-h-[40px] px-3.5 py-2 rounded-xl text-xs font-bold whitespace-nowrap transition-all flex items-center gap-1.5 ${
                 balanceFilter === f.key
                   ? "bg-artisan-terracotta text-white shadow-md"
                   : "bg-stone-900 text-stone-400 border border-stone-800 hover:text-stone-200"
               }`}
             >
-              {f.label}
+              {f.key === "archived" && <Archive className="w-3.5 h-3.5" />}
+              <span>{f.label}</span>
             </button>
           ))}
         </div>
@@ -220,22 +264,35 @@ export default function FinansCarilerPage() {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {filteredCariler.length === 0 ? (
           <div className="col-span-full py-12 text-center text-stone-500 bg-stone-900 rounded-2xl border border-stone-800">
-            <Users className="w-8 h-8 mx-auto mb-3 text-stone-600" />
-            <p className="text-sm font-semibold">Arama kriterlerine uygun cari hesap bulunamadı.</p>
-            <button
-              onClick={openNewCariModal}
-              className="mt-4 px-4 py-2 bg-artisan-terracotta text-white font-bold text-xs rounded-xl"
-            >
-              + İlk Müşteriyi Ekle
-            </button>
+            {balanceFilter === "archived" ? (
+              <>
+                <Archive className="w-8 h-8 mx-auto mb-3 text-stone-600" />
+                <p className="text-sm font-semibold">Arşivlenmiş cari hesap bulunmuyor.</p>
+              </>
+            ) : (
+              <>
+                <Users className="w-8 h-8 mx-auto mb-3 text-stone-600" />
+                <p className="text-sm font-semibold">Arama kriterlerine uygun cari hesap bulunamadı.</p>
+                <button
+                  type="button"
+                  onClick={openNewCariModal}
+                  className="mt-4 px-4 py-2 min-h-[40px] bg-artisan-terracotta text-white font-bold text-xs rounded-xl"
+                >
+                  + İlk Müşteriyi Ekle
+                </button>
+              </>
+            )}
           </div>
         ) : (
           filteredCariler.map((cari) => {
             const isExpense = cari.accountType === "gider";
+            const isArchived = Boolean(cari.archivedAt);
             return (
               <div
                 key={cari.id}
-                className="bg-stone-900 border border-stone-800 rounded-2xl overflow-hidden hover:border-stone-700 transition-colors shadow-lg flex flex-col justify-between"
+                className={`bg-stone-900 border rounded-2xl overflow-hidden hover:border-stone-700 transition-colors shadow-lg flex flex-col justify-between ${
+                  isArchived ? "border-stone-800/70 opacity-90" : "border-stone-800"
+                }`}
               >
                 <div className="p-4 flex-1">
                   <div className="flex justify-between items-start mb-3">
@@ -245,6 +302,11 @@ export default function FinansCarilerPage() {
                         {isExpense && (
                           <span className="px-1.5 py-0.5 rounded bg-rose-500/20 text-rose-400 text-xs uppercase tracking-wider font-bold shrink-0">
                             Gider
+                          </span>
+                        )}
+                        {isArchived && (
+                          <span className="px-1.5 py-0.5 rounded bg-stone-800 text-stone-400 border border-stone-700 text-[11px] uppercase tracking-wider font-bold shrink-0">
+                            Arşiv
                           </span>
                         )}
                       </h3>
@@ -276,31 +338,52 @@ export default function FinansCarilerPage() {
 
                 {/* Balance & Action Footer */}
                 <div className="bg-stone-950 p-4 border-t border-stone-800">
-                  <div className="flex items-center justify-between">
+                  <div className="flex items-center justify-between gap-2">
                     <div>
                       <div className="text-xs text-stone-500 font-bold uppercase tracking-wider mb-0.5">
                         Güncel Bakiye
                       </div>
                       <div
                         className={`text-lg font-black font-mono ${
-                          isExpense
-                            ? cari.balance > 0
-                              ? "text-emerald-400"
-                              : "text-rose-400"
-                            : cari.balance > 0
-                            ? "text-rose-400"
-                            : "text-emerald-400"
+                          cari.balance > 0 ? "text-rose-400" : "text-emerald-400"
                         }`}
                       >
                         {Math.abs(cari.balance).toLocaleString("tr-TR")} ₺
                       </div>
                     </div>
-                    <button
-                      onClick={() => setActiveActionSheet(cari)}
-                      className="px-4 py-2.5 bg-stone-800 hover:bg-stone-700 text-stone-200 text-xs font-bold rounded-xl transition-colors active:scale-95 border border-stone-700 min-h-[44px]"
-                    >
-                      İşlemler
-                    </button>
+
+                    {isArchived ? (
+                      <div className="flex items-center gap-1.5">
+                        <Link
+                          href={`/admin/cariler/${cari.id}`}
+                          className="px-3 py-2.5 bg-stone-800 hover:bg-stone-700 text-stone-200 text-xs font-bold rounded-xl transition-colors border border-stone-700 min-h-[44px] flex items-center gap-1"
+                        >
+                          <ExternalLink className="w-3.5 h-3.5 text-amber-400" />
+                          <span>Ekstre</span>
+                        </Link>
+                        <button
+                          type="button"
+                          disabled={unarchivingId === cari.id}
+                          onClick={() => void handleUnarchive(cari)}
+                          className="px-3 py-2.5 bg-emerald-600/20 hover:bg-emerald-600/30 text-emerald-300 text-xs font-bold rounded-xl transition-colors border border-emerald-500/40 min-h-[44px] flex items-center gap-1.5 disabled:opacity-50"
+                        >
+                          {unarchivingId === cari.id ? (
+                            <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                          ) : (
+                            <RotateCcw className="w-3.5 h-3.5" />
+                          )}
+                          <span>Aktif Et</span>
+                        </button>
+                      </div>
+                    ) : (
+                      <button
+                        type="button"
+                        onClick={() => setActiveActionSheet(cari)}
+                        className="px-4 py-2.5 bg-stone-800 hover:bg-stone-700 text-stone-200 text-xs font-bold rounded-xl transition-colors active:scale-95 border border-stone-700 min-h-[44px]"
+                      >
+                        İşlemler
+                      </button>
+                    )}
                   </div>
                 </div>
               </div>

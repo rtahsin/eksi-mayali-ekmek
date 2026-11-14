@@ -2,10 +2,18 @@
 export interface ProductionLine {
   productId: string;
   name: string;
-  category: string;
+  category: string | null;
   quantity: number;
   /** Günlük ekmek kapasitesinden düşen birim (eşlikçi 0) */
   capacityUnits: number;
+  /** Mandıra / şarküteri / eşlikçi ürünü mü? */
+  isAccompaniment: boolean;
+  /** Ürün birim ağırlığı (varsa) */
+  weight: number | null;
+  /** Ağırlık birimi ("g", "kg", "ml" vb.) */
+  weightUnit: string | null;
+  /** Hamur hidrasyon yüzdesi (ör. 72) */
+  hydration: number | null;
 }
 
 export interface ProductionDay {
