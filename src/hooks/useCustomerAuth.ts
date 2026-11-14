@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback, useRef } from "react";
 import type { User, Session, AuthChangeEvent } from "@supabase/supabase-js";
 import { createClient, isSupabaseConfigured } from "@/lib/supabase/client";
+import { normalizePhone } from "@/lib/order/validate";
 import { getErrorMessage } from "@/lib/utils/error";
 
 export interface UserProfile {
@@ -90,7 +91,8 @@ export function useCustomerAuth({ enabled = true }: { enabled?: boolean } = {}) 
           .from("saved_addresses")
           .select("*")
           .eq("user_id", userId)
-          .order("is_default", { ascending: false });
+          .order("is_default", { ascending: false })
+          .order("created_at", { ascending: false });
 
         if (addressData) {
           setAddresses(
@@ -135,13 +137,23 @@ export function useCustomerAuth({ enabled = true }: { enabled?: boolean } = {}) 
       try {
         const saved = localStorage.getItem("ekmeklab_auth_session");
         if (saved) {
-          const parsed = JSON.parse(saved);
-          if (parsed?.user && parsed?.profile) {
-            setUser(parsed.user);
-            setProfile(parsed.profile);
+          const parsed: unknown = JSON.parse(saved);
+          if (
+            typeof parsed === "object" &&
+            parsed !== null &&
+            "user" in parsed &&
+            "profile" in parsed
+          ) {
+            const sessionCache = parsed as { user: User | null; profile: UserProfile | null };
+            if (sessionCache.user && sessionCache.profile) {
+              setUser(sessionCache.user);
+              setProfile(sessionCache.profile);
+            }
           }
         }
-      } catch (e) {}
+      } catch {
+        // yok say
+      }
     }
 
     // 2. Supabase Auth Session Listener
@@ -190,6 +202,16 @@ export function useCustomerAuth({ enabled = true }: { enabled?: boolean } = {}) 
     }
   }, [user, profile]);
 
+  const resolveOAuthCallbackUrl = (explicitRedirect?: string): string | undefined => {
+    if (typeof window === "undefined") return undefined;
+    const explicitPath = explicitRedirect ? sanitizeAuthRedirectPath(explicitRedirect) : null;
+    const currentPath = sanitizeAuthRedirectPath(`${window.location.pathname}${window.location.search}`);
+    const targetNext = explicitPath ?? pendingRedirectRef.current ?? currentPath;
+    return `${window.location.origin}/auth/callback${
+      targetNext && targetNext !== "/" ? `?next=${encodeURIComponent(targetNext)}` : ""
+    }`;
+  };
+
   // Actions
   const signInWithGoogle = async () => {
     if (!supabase) {
@@ -197,14 +219,7 @@ export function useCustomerAuth({ enabled = true }: { enabled?: boolean } = {}) 
     }
 
     try {
-      let redirectTo: string | undefined;
-      if (typeof window !== "undefined") {
-        const currentPath = sanitizeAuthRedirectPath(`${window.location.pathname}${window.location.search}`);
-        const targetNext = pendingRedirectRef.current ?? currentPath;
-        redirectTo = `${window.location.origin}/auth/callback${
-          targetNext && targetNext !== "/" ? `?next=${encodeURIComponent(targetNext)}` : ""
-        }`;
-      }
+      const redirectTo = resolveOAuthCallbackUrl();
 
       const { data, error } = await supabase.auth.signInWithOAuth({
         provider: "google",
@@ -231,6 +246,95 @@ export function useCustomerAuth({ enabled = true }: { enabled?: boolean } = {}) 
     } catch (err: unknown) {
       return { success: false, error: getErrorMessage(err) || "Google ile giriş başlatılamadı." };
     }
+  };
+
+  const signInWithApple = async (redirectToPath?: string) => {
+    if (!supabase) {
+      return { success: false, error: "Supabase bağlantısı kurulamadı." };
+    }
+
+    try {
+      const redirectTo = resolveOAuthCallbackUrl(redirectToPath);
+
+      const { data, error } = await supabase.auth.signInWithOAuth({
+        provider: "apple",
+        options: {
+          redirectTo,
+        },
+      });
+
+      if (error) {
+        if (
+          getErrorMessage(error)?.includes("not enabled") ||
+          getErrorMessage(error)?.includes("Unsupported provider")
+        ) {
+          return {
+            success: false,
+            error:
+              "Apple ile giriş şu an kullanılamıyor. Lütfen Google ile giriş yapın veya misafir olarak sipariş verin.",
+          };
+        }
+        return { success: false, error: getErrorMessage(error) };
+      }
+
+      return { success: true, data };
+    } catch (err: unknown) {
+      return { success: false, error: getErrorMessage(err) || "Apple ile giriş başlatılamadı." };
+    }
+  };
+
+  /**
+   * Giriş yapmış kullanıcının `profiles` satırında `full_name`, `phone` ve `updated_at` alanlarını günceller.
+   * (`013_security_hardening.sql` satır 86 `GRANT UPDATE (full_name, phone, avatar_url, updated_at)` ile izinli.)
+   */
+  const updateProfile = async (input: {
+    fullName: string;
+    phone: string;
+  }): Promise<{ success: boolean; error?: string }> => {
+    if (!supabase || !user) {
+      return { success: false, error: "Profil güncellemek için giriş yapmalısınız." };
+    }
+
+    const cleanName = input.fullName.trim();
+    if (cleanName.length < 2) {
+      return { success: false, error: "Lütfen ad ve soyadınızı en az 2 karakter olarak yazın." };
+    }
+
+    const rawPhone = input.phone.trim();
+    let normalizedPhone: string | null = null;
+    if (rawPhone.length > 0) {
+      normalizedPhone = normalizePhone(rawPhone);
+      if (!normalizedPhone) {
+        return { success: false, error: "Geçerli bir cep telefonu yazın (05XX XXX XX XX)." };
+      }
+    }
+
+    const { error } = await supabase
+      .from("profiles")
+      .update({
+        full_name: cleanName,
+        phone: normalizedPhone,
+        updated_at: new Date().toISOString(),
+      })
+      .eq("id", user.id);
+
+    if (error) {
+      return {
+        success: false,
+        error: getErrorMessage(error) || "Profil bilgileriniz güncellenemedi.",
+      };
+    }
+
+    setProfile((prev) => ({
+      id: prev?.id ?? user.id,
+      email: prev?.email ?? user.email ?? "",
+      fullName: cleanName,
+      phone: normalizedPhone ?? "",
+      role: prev?.role ?? "customer",
+      avatarUrl: prev?.avatarUrl,
+    }));
+
+    return { success: true };
   };
 
   /**
@@ -285,7 +389,9 @@ export function useCustomerAuth({ enabled = true }: { enabled?: boolean } = {}) 
     if (supabase) {
       try {
         await supabase.auth.signOut();
-      } catch (e) {}
+      } catch {
+        // yok say
+      }
     }
     if (typeof window !== "undefined") {
       localStorage.removeItem("ekmeklab_auth_session");
@@ -297,6 +403,15 @@ export function useCustomerAuth({ enabled = true }: { enabled?: boolean } = {}) 
 
   const saveAddress = async (addr: Omit<SavedAddress, "id" | "userId">) => {
     if (!supabase || !user) return { error: "Giriş yapmalısınız" };
+
+    // Yeni adres varsayılan seçildiyse önce diğer adreslerin varsayılan bayrağını temizle
+    if (addr.isDefault) {
+      await supabase
+        .from("saved_addresses")
+        .update({ is_default: false })
+        .eq("user_id", user.id)
+        .eq("is_default", true);
+    }
 
     const { data, error } = await supabase
       .from("saved_addresses")
@@ -316,6 +431,62 @@ export function useCustomerAuth({ enabled = true }: { enabled?: boolean } = {}) 
       await fetchProfileAndAddresses(user.id, user.email);
     }
     return { data, error };
+  };
+
+  const setDefaultAddress = async (
+    addressId: string
+  ): Promise<{ success: boolean; error?: string }> => {
+    if (!supabase || !user) {
+      return { success: false, error: "Giriş yapmalısınız." };
+    }
+
+    const { error: resetErr } = await supabase
+      .from("saved_addresses")
+      .update({ is_default: false })
+      .eq("user_id", user.id)
+      .neq("id", addressId);
+
+    if (resetErr) {
+      return { success: false, error: getErrorMessage(resetErr) || "Adres güncellenemedi." };
+    }
+
+    const { error: setErr } = await supabase
+      .from("saved_addresses")
+      .update({ is_default: true })
+      .eq("id", addressId)
+      .eq("user_id", user.id);
+
+    if (setErr) {
+      return { success: false, error: getErrorMessage(setErr) || "Varsayılan adres seçilemedi." };
+    }
+
+    if (user.email) {
+      await fetchProfileAndAddresses(user.id, user.email);
+    }
+    return { success: true };
+  };
+
+  const deleteAddress = async (
+    addressId: string
+  ): Promise<{ success: boolean; error?: string }> => {
+    if (!supabase || !user) {
+      return { success: false, error: "Giriş yapmalısınız." };
+    }
+
+    const { error } = await supabase
+      .from("saved_addresses")
+      .delete()
+      .eq("id", addressId)
+      .eq("user_id", user.id);
+
+    if (error) {
+      return { success: false, error: getErrorMessage(error) || "Adres silinemedi." };
+    }
+
+    if (user.email) {
+      await fetchProfileAndAddresses(user.id, user.email);
+    }
+    return { success: true };
   };
 
   const openAuthModal = useCallback((redirectPath?: string) => {
@@ -339,13 +510,17 @@ export function useCustomerAuth({ enabled = true }: { enabled?: boolean } = {}) 
     openAuthModal,
     closeAuthModal,
     signInWithGoogle,
+    signInWithApple,
+    updateProfile,
     sendEmailCode,
     verifyEmailCode,
     signOut,
     saveAddress,
+    setDefaultAddress,
+    deleteAddress,
     refreshUser: () => {
       if (user && user.email) {
-        fetchProfileAndAddresses(user.id, user.email);
+        void fetchProfileAndAddresses(user.id, user.email);
       }
     },
   };
