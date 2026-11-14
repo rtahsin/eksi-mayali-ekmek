@@ -41,10 +41,10 @@ const config: Config = {
         accent: {
           DEFAULT: "rgb(var(--accent-rgb, 180 83 42) / <alpha-value>)",
         },
-        good: "var(--color-good)",
-        warn: "var(--color-warn)",
-        bad: "var(--color-bad)",
-        dough: "var(--color-dough)",
+        good: "rgb(var(--color-good-rgb, 94 127 62) / <alpha-value>)",
+        warn: "rgb(var(--color-warn-rgb, 200 134 44) / <alpha-value>)",
+        bad: "rgb(var(--color-bad-rgb, 155 44 31) / <alpha-value>)",
+        dough: "rgb(var(--color-dough-rgb, 234 211 162) / <alpha-value>)",
 
         background: "#12100E",
         foreground: "#E8E0D5",
@@ -87,13 +87,22 @@ const config: Config = {
       fontFamily: {
         serif: ["var(--font-fraunces)", "Georgia", "serif"],
         sans: ["var(--font-inter)", "Helvetica", "Arial", "sans-serif"],
-        lora: ["var(--font-lora)", "Georgia", "serif"],
+        lora: ["var(--font-fraunces)", "Georgia", "serif"],
         mono: ["var(--font-jetbrains-mono)", "monospace"],
-        hand: ["var(--font-caveat)", "cursive"],
+        hand: ["var(--font-fraunces)", "Georgia", "serif"],
       },
       boxShadow: {
+        "2xs": "0 1px 1px 0 rgb(59 30 26 / 0.04)",
+        xs: "0 1px 2px 0 rgb(59 30 26 / 0.06)",
         clay: "0 4px 14px -2px rgba(0, 0, 0, 0.6)",
         "clay-lg": "0 10px 25px -5px rgba(0, 0, 0, 0.8)",
+      },
+      backdropBlur: {
+        xs: "2px",
+      },
+      scale: {
+        98: "0.98",
+        108: "1.08",
       },
     },
   },

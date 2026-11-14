@@ -17,11 +17,15 @@
   --accent: #B4532A;
   --accent-rgb: 180 83 42;
 
-  /* Durum ve oyun semantik renkleri */
+  /* Durum ve oyun semantik renkleri + alfa kanalları */
   --color-good: #5E7F3E;
+  --color-good-rgb: 94 127 62;
   --color-warn: #C8862C;
+  --color-warn-rgb: 200 134 44;
   --color-bad: #9B2C1F;
+  --color-bad-rgb: 155 44 31;
   --color-dough: #EAD3A2;
+  --color-dough-rgb: 234 211 162;
 
   /* Eski token uyumluluğu */
   --brand-cream: #FAF6F0;
@@ -32,6 +36,17 @@
   --border-stone: #DFD5C6;
   --text-espresso: #211A14;
   --text-wheat: #615347;
+
+  /* Modern tarayıcı yerleşik form & kaydırma çubuğu teması */
+  color-scheme: light dark;
+  accent-color: var(--accent);
+  scrollbar-color: var(--ink-muted) var(--bg);
+  scrollbar-width: thin;
+}
+
+html[data-theme="light"] {
+  color-scheme: light;
+  accent-color: var(--accent);
 }
 
 /* Atölye Gece Semantik Token'ları: "Obsidyen & Fırın Közü" (OLED Derinliği — Resmi Gece Teması) */
@@ -53,11 +68,16 @@ html.dark[data-dark-variant="b"],
   --accent-rgb: 224 122 95;
 
   --color-good: #82A358;
+  --color-good-rgb: 130 163 88;
   --color-warn: #DDA14C;
+  --color-warn-rgb: 221 161 76;
   --color-bad: #BD4638;
+  --color-bad-rgb: 189 70 56;
   --color-dough: #EAD3A2;
+  --color-dough-rgb: 234 211 162;
 
   color-scheme: dark;
+  accent-color: var(--accent);
 }
 
 /* Seçenek A (Alternatif): Döküm Taş & Sıcak Kömür (Warm Charcoal) */
@@ -77,11 +97,16 @@ html.dark[data-dark-variant="a"],
   --accent-rgb: 217 119 70;
 
   --color-good: #82A358;
+  --color-good-rgb: 130 163 88;
   --color-warn: #DDA14C;
+  --color-warn-rgb: 221 161 76;
   --color-bad: #BD4638;
+  --color-bad-rgb: 189 70 56;
   --color-dough: #EAD3A2;
+  --color-dough-rgb: 234 211 162;
 
   color-scheme: dark;
+  accent-color: var(--accent);
 }
 
 /* Eski Hali: Çamurlu Kahverengi (Kıyaslama amaçlı) */
@@ -101,11 +126,16 @@ html.dark[data-dark-variant="old"],
   --accent-rgb: 224 122 95;
 
   --color-good: #82A358;
+  --color-good-rgb: 130 163 88;
   --color-warn: #DDA14C;
+  --color-warn-rgb: 221 161 76;
   --color-bad: #BD4638;
+  --color-bad-rgb: 189 70 56;
   --color-dough: #EAD3A2;
+  --color-dough-rgb: 234 211 162;
 
   color-scheme: dark;
+  accent-color: var(--accent);
 }
 
 /* Touch Target helper: ensures min 44x44px hit target for 36px visual buttons */
@@ -142,28 +172,29 @@ body {
 
 html,
 body {
-  color-scheme: light;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Custom Scrollbar - Earthy */
-::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
-}
+/* Legacy fallback for WebKit/Blink browsers without standard scrollbar-color */
+@supports not (scrollbar-color: auto) {
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
 
-::-webkit-scrollbar-track {
-  background: var(--bg, #F6EEDF);
-}
+  ::-webkit-scrollbar-track {
+    background: var(--bg, #F6EEDF);
+  }
 
-::-webkit-scrollbar-thumb {
-  background: var(--line, #E2D3BD);
-  border-radius: 3px;
-}
+  ::-webkit-scrollbar-thumb {
+    background: var(--line, #E2D3BD);
+    border-radius: 3px;
+  }
 
-::-webkit-scrollbar-thumb:hover {
-  background: var(--ink-muted, #6E5148);
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--ink-muted, #6E5148);
+  }
 }
 
 /* Organic Noise Texture */
@@ -199,6 +230,22 @@ body {
   to { transform: translateX(0); }
 }
 
+@keyframes slideRight {
+  from { transform: translateX(-100%); }
+  to { transform: translateX(0); }
+}
+
+@keyframes scaleUp {
+  from {
+    opacity: 0;
+    transform: scale(0.96) translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
 .animate-fadeIn {
   animation: fadeIn 0.2s ease-out forwards;
 }
@@ -207,13 +254,110 @@ body {
   animation: slideLeft 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
+.animate-slideRight {
+  animation: slideRight 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-scaleUp {
+  animation: scaleUp 0.22s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
 /* Yatay kaydırmalı chip satırı için scrollbar gizle */
-.no-scrollbar {
+.no-scrollbar,
+.scrollbar-none {
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
-.no-scrollbar::-webkit-scrollbar {
+.no-scrollbar::-webkit-scrollbar,
+.scrollbar-none::-webkit-scrollbar {
   display: none;
+}
+
+/* Brand-Consistent Accessible Native Range Slider */
+input[type="range"].ekmeklab-slider {
+  --slider-track-size: 0.5rem;
+  --slider-thumb-size: 1.25rem;
+  --slider-track-radius: 999px;
+  --slider-thumb-radius: 50%;
+  --slider-track-color: var(--line);
+  --slider-fill-color: var(--accent);
+  --slider-thumb-color: var(--slider-fill-color);
+  --slider-direction: to right;
+  --attr-min: 0;
+  --attr-max: 100;
+  --control-value: 50;
+  --slider-progress: calc(
+    (var(--control-value) - var(--attr-min)) /
+    (var(--attr-max) - var(--attr-min)) * 100%
+  );
+
+  -webkit-appearance: none;
+  appearance: none;
+  inline-size: 100%;
+  block-size: 2.5rem;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  cursor: pointer;
+}
+
+input[type="range"].ekmeklab-slider:dir(rtl) {
+  --slider-direction: to left;
+}
+
+/* WebKit/Blink — kept strictly separate from Firefox rules */
+input[type="range"].ekmeklab-slider::-webkit-slider-runnable-track {
+  block-size: var(--slider-track-size);
+  border: 0;
+  border-radius: var(--slider-track-radius);
+  background: linear-gradient(
+    var(--slider-direction),
+    var(--slider-fill-color) var(--slider-progress),
+    var(--slider-track-color) var(--slider-progress)
+  );
+}
+
+input[type="range"].ekmeklab-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  inline-size: var(--slider-thumb-size);
+  block-size: var(--slider-thumb-size);
+  margin-block-start: calc((var(--slider-track-size) - var(--slider-thumb-size)) / 2);
+  border: 2px solid var(--surface);
+  border-radius: var(--slider-thumb-radius);
+  background: var(--slider-thumb-color);
+  box-shadow: 0 1px 3px rgb(59 30 26 / 0.25);
+}
+
+/* Firefox — kept strictly separate from WebKit rules */
+input[type="range"].ekmeklab-slider::-moz-range-track {
+  block-size: var(--slider-track-size);
+  border: 0;
+  border-radius: var(--slider-track-radius);
+  background: var(--slider-track-color);
+}
+
+input[type="range"].ekmeklab-slider::-moz-range-progress {
+  block-size: var(--slider-track-size);
+  border-radius: var(--slider-track-radius);
+  background: var(--slider-fill-color);
+}
+
+input[type="range"].ekmeklab-slider::-moz-range-thumb {
+  inline-size: var(--slider-thumb-size);
+  block-size: var(--slider-thumb-size);
+  border: 2px solid var(--surface);
+  border-radius: var(--slider-thumb-radius);
+  background: var(--slider-thumb-color);
+  box-shadow: 0 1px 3px rgb(59 30 26 / 0.25);
+}
+
+input[type="range"].ekmeklab-slider:focus-visible {
+  outline: 2px solid var(--slider-fill-color);
+  outline-offset: 4px;
+  border-radius: 0.5rem;
 }
 
 /* Erişilebilirlik: Prefers Reduced Motion desteği (I-04) */

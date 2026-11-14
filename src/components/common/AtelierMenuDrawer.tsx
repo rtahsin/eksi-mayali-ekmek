@@ -10,7 +10,7 @@ import {
   Mail,
   ExternalLink,
   ShoppingBag,
-  Sparkles,
+  Flame,
   Truck,
   Building2,
   MessageCircle,
@@ -163,19 +163,23 @@ export function AtelierMenuDrawer({ isOpen, onClose }: AtelierMenuDrawerProps) {
           <section className="bg-bg border border-line rounded-2xl p-4">
             {isLoggedIn ? (
               <div className="flex items-center justify-between gap-3">
-                <div className="flex items-center gap-3 min-w-0">
+                <Link
+                  href="/hesabim"
+                  onClick={handleLinkClick}
+                  className="flex items-center gap-3 min-w-0 group"
+                >
                   <div className="w-10 h-10 rounded-full bg-accent/15 border border-accent/30 text-accent font-bold flex items-center justify-center text-sm shrink-0">
                     {initials || "E"}
                   </div>
                   <div className="min-w-0">
-                    <div className="text-xs font-mono text-ink-muted uppercase tracking-wider font-semibold">
-                      Hesabım
+                    <div className="text-xs font-mono text-ink-muted group-hover:text-accent uppercase tracking-wider font-semibold transition-colors">
+                      Müdavim Hesabım →
                     </div>
                     <div className="text-sm font-serif font-bold text-ink truncate">
                       Merhaba, {displayName}
                     </div>
                   </div>
-                </div>
+                </Link>
 
                 <div className="flex items-center gap-2 shrink-0">
                   <Link
@@ -354,7 +358,7 @@ export function AtelierMenuDrawer({ isOpen, onClose }: AtelierMenuDrawerProps) {
                 >
                   <div className="flex items-center gap-3">
                     <div className="w-8 h-8 rounded-lg bg-cream-surface border border-line flex items-center justify-center text-accent shrink-0">
-                      <Sparkles className="w-4 h-4" />
+                      <Flame className="w-4 h-4" />
                     </div>
                     <div>
                       <div className="font-serif text-base font-bold text-ink">Biz Kimiz?</div>

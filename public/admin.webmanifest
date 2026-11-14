@@ -1,6 +1,6 @@
 {
   "name": "EkmekLab Yönetim Paneli",
-  "short_name": "EkmekLab",
+  "short_name": "EL Operasyon",
   "description": "EkmekLab Taş Fırın Atölye & ERP Yönetim Paneli",
   "start_url": "/admin",
   "display": "standalone",

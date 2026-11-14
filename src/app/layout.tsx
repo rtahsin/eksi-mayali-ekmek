@@ -1,25 +1,13 @@
-import type { Metadata } from "next";
-import { Fraunces, Lora, Caveat, JetBrains_Mono, Inter } from "next/font/google";
+import type { Metadata, Viewport } from "next";
+import { Fraunces, JetBrains_Mono, Inter } from "next/font/google";
 import { AuthProvider } from "@/components/auth/AuthProvider";
 import "./globals.css";
 import { SITE_URL, SOCIAL_LIST } from "@/lib/site";
 
 const fraunces = Fraunces({
   subsets: ["latin", "latin-ext"],
+  style: ["normal", "italic"],
   variable: "--font-fraunces",
-  display: "swap",
-});
-
-const lora = Lora({
-  subsets: ["latin", "latin-ext"],
-  weight: ["400", "500", "600", "700"],
-  variable: "--font-lora",
-  display: "swap",
-});
-
-const caveat = Caveat({
-  subsets: ["latin", "latin-ext"],
-  variable: "--font-caveat",
   display: "swap",
 });
 
@@ -35,8 +23,12 @@ const inter = Inter({
   display: "swap",
 });
 
-export const viewport = {
-  themeColor: "#F6EEDF",
+export const viewport: Viewport = {
+  colorScheme: "light dark",
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#F6EEDF" },
+    { media: "(prefers-color-scheme: dark)", color: "#0E0D0C" },
+  ],
   width: "device-width",
   initialScale: 1,
   viewportFit: "cover",
@@ -49,7 +41,7 @@ export const metadata: Metadata = {
     "Beylikdüzü'nde ata tohumu unlar ve canlı ekşi mayayla, uzun fermantasyonla hazırlanan katkısız artisan ekmekler ve doğal şarküteri lezzetleri. Fırından çıktığı gün kapınızda.",
   appleWebApp: {
     capable: true,
-    statusBarStyle: "black-translucent",
+    statusBarStyle: "default",
     title: "EkmekLab",
   },
   keywords: [
@@ -98,9 +90,10 @@ export default function RootLayout({
   return (
     <html lang="tr" className="scroll-smooth" suppressHydrationWarning>
       <head>
+        <meta name="color-scheme" content="light dark" />
         <script
           dangerouslySetInnerHTML={{
-            __html: `(function(){try{var p=localStorage.getItem('ekmeklab_theme_preference');var d=p==='dark'||((!p||p==='system')&&window.matchMedia('(prefers-color-scheme: dark)').matches);if(d){document.documentElement.classList.add('dark');document.documentElement.setAttribute('data-theme','dark');}else{document.documentElement.classList.remove('dark');document.documentElement.setAttribute('data-theme','light');}}catch(e){}})();`,
+            __html: `(function(){try{var m=window.matchMedia('(prefers-color-scheme: dark)');function sync(){var p=localStorage.getItem('ekmeklab_theme_preference');var v=localStorage.getItem('ekmeklab_dark_variant')||'b';var d=p==='dark'||((!p||p==='system')&&m.matches);var r=document.documentElement;if(d){r.classList.add('dark');r.setAttribute('data-theme','dark');r.setAttribute('data-dark-variant',v);}else{r.classList.remove('dark');r.setAttribute('data-theme','light');r.removeAttribute('data-dark-variant');}}sync();if(m.addEventListener){m.addEventListener('change',sync);}}catch(e){}})();`,
           }}
         />
         <script
@@ -109,7 +102,7 @@ export default function RootLayout({
         />
       </head>
       <body
-        className={`${fraunces.variable} ${lora.variable} ${inter.variable} ${caveat.variable} ${jetbrainsMono.variable} min-h-screen bg-bg text-ink antialiased font-sans noise-bg selection:bg-accent/20 selection:text-ink`}
+        className={`${fraunces.variable} ${inter.variable} ${jetbrainsMono.variable} min-h-screen bg-bg text-ink antialiased font-sans noise-bg selection:bg-accent/20 selection:text-ink`}
       >
         <AuthProvider>{children}</AuthProvider>
       </body>
