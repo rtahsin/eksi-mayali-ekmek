@@ -87,10 +87,10 @@ export function OrderSlipModal({ order, isOpen, onClose, cari: propCari }: Order
   }, [isOpen, order.id]);
 
   // Balance calculations:
-  // If this order is already reflected in the Cari's balance:
-  // previousBalance = activeCari.balance - order.totalAmount
-  // If not reflected: previousBalance = activeCari.balance
-  const isOrderAlreadyInBalance = Boolean(order.cariId || order.paymentMethod === "cari");
+  // Cari borcu veritabanına YALNIZCA sipariş 'teslim_edildi' olduğunda yazılır (AGENTS.md §6).
+  // Henüz teslim edilmemiş siparişte activeCari.balance bu siparişi içermez; düşülmemelidir!
+  const isOrderAlreadyInBalance =
+    order.status === "teslim_edildi" && Boolean(order.cariId || order.paymentMethod === "cari");
 
   const previousBalance = useMemo(() => {
     if (!activeCari) return 0;
@@ -232,7 +232,9 @@ export function OrderSlipModal({ order, isOpen, onClose, cari: propCari }: Order
             </div>
           </div>
 
-          <button aria-label="Kapat"
+          <button
+            type="button"
+            aria-label="Kapat"
             onClick={onClose}
             className="p-1.5 text-stone-400 hover:text-white rounded-xl hover:bg-stone-800 transition-colors"
           >
@@ -350,7 +352,9 @@ export function OrderSlipModal({ order, isOpen, onClose, cari: propCari }: Order
                   <div className="text-sm sm:text-base font-bold font-mono text-amber-400 mt-1">
                     +{thisOrderTotal.toLocaleString("tr-TR")} ₺
                   </div>
-                  <div className="text-xs text-amber-500/80 mt-0.5">Teslim Edilen</div>
+                  <div className="text-xs text-amber-500/80 mt-0.5">
+                    {order.status === "teslim_edildi" ? "Teslim Edildi" : "Teslimde İşlenecek"}
+                  </div>
                 </div>
 
                 {/* 3. Collected Payment */}
@@ -438,6 +442,7 @@ export function OrderSlipModal({ order, isOpen, onClose, cari: propCari }: Order
           
           <div className="flex items-center gap-2 flex-wrap sm:flex-nowrap">
             <button
+              type="button"
               onClick={handleCopyLink}
               className="flex items-center justify-center gap-1.5 px-3 py-2.5 bg-stone-800 hover:bg-stone-700 text-amber-400 rounded-xl text-xs font-semibold border border-stone-700 transition-all active:scale-95"
               title="Müşteriye gönderilecek canlı dijital fiş linkini kopyala"
@@ -457,6 +462,7 @@ export function OrderSlipModal({ order, isOpen, onClose, cari: propCari }: Order
             </a>
 
             <button
+              type="button"
               onClick={handleCopy}
               className="flex items-center justify-center gap-1.5 px-3 py-2.5 bg-stone-800 hover:bg-stone-700 text-stone-200 rounded-xl text-xs font-semibold border border-stone-700 transition-all active:scale-95"
               title="Metin olarak kopyala"
@@ -466,6 +472,7 @@ export function OrderSlipModal({ order, isOpen, onClose, cari: propCari }: Order
             </button>
 
             <button
+              type="button"
               onClick={() => window.print()}
               className="p-2.5 bg-stone-800/80 hover:bg-stone-800 text-stone-300 hover:text-white rounded-xl text-xs border border-stone-700 transition-colors"
               title="İsteğe Bağlı Yazdır / PDF"
@@ -475,6 +482,7 @@ export function OrderSlipModal({ order, isOpen, onClose, cari: propCari }: Order
           </div>
 
           <button
+            type="button"
             onClick={handleSendWhatsApp}
             className="flex items-center justify-center gap-2 px-5 py-2.5 bg-emerald-500 hover:bg-emerald-400 text-stone-950 font-bold rounded-xl text-xs transition-all shadow-lg shadow-emerald-500/20 active:scale-95"
           >

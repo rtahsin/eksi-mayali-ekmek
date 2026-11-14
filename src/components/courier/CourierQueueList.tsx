@@ -47,25 +47,27 @@ export function CourierQueueList({
             >
               <div className="flex items-center justify-between gap-3">
                 {/* Index + Reorder Arrows */}
-                <div className="flex items-center gap-1.5 shrink-0">
-                  <div className="flex flex-col gap-0.5">
+                <div className="flex items-center gap-2 shrink-0">
+                  <div className="flex items-center gap-1">
                     <button
                       type="button"
                       onClick={() => onMoveStop(order.id, "up")}
                       disabled={idx === 0}
-                      className="p-1 rounded bg-stone-800 hover:bg-stone-700 disabled:opacity-30 disabled:hover:bg-stone-800 text-stone-300 transition-colors"
+                      aria-label={`${order.customerName} durağını yukarı taşı`}
+                      className="min-w-[44px] min-h-[44px] rounded-xl bg-stone-800 hover:bg-stone-700 disabled:opacity-30 disabled:hover:bg-stone-800 text-stone-200 flex items-center justify-center transition-colors"
                       title="Yukarı Taşı"
                     >
-                      <ArrowUp className="w-3 h-3" />
+                      <ArrowUp className="w-4 h-4" />
                     </button>
                     <button
                       type="button"
                       onClick={() => onMoveStop(order.id, "down")}
                       disabled={idx === pendingOrders.length - 1}
-                      className="p-1 rounded bg-stone-800 hover:bg-stone-700 disabled:opacity-30 disabled:hover:bg-stone-800 text-stone-300 transition-colors"
+                      aria-label={`${order.customerName} durağını aşağı taşı`}
+                      className="min-w-[44px] min-h-[44px] rounded-xl bg-stone-800 hover:bg-stone-700 disabled:opacity-30 disabled:hover:bg-stone-800 text-stone-200 flex items-center justify-center transition-colors"
                       title="Aşağı Taşı"
                     >
-                      <ArrowDown className="w-3 h-3" />
+                      <ArrowDown className="w-4 h-4" />
                     </button>
                   </div>
 

@@ -99,7 +99,7 @@ export function PwaInstallPrompt() {
   if (isStandalone || !showPrompt || installed) return null;
 
   return (
-    <div className="fixed bottom-4 left-4 right-4 sm:left-auto sm:right-6 sm:max-w-md z-50 animate-in slide-in-from-bottom-5 duration-300">
+    <div className="fixed bottom-24 lg:bottom-6 left-4 right-4 sm:left-auto sm:right-6 sm:max-w-md z-50 animate-in slide-in-from-bottom-5 duration-300">
       <div className="bg-[#1A1410] border border-artisan-gold/40 rounded-2xl p-4 shadow-2xl backdrop-blur-md flex items-start gap-3.5 text-stone-200">
         
         {/* App Icon */}
@@ -116,8 +116,10 @@ export function PwaInstallPrompt() {
             </h4>
 
             <button
+              type="button"
               onClick={handleDismiss}
-              className="p-1 rounded-lg text-stone-400 hover:text-white hover:bg-stone-800 transition-colors"
+              aria-label="Kapat"
+              className="p-1.5 rounded-lg text-stone-400 hover:text-white hover:bg-stone-800 transition-colors"
               title="Kapat"
             >
               <X className="w-4 h-4" />
@@ -133,9 +135,10 @@ export function PwaInstallPrompt() {
           {!isIOS && deferredPrompt && (
             <div className="pt-2">
               <button
+                type="button"
                 onClick={handleInstallClick}
                 disabled={installing}
-                className="flex items-center justify-center gap-2 w-full py-2 px-3 bg-artisan-terracotta hover:bg-artisan-terracotta-dark text-white font-bold rounded-xl text-xs transition-all shadow-md shadow-artisan-terracotta/20 active:scale-95 disabled:opacity-50"
+                className="flex items-center justify-center gap-2 w-full min-h-[44px] py-2 px-3 bg-artisan-terracotta hover:bg-artisan-terracotta-dark text-white font-bold rounded-xl text-xs transition-all shadow-md shadow-artisan-terracotta/20 active:scale-95 disabled:opacity-50"
               >
                 <Download className="w-3.5 h-3.5" />
                 <span>{installing ? "Yükleniyor..." : "Uygulamayı Telefona Yükle"}</span>

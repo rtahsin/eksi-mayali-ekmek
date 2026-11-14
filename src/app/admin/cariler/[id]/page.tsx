@@ -15,6 +15,7 @@ import {
   Scale,
   Tag,
   Archive,
+  RotateCcw,
   Trash2,
   Undo2,
   Download,
@@ -216,9 +217,27 @@ export default function IsolatedCariDetailPage() {
             <span>Düzenle</span>
           </button>
 
-          {/* Deneme carisi → kalıcı sil; gerçek geçmişi olan cari → arşivle */}
-          {canDelete ? (
+          {/* Deneme carisi → kalıcı sil; arşivliyse → aktif et; gerçek geçmişi olan cari → arşivle */}
+          {cari.archivedAt ? (
             <button
+              type="button"
+              onClick={async () => {
+                setArchiving(true);
+                const res = await archiveCari(cari.id, false);
+                setArchiving(false);
+                if (!res.success) alert(res.error || "Aktif edilemedi");
+                else refetch();
+              }}
+              disabled={archiving}
+              className="flex items-center gap-1.5 px-3.5 py-2 bg-emerald-950/40 border border-emerald-500/40 hover:bg-emerald-900/50 text-emerald-300 text-xs sm:text-sm font-bold rounded-2xl transition-all disabled:opacity-50"
+              title="Cariyi arşivden çıkar ve tekrar aktif et"
+            >
+              {archiving ? <Loader2 className="w-4 h-4 animate-spin" /> : <RotateCcw className="w-4 h-4" />}
+              <span>Aktif Et</span>
+            </button>
+          ) : canDelete ? (
+            <button
+              type="button"
               onClick={handleDeleteCari}
               disabled={archiving}
               className="flex items-center gap-1.5 px-3.5 py-2 bg-rose-950/40 border border-rose-900/40 hover:bg-rose-900/60 text-rose-400 hover:text-rose-200 text-xs sm:text-sm font-bold rounded-2xl transition-all disabled:opacity-50"
@@ -229,6 +248,7 @@ export default function IsolatedCariDetailPage() {
             </button>
           ) : (
             <button
+              type="button"
               onClick={handleArchiveCari}
               disabled={archiving}
               className="flex items-center gap-1.5 px-3.5 py-2 bg-stone-900 border border-stone-800 hover:bg-stone-800 text-stone-400 hover:text-stone-200 text-xs sm:text-sm font-bold rounded-2xl transition-all disabled:opacity-50"
@@ -245,8 +265,13 @@ export default function IsolatedCariDetailPage() {
       <div className="bg-stone-900 border border-stone-800 rounded-3xl p-6 sm:p-8 relative overflow-hidden">
         <div className="flex flex-col sm:flex-row justify-between sm:items-end gap-6 relative z-10">
           <div className="flex-1 min-w-0">
-            <h1 className="text-2xl sm:text-3xl font-black font-serif text-stone-100">
-              {cari.businessName}
+            <h1 className="text-2xl sm:text-3xl font-black font-serif text-stone-100 flex items-center gap-2.5 flex-wrap">
+              <span>{cari.businessName}</span>
+              {cari.archivedAt && (
+                <span className="px-2.5 py-0.5 rounded-lg bg-stone-800 border border-stone-700 text-stone-300 text-xs font-sans font-bold uppercase tracking-wider">
+                  Arşivlenmiş Hesap
+                </span>
+              )}
             </h1>
             <p className="text-stone-400 mt-2 max-w-xl text-sm leading-relaxed">
               {cari.address || "Adres bilgisi yok"} <br />
@@ -262,6 +287,7 @@ export default function IsolatedCariDetailPage() {
                     <span>Tanımlı Özel Fiyatlar ({Object.keys(cari.customPrices).length} Ürün):</span>
                   </div>
                   <button
+                    type="button"
                     onClick={() => {
                       setEditModalTab("prices");
                       setActiveModal("edit");
@@ -290,6 +316,7 @@ export default function IsolatedCariDetailPage() {
               <div className="mt-4 pt-3 border-t border-stone-800/60 flex items-center justify-between">
                 <span className="text-xs text-stone-500">Bu cari için özel toptan fiyat tanımlanmamış.</span>
                 <button
+                  type="button"
                   onClick={() => {
                     setEditModalTab("prices");
                     setActiveModal("edit");
@@ -309,11 +336,7 @@ export default function IsolatedCariDetailPage() {
               </div>
               <div
                 className={`text-3xl font-black font-mono ${
-                  cari.balance > 0
-                    ? "text-emerald-400"
-                    : cari.balance < 0
-                    ? "text-rose-400"
-                    : "text-stone-400"
+                  cari.balance > 0 ? "text-rose-400" : "text-emerald-400"
                 }`}
               >
                 {Math.abs(cari.balance).toLocaleString("tr-TR")} ₺

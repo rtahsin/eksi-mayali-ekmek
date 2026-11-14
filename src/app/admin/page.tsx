@@ -2,7 +2,26 @@
 
 import React, { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
-import { PlusCircle, Truck, Wallet, Flame, Clock, MessageCircle, Phone, Globe, Store, ArrowRight, Gauge } from "lucide-react";
+import {
+  PlusCircle,
+  Truck,
+  Wallet,
+  Flame,
+  Clock,
+  MessageCircle,
+  Phone,
+  Globe,
+  Store,
+  ArrowRight,
+  Gauge,
+  Check,
+  CheckCheck,
+  Loader2,
+  Banknote,
+  CreditCard,
+  Building2,
+  AlertCircle,
+} from "lucide-react";
 import { useAdminOrders } from "@/hooks/useAdminOrders";
 import { useIstanbulToday } from "@/hooks/useIstanbulToday";
 import { addDays, formatTrDate, relativeTrDate } from "@/lib/time/istanbul";
@@ -39,6 +58,78 @@ function useProduction(date: string): ProductionDay | null {
   return data;
 }
 
+function ZReconciliationCard({ date, s }: { date: string; s: DaySummary }) {
+  const openDoorTotal = s.collectCash + s.collectPos + s.collectTransfer + s.uncollectedDelivered;
+
+  return (
+    <section className="bg-[#18130F] border border-[#261E17] rounded-3xl p-5 space-y-4">
+      <div className="flex flex-wrap items-start justify-between gap-3 border-b border-[#261E17] pb-3.5">
+        <div>
+          <div className="text-xs font-bold uppercase tracking-wider text-amber-400 flex items-center gap-1.5">
+            <Wallet className="w-3.5 h-3.5" /> Günlük Ciro & Kasa Mutabakatı (Z-Özeti)
+          </div>
+          <p className="text-xs text-stone-400 mt-0.5">
+            {formatTrDate(date, "long")} · {s.activeOrderCount} aktif sipariş ({s.delivered} teslim · {s.toDeliver} açık)
+          </p>
+        </div>
+        <div className="text-left sm:text-right">
+          <div className="text-xs text-stone-400">Bugünkü Toplam Ciro</div>
+          <div className="text-2xl sm:text-3xl font-black font-mono text-stone-100">{tl(s.grossRevenue)}</div>
+        </div>
+      </div>
+
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
+        <div className="p-3.5 rounded-2xl bg-stone-950/70 border border-emerald-500/20 space-y-1">
+          <div className="text-xs text-stone-400 flex items-center gap-1.5">
+            <Banknote className="w-3.5 h-3.5 text-emerald-400" /> Kasaya Giren Nakit
+          </div>
+          <div className="text-lg font-black font-mono text-emerald-300">{tl(s.collectedCash)}</div>
+          <div className="text-[11px] text-stone-500">Tahsil edildi</div>
+        </div>
+
+        <div className="p-3.5 rounded-2xl bg-stone-950/70 border border-emerald-500/20 space-y-1">
+          <div className="text-xs text-stone-400 flex items-center gap-1.5">
+            <CreditCard className="w-3.5 h-3.5 text-emerald-400" /> POS & Kart Tahsilatı
+          </div>
+          <div className="text-lg font-black font-mono text-emerald-300">{tl(s.collectedPos)}</div>
+          <div className="text-[11px] text-stone-500">
+            {s.collectedTransfer > 0 ? `+ ${tl(s.collectedTransfer)} havale ödendi` : "POS / Online ödendi"}
+          </div>
+        </div>
+
+        <div className="p-3.5 rounded-2xl bg-stone-950/70 border border-orange-500/20 space-y-1">
+          <div className="text-xs text-stone-400 flex items-center gap-1.5">
+            <Building2 className="w-3.5 h-3.5 text-orange-400" /> Cariye İşlenen
+          </div>
+          <div className="text-lg font-black font-mono text-orange-300">{tl(s.bookedCari)}</div>
+          <div className="text-[11px] text-stone-500">
+            {s.pendingCari > 0 ? `+ ${tl(s.pendingCari)} teslimde işlenecek` : "Teslim edilen B2B fişler"}
+          </div>
+        </div>
+
+        <div className="p-3.5 rounded-2xl bg-stone-950/70 border border-amber-500/30 space-y-1">
+          <div className="text-xs text-stone-400 flex items-center gap-1.5">
+            <Clock className="w-3.5 h-3.5 text-amber-400" /> Kapıda Açık Tahsilat
+          </div>
+          <div className="text-lg font-black font-mono text-amber-300">{tl(openDoorTotal)}</div>
+          <div className="text-[11px] text-stone-400 truncate">
+            {openDoorTotal === 0
+              ? "Açık tahsilat yok"
+              : [
+                  s.collectCash > 0 ? `Nakit ${tl(s.collectCash)}` : null,
+                  s.collectPos > 0 ? `POS ${tl(s.collectPos)}` : null,
+                  s.collectTransfer > 0 ? `Havale ${tl(s.collectTransfer)}` : null,
+                  s.uncollectedDelivered > 0 ? `Alınmamış ${tl(s.uncollectedDelivered)}` : null,
+                ]
+                  .filter(Boolean)
+                  .join(" · ")}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 function DeliveryCard({ title, date, s }: { title: string; date: string; s: DaySummary }) {
   return (
     <Link
@@ -57,6 +148,18 @@ function DeliveryCard({ title, date, s }: { title: string; date: string; s: DayS
           teslim edilecek{s.delivered > 0 && ` · ${s.delivered} teslim edildi`}
         </span>
       </div>
+
+      <div className="flex flex-wrap items-center gap-2 text-xs">
+        <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-xl bg-stone-900 border border-stone-800 text-stone-200 font-medium">
+          <Truck className="w-3.5 h-3.5 text-amber-400" />
+          Kurye: <strong className="font-mono text-amber-300">{s.courierToDeliver}</strong>
+        </span>
+        <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-xl bg-stone-900 border border-stone-800 text-stone-200 font-medium">
+          <Store className="w-3.5 h-3.5 text-stone-400" />
+          Gel-Al: <strong className="font-mono text-stone-100">{s.pickupToDeliver}</strong>
+        </span>
+      </div>
+
       {s.unconfirmed > 0 && <div className="text-xs text-amber-300">{s.unconfirmed} tanesi onay bekliyor</div>}
       {(s.collectCash > 0 || s.collectPos > 0 || s.collectTransfer > 0 || s.onAccount > 0) && (
         <div className="grid grid-cols-2 gap-2 text-xs pt-1">
@@ -146,11 +249,15 @@ function BakeCard({ title, p }: { title: string; p: ProductionDay | null }) {
   );
 }
 
-/** "Bugün" paneli (Faz 3a-2): onay bekleyenler, bugün/yarın teslimat ve tahsilat, fırın planı, hızlı işlemler. */
+/** "Bugün" paneli: Z-mutabakatı, tek tıkla sipariş onayı, bugün/yarın teslimat (kurye/gel-al) ve fırın planı. */
 export default function TodayPage() {
-  const { allOrders, loading } = useAdminOrders();
+  const { allOrders, loading, updateOrderStatus } = useAdminOrders();
   const today = useIstanbulToday();
   const tomorrow = addDays(today, 1);
+
+  const [approvingIds, setApprovingIds] = useState<Set<string>>(() => new Set());
+  const [approvingAll, setApprovingAll] = useState(false);
+  const [approveError, setApproveError] = useState<string | null>(null);
 
   const todaySum = useMemo(() => summarizeDay(allOrders, today), [allOrders, today]);
   const tomorrowSum = useMemo(() => summarizeDay(allOrders, tomorrow), [allOrders, tomorrow]);
@@ -163,6 +270,44 @@ export default function TodayPage() {
   );
   const prodToday = useProduction(today);
   const prodTomorrow = useProduction(tomorrow);
+
+  const handleApproveSingle = async (orderId: string) => {
+    if (approvingIds.has(orderId) || approvingAll) return;
+    setApproveError(null);
+    setApprovingIds((prev) => new Set(prev).add(orderId));
+    try {
+      const res = await updateOrderStatus(orderId, "hazirlaniyor");
+      if (!res.success) {
+        setApproveError(res.error || "Sipariş onaylanamadı.");
+      }
+    } finally {
+      setApprovingIds((prev) => {
+        const next = new Set(prev);
+        next.delete(orderId);
+        return next;
+      });
+    }
+  };
+
+  const handleApproveAll = async () => {
+    if (pending.length === 0 || approvingAll) return;
+    setApproveError(null);
+    setApprovingAll(true);
+    try {
+      const errors: string[] = [];
+      for (const o of pending) {
+        const res = await updateOrderStatus(o.id, "hazirlaniyor");
+        if (!res.success) {
+          errors.push(`${o.customerName}: ${res.error || "hata"}`);
+        }
+      }
+      if (errors.length > 0) {
+        setApproveError(`Bazı siparişler onaylanamadı: ${errors.join(", ")}`);
+      }
+    } finally {
+      setApprovingAll(false);
+    }
+  };
 
   const actions = [
     { label: "Sipariş ekle", href: "/admin/siparisler/yeni", icon: PlusCircle },
@@ -191,19 +336,43 @@ export default function TodayPage() {
         ))}
       </div>
 
+      {/* Günlük Ciro & Kasa Mutabakatı Kartı (Z-Özeti) */}
+      <ZReconciliationCard date={today} s={todaySum} />
+
       {/* Onay bekleyen siparişler */}
       <section className="bg-[#18130F] border border-[#261E17] rounded-3xl overflow-hidden">
-        <div className="flex items-center justify-between p-4 border-b border-[#261E17]">
+        <div className="flex flex-wrap items-center justify-between gap-2 p-4 border-b border-[#261E17]">
           <h2 className="font-serif font-bold text-stone-100 flex items-center gap-2">
             <Clock className="w-4 h-4 text-amber-400" /> Onay bekleyen
             {pending.length > 0 && (
               <span className="px-2 py-0.5 rounded-full bg-[#C85A32] text-white text-xs">{pending.length}</span>
             )}
           </h2>
-          <Link href="/admin/siparisler" className="text-xs text-amber-400 flex items-center gap-1">
-            Tümü <ArrowRight className="w-3.5 h-3.5" />
-          </Link>
+          <div className="flex items-center gap-2">
+            {pending.length > 0 && (
+              <button
+                type="button"
+                disabled={approvingAll || approvingIds.size > 0}
+                onClick={() => void handleApproveAll()}
+                className="min-h-[40px] px-3.5 py-1.5 rounded-xl bg-artisan-terracotta hover:bg-artisan-terracotta/90 text-white text-xs font-bold flex items-center gap-1.5 disabled:opacity-50 transition-all active:scale-95"
+              >
+                {approvingAll ? <Loader2 className="w-4 h-4 animate-spin" /> : <CheckCheck className="w-4 h-4" />}
+                <span>{approvingAll ? "Onaylanıyor…" : `Tümünü Onayla (${pending.length})`}</span>
+              </button>
+            )}
+            <Link href="/admin/siparisler" className="min-h-[40px] px-2 text-xs text-amber-400 flex items-center gap-1">
+              Tümü <ArrowRight className="w-3.5 h-3.5" />
+            </Link>
+          </div>
         </div>
+
+        {approveError && (
+          <div role="alert" className="px-4 py-2.5 bg-red-950/50 border-b border-red-500/30 text-xs text-red-200 flex items-center gap-2">
+            <AlertCircle className="w-4 h-4 text-red-400 shrink-0" />
+            <span>{approveError}</span>
+          </div>
+        )}
+
         {loading ? (
           <div className="p-6 text-center text-xs text-stone-500">Yükleniyor…</div>
         ) : pending.length === 0 ? (
@@ -212,9 +381,10 @@ export default function TodayPage() {
           <ul className="divide-y divide-[#261E17]">
             {pending.slice(0, 8).map((o) => {
               const src = SOURCE_BADGE[o.source] ?? SOURCE_BADGE.web;
+              const isBusy = approvingAll || approvingIds.has(o.id);
               return (
-                <li key={o.id}>
-                  <Link href={`/admin/siparisler/${o.id}`} className="flex items-center gap-3 p-4 hover:bg-stone-800/30">
+                <li key={o.id} className="flex items-center gap-2 sm:gap-3 p-3 sm:p-4 hover:bg-stone-800/30">
+                  <Link href={`/admin/siparisler/${o.id}`} className="flex items-center gap-3 min-w-0 flex-1">
                     <div className="min-w-0 flex-1">
                       <div className="flex items-center gap-2">
                         <span className="text-sm font-bold text-stone-100 truncate">{o.customerName}</span>
@@ -222,12 +392,23 @@ export default function TodayPage() {
                           <src.icon className="w-3 h-3" /> {src.label}
                         </span>
                       </div>
-                      <div className="text-xs text-stone-400 truncate">
-                        {relativeTrDate(o.deliveryDate)} · {o.neighborhood} · {o.items.reduce((n, it) => n + it.quantity, 0)} ürün
+                      <div className="text-xs text-stone-400 truncate mt-0.5">
+                        {relativeTrDate(o.deliveryDate)} · {o.deliveryMethod === "pickup" ? "Gel-Al" : o.neighborhood} ·{" "}
+                        {o.items.reduce((n, it) => n + it.quantity, 0)} ürün
                       </div>
                     </div>
                     <span className="font-mono text-sm font-bold text-stone-200 shrink-0">{tl(o.totalAmount)}</span>
                   </Link>
+                  <button
+                    type="button"
+                    disabled={isBusy}
+                    onClick={() => void handleApproveSingle(o.id)}
+                    aria-label={`${o.customerName} siparişini onayla`}
+                    className="min-h-[44px] px-3.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold flex items-center gap-1.5 shrink-0 disabled:opacity-50 transition-all active:scale-95"
+                  >
+                    {isBusy ? <Loader2 className="w-4 h-4 animate-spin" /> : <Check className="w-4 h-4" />}
+                    <span>Onayla</span>
+                  </button>
                 </li>
               );
             })}

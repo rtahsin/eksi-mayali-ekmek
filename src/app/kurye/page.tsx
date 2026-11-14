@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Truck, CheckCircle2, Printer, CalendarDays, AlertTriangle } from "lucide-react";
 import { useAdminOrders } from "@/hooks/useAdminOrders";
+import { createClient, isSupabaseConfigured } from "@/lib/supabase/client";
 import { AdminOrder } from "@/types/admin";
 import { MobileBottomNav } from "@/components/admin/MobileBottomNav";
 import { CourierActiveStopCard } from "@/components/courier/CourierActiveStopCard";
@@ -47,8 +48,40 @@ export default function DeliveryConsolePage() {
   const [settlementOrder, setSettlementOrder] = useState<AdminOrder | null>(null);
   const [settling, setSettling] = useState(false);
   const [settlementError, setSettlementError] = useState<string | null>(null);
+  const [canSeeAdminNav, setCanSeeAdminNav] = useState(false);
 
   useEffect(() => setManualRoute(readRoute(selectedDate)), [selectedDate]);
+
+  // Alt admin navigasyonunu yalnızca admin, superadmin veya staff rollerine göster (courier /admin'e düşmesin)
+  useEffect(() => {
+    const supabase = createClient();
+    if (!supabase || !isSupabaseConfigured()) return;
+    let active = true;
+
+    void (async () => {
+      try {
+        const {
+          data: { user },
+        } = await supabase.auth.getUser();
+        if (!active || !user) return;
+        const { data: profile } = await supabase
+          .from("profiles")
+          .select("role")
+          .eq("id", user.id)
+          .maybeSingle();
+        const role = (profile as { role?: unknown } | null)?.role;
+        if (active && (role === "admin" || role === "superadmin" || role === "staff")) {
+          setCanSeeAdminNav(true);
+        }
+      } catch {
+        // Kurye varsayılanında alt bar gizli kalır
+      }
+    })();
+
+    return () => {
+      active = false;
+    };
+  }, []);
 
   // Çevrimdışı kuyruk: bağlantı gelince hemen, sonra 30 sn'de bir dener
   useEffect(() => {
@@ -187,23 +220,31 @@ export default function DeliveryConsolePage() {
               {syncErrors.map((e) => (
                 <div key={e} className="font-mono">{e}</div>
               ))}
-              <button onClick={clearSyncErrors} className="mt-1 underline text-rose-300">
+              <button type="button" onClick={clearSyncErrors} className="mt-1 underline text-rose-300">
                 Anladım
               </button>
             </div>
           )}
 
-          {unconfirmed.length > 0 && (
-            <Link
-              href="/admin/siparisler"
-              className="flex items-center gap-2 p-3 rounded-2xl bg-amber-500/10 border border-amber-500/30 text-amber-300 text-xs font-medium"
-            >
-              <AlertTriangle className="w-4 h-4 shrink-0" />
-              <span>
-                Bu gün için <strong>{unconfirmed.length}</strong> onaylanmamış sipariş var; onaylanınca rotaya girer.
-              </span>
-            </Link>
-          )}
+          {unconfirmed.length > 0 &&
+            (canSeeAdminNav ? (
+              <Link
+                href="/admin/siparisler"
+                className="flex items-center gap-2 p-3 rounded-2xl bg-amber-500/10 border border-amber-500/30 text-amber-300 text-xs font-medium"
+              >
+                <AlertTriangle className="w-4 h-4 shrink-0" />
+                <span>
+                  Bu gün için <strong>{unconfirmed.length}</strong> onaylanmamış sipariş var; onaylanınca rotaya girer.
+                </span>
+              </Link>
+            ) : (
+              <div className="flex items-center gap-2 p-3 rounded-2xl bg-amber-500/10 border border-amber-500/30 text-amber-300 text-xs font-medium">
+                <AlertTriangle className="w-4 h-4 shrink-0" />
+                <span>
+                  Bu gün için <strong>{unconfirmed.length}</strong> onaylanmamış sipariş var; fırın onaylayınca rotaya girer.
+                </span>
+              </div>
+            ))}
 
           {loading ? (
             <div className="py-16 text-center text-stone-500 text-sm">Yükleniyor…</div>
@@ -251,7 +292,9 @@ export default function DeliveryConsolePage() {
           error={settlementError}
         />
 
-        <MobileBottomNav onOpenSidebar={() => router.push("/admin")} pendingOrderCount={unconfirmed.length} />
+        {canSeeAdminNav && (
+          <MobileBottomNav onOpenSidebar={() => router.push("/admin")} pendingOrderCount={unconfirmed.length} />
+        )}
       </div>
 
       <DeliveryLabels orders={[...pending, ...delivered]} date={selectedDate} />

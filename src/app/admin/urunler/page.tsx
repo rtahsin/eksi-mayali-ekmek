@@ -435,78 +435,223 @@ function ProductEditor({
             </div>
           </Section>
 
-          {/* Satış */}
-          <Section title="Ne zaman satılır?" icon={<CalendarDays className="w-4 h-4" />}>
-            <div className="grid grid-cols-2 gap-2">
-              {(
-                [
-                  ["daily", "Her gün"],
-                  ["dates", "Sadece seçtiğim günlerde"],
-                ] as const
-              ).map(([v, label]) => (
-                <button
-                  key={v}
-                  type="button"
-                  onClick={() => set("availability", v)}
-                  className={`py-3 rounded-xl text-sm font-bold border ${
-                    form.availability === v ? "bg-artisan-terracotta text-white border-artisan-terracotta" : "bg-stone-950 text-stone-400 border-stone-800"
-                  }`}
-                >
-                  {label}
-                </button>
-              ))}
-            </div>
+          {/* Satış Takvimi & Günleri (Birleşik, çelişkisiz tek bölüm) */}
+          <Section title="Satış Takvimi & Günleri" icon={<CalendarDays className="w-4 h-4" />}>
+            {(() => {
+              const hasWeekdays = Boolean(form.saleWeekdays && form.saleWeekdays.length > 0);
+              const scheduleMode: "daily" | "weekdays" | "custom_dates" = hasWeekdays
+                ? "weekdays"
+                : form.availability === "dates"
+                ? "custom_dates"
+                : "daily";
 
-            {form.availability === "dates" && (
-              <div className="space-y-2">
-                <div className="flex gap-2">
-                  <input type="date" min={today} value={newDate} onChange={(e) => setNewDate(e.target.value)} className={inputCls} />
-                  <input
-                    type="number"
-                    min={0}
-                    value={newDateLimit}
-                    onChange={(e) => setNewDateLimit(e.target.value)}
-                    placeholder="adet (ops.)"
-                    className={`${inputCls} w-28`}
-                  />
-                  <button
-                    type="button"
-                    onClick={() => {
-                      if (!newDate) return;
-                      const rest = form.saleDates.filter((d) => d.date !== newDate);
-                      set(
-                        "saleDates",
-                        [...rest, { date: newDate, limit: newDateLimit === "" ? null : Number(newDateLimit) }].sort((a, b) =>
-                          a.date.localeCompare(b.date)
-                        )
-                      );
-                      setNewDate("");
-                      setNewDateLimit("");
-                    }}
-                    className="px-4 rounded-xl bg-stone-800 text-stone-200 text-sm font-bold"
-                  >
-                    Ekle
-                  </button>
-                </div>
-                {form.saleDates.filter((d) => d.date >= today).length === 0 ? (
-                  <p className="text-xs text-amber-300">Yaklaşan satış günü yok — ürün vitrinde &quot;Yakında&quot; görünür, sipariş alınmaz.</p>
-                ) : (
-                  <div className="flex flex-wrap gap-1.5">
-                    {form.saleDates
-                      .filter((d) => d.date >= today)
-                      .map((d) => (
-                        <span key={d.date} className="text-xs px-2.5 py-1 rounded-lg bg-amber-500/10 text-amber-200 border border-amber-500/20 flex items-center gap-1.5">
-                          {formatTrDate(d.date, "long")}
-                          {d.limit !== null ? ` · ${d.limit} adet` : ""}
-                          <button type="button" aria-label="Kaldır" onClick={() => set("saleDates", form.saleDates.filter((x) => x.date !== d.date))}>
-                            <X className="w-3 h-3" />
-                          </button>
-                        </span>
-                      ))}
+              return (
+                <>
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
+                    <button
+                      type="button"
+                      onClick={() =>
+                        setForm((f) => ({
+                          ...f,
+                          availability: "daily",
+                          saleWeekdays: null,
+                          saleDates: [],
+                        }))
+                      }
+                      className={`py-3 px-3 rounded-xl text-xs sm:text-sm font-bold border transition-colors min-h-[44px] ${
+                        scheduleMode === "daily"
+                          ? "bg-artisan-terracotta text-white border-artisan-terracotta"
+                          : "bg-stone-950 text-stone-400 border-stone-800 hover:border-stone-700"
+                      }`}
+                    >
+                      Her gün
+                    </button>
+
+                    <button
+                      type="button"
+                      onClick={() =>
+                        setForm((f) => ({
+                          ...f,
+                          availability: "dates",
+                          saleWeekdays: f.saleWeekdays && f.saleWeekdays.length > 0 ? f.saleWeekdays : [5],
+                          saleDates: [],
+                        }))
+                      }
+                      className={`py-3 px-3 rounded-xl text-xs sm:text-sm font-bold border transition-colors min-h-[44px] ${
+                        scheduleMode === "weekdays"
+                          ? "bg-artisan-terracotta text-white border-artisan-terracotta"
+                          : "bg-stone-950 text-stone-400 border-stone-800 hover:border-stone-700"
+                      }`}
+                    >
+                      Haftanın belirli günleri
+                    </button>
+
+                    <button
+                      type="button"
+                      onClick={() =>
+                        setForm((f) => ({
+                          ...f,
+                          availability: "dates",
+                          saleWeekdays: null,
+                        }))
+                      }
+                      className={`py-3 px-3 rounded-xl text-xs sm:text-sm font-bold border transition-colors min-h-[44px] ${
+                        scheduleMode === "custom_dates"
+                          ? "bg-artisan-terracotta text-white border-artisan-terracotta"
+                          : "bg-stone-950 text-stone-400 border-stone-800 hover:border-stone-700"
+                      }`}
+                    >
+                      Seçili özel tarihler
+                    </button>
                   </div>
-                )}
-              </div>
-            )}
+
+                  {scheduleMode === "weekdays" && form.saleWeekdays && (
+                    <div className="space-y-3 p-3.5 rounded-xl bg-stone-950 border border-stone-800">
+                      <div>
+                        <span className="text-xs font-semibold text-stone-300 block mb-2">
+                          Taze Pişme / Satış Günleri (Pzt…Paz)
+                        </span>
+                        <div className="flex flex-wrap gap-2">
+                          {[
+                            { id: 1, label: "Pzt" },
+                            { id: 2, label: "Sal" },
+                            { id: 3, label: "Çar" },
+                            { id: 4, label: "Per" },
+                            { id: 5, label: "Cum" },
+                            { id: 6, label: "Cmt" },
+                            { id: 7, label: "Paz" },
+                          ].map((day) => {
+                            const selected = (form.saleWeekdays ?? []).includes(day.id);
+                            return (
+                              <button
+                                key={day.id}
+                                type="button"
+                                onClick={() => {
+                                  const current = form.saleWeekdays ?? [];
+                                  const updated = selected
+                                    ? current.filter((x) => x !== day.id)
+                                    : [...current, day.id].sort((a, b) => a - b);
+                                  if (updated.length > 0) {
+                                    setForm((f) => ({
+                                      ...f,
+                                      saleWeekdays: updated,
+                                      availability: "dates",
+                                      saleDates: [],
+                                    }));
+                                  } else {
+                                    setForm((f) => ({
+                                      ...f,
+                                      saleWeekdays: null,
+                                      availability: "daily",
+                                      saleDates: [],
+                                    }));
+                                  }
+                                }}
+                                className={`min-w-[44px] min-h-[44px] px-3.5 py-2.5 rounded-xl text-xs font-bold border transition-colors flex items-center justify-center ${
+                                  selected
+                                    ? "bg-artisan-terracotta text-white border-artisan-terracotta shadow-sm"
+                                    : "bg-stone-900 text-stone-300 border-stone-800 hover:border-stone-700"
+                                }`}
+                              >
+                                {day.label}
+                              </button>
+                            );
+                          })}
+                        </div>
+                      </div>
+
+                      {(() => {
+                        const nextThree = upcomingSaleDates(form.saleWeekdays, today, 4).slice(0, 3);
+                        return nextThree.length > 0 ? (
+                          <div className="pt-2 border-t border-stone-900 flex items-center gap-2 flex-wrap text-xs text-stone-400">
+                            <span className="font-semibold text-stone-300">Sıradaki Satış Günleri:</span>
+                            {nextThree.map((d) => (
+                              <span
+                                key={d}
+                                className="px-2 py-0.5 rounded-md bg-stone-900 border border-stone-800 text-amber-400 font-mono"
+                              >
+                                {formatTrDate(d)}
+                              </span>
+                            ))}
+                          </div>
+                        ) : null;
+                      })()}
+                    </div>
+                  )}
+
+                  {scheduleMode === "custom_dates" && (
+                    <div className="space-y-2.5 p-3.5 rounded-xl bg-stone-950 border border-stone-800">
+                      <div className="flex flex-wrap sm:flex-nowrap gap-2">
+                        <input
+                          type="date"
+                          min={today}
+                          value={newDate}
+                          onChange={(e) => setNewDate(e.target.value)}
+                          className={inputCls}
+                        />
+                        <input
+                          type="number"
+                          min={0}
+                          value={newDateLimit}
+                          onChange={(e) => setNewDateLimit(e.target.value)}
+                          placeholder="adet (ops.)"
+                          className={`${inputCls} w-28`}
+                        />
+                        <button
+                          type="button"
+                          onClick={() => {
+                            if (!newDate) return;
+                            const rest = form.saleDates.filter((d) => d.date !== newDate);
+                            set(
+                              "saleDates",
+                              [...rest, { date: newDate, limit: newDateLimit === "" ? null : Number(newDateLimit) }].sort(
+                                (a, b) => a.date.localeCompare(b.date)
+                              )
+                            );
+                            setNewDate("");
+                            setNewDateLimit("");
+                          }}
+                          className="min-h-[44px] px-4 rounded-xl bg-stone-800 hover:bg-stone-700 text-stone-200 text-sm font-bold shrink-0"
+                        >
+                          Ekle
+                        </button>
+                      </div>
+                      {form.saleDates.filter((d) => d.date >= today).length === 0 ? (
+                        <p className="text-xs text-amber-300">
+                          Yaklaşan özel satış tarihi seçilmedi — ürün vitrinde &quot;Yakında&quot; görünür, tarih ekleyene kadar sipariş alınmaz.
+                        </p>
+                      ) : (
+                        <div className="flex flex-wrap gap-1.5">
+                          {form.saleDates
+                            .filter((d) => d.date >= today)
+                            .map((d) => (
+                              <span
+                                key={d.date}
+                                className="text-xs px-2.5 py-1 rounded-lg bg-amber-500/10 text-amber-200 border border-amber-500/20 flex items-center gap-1.5"
+                              >
+                                {formatTrDate(d.date, "long")}
+                                {d.limit !== null ? ` · ${d.limit} adet` : ""}
+                                <button
+                                  type="button"
+                                  aria-label={`${d.date} tarihini kaldır`}
+                                  onClick={() =>
+                                    set(
+                                      "saleDates",
+                                      form.saleDates.filter((x) => x.date !== d.date)
+                                    )
+                                  }
+                                >
+                                  <X className="w-3.5 h-3.5" />
+                                </button>
+                              </span>
+                            ))}
+                        </div>
+                      )}
+                    </div>
+                  )}
+                </>
+              );
+            })()}
 
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
               <Field label="Günlük adet sınırı" hint="Boş = sınırsız">
@@ -528,103 +673,6 @@ function ProductEditor({
             {isAccomp && (
               <div className="px-3 py-2 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-xs text-emerald-300 font-medium">
                 Eşlikçi ürün: Taş fırın somun kapasitesini tüketmez (Kapasite payı = 0)
-              </div>
-            )}
-          </Section>
-
-          {/* Satış Günleri (I-06) */}
-          <Section title="Satış Günleri" icon={<CalendarDays className="w-4 h-4" />}>
-            <div className="grid grid-cols-2 gap-2">
-              <button
-                type="button"
-                onClick={() => {
-                  set("saleWeekdays", null);
-                  set("availability", "daily");
-                }}
-                className={`py-3 px-3 rounded-xl text-xs sm:text-sm font-bold border transition-colors min-h-[44px] ${
-                  !form.saleWeekdays || form.saleWeekdays.length === 0
-                    ? "bg-artisan-terracotta text-white border-artisan-terracotta"
-                    : "bg-stone-950 text-stone-400 border-stone-800 hover:border-stone-700"
-                }`}
-              >
-                Her gün
-              </button>
-              <button
-                type="button"
-                onClick={() => {
-                  const initialDays = form.saleWeekdays && form.saleWeekdays.length > 0 ? form.saleWeekdays : [5];
-                  set("saleWeekdays", initialDays);
-                  set("availability", "dates");
-                }}
-                className={`py-3 px-3 rounded-xl text-xs sm:text-sm font-bold border transition-colors min-h-[44px] ${
-                  form.saleWeekdays && form.saleWeekdays.length > 0
-                    ? "bg-artisan-terracotta text-white border-artisan-terracotta"
-                    : "bg-stone-950 text-stone-400 border-stone-800 hover:border-stone-700"
-                }`}
-              >
-                Haftanın belirli günleri
-              </button>
-            </div>
-
-            {form.saleWeekdays && form.saleWeekdays.length > 0 && (
-              <div className="space-y-3 p-3.5 rounded-xl bg-stone-950 border border-stone-800">
-                <div>
-                  <span className="text-xs font-semibold text-stone-300 block mb-2">
-                    Taze Pişme Günleri (Pzt…Paz)
-                  </span>
-                  <div className="flex flex-wrap gap-2">
-                    {[
-                      { id: 1, label: "Pzt" },
-                      { id: 2, label: "Sal" },
-                      { id: 3, label: "Çar" },
-                      { id: 4, label: "Per" },
-                      { id: 5, label: "Cum" },
-                      { id: 6, label: "Cmt" },
-                      { id: 7, label: "Paz" },
-                    ].map((day) => {
-                      const selected = (form.saleWeekdays ?? []).includes(day.id);
-                      return (
-                        <button
-                          key={day.id}
-                          type="button"
-                          onClick={() => {
-                            const current = form.saleWeekdays ?? [];
-                            const updated = selected ? current.filter((x) => x !== day.id) : [...current, day.id].sort();
-                            if (updated.length > 0) {
-                              set("saleWeekdays", updated);
-                              set("availability", "dates");
-                            } else {
-                              set("saleWeekdays", null);
-                              set("availability", "daily");
-                            }
-                          }}
-                          className={`min-w-[44px] min-h-[44px] px-3.5 py-2.5 rounded-xl text-xs font-bold border transition-colors flex items-center justify-center ${
-                            selected
-                              ? "bg-artisan-terracotta text-white border-artisan-terracotta shadow-sm"
-                              : "bg-stone-900 text-stone-300 border-stone-800 hover:border-stone-700"
-                          }`}
-                        >
-                          {day.label}
-                        </button>
-                      );
-                    })}
-                  </div>
-                </div>
-
-                {/* Önizleme: Sonraki 3 Satış Günü */}
-                {(() => {
-                  const nextThree = upcomingSaleDates(form.saleWeekdays, istanbulToday(), 4).slice(0, 3);
-                  return nextThree.length > 0 ? (
-                    <div className="pt-2 border-t border-stone-900 flex items-center gap-2 flex-wrap text-xs text-stone-400">
-                      <span className="font-semibold text-stone-300">Sıradaki Satış Günleri:</span>
-                      {nextThree.map((d) => (
-                        <span key={d} className="px-2 py-0.5 rounded-md bg-stone-900 border border-stone-800 text-amber-400 font-mono">
-                          {formatTrDate(d)}
-                        </span>
-                      ))}
-                    </div>
-                  ) : null;
-                })()}
               </div>
             )}
           </Section>
