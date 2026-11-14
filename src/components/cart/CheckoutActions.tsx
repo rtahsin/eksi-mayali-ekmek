@@ -189,12 +189,13 @@ export function CheckoutActions({
           <Link
             href="/mesafeli-satis"
             target="_blank"
+            rel="noopener noreferrer"
             onClick={(e) => e.stopPropagation()}
-            className="underline text-ink hover:text-accent"
+            className="underline font-medium text-ink hover:text-accent"
           >
-            Mesafeli Satış Sözleşmesi
+            Ön Bilgilendirme Formu ve Mesafeli Satış Sözleşmesi
           </Link>
-          {"'ni okudum, onaylıyorum."}
+          {"'ni okudum, kabul ediyorum."}
         </span>
       </label>
       {errors.terms && (
@@ -205,7 +206,7 @@ export function CheckoutActions({
 
       {errorMessage && (
         <div role="alert" className="p-2.5 rounded-xl bg-red-500/10 border border-red-500/25 text-bad text-xs font-sans flex items-center gap-2">
-          <AlertCircle className="w-4 h-4 shrink-0" />
+          <AlertCircle aria-hidden="true" className="w-4 h-4 shrink-0" />
           <span>{errorMessage}</span>
         </div>
       )}
@@ -216,13 +217,18 @@ export function CheckoutActions({
         disabled={disabled}
         className="touch-target-44 w-full py-3.5 px-4 rounded-xl bg-artisan-terracotta-dark hover:bg-artisan-terracotta active:scale-[0.99] text-white font-sans text-sm font-semibold flex items-center justify-center gap-2 transition-all disabled:opacity-50 shadow-xs"
       >
-        {submitting && <Loader2 className="w-4 h-4 animate-spin" />}
+        {submitting && <Loader2 aria-hidden="true" className="w-4 h-4 animate-spin" />}
         <span>Siparişi onayla · {totalAmount.toLocaleString("tr-TR")} ₺</span>
       </button>
       <p className="text-center text-xs leading-snug font-sans text-ink-muted">
-        Sipariş vermek ödeme yükümlülüğü doğurur; ödeme teslimatta kapıda nakit veya kredi/banka kartı ile yapılır. Verileriniz{" "}
-        <Link href="/kvkk" target="_blank" className="underline text-ink hover:text-accent">
-          KVKK
+        Sipariş vermek ödeme yükümlülüğü doğurur; ödeme teslimatta kapıda nakit veya kapıda kredi/banka kartı (POS) ile yapılır. Kişisel verileriniz{" "}
+        <Link
+          href="/kvkk"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="underline text-ink hover:text-accent"
+        >
+          KVKK Aydınlatma Metni
         </Link>{" "}
         kapsamında işlenir.
       </p>

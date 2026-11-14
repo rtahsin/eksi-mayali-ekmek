@@ -1,183 +1,395 @@
-"use client";
-
 import React from "react";
+import type { Metadata } from "next";
+import Link from "next/link";
 import { Navbar } from "@/components/common/Navbar";
 import { Footer } from "@/components/common/Footer";
 import { CartDrawer } from "@/components/cart/CartDrawer";
 import { OrderSuccessModal } from "@/components/cart/OrderSuccessModal";
-import { ShieldCheck, ArrowLeft, Mail, Phone, MapPin } from "lucide-react";
-import Link from "next/link";
-import { CONTACT } from "@/lib/site";
+import {
+  ShieldCheck,
+  ArrowLeft,
+  Mail,
+  Phone,
+  MapPin,
+  Navigation,
+  Database,
+  Server,
+} from "lucide-react";
+import { CONTACT, SITE_NAME, SITE_URL } from "@/lib/site";
+import { TERMS_VERSION } from "@/lib/legal";
+
+export const metadata: Metadata = {
+  title: "KVKK Aydınlatma Metni | EkmekLab",
+  description:
+    "6698 sayılı Kişisel Verilerin Korunması Kanunu uyarınca EkmekLab aydınlatma metni, konum verisi açık rıza bilgilendirmesi ve veri sahibi hakları.",
+  alternates: {
+    canonical: `${SITE_URL}/kvkk`,
+  },
+};
 
 export default function KvkkPage() {
   return (
-    <div className="min-h-screen flex flex-col bg-background text-foreground/90 font-sans selection:bg-artisan-terracotta/30 selection:text-artisan-gold relative">
+    <div className="min-h-screen flex flex-col bg-bg text-ink font-sans selection:bg-accent/20 selection:text-ink relative">
       <Navbar />
 
-      <main className="flex-1 py-12 sm:py-16 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+      <main className="flex-1 py-10 sm:py-16 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
         {/* Breadcrumb */}
-        <div className="mb-6 flex items-center gap-2 text-xs font-sans text-foreground/60">
-          <Link href="/" className="hover:text-artisan-gold transition-colors flex items-center gap-1">
-            <ArrowLeft className="w-3.5 h-3.5" />
+        <nav
+          aria-label="Sayfa konumu"
+          className="mb-6 flex items-center gap-2 text-xs font-sans text-ink-muted"
+        >
+          <Link
+            href="/"
+            className="hover:text-accent transition-colors inline-flex items-center gap-1"
+          >
+            <ArrowLeft aria-hidden="true" className="w-3.5 h-3.5" />
             <span>Ana Sayfa</span>
           </Link>
-          <span>/</span>
-          <span className="text-artisan-gold font-medium">KVKK Aydınlatma Metni</span>
-        </div>
+          <span aria-hidden="true">/</span>
+          <span className="text-ink font-medium">KVKK Aydınlatma Metni</span>
+        </nav>
 
         {/* Page Header */}
-        <div className="space-y-3 mb-10 border-b border-surface-border pb-8">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-surface-panel border border-surface-border text-xs font-serif text-artisan-gold">
-            <ShieldCheck className="w-4 h-4 text-artisan-gold" />
-            <span>6698 Sayılı Kanun Uyarınca</span>
+        <div className="space-y-3 mb-10 border-b border-line pb-8">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cream-surface border border-line text-xs font-serif font-semibold text-ink">
+            <ShieldCheck aria-hidden="true" className="w-4 h-4 text-accent" />
+            <span>6698 Sayılı Kişisel Verilerin Korunması Kanunu Uyarınca</span>
           </div>
-          <h1 className="font-serif text-3xl sm:text-4xl font-bold text-foreground tracking-tight">
+          <h1 className="font-serif text-3xl sm:text-4xl font-bold text-ink tracking-tight">
             Kişisel Verilerin Korunması Aydınlatma Metni
           </h1>
-          <p className="text-xs sm:text-sm text-foreground/70 font-sans">
-            Son Güncelleme: 10 Eylül 2026 · EkmekLab Artisan Fırın
+          <p className="text-xs sm:text-sm text-ink-muted font-sans">
+            Yürürlük Tarihi: 14 Kasım 2026 · Sürüm: {TERMS_VERSION} · {SITE_NAME}
           </p>
         </div>
 
         {/* Document Content */}
-        <div className="space-y-8 text-sm leading-relaxed text-foreground/80 font-sans">
-          {/* Section 1 */}
-          <section className="space-y-3 bg-surface p-6 rounded-2xl border border-surface-border">
-            <h2 className="font-serif text-lg font-bold text-foreground text-artisan-gold">
+        <div className="space-y-7 text-sm leading-relaxed text-ink-muted font-sans">
+          {/* 1. Veri Sorumlusu */}
+          <section className="space-y-3 bg-cream-surface p-6 rounded-2xl border border-line shadow-2xs">
+            <h2 className="font-serif text-lg font-bold text-ink">
               1. Veri Sorumlusunun Kimliği
             </h2>
-            <p>
-              6698 sayılı Kişisel Verilerin Korunması Kanunu (&quot;KVKK&quot;) uyarınca, <strong>EkmekLab</strong> (&quot;Şirket&quot; veya &quot;Atölye&quot;) olarak, veri sorumlusu sıfatıyla, kişisel verilerinizi aşağıda açıklanan amaçlar kapsamında; hukuka ve dürüstlük kurallarına uygun bir şekilde işlemekte, kaydetmekte ve saklamaktayız.
+            <p className="text-xs sm:text-sm">
+              6698 sayılı Kişisel Verilerin Korunması Kanunu (&quot;KVKK&quot;) uyarınca{" "}
+              <strong className="text-ink">{SITE_NAME} Artisan Fırın</strong> veri sorumlusu
+              sıfatıyla kişisel verilerinizi aşağıda açıklanan amaçlar, hukuki sebepler ve
+              veri minimizasyonu ilkeleri çerçevesinde hukuka ve dürüstlük kurallarına
+              uygun olarak işlemekte ve muhafaza etmektedir.
             </p>
-            <div className="pt-2 text-xs text-foreground/70 space-y-1">
+            <div className="pt-2 text-xs sm:text-sm text-ink-muted space-y-1.5">
               <div className="flex items-center gap-2">
-                <MapPin className="w-3.5 h-3.5 text-artisan-gold" />
-                <span>Adres: Beylikdüzü, İstanbul</span>
+                <MapPin aria-hidden="true" className="w-4 h-4 text-accent shrink-0" />
+                <span>
+                  <strong className="text-ink">Faaliyet Bölgesi:</strong> {CONTACT.area}
+                </span>
               </div>
               <div className="flex items-center gap-2">
-                <Phone className="w-3.5 h-3.5 text-artisan-gold" />
-                <span>Telefon: {CONTACT.phoneDisplay}</span>
+                <Phone aria-hidden="true" className="w-4 h-4 text-accent shrink-0" />
+                <span>
+                  <strong className="text-ink">Telefon:</strong>{" "}
+                  <a
+                    href={`tel:+${CONTACT.phoneE164}`}
+                    className="underline text-ink hover:text-accent"
+                  >
+                    {CONTACT.phoneDisplay}
+                  </a>
+                </span>
               </div>
               <div className="flex items-center gap-2">
-                <Mail className="w-3.5 h-3.5 text-artisan-gold" />
-                <span>E-posta: ekmeklab@gmail.com</span>
+                <Mail aria-hidden="true" className="w-4 h-4 text-accent shrink-0" />
+                <span>
+                  <strong className="text-ink">E-posta:</strong>{" "}
+                  <a
+                    href={`mailto:${CONTACT.email}`}
+                    className="underline text-ink hover:text-accent"
+                  >
+                    {CONTACT.email}
+                  </a>
+                </span>
               </div>
             </div>
           </section>
 
-          {/* Section 2 */}
-          <section className="space-y-3 bg-surface p-6 rounded-2xl border border-surface-border">
-            <h2 className="font-serif text-lg font-bold text-foreground text-artisan-gold">
-              2. İşlenen Kişisel Verileriniz
+          {/* 2. İşlenen Kişisel Veriler */}
+          <section className="space-y-3 bg-cream-surface p-6 rounded-2xl border border-line shadow-2xs">
+            <h2 className="font-serif text-lg font-bold text-ink">
+              2. İşlenen Kişisel Veri Kategorileri
             </h2>
-            <p>
-              EkmekLab web platformu veya doğrudan iletişim kanalları üzerinden sipariş verirken ve hizmet alırken aşağıdaki kişisel verileriniz işlenmektedir:
+            <p className="text-xs sm:text-sm">
+              {SITE_URL} internet sitesi üzerinden sipariş oluştururken veya üye hesabı
+              kullanırken yalnızca hizmetin gerektirdiği aşağıdaki veriler işlenir:
             </p>
-            <ul className="list-disc list-inside space-y-1.5 text-foreground/75 text-xs sm:text-sm pl-2">
-              <li><strong>Kimlik Bilgileri:</strong> Ad, soyad.</li>
-              <li><strong>İletişim Bilgileri:</strong> Telefon numarası, teslimat adresi (mahalle, cadde, sokak, bina, daire no), e-posta adresi.</li>
-              <li><strong>Müşteri İşlem Bilgileri:</strong> Sipariş edilen ekmek ve gurme ürünler, sipariş tarihi/saati, teslimat notları, sepet toplamı, ödeme yöntemi tercihi.</li>
-              <li><strong>Konum Bilgileri (Açık Rızanız ile):</strong> Sipariş verirken isteğe bağlı olarak paylaştığınız tek seferlik GPS koordinatları (enlem, boylam).</li>
-              <li><strong>İşlem Güvenliği Verileri:</strong> IP adresi, sepet oturum bilgileri, cihaz ve tarayıcı teknik erişim logları.</li>
+            <ul className="list-disc list-inside space-y-1.5 text-xs sm:text-sm pl-1">
+              <li>
+                <strong className="text-ink">Kimlik Bilgileri:</strong> Ad ve soyad.
+              </li>
+              <li>
+                <strong className="text-ink">İletişim Bilgileri:</strong> Cep telefonu
+                numarası, teslimat adresi (mahalle, cadde/sokak, bina/daire no, adres
+                tarifi) ve üye girişi yapılması halinde e-posta adresi.
+              </li>
+              <li>
+                <strong className="text-ink">
+                  Müşteri İşlem ve Ön Muhasebe Bilgileri:
+                </strong>{" "}
+                Sipariş numarası, sipariş kalemleri, seçilen teslim tarihi, kapıda ödeme
+                yöntemi tercihi (nakit veya POS), teslimat fişi ve kurumsal/düzenli
+                müşterilerde cari hesap hareket kayıtları.
+              </li>
+              <li>
+                <strong className="text-ink">
+                  Konum Verisi (Yalnızca Açık Rızanız İle):
+                </strong>{" "}
+                Sepette isteğe bağlı &quot;Konumumu ekle&quot; düğmesini kullandığınızda
+                alınan tek seferlik GPS koordinatı (enlem, boylam) ve rıza zaman damgası.
+              </li>
+              <li>
+                <strong className="text-ink">İşlem Güvenliği Verileri:</strong> Kötüye
+                kullanımı engellemek amacıyla tek yönlü kriptografik özet (hash) olarak
+                işlenen IP hız sınırı anahtarı, oturum bilgileri, sözleşme onay sürümü (
+                <code className="font-mono text-xs text-ink">terms_version</code>) ve onay
+                zaman damgası.
+              </li>
             </ul>
           </section>
 
-          {/* Section 2.1: Konum Verisi (Anchor: #konum-verisi) */}
-          <section id="konum-verisi" className="space-y-3 bg-surface p-6 rounded-2xl border-2 border-artisan-gold/40 scroll-mt-24 shadow-md">
+          {/* 3. Konum Verisi ve Açık Rıza (#konum-verisi) */}
+          <section
+            id="konum-verisi"
+            className="space-y-3 bg-cream-surface p-6 rounded-2xl border-2 border-accent/50 scroll-mt-24 shadow-xs"
+          >
             <div className="flex items-center gap-2">
-              <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse" />
-              <h2 className="font-serif text-lg font-bold text-foreground text-artisan-gold">
-                Konum Verisi İşleme Aydınlatması
+              <Navigation aria-hidden="true" className="w-5 h-5 text-accent shrink-0" />
+              <h2 className="font-serif text-lg font-bold text-ink">
+                3. Konum Verisi İşleme ve Açık Rıza Aydınlatması
               </h2>
             </div>
-            <p>
-              Sipariş verirken size sunulan isteğe bağlı <strong>"Konumumu ekle"</strong> özelliği, 6698 sayılı KVKK Madde 5/1 uyarınca <strong>tamamen açık rızanıza</strong> tabidir. Konum paylaşımı vermemeniz durumunda sipariş süreciniz hiçbir şekilde kısıtlanmaz, teslimatınız açık adresiniz üzerinden olağan akışında gerçekleştirilir.
+            <p className="text-xs sm:text-sm text-ink">
+              Sipariş ekranında yer alan isteğe bağlı{" "}
+              <strong>&quot;Konumumu ekle&quot;</strong> özelliği, 6698 sayılı KVKK Madde
+              5/1 uyarınca <strong>açık rızanıza</strong> dayanır. Konum paylaşmayı tercih
+              etmemeniz halinde siparişiniz hiçbir kısıtlamaya uğramaz ve açık adres
+              bilginiz üzerinden teslim edilir.
             </p>
-            <div className="space-y-2 text-xs sm:text-sm text-foreground/75 pl-2">
-              <p>
-                <strong>• Hangi Veriler Toplanır?</strong> Yalnızca "Konumumu ekle" düğmesine bastığınızda cihazınızın tarayıcı Geolocation API&apos;si aracılığıyla ürettiği anlık enlem ve boylam bilgisi alınır; konumunuz sürekli izlenmez.
-              </p>
-              <p>
-                <strong>• İşleme Amacı:</strong> Yalnızca kuryemizin (fırın sahibi) kapınızı gecikmeden bulabilmesi için ilgili siparişin teslimat ekranında yol tarifi olarak kullanılır; canlı takip yapılmaz.
-              </p>
-              <p>
-                <strong>• Saklama ve Silme:</strong> Konum bilgisi ilgili sipariş kaydıyla birlikte saklanır; silinmesini istediğinizde WhatsApp veya telefonla başvurabilirsiniz.
-              </p>
-              <p>
-                <strong>• Rızayı Geri Çekme Hakkı:</strong> Sepetteki konum bilgisini "kaldır" bağlantısıyla sipariş vermeden önce silebilirsiniz; verilmiş siparişteki konumun silinmesini bizden talep edebilirsiniz.
-              </p>
+            <ul className="list-disc list-inside space-y-1.5 text-xs sm:text-sm pl-1">
+              <li>
+                <strong className="text-ink">Toplanma Yöntemi ve Kapsamı:</strong> Yalnızca
+                sizin düğmeye basmanız ve tarayıcı izin penceresini onaylamanız üzerine
+                cihazınızın Geolocation API&apos;sinden tek seferlik anlık enlem/boylam
+                bilgisi alınır; arka planda veya sürekli konum izlemesi yapılmaz.
+              </li>
+              <li>
+                <strong className="text-ink">İşleme Amacı:</strong> Yalnızca teslimat
+                görevlimizin bina girişinizi gecikmeden bulabilmesi amacıyla ilgili
+                siparişin teslimat ekranında yol tarifi bağlantısı olarak kullanılır.
+              </li>
+              <li>
+                <strong className="text-ink">Rızayı Geri Alma ve Silme:</strong> Siparişi
+                onaylamadan önce sepetteki <em>&quot;kaldır&quot;</em> düğmesiyle konumu
+                anında temizleyebilir; onaylanmış bir siparişteki konum kaydının
+                silinmesini <strong className="text-ink">{CONTACT.email}</strong> veya{" "}
+                <strong className="text-ink">{CONTACT.phoneDisplay}</strong> üzerinden her
+                zaman talep edebilirsiniz.
+              </li>
+            </ul>
+          </section>
+
+          {/* 4. Anonim Sayfa/QR Sayacı (funnel_events) ve Tarayıcı localStorage */}
+          <section className="space-y-3 bg-cream-surface p-6 rounded-2xl border border-line shadow-2xs">
+            <h2 className="font-serif text-lg font-bold text-ink flex items-center gap-2">
+              <Database aria-hidden="true" className="w-4 h-4 text-accent shrink-0" />
+              <span>
+                4. Anonim Etkileşim Sayacı (funnel_events) ve Tarayıcı Yerel Depolama
+                Anahtarları
+              </span>
+            </h2>
+            <p className="text-xs sm:text-sm">
+              {SITE_NAME}, üçüncü taraf reklam ağları veya davranışsal profilleme çerezleri
+              kullanmaz. Bunun yerine şeffaf ve veri minimizasyonuna dayalı iki teknik yapı
+              bulunur:
+            </p>
+            <div className="space-y-2.5 text-xs sm:text-sm">
+              <div className="p-3.5 rounded-xl bg-bg border border-line space-y-1">
+                <div className="font-semibold text-ink">
+                  • Anonim Sayfa ve QR Sayacı (
+                  <code className="font-mono text-xs">funnel_events</code>):
+                </div>
+                <p>
+                  Ekmek etiketlerindeki QR yönlendirmelerinin (<code className="font-mono text-xs">/e/...</code>)
+                  ve genel sepet adımlarının toplu sayımını tutan, içinde ad, soyad,
+                  telefon, e-posta, açık IP adresi veya kullanıcı kimliği barındırmayan
+                  anonim sayaçtır. Reklam ağlarıyla paylaşılmaz.
+                </p>
+              </div>
+              <div className="p-3.5 rounded-xl bg-bg border border-line space-y-1.5">
+                <div className="font-semibold text-ink">
+                  • Tarayıcı Yerel Depolama (<code className="font-mono text-xs">localStorage</code>) Anahtarları:
+                </div>
+                <ul className="list-disc list-inside space-y-1 pl-1">
+                  <li>
+                    <code className="font-mono text-xs text-ink">ekmeklab-cart-storage</code>
+                    : Sayfa yenilendiğinde sepetinizdeki ürünlerin ve yazdığınız teslimat
+                    formu taslağının kaybolmaması için tarayıcınızda tutulur.
+                  </li>
+                  <li>
+                    <code className="font-mono text-xs text-ink">
+                      ekmeklab_device_orders_v1
+                    </code>
+                    : Üye girişi yapmadan verdiğiniz siparişlerin sipariş numarasını ve
+                    imzalı takip anahtarını aynı cihazdan &quot;Sipariş Sorgula&quot;
+                    ekranında tekrar görebilmeniz için saklar (isim/telefon/adres saklamaz).
+                  </li>
+                  <li>
+                    <code className="font-mono text-xs text-ink">
+                      ekmeklab_theme_preference
+                    </code>
+                    : Seçtiğiniz açık, koyu veya sistem görünüm tercihini hatırlar.
+                  </li>
+                </ul>
+              </div>
             </div>
           </section>
 
-          {/* Section 2.2: Anonim Eğitim ve Ziyaret Ölçümleri [HUKUKI TEYIT GEREKLIDIR] */}
-          <section className="space-y-3 bg-surface p-6 rounded-2xl border border-surface-border">
-            <h2 className="font-serif text-lg font-bold text-foreground text-artisan-gold">
-              2.2. Anonim Eğitim ve Ziyaret Ölçümleri (Kişisel Veri İçermeyen Analitik)
+          {/* 5. İşlenme Amaçları ve Hukuki Sebepler */}
+          <section className="space-y-3 bg-cream-surface p-6 rounded-2xl border border-line shadow-2xs">
+            <h2 className="font-serif text-lg font-bold text-ink">
+              5. Kişisel Verilerin İşlenme Amaçları ve Hukuki Sebepleri
             </h2>
-            <p>
-              EkmekLab platformunda sunulan ekşi maya simülatöründe (/laboratuvar) pedagojik deneyimi iyileştirmek amacıyla tamamen anonim, kişisel veri (ad, telefon, IP adresi veya hesap kimliği) barındırmayan kullanım metrikleri (%20 rastgele örnekleme yöntemiyle) toplanmaktadır. Bu metrikler yalnızca etkileşim süresi ve incelenen kavram kartı adetlerini kapsar; üçüncü taraf analitik veya reklam ağlarıyla paylaşılmaz ve en fazla 13 ay süreyle saklanır.
-            </p>
-          </section>
-
-          {/* Section 3 */}
-          <section className="space-y-3 bg-surface p-6 rounded-2xl border border-surface-border">
-            <h2 className="font-serif text-lg font-bold text-foreground text-artisan-gold">
-              3. Kişisel Verilerin İşlenme Amaçları
-            </h2>
-            <p>
-              Toplanan kişisel verileriniz, KVKK&apos;nın 5. ve 6. maddelerinde belirtilen şartlar dahilinde aşağıdaki amaçlarla işlenmektedir:
-            </p>
-            <ul className="list-disc list-inside space-y-1.5 text-foreground/75 text-xs sm:text-sm pl-2">
-              <li>Taş fırından taze çıkan artisan ekmek ve gurme mandıra siparişlerinizin hazırlanması, paketlenmesi ve kendi fırın kuryemiz aracılığıyla kapınıza ulaştırılması,</li>
-              <li>Teslimat aşamasında kurye rotasyonunun sağlanması ve gerektiğinde adres teyidi için sizinle iletişime geçilmesi,</li>
-              <li>Fatura, mali kayıt ve muhasebesel yükümlülüklerin yerine getirilmesi,</li>
-              <li>Müşteri talep, öneri veya şikayetlerinin (WhatsApp veya e-posta yoluyla) hızlıca çözümlenmesi,</li>
-              <li>Bilgi güvenliği süreçlerinin ve web platformunun teknik kararlılığının temini.</li>
+            <ul className="list-disc list-inside space-y-1.5 text-xs sm:text-sm pl-1">
+              <li>
+                <strong className="text-ink">
+                  Sözleşmenin Kurulması ve İfası (KVKK Md. 5/2-c):
+                </strong>{" "}
+                Siparişin alınması, fırın üretim planlaması, kurye ile kapıya teslimat ve
+                teslimat günü/saati bilgilendirmelerinin yapılması.
+              </li>
+              <li>
+                <strong className="text-ink">
+                  Hukuki Yükümlülüğün Yerine Getirilmesi (KVKK Md. 5/2-ç):
+                </strong>{" "}
+                Mesafeli satış mevzuatı onay kayıtlarının, teslimat/tahsilat fişlerinin ve
+                vergi/muhasebe belgelerinin yasal saklama süreleri boyunca muhafazası.
+              </li>
+              <li>
+                <strong className="text-ink">
+                  Meşru Menfaat ve İşlem Güvenliği (KVKK Md. 5/2-f):
+                </strong>{" "}
+                Temel hak ve özgürlüklerinize zarar vermemek kaydıyla sistem güvenliğinin
+                sağlanması, sahte sipariş ve kötüye kullanım denemelerinin engellenmesi.
+              </li>
+              <li>
+                <strong className="text-ink">Açık Rıza (KVKK Md. 5/1):</strong> Yalnızca
+                müşterinin kendi isteğiyle &quot;Konumumu ekle&quot; düğmesini kullandığı
+                hallerde tek seferlik teslimat koordinatının işlenmesi.
+              </li>
             </ul>
           </section>
 
-          {/* Section 4 */}
-          <section className="space-y-3 bg-surface p-6 rounded-2xl border border-surface-border">
-            <h2 className="font-serif text-lg font-bold text-foreground text-artisan-gold">
-              4. Kişisel Verilerin Aktarımı
+          {/* 6. Aktarım ve Bulut Altyapı İşleyenleri (KVKK Md. 8–9) */}
+          <section className="space-y-3 bg-cream-surface p-6 rounded-2xl border border-line shadow-2xs">
+            <h2 className="font-serif text-lg font-bold text-ink flex items-center gap-2">
+              <Server aria-hidden="true" className="w-4 h-4 text-accent shrink-0" />
+              <span>
+                6. Kişisel Verilerin Aktarımı ve Bulut Altyapı İşleyenleri (KVKK Md. 8–9)
+              </span>
             </h2>
-            <p>
-              Kişisel verileriniz, üçüncü şahıslara ticari veya reklam amaçlı <strong>kesinlikle satılmaz veya devredilmez</strong>. Verileriniz yalnızca:
+            <p className="text-xs sm:text-sm">
+              Kişisel verileriniz üçüncü kişilere reklam veya pazarlama amacıyla{" "}
+              <strong className="text-ink">kesinlikle satılmaz ve devredilmez</strong>.
+              Verileriniz yalnızca KVKK&apos;nın 8. ve 9. maddelerine uygun teknik ve idari
+              tedbirler altında aşağıdaki alıcı gruplarıyla sınırlı olarak paylaşılır:
             </p>
-            <ul className="list-disc list-inside space-y-1.5 text-foreground/75 text-xs sm:text-sm pl-2">
-              <li>Siparişin kapınıza ulaştırılması amacıyla <em>fırın içi teslimat görevlilerimiz ve kuryelerimizle</em>,</li>
-              <li>Yasal bir zorunluluk veya adli/idari talep halinde <em>yetkili kamu kurum ve kuruluşları ile yargı mercileriyle</em> mevzuat sınırları dahilinde paylaşılabilir.</li>
+            <ul className="list-disc list-inside space-y-1.5 text-xs sm:text-sm pl-1">
+              <li>
+                <strong className="text-ink">Teslimat ve Resmi Merciler:</strong> Siparişin
+                adrese ulaştırılması için kendi fırın teslimat görevlimiz ve kanuni bir
+                yükümlülük doğması halinde yetkili kamu kurum ve kuruluşları.
+              </li>
+              <li>
+                <strong className="text-ink">Supabase (Veritabanı ve Kimlik Doğrulama):</strong>{" "}
+                Sipariş, hesap ve oturum verilerinin şifreli bulut veritabanında
+                barındırılması amacıyla veri işleyen sıfatıyla kullanılır.
+              </li>
+              <li>
+                <strong className="text-ink">
+                  Google OAuth (İsteğe Bağlı Hızlı Giriş):
+                </strong>{" "}
+                Yalnızca &quot;Google ile Giriş Yap&quot; seçeneğini tercih eden
+                kullanıcılarda kimlik doğrulama işleminin gerçekleştirilmesi amacıyla
+                kullanılır.
+              </li>
+              <li>
+                <strong className="text-ink">Sentry (Teknik Hata İzleme):</strong>{" "}
+                Uygulamadaki beklenmeyen yazılım hatalarının tespiti ve giderilmesi
+                amacıyla teknik hata kayıtları işlenir.
+              </li>
             </ul>
           </section>
 
-          {/* Section 5 */}
-          <section className="space-y-3 bg-surface p-6 rounded-2xl border border-surface-border">
-            <h2 className="font-serif text-lg font-bold text-foreground text-artisan-gold">
-              5. Kişisel Veri Toplamanın Hukuki Sebebi
+          {/* 7. KVKK Madde 11 Hakları (a–ğ eksiksiz) */}
+          <section className="space-y-3 bg-cream-surface p-6 rounded-2xl border border-line shadow-2xs">
+            <h2 className="font-serif text-lg font-bold text-ink">
+              7. KVKK Madde 11 Kapsamındaki Haklarınız
             </h2>
-            <p>
-              Kişisel verileriniz, KVKK Madde 5/2 uyarınca; <em>&quot;Bir sözleşmenin kurulması veya ifasıyla doğrudan doğruya ilgili olması kaydıyla, sözleşmenin taraflarına ait kişisel verilerin işlenmesinin gerekli olması&quot;</em> ve <em>&quot;Veri sorumlusunun hukuki yükümlülüğünü yerine getirebilmesi için zorunlu olması&quot;</em> hukuki sebeplerine dayanılarak elektronik ortamda toplanmaktadır.
+            <p className="text-xs sm:text-sm">
+              İlgili kişi olarak KVKK&apos;nın 11. maddesinin 1. fıkrası uyarınca veri
+              sorumlusuna başvurarak aşağıdaki tüm haklara sahipsiniz:
             </p>
-          </section>
-
-          {/* Section 6 */}
-          <section className="space-y-3 bg-surface p-6 rounded-2xl border border-surface-border">
-            <h2 className="font-serif text-lg font-bold text-foreground text-artisan-gold">
-              6. KVKK Madde 11 Kapsamındaki Haklarınız
-            </h2>
-            <p>
-              Kişisel veri sahibi olarak KVKK&apos;nın 11. maddesi uyarınca aşağıdaki haklara sahipsiniz:
-            </p>
-            <ul className="list-disc list-inside space-y-1.5 text-foreground/75 text-xs sm:text-sm pl-2">
-              <li>Kişisel verilerinizin işlenip işlenmediğini öğrenme,</li>
-              <li>İşlenmişse buna ilişkin bilgi talep etme,</li>
-              <li>İşlenme amacını ve amacına uygun kullanılıp kullanılmadığını öğrenme,</li>
-              <li>Yurt içinde veya yurt dışında verilerin aktarıldığı üçüncü kişileri bilme,</li>
-              <li>Verilerin eksik veya yanlış işlenmiş olması halinde düzeltilmesini isteme,</li>
-              <li>KVKK Madde 7 çerçevesinde kişisel verilerinizin silinmesini veya yok edilmesini talep etme.</li>
-            </ul>
-            <p className="pt-2">
-              Bu haklarınızı kullanmak için taleplerinizi kimliğinizi teyit eden belgelerle birlikte <strong>ekmeklab@gmail.com</strong> e-posta adresimize yazılı olarak iletebilirsiniz. Başvurularınız en geç 30 gün içinde ücretsiz olarak sonuçlandırılacaktır.
+            <ol className="space-y-1.5 text-xs sm:text-sm pl-1">
+              <li>
+                <strong className="text-ink">a)</strong> Kişisel verilerinizin işlenip
+                işlenmediğini öğrenme,
+              </li>
+              <li>
+                <strong className="text-ink">b)</strong> Kişisel verileriniz işlenmişse
+                buna ilişkin bilgi talep etme,
+              </li>
+              <li>
+                <strong className="text-ink">c)</strong> Kişisel verilerinizin işlenme
+                amacını ve bunların amacına uygun kullanılıp kullanılmadığını öğrenme,
+              </li>
+              <li>
+                <strong className="text-ink">ç)</strong> Yurt içinde veya yurt dışında
+                kişisel verilerinizin aktarıldığı üçüncü kişileri bilme,
+              </li>
+              <li>
+                <strong className="text-ink">d)</strong> Kişisel verilerinizin eksik veya
+                yanlış işlenmiş olması hâlinde bunların düzeltilmesini isteme,
+              </li>
+              <li>
+                <strong className="text-ink">e)</strong> KVKK&apos;nın 7. maddesinde
+                öngörülen şartlar çerçevesinde kişisel verilerinizin silinmesini veya yok
+                edilmesini isteme,
+              </li>
+              <li>
+                <strong className="text-ink">f)</strong> (d) ve (e) bentleri uyarınca
+                yapılan işlemlerin, kişisel verilerinizin aktarıldığı üçüncü kişilere
+                bildirilmesini isteme,
+              </li>
+              <li>
+                <strong className="text-ink">g)</strong> İşlenen verilerinizin münhasıran
+                otomatik sistemler vasıtasıyla analiz edilmesi suretiyle aleyhinize bir
+                sonucun ortaya çıkmasına itiraz etme,
+              </li>
+              <li>
+                <strong className="text-ink">ğ)</strong> Kişisel verilerinizin kanuna
+                aykırı olarak işlenmesi sebebiyle zarara uğramanız hâlinde zararın
+                giderilmesini talep etme.
+              </li>
+            </ol>
+            <p className="pt-2 text-xs sm:text-sm">
+              Yukarıdaki haklarınıza ilişkin taleplerinizi, Veri Sorumlusuna Başvuru Usul
+              ve Esasları Hakkında Tebliğ uyarınca{" "}
+              <a
+                href={`mailto:${CONTACT.email}`}
+                className="underline font-semibold text-ink hover:text-accent"
+              >
+                {CONTACT.email}
+              </a>{" "}
+              e-posta adresimize yazılı olarak iletebilirsiniz. Başvurularınız talebin
+              niteliğine göre en kısa sürede ve en geç 30 (otuz) gün içinde ücretsiz olarak
+              sonuçlandırılır.
             </p>
           </section>
         </div>
