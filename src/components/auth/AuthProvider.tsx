@@ -1,6 +1,6 @@
 "use client";
 
-import React, { Suspense, createContext, useContext, useEffect } from "react";
+import React, { Suspense, createContext, useCallback, useContext, useEffect, useMemo, useState } from "react";
 import { sanitizeAuthRedirectPath, useCustomerAuth, UserProfile, SavedAddress } from "@/hooks/useCustomerAuth";
 import { AuthModal } from "./AuthModal";
 import { User } from "@supabase/supabase-js";
@@ -14,13 +14,19 @@ interface AuthContextType {
   loading: boolean;
   isLoggedIn: boolean;
   isConfigured: boolean;
+  claimVersion: number;
+  triggerOrderClaim: () => Promise<void>;
   openAuthModal: (redirectPath?: string) => void;
   closeAuthModal: () => void;
   signInWithGoogle: () => Promise<{ success: boolean; data?: unknown; error?: string }>;
+  signInWithApple: (redirectTo?: string) => Promise<{ success: boolean; data?: unknown; error?: string }>;
+  updateProfile: (input: { fullName: string; phone: string }) => Promise<{ success: boolean; error?: string }>;
   sendEmailCode: (email: string) => Promise<{ success: boolean; error?: string }>;
   verifyEmailCode: (email: string, code: string) => Promise<{ success: boolean; error?: string }>;
   signOut: () => Promise<void>;
   saveAddress: (addr: Omit<SavedAddress, "id" | "userId">) => Promise<{ data?: unknown; error?: unknown }>;
+  setDefaultAddress: (addressId: string) => Promise<{ success: boolean; error?: string }>;
+  deleteAddress: (addressId: string) => Promise<{ success: boolean; error?: string }>;
   refreshUser: () => void;
 }
 
@@ -32,6 +38,31 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const staffArea = pathname.startsWith("/admin") || pathname.startsWith("/kurye");
   const auth = useCustomerAuth({ enabled: !staffArea });
   const userId = auth.user?.id ?? null;
+  const [claimVersion, setClaimVersion] = useState<number>(0);
+
+  const triggerOrderClaim = useCallback(async () => {
+    if (!userId) return;
+    const orders = readDeviceOrders().map((o) => ({ id: o.id, token: o.token }));
+    if (orders.length > 0) {
+      try {
+        const res = await fetch("/api/orders/claim", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ orders }),
+        });
+        if (res.ok) {
+          try {
+            sessionStorage.setItem(`ekmeklab_claimed_${userId}`, "1");
+          } catch {
+            // yok say
+          }
+        }
+      } catch {
+        // bir sonraki tetiklemede tekrar denenir
+      }
+    }
+    setClaimVersion((v) => v + 1);
+  }, [userId]);
 
   // Giriş yapıldığında bu cihazdan misafir olarak verilen siparişleri hesaba bağla (oturum başına bir kez)
   useEffect(() => {
@@ -56,6 +87,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           } catch {
             // yok say
           }
+          setClaimVersion((v) => v + 1);
         }
       })
       .catch(() => {
@@ -63,8 +95,17 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       });
   }, [userId]);
 
+  const contextValue = useMemo<AuthContextType>(
+    () => ({
+      ...auth,
+      claimVersion,
+      triggerOrderClaim,
+    }),
+    [auth, claimVersion, triggerOrderClaim]
+  );
+
   return (
-    <AuthContext.Provider value={auth}>
+    <AuthContext.Provider value={contextValue}>
       {children}
       {!staffArea && (
         <Suspense fallback={null}>

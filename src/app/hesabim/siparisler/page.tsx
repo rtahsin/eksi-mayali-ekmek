@@ -8,13 +8,14 @@ import { OrderHistoryCard } from "@/components/customer/OrderHistoryCard";
 import { Order } from "@/types";
 import {
   ShoppingBag,
-  Sparkles,
   RefreshCw,
   LogIn,
+  ArrowRight,
+  Link2,
 } from "lucide-react";
 
 export default function MusteriSiparislerPage() {
-  const { user, loading: authLoading, openAuthModal } = useAuth();
+  const { user, loading: authLoading, claimVersion, openAuthModal } = useAuth();
   const { fetchMyOrders, loading: ordersLoading } = useOrderHistory();
 
   const [orders, setOrders] = useState<Order[]>([]);
@@ -37,12 +38,13 @@ export default function MusteriSiparislerPage() {
     [user?.id, fetchMyOrders]
   );
 
+  // Giriş yapıldığında ve yeni bir misafir siparişi hesaba bağlandığında (`claimVersion`) listeyi yenile
   useEffect(() => {
     if (user?.id) {
-      loadOrders(0, false);
+      void loadOrders(0, false);
       setOffset(0);
     }
-  }, [user?.id, loadOrders]);
+  }, [user?.id, claimVersion, loadOrders]);
 
   const handleLoadMore = async () => {
     const nextOffset = offset + limit;
@@ -56,7 +58,6 @@ export default function MusteriSiparislerPage() {
     );
   };
 
-  // Filter orders by tab
   const filteredOrders = useMemo(() => {
     return orders.filter((o) => {
       if (activeTab === "active") {
@@ -67,7 +68,6 @@ export default function MusteriSiparislerPage() {
           o.status === "kuryede"
         );
       }
-
       if (activeTab === "completed") {
         return o.status === "teslim_edildi";
       }
@@ -87,26 +87,25 @@ export default function MusteriSiparislerPage() {
     );
   }
 
-  // Not Logged In State
   if (!user) {
     return (
-      <div className="bg-cream-surface border border-line rounded-3xl p-8 sm:p-12 text-center max-w-lg mx-auto shadow-sm space-y-4 text-ink">
-        <div className="w-14 h-14 mx-auto rounded-2xl bg-accent/10 border border-accent/20 flex items-center justify-center text-accent">
-          <LogIn className="w-7 h-7" />
+      <div className="bg-cream-surface border border-line rounded-3xl p-8 sm:p-12 text-center max-w-lg mx-auto shadow-xs space-y-4 text-ink">
+        <div className="w-14 h-14 mx-auto rounded-2xl bg-accent/10 border border-accent/25 flex items-center justify-center text-accent">
+          <LogIn className="w-7 h-7" aria-hidden="true" />
         </div>
-        <h2 className="text-xl font-serif font-bold text-ink">
+        <h1 className="text-xl font-serif font-bold text-ink">
           Siparişlerinizi Görmek İçin Giriş Yapın
-        </h2>
-        <p className="text-xs text-ink-muted leading-relaxed max-w-sm mx-auto">
-          Geçmiş siparişlerinizi, teslimat detaylarını ve sipariş durum çubuğunuzu hesabınızdan görüntüleyebilirsiniz.
+        </h1>
+        <p className="text-xs text-ink-muted leading-relaxed max-w-sm mx-auto font-sans">
+          Geçmiş siparişlerinizi, teslimat fişlerinizi ve tek dokunuşla sipariş tekrarını hesabınızdan görüntüleyebilirsiniz.
         </p>
-        <div className="pt-3">
+        <div className="pt-2">
           <button
             type="button"
-            onClick={() => openAuthModal()}
-            className="touch-target-44 inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-accent text-white font-semibold text-xs shadow-md hover:bg-accent/90 active:scale-95 transition-all"
+            onClick={() => openAuthModal("/hesabim/siparisler")}
+            className="touch-target-44 min-h-[48px] inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-accent text-white font-semibold text-xs sm:text-sm shadow-xs hover:bg-accent/90 transition-all"
           >
-            <LogIn className="w-4 h-4" />
+            <LogIn className="w-4 h-4 shrink-0" aria-hidden="true" />
             <span>Giriş Yap / Kayıt Ol</span>
           </button>
         </div>
@@ -115,7 +114,7 @@ export default function MusteriSiparislerPage() {
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 text-ink">
       {/* Page Title & Stats Bar */}
       <div className="flex flex-wrap items-center justify-between gap-4">
         <div>
@@ -127,63 +126,60 @@ export default function MusteriSiparislerPage() {
           </p>
         </div>
 
-        <button
-          type="button"
-          onClick={() => loadOrders(0, false)}
-          disabled={ordersLoading}
-          className="touch-target-44 inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-cream-surface border border-line hover:border-accent text-ink-muted hover:text-ink text-xs font-medium transition-colors shadow-xs"
-        >
-          <RefreshCw className={`w-3.5 h-3.5 ${ordersLoading ? "animate-spin" : ""}`} />
-          <span>Yenile</span>
-        </button>
+        <div className="flex items-center gap-2">
+          <Link
+            href="/hesabim#claim-guest-order-heading"
+            className="touch-target-44 min-h-[44px] inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-cream-surface border border-line hover:border-accent/45 text-ink-muted hover:text-ink text-xs font-semibold transition-colors shadow-2xs"
+          >
+            <Link2 className="w-3.5 h-3.5 text-accent shrink-0" aria-hidden="true" />
+            <span>Misafir Siparişi Bağla</span>
+          </Link>
+          <button
+            type="button"
+            onClick={() => void loadOrders(0, false)}
+            disabled={ordersLoading}
+            className="touch-target-44 min-h-[44px] inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-cream-surface border border-line hover:border-accent text-ink-muted hover:text-ink text-xs font-semibold transition-colors shadow-2xs disabled:opacity-50"
+          >
+            <RefreshCw
+              className={`w-3.5 h-3.5 shrink-0 ${ordersLoading ? "animate-spin" : ""}`}
+              aria-hidden="true"
+            />
+            <span>Yenile</span>
+          </button>
+        </div>
       </div>
 
       {/* Filter Tabs */}
-      <div className="flex items-center gap-2 overflow-x-auto pb-2 border-b border-line no-scrollbar">
-        <button
-          type="button"
-          onClick={() => setActiveTab("all")}
-          className={`touch-target-44 px-3.5 py-1.5 rounded-xl text-xs font-sans transition-colors whitespace-nowrap ${
-            activeTab === "all"
-              ? "bg-accent text-white font-bold shadow-xs"
-              : "bg-cream-surface text-ink-muted hover:text-ink border border-line"
-          }`}
-        >
-          Tümü ({orders.length})
-        </button>
-        <button
-          type="button"
-          onClick={() => setActiveTab("active")}
-          className={`touch-target-44 px-3.5 py-1.5 rounded-xl text-xs font-sans transition-colors whitespace-nowrap ${
-            activeTab === "active"
-              ? "bg-accent text-white font-bold shadow-xs"
-              : "bg-cream-surface text-ink-muted hover:text-ink border border-line"
-          }`}
-        >
-          Aktif Siparişler
-        </button>
-        <button
-          type="button"
-          onClick={() => setActiveTab("completed")}
-          className={`touch-target-44 px-3.5 py-1.5 rounded-xl text-xs font-sans transition-colors whitespace-nowrap ${
-            activeTab === "completed"
-              ? "bg-accent text-white font-bold shadow-xs"
-              : "bg-cream-surface text-ink-muted hover:text-ink border border-line"
-          }`}
-        >
-          Teslim Edilenler
-        </button>
-        <button
-          type="button"
-          onClick={() => setActiveTab("cancelled")}
-          className={`touch-target-44 px-3.5 py-1.5 rounded-xl text-xs font-sans transition-colors whitespace-nowrap ${
-            activeTab === "cancelled"
-              ? "bg-accent text-white font-bold shadow-xs"
-              : "bg-cream-surface text-ink-muted hover:text-ink border border-line"
-          }`}
-        >
-          İptal Edilenler
-        </button>
+      <div
+        role="group"
+        aria-label="Sipariş durumu filtresi"
+        className="flex items-center gap-2 overflow-x-auto pb-2 border-b border-line no-scrollbar"
+      >
+        {(
+          [
+            { key: "all", label: `Tümü (${orders.length})` },
+            { key: "active", label: "Aktif Siparişler" },
+            { key: "completed", label: "Teslim Edilenler" },
+            { key: "cancelled", label: "İptal Edilenler" },
+          ] as const
+        ).map((tab) => {
+          const selected = activeTab === tab.key;
+          return (
+            <button
+              key={tab.key}
+              type="button"
+              aria-pressed={selected}
+              onClick={() => setActiveTab(tab.key)}
+              className={`touch-target-44 min-h-[44px] px-4 py-2 rounded-xl text-xs font-sans transition-colors whitespace-nowrap ${
+                selected
+                  ? "bg-accent text-white font-bold shadow-2xs"
+                  : "bg-cream-surface text-ink-muted hover:text-ink border border-line"
+              }`}
+            >
+              {tab.label}
+            </button>
+          );
+        })}
       </div>
 
       {/* Orders List or Empty State */}
@@ -193,26 +189,35 @@ export default function MusteriSiparislerPage() {
           <span className="text-xs font-serif">Siparişleriniz yükleniyor...</span>
         </div>
       ) : filteredOrders.length === 0 ? (
-        <div className="bg-cream-surface border border-line rounded-3xl p-10 text-center space-y-4 shadow-xs text-ink">
+        <div className="bg-cream-surface border border-line rounded-3xl p-8 sm:p-10 text-center space-y-4 shadow-2xs text-ink">
           <div className="w-14 h-14 mx-auto rounded-2xl bg-accent/10 border border-accent/20 flex items-center justify-center text-accent">
-            <ShoppingBag className="w-7 h-7" />
+            <ShoppingBag className="w-7 h-7" aria-hidden="true" />
           </div>
-          <h3 className="font-serif font-bold text-base text-ink">
+          <h2 className="font-serif font-bold text-base sm:text-lg text-ink">
             {activeTab === "all"
-              ? "Henüz bir siparişiniz bulunmuyor"
+              ? "Henüz hesabınıza bağlı bir sipariş bulunmuyor"
               : "Bu filtreye ait bir sipariş bulunamadı"}
-          </h3>
-          <p className="text-xs text-ink-muted max-w-sm mx-auto leading-relaxed">
-            Taş fırınımızdan çıkan taptaze ekşi mayalı ekmeklerimizi keşfetmek için hemen fırın vitrinimize göz atın.
+          </h2>
+          <p className="text-xs text-ink-muted max-w-sm mx-auto leading-relaxed font-sans">
+            Taş fırınımızdan çıkan ekşi mayalı ekmeklerimizi ve günlük mandıra eşlikçilerimizi keşfetmek için vitrinimize göz atın.
           </p>
-          <div className="pt-2">
+          <div className="pt-2 flex flex-col sm:flex-row items-center justify-center gap-2.5">
             <Link
-              href="/"
-              className="touch-target-44 inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-accent text-white font-semibold text-xs shadow-md hover:bg-accent/90 active:scale-95 transition-all"
+              href="/#ekmekler"
+              className="touch-target-44 min-h-[48px] inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-accent text-white font-semibold text-xs sm:text-sm shadow-xs hover:bg-accent/90 transition-all"
             >
-              <Sparkles className="w-4 h-4" />
               <span>Fırın Vitrinine Git</span>
+              <ArrowRight className="w-4 h-4 shrink-0" aria-hidden="true" />
             </Link>
+            {activeTab === "all" && (
+              <Link
+                href="/hesabim#claim-guest-order-heading"
+                className="touch-target-44 min-h-[48px] inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-bg border border-line hover:border-accent/40 text-ink font-semibold text-xs sm:text-sm transition-colors"
+              >
+                <Link2 className="w-4 h-4 text-accent shrink-0" aria-hidden="true" />
+                <span>Instagram / Misafir Siparişi Bağla</span>
+              </Link>
+            )}
           </div>
         </div>
       ) : (
@@ -225,14 +230,13 @@ export default function MusteriSiparislerPage() {
             />
           ))}
 
-          {/* Load More Button */}
           {orders.length < totalCount && (
             <div className="text-center pt-4">
               <button
                 type="button"
-                onClick={handleLoadMore}
+                onClick={() => void handleLoadMore()}
                 disabled={ordersLoading}
-                className="touch-target-44 px-6 py-2.5 rounded-xl bg-cream-surface border border-line hover:border-accent text-ink-muted hover:text-ink text-xs font-medium transition-colors disabled:opacity-50 shadow-xs"
+                className="touch-target-44 min-h-[44px] px-6 py-2.5 rounded-xl bg-cream-surface border border-line hover:border-accent text-ink-muted hover:text-ink text-xs font-semibold transition-colors disabled:opacity-50 shadow-2xs"
               >
                 {ordersLoading ? "Yükleniyor..." : "Daha Fazla Göster"}
               </button>
