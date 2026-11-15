@@ -28,14 +28,14 @@ export function AdminAuthGate({ children }: AdminAuthGateProps) {
 
   if (authLoading) {
     return (
-      <div className="min-h-screen bg-[#120E0B] flex flex-col items-center justify-center text-foreground font-sans p-4">
-        <div className="flex flex-col items-center gap-4 bg-[#1A1410] p-8 rounded-3xl border border-[#2F241D] shadow-2xl">
-          <div className="w-12 h-12 rounded-full border-2 border-artisan-gold/30 border-t-artisan-gold animate-spin" />
+      <div className="min-h-screen bg-[#F6EEDF] flex flex-col items-center justify-center text-[#3B1E1A] font-sans p-4">
+        <div className="flex flex-col items-center gap-4 bg-[#FFFFFF] p-8 rounded-3xl border border-[#E2D3BD] shadow-sm">
+          <div className="w-12 h-12 rounded-full border-2 border-[#E2D3BD] border-t-[#B4532A] animate-spin" />
           <div className="text-center space-y-1">
-            <div className="font-serif text-lg font-bold text-foreground">
-              Ekmek<span className="text-artisan-gold italic">Lab</span> Operasyon
+            <div className="font-serif text-lg font-bold text-[#3B1E1A]">
+              Ekmek<span className="text-[#B4532A] italic">Lab</span> Operasyon
             </div>
-            <p className="text-xs text-foreground/60">Yetki doğrulaması yapılıyor...</p>
+            <p className="text-xs text-[#6E5148]">Yetki doğrulaması yapılıyor...</p>
           </div>
         </div>
       </div>

@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, Suspense } from "react";
+import Link from "next/link";
 import { safeRedirectPath, useAdminAuth } from "@/hooks/useAdminAuth";
 import { useRouter, useSearchParams } from "next/navigation";
 import { AlertCircle, ShieldCheck, Loader2 } from "lucide-react";
@@ -29,32 +30,36 @@ function LoginForm() {
   };
 
   return (
-    <div className="relative z-10 max-w-md w-full bg-[#1A1410] border border-[#2F241D] rounded-3xl p-6 sm:p-8 space-y-5 shadow-2xl">
+    <div className="relative z-10 max-w-md w-full bg-[#FFFFFF] border border-[#E2D3BD] rounded-3xl p-6 sm:p-8 space-y-5 shadow-lg">
       {/* Brand Header */}
       <div className="text-center space-y-1.5">
-        <div className="w-12 h-12 rounded-full bg-[#F7EBD3] p-1 mx-auto flex items-center justify-center shadow-lg border border-artisan-gold/40">
+        <div className="w-12 h-12 rounded-full bg-[#FBF6EC] p-1 mx-auto flex items-center justify-center shadow-xs border border-[#E2D3BD]">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src="/logo/logo_mark.png" alt="EkmekLab" className="w-full h-full object-contain" />
         </div>
         <div className="pt-1">
-          <h1 className="font-serif text-xl sm:text-2xl font-bold tracking-tight text-foreground">
-            Ekmek<span className="text-artisan-gold italic">Lab</span> Komuta Merkezi
+          <h1 className="font-serif text-xl sm:text-2xl font-bold tracking-tight text-[#3B1E1A]">
+            Ekmek<span className="text-[#B4532A] italic">Lab</span> Komuta Merkezi
           </h1>
-          <p className="text-xs text-foreground/60 font-sans">
-            Fırın, Dağıtım & Yönetim Masası
+          <p className="text-xs text-[#6E5148] font-sans">
+            Fırın, Dağıtım &amp; Yönetim Masası
           </p>
         </div>
       </div>
 
       {/* Error Alert */}
       {authError && (
-        <div className="p-3 rounded-xl bg-red-950/50 border border-red-500/40 text-xs text-red-300 flex items-center gap-2">
-          <AlertCircle className="w-4 h-4 text-red-400 shrink-0" />
+        <div
+          role="alert"
+          className="p-3 rounded-xl bg-[#FCECE9] border border-[#E7B7AF] text-xs text-[#7D2114] flex items-center gap-2"
+        >
+          <AlertCircle className="w-4 h-4 text-[#7D2114] shrink-0" aria-hidden="true" />
           <span>{authError}</span>
         </div>
       )}
 
       <div className="space-y-4 py-2">
-        <p className="text-xs text-stone-300 text-center leading-relaxed">
+        <p className="text-xs text-[#6E5148] text-center leading-relaxed">
           Yönetici yetkisi tanımlı Google hesabınızla giriş yapın.
         </p>
 
@@ -62,10 +67,10 @@ function LoginForm() {
           type="button"
           onClick={handleGoogleLogin}
           disabled={isGoogleSubmitting}
-          className="w-full py-3.5 px-4 rounded-xl bg-stone-900 hover:bg-stone-800 border border-stone-700 text-stone-200 text-sm font-bold transition-all flex items-center justify-center gap-3 shadow active:scale-95 disabled:opacity-50"
+          className="w-full min-h-12 py-3.5 px-4 rounded-xl bg-[#FBF6EC] hover:bg-[#F1E6D2] border border-[#E2D3BD] text-[#3B1E1A] text-sm font-bold transition-colors flex items-center justify-center gap-3 shadow-xs active:scale-95 disabled:opacity-50"
         >
           {isGoogleSubmitting ? (
-            <Loader2 className="w-4 h-4 animate-spin text-amber-500" />
+            <Loader2 className="w-4 h-4 animate-spin text-[#B4532A]" aria-hidden="true" />
           ) : (
             <svg className="w-4 h-4" viewBox="0 0 24 24" aria-hidden="true">
               <path
@@ -91,14 +96,14 @@ function LoginForm() {
       </div>
 
       {/* Footer */}
-      <div className="pt-3 border-t border-[#2F241D] flex items-center justify-between text-xs text-foreground/50">
-        <div className="flex items-center gap-1.5 text-emerald-400/90">
-          <ShieldCheck className="w-3.5 h-3.5" />
+      <div className="pt-3 border-t border-[#E2D3BD] flex items-center justify-between text-xs text-[#6E5148]">
+        <div className="flex items-center gap-1.5 text-[#1D5130] font-medium">
+          <ShieldCheck className="w-3.5 h-3.5" aria-hidden="true" />
           <span>Yetki sunucuda doğrulanır</span>
         </div>
-        <a href="/" className="hover:text-artisan-gold transition-colors">
+        <Link href="/" className="text-[#8E3D1B] hover:text-[#3B1E1A] font-medium transition-colors">
           Vitrini Aç →
-        </a>
+        </Link>
       </div>
     </div>
   );
@@ -106,19 +111,19 @@ function LoginForm() {
 
 export default function AdminLoginPage() {
   return (
-    <div className="min-h-screen bg-[#120E0B] text-foreground font-sans flex items-center justify-center p-4 relative overflow-hidden">
+    <div className="min-h-screen bg-[#F6EEDF] text-[#3B1E1A] font-sans flex items-center justify-center p-4 relative overflow-hidden">
       {/* Background Subtle Ambience */}
       <div
-        className="fixed inset-0 pointer-events-none opacity-25 filter brightness-90 contrast-125 bg-cover bg-center"
+        className="fixed inset-0 pointer-events-none opacity-15 bg-cover bg-center"
         style={{ backgroundImage: "url('/atelier/atelier_threshold.webp')" }}
       />
-      <div className="fixed inset-0 pointer-events-none bg-gradient-to-t from-[#120E0B] via-[#120E0B]/90 to-[#120E0B]/80" />
+      <div className="fixed inset-0 pointer-events-none bg-gradient-to-t from-[#F6EEDF] via-[#F6EEDF]/92 to-[#F6EEDF]/85" />
 
       <Suspense
         fallback={
-          <div className="relative z-10 max-w-md w-full bg-[#1A1410] border border-[#2F241D] rounded-3xl p-9 text-center">
-            <Loader2 className="w-8 h-8 text-amber-500 animate-spin mx-auto mb-3" />
-            <p className="text-xs text-stone-400">Yükleniyor...</p>
+          <div className="relative z-10 max-w-md w-full bg-[#FFFFFF] border border-[#E2D3BD] rounded-3xl p-9 text-center shadow-lg">
+            <Loader2 className="w-8 h-8 text-[#B4532A] animate-spin mx-auto mb-3" aria-hidden="true" />
+            <p className="text-xs text-[#6E5148]">Yükleniyor...</p>
           </div>
         }
       >

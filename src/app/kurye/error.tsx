@@ -19,30 +19,31 @@ export default function CourierError({
   }, [error]);
 
   return (
-    <div className="min-h-screen bg-[#120E0B] text-stone-200 flex items-center justify-center p-6">
-      <div className="max-w-md w-full bg-stone-900 border border-stone-800 rounded-2xl p-6 text-center space-y-4 shadow-xl">
-        <div className="w-14 h-14 rounded-2xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center mx-auto text-amber-500">
-          <AlertTriangle className="w-7 h-7" />
+    <div className="min-h-screen bg-[#F6EEDF] text-[#3B1E1A] flex items-center justify-center p-6">
+      <div className="max-w-md w-full bg-white border border-[#E2D3BD] rounded-2xl p-6 text-center space-y-4 shadow-sm">
+        <div className="w-14 h-14 rounded-2xl bg-[#FBF6EC] border border-[#E2D3BD] flex items-center justify-center mx-auto text-[#B4532A]">
+          <AlertTriangle className="w-7 h-7" aria-hidden="true" />
         </div>
 
         <div className="space-y-1">
-          <h2 className="text-lg font-bold font-serif text-stone-100">Kurye Konsolunda Hata Oluştu</h2>
-          <p className="text-xs text-stone-400">
+          <h2 className="text-lg font-bold font-serif text-[#3B1E1A]">Kurye Konsolunda Hata Oluştu</h2>
+          <p className="text-xs text-[#6E5148]">
             Hata otomatik olarak Sentry izleme paneline kaydedildi. Çevrimdışı kayıtlarınız kaybolmaz.
           </p>
         </div>
 
         {error?.message && (
-          <div className="p-3 bg-stone-950 rounded-xl text-xs font-mono text-rose-400 border border-stone-800 text-left overflow-x-auto">
+          <div className="p-3 bg-[#FBF6EC] rounded-xl text-xs font-mono text-rose-700 border border-[#E2D3BD] text-left overflow-x-auto">
             {error.message}
           </div>
         )}
 
         <button
+          type="button"
           onClick={() => reset()}
-          className="w-full flex items-center justify-center gap-2 py-3 px-4 bg-artisan-terracotta hover:bg-artisan-terracotta-dark text-white font-bold text-xs rounded-xl transition-colors"
+          className="w-full min-h-11 flex items-center justify-center gap-2 py-3 px-4 bg-[#B4532A] hover:bg-[#974220] text-white font-bold text-xs rounded-xl transition-colors"
         >
-          <RefreshCw className="w-4 h-4" />
+          <RefreshCw className="w-4 h-4" aria-hidden="true" />
           <span>Konsolu Yeniden Başlat</span>
         </button>
       </div>

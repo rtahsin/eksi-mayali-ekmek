@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import type { SupabaseClient, User } from "@supabase/supabase-js";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { createClient } from "@/lib/supabase/server";
+import { hasCapability, type AdminCapability } from "@/lib/security/capabilities";
 
 export type AuthRole = "admin" | "superadmin" | "staff" | "courier" | "customer" | null;
 
@@ -12,6 +13,8 @@ export interface AuthResult {
   isAdmin: boolean;
   isCourier: boolean;
   courierDbId: string | null; // couriers tablosundaki UUID
+  courierIsActive?: boolean;
+  courierIsOnShift?: boolean;
 }
 
 const NO_AUTH: AuthResult = {
@@ -21,6 +24,8 @@ const NO_AUTH: AuthResult = {
   isAdmin: false,
   isCourier: false,
   courierDbId: null,
+  courierIsActive: false,
+  courierIsOnShift: false,
 };
 
 const KNOWN_ROLES: ReadonlySet<string> = new Set(["admin", "superadmin", "staff", "courier", "customer"]);
@@ -86,13 +91,23 @@ export async function verifyApiAuth(req: Request): Promise<AuthResult> {
     const isCourier = role === "courier";
 
     let courierDbId: string | null = null;
+    let courierIsActive = false;
+    let courierIsOnShift = false;
+
     if (isCourier) {
       const { data: courierRow } = await admin
         .from("couriers")
-        .select("id")
+        .select("id, is_active, is_on_shift")
         .eq("profile_id", user.id)
+        .order("is_active", { ascending: false })
+        .order("created_at", { ascending: false })
+        .limit(1)
         .maybeSingle();
-      courierDbId = typeof courierRow?.id === "string" ? courierRow.id : null;
+
+      const row = courierRow as { id?: unknown; is_active?: unknown; is_on_shift?: unknown } | null;
+      courierDbId = typeof row?.id === "string" ? row.id : null;
+      courierIsActive = row?.is_active === true;
+      courierIsOnShift = row?.is_on_shift === true;
     }
 
     return {
@@ -102,6 +117,8 @@ export async function verifyApiAuth(req: Request): Promise<AuthResult> {
       isAdmin,
       isCourier,
       courierDbId,
+      courierIsActive,
+      courierIsOnShift,
     };
   } catch {
     return NO_AUTH;
@@ -110,6 +127,16 @@ export async function verifyApiAuth(req: Request): Promise<AuthResult> {
 
 export type AdminGuard =
   | { ok: true; auth: AuthResult }
+  | { ok: false; response: NextResponse };
+
+export type CourierOrAdminGuard =
+  | {
+      ok: true;
+      auth: AuthResult;
+      courierDbId: string | null;
+      isOnShift: boolean;
+      isActive: boolean;
+    }
   | { ok: false; response: NextResponse };
 
 /**
@@ -125,4 +152,78 @@ export async function requireAdmin(req: Request): Promise<AdminGuard> {
     return { ok: false, response: NextResponse.json({ error: "Forbidden" }, { status: 403 }) };
   }
   return { ok: true, auth };
+}
+
+/**
+ * Granüler yetki kontrolü. `courier` rolü için aktif kurye kaydı da zorunludur.
+ */
+export async function requireCapability(
+  req: Request,
+  capability: AdminCapability
+): Promise<AdminGuard> {
+  const auth = await verifyApiAuth(req);
+  if (!auth.isAuthenticated) {
+    return { ok: false, response: NextResponse.json({ error: "Unauthorized" }, { status: 401 }) };
+  }
+  if (!hasCapability(auth.role, capability)) {
+    return { ok: false, response: NextResponse.json({ error: "Forbidden" }, { status: 403 }) };
+  }
+  if (auth.role === "courier" && (!auth.courierDbId || auth.courierIsActive !== true)) {
+    return {
+      ok: false,
+      response: NextResponse.json({ error: "Kurye hesabınız aktif değil." }, { status: 403 }),
+    };
+  }
+  return { ok: true, auth };
+}
+
+/**
+ * Aktif kurye (`couriers.is_active === true`) veya admin/superadmin (opsiyonel `staff`) erişimi.
+ */
+export async function requireActiveCourierOrAdmin(
+  req: Request,
+  options?: { allowStaff?: boolean }
+): Promise<CourierOrAdminGuard> {
+  const auth = await verifyApiAuth(req);
+  if (!auth.isAuthenticated) {
+    return { ok: false, response: NextResponse.json({ error: "Unauthorized" }, { status: 401 }) };
+  }
+
+  if (auth.isAdmin) {
+    return {
+      ok: true,
+      auth,
+      courierDbId: auth.courierDbId,
+      isOnShift: Boolean(auth.courierIsOnShift),
+      isActive: true,
+    };
+  }
+
+  if (options?.allowStaff && auth.role === "staff") {
+    return {
+      ok: true,
+      auth,
+      courierDbId: null,
+      isOnShift: false,
+      isActive: true,
+    };
+  }
+
+  if (auth.role === "courier") {
+    if (!auth.courierDbId || auth.courierIsActive !== true) {
+      return {
+        ok: false,
+        response: NextResponse.json({ error: "Kurye hesabınız aktif değil." }, { status: 403 }),
+      };
+    }
+    return {
+      ok: true,
+      auth,
+      courierDbId: auth.courierDbId,
+      isOnShift: Boolean(auth.courierIsOnShift),
+      isActive: true,
+    };
+  }
+
+  return { ok: false, response: NextResponse.json({ error: "Forbidden" }, { status: 403 }) };
 }

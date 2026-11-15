@@ -169,6 +169,7 @@ export default function PublicReceiptPage() {
   const [loading, setLoading] = useState(true);
   const [slip, setSlip] = useState<SlipData | null>(null);
   const [downloading, setDownloading] = useState(false);
+  const [downloadError, setDownloadError] = useState<string | null>(null);
   const [copied, setCopied] = useState(false);
 
   useEffect(() => {
@@ -239,7 +240,7 @@ export default function PublicReceiptPage() {
       link.click();
     } catch (err) {
       console.error("Görsel indirme hatası:", err);
-      alert("Görsel oluşturulurken bir hata oluştu.");
+      setDownloadError("Fiş görseli oluşturulurken bir hata oluştu.");
     } finally {
       setDownloading(false);
     }
@@ -480,6 +481,7 @@ export default function PublicReceiptPage() {
               <div className="space-y-3">
                 <div className="space-y-3">
                   {slip.items.map((it, idx) => {
+                    const isReturnItem = it.quantity < 0 || it.totalPrice < 0;
                     const fallbackImg = getItemFallbackImage(it.name);
                     const imgSrc =
                       !isPlaceholderImageUrl(it.imageUrl) && it.imageUrl
@@ -501,8 +503,12 @@ export default function PublicReceiptPage() {
                           />
                         </div>
                         <div className="flex-1 min-w-0">
-                          <div className="text-xs font-bold text-[#B45309] leading-normal pb-0.5">
-                            {it.quantity} Adet
+                          <div
+                            className={`text-xs font-bold leading-normal pb-0.5 ${
+                              isReturnItem ? "text-[#991B1B]" : "text-[#B45309]"
+                            }`}
+                          >
+                            {it.quantity} Adet {isReturnItem ? "• Bayat / Fire İade" : ""}
                           </div>
                           <div className="font-bold text-[#1E140F] text-xs sm:text-[13px] leading-snug break-words pb-0.5">
                             {it.name}
@@ -513,12 +519,18 @@ export default function PublicReceiptPage() {
                             )}
                           </div>
                           <div className="text-xs text-[#7A6B62] font-medium leading-normal inline-block py-0.5 mt-0.5">
-                            {it.quantity} x {it.unitPrice.toLocaleString("tr-TR")} ₺
+                            {Math.abs(it.quantity)} x {it.unitPrice.toLocaleString("tr-TR")} ₺
                           </div>
                         </div>
                         <div className="text-right shrink-0 pl-2">
-                          <span className="font-bold text-[#1E140F] text-sm sm:text-base leading-normal inline-block py-0.5">
-                            {it.totalPrice.toLocaleString("tr-TR")} ₺
+                          <span
+                            className={`font-bold text-sm sm:text-base leading-normal inline-block py-0.5 ${
+                              isReturnItem ? "text-[#991B1B]" : "text-[#1E140F]"
+                            }`}
+                          >
+                            {it.totalPrice < 0
+                              ? `−${Math.abs(it.totalPrice).toLocaleString("tr-TR")} ₺`
+                              : `${it.totalPrice.toLocaleString("tr-TR")} ₺`}
                           </span>
                         </div>
                       </div>
@@ -640,6 +652,15 @@ export default function PublicReceiptPage() {
 
         {/* Action Buttons (Excluded from Screenshot) */}
         <div className="mt-5 space-y-2.5 print:hidden">
+          {downloadError && (
+            <div
+              role="alert"
+              aria-live="polite"
+              className="rounded-xl border border-red-300 bg-red-50 px-3.5 py-2.5 text-xs font-medium text-red-900"
+            >
+              {downloadError}
+            </div>
+          )}
           {/* Main Primary Action: Download PNG */}
           <button
             onClick={handleDownloadPNG}

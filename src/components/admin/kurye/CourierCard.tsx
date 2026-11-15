@@ -11,7 +11,6 @@ import {
   ExternalLink,
   Edit2,
   Power,
-  Clock,
 } from "lucide-react";
 
 interface CourierCardProps {
@@ -29,18 +28,17 @@ export function CourierCard({
   completedOrderCount = 0,
   onEdit,
   onToggleShift,
-  onToggleActive,
 }: CourierCardProps) {
   const getVehicleIcon = (type: Courier["vehicleType"]) => {
     switch (type) {
       case "motorcycle":
-        return <Bike className="w-4 h-4 text-blue-400" />;
+        return <Bike className="w-4 h-4 text-[#24476B]" aria-hidden="true" />;
       case "car":
-        return <Car className="w-4 h-4 text-emerald-400" />;
+        return <Car className="w-4 h-4 text-[#1D5130]" aria-hidden="true" />;
       case "on_foot":
-        return <Footprints className="w-4 h-4 text-amber-400" />;
+        return <Footprints className="w-4 h-4 text-[#8E3D1B]" aria-hidden="true" />;
       default:
-        return <Bike className="w-4 h-4 text-blue-400" />;
+        return <Bike className="w-4 h-4 text-[#24476B]" aria-hidden="true" />;
     }
   };
 
@@ -58,26 +56,26 @@ export function CourierCard({
   };
 
   return (
-    <div className="bg-[#18130F] border border-[#261E17] rounded-3xl p-5 hover:border-[#F59E0B]/30 transition-all space-y-4 shadow-xl">
+    <div className="bg-[#FFFFFF] border border-[#E2D3BD] rounded-3xl p-5 hover:border-[#B4532A]/40 transition-colors space-y-4 shadow-xs">
       {/* Header: Name, Vehicle, Shift Badge */}
-      <div className="flex items-start justify-between gap-3 border-b border-[#261E17] pb-3.5">
+      <div className="flex items-start justify-between gap-3 border-b border-[#E2D3BD] pb-3.5">
         <div>
-          <div className="flex items-center gap-2">
-            <h3 className="font-serif font-bold text-base text-[#F7EBD3]">
+          <div className="flex flex-wrap items-center gap-2">
+            <h3 className="font-serif font-bold text-base text-[#3B1E1A]">
               {courier.displayName}
             </h3>
             <span
-              className={`px-2 py-0.5 rounded-full text-xs font-bold border ${
+              className={`px-2.5 py-0.5 rounded-full text-xs font-bold border ${
                 courier.isOnShift
-                  ? "bg-emerald-500/10 text-emerald-400 border-emerald-500/30"
-                  : "bg-stone-800 text-stone-400 border-stone-700"
+                  ? "bg-[#E5EFE7] text-[#1D5130] border-[#B4D3BC]"
+                  : "bg-[#F1E6D2] text-[#6E5148] border-[#E2D3BD]"
               }`}
             >
               {courier.isOnShift ? "Vardiyada (Aktif)" : "Vardiya Dışı"}
             </span>
           </div>
 
-          <div className="flex items-center gap-2 text-xs text-stone-400 mt-1 font-mono">
+          <div className="flex items-center gap-2 text-xs text-[#6E5148] mt-1 font-mono">
             {getVehicleIcon(courier.vehicleType)}
             <span>{getVehicleLabel(courier.vehicleType)}</span>
           </div>
@@ -85,69 +83,72 @@ export function CourierCard({
 
         <div className="flex items-center gap-1.5">
           <button
+            type="button"
             onClick={() => onEdit(courier)}
-            className="p-2 rounded-xl bg-[#261E17] hover:bg-[#342920] text-stone-300 transition-colors"
-            title="Kuryeyi Düzenle"
+            aria-label={`${courier.displayName} düzenle`}
+            className="min-w-10 min-h-10 rounded-xl bg-[#FBF6EC] hover:bg-[#F1E6D2] border border-[#E2D3BD] text-[#3B1E1A] inline-flex items-center justify-center transition-colors"
           >
-            <Edit2 className="w-3.5 h-3.5" />
+            <Edit2 className="w-3.5 h-3.5" aria-hidden="true" />
           </button>
           <button
+            type="button"
             onClick={() => onToggleShift(courier.id, courier.isOnShift)}
-            className={`p-2 rounded-xl border text-xs font-semibold transition-colors ${
+            aria-label={courier.isOnShift ? "Vardiyayı kapat" : "Vardiyayı başlat"}
+            aria-pressed={courier.isOnShift}
+            className={`min-w-10 min-h-10 rounded-xl border text-xs font-semibold inline-flex items-center justify-center transition-colors ${
               courier.isOnShift
-                ? "bg-emerald-500/20 text-emerald-400 border-emerald-500/40"
-                : "bg-stone-900 text-stone-500 border-stone-800 hover:text-stone-300"
+                ? "bg-[#E5EFE7] text-[#1D5130] border-[#B4D3BC] hover:bg-[#D7E8DC]"
+                : "bg-[#FBF6EC] text-[#6E5148] border-[#E2D3BD] hover:text-[#3B1E1A] hover:bg-[#F1E6D2]"
             }`}
-            title={courier.isOnShift ? "Vardiyayı Kapat" : "Vardiyayı Başlat"}
           >
-            <Power className="w-3.5 h-3.5" />
+            <Power className="w-3.5 h-3.5" aria-hidden="true" />
           </button>
         </div>
       </div>
 
       {/* Stats Ribbon */}
       <div className="grid grid-cols-2 gap-2 text-xs">
-        <div className="p-2.5 rounded-2xl bg-[#120E0B] border border-[#261E17]">
-          <span className="text-xs font-mono text-stone-500 uppercase block">Atanan Sipariş</span>
-          <span className="text-base font-bold text-stone-200">{assignedOrderCount}</span>
+        <div className="p-2.5 rounded-2xl bg-[#FBF6EC] border border-[#E2D3BD]">
+          <span className="text-xs font-mono text-[#6E5148] uppercase block">Atanan Sipariş</span>
+          <span className="text-base font-bold font-mono tabular-nums text-[#3B1E1A]">{assignedOrderCount}</span>
         </div>
-        <div className="p-2.5 rounded-2xl bg-[#120E0B] border border-[#261E17]">
-          <span className="text-xs font-mono text-stone-500 uppercase block">Teslim Edilen</span>
-          <span className="text-base font-bold text-emerald-400">{completedOrderCount}</span>
+        <div className="p-2.5 rounded-2xl bg-[#FBF6EC] border border-[#E2D3BD]">
+          <span className="text-xs font-mono text-[#6E5148] uppercase block">Teslim Edilen</span>
+          <span className="text-base font-bold font-mono tabular-nums text-[#1D5130]">{completedOrderCount}</span>
         </div>
       </div>
 
       {/* Phone and Live Location info */}
-      <div className="space-y-2 text-xs text-stone-400">
+      <div className="space-y-2 text-xs text-[#6E5148]">
         <div className="flex items-center justify-between">
-          <span className="text-stone-500">Telefon:</span>
+          <span className="text-[#6E5148]">Telefon:</span>
           <a
             href={`tel:${courier.phone}`}
-            className="font-mono text-[#F59E0B] hover:underline flex items-center gap-1 font-bold"
+            className="font-mono tabular-nums text-[#8E3D1B] hover:underline flex items-center gap-1 font-bold"
           >
-            <Phone className="w-3 h-3" />
+            <Phone className="w-3 h-3" aria-hidden="true" />
             <span>{courier.phone}</span>
           </a>
         </div>
 
         {courier.currentLat && courier.currentLng ? (
-          <div className="p-2.5 rounded-xl bg-blue-500/10 border border-blue-500/20 text-xs flex items-center justify-between text-blue-300">
+          <div className="p-2.5 rounded-xl bg-[#EEF3F8] border border-[#C5D5E4] text-xs flex items-center justify-between text-[#24476B]">
             <div className="flex items-center gap-1.5">
-              <MapPin className="w-3.5 h-3.5 text-blue-400" />
+              <MapPin className="w-3.5 h-3.5" aria-hidden="true" />
               <span>Canlı GPS Konumu Var</span>
             </div>
             <a
               href={`https://www.google.com/maps/search/?api=1&query=${courier.currentLat},${courier.currentLng}`}
               target="_blank"
               rel="noreferrer"
-              className="text-blue-400 hover:underline inline-flex items-center gap-1 font-medium"
+              className="text-[#24476B] hover:underline inline-flex items-center gap-1 font-semibold"
             >
               <span>Haritada Gör</span>
-              <ExternalLink className="w-3 h-3" />
+              <ExternalLink className="w-3 h-3" aria-hidden="true" />
             </a>
           </div>
         ) : (
-          <div className="text-xs text-stone-600 italic">
+          <div className="text-xs text-[#6E5148] italic">
             Henüz GPS sinyali alınmadı
           </div>
         )}

@@ -1,354 +1,637 @@
 "use client";
 
-import React, { useState } from "react";
-import { X, Edit, Loader2, Tag, Building2, TrendingUp } from "lucide-react";
-import { useCariler } from "@/hooks/useCariler";
+import React, { useEffect, useMemo, useRef, useState } from "react";
+import { Building2, Loader2, Search, ShieldAlert, Tag, X } from "lucide-react";
 import { useProducts } from "@/hooks/useProducts";
-import { CariAccount, BEYLIKDUZU_NEIGHBORHOODS } from "@/types/admin";
+import {
+  BEYLIKDUZU_NEIGHBORHOODS,
+  ISTANBUL_DISTRICTS,
+  type CariAccount,
+} from "@/types/admin";
 
-interface CariEditModalProps {
-  cari: CariAccount;
+export interface CariEditModalProps {
+  cari?: CariAccount | null;
+  isNew?: boolean;
   onClose: () => void;
-  onSuccess?: () => void;
+  onSuccess?: (accountId?: string) => void;
   initialTab?: "info" | "prices";
 }
 
-export default function CariEditModal({
-  cari,
+function formatMoney(n: number): string {
+  return n.toLocaleString("tr-TR", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+}
+
+export function CariEditModal({
+  cari = null,
+  isNew = false,
   onClose,
   onSuccess,
   initialTab = "info",
 }: CariEditModalProps) {
-  const { updateCari } = useCariler();
-  const { allProducts } = useProducts();
+  const createMode = isNew || !cari?.id;
+  const dialogRef = useRef<HTMLDialogElement | null>(null);
+
+  const { products, loading: productsLoading } = useProducts();
 
   const [activeTab, setActiveTab] = useState<"info" | "prices">(initialTab);
-
-  const [formData, setFormData] = useState({
-    businessName: cari.businessName || "",
-    contactPerson: cari.contactPerson || "",
-    phone: cari.phone || "",
-    neighborhood: cari.neighborhood || "",
-    address: cari.address || "",
-    taxOffice: cari.taxOffice || "",
-    taxNumber: cari.taxNumber || "",
-    accountType: cari.accountType || "musteri",
-    notes: cari.notes || "",
-  });
-
-  const [customPrices, setCustomPrices] = useState<Record<string, number>>(
-    cari.customPrices || {}
+  const [accountType, setAccountType] = useState<"musteri" | "gider">(cari?.accountType ?? "musteri");
+  const [businessName, setBusinessName] = useState(cari?.businessName ?? "");
+  const [companyTitle, setCompanyTitle] = useState(cari?.companyTitle ?? "");
+  const [contactPerson, setContactPerson] = useState(cari?.contactPerson ?? "");
+  const [phone, setPhone] = useState(cari?.phone ?? "");
+  const [district, setDistrict] = useState(cari?.district ?? "Beylikdüzü");
+  const [neighborhood, setNeighborhood] = useState(cari?.neighborhood ?? "");
+  const [address, setAddress] = useState(cari?.address ?? "");
+  const [taxOffice, setTaxOffice] = useState(cari?.taxOffice ?? "");
+  const [taxNumber, setTaxNumber] = useState(cari?.taxNumber ?? "");
+  const [creditLimitInput, setCreditLimitInput] = useState(
+    cari?.creditLimit && cari.creditLimit > 0 ? String(cari.creditLimit) : "",
   );
+  const [openingBalanceInput, setOpeningBalanceInput] = useState("");
+  const [notes, setNotes] = useState(cari?.notes ?? "");
 
-  const [loading, setLoading] = useState(false);
+  const [priceDrafts, setPriceDrafts] = useState<Record<string, string>>(() => {
+    const initial: Record<string, string> = {};
+    if (cari?.customPrices) {
+      for (const [pid, price] of Object.entries(cari.customPrices)) {
+        if (typeof price === "number" && price > 0) {
+          initial[pid] = String(price);
+        }
+      }
+    }
+    return initial;
+  });
+  const [productQuery, setProductQuery] = useState("");
+
+  const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const handlePriceChange = (productId: string, val: string) => {
-    const num = parseFloat(val);
-    setCustomPrices((prev) => {
-      const updated = { ...prev };
-      if (isNaN(num) || num <= 0) {
-        delete updated[productId];
-      } else {
-        updated[productId] = num;
-      }
-      return updated;
+  useEffect(() => {
+    const dialog = dialogRef.current;
+    if (!dialog) return;
+    if (!dialog.open) dialog.showModal();
+
+    const handleClose = () => {
+      dialog.returnValue = "";
+      onClose();
+    };
+
+    dialog.addEventListener("close", handleClose);
+    return () => {
+      dialog.removeEventListener("close", handleClose);
+    };
+  }, [onClose]);
+
+  const filteredProducts = useMemo(() => {
+    const q = productQuery.trim().toLocaleLowerCase("tr-TR");
+    const active = products.filter((p) => p.price > 0);
+    const matches = q
+      ? active.filter(
+          (p) =>
+            p.name.toLocaleLowerCase("tr-TR").includes(q) ||
+            (p.category ?? "").toLocaleLowerCase("tr-TR").includes(q),
+        )
+      : active;
+
+    return [...matches].sort((a, b) => {
+      const aHas = Number(priceDrafts[a.id]?.replace(",", ".")) > 0 ? 1 : 0;
+      const bHas = Number(priceDrafts[b.id]?.replace(",", ".")) > 0 ? 1 : 0;
+      if (aHas !== bHas) return bHas - aHas;
+      return a.name.localeCompare(b.name, "tr-TR");
     });
-  };
+  }, [products, productQuery, priceDrafts]);
+
+  const customPriceCount = useMemo(() => {
+    let count = 0;
+    for (const val of Object.values(priceDrafts)) {
+      const n = Number(val.replace(",", "."));
+      if (Number.isFinite(n) && n > 0) count += 1;
+    }
+    return count;
+  }, [priceDrafts]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!formData.businessName.trim()) {
-      setError("Müşteri adı zorunludur.");
+    setError(null);
+
+    if (!businessName.trim()) {
+      setError("İşletme / Cari adı zorunludur.");
+      setActiveTab("info");
       return;
     }
 
-    setLoading(true);
-    setError(null);
+    if (accountType === "musteri" && !phone.trim()) {
+      setError("Müşteri carisi için telefon numarası gereklidir.");
+      setActiveTab("info");
+      return;
+    }
+
+    const parsedCreditLimit = creditLimitInput.trim() ? Number(creditLimitInput.replace(",", ".")) : 0;
+    if (!Number.isFinite(parsedCreditLimit) || parsedCreditLimit < 0) {
+      setError("Kredi limiti 0 veya pozitif bir tutar olmalıdır.");
+      setActiveTab("info");
+      return;
+    }
+
+    const parsedOpeningBalance = openingBalanceInput.trim()
+      ? Number(openingBalanceInput.replace(",", "."))
+      : 0;
+    if (createMode && !Number.isFinite(parsedOpeningBalance)) {
+      setError("Açılış bakiyesi geçerli bir sayı olmalıdır.");
+      setActiveTab("info");
+      return;
+    }
+
+    const customPrices: Record<string, number> = {};
+    for (const [pid, rawVal] of Object.entries(priceDrafts)) {
+      const trimmed = rawVal.trim();
+      if (!trimmed) continue;
+      const num = Number(trimmed.replace(",", "."));
+      if (!Number.isFinite(num) || num <= 0) {
+        setError("Özel anlaşmalı fiyatlar 0'dan büyük geçerli tutarlar olmalıdır.");
+        setActiveTab("prices");
+        return;
+      }
+      customPrices[pid] = Math.round(num * 100) / 100;
+    }
+
+    setSaving(true);
     try {
-      const res = await updateCari(cari.id, {
-        ...formData,
+      const payload: Record<string, unknown> = {
+        accountType,
+        businessName: businessName.trim(),
+        companyTitle: companyTitle.trim(),
+        contactPerson: contactPerson.trim(),
+        phone: phone.trim(),
+        district: district.trim() || "Beylikdüzü",
+        neighborhood: neighborhood.trim() || "Cumhuriyet",
+        address: address.trim(),
+        taxOffice: taxOffice.trim(),
+        taxNumber: taxNumber.trim(),
+        creditLimit: Math.round(parsedCreditLimit * 100) / 100,
+        notes: notes.trim(),
         customPrices,
+      };
+
+      if (createMode && parsedOpeningBalance !== 0) {
+        payload.openingBalance = Math.round(parsedOpeningBalance * 100) / 100;
+      }
+
+      const url = createMode
+        ? "/api/admin/cari/accounts"
+        : `/api/admin/cari/accounts/${encodeURIComponent(cari.id)}`;
+      const method = createMode ? "POST" : "PATCH";
+
+      const res = await fetch(url, {
+        method,
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
       });
 
-      if (!res.success) {
-        throw new Error(res.error || "Müşteri güncellenemedi.");
+      const data = (await res.json().catch(() => null)) as { id?: string; error?: string } | null;
+      if (!res.ok) {
+        throw new Error(data?.error || "Cari hesap kaydedilemedi.");
       }
-      if (onSuccess) onSuccess();
-      onClose();
+
+      onSuccess?.(data?.id ?? cari?.id);
+      dialogRef.current?.close();
     } catch (err: unknown) {
-      const message = err instanceof Error ? err.message : "Müşteri güncellenemedi.";
-      setError(message);
+      setError(err instanceof Error ? err.message : "Bir hata oluştu.");
     } finally {
-      setLoading(false);
+      setSaving(false);
     }
   };
 
-  const customPriceCount = Object.keys(customPrices).length;
-
   return (
-    <div className="fixed inset-0 z-[9999] flex items-end sm:items-center justify-center bg-black/70 backdrop-blur-sm p-0 sm:p-4 overflow-y-auto">
-      <div className="absolute inset-0" onClick={onClose} />
-
-      <div className="bg-stone-900 border border-stone-800 w-full sm:max-w-xl rounded-t-3xl sm:rounded-3xl shadow-2xl overflow-hidden relative z-10 my-0 sm:my-8 max-h-[90vh] flex flex-col animate-slideUp">
-        {/* Mobile drag handle */}
-        <div className="sm:hidden flex justify-center pt-3 pb-1">
-          <div className="w-10 h-1 bg-stone-700 rounded-full" />
-        </div>
-
+    <dialog
+      ref={dialogRef}
+      closedby="closerequest"
+      onCancel={(e) => {
+        if (saving) e.preventDefault();
+      }}
+      aria-labelledby="cari-edit-modal-title"
+      className="m-auto mb-0 w-full max-w-2xl rounded-t-2xl border border-[#E2D3BD] bg-[#FBF6EC] p-0 text-[#3B1E1A] shadow-2xl overscroll-contain backdrop:overflow-hidden backdrop:overscroll-contain backdrop:bg-[#3B1E1A]/45 sm:mb-auto sm:rounded-2xl"
+    >
+      <div className="flex max-h-[92dvh] flex-col overflow-hidden">
         {/* Header */}
-        <div className="p-5 border-b border-stone-800 flex justify-between items-center bg-stone-950 shrink-0">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-2xl bg-amber-500/10 flex items-center justify-center text-amber-400">
-              <Edit className="w-5 h-5" />
-            </div>
-            <div>
-              <h3 className="font-bold text-stone-100 font-serif text-base sm:text-lg">
-                Müşteri Kartını Düzenle
-              </h3>
-              <p className="text-xs text-stone-400">{cari.businessName}</p>
-            </div>
+        <div className="flex items-center justify-between gap-3 border-b border-[#E2D3BD] bg-[#F6EEDF] px-4 py-3.5 sm:px-6">
+          <div className="min-w-0">
+            <p className="text-[11px] font-bold uppercase tracking-wider text-[#6E5148]">
+              {createMode ? "Yeni B2B / Cari Kartı" : "Cari Kartı & Özel Fiyat Düzenle"}
+            </p>
+            <h2 id="cari-edit-modal-title" className="truncate font-serif text-lg font-bold text-[#3B1E1A] sm:text-xl">
+              {createMode ? "Yeni Cari Hesap Aç" : cari?.businessName}
+            </h2>
           </div>
-          <button aria-label="Kapat"
-            onClick={onClose}
-            disabled={loading}
-            className="p-2 bg-stone-800 rounded-xl text-stone-400 hover:text-white min-h-[44px] min-w-[44px] flex items-center justify-center transition-colors"
+          <button
+            type="button"
+            onClick={() => dialogRef.current?.close()}
+            disabled={saving}
+            aria-label="Kapat"
+            className="flex min-h-11 min-w-11 items-center justify-center rounded-xl border border-[#E2D3BD] bg-white text-[#3B1E1A] transition hover:bg-[#F6EEDF] disabled:opacity-50"
           >
-            <X className="w-5 h-5" />
+            <X className="h-5 w-5" />
           </button>
         </div>
 
-        {/* Tab Selector */}
-        <div className="flex border-b border-stone-800 bg-stone-950/60 p-2 gap-2 shrink-0">
+        {/* Tabs */}
+        <div role="tablist" aria-label="Cari düzenleme sekmeleri" className="flex border-b border-[#E2D3BD] bg-white px-4 sm:px-6">
           <button
             type="button"
+            role="tab"
+            aria-selected={activeTab === "info"}
             onClick={() => setActiveTab("info")}
-            className={`flex-1 py-2.5 rounded-xl text-xs font-bold transition-all ${
+            className={`flex min-h-11 items-center gap-2 border-b-2 px-3 text-sm font-bold transition ${
               activeTab === "info"
-                ? "bg-stone-800 text-stone-100 shadow"
-                : "text-stone-400 hover:text-stone-200"
+                ? "border-[#B4532A] text-[#8E3D1B]"
+                : "border-transparent text-[#6E5148] hover:text-[#3B1E1A]"
             }`}
           >
-            Firma Bilgileri
+            <Building2 className="h-4 w-4" />
+            Kurumsal Bilgiler &amp; Limit
           </button>
           <button
             type="button"
+            role="tab"
+            aria-selected={activeTab === "prices"}
             onClick={() => setActiveTab("prices")}
-            className={`flex-1 py-2.5 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-1.5 ${
+            className={`flex min-h-11 items-center gap-2 border-b-2 px-3 text-sm font-bold transition ${
               activeTab === "prices"
-                ? "bg-artisan-terracotta text-white font-black shadow"
-                : "text-stone-400 hover:text-stone-200"
+                ? "border-[#B4532A] text-[#8E3D1B]"
+                : "border-transparent text-[#6E5148] hover:text-[#3B1E1A]"
             }`}
           >
-            <Tag className="w-3.5 h-3.5" />
-            Özel Fiyatlar {customPriceCount > 0 && `(${customPriceCount})`}
+            <Tag className="h-4 w-4" />
+            Özel Fiyat Matrisi
+            {customPriceCount > 0 && (
+              <span className="rounded-full bg-[#B4532A] px-2 py-0.5 font-mono text-[11px] font-bold text-white">
+                {customPriceCount}
+              </span>
+            )}
           </button>
         </div>
 
-        <form onSubmit={handleSubmit} className="p-5 space-y-4 overflow-y-auto flex-1">
+        {/* Form Body */}
+        <form id="cari-edit-form" onSubmit={handleSubmit} className="flex-1 overflow-y-auto p-4 sm:p-6">
           {error && (
-            <div className="p-3 bg-rose-500/10 border border-rose-500/20 rounded-xl text-rose-400 text-xs">
-              {error}
+            <div
+              role="alert"
+              aria-live="polite"
+              className="mb-4 flex items-start gap-2 rounded-xl border border-red-300 bg-red-50 px-3.5 py-2.5 text-sm text-red-900"
+            >
+              <ShieldAlert className="mt-0.5 h-4 w-4 shrink-0 text-red-700" />
+              <span>{error}</span>
             </div>
           )}
 
           {activeTab === "info" ? (
             <div className="space-y-4">
-              {/* Business Name */}
-              <div className="space-y-1.5">
-                <label className="text-xs font-bold text-stone-300">
-                  İşletme / Firma Adı <span className="text-rose-400">*</span>
-                </label>
-                <input
-                  type="text"
-                  required
-                  value={formData.businessName}
-                  onChange={(e) => setFormData({ ...formData, businessName: e.target.value })}
-                  placeholder="Örn: Beylikdüzü Cafe"
-                  className="w-full bg-stone-950 border border-stone-800 rounded-xl px-4 py-3 text-sm text-stone-100 focus:outline-none focus:border-artisan-terracotta/50"
-                />
-              </div>
+              {createMode && (
+                <fieldset>
+                  <legend className="mb-1.5 text-xs font-bold uppercase tracking-wider text-[#6E5148]">
+                    Hesap Türü
+                  </legend>
+                  <div className="grid grid-cols-2 gap-2">
+                    <button
+                      type="button"
+                      onClick={() => setAccountType("musteri")}
+                      className={`min-h-11 rounded-xl border px-3 text-sm font-bold transition ${
+                        accountType === "musteri"
+                          ? "border-[#B4532A] bg-[#B4532A] text-white"
+                          : "border-[#E2D3BD] bg-white text-[#3B1E1A] hover:bg-[#F6EEDF]"
+                      }`}
+                    >
+                      B2B Müşteri (Şarküteri/Kafe)
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setAccountType("gider")}
+                      className={`min-h-11 rounded-xl border px-3 text-sm font-bold transition ${
+                        accountType === "gider"
+                          ? "border-[#3B1E1A] bg-[#3B1E1A] text-white"
+                          : "border-[#E2D3BD] bg-white text-[#3B1E1A] hover:bg-[#F6EEDF]"
+                      }`}
+                    >
+                      Dükkan Gideri / Tedarikçi
+                    </button>
+                  </div>
+                </fieldset>
+              )}
 
-              {/* Contact Person & Phone */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                <div className="space-y-1.5">
-                  <label className="text-xs font-bold text-stone-300">Yetkili Kişi</label>
+              <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+                <div>
+                  <label htmlFor="cari-business-name" className="mb-1 block text-xs font-bold text-[#6E5148]">
+                    Tabela / İşletme Adı *
+                  </label>
                   <input
+                    id="cari-business-name"
                     type="text"
-                    value={formData.contactPerson}
-                    onChange={(e) => setFormData({ ...formData, contactPerson: e.target.value })}
-                    placeholder="Serkan Bey"
-                    className="w-full bg-stone-950 border border-stone-800 rounded-xl px-4 py-3 text-sm text-stone-100 focus:outline-none focus:border-artisan-terracotta/50"
+                    required
+                    value={businessName}
+                    onChange={(e) => setBusinessName(e.target.value)}
+                    placeholder="Örn. Gurme Şarküteri"
+                    className="min-h-11 w-full rounded-xl border border-[#E2D3BD] bg-white px-3 text-base text-[#3B1E1A] focus:border-[#B4532A] focus:outline-none sm:text-sm"
                   />
                 </div>
-                <div className="space-y-1.5">
-                  <label className="text-xs font-bold text-stone-300">Telefon</label>
+                <div>
+                  <label htmlFor="cari-company-title" className="mb-1 block text-xs font-bold text-[#6E5148]">
+                    Resmi Ticari Unvan (İrsaliye / Fatura)
+                  </label>
                   <input
+                    id="cari-company-title"
+                    type="text"
+                    value={companyTitle}
+                    onChange={(e) => setCompanyTitle(e.target.value)}
+                    placeholder="Örn. Gurme Gıda Turizm Ltd. Şti."
+                    className="min-h-11 w-full rounded-xl border border-[#E2D3BD] bg-white px-3 text-base text-[#3B1E1A] focus:border-[#B4532A] focus:outline-none sm:text-sm"
+                  />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+                <div>
+                  <label htmlFor="cari-contact-person" className="mb-1 block text-xs font-bold text-[#6E5148]">
+                    Yetkili Kişi
+                  </label>
+                  <input
+                    id="cari-contact-person"
+                    type="text"
+                    value={contactPerson}
+                    onChange={(e) => setContactPerson(e.target.value)}
+                    placeholder="Ad Soyad"
+                    className="min-h-11 w-full rounded-xl border border-[#E2D3BD] bg-white px-3 text-base text-[#3B1E1A] focus:border-[#B4532A] focus:outline-none sm:text-sm"
+                  />
+                </div>
+                <div>
+                  <label htmlFor="cari-phone" className="mb-1 block text-xs font-bold text-[#6E5148]">
+                    Telefon {accountType === "musteri" ? "*" : ""}
+                  </label>
+                  <input
+                    id="cari-phone"
                     type="tel"
-                    value={formData.phone}
-                    onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                    placeholder="0535 000 00 00"
-                    className="w-full bg-stone-950 border border-stone-800 rounded-xl px-4 py-3 text-sm text-stone-100 focus:outline-none focus:border-artisan-terracotta/50"
+                    inputMode="tel"
+                    value={phone}
+                    onChange={(e) => setPhone(e.target.value)}
+                    placeholder="05XX XXX XX XX"
+                    className="min-h-11 w-full rounded-xl border border-[#E2D3BD] bg-white px-3 font-mono text-base text-[#3B1E1A] focus:border-[#B4532A] focus:outline-none sm:text-sm"
                   />
                 </div>
               </div>
 
-              {/* Neighborhood */}
-              <div className="space-y-1.5">
-                <label className="text-xs font-bold text-stone-300">Mahalle</label>
-                <select
-                  value={formData.neighborhood}
-                  onChange={(e) => setFormData({ ...formData, neighborhood: e.target.value })}
-                  className="w-full bg-stone-950 border border-stone-800 rounded-xl px-4 py-3 text-sm text-stone-100 focus:outline-none focus:border-artisan-terracotta/50 appearance-none"
-                >
-                  <option value="">Mahalle Seçiniz...</option>
-                  {BEYLIKDUZU_NEIGHBORHOODS.map((n) => (
-                    <option key={n} value={n}>
-                      {n}
-                    </option>
-                  ))}
-                </select>
+              {/* Serbest İlçe + Serbest Mahalle/Semt */}
+              <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+                <div>
+                  <label htmlFor="cari-district" className="mb-1 block text-xs font-bold text-[#6E5148]">
+                    İlçe (Serbest Giriş / İstanbul)
+                  </label>
+                  <input
+                    id="cari-district"
+                    type="text"
+                    list="istanbul-districts-datalist"
+                    value={district}
+                    onChange={(e) => setDistrict(e.target.value)}
+                    placeholder="Örn. Beylikdüzü, Bakırköy, Kadıköy"
+                    className="min-h-11 w-full rounded-xl border border-[#E2D3BD] bg-white px-3 text-base text-[#3B1E1A] focus:border-[#B4532A] focus:outline-none sm:text-sm"
+                  />
+                  <datalist id="istanbul-districts-datalist">
+                    {ISTANBUL_DISTRICTS.map((d) => (
+                      <option key={d} value={d} />
+                    ))}
+                  </datalist>
+                </div>
+                <div>
+                  <label htmlFor="cari-neighborhood" className="mb-1 block text-xs font-bold text-[#6E5148]">
+                    Mahalle / Semt (Serbest Giriş)
+                  </label>
+                  <input
+                    id="cari-neighborhood"
+                    type="text"
+                    list="beylikduzu-neighborhoods-datalist"
+                    value={neighborhood}
+                    onChange={(e) => setNeighborhood(e.target.value)}
+                    placeholder="Örn. Adnan Kahveci veya semt adı"
+                    className="min-h-11 w-full rounded-xl border border-[#E2D3BD] bg-white px-3 text-base text-[#3B1E1A] focus:border-[#B4532A] focus:outline-none sm:text-sm"
+                  />
+                  <datalist id="beylikduzu-neighborhoods-datalist">
+                    {BEYLIKDUZU_NEIGHBORHOODS.map((n) => (
+                      <option key={n} value={n} />
+                    ))}
+                  </datalist>
+                </div>
               </div>
 
-              {/* Address */}
-              <div className="space-y-1.5">
-                <label className="text-xs font-bold text-stone-300">Tam Adres</label>
+              <div>
+                <label htmlFor="cari-address" className="mb-1 block text-xs font-bold text-[#6E5148]">
+                  Teslimat / Sevk Adresi
+                </label>
                 <textarea
+                  id="cari-address"
                   rows={2}
-                  value={formData.address}
-                  onChange={(e) => setFormData({ ...formData, address: e.target.value })}
-                  placeholder="Cadde, sokak, bina no..."
-                  className="w-full bg-stone-950 border border-stone-800 rounded-xl px-4 py-3 text-sm text-stone-100 focus:outline-none focus:border-artisan-terracotta/50 resize-none"
+                  value={address}
+                  onChange={(e) => setAddress(e.target.value)}
+                  placeholder="Cadde, sokak, bina no, tarif..."
+                  className="w-full rounded-xl border border-[#E2D3BD] bg-white p-3 text-base text-[#3B1E1A] focus:border-[#B4532A] focus:outline-none sm:text-sm"
                 />
               </div>
 
-              {/* Tax Office & Tax Number */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                <div className="space-y-1.5">
-                  <label className="text-xs font-bold text-stone-300">Vergi Dairesi</label>
+              {/* Vergi Dairesi, VKN, Kredi Limiti */}
+              <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
+                <div>
+                  <label htmlFor="cari-tax-office" className="mb-1 block text-xs font-bold text-[#6E5148]">
+                    Vergi Dairesi
+                  </label>
                   <input
+                    id="cari-tax-office"
                     type="text"
-                    value={formData.taxOffice}
-                    onChange={(e) => setFormData({ ...formData, taxOffice: e.target.value })}
-                    placeholder="Beylikdüzü VD"
-                    className="w-full bg-stone-950 border border-stone-800 rounded-xl px-4 py-3 text-sm text-stone-100 focus:outline-none focus:border-artisan-terracotta/50"
+                    value={taxOffice}
+                    onChange={(e) => setTaxOffice(e.target.value)}
+                    placeholder="Örn. Beylikdüzü VD"
+                    className="min-h-11 w-full rounded-xl border border-[#E2D3BD] bg-white px-3 text-base text-[#3B1E1A] focus:border-[#B4532A] focus:outline-none sm:text-sm"
                   />
                 </div>
-                <div className="space-y-1.5">
-                  <label className="text-xs font-bold text-stone-300">Vergi / TC No</label>
+                <div>
+                  <label htmlFor="cari-tax-number" className="mb-1 block text-xs font-bold text-[#6E5148]">
+                    VKN / TCKN
+                  </label>
                   <input
+                    id="cari-tax-number"
                     type="text"
-                    value={formData.taxNumber}
-                    onChange={(e) => setFormData({ ...formData, taxNumber: e.target.value })}
-                    placeholder="1234567890"
-                    className="w-full bg-stone-950 border border-stone-800 rounded-xl px-4 py-3 text-sm text-stone-100 focus:outline-none focus:border-artisan-terracotta/50"
+                    inputMode="numeric"
+                    value={taxNumber}
+                    onChange={(e) => setTaxNumber(e.target.value)}
+                    placeholder="10 veya 11 hane"
+                    className="min-h-11 w-full rounded-xl border border-[#E2D3BD] bg-white px-3 font-mono text-base text-[#3B1E1A] focus:border-[#B4532A] focus:outline-none sm:text-sm"
+                  />
+                </div>
+                <div>
+                  <label htmlFor="cari-credit-limit" className="mb-1 block text-xs font-bold text-[#6E5148]">
+                    Kredi Limiti (₺ · 0 = Limitsiz)
+                  </label>
+                  <input
+                    id="cari-credit-limit"
+                    type="text"
+                    inputMode="decimal"
+                    value={creditLimitInput}
+                    onChange={(e) => setCreditLimitInput(e.target.value)}
+                    placeholder="Örn. 15000"
+                    className="min-h-11 w-full rounded-xl border border-[#E2D3BD] bg-white px-3 font-mono text-base font-bold tabular-nums text-[#3B1E1A] focus:border-[#B4532A] focus:outline-none sm:text-sm"
                   />
                 </div>
               </div>
 
-              {/* Account Type */}
-              <div className="space-y-1.5">
-                <label className="text-xs font-bold text-stone-300">Hesap Türü</label>
-                <div className="flex gap-2">
-                  <button
-                    type="button"
-                    onClick={() => setFormData({ ...formData, accountType: "musteri" })}
-                    className={`flex-1 py-3 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-2 ${
-                      formData.accountType !== "gider"
-                        ? "bg-artisan-terracotta text-white font-black"
-                        : "bg-stone-800 text-stone-400 border border-stone-700"
-                    }`}
-                  >
-                    <Building2 className="w-4 h-4" />
-                    Müşteri / Cari
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => setFormData({ ...formData, accountType: "gider" })}
-                    className={`flex-1 py-3 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-2 ${
-                      formData.accountType === "gider"
-                        ? "bg-rose-500 text-white font-black"
-                        : "bg-stone-800 text-stone-400 border border-stone-700"
-                    }`}
-                  >
-                    <TrendingUp className="w-4 h-4" />
-                    Gider / Tedarikçi
-                  </button>
+              {createMode && (
+                <div>
+                  <label htmlFor="cari-opening-balance" className="mb-1 block text-xs font-bold text-[#6E5148]">
+                    Açılış Devir Bakiyesi (₺ · Opsiyonel, Pozitif = Müşteri Borcu)
+                  </label>
+                  <input
+                    id="cari-opening-balance"
+                    type="text"
+                    inputMode="decimal"
+                    value={openingBalanceInput}
+                    onChange={(e) => setOpeningBalanceInput(e.target.value)}
+                    placeholder="0.00"
+                    className="min-h-11 w-full rounded-xl border border-[#E2D3BD] bg-white px-3 font-mono text-base font-bold tabular-nums text-[#3B1E1A] focus:border-[#B4532A] focus:outline-none sm:text-sm"
+                  />
                 </div>
-              </div>
+              )}
 
-              {/* Notes */}
-              <div className="space-y-1.5">
-                <label className="text-xs font-bold text-stone-300">Notlar</label>
+              <div>
+                <label htmlFor="cari-notes" className="mb-1 block text-xs font-bold text-[#6E5148]">
+                  İç Operasyon Notu
+                </label>
                 <textarea
+                  id="cari-notes"
                   rows={2}
-                  value={formData.notes}
-                  onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
-                  placeholder="Müşteriyle ilgili operasyonel notlar..."
-                  className="w-full bg-stone-950 border border-stone-800 rounded-xl px-4 py-3 text-sm text-stone-100 focus:outline-none focus:border-artisan-terracotta/50 resize-none"
+                  value={notes}
+                  onChange={(e) => setNotes(e.target.value)}
+                  placeholder="Teslimat saati, sevkiyat günü veya ödeme anlaşması notu..."
+                  className="w-full rounded-xl border border-[#E2D3BD] bg-white p-3 text-base text-[#3B1E1A] focus:border-[#B4532A] focus:outline-none sm:text-sm"
                 />
               </div>
             </div>
           ) : (
             <div className="space-y-3">
-              <div className="p-3 bg-stone-950 rounded-xl border border-stone-800 text-xs text-stone-400">
-                Bu müşteriye özel toptan satış fiyatı tanımlayabilirsiniz. Fiş keserken bu fiyatlar otomatik gelecektir. Boş bırakılan ürünlerde standart liste fiyatı uygulanır.
+              <div className="rounded-xl border border-[#E2D3BD] bg-white p-3 text-xs text-[#6E5148]">
+                Buraya girdiğiniz özel fiyatlar, hem <strong className="text-[#3B1E1A]">Araçtan Sıcak Satış</strong> hem
+                de kurumsal fişlerde standart vitrin fiyatının yerine uygulanır. Boş bırakılan ürünlerde vitrin fiyatı
+                geçerlidir.
               </div>
 
-              <div className="divide-y divide-stone-800 max-h-[45vh] overflow-y-auto pr-1">
-                {allProducts.map((p) => {
-                  const currentCustomPrice = customPrices[p.id];
-                  return (
-                    <div key={p.id} className="py-2.5 flex items-center justify-between gap-3">
-                      <div className="flex-1 min-w-0">
-                        <div className="text-sm font-bold text-stone-200 truncate">{p.name}</div>
-                        <div className="text-xs text-stone-500">
-                          Standart Fiyat: <span className="font-mono text-stone-400">{p.price} ₺</span>
+              <div className="relative">
+                <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[#6E5148]" />
+                <label htmlFor="custom-price-product-search" className="sr-only">
+                  Ürün ara
+                </label>
+                <input
+                  id="custom-price-product-search"
+                  type="search"
+                  value={productQuery}
+                  onChange={(e) => setProductQuery(e.target.value)}
+                  placeholder="Ürün adı veya kategori ara..."
+                  className="min-h-11 w-full rounded-xl border border-[#E2D3BD] bg-white pl-9 pr-3 text-base text-[#3B1E1A] focus:border-[#B4532A] focus:outline-none sm:text-sm"
+                />
+              </div>
+
+              {productsLoading ? (
+                <div className="flex items-center justify-center py-8 text-sm text-[#6E5148]">
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  Katalog yükleniyor...
+                </div>
+              ) : (
+                <div className="max-h-80 space-y-2 overflow-y-auto pr-1">
+                  {filteredProducts.map((prod) => {
+                    const draft = priceDrafts[prod.id] ?? "";
+                    const parsedVal = Number(draft.replace(",", "."));
+                    const hasCustom = draft.trim() !== "" && Number.isFinite(parsedVal) && parsedVal > 0;
+                    return (
+                      <div
+                        key={prod.id}
+                        className={`flex items-center justify-between gap-3 rounded-xl border p-3 ${
+                          hasCustom ? "border-[#B4532A] bg-white" : "border-[#E2D3BD] bg-white/75"
+                        }`}
+                      >
+                        <div className="min-w-0 flex-1">
+                          <p className="truncate text-sm font-bold text-[#3B1E1A]">{prod.name}</p>
+                          <p className="mt-0.5 text-xs text-[#6E5148]">
+                            Vitrin Fiyatı:{" "}
+                            <span className="font-mono font-semibold tabular-nums">{formatMoney(prod.price)} ₺</span>
+                            {hasCustom && (
+                              <span className="ml-2 font-semibold text-[#8E3D1B]">
+                                ({Math.round(((parsedVal - prod.price) / prod.price) * 100)}%)
+                              </span>
+                            )}
+                          </p>
+                        </div>
+
+                        <div className="flex shrink-0 items-center gap-1.5">
+                          <label htmlFor={`custom-price-${prod.id}`} className="sr-only">
+                            {prod.name} özel fiyatı
+                          </label>
+                          <input
+                            id={`custom-price-${prod.id}`}
+                            type="text"
+                            inputMode="decimal"
+                            value={draft}
+                            onChange={(e) =>
+                              setPriceDrafts((prev) => ({
+                                ...prev,
+                                [prod.id]: e.target.value,
+                              }))
+                            }
+                            placeholder={prod.price.toFixed(2)}
+                            className="min-h-11 w-24 rounded-xl border border-[#E2D3BD] bg-[#FBF6EC] px-2.5 text-right font-mono text-base font-bold tabular-nums text-[#3B1E1A] focus:border-[#B4532A] focus:outline-none sm:text-sm"
+                          />
+                          <span className="text-xs font-bold text-[#6E5148]">₺</span>
+                          {draft !== "" && (
+                            <button
+                              type="button"
+                              onClick={() =>
+                                setPriceDrafts((prev) => {
+                                  const next = { ...prev };
+                                  delete next[prod.id];
+                                  return next;
+                                })
+                              }
+                              aria-label={`${prod.name} özel fiyatını temizle`}
+                              className="flex min-h-11 min-w-11 items-center justify-center rounded-xl border border-[#E2D3BD] bg-[#FBF6EC] text-[#6E5148] hover:text-[#3B1E1A]"
+                            >
+                              <X className="h-4 w-4" />
+                            </button>
+                          )}
                         </div>
                       </div>
-                      <div className="flex items-center gap-1.5 shrink-0 w-32">
-                        <input
-                          type="number"
-                          step="0.5"
-                          min="0"
-                          placeholder={String(p.price)}
-                          value={currentCustomPrice !== undefined ? currentCustomPrice : ""}
-                          onChange={(e) => handlePriceChange(p.id, e.target.value)}
-                          className={`w-full bg-stone-950 border rounded-xl px-3 py-2 text-sm text-right font-mono focus:outline-none transition-colors ${
-                            currentCustomPrice !== undefined
-                              ? "border-amber-500 text-amber-400 font-bold"
-                              : "border-stone-800 text-stone-300"
-                          }`}
-                        />
-                        <span className="text-xs text-stone-500 font-bold">₺</span>
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
+                    );
+                  })}
+                </div>
+              )}
             </div>
           )}
-
-          {/* Submit Buttons */}
-          <div className="flex gap-3 pt-3 border-t border-stone-800">
-            <button
-              type="button"
-              onClick={onClose}
-              disabled={loading}
-              className="flex-1 py-3 bg-stone-800 hover:bg-stone-700 text-stone-300 rounded-xl text-sm font-bold transition-colors"
-            >
-              Vazgeç
-            </button>
-            <button
-              type="submit"
-              disabled={loading}
-              className="flex-1 py-3 bg-artisan-terracotta hover:bg-artisan-terracotta-dark text-white rounded-xl text-sm font-black transition-all shadow-lg shadow-artisan-terracotta/20 active:scale-95 flex items-center justify-center gap-2"
-            >
-              {loading ? <Loader2 className="w-5 h-5 animate-spin" /> : "Değişiklikleri Kaydet"}
-            </button>
-          </div>
         </form>
+
+        {/* Footer */}
+        <div className="flex items-center justify-end gap-2 border-t border-[#E2D3BD] bg-[#F6EEDF] px-4 py-3 sm:px-6">
+          <button
+            type="button"
+            onClick={() => dialogRef.current?.close()}
+            disabled={saving}
+            className="min-h-11 rounded-xl border border-[#E2D3BD] bg-white px-4 text-sm font-semibold text-[#3B1E1A] transition hover:bg-[#FBF6EC] disabled:opacity-50"
+          >
+            Vazgeç
+          </button>
+          <button
+            type="submit"
+            form="cari-edit-form"
+            disabled={saving}
+            className="flex min-h-12 items-center gap-2 rounded-xl bg-[#B4532A] px-5 text-sm font-bold text-white shadow-sm transition hover:bg-[#9C4421] disabled:opacity-50"
+          >
+            {saving && <Loader2 className="h-4 w-4 animate-spin" />}
+            {saving ? "Kaydediliyor..." : createMode ? "Cariyi Oluştur" : "Değişiklikleri Kaydet"}
+          </button>
+        </div>
       </div>
-    </div>
+    </dialog>
   );
 }
+
+export default CariEditModal;

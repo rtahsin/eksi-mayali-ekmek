@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { verifyApiAuth } from "@/lib/security/apiAuth";
-import { checkRateLimit, getClientIp } from "@/lib/security/rateLimiter";
+import { checkRateLimit, ipRateLimitKey } from "@/lib/security/rateLimiter";
 import { signSlipToken, verifyAccountToken } from "@/lib/security/linkToken";
 import { LEDGER_SELECT, mapLedger, type LedgerRow } from "@/lib/cari/ledger";
 import { getErrorMessage } from "@/lib/utils/error";
@@ -15,25 +15,37 @@ export async function GET(req: Request, { params }: { params: Promise<{ id: stri
     const { id } = await params;
     if (!id || id.length > 80) return notFound();
 
-    const limit = await checkRateLimit(`ekstre_get_${getClientIp(req)}`, 30, 60000);
+    const limit = await checkRateLimit(ipRateLimitKey("ekstre_get", req), 30, 60000);
     if (!limit.allowed) {
       return NextResponse.json({ error: `Çok fazla istek. ${limit.retryAfterSeconds} sn sonra deneyin.` }, { status: 429 });
     }
 
     const token = new URL(req.url).searchParams.get("t");
-    if (!verifyAccountToken(id, token) && !(await verifyApiAuth(req)).isAdmin) return notFound();
-
     const supabase = createAdminClient();
     if (!supabase) return NextResponse.json({ error: "Supabase unconfigured" }, { status: 500 });
 
     const { data: acc, error: accErr } = await supabase
       .from("current_accounts")
-      .select("id, name, contact_person, phone, tax_id, balance")
+      .select("id, name, contact_person, phone, tax_id, balance, share_token_version")
       .eq("id", id)
       .maybeSingle();
     if (accErr) throw accErr;
     if (!acc) return notFound();
-    const a = acc as { id: string; name: string | null; contact_person: string | null; phone: string | null; tax_id: string | null; balance: number | string | null };
+
+    const a = acc as {
+      id: string;
+      name: string | null;
+      contact_person: string | null;
+      phone: string | null;
+      tax_id: string | null;
+      balance: number | string | null;
+      share_token_version: number | null;
+    };
+    const shareTokenVersion = Number(a.share_token_version) || 1;
+
+    if (!verifyAccountToken(id, token, shareTokenVersion) && !(await verifyApiAuth(req)).isAdmin) {
+      return notFound();
+    }
 
     const { data: rows, error: txErr } = await supabase
       .from("account_transactions")
@@ -45,7 +57,7 @@ export async function GET(req: Request, { params }: { params: Promise<{ id: stri
 
     const transactions = mapLedger((rows ?? []) as LedgerRow[]).map((tx) => ({
       ...tx,
-      slipToken: signSlipToken(tx.id),
+      slipToken: signSlipToken(tx.id, shareTokenVersion),
     }));
 
     return NextResponse.json(

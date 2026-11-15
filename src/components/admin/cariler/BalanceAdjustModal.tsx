@@ -1,9 +1,9 @@
 "use client";
 
-import React, { useState } from "react";
-import { X, Scale, Loader2, CheckCircle2, ArrowRight } from "lucide-react";
-import { CariAccount } from "@/types/admin";
+import React, { useEffect, useRef, useState } from "react";
+import { ArrowRight, CheckCircle2, Loader2, Scale, ShieldAlert, X } from "lucide-react";
 import { recordLedger } from "@/hooks/useCariler";
+import type { CariAccount } from "@/types/admin";
 
 interface BalanceAdjustModalProps {
   cari: CariAccount;
@@ -16,27 +16,46 @@ export default function BalanceAdjustModal({
   onClose,
   onSuccess,
 }: BalanceAdjustModalProps) {
-  const currentBalance = Number(cari.balance) || 0;
+  const currentBalance = Math.round((Number(cari.balance) || 0) * 100) / 100;
+  const dialogRef = useRef<HTMLDialogElement | null>(null);
+
   const [targetBalanceStr, setTargetBalanceStr] = useState<string>(String(currentBalance));
   const [reason, setReason] = useState<string>("Mutabakat");
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
-  const targetBalance = parseFloat(targetBalanceStr) || 0;
-  const diff = targetBalance - currentBalance;
+  useEffect(() => {
+    const dialog = dialogRef.current;
+    if (!dialog) return;
+    if (!dialog.open) dialog.showModal();
+
+    const handleClose = () => {
+      dialog.returnValue = "";
+      onClose();
+    };
+    dialog.addEventListener("close", handleClose);
+    return () => dialog.removeEventListener("close", handleClose);
+  }, [onClose]);
+
+  const parsedTarget = Number(targetBalanceStr.replace(",", "."));
+  const hasValidNumber = targetBalanceStr.trim() !== "" && Number.isFinite(parsedTarget);
+  const targetBalance = hasValidNumber ? Math.round(parsedTarget * 100) / 100 : currentBalance;
+  const diff = Math.round((targetBalance - currentBalance) * 100) / 100;
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (isNaN(targetBalance)) {
-      setError("Lütfen geçerli bir bakiye tutarı girin.");
+    if (!hasValidNumber) {
+      setError("Lütfen geçerli bir hedef bakiye tutarı girin.");
+      return;
+    }
+    if (!reason.trim()) {
+      setError("Bakiye düzeltme gerekçesi zorunludur.");
       return;
     }
 
     setLoading(true);
     setError(null);
-
     try {
-      // Fark kadar tek "devir" satırı (atomik RPC); geçmiş kayıtlara dokunulmaz
       const res = await recordLedger(cari.id, {
         kind: "set_balance",
         targetBalance,
@@ -45,166 +64,148 @@ export default function BalanceAdjustModal({
       if (!res.success) {
         throw new Error(res.error || "Bakiye güncellenemedi.");
       }
-
       onSuccess(targetBalance);
-      onClose();
+      dialogRef.current?.close();
     } catch (err: unknown) {
-      const msg = err instanceof Error ? err.message : "Bakiye güncellenemedi.";
-      setError(msg);
+      setError(err instanceof Error ? err.message : "Bakiye güncellenemedi.");
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="fixed inset-0 z-[9999] flex items-end sm:items-center justify-center bg-black/75 backdrop-blur-sm p-0 sm:p-4 overflow-y-auto">
-      <div className="absolute inset-0" onClick={onClose} />
-
-      <div className="bg-[#140F0B] border border-[#2E2219] w-full sm:max-w-md rounded-t-3xl sm:rounded-3xl shadow-2xl overflow-hidden relative z-10 my-0 sm:my-8 max-h-[90vh] flex flex-col animate-slideUp">
-        {/* Mobile handle */}
-        <div className="sm:hidden flex justify-center pt-3 pb-1">
-          <div className="w-10 h-1 bg-stone-700 rounded-full" />
-        </div>
-
+    <dialog
+      ref={dialogRef}
+      closedby="closerequest"
+      onCancel={(e) => {
+        if (loading) e.preventDefault();
+      }}
+      aria-labelledby="balance-adjust-title"
+      className="m-auto mb-0 w-full max-w-md rounded-t-2xl border border-[#E2D3BD] bg-[#FBF6EC] p-0 text-[#3B1E1A] shadow-2xl overscroll-contain backdrop:overflow-hidden backdrop:overscroll-contain backdrop:bg-[#3B1E1A]/45 sm:mb-auto sm:rounded-2xl"
+    >
+      <div className="flex flex-col overflow-hidden">
         {/* Header */}
-        <div className="p-5 border-b border-[#261E17] flex justify-between items-center bg-[#18130F] shrink-0">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-2xl bg-amber-500/10 flex items-center justify-center text-amber-400">
-              <Scale className="w-5 h-5" />
+        <div className="flex items-center justify-between gap-3 border-b border-[#E2D3BD] bg-[#F6EEDF] px-5 py-4">
+          <div className="flex min-w-0 items-center gap-3">
+            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-[#E2D3BD] bg-white text-[#B4532A]">
+              <Scale className="h-5 w-5" />
             </div>
-            <div>
-              <h3 className="font-bold text-stone-100 font-serif text-base">
-                Cari Bakiye Düzeltme
-              </h3>
-              <p className="text-xs text-stone-400">{cari.businessName}</p>
+            <div className="min-w-0">
+              <h2 id="balance-adjust-title" className="font-serif text-lg font-bold text-[#3B1E1A]">
+                Bakiye Mutabakatı / Düzelt
+              </h2>
+              <p className="truncate text-xs text-[#6E5148]">{cari.businessName}</p>
             </div>
           </div>
-          <button aria-label="Kapat"
-            onClick={onClose}
-            className="p-2 bg-stone-900 rounded-xl text-stone-400 hover:text-white transition-colors"
+          <button
+            type="button"
+            onClick={() => dialogRef.current?.close()}
+            disabled={loading}
+            aria-label="Kapat"
+            className="flex min-h-11 min-w-11 items-center justify-center rounded-xl border border-[#E2D3BD] bg-white text-[#3B1E1A] transition hover:bg-[#F6EEDF] disabled:opacity-50"
           >
-            <X className="w-5 h-5" />
+            <X className="h-5 w-5" />
           </button>
         </div>
 
-        {/* Form */}
-        <form onSubmit={handleSubmit} className="p-5 space-y-4 overflow-y-auto flex-1">
+        <form onSubmit={handleSubmit} className="space-y-4 p-5">
           {error && (
-            <div className="p-3 bg-rose-500/10 border border-rose-500/20 rounded-xl text-rose-400 text-xs">
-              {error}
+            <div
+              role="alert"
+              aria-live="polite"
+              className="flex items-start gap-2 rounded-xl border border-red-300 bg-red-50 px-3.5 py-2.5 text-xs font-medium text-red-900"
+            >
+              <ShieldAlert className="mt-0.5 h-4 w-4 shrink-0 text-red-700" />
+              <span>{error}</span>
             </div>
           )}
 
-          {/* Current Balance Box */}
-          <div className="bg-stone-950 p-4 rounded-2xl border border-stone-800 flex justify-between items-center">
+          {/* Mevcut -> Hedef Bakiye */}
+          <div className="flex items-center justify-between rounded-xl border border-[#E2D3BD] bg-white p-4">
             <div>
-              <div className="text-xs text-stone-500 uppercase font-bold tracking-wider">
+              <span className="block text-[11px] font-bold uppercase tracking-wider text-[#6E5148]">
                 Mevcut Bakiye
-              </div>
-              <div className="text-xl font-mono font-black text-stone-300 mt-0.5">
-                {currentBalance.toLocaleString("tr-TR")} ₺
-              </div>
-            </div>
-            <ArrowRight className="w-5 h-5 text-stone-600" />
-            <div className="text-right">
-              <div className="text-xs text-amber-500 uppercase font-bold tracking-wider">
-                Yeni Hedef
-              </div>
-              <div className="text-xl font-mono font-black text-amber-400 mt-0.5">
-                {targetBalance.toLocaleString("tr-TR")} ₺
-              </div>
-            </div>
-          </div>
-
-          {/* Target Balance Input */}
-          <div className="space-y-1.5">
-            <label className="text-xs font-bold text-stone-300">
-              Yeni Kesin Bakiye Tutarı (₺) <span className="text-amber-400">*</span>
-            </label>
-            <div className="relative">
-              <input
-                type="number"
-                step="any"
-                required
-                value={targetBalanceStr}
-                onChange={(e) => setTargetBalanceStr(e.target.value)}
-                placeholder="Örn: 10000"
-                className="w-full bg-stone-950 border border-stone-800 rounded-xl px-4 py-3 text-lg font-mono font-bold text-stone-100 focus:outline-none focus:border-artisan-terracotta/50"
-              />
-              <span className="absolute right-4 top-1/2 -translate-y-1/2 text-sm font-mono text-stone-500">
-                TL
               </span>
+              <p className="mt-0.5 font-mono text-lg font-bold tabular-nums text-[#3B1E1A]">
+                {currentBalance.toLocaleString("tr-TR", { minimumFractionDigits: 2 })} ₺
+              </p>
+            </div>
+            <ArrowRight className="h-5 w-5 text-[#6E5148]" />
+            <div className="text-right">
+              <span className="block text-[11px] font-bold uppercase tracking-wider text-[#8E3D1B]">
+                Yeni Hedef
+              </span>
+              <p className="mt-0.5 font-mono text-lg font-bold tabular-nums text-[#8E3D1B]">
+                {targetBalance.toLocaleString("tr-TR", { minimumFractionDigits: 2 })} ₺
+              </p>
             </div>
           </div>
 
-          {/* Difference Preview */}
-          <div
-            className={`p-3.5 rounded-xl border text-xs flex justify-between items-center ${
-              diff > 0
-                ? "bg-amber-500/10 border-amber-500/30 text-amber-300"
-                : diff < 0
-                ? "bg-emerald-500/10 border-emerald-500/30 text-emerald-300"
-                : "bg-stone-900 border-stone-800 text-stone-400"
-            }`}
-          >
-            <span>Bakiye Değişimi:</span>
-            <span className="font-mono font-bold text-sm">
-              {diff > 0
-                ? `+${diff.toLocaleString("tr-TR")} ₺ (Borç Artışı)`
-                : diff < 0
-                ? `${diff.toLocaleString("tr-TR")} ₺ (Alacak/Düşüş)`
-                : "0 ₺ (Değişiklik Yok)"}
-            </span>
-          </div>
-
-          {/* Reason Input */}
-          <div className="space-y-1.5">
-            <label className="text-xs font-bold text-stone-300">
-              Düzeltme Açıklaması / Nedeni
+          <div>
+            <label
+              htmlFor="adjust-target-balance"
+              className="mb-1.5 block text-xs font-bold uppercase tracking-wider text-[#6E5148]"
+            >
+              Yeni Kesin Bakiye Tutarı (₺)
             </label>
             <input
+              id="adjust-target-balance"
+              type="text"
+              inputMode="decimal"
+              autoFocus
+              required
+              value={targetBalanceStr}
+              onChange={(e) => setTargetBalanceStr(e.target.value)}
+              className="min-h-12 w-full rounded-xl border border-[#E2D3BD] bg-white px-4 font-mono text-xl font-bold tabular-nums text-[#3B1E1A] focus:border-[#B4532A] focus:outline-none"
+            />
+            <p className="mt-1.5 font-mono text-xs text-[#6E5148]">
+              Fark devir kaydı:{" "}
+              <strong className={diff >= 0 ? "text-[#8E3D1B]" : "text-emerald-800"}>
+                {diff >= 0 ? "+" : ""}
+                {diff.toLocaleString("tr-TR", { minimumFractionDigits: 2 })} ₺
+              </strong>{" "}
+              (önceki hareketler korunur)
+            </p>
+          </div>
+
+          <div>
+            <label
+              htmlFor="adjust-reason"
+              className="mb-1.5 block text-xs font-bold uppercase tracking-wider text-[#6E5148]"
+            >
+              Mutabakat / Düzeltme Gerekçesi
+            </label>
+            <input
+              id="adjust-reason"
               type="text"
               required
               value={reason}
               onChange={(e) => setReason(e.target.value)}
-              placeholder="Örn: Eski defterden devir, nakit mutabakatı..."
-              className="w-full bg-stone-950 border border-stone-800 rounded-xl px-4 py-3 text-xs text-stone-200 focus:outline-none focus:border-artisan-terracotta/50"
+              placeholder="Örn. Ay sonu mutabakatı, devir yuvarlama..."
+              className="min-h-11 w-full rounded-xl border border-[#E2D3BD] bg-white px-3 text-base text-[#3B1E1A] focus:border-[#B4532A] focus:outline-none sm:text-sm"
             />
-            <p className="text-xs text-stone-500">
-              Bu açıklama hesap hareketlerine şeffaf bir devir kaydı olarak işlenecektir.
-            </p>
           </div>
 
-          {/* Buttons */}
-          <div className="flex gap-3 pt-3">
+          <div className="flex items-center justify-end gap-2 pt-2">
             <button
               type="button"
-              onClick={onClose}
+              onClick={() => dialogRef.current?.close()}
               disabled={loading}
-              className="flex-1 py-3 bg-stone-800 hover:bg-stone-700 text-stone-300 rounded-xl text-sm font-bold transition-colors"
+              className="min-h-11 rounded-xl border border-[#E2D3BD] bg-white px-4 text-sm font-semibold text-[#3B1E1A] transition hover:bg-[#F6EEDF] disabled:opacity-50"
             >
               Vazgeç
             </button>
             <button
               type="submit"
-              disabled={loading}
-              className="flex-1 py-3 bg-artisan-terracotta hover:bg-artisan-terracotta-dark text-white font-bold rounded-xl text-sm transition-all shadow-lg shadow-artisan-terracotta/20 active:scale-95 disabled:opacity-50 flex items-center justify-center gap-2"
+              disabled={loading || diff === 0}
+              className="flex min-h-12 flex-1 items-center justify-center gap-2 rounded-xl bg-[#B4532A] px-5 text-sm font-bold text-white shadow-sm transition hover:bg-[#9C4421] disabled:opacity-50"
             >
-              {loading ? (
-                <>
-                  <Loader2 className="w-4 h-4 animate-spin" />
-                  <span>Güncelleniyor...</span>
-                </>
-              ) : (
-                <>
-                  <CheckCircle2 className="w-4 h-4" />
-                  <span>Bakiyeyi Güncelle</span>
-                </>
-              )}
+              {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : <CheckCircle2 className="h-4 w-4" />}
+              {loading ? "Kaydediliyor..." : "Bakiyeyi Güncelle"}
             </button>
           </div>
         </form>
       </div>
-    </div>
+    </dialog>
   );
 }

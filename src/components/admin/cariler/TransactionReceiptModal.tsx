@@ -109,6 +109,7 @@ interface ParsedItem {
   qty: number;
   price: number;
   total: number;
+  isReturn?: boolean;
 }
 
 function formatDateTime(dateStr?: string, createdAtStr?: string): { date: string; time: string } {
@@ -134,11 +135,26 @@ function formatDateTime(dateStr?: string, createdAtStr?: string): { date: string
 
 export default function TransactionReceiptModal({ tx, cari, onClose }: TransactionReceiptModalProps) {
   const receiptRef = useRef<HTMLDivElement>(null);
+  const dialogRef = useRef<HTMLDialogElement | null>(null);
   const [downloading, setDownloading] = useState(false);
   const [sharing, setSharing] = useState(false);
+  const [actionError, setActionError] = useState<string | null>(null);
 
   const [toastMessage, setToastMessage] = useState<string | null>(null);
   const formattedDt = formatDateTime(tx.date, tx.createdAt);
+
+  useEffect(() => {
+    const dialog = dialogRef.current;
+    if (!dialog) return;
+    if (!dialog.open) dialog.showModal();
+    const handleClose = () => {
+      dialog.returnValue = "";
+      onClose();
+    };
+    dialog.addEventListener("close", handleClose);
+    return () => dialog.removeEventListener("close", handleClose);
+  }, [onClose]);
+
   // Yürüyen bakiye: o hareketin anındaki bakiye (balance_after) ve işaretli tutar (delta)
   const amount = Math.abs(tx.delta);
   const newBal = tx.balanceAfter ?? (Number(cari.balance) || 0);
@@ -147,12 +163,19 @@ export default function TransactionReceiptModal({ tx, cari, onClose }: Transacti
   const slipNo = tx.slipNumber || `FİŞ-${tx.id.substring(0, 6).toUpperCase()}`;
   const cleanDesc = tx.description || "";
 
-  const items: ParsedItem[] = (tx.items ?? []).map((it) => ({
-    name: it.name,
-    qty: it.quantity,
-    price: it.unitPrice,
-    total: Math.round(it.quantity * it.unitPrice * 100) / 100,
-  }));
+  const items: ParsedItem[] = (tx.items ?? []).map((it) => {
+    const total =
+      typeof it.lineTotal === "number" && Number.isFinite(it.lineTotal)
+        ? Math.round(it.lineTotal * 100) / 100
+        : Math.round(it.quantity * it.unitPrice * 100) / 100;
+    return {
+      name: it.name,
+      qty: it.quantity,
+      price: it.unitPrice,
+      total,
+      isReturn: Boolean(it.isReturn || it.quantity < 0 || total < 0),
+    };
+  });
   const isProductSale = tx.type === "satis" && items.length > 0;
   if (items.length === 0) {
     const defaultName =
@@ -211,6 +234,7 @@ export default function TransactionReceiptModal({ tx, cari, onClose }: Transacti
 
   const handleDownloadPNG = async () => {
     try {
+      setActionError(null);
       setDownloading(true);
       const canvas = await generateCanvas();
       if (!canvas) return;
@@ -222,16 +246,17 @@ export default function TransactionReceiptModal({ tx, cari, onClose }: Transacti
       link.click();
     } catch (error) {
       console.error("Görsel oluşturulamadı:", error);
-      alert("Görsel oluşturulurken bir hata oluştu.");
+      setActionError("Fiş görseli oluşturulurken bir hata oluştu.");
     } finally {
       setDownloading(false);
     }
   };
 
   const handleWhatsApp = async () => {
+    setActionError(null);
     setSharing(true);
     if (!shareUrl) {
-      alert("Fiş linki henüz hazır değil, birkaç saniye sonra tekrar deneyin.");
+      setActionError("Fiş paylaşım linki henüz hazır değil, birkaç saniye sonra tekrar deneyin.");
       setSharing(false);
       return;
     }
@@ -304,28 +329,45 @@ export default function TransactionReceiptModal({ tx, cari, onClose }: Transacti
   };
 
   return (
-    <div className="fixed inset-0 z-[9999] flex flex-col items-center justify-center bg-black/80 backdrop-blur-sm p-3 sm:p-4 animate-fadeIn overflow-y-auto pt-16 pb-16">
-      
-      {/* Modal Container with close button outside receiptRef */}
-      <div className="w-full max-w-[400px] relative shrink-0">
-        
-        {/* Close button outside receiptRef so html2canvas NEVER captures it */}
-        <div className="absolute top-4 right-4 z-20" data-html2canvas-ignore="true">
-          <button aria-label="Kapat"
-            onClick={onClose}
-            className="p-2 bg-stone-900/80 rounded-full text-stone-400 hover:text-white transition-colors shadow-lg"
-          >
-            <X className="w-4 h-4" />
-          </button>
-        </div>
+    <dialog
+      ref={dialogRef}
+      closedby="any"
+      aria-label="İşlem fişi önizleme"
+      className="m-auto w-full max-w-[440px] rounded-3xl border border-[#E2D3BD] bg-[#FBF6EC] p-4 text-[#3B1E1A] shadow-2xl overscroll-contain backdrop:overflow-hidden backdrop:overscroll-contain backdrop:bg-[#3B1E1A]/45"
+    >
+      <div className="flex max-h-[90dvh] flex-col items-center overflow-y-auto pt-1 pb-2">
+        {/* Modal Container with close button outside receiptRef */}
+        <div className="w-full max-w-[400px] relative shrink-0">
+          {/* Close button outside receiptRef so html2canvas NEVER captures it */}
+          <div className="absolute top-3 right-3 z-20" data-html2canvas-ignore="true">
+            <button
+              type="button"
+              aria-label="Kapat"
+              onClick={() => dialogRef.current?.close()}
+              className="flex min-h-11 min-w-11 items-center justify-center rounded-full border border-[#E2D3BD] bg-white text-[#3B1E1A] shadow-md transition hover:bg-[#F6EEDF]"
+            >
+              <X className="w-4 h-4" />
+            </button>
+          </div>
 
-        {/* Receipt Card */}
-        <div 
-          ref={receiptRef}
-          data-receipt-card="true"
-          style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif' }}
-          className="bg-[#FBF9F5] text-[#221610] p-5 sm:p-6 shadow-[0_20px_50px_rgba(34,22,16,0.12)] border border-[#EBE4D8] rounded-[28px] w-full relative"
-        >
+          {actionError && (
+            <div
+              role="alert"
+              aria-live="polite"
+              data-html2canvas-ignore="true"
+              className="mb-3 rounded-xl border border-red-300 bg-red-50 px-3 py-2 text-xs font-medium text-red-900"
+            >
+              {actionError}
+            </div>
+          )}
+
+          {/* Receipt Card */}
+          <div
+            ref={receiptRef}
+            data-receipt-card="true"
+            style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif' }}
+            className="bg-[#FBF9F5] text-[#221610] p-5 sm:p-6 shadow-[0_12px_30px_rgba(59,30,26,0.10)] border border-[#E2D3BD] rounded-[24px] w-full relative overflow-visible"
+          >
           {/* Header: Logo & Brand Information (Horizontal Alignment) */}
           <div className="flex items-center gap-4 mb-4">
             <div className="w-[74px] h-[74px] rounded-full overflow-hidden shrink-0 border border-[#E5DDCF] bg-white flex items-center justify-center p-0.5 shadow-sm">
@@ -514,19 +556,29 @@ export default function TransactionReceiptModal({ tx, cari, onClose }: Transacti
                           />
                         </div>
                         <div className="flex-1 min-w-0">
-                          <div className="text-xs font-bold text-[#B45309] leading-normal pb-0.5">
-                            {it.qty} Adet
+                          <div
+                            className={`text-xs font-bold leading-normal pb-0.5 ${
+                              it.isReturn ? "text-amber-800" : "text-[#8E3D1B]"
+                            }`}
+                          >
+                            {it.qty} Adet {it.isReturn ? "• İade Düşümü" : ""}
                           </div>
                           <div className="font-bold text-[#1E140F] text-xs sm:text-[13px] leading-snug break-words pb-0.5">
                             {it.name}
                           </div>
                           <div className="text-xs text-[#7A6B62] font-medium leading-normal inline-block py-0.5 mt-0.5">
-                            {it.qty} x {it.price.toLocaleString("tr-TR")} ₺
+                            {Math.abs(it.qty)} x {it.price.toLocaleString("tr-TR")} ₺
                           </div>
                         </div>
                         <div className="text-right shrink-0 pl-2">
-                          <span className="font-bold text-[#1E140F] text-sm sm:text-base leading-normal inline-block py-0.5">
-                            {it.total.toLocaleString("tr-TR")} ₺
+                          <span
+                            className={`font-bold text-sm sm:text-base leading-normal inline-block py-0.5 pb-1 ${
+                              it.total < 0 ? "text-amber-900" : "text-[#1E140F]"
+                            }`}
+                          >
+                            {it.total < 0
+                              ? `−${Math.abs(it.total).toLocaleString("tr-TR")} ₺`
+                              : `${it.total.toLocaleString("tr-TR")} ₺`}
                           </span>
                         </div>
                       </div>
@@ -639,9 +691,10 @@ export default function TransactionReceiptModal({ tx, cari, onClose }: Transacti
       {/* Action Buttons */}
       <div className="mt-4 flex flex-col gap-2 w-full max-w-[400px]">
         <button
+          type="button"
           onClick={handleWhatsApp}
           disabled={sharing}
-          className="w-full flex items-center justify-center gap-2 py-3.5 px-4 bg-emerald-600 hover:bg-emerald-500 text-white font-bold rounded-2xl text-xs shadow-lg shadow-emerald-950/40 active:scale-95 transition-all disabled:opacity-50"
+          className="w-full min-h-12 flex items-center justify-center gap-2 py-3 px-4 bg-emerald-700 hover:bg-emerald-800 text-white font-bold rounded-xl text-xs shadow-sm active:scale-95 transition-all disabled:opacity-50"
         >
           {sharing ? (
             <>
@@ -655,14 +708,15 @@ export default function TransactionReceiptModal({ tx, cari, onClose }: Transacti
             </>
           )}
         </button>
-        
+
         <div className="grid grid-cols-2 gap-2">
           <button
+            type="button"
             onClick={handleDownloadPNG}
             disabled={downloading}
-            className="flex items-center justify-center gap-1.5 p-3 bg-[#18130F] hover:bg-[#221A14] text-stone-200 font-bold rounded-xl text-xs border border-[#2E2219] shadow active:scale-95 transition-all disabled:opacity-50"
+            className="min-h-11 flex items-center justify-center gap-1.5 p-2.5 bg-white hover:bg-[#F6EEDF] text-[#3B1E1A] font-bold rounded-xl text-xs border border-[#E2D3BD] shadow-sm active:scale-95 transition-all disabled:opacity-50"
           >
-            {downloading ? <Loader2 className="w-4 h-4 animate-spin text-amber-400" /> : <Download className="w-4 h-4 text-amber-400" />}
+            {downloading ? <Loader2 className="w-4 h-4 animate-spin text-[#B4532A]" /> : <Download className="w-4 h-4 text-[#B4532A]" />}
             <span>Görseli İndir (PNG)</span>
           </button>
 
@@ -670,9 +724,9 @@ export default function TransactionReceiptModal({ tx, cari, onClose }: Transacti
             href={shareUrl || `/fis/${tx.id}`}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center justify-center gap-1.5 p-3 bg-[#18130F] hover:bg-[#221A14] text-stone-200 font-bold rounded-xl text-xs border border-[#2E2219] shadow active:scale-95 transition-all"
+            className="min-h-11 flex items-center justify-center gap-1.5 p-2.5 bg-white hover:bg-[#F6EEDF] text-[#3B1E1A] font-bold rounded-xl text-xs border border-[#E2D3BD] shadow-sm active:scale-95 transition-all"
           >
-            <ExternalLink className="w-4 h-4 text-amber-400" />
+            <ExternalLink className="w-4 h-4 text-[#B4532A]" />
             <span>Online Fişi Aç</span>
           </a>
         </div>
@@ -680,34 +734,41 @@ export default function TransactionReceiptModal({ tx, cari, onClose }: Transacti
         <Link
           href={`/ekstre/${cari.id}`}
           target="_blank"
-          className="flex items-center justify-between p-3 bg-[#18130F] hover:bg-[#201711] border border-[#2E2219] rounded-xl text-xs text-stone-300 font-medium transition-colors"
+          className="min-h-11 flex items-center justify-between px-3.5 py-2.5 bg-white hover:bg-[#F6EEDF] border border-[#E2D3BD] rounded-xl text-xs text-[#3B1E1A] font-semibold transition-colors"
         >
           <div className="flex items-center gap-2">
-            <Receipt className="w-4 h-4 text-amber-400" />
+            <Receipt className="w-4 h-4 text-[#B4532A]" />
             <span>Müşterinin Canlı Ekstresi</span>
           </div>
-          <ExternalLink className="w-3.5 h-3.5 text-stone-500" />
+          <ExternalLink className="w-3.5 h-3.5 text-[#6E5148]" />
         </Link>
       </div>
 
-      {/* Floating Toast Notification (especially helpful on Desktop WhatsApp Web) */}
+      {/* Inline Toast Notification (especially helpful on Desktop WhatsApp Web) */}
       {toastMessage && (
-        <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-[10000] bg-stone-900 border border-amber-500/40 text-stone-100 px-4 py-3 rounded-2xl shadow-2xl flex items-center gap-3 text-xs max-w-sm animate-slideUp">
-          <Check className="w-5 h-5 text-amber-400 shrink-0" />
+        <div
+          role="status"
+          aria-live="polite"
+          className="mt-3 w-full max-w-[400px] bg-white border border-[#B4532A]/40 text-[#3B1E1A] px-4 py-3 rounded-2xl shadow-md flex items-center gap-3 text-xs"
+        >
+          <Check className="w-5 h-5 text-emerald-700 shrink-0" />
           <div className="flex-1">
-            <p className="font-bold text-amber-400">Görsel Panoya Kopyalandı & İndirildi</p>
-            <p className="text-xs text-stone-300 mt-0.5">
-              WhatsApp açıldığında sohbete <span className="font-mono font-bold bg-stone-800 text-amber-300 px-1 py-0.5 rounded border border-stone-700">Ctrl + V</span> yaparak görseli ve linki birlikte gönderebilirsiniz.
+            <p className="font-bold text-[#3B1E1A]">Görsel Panoya Kopyalandı &amp; İndirildi</p>
+            <p className="text-xs text-[#6E5148] mt-0.5">
+              WhatsApp açıldığında sohbete <span className="font-mono font-bold bg-[#F6EEDF] text-[#3B1E1A] px-1 py-0.5 rounded border border-[#E2D3BD]">Ctrl + V</span> yaparak görseli ve linki birlikte gönderebilirsiniz.
             </p>
           </div>
           <button
+            type="button"
             onClick={() => setToastMessage(null)}
-            className="text-stone-400 hover:text-white p-1"
+            aria-label="Bildirimi kapat"
+            className="min-h-9 min-w-9 flex items-center justify-center text-[#6E5148] hover:text-[#3B1E1A]"
           >
             <X className="w-3.5 h-3.5" />
           </button>
         </div>
       )}
-    </div>
+      </div>
+    </dialog>
   );
 }

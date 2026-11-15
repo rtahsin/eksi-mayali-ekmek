@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { Download, X, Smartphone, Share, PlusSquare, Check } from "lucide-react";
+import { Download, X, Smartphone, Share } from "lucide-react";
 
 interface BeforeInstallPromptEvent extends Event {
   prompt: () => Promise<void>;
@@ -47,7 +47,7 @@ export function PwaInstallPrompt() {
     setIsIOS(isIosDevice);
 
     if (isIosDevice) {
-      // On iOS Safari, we can show instructions after 2 seconds
+      // On iOS Safari, we can show instructions after 2.5 seconds
       const timer = setTimeout(() => setShowPrompt(true), 2500);
       return () => clearTimeout(timer);
     }
@@ -59,17 +59,18 @@ export function PwaInstallPrompt() {
       setShowPrompt(true);
     };
 
-    window.addEventListener("beforeinstallprompt", handleBeforeInstall);
-
-    // Also check if appinstalled event fires
-    window.addEventListener("appinstalled", () => {
+    const handleAppInstalled = () => {
       setInstalled(true);
       setShowPrompt(false);
       setDeferredPrompt(null);
-    });
+    };
+
+    window.addEventListener("beforeinstallprompt", handleBeforeInstall);
+    window.addEventListener("appinstalled", handleAppInstalled);
 
     return () => {
       window.removeEventListener("beforeinstallprompt", handleBeforeInstall);
+      window.removeEventListener("appinstalled", handleAppInstalled);
     };
   }, []);
 
@@ -77,7 +78,7 @@ export function PwaInstallPrompt() {
     if (!deferredPrompt) return;
     setInstalling(true);
     try {
-      deferredPrompt.prompt();
+      await deferredPrompt.prompt();
       const { outcome } = await deferredPrompt.userChoice;
       if (outcome === "accepted") {
         setInstalled(true);
@@ -100,33 +101,32 @@ export function PwaInstallPrompt() {
 
   return (
     <div className="fixed bottom-24 lg:bottom-6 left-4 right-4 sm:left-auto sm:right-6 sm:max-w-md z-50 animate-in slide-in-from-bottom-5 duration-300">
-      <div className="bg-[#1A1410] border border-artisan-gold/40 rounded-2xl p-4 shadow-2xl backdrop-blur-md flex items-start gap-3.5 text-stone-200">
-        
+      <div className="bg-[#FFFFFF] border border-[#E2D3BD] rounded-2xl p-4 shadow-lg flex items-start gap-3.5 text-[#3B1E1A]">
         {/* App Icon */}
-        <div className="w-12 h-12 rounded-xl bg-[#F7EBD3] p-1.5 flex items-center justify-center shrink-0 shadow-md">
+        <div className="w-12 h-12 rounded-xl bg-[#FBF6EC] border border-[#E2D3BD] p-1.5 flex items-center justify-center shrink-0 shadow-xs">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src="/logo/logo_mark.png" alt="EkmekLab" className="w-full h-full object-contain" />
         </div>
 
         {/* Content */}
         <div className="flex-1 space-y-1">
-          <div className="flex items-center justify-between">
-            <h4 className="text-xs font-bold font-serif text-stone-100 flex items-center gap-1.5">
-              <Smartphone className="w-3.5 h-3.5 text-amber-500" />
+          <div className="flex items-center justify-between gap-2">
+            <h4 className="text-xs font-bold font-serif text-[#3B1E1A] flex items-center gap-1.5">
+              <Smartphone className="w-3.5 h-3.5 text-[#B4532A]" aria-hidden="true" />
               <span>EkmekLab Yönetim Uygulaması</span>
             </h4>
 
             <button
               type="button"
               onClick={handleDismiss}
-              aria-label="Kapat"
-              className="p-1.5 rounded-lg text-stone-400 hover:text-white hover:bg-stone-800 transition-colors"
-              title="Kapat"
+              aria-label="Kurulum bildirimini kapat"
+              className="min-w-9 min-h-9 inline-flex items-center justify-center rounded-lg text-[#6E5148] hover:text-[#3B1E1A] hover:bg-[#F1E6D2] transition-colors"
             >
-              <X className="w-4 h-4" />
+              <X className="w-4 h-4" aria-hidden="true" />
             </button>
           </div>
 
-          <p className="text-xs text-stone-400 leading-snug">
+          <p className="text-xs text-[#6E5148] leading-snug">
             {isIOS
               ? "Uygulamayı iPhone ana ekranınıza eklemek için Safari'de Paylaş simgesine (kare yukarı ok) dokunup 'Ana Ekrana Ekle'yi seçin."
               : "Admin panelini telefonunuza tek dokunuşla tam ekran bağımsız bir uygulama olarak yükleyin."}
@@ -138,17 +138,17 @@ export function PwaInstallPrompt() {
                 type="button"
                 onClick={handleInstallClick}
                 disabled={installing}
-                className="flex items-center justify-center gap-2 w-full min-h-[44px] py-2 px-3 bg-artisan-terracotta hover:bg-artisan-terracotta-dark text-white font-bold rounded-xl text-xs transition-all shadow-md shadow-artisan-terracotta/20 active:scale-95 disabled:opacity-50"
+                className="flex items-center justify-center gap-2 w-full min-h-[44px] py-2 px-3 bg-[#B4532A] hover:bg-[#9C4421] text-white font-bold rounded-xl text-xs transition-colors shadow-xs active:scale-95 disabled:opacity-50"
               >
-                <Download className="w-3.5 h-3.5" />
+                <Download className="w-3.5 h-3.5" aria-hidden="true" />
                 <span>{installing ? "Yükleniyor..." : "Uygulamayı Telefona Yükle"}</span>
               </button>
             </div>
           )}
 
           {isIOS && (
-            <div className="pt-1.5 flex items-center gap-2 text-xs text-amber-400/90 font-medium">
-              <Share className="w-3.5 h-3.5" />
+            <div className="pt-1.5 flex items-center gap-2 text-xs text-[#8E3D1B] font-medium">
+              <Share className="w-3.5 h-3.5" aria-hidden="true" />
               <span>Paylaş ➔ Ana Ekrana Ekle</span>
             </div>
           )}

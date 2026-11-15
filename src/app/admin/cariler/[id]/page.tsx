@@ -1,634 +1,1061 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
-import { useParams, useRouter, useSearchParams } from "next/navigation";
+import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
+import { useParams, useRouter, useSearchParams } from "next/navigation";
 import {
-  ArrowLeft,
-  Edit,
-  Wallet,
-  Receipt,
-  Loader2,
-  ArrowUpRight,
-  ArrowDownRight,
-  ExternalLink,
-  Scale,
-  Tag,
   Archive,
-  RotateCcw,
-  Trash2,
-  Undo2,
-  Download,
+  ArchiveRestore,
+  ArrowLeft,
   Calendar,
+  Download,
+  Edit3,
+  Flame,
+  KeyRound,
+  Loader2,
+  MapPin,
+  MessageCircle,
+  Phone,
+  Receipt,
+  RotateCcw,
+  Scale,
+  ShieldAlert,
+  Tag,
+  Trash2,
+  Wallet,
+  X,
 } from "lucide-react";
 import { useCariProfile } from "@/hooks/useCariProfile";
 import { useCariler } from "@/hooks/useCariler";
+import { useProducts } from "@/hooks/useProducts";
 import B2BSlipModal from "@/components/admin/cariler/B2BSlipModal";
 import B2BCollectionModal from "@/components/admin/cariler/B2BCollectionModal";
-import CariEditModal from "@/components/admin/cariler/CariEditModal";
+import { CariEditModal } from "@/components/admin/cariler/CariEditModal";
 import BalanceAdjustModal from "@/components/admin/cariler/BalanceAdjustModal";
 import TransactionReceiptModal from "@/components/admin/cariler/TransactionReceiptModal";
-import { CariTransaction } from "@/types/admin";
-import { LEDGER_TYPE_LABELS, PAYMENT_METHOD_LABELS, ledgerLine } from "@/lib/cari/ledger";
-import { addDays, istanbulToday } from "@/lib/time/istanbul";
+import { B2BHotSaleModal } from "@/components/admin/cariler/B2BHotSaleModal";
+import { LEDGER_TYPE_LABELS, PAYMENT_METHOD_LABELS } from "@/lib/cari/ledger";
+import { ekstreMessage, shareViaWhatsApp } from "@/lib/cari/whatsapp";
+import { buildCsvContent, sanitizeCsvCell } from "@/lib/security/csv";
+import { addDays, formatTrDate, istanbulToday } from "@/lib/time/istanbul";
+import type { CariAccount, CariTransaction } from "@/types/admin";
 
-export default function IsolatedCariDetailPage() {
+type DateFilter = "all" | "this_month" | "last_month" | "last_30" | "custom";
+type TypeFilter = "all" | "debt" | "credit";
+
+function formatMoney(n: number): string {
+  return n.toLocaleString("tr-TR", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+}
+
+function getPaymentLabel(method?: string): string {
+  if (!method) return "";
+  if (method === "havale") return "Havale / EFT";
+  return PAYMENT_METHOD_LABELS[method] ?? method;
+}
+
+export default function CariDetailPage() {
   const params = useParams();
   const searchParams = useSearchParams();
   const router = useRouter();
-  const id = params?.id as string;
+  const id = typeof params.id === "string" ? params.id : "";
 
-  const { cari, transactions, activeProducts, loading, refetch } = useCariProfile(id);
+  const { cari, transactions, activeProducts, loading, error, refetch } = useCariProfile(id);
   const { archiveCari, deleteCari, addTransaction } = useCariler();
+  const { products } = useProducts();
 
+  const [extendedAccount, setExtendedAccount] = useState<CariAccount | null>(null);
   const [activeModal, setActiveModal] = useState<"slip" | "collection" | "edit" | "adjust_balance" | null>(null);
   const [editModalTab, setEditModalTab] = useState<"info" | "prices">("info");
+  const [hotSaleOpen, setHotSaleOpen] = useState(false);
   const [selectedTx, setSelectedTx] = useState<CariTransaction | null>(null);
-  const [busyTxId, setBusyTxId] = useState<string | null>(null);
-  const [archiving, setArchiving] = useState(false);
 
-  // Filters for transactions
-  const [dateFilter, setDateFilter] = useState<"all" | "this_month" | "last_month" | "last_30" | "custom">("all");
-  const [typeFilter, setTypeFilter] = useState<"all" | "debt" | "credit">("all");
+  const [busyTxId, setBusyTxId] = useState<string | null>(null);
+  const [busyAction, setBusyAction] = useState(false);
+  const [notice, setNotice] = useState<{ tone: "success" | "error"; text: string } | null>(null);
+
+  // Filters
+  const [dateFilter, setDateFilter] = useState<DateFilter>("all");
+  const [typeFilter, setTypeFilter] = useState<TypeFilter>("all");
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
 
+  // Accessible <dialog> confirmations & storno reason modal (no native alert/confirm/prompt)
+  const [confirmKind, setConfirmKind] = useState<"delete" | "archive" | "revoke_link" | null>(null);
+  const confirmDialogRef = useRef<HTMLDialogElement | null>(null);
+
+  const [stornoTarget, setStornoTarget] = useState<CariTransaction | null>(null);
+  const [stornoReason, setStornoReason] = useState("");
+  const stornoDialogRef = useRef<HTMLDialogElement | null>(null);
+
+  const fetchExtendedAccount = useCallback(async () => {
+    if (!id) return;
+    try {
+      const res = await fetch(`/api/admin/cari/accounts/${encodeURIComponent(id)}`, { cache: "no-store" });
+      if (!res.ok) return;
+      const data = (await res.json().catch(() => null)) as { account?: CariAccount } | null;
+      if (data?.account) {
+        setExtendedAccount(data.account);
+      }
+    } catch {
+      // Hook state remains fallback
+    }
+  }, [id]);
+
   useEffect(() => {
-    const action = searchParams?.get("action");
+    void fetchExtendedAccount();
+  }, [fetchExtendedAccount, cari?.updatedAt]);
+
+  const effectiveCari = useMemo<CariAccount | null>(() => {
+    if (!cari) return extendedAccount;
+    if (!extendedAccount) return cari;
+    return {
+      ...cari,
+      district: extendedAccount.district ?? cari.district,
+      companyTitle: extendedAccount.companyTitle ?? cari.companyTitle,
+      creditLimit: extendedAccount.creditLimit ?? cari.creditLimit,
+      shareTokenVersion: extendedAccount.shareTokenVersion ?? cari.shareTokenVersion,
+      customPrices: extendedAccount.customPrices ?? cari.customPrices,
+    };
+  }, [cari, extendedAccount]);
+
+  useEffect(() => {
+    const action = searchParams.get("action");
     if (action === "fis") setActiveModal("slip");
     else if (action === "tahsilat") setActiveModal("collection");
+    else if (action === "sicak-satis") setHotSaleOpen(true);
   }, [searchParams]);
 
-  // Filtered transactions (İstanbul takvim günü üzerinden)
+  // Sync confirm & storno dialogs
+  useEffect(() => {
+    const el = confirmDialogRef.current;
+    if (!el) return;
+    if (confirmKind && !el.open) el.showModal();
+    else if (!confirmKind && el.open) el.close();
+  }, [confirmKind]);
+
+  useEffect(() => {
+    const el = confirmDialogRef.current;
+    if (!el) return;
+    const onClose = () => {
+      el.returnValue = "";
+      setConfirmKind(null);
+    };
+    el.addEventListener("close", onClose);
+    return () => el.removeEventListener("close", onClose);
+  }, []);
+
+  useEffect(() => {
+    const el = stornoDialogRef.current;
+    if (!el) return;
+    if (stornoTarget && !el.open) el.showModal();
+    else if (!stornoTarget && el.open) el.close();
+  }, [stornoTarget]);
+
+  useEffect(() => {
+    const el = stornoDialogRef.current;
+    if (!el) return;
+    const onClose = () => {
+      el.returnValue = "";
+      setStornoTarget(null);
+      setStornoReason("");
+    };
+    el.addEventListener("close", onClose);
+    return () => el.removeEventListener("close", onClose);
+  }, []);
+
   const today = istanbulToday();
   const thisMonth = today.slice(0, 7);
-  const lastMonth = addDays(`${thisMonth}-01`, -1).slice(0, 7);
-  const filteredTransactions = transactions.filter((tx) => {
-    if (typeFilter === "debt" && !(tx.delta > 0)) return false;
-    if (typeFilter === "credit" && !(tx.delta < 0)) return false;
+  const lastMonthDate = addDays(today, -Number(today.slice(8, 10)));
+  const lastMonth = lastMonthDate.slice(0, 7);
+  const last30Cutoff = addDays(today, -30);
 
-    if (dateFilter === "this_month" && tx.date.slice(0, 7) !== thisMonth) return false;
-    if (dateFilter === "last_month" && tx.date.slice(0, 7) !== lastMonth) return false;
-    if (dateFilter === "last_30" && tx.date < addDays(today, -30)) return false;
-    if (dateFilter === "custom") {
-      if (startDate && tx.date < startDate) return false;
-      if (endDate && tx.date > endDate) return false;
-    }
-    return true;
-  });
+  const filteredTransactions = useMemo(() => {
+    return transactions.filter((tx) => {
+      if (typeFilter === "debt" && !(tx.delta > 0)) return false;
+      if (typeFilter === "credit" && !(tx.delta < 0)) return false;
 
-  const handleStorno = async (tx: CariTransaction) => {
-    if (!cari) return;
-    const reason = window.prompt(
-      `${LEDGER_TYPE_LABELS[tx.type]} ${tx.slipNumber || ""} (${tx.amount.toLocaleString("tr-TR")} ₺) iptal edilecek.\n\nKayıt silinmez; ters kayıt atılır ve bakiye düzelir. Doğrusu gerekiyorsa sonra yeni fiş kesin.\n\nİptal nedeni:`,
-      ""
-    );
-    if (reason === null) return;
-    setBusyTxId(tx.id);
-    const res = await addTransaction(cari.id, { kind: "storno", reversesId: tx.id, description: reason.trim() || undefined });
-    setBusyTxId(null);
-    if (!res.success) alert(res.error || "İptal kaydedilemedi");
-    refetch();
-  };
+      if (dateFilter === "this_month" && tx.date.slice(0, 7) !== thisMonth) return false;
+      if (dateFilter === "last_month" && tx.date.slice(0, 7) !== lastMonth) return false;
+      if (dateFilter === "last_30" && tx.date < last30Cutoff) return false;
+      if (dateFilter === "custom") {
+        if (startDate && tx.date < startDate) return false;
+        if (endDate && tx.date > endDate) return false;
+      }
+      return true;
+    });
+  }, [transactions, typeFilter, dateFilter, thisMonth, lastMonth, last30Cutoff, startDate, endDate]);
+
+  const canDelete = useMemo(
+    () => transactions.every((tx) => tx.type === "storno" || Boolean(tx.reversedById)),
+    [transactions],
+  );
+
+  const customPriceRows = useMemo(() => {
+    const prices = effectiveCari?.customPrices ?? {};
+    return Object.entries(prices)
+      .filter(([, price]) => typeof price === "number" && price > 0)
+      .map(([productId, customPrice]) => {
+        const product = activeProducts.find((p) => p.id === productId) ?? products.find((p) => p.id === productId);
+        return {
+          productId,
+          productName: product?.name ?? productId,
+          catalogPrice: product?.price ?? null,
+          customPrice,
+        };
+      })
+      .sort((a, b) => a.productName.localeCompare(b.productName, "tr-TR"));
+  }, [effectiveCari?.customPrices, activeProducts, products]);
+
+  const refreshAll = useCallback(async () => {
+    await Promise.all([refetch(), fetchExtendedAccount()]);
+  }, [refetch, fetchExtendedAccount]);
 
   const handleExportCSV = () => {
-    if (!cari || filteredTransactions.length === 0) return;
+    if (!effectiveCari || filteredTransactions.length === 0) return;
 
-    // Excel-compatible CSV with UTF-8 BOM and semicolon delimiters
-    let csvContent = "\uFEFF";
-    csvContent += "Tarih;Fiş No;İşlem Türü;Açıklama;Ödeme Şekli;Borç (+);Alacak (-);Kalan Bakiye\n";
+    const headers = [
+      "Tarih",
+      "Fiş No",
+      "İşlem Türü",
+      "Açıklama",
+      "Ödeme Şekli",
+      "Borç (+)",
+      "Alacak (-)",
+      "Kalan Bakiye",
+    ];
 
-    filteredTransactions.forEach((tx) => {
-      const dateStr = tx.date.split("-").reverse().join(".");
-      const slip = tx.slipNumber || "-";
-      const typeStr = LEDGER_TYPE_LABELS[tx.type] + (tx.reversedById ? " (iptal edildi)" : "");
-      const desc = ledgerLine(tx).replace(/[;"\n]/g, " ");
-      const payMethod = tx.paymentMethod ? PAYMENT_METHOD_LABELS[tx.paymentMethod] || tx.paymentMethod : "-";
-      const money = (n: number) => n.toFixed(2).replace(".", ",");
-      const debtAmount = tx.delta > 0 ? money(tx.delta) : "0,00";
-      const creditAmount = tx.delta < 0 ? money(-tx.delta) : "0,00";
-      const balanceStr = tx.balanceAfter !== undefined ? money(tx.balanceAfter) : "-";
+    const rows = filteredTransactions.map((tx) => {
+      const dateStr = formatTrDate(tx.date);
+      const slip = tx.slipNumber || tx.id.slice(0, 8).toUpperCase();
+      const typeStr = LEDGER_TYPE_LABELS[tx.type] ?? tx.type;
+      const desc = tx.description || "";
+      const payMethod = getPaymentLabel(tx.paymentMethod);
+      const debtAmount = tx.delta > 0 ? tx.delta.toFixed(2).replace(".", ",") : "";
+      const creditAmount = tx.delta < 0 ? Math.abs(tx.delta).toFixed(2).replace(".", ",") : "";
+      const balanceStr = tx.balanceAfter !== undefined ? tx.balanceAfter.toFixed(2).replace(".", ",") : "";
 
-      csvContent += `"${dateStr}";"${slip}";"${typeStr}";"${desc}";"${payMethod}";"${debtAmount}";"${creditAmount}";"${balanceStr}"\n`;
+      return [dateStr, slip, typeStr, desc, payMethod, debtAmount, creditAmount, balanceStr];
     });
 
+    // sanitizeCsvCell & buildCsvContent enforce UTF-8 BOM, semicolon delimiter, and formula-injection escaping
+    const safeSample = sanitizeCsvCell(effectiveCari.businessName).replace(/"/g, "");
+    const csvContent = buildCsvContent(headers, rows);
     const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
     const url = URL.createObjectURL(blob);
+    const safeName = safeSample.replace(/[^a-zA-Z0-9ğüşıöçĞÜŞİÖÇ_-]/g, "_");
+
     const link = document.createElement("a");
-    const safeName = (cari.businessName || "cari").toLowerCase().replace(/[^a-z0-9]/gi, "_");
-    link.setAttribute("href", url);
-    link.setAttribute("download", `${safeName}_hesap_ekstresi_${istanbulToday()}.csv`);
+    link.href = url;
+    link.setAttribute("download", `${safeName}_hesap_ekstresi_${today}.csv`);
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
+    URL.revokeObjectURL(url);
   };
 
-  // Gerçek geçmişi yok (hiç hareket yok ya da hepsi iptal edilmiş) → deneme carisi, kalıcı silinebilir
-  const canDelete = transactions.every((tx) => tx.type === "storno" || Boolean(tx.reversedById));
+  const handleConfirmAction = async () => {
+    if (!effectiveCari || !confirmKind) return;
+    setBusyAction(true);
+    setNotice(null);
 
-  const handleDeleteCari = async () => {
-    if (!cari) return;
-    if (!window.confirm(`"${cari.businessName}" kalıcı olarak silinsin mi?\n\nGerçek hareketi olmayan (deneme) cari olduğu için tüm kayıtlarıyla silinir. Geri alınamaz.`)) return;
-    setArchiving(true);
-    const res = await deleteCari(cari.id);
-    if (res.success) {
-      router.push("/admin/cariler");
-    } else {
-      alert(res.error || "Silinemedi");
-      setArchiving(false);
+    try {
+      if (confirmKind === "delete") {
+        const res = await deleteCari(effectiveCari.id);
+        if (!res.success) throw new Error(res.error || "Cari silinemedi.");
+        confirmDialogRef.current?.close();
+        router.push("/admin/cariler");
+        return;
+      }
+
+      if (confirmKind === "archive") {
+        const res = await archiveCari(effectiveCari.id, true);
+        if (!res.success) throw new Error(res.error || "Cari arşivlenemedi.");
+        setNotice({ tone: "success", text: `"${effectiveCari.businessName}" arşivlendi.` });
+        confirmDialogRef.current?.close();
+        await refreshAll();
+        return;
+      }
+
+      if (confirmKind === "revoke_link") {
+        const res = await fetch(`/api/admin/cari/accounts/${encodeURIComponent(effectiveCari.id)}/revoke-link`, {
+          method: "POST",
+        });
+        const data = (await res.json().catch(() => null)) as
+          | { success?: boolean; shareTokenVersion?: number; error?: string }
+          | null;
+        if (!res.ok || !data?.success) {
+          throw new Error(data?.error || "Eski paylaşım linkleri iptal edilemedi.");
+        }
+        setNotice({
+          tone: "success",
+          text: `Eski ekstre ve fiş linkleri iptal edildi. Yeni link sürümü: v${data.shareTokenVersion ?? "?"}`,
+        });
+        confirmDialogRef.current?.close();
+        await refreshAll();
+      }
+    } catch (err: unknown) {
+      setNotice({
+        tone: "error",
+        text: err instanceof Error ? err.message : "İşlem sırasında bir hata oluştu.",
+      });
+      confirmDialogRef.current?.close();
+    } finally {
+      setBusyAction(false);
     }
   };
 
-  const handleArchiveCari = async () => {
-    if (!cari) return;
-    if (cari.balance !== 0) {
-      alert(
-        `Bakiyesi ${cari.balance.toLocaleString("tr-TR")} ₺ olan cari arşivlenemez. Önce bakiyeyi kapatın (tahsilat veya düzeltme).\n\nDeneme carisiyse: hareketlerini "İptal Et" ile iptal edin; ardından "Kalıcı Sil" görünür.`
-      );
+  const handleUnarchive = async () => {
+    if (!effectiveCari) return;
+    setBusyAction(true);
+    setNotice(null);
+    const res = await archiveCari(effectiveCari.id, false);
+    if (res.success) {
+      setNotice({ tone: "success", text: `"${effectiveCari.businessName}" yeniden aktif edildi.` });
+      await refreshAll();
+    } else {
+      setNotice({ tone: "error", text: res.error || "Cari aktif edilemedi." });
+    }
+    setBusyAction(false);
+  };
+
+  const handleStornoSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!effectiveCari || !stornoTarget) return;
+    const trimmed = stornoReason.trim();
+    if (!trimmed) {
+      setNotice({ tone: "error", text: "Ters kayıt (storno) gerekçesi girmelisiniz." });
       return;
     }
-    if (!window.confirm(`"${cari.businessName}" arşivlensin mi?\n\nListeden kalkar, yeni fiş kesilemez. Geçmiş fişler ve ekstre korunur.`)) return;
-    setArchiving(true);
-    const res = await archiveCari(cari.id);
-    if (res.success) {
-      router.push("/admin/cariler");
-    } else {
-      alert(res.error || "Arşivlenemedi");
-      setArchiving(false);
+
+    setBusyTxId(stornoTarget.id);
+    setNotice(null);
+    const res = await addTransaction(effectiveCari.id, {
+      kind: "storno",
+      reversesId: stornoTarget.id,
+      description: trimmed,
+    });
+    setBusyTxId(null);
+
+    if (!res.success) {
+      setNotice({ tone: "error", text: res.error || "Ters kayıt işlenemedi." });
+      return;
     }
+
+    stornoDialogRef.current?.close();
+    setNotice({ tone: "success", text: "Ters kayıt (storno) başarıyla deftere işlendi." });
+    await refreshAll();
   };
 
-  if (loading) {
+  if (loading && !effectiveCari) {
     return (
-      <div className="p-12 flex justify-center items-center h-screen">
-        <Loader2 className="w-8 h-8 animate-spin text-stone-500" />
+      <div className="flex items-center justify-center rounded-2xl border border-[#E2D3BD] bg-white py-20 text-sm text-[#6E5148]">
+        <Loader2 className="mr-2 h-5 w-5 animate-spin text-[#B4532A]" />
+        Cari hesap defteri yükleniyor...
       </div>
     );
   }
 
-  if (!cari) {
+  if (!effectiveCari) {
     return (
-      <div className="p-8 text-center text-stone-400">
-        <p>Müşteri hesabı bulunamadı.</p>
-        <button
-          onClick={() => router.back()}
-          className="mt-4 px-4 py-2 bg-stone-800 rounded-xl"
+      <div className="rounded-2xl border border-[#E2D3BD] bg-white p-10 text-center text-[#3B1E1A]">
+        <p className="font-serif text-xl font-bold">Cari hesap bulunamadı</p>
+        <p className="mt-1 text-sm text-[#6E5148]">{error || "Kayıt silinmiş veya erişilemiyor olabilir."}</p>
+        <Link
+          href="/admin/cariler"
+          className="mt-5 inline-flex min-h-11 items-center gap-2 rounded-xl bg-[#B4532A] px-4 text-sm font-bold text-white"
         >
-          Geri Dön
-        </button>
+          <ArrowLeft className="h-4 w-4" />
+          Carilere Dön
+        </Link>
       </div>
     );
   }
+
+  const creditLimit = effectiveCari.creditLimit ?? 0;
+  const overLimit = creditLimit > 0 && effectiveCari.balance > creditLimit;
+  const limitPct = creditLimit > 0 ? Math.min(100, Math.max(0, Math.round((effectiveCari.balance / creditLimit) * 100))) : 0;
 
   return (
-    <div className="space-y-6 pb-20">
-      {/* Header Actions */}
+    <div className="space-y-6 text-[#3B1E1A]">
+      {/* Top Nav & Lifecycle Buttons */}
       <div className="flex flex-wrap items-center justify-between gap-3">
-        <button
-          onClick={() => router.push("/admin/cariler")}
-          className="flex items-center gap-2 px-4 py-2 bg-stone-900 border border-stone-800 hover:bg-stone-800 text-stone-300 text-sm font-bold rounded-2xl transition-all"
+        <Link
+          href="/admin/cariler"
+          className="inline-flex min-h-11 items-center gap-2 rounded-xl border border-[#E2D3BD] bg-white px-3.5 text-sm font-bold text-[#3B1E1A] transition hover:bg-[#FBF6EC]"
         >
-          <ArrowLeft className="w-4 h-4" /> Listeye Dön
-        </button>
+          <ArrowLeft className="h-4 w-4" />
+          Tüm Cariler
+        </Link>
 
-        <div className="flex items-center gap-2">
-          {/* Custom Prices Quick Access Button */}
+        <div className="flex flex-wrap items-center gap-2">
           <button
+            type="button"
             onClick={() => {
               setEditModalTab("prices");
               setActiveModal("edit");
             }}
-            className="flex items-center gap-1.5 px-3.5 py-2 bg-stone-900 border border-stone-800 hover:border-amber-500/40 hover:bg-stone-850 text-stone-300 hover:text-amber-400 text-xs sm:text-sm font-bold rounded-2xl transition-all"
-            title="Özel Fiyat Tanımla / Düzenle"
+            className="flex min-h-11 items-center gap-1.5 rounded-xl border border-[#E2D3BD] bg-white px-3.5 text-xs font-bold text-[#3B1E1A] transition hover:bg-[#FBF6EC]"
           >
-            <Tag className="w-4 h-4 text-amber-400" />
-            <span>Özel Fiyatlar</span>
+            <Tag className="h-4 w-4 text-[#B4532A]" />
+            Özel Fiyatlar ({customPriceRows.length})
           </button>
 
-          {/* Edit Cari Info */}
           <button
+            type="button"
             onClick={() => {
               setEditModalTab("info");
               setActiveModal("edit");
             }}
-            className="flex items-center gap-1.5 px-3.5 py-2 bg-stone-900 border border-stone-800 hover:bg-stone-800 text-stone-300 text-xs sm:text-sm font-bold rounded-2xl transition-all"
+            className="flex min-h-11 items-center gap-1.5 rounded-xl border border-[#E2D3BD] bg-white px-3.5 text-xs font-bold text-[#3B1E1A] transition hover:bg-[#FBF6EC]"
           >
-            <Edit className="w-4 h-4" />
-            <span>Düzenle</span>
+            <Edit3 className="h-4 w-4 text-[#6E5148]" />
+            Kartı Düzenle
           </button>
 
-          {/* Deneme carisi → kalıcı sil; arşivliyse → aktif et; gerçek geçmişi olan cari → arşivle */}
-          {cari.archivedAt ? (
+          <button
+            type="button"
+            onClick={() => setConfirmKind("revoke_link")}
+            disabled={busyAction}
+            className="flex min-h-11 items-center gap-1.5 rounded-xl border border-amber-300 bg-amber-50 px-3.5 text-xs font-bold text-amber-950 transition hover:bg-amber-100 disabled:opacity-50"
+          >
+            <KeyRound className="h-4 w-4 text-amber-800" />
+            Eski Paylaşım Linklerini İptal Et
+          </button>
+
+          {effectiveCari.archivedAt ? (
             <button
               type="button"
-              onClick={async () => {
-                setArchiving(true);
-                const res = await archiveCari(cari.id, false);
-                setArchiving(false);
-                if (!res.success) alert(res.error || "Aktif edilemedi");
-                else refetch();
-              }}
-              disabled={archiving}
-              className="flex items-center gap-1.5 px-3.5 py-2 bg-emerald-950/40 border border-emerald-500/40 hover:bg-emerald-900/50 text-emerald-300 text-xs sm:text-sm font-bold rounded-2xl transition-all disabled:opacity-50"
-              title="Cariyi arşivden çıkar ve tekrar aktif et"
+              onClick={() => void handleUnarchive()}
+              disabled={busyAction}
+              className="flex min-h-11 items-center gap-1.5 rounded-xl border border-emerald-300 bg-emerald-50 px-3.5 text-xs font-bold text-emerald-900 transition hover:bg-emerald-100 disabled:opacity-50"
             >
-              {archiving ? <Loader2 className="w-4 h-4 animate-spin" /> : <RotateCcw className="w-4 h-4" />}
-              <span>Aktif Et</span>
+              <ArchiveRestore className="h-4 w-4" />
+              Aktif Et
             </button>
           ) : canDelete ? (
             <button
               type="button"
-              onClick={handleDeleteCari}
-              disabled={archiving}
-              className="flex items-center gap-1.5 px-3.5 py-2 bg-rose-950/40 border border-rose-900/40 hover:bg-rose-900/60 text-rose-400 hover:text-rose-200 text-xs sm:text-sm font-bold rounded-2xl transition-all disabled:opacity-50"
-              title="Gerçek hareketi olmayan (deneme) cariyi kalıcı sil"
+              onClick={() => setConfirmKind("delete")}
+              disabled={busyAction}
+              className="flex min-h-11 items-center gap-1.5 rounded-xl border border-red-300 bg-red-50 px-3.5 text-xs font-bold text-red-900 transition hover:bg-red-100 disabled:opacity-50"
             >
-              {archiving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Trash2 className="w-4 h-4" />}
-              <span className="hidden sm:inline">Kalıcı Sil</span>
+              <Trash2 className="h-4 w-4" />
+              Kalıcı Sil
             </button>
           ) : (
             <button
               type="button"
-              onClick={handleArchiveCari}
-              disabled={archiving}
-              className="flex items-center gap-1.5 px-3.5 py-2 bg-stone-900 border border-stone-800 hover:bg-stone-800 text-stone-400 hover:text-stone-200 text-xs sm:text-sm font-bold rounded-2xl transition-all disabled:opacity-50"
-              title="Cariyi arşivle (bakiye 0 olmalı; geçmiş korunur)"
+              onClick={() => setConfirmKind("archive")}
+              disabled={busyAction}
+              className="flex min-h-11 items-center gap-1.5 rounded-xl border border-[#E2D3BD] bg-white px-3.5 text-xs font-bold text-[#6E5148] transition hover:bg-[#FBF6EC] disabled:opacity-50"
             >
-              {archiving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Archive className="w-4 h-4" />}
-              <span className="hidden sm:inline">Arşivle</span>
+              <Archive className="h-4 w-4" />
+              Arşivle
             </button>
           )}
         </div>
       </div>
 
-      {/* Cari Info Card */}
-      <div className="bg-stone-900 border border-stone-800 rounded-3xl p-6 sm:p-8 relative overflow-hidden">
-        <div className="flex flex-col sm:flex-row justify-between sm:items-end gap-6 relative z-10">
-          <div className="flex-1 min-w-0">
-            <h1 className="text-2xl sm:text-3xl font-black font-serif text-stone-100 flex items-center gap-2.5 flex-wrap">
-              <span>{cari.businessName}</span>
-              {cari.archivedAt && (
-                <span className="px-2.5 py-0.5 rounded-lg bg-stone-800 border border-stone-700 text-stone-300 text-xs font-sans font-bold uppercase tracking-wider">
+      {notice && (
+        <div
+          role={notice.tone === "error" ? "alert" : "status"}
+          aria-live="polite"
+          className={`flex items-center justify-between gap-3 rounded-xl border px-4 py-3 text-sm ${
+            notice.tone === "success"
+              ? "border-emerald-300 bg-emerald-50 text-emerald-950"
+              : "border-red-300 bg-red-50 text-red-900"
+          }`}
+        >
+          <span>{notice.text}</span>
+          <button
+            type="button"
+            onClick={() => setNotice(null)}
+            aria-label="Bildirimi kapat"
+            className="flex min-h-9 min-w-9 items-center justify-center rounded-lg hover:bg-black/5"
+          >
+            <X className="h-4 w-4" />
+          </button>
+        </div>
+      )}
+
+      {/* Cari Profile + Balance Hero Card */}
+      <section className="rounded-2xl border border-[#E2D3BD] bg-white p-5 shadow-sm sm:p-6">
+        <div className="flex flex-col gap-6 lg:flex-row lg:items-start lg:justify-between">
+          {/* Left: Corporate Profile */}
+          <div className="min-w-0 flex-1 space-y-3">
+            <div className="flex flex-wrap items-center gap-2">
+              <h1 className="font-serif text-2xl font-bold text-[#3B1E1A] sm:text-3xl">
+                {effectiveCari.businessName}
+              </h1>
+              {effectiveCari.archivedAt && (
+                <span className="rounded-lg bg-stone-200 px-2.5 py-1 text-xs font-bold text-stone-800">
                   Arşivlenmiş Hesap
                 </span>
               )}
-            </h1>
-            <p className="text-stone-400 mt-2 max-w-xl text-sm leading-relaxed">
-              {cari.address || "Adres bilgisi yok"} <br />
-              {cari.phone || "Telefon bilgisi yok"}
-            </p>
+              <span className="rounded-lg border border-[#E2D3BD] bg-[#FBF6EC] px-2.5 py-0.5 font-mono text-xs font-semibold text-[#6E5148]">
+                Link v{effectiveCari.shareTokenVersion ?? 1}
+              </span>
+            </div>
 
-            {/* Custom Prices Badges Display */}
-            {cari.customPrices && Object.keys(cari.customPrices).length > 0 ? (
-              <div className="mt-4 pt-4 border-t border-stone-800/80">
-                <div className="flex items-center justify-between gap-2 mb-2">
-                  <div className="flex items-center gap-1.5 text-xs font-bold text-amber-400">
-                    <Tag className="w-3.5 h-3.5" />
-                    <span>Tanımlı Özel Fiyatlar ({Object.keys(cari.customPrices).length} Ürün):</span>
-                  </div>
+            {effectiveCari.companyTitle && (
+              <p className="text-sm font-semibold text-[#6E5148]">
+                Resmi Unvan: <span className="text-[#3B1E1A]">{effectiveCari.companyTitle}</span>
+              </p>
+            )}
+
+            <div className="flex flex-wrap gap-x-5 gap-y-2 text-xs text-[#6E5148]">
+              <span className="inline-flex items-center gap-1.5">
+                <MapPin className="h-3.5 w-3.5 text-[#B4532A]" />
+                {effectiveCari.district || "Beylikdüzü"} · {effectiveCari.neighborhood}
+                {effectiveCari.address ? ` — ${effectiveCari.address}` : ""}
+              </span>
+              {effectiveCari.phone && (
+                <a
+                  href={`tel:${effectiveCari.phone}`}
+                  className="inline-flex items-center gap-1.5 font-mono font-semibold text-[#3B1E1A] hover:underline"
+                >
+                  <Phone className="h-3.5 w-3.5 text-[#B4532A]" />
+                  {effectiveCari.phone}
+                </a>
+              )}
+              {(effectiveCari.taxOffice || effectiveCari.taxNumber) && (
+                <span className="font-mono">
+                  {effectiveCari.taxOffice ? `${effectiveCari.taxOffice} · ` : ""}
+                  {effectiveCari.taxNumber ? `VKN/TCKN: ${effectiveCari.taxNumber}` : ""}
+                </span>
+              )}
+            </div>
+
+            {effectiveCari.notes && (
+              <p className="rounded-xl border border-[#E2D3BD] bg-[#FBF6EC] px-3.5 py-2.5 text-xs text-[#6E5148]">
+                Not: <span className="text-[#3B1E1A]">{effectiveCari.notes}</span>
+              </p>
+            )}
+
+            {/* Custom Prices Quick Summary */}
+            {customPriceRows.length > 0 && (
+              <div className="rounded-xl border border-[#E2D3BD] bg-[#FBF6EC] p-3">
+                <div className="mb-2 flex items-center justify-between">
+                  <span className="text-xs font-bold uppercase tracking-wider text-[#6E5148]">
+                    Anlaşmalı Özel Fiyatlar
+                  </span>
                   <button
                     type="button"
                     onClick={() => {
                       setEditModalTab("prices");
                       setActiveModal("edit");
                     }}
-                    className="text-xs text-stone-400 hover:text-amber-400 underline font-medium"
+                    className="text-xs font-bold text-[#8E3D1B] hover:underline"
                   >
                     Düzenle
                   </button>
                 </div>
-                <div className="flex flex-wrap gap-1.5">
-                  {Object.entries(cari.customPrices).map(([productId, price]) => {
-                    const prod = activeProducts.find((p) => p.id === productId);
-                    return (
-                      <span
-                        key={productId}
-                        className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-stone-950 border border-stone-800 rounded-lg text-xs font-mono text-stone-300"
-                      >
-                        <span className="font-sans text-stone-400">{prod?.name || "Ürün"}:</span>
-                        <span className="font-bold text-amber-400">{price} ₺</span>
-                      </span>
-                    );
-                  })}
+                <div className="flex flex-wrap gap-2">
+                  {customPriceRows.slice(0, 6).map((row) => (
+                    <span
+                      key={row.productId}
+                      className="rounded-lg border border-[#E2D3BD] bg-white px-2.5 py-1 text-xs"
+                    >
+                      <span className="font-semibold text-[#3B1E1A]">{row.productName}:</span>{" "}
+                      <strong className="font-mono text-[#8E3D1B]">{formatMoney(row.customPrice)} ₺</strong>
+                    </span>
+                  ))}
+                  {customPriceRows.length > 6 && (
+                    <span className="self-center text-xs text-[#6E5148]">+{customPriceRows.length - 6} ürün daha</span>
+                  )}
                 </div>
-              </div>
-            ) : (
-              <div className="mt-4 pt-3 border-t border-stone-800/60 flex items-center justify-between">
-                <span className="text-xs text-stone-500">Bu cari için özel toptan fiyat tanımlanmamış.</span>
-                <button
-                  type="button"
-                  onClick={() => {
-                    setEditModalTab("prices");
-                    setActiveModal("edit");
-                  }}
-                  className="text-xs text-amber-400 hover:text-amber-300 font-bold flex items-center gap-1 hover:underline"
-                >
-                  <Tag className="w-3 h-3" /> + Özel Fiyat Belirle
-                </button>
               </div>
             )}
           </div>
 
-          <div className="bg-stone-950 p-5 rounded-2xl border border-stone-800 sm:min-w-[220px] flex flex-col justify-between">
-            <div>
-              <div className="text-xs text-stone-500 font-bold uppercase tracking-wider mb-1">
-                Güncel Bakiye
+          {/* Right: Balance & Primary Actions */}
+          <div className="w-full shrink-0 space-y-3 rounded-2xl border border-[#E2D3BD] bg-[#FBF6EC] p-4 lg:w-96">
+            <div className="flex items-start justify-between gap-3">
+              <div>
+                <p className="text-xs font-bold uppercase tracking-wider text-[#6E5148]">
+                  Güncel Cari Bakiye
+                </p>
+                <p
+                  className={`mt-1 font-mono text-3xl font-bold tabular-nums ${
+                    effectiveCari.balance > 0
+                      ? "text-[#8E3D1B]"
+                      : effectiveCari.balance < 0
+                        ? "text-emerald-800"
+                        : "text-[#3B1E1A]"
+                  }`}
+                >
+                  {formatMoney(effectiveCari.balance)} ₺
+                </p>
               </div>
-              <div
-                className={`text-3xl font-black font-mono ${
-                  cari.balance > 0 ? "text-rose-400" : "text-emerald-400"
-                }`}
+              <button
+                type="button"
+                onClick={() => setActiveModal("adjust_balance")}
+                className="flex min-h-10 items-center gap-1.5 rounded-xl border border-[#E2D3BD] bg-white px-3 text-xs font-bold text-[#3B1E1A] transition hover:bg-[#F6EEDF]"
               >
-                {Math.abs(cari.balance).toLocaleString("tr-TR")} ₺
-              </div>
-              <div className="text-xs text-stone-500 mt-1 font-semibold">
-                {cari.balance > 0
-                  ? "Müşterinin borcu"
-                  : cari.balance < 0
-                  ? "Fazla ödeme (müşteri alacaklı)"
-                  : "Borç yok"}
-              </div>
+                <Scale className="h-3.5 w-3.5 text-[#B4532A]" />
+                Bakiye Düzelt
+              </button>
             </div>
 
-            {/* Direct Balance Adjustment Button */}
-            <button
-              onClick={() => setActiveModal("adjust_balance")}
-              className="mt-3 py-2 px-3 bg-stone-900 hover:bg-stone-850 hover:border-amber-500/40 border border-stone-800 text-stone-300 hover:text-amber-400 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-1.5 active:scale-95"
-              title="Bakiyeyi doğru değere getir (fark kadar düzeltme kaydı atılır)"
-            >
-              <Scale className="w-3.5 h-3.5 text-amber-400" />
-              <span>Bakiyeyi Düzelt</span>
-            </button>
+            {creditLimit > 0 && (
+              <div className="space-y-1">
+                <div className="flex justify-between text-xs">
+                  <span className="text-[#6E5148]">Kredi Limiti Kullanımı</span>
+                  <span className={`font-mono font-bold tabular-nums ${overLimit ? "text-red-700" : "text-[#3B1E1A]"}`}>
+                    {formatMoney(effectiveCari.balance)} / {formatMoney(creditLimit)} ₺
+                  </span>
+                </div>
+                <div className="h-2 w-full overflow-hidden rounded-full bg-[#E2D3BD]">
+                  <div
+                    className={`h-full transition-all ${overLimit ? "bg-red-700" : "bg-[#B4532A]"}`}
+                    style={{ width: `${limitPct}%` }}
+                  />
+                </div>
+              </div>
+            )}
+
+            <div className="grid grid-cols-1 gap-2 pt-1 sm:grid-cols-2">
+              {!effectiveCari.archivedAt && effectiveCari.accountType !== "gider" && (
+                <button
+                  type="button"
+                  onClick={() => setHotSaleOpen(true)}
+                  className="sm:col-span-2 flex min-h-12 items-center justify-center gap-2 rounded-xl bg-[#B4532A] px-4 text-sm font-bold text-white shadow-sm transition hover:bg-[#9C4421]"
+                >
+                  <Flame className="h-4 w-4" />
+                  Sıcak Satış &amp; İrsaliye Kes
+                </button>
+              )}
+
+              {!effectiveCari.archivedAt && (
+                <>
+                  <button
+                    type="button"
+                    onClick={() => setActiveModal("slip")}
+                    className="flex min-h-11 items-center justify-center gap-1.5 rounded-xl border border-[#E2D3BD] bg-white px-3 text-xs font-bold text-[#3B1E1A] transition hover:bg-[#F6EEDF]"
+                  >
+                    <Receipt className="h-4 w-4 text-[#B4532A]" />
+                    Teslimat Fişi
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setActiveModal("collection")}
+                    className="flex min-h-11 items-center justify-center gap-1.5 rounded-xl bg-emerald-700 px-3 text-xs font-bold text-white transition hover:bg-emerald-800"
+                  >
+                    <Wallet className="h-4 w-4" />
+                    Tahsilat Al
+                  </button>
+                </>
+              )}
+
+              {effectiveCari.phone && effectiveCari.accountType !== "gider" && (
+                <button
+                  type="button"
+                  onClick={() =>
+                    void shareViaWhatsApp(
+                      effectiveCari.phone,
+                      { accountId: effectiveCari.id },
+                      ekstreMessage(effectiveCari.businessName, effectiveCari.balance),
+                    )
+                  }
+                  className="sm:col-span-2 flex min-h-11 items-center justify-center gap-2 rounded-xl border border-emerald-300 bg-emerald-50 px-3 text-xs font-bold text-emerald-950 transition hover:bg-emerald-100"
+                >
+                  <MessageCircle className="h-4 w-4 text-emerald-700" />
+                  WhatsApp Canlı Ekstre Paylaş
+                </button>
+              )}
+            </div>
           </div>
         </div>
-      </div>
+      </section>
 
-      {/* Action Buttons — Mobile-friendly large touch targets */}
-      <div className="grid grid-cols-2 gap-3">
-        <button
-          onClick={() => setActiveModal("slip")}
-          className="bg-artisan-terracotta hover:bg-orange-600 text-white p-4 rounded-2xl font-black flex flex-col items-center justify-center gap-2 transition-colors shadow-lg active:scale-95 min-h-[72px]"
-        >
-          <Receipt className="w-7 h-7" />
-          <span className="text-sm">Fiş Kes</span>
-        </button>
+      {/* Ledger History & Filters */}
+      <section className="rounded-2xl border border-[#E2D3BD] bg-white p-5 shadow-sm sm:p-6 space-y-4">
+        <div className="flex flex-wrap items-center justify-between gap-3">
+          <div>
+            <h2 className="font-serif text-xl font-bold text-[#3B1E1A]">Hesap Hareketleri</h2>
+            <p className="text-xs text-[#6E5148]">
+              Gösterilen: {filteredTransactions.length} / {transactions.length} işlem (Simetrik bakiye = Σ delta)
+            </p>
+          </div>
+          <button
+            type="button"
+            onClick={handleExportCSV}
+            disabled={filteredTransactions.length === 0}
+            className="flex min-h-11 items-center gap-2 rounded-xl border border-[#E2D3BD] bg-[#FBF6EC] px-4 text-xs font-bold text-[#3B1E1A] transition hover:bg-[#F6EEDF] disabled:opacity-50"
+          >
+            <Download className="h-4 w-4 text-[#B4532A]" />
+            Excel / CSV İndir
+          </button>
+        </div>
 
-        <button
-          onClick={() => setActiveModal("collection")}
-          className="bg-emerald-500 hover:bg-emerald-600 text-emerald-950 p-4 rounded-2xl font-black flex flex-col items-center justify-center gap-2 transition-colors shadow-lg active:scale-95 min-h-[72px]"
-        >
-          <Wallet className="w-7 h-7" />
-          <span className="text-sm">Tahsilat Al</span>
-        </button>
-      </div>
+        {/* Period + Type Filters */}
+        <div className="flex flex-col gap-3 rounded-xl border border-[#E2D3BD] bg-[#FBF6EC] p-3.5">
+          <div className="flex flex-wrap items-center gap-2">
+            <span className="inline-flex items-center gap-1 text-xs font-bold text-[#6E5148] mr-1">
+              <Calendar className="h-3.5 w-3.5" />
+              Dönem:
+            </span>
+            {[
+              { id: "all" as const, label: "Tümü" },
+              { id: "this_month" as const, label: "Bu Ay" },
+              { id: "last_month" as const, label: "Geçen Ay" },
+              { id: "last_30" as const, label: "Son 30 Gün" },
+              { id: "custom" as const, label: "Özel Tarih" },
+            ].map((item) => (
+              <button
+                key={item.id}
+                type="button"
+                onClick={() => setDateFilter(item.id)}
+                className={`min-h-10 rounded-xl border px-3 text-xs font-bold transition ${
+                  dateFilter === item.id
+                    ? "border-[#B4532A] bg-[#B4532A] text-white"
+                    : "border-[#E2D3BD] bg-white text-[#3B1E1A] hover:bg-[#F6EEDF]"
+                }`}
+              >
+                {item.label}
+              </button>
+            ))}
 
-      {/* Transactions List with Period/Type Filters and CSV Export */}
-      <div className="bg-stone-900 border border-stone-800 rounded-3xl overflow-hidden">
-        <div className="p-5 border-b border-stone-800 bg-stone-950 space-y-3">
-          <div className="flex flex-wrap items-center justify-between gap-3">
-            <div>
-              <h2 className="text-lg font-bold text-stone-100 font-serif">Hesap Hareketleri</h2>
-              <span className="text-xs text-stone-500 font-mono">
-                {filteredTransactions.length} / {transactions.length} hareket listeleniyor
-              </span>
+            <div className="ml-auto flex flex-wrap items-center gap-1.5">
+              {[
+                { id: "all" as const, label: "Hepsi" },
+                { id: "debt" as const, label: "Satış / Borç (+)" },
+                { id: "credit" as const, label: "Tahsilat / Alacak (−)" },
+              ].map((item) => (
+                <button
+                  key={item.id}
+                  type="button"
+                  onClick={() => setTypeFilter(item.id)}
+                  className={`min-h-10 rounded-xl border px-3 text-xs font-bold transition ${
+                    typeFilter === item.id
+                      ? "border-[#3B1E1A] bg-[#3B1E1A] text-white"
+                      : "border-[#E2D3BD] bg-white text-[#3B1E1A] hover:bg-[#F6EEDF]"
+                  }`}
+                >
+                  {item.label}
+                </button>
+              ))}
             </div>
-
-            <button
-              onClick={handleExportCSV}
-              disabled={filteredTransactions.length === 0}
-              className="flex items-center gap-2 px-3 py-2 bg-stone-900 border border-stone-800 hover:border-emerald-500/40 hover:bg-stone-850 text-stone-300 hover:text-emerald-400 text-xs font-bold rounded-xl transition-all disabled:opacity-50"
-              title="Filtrelenen hareketleri Excel CSV olarak indir"
-            >
-              <Download className="w-3.5 h-3.5 text-emerald-400" />
-              <span>Excel / CSV İndir</span>
-            </button>
           </div>
 
-          {/* Filter Controls Toolbar */}
-          <div className="flex flex-wrap items-center gap-2 pt-1 text-xs">
-            {/* Period Filter */}
-            <div className="flex items-center gap-1 bg-stone-900 border border-stone-800 rounded-xl p-1">
-              {(
-                [
-                  { id: "all", label: "Tümü" },
-                  { id: "this_month", label: "Bu Ay" },
-                  { id: "last_month", label: "Geçen Ay" },
-                  { id: "last_30", label: "Son 30 Gün" },
-                  { id: "custom", label: "Tarih Seç" },
-                ] as const
-              ).map((item) => (
-                <button
-                  key={item.id}
-                  onClick={() => setDateFilter(item.id)}
-                  className={`px-2.5 py-1 rounded-lg font-semibold transition-colors ${
-                    dateFilter === item.id
-                      ? "bg-amber-500/20 text-amber-400 border border-amber-500/30"
-                      : "text-stone-400 hover:text-stone-200"
-                  }`}
-                >
-                  {item.label}
-                </button>
-              ))}
-            </div>
-
-            {/* Type Filter */}
-            <div className="flex items-center gap-1 bg-stone-900 border border-stone-800 rounded-xl p-1">
-              {(
-                [
-                  { id: "all", label: "Hepsi" },
-                  { id: "debt", label: "Fişler (+)" },
-                  { id: "credit", label: "Tahsilatlar (-)" },
-                ] as const
-              ).map((item) => (
-                <button
-                  key={item.id}
-                  onClick={() => setTypeFilter(item.id)}
-                  className={`px-2.5 py-1 rounded-lg font-semibold transition-colors ${
-                    typeFilter === item.id
-                      ? "bg-amber-500/20 text-amber-400 border border-amber-500/30"
-                      : "text-stone-400 hover:text-stone-200"
-                  }`}
-                >
-                  {item.label}
-                </button>
-              ))}
-            </div>
-
-            {/* Custom Date Inputs */}
-            {dateFilter === "custom" && (
-              <div className="flex items-center gap-2 bg-stone-900 border border-stone-800 rounded-xl px-2.5 py-1">
-                <Calendar className="w-3.5 h-3.5 text-stone-500" />
+          {dateFilter === "custom" && (
+            <div className="grid grid-cols-1 gap-3 border-t border-[#E2D3BD] pt-3 sm:grid-cols-2">
+              <div>
+                <label htmlFor="cari-filter-start" className="mb-1 block text-xs font-bold text-[#6E5148]">
+                  Başlangıç Tarihi
+                </label>
                 <input
+                  id="cari-filter-start"
                   type="date"
                   value={startDate}
                   onChange={(e) => setStartDate(e.target.value)}
-                  className="bg-transparent text-stone-200 text-xs focus:outline-none"
+                  className="min-h-11 w-full rounded-xl border border-[#E2D3BD] bg-white px-3 text-sm text-[#3B1E1A]"
                 />
-                <span className="text-stone-600">-</span>
+              </div>
+              <div>
+                <label htmlFor="cari-filter-end" className="mb-1 block text-xs font-bold text-[#6E5148]">
+                  Bitiş Tarihi
+                </label>
                 <input
+                  id="cari-filter-end"
                   type="date"
                   value={endDate}
                   onChange={(e) => setEndDate(e.target.value)}
-                  className="bg-transparent text-stone-200 text-xs focus:outline-none"
+                  className="min-h-11 w-full rounded-xl border border-[#E2D3BD] bg-white px-3 text-sm text-[#3B1E1A]"
                 />
               </div>
-            )}
-          </div>
+            </div>
+          )}
         </div>
 
-        <div className="divide-y divide-stone-800/50 max-h-[500px] overflow-y-auto">
-          {filteredTransactions.length === 0 ? (
-            <div className="p-8 text-center text-stone-500 text-sm">
-              {transactions.length === 0
-                ? "Henüz hesap hareketi bulunmuyor."
-                : "Seçili filtrelere uygun hesap hareketi bulunamadı."}
-            </div>
-          ) : (
-            filteredTransactions.map((tx) => {
+        {/* Transactions List */}
+        {filteredTransactions.length === 0 ? (
+          <div className="rounded-xl border border-dashed border-[#E2D3BD] bg-[#FBF6EC]/60 py-12 text-center text-sm text-[#6E5148]">
+            Seçili filtrelere uyan cari hareketi bulunamadı.
+          </div>
+        ) : (
+          <div className="space-y-2.5">
+            {filteredTransactions.map((tx) => {
               const isDebt = tx.delta > 0;
-              const cancelled = Boolean(tx.reversedById);
+              const isReversed = Boolean(tx.reversedById);
+              const isStorno = tx.type === "storno";
+              const typeLabel = LEDGER_TYPE_LABELS[tx.type] ?? tx.type;
+              const returnCount = (tx.items ?? []).filter((it) => it.isReturn || it.quantity < 0).length;
+
               return (
                 <div
                   key={tx.id}
-                  className={`p-4 flex flex-col gap-3 hover:bg-stone-800/20 transition-colors ${cancelled ? "opacity-50" : ""}`}
+                  className={`flex flex-col gap-3 rounded-xl border p-4 transition sm:flex-row sm:items-center sm:justify-between ${
+                    isReversed
+                      ? "border-[#E2D3BD] bg-stone-100/70 opacity-75"
+                      : "border-[#E2D3BD] bg-[#FBF6EC]/50 hover:border-[#B4532A]/60"
+                  }`}
                 >
-                  <div className="flex items-start gap-3">
-                    <div
-                      className={`w-10 h-10 rounded-xl flex items-center justify-center shrink-0 ${
-                        isDebt ? "bg-rose-500/10" : "bg-emerald-500/10"
-                      }`}
-                    >
-                      {tx.type === "storno" ? (
-                        <Undo2 className="w-5 h-5 text-stone-400" />
-                      ) : isDebt ? (
-                        <ArrowUpRight className="w-5 h-5 text-rose-500" />
-                      ) : (
-                        <ArrowDownRight className="w-5 h-5 text-emerald-500" />
-                      )}
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <div className="flex items-center gap-2 flex-wrap">
-                        <span className={`text-sm font-bold text-stone-200 ${cancelled ? "line-through" : ""}`}>
-                          {LEDGER_TYPE_LABELS[tx.type]}
-                        </span>
-                        {cancelled && (
-                          <span className="text-xs font-bold px-1.5 py-0.5 rounded bg-stone-800 text-stone-400 border border-stone-700">
-                            İPTAL EDİLDİ
-                          </span>
-                        )}
-                        {tx.slipNumber && (
-                          <span className="text-xs font-mono px-1.5 py-0.5 rounded bg-amber-500/10 text-amber-400 border border-amber-500/20">
-                            {tx.slipNumber}
-                          </span>
-                        )}
-                        {tx.paymentMethod && (
-                          <span className="text-xs px-1.5 py-0.5 rounded bg-stone-800 text-stone-400 border border-stone-700">
-                            {PAYMENT_METHOD_LABELS[tx.paymentMethod] || tx.paymentMethod}
-                          </span>
-                        )}
-                      </div>
-                      <div className="text-xs text-stone-400 mt-0.5 line-clamp-2">
-                        {ledgerLine(tx)}
-                      </div>
-                      <div className="text-xs text-stone-500 mt-1 font-mono">
-                        {tx.date.split("-").reverse().join(".")}
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="flex items-center justify-between pl-13">
-                    <div className="flex items-center gap-3">
-                      <div
-                        className={`text-lg font-black font-mono ${
-                          isDebt ? "text-rose-400" : "text-emerald-400"
+                  <button
+                    type="button"
+                    onClick={() => setSelectedTx(tx)}
+                    className="min-w-0 flex-1 text-left"
+                  >
+                    <div className="flex flex-wrap items-center gap-2">
+                      <span
+                        className={`rounded-md px-2 py-0.5 text-[11px] font-bold uppercase tracking-wider ${
+                          isStorno
+                            ? "bg-stone-200 text-stone-800"
+                            : tx.type === "tahsilat"
+                              ? "bg-emerald-100 text-emerald-900"
+                              : tx.type === "devir"
+                                ? "bg-sky-100 text-sky-900"
+                                : "bg-[#F6EEDF] text-[#8E3D1B] border border-[#E2D3BD]"
                         }`}
                       >
-                        {isDebt ? "+" : tx.delta < 0 ? "−" : ""}
-                        {Math.abs(tx.delta).toLocaleString("tr-TR")} ₺
-                      </div>
-                      {tx.balanceAfter !== undefined && (
-                        <span className="text-xs text-stone-500 font-mono">
-                          Bakiye: {tx.balanceAfter.toLocaleString("tr-TR")} ₺
+                        {typeLabel}
+                      </span>
+                      {tx.slipNumber && (
+                        <span className="font-mono text-xs font-bold text-[#3B1E1A]">{tx.slipNumber}</span>
+                      )}
+                      <span className="text-xs text-[#6E5148]">{formatTrDate(tx.date)}</span>
+                      {tx.paymentMethod && (
+                        <span className="rounded-md bg-white px-2 py-0.5 text-[11px] font-semibold text-[#6E5148] border border-[#E2D3BD]">
+                          {getPaymentLabel(tx.paymentMethod)}
+                        </span>
+                      )}
+                      {returnCount > 0 && (
+                        <span className="rounded-md bg-amber-100 px-2 py-0.5 text-[11px] font-bold text-amber-950">
+                          {returnCount} İade Kalemi
+                        </span>
+                      )}
+                      {isReversed && (
+                        <span className="rounded-md bg-red-100 px-2 py-0.5 text-[11px] font-bold text-red-900">
+                          İptal Edildi (Storno)
                         </span>
                       )}
                     </div>
+                    <p className={`mt-1 text-sm font-medium text-[#3B1E1A] ${isReversed ? "line-through" : ""}`}>
+                      {tx.description || typeLabel}
+                    </p>
+                  </button>
 
-                    <div className="flex items-center gap-2">
-                      {/* İptal (ters kayıt) — kayıt düzenlenmez/silinmez */}
-                      {tx.type !== "storno" && !cancelled && (
+                  <div className="flex items-center justify-between gap-3 sm:justify-end">
+                    <div className="text-right">
+                      <p
+                        className={`font-mono text-base font-bold tabular-nums ${
+                          isDebt ? "text-[#8E3D1B]" : "text-emerald-800"
+                        }`}
+                      >
+                        {isDebt ? "+" : "−"}
+                        {formatMoney(Math.abs(tx.delta))} ₺
+                      </p>
+                      {tx.balanceAfter !== undefined && (
+                        <p className="font-mono text-xs tabular-nums text-[#6E5148]">
+                          Kalan: {formatMoney(tx.balanceAfter)} ₺
+                        </p>
+                      )}
+                    </div>
+
+                    <div className="flex items-center gap-1.5">
+                      <button
+                        type="button"
+                        onClick={() => setSelectedTx(tx)}
+                        className="min-h-11 rounded-xl border border-[#E2D3BD] bg-white px-3 text-xs font-bold text-[#3B1E1A] transition hover:bg-[#F6EEDF]"
+                      >
+                        Fiş
+                      </button>
+                      {!isReversed && !isStorno && (
                         <button
-                          onClick={() => handleStorno(tx)}
+                          type="button"
+                          onClick={() => {
+                            setStornoReason("");
+                            setStornoTarget(tx);
+                          }}
                           disabled={busyTxId === tx.id}
-                          className="px-3 py-2 bg-stone-800 hover:bg-stone-700 text-stone-300 hover:text-rose-300 rounded-xl transition-colors border border-stone-700 min-h-[40px] flex items-center gap-1.5 text-xs font-bold active:scale-95 disabled:opacity-50"
-                          title="İptal et (ters kayıt)"
+                          aria-label={`${tx.slipNumber || "İşlem"} için ters kayıt`}
+                          className="flex min-h-11 min-w-11 items-center justify-center rounded-xl border border-[#E2D3BD] bg-white text-[#6E5148] transition hover:border-red-300 hover:bg-red-50 hover:text-red-800 disabled:opacity-50"
                         >
-                          {busyTxId === tx.id ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Undo2 className="w-3.5 h-3.5" />}
-                          <span className="hidden sm:inline">İptal Et</span>
+                          {busyTxId === tx.id ? (
+                            <Loader2 className="h-4 w-4 animate-spin" />
+                          ) : (
+                            <RotateCcw className="h-4 w-4" />
+                          )}
                         </button>
                       )}
-
-                      {/* View & Share Receipt Button */}
-                      <button
-                        onClick={() => setSelectedTx(tx)}
-                        className="p-2 bg-stone-800 hover:bg-stone-700 text-stone-400 hover:text-white rounded-xl transition-colors border border-stone-700 min-h-[40px] min-w-[40px] flex items-center justify-center active:scale-95"
-                        title="Fişi Görüntüle & Paylaş"
-                      >
-                        <ExternalLink className="w-4 h-4" />
-                      </button>
                     </div>
                   </div>
                 </div>
               );
-            })
-          )}
-        </div>
-      </div>
+            })}
+          </div>
+        )}
+      </section>
+
+      {/* Destructive / Revoke Confirmation <dialog> */}
+      <dialog
+        ref={confirmDialogRef}
+        closedby="closerequest"
+        onCancel={(e) => {
+          if (busyAction) e.preventDefault();
+        }}
+        aria-labelledby="cari-confirm-dialog-title"
+        className="m-auto w-full max-w-md rounded-2xl border border-[#E2D3BD] bg-[#FBF6EC] p-5 text-[#3B1E1A] shadow-2xl overscroll-contain backdrop:overflow-hidden backdrop:overscroll-contain backdrop:bg-[#3B1E1A]/45"
+      >
+        {confirmKind && (
+          <div className="space-y-4">
+            <div className="flex items-start gap-3">
+              <ShieldAlert className="mt-0.5 h-6 w-6 shrink-0 text-[#B4532A]" />
+              <div>
+                <h2 id="cari-confirm-dialog-title" className="font-serif text-lg font-bold text-[#3B1E1A]">
+                  {confirmKind === "delete"
+                    ? "Deneme Carisini Kalıcı Sil"
+                    : confirmKind === "archive"
+                      ? "Cariyi Arşivle"
+                      : "Eski Paylaşım Linklerini İptal Et"}
+                </h2>
+                <p className="mt-1.5 text-sm leading-relaxed text-[#6E5148]">
+                  {confirmKind === "delete"
+                    ? `"${effectiveCari.businessName}" kalıcı olarak silinecek. Yalnız gerçek hareketi olmayan deneme carisi için geçerlidir; geri alınamaz.`
+                    : confirmKind === "archive"
+                      ? `"${effectiveCari.businessName}" listeden kalkar ve yeni fiş kesilemez (bakiyesi 0 ₺ olmalıdır). Geçmiş fişler ve ekstre korunur.`
+                      : `"${effectiveCari.businessName}" için müşteriye daha önce gönderilen tüm ekstre ve fiş paylaşım linkleri geçersiz kılınacak. Yeni üretilen linkler güncel sürümle çalışacaktır.`}
+                </p>
+              </div>
+            </div>
+
+            <div className="flex justify-end gap-2 pt-2">
+              <button
+                type="button"
+                autoFocus
+                onClick={() => confirmDialogRef.current?.close()}
+                disabled={busyAction}
+                className="min-h-11 rounded-xl border border-[#E2D3BD] bg-white px-4 text-sm font-bold text-[#3B1E1A] hover:bg-[#F6EEDF]"
+              >
+                Vazgeç
+              </button>
+              <button
+                type="button"
+                onClick={() => void handleConfirmAction()}
+                disabled={busyAction}
+                className={`flex min-h-11 items-center gap-2 rounded-xl px-4 text-sm font-bold text-white disabled:opacity-50 ${
+                  confirmKind === "delete" ? "bg-red-700 hover:bg-red-800" : "bg-[#B4532A] hover:bg-[#9C4421]"
+                }`}
+              >
+                {busyAction && <Loader2 className="h-4 w-4 animate-spin" />}
+                {confirmKind === "delete"
+                  ? "Evet, Kalıcı Sil"
+                  : confirmKind === "archive"
+                    ? "Evet, Arşivle"
+                    : "Linkleri İptal Et"}
+              </button>
+            </div>
+          </div>
+        )}
+      </dialog>
+
+      {/* Storno Reason <dialog> */}
+      <dialog
+        ref={stornoDialogRef}
+        closedby="closerequest"
+        onCancel={(e) => {
+          if (busyTxId) e.preventDefault();
+        }}
+        aria-labelledby="storno-dialog-title"
+        className="m-auto w-full max-w-md rounded-2xl border border-[#E2D3BD] bg-[#FBF6EC] p-5 text-[#3B1E1A] shadow-2xl overscroll-contain backdrop:overflow-hidden backdrop:overscroll-contain backdrop:bg-[#3B1E1A]/45"
+      >
+        {stornoTarget && (
+          <form onSubmit={handleStornoSubmit} className="space-y-4">
+            <div>
+              <h2 id="storno-dialog-title" className="font-serif text-lg font-bold text-[#3B1E1A]">
+                Ters Kayıt (Storno) Oluştur
+              </h2>
+              <p className="mt-1 text-xs text-[#6E5148]">
+                {stornoTarget.slipNumber || stornoTarget.id} ·{" "}
+                <strong className="font-mono">{formatMoney(Math.abs(stornoTarget.delta))} ₺</strong> tutarındaki
+                hareket defterden silinmeden ters kayıtla sıfırlanacaktır.
+              </p>
+            </div>
+
+            <div>
+              <label htmlFor="storno-reason-input" className="mb-1.5 block text-xs font-bold text-[#6E5148]">
+                İptal / Ters Kayıt Gerekçesi *
+              </label>
+              <input
+                id="storno-reason-input"
+                type="text"
+                required
+                value={stornoReason}
+                onChange={(e) => setStornoReason(e.target.value)}
+                placeholder="Örn. Hatalı fiş, müşteri iade..."
+                className="min-h-11 w-full rounded-xl border border-[#E2D3BD] bg-white px-3 text-base text-[#3B1E1A] focus:border-[#B4532A] focus:outline-none sm:text-sm"
+              />
+            </div>
+
+            <div className="flex justify-end gap-2">
+              <button
+                type="button"
+                autoFocus
+                onClick={() => stornoDialogRef.current?.close()}
+                disabled={Boolean(busyTxId)}
+                className="min-h-11 rounded-xl border border-[#E2D3BD] bg-white px-4 text-sm font-bold text-[#3B1E1A] hover:bg-[#F6EEDF]"
+              >
+                Vazgeç
+              </button>
+              <button
+                type="submit"
+                disabled={Boolean(busyTxId) || !stornoReason.trim()}
+                className="flex min-h-11 items-center gap-2 rounded-xl bg-red-700 px-4 text-sm font-bold text-white hover:bg-red-800 disabled:opacity-50"
+              >
+                {busyTxId && <Loader2 className="h-4 w-4 animate-spin" />}
+                Ters Kaydı İşle
+              </button>
+            </div>
+          </form>
+        )}
+      </dialog>
 
       {/* Modals */}
       {activeModal === "slip" && (
         <B2BSlipModal
-          cariId={cari.id}
-          cariName={cari.businessName}
-          customPrices={cari.customPrices}
+          cariId={effectiveCari.id}
+          cariName={effectiveCari.businessName}
+          customPrices={effectiveCari.customPrices}
           onClose={() => setActiveModal(null)}
-          onSuccess={(createdTx) => {
-            refetch();
+          onSuccess={() => {
             setActiveModal(null);
-            if (createdTx) {
-              setSelectedTx(createdTx);
-            }
+            void refreshAll();
           }}
         />
       )}
 
       {activeModal === "collection" && (
         <B2BCollectionModal
-          cariId={cari.id}
-          cariName={cari.businessName}
+          cariId={effectiveCari.id}
+          cariName={effectiveCari.businessName}
           onClose={() => setActiveModal(null)}
-          onSuccess={refetch}
+          onSuccess={() => {
+            setActiveModal(null);
+            void refreshAll();
+          }}
         />
       )}
 
       {activeModal === "edit" && (
         <CariEditModal
-          cari={cari}
+          cari={effectiveCari}
           initialTab={editModalTab}
           onClose={() => setActiveModal(null)}
           onSuccess={() => {
             setActiveModal(null);
-            refetch();
+            setNotice({ tone: "success", text: "Cari kartı ve özel fiyatlar güncellendi." });
+            void refreshAll();
           }}
         />
       )}
 
       {activeModal === "adjust_balance" && (
         <BalanceAdjustModal
-          cari={cari}
+          cari={effectiveCari}
           onClose={() => setActiveModal(null)}
           onSuccess={() => {
             setActiveModal(null);
-            refetch();
+            void refreshAll();
           }}
         />
       )}
@@ -636,10 +1063,23 @@ export default function IsolatedCariDetailPage() {
       {selectedTx && (
         <TransactionReceiptModal
           tx={selectedTx}
-          cari={cari}
+          cari={effectiveCari}
           onClose={() => setSelectedTx(null)}
         />
       )}
+
+      <B2BHotSaleModal
+        open={hotSaleOpen}
+        onClose={() => setHotSaleOpen(false)}
+        accounts={[effectiveCari]}
+        products={products}
+        initialAccountId={effectiveCari.id}
+        lockAccount={true}
+        isAdmin={true}
+        onCompleted={() => {
+          void refreshAll();
+        }}
+      />
     </div>
   );
 }

@@ -19,30 +19,34 @@ export default function AdminError({
   }, [error]);
 
   return (
-    <div className="min-h-[70vh] flex items-center justify-center p-6 text-stone-200">
-      <div className="max-w-md w-full bg-stone-900 border border-stone-800 rounded-2xl p-6 text-center space-y-4 shadow-xl">
-        <div className="w-14 h-14 rounded-2xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center mx-auto text-amber-500">
-          <AlertTriangle className="w-7 h-7" />
+    <div className="min-h-[70vh] flex items-center justify-center p-6 text-[#3B1E1A]">
+      <div className="max-w-md w-full bg-[#FFFFFF] border border-[#E2D3BD] rounded-3xl p-6 text-center space-y-4 shadow-sm">
+        <div className="w-14 h-14 rounded-2xl bg-[#FEF3D6] border border-[#E8C587] flex items-center justify-center mx-auto text-[#7A4A0B]">
+          <AlertTriangle className="w-7 h-7" aria-hidden="true" />
         </div>
 
         <div className="space-y-1">
-          <h2 className="text-lg font-bold font-serif text-stone-100">Yönetim Panelinde Bir Sorun Oluştu</h2>
-          <p className="text-xs text-stone-400">
+          <h2 className="text-lg font-bold font-serif text-[#3B1E1A]">Yönetim Panelinde Bir Sorun Oluştu</h2>
+          <p className="text-xs text-[#6E5148]">
             Hata otomatik olarak Sentry hata izleme sistemine kaydedildi.
           </p>
         </div>
 
         {error?.message && (
-          <div className="p-3 bg-stone-950 rounded-xl text-xs font-mono text-rose-400 border border-stone-800 text-left overflow-x-auto">
+          <div
+            role="alert"
+            className="p-3 bg-[#FCECE9] rounded-xl text-xs font-mono text-[#7D2114] border border-[#E7B7AF] text-left overflow-x-auto"
+          >
             {error.message}
           </div>
         )}
 
         <button
+          type="button"
           onClick={() => reset()}
-          className="w-full flex items-center justify-center gap-2 py-2.5 px-4 bg-artisan-terracotta hover:bg-artisan-terracotta-dark text-white font-bold text-xs rounded-xl transition-colors"
+          className="w-full min-h-11 flex items-center justify-center gap-2 py-2.5 px-4 bg-[#B4532A] hover:bg-[#9C4421] text-white font-bold text-xs rounded-xl transition-colors"
         >
-          <RefreshCw className="w-3.5 h-3.5" />
+          <RefreshCw className="w-3.5 h-3.5" aria-hidden="true" />
           <span>Tekrar Dene</span>
         </button>
       </div>

@@ -62,23 +62,36 @@ export async function GET(req: Request) {
       deletedLocationsCount = rpcResult ?? 0;
     }
 
-    // 3. Teslim edilmiş veya iptal edilmiş 72 saatten eski siparişlerin konum koordinatlarını NULL'a çek
-    const { error: ordersCleanErr, count: ordersCleanedCount } = await supabase
-      .from("orders")
-      .update(
-        {
-          customer_lat: null,
-          customer_lng: null,
-          location_shared: false,
-        },
-        { count: "exact" }
-      )
-      .in("status", ["teslim_edildi", "iptal"])
-      .lt("delivered_at", thresholdDate);
+    // 3. Teslim edilmiş (delivered_at < 72s) ve iptal edilmiş (updated_at < 72s) siparişlerin GPS verilerini NULL'a çek
+    const emptyLocationPayload = {
+      customer_lat: null,
+      customer_lng: null,
+      location_shared: false,
+    };
 
-    if (ordersCleanErr) {
-      logWarn("Orders table location cleanup warning:", { error: ordersCleanErr });
+    const { error: deliveredCleanErr, count: deliveredCleanedCount } = await supabase
+      .from("orders")
+      .update(emptyLocationPayload, { count: "exact" })
+      .eq("status", "teslim_edildi")
+      .lt("delivered_at", thresholdDate)
+      .or("customer_lat.not.is.null,customer_lng.not.is.null,location_shared.eq.true");
+
+    if (deliveredCleanErr) {
+      logWarn("Orders table delivered location cleanup warning:", { error: deliveredCleanErr });
     }
+
+    const { error: cancelledCleanErr, count: cancelledCleanedCount } = await supabase
+      .from("orders")
+      .update(emptyLocationPayload, { count: "exact" })
+      .eq("status", "iptal")
+      .lt("updated_at", thresholdDate)
+      .or("customer_lat.not.is.null,customer_lng.not.is.null,location_shared.eq.true");
+
+    if (cancelledCleanErr) {
+      logWarn("Orders table cancelled location cleanup warning:", { error: cancelledCleanErr });
+    }
+
+    const ordersCleanedCount = (deliveredCleanedCount ?? 0) + (cancelledCleanedCount ?? 0);
 
     // 4. rate_limit_buckets temizliği (24 saatten eski)
     const rateLimitThreshold = new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString();
@@ -111,7 +124,7 @@ export async function GET(req: Request) {
     return NextResponse.json({
       success: true,
       deletedLocationsCount,
-      ordersCleanedCount: ordersCleanedCount ?? 0,
+      ordersCleanedCount,
       deletedRateLimitsCount,
       deletedFunnelEventsCount,
       thresholdDate,

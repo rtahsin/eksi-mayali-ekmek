@@ -1,6 +1,15 @@
 import { type NextRequest, NextResponse } from "next/server";
 import { createServerClient } from "@supabase/ssr";
 
+const STAFF_ALLOWED_ADMIN_PREFIXES = ["/admin/siparisler", "/admin/uretim", "/admin/baski"] as const;
+
+function isStaffAllowedAdminPath(pathname: string): boolean {
+  if (pathname === "/admin" || pathname === "/admin/") return true;
+  return STAFF_ALLOWED_ADMIN_PREFIXES.some(
+    (prefix) => pathname === prefix || pathname.startsWith(`${prefix}/`)
+  );
+}
+
 export async function proxy(request: NextRequest) {
   let response = NextResponse.next({
     request: {
@@ -43,7 +52,7 @@ export async function proxy(request: NextRequest) {
       } = await supabase.auth.getUser();
       if (user) {
         hasValidUserSession = true;
-        // Check role from profiles table — only admin/superadmin get admin access
+        // Check role from profiles table — only admin/superadmin get full admin access
         const { data: profile } = await supabase
           .from("profiles")
           .select("role")
@@ -59,16 +68,28 @@ export async function proxy(request: NextRequest) {
     }
   }
 
-  // 2. Enforce protection on /api/admin/* (no exceptions)
+  // 2. Enforce protection on /api/admin/* (granüler yetki route handler'da requireAdmin/requireCapability ile doğrulanır)
+  const hasAdminApiRole = isAuthenticatedAdmin || userRole === "staff" || userRole === "courier";
   if (pathname.startsWith("/api/admin/")) {
-    if (!isAuthenticatedAdmin) {
+    if (!hasValidUserSession) {
       return NextResponse.json({ error: "Unauthorized API access" }, { status: 401 });
+    }
+    if (!hasAdminApiRole) {
+      return NextResponse.json({ error: "Forbidden" }, { status: 403 });
     }
   }
 
   // 3. Protect /admin/* routes
   if (pathname.startsWith("/admin") && !pathname.startsWith("/admin/login") && !pathname.startsWith("/api/")) {
-    if (!isAuthenticatedAdmin) {
+    if (userRole === "courier") {
+      return NextResponse.redirect(new URL("/kurye", request.url));
+    }
+
+    if (userRole === "staff") {
+      if (!isStaffAllowedAdminPath(pathname)) {
+        return NextResponse.redirect(new URL("/admin/uretim", request.url));
+      }
+    } else if (!isAuthenticatedAdmin) {
       const loginUrl = new URL(`/admin/login`, request.url);
       loginUrl.searchParams.set("redirect", pathname);
       return NextResponse.redirect(loginUrl);

@@ -63,9 +63,13 @@ export interface CariAccount {
   contactPerson: string;
   phone: string;
   address: string;
+  district?: string;
   neighborhood: string;
+  companyTitle?: string;
   taxNumber?: string;
   taxOffice?: string;
+  creditLimit?: number;
+  shareTokenVersion?: number;
   customPrices?: Record<string, number>; // productId -> ikili anlaşma toptan fiyatı (₺)
   balance: number; // Müşterinin bize olan borcu (Pozitif = alacağımız var)
   accountType?: "musteri" | "gider"; // musteri: Şarküteri/Kafe/Restoran, gider: Dükkan Giderleri/Tedarikçi
@@ -86,9 +90,65 @@ export type LedgerPaymentMethod = "nakit" | "pos" | "banka_havale" | "kredi_kart
 
 export interface LedgerItem {
   name: string;
+  productName?: string;
   quantity: number;
   unitPrice: number;
+  lineTotal?: number;
+  unit?: string;
+  isReturn?: boolean;
   productId?: string;
+}
+
+export type B2BHotSalePaymentMethod = "nakit" | "kredi_karti" | "havale";
+
+export interface B2BHotSaleItem {
+  productId: string;
+  name: string;
+  productName: string;
+  quantity: number;
+  unitPrice: number;
+  lineTotal: number;
+  unit: string;
+  isReturn: boolean;
+}
+
+export interface B2BHotSaleTransactionSummary {
+  transactionId: string;
+  slipNumber: string;
+  delta: number;
+  balanceAfter: number;
+}
+
+export interface B2BHotSaleAccountSummary {
+  id: string;
+  businessName: string;
+  companyTitle?: string;
+  contactPerson: string;
+  phone: string;
+  address: string;
+  district?: string;
+  neighborhood: string;
+  taxNumber?: string;
+  taxOffice?: string;
+  creditLimit: number;
+  shareTokenVersion: number;
+}
+
+export interface B2BHotSaleResult {
+  success: true;
+  saleTransaction: B2BHotSaleTransactionSummary;
+  paymentTransaction: B2BHotSaleTransactionSummary | null;
+  balanceAfter: number;
+  signedSlipUrl: string;
+  account: B2BHotSaleAccountSummary;
+  items: B2BHotSaleItem[];
+  grossTotal: number;
+  returnTotal: number;
+  netAmount: number;
+  collectedAmount: number;
+  paymentMethod?: B2BHotSalePaymentMethod;
+  date: string;
+  description: string;
 }
 
 export interface CariTransaction {
@@ -126,4 +186,22 @@ export const BEYLIKDUZU_NEIGHBORHOODS = [
   "Sahil",
   "Yakuplu",
   "Beykent",
+] as const;
+
+export const ISTANBUL_DISTRICTS = [
+  "Beylikdüzü",
+  "Büyükçekmece",
+  "Esenyurt",
+  "Avcılar",
+  "Küçükçekmece",
+  "Başakşehir",
+  "Bakırköy",
+  "Bahçelievler",
+  "Beşiktaş",
+  "Beyoğlu",
+  "Şişli",
+  "Kadıköy",
+  "Üsküdar",
+  "Sarıyer",
+  "Fatih",
 ] as const;

@@ -18,10 +18,12 @@ export function AdminLayoutClient({ children }: { children: React.ReactNode }) {
   const { soundEnabled, toggleSound, playOrderChime } = useBakeryAudio();
   const prevCountRef = useRef<number | null>(null);
 
-  // If on login page, don't show admin shell
   const isLoginPage = pathname === "/admin/login";
 
-  // Real-time listener for pending/active orders via Supabase
+  useEffect(() => {
+    setSidebarOpen(false);
+  }, [pathname]);
+
   useEffect(() => {
     if (isLoginPage) return;
 
@@ -47,7 +49,7 @@ export function AdminLayoutClient({ children }: { children: React.ReactNode }) {
       }
     };
 
-    fetchPending();
+    void fetchPending();
 
     const channelId = `admin-pending-count-${Date.now()}-${Math.random().toString(36).substring(2, 7)}`;
     const channel = supabase
@@ -56,7 +58,7 @@ export function AdminLayoutClient({ children }: { children: React.ReactNode }) {
         "postgres_changes",
         { event: "*", schema: "public", table: "orders" },
         () => {
-          fetchPending();
+          void fetchPending();
         }
       )
       .subscribe();
@@ -72,40 +74,53 @@ export function AdminLayoutClient({ children }: { children: React.ReactNode }) {
 
   return (
     <AdminAuthGate>
-      <div className="min-h-screen bg-[#120E0B] text-foreground font-sans flex flex-col selection:bg-artisan-terracotta/30 selection:text-artisan-gold print:min-h-0 print:bg-white print:p-0">
-        {/* Sidebar */}
+      <div className="min-h-screen bg-[#F6EEDF] text-[#3B1E1A] font-sans flex flex-col selection:bg-[#B4532A]/20 selection:text-[#3B1E1A] print:min-h-0 print:bg-white print:text-black print:p-0">
+        <a
+          href="#admin-main-content"
+          className="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-[60] focus:px-4 focus:py-2 focus:rounded-xl focus:bg-[#B4532A] focus:text-white focus:font-bold print:hidden"
+        >
+          Ana içeriğe geç
+        </a>
+
+        {/* Yan Menü & Mobil Çekmece */}
         <div className="print:hidden">
           <AdminSidebar
-            isOpen={sidebarOpen}
+            mobileOpen={sidebarOpen}
             onClose={() => setSidebarOpen(false)}
             pendingOrderCount={pendingCount}
           />
         </div>
 
-        {/* Main Content Area */}
-        <div className="lg:pl-64 flex-1 flex flex-col min-w-0 pb-20 lg:pb-0 print:pl-0 print:pb-0">
+        {/* Ana İçerik Alanı */}
+        <div className="md:pl-64 flex-1 flex flex-col min-w-0 pb-24 md:pb-0 print:pl-0 print:pb-0">
           <div className="print:hidden">
             <AdminHeader
-              onToggleSidebar={() => setSidebarOpen(!sidebarOpen)}
+              sidebarOpen={sidebarOpen}
+              onToggleSidebar={() => setSidebarOpen((prev) => !prev)}
               pendingOrderCount={pendingCount}
               soundEnabled={soundEnabled}
               onToggleSound={toggleSound}
             />
           </div>
 
-          <main className="flex-1 p-4 sm:p-6 lg:p-8 max-w-7xl w-full mx-auto print:p-0 print:max-w-none print:m-0">
+          <main
+            id="admin-main-content"
+            tabIndex={-1}
+            className="flex-1 p-4 sm:p-6 lg:p-8 max-w-7xl w-full mx-auto focus:outline-none print:p-0 print:max-w-none print:m-0"
+          >
             {children}
           </main>
         </div>
 
-        {/* Mobile PWA Install Prompt Banner */}
+        {/* Mobil PWA Kurulum İpucu */}
         <div className="print:hidden">
           <PwaInstallPrompt />
         </div>
 
-        {/* Mobile Bottom Navigation */}
+        {/* Mobil Alt Navigasyon */}
         <div className="print:hidden">
           <MobileBottomNav
+            sidebarOpen={sidebarOpen}
             onOpenSidebar={() => setSidebarOpen(true)}
             pendingOrderCount={pendingCount}
           />
@@ -114,4 +129,3 @@ export function AdminLayoutClient({ children }: { children: React.ReactNode }) {
     </AdminAuthGate>
   );
 }
-

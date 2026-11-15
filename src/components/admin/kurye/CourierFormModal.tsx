@@ -1,7 +1,7 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
-import { X, UserPlus, Save, AlertCircle } from "lucide-react";
+import React, { useEffect, useId, useRef, useState } from "react";
+import { X, UserPlus, AlertCircle } from "lucide-react";
 import { Courier, CourierVehicleType } from "@/types/courier";
 import { useCouriers } from "@/hooks/useCouriers";
 
@@ -10,6 +10,11 @@ interface CourierFormModalProps {
   onClose: () => void;
   courier?: Courier | null;
   onSaved?: () => void;
+}
+
+function isOutsideDialog(e: React.PointerEvent<HTMLDialogElement>, dialog: HTMLDialogElement): boolean {
+  const r = dialog.getBoundingClientRect();
+  return e.clientX < r.left || e.clientX > r.right || e.clientY < r.top || e.clientY > r.bottom;
 }
 
 export function CourierFormModal({
@@ -27,6 +32,14 @@ export function CourierFormModal({
   const [error, setError] = useState<string | null>(null);
 
   const { createCourier, updateCourier } = useCouriers();
+  const dialogRef = useRef<HTMLDialogElement>(null);
+  const pressedOutsideRef = useRef(false);
+  const titleId = useId();
+  const nameId = useId();
+  const phoneId = useId();
+  const vehicleId = useId();
+  const shiftId = useId();
+  const activeId = useId();
 
   useEffect(() => {
     if (courier) {
@@ -42,9 +55,19 @@ export function CourierFormModal({
       setIsActive(true);
       setIsOnShift(false);
     }
-  }, [courier]);
+    setError(null);
+  }, [courier, isOpen]);
 
-  if (!isOpen) return null;
+  useEffect(() => {
+    const dialog = dialogRef.current;
+    if (!dialog) return;
+    if (isOpen) {
+      dialog.returnValue = "";
+      if (!dialog.open) dialog.showModal();
+    } else if (dialog.open) {
+      dialog.close();
+    }
+  }, [isOpen]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -84,131 +107,166 @@ export function CourierFormModal({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-in fade-in duration-200">
-      <div className="relative w-full max-w-md bg-[#18130F] border border-[#261E17] rounded-3xl p-6 text-stone-100 shadow-2xl space-y-5 overflow-hidden">
-        {/* Glow */}
-        <div className="absolute -top-12 -right-12 w-32 h-32 bg-[#F59E0B]/10 rounded-full blur-2xl pointer-events-none" />
-
-        {/* Header */}
-        <div className="flex items-center justify-between border-b border-[#261E17] pb-3.5">
-          <div className="flex items-center gap-2.5">
-            <div className="w-9 h-9 rounded-xl bg-[#F59E0B]/10 border border-[#F59E0B]/20 flex items-center justify-center text-[#F59E0B]">
-              <UserPlus className="w-5 h-5" />
+    <dialog
+      ref={dialogRef}
+      aria-labelledby={titleId}
+      onClose={(e) => {
+        e.currentTarget.returnValue = "";
+        onClose();
+      }}
+      onPointerDown={(e) => {
+        pressedOutsideRef.current = isOutsideDialog(e, e.currentTarget);
+      }}
+      onPointerUp={(e) => {
+        if (pressedOutsideRef.current && isOutsideDialog(e, e.currentTarget)) {
+          onClose();
+        }
+        pressedOutsideRef.current = false;
+      }}
+      className="m-auto w-[calc(100%-2rem)] max-w-md rounded-3xl bg-[#FFFFFF] border border-[#E2D3BD] p-0 text-[#3B1E1A] shadow-2xl overscroll-contain backdrop:bg-[#3B1E1A]/45 backdrop:backdrop-blur-xs backdrop:overflow-hidden backdrop:overscroll-contain"
+    >
+      {isOpen && (
+        <div className="p-5 sm:p-6 space-y-5">
+          {/* Header */}
+          <div className="flex items-center justify-between border-b border-[#E2D3BD] pb-3.5">
+            <div className="flex items-center gap-2.5">
+              <div className="w-9 h-9 rounded-xl bg-[#F3E2D4] border border-[#DFB99F] flex items-center justify-center text-[#B4532A]">
+                <UserPlus className="w-5 h-5" aria-hidden="true" />
+              </div>
+              <div>
+                <h3 id={titleId} className="font-serif font-bold text-base text-[#3B1E1A]">
+                  {courier ? "Kurye Bilgilerini Güncelle" : "Yeni Kurye Ekle"}
+                </h3>
+                <p className="text-xs text-[#6E5148]">
+                  {courier ? courier.displayName : "Dağıtım ekibine yeni kurye tanımlayın"}
+                </p>
+              </div>
             </div>
-            <div>
-              <h3 className="font-serif font-bold text-base text-[#F7EBD3]">
-                {courier ? "Kurye Bilgilerini Güncelle" : "Yeni Kurye Ekle"}
-              </h3>
-              <p className="text-xs text-stone-400">
-                {courier ? courier.displayName : "Dağıtım ekibine yeni kurye tanımlayın"}
-              </p>
-            </div>
-          </div>
 
-          <button aria-label="Kapat"
-            onClick={onClose}
-            className="p-1.5 text-stone-400 hover:text-stone-200 hover:bg-[#261E17] rounded-lg transition-colors"
-          >
-            <X className="w-5 h-5" />
-          </button>
-        </div>
-
-        {/* Form */}
-        <form onSubmit={handleSubmit} className="space-y-4 text-xs">
-          <div>
-            <label className="block text-stone-300 font-medium mb-1">
-              Kurye Adı Soyadı:
-            </label>
-            <input
-              type="text"
-              value={displayName}
-              onChange={(e) => setDisplayName(e.target.value)}
-              placeholder="Örn: Mehmet Demir"
-              required
-              className="w-full px-3.5 py-2.5 rounded-xl bg-[#120E0B] border border-[#261E17] text-stone-100 focus:outline-none focus:border-[#F59E0B]"
-            />
-          </div>
-
-          <div>
-            <label className="block text-stone-300 font-medium mb-1">
-              Telefon Numarası:
-            </label>
-            <input
-              type="tel"
-              value={phone}
-              onChange={(e) => setPhone(e.target.value)}
-              placeholder="Örn: 0532 123 4567"
-              required
-              className="w-full px-3.5 py-2.5 rounded-xl bg-[#120E0B] border border-[#261E17] text-stone-100 font-mono focus:outline-none focus:border-[#F59E0B]"
-            />
-          </div>
-
-          <div>
-            <label className="block text-stone-300 font-medium mb-1">
-              Dağıtım Araç Tipi:
-            </label>
-            <select
-              value={vehicleType}
-              onChange={(e) => setVehicleType(e.target.value as CourierVehicleType)}
-              className="w-full px-3.5 py-2.5 rounded-xl bg-[#120E0B] border border-[#261E17] text-stone-100 focus:outline-none focus:border-[#F59E0B]"
-            >
-              <option value="motorcycle">🏍️ Motosiklet</option>
-              <option value="car">🚗 Otomobil / Panelvan</option>
-              <option value="bicycle">🚲 Bisiklet</option>
-              <option value="on_foot">🚶 Yaya Kurye</option>
-            </select>
-          </div>
-
-          {courier && (
-            <div className="grid grid-cols-2 gap-3 pt-1">
-              <label className="flex items-center gap-2 p-2.5 rounded-xl bg-[#120E0B] border border-[#261E17] cursor-pointer">
-                <input
-                  type="checkbox"
-                  checked={isOnShift}
-                  onChange={(e) => setIsOnShift(e.target.checked)}
-                  className="w-4 h-4 accent-[#F59E0B] rounded"
-                />
-                <span className="text-xs text-stone-300">Vardiyada (Aktif)</span>
-              </label>
-
-              <label className="flex items-center gap-2 p-2.5 rounded-xl bg-[#120E0B] border border-[#261E17] cursor-pointer">
-                <input
-                  type="checkbox"
-                  checked={isActive}
-                  onChange={(e) => setIsActive(e.target.checked)}
-                  className="w-4 h-4 accent-[#F59E0B] rounded"
-                />
-                <span className="text-xs text-stone-300">Hesap Aktif</span>
-              </label>
-            </div>
-          )}
-
-          {error && (
-            <div className="p-2.5 rounded-xl bg-rose-500/10 border border-rose-500/20 text-rose-300 text-xs flex items-center gap-2">
-              <AlertCircle className="w-4 h-4 shrink-0" />
-              <span>{error}</span>
-            </div>
-          )}
-
-          <div className="flex gap-2 justify-end pt-2">
             <button
               type="button"
+              aria-label="Kurye formunu kapat"
               onClick={onClose}
-              disabled={loading}
-              className="px-4 py-2.5 rounded-xl bg-[#261E17] hover:bg-[#342920] text-stone-300 font-medium transition-colors"
+              className="min-w-10 min-h-10 rounded-xl bg-[#FBF6EC] hover:bg-[#F1E6D2] border border-[#E2D3BD] text-[#6E5148] hover:text-[#3B1E1A] flex items-center justify-center transition-colors"
             >
-              Vazgeç
-            </button>
-            <button
-              type="submit"
-              disabled={loading}
-              className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-[#F59E0B] to-[#C85A32] text-black font-bold shadow-md hover:brightness-110 active:scale-95 transition-all disabled:opacity-50"
-            >
-              {loading ? "Kaydediliyor..." : courier ? "Güncelle" : "Kurye Oluştur"}
+              <X className="w-4 h-4" aria-hidden="true" />
             </button>
           </div>
-        </form>
-      </div>
-    </div>
+
+          {/* Form */}
+          <form onSubmit={handleSubmit} className="space-y-4 text-xs">
+            <div>
+              <label htmlFor={nameId} className="block text-[#3B1E1A] font-semibold mb-1">
+                Kurye Adı Soyadı:
+              </label>
+              <input
+                id={nameId}
+                type="text"
+                value={displayName}
+                onChange={(e) => setDisplayName(e.target.value)}
+                placeholder="Örn: Mehmet Demir"
+                required
+                autoComplete="name"
+                className="w-full px-3.5 py-2.5 rounded-xl bg-[#FFFFFF] border border-[#E2D3BD] text-sm text-[#3B1E1A] placeholder:text-[#6E5148]/70 focus:outline-none focus:ring-2 focus:ring-[#B4532A]"
+              />
+            </div>
+
+            <div>
+              <label htmlFor={phoneId} className="block text-[#3B1E1A] font-semibold mb-1">
+                Telefon Numarası:
+              </label>
+              <input
+                id={phoneId}
+                type="tel"
+                inputMode="tel"
+                value={phone}
+                onChange={(e) => setPhone(e.target.value)}
+                placeholder="Örn: 0532 123 4567"
+                required
+                autoComplete="tel"
+                className="w-full px-3.5 py-2.5 rounded-xl bg-[#FFFFFF] border border-[#E2D3BD] text-sm text-[#3B1E1A] placeholder:text-[#6E5148]/70 font-mono tabular-nums focus:outline-none focus:ring-2 focus:ring-[#B4532A]"
+              />
+            </div>
+
+            <div>
+              <label htmlFor={vehicleId} className="block text-[#3B1E1A] font-semibold mb-1">
+                Dağıtım Araç Tipi:
+              </label>
+              <select
+                id={vehicleId}
+                value={vehicleType}
+                onChange={(e) => setVehicleType(e.target.value as CourierVehicleType)}
+                className="w-full px-3.5 py-2.5 rounded-xl bg-[#FFFFFF] border border-[#E2D3BD] text-sm text-[#3B1E1A] focus:outline-none focus:ring-2 focus:ring-[#B4532A]"
+              >
+                <option value="motorcycle">Motosiklet</option>
+                <option value="car">Otomobil / Panelvan</option>
+                <option value="bicycle">Bisiklet</option>
+                <option value="on_foot">Yaya Kurye</option>
+              </select>
+            </div>
+
+            {courier && (
+              <div className="grid grid-cols-2 gap-3 pt-1">
+                <label
+                  htmlFor={shiftId}
+                  className="flex items-center gap-2 p-2.5 rounded-xl bg-[#FBF6EC] border border-[#E2D3BD] cursor-pointer"
+                >
+                  <input
+                    id={shiftId}
+                    type="checkbox"
+                    checked={isOnShift}
+                    onChange={(e) => setIsOnShift(e.target.checked)}
+                    className="w-4 h-4 accent-[#B4532A] rounded"
+                  />
+                  <span className="text-xs font-medium text-[#3B1E1A]">Vardiyada (Aktif)</span>
+                </label>
+
+                <label
+                  htmlFor={activeId}
+                  className="flex items-center gap-2 p-2.5 rounded-xl bg-[#FBF6EC] border border-[#E2D3BD] cursor-pointer"
+                >
+                  <input
+                    id={activeId}
+                    type="checkbox"
+                    checked={isActive}
+                    onChange={(e) => setIsActive(e.target.checked)}
+                    className="w-4 h-4 accent-[#B4532A] rounded"
+                  />
+                  <span className="text-xs font-medium text-[#3B1E1A]">Hesap Aktif</span>
+                </label>
+              </div>
+            )}
+
+            {error && (
+              <div
+                role="alert"
+                className="p-2.5 rounded-xl bg-[#FCECE9] border border-[#E7B7AF] text-[#7D2114] text-xs flex items-center gap-2"
+              >
+                <AlertCircle className="w-4 h-4 shrink-0" aria-hidden="true" />
+                <span>{error}</span>
+              </div>
+            )}
+
+            <div className="flex gap-2 justify-end pt-2 border-t border-[#E2D3BD]">
+              <button
+                type="button"
+                onClick={onClose}
+                disabled={loading}
+                className="min-h-11 px-4 py-2.5 rounded-xl bg-[#FBF6EC] hover:bg-[#F1E6D2] border border-[#E2D3BD] text-[#3B1E1A] font-semibold transition-colors"
+              >
+                Vazgeç
+              </button>
+              <button
+                type="submit"
+                disabled={loading}
+                className="min-h-11 px-5 py-2.5 rounded-xl bg-[#B4532A] hover:bg-[#9C4421] text-white font-bold shadow-xs active:scale-95 transition-colors disabled:opacity-50"
+              >
+                {loading ? "Kaydediliyor..." : courier ? "Güncelle" : "Kurye Oluştur"}
+              </button>
+            </div>
+          </form>
+        </div>
+      )}
+    </dialog>
   );
 }

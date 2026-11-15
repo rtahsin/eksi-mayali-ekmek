@@ -1,8 +1,24 @@
 import { NextResponse } from "next/server";
+import { z } from "zod";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { requireAdmin } from "@/lib/security/apiAuth";
+import { writeAuditLog } from "@/lib/security/audit";
 import { getErrorMessage } from "@/lib/utils/error";
 import { logError } from "@/lib/kernel/log";
+
+const PaymentBodySchema = z.object({
+  amount: z.coerce
+    .number()
+    .finite("Geçerli bir ödeme tutarı giriniz")
+    .positive("Geçerli bir ödeme tutarı giriniz")
+    .max(10_000_000, "Geçerli bir ödeme tutarı giriniz"),
+  method: z.enum(["cash", "pos", "online_card", "transfer", "cari"]).default("cash"),
+  status: z.enum(["pending", "completed", "failed", "refunded", "partial"]).default("completed"),
+  courierId: z.string().trim().min(1).max(80).nullable().optional(),
+  transactionRef: z.string().trim().max(120).nullable().optional(),
+  note: z.string().trim().max(300).nullable().optional(),
+  paidAt: z.string().trim().max(64).nullable().optional(),
+});
 
 export async function POST(
   req: Request,
@@ -21,22 +37,26 @@ export async function POST(
       );
     }
 
-    const body = await req.json().catch(() => ({}));
-    const amount = Number(body.amount);
-    if (!amount || amount <= 0 || isNaN(amount)) {
+    const rawBody: unknown = await req.json().catch(() => null);
+    const parsed = PaymentBodySchema.safeParse(rawBody);
+    if (!parsed.success) {
+      const amountIssue = parsed.error.issues.some((issue) => issue.path[0] === "amount");
+      if (amountIssue) {
+        return NextResponse.json(
+          { error: "Geçerli bir ödeme tutarı giriniz", code: "INVALID_AMOUNT" },
+          { status: 400 }
+        );
+      }
       return NextResponse.json(
-        { error: "Geçerli bir ödeme tutarı giriniz", code: "INVALID_AMOUNT" },
+        { error: parsed.error.issues.map((i) => i.message).join(", "), code: "INVALID_PAYLOAD" },
         { status: 400 }
       );
     }
 
-    const method = typeof body.method === "string" ? body.method : "cash";
-    const status = typeof body.status === "string" ? body.status : "completed";
-    const collectedBy = typeof body.collectedBy === "string" ? body.collectedBy : "admin";
-    const courierId = typeof body.courierId === "string" && body.courierId ? body.courierId : null;
-    const transactionRef = typeof body.transactionRef === "string" && body.transactionRef ? body.transactionRef.trim() : null;
-    const note = typeof body.note === "string" && body.note ? body.note.trim() : null;
-    const paidAt = typeof body.paidAt === "string" && body.paidAt ? body.paidAt : null;
+    const body = parsed.data;
+    const amount = Math.round(body.amount * 100) / 100;
+    // İstemciden gelen collectedBy alanına asla güvenilmez; sunucu rolünden türetilir.
+    const collectedBy = guard.auth.isCourier ? "courier" : "admin";
 
     const supabase = createAdminClient();
     if (!supabase) {
@@ -49,13 +69,13 @@ export async function POST(
     const { data, error } = await supabase.rpc("record_order_payment", {
       p_order_id: orderId,
       p_amount: amount,
-      p_method: method,
-      p_status: status,
+      p_method: body.method,
+      p_status: body.status,
       p_collected_by: collectedBy,
-      p_courier_id: courierId,
-      p_transaction_ref: transactionRef,
-      p_note: note,
-      p_paid_at: paidAt,
+      p_courier_id: body.courierId ?? null,
+      p_transaction_ref: body.transactionRef || null,
+      p_note: body.note || null,
+      p_paid_at: body.paidAt || null,
     });
 
     if (error) {
@@ -65,6 +85,21 @@ export async function POST(
         { status: 400 }
       );
     }
+
+    await writeAuditLog(supabase, {
+      actorId: guard.auth.userId,
+      actorRole: guard.auth.role ?? "admin",
+      action: "order.payment_record",
+      entityType: "order",
+      entityId: orderId,
+      summary: `Sipariş ödemesi kaydedildi (${orderId}: ${amount} ₺, ${body.method})`,
+      metadata: {
+        amount,
+        method: body.method,
+        status: body.status,
+        collectedBy,
+      },
+    });
 
     return NextResponse.json({
       success: true,
