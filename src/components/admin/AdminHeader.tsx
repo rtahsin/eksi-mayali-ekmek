@@ -21,6 +21,7 @@ import {
   Volume2,
   VolumeX,
   ShieldAlert,
+  Zap,
 } from "lucide-react";
 
 interface AdminHeaderProps {
@@ -29,6 +30,7 @@ interface AdminHeaderProps {
   pendingOrderCount?: number;
   soundEnabled?: boolean;
   onToggleSound?: () => void;
+  onOpenCommandPalette?: () => void;
 }
 
 function getRoleBadgeText(role: string | null | undefined): string {
@@ -50,6 +52,7 @@ export function AdminHeader({
   pendingOrderCount = 0,
   soundEnabled = true,
   onToggleSound,
+  onOpenCommandPalette,
 }: AdminHeaderProps) {
   const { adminUser, logout } = useAdminAuth();
   const { settings: publicSettings } = useStoreSettings();
@@ -169,7 +172,7 @@ export function AdminHeader({
 
   return (
     <header className="sticky top-0 z-30 bg-[#FBF6EC] border-b border-[#E2D3BD] text-[#3B1E1A]">
-      <div className="h-16 px-3 sm:px-6 flex items-center justify-between gap-2">
+      <div className="min-h-16 py-1.5 px-3 sm:px-6 flex flex-wrap items-center justify-between gap-2">
         {/* Sol: Mobil Hamburger Menü & İstanbul Saat Göstergesi */}
         <div className="flex items-center gap-2 sm:gap-3 min-w-0">
           <button
@@ -191,8 +194,22 @@ export function AdminHeader({
           </div>
         </div>
 
-        {/* Sağ: Şalter, Hızlı Sipariş, Zil, Bildirim ve Oturum */}
-        <div className="flex items-center gap-2 sm:gap-2.5">
+        {/* Sağ: Hızlı İşlem, Şalter, Hızlı Sipariş, Zil, Bildirim ve Oturum */}
+        <div className="flex flex-wrap items-center gap-2 sm:gap-2.5">
+          {onOpenCommandPalette && (
+            <button
+              type="button"
+              onClick={onOpenCommandPalette}
+              aria-label="Hızlı işlem komut paletini aç (Cmd veya Ctrl + K)"
+              className="inline-flex items-center gap-1.5 px-2.5 sm:px-3 min-h-11 rounded-xl bg-[#FFFFFF] hover:bg-[#F3E9D6] border border-[#E2D3BD] text-[#3B1E1A] text-xs font-sans font-bold transition-colors shadow-xs"
+            >
+              <Zap className="w-4 h-4 text-[#B4532A] shrink-0" aria-hidden="true" />
+              <span className="whitespace-nowrap">Hızlı İşlem</span>
+              <kbd className="hidden sm:inline-block px-1.5 py-0.5 rounded bg-[#F6EEDF] border border-[#E2D3BD] font-mono text-[10px] text-[#6E5148]">
+                ⌘K
+              </kbd>
+            </button>
+          )}
           {canManageSettings ? (
             <button
               type="button"
@@ -247,10 +264,10 @@ export function AdminHeader({
           {canCreateOrders && (
             <Link
               href="/admin/siparisler/yeni"
-              className="hidden lg:inline-flex items-center gap-1.5 px-3.5 min-h-11 rounded-xl bg-[#B4532A] hover:bg-[#9C4421] text-white text-xs font-serif font-bold transition-colors shadow-xs"
+              className="inline-flex items-center gap-1.5 px-3 sm:px-3.5 min-h-11 rounded-xl bg-[#B4532A] hover:bg-[#9C4421] text-white text-xs font-serif font-bold transition-colors shadow-xs"
             >
               <Plus className="w-4 h-4 shrink-0" aria-hidden="true" />
-              <span>Hızlı Sipariş</span>
+              <span className="whitespace-nowrap">Hızlı Sipariş</span>
             </Link>
           )}
 

@@ -30,9 +30,9 @@ interface MockProductRow {
   id: string;
   name: string;
   price: number;
-  unit_label?: string | null;
   weight?: number | null;
   weight_unit?: string | null;
+  is_active?: boolean | null;
 }
 
 interface MockAccountRow {
@@ -44,7 +44,7 @@ interface MockAccountRow {
   address: string | null;
   district: string | null;
   neighborhood: string | null;
-  tax_number: string | null;
+  tax_id: string | null;
   tax_office: string | null;
   credit_limit: number;
   share_token_version: number;
@@ -59,30 +59,37 @@ function makeSupabaseMock(opts: {
   rpcResult?: { data: unknown; error: { message: string } | null };
 }) {
   const rpcCalls: Array<{ fn: string; params: Record<string, unknown> }> = [];
+  const selectedColumns: Record<string, string[]> = { current_accounts: [], products: [] };
   const txInsertMock = vi.fn();
 
   const client = {
     from: vi.fn((table: string) => {
       if (table === "current_accounts") {
         return {
-          select: () => ({
-            eq: () => ({
-              maybeSingle: async () => ({
-                data: opts.account === undefined ? null : opts.account,
-                error: null,
+          select: (cols: string) => {
+            selectedColumns.current_accounts.push(cols);
+            return {
+              eq: () => ({
+                maybeSingle: async () => ({
+                  data: opts.account === undefined ? null : opts.account,
+                  error: null,
+                }),
               }),
-            }),
-          }),
+            };
+          },
         };
       }
       if (table === "products") {
         return {
-          select: () => ({
-            in: async (_col: string, ids: string[]) => ({
-              data: (opts.products ?? []).filter((p) => ids.includes(p.id)),
-              error: null,
-            }),
-          }),
+          select: (cols: string) => {
+            selectedColumns.products.push(cols);
+            return {
+              in: async (_col: string, ids: string[]) => ({
+                data: (opts.products ?? []).filter((p) => ids.includes(p.id)),
+                error: null,
+              }),
+            };
+          },
         };
       }
       if (table === "account_transactions") {
@@ -96,7 +103,7 @@ function makeSupabaseMock(opts: {
     }),
   };
 
-  return { client, rpcCalls, txInsertMock };
+  return { client, rpcCalls, selectedColumns, txInsertMock };
 }
 
 const SAMPLE_ACCOUNT: MockAccountRow = {
@@ -108,18 +115,19 @@ const SAMPLE_ACCOUNT: MockAccountRow = {
   address: "Atatürk Bulvarı No:12",
   district: "Beylikdüzü",
   neighborhood: "Adnan Kahveci",
-  tax_number: "1234567890",
+  tax_id: "1234567890",
   tax_office: "Beylikdüzü VD",
   credit_limit: 5000,
   share_token_version: 3,
-  custom_prices: { prod_1: 85 },
+  custom_prices: { prod_1: 85, prod_sample: 0 },
   balance: 1200,
   archived_at: null,
 };
 
 const SAMPLE_PRODUCTS: MockProductRow[] = [
-  { id: "prod_1", name: "Siyez Ekşi Maya", price: 120, unit_label: null, weight: 800, weight_unit: "g" },
-  { id: "prod_2", name: "Köy Bageti", price: 60, unit_label: "Adet", weight: 300, weight_unit: "g" },
+  { id: "prod_1", name: "Siyez Ekşi Maya", price: 120, weight: 800, weight_unit: "g", is_active: true },
+  { id: "prod_2", name: "Köy Bageti", price: 60, weight: null, weight_unit: null, is_active: true },
+  { id: "prod_sample", name: "Tadım Dilim", price: 40, weight: 200, weight_unit: "g", is_active: true },
 ];
 
 function makeRequest(body: unknown): Request {
@@ -375,5 +383,162 @@ describe("POST /api/admin/cari/hot-sale", () => {
 
     expect(res.status).toBe(500);
     expect(txInsertMock).not.toHaveBeenCalled();
+  });
+
+  it("queries tax_id + weight_unit/is_active (no tax_number/unit_label) and maps kredi_karti -> pos", async () => {
+    mockRequireCapability.mockResolvedValueOnce({
+      ok: true,
+      auth: { userId: "u_courier", role: "courier", isAdmin: false, isCourier: true },
+    });
+
+    const { client, rpcCalls, selectedColumns } = makeSupabaseMock({
+      account: SAMPLE_ACCOUNT,
+      products: SAMPLE_PRODUCTS,
+      rpcResult: {
+        data: {
+          sale_transaction: {
+            transaction_id: "tx_pos_1",
+            slip_number: "FİŞ-2611-011",
+            delta: 145,
+            balance_after: 1345,
+          },
+          payment_transaction: {
+            transaction_id: "tx_pos_pay_1",
+            slip_number: "FİŞ-2611-012",
+            delta: -145,
+            balance_after: 1200,
+          },
+          balance_after: 1200,
+        },
+        error: null,
+      },
+    });
+    mockCreateAdminClient.mockReturnValue(client);
+
+    const res = await POST(
+      makeRequest({
+        accountId: "cari_b2b_1",
+        items: [
+          { productId: "prod_1", quantity: 1 }, // 85 TL, 800g
+          { productId: "prod_2", quantity: 1 }, // 60 TL, adet
+          { productId: "prod_sample", quantity: 1 }, // 0 TL bedelsiz numune
+        ],
+        collectedAmount: 145,
+        paymentMethod: "kredi_karti",
+        date: "2026-11-15",
+      }),
+    );
+
+    expect(res.status).toBe(200);
+    expect(selectedColumns.current_accounts[0]).toContain("tax_id");
+    expect(selectedColumns.current_accounts[0]).not.toContain("tax_number");
+    expect(selectedColumns.products[0]).toContain("weight_unit");
+    expect(selectedColumns.products[0]).toContain("is_active");
+    expect(selectedColumns.products[0]).not.toContain("unit_label");
+
+    const body = (await res.json()) as {
+      account: { taxNumber?: string };
+      items: Array<{ productId: string | null; unit: string; unitPrice: number }>;
+      paymentMethod?: string;
+    };
+    expect(body.account.taxNumber).toBe("1234567890");
+    expect(body.paymentMethod).toBe("kredi_karti");
+    expect(body.items.find((i) => i.productId === "prod_1")?.unit).toBe("800g");
+    expect(body.items.find((i) => i.productId === "prod_2")?.unit).toBe("adet");
+    expect(body.items.find((i) => i.productId === "prod_sample")?.unitPrice).toBe(0);
+    expect(rpcCalls[0].params.p_payment_method).toBe("pos");
+  });
+
+  it("ignores unitPriceOverride from courier and enforces server custom_prices/catalog price", async () => {
+    mockRequireCapability.mockResolvedValueOnce({
+      ok: true,
+      auth: { userId: "u_courier", role: "courier", isAdmin: false, isCourier: true },
+    });
+
+    const { client, rpcCalls } = makeSupabaseMock({
+      account: SAMPLE_ACCOUNT,
+      products: SAMPLE_PRODUCTS,
+      rpcResult: {
+        data: {
+          sale_transaction: {
+            transaction_id: "tx_ovr_courier",
+            slip_number: "FİŞ-2611-013",
+            delta: 145,
+            balance_after: 1345,
+          },
+          payment_transaction: null,
+          balance_after: 1345,
+        },
+        error: null,
+      },
+    });
+    mockCreateAdminClient.mockReturnValue(client);
+
+    const res = await POST(
+      makeRequest({
+        accountId: "cari_b2b_1",
+        items: [
+          { productId: "prod_1", quantity: 1, unitPriceOverride: 1 }, // courier override MUST be ignored -> 85
+          { productId: "prod_2", quantity: 1, unitPriceOverride: 5 }, // courier override MUST be ignored -> 60
+        ],
+        date: "2026-11-15",
+      }),
+    );
+
+    expect(res.status).toBe(200);
+    expect(rpcCalls[0].params.p_amount).toBe(145);
+  });
+
+  it("allows admin unitPriceOverride and custom freeform items (productId: null)", async () => {
+    mockRequireCapability.mockResolvedValueOnce({
+      ok: true,
+      auth: { userId: "u_admin", role: "admin", isAdmin: true, isCourier: false },
+    });
+
+    const { client, rpcCalls } = makeSupabaseMock({
+      account: SAMPLE_ACCOUNT,
+      products: SAMPLE_PRODUCTS,
+      rpcResult: {
+        data: {
+          sale_transaction: {
+            transaction_id: "tx_admin_custom",
+            slip_number: "FİŞ-2611-014",
+            delta: 190,
+            balance_after: 1390,
+          },
+          payment_transaction: null,
+          balance_after: 1390,
+        },
+        error: null,
+      },
+    });
+    mockCreateAdminClient.mockReturnValue(client);
+
+    const res = await POST(
+      makeRequest({
+        accountId: "cari_b2b_1",
+        items: [
+          { productId: "prod_1", quantity: 1, unitPriceOverride: 90 }, // admin override -> 90
+          { customName: "Özel Galeta Tepsisi", unitPrice: 50, quantity: 2 }, // custom item -> 100
+          { productId: null, customName: "Numune Çavdar", unitPrice: 0, quantity: 1 }, // 0 TL sample custom item
+        ],
+        date: "2026-11-15",
+      }),
+    );
+
+    expect(res.status).toBe(200);
+    const body = (await res.json()) as {
+      netAmount: number;
+      items: Array<{ productId: string | null; name: string; unitPrice: number; unit: string }>;
+    };
+    expect(body.netAmount).toBe(190);
+    expect(rpcCalls[0].params.p_amount).toBe(190);
+    expect(body.items).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({ productId: "prod_1", unitPrice: 90 }),
+        expect.objectContaining({ productId: null, name: "Özel Galeta Tepsisi", unitPrice: 50, unit: "adet" }),
+        expect.objectContaining({ productId: null, name: "Numune Çavdar", unitPrice: 0, unit: "adet" }),
+      ]),
+    );
   });
 });

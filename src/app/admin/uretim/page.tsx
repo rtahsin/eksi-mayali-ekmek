@@ -3,6 +3,7 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import {
   AlertCircle,
+  CalendarPlus,
   Camera,
   CheckCircle2,
   Gauge,
@@ -31,7 +32,7 @@ interface ChecksResponse {
 }
 
 const inputCls =
-  "bg-[#FFFFFF] border border-[#E2D3BD] rounded-xl px-3 min-h-[44px] text-sm text-[#3B1E1A] placeholder:text-[#6E5148]/70 focus:outline-none focus:ring-2 focus:ring-[#B4532A]";
+  "bg-[#FFFFFF] border border-[#E2D3BD] rounded-xl px-3 min-h-[44px] text-base sm:text-sm text-[#3B1E1A] placeholder:text-[#6E5148]/70 focus:outline-none focus:ring-2 focus:ring-[#B4532A]";
 
 function formatDecimalTr(value: number, fractionDigits = 2): string {
   return value.toLocaleString("tr-TR", {
@@ -65,12 +66,17 @@ function extractCheckChange(
 export default function ProductionPage() {
   const { adminUser } = useAdminAuth();
   const canManageSettings = hasCapability(adminUser?.role, "settings.manage");
+  const canWriteCari = hasCapability(adminUser?.role, "cari.write");
 
   const today = useIstanbulToday();
+  const tomorrow = useMemo(() => addDays(today, 1), [today]);
   const [date, setDate] = useState(() => addDays(today, 1));
   const [data, setData] = useState<ProductionDay | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+
+  const [standingBusy, setStandingBusy] = useState(false);
+  const [standingMsg, setStandingMsg] = useState<{ tone: "ok" | "err"; text: string } | null>(null);
 
   const [capInput, setCapInput] = useState("");
   const [capNote, setCapNote] = useState("");
@@ -201,7 +207,11 @@ export default function ProductionPage() {
     [data]
   );
 
-  const retailLoaves = useMemo(() => bakeLines.reduce((s, l) => s + l.quantity, 0), [bakeLines]);
+  const lineLoaves = useMemo(() => bakeLines.reduce((s, l) => s + l.quantity, 0), [bakeLines]);
+  const retailLoaves = data?.retailLoaves ?? lineLoaves;
+  const b2bOrderLoaves = data?.b2bOrderLoaves ?? 0;
+  const unbookedWholesale = data?.unbookedWholesaleLoaves ?? data?.wholesaleLoaves ?? 0;
+  const totalLoavesToBake = retailLoaves + b2bOrderLoaves + unbookedWholesale;
   const packTotalQty = useMemo(() => packLines.reduce((s, l) => s + l.quantity, 0), [packLines]);
   const checkedPackCount = useMemo(
     () => packLines.filter((l) => Boolean(checkedPacks[packCheckKey(l.productId)])).length,
@@ -211,10 +221,47 @@ export default function ProductionPage() {
   const doughSummary = useMemo(
     () =>
       calculateProductionDough(bakeLines, {
-        wholesaleLoaves: data?.wholesaleLoaves ?? 0,
+        wholesaleLoaves: unbookedWholesale,
       }),
-    [bakeLines, data?.wholesaleLoaves]
+    [bakeLines, unbookedWholesale]
   );
+
+  const handleImportTomorrowStanding = async () => {
+    if (!canWriteCari || standingBusy) return;
+    setStandingBusy(true);
+    setStandingMsg(null);
+    try {
+      const res = await fetch("/api/admin/cari/standing-orders/generate", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ deliveryDate: tomorrow }),
+      });
+      const body = (await res.json().catch(() => ({}))) as {
+        createdCount?: number;
+        skippedExisting?: number;
+        error?: string;
+      };
+      if (!res.ok) throw new Error(body.error || `HTTP ${res.status}`);
+      const created = body.createdCount ?? 0;
+      const skipped = body.skippedExisting ?? 0;
+      setStandingMsg({
+        tone: "ok",
+        text: `Yarın (${formatTrDate(tomorrow)}) için ${created} rutin cari siparişi aktarıldı${skipped > 0 ? ` (${skipped} cari zaten aktarılmıştı)` : ""}.`,
+      });
+      if (date === tomorrow) {
+        await loadProduction();
+      } else {
+        setDate(tomorrow);
+      }
+    } catch (err: unknown) {
+      setStandingMsg({
+        tone: "err",
+        text: getErrorMessage(err) || "Rutin cari siparişleri aktarılamadı.",
+      });
+    } finally {
+      setStandingBusy(false);
+    }
+  };
 
   const cap = data?.capacity;
 
@@ -355,6 +402,21 @@ export default function ProductionPage() {
           >
             <RefreshCw className={`w-4 h-4 ${loading || checksLoading ? "animate-spin" : ""}`} aria-hidden="true" />
           </button>
+          {canWriteCari && (
+            <button
+              type="button"
+              onClick={() => void handleImportTomorrowStanding()}
+              disabled={standingBusy}
+              className="min-h-[44px] px-3.5 rounded-xl bg-[#FBF6EC] hover:bg-[#F3E2D4] border border-[#DFB99F] text-[#3B1E1A] text-xs font-bold flex items-center gap-2 transition-colors disabled:opacity-50"
+            >
+              {standingBusy ? (
+                <Loader2 className="w-4 h-4 animate-spin text-[#B4532A]" aria-hidden="true" />
+              ) : (
+                <CalendarPlus className="w-4 h-4 text-[#B4532A]" aria-hidden="true" />
+              )}
+              <span>📅 Yarınki Rutin Cari Siparişlerini Aktar</span>
+            </button>
+          )}
           <button
             type="button"
             onClick={() => window.print()}
@@ -365,6 +427,25 @@ export default function ProductionPage() {
           </button>
         </div>
       </header>
+
+      {standingMsg && (
+        <div
+          role={standingMsg.tone === "err" ? "alert" : "status"}
+          aria-live="polite"
+          className={`p-3.5 rounded-2xl border text-xs flex items-center gap-2 print:hidden ${
+            standingMsg.tone === "ok"
+              ? "bg-[#E5EFE7] border-[#B4D3BC] text-[#1D5130]"
+              : "bg-[#FCECE9] border-[#E7B7AF] text-[#7D2114]"
+          }`}
+        >
+          {standingMsg.tone === "ok" ? (
+            <CheckCircle2 className="w-4 h-4 shrink-0" aria-hidden="true" />
+          ) : (
+            <AlertCircle className="w-4 h-4 shrink-0" aria-hidden="true" />
+          )}
+          <span>{standingMsg.text}</span>
+        </div>
+      )}
 
       {error && (
         <div
@@ -387,12 +468,8 @@ export default function ProductionPage() {
             <Stat label="Sipariş" value={String(data.orderCount)} hint="İptal hariç aktif" />
             <Stat
               label="Toplam Pişecek Somun"
-              value={String(retailLoaves + data.wholesaleLoaves)}
-              hint={
-                data.wholesaleLoaves > 0
-                  ? `${retailLoaves} perakende + ${data.wholesaleLoaves} şarküteri`
-                  : `${retailLoaves} perakende somun`
-              }
+              value={String(totalLoavesToBake)}
+              hint={`Perakende ${retailLoaves} · Planlı B2B ${b2bOrderLoaves} · Kalan Toptan Rezerv ${unbookedWholesale}`}
             />
             <Stat
               label="Toplam Hamur (kg)"
@@ -476,7 +553,10 @@ export default function ProductionPage() {
                       {doughSummary.wholesale && (
                         <tr className="border-t border-[#E2D3BD] print:border-gray-400">
                           <th scope="row" className="py-2.5 pr-3 font-medium text-left text-[#6E5148] print:text-black">
-                            Şarküteriler (günlük toptan, ayarlardan)
+                            Kalan Toptan Rezerv (henüz B2B siparişe dönmemiş)
+                            <span className="block text-[11px] font-normal text-[#6E5148]">
+                              Günlük toptan hedef {data.wholesaleDailyLoaves} − Planlı B2B {b2bOrderLoaves} somun (çift sayım yok)
+                            </span>
                           </th>
                           <td className="py-2.5 px-3 text-right font-mono tabular-nums text-xs text-[#6E5148] print:text-gray-700">
                             {Math.round(doughSummary.wholesale.unitBakedGrams)} g · %

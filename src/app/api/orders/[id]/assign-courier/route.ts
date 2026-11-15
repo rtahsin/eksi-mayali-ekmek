@@ -1,44 +1,47 @@
 import { NextResponse } from "next/server";
+import { z } from "zod";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { getErrorMessage } from "@/lib/utils/error";
 import { logError } from "@/lib/kernel/log";
-import { verifyApiAuth } from "@/lib/security/apiAuth";
+import { requireCapability } from "@/lib/security/apiAuth";
+import { writeAuditLog } from "@/lib/security/audit";
+import { parseOrderLookup } from "@/lib/orders/orderId";
+
+const AssignCourierSchema = z.object({
+  courierId: z.string().uuid("Geçerli bir kurye kimliği seçin.").nullable(),
+  startRoute: z.boolean().optional(),
+});
 
 export async function PATCH(
   req: Request,
   props: { params: Promise<{ id: string }> }
 ) {
   try {
-    // Yetki Doğrulama: Sadece admin/superadmin kurye atayabilir
-    const auth = await verifyApiAuth(req);
-    if (!auth.isAuthenticated || !auth.isAdmin) {
-      return NextResponse.json(
-        { error: "Kurye atama yetkisi yalnızca admin kullanıcılara aittir.", code: "FORBIDDEN" },
-        { status: auth.isAuthenticated ? 403 : 401 }
-      );
-    }
+    const guard = await requireCapability(req, "orders.ops");
+    if (!guard.ok) return guard.response;
 
     const params = await props.params;
-    const orderId = params.id;
-
-    if (!orderId) {
+    const lookup = parseOrderLookup(params.id);
+    if (!lookup) {
       return NextResponse.json(
-        { error: "Sipariş ID parametresi zorunludur", code: "MISSING_ID" },
+        { error: "Geçerli bir sipariş kimliği gereklidir.", code: "INVALID_ORDER_ID" },
         { status: 400 }
       );
     }
 
-    const body = await req.json().catch(() => ({}));
-    const courierId = typeof body.courierId === "string" ? body.courierId.trim() : null;
-    const adminId = auth.userId; // Token'dan alınır, client'a güvenilmez
-
-    if (!courierId) {
+    const rawBody: unknown = await req.json().catch(() => ({}));
+    const parsed = AssignCourierSchema.safeParse(rawBody);
+    if (!parsed.success) {
       return NextResponse.json(
-        { error: "Atanacak kurye ID'si gereklidir", code: "MISSING_COURIER_ID" },
+        {
+          error: parsed.error.issues[0]?.message || "Geçersiz istek gövdesi.",
+          code: "INVALID_PAYLOAD",
+        },
         { status: 400 }
       );
     }
 
+    const { courierId, startRoute = false } = parsed.data;
     const supabase = createAdminClient();
     if (!supabase) {
       return NextResponse.json(
@@ -47,38 +50,31 @@ export async function PATCH(
       );
     }
 
-    // 1. Verify courier exists
-    const { data: courier, error: courierErr } = await supabase
-      .from("couriers")
-      .select("id, display_name")
-      .eq("id", courierId)
-      .single();
-
-    if (courierErr || !courier) {
-      return NextResponse.json(
-        { error: "Belirtilen kurye bulunamadı", code: "COURIER_NOT_FOUND" },
-        { status: 404 }
-      );
-    }
-
-    // 2. Verify order exists
     const { data: order, error: orderErr } = await supabase
       .from("orders")
-      .select("id, status")
-      .eq("id", orderId)
-      .single();
+      .select("id, order_number, status, delivery_method, courier_id")
+      .eq(lookup.column, lookup.value)
+      .maybeSingle();
 
-    if (orderErr || !order) {
+    if (orderErr) throw orderErr;
+    if (!order) {
       return NextResponse.json(
         { error: "Sipariş bulunamadı", code: "ORDER_NOT_FOUND" },
         { status: 404 }
       );
     }
 
+    if (order.delivery_method === "pickup") {
+      return NextResponse.json(
+        { error: "Gel-Al (Fırın Teslim) siparişlere kurye atanamaz.", code: "PICKUP_CANNOT_ASSIGN" },
+        { status: 400 }
+      );
+    }
+
     if (order.status === "teslim_edildi" || order.status === "iptal") {
       return NextResponse.json(
         {
-          error: `'${order.status}' durumundaki bir sipariş nihai durumdadır, kurye atanamaz.`,
+          error: `'${order.status}' durumundaki bir sipariş nihai durumdadır, kurye değiştirilemez.`,
           code: "TERMINAL_STATE_REACHED",
         },
         { status: 400 }
@@ -86,32 +82,118 @@ export async function PATCH(
     }
 
     const nowIso = new Date().toISOString();
-    // Durum beyaz listesi: Kurye ataması ile yalnızca 'kuryede' durumuna geçiş yapılabilir (P1-09)
-    if (body.status && body.status !== "kuryede") {
+    const actorRole = guard.auth.role === "staff" ? "staff" : "admin";
+
+    if (courierId === null) {
+      const targetStatus = order.status === "kuryede" ? "firinda" : order.status;
+      const { data: updatedOrders, error: updateErr } = await supabase
+        .from("orders")
+        .update({
+          courier_id: null,
+          assigned_at: null,
+          stop_sequence: null,
+          status: targetStatus,
+          updated_at: nowIso,
+        })
+        .eq("id", order.id)
+        .eq("status", order.status)
+        .select("id");
+
+      if (updateErr) throw updateErr;
+      if (!updatedOrders || updatedOrders.length === 0) {
+        return NextResponse.json(
+          {
+            error: "Sipariş durumu başka bir işlem tarafından güncellenmiş. Lütfen sayfayı yenileyiniz.",
+            code: "CONCURRENT_MODIFICATION_CONFLICT",
+          },
+          { status: 409 }
+        );
+      }
+
+      const { error: historyErr } = await supabase.from("order_status_history").insert({
+        order_id: order.id,
+        from_status: order.status || null,
+        to_status: targetStatus,
+        changed_by_role: actorRole,
+        changed_by_id: guard.auth.userId,
+        note: "Kurye zimmeti kaldırıldı (Tezgaha bırakıldı)",
+      });
+      if (historyErr) throw historyErr;
+
+      await writeAuditLog(supabase, {
+        actorId: guard.auth.userId,
+        actorRole: guard.auth.role ?? "unknown",
+        action: "order.unassign_courier",
+        entityType: "order",
+        entityId: order.id,
+        summary: `${order.order_number} siparişinin kurye ataması kaldırıldı`,
+        metadata: {
+          orderNumber: order.order_number,
+          previousCourierId: order.courier_id,
+          fromStatus: order.status,
+          toStatus: targetStatus,
+        },
+      });
+
+      return NextResponse.json({
+        success: true,
+        message: "Kurye ataması kaldırıldı, sipariş tezgaha bırakıldı.",
+        orderId: order.id,
+        courierId: null,
+        courierName: null,
+        status: targetStatus,
+      });
+    }
+
+    const { data: courier, error: courierErr } = await supabase
+      .from("couriers")
+      .select("id, display_name, is_active, is_on_shift")
+      .eq("id", courierId)
+      .maybeSingle();
+
+    if (courierErr) throw courierErr;
+    if (!courier) {
       return NextResponse.json(
-        { error: "Kurye ataması yalnızca 'kuryede' durumuna geçiş için geçerlidir.", code: "INVALID_STATUS" },
-        { status: 400 }
+        { error: "Belirtilen kurye bulunamadı", code: "COURIER_NOT_FOUND" },
+        { status: 404 }
       );
     }
-    const targetStatus = "kuryede";
 
-    // 3. Update orders table with optimistic lock on order.status
+    if (!courier.is_active) {
+      return NextResponse.json(
+        { error: "Pasif kuryeye sipariş atanamaz.", code: "COURIER_INACTIVE" },
+        { status: 409 }
+      );
+    }
+
+    const targetStatus = startRoute
+      ? "kuryede"
+      : order.status === "bekliyor"
+        ? "hazirlaniyor"
+        : order.status;
+
+    if (startRoute && !courier.is_on_shift) {
+      const { error: shiftErr } = await supabase
+        .from("couriers")
+        .update({ is_on_shift: true })
+        .eq("id", courier.id);
+      if (shiftErr) throw shiftErr;
+    }
+
     const { data: updatedOrders, error: updateErr } = await supabase
       .from("orders")
       .update({
-        courier_id: courierId,
+        courier_id: courier.id,
         assigned_at: nowIso,
+        stop_sequence: null,
         status: targetStatus,
         updated_at: nowIso,
       })
-      .eq("id", orderId)
+      .eq("id", order.id)
       .eq("status", order.status)
       .select("id");
 
-    if (updateErr) {
-      throw updateErr;
-    }
-
+    if (updateErr) throw updateErr;
     if (!updatedOrders || updatedOrders.length === 0) {
       return NextResponse.json(
         {
@@ -122,22 +204,46 @@ export async function PATCH(
       );
     }
 
-    // 4. Record in order_status_history
-    await supabase.from("order_status_history").insert({
-      order_id: orderId,
+    const { error: historyErr } = await supabase.from("order_status_history").insert({
+      order_id: order.id,
       from_status: order.status || null,
       to_status: targetStatus,
-      changed_by_role: "admin",
-      changed_by_id: adminId,
-      note: `Kuryeye atandı: ${courier.display_name}`,
+      changed_by_role: actorRole,
+      changed_by_id: guard.auth.userId,
+      note: startRoute
+        ? `Kuryeye atandı ve yola çıkarıldı: ${courier.display_name}`
+        : `Kuryeye planlandı (zimmet): ${courier.display_name}`,
+    });
+    if (historyErr) throw historyErr;
+
+    await writeAuditLog(supabase, {
+      actorId: guard.auth.userId,
+      actorRole: guard.auth.role ?? "unknown",
+      action: "order.assign_courier",
+      entityType: "order",
+      entityId: order.id,
+      summary: startRoute
+        ? `${order.order_number} siparişi ${courier.display_name} kuryesine atanıp yola çıkarıldı`
+        : `${order.order_number} siparişi ${courier.display_name} kuryesine planlandı`,
+      metadata: {
+        orderNumber: order.order_number,
+        courierId: courier.id,
+        courierName: courier.display_name,
+        startRoute,
+        fromStatus: order.status,
+        toStatus: targetStatus,
+      },
     });
 
     return NextResponse.json({
       success: true,
-      message: `Sipariş başarıyla ${courier.display_name} kuryesine atandı ve 'kuryede' durumuna alındı.`,
-      orderId,
-      courierId,
+      message: startRoute
+        ? `Sipariş ${courier.display_name} kuryesine atandı ve 'kuryede' durumuna alındı.`
+        : `Sipariş ${courier.display_name} kuryesine planlandı.`,
+      orderId: order.id,
+      courierId: courier.id,
       courierName: courier.display_name,
+      status: targetStatus,
     });
   } catch (err: unknown) {
     logError("PATCH /api/orders/[id]/assign-courier error:", err);

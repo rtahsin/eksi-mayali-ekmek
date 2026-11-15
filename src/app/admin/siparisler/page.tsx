@@ -57,6 +57,7 @@ import { hasCapability } from "@/lib/security/capabilities";
 import { toWhatsAppNumber } from "@/lib/settings/schema";
 import { trackingUrl, whatsappLink } from "@/lib/site";
 import { addDays, formatTrDate, relativeTrDate } from "@/lib/time/istanbul";
+import { clusterOrdersByNeighborhood } from "@/lib/delivery/maps";
 
 type SourceFilter = "all" | "web" | "manual";
 
@@ -140,8 +141,13 @@ export default function AdminOrdersPage() {
   const canDispatchCourier = hasCapability(role, "courier.dispatch");
 
   const { settings } = useStoreSettings();
-  const { couriers, activeCouriers } = useCouriers();
+  const { couriers, assignableCouriers } = useCouriers();
   const courierMap = useMemo(() => new Map(couriers.map((c) => [c.id, c])), [couriers]);
+  const courierNamesMap = useMemo(() => {
+    const map: Record<string, string> = {};
+    for (const c of couriers) map[c.id] = c.displayName;
+    return map;
+  }, [couriers]);
 
   const {
     orders,
@@ -152,7 +158,10 @@ export default function AdminOrdersPage() {
     setDateFilter,
     searchQuery,
     setSearchQuery,
+    searchAllDates,
+    setSearchAllDates,
     updateOrderStatus,
+    assignCourier,
     refetch,
     searchOrders,
   } = useAdminOrders();
@@ -163,6 +172,7 @@ export default function AdminOrdersPage() {
   const [customDate, setCustomDate] = useState<string>("");
   const [group, setGroup] = useState<StatusGroup>("acik");
   const [courierFilter, setCourierFilter] = useState<string>("all");
+  const [neighborhoodFilter, setNeighborhoodFilter] = useState<string | null>(null);
   const [sourceFilter, setSourceFilter] = useState<SourceFilter>("all");
   const [onlyUncollected, setOnlyUncollected] = useState(false);
   const [shown, setShown] = useState(PAGE_SIZE);
@@ -170,11 +180,14 @@ export default function AdminOrdersPage() {
   // Toplu seçim ve aksiyon durumları
   const [selectedIds, setSelectedIds] = useState<Set<string>>(() => new Set());
   const [bulkCourierId, setBulkCourierId] = useState<string>("");
-  const [bulkBusy, setBulkBusy] = useState<"approve" | "prepare" | "assign_courier" | null>(null);
+  const [bulkBusy, setBulkBusy] = useState<
+    "approve" | "prepare" | "assign_courier" | "unassign_courier" | "start_route" | null
+  >(null);
   const [bulkFeedback, setBulkFeedback] = useState<{ kind: "ok" | "error"; message: string } | null>(null);
   const [rowBusyIds, setRowBusyIds] = useState<Set<string>>(() => new Set());
   const [labelsOpen, setLabelsOpen] = useState(false);
   const selectAllRef = useRef<HTMLInputElement>(null);
+  const rowCourierSelectRefs = useRef<Map<string, HTMLSelectElement | null>>(new Map());
 
   // Native <dialog> modalları
   const [deliverOrderTarget, setDeliverOrderTarget] = useState<AdminOrder | null>(null);
@@ -194,19 +207,29 @@ export default function AdminOrdersPage() {
   const [messageType, setMessageType] = useState<OrderMessage>("yolda");
   const messageDialogRef = useRef<HTMLDialogElement>(null);
 
-  // Varsayılan toplu atama kuryesi: vardiyadaki ilk aktif kurye
+  // Varsayılan toplu atama kuryesi: vardiyadaki ilk aktif kurye (veya ilk atanabilir kurye)
   useEffect(() => {
-    if (!bulkCourierId && activeCouriers.length > 0) {
-      const preferred = activeCouriers.find((c) => c.isOnShift) ?? activeCouriers[0];
+    if (!bulkCourierId && assignableCouriers.length > 0) {
+      const preferred = assignableCouriers.find((c) => c.isOnShift) ?? assignableCouriers[0];
       if (preferred) setBulkCourierId(preferred.id);
     }
-  }, [activeCouriers, bulkCourierId]);
+  }, [assignableCouriers, bulkCourierId]);
 
   useEffect(() => {
     setShown(PAGE_SIZE);
     setSelectedIds(new Set());
     setBulkFeedback(null);
-  }, [group, dateFilter, customDate, searchQuery, onlyUncollected, courierFilter, sourceFilter]);
+  }, [
+    group,
+    dateFilter,
+    customDate,
+    searchQuery,
+    searchAllDates,
+    onlyUncollected,
+    courierFilter,
+    neighborhoodFilter,
+    sourceFilter,
+  ]);
 
   useEffect(() => {
     if (searchQuery.trim().length < 3) return;
@@ -249,15 +272,27 @@ export default function AdminOrdersPage() {
 
   const searching = searchQuery.trim().length > 0;
   const dateFilteredOrders = useMemo(() => {
-    if (!customDate || searching) return orders;
+    if (!customDate || (searching && searchAllDates)) return orders;
     return orders.filter((o) => o.deliveryDate === customDate);
-  }, [orders, customDate, searching]);
+  }, [orders, customDate, searching, searchAllDates]);
+
+  const neighborhoodClusters = useMemo(
+    () => clusterOrdersByNeighborhood(dateFilteredOrders),
+    [dateFilteredOrders]
+  );
+
+  const activeNeighborhoodOrderIds = useMemo(() => {
+    if (!neighborhoodFilter) return null;
+    const match = neighborhoodClusters.find((c) => c.neighborhood === neighborhoodFilter);
+    return match ? new Set(match.orderIds) : new Set<string>();
+  }, [neighborhoodFilter, neighborhoodClusters]);
 
   const filteredByDimensions = useMemo(() => {
     const sourcePool = onlyUncollected ? uncollected : dateFilteredOrders;
     return sourcePool.filter((o) => {
       if (sourceFilter === "web" && o.source !== "web") return false;
       if (sourceFilter === "manual" && o.source === "web") return false;
+      if (activeNeighborhoodOrderIds && !activeNeighborhoodOrderIds.has(o.id)) return false;
 
       if (canDispatchCourier) {
         if (courierFilter === "unassigned") {
@@ -268,7 +303,15 @@ export default function AdminOrdersPage() {
       }
       return true;
     });
-  }, [onlyUncollected, uncollected, dateFilteredOrders, sourceFilter, canDispatchCourier, courierFilter]);
+  }, [
+    onlyUncollected,
+    uncollected,
+    dateFilteredOrders,
+    sourceFilter,
+    activeNeighborhoodOrderIds,
+    canDispatchCourier,
+    courierFilter,
+  ]);
 
   const counts = useMemo(() => {
     const c = {} as Record<StatusGroup, number>;
@@ -307,6 +350,29 @@ export default function AdminOrdersPage() {
     () =>
       selectedOrders.filter(
         (o) => o.deliveryMethod !== "pickup" && o.status !== "teslim_edildi" && o.status !== "iptal"
+      ),
+    [selectedOrders]
+  );
+  const eligibleForUnassign = useMemo(
+    () =>
+      selectedOrders.filter(
+        (o) =>
+          o.deliveryMethod !== "pickup" &&
+          o.status !== "teslim_edildi" &&
+          o.status !== "iptal" &&
+          Boolean(o.courierId)
+      ),
+    [selectedOrders]
+  );
+  const eligibleForStartRoute = useMemo(
+    () =>
+      selectedOrders.filter(
+        (o) =>
+          o.deliveryMethod !== "pickup" &&
+          o.status !== "teslim_edildi" &&
+          o.status !== "iptal" &&
+          o.status !== "kuryede" &&
+          Boolean(o.courierId)
       ),
     [selectedOrders]
   );
@@ -378,12 +444,27 @@ export default function AdminOrdersPage() {
     setSelectedIds(new Set());
   };
 
-  const runBulkAction = async (
-    action: "approve" | "prepare" | "assign_courier",
-    targets: AdminOrder[],
-    courierId?: string
+  const focusOrderCourierSelect = (orderId: string) => {
+    const mobileEl = rowCourierSelectRefs.current.get(`mobile:${orderId}`);
+    const desktopEl = rowCourierSelectRefs.current.get(`desktop:${orderId}`);
+    const target =
+      desktopEl && desktopEl.offsetParent !== null
+        ? desktopEl
+        : mobileEl && mobileEl.offsetParent !== null
+          ? mobileEl
+          : desktopEl ?? mobileEl;
+    target?.focus();
+  };
+
+  const runBulkActionByIds = async (
+    action: "approve" | "prepare" | "assign_courier" | "unassign_courier" | "start_route",
+    ids: string[],
+    opts?: { courierId?: string; startRoute?: boolean }
   ) => {
-    if (bulkBusy || targets.length === 0) return;
+    if (bulkBusy || ids.length === 0) return;
+    const courierId = opts?.courierId;
+    const startRoute = Boolean(opts?.startRoute);
+
     if (action === "assign_courier" && !courierId) {
       setBulkFeedback({ kind: "error", message: "Lütfen dağıtım için bir kurye seçin." });
       return;
@@ -393,7 +474,6 @@ export default function AdminOrdersPage() {
     setBulkFeedback(null);
 
     try {
-      const ids = targets.map((o) => o.id);
       let updatedTotal = 0;
       let skippedTotal = 0;
       const skippedReasons: string[] = [];
@@ -407,7 +487,8 @@ export default function AdminOrdersPage() {
           body: JSON.stringify({
             orderIds: chunk,
             action,
-            ...(action === "assign_courier" && courierId ? { courierId } : {}),
+            ...(courierId ? { courierId } : {}),
+            ...(action === "assign_courier" ? { startRoute } : {}),
           }),
         });
 
@@ -431,8 +512,12 @@ export default function AdminOrdersPage() {
         action === "approve"
           ? "hazırlanıyor aşamasına alındı"
           : action === "prepare"
-          ? "fırında aşamasına alındı"
-          : "kuryeye dağıtıma atandı";
+            ? "fırında aşamasına alındı"
+            : action === "unassign_courier"
+              ? "tezgaha bırakıldı (ataması kaldırıldı)"
+              : action === "start_route" || startRoute
+                ? "kuryeye atanıp yola çıkarıldı"
+                : "kuryeye planlandı";
 
       if (chunkErrors.length > 0 && updatedTotal === 0) {
         setBulkFeedback({
@@ -461,9 +546,65 @@ export default function AdminOrdersPage() {
     }
   };
 
+  const runBulkAction = async (
+    action: "approve" | "prepare" | "assign_courier" | "unassign_courier" | "start_route",
+    targets: AdminOrder[],
+    opts?: { courierId?: string; startRoute?: boolean }
+  ) => {
+    await runBulkActionByIds(
+      action,
+      targets.map((o) => o.id),
+      opts
+    );
+  };
+
+  const handleRowAssignCourier = async (
+    order: AdminOrder,
+    nextCourierId: string | null,
+    startRoute = false
+  ) => {
+    if (rowBusyIds.has(order.id)) return;
+    setBulkFeedback(null);
+    setRowBusyIds((prev) => new Set(prev).add(order.id));
+    try {
+      const res = await assignCourier(order.id, nextCourierId, { startRoute });
+      if (!res.success) {
+        setBulkFeedback({
+          kind: "error",
+          message: `${order.customerName}: ${res.error || "Kurye ataması güncellenemedi."}`,
+        });
+      } else {
+        const courierName = nextCourierId ? courierMap.get(nextCourierId)?.displayName : null;
+        setBulkFeedback({
+          kind: "ok",
+          message: nextCourierId
+            ? startRoute
+              ? `${order.customerName} (#${order.orderNumber}) ${courierName || "kuryeye"} atanıp yola çıkarıldı.`
+              : `${order.customerName} (#${order.orderNumber}) ${courierName || "kuryeye"} planlandı.`
+            : `${order.customerName} (#${order.orderNumber}) ataması kaldırıldı (Tezgah).`,
+        });
+      }
+    } finally {
+      setRowBusyIds((prev) => {
+        const next = new Set(prev);
+        next.delete(order.id);
+        return next;
+      });
+    }
+  };
+
   const handleRowNextStep = async (order: AdminOrder) => {
     const step = nextStep(order);
     if (!step || rowBusyIds.has(order.id)) return;
+
+    if (step.status === "kuryede" && order.deliveryMethod === "courier" && !order.courierId) {
+      setBulkFeedback({
+        kind: "error",
+        message: `${order.customerName} (#${order.orderNumber}): Kurye seçmeden 'Yola çıktı' durumuna geçilemez.`,
+      });
+      focusOrderCourierSelect(order.id);
+      return;
+    }
 
     if (step.status === "teslim_edildi") {
       setDeliverPayment(defaultDeliveryPayment(order.paymentMethod, Boolean(order.cariId)));
@@ -625,7 +766,10 @@ export default function AdminOrdersPage() {
         </div>
 
         {/* Tarih + Özel Takvim + Arama + Kurye & Kaynak Filtreleri */}
-        <div className="bg-[#FFFFFF] border border-[#E2D3BD] rounded-3xl p-4 space-y-3 shadow-sm">
+        <search
+          aria-label="Sipariş arama ve filtreler"
+          className="block bg-[#FFFFFF] border border-[#E2D3BD] rounded-3xl p-4 space-y-3 shadow-sm"
+        >
           <div className="flex flex-col lg:flex-row gap-2.5">
             <div className="flex flex-wrap items-center gap-1.5 shrink-0">
               {dates.map((d) => {
@@ -636,6 +780,7 @@ export default function AdminOrdersPage() {
                     type="button"
                     onClick={() => {
                       setOnlyUncollected(false);
+                      setNeighborhoodFilter(null);
                       handlePresetDate(d.id);
                     }}
                     className={`min-h-[44px] px-3.5 rounded-xl text-xs font-bold border inline-flex items-center gap-1.5 transition-colors ${
@@ -666,16 +811,18 @@ export default function AdminOrdersPage() {
                   value={datePickerValue}
                   onChange={(e) => {
                     setOnlyUncollected(false);
+                    setNeighborhoodFilter(null);
                     handleCustomDateChange(e.target.value);
                   }}
                   aria-label="Belirli bir tarih seç"
-                  className="bg-transparent text-xs font-mono text-[#3B1E1A] focus:outline-none w-[112px] cursor-pointer"
+                  className="bg-transparent text-base sm:text-xs font-mono text-[#3B1E1A] focus:outline-none w-[132px] sm:w-[116px] cursor-pointer"
                 />
                 {customDate && (
                   <button
                     type="button"
                     onClick={(e) => {
                       e.preventDefault();
+                      setNeighborhoodFilter(null);
                       handlePresetDate("hepsi");
                     }}
                     aria-label="Özel tarihi temizle"
@@ -687,32 +834,44 @@ export default function AdminOrdersPage() {
               </label>
             </div>
 
-            <div className="relative flex-1">
-              <label htmlFor="orders-search-input" className="sr-only">
-                Sipariş ara
+            <div className="flex flex-1 flex-col sm:flex-row gap-2">
+              <div className="relative flex-1">
+                <label htmlFor="orders-search-input" className="sr-only">
+                  Sipariş ara
+                </label>
+                <Search
+                  className="w-4 h-4 text-[#6E5148] absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none"
+                  aria-hidden="true"
+                />
+                <input
+                  id="orders-search-input"
+                  type="search"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  placeholder="Ad, telefon, mahalle, sipariş no…"
+                  className="w-full min-h-[44px] pl-10 pr-10 rounded-xl bg-[#FBF6EC] border border-[#E2D3BD] text-base text-[#3B1E1A] placeholder:text-[#6E5148]/70 focus:outline-none focus:ring-2 focus:ring-[#B4532A]"
+                />
+                {searchQuery && (
+                  <button
+                    type="button"
+                    onClick={() => setSearchQuery("")}
+                    aria-label="Aramayı temizle"
+                    className="absolute right-1.5 top-1/2 -translate-y-1/2 min-w-[44px] min-h-[44px] flex items-center justify-center text-[#6E5148] hover:text-[#3B1E1A]"
+                  >
+                    <X className="w-4 h-4" aria-hidden="true" />
+                  </button>
+                )}
+              </div>
+
+              <label className="min-h-[44px] px-3 rounded-xl bg-[#FBF6EC] border border-[#E2D3BD] inline-flex items-center gap-2 text-xs font-semibold text-[#3B1E1A] cursor-pointer shrink-0 select-none">
+                <input
+                  type="checkbox"
+                  checked={searchAllDates}
+                  onChange={(e) => setSearchAllDates(e.target.checked)}
+                  className="w-4 h-4 rounded border-[#E2D3BD] accent-[#B4532A]"
+                />
+                <span>Tüm tarihlerde ara</span>
               </label>
-              <Search
-                className="w-4 h-4 text-[#6E5148] absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none"
-                aria-hidden="true"
-              />
-              <input
-                id="orders-search-input"
-                type="search"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Ad, telefon, mahalle, sipariş no…"
-                className="w-full min-h-[44px] pl-10 pr-10 rounded-xl bg-[#FBF6EC] border border-[#E2D3BD] text-sm text-[#3B1E1A] placeholder:text-[#6E5148]/70 focus:outline-none focus:ring-2 focus:ring-[#B4532A]"
-              />
-              {searchQuery && (
-                <button
-                  type="button"
-                  onClick={() => setSearchQuery("")}
-                  aria-label="Aramayı temizle"
-                  className="absolute right-2 top-1/2 -translate-y-1/2 min-w-[36px] min-h-[36px] flex items-center justify-center text-[#6E5148] hover:text-[#3B1E1A]"
-                >
-                  <X className="w-4 h-4" aria-hidden="true" />
-                </button>
-              )}
             </div>
           </div>
 
@@ -725,7 +884,7 @@ export default function AdminOrdersPage() {
                   aria-label="Sipariş kaynağı filtresi"
                   value={sourceFilter}
                   onChange={(e) => setSourceFilter(e.target.value as SourceFilter)}
-                  className="min-h-[38px] px-2.5 rounded-xl bg-[#FBF6EC] border border-[#E2D3BD] text-xs font-semibold text-[#3B1E1A] focus:outline-none focus:ring-2 focus:ring-[#B4532A]"
+                  className="min-h-[44px] px-2.5 rounded-xl bg-[#FBF6EC] border border-[#E2D3BD] text-base sm:text-xs font-semibold text-[#3B1E1A] focus:outline-none focus:ring-2 focus:ring-[#B4532A]"
                 >
                   <option value="all">Tüm Kaynaklar</option>
                   <option value="web">Web</option>
@@ -740,14 +899,14 @@ export default function AdminOrdersPage() {
                     aria-label="Kurye filtresi"
                     value={courierFilter}
                     onChange={(e) => setCourierFilter(e.target.value)}
-                    className="min-h-[38px] px-2.5 rounded-xl bg-[#FBF6EC] border border-[#E2D3BD] text-xs font-semibold text-[#3B1E1A] focus:outline-none focus:ring-2 focus:ring-[#B4532A]"
+                    className="min-h-[44px] px-2.5 rounded-xl bg-[#FBF6EC] border border-[#E2D3BD] text-base sm:text-xs font-semibold text-[#3B1E1A] focus:outline-none focus:ring-2 focus:ring-[#B4532A]"
                   >
                     <option value="all">Tüm Kuryeler</option>
                     <option value="unassigned">Atanmamış (Kurye Bekliyor)</option>
-                    {activeCouriers.map((c) => (
+                    {assignableCouriers.map((c) => (
                       <option key={c.id} value={c.id}>
                         {c.displayName}
-                        {c.isOnShift ? " (Vardiyada)" : ""}
+                        {c.isOnShift ? "" : " (Vardiya dışı)"}
                       </option>
                     ))}
                   </select>
@@ -792,7 +951,146 @@ export default function AdminOrdersPage() {
               })}
             </div>
           </div>
-        </div>
+        </search>
+
+        {/* Mahalle & Apartman Dağıtım Şeridi */}
+        {canDispatchCourier && neighborhoodClusters.length > 0 && (
+          <section
+            aria-label="Mahalle ve apartman bazlı dağıtım özeti"
+            className="bg-[#FFFFFF] border border-[#E2D3BD] rounded-3xl p-4 space-y-3 shadow-sm"
+          >
+            <div className="flex flex-wrap items-center justify-between gap-2">
+              <div>
+                <h2 className="font-serif text-sm font-bold text-[#3B1E1A]">
+                  Mahalle &amp; Apartman Dağıtım Şeridi
+                </h2>
+                <p className="text-xs text-[#6E5148]">
+                  Rota sırasıyla mahalleleri filtreleyin veya seçili kuryeye tek tıkla planlayın.
+                </p>
+              </div>
+              <div className="flex flex-wrap items-center gap-2">
+                {assignableCouriers.length > 0 && (
+                  <label className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#6E5148]">
+                    <span>Hedef Kurye:</span>
+                    <select
+                      aria-label="Mahalle ataması için hedef kurye"
+                      value={bulkCourierId}
+                      onChange={(e) => setBulkCourierId(e.target.value)}
+                      className="min-h-[44px] px-2.5 rounded-xl bg-[#FBF6EC] border border-[#E2D3BD] text-base sm:text-xs font-semibold text-[#3B1E1A] focus:outline-none focus:ring-2 focus:ring-[#B4532A]"
+                    >
+                      <option value="">Kurye seç…</option>
+                      {assignableCouriers.map((c) => (
+                        <option key={c.id} value={c.id}>
+                          {c.displayName}
+                          {c.isOnShift ? "" : " (Vardiya dışı)"}
+                        </option>
+                      ))}
+                    </select>
+                  </label>
+                )}
+                {neighborhoodFilter && (
+                  <button
+                    type="button"
+                    onClick={() => setNeighborhoodFilter(null)}
+                    className="min-h-[44px] px-3 rounded-xl bg-[#FBF6EC] border border-[#E2D3BD] text-xs font-bold text-[#3B1E1A] hover:bg-[#F3E2D4]"
+                  >
+                    Mahalle Filtresini Kaldır ({neighborhoodFilter})
+                  </button>
+                )}
+              </div>
+            </div>
+
+            <div className="flex gap-2.5 overflow-x-auto pb-1">
+              {neighborhoodClusters.map((c) => {
+                const isActiveNeighborhood = neighborhoodFilter === c.neighborhood;
+                return (
+                  <div
+                    key={c.neighborhood}
+                    className={`min-w-[215px] max-w-[270px] shrink-0 rounded-2xl border p-3 space-y-2 transition-colors ${
+                      isActiveNeighborhood
+                        ? "bg-[#FFF4EC] border-[#B4532A] ring-1 ring-[#B4532A]"
+                        : "bg-[#FBF6EC] border-[#E2D3BD]"
+                    }`}
+                  >
+                    <button
+                      type="button"
+                      onClick={() =>
+                        setNeighborhoodFilter((prev) =>
+                          prev === c.neighborhood ? null : c.neighborhood
+                        )
+                      }
+                      className="w-full text-left flex items-start justify-between gap-2 min-h-[44px]"
+                    >
+                      <div>
+                        <div className="text-sm font-bold text-[#3B1E1A] flex items-center gap-1">
+                          <MapPin className="w-3.5 h-3.5 text-[#8E3D1B] shrink-0" aria-hidden="true" />
+                          <span>{c.neighborhood}</span>
+                        </div>
+                        <div className="text-xs text-[#6E5148] font-mono tabular-nums mt-0.5">
+                          {c.totalOrders} sipariş · {c.totalUnits} ad
+                        </div>
+                      </div>
+                      <span
+                        className={`px-2 py-0.5 rounded-lg text-[11px] font-bold shrink-0 ${
+                          c.unassignedCount > 0
+                            ? "bg-[#FEF3D6] border border-[#E8C587] text-[#7A4A0B]"
+                            : "bg-[#E5EFE7] border border-[#B4D3BC] text-[#1D5130]"
+                        }`}
+                      >
+                        {c.unassignedCount > 0 ? `${c.unassignedCount} boş` : "Tümü atandı"}
+                      </span>
+                    </button>
+
+                    {c.buildingClusters.length > 0 && (
+                      <div className="flex flex-wrap gap-1">
+                        {c.buildingClusters.map((b) => (
+                          <span
+                            key={b.key}
+                            title={b.label}
+                            className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-white border border-[#DFB99F] text-[11px] font-semibold text-[#8E3D1B]"
+                          >
+                            Aynı Bina ({b.count})
+                          </span>
+                        ))}
+                      </div>
+                    )}
+
+                    {c.unassignedCount > 0 && (
+                      <div className="flex items-center gap-1.5 pt-1">
+                        <button
+                          type="button"
+                          disabled={bulkBusy !== null || !bulkCourierId}
+                          onClick={() =>
+                            void runBulkActionByIds("assign_courier", c.unassignedOrderIds, {
+                              courierId: bulkCourierId,
+                              startRoute: false,
+                            })
+                          }
+                          className="flex-1 min-h-[38px] px-2.5 rounded-xl bg-[#3B1E1A] hover:bg-[#2A1512] text-white text-xs font-bold disabled:opacity-40"
+                        >
+                          Planla ({c.unassignedCount})
+                        </button>
+                        <button
+                          type="button"
+                          disabled={bulkBusy !== null || !bulkCourierId}
+                          onClick={() =>
+                            void runBulkActionByIds("assign_courier", c.unassignedOrderIds, {
+                              courierId: bulkCourierId,
+                              startRoute: true,
+                            })
+                          }
+                          className="min-h-[38px] px-2.5 rounded-xl bg-[#1D5130] hover:bg-[#163F25] text-white text-xs font-bold disabled:opacity-40"
+                        >
+                          Ata &amp; Yola Çıkar
+                        </button>
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+          </section>
+        )}
 
         {/* Toplu Seçim & Dağıtım Çubuğu */}
         {canManageOrders && list.length > 0 && (
@@ -851,43 +1149,90 @@ export default function AdminOrdersPage() {
                   </button>
 
                   {canDispatchCourier && (
-                    <div className="flex flex-wrap items-center gap-1.5 bg-[#FFFFFF] border border-[#E2D3BD] rounded-xl p-1">
-                      {activeCouriers.length > 0 ? (
+                    <div className="flex flex-wrap items-center gap-1.5 bg-[#FFFFFF] border border-[#E2D3BD] rounded-xl p-1.5">
+                      {assignableCouriers.length > 0 ? (
                         <>
                           <select
                             aria-label="Dağıtım için kurye seç"
                             value={bulkCourierId}
                             onChange={(e) => setBulkCourierId(e.target.value)}
-                            className="min-h-[34px] px-2 rounded-lg bg-[#FBF6EC] border border-[#E2D3BD] text-xs font-semibold text-[#3B1E1A] focus:outline-none"
+                            className="min-h-[44px] px-2.5 rounded-lg bg-[#FBF6EC] border border-[#E2D3BD] text-base sm:text-xs font-semibold text-[#3B1E1A] focus:outline-none"
                           >
                             <option value="">Kurye seç…</option>
-                            {activeCouriers.map((c) => (
+                            {assignableCouriers.map((c) => (
                               <option key={c.id} value={c.id}>
                                 {c.displayName}
-                                {c.isOnShift ? " (Vardiyada)" : ""}
+                                {c.isOnShift ? "" : " (Vardiya dışı)"}
                               </option>
                             ))}
                           </select>
                           <button
                             type="button"
                             disabled={bulkBusy !== null || !bulkCourierId || eligibleForCourier.length === 0}
-                            onClick={() => void runBulkAction("assign_courier", eligibleForCourier, bulkCourierId)}
-                            className="min-h-[34px] px-3 rounded-lg bg-[#1D5130] hover:bg-[#163F25] text-white text-xs font-bold inline-flex items-center gap-1.5 disabled:opacity-40 transition-colors"
+                            onClick={() =>
+                              void runBulkAction("assign_courier", eligibleForCourier, {
+                                courierId: bulkCourierId,
+                                startRoute: false,
+                              })
+                            }
+                            className="min-h-[44px] px-3 rounded-lg bg-[#3B1E1A] hover:bg-[#2A1512] text-white text-xs font-bold inline-flex items-center gap-1.5 disabled:opacity-40 transition-colors"
                           >
                             {bulkBusy === "assign_courier" ? (
                               <Loader2 className="w-3.5 h-3.5 animate-spin" aria-hidden="true" />
                             ) : (
                               <Truck className="w-3.5 h-3.5" aria-hidden="true" />
                             )}
-                            <span>Seçilenleri Kuryeye Dağıtım Listesi Ata ({eligibleForCourier.length})</span>
+                            <span>Planla ({eligibleForCourier.length})</span>
                           </button>
+                          <button
+                            type="button"
+                            disabled={bulkBusy !== null || !bulkCourierId || eligibleForCourier.length === 0}
+                            onClick={() =>
+                              void runBulkAction("assign_courier", eligibleForCourier, {
+                                courierId: bulkCourierId,
+                                startRoute: true,
+                              })
+                            }
+                            className="min-h-[44px] px-3 rounded-lg bg-[#1D5130] hover:bg-[#163F25] text-white text-xs font-bold inline-flex items-center gap-1.5 disabled:opacity-40 transition-colors"
+                          >
+                            {bulkBusy === "assign_courier" ? (
+                              <Loader2 className="w-3.5 h-3.5 animate-spin" aria-hidden="true" />
+                            ) : (
+                              <Truck className="w-3.5 h-3.5" aria-hidden="true" />
+                            )}
+                            <span>Ata &amp; Yola Çıkar ({eligibleForCourier.length})</span>
+                          </button>
+                          {eligibleForStartRoute.length > 0 && (
+                            <button
+                              type="button"
+                              disabled={bulkBusy !== null}
+                              onClick={() =>
+                                void runBulkAction("start_route", eligibleForStartRoute)
+                              }
+                              className="min-h-[44px] px-3 rounded-lg bg-[#B4532A] hover:bg-[#9D4622] text-white text-xs font-bold inline-flex items-center gap-1.5 disabled:opacity-40 transition-colors"
+                            >
+                              <span>Yola Çıkar ({eligibleForStartRoute.length})</span>
+                            </button>
+                          )}
+                          {eligibleForUnassign.length > 0 && (
+                            <button
+                              type="button"
+                              disabled={bulkBusy !== null}
+                              onClick={() =>
+                                void runBulkAction("unassign_courier", eligibleForUnassign)
+                              }
+                              className="min-h-[44px] px-3 rounded-lg bg-[#FBF6EC] border border-[#E2D3BD] hover:bg-[#F3E2D4] text-[#3B1E1A] text-xs font-bold inline-flex items-center gap-1.5 disabled:opacity-40 transition-colors"
+                            >
+                              <span>Atamayı Kaldır ({eligibleForUnassign.length})</span>
+                            </button>
+                          )}
                         </>
                       ) : (
                         <Link
                           href="/admin/ekip"
                           className="px-2.5 py-1 text-xs font-semibold text-[#8E3D1B] hover:underline"
                         >
-                          Ekip & Kurye ekranından aktif kurye ekle →
+                          Ekip &amp; Kurye ekranından aktif kurye ekle →
                         </Link>
                       )}
                     </div>
@@ -1036,15 +1381,67 @@ export default function AdminOrdersPage() {
                         <span>
                           {order.deliveryMethod === "pickup" ? "Fırından Gel-Al" : order.neighborhood || "Teslimat"}
                         </span>
-                        {assignedCourier && (
-                          <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-[#EEF3F8] border border-[#C5D5E4] text-[#24476B] font-semibold">
-                            <Truck className="w-3 h-3" aria-hidden="true" /> {assignedCourier.displayName}
-                          </span>
-                        )}
+                        {(!canDispatchCourier ||
+                          order.deliveryMethod !== "courier" ||
+                          order.status === "teslim_edildi" ||
+                          order.status === "iptal") &&
+                          assignedCourier && (
+                            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-[#EEF3F8] border border-[#C5D5E4] text-[#24476B] font-semibold">
+                              <Truck className="w-3 h-3" aria-hidden="true" /> {assignedCourier.displayName}
+                            </span>
+                          )}
                       </div>
                       <div className="text-[#3B1E1A]">
                         {order.items.map((it) => `${it.quantity}× ${it.productName}`).join(", ")}
                       </div>
+                      {canDispatchCourier &&
+                        order.deliveryMethod === "courier" &&
+                        order.status !== "teslim_edildi" &&
+                        order.status !== "iptal" && (
+                          <div className="pt-2 flex flex-wrap items-center gap-2">
+                            <select
+                              ref={(el) => {
+                                rowCourierSelectRefs.current.set(`mobile:${order.id}`, el);
+                              }}
+                              aria-label={`Kurye ata: ${order.customerName}`}
+                              value={order.courierId ?? ""}
+                              disabled={rowBusyIds.has(order.id)}
+                              onChange={(e) =>
+                                void handleRowAssignCourier(order, e.target.value || null, false)
+                              }
+                              className="flex-1 min-w-[180px] min-h-[44px] rounded-lg border border-[#E2D3BD] bg-[#FFFFFF] px-3 text-base text-[#3B1E1A] font-medium focus:outline-none focus:ring-2 focus:ring-[#B4532A] disabled:opacity-50"
+                            >
+                              <option value="">
+                                {order.courierId ? "Atamayı Kaldır (Tezgah)" : "Kurye seç…"}
+                              </option>
+                              {order.courierId &&
+                                !assignableCouriers.some((c) => c.id === order.courierId) && (
+                                  <option value={order.courierId}>
+                                    {assignedCourier ? `${assignedCourier.displayName} (Pasif)` : "Atanmış Kurye"}
+                                  </option>
+                                )}
+                              {assignableCouriers.map((courier) => (
+                                <option key={courier.id} value={courier.id}>
+                                  {courier.displayName}
+                                  {courier.isOnShift ? " (Vardiyada)" : ""}
+                                </option>
+                              ))}
+                            </select>
+                            {order.courierId && order.status !== "kuryede" && (
+                              <button
+                                type="button"
+                                disabled={rowBusyIds.has(order.id)}
+                                onClick={() =>
+                                  void handleRowAssignCourier(order, order.courierId ?? null, true)
+                                }
+                                className="min-h-[44px] px-3 rounded-lg bg-[#B4532A] hover:bg-[#9C4420] text-[#FFFFFF] text-xs font-bold inline-flex items-center gap-1.5 transition-colors disabled:opacity-50"
+                              >
+                                <Truck className="w-3.5 h-3.5" aria-hidden="true" />
+                                Yola Çıkar
+                              </button>
+                            )}
+                          </div>
+                        )}
                     </div>
 
                     <div className="flex flex-wrap items-center gap-2 pt-2 border-t border-[#E2D3BD]">
@@ -1220,7 +1617,59 @@ export default function AdminOrdersPage() {
                                   <span>{order.neighborhood || "Mahalle yok"}</span>
                                 </div>
                                 <p className="text-[#6E5148] line-clamp-2">{order.deliveryAddress}</p>
-                                {assignedCourier ? (
+                                {canDispatchCourier &&
+                                order.status !== "teslim_edildi" &&
+                                order.status !== "iptal" ? (
+                                  <div className="pt-1 flex flex-wrap items-center gap-1.5">
+                                    <select
+                                      ref={(el) => {
+                                        rowCourierSelectRefs.current.set(`desktop:${order.id}`, el);
+                                      }}
+                                      aria-label={`Kurye ata: ${order.customerName}`}
+                                      value={order.courierId ?? ""}
+                                      disabled={rowBusyIds.has(order.id)}
+                                      onChange={(e) =>
+                                        void handleRowAssignCourier(
+                                          order,
+                                          e.target.value || null,
+                                          false,
+                                        )
+                                      }
+                                      className="min-h-[44px] max-w-[210px] rounded-lg border border-[#E2D3BD] bg-[#FFFFFF] px-2.5 text-base md:text-xs text-[#3B1E1A] font-semibold focus:outline-none focus:ring-2 focus:ring-[#B4532A] disabled:opacity-50"
+                                    >
+                                      <option value="">
+                                        {order.courierId ? "Atamayı Kaldır (Tezgah)" : "Kurye seç…"}
+                                      </option>
+                                      {order.courierId &&
+                                        !assignableCouriers.some((c) => c.id === order.courierId) && (
+                                          <option value={order.courierId}>
+                                            {assignedCourier
+                                              ? `${assignedCourier.displayName} (Pasif)`
+                                              : "Atanmış Kurye"}
+                                          </option>
+                                        )}
+                                      {assignableCouriers.map((courier) => (
+                                        <option key={courier.id} value={courier.id}>
+                                          {courier.displayName}
+                                          {courier.isOnShift ? " (Vardiyada)" : ""}
+                                        </option>
+                                      ))}
+                                    </select>
+                                    {order.courierId && order.status !== "kuryede" && (
+                                      <button
+                                        type="button"
+                                        disabled={rowBusyIds.has(order.id)}
+                                        onClick={() =>
+                                          void handleRowAssignCourier(order, order.courierId ?? null, true)
+                                        }
+                                        className="min-h-[44px] px-2.5 rounded-lg bg-[#B4532A] hover:bg-[#9C4420] text-[#FFFFFF] text-[11px] font-bold inline-flex items-center gap-1 transition-colors disabled:opacity-50"
+                                      >
+                                        <Truck className="w-3 h-3" aria-hidden="true" />
+                                        Yola Çıkar
+                                      </button>
+                                    )}
+                                  </div>
+                                ) : assignedCourier ? (
                                   <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-[#EEF3F8] border border-[#C5D5E4] text-[#24476B] text-[11px] font-bold">
                                     <Truck className="w-3 h-3" aria-hidden="true" /> {assignedCourier.displayName}
                                   </span>
@@ -1672,6 +2121,7 @@ export default function AdminOrdersPage() {
         date={activeDateLabel}
         isOpen={labelsOpen}
         onClose={() => setLabelsOpen(false)}
+        courierNames={courierNamesMap}
       />
 
       {/* Sevkiyat Listesi Yazdır (Beyaz Kağıt Tablosu) */}

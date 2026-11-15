@@ -21,5 +21,9 @@ export interface ProductionDay {
   orderCount: number;
   lines: ProductionLine[];
   wholesaleLoaves: number;
+  retailLoaves: number;
+  b2bOrderLoaves: number;
+  unbookedWholesaleLoaves: number;
+  wholesaleDailyLoaves: number;
   capacity: { limit: number | null; used: number; isOverride: boolean; note: string | null };
 }

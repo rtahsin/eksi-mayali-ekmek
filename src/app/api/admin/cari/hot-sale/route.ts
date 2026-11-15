@@ -8,6 +8,7 @@ import { SITE_URL } from "@/lib/site";
 import { istanbulToday, isIsoDate } from "@/lib/time/istanbul";
 import { getErrorMessage } from "@/lib/utils/error";
 import { logError } from "@/lib/kernel/log";
+import { parseCustomPrices } from "@/lib/cari/account";
 import type {
   B2BHotSaleAccountSummary,
   B2BHotSaleItem,
@@ -16,14 +17,45 @@ import type {
   B2BHotSaleTransactionSummary,
 } from "@/types/admin";
 
-const HotSaleLineInputSchema = z.object({
+const HotSaleQuantitySchema = z.coerce
+  .number()
+  .int("Miktar tam sayı olmalıdır.")
+  .min(1, "Miktar en az 1 olmalıdır.")
+  .max(5000, "Tek kalemde en fazla 5.000 adet girilebilir.");
+
+const CatalogHotSaleLineSchema = z.object({
   productId: z.string().trim().min(1, "Ürün kimliği zorunludur."),
-  quantity: z.coerce
+  quantity: HotSaleQuantitySchema,
+  unitPriceOverride: z.coerce
     .number()
-    .positive("Miktar 0'dan büyük olmalıdır.")
-    .max(10000, "Tek kalemde en fazla 10.000 adet girilebilir.")
-    .finite(),
+    .min(0, "Birim fiyat negatif olamaz.")
+    .max(1_000_000, "Birim fiyat çok yüksek.")
+    .finite()
+    .optional(),
 });
+
+const CustomHotSaleLineSchema = z.object({
+  productId: z.string().trim().max(0).nullable().optional(),
+  customName: z
+    .string()
+    .trim()
+    .min(1, "Özel kalem adı zorunludur.")
+    .max(120, "Özel kalem adı en fazla 120 karakter olabilir."),
+  unitPrice: z.coerce
+    .number()
+    .min(0, "Birim fiyat negatif olamaz.")
+    .max(1_000_000, "Birim fiyat çok yüksek.")
+    .finite(),
+  quantity: HotSaleQuantitySchema,
+});
+
+const HotSaleLineInputSchema = z.union([CatalogHotSaleLineSchema, CustomHotSaleLineSchema]);
+type HotSaleLineInput = z.infer<typeof HotSaleLineInputSchema>;
+type CatalogHotSaleLine = z.infer<typeof CatalogHotSaleLineSchema>;
+
+function isCatalogLine(line: HotSaleLineInput): line is CatalogHotSaleLine {
+  return typeof line.productId === "string" && line.productId.length > 0;
+}
 
 const HotSaleRequestSchema = z.object({
   accountId: z.string().trim().min(1, "Cari hesap seçimi zorunludur."),
@@ -49,7 +81,7 @@ interface AccountDbRow {
   address: string | null;
   district: string | null;
   neighborhood: string | null;
-  tax_number: string | null;
+  tax_id: string | null;
   tax_office: string | null;
   credit_limit: number | string | null;
   share_token_version: number | null;
@@ -62,44 +94,21 @@ interface ProductDbRow {
   id: string;
   name: string;
   price: number | string | null;
-  unit_label: string | null;
   weight: number | string | null;
   weight_unit: string | null;
+  is_active: boolean | null;
 }
 
 function round2(n: number): number {
   return Math.round(n * 100) / 100;
 }
 
-function parseCustomPrices(raw: unknown): Record<string, number> {
-  if (!raw || typeof raw !== "object" || Array.isArray(raw)) return {};
-  const map: Record<string, number> = {};
-  for (const [k, v] of Object.entries(raw)) {
-    const num = typeof v === "number" ? v : Number(v);
-    if (k && Number.isFinite(num) && num > 0) {
-      map[k] = round2(num);
-    }
-  }
-  return map;
-}
-
 function resolveUnit(prod: ProductDbRow): string {
-  if (typeof prod.unit_label === "string" && prod.unit_label.trim()) {
-    return prod.unit_label.trim();
-  }
   const weightNum = Number(prod.weight);
   if (Number.isFinite(weightNum) && weightNum > 0 && typeof prod.weight_unit === "string" && prod.weight_unit.trim()) {
     return `${weightNum}${prod.weight_unit.trim()}`;
   }
-  return "Adet";
-}
-
-function aggregateQuantities(lines: Array<{ productId: string; quantity: number }>): Map<string, number> {
-  const map = new Map<string, number>();
-  for (const line of lines) {
-    map.set(line.productId, round2((map.get(line.productId) ?? 0) + line.quantity));
-  }
-  return map;
+  return "adet";
 }
 
 function parseRpcTxSummary(raw: unknown): B2BHotSaleTransactionSummary | null {
@@ -117,13 +126,15 @@ function parseRpcTxSummary(raw: unknown): B2BHotSaleTransactionSummary | null {
 
 function mapPaymentMethodToDb(method: B2BHotSalePaymentMethod | undefined): string | null {
   if (!method) return null;
+  if (method === "kredi_karti") return "pos";
   if (method === "havale") return "banka_havale";
-  return method;
+  return "nakit";
 }
 
 /**
  * Araçtan B2B sıcak satış + bayat/fire iadesi + kapıda tahsilatı tek atomik RPC'de kaydeder.
- * Fiyatlar yalnızca sunucudaki products + current_accounts.custom_prices üzerinden hesaplanır.
+ * Katalog fiyatlarında kurye override gönderse dahi sunucudaki custom_prices / catalog fiyatı zorlanır;
+ * yalnızca admin/superadmin birim fiyat override'ı yapabilir.
  */
 export async function POST(request: Request) {
   const guard = await requireCapability(request, "cari.hot_sale");
@@ -153,7 +164,7 @@ export async function POST(request: Request) {
     const { data: accountData, error: accountErr } = await supabase
       .from("current_accounts")
       .select(
-        "id, name, company_title, contact_person, phone, address, district, neighborhood, tax_number, tax_office, credit_limit, share_token_version, custom_prices, balance, archived_at",
+        "id, name, company_title, contact_person, phone, address, district, neighborhood, tax_id, tax_office, credit_limit, share_token_version, custom_prices, balance, archived_at",
       )
       .eq("id", input.accountId)
       .maybeSingle();
@@ -171,90 +182,124 @@ export async function POST(request: Request) {
       );
     }
 
-    const deliveredMap = aggregateQuantities(input.items);
-    const returnMap = aggregateQuantities(input.returnItems);
-    const allProductIds = Array.from(new Set([...deliveredMap.keys(), ...returnMap.keys()]));
+    const catalogProductIds = Array.from(
+      new Set(
+        [...input.items, ...input.returnItems]
+          .filter(isCatalogLine)
+          .map((line) => line.productId),
+      ),
+    );
 
-    const { data: productsData, error: productsErr } = await supabase
-      .from("products")
-      .select("id, name, price, unit_label, weight, weight_unit")
-      .in("id", allProductIds);
-
-    if (productsErr) throw productsErr;
-
-    const productRows = Array.isArray(productsData) ? (productsData as ProductDbRow[]) : [];
     const productById = new Map<string, ProductDbRow>();
-    for (const prod of productRows) {
-      productById.set(prod.id, prod);
-    }
+    if (catalogProductIds.length > 0) {
+      const { data: productsData, error: productsErr } = await supabase
+        .from("products")
+        .select("id, name, price, weight, weight_unit, is_active")
+        .in("id", catalogProductIds);
 
-    const missingProductId = allProductIds.find((pid) => !productById.has(pid));
-    if (missingProductId) {
-      return NextResponse.json(
-        { error: `Seçilen ürün katalogda bulunamadı (${missingProductId}).` },
-        { status: 400 },
-      );
+      if (productsErr) throw productsErr;
+
+      const productRows = Array.isArray(productsData) ? (productsData as ProductDbRow[]) : [];
+      for (const prod of productRows) {
+        productById.set(prod.id, prod);
+      }
+
+      const missingProductId = catalogProductIds.find((pid) => !productById.has(pid));
+      if (missingProductId) {
+        return NextResponse.json(
+          { error: `Seçilen ürün katalogda bulunamadı (${missingProductId}).` },
+          { status: 400 },
+        );
+      }
     }
 
     const customPrices = parseCustomPrices(acc.custom_prices);
-    const resolvedItems: B2BHotSaleItem[] = [];
     let grossTotal = 0;
     let returnTotal = 0;
+    let overrideUsed = false;
+    let customItemCount = 0;
 
-    const resolveUnitPrice = (prod: ProductDbRow): number => {
-      const custom = customPrices[prod.id];
-      if (typeof custom === "number" && Number.isFinite(custom) && custom > 0) {
-        return round2(custom);
+    const resolveLines = (lines: HotSaleLineInput[], isReturn: boolean): { items: B2BHotSaleItem[]; error?: string } => {
+      const grouped = new Map<string, B2BHotSaleItem>();
+
+      for (const line of lines) {
+        let productId: string | null = null;
+        let baseName = "";
+        let unitPrice = 0;
+        let unit = "adet";
+
+        if (isCatalogLine(line)) {
+          const prod = productById.get(line.productId)!;
+          if (prod.is_active === false) {
+            return { items: [], error: `${prod.name} şu anda aktif değil.` };
+          }
+          productId = prod.id;
+          baseName = prod.name;
+          unit = resolveUnit(prod);
+
+          if (guard.auth.isAdmin && line.unitPriceOverride !== undefined) {
+            unitPrice = round2(line.unitPriceOverride);
+            overrideUsed = true;
+          } else if (Object.prototype.hasOwnProperty.call(customPrices, prod.id)) {
+            unitPrice = round2(customPrices[prod.id]);
+          } else {
+            const catalog = Number(prod.price);
+            if (!Number.isFinite(catalog) || catalog <= 0) {
+              return {
+                items: [],
+                error: `${prod.name} için geçerli ${isReturn ? "iade " : ""}birim fiyat tanımlı değil.`,
+              };
+            }
+            unitPrice = round2(catalog);
+          }
+        } else {
+          productId = null;
+          baseName = line.customName;
+          unitPrice = round2(line.unitPrice);
+          unit = "adet";
+          customItemCount += 1;
+        }
+
+        const key = `${productId ?? `custom:${baseName}`}::${unitPrice}`;
+        const existing = grouped.get(key);
+        const signedQty = isReturn ? -line.quantity : line.quantity;
+
+        if (existing) {
+          existing.quantity += signedQty;
+          existing.lineTotal = round2(existing.quantity * unitPrice);
+        } else {
+          grouped.set(key, {
+            productId,
+            name: isReturn ? `${baseName} (İade)` : baseName,
+            productName: baseName,
+            quantity: signedQty,
+            unitPrice,
+            lineTotal: round2(signedQty * unitPrice),
+            unit,
+            isReturn,
+          });
+        }
       }
-      const catalog = Number(prod.price);
-      return Number.isFinite(catalog) && catalog > 0 ? round2(catalog) : 0;
+
+      return { items: Array.from(grouped.values()) };
     };
 
-    for (const [productId, quantity] of deliveredMap.entries()) {
-      const prod = productById.get(productId)!;
-      const unitPrice = resolveUnitPrice(prod);
-      if (unitPrice <= 0) {
-        return NextResponse.json(
-          { error: `${prod.name} için geçerli birim fiyat tanımlı değil.` },
-          { status: 400 },
-        );
-      }
-      const lineTotal = round2(quantity * unitPrice);
-      grossTotal = round2(grossTotal + lineTotal);
-      resolvedItems.push({
-        productId,
-        name: prod.name,
-        productName: prod.name,
-        quantity,
-        unitPrice,
-        lineTotal,
-        unit: resolveUnit(prod),
-        isReturn: false,
-      });
+    const deliveredResolved = resolveLines(input.items, false);
+    if (deliveredResolved.error) {
+      return NextResponse.json({ error: deliveredResolved.error }, { status: 400 });
+    }
+    const returnResolved = resolveLines(input.returnItems, true);
+    if (returnResolved.error) {
+      return NextResponse.json({ error: returnResolved.error }, { status: 400 });
     }
 
-    for (const [productId, quantity] of returnMap.entries()) {
-      const prod = productById.get(productId)!;
-      const unitPrice = resolveUnitPrice(prod);
-      if (unitPrice <= 0) {
-        return NextResponse.json(
-          { error: `${prod.name} için geçerli iade birim fiyatı tanımlı değil.` },
-          { status: 400 },
-        );
-      }
-      const absLineTotal = round2(quantity * unitPrice);
-      returnTotal = round2(returnTotal + absLineTotal);
-      resolvedItems.push({
-        productId,
-        name: `${prod.name} (İade)`,
-        productName: prod.name,
-        quantity: -quantity,
-        unitPrice,
-        lineTotal: -absLineTotal,
-        unit: resolveUnit(prod),
-        isReturn: true,
-      });
+    for (const item of deliveredResolved.items) {
+      grossTotal = round2(grossTotal + item.lineTotal);
     }
+    for (const item of returnResolved.items) {
+      returnTotal = round2(returnTotal + Math.abs(item.lineTotal));
+    }
+    const resolvedItems: B2BHotSaleItem[] = [...deliveredResolved.items, ...returnResolved.items];
 
     const netAmount = round2(grossTotal - returnTotal);
     if (netAmount <= 0) {
@@ -352,7 +397,7 @@ export async function POST(request: Request) {
       address: acc.address ?? "",
       district: acc.district?.trim() || "Beylikdüzü",
       neighborhood: acc.neighborhood ?? "",
-      taxNumber: acc.tax_number?.trim() || undefined,
+      taxNumber: acc.tax_id?.trim() || undefined,
       taxOffice: acc.tax_office?.trim() || undefined,
       creditLimit: round2(Number(acc.credit_limit) || 0),
       shareTokenVersion,
@@ -375,6 +420,8 @@ export async function POST(request: Request) {
         collectedAmount,
         paymentMethod: effectivePaymentMethod ?? null,
         allowOverLimit: Boolean(input.allowOverLimit && guard.auth.isAdmin),
+        overrideUsed,
+        customItemCount,
         balanceAfter,
         itemCount: resolvedItems.length,
       },

@@ -1,24 +1,48 @@
 "use client";
 
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { AdminOrder } from "@/types/admin";
 import { Printer, X, Tag, Phone, MapPin } from "lucide-react";
 import { useAdminAuth } from "@/hooks/useAdminAuth";
 import { hasCapability } from "@/lib/security/capabilities";
+import { sortStops } from "@/lib/delivery/maps";
 
 interface BulkLabelsModalProps {
   orders: AdminOrder[];
   date: string;
   isOpen: boolean;
   onClose: () => void;
+  courierNames?: Record<string, string>;
 }
 
-export function BulkLabelsModal({ orders, date, isOpen, onClose }: BulkLabelsModalProps) {
+interface LabelEntry {
+  order: AdminOrder;
+  badgeText: string;
+  subHeader: string;
+}
+
+export function BulkLabelsModal({
+  orders,
+  date,
+  isOpen,
+  onClose,
+  courierNames = {},
+}: BulkLabelsModalProps) {
   const [labelFormat, setLabelFormat] = useState<"a4" | "thermal">("a4");
   const dialogRef = useRef<HTMLDialogElement>(null);
   const pointerDownOutsideRef = useRef(false);
   const { adminUser } = useAdminAuth();
   const canViewFinance = hasCapability(adminUser?.role, "dashboard.finance");
+
+  useEffect(() => {
+    const dialog = dialogRef.current;
+    if (!dialog) return;
+    const handleClose = () => {
+      dialog.returnValue = "";
+    };
+    dialog.addEventListener("close", handleClose);
+    return () => dialog.removeEventListener("close", handleClose);
+  }, []);
 
   useEffect(() => {
     const dialog = dialogRef.current;
@@ -29,6 +53,73 @@ export function BulkLabelsModal({ orders, date, isOpen, onClose }: BulkLabelsMod
       dialog.close();
     }
   }, [isOpen]);
+
+  const orderedEntries = useMemo<LabelEntry[]>(() => {
+    const pickupOrders: AdminOrder[] = [];
+    const unassignedCourierOrders: AdminOrder[] = [];
+    const byCourier = new Map<string, AdminOrder[]>();
+
+    for (const order of orders) {
+      if (order.deliveryMethod === "pickup") {
+        pickupOrders.push(order);
+        continue;
+      }
+      if (order.courierId) {
+        const list = byCourier.get(order.courierId) ?? [];
+        list.push(order);
+        byCourier.set(order.courierId, list);
+      } else {
+        unassignedCourierOrders.push(order);
+      }
+    }
+
+    const sortGroup = (group: AdminOrder[]) => {
+      const manualOrder = group
+        .filter((o) => typeof o.stopSequence === "number" && o.stopSequence !== null)
+        .sort((a, b) => (a.stopSequence ?? 0) - (b.stopSequence ?? 0))
+        .map((o) => o.id);
+      return sortStops(group, manualOrder);
+    };
+
+    const result: LabelEntry[] = [];
+
+    const sortedCourierIds = Array.from(byCourier.keys()).sort((a, b) =>
+      (courierNames[a] || a).localeCompare(courierNames[b] || b, "tr")
+    );
+
+    for (const courierId of sortedCourierIds) {
+      const sorted = sortGroup(byCourier.get(courierId) ?? []);
+      const courierLabel = courierNames[courierId] || "Kurye";
+      sorted.forEach((order, idx) => {
+        result.push({
+          order,
+          badgeText: `DURAK #${idx + 1}`,
+          subHeader: `${date} · ${courierLabel}`,
+        });
+      });
+    }
+
+    if (unassignedCourierOrders.length > 0) {
+      const sorted = sortGroup(unassignedCourierOrders);
+      sorted.forEach((order, idx) => {
+        result.push({
+          order,
+          badgeText: `DURAK #${idx + 1}`,
+          subHeader: `${date} · Kurye Bekleyen`,
+        });
+      });
+    }
+
+    for (const order of pickupOrders) {
+      result.push({
+        order,
+        badgeText: "GEL-AL (FIRIN TESLİM)",
+        subHeader: `${date} · Fırından Teslim`,
+      });
+    }
+
+    return result;
+  }, [orders, courierNames, date]);
 
   const handlePrint = () => {
     if (typeof window !== "undefined") {
@@ -54,7 +145,7 @@ export function BulkLabelsModal({ orders, date, isOpen, onClose }: BulkLabelsMod
           : "grid grid-cols-1 max-w-sm mx-auto print:max-w-none print:w-full"
       }`}
     >
-      {orders.map((order, idx) => {
+      {orderedEntries.map(({ order, badgeText, subHeader }) => {
         const payMethodLabel =
           order.paymentMethod === "cash_on_delivery"
             ? "KAPIDA NAKİT"
@@ -76,13 +167,13 @@ export function BulkLabelsModal({ orders, date, isOpen, onClose }: BulkLabelsMod
                   EKMEKLAB TAŞ FIRIN
                 </div>
                 <div className="text-xs text-[#6E5148] print:text-gray-700 font-mono tabular-nums leading-normal pb-0.5">
-                  {date} · Teslimat Paketi
+                  {subHeader}
                 </div>
               </div>
 
-              <div className="text-right">
+              <div className="text-right overflow-visible">
                 <span className="inline-block px-2 py-0.5 rounded-lg bg-[#F3E2D4] text-[#8E3D1B] border border-[#DFB99F] print:border-black print:bg-black print:text-white font-mono tabular-nums font-bold text-xs leading-normal">
-                  DURAK #{idx + 1}
+                  {badgeText}
                 </span>
                 <div className="text-xs text-[#6E5148] print:text-gray-700 font-mono tabular-nums leading-normal pb-0.5">
                   #{order.orderNumber || order.id.slice(-6)}
@@ -104,7 +195,13 @@ export function BulkLabelsModal({ orders, date, isOpen, onClose }: BulkLabelsMod
               <div className="text-xs text-[#3B1E1A] print:text-black leading-normal pb-0.5 flex items-start gap-1">
                 <MapPin className="w-3 h-3 text-[#B4532A] print:text-black shrink-0 mt-0.5" aria-hidden="true" />
                 <span>
-                  <strong>{order.neighborhood}</strong> · {order.deliveryAddress}
+                  {order.deliveryMethod === "pickup" ? (
+                    <strong>Fırın Gel-Al</strong>
+                  ) : (
+                    <>
+                      <strong>{order.neighborhood}</strong> · {order.deliveryAddress}
+                    </>
+                  )}
                 </span>
               </div>
             </div>
@@ -175,6 +272,7 @@ export function BulkLabelsModal({ orders, date, isOpen, onClose }: BulkLabelsMod
     <>
       <dialog
         ref={dialogRef}
+        closedby="any"
         aria-labelledby="bulk-labels-title"
         onCancel={(e) => {
           e.preventDefault();
@@ -204,7 +302,7 @@ export function BulkLabelsModal({ orders, date, isOpen, onClose }: BulkLabelsMod
                     Toplu Paket &amp; Torba Etiketleri
                   </h2>
                   <p className="text-[#6E5148] text-xs font-mono tabular-nums">
-                    {date} Dağıtımı · {orders.length} Adet Paket Etiketi
+                    {date} Dağıtımı · {orders.length} Adet Paket Etiketi (Kurye + Rota Sıralı)
                   </p>
                 </div>
               </div>
@@ -215,7 +313,7 @@ export function BulkLabelsModal({ orders, date, isOpen, onClose }: BulkLabelsMod
                     type="button"
                     aria-pressed={labelFormat === "a4"}
                     onClick={() => setLabelFormat("a4")}
-                    className={`px-2.5 py-1 rounded-lg font-medium transition-colors ${
+                    className={`min-h-11 px-2.5 py-1 rounded-lg font-medium transition-colors ${
                       labelFormat === "a4"
                         ? "bg-[#B4532A] text-white font-bold shadow-sm"
                         : "text-[#6E5148] hover:text-[#3B1E1A]"
@@ -227,7 +325,7 @@ export function BulkLabelsModal({ orders, date, isOpen, onClose }: BulkLabelsMod
                     type="button"
                     aria-pressed={labelFormat === "thermal"}
                     onClick={() => setLabelFormat("thermal")}
-                    className={`px-2.5 py-1 rounded-lg font-medium transition-colors ${
+                    className={`min-h-11 px-2.5 py-1 rounded-lg font-medium transition-colors ${
                       labelFormat === "thermal"
                         ? "bg-[#B4532A] text-white font-bold shadow-sm"
                         : "text-[#6E5148] hover:text-[#3B1E1A]"
@@ -240,7 +338,7 @@ export function BulkLabelsModal({ orders, date, isOpen, onClose }: BulkLabelsMod
                 <button
                   type="button"
                   onClick={handlePrint}
-                  className="px-4 py-2 rounded-xl bg-[#B4532A] hover:bg-[#9C4421] text-white font-bold text-xs flex items-center gap-1.5 shadow-sm transition-colors"
+                  className="min-h-11 px-4 py-2 rounded-xl bg-[#B4532A] hover:bg-[#9C4421] text-white font-bold text-xs flex items-center gap-1.5 shadow-sm transition-colors"
                 >
                   <Printer className="w-4 h-4" aria-hidden="true" />
                   <span>Yazdır</span>
@@ -250,7 +348,7 @@ export function BulkLabelsModal({ orders, date, isOpen, onClose }: BulkLabelsMod
                   aria-label="Kapat"
                   type="button"
                   onClick={onClose}
-                  className="p-2 rounded-xl text-[#6E5148] hover:text-[#3B1E1A] hover:bg-[#F1E6D2] transition-colors"
+                  className="min-h-11 min-w-11 p-2 rounded-xl text-[#6E5148] hover:text-[#3B1E1A] hover:bg-[#F1E6D2] transition-colors inline-flex items-center justify-center"
                 >
                   <X className="w-5 h-5" aria-hidden="true" />
                 </button>

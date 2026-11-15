@@ -26,6 +26,8 @@ interface AdminSidebarProps {
   isOpen?: boolean;
   onClose: () => void;
   pendingOrderCount?: number;
+  unassignedCourierCount?: number;
+  overLimitCariCount?: number;
 }
 
 interface NavItem {
@@ -34,6 +36,7 @@ interface NavItem {
   icon: React.ComponentType<{ className?: string }>;
   capability: AdminCapability;
   badge?: number;
+  badgeTitle?: string;
   exact?: boolean;
 }
 
@@ -42,6 +45,8 @@ export function AdminSidebar({
   isOpen,
   onClose,
   pendingOrderCount = 0,
+  unassignedCourierCount = 0,
+  overLimitCariCount = 0,
 }: AdminSidebarProps) {
   const open = mobileOpen ?? isOpen ?? false;
   const pathname = usePathname();
@@ -87,12 +92,15 @@ export function AdminSidebar({
       icon: ShoppingBag,
       capability: "orders.read",
       badge: pendingOrderCount > 0 ? pendingOrderCount : undefined,
+      badgeTitle: "Onay bekleyen sipariş",
     },
     {
       label: "Teslimat",
       href: "/kurye",
       icon: Truck,
       capability: "courier.dispatch",
+      badge: unassignedCourierCount > 0 ? unassignedCourierCount : undefined,
+      badgeTitle: "Atanmamış kurye paketi",
     },
     {
       label: "Üretim",
@@ -117,6 +125,8 @@ export function AdminSidebar({
       href: "/admin/cariler",
       icon: Wallet,
       capability: "cari.read",
+      badge: overLimitCariCount > 0 ? overLimitCariCount : undefined,
+      badgeTitle: "Kredi limitini aşan cari",
     },
     {
       label: "Müşteriler",
@@ -230,6 +240,8 @@ export function AdminSidebar({
 
                 {item.badge !== undefined && (
                   <span
+                    title={item.badgeTitle}
+                    aria-label={item.badgeTitle ? `${item.badge} ${item.badgeTitle}` : undefined}
                     className={`px-2 py-0.5 rounded-full font-mono tabular-nums text-xs font-bold ${
                       isActive
                         ? "bg-[#FFFFFF] text-[#8E3D1B]"

@@ -1,8 +1,8 @@
 # EkmekLab Ana Komuta Merkezi (`COMMAND_CENTER.md`)
 
 > **Son Güncelleme:** 2026-11-15  
-> **Aktif Çalışma Paketi:** Kurumsal Admin, Kurye Dağıtım, RBAC/Güvenlik & B2B Araçtan Sıcak Satış (Faz 0 – Faz 4 ✅ Tamamlandı)  
-> **Doğrulama Durumu:** `npm run typecheck` (0) · `npm test` (68 dosya / 451 test) · `npm run build` (152 rota / 0 hata)  
+> **Aktif Çalışma Paketi:** CEO Operasyon Kokpiti, Sıfır-Sürtünmeli Kurye Dağıtımı & B2B Cari Sipariş Mimarisi (Faz 0 – Faz 8 ✅ Tamamlandı)  
+> **Doğrulama Kapısı:** `npm run typecheck` · `npm test` · `npm run build` (Faz 0–8 sonrası son doğrulamadan geçirildi)  
 > **Kanonik Kök Belgeler:** [`MERKEZ.md`](../MERKEZ.md) · [`AGENTS.md`](../AGENTS.md) · [`docs/MIMARI.md`](MIMARI.md)
 
 ---
@@ -49,8 +49,15 @@
 | **Faz 3A** | Açık Kurumsal Admin Kabuğu, Onaylı Şalter, `staff` Finans Gizleme, Sunucu Sayfalamalı CRM (`/admin/musteriler`), Senkronlu `/admin/uretim` & Toplu Sipariş/Dağıtım (`/admin/siparisler`) | `admin-kurumsal-mimari` | ✅ Tamamlandı |
 | **Faz 3B** | Kalan Admin Ekranları (`urunler`, `baski`, `ayarlar`, `login`, `siparisler/[id]`, `yeni`, alt modallar) Açık Kurumsal "Atölye Kremi" Tema Dönüşümü | `admin-kurumsal-mimari` | ✅ Tamamlandı |
 | **Faz 4** | B2B Özel Fiyat Matrisi, Serbest İlçe & Kredi Limiti, Araçtan Sıcak Satış (`hot-sale`) & Sevk İrsaliyesi | `kurye-ve-b2b-uzmani` | ✅ Tamamlandı |
+| **Faz 5** | `032` Migration (`default_courier_id`, `standing_order`, `is_ops_staff`, `deliver_b2b_order_flexible_atomic`), `tax_id`/`weight_unit` canlı bug fix & `mapAccount` | `guvenlik-ve-rbac-mimari` | ✅ Tamamlandı (SQL bekliyor) |
+| **Faz 6** | Mahalle & Apartman küme şeridi, satır içi tek tık kurye hapı, planlı zimmet vs yolda ayrımı, self-vardiya, tarih+arama fix, rota sıralı etiketler | `kurye-ve-b2b-uzmani` | ✅ Tamamlandı |
+| **Faz 7** | 10 sn B2B `CariQuickOrderModal` (`inputmode="numeric"`), *Son Siparişi Doldur*, Haftalık Sabit Rutin üretimi, URL ön-dolum & `/kurye` esnek B2B teslimat | `kurye-ve-b2b-uzmani` | ✅ Tamamlandı |
+| **Faz 8** | CEO Komuta Kokpiti (`/admin` 4 duraklı operasyon rayı + kasa/zimmet ayrımı + B2B kredi radarı), `⌘K` Hızlı İşlem paleti, üretim çifte sayım fix & CRM/baskı köprüleri | `admin-kurumsal-mimari` | ✅ Tamamlandı |
 
 ---
 
 ## 4. Kurucu (Tahsin) İçin Bekleyen Veritabanı Adımı (Tek Manuel Adım)
-- Supabase Dashboard → SQL Editor içinde **`supabase/migrations/031_enterprise_admin_rbac_b2b.sql`** dosyasını önce `BEGIN; ... ROLLBACK;` ile deneyip ardından `COMMIT;` ile uygulayın ve **`supabase/tests/031_enterprise_admin_rbac_b2b.sql`** duman testini (`BEGIN ... ROLLBACK`) çalıştırın. (**Yeni `/admin/ekip`, kurye dağıtım veya B2B sıcak satış kullanılmadan ÖNCE uygulanmalıdır; mevcut vitrin siparişleri geriye dönük uyumludur.**)
+- Supabase Dashboard → SQL Editor içinde sırasıyla:
+  1. (Henüz uygulanmadıysa) **`supabase/migrations/031_enterprise_admin_rbac_b2b.sql`** (`ROLLBACK` → `COMMIT`) ve **`supabase/tests/031_enterprise_admin_rbac_b2b.sql`**
+  2. **`supabase/migrations/032_zero_friction_dispatch_b2b_cockpit.sql`** (`ROLLBACK` → `COMMIT`) ve **`supabase/tests/032_zero_friction_dispatch_b2b_cockpit.sql`**
+  çalıştırılmalıdır. (**Yeni `/admin/ekip`, `staff` okuma yetkileri, sabit rutin üretimi, serbest kalem ve kapıda esnek B2B teslimat kullanılmadan ÖNCE uygulanmalıdır.**)

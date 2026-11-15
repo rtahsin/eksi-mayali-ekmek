@@ -5,18 +5,30 @@ import { requireActiveCourierOrAdmin } from "@/lib/security/apiAuth";
 import { getErrorMessage } from "@/lib/utils/error";
 import { logError } from "@/lib/kernel/log";
 
-const RouteOrderSchema = z.object({
-  orderedIds: z
-    .array(z.string().trim().min(1).max(80))
-    .min(1, "En az 1 durak kimliği gerekli.")
-    .max(200, "En fazla 200 durak sıralanabilir."),
-});
+const RouteOrderSchema = z
+  .object({
+    orderedIds: z
+      .array(z.string().trim().min(1).max(80))
+      .max(200, "En fazla 200 durak sıralanabilir.")
+      .optional(),
+    reset: z.boolean().optional().default(false),
+    courierId: z.string().uuid("Geçerli bir kurye kimliği seçin.").optional(),
+  })
+  .superRefine((data, ctx) => {
+    if (!data.reset && (!data.orderedIds || data.orderedIds.length === 0)) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        path: ["orderedIds"],
+        message: "En az 1 durak kimliği gerekli.",
+      });
+    }
+  });
 
 /**
- * Kuryenin kendi dağıtım listesindeki durak sırasını (`orders.stop_sequence`) günceller.
+ * Kuryenin kendi dağıtım listesindeki durak sırasını (`orders.stop_sequence`) günceller veya mahalle sırasına sıfırlar.
  */
 export async function PATCH(req: Request) {
-  const guard = await requireActiveCourierOrAdmin(req);
+  const guard = await requireActiveCourierOrAdmin(req, { allowStaff: true });
   if (!guard.ok) return guard.response;
 
   const rawBody: unknown = await req.json().catch(() => null);
@@ -28,7 +40,8 @@ export async function PATCH(req: Request) {
     );
   }
 
-  const uniqueIds = Array.from(new Set(parsed.data.orderedIds));
+  const { reset, orderedIds = [], courierId: requestedCourierId } = parsed.data;
+  const uniqueIds = Array.from(new Set(orderedIds));
   const isCourierRole = guard.auth.role === "courier";
 
   if (isCourierRole && (!guard.isActive || !guard.courierDbId)) {
@@ -44,6 +57,48 @@ export async function PATCH(req: Request) {
   }
 
   try {
+    const nowIso = new Date().toISOString();
+
+    if (reset) {
+      const targetCourierId = isCourierRole
+        ? guard.courierDbId
+        : requestedCourierId ?? guard.courierDbId ?? null;
+
+      if (uniqueIds.length > 0) {
+        let q = supabase
+          .from("orders")
+          .update({ stop_sequence: null, updated_at: nowIso })
+          .in("id", uniqueIds);
+        if (isCourierRole && guard.courierDbId) {
+          q = q.eq("courier_id", guard.courierDbId);
+        }
+        const { error: resetErr } = await q;
+        if (resetErr) throw resetErr;
+        return NextResponse.json({ success: true, reset: true, updatedCount: uniqueIds.length });
+      }
+
+      if (!targetCourierId) {
+        return NextResponse.json(
+          { error: "Sıfırlanacak kurye veya duraklar belirtilmedi." },
+          { status: 400 }
+        );
+      }
+
+      const { data: resetRows, error: resetErr } = await supabase
+        .from("orders")
+        .update({ stop_sequence: null, updated_at: nowIso })
+        .eq("courier_id", targetCourierId)
+        .in("status", ["hazirlaniyor", "firinda", "kuryede"])
+        .select("id");
+      if (resetErr) throw resetErr;
+
+      return NextResponse.json({
+        success: true,
+        reset: true,
+        updatedCount: resetRows?.length ?? 0,
+      });
+    }
+
     const { data: rows, error: readErr } = await supabase
       .from("orders")
       .select("id, courier_id")
@@ -64,7 +119,6 @@ export async function PATCH(req: Request) {
       }
     }
 
-    const nowIso = new Date().toISOString();
     const eligibleIds = uniqueIds.filter((id) => {
       const row = rowById.get(id);
       if (!row) return false;

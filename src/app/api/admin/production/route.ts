@@ -17,7 +17,10 @@ interface ItemRow {
   quantity: number | null;
   capacity_units: number | null;
   components: unknown;
-  orders: { id: string; status: string; delivery_date: string } | { id: string; status: string; delivery_date: string }[] | null;
+  orders:
+    | { id: string; status: string; delivery_date: string; cari_id: string | null }
+    | { id: string; status: string; delivery_date: string; cari_id: string | null }[]
+    | null;
 }
 
 interface ProductMetaRow {
@@ -51,7 +54,7 @@ export async function GET(request: Request) {
       getStoreSettings(supabase, { failClosed: true }),
       supabase
         .from("order_items")
-        .select("product_id, product_name, quantity, capacity_units, components, orders!inner(id, status, delivery_date)")
+        .select("product_id, product_name, quantity, capacity_units, components, orders!inner(id, status, delivery_date, cari_id)")
         .eq("orders.delivery_date", date)
         .neq("orders.status", "iptal"),
       supabase.from("capacity_days").select("bread_capacity, note").eq("day", date).maybeSingle(),
@@ -89,13 +92,24 @@ export async function GET(request: Request) {
 
     const meta = new Map(((products ?? []) as ProductMetaRow[]).map((p) => [p.id, p]));
 
-    let used = 0;
+    let retailLoaves = 0;
+    let b2bOrderLoaves = 0;
     for (const r of validRows) {
       const rowMeta = meta.get(r.product_id);
       const rowIsAccomp = isAccompanimentCategory(rowMeta?.category);
       const unitCap = rowIsAccomp ? 0 : (r.capacity_units ?? rowMeta?.capacity_units ?? 1);
-      used += (Number(r.quantity) || 0) * unitCap;
+      const load = (Number(r.quantity) || 0) * unitCap;
+      const order = Array.isArray(r.orders) ? r.orders[0] : r.orders;
+      if (order?.cari_id) {
+        b2bOrderLoaves += load;
+      } else {
+        retailLoaves += load;
+      }
     }
+
+    const wholesaleDailyLoaves = settings.wholesaleDailyLoaves;
+    const unbookedWholesaleLoaves = Math.max(0, wholesaleDailyLoaves - b2bOrderLoaves);
+    const used = retailLoaves + b2bOrderLoaves + unbookedWholesaleLoaves;
 
     const ids = Array.from(totals.keys());
     const lines: ProductionLine[] = ids
@@ -123,7 +137,11 @@ export async function GET(request: Request) {
       date,
       orderCount: orderIds.size,
       lines,
-      wholesaleLoaves: settings.wholesaleDailyLoaves,
+      wholesaleLoaves: unbookedWholesaleLoaves,
+      retailLoaves,
+      b2bOrderLoaves,
+      unbookedWholesaleLoaves,
+      wholesaleDailyLoaves,
       capacity: {
         limit: override?.bread_capacity ?? settings.dailyBreadCapacity,
         used,

@@ -2,7 +2,13 @@
 
 import { useState, useEffect, useMemo, useCallback, useRef } from "react";
 import { createClient, isSupabaseConfigured } from "@/lib/supabase/client";
-import { AdminOrder, AdminOrderStatus, AdminPaymentMethod, OrderSource } from "@/types/admin";
+import {
+  AdminOrder,
+  AdminOrderStatus,
+  AdminPaymentMethod,
+  ExtendedOrderSource,
+  OrderSource,
+} from "@/types/admin";
 import { getErrorMessage } from "@/lib/utils/error";
 import { addDays, istanbulToday, normalizeDeliveryDate } from "@/lib/time/istanbul";
 import { computeShippingFee } from "@/lib/settings/schema";
@@ -50,6 +56,7 @@ interface RawOrderRow {
   phone?: string | null;
   delivery_address?: string | null;
   neighborhood?: string | null;
+  district?: string | null;
   delivery_method?: string | null;
   delivery_date?: string | null;
   delivery_time_window?: string | null;
@@ -63,6 +70,7 @@ interface RawOrderRow {
   order_notes?: string | null;
   courier_notes?: string | null;
   courier_id?: string | null;
+  stop_sequence?: number | null;
   assigned_at?: string | null;
   delivered_at?: string | null;
   cancelled_at?: string | null;
@@ -112,6 +120,7 @@ function toAdminOrder(o: RawOrderRow): AdminOrder {
       phone: o.phone || "",
       deliveryAddress: o.delivery_address || "",
       neighborhood: o.neighborhood || extractNeighborhood(o.delivery_address || ""),
+      district: o.district || undefined,
       deliveryMethod: o.delivery_method === "pickup" ? "pickup" : "courier",
       deliveryDate: d,
       deliveryTimeWindow: o.delivery_time_window || undefined,
@@ -124,6 +133,7 @@ function toAdminOrder(o: RawOrderRow): AdminOrder {
       paymentStatus: (o.payment_status as "paid" | "pending" | "on_delivery") || (o.status === "teslim_edildi" ? "paid" : "pending"),
       source: (o.source as OrderSource) || "web",
       courierId: o.courier_id || null,
+      stopSequence: typeof o.stop_sequence === "number" ? o.stop_sequence : null,
       assignedAt: o.assigned_at || null,
       deliveredAt: o.delivered_at || null,
       cancelledAt: o.cancelled_at || null,
@@ -161,6 +171,7 @@ export function useAdminOrders(options: UseAdminOrdersOptions = {}) {
   const [statusFilter, setStatusFilter] = useState<string>("all");
   const [dateFilter, setDateFilter] = useState<"bugun" | "yarin" | "hepsi">("bugun");
   const [searchQuery, setSearchQuery] = useState<string>("");
+  const [searchAllDates, setSearchAllDates] = useState<boolean>(false);
 
   const supabase = createClient();
   const { settings: storeSettings } = useStoreSettings();
@@ -335,31 +346,37 @@ export function useAdminOrders(options: UseAdminOrdersOptions = {}) {
     }
   };
 
-  // Assign courier to order (API üzerinden tek-yazar, P1-09)
+  // Assign/unassign courier to order (planlama modu veya yola çıkarma; 024/031 tek-yazar)
   const assignCourier = async (
     orderId: string,
-    courierId: string,
-    _adminId?: string
+    courierId: string | null,
+    opts?: { startRoute?: boolean } | string
   ) => {
     try {
-      const currentOrder = orders.find((o) => o.id === orderId);
+      const startRoute =
+        typeof opts === "object" && opts !== null ? Boolean(opts.startRoute) : false;
+      const currentOrder = allOrders.find((o) => o.id === orderId);
       if (currentOrder && (currentOrder.status === "teslim_edildi" || currentOrder.status === "iptal")) {
         return {
           success: false,
-          error: `'${currentOrder.status}' durumundaki bir siparişe kurye atanamaz.`,
+          error: `'${currentOrder.status}' durumundaki bir sipariş değiştirilemez.`,
         };
       }
 
-      const res = await fetch(`/api/orders/${orderId}/assign-courier`, {
+      const res = await fetch(`/api/orders/${encodeURIComponent(orderId)}/assign-courier`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           courierId,
-          status: "kuryede",
+          ...(courierId ? { startRoute } : {}),
         }),
       });
 
-      const data = await res.json().catch(() => ({}));
+      const data = (await res.json().catch(() => ({}))) as {
+        error?: string;
+        status?: string;
+        courierId?: string | null;
+      };
       if (!res.ok) {
         return {
           success: false,
@@ -368,15 +385,22 @@ export function useAdminOrders(options: UseAdminOrdersOptions = {}) {
       }
 
       const nowIso = new Date().toISOString();
-      setOrders((prev) =>
-        prev.map((o) =>
-          o.id === orderId
-            ? { ...o, courierId, assignedAt: nowIso, status: "kuryede" }
-            : o
-        )
-      );
+      const nextStatus = data.status ? normalizeOrderStatus(data.status) : undefined;
+      const patchOrder = (o: AdminOrder): AdminOrder =>
+        o.id === orderId
+          ? {
+              ...o,
+              courierId,
+              assignedAt: courierId ? nowIso : null,
+              stopSequence: null,
+              ...(nextStatus ? { status: nextStatus } : {}),
+            }
+          : o;
 
-      return { success: true };
+      setOrders((prev) => prev.map(patchOrder));
+      setExtra((prev) => prev.map(patchOrder));
+
+      return { success: true, status: nextStatus };
     } catch (err: unknown) {
       console.error("Assign courier error:", err);
       return { success: false, error: getErrorMessage(err) };
@@ -389,7 +413,21 @@ export function useAdminOrders(options: UseAdminOrdersOptions = {}) {
   };
 
   // Manuel sipariş: sunucuda tek atomik RPC (numara, kalemler, geçmiş). Cari borcu teslimde yazılır.
-  const createManualOrder = async (orderData: Partial<AdminOrder> & { idempotencyKey?: string }) => {
+  const createManualOrder = async (
+    orderData: Omit<Partial<AdminOrder>, "source" | "items"> & {
+      idempotencyKey?: string;
+      source?: ExtendedOrderSource;
+      items?: Array<{
+        productId?: string | null;
+        productName: string;
+        quantity: number;
+        unitPrice: number;
+        totalPrice: number;
+        imageUrl?: string;
+        weight?: number;
+      }>;
+    }
+  ) => {
     try {
       const subtotal = (orderData.items || []).reduce((sum, it) => sum + it.totalPrice, 0);
       const shippingFee = orderData.shippingFee ?? computeShippingFee(subtotal, storeSettings);
@@ -401,12 +439,13 @@ export function useAdminOrders(options: UseAdminOrdersOptions = {}) {
           customerName: orderData.customerName || "",
           phone: orderData.phone || "",
           deliveryAddress: orderData.deliveryAddress || "",
+          ...(orderData.district ? { district: orderData.district } : {}),
           neighborhood: orderData.neighborhood || "",
           deliveryMethod: orderData.deliveryMethod === "pickup" ? "pickup" : "courier",
           deliveryDate: orderData.deliveryDate || istanbulToday(),
           deliveryTimeWindow: orderData.deliveryTimeWindow || undefined,
           items: (orderData.items || []).map((it) => ({
-            productId: it.productId,
+            productId: it.productId ?? null,
             productName: it.productName,
             quantity: it.quantity,
             unitPrice: it.unitPrice,
@@ -418,6 +457,8 @@ export function useAdminOrders(options: UseAdminOrdersOptions = {}) {
           source: orderData.source || "phone",
           status: orderData.status === "bekliyor" ? "bekliyor" : "hazirlaniyor",
           ...(orderData.cariId ? { cariId: orderData.cariId } : {}),
+          ...(orderData.courierId !== undefined ? { courierId: orderData.courierId } : {}),
+          ...(orderData.courierNotes ? { courierNotes: orderData.courierNotes } : {}),
           orderNotes: orderData.orderNotes || "",
         }),
       });
@@ -441,10 +482,11 @@ export function useAdminOrders(options: UseAdminOrdersOptions = {}) {
   // Filtered orders
   const filteredOrders = useMemo(() => {
     const searching = searchQuery.trim().length > 0;
+    const ignoreDateForSearch = searching && searchAllDates;
     return allOrders.filter((order) => {
-      // Tarih filtresi; arama tüm tarihlerde yapılır
-      if (!searching && dateFilter === "bugun" && order.deliveryDate !== todayStr) return false;
-      if (!searching && dateFilter === "yarin" && order.deliveryDate !== tomorrowStr) return false;
+      // Tarih filtresi: yalnız "Tüm tarihlerde ara" açıkken arama tarih filtresini aşar
+      if (!ignoreDateForSearch && dateFilter === "bugun" && order.deliveryDate !== todayStr) return false;
+      if (!ignoreDateForSearch && dateFilter === "yarin" && order.deliveryDate !== tomorrowStr) return false;
 
       // Status filter
       if (statusFilter !== "all" && order.status !== statusFilter) return false;
@@ -462,7 +504,7 @@ export function useAdminOrders(options: UseAdminOrdersOptions = {}) {
 
       return true;
     });
-  }, [allOrders, statusFilter, dateFilter, searchQuery, todayStr, tomorrowStr]);
+  }, [allOrders, statusFilter, dateFilter, searchQuery, searchAllDates, todayStr, tomorrowStr]);
 
 
   return {
@@ -476,6 +518,8 @@ export function useAdminOrders(options: UseAdminOrdersOptions = {}) {
     setDateFilter,
     searchQuery,
     setSearchQuery,
+    searchAllDates,
+    setSearchAllDates,
     updateOrderStatus,
     assignCourier,
     cancelOrder,

@@ -9,21 +9,47 @@ import { logError } from "@/lib/kernel/log";
 
 const cents = (v: number) => Math.round(v * 100) / 100;
 
-const CreateTeamMemberSchema = z.object({
-  email: z
-    .string()
-    .trim()
-    .email("Geçerli bir e-posta adresi girin")
-    .max(160)
-    .transform((v) => v.toLowerCase()),
-  role: z.enum(["courier", "staff", "admin"]),
-  displayName: z.string().trim().min(2, "Ad soyad en az 2 karakter olmalı").max(120),
-  phone: z.string().trim().max(30).optional().default(""),
-  vehicleType: z
-    .enum(["motorcycle", "car", "bicycle", "on_foot"])
-    .optional()
-    .default("motorcycle"),
-});
+const OptionalEmailSchema = z
+  .union([
+    z.string().trim().email("Geçerli bir e-posta adresi girin").max(160),
+    z.literal(""),
+    z.undefined(),
+  ])
+  .transform((v) => {
+    const trimmed = typeof v === "string" ? v.trim().toLowerCase() : "";
+    return trimmed.length > 0 ? trimmed : undefined;
+  });
+
+const CreateTeamMemberSchema = z
+  .object({
+    email: OptionalEmailSchema,
+    role: z.enum(["courier", "staff", "admin"]),
+    displayName: z.string().trim().min(2, "Ad soyad en az 2 karakter olmalı").max(120),
+    phone: z.string().trim().max(30).optional().default(""),
+    vehicleType: z
+      .enum(["motorcycle", "car", "bicycle", "on_foot"])
+      .optional()
+      .default("motorcycle"),
+  })
+  .superRefine((data, ctx) => {
+    if (!data.email && data.role !== "courier") {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        path: ["email"],
+        message: "Staff ve Admin rolleri için Google e-posta adresi zorunludur.",
+      });
+    }
+    if (!data.email && data.role === "courier" && data.phone.trim().length < 7) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        path: ["phone"],
+        message: "E-posta girilmediğinde kurye telefonu zorunludur (en az 7 karakter).",
+      });
+    }
+  });
+
+const normalizePhoneDigits = (raw: string | null | undefined): string =>
+  (raw || "").replace(/\D/g, "");
 
 interface ProfileRow {
   id: string;
@@ -192,11 +218,61 @@ export async function GET(req: Request) {
     if (auditRes.error) throw auditRes.error;
 
     const profiles = (profilesRes.data ?? []) as ProfileRow[];
-    const couriers = (couriersRes.data ?? []) as CourierRow[];
+    let couriers = (couriersRes.data ?? []) as CourierRow[];
     const invitations = (invitationsRes.data ?? []) as InvitationRow[];
     const settlements = (settlementsRes.data ?? []) as SettlementRow[];
     const orders = (ordersRes.data ?? []) as OrderSummaryRow[];
     const auditRows = (auditRes.data ?? []) as AuditLogRow[];
+
+    // Davet kabul edilmiş ama ön-planlı (profile_id IS NULL) kurye satırı duruyorsa çift satırı birleştir
+    for (const inv of invitations) {
+      if (!inv.accepted_profile_id || inv.role !== "courier") continue;
+      const linked = couriers.find((c) => c.profile_id === inv.accepted_profile_id);
+      const invPhoneDigits = normalizePhoneDigits(inv.phone);
+      const invNameFold = inv.display_name.trim().toLocaleLowerCase("tr-TR");
+      const unlinked = couriers.find(
+        (c) =>
+          !c.profile_id &&
+          ((invPhoneDigits && normalizePhoneDigits(c.phone) === invPhoneDigits) ||
+            c.display_name.trim().toLocaleLowerCase("tr-TR") === invNameFold)
+      );
+      if (!unlinked) continue;
+
+      if (!linked) {
+        const { error: linkErr } = await supabase
+          .from("couriers")
+          .update({ profile_id: inv.accepted_profile_id, updated_at: new Date().toISOString() })
+          .eq("id", unlinked.id);
+        if (!linkErr) {
+          unlinked.profile_id = inv.accepted_profile_id;
+        }
+      } else if (linked.id !== unlinked.id) {
+        const [linkedOrdersRes, linkedSettleRes] = await Promise.all([
+          supabase.from("orders").select("id").eq("courier_id", linked.id).limit(1),
+          supabase.from("courier_settlements").select("id").eq("courier_id", linked.id).limit(1),
+        ]);
+        const hasRefs =
+          (linkedOrdersRes.data?.length ?? 0) > 0 ||
+          (linkedSettleRes.data?.length ?? 0) > 0;
+        if (!hasRefs) {
+          const { error: delDupErr } = await supabase
+            .from("couriers")
+            .delete()
+            .eq("id", linked.id);
+          if (!delDupErr) {
+            await supabase
+              .from("couriers")
+              .update({
+                profile_id: inv.accepted_profile_id,
+                updated_at: new Date().toISOString(),
+              })
+              .eq("id", unlinked.id);
+            unlinked.profile_id = inv.accepted_profile_id;
+            couriers = couriers.filter((c) => c.id !== linked.id);
+          }
+        }
+      }
+    }
 
     const deliveredOrderIds = orders
       .filter((o) => o.status === "teslim_edildi")
@@ -439,6 +515,57 @@ export async function POST(req: Request) {
   }
 
   try {
+    const nowIso = new Date().toISOString();
+
+    if (!email) {
+      const { data: insertedFieldCourier, error: fieldInsErr } = await supabase
+        .from("couriers")
+        .insert({
+          profile_id: null,
+          display_name: displayName,
+          phone,
+          vehicle_type: vehicleType,
+          is_active: true,
+          is_on_shift: true,
+        })
+        .select("id, profile_id, display_name, phone, vehicle_type, is_active, is_on_shift, created_at")
+        .single();
+
+      if (fieldInsErr) throw fieldInsErr;
+      const createdRow = insertedFieldCourier as CourierRow;
+
+      await writeAuditLog(supabase, {
+        actorId: guard.auth.userId,
+        actorRole: guard.auth.role ?? "admin",
+        action: "team.field_courier_create",
+        entityType: "courier",
+        entityId: createdRow.id,
+        summary: `Saha kuryesi eklendi (E-postasız): ${displayName} (${phone})`,
+        metadata: {
+          displayName,
+          phone,
+          vehicleType,
+        },
+      });
+
+      return NextResponse.json({
+        success: true,
+        mode: "field_courier",
+        courierId: createdRow.id,
+        courier: {
+          id: createdRow.id,
+          profileId: createdRow.profile_id,
+          displayName: createdRow.display_name,
+          phone: createdRow.phone,
+          vehicleType: createdRow.vehicle_type || "motorcycle",
+          isActive: createdRow.is_active === true,
+          isOnShift: createdRow.is_on_shift === true,
+          createdAt: createdRow.created_at,
+        },
+        role: "courier",
+      });
+    }
+
     const escaped = escapeIlike(email);
     const { data: profileMatches, error: profErr } = await supabase
       .from("profiles")
@@ -452,8 +579,6 @@ export async function POST(req: Request) {
       ((profileMatches ?? []) as ProfileRow[]).find(
         (p) => typeof p.email === "string" && p.email.toLowerCase() === email
       ) ?? null;
-
-    const nowIso = new Date().toISOString();
 
     if (existingProfile) {
       if (existingProfile.role === "superadmin") {
@@ -506,20 +631,52 @@ export async function POST(req: Request) {
           if (courUpdErr) throw courUpdErr;
           courierId = existingCourier.id;
         } else {
-          const { data: insertedCourier, error: courInsErr } = await supabase
+          // Eşleşen ön-planlı (profile_id IS NULL) saha kuryesi varsa yeni satır açmak yerine bağla
+          const { data: unlinkedCandidates } = await supabase
             .from("couriers")
-            .insert({
-              profile_id: existingProfile.id,
-              display_name: displayName,
-              phone: phone || existingProfile.phone || "",
-              vehicle_type: vehicleType,
-              is_active: true,
-              is_on_shift: true,
-            })
-            .select("id")
-            .single();
-          if (courInsErr) throw courInsErr;
-          courierId = (insertedCourier as { id: string }).id;
+            .select("id, display_name, phone")
+            .is("profile_id", null)
+            .limit(50);
+
+          const targetDigits = normalizePhoneDigits(phone || existingProfile.phone);
+          const targetName = displayName.trim().toLocaleLowerCase("tr-TR");
+          const matchedUnlinked = ((unlinkedCandidates ?? []) as { id: string; display_name: string; phone: string }[]).find(
+            (u) =>
+              (targetDigits && normalizePhoneDigits(u.phone) === targetDigits) ||
+              u.display_name.trim().toLocaleLowerCase("tr-TR") === targetName
+          );
+
+          if (matchedUnlinked) {
+            const { error: linkErr } = await supabase
+              .from("couriers")
+              .update({
+                profile_id: existingProfile.id,
+                display_name: displayName,
+                phone: phone || matchedUnlinked.phone || existingProfile.phone || "",
+                vehicle_type: vehicleType,
+                is_active: true,
+                is_on_shift: true,
+                updated_at: nowIso,
+              })
+              .eq("id", matchedUnlinked.id);
+            if (linkErr) throw linkErr;
+            courierId = matchedUnlinked.id;
+          } else {
+            const { data: insertedCourier, error: courInsErr } = await supabase
+              .from("couriers")
+              .insert({
+                profile_id: existingProfile.id,
+                display_name: displayName,
+                phone: phone || existingProfile.phone || "",
+                vehicle_type: vehicleType,
+                is_active: true,
+                is_on_shift: true,
+              })
+              .select("id")
+              .single();
+            if (courInsErr) throw courInsErr;
+            courierId = (insertedCourier as { id: string }).id;
+          }
         }
       } else if (existingCourier) {
         await supabase
@@ -627,6 +784,42 @@ export async function POST(req: Request) {
       invitationId = (insInv as { id: string }).id;
     }
 
+    let preCreatedCourierId: string | null = null;
+    if (role === "courier") {
+      const { data: unlinkedCandidates } = await supabase
+        .from("couriers")
+        .select("id, display_name, phone")
+        .is("profile_id", null)
+        .limit(50);
+
+      const targetDigits = normalizePhoneDigits(phone);
+      const targetName = displayName.trim().toLocaleLowerCase("tr-TR");
+      const existingUnlinked = ((unlinkedCandidates ?? []) as { id: string; display_name: string; phone: string }[]).find(
+        (u) =>
+          (targetDigits && normalizePhoneDigits(u.phone) === targetDigits) ||
+          u.display_name.trim().toLocaleLowerCase("tr-TR") === targetName
+      );
+
+      if (existingUnlinked) {
+        preCreatedCourierId = existingUnlinked.id;
+      } else {
+        const { data: preCourier, error: preCourErr } = await supabase
+          .from("couriers")
+          .insert({
+            profile_id: null,
+            display_name: displayName,
+            phone: phone || "",
+            vehicle_type: vehicleType,
+            is_active: true,
+            is_on_shift: true,
+          })
+          .select("id")
+          .single();
+        if (preCourErr) throw preCourErr;
+        preCreatedCourierId = (preCourier as { id: string }).id;
+      }
+    }
+
     await writeAuditLog(supabase, {
       actorId: guard.auth.userId,
       actorRole: guard.auth.role ?? "admin",
@@ -638,6 +831,7 @@ export async function POST(req: Request) {
         email,
         role,
         vehicleType,
+        preCreatedCourierId,
       },
     });
 
@@ -645,6 +839,7 @@ export async function POST(req: Request) {
       success: true,
       mode: "invited",
       invitationId,
+      courierId: preCreatedCourierId,
       role,
     });
   } catch (err: unknown) {

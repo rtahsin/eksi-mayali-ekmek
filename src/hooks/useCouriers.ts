@@ -93,66 +93,87 @@ export function useCouriers() {
     }
   }, [supabase, fetchCouriers]);
 
-  // Yeni kurye oluştur
+  // Yeni kurye oluştur (sunucu /api/admin/team üzerinden; 031 tarayıcı yazma yasağına uyumlu)
   const createCourier = async (data: {
     displayName: string;
     phone: string;
     vehicleType?: CourierVehicleType;
+    email?: string;
     profileId?: string | null;
   }) => {
     try {
-      if (!supabase) return { success: false, error: "Supabase bağlantısı yok" };
-
-      const { data: inserted, error: insErr } = await supabase
-        .from("couriers")
-        .insert({
-          display_name: data.displayName,
+      const res = await fetch("/api/admin/team", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          ...(data.email ? { email: data.email } : {}),
+          role: "courier",
+          displayName: data.displayName,
           phone: data.phone,
-          vehicle_type: data.vehicleType || "motorcycle",
-          profile_id: data.profileId || null,
-          is_active: true,
-          is_on_shift: false,
-        })
-        .select()
-        .single();
-
-      if (insErr) throw insErr;
-
-      if (inserted) {
-        const newCourier = mapCourierRow(inserted as unknown as RawCourierRow);
-        setCouriers((prev) => [...prev, newCourier]);
-        return { success: true, courier: newCourier };
+          vehicleType: data.vehicleType || "motorcycle",
+        }),
+      });
+      const json = (await res.json().catch(() => null)) as
+        | { error?: string; courier?: Courier; courierId?: string }
+        | null;
+      if (!res.ok) {
+        return { success: false, error: json?.error || "Kurye oluşturulamadı." };
       }
 
-      return { success: true };
+      await fetchCouriers();
+      return { success: true, courier: json?.courier };
     } catch (err: unknown) {
       console.error("Create courier error:", err);
       return { success: false, error: getErrorMessage(err) };
     }
   };
 
-  // Kurye güncelle
+  // Kurye güncelle (sunucu API üzerinden)
   const updateCourier = async (id: string, updates: Partial<Courier>) => {
     try {
-      if (!supabase) return { success: false, error: "Supabase bağlantısı yok" };
+      const isShiftOnly =
+        updates.isOnShift !== undefined &&
+        updates.displayName === undefined &&
+        updates.phone === undefined &&
+        updates.vehicleType === undefined &&
+        updates.isActive === undefined &&
+        updates.profileId === undefined;
 
-      const payload: import("@/types/database").Database["public"]["Tables"]["couriers"]["Update"] = {
-        updated_at: new Date().toISOString(),
-      };
+      if (isShiftOnly && typeof updates.isOnShift === "boolean") {
+        const res = await fetch("/api/courier/shift", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ courierId: id, isOnShift: updates.isOnShift }),
+        });
+        const json = (await res.json().catch(() => null)) as { error?: string } | null;
+        if (!res.ok) {
+          return { success: false, error: json?.error || "Vardiya güncellenemedi." };
+        }
+        setCouriers((prev) =>
+          prev.map((c) => (c.id === id ? { ...c, isOnShift: updates.isOnShift! } : c))
+        );
+        return { success: true };
+      }
 
-      if (updates.displayName !== undefined) payload.display_name = updates.displayName;
+      const existing = couriers.find((c) => c.id === id);
+      const targetId = existing?.profileId ?? id;
+
+      const payload: Record<string, unknown> = {};
+      if (updates.displayName !== undefined) payload.displayName = updates.displayName;
       if (updates.phone !== undefined) payload.phone = updates.phone;
-      if (updates.vehicleType !== undefined) payload.vehicle_type = updates.vehicleType;
-      if (updates.isActive !== undefined) payload.is_active = updates.isActive;
-      if (updates.isOnShift !== undefined) payload.is_on_shift = updates.isOnShift;
-      if (updates.profileId !== undefined) payload.profile_id = updates.profileId;
+      if (updates.vehicleType !== undefined) payload.vehicleType = updates.vehicleType;
+      if (updates.isActive !== undefined) payload.isActive = updates.isActive;
+      if (updates.isOnShift !== undefined) payload.isOnShift = updates.isOnShift;
 
-      const { error: updErr } = await supabase
-        .from("couriers")
-        .update(payload)
-        .eq("id", id);
-
-      if (updErr) throw updErr;
+      const res = await fetch(`/api/admin/team/${encodeURIComponent(targetId)}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+      const json = (await res.json().catch(() => null)) as { error?: string } | null;
+      if (!res.ok) {
+        return { success: false, error: json?.error || "Kurye güncellenemedi." };
+      }
 
       setCouriers((prev) =>
         prev.map((c) => (c.id === id ? { ...c, ...updates } : c))
@@ -170,13 +191,23 @@ export function useCouriers() {
     return updateCourier(id, { isOnShift });
   };
 
-  // Aktif ve vardiyadaki kuryeler
-  const activeCouriers = useMemo(() => {
-    return couriers.filter((c) => c.isActive && c.isOnShift);
+  // Atanabilir tüm aktif kuryeler (vardiyada olanlar üstte, vardiya dışı da planlanabilir)
+  const assignableCouriers = useMemo(() => {
+    return couriers
+      .filter((c) => c.isActive)
+      .sort(
+        (a, b) =>
+          Number(b.isOnShift) - Number(a.isOnShift) ||
+          a.displayName.localeCompare(b.displayName, "tr")
+      );
   }, [couriers]);
+
+  // Geriye dönük uyumlu alias: tüm aktif/atanabilir kuryeler
+  const activeCouriers = assignableCouriers;
 
   return {
     couriers,
+    assignableCouriers,
     activeCouriers,
     loading,
     error,

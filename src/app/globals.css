@@ -382,3 +382,12 @@ input[type="range"].ekmeklab-slider:focus-visible {
 .pb-safe {
   padding-bottom: env(safe-area-inset-bottom, 0px);
 }
+
+/* Native <dialog> Modal Kaydırma Yalıtımı */
+dialog:modal {
+  overscroll-behavior: contain;
+}
+dialog::backdrop {
+  overflow: hidden;
+  overscroll-behavior: contain;
+}

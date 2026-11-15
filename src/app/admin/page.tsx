@@ -4,9 +4,11 @@ import React, { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import {
   AlertCircle,
+  AlertTriangle,
   ArrowRight,
   Banknote,
   Building2,
+  CalendarCheck2,
   Check,
   CheckCheck,
   Clock,
@@ -19,6 +21,8 @@ import {
   PackageCheck,
   Phone,
   PlusCircle,
+  Printer,
+  Receipt,
   Store,
   Truck,
   Users,
@@ -32,7 +36,7 @@ import { addDays, formatTrDate, relativeTrDate } from "@/lib/time/istanbul";
 import { summarizeDay, type DaySummary } from "@/lib/orders/daySummary";
 import { hasCapability } from "@/lib/security/capabilities";
 import type { ProductionDay } from "@/types/production";
-import type { AdminOrder, OrderSource } from "@/types/admin";
+import type { AdminOrder, CariAccount, ExtendedOrderSource } from "@/types/admin";
 
 interface BulkStatusResponse {
   ok?: boolean;
@@ -43,8 +47,51 @@ interface BulkStatusResponse {
   error?: string;
 }
 
+interface TeamSettlementRow {
+  cashHandedOver: number;
+  cardSlipTotal: number;
+  cashExpected: number;
+  cardExpected: number;
+}
+
+interface TeamCourierSummaryRow {
+  cashExpected: number;
+  cardExpected: number;
+  settlement: TeamSettlementRow | null;
+}
+
+interface TeamCourierRow {
+  id: string;
+  isActive: boolean;
+  isOnShift: boolean;
+  summary: TeamCourierSummaryRow | null;
+}
+
+interface TeamApiPayload {
+  couriers?: TeamCourierRow[];
+  settlements?: TeamSettlementRow[];
+}
+
+interface TeamCashStats {
+  onShiftCouriers: number;
+  activeCouriers: number;
+  settledCash: number;
+  settledPos: number;
+  courierDeliveredCashTotal: number;
+  courierDeliveredPosTotal: number;
+  openCourierCash: number;
+  openCourierPos: number;
+}
+
+interface CariRadarStats {
+  loading: boolean;
+  totalReceivable: number;
+  overLimitAccounts: CariAccount[];
+  topDebtors: CariAccount[];
+}
+
 const SOURCE_BADGE: Record<
-  OrderSource,
+  ExtendedOrderSource,
   { label: string; icon: React.ComponentType<{ className?: string }>; cls: string }
 > = {
   whatsapp: {
@@ -66,6 +113,16 @@ const SOURCE_BADGE: Record<
     label: "Dükkân",
     icon: Store,
     cls: "bg-[#EEF3F8] text-[#24476B] border-[#C5D5E4]",
+  },
+  admin: {
+    label: "Panel",
+    icon: Store,
+    cls: "bg-[#FBF6EC] text-[#3B1E1A] border-[#E2D3BD]",
+  },
+  standing_order: {
+    label: "Sabit Rutin",
+    icon: CalendarCheck2,
+    cls: "bg-[#F3E2D4] text-[#8E3D1B] border-[#DFB99F]",
   },
 };
 
@@ -91,7 +148,119 @@ function useProduction(date: string): ProductionDay | null {
   return data;
 }
 
-function ZReconciliationCard({ date, s }: { date: string; s: DaySummary }) {
+function useTeamCash(date: string, enabled: boolean): TeamCashStats | null {
+  const [stats, setStats] = useState<TeamCashStats | null>(null);
+  useEffect(() => {
+    if (!enabled) {
+      setStats(null);
+      return;
+    }
+    let alive = true;
+    fetch(`/api/admin/team?date=${date}`, { cache: "no-store" })
+      .then((r) => (r.ok ? (r.json() as Promise<TeamApiPayload>) : null))
+      .then((payload) => {
+        if (!alive || !payload) return;
+        const couriers = Array.isArray(payload.couriers) ? payload.couriers : [];
+        const settlements = Array.isArray(payload.settlements) ? payload.settlements : [];
+        const active = couriers.filter((c) => c.isActive);
+        const onShiftCouriers = active.filter((c) => c.isOnShift).length;
+        const settledCash = settlements.reduce((s, x) => s + (Number(x.cashHandedOver) || 0), 0);
+        const settledPos = settlements.reduce((s, x) => s + (Number(x.cardSlipTotal) || 0), 0);
+        const courierDeliveredCashTotal = couriers.reduce(
+          (s, c) => s + (Number(c.summary?.cashExpected) || 0),
+          0
+        );
+        const courierDeliveredPosTotal = couriers.reduce(
+          (s, c) => s + (Number(c.summary?.cardExpected) || 0),
+          0
+        );
+        const openCourierCash = couriers.reduce((s, c) => {
+          const expected = Number(c.summary?.cashExpected) || 0;
+          const settledExp = Number(c.summary?.settlement?.cashExpected) || 0;
+          return s + Math.max(0, expected - settledExp);
+        }, 0);
+        const openCourierPos = couriers.reduce((s, c) => {
+          const expected = Number(c.summary?.cardExpected) || 0;
+          const settledExp = Number(c.summary?.settlement?.cardExpected) || 0;
+          return s + Math.max(0, expected - settledExp);
+        }, 0);
+        setStats({
+          onShiftCouriers,
+          activeCouriers: active.length,
+          settledCash,
+          settledPos,
+          courierDeliveredCashTotal,
+          courierDeliveredPosTotal,
+          openCourierCash,
+          openCourierPos,
+        });
+      })
+      .catch(() => {
+        if (alive) setStats(null);
+      });
+    return () => {
+      alive = false;
+    };
+  }, [date, enabled]);
+  return stats;
+}
+
+function useCariRadar(enabled: boolean): CariRadarStats {
+  const [accounts, setAccounts] = useState<CariAccount[]>([]);
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    if (!enabled) {
+      setAccounts([]);
+      setLoading(false);
+      return;
+    }
+    let alive = true;
+    setLoading(true);
+    fetch("/api/admin/cari/accounts", { cache: "no-store" })
+      .then((r) => (r.ok ? (r.json() as Promise<{ accounts?: CariAccount[] }>) : null))
+      .then((payload) => {
+        if (!alive) return;
+        setAccounts(Array.isArray(payload?.accounts) ? payload.accounts : []);
+      })
+      .catch(() => {
+        if (alive) setAccounts([]);
+      })
+      .finally(() => {
+        if (alive) setLoading(false);
+      });
+    return () => {
+      alive = false;
+    };
+  }, [enabled]);
+
+  return useMemo(() => {
+    const activeCustomers = accounts.filter((a) => !a.archivedAt && a.accountType !== "gider");
+    const totalReceivable = activeCustomers.reduce((s, a) => s + (a.balance > 0 ? a.balance : 0), 0);
+    const overLimitAccounts = activeCustomers
+      .filter((a) => typeof a.creditLimit === "number" && a.creditLimit > 0 && a.balance > a.creditLimit)
+      .sort((a, b) => b.balance - a.balance);
+    const topDebtors = activeCustomers
+      .filter((a) => a.balance > 0)
+      .sort((a, b) => b.balance - a.balance)
+      .slice(0, 5);
+    return { loading, totalReceivable, overLimitAccounts, topDebtors };
+  }, [accounts, loading]);
+}
+
+function ZReconciliationCard({
+  date,
+  s,
+  teamCash,
+}: {
+  date: string;
+  s: DaySummary;
+  teamCash: TeamCashStats | null;
+}) {
+  const directStoreCash = Math.max(0, s.collectedCash - (teamCash?.courierDeliveredCashTotal ?? 0));
+  const netCashEntered = teamCash ? directStoreCash + teamCash.settledCash : null;
+  const openCourierCash = teamCash?.openCourierCash ?? 0;
+  const openCourierPos = teamCash?.openCourierPos ?? 0;
   const openDoorTotal = s.collectCash + s.collectPos + s.collectTransfer + s.uncollectedDelivered;
 
   return (
@@ -99,7 +268,7 @@ function ZReconciliationCard({ date, s }: { date: string; s: DaySummary }) {
       <div className="flex flex-wrap items-start justify-between gap-3 border-b border-[#E2D3BD] pb-3.5">
         <div>
           <div className="text-xs font-bold uppercase tracking-wider text-[#8E3D1B] flex items-center gap-1.5">
-            <Wallet className="w-3.5 h-3.5" aria-hidden="true" /> Günlük Ciro & Kasa Mutabakatı (Z-Özeti)
+            <Wallet className="w-3.5 h-3.5" aria-hidden="true" /> Günlük Ciro &amp; Kasa Mutabakatı (Z-Özeti)
           </div>
           <p className="text-xs text-[#6E5148] mt-0.5">
             {formatTrDate(date, "long")} · <span className="font-mono tabular-nums">{s.activeOrderCount}</span> aktif
@@ -118,19 +287,31 @@ function ZReconciliationCard({ date, s }: { date: string; s: DaySummary }) {
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
         <div className="p-3.5 rounded-2xl bg-[#FBF6EC] border border-[#B4D3BC] space-y-1">
           <div className="text-xs text-[#6E5148] flex items-center gap-1.5">
-            <Banknote className="w-3.5 h-3.5 text-[#1D5130]" aria-hidden="true" /> Kasaya Giren Nakit
+            <Banknote className="w-3.5 h-3.5 text-[#1D5130]" aria-hidden="true" /> Kasaya Giren Net Nakit
           </div>
-          <div className="text-lg font-black font-mono tabular-nums text-[#1D5130]">{tl(s.collectedCash)}</div>
-          <div className="text-[11px] text-[#6E5148]">Tahsil edildi</div>
+          <div className="text-lg font-black font-mono tabular-nums text-[#1D5130]">
+            {netCashEntered !== null ? tl(netCashEntered) : "Yükleniyor…"}
+          </div>
+          <div className="text-[11px] text-[#6E5148]">
+            {openCourierCash > 0
+              ? `+ ${tl(openCourierCash)} kurye zimmetinde bekliyor`
+              : "Dükkân + mutabık kurye nakiti"}
+          </div>
         </div>
 
         <div className="p-3.5 rounded-2xl bg-[#FBF6EC] border border-[#B4D3BC] space-y-1">
           <div className="text-xs text-[#6E5148] flex items-center gap-1.5">
-            <CreditCard className="w-3.5 h-3.5 text-[#1D5130]" aria-hidden="true" /> POS & Kart Tahsilatı
+            <CreditCard className="w-3.5 h-3.5 text-[#1D5130]" aria-hidden="true" /> POS &amp; Havale Tahsilatı
           </div>
-          <div className="text-lg font-black font-mono tabular-nums text-[#1D5130]">{tl(s.collectedPos)}</div>
+          <div className="text-lg font-black font-mono tabular-nums text-[#1D5130]">
+            {tl(s.collectedPos + s.collectedTransfer)}
+          </div>
           <div className="text-[11px] text-[#6E5148]">
-            {s.collectedTransfer > 0 ? `+ ${tl(s.collectedTransfer)} havale ödendi` : "POS / Online ödendi"}
+            {openCourierPos > 0
+              ? `${tl(openCourierPos)} kurye POS slibi mutabakat bekliyor`
+              : s.collectedTransfer > 0
+                ? `${tl(s.collectedPos)} POS · ${tl(s.collectedTransfer)} havale`
+                : "POS / Online ödendi"}
           </div>
         </div>
 
@@ -146,15 +327,19 @@ function ZReconciliationCard({ date, s }: { date: string; s: DaySummary }) {
 
         <div className="p-3.5 rounded-2xl bg-[#FBF6EC] border border-[#E8C587] space-y-1">
           <div className="text-xs text-[#6E5148] flex items-center gap-1.5">
-            <Clock className="w-3.5 h-3.5 text-[#7A4A0B]" aria-hidden="true" /> Kapıda Açık Tahsilat
+            <Clock className="w-3.5 h-3.5 text-[#7A4A0B]" aria-hidden="true" /> Açık Zimmet &amp; Kapıda
           </div>
-          <div className="text-lg font-black font-mono tabular-nums text-[#7A4A0B]">{tl(openDoorTotal)}</div>
+          <div className="text-lg font-black font-mono tabular-nums text-[#7A4A0B]">
+            {tl(openDoorTotal + openCourierCash + openCourierPos)}
+          </div>
           <div className="text-[11px] text-[#6E5148] truncate">
-            {openDoorTotal === 0
-              ? "Açık tahsilat yok"
+            {openDoorTotal + openCourierCash + openCourierPos === 0
+              ? "Açık tahsilat veya zimmet yok"
               : [
-                  s.collectCash > 0 ? `Nakit ${tl(s.collectCash)}` : null,
-                  s.collectPos > 0 ? `POS ${tl(s.collectPos)}` : null,
+                  openCourierCash > 0 ? `Kurye nakit ${tl(openCourierCash)}` : null,
+                  openCourierPos > 0 ? `Kurye POS ${tl(openCourierPos)}` : null,
+                  s.collectCash > 0 ? `Kapı nakit ${tl(s.collectCash)}` : null,
+                  s.collectPos > 0 ? `Kapı POS ${tl(s.collectPos)}` : null,
                   s.collectTransfer > 0 ? `Havale ${tl(s.collectTransfer)}` : null,
                   s.uncollectedDelivered > 0 ? `Alınmamış ${tl(s.uncollectedDelivered)}` : null,
                 ]
@@ -358,20 +543,36 @@ function BakeCard({ title, p }: { title: string; p: ProductionDay | null }) {
         <div className="text-xs text-[#6E5148]">Yükleniyor…</div>
       ) : breads.length === 0 && extras.length === 0 ? (
         <div className="text-xs text-[#6E5148]">
-          Sipariş yok{p.wholesaleLoaves > 0 ? ` · şarküterilere ${p.wholesaleLoaves} ekmek` : ""}
+          Sipariş yok
+          {p.unbookedWholesaleLoaves > 0 ? ` · kalan toptan rezerv ${p.unbookedWholesaleLoaves} ekmek` : ""}
         </div>
       ) : (
         <div className="space-y-1.5 text-sm">
+          <div className="flex flex-wrap gap-1.5 text-[11px] text-[#6E5148] pb-1 border-b border-[#E2D3BD]">
+            <span>
+              Perakende: <strong className="font-mono tabular-nums text-[#3B1E1A]">{p.retailLoaves}</strong>
+            </span>
+            <span>·</span>
+            <span>
+              Planlı B2B: <strong className="font-mono tabular-nums text-[#3B1E1A]">{p.b2bOrderLoaves}</strong>
+            </span>
+            <span>·</span>
+            <span>
+              Rezerv: <strong className="font-mono tabular-nums text-[#3B1E1A]">{p.unbookedWholesaleLoaves}</strong>
+            </span>
+          </div>
           {breads.map((l) => (
             <div key={l.productId} className="flex justify-between gap-2 text-[#3B1E1A]">
               <span>{l.name}</span>
               <span className="font-mono tabular-nums font-bold text-[#8E3D1B]">{l.quantity}</span>
             </div>
           ))}
-          {p.wholesaleLoaves > 0 && (
+          {p.unbookedWholesaleLoaves > 0 && (
             <div className="flex justify-between gap-2 text-[#6E5148] text-xs pt-1.5 border-t border-[#E2D3BD]">
-              <span>+ Şarküterilere (günlük toptan)</span>
-              <span className="font-mono tabular-nums font-semibold text-[#3B1E1A]">{p.wholesaleLoaves}</span>
+              <span>+ Kalan Toptan Rezerv</span>
+              <span className="font-mono tabular-nums font-semibold text-[#3B1E1A]">
+                {p.unbookedWholesaleLoaves}
+              </span>
             </div>
           )}
           {extras.length > 0 && (
@@ -410,6 +611,7 @@ export default function TodayPage() {
   const canViewFinance = hasCapability(role, "dashboard.finance");
   const canDispatchCourier = hasCapability(role, "courier.dispatch");
   const canReadCari = hasCapability(role, "cari.read");
+  const canManageTeam = hasCapability(role, "team.manage");
   const canManageOrders = hasCapability(role, "orders.ops");
 
   const { allOrders, loading, updateOrderStatus, refetch } = useAdminOrders();
@@ -432,6 +634,21 @@ export default function TodayPage() {
   );
   const prodToday = useProduction(today);
   const prodTomorrow = useProduction(tomorrow);
+  const teamCash = useTeamCash(today, canViewFinance && canManageTeam);
+  const cariRadar = useCariRadar(canReadCari);
+
+  const pipeline = useMemo(() => {
+    const todayActive = allOrders.filter(
+      (o) => o.deliveryDate === today && o.status !== "iptal" && o.status !== "teslim_edildi"
+    );
+    const preparingCount = todayActive.filter((o) => o.status === "hazirlaniyor").length;
+    const ovenCount = todayActive.filter((o) => o.status === "firinda").length;
+    const unassignedCourierCount = todayActive.filter(
+      (o) => o.deliveryMethod === "courier" && !o.courierId
+    ).length;
+    const pickupWaitingCount = todayActive.filter((o) => o.deliveryMethod === "pickup").length;
+    return { preparingCount, ovenCount, unassignedCourierCount, pickupWaitingCount };
+  }, [allOrders, today]);
 
   const handleApproveSingle = async (orderId: string) => {
     if (approvingIds.has(orderId) || approvingAll) return;
@@ -532,6 +749,158 @@ export default function TodayPage() {
         )}
       </div>
 
+      {/* 4 Duraklı Günlük Operasyon Akış Rayı (Pipeline) */}
+      <section aria-label="Günlük Operasyon Akış Rayı" className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-3">
+        {/* 1. Onay & Üretim */}
+        <div className="rounded-3xl bg-[#FFFFFF] border border-[#E2D3BD] p-4 space-y-2 shadow-sm flex flex-col justify-between">
+          <div className="space-y-1.5">
+            <div className="text-[11px] font-bold uppercase tracking-wider text-[#8E3D1B] flex items-center gap-1.5">
+              <Flame className="w-3.5 h-3.5" aria-hidden="true" /> 1. Onay &amp; Üretim
+            </div>
+            <div className="flex items-baseline gap-2">
+              <span className="text-2xl font-black font-mono tabular-nums text-[#3B1E1A]">{pending.length}</span>
+              <span className="text-xs text-[#6E5148]">onay bekleyen</span>
+            </div>
+            <p className="text-[11px] text-[#6E5148]">
+              {prodToday
+                ? `Bugün fırın: ${prodToday.retailLoaves} perakende · ${prodToday.b2bOrderLoaves} B2B · ${prodToday.unbookedWholesaleLoaves} rezerv`
+                : "Fırın yükü hesaplanıyor…"}
+            </p>
+          </div>
+          <Link
+            href="/admin/uretim"
+            className="min-h-[44px] px-3 rounded-xl bg-[#FBF6EC] hover:bg-[#F3E2D4] border border-[#E2D3BD] text-xs font-bold text-[#3B1E1A] inline-flex items-center justify-between transition-colors"
+          >
+            <span>Üretim Planına Git</span>
+            <ArrowRight className="w-3.5 h-3.5 text-[#B4532A]" aria-hidden="true" />
+          </Link>
+        </div>
+
+        {/* 2. Paket & Etiket */}
+        <div className="rounded-3xl bg-[#FFFFFF] border border-[#E2D3BD] p-4 space-y-2 shadow-sm flex flex-col justify-between">
+          <div className="space-y-1.5">
+            <div className="text-[11px] font-bold uppercase tracking-wider text-[#8E3D1B] flex items-center gap-1.5">
+              <PackageCheck className="w-3.5 h-3.5" aria-hidden="true" /> 2. Paket &amp; Etiket
+            </div>
+            <div className="flex items-baseline gap-2">
+              <span className="text-2xl font-black font-mono tabular-nums text-[#3B1E1A]">
+                {pipeline.preparingCount + pipeline.ovenCount}
+              </span>
+              <span className="text-xs text-[#6E5148]">bugün tezgahta/fırında</span>
+            </div>
+            <p className="text-[11px] text-[#6E5148]">
+              {pipeline.preparingCount} hazırlanıyor · {pipeline.ovenCount} fırında/paket
+            </p>
+          </div>
+          <div className="flex items-center gap-2">
+            <Link
+              href="/admin/siparisler"
+              className="flex-1 min-h-[44px] px-3 rounded-xl bg-[#FBF6EC] hover:bg-[#F3E2D4] border border-[#E2D3BD] text-xs font-bold text-[#3B1E1A] inline-flex items-center justify-center transition-colors"
+            >
+              Siparişler
+            </Link>
+            <Link
+              href="/admin/baski"
+              className="min-h-[44px] px-3 rounded-xl bg-[#FBF6EC] hover:bg-[#F3E2D4] border border-[#E2D3BD] text-xs font-bold text-[#3B1E1A] inline-flex items-center gap-1.5 transition-colors"
+            >
+              <Printer className="w-3.5 h-3.5 text-[#B4532A]" aria-hidden="true" />
+              <span>Etiket</span>
+            </Link>
+          </div>
+        </div>
+
+        {/* 3. Kurye Dağıtım */}
+        <div className="rounded-3xl bg-[#FFFFFF] border border-[#E2D3BD] p-4 space-y-2 shadow-sm flex flex-col justify-between">
+          <div className="space-y-1.5">
+            <div className="text-[11px] font-bold uppercase tracking-wider text-[#8E3D1B] flex items-center gap-1.5">
+              <Truck className="w-3.5 h-3.5" aria-hidden="true" /> 3. Kurye Dağıtım
+            </div>
+            <div className="flex items-baseline gap-2">
+              <span className="text-2xl font-black font-mono tabular-nums text-[#3B1E1A]">
+                {pipeline.unassignedCourierCount}
+              </span>
+              <span className="text-xs text-[#6E5148]">atanmamış kurye paketi</span>
+            </div>
+            <p className="text-[11px] text-[#6E5148]">
+              Gel-Al (kuryesiz): <strong className="font-mono tabular-nums text-[#3B1E1A]">{pipeline.pickupWaitingCount}</strong>
+            </p>
+            {canManageTeam && teamCash && (
+              <div
+                className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-md border text-[11px] font-bold ${
+                  teamCash.onShiftCouriers === 0
+                    ? "bg-[#FCECE9] border-[#E7B7AF] text-[#7D2114]"
+                    : "bg-[#E5EFE7] border-[#B4D3BC] text-[#1D5130]"
+                }`}
+              >
+                {teamCash.onShiftCouriers === 0 ? (
+                  <>
+                    <AlertTriangle className="w-3 h-3 shrink-0" aria-hidden="true" />
+                    <span>Vardiyada kurye yok (0)</span>
+                  </>
+                ) : (
+                  <span>{teamCash.onShiftCouriers} kurye vardiyada</span>
+                )}
+              </div>
+            )}
+          </div>
+          <div className="flex items-center gap-2">
+            <Link
+              href="/admin/siparisler"
+              className="flex-1 min-h-[44px] px-3 rounded-xl bg-[#FBF6EC] hover:bg-[#F3E2D4] border border-[#E2D3BD] text-xs font-bold text-[#3B1E1A] inline-flex items-center justify-center transition-colors"
+            >
+              Rota Dağıtımı
+            </Link>
+            {canManageTeam && (
+              <Link
+                href="/admin/ekip"
+                className="min-h-[44px] px-3 rounded-xl bg-[#FBF6EC] hover:bg-[#F3E2D4] border border-[#E2D3BD] text-xs font-bold text-[#3B1E1A] inline-flex items-center justify-center transition-colors"
+              >
+                Ekip
+              </Link>
+            )}
+          </div>
+        </div>
+
+        {/* 4. Kasa & Mutabakat — yalnız admin/superadmin */}
+        {canViewFinance && (
+          <div className="rounded-3xl bg-[#FFFFFF] border border-[#E2D3BD] p-4 space-y-2 shadow-sm flex flex-col justify-between">
+            <div className="space-y-1.5">
+              <div className="text-[11px] font-bold uppercase tracking-wider text-[#8E3D1B] flex items-center gap-1.5">
+                <Wallet className="w-3.5 h-3.5" aria-hidden="true" /> 4. Kasa &amp; Mutabakat
+              </div>
+              {teamCash ? (
+                <>
+                  <div className="flex items-baseline gap-2">
+                    <span className="text-2xl font-black font-mono tabular-nums text-[#1D5130]">
+                      {tl(
+                        Math.max(0, todaySum.collectedCash - teamCash.courierDeliveredCashTotal) +
+                          teamCash.settledCash
+                      )}
+                    </span>
+                    <span className="text-xs text-[#6E5148]">kasaya giren net</span>
+                  </div>
+                  <p className="text-[11px] text-[#7A4A0B] font-medium">
+                    Kuryede açık zimmet:{" "}
+                    <strong className="font-mono tabular-nums">
+                      {tl(teamCash.openCourierCash)} nakit · {tl(teamCash.openCourierPos)} POS
+                    </strong>
+                  </p>
+                </>
+              ) : (
+                <p className="text-xs text-[#6E5148]">Kasa ve kurye zimmeti yükleniyor…</p>
+              )}
+            </div>
+            <Link
+              href="/admin/ekip"
+              className="min-h-[44px] px-3 rounded-xl bg-[#FBF6EC] hover:bg-[#F3E2D4] border border-[#E2D3BD] text-xs font-bold text-[#3B1E1A] inline-flex items-center justify-between transition-colors"
+            >
+              <span>Kurye Mutabakatı</span>
+              <ArrowRight className="w-3.5 h-3.5 text-[#B4532A]" aria-hidden="true" />
+            </Link>
+          </div>
+        )}
+      </section>
+
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
         {actions.map((a) => (
           <Link
@@ -546,7 +915,111 @@ export default function TodayPage() {
       </div>
 
       {/* Günlük Ciro & Kasa Mutabakatı Kartı (Z-Özeti) — sadece yetkili rollere */}
-      {canViewFinance && <ZReconciliationCard date={today} s={todaySum} />}
+      {canViewFinance && <ZReconciliationCard date={today} s={todaySum} teamCash={teamCash} />}
+
+      {/* B2B Tahsilat & Kredi Limiti Radarı — sadece cari.read yetkili rollere */}
+      {canReadCari && (
+        <section className="bg-[#FFFFFF] border border-[#E2D3BD] rounded-3xl overflow-hidden shadow-sm">
+          <div className="flex flex-wrap items-center justify-between gap-2 p-4 border-b border-[#E2D3BD] bg-[#FBF6EC]">
+            <div>
+              <h2 className="font-serif font-bold text-[#3B1E1A] flex items-center gap-2">
+                <Receipt className="w-4 h-4 text-[#B4532A]" aria-hidden="true" /> B2B Tahsilat &amp; Kredi Limiti Radarı
+              </h2>
+              <p className="text-xs text-[#6E5148] mt-0.5">
+                Açık bakiye taşıyan müşteri carileri ve kredi limiti uyarıları
+              </p>
+            </div>
+            <div className="flex items-center gap-2">
+              <span className="px-3 py-1 rounded-full bg-[#FFFFFF] border border-[#E2D3BD] text-xs font-semibold text-[#3B1E1A]">
+                Açık Alacak:{" "}
+                <strong className="font-mono tabular-nums text-[#8E3D1B]">
+                  {tl(cariRadar.totalReceivable)}
+                </strong>
+              </span>
+              <Link
+                href="/admin/cariler"
+                className="min-h-[40px] px-2.5 text-xs font-semibold text-[#3B1E1A] hover:text-[#8E3D1B] inline-flex items-center gap-1"
+              >
+                Cariler <ArrowRight className="w-3.5 h-3.5" aria-hidden="true" />
+              </Link>
+            </div>
+          </div>
+
+          {cariRadar.overLimitAccounts.length > 0 && (
+            <div
+              role="status"
+              className="px-4 py-2.5 bg-[#FCECE9] border-b border-[#E7B7AF] text-xs text-[#7D2114] flex items-center gap-2 font-medium"
+            >
+              <AlertTriangle className="w-4 h-4 shrink-0" aria-hidden="true" />
+              <span>
+                <strong>{cariRadar.overLimitAccounts.length}</strong> cari hesap kredi limitini aştı:{" "}
+                {cariRadar.overLimitAccounts
+                  .slice(0, 3)
+                  .map((c) => c.businessName)
+                  .join(", ")}
+                {cariRadar.overLimitAccounts.length > 3 ? "…" : ""}
+              </span>
+            </div>
+          )}
+
+          {cariRadar.loading ? (
+            <div className="p-6 text-center text-xs text-[#6E5148]">Cari bakiyeler yükleniyor…</div>
+          ) : cariRadar.topDebtors.length === 0 ? (
+            <div className="p-6 text-center text-xs text-[#6E5148]">Açık bakiyeli B2B müşteri carisi yok.</div>
+          ) : (
+            <ul className="divide-y divide-[#E2D3BD]">
+              {cariRadar.topDebtors.map((c) => {
+                const isOverLimit =
+                  typeof c.creditLimit === "number" && c.creditLimit > 0 && c.balance > c.creditLimit;
+                return (
+                  <li
+                    key={c.id}
+                    className="flex flex-wrap items-center justify-between gap-3 p-3.5 sm:px-4 hover:bg-[#FBF6EC]/60"
+                  >
+                    <div className="min-w-0 flex-1">
+                      <div className="flex items-center gap-2 flex-wrap">
+                        <span className="text-sm font-bold text-[#3B1E1A] truncate">{c.businessName}</span>
+                        {isOverLimit && (
+                          <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-[#FCECE9] border border-[#E7B7AF] text-[#7D2114] text-[11px] font-bold">
+                            <AlertTriangle className="w-3 h-3" aria-hidden="true" /> Limit Aşıldı
+                          </span>
+                        )}
+                      </div>
+                      <p className="text-xs text-[#6E5148] truncate mt-0.5">
+                        {c.contactPerson || c.neighborhood || "B2B Cari"}
+                        {typeof c.creditLimit === "number" && c.creditLimit > 0
+                          ? ` · Limit: ${tl(c.creditLimit)}`
+                          : ""}
+                      </p>
+                    </div>
+                    <div className="flex items-center gap-2 flex-wrap">
+                      <span
+                        className={`font-mono tabular-nums text-sm font-bold ${
+                          isOverLimit ? "text-[#7D2114]" : "text-[#8E3D1B]"
+                        }`}
+                      >
+                        {tl(c.balance)}
+                      </span>
+                      <Link
+                        href={`/admin/cariler/${c.id}`}
+                        className="min-h-[44px] px-3 rounded-xl bg-[#FBF6EC] hover:bg-[#F3E2D4] border border-[#E2D3BD] text-xs font-semibold text-[#3B1E1A] inline-flex items-center transition-colors"
+                      >
+                        Detay / Tahsilat
+                      </Link>
+                      <Link
+                        href={`/admin/siparisler/yeni?cariId=${encodeURIComponent(c.id)}`}
+                        className="min-h-[44px] px-3 rounded-xl bg-[#B4532A] hover:bg-[#9C4421] text-white text-xs font-bold inline-flex items-center transition-colors"
+                      >
+                        Sipariş Gir
+                      </Link>
+                    </div>
+                  </li>
+                );
+              })}
+            </ul>
+          )}
+        </section>
+      )}
 
       {/* Kurye & Dağıtım Özeti — sadece kurye dağıtım yetkili rollere */}
       {canDispatchCourier && <CourierDispatchCard date={today} orders={allOrders} />}
@@ -662,6 +1135,16 @@ export default function TodayPage() {
               );
             })}
           </ul>
+        )}
+        {!loading && pending.length > 8 && (
+          <div className="p-3 bg-[#FBF6EC] border-t border-[#E2D3BD] text-center">
+            <Link
+              href="/admin/siparisler"
+              className="inline-flex items-center justify-center gap-1.5 min-h-[44px] px-4 rounded-xl text-xs font-bold text-[#8E3D1B] hover:bg-[#F3E2D4] transition-colors"
+            >
+              <span>+{pending.length - 8} bekleyen sipariş daha → Tümünü Gör</span>
+            </Link>
+          </div>
         )}
       </section>
 

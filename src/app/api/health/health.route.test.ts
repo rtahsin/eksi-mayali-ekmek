@@ -28,6 +28,7 @@ vi.mock("@/lib/supabase/admin", () => ({
           { id: "029_deliver_remaining_due" },
           { id: "030_product_copy_facts" },
           { id: "031_enterprise_admin_rbac_b2b" },
+          { id: "032_zero_friction_dispatch_b2b_cockpit" },
         ],
         error: null,
       }),

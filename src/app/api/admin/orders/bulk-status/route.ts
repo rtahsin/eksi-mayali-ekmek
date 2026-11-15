@@ -15,8 +15,16 @@ const BulkStatusSchema = z
       .array(z.string().trim().min(1, "Sipariş kimliği boş olamaz.").max(80))
       .min(1, "En az 1 sipariş seçilmelidir.")
       .max(100, "Tek seferde en fazla 100 sipariş işlenebilir."),
-    action: z.enum(["approve", "prepare", "assign_courier", "cancel"]),
+    action: z.enum([
+      "approve",
+      "prepare",
+      "assign_courier",
+      "unassign_courier",
+      "start_route",
+      "cancel",
+    ]),
     courierId: z.string().uuid("Geçerli bir kurye kimliği seçin.").optional(),
+    startRoute: z.boolean().optional().default(false),
     reason: z.string().trim().max(300).optional(),
   })
   .superRefine((data, ctx) => {
@@ -59,6 +67,10 @@ function getActionLabel(action: z.infer<typeof BulkStatusSchema>["action"]): str
       return "Toplu fırın/hazır aşaması";
     case "assign_courier":
       return "Toplu kurye zimmeti";
+    case "unassign_courier":
+      return "Toplu kurye ataması kaldırma";
+    case "start_route":
+      return "Toplu sefer başlatma";
     case "cancel":
       return "Toplu iptal";
   }
@@ -89,14 +101,15 @@ export async function POST(req: NextRequest) {
     );
   }
 
-  const { action, courierId, reason } = parsed.data;
+  const { action, courierId, startRoute, reason } = parsed.data;
   const uniqueOrderIds = Array.from(new Set(parsed.data.orderIds));
 
   let assignedCourierName: string | null = null;
-  if (action === "assign_courier" && courierId) {
+  let assignedCourierOnShift = true;
+  if ((action === "assign_courier" || action === "start_route") && courierId) {
     const { data: courier, error: courierError } = await supabase
       .from("couriers")
-      .select("id, display_name, is_active")
+      .select("id, display_name, is_active, is_on_shift")
       .eq("id", courierId)
       .maybeSingle();
 
@@ -116,6 +129,7 @@ export async function POST(req: NextRequest) {
       typeof courier.display_name === "string" && courier.display_name.trim()
         ? courier.display_name.trim()
         : null;
+    assignedCourierOnShift = Boolean(courier.is_on_shift);
   }
 
   const { data: orderRows, error: fetchError } = await supabase
@@ -251,12 +265,81 @@ export async function POST(req: NextRequest) {
         });
         continue;
       }
-      targetStatus = "kuryede";
+      targetStatus = startRoute
+        ? "kuryede"
+        : order.status === "bekliyor"
+          ? "hazirlaniyor"
+          : order.status;
       updatePayload.status = targetStatus;
       updatePayload.courier_id = courierId;
+      updatePayload.assigned_at = nowIso;
+      updatePayload.stop_sequence = null;
+      historyNote = startRoute
+        ? assignedCourierName
+          ? `Toplu atama ve yola çıkarma: ${assignedCourierName}`
+          : "Toplu kurye ataması ve yola çıkarma"
+        : assignedCourierName
+          ? `Toplu planlı zimmet: ${assignedCourierName}`
+          : "Toplu kurye planlaması";
+    } else if (action === "unassign_courier") {
+      if (order.delivery_method === "pickup") {
+        skipped.push({
+          orderId: order.id,
+          orderNumber: order.order_number,
+          reason: "Gel-al siparişinde kurye zimmeti yoktur.",
+        });
+        continue;
+      }
+      if (!order.courier_id && order.status !== "kuryede") {
+        skipped.push({
+          orderId: order.id,
+          orderNumber: order.order_number,
+          reason: "Sipariş zaten tezgahta (kurye atanmamış).",
+        });
+        continue;
+      }
+      targetStatus = order.status === "kuryede" ? "firinda" : order.status;
+      updatePayload.status = targetStatus;
+      updatePayload.courier_id = null;
+      updatePayload.assigned_at = null;
+      updatePayload.stop_sequence = null;
+      historyNote = reason || "Toplu kurye ataması kaldırıldı (Tezgaha bırakıldı)";
+    } else if (action === "start_route") {
+      if (order.delivery_method === "pickup") {
+        skipped.push({
+          orderId: order.id,
+          orderNumber: order.order_number,
+          reason: "Gel-al sipariş yola çıkarılamaz.",
+        });
+        continue;
+      }
+      const effectiveCourierId = courierId ?? order.courier_id;
+      if (!effectiveCourierId) {
+        skipped.push({
+          orderId: order.id,
+          orderNumber: order.order_number,
+          reason: "Kurye atanmamış sipariş yola çıkarılamaz.",
+        });
+        continue;
+      }
+      if (order.status === "kuryede" && (!courierId || order.courier_id === courierId)) {
+        skipped.push({
+          orderId: order.id,
+          orderNumber: order.order_number,
+          reason: "Sipariş zaten kuryede.",
+        });
+        continue;
+      }
+      targetStatus = "kuryede";
+      updatePayload.status = targetStatus;
+      if (courierId && courierId !== order.courier_id) {
+        updatePayload.courier_id = courierId;
+        updatePayload.assigned_at = nowIso;
+        updatePayload.stop_sequence = null;
+      }
       historyNote = assignedCourierName
-        ? `Toplu atama: ${assignedCourierName}`
-        : "Toplu kurye ataması";
+        ? `Toplu sefer başlatıldı: ${assignedCourierName}`
+        : reason || "Toplu sefer başlatıldı (Yolda)";
     }
 
     if (!targetStatus) {
@@ -301,6 +384,15 @@ export async function POST(req: NextRequest) {
     });
   }
 
+  if (
+    updatedIds.length > 0 &&
+    ((action === "assign_courier" && startRoute) || action === "start_route") &&
+    courierId &&
+    !assignedCourierOnShift
+  ) {
+    await supabase.from("couriers").update({ is_on_shift: true }).eq("id", courierId);
+  }
+
   if (historyRows.length > 0) {
     await supabase.from("order_status_history").insert(historyRows);
   }
@@ -315,6 +407,7 @@ export async function POST(req: NextRequest) {
       summary: `${getActionLabel(action)}: ${updatedIds.length} sipariş güncellendi (${skipped.length} atlandı).`,
       metadata: {
         action,
+        startRoute,
         updatedCount: updatedIds.length,
         updatedIds,
         skippedCount: skipped.length,

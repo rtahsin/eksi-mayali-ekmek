@@ -279,7 +279,7 @@ export default function AdminEkipPage() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          email: inviteEmail.trim(),
+          email: inviteEmail.trim() || undefined,
           displayName: inviteName.trim(),
           role: inviteRole,
           phone: invitePhone.trim() || undefined,
@@ -301,9 +301,11 @@ export default function AdminEkipPage() {
       setFeedback({
         kind: "success",
         text:
-          json?.mode === "assigned_existing_profile"
-            ? `${inviteName.trim()} (${inviteEmail.trim()}) için yetki doğrudan atandı.`
-            : `${inviteEmail.trim()} için davet oluşturuldu; ilk Google girişinde otomatik atanacak.`,
+          json?.mode === "field_courier"
+            ? `${inviteName.trim()} saha kuryesi olarak eklendi ve hemen sipariş atanabilir.`
+            : json?.mode === "assigned" || json?.mode === "assigned_existing_profile"
+              ? `${inviteName.trim()} (${inviteEmail.trim()}) için yetki doğrudan atandı.`
+              : `${inviteEmail.trim()} için davet oluşturuldu; kurye şimdiden planlanabilir ve ilk girişte eşleşir.`,
       });
       setInviteEmail("");
       setInviteName("");
@@ -587,7 +589,8 @@ export default function AdminEkipPage() {
               </h2>
               <p className="mt-1 text-sm text-[#6E5148]">
                 Google OAuth ile sisteme daha önce girmiş kişiye rol hemen verilir; henüz
-                girmemişse bekleyen davet kaydı oluşturulur ve ilk girişinde rolü otomatik tanımlanır.
+                girmemişse bekleyen davet kaydı oluşturulur. Saha kuryeleri e-posta olmadan da
+                yalnızca ad ve telefonla eklenebilir.
               </p>
 
               <form
@@ -596,15 +599,21 @@ export default function AdminEkipPage() {
               >
                 <div className="flex flex-col gap-1">
                   <label htmlFor="invite-email" className="text-xs font-bold text-[#6E5148]">
-                    E-posta Adresi (Google Hesabı) *
+                    {inviteRole === "courier"
+                      ? "Kurye Google E-postası (Opsiyonel — telefonu /kurye ekranına girecekse doldurun)"
+                      : "E-posta Adresi (Google Hesabı) *"}
                   </label>
                   <input
                     id="invite-email"
                     type="email"
-                    required
+                    required={inviteRole !== "courier"}
                     value={inviteEmail}
                     onChange={(e) => setInviteEmail(e.target.value)}
-                    placeholder="ornek@ekmeklab.com"
+                    placeholder={
+                      inviteRole === "courier"
+                        ? "Opsiyonel (ornek@ekmeklab.com)"
+                        : "ornek@ekmeklab.com"
+                    }
                     className="min-h-11 rounded-xl border border-[#E2D3BD] bg-[#FBF6EC] px-3.5 text-base text-[#3B1E1A]"
                   />
                 </div>
@@ -642,11 +651,14 @@ export default function AdminEkipPage() {
 
                 <div className="flex flex-col gap-1">
                   <label htmlFor="invite-phone" className="text-xs font-bold text-[#6E5148]">
-                    Telefon (Opsiyonel)
+                    {inviteRole === "courier" && !inviteEmail.trim()
+                      ? "Telefon *"
+                      : "Telefon (Opsiyonel)"}
                   </label>
                   <input
                     id="invite-phone"
                     type="tel"
+                    required={inviteRole === "courier" && !inviteEmail.trim()}
                     value={invitePhone}
                     onChange={(e) => setInvitePhone(e.target.value)}
                     placeholder="05XX XXX XX XX"
@@ -723,6 +735,7 @@ export default function AdminEkipPage() {
                             <p className="text-xs text-[#6E5148]">
                               {formatVehicleLabel(courier.vehicleType)}
                               {courier.phone ? ` · ${courier.phone}` : ""}
+                              {!courier.profileId ? " · Saha Kuryesi (E-posta yok)" : ""}
                             </p>
                           </div>
 

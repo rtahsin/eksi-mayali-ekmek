@@ -15,7 +15,8 @@ export interface AdminUser {
 export type AdminOrderStatus = OrderStatus;
 export type AdminPaymentMethod = PaymentMethod;
 
-export type OrderSource = "web" | "whatsapp" | "phone" | "in_store";
+export type OrderSource = "web" | "whatsapp" | "phone" | "in_store" | "admin" | "standing_order";
+export type ExtendedOrderSource = OrderSource;
 
 export interface AdminOrder {
   id: string;
@@ -23,6 +24,7 @@ export interface AdminOrder {
   customerName: string;
   phone: string;
   deliveryAddress: string;
+  district?: string;
   neighborhood?: string; // Beylikdüzü Mahallesi
   deliveryMethod: "courier" | "pickup";
   deliveryDate: string; // YYYY-MM-DD
@@ -36,6 +38,7 @@ export interface AdminOrder {
   paymentStatus: "paid" | "pending" | "on_delivery";
   source: OrderSource;
   courierId?: string | null;
+  stopSequence?: number | null;
   assignedAt?: string | null;
   deliveredAt?: string | null;
   cancelledAt?: string | null;
@@ -57,6 +60,13 @@ export interface AdminOrder {
   updatedAt?: string;
 }
 
+export interface CariStandingOrder {
+  enabled: boolean;
+  /** ISO haftanın günü ("1"=Pzt .. "7"=Paz) -> { [productId]: quantity } */
+  schedule: Record<string, Record<string, number>>;
+  notes?: string;
+}
+
 export interface CariAccount {
   id: string;
   businessName: string; // Restoran / Kafe / Firma Adı
@@ -70,6 +80,8 @@ export interface CariAccount {
   taxOffice?: string;
   creditLimit?: number;
   shareTokenVersion?: number;
+  defaultCourierId?: string | null;
+  standingOrder?: CariStandingOrder;
   customPrices?: Record<string, number>; // productId -> ikili anlaşma toptan fiyatı (₺)
   balance: number; // Müşterinin bize olan borcu (Pozitif = alacağımız var)
   accountType?: "musteri" | "gider"; // musteri: Şarküteri/Kafe/Restoran, gider: Dükkan Giderleri/Tedarikçi
@@ -102,7 +114,7 @@ export interface LedgerItem {
 export type B2BHotSalePaymentMethod = "nakit" | "kredi_karti" | "havale";
 
 export interface B2BHotSaleItem {
-  productId: string;
+  productId: string | null;
   name: string;
   productName: string;
   quantity: number;

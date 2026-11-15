@@ -13,6 +13,7 @@ import {
   Search,
   ShieldAlert,
   Store,
+  Trash2,
   Wallet,
   X,
 } from "lucide-react";
@@ -94,6 +95,10 @@ export function B2BHotSaleModal({
   const [selectedAccountId, setSelectedAccountId] = useState(initialAccountId ?? accounts[0]?.id ?? "");
   const [productSearch, setProductSearch] = useState("");
   const [quantities, setQuantities] = useState<Record<string, number>>({});
+  const [priceOverrides, setPriceOverrides] = useState<Record<string, string>>({});
+  const [customLines, setCustomLines] = useState<
+    Array<{ id: string; customName: string; unitPriceInput: string; quantity: number }>
+  >([]);
   const [returnQuantities, setReturnQuantities] = useState<Record<string, number>>({});
   const [showReturns, setShowReturns] = useState(false);
 
@@ -178,12 +183,17 @@ export function B2BHotSaleModal({
     });
   }, [products, productSearch, selectedAccount?.customPrices]);
 
-  const getEffectivePrice = (prod: HotSaleProductOption): { unitPrice: number; isCustom: boolean } => {
+  const getEffectivePrice = (prod: HotSaleProductOption): { unitPrice: number; isCustom: boolean; isOverridden: boolean } => {
     const custom = selectedAccount?.customPrices?.[prod.id];
-    if (typeof custom === "number" && Number.isFinite(custom) && custom > 0) {
-      return { unitPrice: round2(custom), isCustom: true };
+    const hasCustom = typeof custom === "number" && Number.isFinite(custom) && custom > 0;
+    const basePrice = hasCustom ? round2(custom) : round2(prod.price);
+    if (isAdmin && priceOverrides[prod.id] !== undefined && priceOverrides[prod.id].trim() !== "") {
+      const parsed = Number(priceOverrides[prod.id].replace(",", "."));
+      if (Number.isFinite(parsed) && parsed >= 0) {
+        return { unitPrice: round2(parsed), isCustom: hasCustom, isOverridden: round2(parsed) !== basePrice };
+      }
     }
-    return { unitPrice: round2(prod.price), isCustom: false };
+    return { unitPrice: basePrice, isCustom: hasCustom, isOverridden: false };
   };
 
   const totals = useMemo(() => {
@@ -196,8 +206,15 @@ export function B2BHotSaleModal({
       const qty = quantities[prod.id] ?? 0;
       const retQty = returnQuantities[prod.id] ?? 0;
       const custom = selectedAccount?.customPrices?.[prod.id];
-      const unitPrice =
+      const basePrice =
         typeof custom === "number" && Number.isFinite(custom) && custom > 0 ? round2(custom) : round2(prod.price);
+      let unitPrice = basePrice;
+      if (isAdmin && priceOverrides[prod.id] !== undefined && priceOverrides[prod.id].trim() !== "") {
+        const parsedOverride = Number(priceOverrides[prod.id].replace(",", "."));
+        if (Number.isFinite(parsedOverride) && parsedOverride >= 0) {
+          unitPrice = round2(parsedOverride);
+        }
+      }
 
       if (qty > 0) {
         grossTotal = round2(grossTotal + qty * unitPrice);
@@ -206,6 +223,15 @@ export function B2BHotSaleModal({
       if (retQty > 0) {
         returnTotal = round2(returnTotal + retQty * unitPrice);
         returnCount += retQty;
+      }
+    }
+
+    for (const line of customLines) {
+      if (line.quantity > 0 && line.customName.trim()) {
+        const parsed = Number(line.unitPriceInput.replace(",", "."));
+        const price = Number.isFinite(parsed) && parsed >= 0 ? round2(parsed) : 0;
+        grossTotal = round2(grossTotal + line.quantity * price);
+        deliveredCount += line.quantity;
       }
     }
 
@@ -231,10 +257,12 @@ export function B2BHotSaleModal({
       remainingLimit,
       exceedsCreditLimit,
     };
-  }, [products, quantities, returnQuantities, selectedAccount, collectedAmountInput]);
+  }, [products, quantities, priceOverrides, customLines, returnQuantities, selectedAccount, collectedAmountInput, isAdmin]);
 
   const resetForm = (keepAccount = true) => {
     setQuantities({});
+    setPriceOverrides({});
+    setCustomLines([]);
     setReturnQuantities({});
     setShowReturns(false);
     setCollectedAmountInput("");
@@ -279,12 +307,48 @@ export function B2BHotSaleModal({
       return;
     }
 
-    const items = Object.entries(quantities)
+    const catalogItems = Object.entries(quantities)
       .filter(([, qty]) => qty > 0)
-      .map(([productId, quantity]) => ({ productId, quantity }));
+      .map(([productId, quantity]) => {
+        const rawOverride = priceOverrides[productId];
+        if (isAdmin && rawOverride !== undefined && rawOverride.trim() !== "") {
+          const parsedOverride = Number(rawOverride.replace(",", "."));
+          if (Number.isFinite(parsedOverride) && parsedOverride >= 0) {
+            return { productId, quantity, unitPriceOverride: round2(parsedOverride) };
+          }
+        }
+        return { productId, quantity };
+      });
+
+    const freeformItems: Array<{ productId: null; customName: string; unitPrice: number; quantity: number }> = [];
+    for (const line of customLines) {
+      const name = line.customName.trim();
+      if (!name && line.quantity <= 0) continue;
+      if (!name) {
+        setError("Serbest kalem satırında ürün adı boş bırakılamaz.");
+        return;
+      }
+      if (line.quantity <= 0) {
+        setError(`"${name}" kalemi için en az 1 adet girin.`);
+        return;
+      }
+      const parsedPrice = Number(line.unitPriceInput.replace(",", "."));
+      if (!Number.isFinite(parsedPrice) || parsedPrice < 0) {
+        setError(`"${name}" kalemi için geçerli bir birim fiyat girin.`);
+        return;
+      }
+      freeformItems.push({
+        productId: null,
+        customName: name,
+        unitPrice: round2(parsedPrice),
+        quantity: line.quantity,
+      });
+    }
+
+    const items = [...catalogItems, ...freeformItems];
 
     if (items.length === 0) {
-      setError("En az 1 teslimat ürünü seçmelisiniz.");
+      setError("En az 1 teslimat ürünü veya serbest kalem seçmelisiniz.");
       return;
     }
 
@@ -504,7 +568,7 @@ export function B2BHotSaleModal({
 
                 {!lockAccount && (
                   <div className="space-y-2.5">
-                    <div className="relative">
+                    <search className="relative block">
                       <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[#6E5148]" />
                       <label htmlFor="hot-sale-cari-search" className="sr-only">
                         Cari ara
@@ -517,7 +581,7 @@ export function B2BHotSaleModal({
                         placeholder="İşletme, resmi unvan, ilçe veya mahalle ara..."
                         className="min-h-11 w-full rounded-xl border border-[#E2D3BD] bg-[#FBF6EC] pl-9 pr-3 text-base text-[#3B1E1A] placeholder:text-[#6E5148]/70 focus:border-[#B4532A] focus:outline-none sm:text-sm"
                       />
-                    </div>
+                    </search>
                     <div>
                       <label htmlFor="hot-sale-account-select" className="sr-only">
                         Cari hesap seçin
@@ -586,7 +650,7 @@ export function B2BHotSaleModal({
                   </span>
                 </div>
 
-                <div className="relative mb-3">
+                <search className="relative mb-3 block">
                   <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[#6E5148]" />
                   <label htmlFor="hot-sale-product-search" className="sr-only">
                     Ürün ara
@@ -599,16 +663,18 @@ export function B2BHotSaleModal({
                     placeholder="Ürün ara..."
                     className="min-h-11 w-full rounded-xl border border-[#E2D3BD] bg-[#FBF6EC] pl-9 pr-3 text-base text-[#3B1E1A] placeholder:text-[#6E5148]/70 focus:border-[#B4532A] focus:outline-none sm:text-sm"
                   />
-                </div>
+                </search>
 
                 <div className="max-h-72 space-y-2 overflow-y-auto pr-1">
                   {sortedProducts.map((prod) => {
-                    const { unitPrice, isCustom } = getEffectivePrice(prod);
+                    const { unitPrice, isCustom, isOverridden } = getEffectivePrice(prod);
                     const qty = quantities[prod.id] ?? 0;
+                    const priceInputVal =
+                      priceOverrides[prod.id] !== undefined ? priceOverrides[prod.id] : String(unitPrice);
                     return (
                       <div
                         key={prod.id}
-                        className={`flex items-center justify-between gap-3 rounded-xl border px-3 py-2.5 transition ${
+                        className={`flex flex-wrap items-center justify-between gap-3 rounded-xl border px-3 py-2.5 transition ${
                           qty > 0
                             ? "border-[#B4532A] bg-[#FBF6EC]"
                             : "border-[#E2D3BD] bg-white"
@@ -622,11 +688,36 @@ export function B2BHotSaleModal({
                                 Özel Fiyat
                               </span>
                             )}
+                            {isOverridden && (
+                              <span className="rounded-md bg-amber-100 px-1.5 py-0.5 text-[10px] font-bold text-amber-900">
+                                Düzenlendi
+                              </span>
+                            )}
                           </div>
-                          <div className="mt-0.5 flex items-center gap-2 text-xs text-[#6E5148]">
-                            <span className="font-mono font-semibold tabular-nums text-[#3B1E1A]">
-                              {formatMoney(unitPrice)} ₺
-                            </span>
+                          <div className="mt-1 flex flex-wrap items-center gap-2 text-xs text-[#6E5148]">
+                            {isAdmin ? (
+                              <label className="inline-flex items-center gap-1">
+                                <span className="sr-only">{prod.name} birim fiyatı</span>
+                                <input
+                                  type="text"
+                                  inputMode="decimal"
+                                  value={priceInputVal}
+                                  onChange={(e) =>
+                                    setPriceOverrides((prev) => ({
+                                      ...prev,
+                                      [prod.id]: e.target.value,
+                                    }))
+                                  }
+                                  aria-label={`${prod.name} birim fiyatı (₺)`}
+                                  className="min-h-9 w-20 rounded-lg border border-[#E2D3BD] bg-[#FBF6EC] px-2 font-mono text-base font-semibold tabular-nums text-[#3B1E1A] focus:border-[#B4532A] focus:outline-none sm:text-xs"
+                                />
+                                <span className="font-semibold text-[#3B1E1A]">₺</span>
+                              </label>
+                            ) : (
+                              <span className="font-mono font-semibold tabular-nums text-[#3B1E1A]">
+                                {formatMoney(unitPrice)} ₺
+                              </span>
+                            )}
                             {isCustom && (
                               <span className="font-mono line-through opacity-75">{formatMoney(prod.price)} ₺</span>
                             )}
@@ -649,14 +740,14 @@ export function B2BHotSaleModal({
                           </label>
                           <input
                             id={`qty-${prod.id}`}
-                            type="number"
-                            min={0}
-                            max={10000}
+                            type="text"
                             inputMode="numeric"
-                            value={qty === 0 ? "" : qty}
+                            pattern="[0-9]*"
+                            enterKeyHint="next"
+                            value={qty === 0 ? "" : String(qty)}
                             placeholder="0"
                             onChange={(e) => setExactQty(setQuantities, prod.id, e.target.value)}
-                            className="min-h-11 w-14 rounded-xl border border-[#E2D3BD] bg-white text-center font-mono text-base font-bold tabular-nums text-[#3B1E1A] focus:border-[#B4532A] focus:outline-none sm:text-sm"
+                            className="min-h-11 w-14 rounded-xl border border-[#E2D3BD] bg-white text-center font-mono text-base font-bold tabular-nums text-[#3B1E1A] focus:border-[#B4532A] focus:outline-none"
                           />
                           <button
                             type="button"
@@ -670,6 +761,149 @@ export function B2BHotSaleModal({
                       </div>
                     );
                   })}
+                </div>
+
+                {/* Serbest Kalemler */}
+                <div className="mt-4 border-t border-[#E2D3BD] pt-3">
+                  <div className="flex flex-wrap items-center justify-between gap-2">
+                    <span className="text-xs font-bold text-[#6E5148]">
+                      Katalog Dışı / Serbest Kalemler
+                    </span>
+                    <button
+                      type="button"
+                      onClick={() =>
+                        setCustomLines((prev) => [
+                          ...prev,
+                          {
+                            id: `free-${Date.now()}-${prev.length}`,
+                            customName: "",
+                            unitPriceInput: "",
+                            quantity: 1,
+                          },
+                        ])
+                      }
+                      className="inline-flex min-h-11 items-center gap-1.5 rounded-xl border border-[#B4532A]/40 bg-[#FBF6EC] px-3 text-xs font-bold text-[#8E3D1B] transition hover:bg-[#F6EEDF]"
+                    >
+                      <Plus className="h-4 w-4" />
+                      Serbest Kalem Ekle
+                    </button>
+                  </div>
+
+                  {customLines.length > 0 && (
+                    <div className="mt-2.5 space-y-2">
+                      {customLines.map((line, idx) => (
+                        <div
+                          key={line.id}
+                          className="grid grid-cols-1 gap-2 rounded-xl border border-[#E2D3BD] bg-[#FBF6EC] p-2.5 sm:grid-cols-12 sm:items-center"
+                        >
+                          <div className="sm:col-span-5">
+                            <label htmlFor={`hot-free-name-${line.id}`} className="sr-only">
+                              Serbest kalem adı #{idx + 1}
+                            </label>
+                            <input
+                              id={`hot-free-name-${line.id}`}
+                              type="text"
+                              maxLength={120}
+                              value={line.customName}
+                              onChange={(e) =>
+                                setCustomLines((prev) =>
+                                  prev.map((row) =>
+                                    row.id === line.id ? { ...row, customName: e.target.value } : row,
+                                  ),
+                                )
+                              }
+                              placeholder="Ürün veya kalem adı..."
+                              className="min-h-11 w-full rounded-xl border border-[#E2D3BD] bg-white px-3 text-base text-[#3B1E1A] placeholder:text-[#6E5148]/70 focus:border-[#B4532A] focus:outline-none sm:text-sm"
+                            />
+                          </div>
+                          <div className="flex items-center gap-1.5 sm:col-span-3">
+                            <label htmlFor={`hot-free-price-${line.id}`} className="sr-only">
+                              Birim fiyat #{idx + 1}
+                            </label>
+                            <input
+                              id={`hot-free-price-${line.id}`}
+                              type="text"
+                              inputMode="decimal"
+                              value={line.unitPriceInput}
+                              onChange={(e) =>
+                                setCustomLines((prev) =>
+                                  prev.map((row) =>
+                                    row.id === line.id ? { ...row, unitPriceInput: e.target.value } : row,
+                                  ),
+                                )
+                              }
+                              placeholder="Fiyat ₺"
+                              className="min-h-11 w-full rounded-xl border border-[#E2D3BD] bg-white px-2.5 font-mono text-base font-semibold tabular-nums text-[#3B1E1A] focus:border-[#B4532A] focus:outline-none"
+                            />
+                            <span className="text-xs font-bold text-[#6E5148]">₺</span>
+                          </div>
+                          <div className="flex items-center justify-between gap-1.5 sm:col-span-4 sm:justify-end">
+                            <button
+                              type="button"
+                              onClick={() =>
+                                setCustomLines((prev) =>
+                                  prev.map((row) =>
+                                    row.id === line.id
+                                      ? { ...row, quantity: Math.max(1, row.quantity - 1) }
+                                      : row,
+                                  ),
+                                )
+                              }
+                              aria-label="Serbest kalem azalt"
+                              className="flex min-h-11 min-w-11 items-center justify-center rounded-xl border border-[#E2D3BD] bg-white text-[#3B1E1A]"
+                            >
+                              <Minus className="h-4 w-4" />
+                            </button>
+                            <input
+                              type="text"
+                              inputMode="numeric"
+                              pattern="[0-9]*"
+                              enterKeyHint="next"
+                              aria-label={`Serbest kalem adedi #${idx + 1}`}
+                              value={String(line.quantity)}
+                              onChange={(e) => {
+                                const parsed = parseInt(e.target.value, 10);
+                                setCustomLines((prev) =>
+                                  prev.map((row) =>
+                                    row.id === line.id
+                                      ? { ...row, quantity: Number.isFinite(parsed) && parsed > 0 ? Math.min(5000, parsed) : 0 }
+                                      : row,
+                                  ),
+                                );
+                              }}
+                              className="min-h-11 w-14 rounded-xl border border-[#E2D3BD] bg-white text-center font-mono text-base font-bold tabular-nums text-[#3B1E1A] focus:border-[#B4532A] focus:outline-none"
+                            />
+                            <button
+                              type="button"
+                              onClick={() =>
+                                setCustomLines((prev) =>
+                                  prev.map((row) =>
+                                    row.id === line.id
+                                      ? { ...row, quantity: Math.min(5000, row.quantity + 1) }
+                                      : row,
+                                  ),
+                                )
+                              }
+                              aria-label="Serbest kalem artır"
+                              className="flex min-h-11 min-w-11 items-center justify-center rounded-xl bg-[#B4532A] text-white"
+                            >
+                              <Plus className="h-4 w-4" />
+                            </button>
+                            <button
+                              type="button"
+                              onClick={() =>
+                                setCustomLines((prev) => prev.filter((row) => row.id !== line.id))
+                              }
+                              aria-label={`Serbest kalemi sil #${idx + 1}`}
+                              className="flex min-h-11 min-w-11 items-center justify-center rounded-xl border border-red-200 bg-white text-red-700 hover:bg-red-50"
+                            >
+                              <Trash2 className="h-4 w-4" />
+                            </button>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  )}
                 </div>
               </section>
 
@@ -725,15 +959,15 @@ export function B2BHotSaleModal({
                               <Minus className="h-4 w-4" />
                             </button>
                             <input
-                              type="number"
-                              min={0}
-                              max={10000}
+                              type="text"
                               inputMode="numeric"
+                              pattern="[0-9]*"
+                              enterKeyHint="next"
                               aria-label={`${prod.name} iade adedi`}
-                              value={retQty === 0 ? "" : retQty}
+                              value={retQty === 0 ? "" : String(retQty)}
                               placeholder="0"
                               onChange={(e) => setExactQty(setReturnQuantities, prod.id, e.target.value)}
-                              className="min-h-11 w-14 rounded-xl border border-[#E2D3BD] bg-white text-center font-mono text-base font-bold tabular-nums text-[#3B1E1A] sm:text-sm"
+                              className="min-h-11 w-14 rounded-xl border border-[#E2D3BD] bg-white text-center font-mono text-base font-bold tabular-nums text-[#3B1E1A]"
                             />
                             <button
                               type="button"

@@ -5,12 +5,18 @@ import { createAdminClient } from "@/lib/supabase/admin";
 import { writeAuditLog } from "@/lib/security/audit";
 import { getErrorMessage } from "@/lib/utils/error";
 import { logError } from "@/lib/kernel/log";
-import { CariProfileSchema, profileToRow } from "@/lib/cari/account";
+import {
+  CariProfileSchema,
+  CariStandingOrderSchema,
+  parseCustomPrices,
+  parseStandingOrder,
+  profileToRow,
+} from "@/lib/cari/account";
 import type { CariAccount } from "@/types/admin";
 
-const PositivePriceRecordSchema = z.record(
+const CustomPriceRecordSchema = z.record(
   z.string().min(1, "Geçersiz ürün anahtarı"),
-  z.coerce.number().positive("Özel fiyat 0'dan büyük olmalıdır.").finite(),
+  z.coerce.number().min(0, "Özel fiyat 0 veya daha büyük olmalıdır.").max(1_000_000).finite(),
 );
 
 const PatchSchema = CariProfileSchema.extend({
@@ -18,20 +24,10 @@ const PatchSchema = CariProfileSchema.extend({
   district: z.string().trim().max(80, "İlçe adı en fazla 80 karakter olabilir.").optional(),
   companyTitle: z.string().trim().max(200, "Resmi unvan en fazla 200 karakter olabilir.").optional(),
   creditLimit: z.coerce.number().min(0, "Kredi limiti negatif olamaz.").finite().optional(),
-  customPrices: PositivePriceRecordSchema.optional(),
+  defaultCourierId: z.string().uuid("Geçersiz varsayılan kurye kimliği.").nullable().optional(),
+  standingOrder: CariStandingOrderSchema.optional(),
+  customPrices: CustomPriceRecordSchema.optional(),
 });
-
-function parseCustomPrices(raw: unknown): Record<string, number> {
-  if (!raw || typeof raw !== "object" || Array.isArray(raw)) return {};
-  const result: Record<string, number> = {};
-  for (const [k, v] of Object.entries(raw)) {
-    const n = typeof v === "number" ? v : Number(v);
-    if (k && Number.isFinite(n) && n > 0) {
-      result[k] = Math.round(n * 100) / 100;
-    }
-  }
-  return result;
-}
 
 function mapAccountRow(row: Record<string, unknown>): CariAccount {
   return {
@@ -43,10 +39,13 @@ function mapAccountRow(row: Record<string, unknown>): CariAccount {
     district: typeof row.district === "string" && row.district.trim() ? row.district.trim() : "Beylikdüzü",
     neighborhood: String(row.neighborhood ?? "Cumhuriyet"),
     companyTitle: typeof row.company_title === "string" && row.company_title.trim() ? row.company_title.trim() : undefined,
-    taxNumber: typeof row.tax_number === "string" && row.tax_number.trim() ? row.tax_number.trim() : undefined,
+    taxNumber: typeof row.tax_id === "string" && row.tax_id.trim() ? row.tax_id.trim() : undefined,
     taxOffice: typeof row.tax_office === "string" && row.tax_office.trim() ? row.tax_office.trim() : undefined,
     creditLimit: Math.round((Number(row.credit_limit) || 0) * 100) / 100,
     shareTokenVersion: Math.max(1, Math.trunc(Number(row.share_token_version) || 1)),
+    defaultCourierId:
+      typeof row.default_courier_id === "string" && row.default_courier_id.trim() ? row.default_courier_id.trim() : null,
+    standingOrder: parseStandingOrder(row.standing_order),
     customPrices: parseCustomPrices(row.custom_prices),
     balance: Math.round((Number(row.balance) || 0) * 100) / 100,
     accountType: row.account_type === "gider" ? "gider" : "musteri",
@@ -57,7 +56,7 @@ function mapAccountRow(row: Record<string, unknown>): CariAccount {
   };
 }
 
-/** Tek cari hesabını Faz 4 alanlarıyla birlikte okur. */
+/** Tek cari hesabını Faz 4/5 alanlarıyla birlikte okur. */
 export async function GET(request: Request, { params }: { params: Promise<{ id: string }> }) {
   const guard = await requireCapability(request, "cari.read");
   if (!guard.ok) return guard.response;
@@ -70,7 +69,7 @@ export async function GET(request: Request, { params }: { params: Promise<{ id: 
     const { data, error } = await supabase
       .from("current_accounts")
       .select(
-        "id, name, contact_person, phone, address, district, neighborhood, company_title, tax_number, tax_office, credit_limit, share_token_version, custom_prices, balance, account_type, notes, archived_at, created_at, updated_at",
+        "id, name, contact_person, phone, address, district, neighborhood, company_title, tax_id, tax_office, credit_limit, share_token_version, custom_prices, default_courier_id, standing_order, balance, account_type, notes, archived_at, created_at, updated_at",
       )
       .eq("id", id)
       .maybeSingle();
@@ -95,7 +94,8 @@ export async function PATCH(request: Request, { params }: { params: Promise<{ id
   if (!parsed.success) {
     return NextResponse.json({ error: parsed.error.issues.map((i) => i.message).join(", ") }, { status: 400 });
   }
-  const { archived, district, companyTitle, creditLimit, customPrices, ...profile } = parsed.data;
+  const { archived, district, companyTitle, creditLimit, defaultCourierId, standingOrder, customPrices, ...profile } =
+    parsed.data;
 
   const supabase = createAdminClient();
   if (!supabase) return NextResponse.json({ error: "Supabase unconfigured" }, { status: 500 });
@@ -110,7 +110,12 @@ export async function PATCH(request: Request, { params }: { params: Promise<{ id
     if (!acc) return NextResponse.json({ error: "Cari hesap bulunamadı." }, { status: 404 });
 
     const update: Record<string, unknown> = {
-      ...profileToRow({ ...profile, ...(customPrices !== undefined ? { customPrices } : {}) }),
+      ...profileToRow({
+        ...profile,
+        ...(customPrices !== undefined ? { customPrices } : {}),
+        ...(defaultCourierId !== undefined ? { defaultCourierId } : {}),
+        ...(standingOrder !== undefined ? { standingOrder } : {}),
+      }),
       updated_at: new Date().toISOString(),
     };
     if (customPrices !== undefined) {
@@ -124,6 +129,12 @@ export async function PATCH(request: Request, { params }: { params: Promise<{ id
     }
     if (companyTitle !== undefined) {
       update.company_title = companyTitle.trim() || null;
+    }
+    if (defaultCourierId !== undefined) {
+      update.default_courier_id = defaultCourierId;
+    }
+    if (standingOrder !== undefined) {
+      update.standing_order = standingOrder;
     }
 
     if (archived === true) {
@@ -164,6 +175,8 @@ export async function PATCH(request: Request, { params }: { params: Promise<{ id
         district: district ?? undefined,
         creditLimit: creditLimit ?? undefined,
         companyTitle: companyTitle ?? undefined,
+        defaultCourierId: defaultCourierId ?? undefined,
+        standingOrderEnabled: standingOrder !== undefined ? standingOrder.enabled : undefined,
         customPriceCount: customPrices !== undefined ? Object.keys(customPrices).length : undefined,
       },
     });

@@ -10,11 +10,11 @@ import {
   Calendar,
   Download,
   Edit3,
-  Flame,
   KeyRound,
   Loader2,
   MapPin,
   MessageCircle,
+  Package,
   Phone,
   Receipt,
   RotateCcw,
@@ -24,9 +24,11 @@ import {
   Trash2,
   Wallet,
   X,
+  Zap,
 } from "lucide-react";
 import { useCariProfile } from "@/hooks/useCariProfile";
 import { useCariler } from "@/hooks/useCariler";
+import { useCouriers } from "@/hooks/useCouriers";
 import { useProducts } from "@/hooks/useProducts";
 import B2BSlipModal from "@/components/admin/cariler/B2BSlipModal";
 import B2BCollectionModal from "@/components/admin/cariler/B2BCollectionModal";
@@ -34,6 +36,7 @@ import { CariEditModal } from "@/components/admin/cariler/CariEditModal";
 import BalanceAdjustModal from "@/components/admin/cariler/BalanceAdjustModal";
 import TransactionReceiptModal from "@/components/admin/cariler/TransactionReceiptModal";
 import { B2BHotSaleModal } from "@/components/admin/cariler/B2BHotSaleModal";
+import { CariQuickOrderModal } from "@/components/admin/cariler/CariQuickOrderModal";
 import { LEDGER_TYPE_LABELS, PAYMENT_METHOD_LABELS } from "@/lib/cari/ledger";
 import { ekstreMessage, shareViaWhatsApp } from "@/lib/cari/whatsapp";
 import { buildCsvContent, sanitizeCsvCell } from "@/lib/security/csv";
@@ -62,11 +65,13 @@ export default function CariDetailPage() {
   const { cari, transactions, activeProducts, loading, error, refetch } = useCariProfile(id);
   const { archiveCari, deleteCari, addTransaction } = useCariler();
   const { products } = useProducts();
+  const { assignableCouriers } = useCouriers();
 
   const [extendedAccount, setExtendedAccount] = useState<CariAccount | null>(null);
   const [activeModal, setActiveModal] = useState<"slip" | "collection" | "edit" | "adjust_balance" | null>(null);
   const [editModalTab, setEditModalTab] = useState<"info" | "prices">("info");
   const [hotSaleOpen, setHotSaleOpen] = useState(false);
+  const [quickOrderOpen, setQuickOrderOpen] = useState(false);
   const [selectedTx, setSelectedTx] = useState<CariTransaction | null>(null);
 
   const [busyTxId, setBusyTxId] = useState<string | null>(null);
@@ -114,6 +119,8 @@ export default function CariDetailPage() {
       companyTitle: extendedAccount.companyTitle ?? cari.companyTitle,
       creditLimit: extendedAccount.creditLimit ?? cari.creditLimit,
       shareTokenVersion: extendedAccount.shareTokenVersion ?? cari.shareTokenVersion,
+      defaultCourierId: extendedAccount.defaultCourierId !== undefined ? extendedAccount.defaultCourierId : cari.defaultCourierId,
+      standingOrder: extendedAccount.standingOrder ?? cari.standingOrder,
       customPrices: extendedAccount.customPrices ?? cari.customPrices,
     };
   }, [cari, extendedAccount]);
@@ -123,6 +130,7 @@ export default function CariDetailPage() {
     if (action === "fis") setActiveModal("slip");
     else if (action === "tahsilat") setActiveModal("collection");
     else if (action === "sicak-satis") setHotSaleOpen(true);
+    else if (action === "siparis") setQuickOrderOpen(true);
   }, [searchParams]);
 
   // Sync confirm & storno dialogs
@@ -422,6 +430,17 @@ export default function CariDetailPage() {
             Eski Paylaşım Linklerini İptal Et
           </button>
 
+          {!effectiveCari.archivedAt && effectiveCari.accountType !== "gider" && (
+            <button
+              type="button"
+              onClick={() => setActiveModal("slip")}
+              className="flex min-h-11 items-center gap-1.5 rounded-xl border border-[#E2D3BD] bg-white px-3.5 text-xs font-bold text-[#6E5148] transition hover:bg-[#FBF6EC] hover:text-[#3B1E1A]"
+            >
+              <Receipt className="h-4 w-4" />
+              Devir / Manuel Fiş
+            </button>
+          )}
+
           {effectiveCari.archivedAt ? (
             <button
               type="button"
@@ -616,25 +635,22 @@ export default function CariDetailPage() {
 
             <div className="grid grid-cols-1 gap-2 pt-1 sm:grid-cols-2">
               {!effectiveCari.archivedAt && effectiveCari.accountType !== "gider" && (
-                <button
-                  type="button"
-                  onClick={() => setHotSaleOpen(true)}
-                  className="sm:col-span-2 flex min-h-12 items-center justify-center gap-2 rounded-xl bg-[#B4532A] px-4 text-sm font-bold text-white shadow-sm transition hover:bg-[#9C4421]"
-                >
-                  <Flame className="h-4 w-4" />
-                  Sıcak Satış &amp; İrsaliye Kes
-                </button>
-              )}
-
-              {!effectiveCari.archivedAt && (
                 <>
                   <button
                     type="button"
-                    onClick={() => setActiveModal("slip")}
-                    className="flex min-h-11 items-center justify-center gap-1.5 rounded-xl border border-[#E2D3BD] bg-white px-3 text-xs font-bold text-[#3B1E1A] transition hover:bg-[#F6EEDF]"
+                    onClick={() => setQuickOrderOpen(true)}
+                    className="sm:col-span-2 flex min-h-12 items-center justify-center gap-2 rounded-xl bg-[#B4532A] px-4 text-sm font-bold text-white shadow-sm transition hover:bg-[#9C4421]"
                   >
-                    <Receipt className="h-4 w-4 text-[#B4532A]" />
-                    Teslimat Fişi
+                    <Package className="h-4 w-4" />
+                    Sipariş Planla &amp; Haftalık Rutin
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setHotSaleOpen(true)}
+                    className="flex min-h-11 items-center justify-center gap-1.5 rounded-xl border border-[#B4532A]/40 bg-white px-3 text-xs font-bold text-[#8E3D1B] transition hover:bg-[#F6EEDF]"
+                  >
+                    <Zap className="h-4 w-4 text-[#B4532A]" />
+                    Sıcak Satış
                   </button>
                   <button
                     type="button"
@@ -643,6 +659,27 @@ export default function CariDetailPage() {
                   >
                     <Wallet className="h-4 w-4" />
                     Tahsilat Al
+                  </button>
+                </>
+              )}
+
+              {!effectiveCari.archivedAt && effectiveCari.accountType === "gider" && (
+                <>
+                  <button
+                    type="button"
+                    onClick={() => setActiveModal("slip")}
+                    className="flex min-h-11 items-center justify-center gap-1.5 rounded-xl border border-[#E2D3BD] bg-white px-3 text-xs font-bold text-[#3B1E1A] transition hover:bg-[#F6EEDF]"
+                  >
+                    <Receipt className="h-4 w-4 text-[#B4532A]" />
+                    Masraf / İşlem Ekle
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setActiveModal("collection")}
+                    className="flex min-h-11 items-center justify-center gap-1.5 rounded-xl bg-emerald-700 px-3 text-xs font-bold text-white transition hover:bg-emerald-800"
+                  >
+                    <Wallet className="h-4 w-4" />
+                    Ödeme / Tahsilat
                   </button>
                 </>
               )}
@@ -1077,6 +1114,24 @@ export default function CariDetailPage() {
         lockAccount={true}
         isAdmin={true}
         onCompleted={() => {
+          void refreshAll();
+        }}
+      />
+
+      <CariQuickOrderModal
+        open={quickOrderOpen}
+        onClose={() => setQuickOrderOpen(false)}
+        account={effectiveCari}
+        products={products}
+        couriers={assignableCouriers}
+        isAdmin={true}
+        onOrderCreated={({ orderNumber }) => {
+          setNotice({
+            tone: "success",
+            text: `Yeni cari siparişi oluşturuldu (${orderNumber}).`,
+          });
+        }}
+        onAccountUpdated={() => {
           void refreshAll();
         }}
       />

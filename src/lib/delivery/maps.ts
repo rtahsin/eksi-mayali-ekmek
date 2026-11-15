@@ -7,6 +7,7 @@ export const BEYLIKDUZU_ROUTE_ORDER = [
   "Barış",
   "Cumhuriyet",
   "Büyükşehir",
+  "Beykent",
   "Adnan Kahveci",
   "Gürpınar",
   "Dereağzı",
@@ -105,4 +106,179 @@ export function getNavigationUrls(address: string, lat?: number | null, lng?: nu
     yandex: `https://yandex.com.tr/harita/?text=${query}`,
     hasCoordinates: false,
   };
+}
+
+export interface ClusterableOrder {
+  id: string;
+  neighborhood?: string | null;
+  deliveryAddress?: string | null;
+  deliveryMethod?: string | null;
+  status: string;
+  courierId?: string | null;
+  items?: Array<{ quantity: number }>;
+}
+
+export interface BuildingCluster {
+  key: string;
+  label: string;
+  orderIds: string[];
+  count: number;
+}
+
+export interface NeighborhoodCluster {
+  neighborhood: string;
+  rank: number;
+  orderIds: string[];
+  unassignedOrderIds: string[];
+  totalOrders: number;
+  totalUnits: number;
+  unassignedCount: number;
+  buildingClusters: BuildingCluster[];
+}
+
+const UNSPECIFIED_NEIGHBORHOOD = "Diğer / Belirtilmemiş";
+
+/**
+ * Adresten daire/kat/iç kapı eklerini temizleyip apartman/site/bina gövdesini döndürür.
+ * Aynı binadaki farklı dairelerin aynı anahtarda toplanmasını sağlar.
+ */
+export function normalizeBuildingBody(address: string | null | undefined): { key: string; label: string } | null {
+  if (!address) return null;
+
+  const stripFloorAndUnit = (text: string): string =>
+    text
+      .replace(/\[📍\s*(?:GPS|Konum):[^\]]+\]/gi, " ")
+      .replace(/\(\s*(?:GPS|Konum):[^)]+\)/gi, " ")
+      // No: 8/14 veya sonda 12/5 -> bina numarasını koru, daire ekini ayır
+      .replace(/(\b(?:no|numara)\s*[:.]?\s*\d+[a-zçğıöşü]?)\s*\/\s*\d+[a-zçğıöşü]*/gi, "$1")
+      .replace(/(\b\d+[a-zçğıöşü]?)\s*\/\s*\d+[a-zçğıöşü]*\s*$/gi, "$1")
+      // İç kapı, daire, kat eklerini kaldır ([iİı] Türkçe karakter uyumu)
+      .replace(/(?:^|[\s,;-])[iİı]ç\s*kap[iıI](?:\s*no)?\s*[:.]?\s*[a-z0-9-]+/gi, " ")
+      .replace(/(?:^|[\s,;-])da[iİ]re(?:\s*no)?\s*[:.]?\s*[a-z0-9-]+/gi, " ")
+      .replace(/(?:^|[\s,;-])d\s*[:.]\s*\d+[a-zçğıöşü0-9-]*/gi, " ")
+      .replace(/(?:^|[\s,;-])kat\s*[:.]?\s*-?\d+[a-zçğıöşü]*/gi, " ")
+      .replace(/(?:^|[\s,;-])k\s*[:.]\s*-?\d+[a-zçğıöşü]*/gi, " ")
+      .replace(/\s+/g, " ")
+      .replace(/^[\s,.;:/-]+|[\s,.;:/-]+$/g, "")
+      .trim();
+
+  let cleaned = stripFloorAndUnit(address);
+  if (!cleaned) return null;
+
+  const key = stripFloorAndUnit(address.toLocaleLowerCase("tr-TR"))
+    .replace(/\bmahallesi(?=\s|$|[.,;])|\bmah\.?(?=\s|$|[.,;])/g, "mah")
+    .replace(/\bsokağı(?=\s|$|[.,;])|\bsokak(?=\s|$|[.,;])|\bsok\.?(?=\s|$|[.,;])|\bsk\.?(?=\s|$|[.,;])/g, "sk")
+    .replace(/\bcaddesi(?=\s|$|[.,;])|\bcadde(?=\s|$|[.,;])|\bcad\.?(?=\s|$|[.,;])|\bcd\.?(?=\s|$|[.,;])/g, "cd")
+    .replace(/\bbulvarı(?=\s|$|[.,;])|\bbulvar(?=\s|$|[.,;])|\bblv\.?(?=\s|$|[.,;])/g, "blv")
+    .replace(/\bapartmanı(?=\s|$|[.,;])|\bapt\.?(?=\s|$|[.,;])/g, "apt")
+    .replace(/\bsitesi(?=\s|$|[.,;])|\bsit\.?(?=\s|$|[.,;])/g, "sit")
+    .replace(/\bnumara(?=\s|$|[.,;])|\bno\s*[:.]/g, "no ")
+    .replace(/[.,;:/\\-]+/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+
+  if (key.length < 5) return null;
+  cleaned = cleaned.replace(/\s*,\s*/g, ", ");
+  const label = cleaned.length > 64 ? `${cleaned.slice(0, 61).trimEnd()}...` : cleaned;
+  return { key, label };
+}
+
+/** Teslimata uygun siparişleri mahalle rota sırasına ve aynı apartman/site kümelerine göre gruplar. */
+export function clusterOrdersByNeighborhood<T extends ClusterableOrder>(orders: T[]): NeighborhoodCluster[] {
+  interface InternalBucket {
+    neighborhood: string;
+    rank: number;
+    orderIds: string[];
+    unassignedOrderIds: string[];
+    totalUnits: number;
+    buildings: Map<string, { label: string; orderIds: string[] }>;
+  }
+
+  const buckets = new Map<string, InternalBucket>();
+
+  for (const order of orders) {
+    if (order.deliveryMethod === "pickup") continue;
+    if (order.status === "iptal" || order.status === "teslim_edildi") continue;
+
+    const rawNeighborhood = (order.neighborhood || "").trim();
+    const rank = routeRank(rawNeighborhood);
+    const isKnown = rawNeighborhood.length > 0 && rank < BEYLIKDUZU_ROUTE_ORDER.length;
+    const neighborhood = isKnown
+      ? BEYLIKDUZU_ROUTE_ORDER[rank]
+      : rawNeighborhood || UNSPECIFIED_NEIGHBORHOOD;
+    const bucketKey = isKnown
+      ? `known:${rank}`
+      : rawNeighborhood
+        ? `other:${fold(rawNeighborhood)}`
+        : "other:__unspecified__";
+
+    let bucket = buckets.get(bucketKey);
+    if (!bucket) {
+      bucket = {
+        neighborhood,
+        rank,
+        orderIds: [],
+        unassignedOrderIds: [],
+        totalUnits: 0,
+        buildings: new Map(),
+      };
+      buckets.set(bucketKey, bucket);
+    }
+
+    bucket.orderIds.push(order.id);
+    if (!order.courierId) {
+      bucket.unassignedOrderIds.push(order.id);
+    }
+    const orderUnits = (order.items ?? []).reduce(
+      (sum, item) => sum + (Number.isFinite(item.quantity) ? item.quantity : 0),
+      0
+    );
+    bucket.totalUnits += orderUnits;
+
+    const building = normalizeBuildingBody(order.deliveryAddress);
+    if (building) {
+      const existing = bucket.buildings.get(building.key);
+      if (existing) {
+        existing.orderIds.push(order.id);
+      } else {
+        bucket.buildings.set(building.key, {
+          label: building.label,
+          orderIds: [order.id],
+        });
+      }
+    }
+  }
+
+  return Array.from(buckets.values())
+    .map((bucket): NeighborhoodCluster => {
+      const buildingClusters: BuildingCluster[] = [];
+      for (const [key, b] of bucket.buildings.entries()) {
+        if (b.orderIds.length >= 2) {
+          buildingClusters.push({
+            key,
+            label: b.label,
+            orderIds: b.orderIds,
+            count: b.orderIds.length,
+          });
+        }
+      }
+      buildingClusters.sort((a, b) => b.count - a.count || a.label.localeCompare(b.label, "tr"));
+
+      return {
+        neighborhood: bucket.neighborhood,
+        rank: bucket.rank,
+        orderIds: bucket.orderIds,
+        unassignedOrderIds: bucket.unassignedOrderIds,
+        totalOrders: bucket.orderIds.length,
+        totalUnits: bucket.totalUnits,
+        unassignedCount: bucket.unassignedOrderIds.length,
+        buildingClusters,
+      };
+    })
+    .sort(
+      (a, b) =>
+        a.rank - b.rank ||
+        b.totalOrders - a.totalOrders ||
+        a.neighborhood.localeCompare(b.neighborhood, "tr")
+    );
 }

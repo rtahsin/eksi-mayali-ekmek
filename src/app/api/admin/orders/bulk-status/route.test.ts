@@ -22,6 +22,7 @@ interface MockCourier {
   id: string;
   display_name: string;
   is_active: boolean;
+  is_on_shift?: boolean;
 }
 
 interface MockOrder {
@@ -43,6 +44,7 @@ interface MockClientOptions {
 function buildMockSupabase(opts: MockClientOptions) {
   const historyInsert = vi.fn(async () => ({ error: null }));
   const rpcSpy = vi.fn(async () => opts.rpcResult ?? { data: { ok: true }, error: null });
+  const courierUpdateCalls: Array<{ id: string; payload: Record<string, unknown> }> = [];
   const updateCalls: Array<{ id: string; expectedStatus: string; payload: Record<string, unknown> }> =
     [];
 
@@ -54,10 +56,18 @@ function buildMockSupabase(opts: MockClientOptions) {
           select: () => ({
             eq: () => ({
               maybeSingle: async () => ({
-                data: opts.courier ?? null,
+                data: opts.courier
+                  ? { is_on_shift: true, ...opts.courier }
+                  : null,
                 error: null,
               }),
             }),
+          }),
+          update: (payload: Record<string, unknown>) => ({
+            eq: async (_col: string, idVal: string) => {
+              courierUpdateCalls.push({ id: idVal, payload });
+              return { error: null };
+            },
           }),
         };
       }
@@ -109,7 +119,7 @@ function buildMockSupabase(opts: MockClientOptions) {
     },
   };
 
-  return { client, historyInsert, rpcSpy, updateCalls };
+  return { client, historyInsert, rpcSpy, updateCalls, courierUpdateCalls };
 }
 
 function makeRequest(body: unknown): NextRequest {
@@ -234,11 +244,19 @@ describe("POST /api/admin/orders/bulk-status", () => {
     expect(mockDb.updateCalls[0]?.payload).toMatchObject({ status: "firinda" });
   });
 
-  it("assign_courier pickup ve teslim_edildi siparişleri atlar, uygun olanı kuryede yapar ve 409 çakışmayı yakalar", async () => {
+  it("assign_courier varsayılan planlama modunda bekliyor->hazirlaniyor yapar, firinda durumunu korur ve 409 çakışmayı yakalar", async () => {
     const courierUuid = "11111111-1111-4111-8111-111111111111";
     const mockDb = buildMockSupabase({
-      courier: { id: courierUuid, display_name: "Kemal Kurye", is_active: true },
+      courier: { id: courierUuid, display_name: "Kemal Kurye", is_active: true, is_on_shift: false },
       orders: [
+        {
+          id: "ord-bekliyor",
+          order_number: "SIP-2611-020",
+          status: "bekliyor",
+          delivery_method: "courier",
+          courier_id: null,
+          customer_name: "Ali",
+        },
         {
           id: "ord-courier",
           order_number: "SIP-2611-021",
@@ -269,7 +287,7 @@ describe("POST /api/admin/orders/bulk-status", () => {
 
     const res = await POST(
       makeRequest({
-        orderIds: ["ord-courier", "ord-pickup", "ord-done"],
+        orderIds: ["ord-bekliyor", "ord-courier", "ord-pickup", "ord-done"],
         action: "assign_courier",
         courierId: courierUuid,
       }),
@@ -280,12 +298,20 @@ describe("POST /api/admin/orders/bulk-status", () => {
       updatedIds: string[];
       skippedCount: number;
     };
-    expect(json.updatedIds).toEqual(["ord-courier"]);
+    expect(json.updatedIds).toEqual(["ord-bekliyor", "ord-courier"]);
     expect(json.skippedCount).toBe(2);
     expect(mockDb.updateCalls[0]?.payload).toMatchObject({
-      status: "kuryede",
+      status: "hazirlaniyor",
       courier_id: courierUuid,
+      stop_sequence: null,
     });
+    expect(typeof mockDb.updateCalls[0]?.payload.assigned_at).toBe("string");
+    expect(mockDb.updateCalls[1]?.payload).toMatchObject({
+      status: "firinda",
+      courier_id: courierUuid,
+      stop_sequence: null,
+    });
+    expect(mockDb.courierUpdateCalls).toHaveLength(0);
 
     const conflictDb = buildMockSupabase({
       courier: { id: courierUuid, display_name: "Kemal Kurye", is_active: true },
@@ -311,6 +337,140 @@ describe("POST /api/admin/orders/bulk-status", () => {
       }),
     );
     expect(conflictRes.status).toBe(409);
+  });
+
+  it("assign_courier startRoute=true iken kuryede yapar ve vardiya dışı kuryenin vardiyasını açar", async () => {
+    const courierUuid = "11111111-1111-4111-8111-111111111111";
+    const mockDb = buildMockSupabase({
+      courier: { id: courierUuid, display_name: "Kemal Kurye", is_active: true, is_on_shift: false },
+      orders: [
+        {
+          id: "ord-route-1",
+          order_number: "SIP-2611-025",
+          status: "hazirlaniyor",
+          delivery_method: "courier",
+          courier_id: null,
+          customer_name: "Elif",
+        },
+      ],
+    });
+    mockCreateAdminClient.mockReturnValue(mockDb.client);
+
+    const res = await POST(
+      makeRequest({
+        orderIds: ["ord-route-1"],
+        action: "assign_courier",
+        courierId: courierUuid,
+        startRoute: true,
+      }),
+    );
+
+    expect(res.status).toBe(200);
+    expect(mockDb.updateCalls[0]?.payload).toMatchObject({
+      status: "kuryede",
+      courier_id: courierUuid,
+      stop_sequence: null,
+    });
+    expect(mockDb.courierUpdateCalls).toEqual([
+      { id: courierUuid, payload: { is_on_shift: true } },
+    ]);
+  });
+
+  it("unassign_courier kuryede siparişini firinda'ya döndürür ve zimmet alanlarını temizler", async () => {
+    const courierUuid = "11111111-1111-4111-8111-111111111111";
+    const mockDb = buildMockSupabase({
+      orders: [
+        {
+          id: "ord-onroute",
+          order_number: "SIP-2611-026",
+          status: "kuryede",
+          delivery_method: "courier",
+          courier_id: courierUuid,
+          customer_name: "Burak",
+        },
+        {
+          id: "ord-planned",
+          order_number: "SIP-2611-027",
+          status: "hazirlaniyor",
+          delivery_method: "courier",
+          courier_id: courierUuid,
+          customer_name: "Selin",
+        },
+        {
+          id: "ord-bench",
+          order_number: "SIP-2611-028",
+          status: "firinda",
+          delivery_method: "courier",
+          courier_id: null,
+          customer_name: "Mert",
+        },
+      ],
+    });
+    mockCreateAdminClient.mockReturnValue(mockDb.client);
+
+    const res = await POST(
+      makeRequest({
+        orderIds: ["ord-onroute", "ord-planned", "ord-bench"],
+        action: "unassign_courier",
+      }),
+    );
+
+    expect(res.status).toBe(200);
+    const json = (await res.json()) as { updatedIds: string[]; skippedCount: number };
+    expect(json.updatedIds).toEqual(["ord-onroute", "ord-planned"]);
+    expect(json.skippedCount).toBe(1);
+    expect(mockDb.updateCalls[0]?.payload).toMatchObject({
+      status: "firinda",
+      courier_id: null,
+      assigned_at: null,
+      stop_sequence: null,
+    });
+    expect(mockDb.updateCalls[1]?.payload).toMatchObject({
+      status: "hazirlaniyor",
+      courier_id: null,
+      assigned_at: null,
+      stop_sequence: null,
+    });
+  });
+
+  it("start_route zimmetli siparişleri kuryede yapar ve kuryesiz olanları atlar", async () => {
+    const courierUuid = "11111111-1111-4111-8111-111111111111";
+    const mockDb = buildMockSupabase({
+      orders: [
+        {
+          id: "ord-assigned",
+          order_number: "SIP-2611-029",
+          status: "firinda",
+          delivery_method: "courier",
+          courier_id: courierUuid,
+          customer_name: "Emre",
+        },
+        {
+          id: "ord-unassigned",
+          order_number: "SIP-2611-030",
+          status: "firinda",
+          delivery_method: "courier",
+          courier_id: null,
+          customer_name: "Oya",
+        },
+      ],
+    });
+    mockCreateAdminClient.mockReturnValue(mockDb.client);
+
+    const res = await POST(
+      makeRequest({
+        orderIds: ["ord-assigned", "ord-unassigned"],
+        action: "start_route",
+      }),
+    );
+
+    expect(res.status).toBe(200);
+    const json = (await res.json()) as { updatedIds: string[]; skippedCount: number };
+    expect(json.updatedIds).toEqual(["ord-assigned"]);
+    expect(json.skippedCount).toBe(1);
+    expect(mockDb.updateCalls[0]?.payload).toMatchObject({
+      status: "kuryede",
+    });
   });
 
   it("cancel aksiyonunda staff yetkisiyle bile cancel_order_atomic p_actor_role='admin' ile çağrılır", async () => {

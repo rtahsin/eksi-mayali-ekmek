@@ -4,19 +4,29 @@ import React, { useState, useEffect, useRef } from "react";
 import { AdminAuthGate } from "@/components/admin/AdminAuthGate";
 import { AdminSidebar } from "@/components/admin/AdminSidebar";
 import { AdminHeader } from "@/components/admin/AdminHeader";
+import { AdminCommandPalette } from "@/components/admin/AdminCommandPalette";
 import { MobileBottomNav } from "@/components/admin/MobileBottomNav";
 import { PwaInstallPrompt } from "@/components/admin/PwaInstallPrompt";
+import { useAdminAuth } from "@/hooks/useAdminAuth";
 import { useBakeryAudio } from "@/hooks/useBakeryAudio";
+import { hasCapability } from "@/lib/security/capabilities";
 import { createClient, isSupabaseConfigured } from "@/lib/supabase/client";
+import type { CariAccount } from "@/types/admin";
 import { usePathname } from "next/navigation";
 
 export function AdminLayoutClient({ children }: { children: React.ReactNode }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [commandPaletteOpen, setCommandPaletteOpen] = useState(false);
   const [pendingCount, setPendingCount] = useState(0);
+  const [unassignedCourierCount, setUnassignedCourierCount] = useState(0);
+  const [overLimitCariCount, setOverLimitCariCount] = useState(0);
   const pathname = usePathname();
+  const { adminUser } = useAdminAuth();
+  const canReadCari = hasCapability(adminUser?.role, "cari.read");
 
   const { soundEnabled, toggleSound, playOrderChime } = useBakeryAudio();
   const prevCountRef = useRef<number | null>(null);
+  const refreshCountsRef = useRef<(() => Promise<void>) | null>(null);
 
   const isLoginPage = pathname === "/admin/login";
 
@@ -26,47 +36,102 @@ export function AdminLayoutClient({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     if (isLoginPage) return;
+    const onKeyDown = (e: KeyboardEvent) => {
+      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k") {
+        e.preventDefault();
+        setCommandPaletteOpen((prev) => !prev);
+      }
+    };
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [isLoginPage]);
+
+  useEffect(() => {
+    if (isLoginPage) return;
 
     const supabase = createClient();
     if (!supabase || !isSupabaseConfigured()) return;
 
-    const fetchPending = async () => {
+    const fetchCounts = async () => {
       try {
-        const { count, error } = await supabase
-          .from("orders")
-          .select("*", { count: "exact", head: true })
-          .in("status", ["bekliyor", "hazirlaniyor"]);
+        const [pendingRes, unassignedRes] = await Promise.all([
+          supabase
+            .from("orders")
+            .select("*", { count: "exact", head: true })
+            .eq("status", "bekliyor"),
+          supabase
+            .from("orders")
+            .select("*", { count: "exact", head: true })
+            .in("status", ["bekliyor", "hazirlaniyor", "firinda"])
+            .eq("delivery_method", "courier")
+            .is("courier_id", null),
+        ]);
 
-        if (!error && count !== null) {
-          if (prevCountRef.current !== null && count > prevCountRef.current) {
+        if (!pendingRes.error && pendingRes.count !== null) {
+          if (prevCountRef.current !== null && pendingRes.count > prevCountRef.current) {
             playOrderChime();
           }
-          prevCountRef.current = count;
-          setPendingCount(count);
+          prevCountRef.current = pendingRes.count;
+          setPendingCount(pendingRes.count);
+        }
+        if (!unassignedRes.error && unassignedRes.count !== null) {
+          setUnassignedCourierCount(unassignedRes.count);
+        }
+
+        if (canReadCari) {
+          const res = await fetch("/api/admin/cari/accounts", { cache: "no-store" });
+          if (res.ok) {
+            const payload = (await res.json().catch(() => ({}))) as { accounts?: CariAccount[] };
+            const rows = Array.isArray(payload.accounts) ? payload.accounts : [];
+            const overCount = rows.filter(
+              (r) =>
+                !r.archivedAt &&
+                r.accountType !== "gider" &&
+                typeof r.creditLimit === "number" &&
+                r.creditLimit > 0 &&
+                r.balance > r.creditLimit
+            ).length;
+            setOverLimitCariCount(overCount);
+          }
+        } else {
+          setOverLimitCariCount(0);
         }
       } catch (err) {
-        console.warn("Notice: Supabase pending orders count:", err);
+        console.warn("Notice: Supabase admin live counts:", err);
       }
     };
 
-    void fetchPending();
+    refreshCountsRef.current = fetchCounts;
+    void fetchCounts();
 
-    const channelId = `admin-pending-count-${Date.now()}-${Math.random().toString(36).substring(2, 7)}`;
-    const channel = supabase
+    const channelId = `admin-live-counts-${Date.now()}-${Math.random().toString(36).substring(2, 7)}`;
+    let channel = supabase
       .channel(channelId)
       .on(
         "postgres_changes",
         { event: "*", schema: "public", table: "orders" },
         () => {
-          void fetchPending();
+          void fetchCounts();
         }
-      )
-      .subscribe();
+      );
+
+    if (canReadCari) {
+      channel = channel.on(
+        "postgres_changes",
+        { event: "*", schema: "public", table: "current_accounts" },
+        () => {
+          void fetchCounts();
+        }
+      );
+    }
+
+    channel.subscribe();
 
     return () => {
+      refreshCountsRef.current = null;
       supabase.removeChannel(channel);
     };
-  }, [isLoginPage, playOrderChime]);
+  }, [isLoginPage, canReadCari, playOrderChime]);
 
   if (isLoginPage) {
     return <AdminAuthGate>{children}</AdminAuthGate>;
@@ -88,6 +153,8 @@ export function AdminLayoutClient({ children }: { children: React.ReactNode }) {
             mobileOpen={sidebarOpen}
             onClose={() => setSidebarOpen(false)}
             pendingOrderCount={pendingCount}
+            unassignedCourierCount={unassignedCourierCount}
+            overLimitCariCount={overLimitCariCount}
           />
         </div>
 
@@ -100,6 +167,7 @@ export function AdminLayoutClient({ children }: { children: React.ReactNode }) {
               pendingOrderCount={pendingCount}
               soundEnabled={soundEnabled}
               onToggleSound={toggleSound}
+              onOpenCommandPalette={() => setCommandPaletteOpen(true)}
             />
           </div>
 
@@ -110,6 +178,17 @@ export function AdminLayoutClient({ children }: { children: React.ReactNode }) {
           >
             {children}
           </main>
+        </div>
+
+        {/* Evrensel Cmd+K Hızlı İşlem Paleti */}
+        <div className="print:hidden">
+          <AdminCommandPalette
+            open={commandPaletteOpen}
+            onClose={() => setCommandPaletteOpen(false)}
+            onActionCompleted={() => {
+              void refreshCountsRef.current?.();
+            }}
+          />
         </div>
 
         {/* Mobil PWA Kurulum İpucu */}

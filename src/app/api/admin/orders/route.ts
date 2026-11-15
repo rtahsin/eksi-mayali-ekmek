@@ -3,6 +3,7 @@ import { z } from "zod";
 import { requireCapability } from "@/lib/security/apiAuth";
 import { writeAuditLog } from "@/lib/security/audit";
 import { createAdminClient } from "@/lib/supabase/admin";
+import { parseCustomPrices } from "@/lib/cari/account";
 import { getErrorMessage } from "@/lib/utils/error";
 import { logError } from "@/lib/kernel/log";
 import { isIsoDate } from "@/lib/time/istanbul";
@@ -10,10 +11,10 @@ import { isIsoDate } from "@/lib/time/istanbul";
 const cents = (v: number) => Math.round(v * 100) / 100;
 
 const ItemSchema = z.object({
-  productId: z.string().min(1).max(80),
-  productName: z.string().trim().min(1).max(160),
+  productId: z.string().trim().max(80).nullable().optional(),
+  productName: z.string().trim().min(1, "Ürün adı zorunlu").max(160),
   quantity: z.number().int().positive().max(10000),
-  unitPrice: z.number().min(0).max(1_000_000).optional(),
+  unitPrice: z.number().min(0).max(1_000_000).finite().optional(),
   imageUrl: z.string().max(500).optional(),
   weight: z.number().min(0).max(100000).optional(),
 });
@@ -23,6 +24,7 @@ const BodySchema = z.object({
   customerName: z.string().trim().min(1, "Müşteri adı zorunlu").max(120),
   phone: z.string().trim().max(30).default(""),
   deliveryAddress: z.string().trim().max(500).default(""),
+  district: z.string().trim().max(80).optional(),
   neighborhood: z.string().trim().max(80).default(""),
   deliveryMethod: z.enum(["courier", "pickup"]).default("courier"),
   deliveryDate: z.string().refine(isIsoDate, "Teslim tarihi YYYY-AA-GG olmalı"),
@@ -31,28 +33,20 @@ const BodySchema = z.object({
   // Teslimat ücreti admin/operasyon kararı (cari/toptan siparişte 0 olabilir)
   shippingFee: z.number().min(0).max(100000).transform(cents),
   paymentMethod: z.enum(["cash_on_delivery", "pos_at_door", "transfer", "cari"]),
-  source: z.enum(["whatsapp", "phone", "in_store", "web"]).default("phone"),
+  source: z.enum(["whatsapp", "phone", "in_store", "web", "admin", "standing_order"]).default("phone"),
   status: z.enum(["bekliyor", "hazirlaniyor"]).default("hazirlaniyor"),
   cariId: z.string().min(1).max(80).optional(),
+  courierId: z.string().uuid().nullable().optional(),
+  courierNotes: z.string().trim().max(300).optional(),
   orderNotes: z.string().trim().max(1000).default(""),
 });
 
-function parseCustomPrices(raw: unknown): Record<string, number> {
-  if (typeof raw !== "object" || raw === null || Array.isArray(raw)) return {};
-  const result: Record<string, number> = {};
-  for (const [key, val] of Object.entries(raw)) {
-    const num = typeof val === "number" ? val : typeof val === "string" ? Number(val) : NaN;
-    if (Number.isFinite(num) && num >= 0) {
-      result[key] = cents(num);
-    }
-  }
-  return result;
-}
-
 /**
- * Manuel (telefon/WhatsApp/dükkân) sipariş: tek atomik RPC (create_order_atomic), sunucuda numara.
- * Birim fiyatlar her zaman sunucuda `products` (+ cari varsa `custom_prices`) üzerinden hesaplanır.
- * Limit/kapasite admin için uyarı değil karardır → bypass. Cari borcu teslimde yazılır (018).
+ * Manuel (telefon/WhatsApp/dükkân/admin) sipariş: tek atomik RPC (create_order_atomic).
+ * Katalog ürünlerinde admin için geçerli unitPrice override kabul edilir; personel için
+ * sunucu `products` (+ cari `custom_prices`) fiyatını korur. Serbest kalemlerde
+ * (`productId` boş/null) `productName` ve `unitPrice >= 0` ile `capacity_units: 0` yazılır.
+ * Cari borcu sipariş anında değil teslimde yazılır (018/032).
  */
 export async function POST(request: Request) {
   const guard = await requireCapability(request, "orders.ops");
@@ -69,27 +63,35 @@ export async function POST(request: Request) {
 
   try {
     let customPrices: Record<string, number> = {};
+    let cariDistrict: string | null = null;
+
     if (b.cariId) {
       const { data: acc, error } = await supabase
         .from("current_accounts")
-        .select("id, archived_at, custom_prices")
+        .select("id, archived_at, custom_prices, district")
         .eq("id", b.cariId)
         .maybeSingle();
       if (error) throw error;
       if (!acc) return NextResponse.json({ error: "Cari hesap bulunamadı." }, { status: 404 });
-      const accRow = acc as { archived_at: string | null; custom_prices: unknown };
+      const accRow = acc as {
+        archived_at: string | null;
+        custom_prices: unknown;
+        district?: string | null;
+      };
       if (accRow.archived_at) {
         return NextResponse.json({ error: "Cari arşivlenmiş; önce arşivden çıkarın." }, { status: 409 });
       }
       customPrices = parseCustomPrices(accRow.custom_prices);
+      cariDistrict = typeof accRow.district === "string" && accRow.district.trim() ? accRow.district.trim() : null;
     }
 
-    const productIds = [...new Set(b.items.map((it) => it.productId))];
-    const { data: productRows, error: prodErr } = await supabase
-      .from("products")
-      .select("id, name, price, image_url, weight")
-      .in("id", productIds);
-    if (prodErr) throw prodErr;
+    const productIds = [
+      ...new Set(
+        b.items
+          .map((it) => (typeof it.productId === "string" && it.productId.trim() ? it.productId.trim() : null))
+          .filter((id): id is string => id !== null),
+      ),
+    ];
 
     interface ProductPriceRow {
       id: string;
@@ -100,26 +102,63 @@ export async function POST(request: Request) {
     }
 
     const productMap = new Map<string, ProductPriceRow>();
-    for (const row of (productRows ?? []) as ProductPriceRow[]) {
-      productMap.set(row.id, row);
+    if (productIds.length > 0) {
+      const { data: productRows, error: prodErr } = await supabase
+        .from("products")
+        .select("id, name, price, image_url, weight")
+        .in("id", productIds);
+      if (prodErr) throw prodErr;
+
+      for (const row of (productRows ?? []) as ProductPriceRow[]) {
+        productMap.set(row.id, row);
+      }
     }
 
     for (const it of b.items) {
-      if (!productMap.has(it.productId)) {
+      const pid = typeof it.productId === "string" && it.productId.trim() ? it.productId.trim() : null;
+      if (pid) {
+        if (!productMap.has(pid)) {
+          return NextResponse.json(
+            { error: `Ürün katalogda bulunamadı: ${it.productName}` },
+            { status: 400 },
+          );
+        }
+      } else if (typeof it.unitPrice !== "number" || !Number.isFinite(it.unitPrice) || it.unitPrice < 0) {
         return NextResponse.json(
-          { error: `Ürün katalogda bulunamadı: ${it.productName}` },
-          { status: 400 }
+          { error: `Serbest kalem için geçerli birim fiyat girin: ${it.productName}` },
+          { status: 400 },
         );
       }
     }
 
+    const canOverridePrice = guard.auth.isAdmin;
+
     const lines = b.items.map((it) => {
-      const prod = productMap.get(it.productId)!;
+      const pid = typeof it.productId === "string" && it.productId.trim() ? it.productId.trim() : null;
+      if (!pid) {
+        const freePrice = cents(it.unitPrice ?? 0);
+        return {
+          product_id: null,
+          product_name: it.productName,
+          quantity: it.quantity,
+          unit_price: freePrice,
+          total_price: cents(it.quantity * freePrice),
+          image_url: it.imageUrl ?? null,
+          weight: it.weight ?? null,
+          capacity_units: 0,
+        };
+      }
+
+      const prod = productMap.get(pid)!;
       const catalogPrice = cents(Number(prod.price) || 0);
-      const customPrice = customPrices[it.productId];
-      const serverUnitPrice = customPrice !== undefined ? customPrice : catalogPrice;
+      const customPrice = customPrices[pid];
+      const basePrice = customPrice !== undefined ? customPrice : catalogPrice;
+      const hasClientOverride =
+        canOverridePrice && typeof it.unitPrice === "number" && Number.isFinite(it.unitPrice) && it.unitPrice >= 0;
+      const serverUnitPrice = hasClientOverride ? cents(it.unitPrice!) : basePrice;
+
       return {
-        product_id: it.productId,
+        product_id: pid,
         product_name: prod.name?.trim() || it.productName,
         quantity: it.quantity,
         unit_price: serverUnitPrice,
@@ -132,6 +171,7 @@ export async function POST(request: Request) {
     const subtotal = cents(lines.reduce((s, l) => s + l.total_price, 0));
     const total = cents(subtotal + b.shippingFee);
     const actorRole = guard.auth.role === "staff" ? "staff" : "admin";
+    const effectiveDistrict = (b.district && b.district.trim()) || cariDistrict || "Beylikdüzü";
 
     const { data, error } = await supabase.rpc("create_order_atomic", {
       p_order: {
@@ -140,6 +180,7 @@ export async function POST(request: Request) {
         customer_name: b.customerName,
         phone: b.phone,
         delivery_address: b.deliveryAddress,
+        district: effectiveDistrict,
         neighborhood: b.neighborhood,
         delivery_method: b.deliveryMethod,
         delivery_date: b.deliveryDate,
@@ -153,6 +194,8 @@ export async function POST(request: Request) {
         total_amount: total,
         order_notes: b.orderNotes,
         cari_id: b.cariId ?? null,
+        courier_id: b.courierId ?? null,
+        courier_notes: b.courierNotes?.trim() || null,
         bypass_limits: true,
         changed_by_role: actorRole,
         history_note: "Manuel sipariş oluşturuldu",
@@ -180,6 +223,9 @@ export async function POST(request: Request) {
         metadata: {
           orderNumber: res.order_number,
           cariId: b.cariId ?? null,
+          courierId: b.courierId ?? null,
+          district: effectiveDistrict,
+          source: b.source,
           totalAmount: total,
           itemCount: lines.length,
         },

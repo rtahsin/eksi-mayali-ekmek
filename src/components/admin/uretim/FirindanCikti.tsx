@@ -1,16 +1,32 @@
 "use client";
 
 import React, { useCallback, useEffect, useRef, useState } from "react";
-import { Camera, ChevronDown, Eye, EyeOff, Flame, Loader2, Minus, Plus, X } from "lucide-react";
+import Link from "next/link";
+import {
+  Camera,
+  CheckCircle2,
+  ChevronDown,
+  Eye,
+  EyeOff,
+  Flame,
+  Loader2,
+  Minus,
+  Plus,
+  Printer,
+  Truck,
+  X,
+} from "lucide-react";
 import type { BakeLog, BakeLogDay } from "@/types/bake";
 import { bakeClock, totalLoaves } from "@/lib/bake/log";
 import { shrinkPhoto } from "@/lib/media/shrinkPhoto";
+import { createClient } from "@/lib/supabase/client";
 import { getErrorMessage } from "@/lib/utils/error";
 import { useIstanbulToday } from "@/hooks/useIstanbulToday";
 
 /**
  * Fırından çıktı: her fırın çıkışında ürün adetleri ve isteğe bağlı fotoğraf. Saat otomatik.
- * Üretim sayfasındaki tarih seçicisinden bağımsız, hep bugün içindir. Kayıtlar şimdilik sitede görünmez.
+ * Üretim sayfasındaki tarih seçicisinden bağımsız, hep bugün içindir.
+ * Son çıkış saati ana sayfa rozetinde, parti fotoğrafları ürün sayfasındaki Canlı Parti Pasaportu'nda gösterilir.
  */
 export function FirindanCikti() {
   const date = useIstanbulToday();
@@ -22,6 +38,8 @@ export function FirindanCikti() {
   const [preview, setPreview] = useState<string | null>(null);
   const [busy, setBusy] = useState<"photo" | "save" | null>(null);
   const [saved, setSaved] = useState<string | null>(null);
+  const [bridgeBusy, setBridgeBusy] = useState(false);
+  const [bridgeMsg, setBridgeMsg] = useState<{ tone: "ok" | "err"; text: string } | null>(null);
   const [showOthers, setShowOthers] = useState(false);
   const fileRef = useRef<HTMLInputElement>(null);
 
@@ -73,6 +91,7 @@ export function FirindanCikti() {
   const save = async () => {
     setBusy("save");
     setError(null);
+    setBridgeMsg(null);
     try {
       const form = new FormData();
       form.set("payload", JSON.stringify({ items, note }));
@@ -89,6 +108,71 @@ export function FirindanCikti() {
       setError(getErrorMessage(err));
     } finally {
       setBusy(null);
+    }
+  };
+
+  const prepareTodayOrders = async () => {
+    if (bridgeBusy) return;
+    setBridgeBusy(true);
+    setBridgeMsg(null);
+    try {
+      const supabase = createClient();
+      if (!supabase) throw new Error("Veritabanı bağlantısı yok.");
+      const { data: todayRows, error: qErr } = await supabase
+        .from("orders")
+        .select("id, status")
+        .eq("delivery_date", date)
+        .in("status", ["bekliyor", "hazirlaniyor"]);
+      if (qErr) throw qErr;
+
+      const typedRows = (todayRows ?? []) as { id: string; status: string }[];
+      if (typedRows.length === 0) {
+        setBridgeMsg({
+          tone: "ok",
+          text: "Bugün için onay/hazırlık bekleyen sipariş yok (tümü hazır veya yolda).",
+        });
+        return;
+      }
+
+      const pendingIds = typedRows.filter((r) => r.status === "bekliyor").map((r) => r.id);
+      const allIds = typedRows.map((r) => r.id);
+
+      const postBulk = async (ids: string[], action: "approve" | "prepare") => {
+        let updated = 0;
+        for (let i = 0; i < ids.length; i += 100) {
+          const chunk = ids.slice(i, i + 100);
+          const res = await fetch("/api/admin/orders/bulk-status", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ orderIds: chunk, action }),
+          });
+          const json = (await res.json().catch(() => ({}))) as {
+            updatedCount?: number;
+            error?: string;
+          };
+          if (!res.ok && res.status !== 409) {
+            throw new Error(json.error || `HTTP ${res.status}`);
+          }
+          updated += json.updatedCount ?? 0;
+        }
+        return updated;
+      };
+
+      if (pendingIds.length > 0) {
+        await postBulk(pendingIds, "approve");
+      }
+      const preparedCount = await postBulk(allIds, "prepare");
+      setBridgeMsg({
+        tone: "ok",
+        text: `${preparedCount} bugünkü sipariş hazır tezgaha (fırında/paket) alındı.`,
+      });
+    } catch (err: unknown) {
+      setBridgeMsg({
+        tone: "err",
+        text: getErrorMessage(err) || "Siparişler hazır tezgaha alınamadı.",
+      });
+    } finally {
+      setBridgeBusy(false);
     }
   };
 
@@ -117,7 +201,7 @@ export function FirindanCikti() {
           <Flame className="w-5 h-5 text-[#B4532A]" aria-hidden="true" /> Bugün fırından çıktı
         </h2>
         <p className="text-xs text-[#6E5148] mt-1">
-          Her çıkışta adetleri gir, istersen fotoğraf ekle; saati sistem yazar. Liste bugün satılan ekmeklerle başlar. Son çıkış saati ana sayfadaki rozette görünür; fotoğraflar henüz sitede yok.
+          Her çıkışta adetleri gir, istersen fotoğraf ekle; saati sistem yazar. Liste bugün satılan ekmeklerle başlar. Son çıkış saati ana sayfadaki rozette, yüklenen parti fotoğrafları ise doğrudan ilgili ürün sayfasındaki Canlı Parti Pasaportu bölümünde müşterilere gösterilir.
         </p>
       </div>
 
@@ -217,7 +301,7 @@ export function FirindanCikti() {
               onChange={(e) => setNote(e.target.value.slice(0, 140))}
               placeholder="Not (ops.), ör. ilk çıkış"
               aria-label="Fırın çıkışı notu"
-              className="flex-1 min-w-[160px] h-12 bg-white border border-[#E2D3BD] rounded-xl px-3 text-sm text-[#3B1E1A] placeholder:text-[#6E5148]/70 focus:outline-none focus:border-[#B4532A]"
+              className="flex-1 min-w-[160px] min-h-[48px] bg-white border border-[#E2D3BD] rounded-xl px-3 text-base sm:text-sm text-[#3B1E1A] placeholder:text-[#6E5148]/70 focus:outline-none focus:border-[#B4532A]"
             />
           </div>
 
@@ -231,9 +315,53 @@ export function FirindanCikti() {
             {total > 0 ? `Fırından çıktı · ${total} ekmek` : "Fırından çıktı"}
           </button>
           {saved && (
-            <p className="text-xs font-medium text-[#1D5130] bg-[#E5EFE7] border border-[#B4D3BC] rounded-xl px-3 py-2" aria-live="polite">
-              {saved}
-            </p>
+            <div className="space-y-2.5 rounded-2xl bg-[#FBF6EC] border border-[#DFB99F] p-3.5" aria-live="polite">
+              <p className="text-xs font-semibold text-[#1D5130] bg-[#E5EFE7] border border-[#B4D3BC] rounded-xl px-3 py-2 flex items-center gap-2">
+                <CheckCircle2 className="w-4 h-4 shrink-0" aria-hidden="true" />
+                <span>{saved} — Şimdi bugünün siparişlerini hazır tezgaha alıp rota etiketlerini basabilirsiniz.</span>
+              </p>
+              <div className="flex flex-wrap items-center gap-2">
+                <button
+                  type="button"
+                  onClick={() => void prepareTodayOrders()}
+                  disabled={bridgeBusy}
+                  className="min-h-[44px] px-4 rounded-xl bg-[#3B1E1A] hover:bg-[#54322A] text-white text-xs font-bold inline-flex items-center gap-2 transition-colors disabled:opacity-50"
+                >
+                  {bridgeBusy ? (
+                    <Loader2 className="w-4 h-4 animate-spin" aria-hidden="true" />
+                  ) : (
+                    <Truck className="w-4 h-4" aria-hidden="true" />
+                  )}
+                  <span>🚚 Bugünün Siparişlerini Hazır Tezgaha Al &amp; Rota Etiketlerini Bas</span>
+                </button>
+                <Link
+                  href="/admin/siparisler"
+                  className="min-h-[44px] px-3.5 rounded-xl bg-white hover:bg-[#F3E2D4] border border-[#E2D3BD] text-[#3B1E1A] text-xs font-semibold inline-flex items-center gap-1.5 transition-colors"
+                >
+                  <Truck className="w-4 h-4 text-[#B4532A]" aria-hidden="true" />
+                  <span>Rota Dağıtımı</span>
+                </Link>
+                <Link
+                  href="/admin/baski"
+                  className="min-h-[44px] px-3.5 rounded-xl bg-white hover:bg-[#F3E2D4] border border-[#E2D3BD] text-[#3B1E1A] text-xs font-semibold inline-flex items-center gap-1.5 transition-colors"
+                >
+                  <Printer className="w-4 h-4 text-[#B4532A]" aria-hidden="true" />
+                  <span>Etiket Baskı</span>
+                </Link>
+              </div>
+              {bridgeMsg && (
+                <p
+                  role={bridgeMsg.tone === "err" ? "alert" : "status"}
+                  className={`text-xs font-medium rounded-xl px-3 py-2 border ${
+                    bridgeMsg.tone === "ok"
+                      ? "text-[#1D5130] bg-[#E5EFE7] border-[#B4D3BC]"
+                      : "text-[#7D2114] bg-[#FCECE9] border-[#E7B7AF]"
+                  }`}
+                >
+                  {bridgeMsg.text}
+                </p>
+              )}
+            </div>
           )}
         </div>
       )}

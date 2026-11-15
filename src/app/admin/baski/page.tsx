@@ -3,19 +3,26 @@
 import React, { useEffect, useState, useMemo, useRef, useId } from "react";
 import QRCode from "qrcode";
 import {
+  AlertCircle,
   Printer,
   Sliders,
   RotateCcw,
   ExternalLink,
   Tag,
   Check,
+  Flame,
+  Loader2,
   Package,
   Layers,
   Sparkles,
 } from "lucide-react";
 import { useAdminCatalog } from "@/hooks/useAdminCatalog";
+import { useIstanbulToday } from "@/hooks/useIstanbulToday";
+import { addDays, formatTrDate } from "@/lib/time/istanbul";
 import { labelUrl, normalizeRef, isValidRef } from "@/lib/print/ref";
+import { getErrorMessage } from "@/lib/utils/error";
 import { BreadLabel } from "@/components/admin/baski/BreadLabel";
+import type { ProductionDay, ProductionLine } from "@/types/production";
 
 const OFFSET_STORAGE_KEY = "ekmeklab_printer_offset_mm_v1";
 
@@ -48,6 +55,8 @@ function parsePrinterOffset(raw: string | null): PrinterOffset {
 
 export default function AdminPrintPage() {
   const { products: allProducts, loading: catalogLoading } = useAdminCatalog();
+  const today = useIstanbulToday();
+  const tomorrow = useMemo(() => addDays(today, 1), [today]);
   // Arşivlenmiş ürünün sayfası 404 verir; etiketteki QR ölü kalmasın.
   const products = useMemo(() => allProducts.filter((p) => p.isActive !== false), [allProducts]);
 
@@ -68,6 +77,12 @@ export default function AdminPrintPage() {
   const [tagline, setTagline] = useState<string>("36 saat soğuk fermantasyon");
   const [rawRef, setRawRef] = useState<string>("");
   const [count, setCount] = useState<number>(1);
+
+  // Üretim planından adet çekme durumu
+  const [planTarget, setPlanTarget] = useState<"today" | "tomorrow">("today");
+  const [planBusy, setPlanBusy] = useState(false);
+  const [planError, setPlanError] = useState<string | null>(null);
+  const [planInfo, setPlanInfo] = useState<{ date: string; lines: ProductionLine[] } | null>(null);
 
   // Calibration offsets (mm)
   const [offset, setOffset] = useState<PrinterOffset>(() => {
@@ -166,6 +181,41 @@ export default function AdminPrintPage() {
     }
   };
 
+  const applyProductionLine = (line: ProductionLine) => {
+    const matched = products.find((p) => p.id === line.productId);
+    if (matched) {
+      setSelectedProductId(matched.id);
+      setProductName(matched.name);
+      setSlug(matched.slug || "ekmek");
+    } else {
+      setSelectedProductId("custom");
+      setProductName(line.name);
+    }
+    setCount(Math.max(1, Math.min(100, Math.round(line.quantity))));
+  };
+
+  const fetchProductionCounts = async (target: "today" | "tomorrow" = planTarget) => {
+    const targetDate = target === "today" ? today : tomorrow;
+    setPlanTarget(target);
+    setPlanBusy(true);
+    setPlanError(null);
+    try {
+      const res = await fetch(`/api/admin/production?date=${targetDate}`, { cache: "no-store" });
+      const body = (await res.json().catch(() => ({}))) as ProductionDay & { error?: string };
+      if (!res.ok) throw new Error(body.error || `HTTP ${res.status}`);
+      const activeLines = (body.lines ?? []).filter((l) => l.quantity > 0);
+      setPlanInfo({ date: targetDate, lines: activeLines });
+      if (activeLines.length > 0) {
+        const currentMatch = activeLines.find((l) => l.productId === selectedProductId);
+        applyProductionLine(currentMatch ?? activeLines[0]);
+      }
+    } catch (err: unknown) {
+      setPlanError(getErrorMessage(err) || "Üretim planı adetleri getirilemedi.");
+    } finally {
+      setPlanBusy(false);
+    }
+  };
+
   const resetOffset = () => {
     setOffset({ x: 0, y: 0 });
   };
@@ -250,18 +300,107 @@ export default function AdminPrintPage() {
             </p>
           </div>
 
-          <div className="flex items-center gap-3">
+          <div className="flex flex-wrap items-center gap-2.5">
+            <div className="inline-flex items-center rounded-2xl bg-[#FFFFFF] border border-[#E2D3BD] p-1 gap-1 shadow-xs">
+              <button
+                type="button"
+                onClick={() => void fetchProductionCounts("today")}
+                disabled={planBusy}
+                className={`min-h-[44px] px-3 rounded-xl text-xs font-bold transition-colors inline-flex items-center gap-1.5 ${
+                  planTarget === "today" && planInfo
+                    ? "bg-[#3B1E1A] text-white"
+                    : "bg-[#FBF6EC] hover:bg-[#F3E2D4] text-[#3B1E1A]"
+                }`}
+              >
+                {planBusy && planTarget === "today" ? (
+                  <Loader2 className="w-3.5 h-3.5 animate-spin" aria-hidden="true" />
+                ) : (
+                  <Flame className="w-3.5 h-3.5 text-[#B4532A]" aria-hidden="true" />
+                )}
+                <span>🔥 Üretim Planındaki Adetleri Getir (Bugün)</span>
+              </button>
+              <button
+                type="button"
+                onClick={() => void fetchProductionCounts("tomorrow")}
+                disabled={planBusy}
+                className={`min-h-[44px] px-3 rounded-xl text-xs font-bold transition-colors inline-flex items-center gap-1 ${
+                  planTarget === "tomorrow" && planInfo
+                    ? "bg-[#3B1E1A] text-white"
+                    : "bg-[#FBF6EC] hover:bg-[#F3E2D4] text-[#3B1E1A]"
+                }`}
+              >
+                {planBusy && planTarget === "tomorrow" && (
+                  <Loader2 className="w-3.5 h-3.5 animate-spin" aria-hidden="true" />
+                )}
+                <span>Yarın</span>
+              </button>
+            </div>
             <button
               type="button"
               onClick={handlePrint}
               disabled={generatingQr || !qrDataUrl}
-              className="inline-flex items-center justify-center gap-2.5 px-6 py-3 rounded-2xl bg-[#B4532A] hover:bg-[#9C4421] text-white font-serif font-bold text-sm shadow-sm transition-colors disabled:opacity-50"
+              className="inline-flex items-center justify-center gap-2.5 min-h-[44px] px-6 py-3 rounded-2xl bg-[#B4532A] hover:bg-[#9C4421] text-white font-serif font-bold text-sm shadow-sm transition-colors disabled:opacity-50"
             >
               <Printer className="w-4 h-4" aria-hidden="true" />
               <span className="font-mono tabular-nums">Yazdır ({count} Adet)</span>
             </button>
           </div>
         </div>
+
+        {planError && (
+          <div
+            role="alert"
+            className="p-3.5 rounded-2xl bg-[#FCECE9] border border-[#E7B7AF] text-xs text-[#7D2114] flex items-center gap-2"
+          >
+            <AlertCircle className="w-4 h-4 shrink-0" aria-hidden="true" />
+            <span>{planError}</span>
+          </div>
+        )}
+
+        {planInfo && (
+          <div className="p-4 rounded-3xl bg-[#FFFFFF] border border-[#E2D3BD] shadow-sm space-y-2.5">
+            <div className="flex flex-wrap items-center justify-between gap-2 text-xs">
+              <span className="font-bold text-[#3B1E1A]">
+                {formatTrDate(planInfo.date, "long")} Üretim Planından Etiket Adetleri
+              </span>
+              <span className="text-[#6E5148]">
+                Ürüne tıklayınca basım adedi otomatik doldurulur (en fazla 100 rulo/baskı).
+              </span>
+            </div>
+            {planInfo.lines.length === 0 ? (
+              <p className="text-xs text-[#6E5148]">Seçili gün için aktif sipariş kalemi bulunamadı.</p>
+            ) : (
+              <div className="flex flex-wrap gap-2">
+                {planInfo.lines.map((line) => {
+                  const isCurrent =
+                    line.productId === selectedProductId &&
+                    count === Math.max(1, Math.min(100, Math.round(line.quantity)));
+                  return (
+                    <button
+                      key={line.productId}
+                      type="button"
+                      onClick={() => applyProductionLine(line)}
+                      className={`min-h-[44px] px-3.5 rounded-xl border text-xs font-semibold inline-flex items-center gap-2 transition-colors ${
+                        isCurrent
+                          ? "bg-[#B4532A] border-[#B4532A] text-white"
+                          : "bg-[#FBF6EC] border-[#E2D3BD] text-[#3B1E1A] hover:bg-[#F3E2D4]"
+                      }`}
+                    >
+                      <span>{line.name}</span>
+                      <span
+                        className={`font-mono tabular-nums px-1.5 py-0.5 rounded-md text-[11px] font-bold ${
+                          isCurrent ? "bg-white text-[#8E3D1B]" : "bg-[#FFFFFF] text-[#8E3D1B]"
+                        }`}
+                      >
+                        {line.quantity} adet
+                      </span>
+                    </button>
+                  );
+                })}
+              </div>
+            )}
+          </div>
+        )}
 
         {/* 2-Column Grid: Form & Calibration (Left) vs Preview (Right) */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">

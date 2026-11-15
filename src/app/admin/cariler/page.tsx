@@ -5,12 +5,14 @@ import Link from "next/link";
 import {
   Archive,
   Building2,
+  CalendarDays,
   ChevronRight,
   Edit3,
   Flame,
   Loader2,
   MessageCircle,
   MoreVertical,
+  Package,
   Phone,
   Plus,
   Receipt,
@@ -18,13 +20,16 @@ import {
   Tag,
   Wallet,
   X,
+  Zap,
 } from "lucide-react";
 import { useCariler } from "@/hooks/useCariler";
+import { useCouriers } from "@/hooks/useCouriers";
 import { useProducts } from "@/hooks/useProducts";
 import { CariEditModal } from "@/components/admin/cariler/CariEditModal";
 import B2BSlipModal from "@/components/admin/cariler/B2BSlipModal";
 import B2BCollectionModal from "@/components/admin/cariler/B2BCollectionModal";
 import { B2BHotSaleModal } from "@/components/admin/cariler/B2BHotSaleModal";
+import { CariQuickOrderModal } from "@/components/admin/cariler/CariQuickOrderModal";
 import { ekstreMessage, shareViaWhatsApp } from "@/lib/cari/whatsapp";
 import type { CariAccount } from "@/types/admin";
 
@@ -45,11 +50,19 @@ export default function CarilerPage() {
     refreshCariler,
   } = useCariler();
   const { products } = useProducts();
+  const { assignableCouriers } = useCouriers();
 
   const [detailedById, setDetailedById] = useState<Record<string, CariAccount>>({});
   const [searchQuery, setSearchQuery] = useState("");
   const [balanceFilter, setBalanceFilter] = useState<BalanceFilter>("all");
   const [notice, setNotice] = useState<{ tone: "error" | "success"; text: string } | null>(null);
+  const [generatingRoutine, setGeneratingRoutine] = useState(false);
+  const [routineSummary, setRoutineSummary] = useState<{
+    deliveryDate: string;
+    createdCount: number;
+    skippedExisting: number;
+    errors: Array<{ businessName: string; error: string }>;
+  } | null>(null);
 
   // Modals
   const [editModalState, setEditModalState] = useState<{
@@ -61,9 +74,13 @@ export default function CarilerPage() {
 
   const [slipTarget, setSlipTarget] = useState<CariAccount | null>(null);
   const [collectionTarget, setCollectionTarget] = useState<CariAccount | null>(null);
-  const [hotSaleState, setHotSaleState] = useState<{ open: boolean; accountId?: string }>({ open: false });
+  const [hotSaleState, setHotSaleState] = useState<{ open: boolean; accountId?: string; lock?: boolean }>({
+    open: false,
+  });
+  const [quickOrderTarget, setQuickOrderTarget] = useState<CariAccount | null>(null);
   const [actionSheetCari, setActionSheetCari] = useState<CariAccount | null>(null);
   const actionDialogRef = useRef<HTMLDialogElement | null>(null);
+  const actionContentRef = useRef<HTMLDivElement | null>(null);
 
   const fetchExtendedAccounts = useCallback(async () => {
     try {
@@ -95,6 +112,8 @@ export default function CarilerPage() {
         companyTitle: ext.companyTitle ?? base.companyTitle,
         creditLimit: ext.creditLimit ?? base.creditLimit,
         shareTokenVersion: ext.shareTokenVersion ?? base.shareTokenVersion,
+        defaultCourierId: ext.defaultCourierId !== undefined ? ext.defaultCourierId : base.defaultCourierId,
+        standingOrder: ext.standingOrder ?? base.standingOrder,
         customPrices: ext.customPrices ?? base.customPrices,
       };
     },
@@ -162,6 +181,59 @@ export default function CarilerPage() {
     await Promise.all([refreshCariler(), fetchExtendedAccounts()]);
   }, [refreshCariler, fetchExtendedAccounts]);
 
+  const handleGenerateRoutineOrders = async () => {
+    setGeneratingRoutine(true);
+    setNotice(null);
+    setRoutineSummary(null);
+
+    try {
+      const res = await fetch("/api/admin/cari/standing-orders/generate", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({}),
+      });
+      const data = (await res.json().catch(() => null)) as {
+        deliveryDate?: string;
+        createdCount?: number;
+        skippedExisting?: number;
+        errors?: Array<{ businessName: string; error: string }>;
+        error?: string;
+      } | null;
+
+      if (!res.ok || !data?.deliveryDate) {
+        throw new Error(data?.error || "Yarınki rutin siparişler oluşturulamadı.");
+      }
+
+      setRoutineSummary({
+        deliveryDate: data.deliveryDate,
+        createdCount: data.createdCount ?? 0,
+        skippedExisting: data.skippedExisting ?? 0,
+        errors: Array.isArray(data.errors) ? data.errors : [],
+      });
+    } catch (err: unknown) {
+      setNotice({
+        tone: "error",
+        text: err instanceof Error ? err.message : "Rutin siparişler oluşturulurken hata oluştu.",
+      });
+    } finally {
+      setGeneratingRoutine(false);
+    }
+  };
+
+  const handleActionDialogPointerDown = (e: React.PointerEvent<HTMLDialogElement>) => {
+    if ("closedBy" in HTMLDialogElement.prototype) return;
+    const rect = actionContentRef.current?.getBoundingClientRect();
+    if (!rect) return;
+    const outside =
+      e.clientX < rect.left ||
+      e.clientX > rect.right ||
+      e.clientY < rect.top ||
+      e.clientY > rect.bottom;
+    if (outside) {
+      actionDialogRef.current?.close();
+    }
+  };
+
   const openNewCariModal = () => {
     setEditModalState({ open: true, cari: null, isNew: true, initialTab: "info" });
   };
@@ -198,7 +270,20 @@ export default function CarilerPage() {
         <div className="flex flex-wrap items-center gap-2.5">
           <button
             type="button"
-            onClick={() => setHotSaleState({ open: true, accountId: b2bCustomerAccounts[0]?.id })}
+            onClick={() => void handleGenerateRoutineOrders()}
+            disabled={generatingRoutine || b2bCustomerAccounts.length === 0}
+            className="flex min-h-11 items-center gap-2 rounded-xl border border-[#E2D3BD] bg-white px-4 text-sm font-bold text-[#3B1E1A] transition hover:bg-[#FBF6EC] disabled:opacity-50"
+          >
+            {generatingRoutine ? (
+              <Loader2 className="h-4 w-4 animate-spin text-[#B4532A]" />
+            ) : (
+              <CalendarDays className="h-4 w-4 text-[#B4532A]" />
+            )}
+            <span>Yarınki Rutin Siparişleri Oluştur</span>
+          </button>
+          <button
+            type="button"
+            onClick={() => setHotSaleState({ open: true, accountId: b2bCustomerAccounts[0]?.id, lock: false })}
             disabled={b2bCustomerAccounts.length === 0}
             className="flex min-h-11 items-center gap-2 rounded-xl border border-[#B4532A] bg-[#FBF6EC] px-4 text-sm font-bold text-[#8E3D1B] transition hover:bg-[#E2D3BD]/40 disabled:opacity-50"
           >
@@ -215,6 +300,35 @@ export default function CarilerPage() {
           </button>
         </div>
       </header>
+
+      {routineSummary && (
+        <div
+          role="status"
+          aria-live="polite"
+          className="flex items-start justify-between gap-3 rounded-xl border border-emerald-300 bg-emerald-50 px-4 py-3 text-sm text-emerald-950"
+        >
+          <div className="space-y-1">
+            <p className="font-bold">
+              {routineSummary.deliveryDate} rutin üretimi tamamlandı:{" "}
+              <span className="font-mono">{routineSummary.createdCount}</span> yeni sipariş oluşturuldu,{" "}
+              <span className="font-mono">{routineSummary.skippedExisting}</span> cari zaten oluşturulmuştu.
+            </p>
+            {routineSummary.errors.length > 0 && (
+              <p className="text-xs text-amber-900">
+                Uyarılar: {routineSummary.errors.map((e) => `${e.businessName} (${e.error})`).join(" · ")}
+              </p>
+            )}
+          </div>
+          <button
+            type="button"
+            onClick={() => setRoutineSummary(null)}
+            aria-label="Rutin bildirimini kapat"
+            className="flex min-h-9 min-w-9 items-center justify-center rounded-lg hover:bg-black/5"
+          >
+            <X className="h-4 w-4" />
+          </button>
+        </div>
+      )}
 
       {(notice || error) && (
         <div
@@ -267,7 +381,7 @@ export default function CarilerPage() {
 
       {/* Search & Filter Controls */}
       <section className="flex flex-col gap-3 rounded-2xl border border-[#E2D3BD] bg-[#FBF6EC] p-4">
-        <div className="relative">
+        <search className="relative block">
           <Search className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-[#6E5148]" />
           <label htmlFor="cariler-search-input" className="sr-only">
             Cari ara
@@ -280,7 +394,7 @@ export default function CarilerPage() {
             placeholder="İşletme, resmi unvan, ilçe, mahalle, yetkili veya telefon ara..."
             className="min-h-11 w-full rounded-xl border border-[#E2D3BD] bg-white pl-10 pr-4 text-base text-[#3B1E1A] placeholder:text-[#6E5148]/70 focus:border-[#B4532A] focus:outline-none sm:text-sm"
           />
-        </div>
+        </search>
 
         <div className="flex flex-wrap gap-2">
           {filterTabs.map((tab) => {
@@ -425,10 +539,18 @@ export default function CarilerPage() {
                       <>
                         <button
                           type="button"
-                          onClick={() => setHotSaleState({ open: true, accountId: cari.id })}
+                          onClick={() => setQuickOrderTarget(cari)}
                           className="flex min-h-11 items-center gap-1.5 rounded-xl bg-[#B4532A] px-3 text-xs font-bold text-white transition hover:bg-[#9C4421]"
                         >
-                          <Flame className="h-3.5 w-3.5" />
+                          <Package className="h-3.5 w-3.5" />
+                          <span>Sipariş Planla</span>
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => setHotSaleState({ open: true, accountId: cari.id, lock: true })}
+                          className="flex min-h-11 items-center gap-1.5 rounded-xl border border-[#B4532A]/40 bg-[#FBF6EC] px-3 text-xs font-bold text-[#8E3D1B] transition hover:bg-[#F6EEDF]"
+                        >
+                          <Zap className="h-3.5 w-3.5 text-[#B4532A]" />
                           <span>Sıcak Satış</span>
                         </button>
                         <button
@@ -440,6 +562,17 @@ export default function CarilerPage() {
                           <span>Tahsilat</span>
                         </button>
                       </>
+                    )}
+
+                    {!isArchived && isExpense && (
+                      <button
+                        type="button"
+                        onClick={() => setSlipTarget(cari)}
+                        className="flex min-h-11 items-center gap-1.5 rounded-xl border border-[#E2D3BD] bg-white px-3 text-xs font-bold text-[#3B1E1A] transition hover:bg-[#F6EEDF]"
+                      >
+                        <Receipt className="h-3.5 w-3.5 text-[#B4532A]" />
+                        <span>Masraf / İşlem Ekle</span>
+                      </button>
                     )}
                   </div>
 
@@ -480,12 +613,13 @@ export default function CarilerPage() {
       {/* Action Sheet <dialog> */}
       <dialog
         ref={actionDialogRef}
-        closedby="any"
+        {...({ closedby: "any" } as Record<string, string>)}
+        onPointerDown={handleActionDialogPointerDown}
         aria-labelledby="cari-action-sheet-title"
         className="m-auto mb-0 w-full max-w-md rounded-t-2xl border border-[#E2D3BD] bg-[#FBF6EC] p-0 text-[#3B1E1A] shadow-2xl overscroll-contain backdrop:overflow-hidden backdrop:overscroll-contain backdrop:bg-[#3B1E1A]/45 sm:mb-auto sm:rounded-2xl"
       >
         {actionSheetCari && (
-          <div className="p-5 space-y-3">
+          <div ref={actionContentRef} className="p-5 space-y-3">
             <div className="flex items-center justify-between border-b border-[#E2D3BD] pb-3">
               <div className="min-w-0">
                 <h2 id="cari-action-sheet-title" className="truncate font-serif text-lg font-bold text-[#3B1E1A]">
@@ -513,24 +647,24 @@ export default function CarilerPage() {
                     onClick={() => {
                       const target = actionSheetCari;
                       actionDialogRef.current?.close();
-                      setHotSaleState({ open: true, accountId: target.id });
+                      setQuickOrderTarget(target);
                     }}
                     className="flex min-h-12 w-full items-center gap-3 rounded-xl bg-[#B4532A] px-4 text-sm font-bold text-white"
                   >
-                    <Flame className="h-4 w-4" />
-                    Sıcak Satış &amp; Sevk İrsaliyesi Kes
+                    <Package className="h-4 w-4" />
+                    Sipariş Planla &amp; Haftalık Rutin
                   </button>
                   <button
                     type="button"
                     onClick={() => {
                       const target = actionSheetCari;
                       actionDialogRef.current?.close();
-                      setSlipTarget(target);
+                      setHotSaleState({ open: true, accountId: target.id, lock: true });
                     }}
-                    className="flex min-h-12 w-full items-center gap-3 rounded-xl border border-[#E2D3BD] bg-white px-4 text-sm font-bold text-[#3B1E1A] hover:bg-[#F6EEDF]"
+                    className="flex min-h-12 w-full items-center gap-3 rounded-xl border border-[#B4532A]/40 bg-white px-4 text-sm font-bold text-[#8E3D1B] hover:bg-[#F6EEDF]"
                   >
-                    <Receipt className="h-4 w-4 text-[#B4532A]" />
-                    Klasik Teslimat Fişi Kes
+                    <Zap className="h-4 w-4 text-[#B4532A]" />
+                    Sıcak Satış &amp; Sevk İrsaliyesi Kes
                   </button>
                   <button
                     type="button"
@@ -545,6 +679,21 @@ export default function CarilerPage() {
                     Tahsilat Al
                   </button>
                 </>
+              )}
+
+              {!actionSheetCari.archivedAt && actionSheetCari.accountType === "gider" && (
+                <button
+                  type="button"
+                  onClick={() => {
+                    const target = actionSheetCari;
+                    actionDialogRef.current?.close();
+                    setSlipTarget(target);
+                  }}
+                  className="flex min-h-12 w-full items-center gap-3 rounded-xl border border-[#E2D3BD] bg-white px-4 text-sm font-bold text-[#3B1E1A] hover:bg-[#F6EEDF]"
+                >
+                  <Receipt className="h-4 w-4 text-[#B4532A]" />
+                  Masraf / İşlem Ekle
+                </button>
               )}
 
               <button
@@ -634,9 +783,41 @@ export default function CarilerPage() {
         accounts={b2bCustomerAccounts}
         products={products}
         initialAccountId={hotSaleState.accountId}
+        lockAccount={Boolean(hotSaleState.lock)}
         isAdmin={true}
         onCompleted={() => {
           void handleRefreshAll();
+        }}
+      />
+
+      <CariQuickOrderModal
+        open={Boolean(quickOrderTarget)}
+        onClose={() => setQuickOrderTarget(null)}
+        account={quickOrderTarget}
+        products={products}
+        couriers={assignableCouriers}
+        isAdmin={true}
+        onOrderCreated={({ orderNumber }) => {
+          setNotice({
+            tone: "success",
+            text: `${quickOrderTarget?.businessName ?? "Cari"} için sipariş oluşturuldu (${orderNumber}).`,
+          });
+        }}
+        onAccountUpdated={() => {
+          void handleRefreshAll();
+        }}
+        onSavedAndNext={(currentAccountId) => {
+          const idx = b2bCustomerAccounts.findIndex((c) => c.id === currentAccountId);
+          const next = idx >= 0 && idx + 1 < b2bCustomerAccounts.length ? b2bCustomerAccounts[idx + 1] : null;
+          if (next) {
+            setQuickOrderTarget(next);
+          } else {
+            setQuickOrderTarget(null);
+            setNotice({
+              tone: "success",
+              text: "Listedeki tüm aktif müşteri carileri için sipariş girişi tamamlandı.",
+            });
+          }
         }}
       />
     </div>

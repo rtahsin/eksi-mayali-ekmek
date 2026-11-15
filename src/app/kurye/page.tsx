@@ -3,10 +3,17 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import { B2BHotSaleModal } from "@/components/admin/cariler/B2BHotSaleModal";
+import { B2BFlexibleDeliveryModal } from "@/components/courier/B2BFlexibleDeliveryModal";
 import { DeliveryLabels } from "@/components/courier/DeliveryLabels";
 import { useCourierNetwork } from "@/hooks/useCourierNetwork";
 import { useIstanbulToday } from "@/hooks/useIstanbulToday";
-import { getNavigationUrls, moveStop, waPhone } from "@/lib/delivery/maps";
+import {
+  clusterOrdersByNeighborhood,
+  getNavigationUrls,
+  moveStop,
+  waPhone,
+} from "@/lib/delivery/maps";
+import { orderMessage } from "@/lib/orders/adminFlow";
 import { deliverOrder, type DeliveryPayment } from "@/lib/orders/delivery";
 import { createClient } from "@/lib/supabase/client";
 import { addDays, formatTrDate } from "@/lib/time/istanbul";
@@ -32,6 +39,7 @@ interface DispatchStop {
   customerPhone: string;
   address: string;
   neighborhood: string;
+  district?: string;
   deliveryNote: string;
   lat: number | null;
   lng: number | null;
@@ -43,10 +51,11 @@ interface DispatchStop {
   paymentStatus: string;
   cariId: string | null;
   cariName: string | null;
-  stopSequence: number;
+  stopSequence: number | null;
   deliveryTimeWindow: string | null;
   createdAt: string;
   courierId: string | null;
+  courierName?: string | null;
 }
 
 interface BenchItem {
@@ -54,8 +63,14 @@ interface BenchItem {
   orderNumber: string;
   status: string;
   customerName: string;
+  customerPhone?: string;
   neighborhood: string;
+  district?: string;
   address: string;
+  deliveryNote?: string;
+  deliveryMethod?: string;
+  lat?: number | null;
+  lng?: number | null;
   deliveryTimeWindow: string | null;
   items: StopItem[];
   itemsSummary: string;
@@ -108,6 +123,8 @@ interface CatalogProductPreview {
 interface DispatchPayload {
   date: string;
   isAdmin: boolean;
+  canManageDispatch?: boolean;
+  isOnShift?: boolean;
   courier: CourierOption | null;
   couriers?: CourierOption[];
   myStops: DispatchStop[];
@@ -212,6 +229,7 @@ function toPrintOrder(stop: DispatchStop, date: string): AdminOrder {
     deliveryMethod: "courier",
     deliveryAddress: stop.address,
     neighborhood: stop.neighborhood,
+    district: stop.district,
     deliveryDate: date,
     deliveryTimeWindow: stop.deliveryTimeWindow ?? "",
     items: stop.items.map((item) => ({
@@ -225,11 +243,12 @@ function toPrintOrder(stop: DispatchStop, date: string): AdminOrder {
     subtotal,
     shippingFee: Math.max(0, stop.totalAmount - subtotal),
     totalAmount: stop.totalAmount,
-    status: "kuryede",
+    status: (stop.status as AdminOrder["status"]) || "kuryede",
     paymentMethod: normalizeAdminPaymentMethod(stop.paymentMethod),
     paymentStatus: normalizeAdminPaymentStatus(stop.paymentStatus),
     orderNotes: stop.deliveryNote,
     courierId: stop.courierId ?? undefined,
+    stopSequence: stop.stopSequence,
     cariId: stop.cariId ?? undefined,
   };
 }
@@ -244,7 +263,6 @@ export default function KuryeDispatchPage() {
   const today = useIstanbulToday();
   const [selectedDate, setSelectedDate] = useState<string>(today);
   const [selectedCourierId, setSelectedCourierId] = useState<string>("");
-  const [draftCourierId, setDraftCourierId] = useState<string>("");
   const [activeTab, setActiveTab] = useState<CourierTab>("stops");
 
   const [data, setData] = useState<DispatchPayload | null>(null);
@@ -256,6 +274,11 @@ export default function KuryeDispatchPage() {
   );
 
   const [claimingId, setClaimingId] = useState<string | null>(null);
+  const [unclaimingId, setUnclaimingId] = useState<string | null>(null);
+  const [bulkClaiming, setBulkClaiming] = useState<boolean>(false);
+  const [selectedBenchIds, setSelectedBenchIds] = useState<Set<string>>(new Set());
+  const [shiftBusy, setShiftBusy] = useState<boolean>(false);
+  const [startingRoute, setStartingRoute] = useState<boolean>(false);
   const [reordering, setReordering] = useState<boolean>(false);
 
   // Delivery modal state
@@ -268,6 +291,8 @@ export default function KuryeDispatchPage() {
 
   // Faz 4 B2B Hot-Sale modal state
   const [hotSaleModalOpen, setHotSaleModalOpen] = useState(false);
+  // Faz 7 Esnek B2B Teslimat modal state
+  const [b2bDeliverStop, setB2bDeliverStop] = useState<DispatchStop | null>(null);
 
   const tabButtonRefs = useRef<Array<HTMLButtonElement | null>>([]);
   const debounceTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -319,9 +344,20 @@ export default function KuryeDispatchPage() {
 
         if (payload && "myStops" in payload) {
           setData(payload);
-          if (payload.courier?.id && !selectedCourierId && payload.isAdmin) {
-            setDraftCourierId(payload.courier.id);
+          if (!selectedCourierId && (payload.canManageDispatch || payload.isAdmin)) {
+            if (payload.courier?.id) {
+              setSelectedCourierId(payload.courier.id);
+            } else {
+              setSelectedCourierId("all");
+            }
           }
+          // Tezgahtan düşen seçimleri temizle
+          const benchIdSet = new Set(payload.claimableBench.map((b) => b.id));
+          setSelectedBenchIds((prev) => {
+            if (prev.size === 0) return prev;
+            const next = new Set(Array.from(prev).filter((id) => benchIdSet.has(id)));
+            return next.size === prev.size ? prev : next;
+          });
         }
       } catch {
         setErrorMsg("Sunucuya bağlanılamadı. İnternet bağlantınızı kontrol edin.");
@@ -462,15 +498,65 @@ export default function KuryeDispatchPage() {
     }
   };
 
+  const canManageDispatch = Boolean(data?.canManageDispatch || data?.isAdmin);
+  const targetClaimCourierId =
+    selectedCourierId && selectedCourierId !== "all"
+      ? selectedCourierId
+      : data?.courier?.id ?? null;
+
+  const handleToggleShift = async () => {
+    if (!data?.courier || shiftBusy) return;
+    setShiftBusy(true);
+    setFeedback(null);
+    const nextShift = !(data.courier.isActive && data.courier.isOnShift);
+    try {
+      const res = await fetch("/api/courier/shift", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          isOnShift: nextShift,
+          courierId: data.courier.id,
+        }),
+      });
+      const json = (await res.json().catch(() => null)) as { error?: string } | null;
+      if (!res.ok) {
+        setFeedback({
+          kind: "error",
+          text: json?.error || "Vardiya durumu güncellenemedi.",
+        });
+        return;
+      }
+      setFeedback({
+        kind: "success",
+        text: nextShift
+          ? "Vardiya açıldı — dağıtım ve teslimata hazırsınız."
+          : "Vardiya kapatıldı (dinlenme / planlama modu).",
+      });
+      await fetchDispatch({ silent: true });
+    } catch {
+      setFeedback({ kind: "error", text: "Vardiya güncellenirken bağlantı hatası oluştu." });
+    } finally {
+      setShiftBusy(false);
+    }
+  };
+
   const handleClaimOrder = async (benchItem: BenchItem) => {
+    if (canManageDispatch && !targetClaimCourierId) {
+      setFeedback({
+        kind: "error",
+        text: "Paket zimmetlemek için yukarıdan bir kurye seçmelisiniz.",
+      });
+      return;
+    }
+
     setClaimingId(benchItem.id);
     setFeedback(null);
 
     try {
       const bodyPayload =
-        data?.isAdmin && (selectedCourierId || data.courier?.id)
-          ? { courierId: selectedCourierId || data.courier?.id }
-          : {};
+        canManageDispatch && targetClaimCourierId
+          ? { courierId: targetClaimCourierId, startRoute: false }
+          : { startRoute: false };
 
       const res = await fetch(`/api/orders/${benchItem.id}/claim`, {
         method: "POST",
@@ -497,12 +583,17 @@ export default function KuryeDispatchPage() {
         return;
       }
 
+      setSelectedBenchIds((prev) => {
+        if (!prev.has(benchItem.id)) return prev;
+        const next = new Set(prev);
+        next.delete(benchItem.id);
+        return next;
+      });
       setFeedback({
         kind: "success",
-        text: `${benchItem.orderNumber} dağıtım listenize zimmetlendi.`,
+        text: `${benchItem.orderNumber} dağıtım listenize eklendi. Hazır olunca "Seferi Başlat"a basabilirsiniz.`,
       });
       await fetchDispatch({ silent: true });
-      setActiveTab("stops");
     } catch {
       setFeedback({
         kind: "error",
@@ -510,6 +601,170 @@ export default function KuryeDispatchPage() {
       });
     } finally {
       setClaimingId(null);
+    }
+  };
+
+  const handleBulkClaim = async (orderIds: string[]) => {
+    if (orderIds.length === 0 || bulkClaiming) return;
+    if (canManageDispatch && !targetClaimCourierId) {
+      setFeedback({
+        kind: "error",
+        text: "Toplu zimmetlemek için yukarıdan bir kurye seçmelisiniz.",
+      });
+      return;
+    }
+
+    setBulkClaiming(true);
+    setFeedback(null);
+    try {
+      const res = await fetch("/api/orders/bulk/claim", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          orderIds: orderIds.slice(0, 50),
+          ...(canManageDispatch && targetClaimCourierId ? { courierId: targetClaimCourierId } : {}),
+          startRoute: false,
+        }),
+      });
+      const json = (await res.json().catch(() => null)) as
+        | { error?: string; claimedCount?: number; claimedIds?: string[]; skippedCount?: number }
+        | null;
+
+      if (!res.ok) {
+        setFeedback({
+          kind: "error",
+          text: json?.error || "Seçili paketler zimmetlenemedi.",
+        });
+        await fetchDispatch({ silent: true });
+        return;
+      }
+
+      const claimedSet = new Set(json?.claimedIds ?? orderIds);
+      setSelectedBenchIds((prev) => {
+        const next = new Set(Array.from(prev).filter((id) => !claimedSet.has(id)));
+        return next;
+      });
+      setFeedback({
+        kind: "success",
+        text: `${json?.claimedCount ?? orderIds.length} paket dağıtım listenize alındı.`,
+      });
+      await fetchDispatch({ silent: true });
+    } catch {
+      setFeedback({
+        kind: "error",
+        text: "Toplu zimmetleme sırasında bağlantı hatası oluştu.",
+      });
+    } finally {
+      setBulkClaiming(false);
+    }
+  };
+
+  const handleUnclaimOrder = async (stop: DispatchStop) => {
+    if (unclaimingId) return;
+    setUnclaimingId(stop.id);
+    setFeedback(null);
+    try {
+      const res = await fetch(`/api/orders/${stop.id}/claim`, {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({}),
+      });
+      const json = (await res.json().catch(() => null)) as { error?: string } | null;
+      if (!res.ok) {
+        setFeedback({
+          kind: "error",
+          text: json?.error || "Paket tezgaha bırakılamadı.",
+        });
+        return;
+      }
+      setFeedback({
+        kind: "success",
+        text: `${stop.orderNumber} tezgaha bırakıldı.`,
+      });
+      await fetchDispatch({ silent: true });
+    } catch {
+      setFeedback({
+        kind: "error",
+        text: "Tezgaha bırakma sırasında bağlantı hatası oluştu.",
+      });
+    } finally {
+      setUnclaimingId(null);
+    }
+  };
+
+  const handleStartRoute = async (orderIds: string[]) => {
+    if (orderIds.length === 0 || startingRoute) return;
+    setStartingRoute(true);
+    setFeedback(null);
+    try {
+      const res = await fetch("/api/courier/start-route", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          orderIds,
+          ...(canManageDispatch && targetClaimCourierId ? { courierId: targetClaimCourierId } : {}),
+          date: selectedDate,
+        }),
+      });
+      const json = (await res.json().catch(() => null)) as
+        | { error?: string; updatedCount?: number; message?: string }
+        | null;
+      if (!res.ok) {
+        setFeedback({
+          kind: "error",
+          text: json?.error || "Sefer başlatılamadı.",
+        });
+        return;
+      }
+      setFeedback({
+        kind: "success",
+        text: json?.message || `${json?.updatedCount ?? orderIds.length} paket dağıtıma çıkarıldı.`,
+      });
+      await fetchDispatch({ silent: true });
+    } catch {
+      setFeedback({
+        kind: "error",
+        text: "Sefer başlatılırken bağlantı hatası oluştu.",
+      });
+    } finally {
+      setStartingRoute(false);
+    }
+  };
+
+  const handleResetRouteOrder = async () => {
+    if (!data || data.myStops.length === 0 || reordering) return;
+    setReordering(true);
+    setFeedback(null);
+    try {
+      const res = await fetch("/api/courier/route-order", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          reset: true,
+          orderedIds: data.myStops.map((s) => s.id),
+          ...(canManageDispatch && targetClaimCourierId ? { courierId: targetClaimCourierId } : {}),
+        }),
+      });
+      const json = (await res.json().catch(() => null)) as { error?: string } | null;
+      if (!res.ok) {
+        setFeedback({
+          kind: "error",
+          text: json?.error || "Rota sırası sıfırlanamadı.",
+        });
+        return;
+      }
+      setFeedback({
+        kind: "success",
+        text: "Duraklar mahalle sırasına göre dizildi.",
+      });
+      await fetchDispatch({ silent: true });
+    } catch {
+      setFeedback({
+        kind: "error",
+        text: "Sıra sıfırlanırken bağlantı hatası oluştu.",
+      });
+    } finally {
+      setReordering(false);
     }
   };
 
@@ -524,7 +779,7 @@ export default function KuryeDispatchPage() {
 
     const byId = new Map(data.myStops.map((stop) => [stop.id, stop]));
     const reorderedStops = nextIds
-      .map((id, idx) => {
+      .map((id, idx): DispatchStop | null => {
         const stop = byId.get(id);
         return stop ? { ...stop, stopSequence: idx } : null;
       })
@@ -591,8 +846,30 @@ export default function KuryeDispatchPage() {
     [data?.myStops, selectedDate],
   );
 
+  const plannedStops = useMemo(
+    () => (data?.myStops ?? []).filter((stop) => stop.status !== "kuryede"),
+    [data?.myStops],
+  );
 
-  const activeCourierOnShift = data?.courier ? data.courier.isActive && data.courier.isOnShift : true;
+  const benchClusters = useMemo(
+    () =>
+      clusterOrdersByNeighborhood(
+        (data?.claimableBench ?? []).map((b) => ({
+          id: b.id,
+          neighborhood: b.neighborhood,
+          deliveryAddress: b.address,
+          deliveryMethod: b.deliveryMethod || "courier",
+          status: b.status,
+          courierId: null,
+          items: b.items,
+        })),
+      ),
+    [data?.claimableBench],
+  );
+
+  const activeCourierOnShift = data?.courier
+    ? data.courier.isActive && data.courier.isOnShift
+    : Boolean(data?.isOnShift ?? true);
 
   return (
     <div className="min-h-screen bg-[#F6EEDF] text-[#3B1E1A] print:bg-white">
@@ -615,15 +892,27 @@ export default function KuryeDispatchPage() {
 
             <div className="flex flex-wrap items-center gap-2">
               {data?.courier && (
-                <span
-                  className={`inline-flex min-h-11 items-center rounded-xl border px-3 text-xs font-bold ${
+                <button
+                  type="button"
+                  disabled={shiftBusy || !data.courier.isActive}
+                  onClick={() => void handleToggleShift()}
+                  className={`inline-flex min-h-11 items-center gap-2 rounded-xl border px-3.5 text-xs font-bold transition focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#B4532A] disabled:opacity-60 ${
                     activeCourierOnShift
-                      ? "border-[#B4D3BC] bg-[#E5EFE7] text-[#1D5130]"
-                      : "border-[#E8C589] bg-[#FFF8EB] text-[#6B4211]"
+                      ? "border-[#B4D3BC] bg-[#E5EFE7] text-[#1D5130] hover:bg-[#D5E7DA]"
+                      : "border-[#E8C589] bg-[#FFF8EB] text-[#6B4211] hover:bg-[#F5E9CE]"
                   }`}
                 >
-                  {activeCourierOnShift ? "Vardiyada · Aktif" : "Vardiya Dışı"}
-                </span>
+                  <span
+                    className={`h-2.5 w-2.5 rounded-full ${
+                      activeCourierOnShift ? "bg-[#245A38]" : "bg-[#B4532A]"
+                    }`}
+                  />
+                  {shiftBusy
+                    ? "Güncelleniyor..."
+                    : activeCourierOnShift
+                      ? "Vardiyada · Kapat"
+                      : "Vardiya Dışı · Vardiyayı Aç"}
+                </button>
               )}
 
               <button
@@ -699,39 +988,25 @@ export default function KuryeDispatchPage() {
               />
             </div>
 
-            {data?.isAdmin && data.couriers && data.couriers.length > 0 && (
-              <form
-                onSubmit={(e) => {
-                  e.preventDefault();
-                  setSelectedCourierId(draftCourierId);
-                }}
-                className="flex flex-wrap items-end gap-2"
-              >
-                <div className="flex flex-col gap-1">
-                  <label htmlFor="admin-courier-select" className="text-xs font-semibold text-[#6E5148]">
-                    Yönetici Görünümü · Kurye Seç
-                  </label>
-                  <select
-                    id="admin-courier-select"
-                    value={draftCourierId}
-                    onChange={(e) => setDraftCourierId(e.target.value)}
-                    className="min-h-11 rounded-xl border border-[#E2D3BD] bg-[#FBF6EC] px-3 text-base text-[#3B1E1A] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#B4532A]"
-                  >
-                    <option value="">Kurye seçin...</option>
-                    {data.couriers.map((c) => (
-                      <option key={c.id} value={c.id}>
-                        {c.displayName} {c.isOnShift ? "(Vardiyada)" : "(Vardiya Dışı)"}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-                <button
-                  type="submit"
-                  className="min-h-11 rounded-xl bg-[#3B1E1A] px-4 text-sm font-semibold text-white transition hover:bg-[#522B25] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#B4532A]"
+            {canManageDispatch && data?.couriers && data.couriers.length > 0 && (
+              <div className="flex flex-col gap-1">
+                <label htmlFor="admin-courier-select" className="text-xs font-semibold text-[#6E5148]">
+                  Yönetici Görünümü · Kurye Seç
+                </label>
+                <select
+                  id="admin-courier-select"
+                  value={selectedCourierId}
+                  onChange={(e) => setSelectedCourierId(e.target.value)}
+                  className="min-h-11 rounded-xl border border-[#E2D3BD] bg-[#FBF6EC] px-3 text-base text-[#3B1E1A] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#B4532A]"
                 >
-                  Kuryeyi Göster
-                </button>
-              </form>
+                  <option value="all">Tüm Kuryeler</option>
+                  {data.couriers.map((c) => (
+                    <option key={c.id} value={c.id}>
+                      {c.displayName} {c.isOnShift ? "(Vardiyada)" : "(Vardiya Dışı)"}
+                    </option>
+                  ))}
+                </select>
+              </div>
             )}
           </div>
         </header>
@@ -916,23 +1191,55 @@ export default function KuryeDispatchPage() {
                       {formatCurrency(totalToCollect)}
                     </p>
                   </div>
-                  <div className="flex items-center rounded-2xl border border-[#E2D3BD] bg-[#FBF6EC] p-3 shadow-sm">
+                  <div className="flex flex-col gap-2 rounded-2xl border border-[#E2D3BD] bg-[#FBF6EC] p-3 shadow-sm">
                     <button
                       type="button"
                       onClick={() => window.print()}
                       disabled={data.myStops.length === 0}
-                      className="min-h-12 w-full rounded-xl border border-[#E2D3BD] bg-[#FFFFFF] px-3 text-sm font-bold text-[#3B1E1A] transition hover:bg-[#F3E8D5] disabled:opacity-50"
+                      className="min-h-11 w-full rounded-xl border border-[#E2D3BD] bg-[#FFFFFF] px-3 text-sm font-bold text-[#3B1E1A] transition hover:bg-[#F3E8D5] disabled:opacity-50"
                     >
                       Etiket Yazdır
                     </button>
+                    {data.myStops.length > 0 && (
+                      <button
+                        type="button"
+                        onClick={() => void handleResetRouteOrder()}
+                        disabled={reordering}
+                        className="min-h-11 w-full rounded-xl border border-[#E2D3BD] bg-[#FFFFFF] px-3 text-xs font-bold text-[#3B1E1A] transition hover:bg-[#F3E8D5] disabled:opacity-50"
+                      >
+                        {reordering ? "Sıralanıyor..." : "Mahalle Sırasına Göre Diz"}
+                      </button>
+                    )}
                   </div>
                 </div>
 
-                {!data.courier && data.isAdmin && (
+                {plannedStops.length > 0 && (
+                  <div className="flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-[#D7A98B] bg-[#FFF4EC] p-4 shadow-sm">
+                    <div>
+                      <p className="text-sm font-bold text-[#3B1E1A]">
+                        {plannedStops.length} paket planlandı (henüz yola çıkmadı)
+                      </p>
+                      <p className="text-xs text-[#6E5148]">
+                        Paketleri araca yüklediğinizde tek dokunuşla müşterilere yola çıktı durumuna geçirebilirsiniz.
+                      </p>
+                    </div>
+                    <button
+                      type="button"
+                      disabled={startingRoute}
+                      onClick={() => void handleStartRoute(plannedStops.map((s) => s.id))}
+                      className="min-h-12 w-full rounded-xl bg-[#B4532A] px-5 text-base font-bold text-white shadow-sm transition hover:bg-[#9C4421] disabled:opacity-60 sm:w-auto"
+                    >
+                      {startingRoute
+                        ? "Sefer Başlatılıyor..."
+                        : `🚀 Seferi Başlat (${plannedStops.length} Paketi Yola Çıkar)`}
+                    </button>
+                  </div>
+                )}
+
+                {selectedCourierId === "all" && canManageDispatch && (
                   <div className="rounded-2xl border border-[#E2D3BD] bg-[#FBF6EC] p-4 text-sm text-[#3B1E1A]">
-                    Kişisel durak görmek için yukarıdan bir kurye seçip{" "}
-                    <strong>Kuryeyi Göster</strong> butonuna basın veya{" "}
-                    <strong>Hazır Tezgah</strong> sekmesine geçin.
+                    <strong>Tüm Kuryeler</strong> görünümü açık. Üzerinize paket almak için yukarıdan
+                    hedef kuryeyi seçebilirsiniz.
                   </div>
                 )}
 
@@ -959,7 +1266,12 @@ export default function KuryeDispatchPage() {
                       const nav = getNavigationUrls(stop.address, stop.lat, stop.lng);
                       const isCari = Boolean(stop.cariId) || stop.paymentMethod === "cari";
                       const waDigits = waPhone(stop.customerPhone);
+                      const waText = orderMessage("yolda", toPrintOrder(stop, selectedDate), {
+                        window: stop.deliveryTimeWindow || "planlanan teslimat aralığı",
+                        dateLabel: formatTrDate(selectedDate),
+                      });
                       const hasGps = stop.lat !== null && stop.lng !== null;
+                      const isOnRoute = stop.status === "kuryede";
 
                       return (
                         <article
@@ -984,9 +1296,22 @@ export default function KuryeDispatchPage() {
                               </div>
 
                               <div className="flex flex-wrap items-center gap-2 text-xs text-[#6E5148]">
-                                <span className="rounded-md bg-[#FBF6EC] px-2 py-0.5 font-semibold text-[#3B1E1A]">
-                                  {formatStatusLabel(stop.status)}
+                                <span
+                                  className={`rounded-md px-2 py-0.5 font-bold ${
+                                    isOnRoute
+                                      ? "bg-[#E5EFE7] text-[#1D5130]"
+                                      : "bg-[#FFF8EB] text-[#6B4211]"
+                                  }`}
+                                >
+                                  {isOnRoute
+                                    ? "Yolda (Kuryede)"
+                                    : `Planlanan · ${formatStatusLabel(stop.status)}`}
                                 </span>
+                                {stop.courierName && (
+                                  <span className="rounded-md border border-[#E2D3BD] bg-[#FBF6EC] px-2 py-0.5 font-semibold text-[#3B1E1A]">
+                                    Kurye: {stop.courierName}
+                                  </span>
+                                )}
                                 {stop.deliveryTimeWindow && (
                                   <span className="font-mono font-semibold">
                                     Saat: {stop.deliveryTimeWindow}
@@ -1123,7 +1448,7 @@ export default function KuryeDispatchPage() {
                           </div>
 
                           {/* 1-Tap Quick Actions */}
-                          <div className="mt-4 grid grid-cols-2 gap-2.5 sm:grid-cols-4">
+                          <div className="mt-4 grid grid-cols-2 gap-2.5 sm:grid-cols-5">
                             {stop.customerPhone ? (
                               <a
                                 href={`tel:${stop.customerPhone}`}
@@ -1139,12 +1464,12 @@ export default function KuryeDispatchPage() {
 
                             {waDigits ? (
                               <a
-                                href={`https://wa.me/${waDigits}`}
+                                href={`https://wa.me/${waDigits}?text=${encodeURIComponent(waText)}`}
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="inline-flex min-h-12 items-center justify-center rounded-xl border border-[#B4D3BC] bg-[#E5EFE7] px-3 text-sm font-bold text-[#1D5130] transition hover:bg-[#D5E7DA]"
                               >
-                                WhatsApp
+                                WhatsApp (Yolda)
                               </a>
                             ) : (
                               <span className="inline-flex min-h-12 items-center justify-center rounded-xl border border-[#E2D3BD] bg-[#FBF6EC]/60 px-3 text-sm font-semibold text-[#6E5148]">
@@ -1162,6 +1487,15 @@ export default function KuryeDispatchPage() {
                             </a>
 
                             <a
+                              href={nav.apple}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="inline-flex min-h-12 items-center justify-center rounded-xl border border-[#E2D3BD] bg-[#FFFFFF] px-3 text-sm font-bold text-[#3B1E1A] transition hover:bg-[#FBF6EC]"
+                            >
+                              Apple Harita
+                            </a>
+
+                            <a
                               href={nav.yandex}
                               target="_blank"
                               rel="noopener noreferrer"
@@ -1171,14 +1505,33 @@ export default function KuryeDispatchPage() {
                             </a>
                           </div>
 
-                          {/* Primary Deliver Action */}
-                          <button
-                            type="button"
-                            onClick={() => openDeliverModal(stop)}
-                            className="mt-3 min-h-12 w-full rounded-xl bg-[#245A38] px-5 text-base font-bold text-white shadow-sm transition hover:bg-[#1B452B] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#3B1E1A]"
-                          >
-                            Teslim Et &amp; Tahsilatı Kapat
-                          </button>
+                          {/* Primary Deliver + Unclaim Actions */}
+                          <div className="mt-3 flex flex-col gap-2 sm:flex-row">
+                            <button
+                              type="button"
+                              onClick={() => openDeliverModal(stop)}
+                              className="min-h-12 flex-1 rounded-xl bg-[#245A38] px-5 text-base font-bold text-white shadow-sm transition hover:bg-[#1B452B] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#3B1E1A]"
+                            >
+                              Teslim Et &amp; Tahsilatı Kapat
+                            </button>
+                            {Boolean(stop.cariId) && (
+                              <button
+                                type="button"
+                                onClick={() => setB2bDeliverStop(stop)}
+                                className="min-h-12 rounded-xl border border-[#B4532A] bg-[#FBF6EC] px-4 text-sm font-bold text-[#8E3D1B] transition hover:bg-[#F3E2D4] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#3B1E1A]"
+                              >
+                                ✏️ Adet / İade / Kısmi Tahsilat
+                              </button>
+                            )}
+                            <button
+                              type="button"
+                              disabled={unclaimingId === stop.id}
+                              onClick={() => void handleUnclaimOrder(stop)}
+                              className="min-h-12 rounded-xl border border-[#E2D3BD] bg-[#FBF6EC] px-4 text-sm font-bold text-[#3B1E1A] transition hover:bg-[#F3E8D5] disabled:opacity-50"
+                            >
+                              {unclaimingId === stop.id ? "Bırakılıyor..." : "Tezgaha Bırak"}
+                            </button>
+                          </div>
                         </article>
                       );
                     })}
@@ -1238,19 +1591,53 @@ export default function KuryeDispatchPage() {
               >
                 <div className="rounded-2xl border border-[#E2D3BD] bg-[#FFFFFF] p-4 shadow-sm sm:p-5">
                   <h2 className="font-serif text-xl font-bold text-[#3B1E1A]">
-                    Hazır Tezgah — Zimmet Bekleyen Paketler
+                    Hazır Tezgah — Mahalle Kümelemeli Paketler
                   </h2>
                   <p className="mt-1 text-sm text-[#6E5148]">
-                    Henüz kuryeye atanmamış, hazırlanıyor veya fırından çıkmış paketleri tek
-                    dokunuşla dağıtım listenize alabilirsiniz.
+                    Henüz kuryeye atanmamış paketleri mahalle veya bina bazında tek dokunuşla
+                    üzerinize alabilirsiniz. Alınan paketler planlı listenize eklenir; hazır
+                    olduğunuzda Dağıtım Listem sekmesinden <strong>Seferi Başlat</strong> diyebilirsiniz.
                   </p>
-                  {!activeCourierOnShift && (
+                  {!activeCourierOnShift && !canManageDispatch && (
                     <div className="mt-3 rounded-xl border border-[#E8C589] bg-[#FFF8EB] p-3 text-sm font-semibold text-[#5C3A0E]">
-                      Vardiya durumunuz kapalı görünüyor. Kendi adınıza paket almak için yönetici
-                      ekip ekranından vardiyanızı açtırın.
+                      Vardiyanız şu an kapalı. Paketleri planlı olarak üzerinize alabilir veya
+                      üst başlıktaki butondan vardiyanızı açabilirsiniz.
+                    </div>
+                  )}
+                  {canManageDispatch && !targetClaimCourierId && (
+                    <div className="mt-3 rounded-xl border border-[#E8C589] bg-[#FFF8EB] p-3 text-sm font-semibold text-[#5C3A0E]">
+                      Tezgahtan paket zimmetlemek için yukarıdaki yönetici seçicisinden hedef bir
+                      kurye seçin.
                     </div>
                   )}
                 </div>
+
+                {selectedBenchIds.size > 0 && (
+                  <div className="sticky top-2 z-10 flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-[#3B1E1A] bg-[#3B1E1A] p-3.5 text-white shadow-md">
+                    <span className="text-sm font-bold">
+                      {selectedBenchIds.size} paket seçildi
+                    </span>
+                    <div className="flex flex-wrap items-center gap-2">
+                      <button
+                        type="button"
+                        disabled={bulkClaiming || (canManageDispatch && !targetClaimCourierId)}
+                        onClick={() => void handleBulkClaim(Array.from(selectedBenchIds))}
+                        className="min-h-11 rounded-xl bg-[#B4532A] px-4 text-sm font-bold text-white transition hover:bg-[#9C4421] disabled:opacity-60"
+                      >
+                        {bulkClaiming
+                          ? "Alınıyor..."
+                          : `Seçilen ${selectedBenchIds.size} Paketi Üzerime Al`}
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => setSelectedBenchIds(new Set())}
+                        className="min-h-11 rounded-xl border border-white/25 px-3 text-xs font-semibold text-white/90 hover:bg-white/10"
+                      >
+                        Temizle
+                      </button>
+                    </div>
+                  </div>
+                )}
 
                 {data.claimableBench.length === 0 ? (
                   <div className="rounded-2xl border border-[#E2D3BD] bg-[#FFFFFF] p-8 text-center shadow-sm">
@@ -1262,72 +1649,156 @@ export default function KuryeDispatchPage() {
                     </p>
                   </div>
                 ) : (
-                  <div className="space-y-3">
-                    {data.claimableBench.map((item) => {
-                      const isCari = Boolean(item.cariId) || item.paymentMethod === "cari";
-                      const busy = claimingId === item.id;
+                  <div className="space-y-5">
+                    {benchClusters.map((cluster) => {
+                      const clusterItems = cluster.orderIds
+                        .map((id) => data.claimableBench.find((b) => b.id === id))
+                        .filter((item): item is BenchItem => item !== undefined);
 
                       return (
-                        <article
-                          key={item.id}
-                          className="rounded-2xl border border-[#E2D3BD] bg-[#FFFFFF] p-4 shadow-sm sm:p-5"
+                        <section
+                          key={cluster.neighborhood}
+                          className="rounded-2xl border border-[#E2D3BD] bg-[#FBF6EC] p-3.5 shadow-sm sm:p-4"
                         >
-                          <div className="flex flex-wrap items-start justify-between gap-3">
+                          <div className="flex flex-wrap items-center justify-between gap-2 border-b border-[#E2D3BD] pb-3">
                             <div>
-                              <div className="flex flex-wrap items-center gap-2">
-                                <span className="font-mono text-xl font-extrabold text-[#3B1E1A]">
-                                  {item.orderNumber}
-                                </span>
-                                <span className="rounded-lg bg-[#F3E2D4] px-2.5 py-1 text-xs font-bold text-[#8E3D1B]">
-                                  {formatStatusLabel(item.status)}
-                                </span>
-                                {item.deliveryTimeWindow && (
-                                  <span className="font-mono text-xs font-semibold text-[#6E5148]">
-                                    {item.deliveryTimeWindow}
-                                  </span>
-                                )}
-                              </div>
-                              <h3 className="mt-1.5 font-serif text-lg font-bold text-[#3B1E1A]">
-                                {item.customerName}
+                              <h3 className="font-serif text-lg font-bold text-[#3B1E1A]">
+                                {cluster.neighborhood}
                               </h3>
-                              <p className="text-sm text-[#6E5148]">
-                                {item.neighborhood ? `${item.neighborhood} · ` : ""}
-                                {item.address}
+                              <p className="text-xs font-semibold text-[#6E5148]">
+                                {cluster.totalOrders} paket · {cluster.totalUnits} adet ürün
                               </p>
                             </div>
+                            <button
+                              type="button"
+                              disabled={
+                                bulkClaiming || (canManageDispatch && !targetClaimCourierId)
+                              }
+                              onClick={() => void handleBulkClaim(cluster.orderIds)}
+                              className="min-h-11 rounded-xl bg-[#3B1E1A] px-4 text-sm font-bold text-white transition hover:bg-[#522B25] disabled:opacity-50"
+                            >
+                              {bulkClaiming
+                                ? "Alınıyor..."
+                                : `Tüm Mahalleyi Üzerime Al (${cluster.orderIds.length})`}
+                            </button>
+                          </div>
 
-                            <div className="text-right">
-                              <span
-                                className={`inline-block rounded-lg px-2.5 py-1 text-xs font-bold ${
-                                  isCari
-                                    ? "border border-[#C9B398] bg-[#EFE7DA] text-[#3B1E1A]"
-                                    : "bg-[#FBF6EC] text-[#3B1E1A]"
-                                }`}
-                              >
-                                {isCari
-                                  ? `CARİ${item.cariName ? ` · ${item.cariName}` : ""}`
-                                  : formatPaymentMethodLabel(item.paymentMethod)}
-                              </span>
-                              <p className="mt-1 font-mono text-xl font-extrabold tabular-nums text-[#3B1E1A]">
-                                {formatCurrency(item.totalAmount)}
-                              </p>
+                          {cluster.buildingClusters.length > 0 && (
+                            <div className="mt-2.5 flex flex-wrap gap-2">
+                              {cluster.buildingClusters.map((b) => (
+                                <button
+                                  key={b.key}
+                                  type="button"
+                                  disabled={
+                                    bulkClaiming || (canManageDispatch && !targetClaimCourierId)
+                                  }
+                                  onClick={() => void handleBulkClaim(b.orderIds)}
+                                  className="inline-flex min-h-11 items-center gap-1.5 rounded-xl border border-[#D7A98B] bg-[#FFF4EC] px-3 text-xs font-bold text-[#3B1E1A] transition hover:bg-[#F9E6D8] disabled:opacity-50"
+                                >
+                                  <span>Aynı Bina ({b.count}):</span>
+                                  <span className="max-w-[200px] truncate">{b.label}</span>
+                                  <span className="text-[#8E3D1B]">· Hepsini Al</span>
+                                </button>
+                              ))}
                             </div>
-                          </div>
+                          )}
 
-                          <div className="mt-3 rounded-xl border border-[#E2D3BD] bg-[#FBF6EC] px-3.5 py-2.5 text-sm text-[#3B1E1A]">
-                            <strong>Paket Özeti: </strong>
-                            {item.itemsSummary || "Kalem özeti yok"}
-                          </div>
+                          <div className="mt-3 space-y-3">
+                            {clusterItems.map((item) => {
+                              const isCari = Boolean(item.cariId) || item.paymentMethod === "cari";
+                              const busy = claimingId === item.id;
+                              const checked = selectedBenchIds.has(item.id);
 
-                          <button
-                            type="button"
-                            disabled={busy || (!activeCourierOnShift && !data.isAdmin)}
-                            onClick={() => void handleClaimOrder(item)}
-                            className="mt-3 min-h-12 w-full rounded-xl bg-[#B4532A] px-5 text-base font-bold text-white shadow-sm transition hover:bg-[#9C4421] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#3B1E1A] disabled:opacity-50"
-                          >
-                            {busy ? "Üzerinize Alınıyor..." : "Üzerime Al"}
-                          </button>
-                        </article>
+                              return (
+                                <article
+                                  key={item.id}
+                                  className={`rounded-2xl border bg-[#FFFFFF] p-4 shadow-sm sm:p-5 ${
+                                    checked ? "border-[#B4532A] ring-2 ring-[#B4532A]/25" : "border-[#E2D3BD]"
+                                  }`}
+                                >
+                                  <div className="flex flex-wrap items-start justify-between gap-3">
+                                    <div className="flex items-start gap-3">
+                                      <label className="inline-flex min-h-11 min-w-11 cursor-pointer items-center justify-center rounded-xl border border-[#E2D3BD] bg-[#FBF6EC]">
+                                        <input
+                                          type="checkbox"
+                                          checked={checked}
+                                          aria-label={`${item.orderNumber} seçim`}
+                                          onChange={(e) => {
+                                            const nextChecked = e.target.checked;
+                                            setSelectedBenchIds((prev) => {
+                                              const next = new Set(prev);
+                                              if (nextChecked) next.add(item.id);
+                                              else next.delete(item.id);
+                                              return next;
+                                            });
+                                          }}
+                                          className="h-5 w-5 accent-[#B4532A]"
+                                        />
+                                      </label>
+                                      <div>
+                                        <div className="flex flex-wrap items-center gap-2">
+                                          <span className="font-mono text-xl font-extrabold text-[#3B1E1A]">
+                                            {item.orderNumber}
+                                          </span>
+                                          <span className="rounded-lg bg-[#F3E2D4] px-2.5 py-1 text-xs font-bold text-[#8E3D1B]">
+                                            {formatStatusLabel(item.status)}
+                                          </span>
+                                          {item.deliveryTimeWindow && (
+                                            <span className="font-mono text-xs font-semibold text-[#6E5148]">
+                                              {item.deliveryTimeWindow}
+                                            </span>
+                                          )}
+                                        </div>
+                                        <h4 className="mt-1.5 font-serif text-lg font-bold text-[#3B1E1A]">
+                                          {item.customerName}
+                                        </h4>
+                                        <p className="text-sm text-[#6E5148]">
+                                          {item.neighborhood ? `${item.neighborhood} · ` : ""}
+                                          {item.address}
+                                        </p>
+                                      </div>
+                                    </div>
+
+                                    <div className="text-right">
+                                      <span
+                                        className={`inline-block rounded-lg px-2.5 py-1 text-xs font-bold ${
+                                          isCari
+                                            ? "border border-[#C9B398] bg-[#EFE7DA] text-[#3B1E1A]"
+                                            : "bg-[#FBF6EC] text-[#3B1E1A]"
+                                        }`}
+                                      >
+                                        {isCari
+                                          ? `CARİ${item.cariName ? ` · ${item.cariName}` : ""}`
+                                          : formatPaymentMethodLabel(item.paymentMethod)}
+                                      </span>
+                                      <p className="mt-1 font-mono text-xl font-extrabold tabular-nums text-[#3B1E1A]">
+                                        {formatCurrency(item.totalAmount)}
+                                      </p>
+                                    </div>
+                                  </div>
+
+                                  <div className="mt-3 rounded-xl border border-[#E2D3BD] bg-[#FBF6EC] px-3.5 py-2.5 text-sm text-[#3B1E1A]">
+                                    <strong>Paket Özeti: </strong>
+                                    {item.itemsSummary || "Kalem özeti yok"}
+                                  </div>
+
+                                  <button
+                                    type="button"
+                                    disabled={
+                                      busy ||
+                                      bulkClaiming ||
+                                      (canManageDispatch && !targetClaimCourierId)
+                                    }
+                                    onClick={() => void handleClaimOrder(item)}
+                                    className="mt-3 min-h-12 w-full rounded-xl bg-[#B4532A] px-5 text-base font-bold text-white shadow-sm transition hover:bg-[#9C4421] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#3B1E1A] disabled:opacity-50"
+                                  >
+                                    {busy ? "Üzerinize Alınıyor..." : "Üzerime Al"}
+                                  </button>
+                                </article>
+                              );
+                            })}
+                          </div>
+                        </section>
                       );
                     })}
                   </div>
@@ -1442,7 +1913,7 @@ export default function KuryeDispatchPage() {
       </div>
 
       {/* Print-only thermal labels (hidden while Sevk İrsaliyesi modal is open) */}
-      {data && printOrders.length > 0 && !hotSaleModalOpen && (
+      {data && printOrders.length > 0 && !hotSaleModalOpen && !b2bDeliverStop && (
         <DeliveryLabels orders={printOrders} date={selectedDate} />
       )}
 
@@ -1578,6 +2049,22 @@ export default function KuryeDispatchPage() {
         isAdmin={data?.isAdmin ?? false}
         delivererName={data?.courier?.displayName}
         onCompleted={() => {
+          void fetchDispatch({ silent: true });
+        }}
+      />
+
+      {/* Faz 7 — Kapıda Esnek B2B Teslimat, İade & Kısmi Tahsilat Modalı */}
+      <B2BFlexibleDeliveryModal
+        stop={b2bDeliverStop}
+        onClose={() => setB2bDeliverStop(null)}
+        accounts={data?.b2bAccounts ?? []}
+        products={data?.catalogProducts ?? []}
+        isAdmin={data?.isAdmin ?? false}
+        onCompleted={() => {
+          setFeedback({
+            kind: "success",
+            text: "Esnek B2B teslimat & cari kaydı tamamlandı.",
+          });
           void fetchDispatch({ silent: true });
         }}
       />

@@ -40,6 +40,7 @@ interface OrderRow {
   phone: string | null;
   delivery_address: string | null;
   neighborhood: string | null;
+  district: string | null;
   delivery_method: string | null;
   delivery_date: string;
   delivery_time_window: string | null;
@@ -136,6 +137,7 @@ export interface DispatchStop extends RoutableStop {
   customerPhone: string;
   address: string;
   neighborhood: string;
+  district: string;
   deliveryNote: string;
   lat: number | null;
   lng: number | null;
@@ -149,6 +151,7 @@ export interface DispatchStop extends RoutableStop {
   cariName: string | null;
   stopSequence: number | null;
   courierId: string | null;
+  courierName: string | null;
 }
 
 function parseCustomPrices(raw: unknown): Record<string, number> {
@@ -174,10 +177,11 @@ function formatDeliveryNote(orderNotes: string | null, courierNotes: string | nu
  * - `date` verilmezse İstanbul bugünü kullanılır.
  */
 export async function GET(req: Request) {
-  const guard = await requireActiveCourierOrAdmin(req);
+  const guard = await requireActiveCourierOrAdmin(req, { allowStaff: true });
   if (!guard.ok) return guard.response;
 
   try {
+    const canManageDispatch = guard.auth.isAdmin || guard.auth.role === "staff";
     const url = new URL(req.url);
     const rawDate = url.searchParams.get("date");
     if (rawDate && !isIsoDate(rawDate)) {
@@ -188,7 +192,7 @@ export async function GET(req: Request) {
     const rawCourierId = url.searchParams.get("courierId");
     let targetCourierId: string | null = guard.courierDbId;
 
-    if (guard.auth.isAdmin) {
+    if (canManageDispatch) {
       if (rawCourierId === "all") {
         targetCourierId = null;
       } else if (rawCourierId) {
@@ -205,7 +209,7 @@ export async function GET(req: Request) {
       return NextResponse.json({ error: "Veritabanı bağlantısı kurulamadı." }, { status: 500 });
     }
 
-    // Kurye profili ve admin için aktif kurye listesi
+    // Kurye profili ve admin/personel için aktif kurye listesi
     let selectedCourier: {
       id: string;
       displayName: string;
@@ -219,7 +223,7 @@ export async function GET(req: Request) {
       isOnShift: boolean;
     }[] = [];
 
-    if (guard.auth.isAdmin) {
+    if (canManageDispatch) {
       const { data: courierRows, error: courErr } = await supabase
         .from("couriers")
         .select("id, profile_id, display_name, phone, vehicle_type, is_active, is_on_shift")
@@ -255,18 +259,19 @@ export async function GET(req: Request) {
     }
 
     // Siparişler, aktif cariler ve aktif ürünler paralel çekilir
+    const orderColumns =
+      "id, order_number, status, customer_name, phone, delivery_address, neighborhood, district, delivery_method, delivery_date, delivery_time_window, order_notes, courier_notes, customer_lat, customer_lng, delivery_lat, delivery_lng, total_amount, payment_method, payment_status, cari_id, courier_id, stop_sequence, created_at";
+
     let myOrdersQuery = supabase
       .from("orders")
-      .select(
-        "id, order_number, status, customer_name, phone, delivery_address, neighborhood, delivery_method, delivery_date, delivery_time_window, order_notes, courier_notes, customer_lat, customer_lng, delivery_lat, delivery_lng, total_amount, payment_method, payment_status, cari_id, courier_id, stop_sequence, created_at"
-      )
+      .select(orderColumns)
       .eq("delivery_date", targetDate)
       .eq("delivery_method", "courier")
-      .neq("status", "iptal");
+      .in("status", ["hazirlaniyor", "firinda", "kuryede", "teslim_edildi"]);
 
     if (targetCourierId) {
       myOrdersQuery = myOrdersQuery.eq("courier_id", targetCourierId);
-    } else if (guard.auth.isAdmin) {
+    } else if (canManageDispatch) {
       myOrdersQuery = myOrdersQuery.not("courier_id", "is", null);
     } else {
       // courierDbId olmayan kurye boş durak görür
@@ -275,9 +280,7 @@ export async function GET(req: Request) {
 
     const benchQuery = supabase
       .from("orders")
-      .select(
-        "id, order_number, status, customer_name, phone, delivery_address, neighborhood, delivery_method, delivery_date, delivery_time_window, order_notes, courier_notes, customer_lat, customer_lng, delivery_lat, delivery_lng, total_amount, payment_method, payment_status, cari_id, courier_id, stop_sequence, created_at"
-      )
+      .select(orderColumns)
       .eq("delivery_date", targetDate)
       .eq("delivery_method", "courier")
       .is("courier_id", null)
@@ -441,6 +444,14 @@ export async function GET(req: Request) {
       }
     }
 
+    const courierNameMap = new Map<string, string>();
+    for (const c of adminCouriers) {
+      courierNameMap.set(c.id, c.displayName);
+    }
+    if (selectedCourier) {
+      courierNameMap.set(selectedCourier.id, selectedCourier.displayName);
+    }
+
     const toStop = (o: OrderRow): DispatchStop => {
       const totalAmount = cents(Number(o.total_amount) || 0);
       const orderPayments = paymentsByOrder.get(o.id) ?? [];
@@ -465,6 +476,7 @@ export async function GET(req: Request) {
         customerPhone: o.phone || "",
         address: o.delivery_address || "",
         neighborhood: o.neighborhood || "Beylikdüzü",
+        district: o.district || "Beylikdüzü",
         deliveryNote: formatDeliveryNote(o.order_notes, o.courier_notes),
         lat: typeof lat === "number" && Number.isFinite(lat) ? lat : null,
         lng: typeof lng === "number" && Number.isFinite(lng) ? lng : null,
@@ -480,6 +492,7 @@ export async function GET(req: Request) {
         deliveryTimeWindow: o.delivery_time_window,
         createdAt: o.created_at,
         courierId: o.courier_id ?? null,
+        courierName: o.courier_id ? courierNameMap.get(o.courier_id) ?? null : null,
       };
     };
 
@@ -544,8 +557,14 @@ export async function GET(req: Request) {
         orderNumber: stop.orderNumber,
         status: stop.status,
         customerName: stop.customerName,
+        customerPhone: stop.customerPhone,
         neighborhood: stop.neighborhood,
+        district: stop.district,
         address: stop.address,
+        deliveryNote: stop.deliveryNote,
+        deliveryMethod: o.delivery_method || "courier",
+        lat: stop.lat,
+        lng: stop.lng,
         deliveryTimeWindow: stop.deliveryTimeWindow ?? null,
         items: stop.items,
         itemsSummary: stop.items.map((it) => `${it.quantity}× ${it.productName}`).join(", "),
@@ -562,8 +581,10 @@ export async function GET(req: Request) {
     return NextResponse.json({
       date: targetDate,
       isAdmin: guard.auth.isAdmin,
+      canManageDispatch,
+      isOnShift: selectedCourier?.isOnShift ?? guard.isOnShift,
       courier: selectedCourier,
-      couriers: guard.auth.isAdmin ? adminCouriers : undefined,
+      couriers: canManageDispatch ? adminCouriers : undefined,
       myStops,
       deliveredStops,
       claimableBench,
