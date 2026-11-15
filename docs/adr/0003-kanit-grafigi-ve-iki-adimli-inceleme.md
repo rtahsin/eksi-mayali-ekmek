@@ -19,3 +19,9 @@
 
 ## Tetikleyici
 İnceleme kuyruğu Tahsin'in haftalık süresini aşarsa: ikinci bir alan uzmanı onaylayıcı.
+
+---
+
+## Kasım 2026 Güncellemesi (Tahsin Onaylı)
+- `claimHash` (`K011`) bütünlük kilidi korunur; ancak **deterministik tam metin doğrulayıcı (`paket_dogrula.py` / `SHA-256`) + `K006` sağlık-beyanı lint + `bas-elestirmen` denetiminden** geçen iddialarda `review: { by: "komuta-merkezi", at, hash }` mühürlemesi Komuta Merkezi tarafından otonom yapılabilir (`src/lib/knowledge/types.ts`).
+- `supportCheck.via` alanında `"notebooklm"` yanında yerel FTS5 tam metin doğrulaması (`"fts5_tam_metin"`) de geçerli kanıt yolu sayılır.

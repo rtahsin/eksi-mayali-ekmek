@@ -10,13 +10,13 @@ description: EkmekLab bilim sentezi (bilgi_sentezi_v2 SQLite FTS5 + paket_dogrul
   - Bilimsel kaynak motoru: `arastirma/bilgi_sentezi_v2/bilgi_sentezi.sqlite` (FTS5 tam metin arama, 2.541 kayıt).
   - Deterministik paket doğrulayıcı: `python -X utf8 arastirma/bilgi_sentezi_v2/araclar/paket_dogrula.py --konu KONU-XX` (veya `--hepsi`).
   - İçerik Üretim Stüdyosu: `arastirma/studyo/studyo_sunucu.py` (`http://localhost:8787` masaüstü + `/s24` mobil prompter & Wi-Fi medya kumandası). Python çalıştırırken `arastirma/ses/.venv_tts/Scripts/python.exe -X utf8` tercih edilir.
-- **`content/` & `src/app/bilim/` (Şerit 3 — Canlı Web):** Git altındadır. Değişiklik sonrası `npm run typecheck`, `npm test` ve `npm run build` 0 hata ile geçmelidir. `content/claims` içindeki `review` alanı Tahsin'in açık onayı olmadan yazılmaz (`claimHash` kuralı `K011`).
+- **`content/` & `src/app/bilim/` (Şerit 3 — Canlı Web):** Git altındadır. Değişiklik sonrası `npm run typecheck`, `npm test` ve `npm run build` 0 hata ile geçmelidir. `content/claims` içindeki `claimHash` (`K011`) bütünlük kilidi korunur; deterministik `paket_dogrula.py` (`SHA-256`) + `K006` lint + `bas-elestirmen` denetiminden geçen iddialarda Komuta Merkezi `review: { by: "komuta-merkezi", ... }` mühürlemesini doğrudan yazabilir.
 
 ## 2. K006 — Fizikokimyasal Bilim Dili (Sıfır Sağlık Vaadi)
 - Hiçbir mecrada (web, kitap, Instagram, YouTube, kese kâğıdı gazetesi) *"sağlıklı, şifa, sindirimi kolay, bağırsak dostu, kan şekeri, insülin, glisemik indeks, hastalığı önler"* ifadeleri kullanılamaz.
 - Bilim daima **hamurda, fırında ve sofrada ne olduğu** üzerinden anlatılır: pH düşüşü, laktik/asetik asit dengesi, fitaz aktivitesi, nişasta jelatinleşmesi ve retrogradasyonu, Maillard reaksiyonu, kabuk çıtırtısı ve gözenek mimarisi.
 
 ## 3. Ekmek + Eşlikçi Büyüme Döngüsü (Beylikdüzü & Sosyal)
-- **Fiziksel → Dijital:** Her somun kese kâğıdındaki **Taş Fırın Gazetesi** (`ekmeklab.tr/bilim?sayi=01..04`) QR koduyla okuyucuyu ilgili bilimsel levhaya ve tek tıkla sıcak fırın sepetine taşır.
-- **Sepet Büyütme (Ücretsiz Teslimat Eşiği):** Günlük taş fırın ekmeği müşteri mıknatısıdır; günlük taze Jersey yoğurdu, çiğ Jersey sütü, sucuk, yumurta, yufka, peynir ve kavurma gibi **fırın kapasitesi tüketmeyen (`capacityUnits = 0`) eşlikçiler** sepet tutarını ücretsiz teslimat eşiğinin üzerine taşır ve kurye birim ekonomisini kârlı hale getirir.
+- **Fiziksel → Dijital:** Her somun kese kâğıdındaki **Taş Fırın Gazetesi** (`ekmeklab.tr/bilim?sayi=01..04`) ve şarküteri kraft pencereli paket etiketi (`ekmeklab.tr/?etiket=1`) QR koduyla okuyucuyu ilgili bilimsel levhaya ve tek tıkla sıcak fırın sepetine taşır.
+- **Sepet Büyütme (0 ₺ Alt Limitsiz Ücretsiz Teslimat + Komşu Kümeleme):** Beylikdüzü'nde minimum sepet tutarı ve teslimat ücreti (`0 ₺`) uygulanmaz. Günlük taş fırın ekmeği müşteri mıknatısıdır; günlük taze Jersey yoğurdu, çiğ Jersey sütü, sucuk, yumurta, yufka, peynir ve kavurma gibi **fırın kapasitesi tüketmeyen (`capacityUnits = 0`) eşlikçiler** ile apartman/komşu kümelemesi doğal sepet ortalamasını ve kurye birim ekonomisini kârlı hale getirir.
 - Resmi sosyal hesaplar `src/lib/site.ts` içindeki `SOCIAL` sabitinden okunur (`@ekmeklabtr` Instagram, `@ekmeklab` YouTube, `@ekmek.lab` TikTok).

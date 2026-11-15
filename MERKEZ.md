@@ -72,5 +72,6 @@
 
 - **Ana Mimari ve Faz Kaydı:** [`docs/YOL_HARITASI.md`](file:///F:/ekmeklab_app/docs/YOL_HARITASI.md) · [`docs/MIMARI.md`](file:///F:/ekmeklab_app/docs/MIMARI.md) · [`docs/MARKA.md`](file:///F:/ekmeklab_app/docs/MARKA.md).
 - **Sıradaki Web & Operasyon Adımları:**
-  - [ ] Admin panelinde **Sofralık Eşlikçiler** kategorisi (yumurta, süt, yoğurt, sucuk, kavurma) + lojistik başa-baş noktasını koruyan **minimum sepet tutarı** ve **kalıp özel ekmek günü** (ör. Cuma/Cumartesi 30 adetlik Kalıp Çavdar kotası) ayarlarının girilmesi.
+  - [ ] Canlı Supabase veritabanında `031` + `032` kurumsal admin/RBAC/B2B/kurye migration paketlerinin (`supabase_mcp` bağlandıktan sonra Komuta Merkezi tarafından veya SQL Editor'den) uygulanması.
+  - [ ] Admin panelinde **Sofralık Eşlikçiler** kategorisi (yumurta, süt, yoğurt, sucuk, kavurma), **`0 ₺` alt limitsiz ücretsiz teslimat** modeliyle uyumlu vitrin kontrolü ve **kalıp özel ekmek günü** (ör. Cuma/Cumartesi 30 adetlik Kalıp Çavdar kotası) ayarlarının girilmesi.
   - [ ] Samsung S24 ile ekmek + eşlikçi sofra fotoğraflarının çekilip vitrine yüklenmesi ve 1 haftalık canlı sipariş/teslimat (`/kurye` + "Fırından çıktı") sınaması.

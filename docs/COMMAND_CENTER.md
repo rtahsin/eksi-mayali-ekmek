@@ -1,8 +1,8 @@
 # EkmekLab Ana Komuta Merkezi (`COMMAND_CENTER.md`)
 
 > **Son Güncelleme:** 2026-11-15  
-> **Aktif Çalışma Paketi:** CEO Operasyon Kokpiti, Sıfır-Sürtünmeli Kurye Dağıtımı & B2B Cari Sipariş Mimarisi (Faz 0 – Faz 8 ✅ Tamamlandı)  
-> **Doğrulama Kapısı:** `npm run typecheck` · `npm test` · `npm run build` (Faz 0–8 sonrası son doğrulamadan geçirildi)  
+> **Aktif Çalışma Paketi:** CEO Operasyon Kokpiti, Sıfır-Sürtünmeli Kurye Dağıtımı, B2B Cari Mimarisi & Anayasa Modernizasyonu (Faz 0 – Faz 9 ✅ Tamamlandı)  
+> **Doğrulama Kapısı:** `npm run typecheck` · `npm test` · `npm run build` (Faz 0–9 sonrası son doğrulamadan geçirildi)  
 > **Kanonik Kök Belgeler:** [`MERKEZ.md`](../MERKEZ.md) · [`AGENTS.md`](../AGENTS.md) · [`docs/MIMARI.md`](MIMARI.md)
 
 ---
@@ -53,11 +53,12 @@
 | **Faz 6** | Mahalle & Apartman küme şeridi, satır içi tek tık kurye hapı, planlı zimmet vs yolda ayrımı, self-vardiya, tarih+arama fix, rota sıralı etiketler | `kurye-ve-b2b-uzmani` | ✅ Tamamlandı |
 | **Faz 7** | 10 sn B2B `CariQuickOrderModal` (`inputmode="numeric"`), *Son Siparişi Doldur*, Haftalık Sabit Rutin üretimi, URL ön-dolum & `/kurye` esnek B2B teslimat | `kurye-ve-b2b-uzmani` | ✅ Tamamlandı |
 | **Faz 8** | CEO Komuta Kokpiti (`/admin` 4 duraklı operasyon rayı + kasa/zimmet ayrımı + B2B kredi radarı), `⌘K` Hızlı İşlem paleti, üretim çifte sayım fix & CRM/baskı köprüleri | `admin-kurumsal-mimari` | ✅ Tamamlandı |
+| **Faz 9** | Anayasa & Otonomi Modernizasyonu (`AGENTS.md`, `MERKEZ.md`, `SKILL.md`, `ADR-0003`/`0005`, `types.ts`): RBAC `requireCapability`, `031`–`032`, `0 ₺` teslimat, `supabase_mcp` + `K011` + `studyo/` yetki temizliği | Orkestratör | ✅ Tamamlandı |
 
 ---
 
-## 4. Kurucu (Tahsin) İçin Bekleyen Veritabanı Adımı (Tek Manuel Adım)
-- Supabase Dashboard → SQL Editor içinde sırasıyla:
-  1. (Henüz uygulanmadıysa) **`supabase/migrations/031_enterprise_admin_rbac_b2b.sql`** (`ROLLBACK` → `COMMIT`) ve **`supabase/tests/031_enterprise_admin_rbac_b2b.sql`**
-  2. **`supabase/migrations/032_zero_friction_dispatch_b2b_cockpit.sql`** (`ROLLBACK` → `COMMIT`) ve **`supabase/tests/032_zero_friction_dispatch_b2b_cockpit.sql`**
-  çalıştırılmalıdır. (**Yeni `/admin/ekip`, `staff` okuma yetkileri, sabit rutin üretimi, serbest kalem ve kapıda esnek B2B teslimat kullanılmadan ÖNCE uygulanmalıdır.**)
+## 4. Kurucu (Tahsin) İçin Bekleyen Veritabanı & Fiziksel Adımlar
+- **Veritabanı (`031` & `032`):** PC başına geçildiğinde `supabase_mcp` OAuth girişi 1 kez açıldığında Komuta Merkezi önce `BEGIN…ROLLBACK` duman testini doğrulayıp ardından aşağıdaki iki migration'ı doğrudan canlıya uygulayacaktır (alternatif olarak SQL Editor'den manuel çalıştırılabilir):
+  1. **`supabase/migrations/031_enterprise_admin_rbac_b2b.sql`** (`supabase/tests/031_enterprise_admin_rbac_b2b.sql`)
+  2. **`supabase/migrations/032_zero_friction_dispatch_b2b_cockpit.sql`** (`supabase/tests/032_zero_friction_dispatch_b2b_cockpit.sql`)
+  *(Yeni `/admin/ekip`, `staff` okuma yetkileri, sabit rutin üretimi, serbest kalem ve kapıda esnek B2B teslimat kullanılmadan ÖNCE uygulanmalıdır.)*

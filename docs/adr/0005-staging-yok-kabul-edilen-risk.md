@@ -18,3 +18,9 @@ Staging kurulmaz. Riski azaltan önlemler:
 
 ## Tetikleyici (yeniden değerlendir)
 İkinci bir insan katkıcı, online ödeme entegrasyonu ya da ilk önizleme kaynaklı veri kazası.
+
+---
+
+## Kasım 2026 Güncellemesi (Tahsin Onaylı)
+- Canlı veriyi silen veya bozan service-role script'lerinin yasağı (`ALLOW_PROD_WRITES=1` + `TEST` öneki zorunluluğu) aynen korunur.
+- **Resmi `supabase_mcp` eklentisi bağlıyken** Komuta Merkezi önce `supabase/tests/NNN_*.sql` (`BEGIN…ROLLBACK`) duman testini çalıştırıp doğruladıktan sonra migration dosyalarını doğrudan uygulayabilir ve RLS/indeks denetimi yürütebilir; `supabase_mcp` bağlı değilse SQL'i Tahsin Supabase SQL Editor'de (`ROLLBACK` → `COMMIT`) çalıştırır.

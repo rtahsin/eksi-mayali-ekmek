@@ -5,14 +5,15 @@ description: EkmekLab admin paneli (/admin/**), ürün ve eşlikçi katalog yön
 
 # EkmekLab Admin, Katalog & Cari Operasyon Kuralları
 
-## 1. Güvenlik & Tek Yazar İlkesi
-- `src/app/api/admin/**` altındaki her handler ilk iki satırda `requireAdmin(req)` çağırır:
+## 1. Güvenlik, RBAC & Tek Yazar İlkesi
+- `src/app/api/admin/**` altındaki her handler ilk iki satırda yetki alanına göre granüler `requireCapability(req, "<capability>")` (`src/lib/security/capabilities.ts` — ör. `orders.ops`, `cari.read`, `cari.hot_sale`, `production.ops`) veya yalnız yöneticiye açık finans/ayar/ekip rotalarında `requireAdmin(req)` çağırır:
   ```ts
-  const guard = await requireAdmin(req);
+  const guard = await requireCapability(req, "orders.ops");
   if (!guard.ok) return guard.response;
   ```
+- `staff` rolü yalnız operasyonu görür (`dashboard.ops`, `orders.read`, `orders.ops`, `production.ops`); Z-Özeti, ciro, cari bakiye ve mağaza ayarlarına erişemez.
 - İstemci gövdesinden gelen `isAdmin`, `userId`, `cariId` alanlarına asla güvenilmez.
-- Sipariş ve cari yazımları yalnızca atomik RPC'ler (`create_order_atomic`, `mark_order_delivered`, `record_order_payment`, `cancel_order_atomic`, `record_cari_transaction_atomic`) üzerinden yapılır; RPC hata verirse asla parçalı `insert` fallback'ine düşülmez (`500` dönülür).
+- Sipariş ve cari yazımları yalnızca atomik RPC'ler (`create_order_atomic`, `mark_order_delivered`, `deliver_b2b_order_flexible_atomic`, `record_order_payment`, `cancel_order_atomic`, `record_cari_transaction_atomic`, `record_b2b_hot_sale_atomic`) üzerinden yapılır; RPC hata verirse asla parçalı `insert` fallback'ine düşülmez (`500` dönülür).
 
 ## 2. Ekmek & Eşlikçi Katalog Girişi (`/admin/urunler`)
 - **Taş Fırın Kapasitesi Koruması:** Eşlikçi kategorilerinde (`isAccompanimentCategory(category)` — `mandira`, `sarkuteri`, `gurme`, `pantry`, `kiler`, `peynir`, `tereyag`, `sut`, `yogurt`, `yumurta`, `sucuk`, `yufka`, `kavurma`) `capacityUnits` varsayılan olarak **`0`** olmalıdır ki taş fırın somun kotasını tüketmesin. Ekmek kategorilerinde varsayılan `1`'dir.
@@ -23,7 +24,8 @@ description: EkmekLab admin paneli (/admin/**), ürün ve eşlikçi katalog yön
 - Görseller istemcide `src/lib/media/shrinkPhoto.ts` ile `<= 1600px` WebP (`<= 3.5 MB`) formatına küçültülüp `/api/admin/products/image-upload` (`product-images` bucket) rotasına yüklenir.
 - Tarayıcının çözemediği `.heic` / `.heif` dosyalarında kullanıcıya açık Türkçe yönlendirme gösterilir (*"HEIC formatı tarayıcıda açılamadı; S24 kamera ayarlarından JPG seçin veya JPEG/PNG yükleyin"*).
 
-## 4. Cari Hesap, Fiş & Makbuz Kuralları
+## 4. Cari Hesap, B2B, Kurye & Makbuz Kuralları
 - **Simetrik Bakiye:** `Bakiye = Toplam Borç (satis) - Toplam Alacak (tahsilat)`. Her fişte o işlemin `balance_after` değeri gösterilir.
 - Müşteri-yüzlü `/fis/[id]` ve `/ekstre/[id]` sayfalarında **asla** yeşil WhatsApp paylaşım butonu bulunmaz; yalnızca PNG ve UTF-8 BOM + `;` ayraçlı CSV indirilebilir.
+- **B2B Sıfır-Sürtünme & Ekip/Kurye Operasyonu:** `/admin/**` ve `/kurye` ekranları Açık Kurumsal "Atölye Kremi" temasındadır. B2B cariler için 10 sn Hızlı Sipariş Matrisi (`CariQuickOrderModal` + *Son Siparişi Doldur*), haftalık sabit rutin üretimi (`standing_order`), araçtan sıcak satış (`hot-sale`) ve kapıda esnek fire/iade teslimatı (`/deliver-b2b`) kullanılır. `/admin/ekip` üzerinden Google OAuth veya Google'sız telefon kuryeleri yönetilir; mahalle/apartman kümelemesi ve planlı atama vs *"Yolda"* ayrımı korunur.
 - `K006` gereği ürün adı, açıklama ve detay alanları kaydedilmeden önce `src/lib/knowledge/lint.ts` (`findHealthTerms`) denetiminden geçer.

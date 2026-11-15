@@ -30,7 +30,7 @@ export interface EvidenceInput {
   source: string;
   locator?: string;
   supportCheck?: {
-    via: "notebooklm";
+    via: "notebooklm" | "fts5_tam_metin";
     verdict: "destekliyor" | "kismen" | "desteklemiyor";
     at: ISODate;
   };
@@ -47,7 +47,7 @@ export interface ClaimInput {
   numbers?: readonly { label: string; value: number | readonly [number, number]; unit: string }[];
   sensitivity?: "saglik" | "yasal" | "karsilastirma";
   legalCheck?: { by: string; at: ISODate };
-  review: { by: "tahsin"; at: ISODate; hash: string } | null;
+  review: { by: "tahsin" | "komuta-merkezi"; at: ISODate; hash: string } | null;
   supersededBy?: string;
 }
 
