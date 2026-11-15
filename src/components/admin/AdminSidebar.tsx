@@ -15,6 +15,7 @@ import {
   ExternalLink,
   ShieldCheck,
   Flame,
+  Clapperboard,
   Users,
   UserCheck,
   Printer,
@@ -118,6 +119,12 @@ export function AdminSidebar({
       label: "Ürünler",
       href: "/admin/urunler",
       icon: Croissant,
+      capability: "products.manage",
+    },
+    {
+      label: "İçerik Stüdyosu",
+      href: "/admin/studyo",
+      icon: Clapperboard,
       capability: "products.manage",
     },
     {

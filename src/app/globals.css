@@ -391,3 +391,33 @@ dialog::backdrop {
   overflow: hidden;
   overscroll-behavior: contain;
 }
+
+dialog.studyo-modal-dialog::backdrop {
+  background: rgb(23 17 15 / 0.68);
+  backdrop-filter: blur(3px);
+}
+
+/* Bulut Stüdyo Sekme Çubuğu (modern-web-guidance `tabs`: boyut değiştirmeden alt çizgi göstergesi) */
+.studyo-tablist {
+  display: flex;
+  overflow-x: auto;
+  scroll-snap-type: inline proximity;
+  scroll-padding-inline: 1.5rem;
+}
+
+.studyo-tab-btn {
+  position: relative;
+  flex: none;
+  scroll-snap-align: start;
+}
+
+.studyo-tab-btn[aria-selected="true"] {
+  color: #8E3D1B;
+}
+
+.studyo-tab-btn[aria-selected="true"]::after {
+  content: "";
+  position: absolute;
+  inset: auto 0.5rem 0;
+  border-block-end: 3px solid #B4532A;
+}

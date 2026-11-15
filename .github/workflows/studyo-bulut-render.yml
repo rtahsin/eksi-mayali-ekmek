@@ -1,0 +1,51 @@
+name: Studyo Bulut 60fps Render
+
+on:
+  workflow_dispatch:
+    inputs:
+      job_id:
+        description: "Render kuyruğu iş kimliği (boş bırakılırsa sıradaki bekleyen iş alınır)"
+        required: false
+        default: ""
+      konu_id:
+        description: "Sayı kodu (örn. KONU-01)"
+        required: false
+        default: ""
+      format:
+        description: "Format (kisa_01 | kisa_02 | seri_b | uzun)"
+        required: false
+        default: ""
+
+concurrency:
+  group: studyo-render-${{ inputs.job_id || github.run_id }}
+  cancel-in-progress: false
+
+jobs:
+  render:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+
+      - name: FFmpeg ve Türkçe yazı tipi kurulumu
+        run: |
+          sudo apt-get update -y
+          sudo apt-get install -y ffmpeg fonts-dejavu-core
+
+      - name: Bağımlılıklar
+        run: npm ci
+
+      - name: 60 fps H.264 & -14 LUFS Bulut Render
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+          STUDYO_JOB_ID: ${{ inputs.job_id }}
+          STUDYO_KONU_ID: ${{ inputs.konu_id }}
+          STUDYO_FORMAT: ${{ inputs.format }}
+        run: node scripts/studyo_cloud_render.mjs

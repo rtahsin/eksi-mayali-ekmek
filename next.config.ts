@@ -71,6 +71,24 @@ const nextConfig: NextConfig = {
         source: "/:path*",
         headers: securityHeaders,
       },
+      {
+        source: "/admin/studyo",
+        headers: [
+          {
+            key: "Permissions-Policy",
+            value: "camera=(self), microphone=(self), geolocation=(self)",
+          },
+        ],
+      },
+      {
+        source: "/admin/studyo/:path*",
+        headers: [
+          {
+            key: "Permissions-Policy",
+            value: "camera=(self), microphone=(self), geolocation=(self)",
+          },
+        ],
+      },
     ];
   },
 };

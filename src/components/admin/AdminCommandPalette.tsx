@@ -9,6 +9,7 @@ import {
   Building2,
   CalendarPlus,
   CheckCircle2,
+  Clapperboard,
   Flame,
   Loader2,
   PlusCircle,
@@ -137,6 +138,7 @@ export function AdminCommandPalette({
   const canWriteCari = hasCapability(role, "cari.write");
   const canManageTeam = hasCapability(role, "team.manage");
   const canProduction = hasCapability(role, "production.ops");
+  const canManageProducts = hasCapability(role, "products.manage");
 
   const dialogRef = useRef<HTMLDialogElement | null>(null);
   const searchInputRef = useRef<HTMLInputElement | null>(null);
@@ -321,9 +323,21 @@ export function AdminCommandPalette({
         onSelect: () => navigateAndClose("/admin/cariler"),
       });
     }
+    if (canManageProducts) {
+      items.push({
+        id: "content-studyo",
+        label: "İçerik & Medya Stüdyosu (9:16)",
+        description: "S24 prompter ses kaydı, taş fırın klibi, Reels kurgu ve A5 gazete",
+        keywords: "studyo icerik video reels prompter ses kayit gazete tiktok youtube",
+        badge: "Bulut Stüdyo",
+        icon: Clapperboard,
+        onSelect: () => navigateAndClose("/admin/studyo"),
+      });
+    }
     return items;
   }, [
     canCreateOrders,
+    canManageProducts,
     canManageTeam,
     canProduction,
     canReadCari,
