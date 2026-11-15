@@ -1,8 +1,8 @@
 # EkmekLab Ana Komuta Merkezi (`COMMAND_CENTER.md`)
 
 > **Son Güncelleme:** 2026-11-15  
-> **Aktif Çalışma Paketi:** CEO Operasyon Kokpiti, Sıfır-Sürtünmeli Kurye Dağıtımı, B2B Cari Mimarisi & Anayasa Modernizasyonu (Faz 0 – Faz 9 ✅ Tamamlandı)  
-> **Doğrulama Kapısı:** `npm run typecheck` · `npm test` · `npm run build` (Faz 0–9 sonrası son doğrulamadan geçirildi)  
+> **Aktif Çalışma Paketi:** CEO Operasyon Kokpiti, Sıfır-Sürtünmeli Kurye Dağıtımı, B2B Cari Mimarisi, 033 Sertleştirme & Komuta MCP/Skill Paketi (Faz 0 – Faz 10 ✅ Tamamlandı)  
+> **Doğrulama Kapısı:** `npm run typecheck` · `npm test` · `npm run build` (Faz 0–10 sonrası son doğrulamadan geçirildi)  
 > **Kanonik Kök Belgeler:** [`MERKEZ.md`](../MERKEZ.md) · [`AGENTS.md`](../AGENTS.md) · [`docs/MIMARI.md`](MIMARI.md)
 
 ---
@@ -44,7 +44,7 @@
 | Faz | Kapsam | Sorumlu Ajan | Durum |
 | :--- | :--- | :--- | :--- |
 | **Faz 0** | `COMMAND_CENTER.md`, `.agents/agents/` kalıcı kayıtları, `SKILL.md` güncellemesi | Orkestratör | ✅ Tamamlandı |
-| **Faz 1** | `031_enterprise_admin_rbac_b2b.sql` + `031` test, `capabilities.ts`, `audit.ts`, `csv.ts`, `apiAuth.ts`, `proxy.ts`, KVKK & güvenlik yamaları | `guvenlik-ve-rbac-mimari` | ✅ Tamamlandı (SQL bekliyor) |
+| **Faz 1** | `031_enterprise_admin_rbac_b2b.sql` + `031` test, `capabilities.ts`, `audit.ts`, `csv.ts`, `apiAuth.ts`, `proxy.ts`, KVKK & güvenlik yamaları | `guvenlik-ve-rbac-mimari` | ✅ Tamamlandı (Canlıda) |
 | **Faz 2** | `/admin/ekip`, `/kurye` Açık Kurumsal Hibrit Zimmet & Kasa Konsolu, `/api/admin/team`, `/api/courier/dispatch`, `/api/orders/[id]/claim`, `/api/admin/orders/bulk-status` | `kurye-ve-b2b-uzmani` | ✅ Tamamlandı |
 | **Faz 3A** | Açık Kurumsal Admin Kabuğu, Onaylı Şalter, `staff` Finans Gizleme, Sunucu Sayfalamalı CRM (`/admin/musteriler`), Senkronlu `/admin/uretim` & Toplu Sipariş/Dağıtım (`/admin/siparisler`) | `admin-kurumsal-mimari` | ✅ Tamamlandı |
 | **Faz 3B** | Kalan Admin Ekranları (`urunler`, `baski`, `ayarlar`, `login`, `siparisler/[id]`, `yeni`, alt modallar) Açık Kurumsal "Atölye Kremi" Tema Dönüşümü | `admin-kurumsal-mimari` | ✅ Tamamlandı |
@@ -54,11 +54,13 @@
 | **Faz 7** | 10 sn B2B `CariQuickOrderModal` (`inputmode="numeric"`), *Son Siparişi Doldur*, Haftalık Sabit Rutin üretimi, URL ön-dolum & `/kurye` esnek B2B teslimat | `kurye-ve-b2b-uzmani` | ✅ Tamamlandı |
 | **Faz 8** | CEO Komuta Kokpiti (`/admin` 4 duraklı operasyon rayı + kasa/zimmet ayrımı + B2B kredi radarı), `⌘K` Hızlı İşlem paleti, üretim çifte sayım fix & CRM/baskı köprüleri | `admin-kurumsal-mimari` | ✅ Tamamlandı |
 | **Faz 9** | Anayasa & Otonomi Modernizasyonu (`AGENTS.md`, `MERKEZ.md`, `SKILL.md`, `ADR-0003`/`0005`, `types.ts`): RBAC `requireCapability`, `031`–`032`, `0 ₺` teslimat, `supabase_mcp` + `K011` + `studyo/` yetki temizliği | Orkestratör | ✅ Tamamlandı |
+| **Faz 10** | Canlı `bakery_settings` `0 ₺` teslimat + `"Beykent"` düzeltmesi, 10 canlı FK indeksi, `033_advisor_rls_and_fk_hardening.sql` (+ test), yerel `ekmeklab-komuta` MCP sunucusu & `ekmeklab-yerel-buyume-ve-birim-ekonomi` yeteneği | Orkestratör | ✅ Tamamlandı (032–033 SQL bekliyor) |
 
 ---
 
 ## 4. Kurucu (Tahsin) İçin Bekleyen Veritabanı & Fiziksel Adımlar
-- **Veritabanı (`031` & `032`):** PC başına geçildiğinde `supabase_mcp` OAuth girişi 1 kez açıldığında Komuta Merkezi önce `BEGIN…ROLLBACK` duman testini doğrulayıp ardından aşağıdaki iki migration'ı doğrudan canlıya uygulayacaktır (alternatif olarak SQL Editor'den manuel çalıştırılabilir):
-  1. **`supabase/migrations/031_enterprise_admin_rbac_b2b.sql`** (`supabase/tests/031_enterprise_admin_rbac_b2b.sql`)
-  2. **`supabase/migrations/032_zero_friction_dispatch_b2b_cockpit.sql`** (`supabase/tests/032_zero_friction_dispatch_b2b_cockpit.sql`)
-  *(Yeni `/admin/ekip`, `staff` okuma yetkileri, sabit rutin üretimi, serbest kalem ve kapıda esnek B2B teslimat kullanılmadan ÖNCE uygulanmalıdır.)*
+- **Canlıda Uygulananlar (15 Kasım 2026):** `031_enterprise_admin_rbac_b2b` canlıda aktif; `public.bakery_settings` (`0 ₺` teslimat, `0 ₺` alt limit ve `"Beykent"` mahallesi) canlıda güncellendi; `033` kapsamındaki 10 FK indeksi (`idx_*`) canlıya `IF NOT EXISTS` ile eklendi.
+- **Veritabanı (`032` & `033`):** `supabase_mcp` eklentisinin `apply_migration` ve `DROP` içeren `execute_sql` çağrıları istemci onay ekranını 0,1 sn içinde otomatik iptal ettiği için aşağıdaki iki dosyayı Supabase SQL Editor (`https://supabase.com/dashboard/project/yayxobdugadqjskddixj/sql/new`) üzerinde **sırasıyla** çalıştırman gerekiyor (önce `032` → `supabase/tests/032_*`, sonra `033` → `supabase/tests/033_*`):
+  1. **`supabase/migrations/032_zero_friction_dispatch_b2b_cockpit.sql`** → ardından **`supabase/tests/032_zero_friction_dispatch_b2b_cockpit.sql`** (`ROLLBACK` duman testi)
+  2. **`supabase/migrations/033_advisor_rls_and_fk_hardening.sql`** → ardından **`supabase/tests/033_advisor_rls_and_fk_hardening.sql`** (`ROLLBACK` duman testi)
+- **Supabase Auth Güvenliği:** Dashboard → *Authentication → Providers / Email / Security* altından **Leaked Password Protection** anahtarını aç.
