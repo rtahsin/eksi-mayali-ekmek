@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import * as Sentry from "@sentry/nextjs";
 import crypto from "crypto";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { logError, logWarn } from "@/lib/kernel/log";
@@ -55,6 +56,7 @@ export async function GET(req: Request) {
 
       if (deleteError) {
         logError("Konum tablosu temizleme hatası:", deleteError);
+        Sentry.captureException(deleteError, { tags: { cron: "cleanup-locations" } });
       } else {
         deletedLocationsCount = count ?? 0;
       }
@@ -133,6 +135,7 @@ export async function GET(req: Request) {
   } catch (err: unknown) {
     const message = err instanceof Error ? err.message : "Bilinmeyen sunucu hatası";
     logError("Cleanup cron exception:", err);
+    Sentry.captureException(err, { tags: { cron: "cleanup-locations" } });
     return NextResponse.json({ error: message }, { status: 500 });
   }
 }

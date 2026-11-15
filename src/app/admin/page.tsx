@@ -890,13 +890,21 @@ export default function TodayPage() {
                 <p className="text-xs text-[#6E5148]">Kasa ve kurye zimmeti yükleniyor…</p>
               )}
             </div>
-            <Link
-              href="/admin/ekip"
-              className="min-h-[44px] px-3 rounded-xl bg-[#FBF6EC] hover:bg-[#F3E2D4] border border-[#E2D3BD] text-xs font-bold text-[#3B1E1A] inline-flex items-center justify-between transition-colors"
-            >
-              <span>Kurye Mutabakatı</span>
-              <ArrowRight className="w-3.5 h-3.5 text-[#B4532A]" aria-hidden="true" />
-            </Link>
+            <div className="flex items-center gap-2">
+              <Link
+                href="/admin/ekip"
+                className="flex-1 min-h-[44px] px-3 rounded-xl bg-[#FBF6EC] hover:bg-[#F3E2D4] border border-[#E2D3BD] text-xs font-bold text-[#3B1E1A] inline-flex items-center justify-between transition-colors"
+              >
+                <span>Kurye Mutabakatı</span>
+                <ArrowRight className="w-3.5 h-3.5 text-[#B4532A]" aria-hidden="true" />
+              </Link>
+              <Link
+                href="/admin/finans"
+                className="min-h-[44px] px-3 rounded-xl bg-[#FBF6EC] hover:bg-[#F3E2D4] border border-[#E2D3BD] text-xs font-bold text-[#3B1E1A] inline-flex items-center justify-center transition-colors"
+              >
+                Finans &amp; Gider
+              </Link>
+            </div>
           </div>
         )}
       </section>

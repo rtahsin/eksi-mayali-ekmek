@@ -15,6 +15,7 @@ import {
   PlusCircle,
   Printer,
   Search,
+  TrendingUp,
   Truck,
   Users,
   Wallet,
@@ -134,6 +135,7 @@ export function AdminCommandPalette({
   const role = adminUser?.role ?? null;
   const canCreateOrders = hasCapability(role, "orders.ops");
   const canReadOrders = hasCapability(role, "orders.read");
+  const canReadFinance = hasCapability(role, "dashboard.finance");
   const canReadCari = hasCapability(role, "cari.read");
   const canWriteCari = hasCapability(role, "cari.write");
   const canManageTeam = hasCapability(role, "team.manage");
@@ -323,6 +325,17 @@ export function AdminCommandPalette({
         onSelect: () => navigateAndClose("/admin/cariler"),
       });
     }
+    if (canReadFinance) {
+      items.push({
+        id: "cfo-finance",
+        label: "Finans, Gider & Net Marj (CFO)",
+        description: "Hammadde/enerji giderleri, tedarikçi carileri ve net işletme kârı",
+        keywords: "finans gider maliyet tedarikci kar marj cfo kasa",
+        badge: "CFO",
+        icon: TrendingUp,
+        onSelect: () => navigateAndClose("/admin/finans"),
+      });
+    }
     if (canManageProducts) {
       items.push({
         id: "content-studyo",
@@ -341,6 +354,7 @@ export function AdminCommandPalette({
     canManageTeam,
     canProduction,
     canReadCari,
+    canReadFinance,
     canReadOrders,
     canWriteCari,
     navigateAndClose,

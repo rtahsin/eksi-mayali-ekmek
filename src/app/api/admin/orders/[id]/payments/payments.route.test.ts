@@ -11,6 +11,7 @@ vi.mock("@/lib/supabase/admin", () => ({
   createAdminClient: vi.fn().mockImplementation(() => ({
     rpc: mockRpc,
     from: vi.fn().mockReturnValue({
+      insert: vi.fn().mockResolvedValue({ error: null }),
       select: vi.fn().mockReturnValue({
         eq: vi.fn().mockReturnValue({
           order: vi.fn().mockResolvedValue({ data: [], error: null }),

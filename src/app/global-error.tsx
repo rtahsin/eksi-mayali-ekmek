@@ -16,33 +16,40 @@ export default function GlobalError({
       tags: { boundary: "global-error" },
     });
   }, [error]);
+
   return (
-    <html>
-      <body className="bg-[#120E0B] text-stone-200 font-sans min-h-screen flex items-center justify-center p-4">
-        <div className="max-w-md w-full bg-stone-900 border border-stone-800 rounded-2xl p-6 shadow-2xl text-center space-y-4">
-          <div className="w-16 h-16 rounded-full bg-rose-500/10 border border-rose-500/20 flex items-center justify-center mx-auto text-rose-500">
-            <AlertTriangle className="w-8 h-8" />
+    <html lang="tr">
+      <body className="bg-[#F6EEDF] text-[#3B1E1A] font-sans min-h-screen flex items-center justify-center p-4">
+        <div className="max-w-md w-full bg-[#FBF6EC] border border-[#E2D3BD] rounded-3xl p-6 shadow-md text-center space-y-4">
+          <div className="w-16 h-16 rounded-2xl bg-[#FEF3D6] border border-[#E8C587] flex items-center justify-center mx-auto text-[#7A4A0B]">
+            <AlertTriangle className="w-8 h-8" aria-hidden="true" />
           </div>
-          
-          <div className="space-y-1">
-            <h1 className="text-xl font-bold font-serif text-stone-100">Kritik Bir Hata Oluştu</h1>
-            <p className="text-sm text-stone-400">
-              Sistem beklenmeyen bir durumla karşılaştı. Uygulamanın tamamen çökmemesi için bu ekran gösteriliyor.
+
+          <div className="space-y-1.5">
+            <h1 className="text-xl font-bold font-serif text-[#3B1E1A]">
+              Beklenmeyen Bir Durum Oluştu
+            </h1>
+            <p className="text-sm text-[#6E5148]">
+              Hata otomatik olarak izleme sistemine kaydedildi. Sayfayı yeniden yükleyerek devam edebilirsiniz.
             </p>
           </div>
 
           {error?.message && (
-            <div className="p-3 bg-stone-950 rounded-xl text-xs font-mono text-rose-400 border border-stone-800 text-left overflow-x-auto">
+            <div
+              role="alert"
+              className="p-3 bg-[#FCECE9] rounded-xl text-xs font-mono text-[#7D2114] border border-[#E7B7AF] text-left overflow-x-auto"
+            >
               {error.message}
             </div>
           )}
 
           <button
+            type="button"
             onClick={() => reset()}
-            className="w-full flex items-center justify-center gap-2 py-3 px-4 bg-amber-500 hover:bg-amber-400 text-stone-950 font-bold rounded-xl transition-colors"
+            className="w-full min-h-11 flex items-center justify-center gap-2 py-3 px-4 bg-[#B4532A] hover:bg-[#9C4421] text-white font-bold text-sm rounded-xl transition-colors"
           >
-            <RefreshCw className="w-4 h-4" />
-            <span>Sistemi Yeniden Başlat</span>
+            <RefreshCw className="w-4 h-4" aria-hidden="true" />
+            <span>Uygulamayı Yeniden Başlat</span>
           </button>
         </div>
       </body>

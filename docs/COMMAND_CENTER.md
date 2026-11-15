@@ -1,8 +1,8 @@
 # EkmekLab Ana Komuta Merkezi (`COMMAND_CENTER.md`)
 
-> **Son Güncelleme:** 2026-11-15  
-> **Aktif Çalışma Paketi:** CEO Operasyon Kokpiti, Sıfır-Sürtünmeli Kurye Dağıtımı, B2B Cari Mimarisi, 033 Sertleştirme & Komuta MCP/Skill Paketi (Faz 0 – Faz 10 ✅ Tamamlandı)  
-> **Doğrulama Kapısı:** `npm run typecheck` · `npm test` · `npm run build` (Faz 0–10 sonrası son doğrulamadan geçirildi)  
+> **Son Güncelleme:** 2026-11-16  
+> **Aktif Çalışma Paketi:** CEO Operasyon Kokpiti, Sıfır-Sürtünmeli Kurye Dağıtımı, B2B Cari Mimarisi, 033 Sertleştirme, Komuta MCP/Sheets/Sentry & CFO Gider Merkezi (Faz 0 – Faz 11 ✅ Tamamlandı)  
+> **Doğrulama Kapısı:** `npm run typecheck` · `npm test` · `npm run build` (Faz 0–11 sonrası son doğrulamadan geçirildi)  
 > **Kanonik Kök Belgeler:** [`MERKEZ.md`](../MERKEZ.md) · [`AGENTS.md`](../AGENTS.md) · [`docs/MIMARI.md`](MIMARI.md)
 
 ---
@@ -30,6 +30,7 @@
 | `guvenlik-ve-rbac-mimari` | `supabase/migrations/031*`, `supabase/tests/031*`, `src/lib/security/**`, `src/proxy.ts`, güvenlik/KVKK API düzeltmeleri |
 | `kurye-ve-b2b-uzmani` | `/admin/ekip`, `/kurye`, `/api/admin/team/**`, `/api/courier/**`, `/api/admin/cari/**` (Sıcak Satış & İrsaliye) |
 | `admin-kurumsal-mimari` | Açık Kurumsal `/admin/**` kabuğu, onaylı şalter, sunucu sayfalamalı `/admin/musteriler`, senkronlu `/admin/uretim`, toplu siparişler |
+| `cfo-ve-birim-ekonomi-mimari` | `/admin/finans`, `/api/admin/finance/**`, `src/lib/cari/finance.ts`, gider/tedarikçi storno muhasebesi ve Google Sheets Birim Ekonomi & P&L kokpiti |
 | `bas-elestirmen` | Salt okunur büyüme, birim ekonomi ve mimari denetçisi |
 | `ekmeklab-uzman-isci` | Genel sıralı full-stack görevler ve birim testleri |
 | `vitrin-ux-mimari` | Müşteri vitrini, sepet, `/urun`, `/e`, `/fis`, `/ekstre` |
@@ -55,6 +56,7 @@
 | **Faz 8** | CEO Komuta Kokpiti (`/admin` 4 duraklı operasyon rayı + kasa/zimmet ayrımı + B2B kredi radarı), `⌘K` Hızlı İşlem paleti, üretim çifte sayım fix & CRM/baskı köprüleri | `admin-kurumsal-mimari` | ✅ Tamamlandı |
 | **Faz 9** | Anayasa & Otonomi Modernizasyonu (`AGENTS.md`, `MERKEZ.md`, `SKILL.md`, `ADR-0003`/`0005`, `types.ts`): RBAC `requireCapability`, `031`–`032`, `0 ₺` teslimat, `supabase_mcp` + `K011` + `studyo/` yetki temizliği | Orkestratör | ✅ Tamamlandı |
 | **Faz 10** | Canlı `bakery_settings` `0 ₺` teslimat + `"Beykent"` düzeltmesi, 10 canlı FK indeksi, `033_advisor_rls_and_fk_hardening.sql` (+ test), yerel `ekmeklab-komuta` MCP sunucusu & `ekmeklab-yerel-buyume-ve-birim-ekonomi` yeteneği | Orkestratör | ✅ Tamamlandı (032–033 SQL bekliyor) |
+| **Faz 11** | Sentry uçtan uca kurulum (`ekmeklab-web` / `de.sentry.io`, Uptime + E-posta uyarısı, cron/global-error Atölye Kremi), Google Sheets Canlı CEO & Birim Ekonomi Kokpiti (`Birim Ekonomi ve P&L` formüllü 4. sekme), `/admin/finans` & `/api/admin/finance/**` CFO Gider, Tedarikçi & Net Marj Merkezi, `ekmeklab-komuta` 5. araç & `cfo-ve-birim-ekonomi-mimari` ajanı | Komuta + Faz 11 | ✅ Tamamlandı |
 
 ---
 
@@ -63,4 +65,5 @@
 - **Veritabanı (`032` & `033`):** `supabase_mcp` eklentisinin `apply_migration` ve `DROP` içeren `execute_sql` çağrıları istemci onay ekranını 0,1 sn içinde otomatik iptal ettiği için aşağıdaki iki dosyayı Supabase SQL Editor (`https://supabase.com/dashboard/project/yayxobdugadqjskddixj/sql/new`) üzerinde **sırasıyla** çalıştırman gerekiyor (önce `032` → `supabase/tests/032_*`, sonra `033` → `supabase/tests/033_*`):
   1. **`supabase/migrations/032_zero_friction_dispatch_b2b_cockpit.sql`** → ardından **`supabase/tests/032_zero_friction_dispatch_b2b_cockpit.sql`** (`ROLLBACK` duman testi)
   2. **`supabase/migrations/033_advisor_rls_and_fk_hardening.sql`** → ardından **`supabase/tests/033_advisor_rls_and_fk_hardening.sql`** (`ROLLBACK` duman testi)
+- **Vercel Ortam Değişkenleri (Sentry Canlı Prodüksiyon):** Yerel `.env.local` içine yazıldı; canlı `ekmeklab.tr` prodüksiyonunda da aktif olması için Vercel Dashboard → *Settings → Environment Variables* içine **`NEXT_PUBLIC_SENTRY_DSN`** ve **`SENTRY_DSN`** (`https://fb60efb5094e05c02e7a08c796479ce9@o4512437724577792.ingest.de.sentry.io/4512437749809232`) değerlerini ekle.
 - **Supabase Auth Güvenliği:** Dashboard → *Authentication → Providers / Email / Security* altından **Leaked Password Protection** anahtarını aç.

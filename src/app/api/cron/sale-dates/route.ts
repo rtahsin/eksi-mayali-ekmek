@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import * as Sentry from "@sentry/nextjs";
 import crypto from "crypto";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { logError } from "@/lib/kernel/log";
@@ -50,6 +51,7 @@ export async function GET(req: Request) {
     });
   } catch (err: unknown) {
     logError("GET /api/cron/sale-dates error:", err);
+    Sentry.captureException(err, { tags: { cron: "sale-dates" } });
     return NextResponse.json(
       { error: "İç sunucu hatası", detail: err instanceof Error ? err.message : String(err) },
       { status: 500 }

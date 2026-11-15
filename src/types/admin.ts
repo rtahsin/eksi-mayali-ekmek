@@ -217,3 +217,83 @@ export const ISTANBUL_DISTRICTS = [
   "Sarıyer",
   "Fatih",
 ] as const;
+
+export type ExpenseCategory =
+  | "hammadde_un"
+  | "mandira_sarkuteri"
+  | "ambalaj_etiket"
+  | "enerji_firin"
+  | "kurye_akit"
+  | "ekipman_bakim"
+  | "kira_sabit"
+  | "diger";
+
+export type FinancialRecordType = "gider" | "gelir" | "storno_gider" | "storno_gelir";
+
+export type FinancialPaymentMethod = "nakit" | "kredi_karti" | "havale" | "pos";
+
+export interface FinancialRecord {
+  id: string;
+  type: FinancialRecordType;
+  category: ExpenseCategory | string;
+  amount: number; // her zaman pozitif tutar
+  /** Net nakit/kâr etkisi: gelir / storno_gider => +amount, gider / storno_gelir => -amount */
+  signedEffect: number;
+  description: string;
+  paymentMethod: FinancialPaymentMethod | string;
+  date: string; // YYYY-MM-DD (Europe/Istanbul)
+  createdAt: string;
+  reversesRecordId: string | null;
+  isReversed: boolean;
+}
+
+export interface Supplier {
+  id: string;
+  name: string;
+  category: string;
+  contactPerson: string;
+  phone: string;
+  email: string;
+  address: string;
+  /** Simetrik tedarikçi borç bakiyesi = Toplam Alım (alis) - Toplam Ödeme (odeme) */
+  balance: number;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export type SupplierTransactionType = "alis" | "odeme" | "storno_alis" | "storno_odeme";
+
+export interface SupplierTransaction {
+  id: string;
+  supplierId: string;
+  type: SupplierTransactionType;
+  amount: number; // her zaman pozitif
+  /** Borç bakiyesine etkisi: alis / storno_odeme => +amount, odeme / storno_alis => -amount */
+  delta: number;
+  invoiceNo: string | null;
+  description: string;
+  date: string; // YYYY-MM-DD (Europe/Istanbul)
+  createdAt: string;
+  reversesTransactionId: string | null;
+  isReversed: boolean;
+}
+
+export interface CfoPeriodSummary {
+  periodFrom: string;
+  periodTo: string;
+  retailDeliveredSales: number;
+  retailCollectedCash: number;
+  b2bNetSales: number;
+  b2bCollectedCash: number;
+  otherIncome: number;
+  totalGrossSales: number;
+  totalCashIn: number;
+  totalOperatingExpenses: number;
+  expensesByCategory: Record<string, number>;
+  netOperatingProfit: number;
+  netOperatingMarginPct: number;
+  netCashFlow: number;
+  totalB2BReceivables: number;
+  totalSupplierPayables: number;
+  netWorkingCapital: number;
+}

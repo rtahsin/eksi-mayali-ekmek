@@ -19,6 +19,7 @@ import {
   Users,
   UserCheck,
   Printer,
+  TrendingUp,
   X,
 } from "lucide-react";
 
@@ -134,6 +135,12 @@ export function AdminSidebar({
       capability: "cari.read",
       badge: overLimitCariCount > 0 ? overLimitCariCount : undefined,
       badgeTitle: "Kredi limitini aşan cari",
+    },
+    {
+      label: "Finans & Giderler",
+      href: "/admin/finans",
+      icon: TrendingUp,
+      capability: "dashboard.finance",
     },
     {
       label: "Müşteriler",

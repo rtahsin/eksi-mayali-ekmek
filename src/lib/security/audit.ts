@@ -22,11 +22,14 @@ export async function writeAuditLog(
   adminClient: AuditAdminClient | null,
   input: AuditLogInput
 ): Promise<void> {
-  if (!adminClient) return;
+  if (!adminClient || typeof adminClient.from !== "function") return;
 
   try {
     const actorUuid = input.actorId && UUID_RE.test(input.actorId) ? input.actorId : null;
-    const { error } = await adminClient.from("audit_logs").insert({
+    const table = adminClient.from("audit_logs");
+    if (!table || typeof table.insert !== "function") return;
+
+    const { error } = await table.insert({
       actor_id: actorUuid,
       actor_role: input.actorRole || "unknown",
       action: input.action,
