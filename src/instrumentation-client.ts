@@ -3,6 +3,12 @@ import * as Sentry from "@sentry/nextjs";
 export const SENTRY_DSN =
   process.env.NEXT_PUBLIC_SENTRY_DSN || process.env.SENTRY_DSN;
 
+export const SENTRY_ENVIRONMENT =
+  process.env.NEXT_PUBLIC_VERCEL_ENV || process.env.NODE_ENV || "development";
+
+export const SENTRY_RELEASE =
+  process.env.NEXT_PUBLIC_VERCEL_GIT_COMMIT_SHA || undefined;
+
 /**
  * URL'deki sorgu dizesini (token, ?t=, arama parametreleri vb.) temizler (PII & token sızıntısı koruması).
  */
@@ -40,6 +46,8 @@ export function sanitizeEvent<T extends { request?: { url?: string }; transactio
 export const sentryClientOptions: Sentry.BrowserOptions = {
   dsn: SENTRY_DSN,
   enabled: Boolean(SENTRY_DSN),
+  environment: SENTRY_ENVIRONMENT,
+  release: SENTRY_RELEASE,
   // Örnekleme: 0.1 (P1-11)
   tracesSampleRate: 0.1,
   // Replay entegrasyonu yok (replaysSessionSampleRate veya Replay tanımlanmaz)

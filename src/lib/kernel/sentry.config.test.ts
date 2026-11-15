@@ -11,6 +11,11 @@ describe("Sentry Client Configuration & Privacy Protection (P1-11)", () => {
     expect(sentryClientOptions.tracesSampleRate).toBe(0.1);
   });
 
+  it("sets a non-empty environment tag", () => {
+    expect(typeof sentryClientOptions.environment).toBe("string");
+    expect((sentryClientOptions.environment || "").length).toBeGreaterThan(0);
+  });
+
   it("does NOT include Session Replay integrations or replay sample rates", () => {
     const opts = sentryClientOptions as Record<string, unknown>;
     expect(opts.replaysSessionSampleRate).toBeUndefined();

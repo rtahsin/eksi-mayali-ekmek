@@ -101,6 +101,8 @@ const withMDX = createMDX({
 });
 
 export default withSentryConfig(withMDX(nextConfig), {
+  org: "ekmeklab-bq",
+  project: "ekmeklab-web",
   silent: true,
   widenClientFileUpload: true,
 });
