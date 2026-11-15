@@ -60,10 +60,11 @@
 
 ---
 
-## 4. Kurucu (Tahsin) İçin Bekleyen Veritabanı & Fiziksel Adımlar
-- **Canlıda Uygulananlar (15–16 Kasım 2026):**
+## 4. Canlı Durum & Kurucu (Tahsin) İçin Kalan Fiziksel Adımlar
+- **Canlıda Uygulananlar (15–16 Kasım 2026 — Teknik Borç: 0):**
   - `031_enterprise_admin_rbac_b2b`, `032_zero_friction_dispatch_b2b_cockpit` (`ROLLBACK` kuru deneme + `COMMIT` + `supabase/tests/032_*` duman testi) ve `033_advisor_rls_and_fk_hardening` (`ROLLBACK` kuru deneme + `COMMIT` + `supabase/tests/033_*` duman testi) canlıya uygulandı; `public.app_migrations` üzerinde `013`–`033` (19 kayıt) eksiksiz (`missing = 0`) doğrulandı.
   - `public.bakery_settings` (`0 ₺` teslimat, `0 ₺` alt limit ve `"Beykent"` mahallesi) canlıda aktif; `Ofsüt` (`3680.00 ₺`) ve `Yerumda` (`17405.00 ₺`, toplam `21085.00 ₺`) cari bakiyeleri dokunulmadan doğrulandı.
   - Supabase Security & Performance Advisor üzerindeki `anon_security_definer_function_executable`, `rls_enabled_no_policy`, `unindexed_foreign_keys`, `auth_rls_initplan` ve `multiple_permissive_policies` uyarılarının tamamı kapatıldı.
-- **Vercel Ortam Değişkenleri (Sentry Canlı Prodüksiyon):** Yerel `.env.local` içine yazıldı; canlı `ekmeklab.tr` prodüksiyonuna eklenmesi için Vercel takım erişim onayı (`authorize_team_access`) veya tek seferlik Vercel API token'ı ile **`NEXT_PUBLIC_SENTRY_DSN`** ve **`SENTRY_DSN`** tanımlanıp canlı deployment tetiklenecek.
-- **Supabase Auth Güvenliği (`auth_leaked_password_protection`):** Management API üzerinden `password_hibp_enabled = true` denendi; Supabase bunu **Pro Plan ve üzeri** ile sınırladığı için Free planda kapalı görünüyor (`HTTP 402 entitlement_required`). Mevcut yönetici/müşteri girişleri zaten Google OAuth kullandığından acil bir açık oluşturmaz; Pro plana geçilirse açılabilir.
+  - Vercel `ekmeklab_app` (`production`, `preview`, `development`) ortamına **`NEXT_PUBLIC_SENTRY_DSN`** ve **`SENTRY_DSN`** tanımlandı (`ekmeklab-web` / `de.sentry.io` aktif). Mevcut paylaşılan cari/fiş linklerinin geçerliliğini korumak için `LINK_SIGNING_SECRET` bilinçli olarak değiştirilmeden `SUPABASE_SERVICE_ROLE_KEY` türetiminde bırakıldı.
+- **Fiziksel Lansman Odağı (`M-2`):** Teknik kurulum tamamen bitti; sıradaki tek kurucu adımı Samsung S24 ile taş fırın ekmekleri ve şarküteri/mandıra eşlikçilerinin fotoğraflarını çekip `/admin/urunler` üzerinden vitrine girmek.
+- **Opsiyonel Platform Notu (`auth_leaked_password_protection`):** Management API üzerinden `password_hibp_enabled = true` denendi; Supabase bunu **Pro Plan ve üzeri** ile sınırladığı için Free planda kapalıdır (`HTTP 402 entitlement_required`). Girişler Google OAuth ile yapıldığından acil bir açık oluşturmaz; Pro plana geçilirse açılabilir.
