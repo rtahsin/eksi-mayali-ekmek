@@ -7,7 +7,7 @@ import { ProductCard } from "./ProductCard";
 import { ProductModal } from "./ProductModal";
 import type { ShowcaseMode } from "./ProductShowcaseStage";
 import { QuickReorderCard } from "./QuickReorderCard";
-import { Truck } from "lucide-react";
+import { RotateCw, Truck } from "lucide-react";
 import { ShippingPolicyNote } from "./ShippingPolicyNote";
 import { groupCatalog, sortProductsWithinGroup } from "@/lib/products/grouping";
 
@@ -135,7 +135,10 @@ export function ProductCatalog({ initialProducts, categories = [] }: ProductCata
     initialMode?: ShowcaseMode;
   } | null>(null);
 
-  const { products, allProducts } = useProducts(selectedCategory, initialProducts);
+  const { products, allProducts, loading, error, reloadProducts } = useProducts(
+    selectedCategory,
+    initialProducts,
+  );
 
   const grouped = useMemo(() => groupCatalog(allProducts), [allProducts]);
 
@@ -248,149 +251,199 @@ export function ProductCatalog({ initialProducts, categories = [] }: ProductCata
           />
         </div>
 
-        {/* ─── MOBILE VIEW (<768px): İki Yatay Raf (Ekmeklerimiz & Eşlikçiler) ─── */}
-        <div className="md:hidden space-y-7">
-          {isAll ? (
-            <>
-              {/* Raf 1: Ekmeklerimiz */}
-              <div>
-                <div className="flex items-center justify-between mb-1 px-0.5">
-                  <div className="flex items-baseline gap-2">
-                    <h3 className="font-serif text-lg font-bold text-ink">Ekmeklerimiz</h3>
-                    <span className="text-xs text-ink-muted font-sans font-medium">
-                      ({grouped.breads.length})
-                    </span>
+        {allProducts.length === 0 ? (
+          loading ? (
+            <div
+              aria-label="Ürünler yükleniyor"
+              className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-4"
+            >
+              {[0, 1, 2].map((idx) => (
+                <div
+                  key={idx}
+                  className="rounded-2xl bg-cream-surface border border-line overflow-hidden shadow-xs animate-pulse"
+                >
+                  <div className="aspect-[4/3] bg-bg/70 border-b border-line/60" />
+                  <div className="p-5 space-y-3">
+                    <div className="h-5 w-3/4 rounded-md bg-line/60" />
+                    <div className="h-3.5 w-full rounded-md bg-line/40" />
+                    <div className="h-3.5 w-2/3 rounded-md bg-line/40" />
+                    <div className="pt-3 border-t border-line/50 flex items-center justify-between">
+                      <div className="h-6 w-16 rounded-md bg-line/60" />
+                      <div className="h-10 w-24 rounded-xl bg-accent/25" />
+                    </div>
                   </div>
-                  <span className="text-xs text-ink-muted font-sans font-medium flex items-center gap-1">
-                    Kaydır <span aria-hidden="true" className="text-accent">→</span>
-                  </span>
                 </div>
+              ))}
+            </div>
+          ) : (
+            <div className="rounded-2xl bg-cream-surface border border-line p-8 sm:p-10 text-center space-y-3 shadow-xs">
+              <h3 className="font-serif text-xl sm:text-2xl font-bold text-ink">
+                Fırın tezgâhı yenileniyor
+              </h3>
+              <p className="text-sm text-ink-muted font-sans max-w-md mx-auto leading-relaxed">
+                {error
+                  ? "Katalog bağlantısında geçici bir gecikme oluştu. Lütfen yeniden deneyin."
+                  : "Günün taze taş fırın ürünleri ve mandıra seçkisi hazırlanıyor."}
+              </p>
+              <div className="pt-2">
+                <button
+                  type="button"
+                  onClick={() => void reloadProducts()}
+                  className="touch-target-44 inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-accent hover:bg-accent/90 text-white text-sm font-sans font-semibold shadow-xs transition-colors"
+                >
+                  <RotateCw aria-hidden="true" className="w-4 h-4" />
+                  <span>Tekrar Yükle</span>
+                </button>
+              </div>
+            </div>
+          )
+        ) : (
+          <>
+            {/* ─── MOBILE VIEW (<768px): İki Yatay Raf (Ekmeklerimiz & Eşlikçiler) ─── */}
+            <div className="md:hidden space-y-7">
+              {isAll ? (
+                <>
+                  {/* Raf 1: Ekmeklerimiz */}
+                  <div>
+                    <div className="flex items-center justify-between mb-1 px-0.5">
+                      <div className="flex items-baseline gap-2">
+                        <h3 className="font-serif text-lg font-bold text-ink">Ekmeklerimiz</h3>
+                        <span className="text-xs text-ink-muted font-sans font-medium">
+                          ({grouped.breads.length})
+                        </span>
+                      </div>
+                      <span className="text-xs text-ink-muted font-sans font-medium flex items-center gap-1">
+                        Kaydır <span aria-hidden="true" className="text-accent">→</span>
+                      </span>
+                    </div>
 
-                <div className="-mx-4 px-4 pt-7 flex gap-3.5 overflow-x-auto snap-x snap-mandatory no-scrollbar pb-2">
-                  {grouped.breads.map((product, idx) => (
-                    <div
-                      key={product.id}
-                      className="snap-start shrink-0 w-[78vw] max-w-[280px]"
-                    >
+                    <div className="-mx-4 px-4 pt-7 flex gap-3.5 overflow-x-auto snap-x snap-mandatory no-scrollbar pb-2">
+                      {grouped.breads.map((product, idx) => (
+                        <div
+                          key={product.id}
+                          className="snap-start shrink-0 w-[78vw] max-w-[280px]"
+                        >
+                          <ProductCard
+                            product={product}
+                            priority={idx === 0}
+                            onOpenDetails={handleOpenDetails}
+                          />
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Raf 2: Eşlikçiler (Mandıra, gurme, kiler) */}
+                  {grouped.accompaniments.length > 0 && (
+                    <div id="eslikci-rafi-mobil" className="scroll-mt-28">
+                      <div className="flex items-center justify-between mb-1 px-0.5">
+                        <div className="flex items-baseline gap-2">
+                          <h3 className="font-serif text-lg font-bold text-ink">Eşlikçiler</h3>
+                          <span className="text-xs text-ink-muted font-sans font-medium">
+                            ({grouped.accompaniments.length})
+                          </span>
+                        </div>
+                        <span className="text-xs text-ink-muted font-sans font-medium flex items-center gap-1">
+                          Kaydır <span aria-hidden="true" className="text-accent">→</span>
+                        </span>
+                      </div>
+
+                      <div className="-mx-4 px-4 pt-7 flex gap-3.5 overflow-x-auto snap-x snap-mandatory no-scrollbar pb-2">
+                        {grouped.accompaniments.map((product) => (
+                          <div
+                            key={product.id}
+                            className="snap-start shrink-0 w-[78vw] max-w-[280px]"
+                          >
+                            <ProductCard
+                              product={product}
+                              onOpenDetails={handleOpenDetails}
+                            />
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                </>
+              ) : (
+                /* Kategori filtresi seçilmişse filtrelenmiş ürünlerin görünümü */
+                <div>
+                  <div className="flex items-center justify-between mb-2 px-0.5">
+                    <div className="flex items-baseline gap-2">
+                      <h3 className="font-serif text-lg font-bold text-ink">
+                        {tabs.find((t) => t.id === selectedCategory)?.label || "Ürünler"}
+                      </h3>
+                      <span className="text-xs text-ink-muted font-sans font-medium">
+                        ({filteredSortedProducts.length})
+                      </span>
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-2 gap-3 pt-6">
+                    {filteredSortedProducts.map((product, idx) => (
                       <ProductCard
+                        key={product.id}
                         product={product}
                         priority={idx === 0}
                         onOpenDetails={handleOpenDetails}
                       />
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              {/* Raf 2: Eşlikçiler (Mandıra, gurme, kiler) */}
-              {grouped.accompaniments.length > 0 && (
-                <div id="eslikci-rafi-mobil" className="scroll-mt-28">
-                  <div className="flex items-center justify-between mb-1 px-0.5">
-                    <div className="flex items-baseline gap-2">
-                      <h3 className="font-serif text-lg font-bold text-ink">Eşlikçiler</h3>
-                      <span className="text-xs text-ink-muted font-sans font-medium">
-                        ({grouped.accompaniments.length})
-                      </span>
-                    </div>
-                    <span className="text-xs text-ink-muted font-sans font-medium flex items-center gap-1">
-                      Kaydır <span aria-hidden="true" className="text-accent">→</span>
-                    </span>
-                  </div>
-
-                  <div className="-mx-4 px-4 pt-7 flex gap-3.5 overflow-x-auto snap-x snap-mandatory no-scrollbar pb-2">
-                    {grouped.accompaniments.map((product) => (
-                      <div
-                        key={product.id}
-                        className="snap-start shrink-0 w-[78vw] max-w-[280px]"
-                      >
-                        <ProductCard
-                          product={product}
-                          onOpenDetails={handleOpenDetails}
-                        />
-                      </div>
                     ))}
                   </div>
                 </div>
               )}
-            </>
-          ) : (
-            /* Kategori filtresi seçilmişse filtrelenmiş ürünlerin görünümü */
-            <div>
-              <div className="flex items-center justify-between mb-2 px-0.5">
-                <div className="flex items-baseline gap-2">
-                  <h3 className="font-serif text-lg font-bold text-ink">
-                    {tabs.find((t) => t.id === selectedCategory)?.label || "Ürünler"}
-                  </h3>
-                  <span className="text-xs text-ink-muted font-sans font-medium">
-                    ({filteredSortedProducts.length})
-                  </span>
-                </div>
-              </div>
-
-              <div className="grid grid-cols-2 gap-3 pt-6">
-                {filteredSortedProducts.map((product, idx) => (
-                  <ProductCard
-                    key={product.id}
-                    product={product}
-                    priority={idx === 0}
-                    onOpenDetails={handleOpenDetails}
-                  />
-                ))}
-              </div>
             </div>
-          )}
-        </div>
 
-        {/* ─── DESKTOP VIEW (≥768px): Editoryal Atölye Tezgâhı ─── */}
-        <div className="hidden md:block space-y-14">
-          {isAll ? (
-            <>
-              {/* Ekmeklerimiz Atölye Sahnesi */}
-              <div>
-                <div className="flex items-baseline justify-between mb-6 border-b border-line pb-2.5">
-                  <div className="flex items-baseline gap-2.5">
-                    <h3 className="font-serif text-2xl font-bold text-ink">Ekmeklerimiz</h3>
-                    <span className="text-xs text-ink-muted font-sans">
-                      Önce günlük taş fırın, ardından özel üretim ekmeklerimiz ({grouped.breads.length} çeşit)
-                    </span>
+            {/* ─── DESKTOP VIEW (≥768px): Editoryal Atölye Tezgâhı ─── */}
+            <div className="hidden md:block space-y-14">
+              {isAll ? (
+                <>
+                  {/* Ekmeklerimiz Atölye Sahnesi */}
+                  <div>
+                    <div className="flex items-baseline justify-between mb-6 border-b border-line pb-2.5">
+                      <div className="flex items-baseline gap-2.5">
+                        <h3 className="font-serif text-2xl font-bold text-ink">Ekmeklerimiz</h3>
+                        <span className="text-xs text-ink-muted font-sans">
+                          Önce günlük taş fırın, ardından özel üretim ekmeklerimiz ({grouped.breads.length} çeşit)
+                        </span>
+                      </div>
+                    </div>
+                    <DesktopAtelierGroup
+                      items={grouped.breads}
+                      prioritizeFirst
+                      allowFeaturedHero
+                      onOpenDetails={handleOpenDetails}
+                    />
                   </div>
-                </div>
+
+                  {/* Eşlikçiler & Kiler Tezgâhı */}
+                  {grouped.accompaniments.length > 0 && (
+                    <div id="eslikci-rafi-masaustu" className="scroll-mt-28">
+                      <div className="flex items-baseline justify-between mb-6 border-b border-line pb-2.5">
+                        <div className="flex items-baseline gap-2.5">
+                          <h3 className="font-serif text-2xl font-bold text-ink">Eşlikçiler &amp; Kiler</h3>
+                          <span className="text-xs text-ink-muted font-sans">
+                            Fırınımıza eşlik eden doğal mandıra ve gurme lezzetler ({grouped.accompaniments.length} çeşit)
+                          </span>
+                        </div>
+                      </div>
+                      <DesktopAtelierGroup
+                        items={grouped.accompaniments}
+                        allowFeaturedHero={false}
+                        onOpenDetails={handleOpenDetails}
+                      />
+                    </div>
+                  )}
+                </>
+              ) : (
                 <DesktopAtelierGroup
-                  items={grouped.breads}
+                  items={filteredSortedProducts}
                   prioritizeFirst
-                  allowFeaturedHero
+                  allowFeaturedHero={filteredSortedProducts.length === 1}
                   onOpenDetails={handleOpenDetails}
                 />
-              </div>
-
-              {/* Eşlikçiler & Kiler Tezgâhı */}
-              {grouped.accompaniments.length > 0 && (
-                <div id="eslikci-rafi-masaustu" className="scroll-mt-28">
-                  <div className="flex items-baseline justify-between mb-6 border-b border-line pb-2.5">
-                    <div className="flex items-baseline gap-2.5">
-                      <h3 className="font-serif text-2xl font-bold text-ink">Eşlikçiler &amp; Kiler</h3>
-                      <span className="text-xs text-ink-muted font-sans">
-                        Fırınımıza eşlik eden doğal mandıra ve gurme lezzetler ({grouped.accompaniments.length} çeşit)
-                      </span>
-                    </div>
-                  </div>
-                  <DesktopAtelierGroup
-                    items={grouped.accompaniments}
-                    allowFeaturedHero={false}
-                    onOpenDetails={handleOpenDetails}
-                  />
-                </div>
               )}
-            </>
-          ) : (
-            <DesktopAtelierGroup
-              items={filteredSortedProducts}
-              prioritizeFirst
-              allowFeaturedHero={filteredSortedProducts.length === 1}
-              onOpenDetails={handleOpenDetails}
-            />
-          )}
-        </div>
+            </div>
+          </>
+        )}
 
         {/* Delivery & Assurance Banner */}
         <div className="mt-8 sm:mt-12 p-4 sm:p-5 rounded-2xl bg-cream-surface border border-line flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-sans text-ink-muted shadow-xs">

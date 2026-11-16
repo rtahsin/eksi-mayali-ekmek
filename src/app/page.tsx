@@ -33,7 +33,11 @@ export const metadata: Metadata = {
 };
 
 export default async function HomePage() {
-  const [{ products, categories }, settings, sonCikis] = await Promise.all([getCatalog(), getStoreSettings(), getSonCikis()]);
+  const [{ products, categories }, settings, sonCikis] = await Promise.all([
+    getCatalog({ throwOnError: true }),
+    getStoreSettings(),
+    getSonCikis(),
+  ]);
   const takvim = { sonCikis, openWeekdays: settings.openWeekdays, closedDates: settings.closedDates, saatler: settings.bakeHours };
   const hasAccompaniments = products.some((p) => isAccompaniment(p));
 

@@ -42,16 +42,13 @@ function CardCutoutImage({
   isAccompanimentItem: boolean;
 }) {
   const imgRef = useRef<HTMLImageElement>(null);
-  const [loaded, setLoaded] = useState(false);
   const [failed, setFailed] = useState(false);
 
   useEffect(() => {
     setFailed(false);
     const img = imgRef.current;
-    if (img && img.complete && img.naturalWidth > 0) {
-      setLoaded(true);
-    } else {
-      setLoaded(false);
+    if (img && img.complete && img.naturalWidth === 0) {
+      setFailed(true);
     }
   }, [src]);
 
@@ -74,15 +71,11 @@ function CardCutoutImage({
       ref={imgRef}
       src={src}
       alt={alt}
-      onLoad={() => setLoaded(true)}
       onError={() => setFailed(true)}
       fetchPriority={priority ? "high" : undefined}
-      loading={priority ? undefined : "lazy"}
       decoding="async"
       draggable={false}
-      className={`-mt-6 max-h-[112%] max-w-[92%] w-auto h-auto object-contain select-none transition-all duration-500 group-hover:scale-[1.04] ${
-        loaded ? "opacity-100" : "opacity-0"
-      } ${
+      className={`md:-mt-3 max-h-[90%] md:max-h-[102%] max-w-[88%] w-auto h-auto object-contain select-none opacity-100 transition-transform duration-500 group-hover:scale-[1.04] ${
         isAccompanimentItem
           ? "drop-shadow-[0_18px_22px_rgba(32,52,66,0.26)]"
           : "drop-shadow-[0_20px_24px_rgba(59,30,26,0.32)]"
@@ -202,13 +195,13 @@ export function ProductCard({
 
   const visualStage = (
     <div
-      className={`relative w-full overflow-visible ${
+      className={`relative w-full overflow-visible atelier-preserve-3d ${
         featured
           ? "aspect-[4/3] md:aspect-auto md:min-h-[340px] md:h-full"
           : "aspect-[4/3]"
       }`}
     >
-      {/* Arka Atölye Plakası (translateZ(-12px)) */}
+      {/* Arka Atölye Plakası */}
       <div
         className={`absolute inset-0 overflow-hidden atelier-layer-back border-b ${
           featured
@@ -450,7 +443,9 @@ export function ProductCard({
           featured ? "flex flex-col md:grid md:grid-cols-12" : "flex flex-col"
         }`}
       >
-        <div className={featured ? "md:col-span-7 h-full" : "w-full"}>{visualStage}</div>
+        <div className={featured ? "md:col-span-7 h-full atelier-preserve-3d" : "w-full atelier-preserve-3d"}>
+          {visualStage}
+        </div>
 
         {/* Kart İçerik Alanı */}
         <div

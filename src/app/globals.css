@@ -433,7 +433,7 @@ dialog.studyo-modal-dialog::backdrop {
 }
 
 .atelier-layer-back {
-  transform: translateZ(-12px);
+  transform: translateZ(1px);
 }
 
 .atelier-layer-mid {
@@ -441,7 +441,7 @@ dialog.studyo-modal-dialog::backdrop {
 }
 
 .atelier-layer-front {
-  transform: translateZ(32px);
+  transform: translateZ(30px);
 }
 
 .specular-ember,
@@ -449,15 +449,14 @@ dialog.studyo-modal-dialog::backdrop {
   --px: 50%;
   --py: 50%;
   pointer-events: none;
-  mix-blend-mode: soft-light;
   transition: opacity 0.25s ease-out;
 }
 
 .specular-ember {
   background: radial-gradient(
     360px circle at var(--px) var(--py),
-    rgb(255 214 153 / 0.44) 0%,
-    rgb(180 83 42 / 0.22) 38%,
+    rgb(255 224 172 / 0.28) 0%,
+    rgb(180 83 42 / 0.12) 38%,
     transparent 72%
   );
 }
@@ -465,8 +464,8 @@ dialog.studyo-modal-dialog::backdrop {
 .specular-frost {
   background: radial-gradient(
     340px circle at var(--px) var(--py),
-    rgb(255 255 255 / 0.5) 0%,
-    rgb(148 197 224 / 0.24) 38%,
+    rgb(255 255 255 / 0.34) 0%,
+    rgb(148 197 224 / 0.14) 38%,
     transparent 72%
   );
 }
@@ -474,8 +473,8 @@ dialog.studyo-modal-dialog::backdrop {
 html.dark .specular-ember {
   background: radial-gradient(
     360px circle at var(--px) var(--py),
-    rgb(255 196 128 / 0.34) 0%,
-    rgb(224 122 95 / 0.2) 40%,
+    rgb(255 196 128 / 0.24) 0%,
+    rgb(224 122 95 / 0.12) 40%,
     transparent 74%
   );
 }
@@ -483,8 +482,8 @@ html.dark .specular-ember {
 html.dark .specular-frost {
   background: radial-gradient(
     340px circle at var(--px) var(--py),
-    rgb(232 246 255 / 0.32) 0%,
-    rgb(125 186 218 / 0.18) 40%,
+    rgb(232 246 255 / 0.24) 0%,
+    rgb(125 186 218 / 0.12) 40%,
     transparent 74%
   );
 }

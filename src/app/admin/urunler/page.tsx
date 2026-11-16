@@ -65,7 +65,7 @@ const CATEGORY_PRESETS: ReadonlyArray<{ id: string; name: string }> = [
 ];
 
 export default function AdminProductsPage() {
-  const { adminUser } = useAdminAuth();
+  const { adminUser, loading: authLoading } = useAdminAuth();
   const canManageProducts = hasCapability(adminUser?.role, "products.manage");
 
   const { products, categories, loading, error, saveProduct, archiveProduct, quickUpdate, saveCategory, deleteCategory } =
@@ -100,6 +100,15 @@ export default function AdminProductsPage() {
       setBusyId(null);
     }
   };
+
+  if (authLoading) {
+    return (
+      <div className="max-w-lg mx-auto mt-12 bg-white border border-[#E2D3BD] rounded-2xl p-6 text-center space-y-3 shadow-sm">
+        <Loader2 className="w-6 h-6 animate-spin text-[#B4532A] mx-auto" aria-hidden="true" />
+        <p className="text-sm text-[#6E5148] font-medium">Oturum doğrulanıyor…</p>
+      </div>
+    );
+  }
 
   if (!canManageProducts) {
     return (

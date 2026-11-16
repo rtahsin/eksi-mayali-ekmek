@@ -47,16 +47,13 @@ function CutoutFloatImage({
   isAccompanimentItem: boolean;
 }) {
   const imgRef = useRef<HTMLImageElement>(null);
-  const [loaded, setLoaded] = useState(false);
   const [failed, setFailed] = useState(false);
 
   useEffect(() => {
     setFailed(false);
     const img = imgRef.current;
-    if (img && img.complete && img.naturalWidth > 0) {
-      setLoaded(true);
-    } else {
-      setLoaded(false);
+    if (img && img.complete && img.naturalWidth === 0) {
+      setFailed(true);
     }
   }, [src]);
 
@@ -77,15 +74,11 @@ function CutoutFloatImage({
       ref={imgRef}
       src={src}
       alt={alt}
-      onLoad={() => setLoaded(true)}
       onError={() => setFailed(true)}
       fetchPriority={priority ? "high" : undefined}
-      loading={priority ? undefined : "lazy"}
       decoding="async"
       draggable={false}
-      className={`max-h-[82%] max-w-[84%] w-auto h-auto object-contain select-none transition-opacity duration-300 ${
-        loaded ? "opacity-100" : "opacity-0"
-      } ${
+      className={`max-h-[82%] max-w-[84%] w-auto h-auto object-contain select-none opacity-100 ${
         isAccompanimentItem
           ? "drop-shadow-[0_22px_26px_rgba(32,52,66,0.28)]"
           : "drop-shadow-[0_24px_28px_rgba(59,30,26,0.34)]"

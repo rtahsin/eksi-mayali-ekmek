@@ -3,6 +3,7 @@ import "server-only";
 import type { SupabaseClient } from "@supabase/supabase-js";
 import type { ExtendedProduct, ProductCategoryInfo, ProductSaleDate } from "@/types";
 import { createAdminClient } from "@/lib/supabase/admin";
+import { logError } from "@/lib/kernel/log";
 import { istanbulToday } from "@/lib/time/istanbul";
 import { mapCategoryRow, mapProductRow, type CategoryRow, type ProductRow } from "./map";
 import type { AvailabilityProduct, AvailabilityUsage } from "@/lib/ordering/availability";
@@ -51,7 +52,9 @@ async function loadSaleDates(supabase: SupabaseClient, productIds: string[], fro
  * Admin: `includeInactive` ile arşivlenmişler ve gizli kategoriler dahil.
  * Veritabanına ulaşılamazsa boş katalog döner (eski fiyatlı statik yedek GÖSTERİLMEZ).
  */
-export async function getCatalog(options: { includeInactive?: boolean; client?: SupabaseClient | null } = {}): Promise<Catalog> {
+export async function getCatalog(
+  options: { includeInactive?: boolean; client?: SupabaseClient | null; throwOnError?: boolean } = {}
+): Promise<Catalog> {
   const supabase = options.client ?? createAdminClient();
   if (!supabase) return { products: [], categories: [] };
 
@@ -66,7 +69,10 @@ export async function getCatalog(options: { includeInactive?: boolean; client?: 
   ]);
 
   if (productErr) {
-    console.error("getCatalog products:", productErr.message);
+    logError("getCatalog products failed", productErr);
+    if (options.throwOnError) {
+      throw new Error(`getCatalog products: ${productErr.message}`);
+    }
     return { products: [], categories: [] };
   }
   if (categoryErr) console.warn("getCatalog categories:", categoryErr.message);
