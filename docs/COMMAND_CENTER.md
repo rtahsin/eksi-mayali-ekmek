@@ -33,7 +33,7 @@
 | `cfo-ve-birim-ekonomi-mimari` | `/admin/finans`, `/api/admin/finance/**`, `src/lib/cari/finance.ts`, gider/tedarikçi storno muhasebesi ve Google Sheets Birim Ekonomi & P&L kokpiti |
 | `bas-elestirmen` | Salt okunur büyüme, birim ekonomi ve mimari denetçisi |
 | `ekmeklab-uzman-isci` | Genel sıralı full-stack görevler ve birim testleri |
-| `vitrin-ux-mimari` | Müşteri vitrini, sepet, `/urun`, `/e`, `/fis`, `/ekstre` |
+| `vitrin-ux-mimari` | Baş Art Direktör & İnteraktif 3D/360° Vitrin Mimarı: müşteri vitrini, CSS `preserve-3d` / dekupe katmanlı sahne kartları, 360° turntable, bıçak kesiti, sepet, `/urun`, `/e`, `/fis`, `/ekstre` |
 | `admin-katalog-uzmani` | `/admin/urunler` ve S24 fotoğraf kataloğu |
 | `pazarlama-ve-lansman-stratejisti` | `arastirma/pazarlama_lansman/**` yerel büyüme planları |
 | `ultra-kreatif-studyo` | Google AI Ultra (Flow Veo 3.1, Nano Banana), `G:\Drive'ım\ekmeklab_ses\`, Remotion 60fps |
