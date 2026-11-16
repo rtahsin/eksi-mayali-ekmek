@@ -1,4 +1,5 @@
 import type { SupabaseClient } from "@supabase/supabase-js";
+import { logError } from "@/lib/kernel/log";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { istanbulTime, istanbulToday } from "@/lib/time/istanbul";
 import type {
@@ -32,36 +33,60 @@ export function istanbulTimestampIso(now: Date = new Date()): string {
   return `${day}T${String(hour).padStart(2, "0")}:${String(minute).padStart(2, "0")}:${sec}+03:00`;
 }
 
+function isSizeCapError(err: { message?: string; statusCode?: string } | null): boolean {
+  if (!err) return false;
+  return (
+    err.statusCode === "413" ||
+    /exceeded the maximum allowed size|EntityTooLarge/i.test(err.message ?? "")
+  );
+}
+
 /**
- * Özel `studyo` bucket'ını (`public: false`, 100 MB sınır) ilk çağrıda idempotent olarak doğrular/oluşturur.
- * Hiçbir ham ses kaydı, senaryo veya yayın öncesi video halka açık URL üzerinden okunamaz.
+ * Özel `studyo` bucket'ını (`public: false`, 50 MB sınır) ilk çağrıda idempotent olarak doğrular/oluşturur.
+ * Proje tavanı daha düşükse `fileSizeLimit` olmadan otomatik geri düşer (RSC çökmesini önler).
  */
 export async function ensureStudyoBucket(admin: SupabaseClient): Promise<void> {
   if (bucketEnsuredInProcess) return;
 
   const existing = await admin.storage.getBucket(STUDYO_BUCKET);
   if (!existing.error && existing.data) {
-    // Mevcutsa dosya boyut sınırını ve izinli MIME tiplerini güncel tut
-    await admin.storage.updateBucket(STUDYO_BUCKET, {
+    const upd = await admin.storage.updateBucket(STUDYO_BUCKET, {
       public: false,
       fileSizeLimit: MAX_STUDYO_VIDEO_BYTES,
       allowedMimeTypes: [...STUDYO_ALLOWED_BUCKET_MIMES],
     });
+    if (isSizeCapError(upd.error)) {
+      await admin.storage.updateBucket(STUDYO_BUCKET, {
+        public: false,
+        allowedMimeTypes: [...STUDYO_ALLOWED_BUCKET_MIMES],
+      });
+    }
     bucketEnsuredInProcess = true;
     return;
   }
 
-  const created = await admin.storage.createBucket(STUDYO_BUCKET, {
+  let created = await admin.storage.createBucket(STUDYO_BUCKET, {
     public: false,
     fileSizeLimit: MAX_STUDYO_VIDEO_BYTES,
     allowedMimeTypes: [...STUDYO_ALLOWED_BUCKET_MIMES],
   });
+
+  if (isSizeCapError(created.error)) {
+    created = await admin.storage.createBucket(STUDYO_BUCKET, {
+      public: false,
+      allowedMimeTypes: [...STUDYO_ALLOWED_BUCKET_MIMES],
+    });
+  }
 
   if (created.error && !/already exists|duplicate/i.test(created.error.message)) {
     throw created.error;
   }
 
   bucketEnsuredInProcess = true;
+}
+
+export function resetBucketEnsuredForTest(): void {
+  bucketEnsuredInProcess = false;
 }
 
 /** Yol geçişi (`..`, başlangıç `/`, null byte) barındırmayan güvenli `studyo` nesne yolu doğrulayıcı. */
@@ -114,7 +139,7 @@ export function buildStudyoUploadSpec(input: {
       return { ok: false, error: "Taş fırın klibi MP4, MOV veya WebM olmalıdır." };
     }
     if (sizeBytes > MAX_STUDYO_VIDEO_BYTES) {
-      return { ok: false, error: "Video klibi 100 MB sınırını aşıyor; lütfen 5-20 saniyelik klip seçin." };
+      return { ok: false, error: "Video klibi 50 MB sınırını aşıyor; lütfen 5-20 saniyelik klip seçin." };
     }
     return {
       ok: true,
@@ -279,65 +304,76 @@ export async function loadStudyoWorkspace(): Promise<StudyoWorkspacePayload> {
     };
   }
 
-  await ensureStudyoBucket(admin);
+  try {
+    await ensureStudyoBucket(admin);
 
-  const { data: savedFiles } = await admin.storage
-    .from(STUDYO_BUCKET)
-    .list(ISSUE_STATE_PREFIX, { limit: 100 });
+    const { data: savedFiles } = await admin.storage
+      .from(STUDYO_BUCKET)
+      .list(ISSUE_STATE_PREFIX, { limit: 100 });
 
-  const savedNames = new Set(
-    (savedFiles ?? [])
-      .map((f) => f.name)
-      .filter((name): name is string => typeof name === "string" && name.endsWith(".json"))
-  );
+    const savedNames = new Set(
+      (savedFiles ?? [])
+        .map((f) => f.name)
+        .filter((name): name is string => typeof name === "string" && name.endsWith(".json"))
+    );
 
-  const [overrides, queueRaw] = await Promise.all([
-    Promise.all(
-      [...savedNames].map((fileName) =>
-        readJsonObject<StudyoIssue>(admin, `${ISSUE_STATE_PREFIX}/${fileName}`)
-      )
-    ),
-    readJsonObject<StudyoRenderJob[]>(admin, RENDER_QUEUE_PATH),
-  ]);
+    const [overrides, queueRaw] = await Promise.all([
+      Promise.all(
+        [...savedNames].map((fileName) =>
+          readJsonObject<StudyoIssue>(admin, `${ISSUE_STATE_PREFIX}/${fileName}`)
+        )
+      ),
+      readJsonObject<StudyoRenderJob[]>(admin, RENDER_QUEUE_PATH),
+    ]);
 
-  const overrideMap = new Map<string, StudyoIssue>();
-  for (const item of overrides) {
-    if (item && isValidKonuId(item.konuId)) {
-      overrideMap.set(item.konuId, item);
+    const overrideMap = new Map<string, StudyoIssue>();
+    for (const item of overrides) {
+      if (item && isValidKonuId(item.konuId)) {
+        overrideMap.set(item.konuId, item);
+      }
     }
-  }
 
-  const mergedIssues = seedIssues.map((seed) => {
-    const saved = overrideMap.get(seed.konuId);
-    if (!saved) return seed;
+    const mergedIssues = seedIssues.map((seed) => {
+      const saved = overrideMap.get(seed.konuId);
+      if (!saved) return seed;
+      return {
+        ...seed,
+        ...saved,
+        scenes: {
+          ...seed.scenes,
+          ...(saved.scenes ?? {}),
+        },
+        newspaper: {
+          ...seed.newspaper,
+          ...(saved.newspaper ?? {}),
+        },
+        social: {
+          ...seed.social,
+          ...(saved.social ?? {}),
+        },
+      };
+    });
+
+    const queue = Array.isArray(queueRaw) ? queueRaw.slice(0, 30) : [];
+    const hydrated = await hydrateSignedUrls(admin, mergedIssues, queue);
+
     return {
-      ...seed,
-      ...saved,
-      scenes: {
-        ...seed.scenes,
-        ...(saved.scenes ?? {}),
-      },
-      newspaper: {
-        ...seed.newspaper,
-        ...(saved.newspaper ?? {}),
-      },
-      social: {
-        ...seed.social,
-        ...(saved.social ?? {}),
-      },
+      cloudConfigured: true,
+      githubDispatchConfigured,
+      todayIstanbul,
+      issues: hydrated.issues,
+      renderQueue: hydrated.queue,
     };
-  });
-
-  const queue = Array.isArray(queueRaw) ? queueRaw.slice(0, 30) : [];
-  const hydrated = await hydrateSignedUrls(admin, mergedIssues, queue);
-
-  return {
-    cloudConfigured: true,
-    githubDispatchConfigured,
-    todayIstanbul,
-    issues: hydrated.issues,
-    renderQueue: hydrated.queue,
-  };
+  } catch (err: unknown) {
+    logError("loadStudyoWorkspace storage fallback", err);
+    return {
+      cloudConfigured: false,
+      githubDispatchConfigured,
+      todayIstanbul,
+      issues: seedIssues,
+      renderQueue: [],
+    };
+  }
 }
 
 export async function loadSingleStudyoIssue(konuId: string): Promise<StudyoIssue | null> {

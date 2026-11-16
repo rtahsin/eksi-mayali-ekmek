@@ -1302,7 +1302,7 @@ export function StudyoClient({ initialWorkspace }: StudyoClientProps) {
                       <span>Seri B — S24 Gerçek Taş Fırın Klipleri (3–5 Klip)</span>
                     </h2>
                     <p className="text-xs text-[#6E5148]">
-                      Kameradan doğrudan çekin veya galeriden seçin (100 MB&apos;a kadar
+                      Kameradan doğrudan çekin veya galeriden seçin (50 MB&apos;a kadar
                       doğrudan Supabase Bulut yüklemesi; yapay zekâ ekmek görüntüsü yasaktır).
                     </p>
                   </div>

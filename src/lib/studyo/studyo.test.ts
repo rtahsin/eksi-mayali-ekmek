@@ -1,9 +1,15 @@
-import { describe, expect, it } from "vitest";
+import type { SupabaseClient } from "@supabase/supabase-js";
+import { describe, expect, it, vi } from "vitest";
 import { evaluateDirectorCoach, verifySafeZoneMargins } from "./coach";
 import { checkK006Compliance, sanitizeK006Text } from "./k006";
 import { extractPhoneticGuides } from "./phonetics";
 import { buildInitialStudyoCatalog } from "./seed";
-import { buildStudyoUploadSpec, isSafeStudyoStoragePath } from "./storage";
+import {
+  buildStudyoUploadSpec,
+  ensureStudyoBucket,
+  isSafeStudyoStoragePath,
+  resetBucketEnsuredForTest,
+} from "./storage";
 import {
   decodeWavToMonoFloat32,
   encodeMonoWav16,
@@ -145,5 +151,37 @@ describe("EkmekLab Bulut Stüdyo Çekirdek Mantığı", () => {
       sizeBytes: 1024,
     });
     expect(badMime.ok).toBe(false);
+  });
+
+  it("Supabase Storage EntityTooLarge (413) hatasında fileSizeLimit olmadan otomatik geri düşer", async () => {
+    resetBucketEnsuredForTest();
+    const createBucketMock = vi
+      .fn()
+      .mockResolvedValueOnce({
+        data: null,
+        error: {
+          message: "The object exceeded the maximum allowed size",
+          statusCode: "413",
+        },
+      })
+      .mockResolvedValueOnce({
+        data: { name: "studyo" },
+        error: null,
+      });
+
+    const fakeAdmin = {
+      storage: {
+        getBucket: vi.fn().mockResolvedValue({
+          data: null,
+          error: { message: "Bucket not found" },
+        }),
+        createBucket: createBucketMock,
+        updateBucket: vi.fn(),
+      },
+    } as unknown as SupabaseClient;
+
+    await ensureStudyoBucket(fakeAdmin);
+    expect(createBucketMock).toHaveBeenCalledTimes(2);
+    expect(createBucketMock.mock.calls[1]?.[1]).not.toHaveProperty("fileSizeLimit");
   });
 });

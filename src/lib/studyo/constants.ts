@@ -14,9 +14,9 @@ export const SAFE_ZONE_RIGHT_MIN_PX = 152;
 export const DEFAULT_SAFE_ZONE_BOTTOM_PX = 436;
 export const DEFAULT_SAFE_ZONE_RIGHT_PX = 156;
 
-/** Ses ve video boyut sınırları (doğrudan Supabase imzalı yükleme) */
+/** Ses ve video boyut sınırları (Supabase proje tavanı 50 MB ile birebir uyumlu) */
 export const MAX_STUDYO_AUDIO_BYTES = 40 * 1024 * 1024; // 40 MB (48kHz WAV ~5.5 MB/dk)
-export const MAX_STUDYO_VIDEO_BYTES = 100 * 1024 * 1024; // 100 MB (S24 4K/60fps kısa klip)
+export const MAX_STUDYO_VIDEO_BYTES = 50 * 1024 * 1024; // 50 MB (Supabase Storage küresel tavanı · S24 kısa klip)
 export const MAX_STUDYO_DOC_BYTES = 25 * 1024 * 1024; // 25 MB (A5 Gazete PDF)
 
 export const STUDYO_ALLOWED_BUCKET_MIMES = [

@@ -129,20 +129,22 @@ describe("/api/admin/studyo security & quality gates", () => {
     expect(saveStudyoIssueMock).toHaveBeenCalledTimes(1);
   });
 
-  it("rejects oversized (>40MB) audio upload-url requests with 400", async () => {
+  it("rejects oversized (>50MB) video upload-url requests with 400", async () => {
     const req = new Request("http://localhost:3000/api/admin/studyo/upload-url", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
+        category: "oven_clip",
         konuId: "KONU-01",
-        kind: "voice_take",
-        fileName: "osmo_kayit.wav",
-        contentType: "audio/wav",
-        fileSizeBytes: 55 * 1024 * 1024,
+        format: "seri_b",
+        mimeType: "video/mp4",
+        sizeBytes: 55 * 1024 * 1024,
       }),
     });
 
     const res = await postUploadUrl(req);
     expect(res.status).toBe(400);
+    const body = (await res.json()) as { error: string };
+    expect(body.error).toContain("50 MB");
   });
 });
