@@ -58,3 +58,50 @@ export async function shrinkPhoto(file: File, name = "foto"): Promise<File> {
     URL.revokeObjectURL(src);
   }
 }
+
+const MAX_PASSTHROUGH_WEBP_BYTES = 1_200_000;
+
+/**
+ * Şeffaf vitrin varlıklarını (dekupe, kesit, 360° kare) alfa kanalını koruyarak hazırlar.
+ * Dosya zaten `image/webp` ve `<= 1.2 MB` ise yeniden kodlamadan doğrudan döndürür;
+ * aksi halde `maxEdge` içine ölçekleyip yalnız `image/webp` (0.84) üretir (JPEG fallback yapılmaz).
+ */
+export async function prepareTransparentAsset(
+  file: File,
+  name = "vitrin",
+  maxEdge = 1000,
+): Promise<File> {
+  const mime = (file.type || "").trim().toLowerCase();
+  if (mime === "image/webp" && file.size > 0 && file.size <= MAX_PASSTHROUGH_WEBP_BYTES) {
+    return file;
+  }
+
+  const src = URL.createObjectURL(file);
+  try {
+    const img = new Image();
+    img.src = src;
+    try {
+      await img.decode();
+    } catch {
+      throw new Error(getPhotoDecodeErrorMessage(file));
+    }
+
+    const { width, height } = fitWithin(img.naturalWidth, img.naturalHeight, maxEdge);
+    const canvas = document.createElement("canvas");
+    canvas.width = width;
+    canvas.height = height;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) throw new Error("Görsel işlenemedi");
+
+    ctx.clearRect(0, 0, width, height);
+    ctx.drawImage(img, 0, 0, width, height);
+
+    const blob = await toBlob(canvas, "image/webp", 0.84);
+    if (!blob || blob.type !== "image/webp") {
+      throw new Error("Şeffaf WebP görseli oluşturulamadı; lütfen güncel bir tarayıcı veya WebP dosyası kullanın.");
+    }
+    return new File([blob], `${name}.webp`, { type: "image/webp" });
+  } finally {
+    URL.revokeObjectURL(src);
+  }
+}

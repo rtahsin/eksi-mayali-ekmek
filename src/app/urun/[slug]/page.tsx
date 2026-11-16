@@ -7,6 +7,7 @@ import { Footer } from "@/components/common/Footer";
 import { CartDrawer } from "@/components/cart/CartDrawer";
 import { OrderSuccessModal } from "@/components/cart/OrderSuccessModal";
 import { ProductDetailClientActions } from "@/components/storefront/ProductDetailClientActions";
+import { ProductShowcaseStage } from "@/components/storefront/ProductShowcaseStage";
 import { FoodComplianceNotice } from "@/components/storefront/FoodComplianceNotice";
 import { SafeProductImage } from "@/components/storefront/SafeProductImage";
 import {
@@ -327,22 +328,14 @@ export default async function ProductDetailPage({
 
         {/* 1. Main Product Section (2-Column) */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
-          {/* Left Column: Visual Showcase */}
+          {/* Left Column: Interactive Visual Showcase */}
           <div className="lg:col-span-6 space-y-4">
-            <div className="relative rounded-3xl overflow-hidden bg-cream-surface border border-line shadow-2xl aspect-[16/10] sm:aspect-[1/1] group">
-              <SafeProductImage
-                src={product.imageUrl}
-                fallbackSrc={getProductPlaceholder(product.category)}
-                alt={product.name}
-                priority={true}
-                isAccompanimentItem={!isBread}
-                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 filter brightness-95"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-60 pointer-events-none" />
-
-              {/* Badges on Image */}
-              <div className="absolute top-4 left-4 flex flex-wrap gap-2 pointer-events-none">
-                {product.madeToOrder ? (
+            <ProductShowcaseStage
+              product={product}
+              variant="page"
+              priority
+              topBadges={
+                product.madeToOrder ? (
                   <span className="px-3 py-1 rounded-full bg-accent text-white text-xs font-sans font-bold uppercase shadow-md">
                     {isBread
                       ? "Ön Siparişle Taze Pişer"
@@ -354,22 +347,30 @@ export default async function ProductDetailPage({
                       ? "Günlük Taş Fırın Üretimi"
                       : "Günlük Taze Mandıra & Şarküteri"}
                   </span>
-                )}
-              </div>
-
-              {/* Bottom Quick Tag */}
-              {isBread && (
-                <div className="absolute bottom-4 left-4 right-4 flex items-center justify-between text-xs text-ink bg-cream-surface/90 backdrop-blur-md px-4 py-2.5 rounded-xl border border-line shadow-xs">
-                  <div className="flex items-center gap-2">
-                    <Flame className="w-4 h-4 text-accent" aria-hidden="true" />
-                    <span>Taş tabanlı fırında pişer</span>
+                )
+              }
+              bottomMeta={
+                isBread ? (
+                  <div className="flex items-center justify-between text-xs text-ink bg-cream-surface/95 backdrop-blur-md px-4 py-2.5 rounded-xl border border-line shadow-xs">
+                    <div className="flex items-center gap-2">
+                      <Flame className="w-4 h-4 text-accent" aria-hidden="true" />
+                      <span>Taş tabanlı fırında pişer</span>
+                    </div>
+                    <div className="font-mono text-ink font-bold">
+                      {product.weight} {product.weightUnit || "g"}
+                    </div>
                   </div>
-                  <div className="font-mono text-accent font-bold">
-                    {product.weight} {product.weightUnit || "g"}
+                ) : product.weight > 0 ? (
+                  <div className="inline-flex items-center justify-between text-xs text-ink bg-cream-surface/95 backdrop-blur-md px-3.5 py-2 rounded-xl border border-line shadow-xs">
+                    <span className="font-mono font-bold">
+                      {product.weight >= 1000 && product.weightUnit === "ml"
+                        ? `${product.weight / 1000}L`
+                        : `${product.weight} ${product.weightUnit || "g"}`}
+                    </span>
                   </div>
-                </div>
-              )}
-            </div>
+                ) : undefined
+              }
+            />
           </div>
 
           {/* Right Column: Information, Pricing & Interactive Add-to-Cart */}

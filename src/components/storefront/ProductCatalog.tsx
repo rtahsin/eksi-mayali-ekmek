@@ -5,6 +5,7 @@ import { useProducts } from "@/hooks/useProducts";
 import type { ExtendedProduct, ProductCategoryInfo } from "@/types";
 import { ProductCard } from "./ProductCard";
 import { ProductModal } from "./ProductModal";
+import type { ShowcaseMode } from "./ProductShowcaseStage";
 import { QuickReorderCard } from "./QuickReorderCard";
 import { Truck } from "lucide-react";
 import { ShippingPolicyNote } from "./ShippingPolicyNote";
@@ -47,15 +48,102 @@ function CategoryChips({
   );
 }
 
+function DesktopAtelierGroup({
+  items,
+  onOpenDetails,
+  prioritizeFirst = false,
+  allowFeaturedHero = true,
+}: {
+  items: ExtendedProduct[];
+  onOpenDetails: (product: ExtendedProduct, initialMode?: ShowcaseMode) => void;
+  prioritizeFirst?: boolean;
+  allowFeaturedHero?: boolean;
+}) {
+  if (items.length === 0) return null;
+
+  if (items.length === 1) {
+    return (
+      <div className="pt-2">
+        <ProductCard
+          product={items[0]}
+          featured
+          priority={prioritizeFirst}
+          onOpenDetails={onOpenDetails}
+        />
+      </div>
+    );
+  }
+
+  if (items.length === 2) {
+    return (
+      <div className="grid md:grid-cols-2 gap-7 pt-2">
+        {items.map((product, idx) => (
+          <ProductCard
+            key={product.id}
+            product={product}
+            priority={prioritizeFirst && idx === 0}
+            onOpenDetails={onOpenDetails}
+          />
+        ))}
+      </div>
+    );
+  }
+
+  if (allowFeaturedHero) {
+    const [lead, ...rest] = items;
+    const gridColsClass = rest.length === 2 ? "md:grid-cols-2 gap-7" : "md:grid-cols-3 gap-6";
+
+    return (
+      <div className="space-y-8 pt-2">
+        <ProductCard
+          product={lead}
+          featured
+          priority={prioritizeFirst}
+          onOpenDetails={onOpenDetails}
+        />
+        <div className={`grid ${gridColsClass}`}>
+          {rest.map((product) => (
+            <ProductCard
+              key={product.id}
+              product={product}
+              onOpenDetails={onOpenDetails}
+            />
+          ))}
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="grid md:grid-cols-3 gap-6 pt-2">
+      {items.map((product, idx) => (
+        <ProductCard
+          key={product.id}
+          product={product}
+          priority={prioritizeFirst && idx === 0}
+          onOpenDetails={onOpenDetails}
+        />
+      ))}
+    </div>
+  );
+}
+
 export function ProductCatalog({ initialProducts, categories = [] }: ProductCatalogProps = {}) {
   const [selectedCategory, setSelectedCategory] = useState<string>("all");
-  const [modalProduct, setModalProduct] = useState<ExtendedProduct | null>(null);
+  const [modalSelection, setModalSelection] = useState<{
+    product: ExtendedProduct;
+    initialMode?: ShowcaseMode;
+  } | null>(null);
+
   const { products, allProducts } = useProducts(selectedCategory, initialProducts);
 
   const grouped = useMemo(() => groupCatalog(allProducts), [allProducts]);
 
   // Yalnız içinde ürün olan kategoriler sekme olur
-  const usedCategories = new Set(allProducts.map((p) => p.category));
+  const usedCategories = useMemo(
+    () => new Set(allProducts.map((p) => p.category)),
+    [allProducts],
+  );
   const tabs = [
     { id: "all", label: "Tüm Ürünler" },
     ...categories.filter((c) => usedCategories.has(c.id)).map((c) => ({ id: c.id, label: c.name })),
@@ -101,13 +189,17 @@ export function ProductCatalog({ initialProducts, categories = [] }: ProductCata
 
     window.addEventListener("hashchange", handleHash);
     return () => window.removeEventListener("hashchange", handleHash);
-  }, []);
+  }, [usedCategories]);
 
   const isAll = selectedCategory === "all";
   const filteredSortedProducts = useMemo(
     () => sortProductsWithinGroup(products),
-    [products]
+    [products],
   );
+
+  const handleOpenDetails = (product: ExtendedProduct, initialMode?: ShowcaseMode) => {
+    setModalSelection({ product, initialMode });
+  };
 
   return (
     <section
@@ -125,15 +217,15 @@ export function ProductCatalog({ initialProducts, categories = [] }: ProductCata
         {/* Section Header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-6 md:mb-10 gap-4 md:gap-6">
           <div className="space-y-2">
-            <div className="inline-flex items-center gap-1.5 font-sans text-xs sm:text-xs font-semibold text-accent uppercase tracking-wider">
-              <span>✦</span>
-              <span>Günlük taze taş fırın & gurme seçkisi</span>
+            <div className="inline-flex items-center gap-1.5 font-sans text-xs font-semibold text-ink-muted uppercase tracking-wider">
+              <span className="text-accent" aria-hidden="true">✦</span>
+              <span>Günlük taze taş fırın &amp; gurme seçkisi</span>
             </div>
             <h2 className="font-serif text-2xl sm:text-4xl lg:text-5xl font-bold text-ink tracking-tight text-balance">
-              Taze Ekmeklerimiz & Gurme Lezzetler
+              Taze Ekmeklerimiz &amp; Gurme Lezzetler
             </h2>
             <p className="hidden sm:block text-sm text-ink-muted font-sans max-w-lg leading-relaxed">
-              Taş fırında taze pişen günlük ekmeklerimiz, ata tohumu ön sipariş çeşitlerimiz ve fırınımıza eşlik eden doğal mandıra & kiler lezzetleri.
+              Taş fırında taze pişen günlük ekmeklerimiz, ata tohumu ön sipariş çeşitlerimiz ve fırınımıza eşlik eden doğal mandıra &amp; kiler lezzetleri.
             </p>
           </div>
 
@@ -160,29 +252,30 @@ export function ProductCatalog({ initialProducts, categories = [] }: ProductCata
         <div className="md:hidden space-y-7">
           {isAll ? (
             <>
-              {/* Raf 1: Ekmeklerimiz (Önce her gün, sonra özel/ön sipariş ekmekleri) */}
+              {/* Raf 1: Ekmeklerimiz */}
               <div>
-                <div className="flex items-center justify-between mb-3 px-0.5">
+                <div className="flex items-center justify-between mb-1 px-0.5">
                   <div className="flex items-baseline gap-2">
                     <h3 className="font-serif text-lg font-bold text-ink">Ekmeklerimiz</h3>
                     <span className="text-xs text-ink-muted font-sans font-medium">
                       ({grouped.breads.length})
                     </span>
                   </div>
-                  <span className="text-xs text-accent font-sans font-medium flex items-center gap-1">
-                    Kaydır <span aria-hidden="true">→</span>
+                  <span className="text-xs text-ink-muted font-sans font-medium flex items-center gap-1">
+                    Kaydır <span aria-hidden="true" className="text-accent">→</span>
                   </span>
                 </div>
 
-                <div className="-mx-4 px-4 flex gap-3.5 overflow-x-auto snap-x snap-mandatory no-scrollbar pb-2">
-                  {grouped.breads.map((product) => (
+                <div className="-mx-4 px-4 pt-7 flex gap-3.5 overflow-x-auto snap-x snap-mandatory no-scrollbar pb-2">
+                  {grouped.breads.map((product, idx) => (
                     <div
                       key={product.id}
                       className="snap-start shrink-0 w-[78vw] max-w-[280px]"
                     >
                       <ProductCard
                         product={product}
-                        onOpenDetails={(p) => setModalProduct(p)}
+                        priority={idx === 0}
+                        onOpenDetails={handleOpenDetails}
                       />
                     </div>
                   ))}
@@ -192,19 +285,19 @@ export function ProductCatalog({ initialProducts, categories = [] }: ProductCata
               {/* Raf 2: Eşlikçiler (Mandıra, gurme, kiler) */}
               {grouped.accompaniments.length > 0 && (
                 <div id="eslikci-rafi-mobil" className="scroll-mt-28">
-                  <div className="flex items-center justify-between mb-3 px-0.5">
+                  <div className="flex items-center justify-between mb-1 px-0.5">
                     <div className="flex items-baseline gap-2">
                       <h3 className="font-serif text-lg font-bold text-ink">Eşlikçiler</h3>
                       <span className="text-xs text-ink-muted font-sans font-medium">
                         ({grouped.accompaniments.length})
                       </span>
                     </div>
-                    <span className="text-xs text-accent font-sans font-medium flex items-center gap-1">
-                      Kaydır <span aria-hidden="true">→</span>
+                    <span className="text-xs text-ink-muted font-sans font-medium flex items-center gap-1">
+                      Kaydır <span aria-hidden="true" className="text-accent">→</span>
                     </span>
                   </div>
 
-                  <div className="-mx-4 px-4 flex gap-3.5 overflow-x-auto snap-x snap-mandatory no-scrollbar pb-2">
+                  <div className="-mx-4 px-4 pt-7 flex gap-3.5 overflow-x-auto snap-x snap-mandatory no-scrollbar pb-2">
                     {grouped.accompaniments.map((product) => (
                       <div
                         key={product.id}
@@ -212,7 +305,7 @@ export function ProductCatalog({ initialProducts, categories = [] }: ProductCata
                       >
                         <ProductCard
                           product={product}
-                          onOpenDetails={(p) => setModalProduct(p)}
+                          onOpenDetails={handleOpenDetails}
                         />
                       </div>
                     ))}
@@ -223,7 +316,7 @@ export function ProductCatalog({ initialProducts, categories = [] }: ProductCata
           ) : (
             /* Kategori filtresi seçilmişse filtrelenmiş ürünlerin görünümü */
             <div>
-              <div className="flex items-center justify-between mb-3 px-0.5">
+              <div className="flex items-center justify-between mb-2 px-0.5">
                 <div className="flex items-baseline gap-2">
                   <h3 className="font-serif text-lg font-bold text-ink">
                     {tabs.find((t) => t.id === selectedCategory)?.label || "Ürünler"}
@@ -234,12 +327,13 @@ export function ProductCatalog({ initialProducts, categories = [] }: ProductCata
                 </div>
               </div>
 
-              <div className="grid grid-cols-2 gap-3">
-                {filteredSortedProducts.map((product) => (
+              <div className="grid grid-cols-2 gap-3 pt-6">
+                {filteredSortedProducts.map((product, idx) => (
                   <ProductCard
                     key={product.id}
                     product={product}
-                    onOpenDetails={(p) => setModalProduct(p)}
+                    priority={idx === 0}
+                    onOpenDetails={handleOpenDetails}
                   />
                 ))}
               </div>
@@ -247,13 +341,13 @@ export function ProductCatalog({ initialProducts, categories = [] }: ProductCata
           )}
         </div>
 
-        {/* ─── DESKTOP VIEW (≥768px): Mevcut Izgara (Aynı Sırayla: Ekmekler -> Eşlikçiler) ─── */}
-        <div className="hidden md:block space-y-12">
+        {/* ─── DESKTOP VIEW (≥768px): Editoryal Atölye Tezgâhı ─── */}
+        <div className="hidden md:block space-y-14">
           {isAll ? (
             <>
-              {/* Ekmeklerimiz Izgarası */}
+              {/* Ekmeklerimiz Atölye Sahnesi */}
               <div>
-                <div className="flex items-baseline justify-between mb-5 border-b border-line pb-2.5">
+                <div className="flex items-baseline justify-between mb-6 border-b border-line pb-2.5">
                   <div className="flex items-baseline gap-2.5">
                     <h3 className="font-serif text-2xl font-bold text-ink">Ekmeklerimiz</h3>
                     <span className="text-xs text-ink-muted font-sans">
@@ -261,50 +355,40 @@ export function ProductCatalog({ initialProducts, categories = [] }: ProductCata
                     </span>
                   </div>
                 </div>
-                <div className="grid grid-cols-3 xl:grid-cols-4 gap-6">
-                  {grouped.breads.map((product) => (
-                    <ProductCard
-                      key={product.id}
-                      product={product}
-                      onOpenDetails={(p) => setModalProduct(p)}
-                    />
-                  ))}
-                </div>
+                <DesktopAtelierGroup
+                  items={grouped.breads}
+                  prioritizeFirst
+                  allowFeaturedHero
+                  onOpenDetails={handleOpenDetails}
+                />
               </div>
 
-              {/* Eşlikçiler Izgarası */}
+              {/* Eşlikçiler & Kiler Tezgâhı */}
               {grouped.accompaniments.length > 0 && (
                 <div id="eslikci-rafi-masaustu" className="scroll-mt-28">
-                  <div className="flex items-baseline justify-between mb-5 border-b border-line pb-2.5">
+                  <div className="flex items-baseline justify-between mb-6 border-b border-line pb-2.5">
                     <div className="flex items-baseline gap-2.5">
-                      <h3 className="font-serif text-2xl font-bold text-ink">Eşlikçiler & Kiler</h3>
+                      <h3 className="font-serif text-2xl font-bold text-ink">Eşlikçiler &amp; Kiler</h3>
                       <span className="text-xs text-ink-muted font-sans">
                         Fırınımıza eşlik eden doğal mandıra ve gurme lezzetler ({grouped.accompaniments.length} çeşit)
                       </span>
                     </div>
                   </div>
-                  <div className="grid grid-cols-3 xl:grid-cols-4 gap-6">
-                    {grouped.accompaniments.map((product) => (
-                      <ProductCard
-                        key={product.id}
-                        product={product}
-                        onOpenDetails={(p) => setModalProduct(p)}
-                      />
-                    ))}
-                  </div>
+                  <DesktopAtelierGroup
+                    items={grouped.accompaniments}
+                    allowFeaturedHero={false}
+                    onOpenDetails={handleOpenDetails}
+                  />
                 </div>
               )}
             </>
           ) : (
-            <div className="grid grid-cols-3 xl:grid-cols-4 gap-6">
-              {filteredSortedProducts.map((product) => (
-                <ProductCard
-                  key={product.id}
-                  product={product}
-                  onOpenDetails={(p) => setModalProduct(p)}
-                />
-              ))}
-            </div>
+            <DesktopAtelierGroup
+              items={filteredSortedProducts}
+              prioritizeFirst
+              allowFeaturedHero={filteredSortedProducts.length === 1}
+              onOpenDetails={handleOpenDetails}
+            />
           )}
         </div>
 
@@ -317,15 +401,16 @@ export function ProductCatalog({ initialProducts, categories = [] }: ProductCata
               Beylikdüzü içinde seçtiğiniz gün kapınıza ulaştırıyoruz.
             </span>
           </div>
-          <div className="text-accent font-semibold font-sans shrink-0 px-3 py-1.5 rounded-lg bg-bg border border-line text-xs">
+          <div className="text-ink font-semibold font-sans shrink-0 px-3 py-1.5 rounded-lg bg-bg border border-line text-xs">
             <ShippingPolicyNote />
           </div>
         </div>
 
         {/* Product Detail Masterclass Modal */}
         <ProductModal
-          product={modalProduct}
-          onClose={() => setModalProduct(null)}
+          product={modalSelection?.product ?? null}
+          initialMode={modalSelection?.initialMode}
+          onClose={() => setModalSelection(null)}
         />
       </div>
     </section>

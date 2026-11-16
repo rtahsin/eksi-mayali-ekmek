@@ -24,11 +24,16 @@ import {
   Camera,
   ImageIcon,
   Lock,
+  Layers,
+  Film,
+  RotateCw,
+  Scissors,
+  Sparkles,
 } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 import { MEDIA_BUCKET } from "@/lib/bake/log";
-import { shrinkPhoto } from "@/lib/media/shrinkPhoto";
-import type { ExtendedProduct, ProductCategoryInfo } from "@/types";
+import { prepareTransparentAsset, shrinkPhoto } from "@/lib/media/shrinkPhoto";
+import type { ExtendedProduct, MasterclassDetail, ProductCategoryInfo, ProductShowcaseMedia } from "@/types";
 import { applyCategoryChange, emptyProductForm, productToForm, useAdminCatalog, type ProductForm } from "@/hooks/useAdminCatalog";
 import { isAccompanimentCategory } from "@/lib/products/grouping";
 import { isPlaceholderImageUrl } from "@/lib/products/map";
@@ -340,6 +345,7 @@ function ProductEditor({
   const [newDateLimit, setNewDateLimit] = useState("");
   const [bundlePick, setBundlePick] = useState("");
   const [showDetails, setShowDetails] = useState(false);
+  const [showShowcase, setShowShowcase] = useState(false);
   const [archiveConfirmOpen, setArchiveConfirmOpen] = useState(false);
 
   const dialogRef = useRef<HTMLDialogElement>(null);
@@ -359,6 +365,33 @@ function ProductEditor({
   }, []);
 
   const set = <K extends keyof ProductForm>(key: K, value: ProductForm[K]) => setForm((f) => ({ ...f, [key]: value }));
+
+  const updateShowcase = (updater: (prev: ProductShowcaseMedia) => ProductShowcaseMedia) => {
+    setForm((f) => {
+      const prevMasterclass = f.masterclass ?? {};
+      const prevShowcase = prevMasterclass.showcase ?? {};
+      const nextShowcase = updater(prevShowcase);
+      const hasValues = Boolean(
+        nextShowcase.cutoutUrl ||
+          nextShowcase.crumbUrl ||
+          (nextShowcase.spinFrameUrls && nextShowcase.spinFrameUrls.length > 0) ||
+          nextShowcase.spinFramesUrlPattern ||
+          nextShowcase.spinFrameCount ||
+          nextShowcase.ambientVideoUrl ||
+          nextShowcase.specularTone,
+      );
+      const nextMasterclass: MasterclassDetail = { ...prevMasterclass };
+      if (hasValues) {
+        nextMasterclass.showcase = nextShowcase;
+      } else {
+        delete nextMasterclass.showcase;
+      }
+      return {
+        ...f,
+        masterclass: Object.keys(nextMasterclass).length > 0 ? nextMasterclass : null,
+      };
+    });
+  };
   const others = products.filter((p) => p.id !== form.id && p.isActive !== false);
   const nameOf = (id: string) => products.find((p) => p.id === id)?.name ?? id;
 
@@ -1005,13 +1038,59 @@ function ProductEditor({
                       rows={2}
                       value={form.masterclass?.[key] ?? ""}
                       placeholder={placeholder}
-                      onChange={(e) => set("masterclass", { ...(form.masterclass ?? {}), [key]: e.target.value })}
+                      onChange={(e) => {
+                        const val = e.target.value;
+                        setForm((f) => ({
+                          ...f,
+                          masterclass: { ...(f.masterclass ?? {}), [key]: val },
+                        }));
+                      }}
                       className={inputCls}
                     />
                   </Field>
                 ))}
               </Section>
             )}
+
+            {/* 3D Vitrin & Sahne Medyası */}
+            <div className="pt-2 border-t border-[#E2D3BD]">
+              <button
+                type="button"
+                aria-expanded={showShowcase}
+                onClick={() => setShowShowcase((prev) => !prev)}
+                className="w-full text-left text-xs font-semibold text-[#8E3D1B] hover:text-[#3B1E1A] flex items-center justify-between gap-2 transition-colors py-1"
+              >
+                <span className="flex items-center gap-1.5">
+                  <ChevronDown className={`w-4 h-4 transition-transform ${showShowcase ? "rotate-180" : ""}`} aria-hidden="true" />
+                  <Layers className="w-4 h-4" aria-hidden="true" />
+                  <span>3D Vitrin &amp; Sahne Medyası (İsteğe Bağlı)</span>
+                </span>
+                {(() => {
+                  const s = form.masterclass?.showcase;
+                  const badges: string[] = [];
+                  if (s?.cutoutUrl) badges.push("Dekupe");
+                  if (s?.crumbUrl) badges.push("Kesit");
+                  if (s?.spinFrameUrls?.length) badges.push(`${s.spinFrameUrls.length} kare`);
+                  else if (s?.spinFrameCount && s?.spinFramesUrlPattern) badges.push(`${s.spinFrameCount} kare`);
+                  if (s?.ambientVideoUrl) badges.push("Video");
+                  if (s?.specularTone) badges.push(s.specularTone === "ember" ? "Sıcak Köz" : "Soğuk Buğu");
+                  return badges.length > 0 ? (
+                    <span className="px-2 py-0.5 rounded-md bg-[#F3E2D4] text-[#8E3D1B] border border-[#DFB99F] text-[11px] font-medium">
+                      {badges.join(" · ")}
+                    </span>
+                  ) : null;
+                })()}
+              </button>
+              {showShowcase && (
+                <div className="mt-3">
+                  <ShowcaseMediaSection
+                    showcase={form.masterclass?.showcase}
+                    isAccomp={isAccomp}
+                    onUpdate={updateShowcase}
+                  />
+                </div>
+              )}
+            </div>
           </div>
 
           <div className="p-4 border-t border-[#E2D3BD] bg-[#FBF6EC] flex items-center justify-between gap-2 shrink-0">
@@ -1316,6 +1395,51 @@ function ConfirmDialog({
   );
 }
 
+type ShowcaseUploadKind = "cover" | "cutout" | "crumb" | "spin" | "video";
+
+const MAX_SHOWCASE_VIDEO_BYTES = 16 * 1024 * 1024;
+const SPIN_UPLOAD_BATCH_SIZE = 6;
+const MAX_SPIN_FRAMES_COUNT = 72;
+
+function resolveVideoMimeType(file: File): string | null {
+  const mime = (file.type || "").split(";")[0].trim().toLowerCase();
+  if (mime === "video/mp4" || mime === "video/webm" || mime === "video/quicktime") return mime;
+  const name = (file.name || "").trim().toLowerCase();
+  if (name.endsWith(".mp4")) return "video/mp4";
+  if (name.endsWith(".webm")) return "video/webm";
+  if (name.endsWith(".mov")) return "video/quicktime";
+  return null;
+}
+
+async function uploadProductMediaAsset(
+  file: File,
+  kind: ShowcaseUploadKind,
+  contentTypeOverride?: string,
+): Promise<string> {
+  const contentType = contentTypeOverride ?? file.type;
+  const res = await fetch("/api/admin/products/image-upload", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ type: contentType, size: file.size, kind }),
+  });
+  const body = (await res.json().catch(() => ({}))) as {
+    path?: string;
+    token?: string;
+    url?: string;
+    error?: string;
+  };
+  if (!res.ok || !body.path || !body.token || !body.url) {
+    throw new Error(body.error || "Yükleme başlatılamadı");
+  }
+  const supabase = createClient();
+  if (!supabase) throw new Error("Supabase bağlantısı yok");
+  const { error } = await supabase.storage
+    .from(MEDIA_BUCKET)
+    .uploadToSignedUrl(body.path, body.token, file, { contentType });
+  if (error) throw error;
+  return body.url;
+}
+
 /** Kapak fotoğrafı: çek/seç → telefonda küçült → imzalı bağlantıyla media bucket'ına yükle. */
 function PhotoField({ value, onChange }: { value: string | null; onChange: (url: string | null) => void }) {
   const [busy, setBusy] = useState(false);
@@ -1328,20 +1452,8 @@ function PhotoField({ value, onChange }: { value: string | null; onChange: (url:
     setErr(null);
     try {
       const file = await shrinkPhoto(picked, "urun");
-      const res = await fetch("/api/admin/products/image-upload", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ type: file.type, size: file.size }),
-      });
-      const body = (await res.json().catch(() => ({}))) as { path?: string; token?: string; url?: string; error?: string };
-      if (!res.ok || !body.path || !body.token || !body.url) throw new Error(body.error || "Yükleme başlatılamadı");
-      const supabase = createClient();
-      if (!supabase) throw new Error("Supabase bağlantısı yok");
-      const { error } = await supabase.storage
-        .from(MEDIA_BUCKET)
-        .uploadToSignedUrl(body.path, body.token, file, { contentType: file.type });
-      if (error) throw error;
-      onChange(body.url);
+      const url = await uploadProductMediaAsset(file, "cover");
+      onChange(url);
     } catch (error: unknown) {
       setErr(getErrorMessage(error));
     } finally {
@@ -1393,6 +1505,414 @@ function PhotoField({ value, onChange }: { value: string | null; onChange: (url:
           {err}
         </p>
       )}
+    </div>
+  );
+}
+
+function ShowcaseImageSlot({
+  title,
+  hint,
+  kind,
+  value,
+  onChange,
+}: {
+  title: string;
+  hint: string;
+  kind: "cutout" | "crumb";
+  value?: string;
+  onChange: (url: string | undefined) => void;
+}) {
+  const [busy, setBusy] = useState(false);
+  const [err, setErr] = useState<string | null>(null);
+
+  const handleFile = async (picked: File | undefined) => {
+    if (!picked) return;
+    setBusy(true);
+    setErr(null);
+    try {
+      const prepared = await prepareTransparentAsset(picked, kind, 1000);
+      const url = await uploadProductMediaAsset(prepared, kind);
+      onChange(url);
+    } catch (error: unknown) {
+      setErr(getErrorMessage(error));
+    } finally {
+      setBusy(false);
+    }
+  };
+
+  return (
+    <div className="p-3 rounded-xl bg-white border border-[#E2D3BD] space-y-2">
+      <div className="flex items-start justify-between gap-2">
+        <div>
+          <span className="text-xs font-semibold text-[#3B1E1A] block">{title}</span>
+          <span className="text-xs text-[#6E5148] block">{hint}</span>
+        </div>
+      </div>
+      <div className="flex items-center gap-3">
+        {value ? (
+          // eslint-disable-next-line @next/next/no-img-element -- şeffaf vitrin katmanı önizlemesi
+          <img
+            src={value}
+            alt={`${title} önizlemesi`}
+            className="w-16 h-16 rounded-xl object-contain bg-[#F6EEDF] border border-[#E2D3BD] p-1 shrink-0"
+          />
+        ) : (
+          <div className="w-16 h-16 rounded-xl bg-[#F6EEDF] border border-dashed border-[#D3C0A5] flex items-center justify-center shrink-0 text-[#6E5148]">
+            {kind === "cutout" ? (
+              <Layers className="w-5 h-5" aria-hidden="true" />
+            ) : (
+              <Scissors className="w-5 h-5" aria-hidden="true" />
+            )}
+          </div>
+        )}
+        <div className="flex flex-wrap gap-2">
+          <label
+            className={`min-h-[40px] px-3.5 py-2 rounded-xl bg-[#B4532A] hover:bg-[#9C4421] text-white text-xs font-bold flex items-center gap-1.5 transition-colors ${
+              busy ? "opacity-60" : "cursor-pointer"
+            }`}
+          >
+            {busy ? <Loader2 className="w-3.5 h-3.5 animate-spin" aria-hidden="true" /> : <Camera className="w-3.5 h-3.5" aria-hidden="true" />}
+            {busy ? "Yükleniyor…" : value ? "Değiştir" : "Yükle"}
+            <input
+              type="file"
+              accept="image/webp,image/png,image/jpeg,image/*"
+              className="hidden"
+              disabled={busy}
+              onChange={(e) => {
+                void handleFile(e.target.files?.[0]);
+                e.target.value = "";
+              }}
+            />
+          </label>
+          {value && !busy && (
+            <button
+              type="button"
+              onClick={() => onChange(undefined)}
+              className="min-h-[40px] px-3 py-2 rounded-xl bg-[#F1E6D2] hover:bg-[#E2D3BD] border border-[#E2D3BD] text-[#3B1E1A] text-xs font-semibold transition-colors"
+            >
+              Kaldır
+            </button>
+          )}
+        </div>
+      </div>
+      {err && (
+        <p role="alert" className="text-xs font-medium text-[#7D2114]">
+          {err}
+        </p>
+      )}
+    </div>
+  );
+}
+
+function ShowcaseMediaSection({
+  showcase,
+  isAccomp,
+  onUpdate,
+}: {
+  showcase?: ProductShowcaseMedia;
+  isAccomp: boolean;
+  onUpdate: (updater: (prev: ProductShowcaseMedia) => ProductShowcaseMedia) => void;
+}) {
+  const [spinProgress, setSpinProgress] = useState<{ done: number; total: number } | null>(null);
+  const [spinErr, setSpinErr] = useState<string | null>(null);
+  const [videoBusy, setVideoBusy] = useState(false);
+  const [videoErr, setVideoErr] = useState<string | null>(null);
+
+  const spinUrls = showcase?.spinFrameUrls ?? [];
+  const spinBusy = spinProgress !== null;
+
+  const handleSpinFiles = async (fileList: FileList | null) => {
+    if (!fileList || fileList.length === 0) return;
+    setSpinErr(null);
+
+    const sorted = Array.from(fileList).sort((a, b) =>
+      a.name.localeCompare(b.name, undefined, { numeric: true, sensitivity: "base" }),
+    );
+    if (sorted.length > MAX_SPIN_FRAMES_COUNT) {
+      setSpinErr(`En fazla ${MAX_SPIN_FRAMES_COUNT} döndürme karesi seçilebilir (seçilen: ${sorted.length}).`);
+      return;
+    }
+
+    const total = sorted.length;
+    const uploadedUrls: string[] = new Array<string>(total);
+    let completed = 0;
+    setSpinProgress({ done: 0, total });
+
+    try {
+      for (let start = 0; start < total; start += SPIN_UPLOAD_BATCH_SIZE) {
+        const batch = sorted.slice(start, start + SPIN_UPLOAD_BATCH_SIZE);
+        await Promise.all(
+          batch.map(async (rawFile, offset) => {
+            const index = start + offset;
+            const prepared = await prepareTransparentAsset(
+              rawFile,
+              `spin-${String(index).padStart(2, "0")}`,
+              1000,
+            );
+            const url = await uploadProductMediaAsset(prepared, "spin");
+            uploadedUrls[index] = url;
+            completed += 1;
+            setSpinProgress({ done: completed, total });
+          }),
+        );
+      }
+
+      onUpdate((prev) => ({
+        ...prev,
+        spinFrameUrls: uploadedUrls,
+        spinFramesUrlPattern: undefined,
+        spinFrameCount: undefined,
+      }));
+    } catch (error: unknown) {
+      setSpinErr(getErrorMessage(error));
+    } finally {
+      setSpinProgress(null);
+    }
+  };
+
+  const handleVideoFile = async (picked: File | undefined) => {
+    if (!picked) return;
+    setVideoErr(null);
+
+    const mime = resolveVideoMimeType(picked);
+    if (!mime) {
+      setVideoErr("Video MP4, WebM veya MOV formatında olmalıdır.");
+      return;
+    }
+    if (picked.size > MAX_SHOWCASE_VIDEO_BYTES) {
+      setVideoErr("Video boyutu en fazla 16 MB olabilir.");
+      return;
+    }
+
+    setVideoBusy(true);
+    try {
+      const url = await uploadProductMediaAsset(picked, "video", mime);
+      onUpdate((prev) => ({ ...prev, ambientVideoUrl: url }));
+    } catch (error: unknown) {
+      setVideoErr(getErrorMessage(error));
+    } finally {
+      setVideoBusy(false);
+    }
+  };
+
+  const toneValue = showcase?.specularTone;
+  const toneOptions: ReadonlyArray<{ id: "auto" | "ember" | "frost"; label: string }> = [
+    { id: "auto", label: "Otomatik" },
+    { id: "ember", label: "Sıcak Köz" },
+    { id: "frost", label: "Soğuk Buğu" },
+  ];
+
+  return (
+    <div className="p-3.5 rounded-2xl bg-[#FBF6EC] border border-[#E2D3BD] space-y-3">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+        <ShowcaseImageSlot
+          title="Dekupe Katman"
+          hint="Şeffaf arka plansız WebP/PNG ürün görseli"
+          kind="cutout"
+          value={showcase?.cutoutUrl}
+          onChange={(url) => onUpdate((prev) => ({ ...prev, cutoutUrl: url }))}
+        />
+        <ShowcaseImageSlot
+          title="Bıçak Kesiti"
+          hint="Kesilmiş iç doku ve gözenek fotoğrafı"
+          kind="crumb"
+          value={showcase?.crumbUrl}
+          onChange={(url) => onUpdate((prev) => ({ ...prev, crumbUrl: url }))}
+        />
+      </div>
+
+      {/* 360° Döndürme Kareleri */}
+      <div className="p-3 rounded-xl bg-white border border-[#E2D3BD] space-y-2.5">
+        <div className="flex flex-wrap items-center justify-between gap-2">
+          <div>
+            <span className="text-xs font-semibold text-[#3B1E1A] flex items-center gap-1.5">
+              <RotateCw className="w-3.5 h-3.5 text-[#8E3D1B]" aria-hidden="true" />
+              360° Döndürme Kareleri
+            </span>
+            <span className="text-xs text-[#6E5148] block">
+              Çoklu WebP/PNG kare seçin; dosya adına göre doğal sıralanıp 6&apos;lı paketlerle yüklenir.
+            </span>
+          </div>
+          <span className="px-2 py-0.5 rounded-md bg-[#F6EEDF] border border-[#E2D3BD] text-xs font-mono tabular-nums text-[#3B1E1A]">
+            {spinUrls.length > 0
+              ? `${spinUrls.length} kare`
+              : showcase?.spinFrameCount && showcase?.spinFramesUrlPattern
+                ? `Desen · ${showcase.spinFrameCount} kare`
+                : "0 kare"}
+          </span>
+        </div>
+
+        <div className="flex flex-wrap items-center gap-2.5">
+          {spinUrls[0] && (
+            // eslint-disable-next-line @next/next/no-img-element -- 360 ilk kare önizlemesi
+            <img
+              src={spinUrls[0]}
+              alt="360 döndürme ilk kare önizlemesi"
+              className="w-12 h-12 rounded-lg object-contain bg-[#F6EEDF] border border-[#E2D3BD] p-0.5 shrink-0"
+            />
+          )}
+          <label
+            className={`min-h-[40px] px-3.5 py-2 rounded-xl bg-[#B4532A] hover:bg-[#9C4421] text-white text-xs font-bold flex items-center gap-1.5 transition-colors ${
+              spinBusy ? "opacity-60" : "cursor-pointer"
+            }`}
+          >
+            {spinBusy ? (
+              <Loader2 className="w-3.5 h-3.5 animate-spin" aria-hidden="true" />
+            ) : (
+              <RotateCw className="w-3.5 h-3.5" aria-hidden="true" />
+            )}
+            {spinBusy && spinProgress
+              ? `${spinProgress.done} / ${spinProgress.total} yüklendi`
+              : spinUrls.length > 0
+                ? "Kareleri Değiştir"
+                : "Çoklu Kare Seç"}
+            <input
+              type="file"
+              accept="image/webp,image/png,image/jpeg,image/*"
+              multiple
+              className="hidden"
+              disabled={spinBusy}
+              onChange={(e) => {
+                void handleSpinFiles(e.target.files);
+                e.target.value = "";
+              }}
+            />
+          </label>
+          {(spinUrls.length > 0 || showcase?.spinFramesUrlPattern || showcase?.spinFrameCount) && !spinBusy && (
+            <button
+              type="button"
+              onClick={() =>
+                onUpdate((prev) => ({
+                  ...prev,
+                  spinFrameUrls: undefined,
+                  spinFramesUrlPattern: undefined,
+                  spinFrameCount: undefined,
+                }))
+              }
+              className="min-h-[40px] px-3 py-2 rounded-xl bg-[#F1E6D2] hover:bg-[#E2D3BD] border border-[#E2D3BD] text-[#3B1E1A] text-xs font-semibold transition-colors"
+            >
+              Temizle
+            </button>
+          )}
+        </div>
+
+        {spinBusy && spinProgress && (
+          <div className="space-y-1">
+            <div className="h-1.5 w-full rounded-full bg-[#F6EEDF] overflow-hidden border border-[#E2D3BD]">
+              <div
+                className="h-full bg-[#B4532A] transition-all duration-150"
+                style={{ width: `${Math.round((spinProgress.done / Math.max(1, spinProgress.total)) * 100)}%` }}
+              />
+            </div>
+            <p className="text-xs font-mono tabular-nums text-[#6E5148]">
+              {spinProgress.done} / {spinProgress.total} yüklendi
+            </p>
+          </div>
+        )}
+        {spinErr && (
+          <p role="alert" className="text-xs font-medium text-[#7D2114]">
+            {spinErr}
+          </p>
+        )}
+      </div>
+
+      {/* Canlı Doku Videosu & Işık Tonu */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+        <div className="p-3 rounded-xl bg-white border border-[#E2D3BD] space-y-2">
+          <div>
+            <span className="text-xs font-semibold text-[#3B1E1A] flex items-center gap-1.5">
+              <Film className="w-3.5 h-3.5 text-[#8E3D1B]" aria-hidden="true" />
+              Canlı Doku Videosu
+            </span>
+            <span className="text-xs text-[#6E5148] block">MP4 veya WebM kısa klip (en fazla 16 MB)</span>
+          </div>
+          <div className="flex flex-wrap items-center gap-2.5">
+            {showcase?.ambientVideoUrl && (
+              <video
+                src={showcase.ambientVideoUrl}
+                muted
+                loop
+                playsInline
+                controls
+                className="w-24 h-14 rounded-lg object-cover bg-[#F6EEDF] border border-[#E2D3BD] shrink-0"
+              />
+            )}
+            <label
+              className={`min-h-[40px] px-3.5 py-2 rounded-xl bg-[#B4532A] hover:bg-[#9C4421] text-white text-xs font-bold flex items-center gap-1.5 transition-colors ${
+                videoBusy ? "opacity-60" : "cursor-pointer"
+              }`}
+            >
+              {videoBusy ? (
+                <Loader2 className="w-3.5 h-3.5 animate-spin" aria-hidden="true" />
+              ) : (
+                <Film className="w-3.5 h-3.5" aria-hidden="true" />
+              )}
+              {videoBusy ? "Yükleniyor…" : showcase?.ambientVideoUrl ? "Videoyu Değiştir" : "Video Yükle"}
+              <input
+                type="file"
+                accept="video/mp4,video/webm,video/quicktime"
+                className="hidden"
+                disabled={videoBusy}
+                onChange={(e) => {
+                  void handleVideoFile(e.target.files?.[0]);
+                  e.target.value = "";
+                }}
+              />
+            </label>
+            {showcase?.ambientVideoUrl && !videoBusy && (
+              <button
+                type="button"
+                onClick={() => onUpdate((prev) => ({ ...prev, ambientVideoUrl: undefined }))}
+                className="min-h-[40px] px-3 py-2 rounded-xl bg-[#F1E6D2] hover:bg-[#E2D3BD] border border-[#E2D3BD] text-[#3B1E1A] text-xs font-semibold transition-colors"
+              >
+                Kaldır
+              </button>
+            )}
+          </div>
+          {videoErr && (
+            <p role="alert" className="text-xs font-medium text-[#7D2114]">
+              {videoErr}
+            </p>
+          )}
+        </div>
+
+        <div className="p-3 rounded-xl bg-white border border-[#E2D3BD] space-y-2">
+          <div>
+            <span className="text-xs font-semibold text-[#3B1E1A] flex items-center gap-1.5">
+              <Sparkles className="w-3.5 h-3.5 text-[#8E3D1B]" aria-hidden="true" />
+              Işık Tonu
+            </span>
+            <span className="text-xs text-[#6E5148] block">
+              Otomatik seçim şu kategoride: {isAccomp ? "Soğuk Buğu" : "Sıcak Köz"}
+            </span>
+          </div>
+          <div className="grid grid-cols-3 gap-1.5" role="group" aria-label="Işık Tonu">
+            {toneOptions.map((opt) => {
+              const active = (opt.id === "auto" && !toneValue) || toneValue === opt.id;
+              return (
+                <button
+                  key={opt.id}
+                  type="button"
+                  aria-pressed={active}
+                  onClick={() =>
+                    onUpdate((prev) => ({
+                      ...prev,
+                      specularTone: opt.id === "auto" ? undefined : opt.id,
+                    }))
+                  }
+                  className={`min-h-[40px] px-2 py-1.5 rounded-xl text-xs font-bold border transition-colors ${
+                    active
+                      ? "bg-[#B4532A] text-white border-[#B4532A] shadow-sm"
+                      : "bg-[#FBF6EC] text-[#3B1E1A] border-[#E2D3BD] hover:bg-[#F1E6D2]"
+                  }`}
+                >
+                  {opt.label}
+                </button>
+              );
+            })}
+          </div>
+        </div>
+      </div>
     </div>
   );
 }

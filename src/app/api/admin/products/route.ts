@@ -5,6 +5,8 @@ import { createAdminClient } from "@/lib/supabase/admin";
 import { getErrorMessage } from "@/lib/utils/error";
 import { logError } from "@/lib/kernel/log";
 import { getCatalog } from "@/lib/products/server";
+import { isSafeShowcaseUrl, MAX_SPIN_FRAMES, MIN_SPIN_FRAMES } from "@/lib/products/showcase";
+import type { ProductShowcaseMedia } from "@/types";
 import { slugify } from "@/lib/utils/slugify";
 import { isIsoDate, istanbulToday } from "@/lib/time/istanbul";
 import { upcomingSaleDates } from "@/lib/ordering/saleDates";
@@ -13,6 +15,61 @@ import { findHealthTerms } from "@/lib/knowledge/lint";
 const money = z.number().finite().min(0).max(100000);
 const intOrNull = (max: number) => z.number().int().min(0).max(max).nullable();
 const strList = (max: number) => z.array(z.string().trim().min(1).max(80)).max(max);
+
+const optionalSafeUrl = (max = 1000) =>
+  z.preprocess(
+    (v) => {
+      if (v === null || v === undefined) return undefined;
+      if (typeof v === "string") {
+        const trimmed = v.trim();
+        return trimmed === "" ? undefined : trimmed;
+      }
+      return v;
+    },
+    z
+      .string()
+      .max(max)
+      .refine(isSafeShowcaseUrl, "Vitrin medya URL'si yalnızca https:// veya / ile başlayabilir")
+      .optional(),
+  );
+
+const ShowcaseSchema = z
+  .object({
+    cutoutUrl: optionalSafeUrl(1000),
+    crumbUrl: optionalSafeUrl(1000),
+    spinFrameUrls: z
+      .array(
+        z
+          .string()
+          .trim()
+          .min(1, "360° kare URL'si boş olamaz")
+          .max(1000)
+          .refine(isSafeShowcaseUrl, "360° kare URL'si yalnızca https:// veya / ile başlayabilir"),
+      )
+      .max(MAX_SPIN_FRAMES, `En fazla ${MAX_SPIN_FRAMES} döndürme karesi eklenebilir`)
+      .optional(),
+    spinFramesUrlPattern: optionalSafeUrl(1000),
+    spinFrameCount: z.preprocess(
+      (v) => (v === "" || v === null || v === undefined ? undefined : v),
+      z.number().int().min(MIN_SPIN_FRAMES).max(MAX_SPIN_FRAMES).optional(),
+    ),
+    ambientVideoUrl: optionalSafeUrl(1000),
+    specularTone: z.preprocess(
+      (v) => (v === "" || v === null || v === undefined ? undefined : v),
+      z.enum(["ember", "frost"]).optional(),
+    ),
+  })
+  .transform((val): ProductShowcaseMedia | undefined => {
+    const cleaned: ProductShowcaseMedia = {};
+    if (val.cutoutUrl !== undefined) cleaned.cutoutUrl = val.cutoutUrl;
+    if (val.crumbUrl !== undefined) cleaned.crumbUrl = val.crumbUrl;
+    if (val.spinFrameUrls !== undefined && val.spinFrameUrls.length > 0) cleaned.spinFrameUrls = val.spinFrameUrls;
+    if (val.spinFramesUrlPattern !== undefined) cleaned.spinFramesUrlPattern = val.spinFramesUrlPattern;
+    if (val.spinFrameCount !== undefined) cleaned.spinFrameCount = val.spinFrameCount;
+    if (val.ambientVideoUrl !== undefined) cleaned.ambientVideoUrl = val.ambientVideoUrl;
+    if (val.specularTone !== undefined) cleaned.specularTone = val.specularTone;
+    return Object.keys(cleaned).length > 0 ? cleaned : undefined;
+  });
 
 const ProductSchema = z
   .object({
@@ -61,6 +118,7 @@ const ProductSchema = z
         healthBenefit: z.string().max(2000).optional(),
         pairingStorage: z.string().max(2000).optional(),
         videoUrl: z.string().max(500).optional(),
+        showcase: z.preprocess((v) => (v === null ? undefined : v), ShowcaseSchema.optional()),
       })
       .nullable()
       .default(null),

@@ -421,3 +421,91 @@ dialog.studyo-modal-dialog::backdrop {
   inset: auto 0.5rem 0;
   border-block-end: 3px solid #B4532A;
 }
+
+/* ─── EkmekLab 3D Atölye Vitrin Sahnesi & Speküler Işık Katmanları ─── */
+.atelier-perspective {
+  perspective: 1100px;
+  perspective-origin: 50% 45%;
+}
+
+.atelier-preserve-3d {
+  transform-style: preserve-3d;
+}
+
+.atelier-layer-back {
+  transform: translateZ(-12px);
+}
+
+.atelier-layer-mid {
+  transform: translateZ(16px);
+}
+
+.atelier-layer-front {
+  transform: translateZ(32px);
+}
+
+.specular-ember,
+.specular-frost {
+  --px: 50%;
+  --py: 50%;
+  pointer-events: none;
+  mix-blend-mode: soft-light;
+  transition: opacity 0.25s ease-out;
+}
+
+.specular-ember {
+  background: radial-gradient(
+    360px circle at var(--px) var(--py),
+    rgb(255 214 153 / 0.44) 0%,
+    rgb(180 83 42 / 0.22) 38%,
+    transparent 72%
+  );
+}
+
+.specular-frost {
+  background: radial-gradient(
+    340px circle at var(--px) var(--py),
+    rgb(255 255 255 / 0.5) 0%,
+    rgb(148 197 224 / 0.24) 38%,
+    transparent 72%
+  );
+}
+
+html.dark .specular-ember {
+  background: radial-gradient(
+    360px circle at var(--px) var(--py),
+    rgb(255 196 128 / 0.34) 0%,
+    rgb(224 122 95 / 0.2) 40%,
+    transparent 74%
+  );
+}
+
+html.dark .specular-frost {
+  background: radial-gradient(
+    340px circle at var(--px) var(--py),
+    rgb(232 246 255 / 0.32) 0%,
+    rgb(125 186 218 / 0.18) 40%,
+    transparent 74%
+  );
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .atelier-perspective {
+    perspective: none;
+  }
+
+  .atelier-preserve-3d,
+  .atelier-layer-back,
+  .atelier-layer-mid,
+  .atelier-layer-front {
+    transform-style: flat !important;
+    transform: none !important;
+    transition: none !important;
+  }
+
+  .specular-ember,
+  .specular-frost {
+    opacity: 0 !important;
+    transition: none !important;
+  }
+}

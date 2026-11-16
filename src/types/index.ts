@@ -48,12 +48,23 @@ export interface Product {
   saleWeekdays?: number[] | null;
 }
 
+export interface ProductShowcaseMedia {
+  cutoutUrl?: string;
+  crumbUrl?: string;
+  spinFrameUrls?: string[];
+  spinFramesUrlPattern?: string;
+  spinFrameCount?: number;
+  ambientVideoUrl?: string;
+  specularTone?: "ember" | "frost";
+}
+
 export interface MasterclassDetail {
   flourHeritage?: string;
   technique?: string;
   healthBenefit?: string;
   pairingStorage?: string;
   videoUrl?: string;
+  showcase?: ProductShowcaseMedia;
 }
 
 export interface ExtendedProduct extends Product {

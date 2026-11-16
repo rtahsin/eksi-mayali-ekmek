@@ -6,14 +6,29 @@ import { getErrorMessage } from "@/lib/utils/error";
 import { logError } from "@/lib/kernel/log";
 import { MEDIA_BUCKET, MAX_PHOTO_BYTES } from "@/lib/bake/log";
 
-const PHOTO_TYPES: Record<string, string> = { "image/webp": "webp", "image/jpeg": "jpg" };
+const PHOTO_TYPES: Record<string, string> = {
+  "image/webp": "webp",
+  "image/jpeg": "jpg",
+  "image/png": "png",
+};
 
-const BodySchema = z.object({ type: z.string(), size: z.number().int().positive() });
+const VIDEO_TYPES: Record<string, string> = {
+  "video/mp4": "mp4",
+  "video/webm": "webm",
+  "video/quicktime": "mov",
+};
+
+const MAX_SHOWCASE_VIDEO_BYTES = 16 * 1024 * 1024;
+
+const BodySchema = z.object({
+  type: z.string(),
+  size: z.number().int().positive(),
+  kind: z.enum(["cover", "cutout", "crumb", "spin", "video"]).optional().default("cover"),
+});
 
 /**
- * Ürün kapak fotoğrafı için imzalı yükleme bağlantısı. Fotoğraf telefonda küçültülüp tarayıcıdan
- * doğrudan media bucket'ına gider; yol sunucuda kurulur. Yeni üründe kimlik henüz olmadığından yol
- * ürüne bağlı değil; ürüne bağlanması kayıtta `imageUrl` ile olur.
+ * Ürün kapak veya 3D vitrin sahne medyası için imzalı yükleme bağlantısı.
+ * Dosya tarayıcıdan doğrudan `media` bucket'ına gider; yol sunucuda kurulur.
  */
 export async function POST(request: Request) {
   const guard = await requireAdmin(request);
@@ -21,15 +36,37 @@ export async function POST(request: Request) {
 
   const parsed = BodySchema.safeParse(await request.json().catch(() => null));
   if (!parsed.success) return NextResponse.json({ error: "Geçersiz istek" }, { status: 400 });
-  const ext = PHOTO_TYPES[parsed.data.type];
-  if (!ext) return NextResponse.json({ error: "Fotoğraf webp ya da jpeg olmalı" }, { status: 400 });
-  if (parsed.data.size > MAX_PHOTO_BYTES) return NextResponse.json({ error: "Fotoğraf çok büyük" }, { status: 400 });
+
+  const { kind, size } = parsed.data;
+  const mime = parsed.data.type.split(";")[0].trim().toLowerCase();
+
+  let ext: string | undefined;
+  if (kind === "video") {
+    ext = VIDEO_TYPES[mime];
+    if (!ext) {
+      return NextResponse.json({ error: "Video mp4, webm ya da mov olmalı" }, { status: 400 });
+    }
+    if (size > MAX_SHOWCASE_VIDEO_BYTES) {
+      return NextResponse.json({ error: "Video en fazla 16 MB olabilir" }, { status: 400 });
+    }
+  } else {
+    ext = PHOTO_TYPES[mime];
+    if (!ext) {
+      return NextResponse.json({ error: "Görsel webp, jpeg ya da png olmalı" }, { status: 400 });
+    }
+    if (size > MAX_PHOTO_BYTES) {
+      return NextResponse.json({ error: "Fotoğraf çok büyük" }, { status: 400 });
+    }
+  }
 
   const supabase = createAdminClient();
   if (!supabase) return NextResponse.json({ error: "Supabase unconfigured" }, { status: 500 });
 
   try {
-    const path = `urun-kapak/${crypto.randomUUID()}.${ext}`;
+    const path =
+      kind === "cover"
+        ? `urun-kapak/${crypto.randomUUID()}.${ext}`
+        : `urun-vitrin/${kind}/${crypto.randomUUID()}.${ext}`;
     const bucket = supabase.storage.from(MEDIA_BUCKET);
     const { data, error } = await bucket.createSignedUploadUrl(path);
     if (error) throw error;

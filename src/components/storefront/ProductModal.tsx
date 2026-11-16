@@ -5,10 +5,12 @@ import { createPortal } from "react-dom";
 import type { ExtendedProduct } from "@/types";
 import { productBadges } from "@/lib/products/badges";
 import { isAccompaniment } from "@/lib/products/grouping";
-import { getProductPlaceholder } from "@/lib/products/map";
 import { getDefaultStorageGuidance } from "@/lib/products/foodCompliance";
-import { SafeProductImage } from "@/components/storefront/SafeProductImage";
 import { FoodComplianceNotice } from "@/components/storefront/FoodComplianceNotice";
+import {
+  ProductShowcaseStage,
+  type ShowcaseMode,
+} from "@/components/storefront/ProductShowcaseStage";
 import { useCartStore } from "@/lib/store/useCartStore";
 import { useIstanbulToday } from "@/hooks/useIstanbulToday";
 import { getSaleScheduleBadge } from "@/lib/ordering/saleDates";
@@ -28,10 +30,11 @@ import {
 
 interface ProductModalProps {
   product: ExtendedProduct | null;
+  initialMode?: ShowcaseMode;
   onClose: () => void;
 }
 
-export function ProductModal({ product, onClose }: ProductModalProps) {
+export function ProductModal({ product, initialMode, onClose }: ProductModalProps) {
   const [mounted, setMounted] = useState(false);
   const [quantity, setQuantity] = useState<number>(1);
   const [isAdded, setIsAdded] = useState<boolean>(false);
@@ -78,6 +81,59 @@ export function ProductModal({ product, onClose }: ProductModalProps) {
     }
   };
 
+  const topStageBadges = (
+    <>
+      {product.saleWeekdays &&
+      product.saleWeekdays.length > 0 &&
+      product.saleWeekdays.length < 7 &&
+      scheduleBadge ? (
+        <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-accent text-white border border-accent/80 text-xs font-sans font-bold tracking-wide shadow-md">
+          <span aria-hidden="true" className="w-1.5 h-1.5 rounded-full bg-white" />
+          <span>{scheduleBadge}</span>
+        </span>
+      ) : accompaniment ? (
+        <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-cream-surface text-ink border border-line text-xs font-sans font-bold tracking-wide shadow-md">
+          <span aria-hidden="true" className="w-1.5 h-1.5 rounded-full bg-good" />
+          <span>
+            {product.madeToOrder
+              ? "Sipariş Üzerine Hazırlanır"
+              : "Günlük Taze Mandıra & Şarküteri"}
+          </span>
+        </span>
+      ) : (
+        <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-cream-surface text-ink border border-line text-xs font-sans font-bold tracking-wide shadow-md">
+          <span
+            aria-hidden="true"
+            className="w-1.5 h-1.5 rounded-full bg-good animate-pulse"
+          />
+          <span>
+            {product.madeToOrder ? "Ön Siparişle Taze Pişer" : "Bugün fırında"}
+          </span>
+        </span>
+      )}
+    </>
+  );
+
+  const bottomStageMeta =
+    product.weight > 0 ? (
+      <div className="hidden md:inline-flex items-center gap-2 px-3 py-1.5 rounded-xl bg-cream-surface/95 text-ink border border-line text-xs font-sans shadow-md backdrop-blur-sm">
+        <span className="font-serif font-bold text-sm text-ink">
+          {product.weight >= 1000 && product.weightUnit === "ml"
+            ? `${product.weight / 1000}L`
+            : `${product.weight}${product.weightUnit || "g"}`}
+        </span>
+        {!accompaniment && product.hydration ? (
+          <>
+            <span className="text-line">|</span>
+            <span className="flex items-center gap-1 text-xs text-ink-muted font-medium">
+              <Droplets aria-hidden="true" className="w-3.5 h-3.5 text-accent" />
+              %{product.hydration} Hidrasyon
+            </span>
+          </>
+        ) : null}
+      </div>
+    ) : undefined;
+
   return createPortal(
     <div
       className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/60 backdrop-blur-sm animate-fadeIn"
@@ -88,7 +144,7 @@ export function ProductModal({ product, onClose }: ProductModalProps) {
         if (e.target === e.currentTarget) onClose();
       }}
     >
-      <div className="relative w-full max-w-3xl rounded-3xl bg-cream-surface border border-line overflow-hidden shadow-2xl flex flex-col md:flex-row max-h-[92vh] text-ink">
+      <div className="relative w-full max-w-4xl rounded-3xl bg-cream-surface border border-line overflow-hidden shadow-2xl flex flex-col md:flex-row max-h-[92vh] text-ink">
         {/* Close Button */}
         <button
           type="button"
@@ -100,70 +156,16 @@ export function ProductModal({ product, onClose }: ProductModalProps) {
           <X aria-hidden="true" className="w-4 h-4" />
         </button>
 
-        {/* Left: Product Visual */}
-        <div className="w-full md:w-5/12 relative min-h-[220px] md:min-h-[460px] bg-bg overflow-hidden shrink-0 flex flex-col justify-between border-b md:border-b-0 md:border-r border-line">
-          <SafeProductImage
-            src={product.imageUrl}
-            fallbackSrc={getProductPlaceholder(product.category)}
-            alt={product.name}
-            isAccompanimentItem={accompaniment}
-            className="absolute inset-0 w-full h-full object-cover"
+        {/* Left: Interactive Showcase Stage */}
+        <div className="w-full md:w-5/12 p-3 sm:p-4 bg-bg shrink-0 flex flex-col justify-center border-b md:border-b-0 md:border-r border-line overflow-y-auto">
+          <ProductShowcaseStage
+            product={product}
+            variant="modal"
+            initialMode={initialMode}
+            priority
+            topBadges={topStageBadges}
+            bottomMeta={bottomStageMeta}
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent md:hidden pointer-events-none" />
-
-          {/* Top Badge */}
-          <div className="relative z-10 p-4 flex flex-wrap gap-2 pointer-events-none">
-            {product.saleWeekdays &&
-            product.saleWeekdays.length > 0 &&
-            product.saleWeekdays.length < 7 &&
-            scheduleBadge ? (
-              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-accent text-white border border-accent/80 text-xs font-sans font-bold tracking-wide shadow-md">
-                <span aria-hidden="true" className="w-1.5 h-1.5 rounded-full bg-white" />
-                <span>{scheduleBadge}</span>
-              </span>
-            ) : accompaniment ? (
-              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-cream-surface text-ink border border-line text-xs font-sans font-bold tracking-wide shadow-md">
-                <span aria-hidden="true" className="w-1.5 h-1.5 rounded-full bg-good" />
-                <span>
-                  {product.madeToOrder
-                    ? "Sipariş Üzerine Hazırlanır"
-                    : "Günlük Taze Mandıra & Şarküteri"}
-                </span>
-              </span>
-            ) : (
-              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-cream-surface text-ink border border-line text-xs font-sans font-bold tracking-wide shadow-md">
-                <span
-                  aria-hidden="true"
-                  className="w-1.5 h-1.5 rounded-full bg-good animate-pulse"
-                />
-                <span>
-                  {product.madeToOrder ? "Ön Siparişle Taze Pişer" : "Bugün fırında"}
-                </span>
-              </span>
-            )}
-          </div>
-
-          {/* Bottom Specs Strip (Weight & Bread Hydration) */}
-          {product.weight > 0 && (
-            <div className="relative z-10 p-4 space-y-1.5 hidden md:block">
-              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-xl bg-cream-surface text-ink border border-line text-xs font-sans shadow-md">
-                <span className="font-serif font-bold text-sm text-ink">
-                  {product.weight >= 1000 && product.weightUnit === "ml"
-                    ? `${product.weight / 1000}L`
-                    : `${product.weight}${product.weightUnit || "g"}`}
-                </span>
-                {!accompaniment && product.hydration ? (
-                  <>
-                    <span className="text-line">|</span>
-                    <span className="flex items-center gap-1 text-xs text-ink-muted font-medium">
-                      <Droplets aria-hidden="true" className="w-3.5 h-3.5 text-accent" />
-                      %{product.hydration} Hidrasyon
-                    </span>
-                  </>
-                ) : null}
-              </div>
-            </div>
-          )}
         </div>
 
         {/* Right: Story, Food Compliance & Add to Cart */}

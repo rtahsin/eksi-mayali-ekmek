@@ -1,8 +1,8 @@
 # EkmekLab Ana Komuta Merkezi (`COMMAND_CENTER.md`)
 
 > **Son Güncelleme:** 2026-11-16  
-> **Aktif Çalışma Paketi:** CEO Operasyon Kokpiti, Sıfır-Sürtünmeli Kurye Dağıtımı, B2B Cari Mimarisi, 033 Sertleştirme, Komuta MCP/Sheets/Sentry & CFO Gider Merkezi (Faz 0 – Faz 11 ✅ Tamamlandı)  
-> **Doğrulama Kapısı:** `npm run typecheck` · `npm test` · `npm run build` (Faz 0–11 sonrası son doğrulamadan geçirildi)  
+> **Aktif Çalışma Paketi:** CEO Operasyon Kokpiti, Sıfır-Sürtünmeli Kurye Dağıtımı, B2B Cari Mimarisi, 033 Sertleştirme, Komuta MCP/Sheets/Sentry, CFO Gider Merkezi & 3D/360° İnteraktif Atölye Vitrini (Faz 0 – Faz 12 ✅ Tamamlandı)  
+> **Doğrulama Kapısı:** `npm run typecheck` · `npm test` · `npm run build` (Faz 0–12 sonrası son doğrulamadan geçirildi)  
 > **Kanonik Kök Belgeler:** [`MERKEZ.md`](../MERKEZ.md) · [`AGENTS.md`](../AGENTS.md) · [`docs/MIMARI.md`](MIMARI.md)
 
 ---
@@ -57,6 +57,7 @@
 | **Faz 9** | Anayasa & Otonomi Modernizasyonu (`AGENTS.md`, `MERKEZ.md`, `SKILL.md`, `ADR-0003`/`0005`, `types.ts`): RBAC `requireCapability`, `031`–`032`, `0 ₺` teslimat, `supabase_mcp` + `K011` + `studyo/` yetki temizliği | Orkestratör | ✅ Tamamlandı |
 | **Faz 10** | Canlı `bakery_settings` `0 ₺` teslimat + `"Beykent"` düzeltmesi, 10 canlı FK indeksi, `033_advisor_rls_and_fk_hardening.sql` (+ test), yerel `ekmeklab-komuta` MCP sunucusu & `ekmeklab-yerel-buyume-ve-birim-ekonomi` yeteneği | Orkestratör | ✅ Tamamlandı (Canlıda) |
 | **Faz 11** | Sentry uçtan uca kurulum (`ekmeklab-web` / `de.sentry.io`, Uptime + E-posta uyarısı, cron/global-error Atölye Kremi), Google Sheets Canlı CEO & Birim Ekonomi Kokpiti (`Birim Ekonomi ve P&L` formüllü 4. sekme), `/admin/finans` & `/api/admin/finance/**` CFO Gider, Tedarikçi & Net Marj Merkezi, `ekmeklab-komuta` 5. araç & `cfo-ve-birim-ekonomi-mimari` ajanı | Komuta + Faz 11 | ✅ Tamamlandı |
+| **Faz 12** | İnteraktif 3D/360° Atölye Vitrini & S24 Sahne Otomasyonu (`ProductShowcaseMedia`, `ProductCard` `preserve-3d` yüzen dekupe + köz/buğu ışığı, `ProductCatalog` editoryal tezgâh, `ProductShowcaseStage` 60fps `<canvas>` 360° + Bıçak Kesiti + doku videosu, `/admin/urunler` çoklu medya yükleyici & `urun_360_uret.py`) | `admin-katalog-uzmani` + `vitrin-ux-mimari` | ✅ Tamamlandı |
 
 ---
 
@@ -66,5 +67,6 @@
   - `public.bakery_settings` (`0 ₺` teslimat, `0 ₺` alt limit ve `"Beykent"` mahallesi) canlıda aktif; `Ofsüt` (`3680.00 ₺`) ve `Yerumda` (`17405.00 ₺`, toplam `21085.00 ₺`) cari bakiyeleri dokunulmadan doğrulandı.
   - Supabase Security & Performance Advisor üzerindeki `anon_security_definer_function_executable`, `rls_enabled_no_policy`, `unindexed_foreign_keys`, `auth_rls_initplan` ve `multiple_permissive_policies` uyarılarının tamamı kapatıldı.
   - Vercel `ekmeklab_app` (`production`, `preview`, `development`) ortamına **`NEXT_PUBLIC_SENTRY_DSN`** ve **`SENTRY_DSN`** tanımlandı (`ekmeklab-web` / `de.sentry.io` aktif). Mevcut paylaşılan cari/fiş linklerinin geçerliliğini korumak için `LINK_SIGNING_SECRET` bilinçli olarak değiştirilmeden `SUPABASE_SERVICE_ROLE_KEY` türetiminde bırakıldı.
-- **Fiziksel Lansman Odağı (`M-2`):** Teknik kurulum tamamen bitti; sıradaki tek kurucu adımı Samsung S24 ile taş fırın ekmekleri ve şarküteri/mandıra eşlikçilerinin fotoğraflarını çekip `/admin/urunler` üzerinden vitrine girmek.
+  - Mevcut canlı fotoğraf dekupe taramasında `tas-firin-eksi-mayali-koy-ekmegi` temiz dekupe olarak çıktı (`border_touch_sides = 0`, `fg_ratio = 0.319`) ve `media` bucket'ına yüklenip `sample-ekmek-1` (`masterclass.showcase.cutoutUrl`) alanına canlı işlendi.
+- **Fiziksel Lansman Odağı (`M-2`):** Teknik kurulum tamamen bitti; sıradaki tek kurucu adımı Samsung S24 ile 15–20 dakikalık çekimde ana ekmeklerin döner tabla 360° videoları + ortadan bıçak kesiti kareleri ve eşlikçi (3L Jersey süt, yoğurt, sucuk, yumurta, yufka, peynir, kavurma) fotoğraflarını çekip `/admin/urunler` üzerinden vitrine girmek.
 - **Opsiyonel Platform Notu (`auth_leaked_password_protection`):** Management API üzerinden `password_hibp_enabled = true` denendi; Supabase bunu **Pro Plan ve üzeri** ile sınırladığı için Free planda kapalıdır (`HTTP 402 entitlement_required`). Girişler Google OAuth ile yapıldığından acil bir açık oluşturmaz; Pro plana geçilirse açılabilir.
