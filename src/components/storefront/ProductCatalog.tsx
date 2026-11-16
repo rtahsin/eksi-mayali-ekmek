@@ -52,7 +52,7 @@ function DesktopAtelierGroup({
   items,
   onOpenDetails,
   prioritizeFirst = false,
-  allowFeaturedHero = true,
+  allowFeaturedHero = false,
 }: {
   items: ExtendedProduct[];
   onOpenDetails: (product: ExtendedProduct, initialMode?: ShowcaseMode) => void;
@@ -63,10 +63,9 @@ function DesktopAtelierGroup({
 
   if (items.length === 1) {
     return (
-      <div className="pt-2">
+      <div className="pt-2 max-w-md">
         <ProductCard
           product={items[0]}
-          featured
           priority={prioritizeFirst}
           onOpenDetails={onOpenDetails}
         />
@@ -76,7 +75,7 @@ function DesktopAtelierGroup({
 
   if (items.length === 2) {
     return (
-      <div className="grid md:grid-cols-2 gap-7 pt-2">
+      <div className="grid md:grid-cols-2 gap-6 pt-2">
         {items.map((product, idx) => (
           <ProductCard
             key={product.id}
@@ -91,7 +90,7 @@ function DesktopAtelierGroup({
 
   if (allowFeaturedHero) {
     const [lead, ...rest] = items;
-    const gridColsClass = rest.length === 2 ? "md:grid-cols-2 gap-7" : "md:grid-cols-3 gap-6";
+    const gridColsClass = rest.length === 2 ? "md:grid-cols-2 gap-6" : "md:grid-cols-3 gap-6";
 
     return (
       <div className="space-y-8 pt-2">
@@ -409,7 +408,6 @@ export function ProductCatalog({ initialProducts, categories = [] }: ProductCata
                     <DesktopAtelierGroup
                       items={grouped.breads}
                       prioritizeFirst
-                      allowFeaturedHero
                       onOpenDetails={handleOpenDetails}
                     />
                   </div>
@@ -427,7 +425,6 @@ export function ProductCatalog({ initialProducts, categories = [] }: ProductCata
                       </div>
                       <DesktopAtelierGroup
                         items={grouped.accompaniments}
-                        allowFeaturedHero={false}
                         onOpenDetails={handleOpenDetails}
                       />
                     </div>
@@ -437,7 +434,6 @@ export function ProductCatalog({ initialProducts, categories = [] }: ProductCata
                 <DesktopAtelierGroup
                   items={filteredSortedProducts}
                   prioritizeFirst
-                  allowFeaturedHero={filteredSortedProducts.length === 1}
                   onOpenDetails={handleOpenDetails}
                 />
               )}

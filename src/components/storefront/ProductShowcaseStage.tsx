@@ -33,60 +33,6 @@ interface ModeOption {
   label: string;
 }
 
-function CutoutFloatImage({
-  src,
-  fallbackSrc,
-  alt,
-  priority,
-  isAccompanimentItem,
-}: {
-  src: string;
-  fallbackSrc: string;
-  alt: string;
-  priority?: boolean;
-  isAccompanimentItem: boolean;
-}) {
-  const imgRef = useRef<HTMLImageElement>(null);
-  const [failed, setFailed] = useState(false);
-
-  useEffect(() => {
-    setFailed(false);
-    const img = imgRef.current;
-    if (img && img.complete && img.naturalWidth === 0) {
-      setFailed(true);
-    }
-  }, [src]);
-
-  if (failed) {
-    return (
-      <SafeProductImage
-        src={fallbackSrc}
-        alt={alt}
-        priority={priority}
-        isAccompanimentItem={isAccompanimentItem}
-        className="w-full h-full object-cover"
-      />
-    );
-  }
-
-  return (
-    <img
-      ref={imgRef}
-      src={src}
-      alt={alt}
-      onError={() => setFailed(true)}
-      fetchPriority={priority ? "high" : undefined}
-      decoding="async"
-      draggable={false}
-      className={`max-h-[82%] max-w-[84%] w-auto h-auto object-contain select-none opacity-100 ${
-        isAccompanimentItem
-          ? "drop-shadow-[0_22px_26px_rgba(32,52,66,0.28)]"
-          : "drop-shadow-[0_24px_28px_rgba(59,30,26,0.34)]"
-      }`}
-    />
-  );
-}
-
 function SpinCanvasStage({
   product,
   spinFrames,
@@ -780,14 +726,14 @@ export function ProductShowcaseStage({
     setActiveMode(resolvedDefaultMode);
   }, [product.id, resolvedDefaultMode]);
 
-  // 3D sahne için re-render üretmeyen motion value katmanı
+  // 3D sahne için re-render üretmeyen ince optik perspektif katmanı
   const stageTiltRef = useRef<HTMLDivElement>(null);
   const pointerX = useMotionValue(0);
   const pointerY = useMotionValue(0);
   const smoothX = useSpring(pointerX, { stiffness: 210, damping: 24, mass: 0.65 });
   const smoothY = useSpring(pointerY, { stiffness: 210, damping: 24, mass: 0.65 });
-  const rotateX = useTransform(smoothY, [-0.5, 0.5], [7, -7]);
-  const rotateY = useTransform(smoothX, [-0.5, 0.5], [-7, 7]);
+  const rotateX = useTransform(smoothY, [-0.5, 0.5], [4, -4]);
+  const rotateY = useTransform(smoothX, [-0.5, 0.5], [-4, 4]);
 
   const handle3dPointerMove = (e: React.PointerEvent<HTMLDivElement>) => {
     if (reducedMotion || e.pointerType !== "mouse") return;
@@ -814,7 +760,6 @@ export function ProductShowcaseStage({
     }
   };
 
-  const cutoutSrc = showcase?.cutoutUrl && isSafeShowcaseUrl(showcase.cutoutUrl) ? showcase.cutoutUrl.trim() : null;
   const crumbSrc = showcase?.crumbUrl && isSafeShowcaseUrl(showcase.crumbUrl) ? showcase.crumbUrl.trim() : null;
   const videoSrc =
     showcase?.ambientVideoUrl && isSafeShowcaseUrl(showcase.ambientVideoUrl)
@@ -871,40 +816,20 @@ export function ProductShowcaseStage({
                   : "bg-gradient-to-br from-[#F3E5CE] via-[#EAD4B0] to-[#DFC092] dark:from-[#261E19] dark:via-[#1E1713] dark:to-[#17120E]"
               }`}
             >
-              {cutoutSrc ? (
-                <>
-                  {/* Arka Atölye Plakası */}
-                  <div
-                    aria-hidden="true"
-                    className="absolute inset-4 rounded-2xl border border-ink/10 bg-cream-surface/45 dark:bg-cream-surface/10 atelier-layer-back"
-                  />
-                  {/* Önde Yüzen Dekupe Görsel */}
-                  <div className="relative z-10 w-full h-full flex items-center justify-center p-6 atelier-layer-front">
-                    <CutoutFloatImage
-                      src={cutoutSrc}
-                      fallbackSrc={product.imageUrl}
-                      alt={product.name}
-                      priority={priority}
-                      isAccompanimentItem={accompaniment}
-                    />
-                  </div>
-                </>
-              ) : (
-                <div className="relative w-full h-full overflow-hidden atelier-layer-mid">
-                  <SafeProductImage
-                    src={product.imageUrl}
-                    fallbackSrc={getProductPlaceholder(product.category)}
-                    alt={product.name}
-                    priority={priority}
-                    isAccompanimentItem={accompaniment}
-                    className="w-full h-full object-cover"
-                  />
-                  <div
-                    aria-hidden="true"
-                    className="absolute inset-0 bg-gradient-to-t from-black/35 via-transparent to-transparent pointer-events-none"
-                  />
-                </div>
-              )}
+              <div className="relative w-full h-full overflow-hidden atelier-layer-mid">
+                <SafeProductImage
+                  src={product.imageUrl}
+                  fallbackSrc={getProductPlaceholder(product.category)}
+                  alt={product.name}
+                  priority={priority}
+                  isAccompanimentItem={accompaniment}
+                  className="w-full h-full object-cover"
+                />
+                <div
+                  aria-hidden="true"
+                  className="absolute inset-0 bg-gradient-to-t from-black/35 via-transparent to-transparent pointer-events-none"
+                />
+              </div>
 
               {/* Speküler Işık Katmanı */}
               <div

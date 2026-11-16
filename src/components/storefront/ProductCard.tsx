@@ -3,14 +3,14 @@
 import React, { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { motion, useMotionValue, useReducedMotion, useSpring, useTransform } from "framer-motion";
-import { Check, Droplets, Flame, Milk, Play, Plus, RotateCw, Scissors } from "lucide-react";
+import { Check, Flame, Milk, Play, Plus, RotateCw, Scissors } from "lucide-react";
 import type { ExtendedProduct } from "@/types";
 import { productBadges } from "@/lib/products/badges";
 import { useCartStore } from "@/lib/store/useCartStore";
 import { getProductUrl } from "@/lib/utils/slugify";
 import { useIstanbulToday } from "@/hooks/useIstanbulToday";
 import { getSaleScheduleBadge } from "@/lib/ordering/saleDates";
-import { getProductPlaceholder } from "@/lib/products/map";
+import { getProductPlaceholder, isPlaceholderImageUrl } from "@/lib/products/map";
 import { isAccompaniment } from "@/lib/products/grouping";
 import {
   hasShowcaseInteractiveMedia,
@@ -28,66 +28,10 @@ export interface ProductCardProps {
   priority?: boolean;
 }
 
-function CardCutoutImage({
-  src,
-  fallbackSrc,
-  alt,
-  priority,
-  isAccompanimentItem,
-}: {
-  src: string;
-  fallbackSrc: string;
-  alt: string;
-  priority?: boolean;
-  isAccompanimentItem: boolean;
-}) {
-  const imgRef = useRef<HTMLImageElement>(null);
-  const [failed, setFailed] = useState(false);
-
-  useEffect(() => {
-    setFailed(false);
-    const img = imgRef.current;
-    if (img && img.complete && img.naturalWidth === 0) {
-      setFailed(true);
-    }
-  }, [src]);
-
-  if (failed) {
-    return (
-      <div className="w-full h-full rounded-2xl overflow-hidden">
-        <SafeProductImage
-          src={fallbackSrc}
-          alt={alt}
-          priority={priority}
-          isAccompanimentItem={isAccompanimentItem}
-          className="w-full h-full object-cover"
-        />
-      </div>
-    );
-  }
-
-  return (
-    <img
-      ref={imgRef}
-      src={src}
-      alt={alt}
-      onError={() => setFailed(true)}
-      fetchPriority={priority ? "high" : undefined}
-      decoding="async"
-      draggable={false}
-      className={`md:-mt-3 max-h-[90%] md:max-h-[102%] max-w-[88%] w-auto h-auto object-contain select-none opacity-100 transition-transform duration-500 group-hover:scale-[1.04] ${
-        isAccompanimentItem
-          ? "drop-shadow-[0_18px_22px_rgba(32,52,66,0.26)]"
-          : "drop-shadow-[0_20px_24px_rgba(59,30,26,0.32)]"
-      }`}
-    />
-  );
-}
-
 export function ProductCard({
   product,
   onOpenDetails,
-  featured = false,
+  featured: _featured = false,
   priority = false,
 }: ProductCardProps) {
   const [isAdded, setIsAdded] = useState<boolean>(false);
@@ -99,16 +43,13 @@ export function ProductCard({
   const scheduleBadge = getSaleScheduleBadge(product, today);
   const accompaniment = isAccompaniment(product);
   const reducedMotion = Boolean(useReducedMotion());
+  const hasRealPhoto = !isPlaceholderImageUrl(product.imageUrl);
 
   const showcase = product.masterclass?.showcase;
   const media = hasShowcaseInteractiveMedia(showcase);
   const spinFrames = resolveSpinFrameUrls(showcase);
   const specularTone = resolveSpecularTone(product);
 
-  const cutoutSrc =
-    media.hasCutout && isSafeShowcaseUrl(showcase?.cutoutUrl)
-      ? showcase.cutoutUrl.trim()
-      : null;
   const crumbSrc =
     media.hasCrumb && isSafeShowcaseUrl(showcase?.crumbUrl)
       ? showcase.crumbUrl.trim()
@@ -118,15 +59,15 @@ export function ProductCard({
       ? showcase.ambientVideoUrl.trim()
       : null;
 
-  // Sıfır React re-render üreten 3D eğim & speküler katmanı
+  // Sıfır React re-render üreten ince optik 3D mikro-perspektif
   const cardRef = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
   const pointerX = useMotionValue(0);
   const pointerY = useMotionValue(0);
   const smoothX = useSpring(pointerX, { stiffness: 230, damping: 24, mass: 0.55 });
   const smoothY = useSpring(pointerY, { stiffness: 230, damping: 24, mass: 0.55 });
-  const rotateX = useTransform(smoothY, [-0.5, 0.5], [8, -8]);
-  const rotateY = useTransform(smoothX, [-0.5, 0.5], [-8, 8]);
+  const rotateX = useTransform(smoothY, [-0.5, 0.5], [4, -4]);
+  const rotateY = useTransform(smoothX, [-0.5, 0.5], [-4, 4]);
 
   const handlePointerMove = (e: React.PointerEvent<HTMLDivElement>) => {
     if (reducedMotion || e.pointerType !== "mouse") return;
@@ -189,46 +130,47 @@ export function ProductCard({
       ? `${product.weight / 1000}L`
       : `${product.weight}${product.weightUnit || "g"}`;
 
+  const craftChips: string[] = accompaniment
+    ? [
+        ...(hasRealPhoto ? [] : ["Günlük Taze · Soğuk Zincir"]),
+        ...(product.ingredients?.slice(0, 2) ?? []),
+      ]
+    : (product.flourTypes && product.flourTypes.length > 0
+        ? product.flourTypes
+        : product.ingredients ?? []
+      ).slice(0, 2);
+
   const openModalDefault = () => {
     onOpenDetails(product, spinFrames.length > 0 ? "spin" : undefined);
   };
 
   const visualStage = (
-    <div
-      className={`relative w-full overflow-visible atelier-preserve-3d ${
-        featured
-          ? "aspect-[4/3] md:aspect-auto md:min-h-[340px] md:h-full"
-          : "aspect-[4/3]"
-      }`}
-    >
-      {/* Arka Atölye Plakası */}
+    <div className="relative w-full aspect-[5/4] overflow-hidden rounded-t-2xl border-b border-line/70 atelier-preserve-3d">
+      {/* Tam Çerçeve Stüdyo Fotoğrafı */}
       <div
-        className={`absolute inset-0 overflow-hidden atelier-layer-back border-b ${
-          featured
-            ? "rounded-t-2xl md:rounded-tr-none md:rounded-l-2xl md:border-b-0 md:border-r"
-            : "rounded-t-2xl"
-        } border-line/70 ${
+        className={`absolute inset-0 overflow-hidden atelier-layer-back ${
           specularTone === "frost"
             ? "bg-gradient-to-br from-[#EEF4F7] via-[#E4EDF2] to-[#D8E5ED] dark:from-[#161E24] dark:via-[#12191E] dark:to-[#0E1317]"
             : "bg-gradient-to-br from-[#F3E5CE] via-[#EAD4B0] to-[#DFC092] dark:from-[#261E19] dark:via-[#1E1713] dark:to-[#17120E]"
         }`}
       >
-        {!cutoutSrc && (
-          <div className="relative w-full h-full ring-1 ring-inset ring-ink/10">
-            <SafeProductImage
-              src={product.imageUrl}
-              fallbackSrc={getProductPlaceholder(product.category)}
-              alt={product.name}
-              priority={priority}
-              isAccompanimentItem={accompaniment}
-              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-            />
+        <div className="relative w-full h-full">
+          <SafeProductImage
+            src={product.imageUrl}
+            fallbackSrc={getProductPlaceholder(product.category)}
+            alt={product.name}
+            priority={priority}
+            isAccompanimentItem={accompaniment}
+            className="w-full h-full object-cover object-center group-hover:scale-[1.04] transition-transform duration-700 ease-out"
+          />
+
+          {hasRealPhoto && (
             <div
               aria-hidden="true"
-              className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent pointer-events-none"
+              className="absolute inset-0 bg-gradient-to-t from-black/65 via-black/15 to-transparent pointer-events-none"
             />
-          </div>
-        )}
+          )}
+        </div>
 
         {/* Mikro-Video Katmanı (hover veya dokunma ile oynatılır) */}
         {videoSrc && (
@@ -270,7 +212,7 @@ export function ProductCard({
           />
         )}
 
-        {/* Speküler Işık Katmanı */}
+        {/* Zarif Speküler Işık Katmanı */}
         <div
           aria-hidden="true"
           className={`absolute inset-0 z-20 ${
@@ -279,20 +221,28 @@ export function ProductCard({
         />
       </div>
 
-      {/* Üst Kenardan Taşan Dekupe Katmanı (translateZ(+32px)) */}
-      {cutoutSrc && !(crumbSrc && showCrumb) && !videoActive && (
-        <div className="relative z-10 w-full h-full flex items-center justify-center px-4 pb-3 pointer-events-none atelier-layer-front">
-          <CardCutoutImage
-            src={cutoutSrc}
-            fallbackSrc={product.imageUrl}
-            alt={product.name}
-            priority={priority}
-            isAccompanimentItem={accompaniment}
-          />
+      {/* Fotoğraf Alt Vinyeti Üzerinde Zanaat / Mandıra İmzası */}
+      {hasRealPhoto && (
+        <div className="absolute bottom-2.5 left-3 z-20 max-w-[calc(100%-5.5rem)] inline-flex items-center gap-1.5 text-[#FBF6EC] text-[11px] font-sans font-medium tracking-wide drop-shadow-xs pointer-events-none">
+          {accompaniment ? (
+            <>
+              <Milk aria-hidden="true" className="w-3.5 h-3.5 shrink-0 opacity-90" />
+              <span className="truncate">Doğal Mandıra · Soğuk Zincir</span>
+            </>
+          ) : (
+            <>
+              <Flame aria-hidden="true" className="w-3.5 h-3.5 shrink-0 opacity-90" />
+              <span className="truncate">
+                {product.hydration
+                  ? `%${product.hydration} Hidrasyon · Taş Fırın`
+                  : "Taş Fırın · Ekşi Maya"}
+              </span>
+            </>
+          )}
         </div>
       )}
 
-      {/* Yüzen Üst Rozetler (translateZ(+16px)) */}
+      {/* Yüzen Üst Rozetler */}
       {badges.length > 0 && (
         <div className="absolute top-2.5 left-2.5 z-30 flex flex-col items-start gap-1 pointer-events-none atelier-layer-mid">
           {badges.map((b) => (
@@ -312,7 +262,7 @@ export function ProductCard({
         </div>
       )}
 
-      {/* Sağ Üst Mikro-Etkileşim Düğmeleri (360° & Kesit & Video) */}
+      {/* Sağ Üst Mikro-Etkileşim Düğmeleri (Gerçek 360° & Kesit & Video) */}
       {(spinFrames.length > 0 || crumbSrc || videoSrc) && (
         <div className="absolute top-2.5 right-2.5 z-30 flex flex-col items-end gap-1.5 atelier-layer-mid">
           {spinFrames.length > 0 && (
@@ -378,55 +328,12 @@ export function ProductCard({
         </div>
       )}
 
-      {/* Yüzen Gramaj Rozeti (translateZ(+16px)) */}
+      {/* Yüzen Gramaj Rozeti */}
       {product.weight > 0 && (
         <div className="absolute bottom-2.5 right-2.5 z-30 text-xs font-mono font-medium text-ink px-2.5 py-0.5 rounded-md bg-cream-surface/95 backdrop-blur-sm border border-line shadow-xs pointer-events-none atelier-layer-mid">
           {weightLabel}
         </div>
       )}
-    </div>
-  );
-
-  const editorialSpecs = accompaniment ? (
-    <div className="flex flex-wrap items-center gap-1.5 text-xs font-sans text-ink-muted">
-      <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-bg border border-line text-ink font-medium">
-        <Milk aria-hidden="true" className="w-3.5 h-3.5 text-accent" />
-        <span>Mandıra &amp; Şarküteri</span>
-      </span>
-      <span className="px-2.5 py-1 rounded-lg bg-bg border border-line text-ink-muted">
-        {product.madeToOrder ? "Sipariş Üzerine" : "Günlük Taze · Soğuk Zincir"}
-      </span>
-      {product.ingredients &&
-        product.ingredients.slice(0, 2).map((ing) => (
-          <span
-            key={ing}
-            className="px-2.5 py-1 rounded-lg bg-bg border border-line text-ink-muted"
-          >
-            {ing}
-          </span>
-        ))}
-    </div>
-  ) : (
-    <div className="flex flex-wrap items-center gap-1.5 text-xs font-sans text-ink-muted">
-      <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-bg border border-line text-ink font-medium">
-        <Flame aria-hidden="true" className="w-3.5 h-3.5 text-accent" />
-        <span>Taş Fırın</span>
-      </span>
-      {product.hydration ? (
-        <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-bg border border-line text-ink font-medium">
-          <Droplets aria-hidden="true" className="w-3.5 h-3.5 text-accent" />
-          <span>%{product.hydration} Hidrasyon</span>
-        </span>
-      ) : null}
-      {product.flourTypes &&
-        product.flourTypes.slice(0, 2).map((flour) => (
-          <span
-            key={flour}
-            className="px-2.5 py-1 rounded-lg bg-bg border border-line text-ink-muted"
-          >
-            {flour}
-          </span>
-        ))}
     </div>
   );
 
@@ -439,37 +346,14 @@ export function ProductCard({
         onPointerLeave={handlePointerLeave}
         onMouseEnter={handleMouseEnter}
         style={reducedMotion ? undefined : { rotateX, rotateY }}
-        className={`group atelier-preserve-3d cursor-pointer rounded-2xl bg-cream-surface border border-line hover:border-accent/60 hover:shadow-lg transition-shadow duration-300 overflow-visible shadow-xs h-full ${
-          featured ? "flex flex-col md:grid md:grid-cols-12" : "flex flex-col"
-        }`}
+        className="group atelier-preserve-3d cursor-pointer rounded-2xl bg-cream-surface border border-line hover:border-accent/60 hover:shadow-lg transition-shadow duration-300 overflow-hidden shadow-xs h-full flex flex-col"
       >
-        <div className={featured ? "md:col-span-7 h-full atelier-preserve-3d" : "w-full atelier-preserve-3d"}>
-          {visualStage}
-        </div>
+        <div className="w-full atelier-preserve-3d">{visualStage}</div>
 
         {/* Kart İçerik Alanı */}
-        <div
-          className={`flex-1 flex flex-col justify-between gap-3 ${
-            featured ? "md:col-span-5 p-5 sm:p-7" : "p-4 sm:p-5"
-          }`}
-        >
-          <div className="space-y-2.5">
-            {featured && (
-              <div className="inline-flex items-center gap-2 font-mono text-xs font-bold uppercase tracking-wider text-ink">
-                <span aria-hidden="true" className="w-2 h-2 rounded-full bg-accent" />
-                <span>
-                  {accompaniment ? "Mandıra & Şarküteri Seçkisi" : "İmza Taş Fırın Sahnesi"}
-                </span>
-              </div>
-            )}
-
-            <h3
-              className={`font-serif font-bold text-ink leading-snug group-hover:text-accent transition-colors ${
-                featured
-                  ? "text-xl sm:text-2xl lg:text-3xl"
-                  : "text-base sm:text-lg line-clamp-2 min-h-[2.5rem] sm:min-h-0"
-              }`}
-            >
+        <div className="flex-1 flex flex-col justify-between gap-3 p-4 sm:p-5">
+          <div className="space-y-2">
+            <h3 className="font-serif font-bold text-ink leading-snug group-hover:text-accent transition-colors text-base sm:text-lg line-clamp-2 min-h-[2.5rem] sm:min-h-0">
               <Link
                 href={getProductUrl(product)}
                 onClick={(e) => e.stopPropagation()}
@@ -480,16 +364,23 @@ export function ProductCard({
             </h3>
 
             {product.description ? (
-              <p
-                className={`text-ink-muted font-sans leading-relaxed ${
-                  featured ? "text-sm line-clamp-3" : "text-xs line-clamp-2"
-                }`}
-              >
+              <p className="text-ink-muted font-sans leading-relaxed text-xs line-clamp-2">
                 {product.description}
               </p>
             ) : null}
 
-            {featured && <div className="pt-1">{editorialSpecs}</div>}
+            {craftChips.length > 0 && (
+              <div className="flex flex-wrap items-center gap-1.5 pt-0.5">
+                {craftChips.map((chip) => (
+                  <span
+                    key={chip}
+                    className="px-2 py-0.5 rounded-md bg-bg border border-line/80 text-[11px] font-sans text-ink-muted"
+                  >
+                    {chip}
+                  </span>
+                ))}
+              </div>
+            )}
           </div>
 
           <div className="space-y-3">
@@ -523,11 +414,7 @@ export function ProductCard({
                     {product.compareAtPrice.toLocaleString("tr-TR")} ₺
                   </span>
                 )}
-                <span
-                  className={`font-serif font-bold text-ink ${
-                    featured ? "text-2xl sm:text-3xl" : "text-lg sm:text-2xl"
-                  }`}
-                >
+                <span className="font-serif font-bold text-ink text-lg sm:text-2xl">
                   {product.price.toLocaleString("tr-TR")} ₺
                 </span>
               </div>
@@ -548,16 +435,15 @@ export function ProductCard({
                 {isAdded ? (
                   <>
                     <Check className="w-3.5 h-3.5" />
-                    <span className={featured ? "inline" : "hidden sm:inline"}>Eklendi</span>
+                    <span className="hidden sm:inline">Eklendi</span>
                   </>
                 ) : soldOut ? (
                   <span>Tükendi</span>
                 ) : (
                   <>
                     <Plus className="w-3.5 h-3.5" />
-                    <span className={featured ? "inline" : "hidden sm:inline"}>
-                      {featured ? "Sepete Ekle" : "Ekle"}
-                    </span>
+                    <span className="hidden sm:inline">Sepete Ekle</span>
+                    <span className="sm:hidden">Ekle</span>
                   </>
                 )}
               </button>
