@@ -1,3 +1,4 @@
+import { formatMoney } from "@/lib/format/currency";
 import { CONTACT, whatsappLink } from "@/lib/site";
 import { toWhatsAppNumber } from "@/lib/settings/schema";
 import { formatTrDate, isIsoDate } from "@/lib/time/istanbul";
@@ -31,8 +32,6 @@ export interface WhatsappCartInput {
   /** İşletme WhatsApp hattı (ayarlardan gelirse wa.me biçimine çevrilir) */
   whatsappPhone?: string | null;
 }
-
-const formatTl = (amount: number): string => `${amount.toLocaleString("tr-TR")} ₺`;
 
 const stripMah = (value: string): string =>
   value.replace(/\s+Mah(\.|allesi)?$/i, "").trim();
@@ -82,11 +81,11 @@ export function buildCartWhatsappMessage(input: WhatsappCartInput): string {
   for (const item of validItems) {
     const lineTotal = item.price * item.quantity;
     subtotal += lineTotal;
-    lines.push(`• ${item.quantity}× ${item.name.trim()} — ${formatTl(lineTotal)}`);
+    lines.push(`• ${item.quantity}× ${item.name.trim()} — ${formatMoney(lineTotal)}`);
   }
 
   lines.push("");
-  lines.push(`Toplam: ${formatTl(subtotal)} (Teslimat Ücretsiz)`);
+  lines.push(`Toplam: ${formatMoney(subtotal)} (Teslimat Ücretsiz)`);
 
   const info = input.customerInfo;
   const details: string[] = [];

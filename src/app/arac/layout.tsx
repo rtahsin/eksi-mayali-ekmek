@@ -1,3 +1,5 @@
+
+import { storefrontAction } from "@/lib/design/storefront";
 import React from "react";
 import type { Metadata } from "next";
 import Link from "next/link";
@@ -28,11 +30,11 @@ export default function AracLayout({
           <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-3">
             <div>
               <div className="flex items-center gap-2 text-xs text-ink-muted uppercase tracking-wider font-mono">
-                <Link href="/" className="hover:text-accent transition-colors">
+                <Link href="/" className="sf-nav-link hover:text-ink transition-colors">
                   EkmekLab
                 </Link>
                 <span>/</span>
-                <Link href="/arac" className="hover:text-accent transition-colors">
+                <Link href="/arac" className="sf-nav-link hover:text-ink transition-colors">
                   Atölye Araçları
                 </Link>
               </div>
@@ -46,28 +48,28 @@ export default function AracLayout({
               <nav className="flex items-center gap-1 sm:gap-2 overflow-x-auto pb-1 lg:pb-0 scrollbar-none text-xs sm:text-sm font-medium flex-1 min-w-0">
                 <Link
                   href="/arac"
-                  className="px-3 py-1.5 rounded-lg border border-line hover:border-accent hover:bg-bg transition-colors flex items-center gap-1.5 whitespace-nowrap text-ink-muted hover:text-ink"
+                  className="sf-nav-link px-3 py-1.5 rounded-lg border border-line hover:border-accent hover:bg-bg transition-colors flex items-center gap-1.5 whitespace-nowrap text-ink-muted hover:text-ink"
                 >
                   <Sparkles className="w-3.5 h-3.5 text-accent" />
                   <span>Genel Bakış</span>
                 </Link>
                 <Link
                   href="/arac/firinci-yuzdesi"
-                  className="px-3 py-1.5 rounded-lg border border-line hover:border-accent hover:bg-bg transition-colors flex items-center gap-1.5 whitespace-nowrap text-ink-muted hover:text-ink"
+                  className="sf-nav-link px-3 py-1.5 rounded-lg border border-line hover:border-accent hover:bg-bg transition-colors flex items-center gap-1.5 whitespace-nowrap text-ink-muted hover:text-ink"
                 >
                   <Calculator className="w-3.5 h-3.5 text-accent" />
                   <span>Fırıncı Yüzdesi</span>
                 </Link>
                 <Link
                   href="/arac/ddt"
-                  className="px-3 py-1.5 rounded-lg border border-line hover:border-accent hover:bg-bg transition-colors flex items-center gap-1.5 whitespace-nowrap text-ink-muted hover:text-ink"
+                  className="sf-nav-link px-3 py-1.5 rounded-lg border border-line hover:border-accent hover:bg-bg transition-colors flex items-center gap-1.5 whitespace-nowrap text-ink-muted hover:text-ink"
                 >
                   <Thermometer className="w-3.5 h-3.5 text-accent" />
                   <span>DDT (Hamur Isısı)</span>
                 </Link>
                 <Link
                   href="/arac/maya-planlayici"
-                  className="px-3 py-1.5 rounded-lg border border-line hover:border-accent hover:bg-bg transition-colors flex items-center gap-1.5 whitespace-nowrap text-ink-muted hover:text-ink"
+                  className="sf-nav-link px-3 py-1.5 rounded-lg border border-line hover:border-accent hover:bg-bg transition-colors flex items-center gap-1.5 whitespace-nowrap text-ink-muted hover:text-ink"
                 >
                   <Clock className="w-3.5 h-3.5 text-accent" />
                   <span>Maya Planlayıcı</span>
@@ -76,7 +78,7 @@ export default function AracLayout({
 
               <Link
                 href="/#ekmekler"
-                className="order-first lg:order-last shrink-0 px-3.5 py-1.5 rounded-lg bg-accent text-white hover:bg-accent/90 active:scale-[0.98] transition-all text-xs sm:text-sm font-sans font-semibold whitespace-nowrap shadow-xs inline-flex items-center gap-1"
+                className={storefrontAction({ variant: "primary", size: "default", className: "order-first lg:order-last shrink-0 active:scale-[0.98] whitespace-nowrap inline-flex items-center gap-1" })}
               >
                 <span>← Fırın & Sipariş</span>
               </Link>

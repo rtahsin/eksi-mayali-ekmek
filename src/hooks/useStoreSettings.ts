@@ -1,20 +1,18 @@
 "use client";
 
-import { useEffect } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { create } from "zustand";
-import type { CartDateOption, PublicStoreSettings } from "@/types/settings";
+import type { PublicStoreSettings } from "@/types/settings";
 import { DEFAULT_STORE_SETTINGS, toPublicSettings } from "@/lib/settings/schema";
+import { fetchDeliveryDates } from "@/lib/ordering/clientAvailability";
+import type { DeliveryDatesState } from "@/types/settings";
 
 interface StoreSettingsState {
   settings: PublicStoreSettings;
   /** Sunucudan gerçek ayarlar geldi mi (gelmeden önce varsayılanlar gösterilir) */
   loaded: boolean;
-  dates: CartDateOption[];
-  datesLoaded: boolean;
-  datesError: string | null;
+  error: string | null;
   loadSettings: () => Promise<void>;
-  /** Teslim tarihleri sepet içeriğine göre anlık hesaplanır (cutoff, satış günleri, limitler, kapasite) */
-  loadDates: (items: { productId: string; quantity: number }[]) => Promise<void>;
 }
 
 let settingsPromise: Promise<void> | null = null;
@@ -22,80 +20,75 @@ let settingsPromise: Promise<void> | null = null;
 const useStoreSettingsStore = create<StoreSettingsState>()((set) => ({
   settings: toPublicSettings(DEFAULT_STORE_SETTINGS),
   loaded: false,
-  dates: [],
-  datesLoaded: false,
-  datesError: null,
+  error: null,
 
   loadSettings: () => {
     if (!settingsPromise) {
+      set({ error: null });
       settingsPromise = fetch("/api/settings", { cache: "no-store" })
         .then((res) => (res.ok ? res.json() : Promise.reject(new Error(`HTTP ${res.status}`))))
         .then((data: { settings?: PublicStoreSettings }) => {
-          if (data.settings) set({ settings: data.settings, loaded: true });
+          if (!data.settings) throw new Error("Mağaza ayarları eksik");
+          set({ settings: data.settings, loaded: true, error: null });
         })
         .catch((err: unknown) => {
           console.warn("Store settings load failed:", err);
+          set({ loaded: false, error: "Mağaza ayarları yüklenemedi. Lütfen tekrar deneyin." });
           settingsPromise = null; // sonraki çağrı tekrar denesin
         });
     }
     return settingsPromise;
   },
 
-  loadDates: async (items) => {
-    try {
-      const res = await fetch("/api/availability", {
-        method: "POST",
-        cache: "no-store",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ items }),
-      });
-      if (!res.ok) throw new Error(`HTTP ${res.status}`);
-      const data: { dates?: CartDateOption[] } = await res.json();
-      set({ dates: Array.isArray(data.dates) ? data.dates : [], datesLoaded: true, datesError: null });
-    } catch {
-      set({ datesLoaded: true, datesError: "Teslim tarihleri yüklenemedi. Lütfen sayfayı yenileyin." });
-    }
-  },
+
 }));
 
 /** İşletme ayarları (ücret, eşik, mahalleler, WhatsApp…) — ilk kullanımda bir kez yüklenir. */
 export function useStoreSettings() {
   const settings = useStoreSettingsStore((s) => s.settings);
   const loaded = useStoreSettingsStore((s) => s.loaded);
+  const settingsError = useStoreSettingsStore((s) => s.error);
   const loadSettings = useStoreSettingsStore((s) => s.loadSettings);
 
   useEffect(() => {
     void loadSettings();
   }, [loadSettings]);
 
-  return { settings, loaded };
+  return { settings, loaded, settingsError, reloadSettings: loadSettings };
 }
 
 /**
  * Sepete göre teslim günleri; `active` iken (sepet açık) ve sepet içeriği değiştikçe tazelenir.
  */
 export function useDeliveryDates(active: boolean, items: { productId: string; quantity: number }[]) {
-  const dates = useStoreSettingsStore((s) => s.dates);
-  const datesLoaded = useStoreSettingsStore((s) => s.datesLoaded);
-  const datesError = useStoreSettingsStore((s) => s.datesError);
-  const loadDates = useStoreSettingsStore((s) => s.loadDates);
+  const [revision, setRevision] = useState(0);
+  const [state, setState] = useState<DeliveryDatesState>({ key: "", dates: [], loaded: false, error: null });
   const signature = JSON.stringify(items.map((i) => [i.productId, i.quantity]));
+  const key = `${revision}:${signature}`;
 
   useEffect(() => {
-    if (!active) return;
+    if (!active) {
+      setState({ key: "", dates: [], loaded: false, error: null });
+      return;
+    }
     const lines: { productId: string; quantity: number }[] = (JSON.parse(signature) as [string, number][]).map(
       ([productId, quantity]) => ({ productId, quantity })
     );
-    const timer = setTimeout(() => void loadDates(lines), 250); // adet +/− hızlı basılınca tek istek
-    return () => clearTimeout(timer);
-  }, [active, signature, loadDates]);
+    const controller = new AbortController();
+    setState({ key, dates: [], loaded: false, error: null });
+    const timer = setTimeout(async () => {
+      try {
+        const dates = await fetchDeliveryDates(lines, controller.signal);
+        if (!controller.signal.aborted) setState({ key, dates, loaded: true, error: null });
+      } catch {
+        if (!controller.signal.aborted) setState({ key, dates: [], loaded: true, error: "Teslim günleri yüklenemedi. Lütfen tekrar deneyin." });
+      }
+    }, 250);
+    return () => { clearTimeout(timer); controller.abort(); };
+  }, [active, signature, key]);
 
-  const reloadDates = () => {
-    const lines: { productId: string; quantity: number }[] = (JSON.parse(signature) as [string, number][]).map(
-      ([productId, quantity]) => ({ productId, quantity })
-    );
-    return loadDates(lines);
-  };
-
-  return { dates, datesLoaded, datesError, reloadDates };
+  const reloadDates = useCallback(() => setRevision((value) => value + 1), []);
+  // Never present availability from a previous cart while the new request is pending.
+  const current = active && state.key === key;
+  return { dates: current ? state.dates : [], datesLoaded: current && state.loaded, datesError: current ? state.error : null, reloadDates };
 }

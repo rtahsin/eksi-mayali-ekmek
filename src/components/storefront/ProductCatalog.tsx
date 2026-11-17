@@ -178,6 +178,7 @@ export function ProductCatalog({ initialProducts, categories = [] }: ProductCata
           }
         }
       } else if (hash === "#ekmekler") {
+        setSelectedCategory("all");
         const el = document.getElementById("ekmekler");
         if (el) {
           el.scrollIntoView({ behavior: "smooth", block: "start" });

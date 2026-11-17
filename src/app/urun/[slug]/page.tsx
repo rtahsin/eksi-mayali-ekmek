@@ -344,7 +344,7 @@ export default async function ProductDetailPage({
                 ) : (
                   <span className="px-3 py-1 rounded-full bg-cream-surface text-good border border-line text-xs font-sans font-bold uppercase shadow-md">
                     {isBread
-                      ? "Günlük Taş Fırın Üretimi"
+                      ? "Taş Fırın Üretimi"
                       : "Günlük Taze Mandıra & Şarküteri"}
                   </span>
                 )

@@ -1,5 +1,6 @@
 "use client";
 
+import { storefrontAction } from "@/lib/design/storefront";
 import React, { useEffect, useState } from "react";
 import { useAuth } from "@/components/auth/AuthProvider";
 import {
@@ -63,12 +64,12 @@ export default function TercihlerPage() {
     if (res.success) {
       setProfileNotice({
         type: "ok",
-        text: "Teslimat profiliniz kaydedildi. Sipariş ekranında bilgileriniz otomatik doldurulur.",
+        text: "Teslimat profilin kaydedildi. Sipariş ekranında bilgilerin otomatik doldurulur.",
       });
     } else {
       setProfileNotice({
         type: "err",
-        text: res.error || "Profil bilgileriniz güncellenemedi.",
+        text: res.error || "Profil bilgilerin güncellenemedi.",
       });
     }
   };
@@ -96,7 +97,7 @@ export default function TercihlerPage() {
     setTimeout(() => URL.revokeObjectURL(url), 1000);
 
     setIcsNotice(
-      `Her ${ICS_WEEKDAY_LABELS[weekday]} ${clockValue} için takvim dosyanız hazırlandı. iPhone'da açılan ekrandan "Ekle" seçeneğine dokunarak haftalık hatırlatıcınızı başlatabilirsiniz.`
+      `Her ${ICS_WEEKDAY_LABELS[weekday]} ${clockValue} için takvim dosyan hazırlandı. iPhone'da açılan ekrandan "Ekle" seçeneğine dokunarak haftalık hatırlatıcını başlatabilirsin.`
     );
   };
 
@@ -104,31 +105,31 @@ export default function TercihlerPage() {
     return (
       <div className="py-20 text-center text-ink-muted">
         <div className="w-8 h-8 border-2 border-accent border-t-transparent rounded-full animate-spin mx-auto mb-3" />
-        <span className="text-xs font-serif">Profil bilgileriniz yükleniyor...</span>
+        <span className="text-xs font-serif">Profil bilgilerin yükleniyor...</span>
       </div>
     );
   }
 
   if (!user) {
     return (
-      <div className="bg-cream-surface border border-line rounded-3xl p-8 sm:p-12 text-center max-w-lg mx-auto shadow-xs space-y-4 text-ink">
-        <div className="w-14 h-14 mx-auto rounded-2xl bg-accent/10 border border-accent/25 flex items-center justify-center text-accent">
+      <div className="sf-panel bg-cream-surface border border-line rounded-3xl p-8 sm:p-12 text-center max-w-lg mx-auto shadow-xs space-y-4 text-ink">
+        <div className="w-14 h-14 mx-auto rounded-2xl bg-accent/10 border border-accent/25 flex items-center justify-center text-ink">
           <UserCheck className="w-7 h-7" aria-hidden="true" />
         </div>
         <h1 className="text-xl font-serif font-bold text-ink">
-          Profil &amp; Hatırlatıcı İçin Giriş Yapın
+          Profil &amp; Hatırlatıcı İçin Giriş yap
         </h1>
-        <p className="text-xs text-ink-muted leading-relaxed max-w-sm mx-auto font-sans">
-          Teslimat iletişim bilgilerinizi kaydetmek ve haftalık taş fırın takvim hatırlatıcısı kurmak için oturum açın.
+        <p className="sf-copy text-xs text-ink-muted leading-relaxed max-w-sm mx-auto font-sans">
+          Teslimat iletişim bilgilerini kaydetmek ve haftalık taş fırın takvim hatırlatıcısı kurmak için oturum aç.
         </p>
         <div className="pt-2">
           <button
             type="button"
             onClick={() => openAuthModal("/hesabim/tercihler")}
-            className="touch-target-44 min-h-[48px] inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-accent text-white font-semibold text-xs sm:text-sm shadow-xs hover:bg-accent/90 transition-all"
+            className={storefrontAction({ variant: "primary", size: "default", className: "inline-flex items-center justify-center gap-2" })}
           >
             <LogIn className="w-4 h-4 shrink-0" aria-hidden="true" />
-            <span>Giriş Yap / Kayıt Ol</span>
+            <span>Giriş yap / Kayıt Ol</span>
           </button>
         </div>
       </div>
@@ -141,26 +142,26 @@ export default function TercihlerPage() {
         <h1 className="text-xl sm:text-2xl font-serif font-bold text-ink">
           Profil &amp; Fırın Hatırlatıcısı
         </h1>
-        <p className="text-xs text-ink-muted mt-1 font-sans">
-          Sepette hazır gelecek iletişim bilgilerinizi güncelleyin ve favori fırın gününüzü telefon takviminize ekleyin.
+        <p className="sf-copy text-xs text-ink-muted mt-1 font-sans">
+          Sepette hazır gelecek iletişim bilgilerini güncelle ve favori fırın gününü telefon takvimine ekle.
         </p>
       </div>
 
       {/* MODÜL 1: Teslimat Profilim (Ad Soyad & Telefon) */}
       <section
         aria-labelledby="delivery-profile-heading"
-        className="bg-cream-surface border border-line rounded-3xl p-5 sm:p-7 space-y-5 shadow-xs"
+        className="sf-panel bg-cream-surface border border-line rounded-3xl p-5 sm:p-7 space-y-5 shadow-xs"
       >
         <div className="flex items-start gap-3">
-          <div className="w-10 h-10 rounded-2xl bg-accent/10 border border-accent/25 flex items-center justify-center text-accent shrink-0">
+          <div className="w-10 h-10 rounded-2xl bg-accent/10 border border-accent/25 flex items-center justify-center text-ink shrink-0">
             <UserCheck className="w-5 h-5" aria-hidden="true" />
           </div>
           <div className="space-y-1">
             <h2 id="delivery-profile-heading" className="font-serif font-bold text-base sm:text-lg text-ink">
               Teslimat Profilim
             </h2>
-            <p className="text-xs text-ink-muted font-sans leading-relaxed">
-              Ad soyad ve telefon numaranız hesabınızda saklanır; her cihazdan sepete geçtiğinizde otomatik olarak doldurulur.
+            <p className="sf-copy text-xs text-ink-muted font-sans leading-relaxed">
+              Ad soyad ve telefon numaran hesabında saklanır; her cihazdan sepete geçtiğinde otomatik olarak doldurulur.
             </p>
           </div>
         </div>
@@ -168,7 +169,7 @@ export default function TercihlerPage() {
         <form onSubmit={handleSaveProfile} className="space-y-4">
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <label htmlFor="profile-fullname" className="block text-xs font-semibold text-ink mb-1">
+              <label htmlFor="profile-fullname" className="sf-label block text-xs font-semibold text-ink mb-1">
                 Ad ve Soyad *
               </label>
               <input
@@ -185,12 +186,12 @@ export default function TercihlerPage() {
                   if (profileNotice) setProfileNotice(null);
                 }}
                 placeholder="Ör. Ayşe Yılmaz"
-                className="w-full min-h-[48px] px-3.5 py-2.5 rounded-xl bg-bg border border-line text-base sm:text-sm text-ink placeholder:text-ink-muted/60 focus:border-accent focus:outline-none font-sans"
+                className="sf-field w-full"
               />
             </div>
 
             <div>
-              <label htmlFor="profile-phone" className="block text-xs font-semibold text-ink mb-1">
+              <label htmlFor="profile-phone" className="sf-label block text-xs font-semibold text-ink mb-1">
                 Cep Telefonu Numarası
               </label>
               <div className="relative">
@@ -210,7 +211,7 @@ export default function TercihlerPage() {
                     if (profileNotice) setProfileNotice(null);
                   }}
                   placeholder="05XX XXX XX XX"
-                  className="w-full min-h-[48px] pl-10 pr-3.5 py-2.5 rounded-xl bg-bg border border-line text-base sm:text-sm font-mono text-ink placeholder:text-ink-muted/60 focus:border-accent focus:outline-none"
+                  className="sf-field sf-field--leading-icon w-full"
                 />
               </div>
             </div>
@@ -218,31 +219,26 @@ export default function TercihlerPage() {
 
           <div className="flex flex-wrap items-center justify-between gap-3 pt-1">
             <div className="inline-flex items-center gap-1.5 text-xs text-ink-muted font-sans">
-              <ShieldCheck className="w-4 h-4 text-good shrink-0" aria-hidden="true" />
+              <ShieldCheck className="sf-success w-4 h-4 sf-success shrink-0" aria-hidden="true" />
               <span>Yalnızca teslimat ve sipariş bilgilendirmesi için kullanılır; 3. taraflarla paylaşılmaz.</span>
             </div>
 
             <button
               type="submit"
               disabled={savingProfile}
-              className="touch-target-44 min-h-[48px] px-5 py-2.5 rounded-xl bg-accent hover:bg-accent/90 text-white font-sans text-xs sm:text-sm font-bold inline-flex items-center justify-center gap-2 transition-colors disabled:opacity-50 shadow-xs"
+              className={storefrontAction({ variant: "primary", size: "default", className: "inline-flex items-center justify-center gap-2 disabled:opacity-50" })}
             >
               {savingProfile && <Loader2 className="w-4 h-4 animate-spin" aria-hidden="true" />}
-              <span>{savingProfile ? "Kaydediliyor…" : "Profili Kaydet"}</span>
+              <span>{savingProfile ? "Kaydediliyor…" : "Profili kaydet"}</span>
             </button>
           </div>
 
           {profileNotice && (
             <div
               role={profileNotice.type === "err" ? "alert" : "status"}
-              className={`p-3.5 rounded-xl text-xs font-sans flex items-center gap-2 border ${
-                profileNotice.type === "ok"
-                  ? "bg-good/15 border-good/30 text-ink"
-                  : "bg-bad/10 border-bad/30 text-bad"
-              }`}
-            >
+              className={`sf-notice ${profileNotice.type === "ok" ? "sf-success" : "sf-error"}`}            >
               {profileNotice.type === "ok" ? (
-                <CheckCircle2 className="w-4 h-4 text-good shrink-0" aria-hidden="true" />
+                <CheckCircle2 className="sf-success w-4 h-4 sf-success shrink-0" aria-hidden="true" />
               ) : (
                 <AlertCircle className="w-4 h-4 shrink-0" aria-hidden="true" />
               )}
@@ -256,18 +252,18 @@ export default function TercihlerPage() {
       <section
         id="takvim-hatirlatici"
         aria-labelledby="calendar-reminder-heading"
-        className="bg-cream-surface border border-line rounded-3xl p-5 sm:p-7 space-y-5 shadow-xs scroll-mt-24"
+        className="sf-panel bg-cream-surface border border-line rounded-3xl p-5 sm:p-7 space-y-5 shadow-xs scroll-mt-24"
       >
         <div className="flex items-start gap-3">
-          <div className="w-10 h-10 rounded-2xl bg-accent/10 border border-accent/25 flex items-center justify-center text-accent shrink-0">
+          <div className="w-10 h-10 rounded-2xl bg-accent/10 border border-accent/25 flex items-center justify-center text-ink shrink-0">
             <CalendarClock className="w-5 h-5" aria-hidden="true" />
           </div>
           <div className="space-y-1">
             <h2 id="calendar-reminder-heading" className="font-serif font-bold text-base sm:text-lg text-ink">
               iPhone &amp; Google Takvim Fırın Günü Hatırlatıcısı
             </h2>
-            <p className="text-xs text-ink-muted font-sans leading-relaxed">
-              Uygulama bildirimi iznine gerek kalmadan, favori sipariş gününüz için Apple Takvim ve Google Takvim ile uyumlu haftalık hatırlatıcı (15 dk önceden uyarılı) ekleyin.
+            <p className="sf-copy text-xs text-ink-muted font-sans leading-relaxed">
+              Uygulama bildirimi iznine gerek kalmadan, favori sipariş günün için Apple Takvim ve Google Takvim ile uyumlu haftalık hatırlatıcı (15 dk önceden uyarılı) ekle.
             </p>
           </div>
         </div>
@@ -289,11 +285,11 @@ export default function TercihlerPage() {
                       setWeekday(dayCode);
                       if (icsNotice) setIcsNotice(null);
                     }}
-                    className={`touch-target-44 min-h-[44px] px-3 py-2 rounded-xl text-xs font-sans transition-all border ${
+                    className={"sf-action sf-action--default " + (`  ${
                       selected
-                        ? "bg-accent text-white border-accent font-bold shadow-2xs"
-                        : "bg-bg text-ink border-line hover:border-accent/45 font-medium"
-                    }`}
+                        ? "sf-action--primary "
+                        : "sf-action--secondary "
+                    }  `)}
                   >
                     {ICS_WEEKDAY_LABELS[dayCode]}
                   </button>
@@ -304,7 +300,7 @@ export default function TercihlerPage() {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <label htmlFor="ics-time" className="block text-xs font-semibold text-ink mb-1">
+              <label htmlFor="ics-time" className="sf-label block text-xs font-semibold text-ink mb-1">
                 Hatırlatma Saati (İstanbul)
               </label>
               <select
@@ -315,7 +311,7 @@ export default function TercihlerPage() {
                   setClockValue(e.target.value);
                   if (icsNotice) setIcsNotice(null);
                 }}
-                className="w-full min-h-[48px] px-3.5 py-2.5 rounded-xl bg-bg border border-line text-base sm:text-sm text-ink focus:border-accent focus:outline-none font-sans"
+                className="sf-field w-full"
               >
                 {REMINDER_TIME_OPTIONS.map((opt) => (
                   <option key={opt.value} value={opt.value}>
@@ -326,8 +322,8 @@ export default function TercihlerPage() {
             </div>
 
             <div>
-              <label htmlFor="ics-note" className="block text-xs font-semibold text-ink mb-1">
-                Kişisel Sepet Notunuz (İsteğe bağlı)
+              <label htmlFor="ics-note" className="sf-label block text-xs font-semibold text-ink mb-1">
+                Kişisel Sepet Notun (İsteğe bağlı)
               </label>
               <input
                 id="ics-note"
@@ -337,7 +333,7 @@ export default function TercihlerPage() {
                 value={reminderNote}
                 onChange={(e) => setReminderNote(e.target.value)}
                 placeholder="Ör. Siyez somunu + Jersey çiğ süt"
-                className="w-full min-h-[48px] px-3.5 py-2.5 rounded-xl bg-bg border border-line text-base sm:text-sm text-ink placeholder:text-ink-muted/60 focus:border-accent focus:outline-none font-sans"
+                className="sf-field w-full"
               />
             </div>
           </div>
@@ -346,7 +342,7 @@ export default function TercihlerPage() {
             <button
               type="button"
               onClick={handleDownloadIcs}
-              className="touch-target-44 min-h-[48px] w-full sm:w-auto px-6 py-3 rounded-xl bg-accent hover:bg-accent/90 text-white font-sans text-xs sm:text-sm font-bold inline-flex items-center justify-center gap-2 transition-colors shadow-xs"
+              className={storefrontAction({ variant: "primary", size: "default", className: "w-full sm:w-auto inline-flex items-center justify-center gap-2" })}
             >
               <Download className="w-4 h-4 shrink-0" aria-hidden="true" />
               <span>Takvimime Ekle (.ics İndir)</span>
@@ -358,7 +354,7 @@ export default function TercihlerPage() {
               role="status"
               className="p-3.5 rounded-xl bg-good/15 border border-good/30 text-xs text-ink font-sans flex items-start gap-2"
             >
-              <CheckCircle2 className="w-4 h-4 text-good shrink-0 mt-0.5" aria-hidden="true" />
+              <CheckCircle2 className="sf-success w-4 h-4 sf-success shrink-0 mt-0.5" aria-hidden="true" />
               <span>{icsNotice}</span>
             </div>
           )}

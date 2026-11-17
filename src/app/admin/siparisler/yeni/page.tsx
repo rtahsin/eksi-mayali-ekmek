@@ -29,7 +29,7 @@ import { useStoreSettings } from "@/hooks/useStoreSettings";
 import { useIstanbulToday } from "@/hooks/useIstanbulToday";
 import { useAdminAuth } from "@/hooks/useAdminAuth";
 import { hasCapability } from "@/lib/security/capabilities";
-import { addDays, isIsoDate, isPastCutoff, relativeTrDate } from "@/lib/time/istanbul";
+import { addDays, isIsoDate, relativeTrDate } from "@/lib/time/istanbul";
 import { computeShippingFee, toWhatsAppNumber } from "@/lib/settings/schema";
 import { trackingUrl, whatsappLink } from "@/lib/site";
 import { isSoldOn } from "@/lib/ordering/saleDates";
@@ -146,15 +146,15 @@ function ManualOrderForm() {
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const [saved, setSaved] = useState<Saved | null>(null);
 
-  // Store cutoff geçtiyse veya cari seçiliyse kullanıcı değiştirmediyse Yarın varsayılan olur
+  // Cari siparişinde yarın, perakendede bugün varsayılandır; elle seçilen tarih korunur.
   useEffect(() => {
     if (dateTouchedRef.current) return;
-    if (selectedCariId || isPastCutoff(storeSettings.orderCutoffTime)) {
+    if (selectedCariId) {
       setDeliveryDate(tomorrow);
     } else {
       setDeliveryDate(today);
     }
-  }, [storeSettings.orderCutoffTime, selectedCariId, today, tomorrow]);
+  }, [selectedCariId, today, tomorrow]);
 
   const neighborhood = neighborhoodChoice || storeSettings.neighborhoods[0] || "";
   const timeWindow = timeWindowChoice ?? storeSettings.deliveryWindow;
@@ -321,7 +321,7 @@ function ManualOrderForm() {
     setPaymentMethod("cash_on_delivery");
     setSendWhatsApp(false);
     dateTouchedRef.current = false;
-    setDeliveryDate(isPastCutoff(storeSettings.orderCutoffTime) ? tomorrow : today);
+    setDeliveryDate(today);
   };
 
   if (!canManageOrders) {

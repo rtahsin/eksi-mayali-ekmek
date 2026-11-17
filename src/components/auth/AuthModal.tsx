@@ -1,5 +1,6 @@
 "use client";
 
+import { storefrontAction } from "@/lib/design/storefront";
 import React, { useEffect, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import {
@@ -17,6 +18,7 @@ import {
 import { useAuth } from "@/components/auth/AuthProvider";
 import { detectInAppBrowser, type InAppBrowserInfo } from "@/lib/auth/inAppBrowser";
 import { getErrorMessage } from "@/lib/utils/error";
+import { Modal } from "@/components/common/Modal";
 
 interface AuthModalProps {
   isOpen: boolean;
@@ -52,21 +54,6 @@ export function AuthModal({ isOpen, onClose }: AuthModalProps) {
     setInAppInfo(detectInAppBrowser(navigator.userAgent));
   }, [isOpen]);
 
-  useEffect(() => {
-    if (!isOpen) return;
-    const onKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "Escape") {
-        setStep("start");
-        setCode("");
-        setErrorMsg(null);
-        setSubmitting(false);
-        onClose();
-      }
-    };
-    window.addEventListener("keydown", onKeyDown);
-    return () => window.removeEventListener("keydown", onKeyDown);
-  }, [isOpen, onClose]);
-
   if (!isOpen) return null;
 
   const resetAndClose = () => {
@@ -85,7 +72,7 @@ export function AuthModal({ isOpen, onClose }: AuthModalProps) {
       setCopiedUrl(true);
       setTimeout(() => setCopiedUrl(false), 2500);
     } catch {
-      setErrorMsg("Bağlantı panoya kopyalanamadı. Adres çubuğundan kopyalayabilirsiniz.");
+      setErrorMsg("Bağlantı panoya kopyalanamadı. Adres çubuğundan kopyalayabilirsin.");
     }
   };
 
@@ -153,40 +140,27 @@ export function AuthModal({ isOpen, onClose }: AuthModalProps) {
   };
 
   const startSubtitle = EMAIL_LOGIN_ENABLED
-    ? "Şifre yok: Google hesabınızla ya da e-postanıza gelen kodla giriş yapın. Hesabınız ilk girişte açılır."
+    ? "Şifre yok: Google hesabınla ya da e-postana gelen kodla giriş yap. Hesabın ilk girişte açılır."
     : APPLE_LOGIN_ENABLED
-    ? "Şifre yok: Google veya Apple hesabınızla tek dokunuşta giriş yapın. Hesabınız ilk girişte açılır."
-    : "Şifre yok: Google hesabınızla tek dokunuşta giriş yapın. Hesabınız ilk girişte açılır.";
+    ? "Şifre yok: Google veya Apple hesabınla tek dokunuşta giriş yap. Hesabın ilk girişte açılır."
+    : "Şifre yok: Google hesabınla tek dokunuşta giriş yap. Hesabın ilk girişte açılır.";
 
   const browserTargetLabel = inAppInfo.isIOS ? "Safari'de Aç" : "Tarayıcıda / Safari'de Aç";
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-      {/* Backdrop */}
-      <div
-        className="fixed inset-0 bg-ink/55 backdrop-blur-xs transition-opacity"
-        onClick={resetAndClose}
-        aria-hidden="true"
-      />
-
-      {/* Modal Container */}
-      <div
-        role="dialog"
-        aria-modal="true"
-        aria-labelledby="auth-modal-title"
-        className="relative w-full max-w-md max-h-[92dvh] overflow-y-auto bg-cream-surface border border-line rounded-3xl shadow-2xl z-10 animate-scaleUp text-ink"
-      >
+    <Modal open={isOpen} onClose={resetAndClose} labelledBy="auth-modal-title"
+      className="sf-dialog w-[calc(100%-2rem)] max-w-md max-h-[92dvh] overflow-y-auto bg-cream-surface rounded-3xl shadow-2xl animate-scaleUp">
         {/* Header Ribbon */}
         <div className="relative px-6 pt-6 pb-4 border-b border-line bg-bg/60 flex items-start justify-between gap-3">
           <div className="space-y-1.5">
-            <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-accent/10 border border-accent/25 text-xs font-sans font-semibold text-accent">
+            <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-accent/10 border border-accent/25 text-xs font-sans font-semibold text-ink">
               <ShieldCheck className="w-3.5 h-3.5" aria-hidden="true" />
               <span>EkmekLab Müdavim Pasaportu</span>
             </div>
-            <h2 id="auth-modal-title" className="font-serif text-xl font-bold text-ink">
-              {step === "start" ? "Fırınımıza Hoş Geldiniz" : "E-postanızı Kontrol Edin"}
+            <h2 id="auth-modal-title" className="sf-dialog-title font-serif text-xl font-bold text-ink">
+              {step === "start" ? "Fırınımıza hoş geldin" : "E-postanı kontrol et"}
             </h2>
-            <p className="text-xs text-ink-muted font-sans leading-relaxed">
+            <p className="sf-copy text-xs text-ink-muted font-sans leading-relaxed">
               {step === "start"
                 ? startSubtitle
                 : `${email} adresine 6 haneli doğrulama kodu gönderdik.`}
@@ -197,7 +171,7 @@ export function AuthModal({ isOpen, onClose }: AuthModalProps) {
             type="button"
             onClick={resetAndClose}
             aria-label="Giriş penceresini kapat"
-            className="touch-target-44 shrink-0 p-2 rounded-xl text-ink-muted hover:text-ink hover:bg-line/40 transition-colors"
+            className={storefrontAction({ variant: "secondary", size: "default", className: "shrink-0" })}
           >
             <X className="w-5 h-5" aria-hidden="true" />
           </button>
@@ -217,11 +191,11 @@ export function AuthModal({ isOpen, onClose }: AuthModalProps) {
                   <h3 className="font-serif font-bold text-sm text-ink">
                     {inAppInfo.appName ? `${inAppInfo.appName} İçi Tarayıcı Kılavuzu` : "Uygulama İçi Tarayıcı Kılavuzu"}
                   </h3>
-                  <p className="text-xs text-ink-muted font-sans leading-relaxed">
+                  <p className="sf-copy text-xs text-ink-muted font-sans leading-relaxed">
                     Google güvenlik kuralları gereği uygulama içi tarayıcılarda Google girişi engellenir (
                     <span className="font-mono text-[11px] text-ink">403 disallowed_useragent</span>).
                     Giriş yapmak için sağ üstteki <strong className="text-ink">⋯</strong> menüsünden{" "}
-                    <strong className="text-ink">&ldquo;{browserTargetLabel}&rdquo;</strong> seçeneğine dokunun veya üyeliksiz devam edin.
+                    <strong className="text-ink">&ldquo;{browserTargetLabel}&rdquo;</strong> seçeneğine dokun veya üyeliksiz devam et.
                   </p>
                 </div>
               </div>
@@ -230,11 +204,11 @@ export function AuthModal({ isOpen, onClose }: AuthModalProps) {
                 <button
                   type="button"
                   onClick={() => void handleCopyCurrentUrl()}
-                  className="touch-target-44 min-h-[44px] w-full px-3.5 py-2.5 rounded-xl bg-cream-surface hover:bg-line/35 border border-line text-ink font-sans text-xs font-semibold flex items-center justify-center gap-2 transition-colors"
+                  className={storefrontAction({ variant: "secondary", size: "default", className: "w-full flex items-center justify-center gap-2" })}
                 >
                   {copiedUrl ? (
                     <>
-                      <Check className="w-4 h-4 text-good shrink-0" aria-hidden="true" />
+                      <Check className="sf-success w-4 h-4 shrink-0" aria-hidden="true" />
                       <span>Bağlantı Kopyalandı — Safari&apos;ye Yapıştırın</span>
                     </>
                   ) : (
@@ -248,7 +222,7 @@ export function AuthModal({ isOpen, onClose }: AuthModalProps) {
                 <button
                   type="button"
                   onClick={handleGuestOrderContinue}
-                  className="touch-target-44 min-h-[44px] w-full px-3.5 py-2.5 rounded-xl bg-accent hover:bg-accent/90 text-white font-sans text-xs font-bold flex items-center justify-center gap-2 transition-colors shadow-xs"
+                  className={storefrontAction({ variant: "primary", size: "default", className: "w-full flex items-center justify-center gap-2" })}
                 >
                   <ShoppingBag className="w-4 h-4 shrink-0" aria-hidden="true" />
                   <span>Üyeliksiz Doğrudan Sipariş Ver</span>
@@ -263,14 +237,14 @@ export function AuthModal({ isOpen, onClose }: AuthModalProps) {
               className="p-3 rounded-xl bg-warn/15 border border-warn/35 text-ink text-xs font-sans flex items-start gap-2"
             >
               <AlertCircle className="w-4 h-4 text-warn shrink-0 mt-0.5" aria-hidden="true" />
-              <span>Giriş sistemi şu an yapılandırılmamış. Üyeliksiz sipariş verebilirsiniz.</span>
+              <span>Giriş sistemi şu an yapılandırılmamış. Üyeliksiz sipariş verebilirsin.</span>
             </div>
           )}
 
           {errorMsg && (
             <div
               role="alert"
-              className="p-3 rounded-xl bg-bad/10 border border-bad/30 text-bad text-xs font-sans flex items-start gap-2"
+              className="sf-error p-3 rounded-xl bg-bad/10 border border-bad/30 text-xs font-sans flex items-start gap-2"
             >
               <AlertCircle className="w-4 h-4 shrink-0 mt-0.5" aria-hidden="true" />
               <span>{errorMsg}</span>
@@ -283,7 +257,7 @@ export function AuthModal({ isOpen, onClose }: AuthModalProps) {
                 type="button"
                 onClick={handleGoogle}
                 disabled={submitting || !isConfigured}
-                className="touch-target-44 min-h-[48px] w-full py-3 px-4 rounded-xl bg-bg hover:bg-line/35 border border-line hover:border-accent/50 text-ink font-sans text-sm font-semibold flex items-center justify-center gap-2.5 transition-all shadow-2xs disabled:opacity-50"
+                className={storefrontAction({ variant: "secondary", size: "default", className: "w-full flex items-center justify-center gap-2.5 disabled:opacity-50" })}
               >
                 <svg className="w-4 h-4 shrink-0" viewBox="0 0 24 24" aria-hidden="true">
                   <path
@@ -303,7 +277,7 @@ export function AuthModal({ isOpen, onClose }: AuthModalProps) {
                     d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"
                   />
                 </svg>
-                <span>Google ile Devam Et</span>
+                <span>Google ile devam et</span>
               </button>
 
               {APPLE_LOGIN_ENABLED && (
@@ -311,12 +285,12 @@ export function AuthModal({ isOpen, onClose }: AuthModalProps) {
                   type="button"
                   onClick={handleApple}
                   disabled={submitting || !isConfigured}
-                  className="touch-target-44 min-h-[48px] w-full py-3 px-4 rounded-xl bg-ink hover:bg-ink/90 text-cream-surface font-sans text-sm font-semibold flex items-center justify-center gap-2.5 transition-all shadow-xs disabled:opacity-50"
+                  className={storefrontAction({ variant: "secondary", size: "default", className: "w-full flex items-center justify-center gap-2.5 disabled:opacity-50" })}
                 >
                   <svg className="w-4 h-4 fill-current shrink-0" viewBox="0 0 24 24" aria-hidden="true">
                     <path d="M17.05 20.28c-.98.95-2.05.8-3.08.35-1.09-.46-2.09-.48-3.24 0-1.44.62-2.2.44-3.06-.35C2.79 15.25 3.51 7.59 9.05 7.31c1.35.07 2.29.74 3.08.8 1.18-.24 2.31-.93 3.57-.84 1.51.12 2.65.72 3.4 1.8-3.12 1.87-2.38 5.98.48 7.13-.57 1.5-1.31 2.99-2.54 4.09zM12.03 7.25c-.15-2.23 1.66-4.07 3.74-4.25.29 2.58-2.34 4.5-3.74 4.25z" />
                   </svg>
-                  <span>Apple ile Giriş Yap</span>
+                  <span>Apple ile Giriş yap</span>
                 </button>
               )}
 
@@ -329,8 +303,8 @@ export function AuthModal({ isOpen, onClose }: AuthModalProps) {
                   </div>
 
                   <form onSubmit={handleSendCode} className="space-y-3">
-                    <label htmlFor="auth-email" className="block text-xs font-sans font-semibold text-ink">
-                      E-posta adresiniz
+                    <label htmlFor="auth-email" className="sf-label block text-xs font-sans font-semibold text-ink">
+                      E-posta adresin
                     </label>
                     <div className="relative">
                       <Mail
@@ -350,13 +324,13 @@ export function AuthModal({ isOpen, onClose }: AuthModalProps) {
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                         placeholder="ornek@mail.com"
-                        className="w-full min-h-[48px] pl-10 pr-3.5 py-2.5 rounded-xl bg-bg border border-line text-base sm:text-sm text-ink placeholder:text-ink-muted/60 focus:border-accent focus:outline-none font-sans"
+                        className="sf-field sf-field--leading-icon w-full"
                       />
                     </div>
                     <button
                       type="submit"
                       disabled={submitting || !isConfigured}
-                      className="touch-target-44 min-h-[48px] w-full py-3 rounded-xl bg-accent hover:bg-accent/90 text-white font-sans text-sm font-bold transition-all flex items-center justify-center gap-2 disabled:opacity-50 shadow-xs"
+                      className={storefrontAction({ variant: "primary", size: "default", className: "w-full flex items-center justify-center gap-2 disabled:opacity-50" })}
                     >
                       <span>{submitting ? "Gönderiliyor..." : "Bana Giriş Kodu Gönder"}</span>
                       <ArrowRight className="w-4 h-4" aria-hidden="true" />
@@ -365,15 +339,19 @@ export function AuthModal({ isOpen, onClose }: AuthModalProps) {
                 </>
               )}
 
-              <p className="text-xs text-center text-ink-muted font-sans pt-1">
-                Hesap açmadan da misafir olarak doğrudan sipariş verebilirsiniz.
+              <p className="sf-copy text-xs text-center text-ink-muted font-sans pt-1">
+                Hesap açmadan da misafir olarak doğrudan sipariş verebilirsin.
               </p>
+              <button type="button" onClick={handleGuestOrderContinue}
+                className={storefrontAction({ variant: "secondary", size: "default", className: "w-full" })}>
+                Misafir olarak devam et
+              </button>
             </div>
           )}
 
           {step === "code" && (
             <form onSubmit={handleVerifyCode} className="space-y-3">
-              <label htmlFor="auth-code" className="block text-xs font-sans font-semibold text-ink">
+              <label htmlFor="auth-code" className="sf-label block text-xs font-sans font-semibold text-ink">
                 6 haneli doğrulama kodu
               </label>
               <div className="relative">
@@ -396,15 +374,15 @@ export function AuthModal({ isOpen, onClose }: AuthModalProps) {
                   value={code}
                   onChange={(e) => setCode(e.target.value.replace(/\D/g, ""))}
                   placeholder="123456"
-                  className="w-full min-h-[48px] pl-10 pr-3.5 py-2.5 rounded-xl bg-bg border border-line text-base sm:text-sm tracking-[0.35em] font-mono text-ink placeholder:text-ink-muted/50 focus:border-accent focus:outline-none"
+                  className="sf-field sf-field--leading-icon w-full"
                 />
               </div>
               <button
                 type="submit"
                 disabled={submitting}
-                className="touch-target-44 min-h-[48px] w-full py-3 rounded-xl bg-accent hover:bg-accent/90 text-white font-sans text-sm font-bold transition-all flex items-center justify-center gap-2 disabled:opacity-50 shadow-xs"
+                className={storefrontAction({ variant: "primary", size: "default", className: "w-full flex items-center justify-center gap-2 disabled:opacity-50" })}
               >
-                <span>{submitting ? "Doğrulanıyor..." : "Giriş Yap"}</span>
+                <span>{submitting ? "Doğrulanıyor..." : "Giriş yap"}</span>
                 <ArrowRight className="w-4 h-4" aria-hidden="true" />
               </button>
               <div className="flex items-center justify-between text-xs font-sans pt-1">
@@ -415,7 +393,7 @@ export function AuthModal({ isOpen, onClose }: AuthModalProps) {
                     setCode("");
                     setErrorMsg(null);
                   }}
-                  className="touch-target-44 px-2 py-1.5 text-ink-muted hover:text-ink font-medium"
+                  className={storefrontAction({ variant: "quiet", size: "default", className: "" })}
                 >
                   ← Adresi değiştir
                 </button>
@@ -429,18 +407,17 @@ export function AuthModal({ isOpen, onClose }: AuthModalProps) {
                     setSubmitting(false);
                     if (!res.success) setErrorMsg(res.error || "Kod gönderilemedi.");
                   }}
-                  className="touch-target-44 px-2 py-1.5 text-accent font-semibold hover:underline disabled:opacity-50"
+                  className={storefrontAction({ variant: "quiet", size: "default", className: "hover:underline disabled:opacity-50" })}
                 >
                   Kodu tekrar gönder
                 </button>
               </div>
-              <p className="text-xs text-ink-muted font-sans">
-                E-posta gelmediyse spam veya gereksiz klasörünü kontrol edin.
+              <p className="sf-copy text-xs text-ink-muted font-sans">
+                E-posta gelmediyse spam veya gereksiz klasörünü kontrol et.
               </p>
             </form>
           )}
         </div>
-      </div>
-    </div>
+    </Modal>
   );
 }

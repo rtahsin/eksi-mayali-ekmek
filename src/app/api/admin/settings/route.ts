@@ -59,12 +59,6 @@ export async function POST(request: Request) {
       .upsert({ key: "operational_settings", value, updated_at: nowIso }, { onConflict: "key" });
     if (error) throw error;
 
-    // Eski ayrı anahtar okuyucular için senkron tut (Faz 5'te kaldırılır)
-    const { error: cutoffError } = await supabase
-      .from("bakery_settings")
-      .upsert({ key: "order_cutoff_time", value: value.orderCutoffTime, updated_at: nowIso }, { onConflict: "key" });
-    if (cutoffError) throw cutoffError;
-
     revalidateTag("settings", "max");
 
     return NextResponse.json({ success: true, message: "Ayarlar güncellendi" });

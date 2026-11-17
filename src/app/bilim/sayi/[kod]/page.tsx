@@ -3,8 +3,6 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowLeft, ArrowRight, ExternalLink, BookOpen, Flame } from "lucide-react";
-import { Navbar } from "@/components/common/Navbar";
-import { Footer } from "@/components/common/Footer";
 import { StalingSimulator } from "@/components/bilim/StalingSimulator";
 import {
   DERGI_SAYILARI,
@@ -60,9 +58,8 @@ export default async function DergiSayiPage({
 
   return (
     <div className="min-h-screen flex flex-col bg-bg text-ink font-sans selection:bg-accent/20 selection:text-ink">
-      <Navbar />
 
-      <main className="flex-1 py-8 sm:py-12">
+      <div className="flex-1 py-8 sm:py-12">
         <article className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10 sm:space-y-14">
           {/* 1. Üst Gazete Künyesi */}
           <div className="pb-4 border-b-4 border-double border-line flex flex-wrap items-center justify-between gap-3 text-xs font-mono uppercase tracking-wider text-ink-muted">
@@ -396,9 +393,8 @@ export default async function DergiSayiPage({
             ) : null}
           </nav>
         </article>
-      </main>
+      </div>
 
-      <Footer />
     </div>
   );
 }

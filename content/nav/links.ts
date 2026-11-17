@@ -1,40 +1,33 @@
-export interface NavLink {
-  href: string;
-  label: string;
-  description?: string;
+import { FEATURES } from "@/lib/features";
+import type { StorefrontNavigationItem } from "@/types/storefront-ui";
+
+export type { StorefrontNavigationItem as NavLink } from "@/types/storefront-ui";
+
+export const STOREFRONT_LINKS = {
+  bread: { key: "bread", href: "/#ekmekler", label: "Ekmeklerimiz", description: "Taş fırından çıkan ekşi mayalı ekmekler" },
+  accompaniments: { key: "accompaniments", href: "/#gurme-lezzetler", label: "Mandıra & Şarküteri", description: "Ekmeğin yanına seçilmiş sofralık eşlikçiler" },
+  production: { key: "production", href: "/#nasil-uretiyoruz", label: "Nasıl üretiyoruz?", description: "Undan fırına ekmeğin yolu", feature: "nasilUretiyoruz" },
+  science: { key: "science", href: "/bilim", label: "Bilim odası", description: "Tarladan dilime, ekmeğin yolculuğu", feature: "bilimOdasi" },
+  tools: { key: "tools", href: "/arac", label: "Fırıncı araçları", description: "Fırıncı yüzdesi, su sıcaklığı ve maya planlayıcı" },
+  tracking: { key: "tracking", href: "/siparislerim", label: "Siparişi takip et" },
+} as const satisfies Record<string, StorefrontNavigationItem>;
+
+export const MAIN_NAV_LINKS: readonly StorefrontNavigationItem[] = [STOREFRONT_LINKS.bread, STOREFRONT_LINKS.accompaniments, STOREFRONT_LINKS.production, STOREFRONT_LINKS.science, STOREFRONT_LINKS.tools];
+export const DRAWER_ORDER_LINKS: readonly StorefrontNavigationItem[] = [
+  STOREFRONT_LINKS.bread, STOREFRONT_LINKS.accompaniments, STOREFRONT_LINKS.production,
+  { key: "delivery", href: "#delivery-info", dialog: "delivery", label: "Teslimat bilgisi", description: "Beylikdüzü içi ücretsiz teslimat" },
+  { key: "whereToFind", href: "#where-to-find", dialog: "whereToFind", label: "Nerede bulunur?", description: "Bahçe atölyemiz ve anlaşmalı şarküteriler" },
+];
+export const DRAWER_DISCOVERY_LINKS: readonly StorefrontNavigationItem[] = [
+  { key: "manifesto", href: "#manifesto", dialog: "manifesto", label: "Biz kimiz?", description: "Ata tohumu mirasımız ve atölyenin hikâyesi" },
+  STOREFRONT_LINKS.science, STOREFRONT_LINKS.tools,
+];
+export const FOOTER_NAV_LINKS: readonly StorefrontNavigationItem[] = [
+  STOREFRONT_LINKS.bread, STOREFRONT_LINKS.accompaniments, STOREFRONT_LINKS.production, STOREFRONT_LINKS.science,
+  { key: "myths", href: "/bilim/efsaneler", label: "Efsane dosyası", feature: "bilimOdasi" },
+  STOREFRONT_LINKS.tools, STOREFRONT_LINKS.tracking,
+];
+
+export function isStorefrontNavVisible(link: StorefrontNavigationItem): boolean {
+  return !link.feature || FEATURES[link.feature];
 }
-
-export const MAIN_NAV_LINKS: readonly NavLink[] = [
-  { href: "/#ekmekler", label: "Ekmeklerimiz" },
-  { href: "/#gurme-lezzetler", label: "Gurme Lezzetler" },
-  { href: "/bilim", label: "Bilim odası" },
-  { href: "/arac", label: "Fırıncı Araçları" },
-];
-
-/**
- * Atelier Menü Çekmecesi: Sipariş Bölümü (I-02)
- */
-export const DRAWER_ORDER_LINKS: readonly NavLink[] = [
-  { href: "/#ekmekler", label: "Ekmekler", description: "Taş fırından günlük çıkan artisan ekşi mayalı somunlar" },
-  { href: "/#gurme-lezzetler", label: "Eşlikçiler", description: "Tereyağı, mandıra ve gurme şarküteri lezzetleri" },
-  { href: "#delivery-info", label: "Teslimat Bölgesi ve Ücret", description: "Beylikdüzü geneli teslimat koşulları ve saatleri" },
-  { href: "#where-to-find", label: "Nerede Bulunur?", description: "Bahçe atölyemiz ve anlaşmalı teslim noktaları" },
-];
-
-/**
- * Atelier Menü Çekmecesi: Keşfet Bölümü (I-02)
- */
-export const DRAWER_DISCOVERY_LINKS: readonly NavLink[] = [
-  { href: "#manifesto", label: "Biz Kimiz?", description: "Ata tohumu buğday mirası ve zanaat manifestomuz" },
-  { href: "/bilim", label: "Bilim odası", description: "Ekmeğin içindeki 26 an, kaynaklarıyla" },
-  { href: "/arac", label: "Fırıncı Araçları", description: "Fırıncı yüzdesi, DDT ve maya besleme planlayıcı" },
-];
-
-export const FOOTER_NAV_LINKS: readonly NavLink[] = [
-  { href: "/#ekmekler", label: "Taze Ekmeklerimiz" },
-  { href: "/#nasil-uretiyoruz", label: "Nasıl Üretiyoruz?" },
-  { href: "/bilim", label: "Ekmeğin Bilimi" },
-  { href: "/bilim/efsaneler", label: "Efsane Dosyası" },
-  { href: "/arac", label: "Fırıncı Araçları" },
-  { href: "/siparislerim", label: "Sipariş Sorgula" },
-];

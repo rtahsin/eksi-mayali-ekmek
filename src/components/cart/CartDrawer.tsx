@@ -1,5 +1,7 @@
 "use client";
 
+import { formatMoney } from "@/lib/format/currency";
+import { storefrontAction } from "@/lib/design/storefront";
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { useCartStore } from "@/lib/store/useCartStore";
@@ -7,6 +9,9 @@ import { useDeliveryDates, useStoreSettings } from "@/hooks/useStoreSettings";
 import { computeShippingFee } from "@/lib/settings/schema";
 import { FoodComplianceNotice } from "@/components/storefront/FoodComplianceNotice";
 import { CheckoutActions } from "./CheckoutActions";
+import { Modal } from "@/components/common/Modal";
+import { formatProductAmount } from "@/lib/products/format";
+import { formatTrDate } from "@/lib/time/istanbul";
 import {
   X,
   ShoppingBag,
@@ -28,8 +33,6 @@ import { useProducts } from "@/hooks/useProducts";
 import { stripMah, type CheckoutErrors } from "@/lib/order/validate";
 import type { CheckoutPaymentMethod } from "@/lib/order/createOrder";
 import { trackEvent } from "@/lib/track";
-
-const formatTl = (value: number) => `${value.toLocaleString("tr-TR")} ₺`;
 
 function mergeDirectionsIntoNote(
   currentNote: string | undefined,
@@ -62,7 +65,7 @@ export function CartDrawer() {
   const itemCount = useCartStore((s) => s.getItemCount());
   const subtotal = useCartStore((s) => s.getSubtotal());
 
-  const { settings } = useStoreSettings();
+  const { settings, loaded: settingsLoaded, settingsError, reloadSettings } = useStoreSettings();
   const { allProducts } = useProducts();
   const inCart = new Set(items.map((i) => i.productId));
   const suggestions = Array.from(
@@ -79,6 +82,7 @@ export function CartDrawer() {
   const [saveThisAddress, setSaveThisAddress] = useState(false);
   const [paymentMethod, setPaymentMethod] = useState<CheckoutPaymentMethod>("cash_on_delivery");
   const [errors, setErrors] = useState<CheckoutErrors>({});
+  const [dateChange, setDateChange] = useState<string | null>(null);
   const startedRef = React.useRef(false);
   const autoFilledAddrUserRef = React.useRef<string | null>(null);
   const markCheckoutStart = () => {
@@ -91,25 +95,32 @@ export function CartDrawer() {
   const [locating, setLocating] = useState(false);
   const [locateError, setLocateError] = useState<string | null>(null);
 
-  // Seçili gün artık uygun değilse (cutoff, satış günü, limit, kapasite…) ilk uygun güne geç
+  // Seçili gün artık uygun değilse (satış günü, limit, kapasite…) ilk uygun güne geç
   useEffect(() => {
-    if (!datesLoaded) return;
+    if (!isOpen || !datesLoaded || datesError) return;
     const firstAvailable = dates.find((d) => d.available);
     if (!firstAvailable) {
-      if (customerInfo.deliveryDate) setCustomerInfo({ deliveryDate: "" });
+      if (customerInfo.deliveryDate) {
+        setDateChange("Sepetinizdeki ürünler için uygun ortak teslim günü bulunamadı. Ürünleri veya adetleri düzenleyin.");
+        setCustomerInfo({ deliveryDate: "" });
+      }
       return;
     }
     if (!dates.some((d) => d.available && d.date === customerInfo.deliveryDate)) {
+      if (customerInfo.deliveryDate) {
+        const reason = dates.find((d) => d.date === customerInfo.deliveryDate)?.reason;
+        setDateChange(`Teslim günün ${formatTrDate(customerInfo.deliveryDate, "long")} yerine ${formatTrDate(firstAvailable.date, "long")} olarak güncellendi.${reason ? ` ${reason}.` : " Önceki gün artık sepetiniz için uygun değil."}`);
+      }
       setCustomerInfo({ deliveryDate: firstAvailable.date });
     }
-  }, [dates, datesLoaded, customerInfo.deliveryDate, setCustomerInfo]);
+  }, [isOpen, dates, datesLoaded, datesError, customerInfo.deliveryDate, setCustomerInfo]);
 
   // Mahalle ayarlardaki listede değilse seçimi boşalt
   useEffect(() => {
-    if (customerInfo.neighborhood && !settings.neighborhoods.includes(customerInfo.neighborhood)) {
+    if (settingsLoaded && customerInfo.neighborhood && !settings.neighborhoods.includes(customerInfo.neighborhood)) {
       setCustomerInfo({ neighborhood: "" });
     }
-  }, [settings.neighborhoods, customerInfo.neighborhood, setCustomerInfo]);
+  }, [settingsLoaded, settings.neighborhoods, customerInfo.neighborhood, setCustomerInfo]);
 
   // Giriş yapmış müşterinin bilgilerini boş alanlara doldur
   useEffect(() => {
@@ -173,14 +184,6 @@ export function CartDrawer() {
     };
   }, [isOpen, closeCart]);
 
-  // ESC ile kapat
-  useEffect(() => {
-    if (!isOpen) return;
-    const onKey = (e: KeyboardEvent) => e.key === "Escape" && closeCart();
-    window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
-  }, [isOpen, closeCart]);
-
   const handleGetLocation = () => {
     if (typeof window === "undefined" || !navigator.geolocation) {
       setLocateError("Tarayıcınız konum özelliğini desteklemiyor.");
@@ -232,8 +235,14 @@ export function CartDrawer() {
     }).catch(() => undefined);
   };
 
-  const orderingBlockedReason = !settings.orderAcceptanceOpen
-    ? "Şu an sipariş almıyoruz. Lütfen daha sonra tekrar deneyin."
+  const orderingBlockedReason = settingsError ? settingsError : !settingsLoaded
+    ? "Sipariş bilgileri yükleniyor. Lütfen bekle."
+    : !datesLoaded
+    ? "Teslim günleri kontrol ediliyor. Lütfen bekle."
+    : !settings.orderAcceptanceOpen
+    ? "Şu an sipariş almıyoruz. Lütfen daha sonra tekrar dene."
+    : datesError
+    ? datesError
     : datesLoaded && dates.length === 0
     ? "Önümüzdeki günlerde teslimat günümüz bulunmuyor."
     : datesLoaded && items.length > 0 && availableDates.length === 0
@@ -241,14 +250,13 @@ export function CartDrawer() {
     : datesError;
 
   return (
-    <div className="fixed inset-0 z-50 flex justify-end" role="dialog" aria-modal="true" aria-label="Sepetim">
-      <div className="fixed inset-0 bg-black/70 transition-opacity animate-fadeIn" onClick={closeCart} />
-
-      <div className="relative z-10 w-full max-w-md bg-bg border-l border-line h-full flex flex-col shadow-2xl overflow-hidden animate-slideLeft">
+    <Modal open={isOpen} onClose={closeCart} label="Sepetim"
+      className="fixed inset-y-0 left-auto right-0 m-0 w-full max-w-md max-h-none h-dvh bg-bg shadow-2xl overflow-hidden animate-slideLeft">
+      <div className="w-full h-full min-h-0 flex flex-col">
         {/* Header */}
-        <div className="p-4 sm:p-5 border-b border-line flex items-center justify-between bg-cream-surface">
+        <div className="shrink-0 p-4 sm:p-5 border-b border-line flex items-center justify-between bg-cream-surface">
           <div className="flex items-center gap-2.5">
-            <div className="w-9 h-9 rounded-xl bg-accent/10 border border-accent/20 flex items-center justify-center text-accent">
+            <div className="w-9 h-9 rounded-xl bg-accent/10 border border-accent/20 flex items-center justify-center text-ink">
               <ShoppingBag className="w-4 h-4" />
             </div>
             <div>
@@ -265,14 +273,25 @@ export function CartDrawer() {
             type="button"
             onClick={closeCart}
             aria-label="Sepeti kapat"
-            className="p-2 rounded-lg touch-target-44 text-ink-muted hover:text-ink hover:bg-line/40 transition-colors"
+            className={storefrontAction({ variant: "secondary", size: "default", className: "" })}
           >
             <X className="w-5 h-5" />
           </button>
         </div>
 
         {/* Body */}
-        <div className="flex-1 overflow-y-auto p-4 sm:p-5 space-y-6">
+        <CheckoutActions
+          paymentMethod={paymentMethod} totalAmount={totalAmount} deliveryWindow={settings.deliveryWindow}
+          errors={errors} onErrors={setErrors} minBasketShortfall={minBasketShortfall}
+          orderingBlockedReason={orderingBlockedReason} onDatesStale={reloadDates}
+          onOrderPlaced={handleOrderPlaced}
+          deliveryDateLabel={dates.find((d) => d.date === customerInfo.deliveryDate)?.label ?? null}
+          whatsappPhone={settings.whatsappPhone}
+        >
+          {settingsError && <div role="alert" className="space-y-2 rounded-xl border border-line bg-cream-surface p-3 text-sm">
+            <p>{settingsError}</p>
+            <button type="button" onClick={() => void reloadSettings()} className={storefrontAction({ variant: "secondary", size: "default", className: "" })}>Mağaza ayarlarını yeniden yükle</button>
+          </div>}
           {settings.announcementText && (
             <div className="p-3 rounded-xl bg-accent/10 border border-accent/20 text-xs text-ink font-sans flex items-start gap-2">
               <Megaphone className="w-4 h-4 text-accent shrink-0 mt-0.5" />
@@ -287,14 +306,14 @@ export function CartDrawer() {
               </div>
               <div className="space-y-1">
                 <h4 className="font-serif text-base font-bold text-ink">Sepetiniz Henüz Boş</h4>
-                <p className="text-xs text-ink-muted max-w-xs font-sans">
+                <p className="sf-copy text-xs text-ink-muted max-w-xs font-sans">
                   Taş fırında taze pişen ekşi mayalı ekmeklerimizden ve şarküteri ürünlerimizden seçin.
                 </p>
               </div>
               <button
                 type="button"
                 onClick={closeCart}
-                className="mt-2 px-6 py-2.5 rounded-xl touch-target-44 bg-artisan-terracotta text-white font-sans text-xs font-semibold hover:bg-artisan-terracotta-dark transition-colors shadow-xs"
+                className={storefrontAction({ variant: "primary", size: "default", className: "mt-2" })}
               >
                 Ürünleri İncele
               </button>
@@ -308,14 +327,14 @@ export function CartDrawer() {
                     <ProgressRow
                       text={
                         <>
-                          Minimum sipariş için <strong className="text-accent">{formatTl(minBasketShortfall)}</strong> daha ekleyin
+                          Minimum sipariş için <strong className="text-ink">{formatMoney(minBasketShortfall)}</strong> daha ekleyin
                         </>
                       }
-                      goal={`${formatTl(settings.minBasketAmount)} minimum`}
+                      goal={`${formatMoney(settings.minBasketAmount)} minimum`}
                       ratio={subtotal / settings.minBasketAmount}
                     />
                   ) : subtotal >= threshold ? (
-                    <span className="text-good text-xs font-bold flex items-center gap-1.5">
+                    <span className="sf-success text-xs font-bold flex items-center gap-1.5">
                       <Sparkles className="w-3.5 h-3.5" />
                       <span>Teslimat ücretsiz!</span>
                     </span>
@@ -323,10 +342,10 @@ export function CartDrawer() {
                     <ProgressRow
                       text={
                         <>
-                          Ücretsiz teslimata <strong className="text-accent">{formatTl(threshold - subtotal)}</strong> kaldı
+                          Ücretsiz teslimata <strong className="text-ink">{formatMoney(threshold - subtotal)}</strong> kaldı
                         </>
                       }
-                      goal={`${formatTl(threshold)} hedefi`}
+                      goal={`${formatMoney(threshold)} hedefi`}
                       ratio={subtotal / threshold}
                     />
                   )}
@@ -335,11 +354,11 @@ export function CartDrawer() {
 
               {/* Teslimat */}
               <div className="space-y-1.5">
-                <div className="text-xs font-sans font-semibold text-accent uppercase tracking-wider">
+                <div className="text-xs font-sans font-semibold text-ink uppercase tracking-wider">
                   Teslimat
                 </div>
                 <div className="p-3 rounded-xl bg-cream-surface border border-line flex items-center gap-2.5 shadow-2xs">
-                  <div className="w-8 h-8 rounded-lg bg-accent/10 border border-accent/20 flex items-center justify-center text-accent shrink-0">
+                  <div className="w-8 h-8 rounded-lg bg-accent/10 border border-accent/20 flex items-center justify-center text-ink shrink-0">
                     <Truck className="w-4 h-4" />
                   </div>
                   <div>
@@ -357,53 +376,41 @@ export function CartDrawer() {
 
               {/* Teslim günü */}
               <div className="space-y-2">
-                <div className="text-xs font-sans font-semibold text-accent uppercase tracking-wider flex items-center justify-between">
+                <div className="text-xs font-sans font-semibold text-ink uppercase tracking-wider flex items-center justify-between">
                   <span>Teslim Günü</span>
-                  <span className="text-xs text-ink-muted font-normal normal-case">
-                    Aynı gün için son sipariş {settings.orderCutoffTime}
-                  </span>
                 </div>
 
                 {!datesLoaded ? (
                   <div className="text-xs text-ink-muted flex items-center gap-2">
                     <Loader2 className="w-3.5 h-3.5 animate-spin" /> Uygun günler yükleniyor…
                   </div>
-                ) : dates.length === 0 ? (
-                  <div className="text-xs text-ink bg-amber-500/10 border border-amber-500/20 rounded-lg p-2.5">
+                ) : datesError ? null : dates.length === 0 ? (
+                  <div className="sf-notice sf-warning">
                     {orderingBlockedReason}
                   </div>
                 ) : (
                   <>
-                    <div id="checkout-dates" className="flex flex-wrap gap-1.5" role="radiogroup" aria-label="Teslim günü">
+                    <fieldset id="checkout-dates" className="flex flex-wrap gap-1.5" aria-label="Teslim günü">
+                      <legend className="sr-only">Teslim günü</legend>
                       {dates.map((d) => {
                         const selected = d.available && customerInfo.deliveryDate === d.date;
                         return (
-                          <button
+                          <label
                             key={d.date}
-                            type="button"
-                            role="radio"
-                            aria-checked={selected}
-                            aria-disabled={!d.available}
-                            disabled={!d.available}
                             title={d.reason ?? undefined}
-                            onClick={() => {
-                              if (!d.available) return;
-                              setCustomerInfo({ deliveryDate: d.date });
-                              clearError("deliveryDate");
-                            }}
-                            className={`px-3 py-2 rounded-xl border font-sans text-xs transition-all ${
-                              !d.available
-                                ? "bg-line/20 border-line/50 text-ink-muted/50 line-through cursor-not-allowed"
-                                : selected
-                                ? "bg-artisan-terracotta text-white font-semibold border-accent shadow-xs"
-                                : "bg-cream-surface border-line text-ink-muted hover:text-ink"
-                            }`}
+                            className={`sf-choice ${selected ? "sf-choice--selected" : ""} ${!d.available ? "sf-choice--disabled line-through" : ""}`}
                           >
+                            <input type="radio" name="deliveryDate" value={d.date} checked={selected} disabled={!d.available}
+                              className="sr-only" onChange={() => {
+                                setCustomerInfo({ deliveryDate: d.date });
+                                setDateChange(null);
+                                clearError("deliveryDate");
+                              }} />
                             {d.label}
-                          </button>
+                          </label>
                         );
                       })}
-                    </div>
+                    </fieldset>
                     {unavailableReasons.length > 0 && (
                       <ul className="text-xs text-ink-muted space-y-0.5">
                         {unavailableReasons.slice(0, 3).map((r) => (
@@ -414,7 +421,7 @@ export function CartDrawer() {
                     {(() => {
                       const sel = dates.find((d) => d.date === customerInfo.deliveryDate);
                       return sel && sel.remainingCapacity !== null && sel.remainingCapacity <= 10 ? (
-                        <div className="text-xs text-accent font-semibold">
+                        <div className="text-xs text-ink font-semibold">
                           Bu gün için son {sel.remainingCapacity} ekmeklik yer kaldı
                         </div>
                       ) : null;
@@ -423,9 +430,15 @@ export function CartDrawer() {
                 )}
               </div>
 
+              {dateChange && <p role="status" className="sf-copy rounded-xl border border-line bg-cream-surface p-3 text-sm leading-relaxed text-ink">{dateChange}</p>}
+              {datesError && <div role="alert" className="space-y-2 text-sm text-ink">
+                <p>{datesError}</p>
+                <button type="button" onClick={reloadDates} className={storefrontAction({ variant: "secondary", size: "default", className: "" })}>Teslim günlerini yeniden yükle</button>
+              </div>}
+
               {/* Ürünler */}
               <div className="space-y-3">
-                <div className="text-xs font-sans font-semibold text-accent uppercase tracking-wider">
+                <div className="text-xs font-sans font-semibold text-ink uppercase tracking-wider">
                   Seçilen Ürünler
                 </div>
                 <div className="space-y-2.5">
@@ -438,7 +451,7 @@ export function CartDrawer() {
                         key={item.productId}
                         className="p-3 rounded-2xl bg-cream-surface border border-line space-y-2.5 shadow-2xs"
                       >
-                        <div className="flex gap-3 items-center justify-between">
+                        <div className="grid grid-cols-[3.5rem_minmax(0,1fr)] gap-3 items-start">
                           {/* eslint-disable-next-line @next/next/no-img-element */}
                           <img
                             src={item.imageUrl}
@@ -446,22 +459,22 @@ export function CartDrawer() {
                             className="w-14 h-14 rounded-xl object-cover bg-line/40 shrink-0"
                           />
                           <div className="flex-1 min-w-0">
-                            <div className="font-serif font-bold text-xs sm:text-sm text-ink truncate">
+                            <div className="font-serif font-bold text-sm text-ink break-words">
                               {item.name}
                             </div>
                             <div className="text-xs font-sans text-ink-muted mt-0.5">
-                              {item.weight}gr · {formatTl(item.price)}
+                              {formatProductAmount({ weight: item.weight, weightUnit: item.weightUnit ?? catalogProduct?.weightUnit })} · {formatMoney(item.price)}
                             </div>
                             <div className="font-serif text-sm font-bold text-ink mt-1">
-                              {formatTl(item.price * item.quantity)}
+                              {formatMoney(item.price * item.quantity)}
                             </div>
                           </div>
-                          <div className="flex flex-col items-end gap-1.5">
+                          <div className="col-span-2 flex items-center justify-between gap-2">
                             <button
                               type="button"
                               onClick={() => removeItem(item.productId)}
                               aria-label={`${item.name} ürününü sepetten çıkar`}
-                              className="touch-target-44 text-ink-muted hover:text-bad transition-colors p-1"
+                              className={storefrontAction({ variant: "danger", size: "icon", className: "" })}
                             >
                               <Trash2 aria-hidden="true" className="w-3.5 h-3.5" />
                             </button>
@@ -472,7 +485,7 @@ export function CartDrawer() {
                                   updateQuantity(item.productId, item.quantity - 1)
                                 }
                                 aria-label="Azalt"
-                                className="touch-target-44 w-8 h-8 flex items-center justify-center text-ink-muted hover:text-ink"
+                                className={storefrontAction({ variant: "quiet", size: "icon", className: "flex items-center justify-center" })}
                               >
                                 <Minus aria-hidden="true" className="w-3 h-3" />
                               </button>
@@ -485,7 +498,7 @@ export function CartDrawer() {
                                   updateQuantity(item.productId, item.quantity + 1)
                                 }
                                 aria-label="Artır"
-                                className="touch-target-44 w-8 h-8 flex items-center justify-center text-ink-muted hover:text-ink"
+                                className={storefrontAction({ variant: "quiet", size: "icon", className: "flex items-center justify-center" })}
                               >
                                 <Plus aria-hidden="true" className="w-3 h-3" />
                               </button>
@@ -507,7 +520,7 @@ export function CartDrawer() {
               {/* Birlikte iyi gider (admin'in seçtiği öneriler) */}
               {suggestions.length > 0 && (
                 <div className="space-y-2">
-                  <div className="text-xs font-sans font-semibold text-accent uppercase tracking-wider">
+                  <div className="text-xs font-sans font-semibold text-ink uppercase tracking-wider">
                     Birlikte iyi gider
                   </div>
                   <div className="flex flex-wrap gap-1.5">
@@ -516,11 +529,11 @@ export function CartDrawer() {
                         key={p.id}
                         type="button"
                         onClick={() => addItem(p, null, 1)}
-                        className="px-2.5 py-1.5 rounded-lg bg-line/40 hover:bg-cream-surface text-ink border border-line text-xs font-sans flex items-center gap-1"
+                        className={storefrontAction({ variant: "secondary", size: "default", className: "flex items-center gap-1" })}
                       >
                         <Plus className="w-3 h-3" />
                         <span>
-                          {p.name} (+{formatTl(p.price)})
+                          {p.name} (+{formatMoney(p.price)})
                         </span>
                       </button>
                     ))}
@@ -531,11 +544,11 @@ export function CartDrawer() {
               {/* Müşteri ve adres */}
               <div className="space-y-3 pt-2 border-t border-line">
                 <div className="flex items-center justify-between">
-                  <div className="text-xs font-sans font-semibold text-accent uppercase tracking-wider">
+                  <div className="text-xs font-sans font-semibold text-ink uppercase tracking-wider">
                     Teslimat & İletişim Bilgileri
                   </div>
                   {isLoggedIn ? (
-                    <span className="text-xs font-sans text-good font-medium flex items-center gap-1">
+                    <span className="sf-success text-xs font-sans font-medium flex items-center gap-1">
                       <Sparkles className="w-3 h-3" />
                       <span>Müdavim Üye</span>
                     </span>
@@ -543,16 +556,16 @@ export function CartDrawer() {
                     <button
                       type="button"
                       onClick={() => openAuthModal()}
-                      className="text-xs font-sans text-accent hover:underline font-bold"
+                      className={storefrontAction({ variant: "quiet", size: "default", className: "hover:underline" })}
                     >
-                      Giriş Yap
+                      Giriş yap
                     </button>
                   )}
                 </div>
 
                 {isLoggedIn && addresses.length > 0 && (
                   <div className="p-2.5 rounded-xl bg-cream-surface border border-line space-y-1.5">
-                    <div className="text-xs font-sans text-ink-muted">Kayıtlı adresleriniz:</div>
+                    <div className="text-xs font-sans text-ink-muted">Kayıtlı adreslerin:</div>
                     <div className="flex flex-wrap gap-1.5">
                       {addresses.map((addr) => (
                         <button
@@ -577,11 +590,11 @@ export function CartDrawer() {
                             if (matchedNh) clearError("neighborhood");
                             if (addr.addressDetail.trim().length >= 5) clearError("addressDetail");
                           }}
-                          className={`px-2.5 py-1 rounded-lg text-xs font-sans border transition-all flex items-center gap-1 ${
+                          className={"sf-action sf-action--default " + (` flex items-center gap-1 ${
                             customerInfo.addressDetail === addr.addressDetail
-                              ? "bg-accent/10 text-accent border-accent/40 font-bold shadow-2xs"
-                              : "bg-line/40 border-line text-ink-muted hover:text-ink"
-                          }`}
+                              ? "sf-action--primary "
+                              : "sf-action--secondary "
+                          }  `)}
                         >
                           <MapPin className="w-3 h-3 text-accent" />
                           <span>{addr.title}</span>
@@ -594,13 +607,14 @@ export function CartDrawer() {
                 <div className="space-y-2.5 font-sans">
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                     <div>
-                      <label htmlFor="checkout-customer-name" className="block text-xs text-ink-muted mb-1">
-                        Adınız Soyadınız *
+                      <label htmlFor="checkout-customer-name" className="sf-label block text-xs text-ink-muted mb-1">
+                        Ad soyad *
                       </label>
                       <div className="relative">
-                        <User className="w-3.5 h-3.5 text-ink-muted/60 absolute left-2.5 top-2.5" />
+                        <User className="w-3.5 h-3.5 text-ink-muted absolute left-3 top-4" />
                         <input
                           id="checkout-customer-name"
+                          name="name"
                           onFocus={markCheckoutStart}
                           type="text"
                           autoComplete="name"
@@ -610,25 +624,27 @@ export function CartDrawer() {
                             clearError("name");
                           }}
                           aria-invalid={Boolean(errors.name)}
+                          aria-describedby={errors.name ? "checkout-name-error" : undefined}
                           enterKeyHint="next"
                           placeholder="Ad Soyad"
-                          className="w-full pl-8 pr-2.5 py-2 rounded-xl bg-cream-surface border border-line text-base text-ink focus:border-accent focus:ring-1 focus:ring-accent outline-none"
+                          className="sf-field sf-field--leading-icon w-full"
                         />
                         {errors.name && (
-                          <p role="alert" className="mt-1 text-xs text-bad">
+                          <p id="checkout-name-error" role="alert" className="sf-copy mt-1 text-xs sf-error">
                             {errors.name}
                           </p>
                         )}
                       </div>
                     </div>
                     <div>
-                      <label htmlFor="checkout-customer-phone" className="block text-xs text-ink-muted mb-1">
+                      <label htmlFor="checkout-customer-phone" className="sf-label block text-xs text-ink-muted mb-1">
                         Cep Telefonu *
                       </label>
                       <div className="relative">
-                        <Phone className="w-3.5 h-3.5 text-ink-muted/60 absolute left-2.5 top-2.5" />
+                        <Phone className="w-3.5 h-3.5 text-ink-muted absolute left-3 top-4" />
                         <input
                           id="checkout-customer-phone"
+                          name="phone"
                           type="tel"
                           inputMode="tel"
                           autoComplete="tel"
@@ -638,12 +654,13 @@ export function CartDrawer() {
                             clearError("phone");
                           }}
                           aria-invalid={Boolean(errors.phone)}
+                          aria-describedby={errors.phone ? "checkout-phone-error" : undefined}
                           enterKeyHint="next"
                           placeholder="05XX XXX XX XX"
-                          className="w-full pl-8 pr-2.5 py-2 rounded-xl bg-cream-surface border border-line text-base text-ink focus:border-accent focus:ring-1 focus:ring-accent outline-none"
+                          className="sf-field sf-field--leading-icon w-full"
                         />
                         {errors.phone && (
-                          <p role="alert" className="mt-1 text-xs text-bad">
+                          <p id="checkout-phone-error" role="alert" className="sf-copy mt-1 text-xs sf-error">
                             {errors.phone}
                           </p>
                         )}
@@ -652,19 +669,21 @@ export function CartDrawer() {
                   </div>
 
                   <div>
-                    <label htmlFor="checkout-neighborhood" className="block text-xs text-ink-muted mb-1">
+                    <label htmlFor="checkout-neighborhood" className="sf-label block text-xs text-ink-muted mb-1">
                       Beylikdüzü Mahallesi *
                     </label>
                     <select
                       id="checkout-neighborhood"
+                          name="neighborhood"
                       value={customerInfo.neighborhood}
                       onChange={(e) => {
                         setCustomerInfo({ neighborhood: e.target.value });
                         clearError("neighborhood");
                       }}
                       aria-invalid={Boolean(errors.neighborhood)}
+                      aria-describedby={errors.neighborhood ? "checkout-neighborhood-error" : undefined}
                       autoComplete="address-level3"
-                      className="w-full px-2.5 py-2 rounded-xl bg-cream-surface border border-line text-base text-ink focus:border-accent focus:ring-1 focus:ring-accent outline-none"
+                      className="sf-field w-full"
                     >
                       <option value="">Mahalle seçin…</option>
                       {settings.neighborhoods.map((nh) => (
@@ -674,14 +693,14 @@ export function CartDrawer() {
                       ))}
                     </select>
                     {errors.neighborhood && (
-                      <p role="alert" className="mt-1 text-xs text-bad">
+                      <p id="checkout-neighborhood-error" role="alert" className="sf-copy mt-1 text-xs sf-error">
                         {errors.neighborhood}
                       </p>
                     )}
                   </div>
 
                   <div>
-                    <label htmlFor="checkout-address-detail" className="block text-xs text-ink-muted mb-1">
+                    <label htmlFor="checkout-address-detail" className="sf-label block text-xs text-ink-muted mb-1">
                       Açık Adres (Cadde / Sokak / Bina / Daire) *
                     </label>
                     <textarea
@@ -694,22 +713,23 @@ export function CartDrawer() {
                         clearError("addressDetail");
                       }}
                       aria-invalid={Boolean(errors.addressDetail)}
+                      aria-describedby={errors.addressDetail ? "checkout-address-error" : undefined}
                       placeholder="Örn: Çiftlik Cad. No: 14 D: 6"
-                      className="w-full px-2.5 py-1.5 rounded-xl bg-cream-surface border border-line text-base text-ink focus:border-accent focus:ring-1 focus:ring-accent outline-none resize-none"
+                      className="sf-field w-full"
                     />
                     {errors.addressDetail && (
-                      <p role="alert" className="mt-1 text-xs text-bad">
+                      <p id="checkout-address-error" role="alert" className="sf-copy mt-1 text-xs sf-error">
                         {errors.addressDetail}
                       </p>
                     )}
                     <div className="mt-1.5 flex flex-wrap items-center justify-between gap-2">
                       {hasLocation ? (
-                        <span className="text-xs text-good flex items-center gap-1">
+                        <span className="sf-success text-xs flex items-center gap-1">
                           <CheckCircle2 aria-hidden="true" className="w-3 h-3" /> Konumunuz kuryeye iletilecek
                           <button
                             type="button"
                             onClick={() => setLocation(null, null)}
-                            className="ml-1 underline text-ink-muted hover:text-ink"
+                            className={storefrontAction({ variant: "quiet", size: "default", className: "ml-1 underline" })}
                           >
                             kaldır
                           </button>
@@ -719,7 +739,7 @@ export function CartDrawer() {
                           type="button"
                           disabled={locating}
                           onClick={handleGetLocation}
-                          className="text-xs font-semibold text-accent flex items-center gap-1 disabled:opacity-50"
+                          className={storefrontAction({ variant: "quiet", size: "default", className: "flex items-center gap-1 disabled:opacity-50" })}
                           title="Kuryenin kapınızı kolay bulması için konumunuzu siparişe ekler (isteğe bağlı)"
                         >
                           {locating ? (
@@ -734,24 +754,24 @@ export function CartDrawer() {
                         href="/kvkk#konum-verisi"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-xs underline text-ink-muted hover:text-accent transition-colors"
+                        className="sf-link text-xs underline text-ink-muted hover:text-accent transition-colors"
                       >
                         Konum aydınlatması
                       </Link>
                     </div>
                     {!hasLocation && (
-                      <p className="text-xs text-ink-muted mt-1">
+                      <p className="sf-copy text-xs text-ink-muted mt-1">
                         Konumun yalnızca kapını bulmak için kuryeye gösterilir; butona basmazsan paylaşılmaz.
                       </p>
                     )}
                     {locateError && <div className="text-xs text-warn mt-1">{locateError}</div>}
                     {canSaveAddress && (
-                      <label className="mt-1.5 flex items-center gap-2 text-xs text-ink-muted cursor-pointer">
+                      <label className="sf-label mt-1.5 flex items-center gap-2 text-xs text-ink-muted cursor-pointer">
                         <input
                           type="checkbox"
                           checked={saveThisAddress}
                           onChange={(e) => setSaveThisAddress(e.target.checked)}
-                          className="h-3.5 w-3.5 accent-accent"
+                          className="sf-check h-3.5 w-3.5 accent-accent"
                         />
                         Bu adresi sonraki siparişlerim için kaydet
                       </label>
@@ -759,7 +779,7 @@ export function CartDrawer() {
                   </div>
 
                   <div>
-                    <label htmlFor="checkout-order-note" className="block text-xs text-ink-muted mb-1">
+                    <label htmlFor="checkout-order-note" className="sf-label block text-xs text-ink-muted mb-1">
                       Sipariş Notu (İsteğe bağlı)
                     </label>
                     <input
@@ -769,7 +789,7 @@ export function CartDrawer() {
                       value={customerInfo.note || ""}
                       onChange={(e) => setCustomerInfo({ note: e.target.value })}
                       placeholder="Örn: Zili çalmayınız, kapıya asınız."
-                      className="w-full px-2.5 py-2 rounded-xl bg-cream-surface border border-line text-base text-ink focus:border-accent focus:ring-1 focus:ring-accent outline-none"
+                      className="sf-field w-full"
                     />
                   </div>
                 </div>
@@ -777,7 +797,7 @@ export function CartDrawer() {
 
               {/* Ödeme yöntemi + özet */}
               <div className="space-y-2 pt-2 border-t border-line">
-                <div className="text-xs font-sans font-semibold text-accent uppercase tracking-wider">
+                <div className="text-xs font-sans font-semibold text-ink uppercase tracking-wider">
                   Ödeme (teslimatta)
                 </div>
                 <div className="grid grid-cols-2 gap-2" role="radiogroup" aria-label="Ödeme yöntemi">
@@ -787,67 +807,38 @@ export function CartDrawer() {
                       ["pos_at_door", "Kapıda kart"],
                     ] as const
                   ).map(([value, label]) => (
-                    <button
+                      <label
                       key={value}
-                      type="button"
-                      role="radio"
-                      aria-checked={paymentMethod === value}
-                      onClick={() => setPaymentMethod(value)}
-                      className={`touch-target-44 py-3 rounded-xl border font-sans text-sm transition-all ${
-                        paymentMethod === value
-                          ? "bg-accent/10 border-accent text-ink font-semibold"
-                          : "bg-cream-surface border-line text-ink-muted"
-                      }`}
+                        className={`sf-choice justify-center ${paymentMethod === value ? "sf-choice--selected" : ""}`}
                     >
+                        <input type="radio" name="paymentMethod" value={value} checked={paymentMethod === value}
+                          onChange={() => setPaymentMethod(value)} className="sr-only" />
                       {label}
-                    </button>
+                      </label>
                   ))}
                 </div>
                 <div className="space-y-1 font-sans text-sm text-ink-muted pt-1">
                   <div className="flex items-center justify-between">
                     <span>Ara toplam</span>
-                    <span className="text-ink font-serif font-bold">{formatTl(subtotal)}</span>
+                    <span className="text-ink font-serif font-bold">{formatMoney(subtotal)}</span>
                   </div>
                   <div className="flex items-center justify-between">
                     <span>Teslimat</span>
-                    <span className={shippingFee === 0 ? "text-good font-bold" : "text-ink"}>
-                      {shippingFee === 0 ? "ÜCRETSİZ" : formatTl(shippingFee)}
+                    <span className={shippingFee === 0 ? "sf-success font-bold" : "text-ink"}>
+                      {shippingFee === 0 ? "ÜCRETSİZ" : formatMoney(shippingFee)}
                     </span>
                   </div>
                   <div className="flex items-center justify-between font-bold text-ink">
                     <span className="font-serif">Genel toplam</span>
-                    <span className="text-lg font-serif text-accent">{formatTl(totalAmount)}</span>
+                    <span className="text-lg font-serif text-ink">{formatMoney(totalAmount)}</span>
                   </div>
                 </div>
               </div>
             </>
           )}
-        </div>
-
-        {/* Footer */}
-        {items.length > 0 && (
-          <div
-            className="px-4 sm:px-5 pt-2.5 border-t border-line bg-cream-surface space-y-2"
-            style={{ paddingBottom: "calc(env(safe-area-inset-bottom, 0px) + 0.75rem)" }}
-          >
-            <CheckoutActions
-              paymentMethod={paymentMethod}
-              totalAmount={totalAmount}
-              errors={errors}
-              onErrors={setErrors}
-              minBasketShortfall={minBasketShortfall}
-              orderingBlockedReason={orderingBlockedReason}
-              onDatesStale={() => void reloadDates()}
-              onOrderPlaced={handleOrderPlaced}
-              deliveryDateLabel={
-                dates.find((d) => d.date === customerInfo.deliveryDate)?.label ?? null
-              }
-              whatsappPhone={settings.whatsappPhone}
-            />
-          </div>
-        )}
+        </CheckoutActions>
       </div>
-    </div>
+    </Modal>
   );
 }
 

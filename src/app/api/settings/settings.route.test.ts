@@ -2,7 +2,6 @@ import { describe, it, expect, vi } from "vitest";
 
 vi.mock("@/lib/settings/server", () => ({
   getStoreSettings: vi.fn().mockResolvedValue({
-    orderCutoffTime: "12:00",
     orderAcceptanceOpen: true,
     deliveryFee: 50,
     freeDeliveryThreshold: 500,
@@ -36,6 +35,7 @@ describe("GET /api/settings route", () => {
 
     const json = await response.json();
     expect(json.settings).toBeDefined();
+    expect(json.settings).not.toHaveProperty("orderCutoffTime");
     // isCutoffPassed yanıttan çıkarılmış olmalı
     expect(json.isCutoffPassed).toBeUndefined();
   });

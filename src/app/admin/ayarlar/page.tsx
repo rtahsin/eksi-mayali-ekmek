@@ -63,7 +63,6 @@ export default function AdminSettingsPage() {
   const shippingFeeId = useId();
   const freeThresholdId = useId();
   const minBasketId = useId();
-  const cutoffId = useId();
   const windowId = useId();
   const daysAheadId = useId();
   const closedDateId = useId();
@@ -301,20 +300,7 @@ export default function AdminSettingsPage() {
 
         {/* Takvim */}
         <Section icon={<CalendarDays className="w-5 h-5" aria-hidden="true" />} title="Teslimat Takvimi">
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-            <Field
-              htmlFor={cutoffId}
-              label="Aynı gün için son sipariş saati"
-              icon={<Clock className="w-3.5 h-3.5 text-[#B4532A]" aria-hidden="true" />}
-            >
-              <input
-                id={cutoffId}
-                type="time"
-                value={form.orderCutoffTime}
-                onChange={(e) => set("orderCutoffTime", e.target.value)}
-                className={`${inputCls} font-mono tabular-nums`}
-              />
-            </Field>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <Field
               htmlFor={windowId}
               label="Teslimat saat aralığı"

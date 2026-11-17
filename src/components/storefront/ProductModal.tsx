@@ -1,7 +1,10 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
-import { createPortal } from "react-dom";
+import { storefrontAction } from "@/lib/design/storefront";
+import React, { useState, useEffect, useId, useRef } from "react";
+import { formatMoney } from "@/lib/format/currency";
+import { Modal } from "@/components/common/Modal";
+import { formatProductAmount } from "@/lib/products/format";
 import type { ExtendedProduct } from "@/types";
 import { productBadges } from "@/lib/products/badges";
 import { isAccompaniment } from "@/lib/products/grouping";
@@ -39,6 +42,17 @@ export function ProductModal({ product, initialMode, onClose }: ProductModalProp
   const [quantity, setQuantity] = useState<number>(1);
   const [isAdded, setIsAdded] = useState<boolean>(false);
   const [activeTab, setActiveTab] = useState<"story" | "pairing">("story");
+  const tabId = useId();
+  const tabListRef = useRef<HTMLDivElement>(null);
+  const handleTabKey = (event: React.KeyboardEvent<HTMLDivElement>) => {
+    // Handle keys consistently even when a browser exposes focusGroup without tablist behavior.
+    if (event.altKey || event.ctrlKey || event.metaKey) return;
+    if (!["ArrowLeft", "ArrowRight", "Home", "End"].includes(event.key)) return;
+    event.preventDefault();
+    const next = event.key === "Home" ? "story" : event.key === "End" ? "pairing" : activeTab === "story" ? "pairing" : "story";
+    setActiveTab(next);
+    tabListRef.current?.querySelector<HTMLButtonElement>(`[data-detail-tab="${next}"]`)?.focus();
+  };
   const addItem = useCartStore((state) => state.addItem);
   const today = useIstanbulToday();
   const scheduleBadge = product ? getSaleScheduleBadge(product, today) : null;
@@ -52,15 +66,6 @@ export function ProductModal({ product, initialMode, onClose }: ProductModalProp
     setIsAdded(false);
     setActiveTab("story");
   }, [product?.id]);
-
-  useEffect(() => {
-    if (!product) return;
-    const onKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "Escape") onClose();
-    };
-    window.addEventListener("keydown", onKeyDown);
-    return () => window.removeEventListener("keydown", onKeyDown);
-  }, [product, onClose]);
 
   if (!product || !mounted) return null;
 
@@ -87,7 +92,7 @@ export function ProductModal({ product, initialMode, onClose }: ProductModalProp
       product.saleWeekdays.length > 0 &&
       product.saleWeekdays.length < 7 &&
       scheduleBadge ? (
-        <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-accent text-white border border-accent/80 text-xs font-sans font-bold tracking-wide shadow-md">
+        <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full sf-accent-fill border border-accent text-xs font-sans font-bold tracking-wide shadow-md">
           <span aria-hidden="true" className="w-1.5 h-1.5 rounded-full bg-white" />
           <span>{scheduleBadge}</span>
         </span>
@@ -107,7 +112,7 @@ export function ProductModal({ product, initialMode, onClose }: ProductModalProp
             className="w-1.5 h-1.5 rounded-full bg-good animate-pulse"
           />
           <span>
-            {product.madeToOrder ? "Ön Siparişle Taze Pişer" : "Bugün fırında"}
+            {product.madeToOrder ? "Ön Siparişle Taze Pişer" : "Teslim günü sepette seçilir"}
           </span>
         </span>
       )}
@@ -134,22 +139,15 @@ export function ProductModal({ product, initialMode, onClose }: ProductModalProp
       </div>
     ) : undefined;
 
-  return createPortal(
-    <div
-      className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/60 backdrop-blur-sm animate-fadeIn"
-      role="dialog"
-      aria-modal="true"
-      aria-labelledby="product-modal-title"
-      onClick={(e) => {
-        if (e.target === e.currentTarget) onClose();
-      }}
-    >
-      <div className="relative w-full max-w-4xl rounded-3xl bg-cream-surface border border-line overflow-hidden shadow-2xl flex flex-col md:flex-row max-h-[92vh] text-ink">
+  return (
+    <Modal open={Boolean(product)} onClose={onClose} labelledBy="product-modal-title"
+      className="sf-dialog w-[calc(100%-1.5rem)] max-w-4xl max-h-[92dvh] overflow-y-auto rounded-3xl bg-cream-surface shadow-2xl animate-fadeIn">
+      <div className="relative w-full flex flex-col md:flex-row md:max-h-[92dvh] text-ink">
         {/* Close Button */}
         <button
           type="button"
           onClick={onClose}
-          className="touch-target-44 absolute top-3.5 right-3.5 z-30 w-9 h-9 flex items-center justify-center rounded-xl bg-bg/90 hover:bg-cream-surface text-ink-muted hover:text-ink border border-line transition-colors shadow-xs"
+          className={storefrontAction({ variant: "secondary", size: "icon", className: "absolute top-3.5 right-3.5 z-30 flex items-center justify-center" })}
           title="Kapat"
           aria-label="Kapat"
         >
@@ -157,7 +155,7 @@ export function ProductModal({ product, initialMode, onClose }: ProductModalProp
         </button>
 
         {/* Left: Interactive Showcase Stage */}
-        <div className="w-full md:w-5/12 p-3 sm:p-4 bg-bg shrink-0 flex flex-col justify-center border-b md:border-b-0 md:border-r border-line overflow-y-auto">
+        <div className="w-full md:w-5/12 p-3 sm:p-4 bg-bg shrink-0 flex flex-col justify-center border-b md:border-b-0 md:border-r border-line md:overflow-y-auto">
           <ProductShowcaseStage
             product={product}
             variant="modal"
@@ -169,26 +167,26 @@ export function ProductModal({ product, initialMode, onClose }: ProductModalProp
         </div>
 
         {/* Right: Story, Food Compliance & Add to Cart */}
-        <div className="p-5 sm:p-7 flex-1 flex flex-col justify-between overflow-y-auto space-y-5 bg-cream-surface">
+        <div className="p-5 sm:p-7 flex-1 min-w-0 flex flex-col justify-between md:overflow-y-auto space-y-5 bg-cream-surface">
           <div className="space-y-4">
             <div>
-              <div className="text-xs font-mono text-accent font-semibold uppercase tracking-wider">
+              <div className="text-xs font-mono text-ink font-semibold uppercase tracking-wider">
                 {accompaniment
                   ? "Üretim & Kaynak Notları"
                   : "Fırın Zanaatı & Reçete"}
               </div>
               <h2
                 id="product-modal-title"
-                className="font-serif text-2xl sm:text-3xl font-bold text-ink mt-1 leading-snug"
+                className="sf-dialog-title font-serif text-2xl sm:text-3xl font-bold text-ink mt-1 leading-snug"
               >
                 {product.name}
               </h2>
               <div className="font-serif text-2xl font-bold text-ink mt-1 flex items-baseline gap-1">
-                <span>{product.price}</span>
-                <span className="text-xs font-sans font-normal text-ink-muted">TL</span>
+                <span className="sf-price">{formatMoney(product.price)}</span>
+                <span className="text-sm font-sans font-normal text-ink-muted">/ {formatProductAmount(product)}</span>
                 {product.compareAtPrice ? (
                   <span className="text-sm font-sans font-normal text-ink-muted line-through ml-1">
-                    {product.compareAtPrice} TL
+                    {formatMoney(product.compareAtPrice)}
                   </span>
                 ) : null}
               </div>
@@ -236,38 +234,42 @@ export function ProductModal({ product, initialMode, onClose }: ProductModalProp
             ) : null}
 
             {/* Sub-tabs */}
-            <div className="flex border-b border-line gap-4 pt-1" role="tablist">
+            <div ref={tabListRef} className="flex border-b border-line gap-1 pt-1 overflow-x-auto" role="tablist" aria-label="Ürün bilgileri"
+              {...{ focusgroup: "tablist nomemory" }} onKeyDown={handleTabKey}>
               <button
                 type="button"
                 role="tab"
+                id={`${tabId}-story-tab`}
+                aria-controls={`${tabId}-story-panel`}
+                data-detail-tab="story"
+                tabIndex={activeTab === "story" ? 0 : -1}
+                {...(activeTab === "story" ? { focusgroupstart: "" } : {})}
                 aria-selected={activeTab === "story"}
+                onFocus={() => setActiveTab("story")}
                 onClick={() => setActiveTab("story")}
-                className={`pb-2 text-xs font-sans font-semibold transition-colors relative ${
-                  activeTab === "story"
-                    ? "text-ink border-b-2 border-accent"
-                    : "text-ink-muted hover:text-ink"
-                }`}
+                className="sf-tab"
               >
                 {accompaniment ? "Üretici & Kaynak" : "Zanaat & Un"}
               </button>
               <button
                 type="button"
                 role="tab"
+                id={`${tabId}-pairing-tab`}
+                aria-controls={`${tabId}-pairing-panel`}
+                data-detail-tab="pairing"
+                tabIndex={activeTab === "pairing" ? 0 : -1}
+                {...(activeTab === "pairing" ? { focusgroupstart: "" } : {})}
                 aria-selected={activeTab === "pairing"}
+                onFocus={() => setActiveTab("pairing")}
                 onClick={() => setActiveTab("pairing")}
-                className={`pb-2 text-xs font-sans font-semibold transition-colors relative ${
-                  activeTab === "pairing"
-                    ? "text-ink border-b-2 border-accent"
-                    : "text-ink-muted hover:text-ink"
-                }`}
+                className="sf-tab"
               >
                 Tüketim & Saklama
               </button>
             </div>
 
             {/* Tab 1 */}
-            {activeTab === "story" && (
-              <div className="space-y-3 animate-fadeIn text-xs sm:text-sm text-ink-muted font-sans leading-relaxed">
+            <div hidden={activeTab !== "story"} role="tabpanel" id={`${tabId}-story-panel`} aria-labelledby={`${tabId}-story-tab`} tabIndex={0} className="sf-copy space-y-3 text-ink-muted font-sans">
                 <div className="p-3.5 rounded-2xl bg-bg border border-line space-y-1.5 shadow-xs">
                   <div className="font-bold text-ink flex items-center gap-1.5 font-serif text-xs">
                     {accompaniment ? (
@@ -282,7 +284,7 @@ export function ProductModal({ product, initialMode, onClose }: ProductModalProp
                       </>
                     )}
                   </div>
-                  <p className="text-xs text-ink-muted">
+                  <p className="sf-copy text-xs text-ink-muted">
                     {masterclass?.flourHeritage || product.description}
                   </p>
                 </div>
@@ -297,7 +299,7 @@ export function ProductModal({ product, initialMode, onClose }: ProductModalProp
                           : "Fermantasyon ve Pişirme Tekniği:"}
                       </span>
                     </div>
-                    <p className="text-xs text-ink-muted">{masterclass.technique}</p>
+                    <p className="sf-copy text-xs text-ink-muted">{masterclass.technique}</p>
                   </div>
                 )}
 
@@ -333,35 +335,34 @@ export function ProductModal({ product, initialMode, onClose }: ProductModalProp
                   </div>
                 )}
               </div>
-            )}
+
 
             {/* Tab 2: Tüketim & Saklama */}
-            {activeTab === "pairing" && (
-              <div className="space-y-3 animate-fadeIn text-xs sm:text-sm text-ink-muted font-sans leading-relaxed">
-                <div className="p-4 rounded-2xl bg-bg border border-line space-y-2 shadow-xs">
+            <div hidden={activeTab !== "pairing"} role="tabpanel" id={`${tabId}-pairing-panel`} aria-labelledby={`${tabId}-pairing-tab`} tabIndex={0} className="sf-copy space-y-3 text-ink-muted font-sans">
+                <div className="sf-panel p-4 rounded-2xl bg-bg border border-line space-y-2 shadow-xs">
                   <div className="font-bold text-ink flex items-center gap-1.5 font-serif text-xs">
                     <Utensils aria-hidden="true" className="w-4 h-4 text-accent" />
                     <span>Nasıl Tüketilmeli & Saklanmalı?</span>
                   </div>
-                  <p className="text-xs text-ink-muted leading-relaxed">
+                  <p className="sf-copy text-xs text-ink-muted leading-relaxed">
                     {storageGuidance}
                   </p>
                 </div>
               </div>
-            )}
+
 
             {/* Mandatory TGK Raw Milk Shield & Allergen Notice (always visible before CTA) */}
             <FoodComplianceNotice product={product} variant="full" />
           </div>
 
           {/* Bottom Add to Cart CTA */}
-          <div className="pt-3 border-t border-line flex items-center gap-3">
-            <div className="flex items-center rounded-xl bg-bg border border-line overflow-hidden shadow-xs">
+          <div className="pt-3 border-t border-line flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
+            <div className="flex items-center justify-between rounded-xl bg-bg border border-line overflow-hidden shadow-xs">
               <button
                 type="button"
                 aria-label="Miktarı azalt"
                 onClick={() => setQuantity((q) => Math.max(1, q - 1))}
-                className="touch-target-44 w-9 h-11 flex items-center justify-center text-ink-muted hover:text-ink hover:bg-cream-surface transition-colors"
+                className={storefrontAction({ variant: "secondary", size: "icon", className: "flex items-center justify-center" })}
               >
                 <Minus aria-hidden="true" className="w-4 h-4" />
               </button>
@@ -371,8 +372,9 @@ export function ProductModal({ product, initialMode, onClose }: ProductModalProp
               <button
                 type="button"
                 aria-label="Miktarı artır"
-                onClick={() => setQuantity((q) => q + 1)}
-                className="touch-target-44 w-9 h-11 flex items-center justify-center text-ink-muted hover:text-ink hover:bg-cream-surface transition-colors"
+                onClick={() => setQuantity((q) => Math.min(100, q + 1))}
+                disabled={quantity >= 100}
+                className={storefrontAction({ variant: "secondary", size: "icon", className: "flex items-center justify-center" })}
               >
                 <Plus aria-hidden="true" className="w-4 h-4" />
               </button>
@@ -382,16 +384,12 @@ export function ProductModal({ product, initialMode, onClose }: ProductModalProp
               type="button"
               onClick={handleAddToCart}
               disabled={product.isAvailable === false}
-              className={`touch-target-44 disabled:opacity-40 disabled:cursor-not-allowed flex-1 h-11 rounded-xl font-sans text-xs font-semibold flex items-center justify-center gap-2 transition-all shadow-xs active:scale-[0.98] ${
-                isAdded
-                  ? "bg-good text-white"
-                  : "bg-accent hover:bg-accent/90 text-white"
-              }`}
+              className={storefrontAction({ variant: "primary", className: "flex-1" })}
             >
               {isAdded ? (
                 <>
                   <Check aria-hidden="true" className="w-4 h-4 stroke-[2.5]" />
-                  <span>Sepete Eklendi</span>
+                  <span>Sepete eklendi</span>
                 </>
               ) : (
                 <>
@@ -399,7 +397,7 @@ export function ProductModal({ product, initialMode, onClose }: ProductModalProp
                   <span>
                     {product.isAvailable === false
                       ? "Tükendi"
-                      : `Sepete Ekle · ${product.price * quantity} TL`}
+                      : `Sepete ekle · ${formatMoney(product.price * quantity)}`}
                   </span>
                 </>
               )}
@@ -407,7 +405,6 @@ export function ProductModal({ product, initialMode, onClose }: ProductModalProp
           </div>
         </div>
       </div>
-    </div>,
-    document.body
+    </Modal>
   );
 }

@@ -1,5 +1,6 @@
 import type { SupabaseClient } from "@supabase/supabase-js";
 import { addDays, istanbulToday, istanbulWeekday } from "@/lib/time/istanbul";
+import type { Product } from "@/types";
 
 export const WEEKDAY_MAP: Record<number, string> = {
   1: "Pazartesi",
@@ -100,14 +101,20 @@ export function upcomingSaleDates(
  * - Her gün ekmeği: "Her gün"
  */
 export function getSaleScheduleBadge(
-  product: {
-    saleWeekdays?: number[] | null;
-    isAvailable?: boolean;
-    category?: string;
-  },
+  product: Pick<Product, "saleWeekdays" | "isAvailable" | "availability" | "saleDates" | "leadTimeDays">,
   today: string = istanbulToday()
 ): string | null {
   if (product.isAvailable === false) return null;
+
+  // Explicit sale dates are authoritative, not the weekly template.
+  // Capacity and open delivery days are checked separately by cart availability.
+  if (product.availability === "dates") {
+    const earliest = addDays(today, product.leadTimeDays ?? 0);
+    const next = product.saleDates?.filter((day) => day.date >= earliest && day.limit !== 0)
+      .map((day) => day.date).sort()[0];
+    return next ? `Planlanan satış: ${formatTrDayMonth(next)}` : "Satış günleri yakında açıklanacak";
+  }
+  if (product.availability === "daily") return "Teslim günü sepette seçilir";
 
   const days = product.saleWeekdays;
   if (!days || days.length === 0 || days.length === 7) {

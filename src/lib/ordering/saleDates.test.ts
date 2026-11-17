@@ -90,6 +90,25 @@ describe("upcomingSaleDates pure function (I-06)", () => {
 });
 
 describe("getSaleScheduleBadge pure function (I-06)", () => {
+  it("haftalık şablon yerine gerçek satış tarihini kullanır", () => {
+    expect(getSaleScheduleBadge({ availability: "dates", saleWeekdays: [6], saleDates: [
+      { date: "2026-11-21", limit: null }, { date: "2026-11-20", limit: null },
+    ] }, "2026-11-17")).toBe("Planlanan satış: 20 Kas");
+  });
+
+  it("satış tarihleri bittiğinde haftalık şablondan hayali gün üretmez", () => {
+    expect(getSaleScheduleBadge({ availability: "dates", saleWeekdays: [6], saleDates: [{ date: "2026-11-14", limit: null }] }, "2026-11-17")).toBe("Satış günleri yakında açıklanacak");
+  });
+
+  it("ön hazırlık süresine uymayan ve limiti sıfır olan günü duyurmaz", () => {
+    expect(getSaleScheduleBadge({ availability: "dates", leadTimeDays: 2, saleDates: [
+      { date: "2026-11-17", limit: null }, { date: "2026-11-19", limit: 0 }, { date: "2026-11-20", limit: 10 },
+    ] }, "2026-11-17")).toBe("Planlanan satış: 20 Kas");
+  });
+
+  it("günlük satışa açık olmayı bugün hazır olmakla eşitlemez", () => {
+    expect(getSaleScheduleBadge({ availability: "daily", saleWeekdays: [6] }, "2026-11-17")).toBe("Teslim günü sepette seçilir");
+  });
   it("returns null when product is not available", () => {
     expect(getSaleScheduleBadge({ isAvailable: false })).toBeNull();
   });

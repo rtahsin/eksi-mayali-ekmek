@@ -1,5 +1,7 @@
 "use client";
 
+import { formatMoney } from "@/lib/format/currency";
+import { storefrontAction } from "@/lib/design/storefront";
 import React, { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { useCartStore } from "@/lib/store/useCartStore";
@@ -9,6 +11,7 @@ import { buildCartWhatsappUrl } from "@/lib/orders/whatsappCart";
 import { CHECKOUT_FIELD_ORDER, CheckoutErrors, normalizePhone, validateCheckout } from "@/lib/order/validate";
 import { trackEvent } from "@/lib/track";
 import { Loader2, AlertCircle } from "lucide-react";
+import { formatTrDate } from "@/lib/time/istanbul";
 
 function WhatsAppHandsetIcon({ className }: { className?: string }) {
   return (
@@ -29,6 +32,8 @@ function WhatsAppHandsetIcon({ className }: { className?: string }) {
 }
 
 interface CheckoutActionsProps {
+  children: React.ReactNode;
+  deliveryWindow: string;
   /** Seçili ödeme yöntemi (formdaki 2'li seçim) */
   paymentMethod: CheckoutPaymentMethod;
   /** Genel toplam (butonda gösterilir) */
@@ -72,6 +77,8 @@ const FIELD_IDS: Record<string, string> = {
 };
 
 export function CheckoutActions({
+  children,
+  deliveryWindow,
   paymentMethod,
   totalAmount,
   minBasketShortfall,
@@ -113,11 +120,13 @@ export function CheckoutActions({
     if (!first) return;
     const el = document.getElementById(FIELD_IDS[first]);
     if (!el) return;
-    el.scrollIntoView({ behavior: "smooth", block: "center" });
-    if ("focus" in el && first !== "deliveryDate") (el as HTMLElement).focus({ preventScroll: true });
+    el.scrollIntoView({ behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "instant" : "smooth", block: "center" });
+    if (first === "deliveryDate") el.querySelector<HTMLInputElement>('input:not(:disabled)')?.focus({ preventScroll: true });
+    else el.focus({ preventScroll: true });
   };
 
   const handleOrder = async () => {
+    if (submitting) return;
     setErrorMessage(null);
     if (orderingBlockedReason) {
       setErrorMessage(orderingBlockedReason);
@@ -133,12 +142,12 @@ export function CheckoutActions({
     });
     onErrors(fieldErrors);
     if (Object.keys(fieldErrors).length > 0) {
-      setErrorMessage("Lütfen işaretli alanları tamamlayın.");
+      setErrorMessage("Lütfen işaretli alanları tamamla.");
       focusFirstError(fieldErrors);
       return;
     }
     if (minBasketShortfall > 0) {
-      setErrorMessage(`Minimum sipariş tutarına ${minBasketShortfall.toLocaleString("tr-TR")} ₺ kaldı.`);
+      setErrorMessage(`Minimum sipariş tutarına ${formatMoney(minBasketShortfall)} kaldı.`);
       return;
     }
     setSubmitting(true);
@@ -183,7 +192,7 @@ export function CheckoutActions({
       } else {
         trackEvent("order_error", { code: "network" });
         console.error("Order submission error:", err);
-        setErrorMessage("Bağlantı hatası. Lütfen tekrar deneyin; aynı sipariş iki kez oluşmaz.");
+        setErrorMessage("Bağlantı hatası. Lütfen tekrar dene; aynı sipariş iki kez oluşmaz.");
       }
     } finally {
       setSubmitting(false);
@@ -200,10 +209,13 @@ export function CheckoutActions({
   });
 
   return (
-    <div className="space-y-2">
+    <form noValidate onSubmit={(event) => { event.preventDefault(); void handleOrder(); }} className="flex-1 min-h-0 flex flex-col">
+      <div className="flex-1 min-h-0 overflow-y-auto overscroll-contain p-4 sm:p-5 space-y-5">
+      {children}
+      {items.length > 0 && <div className="space-y-3 border-t border-line pt-4">
       <label
         htmlFor="checkout-terms"
-        className="touch-target-44 min-h-[44px] py-2 px-3 rounded-xl bg-bg/60 border border-line hover:border-accent/40 flex items-center gap-3 text-xs leading-snug font-sans text-ink-muted cursor-pointer select-none transition-colors"
+        className="sf-choice touch-target-44 min-h-[44px] py-2 px-3 rounded-xl bg-bg/60 border border-line hover:border-accent/40 flex items-center gap-3 text-xs leading-snug font-sans text-ink-muted cursor-pointer select-none transition-colors"
       >
         <input
           id="checkout-terms"
@@ -213,7 +225,7 @@ export function CheckoutActions({
             setTermsAccepted(e.target.checked);
             if (e.target.checked) onErrors({ ...errors, terms: undefined });
           }}
-          className="h-5 w-5 shrink-0 accent-accent"
+          className="sf-check h-5 w-5 shrink-0 accent-accent"
           aria-invalid={Boolean(errors.terms)}
           aria-describedby={errors.terms ? "checkout-terms-error" : undefined}
         />
@@ -223,7 +235,7 @@ export function CheckoutActions({
             target="_blank"
             rel="noopener noreferrer"
             onClick={(e) => e.stopPropagation()}
-            className="underline font-medium text-ink hover:text-accent"
+            className="sf-link underline font-medium text-ink hover:text-accent"
           >
             Ön Bilgilendirme Formu ve Mesafeli Satış Sözleşmesi
           </Link>
@@ -231,27 +243,17 @@ export function CheckoutActions({
         </span>
       </label>
       {errors.terms && (
-        <p id="checkout-terms-error" role="alert" className="text-xs text-bad font-sans -mt-1">
+        <p id="checkout-terms-error" role="alert" className="sf-copy text-xs sf-error font-sans -mt-1">
           {errors.terms}
         </p>
       )}
 
       {errorMessage && (
-        <div role="alert" className="p-2.5 rounded-xl bg-red-500/10 border border-red-500/25 text-bad text-xs font-sans flex items-center gap-2">
+        <div role="alert" className="sf-error p-2.5 rounded-xl bg-bad/10 border border-bad/25 text-xs font-sans flex items-center gap-2">
           <AlertCircle aria-hidden="true" className="w-4 h-4 shrink-0" />
           <span>{errorMessage}</span>
         </div>
       )}
-
-      <button
-        type="button"
-        onClick={handleOrder}
-        disabled={disabled}
-        className="touch-target-44 w-full py-3.5 px-4 rounded-xl bg-artisan-terracotta-dark hover:bg-artisan-terracotta active:scale-[0.99] text-white font-sans text-sm font-semibold flex items-center justify-center gap-2 transition-all disabled:opacity-50 shadow-xs"
-      >
-        {submitting && <Loader2 aria-hidden="true" className="w-4 h-4 animate-spin" />}
-        <span>Siparişi onayla · {totalAmount.toLocaleString("tr-TR")} ₺</span>
-      </button>
 
       {items.length > 0 && (
         <a
@@ -259,25 +261,38 @@ export function CheckoutActions({
           target="_blank"
           rel="noopener noreferrer"
           onClick={() => trackEvent("checkout_start", { code: "whatsapp_cart" })}
-          className="touch-target-44 min-h-[44px] w-full py-2.5 px-4 rounded-xl bg-bg hover:bg-cream-surface border border-accent/40 hover:border-accent text-ink font-sans text-xs sm:text-sm font-semibold flex items-center justify-center gap-2 transition-all shadow-2xs"
+          className={storefrontAction({ variant: "secondary", size: "default", className: "w-full flex items-center justify-center gap-2" })}
         >
           <WhatsAppHandsetIcon className="w-4 h-4 text-accent shrink-0" />
-          <span>Formla uğraşma · Sepetimi WhatsApp&apos;tan gönder</span>
+          <span>WhatsApp ile sipariş desteği</span>
         </a>
       )}
+      <p className="sf-copy text-xs text-ink-muted font-sans">WhatsApp bağlantısı mesaj hazırlar; siparişin atölyemizin teyidiyle kesinleşir.</p>
 
-      <p className="text-center text-xs leading-snug font-sans text-ink-muted">
+      <p className="sf-copy text-center text-xs leading-snug font-sans text-ink-muted">
         Sipariş vermek ödeme yükümlülüğü doğurur; ödeme teslimatta kapıda nakit veya kapıda kredi/banka kartı (POS) ile yapılır. Kişisel verileriniz{" "}
         <Link
           href="/kvkk"
           target="_blank"
           rel="noopener noreferrer"
-          className="underline text-ink hover:text-accent"
+          className="sf-link underline text-ink hover:text-accent"
         >
           KVKK Aydınlatma Metni
         </Link>{" "}
         kapsamında işlenir.
       </p>
-    </div>
+      </div>}
+      </div>
+      {items.length > 0 && <div className="shrink-0 border-t border-line bg-cream-surface px-4 sm:px-5 pt-2.5 space-y-2" style={{ paddingBottom: "calc(env(safe-area-inset-bottom, 0px) + 0.75rem)" }}>
+        <p className="sf-copy text-xs text-ink-muted font-sans" aria-live="polite">
+          {deliveryDateLabel && customerInfo.deliveryDate ? `${formatTrDate(customerInfo.deliveryDate, "long")} · ${deliveryWindow}` : "Teslim günü henüz seçilmedi"}
+        </p>
+        <button type="submit" disabled={disabled}
+          className={storefrontAction({ variant: "primary", size: "default", className: "w-full flex items-center justify-center gap-2 disabled:opacity-50" })}>
+          {submitting && <Loader2 aria-hidden="true" className="w-4 h-4 animate-spin" />}
+          <span>Siparişi onayla · {formatMoney(totalAmount)}</span>
+        </button>
+      </div>}
+    </form>
   );
 }

@@ -1,5 +1,6 @@
 "use client";
 
+import { storefrontAction } from "@/lib/design/storefront";
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import {
@@ -112,10 +113,11 @@ export default function HesabimOzetPage() {
       }))
     );
 
+    if (result.needsConfirmation) { setReorderNotice(null); return; }
     if (result.addedCount === 0) {
       setReorderNotice({
         type: "warn",
-        text: "Son siparişinizdeki ürünler şu an satışta bulunmuyor.",
+        text: "Son siparişindeki ürünler şu an satışta bulunmuyor.",
       });
     } else if (result.unavailableNames.length > 0) {
       setReorderNotice({
@@ -125,7 +127,7 @@ export default function HesabimOzetPage() {
     } else {
       setReorderNotice({
         type: "ok",
-        text: "Son siparişiniz güncel fiyatlarıyla sepetinize eklendi!",
+        text: "Son siparişin güncel fiyatlarıyla sepetine eklendi!",
       });
     }
     setTimeout(() => setReorderNotice(null), 4000);
@@ -140,7 +142,7 @@ export default function HesabimOzetPage() {
     if (!trimmedNo || !trimmedPhone) {
       setClaimResult({
         type: "err",
-        text: "Lütfen hem sipariş numarasını (SIP-YYMM-XXX) hem de cep telefonu numarasını girin.",
+        text: "Lütfen hem sipariş numarasını (SIP-YYMM-XXX) hem de cep telefonu numarasını gir.",
       });
       return;
     }
@@ -162,7 +164,7 @@ export default function HesabimOzetPage() {
           type: "err",
           text:
             data.error ||
-            "Sipariş bağlanamadı. Sipariş numaranızı ve siparişte girdiğiniz telefonu kontrol edin.",
+            "Sipariş bağlanamadı. Sipariş numaranı ve siparişte girdiğin telefonu kontrol et.",
         });
         return;
       }
@@ -187,13 +189,13 @@ export default function HesabimOzetPage() {
       setClaimOrderNo("");
       setClaimResult({
         type: "ok",
-        text: `${data.orderNumber} numaralı sipariş hesabınıza ve bu cihaza bağlandı!`,
+        text: `${data.orderNumber} numaralı sipariş hesabına ve bu cihaza bağlandı!`,
         orderNumber: data.orderNumber,
       });
     } catch {
       setClaimResult({
         type: "err",
-        text: "Bağlantı hatası oluştu. Lütfen tekrar deneyin.",
+        text: "Bağlantı hatası oluştu. Lütfen tekrar dene.",
       });
     } finally {
       setClaiming(false);
@@ -204,36 +206,36 @@ export default function HesabimOzetPage() {
     return (
       <div className="flex flex-col items-center justify-center py-20 text-ink-muted">
         <div className="w-8 h-8 border-2 border-accent border-t-transparent rounded-full animate-spin mb-3" />
-        <span className="text-xs font-serif">Müdavim Pasaportunuz hazırlanıyor...</span>
+        <span className="text-xs font-serif">Müdavim Pasaportun hazırlanıyor...</span>
       </div>
     );
   }
 
   if (!user) {
     return (
-      <div className="bg-cream-surface border border-line rounded-3xl p-7 sm:p-10 text-center max-w-lg mx-auto shadow-xs space-y-4 text-ink">
-        <div className="w-14 h-14 mx-auto rounded-2xl bg-accent/10 border border-accent/25 flex items-center justify-center text-accent">
+      <div className="sf-panel bg-cream-surface border border-line rounded-3xl p-7 sm:p-10 text-center max-w-lg mx-auto shadow-xs space-y-4 text-ink">
+        <div className="w-14 h-14 mx-auto rounded-2xl bg-accent/10 border border-accent/25 flex items-center justify-center text-ink">
           <ShieldCheck className="w-7 h-7" aria-hidden="true" />
         </div>
         <h1 className="text-xl sm:text-2xl font-serif font-bold text-ink">
           EkmekLab Müdavim Pasaportu
         </h1>
-        <p className="text-xs sm:text-sm text-ink-muted leading-relaxed max-w-md mx-auto font-sans">
-          Kayıtlı teslimat adreslerinize, geçmiş siparişlerinizin tek dokunuşla tekrarına ve
-          haftalık taş fırın takvim hatırlatıcınıza erişmek için giriş yapın.
+        <p className="sf-copy text-xs sm:text-sm text-ink-muted leading-relaxed max-w-md mx-auto font-sans">
+          Kayıtlı teslimat adreslerine, geçmiş siparişlerinin tek dokunuşla tekrarına ve
+          haftalık taş fırın takvim hatırlatıcına erişmek için giriş yap.
         </p>
         <div className="pt-2 flex flex-col sm:flex-row items-center justify-center gap-2.5">
           <button
             type="button"
             onClick={() => openAuthModal("/hesabim")}
-            className="touch-target-44 min-h-[48px] w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-accent text-white font-semibold text-xs sm:text-sm shadow-xs hover:bg-accent/90 transition-all"
+            className={storefrontAction({ variant: "primary", size: "default", className: "w-full sm:w-auto inline-flex items-center justify-center gap-2" })}
           >
             <LogIn className="w-4 h-4 shrink-0" aria-hidden="true" />
-            <span>Giriş Yap / Pasaport Aç</span>
+            <span>Giriş yap / Pasaport Aç</span>
           </button>
           <Link
             href="/siparislerim"
-            className="touch-target-44 min-h-[48px] w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-bg border border-line hover:border-accent/40 text-ink font-medium text-xs sm:text-sm transition-colors"
+            className={storefrontAction({ variant: "secondary", size: "default", className: "w-full sm:w-auto inline-flex items-center justify-center gap-2" })}
           >
             <Package className="w-4 h-4 text-accent shrink-0" aria-hidden="true" />
             <span>Bu Cihazdaki Siparişlerim</span>
@@ -246,10 +248,10 @@ export default function HesabimOzetPage() {
   return (
     <div className="space-y-6 text-ink">
       {/* 1. Müdavim Karşılama & Özet Kartı */}
-      <section className="bg-cream-surface border border-line rounded-3xl p-5 sm:p-7 shadow-xs space-y-5">
+      <section className="sf-panel bg-cream-surface border border-line rounded-3xl p-5 sm:p-7 shadow-xs space-y-5">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-line pb-4">
           <div className="space-y-1">
-            <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-accent/10 border border-accent/25 text-[11px] font-sans font-semibold text-accent">
+            <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-accent/10 border border-accent/25 text-[11px] font-sans font-semibold text-ink">
               <ShieldCheck className="w-3.5 h-3.5" aria-hidden="true" />
               <span>Müdavim Özeti</span>
             </div>
@@ -266,7 +268,7 @@ export default function HesabimOzetPage() {
               ) : (
                 <Link
                   href="/hesabim/tercihler"
-                  className="text-accent font-semibold hover:underline"
+                  className="sf-link text-accent font-semibold hover:underline"
                 >
                   + Teslimat telefonu ekleyin
                 </Link>
@@ -294,7 +296,7 @@ export default function HesabimOzetPage() {
         {activeOrder && (
           <div className="p-4 rounded-2xl bg-accent/10 border border-accent/30 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
             <div className="flex items-start gap-3">
-              <div className="w-10 h-10 rounded-xl bg-cream-surface border border-accent/25 flex items-center justify-center text-accent shrink-0">
+              <div className="w-10 h-10 rounded-xl bg-cream-surface border border-accent/25 flex items-center justify-center text-ink shrink-0">
                 <Flame className="w-5 h-5" aria-hidden="true" />
               </div>
               <div className="space-y-0.5">
@@ -302,11 +304,11 @@ export default function HesabimOzetPage() {
                   <span className="font-mono text-xs font-bold text-ink">
                     {activeOrder.orderNumber}
                   </span>
-                  <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-accent text-white text-[11px] font-bold">
+                  <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full sf-accent-fill text-[11px] font-bold">
                     {ORDER_STATUS_LABELS[activeOrder.status]}
                   </span>
                 </div>
-                <p className="text-xs text-ink-muted font-sans">
+                <p className="sf-copy text-xs text-ink-muted font-sans">
                   Teslim günü:{" "}
                   <strong className="text-ink">
                     {activeOrder.deliveryDate
@@ -318,7 +320,7 @@ export default function HesabimOzetPage() {
             </div>
             <Link
               href={`/siparis-takip/${encodeURIComponent(activeOrder.orderNumber || activeOrder.id)}`}
-              className="touch-target-44 min-h-[44px] px-4 py-2 rounded-xl bg-accent hover:bg-accent/90 text-white text-xs font-bold inline-flex items-center justify-center gap-1.5 transition-colors shrink-0 shadow-xs"
+              className={storefrontAction({ variant: "primary", size: "default", className: "inline-flex items-center justify-center gap-1.5 shrink-0" })}
             >
               <span>Canlı Teslimat Fişi</span>
               <ChevronRight className="w-4 h-4" aria-hidden="true" />
@@ -333,9 +335,9 @@ export default function HesabimOzetPage() {
               type="button"
               onClick={handleQuickReorder}
               disabled={catalogLoading && allProducts.length === 0}
-              className="touch-target-44 min-h-[64px] p-4 rounded-2xl bg-bg hover:bg-line/35 border border-line hover:border-accent/45 text-left flex items-start gap-3 transition-all disabled:opacity-50"
+              className={storefrontAction({ variant: "secondary", size: "default", className: "text-left flex items-start gap-3 disabled:opacity-50" })}
             >
-              <div className="w-9 h-9 rounded-xl bg-accent/10 border border-accent/20 flex items-center justify-center text-accent shrink-0">
+              <div className="w-9 h-9 rounded-xl bg-accent/10 border border-accent/20 flex items-center justify-center text-ink shrink-0">
                 <RotateCcw className="w-4 h-4" aria-hidden="true" />
               </div>
               <div className="min-w-0">
@@ -348,9 +350,9 @@ export default function HesabimOzetPage() {
           ) : (
             <Link
               href="/#ekmekler"
-              className="touch-target-44 min-h-[64px] p-4 rounded-2xl bg-bg hover:bg-line/35 border border-line hover:border-accent/45 flex items-start gap-3 transition-all"
+              className={storefrontAction({ variant: "secondary", size: "default", className: "flex items-start gap-3" })}
             >
-              <div className="w-9 h-9 rounded-xl bg-accent/10 border border-accent/20 flex items-center justify-center text-accent shrink-0">
+              <div className="w-9 h-9 rounded-xl bg-accent/10 border border-accent/20 flex items-center justify-center text-ink shrink-0">
                 <ShoppingBag className="w-4 h-4" aria-hidden="true" />
               </div>
               <div className="min-w-0">
@@ -364,9 +366,9 @@ export default function HesabimOzetPage() {
 
           <Link
             href="/hesabim/adresler"
-            className="touch-target-44 min-h-[64px] p-4 rounded-2xl bg-bg hover:bg-line/35 border border-line hover:border-accent/45 flex items-start gap-3 transition-all"
+            className={storefrontAction({ variant: "secondary", size: "default", className: "flex items-start gap-3" })}
           >
-            <div className="w-9 h-9 rounded-xl bg-accent/10 border border-accent/20 flex items-center justify-center text-accent shrink-0">
+            <div className="w-9 h-9 rounded-xl bg-accent/10 border border-accent/20 flex items-center justify-center text-ink shrink-0">
               <MapPin className="w-4 h-4" aria-hidden="true" />
             </div>
             <div className="min-w-0">
@@ -381,9 +383,9 @@ export default function HesabimOzetPage() {
 
           <Link
             href="/hesabim/tercihler#takvim-hatirlatici"
-            className="touch-target-44 min-h-[64px] p-4 rounded-2xl bg-bg hover:bg-line/35 border border-line hover:border-accent/45 flex items-start gap-3 transition-all"
+            className={storefrontAction({ variant: "secondary", size: "default", className: "flex items-start gap-3" })}
           >
-            <div className="w-9 h-9 rounded-xl bg-accent/10 border border-accent/20 flex items-center justify-center text-accent shrink-0">
+            <div className="w-9 h-9 rounded-xl bg-accent/10 border border-accent/20 flex items-center justify-center text-ink shrink-0">
               <CalendarClock className="w-4 h-4" aria-hidden="true" />
             </div>
             <div className="min-w-0">
@@ -405,7 +407,7 @@ export default function HesabimOzetPage() {
             }`}
           >
             {reorderNotice.type === "ok" ? (
-              <CheckCircle2 className="w-4 h-4 text-good shrink-0" aria-hidden="true" />
+              <CheckCircle2 className="sf-success w-4 h-4 sf-success shrink-0" aria-hidden="true" />
             ) : (
               <AlertCircle className="w-4 h-4 text-warn shrink-0" aria-hidden="true" />
             )}
@@ -417,26 +419,26 @@ export default function HesabimOzetPage() {
       {/* 2. Misafir / Instagram Siparişini Hesaba Bağlama Köprüsü */}
       <section
         aria-labelledby="claim-guest-order-heading"
-        className="bg-cream-surface border border-line rounded-3xl p-5 sm:p-7 shadow-xs space-y-4"
+        className="sf-panel bg-cream-surface border border-line rounded-3xl p-5 sm:p-7 shadow-xs space-y-4"
       >
         <div className="flex items-start gap-3">
-          <div className="w-10 h-10 rounded-2xl bg-accent/10 border border-accent/25 flex items-center justify-center text-accent shrink-0">
+          <div className="w-10 h-10 rounded-2xl bg-accent/10 border border-accent/25 flex items-center justify-center text-ink shrink-0">
             <Link2 className="w-5 h-5" aria-hidden="true" />
           </div>
           <div className="space-y-1">
             <h2 id="claim-guest-order-heading" className="font-serif font-bold text-base sm:text-lg text-ink">
               Misafir / Instagram Siparişini Hesabıma Bağla
             </h2>
-            <p className="text-xs text-ink-muted font-sans leading-relaxed">
-              Instagram içi tarayıcıdan veya farklı bir cihazdan üyeliksiz verdiğiniz siparişi,
-              sipariş numaranız ve telefon numaranızla Müdavim Pasaportunuza ekleyebilirsiniz.
+            <p className="sf-copy text-xs text-ink-muted font-sans leading-relaxed">
+              Instagram içi tarayıcıdan veya farklı bir cihazdan üyeliksiz verdiğin siparişi,
+              sipariş numaran ve telefon numaranla Müdavim Pasaportuna ekleyebilirsin.
             </p>
           </div>
         </div>
 
         <form onSubmit={handleClaimSubmit} className="grid grid-cols-1 sm:grid-cols-12 gap-3 pt-1">
           <div className="sm:col-span-5">
-            <label htmlFor="claim-order-number" className="block text-xs font-semibold text-ink mb-1">
+            <label htmlFor="claim-order-number" className="sf-label block text-xs font-semibold text-ink mb-1">
               Sipariş Numarası
             </label>
             <input
@@ -454,12 +456,12 @@ export default function HesabimOzetPage() {
               }}
               placeholder="SIP-2611-001"
               required
-              className="w-full min-h-[48px] px-3.5 py-2.5 rounded-xl bg-bg border border-line text-base sm:text-sm font-mono uppercase text-ink placeholder:text-ink-muted/60 focus:border-accent focus:outline-none"
+              className="sf-field w-full uppercase"
             />
           </div>
 
           <div className="sm:col-span-4">
-            <label htmlFor="claim-order-phone" className="block text-xs font-semibold text-ink mb-1">
+            <label htmlFor="claim-order-phone" className="sf-label block text-xs font-semibold text-ink mb-1">
               Siparişteki Cep Telefonu
             </label>
             <input
@@ -475,7 +477,7 @@ export default function HesabimOzetPage() {
               }}
               placeholder="05XX XXX XX XX"
               required
-              className="w-full min-h-[48px] px-3.5 py-2.5 rounded-xl bg-bg border border-line text-base sm:text-sm font-mono text-ink placeholder:text-ink-muted/60 focus:border-accent focus:outline-none"
+              className="sf-field w-full"
             />
           </div>
 
@@ -483,7 +485,7 @@ export default function HesabimOzetPage() {
             <button
               type="submit"
               disabled={claiming}
-              className="touch-target-44 min-h-[48px] w-full px-4 py-2.5 rounded-xl bg-accent hover:bg-accent/90 text-white font-sans text-xs sm:text-sm font-bold inline-flex items-center justify-center gap-2 transition-colors disabled:opacity-50 shadow-xs"
+              className={storefrontAction({ variant: "primary", size: "default", className: "w-full inline-flex items-center justify-center gap-2 disabled:opacity-50" })}
             >
               {claiming ? (
                 <Loader2 className="w-4 h-4 animate-spin shrink-0" aria-hidden="true" />
@@ -498,15 +500,10 @@ export default function HesabimOzetPage() {
         {claimResult && (
           <div
             role={claimResult.type === "err" ? "alert" : "status"}
-            className={`p-3.5 rounded-xl text-xs font-sans flex flex-wrap items-center justify-between gap-2 border ${
-              claimResult.type === "ok"
-                ? "bg-good/15 border-good/30 text-ink"
-                : "bg-bad/10 border-bad/30 text-bad"
-            }`}
-          >
+            className={`sf-notice flex-wrap justify-between ${claimResult.type === "ok" ? "sf-success" : "sf-error"}`}          >
             <span className="flex items-center gap-2">
               {claimResult.type === "ok" ? (
-                <CheckCircle2 className="w-4 h-4 text-good shrink-0" aria-hidden="true" />
+                <CheckCircle2 className="sf-success w-4 h-4 sf-success shrink-0" aria-hidden="true" />
               ) : (
                 <AlertCircle className="w-4 h-4 shrink-0" aria-hidden="true" />
               )}
@@ -516,7 +513,7 @@ export default function HesabimOzetPage() {
             {claimResult.orderNumber && (
               <Link
                 href={`/siparis-takip/${encodeURIComponent(claimResult.orderNumber)}`}
-                className="touch-target-44 font-semibold text-accent hover:underline inline-flex items-center gap-1"
+                className={storefrontAction({ variant: "quiet", size: "default", className: "hover:underline inline-flex items-center gap-1" })}
               >
                 <span>Teslimat Fişini Gör</span>
                 <ChevronRight className="w-3.5 h-3.5" aria-hidden="true" />
@@ -528,14 +525,14 @@ export default function HesabimOzetPage() {
 
       {/* 3. Son Siparişler Özeti */}
       {orders.length > 0 && (
-        <section className="bg-cream-surface border border-line rounded-3xl p-5 sm:p-7 shadow-xs space-y-4">
+        <section className="sf-panel bg-cream-surface border border-line rounded-3xl p-5 sm:p-7 shadow-xs space-y-4">
           <div className="flex items-center justify-between">
             <h2 className="font-serif font-bold text-base sm:text-lg text-ink">
-              Son Siparişleriniz
+              Son siparişlerin
             </h2>
             <Link
               href="/hesabim/siparisler"
-              className="touch-target-44 text-xs font-semibold text-accent hover:underline inline-flex items-center gap-1"
+              className={storefrontAction({ variant: "quiet", size: "default", className: "hover:underline inline-flex items-center gap-1" })}
             >
               <span>Tümünü Gör ({totalCount})</span>
               <ChevronRight className="w-3.5 h-3.5" aria-hidden="true" />
@@ -561,7 +558,7 @@ export default function HesabimOzetPage() {
                 </div>
                 <Link
                   href={`/siparis-takip/${encodeURIComponent(ord.orderNumber || ord.id)}`}
-                  className="touch-target-44 min-h-[44px] px-3 py-2 rounded-xl bg-bg border border-line hover:border-accent text-xs font-semibold text-ink inline-flex items-center gap-1 shrink-0"
+                  className={storefrontAction({ variant: "secondary", size: "default", className: "inline-flex items-center gap-1 shrink-0" })}
                 >
                   <span>Takip</span>
                   <ChevronRight className="w-3.5 h-3.5 text-accent" aria-hidden="true" />

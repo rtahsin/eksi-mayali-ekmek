@@ -1,7 +1,10 @@
 import type { Metadata, Viewport } from "next";
 import { Fraunces, JetBrains_Mono, Inter } from "next/font/google";
 import { AuthProvider } from "@/components/auth/AuthProvider";
+import { CartFeedback } from "@/components/cart/CartFeedback";
+import { ReorderChoice } from "@/components/cart/ReorderChoice";
 import "./globals.css";
+import "./storefront-ui.css";
 import { SITE_URL, SOCIAL_LIST } from "@/lib/site";
 
 const fraunces = Fraunces({
@@ -88,7 +91,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="tr" className="scroll-smooth" suppressHydrationWarning>
+    <html lang="tr" className="scroll-smooth" data-scroll-behavior="smooth" suppressHydrationWarning>
       <head>
         <meta name="color-scheme" content="light dark" />
         <script
@@ -104,7 +107,7 @@ export default function RootLayout({
       <body
         className={`${fraunces.variable} ${inter.variable} ${jetbrainsMono.variable} min-h-screen bg-bg text-ink antialiased font-sans noise-bg selection:bg-accent/20 selection:text-ink`}
       >
-        <AuthProvider>{children}</AuthProvider>
+        <AuthProvider>{children}<CartFeedback /><ReorderChoice /></AuthProvider>
       </body>
     </html>
   );

@@ -72,10 +72,10 @@ export function paymentLabel(method: string): string {
   return PAYMENT_LABELS[method] ?? method;
 }
 
-/** Sipariş KAYDEDİLDİKTEN sonra WhatsApp'ta gönderilecek onay mesajı (kişisel veri tekrarlanmaz). */
-export function buildWhatsAppConfirmText(order: Order, trackingLink: string): string {
+/** Kaydedilmiş sipariş için isteğe bağlı destek mesajı (kişisel veri tekrarlanmaz). */
+export function buildWhatsAppSupportText(order: Order, trackingLink: string): string {
   const lines = [
-    `Merhaba, ${order.orderNumber || order.id} numaralı siparişimi onaylamak istiyorum.`,
+    `Merhaba, ${order.orderNumber || order.id} numaralı siparişim hakkında destek almak istiyorum.`,
     "",
     ...order.items.map((it) => `• ${it.quantity} × ${it.productName}`),
     `Toplam: ${order.totalAmount.toLocaleString("tr-TR")} ₺`,

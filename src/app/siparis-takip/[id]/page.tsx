@@ -1,7 +1,10 @@
 "use client";
 
-import React, { use, useCallback, useEffect, useState } from "react";
+import { formatMoney } from "@/lib/format/currency";
+import { storefrontAction } from "@/lib/design/storefront";
+import React, { use, useCallback, useEffect, useRef, useState } from "react";
 import Link from "next/link";
+import { Modal } from "@/components/common/Modal";
 import {
   CheckCircle2,
   ChefHat,
@@ -45,7 +48,7 @@ interface PageProps {
   searchParams: Promise<{ t?: string }>;
 }
 
-const tl = (v: number | null) => (v === null ? "—" : `${v.toLocaleString("tr-TR")} ₺`);
+const tl = formatMoney;
 const timeOf = (iso: string) =>
   new Date(iso).toLocaleString("tr-TR", {
     timeZone: "Europe/Istanbul",
@@ -86,6 +89,8 @@ export default function OrderTrackingPage({ params, searchParams }: PageProps) {
 
   const [phoneInput, setPhoneInput] = useState("");
   const [verifiedPhone, setVerifiedPhone] = useState<string | null>(null);
+  const verifyPhoneRef = useRef<HTMLInputElement>(null);
+  const cancelPhoneRef = useRef<HTMLInputElement>(null);
   const [verifyError, setVerifyError] = useState<string | null>(null);
   const [verifying, setVerifying] = useState(false);
 
@@ -164,22 +169,13 @@ export default function OrderTrackingPage({ params, searchParams }: PageProps) {
     return () => clearInterval(timer);
   }, [order, load]);
 
-  useEffect(() => {
-    if (!cancelOpen) return;
-    const onKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "Escape" && !cancelling) {
-        setCancelOpen(false);
-      }
-    };
-    window.addEventListener("keydown", onKeyDown);
-    return () => window.removeEventListener("keydown", onKeyDown);
-  }, [cancelOpen, cancelling]);
 
   const handleVerify = async (e: React.FormEvent) => {
     e.preventDefault();
     const clean = normalizePhone(phoneInput);
     if (!clean) {
-      setVerifyError("Lütfen siparişte verdiğiniz cep telefonu numarasını girin (05XX XXX XX XX).");
+      setVerifyError("Lütfen siparişte verdiğin cep telefonu numarasını gir (05XX XXX XX XX).");
+      verifyPhoneRef.current?.focus();
       return;
     }
     setVerifying(true);
@@ -209,7 +205,8 @@ export default function OrderTrackingPage({ params, searchParams }: PageProps) {
     if (needsPhoneForCancel) {
       const clean = normalizePhone(cancelPhone);
       if (!clean) {
-        setCancelError("Lütfen siparişte verdiğiniz cep telefonu numarasını girin (05XX XXX XX XX).");
+        setCancelError("Lütfen siparişte verdiğin cep telefonu numarasını gir (05XX XXX XX XX).");
+        cancelPhoneRef.current?.focus();
         return;
       }
       phoneToSend = clean;
@@ -252,24 +249,24 @@ export default function OrderTrackingPage({ params, searchParams }: PageProps) {
   if (error || !order) {
     return (
       <main className="min-h-screen bg-bg text-ink flex items-center justify-center p-6">
-        <div className="max-w-sm w-full text-center space-y-4 p-7 rounded-3xl bg-cream-surface border border-line shadow-xs">
-          <div className="w-12 h-12 rounded-2xl bg-accent/10 border border-accent/25 flex items-center justify-center text-accent mx-auto">
+        <div className="sf-panel max-w-sm w-full text-center space-y-4 p-7 rounded-3xl bg-cream-surface border border-line shadow-xs">
+          <div className="w-12 h-12 rounded-2xl bg-accent/10 border border-accent/25 flex items-center justify-center text-ink mx-auto">
             <PackageSearch className="w-6 h-6" aria-hidden="true" />
           </div>
-          <h1 className="font-serif text-xl font-bold text-ink">Sipariş Bulunamadı</h1>
-          <p className="text-xs sm:text-sm text-ink-muted font-sans leading-relaxed">{error}</p>
+          <h1 className="font-serif text-xl font-bold text-ink">Siparişi bulunamadı</h1>
+          <p className="sf-copy text-xs sm:text-sm text-ink-muted font-sans leading-relaxed">{error}</p>
           <a
             href={whatsappLink(`Merhaba, ${id} numaralı siparişimi takip edemiyorum.`, waNumber)}
             target="_blank"
             rel="noopener noreferrer"
-            className="touch-target-44 min-h-[48px] w-full px-4 py-3 rounded-xl bg-good hover:bg-good/90 text-white font-bold text-sm inline-flex items-center justify-center gap-2 transition-colors shadow-xs"
+            className={storefrontAction({ variant: "primary", size: "default", className: "w-full inline-flex items-center justify-center gap-2" })}
           >
             <MessageSquare className="w-4 h-4 shrink-0" aria-hidden="true" />
             <span>WhatsApp&apos;tan Sorun</span>
           </a>
           <Link
             href="/"
-            className="touch-target-44 min-h-[44px] inline-flex items-center justify-center text-xs sm:text-sm text-ink-muted hover:text-ink underline font-sans"
+            className={storefrontAction({ variant: "quiet", size: "default", className: "inline-flex items-center justify-center underline" })}
           >
             Fırın vitrinine dön
           </Link>
@@ -327,21 +324,21 @@ export default function OrderTrackingPage({ params, searchParams }: PageProps) {
         <div className="flex items-center justify-between">
           <Link
             href="/siparislerim"
-            className="touch-target-44 min-h-[44px] px-3 py-2 rounded-xl bg-cream-surface border border-line hover:border-accent text-ink-muted hover:text-ink text-xs font-semibold inline-flex items-center gap-1.5 transition-colors shadow-2xs"
+            className={storefrontAction({ variant: "secondary", size: "default", className: "inline-flex items-center gap-1.5" })}
           >
             <ArrowLeft className="w-3.5 h-3.5 shrink-0" aria-hidden="true" />
             <span>Siparişlerim</span>
           </Link>
-          <Link href="/" className="font-serif text-lg font-bold text-ink">
+          <Link href="/" className="sf-brand-link font-serif text-lg font-bold text-ink">
             Ekmek<span className="text-accent italic">Lab</span>
           </Link>
         </div>
 
         {/* MÜHÜRLÜ TAŞ FIRIN TESLİMAT FİŞİ */}
-        <article className="rounded-3xl bg-cream-surface border border-line shadow-sm overflow-visible p-5 sm:p-7 space-y-5">
+        <article className="sf-panel rounded-3xl bg-cream-surface border border-line shadow-sm overflow-visible p-5 sm:p-7 space-y-5">
           {/* Fiş Mühür Başlığı */}
           <header className="text-center space-y-2 border-b border-dashed border-line pb-5">
-            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-accent/10 border border-accent/30 text-[11px] font-sans font-bold uppercase tracking-wider text-accent">
+            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-accent/10 border border-accent/30 text-[11px] font-sans font-bold uppercase tracking-wider text-ink">
               <Flame className="w-3.5 h-3.5 shrink-0" aria-hidden="true" />
               <span>Taş Fırın Teslimat Fişi</span>
             </div>
@@ -368,12 +365,12 @@ export default function OrderTrackingPage({ params, searchParams }: PageProps) {
             </div>
 
             <span
-              className={`inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-bold border ${
+              className={`sf-badge inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-bold border ${
                 cancelled
-                  ? "bg-bad/10 text-bad border-bad/30"
+                  ? "sf-error"
                   : order.status === "teslim_edildi"
-                  ? "bg-good/15 text-good border-good/30"
-                  : "bg-accent text-white border-accent"
+                  ? "sf-success"
+                  : "sf-accent-fill"
               }`}
             >
               {cancelled ? (
@@ -391,7 +388,7 @@ export default function OrderTrackingPage({ params, searchParams }: PageProps) {
           {cancelled ? (
             <div
               role="status"
-              className="p-4 rounded-2xl bg-bad/10 border border-bad/30 text-sm text-bad flex items-start gap-2.5 font-sans"
+              className="sf-error p-4 rounded-2xl bg-bad/10 border border-bad/30 text-sm flex items-start gap-2.5 font-sans"
             >
               <XCircle className="w-5 h-5 shrink-0 mt-0.5" aria-hidden="true" />
               <div>
@@ -430,9 +427,9 @@ export default function OrderTrackingPage({ params, searchParams }: PageProps) {
                       <span
                         className={`w-7 h-7 rounded-xl flex items-center justify-center shrink-0 ${
                           isCurrent
-                            ? "bg-accent text-white"
+                            ? "sf-accent-fill"
                             : isCompleted
-                            ? "bg-good text-white"
+                            ? "sf-status-icon"
                             : "bg-cream-surface border border-line text-ink-muted"
                         }`}
                       >
@@ -467,8 +464,8 @@ export default function OrderTrackingPage({ params, searchParams }: PageProps) {
                 <ShieldCheck className="w-4 h-4 text-accent shrink-0" aria-hidden="true" />
                 <span>Tutar ve Adres Ayrıntıları İçin Doğrulayın</span>
               </div>
-              <label htmlFor="track-phone" className="block text-xs text-ink-muted font-sans">
-                Siparişte verdiğiniz cep telefonu numarası ({order.phone}):
+              <label htmlFor="track-phone" className="sf-label block text-xs text-ink-muted font-sans">
+                Siparişte verdiğin cep telefonu numarası ({order.phone}):
               </label>
               <div className="flex flex-col sm:flex-row gap-2">
                 <input
@@ -483,23 +480,25 @@ export default function OrderTrackingPage({ params, searchParams }: PageProps) {
                     if (verifyError) setVerifyError(null);
                   }}
                   placeholder="05XX XXX XX XX"
+                  ref={verifyPhoneRef}
+                  aria-describedby={verifyError ? "tracking-verify-error" : undefined}
                   aria-invalid={Boolean(verifyError)}
-                  className="flex-1 min-w-0 min-h-[48px] px-4 py-2.5 rounded-xl bg-cream-surface border border-line text-base sm:text-sm font-mono text-ink placeholder:text-ink-muted/60 focus:border-accent focus:outline-none"
+                  className="sf-field flex-1 min-w-0"
                 />
                 <button
                   type="submit"
                   disabled={verifying}
-                  className="touch-target-44 min-h-[48px] shrink-0 px-5 py-2.5 rounded-xl bg-accent hover:bg-accent/90 text-white font-bold text-xs sm:text-sm inline-flex items-center justify-center gap-1.5 disabled:opacity-50 shadow-2xs"
+                  className={storefrontAction({ variant: "primary", size: "default", className: "shrink-0 inline-flex items-center justify-center gap-1.5 disabled:opacity-50" })}
                 >
                   {verifying ? (
                     <Loader2 className="w-4 h-4 animate-spin" aria-hidden="true" />
                   ) : (
-                    <span>Fişi Aç</span>
+                    <span>Fişi aç</span>
                   )}
                 </button>
               </div>
               {verifyError && (
-                <p role="alert" className="text-xs text-bad font-sans flex items-center gap-1.5">
+                <p id="tracking-verify-error" role="alert" className="sf-copy text-xs sf-error font-sans flex items-center gap-1.5">
                   <AlertCircle className="w-4 h-4 shrink-0" aria-hidden="true" />
                   <span>{verifyError}</span>
                 </p>
@@ -519,10 +518,10 @@ export default function OrderTrackingPage({ params, searchParams }: PageProps) {
                   className="py-2 first:pt-0 last:pb-0 flex items-center justify-between gap-3 text-sm"
                 >
                   <span className="text-ink font-sans flex items-center gap-2 min-w-0">
-                    <span className="font-mono text-xs font-bold text-accent shrink-0">
+                    <span className="font-mono text-xs font-bold text-ink shrink-0">
                       {it.quantity}×
                     </span>
-                    <span className="font-medium truncate">{it.name}</span>
+                    <span className="font-medium break-words">{it.name}</span>
                   </span>
                   {it.totalPrice !== null && (
                     <span className="font-mono text-xs sm:text-sm text-ink shrink-0">
@@ -579,6 +578,7 @@ export default function OrderTrackingPage({ params, searchParams }: PageProps) {
                         quantity: it.quantity,
                       }))
                     );
+                    if (result.needsConfirmation) { setReorderNotice(null); return; }
                     if (result.addedCount === 0) {
                       setReorderNotice("Bu siparişteki ürünler şu anda satışta bulunmuyor.");
                       setTimeout(() => setReorderNotice(null), 4000);
@@ -590,22 +590,22 @@ export default function OrderTrackingPage({ params, searchParams }: PageProps) {
                       );
                       setTimeout(() => setReorderNotice(null), 4000);
                     } else {
-                      setReorderNotice("Ürünler güncel fiyatlarıyla sepetinize eklendi!");
+                      setReorderNotice("Ürünler güncel fiyatlarıyla sepetine eklendi!");
                       setTimeout(() => setReorderNotice(null), 3500);
                     }
                   }}
                   disabled={productsLoading && allProducts.length === 0}
-                  className="touch-target-44 min-h-[48px] w-full py-3 px-4 rounded-xl bg-accent hover:bg-accent/90 text-white font-bold text-xs sm:text-sm flex items-center justify-center gap-2 transition-all disabled:opacity-50 shadow-xs"
+                  className={storefrontAction({ variant: "primary", size: "default", className: "w-full flex items-center justify-center gap-2 disabled:opacity-50" })}
                 >
                   <RotateCcw className="w-4 h-4 shrink-0" aria-hidden="true" />
-                  <span>Aynı Sepeti Tekrar Oluştur</span>
+                  <span>Tekrar sipariş ver</span>
                 </button>
                 {reorderNotice && (
                   <p
                     role="status"
-                    className="text-xs text-ink text-center font-sans flex items-center justify-center gap-1.5"
+                    className="sf-copy text-xs text-ink text-center font-sans flex items-center justify-center gap-1.5"
                   >
-                    <CheckCircle2 className="w-3.5 h-3.5 text-good shrink-0" aria-hidden="true" />
+                    <CheckCircle2 className="sf-success w-3.5 h-3.5 shrink-0" aria-hidden="true" />
                     <span>{reorderNotice}</span>
                   </p>
                 )}
@@ -624,7 +624,7 @@ export default function OrderTrackingPage({ params, searchParams }: PageProps) {
               )}
               target="_blank"
               rel="noopener noreferrer"
-              className="touch-target-44 min-h-[52px] w-full px-4 py-3.5 rounded-2xl bg-good hover:bg-good/90 text-white font-bold text-sm flex items-center justify-center gap-2 transition-colors shadow-xs"
+              className={storefrontAction({ variant: "primary", size: "default", className: "w-full flex items-center justify-center gap-2" })}
             >
               <MessageSquare className="w-4 h-4 shrink-0" aria-hidden="true" />
               <span>WhatsApp&apos;tan Yazın</span>
@@ -632,10 +632,10 @@ export default function OrderTrackingPage({ params, searchParams }: PageProps) {
 
             <a
               href={`tel:+${waNumber}`}
-              className="touch-target-44 min-h-[52px] w-full px-4 py-3.5 rounded-2xl bg-cream-surface hover:bg-line/40 border border-line text-ink font-bold text-sm flex items-center justify-center gap-2 transition-colors shadow-2xs"
+              className={storefrontAction({ variant: "secondary", size: "default", className: "w-full flex items-center justify-center gap-2" })}
             >
               <Phone className="w-4 h-4 text-accent shrink-0" aria-hidden="true" />
-              <span>Taş Fırını Arayın</span>
+              <span>Taş fırını ara</span>
             </a>
           </div>
 
@@ -643,16 +643,16 @@ export default function OrderTrackingPage({ params, searchParams }: PageProps) {
             <button
               type="button"
               onClick={openCancelModal}
-              className="touch-target-44 min-h-[48px] w-full py-3 rounded-2xl text-bad bg-cream-surface border border-bad/30 hover:bg-bad/10 font-semibold text-sm transition-colors"
+              className={storefrontAction({ variant: "danger", size: "default", className: "w-full" })}
             >
-              Siparişi İptal Et
+              Siparişi iptal et
             </button>
           )}
         </section>
 
-        <p className="text-center text-xs text-ink-muted font-sans">
-          Bu cihazdan verdiğiniz diğer siparişler:{" "}
-          <Link href="/siparislerim" className="font-semibold underline text-ink hover:text-accent">
+        <p className="sf-copy text-center text-xs text-ink-muted font-sans">
+          Bu cihazdan verdiğin diğer siparişler:{" "}
+          <Link href="/siparislerim" className="sf-link font-semibold underline text-ink hover:text-accent">
             Siparişlerim
           </Link>
         </p>
@@ -660,24 +660,22 @@ export default function OrderTrackingPage({ params, searchParams }: PageProps) {
 
       {/* İptal Onay Modalı */}
       {cancelOpen && (
-        <div
-          className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-4 bg-ink/55 backdrop-blur-xs animate-fadeIn"
-          role="dialog"
-          aria-modal="true"
-          aria-labelledby="cancel-title"
-        >
-          <div className="w-full max-w-sm p-6 rounded-3xl bg-cream-surface border border-line space-y-4 text-ink shadow-2xl">
-            <h2 id="cancel-title" className="font-serif text-lg font-bold text-ink">
-              Siparişi İptal Et
+        <Modal open={cancelOpen} onClose={() => { if (!cancelling) setCancelOpen(false); }} dismissible={!cancelling} labelledBy="cancel-title" className="sf-dialog max-w-sm">
+          <div className="sf-dialog-body space-y-4">
+            <h2 id="cancel-title" className="sf-dialog-title font-serif text-lg font-bold text-ink">
+              Siparişi iptal et
             </h2>
 
             {needsPhoneForCancel && (
               <div className="space-y-1">
-                <label htmlFor="cancel-phone" className="block text-xs font-semibold text-ink">
-                  Siparişte verdiğiniz cep telefonu numarası
+                <label htmlFor="cancel-phone" className="sf-label block text-xs font-semibold text-ink">
+                  Siparişte verdiğin cep telefonu numarası
                 </label>
                 <input
                   id="cancel-phone"
+                  ref={cancelPhoneRef}
+                  aria-invalid={Boolean(cancelError)}
+                  aria-describedby={cancelError ? "tracking-cancel-error" : undefined}
                   name="cancelPhone"
                   type="tel"
                   inputMode="tel"
@@ -688,13 +686,13 @@ export default function OrderTrackingPage({ params, searchParams }: PageProps) {
                     if (cancelError) setCancelError(null);
                   }}
                   placeholder="05XX XXX XX XX"
-                  className="w-full min-h-[48px] px-3.5 py-2.5 rounded-xl bg-bg border border-line text-base sm:text-sm font-mono text-ink placeholder:text-ink-muted/60 focus:border-accent focus:outline-none"
+                  className="sf-field w-full"
                 />
               </div>
             )}
 
             <div className="space-y-1">
-              <label htmlFor="cancel-reason" className="block text-xs font-semibold text-ink">
+              <label htmlFor="cancel-reason" className="sf-label block text-xs font-semibold text-ink">
                 İptal nedeni (isteğe bağlı)
               </label>
               <textarea
@@ -704,15 +702,16 @@ export default function OrderTrackingPage({ params, searchParams }: PageProps) {
                 maxLength={300}
                 value={cancelReason}
                 onChange={(e) => setCancelReason(e.target.value)}
-                placeholder="İptal sebebiniz..."
-                className="w-full px-3.5 py-2.5 rounded-xl bg-bg border border-line text-base sm:text-sm text-ink placeholder:text-ink-muted/60 focus:border-accent focus:outline-none font-sans"
+                placeholder="İptal sebebin…"
+                className="sf-field w-full"
               />
             </div>
 
             {cancelError && (
               <p
+                id="tracking-cancel-error"
                 role="alert"
-                className="text-xs text-bad bg-bad/10 border border-bad/25 p-3 rounded-xl flex items-center gap-2 font-sans"
+                className="sf-copy text-xs sf-error bg-bad/10 border border-bad/25 p-3 rounded-xl flex items-center gap-2 font-sans"
               >
                 <AlertCircle className="w-4 h-4 shrink-0" aria-hidden="true" />
                 <span>{cancelError}</span>
@@ -724,21 +723,21 @@ export default function OrderTrackingPage({ params, searchParams }: PageProps) {
                 type="button"
                 onClick={() => setCancelOpen(false)}
                 disabled={cancelling}
-                className="touch-target-44 min-h-[48px] flex-1 py-2.5 rounded-xl bg-bg border border-line text-ink font-semibold text-xs sm:text-sm"
-              >
+                className={storefrontAction({ variant: "secondary", size: "default", className: "flex-1" })}
+               ref={(node) => { if (node) node.autofocus = true; }}>
                 Vazgeç
               </button>
               <button
                 type="button"
                 onClick={() => void handleCancel()}
                 disabled={cancelling}
-                className="touch-target-44 min-h-[48px] flex-1 py-2.5 rounded-xl bg-bad hover:bg-bad/90 text-white font-bold text-xs sm:text-sm disabled:opacity-50"
+                className={storefrontAction({ variant: "danger", size: "default", className: "flex-1 disabled:opacity-50" })}
               >
-                {cancelling ? "İptal ediliyor…" : "Evet, İptal Et"}
+                {cancelling ? "İptal ediliyor…" : "Evet, iptal et"}
               </button>
             </div>
           </div>
-        </div>
+        </Modal>
       )}
 
       <CartDrawer />

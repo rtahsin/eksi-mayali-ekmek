@@ -71,3 +71,4 @@ scripts/__pycache__/
 /docs/_arsiv/
 *.rar
 .codex/
+/output/

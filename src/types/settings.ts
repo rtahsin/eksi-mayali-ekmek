@@ -26,8 +26,6 @@ export interface StoreSettings {
   orderAcceptanceOpen: boolean;
   /** Vitrinde gösterilen duyuru (boş = yok). */
   announcementText: string;
-  /** Aynı gün teslimat için son sipariş saati ("HH:mm", İstanbul). */
-  orderCutoffTime: string;
   /** Teslimat yapılan mahalleler. */
   neighborhoods: string[];
   /** Teslimat yapılan haftanın günleri (0 = Pazar … 6 = Cumartesi). */
@@ -59,4 +57,11 @@ export interface CartDateOption extends DeliveryDateOption {
   available: boolean;
   reason: string | null;
   remainingCapacity: number | null;
+}
+
+export interface DeliveryDatesState {
+  key: string;
+  dates: CartDateOption[];
+  loaded: boolean;
+  error: string | null;
 }

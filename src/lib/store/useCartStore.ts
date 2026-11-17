@@ -1,54 +1,9 @@
 import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
-import { Product, ExtendedProduct, ProductionBatch, Order } from "@/types";
+import type { Product, ExtendedProduct, ProductionBatch } from "@/types";
 import { isIsoDate } from "@/lib/time/istanbul";
-
-export interface ReorderRequestItem {
-  productId?: string | null;
-  name: string;
-  quantity: number;
-}
-
-export interface ApplyReorderResult {
-  addedCount: number;
-  unavailableNames: string[];
-}
-
-export interface CartItem {
-  productId: string;
-  batchId?: string;
-  name: string;
-  price: number;
-  quantity: number;
-  maxStock: number;
-  imageUrl: string;
-  weight: number;
-  flourTypes?: string[];
-  hydration?: number;
-}
-
-export type DeliveryMethod = "courier";
-
-export interface CustomerInfo {
-  name: string;
-  phone: string;
-  /** Mahalle adı ("Mah." eki olmadan), ayarlardaki listeden */
-  neighborhood: string;
-  addressDetail: string;
-  /** `YYYY-MM-DD` (İstanbul) — `/api/availability` listesinden; boş = seçilmedi */
-  deliveryDate: string;
-  note?: string;
-  /** Müşteri "Konumumu ekle" ile paylaştıysa (kuryenin kapıyı bulması için) */
-  customerLat?: number | null;
-  customerLng?: number | null;
-  locationConsentAt?: string | null;
-}
-
-export interface CompletedOrder {
-  order: Order;
-  /** Takip linki için imzalı token (misafir siparişinde tam görünüm) */
-  trackingToken: string | null;
-}
+import type { ApplyReorderResult, CartItem, CartNotice, CompletedOrder, CustomerInfo, DeliveryMethod, PendingReorder, ReorderMode, ReorderRequestItem } from "@/types/cart";
+export type { ApplyReorderResult, CartItem, CompletedOrder, CustomerInfo, DeliveryMethod, ReorderRequestItem } from "@/types/cart";
 
 interface CartStore {
   items: CartItem[];
@@ -59,12 +14,18 @@ interface CartStore {
   termsAccepted: boolean;
   isSuccessModalOpen: boolean;
   lastCompleted: CompletedOrder | null;
+  pendingReorder: PendingReorder | null;
+  notice: CartNotice | null;
+  noticeSequence: number;
 
   addItem: (product: Product, batch?: ProductionBatch | null, quantity?: number) => boolean;
   applyReorder: (
     catalogProducts: ExtendedProduct[],
     requestedItems: ReorderRequestItem[]
   ) => ApplyReorderResult;
+  confirmReorder: (mode: ReorderMode) => void;
+  cancelReorder: () => void;
+  dismissNotice: () => void;
   removeItem: (productId: string) => void;
   updateQuantity: (productId: string, quantity: number) => void;
   clearCart: () => void;
@@ -80,10 +41,6 @@ interface CartStore {
   getItemCount: () => number;
   getSubtotal: () => number;
 }
-
-// Drawer'ı sadece masaüstünde otomatik aç; mobilde alttaki sepet barı kullanılır
-const shouldAutoOpenCart = () =>
-  typeof window !== "undefined" && window.matchMedia("(min-width: 768px)").matches;
 
 const DEFAULT_CUSTOMER_INFO: CustomerInfo = {
   name: "",
@@ -109,8 +66,13 @@ export const useCartStore = create<CartStore>()(
       termsAccepted: false,
       isSuccessModalOpen: false,
       lastCompleted: null,
+      pendingReorder: null,
+      notice: null,
+      noticeSequence: 0,
 
       addItem: (product, batch, quantity = 1) => {
+        if (!Number.isFinite(quantity) || quantity < 1 || product.isAvailable === false) return false;
+        const amount = Math.min(100, Math.floor(quantity));
         const currentItems = get().items;
         const existingIndex = currentItems.findIndex((item) => item.productId === product.id);
         const maxStock = batch?.availableStock ?? 100;
@@ -119,10 +81,14 @@ export const useCartStore = create<CartStore>()(
           const updatedItems = [...currentItems];
           updatedItems[existingIndex] = {
             ...currentItems[existingIndex],
-            quantity: Math.min(100, currentItems[existingIndex].quantity + quantity),
+            quantity: Math.min(100, currentItems[existingIndex].quantity + amount),
             maxStock,
+            weightUnit: product.weightUnit,
           };
-          set({ items: updatedItems, isOpen: get().isOpen || shouldAutoOpenCart() });
+          const added = updatedItems[existingIndex].quantity - currentItems[existingIndex].quantity;
+          if (added === 0) return false;
+          const sequence = get().noticeSequence + 1;
+          set({ items: updatedItems, noticeSequence: sequence, notice: { sequence, name: product.name, quantity: added } });
           return true;
         }
 
@@ -131,14 +97,16 @@ export const useCartStore = create<CartStore>()(
           batchId: batch?.batchId,
           name: product.name,
           price: product.price,
-          quantity,
+          quantity: amount,
           maxStock,
           imageUrl: product.imageUrl,
           weight: product.weight,
+          weightUnit: product.weightUnit,
           flourTypes: product.flourTypes,
           hydration: product.hydration,
         };
-        set({ items: [...currentItems, newItem], isOpen: get().isOpen || shouldAutoOpenCart() });
+        const sequence = get().noticeSequence + 1;
+        set({ items: [...currentItems, newItem], noticeSequence: sequence, notice: { sequence, name: product.name, quantity: amount } });
         return true;
       },
 
@@ -176,6 +144,7 @@ export const useCartStore = create<CartStore>()(
                 maxStock: 100,
                 imageUrl: matched.imageUrl,
                 weight: matched.weight,
+                weightUnit: matched.weightUnit,
                 flourTypes: matched.flourTypes,
                 hydration: matched.hydration,
               });
@@ -190,9 +159,29 @@ export const useCartStore = create<CartStore>()(
           return { addedCount: 0, unavailableNames };
         }
 
-        set({ items: nextItems, isOpen: true, termsAccepted: false });
+        if (get().items.length > 0) {
+          set({ pendingReorder: { items: nextItems, unavailableNames }, isOpen: true, notice: null });
+          return { addedCount: 0, unavailableNames, needsConfirmation: true };
+        }
+        set({ items: nextItems, isOpen: true, termsAccepted: false, notice: null });
         return { addedCount: nextItems.length, unavailableNames };
       },
+
+      confirmReorder: (mode) => {
+        const pending = get().pendingReorder;
+        if (!pending) return;
+        const merged = new Map<string, CartItem>();
+        if (mode === "append") {
+          for (const item of get().items) merged.set(item.productId, item);
+        }
+        for (const item of pending.items) {
+          const existing = merged.get(item.productId);
+          merged.set(item.productId, { ...item, quantity: Math.min(100, item.quantity + (existing?.quantity ?? 0)) });
+        }
+        set({ items: [...merged.values()], pendingReorder: null, isOpen: true, termsAccepted: false });
+      },
+      cancelReorder: () => set({ pendingReorder: null }),
+      dismissNotice: () => set({ notice: null }),
 
       removeItem: (productId) => {
         set({ items: get().items.filter((item) => item.productId !== productId) });
@@ -210,7 +199,7 @@ export const useCartStore = create<CartStore>()(
         });
       },
 
-      clearCart: () => set({ items: [] }),
+      clearCart: () => set({ items: [], pendingReorder: null, notice: null }),
 
       setCustomerInfo: (info) => set({ customerInfo: { ...get().customerInfo, ...info } }),
 
@@ -229,8 +218,8 @@ export const useCartStore = create<CartStore>()(
       },
 
       toggleCart: () => set({ isOpen: !get().isOpen }),
-      openCart: () => set({ isOpen: true }),
-      closeCart: () => set({ isOpen: false }),
+      openCart: () => set({ isOpen: true, notice: null }),
+      closeCart: () => set({ isOpen: false, pendingReorder: null }),
 
       showSuccess: (completed) => set({ isSuccessModalOpen: true, lastCompleted: completed, termsAccepted: false }),
       hideSuccess: () => set({ isSuccessModalOpen: false }),

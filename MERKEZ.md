@@ -1,6 +1,6 @@
 # EkmekLab Çalışma Merkezi
 
-> **Tek Giriş Noktası.** Eski çok katmanlı denetim rehberleri ve `BS02` kuyrukları `docs/_arsiv/` ve `arastirma/bilgi_sentezi_v2/_arsiv/` altına kaldırılmıştır. Tüm üretim birbirini ezmeyen **3 bağımsız şeritte** yürür.
+> **Tek Giriş Noktası & Ajan Şeması.** Yeni ajan oturumlarında aktif durum ve son faz için [`docs/COMMAND_CENTER.md`](file:///F:/ekmeklab_app/docs/COMMAND_CENTER.md), yol haritası için [`docs/YOL_HARITASI.md`](file:///F:/ekmeklab_app/docs/YOL_HARITASI.md), derin mimari için [`docs/MIMARI.md`](file:///F:/ekmeklab_app/docs/MIMARI.md) okunur. Eski `BS02` kuyrukları `docs/_arsiv/` ve `arastirma/bilgi_sentezi_v2/_arsiv/` altındadır. Tüm üretim birbirini ezmeyen **3 bağımsız şeritte** yürür.
 
 ---
 
@@ -17,6 +17,45 @@
 - **Ekipman & Resmi Kanallar:**
   - **Kayıt:** Samsung Galaxy S24 (4K B-roll + Prompter Okuma) + DJI Osmo kablosuz mikrofon (`48 kHz` doğal gerçek ses anlatımı ve fırın ASMR; yapay ses klonlama askıya alındı ve `_arsiv_klon_ses/` altında arşivlendi).
   - **Kanallar:** YouTube **`@ekmeklab`** (`16:9` + Shorts) · Instagram **`@ekmeklabtr`** (`9:16` Reels) · TikTok **`@ekmek.lab`** (`9:16`) · Web **`ekmeklab.tr`**.
+
+---
+
+## 1. Proje Şeması — Neyin Nerede Olduğu
+
+### Canlı Web Uygulaması (`src/`, `content/`, `supabase/` — Git + CI)
+| Alan | Dizin | İçerik |
+| :--- | :--- | :--- |
+| **Vitrin & Müşteri** | `src/app/{urun,e,arac,bilim,kavram,kaynak,arama,hesabim,siparislerim,siparis-takip,laboratuvar}` | Ürün (`/urun`), eşlikçi (`/e`), paket/araç (`/arac`), bilim (`/bilim`), takip, oyun (`/laboratuvar` dondurulmuş) |
+| **Operasyon & B2B** | `src/app/admin/`, `src/app/kurye/`, `src/app/{fis,ekstre}/` | Yönetici paneli, kurye konsolu, imzalı fiş/ekstre |
+| **API Rotaları** | `src/app/api/{admin,orders,courier,products,availability,settings,cron,ekstre,slip,track,health}/` | Tüm sunucu yazımları (`requireCapability` / `requireAdmin` + atomik RPC) |
+| **Bileşenler & Mantık** | `src/components/{storefront,cart,admin,courier,atelier,bilim,journal,editorial,customer,auth,common,game}/` · `src/lib/{ordering,orders,products,cari,courier,delivery,production,settings,security,supabase,time,notify,bilim,knowledge,media,studyo}/` · `src/types/` | UI katmanı, saf iş mantığı (`*.test.ts`), merkezi tipler |
+| **İçerik & Veritabanı** | `content/{bilim,claims,concepts,sources,video,nav,media}/` · `supabase/{migrations,tests}/` | `/bilim` sayıları + `K011` mühürlü kanıt grafiği; `001`–`033` migration + `BEGIN…ROLLBACK` testleri |
+
+### Bilim, Medya & Yerel Araçlar (`arastirma/` — `.gitignore`, Web'i Etkilemez)
+| Dizin / Köprü | Rol |
+| :--- | :--- |
+| `arastirma/bilgi_sentezi_v2/` | `indeks/bilgi_sentezi.sqlite` (FTS5 tam metin), `araclar/paket_dogrula.py`, `kivilcim_menusu.html`, `konu_cephaneligi.html` |
+| `arastirma/studyo/` · `STUDYOYU_AC.bat` | Yerel web stüdyosu (`http://localhost:8787`) — tüm üretim araçlarının tek tık arayüzü |
+| `arastirma/ses/` | `bolum_prompteri_uret.py`, `gercek_ses_kurgu.py` (`faster-whisper` + doğrusal mastering) |
+| `arastirma/medya_hatti/` | `konu_medya_uret.py`, `dergi_ve_gazete_uret.py`, `kraft_etiket_uret.py`, `urun_360_uret.py`, `video_montaj.py` |
+| `arastirma/video_studyosu/` | Remotion `60 fps` sahneleri, `flow_studyosu.html`, `remotion_kurgu_uret.py`, `firin_gunlugu_kurgu.py` |
+| `G:\Drive'ım\ekmeklab_{ses,notebooklm_kutuphanesi,katalog_gelen}\` | S24 ↔ PC arası **0 kotalı** aktif Drive köprüleri (kökte sabit kalır) |
+
+### Karar & Planlama Dokümanları (`docs/`)
+- **Canlı Durum:** [`docs/COMMAND_CENTER.md`](file:///F:/ekmeklab_app/docs/COMMAND_CENTER.md) (oturum devri) · [`docs/YOL_HARITASI.md`](file:///F:/ekmeklab_app/docs/YOL_HARITASI.md) (aktif fazlar)
+- **Referans:** [`docs/MIMARI.md`](file:///F:/ekmeklab_app/docs/MIMARI.md) (sözleşmeler) · [`docs/MARKA.md`](file:///F:/ekmeklab_app/docs/MARKA.md) (`K006` & tema) · [`docs/ICERIK_PLANI.md`](file:///F:/ekmeklab_app/docs/ICERIK_PLANI.md) (25 konu) · [`docs/IS_PAKETLERI.md`](file:///F:/ekmeklab_app/docs/IS_PAKETLERI.md) · [`docs/S24_CEKIM_VE_YAYIN_EL_KITABI.md`](file:///F:/ekmeklab_app/docs/S24_CEKIM_VE_YAYIN_EL_KITABI.md)
+
+---
+
+## 2. Uygulama (0 Ajan) vs Ajan Otomasyonu Ayrımı
+
+| Tür | Ne Zaman Kullanılır? | Araç / Giriş |
+| :--- | :--- | :--- |
+| **Sen / Uygulama (0 Ajan)** | Sipariş, cari, ürün/stok, kurye zimmeti, Z-özeti | `ekmeklab.tr/admin` · `/kurye` |
+| **Sen / Tek Tık Stüdyo (0 Ajan)** | Ses kurgusu, etiket PDF, dergi/gazete, 360° dekupe, prompter | `STUDYOYU_AC.bat` (`localhost:8787`) |
+| **Netleştirme (Ajan)** | Aklındaki yeni özelliği/işi koda dökmeden önce kararları netleştirmek | Antigravity `/grill-me` |
+| **Tamamlama (Ajan)** | Netleşen bir işi test + build geçene kadar sonuna kadar götürmek | Antigravity `/goal` (gerekirse alt-ajan) |
+| **Zamanlı Kontrol (Ajan)** | Günlük/haftalık Sentry, sipariş veya kârlılık denetimi | Antigravity `/schedule` |
 
 ---
 

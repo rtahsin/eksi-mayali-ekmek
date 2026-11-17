@@ -352,14 +352,8 @@ export function StalingSimulator({
             aria-labelledby={`${chartTitleId} ${chartDescId}`}
             className="w-full h-auto block select-none"
           >
-            <title id={chartTitleId}>
-              {sim.profileMeta.label} için 7 günlük amilopektin kristalleşme eğrileri
-            </title>
-            <desc id={chartDescId}>
-              {sliderValueText}. Artı 4 derece buzdolabı kesikli çizgi ve kare işaretçi,
-              artı 20 derece bez torba düz çizgi ve daire işaretçi, eksi 18 derece derin
-              dondurucu noktalı çizgi ve elmas işaretçi ile gösterilir.
-            </desc>
+            <title id={chartTitleId}>{`${sim.profileMeta.label} için 7 günlük amilopektin kristalleşme eğrileri`}</title>
+            <desc id={chartDescId}>{`${sliderValueText}. Artı 4 derece buzdolabı kesikli çizgi ve kare işaretçi, artı 20 derece bez torba düz çizgi ve daire işaretçi, eksi 18 derece derin dondurucu noktalı çizgi ve elmas işaretçi ile gösterilir.`}</desc>
 
             <defs>
               <pattern

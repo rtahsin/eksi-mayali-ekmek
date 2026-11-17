@@ -16,7 +16,7 @@ export async function GET() {
   const settings = await getStoreSettings();
   const dates = computeDeliveryDates(settings).map((d) => ({ ...d, available: true, reason: null, remainingCapacity: null }));
   return NextResponse.json(
-    { orderAcceptanceOpen: settings.orderAcceptanceOpen, cutoffTime: settings.orderCutoffTime, dates },
+    { orderAcceptanceOpen: settings.orderAcceptanceOpen, dates },
     { headers: { "Cache-Control": "no-store" } }
   );
 }
@@ -52,7 +52,7 @@ export async function POST(req: Request) {
     const settings = await getStoreSettings(supabase);
     const dates = await getCartAvailability(supabase, settings, parsed.data.items);
     return NextResponse.json(
-      { orderAcceptanceOpen: settings.orderAcceptanceOpen, cutoffTime: settings.orderCutoffTime, dates },
+      { orderAcceptanceOpen: settings.orderAcceptanceOpen, dates },
       { headers: { "Cache-Control": "no-store" } }
     );
   } catch (err: unknown) {

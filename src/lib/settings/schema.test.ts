@@ -37,10 +37,10 @@ describe("parseStoredSettings", () => {
     expect(s.freeShippingThreshold).toBe(800);
   });
 
-  it("eski ayrı cutoff anahtarı kullanılır", () => {
-    expect(parseStoredSettings({}, "11:30").orderCutoffTime).toBe("11:30");
-    expect(parseStoredSettings({}, { cutoff_time: "10:15" }).orderCutoffTime).toBe("10:15");
-    expect(parseStoredSettings({ orderCutoffTime: "13:00" }, "11:30").orderCutoffTime).toBe("13:00");
+  it("eski son sipariş saati kaydı artık bir kısıt oluşturmaz ve dışarı aktarılmaz", () => {
+    const settings = parseStoredSettings({ orderCutoffTime: "12:00" });
+    expect(settings).toEqual(DEFAULT_STORE_SETTINGS);
+    expect(toPublicSettings(settings)).not.toHaveProperty("orderCutoffTime");
   });
 
   it("mahallelerden 'Mah.' eki atılır", () => {
@@ -49,10 +49,13 @@ describe("parseStoredSettings", () => {
 });
 
 describe("StoreSettingsSchema (admin formu)", () => {
-  it("geçersiz cutoff ve boş gün listesini reddeder", () => {
-    expect(StoreSettingsSchema.safeParse({ ...DEFAULT_STORE_SETTINGS, orderCutoffTime: "24:00" }).success).toBe(false);
+  it("boş gün listesini reddeder", () => {
     expect(StoreSettingsSchema.safeParse({ ...DEFAULT_STORE_SETTINGS, openWeekdays: [] }).success).toBe(false);
     expect(StoreSettingsSchema.safeParse(DEFAULT_STORE_SETTINGS).success).toBe(true);
+  });
+
+  it("eski istemcinin gönderdiği son sipariş saatini saklamadan kabul eder", () => {
+    expect(StoreSettingsSchema.parse({ ...DEFAULT_STORE_SETTINGS, orderCutoffTime: "12:00" })).toEqual(DEFAULT_STORE_SETTINGS);
   });
 });
 

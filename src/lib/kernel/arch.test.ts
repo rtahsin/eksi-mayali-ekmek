@@ -94,7 +94,7 @@ function resolveModule(filePath: string): ModuleName | null {
   if (norm.startsWith("src/lib/notify")) return "notify";
   if (norm.startsWith("src/lib/supabase")) return "supabase";
   if (norm.startsWith("src/lib/store")) return "store";
-  if (norm.startsWith("src/lib/utils")) return "utils";
+  if (norm.startsWith("src/lib/utils") || norm.startsWith("src/lib/format")) return "utils";
   if (norm.startsWith("src/lib/print")) return "print";
   if (
     norm.startsWith("src/lib/design") ||

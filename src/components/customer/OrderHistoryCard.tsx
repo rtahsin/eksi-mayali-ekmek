@@ -1,7 +1,10 @@
 "use client";
 
+import { formatMoney } from "@/lib/format/currency";
+import { storefrontAction } from "@/lib/design/storefront";
 import React, { useState, useEffect, useId } from "react";
 import Link from "next/link";
+import { Modal } from "@/components/common/Modal";
 import { Order } from "@/types";
 import {
   Calendar,
@@ -55,16 +58,6 @@ export function OrderHistoryCard({ order, onOrderCancelled }: OrderHistoryCardPr
     };
   }, [order.id, fetchStatusHistory]);
 
-  useEffect(() => {
-    if (!cancelModalOpen) return;
-    const onKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "Escape" && !cancelling) {
-        setCancelModalOpen(false);
-      }
-    };
-    window.addEventListener("keydown", onKeyDown);
-    return () => window.removeEventListener("keydown", onKeyDown);
-  }, [cancelModalOpen, cancelling]);
 
   const handleCancel = async () => {
     setCancelling(true);
@@ -104,6 +97,7 @@ export function OrderHistoryCard({ order, onOrderCancelled }: OrderHistoryCardPr
       }))
     );
 
+    if (result.needsConfirmation) { setReorderNotice(null); return; }
     if (result.addedCount === 0) {
       setReorderNotice("Bu siparişteki ürünler şu anda satışta bulunmuyor.");
       setTimeout(() => setReorderNotice(null), 3500);
@@ -128,7 +122,7 @@ export function OrderHistoryCard({ order, onOrderCancelled }: OrderHistoryCardPr
   const trackingTarget = order.orderNumber || order.id;
 
   return (
-    <article className="bg-cream-surface border border-line rounded-3xl p-4 sm:p-6 hover:border-accent/40 transition-all space-y-4 shadow-2xs text-ink">
+    <article className="sf-panel bg-cream-surface border border-line rounded-3xl p-4 sm:p-6 hover:border-accent/40 transition-all space-y-4 shadow-2xs text-ink">
       {/* Header: Order Number, Date and Status */}
       <div className="flex flex-wrap items-center justify-between gap-3 border-b border-line pb-3.5">
         <div className="space-y-1">
@@ -137,12 +131,12 @@ export function OrderHistoryCard({ order, onOrderCancelled }: OrderHistoryCardPr
               #{order.orderNumber || order.id.replace("ORD-", "")}
             </span>
             <span
-              className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-bold border ${
+              className={`sf-badge inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-bold border ${
                 progression.isCancelled
-                  ? "bg-bad/10 text-bad border-bad/30"
+                  ? "sf-error"
                   : progression.isDelivered
-                  ? "bg-good/15 text-good border-good/30"
-                  : "bg-accent/10 text-accent border-accent/30"
+                  ? "sf-success"
+                  : "text-ink"
               }`}
             >
               {progression.isCancelled ? (
@@ -164,7 +158,7 @@ export function OrderHistoryCard({ order, onOrderCancelled }: OrderHistoryCardPr
         <div className="text-right">
           <span className="text-xs text-ink-muted block font-sans">Toplam Tutar</span>
           <span className="text-base sm:text-lg font-serif font-bold text-ink">
-            {order.totalAmount.toLocaleString("tr-TR")} ₺
+            {formatMoney(order.totalAmount)}
           </span>
         </div>
       </div>
@@ -172,7 +166,7 @@ export function OrderHistoryCard({ order, onOrderCancelled }: OrderHistoryCardPr
       {/* Durum Çubuğu (ikon + metin ile WCAG 1.4.1 uyumlu) */}
       <div className="py-1">
         {progression.isCancelled ? (
-          <div className="p-3 rounded-xl bg-bad/10 border border-bad/25 flex flex-wrap items-center justify-between gap-2 text-xs text-bad">
+          <div className="sf-error p-3 rounded-xl bg-bad/10 border border-bad/25 flex flex-wrap items-center justify-between gap-2 text-xs">
             <span className="font-semibold inline-flex items-center gap-1.5">
               <XCircle className="w-4 h-4 shrink-0" aria-hidden="true" />
               <span>Bu sipariş iptal edilmiştir.</span>
@@ -206,7 +200,7 @@ export function OrderHistoryCard({ order, onOrderCancelled }: OrderHistoryCardPr
                     }`}
                   >
                     {s.isCompleted && (
-                      <Check className="w-3 h-3 text-good shrink-0" aria-hidden="true" />
+                      <Check className="sf-success w-3 h-3 shrink-0" aria-hidden="true" />
                     )}
                     <span className="truncate">{s.label}</span>
                   </span>
@@ -223,17 +217,17 @@ export function OrderHistoryCard({ order, onOrderCancelled }: OrderHistoryCardPr
           <div className="flex items-start gap-2 text-ink">
             <AlertTriangle className="w-4 h-4 text-accent shrink-0 mt-0.5" aria-hidden="true" />
             <div>
-              <strong className="font-semibold text-accent block">Özel Ekmek Eşik Bildirimi</strong>
-              <p className="text-ink-muted leading-relaxed mt-0.5">{postponedNotice}</p>
+              <strong className="font-semibold text-ink block">Özel Ekmek Eşik Bildirimi</strong>
+              <p className="sf-copy text-ink-muted leading-relaxed mt-0.5">{postponedNotice}</p>
             </div>
           </div>
           {canCancel && (
             <button
               type="button"
               onClick={() => setCancelModalOpen(true)}
-              className="touch-target-44 min-h-[44px] px-3.5 py-2 rounded-xl bg-bad text-white font-semibold text-xs hover:bg-bad/90 transition-colors shrink-0"
+              className={storefrontAction({ variant: "danger", size: "default", className: "shrink-0" })}
             >
-              İptal Et
+              İptal et
             </button>
           )}
         </div>
@@ -245,13 +239,13 @@ export function OrderHistoryCard({ order, onOrderCancelled }: OrderHistoryCardPr
           {order.items.map((item, idx) => (
             <div key={idx} className="py-1.5 first:pt-0 last:pb-0 flex items-center justify-between gap-2">
               <span className="flex items-center gap-2 min-w-0">
-                <span className="font-mono text-xs font-bold text-accent shrink-0">
+                <span className="font-mono text-xs font-bold text-ink shrink-0">
                   {item.quantity}×
                 </span>
-                <span className="font-sans font-medium truncate">{item.productName}</span>
+                <span className="font-sans font-medium break-words">{item.productName}</span>
               </span>
               <span className="font-mono text-xs text-ink-muted shrink-0">
-                {item.totalPrice.toLocaleString("tr-TR")} ₺
+                {formatMoney(item.totalPrice)}
               </span>
             </div>
           ))}
@@ -272,7 +266,7 @@ export function OrderHistoryCard({ order, onOrderCancelled }: OrderHistoryCardPr
           role="status"
           className="p-3 rounded-xl bg-good/15 border border-good/30 text-xs text-ink font-sans flex items-center gap-2"
         >
-          <Check className="w-4 h-4 text-good shrink-0" aria-hidden="true" />
+          <Check className="sf-success w-4 h-4 shrink-0" aria-hidden="true" />
           <span>{reorderNotice}</span>
         </div>
       )}
@@ -284,26 +278,26 @@ export function OrderHistoryCard({ order, onOrderCancelled }: OrderHistoryCardPr
             type="button"
             onClick={handleReorder}
             disabled={catalogLoading && allProducts.length === 0}
-            className="touch-target-44 min-h-[44px] px-4 py-2 rounded-xl bg-accent text-white hover:bg-accent/90 disabled:opacity-50 text-xs font-semibold inline-flex items-center gap-1.5 transition-all shadow-2xs"
+            className={storefrontAction({ variant: "primary", size: "default", className: "disabled:opacity-50 inline-flex items-center gap-1.5" })}
           >
             <RotateCcw className="w-3.5 h-3.5 shrink-0" aria-hidden="true" />
-            <span>Tekrar Sipariş Ver</span>
+            <span>Tekrar sipariş ver</span>
           </button>
 
           {canCancel && !postponedNotice && (
             <button
               type="button"
               onClick={() => setCancelModalOpen(true)}
-              className="touch-target-44 min-h-[44px] px-3.5 py-2 rounded-xl text-xs text-bad hover:bg-bad/10 font-semibold transition-colors"
+              className={storefrontAction({ variant: "danger", size: "default", className: "" })}
             >
-              İptal Et
+              İptal et
             </button>
           )}
         </div>
 
         <Link
           href={`/siparis-takip/${encodeURIComponent(trackingTarget)}`}
-          className="touch-target-44 min-h-[44px] inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-bg border border-line hover:border-accent text-ink text-xs font-semibold transition-colors ml-auto shadow-2xs"
+          className={storefrontAction({ variant: "secondary", size: "default", className: "inline-flex items-center gap-1.5 ml-auto" })}
         >
           <span>Teslimat Fişi</span>
           <ChevronRight className="w-3.5 h-3.5 text-accent shrink-0" aria-hidden="true" />
@@ -312,22 +306,17 @@ export function OrderHistoryCard({ order, onOrderCancelled }: OrderHistoryCardPr
 
       {/* Cancel Modal */}
       {cancelModalOpen && (
-        <div
-          role="dialog"
-          aria-modal="true"
-          aria-labelledby={cancelTitleId}
-          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-ink/55 backdrop-blur-xs animate-fadeIn"
-        >
-          <div className="w-full max-w-sm bg-cream-surface border border-line rounded-3xl p-6 text-ink space-y-4 shadow-2xl">
-            <h3 id={cancelTitleId} className="font-serif font-bold text-base text-ink">
-              Siparişi İptal Et
-            </h3>
-            <p className="text-xs text-ink-muted leading-relaxed font-sans">
-              #{order.orderNumber || order.id} numaralı siparişinizi iptal etmek istediğinize emin misiniz?
+        <Modal open={cancelModalOpen} onClose={() => { if (!cancelling) setCancelModalOpen(false); }} dismissible={!cancelling} labelledBy={cancelTitleId} className="sf-dialog max-w-sm">
+          <div className="sf-dialog-body space-y-4">
+            <h2 id={cancelTitleId} className="sf-dialog-title font-serif font-bold text-base text-ink">
+              Siparişi iptal et
+            </h2>
+            <p className="sf-copy text-xs text-ink-muted leading-relaxed font-sans">
+              #{order.orderNumber || order.id} numaralı siparişini iptal etmek istediğine emin misin?
             </p>
 
             <div className="space-y-1">
-              <label htmlFor={cancelFieldId} className="block text-xs font-semibold text-ink">
+              <label htmlFor={cancelFieldId} className="sf-label block text-xs font-semibold text-ink">
                 İptal nedeni (isteğe bağlı)
               </label>
               <textarea
@@ -335,16 +324,16 @@ export function OrderHistoryCard({ order, onOrderCancelled }: OrderHistoryCardPr
                 name="cancelReason"
                 value={cancelReason}
                 onChange={(e) => setCancelReason(e.target.value)}
-                placeholder="İptal sebebiniz..."
+                placeholder="İptal sebebin…"
                 rows={2}
-                className="w-full px-3.5 py-2.5 rounded-xl bg-bg border border-line text-base sm:text-sm text-ink placeholder:text-ink-muted/60 focus:outline-none focus:border-accent font-sans"
+                className="sf-field w-full"
               />
             </div>
 
             {error && (
               <div
                 role="alert"
-                className="text-xs text-bad bg-bad/10 p-3 rounded-xl border border-bad/25 flex items-center gap-2"
+                className="sf-error text-xs bg-bad/10 p-3 rounded-xl border border-bad/25 flex items-center gap-2"
               >
                 <AlertCircle className="w-4 h-4 shrink-0" aria-hidden="true" />
                 <span>{error}</span>
@@ -356,21 +345,21 @@ export function OrderHistoryCard({ order, onOrderCancelled }: OrderHistoryCardPr
                 type="button"
                 onClick={() => setCancelModalOpen(false)}
                 disabled={cancelling}
-                className="touch-target-44 min-h-[44px] px-4 py-2 rounded-xl bg-bg border border-line hover:bg-cream-surface text-xs font-semibold transition-colors"
-              >
+                className={storefrontAction({ variant: "secondary", size: "default", className: "" })}
+               ref={(node) => { if (node) node.autofocus = true; }}>
                 Vazgeç
               </button>
               <button
                 type="button"
                 onClick={() => void handleCancel()}
                 disabled={cancelling}
-                className="touch-target-44 min-h-[44px] px-4 py-2 rounded-xl bg-bad hover:bg-bad/90 text-white font-semibold text-xs transition-colors disabled:opacity-50"
+                className={storefrontAction({ variant: "danger", size: "default", className: "disabled:opacity-50" })}
               >
-                {cancelling ? "İptal Ediliyor..." : "Evet, İptal Et"}
+                {cancelling ? "İptal Ediliyor..." : "Evet, iptal et"}
               </button>
             </div>
           </div>
-        </div>
+        </Modal>
       )}
     </article>
   );

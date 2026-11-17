@@ -1,7 +1,9 @@
 "use client";
 
+import { formatMoney } from "@/lib/format/currency";
+import { storefrontAction } from "@/lib/design/storefront";
 import React, { useState, useEffect } from "react";
-import { createPortal } from "react-dom";
+import { Modal } from "./Modal";
 import {
   X,
   ArrowRight,
@@ -24,7 +26,8 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { CONTACT, SOCIAL_LIST, whatsappLink, type SOCIAL } from "@/lib/site";
-import { FEATURES } from "@/lib/features";
+import { DRAWER_ORDER_LINKS, DRAWER_DISCOVERY_LINKS, STOREFRONT_LINKS, isStorefrontNavVisible } from "@content/nav/links";
+import { handleStorefrontAnchor } from "@/lib/design/navigation";
 import { useAuth } from "@/components/auth/AuthProvider";
 import { useTheme } from "@/lib/theme/useTheme";
 import { useStoreSettings } from "@/hooks/useStoreSettings";
@@ -76,26 +79,6 @@ export function AtelierMenuDrawer({ isOpen, onClose }: AtelierMenuDrawerProps) {
     setMounted(true);
   }, []);
 
-  // Escape tuşuyla kapatma
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "Escape") {
-        if (activeModal) setActiveModal(null);
-        else onClose();
-      }
-    };
-    if (isOpen) {
-      document.body.style.overflow = "hidden";
-      window.addEventListener("keydown", handleKeyDown);
-    } else {
-      document.body.style.overflow = "";
-    }
-    return () => {
-      document.body.style.overflow = "";
-      window.removeEventListener("keydown", handleKeyDown);
-    };
-  }, [isOpen, activeModal, onClose]);
-
   if (!isOpen || !mounted) return null;
 
   const displayName = profile?.fullName || user?.user_metadata?.full_name || user?.email?.split("@")[0] || "Müdavim";
@@ -106,7 +89,8 @@ export function AtelierMenuDrawer({ isOpen, onClose }: AtelierMenuDrawerProps) {
     .slice(0, 2)
     .toUpperCase();
 
-  const handleLinkClick = () => {
+  const handleLinkClick = (event: React.MouseEvent<HTMLAnchorElement>) => {
+    handleStorefrontAnchor(event);
     onClose();
   };
 
@@ -115,22 +99,10 @@ export function AtelierMenuDrawer({ isOpen, onClose }: AtelierMenuDrawerProps) {
     openAuthModal();
   };
 
-  return createPortal(
+  return (
     <>
-      {/* Karartma Arka Planı */}
-      <div
-        className="fixed inset-0 z-[100] bg-black/60 backdrop-blur-xs transition-opacity animate-fadeIn"
-        onClick={onClose}
-        aria-hidden="true"
-      />
-
-      {/* Menü Çekmecesi (Soldan kayan panel) */}
-      <aside
-        className="fixed inset-y-0 left-0 z-[101] w-full max-w-md h-full bg-cream-surface border-r border-line text-ink flex flex-col justify-between shadow-2xl animate-slideRight overflow-y-auto"
-        role="dialog"
-        aria-modal="true"
-        aria-label="Atölye Menüsü"
-      >
+      <Modal open={isOpen} onClose={onClose} label="Atölye Menüsü"
+        className="fixed inset-y-0 left-0 right-auto m-0 w-full max-w-md max-h-none h-dvh bg-cream-surface overflow-y-auto animate-slideRight">
         {/* Üst Başlık Barı */}
         <div className="p-5 sm:p-6 border-b border-line flex items-center justify-between shrink-0">
           <div className="flex items-center gap-3">
@@ -150,7 +122,7 @@ export function AtelierMenuDrawer({ isOpen, onClose }: AtelierMenuDrawerProps) {
           <button
             type="button"
             onClick={onClose}
-            className="touch-target-44 min-w-[44px] min-h-[44px] p-2.5 rounded-xl bg-bg hover:bg-cream-surface text-ink-muted hover:text-ink border border-line transition-colors flex items-center justify-center"
+            className={storefrontAction({ variant: "secondary", size: "default", className: "flex items-center justify-center" })}
             aria-label="Menüyü Kapat"
           >
             <X className="w-4 h-4" />
@@ -160,19 +132,19 @@ export function AtelierMenuDrawer({ isOpen, onClose }: AtelierMenuDrawerProps) {
         {/* Ana İçerik Alanı (Dört Bölüm) */}
         <div className="p-5 sm:p-6 space-y-7 flex-1">
           {/* 1. BÖLÜM: HESAP ALANI */}
-          <section className="bg-bg border border-line rounded-2xl p-4">
+          <section className="sf-panel bg-bg border border-line rounded-2xl p-4">
             {isLoggedIn ? (
-              <div className="flex items-center justify-between gap-3">
+              <div className="flex flex-col items-stretch gap-3">
                 <Link
                   href="/hesabim"
                   onClick={handleLinkClick}
-                  className="flex items-center gap-3 min-w-0 group"
+                  className="sf-brand-link flex items-center gap-3 min-w-0 group"
                 >
-                  <div className="w-10 h-10 rounded-full bg-accent/15 border border-accent/30 text-accent font-bold flex items-center justify-center text-sm shrink-0">
+                  <div className="w-10 h-10 rounded-full bg-accent/15 border border-accent/30 text-ink font-bold flex items-center justify-center text-sm shrink-0">
                     {initials || "E"}
                   </div>
                   <div className="min-w-0">
-                    <div className="text-xs font-mono text-ink-muted group-hover:text-accent uppercase tracking-wider font-semibold transition-colors">
+                    <div className="text-xs font-mono text-ink-muted group-hover:text-ink uppercase tracking-wider font-semibold transition-colors">
                       Müdavim Hesabım →
                     </div>
                     <div className="text-sm font-serif font-bold text-ink truncate">
@@ -185,7 +157,7 @@ export function AtelierMenuDrawer({ isOpen, onClose }: AtelierMenuDrawerProps) {
                   <Link
                     href="/hesabim/siparisler"
                     onClick={handleLinkClick}
-                    className="min-h-[48px] px-3.5 py-2 rounded-xl bg-cream-surface hover:bg-bg border border-line text-xs font-semibold text-ink flex items-center gap-1.5 transition-colors"
+                    className={storefrontAction({ variant: "secondary", size: "default", className: "flex items-center gap-1.5" })}
                   >
                     <Package className="w-3.5 h-3.5 text-accent" />
                     <span>Siparişlerim</span>
@@ -197,7 +169,7 @@ export function AtelierMenuDrawer({ isOpen, onClose }: AtelierMenuDrawerProps) {
                       signOut();
                       onClose();
                     }}
-                    className="min-h-[48px] min-w-[44px] p-2.5 rounded-xl bg-cream-surface hover:bg-bad/10 text-ink-muted hover:text-bad border border-line transition-colors flex items-center justify-center"
+                    className={storefrontAction({ variant: "danger", size: "default", className: "flex items-center justify-center" })}
                     aria-label="Çıkış Yap"
                     title="Çıkış Yap"
                   >
@@ -206,9 +178,9 @@ export function AtelierMenuDrawer({ isOpen, onClose }: AtelierMenuDrawerProps) {
                 </div>
               </div>
             ) : (
-              <div className="flex items-center justify-between gap-3">
+              <div className="flex flex-col items-stretch gap-3">
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-full bg-cream-surface border border-line text-accent flex items-center justify-center shrink-0">
+                  <div className="w-10 h-10 rounded-full bg-cream-surface border border-line text-ink flex items-center justify-center shrink-0">
                     <User className="w-5 h-5" />
                   </div>
                   <div>
@@ -224,205 +196,40 @@ export function AtelierMenuDrawer({ isOpen, onClose }: AtelierMenuDrawerProps) {
                 <button
                   type="button"
                   onClick={handleOpenAuth}
-                  className="min-h-[48px] px-4 py-2 rounded-xl bg-accent text-white hover:bg-accent/90 text-xs font-semibold transition-colors shrink-0 shadow-xs flex items-center gap-1.5"
+                  className={storefrontAction({ variant: "primary", size: "default", className: "shrink-0 flex items-center gap-1.5" })}
                 >
-                  <span>Giriş Yap</span>
+                  <span>Giriş yap</span>
                   <ArrowRight className="w-3.5 h-3.5" />
                 </button>
               </div>
             )}
           </section>
 
-          {/* 2. BÖLÜM: SİPARİŞ */}
-          <section className="space-y-3">
-            <div className="text-xs font-mono text-accent uppercase tracking-wider font-semibold">
-              Sipariş & Fırın
-            </div>
+          <Link href={STOREFRONT_LINKS.tracking.href} onClick={handleLinkClick}
+            className={storefrontAction({ variant: "secondary", size: "default", className: "flex items-center gap-3" })}>
+            <Package aria-hidden="true" className="w-4 h-4" /> {STOREFRONT_LINKS.tracking.label}
+          </Link>
 
-            <ul className="space-y-1.5">
-              {/* Ekmekler */}
-              <li>
-                <a
-                  href="/#ekmekler"
-                  onClick={handleLinkClick}
-                  className="min-h-[48px] py-3 px-3.5 rounded-xl bg-bg/50 hover:bg-bg border border-transparent hover:border-line flex items-center justify-between group transition-colors"
-                >
-                  <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 rounded-lg bg-cream-surface border border-line flex items-center justify-center text-accent shrink-0">
-                      <ShoppingBag className="w-4 h-4" />
-                    </div>
-                    <div>
-                      <div className="font-serif text-base font-bold text-ink">Ekmekler</div>
-                      <div className="text-xs text-ink-muted">Günlük çıkan taş fırın artisan somunlar</div>
-                    </div>
-                  </div>
-                  <ArrowRight className="w-4 h-4 text-ink-muted group-hover:text-accent group-hover:translate-x-1 transition-all shrink-0" />
-                </a>
-              </li>
-
-              {/* Eşlikçiler */}
-              <li>
-                <a
-                  href="/#gurme-lezzetler"
-                  onClick={handleLinkClick}
-                  className="min-h-[48px] py-3 px-3.5 rounded-xl bg-bg/50 hover:bg-bg border border-transparent hover:border-line flex items-center justify-between group transition-colors"
-                >
-                  <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 rounded-lg bg-cream-surface border border-line flex items-center justify-center text-accent shrink-0">
-                      <Package className="w-4 h-4" />
-                    </div>
-                    <div>
-                      <div className="font-serif text-base font-bold text-ink">Eşlikçiler</div>
-                      <div className="text-xs text-ink-muted">Doğal tereyağı, mandıra ve gurme şarküteri</div>
-                    </div>
-                  </div>
-                  <ArrowRight className="w-4 h-4 text-ink-muted group-hover:text-accent group-hover:translate-x-1 transition-all shrink-0" />
-                </a>
-              </li>
-
-              {/* Nasıl Üretiyoruz */}
-              {FEATURES.nasilUretiyoruz && (
-                <li>
-                  <a
-                    href="/#nasil-uretiyoruz"
-                    onClick={handleLinkClick}
-                    className="min-h-[48px] py-3 px-3.5 rounded-xl bg-bg/50 hover:bg-bg border border-transparent hover:border-line flex items-center justify-between group transition-colors"
-                  >
-                    <div className="flex items-center gap-3">
-                      <div className="w-8 h-8 rounded-lg bg-cream-surface border border-line flex items-center justify-center text-accent shrink-0">
-                        <Wheat className="w-4 h-4" />
-                      </div>
-                      <div>
-                        <div className="font-serif text-base font-bold text-ink">Nasıl Üretiyoruz?</div>
-                        <div className="text-xs text-ink-muted">Undan fırına ekmeğin yolu</div>
-                      </div>
-                    </div>
-                    <ArrowRight className="w-4 h-4 text-ink-muted group-hover:text-accent group-hover:translate-x-1 transition-all shrink-0" />
-                  </a>
-                </li>
-              )}
-
-              {/* Teslimat Bölgesi ve Ücret */}
-              <li>
-                <button
-                  type="button"
-                  onClick={() => setActiveModal("delivery")}
-                  className="w-full text-left min-h-[48px] py-3 px-3.5 rounded-xl bg-bg/50 hover:bg-bg border border-transparent hover:border-line flex items-center justify-between group transition-colors"
-                >
-                  <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 rounded-lg bg-cream-surface border border-line flex items-center justify-center text-accent shrink-0">
-                      <Truck className="w-4 h-4" />
-                    </div>
-                    <div>
-                      <div className="font-serif text-base font-bold text-ink">Teslimat Bölgesi ve Ücret</div>
-                      <div className="text-xs text-ink-muted">
-                        {fee === 0
-                          ? "Beylikdüzü geneli saatler ve ücretsiz teslimat"
-                          : "Beylikdüzü geneli saatler ve ücretsiz eşik"}
-                      </div>
-                    </div>
-                  </div>
-                  <ArrowRight className="w-4 h-4 text-ink-muted group-hover:text-accent group-hover:translate-x-1 transition-all shrink-0" />
-                </button>
-              </li>
-
-              {/* Nerede Bulunur? */}
-              <li>
-                <button
-                  type="button"
-                  onClick={() => setActiveModal("whereToFind")}
-                  className="w-full text-left min-h-[48px] py-3 px-3.5 rounded-xl bg-bg/50 hover:bg-bg border border-transparent hover:border-line flex items-center justify-between group transition-colors"
-                >
-                  <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 rounded-lg bg-cream-surface border border-line flex items-center justify-center text-accent shrink-0">
-                      <MapPin className="w-4 h-4" />
-                    </div>
-                    <div>
-                      <div className="font-serif text-base font-bold text-ink">Nerede Bulunur?</div>
-                      <div className="text-xs text-ink-muted">Bahçe atölyemiz ve anlaşmalı şarküteriler</div>
-                    </div>
-                  </div>
-                  <ArrowRight className="w-4 h-4 text-ink-muted group-hover:text-accent group-hover:translate-x-1 transition-all shrink-0" />
-                </button>
-              </li>
-            </ul>
-          </section>
-
-          {/* 3. BÖLÜM: KEŞFET */}
-          <section className="space-y-3">
-            <div className="text-xs font-mono text-accent uppercase tracking-wider font-semibold">
-              Zanaat & Keşif
-            </div>
-
-            <ul className="space-y-1.5">
-              {/* Biz Kimiz? */}
-              <li>
-                <button
-                  type="button"
-                  onClick={() => setActiveModal("manifesto")}
-                  className="w-full text-left min-h-[48px] py-3 px-3.5 rounded-xl bg-bg/50 hover:bg-bg border border-transparent hover:border-line flex items-center justify-between group transition-colors"
-                >
-                  <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 rounded-lg bg-cream-surface border border-line flex items-center justify-center text-accent shrink-0">
-                      <Flame className="w-4 h-4" />
-                    </div>
-                    <div>
-                      <div className="font-serif text-base font-bold text-ink">Biz Kimiz?</div>
-                      <div className="text-xs text-ink-muted">Ata tohumu mirasımız ve zanaat manifestosu</div>
-                    </div>
-                  </div>
-                  <ArrowRight className="w-4 h-4 text-ink-muted group-hover:text-accent group-hover:translate-x-1 transition-all shrink-0" />
-                </button>
-              </li>
-
-              {/* Bilim odası */}
-              {FEATURES.bilimOdasi && (
-                <li>
-                  <Link
-                    href="/bilim"
-                    onClick={handleLinkClick}
-                    className="min-h-[48px] py-3 px-3.5 rounded-xl bg-bg/50 hover:bg-bg border border-transparent hover:border-line flex items-center justify-between group transition-colors"
-                  >
-                    <div className="flex items-center gap-3">
-                      <div className="w-8 h-8 rounded-lg bg-cream-surface border border-line flex items-center justify-center text-accent shrink-0">
-                        <Wheat className="w-4 h-4" />
-                      </div>
-                      <div>
-                        <div className="font-serif text-base font-bold text-ink">Bilim odası</div>
-                        <div className="text-xs text-ink-muted">Tarladan dilime, ekmeğin yolculuğu</div>
-                      </div>
-                    </div>
-                    <ArrowRight className="w-4 h-4 text-ink-muted group-hover:text-accent group-hover:translate-x-1 transition-all shrink-0" />
-                  </Link>
-                </li>
-              )}
-
-
-              {/* Fırıncı Araçları */}
-              <li>
-                <Link
-                  href="/arac"
-                  onClick={handleLinkClick}
-                  className="min-h-[48px] py-3 px-3.5 rounded-xl bg-bg/50 hover:bg-bg border border-transparent hover:border-line flex items-center justify-between group transition-colors"
-                >
-                  <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 rounded-lg bg-cream-surface border border-line flex items-center justify-center text-accent shrink-0">
-                      <Calculator className="w-4 h-4" />
-                    </div>
-                    <div>
-                      <div className="font-serif text-base font-bold text-ink">Fırıncı Araçları</div>
-                      <div className="text-xs text-ink-muted">Fırıncı yüzdesi, DDT ve maya besleme planlayıcı</div>
-                    </div>
-                  </div>
-                  <ArrowRight className="w-4 h-4 text-ink-muted group-hover:text-accent group-hover:translate-x-1 transition-all shrink-0" />
-                </Link>
-              </li>
-            </ul>
-          </section>
+          {[{ title: "Sipariş & Fırın", links: DRAWER_ORDER_LINKS }, { title: "Zanaat & Keşif", links: DRAWER_DISCOVERY_LINKS }].map((group) => (
+            <section key={group.title} className="space-y-3">
+              <div className="text-xs font-mono text-ink-muted uppercase tracking-wider font-semibold">{group.title}</div>
+              <ul className="space-y-2">
+                {group.links.filter(isStorefrontNavVisible).map((link) => {
+                  const Icon = link.key === "bread" ? Wheat : link.key === "accompaniments" ? Package : link.key === "delivery" ? Truck : link.key === "whereToFind" ? MapPin : link.key === "tools" ? Calculator : Flame;
+                  const content = <><span className="flex items-start gap-3 min-w-0 text-left"><Icon aria-hidden="true" className="w-5 h-5 shrink-0 mt-0.5" /><span className="min-w-0"><span className="block font-semibold">{link.label}</span><span className="block text-sm font-normal text-ink-muted">{link.description}</span></span></span><ArrowRight aria-hidden="true" className="w-4 h-4 shrink-0" /></>;
+                  const className = storefrontAction({ variant: "secondary", className: "w-full sf-action--between" });
+                  return <li key={link.key}>{link.dialog
+                    ? <button type="button" onClick={() => setActiveModal(link.dialog ?? null)} className={className}>{content}</button>
+                    : <Link href={link.href} onClick={handleLinkClick} className={className}>{content}</Link>}
+                  </li>;
+                })}
+              </ul>
+            </section>
+          ))}
 
           {/* 4. BÖLÜM: ALT (Kurumsal, WhatsApp, Tema) */}
           <section className="space-y-4 pt-2 border-t border-line">
-            <div className="text-xs font-mono text-accent uppercase tracking-wider font-semibold">
+            <div className="text-xs font-mono text-ink uppercase tracking-wider font-semibold">
               İletişim & Tercihler
             </div>
 
@@ -431,10 +238,10 @@ export function AtelierMenuDrawer({ isOpen, onClose }: AtelierMenuDrawerProps) {
               <button
                 type="button"
                 onClick={() => setActiveModal("corporate")}
-                className="w-full text-left min-h-[48px] py-3 px-3.5 rounded-xl bg-bg/50 hover:bg-bg border border-transparent hover:border-line flex items-center justify-between group transition-colors"
+                className={storefrontAction({ variant: "secondary", size: "default", className: "w-full text-left flex items-center justify-between group sf-action--between" })}
               >
                 <div className="flex items-center gap-3">
-                  <div className="w-8 h-8 rounded-lg bg-cream-surface border border-line flex items-center justify-center text-accent shrink-0">
+                  <div className="w-8 h-8 rounded-lg bg-cream-surface border border-line flex items-center justify-center text-ink shrink-0">
                     <Building2 className="w-4 h-4" />
                   </div>
                   <div>
@@ -445,23 +252,23 @@ export function AtelierMenuDrawer({ isOpen, onClose }: AtelierMenuDrawerProps) {
                 <ArrowRight className="w-4 h-4 text-ink-muted group-hover:text-accent group-hover:translate-x-1 transition-all shrink-0" />
               </button>
 
-              {/* WhatsApp'tan Yaz */}
+              {/* WhatsApp’tan yaz */}
               <a
                 href={whatsappLink("Merhaba, ekmekleriniz ve atölyeniz hakkında bilgi almak istiyorum.")}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="min-h-[48px] py-3 px-3.5 rounded-xl bg-bg/50 hover:bg-bg border border-transparent hover:border-line flex items-center justify-between group transition-colors"
+                className={storefrontAction({ variant: "secondary", size: "default", className: "flex items-center justify-between group sf-action--between" })}
               >
                 <div className="flex items-center gap-3">
-                  <div className="w-8 h-8 rounded-lg bg-cream-surface border border-line flex items-center justify-center text-good shrink-0">
+                  <div className="sf-success w-8 h-8 rounded-lg bg-cream-surface border border-line flex items-center justify-center shrink-0">
                     <MessageCircle className="w-4 h-4" />
                   </div>
                   <div>
-                    <div className="font-serif text-base font-bold text-ink">WhatsApp'tan Yaz</div>
+                    <div className="font-serif text-base font-bold text-ink">WhatsApp’tan yaz</div>
                     <div className="text-xs text-ink-muted">{CONTACT.phoneDisplay} · Fırıncımızla doğrudan iletişim</div>
                   </div>
                 </div>
-                <ExternalLink className="w-4 h-4 text-ink-muted group-hover:text-good transition-all shrink-0" />
+                <ExternalLink className="sf-success w-4 h-4 text-ink-muted group-hover:sf-success transition-all shrink-0" />
               </a>
             </div>
 
@@ -481,11 +288,11 @@ export function AtelierMenuDrawer({ isOpen, onClose }: AtelierMenuDrawerProps) {
                 <button
                   type="button"
                   onClick={() => setPreference("system")}
-                  className={`min-h-[48px] py-2 px-2.5 rounded-lg text-xs font-semibold flex flex-col sm:flex-row items-center justify-center gap-1.5 transition-all ${
+                  className={"sf-action sf-action--default " + (` flex flex-col sm:flex-row items-center justify-center gap-1.5 ${
                     preference === "system"
-                      ? "bg-accent text-white shadow-xs"
-                      : "text-ink-muted hover:text-ink hover:bg-cream-surface"
-                  }`}
+                      ? "sf-action--primary "
+                      : "sf-action--secondary "
+                  }  `)}
                   aria-pressed={preference === "system"}
                 >
                   <Laptop className="w-4 h-4" />
@@ -496,11 +303,11 @@ export function AtelierMenuDrawer({ isOpen, onClose }: AtelierMenuDrawerProps) {
                 <button
                   type="button"
                   onClick={() => setPreference("light")}
-                  className={`min-h-[48px] py-2 px-2.5 rounded-lg text-xs font-semibold flex flex-col sm:flex-row items-center justify-center gap-1.5 transition-all ${
+                  className={"sf-action sf-action--default " + (` flex flex-col sm:flex-row items-center justify-center gap-1.5 ${
                     preference === "light"
-                      ? "bg-accent text-white shadow-xs"
-                      : "text-ink-muted hover:text-ink hover:bg-cream-surface"
-                  }`}
+                      ? "sf-action--primary "
+                      : "sf-action--secondary "
+                  }  `)}
                   aria-pressed={preference === "light"}
                 >
                   <Sun className="w-4 h-4" />
@@ -511,11 +318,11 @@ export function AtelierMenuDrawer({ isOpen, onClose }: AtelierMenuDrawerProps) {
                 <button
                   type="button"
                   onClick={() => setPreference("dark")}
-                  className={`min-h-[48px] py-2 px-2.5 rounded-lg text-xs font-semibold flex flex-col sm:flex-row items-center justify-center gap-1.5 transition-all ${
+                  className={"sf-action sf-action--default " + (` flex flex-col sm:flex-row items-center justify-center gap-1.5 ${
                     preference === "dark"
-                      ? "bg-accent text-white shadow-xs"
-                      : "text-ink-muted hover:text-ink hover:bg-cream-surface"
-                  }`}
+                      ? "sf-action--primary "
+                      : "sf-action--secondary "
+                  }  `)}
                   aria-pressed={preference === "dark"}
                 >
                   <Moon className="w-4 h-4" />
@@ -534,7 +341,7 @@ export function AtelierMenuDrawer({ isOpen, onClose }: AtelierMenuDrawerProps) {
           </div>
           <div className="flex items-center gap-2.5 text-ink-muted">
             <Mail className="w-4 h-4 text-accent shrink-0" />
-            <a href={`mailto:${CONTACT.email}`} className="hover:text-ink transition-colors">
+            <a href={`mailto:${CONTACT.email}`} className="sf-nav-link hover:text-ink transition-colors">
               {CONTACT.email}
             </a>
           </div>
@@ -545,7 +352,7 @@ export function AtelierMenuDrawer({ isOpen, onClose }: AtelierMenuDrawerProps) {
                 href={item.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-1.5 min-h-[44px] px-3 py-2 rounded-xl bg-cream-surface border border-line text-xs text-ink hover:text-accent hover:border-accent/40 transition-colors font-sans"
+                className={storefrontAction({ variant: "secondary", size: "default", className: "inline-flex items-center gap-1.5" })}
                 title={`${item.label} ${item.handle}`}
                 aria-label={`${item.label} ${item.handle}`}
               >
@@ -558,23 +365,23 @@ export function AtelierMenuDrawer({ isOpen, onClose }: AtelierMenuDrawerProps) {
             © {new Date().getFullYear()} EkmekLab Atölye
           </div>
         </div>
-      </aside>
+      </Modal>
 
       {/* Modal 1: Manifesto (Biz Kimiz?) */}
       {activeModal === "manifesto" && (
-        <div className="fixed inset-0 z-[110] flex items-center justify-center p-4 bg-black/60 backdrop-blur-xs animate-fadeIn">
-          <div className="relative w-full max-w-2xl bg-cream-surface border border-line rounded-3xl p-6 sm:p-8 text-ink max-h-[90vh] overflow-y-auto space-y-6 shadow-2xl">
+        <Modal open onClose={() => setActiveModal(null)} label="Biz Kimiz" className="sf-dialog w-[calc(100%-2rem)] max-w-2xl max-h-[90dvh] overflow-y-auto rounded-3xl bg-cream-surface animate-fadeIn">
+          <div className="sf-dialog-body relative w-full text-ink space-y-6">
             <button
               type="button"
               onClick={() => setActiveModal(null)}
               aria-label="Kapat"
-              className="absolute top-4 right-4 z-10 min-w-[44px] min-h-[44px] flex items-center justify-center rounded-xl bg-bg/90 hover:bg-cream-surface text-ink-muted hover:text-ink border border-line transition-colors shadow-xs"
+              className={storefrontAction({ variant: "secondary", size: "default", className: "absolute top-4 right-4 z-10 flex items-center justify-center" })}
             >
               <X className="w-4 h-4" />
             </button>
 
             <div className="space-y-2">
-              <div className="text-xs font-mono text-accent uppercase tracking-wider font-semibold">
+              <div className="text-xs font-mono text-ink uppercase tracking-wider font-semibold">
                 EkmekLab Manifestosu
               </div>
               <h3 className="font-serif text-2xl sm:text-3xl font-bold text-ink">
@@ -598,24 +405,24 @@ export function AtelierMenuDrawer({ isOpen, onClose }: AtelierMenuDrawerProps) {
               </p>
             </div>
           </div>
-        </div>
+        </Modal>
       )}
 
       {/* Modal 2: Kurumsal & Şef Tedariği */}
       {activeModal === "corporate" && (
-        <div className="fixed inset-0 z-[110] flex items-center justify-center p-4 bg-black/60 backdrop-blur-xs animate-fadeIn">
-          <div className="relative w-full max-w-xl bg-cream-surface border border-line rounded-3xl p-6 sm:p-8 text-ink max-h-[90vh] overflow-y-auto space-y-6 shadow-2xl">
+        <Modal open onClose={() => setActiveModal(null)} label="Kurumsal ve Şef Çözümleri" className="sf-dialog w-[calc(100%-2rem)] max-w-2xl max-h-[90dvh] overflow-y-auto rounded-3xl bg-cream-surface animate-fadeIn">
+          <div className="sf-panel relative w-full max-w-xl bg-cream-surface border border-line rounded-3xl p-6 sm:p-8 text-ink space-y-6 shadow-2xl">
             <button
               type="button"
               onClick={() => setActiveModal(null)}
               aria-label="Kapat"
-              className="absolute top-4 right-4 z-10 min-w-[44px] min-h-[44px] flex items-center justify-center rounded-xl bg-bg/90 hover:bg-cream-surface text-ink-muted hover:text-ink border border-line transition-colors shadow-xs"
+              className={storefrontAction({ variant: "secondary", size: "default", className: "absolute top-4 right-4 z-10 flex items-center justify-center" })}
             >
               <X className="w-4 h-4" />
             </button>
 
             <div className="space-y-2">
-              <div className="text-xs font-mono text-accent uppercase tracking-wider font-semibold">
+              <div className="text-xs font-mono text-ink uppercase tracking-wider font-semibold">
                 Kurumsal & Şef Tedariği
               </div>
               <h3 className="font-serif text-2xl sm:text-3xl font-bold text-ink">
@@ -623,7 +430,7 @@ export function AtelierMenuDrawer({ isOpen, onClose }: AtelierMenuDrawerProps) {
               </h3>
             </div>
 
-            <p className="text-sm text-ink-muted leading-relaxed font-sans">
+            <p className="sf-copy text-sm text-ink-muted leading-relaxed font-sans">
               Restoranınız, gurme şarküteriniz veya kafeniz için özel reçeteli artisan ekmekler,
               tost ve sandviç somunları üretiyoruz. Düzenli teslimat ve toptan tedarik imkanları için
               bizimle doğrudan iletişime geçebilirsiniz.
@@ -634,31 +441,31 @@ export function AtelierMenuDrawer({ isOpen, onClose }: AtelierMenuDrawerProps) {
                 href={whatsappLink("Merhaba, kurumsal ekmek tedariği hakkında bilgi almak istiyorum.")}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-full min-h-[48px] inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl bg-accent text-white font-semibold text-sm hover:bg-accent/90 transition-colors shadow-sm"
+                className={storefrontAction({ variant: "primary", size: "default", className: "w-full inline-flex items-center justify-center gap-2" })}
               >
                 <span>WhatsApp ile İletişime Geç</span>
                 <ExternalLink className="w-4 h-4" />
               </a>
             </div>
           </div>
-        </div>
+        </Modal>
       )}
 
       {/* Modal 3: Teslimat Bölgesi ve Ücret */}
       {activeModal === "delivery" && (
-        <div className="fixed inset-0 z-[110] flex items-center justify-center p-4 bg-black/60 backdrop-blur-xs animate-fadeIn">
-          <div className="relative w-full max-w-xl bg-cream-surface border border-line rounded-3xl p-6 sm:p-8 text-ink max-h-[90vh] overflow-y-auto space-y-6 shadow-2xl">
+        <Modal open onClose={() => setActiveModal(null)} label="Teslimat Bölgesi ve Ücret" className="sf-dialog w-[calc(100%-2rem)] max-w-2xl max-h-[90dvh] overflow-y-auto rounded-3xl bg-cream-surface animate-fadeIn">
+          <div className="sf-panel relative w-full max-w-xl bg-cream-surface border border-line rounded-3xl p-6 sm:p-8 text-ink space-y-6 shadow-2xl">
             <button
               type="button"
               onClick={() => setActiveModal(null)}
               aria-label="Kapat"
-              className="absolute top-4 right-4 z-10 min-w-[44px] min-h-[44px] flex items-center justify-center rounded-xl bg-bg/90 hover:bg-cream-surface text-ink-muted hover:text-ink border border-line transition-colors shadow-xs"
+              className={storefrontAction({ variant: "secondary", size: "default", className: "absolute top-4 right-4 z-10 flex items-center justify-center" })}
             >
               <X className="w-4 h-4" />
             </button>
 
             <div className="space-y-2">
-              <div className="text-xs font-mono text-accent uppercase tracking-wider font-semibold">
+              <div className="text-xs font-mono text-ink uppercase tracking-wider font-semibold">
                 Teslimat Bilgisi
               </div>
               <h3 className="font-serif text-2xl sm:text-3xl font-bold text-ink">
@@ -667,7 +474,7 @@ export function AtelierMenuDrawer({ isOpen, onClose }: AtelierMenuDrawerProps) {
             </div>
 
             <div className="space-y-4 text-sm text-ink-muted leading-relaxed font-sans">
-              <div className="p-4 rounded-2xl bg-bg border border-line space-y-2">
+              <div className="sf-panel p-4 rounded-2xl bg-bg border border-line space-y-2">
                 <div className="font-serif font-bold text-ink text-base">
                   {fee === 0 ? "Ücretsiz Kapıya Teslimat" : "Ücretsiz Teslimat Eşiği"}
                 </div>
@@ -677,44 +484,44 @@ export function AtelierMenuDrawer({ isOpen, onClose }: AtelierMenuDrawerProps) {
                   </p>
                 ) : (
                   <p>
-                    <strong className="text-ink">{freeFrom.toLocaleString("tr-TR")} ₺ ve üzeri</strong> siparişlerde Beylikdüzü geneline teslimat ücretsizdir. Altındaki siparişlerde {fee.toLocaleString("tr-TR")} ₺ teslimat ücreti uygulanır.
+                    <strong className="text-ink">{formatMoney(freeFrom)} ve üzeri</strong> siparişlerde Beylikdüzü geneline teslimat ücretsizdir. Altındaki siparişlerde {formatMoney(fee)} teslimat ücreti uygulanır.
                   </p>
                 )}
               </div>
 
-              <div className="p-4 rounded-2xl bg-bg border border-line space-y-2">
+              <div className="sf-panel p-4 rounded-2xl bg-bg border border-line space-y-2">
                 <div className="font-serif font-bold text-ink text-base">Teslimat &amp; Ödeme</div>
                 <p>
-                  Siparişleriniz seçtiğiniz teslimat gününde fırından yeni çıkmış tazelikte{settings.deliveryWindow ? <> (<strong className="text-ink">{settings.deliveryWindow}</strong>)</> : null} doğrudan atölyemizden kapınıza ulaştırılır. Ödeme yalnızca teslimatta <strong className="text-ink">kapıda nakit veya kredi/banka kartı</strong> ile yapılır.
+                  Siparişlerin seçtiğin teslimat gününde fırından yeni çıkmış tazelikte{settings.deliveryWindow ? <> (<strong className="text-ink">{settings.deliveryWindow}</strong>)</> : null} doğrudan atölyemizden kapına ulaştırılır. Ödeme yalnızca teslimatta <strong className="text-ink">kapıda nakit veya kredi/banka kartı</strong> ile yapılır.
                 </p>
               </div>
 
               <div className="space-y-1.5">
-                <div className="font-mono text-xs text-accent font-semibold uppercase">Hizmet Verilen Mahalleler:</div>
-                <p className="text-xs text-ink-muted">
+                <div className="font-mono text-xs text-ink font-semibold uppercase">Hizmet Verilen Mahalleler:</div>
+                <p className="sf-copy text-xs text-ink-muted">
                   Adnan Kahveci, Barış, Büyükşehir, Cumhuriyet, Dereağzı, Gürpınar, Kavaklı, Marmara, Sahil, Yakuplu.
                 </p>
               </div>
             </div>
           </div>
-        </div>
+        </Modal>
       )}
 
       {/* Modal 4: Nerede Bulunur? */}
       {activeModal === "whereToFind" && (
-        <div className="fixed inset-0 z-[110] flex items-center justify-center p-4 bg-black/60 backdrop-blur-xs animate-fadeIn">
-          <div className="relative w-full max-w-xl bg-cream-surface border border-line rounded-3xl p-6 sm:p-8 text-ink max-h-[90vh] overflow-y-auto space-y-6 shadow-2xl">
+        <Modal open onClose={() => setActiveModal(null)} label="Atölye ve Satış Noktaları" className="sf-dialog w-[calc(100%-2rem)] max-w-2xl max-h-[90dvh] overflow-y-auto rounded-3xl bg-cream-surface animate-fadeIn">
+          <div className="sf-panel relative w-full max-w-xl bg-cream-surface border border-line rounded-3xl p-6 sm:p-8 text-ink space-y-6 shadow-2xl">
             <button
               type="button"
               onClick={() => setActiveModal(null)}
               aria-label="Kapat"
-              className="absolute top-4 right-4 z-10 min-w-[44px] min-h-[44px] flex items-center justify-center rounded-xl bg-bg/90 hover:bg-cream-surface text-ink-muted hover:text-ink border border-line transition-colors shadow-xs"
+              className={storefrontAction({ variant: "secondary", size: "default", className: "absolute top-4 right-4 z-10 flex items-center justify-center" })}
             >
               <X className="w-4 h-4" />
             </button>
 
             <div className="space-y-2">
-              <div className="text-xs font-mono text-accent uppercase tracking-wider font-semibold">
+              <div className="text-xs font-mono text-ink uppercase tracking-wider font-semibold">
                 Atölye & Satış Noktaları
               </div>
               <h3 className="font-serif text-2xl sm:text-3xl font-bold text-ink">
@@ -723,21 +530,21 @@ export function AtelierMenuDrawer({ isOpen, onClose }: AtelierMenuDrawerProps) {
             </div>
 
             <div className="space-y-4 text-sm text-ink-muted leading-relaxed font-sans">
-              <div className="p-4 rounded-2xl bg-bg border border-line space-y-1.5">
+              <div className="sf-panel p-4 rounded-2xl bg-bg border border-line space-y-1.5">
                 <div className="font-serif font-bold text-ink text-base">1. Doğrudan Kapınıza Teslim</div>
                 <p>
                   Web sitemiz üzerinden seçtiğiniz ekmek ve eşlikçileri sepetinize ekleyerek sipariş verebilir; ödemenizi teslimatta kapıda nakit veya kredi/banka kartı ile yapabilirsiniz.
                 </p>
               </div>
 
-              <div className="p-4 rounded-2xl bg-bg border border-line space-y-1.5">
+              <div className="sf-panel p-4 rounded-2xl bg-bg border border-line space-y-1.5">
                 <div className="font-serif font-bold text-ink text-base">2. Beylikdüzü Bahçe Atölyemiz</div>
                 <p>
                   22 m² taş fırın bahçe atölyemiz üretim ve fermantasyon merkezimizdir. Önceden kararlaştırarak atölyemizden teslim alabilirsiniz.
                 </p>
               </div>
 
-              <div className="p-4 rounded-2xl bg-bg border border-line space-y-1.5">
+              <div className="sf-panel p-4 rounded-2xl bg-bg border border-line space-y-1.5">
                 <div className="font-serif font-bold text-ink text-base">3. Anlaşmalı Gurme Şarküteriler</div>
                 <p>
                   Beylikdüzü'nde seçkin 2 gurme şarküteri tezgahında taze günlük ekmeklerimiz sınırlı sayıda yer almaktadır.
@@ -745,9 +552,8 @@ export function AtelierMenuDrawer({ isOpen, onClose }: AtelierMenuDrawerProps) {
               </div>
             </div>
           </div>
-        </div>
+        </Modal>
       )}
-    </>,
-    document.body
+    </>
   );
 }

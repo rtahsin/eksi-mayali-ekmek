@@ -1,5 +1,5 @@
 import type { Product } from "@/types";
-import { formatTrDate, istanbulToday } from "@/lib/time/istanbul";
+import { istanbulToday } from "@/lib/time/istanbul";
 import { getSaleScheduleBadge } from "@/lib/ordering/saleDates";
 
 export interface ProductBadge {
@@ -19,12 +19,9 @@ export function productBadges(product: Product, today: string = istanbulToday())
     out.push({ label: pct >= 5 ? `Kampanya %${pct}` : "Kampanya", tone: "gold" });
   }
   if (product.bundleItems && product.bundleItems.length > 0) out.push({ label: "Paket", tone: "accent" });
-  if (product.saleWeekdays && product.saleWeekdays.length > 0) {
+  if (product.availability === "dates" || (product.saleWeekdays && product.saleWeekdays.length > 0)) {
     const scheduleLabel = getSaleScheduleBadge(product, today);
     if (scheduleLabel) out.push({ label: scheduleLabel, tone: "accent" });
-  } else if (product.availability === "dates") {
-    const next = (product.saleDates ?? []).map((d) => d.date).filter((d) => d >= today).sort()[0];
-    out.push({ label: next ? `Sadece ${formatTrDate(next)}` : "Yakında", tone: "accent" });
   } else if ((product.leadTimeDays ?? 0) > 0) {
     out.push({ label: `${product.leadTimeDays} gün önceden`, tone: "accent" });
   } else if (product.madeToOrder) {

@@ -23,7 +23,6 @@ export const DEFAULT_STORE_SETTINGS: StoreSettings = {
   whatsappPhone: "0501 012 66 53",
   orderAcceptanceOpen: true,
   announcementText: "",
-  orderCutoffTime: "12:00",
   neighborhoods: DEFAULT_NEIGHBORHOODS,
   openWeekdays: [0, 1, 2, 3, 4, 5, 6],
   closedDates: [],
@@ -63,7 +62,6 @@ export const StoreSettingsSchema = z.object({
   whatsappPhone: z.string().trim().min(10).max(30),
   orderAcceptanceOpen: z.boolean(),
   announcementText: z.string().trim().max(300),
-  orderCutoffTime: clock,
   neighborhoods: z.array(neighborhoodName).min(1, "En az bir mahalle seçin").max(40),
   openWeekdays: z.array(z.number().int().min(0).max(6)).min(1, "En az bir gün açık olmalı").max(7),
   closedDates: z.array(z.string().refine(isIsoDate, "Tarih YYYY-AA-GG olmalı")).max(120),
@@ -77,7 +75,7 @@ export const StoreSettingsSchema = z.object({
  * Veritabanındaki ham JSON'u okur: bozuk/eksik her alan tek tek varsayılana düşer,
  * böylece eski veya yarım kayıtlar siteyi kırmaz.
  */
-export function parseStoredSettings(raw: unknown, legacyCutoff?: unknown): StoreSettings {
+export function parseStoredSettings(raw: unknown): StoreSettings {
   const source = typeof raw === "object" && raw !== null && !Array.isArray(raw) ? (raw as Record<string, unknown>) : {};
   const result = { ...DEFAULT_STORE_SETTINGS };
   const shape = StoreSettingsSchema.shape;
@@ -89,16 +87,6 @@ export function parseStoredSettings(raw: unknown, legacyCutoff?: unknown): Store
       (result as Record<keyof StoreSettings, unknown>)[key] = parsed.data;
     }
   });
-
-  // Eski ayrı anahtar (`order_cutoff_time`) varsa ve operational içinde yoksa onu kullan
-  if (!("orderCutoffTime" in source) && legacyCutoff !== undefined && legacyCutoff !== null) {
-    const legacy =
-      typeof legacyCutoff === "object"
-        ? (legacyCutoff as Record<string, unknown>).cutoff_time ?? (legacyCutoff as Record<string, unknown>).time
-        : legacyCutoff;
-    const parsed = clock.safeParse(String(legacy ?? ""));
-    if (parsed.success) result.orderCutoffTime = parsed.data;
-  }
 
   result.openWeekdays = Array.from(new Set(result.openWeekdays)).sort((a, b) => a - b);
   result.closedDates = Array.from(new Set(result.closedDates)).sort();
@@ -115,7 +103,6 @@ export function toPublicSettings(settings: StoreSettings): PublicStoreSettings {
     whatsappPhone: settings.whatsappPhone,
     orderAcceptanceOpen: settings.orderAcceptanceOpen,
     announcementText: settings.announcementText,
-    orderCutoffTime: settings.orderCutoffTime,
     neighborhoods: settings.neighborhoods,
     openWeekdays: settings.openWeekdays,
     closedDates: settings.closedDates,

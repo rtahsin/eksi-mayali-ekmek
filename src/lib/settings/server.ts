@@ -34,7 +34,7 @@ export async function getStoreSettings(
   const { data, error } = await supabase
     .from("bakery_settings")
     .select("key, value")
-    .in("key", ["operational_settings", "order_cutoff_time"]);
+    .in("key", ["operational_settings"]);
 
   if (error) {
     console.error("getStoreSettings error:", error.message);
@@ -43,5 +43,5 @@ export async function getStoreSettings(
   }
 
   const rows = new Map<string, unknown>((data ?? []).map((r: { key: string; value: unknown }) => [r.key, r.value]));
-  return parseStoredSettings(rows.get("operational_settings"), rows.get("order_cutoff_time"));
+  return parseStoredSettings(rows.get("operational_settings"));
 }

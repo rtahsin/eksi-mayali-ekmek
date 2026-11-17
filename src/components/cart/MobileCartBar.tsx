@@ -1,5 +1,9 @@
 "use client";
 
+
+
+import { formatMoney } from "@/lib/format/currency";
+import { storefrontAction } from "@/lib/design/storefront";
 import React, { useEffect, useState } from "react";
 import { ShoppingBag } from "lucide-react";
 import { useCartStore } from "@/lib/store/useCartStore";
@@ -22,12 +26,12 @@ export function MobileCartBar() {
   const freeRemaining = settings.freeShippingThreshold - subtotal;
   const hint =
     minRemaining > 0
-      ? `Minimum sipariş için ${minRemaining.toLocaleString("tr-TR")} ₺ daha`
+      ? `Minimum sipariş için ${formatMoney(minRemaining)} daha`
       : settings.shippingFee === 0 || (settings.freeShippingThreshold > 0 && freeRemaining <= 0)
       ? "Teslimat ücretsiz"
       : settings.freeShippingThreshold > 0
-      ? `Ücretsiz teslimata ${freeRemaining.toLocaleString("tr-TR")} ₺ kaldı`
-      : `Teslimat ${settings.shippingFee.toLocaleString("tr-TR")} ₺`;
+      ? `Ücretsiz teslimata ${formatMoney(freeRemaining)} kaldı`
+      : `Teslimat ${formatMoney(settings.shippingFee)}`;
 
   return (
     <>
@@ -42,23 +46,23 @@ export function MobileCartBar() {
           <button
             type="button"
             onClick={openCart}
-            className="w-full flex items-center justify-between gap-3 pl-4 pr-3 py-2.5 rounded-2xl bg-espresso border border-white/10 pointer-events-auto text-white shadow-lg shadow-black/40 active:scale-[0.99] transition-transform"
+            className={storefrontAction({ variant: "primary", className: "sf-cart-bar w-full pointer-events-auto" })}
           >
             <span className="flex items-center gap-3 text-left">
               <span className="relative">
                 <ShoppingBag className="w-5 h-5" />
-                <span className="absolute -top-2 -right-2 min-w-[18px] h-[18px] px-1 rounded-full bg-[#D2B48C] text-stone-950 text-xs font-bold flex items-center justify-center">
+                <span className="sf-count absolute -top-2 -right-2">
                   {itemCount}
                 </span>
               </span>
               <span className="flex flex-col leading-tight">
-                <span className="font-serif text-base font-bold">{subtotal.toLocaleString("tr-TR")} ₺</span>
-                <span className="font-sans text-xs text-white/70">{hint}</span>
+                <span className="sf-price font-serif text-base font-bold">{formatMoney(subtotal)}</span>
+                <span className="font-sans text-xs">{hint}</span>
               </span>
             </span>
 
-            <span className="font-sans text-xs font-semibold px-4 py-2.5 rounded-xl bg-artisan-terracotta">
-              Sepete Git
+            <span className="font-sans text-sm font-semibold">
+              Sepeti aç
             </span>
           </button>
         </div>

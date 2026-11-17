@@ -36,12 +36,12 @@ export interface CheckoutFormValues {
 /** Tüm eksikleri aynı anda döndürür (ilk hata değil). */
 export function validateCheckout(v: CheckoutFormValues): CheckoutErrors {
   const e: CheckoutErrors = {};
-  if (!v.deliveryDate) e.deliveryDate = "Lütfen bir teslim günü seçin.";
-  if (v.name.trim().length < 2) e.name = "Lütfen ad ve soyadınızı yazın.";
-  if (!normalizePhone(v.phone)) e.phone = "Geçerli bir cep telefonu yazın (05XX XXX XX XX).";
-  if (!v.neighborhood) e.neighborhood = "Lütfen mahallenizi seçin.";
-  if (v.addressDetail.trim().length < 5) e.addressDetail = "Kapıyı bulabilmemiz için açık adresi yazın.";
-  if (!v.termsAccepted) e.terms = "Devam etmek için sözleşmeyi onaylayın.";
+  if (!v.deliveryDate) e.deliveryDate = "Lütfen bir teslim günü seç.";
+  if (v.name.trim().length < 2) e.name = "Lütfen ad ve soyadını yaz.";
+  if (!normalizePhone(v.phone)) e.phone = "Geçerli bir cep telefonu yaz (05XX XXX XX XX).";
+  if (!v.neighborhood) e.neighborhood = "Lütfen mahalleni seç.";
+  if (v.addressDetail.trim().length < 5) e.addressDetail = "Kapıyı bulabilmemiz için açık adresi yaz.";
+  if (!v.termsAccepted) e.terms = "Devam etmek için sözleşmeyi onayla.";
   return e;
 }
 
