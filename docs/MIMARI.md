@@ -383,7 +383,7 @@ export const log: { info(e: string, f?: Record<string, unknown>): void; warn(e: 
 export const EXPECTED_MIGRATIONS: readonly string[];   // yalnız ≥013 (000–012 app_migrations'a yazmaz); test: dizinle eşit
 ```
 
-**HTTP uçları (yeni/değişen; hata zarfı `{ error: { code, message } }`)**
+**HTTP uçları (yeni/değişen; düz hata zarfı `{ error: string, code: ApiErrorCode, details?: Record<string, string[]> }` — ADR-0009)**
 
 | Uç | Koruma | Hız sınırı | Not |
 |---|---|---|---|
