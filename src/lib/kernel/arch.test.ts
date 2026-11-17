@@ -42,7 +42,7 @@ const ALLOWED_EDGES: Record<ModuleName, readonly ModuleName[]> = {
   bilim: ["kernel", "knowledge"],
   catalog: ["kernel", "supabase", "utils", "ordering"],
   ordering: ["catalog", "settings", "kernel", "supabase", "store", "identity", "utils"],
-  ledger: ["kernel", "supabase", "identity", "utils"],
+  ledger: ["kernel", "supabase", "identity", "site_shared", "utils"],
   finance: ["kernel", "supabase", "identity", "utils"],
   delivery: ["ordering", "kernel", "supabase", "utils"],
   identity: ["kernel", "supabase", "utils"],
