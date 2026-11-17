@@ -1,6 +1,6 @@
 "use client";
 
-import { getShareUrl, type ShareTarget } from "@/hooks/useCariler";
+import { getShareUrl, type ShareTarget } from "./client";
 
 function waNumber(phone: string): string {
   const d = phone.replace(/\D/g, "");

@@ -2,83 +2,23 @@
 
 import { useState, useEffect, useCallback, useMemo } from "react";
 import { createClient, isSupabaseConfigured } from "@/lib/supabase/client";
-import { CariAccount } from "@/types/admin";
+import type { CariAccount } from "@/types/admin";
 import { getErrorMessage } from "@/lib/utils/error";
-import { mapAccount, type CariProfileInput } from "@/lib/cari/account";
+import type { CariProfileInput } from "@/lib/cari/account";
+import {
+  createCariAccountClient,
+  deleteCariAccountClient,
+  fetchCariAccounts,
+  getShareUrl,
+  recordLedger,
+  updateCariAccountClient,
+  type LedgerWrite,
+  type LedgerWriteResult,
+  type ShareTarget,
+} from "@/lib/cari/client";
 
-/** Cari defter yazımı — tüm hareketler `/api/admin/cari/transactions` üzerinden (tek atomik RPC). */
-export type LedgerWrite =
-  | {
-      kind: "satis";
-      items?: { name: string; quantity: number; unitPrice: number; productId?: string }[];
-      amount?: number;
-      description?: string;
-      date?: string;
-      orderId?: string;
-    }
-  | {
-      kind: "tahsilat";
-      amount: number;
-      paymentMethod: "nakit" | "pos" | "banka_havale" | "diger";
-      description?: string;
-      date?: string;
-      orderId?: string;
-    }
-  | { kind: "devir"; amount: number; description: string; date?: string }
-  | { kind: "set_balance"; targetBalance: number; description: string }
-  | { kind: "storno"; reversesId: string; description?: string };
-
-export interface LedgerWriteResult {
-  success: boolean;
-  error?: string;
-  transactionId?: string;
-  slipNumber?: string;
-  balanceAfter?: number;
-  shareUrl?: string | null;
-}
-
-async function postJson(url: string, method: string, body: unknown): Promise<Record<string, unknown>> {
-  const res = await fetch(url, {
-    method,
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(body),
-  });
-  const data: unknown = await res.json().catch(() => null);
-  const rec = (data && typeof data === "object" ? data : {}) as Record<string, unknown>;
-  if (!res.ok) throw new Error(typeof rec.error === "string" ? rec.error : "İşlem başarısız");
-  return rec;
-}
-
-export async function recordLedger(accountId: string, tx: LedgerWrite): Promise<LedgerWriteResult> {
-  try {
-    const r = await postJson("/api/admin/cari/transactions", "POST", { ...tx, accountId });
-    return {
-      success: true,
-      transactionId: typeof r.transactionId === "string" ? r.transactionId : undefined,
-      slipNumber: typeof r.slipNumber === "string" ? r.slipNumber : undefined,
-      balanceAfter: typeof r.balanceAfter === "number" ? r.balanceAfter : undefined,
-      shareUrl: typeof r.shareUrl === "string" ? r.shareUrl : null,
-    };
-  } catch (err: unknown) {
-    return { success: false, error: getErrorMessage(err) };
-  }
-}
-
-/** Müşteriye gönderilecek imzalı ekstre / fiş linki. */
-export type ShareTarget = { accountId: string } | { transactionId: string } | { orderId: string };
-
-export async function getShareUrl(target: ShareTarget): Promise<string | null> {
-  const [key, value] = Object.entries(target)[0] as [string, string];
-  const qs = `${key}=${encodeURIComponent(value)}`;
-  try {
-    const res = await fetch(`/api/admin/cari/share?${qs}`);
-    const data: unknown = await res.json().catch(() => null);
-    const url = (data as { url?: unknown } | null)?.url;
-    return res.ok && typeof url === "string" ? url : null;
-  } catch {
-    return null;
-  }
-}
+export type { LedgerWrite, LedgerWriteResult, ShareTarget };
+export { recordLedger, getShareUrl };
 
 export function useCariler() {
   const [allCariler, setAllCariler] = useState<CariAccount[]>([]);
@@ -88,33 +28,26 @@ export function useCariler() {
   const supabase = createClient();
 
   const fetchCariler = useCallback(async () => {
-    if (!supabase || !isSupabaseConfigured()) {
-      setLoading(false);
-      return;
-    }
     try {
-      const { data, error: supaErr } = await supabase
-        .from("current_accounts")
-        .select("*")
-        .order("name", { ascending: true });
-      if (supaErr) throw supaErr;
-      setAllCariler((data ?? []).map((d: Record<string, unknown>) => mapAccount(d)));
+      const accounts = await fetchCariAccounts();
+      setAllCariler(accounts);
+      setError(null);
     } catch (err: unknown) {
       console.error("Cariler fetch error:", err);
-      setError("Cari hesaplar yüklenirken hata oluştu.");
+      setError(getErrorMessage(err) || "Cari hesaplar yüklenirken hata oluştu.");
     } finally {
       setLoading(false);
     }
-  }, [supabase]);
+  }, []);
 
   useEffect(() => {
-    fetchCariler();
+    void fetchCariler();
 
     if (supabase && isSupabaseConfigured()) {
       const channel = supabase
         .channel(`admin-cariler-${crypto.randomUUID()}`)
         .on("postgres_changes", { event: "*", schema: "public", table: "current_accounts" }, () => {
-          fetchCariler();
+          void fetchCariler();
         })
         .subscribe();
 
@@ -129,9 +62,9 @@ export function useCariler() {
 
   const addCari = async (data: CariProfileInput & { openingBalance?: number }) => {
     try {
-      const r = await postJson("/api/admin/cari/accounts", "POST", data);
+      const r = await createCariAccountClient(data);
       await fetchCariler();
-      return { success: true, id: r.id as string };
+      return { success: true, id: r.id };
     } catch (err: unknown) {
       return { success: false, error: getErrorMessage(err) };
     }
@@ -140,7 +73,7 @@ export function useCariler() {
   /** Kart bilgileri (bakiye hariç). Bakiye yalnız defter hareketiyle değişir. */
   const updateCari = async (id: string, data: CariProfileInput) => {
     try {
-      await postJson(`/api/admin/cari/accounts/${encodeURIComponent(id)}`, "PATCH", data);
+      await updateCariAccountClient(id, data);
       await fetchCariler();
       return { success: true };
     } catch (err: unknown) {
@@ -151,7 +84,7 @@ export function useCariler() {
   /** Silme yerine arşiv: bakiyesi 0 olmalı; geçmiş fişler korunur. */
   const archiveCari = async (id: string, archived = true) => {
     try {
-      await postJson(`/api/admin/cari/accounts/${encodeURIComponent(id)}`, "PATCH", { archived });
+      await updateCariAccountClient(id, { archived });
       await fetchCariler();
       return { success: true };
     } catch (err: unknown) {
@@ -162,12 +95,7 @@ export function useCariler() {
   /** Yalnız deneme carisi: tüm hareketleri iptal edilmiş olmalı (sunucu denetler). */
   const deleteCari = async (id: string) => {
     try {
-      const res = await fetch(`/api/admin/cari/accounts/${encodeURIComponent(id)}`, { method: "DELETE" });
-      const data: unknown = await res.json().catch(() => null);
-      if (!res.ok) {
-        const msg = (data as { error?: unknown } | null)?.error;
-        throw new Error(typeof msg === "string" ? msg : "Cari silinemedi");
-      }
+      await deleteCariAccountClient(id);
       await fetchCariler();
       return { success: true };
     } catch (err: unknown) {

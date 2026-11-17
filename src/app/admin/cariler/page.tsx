@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import {
   Archive,
@@ -30,6 +30,7 @@ import B2BSlipModal from "@/components/admin/cariler/B2BSlipModal";
 import B2BCollectionModal from "@/components/admin/cariler/B2BCollectionModal";
 import { B2BHotSaleModal } from "@/components/admin/cariler/B2BHotSaleModal";
 import { CariQuickOrderModal } from "@/components/admin/cariler/CariQuickOrderModal";
+import { generateStandingOrdersClient } from "@/lib/cari/client";
 import { ekstreMessage, shareViaWhatsApp } from "@/lib/cari/whatsapp";
 import type { CariAccount } from "@/types/admin";
 
@@ -52,7 +53,6 @@ export default function CarilerPage() {
   const { products } = useProducts();
   const { assignableCouriers } = useCouriers();
 
-  const [detailedById, setDetailedById] = useState<Record<string, CariAccount>>({});
   const [searchQuery, setSearchQuery] = useState("");
   const [balanceFilter, setBalanceFilter] = useState<BalanceFilter>("all");
   const [notice, setNotice] = useState<{ tone: "error" | "success"; text: string } | null>(null);
@@ -82,46 +82,8 @@ export default function CarilerPage() {
   const actionDialogRef = useRef<HTMLDialogElement | null>(null);
   const actionContentRef = useRef<HTMLDivElement | null>(null);
 
-  const fetchExtendedAccounts = useCallback(async () => {
-    try {
-      const res = await fetch("/api/admin/cari/accounts", { cache: "no-store" });
-      if (!res.ok) return;
-      const data = (await res.json().catch(() => null)) as { accounts?: CariAccount[] } | null;
-      if (!Array.isArray(data?.accounts)) return;
-      const map: Record<string, CariAccount> = {};
-      for (const acc of data.accounts) {
-        map[acc.id] = acc;
-      }
-      setDetailedById(map);
-    } catch {
-      // Realtime hook fallback stays active
-    }
-  }, []);
-
-  useEffect(() => {
-    void fetchExtendedAccounts();
-  }, [fetchExtendedAccounts, cariler.length, archivedCariler.length]);
-
-  const enrichAccount = useCallback(
-    (base: CariAccount): CariAccount => {
-      const ext = detailedById[base.id];
-      if (!ext) return base;
-      return {
-        ...base,
-        district: ext.district ?? base.district,
-        companyTitle: ext.companyTitle ?? base.companyTitle,
-        creditLimit: ext.creditLimit ?? base.creditLimit,
-        shareTokenVersion: ext.shareTokenVersion ?? base.shareTokenVersion,
-        defaultCourierId: ext.defaultCourierId !== undefined ? ext.defaultCourierId : base.defaultCourierId,
-        standingOrder: ext.standingOrder ?? base.standingOrder,
-        customPrices: ext.customPrices ?? base.customPrices,
-      };
-    },
-    [detailedById],
-  );
-
-  const enrichedActiveCariler = useMemo(() => cariler.map(enrichAccount), [cariler, enrichAccount]);
-  const enrichedArchivedCariler = useMemo(() => archivedCariler.map(enrichAccount), [archivedCariler, enrichAccount]);
+  const enrichedActiveCariler = cariler;
+  const enrichedArchivedCariler = archivedCariler;
 
   const b2bCustomerAccounts = useMemo(
     () => enrichedActiveCariler.filter((c) => c.accountType !== "gider"),
@@ -177,9 +139,7 @@ export default function CarilerPage() {
     return () => dialog.removeEventListener("close", onClose);
   }, []);
 
-  const handleRefreshAll = useCallback(async () => {
-    await Promise.all([refreshCariler(), fetchExtendedAccounts()]);
-  }, [refreshCariler, fetchExtendedAccounts]);
+  const handleRefreshAll = refreshCariler;
 
   const handleGenerateRoutineOrders = async () => {
     setGeneratingRoutine(true);
@@ -187,29 +147,8 @@ export default function CarilerPage() {
     setRoutineSummary(null);
 
     try {
-      const res = await fetch("/api/admin/cari/standing-orders/generate", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({}),
-      });
-      const data = (await res.json().catch(() => null)) as {
-        deliveryDate?: string;
-        createdCount?: number;
-        skippedExisting?: number;
-        errors?: Array<{ businessName: string; error: string }>;
-        error?: string;
-      } | null;
-
-      if (!res.ok || !data?.deliveryDate) {
-        throw new Error(data?.error || "Yarınki rutin siparişler oluşturulamadı.");
-      }
-
-      setRoutineSummary({
-        deliveryDate: data.deliveryDate,
-        createdCount: data.createdCount ?? 0,
-        skippedExisting: data.skippedExisting ?? 0,
-        errors: Array.isArray(data.errors) ? data.errors : [],
-      });
+      const summary = await generateStandingOrdersClient();
+      setRoutineSummary(summary);
     } catch (err: unknown) {
       setNotice({
         tone: "error",

@@ -318,4 +318,68 @@ describe("Mimari Sınır Testleri (R1 - R5)", () => {
     expect(apiFiles.length).toBeGreaterThanOrEqual(2);
     expect(violations).toEqual([]);
   });
+
+  it("R7 (Pilot 2 — ledger): cari UI, hook, yardımcılar ve ince API katman sınırları korunur", () => {
+    const pageFiles = getAllFiles("src/app/admin/cariler");
+    const hookFiles = ["src/hooks/useCariler.ts", "src/hooks/useCariProfile.ts"];
+    const whatsappFile = "src/lib/cari/whatsapp.ts";
+    const thinApiFiles = [
+      "src/app/api/admin/cari/accounts/route.ts",
+      "src/app/api/admin/cari/accounts/[id]/route.ts",
+      "src/app/api/admin/cari/accounts/[id]/revoke-link/route.ts",
+      "src/app/api/admin/cari/accounts/[id]/last-order/route.ts",
+      "src/app/api/admin/cari/transactions/route.ts",
+      "src/app/api/admin/cari/share/route.ts",
+      "src/app/api/admin/cari/hot-sale/route.ts",
+    ];
+    const violations: string[] = [];
+
+    for (const file of pageFiles) {
+      const content = fs.readFileSync(file, "utf8");
+      if (/from\s+['"]@\/lib\/supabase\//.test(content)) {
+        violations.push(`R7 Sayfa Supabase yasağı: ${file}`);
+      }
+      if (/from\s+['"]@\/lib\/cari\/(?:server|repo)['"]/.test(content)) {
+        violations.push(`R7 Sayfa sunucu sızıntısı: ${file}`);
+      }
+      if (/\bfetch\s*\(/.test(content)) {
+        violations.push(`R7 Sayfa ham fetch yasağı: ${file}`);
+      }
+      if (/\.(?:from|rpc)\s*\(/.test(content)) {
+        violations.push(`R7 Sayfa doğrudan DB/RPC yasağı: ${file}`);
+      }
+    }
+
+    for (const file of hookFiles) {
+      const content = fs.readFileSync(file, "utf8");
+      if (/from\s+['"]@\/lib\/cari\/(?:server|repo)['"]/.test(content)) {
+        violations.push(`R7 Hook sunucu sızıntısı: ${file}`);
+      }
+      if (/\bfetch\s*\(/.test(content)) {
+        violations.push(`R7 Hook ham fetch yasağı: ${file}`);
+      }
+      if (/\.from\s*\(/.test(content)) {
+        violations.push(`R7 Hook tarayıcı PostgREST yasağı: ${file}`);
+      }
+    }
+
+    const whatsappContent = fs.readFileSync(whatsappFile, "utf8");
+    if (/from\s+['"]@\/hooks\//.test(whatsappContent)) {
+      violations.push(`R7 Ters bağımlılık (lib -> hooks) yasağı: ${whatsappFile}`);
+    }
+
+    for (const file of thinApiFiles) {
+      const content = fs.readFileSync(file, "utf8");
+      if (/\.(?:from|rpc)\s*\(/.test(content)) {
+        violations.push(`R7 API doğrudan DB/RPC yasağı: ${file}`);
+      }
+      if (/from\s+['"]@\/lib\/cari\/repo['"]/.test(content)) {
+        violations.push(`R7 API doğrudan repo yasağı (@/lib/cari/server kullanın): ${file}`);
+      }
+    }
+
+    expect(pageFiles.length).toBeGreaterThanOrEqual(2);
+    expect(thinApiFiles).toHaveLength(7);
+    expect(violations).toEqual([]);
+  });
 });

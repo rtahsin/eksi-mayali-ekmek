@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import { useParams, useRouter, useSearchParams } from "next/navigation";
 import {
@@ -37,6 +37,7 @@ import BalanceAdjustModal from "@/components/admin/cariler/BalanceAdjustModal";
 import TransactionReceiptModal from "@/components/admin/cariler/TransactionReceiptModal";
 import { B2BHotSaleModal } from "@/components/admin/cariler/B2BHotSaleModal";
 import { CariQuickOrderModal } from "@/components/admin/cariler/CariQuickOrderModal";
+import { revokeCariShareLinksClient } from "@/lib/cari/client";
 import { LEDGER_TYPE_LABELS, PAYMENT_METHOD_LABELS } from "@/lib/cari/ledger";
 import { ekstreMessage, shareViaWhatsApp } from "@/lib/cari/whatsapp";
 import { buildCsvContent, sanitizeCsvCell } from "@/lib/security/csv";
@@ -67,7 +68,6 @@ export default function CariDetailPage() {
   const { products } = useProducts();
   const { assignableCouriers } = useCouriers();
 
-  const [extendedAccount, setExtendedAccount] = useState<CariAccount | null>(null);
   const [activeModal, setActiveModal] = useState<"slip" | "collection" | "edit" | "adjust_balance" | null>(null);
   const [editModalTab, setEditModalTab] = useState<"info" | "prices">("info");
   const [hotSaleOpen, setHotSaleOpen] = useState(false);
@@ -92,38 +92,7 @@ export default function CariDetailPage() {
   const [stornoReason, setStornoReason] = useState("");
   const stornoDialogRef = useRef<HTMLDialogElement | null>(null);
 
-  const fetchExtendedAccount = useCallback(async () => {
-    if (!id) return;
-    try {
-      const res = await fetch(`/api/admin/cari/accounts/${encodeURIComponent(id)}`, { cache: "no-store" });
-      if (!res.ok) return;
-      const data = (await res.json().catch(() => null)) as { account?: CariAccount } | null;
-      if (data?.account) {
-        setExtendedAccount(data.account);
-      }
-    } catch {
-      // Hook state remains fallback
-    }
-  }, [id]);
-
-  useEffect(() => {
-    void fetchExtendedAccount();
-  }, [fetchExtendedAccount, cari?.updatedAt]);
-
-  const effectiveCari = useMemo<CariAccount | null>(() => {
-    if (!cari) return extendedAccount;
-    if (!extendedAccount) return cari;
-    return {
-      ...cari,
-      district: extendedAccount.district ?? cari.district,
-      companyTitle: extendedAccount.companyTitle ?? cari.companyTitle,
-      creditLimit: extendedAccount.creditLimit ?? cari.creditLimit,
-      shareTokenVersion: extendedAccount.shareTokenVersion ?? cari.shareTokenVersion,
-      defaultCourierId: extendedAccount.defaultCourierId !== undefined ? extendedAccount.defaultCourierId : cari.defaultCourierId,
-      standingOrder: extendedAccount.standingOrder ?? cari.standingOrder,
-      customPrices: extendedAccount.customPrices ?? cari.customPrices,
-    };
-  }, [cari, extendedAccount]);
+  const effectiveCari = cari;
 
   useEffect(() => {
     const action = searchParams.get("action");
@@ -214,9 +183,7 @@ export default function CariDetailPage() {
       .sort((a, b) => a.productName.localeCompare(b.productName, "tr-TR"));
   }, [effectiveCari?.customPrices, activeProducts, products]);
 
-  const refreshAll = useCallback(async () => {
-    await Promise.all([refetch(), fetchExtendedAccount()]);
-  }, [refetch, fetchExtendedAccount]);
+  const refreshAll = refetch;
 
   const handleExportCSV = () => {
     if (!effectiveCari || filteredTransactions.length === 0) return;
@@ -285,15 +252,7 @@ export default function CariDetailPage() {
       }
 
       if (confirmKind === "revoke_link") {
-        const res = await fetch(`/api/admin/cari/accounts/${encodeURIComponent(effectiveCari.id)}/revoke-link`, {
-          method: "POST",
-        });
-        const data = (await res.json().catch(() => null)) as
-          | { success?: boolean; shareTokenVersion?: number; error?: string }
-          | null;
-        if (!res.ok || !data?.success) {
-          throw new Error(data?.error || "Eski paylaşım linkleri iptal edilemedi.");
-        }
+        const data = await revokeCariShareLinksClient(effectiveCari.id);
         setNotice({
           tone: "success",
           text: `Eski ekstre ve fiş linkleri iptal edildi. Yeni link sürümü: v${data.shareTokenVersion ?? "?"}`,
