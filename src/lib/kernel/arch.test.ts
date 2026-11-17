@@ -13,6 +13,7 @@ type ModuleName =
   | "catalog"
   | "ordering"
   | "ledger"
+  | "finance"
   | "delivery"
   | "identity"
   | "engagement"
@@ -41,7 +42,8 @@ const ALLOWED_EDGES: Record<ModuleName, readonly ModuleName[]> = {
   bilim: ["kernel", "knowledge"],
   catalog: ["kernel", "supabase", "utils", "ordering"],
   ordering: ["catalog", "settings", "kernel", "supabase", "store", "identity", "utils"],
-  ledger: ["kernel", "supabase", "identity", "utils"],
+  ledger: ["kernel", "supabase", "identity", "utils", "finance"], // Geçici: cari/finance köprüsü Commit 6'da kalkar
+  finance: ["kernel", "supabase", "identity", "utils"],
   delivery: ["ordering", "kernel", "supabase", "utils"],
   identity: ["kernel", "supabase", "utils"],
   engagement: ["kernel", "supabase", "utils"],
@@ -84,6 +86,7 @@ function resolveModule(filePath: string): ModuleName | null {
     return "ordering";
   }
   if (norm.startsWith("src/lib/cari")) return "ledger";
+  if (norm.startsWith("src/lib/finance")) return "finance";
   if (norm.startsWith("src/lib/delivery") || norm.startsWith("src/lib/courier")) return "delivery";
   if (norm.startsWith("src/lib/security")) return "identity";
   if (norm.startsWith("src/lib/engagement") || norm.endsWith("src/lib/track.ts")) return "engagement";
