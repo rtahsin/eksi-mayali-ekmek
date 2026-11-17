@@ -42,7 +42,7 @@ const ALLOWED_EDGES: Record<ModuleName, readonly ModuleName[]> = {
   bilim: ["kernel", "knowledge"],
   catalog: ["kernel", "supabase", "utils", "ordering"],
   ordering: ["catalog", "settings", "kernel", "supabase", "store", "identity", "utils"],
-  ledger: ["kernel", "supabase", "identity", "utils", "finance"], // Geçici: cari/finance köprüsü Commit 6'da kalkar
+  ledger: ["kernel", "supabase", "identity", "utils"],
   finance: ["kernel", "supabase", "identity", "utils"],
   delivery: ["ordering", "kernel", "supabase", "utils"],
   identity: ["kernel", "supabase", "utils"],
@@ -278,4 +278,44 @@ describe("Mimari Sınır Testleri (R1 - R5)", () => {
       `Untyped Supabase sayısı sınırı aştı! Bulunan: ${untypedSupabaseMatches}, Konumlar: ${matchedLocations.join(", ")}`
     ).toBeLessThanOrEqual(MAX_ALLOWED_UNTYPED_SUPABASE);
   }, 20000);
+
+  it("R6 (Pilot 1 — finance): temizlenen modülde UI ve API katman sınırları korunur", () => {
+    const uiFiles = [
+      ...getAllFiles("src/app/admin/finans"),
+      ...getAllFiles("src/components/admin/finans"),
+      "src/hooks/useFinanceDashboard.ts",
+    ];
+    const apiFiles = getAllFiles("src/app/api/admin/finance");
+    const violations: string[] = [];
+
+    for (const file of uiFiles) {
+      const content = fs.readFileSync(file, "utf8");
+      if (/from\s+['"]@\/lib\/supabase\//.test(content)) {
+        violations.push(`R6 UI Supabase yasağı: ${file}`);
+      }
+      if (/from\s+['"]@\/lib\/finance\/(?:server|repo)['"]/.test(content)) {
+        violations.push(`R6 UI sunucu sızıntısı: ${file}`);
+      }
+      if (/from\s+['"]@\/lib\/cari\/finance['"]/.test(content)) {
+        violations.push(`R6 eski köprü kalıntısı: ${file}`);
+      }
+      if (/\bfetch\s*\(/.test(content)) {
+        violations.push(`R6 UI ham fetch yasağı: ${file}`);
+      }
+    }
+
+    for (const file of apiFiles) {
+      const content = fs.readFileSync(file, "utf8");
+      if (/\.(?:from|rpc)\s*\(/.test(content)) {
+        violations.push(`R6 API doğrudan DB/RPC yasağı: ${file}`);
+      }
+      if (/from\s+['"]@\/lib\/finance\/repo['"]/.test(content)) {
+        violations.push(`R6 API doğrudan repo yasağı (@/lib/finance/server kullanın): ${file}`);
+      }
+    }
+
+    expect(uiFiles.length).toBeGreaterThanOrEqual(7);
+    expect(apiFiles.length).toBeGreaterThanOrEqual(2);
+    expect(violations).toEqual([]);
+  });
 });
