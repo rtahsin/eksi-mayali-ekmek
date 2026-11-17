@@ -4,10 +4,10 @@ import { createAdminClient } from "@/lib/supabase/admin";
 import { requireActiveCourierOrAdmin } from "@/lib/security/apiAuth";
 import { istanbulToday, isIsoDate } from "@/lib/time/istanbul";
 import { sortStops, type RoutableStop } from "@/lib/delivery/maps";
+import { cents, summarizeCourierOrders } from "@/lib/delivery/settlement";
 import { getErrorMessage } from "@/lib/utils/error";
 import { logError } from "@/lib/kernel/log";
 
-const cents = (v: number) => Math.round(v * 100) / 100;
 const UuidSchema = z.string().uuid();
 
 const CLAIMABLE_STATUSES = ["hazirlaniyor", "firinda", "kuryede"] as const;
@@ -510,43 +510,8 @@ export async function GET(req: Request) {
     const deliveredRows = myOrderRows.filter((o) => o.status === "teslim_edildi");
     const deliveredStops = deliveredRows.map(toStop);
 
-    // Kasa Özeti
-    let cashExpected = 0;
-    let cardExpected = 0;
-    let cariDeliveredTotal = 0;
-
-    for (const o of deliveredRows) {
-      const orderTotal = cents(Number(o.total_amount) || 0);
-      const orderPayments = paymentsByOrder.get(o.id) ?? [];
-
-      let doorCash = 0;
-      let doorCard = 0;
-      for (const p of orderPayments) {
-        const amt = cents(Number(p.amount) || 0);
-        if (amt <= 0) continue;
-        const collectedAtDoor =
-          (o.courier_id && p.courier_id === o.courier_id) ||
-          p.collected_by === "courier" ||
-          (p.courier_id === null &&
-            (o.payment_method === "cash_on_delivery" || o.payment_method === "pos_at_door"));
-        if (!collectedAtDoor) continue;
-        if (p.method === "cash") doorCash = cents(doorCash + amt);
-        else if (p.method === "pos" || p.method === "pos_at_door") doorCard = cents(doorCard + amt);
-      }
-
-      if (orderPayments.length === 0 && o.payment_status === "paid" && !o.cari_id) {
-        if (o.payment_method === "cash_on_delivery") doorCash = orderTotal;
-        else if (o.payment_method === "pos_at_door") doorCard = orderTotal;
-      }
-
-      cashExpected = cents(cashExpected + doorCash);
-      cardExpected = cents(cardExpected + doorCard);
-
-      if (o.cari_id || o.payment_method === "cari") {
-        const remainder = Math.max(cents(orderTotal - doorCash - doorCard), 0);
-        cariDeliveredTotal = cents(cariDeliveredTotal + remainder);
-      }
-    }
+    // Kasa Özeti (tek saf mutabakat motoru)
+    const kasaSummaryStats = summarizeCourierOrders(myOrderRows, paymentsByOrder, targetCourierId);
 
     const sRow = (settlementRes.data as SettlementRow | null) ?? null;
 
@@ -589,15 +554,21 @@ export async function GET(req: Request) {
       deliveredStops,
       claimableBench,
       kasaSummary: {
-        deliveredCount: deliveredRows.length,
-        cashExpected,
-        cardExpected,
-        cariDeliveredTotal,
+        deliveredCount: kasaSummaryStats.deliveredCount,
+        cashExpected: kasaSummaryStats.cashExpected,
+        retailCashExpected: kasaSummaryStats.retailCashExpected,
+        cardExpected: kasaSummaryStats.cardExpected,
+        transferCollected: kasaSummaryStats.transferCollected,
+        cariDeliveredTotal: kasaSummaryStats.cariDeliveredTotal,
         settlement: sRow
           ? {
               id: sRow.id,
               cashHandedOver: cents(Number(sRow.cash_handed_over) || 0),
               cardSlipTotal: cents(Number(sRow.card_slip_total) || 0),
+              cashExpected: cents(Number(sRow.cash_expected) || 0),
+              cardExpected: cents(Number(sRow.card_expected) || 0),
+              cariDeliveredTotal: cents(Number(sRow.cari_delivered_total) || 0),
+              deliveredCount: Number(sRow.delivered_count) || 0,
               note: sRow.note,
               settledAt: sRow.settled_at,
             }

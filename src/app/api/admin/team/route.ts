@@ -6,8 +6,7 @@ import { writeAuditLog } from "@/lib/security/audit";
 import { istanbulToday, isIsoDate } from "@/lib/time/istanbul";
 import { getErrorMessage } from "@/lib/utils/error";
 import { logError } from "@/lib/kernel/log";
-
-const cents = (v: number) => Math.round(v * 100) / 100;
+import { cents, summarizeCourierOrders } from "@/lib/delivery/settlement";
 
 const OptionalEmailSchema = z
   .union([
@@ -107,6 +106,7 @@ interface OrderSummaryRow {
   id: string;
   courier_id: string | null;
   status: string;
+  delivery_method: string | null;
   total_amount: number | string | null;
   payment_method: string | null;
   payment_status: string | null;
@@ -138,7 +138,9 @@ export interface CourierDaySummary {
   activeStopCount: number;
   deliveredCount: number;
   cashExpected: number;
+  retailCashExpected: number;
   cardExpected: number;
+  transferCollected: number;
   cariDeliveredTotal: number;
   settlement: {
     id: string;
@@ -199,7 +201,7 @@ export async function GET(req: Request) {
           .eq("settlement_date", targetDate),
         supabase
           .from("orders")
-          .select("id, courier_id, status, total_amount, payment_method, payment_status, cari_id")
+          .select("id, courier_id, status, delivery_method, total_amount, payment_method, payment_status, cari_id")
           .eq("delivery_date", targetDate)
           .not("courier_id", "is", null)
           .neq("status", "iptal"),
@@ -309,7 +311,9 @@ export async function GET(req: Request) {
         activeStopCount: 0,
         deliveredCount: 0,
         cashExpected: 0,
+        retailCashExpected: 0,
         cardExpected: 0,
+        transferCollected: 0,
         cariDeliveredTotal: 0,
         settlement: sRow
           ? {
@@ -333,45 +337,24 @@ export async function GET(req: Request) {
       ensureSummary(c.id);
     }
 
+    const ordersByCourier = new Map<string, OrderSummaryRow[]>();
     for (const o of orders) {
       if (!o.courier_id) continue;
-      const summary = ensureSummary(o.courier_id);
-      if (o.status !== "teslim_edildi") {
-        summary.activeStopCount += 1;
-        continue;
-      }
+      const list = ordersByCourier.get(o.courier_id) ?? [];
+      list.push(o);
+      ordersByCourier.set(o.courier_id, list);
+    }
 
-      summary.deliveredCount += 1;
-      const orderTotal = cents(Number(o.total_amount) || 0);
-      const orderPayments = paymentsByOrder.get(o.id) ?? [];
-
-      let doorCash = 0;
-      let doorCard = 0;
-      for (const p of orderPayments) {
-        const amt = cents(Number(p.amount) || 0);
-        if (amt <= 0) continue;
-        const collectedAtDoor =
-          p.courier_id === o.courier_id ||
-          p.collected_by === "courier" ||
-          (p.courier_id === null &&
-            (o.payment_method === "cash_on_delivery" || o.payment_method === "pos_at_door"));
-        if (!collectedAtDoor) continue;
-        if (p.method === "cash") doorCash = cents(doorCash + amt);
-        else if (p.method === "pos" || p.method === "pos_at_door") doorCard = cents(doorCard + amt);
-      }
-
-      if (orderPayments.length === 0 && o.payment_status === "paid" && !o.cari_id) {
-        if (o.payment_method === "cash_on_delivery") doorCash = orderTotal;
-        else if (o.payment_method === "pos_at_door") doorCard = orderTotal;
-      }
-
-      summary.cashExpected = cents(summary.cashExpected + doorCash);
-      summary.cardExpected = cents(summary.cardExpected + doorCard);
-
-      if (o.cari_id || o.payment_method === "cari") {
-        const cariRemainder = Math.max(cents(orderTotal - doorCash - doorCard), 0);
-        summary.cariDeliveredTotal = cents(summary.cariDeliveredTotal + cariRemainder);
-      }
+    for (const [courierId, courierOrders] of ordersByCourier.entries()) {
+      const summary = ensureSummary(courierId);
+      const computed = summarizeCourierOrders(courierOrders, paymentsByOrder, courierId);
+      summary.activeStopCount = computed.activeStopCount;
+      summary.deliveredCount = computed.deliveredCount;
+      summary.cashExpected = computed.cashExpected;
+      summary.retailCashExpected = computed.retailCashExpected;
+      summary.cardExpected = computed.cardExpected;
+      summary.transferCollected = computed.transferCollected;
+      summary.cariDeliveredTotal = computed.cariDeliveredTotal;
     }
 
     const courierByProfile = new Map<string, CourierRow>();

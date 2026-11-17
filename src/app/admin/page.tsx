@@ -34,6 +34,7 @@ import { useCouriers } from "@/hooks/useCouriers";
 import { useIstanbulToday } from "@/hooks/useIstanbulToday";
 import { addDays, formatTrDate, relativeTrDate } from "@/lib/time/istanbul";
 import { summarizeDay, type DaySummary } from "@/lib/orders/daySummary";
+import { computeCourierCashVariance } from "@/lib/delivery/settlement";
 import { hasCapability } from "@/lib/security/capabilities";
 import type { ProductionDay } from "@/types/production";
 import type { AdminOrder, CariAccount, ExtendedOrderSource } from "@/types/admin";
@@ -56,6 +57,7 @@ interface TeamSettlementRow {
 
 interface TeamCourierSummaryRow {
   cashExpected: number;
+  retailCashExpected?: number;
   cardExpected: number;
   settlement: TeamSettlementRow | null;
 }
@@ -78,9 +80,11 @@ interface TeamCashStats {
   settledCash: number;
   settledPos: number;
   courierDeliveredCashTotal: number;
+  courierRetailCashTotal: number;
   courierDeliveredPosTotal: number;
   openCourierCash: number;
   openCourierPos: number;
+  cashShortfall: number;
 }
 
 interface CariRadarStats {
@@ -170,6 +174,10 @@ function useTeamCash(date: string, enabled: boolean): TeamCashStats | null {
           (s, c) => s + (Number(c.summary?.cashExpected) || 0),
           0
         );
+        const courierRetailCashTotal = couriers.reduce(
+          (s, c) => s + (Number(c.summary?.retailCashExpected ?? c.summary?.cashExpected) || 0),
+          0
+        );
         const courierDeliveredPosTotal = couriers.reduce(
           (s, c) => s + (Number(c.summary?.cardExpected) || 0),
           0
@@ -184,15 +192,26 @@ function useTeamCash(date: string, enabled: boolean): TeamCashStats | null {
           const settledExp = Number(c.summary?.settlement?.cardExpected) || 0;
           return s + Math.max(0, expected - settledExp);
         }, 0);
+        const cashShortfall = settlements.reduce((s, x) => {
+          const variance = computeCourierCashVariance({
+            cashExpected: Number(x.cashExpected) || 0,
+            cardExpected: Number(x.cardExpected) || 0,
+            cashHandedOver: Number(x.cashHandedOver) || 0,
+            cardSlipTotal: Number(x.cardSlipTotal) || 0,
+          });
+          return s + variance.cashShortfall;
+        }, 0);
         setStats({
           onShiftCouriers,
           activeCouriers: active.length,
           settledCash,
           settledPos,
           courierDeliveredCashTotal,
+          courierRetailCashTotal,
           courierDeliveredPosTotal,
           openCourierCash,
           openCourierPos,
+          cashShortfall,
         });
       })
       .catch(() => {
@@ -257,10 +276,11 @@ function ZReconciliationCard({
   s: DaySummary;
   teamCash: TeamCashStats | null;
 }) {
-  const directStoreCash = Math.max(0, s.collectedCash - (teamCash?.courierDeliveredCashTotal ?? 0));
+  const directStoreCash = Math.max(0, s.collectedCash - (teamCash?.courierRetailCashTotal ?? 0));
   const netCashEntered = teamCash ? directStoreCash + teamCash.settledCash : null;
   const openCourierCash = teamCash?.openCourierCash ?? 0;
   const openCourierPos = teamCash?.openCourierPos ?? 0;
+  const cashShortfall = teamCash?.cashShortfall ?? 0;
   const openDoorTotal = s.collectCash + s.collectPos + s.collectTransfer + s.uncollectedDelivered;
 
   return (
@@ -297,6 +317,11 @@ function ZReconciliationCard({
               ? `+ ${tl(openCourierCash)} kurye zimmetinde bekliyor`
               : "Dükkân + mutabık kurye nakiti"}
           </div>
+          {cashShortfall > 0 && (
+            <div className="text-[11px] font-semibold text-[#8E3D1B]">
+              Kurye nakit açığı: {tl(cashShortfall)}
+            </div>
+          )}
         </div>
 
         <div className="p-3.5 rounded-2xl bg-[#FBF6EC] border border-[#B4D3BC] space-y-1">

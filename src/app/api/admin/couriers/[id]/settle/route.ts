@@ -6,8 +6,12 @@ import { writeAuditLog } from "@/lib/security/audit";
 import { istanbulToday, isIsoDate } from "@/lib/time/istanbul";
 import { getErrorMessage } from "@/lib/utils/error";
 import { logError } from "@/lib/kernel/log";
+import {
+  cents,
+  isCourierDeliverableOrder,
+  summarizeCourierOrders,
+} from "@/lib/delivery/settlement";
 
-const cents = (v: number) => Math.round(v * 100) / 100;
 const UuidSchema = z.string().uuid("Geçersiz kurye kimliği.");
 
 const SettleBodySchema = z.object({
@@ -29,6 +33,8 @@ const SettleBodySchema = z.object({
 
 interface DeliveredOrderRow {
   id: string;
+  status: string;
+  delivery_method: string | null;
   total_amount: number | string | null;
   payment_method: string | null;
   payment_status: string | null;
@@ -93,13 +99,15 @@ export async function POST(
 
     const { data: orderRows, error: ordErr } = await supabase
       .from("orders")
-      .select("id, total_amount, payment_method, payment_status, cari_id, courier_id")
+      .select("id, status, delivery_method, total_amount, payment_method, payment_status, cari_id, courier_id")
       .eq("delivery_date", targetDate)
       .eq("courier_id", courierId)
       .eq("status", "teslim_edildi");
     if (ordErr) throw ordErr;
 
-    const deliveredOrders = (orderRows ?? []) as DeliveredOrderRow[];
+    const deliveredOrders = ((orderRows ?? []) as DeliveredOrderRow[]).filter(
+      isCourierDeliverableOrder
+    );
     const deliveredIds = deliveredOrders.map((o) => o.id);
 
     const paymentsByOrder = new Map<string, PaymentRow[]>();
@@ -118,42 +126,8 @@ export async function POST(
       }
     }
 
-    let cashExpected = 0;
-    let cardExpected = 0;
-    let cariDeliveredTotal = 0;
-
-    for (const o of deliveredOrders) {
-      const orderTotal = cents(Number(o.total_amount) || 0);
-      const orderPayments = paymentsByOrder.get(o.id) ?? [];
-
-      let doorCash = 0;
-      let doorCard = 0;
-      for (const p of orderPayments) {
-        const amt = cents(Number(p.amount) || 0);
-        if (amt <= 0) continue;
-        const collectedAtDoor =
-          p.courier_id === courierId ||
-          p.collected_by === "courier" ||
-          (p.courier_id === null &&
-            (o.payment_method === "cash_on_delivery" || o.payment_method === "pos_at_door"));
-        if (!collectedAtDoor) continue;
-        if (p.method === "cash") doorCash = cents(doorCash + amt);
-        else if (p.method === "pos" || p.method === "pos_at_door") doorCard = cents(doorCard + amt);
-      }
-
-      if (orderPayments.length === 0 && o.payment_status === "paid" && !o.cari_id) {
-        if (o.payment_method === "cash_on_delivery") doorCash = orderTotal;
-        else if (o.payment_method === "pos_at_door") doorCard = orderTotal;
-      }
-
-      cashExpected = cents(cashExpected + doorCash);
-      cardExpected = cents(cardExpected + doorCard);
-
-      if (o.cari_id || o.payment_method === "cari") {
-        const remainder = Math.max(cents(orderTotal - doorCash - doorCard), 0);
-        cariDeliveredTotal = cents(cariDeliveredTotal + remainder);
-      }
-    }
+    const { cashExpected, cardExpected, cariDeliveredTotal, deliveredCount } =
+      summarizeCourierOrders(deliveredOrders, paymentsByOrder, courierId);
 
     const nowIso = new Date().toISOString();
     const { data: settlementRow, error: upsertErr } = await supabase
@@ -165,7 +139,7 @@ export async function POST(
           cash_expected: cashExpected,
           card_expected: cardExpected,
           cari_delivered_total: cariDeliveredTotal,
-          delivered_count: deliveredOrders.length,
+          delivered_count: deliveredCount,
           cash_handed_over: parsed.data.cashHandedOver,
           card_slip_total: parsed.data.cardSlipTotal,
           note: parsed.data.note?.trim() || null,
@@ -206,7 +180,7 @@ export async function POST(
         courierId,
         courierName: courier.display_name,
         settlementDate: targetDate,
-        deliveredCount: deliveredOrders.length,
+        deliveredCount,
         cashExpected,
         cardExpected,
         cariDeliveredTotal,
