@@ -15,16 +15,16 @@ description: EkmekLab Ana Komuta Merkezi (CEO Kurmayı & Harness) çalışma, Go
 
 ---
 
-## 2. Alt-Ajan Kadrosu (6 Uzman Masa + Cerrahi İşçi)
-Ana sohbetin bağlamını (context window) tertemiz tutmak için uzun dosya okumaları, denetimler ve çoklu dosya yazımları alt-ajanlara (`invoke_subagent`) devredilir:
+## 2. Alt-Ajan ve Bağımsız Dal Kadrosu (`docs/DALLAR.md`)
+Ana sohbetin bağlamını (context window) tertemiz tutmak için kod ve içerik işleri **sıfır-çakışmalı 6 temiz mimari dalına** + **5 Stüdyo alt dalına** + **2 salt-okunur denetçiye** ayrılmıştır. Tahsin ister doğrudan yeni bir sohbet penceresinde `@.agents/agents/<dal>/agent.md` ile dalı açar (`.agents/rules/dal-*.md` `glob` kalkanları yalnız o dalın dosyasında devreye girer), ister bu Komuta Merkezi üzerinden paralel alt-ajan (`invoke_subagent`) başlatıp sağ `Subagents` panelinden takip eder:
 
-1. **Masa 0 — Keşif & Güvenlik/Hukuk Denetçisi (`research`):** Salt-okunur kod, sipariş sürtünmesi, API/RLS güvenliği, KVKK/PII ve kırık akış taraması (`seo-audit`, `schema`). Basit envanter taramalarında `Model: "flash"` seçilerek kota korunur.
-2. **Masa 1 — Vitrin, Sepet & Müdavim UX (`vitrin-ux-mimari` + `ekmeklab-vitrin-ux`):** Ana sayfa, ürün/eşlikçi kartları, `CartDrawer`, tek tık tekrar sipariş, iPhone/mobil dönüşüm hızı ve Atölye Kremi estetiği (`modern-web-guidance`, `vercel-react-best-practices`, `vercel-composition-patterns`, `web-design-guidelines`, `frontend-design`, `cro`).
-3. **Masa 2 — Admin, Katalog & Cari Operasyon (`admin-katalog-uzmani` + `ekmeklab-admin-operasyon`):** `/admin/**`, S24 doğrudan fotoğraf yükleme hattı, `capacityUnits = 0` eşlikçi kuralları, atomik RPC ve simetrik cari ön muhasebe (`supabase-postgres-best-practices`, `modern-web-guidance`).
-4. **Masa 3 — Pazarlama & Saha Büyüme Stratejisti (`pazarlama-ve-lansman-stratejisti` + `ekmeklab-bilim-ve-pazarlama`):** Beylikdüzü/Gürpınar/Kavaklı müşteri edinimi, kese kâğıdı QR döngüsü, Ekmek + Mandıra/Şarküteri sepet büyütme ve B2B işbirlikleri (`cro`, `copywriting`, `seo-audit`, `schema`, `ad-creative`, `sms`, `social`).
-5. **Masa 4 — Google AI Ultra Kreatif Stüdyo (`ultra-kreatif-studyo` + `ekmeklab-video-studyosu`):** Nano Banana (`image-generator`), Google Flow (`Veo 3.1`) sahne istemleri, `G:\Drive'ım\ekmeklab_ses\` ses-öncelikli kurgu hattı, baskı/etiket tasarımı (`canvas-design`), Remotion `60fps` sahneleri ve S24 çekim/prompter kartları.
-6. **Masa 5 — Baş Eleştirmen & Şeytanın Avukatı (`bas-elestirmen`):** Salt-okunur, kibar övgü yapması yasaklanmış birim ekonomi ve büyüme müfettişi. Her büyük lansman, paket kurgusu veya mimari karar öncesinde çağrılır; "yazılımcı/akademisyen oyalanması" tuzaklarını yakalar ve asimetrik karşı fikirler üretir.
-7. **Uygulayıcı — Uzman İşçi (`ekmeklab-uzman-isci`):** Yalnızca açık `Yazma Kapsamı` verilen dosyalarda kod ve birim testi yazar. Paralel işçiler `.next` kilidi yaratmamak için `npm run build` çalıştırmaz; yalnız `tsc --noEmit` ve ilgili `vitest run` testini koşar. Son `npm run build` ve `git push` Komuta Merkezi'ndedir.
+1. **Dal 1 — `dal-vitrin-sepet`:** Vitrin, 3D/360° sahne, ürün/eşlikçi kartları, `CartDrawer`, teslimat takvimi, tekrar sipariş ve `/api/orders/create` *(UI: `flash` · 3D/sepet mantığı: `pro`)*.
+2. **Dal 2 — `dal-firin-operasyon`:** `/admin` kokpit, sipariş yaşam döngüsü, `/admin/{uretim,urunler,musteriler,ayarlar,baski}`, hamur matematiği ve S24 ürün fotoğrafı yükleme *(UI: `flash` · hamur/Z-özeti: `pro`)*.
+3. **Dal 3 — `dal-kurye-dagitim`:** `/kurye`, `/admin/ekip`, rota kümeleme (`maps.ts`), `src/lib/delivery/settlement.ts` tek kasa mutabakat motoru ve esnek B2B teslimat *(mobil UI: `flash` · mutabakat/B2B: `pro`)*.
+4. **Dal 4 — `dal-cari-finans` (`R6` & `R7` Kilitli):** `/admin/{cariler,finans}`, `/fis`, `/ekstre`, `src/lib/{cari,finance}` (`schema/domain -> repo -> useCases -> server -> client`), araçtan sıcak satış (`hot-sale`), storno muhasebesi *(makbuz/CSV: `flash` · defter/storno/P&L: `pro`)*.
+5. **Dal 5 — `dal-bilim-medya`:** `content/**`, `/bilim`, `/kavram`, `/kaynak`, `bilgi_sentezi_v2` FTS5, `K006`/`K011` mühürleme, dergi/gazete/etiket, `48 kHz` ses ve Remotion video hattı *(FTS5/etiket/Reels: `flash` · kitap & `K011`: `pro`)*. *(Stüdyo `/admin/studyo` & `arastirma/studyo/**` için **`studyo-dal-1..5`** ayrı uzmanlardır.)*
+6. **Dal 6 — `dal-cekirdek-guvenlik`:** `src/lib/{kernel,security,supabase,auth,time,utils}`, `arch.test.ts` (`R1–R7`), `apiClient.ts` (`ADR-0009`), `src/proxy.ts`, `src/types/**`, `supabase/{migrations,tests}` (`034+`) ve CI *(HER ZAMAN `pro`)*.
+7. **Salt-Okunur Denetçiler:** `bas-elestirmen` (birim ekonomi & dönüşüm müfettişi, `pro`/`inherit`) + yerleşik `research` (`flash`/`flash_lite` keşif).
 
 ---
 
@@ -51,7 +51,7 @@ Ultra abonelik limitlerini ve ana sohbet hafızasını korumak için her görev 
 - **Katman 3 — Kurmay & Usta Katmanı (`Model: "inherit"`):** Yalnızca Ana Komuta Merkezi kararları, `bas-elestirmen` stratejik denetimi ve kritik kod/metin mimarisi için kullanılır.
 - **Bağlam Hijyeni & Argon'un 4 Orkestrasyon Kuralı:**
   1. **Kalıcı Hafıza (`docs/COMMAND_CENTER.md`):** Her faz veya büyük kilometre taşı sonunda `docs/COMMAND_CENTER.md` güncellenir; yeni sohbet açılırsa `@docs/COMMAND_CENTER.md` ile 10 saniyede devralınır.
-  2. **Kalıcı Alt-Ajanlar (`.agents/agents/`):** Tüm uzman alt-ajan tanımları hem oturumda `define_subagent` hem de repo içindeki `.agents/agents/<ad>/agent.md` altında kalıcı tutulur (`guvenlik-ve-rbac-mimari`, `kurye-ve-b2b-uzmani`, `admin-kurumsal-mimari`, `bas-elestirmen`, `ekmeklab-uzman-isci`, `vitrin-ux-mimari`, `admin-katalog-uzmani`, `pazarlama-ve-lansman-stratejisti`, `ultra-kreatif-studyo`).
+  2. **Kalıcı Dal Ajanları & Glob Kalkanı (`.agents/agents/`, `.agents/rules/`):** Tüm temiz mimari dal tanımları `.agents/agents/dal-*/agent.md` (`dal-vitrin-sepet`, `dal-firin-operasyon`, `dal-kurye-dagitim`, `dal-cari-finans`, `dal-bilim-medya`, `dal-cekirdek-guvenlik`), `bas-elestirmen` ve stüdyo dalları (`studyo-dal-1..5`) altında kalıcı tutulur; yanlarında `.agents/rules/dal-*.md` (`trigger: glob`) bulunur. Tam kılavuz: `docs/DALLAR.md`.
   3. **Orkestratör Elini Kirletmez:** Komuta Merkezi asla büyük `src/` dosyalarını doğrudan okumaz veya uzun loglarla bağlamı şişirmez; her fazı net dosya kapsamıyla ilgili uzman alt-ajana delege eder ve yalnızca ≤350 kelimelik özet + değiştirilen dosya yolları + test sonucu ister.
   4. **Çakışma Önleme (`Workspace: "share"`):** İki yazıcı alt-ajan paralel çalıştırılacaksa mutlaka `Workspace: "share"` kullanılır; sıralı fazlarda `Workspace: "inherit"` yeterlidir.
 

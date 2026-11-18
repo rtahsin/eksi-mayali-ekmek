@@ -1,6 +1,6 @@
 # EkmekLab Çalışma Merkezi
 
-> **Tek Giriş Noktası & Ajan Şeması.** Yeni ajan oturumlarında aktif durum ve son faz için [`docs/COMMAND_CENTER.md`](file:///F:/ekmeklab_app/docs/COMMAND_CENTER.md), yol haritası için [`docs/YOL_HARITASI.md`](file:///F:/ekmeklab_app/docs/YOL_HARITASI.md), derin mimari için [`docs/MIMARI.md`](file:///F:/ekmeklab_app/docs/MIMARI.md) okunur. Eski `BS02` kuyrukları `docs/_arsiv/` ve `arastirma/bilgi_sentezi_v2/_arsiv/` altındadır. Tüm üretim birbirini ezmeyen **3 bağımsız şeritte** yürür.
+> **Tek Giriş Noktası & Dal Rehberi.** Aktif durum için [`docs/COMMAND_CENTER.md`](file:///F:/ekmeklab_app/docs/COMMAND_CENTER.md), **6 temiz mimari dalda çalışma rehberi için [`docs/DALLAR.md`](file:///F:/ekmeklab_app/docs/DALLAR.md)**, yol haritası için [`docs/YOL_HARITASI.md`](file:///F:/ekmeklab_app/docs/YOL_HARITASI.md), derin mimari için [`docs/MIMARI.md`](file:///F:/ekmeklab_app/docs/MIMARI.md) okunur. Eski `BS02` kuyrukları `docs/_arsiv/` ve `arastirma/bilgi_sentezi_v2/_arsiv/` altındadır. Tüm üretim birbirini ezmeyen **3 bağımsız şeritte** yürür.
 
 ---
 
