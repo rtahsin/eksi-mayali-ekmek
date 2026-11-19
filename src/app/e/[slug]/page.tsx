@@ -1,4 +1,5 @@
 import { redirect } from "next/navigation";
+import { after } from "next/server";
 import { createAdminClient } from "@/lib/supabase/admin";
 
 export const dynamic = "force-dynamic";
@@ -20,11 +21,17 @@ export default async function QrLanding({ params, searchParams }: Props) {
   const code = (n || "").toLowerCase().replace(/[^a-z0-9_-]/g, "").slice(0, 30);
   const ref = code ? `qr-${code}` : "qr";
 
-  try {
-    const supabase = createAdminClient();
-    if (supabase) await supabase.from("funnel_events").insert({ event: "scan", ref, code: cleanSlug.slice(0, 40) });
-  } catch {
-    // ölçüm yönlendirmeyi bozmaz
-  }
+  after(async () => {
+    try {
+      const supabase = createAdminClient();
+      if (supabase) {
+        await supabase
+          .from("funnel_events")
+          .insert({ event: "scan", ref, code: cleanSlug.slice(0, 40) });
+      }
+    } catch {
+      // ölçüm yönlendirmeyi bozmaz
+    }
+  });
   redirect(cleanSlug ? `/urun/${cleanSlug}?ref=${ref}` : `/?ref=${ref}`);
 }

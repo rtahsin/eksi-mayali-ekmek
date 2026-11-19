@@ -7,17 +7,14 @@ import Link from "next/link";
 import { useCartStore } from "@/lib/store/useCartStore";
 import { useDeliveryDates, useStoreSettings } from "@/hooks/useStoreSettings";
 import { computeShippingFee } from "@/lib/settings/schema";
-import { FoodComplianceNotice } from "@/components/storefront/FoodComplianceNotice";
+import { CartDeliveryDatePicker } from "./CartDeliveryDatePicker";
+import { CartItemList } from "./CartItemList";
 import { CheckoutActions } from "./CheckoutActions";
 import { Modal } from "@/components/common/Modal";
-import { formatProductAmount } from "@/lib/products/format";
 import { formatTrDate } from "@/lib/time/istanbul";
 import {
   X,
   ShoppingBag,
-  Trash2,
-  Plus,
-  Minus,
   Truck,
   User,
   Phone,
@@ -33,6 +30,11 @@ import { useProducts } from "@/hooks/useProducts";
 import { stripMah, type CheckoutErrors } from "@/lib/order/validate";
 import type { CheckoutPaymentMethod } from "@/lib/order/createOrder";
 import { trackEvent } from "@/lib/track";
+import { getCartSuggestions } from "@/lib/products/cartSuggestions";
+import { SafeProductImage } from "@/components/storefront/SafeProductImage";
+import { isAccompaniment } from "@/lib/products/grouping";
+import { formatProductAmount } from "@/lib/products/format";
+import { getProductPlaceholder } from "@/lib/products/map";
 
 function mergeDirectionsIntoNote(
   currentNote: string | undefined,
@@ -67,16 +69,12 @@ export function CartDrawer() {
 
   const { settings, loaded: settingsLoaded, settingsError, reloadSettings } = useStoreSettings();
   const { allProducts } = useProducts();
-  const inCart = new Set(items.map((i) => i.productId));
-  const suggestions = Array.from(
-    new Set(items.flatMap((i) => allProducts.find((p) => p.id === i.productId)?.crossSell ?? []))
-  )
-    .filter((id) => !inCart.has(id))
-    .map((id) => allProducts.find((p) => p.id === id))
-    .filter((p): p is NonNullable<typeof p> => Boolean(p && p.isAvailable !== false))
-    .slice(0, 3);
   const { dates, datesLoaded, datesError, reloadDates } = useDeliveryDates(isOpen, items);
   const availableDates = dates.filter((d) => d.available);
+  const suggestions =
+    datesLoaded && availableDates.length > 0 && customerInfo.deliveryDate
+      ? getCartSuggestions(items, allProducts, customerInfo.deliveryDate, 3)
+      : [];
   const unavailableReasons = Array.from(new Set(dates.filter((d) => !d.available && d.reason).map((d) => d.reason as string)));
   const { profile, addresses, isLoggedIn, openAuthModal, saveAddress } = useAuth();
   const [saveThisAddress, setSaveThisAddress] = useState(false);
@@ -247,7 +245,7 @@ export function CartDrawer() {
     ? "Önümüzdeki günlerde teslimat günümüz bulunmuyor."
     : datesLoaded && items.length > 0 && availableDates.length === 0
     ? unavailableReasons[0] ?? "Sepetiniz için uygun teslim günü bulunamadı."
-    : datesError;
+    : null;
 
   return (
     <Modal open={isOpen} onClose={closeCart} label="Sepetim"
@@ -375,168 +373,76 @@ export function CartDrawer() {
               </div>
 
               {/* Teslim günü */}
-              <div className="space-y-2">
-                <div className="text-xs font-sans font-semibold text-ink uppercase tracking-wider flex items-center justify-between">
-                  <span>Teslim Günü</span>
-                </div>
-
-                {!datesLoaded ? (
-                  <div className="text-xs text-ink-muted flex items-center gap-2">
-                    <Loader2 className="w-3.5 h-3.5 animate-spin" /> Uygun günler yükleniyor…
-                  </div>
-                ) : datesError ? null : dates.length === 0 ? (
-                  <div className="sf-notice sf-warning">
-                    {orderingBlockedReason}
-                  </div>
-                ) : (
-                  <>
-                    <fieldset id="checkout-dates" className="flex flex-wrap gap-1.5" aria-label="Teslim günü">
-                      <legend className="sr-only">Teslim günü</legend>
-                      {dates.map((d) => {
-                        const selected = d.available && customerInfo.deliveryDate === d.date;
-                        return (
-                          <label
-                            key={d.date}
-                            title={d.reason ?? undefined}
-                            className={`sf-choice ${selected ? "sf-choice--selected" : ""} ${!d.available ? "sf-choice--disabled line-through" : ""}`}
-                          >
-                            <input type="radio" name="deliveryDate" value={d.date} checked={selected} disabled={!d.available}
-                              className="sr-only" onChange={() => {
-                                setCustomerInfo({ deliveryDate: d.date });
-                                setDateChange(null);
-                                clearError("deliveryDate");
-                              }} />
-                            {d.label}
-                          </label>
-                        );
-                      })}
-                    </fieldset>
-                    {unavailableReasons.length > 0 && (
-                      <ul className="text-xs text-ink-muted space-y-0.5">
-                        {unavailableReasons.slice(0, 3).map((r) => (
-                          <li key={r}>• {r}</li>
-                        ))}
-                      </ul>
-                    )}
-                    {(() => {
-                      const sel = dates.find((d) => d.date === customerInfo.deliveryDate);
-                      return sel && sel.remainingCapacity !== null && sel.remainingCapacity <= 10 ? (
-                        <div className="text-xs text-ink font-semibold">
-                          Bu gün için son {sel.remainingCapacity} ekmeklik yer kaldı
-                        </div>
-                      ) : null;
-                    })()}
-                  </>
-                )}
-              </div>
-
-              {dateChange && <p role="status" className="sf-copy rounded-xl border border-line bg-cream-surface p-3 text-sm leading-relaxed text-ink">{dateChange}</p>}
-              {datesError && <div role="alert" className="space-y-2 text-sm text-ink">
-                <p>{datesError}</p>
-                <button type="button" onClick={reloadDates} className={storefrontAction({ variant: "secondary", size: "default", className: "" })}>Teslim günlerini yeniden yükle</button>
-              </div>}
+              <CartDeliveryDatePicker
+                dates={dates}
+                datesLoaded={datesLoaded}
+                datesError={datesError}
+                selectedDate={customerInfo.deliveryDate}
+                unavailableReasons={unavailableReasons}
+                orderingBlockedReason={orderingBlockedReason}
+                dateChange={dateChange}
+                onSelectDate={(date) => {
+                  setCustomerInfo({ deliveryDate: date });
+                  setDateChange(null);
+                  clearError("deliveryDate");
+                }}
+                onReloadDates={reloadDates}
+              />
 
               {/* Ürünler */}
-              <div className="space-y-3">
-                <div className="text-xs font-sans font-semibold text-ink uppercase tracking-wider">
-                  Seçilen Ürünler
-                </div>
-                <div className="space-y-2.5">
-                  {items.map((item) => {
-                    const catalogProduct = allProducts.find(
-                      (p) => p.id === item.productId
-                    );
-                    return (
-                      <div
-                        key={item.productId}
-                        className="p-3 rounded-2xl bg-cream-surface border border-line space-y-2.5 shadow-2xs"
-                      >
-                        <div className="grid grid-cols-[3.5rem_minmax(0,1fr)] gap-3 items-start">
-                          {/* eslint-disable-next-line @next/next/no-img-element */}
-                          <img
-                            src={item.imageUrl}
-                            alt={item.name}
-                            className="w-14 h-14 rounded-xl object-cover bg-line/40 shrink-0"
-                          />
-                          <div className="flex-1 min-w-0">
-                            <div className="font-serif font-bold text-sm text-ink break-words">
-                              {item.name}
-                            </div>
-                            <div className="text-xs font-sans text-ink-muted mt-0.5">
-                              {formatProductAmount({ weight: item.weight, weightUnit: item.weightUnit ?? catalogProduct?.weightUnit })} · {formatMoney(item.price)}
-                            </div>
-                            <div className="font-serif text-sm font-bold text-ink mt-1">
-                              {formatMoney(item.price * item.quantity)}
-                            </div>
-                          </div>
-                          <div className="col-span-2 flex items-center justify-between gap-2">
-                            <button
-                              type="button"
-                              onClick={() => removeItem(item.productId)}
-                              aria-label={`${item.name} ürününü sepetten çıkar`}
-                              className={storefrontAction({ variant: "danger", size: "icon", className: "" })}
-                            >
-                              <Trash2 aria-hidden="true" className="w-3.5 h-3.5" />
-                            </button>
-                            <div className="flex items-center rounded-lg bg-line/40 border border-line">
-                              <button
-                                type="button"
-                                onClick={() =>
-                                  updateQuantity(item.productId, item.quantity - 1)
-                                }
-                                aria-label="Azalt"
-                                className={storefrontAction({ variant: "quiet", size: "icon", className: "flex items-center justify-center" })}
-                              >
-                                <Minus aria-hidden="true" className="w-3 h-3" />
-                              </button>
-                              <span className="w-8 text-center font-serif text-xs font-bold text-ink">
-                                {item.quantity}
-                              </span>
-                              <button
-                                type="button"
-                                onClick={() =>
-                                  updateQuantity(item.productId, item.quantity + 1)
-                                }
-                                aria-label="Artır"
-                                className={storefrontAction({ variant: "quiet", size: "icon", className: "flex items-center justify-center" })}
-                              >
-                                <Plus aria-hidden="true" className="w-3 h-3" />
-                              </button>
-                            </div>
-                          </div>
-                        </div>
-                        <div className="pt-2 border-t border-line/70">
-                          <FoodComplianceNotice
-                            product={catalogProduct ?? item}
-                            variant="compact"
-                          />
-                        </div>
-                      </div>
-                    );
-                  })}
-                </div>
-              </div>
+              <CartItemList
+                items={items}
+                allProducts={allProducts}
+                onRemoveItem={removeItem}
+                onUpdateQuantity={updateQuantity}
+              />
 
-              {/* Birlikte iyi gider (admin'in seçtiği öneriler) */}
+              {/* Birlikte iyi gider (tarih-uyumlu akıllı öneriler) */}
               {suggestions.length > 0 && (
                 <div className="space-y-2">
                   <div className="text-xs font-sans font-semibold text-ink uppercase tracking-wider">
                     Birlikte iyi gider
                   </div>
-                  <div className="flex flex-wrap gap-1.5">
-                    {suggestions.map((p) => (
-                      <button
-                        key={p.id}
-                        type="button"
-                        onClick={() => addItem(p, null, 1)}
-                        className={storefrontAction({ variant: "secondary", size: "default", className: "flex items-center gap-1" })}
-                      >
-                        <Plus className="w-3 h-3" />
-                        <span>
-                          {p.name} (+{formatMoney(p.price)})
-                        </span>
-                      </button>
-                    ))}
+                  <div className="space-y-1.5">
+                    {suggestions.map((p) => {
+                      const amount = formatProductAmount(p);
+                      return (
+                        <div
+                          key={p.id}
+                          className="flex items-center gap-2.5 p-2 rounded-xl bg-cream-surface border border-line shadow-2xs"
+                        >
+                          <SafeProductImage
+                            src={p.imageUrl}
+                            fallbackSrc={getProductPlaceholder(p.category)}
+                            alt={p.name}
+                            isAccompanimentItem={isAccompaniment(p)}
+                            className="w-10 h-10 rounded-lg object-cover shrink-0 border border-line/60 bg-bg"
+                          />
+                          <div className="min-w-0 flex-1">
+                            <div className="text-xs font-serif font-bold text-ink truncate">
+                              {p.name}
+                            </div>
+                            {amount && (
+                              <div className="text-[11px] font-sans text-ink-muted truncate">
+                                {amount}
+                              </div>
+                            )}
+                          </div>
+                          <button
+                            type="button"
+                            onClick={() => addItem(p, null, 1)}
+                            aria-label={`${p.name} ürününü sepete ekle (${formatMoney(p.price)})`}
+                            className={storefrontAction({
+                              variant: "secondary",
+                              size: "default",
+                              className: "shrink-0 text-xs",
+                            })}
+                          >
+                            + Ekle · {formatMoney(p.price)}
+                          </button>
+                        </div>
+                      );
+                    })}
                   </div>
                 </div>
               )}
@@ -590,11 +496,11 @@ export function CartDrawer() {
                             if (matchedNh) clearError("neighborhood");
                             if (addr.addressDetail.trim().length >= 5) clearError("addressDetail");
                           }}
-                          className={"sf-action sf-action--default " + (` flex items-center gap-1 ${
-                            customerInfo.addressDetail === addr.addressDetail
-                              ? "sf-action--primary "
-                              : "sf-action--secondary "
-                          }  `)}
+                          className={storefrontAction({
+                            variant: customerInfo.addressDetail === addr.addressDetail ? "primary" : "secondary",
+                            size: "default",
+                            className: "flex items-center gap-1",
+                          })}
                         >
                           <MapPin className="w-3 h-3 text-accent" />
                           <span>{addr.title}</span>

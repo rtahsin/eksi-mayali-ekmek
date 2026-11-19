@@ -3,6 +3,8 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { RotateCcw, ShoppingBag, X } from "lucide-react";
 import type { ExtendedProduct, OrderItem } from "@/types";
+import { formatMoney } from "@/lib/format/currency";
+import { storefrontAction } from "@/lib/design/storefront";
 import { useAuth } from "@/components/auth/AuthProvider";
 import { useOrderHistory } from "@/hooks/useOrderHistory";
 import { buildReorderItems } from "@/lib/order/progression";
@@ -188,6 +190,11 @@ export function QuickReorderCard({ products }: QuickReorderCardProps) {
     .map((entry) => `${entry.quantity}× ${entry.product.name}`)
     .join(", ");
 
+  const liveTotal = plan.availableItems.reduce(
+    (sum, entry) => sum + entry.product.price * entry.quantity,
+    0
+  );
+
   const unavailableSummary =
     plan.unavailableItems.length > 0
       ? plan.unavailableItems.map((u) => u.productName).join(", ")
@@ -212,7 +219,7 @@ export function QuickReorderCard({ products }: QuickReorderCardProps) {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3.5 sm:gap-5">
         <div className="min-w-0 flex-1 space-y-1.5">
           <div className="flex items-center justify-between gap-3">
-            <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-accent/10 border border-accent/25 font-sans text-[11px] font-bold uppercase tracking-wider text-accent">
+            <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-accent/10 border border-accent/25 font-sans text-[11px] font-bold uppercase tracking-wider text-ink">
               <RotateCcw className="w-3 h-3 shrink-0" aria-hidden="true" />
               <span>MÜDAVİM HIZLI SİPARİŞ</span>
             </span>
@@ -243,10 +250,14 @@ export function QuickReorderCard({ products }: QuickReorderCardProps) {
           <button
             type="button"
             onClick={handleQuickReorder}
-            className="touch-target-44 w-full sm:w-auto px-4 py-2.5 rounded-xl bg-accent hover:bg-accent/90 active:scale-[0.99] text-white font-sans text-xs sm:text-sm font-semibold inline-flex items-center justify-center gap-2 transition-all shadow-xs"
+            className={storefrontAction({
+              variant: "primary",
+              size: "default",
+              className: "w-full sm:w-auto text-xs sm:text-sm",
+            })}
           >
             <ShoppingBag className="w-4 h-4 shrink-0" aria-hidden="true" />
-            <span>Tek Tıkla Sepete Ekle</span>
+            <span>Tek Tıkla Sepete Ekle ({formatMoney(liveTotal)})</span>
           </button>
 
           <button

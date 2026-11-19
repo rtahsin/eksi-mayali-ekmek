@@ -7,6 +7,7 @@ import { Footer } from "@/components/common/Footer";
 import { CartDrawer } from "@/components/cart/CartDrawer";
 import { OrderSuccessModal } from "@/components/cart/OrderSuccessModal";
 import { ProductDetailClientActions } from "@/components/storefront/ProductDetailClientActions";
+import { QuickAddPairingButton } from "@/components/storefront/QuickAddPairingButton";
 import { ProductShowcaseStage } from "@/components/storefront/ProductShowcaseStage";
 import { FoodComplianceNotice } from "@/components/storefront/FoodComplianceNotice";
 import { SafeProductImage } from "@/components/storefront/SafeProductImage";
@@ -255,13 +256,15 @@ export default async function ProductDetailPage({
     product.ingredients && product.ingredients.length > 0
   );
   const canonicalSlug = getProductSlug(product);
+  const metaImage = product.imageUrl || getProductPlaceholder(product.category);
+  const absoluteProductImage = new URL(metaImage, SITE_URL).toString();
 
   // Schema.org Product + Offer JSON-LD structured data (P2-3)
   const productJsonLd = {
     "@context": "https://schema.org/",
     "@type": "Product",
     name: product.name,
-    image: [product.imageUrl],
+    image: [absoluteProductImage],
     description: product.description,
     sku: product.id,
     brand: {
@@ -377,7 +380,7 @@ export default async function ProductDetailPage({
           <div className="lg:col-span-6 space-y-6">
             <div>
               <div className="flex items-center gap-2 mb-2">
-                <span className="px-2.5 py-0.5 rounded-md bg-bg border border-line text-accent text-xs font-mono font-medium">
+                <span className="px-2.5 py-0.5 rounded-md bg-bg border border-line text-ink text-xs font-mono font-medium">
                   {!isBread
                     ? "MANDIRA & ŞARKÜTERİ"
                     : isSpecialty
@@ -413,8 +416,8 @@ export default async function ProductDetailPage({
 
             {/* Delivery Guarantee Info Box */}
             <div className="p-4 rounded-2xl bg-cream-surface border border-line space-y-2 text-xs font-sans text-ink-muted">
-              <div className="flex items-center gap-2 text-accent font-bold">
-                <Truck className="w-4 h-4" aria-hidden="true" />
+              <div className="flex items-center gap-2 text-ink font-bold">
+                <Truck className="w-4 h-4 text-accent" aria-hidden="true" />
                 <span>Kendi Fırın Kuryemizle Kapınıza Teslimat</span>
               </div>
               <p className="text-ink-muted leading-relaxed">
@@ -434,7 +437,7 @@ export default async function ProductDetailPage({
             <section className="pt-6 border-t border-line">
               <div className="p-5 sm:p-6 rounded-2xl bg-cream-surface border border-line space-y-3">
                 <div>
-                  <p className="font-mono text-[11px] uppercase tracking-[0.14em] text-accent font-semibold">
+                  <p className="font-mono text-[11px] uppercase tracking-[0.14em] text-ink-muted font-semibold">
                     DOĞAL ÜRETİCİ SEÇKİSİ
                   </p>
                   <h2 className="font-serif text-xl sm:text-2xl font-bold text-ink mt-0.5">
@@ -483,8 +486,8 @@ export default async function ProductDetailPage({
         {masterclassEntries.length > 0 && (
           <section className="pt-6 border-t border-line">
             <div className="mb-5">
-              <div className="inline-flex items-center gap-2 font-mono text-xs font-semibold text-accent uppercase tracking-wider mb-1">
-                <BookOpen className="w-4 h-4" aria-hidden="true" />
+              <div className="inline-flex items-center gap-2 font-mono text-xs font-semibold text-ink-muted uppercase tracking-wider mb-1">
+                <BookOpen className="w-4 h-4 text-accent" aria-hidden="true" />
                 <span>
                   {isBread ? "USTANIN TEZGÂH NOTLARI" : "ÜRETİCİ NOTU & SEÇKİ"}
                 </span>
@@ -504,7 +507,7 @@ export default async function ProductDetailPage({
                     idx >= 2 ? "md:border-t md:border-line" : ""
                   }`}
                 >
-                  <p className="font-mono text-[11px] uppercase tracking-wider text-accent font-semibold">
+                  <p className="font-mono text-[11px] uppercase tracking-wider text-ink-muted font-semibold">
                     № 0{idx + 1}
                   </p>
                   <h3 className="font-serif text-lg font-bold text-ink">
@@ -524,7 +527,7 @@ export default async function ProductDetailPage({
           <section className="pt-6 border-t border-line space-y-6">
             <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-2">
               <div>
-                <p className="font-mono text-[11px] uppercase tracking-[0.14em] text-accent font-semibold">
+                <p className="font-mono text-[11px] uppercase tracking-[0.14em] text-ink-muted font-semibold">
                   SOFRA VE DOKU EŞLEŞMESİ
                 </p>
                 <h2 className="font-serif text-2xl sm:text-3xl font-bold text-ink mt-0.5">
@@ -540,7 +543,7 @@ export default async function ProductDetailPage({
               </div>
               <Link
                 href={isBread ? "/#sarkuteri" : "/#ekmekler"}
-                className="min-h-11 inline-flex items-center gap-1 text-xs text-accent hover:underline font-serif shrink-0"
+                className="min-h-11 inline-flex items-center gap-1 text-xs text-ink hover:text-accent hover:underline font-serif shrink-0"
               >
                 <span>Tüm Seçkiyi Gör</span>
                 <ChevronRight className="w-3.5 h-3.5" aria-hidden="true" />
@@ -548,13 +551,15 @@ export default async function ProductDetailPage({
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-              {smartPairings.map(({ product: rel, chemistryLabel, chemistryNote }) => (
-                <Link
+              {smartPairings.map(({ product: rel, chemistryLabel, chemistryNote }) => {
+                const { masterclass: _relMasterclass, ...relProduct } = rel;
+                void _relMasterclass;
+                return (
+                <div
                   key={rel.id}
-                  href={getProductUrl(rel)}
                   className="group rounded-2xl bg-cream-surface border border-line hover:border-accent/50 p-4 transition-all duration-300 flex flex-col justify-between space-y-3 shadow-xs"
                 >
-                  <div className="space-y-3">
+                  <Link href={getProductUrl(rel)} className="block space-y-3">
                     <div className="relative h-40 w-full rounded-xl overflow-hidden bg-bg border border-line/60">
                       <SafeProductImage
                         src={rel.imageUrl}
@@ -567,7 +572,7 @@ export default async function ProductDetailPage({
                     </div>
 
                     <div className="space-y-1.5">
-                      <span className="inline-block font-mono text-[10px] uppercase tracking-wider text-accent font-semibold">
+                      <span className="inline-block font-mono text-[10px] uppercase tracking-wider text-ink-muted font-semibold">
                         {chemistryLabel}
                       </span>
                       <h3 className="font-serif font-bold text-base text-ink group-hover:text-accent transition-colors line-clamp-1">
@@ -577,21 +582,31 @@ export default async function ProductDetailPage({
                         {chemistryNote}
                       </p>
                     </div>
-                  </div>
+                  </Link>
 
-                  <div className="flex items-baseline justify-between pt-2.5 border-t border-line">
-                    <span className="font-serif font-bold text-base text-ink">
-                      {rel.price}{" "}
-                      <span className="text-xs text-accent font-sans font-normal">
-                        TL
+                  <div className="space-y-2.5 pt-2.5 border-t border-line">
+                    <div className="flex items-baseline justify-between gap-2">
+                      <span className="font-serif font-bold text-base text-ink">
+                        {rel.price}{" "}
+                        <span className="text-xs text-ink-muted font-sans font-normal">
+                          TL
+                        </span>
                       </span>
-                    </span>
-                    <span className="text-xs text-accent font-sans font-medium group-hover:underline">
-                      İncele →
-                    </span>
+                      <Link
+                        href={getProductUrl(rel)}
+                        className="text-xs text-ink hover:text-accent font-sans font-medium hover:underline"
+                      >
+                        İncele →
+                      </Link>
+                    </div>
+                    <QuickAddPairingButton
+                      product={relProduct}
+                      className="w-full"
+                    />
                   </div>
-                </Link>
-              ))}
+                </div>
+                );
+              })}
             </div>
           </section>
         )}
