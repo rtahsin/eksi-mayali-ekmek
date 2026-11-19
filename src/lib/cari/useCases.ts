@@ -1,9 +1,16 @@
 import "server-only";
 
 import { logError } from "@/lib/kernel/log";
-import { signAccountToken, signOrderToken, signSlipToken } from "@/lib/security/linkToken";
+import {
+  signAccountToken,
+  signOrderToken,
+  signSlipToken,
+  verifyAccountToken,
+  verifyOrderToken,
+  verifySlipToken,
+} from "@/lib/security/linkToken";
 import { SITE_URL } from "@/lib/site";
-import { istanbulToday } from "@/lib/time/istanbul";
+import { addDays, istanbulToday, istanbulWeekday } from "@/lib/time/istanbul";
 import type {
   B2BHotSaleAccountSummary,
   B2BHotSalePaymentMethod,
@@ -11,8 +18,10 @@ import type {
   B2BHotSaleTransactionSummary,
   CariAccount,
   CariTransaction,
+  LedgerType,
 } from "@/types/admin";
-import { parseCustomPrices, profileToRow } from "./account";
+import { parseCustomPrices, parseStandingOrder, profileToRow } from "./account";
+import { mapLedgerRow } from "./ledger";
 import {
   mapHotSalePaymentMethodToDb,
   parseLastOrderLedgerItems,
@@ -29,7 +38,13 @@ import {
   type PatchCariAccountInput,
   type RecordCariTransactionInput,
 } from "./schema";
-import type { CariAuditLogger, CariRepository } from "./repo";
+import type {
+  CariAuditLogger,
+  CariRepository,
+  CreateStandingOrderLinePayload,
+  SlipProductMetaRecord,
+  StandingOrderProductRecord,
+} from "./repo";
 
 export class CariServiceError extends Error {
   readonly status: number;
@@ -803,5 +818,462 @@ export async function executeB2BHotSale(params: {
     paymentMethod: effectivePaymentMethod,
     date: saleDate,
     description,
+  };
+}
+
+export interface StandingOrdersGenerationResult {
+  success: true;
+  deliveryDate: string;
+  weekday: string;
+  createdCount: number;
+  skippedExisting: number;
+  orders: Array<{
+    accountId: string;
+    businessName: string;
+    orderId: string;
+    orderNumber: string;
+  }>;
+  errors: Array<{
+    accountId: string;
+    businessName: string;
+    error: string;
+  }>;
+}
+
+export async function generateStandingOrdersForDate(params: {
+  repo: CariRepository;
+  audit: CariAuditLogger;
+  actor: CariActor;
+  deliveryDate?: string;
+}): Promise<StandingOrdersGenerationResult> {
+  const { repo, audit, actor } = params;
+  const deliveryDate = params.deliveryDate ?? addDays(istanbulToday(), 1);
+  const weekdayNum = istanbulWeekday(deliveryDate); // 0=Paz..6=Cmt
+  const isoWeekday = String(weekdayNum === 0 ? 7 : weekdayNum); // "1"=Pzt .. "7"=Paz
+
+  const [accRows, prodRows] = await Promise.all([
+    repo.listActiveCustomerStandingAccounts(),
+    repo.listActiveStandingProducts(),
+  ]);
+
+  const productMap = new Map<string, StandingOrderProductRecord>();
+  for (const p of prodRows) {
+    productMap.set(p.id, p);
+  }
+
+  let createdCount = 0;
+  let skippedExisting = 0;
+  const orders: StandingOrdersGenerationResult["orders"] = [];
+  const errors: StandingOrdersGenerationResult["errors"] = [];
+
+  for (const acc of accRows) {
+    const standing = parseStandingOrder(acc.standing_order);
+    if (!standing || !standing.enabled) continue;
+
+    const daySchedule = standing.schedule[isoWeekday];
+    if (!daySchedule) continue;
+
+    const positiveEntries = Object.entries(daySchedule).filter(
+      ([, qty]) => Number.isFinite(qty) && Math.trunc(qty) > 0
+    );
+    if (positiveEntries.length === 0) continue;
+
+    const customPrices = parseCustomPrices(acc.custom_prices);
+    const missingProducts: string[] = [];
+    const lines: CreateStandingOrderLinePayload[] = [];
+
+    for (const [productId, rawQty] of positiveEntries) {
+      const prod = productMap.get(productId);
+      if (!prod) {
+        missingProducts.push(productId);
+        continue;
+      }
+      const qty = Math.trunc(rawQty);
+      const unitPrice =
+        customPrices[productId] !== undefined
+          ? customPrices[productId]
+          : roundCariMoney(Number(prod.price) || 0);
+      lines.push({
+        product_id: productId,
+        product_name: prod.name,
+        quantity: qty,
+        unit_price: unitPrice,
+        total_price: roundCariMoney(qty * unitPrice),
+        image_url: prod.image_url ?? null,
+        weight: prod.weight ?? null,
+      });
+    }
+
+    if (missingProducts.length > 0 && lines.length === 0) {
+      errors.push({
+        accountId: acc.id,
+        businessName: acc.name,
+        error: `Rutin ürünleri aktif değil: ${missingProducts.join(", ")}`,
+      });
+      continue;
+    }
+
+    if (lines.length === 0) continue;
+
+    const subtotal = roundCariMoney(lines.reduce((sum, l) => sum + l.total_price, 0));
+    const neighborhood = acc.neighborhood?.trim() || "Cumhuriyet";
+    const district = acc.district?.trim() || "Beylikdüzü";
+    const deliveryAddress = acc.address?.trim() || `${neighborhood} — ${acc.name}`;
+    const idempotencyKey = `standing:${acc.id}:${deliveryDate}`;
+
+    let resObj;
+    try {
+      resObj = await repo.createStandingOrderAtomic({
+        p_order: {
+          id: crypto.randomUUID(),
+          idempotency_key: idempotencyKey,
+          customer_name: acc.name,
+          phone: acc.phone ?? "",
+          delivery_method: "courier",
+          delivery_address: deliveryAddress,
+          district,
+          neighborhood,
+          delivery_date: deliveryDate,
+          status: "hazirlaniyor",
+          payment_method: "cari",
+          payment_status: "pending",
+          source: "standing_order",
+          subtotal,
+          shipping_fee: 0,
+          total_amount: subtotal,
+          order_notes: standing.notes?.trim() || "",
+          cari_id: acc.id,
+          courier_id: acc.default_courier_id || null,
+          bypass_limits: true,
+          changed_by_role: actor.role === "staff" ? "staff" : "admin",
+          history_note: `Haftalık sabit rutin siparişi (${deliveryDate})`,
+        },
+        p_items: lines,
+        p_user_id: actor.userId,
+      });
+    } catch (err) {
+      errors.push({
+        accountId: acc.id,
+        businessName: acc.name,
+        error: getErrorMsg(err) || "Sipariş oluşturulamadı.",
+      });
+      continue;
+    }
+
+    if (resObj.is_existing) {
+      skippedExisting += 1;
+    } else {
+      createdCount += 1;
+      if (resObj.order_id && resObj.order_number) {
+        orders.push({
+          accountId: acc.id,
+          businessName: acc.name,
+          orderId: resObj.order_id,
+          orderNumber: resObj.order_number,
+        });
+      }
+    }
+  }
+
+  await audit({
+    actorId: actor.userId,
+    actorRole: actor.role || "admin",
+    action: "cari.standing_orders_generate",
+    entityType: "current_account",
+    entityId: deliveryDate,
+    summary: `Rutin B2B sipariş üretimi (${deliveryDate}): ${createdCount} yeni, ${skippedExisting} mevcut`,
+    metadata: {
+      deliveryDate,
+      isoWeekday,
+      createdCount,
+      skippedExisting,
+      errorCount: errors.length,
+    },
+  });
+
+  return {
+    success: true,
+    deliveryDate,
+    weekday: isoWeekday,
+    createdCount,
+    skippedExisting,
+    orders,
+    errors,
+  };
+}
+
+export interface CustomerStatementResult {
+  cari: {
+    id: string;
+    businessName: string;
+    contactPerson: string;
+    phone: string;
+    taxNumber: string;
+    balance: number;
+  };
+  transactions: Array<CariTransaction & { slipToken: string | null }>;
+}
+
+export async function getCustomerStatement(params: {
+  repo: CariRepository;
+  id: string;
+  token: string | null;
+  checkIsAdmin: () => Promise<boolean>;
+}): Promise<CustomerStatementResult> {
+  const { repo, id, token, checkIsAdmin } = params;
+  if (!id || id.length > 80) {
+    throw new CariServiceError("Ekstre bulunamadı", 404);
+  }
+
+  const acc = await repo.getStatementAccountById(id);
+  if (!acc) {
+    throw new CariServiceError("Ekstre bulunamadı", 404);
+  }
+
+  const shareTokenVersion = Number(acc.share_token_version) || 1;
+  if (!verifyAccountToken(id, token, shareTokenVersion) && !(await checkIsAdmin())) {
+    throw new CariServiceError("Ekstre bulunamadı", 404);
+  }
+
+  const rows = await repo.listAccountTransactions(id);
+  const transactions = rows.map((tx) => ({
+    ...tx,
+    slipToken: signSlipToken(tx.id, shareTokenVersion),
+  }));
+
+  return {
+    cari: {
+      id: acc.id,
+      businessName: acc.name || "Değerli Müşterimiz",
+      contactPerson: acc.contact_person || "",
+      phone: acc.phone || "",
+      taxNumber: acc.tax_id || "",
+      balance: Number(acc.balance) || 0,
+    },
+    transactions,
+  };
+}
+
+export interface ParsedSlipItem {
+  name: string;
+  quantity: number;
+  unitPrice: number;
+  totalPrice: number;
+  weight?: number;
+  imageUrl?: string;
+}
+
+export interface SlipDetailData {
+  id: string;
+  orderNumber?: string;
+  slipNumber: string;
+  businessName: string;
+  phone: string;
+  address: string;
+  neighborhood: string;
+  taxNumber: string;
+  cariId: string | null;
+  ekstreUrl: string | null;
+  isProductSale: boolean;
+  type: LedgerType;
+  cancelled?: boolean;
+  paymentMethod?: string | null;
+  createdAt: string;
+  date: string;
+  timeWindow?: string;
+  items: ParsedSlipItem[];
+  subtotal: number;
+  totalAmount: number;
+  isPositiveDelta: boolean;
+  previousBalance?: number;
+  newBalance?: number;
+  notes?: string;
+  status?: string;
+}
+
+function findProductMeta(
+  products: SlipProductMetaRecord[],
+  itemName: string
+): { imageUrl?: string; weight?: number } {
+  const target = itemName.trim().toLowerCase();
+  const found = products.find((p) => {
+    const n = p.name.trim().toLowerCase();
+    return n === target || target.includes(n) || n.includes(target);
+  });
+  return { imageUrl: found?.image_url || undefined, weight: found?.weight || undefined };
+}
+
+function buildEkstreUrl(accountId: string | null, shareTokenVersion: number = 1): string | null {
+  if (!accountId) return null;
+  const t = signAccountToken(accountId, shareTokenVersion);
+  return t ? `${SITE_URL}/ekstre/${encodeURIComponent(accountId)}?t=${t}` : null;
+}
+
+export async function getSlipDetail(params: {
+  repo: CariRepository;
+  id: string;
+  token: string | null;
+  checkIsAdmin: () => Promise<boolean>;
+}): Promise<SlipDetailData> {
+  const { repo, id, token, checkIsAdmin } = params;
+  if (!id || id.length > 64) {
+    throw new CariServiceError("Fiş bulunamadı", 404);
+  }
+
+  let adminChecked = false;
+  let adminValue = false;
+  const isAdmin = async (): Promise<boolean> => {
+    if (!adminChecked) {
+      adminChecked = true;
+      adminValue = await checkIsAdmin();
+    }
+    return adminValue;
+  };
+
+  if (!token && !(await isAdmin())) {
+    throw new CariServiceError("Fiş bulunamadı", 404);
+  }
+
+  const isUuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(id);
+
+  // 1) Cari hareketi (teslimat fişi / tahsilat makbuzu / devir / iptal)
+  if (isUuid) {
+    const row = await repo.getLedgerRowById(id);
+    if (row) {
+      const tx = mapLedgerRow(row);
+      const cari = await repo.getSlipAccountById(tx.cariId);
+      const shareTokenVersion = Number(cari?.share_token_version) || 1;
+
+      if (!verifySlipToken(id, token, shareTokenVersion) && !(await isAdmin())) {
+        throw new CariServiceError("Fiş bulunamadı", 404);
+      }
+
+      const [products, reversesSlip, cancelled] = await Promise.all([
+        repo.listSlipProductMeta(),
+        tx.reversesId ? repo.getTransactionSlipNumber(tx.reversesId) : Promise.resolve(null),
+        repo.isTransactionReversed(tx.id),
+      ]);
+
+      const items: ParsedSlipItem[] = (tx.items ?? []).map((it) => ({
+        name: it.name,
+        quantity: it.quantity,
+        unitPrice: it.unitPrice,
+        totalPrice:
+          it.lineTotal !== undefined ? it.lineTotal : roundCariMoney(it.quantity * it.unitPrice),
+        ...findProductMeta(products, it.name),
+      }));
+      const isProductSale = tx.type === "satis" && items.length > 0;
+      // 016 öncesi fişlerde not açıklamanın "| Not:" kısmında; sonrasında açıklamanın kendisi not
+      const hasJsonItems = Array.isArray(row.items);
+      const note = hasJsonItems ? tx.description : (tx.description.split("| Not:")[1]?.trim() ?? "");
+      const label =
+        tx.type === "storno"
+          ? `İptal edilen belge: ${reversesSlip ?? "—"}`
+          : tx.description ||
+            (tx.type === "devir"
+              ? "Bakiye düzeltme"
+              : tx.type === "tahsilat"
+                ? "Tahsilat"
+                : "Teslimat");
+      const balanceAfter = tx.balanceAfter ?? 0;
+
+      return {
+        id: tx.id,
+        slipNumber: tx.slipNumber || `FİŞ-${tx.id.slice(0, 6).toUpperCase()}`,
+        businessName: cari?.name || "Kurumsal Müşteri",
+        phone: cari?.phone || "",
+        address: cari?.address || "",
+        neighborhood: cari?.neighborhood || "",
+        taxNumber: cari?.tax_id || "",
+        cariId: tx.cariId,
+        ekstreUrl: buildEkstreUrl(tx.cariId, shareTokenVersion),
+        isProductSale,
+        type: tx.type,
+        cancelled,
+        paymentMethod: tx.paymentMethod || null,
+        createdAt: tx.createdAt || tx.date,
+        date: tx.date,
+        items: isProductSale
+          ? items
+          : [
+              {
+                name: label,
+                quantity: 1,
+                unitPrice: Math.abs(tx.delta),
+                totalPrice: Math.abs(tx.delta),
+              },
+            ],
+        subtotal: Math.abs(tx.delta),
+        totalAmount: Math.abs(tx.delta),
+        isPositiveDelta: tx.delta >= 0,
+        previousBalance: roundCariMoney(balanceAfter - tx.delta),
+        newBalance: balanceAfter,
+        notes: isProductSale ? note : "",
+      };
+    }
+  }
+
+  // 2) Sipariş fişi
+  if (!verifyOrderToken(id, token) && !(await isAdmin())) {
+    throw new CariServiceError("Fiş bulunamadı", 404);
+  }
+
+  const order = await repo.getSlipOrderById(id);
+  if (!order) {
+    throw new CariServiceError("Fiş bulunamadı", 404);
+  }
+
+  const [products, acc, saleSnapshot] = await Promise.all([
+    repo.listSlipProductMeta(),
+    order.cari_id ? repo.getSlipAccountById(order.cari_id) : Promise.resolve(null),
+    order.cari_id ? repo.getLatestOrderSaleSnapshot(order.id) : Promise.resolve(null),
+  ]);
+
+  const total = Number(order.total_amount) || 0;
+  const businessName = acc?.name || order.customer_name || "Değerli Müşterimiz";
+  const taxNumber = acc?.tax_id || "";
+  const shareTokenVersion = Number(acc?.share_token_version) || 1;
+  const newBalance = saleSnapshot ? saleSnapshot.balanceAfter : undefined;
+  const previousBalance =
+    saleSnapshot !== null ? roundCariMoney(saleSnapshot.balanceAfter - saleSnapshot.delta) : undefined;
+
+  const items: ParsedSlipItem[] = (order.order_items ?? []).map((it) => {
+    const name = it.product_name || "Ürün";
+    const quantity = Number(it.quantity) || 1;
+    const unitPrice = Number(it.unit_price) || 0;
+    const meta = findProductMeta(products, name);
+    return {
+      name,
+      quantity,
+      unitPrice,
+      totalPrice: Number(it.total_price) || quantity * unitPrice,
+      weight: it.weight || meta.weight,
+      imageUrl: it.image_url || meta.imageUrl,
+    };
+  });
+
+  return {
+    id: order.id,
+    orderNumber: order.order_number || order.id.slice(0, 8).toUpperCase(),
+    slipNumber: order.order_number || order.id.slice(0, 8).toUpperCase(),
+    businessName,
+    phone: order.phone || "",
+    address: order.delivery_address || "",
+    neighborhood: order.neighborhood || "",
+    taxNumber,
+    cariId: order.cari_id,
+    ekstreUrl: buildEkstreUrl(order.cari_id, shareTokenVersion),
+    isProductSale: true,
+    type: "satis",
+    createdAt: order.created_at,
+    date: order.delivery_date || order.created_at,
+    timeWindow: order.delivery_time_window || "",
+    items,
+    subtotal: Number(order.subtotal) || total,
+    totalAmount: total,
+    isPositiveDelta: true,
+    previousBalance,
+    newBalance,
+    status: order.status,
   };
 }

@@ -20,14 +20,18 @@ import {
 export type { LedgerWrite, LedgerWriteResult, ShareTarget };
 export { recordLedger, getShareUrl };
 
-export function useCariler() {
+export function useCariler(enabled = true) {
   const [allCariler, setAllCariler] = useState<CariAccount[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(enabled);
   const [error, setError] = useState<string | null>(null);
 
   const supabase = createClient();
 
   const fetchCariler = useCallback(async () => {
+    if (!enabled) {
+      setLoading(false);
+      return;
+    }
     try {
       const accounts = await fetchCariAccounts();
       setAllCariler(accounts);
@@ -38,9 +42,15 @@ export function useCariler() {
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [enabled]);
 
   useEffect(() => {
+    if (!enabled) {
+      setLoading(false);
+      return;
+    }
+
+    setLoading(true);
     void fetchCariler();
 
     if (supabase && isSupabaseConfigured()) {
@@ -55,7 +65,7 @@ export function useCariler() {
         supabase.removeChannel(channel);
       };
     }
-  }, [supabase, fetchCariler]);
+  }, [enabled, supabase, fetchCariler]);
 
   const cariler = useMemo(() => allCariler.filter((c) => !c.archivedAt), [allCariler]);
   const archivedCariler = useMemo(() => allCariler.filter((c) => c.archivedAt), [allCariler]);
@@ -112,10 +122,12 @@ export function useCariler() {
     return r;
   };
 
-  const totalReceivable = cariler
-    .filter((c) => c.accountType !== "gider")
-    .reduce((sum, c) => (c.balance > 0 ? sum + c.balance : sum), 0);
-  const totalCredit = cariler.reduce((sum, c) => (c.balance < 0 ? sum + Math.abs(c.balance) : sum), 0);
+  const customerCariler = cariler.filter((c) => c.accountType !== "gider");
+  const totalReceivable = customerCariler.reduce((sum, c) => (c.balance > 0 ? sum + c.balance : sum), 0);
+  const totalCredit = customerCariler.reduce(
+    (sum, c) => (c.balance < 0 ? sum + Math.abs(c.balance) : sum),
+    0
+  );
 
   return {
     cariler,

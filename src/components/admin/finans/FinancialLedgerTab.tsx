@@ -62,6 +62,20 @@ export function FinancialLedgerTab({
   onSubmitRecord,
   onStartStorno,
 }: FinancialLedgerTabProps) {
+  const [listScope, setListScope] = React.useState<"period" | "all">("period");
+
+  const periodRecords = React.useMemo(
+    () =>
+      records.filter((rec) => {
+        if (fromDate && rec.date < fromDate) return false;
+        if (toDate && rec.date > toDate) return false;
+        return true;
+      }),
+    [records, fromDate, toDate]
+  );
+
+  const displayedRecords = listScope === "period" ? periodRecords : records;
+
   return (
     <div className="grid grid-cols-1 lg:grid-cols-12 gap-4">
       {/* Sol: Hızlı Gider / Gelir Formu ve Kategori Dağılımı */}
@@ -223,7 +237,7 @@ export function FinancialLedgerTab({
 
       {/* Sağ: Kronolojik Gider & Gelir Hareketleri */}
       <div className="lg:col-span-8 rounded-3xl bg-[#FFFFFF] border border-[#E2D3BD] overflow-hidden shadow-sm">
-        <div className="p-4 sm:p-5 bg-[#FBF6EC] border-b border-[#E2D3BD] flex flex-wrap items-center justify-between gap-2">
+        <div className="p-4 sm:p-5 bg-[#FBF6EC] border-b border-[#E2D3BD] flex flex-wrap items-center justify-between gap-3">
           <div>
             <h2 className="font-serif text-lg font-bold text-[#3B1E1A]">
               Gider &amp; Nakit Hareketleri
@@ -232,9 +246,44 @@ export function FinancialLedgerTab({
               Kayıtlar silinmez; hatalı girişlerde simetrik storno (ters kayıt) kesilir.
             </p>
           </div>
-          <span className="text-xs font-mono text-[#6E5148]">
-            {formatTrDate(fromDate)} – {formatTrDate(toDate)}
-          </span>
+
+          <div className="flex flex-wrap items-center gap-2">
+            <div
+              role="group"
+              aria-label="Kayıt dönem filtresi"
+              className="inline-flex items-center rounded-xl border border-[#E2D3BD] bg-[#F6EEDF] p-1 gap-1"
+            >
+              <button
+                type="button"
+                aria-pressed={listScope === "period"}
+                onClick={() => setListScope("period")}
+                className={`min-h-9 px-3 rounded-lg text-xs font-bold transition-colors ${
+                  listScope === "period"
+                    ? "bg-[#B4532A] text-white shadow-xs"
+                    : "text-[#6E5148] hover:text-[#3B1E1A]"
+                }`}
+              >
+                Seçili Dönem ({periodRecords.length})
+              </button>
+              <button
+                type="button"
+                aria-pressed={listScope === "all"}
+                onClick={() => setListScope("all")}
+                className={`min-h-9 px-3 rounded-lg text-xs font-bold transition-colors ${
+                  listScope === "all"
+                    ? "bg-[#3B1E1A] text-white shadow-xs"
+                    : "text-[#6E5148] hover:text-[#3B1E1A]"
+                }`}
+              >
+                Tümü ({records.length})
+              </button>
+            </div>
+            <span className="text-xs font-mono text-[#6E5148]">
+              {listScope === "period"
+                ? `${formatTrDate(fromDate)} – ${formatTrDate(toDate)}`
+                : "Tüm Kayıtlar"}
+            </span>
+          </div>
         </div>
 
         {loading ? (
@@ -249,9 +298,25 @@ export function FinancialLedgerTab({
               Sol formdan ilk un, enerji, ambalaj veya yakıt giderini girerek net işletme marjını başlatabilirsiniz.
             </p>
           </div>
+        ) : displayedRecords.length === 0 ? (
+          <div className="p-10 text-center space-y-3">
+            <p className="text-sm font-semibold text-[#3B1E1A]">
+              Seçili dönemde ({formatTrDate(fromDate)} – {formatTrDate(toDate)}) kayıt bulunamadı.
+            </p>
+            <p className="text-xs text-[#6E5148]">
+              Farklı dönemlerde toplam {records.length} kayıt bulunuyor.
+            </p>
+            <button
+              type="button"
+              onClick={() => setListScope("all")}
+              className="inline-flex items-center justify-center min-h-10 px-4 rounded-xl border border-[#E2D3BD] bg-[#FBF6EC] hover:bg-[#F6EEDF] text-xs font-bold text-[#3B1E1A] transition-colors"
+            >
+              Tüm Kayıtları Göster ({records.length})
+            </button>
+          </div>
         ) : (
           <div className="divide-y divide-[#E2D3BD]">
-            {records.map((rec) => {
+            {displayedRecords.map((rec) => {
               const isStorno = rec.type === "storno_gider" || rec.type === "storno_gelir";
               const isPositive = rec.signedEffect >= 0;
               return (

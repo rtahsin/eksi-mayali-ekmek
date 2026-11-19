@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { ledgerLine, mapLedger, parseLegacyItems, type LedgerRow } from "./ledger";
+import { ledgerLine, mapLedger, parseLedgerItems, parseLegacyItems, type LedgerRow } from "./ledger";
 
 const row = (over: Partial<LedgerRow>): LedgerRow => ({
   id: "t1",
@@ -43,6 +43,85 @@ describe("cari defter eşleme", () => {
     const [tx] = mapLedger([row({ items: [{ name: "Baget", quantity: 2, unitPrice: 30 }], description: "Not" })]);
     expect(tx.items).toEqual([{ name: "Baget", quantity: 2, unitPrice: 30 }]);
     expect(tx.description).toBe("Not");
+  });
+
+  it("sıcak satış ve B2B esnek teslimat iade kalemlerini (productName, unit, lineTotal, isReturn) korur", () => {
+    const parsed = parseLedgerItems([
+      {
+        productId: "p-1",
+        name: "Taş Fırın Köy Ekmeği",
+        productName: "Taş Fırın Köy Ekmeği",
+        quantity: 12,
+        unitPrice: 85,
+        lineTotal: 1020,
+        unit: "800 g",
+        isReturn: false,
+      },
+      {
+        productName: "Bayat / Fire İade - Köy Ekmeği",
+        quantity: -2,
+        unit_price: 85,
+        lineTotal: -170,
+        unit: "adet",
+        isReturn: true,
+      },
+      {
+        name: "Geçersiz lineTotal korumasız geçmez",
+        quantity: 1,
+        unitPrice: 50,
+        lineTotal: "NaN",
+        isReturn: "evet",
+      },
+    ]);
+
+    expect(parsed).toEqual([
+      {
+        productId: "p-1",
+        name: "Taş Fırın Köy Ekmeği",
+        productName: "Taş Fırın Köy Ekmeği",
+        quantity: 12,
+        unitPrice: 85,
+        lineTotal: 1020,
+        unit: "800 g",
+        isReturn: false,
+      },
+      {
+        name: "Bayat / Fire İade - Köy Ekmeği",
+        productName: "Bayat / Fire İade - Köy Ekmeği",
+        quantity: -2,
+        unitPrice: 85,
+        lineTotal: -170,
+        unit: "adet",
+        isReturn: true,
+      },
+      {
+        name: "Geçersiz lineTotal korumasız geçmez",
+        quantity: 1,
+        unitPrice: 50,
+      },
+    ]);
+  });
+
+  it("mapLedger sıcak satış iade bayrağını korur", () => {
+    const [tx] = mapLedger([
+      row({
+        items: [
+          { productName: "Siyez", quantity: 5, unitPrice: 120, lineTotal: 600, unit: "700 g", isReturn: false },
+          { productName: "Siyez (İade)", quantity: -1, unitPrice: 120, lineTotal: -120, unit: "700 g", isReturn: true },
+        ],
+      }),
+    ]);
+
+    expect(tx.items).toHaveLength(2);
+    expect(tx.items?.[1]).toMatchObject({
+      name: "Siyez (İade)",
+      productName: "Siyez (İade)",
+      quantity: -1,
+      unitPrice: 120,
+      lineTotal: -120,
+      unit: "700 g",
+      isReturn: true,
+    });
   });
 });
 

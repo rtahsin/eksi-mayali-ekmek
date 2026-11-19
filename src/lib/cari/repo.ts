@@ -105,6 +105,105 @@ export interface RecordHotSaleRpcParams {
   p_allow_over_limit: boolean;
 }
 
+export interface StandingOrderAccountRecord {
+  id: string;
+  name: string;
+  phone: string | null;
+  address: string | null;
+  district: string | null;
+  neighborhood: string | null;
+  default_courier_id: string | null;
+  custom_prices: unknown;
+  standing_order: unknown;
+}
+
+export interface StandingOrderProductRecord {
+  id: string;
+  name: string;
+  price: number | string | null;
+  image_url: string | null;
+  weight: number | null;
+  is_active: boolean | null;
+}
+
+export interface CreateStandingOrderLinePayload {
+  product_id: string;
+  product_name: string;
+  quantity: number;
+  unit_price: number;
+  total_price: number;
+  image_url: string | null;
+  weight: number | null;
+}
+
+export interface CreateStandingOrderRpcParams {
+  p_order: Record<string, unknown>;
+  p_items: CreateStandingOrderLinePayload[];
+  p_user_id: string;
+}
+
+export interface CreateStandingOrderRpcResult {
+  order_id?: string;
+  order_number?: string;
+  is_existing?: boolean;
+}
+
+export interface StatementAccountRecord {
+  id: string;
+  name: string | null;
+  contact_person: string | null;
+  phone: string | null;
+  tax_id: string | null;
+  balance: number | string | null;
+  share_token_version: number | null;
+}
+
+export interface SlipAccountRecord {
+  name: string | null;
+  tax_id: string | null;
+  phone: string | null;
+  address: string | null;
+  neighborhood: string | null;
+  share_token_version: number | null;
+}
+
+export interface SlipProductMetaRecord {
+  name: string;
+  image_url: string | null;
+  weight: number | null;
+}
+
+export interface SlipOrderItemRecord {
+  product_name: string | null;
+  quantity: number | string | null;
+  unit_price: number | string | null;
+  total_price: number | string | null;
+  image_url: string | null;
+  weight: number | null;
+}
+
+export interface SlipOrderRecord {
+  id: string;
+  order_number: string | null;
+  cari_id: string | null;
+  customer_name: string | null;
+  phone: string | null;
+  delivery_address: string | null;
+  neighborhood: string | null;
+  delivery_date: string | null;
+  delivery_time_window: string | null;
+  status: string;
+  subtotal: number | string | null;
+  total_amount: number | string | null;
+  created_at: string;
+  order_items: SlipOrderItemRecord[] | null;
+}
+
+export interface OrderSaleSnapshot {
+  delta: number;
+  balanceAfter: number;
+}
+
 export interface CariRepository {
   listAccounts(): Promise<CariAccount[]>;
   getAccountById(id: string): Promise<CariAccount | null>;
@@ -137,6 +236,19 @@ export interface CariRepository {
     accountId: string,
     limit: number
   ): Promise<{ sales: LastOrderLedgerSaleRow[]; reversedIds: Set<string> }>;
+  listActiveCustomerStandingAccounts(): Promise<StandingOrderAccountRecord[]>;
+  listActiveStandingProducts(): Promise<StandingOrderProductRecord[]>;
+  createStandingOrderAtomic(
+    params: CreateStandingOrderRpcParams
+  ): Promise<CreateStandingOrderRpcResult>;
+  getStatementAccountById(id: string): Promise<StatementAccountRecord | null>;
+  getLedgerRowById(id: string): Promise<LedgerRow | null>;
+  getSlipAccountById(id: string): Promise<SlipAccountRecord | null>;
+  listSlipProductMeta(): Promise<SlipProductMetaRecord[]>;
+  getTransactionSlipNumber(id: string): Promise<string | null>;
+  isTransactionReversed(txId: string): Promise<boolean>;
+  getSlipOrderById(id: string): Promise<SlipOrderRecord | null>;
+  getLatestOrderSaleSnapshot(orderId: string): Promise<OrderSaleSnapshot | null>;
 }
 
 const ACCOUNT_LIST_SELECT =
@@ -417,6 +529,121 @@ export function createSupabaseCariRepository(supabase: CariSupabaseClient): Cari
       return {
         sales: (salesRes.data ?? []) as LastOrderLedgerSaleRow[],
         reversedIds,
+      };
+    },
+
+    async listActiveCustomerStandingAccounts() {
+      const { data, error } = await supabase
+        .from("current_accounts")
+        .select(
+          "id, name, phone, address, district, neighborhood, default_courier_id, custom_prices, standing_order"
+        )
+        .is("archived_at", null)
+        .eq("account_type", "musteri");
+      if (error) throw error;
+      return (data ?? []) as StandingOrderAccountRecord[];
+    },
+
+    async listActiveStandingProducts() {
+      const { data, error } = await supabase
+        .from("products")
+        .select("id, name, price, image_url, weight, is_active")
+        .eq("is_active", true);
+      if (error) throw error;
+      return (data ?? []) as StandingOrderProductRecord[];
+    },
+
+    async createStandingOrderAtomic(params) {
+      const { data, error } = await supabase.rpc("create_order_atomic", params);
+      if (error) throw error;
+      return (data ?? {}) as CreateStandingOrderRpcResult;
+    },
+
+    async getStatementAccountById(id) {
+      const { data, error } = await supabase
+        .from("current_accounts")
+        .select("id, name, contact_person, phone, tax_id, balance, share_token_version")
+        .eq("id", id)
+        .maybeSingle();
+      if (error) throw error;
+      return (data as StatementAccountRecord | null) ?? null;
+    },
+
+    async getLedgerRowById(id) {
+      const { data, error } = await supabase
+        .from("account_transactions")
+        .select(LEDGER_SELECT)
+        .eq("id", id)
+        .maybeSingle();
+      if (error) throw error;
+      return (data as LedgerRow | null) ?? null;
+    },
+
+    async getSlipAccountById(id) {
+      const { data, error } = await supabase
+        .from("current_accounts")
+        .select("name, tax_id, phone, address, neighborhood, share_token_version")
+        .eq("id", id)
+        .maybeSingle();
+      if (error) throw error;
+      return (data as SlipAccountRecord | null) ?? null;
+    },
+
+    async listSlipProductMeta() {
+      const { data, error } = await supabase
+        .from("products")
+        .select("name, image_url, weight");
+      if (error) throw error;
+      return (data ?? []) as SlipProductMetaRecord[];
+    },
+
+    async getTransactionSlipNumber(id) {
+      const { data, error } = await supabase
+        .from("account_transactions")
+        .select("slip_number")
+        .eq("id", id)
+        .maybeSingle();
+      if (error) throw error;
+      return (data as { slip_number: string | null } | null)?.slip_number ?? null;
+    },
+
+    async isTransactionReversed(txId) {
+      const { data, error } = await supabase
+        .from("account_transactions")
+        .select("id")
+        .eq("reverses_id", txId)
+        .limit(1);
+      if (error) throw error;
+      return Boolean(data && data.length > 0);
+    },
+
+    async getSlipOrderById(id) {
+      const { data, error } = await supabase
+        .from("orders")
+        .select(
+          "id, order_number, cari_id, customer_name, phone, delivery_address, neighborhood, delivery_date, delivery_time_window, status, subtotal, total_amount, created_at, order_items(product_name, quantity, unit_price, total_price, image_url, weight)"
+        )
+        .eq("id", id)
+        .maybeSingle();
+      if (error) throw error;
+      return (data as SlipOrderRecord | null) ?? null;
+    },
+
+    async getLatestOrderSaleSnapshot(orderId) {
+      const { data, error } = await supabase
+        .from("account_transactions")
+        .select("delta, balance_after")
+        .eq("order_id", orderId)
+        .eq("type", "satis")
+        .order("created_at", { ascending: false })
+        .limit(1)
+        .maybeSingle();
+      if (error) throw error;
+      const s = data as { delta: number | string; balance_after: number | string | null } | null;
+      if (!s || s.balance_after === null) return null;
+      return {
+        delta: Number(s.delta) || 0,
+        balanceAfter: Number(s.balance_after),
       };
     },
   };

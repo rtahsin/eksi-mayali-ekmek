@@ -4,6 +4,7 @@ import React, { useEffect, useState, useMemo } from "react";
 import { useParams, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import {
+  AlertTriangle,
   Calendar,
   Phone,
   Receipt,
@@ -14,15 +15,22 @@ import {
   ShieldCheck,
   User,
   BarChart2,
-  Package,
   Download,
-  Filter,
   X,
 } from "lucide-react";
+import { useIstanbulToday } from "@/hooks/useIstanbulToday";
 import { CariTransaction } from "@/types/admin";
+import {
+  formatCariDateRangeLabel,
+  isTransactionInDateRange,
+  resolveCariDateRange,
+  summarizeBalanceByDate,
+  type CariDateFilter,
+} from "@/lib/cari/balanceSummary";
 import { LEDGER_TYPE_LABELS } from "@/lib/cari/ledger";
+import { buildCsvContent, sanitizeCsvCell } from "@/lib/security/csv";
 import { CONTACT } from "@/lib/site";
-import { addDays, istanbulToday } from "@/lib/time/istanbul";
+import { formatTrDate } from "@/lib/time/istanbul";
 
 interface StatementAccount {
   id: string;
@@ -35,21 +43,35 @@ interface StatementAccount {
 
 type StatementTx = CariTransaction & { slipToken: string | null };
 
+function formatMoney(n: number): string {
+  return n.toLocaleString("tr-TR", {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  });
+}
+
+function formatSignedMoney(n: number): string {
+  if (n === 0) return "0,00 ₺";
+  const sign = n > 0 ? "+" : "−";
+  return `${sign}${formatMoney(Math.abs(n))} ₺`;
+}
+
 export default function CustomerStatementPage() {
   const params = useParams();
   const cariId = params?.id as string;
   const linkToken = useSearchParams()?.get("t") || "";
+  const today = useIstanbulToday();
 
   const [loading, setLoading] = useState(true);
   const [cari, setCari] = useState<StatementAccount | null>(null);
   const [transactions, setTransactions] = useState<StatementTx[]>([]);
   const [copied, setCopied] = useState(false);
+  const [csvNotice, setCsvNotice] = useState<string | null>(null);
 
   // Date and type filters
-  type StatementDateFilter = "all" | "this_month" | "last_month" | "last_30_days" | "custom";
   type StatementTypeFilter = "all" | "satis" | "tahsilat";
 
-  const [dateFilter, setDateFilter] = useState<StatementDateFilter>("all");
+  const [dateFilter, setDateFilter] = useState<CariDateFilter>("all");
   const [typeFilter, setTypeFilter] = useState<StatementTypeFilter>("all");
   const [startDate, setStartDate] = useState<string>("");
   const [endDate, setEndDate] = useState<string>("");
@@ -73,27 +95,31 @@ export default function CustomerStatementPage() {
       }
     };
 
-    fetchStatement();
+    void fetchStatement();
   }, [cariId, linkToken]);
 
+  const activeDateRange = useMemo(
+    () => resolveCariDateRange(dateFilter, today, startDate, endDate),
+    [dateFilter, today, startDate, endDate]
+  );
+
+  const periodLabel = useMemo(
+    () => formatCariDateRangeLabel(dateFilter, activeDateRange),
+    [dateFilter, activeDateRange]
+  );
+
+  const dateBalanceSummary = useMemo(
+    () => summarizeBalanceByDate(transactions, activeDateRange),
+    [transactions, activeDateRange]
+  );
+
   const filteredTransactions = useMemo(() => {
-    const today = istanbulToday();
-    const thisMonth = today.slice(0, 7);
-    const lastMonth = addDays(`${thisMonth}-01`, -1).slice(0, 7);
     return transactions.filter((tx) => {
       if (typeFilter === "satis" && !(tx.delta > 0)) return false;
       if (typeFilter === "tahsilat" && !(tx.delta < 0)) return false;
-
-      if (dateFilter === "this_month") return tx.date.slice(0, 7) === thisMonth;
-      if (dateFilter === "last_month") return tx.date.slice(0, 7) === lastMonth;
-      if (dateFilter === "last_30_days") return tx.date >= addDays(today, -30);
-      if (dateFilter === "custom") {
-        if (startDate && tx.date < startDate) return false;
-        if (endDate && tx.date > endDate) return false;
-      }
-      return true;
+      return isTransactionInDateRange(tx.date, activeDateRange);
     });
-  }, [transactions, dateFilter, typeFilter, startDate, endDate]);
+  }, [transactions, typeFilter, activeDateRange]);
 
   const totalBorc = useMemo(
     () => filteredTransactions.reduce((sum, tx) => (tx.delta > 0 ? sum + tx.delta : sum), 0),
@@ -107,39 +133,45 @@ export default function CustomerStatementPage() {
 
   const handleExportCSV = () => {
     if (!cari || filteredTransactions.length === 0) {
-      alert("Dışa aktarılacak işlem bulunamadı.");
+      setCsvNotice("Seçili tarih veya işlem filtresinde dışa aktarılacak hareket bulunamadı.");
       return;
     }
 
-    const headers = ["Tarih", "Belge / Fiş No", "İşlem Türü", "Açıklama", "Borç (TL)", "Alacak (TL)", "Yürüyen Bakiye (TL)"];
+    setCsvNotice(null);
+    const headers = [
+      "Tarih",
+      "Belge / Fiş No",
+      "İşlem Türü",
+      "Açıklama",
+      "Borç (TL)",
+      "Alacak (TL)",
+      "Yürüyen Bakiye (TL)",
+    ];
+    const money = (n: number) => n.toFixed(2).replace(".", ",");
     const rows = filteredTransactions.map((tx) => {
       const typeLabel = LEDGER_TYPE_LABELS[tx.type] + (tx.reversedById ? " (iptal edildi)" : "");
       const slipNo = tx.slipNumber || "-";
-      const cleanDesc = (tx.description || "").replace(/"/g, '""');
-      const money = (n: number) => n.toFixed(2).replace(".", ",");
+      const desc = tx.description || LEDGER_TYPE_LABELS[tx.type];
       const borc = tx.delta > 0 ? money(tx.delta) : "0,00";
       const alacak = tx.delta < 0 ? money(-tx.delta) : "0,00";
       const bakiye = tx.balanceAfter !== undefined ? money(tx.balanceAfter) : "";
 
-      return [
-        `"${tx.date}"`,
-        `"${slipNo}"`,
-        `"${typeLabel}"`,
-        `"${cleanDesc}"`,
-        borc,
-        alacak,
-        bakiye,
-      ].join(";");
+      return [tx.date, slipNo, typeLabel, desc, borc, alacak, bakiye];
     });
 
-    const csvContent = "\uFEFF" + [headers.join(";"), ...rows].join("\r\n");
+    // UTF-8 BOM + ';' ayracı + formül enjeksiyon koruması (@/lib/security/csv)
+    const csvContent = buildCsvContent(headers, rows);
     const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
     const url = URL.createObjectURL(blob);
     const link = document.createElement("a");
-    const cleanBusinessName = cari.businessName.replace(/[^a-zA-Z0-9çÇğĞıİöÖşŞüÜ_-]/g, "_");
+    const cleanBusinessName = sanitizeCsvCell(cari.businessName)
+      .replace(/"/g, "")
+      .replace(/[^a-zA-Z0-9çÇğĞıİöÖşŞüÜ_-]/g, "_");
     link.href = url;
-    link.download = `EkmekLab_Ekstre_${cleanBusinessName}_${istanbulToday()}.csv`;
+    link.download = `EkmekLab_Ekstre_${cleanBusinessName}_${today}.csv`;
+    document.body.appendChild(link);
     link.click();
+    document.body.removeChild(link);
     URL.revokeObjectURL(url);
   };
 
@@ -189,7 +221,7 @@ export default function CustomerStatementPage() {
         {/* Main Artisan Document Card */}
         <div
           style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif' }}
-          className="bg-[#FBF9F5] text-[#221610] p-5 sm:p-8 rounded-[32px] border border-[#EBE4D8] shadow-[0_20px_50px_rgba(34,22,16,0.12)] space-y-6 relative print:border-none print:shadow-none print:p-0 print:bg-white"
+          className="bg-[#FBF9F5] text-[#221610] p-5 sm:p-8 rounded-[32px] border border-[#EBE4D8] shadow-[0_20px_50px_rgba(34,22,16,0.12)] space-y-6 relative overflow-visible print:border-none print:shadow-none print:p-0 print:bg-white"
         >
           {/* Header: Logo & Brand Information (Horizontal Alignment) + Actions */}
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-[#EBE4D8]">
@@ -246,6 +278,26 @@ export default function CustomerStatementPage() {
             </div>
           </div>
 
+          {csvNotice && (
+            <div
+              role="alert"
+              className="flex items-center justify-between gap-2 rounded-2xl border border-amber-300 bg-amber-50 px-4 py-3 text-xs font-semibold text-amber-950 print:hidden"
+            >
+              <div className="flex items-center gap-2">
+                <AlertTriangle className="w-4 h-4 shrink-0 text-amber-700" aria-hidden="true" />
+                <span>{csvNotice}</span>
+              </div>
+              <button
+                type="button"
+                onClick={() => setCsvNotice(null)}
+                aria-label="Uyarıyı kapat"
+                className="inline-flex h-8 w-8 items-center justify-center rounded-lg hover:bg-black/5"
+              >
+                <X className="w-4 h-4" />
+              </button>
+            </div>
+          )}
+
           {/* Account Profile & Statement Metadata Card */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {/* Customer Info Box */}
@@ -297,104 +349,148 @@ export default function CustomerStatementPage() {
                   <div className="text-xs font-bold text-[#8A7A70] tracking-wider uppercase leading-none mb-1">
                     EKSTRE TARİHİ
                   </div>
-                  <div className="text-xs sm:text-sm font-bold text-[#1E140F] leading-tight">
-                    {new Date().toLocaleDateString("tr-TR", { day: "numeric", month: "long", year: "numeric" })}
+                  <div className="text-xs sm:text-sm font-bold text-[#1E140F] leading-normal pb-1">
+                    {formatTrDate(today, "long")}
                   </div>
                   <div className="text-xs text-[#8A7A70] mt-0.5 font-medium">
-                    Canlı Mutabakat & Hesap Dökümü
+                    Canlı Mutabakat &amp; Hesap Dökümü · {periodLabel}
                   </div>
                 </div>
               </div>
 
               <div className="text-right shrink-0 pl-2">
                 <div className="text-xs font-bold text-[#8A7A70] tracking-wider uppercase leading-none mb-1">
-                  TOPLAM İŞLEM
+                  GÜNCEL BAKİYE
                 </div>
-                <div className="bg-[#F5EFE6] px-3 py-1 rounded-xl text-xs sm:text-sm font-black text-[#B45309]">
-                  {transactions.length} Hareket
+                <div className="bg-[#F5EFE6] px-3 py-1 rounded-xl text-xs sm:text-sm font-black font-mono tabular-nums text-[#8E3D1B] leading-normal pb-1">
+                  {formatMoney(cari.balance || 0)} ₺
                 </div>
               </div>
             </div>
           </div>
 
-          {/* Summary Mini-Cards (Alışlar, Ödemeler & Güncel Bakiye) */}
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-            <div className="bg-white/90 border border-[#EBE4D8] rounded-2xl p-4 shadow-sm space-y-1">
-              <div className="text-xs font-bold text-[#8A7A70] uppercase tracking-wider">
-                Toplam Sipariş & Alışlar
-              </div>
-              <div className="text-xl sm:text-2xl font-black text-[#1E140F]">
-                +{totalBorc.toLocaleString("tr-TR")} ₺
-              </div>
-              <p className="text-xs text-[#7A6B62]">Teslim edilen ürün toplamı</p>
+          {/* Summary Mini-Cards (Dönem Başı Devir, Dönem Borç, Dönem Alacak, Dönem Sonu Bakiye) */}
+          {dateBalanceSummary.isInvalidRange ? (
+            <div
+              role="alert"
+              className="flex items-center gap-2 rounded-2xl border border-amber-300 bg-amber-50 px-4 py-3 text-xs font-semibold text-amber-950"
+            >
+              <AlertTriangle className="w-4 h-4 shrink-0 text-amber-700" aria-hidden="true" />
+              <span>Başlangıç tarihi bitiş tarihinden sonra olamaz. Lütfen tarih aralığını düzeltin.</span>
             </div>
+          ) : (
+            <div className="space-y-2 overflow-visible">
+              <div className="flex flex-wrap items-center justify-between gap-2 text-xs text-[#6E5148]">
+                <span className="font-bold text-[#3B1E1A]">
+                  Dönem Özeti: <span className="text-[#8E3D1B]">{periodLabel}</span>
+                </span>
+                <span className="font-mono text-[11px]">
+                  Devir + Borç − Alacak = Dönem Sonu ({dateBalanceSummary.transactionCount} hareket)
+                </span>
+              </div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 overflow-visible">
+                <div className="bg-white/90 border border-[#EBE4D8] rounded-2xl p-4 shadow-sm space-y-1 overflow-visible">
+                  <div className="text-xs font-bold text-[#8A7A70] uppercase tracking-wider">
+                    Dönem Başı Devir
+                  </div>
+                  <div className="text-xl sm:text-2xl font-black font-mono tabular-nums text-[#1E140F] leading-normal pb-1">
+                    {formatMoney(dateBalanceSummary.openingBalance)} ₺
+                  </div>
+                  <p className="text-xs text-[#7A6B62]">
+                    {activeDateRange.startDate
+                      ? `${formatTrDate(activeDateRange.startDate)} öncesi bakiye`
+                      : "Hesap başlangıcı"}
+                  </p>
+                </div>
 
-            <div className="bg-white/90 border border-[#EBE4D8] rounded-2xl p-4 shadow-sm space-y-1">
-              <div className="text-xs font-bold text-[#8A7A70] uppercase tracking-wider">
-                Toplam Yapılan Ödemeler
-              </div>
-              <div className="text-xl sm:text-2xl font-black text-emerald-800">
-                -{totalAlacak.toLocaleString("tr-TR")} ₺
-              </div>
-              <p className="text-xs text-[#7A6B62]">Tahsilat & ödeme toplamı</p>
-            </div>
+                <div className="bg-white/90 border border-[#EBE4D8] rounded-2xl p-4 shadow-sm space-y-1 overflow-visible">
+                  <div className="text-xs font-bold text-[#8A7A70] uppercase tracking-wider">
+                    Dönem Borç (+)
+                  </div>
+                  <div className="text-xl sm:text-2xl font-black font-mono tabular-nums text-[#8E3D1B] leading-normal pb-1">
+                    +{formatMoney(dateBalanceSummary.periodDebt)} ₺
+                  </div>
+                  <p className="text-xs text-[#7A6B62]">Teslim edilen ürün &amp; borç toplamı</p>
+                </div>
 
-            {/* Current Balance (Highlighted Tablet) */}
-            <div className="bg-[#EFE8DD] border border-[#E5DAC8] rounded-2xl p-4 shadow-sm space-y-1">
-              <div className="text-xs font-black text-[#5C4C42] uppercase tracking-wider">
-                Güncel Toplam Bakiye
+                <div className="bg-white/90 border border-[#EBE4D8] rounded-2xl p-4 shadow-sm space-y-1 overflow-visible">
+                  <div className="text-xs font-bold text-[#8A7A70] uppercase tracking-wider">
+                    Dönem Alacak (−)
+                  </div>
+                  <div className="text-xl sm:text-2xl font-black font-mono tabular-nums text-emerald-800 leading-normal pb-1">
+                    −{formatMoney(dateBalanceSummary.periodCredit)} ₺
+                  </div>
+                  <p className="text-xs text-[#7A6B62]">Tahsilat &amp; ödeme toplamı</p>
+                </div>
+
+                <div className="bg-[#EFE8DD] border border-[#E5DAC8] rounded-2xl p-4 shadow-sm space-y-1 overflow-visible">
+                  <div className="text-xs font-black text-[#5C4C42] uppercase tracking-wider">
+                    Dönem Sonu Bakiye
+                  </div>
+                  <div
+                    className={`text-xl sm:text-2xl font-black font-mono tabular-nums leading-normal pb-1 ${
+                      dateBalanceSummary.closingBalance > 0
+                        ? "text-[#8E3D1B]"
+                        : dateBalanceSummary.closingBalance < 0
+                          ? "text-emerald-800"
+                          : "text-[#1E140F]"
+                    }`}
+                  >
+                    {formatMoney(dateBalanceSummary.closingBalance)} ₺
+                  </div>
+                  <p className="text-xs font-bold text-[#7A6B62]">
+                    Dönem net: {formatSignedMoney(dateBalanceSummary.periodNet)} ·{" "}
+                    {dateBalanceSummary.closingBalance > 0
+                      ? "Kalan Borç"
+                      : dateBalanceSummary.closingBalance < 0
+                        ? "Avans / Fazla"
+                        : "Dengede"}
+                  </p>
+                </div>
               </div>
-              <div className={`text-xl sm:text-2xl font-black ${
-                cari.balance > 0 ? "text-[#B45309]" : cari.balance < 0 ? "text-emerald-800" : "text-[#1E140F]"
-              }`}>
-                {(cari.balance || 0).toLocaleString("tr-TR")} ₺
-              </div>
-              <p className="text-xs font-bold text-[#7A6B62]">
-                {cari.balance > 0
-                  ? "Ödenecek Kalan Borç"
-                  : cari.balance < 0
-                  ? "Avans / Fazla Bakiye"
-                  : "Hesap Tamamen Dengede"}
-              </p>
             </div>
-          </div>
+          )}
 
           {/* Transaction Ledger Table */}
-          <div className="bg-white/90 border border-[#EBE4D8] rounded-2xl shadow-sm overflow-hidden">
-            <div className="p-4 sm:p-5 border-b border-[#EBE4D8] bg-[#FAF6F0] space-y-3">
+          <div className="bg-white/90 border border-[#EBE4D8] rounded-2xl shadow-sm overflow-visible">
+            <div className="p-4 sm:p-5 border-b border-[#EBE4D8] bg-[#FAF6F0] rounded-t-2xl space-y-3">
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
                 <div className="flex items-center gap-2.5">
                   <div className="w-7 h-7 rounded-full bg-[#EFE8DC] flex items-center justify-center text-[#5C4C42]">
                     <BarChart2 className="w-4 h-4" />
                   </div>
                   <h2 className="text-xs sm:text-sm font-black text-[#1E140F] tracking-wide uppercase">
-                    Hesap Hareketleri & Teslimat Fişleri ({filteredTransactions.length})
+                    Hesap Hareketleri &amp; Teslimat Fişleri ({filteredTransactions.length})
                   </h2>
                 </div>
                 <span className="text-xs font-semibold text-[#8A7A70]">
-                  Yürüyen Bakiye Düzeni
+                  Yürüyen Bakiye Düzeni · {transactions.length} Toplam Hareket
                 </span>
               </div>
 
               {/* Filter Toolbar (Hidden on print) */}
               <div className="flex flex-wrap items-center gap-2 pt-2 border-t border-[#EBE4D8]/60 print:hidden text-xs">
                 {/* Period Pills */}
-                <div className="flex items-center gap-1 bg-[#F5EFE6] p-1 rounded-xl border border-[#E8DFC8]">
+                <div className="flex flex-wrap items-center gap-1 bg-[#F5EFE6] p-1 rounded-xl border border-[#E8DFC8]">
                   {(
                     [
                       { id: "all", label: "Tüm Zamanlar" },
                       { id: "this_month", label: "Bu Ay" },
                       { id: "last_month", label: "Geçen Ay" },
-                      { id: "last_30_days", label: "Son 30 Gün" },
+                      { id: "last_30", label: "Son 30 Gün" },
                       { id: "custom", label: "Tarih Seç" },
                     ] as const
                   ).map((p) => (
                     <button
+                      type="button"
                       key={p.id}
-                      onClick={() => setDateFilter(p.id)}
+                      onClick={() => {
+                        setDateFilter(p.id);
+                        setCsvNotice(null);
+                      }}
                       className={`px-2.5 py-1 rounded-lg font-bold text-xs transition-all ${
                         dateFilter === p.id
-                          ? "bg-[#B45309] text-white shadow-sm"
+                          ? "bg-[#B4532A] text-white shadow-sm"
                           : "text-[#63554D] hover:text-[#1E140F]"
                       }`}
                     >
@@ -413,8 +509,12 @@ export default function CustomerStatementPage() {
                     ] as const
                   ).map((t) => (
                     <button
+                      type="button"
                       key={t.id}
-                      onClick={() => setTypeFilter(t.id)}
+                      onClick={() => {
+                        setTypeFilter(t.id);
+                        setCsvNotice(null);
+                      }}
                       className={`px-2.5 py-1 rounded-lg font-bold text-xs transition-all ${
                         typeFilter === t.id
                           ? "bg-[#1E140F] text-white shadow-sm"
@@ -433,14 +533,20 @@ export default function CustomerStatementPage() {
                     <input
                       type="date"
                       value={startDate}
-                      onChange={(e) => setStartDate(e.target.value)}
+                      onChange={(e) => {
+                        setStartDate(e.target.value);
+                        setCsvNotice(null);
+                      }}
                       className="bg-white border border-[#E8DFC8] rounded px-1.5 py-0.5 text-xs text-[#1E140F] font-mono focus:outline-none"
                     />
                     <span className="text-[#8A7A70]">-</span>
                     <input
                       type="date"
                       value={endDate}
-                      onChange={(e) => setEndDate(e.target.value)}
+                      onChange={(e) => {
+                        setEndDate(e.target.value);
+                        setCsvNotice(null);
+                      }}
                       className="bg-white border border-[#E8DFC8] rounded px-1.5 py-0.5 text-xs text-[#1E140F] font-mono focus:outline-none"
                     />
                   </div>
@@ -453,7 +559,7 @@ export default function CustomerStatementPage() {
                 Seçilen filtrelere uygun hesap hareketi bulunmuyor.
               </div>
             ) : (
-              <div className="overflow-x-auto">
+              <div className="overflow-x-auto print:overflow-visible">
                 <table className="w-full text-left border-collapse">
                   <thead>
                     <tr className="border-b border-[#EBE4D8] bg-[#F5EFE6]/70 text-xs font-bold text-[#8A7A70] uppercase tracking-wider">
@@ -551,18 +657,24 @@ export default function CustomerStatementPage() {
                   <tfoot>
                     <tr className="border-t-2 border-[#EBE4D8] bg-[#F5EFE6] font-bold text-xs text-[#1E140F]">
                       <td colSpan={3} className="py-4 px-4 uppercase tracking-wider text-xs text-[#5C4C42]">
-                        GENEL TOPLAM ({filteredTransactions.length} İşlem)
+                        DÖNEM TOPLAMI ({filteredTransactions.length} İşlem)
                       </td>
-                      <td className="py-4 px-4 text-right font-black text-[#B45309]">
-                        +{totalBorc.toLocaleString("tr-TR")} ₺
+                      <td className="py-4 px-4 text-right font-black font-mono tabular-nums text-[#8E3D1B] pb-1">
+                        +{formatMoney(totalBorc)} ₺
                       </td>
-                      <td className="py-4 px-4 text-right font-black text-emerald-800">
-                        -{totalAlacak.toLocaleString("tr-TR")} ₺
+                      <td className="py-4 px-4 text-right font-black font-mono tabular-nums text-emerald-800 pb-1">
+                        −{formatMoney(totalAlacak)} ₺
                       </td>
-                      <td className={`py-4 px-4 text-right font-black text-sm ${
-                        cari.balance > 0 ? "text-[#B45309]" : cari.balance < 0 ? "text-emerald-800" : "text-[#1E140F]"
-                      }`}>
-                        {(cari.balance || 0).toLocaleString("tr-TR")} ₺
+                      <td
+                        className={`py-4 px-4 text-right font-black font-mono tabular-nums text-sm pb-1 ${
+                          dateBalanceSummary.closingBalance > 0
+                            ? "text-[#8E3D1B]"
+                            : dateBalanceSummary.closingBalance < 0
+                              ? "text-emerald-800"
+                              : "text-[#1E140F]"
+                        }`}
+                      >
+                        {formatMoney(dateBalanceSummary.closingBalance)} ₺
                       </td>
                       <td className="py-4 px-4 text-center print:hidden text-[#8A7A70]">—</td>
                     </tr>

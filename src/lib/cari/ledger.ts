@@ -50,12 +50,33 @@ export function parseLedgerItems(v: unknown): LedgerItem[] {
     .map((x) => {
       if (typeof x !== "object" || x === null) return null;
       const r = x as Record<string, unknown>;
-      const name = typeof r.name === "string" ? r.name : null;
+      const rawName =
+        typeof r.name === "string" && r.name.trim().length > 0
+          ? r.name
+          : typeof r.productName === "string" && r.productName.trim().length > 0
+            ? r.productName
+            : null;
       const quantity = Number(r.quantity);
       const unitPrice = Number(r.unitPrice ?? r.unit_price);
-      if (!name || !Number.isFinite(quantity) || !Number.isFinite(unitPrice)) return null;
-      const item: LedgerItem = { name, quantity, unitPrice };
+      if (!rawName || !Number.isFinite(quantity) || !Number.isFinite(unitPrice)) return null;
+      const item: LedgerItem = { name: rawName, quantity, unitPrice };
       if (typeof r.productId === "string") item.productId = r.productId;
+      if (typeof r.productName === "string" && r.productName.trim().length > 0) {
+        item.productName = r.productName;
+      }
+      if (typeof r.unit === "string" && r.unit.trim().length > 0) {
+        item.unit = r.unit;
+      }
+      const rawLineTotal = r.lineTotal;
+      if (rawLineTotal !== undefined && rawLineTotal !== null && rawLineTotal !== "") {
+        const lineTotal = Number(rawLineTotal);
+        if (Number.isFinite(lineTotal)) {
+          item.lineTotal = lineTotal;
+        }
+      }
+      if (typeof r.isReturn === "boolean") {
+        item.isReturn = r.isReturn;
+      }
       return item;
     })
     .filter((x): x is LedgerItem => x !== null);

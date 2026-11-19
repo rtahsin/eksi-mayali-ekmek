@@ -4,21 +4,25 @@ import crypto from "node:crypto";
 import { istanbulToday } from "@/lib/time/istanbul";
 import {
   computeCfoSummary,
-  computeSupplierSymmetricBalance,
   mapSupplierRow,
   normalizeFinancialRecords,
   normalizeSupplierTransactions,
-  round2,
 } from "./domain";
 import {
   FinancePostSchema,
   SuppliersPostSchema,
   parseFinanceDateRange,
 } from "./schema";
-import type { FinanceRepository } from "./repo";
+import {
+  FinanceRepoError,
+  type FinanceRepository,
+  type RecordSupplierTransactionAtomicResult,
+  type StornoSupplierTransactionAtomicResult,
+} from "./repo";
 import type {
   FinanceOverviewPayload,
   FinanceRecordActionPayload,
+  RawFinancialRecordRow,
   SupplierTxRecordPayload,
   SupplierTxStornoPayload,
   SupplierUpsertPayload,
@@ -33,11 +37,34 @@ export type FinanceActionResult<T> =
   | { ok: true; status: number; body: T }
   | { ok: false; status: number; body: { error: string; code?: string } };
 
+const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+
+function toNullableUuid(value: string | null | undefined): string | null {
+  if (!value) return null;
+  const trimmed = value.trim();
+  return UUID_RE.test(trimmed) ? trimmed : null;
+}
+
+function toRepoErrorResult<T>(err: unknown): FinanceActionResult<T> {
+  if (err instanceof FinanceRepoError) {
+    return {
+      ok: false,
+      status: err.status,
+      body: {
+        error: err.message,
+        ...(err.code ? { code: err.code } : {}),
+      },
+    };
+  }
+  throw err;
+}
+
 export async function getFinanceOverview(
   repo: FinanceRepository,
   params: { from?: string | null; to?: string | null; today?: string }
 ): Promise<FinanceActionResult<FinanceOverviewPayload>> {
-  const range = parseFinanceDateRange(params.from, params.to, params.today ?? istanbulToday());
+  const resolvedToday = params.today ?? istanbulToday();
+  const range = parseFinanceDateRange(params.from, params.to, resolvedToday);
   if (!range.ok) {
     return { ok: false, status: 400, body: { error: range.error, code: range.code } };
   }
@@ -46,12 +73,14 @@ export async function getFinanceOverview(
   const summary = computeCfoSummary({
     periodFrom: range.from,
     periodTo: range.to,
+    asOfDate: resolvedToday,
     orders: datasets.orders,
     payments: datasets.payments,
     cariTransactions: datasets.cariTransactions,
     cariAccounts: datasets.cariAccounts,
     financialRecords: datasets.financialRecords,
     suppliers: datasets.suppliers,
+    supplierTransactions: datasets.supplierTransactions,
   });
 
   return {
@@ -85,16 +114,24 @@ export async function handleFinancePost(
   }
 
   const body = parsed.data;
+  const createdBy = toNullableUuid(actor.userId);
+
   if (body.action === "create_record") {
     const recordDate = body.date ?? istanbulToday();
-    const inserted = await repo.insertFinancialRecord({
-      type: body.type,
-      category: body.category,
-      amount: body.amount,
-      description: body.description,
-      payment_method: body.paymentMethod,
-      date: `${recordDate}T12:00:00+03:00`,
-    });
+    let inserted: RawFinancialRecordRow;
+    try {
+      inserted = await repo.recordFinancialRecordAtomic({
+        type: body.type,
+        category: body.category,
+        amount: body.amount,
+        description: body.description,
+        paymentMethod: body.paymentMethod,
+        date: `${recordDate}T12:00:00+03:00`,
+        createdBy,
+      });
+    } catch (err: unknown) {
+      return toRepoErrorResult(err);
+    }
 
     const [normalized] = normalizeFinancialRecords([inserted]);
 
@@ -117,45 +154,19 @@ export async function handleFinancePost(
     return { ok: true, status: 201, body: { success: true, record: normalized } };
   }
 
-  // Storno (ters kayıt): asıl kayıt silinmez / değiştirilmez
-  const targetRow = await repo.findFinancialRecordById(body.recordId);
-  if (!targetRow) {
-    return {
-      ok: false,
-      status: 404,
-      body: { error: "İptal edilecek finans kaydı bulunamadı", code: "RECORD_NOT_FOUND" },
-    };
-  }
-
-  if (targetRow.type === "storno_gider" || targetRow.type === "storno_gelir") {
-    return {
-      ok: false,
-      status: 400,
-      body: { error: "Bir iptal (storno) kaydı tekrar iptal edilemez", code: "CANNOT_STORNO_A_STORNO" },
-    };
-  }
-
-  const alreadyReversed = await repo.hasFinancialRecordStorno(body.recordId);
-  if (alreadyReversed) {
-    return {
-      ok: false,
-      status: 409,
-      body: { error: "Bu kayıt için daha önce storno kesilmiş", code: "ALREADY_REVERSED" },
-    };
-  }
-
-  const stornoType = targetRow.type === "gider" ? "storno_gider" : "storno_gelir";
-  const stornoAmount = round2(Math.abs(Number(targetRow.amount) || 0));
+  // Storno (ters kayıt): asıl kayıt silinmez / değiştirilmez; atomik RPC ile kilit altında ters kayıt kesilir
   const today = istanbulToday();
-
-  const insertedStorno = await repo.insertFinancialRecord({
-    type: stornoType,
-    category: targetRow.category || "diger",
-    amount: stornoAmount,
-    payment_method: targetRow.payment_method || "nakit",
-    date: `${today}T12:00:00+03:00`,
-    description: `[STORNO:${body.recordId}] ${body.reason}`,
-  });
+  let insertedStorno: RawFinancialRecordRow;
+  try {
+    insertedStorno = await repo.stornoFinancialRecordAtomic({
+      recordId: body.recordId,
+      reason: body.reason,
+      date: `${today}T12:00:00+03:00`,
+      createdBy,
+    });
+  } catch (err: unknown) {
+    return toRepoErrorResult(err);
+  }
 
   const [normalizedStorno] = normalizeFinancialRecords([insertedStorno]);
 
@@ -165,11 +176,11 @@ export async function handleFinancePost(
     action: "finance.record_storno",
     entityType: "financial_record",
     entityId: normalizedStorno.id,
-    summary: `Finans kaydı storno edildi (${body.recordId}: ${stornoAmount} ₺)`,
+    summary: `Finans kaydı storno edildi (${body.recordId}: ${normalizedStorno.amount} ₺)`,
     metadata: {
       reversesRecordId: body.recordId,
-      stornoType,
-      amount: stornoAmount,
+      stornoType: normalizedStorno.type,
+      amount: normalizedStorno.amount,
       reason: body.reason,
     },
   });
@@ -197,109 +208,99 @@ export async function handleSuppliersPost(
   }
 
   const body = parsed.data;
+  const createdBy = toNullableUuid(actor.userId);
 
   if (body.action === "upsert_supplier") {
     const nowIso = new Date().toISOString();
-    if (body.id) {
-      const exists = await repo.supplierExists(body.id);
-      if (!exists) {
-        return {
-          ok: false,
-          status: 404,
-          body: { error: "Tedarikçi bulunamadı", code: "SUPPLIER_NOT_FOUND" },
-        };
+    try {
+      if (body.id) {
+        const exists = await repo.supplierExists(body.id);
+        if (!exists) {
+          return {
+            ok: false,
+            status: 404,
+            body: { error: "Tedarikçi bulunamadı", code: "SUPPLIER_NOT_FOUND" },
+          };
+        }
+
+        const updated = await repo.updateSupplierMeta(body.id, {
+          name: body.name,
+          category: body.category,
+          contact_person: body.contactPerson || null,
+          phone: body.phone || null,
+          email: body.email || null,
+          address: body.address || null,
+          updated_at: nowIso,
+        });
+
+        const supplier = mapSupplierRow(updated);
+        await repo.writeAudit({
+          actorId: actor.userId,
+          actorRole: actor.role ?? "admin",
+          action: "finance.supplier_update",
+          entityType: "supplier",
+          entityId: supplier.id,
+          summary: `Tedarikçi güncellendi: ${supplier.name}`,
+          metadata: { category: supplier.category },
+        });
+
+        return { ok: true, status: 200, body: { success: true, supplier } };
       }
 
-      const updated = await repo.updateSupplierMeta(body.id, {
+      const newId = crypto.randomUUID();
+      const created = await repo.insertSupplier({
+        id: newId,
         name: body.name,
         category: body.category,
         contact_person: body.contactPerson || null,
         phone: body.phone || null,
         email: body.email || null,
         address: body.address || null,
-        updated_at: nowIso,
+        balance: 0,
       });
 
-      const supplier = mapSupplierRow(updated);
+      const supplier = mapSupplierRow(created);
       await repo.writeAudit({
         actorId: actor.userId,
         actorRole: actor.role ?? "admin",
-        action: "finance.supplier_update",
+        action: "finance.supplier_create",
         entityType: "supplier",
         entityId: supplier.id,
-        summary: `Tedarikçi güncellendi: ${supplier.name}`,
+        summary: `Yeni tedarikçi eklendi: ${supplier.name}`,
         metadata: { category: supplier.category },
       });
 
-      return { ok: true, status: 200, body: { success: true, supplier } };
+      return { ok: true, status: 201, body: { success: true, supplier } };
+    } catch (err: unknown) {
+      return toRepoErrorResult(err);
     }
-
-    const newId = crypto.randomUUID();
-    const created = await repo.insertSupplier({
-      id: newId,
-      name: body.name,
-      category: body.category,
-      contact_person: body.contactPerson || null,
-      phone: body.phone || null,
-      email: body.email || null,
-      address: body.address || null,
-      balance: 0,
-    });
-
-    const supplier = mapSupplierRow(created);
-    await repo.writeAudit({
-      actorId: actor.userId,
-      actorRole: actor.role ?? "admin",
-      action: "finance.supplier_create",
-      entityType: "supplier",
-      entityId: supplier.id,
-      summary: `Yeni tedarikçi eklendi: ${supplier.name}`,
-      metadata: { category: supplier.category },
-    });
-
-    return { ok: true, status: 201, body: { success: true, supplier } };
-  }
-
-  const supplierRow = await repo.findSupplierById(body.supplierId);
-  if (!supplierRow) {
-    return {
-      ok: false,
-      status: 404,
-      body: { error: "Tedarikçi bulunamadı", code: "SUPPLIER_NOT_FOUND" },
-    };
   }
 
   if (body.action === "record_transaction") {
     const txDate = body.date ?? istanbulToday();
-    const insertedTx = await repo.insertSupplierTransaction({
-      supplier_id: body.supplierId,
-      type: body.type,
-      amount: body.amount,
-      invoice_no: body.invoiceNo || null,
-      description: body.description || (body.type === "alis" ? "Mal alım faturası" : "Tedarikçi ödemesi"),
-      date: `${txDate}T12:00:00+03:00`,
-    });
+    const alsoRecordExpense = body.type === "odeme" && body.alsoRecordExpense;
+    const paymentMethod = body.type === "odeme" ? (body.paymentMethod ?? "havale") : null;
+    const expenseCategory = body.expenseCategory ?? (alsoRecordExpense ? "diger" : null);
 
-    const allTxRows = await repo.listSupplierTransactionAmounts(body.supplierId);
-    const newBalance = computeSupplierSymmetricBalance(allTxRows);
-    await repo.updateSupplierBalance(body.supplierId, newBalance, new Date().toISOString());
-
-    let recordedExpenseId: string | null = null;
-    if (body.type === "odeme" && body.alsoRecordExpense) {
-      const expDesc = `[Tedarikçi Ödemesi: ${supplierRow.name}] ${
-        body.description || body.invoiceNo || "Ödeme çıkışı"
-      }`.trim();
-      recordedExpenseId = await repo.tryInsertLinkedSupplierExpense({
-        type: "gider",
-        category: body.expenseCategory,
+    let rpcResult: RecordSupplierTransactionAtomicResult;
+    try {
+      rpcResult = await repo.recordSupplierTransactionAtomic({
+        supplierId: body.supplierId,
+        type: body.type,
         amount: body.amount,
-        payment_method: body.paymentMethod,
+        invoiceNo: body.invoiceNo || null,
+        description: body.description || null,
         date: `${txDate}T12:00:00+03:00`,
-        description: expDesc,
+        paymentMethod,
+        expenseCategory,
+        alsoRecordExpense,
+        createdBy,
       });
+    } catch (err: unknown) {
+      return toRepoErrorResult(err);
     }
 
-    const [transaction] = normalizeSupplierTransactions([insertedTx]);
+    const [transaction] = normalizeSupplierTransactions([rpcResult.transaction]);
 
     await repo.writeAudit({
       actorId: actor.userId,
@@ -307,13 +308,15 @@ export async function handleSuppliersPost(
       action: "finance.supplier_tx",
       entityType: "supplier_transaction",
       entityId: transaction.id,
-      summary: `Tedarikçi hareketi (${supplierRow.name} · ${body.type}): ${body.amount} ₺ (Bakiye: ${newBalance} ₺)`,
+      summary: `Tedarikçi hareketi (${body.supplierId} · ${body.type}): ${body.amount} ₺ (Bakiye: ${rpcResult.newBalance} ₺)`,
       metadata: {
         supplierId: body.supplierId,
         type: body.type,
         amount: body.amount,
-        newBalance,
-        recordedExpenseId,
+        newBalance: rpcResult.newBalance,
+        recordedExpenseId: rpcResult.recordedExpenseId,
+        paymentMethod,
+        expenseCategory,
       },
     });
 
@@ -323,58 +326,28 @@ export async function handleSuppliersPost(
       body: {
         success: true,
         transaction,
-        newBalance,
-        recordedExpenseId,
+        newBalance: rpcResult.newBalance,
+        recordedExpenseId: rpcResult.recordedExpenseId,
       },
     };
   }
 
-  // storno_transaction: tedarikçi hareketine ters kayıt
-  const targetTx = await repo.findSupplierTransaction(body.supplierId, body.transactionId);
-  if (!targetTx) {
-    return {
-      ok: false,
-      status: 404,
-      body: { error: "İptal edilecek tedarikçi hareketi bulunamadı", code: "TX_NOT_FOUND" },
-    };
-  }
-
-  if (targetTx.type === "storno_alis" || targetTx.type === "storno_odeme") {
-    return {
-      ok: false,
-      status: 400,
-      body: { error: "Storno kaydı tekrar storno edilemez", code: "CANNOT_STORNO_A_STORNO" },
-    };
-  }
-
-  const stornoTag = `STORNO:${body.transactionId}`;
-  const duplicateStorno = await repo.hasSupplierTransactionStorno(body.supplierId, stornoTag);
-  if (duplicateStorno) {
-    return {
-      ok: false,
-      status: 409,
-      body: { error: "Bu tedarikçi hareketi zaten iptal edilmiş", code: "ALREADY_REVERSED" },
-    };
-  }
-
-  const stornoType = targetTx.type === "alis" ? "storno_alis" : "storno_odeme";
-  const stornoAmount = round2(Math.abs(Number(targetTx.amount) || 0));
+  // storno_transaction: tedarikçi hareketine (ve varsa bağlı gidere) atomik ters kayıt
   const today = istanbulToday();
+  let stornoResult: StornoSupplierTransactionAtomicResult;
+  try {
+    stornoResult = await repo.stornoSupplierTransactionAtomic({
+      supplierId: body.supplierId,
+      transactionId: body.transactionId,
+      reason: body.reason,
+      date: `${today}T12:00:00+03:00`,
+      createdBy,
+    });
+  } catch (err: unknown) {
+    return toRepoErrorResult(err);
+  }
 
-  const insertedStorno = await repo.insertSupplierTransaction({
-    supplier_id: body.supplierId,
-    type: stornoType,
-    amount: stornoAmount,
-    invoice_no: stornoTag,
-    description: `[STORNO] ${body.reason}`,
-    date: `${today}T12:00:00+03:00`,
-  });
-
-  const allTxRows = await repo.listSupplierTransactionAmounts(body.supplierId);
-  const newBalance = computeSupplierSymmetricBalance(allTxRows);
-  await repo.updateSupplierBalance(body.supplierId, newBalance, new Date().toISOString());
-
-  const [transaction] = normalizeSupplierTransactions([insertedStorno]);
+  const [transaction] = normalizeSupplierTransactions([stornoResult.transaction]);
 
   await repo.writeAudit({
     actorId: actor.userId,
@@ -382,13 +355,14 @@ export async function handleSuppliersPost(
     action: "finance.supplier_storno",
     entityType: "supplier_transaction",
     entityId: transaction.id,
-    summary: `Tedarikçi hareketi storno edildi (${supplierRow.name}: ${stornoAmount} ₺, Bakiye: ${newBalance} ₺)`,
+    summary: `Tedarikçi hareketi storno edildi (${body.supplierId}: ${transaction.amount} ₺, Bakiye: ${stornoResult.newBalance} ₺)`,
     metadata: {
       supplierId: body.supplierId,
       reversesTransactionId: body.transactionId,
-      stornoType,
-      amount: stornoAmount,
-      newBalance,
+      stornoType: transaction.type,
+      amount: transaction.amount,
+      newBalance: stornoResult.newBalance,
+      reversedExpenseId: stornoResult.reversedExpenseId,
       reason: body.reason,
     },
   });
@@ -399,7 +373,8 @@ export async function handleSuppliersPost(
     body: {
       success: true,
       transaction,
-      newBalance,
+      newBalance: stornoResult.newBalance,
+      reversedExpenseId: stornoResult.reversedExpenseId,
     },
   };
 }

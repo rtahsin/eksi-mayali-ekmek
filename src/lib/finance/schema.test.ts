@@ -65,5 +65,18 @@ describe("finance zod şemaları ve tarih aralığı doğrulaması", () => {
       amount: 0,
     });
     expect(zeroTx.success).toBe(false);
+
+    const alisWithCategory = SuppliersPostSchema.safeParse({
+      action: "record_transaction",
+      supplierId: "sup-1",
+      type: "alis",
+      amount: 2400,
+      expenseCategory: "hammadde_un",
+    });
+    expect(alisWithCategory.success).toBe(true);
+    if (alisWithCategory.success && alisWithCategory.data.action === "record_transaction") {
+      expect(alisWithCategory.data.expenseCategory).toBe("hammadde_un");
+      expect(alisWithCategory.data.paymentMethod).toBeUndefined();
+    }
   });
 });

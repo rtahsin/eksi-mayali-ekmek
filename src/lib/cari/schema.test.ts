@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import {
   CreateCariAccountSchema,
   HotSaleRequestSchema,
+  PatchCariAccountSchema,
   RecordCariTransactionSchema,
 } from "./schema";
 
@@ -72,5 +73,28 @@ describe("cari/schema Zod doğrulamaları", () => {
       openingBalance: "500",
     });
     expect(valid.success).toBe(true);
+    if (valid.success) {
+      expect(valid.data.accountType).toBe("musteri");
+    }
+  });
+
+  it("CreateCariAccountSchema yeni hesapta accountType gider degerini reddeder, PatchCariAccountSchema mevcut gider carisini korur", () => {
+    const giderCreate = CreateCariAccountSchema.safeParse({
+      businessName: "Eski Gider Denemesi",
+      accountType: "gider",
+    });
+    expect(giderCreate.success).toBe(false);
+
+    const musteriCreate = CreateCariAccountSchema.safeParse({
+      businessName: "Beylikdüzü Şarküteri",
+      accountType: "musteri",
+    });
+    expect(musteriCreate.success).toBe(true);
+
+    const giderPatch = PatchCariAccountSchema.safeParse({
+      businessName: "Legacy Gider Carisi",
+      accountType: "gider",
+    });
+    expect(giderPatch.success).toBe(true);
   });
 });

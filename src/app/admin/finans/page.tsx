@@ -173,10 +173,13 @@ export default function AdminFinancePage() {
 
       {vm.activeTab === "suppliers" && (
         <SuppliersLedgerTab
+          fromDate={vm.fromDate}
+          toDate={vm.toDate}
           suppliers={vm.suppliers}
           selectedSupplierId={vm.selectedSupplierId}
           selectedSupplier={vm.selectedSupplier}
           visibleSupplierTxs={vm.visibleSupplierTxs}
+          selectedSupplierPeriodSummary={vm.selectedSupplierPeriodSummary}
           supFormOpen={vm.supFormOpen}
           supEditId={vm.supEditId}
           supName={vm.supName}
@@ -190,7 +193,6 @@ export default function AdminFinancePage() {
           txInvoiceNo={vm.txInvoiceNo}
           txDate={vm.txDate}
           txDescription={vm.txDescription}
-          txAlsoExpense={vm.txAlsoExpense}
           txExpenseCategory={vm.txExpenseCategory}
           txPaymentMethod={vm.txPaymentMethod}
           txSaving={vm.txSaving}
@@ -209,7 +211,6 @@ export default function AdminFinancePage() {
           onTxInvoiceNoChange={vm.setTxInvoiceNo}
           onTxDateChange={vm.setTxDate}
           onTxDescriptionChange={vm.setTxDescription}
-          onTxAlsoExpenseChange={vm.setTxAlsoExpense}
           onTxExpenseCategoryChange={vm.setTxExpenseCategory}
           onTxPaymentMethodChange={vm.setTxPaymentMethod}
           onRecordSupplierTx={(e) => void vm.handleRecordSupplierTx(e)}

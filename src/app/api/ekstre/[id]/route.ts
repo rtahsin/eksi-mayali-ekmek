@@ -1,11 +1,14 @@
 import { NextResponse } from "next/server";
-import { createAdminClient } from "@/lib/supabase/admin";
+import {
+  CariServiceError,
+  createSupabaseCariRepository,
+  getCustomerStatement,
+} from "@/lib/cari/server";
+import { logError } from "@/lib/kernel/log";
 import { verifyApiAuth } from "@/lib/security/apiAuth";
 import { checkRateLimit, ipRateLimitKey } from "@/lib/security/rateLimiter";
-import { signSlipToken, verifyAccountToken } from "@/lib/security/linkToken";
-import { LEDGER_SELECT, mapLedger, type LedgerRow } from "@/lib/cari/ledger";
+import { createAdminClient } from "@/lib/supabase/admin";
 import { getErrorMessage } from "@/lib/utils/error";
-import { logError } from "@/lib/kernel/log";
 
 const notFound = () => NextResponse.json({ error: "Ekstre bulunamadı" }, { status: 404 });
 
@@ -17,64 +20,31 @@ export async function GET(req: Request, { params }: { params: Promise<{ id: stri
 
     const limit = await checkRateLimit(ipRateLimitKey("ekstre_get", req), 30, 60000);
     if (!limit.allowed) {
-      return NextResponse.json({ error: `Çok fazla istek. ${limit.retryAfterSeconds} sn sonra deneyin.` }, { status: 429 });
+      return NextResponse.json(
+        { error: `Çok fazla istek. ${limit.retryAfterSeconds} sn sonra deneyin.` },
+        { status: 429 }
+      );
     }
 
     const token = new URL(req.url).searchParams.get("t");
     const supabase = createAdminClient();
     if (!supabase) return NextResponse.json({ error: "Supabase unconfigured" }, { status: 500 });
 
-    const { data: acc, error: accErr } = await supabase
-      .from("current_accounts")
-      .select("id, name, contact_person, phone, tax_id, balance, share_token_version")
-      .eq("id", id)
-      .maybeSingle();
-    if (accErr) throw accErr;
-    if (!acc) return notFound();
+    const repo = createSupabaseCariRepository(supabase);
+    const statement = await getCustomerStatement({
+      repo,
+      id,
+      token,
+      checkIsAdmin: async () => (await verifyApiAuth(req)).isAdmin,
+    });
 
-    const a = acc as {
-      id: string;
-      name: string | null;
-      contact_person: string | null;
-      phone: string | null;
-      tax_id: string | null;
-      balance: number | string | null;
-      share_token_version: number | null;
-    };
-    const shareTokenVersion = Number(a.share_token_version) || 1;
-
-    if (!verifyAccountToken(id, token, shareTokenVersion) && !(await verifyApiAuth(req)).isAdmin) {
-      return notFound();
-    }
-
-    const { data: rows, error: txErr } = await supabase
-      .from("account_transactions")
-      .select(LEDGER_SELECT)
-      .eq("account_id", id)
-      .order("date", { ascending: false })
-      .order("created_at", { ascending: false });
-    if (txErr) throw txErr;
-
-    const transactions = mapLedger((rows ?? []) as LedgerRow[]).map((tx) => ({
-      ...tx,
-      slipToken: signSlipToken(tx.id, shareTokenVersion),
-    }));
-
-    return NextResponse.json(
-      {
-        cari: {
-          id: a.id,
-          businessName: a.name || "Değerli Müşterimiz",
-          contactPerson: a.contact_person || "",
-          phone: a.phone || "",
-          taxNumber: a.tax_id || "",
-          balance: Number(a.balance) || 0,
-        },
-        transactions,
-      },
-      { headers: { "Cache-Control": "private, no-store" } }
-    );
+    return NextResponse.json(statement, {
+      headers: { "Cache-Control": "private, no-store" },
+    });
   } catch (err: unknown) {
+    if (err instanceof CariServiceError) {
+      return NextResponse.json({ error: err.message }, { status: err.status });
+    }
     logError("GET /api/ekstre/[id]:", err);
     return NextResponse.json({ error: getErrorMessage(err) }, { status: 500 });
   }

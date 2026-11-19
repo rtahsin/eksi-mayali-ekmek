@@ -7,19 +7,30 @@ import {
   EXPENSE_CATEGORIES,
   EXPENSE_CATEGORY_LABELS,
   FINANCIAL_PAYMENT_METHOD_LABELS,
+  getExpenseCategoryLabel,
   type ExpenseCategory,
   type FinancialPaymentMethod,
   type Supplier,
+  type SupplierDateBalanceSummary,
   type SupplierTransaction,
 } from "@/lib/finance";
 import type { StornoDraft } from "@/hooks/useFinanceDashboard";
 import { tl } from "./format";
 
+function formatSignedTl(value: number): string {
+  if (value > 0) return `+${tl(value)}`;
+  if (value < 0) return `−${tl(Math.abs(value))}`;
+  return tl(0);
+}
+
 interface SuppliersLedgerTabProps {
+  fromDate: string;
+  toDate: string;
   suppliers: Supplier[];
   selectedSupplierId: string;
   selectedSupplier: Supplier | null;
   visibleSupplierTxs: SupplierTransaction[];
+  selectedSupplierPeriodSummary: SupplierDateBalanceSummary | null;
   supFormOpen: boolean;
   supEditId: string | null;
   supName: string;
@@ -33,7 +44,6 @@ interface SuppliersLedgerTabProps {
   txInvoiceNo: string;
   txDate: string;
   txDescription: string;
-  txAlsoExpense: boolean;
   txExpenseCategory: ExpenseCategory;
   txPaymentMethod: FinancialPaymentMethod;
   txSaving: boolean;
@@ -52,7 +62,6 @@ interface SuppliersLedgerTabProps {
   onTxInvoiceNoChange: (v: string) => void;
   onTxDateChange: (v: string) => void;
   onTxDescriptionChange: (v: string) => void;
-  onTxAlsoExpenseChange: (v: boolean) => void;
   onTxExpenseCategoryChange: (v: ExpenseCategory) => void;
   onTxPaymentMethodChange: (v: FinancialPaymentMethod) => void;
   onRecordSupplierTx: (e: React.FormEvent) => void;
@@ -60,10 +69,13 @@ interface SuppliersLedgerTabProps {
 }
 
 export function SuppliersLedgerTab({
+  fromDate,
+  toDate,
   suppliers,
   selectedSupplierId,
   selectedSupplier,
   visibleSupplierTxs,
+  selectedSupplierPeriodSummary,
   supFormOpen,
   supEditId,
   supName,
@@ -77,7 +89,6 @@ export function SuppliersLedgerTab({
   txInvoiceNo,
   txDate,
   txDescription,
-  txAlsoExpense,
   txExpenseCategory,
   txPaymentMethod,
   txSaving,
@@ -96,7 +107,6 @@ export function SuppliersLedgerTab({
   onTxInvoiceNoChange,
   onTxDateChange,
   onTxDescriptionChange,
-  onTxAlsoExpenseChange,
   onTxExpenseCategoryChange,
   onTxPaymentMethodChange,
   onRecordSupplierTx,
@@ -336,47 +346,44 @@ export function SuppliersLedgerTab({
                 className="w-full min-h-11 px-3 rounded-xl bg-[#FBF6EC] border border-[#E2D3BD] text-sm"
               />
 
-              {txType === "odeme" && (
-                <div className="rounded-2xl bg-[#FBF6EC] border border-[#E2D3BD] p-3 space-y-2.5">
-                  <label className="flex items-center gap-2 text-xs font-semibold text-[#3B1E1A] cursor-pointer">
-                    <input
-                      type="checkbox"
-                      checked={txAlsoExpense}
-                      onChange={(e) => onTxAlsoExpenseChange(e.target.checked)}
-                      className="w-4 h-4 accent-[#B4532A]"
-                    />
-                    <span>Gider defterine de işletme nakit çıkışı olarak işle</span>
+              <div className="rounded-2xl bg-[#FBF6EC] border border-[#E2D3BD] p-3 space-y-2.5">
+                {txType === "alis" ? (
+                  <label className="block space-y-1 text-xs">
+                    <span className="font-semibold text-[#6E5148]">Gider Kategorisi</span>
+                    <select
+                      value={txExpenseCategory}
+                      onChange={(e) => onTxExpenseCategoryChange(e.target.value as ExpenseCategory)}
+                      className="w-full min-h-11 px-3 rounded-xl bg-[#FFFFFF] border border-[#E2D3BD] text-xs text-[#3B1E1A]"
+                    >
+                      {EXPENSE_CATEGORIES.map((cat) => (
+                        <option key={cat} value={cat}>
+                          {EXPENSE_CATEGORY_LABELS[cat]}
+                        </option>
+                      ))}
+                    </select>
                   </label>
-                  {txAlsoExpense && (
-                    <div className="grid grid-cols-2 gap-2">
-                      <select
-                        value={txExpenseCategory}
-                        onChange={(e) => onTxExpenseCategoryChange(e.target.value as ExpenseCategory)}
-                        className="min-h-11 px-3 rounded-xl bg-[#FFFFFF] border border-[#E2D3BD] text-xs"
-                      >
-                        {EXPENSE_CATEGORIES.map((cat) => (
-                          <option key={cat} value={cat}>
-                            {EXPENSE_CATEGORY_LABELS[cat]}
+                ) : (
+                  <label className="block space-y-1 text-xs">
+                    <span className="font-semibold text-[#6E5148]">Ödeme Kanalı</span>
+                    <select
+                      value={txPaymentMethod}
+                      onChange={(e) => onTxPaymentMethodChange(e.target.value as FinancialPaymentMethod)}
+                      className="w-full min-h-11 px-3 rounded-xl bg-[#FFFFFF] border border-[#E2D3BD] text-xs text-[#3B1E1A]"
+                    >
+                      {(Object.keys(FINANCIAL_PAYMENT_METHOD_LABELS) as FinancialPaymentMethod[]).map(
+                        (pm) => (
+                          <option key={pm} value={pm}>
+                            {FINANCIAL_PAYMENT_METHOD_LABELS[pm]}
                           </option>
-                        ))}
-                      </select>
-                      <select
-                        value={txPaymentMethod}
-                        onChange={(e) => onTxPaymentMethodChange(e.target.value as FinancialPaymentMethod)}
-                        className="min-h-11 px-3 rounded-xl bg-[#FFFFFF] border border-[#E2D3BD] text-xs"
-                      >
-                        {(Object.keys(FINANCIAL_PAYMENT_METHOD_LABELS) as FinancialPaymentMethod[]).map(
-                          (pm) => (
-                            <option key={pm} value={pm}>
-                              {FINANCIAL_PAYMENT_METHOD_LABELS[pm]}
-                            </option>
-                          )
-                        )}
-                      </select>
-                    </div>
-                  )}
-                </div>
-              )}
+                        )
+                      )}
+                    </select>
+                  </label>
+                )}
+                <p className="text-[11px] text-[#6E5148]">
+                  Alışlar tahakkuk P&amp;L&apos;e, ödemeler nakit akışına otomatik ve çifte sayımsız yansır.
+                </p>
+              </div>
 
               <button
                 type="submit"
@@ -389,6 +396,78 @@ export function SuppliersLedgerTab({
             </>
           )}
         </form>
+
+        {/* Seçili Tedarikçi Dönem Bakiye Özeti */}
+        {selectedSupplier && selectedSupplierPeriodSummary && (
+          <section
+            aria-label="Tedarikçi dönem bakiye özeti"
+            className="rounded-3xl bg-[#FBF6EC] border border-[#E2D3BD] p-4 space-y-2.5"
+          >
+            <div className="flex flex-wrap items-center justify-between gap-2">
+              <h3 className="font-serif text-sm font-bold text-[#3B1E1A]">
+                Dönem Bakiye Özeti — {selectedSupplier.name}
+              </h3>
+              <span className="font-mono text-[11px] text-[#6E5148]">
+                {formatTrDate(fromDate)} – {formatTrDate(toDate)}
+              </span>
+            </div>
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
+              <div className="rounded-2xl bg-[#FFFFFF] border border-[#E2D3BD] p-2.5">
+                <div className="text-[10px] font-bold uppercase tracking-wider text-[#6E5148]">
+                  Dönem Başı Devir
+                </div>
+                <div className="font-mono tabular-nums text-sm font-extrabold text-[#3B1E1A]">
+                  {tl(selectedSupplierPeriodSummary.openingBalance)}
+                </div>
+              </div>
+              <div className="rounded-2xl bg-[#FFFFFF] border border-[#E2D3BD] p-2.5">
+                <div className="text-[10px] font-bold uppercase tracking-wider text-[#6E5148]">
+                  Dönem Alış (+)
+                </div>
+                <div
+                  className={`font-mono tabular-nums text-sm font-extrabold ${
+                    selectedSupplierPeriodSummary.periodPurchases < 0
+                      ? "text-[#1D5130]"
+                      : "text-[#7D2114]"
+                  }`}
+                >
+                  {formatSignedTl(selectedSupplierPeriodSummary.periodPurchases)}
+                </div>
+              </div>
+              <div className="rounded-2xl bg-[#FFFFFF] border border-[#E2D3BD] p-2.5">
+                <div className="text-[10px] font-bold uppercase tracking-wider text-[#6E5148]">
+                  Dönem Ödeme (−)
+                </div>
+                <div
+                  className={`font-mono tabular-nums text-sm font-extrabold ${
+                    selectedSupplierPeriodSummary.periodPayments < 0
+                      ? "text-[#7D2114]"
+                      : "text-[#1D5130]"
+                  }`}
+                >
+                  {formatSignedTl(-selectedSupplierPeriodSummary.periodPayments)}
+                </div>
+              </div>
+              <div className="rounded-2xl bg-[#FFFFFF] border border-[#E2D3BD] p-2.5">
+                <div className="text-[10px] font-bold uppercase tracking-wider text-[#6E5148]">
+                  Dönem Sonu Bakiye
+                </div>
+                <div
+                  className={`font-mono tabular-nums text-sm font-extrabold ${
+                    selectedSupplierPeriodSummary.closingBalance > 0
+                      ? "text-[#7D2114]"
+                      : "text-[#1D5130]"
+                  }`}
+                >
+                  {tl(selectedSupplierPeriodSummary.closingBalance)}
+                </div>
+                <div className="font-mono tabular-nums text-[10px] text-[#6E5148]">
+                  Net: {formatSignedTl(selectedSupplierPeriodSummary.periodNet)}
+                </div>
+              </div>
+            </div>
+          </section>
+        )}
 
         {/* Tedarikçi Hareket Geçmişi */}
         <div className="rounded-3xl bg-[#FFFFFF] border border-[#E2D3BD] overflow-hidden shadow-sm">
@@ -434,6 +513,17 @@ export function SuppliersLedgerTab({
                                 ? "Storno Alım"
                                 : "Storno Ödeme"}
                         </span>
+                        {tx.expenseCategory && (
+                          <span className="px-2 py-0.5 rounded-md bg-[#F6EEDF] border border-[#E2D3BD] text-[11px] font-semibold text-[#3B1E1A]">
+                            {getExpenseCategoryLabel(tx.expenseCategory)}
+                          </span>
+                        )}
+                        {tx.paymentMethod && (
+                          <span className="px-2 py-0.5 rounded-md bg-[#F6EEDF] border border-[#E2D3BD] text-[11px] font-semibold text-[#6E5148]">
+                            {FINANCIAL_PAYMENT_METHOD_LABELS[tx.paymentMethod as FinancialPaymentMethod] ??
+                              tx.paymentMethod}
+                          </span>
+                        )}
                         {tx.invoiceNo && (
                           <span className="font-mono text-[11px] text-[#6E5148]">{tx.invoiceNo}</span>
                         )}
@@ -449,18 +539,25 @@ export function SuppliersLedgerTab({
                     </div>
 
                     <div className="flex items-center justify-between sm:justify-end gap-3 shrink-0">
-                      <span
-                        className={`font-mono tabular-nums text-base font-extrabold ${
-                          tx.isReversed
-                            ? "line-through text-[#6E5148]"
-                            : tx.delta > 0
-                              ? "text-[#7D2114]"
-                              : "text-[#1D5130]"
-                        }`}
-                      >
-                        {tx.delta > 0 ? "+" : "−"}
-                        {tl(tx.amount)}
-                      </span>
+                      <div className="text-right">
+                        <div
+                          className={`font-mono tabular-nums text-base font-extrabold ${
+                            tx.isReversed
+                              ? "line-through text-[#6E5148]"
+                              : tx.delta > 0
+                                ? "text-[#7D2114]"
+                                : "text-[#1D5130]"
+                          }`}
+                        >
+                          {tx.delta > 0 ? "+" : "−"}
+                          {tl(tx.amount)}
+                        </div>
+                        {tx.balanceAfter !== null && (
+                          <div className="font-mono tabular-nums text-[11px] text-[#6E5148]">
+                            Bakiye: {tl(tx.balanceAfter)}
+                          </div>
+                        )}
+                      </div>
                       {!isStorno && !tx.isReversed && (
                         <button
                           type="button"

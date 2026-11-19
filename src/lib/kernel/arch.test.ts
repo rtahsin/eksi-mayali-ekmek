@@ -320,7 +320,10 @@ describe("Mimari Sınır Testleri (R1 - R5)", () => {
   });
 
   it("R7 (Pilot 2 — ledger): cari UI, hook, yardımcılar ve ince API katman sınırları korunur", () => {
-    const pageFiles = getAllFiles("src/app/admin/cariler");
+    const uiFiles = [
+      ...getAllFiles("src/app/admin/cariler"),
+      ...getAllFiles("src/components/admin/cariler"),
+    ];
     const hookFiles = ["src/hooks/useCariler.ts", "src/hooks/useCariProfile.ts"];
     const whatsappFile = "src/lib/cari/whatsapp.ts";
     const thinApiFiles = [
@@ -331,22 +334,25 @@ describe("Mimari Sınır Testleri (R1 - R5)", () => {
       "src/app/api/admin/cari/transactions/route.ts",
       "src/app/api/admin/cari/share/route.ts",
       "src/app/api/admin/cari/hot-sale/route.ts",
+      "src/app/api/admin/cari/standing-orders/generate/route.ts",
+      "src/app/api/ekstre/[id]/route.ts",
+      "src/app/api/slip/[id]/route.ts",
     ];
     const violations: string[] = [];
 
-    for (const file of pageFiles) {
+    for (const file of uiFiles) {
       const content = fs.readFileSync(file, "utf8");
       if (/from\s+['"]@\/lib\/supabase\//.test(content)) {
-        violations.push(`R7 Sayfa Supabase yasağı: ${file}`);
+        violations.push(`R7 UI Supabase yasağı: ${file}`);
       }
       if (/from\s+['"]@\/lib\/cari\/(?:server|repo)['"]/.test(content)) {
-        violations.push(`R7 Sayfa sunucu sızıntısı: ${file}`);
+        violations.push(`R7 UI sunucu sızıntısı: ${file}`);
       }
       if (/\bfetch\s*\(/.test(content)) {
-        violations.push(`R7 Sayfa ham fetch yasağı: ${file}`);
+        violations.push(`R7 UI ham fetch yasağı: ${file}`);
       }
       if (/\.(?:from|rpc)\s*\(/.test(content)) {
-        violations.push(`R7 Sayfa doğrudan DB/RPC yasağı: ${file}`);
+        violations.push(`R7 UI doğrudan DB/RPC yasağı: ${file}`);
       }
     }
 
@@ -378,8 +384,8 @@ describe("Mimari Sınır Testleri (R1 - R5)", () => {
       }
     }
 
-    expect(pageFiles.length).toBeGreaterThanOrEqual(2);
-    expect(thinApiFiles).toHaveLength(7);
+    expect(uiFiles.length).toBeGreaterThanOrEqual(11);
+    expect(thinApiFiles).toHaveLength(10);
     expect(violations).toEqual([]);
   });
 });

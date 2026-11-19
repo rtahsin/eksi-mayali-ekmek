@@ -58,8 +58,8 @@ export const RecordSupplierTxSchema = z.object({
   description: z.string().trim().max(240).optional().default(""),
   date: IsoDateSchema.optional(),
   alsoRecordExpense: z.boolean().optional().default(false),
-  expenseCategory: ExpenseCategoryEnum.optional().default("diger"),
-  paymentMethod: PaymentMethodEnum.optional().default("havale"),
+  expenseCategory: ExpenseCategoryEnum.optional().nullable(),
+  paymentMethod: PaymentMethodEnum.optional().nullable(),
 });
 
 export const StornoSupplierTxSchema = z.object({

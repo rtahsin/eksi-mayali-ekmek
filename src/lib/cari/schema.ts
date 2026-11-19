@@ -9,6 +9,7 @@ export const CustomPriceRecordSchema = z.record(
 );
 
 export const CreateCariAccountSchema = CariProfileSchema.required({ businessName: true }).extend({
+  accountType: z.literal("musteri").default("musteri"),
   district: z.string().trim().max(80, "İlçe adı en fazla 80 karakter olabilir.").optional(),
   companyTitle: z.string().trim().max(200, "Resmi unvan en fazla 200 karakter olabilir.").optional(),
   creditLimit: z.coerce.number().min(0, "Kredi limiti negatif olamaz.").finite().optional(),

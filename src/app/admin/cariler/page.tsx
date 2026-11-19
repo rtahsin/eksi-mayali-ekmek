@@ -17,14 +17,17 @@ import {
   Plus,
   Receipt,
   Search,
+  ShieldAlert,
   Tag,
   Wallet,
   X,
   Zap,
 } from "lucide-react";
+import { useAdminAuth } from "@/hooks/useAdminAuth";
 import { useCariler } from "@/hooks/useCariler";
 import { useCouriers } from "@/hooks/useCouriers";
 import { useProducts } from "@/hooks/useProducts";
+import { hasCapability } from "@/lib/security/capabilities";
 import { CariEditModal } from "@/components/admin/cariler/CariEditModal";
 import B2BSlipModal from "@/components/admin/cariler/B2BSlipModal";
 import B2BCollectionModal from "@/components/admin/cariler/B2BCollectionModal";
@@ -41,6 +44,8 @@ function formatMoney(n: number): string {
 }
 
 export default function CarilerPage() {
+  const { adminUser } = useAdminAuth();
+  const canReadCari = hasCapability(adminUser?.role, "cari.read");
   const {
     cariler,
     archivedCariler,
@@ -49,7 +54,7 @@ export default function CarilerPage() {
     totalReceivable,
     totalCredit,
     refreshCariler,
-  } = useCariler();
+  } = useCariler(canReadCari);
   const { products } = useProducts();
   const { assignableCouriers } = useCouriers();
 
@@ -116,6 +121,12 @@ export default function CarilerPage() {
   const customerCount = enrichedActiveCariler.filter((c) => c.accountType !== "gider").length;
   const debtorCount = enrichedActiveCariler.filter((c) => c.balance > 0 && c.accountType !== "gider").length;
   const expenseCount = enrichedActiveCariler.filter((c) => c.accountType === "gider").length;
+
+  useEffect(() => {
+    if (!loading && balanceFilter === "gider" && expenseCount === 0) {
+      setBalanceFilter("all");
+    }
+  }, [loading, balanceFilter, expenseCount]);
 
   // Action Sheet <dialog> sync
   useEffect(() => {
@@ -186,9 +197,31 @@ export default function CarilerPage() {
     { key: "all", label: `Müşteriler (${customerCount})` },
     { key: "debtor", label: `Alacaklı (${debtorCount})` },
     { key: "balanced", label: "Sıfır / Avans" },
-    { key: "gider", label: `Gider / Tedarikçi (${expenseCount})` },
+    ...(expenseCount > 0
+      ? [{ key: "gider" as const, label: `Gider / Tedarikçi (${expenseCount})` }]
+      : []),
     { key: "archived", label: `Arşiv (${enrichedArchivedCariler.length})` },
   ];
+
+  if (!canReadCari) {
+    return (
+      <div className="max-w-xl mx-auto my-12 rounded-3xl bg-[#FFFFFF] border border-[#E2D3BD] p-6 text-center space-y-3 shadow-sm">
+        <div className="w-12 h-12 rounded-2xl bg-[#FCECE9] border border-[#E7B7AF] text-[#7D2114] flex items-center justify-center mx-auto">
+          <ShieldAlert className="w-6 h-6" aria-hidden="true" />
+        </div>
+        <h1 className="font-serif text-xl font-bold text-[#3B1E1A]">Cari Hesap Yetkisi Gerekli</h1>
+        <p className="text-sm text-[#6E5148]">
+          Kurumsal cari hesaplar ve ön muhasebe kayıtları yalnızca cari yetkisine sahip yönetici hesaplarına açıktır.
+        </p>
+        <Link
+          href="/admin"
+          className="inline-flex items-center justify-center min-h-11 px-4 rounded-xl bg-[#B4532A] hover:bg-[#9C4421] text-white text-sm font-bold transition-colors"
+        >
+          Yönetim Paneline Dön
+        </Link>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-6 text-[#3B1E1A]">
@@ -313,7 +346,8 @@ export default function CarilerPage() {
           <p className="text-xs font-bold uppercase tracking-wider text-[#6E5148]">Aktif B2B Portföyü</p>
           <p className="mt-1 font-mono text-2xl font-bold tabular-nums text-[#3B1E1A]">{customerCount} Kurum</p>
           <p className="mt-1 text-xs text-[#6E5148]">
-            {expenseCount} tedarikçi/gider · {enrichedArchivedCariler.length} arşiv
+            {expenseCount > 0 ? `${expenseCount} tedarikçi/gider · ` : ""}
+            {enrichedArchivedCariler.length} arşiv
           </p>
         </div>
       </section>

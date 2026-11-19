@@ -6,9 +6,19 @@ import {
   type ApiRequestOptions,
 } from "@/lib/kernel/apiClient";
 import { getErrorMessage } from "@/lib/utils/error";
-import type { CariAccount, CariTransaction } from "@/types/admin";
+import type {
+  B2BHotSalePaymentMethod,
+  B2BHotSaleResult,
+  CariAccount,
+  CariTransaction,
+} from "@/types/admin";
 import type { CariProfileInput } from "./account";
-import type { CreateCariAccountInput, PatchCariAccountInput } from "./schema";
+import type { LastOrderLine } from "./pricing";
+import type {
+  CreateCariAccountInput,
+  HotSaleLineInput,
+  PatchCariAccountInput,
+} from "./schema";
 
 /** Cari defter yazımı — tüm hareketler `/api/admin/cari/transactions` üzerinden (tek atomik RPC). */
 export type LedgerWrite =
@@ -52,6 +62,59 @@ export interface GenerateStandingOrdersSummary {
   createdCount: number;
   skippedExisting: number;
   errors: Array<{ businessName: string; error: string }>;
+}
+
+export interface B2BHotSaleClientInput {
+  accountId: string;
+  items: HotSaleLineInput[];
+  returnItems?: HotSaleLineInput[];
+  collectedAmount?: number;
+  paymentMethod?: B2BHotSalePaymentMethod;
+  description?: string;
+  date?: string;
+  allowOverLimit?: boolean;
+}
+
+export interface CariLastOrderResult {
+  items: LastOrderLine[];
+  sourceDate: string | null;
+  sourceKind: "order" | "ledger" | null;
+}
+
+export interface CreateAdminCariOrderItemInput {
+  productId?: string | null;
+  productName: string;
+  quantity: number;
+  unitPrice?: number;
+  imageUrl?: string;
+  weight?: number;
+}
+
+export interface CreateAdminCariOrderInput {
+  idempotencyKey: string;
+  customerName: string;
+  phone: string;
+  deliveryAddress: string;
+  district?: string;
+  neighborhood: string;
+  deliveryMethod: "courier" | "pickup";
+  deliveryDate: string;
+  deliveryTimeWindow?: string;
+  items: CreateAdminCariOrderItemInput[];
+  shippingFee: number;
+  paymentMethod: "cash_on_delivery" | "pos_at_door" | "transfer" | "cari";
+  source: "whatsapp" | "phone" | "in_store" | "web" | "admin" | "standing_order";
+  status: "bekliyor" | "hazirlaniyor";
+  cariId: string;
+  courierId?: string | null;
+  courierNotes?: string;
+  orderNotes: string;
+}
+
+export interface CreateAdminCariOrderResult {
+  id: string;
+  orderNumber: string;
+  existing: boolean;
 }
 
 export async function fetchCariAccounts(options?: ApiRequestOptions): Promise<CariAccount[]> {
@@ -153,5 +216,54 @@ export async function generateStandingOrdersClient(
     createdCount: data.createdCount ?? 0,
     skippedExisting: data.skippedExisting ?? 0,
     errors: Array.isArray(data.errors) ? data.errors : [],
+  };
+}
+
+export async function submitB2BHotSaleClient(
+  input: B2BHotSaleClientInput,
+  options?: ApiRequestOptions
+): Promise<B2BHotSaleResult> {
+  const data = await apiPost<B2BHotSaleResult>("/api/admin/cari/hot-sale", input, options);
+  if (!data || !data.success) {
+    throw new Error("Sıcak satış fişi kesilemedi.");
+  }
+  return data;
+}
+
+export async function fetchCariLastOrderClient(
+  accountId: string,
+  options?: ApiRequestOptions
+): Promise<CariLastOrderResult> {
+  const data = await apiGet<Partial<CariLastOrderResult>>(
+    `/api/admin/cari/accounts/${encodeURIComponent(accountId)}/last-order`,
+    options
+  );
+  return {
+    items: Array.isArray(data?.items) ? data.items : [],
+    sourceDate: typeof data?.sourceDate === "string" ? data.sourceDate : null,
+    sourceKind:
+      data?.sourceKind === "order" || data?.sourceKind === "ledger"
+        ? data.sourceKind
+        : null,
+  };
+}
+
+export async function createAdminCariOrderClient(
+  input: CreateAdminCariOrderInput,
+  options?: ApiRequestOptions
+): Promise<CreateAdminCariOrderResult> {
+  const data = await apiPost<{
+    id?: string;
+    orderNumber?: string;
+    existing?: boolean;
+  }>("/api/admin/orders", input, options);
+  if (!data?.id) {
+    throw new Error("Sipariş kaydedilemedi.");
+  }
+  return {
+    id: data.id,
+    orderNumber:
+      typeof data.orderNumber === "string" && data.orderNumber ? data.orderNumber : data.id,
+    existing: Boolean(data.existing),
   };
 }

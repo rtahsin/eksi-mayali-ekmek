@@ -26,9 +26,11 @@ import {
   X,
   Zap,
 } from "lucide-react";
+import { useAdminAuth } from "@/hooks/useAdminAuth";
 import { useCariProfile } from "@/hooks/useCariProfile";
 import { useCariler } from "@/hooks/useCariler";
 import { useCouriers } from "@/hooks/useCouriers";
+import { useIstanbulToday } from "@/hooks/useIstanbulToday";
 import { useProducts } from "@/hooks/useProducts";
 import B2BSlipModal from "@/components/admin/cariler/B2BSlipModal";
 import B2BCollectionModal from "@/components/admin/cariler/B2BCollectionModal";
@@ -37,14 +39,24 @@ import BalanceAdjustModal from "@/components/admin/cariler/BalanceAdjustModal";
 import TransactionReceiptModal from "@/components/admin/cariler/TransactionReceiptModal";
 import { B2BHotSaleModal } from "@/components/admin/cariler/B2BHotSaleModal";
 import { CariQuickOrderModal } from "@/components/admin/cariler/CariQuickOrderModal";
+import { CariAgingCard } from "@/components/admin/cariler/CariAgingCard";
+import { CariDateBalanceSummaryCard } from "@/components/admin/cariler/CariDateBalanceSummaryCard";
+import { computeAccountAgingFifo } from "@/lib/cari/aging";
+import {
+  formatCariDateRangeLabel,
+  isTransactionInDateRange,
+  resolveCariDateRange,
+  summarizeBalanceByDate,
+  type CariDateFilter,
+} from "@/lib/cari/balanceSummary";
 import { revokeCariShareLinksClient } from "@/lib/cari/client";
 import { LEDGER_TYPE_LABELS, PAYMENT_METHOD_LABELS } from "@/lib/cari/ledger";
 import { ekstreMessage, shareViaWhatsApp } from "@/lib/cari/whatsapp";
+import { hasCapability } from "@/lib/security/capabilities";
 import { buildCsvContent, sanitizeCsvCell } from "@/lib/security/csv";
-import { addDays, formatTrDate, istanbulToday } from "@/lib/time/istanbul";
-import type { CariAccount, CariTransaction } from "@/types/admin";
+import { formatTrDate } from "@/lib/time/istanbul";
+import type { CariTransaction } from "@/types/admin";
 
-type DateFilter = "all" | "this_month" | "last_month" | "last_30" | "custom";
 type TypeFilter = "all" | "debt" | "credit";
 
 function formatMoney(n: number): string {
@@ -63,8 +75,10 @@ export default function CariDetailPage() {
   const router = useRouter();
   const id = typeof params.id === "string" ? params.id : "";
 
-  const { cari, transactions, activeProducts, loading, error, refetch } = useCariProfile(id);
-  const { archiveCari, deleteCari, addTransaction } = useCariler();
+  const { adminUser } = useAdminAuth();
+  const canReadCari = hasCapability(adminUser?.role, "cari.read");
+  const { cari, transactions, activeProducts, loading, error, refetch } = useCariProfile(id, canReadCari);
+  const { archiveCari, deleteCari, addTransaction } = useCariler(canReadCari);
   const { products } = useProducts();
   const { assignableCouriers } = useCouriers();
 
@@ -79,7 +93,7 @@ export default function CariDetailPage() {
   const [notice, setNotice] = useState<{ tone: "success" | "error"; text: string } | null>(null);
 
   // Filters
-  const [dateFilter, setDateFilter] = useState<DateFilter>("all");
+  const [dateFilter, setDateFilter] = useState<CariDateFilter>("all");
   const [typeFilter, setTypeFilter] = useState<TypeFilter>("all");
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
@@ -140,27 +154,31 @@ export default function CariDetailPage() {
     return () => el.removeEventListener("close", onClose);
   }, []);
 
-  const today = istanbulToday();
-  const thisMonth = today.slice(0, 7);
-  const lastMonthDate = addDays(today, -Number(today.slice(8, 10)));
-  const lastMonth = lastMonthDate.slice(0, 7);
-  const last30Cutoff = addDays(today, -30);
+  const today = useIstanbulToday();
+  const activeDateRange = useMemo(
+    () => resolveCariDateRange(dateFilter, today, startDate, endDate),
+    [dateFilter, today, startDate, endDate],
+  );
+  const periodLabel = useMemo(
+    () => formatCariDateRangeLabel(dateFilter, activeDateRange),
+    [dateFilter, activeDateRange],
+  );
+  const dateBalanceSummary = useMemo(
+    () => summarizeBalanceByDate(transactions, activeDateRange),
+    [transactions, activeDateRange],
+  );
+  const aging = useMemo(
+    () => computeAccountAgingFifo(transactions, today),
+    [transactions, today],
+  );
 
   const filteredTransactions = useMemo(() => {
     return transactions.filter((tx) => {
       if (typeFilter === "debt" && !(tx.delta > 0)) return false;
       if (typeFilter === "credit" && !(tx.delta < 0)) return false;
-
-      if (dateFilter === "this_month" && tx.date.slice(0, 7) !== thisMonth) return false;
-      if (dateFilter === "last_month" && tx.date.slice(0, 7) !== lastMonth) return false;
-      if (dateFilter === "last_30" && tx.date < last30Cutoff) return false;
-      if (dateFilter === "custom") {
-        if (startDate && tx.date < startDate) return false;
-        if (endDate && tx.date > endDate) return false;
-      }
-      return true;
+      return isTransactionInDateRange(tx.date, activeDateRange);
     });
-  }, [transactions, typeFilter, dateFilter, thisMonth, lastMonth, last30Cutoff, startDate, endDate]);
+  }, [transactions, typeFilter, activeDateRange]);
 
   const canDelete = useMemo(
     () => transactions.every((tx) => tx.type === "storno" || Boolean(tx.reversedById)),
@@ -312,6 +330,26 @@ export default function CariDetailPage() {
     setNotice({ tone: "success", text: "Ters kayıt (storno) başarıyla deftere işlendi." });
     await refreshAll();
   };
+
+  if (!canReadCari) {
+    return (
+      <div className="max-w-xl mx-auto my-12 rounded-3xl bg-[#FFFFFF] border border-[#E2D3BD] p-6 text-center space-y-3 shadow-sm">
+        <div className="w-12 h-12 rounded-2xl bg-[#FCECE9] border border-[#E7B7AF] text-[#7D2114] flex items-center justify-center mx-auto">
+          <ShieldAlert className="w-6 h-6" aria-hidden="true" />
+        </div>
+        <h1 className="font-serif text-xl font-bold text-[#3B1E1A]">Cari Hesap Yetkisi Gerekli</h1>
+        <p className="text-sm text-[#6E5148]">
+          Cari hesap detayı, ekstre ve defter hareketleri yalnızca cari yetkisine sahip yönetici hesaplarına açıktır.
+        </p>
+        <Link
+          href="/admin"
+          className="inline-flex items-center justify-center min-h-11 px-4 rounded-xl bg-[#B4532A] hover:bg-[#9C4421] text-white text-sm font-bold transition-colors"
+        >
+          Yönetim Paneline Dön
+        </Link>
+      </div>
+    );
+  }
 
   if (loading && !effectiveCari) {
     return (
@@ -664,6 +702,9 @@ export default function CariDetailPage() {
         </div>
       </section>
 
+      {/* FIFO Alacak Yaşlandırma (Müşteri Carileri) */}
+      {effectiveCari.accountType !== "gider" && <CariAgingCard aging={aging} />}
+
       {/* Ledger History & Filters */}
       <section className="rounded-2xl border border-[#E2D3BD] bg-white p-5 shadow-sm sm:p-6 space-y-4">
         <div className="flex flex-wrap items-center justify-between gap-3">
@@ -763,6 +804,18 @@ export default function CariDetailPage() {
             </div>
           )}
         </div>
+
+        {/* Date-based Balance Summary */}
+        <CariDateBalanceSummaryCard
+          summary={dateBalanceSummary}
+          periodLabel={periodLabel}
+          accountType={effectiveCari.accountType}
+          onSelectDate={(isoDate) => {
+            setDateFilter("custom");
+            setStartDate(isoDate);
+            setEndDate(isoDate);
+          }}
+        />
 
         {/* Transactions List */}
         {filteredTransactions.length === 0 ? (

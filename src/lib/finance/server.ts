@@ -1,6 +1,17 @@
 import "server-only";
 
-export { FinanceRepoError, createSupabaseFinanceRepository, type FinanceRepository } from "./repo";
+export {
+  FinanceRepoError,
+  createSupabaseFinanceRepository,
+  mapFinanceRpcError,
+  type FinanceRepository,
+  type RecordFinancialRecordAtomicInput,
+  type RecordSupplierTransactionAtomicInput,
+  type RecordSupplierTransactionAtomicResult,
+  type StornoFinancialRecordAtomicInput,
+  type StornoSupplierTransactionAtomicInput,
+  type StornoSupplierTransactionAtomicResult,
+} from "./repo";
 export {
   getFinanceOverview,
   handleFinancePost,

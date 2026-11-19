@@ -20,6 +20,11 @@ import {
   X,
 } from "lucide-react";
 import { useIstanbulToday } from "@/hooks/useIstanbulToday";
+import {
+  createAdminCariOrderClient,
+  fetchCariLastOrderClient,
+  updateCariAccountClient,
+} from "@/lib/cari/client";
 import { addDays, formatTrDate, istanbulWeekday } from "@/lib/time/istanbul";
 import type { CariAccount, CariStandingOrder } from "@/types/admin";
 import type { Courier } from "@/types/courier";
@@ -42,18 +47,6 @@ interface CustomLineDraft {
   productName: string;
   unitPriceInput: string;
   quantity: number;
-}
-
-interface LastOrderResponse {
-  items?: Array<{
-    productId: string | null;
-    name: string;
-    quantity: number;
-    unitPrice: number;
-  }>;
-  sourceDate?: string | null;
-  sourceKind?: "order" | "ledger" | null;
-  error?: string;
 }
 
 const WEEKDAY_TABS: Array<{ key: string; shortLabel: string; longLabel: string }> = [
@@ -371,12 +364,8 @@ export function CariQuickOrderModal({
     setQuickMessage(null);
 
     try {
-      const res = await fetch(`/api/admin/cari/accounts/${encodeURIComponent(account.id)}/last-order`);
-      const data = (await res.json().catch(() => null)) as LastOrderResponse | null;
-      if (!res.ok) {
-        throw new Error(data?.error || "Son sipariş bilgisi alınamadı.");
-      }
-      const items = Array.isArray(data?.items) ? data.items : [];
+      const data = await fetchCariLastOrderClient(account.id);
+      const items = data.items;
       if (items.length === 0) {
         setQuickMessage({ tone: "warn", text: "Bu cari için daha önce kayıtlı sipariş veya fiş bulunamadı." });
         return;
@@ -528,43 +517,29 @@ export function CariQuickOrderModal({
       const district = account.district?.trim() || "Beylikdüzü";
       const resolvedAddress = deliveryAddress.trim() || account.address?.trim() || `${neighborhood} — ${account.businessName}`;
 
-      const res = await fetch("/api/admin/orders", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          idempotencyKey,
-          customerName: account.businessName,
-          phone: account.phone || "",
-          deliveryAddress: resolvedAddress,
-          district,
-          neighborhood,
-          deliveryMethod: "courier",
-          deliveryDate,
-          items,
-          shippingFee: 0,
-          paymentMethod: "cari",
-          source: "admin",
-          status: "hazirlaniyor",
-          cariId: account.id,
-          courierId: courierId || null,
-          courierNotes: courierNotes.trim() || undefined,
-          orderNotes: orderNotes.trim(),
-        }),
+      const data = await createAdminCariOrderClient({
+        idempotencyKey,
+        customerName: account.businessName,
+        phone: account.phone || "",
+        deliveryAddress: resolvedAddress,
+        district,
+        neighborhood,
+        deliveryMethod: "courier",
+        deliveryDate,
+        items,
+        shippingFee: 0,
+        paymentMethod: "cari",
+        source: "admin",
+        status: "hazirlaniyor",
+        cariId: account.id,
+        courierId: courierId || null,
+        courierNotes: courierNotes.trim() || undefined,
+        orderNotes: orderNotes.trim(),
       });
-
-      const data = (await res.json().catch(() => null)) as {
-        id?: string;
-        orderNumber?: string;
-        error?: string;
-      } | null;
-
-      if (!res.ok || !data?.id) {
-        throw new Error(data?.error || "Sipariş kaydedilemedi.");
-      }
 
       onOrderCreated?.({
         orderId: data.id,
-        orderNumber: data.orderNumber ?? data.id,
+        orderNumber: data.orderNumber,
         accountId: account.id,
       });
 
@@ -621,26 +596,20 @@ export function CariQuickOrderModal({
         ...(routineNotes.trim() ? { notes: routineNotes.trim() } : {}),
       };
 
-      const res = await fetch(`/api/admin/cari/accounts/${encodeURIComponent(account.id)}`, {
-        method: "PATCH",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          defaultCourierId: routineCourierId || null,
-          standingOrder: standingOrderPayload,
-        }),
+      const nextCourierId = routineCourierId || null;
+      await updateCariAccountClient(account.id, {
+        defaultCourierId: nextCourierId,
+        standingOrder: standingOrderPayload,
       });
 
-      const data = (await res.json().catch(() => null)) as {
-        account?: CariAccount;
-        error?: string;
-      } | null;
+      const updatedAccount: CariAccount = {
+        ...account,
+        defaultCourierId: nextCourierId,
+        standingOrder: standingOrderPayload,
+      };
 
-      if (!res.ok || !data?.account) {
-        throw new Error(data?.error || "Haftalık rutin kaydedilemedi.");
-      }
-
-      onAccountUpdated?.(data.account);
-      setCourierId(data.account.defaultCourierId ?? "");
+      onAccountUpdated?.(updatedAccount);
+      setCourierId(updatedAccount.defaultCourierId ?? "");
       setRoutineMessage({
         tone: "success",
         text: routineEnabled

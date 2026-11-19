@@ -1,22 +1,73 @@
 import type {
-  CfoPeriodSummary,
+  CfoPeriodSummary as BaseCfoPeriodSummary,
   ExpenseCategory,
   FinancialPaymentMethod,
   FinancialRecord,
   FinancialRecordType,
   Supplier,
-  SupplierTransaction,
+  SupplierTransaction as BaseSupplierTransaction,
   SupplierTransactionType,
 } from "@/types/admin";
 
+export type CashFlowChannelKey = "nakit" | "kart" | "havale" | "diger";
+
+export interface CashFlowChannelSummary {
+  channel: CashFlowChannelKey;
+  label: string;
+  cashIn: number;
+  cashOut: number;
+  net: number;
+}
+
+export interface B2BReceivablesAgingSummary {
+  current0to7: number;
+  days8to15: number;
+  days16to30: number;
+  over30: number;
+  total: number;
+}
+
+export interface SupplierDateBalanceSummary {
+  supplierId: string;
+  fromDate: string;
+  toDate: string;
+  openingBalance: number;
+  periodPurchases: number;
+  periodPayments: number;
+  periodNet: number;
+  closingBalance: number;
+}
+
+export interface CfoPeriodSummary extends BaseCfoPeriodSummary {
+  /** Direkt gider defteri net gideri (tedarikçi bağlı kopyaları hariç) */
+  directOperatingExpenses: number;
+  /** Dönem içi tedarikçi tahakkuk alışları (alis − storno_alis net) */
+  supplierAccrualPurchases: number;
+  /** Dönem içi tedarikçi nakit ödemeleri (odeme − storno_odeme net) */
+  supplierCashPayments: number;
+  /** Toplam nakit çıkışı = directOperatingExpenses + supplierCashPayments */
+  totalCashOut: number;
+  /** Tedarikçilere verilen avans toplamı (balance < 0 olanların mutlak değeri) */
+  totalSupplierAdvances: number;
+  /** Ödeme kanalı bazlı nakit özeti (Σ cashIn === totalCashIn, Σ cashOut === totalCashOut) */
+  cashFlowByChannel: CashFlowChannelSummary[];
+  /** Arşivlenmemiş müşteri carilerinin FIFO alacak yaşlandırma özeti */
+  b2bReceivablesAging: B2BReceivablesAgingSummary;
+}
+
+export interface SupplierTransaction extends BaseSupplierTransaction {
+  balanceAfter: number | null;
+  paymentMethod: string | null;
+  expenseCategory: string | null;
+  linkedFinancialRecordId: string | null;
+}
+
 export type {
-  CfoPeriodSummary,
   ExpenseCategory,
   FinancialPaymentMethod,
   FinancialRecord,
   FinancialRecordType,
   Supplier,
-  SupplierTransaction,
   SupplierTransactionType,
 };
 
@@ -29,6 +80,7 @@ export interface RawFinancialRecordRow {
   payment_method: string | null;
   date: string | null;
   created_at: string | null;
+  reverses_id?: string | null;
 }
 
 export interface RawSupplierRow {
@@ -53,6 +105,11 @@ export interface RawSupplierTransactionRow {
   description: string | null;
   date: string | null;
   created_at: string | null;
+  reverses_id?: string | null;
+  balance_after?: number | string | null;
+  payment_method?: string | null;
+  expense_category?: string | null;
+  linked_financial_record_id?: string | null;
 }
 
 export interface RawOrderSummaryRow {
@@ -79,6 +136,7 @@ export interface RawCariTransactionSummaryRow {
   type: string;
   amount: number | string | null;
   delta?: number | string | null;
+  payment_method?: string | null;
   reverses_id?: string | null;
   date: string | null;
 }
@@ -94,12 +152,14 @@ export interface RawCariAccountSummaryRow {
 export interface ComputeCfoSummaryInput {
   periodFrom: string;
   periodTo: string;
+  asOfDate?: string;
   orders: readonly RawOrderSummaryRow[];
   payments: readonly RawPaymentSummaryRow[];
   cariTransactions: readonly RawCariTransactionSummaryRow[];
   cariAccounts: readonly RawCariAccountSummaryRow[];
   financialRecords: readonly RawFinancialRecordRow[];
   suppliers: readonly RawSupplierRow[];
+  supplierTransactions: readonly RawSupplierTransactionRow[];
 }
 
 export interface FinanceOverviewPayload {
@@ -131,4 +191,5 @@ export interface SupplierTxStornoPayload {
   success: true;
   transaction: SupplierTransaction;
   newBalance: number;
+  reversedExpenseId?: string | null;
 }

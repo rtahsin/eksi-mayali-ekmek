@@ -14,13 +14,15 @@ import {
   submitSupplierTransactionStorno,
   submitSupplierUpsert,
 } from "@/lib/finance/client";
-import type {
-  CfoPeriodSummary,
-  ExpenseCategory,
-  FinancialPaymentMethod,
-  FinancialRecord,
-  Supplier,
-  SupplierTransaction,
+import {
+  summarizeSupplierBalanceByDate,
+  type CfoPeriodSummary,
+  type ExpenseCategory,
+  type FinancialPaymentMethod,
+  type FinancialRecord,
+  type Supplier,
+  type SupplierDateBalanceSummary,
+  type SupplierTransaction,
 } from "@/lib/finance";
 
 export interface FinanceNotice {
@@ -86,7 +88,6 @@ export function useFinanceDashboard(enabled: boolean) {
   const [txInvoiceNo, setTxInvoiceNo] = useState<string>("");
   const [txDate, setTxDate] = useState<string>(today);
   const [txDescription, setTxDescription] = useState<string>("");
-  const [txAlsoExpense, setTxAlsoExpense] = useState<boolean>(true);
   const [txExpenseCategory, setTxExpenseCategory] = useState<ExpenseCategory>("hammadde_un");
   const [txPaymentMethod, setTxPaymentMethod] = useState<FinancialPaymentMethod>("havale");
   const [txSaving, setTxSaving] = useState<boolean>(false);
@@ -140,6 +141,11 @@ export function useFinanceDashboard(enabled: boolean) {
     if (!selectedSupplierId) return supplierTxs;
     return supplierTxs.filter((tx) => tx.supplierId === selectedSupplierId);
   }, [selectedSupplierId, supplierTxs]);
+
+  const selectedSupplierPeriodSummary = useMemo<SupplierDateBalanceSummary | null>(() => {
+    if (!selectedSupplierId) return null;
+    return summarizeSupplierBalanceByDate(supplierTxs, selectedSupplierId, fromDate, toDate);
+  }, [selectedSupplierId, supplierTxs, fromDate, toDate]);
 
   const handleCreateRecord = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -237,9 +243,9 @@ export function useFinanceDashboard(enabled: boolean) {
         invoiceNo: txInvoiceNo.trim() || null,
         description: txDescription.trim(),
         date: txDate,
-        alsoRecordExpense: txType === "odeme" && txAlsoExpense,
-        expenseCategory: txExpenseCategory,
-        paymentMethod: txPaymentMethod,
+        alsoRecordExpense: false,
+        expenseCategory: txType === "alis" ? txExpenseCategory : null,
+        paymentMethod: txType === "odeme" ? txPaymentMethod : null,
       });
 
       setTxAmount("");
@@ -247,9 +253,7 @@ export function useFinanceDashboard(enabled: boolean) {
       setTxDescription("");
       setNotice({
         tone: "success",
-        text: `Tedarikçi hareketi işlendi. Güncel tedarikçi borcu: ${formatMoneyText(body.newBalance ?? 0)}${
-          body.recordedExpenseId ? " (Gider defterine de işlendi)" : ""
-        }.`,
+        text: `Tedarikçi hareketi işlendi. Güncel tedarikçi borcu: ${formatMoneyText(body.newBalance ?? 0)}.`,
       });
       await loadFinanceData();
     } catch (err: unknown) {
@@ -359,6 +363,7 @@ export function useFinanceDashboard(enabled: boolean) {
     setSelectedSupplierId,
     selectedSupplier,
     visibleSupplierTxs,
+    selectedSupplierPeriodSummary,
     loadFinanceData,
     recType,
     setRecType,
@@ -405,8 +410,6 @@ export function useFinanceDashboard(enabled: boolean) {
     setTxDate,
     txDescription,
     setTxDescription,
-    txAlsoExpense,
-    setTxAlsoExpense,
     txExpenseCategory,
     setTxExpenseCategory,
     txPaymentMethod,

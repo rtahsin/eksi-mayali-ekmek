@@ -22,6 +22,7 @@ export const EXPECTED_MIGRATIONS: readonly string[] = [
   "031_enterprise_admin_rbac_b2b",
   "032_zero_friction_dispatch_b2b_cockpit",
   "033_advisor_rls_and_fk_hardening",
+  "034_finance_ledger_atomicity",
 ] as const;
 
 export interface MigrationDiffResult {

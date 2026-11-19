@@ -18,6 +18,7 @@ import {
   X,
 } from "lucide-react";
 import { useIstanbulToday } from "@/hooks/useIstanbulToday";
+import { submitB2BHotSaleClient } from "@/lib/cari/client";
 import { formatTrDate } from "@/lib/time/istanbul";
 import { CONTACT, whatsappLink } from "@/lib/site";
 import type { B2BHotSalePaymentMethod, B2BHotSaleResult } from "@/types/admin";
@@ -374,32 +375,16 @@ export function B2BHotSaleModal({
         .filter(([, qty]) => qty > 0)
         .map(([productId, quantity]) => ({ productId, quantity }));
 
-      const res = await fetch("/api/admin/cari/hot-sale", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          accountId: selectedAccount.id,
-          items,
-          returnItems,
-          collectedAmount: totals.collected,
-          paymentMethod: totals.collected > 0 ? paymentMethod : undefined,
-          description: description.trim() || undefined,
-          date: saleDate,
-          allowOverLimit: isAdmin ? allowOverLimit : false,
-        }),
+      const data = await submitB2BHotSaleClient({
+        accountId: selectedAccount.id,
+        items,
+        returnItems,
+        collectedAmount: totals.collected,
+        paymentMethod: totals.collected > 0 ? paymentMethod : undefined,
+        description: description.trim() || undefined,
+        date: saleDate,
+        allowOverLimit: isAdmin ? allowOverLimit : false,
       });
-
-      const data = (await res.json().catch(() => null)) as
-        | (B2BHotSaleResult & { error?: undefined })
-        | { error?: string; code?: string }
-        | null;
-
-      if (!res.ok || !data || !("success" in data) || !data.success) {
-        const msg = data && "error" in data && typeof data.error === "string"
-          ? data.error
-          : "Sıcak satış fişi kesilemedi.";
-        throw new Error(msg);
-      }
 
       setResult(data);
       onCompleted?.(data);

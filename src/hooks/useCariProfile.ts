@@ -8,10 +8,10 @@ import { useProducts } from "@/hooks/useProducts";
 import type { CariAccount, CariTransaction } from "@/types/admin";
 import type { Product } from "@/types";
 
-export function useCariProfile(cariId: string) {
+export function useCariProfile(cariId: string, enabled = true) {
   const [cari, setCari] = useState<CariAccount | null>(null);
   const [transactions, setTransactions] = useState<CariTransaction[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(enabled);
   const [error, setError] = useState<string | null>(null);
   const { allProducts } = useProducts();
 
@@ -21,7 +21,7 @@ export function useCariProfile(cariId: string) {
   );
 
   const fetchCariData = useCallback(async () => {
-    if (!cariId) {
+    if (!enabled || !cariId) {
       setLoading(false);
       return;
     }
@@ -37,11 +37,15 @@ export function useCariProfile(cariId: string) {
     } finally {
       setLoading(false);
     }
-  }, [cariId]);
+  }, [cariId, enabled]);
 
   useEffect(() => {
-    if (!cariId) return;
+    if (!enabled || !cariId) {
+      setLoading(false);
+      return;
+    }
 
+    setLoading(true);
     void fetchCariData();
 
     const supabase = createClient();
@@ -69,7 +73,7 @@ export function useCariProfile(cariId: string) {
     return () => {
       supabase.removeChannel(channel);
     };
-  }, [cariId, fetchCariData]);
+  }, [cariId, enabled, fetchCariData]);
 
   return { cari, transactions, activeProducts, loading, error, refetch: fetchCariData };
 }

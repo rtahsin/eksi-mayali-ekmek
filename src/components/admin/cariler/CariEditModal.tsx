@@ -1,8 +1,10 @@
 "use client";
 
 import React, { useEffect, useMemo, useRef, useState } from "react";
-import { Building2, Loader2, Search, ShieldAlert, Tag, X } from "lucide-react";
+import Link from "next/link";
+import { Building2, Info, Loader2, Search, ShieldAlert, Tag, X } from "lucide-react";
 import { useProducts } from "@/hooks/useProducts";
+import { createCariAccountClient, updateCariAccountClient } from "@/lib/cari/client";
 import {
   BEYLIKDUZU_NEIGHBORHOODS,
   ISTANBUL_DISTRICTS,
@@ -34,7 +36,10 @@ export function CariEditModal({
   const { products, loading: productsLoading } = useProducts();
 
   const [activeTab, setActiveTab] = useState<"info" | "prices">(initialTab);
-  const [accountType, setAccountType] = useState<"musteri" | "gider">(cari?.accountType ?? "musteri");
+  // Yeni cari oluştururken yalnızca B2B müşteri carisi açılır; mevcut gider carileri düzenlenirken korunur.
+  const accountType: "musteri" | "gider" = createMode
+    ? "musteri"
+    : (cari?.accountType ?? "musteri");
   const [businessName, setBusinessName] = useState(cari?.businessName ?? "");
   const [companyTitle, setCompanyTitle] = useState(cari?.companyTitle ?? "");
   const [contactPerson, setContactPerson] = useState(cari?.contactPerson ?? "");
@@ -157,7 +162,7 @@ export function CariEditModal({
 
     setSaving(true);
     try {
-      const payload: Record<string, unknown> = {
+      const basePayload = {
         accountType,
         businessName: businessName.trim(),
         companyTitle: companyTitle.trim(),
@@ -173,30 +178,22 @@ export function CariEditModal({
         customPrices,
       };
 
-      if (createMode && parsedOpeningBalance !== 0) {
-        payload.openingBalance = Math.round(parsedOpeningBalance * 100) / 100;
+      if (createMode) {
+        const created = await createCariAccountClient({
+          ...basePayload,
+          ...(parsedOpeningBalance !== 0
+            ? { openingBalance: Math.round(parsedOpeningBalance * 100) / 100 }
+            : {}),
+        });
+        onSuccess?.(created.id || undefined);
+      } else {
+        await updateCariAccountClient(cari.id, basePayload);
+        onSuccess?.(cari.id);
       }
 
-      const url = createMode
-        ? "/api/admin/cari/accounts"
-        : `/api/admin/cari/accounts/${encodeURIComponent(cari.id)}`;
-      const method = createMode ? "POST" : "PATCH";
-
-      const res = await fetch(url, {
-        method,
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-      });
-
-      const data = (await res.json().catch(() => null)) as { id?: string; error?: string } | null;
-      if (!res.ok) {
-        throw new Error(data?.error || "Cari hesap kaydedilemedi.");
-      }
-
-      onSuccess?.(data?.id ?? cari?.id);
       dialogRef.current?.close();
     } catch (err: unknown) {
-      setError(err instanceof Error ? err.message : "Bir hata oluştu.");
+      setError(err instanceof Error ? err.message : "Cari hesap kaydedilemedi.");
     } finally {
       setSaving(false);
     }
@@ -287,35 +284,39 @@ export function CariEditModal({
           {activeTab === "info" ? (
             <div className="space-y-4">
               {createMode && (
-                <fieldset>
-                  <legend className="mb-1.5 text-xs font-bold uppercase tracking-wider text-[#6E5148]">
-                    Hesap Türü
-                  </legend>
-                  <div className="grid grid-cols-2 gap-2">
-                    <button
-                      type="button"
-                      onClick={() => setAccountType("musteri")}
-                      className={`min-h-11 rounded-xl border px-3 text-sm font-bold transition ${
-                        accountType === "musteri"
-                          ? "border-[#B4532A] bg-[#B4532A] text-white"
-                          : "border-[#E2D3BD] bg-white text-[#3B1E1A] hover:bg-[#F6EEDF]"
-                      }`}
+                <div className="flex items-start gap-2.5 rounded-xl border border-[#E2D3BD] bg-[#F6EEDF] px-3.5 py-2.5 text-xs text-[#6E5148]">
+                  <Info className="mt-0.5 h-4 w-4 shrink-0 text-[#B4532A]" aria-hidden="true" />
+                  <p className="leading-relaxed">
+                    <strong className="text-[#3B1E1A]">B2B Müşteri Carisi</strong> olarak açılır. Tedarikçi ve işletme
+                    giderleri{" "}
+                    <Link
+                      href="/admin/finans"
+                      onClick={() => dialogRef.current?.close()}
+                      className="font-bold text-[#8E3D1B] underline underline-offset-2 hover:text-[#3B1E1A]"
                     >
-                      B2B Müşteri (Şarküteri/Kafe)
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => setAccountType("gider")}
-                      className={`min-h-11 rounded-xl border px-3 text-sm font-bold transition ${
-                        accountType === "gider"
-                          ? "border-[#3B1E1A] bg-[#3B1E1A] text-white"
-                          : "border-[#E2D3BD] bg-white text-[#3B1E1A] hover:bg-[#F6EEDF]"
-                      }`}
+                      /admin/finans → Tedarikçiler
+                    </Link>{" "}
+                    bölümünden yönetilir.
+                  </p>
+                </div>
+              )}
+
+              {!createMode && accountType === "gider" && (
+                <div className="flex items-start gap-2.5 rounded-xl border border-[#E2D3BD] bg-[#F6EEDF] px-3.5 py-2.5 text-xs text-[#6E5148]">
+                  <Info className="mt-0.5 h-4 w-4 shrink-0 text-[#6E5148]" aria-hidden="true" />
+                  <p className="leading-relaxed">
+                    Bu kayıt mevcut bir <strong className="text-[#3B1E1A]">Gider / Tedarikçi</strong> carisi olarak
+                    korunmaktadır. Yeni tedarikçi ve gider kayıtlarını{" "}
+                    <Link
+                      href="/admin/finans"
+                      onClick={() => dialogRef.current?.close()}
+                      className="font-bold text-[#8E3D1B] underline underline-offset-2 hover:text-[#3B1E1A]"
                     >
-                      Dükkan Gideri / Tedarikçi
-                    </button>
-                  </div>
-                </fieldset>
+                      /admin/finans → Tedarikçiler
+                    </Link>{" "}
+                    ekranından yönetebilirsiniz.
+                  </p>
+                </div>
               )}
 
               <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
